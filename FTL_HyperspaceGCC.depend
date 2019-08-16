@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1565535598 source:e:\ftl_hyperspacegcc\main.cpp
+1565960314 source:e:\ftl_hyperspacegcc\main.cpp
 	"main.h"
 	<stdio.h>
 	<Windows.h>
@@ -9,7 +9,7 @@
 1564916909 e:\ftl_hyperspacegcc\main.h
 	<windows.h>
 
-1565534153 e:\ftl_hyperspacegcc\global.h
+1565969433 e:\ftl_hyperspacegcc\global.h
 	<Windows.h>
 	"zhl.h"
 	"FTLGame.h"
@@ -21,7 +21,7 @@
 	<stdlib.h>
 	<typeinfo>
 
-1565535168 e:\ftl_hyperspacegcc\ftlgame.h
+1565989361 e:\ftl_hyperspacegcc\ftlgame.h
 	"zhl.h"
 	"rapidxml.hpp"
 	<string>
@@ -34,7 +34,7 @@
 	<unordered_map>
 	<math.h>
 
-1565535168 source:e:\ftl_hyperspacegcc\ftlgame.cpp
+1565989361 source:e:\ftl_hyperspacegcc\ftlgame.cpp
 	"FTLGame.h"
 	"zhl_internal.h"
 
@@ -108,7 +108,7 @@
 1565531227 source:e:\ftl_hyperspacegcc\hullnumbers.cpp
 	"HullNumbers.h"
 
-1565535425 source:e:\ftl_hyperspacegcc\resources.cpp
+1565960453 source:e:\ftl_hyperspacegcc\resources.cpp
 	"rapidxml.hpp"
 	"Resources.h"
 	"HullNumbers.h"
@@ -121,7 +121,7 @@
 	<new>
 	<exception>
 
-1565535503 source:e:\ftl_hyperspacegcc\global.cpp
+1565969420 source:e:\ftl_hyperspacegcc\global.cpp
 	"Global.h"
 	"Resources.h"
 
@@ -3992,7 +3992,7 @@
 1565186050 e:\ftl_hyperspacegcc\commandconsole.h
 	"Global.h"
 
-1565531167 source:e:\ftl_hyperspacegcc\mainmenu.cpp
+1565957999 source:e:\ftl_hyperspacegcc\mainmenu.cpp
 	"Global.h"
 
 1565124747 c:\boost\include\boost-1_70\boost\algorithm\string.hpp
@@ -4863,4 +4863,7 @@
 	"Global.h"
 	"ASMHooks.h"
 	"rapidxml.hpp"
+
+1565969263 source:e:\ftl_hyperspacegcc\shiptypec.cpp
+	"Global.h"
 

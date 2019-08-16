@@ -8,7 +8,10 @@
 
 HOOK_METHOD(CApp, OnLoop, () -> int)
 {
-    if (G_ && !G_->AreResourcesInitialized()) G_->InitializeResources(G_->GetResources());
+    if (G_ && !G_->AreResourcesInitialized())
+    {
+        G_->InitializeResources(G_->GetResources());
+    }
     return super();
 
 }
@@ -24,15 +27,18 @@ void Global::InitializeResources(ResourceControl *resources)
 
     try
     {
+        if (!hyperspacetext) throw "No xml found";
+
         rapidxml::xml_document<> doc;
         doc.parse<0>(hyperspacetext);
 
         auto node = doc.first_node("FTL");
+        if (!node)
+            throw "No parent node found";
         node = node->first_node();
 
         while (node)
         {
-
             if (strcmp(node->name(), "hullNumbers") == 0)
             {
                 if (node->first_attribute("enabled"))

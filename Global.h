@@ -22,9 +22,9 @@ public:
 
 
     ResourceControl *GetResources() { return __resourceControl; }
-    CApp *GetCApp() { return __cApp; }
-    ShipInfo *GetShipInfo(bool enemy=false) { return enemy ? __enemyShipInfo : __playerShipInfo; }
-    WorldManager *GetWorld() { return __cApp->world; };
+    CApp *GetCApp() { return *__cApp; }
+    ShipInfo *GetShipInfo(bool enemy=false) { return enemy ? *__enemyShipInfo : (ShipInfo*)((unsigned char*)*(__enemyShipInfo) + sizeof(ShipInfo)); }
+    WorldManager *GetWorld() { return GetCApp()->world; };
     CFPS *GetCFPS() { return __cFPS; }
     BlueprintManager *GetBlueprints() { return __blueprints; }
     SoundControl *GetSoundControl() { return __soundControl; }
@@ -47,9 +47,8 @@ private:
     DWORD __baseAddress = 0;
 
     static ResourceControl *__resourceControl;
-    static CApp *__cApp;
-    static ShipInfo *__playerShipInfo;
-    static ShipInfo *__enemyShipInfo;
+    static CApp **__cApp;
+    static ShipInfo **__enemyShipInfo;
     static CFPS *__cFPS;
     static BlueprintManager *__blueprints;
     static SoundControl *__soundControl;

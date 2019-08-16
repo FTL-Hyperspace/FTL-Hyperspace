@@ -5,7 +5,7 @@ HOOK_METHOD(MainMenu, OnRender, () -> void)
 {
 
     super();
-    if (this->bCreditScreen) return;
+    if (this->bCreditScreen || this->shipBuilder.bOpen) return;
 
     if (this->bScoreScreen || this->optionScreen.bOpen || this->bSelectSave || this->bChangedLogin)
     {

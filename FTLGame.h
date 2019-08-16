@@ -102,6 +102,9 @@ struct CombatControl;
 
 struct Point
 {
+	Point(int xx, int yy) : x(xx), y(yy)  { }
+	Point() { }
+
 	int x;
 	int y;
 };
@@ -111,6 +114,8 @@ struct ShipManager;
 
 struct GL_Texture;
 struct GL_Primitive;
+
+struct GenericButton;
 
 struct AnimationTracker;
 
@@ -150,6 +155,9 @@ struct Globals
 
 struct GenericButton
 {
+	LIBZHL_API void *SetLocation(Point pos);
+	LIBZHL_API void SetActive(bool active);
+	
 	void *vptr;
 	Point position;
 	Globals::Rect hitbox;
@@ -166,8 +174,12 @@ struct GenericButton
 	int activeTouch;
 };
 
+struct Button;
+
 struct Button : GenericButton
 {
+	LIBZHL_API int SetLocation(Point pos);
+	
 	GL_Texture *images[3];
 	GL_Primitive *primitives[3];
 	Point imageSize;
@@ -267,8 +279,12 @@ struct TextInput
 	TimerHelper blinker;
 };
 
+struct ScoreKeeper;
+
 struct ScoreKeeper
 {
+	LIBZHL_API char GetShipUnlocked(int shipId, int shipVariant);
+	
 };
 
 struct CooldownSystemBox
@@ -803,7 +819,7 @@ struct Animation
 	GL_Primitive *mirroredPrimitive;
 };
 
-struct GenericButton;
+struct ShipBuilder;
 
 struct ShipAchievementInfo
 {
@@ -811,6 +827,8 @@ struct ShipAchievementInfo
 
 struct ShipBuilder
 {
+	LIBZHL_API void *CheckTypes();
+	
 	ShipManager *currentShip;
 	GL_Primitive *nameBoxPrimitive;
 	GL_Primitive *enableAdvancedPrimitive;
@@ -2268,8 +2286,6 @@ struct Equipment : FocusWindow
 	int cargoId;
 	Point infoBoxLoc;
 };
-
-struct Button;
 
 struct TabbedWindow : FocusWindow
 {

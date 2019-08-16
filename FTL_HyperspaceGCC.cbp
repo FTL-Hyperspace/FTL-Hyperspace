@@ -195,6 +195,9 @@
 		<Unit filename="ShipManager_Extend.h">
 			<Option virtualFolder="Ship/" />
 		</Unit>
+		<Unit filename="ShipTypeC.cpp">
+			<Option virtualFolder="Ship/" />
+		</Unit>
 		<Unit filename="SigScan.cpp">
 			<Option virtualFolder="ZHL/" />
 		</Unit>
