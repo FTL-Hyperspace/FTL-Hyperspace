@@ -1,0 +1,10 @@
+
+
+struct GL_Color {{
+	GL_Color(float rr, float gg, float bb, float aa) : r(rr), g(gg), b(bb), a(aa)
+	{
+		
+	}
+	
+	GL_Color() {}
+}};

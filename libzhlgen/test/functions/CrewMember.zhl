@@ -1,0 +1,12 @@
+"578d7c240883e4f0ff77fc5589e557565389cb83ec5c8bb10002000085f60f85????????807b6c00":
+void CrewMember::UpdateHealth(CrewMember *this<ecx>);
+"578d7c240883e4f0ff77fc5589e557565389cb81ec????????80b9fc01000000":
+void CrewMember::OnLoop(CrewMember *this<ecx>);
+"57660fefc98d7c240883e4f0ff77fc5589e557565383ec4cf30f1041280f2ec8f30f10170f83????????f30f2cf0f30f58c2":
+void CrewMember::DirectModifyHealth(CrewMember *this<ecx>, float health);
+"578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b496485c974??e8????????f30f1005????????":
+char CrewMember::GetNewGoal(CrewMember *this<ecx>);
+"578d7c240883e4f0ff77fc5589f889e557565389cf81ec????????8b308b5808":
+void CrewMember::constructor(CrewMember *this<ecx>, CrewBlueprint& blueprint, int unk, bool unk2, CrewAnimation *animation);
+"578d7c240883e4f0ff77fc5589e5575383ec3080b9fc010000008b3f74??8d65f85b5f5d":
+void CrewMember::OnRender(CrewMember *this<ecx>, bool unk);

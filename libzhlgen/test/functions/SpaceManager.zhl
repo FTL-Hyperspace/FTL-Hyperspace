@@ -1,0 +1,2 @@
+"578d7c240883e4f0ff77fc5589e557565389cb81ec????????8b47048b378db9b8020000":
+int SpaceManager::SetPlanetaryDefense(SpaceManager *this<ecx>, char unk, int target);

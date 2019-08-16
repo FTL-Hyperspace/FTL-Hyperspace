@@ -1,0 +1,12 @@
+"8d4c240483e4f0ff71fc5589e5575653518d7dd883ec588b01897dd0":
+static cleanup int freetype::easy_print(int fontData, float x, float y, std::string& text);
+".8d4c240483e4f0ff71fc5589e5575653518d7dd883ec588b01897dd0f30f104104f30f1049088945c08b410c":
+static cleanup int freetype::easy_printRightAlign(int fontData, float x, float y, std::string& text);
+".8d4c240483e4f0ff71fc5589e557565351":
+static cleanup int freetype::easy_printNewlinesCentered(int fontData, float x, float y, int width, std::string& text);
+".8d4c240483e4f0ff71fc5589e5575653518d75d883ec68":
+static cleanup int freetype::easy_printAutoNewlines(int fontData, float x, float y, int width, std::string& text);
+".8d4c240483e4f0ff71fc5589e5575653518d7dd883ec588b01":
+static cleanup int freetype::easy_printCenter(int fontData, float x, float y, std::string& text);
+".8d4c240483e4f0ff71fc5589e55756535181ec????????8b5110":
+static cleanup int freetype::easy_printAutoShrink(int fontData, float x, float y, int width, char unk, std::string& text);

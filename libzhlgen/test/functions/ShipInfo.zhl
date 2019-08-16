@@ -1,0 +1,2 @@
+"578d7c240883e4f0ff77fc5589e557565389ce8d560483ec5c894dbc8b0f89d3894db4890c24":
+char ShipInfo::AddAugmentation(ShipInfo *this<ecx>, std::string& augment); 

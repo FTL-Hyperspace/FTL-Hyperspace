@@ -1,0 +1,66 @@
+"f30f10442404f30f1101f30f10442408f30f114104c20800908db426000000005589e583ec04f30f1009f30f104104f30f5c4d08f30f5c450cf30f59c9f30f59c0f30f58c1f30f110424":
+void Pointf::constructor(Pointf *this<ecx>, float x, float y);
+
+struct Pointf {{
+	static Pointf fromInt64(int64_t point) { return *(Pointf*)&point; }
+    Pointf(float xx, float yy) : x(xx), y(yy)  { }
+	Pointf() { }
+
+    Pointf& operator+=(Pointf v) { x += v.x; y += v.y; return *this; }
+    Pointf& operator-=(Pointf v) { x -= v.x; y -= v.y; return *this; }
+    Pointf& operator*=(Pointf v) { x *= v.x; y *= v.y; return *this; }
+    Pointf& operator/=(Pointf v) { x /= v.x; y /= v.y; return *this; }
+	
+    bool operator==(Pointf v) const { return ((x == v.x) && (y == v.y)); };
+
+    bool operator>(Pointf v) const { return (x*x + y*y) > (v.x*v.x + v.y*v.y); }
+    bool operator<(Pointf v) const { return (x*x + y*y) < (v.x*v.x + v.y*v.y); }
+    bool operator<=(Pointf v) const { return (x*x + y*y) < (v.x*v.x + v.y*v.y) ||
+												  (x*x + y*y) == (v.x*v.x + v.y*v.y); }
+    bool operator>=(Pointf v) const { return (x*x + y*y) > (v.x*v.x + v.y*v.y) ||
+												  (x*x + y*y) == (v.x*v.x + v.y*v.y); }
+												  
+	Pointf operator+(Pointf v) const { return Pointf(x+v.x, y+v.y); }
+    Pointf operator-(Pointf v) const { return Pointf(x-v.x, y-v.y); }
+    Pointf operator*(Pointf v) const { return Pointf(x*v.x, y*v.y); }
+    Pointf operator/(Pointf v) const { return Pointf(x/v.x, y/v.y); }
+
+    Pointf operator-() const { return Pointf(-x, -y); }
+
+    Pointf operator*(float scalar) const { return Pointf(x*scalar, y*scalar); }
+    Pointf operator/(float scalar) const { return Pointf(x/scalar, y/scalar); }
+
+    static float DotProduct(Pointf a, Pointf b) { return ((a.x * b.x) + (a.y * b.y)); }
+    static float CrossProduct(Pointf a, Pointf b) { return ((a.x * b.y) - (a.y * b.x)); }
+    static float Magnitude(Pointf v) { return std::sqrt((v.x * v.x) + (v.y * v.y)); }
+    static Pointf Normalize(Pointf v) {
+		float magnitude = Magnitude(v);
+		return Pointf(v.x / magnitude, v.y / magnitude);
+	}
+    static Pointf Perpendicular(Pointf v) { return Pointf(v.y, -v.x); }
+	
+	static float ToAngle(Pointf v) { return std::atan2(v.y,v.x); }
+	static Pointf FromAngle(float angle)
+	{
+		return Pointf(std::cos(angle * (M_PI / 180)), std::sin(angle * (M_PI / 180)));
+	}
+	
+	static Pointf RotatePoint(Pointf p, Pointf c, float angle)
+	{
+		float si = std::sin((M_PI / 180) * angle);
+		float co = std::cos((M_PI / 180) * angle);
+
+		// translate point back to origin:
+		p.x -= c.x;
+		p.y -= c.y;
+
+		// rotate point
+		float xnew = p.x * co - p.y * si;
+		float ynew = p.x * si + p.y * co;
+
+		// translate point back:
+		p.x = xnew + c.x;
+		p.y = ynew + c.y;
+		return p;
+	}
+}};

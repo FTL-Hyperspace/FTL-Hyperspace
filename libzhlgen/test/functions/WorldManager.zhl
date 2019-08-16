@@ -1,0 +1,4 @@
+"578d7c240883e4f0ff77fc5589e5575389cb8d490883ec10c741f800000000c741fc00000000":
+void WorldManager::constructor(WorldManager *this<ecx>);
+"578d7c240883e4f0ff77fc5589e557568d71085389cb83ec1c89f1e8????????c70424????????e8????????":
+int WorldManager::OnInit(WorldManager *this<ecx>);

@@ -1,0 +1,203 @@
+//=================================================================================================================
+// This block will be copied to the beginning of the generated header file
+// Any important includes or typedefs should go here
+
+struct GlobalPre
+{{
+	#include "zhl.h"
+	#include "rapidxml.hpp"
+	#include <string>
+	#include <vector>
+	#include <set>
+	#include <map>
+	#include <functional>
+	#include <deque>
+	#include <stdarg.h>
+	#include <unordered_map>
+	#include <math.h>
+	#undef LoadImage
+
+	#define CALL_VIRTUAL_1(_id, _classname, _funcname, _returntype, _object) \
+    _returntype(_classname::*mfp##_id)() = &_classname::_funcname; \
+    (_object->*mfp##_id)
+
+	#define CALL_VIRTUAL_0(_id, _classname, _funcname, _returntype, _object) \
+		CALL_VIRTUAL_1(_id, _classname, _funcname, _returntype, _object)
+
+	#define CALL_VIRTUAL(_classname, _funcname, _returntype, _object) CALL_VIRTUAL_0(__LINE__, _classname, _funcname, _returntype, _object)
+
+	#define CALL_VIRTUAL_RETURN_1(_id, _classname, _funcname, _returntype, _object, _return) \
+		_returntype(_classname::*mfp##_id)() = &_classname::_funcname; \
+		_returntype _return = (_object->*mfp##_id)
+
+	#define CALL_VIRTUAL_RETURN_0(_id, _classname, _funcname, _returntype, _object, _return) \
+		CALL_VIRTUAL_RETURN_1(_id, _classname, _funcname, _returntype, _object, _return)
+
+	#define CALL_VIRTUAL_RETURN(_classname, _funcname, _returntype, _object, _return) CALL_VIRTUAL_RETURN_0(__LINE__, _classname, _funcname, _returntype, _object, _return)
+	
+	#ifndef M_PI
+		#define M_PI 3.14159265358979323846
+	#endif
+}};
+
+
+
+
+
+
+//=================================================================================================================
+// This block will be copied right afterwards, unless it "depends" on specific structures
+// in which case these structures will be declared first
+// This is useful if you have something like a 2D vector struct and want some predefined vectors for convenience purposes
+
+// struct GlobalConst // comment this line out and uncomment the line below if this block requires specific structures (don't forget to replace the list of dependencies with your own)
+struct GlobalConst depends(RandomAmount)
+{{
+	typedef std::pair<int, int> std_pair_int_int;
+	typedef std::pair<float, float> std_pair_float_float;
+	typedef std::pair<std::string, int> std_pair_std_string_int;
+	typedef std::pair<std::string, RandomAmount> std_pair_std_string_RandomAmount;
+}};
+
+//=================================================================================================================
+// This block will be copied to the end of the generated header file
+// Inlined utility functions can go here (feel free to replace the current ones with your own)
+/*
+struct GlobalPost
+{{
+	inline float Lerp(float c, float a, float b) {return (1.f-c)*a + c*b;}
+	inline float InverseLerp(float c, float a, float b) {return (c-a)/(b-a);}
+	inline float Clamp(float c, float a, float b) {return c<a ? a : (c>b ? b : c);}
+	inline float Remap(float x, float a1, float b1, float a2, float b2, bool clamp = false)
+	{
+		return Lerp(clamp ? Clamp(InverseLerp(x, a1, b1), 0.f, 1.f) : InverseLerp(x, a1, b1), a2, b2);
+	}
+	
+	inline float Round(float f)
+	{
+		return f >= 0.f ? floor(f+0.5f) : ceil(f-0.5f);
+	}
+	
+	inline float NormalizeAngle(float ang)
+	{
+		while(ang >= 180.f) ang -= 360.f;
+		while(ang < -180.f) ang += 360.f;
+		return ang;
+	}
+	
+	inline float LerpAngle(float c, float a, float b)
+	{
+		return NormalizeAngle(a + c * NormalizeAngle(b - a));
+	}
+	
+	inline float Approach(float c, float a, float b)
+	{
+		if(fabs(b-a) <= c)
+			return b;
+		else if(b > a)
+			return a + c;
+		else
+			return a - c;
+	}
+	
+	inline float ApproachAngle(float c, float a, float b)
+	{
+		float d = NormalizeAngle(b-a);
+		if(fabs(d) <= c)
+			return b;
+		else if(d > 0)
+			return NormalizeAngle(a+c);
+		else
+			return NormalizeAngle(a-c);
+	}
+	
+
+}};
+*/
+//=================================================================================================================
+// Example hook definitions
+
+/*
+// The first line resets the position of the sigscanner and then seeks the first instance of the given pattern
+// The sigscanner will assign the first match to PushRenderTarget(), then seek to the next "ret" instruction (which is usually present near the end of a function)
+// Since the next function definition isn't preceded by a signature, the sigscanner will then automatically seek the next instance of the instructions "push ebp; mov ebp, esp"
+// which are present at the beginning of most functions, then assign the resulting address to PopRenderTarget()
+
+"558bec83ec18833d??????????530f92c0560fb6c868????????51e8????????33c083c4088d5df88945f88945fce8????????8d45f4e8":
+void PushRenderTarget();
+void PopRenderTarget();
+
+// This will rewind the sigscanner to the beginning and then seek the first instance of this pattern, then assign the result to Random()
+
+"a1????????3d????????0f8c????????3d????????75??b8????????e8????????33c9eb??":
+unsigned int Random();
+
+// If you don't want the sigscanner to rewind, and want to continue from its current position instead, add a '.' at the beginning of the pattern
+// This is useful if you have several functions next to each other but one of them doesn't begin with the usual instructions "push ebp; mov ebp, esp"
+
+".a1????????8b523c508bcfffd2eb??81c6????????56e8????????8b8558ffffff05":
+float RandomFloat();
+
+// When a function contains arguments, the ones which are passed via registers must be explicitly specified
+// In the example below, "a" is passed via the ECX register, "c" is passed via the EDX register, while "b" is passed on the stack since
+// no register is specified
+
+"558bec518b00568bf133c9c746140f000000894e10894dfc880e3bc174??5383c0085083c8ff33db8bcee8":
+int SomeFunction(int a<ecx>, int b, int c<edx>);
+
+// Common calling conventions are easy to translate:
+//	- __stdcall: All arguments are passed on the stack, no need to specify registers
+//	- __thiscall: First argument is passed via ECX, all other arguments are passed on the stack
+//	- __fastcall: First argument is passed via ECX, second is passed via EDX, all other arguments are passed on the stack
+//	- __cdecl: All arguments are passed on the stack, stack cleanup is the caller's responsibility (see below)
+
+// If a function requires caller cleanup rather than callee cleanup (i.e. __cdecl), the "cleanup" keyword must be added to the declaration
+// Also note that default parameters are supported (this has nothing to do with the cleanup keyword but hey, might as well demonstrate it now)
+
+cleanup int SomeFunction2(int a, int b, int c = 4);
+
+// You will most likely encounter functions will look like the example below, where a pointer to a struct is passed as the first argument (second if it's a member function)
+// and the same pointer is then returned
+
+Vector *GetRenderPosition(Vector *result<esi>, int a, int b);
+
+// This often means that function did not actually take such an argument in the original source, but returned a new instance of that struct instead
+// In this case, the above function can be declared as follows, which is internally the same thing while being a lot more practical to use in code:
+
+Vector GetRenderPosition<esi>(int a, int b);
+
+// Talking about practicality, remember that references and pointers are internally the same thing (also the const modifier is meaningless in reverse engineering)
+// meaning that the two declarations below are internally the same function but one of them is much easier to use than the other
+
+void Msg(std::string *txt);
+void Msg(const std::string &txt);
+
+
+// You can also scan for global variables, not just functions!
+// In the example below, the pattern contains 7 addresses we're interested in, the position of those addresses is indicated by parentheses
+// Only groups of 4 bytes (8 hex digits) can be matched
+// The results will be assigned to the next variable declarations in the same order as the matches (first match -> g_ShaderColorOffset, second match -> g_ShaderPixelation and so on)
+// Adding '!' at the beginning of the pattern will make the sigscanner stay in place after the pattern is matched instead of seeking for the next "ret" instruction
+// This is highly recommended when scanning for variables
+
+"!68????????e8????????83c40468????????68????????b9(????????)e8????????68????????e8????????83c40468????????68????????b9(????????)e8????????68????????e8????????83c40468????????68????????b9(????????)e8????????68????????e8????????83c40468????????68????????b9(????????)e8????????68????????e8????????83c40468????????68????????b9(????????)e8????????68????????e8????????83c40468????????68????????b9(????????)e8????????68????????e8????????83c40468????????68????????b9(????????)":
+Shader *g_ShaderColorOffset;
+Shader *g_ShaderPixelation;
+Shader *g_ShaderBloom;
+Shader *g_ShaderColorCorrection;
+Shader *g_ShaderHQ4X;
+Shader *g_ShaderShockwave;
+Shader *g_ShaderOldTV;
+
+// The above example created pointers to global variables
+// If you want a reference to a global variable instead, maybe because it is an int or a float you'll use often, remove the asterisk and add the keyword "reference" to the beginning of the declaration
+// Note that this doesn't actually declare a reference, but a pointer and a macro which gives the illusion of a reference (the end result is pretty much the same though)
+// Also note that '.' and '!' can be combined in a pattern
+
+".!890d(????????)d96dd6d97dd6dec90fb745d60d????????8945f4d96df4df7df08b45f0505168????????d96dd6a3(????????)":
+reference int g_viewportW;
+reference int g_viewportH;
+
+*/
+
+

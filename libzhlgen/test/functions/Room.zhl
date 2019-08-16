@@ -1,0 +1,9 @@
+
+
+
+struct Room {{
+	Globals::Rect GetRect() 
+	{
+		return this->rect;
+	}
+}};

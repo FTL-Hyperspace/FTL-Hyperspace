@@ -1,0 +1,9 @@
+
+
+struct Ship {{
+	Pointf GetRoomCenter(int room)
+	{
+		auto graph = ShipGraph::GetShipInfo(this->iShipId);
+		return graph->GetRoomCenter(room);
+	}
+}};

@@ -1,0 +1,2 @@
+"578d7c240883e4f0ff77fc5589f889e557565389cb83ec4c8b3f8b40048945c0e8????????84c08d87f4000000":
+static std::vector<std::string>& BlueprintManager::GetBlueprintList(std::vector<std::string>& vec<ecx>, BlueprintManager *bpM, std::string& str);

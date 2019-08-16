@@ -1,0 +1,20 @@
+"578d7c240883e4f0ff77fc5589e557565389ce83c17083ec6c8b1fc7419c00000000":
+int ShipManager::constructor(ShipManager *this<ecx>, int shipId);
+"578d7c240883e4f0ff77fc5589f889e557565389cf8d8d90feffff81ec????????":
+void ShipManager::AddInitialCrew(ShipManager *this<ecx>, std::vector<CrewBlueprint>& blueprints);
+"578d7c240883e4f0ff77fc5589e557565383ec2c8bb1c8040000837e04ff74??c70424????????89cb":
+int ShipManager::GetDodgeFactor(ShipManager *this<ecx>);
+"578d7c240883e4f0ff77fc5589f889e557565389cf81ec????????803d??????????8b188b4004889d44ffffff898530ffffff0f84????????":
+void ShipManager::OnRender(ShipManager *this<ecx>, bool unk1, bool unk2);
+
+struct ShipManager {{
+	
+	Pointf GetRandomRoomCenter()
+	{
+		auto rng = rand();
+		auto graph = ShipGraph::GetShipInfo(this->iShipId);
+		auto rooms = graph->rooms.size();
+		return this->ship.GetRoomCenter(rng % rooms);
+	}
+
+}};

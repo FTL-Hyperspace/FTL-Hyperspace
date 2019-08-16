@@ -1,0 +1,2 @@
+"578d7c240883e4f0ff77fc5589e557565389ce83c10481ec????????8b47408b1ff30f105f04c741fc00000000f30f105708":
+void* Shields::CollisionReal(Shields *this<ecx>, float x, float y, Damage damage, bool unk);

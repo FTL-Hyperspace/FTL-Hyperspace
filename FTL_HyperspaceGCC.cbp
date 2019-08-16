@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="FTL_HyperspaceGCC" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Option virtualFolders="Systems\;Ship\;Core\;ZHL\;Misc\;Crew\;Assembly\;Events\;" />
+		<Build>
+			<Target title="Debug">
+				<Option output="C:/Program Files (x86)/Steam/steamapps/common/FTL Faster Than Light/Hyperspace" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="C:/Program Files (x86)/Steam/steamapps/common/FTL Faster Than Light" />
+				<Option object_output="obj/Debug/" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option host_application="C:/Program Files (x86)/Steam/steamapps/common/FTL Faster Than Light/FTLGame.exe" />
+				<Option run_host_application_in_terminal="0" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-Wall" />
+					<Add option="-g" />
+					<Add option="-masm=intel -std=c++11" />
+					<Add option="-DBUILD_DLL" />
+					<Add option="-DDEBUG" />
+					<Add directory="rapidxml" />
+					<Add directory="C:/boost/include/boost-1_70" />
+				</Compiler>
+				<Linker>
+					<Add option="-static-libstdc++" />
+					<Add option="-static-libgcc" />
+					<Add option="-static-libstdc++ -static-libstdc++" />
+					<Add library="user32" />
+					<Add library="libboost_atomic-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_chrono-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_container-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_context-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_contract-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_coroutine-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_date_time-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_exception-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_filesystem-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_graph-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_iostreams-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_locale-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_log_setup-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_log-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_math_c99f-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_math_c99l-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_math_c99-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_math_tr1f-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_math_tr1l-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_math_tr1-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_prg_exec_monitor-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_program_options-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_python27-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_random-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_regex-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_serialization-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_stacktrace_basic-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_stacktrace_noop-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_system-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_test_exec_monitor-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_thread-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_timer-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_type_erasure-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_unit_test_framework-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_wave-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_wserialization-mgw82-mt-x32-1_70.a" />
+					<Add directory="C:/boost/lib" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="C:/Program Files (x86)/Steam/steamapps/common/FTL Faster Than Light/Hyperspace" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="C:/Program Files (x86)/Steam/steamapps/common/FTL Faster Than Light/FTLGame.exe" />
+				<Option object_output="obj/Release/" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option host_application="C:/Program Files (x86)/Steam/steamapps/common/FTL Faster Than Light/FTLGame.exe" />
+				<Option run_host_application_in_terminal="0" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-O" />
+					<Add option="-Wall" />
+					<Add option="-masm=intel -std=c++11" />
+					<Add option="-DBUILD_DLL" />
+					<Add directory="rapidxml" />
+					<Add directory="C:/boost/include/boost-1_70" />
+				</Compiler>
+				<Linker>
+					<Add option="-static-libstdc++" />
+					<Add option="-static-libgcc" />
+					<Add option="-static-libstdc++ -static-libstdc++" />
+					<Add library="user32" />
+					<Add library="libboost_atomic-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_chrono-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_container-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_context-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_contract-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_coroutine-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_date_time-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_exception-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_filesystem-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_graph-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_iostreams-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_locale-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_log_setup-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_log-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_math_c99f-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_math_c99l-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_math_c99-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_math_tr1f-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_math_tr1l-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_math_tr1-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_prg_exec_monitor-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_program_options-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_python27-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_random-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_regex-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_serialization-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_stacktrace_basic-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_stacktrace_noop-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_system-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_test_exec_monitor-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_thread-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_timer-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_type_erasure-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_unit_test_framework-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_wave-mgw82-mt-x32-1_70.a" />
+					<Add library="libboost_wserialization-mgw82-mt-x32-1_70.a" />
+					<Add directory="C:/boost/lib" />
+				</Linker>
+			</Target>
+		</Build>
+		<Unit filename="ASMHooks.cpp">
+			<Option virtualFolder="Assembly/" />
+		</Unit>
+		<Unit filename="ASMHooks.h">
+			<Option virtualFolder="Assembly/" />
+		</Unit>
+		<Unit filename="Augments.cpp">
+			<Option virtualFolder="Misc/" />
+		</Unit>
+		<Unit filename="Captain.cpp">
+			<Option virtualFolder="Crew/" />
+		</Unit>
+		<Unit filename="CommandConsole.cpp">
+			<Option virtualFolder="Misc/" />
+		</Unit>
+		<Unit filename="CommandConsole.h">
+			<Option virtualFolder="Misc/" />
+		</Unit>
+		<Unit filename="CrewMember_Extend.cpp">
+			<Option virtualFolder="Crew/" />
+		</Unit>
+		<Unit filename="CrewMember_Extend.h">
+			<Option virtualFolder="Crew/" />
+		</Unit>
+		<Unit filename="FTLGame.cpp" />
+		<Unit filename="FTLGame.h" />
+		<Unit filename="Ghost.cpp">
+			<Option virtualFolder="Crew/" />
+		</Unit>
+		<Unit filename="Global.cpp">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="Global.h">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="HullNumbers.cpp">
+			<Option virtualFolder="Misc/" />
+		</Unit>
+		<Unit filename="HullNumbers.h">
+			<Option virtualFolder="Misc/" />
+		</Unit>
+		<Unit filename="MainMenu.cpp">
+			<Option virtualFolder="Misc/" />
+		</Unit>
+		<Unit filename="MidCombat.cpp">
+			<Option virtualFolder="Events/" />
+		</Unit>
+		<Unit filename="Misc.cpp">
+			<Option virtualFolder="Misc/" />
+		</Unit>
+		<Unit filename="Resources.cpp">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="Resources.h">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="ShipManager_Extend.cpp">
+			<Option virtualFolder="Ship/" />
+		</Unit>
+		<Unit filename="ShipManager_Extend.h">
+			<Option virtualFolder="Ship/" />
+		</Unit>
+		<Unit filename="SigScan.cpp">
+			<Option virtualFolder="ZHL/" />
+		</Unit>
+		<Unit filename="SigScan.h">
+			<Option virtualFolder="ZHL/" />
+		</Unit>
+		<Unit filename="Systems.h">
+			<Option virtualFolder="Systems/" />
+		</Unit>
+		<Unit filename="detours.h">
+			<Option virtualFolder="ZHL/" />
+		</Unit>
+		<Unit filename="hde.cpp">
+			<Option virtualFolder="ZHL/" />
+		</Unit>
+		<Unit filename="hde.h">
+			<Option virtualFolder="ZHL/" />
+		</Unit>
+		<Unit filename="libzhl.h">
+			<Option virtualFolder="ZHL/" />
+		</Unit>
+		<Unit filename="main.cpp">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="main.h">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="zhl.cpp">
+			<Option virtualFolder="ZHL/" />
+		</Unit>
+		<Unit filename="zhl.h">
+			<Option virtualFolder="ZHL/" />
+		</Unit>
+		<Unit filename="zhl_internal.h">
+			<Option virtualFolder="ZHL/" />
+		</Unit>
+		<Unit filename="zhl_private.h">
+			<Option virtualFolder="ZHL/" />
+		</Unit>
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

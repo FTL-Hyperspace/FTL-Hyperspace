@@ -1,0 +1,2 @@
+"578d7c240883e4f0ff77fc5589f889e557565383ec3c8b91900000008b70048b3f8b400885d28975d00f84????????":
+void WeaponControl::Fire(WeaponControl *this<ecx>, std::vector<Pointf>& points, int target, bool autoFire);

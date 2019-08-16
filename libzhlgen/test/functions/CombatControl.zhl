@@ -1,0 +1,6 @@
+"578d7c240883e4f0ff77fc5589e557565389cf81ec????????8b81a400000085c074??8b401c83b8b8000000020f84????????8d8518ffffff":
+void CombatControl::RenderTarget(CombatControl *this<ecx>);
+"8b815c07000085c074??8b4008c3669031c0c3908db6000000008dbf000000008b895c07000085c974??558b0189e583e4f0ff5010c9":
+ShipManager *CombatControl::GetCurrentTarget(CombatControl *this<ecx>);
+"8b895c07000085c974??558b0189e583e4f0ff5010c9c389f68dbc270000000031c0c3908db6000000008dbf00000000578d7c240883e4f0ff77fc5589f889e5":
+char CombatControl::CurrentTargetIsBoss(CombatControl *this<ecx>);

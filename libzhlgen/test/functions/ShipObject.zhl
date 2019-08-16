@@ -1,0 +1,4 @@
+"5789ca8d7c240883e4f0ff77fc5589e55756538d4dd883ec5c8b07894dd08b308b580489f0":
+char ShipObject::HasAugmentation(ShipObject *this<ecx>, std::string& augment);
+"5789ca8d7c240883e4f0ff77fc5589e55756538d4d9081ec????????8b07894d888b308b5804":
+float ShipObject::GetAugmentationValue(ShipObject *this<ecx>, std::string& augment);

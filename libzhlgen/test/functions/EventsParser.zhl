@@ -1,0 +1,4 @@
+"578d7c240883e4f0ff77fc5589e557565389cb8d4da083ec7c8b47088b7704c70424????????894594e8????????":
+RandomAmount* EventsParser::PullMinMax(EventsParser *this<ecx>, rapidxml::xml_node<char>* node, std::string& name);
+"578d7c240883e4f0ff77fc5589e557565389ce81ec????????8b07898d2cfeffff8b5f08898528feffff8b4704c70424????????89c1898524feffffe8????????83ec0485c074??":
+void** EventsParser::ProcessEvent(EventsParser *this<ecx>, rapidxml::xml_node<char>* node, std::string& event, EventTemplate& eventref);
