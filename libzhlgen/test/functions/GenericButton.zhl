@@ -1,0 +1,4 @@
+"5589e557568b4508538b59048b550c83e4f08b710839d874??89c78941048b0129df89d301790c29f3015910895108ff50308d65f45b5e5f5dc20800":
+void* GenericButton::SetLocation(GenericButton *this<ecx>, Point pos);
+"8b44240484c088414075??c6414200c6414300c204008d76008dbc27000000005589e583e4f083ec10":
+void GenericButton::SetActive(GenericButton *this<ecx>, bool active);
