@@ -4,3 +4,5 @@ void CombatControl::RenderTarget(CombatControl *this<ecx>);
 ShipManager *CombatControl::GetCurrentTarget(CombatControl *this<ecx>);
 "8b895c07000085c974??558b0189e583e4f0ff5010c9c389f68dbc270000000031c0c3908db6000000008dbf00000000578d7c240883e4f0ff77fc5589f889e5":
 char CombatControl::CurrentTargetIsBoss(CombatControl *this<ecx>);
+"578d7c240883e4f0ff77fc5589e557565383ec5c8b81a400000085c074??8b401c83b8b80000000374??":
+char CombatControl::CanTargetSelf(CombatControl *this<ecx>);

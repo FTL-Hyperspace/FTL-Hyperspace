@@ -4867,3 +4867,178 @@
 1565969263 source:e:\ftl_hyperspacegcc\shiptypec.cpp
 	"Global.h"
 
+1565438867 source:e:\ftl-hyperspace\asmhooks.cpp
+	"Global.h"
+	"ASMHooks.h"
+
+1565969433 e:\ftl-hyperspace\global.h
+	<Windows.h>
+	"zhl.h"
+	"FTLGame.h"
+	"Systems.h"
+	"CrewMember_Extend.h"
+	"ShipManager_Extend.h"
+
+1565273093 e:\ftl-hyperspace\zhl.h
+	<stdlib.h>
+	<typeinfo>
+	<windows.h>
+	<cstdio>
+
+1565994136 e:\ftl-hyperspace\ftlgame.h
+	"zhl.h"
+	"rapidxml.hpp"
+	<string>
+	<vector>
+	<set>
+	<map>
+	<functional>
+	<deque>
+	<stdarg.h>
+	<unordered_map>
+	<math.h>
+
+1549906466 e:\ftl-hyperspace\rapidxml\rapidxml.hpp
+	<cstdlib>
+	<cassert>
+	<new>
+	<exception>
+
+1565454178 e:\ftl-hyperspace\systems.h
+
+1565528733 e:\ftl-hyperspace\crewmember_extend.h
+	"FTLGame.h"
+
+1565528752 e:\ftl-hyperspace\shipmanager_extend.h
+	"FTLGame.h"
+
+1565429408 e:\ftl-hyperspace\asmhooks.h
+
+1565528727 source:e:\ftl-hyperspace\captain.cpp
+	"Global.h"
+
+1565531122 source:e:\ftl-hyperspace\commandconsole.cpp
+	"CommandConsole.h"
+	<boost/algorithm/string.hpp>
+	<boost/lexical_cast.hpp>
+
+1566039255 e:\ftl-hyperspace\commandconsole.h
+	"Global.h"
+
+1565448309 source:e:\ftl-hyperspace\crewmember_extend.cpp
+	"CrewMember_Extend.h"
+
+1566038656 source:e:\ftl-hyperspace\ghost.cpp
+	"Global.h"
+	"ASMHooks.h"
+
+1564917375 source:e:\ftl-hyperspace\hde.cpp
+	"hde.h"
+	"hde32/src/hde32.cpp"
+
+1564917335 e:\ftl-hyperspace\hde.h
+	"hde32/include/hde32.h"
+
+1455612112 e:\ftl-hyperspace\hde32\include\hde32.h
+	<stdint.h>
+
+1455612116 e:\ftl-hyperspace\hde32\src\hde32.cpp
+	<stdint.h>
+	<string.h>
+	"../include/hde32.h"
+	"../include/table32.h"
+
+1455612112 e:\ftl-hyperspace\hde32\include\table32.h
+
+1565531227 source:e:\ftl-hyperspace\hullnumbers.cpp
+	"HullNumbers.h"
+
+1565186258 e:\ftl-hyperspace\hullnumbers.h
+	"Global.h"
+
+1565528787 source:e:\ftl-hyperspace\midcombat.cpp
+	"Global.h"
+	"ASMHooks.h"
+	"rapidxml.hpp"
+
+1565530148 source:e:\ftl-hyperspace\shipmanager_extend.cpp
+	"ShipManager_Extend.h"
+
+1564937379 source:e:\ftl-hyperspace\sigscan.cpp
+	"SigScan.h"
+	<string>
+	<Windows.h>
+	"hde.h"
+
+1455612112 e:\ftl-hyperspace\sigscan.h
+	<vector>
+	<list>
+
+1565106641 source:e:\ftl-hyperspace\zhl.cpp
+	"zhl_internal.h"
+	"zhl_private.h"
+	"detours.h"
+	"SigScan.h"
+	<unordered_map>
+	<functional>
+	<map>
+	<string>
+	<Windows.h>
+
+1564935591 e:\ftl-hyperspace\zhl_internal.h
+	"zhl.h"
+
+1564958881 e:\ftl-hyperspace\zhl_private.h
+	"zhl.h"
+
+1455612112 e:\ftl-hyperspace\detours.h
+	<stdint.h>
+	"hde.h"
+	<stdexcept>
+	<cstring>
+	<Windows.h>
+	<sys/mman.h>
+	<unistd.h>
+
+1565536294 source:e:\ftl-hyperspace\augments.cpp
+	"Global.h"
+	"math.h"
+
+1565969420 source:e:\ftl-hyperspace\global.cpp
+	"Global.h"
+	"Resources.h"
+
+1565532046 e:\ftl-hyperspace\resources.h
+	"Global.h"
+
+1565960314 source:e:\ftl-hyperspace\main.cpp
+	"main.h"
+	<stdio.h>
+	<Windows.h>
+	"FTLGame.h"
+	"Global.h"
+
+1564916909 e:\ftl-hyperspace\main.h
+	<windows.h>
+
+1565957999 source:e:\ftl-hyperspace\mainmenu.cpp
+	"Global.h"
+
+1566038929 source:e:\ftl-hyperspace\misc.cpp
+	"Global.h"
+
+1565960453 source:e:\ftl-hyperspace\resources.cpp
+	"rapidxml.hpp"
+	"Resources.h"
+	"HullNumbers.h"
+	"CommandConsole.h"
+	<boost/lexical_cast.hpp>
+
+1565993520 source:e:\ftl-hyperspace\shiptypec.cpp
+	"Global.h"
+	"ASMHooks.h"
+
+1565994136 source:e:\ftl-hyperspace\ftlgame.cpp
+	"FTLGame.h"
+	"zhl_internal.h"
+

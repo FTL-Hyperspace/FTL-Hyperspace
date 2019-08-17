@@ -6,7 +6,7 @@ CommandConsole CommandConsole::instance = CommandConsole();
 
 
 
-bool CommandConsole::RunCommand(std::string& command)
+bool CommandConsole::RunCommand(CommandGui *commandGui, std::string& command)
 {
     boost::to_upper(command);
     std::string cmdName = command.substr(0, command.find(" "));
@@ -15,14 +15,14 @@ bool CommandConsole::RunCommand(std::string& command)
     {
         if (command == "STORE")
         {
-            G_->GetWorld()->commandGui->CreateNewStore(G_->GetWorld()->starMap.worldLevel);
+            commandGui->CreateNewStore(G_->GetWorld()->starMap.worldLevel);
         }
         else
         {
             try
             {
                 int sector = boost::lexical_cast<int>(boost::trim_copy(command.substr(6)));
-                G_->GetWorld()->commandGui->CreateNewStore(sector);
+                commandGui->CreateNewStore(sector);
             }
             catch (boost::bad_lexical_cast const &e)
             {
@@ -33,8 +33,8 @@ bool CommandConsole::RunCommand(std::string& command)
     }
     if (cmdName == "EXIT")
     {
-        G_->GetWorld()->starMap.bOpen = true;
-        G_->GetWorld()->starMap.bChoosingNewSector = true;
+        commandGui->starMap->bOpen = true;
+        commandGui->starMap->bChoosingNewSector = true;
 
     }
     if (cmdName == "DEBUG")
@@ -55,7 +55,7 @@ HOOK_STATIC(Settings, GetCommandConsole, () -> char)
 
 HOOK_METHOD(CommandGui, RunCommand, (std::string& command) -> void)
 {
-    if (!CommandConsole::GetInstance()->RunCommand(command))
+    if (!CommandConsole::GetInstance()->RunCommand(this, command))
     {
         super(command);
     }

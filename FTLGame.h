@@ -2061,6 +2061,7 @@ struct CombatControl
 	LIBZHL_API void RenderTarget();
 	LIBZHL_API ShipManager *GetCurrentTarget();
 	LIBZHL_API char CurrentTargetIsBoss();
+	LIBZHL_API char CanTargetSelf();
 	
 	CommandGui *gui;
 	ShipManager *shipManager;
