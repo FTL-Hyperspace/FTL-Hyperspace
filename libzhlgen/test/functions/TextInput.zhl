@@ -1,0 +1,11 @@
+struct TextInput 
+{{
+	enum AllowedCharType
+	{
+	  ALLOW_ASCII = 0x0,
+	  ALLOW_LANGUAGE = 0x1,
+	  ALLOW_ANY = 0x2,
+	};
+
+
+}};

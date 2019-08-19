@@ -6,6 +6,11 @@ void ShipManager::AddInitialCrew(ShipManager *this<ecx>, std::vector<CrewBluepri
 int ShipManager::GetDodgeFactor(ShipManager *this<ecx>);
 "578d7c240883e4f0ff77fc5589f889e557565389cf81ec????????803d??????????8b188b4004889d44ffffff898530ffffff0f84????????":
 void ShipManager::OnRender(ShipManager *this<ecx>, bool unk1, bool unk2);
+"5589e557565383e4f083ec100fb645088b51648844240f8b416829d0c1f80285c00f84????????":
+int ShipManager::CountCrew(ShipManager *this<ecx>, bool boarders);
+"578d7c240883e4f0ff77fc5589f889e557565383ec3c8b3f8b70040fb64008":
+int ShipManager::TeleportCrew(ShipManager *this<ecx>, ShipManager* other, int room, bool comingBack);
+
 
 struct ShipManager {{
 	

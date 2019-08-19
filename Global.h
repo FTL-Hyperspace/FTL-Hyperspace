@@ -18,11 +18,11 @@ public:
 
     void InitializeResources(ResourceControl *resources);
     bool AreResourcesInitialized() { return __resourcesInitialized; }
-    void Initialize();
+    void Initialize(CApp *cApp);
 
 
     ResourceControl *GetResources() { return __resourceControl; }
-    CApp *GetCApp() { return *__cApp; }
+    CApp *GetCApp() { return __cApp; }
     ShipInfo *GetShipInfo(bool enemy=false) { return enemy ? *__enemyShipInfo : (ShipInfo*)((unsigned char*)*(__enemyShipInfo) + sizeof(ShipInfo)); }
     WorldManager *GetWorld() { return GetCApp()->world; };
     CFPS *GetCFPS() { return __cFPS; }
@@ -38,7 +38,6 @@ private:
 
 
     const DWORD __resourcesOffset = 0x004CB680;
-    const DWORD __cAppOffset =      0x004C5020;
     const DWORD __shipInfoOffset =  0x004C6F80;
     const DWORD __cFPSOffset =      0x004CB600;
     const DWORD __blueprintOffset = 0x004CBD60;
@@ -47,7 +46,7 @@ private:
     DWORD __baseAddress = 0;
 
     static ResourceControl *__resourceControl;
-    static CApp **__cApp;
+    static CApp *__cApp;
     static ShipInfo **__enemyShipInfo;
     static CFPS *__cFPS;
     static BlueprintManager *__blueprints;

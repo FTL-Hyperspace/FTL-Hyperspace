@@ -58,6 +58,252 @@ typedef std::pair<std::string, int> std_pair_std_string_int;
 typedef std::pair<std::string, RandomAmount> std_pair_std_string_RandomAmount;
 
 
+enum TouchAction
+{
+  TOUCH_DOWN = 0x1,
+  TOUCH_MOVE = 0x2,
+  TOUCH_UP = 0x3,
+  TOUCH_CANCEL = 0x4,
+};
+
+enum InputEventType
+{
+  INPUT_EVENT_JOYSTICK = 0x1,
+  INPUT_EVENT_KEYBOARD = 0x2,
+  INPUT_EVENT_MEMORY = 0x3,
+  INPUT_EVENT_MOUSE = 0x4,
+  INPUT_EVENT_TEXT = 0x5,
+  INPUT_EVENT_TOUCH = 0x6,
+};
+
+enum InputEventDetail
+{
+  INPUT_JOYSTICK_CONNECTED = 0x1,
+  INPUT_JOYSTICK_DISCONNECTED = 0x2,
+  INPUT_JOYSTICK_BUTTON_DOWN = 0x3,
+  INPUT_JOYSTICK_BUTTON_UP = 0x4,
+  INPUT_JOYSTICK_DPAD_CHANGE = 0x5,
+  INPUT_JOYSTICK_STICK_CHANGE = 0x6,
+  INPUT_KEYBOARD_KEY_DOWN = 0x7,
+  INPUT_KEYBOARD_KEY_UP = 0x8,
+  INPUT_KEYBOARD_SYSTEM_KEY_DOWN = 0x9,
+  INPUT_KEYBOARD_SYSTEM_KEY_UP = 0xA,
+  INPUT_MEMORY_LOW = 0xB,
+  INPUT_MOUSE_MOVE = 0xC,
+  INPUT_MOUSE_LMB_DOWN = 0xD,
+  INPUT_MOUSE_LMB_UP = 0xE,
+  INPUT_MOUSE_MMB_DOWN = 0xF,
+  INPUT_MOUSE_MMB_UP = 0x10,
+  INPUT_MOUSE_RMB_DOWN = 0x11,
+  INPUT_MOUSE_RMB_UP = 0x12,
+  INPUT_MOUSE_SCROLL_H = 0x13,
+  INPUT_MOUSE_SCROLL_V = 0x14,
+  INPUT_TEXT_INPUT = 0x15,
+  INPUT_TEXT_DONE = 0x16,
+  INPUT_TEXT_CANCELLED = 0x17,
+  INPUT_TEXT_CLEAR = 0x18,
+  INPUT_TEXT_BACKSPACE = 0x19,
+  INPUT_TEXT_DELETE = 0x1A,
+  INPUT_TEXT_CURSOR_LEFT = 0x1B,
+  INPUT_TEXT_CURSOR_RIGHT = 0x1C,
+  INPUT_TEXT_CURSOR_HOME = 0x1D,
+  INPUT_TEXT_CURSOR_END = 0x1E,
+  INPUT_TOUCH_DOWN = 0x1F,
+  INPUT_TOUCH_MOVE = 0x20,
+  INPUT_TOUCH_UP = 0x21,
+  INPUT_TOUCH_CANCEL = 0x22,
+};
+
+enum DeleteType
+{
+  BUFFER = 0x1,
+  FRAMEBUFFER = 0x2,
+  PROGRAM = 0x3,
+  PROGRAM_PIPELINE = 0x4,
+  RENDERBUFFER = 0x5,
+  SHADER = 0x6,
+  TEXTURE = 0x7,
+  VERTEX_ARRAY = 0x8,
+};
+
+enum FontAlignment
+{
+  FONT_ALIGN_LEFT = 0x0,
+  FONT_ALIGN_CENTER = 0x1,
+  FONT_ALIGN_RIGHT = 0x2,
+};
+
+enum FramebufferColorType
+{
+  FBCOLOR_RGB8 = 0x1,
+  FBCOLOR_RGBA8 = 0x2,
+};
+
+enum GL_StencilMode
+{
+  STENCIL_IGNORE = 0x0,
+  STENCIL_SET = 0x1,
+  STENCIL_USE = 0x2,
+};
+
+enum ResourceType
+{
+  RES_UNUSED = 0x0,
+  RES_UNKNOWN = 0x1,
+  RES_DATA = 0x2,
+  RES_TEXTURE = 0x3,
+  RES_FONT = 0x4,
+  RES_SOUND = 0x5,
+  RES_FILE = 0x6,
+};
+
+
+enum SDLKey
+{
+  SDLK_UNKNOWN = 0x0,
+  SDLK_0 = 0x30,
+  SDLK_1 = 0x31,
+  SDLK_2 = 0x32,
+  SDLK_3 = 0x33,
+  SDLK_4 = 0x34,
+  SDLK_5 = 0x35,
+  SDLK_6 = 0x36,
+  SDLK_7 = 0x37,
+  SDLK_8 = 0x38,
+  SDLK_9 = 0x39,
+  SDLK_AT = 0x40,
+  SDLK_AMPERSAND = 0x26,
+  SDLK_ASTERISK = 0x2A,
+  SDLK_BACKQUOTE = 0x60,
+  SDLK_BACKSLASH = 0x5C,
+  SDLK_BACKSPACE = 0x8,
+  SDLK_BREAK = 0x13E,
+  SDLK_CAPSLOCK = 0x12D,
+  SDLK_CARET = 0x5E,
+  SDLK_CLEAR = 0xC,
+  SDLK_COLON = 0x3A,
+  SDLK_COMMA = 0x2C,
+  SDLK_COMPOSE = 0x13A,
+  SDLK_DELETE = 0x7F,
+  SDLK_DOLLAR = 0x24,
+  SDLK_DOWN = 0x112,
+  SDLK_END = 0x117,
+  SDLK_EQUALS = 0x3D,
+  SDLK_ESCAPE = 0x1B,
+  SDLK_EURO = 0x141,
+  SDLK_EXCLAIM = 0x21,
+  SDLK_F1 = 0x11A,
+  SDLK_F10 = 0x123,
+  SDLK_F11 = 0x124,
+  SDLK_F12 = 0x125,
+  SDLK_F13 = 0x126,
+  SDLK_F14 = 0x127,
+  SDLK_F15 = 0x128,
+  SDLK_F2 = 0x11B,
+  SDLK_F3 = 0x11C,
+  SDLK_F4 = 0x11D,
+  SDLK_F5 = 0x11E,
+  SDLK_F6 = 0x11F,
+  SDLK_F7 = 0x120,
+  SDLK_F8 = 0x121,
+  SDLK_F9 = 0x122,
+  SDLK_GREATER = 0x3E,
+  SDLK_HASH = 0x24,
+  SDLK_HELP = 0x13B,
+  SDLK_HOME = 0x116,
+  SDLK_INSERT = 0x115,
+  SDLK_KP0 = 0x100,
+  SDLK_KP1 = 0x101,
+  SDLK_KP2 = 0x102,
+  SDLK_KP3 = 0x103,
+  SDLK_KP4 = 0x104,
+  SDLK_KP5 = 0x105,
+  SDLK_KP6 = 0x106,
+  SDLK_KP7 = 0x107,
+  SDLK_KP8 = 0x108,
+  SDLK_KP9 = 0x109,
+  SDLK_KP_PERIOD = 0x10A,
+  SDLK_KP_DIVIDE = 0x10B,
+  SDLK_KP_MULTIPLY = 0x10C,
+  SDLK_KP_MINUS = 0x10D,
+  SDLK_KP_PLUS = 0x10E,
+  SDLK_KP_ENTER = 0x10F,
+  SDLK_KP_EQUALS = 0x110,
+  SDLK_LALT = 0x134,
+  SDLK_LCTRL = 0x132,
+  SDLK_LEFT = 0x114,
+  SDLK_LEFTBRACKET = 0x5B,
+  SDLK_LEFTPAREN = 0x28,
+  SDLK_LESS = 0x3C,
+  SDLK_LMETA = 0x136,
+  SDLK_LSHIFT = 0x130,
+  SDLK_LSUPER = 0x137,
+  SDLK_MENU = 0x13F,
+  SDLK_MINUS = 0x2D,
+  SDLK_MODE = 0x139,
+  SDLK_NUMLOCK = 0x12C,
+  SDLK_PAGEDOWN = 0x119,
+  SDLK_PAGEUP = 0x118,
+  SDLK_PAUSE = 0x13,
+  SDLK_PERIOD = 0x2E,
+  SDLK_PLUS = 0x2B,
+  SDLK_POWER = 0x140,
+  SDLK_PRINTSCREEN = 0x13C,
+  SDLK_QUESTION = 0x3F,
+  SDLK_QUOTEDBL = 0x22,
+  SDLK_QUOTE = 0x27,
+  SDLK_RALT = 0x133,
+  SDLK_RCTRL = 0x131,
+  SDLK_RETURN = 0xD,
+  SDLK_RIGHT = 0x113,
+  SDLK_RIGHTBRACKET = 0x5D,
+  SDLK_RIGHTPAREN = 0x29,
+  SDLK_RMETA = 0x135,
+  SDLK_RSHIFT = 0x12F,
+  SDLK_RSUPER = 0x138,
+  SDLK_SCROLLOCK = 0x12E,
+  SDLK_SEMICOLON = 0x3B,
+  SDLK_SLASH = 0x2F,
+  SDLK_SPACE = 0x20,
+  SDLK_SYSREQ = 0x13D,
+  SDLK_TAB = 0x9,
+  SDLK_UNDERSCORE = 0x5F,
+  SDLK_UNDO = 0x142,
+  SDLK_UP = 0x111,
+  SDLK_a = 0x61,
+  SDLK_b = 0x62,
+  SDLK_c = 0x63,
+  SDLK_d = 0x64,
+  SDLK_e = 0x65,
+  SDLK_f = 0x66,
+  SDLK_g = 0x67,
+  SDLK_h = 0x68,
+  SDLK_i = 0x69,
+  SDLK_j = 0x6A,
+  SDLK_k = 0x6B,
+  SDLK_l = 0x6C,
+  SDLK_m = 0x6D,
+  SDLK_n = 0x6E,
+  SDLK_o = 0x6F,
+  SDLK_p = 0x70,
+  SDLK_q = 0x71,
+  SDLK_r = 0x72,
+  SDLK_s = 0x73,
+  SDLK_t = 0x74,
+  SDLK_u = 0x75,
+  SDLK_v = 0x76,
+  SDLK_w = 0x77,
+  SDLK_x = 0x78,
+  SDLK_y = 0x79,
+  SDLK_z = 0x7A,
+  SDLK_LAST = 0x143,
+};
+
+
+
+
+
+
 struct BoardingGoal
 {
 	float fHealthLimit;
@@ -268,6 +514,15 @@ struct TimerHelper
 
 struct TextInput
 {
+	enum AllowedCharType
+	{
+	  ALLOW_ASCII = 0x0,
+	  ALLOW_LANGUAGE = 0x1,
+	  ALLOW_ANY = 0x2,
+	};
+
+
+
 	std::string prompt;
 	std::vector<int> text;
 	std::vector<int> oldText;
@@ -391,6 +646,12 @@ struct GL_FrameBuffer
 
 struct WeaponSystem
 {
+};
+
+struct RewardDesc
+{
+	std::string reward;
+	int level;
 };
 
 struct CloneSystem
@@ -533,66 +794,130 @@ struct Pointf;
 
 struct Pointf
 {
-	static Pointf fromInt64(int64_t point) { return *(Pointf*)&point; }
-    Pointf(float xx, float yy) : x(xx), y(yy)  { }
-	Pointf() { }
-
-    Pointf& operator+=(Pointf v) { x += v.x; y += v.y; return *this; }
-    Pointf& operator-=(Pointf v) { x -= v.x; y -= v.y; return *this; }
-    Pointf& operator*=(Pointf v) { x *= v.x; y *= v.y; return *this; }
-    Pointf& operator/=(Pointf v) { x /= v.x; y /= v.y; return *this; }
+	Pointf() : x(0.f), y(0.f) {}
+	Pointf(float _x, float _y) : x(_x), y(_y) {}
+	Pointf(const Pointf &v) : x(v.x), y(v.y) {}
 	
-    bool operator==(Pointf v) const { return ((x == v.x) && (y == v.y)); };
-
-    bool operator>(Pointf v) const { return (x*x + y*y) > (v.x*v.x + v.y*v.y); }
-    bool operator<(Pointf v) const { return (x*x + y*y) < (v.x*v.x + v.y*v.y); }
-    bool operator<=(Pointf v) const { return (x*x + y*y) < (v.x*v.x + v.y*v.y) ||
-												  (x*x + y*y) == (v.x*v.x + v.y*v.y); }
-    bool operator>=(Pointf v) const { return (x*x + y*y) > (v.x*v.x + v.y*v.y) ||
-												  (x*x + y*y) == (v.x*v.x + v.y*v.y); }
-												  
-	Pointf operator+(Pointf v) const { return Pointf(x+v.x, y+v.y); }
-    Pointf operator-(Pointf v) const { return Pointf(x-v.x, y-v.y); }
-    Pointf operator*(Pointf v) const { return Pointf(x*v.x, y*v.y); }
-    Pointf operator/(Pointf v) const { return Pointf(x/v.x, y/v.y); }
-
-    Pointf operator-() const { return Pointf(-x, -y); }
-
-    Pointf operator*(float scalar) const { return Pointf(x*scalar, y*scalar); }
-    Pointf operator/(float scalar) const { return Pointf(x/scalar, y/scalar); }
-
-    static float DotProduct(Pointf a, Pointf b) { return ((a.x * b.x) + (a.y * b.y)); }
-    static float CrossProduct(Pointf a, Pointf b) { return ((a.x * b.y) - (a.y * b.x)); }
-    static float Magnitude(Pointf v) { return std::sqrt((v.x * v.x) + (v.y * v.y)); }
-    static Pointf Normalize(Pointf v) {
-		float magnitude = Magnitude(v);
-		return Pointf(v.x / magnitude, v.y / magnitude);
-	}
-    static Pointf Perpendicular(Pointf v) { return Pointf(v.y, -v.x); }
+	static Pointf FromAngle(float a) {return Pointf((float)cos((double)a*0.01745329238474369), (float)sin((double)a*0.01745329238474369));}
 	
-	static float ToAngle(Pointf v) { return std::atan2(v.y,v.x); }
-	static Pointf FromAngle(float angle)
+	static Pointf FromDirection(int dir)
 	{
-		return Pointf(std::cos(angle * (M_PI / 180)), std::sin(angle * (M_PI / 180)));
+		static const Pointf dirs[] = {
+			Pointf(-1.f, 0.f),
+			Pointf(0.f, -1.f),
+			Pointf(1.f, 0.f),
+			Pointf(0.f, 1.f)
+		};
+		
+		if(dir < 0 || dir >= 4)
+			return Pointf();
+		else
+			return dirs[dir];
 	}
 	
-	static Pointf RotatePoint(Pointf p, Pointf c, float angle)
+	Pointf &operator=(const Pointf &v) {x=v.x; y=v.y; return *this;}
+	Pointf &operator+=(const Pointf &v) {x+=v.x; y+=v.y; return *this;}
+	Pointf &operator-=(const Pointf &v) {x-=v.x; y-=v.y; return *this;}
+	Pointf &operator*=(const Pointf &v) {x*=v.x; y*=v.y; return *this;}
+	Pointf &operator/=(const Pointf &v) {x/=v.x; y/=v.y; return *this;}
+	Pointf &operator*=(float f) {x*=f; y*=f; return *this;}
+	Pointf &operator/=(float f) {x/=f; y/=f; return *this;}
+	
+	friend bool operator==(const Pointf &a, const Pointf &b) {return a.x==b.x && a.y==b.y;}
+	friend bool operator!=(const Pointf &a, const Pointf &b) {return a.x!=b.x || a.y!=b.y;}
+	
+	Pointf operator-() const {return Pointf(-x, -y);}
+	friend Pointf operator+(const Pointf &a, const Pointf &b) {return Pointf(a.x+b.x, a.y+b.y);}
+	friend Pointf operator-(const Pointf &a, const Pointf &b) {return Pointf(a.x-b.x, a.y-b.y);}
+	friend Pointf operator*(const Pointf &a, const Pointf &b) {return Pointf(a.x*b.x, a.y*b.y);}
+	friend Pointf operator/(const Pointf &a, const Pointf &b) {return Pointf(a.x/b.x, a.y/b.y);}
+	friend Pointf operator*(const Pointf &a, float f) {return Pointf(a.x*f, a.y*f);}
+	friend Pointf operator*(float f, const Pointf &a) {return Pointf(a.x*f, a.y*f);}
+	friend Pointf operator/(const Pointf &a, float f) {return Pointf(a.x/f, a.y/f);}
+	
+	float Dot(const Pointf &v) const {return x*v.x + y*v.y;}
+	float Angle() const {return (float)(atan2(y, x)/0.01745329238474369);}
+	
+	float LengthSqr() const {return x*x+y*y;}
+	float Length() const {return sqrt(LengthSqr());}
+	float DistanceSqr(Pointf v) const {return (v-=*this).LengthSqr();}
+	float Distance(Pointf v) const {return (v-=*this).Length();}
+	
+	Pointf &Normalize(bool *ok = 0)
 	{
-		float si = std::sin((M_PI / 180) * angle);
-		float co = std::cos((M_PI / 180) * angle);
-
-		// translate point back to origin:
-		p.x -= c.x;
-		p.y -= c.y;
-
-		// rotate point
-		float xnew = p.x * co - p.y * si;
-		float ynew = p.x * si + p.y * co;
-
-		// translate point back:
-		p.x = xnew + c.x;
-		p.y = ynew + c.y;
-		return p;
+		float d = Length();
+		if(d > 0.f)
+		{
+			x/=d;
+			y/=d;
+			if(ok) *ok = true;
+		}
+		else
+		{
+			if(ok) *ok = false;
+		}
+		
+		return *this;
+	}
+	
+	Pointf GetNormalized(bool *ok = 0) const
+	{
+		return Pointf(*this).Normalize(ok);
+	}
+	
+	Pointf &SetLength(float len, bool *ok = 0)
+	{
+		float d = Length();
+		if(d > 0.f)
+		{
+			x*=len/d;
+			y*=len/d;
+			if(ok) *ok = true;
+		}
+		else
+		{
+			if(ok) *ok = false;
+		}
+		
+		return *this;
+	}
+	
+	Pointf &Rotate(float a)
+	{
+		float c = (float)cos((double)a*0.01745329238474369);
+		float s = (float)sin((double)a*0.01745329238474369);
+		float x0 = x;
+		x = x*c - y*s;
+		y = x0*s + y*c;
+		return *this;
+	}
+	Pointf GetRotated(float a) const {return Pointf(*this).Rotate(a);}
+	
+	Pointf &AxisAlign()
+	{
+		if(x != 0.f || y != 0.f)
+		{
+			if(abs(y) >= abs(x))
+			{
+				x = 0.f;
+				y = y > 0.f ? 1.f : -1.f;
+			}
+			else
+			{
+				y = 0.f;
+				x = x > 0.f ? 1.f : -1.f;
+			}
+		}
+		return *this;
+	}
+	Pointf GetAxisAligned() const {return Pointf(*this).AxisAlign();}
+	
+	static Pointf Lerp(float c, Pointf a, Pointf b)
+	{
+		return Pointf(
+			(1.f-c)*a.x + c*b.x,
+			(1.f-c)*a.y + c*b.y
+		);
 	}
 
 	LIBZHL_API void constructor(float x, float y);
@@ -729,6 +1054,15 @@ struct SystemBlueprint;
 
 struct InfoBox
 {
+
+	enum ExpandDir
+	{
+	  EXPAND_UP = -1,
+	  EXPAND_NONE = 0,
+	  EXPAND_DOWN = 1,
+	};
+
+
 	Point location;
 	const SystemBlueprint *blueprint;
 	Description desc;
@@ -952,12 +1286,12 @@ struct CrewLaser
 {
 };
 
-struct WindowFrame
+struct Targetable
 {
-	Globals::Rect rect;
-	GL_Primitive *outline;
-	GL_Primitive *mask;
-	GL_Primitive *pattern;
+	void *vptr;
+	int type;
+	bool hostile;
+	bool targeted;
 };
 
 struct Store
@@ -1169,6 +1503,11 @@ struct CachedPrimitive
 
 struct CachedImage : CachedPrimitive
 {
+	enum Centered
+	{
+	  CENTERED = 0x0,
+	};
+
 	std::string imageName;
 	GL_Texture *texture;
 	int x;
@@ -1348,10 +1687,20 @@ struct Ship : ShipObject
 		auto graph = ShipGraph::GetShipInfo(this->iShipId);
 		return graph->GetRoomCenter(room);
 	}
+	
+	enum DoorStateType
+	{
+	  DOOR_CLOSED = 0x0,
+	  DOOR_OPEN = 0x1,
+	  DOOR_OPEN_FORCED = 0x2,
+	  DOOR_HIT = 0x3,
+	  DOOR_ANIMATING = 0x4,
+	};
+
 
 	struct DoorState
 	{
-		int state;
+		DoorStateType state;
 		bool hacked;
 		int level;
 	};
@@ -1425,8 +1774,11 @@ struct Repairable : Selectable
 
 struct ShipSystem : Repairable
 {
+	LIBZHL_API char DamageOverTime(float unk);
+	LIBZHL_API int CheckForRepower();
 	LIBZHL_API static int __stdcall NameToSystemId(std::string &name);
 	LIBZHL_API int IsMannedBoost();
+	LIBZHL_API static std::string &__stdcall SystemIdToName(std::string &strRef, int systemId);
 	
 	int iSystemType;
 	bool bNeedsManned;
@@ -1548,8 +1900,13 @@ struct WeaponControl : ArmamentControl
 	int armedSlot;
 };
 
+struct AsteroidGenerator;
+
 struct AsteroidGenerator
 {
+	LIBZHL_API void constructor();
+	LIBZHL_API float Initialize(int numberOfShips, int unk2, bool unk3);
+	
 	char asteroidQueue[40];
 	RandomAmount spawnRate[3];
 	RandomAmount stateLength[3];
@@ -1575,8 +1932,71 @@ struct BatteryBox
 {
 };
 
-struct BossShip
+struct SpaceManager;
+
+struct CompleteShip;
+
+struct CompleteShip
 {
+	LIBZHL_API int PauseLoop();
+	LIBZHL_API int Restart();
+	LIBZHL_API void constructor(SpaceManager *space, bool unk, int unk2);
+	LIBZHL_API void SetShip(ShipManager *ship);
+	LIBZHL_API void OnInit(const ShipBlueprint *blueprint, int unk);
+	LIBZHL_API void AddBoarders(int amount, std::string &race, bool unk2);
+	LIBZHL_API CrewMember *AddCrewMember(const CrewBlueprint *blueprint, bool hostile);
+	LIBZHL_API CrewMember *AddCrewMember1(std::string &race, bool hostile);
+	LIBZHL_API Drone *AddDrone(const DroneBlueprint *blueprint, int unk);
+	LIBZHL_API CrewMember *AddCrewMember2(CrewMember *member, int unk);
+	LIBZHL_API char SaveState(int unk);
+	LIBZHL_API void LoadState(int unk);
+	LIBZHL_API int InitiateTeleport(int room, int shipId);
+	LIBZHL_API void OnLoop();
+	LIBZHL_API void GetTeleportingParty();
+	LIBZHL_API CrewMember *KillRandomCrew();
+	LIBZHL_API int CountCrew(bool boarders);
+	LIBZHL_API CrewMember **Jump();
+	LIBZHL_API void SetEnemyShip(CompleteShip *other);
+	LIBZHL_API bool DeadCrew();
+	LIBZHL_API void TeleportCrew(ShipManager *other, int room, bool comingBack);
+	LIBZHL_API void OnRender();
+	LIBZHL_API void OnRenderSpace();
+	LIBZHL_API void OnRenderShip(bool unk1, bool unk2);
+	
+	void *vptr;
+	int iShipId;
+	ShipManager *shipManager;
+	SpaceManager *spaceManager;
+	CompleteShip *enemyShip;
+	bool bPlayerShip;
+	ShipAI shipAI;
+	std::vector<CrewMember*> arrivingParty;
+	std::vector<CrewMember*> leavingParty;
+	int teleTargetRoom;
+};
+
+struct BossShip;
+
+struct BossShip : CompleteShip
+{
+	LIBZHL_API void Restart();
+	LIBZHL_API char IncomingFire();
+	LIBZHL_API void constructor(SpaceManager *space);
+	LIBZHL_API void SaveBoss(void *file);
+	LIBZHL_API int LoadBoss(void *file);
+	LIBZHL_API int ClearLocation();
+	LIBZHL_API char Defeated();
+	LIBZHL_API int GetSubEvent();
+	LIBZHL_API void StartStage();
+	LIBZHL_API int GetEvent();
+	LIBZHL_API void OnLoop();
+	
+	int currentStage;
+	TimerHelper powerTimer;
+	int powerCount;
+	std::vector<int> crewCounts;
+	bool bDeathBegan;
+	int nextStage;
 };
 
 struct AnaerobicAnimation
@@ -1639,14 +2059,6 @@ struct DamageMessage;
 
 struct TeleportSystem;
 
-struct Targetable
-{
-	void *vptr;
-	int type;
-	bool hostile;
-	bool targeted;
-};
-
 struct MindSystem;
 struct CloakingSystem;
 
@@ -1674,6 +2086,8 @@ struct ShipManager : ShipObject
 	LIBZHL_API void AddInitialCrew(std::vector<CrewBlueprint> &blueprints);
 	LIBZHL_API int GetDodgeFactor();
 	LIBZHL_API void OnRender(bool unk1, bool unk2);
+	LIBZHL_API int CountCrew(bool boarders);
+	LIBZHL_API int TeleportCrew(ShipManager *other, int room, bool comingBack);
 	
 	Targetable _targetable;
 	Collideable _collideable;
@@ -1831,8 +2245,13 @@ struct DropBox
 	int titleInsert;
 };
 
+struct LocationEvent;
+struct EventGenerator;
+
 struct EventGenerator
 {
+	LIBZHL_API LocationEvent *GetBaseEvent(std::string &name, int unk1, char load, int unk3);
+	
 };
 
 struct BombProjectile
@@ -1951,8 +2370,6 @@ struct CrewManifest : FocusWindow
 	ConfirmWindow deleteDialog;
 };
 
-struct SpaceManager;
-
 struct SpaceStatus
 {
 	GL_Primitive *warningImages[10];
@@ -1975,6 +2392,10 @@ struct Spreadable
 {
 };
 
+struct SystemBox
+{
+};
+
 struct MantisAlien
 {
 };
@@ -1982,8 +2403,6 @@ struct MantisAlien
 struct DefenseDrone
 {
 };
-
-struct LocationEvent;
 
 struct ChoiceReq
 {
@@ -2053,7 +2472,6 @@ struct HandAnimation
 	float pause;
 };
 
-struct CompleteShip;
 struct SystemBox;
 
 struct CombatControl
@@ -2484,64 +2902,6 @@ struct ProjectileFactory : ShipObject
 	bool isArtillery;
 };
 
-struct TouchTooltip;
-
-struct ArmamentBox
-{
-	void *vptr;
-	std::vector<GL_Primitive*> background;
-	GL_Primitive *emptyBackground;
-	GL_Primitive *hoverHighlight;
-	GL_Primitive *outline;
-	GL_Primitive *emptyOutline;
-	GL_Primitive *powerBarGlow[4];
-	GL_Primitive *iconBackground;
-	GL_Primitive *iconInsetBackground;
-	GL_Primitive *icon;
-	GL_Primitive *iconDoubleSize;
-	std::string iconName;
-	std::string iconBackgroundName;
-	Point lastIconPos;
-	Point location;
-	int xOffset;
-	Point largeIconOffset;
-	Point nameOffset;
-	int nameWidth;
-	bool mouseHover;
-	bool touchHover;
-	bool touchHighlight;
-	bool selected;
-	int hotKey;
-	int activeTouch;
-	TouchTooltip *touchTooltip;
-	Animation hackAnimation;
-	GL_Primitive *touchButtonBorder;
-	Globals::Rect touchButtonBorderRect;
-	float touchButtonSlidePos;
-	std::vector<GenericButton*> touchButtons;
-	Globals::Rect touchButtonHitbox;
-	GL_Color iconColor;
-	bool droneVariation;
-	bool bIoned;
-};
-
-struct WeaponBox : ArmamentBox
-{
-	ProjectileFactory *pWeapon;
-	bool armed;
-	bool armedForAutofire;
-	float cooldownMax;
-	float cooldownModifier;
-	Point cooldownPoint;
-	int cooldownWidth;
-	int cooldownHeight;
-	std::vector<GL_Primitive*> cooldownBox;
-	GL_Primitive *cooldownBar;
-	std::vector<CachedImage> chargeIcons;
-	bool defaultAutofire;
-	bool wasCharged;
-};
-
 struct MindSystem
 {
 };
@@ -2563,13 +2923,19 @@ struct DroneSystem
 {
 };
 
-struct BossShip;
-
 struct StatusEffect
 {
 };
 
 struct WorldManager;
+
+struct WindowFrame
+{
+	Globals::Rect rect;
+	GL_Primitive *outline;
+	GL_Primitive *mask;
+	GL_Primitive *pattern;
+};
 
 struct DistressButton : TextButton
 {
@@ -2612,6 +2978,7 @@ struct StarMap : FocusWindow
 	};
 	
 	LIBZHL_API void OnRender();
+	LIBZHL_API void SetBossStage(int stage);
 	
 	float visual_size;
 	std::vector<Location*> locations;
@@ -2811,6 +3178,7 @@ struct WorldManager
 {
 	LIBZHL_API void constructor();
 	LIBZHL_API int OnInit();
+	LIBZHL_API CompleteShip *__stdcall CreateShip(ShipEvent *shipEvent, bool boss);
 	
 	CompleteShip *playerShip;
 	BossShip *bossShip;
@@ -2861,6 +3229,25 @@ struct WarningWithLines : WarningMessage
 
 struct ResourcesTemplate
 {
+	RandomAmount fuel;
+	RandomAmount drones;
+	RandomAmount missiles;
+	RandomAmount scrap;
+	RandomAmount items;
+	int crew;
+	std::string crewType;
+	TextString crewName;
+	bool cloneable;
+	TextString cloneText;
+	std::vector<std_pair_int_int> crewSkills;
+	std::string weapon;
+	std::string drone;
+	std::string augment;
+	std::string _sil__DO_NOT_USE_system;
+	bool steal;
+	int upgradeAmount;
+	int upgradeId;
+	std::string removeItem;
 };
 
 struct EngineSystem
@@ -2906,19 +3293,15 @@ struct EngiAnimation
 {
 };
 
-struct SystemBox
-{
-};
-
 struct CrewAnimation
 {
 };
 
-struct Asteroid
+struct ToggleButton
 {
 };
 
-struct ToggleButton
+struct Asteroid
 {
 };
 
@@ -2927,6 +3310,10 @@ struct TapBoxFrame
 };
 
 struct WeaponStoreBox
+{
+};
+
+struct DroneStoreBox
 {
 };
 
@@ -2946,7 +3333,7 @@ struct CloakingBox
 {
 };
 
-struct DroneStoreBox
+struct SlugAlien
 {
 };
 
@@ -2961,10 +3348,6 @@ struct LaserBlast : Projectile
 	float spinSpeed;
 };
 
-struct SlugAlien
-{
-};
-
 struct OxygenSystem : ShipSystem
 {
 	float max_oxygen;
@@ -2973,11 +3356,15 @@ struct OxygenSystem : ShipSystem
 	bool bLeakingO2;
 };
 
+struct EngiAlien
+{
+};
+
 struct BoarderDrone
 {
 };
 
-struct EngiAlien
+struct Missile
 {
 };
 
@@ -2986,10 +3373,6 @@ struct Algae
 };
 
 struct EventSystem
-{
-};
-
-struct Missile
 {
 };
 
@@ -3017,16 +3400,65 @@ struct RepairAnimation
 {
 };
 
-struct DamageMessage
-{
-};
-
 struct ItemBlueprint
 {
 };
 
+struct DamageMessage
+{
+
+	enum MessageType
+	{
+	  MISS = 0x0,
+	  RESIST = 0x1,
+	};
+
+
+};
+
 struct CrystalAlien
 {
+};
+
+struct TouchTooltip;
+
+struct ArmamentBox
+{
+	void *vptr;
+	std::vector<GL_Primitive*> background;
+	GL_Primitive *emptyBackground;
+	GL_Primitive *hoverHighlight;
+	GL_Primitive *outline;
+	GL_Primitive *emptyOutline;
+	GL_Primitive *powerBarGlow[4];
+	GL_Primitive *iconBackground;
+	GL_Primitive *iconInsetBackground;
+	GL_Primitive *icon;
+	GL_Primitive *iconDoubleSize;
+	std::string iconName;
+	std::string iconBackgroundName;
+	Point lastIconPos;
+	Point location;
+	int xOffset;
+	Point largeIconOffset;
+	Point nameOffset;
+	int nameWidth;
+	bool mouseHover;
+	bool touchHover;
+	bool touchHighlight;
+	bool selected;
+	int hotKey;
+	int activeTouch;
+	TouchTooltip *touchTooltip;
+	Animation hackAnimation;
+	GL_Primitive *touchButtonBorder;
+	Globals::Rect touchButtonBorderRect;
+	float touchButtonSlidePos;
+	std::vector<GenericButton*> touchButtons;
+	Globals::Rect touchButtonHitbox;
+	GL_Color iconColor;
+	bool droneVariation;
+	bool bIoned;
 };
 
 struct TouchTooltip
@@ -3051,13 +3483,6 @@ struct EventTemplate;
 
 struct EventsParser
 {
-	struct MinMaxChance
-	{
-		int min;
-		int max;
-		float chance;
-	};
-	
 	LIBZHL_API RandomAmount *PullMinMax(rapidxml::xml_node<char> *node, std::string &name);
 	LIBZHL_API void **ProcessEvent(rapidxml::xml_node<char> *node, std::string &event, EventTemplate &eventref);
 	
@@ -3068,20 +3493,6 @@ struct EventsParser
 
 struct HackingSystem
 {
-};
-
-struct CompleteShip
-{
-	void *vptr;
-	int iShipId;
-	ShipManager *shipManager;
-	SpaceManager *spaceManager;
-	CompleteShip *enemyShip;
-	bool bPlayerShip;
-	ShipAI shipAI;
-	std::vector<CrewMember*> arrivingParty;
-	std::vector<CrewMember*> leavingParty;
-	int teleTargetRoom;
 };
 
 struct MantisAnimation
@@ -3117,7 +3528,7 @@ struct freetype
 	
 };
 
-struct SpaceDrone
+struct StoreBox
 {
 };
 
@@ -3129,14 +3540,40 @@ struct CloakingSystem
 {
 };
 
-struct StoreBox
+struct WeaponBox : ArmamentBox
 {
+	ProjectileFactory *pWeapon;
+	bool armed;
+	bool armedForAutofire;
+	float cooldownMax;
+	float cooldownModifier;
+	Point cooldownPoint;
+	int cooldownWidth;
+	int cooldownHeight;
+	std::vector<GL_Primitive*> cooldownBox;
+	GL_Primitive *cooldownBar;
+	std::vector<CachedImage> chargeIcons;
+	bool defaultAutofire;
+	bool wasCharged;
 };
 
 struct GL_FrameBuffer;
 
 struct CEvent
 {
+	enum TextEvent
+	{
+	  TEXT_CONFIRM = 0x0,
+	  TEXT_CANCEL = 0x1,
+	  TEXT_CLEAR = 0x2,
+	  TEXT_BACKSPACE = 0x3,
+	  TEXT_DELETE = 0x4,
+	  TEXT_LEFT = 0x5,
+	  TEXT_RIGHT = 0x6,
+	  TEXT_HOME = 0x7,
+	  TEXT_END = 0x8,
+	};
+
 	void *vptr;
 };
 
@@ -3144,9 +3581,36 @@ struct CApp;
 
 struct CApp : CEvent
 {
+	LIBZHL_API int OnInputFocus();
+	LIBZHL_API int OnInputBlur();
+	LIBZHL_API int OnExit();
+	LIBZHL_API void OnMButtonDown(int x, int y);
+	LIBZHL_API void OnTextEvent(CEvent::TextEvent textEvent);
+	LIBZHL_API void OnTextInput(int unk);
+	LIBZHL_API int OnRequestExit();
+	LIBZHL_API int OnMouseMove(int x, int y, int xdiff, int ydiff, bool holdingLMB, bool holdingRMB, bool holdingMMB);
+	LIBZHL_API void OnRButtonUp(int x, int y);
+	LIBZHL_API void OnLButtonUp(int x, int y);
+	LIBZHL_API void OnRButtonDown(int x, int y);
+	LIBZHL_API void OnLButtonDown(int x, int y);
+	LIBZHL_API void OnLanguageChange();
+	LIBZHL_API void OnKeyUp(SDLKey key);
+	LIBZHL_API void OnKeyDown(SDLKey key);
+	LIBZHL_API void constructor();
+	LIBZHL_API void ParseArgs(int unk, const char **args);
 	LIBZHL_API void OnLoop();
+	LIBZHL_API int SetupWindow();
+	LIBZHL_API void OnCleanup();
+	LIBZHL_API void GenInputEvents();
+	LIBZHL_API void OnSuspend();
+	LIBZHL_API void OnResume();
+	LIBZHL_API Pointf TranslateMouse(int x, int y);
+	LIBZHL_API void UpdateFullScreen();
+	LIBZHL_API int UpdateWindowSettings();
+	LIBZHL_API void OnRender();
+	LIBZHL_API int OnInit();
 	LIBZHL_API int OnExecute();
-	LIBZHL_API void OnKeyDown(int key);
+	LIBZHL_API int OnEvent(void *inputEvent);
 	
 	bool Running;
 	bool shift_held;
@@ -3200,7 +3664,12 @@ struct ResourceManager;
 
 struct ResourceControl
 {
-
+	enum ImageSwappingMode
+	{
+	  SWAP_NONE = 0x0,
+	  SWAP_SHIP_SETS = 0x1,
+	  SWAP_DYNAMIC_SHIPS = 0x2,
+	};
 
 	struct DynamicImageInfo
 	{
@@ -3371,15 +3840,23 @@ struct ShipInfo
 	int augCount;
 };
 
-struct Moddable
-{
-};
-
 struct Door
 {
 };
 
+struct Moddable
+{
+};
+
 struct CrewStoreBox
+{
+};
+
+struct CrewBox
+{
+};
+
+struct WeaponBlueprint
 {
 };
 
@@ -3389,15 +3866,11 @@ struct Shields
 	
 };
 
-struct WeaponBlueprint
-{
-};
-
 struct BatterySystem
 {
 };
 
-struct CrewBox
+struct SpaceDrone
 {
 };
 

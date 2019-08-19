@@ -21,7 +21,7 @@ extern "C" BOOL APIENTRY DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpv
             printf("Hyperspace.dll is loaded\n");
 #endif
 
-            G_->Initialize();
+
             ZHL::SetLogPath("zhl.log");
             ZHL::Init();
 

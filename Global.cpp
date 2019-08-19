@@ -4,22 +4,31 @@
 Global *Global::instance = new Global();
 
 ResourceControl* Global::__resourceControl = NULL;
-CApp** Global::__cApp = NULL;
+CApp* Global::__cApp = NULL;
 ShipInfo** Global::__enemyShipInfo = NULL;
 CFPS* Global::__cFPS = NULL;
 BlueprintManager *Global::__blueprints = NULL;
 SoundControl *Global::__soundControl = NULL;
 
-void Global::Initialize()
+HOOK_METHOD(CApp, OnInit, () -> int)
+{
+    G_->Initialize(this);
+    return super();
+}
+
+void Global::Initialize(CApp *cApp)
 {
     printf("Initializing Hyperspace...\n");
     __baseAddress = (DWORD)GetModuleHandle(NULL);
 
 
     __resourceControl = (ResourceControl*)(__baseAddress + __resourcesOffset);
-    __cApp = (CApp**)(__baseAddress + __cAppOffset);
+    __cApp = cApp;
     __cFPS = (CFPS*)(__baseAddress + __cFPSOffset);
     __enemyShipInfo = (ShipInfo**)(__baseAddress + __shipInfoOffset);
     __blueprints = (BlueprintManager*)(__baseAddress + __blueprintOffset);
     __soundControl = (SoundControl*)(__baseAddress + __soundOffset);
+
+    printf("%08X\n", __cApp);
+    printf("Hyperspace initialized\n");
 }

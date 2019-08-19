@@ -15,7 +15,7 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, std::string& command)
     {
         if (command == "STORE")
         {
-            commandGui->CreateNewStore(G_->GetWorld()->starMap.worldLevel);
+            commandGui->CreateNewStore(commandGui->starMap->worldLevel);
         }
         else
         {
@@ -36,6 +36,12 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, std::string& command)
         commandGui->starMap->bOpen = true;
         commandGui->starMap->bChoosingNewSector = true;
 
+    }
+    if (cmdName == "BOSS")
+    {
+        //printf("%08X\n", G_->GetWorld()->bossShip);
+        //G_->GetWorld()->CreateShip(NULL, true);
+        //commandGui->starMap->SetBossStage(8);
     }
     if (cmdName == "DEBUG")
     {

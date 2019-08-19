@@ -4,6 +4,7 @@
    the type library 'FTLGameStripped'
 */
 
+struct BossShip;
 struct CompleteShip;
 struct ProjectileFactory;
 struct SpaceManager;
@@ -517,10 +518,15 @@ struct WeaponMount
   int gib;
 };
 
+/* 637 */
+enum DoorStateType
+{
+};
+
 /* 468 */
 struct Ship__DoorState
 {
-  int state;
+  DoorStateType state;
   bool hacked;
   int level;
 };
@@ -1964,9 +1970,6 @@ struct CommandGui
   bool suppressWriteError;
 };
 
-/* 151 */
-struct BossShip;
-
 /* 504 */
 struct std__vector_12ProjectileZ1
 {
@@ -3081,6 +3084,18 @@ struct AugmentEquipBox
   ShipManager *ship;
 };
 
+/* 151 */
+struct BossShip
+{
+  CompleteShip _base;
+  int currentStage;
+  TimerHelper powerTimer;
+  int powerCount;
+  std__vector_3int crewCounts;
+  bool bDeathBegan;
+  int nextStage;
+};
+
 /* 627 */
 struct Damage
 {
@@ -3635,7 +3650,28 @@ struct RepairAnimation;
 struct IonDroneAnimation;
 
 /* 332 */
-struct ResourcesTemplate;
+struct ResourcesTemplate
+{
+  RandomAmount fuel;
+  RandomAmount drones;
+  RandomAmount missiles;
+  RandomAmount scrap;
+  RandomAmount items;
+  int crew;
+  std__string crewType;
+  TextString crewName;
+  bool cloneable;
+  TextString cloneText;
+  std__vector_16std_pair_int_int crewSkills;
+  std__string weapon;
+  std__string drone;
+  std__string augment;
+  std__string _sil__DO_NOT_USE_system;
+  bool steal;
+  int upgradeAmount;
+  int upgradeId;
+  std__string removeItem;
+};
 
 /* 334 */
 struct Ghost;
@@ -3792,11 +3828,57 @@ struct VTable_CompleteShip
 /* 621 */
 struct std__pair_25std_string___RandomAmount;
 
-/* 628 */
-struct EventsParser__MinMaxChance
+/* 632 */
+struct RewardDesc
 {
-  int min;
-  int max;
-  float chance;
+  std__string reward;
+  int level;
+};
+
+/* 633 */
+union __attribute__((aligned(8))) __m64
+{
+  unsigned __int64 m64_u64;
+  float m64_f32[2];
+  __int8 m64_i8[8];
+  __int16 m64_i16[4];
+  __int32 m64_i32[2];
+  __int64 m64_i64;
+  unsigned __int8 m64_u8[8];
+  unsigned __int16 m64_u16[4];
+  unsigned __int32 m64_u32[2];
+};
+
+/* 634 */
+union __attribute__((aligned(16))) __m128
+{
+  float m128_f32[4];
+  unsigned __int64 m128_u64[2];
+  __int8 m128_i8[16];
+  __int16 m128_i16[8];
+  __int32 m128_i32[4];
+  __int64 m128_i64[2];
+  unsigned __int8 m128_u8[16];
+  unsigned __int16 m128_u16[8];
+  unsigned __int32 m128_u32[4];
+};
+
+/* 635 */
+struct __m128d
+{
+  double m128d_f64[2];
+};
+
+/* 636 */
+union __attribute__((aligned(16))) __m128i
+{
+  __int8 m128i_i8[16];
+  __int16 m128i_i16[8];
+  __int32 m128i_i32[4];
+  __int64 m128i_i64[2];
+  unsigned __int8 m128i_u8[16];
+  unsigned __int16 m128i_u16[8];
+  unsigned __int32 m128i_u32[4];
+  unsigned __int64 m128i_u64[2];
 };
 

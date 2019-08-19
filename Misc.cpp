@@ -1,4 +1,5 @@
 #include "Global.h"
+#include "ASMHooks.h"
 
 HOOK_METHOD(CrewEquipBox, RemoveItem, () -> int)
 {
@@ -7,4 +8,3 @@ HOOK_METHOD(CrewEquipBox, RemoveItem, () -> int)
     G_->GetSoundControl()->PlaySoundMix(soundName, -1.f, false);
     return ret;
 }
-

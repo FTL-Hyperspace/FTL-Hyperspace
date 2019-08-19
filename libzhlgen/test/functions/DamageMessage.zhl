@@ -1,0 +1,10 @@
+struct DamageMessage 
+{{
+
+	enum MessageType
+	{
+	  MISS = 0x0,
+	  RESIST = 0x1,
+	};
+
+}};

@@ -1,0 +1,11 @@
+struct InfoBox 
+{{
+
+	enum ExpandDir
+	{
+	  EXPAND_UP = -1,
+	  EXPAND_NONE = 0,
+	  EXPAND_DOWN = 1,
+	};
+
+}};

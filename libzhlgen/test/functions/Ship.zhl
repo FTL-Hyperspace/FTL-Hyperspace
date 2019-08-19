@@ -6,4 +6,14 @@ struct Ship {{
 		auto graph = ShipGraph::GetShipInfo(this->iShipId);
 		return graph->GetRoomCenter(room);
 	}
+	
+	enum DoorStateType
+	{
+	  DOOR_CLOSED = 0x0,
+	  DOOR_OPEN = 0x1,
+	  DOOR_OPEN_FORCED = 0x2,
+	  DOOR_HIT = 0x3,
+	  DOOR_ANIMATING = 0x4,
+	};
+
 }};

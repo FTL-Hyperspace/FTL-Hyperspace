@@ -2,65 +2,129 @@
 void Pointf::constructor(Pointf *this<ecx>, float x, float y);
 
 struct Pointf {{
-	static Pointf fromInt64(int64_t point) { return *(Pointf*)&point; }
-    Pointf(float xx, float yy) : x(xx), y(yy)  { }
-	Pointf() { }
-
-    Pointf& operator+=(Pointf v) { x += v.x; y += v.y; return *this; }
-    Pointf& operator-=(Pointf v) { x -= v.x; y -= v.y; return *this; }
-    Pointf& operator*=(Pointf v) { x *= v.x; y *= v.y; return *this; }
-    Pointf& operator/=(Pointf v) { x /= v.x; y /= v.y; return *this; }
+	Pointf() : x(0.f), y(0.f) {}
+	Pointf(float _x, float _y) : x(_x), y(_y) {}
+	Pointf(const Pointf &v) : x(v.x), y(v.y) {}
 	
-    bool operator==(Pointf v) const { return ((x == v.x) && (y == v.y)); };
-
-    bool operator>(Pointf v) const { return (x*x + y*y) > (v.x*v.x + v.y*v.y); }
-    bool operator<(Pointf v) const { return (x*x + y*y) < (v.x*v.x + v.y*v.y); }
-    bool operator<=(Pointf v) const { return (x*x + y*y) < (v.x*v.x + v.y*v.y) ||
-												  (x*x + y*y) == (v.x*v.x + v.y*v.y); }
-    bool operator>=(Pointf v) const { return (x*x + y*y) > (v.x*v.x + v.y*v.y) ||
-												  (x*x + y*y) == (v.x*v.x + v.y*v.y); }
-												  
-	Pointf operator+(Pointf v) const { return Pointf(x+v.x, y+v.y); }
-    Pointf operator-(Pointf v) const { return Pointf(x-v.x, y-v.y); }
-    Pointf operator*(Pointf v) const { return Pointf(x*v.x, y*v.y); }
-    Pointf operator/(Pointf v) const { return Pointf(x/v.x, y/v.y); }
-
-    Pointf operator-() const { return Pointf(-x, -y); }
-
-    Pointf operator*(float scalar) const { return Pointf(x*scalar, y*scalar); }
-    Pointf operator/(float scalar) const { return Pointf(x/scalar, y/scalar); }
-
-    static float DotProduct(Pointf a, Pointf b) { return ((a.x * b.x) + (a.y * b.y)); }
-    static float CrossProduct(Pointf a, Pointf b) { return ((a.x * b.y) - (a.y * b.x)); }
-    static float Magnitude(Pointf v) { return std::sqrt((v.x * v.x) + (v.y * v.y)); }
-    static Pointf Normalize(Pointf v) {
-		float magnitude = Magnitude(v);
-		return Pointf(v.x / magnitude, v.y / magnitude);
-	}
-    static Pointf Perpendicular(Pointf v) { return Pointf(v.y, -v.x); }
+	static Pointf FromAngle(float a) {return Pointf((float)cos((double)a*0.01745329238474369), (float)sin((double)a*0.01745329238474369));}
 	
-	static float ToAngle(Pointf v) { return std::atan2(v.y,v.x); }
-	static Pointf FromAngle(float angle)
+	static Pointf FromDirection(int dir)
 	{
-		return Pointf(std::cos(angle * (M_PI / 180)), std::sin(angle * (M_PI / 180)));
+		static const Pointf dirs[] = {
+			Pointf(-1.f, 0.f),
+			Pointf(0.f, -1.f),
+			Pointf(1.f, 0.f),
+			Pointf(0.f, 1.f)
+		};
+		
+		if(dir < 0 || dir >= 4)
+			return Pointf();
+		else
+			return dirs[dir];
 	}
 	
-	static Pointf RotatePoint(Pointf p, Pointf c, float angle)
+	Pointf &operator=(const Pointf &v) {x=v.x; y=v.y; return *this;}
+	Pointf &operator+=(const Pointf &v) {x+=v.x; y+=v.y; return *this;}
+	Pointf &operator-=(const Pointf &v) {x-=v.x; y-=v.y; return *this;}
+	Pointf &operator*=(const Pointf &v) {x*=v.x; y*=v.y; return *this;}
+	Pointf &operator/=(const Pointf &v) {x/=v.x; y/=v.y; return *this;}
+	Pointf &operator*=(float f) {x*=f; y*=f; return *this;}
+	Pointf &operator/=(float f) {x/=f; y/=f; return *this;}
+	
+	friend bool operator==(const Pointf &a, const Pointf &b) {return a.x==b.x && a.y==b.y;}
+	friend bool operator!=(const Pointf &a, const Pointf &b) {return a.x!=b.x || a.y!=b.y;}
+	
+	Pointf operator-() const {return Pointf(-x, -y);}
+	friend Pointf operator+(const Pointf &a, const Pointf &b) {return Pointf(a.x+b.x, a.y+b.y);}
+	friend Pointf operator-(const Pointf &a, const Pointf &b) {return Pointf(a.x-b.x, a.y-b.y);}
+	friend Pointf operator*(const Pointf &a, const Pointf &b) {return Pointf(a.x*b.x, a.y*b.y);}
+	friend Pointf operator/(const Pointf &a, const Pointf &b) {return Pointf(a.x/b.x, a.y/b.y);}
+	friend Pointf operator*(const Pointf &a, float f) {return Pointf(a.x*f, a.y*f);}
+	friend Pointf operator*(float f, const Pointf &a) {return Pointf(a.x*f, a.y*f);}
+	friend Pointf operator/(const Pointf &a, float f) {return Pointf(a.x/f, a.y/f);}
+	
+	float Dot(const Pointf &v) const {return x*v.x + y*v.y;}
+	float Angle() const {return (float)(atan2(y, x)/0.01745329238474369);}
+	
+	float LengthSqr() const {return x*x+y*y;}
+	float Length() const {return sqrt(LengthSqr());}
+	float DistanceSqr(Pointf v) const {return (v-=*this).LengthSqr();}
+	float Distance(Pointf v) const {return (v-=*this).Length();}
+	
+	Pointf &Normalize(bool *ok = 0)
 	{
-		float si = std::sin((M_PI / 180) * angle);
-		float co = std::cos((M_PI / 180) * angle);
-
-		// translate point back to origin:
-		p.x -= c.x;
-		p.y -= c.y;
-
-		// rotate point
-		float xnew = p.x * co - p.y * si;
-		float ynew = p.x * si + p.y * co;
-
-		// translate point back:
-		p.x = xnew + c.x;
-		p.y = ynew + c.y;
-		return p;
+		float d = Length();
+		if(d > 0.f)
+		{
+			x/=d;
+			y/=d;
+			if(ok) *ok = true;
+		}
+		else
+		{
+			if(ok) *ok = false;
+		}
+		
+		return *this;
+	}
+	
+	Pointf GetNormalized(bool *ok = 0) const
+	{
+		return Pointf(*this).Normalize(ok);
+	}
+	
+	Pointf &SetLength(float len, bool *ok = 0)
+	{
+		float d = Length();
+		if(d > 0.f)
+		{
+			x*=len/d;
+			y*=len/d;
+			if(ok) *ok = true;
+		}
+		else
+		{
+			if(ok) *ok = false;
+		}
+		
+		return *this;
+	}
+	
+	Pointf &Rotate(float a)
+	{
+		float c = (float)cos((double)a*0.01745329238474369);
+		float s = (float)sin((double)a*0.01745329238474369);
+		float x0 = x;
+		x = x*c - y*s;
+		y = x0*s + y*c;
+		return *this;
+	}
+	Pointf GetRotated(float a) const {return Pointf(*this).Rotate(a);}
+	
+	Pointf &AxisAlign()
+	{
+		if(x != 0.f || y != 0.f)
+		{
+			if(abs(y) >= abs(x))
+			{
+				x = 0.f;
+				y = y > 0.f ? 1.f : -1.f;
+			}
+			else
+			{
+				y = 0.f;
+				x = x > 0.f ? 1.f : -1.f;
+			}
+		}
+		return *this;
+	}
+	Pointf GetAxisAligned() const {return Pointf(*this).AxisAlign();}
+	
+	static Pointf Lerp(float c, Pointf a, Pointf b)
+	{
+		return Pointf(
+			(1.f-c)*a.x + c*b.x,
+			(1.f-c)*a.y + c*b.y
+		);
 	}
 }};

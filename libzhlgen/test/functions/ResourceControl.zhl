@@ -7,6 +7,12 @@ void ResourceControl::OnInit(ResourceControl *this<ecx>, int imageSwappingMode);
 "5589e557565389cf31db83e4f083ec408d442430c744240c10000000c744240800000000c744243064617461c74424342e646174894424288b4508":
 char* ResourceControl::LoadFile(ResourceControl *this<ecx>, std::string& fileName);
 
-struct ResourceControl {{
-
+struct ResourceControl 
+{{
+	enum ImageSwappingMode
+	{
+	  SWAP_NONE = 0x0,
+	  SWAP_SHIP_SETS = 0x1,
+	  SWAP_DYNAMIC_SHIPS = 0x2,
+	};
 }};
