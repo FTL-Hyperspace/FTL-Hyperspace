@@ -9,6 +9,7 @@ ShipInfo** Global::__enemyShipInfo = NULL;
 CFPS* Global::__cFPS = NULL;
 BlueprintManager *Global::__blueprints = NULL;
 SoundControl *Global::__soundControl = NULL;
+MouseControl *Global::__mouseControl = NULL;
 
 HOOK_METHOD(CApp, OnInit, () -> int)
 {
@@ -28,7 +29,7 @@ void Global::Initialize(CApp *cApp)
     __enemyShipInfo = (ShipInfo**)(__baseAddress + __shipInfoOffset);
     __blueprints = (BlueprintManager*)(__baseAddress + __blueprintOffset);
     __soundControl = (SoundControl*)(__baseAddress + __soundOffset);
+    __mouseControl = (MouseControl*)(__baseAddress + __mouseOffset);
 
-    printf("%08X\n", __cApp);
     printf("Hyperspace initialized\n");
 }

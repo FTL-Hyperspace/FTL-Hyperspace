@@ -157,6 +157,15 @@
 		<Unit filename="CrewMember_Extend.h">
 			<Option virtualFolder="Crew/" />
 		</Unit>
+		<Unit filename="CustomCrew.cpp">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="CustomEvents.cpp">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="CustomWeapons.cpp">
+			<Option virtualFolder="Core/" />
+		</Unit>
 		<Unit filename="FTLGame.cpp" />
 		<Unit filename="FTLGame.h" />
 		<Unit filename="Ghost.cpp">
@@ -176,9 +185,6 @@
 		</Unit>
 		<Unit filename="MainMenu.cpp">
 			<Option virtualFolder="Misc/" />
-		</Unit>
-		<Unit filename="MidCombat.cpp">
-			<Option virtualFolder="Events/" />
 		</Unit>
 		<Unit filename="Misc.cpp">
 			<Option virtualFolder="Misc/" />

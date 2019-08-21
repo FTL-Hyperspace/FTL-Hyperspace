@@ -1,7 +1,7 @@
 #include "ShipManager_Extend.h"
 
 
-HOOK_METHOD_PRIORITY(ShipManager, constructor, 2000, (int iShipId) -> void)
+HOOK_METHOD_PRIORITY(ShipManager, constructor, 900, (int iShipId) -> void)
 {
 
 

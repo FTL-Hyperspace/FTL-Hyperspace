@@ -10,3 +10,5 @@ char CrewMember::GetNewGoal(CrewMember *this<ecx>);
 void CrewMember::constructor(CrewMember *this<ecx>, CrewBlueprint& blueprint, int unk, bool unk2, CrewAnimation *animation);
 "578d7c240883e4f0ff77fc5589e5575383ec3080b9fc010000008b3f74??8d65f85b5f5d":
 void CrewMember::OnRender(CrewMember *this<ecx>, bool unk);
+"5589e55756538b0189cb8b75088b7d0c83e4f08b40643d????????75??":
+void CrewMember::SetCurrentTarget(CrewMember *this<ecx>, CrewTarget *target, bool unk);

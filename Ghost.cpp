@@ -1,6 +1,7 @@
 #include "Global.h"
 #include "ASMHooks.h"
 
+/*
 HOOK_METHOD(CrewMember, GetNewGoal, () -> void)
 {
     //printf("%d\n", CM_EX(this)->_canPhaseThroughDoors);
@@ -77,4 +78,5 @@ DEFINE_ASM(GhostOpenDoors)
     );
 
 }
+*/
 

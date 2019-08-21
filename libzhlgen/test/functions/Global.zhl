@@ -15,6 +15,7 @@ struct GlobalPre
 	#include <stdarg.h>
 	#include <unordered_map>
 	#include <math.h>
+	#include <queue>
 	#undef LoadImage
 
 	#define CALL_VIRTUAL_1(_id, _classname, _funcname, _returntype, _object) \
@@ -51,13 +52,14 @@ struct GlobalPre
 // This is useful if you have something like a 2D vector struct and want some predefined vectors for convenience purposes
 
 // struct GlobalConst // comment this line out and uncomment the line below if this block requires specific structures (don't forget to replace the list of dependencies with your own)
-struct GlobalConst depends(RandomAmount)
+struct GlobalConst depends(RandomAmount, CAchievement, Point)
 {{
 	typedef std::pair<int, int> std_pair_int_int;
 	typedef std::pair<float, float> std_pair_float_float;
 	typedef std::pair<std::string, int> std_pair_std_string_int;
 	typedef std::pair<std::string, RandomAmount> std_pair_std_string_RandomAmount;
-	
+	typedef std::pair<std::string, std::string> std_pair_std_string_std_string;
+	typedef std::pair<CAchievement*, Point> std_pair_CAchievement_ptr_Point;
 	
 	enum TouchAction
 	{

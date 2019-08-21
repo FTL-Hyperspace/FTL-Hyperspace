@@ -10,11 +10,14 @@ struct ProjectileFactory;
 struct SpaceManager;
 struct Projectile;
 struct WeaponAnimation;
+struct Drone;
+struct Door;
 struct Repairable;
 struct Room;
 struct CrewMember;
 struct ShipManager;
 struct ArmamentBox;
+struct UnlockArrow;
 struct CommandGui;
 struct EquipmentBox;
 struct AugmentEquipBox;
@@ -32,9 +35,11 @@ struct TeleportSystem;
 struct ChoiceText;
 struct Targetable;
 struct LocationEvent__Choice;
+struct WeaponBlueprint;
 struct LocationEvent;
 struct ShipBlueprint;
 struct WindowFrame;
+struct ShipButton;
 struct WarningWithLines;
 struct std__pair_13float___float;
 struct std__vector_4Fire;
@@ -50,6 +55,12 @@ struct VTable_AnimationTracker;
 struct VTable_EquipmentBox;
 struct std__pair_26std__string___RandomAmount;
 struct std__pair_17std__string___int;
+struct WeaponBlueprint__MiniProjectile;
+struct EventTemplate__ChoiceTemplate;
+struct EventDamage;
+struct std__pair_25std__string___std__string;
+struct std__vector_21std__vector_8TopScore;
+struct std__pair_22CAchievementZ1___Point;
 
 /* 1 */
 struct Globals
@@ -179,9 +190,6 @@ struct std__vector_6RoomZ1
   Room **_finish;
   Room **_end;
 };
-
-/* 179 */
-struct Door;
 
 /* 464 */
 struct std__vector_6DoorZ1
@@ -508,6 +516,44 @@ struct Room
   Animation roomTapped;
 };
 
+/* 301 */
+struct CrewTarget
+{
+  ShipObject _base;
+};
+
+/* 179 */
+struct Door
+{
+  CrewTarget _base;
+  Selectable _selectable;
+  int iRoom1;
+  int iRoom2;
+  bool bOpen;
+  int iBlast;
+  bool bFakeOpen;
+  int width;
+  int height;
+  GL_Primitive *outlinePrimitive;
+  GL_Primitive *highlightPrimitive;
+  Animation doorAnim;
+  Animation doorAnimLarge;
+  int iDoorId;
+  int baseHealth;
+  int health;
+  AnimationTracker forcedOpen;
+  AnimationTracker gotHit;
+  int doorLevel;
+  bool bIoned;
+  float fakeOpenTimer;
+  AnimationTracker lockedDown;
+  float lastbase;
+  int iHacked;
+  int x;
+  int y;
+  bool bVertical;
+};
+
 /* 454 */
 struct WeaponMount
 {
@@ -787,9 +833,6 @@ struct std__vector_14GL_PrimitiveZ1
   GL_Primitive **_end;
 };
 
-/* 407 */
-struct ShipButton;
-
 /* 568 */
 struct std__vector_12ShipButtonZ1
 {
@@ -797,9 +840,6 @@ struct std__vector_12ShipButtonZ1
   ShipButton **_finish;
   ShipButton **_end;
 };
-
-/* 222 */
-struct UnlockArrow;
 
 /* 567 */
 struct std__vector_11UnlockArrow
@@ -835,9 +875,6 @@ struct std__vector_13Globals__Rect
   Globals__Rect *_finish;
   Globals__Rect *_end;
 };
-
-/* 346 */
-struct WeaponBlueprint;
 
 /* 324 */
 struct DroneBlueprint;
@@ -1978,6 +2015,21 @@ struct std__vector_12ProjectileZ1
   Projectile **_end;
 };
 
+/* 638 */
+struct std__queue_12ProjectileZ1
+{
+  void *_map;
+  int _map_size;
+  void *_start_cur;
+  void *_start_first;
+  void *_start_last;
+  void *_start_node;
+  void *_finish_cur;
+  void *_finish_first;
+  void *_finish_last;
+  void *_finish_node;
+};
+
 /* 391 */
 struct RandomAmount
 {
@@ -1989,7 +2041,7 @@ struct RandomAmount
 /* 153 */
 struct AsteroidGenerator
 {
-  char asteroidQueue[40];
+  std__queue_12ProjectileZ1 asteroidQueue;
   RandomAmount spawnRate[3];
   RandomAmount stateLength[3];
   int numberOfShips;
@@ -2559,9 +2611,6 @@ struct std__vector_16std__vector_3int
   std__vector_3int *_end;
 };
 
-/* 174 */
-struct Drone;
-
 /* 502 */
 struct std__vector_7DroneZ1
 {
@@ -2696,6 +2745,38 @@ struct EquipmentBox
   bool blockDetailed;
 };
 
+/* 418 */
+struct CAchievement;
+
+/* 652 */
+struct std__vector_14CAchievementZ1
+{
+  CAchievement **_start;
+  CAchievement **_finish;
+  CAchievement **_end;
+};
+
+/* 407 */
+struct ShipButton
+{
+  Button _base;
+  GL_Texture *iShipImage;
+  bool bShipLocked;
+  bool bLayoutLocked;
+  bool bNoExist;
+  std__vector_14CAchievementZ1 achievements;
+  int iSelectedAch;
+  bool bSelected;
+};
+
+/* 222 */
+struct UnlockArrow
+{
+  int direction;
+  int status;
+  Globals__Rect shape;
+};
+
 /* 300 */
 struct ChoiceText
 {
@@ -2704,18 +2785,85 @@ struct ChoiceText
   ResourceEvent rewards;
 };
 
+/* 627 */
+struct Damage
+{
+  int iDamage;
+  int iShieldPiercing;
+  int fireChance;
+  int breachChance;
+  int stunChance;
+  int iIonDamage;
+  int iSystemDamage;
+  int iPersDamage;
+  bool bHullBuster;
+  int ownerId;
+  int selfId;
+  bool bLockdown;
+  bool crystalShard;
+  bool bFriendlyFire;
+  int iStun;
+};
+
+/* 641 */
+struct EffectsBlueprint
+{
+  std__vector_11std__string launchSounds;
+  std__vector_11std__string hitShipSounds;
+  std__vector_11std__string hitShieldSounds;
+  std__vector_11std__string missSounds;
+  std__string image;
+};
+
+/* 642 */
+struct std__vector_31WeaponBlueprint__MiniProjectile
+{
+  WeaponBlueprint__MiniProjectile *_start;
+  WeaponBlueprint__MiniProjectile *_finish;
+  WeaponBlueprint__MiniProjectile *_end;
+};
+
+/* 640 */
+struct WeaponBlueprint__BoostPower
+{
+  int type;
+  float amount;
+  int count;
+};
+
+/* 346 */
+struct WeaponBlueprint
+{
+  Blueprint _base;
+  std__string typeName;
+  Damage damage;
+  int shots;
+  int missiles;
+  float cooldown;
+  int power;
+  int length;
+  float speed;
+  int miniCount;
+  EffectsBlueprint effects;
+  std__string weaponArt;
+  std__string combatIcon;
+  std__string explosion;
+  int radius;
+  std__vector_31WeaponBlueprint__MiniProjectile miniProjectiles;
+  WeaponBlueprint__BoostPower boostPower;
+  int drone_targetable;
+  int spin;
+  int chargeLevels;
+  TextString flavorType;
+  GL_Color color;
+};
+
 /* 520 */
 struct std__vector_8GL_Color
 {
   GL_Color *_start;
   GL_Color *_finish;
   GL_Color *_end;
-};
-
-/* 301 */
-struct CrewTarget
-{
-  ShipObject _base;
 };
 
 /* 382 */
@@ -3096,26 +3244,6 @@ struct BossShip
   int nextStage;
 };
 
-/* 627 */
-struct Damage
-{
-  int iDamage;
-  int iShieldPiercing;
-  int fireChance;
-  int breachChance;
-  int stunChance;
-  int iIonDamage;
-  int iSystemDamage;
-  int iPersDamage;
-  bool bHullBuster;
-  int ownerId;
-  int selfId;
-  bool bLockdown;
-  bool crystalShard;
-  bool bFriendlyFire;
-  int iStun;
-};
-
 /* 171 */
 struct Projectile
 {
@@ -3331,6 +3459,24 @@ struct std__vector_4Fire
   Fire *_end;
 };
 
+/* 174 */
+struct Drone
+{
+  ShipObject _base;
+  int selfId;
+  bool powered;
+  int powerRequired;
+  bool deployed;
+  int type;
+  const DroneBlueprint *blueprint;
+  bool bDead;
+  int iBonusPower;
+  bool poweredAtLocation;
+  float destroyedTimer;
+  int iHackLevel;
+  float hackTime;
+};
+
 /* 620 */
 struct VTable_EquipmentBox
 {
@@ -3355,6 +3501,13 @@ struct VTable_EquipmentBox
   char (__thiscall *IsCargoBox)(EquipmentBox *this);
   char (__thiscall *CanHoldCrew)(EquipmentBox *this);
   char (__thiscall *CanDoJob)(EquipmentBox *this);
+};
+
+/* 639 */
+struct WeaponBlueprint__MiniProjectile
+{
+  std__string image;
+  bool fake;
 };
 
 /* 524 */
@@ -3397,10 +3550,139 @@ struct AchievementTracker;
 struct IonDrone;
 
 /* 167 */
-struct CrewDrone;
+struct CrewDrone
+{
+  CrewMember _base;
+  Drone _drone;
+  int droneRoom;
+  Animation powerUp;
+  Animation powerDown;
+  GL_Texture *lightLayer;
+  GL_Texture *baseLayer;
+};
+
+/* 653 */
+struct StatTracker
+{
+  int max;
+  int total;
+  int current;
+  std__string desc_id;
+  int sector;
+};
+
+/* 654 */
+struct CrewStatTracker
+{
+  int max;
+  std__string name;
+  std__string species;
+  bool male;
+  std__string title_id;
+  bool newStat;
+};
+
+/* 656 */
+struct TopScore
+{
+  std__string name;
+  std__string blueprint;
+  GL_Texture *image;
+  int sector;
+  int score;
+  bool victory;
+  int difficulty;
+  bool advancedContent;
+};
+
+/* 655 */
+struct std__vector_8TopScore
+{
+  TopScore *_start;
+  TopScore *_finish;
+  TopScore *_end;
+};
+
+/* 658 */
+struct std__vector_35std__vector_21std__vector_8TopScore
+{
+  std__vector_21std__vector_8TopScore *_start;
+  std__vector_21std__vector_8TopScore *_finish;
+  std__vector_21std__vector_8TopScore *_end;
+};
+
+/* 661 */
+struct std__vector_31std_pair_CAchievement_ptr_Point
+{
+  std__pair_22CAchievementZ1___Point *_start;
+  std__pair_22CAchievementZ1___Point *_finish;
+  std__pair_22CAchievementZ1___Point *_end;
+};
 
 /* 168 */
-struct ScoreKeeper;
+struct ScoreKeeper
+{
+  StatTracker stats[4];
+  CrewStatTracker crewStats[5];
+  int gamesPlayed;
+  int victories;
+  TopScore currentScore;
+  std__vector_17std__vector_4bool unlocked;
+  bool firstRun;
+  std__vector_8TopScore topScores;
+  std__vector_35std__vector_21std__vector_8TopScore shipScores;
+  bool bSavedScore;
+  int newestHighScore;
+  int newestShipBest;
+  int newestShipType;
+  int newestShipLayout;
+  std__vector_31std_pair_CAchievement_ptr_Point achievements;
+  std__vector_31std_pair_CAchievement_ptr_Point shipAchievements;
+  GL_Texture *rightBox[2];
+  GL_Texture *leftBox[2];
+  Button rightButtons[2];
+  Button leftButtons[2];
+  bool activatedRight;
+  bool activatedLeft;
+  GL_Texture *lockIcon;
+  InfoBox infoBox;
+  TextButton closeButton;
+  TextButton typeA;
+  TextButton typeB;
+  TextButton typeC;
+  Button leftButton;
+  Button rightButton;
+  TextButton listButton;
+  std__vector_15GenericButtonZ1 buttons;
+  int selectedShip;
+  int selectedLayout;
+  int selectedAch;
+  int selectedShipAch;
+  ShipSelect shipSelect;
+  int activeTouch;
+  bool forceUnlockAll;
+  bool gotCloseEvent;
+  int loadingGameVersion;
+  Point shipListCenter;
+  Point typeALoc;
+  Point typeBLoc;
+  Point typeCLoc;
+};
+
+/* 657 */
+struct std__vector_21std__vector_8TopScore
+{
+  std__vector_8TopScore *_start;
+  std__vector_8TopScore *_finish;
+  std__vector_8TopScore *_end;
+};
+
+/* 660 */
+struct std__pair_22CAchievementZ1___Point
+{
+  CAchievement *_first;
+  Point _second;
+};
 
 /* 169 */
 struct HackingDrone;
@@ -3471,7 +3753,36 @@ struct ArtilleryBox;
 struct WeaponSystemBox;
 
 /* 207 */
-struct MouseControl;
+struct MouseControl
+{
+  Point position;
+  Point lastPosition;
+  int aiming_required;
+  int iTeleporting;
+  int iMindControlling;
+  bool bSellingStuff;
+  bool valid;
+  bool newHover;
+  bool lastValid;
+  int animateDoor;
+  GL_Texture *validPointer;
+  GL_Texture *invalidPointer;
+  GL_Texture *selling;
+  Animation openDoor;
+  int tooltipFont;
+  std__string tooltip;
+  float tooltipTimer;
+  bool bMoving;
+  bool bHideMouse;
+  GL_Texture *lastIcon;
+  GL_Texture *lastAddition;
+  bool bForceTooltip;
+  std__string tooltipTitle;
+  std__string lastTooltipText;
+  int iHacking;
+  int overrideTooltipWidth;
+  Point staticTooltip;
+};
 
 /* 617 */
 struct std__vector_11CachedImage
@@ -3555,8 +3866,133 @@ struct SoundControl;
 /* 273 */
 struct EventGenerator;
 
+/* 332 */
+struct ResourcesTemplate
+{
+  RandomAmount fuel;
+  RandomAmount drones;
+  RandomAmount missiles;
+  RandomAmount scrap;
+  RandomAmount items;
+  int crew;
+  std__string crewType;
+  TextString crewName;
+  bool cloneable;
+  TextString cloneText;
+  std__vector_16std_pair_int_int crewSkills;
+  std__string weapon;
+  std__string drone;
+  std__string augment;
+  std__string _sil__DO_NOT_USE_system;
+  bool steal;
+  int upgradeAmount;
+  int upgradeId;
+  std__string removeItem;
+};
+
+/* 632 */
+struct RewardDesc
+{
+  std__string reward;
+  int level;
+};
+
+/* 644 */
+struct ShipTemplate
+{
+  std__string shipEventName;
+  bool hostile;
+};
+
+/* 646 */
+struct std__vector_11EventDamage
+{
+  EventDamage *_start;
+  EventDamage *_finish;
+  EventDamage *_end;
+};
+
+/* 419 */
+struct BoardingEvent
+{
+  std__string type;
+  int min;
+  int max;
+  int amount;
+  bool breach;
+};
+
+/* 647 */
+struct std__vector_29EventTemplate__ChoiceTemplate
+{
+  EventTemplate__ChoiceTemplate *_start;
+  EventTemplate__ChoiceTemplate *_finish;
+  EventTemplate__ChoiceTemplate *_end;
+};
+
+/* 650 */
+struct std__vector_30std_pair_std_string_std_string
+{
+  std__pair_25std__string___std__string *_start;
+  std__pair_25std__string___std__string *_finish;
+  std__pair_25std__string___std__string *_end;
+};
+
 /* 274 */
-struct EventTemplate;
+struct EventTemplate
+{
+  ResourcesTemplate resources;
+  RewardDesc reward;
+  TextString text;
+  bool loadText;
+  bool unique;
+  ShipTemplate shipTemplate;
+  std__string eventName;
+  std__vector_11EventDamage damage;
+  int environmentFlag;
+  int environmentTarget;
+  bool store;
+  bool repair;
+  bool reveal_map;
+  std__vector_12StatusEffect statusEffects;
+  bool distressBeacon;
+  BoardingEvent boarders;
+  int modifyPursuit;
+  std__vector_29EventTemplate__ChoiceTemplate choices;
+  std__vector_30std_pair_std_string_std_string nameDefinitions;
+  std__string imageBackground;
+  std__string imagePlanet;
+  std__string quest;
+  TextString unlockShipText;
+  int unlockShip;
+  int fleet;
+  bool secretSector;
+};
+
+/* 645 */
+struct EventDamage
+{
+  int _sil__DO_NOT_USE_system;
+  int amount;
+  int effect;
+};
+
+/* 643 */
+struct EventTemplate__ChoiceTemplate
+{
+  TextString text;
+  bool loadText;
+  std__string eventName;
+  bool hiddenReward;
+  ChoiceReq requirement;
+};
+
+/* 649 */
+struct std__pair_25std__string___std__string
+{
+  std__string _first;
+  std__string _second;
+};
 
 /* 629 */
 struct std__unordered_map_29std__string___EventTemplateZ1
@@ -3649,30 +4085,6 @@ struct RepairAnimation;
 /* 331 */
 struct IonDroneAnimation;
 
-/* 332 */
-struct ResourcesTemplate
-{
-  RandomAmount fuel;
-  RandomAmount drones;
-  RandomAmount missiles;
-  RandomAmount scrap;
-  RandomAmount items;
-  int crew;
-  std__string crewType;
-  TextString crewName;
-  bool cloneable;
-  TextString cloneText;
-  std__vector_16std_pair_int_int crewSkills;
-  std__string weapon;
-  std__string drone;
-  std__string augment;
-  std__string _sil__DO_NOT_USE_system;
-  bool steal;
-  int upgradeAmount;
-  int upgradeId;
-  std__string removeItem;
-};
-
 /* 334 */
 struct Ghost;
 
@@ -3738,12 +4150,6 @@ struct CrystalAnimation;
 
 /* 417 */
 struct AnaerobicAnimation;
-
-/* 418 */
-struct CAchievement;
-
-/* 419 */
-struct BoardingEvent;
 
 /* 421 */
 struct ShipGenerator;
@@ -3827,13 +4233,6 @@ struct VTable_CompleteShip
 
 /* 621 */
 struct std__pair_25std_string___RandomAmount;
-
-/* 632 */
-struct RewardDesc
-{
-  std__string reward;
-  int level;
-};
 
 /* 633 */
 union __attribute__((aligned(8))) __m64

@@ -15,7 +15,7 @@ int ShipGraph::ConnectingDoor(ShipGraph *this<ecx>, int x1, int y1, int x2, int 
 ".578d7c240883e4f0ff77fc5589e557565389ce8d4de083ec6c8b078b5f0889c28945a88b47048b7f0c":
 int ShipGraph::ConnectedGridSquares(ShipGraph *this<ecx>, int x1, int y1, int x2, int y2);
 ".578d7c240883e4f0ff77fc5589e5575383ec108b5f088b078b5704":
-int ShipGraph::ConnectedGridSquares(ShipGraph *this<ecx>, Point p1, Point p2);
+int ShipGraph::ConnectedGridSquaresPoint(ShipGraph *this<ecx>, Point p1, Point p2);
 ".578d7c240883e4f0ff77fc5589e5575383ec108b5f088b078b57048b7f0c895c2408890424":
 int ShipGraph::ConnectingDoor(ShipGraph *this<ecx>, Point p1, Point p2);
 ".8b5424048b018b04908b50348b421c2b4214c1f802c1e005":
@@ -34,9 +34,50 @@ float ShipGraph::ConvertToLocalAngle(ShipGraph *this<ecx>, float ang);
 int64_t ShipGraph::ConvertToWorldPosition(ShipGraph *this<ecx>, Pointf p);
 ".578d7c240883e4f0ff77fc5589e55783ec14807f0800f30f10692cf30f105930f30f10613474??":
 Pointf ShipGraph::ConvertToLocalPosition(ShipGraph *this<ecx>, Pointf p, char unk);
+".578d7c240883e4f0ff77fc5589e557565383ec4c8b79048b01":
+int ShipGraph::ComputeCenter(ShipGraph *this<ecx>);
+".538b514431c08b5c240839da7f??03514c39d37f??":
+bool ShipGraph::ContainsPoint(ShipGraph *this<ecx>, int x, int y);
+".578d7c240883e4f0ff77fc5589e557565389fb89ce83ec2c8b43040fb6530831db":
+int ShipGraph::GetSelectedRoom(ShipGraph *this<ecx>, int x, int y, bool unk);
+".8b41042b01c1f802":
+int ShipGraph::RoomCount(ShipGraph *this<ecx>);
+".5789c88d7c240883e4f0ff77fc5589e557565383ec2c8b178b7f04":
+Globals::Rect *ShipGraph::GetRoomShape(ShipGraph *this<ecx>, int room);
+".53660fefc083ec048b54240c85d278??8b198b410429d8c1f80239c27d??8b0493":
+float ShipGraph::GetRoomOxygen(ShipGraph *this<ecx>, int room);
+".5653b8????????8b5c240c85db78??8b318b510429f2c1fa02":
+bool ShipGraph::GetRoomBlackedOut(ShipGraph *this<ecx>, int room);
 
 
-struct ShipGraph depends (Pointf, Room) {{
+struct ShipGraph depends (Point, Pointf, Room) {{
+
+	static Point TranslateFromGrid(int xx, int yy)
+	{
+		return Point(xx * 35, yy * 35);
+	}
+	
+	static Point TranslateToGrid(int xx, int yy)
+	{
+		return Point(xx / 35, yy / 35);
+	}
+	
+	Point GetIntoRoom(int roomId, Point pos)
+	{
+		Point ret;
+		if (roomId >= 0 && roomId < this->rooms.size())
+		{
+			auto room = this->rooms[roomId];
+			ret = room->GetIntoRoom(pos);
+		}
+		else
+		{
+			ret = Point(-1, -1);
+		}
+		
+		return ret;
+	}
+	
 	Pointf GetRoomCenter(int roomId) 
 	{
 		auto rooms = this->rooms;

@@ -43,7 +43,7 @@ auto Hook_##_name::toCall _type
 
 #define STRINGIFY2(X) #X
 #define STRINGIFY(X) STRINGIFY2(X)
-#define A 2
+
 #define DEFINE_ASM(_name) \
 ASM_HOOK Hook_##_name::hook()
 
