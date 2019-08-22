@@ -4115,8 +4115,25 @@ struct RepairStoreBox;
 /* 389 */
 struct SettingValues;
 
+/* 662 */
+struct std__map_25std__string___std__string
+{
+  char unk[24];
+};
+
+/* 663 */
+struct std__map_43std__string___std_map_std_string_std_string
+{
+  char unk[24];
+};
+
 /* 392 */
-struct TextLibrary;
+struct TextLibrary
+{
+  std__map_25std__string___std__string dictionary;
+  std__map_43std__string___std_map_std_string_std_string languageDictionaries;
+  std__string currentLanguage;
+};
 
 /* 400 */
 struct DroneStoreBox;

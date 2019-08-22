@@ -10,6 +10,7 @@ CFPS* Global::__cFPS = NULL;
 BlueprintManager *Global::__blueprints = NULL;
 SoundControl *Global::__soundControl = NULL;
 MouseControl *Global::__mouseControl = NULL;
+TextLibrary *Global::__textLibrary = NULL;
 
 HOOK_METHOD(CApp, OnInit, () -> int)
 {
@@ -30,6 +31,7 @@ void Global::Initialize(CApp *cApp)
     __blueprints = (BlueprintManager*)(__baseAddress + __blueprintOffset);
     __soundControl = (SoundControl*)(__baseAddress + __soundOffset);
     __mouseControl = (MouseControl*)(__baseAddress + __mouseOffset);
+    __textLibrary = (TextLibrary*)(__baseAddress + __textOffset);
 
     printf("Hyperspace initialized\n");
 }

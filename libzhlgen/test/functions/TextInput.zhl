@@ -1,3 +1,7 @@
+
+"578d7c240883e4f0ff77fc5589e557565389ce8d5de083ec2c":
+int TextInput::SetText(TextInput *this<ecx>, std::string& text);
+
 struct TextInput 
 {{
 	enum AllowedCharType

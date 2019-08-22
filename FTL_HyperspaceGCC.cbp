@@ -27,9 +27,8 @@
 					<Add directory="C:/boost/include/boost-1_70" />
 				</Compiler>
 				<Linker>
-					<Add option="-static-libstdc++" />
 					<Add option="-static-libgcc" />
-					<Add option="-static-libstdc++ -static-libstdc++" />
+					<Add option="-static-libstdc++" />
 					<Add library="user32" />
 					<Add library="libboost_atomic-mgw82-mt-x32-1_70.a" />
 					<Add library="libboost_chrono-mgw82-mt-x32-1_70.a" />
@@ -89,9 +88,8 @@
 					<Add directory="C:/boost/include/boost-1_70" />
 				</Compiler>
 				<Linker>
-					<Add option="-static-libstdc++" />
 					<Add option="-static-libgcc" />
-					<Add option="-static-libstdc++ -static-libstdc++" />
+					<Add option="-static-libstdc++" />
 					<Add library="user32" />
 					<Add library="libboost_atomic-mgw82-mt-x32-1_70.a" />
 					<Add library="libboost_chrono-mgw82-mt-x32-1_70.a" />
@@ -161,6 +159,12 @@
 			<Option virtualFolder="Core/" />
 		</Unit>
 		<Unit filename="CustomEvents.cpp">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="CustomShips.cpp">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="CustomShips.h">
 			<Option virtualFolder="Core/" />
 		</Unit>
 		<Unit filename="CustomWeapons.cpp">

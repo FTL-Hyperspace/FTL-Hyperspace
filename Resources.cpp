@@ -3,6 +3,7 @@
 
 #include "HullNumbers.h"
 #include "CommandConsole.h"
+#include "CustomShips.h"
 
 #include <boost/lexical_cast.hpp>
 
@@ -85,6 +86,28 @@ void Global::InitializeResources(ResourceControl *resources)
             {
                 auto enabled = node->first_attribute("enabled")->value();
                 CommandConsole::GetInstance()->enabled = strcmp(enabled, "true") == 0;
+            }
+
+            if (strcmp(node->name(), "ships") == 0)
+            {
+                auto customShipManager = CustomShipSelect::GetInstance();
+                for (auto child = node->first_node(); child; child = child->next_sibling())
+                {
+                    if (child->first_attribute("name"))
+                    {
+                        std::string name = std::string(child->first_attribute("name")->value());
+
+                        bool typeB = false;
+                        bool typeC = false;
+
+                        if (child->first_attribute("b"))
+                            typeB = strcmp(child->first_attribute("b")->value(), "true") == 0;
+                        if (child->first_attribute("c"))
+                            typeC = strcmp(child->first_attribute("c")->value(), "true") == 0;
+
+                        customShipManager->AddShip(name, typeB, typeC);
+                    }
+                }
             }
 
             node = node->next_sibling();

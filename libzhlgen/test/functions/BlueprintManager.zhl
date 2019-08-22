@@ -1,2 +1,4 @@
 "578d7c240883e4f0ff77fc5589f889e557565389cb83ec4c8b3f8b40048945c0e8????????84c08d87f4000000":
 static std::vector<std::string>& BlueprintManager::GetBlueprintList(std::vector<std::string>& vec<ecx>, BlueprintManager *bpM, std::string& str);
+"578d7c240883e4f0ff77fc5589e55756538d45d883ec5c8b1f8945d08b77048d7dd0894db48b038b5304":
+ShipBlueprint* BlueprintManager::GetShipBlueprint(BlueprintManager *this<ecx>, std::string& name, int unk);

@@ -1,2 +1,4 @@
 "5731c08d7c240883e4f0ff77fc5589e557565381ec????????8b5f048b37":
 char ScoreKeeper::GetShipUnlocked(ScoreKeeper *this<ecx>, int shipId, int shipVariant);
+"578d7c240883e4f0ff77fc5589e557565389ce83ec2c8b4704":
+static std::string* ScoreKeeper::GetShipBlueprint(std::string* str<ecx>, ScoreKeeper* scoreKeeper, int index);

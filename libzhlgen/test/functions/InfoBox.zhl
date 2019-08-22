@@ -1,3 +1,10 @@
+"578d7c240883e4f0ff77fc5589e557565389cf81ec????????8b018b91c8000000":
+void InfoBox::OnRender(InfoBox *this<ecx>);
+"578d7c240883e4f0ff77fc5589e55756538d45cc8d75d489cb83c10c":
+int InfoBox::Clear(InfoBox *this<ecx>);
+"578d7c240883e4f0ff77fc5589e557565389cb83c10c83ec2c8b378b5708":
+int InfoBox::SetDescription(InfoBox *this<ecx>, Description *desc, int width, int height, InfoBox::ExpandDir dir); 
+
 struct InfoBox 
 {{
 

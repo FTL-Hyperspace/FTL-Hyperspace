@@ -75,6 +75,7 @@ typedef std::pair<std::string, int> std_pair_std_string_int;
 typedef std::pair<std::string, RandomAmount> std_pair_std_string_RandomAmount;
 typedef std::pair<std::string, std::string> std_pair_std_string_std_string;
 typedef std::pair<CAchievement*, Point> std_pair_CAchievement_ptr_Point;
+typedef std::map<std::string, std::string> std_map_std_string_std_string;
 
 enum TouchAction
 {
@@ -723,6 +724,7 @@ struct ArmamentControl
 };
 
 struct CrewBlueprint;
+struct InfoBox;
 
 struct SystemBlueprint;
 struct WindowFrame;
@@ -761,6 +763,10 @@ struct InfoBox
 	};
 
 
+	LIBZHL_API void OnRender();
+	LIBZHL_API int Clear();
+	LIBZHL_API int SetDescription(Description *desc, int width, int height, InfoBox::ExpandDir dir);
+	
 	Point location;
 	const SystemBlueprint *blueprint;
 	Description desc;
@@ -995,6 +1001,7 @@ struct StatTracker
 struct ScoreKeeper
 {
 	LIBZHL_API char GetShipUnlocked(int shipId, int shipVariant);
+	LIBZHL_API static std::string *__stdcall GetShipBlueprint(std::string *str, ScoreKeeper *scoreKeeper, int index);
 	
 	StatTracker stats[4];
 	CrewStatTracker crewStats[5];
@@ -1159,11 +1166,13 @@ struct BoardingEvent
 	bool breach;
 };
 
+struct ShipBlueprint;
 struct BlueprintManager;
 
 struct BlueprintManager
 {
 	LIBZHL_API static std::vector<std::string> &__stdcall GetBlueprintList(std::vector<std::string> &vec, BlueprintManager *bpM, std::string &str);
+	LIBZHL_API ShipBlueprint *GetShipBlueprint(std::string &name, int unk);
 	
 };
 
@@ -1277,13 +1286,14 @@ struct OptionsScreen : ChoiceBox
 	ChoiceBox restartRequiredDialog;
 };
 
-struct ShipBlueprint;
 struct EquipmentBox;
 struct CrewCustomizeBox;
 
 struct SystemCustomBox;
 
 struct ShipBuilder;
+
+struct TextInput;
 
 struct TextInput
 {
@@ -1296,6 +1306,8 @@ struct TextInput
 
 
 
+	LIBZHL_API int SetText(std::string &text);
+	
 	std::string prompt;
 	std::vector<int> text;
 	std::vector<int> oldText;
@@ -1314,6 +1326,15 @@ struct ShipAchievementInfo
 struct ShipBuilder
 {
 	LIBZHL_API void *CheckTypes();
+	LIBZHL_API void MouseClick(int x, int y);
+	LIBZHL_API void SwitchShip(int shipType, int shipVariant);
+	LIBZHL_API void CreateEquipmentBoxes();
+	LIBZHL_API void CreateSystemBoxes();
+	LIBZHL_API void SetupShipAchievements();
+	LIBZHL_API void ClearShipAchievements();
+	LIBZHL_API int SwapType(int variant);
+	LIBZHL_API void CycleShipNext();
+	LIBZHL_API void CycleShipPrevious();
 	
 	ShipManager *currentShip;
 	GL_Primitive *nameBoxPrimitive;
@@ -2352,6 +2373,7 @@ struct AchievementTracker;
 struct AchievementTracker
 {
 	LIBZHL_API void LoadAchievementDescriptions();
+	LIBZHL_API static void *__stdcall GetShipAchievements(void *unk, AchievementTracker *tracker, std::string &name);
 	
 };
 
@@ -2384,6 +2406,10 @@ struct Shields;
 
 struct ShipManager : ShipObject
 {
+	ShipManager(int shipId) 
+	{
+		this->constructor(shipId);
+	}
 	
 	Pointf GetRandomRoomCenter()
 	{
@@ -2400,6 +2426,7 @@ struct ShipManager : ShipObject
 	LIBZHL_API void OnRender(bool unk1, bool unk2);
 	LIBZHL_API int CountCrew(bool boarders);
 	LIBZHL_API int TeleportCrew(ShipManager *other, int room, bool comingBack);
+	LIBZHL_API int OnInit(ShipBlueprint *bp, int shipLevel);
 	
 	Targetable _targetable;
 	Collideable _collideable;
@@ -2843,7 +2870,7 @@ struct ShipButton : Button
 
 	LIBZHL_API void constructor(int shipType, int shipVariant);
 	LIBZHL_API void OnInit(std::string &unk, Point pos);
-	LIBZHL_API void MouseMove(int x, int y);
+	LIBZHL_API bool MouseMove(int x, int y);
 	LIBZHL_API void OnRender();
 	
 	GL_Texture *iShipImage;
@@ -3254,8 +3281,15 @@ struct CommandGui
 	bool suppressWriteError;
 };
 
+struct TextLibrary;
+
 struct TextLibrary
 {
+	LIBZHL_API static std::string &__stdcall GetText(std::string &strRef, TextLibrary *textLibrary, std::string &name, std::string &lang);
+	
+	std::map<std::string, std::string> dictionary;
+	std::map<std::string, std_map_std_string_std_string> languageDictionaries;
+	std::string currentLanguage;
 };
 
 struct DroneEquipBox
@@ -4108,6 +4142,7 @@ struct ResourceControl
 	LIBZHL_API void CreateImagePrimitive(GL_Texture *tex, int unk1, int unk2, int unk3, GL_Color color, float unk4, char unk5);
 	LIBZHL_API void OnInit(int imageSwappingMode);
 	LIBZHL_API char *LoadFile(std::string &fileName);
+	LIBZHL_API void *GetImageId(std::string &name);
 	
 	std::unordered_map<std::string, GL_Texture*> images;
 	std::unordered_map<int, freetype::font_data> fonts;

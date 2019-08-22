@@ -60,6 +60,7 @@ struct GlobalConst depends(RandomAmount, CAchievement, Point)
 	typedef std::pair<std::string, RandomAmount> std_pair_std_string_RandomAmount;
 	typedef std::pair<std::string, std::string> std_pair_std_string_std_string;
 	typedef std::pair<CAchievement*, Point> std_pair_CAchievement_ptr_Point;
+	typedef std::map<std::string, std::string> std_map_std_string_std_string;
 	
 	enum TouchAction
 	{

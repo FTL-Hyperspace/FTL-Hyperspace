@@ -29,6 +29,7 @@ public:
     BlueprintManager *GetBlueprints() { return __blueprints; }
     SoundControl *GetSoundControl() { return __soundControl; }
     MouseControl *GetMouseControl() { return __mouseControl; }
+    TextLibrary *GetTextLibrary() { return __textLibrary; }
     DWORD GetBaseAddress() { return __baseAddress; }
 
 private:
@@ -44,6 +45,7 @@ private:
     const DWORD __blueprintOffset = 0x004CBD60;
     const DWORD __soundOffset =     0x004CB820;
     const DWORD __mouseOffset =     0x004C76C0;
+    const DWORD __textOffset =      0x004CB7C0;
 
     DWORD __baseAddress = 0;
 
@@ -54,6 +56,7 @@ private:
     static BlueprintManager *__blueprints;
     static SoundControl *__soundControl;
     static MouseControl *__mouseControl;
+    static TextLibrary *__textLibrary;
 };
 
 

@@ -10,9 +10,15 @@ void ShipManager::OnRender(ShipManager *this<ecx>, bool unk1, bool unk2);
 int ShipManager::CountCrew(ShipManager *this<ecx>, bool boarders);
 "578d7c240883e4f0ff77fc5589f889e557565383ec3c8b3f8b70040fb64008":
 int ShipManager::TeleportCrew(ShipManager *this<ecx>, ShipManager* other, int room, bool comingBack);
+"578d7c240883e4f0ff77fc5589fa89e55756538d99e0040000":
+int ShipManager::OnInit(ShipManager *this<ecx>, ShipBlueprint *bp, int shipLevel);
 
 
 struct ShipManager {{
+	ShipManager(int shipId) 
+	{
+		this->constructor(shipId);
+	}
 	
 	Pointf GetRandomRoomCenter()
 	{
