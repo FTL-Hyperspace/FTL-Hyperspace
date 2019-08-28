@@ -1,0 +1,2 @@
+"5589e55389cb83e4f083ec10e8????????660fefc0c744240800000000f30f2a450cf30f11442404":
+void WindowFrame::Draw(WindowFrame *this<ecx>, int x, int y);

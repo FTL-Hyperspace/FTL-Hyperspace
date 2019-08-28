@@ -1,2 +1,4 @@
 "807910000f84????????5589e55389cb83e4f083ec1080790800":
 void AnimationTracker::Update(AnimationTracker *this<ecx>);
+"5589e583ec04f30f1005????????f30f1015????????807d0800f30f594104f30f10490cf30f5cc80f28d8":
+float AnimationTracker::GetAlphaLevel(AnimationTracker *this<ecx>, bool unk);

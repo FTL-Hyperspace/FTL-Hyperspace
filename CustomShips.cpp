@@ -71,8 +71,6 @@ void CustomShipSelect::OnInit(ShipSelect* shipSelect_)
             Point pos = Point(0, 0);
             if (onPage < 5)
             {
-                printf("yes\n");
-
                 if (onPage == 4)
                 {
                     pos = Point(136 + 205 * 3 + 225, 161);
@@ -84,8 +82,6 @@ void CustomShipSelect::OnInit(ShipSelect* shipSelect_)
             }
             else
             {
-                printf("no\n");
-
                 if (onPage == 9)
                 {
                     pos = Point(136 + 205 * 3 + 225, 161 + 177);
@@ -96,10 +92,22 @@ void CustomShipSelect::OnInit(ShipSelect* shipSelect_)
                 }
             }
 
-            printf("%d\n", onPage);
+            //if (!x.hasAchievements)
+
+            int oldY = pos.y;
+
+            pos.y = oldY + 20;
 
             aButton->OnInit(shipButtonImg, pos);
+
+            if (bButton->bActive) pos.y = oldY + 20;
+            else pos.y = oldY;
+
             bButton->OnInit(shipButtonImg, pos);
+
+            if (cButton->bActive) pos.y = oldY + 20;
+            else pos.y = oldY;
+
             cButton->OnInit(shipButtonImg, pos);
 
 
@@ -129,14 +137,18 @@ void CustomShipSelect::OnInit(ShipSelect* shipSelect_)
 
 
     this->shipSelect = shipSelect_;
-
-    this->oldShipButtons = new std::vector<ShipButton*>(this->shipSelect->shipButtons);
+    this->oldShipButtons = this->shipSelect->shipButtons;
 
     initialized = true;
 }
 
 void CustomShipSelect::OnRender(bool renderSelect)
 {
+    if (this->shipSelect->tutorial.bOpen)
+    {
+        GL_Color tint(0.5f, 0.5f, 0.5f, 1.f);
+        CSurface::GL_SetColorTint(tint);
+    }
     if (renderSelect)
     {
         for (auto const &x: this->shipButtons)
@@ -157,8 +169,6 @@ void CustomShipSelect::OnRender(bool renderSelect)
         this->leftButton->OnRender();
         this->rightButton->OnRender();
 
-
-
         char buf[128];
 
 
@@ -166,13 +176,17 @@ void CustomShipSelect::OnRender(bool renderSelect)
         sprintf(buf, "%d/%d", this->GetCurrentPage() + 1, this->GetMaxPages() + 1 );
         std::string text(buf);
 
-
-        CSurface::GL_SetColor(25 / 255.f, 49 / 255.f, 51 / 255.f, 1.f);
+        CSurface::GL_SetColor(COLOR_BUTTON_TEXT);
         CSurface::GL_RemoveColorTint();
         freetype::easy_printRightAlign(63, 1097, 118, text);
     }
 
     shipSelect->infoBox.OnRender();
+
+    if (this->shipSelect->tutorial.bOpen)
+    {
+        CSurface::GL_RemoveColorTint();
+    }
 }
 
 void CustomShipSelect::MouseClick()
@@ -223,7 +237,7 @@ void CustomShipSelect::SwitchPage(int page)
 
 void CustomShipSelect::LeaveFirstPage()
 {
-    for (auto const &x: *this->oldShipButtons)
+    for (auto const &x: this->oldShipButtons)
     {
         x->bActive = false;
     }
@@ -232,7 +246,7 @@ void CustomShipSelect::LeaveFirstPage()
 
 void CustomShipSelect::EnterFirstPage()
 {
-    for (auto const &x: *this->oldShipButtons)
+    for (auto const &x: this->oldShipButtons)
     {
         if (!x->bNoExist)
             x->bActive = true;
@@ -242,7 +256,7 @@ void CustomShipSelect::EnterFirstPage()
 bool CustomShipSelect::ShouldRenderButton(ShipButton *button)
 {
     if (this->shipPage != 0 &&
-            std::find(this->oldShipButtons->begin(), this->oldShipButtons->end(), button) != this->oldShipButtons->end())
+            std::find(this->oldShipButtons.begin(), this->oldShipButtons.end(), button) != this->oldShipButtons.end())
     {
         return false;
     }
@@ -257,8 +271,14 @@ bool CustomShipSelect::ShouldRenderArrow()
     return this->shipPage == 0;
 }
 
+bool CustomShipSelect::ShouldRenderButtonLower()
+{
+    return this->shipPage == 0;
+}
+
 void CustomShipSelect::MouseMove(int x, int y)
 {
+    if (this->shipSelect->tutorial.bOpen) return;
     this->leftButton->MouseMove(x, y, false);
     this->rightButton->MouseMove(x, y, false);
 
@@ -309,9 +329,10 @@ std::string& CustomShipSelect::GetShipBlueprint(int shipId)
     return this->blueprintNames[customIndex].name;
 }
 
-void CustomShipSelect::SwitchShip(ShipBuilder *builder, int type, int variant)
+
+void CustomShipSelect::SwitchShip(ShipBuilder *builder, int type, int variant, bool force)
 {
-    if (type == builder->currentShipId && variant == builder->currentType) return;
+    if (type == builder->currentShipId && variant == builder->currentType && !(force)) return;
     builder->currentType = variant;
 
     ShipManager *ship = new ShipManager(0);
@@ -399,6 +420,7 @@ void CustomShipSelect::SwitchShip(ShipBuilder *builder, int type, int variant)
 
         shipSelect->Close();
     }
+
 }
 
 void CustomShipSelect::Open()
@@ -572,6 +594,8 @@ bool CustomShipSelect::CycleShipPrevious(ShipBuilder *builder)
 //==========================
 
 
+
+
 HOOK_METHOD(ShipButton, constructor, (int shipType, int shipVariant) -> void)
 {
     super(shipType, shipVariant);
@@ -632,14 +656,27 @@ HOOK_METHOD(UnlockArrow, OnRender, () -> void)
     }
 }
 
+
 HOOK_METHOD(ShipButton, OnRender, () -> void)
 {
     auto customSel = CustomShipSelect::GetInstance();
 
     if (customSel->ShouldRenderButton(this))
     {
-        super();
+        if (customSel->ShouldRenderButtonLower() || this->bShipLocked || this->bNoExist)
+        {
+            super();
+        }
+        else
+        {
+            this->Button::OnRender();
+            GL_Color white = GL_Color(1.f, 1.f, 1.f, 1.f);
+            G_->GetResources()->RenderImage(this->iShipImage, this->position.x, this->position.y, 0, white, 1.f, false);
+        }
+
     }
+
+
 }
 
 HOOK_METHOD(ShipSelect, MouseClick, () -> void)
@@ -720,7 +757,7 @@ HOOK_METHOD(ShipBuilder, MouseClick, (int x, int y) -> void)
 
     if (customSel->Initialized() && customSel->GetSelection() != -1)
     {
-        this->SwitchShip(customSel->GetSelectedId(), this->shipSelect.currentType);
+        customSel->SwitchShip(this, customSel->GetSelectedId(), this->shipSelect.currentType, true);
         customSel->ClearSelection();
     }
 }
@@ -754,3 +791,278 @@ HOOK_METHOD(ShipBuilder, CycleShipPrevious, () -> void)
         super();
 
 }
+
+HOOK_METHOD(ShipBuilder, MouseClick, (int x, int y) -> void)
+{
+    if (this->randomButton.bActive && this->randomButton.bHover)
+    {
+        auto customSel = CustomShipSelect::GetInstance();
+        if (this->currentShipId >= 100 && customSel->Initialized())
+        {
+            int id = customSel->GetRandomShipIndex();
+            int variant = rand() % 3;
+
+            if (variant == 2 && !customSel->GetShipDefinition(id).typeC)
+                variant = 1;
+            if (variant == 1 && !customSel->GetShipDefinition(id).typeB)
+                variant = 0;
+
+            customSel->SwitchShip(this, id + 100, variant, true);
+        }
+        else
+        {
+            super(x, y);
+        }
+    }
+    else
+    {
+        super(x, y);
+    }
+}
+
+HOOK_METHOD(ShipBuilder, OnLoop, () -> void)
+{
+
+    super();
+
+    if (this->currentShipId >= 100)
+    {
+        auto customSel = CustomShipSelect::GetInstance();
+
+        bool buttonsActive = false;
+
+        buttonsActive = customSel->ShipCount(this->currentType > 1);
+        this->leftButton.SetActive(buttonsActive);
+        this->rightButton.SetActive(buttonsActive);
+        this->randomButton.SetActive(customSel->ShipCount() > 1);
+
+
+    }
+
+}
+
+
+HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
+{
+
+    bool renderAchievements = this->currentShipId < 100;
+
+    if (this->shipSelect.bOpen)
+    {
+        GL_Color tint(0.25f, 0.25f, 0.25f, 1.f);
+        CSurface::GL_SetColorTint(tint);
+    }
+
+    CSurface::GL_DisableBlend();
+    CSurface::GL_RenderPrimitive(this->baseImage);
+
+    CSurface::GL_EnableBlend();
+    CSurface::GL_RenderPrimitive(this->shipEquipBox);
+    CSurface::GL_RenderPrimitive(this->shipSelectBox);
+    if (renderAchievements)
+    {
+        CSurface::GL_RenderPrimitive(this->shipAchBox);
+    }
+
+    CSurface::GL_RenderPrimitive(this->advancedButtonBox);
+
+    CSurface::GL_SetColor(COLOR_BUTTON_TEXT);
+
+    TextLibrary* lib = G_->GetTextLibrary();
+
+    std::string txt("hangar_frame_ship");
+    std::string langTxt;
+    TextLibrary::GetText(langTxt, lib, txt, lib->currentLanguage);
+    freetype::easy_print(62, 19, 117, langTxt);
+
+    txt.assign("hangar_frame_layout");
+    TextLibrary::GetText(langTxt, lib, txt, lib->currentLanguage);
+    freetype::easy_print(62, 19, 219, langTxt);
+
+    txt.assign("hangar_frame_crew");
+    TextLibrary::GetText(langTxt, lib, txt, lib->currentLanguage);
+    freetype::easy_print(62, 19, 489, langTxt);
+
+    txt.assign("equipment_frame_weapons");
+    TextLibrary::GetText(langTxt, lib, txt, lib->currentLanguage);
+    freetype::easy_print(62, 388, 489, langTxt);
+
+    txt.assign("equipment_frame_drones");
+    TextLibrary::GetText(langTxt, lib, txt, lib->currentLanguage);
+    freetype::easy_print(62, 388, 599, langTxt);
+
+    txt.assign("equipment_frame_augments");
+    TextLibrary::GetText(langTxt, lib, txt, lib->currentLanguage);
+    freetype::easy_print(62, 954, 489, langTxt);
+
+    CSurface::GL_SetColor(COLOR_BUTTON_ON);
+
+    if (renderAchievements)
+    {
+        txt.assign("hangar_achievements_title");
+        TextLibrary::GetText(langTxt, lib, txt, lib->currentLanguage);
+        freetype::easy_printCenter(13, 124, 374, langTxt);
+    }
+
+
+
+    txt.assign("hangar_advanced_title");
+    TextLibrary::GetText(langTxt, lib, txt, lib->currentLanguage);
+    freetype::easy_printCenter(13, 1109, 400, langTxt);
+
+    CSurface::GL_SetColor(1.f, 1.f, 1.f, 1.f);
+    CSurface::GL_PushMatrix();
+
+    if (!Settings::GetDlcEnabled() && (this->currentShipId == 9 || this->currentType == 2))
+    {
+        CSurface::GL_SetColorTint(COLOR_TINT);
+    }
+
+    CSurface::GL_Translate(this->currentShip->ship.horizontal_shift + 365.f, this->currentShip->ship.vertical_shift + 30.f);
+    this->currentShip->OnRender(true, false);
+
+    CSurface::GL_PopMatrix();
+    CSurface::GL_RenderPrimitive(this->startButtonBox);
+    if (!Settings::GetDlcEnabled() && (this->currentShipId == 9 || this->currentType == 2))
+    {
+        CSurface::GL_RemoveColorTint();
+        CSurface::GL_RenderPrimitive(this->enableAdvancedPrimitive);
+    }
+
+
+    this->startButton.SetActive(this->currentShipId != 9 || this->currentShipId != 2);
+
+    for (auto &anim: this->animations)
+    {
+        anim.OnRender(1.f, COLOR_WHITE, false);
+    }
+
+    this->walkingMan.OnRender(1.f, COLOR_WHITE, false);
+
+    CSurface::GL_RenderPrimitive(this->nameBoxPrimitive);
+
+    for (auto &box: this->vEquipmentBoxes)
+    {
+        if (box->CanDoJob())
+        {
+            if (this->bCustomizingCrew)
+            {
+                if (!box->CanHoldCrew())
+                {
+                    box->OnRender(false);
+                    box->RenderLabels(false);
+                }
+            }
+            else
+            {
+                box->OnRender(false);
+                box->RenderLabels(false);
+            }
+        }
+
+    }
+
+    for (auto &box: this->vCrewBoxes)
+    {
+        if (box->bCustomizing)
+        {
+            box->OnRender(false);
+            break;
+        }
+    }
+
+    for (auto &button: this->buttons)
+    {
+        button->OnRender();
+    }
+
+    for (auto &sys: this->sysBoxes)
+    {
+        sys->OnRender(true);
+    }
+
+
+    if (this->encourageShipList)
+    {
+        int buttonX = this->listButton.position.x;
+        int buttonY = this->listButton.position.y;
+
+
+        CSurface::GL_BlitPixelImage(this->arrow, buttonX + 75, buttonY - 4, 164, 38, 0, COLOR_WHITE, true);
+        this->descBox->Draw(buttonX + 245, buttonY - 47);
+
+        std::string nm("tutorial_list_open");
+        std::string txt;
+        TextLibrary::GetText(txt, G_->GetTextLibrary(), nm, G_->GetTextLibrary()->currentLanguage);
+
+        freetype::easy_printAutoNewlines(12, buttonX + 265, buttonY - 27, 308, txt);
+    }
+
+
+    CSurface::GL_SetColor(COLOR_WHITE);
+
+    Point shipNamePos = Point(273, 7);
+    this->nameInput.OnRender(24, shipNamePos);
+
+    /* This doesn't work because of easy_measurePrintLines returning a Pointf
+       Need a way to get the y value of the returned Pointf
+       The Pointf is returned split into eax and edx
+    if (this->bRenaming)
+    {
+        std::string nm("rename");
+        std::string txt;
+        TextLibrary::GetText(txt, G_->GetTextLibrary(), nm, G_->GetTextLibrary()->currentLanguage);
+        //freetype::easy_measurePrintLines(63, 0, 0, 999, txt);
+    }
+    */
+
+    if (!currentShip->HasSystem(3))
+    {
+        // 662, 539
+
+        std::string nm("equipment_no_system");
+        std::string txt;
+
+        TextLibrary::GetText(txt, G_->GetTextLibrary(), nm, G_->GetTextLibrary()->currentLanguage);
+        freetype::easy_printCenter(63, 662, 539, txt);
+    }
+    if (!currentShip->HasSystem(4))
+    {
+        // 662, 539
+
+        std::string nm("equipment_no_system");
+        std::string txt;
+
+        TextLibrary::GetText(txt, G_->GetTextLibrary(), nm, G_->GetTextLibrary()->currentLanguage);
+        freetype::easy_printCenter(63, 662, 649, txt);
+    }
+
+    CSurface::GL_SetColor(COLOR_WHITE);
+
+    if (renderAchievements)
+    {
+        int counter = 0;
+        for (auto &ach: this->shipAchievements)
+        {
+            Point pos(ach.position.x, ach.position.y);
+            ach.achievement->OnRender(pos, this->selectedAch == counter, 1);
+            counter++;
+        }
+    }
+
+
+    CSurface::GL_RemoveColorTint();
+    if (this->shipSelect.bOpen)
+    {
+        this->shipSelect.OnRender();
+    }
+    else
+    {
+        this->infoBox.OnRender();
+    }
+
+    this->introScreen.OnRender();
+
+
+}
+

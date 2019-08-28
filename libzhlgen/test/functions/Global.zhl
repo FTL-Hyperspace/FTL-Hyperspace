@@ -18,24 +18,6 @@ struct GlobalPre
 	#include <queue>
 	#undef LoadImage
 
-	#define CALL_VIRTUAL_1(_id, _classname, _funcname, _returntype, _object) \
-    _returntype(_classname::*mfp##_id)() = &_classname::_funcname; \
-    (_object->*mfp##_id)
-
-	#define CALL_VIRTUAL_0(_id, _classname, _funcname, _returntype, _object) \
-		CALL_VIRTUAL_1(_id, _classname, _funcname, _returntype, _object)
-
-	#define CALL_VIRTUAL(_classname, _funcname, _returntype, _object) CALL_VIRTUAL_0(__LINE__, _classname, _funcname, _returntype, _object)
-
-	#define CALL_VIRTUAL_RETURN_1(_id, _classname, _funcname, _returntype, _object, _return) \
-		_returntype(_classname::*mfp##_id)() = &_classname::_funcname; \
-		_returntype _return = (_object->*mfp##_id)
-
-	#define CALL_VIRTUAL_RETURN_0(_id, _classname, _funcname, _returntype, _object, _return) \
-		CALL_VIRTUAL_RETURN_1(_id, _classname, _funcname, _returntype, _object, _return)
-
-	#define CALL_VIRTUAL_RETURN(_classname, _funcname, _returntype, _object, _return) CALL_VIRTUAL_RETURN_0(__LINE__, _classname, _funcname, _returntype, _object, _return)
-	
 	#ifndef M_PI
 		#define M_PI 3.14159265358979323846
 	#endif
@@ -61,6 +43,7 @@ struct GlobalConst depends(RandomAmount, CAchievement, Point)
 	typedef std::pair<std::string, std::string> std_pair_std_string_std_string;
 	typedef std::pair<CAchievement*, Point> std_pair_CAchievement_ptr_Point;
 	typedef std::map<std::string, std::string> std_map_std_string_std_string;
+	
 	
 	enum TouchAction
 	{
@@ -449,4 +432,6 @@ reference int g_viewportH;
 
 */
 
+"5589e557565383e4f083ec408b4d088b750c85c9":
+float font_text_width(freetype::font_data& fontData, char const * str, float size);
 

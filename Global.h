@@ -7,9 +7,11 @@
 #include "FTLGame.h"
 
 #include "Systems.h"
+#include "Colors.h"
 
 #include "CrewMember_Extend.h"
 #include "ShipManager_Extend.h"
+
 
 class Global
 {

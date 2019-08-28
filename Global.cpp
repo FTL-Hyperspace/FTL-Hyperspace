@@ -33,5 +33,7 @@ void Global::Initialize(CApp *cApp)
     __mouseControl = (MouseControl*)(__baseAddress + __mouseOffset);
     __textLibrary = (TextLibrary*)(__baseAddress + __textOffset);
 
+
+    SetWindowTextA((HWND)GetModuleHandle(NULL), "FTL: Hyperspace");
     printf("Hyperspace initialized\n");
 }

@@ -1,4 +1,5 @@
-
+"578d7c240883e4f0ff77fc5589e557565389ce81ec????????8b07898564ffffff8b4704":
+void TextInput::OnRender(TextInput *this<ecx>, int font, Point pos);
 "578d7c240883e4f0ff77fc5589e557565389ce8d5de083ec2c":
 int TextInput::SetText(TextInput *this<ecx>, std::string& text);
 

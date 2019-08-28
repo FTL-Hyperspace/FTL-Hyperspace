@@ -1,2 +1,20 @@
 "578d7c240883e4f0ff77fc5589e557565389cb81ec????????8b47048b378db9b8020000":
 int SpaceManager::SetPlanetaryDefense(SpaceManager *this<ecx>, char unk, int target);
+"578d7c240883e4f0ff77fc5589e557565389cb8d490c8db3640100008dbbd001000083ec1cc741f400000000c741f800000000":
+void SpaceManager::constructor(SpaceManager *this<ecx>);
+".0fb68188030000c6818803000000":
+int SpaceManager::GetScreenShake(SpaceManager *this<ecx>);
+".578d7c240883e4f0ff77fc":
+void SpaceManager::SaveSpace(SpaceManager *this<ecx>, void* fileHelper);
+".8b54240489c88b8ae802000089088b8aec0200008948048b8af00200008948088b8af4020000":
+void SpaceManager::SwitchBeacon(SpaceManager *this<ecx>);
+".578d7c240883e4f0ff77fc5589e5575653":
+ImageDesc* SpaceManager::SwitchPlanet(SpaceManager *this<ecx>, std::string& name);
+".578d7c240883e4f0ff77fc5589e557":
+void SpaceManager::UpdatePlanetImage(SpaceManager *this<ecx>);
+".578d7c240883e4f0":
+void SpaceManager::SwitchImages(SpaceManager *this<ecx>, ImageDesc planet, ImageDesc unk1, ImageDesc unk2);
+".578d7c240883e4f0":
+ImageDesc* SpaceManager::SwitchBackground(SpaceManager *this<ecx>, std::string& name);
+".5789ca83c10c8d7c2408":
+

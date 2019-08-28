@@ -5,7 +5,7 @@
 		<Option title="FTL_HyperspaceGCC" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
-		<Option virtualFolders="Systems\;Ship\;Core\;ZHL\;Misc\;Crew\;Assembly\;Events\;" />
+		<Option virtualFolders="Systems\;Ship\;Core\;ZHL\;Misc\;Crew\;Assembly\;Events\;VTables\;" />
 		<Build>
 			<Target title="Debug">
 				<Option output="C:/Program Files (x86)/Steam/steamapps/common/FTL Faster Than Light/Hyperspace" prefix_auto="1" extension_auto="1" />
@@ -27,8 +27,8 @@
 					<Add directory="C:/boost/include/boost-1_70" />
 				</Compiler>
 				<Linker>
-					<Add option="-static-libgcc" />
 					<Add option="-static-libstdc++" />
+					<Add option="-static-libgcc" />
 					<Add library="user32" />
 					<Add library="libboost_atomic-mgw82-mt-x32-1_70.a" />
 					<Add library="libboost_chrono-mgw82-mt-x32-1_70.a" />
@@ -80,7 +80,6 @@
 				<Option createDefFile="1" />
 				<Option createStaticLib="1" />
 				<Compiler>
-					<Add option="-O" />
 					<Add option="-Wall" />
 					<Add option="-masm=intel -std=c++11" />
 					<Add option="-DBUILD_DLL" />
@@ -88,8 +87,9 @@
 					<Add directory="C:/boost/include/boost-1_70" />
 				</Compiler>
 				<Linker>
-					<Add option="-static-libgcc" />
+					<Add option="-s" />
 					<Add option="-static-libstdc++" />
+					<Add option="-static-libgcc" />
 					<Add library="user32" />
 					<Add library="libboost_atomic-mgw82-mt-x32-1_70.a" />
 					<Add library="libboost_chrono-mgw82-mt-x32-1_70.a" />
@@ -142,6 +142,12 @@
 		</Unit>
 		<Unit filename="Captain.cpp">
 			<Option virtualFolder="Crew/" />
+		</Unit>
+		<Unit filename="Colors.cpp">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="Colors.h">
+			<Option virtualFolder="Core/" />
 		</Unit>
 		<Unit filename="CommandConsole.cpp">
 			<Option virtualFolder="Misc/" />
@@ -219,6 +225,9 @@
 		</Unit>
 		<Unit filename="detours.h">
 			<Option virtualFolder="ZHL/" />
+		</Unit>
+		<Unit filename="freetype.cpp">
+			<Option virtualFolder="Core/" />
 		</Unit>
 		<Unit filename="hde.cpp">
 			<Option virtualFolder="ZHL/" />

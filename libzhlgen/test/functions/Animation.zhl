@@ -1,0 +1,2 @@
+"5589e557565389cb83e4f083ec408b451c84c089c775??0fb6b984000000f30f104508":
+void Animation::OnRender(Animation *this<ecx>, float opacity, GL_Color color, bool mirror);

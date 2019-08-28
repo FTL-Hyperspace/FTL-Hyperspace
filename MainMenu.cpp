@@ -9,7 +9,8 @@ HOOK_METHOD(MainMenu, OnRender, () -> void)
 
     if (this->bScoreScreen || this->optionScreen.bOpen || this->bSelectSave || this->bChangedLogin)
     {
-        CSurface::GL_SetColorTint(0.15, 0.15, 0.15, 1);
+        GL_Color tint = GL_Color(0.15, 0.15, 0.15, 1);
+        CSurface::GL_SetColorTint(tint);
     }
     std::string str("Hyperspace");
     freetype::easy_print(10, 10, 700, str);

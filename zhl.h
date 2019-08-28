@@ -1,7 +1,5 @@
 #pragma once
 
-#pragma warning (disable: 4530)
-
 #ifdef LIBZHL_EXPORTS
 #define LIBZHL_API __declspec(dllexport)
 #else

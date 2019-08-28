@@ -18,3 +18,9 @@ int ShipBuilder::SwapType(ShipBuilder *this<ecx>, int variant);
 void ShipBuilder::CycleShipNext(ShipBuilder *this<ecx>);
 ".578d7c240883e4f0ff77fc5589e557565389ce83ec2c8b0985c974??":
 void ShipBuilder::CycleShipPrevious(ShipBuilder *this<ecx>);
+"578d7c240883e4f0ff77fc5589e557565381ec????????898d38fbffff":
+void ShipBuilder::Open(ShipBuilder *this<ecx>);
+"578d7c240883e4f0ff77fc5589e557565389cb81ec????????80b960120000000f85????????e8????????8b831c0f00008d7dd0":
+void ShipBuilder::OnRender(ShipBuilder *this<ecx>);
+"578d7c240883e4f0ff77fc5589e557565389cbb9????????81ec????????e8????????84c0":
+void ShipBuilder::OnLoop(ShipBuilder *this<ecx>);

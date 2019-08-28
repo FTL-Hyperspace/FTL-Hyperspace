@@ -12,7 +12,8 @@ int ShipManager::CountCrew(ShipManager *this<ecx>, bool boarders);
 int ShipManager::TeleportCrew(ShipManager *this<ecx>, ShipManager* other, int room, bool comingBack);
 "578d7c240883e4f0ff77fc5589fa89e55756538d99e0040000":
 int ShipManager::OnInit(ShipManager *this<ecx>, ShipBlueprint *bp, int shipLevel);
-
+"8b44240483f81174??8b91c8040000833c82ff0f95c0c204008db42600000000b8????????":
+bool ShipManager::HasSystem(ShipManager *this<ecx>, int systemId);
 
 struct ShipManager {{
 	ShipManager(int shipId) 

@@ -35,12 +35,14 @@ HOOK_METHOD(CombatControl, RenderTarget, () -> void)
         bool hostile = this->GetCurrentTarget()->_targetable.hostile;
         if (hostile)
         {
-            CSurface::GL_SetColor(1.f, 0.2f, 0.2f, 1.f);
+            GL_Color color = GL_Color(1.f, 0.2f, 0.2f, 1.f);
+            CSurface::GL_SetColor(color);
 
         }
         else
         {
-            CSurface::GL_SetColor(1.f, 1.f, 1.f, 1.f);
+            GL_Color color = GL_Color(1.f, 1.f, 1.f, 1.f);
+            CSurface::GL_SetColor(color);
         }
 
         char buffer[64];

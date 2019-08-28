@@ -4871,21 +4871,22 @@
 	"Global.h"
 	"ASMHooks.h"
 
-1566500936 e:\ftl-hyperspace\global.h
+1566842384 e:\ftl-hyperspace\global.h
 	<Windows.h>
 	"zhl.h"
 	"FTLGame.h"
 	"Systems.h"
+	"Colors.h"
 	"CrewMember_Extend.h"
 	"ShipManager_Extend.h"
 
-1565273093 e:\ftl-hyperspace\zhl.h
+1566823617 e:\ftl-hyperspace\zhl.h
 	<stdlib.h>
 	<typeinfo>
 	<windows.h>
 	<cstdio>
 
-1566509749 e:\ftl-hyperspace\ftlgame.h
+1566905631 e:\ftl-hyperspace\ftlgame.h
 	"zhl.h"
 	"rapidxml.hpp"
 	<string>
@@ -4951,7 +4952,7 @@
 
 1455612112 e:\ftl-hyperspace\hde32\include\table32.h
 
-1565531227 source:e:\ftl-hyperspace\hullnumbers.cpp
+1566649306 source:e:\ftl-hyperspace\hullnumbers.cpp
 	"HullNumbers.h"
 
 1565186258 e:\ftl-hyperspace\hullnumbers.h
@@ -5005,14 +5006,14 @@
 	"Global.h"
 	"math.h"
 
-1566500963 source:e:\ftl-hyperspace\global.cpp
+1566567505 source:e:\ftl-hyperspace\global.cpp
 	"Global.h"
 	"Resources.h"
 
 1566419923 e:\ftl-hyperspace\resources.h
 	"Global.h"
 
-1566215715 source:e:\ftl-hyperspace\main.cpp
+1566577772 source:e:\ftl-hyperspace\main.cpp
 	"main.h"
 	<stdio.h>
 	<Windows.h>
@@ -5022,7 +5023,7 @@
 1564916909 e:\ftl-hyperspace\main.h
 	<windows.h>
 
-1565957999 source:e:\ftl-hyperspace\mainmenu.cpp
+1566649333 source:e:\ftl-hyperspace\mainmenu.cpp
 	"Global.h"
 
 1566242621 source:e:\ftl-hyperspace\misc.cpp
@@ -5041,7 +5042,7 @@
 	"Global.h"
 	"ASMHooks.h"
 
-1566509749 source:e:\ftl-hyperspace\ftlgame.cpp
+1566905631 source:e:\ftl-hyperspace\ftlgame.cpp
 	"FTLGame.h"
 	"zhl_internal.h"
 
@@ -5062,11 +5063,27 @@
 	<ostream>
 	<iterator>
 
-1566508936 source:e:\ftl-hyperspace\customships.cpp
+1566905575 source:e:\ftl-hyperspace\customships.cpp
 	"CustomShips.h"
 	<algorithm>
 
-1566507706 e:\ftl-hyperspace\customships.h
+1566906120 e:\ftl-hyperspace\customships.h
 	"Global.h"
 	<array>
+	<algorithm>
+
+1566813774 e:\ftl-hyperspace\colors.h
+	"FTLGame.h"
+
+1566823468 source:e:\ftl-hyperspace\equipmentbox.cpp
+	"EquipmentBox.h"
+
+1566815952 e:\ftl-hyperspace\equipmentbox.h
+	"Global.h"
+
+1566818568 source:e:\ftl-hyperspace\colors.cpp
+	"Colors.h"
+
+1566846662 source:e:\ftl-hyperspace\freetype.cpp
+	"Global.h"
 

@@ -16,10 +16,13 @@ struct Repairable;
 struct Room;
 struct CrewMember;
 struct ShipManager;
+struct SystemBox;
+struct SystemCustomBox;
 struct ArmamentBox;
 struct UnlockArrow;
 struct CommandGui;
 struct EquipmentBox;
+struct CrewEquipBox;
 struct AugmentEquipBox;
 struct CombatControl;
 struct Pointf;
@@ -36,11 +39,13 @@ struct ChoiceText;
 struct Targetable;
 struct LocationEvent__Choice;
 struct WeaponBlueprint;
+struct CrewCustomizeBox;
 struct LocationEvent;
 struct ShipBlueprint;
 struct WindowFrame;
 struct ShipButton;
 struct WarningWithLines;
+struct CAchievement;
 struct std__pair_13float___float;
 struct std__vector_4Fire;
 struct WeaponMount;
@@ -49,6 +54,7 @@ struct Ship__DoorState;
 struct std__vector_8GL_Color;
 struct std__vector_16AnimationTracker;
 struct ResourceControl__DynamicImageInfo;
+struct ShipAchievementInfo;
 struct StarMap__NebulaInfo;
 struct Sector;
 struct VTable_AnimationTracker;
@@ -61,6 +67,8 @@ struct EventDamage;
 struct std__pair_25std__string___std__string;
 struct std__vector_21std__vector_8TopScore;
 struct std__pair_22CAchievementZ1___Point;
+struct VTable_GenericButton;
+struct VTable_SystemBox;
 
 /* 1 */
 struct Globals
@@ -668,7 +676,7 @@ struct CEvent
 /* 250 */
 struct GenericButton
 {
-  void *vptr;
+  VTable_GenericButton *_vtable;
   Point position;
   Globals__Rect hitbox;
   bool allowAnyTouch;
@@ -753,9 +761,6 @@ struct std__vector_15GenericButtonZ1
   GenericButton **_end;
 };
 
-/* 385 */
-struct CrewCustomizeBox;
-
 /* 562 */
 struct std__vector_18CrewCustomizeBoxZ1
 {
@@ -813,9 +818,6 @@ struct InfoBox
   WindowFrame *secondaryBox;
   std__string droneBlueprint;
 };
-
-/* 205 */
-struct SystemCustomBox;
 
 /* 564 */
 struct std__vector_17SystemCustomBoxZ1
@@ -1025,9 +1027,6 @@ struct TextInput
   TimerHelper blinker;
 };
 
-/* 570 */
-struct ShipAchievementInfo;
-
 /* 569 */
 struct std__vector_19ShipAchievementInfo
 {
@@ -1191,8 +1190,6 @@ struct OptionsScreen
   SlideBar musicVolume;
   bool bCustomizeControls;
   ControlsScreen controls;
-  TextButton closeButton;
-  TextButton wipeProfileButton;
   int choiceFullscreen;
   int choiceVSync;
   int choiceFrameLimit;
@@ -1437,9 +1434,6 @@ struct CrewControl
   GL_Primitive *returnStationsBase;
   int stationsLastY;
 };
-
-/* 202 */
-struct SystemBox;
 
 /* 549 */
 struct std__vector_11SystemBoxZ1
@@ -1846,9 +1840,6 @@ struct DropBox
   int insertHeight;
   int titleInsert;
 };
-
-/* 227 */
-struct CrewEquipBox;
 
 /* 610 */
 struct std__vector_14CrewEquipBoxZ1
@@ -2522,6 +2513,23 @@ struct WorldManager
   std__vector_21LocationEvent__Choice originalChoiceList;
 };
 
+/* 665 */
+struct VTable_GenericButton
+{
+  void (__thiscall *Free)(GenericButton *this);
+  void (__thiscall *Reset)(GenericButton *this);
+  void (__thiscall *SetLocation)(GenericButton *this, Point pos);
+  void (__thiscall *SetHitBox)(GenericButton *this, Globals__Rect rect);
+  void (__thiscall *SetActive)(GenericButton *this, bool active);
+  void (__thiscall *OnLoop)(GenericButton *this);
+  void (__thiscall *OnRender)(GenericButton *this);
+  bool (__thiscall *MouseMove)(GenericButton *this, int x, int y, bool silent);
+  void (__thiscall *OnClick)(GenericButton *this);
+  void (__thiscall *OnRightClick)(GenericButton *this);
+  void (__thiscall *OnTouch)(GenericButton *this);
+  void (__thiscall *ResetPrimitives)(GenericButton *this);
+};
+
 /* 305 */
 struct Targetable
 {
@@ -2745,8 +2753,106 @@ struct EquipmentBox
   bool blockDetailed;
 };
 
-/* 418 */
-struct CAchievement;
+/* 227 */
+struct CrewEquipBox
+{
+  EquipmentBox _base;
+  ShipManager *ship;
+  bool bDead;
+  TextButton deleteButton;
+  TextButton renameButton;
+  bool bShowDelete;
+  bool bShowRename;
+  bool bQuickRenaming;
+  TextInput nameInput;
+  GL_Primitive *box;
+  GL_Primitive *box_on;
+  bool bConfirmDelete;
+};
+
+/* 385 */
+struct CrewCustomizeBox
+{
+  CrewEquipBox _base;
+  TextButton customizeButton;
+  bool bCustomizing;
+  Point customizeLocation;
+  TextButton acceptButton;
+  TextButton bigRenameButton;
+  Button leftButton;
+  Button rightButton;
+  bool bRenaming;
+  bool haveCustomizeTouch;
+  bool customizeActivated;
+  GL_Primitive *box;
+  GL_Primitive *box_on;
+  GL_Texture *bigBox;
+};
+
+/* 238 */
+struct TouchTooltip;
+
+/* 403 */
+struct TapBoxFrame
+{
+  Point location;
+  bool useWideBox;
+  int boxHeight;
+  std__vector_3int buttonHeights;
+  std__vector_14GL_PrimitiveZ1 primitives;
+  Globals__Rect hitBox;
+};
+
+/* 202 */
+struct SystemBox
+{
+  VTable_SystemBox *_vtable;
+  const Point location;
+  GL_Primitive *timerCircle[10];
+  GL_Primitive *timerLines;
+  GL_Primitive *timerStencil;
+  int lastTimerStencilCount;
+  GL_Primitive *brokenIcon;
+  GL_Primitive *lockIcon;
+  GL_Primitive *hackIcon;
+  ShipSystem *pSystem;
+  bool bShowPower;
+  float powerAlpha;
+  bool mouseHover;
+  int activeTouch;
+  Point touchInitialOffset;
+  bool tapped;
+  bool draggingPower;
+  int dragInitialPower;
+  float lastDragSpeed;
+  int lastDragY;
+  double lastDragTime;
+  WarningMessage warning;
+  int topPower;
+  Globals__Rect hitBox;
+  int hitBoxTop;
+  bool hitBoxTopWasSet;
+  GL_Texture *wireImage;
+  bool bSimplePower;
+  bool bPlayerUI;
+  bool useLargeTapIcon;
+  Point largeTapIconOffset;
+  std__vector_3int tapButtonHeights;
+  int tapButtonOffsetY;
+  int cooldownOffsetY;
+  float keyPressed;
+  TouchTooltip *touchTooltip;
+  TapBoxFrame tapBoxFrame;
+  bool lockedOpen;
+};
+
+/* 205 */
+struct SystemCustomBox
+{
+  SystemBox _base;
+  ShipManager *shipManager;
+  Button button;
+};
 
 /* 652 */
 struct std__vector_14CAchievementZ1
@@ -2864,6 +2970,14 @@ struct std__vector_8GL_Color
   GL_Color *_start;
   GL_Color *_finish;
   GL_Color *_end;
+};
+
+/* 570 */
+struct ShipAchievementInfo
+{
+  CAchievement *achievement;
+  Point position;
+  int dimension;
 };
 
 /* 382 */
@@ -3039,9 +3153,6 @@ struct Repairable
   int roomId;
   int iRepairCount;
 };
-
-/* 238 */
-struct TouchTooltip;
 
 /* 215 */
 struct ArmamentBox
@@ -3480,27 +3591,75 @@ struct Drone
 /* 620 */
 struct VTable_EquipmentBox
 {
-  void (__thiscall *destroy)(EquipmentBox *this);
-  void (__thiscall *destructor)(EquipmentBox *this);
+  void (__thiscall *Free)(EquipmentBox *this);
   void (__thiscall *SetPosition)(EquipmentBox *this, Point pos);
-  void (__thiscall *OnRender)(EquipmentBox *this, bool unk);
-  void (__thiscall *RenderLabels)(EquipmentBox *this, bool unk);
-  void (__thiscall *RenderIcon)(EquipmentBox *this);
+  void (__thiscall *OnRender)(EquipmentBox *this, bool empty);
+  void (__thiscall *RenderLabels)(EquipmentBox *this, bool empty);
+  void (__thiscall *RenderIcon)(EquipmentBox *this, bool empty);
   void (__thiscall *SetShipManager)(EquipmentBox *this, ShipManager *ship);
   void (__thiscall *MouseMove)(EquipmentBox *this, int x, int y);
   void (__thiscall *OnTouch)(EquipmentBox *this);
   void (__thiscall *UpdateBoxImage)(EquipmentBox *this, bool unk);
   void (__thiscall *Restart)(EquipmentBox *this);
   void (__thiscall *AddItem)(EquipmentBox *this, EquipmentBoxItem item);
-  void (__thiscall *Restart1)(EquipmentBox *this);
-  char (__thiscall *CanHoldWeapon)(EquipmentBox *this);
-  char (__thiscall *CanHoldDrone)(EquipmentBox *this);
-  char (__thiscall *CanHoldAugment)(EquipmentBox *this);
+  void (__thiscall *RemoveItem)(EquipmentBox *this);
+  char (__cdecl *CanHoldWeapon)();
+  char (__cdecl *CanHoldDrone)();
+  char (__cdecl *CanHoldAugment)();
   void (__thiscall *CheckContents)(EquipmentBox *this);
   int (__thiscall *GetType)(EquipmentBox *this, bool unk);
-  char (__thiscall *IsCargoBox)(EquipmentBox *this);
-  char (__thiscall *CanHoldCrew)(EquipmentBox *this);
-  char (__thiscall *CanDoJob)(EquipmentBox *this);
+  char (__cdecl *IsCargoBox)();
+  char (__cdecl *CanHoldCrew)();
+  char (__cdecl *CanDoJob)();
+};
+
+/* 672 */
+struct VTable_SystemBox
+{
+  void (__thiscall *Free)(SystemBox *this);
+  void (__thiscall *destroy)(SystemBox *this);
+  bool (__cdecl *HasButton)();
+  int (__cdecl *GetCooldownBarHeight)();
+  int (__cdecl *GetHeightModifier)();
+  void (__thiscall *OnLoop)(SystemBox *this);
+  void (__thiscall *OnRender)(SystemBox *this, bool unk);
+  bool (__thiscall *GetMouseHover)(SystemBox *this);
+  bool (__thiscall *MouseMove)(SystemBox *this, int x, int y);
+  int (__thiscall *MouseClick)(SystemBox *this, bool unk);
+  int (__thiscall *MouseRightClick)(SystemBox *this, bool unk);
+  void (__thiscall *OnTouch)(SystemBox *this);
+  void (__thiscall *CancelTouch)(SystemBox *this);
+  void (__thiscall *CloseTapBox)(SystemBox *this);
+  void (__thiscall *IsTouchTooltipOpen)(SystemBox *this);
+  void (__thiscall *IsTouchTooltipActive)(SystemBox *this);
+  void (__thiscall *CloseTouchTooltip)(SystemBox *this, bool unk);
+  void (__thiscall *KeyDown)(SystemBox *this, int key, bool unk);
+};
+
+/* 418 */
+struct CAchievement
+{
+  std__string name_id;
+  std__pair_9int___int progress;
+  bool unlocked;
+  TextString name;
+  TextString description;
+  TextString header;
+  bool newAchievement;
+  bool multiDifficulty;
+  int difficulty;
+  std__string ship;
+  int shipDifficulties[3];
+  int dimension;
+  CachedImage icon;
+  CachedImage miniIcon;
+  CachedImage miniIconLocked;
+  CachedImage lockImage;
+  CachedImage dotOn;
+  CachedImage dotOff;
+  GL_Primitive *outline;
+  GL_Primitive *mini_outline;
+  GL_Primitive *lockOverlay;
 };
 
 /* 639 */
@@ -3821,10 +3980,16 @@ struct CrewStoreBox;
 struct StoreBox;
 
 /* 229 */
-struct DroneEquipBox;
+struct DroneEquipBox
+{
+  EquipmentBox _base;
+};
 
 /* 230 */
-struct WeaponEquipBox;
+struct WeaponEquipBox
+{
+  EquipmentBox _base;
+};
 
 /* 237 */
 struct ShipRepair;
@@ -4141,14 +4306,18 @@ struct DroneStoreBox;
 /* 401 */
 struct WeaponStoreBox;
 
-/* 403 */
-struct TapBoxFrame;
-
 /* 404 */
 struct ToggleButton;
 
 /* 406 */
-struct freetype::font_data;
+struct freetype__font_data
+{
+  float h;
+  int font;
+  float fontsize;
+  float baseline;
+  float lineHeight;
+};
 
 /* 408 */
 struct ItemStoreBox;
@@ -4251,7 +4420,19 @@ struct VTable_CompleteShip
 /* 621 */
 struct std__pair_25std_string___RandomAmount;
 
-/* 633 */
+/* 635 */
+struct __m128d
+{
+  double m128d_f64[2];
+};
+
+/* 667 */
+struct PointReturn
+{
+  int x;
+};
+
+/* 669 */
 union __attribute__((aligned(8))) __m64
 {
   unsigned __int64 m64_u64;
@@ -4265,7 +4446,7 @@ union __attribute__((aligned(8))) __m64
   unsigned __int32 m64_u32[2];
 };
 
-/* 634 */
+/* 670 */
 union __attribute__((aligned(16))) __m128
 {
   float m128_f32[4];
@@ -4279,13 +4460,7 @@ union __attribute__((aligned(16))) __m128
   unsigned __int32 m128_u32[4];
 };
 
-/* 635 */
-struct __m128d
-{
-  double m128d_f64[2];
-};
-
-/* 636 */
+/* 671 */
 union __attribute__((aligned(16))) __m128i
 {
   __int8 m128i_i8[16];

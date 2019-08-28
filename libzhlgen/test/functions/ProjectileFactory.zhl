@@ -1,19 +1,22 @@
+"578d7c240883e4f0ff77fc5589e557565389ce83c12081ec????????8b07c741e800000000":
+void ProjectileFactory::constructor(ProjectileFactory *this<ecx>, const WeaponBlueprint* bp, int shipId);
+".5589e55389cb83e4f0803d??????????75??e8????????":
+int ProjectileFactory::SelectChargeGoal(ProjectileFactory *this<ecx>);
+".8b411c8b80d801000085c07e??":
+bool ProjectileFactory::IsChargedGoal(ProjectileFactory *this<ecx>);
+".5781c1????????8d7c240883e4f0ff77fc5589e5":
+void ProjectileFactory::SetHacked(ProjectileFactory *this<ecx>, int hacked);
+".8b44240439814001000074??85c074??c7811c06000000000000":
+void ProjectileFactory::SetCurrentShip(ProjectileFactory *this<ecx>, Targetable *ship);
+".f30f1041080f28c8f30f10542404f30f104118":
+void ProjectileFactory::SetCooldownModifier(ProjectileFactory *this<ecx>, float mod);
+".80b9f60000000074??8b411cf30f10410cf30f114108c7812c06000001000000":
+void ProjectileFactory::ForceCoolup(ProjectileFactory *this<ecx>);
+".5781c1????????8d7c240883e4f0ff77fc5589e5":
+void ProjectileFactory::RenderChargeBar(ProjectileFactory *this<ecx>, float unk);
 "8d4c240483e4f0ff71fc5589e5535183ec108b19c70424????????89d9e8????????83ec0485c075??8d65f8":
 static int ProjectileFactory::StringToWeapon(std::string& str);
 "578d7c240883e4f0ff77fc5589e557565383ec2c8b47048b1f8945e4":
 void ProjectileFactory::Fire(ProjectileFactory *this<ecx>, std::vector<Pointf>& points, int target);
 "8b912c06000031c085d27e??0fb681f600000084c074??8b411c8b911801000039900c0100007e??31c0c3908d74260080b9f50000000075??":
 char ProjectileFactory::FireNextShot(ProjectileFactory *this<ecx>);
-"578d7c240883e4f0ff77fc5589e557565389ce83c12081ec????????8b07c741e800000000":
-void ProjectileFactory::constructor(ProjectileFactory *this<ecx>, const WeaponBlueprint* bp, int shipId);
-".5589e55389cb83e4f0803d??????????75??e8????????8b4b1c99f7b9d801000083c201":
-int ProjectileFactory::SelectChargeGoal(ProjectileFactory *this<ecx>);
-".8b411c8b80d801000085c07e??8b813406000039812c0600000f9dc0c3":
-bool ProjectileFactory::IsChargedGoal(ProjectileFactory *this<ecx>);
-".5781c1????????8d7c240883e4f0ff77fc5589e55783ec148b078981e8040000":
-void ProjectileFactory::SetHacked(ProjectileFactory *this<ecx>, int hackLevel);
-".8b44240439814001000074??85c074??c7811c06000000000000c7812406000000000000":
-void ProjectileFactory::SetCurrentShip(ProjectileFactory *this<ecx>, Targetable *target);
-".f30f1041080f28c8f30f10542404f30f104118f30f5e490cf30f119118060000f30f59c2":
-void ProjectileFactory::SetCooldownModifier(ProjectileFactory *this<ecx>, float cooldownModifier);
-".80b9f60000000074??8b411cf30f10410cf30f114108c7812c0600000100000083b8d801000001":
