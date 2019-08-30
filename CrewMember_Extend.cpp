@@ -2,9 +2,9 @@
 
 
 
-HOOK_METHOD_PRIORITY(CrewMember, constructor, 900, (const CrewBlueprint& blueprint, int unk1, bool unk2, CrewAnimation* anim) -> void)
+HOOK_METHOD_PRIORITY(CrewMember, constructor, 900, (CrewBlueprint& blueprint, int shipId, bool intruder, CrewAnimation *animation) -> void)
 {
-	super(blueprint, unk1, unk2, anim);
+	super(blueprint, shipId, intruder, animation);
 
 
 	auto ex = new CrewMember_Extend();
@@ -13,8 +13,6 @@ HOOK_METHOD_PRIORITY(CrewMember, constructor, 900, (const CrewBlueprint& bluepri
 
 
     ex->canPhaseThroughDoors = this->species == "ghost";
-
-
 
 
 

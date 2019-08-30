@@ -1,9 +1,145 @@
-#include "Global.h"
-#include <cstdlib>
+#include "CustomCrew.h"
 
+#include <boost/lexical_cast.hpp>
+#include <algorithm>
+
+
+CustomCrewManager CustomCrewManager::instance = CustomCrewManager();
+
+
+void CustomCrewManager::AddCrewDefinition(CrewDefinition crew)
+{
+    this->blueprintNames[crew.race] = crew;
+}
+
+
+void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
+{
+    try
+    {
+        for (auto child = node->first_node(); child; child = child->next_sibling())
+        {
+            if (child->first_attribute("name"))
+            {
+                std::string name = std::string(child->first_attribute("name")->value());
+
+                CrewDefinition crew;
+
+                crew.race = name;
+                try
+                {
+                    for (auto stat = child->first_node(); stat; stat = stat->next_sibling())
+                    {
+                        std::string str = std::string(stat->name());
+                        std::string val = std::string(stat->value());
+
+                        if (str == "canFight")
+                        {
+                            crew.canFight = val == "true";
+                        }
+                        if (str == "canSuffocate")
+                        {
+                            crew.canSuffocate = val == "true";
+                        }
+                        if (str == "canBurn")
+                        {
+                            crew.canBurn = val == "true";
+                        }
+                        if (str == "maxHealth")
+                        {
+                            crew.maxHealth = boost::lexical_cast<int>(val);
+                        }
+                        if (str == "moveSpeedMultiplier")
+                        {
+                            crew.moveSpeedMultiplier = boost::lexical_cast<float>(val);
+                        }
+                        if (str == "repairSpeed")
+                        {
+                            crew.repairSpeed = boost::lexical_cast<float>(val);
+                        }
+                        if (str == "damageMultiplier")
+                        {
+                            crew.damageMultiplier = boost::lexical_cast<float>(val);
+                        }
+                        if (str == "fireRepairMultiplier")
+                        {
+                            crew.fireRepairMultiplier = boost::lexical_cast<float>(val);
+                        }
+                        if (str == "suffocationModifier")
+                        {
+                            crew.suffocationModifier = boost::lexical_cast<float>(val);
+                        }
+                        if (str == "providesPower")
+                        {
+                            crew.providesPower = val == "true";
+                        }
+                        if (str == "isTelepathic")
+                        {
+                            crew.isTelepathic = val == "true";
+                        }
+                        if (str == "isAnaerobic")
+                        {
+                            crew.isAnaerobic = val == "true";
+                        }
+                    }
+                }
+                catch (boost::bad_lexical_cast const &e)
+                {
+                    MessageBoxA(NULL, e.what(), "Error", MB_ICONERROR);
+                }
+
+                this->AddCrewDefinition(crew);
+            }
+        }
+    }
+    catch (...)
+    {
+        MessageBoxA(NULL, "Error parsing <crew> in hyperspace.xml", "Error", MB_ICONERROR);
+    }
+
+}
+
+
+
+
+
+
+CrewMember* CustomCrewManager::CreateCrewMember(CrewBlueprint* bp, int shipId, bool intruder)
+{
+    std::string race = bp->name;
+    if (!this->IsRace(race))
+        return 0;
+
+    Pointf unk = Pointf(0.f, 0.f);
+    CrewAnimation* animation = new CrewAnimation(shipId, race, unk, intruder);
+    CrewMember *crew = new CrewMember(*bp, shipId, intruder, animation);
+
+
+
+    return crew;
+}
+
+bool CustomCrewManager::IsRace(const std::string& race)
+{
+    return std::count_if(this->blueprintNames.begin(),
+                         this->blueprintNames.end(),
+                         [race](std::pair<std::string, CrewDefinition> i) { return i.first == race; } )
+                          > 0;
+}
+
+
+
+
+
+
+
+
+
+//=================================
 
 HOOK_METHOD_PRIORITY(CrewMember, GetNewGoal, 2000, () -> bool)
 {
+    return super();
     auto ex = CM_EX(this);
 
     if (this->last_door && !ex->canPhaseThroughDoors)
@@ -79,7 +215,7 @@ HOOK_METHOD_PRIORITY(CrewMember, GetNewGoal, 2000, () -> bool)
                         left = true;
                     }
 
-                    int offset = rand() % 17;
+                    int offset = (G_->GetRNG() ? rand() : random32()) % 17;
                     if (door->bVertical)
                     {
                         if (left)
@@ -202,5 +338,32 @@ HOOK_METHOD_PRIORITY(CrewMember, GetNewGoal, 2000, () -> bool)
     }
 
     return result;
+}
+
+
+
+HOOK_METHOD(CrewMemberFactory, CreateCrewMember, (CrewBlueprint* bp, int shipId, bool intruder) -> CrewMember*)
+{
+    //printf("%s\n", bp->name.c_str());
+    auto custom = CustomCrewManager::GetInstance();
+    CrewMember *newCrew = custom->CreateCrewMember(bp, shipId, intruder);
+
+    if (newCrew)
+    {
+        this->crewMembers.push_back(newCrew);
+        this->OnLoop();
+        return newCrew;
+    }
+
+    return super(bp, shipId, intruder);
+}
+
+HOOK_STATIC(CrewMemberFactory, IsRace, (std::string& race) -> bool)
+{
+    auto custom = CustomCrewManager::GetInstance();
+
+    if (custom->IsRace(race))
+        return true;
+    return super(race);
 }
 

@@ -291,6 +291,8 @@ struct GlobalConst depends(RandomAmount, CAchievement, Point)
 
 }};
 
+
+
 //=================================================================================================================
 // This block will be copied to the end of the generated header file
 // Inlined utility functions can go here (feel free to replace the current ones with your own)
@@ -433,5 +435,8 @@ reference int g_viewportH;
 */
 
 "5589e557565383e4f083ec408b4d088b750c85c9":
-float font_text_width(freetype::font_data& fontData, char const * str, float size);
+float font_text_width(freetype::font_data& fontData, const char* str, float size);
+
+"556905????????????????89e556536935????????????????83e4f801c6b8????????f725????????01f283c00183d200a3????????8915????????":
+int random32();
 

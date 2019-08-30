@@ -1,0 +1,11 @@
+"578d7c240883e4f0ff77fc5589e557565381ec????????8b57048b078b5f088b770c894da0":
+void CrewAnimation::constructor(CrewAnimation *this<ecx>, int shipId, std::string& race, Pointf unk, char hostile);
+
+
+struct CrewAnimation
+{{
+	CrewAnimation(int shipId, std::string& race, Pointf unk, char hostile)
+	{
+		this->constructor(shipId, race, unk, hostile);
+	}
+}};

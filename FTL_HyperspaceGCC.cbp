@@ -83,6 +83,7 @@
 					<Add option="-Wall" />
 					<Add option="-masm=intel -std=c++11" />
 					<Add option="-DBUILD_DLL" />
+					<Add option="-DDEBUG" />
 					<Add directory="rapidxml" />
 					<Add directory="C:/boost/include/boost-1_70" />
 				</Compiler>
@@ -161,7 +162,13 @@
 		<Unit filename="CrewMember_Extend.h">
 			<Option virtualFolder="Crew/" />
 		</Unit>
+		<Unit filename="CrewVTable.cpp">
+			<Option virtualFolder="Core/" />
+		</Unit>
 		<Unit filename="CustomCrew.cpp">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="CustomCrew.h">
 			<Option virtualFolder="Core/" />
 		</Unit>
 		<Unit filename="CustomEvents.cpp">

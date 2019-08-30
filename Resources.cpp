@@ -4,6 +4,7 @@
 #include "HullNumbers.h"
 #include "CommandConsole.h"
 #include "CustomShips.h"
+#include "CustomCrew.h"
 
 #include <boost/lexical_cast.hpp>
 
@@ -26,16 +27,21 @@ void Global::InitializeResources(ResourceControl *resources)
     std::string fileName("data/hyperspace.xml");
     char *hyperspacetext = resources->LoadFile(fileName);
 
+
+
     try
     {
-        if (!hyperspacetext) throw "No xml found";
+        if (!hyperspacetext)
+        {
+            throw "hyperspace.xml not found";
+        }
 
         rapidxml::xml_document<> doc;
         doc.parse<0>(hyperspacetext);
 
         auto node = doc.first_node("FTL");
         if (!node)
-            throw "No parent node found";
+            throw "No parent node found in hyperspace.xml";
         node = node->first_node();
 
         while (node)
@@ -48,37 +54,9 @@ void Global::InitializeResources(ResourceControl *resources)
 
                     if (strcmp(enabled, "true") == 0)
                     {
-                        auto manager = HullNumbers::GetInstance();
-                        manager->enabled = true;
-                        try
-                        {
-                            auto child = node->first_node("playerText");
-
-                            auto playerX = boost::lexical_cast<int>(child->first_attribute("x")->value());
-                            auto playerY = boost::lexical_cast<int>(child->first_attribute("y")->value());
-                            auto playerType = boost::lexical_cast<int>(child->first_attribute("type")->value());
-
-                            child = node->first_node("enemyText");
-
-                            auto enemyX = boost::lexical_cast<int>(child->first_attribute("x")->value());
-                            auto enemyY = boost::lexical_cast<int>(child->first_attribute("y")->value());
-                            auto enemyType = boost::lexical_cast<int>(child->first_attribute("type")->value());
-
-                            child = node->first_node("bossText");
-
-                            auto bossX = boost::lexical_cast<int>(child->first_attribute("x")->value());
-                            auto bossY = boost::lexical_cast<int>(child->first_attribute("y")->value());
-                            auto bossType = boost::lexical_cast<int>(child->first_attribute("type")->value());
-
-
-                            manager->playerIndicator = { playerX, playerY, playerType };
-                            manager->enemyIndicator = { enemyX, enemyY, enemyType };
-                            manager->bossIndicator = { bossX, bossY, bossType };
-                        }
-                        catch (boost::bad_lexical_cast const &e)
-                        {
-                            MessageBoxA(NULL, "boost::bad_lexical_cast in hyperspace.xml", "Error", MB_ICONERROR);
-                        }
+                        auto hullManager = HullNumbers::GetInstance();
+                        hullManager->enabled = true;
+                        hullManager->ParseHullNumbersNode(node);
                     }
                 }
             }
@@ -91,23 +69,13 @@ void Global::InitializeResources(ResourceControl *resources)
             if (strcmp(node->name(), "ships") == 0)
             {
                 auto customShipManager = CustomShipSelect::GetInstance();
-                for (auto child = node->first_node(); child; child = child->next_sibling())
-                {
-                    if (child->first_attribute("name"))
-                    {
-                        std::string name = std::string(child->first_attribute("name")->value());
+                customShipManager->ParseShipsNode(node);
+            }
 
-                        bool typeB = false;
-                        bool typeC = false;
-
-                        if (child->first_attribute("b"))
-                            typeB = strcmp(child->first_attribute("b")->value(), "true") == 0;
-                        if (child->first_attribute("c"))
-                            typeC = strcmp(child->first_attribute("c")->value(), "true") == 0;
-
-                        customShipManager->AddShip(name, typeB, typeC);
-                    }
-                }
+            if (strcmp(node->name(), "crew") == 0)
+            {
+                auto customCrewManager = CustomCrewManager::GetInstance();
+                customCrewManager->ParseCrewNode(node);
             }
 
             node = node->next_sibling();
@@ -118,6 +86,10 @@ void Global::InitializeResources(ResourceControl *resources)
     catch (std::exception &e)
     {
         MessageBoxA(NULL, "Failed parsing hyperspace.xml", "Error", MB_ICONERROR);
+    }
+    catch (const char* e)
+    {
+        MessageBoxA(NULL, e, "Error", MB_ICONERROR);
     }
 }
 

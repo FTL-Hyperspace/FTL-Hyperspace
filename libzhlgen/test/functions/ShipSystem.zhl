@@ -10,3 +10,7 @@ int ShipSystem::IsMannedBoost(ShipSystem *this<ecx>);
 static cleanup std::string& ShipSystem::SystemIdToName(std::string& strRef, int systemId);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b812801000085c0":
 void ShipSystem::OnLoop(ShipSystem *this<ecx>);
+"538b812801000083f8ff0f94c285c00f9fc008d075??83b9a8010000017e??8b911c0100008b415483fa077e??":
+bool ShipSystem::Ioned(ShipSystem *this<ecx>, int num);
+"578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b338b0f8b8680000000898b200100003d????????0f85????????":
+void ShipSystem::SetPowerLoss(ShipSystem *this<ecx>, int power);

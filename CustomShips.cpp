@@ -1,20 +1,6 @@
 #include "CustomShips.h"
 #include <algorithm>
 
-const std::array<std::string, 10> SHIP_NAMES =
-{
-    "PLAYER_SHIP_HARD",
-    "PLAYER_SHIP_STEALTH",
-    "PLAYER_SHIP_MANTIS",
-    "PLAYER_SHIP_CIRCLE",
-    "PLAYER_SHIP_FED",
-    "PLAYER_SHIP_JELLY",
-    "PLAYER_SHIP_ROCK",
-    "PLAYER_SHIP_ENERGY",
-    "PLAYER_SHIP_CRYSTAL",
-    "PLAYER_SHIP_ANAEROBIC"
-};
-
 CustomShipSelect CustomShipSelect::instance = CustomShipSelect();
 
 
@@ -25,6 +11,27 @@ void CustomShipSelect::AddShip(const std::string& name, bool typeB, bool typeC)
 }
 
 ShipButton* testButton;
+
+void CustomShipSelect::ParseShipsNode(rapidxml::xml_node<char> *node)
+{
+    for (auto child = node->first_node(); child; child = child->next_sibling())
+    {
+        if (child->first_attribute("name"))
+        {
+            std::string name = std::string(child->first_attribute("name")->value());
+
+            bool typeB = false;
+            bool typeC = false;
+
+            if (child->first_attribute("b"))
+                typeB = strcmp(child->first_attribute("b")->value(), "true") == 0;
+            if (child->first_attribute("c"))
+                typeC = strcmp(child->first_attribute("c")->value(), "true") == 0;
+
+            this->AddShip(name, typeB, typeC);
+        }
+    }
+}
 
 void CustomShipSelect::OnInit(ShipSelect* shipSelect_)
 {
@@ -100,13 +107,17 @@ void CustomShipSelect::OnInit(ShipSelect* shipSelect_)
 
             aButton->OnInit(shipButtonImg, pos);
 
-            if (bButton->bActive) pos.y = oldY + 20;
-            else pos.y = oldY;
+            if (bButton->bActive)
+                pos.y = oldY + 20;
+            else
+                pos.y = oldY;
 
             bButton->OnInit(shipButtonImg, pos);
 
-            if (cButton->bActive) pos.y = oldY + 20;
-            else pos.y = oldY;
+            if (cButton->bActive)
+                pos.y = oldY + 20;
+            else
+                pos.y = oldY;
 
             cButton->OnInit(shipButtonImg, pos);
 
@@ -278,7 +289,8 @@ bool CustomShipSelect::ShouldRenderButtonLower()
 
 void CustomShipSelect::MouseMove(int x, int y)
 {
-    if (this->shipSelect->tutorial.bOpen) return;
+    if (this->shipSelect->tutorial.bOpen)
+        return;
     this->leftButton->MouseMove(x, y, false);
     this->rightButton->MouseMove(x, y, false);
 
@@ -332,7 +344,8 @@ std::string& CustomShipSelect::GetShipBlueprint(int shipId)
 
 void CustomShipSelect::SwitchShip(ShipBuilder *builder, int type, int variant, bool force)
 {
-    if (type == builder->currentShipId && variant == builder->currentType && !(force)) return;
+    if (type == builder->currentShipId && variant == builder->currentType && !(force))
+        return;
     builder->currentType = variant;
 
     ShipManager *ship = new ShipManager(0);
@@ -1018,8 +1031,6 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
 
     if (!currentShip->HasSystem(3))
     {
-        // 662, 539
-
         std::string nm("equipment_no_system");
         std::string txt;
 
@@ -1028,8 +1039,6 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
     }
     if (!currentShip->HasSystem(4))
     {
-        // 662, 539
-
         std::string nm("equipment_no_system");
         std::string txt;
 
@@ -1062,7 +1071,5 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
     }
 
     this->introScreen.OnRender();
-
-
 }
 

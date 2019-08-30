@@ -32,6 +32,8 @@ public:
     SoundControl *GetSoundControl() { return __soundControl; }
     MouseControl *GetMouseControl() { return __mouseControl; }
     TextLibrary *GetTextLibrary() { return __textLibrary; }
+    CrewMemberFactory *GetCrewFactory() { return __crewFactory; }
+    bool GetRNG() { return *__rng; }
     DWORD GetBaseAddress() { return __baseAddress; }
 
 private:
@@ -41,13 +43,15 @@ private:
 
 
 
-    const DWORD __resourcesOffset = 0x004CB680;
-    const DWORD __shipInfoOffset =  0x004C6F80;
-    const DWORD __cFPSOffset =      0x004CB600;
-    const DWORD __blueprintOffset = 0x004CBD60;
-    const DWORD __soundOffset =     0x004CB820;
-    const DWORD __mouseOffset =     0x004C76C0;
-    const DWORD __textOffset =      0x004CB7C0;
+    const DWORD __resourcesOffset =   0x004CB680;
+    const DWORD __shipInfoOffset =    0x004C6F80;
+    const DWORD __cFPSOffset =        0x004CB600;
+    const DWORD __blueprintOffset =   0x004CBD60;
+    const DWORD __soundOffset =       0x004CB820;
+    const DWORD __mouseOffset =       0x004C76C0;
+    const DWORD __textOffset =        0x004CB7C0;
+    const DWORD __rngOffset =         0x004CB7A0;
+    const DWORD __crewFactoryOffset = 0x004C6E40;
 
     DWORD __baseAddress = 0;
 
@@ -59,6 +63,8 @@ private:
     static SoundControl *__soundControl;
     static MouseControl *__mouseControl;
     static TextLibrary *__textLibrary;
+    static bool* __rng;
+    static CrewMemberFactory *__crewFactory;
 };
 
 

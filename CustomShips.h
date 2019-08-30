@@ -3,10 +3,6 @@
 #include <algorithm>
 
 
-
-
-extern const std::array<std::string, 10> SHIP_NAMES;
-
 struct ShipDefinition
 {
     std::string name;
@@ -94,6 +90,8 @@ public:
 
     bool CycleShipNext(ShipBuilder *builder);
     bool CycleShipPrevious(ShipBuilder *builder);
+
+    void ParseShipsNode(rapidxml::xml_node<char> *node);
 
 
     bool IsOpen()

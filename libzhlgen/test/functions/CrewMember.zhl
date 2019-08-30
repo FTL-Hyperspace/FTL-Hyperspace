@@ -1,3 +1,4 @@
+
 "578d7c240883e4f0ff77fc5589e557565389cb83ec5c8bb10002000085f60f85????????807b6c00":
 void CrewMember::UpdateHealth(CrewMember *this<ecx>);
 "578d7c240883e4f0ff77fc5589e557565389cb81ec????????80b9fc01000000":
@@ -7,8 +8,29 @@ void CrewMember::DirectModifyHealth(CrewMember *this<ecx>, float health);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b496485c974??e8????????f30f1005????????":
 char CrewMember::GetNewGoal(CrewMember *this<ecx>);
 "578d7c240883e4f0ff77fc5589f889e557565389cf81ec????????8b308b5808":
-void CrewMember::constructor(CrewMember *this<ecx>, CrewBlueprint& blueprint, int unk, bool unk2, CrewAnimation *animation);
+void CrewMember::constructor(CrewMember *this<ecx>, CrewBlueprint& blueprint, int shipId, bool intruder, CrewAnimation *animation);
 "578d7c240883e4f0ff77fc5589e5575383ec3080b9fc010000008b3f74??8d65f85b5f5d":
 void CrewMember::OnRender(CrewMember *this<ecx>, bool unk);
 "5589e55756538b0189cb8b75088b7d0c83e4f08b40643d????????75??":
 void CrewMember::SetCurrentTarget(CrewMember *this<ecx>, CrewTarget *target, bool unk);
+"578d7c240883e4f0ff77fc5589e55783ec14f30f1007f30f110424e8????????8b7dfc83ec04":
+bool CrewMember::ShipDamage(CrewMember *this<ecx>, float damage);
+".0fb68198000000":
+bool CrewMember::CanSabotage(CrewMember *this<ecx>);
+"80b9980000000074??31c0c38d7426008b015589e55389cb8b8088000000":
+bool CrewMember::CanRepair(CrewMember *this<ecx>);
+"0fb6819800000084c075??f30f1081080700000f2e05????????76??f3c3":
+bool CrewMember::CanMan(CrewMember *this<ecx>);
+"f30f1041280f2e412c7a??75??5589e55389cb83e4f080796c0075??8b8300020000":
+bool CrewMember::CanHeal(CrewMember *this<ecx>);
+ 
+
+
+struct CrewMember
+{{
+	CrewMember(CrewBlueprint& bp, int shipId, bool intruder, CrewAnimation *animation)
+	{
+		this->constructor(bp, shipId, intruder, animation);
+	}
+
+}};

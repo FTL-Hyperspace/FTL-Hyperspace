@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <list>
+#include <stddef.h>
 
 class SigScan
 {

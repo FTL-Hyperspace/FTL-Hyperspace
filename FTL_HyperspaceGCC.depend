@@ -4871,7 +4871,7 @@
 	"Global.h"
 	"ASMHooks.h"
 
-1566842384 e:\ftl-hyperspace\global.h
+1567010921 e:\ftl-hyperspace\global.h
 	<Windows.h>
 	"zhl.h"
 	"FTLGame.h"
@@ -4886,7 +4886,7 @@
 	<windows.h>
 	<cstdio>
 
-1566905631 e:\ftl-hyperspace\ftlgame.h
+1567119120 e:\ftl-hyperspace\ftlgame.h
 	"zhl.h"
 	"rapidxml.hpp"
 	<string>
@@ -4908,7 +4908,7 @@
 
 1565454178 e:\ftl-hyperspace\systems.h
 
-1565528733 e:\ftl-hyperspace\crewmember_extend.h
+1567119515 e:\ftl-hyperspace\crewmember_extend.h
 	"FTLGame.h"
 
 1565528752 e:\ftl-hyperspace\shipmanager_extend.h
@@ -4927,10 +4927,10 @@
 1566039255 e:\ftl-hyperspace\commandconsole.h
 	"Global.h"
 
-1566394278 source:e:\ftl-hyperspace\crewmember_extend.cpp
+1567119530 source:e:\ftl-hyperspace\crewmember_extend.cpp
 	"CrewMember_Extend.h"
 
-1566298179 source:e:\ftl-hyperspace\ghost.cpp
+1567092163 source:e:\ftl-hyperspace\ghost.cpp
 	"Global.h"
 	"ASMHooks.h"
 
@@ -4952,10 +4952,11 @@
 
 1455612112 e:\ftl-hyperspace\hde32\include\table32.h
 
-1566649306 source:e:\ftl-hyperspace\hullnumbers.cpp
+1567092537 source:e:\ftl-hyperspace\hullnumbers.cpp
 	"HullNumbers.h"
+	<boost/lexical_cast.hpp>
 
-1565186258 e:\ftl-hyperspace\hullnumbers.h
+1567092384 e:\ftl-hyperspace\hullnumbers.h
 	"Global.h"
 
 1566308779 source:e:\ftl-hyperspace\midcombat.cpp
@@ -4972,11 +4973,12 @@
 	<Windows.h>
 	"hde.h"
 
-1455612112 e:\ftl-hyperspace\sigscan.h
+1566972246 e:\ftl-hyperspace\sigscan.h
 	<vector>
 	<list>
+	<stddef.h>
 
-1565106641 source:e:\ftl-hyperspace\zhl.cpp
+1566974567 source:e:\ftl-hyperspace\zhl.cpp
 	"zhl_internal.h"
 	"zhl_private.h"
 	"detours.h"
@@ -5002,11 +5004,11 @@
 	<sys/mman.h>
 	<unistd.h>
 
-1566418255 source:e:\ftl-hyperspace\augments.cpp
+1567104722 source:e:\ftl-hyperspace\augments.cpp
 	"Global.h"
 	"math.h"
 
-1566567505 source:e:\ftl-hyperspace\global.cpp
+1567011027 source:e:\ftl-hyperspace\global.cpp
 	"Global.h"
 	"Resources.h"
 
@@ -5023,37 +5025,39 @@
 1564916909 e:\ftl-hyperspace\main.h
 	<windows.h>
 
-1566649333 source:e:\ftl-hyperspace\mainmenu.cpp
+1566972835 source:e:\ftl-hyperspace\mainmenu.cpp
 	"Global.h"
 
-1566242621 source:e:\ftl-hyperspace\misc.cpp
+1567011637 source:e:\ftl-hyperspace\misc.cpp
 	"Global.h"
 	"ASMHooks.h"
 
-1566504398 source:e:\ftl-hyperspace\resources.cpp
+1567099054 source:e:\ftl-hyperspace\resources.cpp
 	"rapidxml.hpp"
 	"Resources.h"
 	"HullNumbers.h"
 	"CommandConsole.h"
 	"CustomShips.h"
+	"CustomCrew.h"
 	<boost/lexical_cast.hpp>
 
 1565993520 source:e:\ftl-hyperspace\shiptypec.cpp
 	"Global.h"
 	"ASMHooks.h"
 
-1566905631 source:e:\ftl-hyperspace\ftlgame.cpp
+1567119120 source:e:\ftl-hyperspace\ftlgame.cpp
 	"FTLGame.h"
 	"zhl_internal.h"
 
 1566295520 source:e:\ftl-hyperspace\customweapons.cpp
 	"Global.h"
 
-1566394349 source:e:\ftl-hyperspace\customcrew.cpp
-	"Global.h"
-	<cstdlib>
+1567119050 source:e:\ftl-hyperspace\customcrew.cpp
+	"CustomCrew.h"
+	<boost/lexical_cast.hpp>
+	<algorithm>
 
-1566379041 source:e:\ftl-hyperspace\customevents.cpp
+1567010697 source:e:\ftl-hyperspace\customevents.cpp
 	"Global.h"
 	"rapidxml_print.hpp"
 	<iostream>
@@ -5063,11 +5067,11 @@
 	<ostream>
 	<iterator>
 
-1566905575 source:e:\ftl-hyperspace\customships.cpp
+1567096651 source:e:\ftl-hyperspace\customships.cpp
 	"CustomShips.h"
 	<algorithm>
 
-1566906120 e:\ftl-hyperspace\customships.h
+1567096637 e:\ftl-hyperspace\customships.h
 	"Global.h"
 	<array>
 	<algorithm>
@@ -5086,4 +5090,10 @@
 
 1566846662 source:e:\ftl-hyperspace\freetype.cpp
 	"Global.h"
+
+1567117468 e:\ftl-hyperspace\customcrew.h
+	"Global.h"
+
+1567118166 source:e:\ftl-hyperspace\crewvtable.cpp
+	"CustomCrew.h"
 

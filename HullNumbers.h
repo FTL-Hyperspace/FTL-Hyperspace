@@ -10,6 +10,8 @@ public:
         int type;
     };
 
+    void ParseHullNumbersNode(rapidxml::xml_node<char> *node);
+
     IndicatorInfo playerIndicator;
     IndicatorInfo enemyIndicator;
     IndicatorInfo bossIndicator;

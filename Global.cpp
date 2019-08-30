@@ -11,6 +11,8 @@ BlueprintManager *Global::__blueprints = NULL;
 SoundControl *Global::__soundControl = NULL;
 MouseControl *Global::__mouseControl = NULL;
 TextLibrary *Global::__textLibrary = NULL;
+CrewMemberFactory *Global::__crewFactory = NULL;
+bool *Global::__rng = NULL;
 
 HOOK_METHOD(CApp, OnInit, () -> int)
 {
@@ -32,6 +34,8 @@ void Global::Initialize(CApp *cApp)
     __soundControl = (SoundControl*)(__baseAddress + __soundOffset);
     __mouseControl = (MouseControl*)(__baseAddress + __mouseOffset);
     __textLibrary = (TextLibrary*)(__baseAddress + __textOffset);
+    __crewFactory = (CrewMemberFactory*)(__baseAddress + __crewFactoryOffset);
+    __rng = (bool*)(__baseAddress + __rngOffset);
 
 
     SetWindowTextA((HWND)GetModuleHandle(NULL), "FTL: Hyperspace");

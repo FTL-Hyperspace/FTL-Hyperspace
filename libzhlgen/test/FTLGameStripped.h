@@ -15,6 +15,7 @@ struct Door;
 struct Repairable;
 struct Room;
 struct CrewMember;
+struct CrewAnimation;
 struct ShipManager;
 struct SystemBox;
 struct SystemCustomBox;
@@ -40,6 +41,7 @@ struct Targetable;
 struct LocationEvent__Choice;
 struct WeaponBlueprint;
 struct CrewCustomizeBox;
+struct ParticleEmitter;
 struct LocationEvent;
 struct ShipBlueprint;
 struct WindowFrame;
@@ -69,6 +71,7 @@ struct std__vector_21std__vector_8TopScore;
 struct std__pair_22CAchievementZ1___Point;
 struct VTable_GenericButton;
 struct VTable_SystemBox;
+struct VTable_CrewMember;
 
 /* 1 */
 struct Globals
@@ -2633,9 +2636,6 @@ struct std__map_9int___int
   char unk[24];
 };
 
-/* 390 */
-struct ParticleEmitter;
-
 /* 506 */
 struct std__vector_17ParticleEmitterZ1
 {
@@ -2997,9 +2997,6 @@ struct Slot
   Point worldLocation;
 };
 
-/* 185 */
-struct CrewAnimation;
-
 /* 259 */
 struct CachedRect
 {
@@ -3048,7 +3045,8 @@ struct std__vector_30std__vector_16AnimationTracker
 /* 183 */
 struct CrewMember
 {
-  CrewTarget _base;
+  VTable_CrewMember *_vtable;
+  int iShipId;
   float x;
   float y;
   float size;
@@ -3094,7 +3092,7 @@ struct CrewMember
   bool bFrozenLocation;
   CrewTask task;
   std__string type;
-  ShipManager *ship;
+  Ship *ship;
   Slot finalGoal;
   Door *blockingDoor;
   bool bOutOfGame;
@@ -3588,6 +3586,45 @@ struct Drone
   float hackTime;
 };
 
+/* 676 */
+struct Particle
+{
+  float position_x;
+  float position_y;
+  float speed_x;
+  float speed_y;
+  float acceleration_x;
+  float acceleration_y;
+  float lifespan;
+  bool alive;
+};
+
+/* 390 */
+struct ParticleEmitter
+{
+  Particle particles[64];
+  float birthRate;
+  float birthCounter;
+  float lifespan;
+  float speedMag;
+  float position_x;
+  float position_y;
+  float max_dx;
+  float min_dx;
+  float max_dy;
+  float min_dy;
+  int image_x;
+  int image_y;
+  GL_Primitive *primitive;
+  float emitAngle;
+  bool randAngle;
+  bool running;
+  float maxAlpha;
+  float minSize;
+  float maxSize;
+  int currentCount;
+};
+
 /* 620 */
 struct VTable_EquipmentBox
 {
@@ -3603,14 +3640,14 @@ struct VTable_EquipmentBox
   void (__thiscall *Restart)(EquipmentBox *this);
   void (__thiscall *AddItem)(EquipmentBox *this, EquipmentBoxItem item);
   void (__thiscall *RemoveItem)(EquipmentBox *this);
-  char (__cdecl *CanHoldWeapon)();
-  char (__cdecl *CanHoldDrone)();
-  char (__cdecl *CanHoldAugment)();
+  char (__thiscall *CanHoldWeapon)(EquipmentBox *this);
+  char (__thiscall *CanHoldDrone)(EquipmentBox *this);
+  char (__thiscall *CanHoldAugment)(EquipmentBox *this);
   void (__thiscall *CheckContents)(EquipmentBox *this);
   int (__thiscall *GetType)(EquipmentBox *this, bool unk);
-  char (__cdecl *IsCargoBox)();
-  char (__cdecl *CanHoldCrew)();
-  char (__cdecl *CanDoJob)();
+  char (__thiscall *IsCargoBox)(EquipmentBox *this);
+  char (__thiscall *CanHoldCrew)(EquipmentBox *this);
+  char (__thiscall *CanDoJob)(EquipmentBox *this);
 };
 
 /* 672 */
@@ -3618,9 +3655,9 @@ struct VTable_SystemBox
 {
   void (__thiscall *Free)(SystemBox *this);
   void (__thiscall *destroy)(SystemBox *this);
-  bool (__cdecl *HasButton)();
-  int (__cdecl *GetCooldownBarHeight)();
-  int (__cdecl *GetHeightModifier)();
+  bool (__thiscall *HasButton)(SystemBox *this);
+  int (__thiscall *GetCooldownBarHeight)(SystemBox *this);
+  int (__thiscall *GetHeightModifier)(SystemBox *this);
   void (__thiscall *OnLoop)(SystemBox *this);
   void (__thiscall *OnRender)(SystemBox *this, bool unk);
   bool (__thiscall *GetMouseHover)(SystemBox *this);
@@ -3667,6 +3704,134 @@ struct WeaponBlueprint__MiniProjectile
 {
   std__string image;
   bool fake;
+};
+
+/* 677 */
+struct VTable_CrewMember
+{
+  void (__thiscall *Free)(CrewMember *this);
+  void *(__thiscall *GetPosition)(CrewMember *this);
+  float (__thiscall *PositionShift)(CrewMember *this);
+  bool (__thiscall *InsideRoom)(CrewMember *this, int roomId);
+  bool (__thiscall *ApplyDamage)(CrewMember *this, float damage);
+  int (__thiscall *GetPriority)(CrewMember *this);
+  bool (__thiscall *ValidTarget)(CrewMember *this, int unk);
+  bool (__thiscall *MultiShots)(CrewMember *this);
+  bool (__thiscall *ExactTarget)(CrewMember *this);
+  bool (__thiscall *IsCrew)(CrewMember *this);
+  bool (__thiscall *IsCloned)(CrewMember *this);
+  bool (__thiscall *IsDrone)(CrewMember *this);
+  void (__thiscall *Jump)(CrewMember *this);
+  bool (__thiscall *NeedsIntruderSlot)(CrewMember *this);
+  void (__thiscall *SaveState)(CrewMember *this, int fileHelper);
+  void (__thiscall *LoadState)(CrewMember *this, int fileHelper);
+  void (__thiscall *OnLoop)(CrewMember *this);
+  void (__thiscall *OnRender)(CrewMember *this, bool unk);
+  bool (__thiscall *OutOfGame)(CrewMember *this);
+  void (__thiscall *SetOutOfGame)(CrewMember *this);
+  bool (__thiscall *Functional)(CrewMember *this);
+  bool (__thiscall *CountForVictory)(CrewMember *this);
+  bool (__thiscall *GetControllable)(CrewMember *this);
+  bool (__thiscall *ReadyToFight)(CrewMember *this);
+  bool (__thiscall *CanFight)(CrewMember *this);
+  bool (__thiscall *CanRepair)(CrewMember *this);
+  bool (__thiscall *CanSabotage)(CrewMember *this);
+  bool (__thiscall *CanMan)(CrewMember *this);
+  bool (__thiscall *CanTeleport)(CrewMember *this);
+  bool (__thiscall *CanHeal)(CrewMember *this);
+  bool (__thiscall *CanSuffocate)(CrewMember *this);
+  bool (__thiscall *CanBurn)(CrewMember *this);
+  int (__thiscall *GetMaxHealth)(CrewMember *this);
+  bool (__thiscall *IsDead)(CrewMember *this);
+  bool (__thiscall *PermanentDeath)(CrewMember *this);
+  bool (__thiscall *ShipDamage)(CrewMember *this, float damage);
+  bool (__thiscall *FireFightingSoundEffect)(CrewMember *this);
+  std__string *(__thiscall *GetUniqueRepairing)(std__string *str);
+  bool (__thiscall *ProvidesVision)(CrewMember *this);
+  float (__thiscall *GetMoveSpeedMultiplier)(CrewMember *this);
+  float (__thiscall *GetRepairSpeed)(CrewMember *this);
+  float (__thiscall *GetDamageMultiplier)(CrewMember *this);
+  bool (__thiscall *ProvidesPower)(CrewMember *this);
+  std__string *(__thiscall *GetSpecies)(CrewMember *this, std__string *str);
+  float (__thiscall *GetFireRepairMultiplier)(CrewMember *this);
+  bool (__thiscall *IsTelepathic)(CrewMember *this);
+  int (__thiscall *GetPowerCooldown)(CrewMember *this);
+  bool (__thiscall *PowerReady)(CrewMember *this);
+  void (__thiscall *ActivatePower)(CrewMember *this);
+  bool (__thiscall *HasSpecialPower)(CrewMember *this);
+  void (__thiscall *ResetPower)(CrewMember *this);
+  float (__thiscall *GetSuffocationMultiplier)(CrewMember *this);
+  bool (__thiscall *BlockRoom)(CrewMember *this);
+  void *(__thiscall *GetRoomDamage)(CrewMember *this);
+  bool (__thiscall *IsAnaerobic)(CrewMember *this);
+  void (__thiscall *UpdateRepair)(CrewMember *this);
+  bool (__thiscall *CanStim)(CrewMember *this);
+};
+
+/* 673 */
+struct std__vector_22std__vector_9Animation
+{
+  std__vector_9Animation *_start;
+  std__vector_9Animation *_finish;
+  std__vector_9Animation *_end;
+};
+
+/* 675 */
+struct std__vector_12GL_TextureZ1
+{
+  GL_Texture **_start;
+  GL_Texture **_finish;
+  GL_Texture **_end;
+};
+
+/* 172 */
+struct CrewLaser;
+
+/* 674 */
+struct std__vector_9CrewLaser
+{
+  CrewLaser *_start;
+  CrewLaser *_finish;
+  CrewLaser *_end;
+};
+
+/* 185 */
+struct CrewAnimation
+{
+  ShipObject _base;
+  std__vector_22std__vector_9Animation anims;
+  GL_Texture *baseStrip;
+  GL_Texture *colorStrip;
+  std__vector_12GL_TextureZ1 layerStrips;
+  Pointf lastPosition;
+  int direction;
+  int sub_direction;
+  int status;
+  int moveDirection;
+  ParticleEmitter smokeEmitter;
+  bool bSharedSpot;
+  std__vector_9CrewLaser shots;
+  TimerHelper shootTimer;
+  TimerHelper punchTimer;
+  Pointf target;
+  float fDamageDone;
+  bool bPlayer;
+  bool bFrozen;
+  bool bDrone;
+  bool bGhost;
+  bool bExactShooting;
+  Animation projectile;
+  bool bTyping;
+  std__string race;
+  int currentShip;
+  bool bMale;
+  bool colorblind;
+  std__vector_8GL_Color layerColors;
+  int forcedAnimation;
+  int forcedDirection;
+  GL_Color projectileColor;
+  bool bStunned;
+  bool bDoorTarget;
 };
 
 /* 524 */
@@ -3849,9 +4014,6 @@ struct HackingDrone;
 /* 170 */
 struct PDSFire;
 
-/* 172 */
-struct CrewLaser;
-
 /* 175 */
 struct ShipGraph
 {
@@ -3868,7 +4030,14 @@ struct ShipGraph
 };
 
 /* 176 */
-struct CrewMemberFactory;
+struct CrewMemberFactory
+{
+  int playerCrew;
+  int enemyCrew;
+  int enemyCloneCount;
+  std__vector_12CrewMemberZ1 crewMembers;
+  std__vector_12CrewMemberZ1 lostMembers;
+};
 
 /* 177 */
 struct ShipInfo
@@ -3885,7 +4054,12 @@ struct Moddable;
 struct AnaerobicAlien;
 
 /* 186 */
-struct EnergyAlien;
+struct EnergyAlien
+{
+  CrewMember _base;
+  bool bTriggerExplosion;
+  bool bExploded;
+};
 
 /* 188 */
 struct Algae;
@@ -4209,7 +4383,10 @@ struct LaserBlast
 struct Spreadable;
 
 /* 311 */
-struct BattleDrone;
+struct BattleDrone
+{
+  CrewDrone _base;
+};
 
 /* 312 */
 struct CloakingBox;
@@ -4218,13 +4395,19 @@ struct CloakingBox;
 struct MantisAlien;
 
 /* 316 */
-struct RepairDrone;
+struct RepairDrone
+{
+  CrewDrone _base;
+};
 
 /* 317 */
 struct TeleportBox;
 
 /* 318 */
-struct BoarderDrone;
+struct BoarderDrone
+{
+  CrewDrone _base;
+};
 
 /* 319 */
 struct CrystalAlien;
