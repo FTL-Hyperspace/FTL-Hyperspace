@@ -1,5 +1,5 @@
 "8d4c240483e4f0ff71fc5589e5575653518d75d883ec488b018975d08945c08b410c8945bc8b41108b38":
-static cleanup Pointf freetype::easy_measurePrintLines(int fontData, float x, float y, int width, std::string& text);
+static cleanup double freetype::easy_measurePrintLines(int fontData, float x, float y, int width, std::string& text);
 "8d4c240483e4f0ff71fc5589e5575653518d7dd883ec588b01897dd0":
 static cleanup int freetype::easy_print(int fontData, float x, float y, std::string& text);
 ".8d4c240483e4f0ff71fc5589e5575653518d7dd883ec588b01897dd0f30f104104f30f1049088945c08b410c":

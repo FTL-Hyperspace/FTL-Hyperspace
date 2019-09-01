@@ -1,4 +1,5 @@
 #include "CustomShips.h"
+#include "freetype.h"
 #include <algorithm>
 
 CustomShipSelect CustomShipSelect::instance = CustomShipSelect();
@@ -349,6 +350,7 @@ void CustomShipSelect::SwitchShip(ShipBuilder *builder, int type, int variant, b
     builder->currentType = variant;
 
     ShipManager *ship = new ShipManager(0);
+    SM_EX(ship)->isCustomShip = true;
     builder->currentShip = ship;
     builder->currentShipId = type;
     ShipDefinition def = this->blueprintNames[type - 100];
@@ -607,7 +609,20 @@ bool CustomShipSelect::CycleShipPrevious(ShipBuilder *builder)
 //==========================
 
 
+HOOK_METHOD_PRIORITY(ShipManager, OnInit, 100, (ShipBlueprint *bp, int shipLevel) -> int)
+{
+    auto customSel = CustomShipSelect::GetInstance();
 
+    int ret = super(bp, shipLevel);
+
+    printf("%s\n", bp->blueprintName.c_str());
+
+
+    SM_EX(this)->isCustomShip = customSel->IsCustomShip(bp->blueprintName);
+    printf("%d\n", SM_EX(this)->isCustomShip);
+
+    return ret;
+}
 
 HOOK_METHOD(ShipButton, constructor, (int shipType, int shipVariant) -> void)
 {
@@ -1017,17 +1032,23 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
     Point shipNamePos = Point(273, 7);
     this->nameInput.OnRender(24, shipNamePos);
 
-    /* This doesn't work because of easy_measurePrintLines returning a Pointf
-       Need a way to get the y value of the returned Pointf
-       The Pointf is returned split into eax and edx
+    // This doesn't work because of easy_measurePrintLines returning a Pointf
+    // Need a way to get the y value of the returned Pointf
+    // The Pointf is returned split into eax and edx
+    // ^ FIXED WITH freetype_hack
     if (this->bRenaming)
     {
         std::string nm("rename");
         std::string txt;
         TextLibrary::GetText(txt, G_->GetTextLibrary(), nm, G_->GetTextLibrary()->currentLanguage);
-        //freetype::easy_measurePrintLines(63, 0, 0, 999, txt);
+        Pointf ret = freetype_hack::easy_measurePrintLines(12, 0, 0, 999, txt);
+        float x = 6.f;
+        float x2 = 227.f - ret.x / 2;
+        if (x2 > 5)
+            x = x2;
+        freetype::easy_print(12, x, 65.f, txt);
     }
-    */
+
 
     if (!currentShip->HasSystem(3))
     {
@@ -1047,6 +1068,7 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
     }
 
     CSurface::GL_SetColor(COLOR_WHITE);
+
 
     if (renderAchievements)
     {
@@ -1073,3 +1095,87 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
     this->introScreen.OnRender();
 }
 
+
+HOOK_METHOD_PRIORITY(MenuScreen, OnRender, 1000, () -> void)
+{
+    if (G_->GetWorld()->playerShip)
+    {
+        if (!SM_EX(G_->GetWorld()->playerShip->shipManager)->isCustomShip)
+        {
+            return super();
+        }
+    }
+
+    if (this->bShowControls || G_->GetTutorialManager()->Running())
+    {
+        return super();
+    }
+
+    if (!this->menuPrimitive)
+    {
+        std::vector<GL_TexVertex>* texVertices = new std::vector<GL_TexVertex>();
+        GL_Texture *img = this->mainImage;
+        float unk1 = 81.f;
+        float unk2 = 1.f;
+        float unk3 = 1.f;
+
+        if (img)
+        {
+            unk1 = 81.f / img->width_;
+            unk2 = img->width_;
+            unk3 = img->height_;
+        }
+
+        CSurface::AddTexVertices(texVertices, this->position.x, this->position.y, 81.f, unk3, 0, unk1, 0, 1.f);
+        CSurface::AddTexVertices(texVertices, this->position.x + 81.f, this->position.y, this->menuWidth - 161.f, unk3, unk1, 82.f / unk2, 0, 1.f);
+        CSurface::AddTexVertices(texVertices, (this->menuWidth + this->position.x) - 80.f, this->position.y, 80.f, unk3, 82.f / unk2, 162.f / unk2, 0, 1.f);
+        this->menuPrimitive = CSurface::GL_CreateMultiImagePrimitive(this->mainImage, texVertices, COLOR_WHITE);
+    }
+
+
+    if (this->confirmDialog.bOpen)
+    {
+        CSurface::GL_SetColorTint(COLOR_TINT);
+    }
+
+    CSurface::GL_RenderPrimitive(this->menuPrimitive);
+
+    for (auto &button : this->buttons)
+    {
+        button->OnRender();
+    }
+
+    CSurface::GL_BlitPixelImageWide(this->difficultyBox,
+                                    this->statusPosition.x,
+                                    this->statusPosition.y,
+                                    this->difficultyWidth,
+                                    72,
+                                    1.f,
+                                    COLOR_WHITE,
+                                    false);
+
+    CSurface::GL_BlitPixelImageWide(this->dlcBox,
+                                    this->statusPosition.x + this->difficultyWidth + 3,
+                                    this->statusPosition.y,
+                                    this->dlcWidth,
+                                    72,
+                                    1.f,
+                                    COLOR_WHITE,
+                                    false);
+
+    CSurface::GL_SetColor(COLOR_BUTTON_ON);
+
+    freetype::easy_printCenter(13, this->statusPosition.x + (this->difficultyWidth + 1.f) / 2.f, this->statusPosition.y + 16.f, this->difficultyLabel);
+    freetype::easy_printCenter(13, this->statusPosition.x + this->difficultyWidth + (this->dlcWidth + 1.f) / 2.f + 3.f, this->statusPosition.y + 16.f, this->dlcLabel);
+
+    CSurface::GL_SetColor(COLOR_BUTTON_TEXT);
+
+    freetype::easy_printCenter(62, this->statusPosition.x + (this->difficultyWidth + 1.f) / 2.f, this->statusPosition.y + 40, this->difficultyText);
+    freetype::easy_printCenter(62, this->statusPosition.x + this->difficultyWidth + (this->dlcWidth + 1.f) / 2.f + 3.f, this->statusPosition.y + 40.f, this->dlcText);
+
+    if (this->confirmDialog.bOpen)
+    {
+        CSurface::GL_RemoveColorTint();
+        this->confirmDialog.OnRender();
+    }
+}

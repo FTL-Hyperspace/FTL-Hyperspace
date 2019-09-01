@@ -20,6 +20,10 @@ ShipSystem *ShipManager::GetSystemInRoom(ShipManager *this<ecx>, int roomId);
 void ShipManager::OnLoop(ShipManager* this<ecx>);
 "578d7c240883e4f0ff77fc5589e55783ec148b078b7f0483f81174??83f8ff74??8b91c8040000":
 void ShipManager::SetSystemPowerLoss(ShipManager *this<ecx>, int systemId, int powerLoss);
+"578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b810807000085c0":
+int ShipManager::CreateSystems(ShipManager *this<ecx>);
+"8b810807000085c00f84????????578d7c240883e4f0ff77fc5589e557568db104070000":
+int ShipManager::AddSystem(ShipManager *this<ecx>, int systemId);
 
 struct ShipManager {{
 	ShipManager(int shipId) 

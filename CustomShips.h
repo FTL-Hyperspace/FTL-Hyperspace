@@ -1,6 +1,7 @@
 #include "Global.h"
 #include <array>
 #include <algorithm>
+#include <boost/algorithm/string/predicate.hpp>
 
 
 struct ShipDefinition
@@ -151,6 +152,11 @@ public:
         if (type == 0) return blueprintNames.size();
         if (type == 1) return std::count_if(blueprintNames.begin(), blueprintNames.end(), [](ShipDefinition i) { return i.typeB; } );
         if (type == 2) return std::count_if(blueprintNames.begin(), blueprintNames.end(), [](ShipDefinition i) { return i.typeC; } );
+    }
+
+    bool IsCustomShip(std::string& id)
+    {
+        return std::count_if(blueprintNames.begin(), blueprintNames.end(), [id](ShipDefinition i) { return boost::starts_with(id, i.name); }) > 0;
     }
 
 

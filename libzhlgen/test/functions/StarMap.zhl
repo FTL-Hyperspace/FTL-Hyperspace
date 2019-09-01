@@ -2,3 +2,5 @@
 void StarMap::OnRender(StarMap *this<ecx>);
 "8b4424048981e4090000c2040090669031c083b96c0800000474??f3c38d76008b8174080000":
 void StarMap::SetBossStage(StarMap *this<ecx>, int stage);
+"578d7c240883e4f0ff77fc5589e557565381ec????????8b078b57048b5f08894db889458089d689957cffffff8b5004":
+void StarMap::DrawConnection(StarMap *this<ecx>, const Pointf& pos1, const Pointf& pos2, const GL_Color& color);

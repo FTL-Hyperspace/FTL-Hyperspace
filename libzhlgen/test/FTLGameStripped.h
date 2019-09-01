@@ -48,6 +48,7 @@ struct WindowFrame;
 struct ShipButton;
 struct WarningWithLines;
 struct CAchievement;
+struct GL_Texture;
 struct std__pair_13float___float;
 struct std__vector_4Fire;
 struct WeaponMount;
@@ -72,6 +73,7 @@ struct std__pair_22CAchievementZ1___Point;
 struct VTable_GenericButton;
 struct VTable_SystemBox;
 struct VTable_CrewMember;
+struct VTable_ShipSystem;
 
 /* 1 */
 struct Globals
@@ -139,9 +141,6 @@ struct ResourceManager;
 /* 541 */
 struct PackageModuleInfo;
 
-/* 434 */
-struct GL_Texture;
-
 /* 438 */
 struct GL_FrameBuffer;
 
@@ -180,6 +179,19 @@ struct ResourceControl__DynamicImageInfo
 {
   std__string name;
   int resid;
+};
+
+/* 434 */
+struct GL_Texture
+{
+  int id_;
+  int width_;
+  int height_;
+  bool isLogical_;
+  float u_base_;
+  float v_base_;
+  float u_size_;
+  float v_size_;
 };
 
 /* 3 */
@@ -3479,7 +3491,15 @@ struct CachedRectOutline
 /* 293 */
 struct ShipSystem
 {
-  Repairable _base;
+  VTable_ShipSystem *_vtable;
+  int selectedState;
+  ShipObject _shipObj;
+  float fDamage;
+  Point pLoc;
+  float fMaxDamage;
+  std__string name;
+  int roomId;
+  int iRepairCount;
   int iSystemType;
   bool bNeedsManned;
   bool bManned;
@@ -3847,6 +3867,55 @@ struct std__pair_26std__string___RandomAmount
 {
   std__string _first;
   RandomAmount _second;
+};
+
+/* 678 */
+struct VTable_ShipSystem
+{
+  void (__thiscall *Free)(ShipSystem *this);
+  void (__thiscall *SetSelected)(ShipSystem *this, int selectedState);
+  int (__thiscall *GetSelected)(ShipSystem *this);
+  bool (__thiscall *CompletelyDestroyed)(ShipSystem *this);
+  std__string *(__thiscall *GetName)(ShipSystem *this);
+  void (__thiscall *SetName)(ShipSystem *this, std__string *name);
+  void (__thiscall *Repair)(ShipSystem *this);
+  bool (__thiscall *PartialRepair)(ShipSystem *this, float amount, bool unk);
+  bool (__thiscall *PartialDamage)(ShipSystem *this, float damage);
+  bool (__thiscall *NeedsRepairing)(ShipSystem *this);
+  bool (__thiscall *Functioning)(ShipSystem *this);
+  bool (__thiscall *CanBeSabotaged)(ShipSystem *this);
+  float (__thiscall *GetDamage)(ShipSystem *this);
+  void *(__thiscall *GetLocation)(ShipSystem *this);
+  void *(__thiscall *GetGridLocation)(ShipSystem *this);
+  void (__thiscall *SetDamage)(ShipSystem *this, float damage);
+  void (__thiscall *SetMaxDamage)(ShipSystem *this, float maxDamage);
+  void (__thiscall *SetLocation)(ShipSystem *this, Point pos);
+  void (__thiscall *OnRenderHighlight)(ShipSystem *this);
+  int (__thiscall *GetId)(ShipSystem *this);
+  bool (__thiscall *IsRoomBased)(ShipSystem *this);
+  int (__thiscall *GetRoomId)(ShipSystem *this);
+  bool (__thiscall *Ioned)(ShipSystem *this);
+  void (__thiscall *SetRoomId)(ShipSystem *this);
+  void (__thiscall *SetHackingLevel)(ShipSystem *this, int level);
+  void (__thiscall *ForceBatteryPower)(ShipSystem *this, int power);
+  void (__thiscall *RemoveBatteryPower)(ShipSystem *this);
+  WeaponBlueprint *(__thiscall *GetWeaponInfo)(ShipSystem *this);
+  std__string *(__thiscall *GetOverrideTooltip)(ShipSystem *this);
+  void (__thiscall *CheckMaxPower)(ShipSystem *this);
+  void (__thiscall *SetBonusPower)(ShipSystem *this, int unk1, int unk2);
+  void (__thiscall *AddDamage)(ShipSystem *this, int damage);
+  bool (__thiscall *ForceDecreasePower)(ShipSystem *this, int power);
+  bool (__thiscall *ForceIncreasePower)(ShipSystem *this, int power);
+  void (__thiscall *StopHacking)(ShipSystem *this);
+  void (__thiscall *OnRender)(ShipSystem *this);
+  void (__thiscall *OnRenderFloor)(ShipSystem *this);
+  void (__thiscall *OnRenderEffects)(ShipSystem *this);
+  void (__thiscall *OnLoop)(ShipSystem *this);
+  bool (__thiscall *GetNeedsPower)(ShipSystem *this);
+  void (__thiscall *Restart)(ShipSystem *this);
+  bool (__thiscall *Clickable)(ShipSystem *this);
+  bool (__thiscall *Powered)(ShipSystem *this);
+  void (__thiscall *ShipDestroyed)(ShipSystem *this);
 };
 
 /* 156 */
@@ -4609,50 +4678,12 @@ struct __m128d
   double m128d_f64[2];
 };
 
-/* 667 */
-struct PointReturn
+/* 679 */
+struct GL_TexVertex
 {
-  int x;
-};
-
-/* 669 */
-union __attribute__((aligned(8))) __m64
-{
-  unsigned __int64 m64_u64;
-  float m64_f32[2];
-  __int8 m64_i8[8];
-  __int16 m64_i16[4];
-  __int32 m64_i32[2];
-  __int64 m64_i64;
-  unsigned __int8 m64_u8[8];
-  unsigned __int16 m64_u16[4];
-  unsigned __int32 m64_u32[2];
-};
-
-/* 670 */
-union __attribute__((aligned(16))) __m128
-{
-  float m128_f32[4];
-  unsigned __int64 m128_u64[2];
-  __int8 m128_i8[16];
-  __int16 m128_i16[8];
-  __int32 m128_i32[4];
-  __int64 m128_i64[2];
-  unsigned __int8 m128_u8[16];
-  unsigned __int16 m128_u16[8];
-  unsigned __int32 m128_u32[4];
-};
-
-/* 671 */
-union __attribute__((aligned(16))) __m128i
-{
-  __int8 m128i_i8[16];
-  __int16 m128i_i16[8];
-  __int32 m128i_i32[4];
-  __int64 m128i_i64[2];
-  unsigned __int8 m128i_u8[16];
-  unsigned __int16 m128i_u16[8];
-  unsigned __int32 m128i_u32[4];
-  unsigned __int64 m128i_u64[2];
+  float x;
+  float y;
+  float u;
+  float v;
 };
 

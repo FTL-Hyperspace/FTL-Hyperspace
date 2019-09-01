@@ -4871,7 +4871,7 @@
 	"Global.h"
 	"ASMHooks.h"
 
-1567010921 e:\ftl-hyperspace\global.h
+1567246755 e:\ftl-hyperspace\global.h
 	<Windows.h>
 	"zhl.h"
 	"FTLGame.h"
@@ -4886,7 +4886,7 @@
 	<windows.h>
 	<cstdio>
 
-1567119120 e:\ftl-hyperspace\ftlgame.h
+1567277891 e:\ftl-hyperspace\ftlgame.h
 	"zhl.h"
 	"rapidxml.hpp"
 	<string>
@@ -4908,15 +4908,15 @@
 
 1565454178 e:\ftl-hyperspace\systems.h
 
-1567119515 e:\ftl-hyperspace\crewmember_extend.h
+1567162476 e:\ftl-hyperspace\crewmember_extend.h
 	"FTLGame.h"
 
-1565528752 e:\ftl-hyperspace\shipmanager_extend.h
+1567247716 e:\ftl-hyperspace\shipmanager_extend.h
 	"FTLGame.h"
 
 1566250401 e:\ftl-hyperspace\asmhooks.h
 
-1565528727 source:e:\ftl-hyperspace\captain.cpp
+1567162474 source:e:\ftl-hyperspace\captain.cpp
 	"Global.h"
 
 1566242707 source:e:\ftl-hyperspace\commandconsole.cpp
@@ -5008,7 +5008,7 @@
 	"Global.h"
 	"math.h"
 
-1567011027 source:e:\ftl-hyperspace\global.cpp
+1567246439 source:e:\ftl-hyperspace\global.cpp
 	"Global.h"
 	"Resources.h"
 
@@ -5028,7 +5028,7 @@
 1566972835 source:e:\ftl-hyperspace\mainmenu.cpp
 	"Global.h"
 
-1567011637 source:e:\ftl-hyperspace\misc.cpp
+1567277786 source:e:\ftl-hyperspace\misc.cpp
 	"Global.h"
 	"ASMHooks.h"
 
@@ -5045,14 +5045,14 @@
 	"Global.h"
 	"ASMHooks.h"
 
-1567119120 source:e:\ftl-hyperspace\ftlgame.cpp
+1567277891 source:e:\ftl-hyperspace\ftlgame.cpp
 	"FTLGame.h"
 	"zhl_internal.h"
 
 1566295520 source:e:\ftl-hyperspace\customweapons.cpp
 	"Global.h"
 
-1567119050 source:e:\ftl-hyperspace\customcrew.cpp
+1567119752 source:e:\ftl-hyperspace\customcrew.cpp
 	"CustomCrew.h"
 	<boost/lexical_cast.hpp>
 	<algorithm>
@@ -5067,16 +5067,18 @@
 	<ostream>
 	<iterator>
 
-1567096651 source:e:\ftl-hyperspace\customships.cpp
+1567250466 source:e:\ftl-hyperspace\customships.cpp
 	"CustomShips.h"
+	"freetype.h"
 	<algorithm>
 
-1567096637 e:\ftl-hyperspace\customships.h
+1567248109 e:\ftl-hyperspace\customships.h
 	"Global.h"
 	<array>
 	<algorithm>
+	<boost/algorithm/string/predicate.hpp>
 
-1566813774 e:\ftl-hyperspace\colors.h
+1567277035 e:\ftl-hyperspace\colors.h
 	"FTLGame.h"
 
 1566823468 source:e:\ftl-hyperspace\equipmentbox.cpp
@@ -5085,15 +5087,24 @@
 1566815952 e:\ftl-hyperspace\equipmentbox.h
 	"Global.h"
 
-1566818568 source:e:\ftl-hyperspace\colors.cpp
+1567277026 source:e:\ftl-hyperspace\colors.cpp
 	"Colors.h"
 
-1566846662 source:e:\ftl-hyperspace\freetype.cpp
-	"Global.h"
+1567245452 source:e:\ftl-hyperspace\freetype.cpp
+	"freetype.h"
 
-1567117468 e:\ftl-hyperspace\customcrew.h
+1567119736 e:\ftl-hyperspace\customcrew.h
 	"Global.h"
 
 1567118166 source:e:\ftl-hyperspace\crewvtable.cpp
 	"CustomCrew.h"
+
+1567245905 source:e:\ftl-hyperspace\customsystems.cpp
+	"CustomSystems.h"
+
+1567164700 e:\ftl-hyperspace\customsystems.h
+	"Global.h"
+
+1567245559 e:\ftl-hyperspace\freetype.h
+	"Global.h"
 

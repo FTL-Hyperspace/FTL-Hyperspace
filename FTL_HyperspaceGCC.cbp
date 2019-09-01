@@ -5,7 +5,7 @@
 		<Option title="FTL_HyperspaceGCC" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
-		<Option virtualFolders="Systems\;Ship\;Core\;ZHL\;Misc\;Crew\;Assembly\;Events\;VTables\;" />
+		<Option virtualFolders="Content\Misc\;Content\;Content\Crew\;Content\Ship\;ZHL\;Core\Systems\;Core\;Assembly\;Core\Crew\;Core\Events\;Core\Weapons\;Core\Ship\;Core\Resources\;" />
 		<Build>
 			<Target title="Debug">
 				<Option output="C:/Program Files (x86)/Steam/steamapps/common/FTL Faster Than Light/Hyperspace" prefix_auto="1" extension_auto="1" />
@@ -83,7 +83,6 @@
 					<Add option="-Wall" />
 					<Add option="-masm=intel -std=c++11" />
 					<Add option="-DBUILD_DLL" />
-					<Add option="-DDEBUG" />
 					<Add directory="rapidxml" />
 					<Add directory="C:/boost/include/boost-1_70" />
 				</Compiler>
@@ -139,10 +138,10 @@
 			<Option virtualFolder="Assembly/" />
 		</Unit>
 		<Unit filename="Augments.cpp">
-			<Option virtualFolder="Misc/" />
+			<Option virtualFolder="Content/Misc/" />
 		</Unit>
 		<Unit filename="Captain.cpp">
-			<Option virtualFolder="Crew/" />
+			<Option virtualFolder="Content/Crew/" />
 		</Unit>
 		<Unit filename="Colors.cpp">
 			<Option virtualFolder="Core/" />
@@ -151,42 +150,48 @@
 			<Option virtualFolder="Core/" />
 		</Unit>
 		<Unit filename="CommandConsole.cpp">
-			<Option virtualFolder="Misc/" />
+			<Option virtualFolder="Content/Misc/" />
 		</Unit>
 		<Unit filename="CommandConsole.h">
-			<Option virtualFolder="Misc/" />
+			<Option virtualFolder="Content/Misc/" />
 		</Unit>
 		<Unit filename="CrewMember_Extend.cpp">
-			<Option virtualFolder="Crew/" />
+			<Option virtualFolder="Core/Crew/" />
 		</Unit>
 		<Unit filename="CrewMember_Extend.h">
-			<Option virtualFolder="Crew/" />
+			<Option virtualFolder="Core/Crew/" />
 		</Unit>
 		<Unit filename="CrewVTable.cpp">
-			<Option virtualFolder="Core/" />
+			<Option virtualFolder="Core/Crew/" />
 		</Unit>
 		<Unit filename="CustomCrew.cpp">
-			<Option virtualFolder="Core/" />
+			<Option virtualFolder="Core/Crew/" />
 		</Unit>
 		<Unit filename="CustomCrew.h">
-			<Option virtualFolder="Core/" />
+			<Option virtualFolder="Core/Crew/" />
 		</Unit>
 		<Unit filename="CustomEvents.cpp">
-			<Option virtualFolder="Core/" />
+			<Option virtualFolder="Core/Events/" />
 		</Unit>
 		<Unit filename="CustomShips.cpp">
-			<Option virtualFolder="Core/" />
+			<Option virtualFolder="Core/Ship/" />
 		</Unit>
 		<Unit filename="CustomShips.h">
-			<Option virtualFolder="Core/" />
+			<Option virtualFolder="Core/Ship/" />
+		</Unit>
+		<Unit filename="CustomSystems.cpp">
+			<Option virtualFolder="Core/Systems/" />
+		</Unit>
+		<Unit filename="CustomSystems.h">
+			<Option virtualFolder="Core/Systems/" />
 		</Unit>
 		<Unit filename="CustomWeapons.cpp">
-			<Option virtualFolder="Core/" />
+			<Option virtualFolder="Core/Weapons/" />
 		</Unit>
 		<Unit filename="FTLGame.cpp" />
 		<Unit filename="FTLGame.h" />
 		<Unit filename="Ghost.cpp">
-			<Option virtualFolder="Crew/" />
+			<Option virtualFolder="Content/Crew/" />
 		</Unit>
 		<Unit filename="Global.cpp">
 			<Option virtualFolder="Core/" />
@@ -195,31 +200,31 @@
 			<Option virtualFolder="Core/" />
 		</Unit>
 		<Unit filename="HullNumbers.cpp">
-			<Option virtualFolder="Misc/" />
+			<Option virtualFolder="Content/Misc/" />
 		</Unit>
 		<Unit filename="HullNumbers.h">
-			<Option virtualFolder="Misc/" />
+			<Option virtualFolder="Content/Misc/" />
 		</Unit>
 		<Unit filename="MainMenu.cpp">
-			<Option virtualFolder="Misc/" />
+			<Option virtualFolder="Content/Misc/" />
 		</Unit>
 		<Unit filename="Misc.cpp">
-			<Option virtualFolder="Misc/" />
+			<Option virtualFolder="Content/Misc/" />
 		</Unit>
 		<Unit filename="Resources.cpp">
-			<Option virtualFolder="Core/" />
+			<Option virtualFolder="Core/Resources/" />
 		</Unit>
 		<Unit filename="Resources.h">
-			<Option virtualFolder="Core/" />
+			<Option virtualFolder="Core/Resources/" />
 		</Unit>
 		<Unit filename="ShipManager_Extend.cpp">
-			<Option virtualFolder="Ship/" />
+			<Option virtualFolder="Core/Ship/" />
 		</Unit>
 		<Unit filename="ShipManager_Extend.h">
-			<Option virtualFolder="Ship/" />
+			<Option virtualFolder="Core/Ship/" />
 		</Unit>
 		<Unit filename="ShipTypeC.cpp">
-			<Option virtualFolder="Ship/" />
+			<Option virtualFolder="Content/Ship/" />
 		</Unit>
 		<Unit filename="SigScan.cpp">
 			<Option virtualFolder="ZHL/" />
@@ -228,12 +233,15 @@
 			<Option virtualFolder="ZHL/" />
 		</Unit>
 		<Unit filename="Systems.h">
-			<Option virtualFolder="Systems/" />
+			<Option virtualFolder="Core/Systems/" />
 		</Unit>
 		<Unit filename="detours.h">
 			<Option virtualFolder="ZHL/" />
 		</Unit>
 		<Unit filename="freetype.cpp">
+			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="freetype.h">
 			<Option virtualFolder="Core/" />
 		</Unit>
 		<Unit filename="hde.cpp">

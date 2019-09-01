@@ -14,3 +14,5 @@ void ShipSystem::OnLoop(ShipSystem *this<ecx>);
 bool ShipSystem::Ioned(ShipSystem *this<ecx>, int num);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b338b0f8b8680000000898b200100003d????????0f85????????":
 void ShipSystem::SetPowerLoss(ShipSystem *this<ecx>, int power);
+"578d7c240883e4f0ff77fc5589e557565381ec????????8b078b5f048b770c898d24feffff898504feffff8b4708":
+void ShipSystem::constructor(ShipSystem *this<ecx>, int systemId, int roomId, int shipId, int startingPower);

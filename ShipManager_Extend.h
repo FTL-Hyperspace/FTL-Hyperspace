@@ -4,6 +4,7 @@
 struct ShipManager_Extend
 {
     ShipManager *orig;
+    bool isCustomShip = false;
     //CrewMember *captain;
 };
 

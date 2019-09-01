@@ -12,6 +12,8 @@ SoundControl *Global::__soundControl = NULL;
 MouseControl *Global::__mouseControl = NULL;
 TextLibrary *Global::__textLibrary = NULL;
 CrewMemberFactory *Global::__crewFactory = NULL;
+TutorialManager *Global::__tutorialManager = NULL;
+
 bool *Global::__rng = NULL;
 
 HOOK_METHOD(CApp, OnInit, () -> int)
@@ -35,6 +37,8 @@ void Global::Initialize(CApp *cApp)
     __mouseControl = (MouseControl*)(__baseAddress + __mouseOffset);
     __textLibrary = (TextLibrary*)(__baseAddress + __textOffset);
     __crewFactory = (CrewMemberFactory*)(__baseAddress + __crewFactoryOffset);
+    __tutorialManager = (TutorialManager*)(__baseAddress + __tutorialOffset);
+
     __rng = (bool*)(__baseAddress + __rngOffset);
 
 

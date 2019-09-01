@@ -9,6 +9,7 @@
 #include "Systems.h"
 #include "Colors.h"
 
+
 #include "CrewMember_Extend.h"
 #include "ShipManager_Extend.h"
 
@@ -33,7 +34,10 @@ public:
     MouseControl *GetMouseControl() { return __mouseControl; }
     TextLibrary *GetTextLibrary() { return __textLibrary; }
     CrewMemberFactory *GetCrewFactory() { return __crewFactory; }
+    TutorialManager *GetTutorialManager() { return __tutorialManager; }
+
     bool GetRNG() { return *__rng; }
+
     DWORD GetBaseAddress() { return __baseAddress; }
 
 private:
@@ -52,6 +56,7 @@ private:
     const DWORD __textOffset =        0x004CB7C0;
     const DWORD __rngOffset =         0x004CB7A0;
     const DWORD __crewFactoryOffset = 0x004C6E40;
+    const DWORD __tutorialOffset =    0x004C5340;
 
     DWORD __baseAddress = 0;
 
@@ -63,8 +68,10 @@ private:
     static SoundControl *__soundControl;
     static MouseControl *__mouseControl;
     static TextLibrary *__textLibrary;
-    static bool* __rng;
     static CrewMemberFactory *__crewFactory;
+    static TutorialManager *__tutorialManager;
+
+    static bool* __rng;
 };
 
 
