@@ -1,4 +1,31 @@
 "807910000f84????????5589e55389cb83e4f083ec1080790800":
 void AnimationTracker::Update(AnimationTracker *this<ecx>);
-"5589e583ec04f30f1005????????f30f1015????????807d0800f30f594104f30f10490cf30f5cc80f28d8":
-float AnimationTracker::GetAlphaLevel(AnimationTracker *this<ecx>, bool unk);
+".8b442404f30f10442408f30f114114c7411800000000884108":
+void AnimationTracker::SetLoop(AnimationTracker *this<ecx>, bool loop, float loopDelay);
+".807c240400c6411000660fefc074??f30f10410cf30f11410c":
+void AnimationTracker::Stop(AnimationTracker *this<ecx>, bool resetTime);
+".f30f10442404c6411200c6411001f30f11410cc6411100":
+void AnimationTracker::Start(AnimationTracker *this<ecx>, float time);
+".660fefc9c6411200f30f10442404c64110010f2ec876??f30f104104":
+void AnimationTracker::StartReverse(AnimationTracker *this<ecx>, float time);
+".83ec0480791000f30f104c2408660fefc074??0f2ec10f28d077??f30f10410cf30f5ec1":
+float AnimationTracker::Progress(AnimationTracker *this<ecx>, float speed);
+".f30f104104f30f59442404f30f11410c":
+void AnimationTracker::SetProgress(AnimationTracker *this<ecx>, float time);
+".5589e583ec04f30f1005????????f30f1015????????807d0800f30f594104f30f10490cf30f5cc80f28d8":
+float AnimationTracker::GetAlphaLevel(AnimationTracker *this<ecx>, bool reverse);
+
+struct AnimationTracker 
+{{
+	AnimationTracker()
+	{
+		DWORD baseAddress = (DWORD)GetModuleHandle(NULL);
+		void** newVtable = (void**)(baseAddress + 0x4BE488);
+		void*** vtablePtr = (void***)this;
+
+		DWORD dwOldProtect, dwBkup;
+		VirtualProtect(&vtablePtr, sizeof(void**), PAGE_EXECUTE_READWRITE, &dwOldProtect);
+		*vtablePtr = newVtable;
+		VirtualProtect(&vtablePtr, sizeof(void*), dwOldProtect, &dwBkup);
+	}
+}};

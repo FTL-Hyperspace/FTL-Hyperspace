@@ -5,7 +5,7 @@
 		<Option title="FTL_HyperspaceGCC" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
-		<Option virtualFolders="Content\Misc\;Content\;Content\Crew\;Content\Ship\;ZHL\;Core\Systems\;Core\;Assembly\;Core\Crew\;Core\Events\;Core\Weapons\;Core\Ship\;Core\Resources\;" />
+		<Option virtualFolders="Content\Misc\;Content\;Content\Crew\;Content\Ship\;ZHL\;Core\Systems\;Core\;Assembly\;Core\Crew\;Core\Events\;Core\Weapons\;Core\Ship\;Core\Resources\;Content\Map\;" />
 		<Build>
 			<Target title="Debug">
 				<Option output="C:/Program Files (x86)/Steam/steamapps/common/FTL Faster Than Light/Hyperspace" prefix_auto="1" extension_auto="1" />
@@ -234,6 +234,9 @@
 		</Unit>
 		<Unit filename="Systems.h">
 			<Option virtualFolder="Core/Systems/" />
+		</Unit>
+		<Unit filename="Wormhole.cpp">
+			<Option virtualFolder="Content/Map/" />
 		</Unit>
 		<Unit filename="detours.h">
 			<Option virtualFolder="ZHL/" />

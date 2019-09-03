@@ -413,9 +413,27 @@ struct AnimationTracker;
 
 struct LIBZHL_INTERFACE AnimationTracker
 {
+	AnimationTracker()
+	{
+		DWORD baseAddress = (DWORD)GetModuleHandle(NULL);
+		void** newVtable = (void**)(baseAddress + 0x4BE488);
+		void*** vtablePtr = (void***)this;
+
+		DWORD dwOldProtect, dwBkup;
+		VirtualProtect(&vtablePtr, sizeof(void**), PAGE_EXECUTE_READWRITE, &dwOldProtect);
+		*vtablePtr = newVtable;
+		VirtualProtect(&vtablePtr, sizeof(void*), dwOldProtect, &dwBkup);
+	}
+
 	virtual void destroy() LIBZHL_PLACEHOLDER
 	LIBZHL_API void Update();
-	LIBZHL_API float GetAlphaLevel(bool unk);
+	LIBZHL_API void SetLoop(bool loop, float loopDelay);
+	LIBZHL_API void Stop(bool resetTime);
+	LIBZHL_API void Start(float time);
+	LIBZHL_API void StartReverse(float time);
+	LIBZHL_API float Progress(float speed);
+	LIBZHL_API void SetProgress(float time);
+	LIBZHL_API float GetAlphaLevel(bool reverse);
 	
 	float time;
 	bool loop;
@@ -3689,6 +3707,11 @@ struct Location
 
 struct StarMap : FocusWindow
 {
+	StarMap()
+	{
+		this->constructor();
+	}
+
 	struct NebulaInfo
 	{
 		GL_Primitive *primitive;
@@ -3733,7 +3756,7 @@ struct StarMap : FocusWindow
 	LIBZHL_API void ReverseBossPath();
 	LIBZHL_API void ForceBossJump();
 	LIBZHL_API void ClearBoss();
-	LIBZHL_API void SetBossStage(int unk0);
+	LIBZHL_API void SetBossStage(int stage);
 	LIBZHL_API void CheckGameOver();
 	LIBZHL_API void RenderLabels();
 	LIBZHL_API void DeleteMap();
@@ -3753,14 +3776,19 @@ struct StarMap : FocusWindow
 	LIBZHL_API void MapConnected();
 	LIBZHL_API void ConnectLocations(Point unk0, Point unk1);
 	LIBZHL_API void PopulateGrid(Point unk0);
-	LIBZHL_API void GenerateMap(bool unk0, bool unk1);
+	LIBZHL_API Location *PopClosestLoc(std::vector<Location*> &vec, std::map<Location*, int> &map);
+	LIBZHL_API void Dijkstra0(Location *unk0, Location *unk1, bool unk2);
+	LIBZHL_API bool AddQuest(std::string &unk0, bool unk1);
+	LIBZHL_API Location *GenerateMap(bool unk0, bool seed);
 	LIBZHL_API void NewGame(bool unk0);
-	LIBZHL_API void Dijkstra(Location *unk0, Location *unk1, bool unk2);
-	LIBZHL_API void MouseMove(int unk0, int unk1);
+	LIBZHL_API void Dijkstra1(Location *unk0, Location *unk1, bool unk2);
+	LIBZHL_API void MouseMove(int x, int y);
 	LIBZHL_API void OnTouch(TouchAction unk0, int unk1, int unk2, int unk3, int unk4, int unk5);
-	LIBZHL_API void LoadGame(int unk0);
+	LIBZHL_API void LoadGame(int fileHelper);
 	LIBZHL_API void RenderLeftInsetButton(float unk0, float unk1, bool unk2);
 	LIBZHL_API void RenderDistressButtons();
+	LIBZHL_API void OnRender();
+	LIBZHL_API void DrawConnection(const Pointf &pos1, const Pointf &pos2, const GL_Color &color);
 	
 	float visual_size;
 	std::vector<Location*> locations;
@@ -4642,7 +4670,7 @@ struct ResourceControl
 	LIBZHL_API void CreateImagePrimitive(GL_Texture *tex, int unk1, int unk2, int unk3, GL_Color color, float unk4, char unk5);
 	LIBZHL_API void OnInit(int imageSwappingMode);
 	LIBZHL_API char *LoadFile(std::string &fileName);
-	LIBZHL_API void *GetImageId(std::string &name);
+	LIBZHL_API GL_Texture *GetImageId(std::string &dir);
 	LIBZHL_API int RenderImage(GL_Texture *tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror);
 	LIBZHL_API freetype::font_data &GetFontData(int fontType, bool unk);
 	

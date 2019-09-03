@@ -4886,7 +4886,7 @@
 	<windows.h>
 	<cstdio>
 
-1567277891 e:\ftl-hyperspace\ftlgame.h
+1567501396 e:\ftl-hyperspace\ftlgame.h
 	"zhl.h"
 	"rapidxml.hpp"
 	<string>
@@ -5028,7 +5028,7 @@
 1566972835 source:e:\ftl-hyperspace\mainmenu.cpp
 	"Global.h"
 
-1567277786 source:e:\ftl-hyperspace\misc.cpp
+1567278474 source:e:\ftl-hyperspace\misc.cpp
 	"Global.h"
 	"ASMHooks.h"
 
@@ -5045,7 +5045,7 @@
 	"Global.h"
 	"ASMHooks.h"
 
-1567277891 source:e:\ftl-hyperspace\ftlgame.cpp
+1567501396 source:e:\ftl-hyperspace\ftlgame.cpp
 	"FTLGame.h"
 	"zhl_internal.h"
 
@@ -5067,7 +5067,7 @@
 	<ostream>
 	<iterator>
 
-1567250466 source:e:\ftl-hyperspace\customships.cpp
+1567337688 source:e:\ftl-hyperspace\customships.cpp
 	"CustomShips.h"
 	"freetype.h"
 	<algorithm>
@@ -5106,5 +5106,11 @@
 	"Global.h"
 
 1567245559 e:\ftl-hyperspace\freetype.h
+	"Global.h"
+
+1567501208 source:e:\ftl-hyperspace\wormhole.cpp
+	"Global.h"
+
+1567500015 source:e:\ftl-hyperspace\infinite.cpp
 	"Global.h"
 

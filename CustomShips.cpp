@@ -15,6 +15,7 @@ ShipButton* testButton;
 
 void CustomShipSelect::ParseShipsNode(rapidxml::xml_node<char> *node)
 {
+    // parse <ships> node in hyperspace.xml
     for (auto child = node->first_node(); child; child = child->next_sibling())
     {
         if (child->first_attribute("name"))
@@ -36,6 +37,7 @@ void CustomShipSelect::ParseShipsNode(rapidxml::xml_node<char> *node)
 
 void CustomShipSelect::OnInit(ShipSelect* shipSelect_)
 {
+
     maxShipPage = std::ceil(this->blueprintNames.size() / 10.f);
 
     if (maxShipPage <= 0)
@@ -45,6 +47,7 @@ void CustomShipSelect::OnInit(ShipSelect* shipSelect_)
         int i = 0;
         for (auto const &x: blueprintNames)
         {
+            // create and initialize ShipButtons for each of the blueprints
             int curPage = i / 10;
 
             ShipButton* aButton = new ShipButton(100 + i, 0);
@@ -468,6 +471,8 @@ bool CustomShipSelect::CycleShipNext(ShipBuilder *builder)
             index++;
         }
 
+        int counter = 0;
+
         while (index >= num || !this->blueprintNames[index].typeB)
         {
             if (index == num)
@@ -477,6 +482,13 @@ bool CustomShipSelect::CycleShipNext(ShipBuilder *builder)
             else
             {
                 index++;
+            }
+
+            counter++;
+            if (counter > 100)
+            {
+                printf("Infinite loop while getting previous ship!");
+                break;
             }
         }
     }
@@ -491,6 +503,8 @@ bool CustomShipSelect::CycleShipNext(ShipBuilder *builder)
             index++;
         }
 
+        int counter = 0;
+
         while (index >= num || !this->blueprintNames[index].typeC)
         {
             if (index == num)
@@ -500,6 +514,13 @@ bool CustomShipSelect::CycleShipNext(ShipBuilder *builder)
             else
             {
                 index++;
+            }
+
+            counter++;
+            if (counter > 100)
+            {
+                printf("Infinite loop while getting next ship!");
+                break;
             }
         }
     }
@@ -547,6 +568,9 @@ bool CustomShipSelect::CycleShipPrevious(ShipBuilder *builder)
             index--;
         }
 
+        int counter = 0;
+
+
         while (index < 0 || !this->blueprintNames[index].typeB)
         {
             if (index < 0)
@@ -556,6 +580,13 @@ bool CustomShipSelect::CycleShipPrevious(ShipBuilder *builder)
             else
             {
                 index--;
+            }
+
+            counter++;
+            if (counter > 100)
+            {
+                printf("Infinite loop while getting previous ship!");
+                break;
             }
         }
     }
@@ -570,6 +601,8 @@ bool CustomShipSelect::CycleShipPrevious(ShipBuilder *builder)
             index--;
         }
 
+        int counter = 0;
+
         while (index < 0 || !this->blueprintNames[index].typeC)
         {
             if (index < 0)
@@ -579,6 +612,13 @@ bool CustomShipSelect::CycleShipPrevious(ShipBuilder *builder)
             else
             {
                 index--;
+            }
+
+            counter++;
+            if (counter > 100)
+            {
+                printf("Infinite loop while getting previous ship!");
+                break;
             }
         }
     }
@@ -615,11 +655,8 @@ HOOK_METHOD_PRIORITY(ShipManager, OnInit, 100, (ShipBlueprint *bp, int shipLevel
 
     int ret = super(bp, shipLevel);
 
-    printf("%s\n", bp->blueprintName.c_str());
-
 
     SM_EX(this)->isCustomShip = customSel->IsCustomShip(bp->blueprintName);
-    printf("%d\n", SM_EX(this)->isCustomShip);
 
     return ret;
 }

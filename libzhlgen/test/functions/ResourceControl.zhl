@@ -7,7 +7,7 @@ void ResourceControl::OnInit(ResourceControl *this<ecx>, int imageSwappingMode);
 "5589e557565389cf31db83e4f083ec408d442430c744240c10000000c744240800000000c744243064617461c74424342e646174894424288b4508":
 char* ResourceControl::LoadFile(ResourceControl *this<ecx>, std::string& fileName);
 "578d7c240883e4f0ff77fc5589e55756538d459081ec????????8b1f8b3d????????":
-void* ResourceControl::GetImageId(ResourceControl *this<ecx>, std::string& name);
+GL_Texture* ResourceControl::GetImageId(ResourceControl *this<ecx>, std::string& dir);
 "5589e583e4f083ec408b45088b552c85c00f84????????660fefd289c185c9f30f104d20f30f106d1cf30f104518":
 int ResourceControl::RenderImage(ResourceControl *this<ecx>, GL_Texture* tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b37":
