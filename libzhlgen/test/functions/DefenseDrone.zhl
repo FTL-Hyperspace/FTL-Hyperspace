@@ -1,0 +1,2 @@
+"5589e55756538b5d0883e4f085db74??8b430483f80274??":
+bool DefenseDrone::ValidTargetObject(DefenseDrone *this<ecx>, Targetable *other);

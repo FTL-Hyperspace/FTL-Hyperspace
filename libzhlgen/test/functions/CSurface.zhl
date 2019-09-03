@@ -80,3 +80,8 @@ static cleanup void CSurface::AddTexVertices(std::vector<GL_TexVertex>* vec, flo
 
 "8d4c240483e4f0ff71fc5589e55756535183ec588b71048b198b4604":
 static cleanup GL_Primitive* CSurface::GL_CreateMultiImagePrimitive(GL_Texture* tex, std::vector<GL_TexVertex>* vec, GL_Color color);
+
+struct CSurface depends
+{{
+
+}};
