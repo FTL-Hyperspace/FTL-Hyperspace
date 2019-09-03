@@ -3648,8 +3648,6 @@ struct DroneSystem
 
 struct WorldManager;
 
-struct GL_Color;
-
 struct WindowFrame
 {
 	LIBZHL_API void Draw(int x, int y);
@@ -3700,9 +3698,69 @@ struct StarMap : FocusWindow
 		int h;
 	};
 	
-	LIBZHL_API void OnRender();
-	LIBZHL_API void SetBossStage(int stage);
-	LIBZHL_API void DrawConnection(const Pointf &pos1, const Pointf &pos2, const GL_Color &color);
+	LIBZHL_API void SetPosition(Point unk0);
+	LIBZHL_API void KeyDown(int unk0);
+	LIBZHL_API void Open();
+	LIBZHL_API void Close();
+	LIBZHL_API void SetOpen(bool unk0);
+	LIBZHL_API void InitMapTitle();
+	LIBZHL_API void InitNoFuelText();
+	LIBZHL_API void InitBossMessageBox();
+	LIBZHL_API void OnLanguageChange();
+	LIBZHL_API void GetRandomSectorChoice();
+	LIBZHL_API void NeighboringSector(int unk0);
+	LIBZHL_API void GetSelectedSector(int unk0, int unk1, int unk2);
+	LIBZHL_API void StartSecretSector();
+	LIBZHL_API void ReachSector(Sector *unk0);
+	LIBZHL_API void UpdateSectorMap(Sector *unk0);
+	LIBZHL_API void SaveGame(int unk0);
+	LIBZHL_API void InitStatistics();
+	LIBZHL_API void PrintStatistics();
+	LIBZHL_API void AnalyzeMap();
+	LIBZHL_API void ModifyPursuit(int unk0);
+	LIBZHL_API void AtBeacon();
+	LIBZHL_API void GetWaitLocation();
+	LIBZHL_API void StartBeacon();
+	LIBZHL_API void LocationsConnected(Location *unk0, Location *unk1);
+	LIBZHL_API void PointToGrid(float unk0, float unk1);
+	LIBZHL_API void TravelToLocation(Location *unk0);
+	LIBZHL_API void ForceExitBeacon();
+	LIBZHL_API void OnRenderFogEffect();
+	LIBZHL_API void LocationHasBoss(Location *unk0);
+	LIBZHL_API void LocationHasStore(Location *unk0);
+	LIBZHL_API void LocationHasShip(Location *unk0);
+	LIBZHL_API void AdvanceWorldLevel();
+	LIBZHL_API void ReverseBossPath();
+	LIBZHL_API void ForceBossJump();
+	LIBZHL_API void ClearBoss();
+	LIBZHL_API void SetBossStage(int unk0);
+	LIBZHL_API void CheckGameOver();
+	LIBZHL_API void RenderLabels();
+	LIBZHL_API void DeleteMap();
+	LIBZHL_API void MouseClick(int unk0, int unk1);
+	LIBZHL_API void AddSectorColumn();
+	LIBZHL_API void PushSectorColumn();
+	LIBZHL_API void SelectNewSector(int unk0);
+	LIBZHL_API void GenerateSectorMap();
+	LIBZHL_API void constructor();
+	LIBZHL_API void RenderSectorName(Sector *unk0, GL_Color unk1);
+	LIBZHL_API void UpdateDangerZone();
+	LIBZHL_API void GetNewLocation();
+	LIBZHL_API void OnLoop();
+	LIBZHL_API void UpdateBoss();
+	LIBZHL_API void GenerateEvents(bool unk0);
+	LIBZHL_API void AddConnections(Location *unk0);
+	LIBZHL_API void MapConnected();
+	LIBZHL_API void ConnectLocations(Point unk0, Point unk1);
+	LIBZHL_API void PopulateGrid(Point unk0);
+	LIBZHL_API void GenerateMap(bool unk0, bool unk1);
+	LIBZHL_API void NewGame(bool unk0);
+	LIBZHL_API void Dijkstra(Location *unk0, Location *unk1, bool unk2);
+	LIBZHL_API void MouseMove(int unk0, int unk1);
+	LIBZHL_API void OnTouch(TouchAction unk0, int unk1, int unk2, int unk3, int unk4, int unk5);
+	LIBZHL_API void LoadGame(int unk0);
+	LIBZHL_API void RenderLeftInsetButton(float unk0, float unk1, bool unk2);
+	LIBZHL_API void RenderDistressButtons();
 	
 	float visual_size;
 	std::vector<Location*> locations;
@@ -3826,6 +3884,8 @@ struct StarMap : FocusWindow
 	int finalSectorChoice;
 	std::vector<Globals::Rect> sectorHitBoxes;
 };
+
+struct GL_Color;
 
 struct Scroller
 {
