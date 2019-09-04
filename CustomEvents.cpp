@@ -26,7 +26,6 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
 }
 
 
-
 HOOK_METHOD(WorldManager, CreateLocation, (Location *loc) -> void)
 {
     auto custom = CustomEventsParser::GetInstance();
