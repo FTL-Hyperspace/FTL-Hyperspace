@@ -11,12 +11,13 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
         {
             std::string eventName = std::string(eventNode->first_attribute("name")->value());
 
-            for (auto eventNode = node->first_node(); eventNode; eventNode = eventNode->next_sibling())
+            for (auto child = eventNode->first_node(); child; child = child->next_sibling())
             {
-                std::string nodeName(eventNode->name());
+                std::string nodeName(child->name());
 
                 if (nodeName == "wormhole")
                 {
+                    //printf("w %s\n", eventName.c_str());
                     this->wormholeEventNames.push_back(eventName);
                 }
             }
