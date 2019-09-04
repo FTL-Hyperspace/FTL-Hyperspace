@@ -5,6 +5,7 @@
 #include "CommandConsole.h"
 #include "CustomShips.h"
 #include "CustomCrew.h"
+#include "CustomEvents.h"
 
 #include <boost/lexical_cast.hpp>
 
@@ -76,6 +77,12 @@ void Global::InitializeResources(ResourceControl *resources)
             {
                 auto customCrewManager = CustomCrewManager::GetInstance();
                 customCrewManager->ParseCrewNode(node);
+            }
+
+            if (strcmp(node->name(), "customEvents") == 0)
+            {
+                auto customEventParser = CustomEventsParser::GetInstance();
+                customEventParser->ParseCustomEventNode(node);
             }
 
             node = node->next_sibling();

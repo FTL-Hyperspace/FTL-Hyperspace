@@ -5,7 +5,6 @@
 
 HOOK_METHOD(HackingSystem, OnLoop, () -> void)
 {
-
     super();
 
     if (!this->drone.arrived && !this->Powered())

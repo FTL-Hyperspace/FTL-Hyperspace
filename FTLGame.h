@@ -3216,6 +3216,8 @@ struct DefenseDrone : SpaceDrone
 	int currentTargetType;
 };
 
+struct Store;
+
 struct LocationEvent
 {
 	struct Choice
@@ -3226,6 +3228,32 @@ struct LocationEvent
 		bool hiddenReward;
 	};
 	
+	TextString text;
+	ShipEvent ship;
+	ResourceEvent stuff;
+	int environment;
+	int environmentTarget;
+	bool store;
+	int fleetPosition;
+	bool beacon;
+	bool reveal_map;
+	bool distressBeacon;
+	bool repair;
+	int modifyPursuit;
+	Store *pStore;
+	std::vector<EventDamage> damage;
+	std::string quest;
+	std::vector<StatusEffect> statusEffects;
+	std::vector<std_pair_std_string_std_string> nameDefinitions;
+	std::string spaceImage;
+	std::string planetImage;
+	std::string eventName;
+	ResourceEvent reward;
+	BoardingEvent boarders;
+	std::vector<Choice> choices;
+	int unlockShip;
+	TextString unlockShipText;
+	bool secretSector;
 };
 
 struct AugmentBlueprint
@@ -3567,7 +3595,6 @@ struct Upgrades : FocusWindow
 };
 
 struct Location;
-struct Store;
 
 struct CommandGui
 {
@@ -4105,6 +4132,7 @@ struct WorldManager
 	LIBZHL_API void constructor();
 	LIBZHL_API int OnInit();
 	LIBZHL_API CompleteShip *__stdcall CreateShip(ShipEvent *shipEvent, bool boss);
+	LIBZHL_API void CreateLocation(Location *loc);
 	
 	CompleteShip *playerShip;
 	BossShip *bossShip;

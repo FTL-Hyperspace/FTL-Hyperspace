@@ -3658,6 +3658,32 @@ struct Sector
 /* 393 */
 struct LocationEvent
 {
+  TextString text;
+  ShipEvent ship;
+  ResourceEvent stuff;
+  int environment;
+  int environmentTarget;
+  bool store;
+  int fleetPosition;
+  bool beacon;
+  bool reveal_map;
+  bool distressBeacon;
+  bool repair;
+  int modifyPursuit;
+  Store *pStore;
+  std__vector_11EventDamage damage;
+  std__string quest;
+  std__vector_12StatusEffect statusEffects;
+  std__vector_30std_pair_std_string_std_string nameDefinitions;
+  std__string spaceImage;
+  std__string planetImage;
+  std__string eventName;
+  ResourceEvent reward;
+  BoardingEvent boarders;
+  std__vector_21LocationEvent__Choice choices;
+  int unlockShip;
+  TextString unlockShipText;
+  bool secretSector;
 };
 
 /* 623 */
@@ -4774,5 +4800,52 @@ struct GL_TexVertex
   float y;
   float u;
   float v;
+};
+
+/* 684 */
+union __attribute__((aligned(8))) __m64
+{
+  unsigned __int64 m64_u64;
+  float m64_f32[2];
+  __int8 m64_i8[8];
+  __int16 m64_i16[4];
+  __int32 m64_i32[2];
+  __int64 m64_i64;
+  unsigned __int8 m64_u8[8];
+  unsigned __int16 m64_u16[4];
+  unsigned __int32 m64_u32[2];
+};
+
+/* 685 */
+union __attribute__((aligned(16))) __m128
+{
+  float m128_f32[4];
+  unsigned __int64 m128_u64[2];
+  __int8 m128_i8[16];
+  __int16 m128_i16[8];
+  __int32 m128_i32[4];
+  __int64 m128_i64[2];
+  unsigned __int8 m128_u8[16];
+  unsigned __int16 m128_u16[8];
+  unsigned __int32 m128_u32[4];
+};
+
+/* 686 */
+struct __m128d
+{
+  double m128d_f64[2];
+};
+
+/* 687 */
+union __attribute__((aligned(16))) __m128i
+{
+  __int8 m128i_i8[16];
+  __int16 m128i_i16[8];
+  __int32 m128i_i32[4];
+  __int64 m128i_i64[2];
+  unsigned __int8 m128i_u8[16];
+  unsigned __int16 m128i_u16[8];
+  unsigned __int32 m128i_u32[4];
+  unsigned __int64 m128i_u64[2];
 };
 

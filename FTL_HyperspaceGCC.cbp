@@ -140,6 +140,9 @@
 		<Unit filename="Augments.cpp">
 			<Option virtualFolder="Content/Misc/" />
 		</Unit>
+		<Unit filename="Balance.cpp">
+			<Option virtualFolder="Content/Misc/" />
+		</Unit>
 		<Unit filename="Captain.cpp">
 			<Option virtualFolder="Content/Crew/" />
 		</Unit>
@@ -171,6 +174,9 @@
 			<Option virtualFolder="Core/Crew/" />
 		</Unit>
 		<Unit filename="CustomEvents.cpp">
+			<Option virtualFolder="Core/Events/" />
+		</Unit>
+		<Unit filename="CustomEvents.h">
 			<Option virtualFolder="Core/Events/" />
 		</Unit>
 		<Unit filename="CustomShips.cpp">

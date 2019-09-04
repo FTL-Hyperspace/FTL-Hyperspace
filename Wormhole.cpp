@@ -2,7 +2,6 @@
 
 static Location *wormhole;
 static GL_Texture *wormholeTexture;
-static AnimationTracker *wormholeTracker;
 
 HOOK_METHOD(StarMap, constructor, () -> void)
 {
@@ -54,6 +53,7 @@ HOOK_METHOD(StarMap, OnRender, () -> void)
 
         G_->GetResources()->RenderImage(tex, std::floor(wormhole->loc.x - tex->width_ / 2), std::floor(wormhole->loc.y - tex->height_ / 2), 0, COLOR_WHITE, 1.f, false);
         CSurface::GL_PopMatrix();
+
     }
 
 }
