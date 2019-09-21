@@ -3,7 +3,7 @@
 struct CrewMember_Extend
 {
     CrewMember *orig;
-    bool canPhaseThroughDoors;
+    bool canPhaseThroughDoors = false;
     //bool isCaptain;
 };
 

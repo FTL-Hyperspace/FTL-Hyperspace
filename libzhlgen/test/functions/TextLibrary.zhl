@@ -1,2 +1,2 @@
 "578d7c240883e4f0ff77fc5589e557565383ec4c8b07894dc889c18945bc8b47048b59208d511c":
-static std::string& TextLibrary::GetText(std::string& strRef<ecx>, TextLibrary *textLibrary, std::string& name, std::string& lang);
+static std::string& TextLibrary::GetText(const std::string& strRef<ecx>, TextLibrary *textLibrary, const std::string& name, const std::string& lang);

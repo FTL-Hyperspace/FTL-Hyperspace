@@ -6,3 +6,5 @@ int WorldManager::OnInit(WorldManager *this<ecx>);
 CompleteShip *WorldManager::CreateShip(ShipEvent* shipEvent, bool boss);
 "578d7c240883e4f0ff77fc5589e557565389ce81ec????????898d54fbffffc6814612000000b9????????8b3f":
 void WorldManager::CreateLocation(WorldManager *this<ecx>, Location *loc);
+"578d7c240883e4f0ff77fc5589e557565389cf83ec3c8b89e40d0000e8????????84c074??8d65f45b5e5f5d":
+void WorldManager::SaveGame(WorldManager *this<ecx>);

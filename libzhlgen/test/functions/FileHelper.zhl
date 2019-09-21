@@ -1,0 +1,58 @@
+"8d4c240483e4f031c0ff71fc5589e5575653518d75d883ec588b39668945d8":
+static cleanup void FileHelper::deleteFile(const std::string& fileName);
+".8d4c240483e4f0ff71fc5589e557565351":
+static cleanup std::string& FileHelper::getResourceFile(const std::string& str);
+".8d4c240483e4f0ff71fc5589e5575653":
+static cleanup std::string& FileHelper::getUserFolder(const std::string& str);
+".8d4c240483e4f0ff71fc5589e557565351":
+static cleanup std::string& FileHelper::getSaveFile(const std::string& str);
+".8d4c240483e4f0ff71fc5589e5575653":
+static cleanup void FileHelper::initFileHelper();
+".8d4c240483e4f0ff71fc5589e55183ec14":
+static cleanup int FileHelper::fileLength(int file);
+".8d4c240483e4f031c0ff71fc5589e55756":
+static cleanup bool FileHelper::fileExists(const std::string& fileName);
+".8d4c240483e4f0ff71fc5589e5575653518d45b88d75d8":
+static cleanup void FileHelper::renameFile(const std::string& fileName, const std::string& newName);
+".8d4c240483e4f031d2ff71fc5589e5575653518dbd08fcffff81ec????????":
+static cleanup int FileHelper::createBinaryFile(const std::string& fileName);
+".a1????????a3????????b8????????":
+static cleanup int FileHelper::createSaveFile();
+".a1????????a3????????b8????????":
+static cleanup int FileHelper::createStatsFile();
+".5589e55383e4f083ec10c70424????????e8????????":
+static cleanup void FileHelper::deleteSaveFile();
+".8d4c240483e4f0ff71fc5589e5575653518d45b8":
+static cleanup void FileHelper::deleteAllSaveFiles();
+".8d4c240483e4f0ff71fc5589e55183ec14":
+static cleanup int FileHelper::getPosition(int file);
+".8d4c240483e4f0ff71fc5589e5575653":
+static cleanup int FileHelper::readBinaryFile(const std::string& fileName);
+".8d4c240483e4f0ff71fc5589e5535183ec10":
+static cleanup void FileHelper::closeBinaryFile(int file);
+".8d4c240483e4f0ff71fc5589e55756535183ec48":
+static cleanup std::string& FileHelper::readString(const std::string& str, int file);
+".8d4c240483e4f0ff71fc5589e557565351":
+static cleanup float FileHelper::readFloat(int file);
+".8d4c240483e4f0ff71fc5589e55756535183ec48":
+static cleanup int FileHelper::readInteger(int file);
+".8d4c240483e4f0ff71fc5589e5535183ec10":
+static cleanup bool FileHelper::seekPosition(int file, int pos);
+".8d4c240483e4f0ff71fc5589e55756":
+static cleanup char* FileHelper::readBuffer(int file, int len, bool unk);
+".8d4c240483e4f0ff71fc5589e557565351":
+static cleanup void FileHelper::readData(int file, void* data, int len);
+".8d4c240483e4f0ff71fc5589e5575653":
+static cleanup bool FileHelper::writeData(int file, void* data, int len);
+".8d4c240483e4f0ff71fc5589e55351":
+static cleanup int FileHelper::readSaveFile();
+".8d4c240483e4f0ff71fc5589e553518d45f483ec20":
+static cleanup int FileHelper::readStatsFile();
+".8d4c240483e4f0ff71fc5589e553518d45f483ec2089442408":
+static cleanup bool FileHelper::saveFileExists();
+".8d4c240483e4f0ff71fc5589e5565351":
+static cleanup bool FileHelper::writeFloat(int file, float data);
+".8d4c240483e4f0ff71fc5589e55756535183ec488b41048b318b38":
+static cleanup bool FileHelper::writeString(int file, std::string& data);
+"8d4c240483e4f0ff71fc5589e556535183ec3c803d??????????8b41048b198945e075??":
+static cleanup bool FileHelper::writeInt(int file, int data);

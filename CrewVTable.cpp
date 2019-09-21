@@ -49,6 +49,12 @@ static bool __attribute__((fastcall)) CrewMember_ProvidesPower(CrewMember *_this
     return custom->GetDefinition(_this->species).providesPower;
 }
 
+static float __attribute__((fastcall)) CrewMember_FireRepairMultiplier(CrewMember *_this)
+{
+    CustomCrewManager *custom = CustomCrewManager::GetInstance();
+    return custom->GetDefinition(_this->species).fireRepairMultiplier;
+}
+
 static bool __attribute__((fastcall)) CrewMember_IsTelepathic(CrewMember *_this)
 {
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
@@ -82,6 +88,7 @@ void SetupVTable(CrewMember *crew)
     vtable[41] = (void*)&CrewMember_GetRepairSpeed;
     vtable[42] = (void*)&CrewMember_GetDamageMultiplier;
     vtable[43] = (void*)&CrewMember_ProvidesPower;
+    vtable[45] = (void*)&CrewMember_FireRepairMultiplier;
     vtable[46] = (void*)&CrewMember_IsTelepathic;
     vtable[52] = (void*)&CrewMember_GetSuffocationModifier;
     vtable[55] = (void*)&CrewMember_IsAnaerobic;
@@ -96,9 +103,9 @@ HOOK_METHOD_PRIORITY(CrewMember, constructor, 500, (CrewBlueprint& bp, int shipI
     super(bp, shipId, intruder, animation);
 
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
-    if ( custom->IsRace(this->species) )
+    if ( custom->IsRace(species) )
     {
         SetupVTable(this);
-        this->health.first = this->GetMaxHealth();
+        health.first = GetMaxHealth();
     }
 }

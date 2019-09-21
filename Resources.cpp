@@ -6,16 +6,22 @@
 #include "CustomShips.h"
 #include "CustomCrew.h"
 #include "CustomEvents.h"
+#include "CustomAugments.h"
+#include "Infinite.h"
+#include "Balance.h"
+#include "MainMenu.h"
 
 #include <boost/lexical_cast.hpp>
 
-HOOK_METHOD(CApp, OnLoop, () -> int)
+HOOK_METHOD(ScoreKeeper, OnInit, () -> void)
 {
+    // last thing that happens before game initialization is complete
+    super();
+
     if (G_ && !G_->AreResourcesInitialized())
     {
         G_->InitializeResources(G_->GetResources());
     }
-    return super();
 
 }
 
@@ -23,10 +29,9 @@ HOOK_METHOD(CApp, OnLoop, () -> int)
 // hyperspace.xml parsing
 void Global::InitializeResources(ResourceControl *resources)
 {
-    this->__resourcesInitialized = true;
+    __resourcesInitialized = true;
 
-    std::string fileName("data/hyperspace.xml");
-    char *hyperspacetext = resources->LoadFile(fileName);
+    char *hyperspacetext = resources->LoadFile("data/hyperspace.xml");
 
 
 
@@ -49,11 +54,12 @@ void Global::InitializeResources(ResourceControl *resources)
         {
             if (strcmp(node->name(), "hullNumbers") == 0)
             {
+
                 if (node->first_attribute("enabled"))
                 {
                     auto enabled = node->first_attribute("enabled")->value();
 
-                    if (strcmp(enabled, "true") == 0)
+                    if (EventsParser::ParseBoolean(enabled))
                     {
                         auto hullManager = HullNumbers::GetInstance();
                         hullManager->enabled = true;
@@ -61,11 +67,25 @@ void Global::InitializeResources(ResourceControl *resources)
                     }
                 }
             }
+
+            if (strcmp(node->name(), "hackingDroneFix") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                g_hackingDroneFix = EventsParser::ParseBoolean(enabled);
+            }
+
             if (strcmp(node->name(), "console") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
-                CommandConsole::GetInstance()->enabled = strcmp(enabled, "true") == 0;
+                CommandConsole::GetInstance()->enabled = EventsParser::ParseBoolean(enabled);
             }
+
+            if (strcmp(node->name(), "infinite") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                g_infiniteMode = EventsParser::ParseBoolean(enabled);
+            }
+
 
             if (strcmp(node->name(), "ships") == 0)
             {
@@ -85,6 +105,19 @@ void Global::InitializeResources(ResourceControl *resources)
                 customEventParser->ParseCustomEventNode(node);
             }
 
+            if (strcmp(node->name(), "augments") == 0)
+            {
+                auto customAugmentManager = CustomAugmentManager::GetInstance();
+                customAugmentManager->ParseCustomAugmentNode(node);
+            }
+
+            if (strcmp(node->name(), "titleScreen") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                g_titleScreen = EventsParser::ParseBoolean(enabled);
+            }
+
+
             node = node->next_sibling();
         }
 
@@ -98,6 +131,8 @@ void Global::InitializeResources(ResourceControl *resources)
     {
         MessageBoxA(NULL, e, "Error", MB_ICONERROR);
     }
+
+    //G_->lua = new LuaState;
 }
 
 

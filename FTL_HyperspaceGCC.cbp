@@ -5,7 +5,7 @@
 		<Option title="FTL_HyperspaceGCC" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
-		<Option virtualFolders="Content\Misc\;Content\;Content\Crew\;Content\Ship\;ZHL\;Core\Systems\;Core\;Assembly\;Core\Crew\;Core\Events\;Core\Weapons\;Core\Ship\;Core\Resources\;Content\Map\;" />
+		<Option virtualFolders="Content\Misc\;Core\Systems\;Content\;Core\Systems\;Content\Crew\;Core\Systems\;Content\Ship\;Core\Systems\;Core\Systems\;Content\;Core\Systems\;Core\;Core\Weapons\;Content\;Core\Systems\;Core\Crew\;Content\;Core\Systems\;Core\Events\;Content\;Core\Systems\;Core\;Core\Weapons\;Content\;Core\Ship\;Content\;Core\Systems\;Core\Resources\;Content\;Core\Systems\;Content\Map\;Core\Systems\;Core\Map\;Content\;Core\Systems\;ZHL\;Assembly\;Content\Augments\;Core\Augments\;" />
 		<Build>
 			<Target title="Debug">
 				<Option output="C:/Program Files (x86)/Steam/steamapps/common/FTL Faster Than Light/Hyperspace" prefix_auto="1" extension_auto="1" />
@@ -20,11 +20,12 @@
 				<Compiler>
 					<Add option="-Wall" />
 					<Add option="-g" />
-					<Add option="-masm=intel -std=c++11" />
+					<Add option="-masm=intel -std=c++11 -g" />
 					<Add option="-DBUILD_DLL" />
 					<Add option="-DDEBUG" />
 					<Add directory="rapidxml" />
 					<Add directory="C:/boost/include/boost-1_70" />
+					<Add directory="lua/luajit/src" />
 				</Compiler>
 				<Linker>
 					<Add option="-static-libstdc++" />
@@ -66,7 +67,9 @@
 					<Add library="libboost_unit_test_framework-mgw82-mt-x32-1_70.a" />
 					<Add library="libboost_wave-mgw82-mt-x32-1_70.a" />
 					<Add library="libboost_wserialization-mgw82-mt-x32-1_70.a" />
+					<Add library="lua51" />
 					<Add directory="C:/boost/lib" />
+					<Add directory="lua/lib" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -137,10 +140,16 @@
 		<Unit filename="ASMHooks.h">
 			<Option virtualFolder="Assembly/" />
 		</Unit>
+		<Unit filename="AugmentValues.cpp">
+			<Option virtualFolder="Content/Augments/" />
+		</Unit>
 		<Unit filename="Augments.cpp">
-			<Option virtualFolder="Content/Misc/" />
+			<Option virtualFolder="Content/Augments/" />
 		</Unit>
 		<Unit filename="Balance.cpp">
+			<Option virtualFolder="Content/Misc/" />
+		</Unit>
+		<Unit filename="Balance.h">
 			<Option virtualFolder="Content/Misc/" />
 		</Unit>
 		<Unit filename="Captain.cpp">
@@ -167,6 +176,12 @@
 		<Unit filename="CrewVTable.cpp">
 			<Option virtualFolder="Core/Crew/" />
 		</Unit>
+		<Unit filename="CustomAugments.cpp">
+			<Option virtualFolder="Core/Augments/" />
+		</Unit>
+		<Unit filename="CustomAugments.h">
+			<Option virtualFolder="Core/Augments/" />
+		</Unit>
 		<Unit filename="CustomCrew.cpp">
 			<Option virtualFolder="Core/Crew/" />
 		</Unit>
@@ -178,6 +193,15 @@
 		</Unit>
 		<Unit filename="CustomEvents.h">
 			<Option virtualFolder="Core/Events/" />
+		</Unit>
+		<Unit filename="CustomMap.cpp">
+			<Option virtualFolder="Core/Map/" />
+		</Unit>
+		<Unit filename="CustomSaves.cpp">
+			<Option virtualFolder="Core/Resources/" />
+		</Unit>
+		<Unit filename="CustomSaves.h">
+			<Option virtualFolder="Core/Resources/" />
 		</Unit>
 		<Unit filename="CustomShips.cpp">
 			<Option virtualFolder="Core/Ship/" />
@@ -211,10 +235,22 @@
 		<Unit filename="HullNumbers.h">
 			<Option virtualFolder="Content/Misc/" />
 		</Unit>
+		<Unit filename="Infinite.cpp">
+			<Option virtualFolder="Content/Map/" />
+		</Unit>
+		<Unit filename="Infinite.h">
+			<Option virtualFolder="Content/Map/" />
+		</Unit>
 		<Unit filename="MainMenu.cpp">
 			<Option virtualFolder="Content/Misc/" />
 		</Unit>
+		<Unit filename="MainMenu.h">
+			<Option virtualFolder="Content/Misc/" />
+		</Unit>
 		<Unit filename="Misc.cpp">
+			<Option virtualFolder="Content/Misc/" />
+		</Unit>
+		<Unit filename="Misc.h">
 			<Option virtualFolder="Content/Misc/" />
 		</Unit>
 		<Unit filename="Resources.cpp">

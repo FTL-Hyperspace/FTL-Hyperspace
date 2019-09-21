@@ -6,6 +6,10 @@
 
 struct ShipDefinition
 {
+    ShipDefinition()
+    {
+    }
+
     std::string name;
     bool typeB;
     bool typeC;
@@ -83,7 +87,7 @@ public:
 
     void SwitchShip(ShipBuilder *builder, int type, int variant, bool force=false);
 
-    void AddShip(const std::string&, bool, bool);
+    void AddShip(std::string&, bool, bool);
     std::string& GetShipBlueprint(int shipId);
 
     void Close();
@@ -97,7 +101,7 @@ public:
 
     bool IsOpen()
     {
-        return this->open;
+        return open;
     }
 
     int GetCurrentPage()
@@ -132,14 +136,14 @@ public:
 
     void ClearSelection()
     {
-        this->selectedShip = -1;
+        selectedShip = -1;
     }
 
 
 
     ShipDefinition& GetShipDefinition(int id)
     {
-        return this->blueprintNames[id];
+        return blueprintNames[id];
     }
 
     int GetRandomShipIndex()

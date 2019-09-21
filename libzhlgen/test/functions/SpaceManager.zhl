@@ -7,13 +7,13 @@ void SpaceManager::SaveSpace(SpaceManager *this<ecx>, void* fileHelper);
 ".8b54240489c88b8ae802000089088b8aec0200008948048b8af00200008948088b8af4020000":
 void SpaceManager::SwitchBeacon(SpaceManager *this<ecx>);
 ".578d7c240883e4f0ff77fc5589e5575653":
-ImageDesc* SpaceManager::SwitchPlanet(SpaceManager *this<ecx>, std::string& name);
+ImageDesc* SpaceManager::SwitchPlanet(SpaceManager *this<ecx>, const std::string& name);
 ".578d7c240883e4f0ff77fc5589e557":
 void SpaceManager::UpdatePlanetImage(SpaceManager *this<ecx>);
 ".578d7c240883e4f0":
 void SpaceManager::SwitchImages(SpaceManager *this<ecx>, ImageDesc planet, ImageDesc unk1, ImageDesc unk2);
 ".578d7c240883e4f0":
-ImageDesc* SpaceManager::SwitchBackground(SpaceManager *this<ecx>, std::string& name);
+ImageDesc* SpaceManager::SwitchBackground(SpaceManager *this<ecx>, const std::string& name);
 ".5789ca83c10c8d7c2408":
 void SpaceManager::StartAsteroids(SpaceManager *this<ecx>, int shieldCount, bool unk);
 ".578d7c240883e4f0ff77fc5589e557565389cb81ec????????":

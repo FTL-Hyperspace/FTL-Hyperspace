@@ -11,17 +11,12 @@ HOOK_METHOD_PRIORITY(CrewMember, constructor, 900, (CrewBlueprint& blueprint, in
 
 
 
-
-    ex->canPhaseThroughDoors = this->species == "ghost";
-
-
-
     DWORD dEx = (DWORD)ex;
 
-	this->gap_ex_1[0] = (dEx >> 24) & 0xFF;
-	this->gap_ex_1[1] = (dEx >> 16) & 0xFF;
-	this->gap_ex_2[0] = (dEx >> 8) & 0xFF;
-	this->gap_ex_2[1] = dEx & 0xFF;
+	gap_ex_1[0] = (dEx >> 24) & 0xFF;
+	gap_ex_1[1] = (dEx >> 16) & 0xFF;
+	gap_ex_2[0] = (dEx >> 8) & 0xFF;
+	gap_ex_2[1] = dEx & 0xFF;
 	ex->orig = this;
 }
 

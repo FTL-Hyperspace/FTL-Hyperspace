@@ -13,7 +13,11 @@ MouseControl *Global::__mouseControl = NULL;
 TextLibrary *Global::__textLibrary = NULL;
 CrewMemberFactory *Global::__crewFactory = NULL;
 TutorialManager *Global::__tutorialManager = NULL;
+EventGenerator *Global::__eventGenerator = NULL;
+EventsParser *Global::__eventsParser = NULL;
+EventSystem *Global::__eventSystem = NULL;
 
+bool *Global::showBeaconPath = NULL;
 bool *Global::__rng = NULL;
 
 HOOK_METHOD(CApp, OnInit, () -> int)
@@ -38,8 +42,12 @@ void Global::Initialize(CApp *cApp)
     __textLibrary = (TextLibrary*)(__baseAddress + __textOffset);
     __crewFactory = (CrewMemberFactory*)(__baseAddress + __crewFactoryOffset);
     __tutorialManager = (TutorialManager*)(__baseAddress + __tutorialOffset);
+    __eventGenerator = (EventGenerator*)(__baseAddress + __eventGenOffset);
+    __eventsParser = (EventsParser*)(__baseAddress + __eventsParseOffset);
+    __eventSystem = (EventSystem*)(__baseAddress + __eventSystem);
 
-    __rng = (bool*)(__baseAddress + __rngOffset);
+    showBeaconPath = (bool*)((__baseAddress + __beaconPathOffset));
+    __rng = (bool*)((__baseAddress + __rngOffset));
 
 
     SetWindowTextA((HWND)GetModuleHandle(NULL), "FTL: Hyperspace");

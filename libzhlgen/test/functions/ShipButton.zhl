@@ -1,7 +1,7 @@
 "578d7c240883e4f0ff77fc5589e557565389ce81ec????????8b0789c389857cfdffff8b4704898580fdffffe8????????":
 void ShipButton::constructor(ShipButton *this<ecx>, int shipType, int shipVariant);
 ".578d7c240883e4f0ff77fc5589e5575389cb83ec10807b70008b17":
-void ShipButton::OnInit(ShipButton *this<ecx>, std::string& unk, Point pos);
+void ShipButton::OnInit(ShipButton *this<ecx>, const std::string& imgName, Point pos);
 ".578d7c240883e4f0ff77fc5589f889e557565389cf83ec2c807970008b108b4004":
 bool ShipButton::MouseMove(ShipButton *this<ecx>, int x, int y);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec7c8079700075??807972000f84????????":

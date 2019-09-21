@@ -4,6 +4,12 @@ void InfoBox::OnRender(InfoBox *this<ecx>);
 int InfoBox::Clear(InfoBox *this<ecx>);
 "578d7c240883e4f0ff77fc5589e557565389cb83c10c83ec2c8b378b5708":
 int InfoBox::SetDescription(InfoBox *this<ecx>, Description *desc, int width, int height, InfoBox::ExpandDir dir); 
+"578d7c240883e4f0ff77fc5589e557565389cb83c10c83ec1c8b378d461c890424":
+void InfoBox::SetBlueprint(InfoBox *this<ecx>, const ItemBlueprint* bp);
+".578d7c240883e4f0ff77fc5589e557565389cb83c10c83ec1c8b378d461c890424":
+void InfoBox::SetBlueprintAugment(InfoBox *this<ecx>, const AugmentBlueprint* bp);
+"578d7c240883e4f0ff77fc5589e557565389cf81ec????????83b9ac000000010f84????????8b8fd000000085c90f85????????c78500ffffff30000000807f5c00":
+int InfoBox::CalcBoxHeight(InfoBox *this<ecx>);
 
 struct InfoBox 
 {{

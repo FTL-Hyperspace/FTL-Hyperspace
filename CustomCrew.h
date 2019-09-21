@@ -17,6 +17,8 @@ struct CrewDefinition
     float suffocationModifier = 1.f;
     bool isTelepathic = false;
     bool isAnaerobic = false;
+    float fireDamageMultiplier = 1.f;
+    bool canPhaseThroughDoors = false;
 };
 
 

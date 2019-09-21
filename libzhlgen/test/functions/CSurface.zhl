@@ -74,6 +74,8 @@ static cleanup bool CSurface::GL_BlitImagePartial(GL_Texture *tex, float x, floa
 static cleanup bool CSurface::GL_BlitPixelImageWide(GL_Texture *tex, float x, float y, int x2, int y2, float opacity, GL_Color color, bool mirror);
 ".5589e55383e4f083ec208b5d0885db0f84????????a1????????8b15????????39d00f84????????29d0":
 static cleanup void CSurface::GL_RenderPrimitive(GL_Primitive *primitive);
+".5589e55383e4f083ec208b5d0885db0f84????????a1????????8b15????????39d00f84????????":
+static cleanup void CSurface::GL_RenderPrimitiveWithAlpha(GL_Primitive *primitive, float alpha);
 
 "8d4c240483e4f0ff71fc5589e55756535183ec388b39f30f105104f30f1059088b17":
 static cleanup void CSurface::AddTexVertices(std::vector<GL_TexVertex>* vec, float x1, float y1, float u1, float v1, float x2, float y2, float u2, float v2);

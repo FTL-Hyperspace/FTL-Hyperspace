@@ -42,6 +42,7 @@ struct ChoiceText;
 struct Targetable;
 struct LocationEvent__Choice;
 struct DroneBlueprint;
+struct AugmentBlueprint;
 struct WeaponBlueprint;
 struct CrewCustomizeBox;
 struct ParticleEmitter;
@@ -1061,9 +1062,6 @@ struct std__vector_13Globals__Rect
   Globals__Rect *_finish;
   Globals__Rect *_end;
 };
-
-/* 330 */
-struct AugmentBlueprint;
 
 /* 339 */
 struct Blueprint
@@ -3125,6 +3123,14 @@ struct DroneBlueprint
   std__string combatIcon;
 };
 
+/* 330 */
+struct AugmentBlueprint
+{
+  Blueprint _base;
+  float value;
+  bool stacking;
+};
+
 /* 520 */
 struct std__vector_8GL_Color
 {
@@ -4374,7 +4380,86 @@ struct AnaerobicAlien;
 /* 186 */
 struct EnergyAlien
 {
-  CrewMember _base;
+  VTable_CrewMember *_vtable;
+  int iShipId;
+  float x;
+  float y;
+  float size;
+  float scale;
+  float goal_x;
+  float goal_y;
+  int width;
+  int height;
+  std__pair_13float___float health;
+  float speed_x;
+  float speed_y;
+  Path path;
+  bool new_path;
+  float x_destination;
+  float y_destination;
+  Door *last_door;
+  Repairable *currentRepair;
+  bool bSuffocating;
+  int moveGoal;
+  int selectionState;
+  int iRoomId;
+  int iManningId;
+  int iRepairId;
+  int iStackId;
+  Slot currentSlot;
+  bool intruder;
+  bool bFighting;
+  bool bSharedSpot;
+  CrewAnimation *crewAnim;
+  GL_Texture *selectionImage;
+  CachedImage healthBox;
+  CachedImage healthBoxRed;
+  CachedRect healthBar;
+  float fMedbay;
+  float lastDamageTimer;
+  float lastHealthChange;
+  int currentShipId;
+  AnimationTracker flashHealthTracker;
+  Pointf currentTarget;
+  CrewTarget *crewTarget;
+  BoardingGoal boardingGoal;
+  bool bFrozen;
+  bool bFrozenLocation;
+  CrewTask task;
+  std__string type;
+  Ship *ship;
+  Slot finalGoal;
+  Door *blockingDoor;
+  bool bOutOfGame;
+  std__string species;
+  bool bDead;
+  unsigned __int8 gap_ex_1[2];
+  int iOnFire;
+  bool bActiveManning;
+  ShipSystem *currentSystem;
+  int usingSkill;
+  CrewBlueprint blueprint;
+  Animation healing;
+  Animation stunned;
+  AnimationTracker levelUp;
+  int lastLevelUp;
+  SCrewStats stats;
+  std__vector_17std__vector_4bool skillsEarned;
+  bool clone_ready;
+  bool bMindControlled;
+  int iDeathNumber;
+  Animation mindControlled;
+  Animation stunIcon;
+  std__vector_30std__vector_16AnimationTracker skillUp;
+  int healthBoost;
+  float fMindDamageBoost;
+  float fCloneDying;
+  bool bResisted;
+  unsigned __int8 gap_ex_2[2];
+  Slot savedPosition;
+  float fStunTime;
+  CachedImage movementTarget;
+  bool bCloned;
   bool bTriggerExplosion;
   bool bExploded;
 };

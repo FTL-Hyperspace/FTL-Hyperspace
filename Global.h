@@ -13,6 +13,7 @@
 #include "CrewMember_Extend.h"
 #include "ShipManager_Extend.h"
 
+//#include "LuaState.h"
 
 class Global
 {
@@ -35,10 +36,17 @@ public:
     TextLibrary *GetTextLibrary() { return __textLibrary; }
     CrewMemberFactory *GetCrewFactory() { return __crewFactory; }
     TutorialManager *GetTutorialManager() { return __tutorialManager; }
+    EventGenerator *GetEventGenerator() { return __eventGenerator; }
+    EventsParser *GetEventsParser() { return __eventsParser; }
+    EventSystem *GetEventSystem() { return __eventSystem; }
 
     bool GetRNG() { return *__rng; }
 
     DWORD GetBaseAddress() { return __baseAddress; }
+
+    static bool* showBeaconPath;
+
+    //LuaState* lua;
 
 private:
     bool __resourcesInitialized;
@@ -57,6 +65,10 @@ private:
     const DWORD __rngOffset =         0x004CB7A0;
     const DWORD __crewFactoryOffset = 0x004C6E40;
     const DWORD __tutorialOffset =    0x004C5340;
+    const DWORD __eventGenOffset =    0x004CB920;
+    const DWORD __eventsParseOffset = 0x004CBB60;
+    const DWORD __beaconPathOffset =  0x004C8CF6;
+    const DWORD __eventSystemOffset = 0x004CB640;
 
     DWORD __baseAddress = 0;
 
@@ -70,6 +82,10 @@ private:
     static TextLibrary *__textLibrary;
     static CrewMemberFactory *__crewFactory;
     static TutorialManager *__tutorialManager;
+    static EventGenerator *__eventGenerator;
+    static EventsParser *__eventsParser;
+    static EventSystem *__eventSystem;
+
 
     static bool* __rng;
 };

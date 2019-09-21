@@ -11,8 +11,6 @@ extern "C" BOOL APIENTRY DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpv
 
         case DLL_PROCESS_ATTACH:
             {
-            // attach to process
-            // return FALSE to fail DLL load
 #ifdef DEBUG
             AllocConsole();
             freopen("conin$", "r", stdin);

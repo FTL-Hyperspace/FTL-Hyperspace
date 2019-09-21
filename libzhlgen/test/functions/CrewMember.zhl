@@ -144,7 +144,7 @@ void CrewMember::RenderSkillUpAnimation(CrewMember *this<ecx>, Point pos);
 ".578d7c240883e4f0ff77fc5589e5":
 void CrewMember::Clone(CrewMember *this<ecx>);
 ".578d7c240883e4f0ff77fc55":
-bool CrewMember::UpdateHealth(CrewMember *this<ecx>);
+void CrewMember::UpdateHealth(CrewMember *this<ecx>);
 ".8b410485c00f85????????660fefc9f30f104108f30f1015????????":
 void CrewMember::OnRenderPath(CrewMember *this<ecx>);
 ".578d7c240883e4f0ff77fc5589e557565389cb":
@@ -214,6 +214,11 @@ struct CrewMember
 	CrewMember(CrewBlueprint& bp, int shipId, bool intruder, CrewAnimation *animation)
 	{
 		this->constructor(bp, shipId, intruder, animation);
+	}
+	
+	ShipObject* GetShipObject()
+	{
+		return (ShipObject*)&(this->iShipId);
 	}
 
 }};

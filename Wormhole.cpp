@@ -3,24 +3,22 @@
 static Location *wormhole;
 static GL_Texture *wormholeTexture;
 
+/*
 HOOK_METHOD(StarMap, constructor, () -> void)
 {
     super();
-
-    std::string dir("hyperspace/map/map_icon_wormhole.png");
-    wormholeTexture = G_->GetResources()->GetImageId(dir);
-
+    wormholeTexture = G_->GetResources()->GetImageId("hyperspace/map/map_icon_wormhole.png");
 }
 
 HOOK_METHOD(StarMap, GenerateMap, (bool unk1, bool seed) -> Location*)
 {
     auto ret = super(unk1, seed);
 
-    if (this->currentSector->level > 0)
+    if (currentSector->level > 0)
     {
         Location* rightmost = 0;
 
-        for (auto const& location: this->locations)
+        for (auto const& location: locations)
         {
             if (((rightmost && location->loc.x > rightmost->loc.x) || (!rightmost)) && !location->beacon)
             {
@@ -29,6 +27,11 @@ HOOK_METHOD(StarMap, GenerateMap, (bool unk1, bool seed) -> Location*)
         }
 
         wormhole = rightmost;
+
+        if (wormhole)
+        {
+            wormhole->event = G_->GetEventGenerator()->GetBaseEvent("WORMHOLE", 0, 0, -1);
+        }
     }
 
 
@@ -40,20 +43,21 @@ HOOK_METHOD(StarMap, OnRender, () -> void)
 {
     super();
 
+    //endButton.bActive = false;
+
     //printf("%d %d\n", wormhole, wormholeTexture);
 
-    if (this->currentSector->level > 0 && wormhole && wormholeTexture)
+    if (currentSector->level > 0 && wormhole && wormholeTexture && !bChoosingNewSector)
     {
         CSurface::GL_PushMatrix();
-        CSurface::GL_Translate(this->position.x, this->position.y, 0);
-        CSurface::GL_Translate(this->translation.x, this->translation.y, 0);
+        CSurface::GL_Translate(position.x, position.y, 0);
+        CSurface::GL_Translate(translation.x, translation.y, 0);
 
         auto tex = wormholeTexture;
 
 
         G_->GetResources()->RenderImage(tex, std::floor(wormhole->loc.x - tex->width_ / 2), std::floor(wormhole->loc.y - tex->height_ / 2), 0, COLOR_WHITE, 1.f, false);
         CSurface::GL_PopMatrix();
-
     }
-
 }
+*/

@@ -3,7 +3,7 @@ char ShipSystem::DamageOverTime(ShipSystem *this<ecx>, float unk);
 ".8b414083e80383f801":
 int ShipSystem::CheckForRepower(ShipSystem *this<ecx>);
 ".8d4c240483e4f0ff71fc5589e5535183ec108b19c70424????????89d9e8????????83ec0485c075??":
-static cleanup int ShipSystem::NameToSystemId(std::string& name);
+static cleanup int ShipSystem::NameToSystemId(const std::string& name);
 "8b414885c07e??80794c0074??8b9104010000399100010000ba????????":
 int ShipSystem::IsMannedBoost(ShipSystem *this<ecx>);
 "8d4c240483e4f0ff71fc5589e5535183ec108b41048b1983f8110f87????????ff2485????????89f68dbc2700000000c70424????????89d9e8????????83ec048d65f8":

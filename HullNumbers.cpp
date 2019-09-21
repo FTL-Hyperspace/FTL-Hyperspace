@@ -1,4 +1,5 @@
 #include "HullNumbers.h"
+#include "Global.h"
 #include <boost/lexical_cast.hpp>
 
 HullNumbers HullNumbers::instance = HullNumbers();
@@ -58,6 +59,21 @@ HOOK_METHOD(ShipStatus, RenderHealth, (bool unk) -> void)
     }
 }
 
+HOOK_METHOD(ResourceControl, GetImageId, (std::string& path) -> GL_Texture*)
+{
+    if (path == "combatUI/box_hostiles2.png" && HullNumbers::GetInstance() && HullNumbers::GetInstance()->enabled)
+    {
+        path.assign("combatUI/box_hostiles2_numbers.png");
+    }
+    if (path == "combatUI/box_hostiles_boss" && HullNumbers::GetInstance() && HullNumbers::GetInstance()->enabled)
+    {
+        path.assign("combatUI/box_hostiles_boss_numbers.png");
+    }
+
+
+    return super(path);
+}
+
 HOOK_METHOD(CombatControl, RenderTarget, () -> void)
 {
     super();
@@ -84,7 +100,6 @@ HOOK_METHOD(CombatControl, RenderTarget, () -> void)
 
         char buffer[64];
         sprintf(buffer, "%d", this->GetCurrentTarget()->ship.hullIntegrity.first);
-        std::string str(buffer);
 
         HullNumbers::IndicatorInfo textInfo;
         if (this->CurrentTargetIsBoss())
@@ -96,6 +111,17 @@ HOOK_METHOD(CombatControl, RenderTarget, () -> void)
             textInfo = manager->enemyIndicator;
         }
 
-        freetype::easy_printCenter(textInfo.type, textInfo.x, textInfo.y, str);
+        freetype::easy_printCenter(textInfo.type, textInfo.x, textInfo.y, buffer);
+    }
+}
+
+HOOK_METHOD(ShipStatus, OnInit, (Point unk, float unk2) -> void)
+{
+    super(unk, unk2);
+
+    if (HullNumbers::GetInstance() && HullNumbers::GetInstance()->enabled)
+    {
+        hullBox = G_->GetResources()->CreateImagePrimitiveString("statusUI/top_hull_numbers.png", 0, 0, 0, COLOR_WHITE, 1.f, false);
+        hullBox_Red = G_->GetResources()->CreateImagePrimitiveString("statusUI/top_hull_numbers_red.png", 0, 0, 0, COLOR_WHITE, 1.f, false);
     }
 }

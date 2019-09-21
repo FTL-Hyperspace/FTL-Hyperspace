@@ -1,0 +1,2 @@
+"578d7c240883e4f0ff77fc5589e5575383ec108b47048b1f8b570885c07e??":
+void OxygenSystem::UpdateBreach(OxygenSystem *this<ecx>, int roomId, int hasBreach, bool unk3);

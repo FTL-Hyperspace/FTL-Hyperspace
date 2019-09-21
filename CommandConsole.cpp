@@ -6,9 +6,11 @@ CommandConsole CommandConsole::instance = CommandConsole();
 
 
 
-bool CommandConsole::RunCommand(CommandGui *commandGui, std::string& command)
+bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
 {
+    std::string command = cmd;
     boost::to_upper(command);
+
     std::string cmdName = command.substr(0, command.find(" "));
 
     if (cmdName == "STORE")
@@ -35,7 +37,6 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, std::string& command)
     {
         commandGui->starMap->bOpen = true;
         commandGui->starMap->bChoosingNewSector = true;
-
     }
     if (cmdName == "BOSS")
     {

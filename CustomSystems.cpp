@@ -1,4 +1,6 @@
 #include "CustomSystems.h"
+#include "Global.h"
+
 
 /*
 HOOK_STATIC(ShipSystem, NameToSystemId, (std::string& name) -> int)

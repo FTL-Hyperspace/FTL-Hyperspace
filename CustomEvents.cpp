@@ -14,23 +14,31 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
             for (auto child = eventNode->first_node(); child; child = child->next_sibling())
             {
                 std::string nodeName(child->name());
-
-                if (nodeName == "wormhole")
-                {
-                    //printf("w %s\n", eventName.c_str());
-                    this->wormholeEventNames.push_back(eventName);
-                }
             }
         }
     }
 }
 
+HOOK_METHOD(EventGenerator, GetBaseEvent, (std::string& name, int unk1, char load, int unk3) -> LocationEvent*)
+{
+    LocationEvent *ret = super(name, unk1, load, unk3);
+    return ret;
+}
+
+HOOK_METHOD(EventsParser, AddAllEvents, () -> void)
+{
+    super();
+    char* eventText = G_->GetResources()->LoadFile("data/events_hyperspace.xml");
+
+    if (eventText)
+    {
+        AddEvents(*G_->GetEventGenerator(), eventText, "data/events_hyperspace.xml");
+    }
+}
 
 HOOK_METHOD(WorldManager, CreateLocation, (Location *loc) -> void)
 {
     auto custom = CustomEventsParser::GetInstance();
-
-    printf("%s\n", loc->event->eventName.c_str());
 
     super(loc);
 }

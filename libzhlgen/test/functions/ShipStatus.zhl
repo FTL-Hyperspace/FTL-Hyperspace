@@ -1,2 +1,4 @@
 "578d7c240883e4f0ff77fc5589e557565381ec????????803f000f85????????89cb8b79148bb180000000":
 void ShipStatus::RenderHealth(ShipStatus *this<ecx>, bool unk);
+"578d7c240883e4f0ff77fc5589e55756538db5c0feffff81ec????????8b078b5704f30f104708":
+void ShipStatus::OnInit(ShipStatus *this<ecx>, Point unk, float unk2);

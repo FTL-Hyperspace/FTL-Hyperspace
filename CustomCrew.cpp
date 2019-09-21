@@ -9,7 +9,7 @@ CustomCrewManager CustomCrewManager::instance = CustomCrewManager();
 
 void CustomCrewManager::AddCrewDefinition(CrewDefinition crew)
 {
-    this->blueprintNames[crew.race] = crew;
+    blueprintNames[crew.race] = crew;
 }
 
 
@@ -35,15 +35,15 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
 
                         if (str == "canFight")
                         {
-                            crew.canFight = val == "true";
+                            crew.canFight = EventsParser::ParseBoolean(val);
                         }
                         if (str == "canSuffocate")
                         {
-                            crew.canSuffocate = val == "true";
+                            crew.canSuffocate = EventsParser::ParseBoolean(val);
                         }
                         if (str == "canBurn")
                         {
-                            crew.canBurn = val == "true";
+                            crew.canBurn = EventsParser::ParseBoolean(val);
                         }
                         if (str == "maxHealth")
                         {
@@ -71,15 +71,23 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                         }
                         if (str == "providesPower")
                         {
-                            crew.providesPower = val == "true";
+                            crew.providesPower = EventsParser::ParseBoolean(val);
                         }
                         if (str == "isTelepathic")
                         {
-                            crew.isTelepathic = val == "true";
+                            crew.isTelepathic = EventsParser::ParseBoolean(val);
                         }
                         if (str == "isAnaerobic")
                         {
-                            crew.isAnaerobic = val == "true";
+                            crew.isAnaerobic = EventsParser::ParseBoolean(val);
+                        }
+                        if (str == "fireDamageMultiplier")
+                        {
+                            crew.fireDamageMultiplier = boost::lexical_cast<float>(val);
+                        }
+                        if (str == "canPhaseThroughDoors")
+                        {
+                            crew.canPhaseThroughDoors = EventsParser::ParseBoolean(val);
                         }
                     }
                 }
@@ -88,7 +96,7 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                     MessageBoxA(NULL, e.what(), "Error", MB_ICONERROR);
                 }
 
-                this->AddCrewDefinition(crew);
+                AddCrewDefinition(crew);
             }
         }
     }
@@ -107,7 +115,7 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
 CrewMember* CustomCrewManager::CreateCrewMember(CrewBlueprint* bp, int shipId, bool intruder)
 {
     std::string race = bp->name;
-    if (!this->IsRace(race))
+    if (!IsRace(race))
         return 0;
 
     Pointf unk = Pointf(0.f, 0.f);
@@ -121,8 +129,8 @@ CrewMember* CustomCrewManager::CreateCrewMember(CrewBlueprint* bp, int shipId, b
 
 bool CustomCrewManager::IsRace(const std::string& race)
 {
-    return std::count_if(this->blueprintNames.begin(),
-                         this->blueprintNames.end(),
+    return std::count_if(blueprintNames.begin(),
+                         blueprintNames.end(),
                          [race](std::pair<std::string, CrewDefinition> i) { return i.first == race; } )
                           > 0;
 }
@@ -137,32 +145,77 @@ bool CustomCrewManager::IsRace(const std::string& race)
 
 //=================================
 
+HOOK_METHOD_PRIORITY(CrewMember, UpdateHealth, 2000, () -> void)
+{
+
+
+    if (iOnFire && CanBurn())
+    {
+        CustomCrewManager *custom = CustomCrewManager::GetInstance();
+
+        float fireMultiplier = 1.f;
+
+        if (custom->IsRace(species))
+        {
+            fireMultiplier = custom->GetDefinition(species).fireDamageMultiplier;
+        }
+
+        DirectModifyHealth(G_->GetCFPS()->GetSpeedFactor() * -0.133f * fireMultiplier);
+    }
+
+    if (bSuffocating && !IsAnaerobic())
+    {
+        float mod = 1.f;
+        if (GetShipObject()->HasAugmentation("O2_MASKS"))
+        {
+            mod = GetShipObject()->GetAugmentationValue("O2_MASKS");
+        }
+
+        float multiplier = GetSuffocationMultiplier();
+
+        DirectModifyHealth(G_->GetCFPS()->GetSpeedFactor() * -0.4f * mod * multiplier);
+    }
+
+    float mod = 1.f;
+    if (IsDrone())
+    {
+        mod = 0.2f;
+    }
+
+    DirectModifyHealth(G_->GetCFPS()->GetSpeedFactor() * fMedbay * mod * 0.4f);
+
+    //super();
+}
+
 HOOK_METHOD_PRIORITY(CrewMember, GetNewGoal, 2000, () -> bool)
 {
-    return super();
     auto ex = CM_EX(this);
 
-    if (this->last_door && !ex->canPhaseThroughDoors)
-        this->last_door->FakeClose();
-    this->last_door = 0;
+    if (last_door && !ex->canPhaseThroughDoors)
+    {
+        last_door->FakeClose();
+    }
+
+
+    last_door = 0;
 
     bool result = false;
 
 
-    if (this->path.distance != -1.f)
+    if (path.distance != -1.f)
     {
-        Point pos = Point(std::floor(this->x), std::floor(this->y));
+        Point pos = Point(std::floor(x), std::floor(y));
 
-        int roomId = this->iRoomId;
-        ShipGraph* shipGraph = ShipGraph::GetShipInfo(this->currentShipId);
+        int roomId = iRoomId;
+        ShipGraph* shipGraph = ShipGraph::GetShipInfo(currentShipId);
         Point intoRoom = shipGraph->GetIntoRoom(roomId, pos);
 
-        if (this->path.doors.size() > 0)
+        if (path.doors.size() > 0)
         {
-            Door* door = this->path.doors.front();
+            Door* door = path.doors.front();
 
             Point doorPos = door->GetCenterPoint();
-            Point entryWay = door->GetEntryWay(this->iRoomId);
+            Point entryWay = door->GetEntryWay(iRoomId);
 
             Point gridPos = ShipGraph::TranslateToGrid(pos.x, pos.y);
             Point entryPos = ShipGraph::TranslateToGrid(entryWay.x, entryWay.y);
@@ -171,28 +224,28 @@ HOOK_METHOD_PRIORITY(CrewMember, GetNewGoal, 2000, () -> bool)
             {
                 if (intoRoom.x == -1 || intoRoom.y == -1)
                 {
-                    this->goal_x = entryWay.x;
-                    this->goal_y = entryWay.y;
+                    goal_x = entryWay.x;
+                    goal_y = entryWay.y;
                 }
                 else
                 {
-                    this->goal_x = intoRoom.x;
-                    this->goal_y = intoRoom.y;
+                    goal_x = intoRoom.x;
+                    goal_y = intoRoom.y;
                 }
                 return true;
             }
 
-            if (door->IsSealed(this->iShipId) && (!this->bMindControlled || door->lockedDown.running) && !ex->canPhaseThroughDoors)
+            if (door->IsSealed(iShipId) && (!bMindControlled || door->lockedDown.running) && !ex->canPhaseThroughDoors)
             {
                 bool up = false;
                 bool right = false;
                 bool down = false;
                 bool left = false;
 
-                if (this->blockingDoor)
+                if (blockingDoor)
                 {
-                    this->blockingDoor = door;
-                    this->SetCurrentTarget(door, false);
+                    blockingDoor = door;
+                    SetCurrentTarget(door, false);
                     return true;
                 }
                 else
@@ -220,32 +273,32 @@ HOOK_METHOD_PRIORITY(CrewMember, GetNewGoal, 2000, () -> bool)
                     {
                         if (left)
                         {
-                            this->goal_x = doorPos.x + 8;
+                            goal_x = doorPos.x + 8;
                         }
                         else
                         {
-                            this->goal_x = doorPos.x - 8;
+                            goal_x = doorPos.x - 8;
                         }
 
-                        this->goal_y = offset + (doorPos.y - 8);
+                        goal_y = offset + (doorPos.y - 8);
 
                     }
                     else
                     {
                         if (up)
                         {
-                            this->goal_y = doorPos.y + 8;
+                            goal_y = doorPos.y + 8;
                         }
                         else
                         {
-                            this->goal_y = doorPos.y - 8;
+                            goal_y = doorPos.y - 8;
                         }
 
-                        this->goal_x = offset + (doorPos.x - 8);
+                        goal_x = offset + (doorPos.x - 8);
                     }
 
-                    this->blockingDoor = door;
-                    this->SetCurrentTarget(door, false);
+                    blockingDoor = door;
+                    SetCurrentTarget(door, false);
                     return true;
                 }
             }
@@ -254,52 +307,60 @@ HOOK_METHOD_PRIORITY(CrewMember, GetNewGoal, 2000, () -> bool)
             {
                 if (std::abs(pos.y - entryWay.y) > 0.05)
                 {
-                    this->goal_x = this->x;
-                    this->goal_y = entryWay.y;
+                    goal_x = x;
+                    goal_y = entryWay.y;
                     return true;
                 }
                 if (doorPos.x < entryWay.x)
                 {
-                    this->goal_x = entryWay.x - 35;
-                    this->goal_y = this->y;
+                    goal_x = entryWay.x - 35;
+                    goal_y = y;
                 }
                 if (doorPos.x > entryWay.x)
                 {
-                    this->goal_x = entryWay.x + 34;
-                    this->goal_y = this->y;
+                    goal_x = entryWay.x + 34;
+                    goal_y = y;
                 }
-                this->path.doors.erase(this->path.doors.begin());
+                path.doors.erase(path.doors.begin());
             }
             else
             {
                 if (std::abs(pos.x - entryWay.x) > 0.05)
                 {
-                    this->goal_y = this->y;
-                    this->goal_x = entryWay.x;
+                    goal_y = y;
+                    goal_x = entryWay.x;
                     return true;
                 }
                 if (doorPos.y < entryWay.y)
                 {
-                    this->goal_y = entryWay.y - 35;
-                    this->goal_x = this->x;
+                    goal_y = entryWay.y - 35;
+                    goal_x = x;
                 }
                 if (doorPos.y > entryWay.y)
                 {
-                    this->goal_y = entryWay.y + 34;
-                    this->goal_x = this->x;
+                    goal_y = entryWay.y + 34;
+                    goal_x = x;
                 }
 
 
 
-                this->path.doors.erase(this->path.doors.begin());
+                path.doors.erase(path.doors.begin());
 
             }
 
-            if (!door->bOpen && !door->forcedOpen.running && !ex->canPhaseThroughDoors)
+            if (!door->bOpen && !door->forcedOpen.running)
             {
-                this->last_door = door;
-                door->FakeOpen();
+                if (!ex->canPhaseThroughDoors)
+                {
+                    last_door = door;
+                    door->FakeOpen();
+                }
+                else
+                {
+                    G_->GetSoundControl()->PlaySoundMix("phase", -1.f, false);
+                }
             }
+
 
             return true;
         }
@@ -307,32 +368,32 @@ HOOK_METHOD_PRIORITY(CrewMember, GetNewGoal, 2000, () -> bool)
         {
             if (intoRoom.x != -1 && intoRoom.y != -1)
             {
-                this->goal_x = intoRoom.x;
-                this->goal_y = intoRoom.y;
+                goal_x = intoRoom.x;
+                goal_y = intoRoom.y;
 
                 return true;
             }
             else
             {
-                Point finish = this->path.finish;
-                this->goal_x = finish.x;
-                this->goal_y = finish.y;
+                Point finish = path.finish;
+                goal_x = finish.x;
+                goal_y = finish.y;
 
-                if ( std::abs(this->path.finish.x - this->x) > 0.5 )
+                if ( std::abs(path.finish.x - x) > 0.5 )
                 {
                     return true;
                 }
 
-                this->x = this->path.finish.x;
+                x = path.finish.x;
 
-                if ( std::abs(this->path.finish.y - this->y) > 0.5 )
+                if ( std::abs(path.finish.y - y) > 0.5 )
                 {
                     return true;
                 }
 
-                this->y = this->path.finish.y;
+                y = path.finish.y;
 
-                this->path.distance = -1.f;
+                path.distance = -1.f;
             }
         }
     }
@@ -350,8 +411,8 @@ HOOK_METHOD(CrewMemberFactory, CreateCrewMember, (CrewBlueprint* bp, int shipId,
 
     if (newCrew)
     {
-        this->crewMembers.push_back(newCrew);
-        this->OnLoop();
+        crewMembers.push_back(newCrew);
+        OnLoop();
         return newCrew;
     }
 
@@ -367,3 +428,13 @@ HOOK_STATIC(CrewMemberFactory, IsRace, (std::string& race) -> bool)
     return super(race);
 }
 
+HOOK_METHOD(CrewMember, constructor, (CrewBlueprint& blueprint, int shipId, bool intruder, CrewAnimation *animation) -> void)
+{
+	super(blueprint, shipId, intruder, animation);
+
+    auto custom = CustomCrewManager::GetInstance();
+    if (custom->IsRace(species))
+    {
+        CM_EX(this)->canPhaseThroughDoors = custom->GetDefinition(species).canPhaseThroughDoors;
+    }
+}
