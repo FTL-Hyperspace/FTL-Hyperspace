@@ -693,7 +693,7 @@ struct ShipObject
 {
 	LIBZHL_API int HasAugmentation(const std::string &augment);
 	LIBZHL_API float GetAugmentationValue(const std::string &augment);
-	LIBZHL_API int HasEquipment(const std::string &augment);
+	LIBZHL_API int HasEquipment(const std::string &equip);
 	
 	void *vptr;
 	int iShipId;
@@ -1018,6 +1018,11 @@ struct FocusWindow
 
 struct ChoiceText
 {
+	ChoiceText(int _type, const std::string& _text, ResourceEvent _rewards) : 
+	type(_type), text(_text), rewards(_rewards)
+	{
+	}
+
 	int type;
 	std::string text;
 	ResourceEvent rewards;
@@ -1339,7 +1344,7 @@ struct BlueprintManager;
 
 struct BlueprintManager
 {
-	LIBZHL_API static std::vector<std::string> &__stdcall GetBlueprintList(std::vector<std::string> &vec, BlueprintManager *bpM, std::string &str);
+	LIBZHL_API static std::vector<std::string> &__stdcall GetBlueprintList(std::vector<std::string> &vec, BlueprintManager *bpM, const std::string &str);
 	LIBZHL_API ShipBlueprint *GetShipBlueprint(const std::string &name, int unk);
 	LIBZHL_API float GetAugmentValue(const std::string &name);
 	LIBZHL_API AugmentBlueprint *GetAugmentBlueprint(const std::string &name);
@@ -1436,6 +1441,8 @@ struct OptionsScreen : ChoiceBox
 	SlideBar musicVolume;
 	bool bCustomizeControls;
 	ControlsScreen controls;
+	TextButton closeButton;
+	TextButton wipeProfileButton;
 	int choiceFullscreen;
 	int choiceVSync;
 	int choiceFrameLimit;
@@ -4188,6 +4195,8 @@ struct WorldManager
 	LIBZHL_API CompleteShip *__stdcall CreateShip(ShipEvent *shipEvent, bool boss);
 	LIBZHL_API void CreateLocation(Location *loc);
 	LIBZHL_API void SaveGame();
+	LIBZHL_API void CreateChoiceBox(LocationEvent *event);
+	LIBZHL_API void UpdateLocation(LocationEvent *event);
 	
 	CompleteShip *playerShip;
 	BossShip *bossShip;
@@ -4420,6 +4429,11 @@ struct CrystalAlien;
 
 struct CrystalAlien
 {
+	CrystalAlien(const CrewBlueprint& bp, int shipId, bool intruder)
+	{
+		constructor(bp, shipId, intruder);
+	}
+
 	LIBZHL_API void constructor(const CrewBlueprint &bp, int shipId, bool intruder);
 	
 };
@@ -4435,6 +4449,8 @@ struct EventSystem
 	LIBZHL_API void AddEvent(int id);
 	
 };
+
+struct EnergyAlien;
 
 struct LIBZHL_INTERFACE EnergyAlien
 {
@@ -4454,7 +4470,7 @@ struct LIBZHL_INTERFACE EnergyAlien
 	virtual bool NeedsIntruderSlot() LIBZHL_PLACEHOLDER
 	virtual void SaveState(int fileHelper) LIBZHL_PLACEHOLDER
 	virtual void LoadState(int fileHelper) LIBZHL_PLACEHOLDER
-	virtual void OnLoop() LIBZHL_PLACEHOLDER
+	LIBZHL_API virtual void OnLoop();
 	virtual void OnRender(bool unk) LIBZHL_PLACEHOLDER
 	virtual bool OutOfGame() LIBZHL_PLACEHOLDER
 	virtual void SetOutOfGame() LIBZHL_PLACEHOLDER
@@ -4495,6 +4511,7 @@ struct LIBZHL_INTERFACE EnergyAlien
 	virtual bool IsAnaerobic() LIBZHL_PLACEHOLDER
 	virtual void UpdateRepair() LIBZHL_PLACEHOLDER
 	virtual bool CanStim() LIBZHL_PLACEHOLDER
+	
 	int iShipId;
 	float x;
 	float y;

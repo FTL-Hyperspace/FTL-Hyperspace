@@ -7,13 +7,19 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
 {
     for (auto eventNode = node->first_node(); eventNode; eventNode = eventNode->next_sibling())
     {
-        if (eventNode->first_attribute("name"))
+        if (strcmp(eventNode->name(), "event") == 0)
         {
-            std::string eventName = std::string(eventNode->first_attribute("name")->value());
-
-            for (auto child = eventNode->first_node(); child; child = child->next_sibling())
+            if (eventNode->first_attribute("name"))
             {
-                std::string nodeName(child->name());
+                std::string eventName = std::string(eventNode->first_attribute("name")->value());
+                for (auto child = eventNode->first_node(); child; child = child->next_sibling())
+                {
+                    std::string nodeName(child->name());
+                    if (nodeName == "checkCargo")
+                    {
+                        cargoEventNames.push_back(eventName);
+                    }
+                }
             }
         }
     }
@@ -36,9 +42,61 @@ HOOK_METHOD(EventsParser, AddAllEvents, () -> void)
     }
 }
 
-HOOK_METHOD(WorldManager, CreateLocation, (Location *loc) -> void)
-{
-    auto custom = CustomEventsParser::GetInstance();
 
-    super(loc);
+static bool g_checkCargo = false;
+
+HOOK_METHOD(ShipObject, HasEquipment, (const std::string& equipment) -> int)
+{
+    int ret = super(equipment);
+
+    if (g_checkCargo && ret <= 0)
+    {
+        Equipment equip = G_->GetWorld()->commandGui->equipScreen;
+        auto boxes = equip.vEquipmentBoxes;
+
+        auto blueprintList = std::vector<std::string>();
+        BlueprintManager::GetBlueprintList(blueprintList, G_->GetBlueprints(), equipment);
+
+        for (auto const& box: boxes)
+        {
+            bool isCargo = box->IsCargoBox();
+
+
+            if (isCargo)
+            {
+                Blueprint* cargoItem = box->GetBlueprint();
+                if (cargoItem)
+                {
+                    if (blueprintList.size() > 0)
+                    {
+                        for (auto const& x: blueprintList)
+                        {
+                            if (cargoItem->name == x)
+                                return 1;
+                        }
+                    }
+                    else
+                    {
+                        if (cargoItem->name == equipment)
+                            return 1;
+                    }
+                }
+            }
+        }
+    }
+
+    return ret;
+}
+
+HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
+{
+    auto customEvents = CustomEventsParser::GetInstance();
+    if (customEvents->IsCargoEvent(event->eventName))
+    {
+        g_checkCargo = true;
+    }
+
+    super(event);
+
+    g_checkCargo = false;
 }

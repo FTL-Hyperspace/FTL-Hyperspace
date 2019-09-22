@@ -8,3 +8,7 @@ CompleteShip *WorldManager::CreateShip(ShipEvent* shipEvent, bool boss);
 void WorldManager::CreateLocation(WorldManager *this<ecx>, Location *loc);
 "578d7c240883e4f0ff77fc5589e557565389cf83ec3c8b89e40d0000e8????????84c074??8d65f45b5e5f5d":
 void WorldManager::SaveGame(WorldManager *this<ecx>);
+"5789c805????????8d7c240883e4f0ff77fc5589e557565389cb89c681ec????????8b3f":
+void WorldManager::CreateChoiceBox(WorldManager *this<ecx>, LocationEvent* event);
+"578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b018b378b48088b018b4044":
+void WorldManager::UpdateLocation(WorldManager *this<ecx>, LocationEvent* event);

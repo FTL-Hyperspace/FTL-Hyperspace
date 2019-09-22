@@ -1,5 +1,5 @@
 #include "Global.h"
-
+#include <algorithm>
 
 class CustomEventsParser
 {
@@ -16,10 +16,15 @@ public:
         return instance;
     }
 
+    bool IsCargoEvent(std::string eventName)
+    {
+        return std::find(cargoEventNames.begin(), cargoEventNames.end(), eventName) != cargoEventNames.end();
+    }
+
 
 
 
 private:
-    std::vector<std::string> wormholeEventNames;
+    std::vector<std::string> cargoEventNames;
     static CustomEventsParser *instance;
 };

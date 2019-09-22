@@ -26,6 +26,7 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                 CrewDefinition crew;
 
                 crew.race = name;
+                crew.base = child->first_attribute("base") ? child->first_attribute("base")->value() : "human";
                 try
                 {
                     for (auto stat = child->first_node(); stat; stat = stat->next_sibling())
@@ -120,7 +121,11 @@ CrewMember* CustomCrewManager::CreateCrewMember(CrewBlueprint* bp, int shipId, b
 
     Pointf unk = Pointf(0.f, 0.f);
     CrewAnimation* animation = new CrewAnimation(shipId, race, unk, intruder);
-    CrewMember *crew = new CrewMember(*bp, shipId, intruder, animation);
+
+    CrewDefinition def = GetDefinition(race);
+
+    CrewMember *crew;
+    crew = new CrewMember(*bp, shipId, intruder, animation);
 
 
 
@@ -437,4 +442,9 @@ HOOK_METHOD(CrewMember, constructor, (CrewBlueprint& blueprint, int shipId, bool
     {
         CM_EX(this)->canPhaseThroughDoors = custom->GetDefinition(species).canPhaseThroughDoors;
     }
+}
+
+HOOK_METHOD(EnergyAlien, OnLoop, () -> void)
+{
+    super();
 }

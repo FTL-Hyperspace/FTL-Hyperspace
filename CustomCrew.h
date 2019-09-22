@@ -4,6 +4,7 @@
 struct CrewDefinition
 {
     std::string race;
+    std::string base;
 
     bool canFight = true;
     bool canSuffocate = true;

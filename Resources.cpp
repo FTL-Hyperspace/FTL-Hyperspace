@@ -99,7 +99,7 @@ void Global::InitializeResources(ResourceControl *resources)
                 customCrewManager->ParseCrewNode(node);
             }
 
-            if (strcmp(node->name(), "customEvents") == 0)
+            if (strcmp(node->name(), "events") == 0)
             {
                 auto customEventParser = CustomEventsParser::GetInstance();
                 customEventParser->ParseCustomEventNode(node);

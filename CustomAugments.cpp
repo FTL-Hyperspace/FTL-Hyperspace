@@ -73,7 +73,7 @@ HOOK_METHOD_PRIORITY(ShipObject, HasAugmentation, 2000, (const std::string& name
 {
     AugmentBlueprint* augBlueprint = G_->GetBlueprints()->GetAugmentBlueprint(name);
 
-    ShipInfo *player = G_->GetShipInfo();
+    ShipInfo *player = G_->GetShipInfo(iShipId);
     auto augList = player->augList;
     int augCount = 0;
 
@@ -102,7 +102,7 @@ HOOK_METHOD_PRIORITY(ShipObject, GetAugmentationValue, 1000, (const std::string&
 {
     AugmentBlueprint* augBlueprint = G_->GetBlueprints()->GetAugmentBlueprint(name);
 
-    ShipInfo *player = G_->GetShipInfo();
+    ShipInfo *player = G_->GetShipInfo(iShipId);
     auto augList = player->augList;
     int augCount = 0;
 
@@ -153,10 +153,11 @@ HOOK_METHOD(EquipmentBox, SetBlueprint, (InfoBox *infoBox, bool unk) -> void)
             std::string warn = "These augmentations will have no effect with this augment installed:\n";
 
             BlueprintManager* blueprints = G_->GetBlueprints();
+            int counter = 0;
             for (auto const &x: customAug->GetAugmentDefinition(item.augment->name)->functions)
             {
                 auto bp = blueprints->GetAugmentBlueprint(x.first);
-                if (bp->value <= item.augment->value)
+                if (bp->value >= item.augment->value && !item.augment->stacking)
                 {
                     if (bp->desc.title.isLiteral)
                     {
@@ -168,11 +169,12 @@ HOOK_METHOD(EquipmentBox, SetBlueprint, (InfoBox *infoBox, bool unk) -> void)
                         TextLibrary::GetText(str, G_->GetTextLibrary(), bp->desc.title.data, G_->GetTextLibrary()->currentLanguage);
                         warn += str + "\n";
                     }
+                    counter++;
                 }
-
             }
 
-            infoBox->warning.assign(warn);
+            if (counter > 0)
+                infoBox->warning.assign(warn);
         }
     }
 }

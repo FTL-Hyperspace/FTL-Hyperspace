@@ -220,9 +220,6 @@
 		</Unit>
 		<Unit filename="FTLGame.cpp" />
 		<Unit filename="FTLGame.h" />
-		<Unit filename="Ghost.cpp">
-			<Option virtualFolder="Content/Crew/" />
-		</Unit>
 		<Unit filename="Global.cpp">
 			<Option virtualFolder="Core/" />
 		</Unit>

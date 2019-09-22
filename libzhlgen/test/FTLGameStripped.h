@@ -1361,6 +1361,8 @@ struct OptionsScreen
   SlideBar musicVolume;
   bool bCustomizeControls;
   ControlsScreen controls;
+  TextButton closeButton;
+  TextButton wipeProfileButton;
   int choiceFullscreen;
   int choiceVSync;
   int choiceFrameLimit;
