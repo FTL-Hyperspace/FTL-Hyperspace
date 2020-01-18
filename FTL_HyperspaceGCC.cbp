@@ -132,6 +132,10 @@
 				</Linker>
 			</Target>
 		</Build>
+		<ExtraCommands>
+			<Add before="libzhl.bat" />
+			<Mode after="always" />
+		</ExtraCommands>
 		<Unit filename="ASMHooks.cpp">
 			<Option virtualFolder="Assembly/" />
 		</Unit>
