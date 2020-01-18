@@ -53,7 +53,6 @@
 					<Add library="libboost_math_tr1-mgw82-mt-x32-1_70.a" />
 					<Add library="libboost_prg_exec_monitor-mgw82-mt-x32-1_70.a" />
 					<Add library="libboost_program_options-mgw82-mt-x32-1_70.a" />
-					<Add library="libboost_python27-mgw82-mt-x32-1_70.a" />
 					<Add library="libboost_random-mgw82-mt-x32-1_70.a" />
 					<Add library="libboost_regex-mgw82-mt-x32-1_70.a" />
 					<Add library="libboost_serialization-mgw82-mt-x32-1_70.a" />
@@ -116,7 +115,6 @@
 					<Add library="libboost_math_tr1-mgw82-mt-x32-1_70.a" />
 					<Add library="libboost_prg_exec_monitor-mgw82-mt-x32-1_70.a" />
 					<Add library="libboost_program_options-mgw82-mt-x32-1_70.a" />
-					<Add library="libboost_python27-mgw82-mt-x32-1_70.a" />
 					<Add library="libboost_random-mgw82-mt-x32-1_70.a" />
 					<Add library="libboost_regex-mgw82-mt-x32-1_70.a" />
 					<Add library="libboost_serialization-mgw82-mt-x32-1_70.a" />
