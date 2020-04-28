@@ -16,7 +16,6 @@ void CustomShipSelect::AddShip(std::string& name, bool typeB, bool typeC)
     blueprintNames.push_back( def );
 }
 
-ShipButton* testButton;
 
 void CustomShipSelect::ParseShipsNode(rapidxml::xml_node<char> *node)
 {
@@ -82,50 +81,49 @@ void CustomShipSelect::OnInit(ShipSelect* shipSelect_)
                 cButton->bActive = false;
             }
 
+            //aButton->bShipLocked = true;
+            //aButton->bLayoutLocked = true;
+
+
             ShipButtonList* buttonList = new ShipButtonList(curPage, 100 + i, aButton, bButton, cButton);
             shipButtons.push_back(buttonList);
 
 
             Point pos = Point(0, 0);
-            if (onPage < 5)
+            if (onPage < 4)
             {
-                if (onPage == 4)
-                {
-                    pos = Point(136 + 205 * 3 + 225, 161);
-                }
-                else
-                {
-                    pos = Point(136 + 205 * onPage, 161);
-                }
+                pos = Point(136 + 205 * onPage, 161);
             }
-            else
+            else if (onPage < 8)
             {
-                if (onPage == 9)
-                {
-                    pos = Point(136 + 205 * 3 + 225, 161 + 177);
-                }
-                else
-                {
-                    pos = Point(136 + 205 * (onPage - 5), 161 + 177);
-                }
+                pos = Point(136 + 205 * (onPage - 4), 161 + 177);
+            }
+            else if (onPage == 8)
+            {
+                pos = Point(136 + 205 * 3 + 225, 161);
+            }
+            else if (onPage == 9)
+            {
+                pos = Point(136 + 205 * 3 + 225, 161 + 177);
             }
 
             //if (!x.hasAchievements)
 
             int oldY = pos.y;
 
-            pos.y = oldY + 20;
+            if (!aButton->bShipLocked)
+                pos.y = oldY + 20;
 
             aButton->OnInit("customizeUI/ship_list_button", pos);
 
-            if (bButton->bActive)
+            if (!(bButton->bNoExist || bButton->bShipLocked))
                 pos.y = oldY + 20;
             else
                 pos.y = oldY;
 
             bButton->OnInit("customizeUI/ship_list_button", pos);
 
-            if (cButton->bActive)
+            if (!(cButton->bNoExist || bButton->bShipLocked))
                 pos.y = oldY + 20;
             else
                 pos.y = oldY;
@@ -502,7 +500,7 @@ bool CustomShipSelect::CycleShipNext(ShipBuilder *builder)
             counter++;
             if (counter > 100)
             {
-                printf("Infinite loop while getting previous ship!");
+                printf("Infinite loop while getting next ship!");
                 break;
             }
         }
@@ -740,7 +738,6 @@ HOOK_METHOD(UnlockArrow, OnRender, () -> void)
 HOOK_METHOD(ShipButton, OnRender, () -> void)
 {
     auto customSel = CustomShipSelect::GetInstance();
-
     if (customSel->ShouldRenderButton(this))
     {
         if (customSel->ShouldRenderButtonLower() || bShipLocked || bNoExist)

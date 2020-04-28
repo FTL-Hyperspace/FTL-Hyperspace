@@ -5,7 +5,6 @@
 CommandConsole CommandConsole::instance = CommandConsole();
 
 
-
 bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
 {
     std::string command = cmd;
@@ -54,10 +53,45 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
     return false;
 }
 
+//===============================================
+
+static AnimationTracker *g_consoleMessage;
+
+
+HOOK_METHOD(CommandGui, constructor, () -> void)
+{
+    super();
+
+    //g_consoleMessage = new AnimationTracker();
+    //g_consoleMessage->time = 2.f;
+    //g_consoleMessage->loop = true;
+    //g_consoleMessage->Start(0.f);
+}
+
+HOOK_METHOD(CommandGui, RenderStatic, () -> void)
+{
+    super();
+
+    //g_consoleMessage->Update()
+}
+
+
+HOOK_METHOD(CommandGui, KeyDown, (SDLKey key, bool shiftHeld) -> void)
+{
+    if (shiftHeld && key == SDLKey::SDLK_F9)
+    {
+        //shouldOpen = !shouldOpen;
+
+
+    }
+
+    super(key, shiftHeld);
+}
+
 
 HOOK_STATIC(Settings, GetCommandConsole, () -> char)
 {
-    return CommandConsole::GetInstance()->enabled;
+    return CommandConsole::GetInstance()->enabled; //&& CommandConsole::GetInstance()->shouldOpen;
 }
 
 HOOK_METHOD(CommandGui, RunCommand, (std::string& command) -> void)

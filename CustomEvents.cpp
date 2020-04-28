@@ -1,4 +1,5 @@
 #include "CustomEvents.h"
+#include <boost/lexical_cast.hpp>
 
 CustomEventsParser *CustomEventsParser::instance = new CustomEventsParser();
 
@@ -18,6 +19,35 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
                     if (nodeName == "checkCargo")
                     {
                         cargoEventNames.push_back(eventName);
+                    }
+
+                    if  (nodeName == "beaconType")
+                    {
+                        BeaconType* beaconType = new BeaconType();
+                        beaconType->eventName = eventName;
+                        beaconType->id = child->first_attribute("id")->value();
+
+                        if (child->first_attribute("global"))
+                        {
+                            beaconType->global = EventsParser::ParseBoolean(child->first_attribute("global")->value());
+                        }
+
+                        GL_Color color = GL_Color(255.f, 255.f, 255.f, 1.f);
+
+                        for (auto child2 = child->first_node(); child2; child2 = child2->next_sibling())
+                        {
+                            if (strcmp(child2->name(), "color") == 0)
+                            {
+                                if (child2->first_attribute("r")) { color.r = boost::lexical_cast<float>(child2->first_attribute("r")->value()); }
+                                if (child2->first_attribute("g")) { color.g = boost::lexical_cast<float>(child2->first_attribute("g")->value()); }
+                                if (child2->first_attribute("b")) { color.b = boost::lexical_cast<float>(child2->first_attribute("b")->value()); }
+                                if (child2->first_attribute("a")) { color.a = boost::lexical_cast<float>(child2->first_attribute("a")->value()); }
+                            }
+                        }
+
+                        beaconType->color = color;
+
+                        beaconTypeEvents.push_back(beaconType);
                     }
                 }
             }

@@ -26,7 +26,9 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                 CrewDefinition crew;
 
                 crew.race = name;
-                crew.base = child->first_attribute("base") ? child->first_attribute("base")->value() : "human";
+                crew.deathSounds = std::vector<std::string>();
+                crew.shootingSounds = std::vector<std::string>();
+
                 try
                 {
                     for (auto stat = child->first_node(); stat; stat = stat->next_sibling())
@@ -90,6 +92,35 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                         {
                             crew.canPhaseThroughDoors = EventsParser::ParseBoolean(val);
                         }
+                        if (str == "deathSounds")
+                        {
+                            for (auto deathSoundNode = stat->first_node(); deathSoundNode; deathSoundNode = deathSoundNode->next_sibling())
+                            {
+                                if (strcmp(deathSoundNode->name(), "deathSound") == 0)
+                                {
+                                    //printf("%s\n", deathSoundNode->value());
+                                    crew.deathSounds.push_back(std::string(deathSoundNode->value()));
+                                }
+                            }
+                        }
+                        if (str == "shootingSounds")
+                        {
+                            for (auto shootingSoundNode = stat->first_node(); shootingSoundNode; shootingSoundNode = shootingSoundNode->next_sibling())
+                            {
+                                if (strcmp(shootingSoundNode->name(), "shootingSound") == 0)
+                                {
+                                    crew.shootingSounds.push_back(std::string(shootingSoundNode->value()));
+                                }
+                            }
+                        }
+                        if (str == "oxygenChangeSpeed")
+                        {
+                            crew.oxygenChangeSpeed = boost::lexical_cast<float>(val);
+                        }
+                        if (str == "damageTakenMultiplier")
+                        {
+                            crew.damageTakenMultiplier = boost::lexical_cast<float>(val);
+                        }
                     }
                 }
                 catch (boost::bad_lexical_cast const &e)
@@ -101,7 +132,7 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
             }
         }
     }
-    catch (...)
+    catch (std::exception)
     {
         MessageBoxA(NULL, "Error parsing <crew> in hyperspace.xml", "Error", MB_ICONERROR);
     }
@@ -171,9 +202,12 @@ HOOK_METHOD_PRIORITY(CrewMember, UpdateHealth, 2000, () -> void)
     if (bSuffocating && !IsAnaerobic())
     {
         float mod = 1.f;
-        if (GetShipObject()->HasAugmentation("O2_MASKS"))
+
+        ShipInfo* shipInfo = G_->GetShipInfo(iShipId);
+
+        if (shipInfo->HasAugmentation("O2_MASKS"))
         {
-            mod = GetShipObject()->GetAugmentationValue("O2_MASKS");
+            mod = shipInfo->GetAugmentationValue("O2_MASKS");
         }
 
         float multiplier = GetSuffocationMultiplier();
@@ -444,7 +478,101 @@ HOOK_METHOD(CrewMember, constructor, (CrewBlueprint& blueprint, int shipId, bool
     }
 }
 
-HOOK_METHOD(EnergyAlien, OnLoop, () -> void)
+HOOK_STATIC(CrewAnimation, GetDeathSound, (std::string& strRef, CrewAnimation *anim) -> std::string&)
+{
+    auto custom = CustomCrewManager::GetInstance();
+
+    std::string& ret = super(strRef, anim);
+
+    if (custom->IsRace(anim->race))
+    {
+        auto def = custom->GetDefinition(anim->race);
+
+        if (def.deathSounds.size() > 0)
+        {
+            int rng = 0;
+            if (G_->GetRNG())
+            {
+                rng = rand();
+            }
+            else
+            {
+                rng = random32();
+            }
+
+            strRef.assign(def.deathSounds[rng % def.deathSounds.size()]);
+
+            return strRef;
+        }
+    }
+
+    return ret;
+}
+
+HOOK_STATIC(CrewAnimation, GetShootingSound, (std::string& strRef, CrewAnimation *anim) -> std::string&)
+{
+    auto custom = CustomCrewManager::GetInstance();
+
+    std::string& ret = super(strRef, anim);
+
+    if (custom->IsRace(anim->race))
+    {
+        auto def = custom->GetDefinition(anim->race);
+
+        if (def.shootingSounds.size() > 0)
+        {
+            int rng = 0;
+            if (G_->GetRNG())
+            {
+                rng = rand();
+            }
+            else
+            {
+                rng = random32();
+            }
+
+            strRef.assign(def.shootingSounds[rng % def.shootingSounds.size()]);
+
+            return strRef;
+        }
+    }
+
+    return ret;
+}
+
+
+HOOK_METHOD(ShipManager, UpdateEnvironment, () -> void)
 {
     super();
+
+    if (!G_->GetCApp()->menu.shipBuilder.bOpen && systemKey[2] != -1)
+    {
+        for (auto const &x: vCrewList)
+        {
+            auto custom = CustomCrewManager::GetInstance();
+
+            if (custom->IsRace(x->species))
+            {
+                float oxygenModifier = custom->GetDefinition(x->species).oxygenChangeSpeed;
+                if (oxygenModifier != 0.f && !x->bDead)
+                {
+                    oxygenSystem->ComputeAirLoss(x->iRoomId, -oxygenModifier, true);
+                }
+            }
+        }
+    }
+
+}
+
+
+HOOK_METHOD(CrewMember, ApplyDamage, (float damage) -> bool)
+{
+    auto custom = CustomCrewManager::GetInstance();
+
+    if (custom->IsRace(this->species))
+    {
+        damage *= custom->GetDefinition(this->species).damageTakenMultiplier;
+    }
+
+    return super(damage);
 }

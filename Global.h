@@ -45,6 +45,7 @@ public:
     DWORD GetBaseAddress() { return __baseAddress; }
 
     static bool* showBeaconPath;
+    static int64_t* randomState;
 
     //LuaState* lua;
 
@@ -69,6 +70,7 @@ private:
     const DWORD __eventsParseOffset = 0x004CBB60;
     const DWORD __beaconPathOffset =  0x004C8CF6;
     const DWORD __eventSystemOffset = 0x004CB640;
+    const DWORD __randomStateOffset = 0x00428110;
 
     DWORD __baseAddress = 0;
 

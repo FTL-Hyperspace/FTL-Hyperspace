@@ -26,6 +26,16 @@ struct AnimationTracker
 		DWORD dwOldProtect, dwBkup;
 		VirtualProtect(&vtablePtr, sizeof(void**), PAGE_EXECUTE_READWRITE, &dwOldProtect);
 		*vtablePtr = newVtable;
-		VirtualProtect(&vtablePtr, sizeof(void*), dwOldProtect, &dwBkup);
+		VirtualProtect(&vtablePtr, sizeof(void**), dwOldProtect, &dwBkup);
+		
+		
+		time = 0.f;
+		loop = false;
+		current_time = 0.f;
+		running = false;
+		reverse = false;
+		done = false;
+		loopDelay = 0.f;
+		currentDelay = 0.f;
 	}
 }};

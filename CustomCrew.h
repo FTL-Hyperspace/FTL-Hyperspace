@@ -4,7 +4,8 @@
 struct CrewDefinition
 {
     std::string race;
-    std::string base;
+    std::vector<std::string> deathSounds;
+    std::vector<std::string> shootingSounds;
 
     bool canFight = true;
     bool canSuffocate = true;
@@ -20,6 +21,8 @@ struct CrewDefinition
     bool isAnaerobic = false;
     float fireDamageMultiplier = 1.f;
     bool canPhaseThroughDoors = false;
+    float oxygenChangeSpeed = 0.f;
+    float damageTakenMultiplier = 1.f;
 };
 
 

@@ -422,7 +422,17 @@ struct LIBZHL_INTERFACE AnimationTracker
 		DWORD dwOldProtect, dwBkup;
 		VirtualProtect(&vtablePtr, sizeof(void**), PAGE_EXECUTE_READWRITE, &dwOldProtect);
 		*vtablePtr = newVtable;
-		VirtualProtect(&vtablePtr, sizeof(void*), dwOldProtect, &dwBkup);
+		VirtualProtect(&vtablePtr, sizeof(void**), dwOldProtect, &dwBkup);
+		
+		
+		time = 0.f;
+		loop = false;
+		current_time = 0.f;
+		running = false;
+		reverse = false;
+		done = false;
+		loopDelay = 0.f;
+		currentDelay = 0.f;
 	}
 
 	virtual void destroy() LIBZHL_PLACEHOLDER
@@ -2766,6 +2776,8 @@ struct ShipManager : ShipObject
 	LIBZHL_API void SetSystemPowerLoss(int systemId, int powerLoss);
 	LIBZHL_API int CreateSystems();
 	LIBZHL_API int AddSystem(int systemId);
+	LIBZHL_API void UpdateCrewMembers();
+	LIBZHL_API void UpdateEnvironment();
 	
 	Targetable _targetable;
 	Collideable _collideable;
@@ -3663,6 +3675,9 @@ struct CommandGui
 	LIBZHL_API void RunCommand(std::string &command);
 	LIBZHL_API Store *CreateNewStore(int sectorNumber);
 	LIBZHL_API void *GetWorldCoordinates(Point point, bool fromTarget);
+	LIBZHL_API void KeyDown(SDLKey key, bool shiftHeld);
+	LIBZHL_API void RenderStatic();
+	LIBZHL_API void constructor();
 	
 	ShipStatus shipStatus;
 	CrewControl crewControl;
@@ -4355,6 +4370,8 @@ struct ShipInfo;
 struct ShipInfo
 {
 	LIBZHL_API char AddAugmentation(const std::string &augment);
+	LIBZHL_API bool HasAugmentation(const std::string &augment);
+	LIBZHL_API float GetAugmentationValue(const std::string &augment);
 	
 	std::map<std::string, int> augList;
 	std::map<std::string, int> equipList;
@@ -4646,6 +4663,9 @@ struct MindSystem
 struct OxygenSystem : ShipSystem
 {
 	LIBZHL_API void UpdateBreach(int roomId, int hasBreach, bool unk3);
+	LIBZHL_API void UpdateAirlock(int roomId, int unk);
+	LIBZHL_API void ModifyRoomOxygen(int roomId, float value);
+	LIBZHL_API void ComputeAirLoss(int roomId, float value, bool unk);
 	
 	float max_oxygen;
 	std::vector<float> oxygenLevels;
@@ -4934,6 +4954,8 @@ struct CrewAnimation : ShipObject
 	}
 
 	LIBZHL_API void constructor(int shipId, const std::string &race, Pointf unk, char hostile);
+	LIBZHL_API static std::string &__stdcall GetDeathSound(std::string &strRef, CrewAnimation *anim);
+	LIBZHL_API static std::string &__stdcall GetShootingSound(std::string &strRef, CrewAnimation *anim);
 	
 	std::vector<std::vector<Animation>> anims;
 	GL_Texture *baseStrip;

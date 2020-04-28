@@ -95,6 +95,36 @@ HOOK_METHOD_PRIORITY(ShipObject, HasAugmentation, 2000, (const std::string& name
         }
     }
 
+
+    return augCount;
+}
+
+HOOK_METHOD_PRIORITY(ShipObject, HasEquipment, 2000, (const std::string& name) -> int)
+{
+    AugmentBlueprint* augBlueprint = G_->GetBlueprints()->GetAugmentBlueprint(name);
+
+    ShipInfo *player = G_->GetShipInfo(iShipId);
+    auto augList = player->augList;
+    int augCount = 0;
+
+    if (augList.count(name) > 0)
+    {
+        augCount = augList.at(name);
+    }
+
+    CustomAugmentManager* customAug = CustomAugmentManager::GetInstance();
+    std::map<std::string, float> potentialAugs = customAug->GetPotentialAugments(name);
+
+
+
+    for (auto const& x: potentialAugs)
+    {
+        if (augList.count(x.first))
+        {
+            augCount += augList.at(x.first);
+        }
+    }
+
     return augCount;
 }
 
@@ -150,7 +180,9 @@ HOOK_METHOD(EquipmentBox, SetBlueprint, (InfoBox *infoBox, bool unk) -> void)
     {
         if (customAug->IsAugment(item.augment->name))
         {
-            std::string warn = "These augmentations will have no effect with this augment installed:\n";
+            std::string warn;
+            TextLibrary::GetText(warn, G_->GetTextLibrary(), "augment_no_effect", G_->GetTextLibrary()->currentLanguage);
+            warn.append("\n");
 
             BlueprintManager* blueprints = G_->GetBlueprints();
             int counter = 0;

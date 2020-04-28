@@ -21,7 +21,7 @@ HOOK_METHOD_PRIORITY(ProjectileFactory, SpendMissiles, 1000, () -> int)
 
             rng %= 100;
 
-            int chance = std::floor(G_->GetBlueprints()->GetAugmentValue("EXPLOSIVE_REPLICATOR") * 100);
+            int chance = std::floor(this->GetAugmentationValue("EXPLOSIVE_REPLICATOR") * 100);
 
             if (rng < chance)
             {

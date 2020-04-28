@@ -24,6 +24,10 @@ void ShipManager::SetSystemPowerLoss(ShipManager *this<ecx>, int systemId, int p
 int ShipManager::CreateSystems(ShipManager *this<ecx>);
 "8b810807000085c00f84????????578d7c240883e4f0ff77fc5589e557568db104070000":
 int ShipManager::AddSystem(ShipManager *this<ecx>, int systemId);
+"578d7c240883e4f0ff77fc5589e557565331db89cf81ec????????8b5118":
+void ShipManager::UpdateCrewMembers(ShipManager *this<ecx>);
+"578d41708d7c240883e4f0ff77fc5589e557565389cf89c1":
+void ShipManager::UpdateEnvironment(ShipManager *this<ecx>);
 
 struct ShipManager {{
 	ShipManager(int shipId) 

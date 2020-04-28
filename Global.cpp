@@ -18,7 +18,9 @@ EventsParser *Global::__eventsParser = NULL;
 EventSystem *Global::__eventSystem = NULL;
 
 bool *Global::showBeaconPath = NULL;
+int64_t *Global::randomState = NULL;
 bool *Global::__rng = NULL;
+
 
 HOOK_METHOD(CApp, OnInit, () -> int)
 {
@@ -47,7 +49,9 @@ void Global::Initialize(CApp *cApp)
     __eventSystem = (EventSystem*)(__baseAddress + __eventSystem);
 
     showBeaconPath = (bool*)((__baseAddress + __beaconPathOffset));
+    randomState = (int64_t*)(__baseAddress + __randomStateOffset);
     __rng = (bool*)((__baseAddress + __rngOffset));
+
 
 
     SetWindowTextA((HWND)GetModuleHandle(NULL), "FTL: Hyperspace");
