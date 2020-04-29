@@ -23,6 +23,8 @@ struct CrewDefinition
     bool canPhaseThroughDoors = false;
     float oxygenChangeSpeed = 0.f;
     float damageTakenMultiplier = 1.f;
+    float passiveHealAmount = 0.f;
+    int passiveHealDelay = 15;
 };
 
 

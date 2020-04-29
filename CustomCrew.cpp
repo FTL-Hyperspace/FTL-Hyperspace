@@ -121,6 +121,14 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                         {
                             crew.damageTakenMultiplier = boost::lexical_cast<float>(val);
                         }
+                        if (str == "passiveHealAmount")
+                        {
+                            crew.passiveHealAmount = boost::lexical_cast<float>(val);
+                        }
+                        if (str == "passiveHealDelay")
+                        {
+                            crew.passiveHealAmount = boost::lexical_cast<int>(val);
+                        }
                     }
                 }
                 catch (boost::bad_lexical_cast const &e)
@@ -139,9 +147,14 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
 
 }
 
-
-
-
+HOOK_METHOD_PRIORITY(CrewMember, constructor, -899, (CrewBlueprint& blueprint, int shipId, bool intruder, CrewAnimation *animation) -> void)
+{
+    super(blueprint, shipId, intruder, animation);
+    CustomCrewManager *custom = CustomCrewManager::GetInstance();
+    CrewMember_Extend* ex = CM_EX(this);
+    ex->passiveHealTimer = new TimerHelper();
+    ex->passiveHealTimer->Start(custom->GetDefinition(species).passiveHealDelay);
+}
 
 
 CrewMember* CustomCrewManager::CreateCrewMember(CrewBlueprint* bp, int shipId, bool intruder)
@@ -157,8 +170,6 @@ CrewMember* CustomCrewManager::CreateCrewMember(CrewBlueprint* bp, int shipId, b
 
     CrewMember *crew;
     crew = new CrewMember(*bp, shipId, intruder, animation);
-
-
 
     return crew;
 }
@@ -183,12 +194,9 @@ bool CustomCrewManager::IsRace(const std::string& race)
 
 HOOK_METHOD_PRIORITY(CrewMember, UpdateHealth, 2000, () -> void)
 {
-
-
+    CustomCrewManager *custom = CustomCrewManager::GetInstance();
     if (iOnFire && CanBurn())
     {
-        CustomCrewManager *custom = CustomCrewManager::GetInstance();
-
         float fireMultiplier = 1.f;
 
         if (custom->IsRace(species))
@@ -222,10 +230,34 @@ HOOK_METHOD_PRIORITY(CrewMember, UpdateHealth, 2000, () -> void)
     }
 
     DirectModifyHealth(G_->GetCFPS()->GetSpeedFactor() * fMedbay * mod * 0.4f);
-
+    CrewMember_Extend* ex = CM_EX(this);
+    if (ex->isHealing)
+    {
+        DirectModifyHealth(G_->GetCFPS()->GetSpeedFactor() * custom->GetDefinition(this->species).passiveHealAmount * 0.4f);
+    }
     //super();
 }
-
+HOOK_METHOD_PRIORITY(CrewMember, DirectModifyHealth, 1000, (float health) -> void)
+{
+    super(health);
+    if (health < 0.f)
+    {
+        CrewMember_Extend* ex = CM_EX(this);
+        ex->isHealing = false;
+        CustomCrewManager *custom = CustomCrewManager::GetInstance();
+        ex->passiveHealTimer->Start(custom->GetDefinition(species).passiveHealDelay);
+    }
+}
+HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
+{
+    super();
+    CrewMember_Extend* ex = CM_EX(this);
+    ex->passiveHealTimer->Update();
+    if (ex->passiveHealTimer->Done())
+    {
+        ex->isHealing = true;
+    }
+}
 HOOK_METHOD_PRIORITY(CrewMember, GetNewGoal, 2000, () -> bool)
 {
     auto ex = CM_EX(this);
@@ -474,7 +506,8 @@ HOOK_METHOD(CrewMember, constructor, (CrewBlueprint& blueprint, int shipId, bool
     auto custom = CustomCrewManager::GetInstance();
     if (custom->IsRace(species))
     {
-        CM_EX(this)->canPhaseThroughDoors = custom->GetDefinition(species).canPhaseThroughDoors;
+        CrewMember_Extend* ex = CM_EX(this);
+        ex->canPhaseThroughDoors = custom->GetDefinition(species).canPhaseThroughDoors;
     }
 }
 
@@ -561,7 +594,6 @@ HOOK_METHOD(ShipManager, UpdateEnvironment, () -> void)
             }
         }
     }
-
 }
 
 

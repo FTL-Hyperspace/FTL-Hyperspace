@@ -1,14 +1,13 @@
 #include "CrewMember_Extend.h"
-
+#include "CustomCrew.h"
 
 
 HOOK_METHOD_PRIORITY(CrewMember, constructor, 900, (CrewBlueprint& blueprint, int shipId, bool intruder, CrewAnimation *animation) -> void)
 {
 	super(blueprint, shipId, intruder, animation);
 
-
+	CustomCrewManager* custom = CustomCrewManager::GetInstance();
 	auto ex = new CrewMember_Extend();
-
 
 
     DWORD dEx = (DWORD)ex;
