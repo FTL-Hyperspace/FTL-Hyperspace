@@ -1361,8 +1361,20 @@ struct BlueprintManager
 	
 };
 
+struct TimerHelper;
+
 struct TimerHelper
 {
+	TimerHelper(bool isLoop=false) : loop(isLoop) { }
+
+	LIBZHL_API void Start(int goal);
+	LIBZHL_API bool Running();
+	LIBZHL_API void ResetMinMax(int min, int max);
+	LIBZHL_API void SetMaxTime(float max);
+	LIBZHL_API void Stop();
+	LIBZHL_API void Update();
+	LIBZHL_API bool Done();
+	
 	int maxTime;
 	int minTime;
 	float currTime;
@@ -1608,6 +1620,7 @@ struct MainMenu
 {
 	LIBZHL_API void OnRender();
 	LIBZHL_API void Open();
+	LIBZHL_API void OnLoop();
 	
 	bool bOpen;
 	int activeTouch;
