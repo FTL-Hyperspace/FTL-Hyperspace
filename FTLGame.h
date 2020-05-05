@@ -946,8 +946,16 @@ struct ShipSelect;
 
 struct ShipButton;
 
+struct TextButton;
+
 struct TextButton : GenericButton
 {
+	LIBZHL_API void ResetPrimitives();
+	LIBZHL_API int GetIdealButtonWidth();
+	LIBZHL_API void constructor();
+	LIBZHL_API void OnInit(Point pos, Point size, int cornerInset, const TextString &buttonLabel, int font);
+	LIBZHL_API void OnRender();
+	
 	GL_Primitive *primitives[3];
 	GL_Texture *baseImage;
 	Point baseImageOffset;
@@ -1430,8 +1438,6 @@ struct ControlsScreen
 	WindowFrame *customBox;
 };
 
-struct TextButton;
-
 struct LanguageChooser : FocusWindow
 {
 	std::vector<TextButton*> buttons;
@@ -1476,6 +1482,24 @@ struct SystemCustomBox;
 
 struct ShipBuilder;
 
+struct CEvent
+{
+	enum TextEvent
+	{
+	  TEXT_CONFIRM = 0x0,
+	  TEXT_CANCEL = 0x1,
+	  TEXT_CLEAR = 0x2,
+	  TEXT_BACKSPACE = 0x3,
+	  TEXT_DELETE = 0x4,
+	  TEXT_LEFT = 0x5,
+	  TEXT_RIGHT = 0x6,
+	  TEXT_HOME = 0x7,
+	  TEXT_END = 0x8,
+	};
+
+	void *vptr;
+};
+
 struct TextInput;
 
 struct TextInput
@@ -1489,8 +1513,16 @@ struct TextInput
 
 
 
+	LIBZHL_API void constructor(int maxChars, TextInput::AllowedCharType allowedCharType, const std::string &prompt);
 	LIBZHL_API void OnRender(int font, Point pos);
+	LIBZHL_API void OnLoop();
+	LIBZHL_API void OnTextEvent(CEvent::TextEvent event);
+	LIBZHL_API bool GetActive();
+	LIBZHL_API static std::string &__stdcall GetText(const std::string &strRef, TextInput *textInput);
+	LIBZHL_API void Start();
+	LIBZHL_API void Stop();
 	LIBZHL_API int SetText(const std::string &text);
+	LIBZHL_API void OnTextInput(int asciiChar);
 	
 	std::string prompt;
 	std::vector<int> text;
@@ -4920,24 +4952,6 @@ struct CrewAnimation : ShipObject
 };
 
 struct GL_FrameBuffer;
-
-struct CEvent
-{
-	enum TextEvent
-	{
-	  TEXT_CONFIRM = 0x0,
-	  TEXT_CANCEL = 0x1,
-	  TEXT_CLEAR = 0x2,
-	  TEXT_BACKSPACE = 0x3,
-	  TEXT_DELETE = 0x4,
-	  TEXT_LEFT = 0x5,
-	  TEXT_RIGHT = 0x6,
-	  TEXT_HOME = 0x7,
-	  TEXT_END = 0x8,
-	};
-
-	void *vptr;
-};
 
 struct CApp;
 
