@@ -28,6 +28,10 @@ int ShipManager::AddSystem(ShipManager *this<ecx>, int systemId);
 void ShipManager::UpdateCrewMembers(ShipManager *this<ecx>);
 "578d41708d7c240883e4f0ff77fc5589e557565389cf89c1":
 void ShipManager::UpdateEnvironment(ShipManager *this<ecx>);
+"578d7c240883e4f0ff77fc5589e557565389cb81ec????????8b078b770c8b490489855cfdffff89b570fdffff8b47048b771085c9898568fdffff89b558fdffff":
+CrewMember *ShipManager::AddCrewMemberFromString(ShipManager *this<ecx>, const std::string& race, bool unk1, int room, bool unk2, bool unk3);
+"8b81c8040000837808ff74??55660fefc989e583e4f083ec208b4124f30f1005????????f30f5980d0010000f30f5ac8f20f110c24e8????????dd5c2418f20f2c442418":
+int ShipManager::GetOxygenPercentage(ShipManager *this<ecx>);
 
 struct ShipManager {{
 	ShipManager(int shipId) 

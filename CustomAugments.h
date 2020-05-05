@@ -6,7 +6,7 @@
 struct AugmentDefinition
 {
     std::string name;
-    std::map<std::string, float> functions;
+    std::map<std::string, std::pair<float, bool>> functions;
 };
 
 
@@ -20,7 +20,7 @@ public:
 
     void ParseCustomAugmentNode(rapidxml::xml_node<char>* node);
 
-    std::map<std::string, float> GetPotentialAugments(const std::string& name);
+    std::map<std::string, std::pair<float, bool>> GetPotentialAugments(const std::string& name);
 
     AugmentDefinition* GetAugmentDefinition(const std::string& name)
     {

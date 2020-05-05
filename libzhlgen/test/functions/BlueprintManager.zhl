@@ -6,3 +6,5 @@ ShipBlueprint* BlueprintManager::GetShipBlueprint(BlueprintManager *this<ecx>, c
 float BlueprintManager::GetAugmentValue(BlueprintManager *this<ecx>, const std::string& name);
 ".578d7c240883e4f0ff77fc5589e557565389cb8d4dd083ec4c8b378dbbf4000000":
 AugmentBlueprint* BlueprintManager::GetAugmentBlueprint(BlueprintManager *this<ecx>, const std::string& name);
+"578d91c80000008d7c240883e4f0ff77fc5589e557565383ec3c8b99cc000000894dcc":
+ItemBlueprint* BlueprintManager::GetItemBlueprint(BlueprintManager *this<ecx>, const std::string& name);

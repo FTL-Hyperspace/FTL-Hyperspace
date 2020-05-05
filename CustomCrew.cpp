@@ -4,6 +4,16 @@
 #include <algorithm>
 
 
+static const std::string CREW_SKILLS[6] =
+{
+    "piloting",
+    "engines",
+    "shields",
+    "weapons",
+    "repair",
+    "combat"
+};
+
 CustomCrewManager CustomCrewManager::instance = CustomCrewManager();
 
 
@@ -28,6 +38,8 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                 crew.race = name;
                 crew.deathSounds = std::vector<std::string>();
                 crew.shootingSounds = std::vector<std::string>();
+
+                crew.skillsDef = SkillsDefinition();
 
                 try
                 {
@@ -129,6 +141,28 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                         {
                             crew.passiveHealAmount = boost::lexical_cast<int>(val);
                         }
+                        if (str == "detectsLifeforms")
+                        {
+                            crew.detectsLifeforms = EventsParser::ParseBoolean(val);
+                        }
+                        if (str == "skills")
+                        {
+                            for (auto skillNode = stat->first_node(); skillNode; skillNode = skillNode->next_sibling())
+                            {
+                                std::string skillName = std::string(skillNode->name());
+
+                                for (auto i : CREW_SKILLS)
+                                {
+                                    if (skillName == i)
+                                    {
+                                        if (skillNode->first_attribute("req"))
+                                        {
+                                            crew.skillsDef.skills[i].requirement = boost::lexical_cast<int>(skillNode->first_attribute("req")->value());
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
                 catch (boost::bad_lexical_cast const &e)
@@ -145,15 +179,6 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
         MessageBoxA(NULL, "Error parsing <crew> in hyperspace.xml", "Error", MB_ICONERROR);
     }
 
-}
-
-HOOK_METHOD_PRIORITY(CrewMember, constructor, -899, (CrewBlueprint& blueprint, int shipId, bool intruder, CrewAnimation *animation) -> void)
-{
-    super(blueprint, shipId, intruder, animation);
-    CustomCrewManager *custom = CustomCrewManager::GetInstance();
-    CrewMember_Extend* ex = CM_EX(this);
-    ex->passiveHealTimer = new TimerHelper();
-    ex->passiveHealTimer->Start(custom->GetDefinition(species).passiveHealDelay);
 }
 
 
@@ -192,6 +217,38 @@ bool CustomCrewManager::IsRace(const std::string& race)
 
 //=================================
 
+HOOK_METHOD_PRIORITY(CrewMember, constructor, -899, (CrewBlueprint& bp, int shipId, bool intruder, CrewAnimation *animation) -> void)
+{
+
+    CustomCrewManager *custom = CustomCrewManager::GetInstance();
+
+    printf("%08X\n", this);
+
+    super(bp, shipId, intruder, animation);
+
+    CrewMember_Extend* ex = CM_EX(this);
+
+
+    if (custom->IsRace(species))
+    {
+        ex->passiveHealTimer = new TimerHelper();
+        ex->passiveHealTimer->Start(custom->GetDefinition(species).passiveHealDelay);
+
+
+        auto skillsDef = custom->GetDefinition(species).skillsDef;
+
+        blueprint.skillLevel[0].second = skillsDef.skills["piloting"].requirement * 2;
+        blueprint.skillLevel[1].second = skillsDef.skills["engines"].requirement * 2;
+        blueprint.skillLevel[2].second = skillsDef.skills["shields"].requirement * 2;
+        blueprint.skillLevel[3].second = skillsDef.skills["weapons"].requirement * 2;
+        blueprint.skillLevel[4].second = skillsDef.skills["repair"].requirement * 2;
+        blueprint.skillLevel[5].second = skillsDef.skills["combat"].requirement * 2;
+    }
+
+
+
+}
+
 HOOK_METHOD_PRIORITY(CrewMember, UpdateHealth, 2000, () -> void)
 {
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
@@ -211,11 +268,13 @@ HOOK_METHOD_PRIORITY(CrewMember, UpdateHealth, 2000, () -> void)
     {
         float mod = 1.f;
 
+        ShipObject* shipObject = GetShipObject();
+
         ShipInfo* shipInfo = G_->GetShipInfo(iShipId);
 
-        if (shipInfo->HasAugmentation("O2_MASKS"))
+        if (shipObject->HasAugmentation("O2_MASKS"))
         {
-            mod = shipInfo->GetAugmentationValue("O2_MASKS");
+            mod = shipObject->GetAugmentationValue("O2_MASKS");
         }
 
         float multiplier = GetSuffocationMultiplier();
@@ -233,7 +292,10 @@ HOOK_METHOD_PRIORITY(CrewMember, UpdateHealth, 2000, () -> void)
     CrewMember_Extend* ex = CM_EX(this);
     if (ex->isHealing)
     {
-        DirectModifyHealth(G_->GetCFPS()->GetSpeedFactor() * custom->GetDefinition(this->species).passiveHealAmount * 0.4f);
+        if (custom->IsRace(species))
+        {
+            DirectModifyHealth(G_->GetCFPS()->GetSpeedFactor() * custom->GetDefinition(species).passiveHealAmount * 0.4f);
+        }
     }
     //super();
 }
@@ -245,17 +307,27 @@ HOOK_METHOD_PRIORITY(CrewMember, DirectModifyHealth, 1000, (float health) -> voi
         CrewMember_Extend* ex = CM_EX(this);
         ex->isHealing = false;
         CustomCrewManager *custom = CustomCrewManager::GetInstance();
-        ex->passiveHealTimer->Start(custom->GetDefinition(species).passiveHealDelay);
+
+        if (custom->IsRace(species))
+        {
+            ex->passiveHealTimer->Start(custom->GetDefinition(species).passiveHealDelay);
+        }
     }
 }
 HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
 {
     super();
     CrewMember_Extend* ex = CM_EX(this);
-    ex->passiveHealTimer->Update();
-    if (ex->passiveHealTimer->Done())
+
+    auto custom = CustomCrewManager::GetInstance();
+
+    if (custom->IsRace(species))
     {
-        ex->isHealing = true;
+        ex->passiveHealTimer->Update();
+        if (ex->passiveHealTimer->Done())
+        {
+            ex->isHealing = true;
+        }
     }
 }
 HOOK_METHOD_PRIORITY(CrewMember, GetNewGoal, 2000, () -> bool)
@@ -601,10 +673,59 @@ HOOK_METHOD(CrewMember, ApplyDamage, (float damage) -> bool)
 {
     auto custom = CustomCrewManager::GetInstance();
 
-    if (custom->IsRace(this->species))
+    if (custom->IsRace(species))
     {
-        damage *= custom->GetDefinition(this->species).damageTakenMultiplier;
+        damage *= custom->GetDefinition(species).damageTakenMultiplier;
     }
 
     return super(damage);
+}
+
+
+static bool crewDetectLifeforms = false;
+
+HOOK_METHOD(ShipManager, OnRender, (bool unk1, bool unk2) -> void)
+{
+    crewDetectLifeforms = true;
+    super(unk1, unk2);
+    crewDetectLifeforms = false;
+}
+
+HOOK_METHOD(ShipObject, HasEquipment, (const std::string& name) -> int)
+{
+    if (name == "slug" && crewDetectLifeforms)
+    {
+        int ret = super(name);
+
+        if (ret == 0)
+        {
+            auto custom = CustomCrewManager::GetInstance();
+
+            ShipManager *currentShip;
+            if (iShipId == 0)
+            {
+                currentShip = G_->GetWorld()->playerShip->shipManager;
+            }
+            else
+            {
+                currentShip = G_->GetWorld()->playerShip->shipManager->current_target;
+            }
+
+
+            for (auto i : currentShip->vCrewList)
+            {
+                if (custom->IsRace(i->species))
+                {
+                    if (custom->GetDefinition(i->species).detectsLifeforms)
+                    {
+                        return 1;
+                    }
+                }
+            }
+        }
+
+        return ret;
+    }
+
+    return super(name);
 }

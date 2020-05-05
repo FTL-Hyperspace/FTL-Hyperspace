@@ -17,7 +17,7 @@ void CustomAugmentManager::ParseCustomAugmentNode(rapidxml::xml_node<char>* node
                 AugmentDefinition* augDef = new AugmentDefinition();
 
                 augDef->name = augName;
-                augDef->functions = std::map<std::string, float>();
+                augDef->functions = std::map<std::string, std::pair<float, bool>>();
 
                 for (auto functionNode = child->first_node(); functionNode; functionNode = functionNode->next_sibling())
                 {
@@ -28,13 +28,19 @@ void CustomAugmentManager::ParseCustomAugmentNode(rapidxml::xml_node<char>* node
                         if (functionName != augName)
                         {
                             float functionValue = G_->GetBlueprints()->GetAugmentValue(functionName);
+                            bool preferHigher = true;
 
                             if (functionNode->first_attribute("value"))
                             {
                                 functionValue = boost::lexical_cast<float>(functionNode->first_attribute("value")->value());
                             }
+                            if (functionNode->first_attribute("preferHigher"))
+                            {
+                                preferHigher = EventsParser::ParseBoolean(functionNode->first_attribute("preferHigher")->value());
+                            }
 
-                            augDef->functions[functionName] = functionValue;
+
+                            augDef->functions[functionName] = std::pair<float, bool>(functionValue, preferHigher);
                         }
                     }
                 }
@@ -49,9 +55,9 @@ void CustomAugmentManager::ParseCustomAugmentNode(rapidxml::xml_node<char>* node
     }
 }
 
-std::map<std::string, float> CustomAugmentManager::GetPotentialAugments(const std::string& name)
+std::map<std::string, std::pair<float, bool>> CustomAugmentManager::GetPotentialAugments(const std::string& name)
 {
-    auto ret = std::map<std::string, float>();
+    auto ret = std::map<std::string, std::pair<float, bool>>();
 
 
     for (auto const& i: augDefs)
@@ -83,7 +89,7 @@ HOOK_METHOD_PRIORITY(ShipObject, HasAugmentation, 2000, (const std::string& name
     }
 
     CustomAugmentManager* customAug = CustomAugmentManager::GetInstance();
-    std::map<std::string, float> potentialAugs = customAug->GetPotentialAugments(name);
+    std::map<std::string, std::pair<float, bool>> potentialAugs = customAug->GetPotentialAugments(name);
 
 
 
@@ -101,31 +107,39 @@ HOOK_METHOD_PRIORITY(ShipObject, HasAugmentation, 2000, (const std::string& name
 
 HOOK_METHOD_PRIORITY(ShipObject, HasEquipment, 2000, (const std::string& name) -> int)
 {
-    AugmentBlueprint* augBlueprint = G_->GetBlueprints()->GetAugmentBlueprint(name);
 
-    ShipInfo *player = G_->GetShipInfo(iShipId);
-    auto augList = player->augList;
-    int augCount = 0;
+    ItemBlueprint* bp = G_->GetBlueprints()->GetItemBlueprint(name);
 
-    if (augList.count(name) > 0)
+    if (bp->type == 3)
     {
-        augCount = augList.at(name);
-    }
+        ShipInfo *player = G_->GetShipInfo(iShipId);
+        auto augList = player->augList;
+        int augCount = 0;
 
-    CustomAugmentManager* customAug = CustomAugmentManager::GetInstance();
-    std::map<std::string, float> potentialAugs = customAug->GetPotentialAugments(name);
-
-
-
-    for (auto const& x: potentialAugs)
-    {
-        if (augList.count(x.first))
+        if (augList.count(name) > 0)
         {
-            augCount += augList.at(x.first);
+            augCount = augList.at(name);
         }
+
+        CustomAugmentManager* customAug = CustomAugmentManager::GetInstance();
+        std::map<std::string, std::pair<float, bool>> potentialAugs = customAug->GetPotentialAugments(name);
+
+
+
+        for (auto const& x: potentialAugs)
+        {
+            if (augList.count(x.first))
+            {
+                augCount += augList.at(x.first);
+            }
+        }
+
+        return augCount;
     }
 
-    return augCount;
+    return super(name);
+
+
 }
 
 HOOK_METHOD_PRIORITY(ShipObject, GetAugmentationValue, 1000, (const std::string& name) -> float)
@@ -145,7 +159,7 @@ HOOK_METHOD_PRIORITY(ShipObject, GetAugmentationValue, 1000, (const std::string&
     float augValue = augBlueprint->value * augCount;
 
     CustomAugmentManager* customAug = CustomAugmentManager::GetInstance();
-    std::map<std::string, float> potentialAugs = customAug->GetPotentialAugments(name);
+    std::map<std::string, std::pair<float, bool>> potentialAugs = customAug->GetPotentialAugments(name);
 
 
     float highestValue = augBlueprint->value;
@@ -154,11 +168,11 @@ HOOK_METHOD_PRIORITY(ShipObject, GetAugmentationValue, 1000, (const std::string&
         if (augList.count(x.first))
         {
             augCount += augList.at(x.first);
-            augValue += x.second * augList.at(x.first);
+            augValue += x.second.first * augList.at(x.first);
 
-            if (x.second > highestValue)
+            if ((x.second.second && x.second.first > highestValue) || (!x.second.second && x.second.first < highestValue))
             {
-                highestValue = x.second;
+                highestValue = x.second.first;
             }
         }
     }
@@ -189,7 +203,7 @@ HOOK_METHOD(EquipmentBox, SetBlueprint, (InfoBox *infoBox, bool unk) -> void)
             for (auto const &x: customAug->GetAugmentDefinition(item.augment->name)->functions)
             {
                 auto bp = blueprints->GetAugmentBlueprint(x.first);
-                if (bp->value >= item.augment->value && !item.augment->stacking)
+                if (((x.second.second && bp->value >= item.augment->value) || (!x.second.second && bp->value <= item.augment->value)) && !item.augment->stacking)
                 {
                     if (bp->desc.title.isLiteral)
                     {
