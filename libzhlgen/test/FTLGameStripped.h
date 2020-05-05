@@ -78,6 +78,7 @@ struct VTable_GenericButton;
 struct VTable_SystemBox;
 struct VTable_CrewMember;
 struct VTable_ShipSystem;
+struct VTable_Blueprint;
 
 /* 1 */
 struct Globals
@@ -1066,7 +1067,7 @@ struct std__vector_13Globals__Rect
 /* 339 */
 struct Blueprint
 {
-  void *vptr;
+  VTable_Blueprint *_vtable;
   std__string name;
   Description desc;
   int type;
@@ -3133,6 +3134,16 @@ struct AugmentBlueprint
   bool stacking;
 };
 
+/* 688 */
+struct VTable_Blueprint
+{
+  void (__thiscall *destroy)(Blueprint *this);
+  void (__thiscall *RenderIcon)(Blueprint *this, float unk);
+  std__string *(__stdcall *GetNameLong)(std__string *str, Blueprint *bp);
+  std__string *(__stdcall *GetNameShort)(std__string *str, Blueprint *bp);
+  int (__thiscall *GetType)(Blueprint *this);
+};
+
 /* 520 */
 struct std__vector_8GL_Color
 {
@@ -4690,7 +4701,10 @@ struct BoarderDrone
 struct CrystalAlien;
 
 /* 320 */
-struct ItemBlueprint;
+struct ItemBlueprint
+{
+  Blueprint _base;
+};
 
 /* 322 */
 struct RockAnimation;

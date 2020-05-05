@@ -1,9 +1,25 @@
+"578d7c240883e4f0ff77fc5589e557565389cb83ec3c8b078b4f088b57048945d48d43088b710489038b3989f901f174??85ff75??c70424????????e8????????83fe0f8975e40f87????????83fe010f84????????85f689c10f85????????8b45d4897304c60431008d4b44c7431800000000c7431c00000000c7432000000000":
+void TextInput::constructor(TextInput *this<ecx>, int maxChars, TextInput::AllowedCharType allowedCharType, const std::string& prompt);
 "578d7c240883e4f0ff77fc5589e557565389ce81ec????????8b07898564ffffff8b4704":
 void TextInput::OnRender(TextInput *this<ecx>, int font, Point pos);
+".5589e5538b413083e4f039413474??c7414c000000008d5944":
+void TextInput::OnLoop(TextInput *this<ecx>);
+".8079380074??5589e557565383e4f083ec20837d080877??":
+void TextInput::OnTextEvent(TextInput *this<ecx>, CEvent::TextEvent event);
+".0fb64138c3":
+bool TextInput::GetActive(TextInput *this<ecx>);
+"578d7c240883e4f0ff77fc5589e5575389cb83ec108b07c7442408ffffffffc744240400000000890424":
+static std::string& TextInput::GetText(std::string& strRef<ecx>, TextInput *textInput);
+".578d7c240883e4f0ff77fc5589e5575383ec408b411c":
+void TextInput::Start(TextInput *this<ecx>);
+".55c641380089e583e4f0e8????????":
+void TextInput::Stop(TextInput *this<ecx>);
 "578d7c240883e4f0ff77fc5589e557565389ce8d5de083ec2c":
 int TextInput::SetText(TextInput *this<ecx>, const std::string& text);
+".8079380074??578d7c240883e4f0ff77fc5589e557565383ec6c":
+void TextInput::OnTextInput(TextInput *this<ecx>, int asciiChar);
 
-struct TextInput 
+struct TextInput depends (CEvent)
 {{
 	enum AllowedCharType
 	{

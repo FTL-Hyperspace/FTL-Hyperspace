@@ -17,10 +17,34 @@ HOOK_METHOD(CApp, OnKeyDown, (SDLKey key) -> void)
 
     if (key == SDLKey::SDLK_KP_PLUS)
     {
-
+        printf("%08X", G_->GetWorld()->playerShip->shipManager);
     }
 
     super(key);
 }
 
+static bool displayWarning = true;
+
+HOOK_METHOD(ShipStatus, RenderEvadeOxygen, (bool unk) -> void)
+{
+    if (!ship->HasSystem(ShipSystem::NameToSystemId("oxygen")) && ship->GetOxygenPercentage() <= 24)
+    {
+        displayWarning = false;
+        oxygenMessage->flash = false;
+    }
+
+    super(unk);
+
+    displayWarning = true;
+    oxygenMessage->flash = true;
+
+}
+
+HOOK_METHOD(WarningMessage, OnRender, () -> void)
+{
+    if (displayWarning)
+    {
+        super();
+    }
+}
 
