@@ -21384,10 +21384,10 @@ namespace _func600
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("TextInput::GetText", typeid(std::string &(*)(const std::string &, TextInput *)), "578d7c240883e4f0ff77fc5589e5575389cb83ec108b07c7442408ffffffffc744240400000000890424", argdata, 2, 0, &func);
+	static FunctionDefinition funcObj("TextInput::GetText", typeid(std::string &(*)(std::string &, TextInput *)), "578d7c240883e4f0ff77fc5589e5575389cb83ec108b07c7442408ffffffffc744240400000000890424", argdata, 2, 0, &func);
 }
 
-__declspec(naked) std::string &TextInput::GetText(const std::string &strRef, TextInput *textInput)
+__declspec(naked) std::string &TextInput::GetText(std::string &strRef, TextInput *textInput)
 {
 	__asm__
 	(

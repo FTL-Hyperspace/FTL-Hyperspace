@@ -1519,7 +1519,7 @@ struct TextInput
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void OnTextEvent(CEvent::TextEvent event);
 	LIBZHL_API bool GetActive();
-	LIBZHL_API static std::string &__stdcall GetText(const std::string &strRef, TextInput *textInput);
+	LIBZHL_API static std::string &__stdcall GetText(std::string &strRef, TextInput *textInput);
 	LIBZHL_API void Start();
 	LIBZHL_API void Stop();
 	LIBZHL_API int SetText(const std::string &text);
