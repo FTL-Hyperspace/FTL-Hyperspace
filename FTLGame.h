@@ -952,6 +952,7 @@ struct TextButton : GenericButton
 {
 	LIBZHL_API void ResetPrimitives();
 	LIBZHL_API int GetIdealButtonWidth();
+	LIBZHL_API static void __stdcall __DO_NOT_HOOK();
 	LIBZHL_API void constructor();
 	LIBZHL_API void OnInit(Point pos, Point size, int cornerInset, const TextString &buttonLabel, int font);
 	LIBZHL_API void OnRender();
