@@ -14,16 +14,18 @@ WINDRES = windres.exe
 INC = 
 CFLAGS = 
 RESINC = 
-LIBDIR = 
+LIBDIR =
+BOOSTDIR =  C:/boost/lib
+LUADIR = ./Lua/lib
 LIB = 
-LDFLAGS = 
+LDFLAGS = -L$(BOOSTDIR) -L$(LUADIR)
 
 INC_DEBUG = $(INC) -Irapidxml -IC:\boost\include\boost-1_70 -Ilua\luajit\src
 CFLAGS_DEBUG = $(CFLAGS) -Wall -g -masm=intel -std=c++11 -g -DBUILD_DLL -DDEBUG
 RESINC_DEBUG = $(RESINC)
 RCFLAGS_DEBUG = $(RCFLAGS)
-LIBDIR_DEBUG = $(LIBDIR) -LC:\boost\lib -Llua\lib
-LIB_DEBUG = $(LIB) -luser32 libboost_atomic-mgw82-mt-x32-1_70.a libboost_chrono-mgw82-mt-x32-1_70.a libboost_container-mgw82-mt-x32-1_70.a libboost_context-mgw82-mt-x32-1_70.a libboost_contract-mgw82-mt-x32-1_70.a libboost_coroutine-mgw82-mt-x32-1_70.a libboost_date_time-mgw82-mt-x32-1_70.a libboost_exception-mgw82-mt-x32-1_70.a libboost_filesystem-mgw82-mt-x32-1_70.a libboost_graph-mgw82-mt-x32-1_70.a libboost_iostreams-mgw82-mt-x32-1_70.a libboost_locale-mgw82-mt-x32-1_70.a libboost_log_setup-mgw82-mt-x32-1_70.a libboost_log-mgw82-mt-x32-1_70.a libboost_math_c99f-mgw82-mt-x32-1_70.a libboost_math_c99l-mgw82-mt-x32-1_70.a libboost_math_c99-mgw82-mt-x32-1_70.a libboost_math_tr1f-mgw82-mt-x32-1_70.a libboost_math_tr1l-mgw82-mt-x32-1_70.a libboost_math_tr1-mgw82-mt-x32-1_70.a libboost_prg_exec_monitor-mgw82-mt-x32-1_70.a libboost_program_options-mgw82-mt-x32-1_70.a libboost_random-mgw82-mt-x32-1_70.a libboost_regex-mgw82-mt-x32-1_70.a libboost_serialization-mgw82-mt-x32-1_70.a libboost_stacktrace_basic-mgw82-mt-x32-1_70.a libboost_stacktrace_noop-mgw82-mt-x32-1_70.a libboost_system-mgw82-mt-x32-1_70.a libboost_test_exec_monitor-mgw82-mt-x32-1_70.a libboost_thread-mgw82-mt-x32-1_70.a libboost_timer-mgw82-mt-x32-1_70.a libboost_type_erasure-mgw82-mt-x32-1_70.a libboost_unit_test_framework-mgw82-mt-x32-1_70.a libboost_wave-mgw82-mt-x32-1_70.a libboost_wserialization-mgw82-mt-x32-1_70.a -llua51
+LIBDIR_DEBUG = $(LIBDIR)
+LIB_DEBUG = $(LIB) -luser32 -lboost_atomic-mgw82-mt-x32-1_70 -lboost_chrono-mgw82-mt-x32-1_70 -lboost_container-mgw82-mt-x32-1_70 -lboost_context-mgw82-mt-x32-1_70 -lboost_contract-mgw82-mt-x32-1_70 -lboost_coroutine-mgw82-mt-x32-1_70 -lboost_date_time-mgw82-mt-x32-1_70 -lboost_exception-mgw82-mt-x32-1_70 -lboost_filesystem-mgw82-mt-x32-1_70 -lboost_graph-mgw82-mt-x32-1_70 -lboost_iostreams-mgw82-mt-x32-1_70 -lboost_locale-mgw82-mt-x32-1_70 -lboost_log_setup-mgw82-mt-x32-1_70 -lboost_log-mgw82-mt-x32-1_70 -lboost_math_c99f-mgw82-mt-x32-1_70 -lboost_math_c99l-mgw82-mt-x32-1_70 -lboost_math_c99-mgw82-mt-x32-1_70 -lboost_math_tr1f-mgw82-mt-x32-1_70 -lboost_math_tr1l-mgw82-mt-x32-1_70 -lboost_math_tr1-mgw82-mt-x32-1_70 -lboost_prg_exec_monitor-mgw82-mt-x32-1_70 -lboost_program_options-mgw82-mt-x32-1_70 -lboost_random-mgw82-mt-x32-1_70 -lboost_regex-mgw82-mt-x32-1_70 -lboost_serialization-mgw82-mt-x32-1_70 -lboost_stacktrace_basic-mgw82-mt-x32-1_70 -lboost_stacktrace_noop-mgw82-mt-x32-1_70 -lboost_system-mgw82-mt-x32-1_70 -lboost_test_exec_monitor-mgw82-mt-x32-1_70 -lboost_thread-mgw82-mt-x32-1_70 -lboost_timer-mgw82-mt-x32-1_70 -lboost_type_erasure-mgw82-mt-x32-1_70 -lboost_unit_test_framework-mgw82-mt-x32-1_70 -lboost_wave-mgw82-mt-x32-1_70 -lboost_wserialization-mgw82-mt-x32-1_70 -llua51
 LDFLAGS_DEBUG = $(LDFLAGS) -static-libstdc++ -static-libgcc
 OBJDIR_DEBUG = obj\\Debug
 DEP_DEBUG = 
@@ -35,8 +37,8 @@ INC_RELEASE = $(INC) -Irapidxml -IC:\boost\include\boost-1_70
 CFLAGS_RELEASE = $(CFLAGS) -Wall -masm=intel -std=c++11 -DBUILD_DLL
 RESINC_RELEASE = $(RESINC)
 RCFLAGS_RELEASE = $(RCFLAGS)
-LIBDIR_RELEASE = $(LIBDIR) -LC:\boost\lib
-LIB_RELEASE = $(LIB) -luser32 libboost_atomic-mgw82-mt-x32-1_70.a libboost_chrono-mgw82-mt-x32-1_70.a libboost_container-mgw82-mt-x32-1_70.a libboost_context-mgw82-mt-x32-1_70.a libboost_contract-mgw82-mt-x32-1_70.a libboost_coroutine-mgw82-mt-x32-1_70.a libboost_date_time-mgw82-mt-x32-1_70.a libboost_exception-mgw82-mt-x32-1_70.a libboost_filesystem-mgw82-mt-x32-1_70.a libboost_graph-mgw82-mt-x32-1_70.a libboost_iostreams-mgw82-mt-x32-1_70.a libboost_locale-mgw82-mt-x32-1_70.a libboost_log_setup-mgw82-mt-x32-1_70.a libboost_log-mgw82-mt-x32-1_70.a libboost_math_c99f-mgw82-mt-x32-1_70.a libboost_math_c99l-mgw82-mt-x32-1_70.a libboost_math_c99-mgw82-mt-x32-1_70.a libboost_math_tr1f-mgw82-mt-x32-1_70.a libboost_math_tr1l-mgw82-mt-x32-1_70.a libboost_math_tr1-mgw82-mt-x32-1_70.a libboost_prg_exec_monitor-mgw82-mt-x32-1_70.a libboost_program_options-mgw82-mt-x32-1_70.a libboost_random-mgw82-mt-x32-1_70.a libboost_regex-mgw82-mt-x32-1_70.a libboost_serialization-mgw82-mt-x32-1_70.a libboost_stacktrace_basic-mgw82-mt-x32-1_70.a libboost_stacktrace_noop-mgw82-mt-x32-1_70.a libboost_system-mgw82-mt-x32-1_70.a libboost_test_exec_monitor-mgw82-mt-x32-1_70.a libboost_thread-mgw82-mt-x32-1_70.a libboost_timer-mgw82-mt-x32-1_70.a libboost_type_erasure-mgw82-mt-x32-1_70.a libboost_unit_test_framework-mgw82-mt-x32-1_70.a libboost_wave-mgw82-mt-x32-1_70.a libboost_wserialization-mgw82-mt-x32-1_70.a
+LIBDIR_RELEASE = $(LIBDIR)
+LIB_RELEASE = $(LIB) -luser32 -lboost_atomic-mgw82-mt-x32-1_70 -lboost_chrono-mgw82-mt-x32-1_70 -lboost_container-mgw82-mt-x32-1_70 -lboost_context-mgw82-mt-x32-1_70 -lboost_contract-mgw82-mt-x32-1_70 -lboost_coroutine-mgw82-mt-x32-1_70 -lboost_date_time-mgw82-mt-x32-1_70 -lboost_exception-mgw82-mt-x32-1_70 -lboost_filesystem-mgw82-mt-x32-1_70 -lboost_graph-mgw82-mt-x32-1_70 -lboost_iostreams-mgw82-mt-x32-1_70 -lboost_locale-mgw82-mt-x32-1_70 -lboost_log_setup-mgw82-mt-x32-1_70 -lboost_log-mgw82-mt-x32-1_70 -lboost_math_c99f-mgw82-mt-x32-1_70 -lboost_math_c99l-mgw82-mt-x32-1_70 -lboost_math_c99-mgw82-mt-x32-1_70 -lboost_math_tr1f-mgw82-mt-x32-1_70 -lboost_math_tr1l-mgw82-mt-x32-1_70 -lboost_math_tr1-mgw82-mt-x32-1_70 -lboost_prg_exec_monitor-mgw82-mt-x32-1_70 -lboost_program_options-mgw82-mt-x32-1_70 -lboost_random-mgw82-mt-x32-1_70 -lboost_regex-mgw82-mt-x32-1_70 -lboost_serialization-mgw82-mt-x32-1_70 -lboost_stacktrace_basic-mgw82-mt-x32-1_70 -lboost_stacktrace_noop-mgw82-mt-x32-1_70 -lboost_system-mgw82-mt-x32-1_70 -lboost_test_exec_monitor-mgw82-mt-x32-1_70 -lboost_thread-mgw82-mt-x32-1_70 -lboost_timer-mgw82-mt-x32-1_70 -lboost_type_erasure-mgw82-mt-x32-1_70 -lboost_unit_test_framework-mgw82-mt-x32-1_70 -lboost_wave-mgw82-mt-x32-1_70 -lboost_wserialization-mgw82-mt-x32-1_70
 LDFLAGS_RELEASE = $(LDFLAGS) -s -static-libstdc++ -static-libgcc
 OBJDIR_RELEASE = obj\\Release
 DEP_RELEASE = 
