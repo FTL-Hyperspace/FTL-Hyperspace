@@ -28,5 +28,8 @@ struct TextInput depends (CEvent)
 	  ALLOW_ANY = 0x2,
 	};
 
-
+	TextInput(int maxChars, TextInput::AllowedCharType allowedCharType, const std::string& prompt)
+	{
+		this->constructor(maxChars, allowedCharType, prompt);
+	};
 }};

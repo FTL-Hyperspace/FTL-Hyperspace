@@ -222,8 +222,6 @@ HOOK_METHOD_PRIORITY(CrewMember, constructor, -899, (CrewBlueprint& bp, int ship
 
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
 
-    printf("%08X\n", this);
-
     super(bp, shipId, intruder, animation);
 
     CrewMember_Extend* ex = CM_EX(this);

@@ -1512,7 +1512,10 @@ struct TextInput
 	  ALLOW_ANY = 0x2,
 	};
 
-
+	TextInput(int maxChars, TextInput::AllowedCharType allowedCharType, const std::string& prompt)
+	{
+		this->constructor(maxChars, allowedCharType, prompt);
+	};
 
 	LIBZHL_API void constructor(int maxChars, TextInput::AllowedCharType allowedCharType, const std::string &prompt);
 	LIBZHL_API void OnRender(int font, Point pos);
@@ -1558,6 +1561,8 @@ struct ShipBuilder
 	LIBZHL_API void Open();
 	LIBZHL_API void OnRender();
 	LIBZHL_API void OnLoop();
+	LIBZHL_API void constructor();
+	LIBZHL_API void MouseMove(int x, int y);
 	
 	ShipManager *currentShip;
 	GL_Primitive *nameBoxPrimitive;
@@ -3314,7 +3319,7 @@ struct FileHelper
 	LIBZHL_API static void __stdcall deleteFile(const std::string &fileName);
 	LIBZHL_API static std::string &__stdcall getResourceFile(const std::string &str);
 	LIBZHL_API static std::string &__stdcall getUserFolder(const std::string &str);
-	LIBZHL_API static std::string &__stdcall getSaveFile(const std::string &str);
+	LIBZHL_API static std::string &__stdcall getSaveFile(std::string &str);
 	LIBZHL_API static void __stdcall initFileHelper();
 	LIBZHL_API static int __stdcall fileLength(int file);
 	LIBZHL_API static bool __stdcall fileExists(const std::string &fileName);

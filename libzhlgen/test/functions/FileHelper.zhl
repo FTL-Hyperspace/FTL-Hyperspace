@@ -5,7 +5,7 @@ static cleanup std::string& FileHelper::getResourceFile(const std::string& str);
 ".8d4c240483e4f0ff71fc5589e5575653":
 static cleanup std::string& FileHelper::getUserFolder(const std::string& str);
 ".8d4c240483e4f0ff71fc5589e557565351":
-static cleanup std::string& FileHelper::getSaveFile(const std::string& str);
+static cleanup std::string& FileHelper::getSaveFile(std::string& str);
 ".8d4c240483e4f0ff71fc5589e5575653":
 static cleanup void FileHelper::initFileHelper();
 ".8d4c240483e4f0ff71fc5589e55183ec14":

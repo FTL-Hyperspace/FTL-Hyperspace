@@ -24,3 +24,7 @@ void ShipBuilder::Open(ShipBuilder *this<ecx>);
 void ShipBuilder::OnRender(ShipBuilder *this<ecx>);
 "578d7c240883e4f0ff77fc5589e557565389cbb9????????81ec????????e8????????84c0":
 void ShipBuilder::OnLoop(ShipBuilder *this<ecx>);
+"578d7c240883e4f0ff77fc5589e557565389cb83c10c8d7dd08d75d883ec3cc741f800000000c741fc00000000":
+void ShipBuilder::constructor(ShipBuilder *this<ecx>);
+"578d7c240883e4f0ff77fc5589f889e557565389cf81ec????????8b308b4004898570feffff8d81540f000089b574feffff":
+void ShipBuilder::MouseMove(ShipBuilder *this<ecx>, int x, int y);
