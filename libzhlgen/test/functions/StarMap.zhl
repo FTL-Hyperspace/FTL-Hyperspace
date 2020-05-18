@@ -119,7 +119,7 @@ bool StarMap::AddQuest(StarMap *this<ecx>, const std::string& unk0, bool unk1);
 ".578d7c240883e4f0ff77fc5589e557565381ec????????":
 Location* StarMap::GenerateMap(StarMap *this<ecx>, bool unk0, bool seed);
 ".578d7c240883e4f0ff77fc5589e557565389ce83":
-void StarMap::NewGame(StarMap *this<ecx>, bool unk0);
+Location* StarMap::NewGame(StarMap *this<ecx>, bool unk0);
 ".578d7c240883e4f0ff77fc5589f889e557565381":
 void StarMap::Dijkstra1(StarMap *this<ecx>, Location * unk0, Location * unk1, bool unk2);
 ".578d7c240883e4f0ff77fc5589e557565381ec8c":
@@ -127,7 +127,7 @@ void StarMap::MouseMove(StarMap *this<ecx>, int x, int y);
 ".578d7c240883e4f0ff77fc5589e557565389ce81":
 void StarMap::OnTouch(StarMap *this<ecx>, TouchAction unk0, int unk1, int unk2, int unk3, int unk4, int unk5);
 ".578d7c240883e4f0ff77fc5589f889e557565389":
-void StarMap::LoadGame(StarMap *this<ecx>, int fileHelper);
+Location* StarMap::LoadGame(StarMap *this<ecx>, int fileHelper);
 ".578d7c240883e4f0ff77fc5589e557565389cb83":
 void StarMap::RenderLeftInsetButton(StarMap *this<ecx>, float unk0, float unk1, bool unk2);
 ".578d7c240883e4f0ff77fc5589e55756538d7dc8":

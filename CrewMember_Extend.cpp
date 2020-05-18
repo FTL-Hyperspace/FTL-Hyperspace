@@ -9,7 +9,6 @@ HOOK_METHOD_PRIORITY(CrewMember, constructor, 900, (CrewBlueprint& blueprint, in
 	CustomCrewManager* custom = CustomCrewManager::GetInstance();
 	auto ex = new CrewMember_Extend();
 
-
     DWORD dEx = (DWORD)ex;
 
 	gap_ex_1[0] = (dEx >> 24) & 0xFF;

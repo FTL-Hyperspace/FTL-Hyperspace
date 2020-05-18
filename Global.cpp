@@ -1,5 +1,6 @@
 #include "Global.h"
 #include "Resources.h"
+#include <chrono>
 
 Global *Global::instance = new Global();
 
@@ -18,7 +19,9 @@ EventsParser *Global::__eventsParser = NULL;
 EventSystem *Global::__eventSystem = NULL;
 
 bool *Global::showBeaconPath = NULL;
+unsigned int Global::currentSeed = 0;
 int64_t *Global::randomState = NULL;
+std::mt19937 Global::seededRng;
 bool *Global::__rng = NULL;
 
 
@@ -47,9 +50,10 @@ void Global::Initialize(CApp *cApp)
     __eventGenerator = (EventGenerator*)(__baseAddress + __eventGenOffset);
     __eventsParser = (EventsParser*)(__baseAddress + __eventsParseOffset);
     __eventSystem = (EventSystem*)(__baseAddress + __eventSystem);
+    seededRng = std::mt19937(std::chrono::system_clock::now().time_since_epoch().count());
+    currentSeed = 0;
 
     showBeaconPath = (bool*)((__baseAddress + __beaconPathOffset));
-    randomState = (int64_t*)(__baseAddress + __randomStateOffset);
     __rng = (bool*)((__baseAddress + __rngOffset));
 
 

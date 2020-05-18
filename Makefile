@@ -55,7 +55,7 @@ all: before_build build_debug build_release after_build
 clean: clean_debug clean_release
 
 before_build: 
-	libzhl.bat
+	
 
 after_build: 
 

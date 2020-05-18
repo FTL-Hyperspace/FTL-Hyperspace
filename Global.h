@@ -2,6 +2,7 @@
 #define WIN32_LEAN_AND_MEAN
 
 #include <Windows.h>
+#include <random>
 
 #include "zhl.h"
 #include "FTLGame.h"
@@ -12,6 +13,7 @@
 
 #include "CrewMember_Extend.h"
 #include "ShipManager_Extend.h"
+#include <random>
 
 //#include "LuaState.h"
 
@@ -45,7 +47,9 @@ public:
     DWORD GetBaseAddress() { return __baseAddress; }
 
     static bool* showBeaconPath;
+    static unsigned int currentSeed;
     static int64_t* randomState;
+    static std::mt19937 seededRng;
 
     //LuaState* lua;
 
