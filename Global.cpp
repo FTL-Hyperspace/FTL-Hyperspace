@@ -23,6 +23,10 @@ unsigned int Global::currentSeed = 0;
 int64_t *Global::randomState = NULL;
 std::mt19937 Global::seededRng;
 bool *Global::__rng = NULL;
+bool *Global::showWelcome = NULL;
+bool *Global::dlcEnabled = NULL;
+bool Global::forceDlc = false;
+bool Global::isCustomSeed = false;
 
 
 HOOK_METHOD(CApp, OnInit, () -> int)
@@ -53,7 +57,9 @@ void Global::Initialize(CApp *cApp)
     seededRng = std::mt19937(std::chrono::system_clock::now().time_since_epoch().count());
     currentSeed = 0;
 
+    showWelcome = (bool*)((__baseAddress + __showWelcomeOffset));
     showBeaconPath = (bool*)((__baseAddress + __beaconPathOffset));
+    dlcEnabled = (bool*)((__baseAddress + __dlcEnabledOffset));
     __rng = (bool*)((__baseAddress + __rngOffset));
 
 

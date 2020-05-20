@@ -8,6 +8,14 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
 {
     for (auto eventNode = node->first_node(); eventNode; eventNode = eventNode->next_sibling())
     {
+        if (strcmp(eventNode->name(), "bossShip") == 0)
+        {
+            if (eventNode->value())
+            {
+                bossShipIds.push_back(std::string(eventNode->value()));
+            }
+        }
+
         if (strcmp(eventNode->name(), "event") == 0)
         {
             if (eventNode->first_attribute("name"))
@@ -121,6 +129,7 @@ HOOK_METHOD(ShipObject, HasEquipment, (const std::string& equipment) -> int)
 HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
 {
     auto customEvents = CustomEventsParser::GetInstance();
+
     if (customEvents->IsCargoEvent(event->eventName))
     {
         g_checkCargo = true;
@@ -130,3 +139,121 @@ HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
 
     g_checkCargo = false;
 }
+
+HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEvent*)
+{
+    auto customEvents = CustomEventsParser::GetInstance();
+
+    if (customEvents->IsCargoEvent(event->eventName))
+    {
+        g_checkCargo = true;
+    }
+
+    super(event);
+
+    g_checkCargo = false;
+}
+
+HOOK_METHOD(ShipManager, RemoveItem, (const std::string& name) -> void)
+{
+    bool removedItem = false;
+
+    if (HasAugmentation(name))
+    {
+        RemoveAugmentation(name);
+        removedItem = true;
+    }
+
+    if (systemKey[3] != -1)
+    {
+        auto weaponList = weaponSystem->weapons;
+
+        int counter = 0;
+        for (auto i: weaponList)
+        {
+            if (name == i->blueprint->name)
+            {
+                weaponSystem->RemoveWeapon(counter);
+                removedItem = true;
+                break;
+            }
+
+            counter++;
+        }
+    }
+
+    if (systemKey[4] != -1)
+    {
+        auto droneList = droneSystem->drones;
+
+        int counter = 0;
+        for (auto i: droneList)
+        {
+            if (name == i->blueprint->name)
+            {
+                droneSystem->RemoveDrone(counter);
+                removedItem = true;
+                break;
+            }
+
+            counter++;
+        }
+    }
+
+
+    if (!removedItem && g_checkCargo)
+    {
+        Equipment equip = G_->GetWorld()->commandGui->equipScreen;
+        auto boxes = equip.vEquipmentBoxes;
+
+        for (auto const& box: boxes)
+        {
+            bool isCargo = box->IsCargoBox();
+
+            if (isCargo)
+            {
+                Blueprint* cargoItem = box->GetBlueprint();
+                if (cargoItem)
+                {
+                    if (cargoItem->name == name)
+                    {
+                        box->RemoveItem();
+                        return;
+                    }
+                }
+            }
+        }
+    }
+}
+
+HOOK_METHOD(CommandGui, AddEnemyShip, (CompleteShip *ship) -> void)
+{
+    super(ship);
+    auto custom = CustomEventsParser::GetInstance();
+
+    if (custom->IsBossShip(ship->shipManager->myBlueprint.blueprintName))
+    {
+        shipPosition.x = 150;
+        ftlButton.bBossFight = true;
+        shipStatus.bBossFight = true;
+    }
+}
+
+
+HOOK_METHOD(CombatControl, AddEnemyShip, (CompleteShip *ship) -> void)
+{
+    super(ship);
+    auto custom = CustomEventsParser::GetInstance();
+
+    if (custom->IsBossShip(ship->shipManager->myBlueprint.blueprintName))
+    {
+        boxPosition.x = 5;
+        boxPosition.y = 7;
+
+        targetPosition.x = boxPosition.x + 261 - ShipGraph::GetShipInfo(currentTarget->shipManager->iShipId)->shipBox.w / 2;
+        targetPosition.y = boxPosition.y + 120;
+
+        boss_visual = true;
+    }
+}
+

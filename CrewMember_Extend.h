@@ -7,6 +7,10 @@ struct CrewMember_Extend
     bool canPhaseThroughDoors = false;
     bool isHealing = false;
     TimerHelper* passiveHealTimer;
+    int lastRoom = -1;
+    int lastShipId = -1;
+    bool exploded = false;
+    bool triggerExplosion = false;
     //bool isCaptain;
 };
 

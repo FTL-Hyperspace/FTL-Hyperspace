@@ -23,7 +23,7 @@ HOOK_METHOD_PRIORITY(ShipManager, constructor, 900, (int iShipId) -> void)
 }
 
 ShipManager_Extend* Get_ShipManager_Extend(ShipManager* c)
-{\
+{
     DWORD dEx = 0;
     dEx <<= 8;
     dEx |= c->gap_ex_1[0];

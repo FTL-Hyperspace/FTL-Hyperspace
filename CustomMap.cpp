@@ -67,9 +67,12 @@ HOOK_METHOD(StarMap, RenderLabels, () -> void)
 
                 CSurface::GL_BlitPixelImage(box[2], x + box[0]->width_ + printLines.x - 8, y, box[2]->width_, box[2]->height_, 0.f, color, false);
 
+                color.r /= 255.f;
+                color.g /= 255.f;
+                color.b /= 255.f;
+
                 CSurface::GL_SetColor(color);
                 freetype::easy_print(51, i->loc.x + 14.f, i->loc.y - 25.f, text);
-
             }
         }
     }

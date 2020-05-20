@@ -1,0 +1,2 @@
+"5731c08d7c240883e4f0ff77fc5589e557565383ec4c8b1f85db0f88????????89ce":
+void DroneSystem::RemoveDrone(DroneSystem *this<ecx>, int slot);

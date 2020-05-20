@@ -65,7 +65,7 @@ HOOK_METHOD(ResourceControl, GetImageId, (std::string& path) -> GL_Texture*)
     {
         path.assign("combatUI/box_hostiles2_numbers.png");
     }
-    if (path == "combatUI/box_hostiles_boss" && HullNumbers::GetInstance() && HullNumbers::GetInstance()->enabled)
+    if (path == "combatUI/box_hostiles_boss.png" && HullNumbers::GetInstance() && HullNumbers::GetInstance()->enabled)
     {
         path.assign("combatUI/box_hostiles_boss_numbers.png");
     }
@@ -102,7 +102,7 @@ HOOK_METHOD(CombatControl, RenderTarget, () -> void)
         sprintf(buffer, "%d", this->GetCurrentTarget()->ship.hullIntegrity.first);
 
         HullNumbers::IndicatorInfo textInfo;
-        if (this->CurrentTargetIsBoss())
+        if (boss_visual)
         {
             textInfo = manager->bossIndicator;
         }

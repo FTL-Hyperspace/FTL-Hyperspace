@@ -1,2 +1,3 @@
 "578d7c240883e4f0ff77fc5589e557565389ce81ec????????8b078bb948020000":
 void Equipment::OnInit(Equipment *this<ecx>, ShipManager *ship);
+

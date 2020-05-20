@@ -16,3 +16,11 @@ bool ShipSystem::Ioned(ShipSystem *this<ecx>, int num);
 void ShipSystem::SetPowerLoss(ShipSystem *this<ecx>, int power);
 "578d7c240883e4f0ff77fc5589e557565381ec????????8b078b5f048b770c898d24feffff898504feffff8b4708":
 void ShipSystem::constructor(ShipSystem *this<ecx>, int systemId, int roomId, int shipId, int startingPower);
+"8b811c01000083f8077f??85c0ba????????0f48c2c38d76008dbc27000000008b415485c0":
+int ShipSystem::GetPowerCap(ShipSystem *this<ecx>);
+"578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b338b0f8b8680000000898b1c010000":
+void ShipSystem::SetPowerCap(ShipSystem *this<ecx>, int cap);
+"578d7c240883e4f0ff77fc5589e55783ec148b0783f80075??8b812801000085c0":
+void ShipSystem::LockSystem(ShipSystem *this<ecx>, int lock);
+"578d7c240883e4f0ff77fc5589e557565383ec2c80b918010000008b1f74??":
+void ShipSystem::ForceDecreasePower(ShipSystem *this<ecx>, int powerLoss);

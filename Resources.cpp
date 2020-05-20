@@ -115,6 +115,19 @@ void Global::InitializeResources(ResourceControl *resources)
             {
                 auto enabled = node->first_attribute("enabled")->value();
                 g_titleScreen = EventsParser::ParseBoolean(enabled);
+                if (node->first_attribute("logo_x"))
+                {
+                    g_logoX = boost::lexical_cast<int>(node->first_attribute("logo_x")->value());
+                }
+                if (node->first_attribute("logo_y"))
+                {
+                    g_logoY = boost::lexical_cast<int>(node->first_attribute("logo_y")->value());
+                }
+            }
+
+            if (strcmp(node->name(), "forceDlc") == 0)
+            {
+                Global::forceDlc = EventsParser::ParseBoolean(node->first_attribute("enabled")->value());
             }
 
 

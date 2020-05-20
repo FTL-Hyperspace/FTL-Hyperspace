@@ -109,3 +109,40 @@ HOOK_METHOD_PRIORITY(CrewMember, constructor, 500, (CrewBlueprint& bp, int shipI
         health.first = GetMaxHealth();
     }
 }
+
+
+
+static bool __attribute__((fastcall)) CrewAnimation_CustomDeath(CrewAnimation *_this)
+{
+    CustomCrewManager *custom = CustomCrewManager::GetInstance();
+    return custom->GetDefinition(_this->race).hasCustomDeathAnimation;
+}
+
+void SetupVTable(CrewAnimation *anim)
+{
+    void** vtable = *(void***)anim;
+
+    DWORD dwOldProtect, dwBkup;
+    VirtualProtect(&vtable[0], sizeof(void*) * 12, PAGE_EXECUTE_READWRITE, &dwOldProtect);
+
+    vtable[12] = (void*)&CrewAnimation_CustomDeath;
+
+    VirtualProtect(&vtable[0], sizeof(void*) * 12, dwOldProtect, &dwBkup);
+}
+
+
+
+HOOK_METHOD_PRIORITY(CrewAnimation, constructor, 500, (int shipId, const std::string& race, Pointf unk, bool hostile) -> void)
+{
+    super(shipId, race, unk, hostile);
+
+    CustomCrewManager *custom = CustomCrewManager::GetInstance();
+    if ( custom->IsRace(race) )
+    {
+        SetupVTable(this);
+    }
+}
+
+
+
+

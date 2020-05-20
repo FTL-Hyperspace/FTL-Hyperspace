@@ -263,6 +263,9 @@
 		<Unit filename="Seeds.cpp">
 			<Option virtualFolder="Core/Seed/" />
 		</Unit>
+		<Unit filename="Seeds.h">
+			<Option virtualFolder="Core/Seed/" />
+		</Unit>
 		<Unit filename="ShipEditor.cpp">
 			<Option virtualFolder="Content/ShipEditor/" />
 		</Unit>
@@ -283,6 +286,12 @@
 		</Unit>
 		<Unit filename="SigScan.h">
 			<Option virtualFolder="ZHL/" />
+		</Unit>
+		<Unit filename="System_Extend.cpp">
+			<Option virtualFolder="Core/Systems/" />
+		</Unit>
+		<Unit filename="System_Extend.h">
+			<Option virtualFolder="Core/Systems/" />
 		</Unit>
 		<Unit filename="Systems.h">
 			<Option virtualFolder="Core/Systems/" />

@@ -1,0 +1,2 @@
+"578d7c240883e4f0ff77fc5589e557565383ec4c8b3f85ff78??":
+void WeaponSystem::RemoveWeapon(WeaponSystem *this<ecx>, int slot);

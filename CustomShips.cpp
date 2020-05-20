@@ -1,5 +1,6 @@
 #include "CustomShips.h"
 #include "freetype.h"
+#include "Seeds.h"
 #include <algorithm>
 
 CustomShipSelect CustomShipSelect::instance = CustomShipSelect();
@@ -750,10 +751,7 @@ HOOK_METHOD(ShipButton, OnRender, () -> void)
             GL_Color white = GL_Color(1.f, 1.f, 1.f, 1.f);
             G_->GetResources()->RenderImage(iShipImage, position.x, position.y, 0, white, 1.f, false);
         }
-
     }
-
-
 }
 
 HOOK_METHOD(ShipSelect, MouseClick, () -> void)
@@ -900,6 +898,11 @@ HOOK_METHOD(ShipBuilder, MouseClick, (int x, int y) -> void)
 HOOK_METHOD(ShipBuilder, OnLoop, () -> void)
 {
 
+    if (Global::forceDlc)
+    {
+        *Global::dlcEnabled = true;
+    }
+
     super();
 
     if (currentShipId >= 100)
@@ -912,15 +915,42 @@ HOOK_METHOD(ShipBuilder, OnLoop, () -> void)
         leftButton.SetActive(buttonsActive);
         rightButton.SetActive(buttonsActive);
         randomButton.SetActive(customSel->ShipCount() > 1);
+        startButton.SetActive(true);
     }
+    else
+    {
+        startButton.SetActive(Settings::GetDlcEnabled() || (currentShipId != 9 && currentType != 2));
+    }
+}
 
+static GL_Texture* seedBox;
+static GL_Primitive* unlocksDisabledPrimitive;
+
+
+HOOK_METHOD(MenuScreen, constructor, () -> void)
+{
+    super();
+
+    seedBox = G_->GetResources()->GetImageId("optionsUI/info_seed.png");
+    auto unlocksDisabledTexture = G_->GetResources()->GetImageId("customizeUI/unlocks_disabled.png");
+    unlocksDisabledPrimitive = CSurface::GL_CreateImagePrimitive(unlocksDisabledTexture, 1106.f - unlocksDisabledTexture->width_ / 2, 104, unlocksDisabledTexture->width_, unlocksDisabledTexture->height_, 0.f, COLOR_WHITE);
 }
 
 
 HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
 {
+    bool isVanillaShip = currentShipId < 100;
 
-    bool renderAchievements = currentShipId < 100;
+    if (Global::forceDlc)
+    {
+        advancedOffButton.bActive = false;
+        advancedOnButton.bActive = false;
+
+        advancedOffButton.position.x = 4000;
+        advancedOnButton.position.x = 4000;
+        advancedOffButton.hitbox.x = 4000;
+        advancedOnButton.hitbox.x = 4000;
+    }
 
     if (shipSelect.bOpen)
     {
@@ -934,12 +964,15 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
     CSurface::GL_EnableBlend();
     CSurface::GL_RenderPrimitive(shipEquipBox);
     CSurface::GL_RenderPrimitive(shipSelectBox);
-    if (renderAchievements)
+    if (isVanillaShip)
     {
         CSurface::GL_RenderPrimitive(shipAchBox);
     }
 
-    CSurface::GL_RenderPrimitive(advancedButtonBox);
+    if (!Global::forceDlc)
+    {
+        CSurface::GL_RenderPrimitive(advancedButtonBox);
+    }
 
     CSurface::GL_SetColor(COLOR_BUTTON_TEXT);
 
@@ -966,21 +999,22 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
 
     CSurface::GL_SetColor(COLOR_BUTTON_ON);
 
-    if (renderAchievements)
+    if (isVanillaShip)
     {
         TextLibrary::GetText(langTxt, lib, "hangar_achievements_title", lib->currentLanguage);
         freetype::easy_printCenter(13, 124, 374, langTxt);
     }
 
-
-
-    TextLibrary::GetText(langTxt, lib, "hangar_advanced_title", lib->currentLanguage);
-    freetype::easy_printCenter(13, 1109, 400, langTxt);
+    if (!Global::forceDlc)
+    {
+        TextLibrary::GetText(langTxt, lib, "hangar_advanced_title", lib->currentLanguage);
+        freetype::easy_printCenter(13, 1109, 400, langTxt);
+    }
 
     CSurface::GL_SetColor(1.f, 1.f, 1.f, 1.f);
     CSurface::GL_PushMatrix();
 
-    if (!Settings::GetDlcEnabled() && (currentShipId == 9 || currentType == 2))
+    if (!Settings::GetDlcEnabled() && (currentShipId == 9 || currentType == 2) && isVanillaShip)
     {
         CSurface::GL_SetColorTint(COLOR_TINT);
     }
@@ -990,14 +1024,12 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
 
     CSurface::GL_PopMatrix();
     CSurface::GL_RenderPrimitive(startButtonBox);
-    if (!Settings::GetDlcEnabled() && (currentShipId == 9 || currentType == 2))
+
+    if (!Settings::GetDlcEnabled() && (currentShipId == 9 || currentType == 2) && isVanillaShip)
     {
         CSurface::GL_RemoveColorTint();
-        CSurface::GL_RenderPrimitive(enableAdvancedPrimitive);
     }
 
-
-    startButton.SetActive(currentShipId != 9 || currentShipId != 2);
 
     for (auto &anim: animations)
     {
@@ -1107,7 +1139,7 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
     CSurface::GL_SetColor(COLOR_WHITE);
 
 
-    if (renderAchievements)
+    if (isVanillaShip)
     {
         int counter = 0;
         for (auto &ach: shipAchievements)
@@ -1117,6 +1149,20 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
             counter++;
         }
     }
+
+    if (SeedInputBox::seedInput)
+	{
+		SeedInputBox::seedInput->OnRender(0, Point((int)SeedInputBox::drawLocation.x+2+(SeedInputBox::width/2), (int)SeedInputBox::drawLocation.y+5));
+
+		std::string inputSeed;
+
+		TextInput::GetText(inputSeed, SeedInputBox::seedInput);
+
+		if (inputSeed != "")
+        {
+            CSurface::GL_RenderPrimitive(unlocksDisabledPrimitive);
+        }
+	}
 
 
     CSurface::GL_RemoveColorTint();
@@ -1139,7 +1185,40 @@ HOOK_METHOD_PRIORITY(MenuScreen, OnRender, 1000, () -> void)
     {
         if (!SM_EX(G_->GetWorld()->playerShip->shipManager)->isCustomShip)
         {
-            return super();
+            super();
+
+            if (confirmDialog.bOpen)
+            {
+                CSurface::GL_SetColorTint(COLOR_TINT);
+            }
+
+            CSurface::GL_BlitPixelImageWide(seedBox,
+                                    statusPosition.x + 66,
+                                    statusPosition.y + 205,
+                                    162,
+                                    72,
+                                    1.f,
+                                    COLOR_WHITE,
+                                    false);
+
+            CSurface::GL_SetColor(COLOR_BUTTON_ON);
+
+            std::string seedLabel;
+            TextLibrary::GetText(seedLabel, G_->GetTextLibrary(), "menu_status_seed", G_->GetTextLibrary()->currentLanguage);
+            freetype::easy_printCenter(13, statusPosition.x + 81.f + 66.f, statusPosition.y + 205.f + 16.f, seedLabel);
+
+            CSurface::GL_SetColor(COLOR_BUTTON_TEXT);
+
+            char buf[12];
+            sprintf(buf, "%d", Global::currentSeed);
+            freetype::easy_printCenter(62, statusPosition.x + 81.f + 66.f, statusPosition.y + 205.f + 40, std::string(buf));
+
+            if (confirmDialog.bOpen)
+            {
+                CSurface::GL_RemoveColorTint();
+            }
+
+            return;
         }
     }
 
@@ -1191,6 +1270,7 @@ HOOK_METHOD_PRIORITY(MenuScreen, OnRender, 1000, () -> void)
                                     COLOR_WHITE,
                                     false);
 
+
     CSurface::GL_BlitPixelImageWide(dlcBox,
                                     statusPosition.x + difficultyWidth + 3,
                                     statusPosition.y,
@@ -1199,6 +1279,8 @@ HOOK_METHOD_PRIORITY(MenuScreen, OnRender, 1000, () -> void)
                                     1.f,
                                     COLOR_WHITE,
                                     false);
+
+
 
     CSurface::GL_SetColor(COLOR_BUTTON_ON);
 
@@ -1209,6 +1291,31 @@ HOOK_METHOD_PRIORITY(MenuScreen, OnRender, 1000, () -> void)
 
     freetype::easy_printCenter(62, statusPosition.x + (difficultyWidth + 1.f) / 2.f, statusPosition.y + 40, difficultyText);
     freetype::easy_printCenter(62, statusPosition.x + difficultyWidth + (dlcWidth + 1.f) / 2.f + 3.f, statusPosition.y + 40.f, dlcText);
+
+
+    CSurface::GL_BlitPixelImageWide(seedBox,
+                                    statusPosition.x + 66,
+                                    statusPosition.y + 72,
+                                    162,
+                                    72,
+                                    1.f,
+                                    COLOR_WHITE,
+                                    false);
+
+
+
+    CSurface::GL_SetColor(COLOR_BUTTON_ON);
+
+    std::string seedLabel;
+    TextLibrary::GetText(seedLabel, G_->GetTextLibrary(), "menu_status_seed", G_->GetTextLibrary()->currentLanguage);
+    freetype::easy_printCenter(13, statusPosition.x + 81.f + 66.f, statusPosition.y + 72.f + 16.f, seedLabel);
+
+    CSurface::GL_SetColor(COLOR_BUTTON_TEXT);
+
+    char buf[12];
+    sprintf(buf, "%d", Global::currentSeed);
+    freetype::easy_printCenter(62, statusPosition.x + 81.f + 66.f, statusPosition.y + 72.f + 40, std::string(buf));
+
 
     if (confirmDialog.bOpen)
     {

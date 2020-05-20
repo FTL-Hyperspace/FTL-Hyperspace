@@ -4,3 +4,7 @@ char ScoreKeeper::GetShipUnlocked(ScoreKeeper *this<ecx>, int shipId, int shipVa
 static std::string* ScoreKeeper::GetShipBlueprint(std::string* str<ecx>, ScoreKeeper* scoreKeeper, int index);
 "578d7c240883e4f0ff77fc5589e557565389cb8d75cc8d7dd481ec????????c70424????????e8????????8d45bc":
 void ScoreKeeper::OnInit(ScoreKeeper *this<ecx>);
+"578d7c240883e4f0ff77fc5589e557565389cbb9????????81ec????????8b37e8????????84c00f85????????8b15????????f30f1005????????":
+void ScoreKeeper::Save(ScoreKeeper *this<ecx>, bool saveScore);
+"578d7c240883e4f0ff77fc5589e557565383ec1c8b178b47048b5f088b7f0c83faff74??83f8ff":
+void ScoreKeeper::UnlockShip(ScoreKeeper *this<ecx>, int shipType, int shipVariant, bool save, bool hidePopup);

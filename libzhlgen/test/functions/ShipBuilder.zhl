@@ -28,3 +28,5 @@ void ShipBuilder::OnLoop(ShipBuilder *this<ecx>);
 void ShipBuilder::constructor(ShipBuilder *this<ecx>);
 "578d7c240883e4f0ff77fc5589f889e557565389cf81ec????????8b308b4004898570feffff8d81540f000089b574feffff":
 void ShipBuilder::MouseMove(ShipBuilder *this<ecx>, int x, int y);
+"5789c88d7c240883e4f0ff77fc5589e557565383ec2c80b96012000000894de4":
+void ShipBuilder::OnKeyDown(ShipBuilder *this<ecx>, SDLKey key);

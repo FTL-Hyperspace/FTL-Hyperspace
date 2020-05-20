@@ -5,13 +5,16 @@
 #include <boost/lexical_cast.hpp>
 #include <iostream>
 #include <fstream>
-TextInput* seedInput = NULL;
+
+
 int initialSectorSeed = 0;
-Pointf* drawLocation = NULL;
-float width = 134.f;
-float height = 21.f;
-bool firstClick = true;
-//static bool first = true;
+
+TextInput* SeedInputBox::seedInput;
+Pointf SeedInputBox::drawLocation;
+float SeedInputBox::width = 158.f;
+float SeedInputBox::height = 21.f;
+bool SeedInputBox::firstClick = true;
+std::string SeedInputBox::prompt;
 
 HOOK_GLOBAL(random32, () -> unsigned int)
 {
@@ -21,83 +24,108 @@ HOOK_GLOBAL(random32, () -> unsigned int)
 HOOK_METHOD(ShipBuilder, constructor, () -> void)
 {
 	super();
-	seedInput = new TextInput(10, TextInput::AllowedCharType::ALLOW_ANY, std::string("Seed"));
-	drawLocation = new Pointf(1045.f, 460.f);
-	seedInput->bActive = false;
+	SeedInputBox::seedInput = new TextInput(9, TextInput::AllowedCharType::ALLOW_ANY, "");
+	SeedInputBox::drawLocation = Pointf(1079.f, 71.f);
+	SeedInputBox::seedInput->bActive = false;
 }
 
-HOOK_METHOD(ShipBuilder, OnRender, () -> void)
+
+HOOK_METHOD(ShipBuilder, Open, () -> void)
 {
 	super();
-	if (seedInput)
-	{
-		CSurface::GL_DrawRect(drawLocation->x, drawLocation->y, width, height, GL_Color(0.f, 0.f, 0.f, 1.f));
-		CSurface::GL_DrawRectOutline(drawLocation->x-1.f, drawLocation->y-1.f, width+1.f, height+1.f, COLOR_TINT, 1.f);
-		seedInput->OnRender(0, Point((int)drawLocation->x+2+(width/2), (int)drawLocation->y+5));
-	}
+	nextSeed = 0;
+	SeedInputBox::firstClick = true;
+
+	std::string txt;
+    TextLibrary::GetText(txt, G_->GetTextLibrary(), "seed_prompt", G_->GetTextLibrary()->currentLanguage);
+    SeedInputBox::prompt = txt;
+
+    SeedInputBox::seedInput->SetText("");
+    SeedInputBox::seedInput->prompt = std::string(SeedInputBox::prompt);
+
+    startButton.position.y = 15;
+    startButton.hitbox.y = 15;
 }
+
 HOOK_METHOD(CApp, OnTextInput, (int charCode) -> void)
 {
-	if (seedInput)
+	if (SeedInputBox::seedInput)
 	{
-		if (seedInput->bActive)
+		if (SeedInputBox::seedInput->bActive)
 		{
 			if (charCode >= '0' && charCode <= '9')
-				seedInput->OnTextInput(charCode);
+				SeedInputBox::seedInput->OnTextInput(charCode);
 			return;
 		}
 	}
 	super(charCode);
 }
+
 HOOK_METHOD(CApp, OnTextEvent, (CEvent::TextEvent te) -> void)
 {
-	if (seedInput)
+	if (SeedInputBox::seedInput)
 	{
-		if (seedInput->bActive)
+		if (SeedInputBox::seedInput->bActive)
 		{
-			seedInput->OnTextEvent(te);
+			SeedInputBox::seedInput->OnTextEvent(te);
 			return;
 		}
 	}
 	super(te);
 }
 
+HOOK_METHOD(ShipBuilder, OnKeyDown, (SDLKey key) -> void)
+{
+    if (SeedInputBox::seedInput && SeedInputBox::seedInput->GetActive())
+        return;
+
+    super(key);
+}
+
 HOOK_METHOD(ShipBuilder, OnLoop, () -> void)
 {
 	super();
-	if (seedInput)
+	if (SeedInputBox::seedInput && !bRenaming)
 	{
-		seedInput->OnLoop();
+		SeedInputBox::seedInput->OnLoop();
 	}
+
+    G_->GetMouseControl()->bHideMouse = bRenaming || SeedInputBox::seedInput->GetActive();
+}
+
+HOOK_METHOD(ShipBuilder, MouseMove, (int x, int y) -> void)
+{
+    if (SeedInputBox::seedInput->GetActive())
+        return;
+
+    super(x, y);
 }
 
 HOOK_METHOD(ShipBuilder, MouseClick, (int x, int y) -> void)
 {
-	if (seedInput)
+	if (SeedInputBox::seedInput && !bRenaming)
 	{
-		if (x > drawLocation->x && x < drawLocation->x + width &&
-			y > drawLocation->y && y < drawLocation->y + height)
+		if (x > SeedInputBox::drawLocation.x && x < SeedInputBox::drawLocation.x + SeedInputBox::width &&
+			y > SeedInputBox::drawLocation.y && y < SeedInputBox::drawLocation.y + SeedInputBox::height)
 		{
-			if (firstClick)
+			if (SeedInputBox::firstClick)
 			{
-				seedInput->prompt = (std::string(""));
-				firstClick = false;
+				SeedInputBox::seedInput->prompt = std::string("");
+				SeedInputBox::firstClick = false;
 			}
-			seedInput->Start();
+			SeedInputBox::seedInput->Start();
+
 		}
 		else
 		{
-			seedInput->Stop();
+			SeedInputBox::seedInput->Stop();
 		}
 	}
-	super(x, y);
-}
 
-HOOK_METHOD(ShipBuilder, Open, () -> void)
-{
-	super();
-	nextSeed = 0;
-	firstClick = true;
+    if (SeedInputBox::seedInput->GetActive())
+        return;
+
+	super(x, y);
 }
 
 HOOK_METHOD(StarMap, GenerateMap, (bool unk, bool seed) -> Location*)
@@ -109,30 +137,65 @@ HOOK_METHOD(StarMap, GenerateMap, (bool unk, bool seed) -> Location*)
 	else
 	{
 		SeededRandom32(); // generate a number so we move to the correct random state.
-		printf("Incremented RNG state");
 	}
 	srand(this->currentSectorSeed);
 	return super(unk, true);
 }
+
+HOOK_METHOD(AchievementTracker, SetAchievement, (const std::string& ach, bool noPopup, bool sendToServer) -> void)
+{
+    if (Global::isCustomSeed && G_->GetWorld()->bStartedGame)
+    {
+        return;
+    }
+
+    return super(ach, noPopup, sendToServer);
+}
+
+HOOK_METHOD(ScoreKeeper, UnlockShip, (int shipId, int shipType, bool save, bool hidePopup) -> void)
+{
+    if (Global::isCustomSeed && G_->GetWorld()->bStartedGame)
+    {
+        return;
+    }
+
+    return super(shipId, shipType, save, hidePopup);
+}
+
 HOOK_METHOD(StarMap, NewGame, (bool unk) -> Location*)
 {
-	std::string* str = new std::string();
-	TextInput::GetText(*str, seedInput);
-	if (strcmp(str->c_str(), "") == 0 || unk)
+	std::string str = std::string();
+	TextInput::GetText(str, SeedInputBox::seedInput);
+	if (str == "" || unk)
 	{
 		SetSeed(SeededRandom32());
+		Global::isCustomSeed = false;
 	}
 	else
 	{
-		SetSeed(boost::lexical_cast<unsigned int>(*str));
+		SetSeed(boost::lexical_cast<unsigned int>(str));
+		Global::isCustomSeed = true;
 	}
 	return super(unk);
 }
+
 HOOK_METHOD(StarMap, LoadGame, (int fh) -> Location*)
 {
-	SetSeed(1337);
-	return super(fh);
+    SetSeed(FileHelper::readInteger(fh));
+    Global::isCustomSeed = FileHelper::readInteger(fh);
+
+	Location *ret = super(fh);
+
+    return ret;
 }
+
+HOOK_METHOD(StarMap, SaveGame, (int file) -> void)
+{
+    FileHelper::writeInt(file, Global::currentSeed);
+    FileHelper::writeInt(file, Global::isCustomSeed);
+    super(file);
+}
+
 HOOK_METHOD(StarMap, GenerateSectorMap, () -> void)
 {
 	this->sectorMapSeed = SeededRandom32();
@@ -142,19 +205,20 @@ HOOK_METHOD(StarMap, GenerateSectorMap, () -> void)
 
 HOOK_METHOD(StarMap, GetRandomSectorChoice, () -> int)
 {
+    return super();
     int randN = SeededRandom32();
     int mod = randN % 10;
     int result = 2;
     if (mod > 1)
     {
-        result = 3;
+        result = mod > 5;
     }
-    printf(std::string("Generated sector count: ").append(boost::lexical_cast<std::string>(result)).append(std::string("\n")).c_str());
     return result;
 }
+
 unsigned int SeededRandom32()
 {
-	return Global::seededRng();
+	return Global::seededRng() % 1000000000;
 }
 
 void SetSeed(unsigned int seed)

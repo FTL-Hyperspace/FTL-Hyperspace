@@ -12,3 +12,5 @@ void WorldManager::SaveGame(WorldManager *this<ecx>);
 void WorldManager::CreateChoiceBox(WorldManager *this<ecx>, LocationEvent* event);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b018b378b48088b018b4044":
 void WorldManager::UpdateLocation(WorldManager *this<ecx>, LocationEvent* event);
+"578d7c240883e4f0ff77fc5589e557565389ce8d8d2cfeffff81ec????????8b078985d8fcffff":
+LocationEvent *WorldManager::ModifyResources(WorldManager *this<ecx>, LocationEvent *event);

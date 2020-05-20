@@ -38,11 +38,17 @@ public:
         return NULL;
     }
 
+    bool IsBossShip(std::string shipId)
+    {
+        return std::find(bossShipIds.begin(), bossShipIds.end(), shipId) != bossShipIds.end();
+    }
+
 
 
 
 private:
     std::vector<std::string> cargoEventNames;
     std::vector<BeaconType*> beaconTypeEvents;
+    std::vector<std::string> bossShipIds;
     static CustomEventsParser *instance;
 };

@@ -36,6 +36,8 @@ struct CrewBlueprint;
 struct WorldManager;
 struct OxygenSystem;
 struct HackingSystem;
+struct WeaponSystem;
+struct DroneSystem;
 struct ShipSystem;
 struct TeleportSystem;
 struct ChoiceText;
@@ -53,6 +55,7 @@ struct ShipButton;
 struct WarningWithLines;
 struct CAchievement;
 struct GL_Texture;
+struct GL_Primitive;
 struct std__pair_13float___float;
 struct std__vector_4Fire;
 struct WeaponMount;
@@ -79,6 +82,7 @@ struct VTable_SystemBox;
 struct VTable_CrewMember;
 struct VTable_ShipSystem;
 struct VTable_Blueprint;
+struct VTable_CrewAnimation;
 
 /* 1 */
 struct Globals
@@ -257,9 +261,6 @@ struct ImageDesc
   int y;
   int rot;
 };
-
-/* 435 */
-struct GL_Primitive;
 
 /* 257 */
 struct Point
@@ -592,6 +593,28 @@ struct WeaponMount
   int gib;
 };
 
+/* 482 */
+struct GL_Color
+{
+  float r;
+  float g;
+  float b;
+  float a;
+};
+
+/* 435 */
+struct GL_Primitive
+{
+  int type;
+  float lineWidth;
+  bool hasTexture;
+  GL_Texture *texture;
+  bool textureAntialias;
+  bool hasColor;
+  GL_Color color;
+  int id;
+};
+
 /* 683 */
 enum DoorStateType
 {
@@ -608,7 +631,7 @@ struct Ship__DoorState
 /* 618 */
 struct VTable_AnimationTracker
 {
-  void (__thiscall *destroy)(AnimationTracker *this);
+  void (__thiscall *Free)(AnimationTracker *this);
   void (__thiscall *Update)(AnimationTracker *this);
 };
 
@@ -904,15 +927,6 @@ struct std__vector_8ButtonZ1
   Button **_start;
   Button **_finish;
   Button **_end;
-};
-
-/* 482 */
-struct GL_Color
-{
-  float r;
-  float g;
-  float b;
-  float a;
 };
 
 /* 251 */
@@ -2720,12 +2734,6 @@ struct CloneSystem;
 /* 289 */
 struct Shields;
 
-/* 291 */
-struct WeaponSystem;
-
-/* 292 */
-struct DroneSystem;
-
 /* 295 */
 struct EngineSystem;
 
@@ -3137,7 +3145,7 @@ struct AugmentBlueprint
 /* 688 */
 struct VTable_Blueprint
 {
-  void (__thiscall *destroy)(Blueprint *this);
+  void (__thiscall *Free)(Blueprint *this);
   void (__thiscall *RenderIcon)(Blueprint *this, float unk);
   std__string *(__stdcall *GetNameLong)(std__string *str, Blueprint *bp);
   std__string *(__stdcall *GetNameShort)(std__string *str, Blueprint *bp);
@@ -3747,8 +3755,10 @@ struct ShipSystem
   int iSystemType;
   bool bNeedsManned;
   bool bManned;
+  unsigned __int8 gap_ex_1[2];
   int iActiveManned;
   bool bBoostable;
+  unsigned __int8 gap_ex_2[2];
   std__pair_9int___int powerState;
   int iRequiredPower;
   GL_Texture *imageIcon;
@@ -3852,6 +3862,38 @@ struct HackingSystem
   bool bCanHack;
   ShipSystem *queuedSystem;
   int spendDrone;
+};
+
+/* 291 */
+struct WeaponSystem
+{
+  ShipSystem _base;
+  Pointf target;
+  std__vector_19ProjectileFactoryZ1 weapons;
+  std__vector_19ProjectileFactoryZ1 weaponsTrashList;
+  float shot_timer;
+  int shot_count;
+  int missile_count;
+  int missile_start;
+  CloakingSystem *cloakingSystem;
+  std__vector_4bool userPowered;
+  int slot_count;
+  int iStartingBatteryPower;
+  std__vector_4bool repowerList;
+};
+
+/* 292 */
+struct DroneSystem
+{
+  ShipSystem _base;
+  std__vector_7DroneZ1 drones;
+  int drone_count;
+  int drone_start;
+  Targetable *targetShip;
+  std__vector_4bool userPowered;
+  int slot_count;
+  int iStartingBatteryPower;
+  std__vector_4bool repowerList;
 };
 
 /* 192 */
@@ -4041,7 +4083,7 @@ struct VTable_CrewMember
   void (__thiscall *ResetPower)(CrewMember *this);
   float (__thiscall *GetSuffocationMultiplier)(CrewMember *this);
   bool (__thiscall *BlockRoom)(CrewMember *this);
-  void *(__thiscall *GetRoomDamage)(CrewMember *this);
+  Damage *(__stdcall *GetRoomDamage)(Damage *dmg, CrewMember *crew);
   bool (__thiscall *IsAnaerobic)(CrewMember *this);
   void (__thiscall *UpdateRepair)(CrewMember *this);
   bool (__thiscall *CanStim)(CrewMember *this);
@@ -4077,7 +4119,8 @@ struct std__vector_9CrewLaser
 /* 185 */
 struct CrewAnimation
 {
-  ShipObject _base;
+  VTable_CrewAnimation *_vtable;
+  int iShipId;
   std__vector_22std__vector_9Animation anims;
   GL_Texture *baseStrip;
   GL_Texture *colorStrip;
@@ -4175,6 +4218,23 @@ struct VTable_ShipSystem
   bool (__thiscall *Clickable)(ShipSystem *this);
   bool (__thiscall *Powered)(ShipSystem *this);
   void (__thiscall *ShipDestroyed)(ShipSystem *this);
+};
+
+/* 693 */
+struct VTable_CrewAnimation
+{
+  void (__thiscall *Free)(CrewAnimation *this);
+  void (__thiscall *OnRender)(CrewAnimation *this, float unk1, int unk2, bool unk3);
+  void (__thiscall *OnRenderProps)(CrewAnimation *this);
+  void (__thiscall *OnUpdateEffects)(CrewAnimation *this);
+  void (__thiscall *UpdateFiring)(CrewAnimation *this);
+  void (__thiscall *UpdateShooting)(CrewAnimation *this);
+  void (__thiscall *FireShot)(CrewAnimation *this);
+  int (__thiscall *GetFiringFrame)(CrewAnimation *this);
+  std__string *(__stdcall *GetShootingSound)(std__string *str, CrewAnimation *anim);
+  std__string *(__stdcall *GetDeathSound)(std__string *str, CrewAnimation *anim);
+  void (__thiscall *Restart)(CrewAnimation *this);
+  bool (__thiscall *CustomDeath)(CrewAnimation *this);
 };
 
 /* 156 */
@@ -4888,7 +4948,7 @@ struct std__vector_10TextButton
 /* 619 */
 struct VTable_CompleteShip
 {
-  void (__thiscall *destroy)(CompleteShip *, int);
+  void (__thiscall *Free)(CompleteShip *, int);
 };
 
 /* 621 */
@@ -4903,7 +4963,7 @@ struct GL_TexVertex
   float v;
 };
 
-/* 684 */
+/* 689 */
 union __attribute__((aligned(8))) __m64
 {
   unsigned __int64 m64_u64;
@@ -4917,7 +4977,7 @@ union __attribute__((aligned(8))) __m64
   unsigned __int32 m64_u32[2];
 };
 
-/* 685 */
+/* 690 */
 union __attribute__((aligned(16))) __m128
 {
   float m128_f32[4];
@@ -4931,13 +4991,13 @@ union __attribute__((aligned(16))) __m128
   unsigned __int32 m128_u32[4];
 };
 
-/* 686 */
+/* 691 */
 struct __m128d
 {
   double m128d_f64[2];
 };
 
-/* 687 */
+/* 692 */
 union __attribute__((aligned(16))) __m128i
 {
   __int8 m128i_i8[16];

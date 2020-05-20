@@ -1,5 +1,3 @@
-"578d7c240883e4f0ff77fc5589e55783ec14f30f1007f30f110424e8????????8b7dfc83ec04":
-bool CrewMember::ShipDamage(CrewMember *this<ecx>, float damage);
 ".0fb68198000000":
 virtual bool CrewMember::CanSabotage(CrewMember *this<ecx>);
 "80b9980000000074??31c0c38d7426008b015589e55389cb8b8088000000":
@@ -8,6 +6,8 @@ virtual bool CrewMember::CanRepair(CrewMember *this<ecx>);
 virtual bool CrewMember::CanMan(CrewMember *this<ecx>);
 "f30f1041280f2e412c7a??75??5589e55389cb83e4f080796c0075??8b8300020000":
 virtual bool CrewMember::CanHeal(CrewMember *this<ecx>);
+"89c8c701????????c7410400000000c7410800000000c7410c00000000c7411000000000c7411400000000c7411800000000c7411c00000000c6412000":
+static Damage *CrewMember::GetRoomDamage(Damage* dmg<ecx>, CrewMember *crew);
 
 "578d7c240883e4f0ff77fc5589f889e557565389cf81ec????????8b308b5808":
 void CrewMember::constructor(CrewMember *this<ecx>, CrewBlueprint& blueprint, int shipId, bool intruder, CrewAnimation *animation);
@@ -207,7 +207,8 @@ void CrewMember::CycleColorLayer(CrewMember *this<ecx>, int unk);
 bool CrewMember::Functional(CrewMember *this<ecx>);
 ".8b4424043941780f94c0":
 bool CrewMember::InsideRoom(CrewMember *this<ecx>, int roomId);
-
+".578d7c240883e4f0ff77fc5589e55783ec14f30f1007f30f110424e8????????8b7dfc83ec04":
+bool CrewMember::ShipDamage(CrewMember *this<ecx>, float damage);
 
 struct CrewMember
 {{

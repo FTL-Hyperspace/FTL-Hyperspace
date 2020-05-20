@@ -40,6 +40,24 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                 crew.shootingSounds = std::vector<std::string>();
 
                 crew.skillsDef = SkillsDefinition();
+                crew.explosionDef = Damage();
+
+                crew.explosionDef.iDamage = 0;
+                crew.explosionDef.iDamage = 0;
+                crew.explosionDef.iShieldPiercing = 0;
+                crew.explosionDef.fireChance = 0;
+                crew.explosionDef.breachChance = 0;
+                crew.explosionDef.stunChance = 0;
+                crew.explosionDef.iIonDamage = 0;
+                crew.explosionDef.iSystemDamage = 0;
+                crew.explosionDef.iPersDamage = 1;
+                crew.explosionDef.bHullBuster = false;
+                crew.explosionDef.ownerId = -1;
+                crew.explosionDef.selfId = -1;
+                crew.explosionDef.bLockdown = false;
+                crew.explosionDef.crystalShard = false;
+                crew.explosionDef.bFriendlyFire = false;
+                crew.explosionDef.iStun = 0;
 
                 try
                 {
@@ -160,6 +178,63 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                                             crew.skillsDef.skills[i].requirement = boost::lexical_cast<int>(skillNode->first_attribute("req")->value());
                                         }
                                     }
+                                }
+                            }
+                        }
+                        if (str == "hasCustomDeathAnimation")
+                        {
+                            crew.hasCustomDeathAnimation = EventsParser::ParseBoolean(val);
+                        }
+                        if (str == "hasDeathExplosion")
+                        {
+                            crew.hasDeathExplosion = EventsParser::ParseBoolean(val);
+                        }
+                        if (str == "deathEffect")
+                        {
+                            for (auto effectNode = stat->first_node(); effectNode; effectNode = effectNode->next_sibling())
+                            {
+                                std::string effectName = std::string(effectNode->name());
+
+
+                                if (effectName == "damage")
+                                {
+                                    crew.explosionDef.iDamage = boost::lexical_cast<int>(effectNode->value());
+                                }
+                                if (effectName == "fireChance")
+                                {
+                                    crew.explosionDef.fireChance = boost::lexical_cast<int>(effectNode->value());
+                                }
+                                if (effectName == "breachChance")
+                                {
+                                    crew.explosionDef.breachChance = boost::lexical_cast<int>(effectNode->value());
+                                }
+                                if (effectName == "ion")
+                                {
+                                    crew.explosionDef.iIonDamage = boost::lexical_cast<int>(effectNode->value());
+                                }
+                                if (effectName == "sysDamage")
+                                {
+                                    crew.explosionDef.iSystemDamage = boost::lexical_cast<int>(effectNode->value());
+                                }
+                                if (effectName == "persDamage")
+                                {
+                                    crew.explosionDef.iPersDamage = boost::lexical_cast<int>(effectNode->value());
+                                }
+                                if (effectName == "hullBust")
+                                {
+                                    crew.explosionDef.bHullBuster = EventsParser::ParseBoolean(effectNode->value());
+                                }
+                                if (effectName == "lockdown")
+                                {
+                                    crew.explosionDef.bLockdown = EventsParser::ParseBoolean(effectNode->value());
+                                }
+                                if (effectName == "friendlyFire")
+                                {
+                                    crew.explosionDef.bFriendlyFire = EventsParser::ParseBoolean(effectNode->value());
+                                }
+                                if (effectName == "stun")
+                                {
+                                    crew.explosionDef.iStun = boost::lexical_cast<int>(effectNode->value());
                                 }
                             }
                         }
@@ -727,3 +802,120 @@ HOOK_METHOD(ShipObject, HasEquipment, (const std::string& name) -> int)
 
     return super(name);
 }
+
+
+/*
+HOOK_METHOD(ShipManager, OnLoop, () -> void)
+{
+    for (auto i : vCrewList)
+    {
+        CrewMember_Extend* ex = CM_EX(i);
+
+        if (ex->lastShipId == -1)
+        {
+            ex->lastShipId = iShipId;
+        }
+
+        if ((ex->lastRoom != i->iRoomId || ex->lastShipId != i->iShipId) && ex->lastShipId == iShipId)
+        {
+
+
+            ShipSystem* sys = GetSystemInRoom(i->iRoomId);
+            ShipSystem* lastSys = GetSystemInRoom(ex->lastRoom);
+
+
+            if (lastSys && lastSys != sys)
+            {
+                ShipSystem_Extend* sys_ex = SYS_EX(lastSys);
+
+                printf("Cleared power loss for: %s\n", lastSys->name.c_str());
+
+                lastSys->SetPowerLoss(0);
+            }
+            if (sys)
+            {
+                ShipSystem_Extend* sys_ex = SYS_EX(sys);
+
+                sys->SetPowerLoss(1);
+
+                printf("Set power loss for: %s\n", sys->name.c_str());
+            }
+
+            ex->lastRoom = i->iRoomId;
+            ex->lastShipId = i->iShipId;
+        }
+    }
+
+
+
+    super();
+}
+*/
+
+HOOK_METHOD(CrewMember, OnLoop, () -> void)
+{
+    super();
+
+    auto custom = CustomCrewManager::GetInstance();
+
+    if (custom->IsRace(species))
+    {
+        if (custom->GetDefinition(species).hasDeathExplosion)
+        {
+            auto ex = CM_EX(this);
+
+            if (crewAnim->status == 3)
+            {
+                if (!ex->exploded && !ex->triggerExplosion)
+                {
+                    ex->triggerExplosion = true;
+                }
+            }
+            else if (!bDead)
+            {
+                ex->triggerExplosion = false;
+                ex->exploded = false;
+            }
+        }
+    }
+}
+
+HOOK_STATIC(CrewMember, GetRoomDamage, (Damage *damage, CrewMember *crew) -> Damage*)
+{
+    Damage *ret = super(damage, crew);
+
+    auto custom = CustomCrewManager::GetInstance();
+    if (custom->IsRace(crew->species))
+    {
+        if (custom->GetDefinition(crew->species).hasDeathExplosion)
+        {
+            auto ex = CM_EX(crew);
+
+            if (ex->triggerExplosion && !ex->exploded)
+            {
+                Damage *customDamage = &custom->GetDefinition(crew->species).explosionDef;
+
+                damage->iDamage = customDamage->iDamage;
+                damage->fireChance = customDamage->fireChance;
+                damage->breachChance = customDamage->breachChance;
+                damage->stunChance = customDamage->stunChance;
+                damage->iIonDamage = customDamage->iIonDamage;
+                damage->iSystemDamage = customDamage->iSystemDamage;
+                damage->iPersDamage = customDamage->iPersDamage;
+                damage->bHullBuster = customDamage->bHullBuster;
+                damage->ownerId = crew->iShipId;
+                damage->bLockdown = customDamage->bLockdown;
+                damage->crystalShard = customDamage->crystalShard;
+                damage->bFriendlyFire = customDamage->bFriendlyFire;
+                damage->iStun = customDamage->iStun;
+
+                ret = damage;
+
+                ex->exploded = true;
+            }
+        }
+    }
+
+    return ret;
+}
+

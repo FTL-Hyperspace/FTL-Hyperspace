@@ -2,6 +2,8 @@
 #include "Global.h"
 
 extern bool g_titleScreen = false;
+extern int g_logoX = 820;
+extern int g_logoY = 60;
 
 
 HOOK_METHOD(MainMenu, Open, () -> void)
@@ -14,12 +16,9 @@ HOOK_METHOD(MainMenu, Open, () -> void)
 
 HOOK_METHOD(ResourceControl, RenderImage, (GL_Texture* tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror) -> int)
 {
-    if (g_titleScreen)
+    if (tex == G_->GetCApp()->menu.glowy)
     {
-        if (tex == G_->GetCApp()->menu.glowy)
-        {
-            return super(tex, x + 42, y - 53, rotation, color, opacity, mirror);
-        }
+        return super(tex, g_logoX, g_logoY, rotation, color, opacity, mirror);
     }
 
     return super(tex, x, y, rotation, color, opacity, mirror);

@@ -90,7 +90,10 @@ struct CrewDefinition
     float passiveHealAmount = 0.f;
     int passiveHealDelay = 15;
     bool detectsLifeforms = false;
+    bool hasCustomDeathAnimation = false;
+    bool hasDeathExplosion = false;
 
+    Damage explosionDef;
     SkillsDefinition skillsDef;
 };
 
