@@ -2268,6 +2268,8 @@ struct ShipGraph
 	std::string shipName;
 };
 
+struct ShipEvent;
+
 struct ShipBlueprint : Blueprint
 {
 	struct SystemTemplate
@@ -2326,6 +2328,8 @@ struct CrewDesc
 
 struct ShipEvent
 {
+	LIBZHL_API void __stdcall constructor(const ShipEvent &event);
+	
 	bool present;
 	std::string name;
 	std::string blueprint;
@@ -5343,5 +5347,6 @@ struct WeaponBlueprint : Blueprint
 
 LIBZHL_API float __stdcall font_text_width(freetype::font_data &fontData, const char *str, float size);
 LIBZHL_API int __stdcall random32();
+LIBZHL_API void __stdcall srandom32(unsigned int seed);
 LIBZHL_API float __stdcall getSkillBonus(int skill, int level);
 

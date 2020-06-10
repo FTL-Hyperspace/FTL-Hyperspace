@@ -16,6 +16,11 @@ float SeedInputBox::height = 21.f;
 bool SeedInputBox::firstClick = true;
 std::string SeedInputBox::prompt;
 
+HOOK_GLOBAL(srandom32, (unsigned int seed) -> void)
+{
+    srand(seed);
+}
+
 HOOK_GLOBAL(random32, () -> unsigned int)
 {
 	return rand() << 15 | rand();
@@ -225,10 +230,33 @@ HOOK_METHOD(StarMap, GetRandomSectorChoice, () -> int)
     return result;
 }
 
-HOOK_METHOD(CApp, OnExecute, () -> void)
+HOOK_METHOD(EventGenerator, GetBaseEvent, (const std::string &name, int worldLevel, char ignoreUnique, int seed) -> LocationEvent*)
 {
+    if (seed == -1)
+    {
+        int newSeed = SeededRandom32();
+        LocationEvent *ret = super(name, worldLevel, ignoreUnique, newSeed);
+
+        return ret;
+    }
+
+    LocationEvent *ret = super(name, worldLevel, ignoreUnique, seed);
+
+    return ret;
+}
+
+HOOK_METHOD(ShipEvent, constructor, (const ShipEvent& event) -> void)
+{
+    super(event);
+
+    shipSeed = SeededRandom32();
+}
+
+HOOK_METHOD(CApp, OnInit, () -> void)
+{
+
+    super();
     srand(time(NULL));
-    return super();
 }
 
 unsigned int SeededRandom32()
