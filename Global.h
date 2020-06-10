@@ -41,6 +41,7 @@ public:
     EventGenerator *GetEventGenerator() { return __eventGenerator; }
     EventsParser *GetEventsParser() { return __eventsParser; }
     EventSystem *GetEventSystem() { return __eventSystem; }
+    int GetVersion() { return __version; }
 
     bool GetRNG() { return *__rng; }
 
@@ -97,6 +98,8 @@ private:
     static EventGenerator *__eventGenerator;
     static EventsParser *__eventsParser;
     static EventSystem *__eventSystem;
+
+    const int __version = 3;
 
 
     static bool* __rng;

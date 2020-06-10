@@ -17,12 +17,7 @@ HOOK_METHOD(CApp, OnKeyDown, (SDLKey key) -> void)
 
     if (key == SDLKey::SDLK_KP_PLUS)
     {
-        printf("%08X\n", G_->GetWorld()->playerShip->shipManager);
 
-        for (auto i : G_->GetWorld()->playerShip->shipManager->vCrewList)
-        {
-            printf("%s %08X\n", i->blueprint.crewName.data.c_str(), i);
-        }
     }
 
     super(key);

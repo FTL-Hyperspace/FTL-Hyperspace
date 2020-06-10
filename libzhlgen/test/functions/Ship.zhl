@@ -1,4 +1,5 @@
-
+"578d7c240883e4f0ff77fc5589e557565383ec2c8b41048b57048b378b5f08":
+int Ship::GetSelectedRoomId(Ship *this<ecx>, int x, int y, bool unk);
 
 struct Ship {{
 	Pointf GetRoomCenter(int room)

@@ -14,6 +14,7 @@ HOOK_METHOD(MainMenu, Open, () -> void)
 }
 
 
+
 HOOK_METHOD(ResourceControl, RenderImage, (GL_Texture* tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror) -> int)
 {
     if (tex == G_->GetCApp()->menu.glowy)

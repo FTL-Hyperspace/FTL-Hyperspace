@@ -1,0 +1,2 @@
+"578d7c240883e4f0ff77fc5589e557565383ec4c83b910060000018b0775??":
+void LocationEvent::ClearEvent(LocationEvent *this<ecx>, bool force);

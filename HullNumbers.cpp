@@ -4,32 +4,72 @@
 
 HullNumbers HullNumbers::instance = HullNumbers();
 
+
+HullNumbers::IndicatorInfo& HullNumbers::ParseIndicatorInfo(HullNumbers::IndicatorInfo& indicatorInfo, rapidxml::xml_node<char> *node)
+{
+            if (node->first_attribute("x"))
+            {
+                indicatorInfo.x = boost::lexical_cast<int>(node->first_attribute("x")->value());
+            }
+            if (node->first_attribute("y"))
+            {
+                indicatorInfo.y = boost::lexical_cast<int>(node->first_attribute("y")->value());
+            }
+            if (node->first_attribute("type"))
+            {
+                indicatorInfo.type = boost::lexical_cast<int>(node->first_attribute("type")->value());
+            }
+            if (node->first_attribute("align"))
+            {
+                indicatorInfo.align = node->first_attribute("align")->value();
+            }
+
+    return indicatorInfo;
+}
+
 void HullNumbers::ParseHullNumbersNode(rapidxml::xml_node<char>* node)
 {
     try
     {
+        playerIndicator = HullNumbers::IndicatorInfo();
+        playerIndicator.x = 335;
+        playerIndicator.y = 50;
+        playerIndicator.type = 0;
+        playerIndicator.align = "left";
+        enemyIndicator = HullNumbers::IndicatorInfo();
+        enemyIndicator.x = 988;
+        enemyIndicator.y = 59;
+        enemyIndicator.type = 0;
+        enemyIndicator.align = "center";
+        bossIndicator = HullNumbers::IndicatorInfo();
+        bossIndicator.x = 864;
+        bossIndicator.y = 16;
+        bossIndicator.type = 0;
+        bossIndicator.align = "center";
+
+
         auto child = node->first_node("playerText");
 
-        auto playerX = boost::lexical_cast<int>(child->first_attribute("x")->value());
-        auto playerY = boost::lexical_cast<int>(child->first_attribute("y")->value());
-        auto playerType = boost::lexical_cast<int>(child->first_attribute("type")->value());
+        if (child)
+        {
+            ParseIndicatorInfo(playerIndicator, child);
+        }
 
         child = node->first_node("enemyText");
 
-        auto enemyX = boost::lexical_cast<int>(child->first_attribute("x")->value());
-        auto enemyY = boost::lexical_cast<int>(child->first_attribute("y")->value());
-        auto enemyType = boost::lexical_cast<int>(child->first_attribute("type")->value());
+        if (child)
+        {
+            ParseIndicatorInfo(enemyIndicator, child);
+        }
 
         child = node->first_node("bossText");
 
-        auto bossX = boost::lexical_cast<int>(child->first_attribute("x")->value());
-        auto bossY = boost::lexical_cast<int>(child->first_attribute("y")->value());
-        auto bossType = boost::lexical_cast<int>(child->first_attribute("type")->value());
+        if (child)
+        {
+            ParseIndicatorInfo(bossIndicator, child);
+        }
 
 
-        this->playerIndicator = { playerX, playerY, playerType };
-        this->enemyIndicator = { enemyX, enemyY, enemyType };
-        this->bossIndicator = { bossX, bossY, bossType };
     }
     catch (boost::bad_lexical_cast const &e)
     {
@@ -38,6 +78,22 @@ void HullNumbers::ParseHullNumbersNode(rapidxml::xml_node<char>* node)
     catch (...)
     {
         MessageBoxA(NULL, "error parsing <hullNumbers> in hyperspace.xml", "Error", MB_ICONERROR);
+    }
+}
+
+void HullNumbers::PrintAlignment(int font, int x, int y, std::string str, std::string align)
+{
+    if (align == "center")
+    {
+        freetype::easy_printCenter(font, x, y, str);
+    }
+    else if (align == "right")
+    {
+        freetype::easy_printRightAlign(font, x, y, str);
+    }
+    else
+    {
+        freetype::easy_print(font, x, y, str);
     }
 }
 
@@ -53,9 +109,8 @@ HOOK_METHOD(ShipStatus, RenderHealth, (bool unk) -> void)
 
         char buffer[64];
         sprintf(buffer, "%d", this->ship->ship.hullIntegrity.first);
-        std::string str(buffer);
         auto textInfo = manager->playerIndicator;
-        freetype::easy_print(textInfo.type, textInfo.x, textInfo.y, str);
+        HullNumbers::PrintAlignment(textInfo.type, textInfo.x, textInfo.y, buffer, textInfo.align);
     }
 }
 
@@ -79,8 +134,6 @@ HOOK_METHOD(CombatControl, RenderTarget, () -> void)
     super();
 
     HullNumbers *manager = HullNumbers::GetInstance();
-
-
 
 
     if (this->GetCurrentTarget() && manager && manager->enabled)
@@ -111,7 +164,7 @@ HOOK_METHOD(CombatControl, RenderTarget, () -> void)
             textInfo = manager->enemyIndicator;
         }
 
-        freetype::easy_printCenter(textInfo.type, textInfo.x, textInfo.y, buffer);
+        HullNumbers::PrintAlignment(textInfo.type, textInfo.x, textInfo.y, buffer, textInfo.align);
     }
 }
 

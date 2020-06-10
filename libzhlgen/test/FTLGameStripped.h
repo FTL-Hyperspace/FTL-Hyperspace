@@ -709,6 +709,8 @@ struct std__vector_4bool
   bool *_start;
   bool *_finish;
   bool *_end;
+  int unk1;
+  int unk2;
 };
 
 /* 391 */
@@ -3452,7 +3454,6 @@ struct CrewAI
   std__vector_8CrewTask desiredTaskList;
   std__vector_8CrewTask bonusTaskList;
   std__vector_4bool breachedRooms;
-  char unk[8];
   int iTeleportRequest;
   bool bUrgentTeleport;
   int startingCrewCount;
@@ -3501,9 +3502,11 @@ struct ShipAI
   int boardingAi;
   int iCrewNeeded;
   bool bStalemateTrigger;
+  char field_ED[3];
   float fStalemateTimer;
   int lastHealth;
   bool bBoss;
+  char field_F9[3];
   int iTimesTeleported;
 };
 

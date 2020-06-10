@@ -709,8 +709,6 @@ HOOK_STATIC(ScoreKeeper, GetShipBlueprint, (std::string* str, ScoreKeeper* score
 
 
     return ret;
-    //printf("%08X\n", str2);
-
 }
 
 HOOK_METHOD(UnlockArrow, MouseMove, (int x, int y) -> bool)
@@ -1028,6 +1026,7 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
     if (!Settings::GetDlcEnabled() && (currentShipId == 9 || currentType == 2) && isVanillaShip)
     {
         CSurface::GL_RemoveColorTint();
+        CSurface::GL_RenderPrimitive(enableAdvancedPrimitive);
     }
 
 
@@ -1187,36 +1186,40 @@ HOOK_METHOD_PRIORITY(MenuScreen, OnRender, 1000, () -> void)
         {
             super();
 
-            if (confirmDialog.bOpen)
+            if (!bShowControls && !G_->GetTutorialManager()->Running())
             {
-                CSurface::GL_SetColorTint(COLOR_TINT);
+                if (confirmDialog.bOpen)
+                {
+                    CSurface::GL_SetColorTint(COLOR_TINT);
+                }
+
+                CSurface::GL_BlitPixelImageWide(seedBox,
+                                        statusPosition.x + 66,
+                                        statusPosition.y + 205,
+                                        162,
+                                        72,
+                                        1.f,
+                                        COLOR_WHITE,
+                                        false);
+
+                CSurface::GL_SetColor(COLOR_BUTTON_ON);
+
+                std::string seedLabel;
+                TextLibrary::GetText(seedLabel, G_->GetTextLibrary(), "menu_status_seed", G_->GetTextLibrary()->currentLanguage);
+                freetype::easy_printCenter(13, statusPosition.x + 81.f + 66.f, statusPosition.y + 205.f + 16.f, seedLabel);
+
+                CSurface::GL_SetColor(COLOR_BUTTON_TEXT);
+
+                char buf[12];
+                sprintf(buf, "%u", Global::currentSeed);
+                freetype::easy_printCenter(62, statusPosition.x + 81.f + 66.f, statusPosition.y + 205.f + 40, std::string(buf));
+
+                if (confirmDialog.bOpen)
+                {
+                    CSurface::GL_RemoveColorTint();
+                }
             }
 
-            CSurface::GL_BlitPixelImageWide(seedBox,
-                                    statusPosition.x + 66,
-                                    statusPosition.y + 205,
-                                    162,
-                                    72,
-                                    1.f,
-                                    COLOR_WHITE,
-                                    false);
-
-            CSurface::GL_SetColor(COLOR_BUTTON_ON);
-
-            std::string seedLabel;
-            TextLibrary::GetText(seedLabel, G_->GetTextLibrary(), "menu_status_seed", G_->GetTextLibrary()->currentLanguage);
-            freetype::easy_printCenter(13, statusPosition.x + 81.f + 66.f, statusPosition.y + 205.f + 16.f, seedLabel);
-
-            CSurface::GL_SetColor(COLOR_BUTTON_TEXT);
-
-            char buf[12];
-            sprintf(buf, "%d", Global::currentSeed);
-            freetype::easy_printCenter(62, statusPosition.x + 81.f + 66.f, statusPosition.y + 205.f + 40, std::string(buf));
-
-            if (confirmDialog.bOpen)
-            {
-                CSurface::GL_RemoveColorTint();
-            }
 
             return;
         }
@@ -1313,7 +1316,7 @@ HOOK_METHOD_PRIORITY(MenuScreen, OnRender, 1000, () -> void)
     CSurface::GL_SetColor(COLOR_BUTTON_TEXT);
 
     char buf[12];
-    sprintf(buf, "%d", Global::currentSeed);
+    sprintf(buf, "%u", Global::currentSeed);
     freetype::easy_printCenter(62, statusPosition.x + 81.f + 66.f, statusPosition.y + 72.f + 40, std::string(buf));
 
 

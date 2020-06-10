@@ -58,6 +58,7 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                 crew.explosionDef.crystalShard = false;
                 crew.explosionDef.bFriendlyFire = false;
                 crew.explosionDef.iStun = 0;
+                crew.explosionShipFriendlyFire = false;
 
                 try
                 {
@@ -128,7 +129,6 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                             {
                                 if (strcmp(deathSoundNode->name(), "deathSound") == 0)
                                 {
-                                    //printf("%s\n", deathSoundNode->value());
                                     crew.deathSounds.push_back(std::string(deathSoundNode->value()));
                                 }
                             }
@@ -157,7 +157,7 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                         }
                         if (str == "passiveHealDelay")
                         {
-                            crew.passiveHealAmount = boost::lexical_cast<int>(val);
+                            crew.passiveHealDelay = boost::lexical_cast<int>(val);
                         }
                         if (str == "detectsLifeforms")
                         {
@@ -236,13 +236,17 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                                 {
                                     crew.explosionDef.iStun = boost::lexical_cast<int>(effectNode->value());
                                 }
+                                if (effectName == "shipFriendlyFire")
+                                {
+                                    crew.explosionShipFriendlyFire = EventsParser::ParseBoolean(effectNode->value());
+                                }
                             }
                         }
                     }
                 }
                 catch (boost::bad_lexical_cast const &e)
                 {
-                    MessageBoxA(NULL, e.what(), "Error", MB_ICONERROR);
+                    MessageBoxA(GetDesktopWindow(), e.what(), "Error", MB_ICONERROR | MB_SETFOREGROUND);
                 }
 
                 AddCrewDefinition(crew);
@@ -251,7 +255,7 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
     }
     catch (std::exception)
     {
-        MessageBoxA(NULL, "Error parsing <crew> in hyperspace.xml", "Error", MB_ICONERROR);
+        MessageBoxA(GetDesktopWindow(), "Error parsing <crew> in hyperspace.xml", "Error", MB_ICONERROR | MB_SETFOREGROUND);
     }
 
 }
@@ -304,8 +308,12 @@ HOOK_METHOD_PRIORITY(CrewMember, constructor, -899, (CrewBlueprint& bp, int ship
 
     if (custom->IsRace(species))
     {
-        ex->passiveHealTimer = new TimerHelper();
-        ex->passiveHealTimer->Start(custom->GetDefinition(species).passiveHealDelay);
+        if (custom->GetDefinition(species).passiveHealAmount > 0.f)
+        {
+            ex->passiveHealTimer = new TimerHelper();
+            ex->passiveHealTimer->Start(custom->GetDefinition(species).passiveHealDelay);
+        }
+
 
 
         auto skillsDef = custom->GetDefinition(species).skillsDef;
@@ -324,6 +332,8 @@ HOOK_METHOD_PRIORITY(CrewMember, constructor, -899, (CrewBlueprint& bp, int ship
 
 HOOK_METHOD_PRIORITY(CrewMember, UpdateHealth, 2000, () -> void)
 {
+    if (G_->GetCApp()->menu.shipBuilder.bOpen) return;
+
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
     if (iOnFire && CanBurn())
     {
@@ -365,7 +375,7 @@ HOOK_METHOD_PRIORITY(CrewMember, UpdateHealth, 2000, () -> void)
     CrewMember_Extend* ex = CM_EX(this);
     if (ex->isHealing)
     {
-        if (custom->IsRace(species))
+        if (custom->IsRace(species) && ex->passiveHealTimer)
         {
             DirectModifyHealth(G_->GetCFPS()->GetSpeedFactor() * custom->GetDefinition(species).passiveHealAmount * 0.4f);
         }
@@ -381,7 +391,7 @@ HOOK_METHOD_PRIORITY(CrewMember, DirectModifyHealth, 1000, (float health) -> voi
         ex->isHealing = false;
         CustomCrewManager *custom = CustomCrewManager::GetInstance();
 
-        if (custom->IsRace(species))
+        if (custom->IsRace(species) && ex->passiveHealTimer)
         {
             ex->passiveHealTimer->Start(custom->GetDefinition(species).passiveHealDelay);
         }
@@ -390,11 +400,10 @@ HOOK_METHOD_PRIORITY(CrewMember, DirectModifyHealth, 1000, (float health) -> voi
 HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
 {
     super();
-    CrewMember_Extend* ex = CM_EX(this);
 
     auto custom = CustomCrewManager::GetInstance();
-
-    if (custom->IsRace(species))
+    CrewMember_Extend* ex = CM_EX(this);
+    if (custom->IsRace(species) && ex->passiveHealTimer)
     {
         ex->passiveHealTimer->Update();
         if (ex->passiveHealTimer->Done())
@@ -621,7 +630,6 @@ HOOK_METHOD_PRIORITY(CrewMember, GetNewGoal, 2000, () -> bool)
 
 HOOK_METHOD(CrewMemberFactory, CreateCrewMember, (CrewBlueprint* bp, int shipId, bool intruder) -> CrewMember*)
 {
-    //printf("%s\n", bp->name.c_str());
     auto custom = CustomCrewManager::GetInstance();
     CrewMember *newCrew = custom->CreateCrewMember(bp, shipId, intruder);
 
@@ -718,11 +726,16 @@ HOOK_STATIC(CrewAnimation, GetShootingSound, (std::string& strRef, CrewAnimation
     return ret;
 }
 
+HOOK_METHOD(OxygenSystem, EmptyOxygen, (int roomId) -> void)
+{
+    if (!G_->GetCApp()->menu.shipBuilder.bOpen)
+        return;
+
+    return super(roomId);
+}
 
 HOOK_METHOD(ShipManager, UpdateEnvironment, () -> void)
 {
-    super();
-
     if (!G_->GetCApp()->menu.shipBuilder.bOpen && systemKey[2] != -1)
     {
         for (auto const &x: vCrewList)
@@ -734,11 +747,17 @@ HOOK_METHOD(ShipManager, UpdateEnvironment, () -> void)
                 float oxygenModifier = custom->GetDefinition(x->species).oxygenChangeSpeed;
                 if (oxygenModifier != 0.f && !x->bDead)
                 {
+                    if (oxygenSystem->oxygenLevels[x->iRoomId] == 0.f)
+                    {
+                        oxygenSystem->oxygenLevels[x->iRoomId] = 0.0000001f;
+                    }
+
                     oxygenSystem->ComputeAirLoss(x->iRoomId, -oxygenModifier, true);
                 }
             }
         }
     }
+    super();
 }
 
 
@@ -880,6 +899,8 @@ HOOK_METHOD(CrewMember, OnLoop, () -> void)
     }
 }
 
+static bool shipFriendlyFire = false;
+
 HOOK_STATIC(CrewMember, GetRoomDamage, (Damage *damage, CrewMember *crew) -> Damage*)
 {
     Damage *ret = super(damage, crew);
@@ -907,7 +928,10 @@ HOOK_STATIC(CrewMember, GetRoomDamage, (Damage *damage, CrewMember *crew) -> Dam
                 damage->bLockdown = customDamage->bLockdown;
                 damage->crystalShard = customDamage->crystalShard;
                 damage->bFriendlyFire = customDamage->bFriendlyFire;
+
+
                 damage->iStun = customDamage->iStun;
+                shipFriendlyFire = custom->GetDefinition(crew->species).explosionShipFriendlyFire;
 
                 ret = damage;
 
@@ -919,3 +943,38 @@ HOOK_STATIC(CrewMember, GetRoomDamage, (Damage *damage, CrewMember *crew) -> Dam
     return ret;
 }
 
+HOOK_METHOD(ShipManager, DamageCrew, (CrewMember *crew, int iDamage, int iShieldPiercing, int fireChance, int breachChance, int stunChance, int iIonDamage, int iSystemDamage, int iPersDamage, int bHullBuster, int ownerId, int selfId, int bLockdown, int iStun) -> char)
+{
+    Damage* dmg = (Damage*)&iDamage;
+
+    return super(crew, iDamage, iShieldPiercing, fireChance, breachChance, stunChance, iIonDamage, iSystemDamage, iPersDamage, bHullBuster, ownerId, selfId, bLockdown, iStun);
+}
+
+HOOK_METHOD(ShipManager, DamageArea, (Pointf location,  int iDamage, int iShieldPiercing, int fireChance, int breachChance, int stunChance, int iIonDamage, int iSystemDamage, int iPersDamage, char bHullBuster, int ownerId, int selfId, int bLockdown, int iStun, bool forceHit) -> bool)
+{
+    Damage* dmg = (Damage*)&iDamage;
+
+    if (ownerId == iShipId && !shipFriendlyFire)
+    {
+        shipFriendlyFire = false;
+        int roomId = ship.GetSelectedRoomId(location.x, location.y, true);
+
+        if (roomId == -1)
+            return false;
+
+        if (!bJumping)
+        {
+            for (auto i : vCrewList)
+            {
+                if (i->iRoomId == roomId)
+                {
+                    DamageCrew(i, iDamage, iShieldPiercing, fireChance, breachChance, stunChance, iIonDamage, iSystemDamage, iPersDamage, bHullBuster, ownerId, selfId, bLockdown, iStun);
+                }
+            }
+        }
+
+        return true;
+    }
+
+    return super(location, iDamage, iShieldPiercing, fireChance, breachChance, stunChance, iIonDamage, iSystemDamage, iPersDamage, bHullBuster, ownerId, selfId, bLockdown, iStun, forceHit);
+}

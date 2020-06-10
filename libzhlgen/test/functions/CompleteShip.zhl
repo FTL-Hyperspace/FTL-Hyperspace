@@ -13,7 +13,7 @@ void CompleteShip::AddBoarders(CompleteShip *this<ecx>, int amount, const std::s
 ".578d7c240883e4f0ff77fc5589e557565381ec????????8b07898d50feffff8b7f04":
 CrewMember *CompleteShip::AddCrewMember(CompleteShip *this<ecx>, const CrewBlueprint* blueprint, bool hostile);
 ".578d7c240883e4f0ff77fc5589e557565381ec????????8b4708":
-CrewMember *CompleteShip::AddCrewMember1(CompleteShip *this<ecx>, const std::string& race, bool hostile);
+CrewMember *CompleteShip::AddCrewMember1(CompleteShip *this<ecx>, const std::string& race, const std::string& name, bool hostile);
 ".578d7c240883e4f0ff77fc5589e55783ec14":
 Drone *CompleteShip::AddDrone(CompleteShip *this<ecx>, const DroneBlueprint *blueprint, int unk);
 ".578d7c240883e4f0ff77fc5589e557565383ec1c8b378b7f0485f6":

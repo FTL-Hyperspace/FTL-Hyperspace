@@ -94,6 +94,8 @@ struct CrewDefinition
     bool hasDeathExplosion = false;
 
     Damage explosionDef;
+    bool explosionShipFriendlyFire = false;
+
     SkillsDefinition skillsDef;
 };
 
@@ -114,7 +116,7 @@ public:
     void SetupVTable(CrewMember *crew);
     void SwapVTable(void** vtable, int index, void* swapTo);
 
-    CrewDefinition& GetDefinition(std::string& name)
+    CrewDefinition& GetDefinition(const std::string& name)
     {
         return this->blueprintNames[name];
     }

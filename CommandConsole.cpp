@@ -8,13 +8,13 @@ CommandConsole CommandConsole::instance = CommandConsole();
 bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
 {
     std::string command = cmd;
-    boost::to_upper(command);
 
     std::string cmdName = command.substr(0, command.find(" "));
+    boost::to_upper(cmdName);
 
     if (cmdName == "STORE")
     {
-        if (command == "STORE")
+        if (cmdName.length() == 5)
         {
             commandGui->CreateNewStore(commandGui->starMap->worldLevel);
         }
@@ -37,15 +37,22 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
         commandGui->starMap->bOpen = true;
         commandGui->starMap->bChoosingNewSector = true;
     }
-    if (cmdName == "BOSS")
+    if (cmdName == "KILL" && command.length() > 5)
     {
-        //printf("%08X\n", G_->GetWorld()->bossShip);
-        //G_->GetWorld()->CreateShip(NULL, true);
-        //commandGui->starMap->SetBossStage(8);
+        std::string crewName = boost::trim_copy(command.substr(5));
+
+        for (auto i : commandGui->shipComplete->shipManager->vCrewList)
+        {
+            if (i->blueprint.crewName.data == crewName)
+            {
+                i->health.first = 0;
+                break;
+            }
+        }
+        return true;
     }
     if (cmdName == "DEBUG")
     {
-
         return true;
     }
 

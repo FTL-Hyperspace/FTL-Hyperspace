@@ -101,7 +101,7 @@ void StarMap::OnLoop(StarMap *this<ecx>);
 ".80b98008000000740c5589e583e4f0e8acf3ffff":
 void StarMap::UpdateBoss(StarMap *this<ecx>);
 ".578d7c240883e4f0ff77fc5589e557565381ecbc":
-void StarMap::GenerateEvents(StarMap *this<ecx>, bool unk0);
+void StarMap::GenerateEvents(StarMap *this<ecx>, bool tutorial);
 ".578d7c240883e4f0ff77fc5589e557565383ec2c":
 void StarMap::AddConnections(StarMap *this<ecx>, Location * unk0);
 ".578d810c0a00008d7c240883e4f0ff77fc5589e5":
@@ -115,9 +115,9 @@ Location *StarMap::PopClosestLoc(StarMap *this<ecx>, std::vector<Location*>& vec
 ".578d7c240883e4f0ff77fc5589e55756538d45a431f681ec????????89bd70ffffff":
 void StarMap::Dijkstra0(StarMap *this<ecx>, Location * unk0, Location * unk1, bool unk2);
 ".578d7c240883e4f0ff77fc5589f889e557565389cf83ec5c8b100fb64004":
-bool StarMap::AddQuest(StarMap *this<ecx>, const std::string& unk0, bool unk1);
+bool StarMap::AddQuest(StarMap *this<ecx>, const std::string& questEvent, bool force);
 ".578d7c240883e4f0ff77fc5589e557565381ec????????":
-Location* StarMap::GenerateMap(StarMap *this<ecx>, bool unk0, bool seed);
+Location* StarMap::GenerateMap(StarMap *this<ecx>, bool tutorial, bool seed);
 ".578d7c240883e4f0ff77fc5589e557565389ce83":
 Location* StarMap::NewGame(StarMap *this<ecx>, bool unk0);
 ".578d7c240883e4f0ff77fc5589f889e557565381":
@@ -136,6 +136,8 @@ void StarMap::RenderDistressButtons(StarMap *this<ecx>);
 void StarMap::OnRender(StarMap *this<ecx>);
 "578d7c240883e4f0ff77fc5589e557565381ec????????8b078b57048b5f08894db889458089d689957cffffff8b5004":
 void StarMap::DrawConnection(StarMap *this<ecx>, const Pointf& pos1, const Pointf& pos2, const GL_Color* color);
+"578d7c240883e4f0ff77fc5589e557565383ec4c8b1f8b4320c6431c01c6839c00000000":
+void StarMap::TurnIntoFleetLocation(StarMap *this<ecx>, Location *loc);
 
 struct StarMap
 {{

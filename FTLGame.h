@@ -720,8 +720,8 @@ struct ShipObject
 {
 	LIBZHL_API int HasAugmentation(const std::string &augment);
 	LIBZHL_API float GetAugmentationValue(const std::string &augment);
-	LIBZHL_API int HasEquipment(const std::string &equip);
 	LIBZHL_API void RemoveAugmentation(const std::string &augment);
+	LIBZHL_API int HasEquipment(const std::string &equip);
 	
 	void *vptr;
 	int iShipId;
@@ -731,14 +731,13 @@ struct CrewTarget : ShipObject
 {
 };
 
-struct Pointf;
-
 struct Pointf
 {
 	Pointf() : x(0.f), y(0.f) {}
 	Pointf(float _x, float _y) : x(_x), y(_y) {}
 
 	LIBZHL_API void constructor(float x, float y);
+	LIBZHL_API int RelativeDistance(Pointf other);
 	
 	float x;
 	float y;
@@ -1256,7 +1255,6 @@ struct CrewAI
 	std::vector<CrewTask> desiredTaskList;
 	std::vector<CrewTask> bonusTaskList;
 	std::vector<bool> breachedRooms;
-	char unk[8];
 	int iTeleportRequest;
 	bool bUrgentTeleport;
 	int startingCrewCount;
@@ -1286,9 +1284,11 @@ struct ShipAI
 	int boardingAi;
 	int iCrewNeeded;
 	bool bStalemateTrigger;
+	char field_ED[3];
 	float fStalemateTimer;
 	int lastHealth;
 	bool bBoss;
+	char field_F9[3];
 	int iTimesTeleported;
 };
 
@@ -1419,6 +1419,8 @@ struct LIBZHL_INTERFACE ShipSystem
 	LIBZHL_API int GetPowerCap();
 	LIBZHL_API void SetPowerCap(int cap);
 	LIBZHL_API void LockSystem(int lock);
+	LIBZHL_API int GetEffectivePower();
+	LIBZHL_API int GetMaxPower();
 	
 	int selectedState;
 	ShipObject _shipObj;
@@ -2546,6 +2548,8 @@ struct Ship : ShipObject
 		int level;
 	};
 	
+	LIBZHL_API int GetSelectedRoomId(int x, int y, bool unk);
+	
 	std::vector<Room*> vRoomList;
 	std::vector<Door*> vDoorList;
 	std::vector<OuterHull*> vOuterWalls;
@@ -2777,11 +2781,11 @@ struct ShipManager : ShipObject
 	LIBZHL_API int constructor(int shipId);
 	LIBZHL_API void AddInitialCrew(std::vector<CrewBlueprint> &blueprints);
 	LIBZHL_API int GetDodgeFactor();
-	LIBZHL_API void OnRender(bool showInterior, bool doorControlMode);
-	LIBZHL_API int CountCrew(bool boarders);
-	LIBZHL_API int TeleportCrew(ShipManager *other, int room, bool comingBack);
+	LIBZHL_API void OnRender(char showInterior, char doorControlMode);
+	LIBZHL_API int CountCrew(char boarders);
+	LIBZHL_API int TeleportCrew(ShipManager *other, int room, char comingBack);
 	LIBZHL_API int OnInit(ShipBlueprint *bp, int shipLevel);
-	LIBZHL_API bool HasSystem(int systemId);
+	LIBZHL_API char HasSystem(int systemId);
 	LIBZHL_API ShipSystem *GetSystemInRoom(int roomId);
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void SetSystemPowerLoss(int systemId, int powerLoss);
@@ -2789,11 +2793,12 @@ struct ShipManager : ShipObject
 	LIBZHL_API int AddSystem(int systemId);
 	LIBZHL_API void UpdateCrewMembers();
 	LIBZHL_API void UpdateEnvironment();
-	LIBZHL_API CrewMember *AddCrewMemberFromString(const std::string &name, const std::string &race, bool intruder, int roomId, bool init, bool male);
+	LIBZHL_API CrewMember *AddCrewMemberFromBlueprint(CrewBlueprint *bp, int slot, bool init, int roomId, bool intruder);
+	LIBZHL_API CrewMember *AddCrewMemberFromString(const std::string &name, const std::string &race, char intruder, int roomId, char init, char male);
 	LIBZHL_API int GetOxygenPercentage();
-	LIBZHL_API bool DamageCrew(CrewMember *crew, Damage damage);
+	LIBZHL_API char DamageCrew(CrewMember *crew, int iDamage, int iShieldPiercing, int fireChance, int breachChance, int stunChance, int iIonDamage, int iSystemDamage, int iPersDamage, char bHullBuster, int ownerId, int selfId, int bLockdown, int iStun);
 	LIBZHL_API void RemoveItem(const std::string &name);
-	LIBZHL_API void RemoveAugmentation(const std::string &name);
+	LIBZHL_API char DamageArea(Pointf location, int iDamage, int iShieldPiercing, int fireChance, int breachChance, int stunChance, int iIonDamage, int iSystemDamage, int iPersDamage, char bHullBuster, int ownerId, int selfId, int bLockdown, int iStun, char forceHit);
 	
 	Targetable _targetable;
 	Collideable _collideable;
@@ -2953,7 +2958,7 @@ struct EventGenerator;
 
 struct EventGenerator
 {
-	LIBZHL_API LocationEvent *GetBaseEvent(const std::string &name, int unk1, char load, int unk3);
+	LIBZHL_API LocationEvent *GetBaseEvent(const std::string &name, int worldLevel, char ignoreUnique, int seed);
 	
 };
 
@@ -3030,8 +3035,12 @@ struct AugmentStoreBox
 {
 };
 
+struct StatusEffect;
+
 struct StatusEffect
 {
+	LIBZHL_API static StatusEffect *__stdcall GetNebulaEffect();
+	
 };
 
 struct RockAlien
@@ -3283,6 +3292,8 @@ struct LocationEvent
 		ChoiceReq requirement;
 		bool hiddenReward;
 	};
+	
+	LIBZHL_API void ClearEvent(bool force);
 	
 	TextString text;
 	ShipEvent ship;
@@ -3965,15 +3976,15 @@ struct StarMap : FocusWindow
 	LIBZHL_API void GetNewLocation();
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void UpdateBoss();
-	LIBZHL_API void GenerateEvents(bool unk0);
+	LIBZHL_API void GenerateEvents(bool tutorial);
 	LIBZHL_API void AddConnections(Location *unk0);
 	LIBZHL_API void MapConnected();
 	LIBZHL_API void ConnectLocations(Point unk0, Point unk1);
 	LIBZHL_API void PopulateGrid(Point unk0);
 	LIBZHL_API Location *PopClosestLoc(std::vector<Location*> &vec, std::map<Location*, int> &map);
 	LIBZHL_API void Dijkstra0(Location *unk0, Location *unk1, bool unk2);
-	LIBZHL_API bool AddQuest(const std::string &unk0, bool unk1);
-	LIBZHL_API Location *GenerateMap(bool unk0, bool seed);
+	LIBZHL_API bool AddQuest(const std::string &questEvent, bool force);
+	LIBZHL_API Location *GenerateMap(bool tutorial, bool seed);
 	LIBZHL_API Location *NewGame(bool unk0);
 	LIBZHL_API void Dijkstra1(Location *unk0, Location *unk1, bool unk2);
 	LIBZHL_API void MouseMove(int x, int y);
@@ -3983,6 +3994,7 @@ struct StarMap : FocusWindow
 	LIBZHL_API void RenderDistressButtons();
 	LIBZHL_API void OnRender();
 	LIBZHL_API void DrawConnection(const Pointf &pos1, const Pointf &pos2, const GL_Color *color);
+	LIBZHL_API void TurnIntoFleetLocation(Location *loc);
 	
 	float visual_size;
 	std::vector<Location*> locations;
@@ -4226,6 +4238,7 @@ struct WorldManager
 	LIBZHL_API void CreateChoiceBox(LocationEvent *event);
 	LIBZHL_API void UpdateLocation(LocationEvent *event);
 	LIBZHL_API LocationEvent *ModifyResources(LocationEvent *event);
+	LIBZHL_API void ModifyEnvironment(int envFlag, int envTarget);
 	
 	CompleteShip *playerShip;
 	BossShip *bossShip;
@@ -4640,7 +4653,7 @@ struct CompleteShip
 	LIBZHL_API void OnInit(const ShipBlueprint *blueprint, int unk);
 	LIBZHL_API void AddBoarders(int amount, const std::string &race, bool unk2);
 	LIBZHL_API CrewMember *AddCrewMember(const CrewBlueprint *blueprint, bool hostile);
-	LIBZHL_API CrewMember *AddCrewMember1(const std::string &race, bool hostile);
+	LIBZHL_API CrewMember *AddCrewMember1(const std::string &race, const std::string &name, bool hostile);
 	LIBZHL_API Drone *AddDrone(const DroneBlueprint *blueprint, int unk);
 	LIBZHL_API CrewMember *AddCrewMember2(CrewMember *member, int unk);
 	LIBZHL_API char SaveState(int unk);
@@ -4748,8 +4761,10 @@ struct OxygenSystem : ShipSystem
 {
 	LIBZHL_API void UpdateBreach(int roomId, int hasBreach, bool unk3);
 	LIBZHL_API void UpdateAirlock(int roomId, int unk);
+	LIBZHL_API void EmptyOxygen(int roomId);
 	LIBZHL_API void ModifyRoomOxygen(int roomId, float value);
 	LIBZHL_API void ComputeAirLoss(int roomId, float value, bool unk);
+	LIBZHL_API float GetRefillSpeed();
 	
 	float max_oxygen;
 	std::vector<float> oxygenLevels;

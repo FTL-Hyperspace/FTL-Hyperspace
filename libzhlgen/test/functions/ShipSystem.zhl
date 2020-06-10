@@ -24,3 +24,7 @@ void ShipSystem::SetPowerCap(ShipSystem *this<ecx>, int cap);
 void ShipSystem::LockSystem(ShipSystem *this<ecx>, int lock);
 "578d7c240883e4f0ff77fc5589e557565383ec2c80b918010000008b1f74??":
 void ShipSystem::ForceDecreasePower(ShipSystem *this<ecx>, int powerLoss);
+"8b414831d285c07e??80794c0074??8b810401000039810001000074??8b8170010000034150":
+int ShipSystem::GetEffectivePower(ShipSystem *this<ecx>);
+"538b59548b910001000001da2b91040100002b91200100008b891c01000083f9077f??85c9b8????????0f49c139c20f4ec2":
+int ShipSystem::GetMaxPower(ShipSystem *this<ecx>);

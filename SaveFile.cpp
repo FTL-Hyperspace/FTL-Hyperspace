@@ -61,7 +61,11 @@ HOOK_METHOD(ScoreKeeper, OnInit, () -> void)
     std::string fileName = userFolder;
     fileName.append("ae_prof.sav");
 
-    if (!FileHelper::fileExists(newFile) && FileHelper::fileExists(fileName))
+    readFromAe = true;
+    bool aeFileExists = FileHelper::fileExists(fileName);
+    readFromAe = false;
+
+    if (!FileHelper::fileExists(newFile) && aeFileExists)
     {
         readFromAe = true;
         int file = FileHelper::readBinaryFile(fileName);

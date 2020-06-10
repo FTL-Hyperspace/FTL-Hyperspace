@@ -10,12 +10,12 @@
 #include "Infinite.h"
 #include "Balance.h"
 #include "MainMenu.h"
+#include "CustomBoss.h"
 
 #include <boost/lexical_cast.hpp>
 
 HOOK_METHOD(ScoreKeeper, OnInit, () -> void)
 {
-    // last thing that happens before game initialization is complete
     super();
 
     if (G_ && !G_->AreResourcesInitialized())
@@ -48,13 +48,17 @@ void Global::InitializeResources(ResourceControl *resources)
         auto node = doc.first_node("FTL");
         if (!node)
             throw "No parent node found in hyperspace.xml";
-        node = node->first_node();
 
-        while (node)
+        bool checkedVersion = false;
+
+        for (node = node->first_node(); node; node = node->next_sibling())
         {
+            if (strcmp(node->name(), "version") == 0)
+            {
+                checkedVersion = boost::lexical_cast<int>(node->value()) == G_->GetVersion();
+            }
             if (strcmp(node->name(), "hullNumbers") == 0)
             {
-
                 if (node->first_attribute("enabled"))
                 {
                     auto enabled = node->first_attribute("enabled")->value();
@@ -124,25 +128,31 @@ void Global::InitializeResources(ResourceControl *resources)
                     g_logoY = boost::lexical_cast<int>(node->first_attribute("logo_y")->value());
                 }
             }
-
             if (strcmp(node->name(), "forceDlc") == 0)
             {
                 Global::forceDlc = EventsParser::ParseBoolean(node->first_attribute("enabled")->value());
             }
+            if (strcmp(node->name(), "bossCrew") == 0)
+            {
+                CustomBoss::ParseBossCrewNode(node);
+            }
 
+        }
 
-            node = node->next_sibling();
+        if (!checkedVersion)
+        {
+            throw "Wrong version of Hyperspace detected. Please check that Hyperspace is installed correctly and you are using the correct version of Hyperspace for all of your mods.";
         }
 
         doc.clear();
     }
     catch (std::exception &e)
     {
-        MessageBoxA(NULL, "Failed parsing hyperspace.xml", "Error", MB_ICONERROR);
+        MessageBoxA(GetDesktopWindow(), "Failed parsing hyperspace.xml", "Error", MB_ICONERROR | MB_SETFOREGROUND);
     }
     catch (const char* e)
     {
-        MessageBoxA(NULL, e, "Error", MB_ICONERROR);
+        MessageBoxA(GetDesktopWindow(), e, "Error", MB_ICONERROR | MB_SETFOREGROUND);
     }
 
     //G_->lua = new LuaState;

@@ -2,7 +2,11 @@
 void OxygenSystem::UpdateBreach(OxygenSystem *this<ecx>, int roomId, int hasBreach, bool unk3);
 "578d7c240883e4f0ff77fc5589e557565383ec4c8b5f048b1785db7e??8b81c4010000":
 void OxygenSystem::UpdateAirlock(OxygenSystem *this<ecx>, int roomId, int unk);
+".8b81c40100008b542404c70490????????":
+void OxygenSystem::EmptyOxygen(OxygenSystem *this<ecx>, int roomId);
 "8b81c40100008b5424048d0490f30f1000f30f58442408f30f1100":
 void OxygenSystem::ModifyRoomOxygen(OxygenSystem *this<ecx>, int roomId, float value);
 "578d7c240883e4f0ff77fc5589f889e557565389cf83ec3c8b18f30f106804":
 void OxygenSystem::ComputeAirLoss(OxygenSystem *this<ecx>, int roomId, float value, bool unk);
+"5589e55389cb83e4f083ec1083b9a8010000017e??80b9ac0100000074??b9????????e8????????d95c240c8b5dfcf30f1044240cf30f5905????????f30f1144240c":
+float OxygenSystem::GetRefillSpeed(OxygenSystem *this<ecx>);

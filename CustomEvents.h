@@ -9,6 +9,32 @@ struct BeaconType
     bool global = false;
 };
 
+struct CustomEvent
+{
+    std::string eventName;
+    BeaconType *beacon;
+    bool hasCustomBeacon = false;
+    bool checkCargo = false;
+    bool recursive = true;
+    bool preventQuest = false;
+};
+
+struct SectorExit
+{
+    std::string sectorName;
+    std::string event = "";
+    std::string rebelEvent = "";
+    std::string nebulaEvent = "";
+};
+
+struct SectorFleet
+{
+    std::string sectorName;
+    std::string event = "";
+    std::string nebulaEvent = "";
+};
+
+
 class CustomEventsParser
 {
 public:
@@ -24,31 +50,35 @@ public:
         return instance;
     }
 
-    bool IsCargoEvent(std::string eventName)
-    {
-        return std::find(cargoEventNames.begin(), cargoEventNames.end(), eventName) != cargoEventNames.end();
-    }
-
-    BeaconType* GetBeaconType(std::string eventName)
-    {
-        for (auto i : beaconTypeEvents)
-        {
-            if (i->eventName == eventName) return i;
-        }
-        return NULL;
-    }
-
-    bool IsBossShip(std::string shipId)
+    bool IsBossShip(const std::string& shipId)
     {
         return std::find(bossShipIds.begin(), bossShipIds.end(), shipId) != bossShipIds.end();
     }
 
+    CustomEvent *GetCustomEvent(const std::string& event);
 
+    SectorExit* GetSectorExit(const std::string& sectorName);
+    SectorFleet* GetSectorFleet(const std::string& sectorName);
+
+    static std::string GetBaseEventName(const std::string& event)
+    {
+        if (event.find(' ') == std::string::npos)
+        {
+            return event;
+        }
+        else
+        {
+            return event.substr(0, event.find(' '));
+        }
+    }
+
+    std::vector<std::string> eventFiles;
 
 
 private:
-    std::vector<std::string> cargoEventNames;
-    std::vector<BeaconType*> beaconTypeEvents;
+    std::vector<SectorExit*> customExitBeacons;
+    std::vector<SectorFleet*> customFleetBeacons;
+    std::vector<CustomEvent*> customEvents;
     std::vector<std::string> bossShipIds;
     static CustomEventsParser *instance;
 };

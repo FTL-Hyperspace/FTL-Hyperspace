@@ -18,13 +18,13 @@ std::string SeedInputBox::prompt;
 
 HOOK_GLOBAL(random32, () -> unsigned int)
 {
-	return rand();
+	return rand() << 15 | rand();
 }
 
 HOOK_METHOD(ShipBuilder, constructor, () -> void)
 {
 	super();
-	SeedInputBox::seedInput = new TextInput(9, TextInput::AllowedCharType::ALLOW_ANY, "");
+	SeedInputBox::seedInput = new TextInput(10, TextInput::AllowedCharType::ALLOW_ANY, "");
 	SeedInputBox::drawLocation = Pointf(1079.f, 71.f);
 	SeedInputBox::seedInput->bActive = false;
 }
@@ -55,6 +55,15 @@ HOOK_METHOD(CApp, OnTextInput, (int charCode) -> void)
 		{
 			if (charCode >= '0' && charCode <= '9')
 				SeedInputBox::seedInput->OnTextInput(charCode);
+
+            std::string txt;
+            TextInput::GetText(txt, SeedInputBox::seedInput);
+
+            if (!txt.empty() && boost::lexical_cast<int64_t>(txt) > 4294967295)
+            {
+                SeedInputBox::seedInput->SetText("4294967295");
+            }
+
 			return;
 		}
 	}
@@ -216,9 +225,15 @@ HOOK_METHOD(StarMap, GetRandomSectorChoice, () -> int)
     return result;
 }
 
+HOOK_METHOD(CApp, OnExecute, () -> void)
+{
+    srand(time(NULL));
+    return super();
+}
+
 unsigned int SeededRandom32()
 {
-	return Global::seededRng() % 1000000000;
+	return Global::seededRng();
 }
 
 void SetSeed(unsigned int seed)
