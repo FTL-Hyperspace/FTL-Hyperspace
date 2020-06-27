@@ -4,7 +4,12 @@
 struct ShipManager_Extend
 {
     ShipManager *orig;
-    bool isCustomShip = false;
+    bool isNewShip = false;
+    bool hasCustomDef = false;
+    std::map<std::string, int> hiddenAugs = std::map<std::string, int>();
+
+    std::map<std::string, int> GetAugmentList();
+
     //CrewMember *captain;
 };
 

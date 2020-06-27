@@ -1,0 +1,7 @@
+"578d7c240883e4f0ff77fc5589e557565381ec????????8b07898dacfeffff8985b0feffff8b4704c70424????????":
+static Animation* AnimationControl::GetAnimation(Animation& animRef<ecx>, AnimationControl *animControl, const std::string& animName);
+
+struct AnimationControl depends (Animation)
+{
+
+};

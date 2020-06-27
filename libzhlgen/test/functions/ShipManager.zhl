@@ -40,6 +40,13 @@ char ShipManager::DamageCrew(ShipManager *this<ecx>, CrewMember *crew, int iDama
 void ShipManager::RemoveItem(ShipManager *this<ecx>, const std::string& name); 
 "578d7c240883e4f0ff77fc5589e557565389ce81ec????????8b47088b5f3cf30f105704f30f100f8945908b4710f30f118d78fffffff30f119574ffffff":
 char ShipManager::DamageArea(ShipManager *this<ecx>, Pointf location, int iDamage, int iShieldPiercing, int fireChance, int breachChance, int stunChance, int iIonDamage, int iSystemDamage, int iPersDamage, char bHullBuster, int ownerId, int selfId, int bLockdown, int iStun, char forceHit);
+"578d7c240883e4f0ff77fc5589e557565383ec5c8b47048b7708894da883f8ff":
+static CrewBlueprint* ShipManager::SelectRandomCrew(CrewBlueprint& bp<ecx>, ShipManager *ship, int seed, const std::string& unk);
+"5589e5565331db89ce83e4f083ec108b51188b411c29d0c1f80285c074??66908b0c9a":
+void ShipManager::ClearStatusAll(ShipManager *this<ecx>);
+"578d7c240883e4f0ff77fc5589e557565389ce83ec7c8b816c0800003b81700800000f84????????8b0d????????ba????????83f90274??83f901":
+void ShipManager::PrepareSuperDrones(ShipManager *this<ecx>);
+
 
 struct ShipManager {{
 	ShipManager(int shipId) 

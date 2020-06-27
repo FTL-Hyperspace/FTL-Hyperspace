@@ -28,19 +28,43 @@ static int __attribute__((fastcall)) CrewMember_GetMaxHealth(CrewMember *_this)
 static float __attribute__((fastcall)) CrewMember_GetMoveSpeedMultiplier(CrewMember *_this)
 {
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
-    return custom->GetDefinition(_this->species).moveSpeedMultiplier;
+    auto def = custom->GetDefinition(_this->species);
+
+    auto ex = CM_EX(_this);
+    if (ex->temporaryPowerActive && def.powerDef.tempPower.speedBoost != -1)
+    {
+        return def.powerDef.tempPower.speedBoost;
+    }
+
+    return def.moveSpeedMultiplier;
 }
 
 static float __attribute__((fastcall)) CrewMember_GetRepairSpeed(CrewMember *_this)
 {
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
-    return custom->GetDefinition(_this->species).repairSpeed;
+    auto def = custom->GetDefinition(_this->species);
+
+    auto ex = CM_EX(_this);
+    if (ex->temporaryPowerActive && def.powerDef.tempPower.repairBoost != -1)
+    {
+        return def.powerDef.tempPower.repairBoost;
+    }
+
+    return def.repairSpeed;
 }
 
 static float __attribute__((fastcall)) CrewMember_GetDamageMultiplier(CrewMember *_this)
 {
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
-    return custom->GetDefinition(_this->species).damageMultiplier;
+    auto def = custom->GetDefinition(_this->species);
+
+    auto ex = CM_EX(_this);
+    if (ex->temporaryPowerActive && def.powerDef.tempPower.combatBoost != -1)
+    {
+        return def.powerDef.tempPower.combatBoost;
+    }
+
+    return def.damageMultiplier;
 }
 
 static bool __attribute__((fastcall)) CrewMember_ProvidesPower(CrewMember *_this)
@@ -73,6 +97,43 @@ static bool __attribute__((fastcall)) CrewMember_IsAnaerobic(CrewMember *_this)
     return custom->GetDefinition(_this->species).isAnaerobic;
 }
 
+static bool __attribute__((fastcall)) CrewMember_HasSpecialPower(CrewMember *_this)
+{
+    auto ex = CM_EX(_this);
+
+    return ex->hasSpecialPower;
+}
+
+static std::pair<float, float> __attribute__((fastcall)) CrewMember_GetPowerCooldown(CrewMember *_this)
+{
+    auto ex = CM_EX(_this);
+
+    return ex->powerCooldown;
+}
+
+static bool __attribute__((fastcall)) CrewMember_PowerReady(CrewMember *_this)
+{
+    auto ex = CM_EX(_this);
+
+    auto readyState = ex->PowerReady();
+
+    return readyState == PowerReadyState::POWER_READY;
+}
+
+static void __attribute__((fastcall)) CrewMember_ResetPower(CrewMember *_this)
+{
+    auto ex = CM_EX(_this);
+
+    ex->powerCooldown.first = ex->powerCooldown.second;
+}
+
+static void __attribute__((fastcall)) CrewMember_ActivatePower(CrewMember *_this)
+{
+    auto ex = CM_EX(_this);
+
+    ex->ActivatePower();
+}
+
 void SetupVTable(CrewMember *crew)
 {
     void** vtable = *(void***)crew;
@@ -90,6 +151,11 @@ void SetupVTable(CrewMember *crew)
     vtable[43] = (void*)&CrewMember_ProvidesPower;
     vtable[45] = (void*)&CrewMember_FireRepairMultiplier;
     vtable[46] = (void*)&CrewMember_IsTelepathic;
+    vtable[47] = (void*)&CrewMember_GetPowerCooldown;
+    vtable[48] = (void*)&CrewMember_PowerReady;
+    vtable[49] = (void*)&CrewMember_ActivatePower;
+    vtable[50] = (void*)&CrewMember_HasSpecialPower;
+    vtable[51] = (void*)&CrewMember_ResetPower;
     vtable[52] = (void*)&CrewMember_GetSuffocationModifier;
     vtable[55] = (void*)&CrewMember_IsAnaerobic;
 

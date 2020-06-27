@@ -1,7 +1,9 @@
 "578d7c240883e4f0ff77fc5589e557565383ec2c8b41048b57048b378b5f08":
 int Ship::GetSelectedRoomId(Ship *this<ecx>, int x, int y, bool unk);
+"578d7c240883e4f0ff77fc5589e557565389cb81ec????????8b078b570889c68985d0feffff8b47048995ccfeffff8985c8feffff8b4104890424":
+void Ship::LockdownRoom(Ship *this<ecx>, int roomId, Pointf pos);
 
-struct Ship {{
+struct Ship depends (ShipGraph) {{
 	Pointf GetRoomCenter(int room)
 	{
 		auto graph = ShipGraph::GetShipInfo(this->iShipId);

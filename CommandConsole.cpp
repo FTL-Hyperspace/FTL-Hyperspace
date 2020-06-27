@@ -51,6 +51,17 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
         }
         return true;
     }
+    if (cmdName == "DELETECREW")
+    {
+        if (commandGui->shipComplete->shipManager->current_target)
+        {
+            for (auto i : commandGui->shipComplete->shipManager->current_target->vCrewList)
+            {
+                i->health.first = 0;
+            }
+        }
+        return true;
+    }
     if (cmdName == "DEBUG")
     {
         return true;

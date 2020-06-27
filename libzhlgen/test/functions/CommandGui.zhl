@@ -12,3 +12,5 @@ void CommandGui::RenderStatic(CommandGui *this<ecx>);
 void CommandGui::constructor(CommandGui *this<ecx>);
 "578d7c240883e4f0ff77fc5589e557565389cb81c1????????83ec5c8b378d7dc0":
 void CommandGui::AddEnemyShip(CommandGui *this<ecx>, CompleteShip *ship);
+"578d7c240883e4f0ff77fc5589e557565381ec????????8b8108170000898d7cffffff8b400880b868060000000f85????????":
+void CommandGui::Victory(CommandGui *this<ecx>);

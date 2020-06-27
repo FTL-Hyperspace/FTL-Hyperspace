@@ -1,6 +1,8 @@
 #include "CustomEvents.h"
 #include "freetype.h"
+#include "Resources.h"
 #include <boost/lexical_cast.hpp>
+#include <boost/algorithm/string.hpp>
 
 CustomEventsParser *CustomEventsParser::instance = new CustomEventsParser();
 
@@ -96,11 +98,26 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
                         customEvent->preventQuest = true;
                     }
 
-                    if  (nodeName == "beaconType")
+                    if (nodeName == "noQuestText")
+                    {
+                        customEvent->noQuestText = true;
+                    }
+
+                    if (nodeName == "beaconType")
                     {
                         BeaconType* beaconType = new BeaconType();
                         beaconType->eventName = eventName;
-                        beaconType->id = child->first_attribute("id")->value();
+
+                        if (child->first_attribute("id"))
+                        {
+                            beaconType->beaconText.data = child->first_attribute("id")->value();
+                            beaconType->beaconText.isLiteral = false;
+                        }
+                        else if (child->first_attribute("text"))
+                        {
+                            beaconType->beaconText.data = child->first_attribute("text")->value();
+                            beaconType->beaconText.isLiteral = true;
+                        }
 
                         if (child->first_attribute("global"))
                         {
@@ -111,12 +128,38 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
 
                         for (auto child2 = child->first_node(); child2; child2 = child2->next_sibling())
                         {
+                            if (strcmp(child2->name(), "unvisitedTooltip") == 0)
+                            {
+                                if (child2->first_attribute("id"))
+                                {
+                                    beaconType->unvisitedTooltip.data = child2->first_attribute("id")->value();
+                                    beaconType->unvisitedTooltip.isLiteral = false;
+                                }
+                                else
+                                {
+                                    printf("setting unvisited tooltip to %s\n", child2->value());
+                                    beaconType->unvisitedTooltip.data = child2->value();
+                                    beaconType->unvisitedTooltip.isLiteral = true;
+                                }
+                            }
+
+                            if (strcmp(child2->name(), "visitedTooltip") == 0)
+                            {
+                                if (child2->first_attribute("id"))
+                                {
+                                    beaconType->visitedTooltip.data = child2->first_attribute("id")->value();
+                                    beaconType->visitedTooltip.data = false;
+                                }
+                                else
+                                {
+                                    beaconType->visitedTooltip.data = child2->value();
+                                    beaconType->visitedTooltip.data = true;
+                                }
+                            }
+
                             if (strcmp(child2->name(), "color") == 0)
                             {
-                                if (child2->first_attribute("r")) { color.r = boost::lexical_cast<float>(child2->first_attribute("r")->value()); }
-                                if (child2->first_attribute("g")) { color.g = boost::lexical_cast<float>(child2->first_attribute("g")->value()); }
-                                if (child2->first_attribute("b")) { color.b = boost::lexical_cast<float>(child2->first_attribute("b")->value()); }
-                                if (child2->first_attribute("a")) { color.a = boost::lexical_cast<float>(child2->first_attribute("a")->value()); }
+                                ParseColorNode(color, child2);
                             }
                         }
 
@@ -124,6 +167,14 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
 
                         customEvent->beacon = beaconType;
                         customEvent->hasCustomBeacon = true;
+                    }
+                    if (nodeName == "removeHazards")
+                    {
+                        customEvent->removeHazards = true;
+                    }
+                    if (nodeName == "removeNebula")
+                    {
+                        customEvent->removeNebula = true;
                     }
                 }
 
@@ -412,13 +463,15 @@ HOOK_METHOD(StarMap, AddQuest, (const std::string& questEvent, bool force) -> bo
         }
     }
 
-    super(questEvent, force);
+    bool ret = super(questEvent, force);
 
     for (auto i : locValues)
     {
         i.first->questLoc = i.second[0];
         i.first->beacon = i.second[1];
     }
+
+    return ret;
 }
 
 HOOK_METHOD(StarMap, RenderLabels, () -> void)
@@ -435,17 +488,21 @@ HOOK_METHOD(StarMap, RenderLabels, () -> void)
         {
             CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(i->event->eventName);
 
-            if (!i->beacon && customEvent && customEvent->hasCustomBeacon && (bMapRevealed || customEvent->beacon->global || i->known))
+            if (customEvent && customEvent->hasCustomBeacon && (i->questLoc || i->beacon))
             {
                 locValues[i][0] = i->questLoc;
                 locValues[i][1] = i->beacon;
 
-
                 i->questLoc = false;
+                i->beacon = false;
+            }
 
+            if (customEvent && customEvent->hasCustomBeacon && (bMapRevealed || customEvent->beacon->global || i->known))
+            {
                 BeaconType *beaconType = customEvent->beacon;
                 std::string text = std::string();
-                TextLibrary::GetText(text, G_->GetTextLibrary(), beaconType->id, G_->GetTextLibrary()->currentLanguage);
+
+                text = customEvent->beacon->beaconText.GetText();
 
                 Pointf printLines = freetype_hack::easy_measurePrintLines(51, 0, 0, 999, text);
                 float x = i->loc.x - 1.f;
@@ -480,10 +537,6 @@ HOOK_METHOD(StarMap, RenderLabels, () -> void)
                 CSurface::GL_BlitPixelImage(box[1], x + box[0]->width_, y, printLines.x - 8, box[1]->height_, 0.f, color, false);
 
                 CSurface::GL_BlitPixelImage(box[2], x + box[0]->width_ + printLines.x - 8, y, box[2]->width_, box[2]->height_, 0.f, color, false);
-
-                color.r /= 255.f;
-                color.g /= 255.f;
-                color.b /= 255.f;
 
                 CSurface::GL_SetColor(color);
                 freetype::easy_print(51, i->loc.x + 14.f, i->loc.y - 25.f, text);
@@ -562,10 +615,6 @@ HOOK_METHOD(StarMap, GenerateMap, (bool tutorial, bool seed) -> LocationEvent*)
 
 HOOK_METHOD(StarMap, TurnIntoFleetLocation, (Location *loc) -> void)
 {
-
-
-
-
     EventGenerator *eventGenerator = G_->GetEventGenerator();
 
     auto locEvent = loc->event;
@@ -667,3 +716,136 @@ HOOK_METHOD(StarMap, TurnIntoFleetLocation, (Location *loc) -> void)
     }
 }
 
+
+HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *loc) -> void)
+{
+    CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(loc->eventName);
+    if (customEvent)
+    {
+        if (customEvent->noQuestText)
+        {
+            std::string str;
+            str = G_->GetTextLibrary()->GetText("added_quest");
+            str.insert(0, "\n\n");
+            loc->text.data = boost::algorithm::replace_first_copy(loc->text.data, str, "");
+            str = G_->GetTextLibrary()->GetText("no_time");
+            str.insert(0, "\n\n");
+            loc->text.data = boost::algorithm::replace_first_copy(loc->text.data, str, "");
+            str = G_->GetTextLibrary()->GetText("added_quest_sector");
+            str.insert(0, "\n\n");
+            loc->text.data = boost::algorithm::replace_first_copy(loc->text.data, str, "");
+        }
+    }
+    super(loc);
+}
+
+HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
+{
+
+    super(loc);
+
+
+    CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(loc->eventName);
+    if (customEvent)
+    {
+        if (customEvent->removeHazards)
+        {
+            space.asteroidGenerator.bRunning = false;
+            space.SetPulsarLevel(false);
+            space.SetPlanetaryDefense(false, 0);
+            space.SetFireLevel(false);
+            space.nebulaClouds.clear();
+            space.bStorm = false;
+            playerShip->shipManager->ClearStatusAll();
+            if (space.bNebula)
+            {
+                space.SetNebula(true);
+            }
+        }
+        if (customEvent->removeNebula)
+        {
+            space.bNebula = false;
+            space.bStorm = false;
+            space.nebulaClouds.clear();
+        }
+    }
+}
+
+HOOK_STATIC(StarMap, GetLocationText, (std::string& strRef, StarMap *starMap, const Location* loc) -> std::string&)
+{
+    CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(loc->event->eventName);
+
+    if (!customEvent || loc->fleetChanging || loc == starMap->currentLoc || !customEvent->beacon || (!customEvent->beacon->global && !loc->known && !starMap->bMapRevealed))
+    {
+        return super(strRef, starMap, loc);
+    }
+
+    TextString tooltip;
+
+
+
+    if (loc->visited)
+    {
+        tooltip = customEvent->beacon->visitedTooltip;
+    }
+    else
+    {
+        tooltip = customEvent->beacon->unvisitedTooltip;
+    }
+    if (tooltip.data.empty())
+    {
+        return super(strRef, starMap, loc);
+    }
+
+    strRef.assign(tooltip.GetText());
+
+    auto lib = G_->GetTextLibrary();
+
+    if (loc->nebula)
+    {
+        if (starMap->bNebulaMap)
+        {
+            strRef += " \n" + lib->GetText("map_nebula_fleet_loc");
+        }
+        else
+        {
+            strRef += " \n" + lib->GetText("map_nebula_loc");
+        }
+    }
+
+    if (!starMap->bMapRevealed && (!loc->known || !starMap->shipManager->HasAugmentation("ADV_SCANNERS")))
+        return strRef;
+
+    int env = loc->event->environment;
+
+    if (env == 1)
+    {
+        strRef += " \n" + lib->GetText("map_asteroid_loc");
+    }
+    if (env == 2)
+    {
+        strRef += " \n" + lib->GetText("map_sun_loc");
+    }
+    if (env == 4)
+    {
+        strRef += " \n" + lib->GetText("map_ion_loc");
+    }
+    if (env == 5)
+    {
+        strRef += " \n" + lib->GetText("map_pulsar_loc");
+    }
+    if (env != 6 || loc->boss)
+    {
+        return strRef;
+    }
+    if (loc->dangerZone)
+    {
+        strRef += " \n" + lib->GetText("map_pds_fleet");
+    }
+    else
+    {
+        strRef += " \n" + lib->GetText("map_pds_loc");
+    }
+
+    return strRef;
+}

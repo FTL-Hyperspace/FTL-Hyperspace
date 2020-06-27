@@ -65,6 +65,60 @@ struct SkillsDefinition
     std::map<std::string, Skill> skills = std::map<std::string, Skill>();
 };
 
+struct TemporaryPowerDefinition
+{
+    float duration;
+
+    std::string effectAnim;
+    std::vector<std::string> sounds;
+
+    float speedBoost = -1.f;
+    float combatBoost = -1.f;
+    float repairBoost = -1.f;
+    int bonusPower;
+    bool invulnerable;
+
+    GL_Color cooldownColor;
+};
+
+struct ActivatedPowerRequirements
+{
+    bool playerShip;
+    bool enemyShip;
+    bool enemyInRoom;
+    bool friendlyInRoom;
+    bool systemInRoom;
+};
+
+struct ActivatedPowerDefinition
+{
+    Damage damage;
+    float cooldown = 50.f;
+    float shipFriendlyFire = false;
+    bool hasSpecialPower = false;
+    bool hasTemporaryPower = false;
+
+
+    std::vector<std::string> sounds;
+
+
+    TextString buttonLabel;
+    GL_Color cooldownColor;
+
+    TextString tooltip;
+    std::string effectAnim;
+
+    ActivatedPowerRequirements req;
+
+    bool win = false;
+    float crewHealth = 0.f;
+    float enemyHealth = 0.f;
+    float selfHealth = 0.f;
+
+
+    TemporaryPowerDefinition tempPower;
+};
+
 struct CrewDefinition
 {
     std::string race;
@@ -79,6 +133,7 @@ struct CrewDefinition
     float repairSpeed = 1.f;
     float damageMultiplier = 1.f;
     bool providesPower = false;
+    int bonusPower = 0;
     float fireRepairMultiplier = 1.2f;
     float suffocationModifier = 1.f;
     bool isTelepathic = false;
@@ -92,9 +147,13 @@ struct CrewDefinition
     bool detectsLifeforms = false;
     bool hasCustomDeathAnimation = false;
     bool hasDeathExplosion = false;
+    std::string animBase = "human";
 
     Damage explosionDef;
     bool explosionShipFriendlyFire = false;
+
+    ActivatedPowerDefinition powerDef;
+
 
     SkillsDefinition skillsDef;
 };

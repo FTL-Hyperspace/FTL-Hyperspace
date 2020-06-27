@@ -17,7 +17,7 @@ ImageDesc* SpaceManager::SwitchBackground(SpaceManager *this<ecx>, const std::st
 ".5789ca83c10c8d7c2408":
 void SpaceManager::StartAsteroids(SpaceManager *this<ecx>, int shieldCount, bool unk);
 ".578d7c240883e4f0ff77fc5589e557565389cb81ec????????":
-void SpaceManager::SetPlanetaryDefense(SpaceManager *this<ecx>, char unk, int target);
+void SpaceManager::SetPlanetaryDefense(SpaceManager *this<ecx>, char state, int target);
 ".578d7c240883e4f0ff77fc5589f889e557":
 void SpaceManager::SetPulsarLevel(SpaceManager *this<ecx>, bool pulsarLevel);
 ".0fb6919802000084d274??83b99c0200000174??":
@@ -69,6 +69,8 @@ void SpaceManager::OnLoopNebulas(SpaceManager *this<ecx>);
 ".578d7c240883e4f0ff77fc5589e557":
 void SpaceManager::OnLoop(SpaceManager *this<ecx>);
 ".578d7c240883e4f0ff77fc5589e55756":
-void SpaceManager::SetNebula(SpaceManager *this<ecx>);
+void SpaceManager::SetNebula(SpaceManager *this<ecx>, bool state);
 ".578d7c240883e4f0ff77fc5589e5":
-void SpaceManager::SetStorm(SpaceManager *this<ecx>);
+void SpaceManager::SetStorm(SpaceManager *this<ecx>, bool state);
+"578d7c240883e4f0ff77fc5589f889e55756538d99b802000089cf8d75d083ec3c8b0088818802000089d9":
+void SpaceManager::SetFireLevel(SpaceManager *this<ecx>, bool state);

@@ -1,0 +1,8 @@
+"578d7c240883e4f0ff77fc5589f889e557565389cf81ec????????8b70088b088b50048b580c":
+void CrewBox::constructor(CrewBox *this<ecx>, Point pos, CrewMember *crew, int number);
+"578d7c240883e4f0ff77fc5589e557565389cb81c1????????83ec6ce8????????8d8b74020000e8????????":
+void CrewBox::OnRender(CrewBox *this<ecx>);
+"578d7c240883e4f0ff77fc5589f889e557565389cf81ec????????8b308b4004c744240c00000000":
+CrewMember *CrewBox::GetSelected(CrewBox *this<ecx>, int mouseX, int mouseY);
+"578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b49208b378b11":
+void CrewBox::OnLoop(CrewBox *this<ecx>, bool selected);

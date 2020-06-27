@@ -1,2 +1,4 @@
 "5731c08d7c240883e4f0ff77fc5589e557565383ec4c8b1f85db0f88????????89ce":
 void DroneSystem::RemoveDrone(DroneSystem *this<ecx>, int slot);
+"5589e556538b750889cb83e4f0e8????????39f089d90f4fc6898370010000":
+void DroneSystem::SetBonusPower(DroneSystem *this<ecx>, int amount, int permanentPower);

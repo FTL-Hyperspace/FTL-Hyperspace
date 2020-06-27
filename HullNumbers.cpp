@@ -106,7 +106,6 @@ HOOK_METHOD(ShipStatus, RenderHealth, (bool unk) -> void)
     HullNumbers *manager = HullNumbers::GetInstance();
     if (unk == false && manager && manager->enabled)
     {
-
         char buffer[64];
         sprintf(buffer, "%d", this->ship->ship.hullIntegrity.first);
         auto textInfo = manager->playerIndicator;

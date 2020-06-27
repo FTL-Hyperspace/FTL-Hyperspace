@@ -14,8 +14,7 @@ HOOK_METHOD(StarMap, OnRender, () -> void)
         CSurface::GL_Translate(position.x, position.y, 0.f);
         if (arrivedAtBase)
         {
-            std::string txt;
-            TextLibrary::GetText(txt, G_->GetTextLibrary(), "boss_jumps", G_->GetTextLibrary()->currentLanguage);
+            std::string txt = G_->GetTextLibrary()->GetText("boss_jumps");
             Pointf pos = Pointf();
 
             float unk3;

@@ -1,4 +1,5 @@
 #include "Global.h"
+#include <limits>
 
 bool g_hackingDroneFix = true;
 
@@ -15,5 +16,37 @@ HOOK_METHOD(HackingSystem, OnLoop, () -> void)
             this->BlowHackingDrone();
         }
     }
-
 }
+
+/*
+HOOK_METHOD(DefenseDrone, PickTarget, () -> void)
+{
+    if (bDisrupted && powered)
+    {
+        if (aimingAngle == desiredAimingAngle)
+        {
+            desiredAimingAngle = rand() % 360;
+        }
+        //UpdateAimingAngle(currentLocation, )
+    }
+    else if (powered)
+    {
+        Pointf diff = Pointf(targetLocation.x - currentLocation.x, targetLocation.y - currentLocation.y);
+        float projSpeed = weaponBlueprint->speed;
+        float aimAhead = Globals::AimAhead(diff, targetSpeed, projSpeed * G_->GetCFPS()->GetSpeedFactor());
+
+        if (aimAhead > 0.f)
+        {
+            targetLocation = Pointf(aimAhead * targetSpeed.x + targetLocation.x, aimAhead * targetSpeed.y + targetLocation.y);
+        }
+
+        if (targetLocation == currentLocation)
+        {
+            desiredAimingAngle = aimingAngle;
+        }
+        else
+        {
+
+        }
+    }
+}*/

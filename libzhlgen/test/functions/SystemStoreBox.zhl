@@ -1,0 +1,4 @@
+"578d7c240883e4f0ff77fc5589e557565383ec4c837904048b0789819001000074??":
+void SystemStoreBox::SetExtraData(SystemStoreBox *this<ecx>, int droneChoice);
+"578d7c240883e4f0ff77fc5589e557565389cb81ec????????8b078b57048945808b470889c7894584":
+void SystemStoreBox::constructor(SystemStoreBox *this<ecx>, ShipManager *shopper, Equipment *equip, int sys);

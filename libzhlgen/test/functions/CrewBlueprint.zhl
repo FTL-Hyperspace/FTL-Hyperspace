@@ -1,0 +1,4 @@
+"578d7c240883e4f0ff77fc5589fa89e557565389cb83ec3c8b07c745d80000000085c0":
+void CrewBlueprint::RandomSkills(CrewBlueprint *this<ecx>, int worldLevel);
+"57660fefc0660fefc98d7c240883e4f0ff77fc5589e557565383ec7c8b078b57108b77088b5f0c8945d48b47048bb904010000":
+void CrewBlueprint::RenderSkill(CrewBlueprint *this<ecx>, int x, int y, int length, int height, int skill);

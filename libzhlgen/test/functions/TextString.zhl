@@ -1,0 +1,14 @@
+"578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b17807a1800":
+static std::string& TextString::GetText(std::string& ref<ecx>, TextString *textString);
+
+struct TextString depends (TextLibrary)
+{{
+	std::string GetText()
+	{
+		std::string ret = std::string();
+		
+		TextString::GetText(ret, this);
+		
+		return ret;
+	}
+}};

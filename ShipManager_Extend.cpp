@@ -16,15 +16,14 @@ HOOK_METHOD_PRIORITY(ShipManager, constructor, 900, (int iShipId) -> void)
 	this->gap_ex_2[0] = (dEx >> 8) & 0xFF;
 	this->gap_ex_2[1] = dEx & 0xFF;
 	ex->orig = this;
-
-
-	auto test = SM_EX(this);
-
 }
 
 ShipManager_Extend* Get_ShipManager_Extend(ShipManager* c)
 {
+    if (!c) return NULL;
+
     DWORD dEx = 0;
+
     dEx <<= 8;
     dEx |= c->gap_ex_1[0];
     dEx <<= 8;

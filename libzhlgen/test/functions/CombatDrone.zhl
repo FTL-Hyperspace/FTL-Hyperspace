@@ -1,0 +1,12 @@
+"578d7c240883e4f0ff77fc5589e557565389cb83ec7c8b57048b078b77088d7da889542404890424":
+void CombatDrone::constructor(CombatDrone *this<ecx>, int iShipId, int selfId, const DroneBlueprint* bp);
+"578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b3785f6":
+void CombatDrone::SetWeaponTarget(CombatDrone *this<ecx>, Targetable *target);
+
+struct CombatDrone depends (DroneBlueprint)
+{{
+	CombatDrone(int shipId, int self, const DroneBlueprint* bp)
+	{
+		this->constructor(shipId, self, bp);
+	}
+}};

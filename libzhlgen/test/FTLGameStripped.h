@@ -8,6 +8,7 @@ struct BossShip;
 struct CompleteShip;
 struct ProjectileFactory;
 struct SpaceManager;
+struct NebulaCloud;
 struct SpaceDrone;
 struct Projectile;
 struct WeaponAnimation;
@@ -18,9 +19,12 @@ struct Room;
 struct CrewMember;
 struct CrewAnimation;
 struct ShipManager;
+struct Store;
 struct SystemBox;
 struct SystemCustomBox;
 struct ArmamentBox;
+struct CrewBox;
+struct StoreBox;
 struct UnlockArrow;
 struct CommandGui;
 struct EquipmentBox;
@@ -36,6 +40,7 @@ struct CrewBlueprint;
 struct WorldManager;
 struct OxygenSystem;
 struct HackingSystem;
+struct MindSystem;
 struct WeaponSystem;
 struct DroneSystem;
 struct ShipSystem;
@@ -54,6 +59,7 @@ struct WindowFrame;
 struct ShipButton;
 struct WarningWithLines;
 struct CAchievement;
+struct StatusEffect;
 struct GL_Texture;
 struct GL_Primitive;
 struct std__pair_13float___float;
@@ -615,7 +621,7 @@ struct GL_Primitive
   int id;
 };
 
-/* 683 */
+/* 695 */
 enum DoorStateType
 {
 };
@@ -785,9 +791,6 @@ struct std__vector_11EventDamage
   EventDamage *_end;
 };
 
-/* 420 */
-struct StatusEffect;
-
 /* 600 */
 struct std__vector_12StatusEffect
 {
@@ -859,6 +862,15 @@ struct EventDamage
   int _sil__DO_NOT_USE_system;
   int amount;
   int effect;
+};
+
+/* 420 */
+struct StatusEffect
+{
+  int type;
+  int system;
+  int amount;
+  int target;
 };
 
 /* 601 */
@@ -1577,9 +1589,6 @@ struct ShipStatus
   Point intruderPos;
 };
 
-/* 217 */
-struct CrewBox;
-
 /* 605 */
 struct std__vector_9CrewBoxZ1
 {
@@ -2089,9 +2098,6 @@ struct Equipment
   Point infoBoxLoc;
 };
 
-/* 198 */
-struct Store;
-
 /* 594 */
 struct std__vector_7StoreZ1
 {
@@ -2259,9 +2265,6 @@ struct Scroller
   float current_x;
   bool bInitialized;
 };
-
-/* 158 */
-struct NebulaCloud;
 
 /* 514 */
 struct std__vector_11NebulaCloud
@@ -2713,12 +2716,12 @@ struct Collideable
   void *vptr;
 };
 
-/* 455 */
-struct std__vector_10ShipSystem
+/* 710 */
+struct std__vector_12ShipSystemZ1
 {
-  ShipSystem *_start;
-  ShipSystem *_finish;
-  ShipSystem *_end;
+  ShipSystem **_start;
+  ShipSystem **_finish;
+  ShipSystem **_end;
 };
 
 /* 287 */
@@ -2726,9 +2729,6 @@ struct CloakingSystem;
 
 /* 286 */
 struct BatterySystem;
-
-/* 288 */
-struct MindSystem;
 
 /* 296 */
 struct CloneSystem;
@@ -2806,7 +2806,7 @@ struct ShipManager
   ShipObject _base;
   Targetable _targetable;
   Collideable _collideable;
-  std__vector_10ShipSystem vSystemList;
+  std__vector_12ShipSystemZ1 vSystemList;
   OxygenSystem *oxygenSystem;
   TeleportSystem *teleportSystem;
   CloakingSystem *cloakSystem;
@@ -2852,7 +2852,6 @@ struct ShipManager
   int tempMissileCount;
   std__vector_9Animation explosions;
   std__vector_4bool tempVision;
-  unsigned __int8 unk1[8];
   bool bHighlightCrew;
   std__vector_7DroneZ1 droneTrash;
   std__vector_12SpaceDroneZ1 spaceDrones;
@@ -3342,6 +3341,32 @@ struct Repairable
   int iRepairCount;
 };
 
+/* 217 */
+struct CrewBox
+{
+  Globals__Rect box;
+  Globals__Rect skillBox;
+  CrewMember *pCrew;
+  bool mouseHover;
+  TextButton powerButton;
+  int number;
+  bool bSelectable;
+  AnimationTracker flashHealthTracker;
+  GL_Primitive *boxBackground;
+  GL_Primitive *boxOutline;
+  GL_Primitive *skillBoxBackground;
+  GL_Primitive *skillBoxOutline;
+  GL_Primitive *cooldownBar;
+  CachedImage healthWarning;
+  int lastCooldownHeight;
+  GL_Primitive *healthBar;
+  int lastHealthWidth;
+  Animation mindControlled;
+  Animation stunned;
+  bool hideExtra;
+  std__string sTooltip;
+};
+
 /* 215 */
 struct ArmamentBox
 {
@@ -3592,6 +3617,42 @@ struct AugmentEquipBox
   ShipManager *ship;
 };
 
+/* 694 */
+struct std__vector_10StoreBoxZ1
+{
+  StoreBox **_start;
+  StoreBox **_finish;
+  StoreBox **_end;
+};
+
+/* 198 */
+struct Store
+{
+  FocusWindow _base;
+  GL_Texture *box;
+  TextString headingTitle[4];
+  Button page1;
+  Button page2;
+  ConfirmWindow confirmDialog;
+  Button *currentButton;
+  Description currentDescription;
+  std__string unavailable;
+  std__vector_10StoreBoxZ1 vStoreBoxes;
+  std__vector_10StoreBoxZ1 vItemBoxes;
+  ShipManager *shopper;
+  int selectedWeapon;
+  int selectedDrone;
+  InfoBox infoBox;
+  Point infoBoxLoc;
+  Button exitButton;
+  int worldLevel;
+  int sectionCount;
+  int types[4];
+  bool bShowPage2;
+  StoreBox *confirmBuy;
+  int forceSystemInfoWidth;
+};
+
 /* 151 */
 struct BossShip
 {
@@ -3636,6 +3697,22 @@ struct Projectile
   bool bBroadcastTarget;
   AnimationTracker flashTracker;
   GL_Color color;
+};
+
+/* 158 */
+struct NebulaCloud
+{
+  Point pos;
+  float currAlpha;
+  float currScale;
+  float deltaAlpha;
+  float deltaScale;
+  float newTrigger;
+  bool newCloud;
+  bool bLightning;
+  AnimationTracker lightningFlash;
+  float flashTimer;
+  float lightningRotation;
 };
 
 /* 589 */
@@ -3832,6 +3909,21 @@ struct TeleportSystem
   int iPreparedCrew;
   int iNumSlots;
   bool bSuperShields;
+};
+
+/* 288 */
+struct MindSystem
+{
+  ShipSystem _base;
+  std__pair_13float___float controlTimer;
+  bool bCanUse;
+  int iArmed;
+  std__vector_12CrewMemberZ1 controlledCrew;
+  bool bSuperShields;
+  bool bBlocked;
+  int iQueuedTarget;
+  int iQueuedShip;
+  std__vector_12CrewMemberZ1 queuedCrew;
 };
 
 /* 169 */
@@ -4079,7 +4171,7 @@ struct VTable_CrewMember
   std__string *(__thiscall *GetSpecies)(CrewMember *this, std__string *str);
   float (__thiscall *GetFireRepairMultiplier)(CrewMember *this);
   bool (__thiscall *IsTelepathic)(CrewMember *this);
-  int (__thiscall *GetPowerCooldown)(CrewMember *this);
+  std__pair_13float___float (__thiscall *GetPowerCooldown)(CrewMember *this);
   bool (__thiscall *PowerReady)(CrewMember *this);
   void (__thiscall *ActivatePower)(CrewMember *this);
   bool (__thiscall *HasSpecialPower)(CrewMember *this);
@@ -4135,6 +4227,7 @@ struct CrewAnimation
   int moveDirection;
   ParticleEmitter smokeEmitter;
   bool bSharedSpot;
+  unsigned __int8 gap_ex_1[2];
   std__vector_9CrewLaser shots;
   TimerHelper shootTimer;
   TimerHelper punchTimer;
@@ -4151,12 +4244,15 @@ struct CrewAnimation
   int currentShip;
   bool bMale;
   bool colorblind;
+  unsigned __int8 gap_ex_2[2];
   std__vector_8GL_Color layerColors;
   int forcedAnimation;
   int forcedDirection;
   GL_Color projectileColor;
   bool bStunned;
   bool bDoorTarget;
+  bool uniqueBool1;
+  bool uniqueBool2;
 };
 
 /* 524 */
@@ -4165,6 +4261,26 @@ struct std__vector_16AnimationTracker
   AnimationTracker *_start;
   AnimationTracker *_finish;
   AnimationTracker *_end;
+};
+
+/* 221 */
+struct StoreBox
+{
+  void *vptr;
+  int itemId;
+  int itemBox;
+  std__string buttonImage;
+  Button button;
+  GL_Primitive *symbol;
+  Description desc;
+  int count;
+  int cost_position;
+  ShipManager *shopper;
+  Equipment *equipScreen;
+  const Blueprint *pBlueprint;
+  bool bEquipmentBox;
+  float fIconScale;
+  Point pushIcon;
 };
 
 /* 622 */
@@ -4247,7 +4363,18 @@ struct TutorialManager;
 struct ShipRepairDrone;
 
 /* 161 */
-struct CombatDrone;
+struct CombatDrone
+{
+  SpaceDrone _base;
+  Pointf lastDestination;
+  float progressToDestination;
+  float heading;
+  float oldHeading;
+  CachedImage drone_image_off;
+  CachedImage drone_image_charging;
+  CachedImage drone_image_on;
+  CachedImage engine_image;
+};
 
 /* 162 */
 struct BoarderPodDrone;
@@ -4556,7 +4683,17 @@ struct BatteryBox;
 struct MindBox;
 
 /* 203 */
-struct CooldownSystemBox;
+struct CooldownSystemBox
+{
+  SystemBox _base;
+  GL_Primitive *box[5];
+  GL_Texture *bar[5];
+  Point boxPosition;
+  bool roundDown;
+  GL_Primitive *barPrimitive;
+  int lastBarHeight;
+  int lastBarTop;
+};
 
 /* 204 */
 struct ArtilleryBox;
@@ -4624,13 +4761,25 @@ struct WeaponBox
 };
 
 /* 219 */
-struct SystemStoreBox;
+struct SystemStoreBox
+{
+  StoreBox _base;
+  SystemBlueprint *blueprint;
+  int type;
+  bool bConfirming;
+  std__string confirmString;
+  std__string freeBlueprint;
+  int droneChoice;
+};
 
 /* 220 */
-struct CrewStoreBox;
-
-/* 221 */
-struct StoreBox;
+struct CrewStoreBox
+{
+  StoreBox _base;
+  std__string name;
+  Animation crewPortrait;
+  CrewBlueprint blueprint;
+};
 
 /* 229 */
 struct DroneEquipBox
@@ -4761,7 +4910,11 @@ struct BoarderDrone
 };
 
 /* 319 */
-struct CrystalAlien;
+struct CrystalAlien
+{
+  CrewMember _base;
+  std__pair_13float___float powerCooldown;
+};
 
 /* 320 */
 struct ItemBlueprint
@@ -4770,7 +4923,10 @@ struct ItemBlueprint
 };
 
 /* 322 */
-struct RockAnimation;
+struct RockAnimation
+{
+  CrewAnimation _base;
+};
 
 /* 323 */
 struct BombProjectile;
@@ -4901,6 +5057,14 @@ struct std__vector_9OuterHull
   OuterHull *_end;
 };
 
+/* 455 */
+struct std__vector_10ShipSystem
+{
+  ShipSystem *_start;
+  ShipSystem *_finish;
+  ShipSystem *_end;
+};
+
 /* 463 */
 struct std__vector_10CrewMember
 {
@@ -4966,7 +5130,43 @@ struct GL_TexVertex
   float v;
 };
 
-/* 689 */
+/* 703 */
+struct std__map_28std__string___AnimationSheet
+{
+  char unk[24];
+};
+
+/* 704 */
+struct std__map_23std__string___Animation
+{
+  char unk[24];
+};
+
+/* 705 */
+struct std__map_29std__string___WeaponAnimation
+{
+  char unk[24];
+};
+
+/* 700 */
+struct AnimationControl
+{
+  std__map_28std__string___AnimationSheet animSheets;
+  std__map_23std__string___Animation animations;
+  std__map_29std__string___WeaponAnimation weapAnimations;
+};
+
+/* 702 */
+struct AnimationSheet
+{
+  int w;
+  int h;
+  int frameHeight;
+  int frameWidth;
+  GL_Texture *imageId;
+};
+
+/* 712 */
 union __attribute__((aligned(8))) __m64
 {
   unsigned __int64 m64_u64;
@@ -4980,7 +5180,7 @@ union __attribute__((aligned(8))) __m64
   unsigned __int32 m64_u32[2];
 };
 
-/* 690 */
+/* 713 */
 union __attribute__((aligned(16))) __m128
 {
   float m128_f32[4];
@@ -4994,13 +5194,13 @@ union __attribute__((aligned(16))) __m128
   unsigned __int32 m128_u32[4];
 };
 
-/* 691 */
+/* 714 */
 struct __m128d
 {
   double m128d_f64[2];
 };
 
-/* 692 */
+/* 715 */
 union __attribute__((aligned(16))) __m128i
 {
   __int8 m128i_i8[16];

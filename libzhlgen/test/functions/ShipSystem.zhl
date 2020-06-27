@@ -28,3 +28,5 @@ void ShipSystem::ForceDecreasePower(ShipSystem *this<ecx>, int powerLoss);
 int ShipSystem::GetEffectivePower(ShipSystem *this<ecx>);
 "538b59548b910001000001da2b91040100002b91200100008b891c01000083f9077f??85c9b8????????0f49c139c20f4ec2":
 int ShipSystem::GetMaxPower(ShipSystem *this<ecx>);
+"80b918010000000f84????????5589e5578bb904010000568bb100010000538b595489f829f083e4f089da29c28b811c010000":
+void ShipSystem::SetBonusPower(ShipSystem *this<ecx>, int amount, int permanentPower);

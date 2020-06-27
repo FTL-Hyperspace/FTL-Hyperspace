@@ -4,15 +4,17 @@
 #include <boost/algorithm/string/predicate.hpp>
 
 
-struct ShipDefinition
+struct ShipButtonDefinition
 {
-    ShipDefinition()
-    {
-    }
-
     std::string name;
     bool typeB;
     bool typeC;
+};
+
+struct CustomShipDefinition
+{
+    std::string name;
+    std::map<std::string, int> hiddenAugs = std::map<std::string, int>();
 };
 
 
@@ -52,10 +54,6 @@ public:
         return id - 100;
     }
 
-
-
-
-
 private:
     int page;
     int id;
@@ -88,7 +86,7 @@ public:
     void SwitchShip(ShipBuilder *builder, int type, int variant, bool force=false);
 
     void AddShip(std::string&, bool, bool);
-    std::string& GetShipBlueprint(int shipId);
+    std::string GetShipBlueprint(int shipId);
 
     void Close();
     void Open();
@@ -141,26 +139,39 @@ public:
 
 
 
-    ShipDefinition& GetShipDefinition(int id)
+    ShipButtonDefinition& GetShipButtonDefinition(int id)
     {
-        return blueprintNames[id];
+        return shipButtonDefs[id];
+    }
+
+    CustomShipDefinition& GetDefinition(const std::string& name)
+    {
+        return this->shipDefs[name];
     }
 
     int GetRandomShipIndex()
     {
-        return (rand() % blueprintNames.size());
+        return (rand() % shipButtonDefs.size());
     }
 
     int ShipCount(int type=0)
     {
-        if (type == 0) return blueprintNames.size();
-        if (type == 1) return std::count_if(blueprintNames.begin(), blueprintNames.end(), [](ShipDefinition i) { return i.typeB; } );
-        if (type == 2) return std::count_if(blueprintNames.begin(), blueprintNames.end(), [](ShipDefinition i) { return i.typeC; } );
+        if (type == 0) return shipButtonDefs.size();
+        if (type == 1) return std::count_if(shipButtonDefs.begin(), shipButtonDefs.end(), [](ShipButtonDefinition i) { return i.typeB; } );
+        if (type == 2) return std::count_if(shipButtonDefs.begin(), shipButtonDefs.end(), [](ShipButtonDefinition i) { return i.typeC; } );
     }
 
     bool IsCustomShip(std::string& id)
     {
-        return std::count_if(blueprintNames.begin(), blueprintNames.end(), [id](ShipDefinition i) { return boost::starts_with(id, i.name); }) > 0;
+        return std::count_if(shipButtonDefs.begin(), shipButtonDefs.end(), [id](ShipButtonDefinition i) { return boost::starts_with(id, i.name); }) > 0;
+    }
+
+    bool HasCustomDef(std::string& id)
+    {
+        return std::count_if(shipDefs.begin(),
+                         shipDefs.end(),
+                         [id](std::pair<std::string, CustomShipDefinition> i) { return i.first == id; } )
+                          > 0;
     }
 
 
@@ -183,7 +194,8 @@ private:
 
     std::vector<ShipButton*> oldShipButtons;
     std::vector<ShipButtonList*> shipButtons = std::vector<ShipButtonList*>();
-    std::vector<ShipDefinition> blueprintNames = std::vector<ShipDefinition> ();
+    std::vector<ShipButtonDefinition> shipButtonDefs = std::vector<ShipButtonDefinition> ();
+    std::map<std::string, CustomShipDefinition> shipDefs = std::map<std::string, CustomShipDefinition>();
 
     int shipPage = 0;
     int maxShipPage;

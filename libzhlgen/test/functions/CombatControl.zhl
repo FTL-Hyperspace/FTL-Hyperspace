@@ -9,4 +9,8 @@ char CombatControl::CanTargetSelf(CombatControl *this<ecx>);
 "80b9a80e0000000f84????????578d7c240883e4f0ff77fc5589e557565389cb83ec6c8bb15c07000085f6":
 void CombatControl::OnRenderCombat(CombatControl *this<ecx>);
 "578d7c240883e4f0ff77fc5589e557565383ec5c8b915c0700008b0785d274??c6816011000000":
-void CombatControl::AddEnemyShip(CombatControl *this<ecx>, CompleteShip *ship);
+void CombatControl::AddEnemyShip(CombatControl *this<ecx>, CompleteShip *ship);	
+"578d7c240883e4f0ff77fc5589e557565389cb83ec5c8b817007000083f8ff":
+void CombatControl::UpdateAiming(CombatControl *this<ecx>);
+"57660fefc98d7c240883e4f0ff77fc5589e557565389cb81ec????????f30f2a4908f30f1081c40e0000f30f5cc1":
+bool CombatControl::UpdateTarget(CombatControl *this<ecx>);

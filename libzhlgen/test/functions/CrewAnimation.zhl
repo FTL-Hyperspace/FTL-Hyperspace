@@ -4,10 +4,14 @@ void CrewAnimation::constructor(CrewAnimation *this<ecx>, int shipId, const std:
 static std::string& CrewAnimation::GetDeathSound(std::string& strRef<ecx>, CrewAnimation *anim);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec3c803d??????????0f84????????e8????????89c189c8ba????????8d75d0f7ea":
 static std::string& CrewAnimation::GetShootingSound(std::string& strRef<ecx>, CrewAnimation *anim);
+"578d7c240883e4f0ff77fc5589f889e557565383ec7c8b59048b7008f30f102f8b7f04":
+void CrewAnimation::OnRender(CrewAnimation *this<ecx>, float scale, int selectedState, bool outlineOnly);
+"578d7c240883e4f0ff77fc5589e557565389ce81ec????????8b078b570889c18985dcfeffff":
+void CrewAnimation::OnInit(CrewAnimation *this<ecx>, const std::string& name, Pointf position, bool enemy);
 
 struct CrewAnimation
 {{
-	CrewAnimation(int shipId, std::string& race, Pointf unk, char hostile)
+	CrewAnimation(int shipId, const std::string& race, Pointf unk, char hostile)
 	{
 		this->constructor(shipId, race, unk, hostile);
 	}

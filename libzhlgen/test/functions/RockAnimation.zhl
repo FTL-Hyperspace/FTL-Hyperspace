@@ -1,0 +1,10 @@
+"578d7c240883e4f0ff77fc5589f889e557565381ec????????898de0feffff8b57048b0f8b58108d8520ffffff8b77088b7f0c8995e4feffff898518ffffff":
+void RockAnimation::constructor(RockAnimation *this<ecx>, const std::string& subRace, int iShipId, Pointf position, bool enemy);
+
+struct RockAnimation depends (Pointf)
+{{
+    RockAnimation(const std::string& subRace, int shipId, Pointf position, bool enemy) : CrewAnimation(shipId, subRace, position, enemy)
+	{
+		this->constructor(subRace, shipId, position, enemy);
+	}
+}};

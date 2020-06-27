@@ -2,3 +2,5 @@
 static char Settings::GetCommandConsole();
 "0fb605????????84c075??c38d74260055b9????????89e583e4f0e8????????":
 static bool Settings::GetDlcEnabled();
+"8d4c240483e4f0ff71fc5589e5575653518d75cc8d7dd483ec788b01":
+static cleanup std::string& Settings::GetHotkeyName(std::string& strRef, const std::string& name);

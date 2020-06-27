@@ -7,7 +7,6 @@
 #include <fstream>
 
 
-int initialSectorSeed = 0;
 
 TextInput* SeedInputBox::seedInput;
 Pointf SeedInputBox::drawLocation;
@@ -24,6 +23,17 @@ HOOK_GLOBAL(srandom32, (unsigned int seed) -> void)
 HOOK_GLOBAL(random32, () -> unsigned int)
 {
 	return rand() << 15 | rand();
+}
+
+HOOK_METHOD(Store, OnInit, (ShipManager *shopper, Equipment *equip, int worldLevel) -> void)
+{
+    StarMap starMap = G_->GetWorld()->starMap;
+
+    Location *storeLoc = starMap.currentLoc;
+
+    srand((int)(storeLoc->loc.x + storeLoc->loc.y) ^ starMap.currentSectorSeed);
+
+    super(shopper, equip, worldLevel);
 }
 
 HOOK_METHOD(ShipBuilder, constructor, () -> void)
@@ -142,19 +152,6 @@ HOOK_METHOD(ShipBuilder, MouseClick, (int x, int y) -> void)
 	super(x, y);
 }
 
-HOOK_METHOD(StarMap, GenerateMap, (bool unk, bool seed) -> Location*)
-{
-	if (!seed)
-	{
-		this->currentSectorSeed = SeededRandom32();
-	}
-	else
-	{
-		SeededRandom32(); // generate a number so we move to the correct random state.
-	}
-	srand(this->currentSectorSeed);
-	return super(unk, true);
-}
 
 HOOK_METHOD(AchievementTracker, SetAchievement, (const std::string& ach, bool noPopup, bool sendToServer) -> void)
 {
@@ -176,32 +173,6 @@ HOOK_METHOD(ScoreKeeper, UnlockShip, (int shipId, int shipType, bool save, bool 
     return super(shipId, shipType, save, hidePopup);
 }
 
-HOOK_METHOD(StarMap, NewGame, (bool unk) -> Location*)
-{
-	std::string str = std::string();
-	TextInput::GetText(str, SeedInputBox::seedInput);
-	if (str == "" || unk)
-	{
-		SetSeed(SeededRandom32());
-		Global::isCustomSeed = false;
-	}
-	else
-	{
-		SetSeed(boost::lexical_cast<unsigned int>(str));
-		Global::isCustomSeed = true;
-	}
-	return super(unk);
-}
-
-HOOK_METHOD(StarMap, LoadGame, (int fh) -> Location*)
-{
-    SetSeed(FileHelper::readInteger(fh));
-    Global::isCustomSeed = FileHelper::readInteger(fh);
-
-	Location *ret = super(fh);
-
-    return ret;
-}
 
 HOOK_METHOD(StarMap, SaveGame, (int file) -> void)
 {
@@ -210,63 +181,137 @@ HOOK_METHOD(StarMap, SaveGame, (int file) -> void)
     super(file);
 }
 
-HOOK_METHOD(StarMap, GenerateSectorMap, () -> void)
+static bool startingNewGame = false;
+
+HOOK_METHOD(StarMap, NewGame, (bool unk) -> Location*)
 {
-	this->sectorMapSeed = SeededRandom32();
-	srand(this->sectorMapSeed);
-	super();
+	std::string str = std::string();
+	TextInput::GetText(str, SeedInputBox::seedInput);
+	if (str == "" || unk)
+	{
+	    int seed = SeededRandom32();
+		SetSeed(seed);
+		Global::currentSeed = seed;
+
+		Global::isCustomSeed = false;
+	}
+	else
+	{
+	    int seed = boost::lexical_cast<unsigned int>(str);
+		SetSeed(seed);
+		Global::currentSeed = seed;
+		Global::isCustomSeed = true;
+	}
+
+	startingNewGame = true;
+
+	return super(unk);
 }
 
-HOOK_METHOD(StarMap, GetRandomSectorChoice, () -> int)
+HOOK_METHOD(StarMap, LoadGame, (int fh) -> Location*)
 {
-    return super();
-    int randN = SeededRandom32();
-    int mod = randN % 10;
-    int result = 2;
-    if (mod > 1)
-    {
-        result = mod > 5;
-    }
-    return result;
-}
+    Global::currentSeed = FileHelper::readInteger(fh);
+    Global::isCustomSeed = FileHelper::readInteger(fh);
 
-HOOK_METHOD(EventGenerator, GetBaseEvent, (const std::string &name, int worldLevel, char ignoreUnique, int seed) -> LocationEvent*)
-{
-    if (seed == -1)
-    {
-        int newSeed = SeededRandom32();
-        LocationEvent *ret = super(name, worldLevel, ignoreUnique, newSeed);
+	Location *ret = super(fh);
 
-        return ret;
-    }
 
-    LocationEvent *ret = super(name, worldLevel, ignoreUnique, seed);
 
     return ret;
 }
 
-HOOK_METHOD(ShipEvent, constructor, (const ShipEvent& event) -> void)
-{
-    super(event);
+int eventNumber = 0;
+bool generatingMap = false;
 
-    shipSeed = SeededRandom32();
+HOOK_METHOD(StarMap, GenerateMap, (bool unk, bool seed) -> Location*)
+{
+	if (startingNewGame)
+	{
+		this->currentSectorSeed = Global::currentSeed;
+
+        startingNewGame = false;
+	}
+	if (!seed)
+    {
+        currentSectorSeed = SeededRandom32();
+    }
+
+    if (seed)
+    {
+        SetSeed(currentSectorSeed);
+    }
+
+    generatingMap = true;
+    eventNumber = 0;
+
+    Location *ret = super(unk, true);
+
+    generatingMap = false;
+    eventNumber = 0;
+
+    return ret;
 }
 
-HOOK_METHOD(CApp, OnInit, () -> void)
+HOOK_METHOD(StarMap, GenerateSectorMap, () -> void)
 {
+    //printf("Generating sector map seed: %d\n", generateSectorMapSeed);
+
+    this->sectorMapSeed = Global::currentSeed;
+    srand(this->sectorMapSeed);
+
+	super();
+}
+
+HOOK_METHOD(StarMap, UpdateDangerZone, () -> void)
+{
+    eventNumber = 0;
 
     super();
-    srand(time(NULL));
+
+    eventNumber = 0;
 }
+
+HOOK_METHOD(EventGenerator, GetBaseEvent, (const std::string& name, int worldLevel, char ignoreUnique, int seed) -> LocationEvent*)
+{
+    if (generatingMap)
+    {
+        eventNumber++;
+
+        return super(name, worldLevel, ignoreUnique, G_->GetWorld()->starMap.currentSectorSeed ^ eventNumber);
+
+    }
+    else
+    {
+        if (G_->GetWorld()->bStartedGame)
+        {
+            eventNumber++;
+
+            return super(name, worldLevel, ignoreUnique, G_->GetWorld()->starMap.currentSectorSeed ^ (((int)(G_->GetWorld()->starMap.currentLoc->loc.x + G_->GetWorld()->starMap.currentLoc->loc.y)) + eventNumber));
+        }
+    }
+
+
+
+    return super(name, worldLevel, ignoreUnique, seed);
+}
+
 
 unsigned int SeededRandom32()
 {
-	return Global::seededRng();
+
+	unsigned int ret = Global::seededRng();
+
+    return ret;
 }
+
+
 
 void SetSeed(unsigned int seed)
 {
 	Global::seededRng = std::mt19937(seed);
-	Global::currentSeed = seed;
+	//Global::currentSeed = seed;
 	nextSeed = seed;
 }
+
+
+

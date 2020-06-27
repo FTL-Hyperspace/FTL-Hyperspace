@@ -18,5 +18,5 @@ struct freetype
 	//struct font_data;
 	
 	//static Pointf easy_measurePrintLines(int fontType, float x, float y, int width, const std::string& text);
-	//static Pointf measurePrintLines(font_data &fontData, std::string& str);
+	//static Pointf measurePrintLines(font_data &fontData, const std::string& str);
 }};

@@ -4,9 +4,11 @@
 struct BeaconType
 {
     std::string eventName;
-    std::string id;
     GL_Color color;
     bool global = false;
+    TextString beaconText;
+    TextString unvisitedTooltip;
+    TextString visitedTooltip;
 };
 
 struct CustomEvent
@@ -17,6 +19,9 @@ struct CustomEvent
     bool checkCargo = false;
     bool recursive = true;
     bool preventQuest = false;
+    bool noQuestText = false;
+    bool removeHazards = false;
+    bool removeNebula = false;
 };
 
 struct SectorExit

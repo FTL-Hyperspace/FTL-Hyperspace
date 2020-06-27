@@ -9,52 +9,101 @@ CustomShipSelect CustomShipSelect::instance = CustomShipSelect();
 
 void CustomShipSelect::AddShip(std::string& name, bool typeB, bool typeC)
 {
-    ShipDefinition def = ShipDefinition();
+    ShipButtonDefinition def = ShipButtonDefinition();
     def.name = name;
     def.typeB = typeB;
     def.typeC = typeC;
 
-    blueprintNames.push_back( def );
+    shipButtonDefs.push_back( def );
 }
 
 
 void CustomShipSelect::ParseShipsNode(rapidxml::xml_node<char> *node)
 {
     // parse <ships> node in hyperspace.xml
-    for (auto child = node->first_node(); child; child = child->next_sibling())
+    try
     {
-        if (child->first_attribute("name"))
+        for (auto child = node->first_node(); child; child = child->next_sibling())
         {
-            std::string name = std::string(child->first_attribute("name")->value());
-
-            bool typeB = false;
-            bool typeC = false;
-
-            if (child->first_attribute("b"))
+            CustomShipDefinition def;
+            std::string name = child->name();
+            if (name == "ship")
             {
-                typeB = EventsParser::ParseBoolean(child->first_attribute("b")->value());
-            }
-            if (child->first_attribute("c"))
-            {
-                typeC = EventsParser::ParseBoolean(child->first_attribute("c")->value());
+                def = CustomShipDefinition();
+                if (child->first_attribute("name"))
+                {
+                    std::string shipName = std::string(child->first_attribute("name")->value());
+
+                    bool typeB = false;
+                    bool typeC = false;
+
+                    if (child->first_attribute("b"))
+                    {
+                        typeB = EventsParser::ParseBoolean(child->first_attribute("b")->value());
+                    }
+                    if (child->first_attribute("c"))
+                    {
+                        typeC = EventsParser::ParseBoolean(child->first_attribute("c")->value());
+                    }
+
+                    AddShip(shipName, typeB, typeC);
+
+                    shipDefs[shipName] = def;
+                }
             }
 
-            AddShip(name, typeB, typeC);
+            if (name == "customShip")
+            {
+
+                std::string shipName = child->first_attribute("name")->value();
+
+                if (shipDefs.find(shipName) == shipDefs.end())
+                {
+                    def = CustomShipDefinition();
+                }
+                else
+                {
+                    def = shipDefs[shipName];
+                }
+
+                for (auto shipNode = child->first_node(); shipNode; shipNode = shipNode->next_sibling())
+                {
+                    std::string name = std::string(shipNode->name());
+                    std::string val = std::string(shipNode->value());
+
+                    if (name == "hiddenAug")
+                    {
+                        if (def.hiddenAugs.find(val) == def.hiddenAugs.end())
+                        {
+                            def.hiddenAugs[val] = 1;
+                        }
+                        else
+                        {
+                            def.hiddenAugs[val]++;
+                        }
+                    }
+                }
+                shipDefs[shipName] = def;
+            }
         }
+    }
+    catch (std::exception)
+    {
+        MessageBoxA(GetDesktopWindow(), "Error parsing <ships> in hyperspace.xml", "Error", MB_ICONERROR | MB_SETFOREGROUND);
     }
 }
 
 void CustomShipSelect::OnInit(ShipSelect* shipSelect_)
 {
 
-    maxShipPage = std::ceil(blueprintNames.size() / 10.f);
+    maxShipPage = std::ceil(shipButtonDefs.size() / 10.f);
 
     if (maxShipPage <= 0)
         maxShipPage = 0;
     else if (!initialized)
     {
         int i = 0;
-        for (auto const &x: blueprintNames)
+        for (auto const &x: shipButtonDefs)
         {
             // create and initialize ShipButtons for each of the blueprints
             int curPage = i / 10;
@@ -329,7 +378,7 @@ void CustomShipSelect::MouseMove(int x, int y)
             shipSelect->infoBox.Clear();
         else
         {
-            std::string name( blueprintNames[selectedShip].name );
+            std::string name( shipButtonDefs[selectedShip].name );
 
             if (shipSelect->currentType == 1)
             {
@@ -352,11 +401,11 @@ void CustomShipSelect::MouseMove(int x, int y)
     shipSelect->typeC.MouseMove(x, y, false);
 }
 
-std::string& CustomShipSelect::GetShipBlueprint(int shipId)
+std::string CustomShipSelect::GetShipBlueprint(int shipId)
 {
     int customIndex = shipId - 100;
 
-    return blueprintNames[customIndex].name;
+    return shipButtonDefs[customIndex].name;
 }
 
 
@@ -367,10 +416,9 @@ void CustomShipSelect::SwitchShip(ShipBuilder *builder, int type, int variant, b
     builder->currentType = variant;
 
     ShipManager *ship = new ShipManager(0);
-    SM_EX(ship)->isCustomShip = true;
     builder->currentShip = ship;
     builder->currentShipId = type;
-    ShipDefinition def = blueprintNames[type - 100];
+    ShipButtonDefinition def = shipButtonDefs[type - 100];
 
     std::string name( def.name );
 
@@ -391,15 +439,7 @@ void CustomShipSelect::SwitchShip(ShipBuilder *builder, int type, int variant, b
     {
         ship->OnInit(bp, 0);
         std::string shipRealName = std::string();
-
-        if (ship->myBlueprint.name.isLiteral)
-        {
-            shipRealName.assign(ship->myBlueprint.name.data);
-        }
-        else
-        {
-            TextLibrary::GetText(shipRealName, G_->GetTextLibrary(), ship->myBlueprint.name.data, G_->GetTextLibrary()->currentLanguage);
-        }
+        shipRealName = ship->myBlueprint.name.GetText();
 
         builder->currentName.swap(shipRealName);
         builder->nameInput.SetText(builder->currentName);
@@ -472,7 +512,7 @@ bool CustomShipSelect::CycleShipNext(ShipBuilder *builder)
 
     int index = builder->currentShipId - 100;
 
-    int num = blueprintNames.size();
+    int num = shipButtonDefs.size();
 
     if (builder->currentType == 1)
     {
@@ -487,7 +527,7 @@ bool CustomShipSelect::CycleShipNext(ShipBuilder *builder)
 
         int counter = 0;
 
-        while (index >= num || !blueprintNames[index].typeB)
+        while (index >= num || !shipButtonDefs[index].typeB)
         {
             if (index == num)
             {
@@ -519,7 +559,7 @@ bool CustomShipSelect::CycleShipNext(ShipBuilder *builder)
 
         int counter = 0;
 
-        while (index >= num || !blueprintNames[index].typeC)
+        while (index >= num || !shipButtonDefs[index].typeC)
         {
             if (index == num)
             {
@@ -569,7 +609,7 @@ bool CustomShipSelect::CycleShipPrevious(ShipBuilder *builder)
 
     int index = builder->currentShipId - 100;
 
-    int num = blueprintNames.size() - 1;
+    int num = shipButtonDefs.size() - 1;
 
     if (builder->currentType == 1)
     {
@@ -585,7 +625,7 @@ bool CustomShipSelect::CycleShipPrevious(ShipBuilder *builder)
         int counter = 0;
 
 
-        while (index < 0 || !blueprintNames[index].typeB)
+        while (index < 0 || !shipButtonDefs[index].typeB)
         {
             if (index < 0)
             {
@@ -617,7 +657,7 @@ bool CustomShipSelect::CycleShipPrevious(ShipBuilder *builder)
 
         int counter = 0;
 
-        while (index < 0 || !blueprintNames[index].typeC)
+        while (index < 0 || !shipButtonDefs[index].typeC)
         {
             if (index < 0)
             {
@@ -659,6 +699,32 @@ bool CustomShipSelect::CycleShipPrevious(ShipBuilder *builder)
     return false;
 }
 
+std::map<std::string, int> ShipManager_Extend::GetAugmentList()
+{
+    printf("%d\n", orig->iShipId);
+
+    auto augList = G_->GetShipInfo(orig->iShipId)->augList;
+
+    if (!hasCustomDef) return augList;
+
+
+    auto newAugList = augList;
+
+    for (auto i : hiddenAugs)
+    {
+        if (newAugList.find(i.first) == newAugList.end())
+        {
+            newAugList[i.first] = i.second;
+        }
+        else
+        {
+            newAugList[i.first] += i.second;
+        }
+    }
+
+
+    return newAugList;
+}
 
 //==========================
 
@@ -669,8 +735,16 @@ HOOK_METHOD_PRIORITY(ShipManager, OnInit, 100, (ShipBlueprint *bp, int shipLevel
 
     int ret = super(bp, shipLevel);
 
+    auto ex = SM_EX(this);
 
-    SM_EX(this)->isCustomShip = customSel->IsCustomShip(bp->blueprintName);
+    ex->isNewShip = customSel->IsCustomShip(bp->blueprintName);
+    ex->hasCustomDef = customSel->HasCustomDef(bp->blueprintName);
+
+    if (ex->hasCustomDef)
+    {
+        ex->hiddenAugs = customSel->GetDefinition(bp->blueprintName).hiddenAugs;
+    }
+
 
     return ret;
 }
@@ -875,9 +949,9 @@ HOOK_METHOD(ShipBuilder, MouseClick, (int x, int y) -> void)
             int id = customSel->GetRandomShipIndex();
             int variant = rand() % 3;
 
-            if (variant == 2 && !customSel->GetShipDefinition(id).typeC)
+            if (variant == 2 && !customSel->GetShipButtonDefinition(id).typeC)
                 variant = 1;
-            if (variant == 1 && !customSel->GetShipDefinition(id).typeB)
+            if (variant == 1 && !customSel->GetShipButtonDefinition(id).typeB)
                 variant = 0;
 
             customSel->SwitchShip(this, id + 100, variant, true);
@@ -895,7 +969,6 @@ HOOK_METHOD(ShipBuilder, MouseClick, (int x, int y) -> void)
 
 HOOK_METHOD(ShipBuilder, OnLoop, () -> void)
 {
-
     if (Global::forceDlc)
     {
         *Global::dlcEnabled = true;
@@ -977,36 +1050,23 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
     TextLibrary* lib = G_->GetTextLibrary();
 
     std::string langTxt;
-    TextLibrary::GetText(langTxt, lib, "hangar_frame_ship", lib->currentLanguage);
-    freetype::easy_print(62, 19, 117, langTxt);
-
-    TextLibrary::GetText(langTxt, lib, "hangar_frame_layout", lib->currentLanguage);
-    freetype::easy_print(62, 19, 219, langTxt);
-
-    TextLibrary::GetText(langTxt, lib, "hangar_frame_crew", lib->currentLanguage);
-    freetype::easy_print(62, 19, 489, langTxt);
-
-    TextLibrary::GetText(langTxt, lib, "equipment_frame_weapons", lib->currentLanguage);
-    freetype::easy_print(62, 388, 489, langTxt);
-
-    TextLibrary::GetText(langTxt, lib, "equipment_frame_drones", lib->currentLanguage);
-    freetype::easy_print(62, 388, 599, langTxt);
-
-    TextLibrary::GetText(langTxt, lib, "equipment_frame_augments", lib->currentLanguage);
-    freetype::easy_print(62, 954, 489, langTxt);
+    freetype::easy_print(62, 19, 117, lib->GetText("hangar_frame_ship"));
+    freetype::easy_print(62, 19, 219, lib->GetText("hangar_frame_layout"));
+    freetype::easy_print(62, 19, 489, lib->GetText("hangar_frame_crew"));
+    freetype::easy_print(62, 388, 489, lib->GetText("equipment_frame_weapons"));
+    freetype::easy_print(62, 388, 599, lib->GetText("equipment_frame_drones"));
+    freetype::easy_print(62, 954, 489, lib->GetText("equipment_frame_augments"));
 
     CSurface::GL_SetColor(COLOR_BUTTON_ON);
 
     if (isVanillaShip)
     {
-        TextLibrary::GetText(langTxt, lib, "hangar_achievements_title", lib->currentLanguage);
-        freetype::easy_printCenter(13, 124, 374, langTxt);
+        freetype::easy_printCenter(13, 124, 374, lib->GetText("hangar_achievements_title"));
     }
 
     if (!Global::forceDlc)
     {
-        TextLibrary::GetText(langTxt, lib, "hangar_advanced_title", lib->currentLanguage);
-        freetype::easy_printCenter(13, 1109, 400, langTxt);
+        freetype::easy_printCenter(13, 1109, 400, lib->GetText("hangar_advanced_title"));
     }
 
     CSurface::GL_SetColor(1.f, 1.f, 1.f, 1.f);
@@ -1088,11 +1148,7 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
 
         CSurface::GL_BlitPixelImage(arrow, buttonX + 75, buttonY - 4, 164, 38, 0, COLOR_WHITE, true);
         descBox->Draw(buttonX + 245, buttonY - 47);
-
-        std::string txt;
-        TextLibrary::GetText(txt, lib, "tutorial_list_open", lib->currentLanguage);
-
-        freetype::easy_printAutoNewlines(12, buttonX + 265, buttonY - 27, 308, txt);
+        freetype::easy_printAutoNewlines(12, buttonX + 265, buttonY - 27, 308, lib->GetText("tutorial_list_open"));
     }
 
 
@@ -1110,29 +1166,21 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
     // FIXED WITH freetype_hack
     if (bRenaming)
     {
-        std::string txt;
-        TextLibrary::GetText(txt, lib, "rename", lib->currentLanguage);
-        Pointf ret = freetype_hack::easy_measurePrintLines(12, 0, 0, 999, txt);
+        Pointf ret = freetype_hack::easy_measurePrintLines(12, 0, 0, 999, lib->GetText("rename"));
         float x = 6.f;
         float x2 = 227.f - ret.x / 2;
         if (x2 > 5)
             x = x2;
-        freetype::easy_print(12, x, 65.f, txt);
+        freetype::easy_print(12, x, 65.f, lib->GetText("rename"));
     }
 
     if (!currentShip->HasSystem(3))
     {
-        std::string txt;
-
-        TextLibrary::GetText(txt, lib, "equipment_no_system", lib->currentLanguage);
-        freetype::easy_printCenter(63, 662, 539, txt);
+        freetype::easy_printCenter(63, 662, 539, lib->GetText("equipment_no_system"));
     }
     if (!currentShip->HasSystem(4))
     {
-        std::string txt;
-
-        TextLibrary::GetText(txt, lib, "equipment_no_system", lib->currentLanguage);
-        freetype::easy_printCenter(63, 662, 649, txt);
+        freetype::easy_printCenter(63, 662, 649, lib->GetText("equipment_no_system"));
     }
 
     CSurface::GL_SetColor(COLOR_WHITE);
@@ -1182,7 +1230,7 @@ HOOK_METHOD_PRIORITY(MenuScreen, OnRender, 1000, () -> void)
 {
     if (G_->GetWorld()->playerShip)
     {
-        if (!SM_EX(G_->GetWorld()->playerShip->shipManager)->isCustomShip)
+        if (!SM_EX(G_->GetWorld()->playerShip->shipManager)->isNewShip)
         {
             super();
 
@@ -1204,9 +1252,7 @@ HOOK_METHOD_PRIORITY(MenuScreen, OnRender, 1000, () -> void)
 
                 CSurface::GL_SetColor(COLOR_BUTTON_ON);
 
-                std::string seedLabel;
-                TextLibrary::GetText(seedLabel, G_->GetTextLibrary(), "menu_status_seed", G_->GetTextLibrary()->currentLanguage);
-                freetype::easy_printCenter(13, statusPosition.x + 81.f + 66.f, statusPosition.y + 205.f + 16.f, seedLabel);
+                freetype::easy_printCenter(13, statusPosition.x + 81.f + 66.f, statusPosition.y + 205.f + 16.f, G_->GetTextLibrary()->GetText("menu_status_seed"));
 
                 CSurface::GL_SetColor(COLOR_BUTTON_TEXT);
 
@@ -1309,9 +1355,7 @@ HOOK_METHOD_PRIORITY(MenuScreen, OnRender, 1000, () -> void)
 
     CSurface::GL_SetColor(COLOR_BUTTON_ON);
 
-    std::string seedLabel;
-    TextLibrary::GetText(seedLabel, G_->GetTextLibrary(), "menu_status_seed", G_->GetTextLibrary()->currentLanguage);
-    freetype::easy_printCenter(13, statusPosition.x + 81.f + 66.f, statusPosition.y + 72.f + 16.f, seedLabel);
+    freetype::easy_printCenter(13, statusPosition.x + 81.f + 66.f, statusPosition.y + 72.f + 16.f, G_->GetTextLibrary()->GetText("menu_status_seed"));
 
     CSurface::GL_SetColor(COLOR_BUTTON_TEXT);
 

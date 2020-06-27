@@ -11,8 +11,19 @@
 #include "Balance.h"
 #include "MainMenu.h"
 #include "CustomBoss.h"
+#include "CustomStore.h"
 
 #include <boost/lexical_cast.hpp>
+
+GL_Color& ParseColorNode(GL_Color& colorRef, rapidxml::xml_node<char>* node)
+{
+    if (node->first_attribute("r")) { colorRef.r = boost::lexical_cast<float>(node->first_attribute("r")->value()) / 255.f; }
+    if (node->first_attribute("g")) { colorRef.g = boost::lexical_cast<float>(node->first_attribute("g")->value()) / 255.f; }
+    if (node->first_attribute("b")) { colorRef.b = boost::lexical_cast<float>(node->first_attribute("b")->value()) / 255.f; }
+    if (node->first_attribute("a")) { colorRef.a = boost::lexical_cast<float>(node->first_attribute("a")->value()); }
+
+    return colorRef;
+}
 
 HOOK_METHOD(ScoreKeeper, OnInit, () -> void)
 {
@@ -132,9 +143,13 @@ void Global::InitializeResources(ResourceControl *resources)
             {
                 Global::forceDlc = EventsParser::ParseBoolean(node->first_attribute("enabled")->value());
             }
-            if (strcmp(node->name(), "bossCrew") == 0)
+            if (strcmp(node->name(), "boss") == 0)
             {
-                CustomBoss::ParseBossCrewNode(node);
+                CustomBoss::instance.ParseBossNode(node);
+            }
+            if (strcmp(node->name(), "store") == 0)
+            {
+                CustomStore::instance.ParseStoreNode(node);
             }
 
         }

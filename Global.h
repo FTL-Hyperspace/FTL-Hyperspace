@@ -1,4 +1,4 @@
-#pragma once
+#ifndef G_
 #define WIN32_LEAN_AND_MEAN
 
 #include <Windows.h>
@@ -26,6 +26,8 @@ public:
     bool AreResourcesInitialized() { return __resourcesInitialized; }
     void Initialize(CApp *cApp);
 
+    ShipManager *GetShipManager(int iShipId);
+
 
     ResourceControl *GetResources() { return __resourceControl; }
     CApp *GetCApp() { return __cApp; }
@@ -41,6 +43,7 @@ public:
     EventGenerator *GetEventGenerator() { return __eventGenerator; }
     EventsParser *GetEventsParser() { return __eventsParser; }
     EventSystem *GetEventSystem() { return __eventSystem; }
+    AnimationControl *GetAnimationControl() { return __animations; }
     int GetVersion() { return __version; }
 
     bool GetRNG() { return *__rng; }
@@ -50,10 +53,12 @@ public:
     static bool* showBeaconPath;
     static unsigned int currentSeed;
     static bool isCustomSeed;
+    static unsigned int sectorMapSeed;
     static int64_t* randomState;
     static std::mt19937 seededRng;
     static bool* showWelcome;
     static bool* dlcEnabled;
+    static int* difficulty;
     static bool forceDlc;
 
     //LuaState* lua;
@@ -82,6 +87,8 @@ private:
     const DWORD __randomStateOffset =   0x00428110;
     const DWORD __showWelcomeOffset =   0x004C8CE9;
     const DWORD __dlcEnabledOffset =    0x004C8D2D;
+    const DWORD __animationsOffset =    0x004CB0A0;
+    const DWORD __difficultyOffset =    0x004C8CB4;
 
     DWORD __baseAddress = 0;
 
@@ -98,8 +105,9 @@ private:
     static EventGenerator *__eventGenerator;
     static EventsParser *__eventsParser;
     static EventSystem *__eventSystem;
+    static AnimationControl *__animations;
 
-    const int __version = 3;
+    const int __version = 4;
 
 
     static bool* __rng;
@@ -107,3 +115,4 @@ private:
 
 
 #define G_ (Global::GetInstance())
+#endif

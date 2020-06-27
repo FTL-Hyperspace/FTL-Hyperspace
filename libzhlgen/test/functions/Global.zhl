@@ -21,6 +21,18 @@ struct GlobalPre
 	#ifndef M_PI
 		#define M_PI 3.14159265358979323846
 	#endif
+	
+	struct CAchievement;
+	struct RandomAmount;
+	struct Point;
+	
+	typedef std::pair<int, int> std_pair_int_int;
+	typedef std::pair<float, float> std_pair_float_float;
+	typedef std::pair<std::string, int> std_pair_std_string_int;
+	typedef std::pair<std::string, RandomAmount> std_pair_std_string_RandomAmount;
+	typedef std::pair<std::string, std::string> std_pair_std_string_std_string;
+	typedef std::pair<CAchievement*, Point> std_pair_CAchievement_ptr_Point;
+	typedef std::map<std::string, std::string> std_map_std_string_std_string;
 }};
 
 
@@ -35,16 +47,7 @@ struct GlobalPre
 
 // struct GlobalConst // comment this line out and uncomment the line below if this block requires specific structures (don't forget to replace the list of dependencies with your own)
 struct GlobalConst depends(RandomAmount, CAchievement, Point)
-{{
-	typedef std::pair<int, int> std_pair_int_int;
-	typedef std::pair<float, float> std_pair_float_float;
-	typedef std::pair<std::string, int> std_pair_std_string_int;
-	typedef std::pair<std::string, RandomAmount> std_pair_std_string_RandomAmount;
-	typedef std::pair<std::string, std::string> std_pair_std_string_std_string;
-	typedef std::pair<CAchievement*, Point> std_pair_CAchievement_ptr_Point;
-	typedef std::map<std::string, std::string> std_map_std_string_std_string;
-	
-	
+{{	
 	enum TouchAction
 	{
 	  TOUCH_DOWN = 0x1,

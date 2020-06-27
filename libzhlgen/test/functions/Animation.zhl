@@ -1,2 +1,10 @@
 "5589e557565389cb83e4f083ec408b451c84c089c775??0fb6b984000000f30f104508":
 void Animation::OnRender(Animation *this<ecx>, float opacity, GL_Color color, bool mirror);
+"57660fefdb8d7c240883e4f0ff77fc5589e557565389cb83ec4c":
+void Animation::Update(Animation *this<ecx>);
+"8b5104538b5c24088d42ff39d80f4fc385c07e??660fefc0660fefdbf30f2ac0898180000000660fefd2f30f104924":
+void Animation::SetCurrentFrame(Animation *this<ecx>, int frame);
+"578d7c240883e4f0ff77fc5589e5575389cb83ec20803f000f85????????660fefd2f30f10492cc6413200":
+void Animation::Start(Animation *this<ecx>, bool reset);
+"578d7c240883e4f0ff77fc5589e557565383ec3c8b178b770485d278??8b99880000008b818c00000029d8c1f802":
+void Animation::AddSoundQueue(Animation *this<ecx>, int unk, const std::string& sound);

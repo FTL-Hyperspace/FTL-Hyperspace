@@ -1,0 +1,10 @@
+"578d7c240883e4f0ff77fc5589e557565389ce83ec2c8b3f8b5f0485db":
+std::string& MouseControl::SetTooltip(MouseControl *this<ecx>, const std::string& tooltip);
+"578d7c240883e4f0ff77fc5589e557565389cb8d4dd883ec4c8b37":
+Point MouseControl::MeasureTooltip(MouseControl *this<ecx>, int unk);
+".5589e58b45088b550c5d898164010000":
+void MouseControl::QueueStaticTooltip(MouseControl *this<ecx>, Point pos);
+"5589e55389cb83e4f083ec1080b91c0100000074??f30f1005????????0f2e8318010000":
+void MouseControl::OnLoop(MouseControl *this<ecx>);
+".c6812801000001":
+void MouseControl::InstantTooltip(MouseControl *this<ecx>);

@@ -6,22 +6,22 @@ virtual bool CrewMember::CanRepair(CrewMember *this<ecx>);
 virtual bool CrewMember::CanMan(CrewMember *this<ecx>);
 "f30f1041280f2e412c7a??75??5589e55389cb83e4f080796c0075??8b8300020000":
 virtual bool CrewMember::CanHeal(CrewMember *this<ecx>);
+".578d7c240883e4f0ff77fc5589e5575383ec3080b9fc010000008b3f74??8d65f85b5f5d8d67f8":
+void CrewMember::OnRender(CrewMember *this<ecx>, bool outlineOnly);
 "89c8c701????????c7410400000000c7410800000000c7410c00000000c7411000000000c7411400000000c7411800000000c7411c00000000c6412000":
 static Damage *CrewMember::GetRoomDamage(Damage* dmg<ecx>, CrewMember *crew);
 
 "578d7c240883e4f0ff77fc5589f889e557565389cf81ec????????8b308b5808":
 void CrewMember::constructor(CrewMember *this<ecx>, CrewBlueprint& blueprint, int shipId, bool intruder, CrewAnimation *animation);
 "8b81f00400005589e583e4f083400c018b01ff90cc000000":
-void CrewMember::Jump(CrewMember *this<ecx>);
+void CrewMember::Jump(CrewMember *this<ecx>, bool outlineOnly);
 ".80b93d050000008b410475??398160010000":
 bool CrewMember::NeedsIntruderSlot(CrewMember *this<ecx>);
 ".a1????????c681e001000001c681fc01000001c7810807000000000000":
 void CrewMember::SetOutOfGame(CrewMember *this<ecx>);
 ".55660fefc989e583ec04f30f2a8990000000f30f1015????????f30f104108f30f5cc1":
 float CrewMember::PositionShift(CrewMember *this<ecx>);
-".660fefc9f30f1015????????f30f10410855f30f2a8990000000":
-void CrewMember::OnRender(CrewMember *this<ecx>);
-".578d7c240883e4f0ff77fc55":
+".578d7c240883e4f0ff77fc5589f889e557565389cf31f683ec1c8b18f30f108108070000f30f11442404891c24e8????????":
 void CrewMember::SaveState(CrewMember *this<ecx>, int fileHelper);
 ".8b819c000000837838030f84????????55660fefc9":
 bool CrewMember::CanTeleport(CrewMember *this<ecx>);
@@ -29,7 +29,7 @@ bool CrewMember::CanTeleport(CrewMember *this<ecx>);
 void CrewMember::destructor(CrewMember *this<ecx>);
 ".5589e55389cb":
 void CrewMember::Cleanup(CrewMember *this<ecx>);
-".578d7c240883e4f0ff77fc5589f8":
+".578d7c240883e4f0ff77fc5589f889e557565389cf83ec2c8b30893424e8????????d95de48b45e4893424":
 void CrewMember::LoadState(CrewMember *this<ecx>, int fileHelper);
 ".578d7c240883e4f0ff77fc":
 void CrewMember::SetCurrentSystem(CrewMember *this<ecx>, ShipSystem *sys);
@@ -210,11 +210,11 @@ bool CrewMember::InsideRoom(CrewMember *this<ecx>, int roomId);
 ".578d7c240883e4f0ff77fc5589e55783ec14f30f1007f30f110424e8????????8b7dfc83ec04":
 bool CrewMember::ShipDamage(CrewMember *this<ecx>, float damage);
 
-struct CrewMember
+struct CrewMember depends (CrewAnimation, CrewBlueprint, ShipObject)
 {{
-	CrewMember(CrewBlueprint& bp, int shipId, bool intruder, CrewAnimation *animation)
+	CrewMember(CrewBlueprint& bp, int shipId, bool enemy, CrewAnimation *animation)
 	{
-		this->constructor(bp, shipId, intruder, animation);
+		this->constructor(bp, shipId, enemy, animation);
 	}
 	
 	ShipObject* GetShipObject()

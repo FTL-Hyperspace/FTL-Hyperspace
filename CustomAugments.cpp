@@ -1,6 +1,5 @@
 #include "CustomAugments.h"
 #include "Global.h"
-
 #include <boost/lexical_cast.hpp>
 
 CustomAugmentManager CustomAugmentManager::instance = CustomAugmentManager();
@@ -77,10 +76,22 @@ std::map<std::string, std::pair<float, bool>> CustomAugmentManager::GetPotential
 
 HOOK_METHOD_PRIORITY(ShipObject, HasAugmentation, 2000, (const std::string& name) -> int)
 {
+    auto ship = G_->GetShipManager(iShipId);
+    std::map<std::string, int> augList;
+
+    if (ship == NULL)
+    {
+        augList = G_->GetShipInfo(iShipId)->augList;
+    }
+    else
+    {
+        auto ex = SM_EX(G_->GetShipManager(iShipId));
+        augList = ex->GetAugmentList();
+    }
+
+
     AugmentBlueprint* augBlueprint = G_->GetBlueprints()->GetAugmentBlueprint(name);
 
-    ShipInfo *player = G_->GetShipInfo(iShipId);
-    auto augList = player->augList;
     int augCount = 0;
 
     if (augList.count(name) > 0)
@@ -107,13 +118,22 @@ HOOK_METHOD_PRIORITY(ShipObject, HasAugmentation, 2000, (const std::string& name
 
 HOOK_METHOD_PRIORITY(ShipObject, HasEquipment, 2000, (const std::string& name) -> int)
 {
-
     ItemBlueprint* bp = G_->GetBlueprints()->GetItemBlueprint(name);
 
-    if (bp->type == 3)
-    {
-        ShipInfo *player = G_->GetShipInfo(iShipId);
-        auto augList = player->augList;
+
+        auto ship = G_->GetShipManager(iShipId);
+        std::map<std::string, int> augList;
+
+        if (ship == NULL)
+        {
+            augList = G_->GetShipInfo(iShipId)->augList;
+        }
+        else
+        {
+            auto ex = SM_EX(G_->GetShipManager(iShipId));
+            augList = ex->GetAugmentList();
+        }
+
         int augCount = 0;
 
         if (augList.count(name) > 0)
@@ -134,8 +154,8 @@ HOOK_METHOD_PRIORITY(ShipObject, HasEquipment, 2000, (const std::string& name) -
             }
         }
 
+    if (augCount >= 0)
         return augCount;
-    }
 
     return super(name);
 
@@ -146,8 +166,18 @@ HOOK_METHOD_PRIORITY(ShipObject, GetAugmentationValue, 1000, (const std::string&
 {
     AugmentBlueprint* augBlueprint = G_->GetBlueprints()->GetAugmentBlueprint(name);
 
-    ShipInfo *player = G_->GetShipInfo(iShipId);
-    auto augList = player->augList;
+    auto ship = G_->GetShipManager(iShipId);
+    std::map<std::string, int> augList;
+
+    if (ship == NULL)
+    {
+        augList = G_->GetShipInfo(iShipId)->augList;
+    }
+    else
+    {
+        auto ex = SM_EX(G_->GetShipManager(iShipId));
+        augList = ex->GetAugmentList();
+    }
     int augCount = 0;
 
     if (augList.count(name) > 0)
@@ -194,8 +224,7 @@ HOOK_METHOD(EquipmentBox, SetBlueprint, (InfoBox *infoBox, bool unk) -> void)
     {
         if (customAug->IsAugment(item.augment->name))
         {
-            std::string warn;
-            TextLibrary::GetText(warn, G_->GetTextLibrary(), "augment_no_effect", G_->GetTextLibrary()->currentLanguage);
+            std::string warn = G_->GetTextLibrary()->GetText("augment_no_effect");
             warn.append("\n");
 
             BlueprintManager* blueprints = G_->GetBlueprints();
@@ -205,16 +234,7 @@ HOOK_METHOD(EquipmentBox, SetBlueprint, (InfoBox *infoBox, bool unk) -> void)
                 auto bp = blueprints->GetAugmentBlueprint(x.first);
                 if (((x.second.second && bp->value >= item.augment->value) || (!x.second.second && bp->value <= item.augment->value)) && !item.augment->stacking)
                 {
-                    if (bp->desc.title.isLiteral)
-                    {
-                        warn += bp->desc.title.data + "\n";
-                    }
-                    else
-                    {
-                        std::string str = std::string();
-                        TextLibrary::GetText(str, G_->GetTextLibrary(), bp->desc.title.data, G_->GetTextLibrary()->currentLanguage);
-                        warn += str + "\n";
-                    }
+                    warn += bp->desc.title.GetText() + "\n";
                     counter++;
                 }
             }
