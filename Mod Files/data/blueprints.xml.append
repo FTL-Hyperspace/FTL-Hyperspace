@@ -1,0 +1,86 @@
+<augBlueprint name="NANOBOT_DEFENSE_SYSTEM">
+    <title>Nanobot Defense System</title>
+	<desc>Boarders take damage over time on your ship.</desc>
+    <cost>30</cost>
+    <bp>4</bp>
+    <rarity>0</rarity>
+    <value>75</value>
+    <stackable>false</stackable>
+</augBlueprint>
+
+<augBlueprint name="FTL_JUMPER_GOOD">
+    <title>Adv. FTL Navigation II</title>
+	<desc>Allows you to jump to any beacon in a sector.</desc>
+    <cost>30</cost>
+    <bp>4</bp>
+    <rarity>0</rarity>
+    <value>0</value>
+    <stackable>false</stackable>
+</augBlueprint>
+
+<crewBlueprint name="ghost">
+	<desc>Ghosts of the past crew.</desc>
+	<cost>50</cost>
+	<bp>2</bp>
+	<title>Ghost</title>
+	<short>Ghost</short>
+	<rarity>0</rarity>
+	<powerList>
+		<power>Can survive without oxygen</power>
+		<power>Maximum health is reduced</power>
+		<power>Can phase through doors</power>
+	</powerList>
+</crewBlueprint>
+
+<!--
+<crewBlueprint name="testCrew">
+	<desc>test race</desc>
+	<cost>50</cost>
+	<bp>2</bp>
+	<title>Test</title>
+	<short>Test</short>
+	<rarity>3</rarity>
+	<powerList>
+		<power>test power</power>
+		<power>test power 2</power>
+		<power>test power 3</power>
+	</powerList>
+</crewBlueprint>
+-->
+
+<!--
+<shipBlueprint name="PLAYER_SHIP_KESTRAL" layout="kestral" img="kestral">
+	<class>Testrel V2</class>
+	<name>The Testrel V2</name>
+	<desc>This class of ship was decommissioned from Federation service years ago. After a number of refits and updating this classic ship is ready for battle.</desc>
+	<systemList>
+		<pilot power="2" room="0" start="true" img="room_pilot"/>
+		<doors power="2" room="2" start="true" img="room_doors"/>
+		<medbay power="2" room="4" start="true" img="room_medbay"/>
+		<oxygen power="2" room="13" start="true" img="room_oxygen"/>
+		<shields power="8" room="5" start="true" img="room_shields"/>
+		<engines power="5" room="14" start="true" img="room_engines"/>
+		<weapons power="7" room="10" start="true" img="room_weapons"/>
+		<drones power="4" room="1" start="true"/>
+		<teleporter power="2" room="15"	start="true"/>
+		<test power="2" room="8" start="true"/>
+	</systemList>
+	<weaponSlots>4</weaponSlots>
+	<droneSlots>2</droneSlots>
+	<weaponList count="4" missiles="16">
+		<weapon name="MISSILES_2"/>
+		<weapon name="LASER_BURST_3"/>
+		<weapon name="MISSILES_2"/>
+		<weapon name="LASER_BURST_3"/>
+	</weaponList>
+	<droneList count="2" drones="10">
+		<drone name="DRONE_BEAM"/>
+		<drone name="REPAIR"/>
+	</droneList>
+	<health amount="30"/>
+	<maxPower amount ="28"/>
+	<crewCount amount = "1" class="ghost"/>
+	<crewCount amount = "1" class="testCrew"/>
+</shipBlueprint>
+-->
+

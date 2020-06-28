@@ -1,0 +1,306 @@
+<FTL>
+
+<version>4</version>
+
+<!-- Enables the game's built in infinite mode
+(found by ih8ih8sn0w)
+-->
+
+<infinite enabled="false"/>
+
+<!-- Hull bar indicator
+Displays the amount of hull points left for the player or enemy
+
+type is a number which corresponds to a type of font -- 
+feel free to experiment with the position and type
+
+align can be left, center or right
+-->
+
+<hullNumbers enabled="true">
+	<playerText x="335" y="50" type="0" align="left" />
+	<enemyText x="988" y="59" type="0" align="center" />
+	<bossText x="864" y="16" type="0" align="center" />
+</hullNumbers>
+
+<!--  Blows up hacking drone if hacking is depowered
+This means that you can't get past defense drones easily anymore
+-->
+
+<hackingDroneFix enabled="true"/>
+
+<!-- Custom title screen
+Changes the background and logo and moves the FTL logo slightly -->
+
+<titleScreen logo_x="862" logo_y="7" enabled="true"/>
+
+<forceDlc enabled="false"/>
+
+<!-- Enables command console in game -- press L to use
+
+EVENT          Run an event.                           Usage: EVENT <event_id>        Example: EVENT FREE_AUG
+LOAD           Loads a ship blueprint.                 Usage: LOAD <ship_id> <str>    Example: LOAD MANTIS_BOMBER 5 (with 5 sector strength)
+ACH            Unlock achievement.                     Usage: ACH <achievement_id>    Example: ACH ACH_SECTOR_8
+SECTOR         Go to sector type.                      Usage: SECTOR <sector_type>    Example: SECTOR PIRATE_SECTOR
+SCRAP          Add scrap.                              Usage: SCRAP <num_to_add>      Example: SCRAP 500
+WEAPON         Add a weapon blueprint.                 Usage: WEAPON <weapon_id>      Example: WEAPON LASER_BURST_1
+SHIP           Unlock a ship.                          Usage: SHIP <ship_id>          Example: SHIP PLAYER_SHIP_MANTIS
+DRONES         Add drone parts.                        Usage: DRONES <num_to_add>     Example: DRONES 50
+DRONE          Add a drone blueprint.                  Usage: DRONE <drone_id>        Example: DRONE COMBAT_2
+FUEL           Add fuel.                               Usage: FUEL <num_to_add>       Example: FUEL 50
+MISSILES       Add missiles.                           Usage: MISSILES <num_to_add>   Example: MISSILES 50
+RICH           Add 80 of each resource and 1999 scrap. Usage: RICH
+GOD            Fully upgrade every system and reactor. Usage: GOD
+DELETE         Destroys enemy ship.                    Usage: DELETE
+SYS            Add a system.                           Usage: SYS <system_name>       Example: SYS cloaking
+AUG            Add an augmentation.                    Usage: AUG <augment_name>      Example: AUG O2_MASKS
+CREW           Add a crew member.                      Usage: CREW [race_name]        Example: CREW slug
+EXIT           Makes your location an exit beacon      Usage: EXIT
+STORE          Creates a store at your location        Usage: STORE [sector]          Example: STORE 3
+KILL           Kills a person on your ship             Usage: KILL <crew_name>        Example: KILL John
+DELETECREW     Kills everyone on the enemy ship        Usage: DELETECREW
+-->
+
+<console enabled="true"/> 
+
+<!-- Infinite Ships
+
+Syntax -> 
+
+<ships>
+	<ship name="PLAYER_SHIP_CUSTOM" b="true" c="true"/>
+	<customShip name="PLAYER_SHIP_CUSTOM_2">
+		<hiddenAug>ENERGY_SHIELD</hiddenAug>
+	</customShip>
+	...
+</ships>
+
+-->
+
+<ships>
+
+</ships>
+
+
+
+<!-- Custom Races
+
+For buttonText and tooltip you can either use "id" or use the value of buttonText - "id" pulls it from text_misc.xml.
+
+jumpCooldown can either be "continue", "reset", or "full", and it is "full" by default.
+
+Syntax -> 
+
+<crew>
+	(default human values)
+	<race name="newRace">
+		<canFight>true</canFight>
+		<canSuffocate>true</canSuffocate>
+		<canBurn>true</canBurn>
+		<maxHealth>100</maxHealth>
+		<moveSpeedMultiplier>1</moveSpeedMultiplier>
+		<repairSpeed>1</repairSpeed>
+		<damageMultiplier>1</damageMultiplier>
+		<bonusPower>0</bonusPower>
+		<fireRepairMultiplier>1.2</fireRepairMultiplier>
+		<suffocationModifier>1</suffocationModifier>
+		<isTelepathic>false</isTelepathic>
+		<isAnaerobic>false</isAnaerobic>
+		<fireDamageMultiplier>1</fireDamageMultiplier>
+		<canPhaseThroughDoors>false</canPhaseThroughDoors>
+		<deathSounds>
+			<deathSound>death1</deathSound>
+			<deathSound>death2</deathSound>
+		</deathSounds>
+		<shootingSounds>
+			<shootingSound>crewLaser</shootingSound>
+		</shootingSounds>
+		<oxygenChangeSpeed>-0.525</oxygenChangeSpeed> (lanius speed)
+		<damageTakenMultiplier>1</damageTakenMultiplier>
+		<passiveHealAmount>1</passiveHealAmount>
+		<passiveHealDelay>15</passiveHealDelay>
+		<detectsLifeforms>false</detectsLifeforms>
+		<skills>
+			<piloting req="15"/>
+			<engines req="15"/>
+			<shields req="55"/>
+			<weapons req="65"/>
+			<repair req="18"/>
+			<combat req="8"/>
+		</skills>
+		<hasCustomDeathAnimation>false</hasCustomDeathAnimation>
+		<hasDeathExplosion>false</hasDeathExplosion>
+		<deathEffect>
+			<damage>0</damage>
+			<fireChance>0</fireChance>
+			<breachChance>0</breachChance>
+			<stunChance>0</stunChance>
+			<ion>0</ion>
+			<sysDamage>0</sysDamage>
+			<persDamage>1</persDamage> (zoltan value)
+			<hullBust>false</hullBust>
+			<lockdown>false</lockdown>
+			<friendlyFire>false</friendlyFire>
+			<stun>0</stun>
+			<shipFriendlyFire>false</shipFriendlyFire>
+		</deathEffect>
+		<animBase>rock</animBase> (for rock stomping animation)
+		<powerEffect>
+			<cooldown>30</cooldown>
+			<jumpCooldown>full</jumpCooldown>
+			<powerSounds>
+				<powerSound>lockdown1</powerSound>
+				<powerSound>lockdown2</powerSound>
+			</powerSounds>
+			<req>
+				<enemyShip/>
+				<playerShip/>
+				<friendlyInRoom/>
+				<enemyInRoom/>
+				<systemInRoom/>
+				<inCombat/>
+				<outOfCombat/>
+				<hasClonebay/>
+				<aiDisabled/>
+			</req>
+			<damage>0</damage>
+			<fireChance>0</fireChance>
+			<breachChance>0</breachChance>
+			<stunChance>0</stunChance>
+			<ion>0</ion>
+			<sysDamage>0</sysDamage>
+			<persDamage>0</persDamage>
+			<hullBust>false</hullBust>
+			<lockdown>true</lockdown>
+			<friendlyFire>false</friendlyFire>
+			<stun>0</stun>
+			<shipFriendlyFire>false</shipFriendlyFire>
+			<win>false</win>
+			<buttonText id="button_lockdown">LOCKDOWN</buttonText>
+			<tooltip id="power_ready">Ready: Click to lock down room with special power</tooltip>
+			<cooldownColor r="133" g="231" b="237"/>
+			<effectAnim>explosion_crystal</effectAnim>
+			<crewHealth>0</crewHealth>
+			<enemyHealth>0</enemyHealth>
+			<selfHealth>0</selfHealth>
+			
+			<temporaryEffect>
+				<duration>10</duration>
+				<cooldownColor r="167" g="250" b="255"/>
+				<finishSounds>
+					<finishSound>mindControlEnd</finishSound>
+				</finishSounds>
+				<moveSpeedMultiplier>1.2</moveSpeedMultiplier>
+				<repairSpeed>1.2</repairSpeed>
+				<damageMultiplier>1.2</damageMultiplier>
+				<bonusPower>0</bonusPower>
+				<canFight>true</canFight>
+				<canSuffocate>true</canSuffocate>
+				<oxygenChangeSpeed>0</oxygenChangeSpeed>
+				<detectsLifeforms>false</detectsLifeforms>
+				<isTelepathic>false</isTelepathic>
+				<fireDamageMultiplier>1</fireDamageMultiplier>
+				<damageTakenMultiplier>1</damageTakenMultiplier>
+				<allDamageTakenMultiplier>1</allDamageTakenMultiplier>
+				<effectAnim>mindcontrol</effectAnim>
+				<invulnerable>false</invulnerable>
+			</temporaryEffect>
+		</powerEffect>
+	</race>
+	...
+</crew>
+-->
+
+<crew>
+	<race name="ghost">
+		<canPhaseThroughDoors>true</canPhaseThroughDoors>
+		<canSuffocate>false</canSuffocate>
+		<maxHealth>50</maxHealth>
+	</race>
+</crew>
+
+<!-- Custom Augments
+
+Syntax ->
+<augments>
+    <aug name="CUSTOM_AUG">
+    	<function name="ADV_SCANNERS"/>
+		<function name="CREW_STIMS" value="0.2"/>
+		<function name="O2_MASKS" value="0.2" preferHigher="false"/>
+    </aug>
+</augments>
+-->
+
+<augments>
+
+</augments>
+
+<!-- Custom Event Characteristics
+
+For beaconType and unvisitedTooltip/visitedTooltip, you can either use "id" or "text" as an attribute for the text - "id" pulls it from text_misc.xml while "text" uses the attribute's value.
+
+Syntax -> 
+<events>
+	<bossShip>AUTO_ASSAULT_DLC</bossShip>
+	<eventFile>special</eventFile>
+	<exitBeacon sectorName="CIVILIAN_SECTOR" event="BOARDERS" rebelEvent="FLEET_HARD" nebulaEvent="NEBULA_HOSTILE"/>
+	<rebelBeacon sectorName="CIVILIAN_SECTOR" event="BOARDERS" nebulaEvent="NEBULA_AUTO"/>
+	
+	<event name="CIVILIAN_ASTEROIDS_BEACON_2" recursive="false">
+		<checkCargo/>
+		<removeHazards/>
+		<removeNebula/>
+	</event>
+	
+	<event name="TRADER_CIV">
+		<preventQuest/>
+		<noQuestText/>
+		<beaconType id="map_icon_trader" text="TRADER" global="false">
+			<color r="255" g="166" b="226" a="1.0"/>
+			<unvisitedTooltip id="map_unvisited_loc">An unvisited location.</unvisitedTooltip>
+			<visitedTooltip id="map_nothing_loc">An explored location.</visitedTooltip>
+		</beaconType>
+	</event>
+</events>
+
+
+-->
+
+<events>
+	
+</events>
+
+<boss>
+	<crew>
+		<human room="0"/>
+		<human room="1"/>
+		<human room="2"/>
+		<human room="3"/>
+		<human room="4"/>
+		<human room="5"/>
+		<human room="6"/>
+		<human room="9"/>
+		<human room="10"/>
+		<human room="14"/>
+		<human room="18"/>
+	</crew>
+	<surgeDrones>    
+		<drone difficulty="0" name="COMBAT_1" count="2"/>
+		<drone difficulty="0" name="COMBAT_BEAM" count="2"/>
+		<drone difficulty="1" name="COMBAT_1" count="3"/>
+		<drone difficulty="1" name="COMBAT_BEAM" count="3"/>
+		<drone difficulty="2" name="COMBAT_1" count="4"/>
+		<drone difficulty="2" name="COMBAT_BEAM" count="3"/>
+	</surgeDrones>
+</boss>
+
+<!-- freeDrones lets you customise the drone you get when buying a drone system. It can be a drone blueprintList as well. -->
+<store>
+	<freeDrones>
+		<COMBAT_1/>
+		<DEFENSE_1/>
+		<REPAIR/>
+	</freeDrones>
+</store>
+
+</FTL>

@@ -1,0 +1,28 @@
+<mod:findName type="text" name="no_type_c">
+  <mod:setValue>Hangar Empty</mod:setValue>
+</mod:findName>
+
+<mod:findName type="text" name="window_title">
+  <mod:setValue>FTL: Hyperspace</mod:setValue>
+</mod:findName>
+
+<mod:findName type="text" name="version">
+  <mod:setValue>\1 (Hyperspace 0.3)</mod:setValue>
+</mod:findName>
+
+<text name="augment_no_effect">These augmentations will have no effect with this augment installed:</text>
+
+<text name="seed_prompt">Seed</text>
+<text name="menu_status_seed">Seed</text>
+<text name="unlocks_disabled">Unlocks Disabled</text>
+
+<text name="power_not_ready_player_ship">Not Ready: Not on player ship</text>
+<text name="power_not_ready_enemy_ship">Not Ready: Not on enemy ship</text>
+<text name="power_not_ready_enemy_in_room">Not Ready: No enemies in room</text>
+<text name="power_not_ready_friendly_in_room">Not Ready: No friendly crew in room</text>
+<text name="power_not_ready_system_in_room">Not Ready: No system in room</text>
+<text name="power_not_ready_activated">Activated: Power currently in use (see duration left of portrait)</text>
+<text name="power_not_ready_ai_disabled">Not Ready: Power disabled for AI (shouldn't see this)</text>
+<text name="power_not_ready_has_clonebay">Not Ready: No clone bay available</text>
+<text name="power_not_ready_out_of_combat">Not Ready: In combat</text>
+<text name="power_not_ready_in_combat">Not Ready: No enemy ship</text>
