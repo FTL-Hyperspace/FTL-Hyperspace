@@ -4,6 +4,7 @@
 
 CommandConsole CommandConsole::instance = CommandConsole();
 
+int speedEnabled = true;
 
 bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
 {
@@ -14,7 +15,7 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
 
     if (cmdName == "STORE")
     {
-        if (cmdName.length() == 5)
+        if (command.length() == 5)
         {
             commandGui->CreateNewStore(commandGui->starMap->worldLevel);
         }
@@ -62,6 +63,20 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
         }
         return true;
     }
+    if (cmdName == "SPEED" && command.length() > 5)
+    {
+        try
+        {
+            int speedFactor = boost::lexical_cast<int>(boost::trim_copy(command.substr(6)));
+            G_->GetCFPS()->speedLevel = speedFactor;
+        }
+        catch (boost::bad_lexical_cast const &e)
+        {
+            printf("boost::bad_lexical_cast in RunCommand SPEED\n");
+        }
+
+        return true;
+    }
     if (cmdName == "DEBUG")
     {
         return true;
@@ -96,11 +111,11 @@ HOOK_METHOD(CommandGui, RenderStatic, () -> void)
 
 HOOK_METHOD(CommandGui, KeyDown, (SDLKey key, bool shiftHeld) -> void)
 {
-    if (shiftHeld && key == SDLKey::SDLK_F9)
+    if (key == 96)
     {
         //shouldOpen = !shouldOpen;
 
-
+        speedEnabled = !speedEnabled;
     }
 
     super(key, shiftHeld);
@@ -120,5 +135,17 @@ HOOK_METHOD(CommandGui, RunCommand, (std::string& command) -> void)
     }
 }
 
+HOOK_METHOD(CFPS, OnLoop, () -> void)
+{
+    int oldSpeedLevel = speedLevel;
 
+    if (!speedEnabled)
+    {
+        speedLevel = 0;
+    }
+
+    super();
+
+    speedLevel = oldSpeedLevel;
+}
 

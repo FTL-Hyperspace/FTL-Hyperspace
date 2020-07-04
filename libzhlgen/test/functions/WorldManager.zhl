@@ -16,3 +16,5 @@ void WorldManager::UpdateLocation(WorldManager *this<ecx>, LocationEvent* event)
 LocationEvent *WorldManager::ModifyResources(WorldManager *this<ecx>, LocationEvent *event);
 "578d7c240883e4f0ff77fc5589e5575389cb83ec108b078b570483f801":
 void WorldManager::ModifyEnvironment(WorldManager *this<ecx>, int envFlag, int envTarget);
+"5789ca81c2????????8d7c240883e4f0ff77fc5589e5575653":
+void WorldManager::CheckStatusEffects(WorldManager *this<ecx>, std::vector<StatusEffect>& vec);

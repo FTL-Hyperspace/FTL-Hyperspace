@@ -137,7 +137,6 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
                                 }
                                 else
                                 {
-                                    printf("setting unvisited tooltip to %s\n", child2->value());
                                     beaconType->unvisitedTooltip.data = child2->value();
                                     beaconType->unvisitedTooltip.isLiteral = true;
                                 }
@@ -148,12 +147,12 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
                                 if (child2->first_attribute("id"))
                                 {
                                     beaconType->visitedTooltip.data = child2->first_attribute("id")->value();
-                                    beaconType->visitedTooltip.data = false;
+                                    beaconType->visitedTooltip.isLiteral = false;
                                 }
                                 else
                                 {
                                     beaconType->visitedTooltip.data = child2->value();
-                                    beaconType->visitedTooltip.data = true;
+                                    beaconType->visitedTooltip.isLiteral = true;
                                 }
                             }
 

@@ -1,3 +1,8 @@
 "578d7c240883e4f0ff77fc5589e557565389ce81ec????????8b078bb948020000":
 void Equipment::OnInit(Equipment *this<ecx>, ShipManager *ship);
-
+"8b81400200002b813c020000c1f80285c00f84????????578d7c240883e4f0ff77fc5589e55756":
+void Equipment::OnLoop(Equipment *this<ecx>);
+"578d7c240883e4f0ff77fc5589e5575389cb83ec108b078b570489042489542404e8????????8b835c02000083ec0883f8ff74??8b933c0200008b0c82":
+void Equipment::MouseClick(Equipment *this<ecx>, int mX, int mY);
+"80b968020000000f84????????578d7c240883e4f0ff77fc5589e557565389cb83ec4c80b934020000000f85????????8b815c02000083f8ff0f84????????8b916002000039d0":
+void Equipment::MouseUp(Equipment *this<ecx>, int mX, int mY);

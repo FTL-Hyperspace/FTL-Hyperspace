@@ -1,7 +1,7 @@
 "558b490889e583e4f0e8????????c9c3578d7c240883e4f0ff77fc":
-int CompleteShip::PauseLoop(CompleteShip *this<ecx>);
+virtual void CompleteShip::PauseLoop(CompleteShip *this<ecx>);
 ".578d7c240883e4f0ff77fc5589e5575389cb83ec108b4908e8????????8b43088d4b18c744240400000000":
-int CompleteShip::Restart(CompleteShip *this<ecx>);
+virtual void CompleteShip::Restart(CompleteShip *this<ecx>);
 ".578d7c240883e4f0ff77fc5589e5575389cb83ec108b47048b4f088b17c703????????c7430800000000":
 void CompleteShip::constructor(CompleteShip *this<ecx>, SpaceManager *space, bool unk, int unk2);
 ".5783c1188d7c240883e4f0ff77fc5589e55783ec148b078b90bc0700008941f089042489542404e8????????":
@@ -25,7 +25,7 @@ void CompleteShip::LoadState(CompleteShip *this<ecx>, int unk);
 ".578d7c240883e4f0ff77fc5589e557565383ec4c8b811c0100003981180100008b178b7704":
 int CompleteShip::InitiateTeleport(CompleteShip *this<ecx>, int room, int shipId);
 ".578d7c240883e4f0ff77fc5589e557565389cf31db83ec2c8b4908e8????????":
-void CompleteShip::OnLoop(CompleteShip *this<ecx>);
+virtual void CompleteShip::OnLoop(CompleteShip *this<ecx>);
 ".5589e557565389cb83e4f083ec208b7d088bb7280100008b872401000039c60f84????????":
 void CompleteShip::GetTeleportingParty(CompleteShip *this<ecx>);
 ".558b490889e583e4f0e8????????c9":

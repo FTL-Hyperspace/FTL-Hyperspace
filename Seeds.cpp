@@ -205,7 +205,11 @@ HOOK_METHOD(StarMap, NewGame, (bool unk) -> Location*)
 
 	startingNewGame = true;
 
-	return super(unk);
+	Location* ret = super(unk);
+
+	startingNewGame = false;
+
+	return ret;
 }
 
 HOOK_METHOD(StarMap, LoadGame, (int fh) -> Location*)
@@ -214,8 +218,6 @@ HOOK_METHOD(StarMap, LoadGame, (int fh) -> Location*)
     Global::isCustomSeed = FileHelper::readInteger(fh);
 
 	Location *ret = super(fh);
-
-
 
     return ret;
 }
@@ -231,23 +233,19 @@ HOOK_METHOD(StarMap, GenerateMap, (bool unk, bool seed) -> Location*)
 
         startingNewGame = false;
 	}
-	if (!seed)
+	else
     {
-        currentSectorSeed = SeededRandom32();
+        if (!seed)
+        {
+            currentSectorSeed = SeededRandom32();
+        }
+        else
+        {
+            SetSeed(currentSectorSeed);
+        }
     }
-
-    if (seed)
-    {
-        SetSeed(currentSectorSeed);
-    }
-
-    generatingMap = true;
-    eventNumber = 0;
 
     Location *ret = super(unk, true);
-
-    generatingMap = false;
-    eventNumber = 0;
 
     return ret;
 }
@@ -260,39 +258,6 @@ HOOK_METHOD(StarMap, GenerateSectorMap, () -> void)
     srand(this->sectorMapSeed);
 
 	super();
-}
-
-HOOK_METHOD(StarMap, UpdateDangerZone, () -> void)
-{
-    eventNumber = 0;
-
-    super();
-
-    eventNumber = 0;
-}
-
-HOOK_METHOD(EventGenerator, GetBaseEvent, (const std::string& name, int worldLevel, char ignoreUnique, int seed) -> LocationEvent*)
-{
-    if (generatingMap)
-    {
-        eventNumber++;
-
-        return super(name, worldLevel, ignoreUnique, G_->GetWorld()->starMap.currentSectorSeed ^ eventNumber);
-
-    }
-    else
-    {
-        if (G_->GetWorld()->bStartedGame)
-        {
-            eventNumber++;
-
-            return super(name, worldLevel, ignoreUnique, G_->GetWorld()->starMap.currentSectorSeed ^ (((int)(G_->GetWorld()->starMap.currentLoc->loc.x + G_->GetWorld()->starMap.currentLoc->loc.y)) + eventNumber));
-        }
-    }
-
-
-
-    return super(name, worldLevel, ignoreUnique, seed);
 }
 
 

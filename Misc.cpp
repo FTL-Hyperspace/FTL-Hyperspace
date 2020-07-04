@@ -17,6 +17,8 @@ HOOK_METHOD(CApp, OnKeyDown, (SDLKey key) -> void)
 
     if (key == SDLKey::SDLK_KP_PLUS)
     {
+        auto boxes = gui->equipScreen.vEquipmentBoxes;
+
     }
 
     super(key);

@@ -74,6 +74,7 @@ struct ShipAchievementInfo;
 struct StarMap__NebulaInfo;
 struct Sector;
 struct VTable_AnimationTracker;
+struct VTable_CompleteShip;
 struct VTable_EquipmentBox;
 struct std__pair_26std__string___RandomAmount;
 struct std__pair_17std__string___int;
@@ -3538,7 +3539,7 @@ struct ShipAI
 /* 152 */
 struct CompleteShip
 {
-  void *vptr;
+  VTable_CompleteShip *_vtable;
   int iShipId;
   ShipManager *shipManager;
   SpaceManager *spaceManager;
@@ -3553,7 +3554,8 @@ struct CompleteShip
 /* 174 */
 struct Drone
 {
-  ShipObject _base;
+  void *vptr;
+  int iShipId;
   int selfId;
   bool powered;
   int powerRequired;
@@ -4263,6 +4265,17 @@ struct std__vector_16AnimationTracker
   AnimationTracker *_end;
 };
 
+/* 619 */
+struct VTable_CompleteShip
+{
+  void (__thiscall *Free)(CompleteShip *);
+  void (__thiscall *OnLoop)(CompleteShip *);
+  void (__thiscall *PauseLoop)(CompleteShip *);
+  bool (__thiscall *IsBoss)(CompleteShip *);
+  void (__thiscall *Restart)(CompleteShip *);
+  bool (__thiscall *IncomingFire)(CompleteShip *);
+};
+
 /* 221 */
 struct StoreBox
 {
@@ -4935,7 +4948,10 @@ struct BombProjectile;
 struct EnergyAnimation;
 
 /* 327 */
-struct MantisAnimation;
+struct MantisAnimation
+{
+  CrewAnimation _base;
+};
 
 /* 328 */
 struct RepairAnimation;
@@ -5110,12 +5126,6 @@ struct std__vector_10TextButton
   TextButton *_start;
   TextButton *_finish;
   TextButton *_end;
-};
-
-/* 619 */
-struct VTable_CompleteShip
-{
-  void (__thiscall *Free)(CompleteShip *, int);
 };
 
 /* 621 */

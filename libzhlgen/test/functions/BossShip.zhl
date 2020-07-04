@@ -1,7 +1,7 @@
 "c7813401000000000000c7816001000001000000c6815c01000001c38d742600f30f108144010000f30f5c8140010000f30f100d????????0f2ec876??83b934010000010f95c0":
 void BossShip::Restart(BossShip *this<ecx>);
 ".f30f108144010000f30f5c8140010000f30f100d????????0f2ec876??":
-char BossShip::IncomingFire(BossShip *this<ecx>);
+bool BossShip::IncomingFire(BossShip *this<ecx>);
 ".578d7c240883e4f0ff77fc5589e5575389cb83ec108b0783c318c744240801000000c744240400000000":
 void BossShip::constructor(BossShip *this<ecx>, SpaceManager *space);
 ".5589e557565389cf83e4f083ec108b5d088b8134010000891c2489442404":
@@ -17,6 +17,6 @@ int BossShip::GetSubEvent(BossShip *this<ecx>);
 ".578d7c240883e4f0ff77fc5589e557565389ce8dbd20ffffff":
 void BossShip::StartStage(BossShip *this<ecx>);
 ".578d7c240883e4f0ff77fc5589e557565389cb":
-int BossShip::GetEvent(BossShip *this<ecx>);
+LocationEvent* BossShip::GetEvent(BossShip *this<ecx>);
 ".578d7c240883e4f0ff77fc5589e557565389cb83ec4c":
 void BossShip::OnLoop(BossShip *this<ecx>);

@@ -7,7 +7,7 @@
 </mod:findName>
 
 <mod:findName type="text" name="version">
-  <mod:setValue>\1 (Hyperspace 0.3)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 0.4)</mod:setValue>
 </mod:findName>
 
 <text name="augment_no_effect">These augmentations will have no effect with this augment installed:</text>
@@ -16,6 +16,9 @@
 <text name="menu_status_seed">Seed</text>
 <text name="unlocks_disabled">Unlocks Disabled</text>
 
+<mod:findName type="text" name="power_not_ready">
+  <mod:setValue>Not Ready: Power charging (see charge left of portrait)</mod:setValue>
+</mod:findName>
 <text name="power_not_ready_player_ship">Not Ready: Not on player ship</text>
 <text name="power_not_ready_enemy_ship">Not Ready: Not on enemy ship</text>
 <text name="power_not_ready_enemy_in_room">Not Ready: No enemies in room</text>

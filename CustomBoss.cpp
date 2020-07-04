@@ -122,6 +122,34 @@ HOOK_METHOD(ShipManager, AddCrewMemberFromString, (const std::string& name, cons
     }
 }
 
+HOOK_METHOD(BossShip, SaveBoss, (int fh) -> void)
+{
+    FileHelper::writeInt(fh, CustomBoss::instance.currentCrewCounts.size());
+    for (auto i : CustomBoss::instance.currentCrewCounts)
+    {
+        FileHelper::writeString(fh, i.first);
+        FileHelper::writeInt(fh, i.second);
+    }
+
+    super(fh);
+}
+
+HOOK_METHOD(BossShip, LoadBoss, (int fh) -> void)
+{
+    int crewCountsSize = FileHelper::readInteger(fh);
+
+    for (int i = 0; i < crewCountsSize; i++)
+    {
+        auto crewDef = std::pair<std::string, int>();
+        crewDef.first = std::string();
+        FileHelper::readString(crewDef.first, fh);
+        crewDef.second = FileHelper::readInteger(fh);
+    }
+
+    super(fh);
+}
+
+
 HOOK_METHOD(ShipManager, PrepareSuperDrones, () -> void)
 {
     if (superDrones.size() == 0)
@@ -159,3 +187,68 @@ HOOK_METHOD(ShipManager, PrepareSuperDrones, () -> void)
     }
 }
 
+HOOK_METHOD(BossShip, GetEvent, () -> LocationEvent*)
+{
+    LocationEvent *ret = super();
+
+    ret->statusEffects.clear();
+
+    return ret;
+}
+
+static bool blockSystemBoxRender = false;
+
+
+HOOK_METHOD(SystemBox, OnRender, (bool ignoreStatus) -> void)
+{
+    if (blockSystemBoxRender)
+    {
+        return;
+    }
+
+    super(ignoreStatus);
+}
+
+
+HOOK_METHOD(CombatControl, RenderTarget, () -> void)
+{
+    if (currentTarget->IsBoss())
+    {
+        blockSystemBoxRender = true;
+    }
+
+    super();
+
+    blockSystemBoxRender = false;
+
+    if (currentTarget->IsBoss())
+    {
+        CSurface::GL_PushMatrix();
+        CSurface::GL_Translate(position.x, position.y);
+        CSurface::GL_PushMatrix();
+        //CSurface::GL_Translate(targetPosition.x, targetPosition.y);
+
+        if (shipManager->DoSensorsProvide(3))
+        {
+            for (auto i : sysBoxes)
+            {
+                i->bShowPower = true;
+            }
+        }
+        else
+        {
+            for (auto i : sysBoxes)
+            {
+                i->bShowPower = false;
+            }
+        }
+
+        for (auto i : sysBoxes)
+        {
+            i->OnRender(true);
+        }
+
+        CSurface::GL_PopMatrix();
+        CSurface::GL_PopMatrix();
+    }
+}

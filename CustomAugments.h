@@ -6,7 +6,8 @@
 struct AugmentDefinition
 {
     std::string name;
-    std::map<std::string, std::pair<float, bool>> functions;
+    std::map<std::string, std::pair<float, bool>> functions = std::map<std::string, std::pair<float, bool>>();
+    bool locked = false;
 };
 
 
@@ -32,6 +33,8 @@ public:
         return augDefs.find(name) != augDefs.end();
     }
 
+    static std::map<std::string, int> CheckHiddenAugments(const std::map<std::string, int>& augList);
+    static std::vector<std::string> RemoveHiddenAugments(const std::vector<std::string>& augList);
 
     static CustomAugmentManager* GetInstance()
     {

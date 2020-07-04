@@ -30,3 +30,7 @@ int ShipSystem::GetEffectivePower(ShipSystem *this<ecx>);
 int ShipSystem::GetMaxPower(ShipSystem *this<ecx>);
 "80b918010000000f84????????5589e5578bb904010000568bb100010000538b595489f829f083e4f089da29c28b811c010000":
 void ShipSystem::SetBonusPower(ShipSystem *this<ecx>, int amount, int permanentPower);
+"55c701????????89e583e4f0e8????????c9c390909090909090909090909090b8????????":
+static void ShipSystem::__DO_NOT_HOOK(ShipSystem *this<ecx>);
+".578d7c240883e4f0ff77fc5589e55783ec14f30f1007f30f110424e8????????8b7dfc83ec04":
+bool ShipSystem::PartialDamage(ShipSystem *this<ecx>, float amount);

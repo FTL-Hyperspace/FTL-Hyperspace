@@ -1,5 +1,29 @@
 #include "Global.h"
 
+template <typename T>
+struct StatusValue
+{
+    T value;
+    bool enabled = false;
+
+    StatusValue()
+    {
+        enabled = false;
+    }
+
+    StatusValue(const T val)
+    {
+        value = val;
+        enabled = true;
+    }
+
+    void operator=(const T val)
+    {
+        value = val;
+        enabled = true;
+    }
+};
+
 struct Skill
 {
     int requirement;
@@ -10,8 +34,6 @@ struct SkillsDefinition
 {
     SkillsDefinition()
     {
-
-
         skills["piloting"] = Skill();
 
         skills["piloting"].requirement = 15;
@@ -70,12 +92,24 @@ struct TemporaryPowerDefinition
     float duration;
 
     std::string effectAnim;
+    std::string animSheet;
     std::vector<std::string> sounds;
 
-    float speedBoost = -1.f;
-    float combatBoost = -1.f;
-    float repairBoost = -1.f;
-    int bonusPower;
+    StatusValue<float> moveSpeedMultiplier;
+    StatusValue<float> damageMultiplier;
+    StatusValue<float> repairSpeed;
+    StatusValue<bool> canFight;
+    StatusValue<bool> canSabotage;
+    StatusValue<bool> canSuffocate;
+    StatusValue<float> oxygenChangeSpeed;
+    StatusValue<bool> canPhaseThroughDoors;
+    StatusValue<float> fireDamageMultiplier;
+    StatusValue<bool> isTelepathic;
+    StatusValue<bool> detectsLifeforms;
+    StatusValue<float> damageTakenMultiplier;
+    StatusValue<float> sabotageSpeedMultiplier;
+    StatusValue<float> allDamageTakenMultiplier;
+    int bonusPower = 0;
     bool invulnerable;
 
     GL_Color cooldownColor;
@@ -88,15 +122,27 @@ struct ActivatedPowerRequirements
     bool enemyInRoom;
     bool friendlyInRoom;
     bool systemInRoom;
+    bool hasClonebay;
+    bool aiDisabled;
+    bool outOfCombat;
+    bool inCombat;
 };
 
 struct ActivatedPowerDefinition
 {
+    enum JUMP_COOLDOWN
+    {
+        JUMP_COOLDOWN_FULL,
+        JUMP_COOLDOWN_RESET,
+        JUMP_COOLDOWN_CONTINUE
+    };
+
     Damage damage;
     float cooldown = 50.f;
     float shipFriendlyFire = false;
     bool hasSpecialPower = false;
     bool hasTemporaryPower = false;
+    int jumpCooldown = JUMP_COOLDOWN_FULL;
 
 
     std::vector<std::string> sounds;
@@ -124,8 +170,10 @@ struct CrewDefinition
     std::string race;
     std::vector<std::string> deathSounds;
     std::vector<std::string> shootingSounds;
+    std::vector<std::string> repairSounds;
 
     bool canFight = true;
+    bool canSabotage = true;
     bool canSuffocate = true;
     bool canBurn = true;
     int maxHealth = 100;
@@ -148,6 +196,8 @@ struct CrewDefinition
     bool hasCustomDeathAnimation = false;
     bool hasDeathExplosion = false;
     std::string animBase = "human";
+    float sabotageSpeedMultiplier = 1.f;
+    float allDamageTakenMultiplier = 1.f;
 
     Damage explosionDef;
     bool explosionShipFriendlyFire = false;

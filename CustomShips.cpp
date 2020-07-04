@@ -699,33 +699,6 @@ bool CustomShipSelect::CycleShipPrevious(ShipBuilder *builder)
     return false;
 }
 
-std::map<std::string, int> ShipManager_Extend::GetAugmentList()
-{
-    printf("%d\n", orig->iShipId);
-
-    auto augList = G_->GetShipInfo(orig->iShipId)->augList;
-
-    if (!hasCustomDef) return augList;
-
-
-    auto newAugList = augList;
-
-    for (auto i : hiddenAugs)
-    {
-        if (newAugList.find(i.first) == newAugList.end())
-        {
-            newAugList[i.first] = i.second;
-        }
-        else
-        {
-            newAugList[i.first] += i.second;
-        }
-    }
-
-
-    return newAugList;
-}
-
 //==========================
 
 
@@ -742,7 +715,10 @@ HOOK_METHOD_PRIORITY(ShipManager, OnInit, 100, (ShipBlueprint *bp, int shipLevel
 
     if (ex->hasCustomDef)
     {
-        ex->hiddenAugs = customSel->GetDefinition(bp->blueprintName).hiddenAugs;
+        for (auto i : customSel->GetDefinition(bp->blueprintName).hiddenAugs)
+        {
+            G_->GetShipInfo()->augList["HIDDEN " + i.first] = i.second;
+        }
     }
 
 

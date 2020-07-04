@@ -43,10 +43,21 @@ HOOK_METHOD(StarMap, OnRender, () -> void)
                     CSurface::GL_SetColor(GL_Color(243.f / 255.f, 255.f / 255.f, 230.f / 255.f, 1.f));
                 }
 
-
                 freetype::easy_printCenter(0, 173, 83, buf);
             }
         }
+    }
+}
+
+HOOK_METHOD(ShipManager, JumpLeave, () -> void)
+{
+    int oldFuelCount = fuel_count;
+
+    super();
+
+    if (HasAugmentation("FTL_JUMPER_GOOD") && fuelReq > 1)
+    {
+        fuel_count = oldFuelCount - fuelReq;
     }
 }
 

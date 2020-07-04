@@ -17,7 +17,7 @@ virtual bool EquipmentBox::CanHoldDrone(EquipmentBox *this<ecx>);
 ".8b51608b44240485d274??3c01":
 virtual int EquipmentBox::GetType(EquipmentBox *this<ecx>);
 ".578d7c240883e4f0ff77fc5589e557565389cb83ec5c8b37e8????????660fefc0c74424080000000089f7":
-virtual void EquipmentBox::OnRender(EquipmentBox *this<ecx>);
+virtual void EquipmentBox::OnRender(EquipmentBox *this<ecx>, bool isEmpty);
 ".578d7c240883e4f0ff77fc5589e55756538db560ffffff89cb81ec????????8b07":
 virtual void EquipmentBox::UpdateBoxImage(EquipmentBox *this<ecx>, bool unk);
 ".578d7c240883e4f0ff77fc5589e557565389cb81ec????????8b4160":
@@ -31,3 +31,5 @@ virtual void EquipmentBox::AddItem(EquipmentBox *this<ecx>, EquipmentBoxItem ite
 virtual void EquipmentBox::Restart(EquipmentBox *this<ecx>);
 "5589e58b55088b450c5d89514889414c895150894154":
 virtual void EquipmentBox::SetPosition(EquipmentBox *this<ecx>, Point pos);
+"8b416085c074??8b401c8b4070c366908b416485c075??8b416c85c074??8b500885d2":
+int EquipmentBox::GetItemValue(EquipmentBox *this<ecx>);

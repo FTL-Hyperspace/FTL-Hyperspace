@@ -5,12 +5,16 @@ enum PowerReadyState
 {
     POWER_NOT_READY_COOLDOWN,
     POWER_READY,
+    POWER_NOT_READY_ACTIVATED,
     POWER_NOT_READY_ENEMY_SHIP,
     POWER_NOT_READY_PLAYER_SHIP,
     POWER_NOT_READY_ENEMY_IN_ROOM,
     POWER_NOT_READY_FRIENDLY_IN_ROOM,
     POWER_NOT_READY_SYSTEM_IN_ROOM,
-    POWER_NOT_READY_ACTIVATED
+    POWER_NOT_READY_HAS_CLONEBAY,
+    POWER_NOT_READY_AI_DISABLED,
+    POWER_NOT_READY_OUT_OF_COMBAT,
+    POWER_NOT_READY_IN_COMBAT,
 };
 
 struct CrewAnimation_Extend
@@ -19,6 +23,9 @@ public:
     CrewAnimation *orig;
     Animation* effectAnim = NULL;
     Animation* tempEffectAnim = NULL;
+    GL_Texture* tempEffectStrip = NULL;
+
+    bool temporaryPowerActive;
 
     void OnInit(const std::string& name, Pointf position, bool enemy);
 };

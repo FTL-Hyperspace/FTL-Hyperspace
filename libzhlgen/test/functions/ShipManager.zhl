@@ -46,7 +46,12 @@ static CrewBlueprint* ShipManager::SelectRandomCrew(CrewBlueprint& bp<ecx>, Ship
 void ShipManager::ClearStatusAll(ShipManager *this<ecx>);
 "578d7c240883e4f0ff77fc5589e557565389ce83ec7c8b816c0800003b81700800000f84????????8b0d????????ba????????83f90274??83f901":
 void ShipManager::PrepareSuperDrones(ShipManager *this<ecx>);
-
+"578d7c240883e4f0ff77fc5589e557565389ce83ec3c83a994040000018b51188b8194040000c681d80400000185c0":
+void ShipManager::JumpLeave(ShipManager *this<ecx>);
+"578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b378b470485f6":
+void ShipManager::ModifyScrapCount(ShipManager *this<ecx>, int scrap, bool income);
+"578d7c240883e4f0ff77fc5589e557565383ec1c8b81c80400008b3f8b701c83feff74??":
+bool ShipManager::DoSensorsProvide(ShipManager *this<ecx>, int vision);
 
 struct ShipManager {{
 	ShipManager(int shipId) 

@@ -11,7 +11,7 @@
 <!-- Hull bar indicator
 Displays the amount of hull points left for the player or enemy
 
-type is a number which corresponds to a type of font -- 
+type is a number which corresponds to a type of font -
 feel free to experiment with the position and type
 
 align can be left, center or right
@@ -36,7 +36,8 @@ Changes the background and logo and moves the FTL logo slightly -->
 
 <forceDlc enabled="false"/>
 
-<!-- Enables command console in game -- press L to use
+<!-- Enables command console in game - press L to use
+
 
 EVENT          Run an event.                           Usage: EVENT <event_id>        Example: EVENT FREE_AUG
 LOAD           Loads a ship blueprint.                 Usage: LOAD <ship_id> <str>    Example: LOAD MANTIS_BOMBER 5 (with 5 sector strength)
@@ -59,6 +60,7 @@ EXIT           Makes your location an exit beacon      Usage: EXIT
 STORE          Creates a store at your location        Usage: STORE [sector]          Example: STORE 3
 KILL           Kills a person on your ship             Usage: KILL <crew_name>        Example: KILL John
 DELETECREW     Kills everyone on the enemy ship        Usage: DELETECREW
+SPEED          Changes game speed                      Usage: SPEED <speed>           Example: SPEED 3 (any integer from -2 to 3)
 -->
 
 <console enabled="true"/> 
@@ -87,7 +89,9 @@ Syntax ->
 
 For buttonText and tooltip you can either use "id" or use the value of buttonText - "id" pulls it from text_misc.xml.
 
-jumpCooldown can either be "continue", "reset", or "full", and it is "full" by default.
+jumpCooldown can either be "continue", "reset", or "full", and it is "full" by default (for crystals).
+
+animSheet pulls from img/people/<animSheet>.png and acts as a layer on top of the crew
 
 Syntax -> 
 
@@ -96,6 +100,7 @@ Syntax ->
 	<race name="newRace">
 		<canFight>true</canFight>
 		<canSuffocate>true</canSuffocate>
+		<canSabotage>true</canSabotage>
 		<canBurn>true</canBurn>
 		<maxHealth>100</maxHealth>
 		<moveSpeedMultiplier>1</moveSpeedMultiplier>
@@ -103,6 +108,7 @@ Syntax ->
 		<damageMultiplier>1</damageMultiplier>
 		<bonusPower>0</bonusPower>
 		<fireRepairMultiplier>1.2</fireRepairMultiplier>
+		<sabotageSpeedMultiplier>1</sabotageSpeedMultiplier>
 		<suffocationModifier>1</suffocationModifier>
 		<isTelepathic>false</isTelepathic>
 		<isAnaerobic>false</isAnaerobic>
@@ -115,6 +121,9 @@ Syntax ->
 		<shootingSounds>
 			<shootingSound>crewLaser</shootingSound>
 		</shootingSounds>
+		<repairSounds>
+			<repairSound>repair</repairSound>
+		</repairSounds>
 		<oxygenChangeSpeed>-0.525</oxygenChangeSpeed> (lanius speed)
 		<damageTakenMultiplier>1</damageTakenMultiplier>
 		<passiveHealAmount>1</passiveHealAmount>
@@ -195,6 +204,7 @@ Syntax ->
 				<damageMultiplier>1.2</damageMultiplier>
 				<bonusPower>0</bonusPower>
 				<canFight>true</canFight>
+				<canSabotage>true</canSabotage>
 				<canSuffocate>true</canSuffocate>
 				<oxygenChangeSpeed>0</oxygenChangeSpeed>
 				<detectsLifeforms>false</detectsLifeforms>
@@ -202,8 +212,10 @@ Syntax ->
 				<fireDamageMultiplier>1</fireDamageMultiplier>
 				<damageTakenMultiplier>1</damageTakenMultiplier>
 				<allDamageTakenMultiplier>1</allDamageTakenMultiplier>
+				<sabotageSpeedMultiplier>1</sabotageSpeedMultiplier>
 				<effectAnim>mindcontrol</effectAnim>
 				<invulnerable>false</invulnerable>
+				<animSheet>human_effect</animSheet>
 			</temporaryEffect>
 		</powerEffect>
 	</race>
@@ -221,12 +233,16 @@ Syntax ->
 
 <!-- Custom Augments
 
+<locked> means you cannot remove it (sell or replace with another augment) once it's equipped.
+
 Syntax ->
 <augments>
     <aug name="CUSTOM_AUG">
     	<function name="ADV_SCANNERS"/>
 		<function name="CREW_STIMS" value="0.2"/>
 		<function name="O2_MASKS" value="0.2" preferHigher="false"/>
+		
+		<locked/>
     </aug>
 </augments>
 -->

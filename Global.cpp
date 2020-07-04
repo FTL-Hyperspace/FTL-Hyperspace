@@ -42,7 +42,7 @@ ShipManager* Global::GetShipManager(int iShipId)
 {
     ShipManager *playerShip = NULL;
 
-    if (G_->GetWorld()->bStartedGame)
+    if (G_->GetWorld()->playerShip)
     {
         playerShip = G_->GetWorld()->playerShip->shipManager;
     }
