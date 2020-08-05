@@ -178,7 +178,7 @@ void CrewMember::CheckForTeleport(CrewMember *this<ecx>);
 ".578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b496485c974??e8????????f30f1005????????":
 char CrewMember::GetNewGoal(CrewMember *this<ecx>);
 ".578d7c240883e4f0ff77fc5589e55756":
-bool CrewMember::MoveToRoom(CrewMember *this<ecx>, int roomId, int slotId, bool unk);
+bool CrewMember::MoveToRoom(CrewMember *this<ecx>, int roomId, int slotId, bool forceMove);
 ".578d7c240883e4f0ff77fc5589e55753":
 void CrewMember::SetMindControl(CrewMember *this<ecx>, bool controlled);
 ".578d7c240883e4f0ff77fc5589e557":
@@ -213,11 +213,19 @@ bool CrewMember::ShipDamage(CrewMember *this<ecx>, float damage);
 bool CrewMember::GetControllable(CrewMember *this<ecx>);
 ".8d510889c8c7410872657061c7410406000000c6410e008911ba????????6689510c":
 static std::string& CrewMember::GetUniqueRepairing(std::string& strRef<ecx>, CrewMember *crew);
+"8b4424048981a40100008b4424088981a80100008b44240c8981ac010000":
+void CrewMember::SetTask(CrewMember *this<ecx>, CrewTask task);
 
 struct CrewMember depends (CrewAnimation, CrewBlueprint, ShipObject)
 {{
+	CrewMember()
+	{
+
+	}
+
 	CrewMember(CrewBlueprint& bp, int shipId, bool enemy, CrewAnimation *animation)
 	{
+
 		this->constructor(bp, shipId, enemy, animation);
 	}
 	

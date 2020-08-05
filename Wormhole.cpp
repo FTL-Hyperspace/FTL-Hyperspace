@@ -45,8 +45,6 @@ HOOK_METHOD(StarMap, OnRender, () -> void)
 
     //endButton.bActive = false;
 
-    //printf("%d %d\n", wormhole, wormholeTexture);
-
     if (currentSector->level > 0 && wormhole && wormholeTexture && !bChoosingNewSector)
     {
         CSurface::GL_PushMatrix();

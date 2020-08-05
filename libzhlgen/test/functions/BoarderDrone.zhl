@@ -1,0 +1,13 @@
+struct BoarderDrone
+{{
+	BoarderDrone() 
+	{
+	}
+
+	BoarderDrone(const std::string& _type, const std::string& _name, int _shipId, const DroneBlueprint* _blueprint, CrewAnimation *_anim)
+	{
+		printf("BoarderDrone::BoarderDrone (%08X)\n", &constructor);
+	
+		this->constructor(_type, _name, _shipId, _blueprint, _anim);
+	}
+}};

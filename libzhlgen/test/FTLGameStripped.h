@@ -47,6 +47,7 @@ struct ShipSystem;
 struct TeleportSystem;
 struct ChoiceText;
 struct Targetable;
+struct BoarderDrone;
 struct LocationEvent__Choice;
 struct DroneBlueprint;
 struct AugmentBlueprint;
@@ -763,7 +764,7 @@ struct ResourcesTemplate
   std__string weapon;
   std__string drone;
   std__string augment;
-  std__string _sil__DO_NOT_USE_system;
+  std__string system;
   bool steal;
   int upgradeAmount;
   int upgradeId;
@@ -860,7 +861,7 @@ struct EventTemplate
 /* 645 */
 struct EventDamage
 {
-  int _sil__DO_NOT_USE_system;
+  int system;
   int amount;
   int effect;
 };
@@ -1620,6 +1621,7 @@ struct CrewControl
   int activeTouch;
   char selectingCrew;
   char selectingCrewOnPlayerShip;
+  int _unk;
   double selectingCrewStartTime;
   bool doorControlMode;
   bool doorControlOpen;
@@ -1633,6 +1635,7 @@ struct CrewControl
   GL_Primitive *saveStationsBase;
   GL_Primitive *returnStationsBase;
   int stationsLastY;
+  int _unk2;
 };
 
 /* 549 */
@@ -3212,7 +3215,7 @@ struct CrewTask
 {
   int taskId;
   int room;
-  int _sil__DO_NOT_USE_system;
+  int system;
 };
 
 /* 522 */
@@ -4179,7 +4182,7 @@ struct VTable_CrewMember
   bool (__thiscall *HasSpecialPower)(CrewMember *this);
   void (__thiscall *ResetPower)(CrewMember *this);
   float (__thiscall *GetSuffocationMultiplier)(CrewMember *this);
-  bool (__thiscall *BlockRoom)(CrewMember *this);
+  int (__thiscall *BlockRoom)(CrewMember *this);
   Damage *(__stdcall *GetRoomDamage)(Damage *dmg, CrewMember *crew);
   bool (__thiscall *IsAnaerobic)(CrewMember *this);
   void (__thiscall *UpdateRepair)(CrewMember *this);
@@ -4361,7 +4364,7 @@ struct VTable_CrewAnimation
   void (__thiscall *OnUpdateEffects)(CrewAnimation *this);
   void (__thiscall *UpdateFiring)(CrewAnimation *this);
   void (__thiscall *UpdateShooting)(CrewAnimation *this);
-  void (__thiscall *FireShot)(CrewAnimation *this);
+  bool (__thiscall *FireShot)(CrewAnimation *this);
   int (__thiscall *GetFiringFrame)(CrewAnimation *this);
   std__string *(__stdcall *GetShootingSound)(std__string *str, CrewAnimation *anim);
   std__string *(__stdcall *GetDeathSound)(std__string *str, CrewAnimation *anim);
@@ -4390,7 +4393,36 @@ struct CombatDrone
 };
 
 /* 162 */
-struct BoarderPodDrone;
+struct BoarderPodDrone
+{
+  SpaceDrone _base;
+  GL_Texture *baseSheet;
+  GL_Texture *colorSheet;
+  Pointf startingPosition;
+  Animation droneImage;
+  CachedImage flame;
+  BoarderDrone *boarderDrone;
+  bool bDeliveredDrone;
+  bool diedInSpace;
+};
+
+/* 167 */
+struct CrewDrone
+{
+  CrewMember _base;
+  Drone _drone;
+  int droneRoom;
+  Animation powerUp;
+  Animation powerDown;
+  GL_Texture *lightLayer;
+  GL_Texture *baseLayer;
+};
+
+/* 318 */
+struct BoarderDrone
+{
+  CrewDrone _base;
+};
 
 /* 163 */
 struct SuperShieldDrone;
@@ -4414,18 +4446,10 @@ struct DefenseDrone
 struct AchievementTracker;
 
 /* 166 */
-struct IonDrone;
-
-/* 167 */
-struct CrewDrone
+struct IonDrone
 {
-  CrewMember _base;
-  Drone _drone;
-  int droneRoom;
-  Animation powerUp;
-  Animation powerDown;
-  GL_Texture *lightLayer;
-  GL_Texture *baseLayer;
+  BoarderDrone _base;
+  int lastRoom;
 };
 
 /* 653 */
@@ -4874,8 +4898,89 @@ struct EventsParser
   std__unordered_map_23std__string___ShipEvent shipTemplates;
 };
 
+/* 731 */
+struct std__map_27std__string___ShipBlueprint
+{
+  char unk[24];
+};
+
+/* 732 */
+struct std__map_29std__string___WeaponBlueprint
+{
+  char unk[24];
+};
+
+/* 733 */
+struct std__map_28std__string___DroneBlueprint
+{
+  char unk[24];
+};
+
+/* 734 */
+struct std__map_30std__string___AugmentBlueprint
+{
+  char unk[24];
+};
+
+/* 740 */
+struct std__map_27std__string___CrewBlueprint
+{
+  char unk[24];
+};
+
+/* 735 */
+struct std__map_18std__string___bool
+{
+  char unk[24];
+};
+
+/* 662 */
+struct std__map_25std__string___std__string
+{
+  char unk[24];
+};
+
+/* 742 */
+struct std__map_37std__string___std_map_std_string_bool
+{
+  char unk[24];
+};
+
+/* 737 */
+struct std__map_27std__string___ItemBlueprint
+{
+  char unk[24];
+};
+
+/* 738 */
+struct std__map_29std__string___SystemBlueprint
+{
+  char unk[24];
+};
+
+/* 739 */
+struct std__map_39std__string___std__vector_11std__string
+{
+  char unk[24];
+};
+
 /* 278 */
-struct BlueprintManager;
+struct BlueprintManager
+{
+  int rarityTotal;
+  std__map_27std__string___ShipBlueprint shipBlueprints;
+  std__map_29std__string___WeaponBlueprint weaponBlueprints;
+  std__map_28std__string___DroneBlueprint droneBlueprints;
+  std__map_30std__string___AugmentBlueprint augmentBlueprints;
+  std__map_27std__string___CrewBlueprint crewBlueprints;
+  std__map_18std__string___bool nameList;
+  std__map_25std__string___std__string shortNames;
+  std__map_37std__string___std_map_std_string_bool languageNameLists;
+  std__map_27std__string___ItemBlueprint itemBlueprints;
+  std__map_29std__string___SystemBlueprint systemBlueprints;
+  std__map_39std__string___std__vector_11std__string blueprintLists;
+  std__vector_11std__string currentNames;
+};
 
 /* 297 */
 struct PowerManager;
@@ -4916,12 +5021,6 @@ struct RepairDrone
 /* 317 */
 struct TeleportBox;
 
-/* 318 */
-struct BoarderDrone
-{
-  CrewDrone _base;
-};
-
 /* 319 */
 struct CrystalAlien
 {
@@ -4957,7 +5056,16 @@ struct MantisAnimation
 struct RepairAnimation;
 
 /* 331 */
-struct IonDroneAnimation;
+struct IonDroneAnimation
+{
+  CrewAnimation _base;
+  Animation ionExplosion;
+  Animation ionAnimation;
+  Animation doorAnimations[4];
+  Animation ionGlow;
+  float ionEffect;
+  bool damagedDoor;
+};
 
 /* 334 */
 struct Ghost;
@@ -4988,12 +5096,6 @@ struct RepairStoreBox;
 
 /* 389 */
 struct SettingValues;
-
-/* 662 */
-struct std__map_25std__string___std__string
-{
-  char unk[24];
-};
 
 /* 663 */
 struct std__map_43std__string___std_map_std_string_std_string
@@ -5176,7 +5278,81 @@ struct AnimationSheet
   GL_Texture *imageId;
 };
 
-/* 712 */
+/* 716 */
+enum InputEventType
+{
+};
+
+/* 717 */
+enum InputEventDetail
+{
+};
+
+/* 718 */
+struct TouchInputEvent
+{
+  unsigned int id;
+  float x;
+  float y;
+  float initial_x;
+  float initial_y;
+};
+
+/* 719 */
+struct TextInputEvent
+{
+  int32_t ch;
+};
+
+/* 720 */
+struct MouseInputEvent
+{
+  float x;
+  float y;
+  float scroll;
+};
+
+/* 721 */
+struct MemoryInputEvent
+{
+  int64_t used_bytes;
+  int64_t free_bytes;
+};
+
+/* 722 */
+struct KeyboardInputEvent
+{
+  int key;
+  int system_key;
+  unsigned int modifiers;
+  char is_repeat;
+};
+
+/* 723 */
+struct JoystickInputEvent
+{
+  int device;
+  int index;
+  float x;
+  float y;
+};
+
+/* 725 */
+struct InputEventUnion
+{
+  char eventData[20];
+};
+
+/* 726 */
+struct InputEvent
+{
+  InputEventType type;
+  InputEventDetail detail;
+  double timestamp;
+  InputEventUnion event;
+};
+
+/* 727 */
 union __attribute__((aligned(8))) __m64
 {
   unsigned __int64 m64_u64;
@@ -5190,7 +5366,7 @@ union __attribute__((aligned(8))) __m64
   unsigned __int32 m64_u32[2];
 };
 
-/* 713 */
+/* 728 */
 union __attribute__((aligned(16))) __m128
 {
   float m128_f32[4];
@@ -5204,13 +5380,13 @@ union __attribute__((aligned(16))) __m128
   unsigned __int32 m128_u32[4];
 };
 
-/* 714 */
+/* 729 */
 struct __m128d
 {
   double m128d_f64[2];
 };
 
-/* 715 */
+/* 730 */
 union __attribute__((aligned(16))) __m128i
 {
   __int8 m128i_i8[16];
@@ -5221,5 +5397,24 @@ union __attribute__((aligned(16))) __m128i
   unsigned __int16 m128i_u16[8];
   unsigned __int32 m128i_u32[4];
   unsigned __int64 m128i_u64[2];
+};
+
+/* 736 */
+struct std__map_43std__string___std__map_18std__string___bool
+{
+  char unk[24];
+};
+
+/* 743 */
+struct std::bad_alloc;
+
+/* 744 */
+struct __cxxabiv1::__si_class_type_info;
+
+/* 745 */
+struct LONG_DOUBLE_12
+{
+  _TBYTE value;
+  char padding[2];
 };
 

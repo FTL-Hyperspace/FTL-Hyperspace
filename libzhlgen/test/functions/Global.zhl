@@ -34,6 +34,8 @@ struct GlobalPre
 	typedef std::pair<CAchievement*, Point> std_pair_CAchievement_ptr_Point;
 	typedef std::map<std::string, std::string> std_map_std_string_std_string;
 	typedef std::map<std::string, int> std_map_std_string_int;
+	typedef std::map<std::string, bool> std_map_std_string_bool;
+	
 }};
 
 
@@ -290,9 +292,44 @@ struct GlobalConst depends(RandomAmount, CAchievement, Point)
 	  SDLK_LAST = 0x143,
 	};
 
+	enum ShaderType
+	{
+	  SHADER_TYPE_VERTEX = 0x0,
+	  SHADER_TYPE_FRAGMENT = 0x1,
+	};
 
+	enum GraphicsPrimitiveType
+	{
+	  GRAPHICS_PRIMITIVE_POINTS = 0x1,
+	  GRAPHICS_PRIMITIVE_LINES = 0x2,
+	  GRAPHICS_PRIMITIVE_LINE_STRIP = 0x3,
+	  GRAPHICS_PRIMITIVE_TRIANGLES = 0x4,
+	  GRAPHICS_PRIMITIVE_TRIANGLE_STRIP = 0x5,
+	  GRAPHICS_PRIMITIVE_QUADS = 0x6,
+	  GRAPHICS_PRIMITIVE_QUAD_STRIP = 0x7,
+	};
+	
+	enum GraphicsTextureColorType
+	{
+	  GRAPHICS_TEXCOLOR_NONE = 0x0,
+	  GRAPHICS_TEXCOLOR_RGBA = 0x1,
+	  GRAPHICS_TEXCOLOR_A = 0x2,
+	  GRAPHICS_TEXCOLOR_L = 0x3,
+	};
+	
+	enum GraphicsComparisonType
+	{
+	  GRAPHICS_COMPARISON_FALSE = 0x0,
+	  GRAPHICS_COMPARISON_TRUE = 0x1,
+	  GRAPHICS_COMPARISON_EQUAL = 0x2,
+	  GRAPHICS_COMPARISON_NOT_EQUAL = 0x3,
+	  GRAPHICS_COMPARISON_LESS = 0x4,
+	  GRAPHICS_COMPARISON_LESS_EQUAL = 0x5,
+	  GRAPHICS_COMPARISON_GREATER_EQUAL = 0x6,
+	  GRAPHICS_COMPARISON_GREATER = 0x7,
+	};
 
-
+	typedef char *ShaderSourceCallback(GraphicsPrimitiveType, int, int, GraphicsTextureColorType, int, int, int, int, int, GraphicsComparisonType);
 }};
 
 
@@ -449,3 +486,4 @@ cleanup void srandom32(unsigned int seed);
 
 "83ec048b4424088b54240c83f80577??ff2485????????89f68dbc270000000085d2660fefc074??83fa010f84????????":
 float getSkillBonus(int skill, int level);
+

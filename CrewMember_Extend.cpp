@@ -30,10 +30,18 @@ CrewMember_Extend* Get_CrewMember_Extend(CrewMember* c)
     return (CrewMember_Extend*)dEx;
 }
 
-HOOK_METHOD_PRIORITY(CrewAnimation, constructor, 900, (int shipId, const std::string& race, Pointf unk, bool hostile) -> void)
+HOOK_METHOD(CrewDrone, constructor, (const std::string& _type, const std::string& _name, int _iShipId, const DroneBlueprint* _blueprint, CrewAnimation *_anim) -> void)
 {
-	super(shipId, race, unk, hostile);
+    super(_type, _name, _iShipId, _blueprint, _anim);
 
+    if (_blueprint->name == "BOARDER_ION")
+    {
+        CM_EX(this)->isIonDrone = true;
+    }
+}
+
+HOOK_METHOD_PRIORITY(CrewAnimation, OnInit, 900, (const std::string& _race, Pointf position, bool enemy) -> void)
+{
 	auto ex = new CrewAnimation_Extend();
     DWORD dEx = (DWORD)ex;
 
@@ -43,8 +51,23 @@ HOOK_METHOD_PRIORITY(CrewAnimation, constructor, 900, (int shipId, const std::st
 	gap_ex_2[1] = dEx & 0xFF;
 	ex->orig = this;
 
-	ex->OnInit(race, unk, hostile);
+	super(_race, position, enemy);
+    ex->OnInit(_race, position, enemy);
 }
+
+HOOK_METHOD_PRIORITY(CrewDrone, constructor, 900, (const std::string& droneType, const std::string& name, int shipId, const DroneBlueprint* blueprint, CrewAnimation *anim) -> void)
+{
+    super(droneType, name, shipId, blueprint, anim);
+
+	auto ex = new CrewAnimation_Extend();
+    DWORD dEx = (DWORD)ex;
+	crewAnim->gap_ex_1[0] = (dEx >> 24) & 0xFF;
+	crewAnim->gap_ex_1[1] = (dEx >> 16) & 0xFF;
+	crewAnim->gap_ex_2[0] = (dEx >> 8) & 0xFF;
+	crewAnim->gap_ex_2[1] = dEx & 0xFF;
+	ex->orig = crewAnim;
+}
+
 
 CrewAnimation_Extend* Get_CrewAnimation_Extend(CrewAnimation* c)
 {

@@ -255,7 +255,7 @@ HOOK_METHOD(StarMap, GenerateSectorMap, () -> void)
     //printf("Generating sector map seed: %d\n", generateSectorMapSeed);
 
     this->sectorMapSeed = Global::currentSeed;
-    srand(this->sectorMapSeed);
+    srandom32(this->sectorMapSeed);
 
 	super();
 }

@@ -21,15 +21,15 @@ static std::vector<std::string>* CrewMemberFactory::GetCrewNames(std::vector<std
 ".578d7c240883e4f0ff77fc5589e55756":
 RepairDrone* CrewMemberFactory::CreateRepairDrone(CrewMemberFactory *this<ecx>, int shipId, const DroneBlueprint* bp);
 ".578d7c240883e4f0ff77fc5589f889e55756":
-void CrewMemberFactory::GetCrewPortraitList(CrewMemberFactory *this<ecx>, std::vector<CrewMember*>& vec, int unk);
+void CrewMemberFactory::GetCrewPortraitList(CrewMemberFactory *this<ecx>, std::vector<CrewMember*>* vec, int unk);
 ".578d7c240883e4f0ff77fc5589e557565383ec4c":
 void CrewMemberFactory::GetCloneReadyList(CrewMemberFactory *this<ecx>, std::vector<CrewMember*>& vec, bool unk);
 ".578d7c240883e4f0ff77fc5589f889e5":
 BattleDrone* CrewMemberFactory::CreateBattleDrone(CrewMemberFactory *this<ecx>, int shipId, const DroneBlueprint* bp);
 ".578d7c240883e4f0ff77fc5589e557":
-void CrewMemberFactory::GetCrewList(CrewMemberFactory *this<ecx>, std::vector<CrewMember*>& vec, int unk, bool unk2);
+void CrewMemberFactory::GetCrewList(CrewMemberFactory *this<ecx>, std::vector<CrewMember*>* vec, int unk, bool unk2);
 ".578d7c240883e4f0ff77fc5589e5":
-void CrewMemberFactory::CreateBoarderDrone(CrewMemberFactory *this<ecx>, int shipId, const DroneBlueprint* bp);
+BoarderDrone* CrewMemberFactory::CreateBoarderDrone(CrewMemberFactory *this<ecx>, int shipId, const DroneBlueprint* bp);
 ".578d7c240883e4f0ff77fc5589e5":
 void CrewMemberFactory::OnLoop(CrewMemberFactory *this<ecx>);
 ".5589e557565331db":

@@ -39,6 +39,8 @@ typedef std::pair<std::string, std::string> std_pair_std_string_std_string;
 typedef std::pair<CAchievement*, Point> std_pair_CAchievement_ptr_Point;
 typedef std::map<std::string, std::string> std_map_std_string_std_string;
 typedef std::map<std::string, int> std_map_std_string_int;
+typedef std::map<std::string, bool> std_map_std_string_bool;
+
 
 
 struct RandomAmount
@@ -56,6 +58,8 @@ struct Point
 	friend bool operator==(const Point &a, const Point &b) {return a.x==b.x && a.y==b.y;}
 	friend bool operator!=(const Point &a, const Point &b) {return a.x!=b.x || a.y!=b.y;}
 
+	LIBZHL_API int RelativeDistance(Point other);
+	
 	int x;
 	int y;
 };
@@ -115,6 +119,11 @@ struct TextLibrary
 
 struct TextString
 {
+	TextString()
+	{
+		isLiteral = true;
+	}
+
 	std::string GetText()
 	{
 		std::string ret = std::string();
@@ -403,9 +412,44 @@ enum SDLKey
   SDLK_LAST = 0x143,
 };
 
+enum ShaderType
+{
+  SHADER_TYPE_VERTEX = 0x0,
+  SHADER_TYPE_FRAGMENT = 0x1,
+};
 
+enum GraphicsPrimitiveType
+{
+  GRAPHICS_PRIMITIVE_POINTS = 0x1,
+  GRAPHICS_PRIMITIVE_LINES = 0x2,
+  GRAPHICS_PRIMITIVE_LINE_STRIP = 0x3,
+  GRAPHICS_PRIMITIVE_TRIANGLES = 0x4,
+  GRAPHICS_PRIMITIVE_TRIANGLE_STRIP = 0x5,
+  GRAPHICS_PRIMITIVE_QUADS = 0x6,
+  GRAPHICS_PRIMITIVE_QUAD_STRIP = 0x7,
+};
 
+enum GraphicsTextureColorType
+{
+  GRAPHICS_TEXCOLOR_NONE = 0x0,
+  GRAPHICS_TEXCOLOR_RGBA = 0x1,
+  GRAPHICS_TEXCOLOR_A = 0x2,
+  GRAPHICS_TEXCOLOR_L = 0x3,
+};
 
+enum GraphicsComparisonType
+{
+  GRAPHICS_COMPARISON_FALSE = 0x0,
+  GRAPHICS_COMPARISON_TRUE = 0x1,
+  GRAPHICS_COMPARISON_EQUAL = 0x2,
+  GRAPHICS_COMPARISON_NOT_EQUAL = 0x3,
+  GRAPHICS_COMPARISON_LESS = 0x4,
+  GRAPHICS_COMPARISON_LESS_EQUAL = 0x5,
+  GRAPHICS_COMPARISON_GREATER_EQUAL = 0x6,
+  GRAPHICS_COMPARISON_GREATER = 0x7,
+};
+
+typedef char *ShaderSourceCallback(GraphicsPrimitiveType, int, int, GraphicsTextureColorType, int, int, int, int, int, GraphicsComparisonType);
 
 
 struct BoardingGoal
@@ -523,9 +567,30 @@ struct Pointf
 {
 	Pointf() : x(0.f), y(0.f) {}
 	Pointf(float _x, float _y) : x(_x), y(_y) {}
+	
+	Pointf operator+(const Pointf& other)
+	{
+		return Pointf(x + other.x, y + other.y);
+	}
+	
+	Pointf operator-(const Pointf& other)
+	{		
+		return Pointf(x - other.x, y - other.y);
+	}
+	
+	Pointf operator/(float amount)
+	{		
+		return Pointf(x / amount, y / amount);
+	}
+	
+	Pointf operator*(float amount)
+	{		
+		return Pointf(x * amount, y * amount);
+	}
+
 
 	LIBZHL_API void constructor(float x, float y);
-	LIBZHL_API int RelativeDistance(Pointf other);
+	LIBZHL_API float RelativeDistance(Pointf other);
 	
 	float x;
 	float y;
@@ -710,6 +775,7 @@ struct SystemCustomBox : SystemBox
 
 struct CombatControl;
 
+struct CrewControl;
 struct CrewBox;
 
 struct Repairable;
@@ -719,6 +785,14 @@ struct Door;
 
 struct CrewControl
 {
+	LIBZHL_API void OnRender();
+	LIBZHL_API void OnLoop();
+	LIBZHL_API void UpdateCrewBoxes();
+	LIBZHL_API void LinkShip(ShipManager *ship);
+	LIBZHL_API void MouseMove(int mX, int mY, int wX, int wY);
+	LIBZHL_API void LButton(int mX, int mY, int wX, int wY, bool shiftHeld);
+	LIBZHL_API static void __stdcall ClearDeadCrew(std::vector<CrewMember*> crew);
+	
 	ShipManager *shipManager;
 	std::vector<CrewMember*> selectedCrew;
 	std::vector<CrewMember*> potentialSelectedCrew;
@@ -738,6 +812,7 @@ struct CrewControl
 	int activeTouch;
 	char selectingCrew;
 	char selectingCrewOnPlayerShip;
+	int _unk;
 	double selectingCrewStartTime;
 	bool doorControlMode;
 	bool doorControlOpen;
@@ -751,6 +826,7 @@ struct CrewControl
 	GL_Primitive *saveStationsBase;
 	GL_Primitive *returnStationsBase;
 	int stationsLastY;
+	int _unk2;
 };
 
 struct SpaceDrone;
@@ -776,6 +852,7 @@ struct ShipObject
 	LIBZHL_API void RemoveAugmentation(const std::string &augment);
 	LIBZHL_API int HasEquipment(const std::string &equip);
 	LIBZHL_API static std::map<std::string, int> &__stdcall GetAugmentationList(std::vector<std::string> &vec, ShipObject *shipObj);
+	LIBZHL_API void AddAugmentation(const std::string &augment);
 	
 	void *vptr;
 	int iShipId;
@@ -800,6 +877,7 @@ struct AnimationDescriptor
 
 struct Animation
 {
+
 	LIBZHL_API void OnRender(float opacity, GL_Color color, bool mirror);
 	LIBZHL_API void Update();
 	LIBZHL_API void SetCurrentFrame(int frame);
@@ -828,86 +906,6 @@ struct Animation
 	int mask_y_size;
 	GL_Primitive *primitive;
 	GL_Primitive *mirroredPrimitive;
-};
-
-struct Selectable
-{
-	void *vptr;
-	int selectedState;
-};
-
-struct Room : Selectable
-{
-	Point GetIntoRoom(Point pos)
-	{
-		int posX = pos.x;
-		int posY = pos.y;
-		
-		int rectY = this->rect.y;
-		int rectH = this->rect.h;
-		
-		int rectX = this->rect.x;
-		int rectW = this->rect.w;
-		
-		//printf("%d %d %d %d %d %d\n", posX, posY, rectX, rectW, rectY, rectH);
-		
-		if (rectY + rectH - posY > 15 && posY - rectY > 15)
-		{
-			if (rectW + rectX - posX > 15 && posX - rectX > 15)
-			{
-				return Point(-1, -1);
-			}
-		}
-		
-		
-		
-		
-		Point center = Point(rectX + rectW / 2, rectY + rectH / 2);
-		
-		Point toGrid = Point((posX + 2 * (center.x > posX) - 1) / 35, (posY + 2 * (center.y > posY) - 1) / 35);
-		Point fromGrid = Point(toGrid.x * 35, toGrid.y * 35);
-		
-		return Point(fromGrid.x + 17, fromGrid.y + 17);
-	}
-
-	Globals::Rect GetRect() 
-	{
-		return this->rect;
-	}
-
-	ShipObject _shipObject;
-	Globals::Rect rect;
-	int iRoomId;
-	bool bBlackedOut;
-	std::vector<int> filledSlots;
-	std::vector<std::vector<bool>> slots;
-	bool bWarningLight;
-	AnimationTracker lightTracker;
-	int iFireCount;
-	std::vector<Animation> fires;
-	int primarySlot;
-	int primaryDirection;
-	float lastO2;
-	GL_Primitive *floorPrimitive;
-	GL_Primitive *blackoutPrimitive;
-	GL_Primitive *highlightPrimitive;
-	GL_Primitive *highlightPrimitive2;
-	GL_Primitive *o2LowPrimitive;
-	GL_Primitive *computerPrimitive;
-	GL_Primitive *computerGlowPrimitive;
-	GL_Primitive *computerGlowYellowPrimitive;
-	GL_Primitive *lightPrimitive;
-	GL_Primitive *lightGlowPrimitive;
-	Animation stunSparks;
-	Animation consoleSparks;
-	bool bStunning;
-	float fHacked;
-	int currentSparkRotation;
-	std::vector<Animation> sparks;
-	float sparkTimer;
-	int sparkCount;
-	int iHackLevel;
-	Animation roomTapped;
 };
 
 struct ArmamentBox;
@@ -940,13 +938,8 @@ struct ArmamentControl
 	int activeTouch;
 };
 
-struct CrewBlueprint;
-struct InfoBox;
-
-struct SystemBlueprint;
 struct AugmentBlueprint;
-struct WindowFrame;
-struct ItemBlueprint;
+struct InfoBox;
 
 struct Description
 {
@@ -962,6 +955,14 @@ struct Description
 	std::string tip;
 };
 
+struct WindowFrame;
+struct WeaponBlueprint;
+struct DroneBlueprint;
+struct CrewBlueprint;
+struct ItemBlueprint;
+
+struct SystemBlueprint;
+
 struct InfoBox
 {
 
@@ -976,6 +977,8 @@ struct InfoBox
 	LIBZHL_API void OnRender();
 	LIBZHL_API int Clear();
 	LIBZHL_API int SetDescription(Description *desc, int width, int height, InfoBox::ExpandDir dir);
+	LIBZHL_API void SetBlueprintWeapon(const WeaponBlueprint *bp, int status, bool hasWeaponSystem, int yShift);
+	LIBZHL_API void SetBlueprintDrone(const DroneBlueprint *bp, int status, bool hasDroneSystem, int yShift);
 	LIBZHL_API void SetBlueprint(const ItemBlueprint *bp);
 	LIBZHL_API void SetBlueprintCrew(const CrewBlueprint *bp, int yShift, bool detailedCrew);
 	LIBZHL_API void SetBlueprintAugment(const AugmentBlueprint *bp);
@@ -1037,8 +1040,6 @@ struct TextButton : GenericButton
 	bool autoShrink;
 };
 
-struct DroneBlueprint;
-
 struct Blueprint;
 
 struct LIBZHL_INTERFACE Blueprint
@@ -1066,8 +1067,6 @@ struct CrewBlueprint : Blueprint
 	std::vector<std::vector<GL_Color>> colorLayers;
 	std::vector<int> colorChoices;
 };
-
-struct WeaponBlueprint;
 
 struct ResourceEvent
 {
@@ -1296,11 +1295,19 @@ struct CrewTask
 {
 	int taskId;
 	int room;
-	int _sil__DO_NOT_USE_system;
+	int system;
 };
+
+struct CrewAI;
 
 struct CrewAI
 {
+	LIBZHL_API void UpdateDrones();
+	LIBZHL_API void AssignCrewmembers();
+	LIBZHL_API int PrioritizeTask(CrewTask task, int crewId);
+	LIBZHL_API void UpdateIntruders();
+	LIBZHL_API int PrioritizeIntruderRoom(CrewMember *crew, int roomId, int target);
+	
 	ShipManager *ship;
 	bool bAIon;
 	bool bAirlockRequested;
@@ -1370,9 +1377,17 @@ struct SectorDescription
 	std::string firstEvent;
 };
 
+struct MouseInputEvent
+{
+	float x;
+	float y;
+	float scroll;
+};
+
 struct BattleDrone;
 struct RepairDrone;
 struct CrewMemberFactory;
+struct BoarderDrone;
 
 struct CrewMemberFactory
 {
@@ -1387,11 +1402,11 @@ struct CrewMemberFactory
 	LIBZHL_API std::pair<std::string, bool> &GetRandomFriendlyName(const std::string &unk);
 	LIBZHL_API static std::vector<std::string> *__stdcall GetCrewNames(std::vector<std::string> &vec, CrewMemberFactory *factory);
 	LIBZHL_API RepairDrone *CreateRepairDrone(int shipId, const DroneBlueprint *bp);
-	LIBZHL_API void GetCrewPortraitList(std::vector<CrewMember*> &vec, int unk);
+	LIBZHL_API void GetCrewPortraitList(std::vector<CrewMember*> *vec, int unk);
 	LIBZHL_API void GetCloneReadyList(std::vector<CrewMember*> &vec, bool unk);
 	LIBZHL_API BattleDrone *CreateBattleDrone(int shipId, const DroneBlueprint *bp);
-	LIBZHL_API void GetCrewList(std::vector<CrewMember*> &vec, int unk, bool unk2);
-	LIBZHL_API void CreateBoarderDrone(int shipId, const DroneBlueprint *bp);
+	LIBZHL_API void GetCrewList(std::vector<CrewMember*> *vec, int unk, bool unk2);
+	LIBZHL_API BoarderDrone *CreateBoarderDrone(int shipId, const DroneBlueprint *bp);
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void RemoveExcessCrew();
 	LIBZHL_API CrewMember *CreateCrewMember(CrewBlueprint *bp, int shipId, bool intruder);
@@ -1509,6 +1524,7 @@ struct LIBZHL_INTERFACE ShipSystem
 	LIBZHL_API int GetEffectivePower();
 	LIBZHL_API int GetMaxPower();
 	LIBZHL_API static void __DO_NOT_HOOK();
+	LIBZHL_API static bool __stdcall IsSubsystem(int systemType);
 	
 	int selectedState;
 	ShipObject _shipObj;
@@ -1575,7 +1591,7 @@ struct LIBZHL_INTERFACE ShipSystem
 struct WeaponSystem : ShipSystem
 {
 	LIBZHL_API void RemoveWeapon(int slot);
-	LIBZHL_API void SetBonusPower(int amount, int permanentPower);
+	LIBZHL_API virtual void SetBonusPower(int amount, int permanentPower);
 	
 	Pointf target;
 	std::vector<ProjectileFactory*> weapons;
@@ -1622,8 +1638,136 @@ struct BoardingEvent
 	bool breach;
 };
 
+struct AugmentBlueprint : Blueprint
+{
+	float value;
+	bool stacking;
+};
+
 struct BlueprintManager;
-struct ShipBlueprint;
+
+struct SystemBlueprint
+{
+};
+
+struct DroneBlueprint : Blueprint
+{
+	LIBZHL_API void RenderIcon(float scale);
+	
+	std::string typeName;
+	int level;
+	int targetType;
+	int power;
+	float cooldown;
+	int speed;
+	int dodge;
+	std::string weaponBlueprint;
+	std::string droneImage;
+	std::string combatIcon;
+};
+
+struct ItemBlueprint : Blueprint
+{
+};
+
+struct ShipBlueprint : Blueprint
+{
+	struct SystemTemplate
+	{
+		int systemId;
+		int powerLevel;
+		std::vector<int> location;
+		int bp;
+		int maxPower;
+		std::string image;
+		int slot;
+		int direction;
+		std::vector<std::string> weapon;
+	};
+	
+	Description desc;
+	std::string blueprintName;
+	TextString name;
+	TextString shipClass;
+	std::string layoutFile;
+	std::string imgFile;
+	std::string cloakFile;
+	std::string shieldFile;
+	std::string floorFile;
+	std::map<int, SystemTemplate> systemInfo;
+	std::vector<int> systems;
+	int droneCount;
+	int originalDroneCount;
+	int droneSlots;
+	std::string loadDrones;
+	std::vector<std::string> drones;
+	std::vector<std::string> augments;
+	int weaponCount;
+	int originalWeaponCount;
+	int weaponSlots;
+	std::string loadWeapons;
+	std::vector<std::string> weapons;
+	int missiles;
+	int drone_count;
+	int health;
+	int originalCrewCount;
+	std::vector<std::string> defaultCrew;
+	std::vector<CrewBlueprint> customCrew;
+	int maxPower;
+	int boardingAI;
+	int bp_count;
+	int maxCrew;
+	int maxSector;
+	int minSector;
+	TextString unlock;
+};
+
+struct EffectsBlueprint
+{
+	std::vector<std::string> launchSounds;
+	std::vector<std::string> hitShipSounds;
+	std::vector<std::string> hitShieldSounds;
+	std::vector<std::string> missSounds;
+	std::string image;
+};
+
+struct WeaponBlueprint : Blueprint
+{
+	struct BoostPower
+	{
+		int type;
+		float amount;
+		int count;
+	};
+	
+	struct MiniProjectile
+	{
+		std::string image;
+		bool fake;
+	};
+	
+	std::string typeName;
+	Damage damage;
+	int shots;
+	int missiles;
+	float cooldown;
+	int power;
+	int length;
+	float speed;
+	int miniCount;
+	EffectsBlueprint effects;
+	std::string weaponArt;
+	std::string combatIcon;
+	std::string explosion;
+	int radius;
+	std::vector<MiniProjectile> miniProjectiles;
+	BoostPower boostPower;
+	int drone_targetable;
+	int spin;
+	int chargeLevels;
+	TextString flavorType;
+	GL_Color color;
+};
 
 struct BlueprintManager
 {
@@ -1634,12 +1778,31 @@ struct BlueprintManager
 	LIBZHL_API AugmentBlueprint *GetAugmentBlueprint(const std::string &name);
 	LIBZHL_API ItemBlueprint *GetItemBlueprint(const std::string &name);
 	
+	int rarityTotal;
+	std::map<std::string, ShipBlueprint> shipBlueprints;
+	std::map<std::string, WeaponBlueprint> weaponBlueprints;
+	std::map<std::string, DroneBlueprint> droneBlueprints;
+	std::map<std::string, AugmentBlueprint> augmentBlueprints;
+	std::map<std::string, CrewBlueprint> crewBlueprints;
+	std::map<std::string, bool> nameList;
+	std::map<std::string, std::string> shortNames;
+	std::map<std::string, std_map_std_string_bool> languageNameLists;
+	std::map<std::string, ItemBlueprint> itemBlueprints;
+	std::map<std::string, SystemBlueprint> systemBlueprints;
+	std::map<std::string, std::vector<std::string>> blueprintLists;
+	std::vector<std::string> currentNames;
 };
 
 struct MainMenu;
 
+struct CreditScreen;
+
 struct CreditScreen
 {
+	LIBZHL_API void OnRender();
+	LIBZHL_API void constructor();
+	LIBZHL_API void Start(const std::string &shipName, const std::vector<std::string> &crewNames);
+	
 	float scroll;
 	std::string shipName;
 	std::string crewString;
@@ -1658,7 +1821,12 @@ struct ConfirmWindow;
 
 struct ConfirmWindow : FocusWindow
 {
+	LIBZHL_API void SetText(const TextString &text_, int minWidth, bool autoCenter, const TextString &yesText_, const TextString &noText_);
 	LIBZHL_API void OnRender();
+	LIBZHL_API void SetPosition(Point pos);
+	LIBZHL_API void Open();
+	LIBZHL_API void MouseClick(int mX, int mY);
+	LIBZHL_API void MouseMove(int mX, int mY);
 	
 	TextString text;
 	int textHeight;
@@ -1737,12 +1905,16 @@ struct OptionsScreen : ChoiceBox
 	ChoiceBox restartRequiredDialog;
 };
 
+struct ShipBlueprint;
 struct EquipmentBox;
 struct CrewCustomizeBox;
 
 struct SystemCustomBox;
 
 struct ShipBuilder;
+
+struct InputEvent;
+struct CEvent;
 
 struct CEvent
 {
@@ -1759,6 +1931,8 @@ struct CEvent
 	  TEXT_END = 0x8,
 	};
 
+	LIBZHL_API void OnEvent(const InputEvent *event);
+	
 	void *vptr;
 };
 
@@ -1772,6 +1946,10 @@ struct TextInput
 	  ALLOW_LANGUAGE = 0x1,
 	  ALLOW_ANY = 0x2,
 	};
+	
+	TextInput()
+	{
+	}
 
 	TextInput(int maxChars, TextInput::AllowedCharType allowedCharType, const std::string& prompt)
 	{
@@ -1943,6 +2121,28 @@ struct ResourceManager
 {
 };
 
+struct CrewAnimation;
+
+struct Drone
+{
+	void *vptr;
+	int iShipId;
+	int selfId;
+	bool powered;
+	int powerRequired;
+	bool deployed;
+	int type;
+	const DroneBlueprint *blueprint;
+	bool bDead;
+	int iBonusPower;
+	bool poweredAtLocation;
+	float destroyedTimer;
+	int iHackLevel;
+	float hackTime;
+};
+
+struct CrewDrone;
+
 struct Path
 {
 	Point start;
@@ -1954,8 +2154,6 @@ struct Path
 struct Ship;
 
 struct CrewTarget;
-
-struct CrewAnimation;
 
 struct CrewLaser
 {
@@ -1988,6 +2186,10 @@ struct ParticleEmitter
 
 struct LIBZHL_INTERFACE CrewAnimation
 {
+	CrewAnimation()
+	{
+	}
+
 	CrewAnimation(int shipId, const std::string& race, Pointf unk, char hostile)
 	{
 		this->constructor(shipId, race, unk, hostile);
@@ -1999,7 +2201,7 @@ struct LIBZHL_INTERFACE CrewAnimation
 	virtual void OnUpdateEffects() LIBZHL_PLACEHOLDER
 	virtual void UpdateFiring() LIBZHL_PLACEHOLDER
 	virtual void UpdateShooting() LIBZHL_PLACEHOLDER
-	virtual void FireShot() LIBZHL_PLACEHOLDER
+	virtual bool FireShot() LIBZHL_PLACEHOLDER
 	virtual int GetFiringFrame() LIBZHL_PLACEHOLDER
 	virtual std::string *GetShootingSound(CrewAnimation *anim) LIBZHL_PLACEHOLDER
 	virtual std::string *GetDeathSound(CrewAnimation *anim) LIBZHL_PLACEHOLDER
@@ -2010,6 +2212,7 @@ struct LIBZHL_INTERFACE CrewAnimation
 	LIBZHL_API static std::string &__stdcall GetShootingSound(std::string &strRef, CrewAnimation *anim);
 	LIBZHL_API void OnInit(const std::string &name, Pointf position, bool enemy);
 	LIBZHL_API void SetupStrips();
+	LIBZHL_API void OnUpdate(Pointf position, bool moving, bool fighting, bool repairing, bool dying, bool onFire);
 	
 	int iShipId;
 	std::vector<std::vector<Animation>> anims;
@@ -2070,8 +2273,14 @@ struct Slot
 
 struct LIBZHL_INTERFACE CrewMember
 {
+	CrewMember()
+	{
+
+	}
+
 	CrewMember(CrewBlueprint& bp, int shipId, bool enemy, CrewAnimation *animation)
 	{
+
 		this->constructor(bp, shipId, enemy, animation);
 	}
 	
@@ -2133,7 +2342,7 @@ struct LIBZHL_INTERFACE CrewMember
 	virtual bool HasSpecialPower() LIBZHL_PLACEHOLDER
 	virtual void ResetPower() LIBZHL_PLACEHOLDER
 	virtual float GetSuffocationMultiplier() LIBZHL_PLACEHOLDER
-	virtual bool BlockRoom() LIBZHL_PLACEHOLDER
+	virtual int BlockRoom() LIBZHL_PLACEHOLDER
 	virtual Damage *GetRoomDamage(CrewMember *crew) LIBZHL_PLACEHOLDER
 	virtual bool IsAnaerobic() LIBZHL_PLACEHOLDER
 	LIBZHL_API virtual void UpdateRepair();
@@ -2215,7 +2424,7 @@ struct LIBZHL_INTERFACE CrewMember
 	LIBZHL_API void SetCurrentTarget(CrewTarget *target, bool unk);
 	LIBZHL_API void CheckForTeleport();
 	LIBZHL_API char GetNewGoal();
-	LIBZHL_API bool MoveToRoom(int roomId, int slotId, bool unk);
+	LIBZHL_API bool MoveToRoom(int roomId, int slotId, bool forceMove);
 	LIBZHL_API void SetMindControl(bool controlled);
 	LIBZHL_API bool RestorePosition();
 	LIBZHL_API bool ContainsPoint(int x, int y);
@@ -2227,6 +2436,7 @@ struct LIBZHL_INTERFACE CrewMember
 	LIBZHL_API void SetSex(bool male);
 	LIBZHL_API void CycleColorLayer(int unk);
 	LIBZHL_API static std::string &__stdcall GetUniqueRepairing(std::string &strRef, CrewMember *crew);
+	LIBZHL_API void SetTask(CrewTask task);
 	
 	int iShipId;
 	float x;
@@ -2309,26 +2519,28 @@ struct LIBZHL_INTERFACE CrewMember
 	bool bCloned;
 };
 
-struct Drone
-{
-	void *vptr;
-	int iShipId;
-	int selfId;
-	bool powered;
-	int powerRequired;
-	bool deployed;
-	int type;
-	const DroneBlueprint *blueprint;
-	bool bDead;
-	int iBonusPower;
-	bool poweredAtLocation;
-	float destroyedTimer;
-	int iHackLevel;
-	float hackTime;
-};
-
 struct CrewDrone : CrewMember
 {
+	virtual ~CrewDrone()
+	{
+		this->destructor();
+	}
+
+	CrewDrone()
+	{
+	}
+
+	CrewDrone(const std::string& type, const std::string& name, int shipId, const DroneBlueprint* blueprint, CrewAnimation *anim)
+	{
+		this->constructor(type, name, shipId, blueprint, anim);
+	}
+
+	LIBZHL_API void constructor(const std::string &type, const std::string &name, int shipId, const DroneBlueprint *blueprint, CrewAnimation *anim);
+	LIBZHL_API virtual void OnLoop();
+	LIBZHL_API virtual bool ProvidesVision();
+	LIBZHL_API void SetCurrentShip(int shipId);
+	LIBZHL_API void destructor();
+	
 	Drone _drone;
 	int droneRoom;
 	Animation powerUp;
@@ -2341,12 +2553,22 @@ struct RepairDrone : CrewDrone
 {
 };
 
-struct Targetable
+struct WindowFrame
 {
-	void *vptr;
-	int type;
-	bool hostile;
-	bool targeted;
+	WindowFrame(int _x, int _y, int _w, int _h) 
+	{
+		this->constructor(_x, _y, _w, _h);
+	}
+
+
+	LIBZHL_API void Draw(int x, int y);
+	LIBZHL_API void DrawMask(int unk);
+	LIBZHL_API void constructor(int x, int y, int w, int h);
+	
+	Globals::Rect rect;
+	GL_Primitive *outline;
+	GL_Primitive *mask;
+	GL_Primitive *pattern;
 };
 
 struct StoreBox;
@@ -2382,11 +2604,102 @@ struct Store : FocusWindow
 	int forceSystemInfoWidth;
 };
 
+struct Selectable
+{
+	void *vptr;
+	int selectedState;
+};
+
+struct Room;
+
+struct Room : Selectable
+{
+	Point GetIntoRoom(Point pos)
+	{
+		int posX = pos.x;
+		int posY = pos.y;
+		
+		int rectY = this->rect.y;
+		int rectH = this->rect.h;
+		
+		int rectX = this->rect.x;
+		int rectW = this->rect.w;
+		
+		//printf("%d %d %d %d %d %d\n", posX, posY, rectX, rectW, rectY, rectH);
+		
+		if (rectY + rectH - posY > 15 && posY - rectY > 15)
+		{
+			if (rectW + rectX - posX > 15 && posX - rectX > 15)
+			{
+				return Point(-1, -1);
+			}
+		}
+		
+		
+		
+		
+		Point center = Point(rectX + rectW / 2, rectY + rectH / 2);
+		
+		Point toGrid = Point((posX + 2 * (center.x > posX) - 1) / 35, (posY + 2 * (center.y > posY) - 1) / 35);
+		Point fromGrid = Point(toGrid.x * 35, toGrid.y * 35);
+		
+		return Point(fromGrid.x + 17, fromGrid.y + 17);
+	}
+
+	Globals::Rect GetRect() 
+	{
+		return this->rect;
+	}
+
+	LIBZHL_API int GetEmptySlots(bool intruder);
+	
+	ShipObject _shipObject;
+	Globals::Rect rect;
+	int iRoomId;
+	bool bBlackedOut;
+	std::vector<int> filledSlots;
+	std::vector<std::vector<bool>> slots;
+	bool bWarningLight;
+	AnimationTracker lightTracker;
+	int iFireCount;
+	std::vector<Animation> fires;
+	int primarySlot;
+	int primaryDirection;
+	float lastO2;
+	GL_Primitive *floorPrimitive;
+	GL_Primitive *blackoutPrimitive;
+	GL_Primitive *highlightPrimitive;
+	GL_Primitive *highlightPrimitive2;
+	GL_Primitive *o2LowPrimitive;
+	GL_Primitive *computerPrimitive;
+	GL_Primitive *computerGlowPrimitive;
+	GL_Primitive *computerGlowYellowPrimitive;
+	GL_Primitive *lightPrimitive;
+	GL_Primitive *lightGlowPrimitive;
+	Animation stunSparks;
+	Animation consoleSparks;
+	bool bStunning;
+	float fHacked;
+	int currentSparkRotation;
+	std::vector<Animation> sparks;
+	float sparkTimer;
+	int sparkCount;
+	int iHackLevel;
+	Animation roomTapped;
+};
+
+struct Slot;
 struct ShipGraph;
 
 struct ShipGraph
 {
-
+	Slot* GetClosestSlot(Point pos, int shipId, bool intruder)
+	{
+		Slot* slot = nullptr;
+		ShipGraph::GetClosestSlot(slot, this, pos, shipId, intruder);
+		return slot;
+	}
+	
 	static Point TranslateFromGrid(int xx, int yy)
 	{
 		return Point(xx * 35, yy * 35);
@@ -2427,14 +2740,21 @@ struct ShipGraph
 				
 				xx = rect.x + rect.w / 2;
 				yy = rect.y + rect.h / 2;
+				break;
 			}
 		}
 		
 		return Pointf(xx, yy);
 	}
+	
+	Point GetSlotWorldPosition(int roomId, int slotId)
+	{
+		Globals::Rect rect = rooms[roomId]->rect;
+		return Point(rect.x + 35 * (slotId % (rect.w / 35)) + 17, rect.y + 35 * (slotId / (rect.h / 35)) + 17);
+	}
+	
 
 	LIBZHL_API static ShipGraph *__stdcall GetShipInfo(int shipId);
-	LIBZHL_API Point GetSlotWorldPosition(int x, int y);
 	LIBZHL_API Point GetSlotRenderPosition(int x, int y, char unk);
 	LIBZHL_API int DoorCount(int unk);
 	LIBZHL_API std::vector<Door*> &GetDoors(int unk);
@@ -2458,6 +2778,7 @@ struct ShipGraph
 	LIBZHL_API Globals::Rect *GetRoomShape(int room);
 	LIBZHL_API float GetRoomOxygen(int room);
 	LIBZHL_API bool GetRoomBlackedOut(int room);
+	LIBZHL_API static Slot *__stdcall GetClosestSlot(Slot *slot, ShipGraph *graph, Point pos, int shipId, bool intruder);
 	
 	std::vector<Room*> rooms;
 	std::vector<Door*> doors;
@@ -2472,58 +2793,6 @@ struct ShipGraph
 };
 
 struct ShipEvent;
-
-struct ShipBlueprint : Blueprint
-{
-	struct SystemTemplate
-	{
-		int systemId;
-		int powerLevel;
-		std::vector<int> location;
-		int bp;
-		int maxPower;
-		std::string image;
-		int slot;
-		int direction;
-		std::vector<std::string> weapon;
-	};
-	
-	Description desc;
-	std::string blueprintName;
-	TextString name;
-	TextString shipClass;
-	std::string layoutFile;
-	std::string imgFile;
-	std::string cloakFile;
-	std::string shieldFile;
-	std::string floorFile;
-	std::map<int, SystemTemplate> systemInfo;
-	std::vector<int> systems;
-	int droneCount;
-	int originalDroneCount;
-	int droneSlots;
-	std::string loadDrones;
-	std::vector<std::string> drones;
-	std::vector<std::string> augments;
-	int weaponCount;
-	int originalWeaponCount;
-	int weaponSlots;
-	std::string loadWeapons;
-	std::vector<std::string> weapons;
-	int missiles;
-	int drone_count;
-	int health;
-	int originalCrewCount;
-	std::vector<std::string> defaultCrew;
-	std::vector<CrewBlueprint> customCrew;
-	int maxPower;
-	int boardingAI;
-	int bp_count;
-	int maxCrew;
-	int maxSector;
-	int minSector;
-	TextString unlock;
-};
 
 struct CrewDesc
 {
@@ -2659,6 +2928,11 @@ struct EquipmentBoxItem
 
 struct LIBZHL_INTERFACE EquipmentBox
 {
+	bool IsEmpty()
+	{
+		return !item.pWeapon && !item.pDrone && (!item.augment || item.augment->name.empty()) && !item.pCrew;
+	}
+
 	LIBZHL_API virtual ~EquipmentBox();
 	LIBZHL_API virtual void SetPosition(Point pos);
 	LIBZHL_API virtual void OnRender(bool isEmpty);
@@ -2680,9 +2954,8 @@ struct LIBZHL_INTERFACE EquipmentBox
 	virtual char CanHoldCrew() LIBZHL_PLACEHOLDER
 	virtual char CanDoJob() LIBZHL_PLACEHOLDER
 	LIBZHL_API void constructor(Point pos, int slot);
-	LIBZHL_API char IsEmpty();
 	LIBZHL_API Blueprint *GetBlueprint();
-	LIBZHL_API void SetBlueprint(InfoBox *infoBox, bool unk);
+	LIBZHL_API void SetBlueprint(InfoBox *infoBox, bool detailedBox);
 	LIBZHL_API virtual int GetType();
 	LIBZHL_API int GetItemValue();
 	
@@ -2732,8 +3005,6 @@ struct LockdownShard
 {
 };
 
-struct Room;
-
 struct OuterHull;
 
 struct Ship : ShipObject
@@ -2763,6 +3034,10 @@ struct Ship : ShipObject
 	
 	LIBZHL_API int GetSelectedRoomId(int x, int y, bool unk);
 	LIBZHL_API void LockdownRoom(int roomId, Pointf pos);
+	LIBZHL_API bool RoomLocked(int roomId);
+	LIBZHL_API bool FullRoom(int roomId, bool intruder);
+	LIBZHL_API int EmptySlots(int roomId);
+	LIBZHL_API int GetAvailableRoomSlot(int roomId, bool intruder);
 	
 	std::vector<Room*> vRoomList;
 	std::vector<Door*> vDoorList;
@@ -2862,6 +3137,15 @@ struct AsteroidGenerator
 	int initShields;
 };
 
+struct TouchInputEvent
+{
+	unsigned int id;
+	float x;
+	float y;
+	float initial_x;
+	float initial_y;
+};
+
 struct TabbedWindow : FocusWindow
 {
 	std::vector<Button*> buttons;
@@ -2951,6 +3235,18 @@ struct AchievementTracker
 };
 
 struct EngineSystem;
+struct DamageMessage;
+
+struct Shields;
+
+struct Targetable
+{
+	void *vptr;
+	int type;
+	bool hostile;
+	bool targeted;
+};
+
 struct HackingSystem;
 struct BatterySystem;
 struct ParticleEmitter;
@@ -2963,18 +3259,14 @@ struct Collideable
 struct MedbaySystem;
 struct OxygenSystem;
 
-struct DamageMessage;
-
-struct TeleportSystem;
-
-struct MindSystem;
-
 struct ArtillerySystem
 {
 };
 
+struct MindSystem;
+
 struct CloneSystem;
-struct Shields;
+struct TeleportSystem;
 
 struct ShipManager : ShipObject
 {
@@ -2990,6 +3282,19 @@ struct ShipManager : ShipObject
 		auto rooms = graph->rooms.size();
 		return this->ship.GetRoomCenter(rng % rooms);
 	}
+	
+	Pointf GetRoomCenter(int roomId)
+	{
+		return ship.GetRoomCenter(roomId);
+	}
+	
+	std::vector<ProjectileFactory*> GetWeaponList()
+	{
+		std::vector<ProjectileFactory*> vec = std::vector<ProjectileFactory*>();
+		ShipManager::GetWeaponList(vec, this);
+		return vec;
+	}
+	
 
 
 	LIBZHL_API int constructor(int shipId);
@@ -3019,6 +3324,17 @@ struct ShipManager : ShipObject
 	LIBZHL_API void JumpLeave();
 	LIBZHL_API void ModifyScrapCount(int scrap, bool income);
 	LIBZHL_API bool DoSensorsProvide(int vision);
+	LIBZHL_API bool IsCrewFull();
+	LIBZHL_API bool IsCrewOverFull();
+	LIBZHL_API CrewDrone *CreateCrewDrone(const DroneBlueprint *bp);
+	LIBZHL_API SpaceDrone *CreateSpaceDrone(const DroneBlueprint *bp);
+	LIBZHL_API bool CommandCrewMoveRoom(CrewMember *crew, int roomId);
+	LIBZHL_API int GetSystemRoom(int sysId);
+	LIBZHL_API static std::vector<ProjectileFactory*> &__stdcall GetWeaponList(std::vector<ProjectileFactory*> &wepList, ShipManager *ship);
+	LIBZHL_API Drone *AddDrone(const DroneBlueprint *bp, int slot);
+	LIBZHL_API void Restart();
+	LIBZHL_API int GetSystemPower(int systemId);
+	LIBZHL_API int CountCrewShipId(int roomId, int shipId);
 	
 	Targetable _targetable;
 	Collideable _collideable;
@@ -3093,8 +3409,65 @@ struct ShipRepair
 {
 };
 
-struct BoarderPodDrone
+struct SpaceDrone : Drone
 {
+	LIBZHL_API float UpdateAimingAngle(Pointf location, float percentage, float forceDesired);
+	LIBZHL_API void SetDeployed(bool deployed);
+	LIBZHL_API void SetMovementTarget(Targetable *target);
+	
+	Targetable _targetable;
+	Collideable _collideable;
+	int currentSpace;
+	int destinationSpace;
+	Pointf currentLocation;
+	Pointf lastLocation;
+	Pointf destinationLocation;
+	Pointf pointTarget;
+	Animation explosion;
+	Targetable *weaponTarget;
+	Pointf targetLocation;
+	Pointf targetSpeed;
+	Targetable *movementTarget;
+	Pointf speedVector;
+	bool poweredLastFrame;
+	bool deployedLastFrame;
+	bool bFire;
+	float pause;
+	float additionalPause;
+	float weaponCooldown;
+	float current_angle;
+	float aimingAngle;
+	float lastAimingAngle;
+	float desiredAimingAngle;
+	DamageMessage *message;
+	Animation weapon_animation;
+	const WeaponBlueprint *weaponBlueprint;
+	int lifespan;
+	bool bLoadedPosition;
+	bool bDisrupted;
+	float hackAngle;
+	float ionStun;
+	Pointf beamCurrentTarget;
+	Pointf beamFinalTarget;
+	float beamSpeed;
+	Animation hackSparks;
+};
+
+struct BoarderPodDrone;
+
+struct BoarderPodDrone : SpaceDrone
+{
+	LIBZHL_API void constructor(int _iShipId, int _selfId, const DroneBlueprint &_bp);
+	LIBZHL_API void SetMovementTarget(Targetable *target);
+	
+	GL_Texture *baseSheet;
+	GL_Texture *colorSheet;
+	Pointf startingPosition;
+	Animation droneImage;
+	CachedImage flame;
+	BoarderDrone *boarderDrone;
+	bool bDeliveredDrone;
+	bool diedInSpace;
 };
 
 struct TeleportBox
@@ -3156,8 +3529,13 @@ struct FTLButton : TextButton0
 	bool bHoverEngine;
 };
 
+struct DropBox;
+
 struct DropBox
 {
+	LIBZHL_API void OnRender();
+	LIBZHL_API int GetHeight();
+	
 	Point position;
 	bool isSellBox;
 	GL_Texture *boxImage[2];
@@ -3173,13 +3551,45 @@ struct DropBox
 	int titleInsert;
 };
 
+struct KeyboardInputEvent
+{
+	int key;
+	int system_key;
+	unsigned int modifiers;
+	char is_repeat;
+};
+
 struct LocationEvent;
+
 struct EventGenerator;
+
+struct Sector;
+
+struct Sector
+{
+	int type;
+	bool visited;
+	bool reachable;
+	std::vector<Sector*> neighbors;
+	Point location;
+	int level;
+	SectorDescription description;
+};
 
 struct EventGenerator
 {
+	SectorDescription *GetSpecificSector(const std::string& name)
+	{
+		SectorDescription *desc = new SectorDescription();
+		EventGenerator::GetSpecificSector(desc, this, name);
+		
+		return desc;
+	}
+
+
 	LIBZHL_API LocationEvent *GetBaseEvent(const std::string &name, int worldLevel, char ignoreUnique, int seed);
-	LIBZHL_API LocationEvent *CreateEventA(const std::string &name, int worldLevel);
+	LIBZHL_API LocationEvent *CreateEvent1(const std::string &name, int worldLevel);
+	LIBZHL_API static Sector *__stdcall GetSpecificSector(SectorDescription *desc, EventGenerator *eventGenerator, const std::string &name);
 	
 };
 
@@ -3187,36 +3597,8 @@ struct BombProjectile
 {
 };
 
-struct EffectsBlueprint
+struct OuterHull
 {
-	std::vector<std::string> launchSounds;
-	std::vector<std::string> hitShipSounds;
-	std::vector<std::string> hitShieldSounds;
-	std::vector<std::string> missSounds;
-	std::string image;
-};
-
-struct BatterySystem
-{
-};
-
-struct StoreBox
-{
-	void *vptr;
-	int itemId;
-	int itemBox;
-	std::string buttonImage;
-	Button button;
-	GL_Primitive *symbol;
-	Description desc;
-	int count;
-	int cost_position;
-	ShipManager *shopper;
-	Equipment *equipScreen;
-	const Blueprint *pBlueprint;
-	bool bEquipmentBox;
-	float fIconScale;
-	Point pushIcon;
 };
 
 struct ItemStoreBox
@@ -3227,8 +3609,20 @@ struct CrewEquipBox;
 
 struct CrewEquipBox : EquipmentBox
 {
+	CrewEquipBox(Point pos_, ShipManager *ship_, int slot_)
+	{
+		this->constructor(pos_, ship_, slot_);
+	}
+
 	LIBZHL_API void RemoveItem();
 	LIBZHL_API void constructor(Point pos, ShipManager *ship, int slot);
+	LIBZHL_API bool GetConfirmDelete();
+	LIBZHL_API void RenderLabels(bool dragging, bool isNew);
+	LIBZHL_API void OnRender(bool unk);
+	LIBZHL_API void OnTextInput(SDLKey key);
+	LIBZHL_API void OnTextEvent(CEvent::TextEvent event);
+	LIBZHL_API void MouseClick(int mX, int mY);
+	LIBZHL_API void CloseRename();
 	
 	ShipManager *ship;
 	bool bDead;
@@ -3266,16 +3660,12 @@ struct SettingValues
 
 struct EventDamage
 {
-	int _sil__DO_NOT_USE_system;
+	int system;
 	int amount;
 	int effect;
 };
 
 struct AugmentStoreBox
-{
-};
-
-struct RockAlien
 {
 };
 
@@ -3289,6 +3679,10 @@ struct StatusEffect
 	int system;
 	int amount;
 	int target;
+};
+
+struct RockAlien
+{
 };
 
 struct ChoiceReq
@@ -3322,7 +3716,7 @@ struct ResourcesTemplate
 	std::string weapon;
 	std::string drone;
 	std::string augment;
-	std::string _sil__DO_NOT_USE_system;
+	std::string system;
 	bool steal;
 	int upgradeAmount;
 	int upgradeId;
@@ -3370,6 +3764,14 @@ struct EventTemplate
 
 struct WeaponEquipBox : EquipmentBox
 {
+};
+
+struct JoystickInputEvent
+{
+	int device;
+	int index;
+	float x;
+	float y;
 };
 
 struct Projectile : Collideable
@@ -3440,8 +3842,22 @@ struct MenuScreen : FocusWindow
 	InfoBox info;
 };
 
+struct CrewManifest;
+
 struct CrewManifest : FocusWindow
 {
+	LIBZHL_API void OnInit(ShipManager *ship);
+	LIBZHL_API void OnRender();
+	LIBZHL_API void constructor();
+	LIBZHL_API void Update();
+	LIBZHL_API void OnKeyDown(SDLKey key);
+	LIBZHL_API void OnKeyUp(SDLKey key);
+	LIBZHL_API void OnTextInput(SDLKey key);
+	LIBZHL_API void OnTextEvent(CEvent::TextEvent event);
+	LIBZHL_API void Close();
+	LIBZHL_API void MouseClick(int mX, int mY);
+	LIBZHL_API void MouseMove(int mX, int mY);
+	
 	GL_Primitive *box;
 	DropBox overBox;
 	ShipManager *shipManager;
@@ -3471,6 +3887,15 @@ struct AnimationControl;
 
 struct AnimationControl
 {
+	Animation* GetAnimation(const std::string& animName)
+	{
+		Animation* animRef = new Animation();
+		
+		AnimationControl::GetAnimation(*animRef, this, animName);
+		
+		return animRef;
+	}
+
 	LIBZHL_API static Animation *__stdcall GetAnimation(Animation &animRef, AnimationControl *animControl, const std::string &animName);
 	
 	std::map<std::string, AnimationSheet> animSheets;
@@ -3478,60 +3903,18 @@ struct AnimationControl
 	std::map<std::string, WeaponAnimation> weapAnimations;
 };
 
-struct SystemBlueprint
-{
-};
-
 struct Spreadable
 {
 };
 
-struct MantisAlien
+struct Shields
 {
+	LIBZHL_API void *CollisionReal(float x, float y, Damage damage, bool unk);
+	
 };
 
-struct SpaceDrone : Drone
+struct MantisAlien
 {
-	LIBZHL_API float UpdateAimingAngle(Pointf location, float percentage, float forceDesired);
-	LIBZHL_API void SetDeployed(bool deployed);
-	LIBZHL_API void SetMovementTarget(Targetable *target);
-	
-	Targetable _targetable;
-	Collideable _collideable;
-	int currentSpace;
-	int destinationSpace;
-	Pointf currentLocation;
-	Pointf lastLocation;
-	Pointf destinationLocation;
-	Pointf pointTarget;
-	Animation explosion;
-	Targetable *weaponTarget;
-	Pointf targetLocation;
-	Pointf targetSpeed;
-	Targetable *movementTarget;
-	Pointf speedVector;
-	bool poweredLastFrame;
-	bool deployedLastFrame;
-	bool bFire;
-	float pause;
-	float additionalPause;
-	float weaponCooldown;
-	float current_angle;
-	float aimingAngle;
-	float lastAimingAngle;
-	float desiredAimingAngle;
-	DamageMessage *message;
-	Animation weapon_animation;
-	const WeaponBlueprint *weaponBlueprint;
-	int lifespan;
-	bool bLoadedPosition;
-	bool bDisrupted;
-	float hackAngle;
-	float ionStun;
-	Pointf beamCurrentTarget;
-	Pointf beamFinalTarget;
-	float beamSpeed;
-	Animation hackSparks;
 };
 
 struct DefenseDrone;
@@ -3590,12 +3973,6 @@ struct LocationEvent
 	int unlockShip;
 	TextString unlockShipText;
 	bool secretSector;
-};
-
-struct AugmentBlueprint : Blueprint
-{
-	float value;
-	bool stacking;
 };
 
 struct FileHelper
@@ -3677,6 +4054,11 @@ struct ShipButton : Button
 	std::vector<CAchievement*> achievements;
 	int iSelectedAch;
 	bool bSelected;
+};
+
+struct TextInputEvent
+{
+	int32_t ch;
 };
 
 struct DroneBox
@@ -3787,25 +4169,12 @@ struct SystemControl
 	AnimationTracker flashTracker;
 };
 
-struct DroneBlueprint : Blueprint
-{
-	std::string typeName;
-	int level;
-	int targetType;
-	int power;
-	float cooldown;
-	int speed;
-	int dodge;
-	std::string weaponBlueprint;
-	std::string droneImage;
-	std::string combatIcon;
-};
-
 struct SoundControl;
 
 struct SoundControl
 {
 	LIBZHL_API int PlaySoundMix(const std::string &soundName, float volume, char loop);
+	LIBZHL_API void StopPlaylist(int fadeOut);
 	
 };
 
@@ -3881,8 +4250,12 @@ struct ShipStatus
 
 struct FocusWindow;
 
+struct GameOver;
+
 struct GameOver : FocusWindow
 {
+	LIBZHL_API void OpenText(const std::string &text);
+	
 	std::vector<TextButton*> buttons;
 	GL_Primitive *box;
 	int boxWidth;
@@ -3966,6 +4339,9 @@ struct CommandGui
 	LIBZHL_API void constructor();
 	LIBZHL_API void AddEnemyShip(CompleteShip *ship);
 	LIBZHL_API void Victory();
+	LIBZHL_API void OnInit();
+	LIBZHL_API void MouseMove(int mX, int mY);
+	LIBZHL_API void LButtonDown(int mX, int mY, bool shiftHeld);
 	
 	ShipStatus shipStatus;
 	CrewControl crewControl;
@@ -4053,7 +4429,7 @@ struct DroneEquipBox : EquipmentBox
 {
 };
 
-struct Moddable
+struct PDSFire
 {
 };
 
@@ -4098,8 +4474,28 @@ struct LIBZHL_INTERFACE CompleteShip
 	int teleTargetRoom;
 };
 
-struct IonDrone
+struct IonDrone;
+
+struct BoarderDrone : CrewDrone
 {
+	BoarderDrone() 
+	{
+	}
+
+	BoarderDrone(const std::string& _type, const std::string& _name, int _shipId, const DroneBlueprint* _blueprint, CrewAnimation *_anim)
+	{
+		printf("BoarderDrone::BoarderDrone (%08X)\n", &constructor);
+	
+		this->constructor(_type, _name, _shipId, _blueprint, _anim);
+	}
+
+};
+
+struct IonDrone : BoarderDrone
+{
+	LIBZHL_API static Damage *__stdcall GetRoomDamage(Damage *dmg, IonDrone *crew);
+	
+	int lastRoom;
 };
 
 struct MedbaySystem
@@ -4158,23 +4554,15 @@ struct ProjectileFactory : ShipObject
 	bool isArtillery;
 };
 
-struct Sector;
-
-struct Sector
+struct ArtilleryBox
 {
-	int type;
-	bool visited;
-	bool reachable;
-	std::vector<Sector*> neighbors;
-	Point location;
-	int level;
-	SectorDescription description;
 };
 
 struct DroneSystem : ShipSystem
 {
 	LIBZHL_API void RemoveDrone(int slot);
-	LIBZHL_API void SetBonusPower(int amount, int permanentPower);
+	LIBZHL_API void UpdateBonusPower();
+	LIBZHL_API virtual void SetBonusPower(int amount, int permanentPower);
 	
 	std::vector<Drone*> drones;
 	int drone_count;
@@ -4189,24 +4577,6 @@ struct DroneSystem : ShipSystem
 struct BossShip;
 
 struct WorldManager;
-
-struct WindowFrame
-{
-	WindowFrame(int _x, int _y, int _w, int _h) 
-	{
-		this->constructor(_x, _y, _w, _h);
-	}
-
-
-	LIBZHL_API void Draw(int x, int y);
-	LIBZHL_API void DrawMask(int unk);
-	LIBZHL_API void constructor(int x, int y, int w, int h);
-	
-	Globals::Rect rect;
-	GL_Primitive *outline;
-	GL_Primitive *mask;
-	GL_Primitive *pattern;
-};
 
 struct DistressButton : TextButton
 {
@@ -4322,6 +4692,7 @@ struct StarMap : FocusWindow
 	LIBZHL_API void TurnIntoFleetLocation(Location *loc);
 	LIBZHL_API static std::string &__stdcall GetLocationText(std::string &strRef, StarMap *starMap, const Location *loc);
 	LIBZHL_API void SetupNoFuel(int seed, const std::string &forceEscape);
+	LIBZHL_API void GenerateNebulas(const std::vector<std::string> &names);
 	
 	float visual_size;
 	std::vector<Location*> locations;
@@ -4568,6 +4939,11 @@ struct WorldManager
 	LIBZHL_API LocationEvent *ModifyResources(LocationEvent *event);
 	LIBZHL_API void ModifyEnvironment(int envFlag, int envTarget);
 	LIBZHL_API void CheckStatusEffects(std::vector<StatusEffect> &vec);
+	LIBZHL_API void StartGame(ShipManager *ship);
+	LIBZHL_API void Restart();
+	LIBZHL_API void LoadGame(const std::string &fileName);
+	LIBZHL_API void OnLoop();
+	LIBZHL_API void CreateNewGame();
 	
 	CompleteShip *playerShip;
 	BossShip *bossShip;
@@ -4606,6 +4982,17 @@ struct DoorBox
 {
 };
 
+struct InputEventUnion
+{
+	char eventData[20];
+};
+
+struct MemoryInputEvent
+{
+	int64_t used_bytes;
+	int64_t free_bytes;
+};
+
 struct GL_TexVertex
 {
 	float x;
@@ -4632,6 +5019,10 @@ struct HackingDrone : SpaceDrone
 	Animation extending;
 	Animation explosion;
 	int prefRoom;
+};
+
+struct AnaerobicAlien
+{
 };
 
 struct ShipGenerator
@@ -4666,43 +5057,20 @@ struct DroneStoreBox
 {
 };
 
-struct MouseControl;
-
-struct MouseControl
+struct HackingSystem : ShipSystem
 {
-	LIBZHL_API std::string &SetTooltip(const std::string &tooltip);
-	LIBZHL_API Point MeasureTooltip(int unk);
-	LIBZHL_API void QueueStaticTooltip(Point pos);
+	LIBZHL_API void BlowHackingDrone();
 	LIBZHL_API void OnLoop();
-	LIBZHL_API void InstantTooltip();
 	
-	Point position;
-	Point lastPosition;
-	int aiming_required;
-	int iTeleporting;
-	int iMindControlling;
-	bool bSellingStuff;
-	bool valid;
-	bool newHover;
-	bool lastValid;
-	int animateDoor;
-	GL_Texture *validPointer;
-	GL_Texture *invalidPointer;
-	GL_Texture *selling;
-	Animation openDoor;
-	int tooltipFont;
-	std::string tooltip;
-	float tooltipTimer;
-	bool bMoving;
-	bool bHideMouse;
-	GL_Texture *lastIcon;
-	GL_Texture *lastAddition;
-	bool bForceTooltip;
-	std::string tooltipTitle;
-	std::string lastTooltipText;
-	int iHacking;
-	int overrideTooltipWidth;
-	Point staticTooltip;
+	bool bHacking;
+	HackingDrone drone;
+	bool bBlocked;
+	bool bArmed;
+	ShipSystem *currentSystem;
+	std::pair<float, float> effectTimer;
+	bool bCanHack;
+	ShipSystem *queuedSystem;
+	int spendDrone;
 };
 
 struct SlugAlien
@@ -4713,7 +5081,7 @@ struct EngiAlien
 {
 };
 
-struct PDSFire
+struct Ghost
 {
 };
 
@@ -4725,19 +5093,34 @@ struct Asteroid
 {
 };
 
-struct Ghost
+struct IonDroneAnimation : CrewAnimation
 {
-};
-
-struct IonDroneAnimation
-{
+	Animation ionExplosion;
+	Animation ionAnimation;
+	Animation doorAnimations[4];
+	Animation ionGlow;
+	float ionEffect;
+	bool damagedDoor;
 };
 
 struct RepairAnimation
 {
 };
 
-struct AnaerobicAlien
+struct ShipInfo;
+
+struct ShipInfo
+{
+	LIBZHL_API char AddAugmentation(const std::string &augment);
+	LIBZHL_API bool HasAugmentation(const std::string &augment);
+	LIBZHL_API float GetAugmentationValue(const std::string &augment);
+	
+	std::map<std::string, int> augList;
+	std::map<std::string, int> equipList;
+	int augCount;
+};
+
+struct EnergyAnimation
 {
 };
 
@@ -4763,6 +5146,25 @@ struct CombatDrone : SpaceDrone
 	CachedImage engine_image;
 };
 
+struct StoreBox
+{
+	void *vptr;
+	int itemId;
+	int itemBox;
+	std::string buttonImage;
+	Button button;
+	GL_Primitive *symbol;
+	Description desc;
+	int count;
+	int cost_position;
+	ShipManager *shopper;
+	Equipment *equipScreen;
+	const Blueprint *pBlueprint;
+	bool bEquipmentBox;
+	float fIconScale;
+	Point pushIcon;
+};
+
 struct SystemStoreBox;
 
 struct SystemStoreBox : StoreBox
@@ -4782,14 +5184,6 @@ struct CloakingBox
 {
 };
 
-struct EnergyAnimation
-{
-};
-
-struct ItemBlueprint : Blueprint
-{
-};
-
 struct LaserBlast;
 
 struct LaserBlast : Projectile
@@ -4806,10 +5200,6 @@ struct CrystalAlien : CrewMember
 	std::pair<float, float> powerCooldown;
 };
 
-struct BoarderDrone : CrewDrone
-{
-};
-
 struct Algae
 {
 };
@@ -4822,12 +5212,36 @@ struct EventSystem
 	
 };
 
+struct BattleDrone : CrewDrone
+{
+};
+
 struct CSurface
 {
+	static void GL_ApplyShader(int pipeline)
+	{
+		shader_pipeline_apply(pipeline);
+	}
+	
+	static void GL_DestroyShader(int pipeline)
+	{
+		shader_pipeline_destroy(pipeline);
+	}
+	
+	static int GL_CreateShaderPipeline(int vertex_shader, int fragment_shader)
+	{
+		return shader_pipeline_create(vertex_shader, fragment_shader);
+	}
+	
+	static int GL_CreateShader(ShaderType type, const char* source)
+	{
+		return shader_create_from_source(type, source, -1);
+	}
+
 	LIBZHL_API static GL_Color &__stdcall GL_GetColor();
 	LIBZHL_API static void __stdcall GL_SetColorTint(GL_Color color);
 	LIBZHL_API static void __stdcall GL_SetColorTint(float r, float g, float b, float a);
-	LIBZHL_API static void __stdcall GL_Rotate2(float unk1, float unk2, float unk3, float unk4);
+	LIBZHL_API static void __stdcall GL_Rotate2(float angle, float x, float y, float z = 0.f);
 	LIBZHL_API static bool __stdcall IsFrameBufferSupported();
 	LIBZHL_API static void __stdcall StartFrame();
 	LIBZHL_API static void __stdcall FinishFrame();
@@ -4841,7 +5255,7 @@ struct CSurface
 	LIBZHL_API static int __stdcall GL_LoadIdentity();
 	LIBZHL_API static int __stdcall GL_PushMatrix();
 	LIBZHL_API static int __stdcall GL_PopMatrix();
-	LIBZHL_API static void __stdcall GL_Rotate(float unk1, float unk2, float unk3, float unk4);
+	LIBZHL_API static void __stdcall GL_Rotate(float angle, float x, float y, float z = 0.f);
 	LIBZHL_API static void __stdcall GL_Scale(float x, float y, float z);
 	LIBZHL_API static bool __stdcall GL_Translate(float x, float y, float z = 0.f);
 	LIBZHL_API static int __stdcall GL_SetColor(GL_Color color);
@@ -4867,32 +5281,11 @@ struct CSurface
 	LIBZHL_API static void __stdcall AddTexVertices(std::vector<GL_TexVertex> *vec, float x1, float y1, float u1, float v1, float x2, float y2, float u2, float v2);
 	LIBZHL_API static GL_Primitive *__stdcall GL_CreateMultiImagePrimitive(GL_Texture *tex, std::vector<GL_TexVertex> *vec, GL_Color color);
 	LIBZHL_API static GL_Primitive *__stdcall GL_CreateImagePrimitive(GL_Texture *tex, float x, float y, float size_x, float size_y, float rotate, GL_Color color);
-	
-};
-
-struct freetype
-{
-	//struct font_data;
-	
-	//static Pointf easy_measurePrintLines(int fontType, float x, float y, int width, const std::string& text);
-	//static Pointf measurePrintLines(font_data &fontData, const std::string& str);
-
-	struct font_data
-	{
-		float h;
-		int font;
-		float fontsize;
-		float baseline;
-		float lineHeight;
-	};
-	
-	LIBZHL_API static double __stdcall easy_measurePrintLines(int fontData, float x, float y, int width, const std::string &text);
-	LIBZHL_API static int __stdcall easy_print(int fontData, float x, float y, const std::string &text);
-	LIBZHL_API static int __stdcall easy_printRightAlign(int fontData, float x, float y, const std::string &text);
-	LIBZHL_API static int __stdcall easy_printNewlinesCentered(int fontData, float x, float y, int width, const std::string &text);
-	LIBZHL_API static int __stdcall easy_printAutoNewlines(int fontData, float x, float y, int width, const std::string &text);
-	LIBZHL_API static int __stdcall easy_printCenter(int fontData, float x, float y, const std::string &text);
-	LIBZHL_API static int __stdcall easy_printAutoShrink(int fontData, float x, float y, int width, char unk, const std::string &text);
+	LIBZHL_API static int __stdcall shader_create_from_source(ShaderType type, const char *source, int length);
+	LIBZHL_API static int __stdcall shader_pipeline_create(int vertex_shader, int fragment_shader);
+	LIBZHL_API static void __stdcall shader_pipeline_destroy(int pipeline);
+	LIBZHL_API static void __stdcall shader_pipeline_apply(int pipeline);
+	LIBZHL_API static char *__stdcall generate_fragment_shader_source(GraphicsPrimitiveType primitive_type, int position_count, int texcoord_count, GraphicsTextureColorType texcolor_type, int tex_offset, int color_count, int color_uniform, int fog, int alpha_test, GraphicsComparisonType alpha_comparison);
 	
 };
 
@@ -4904,6 +5297,7 @@ struct OxygenSystem : ShipSystem
 	LIBZHL_API void ModifyRoomOxygen(int roomId, float value);
 	LIBZHL_API void ComputeAirLoss(int roomId, float value, bool unk);
 	LIBZHL_API float GetRefillSpeed();
+	LIBZHL_API void constructor(int numRooms, int roomId, int shipId, int startingPower);
 	
 	float max_oxygen;
 	std::vector<float> oxygenLevels;
@@ -4915,8 +5309,51 @@ struct PackageModuleInfo
 {
 };
 
-struct BattleDrone : CrewDrone
+struct BossShip : CompleteShip
 {
+	LIBZHL_API void Restart();
+	LIBZHL_API bool IncomingFire();
+	LIBZHL_API void constructor(SpaceManager *space);
+	LIBZHL_API void SaveBoss(void *file);
+	LIBZHL_API int LoadBoss(void *file);
+	LIBZHL_API int ClearLocation();
+	LIBZHL_API char Defeated();
+	LIBZHL_API int GetSubEvent();
+	LIBZHL_API void StartStage();
+	LIBZHL_API LocationEvent *GetEvent();
+	LIBZHL_API void OnLoop();
+	
+	int currentStage;
+	TimerHelper powerTimer;
+	int powerCount;
+	std::vector<int> crewCounts;
+	bool bDeathBegan;
+	int nextStage;
+};
+
+struct EventsParser;
+struct ResourcesTemplate;
+struct EventTemplate;
+struct RandomAmount;
+struct ShipTemplate;
+
+struct EventsParser
+{
+	static bool ParseBoolean(const std::string& str)
+	{
+		return str == "true" || str == "TRUE" || str == "True";
+	}
+
+	LIBZHL_API RandomAmount *PullMinMax(rapidxml::xml_node<char> *node, const std::string &name);
+	LIBZHL_API void **ProcessEvent(rapidxml::xml_node<char> *node, const std::string &event, EventTemplate &eventref);
+	LIBZHL_API static ShipTemplate *__stdcall ProcessShipEvent(ShipTemplate *event, EventsParser *parser, rapidxml::xml_node<char> *node);
+	LIBZHL_API ResourcesTemplate *ProcessModifyItem(ResourcesTemplate &resources, rapidxml::xml_node<char> *node, const std::string &unk);
+	LIBZHL_API void AddAllEvents();
+	LIBZHL_API void AddEvents(EventGenerator &generator, char *file, const std::string &fileName);
+	
+	std::unordered_map<std::string, EventTemplate*> eventTemplates;
+	std::vector<EventTemplate*> trashList;
+	std::unordered_map<std::string, ShipEvent> shipTemplates;
 };
 
 struct DamageMessage
@@ -4929,12 +5366,6 @@ struct DamageMessage
 	};
 
 
-};
-
-struct Shields
-{
-	LIBZHL_API void *CollisionReal(float x, float y, Damage damage, bool unk);
-	
 };
 
 struct ArmamentBox
@@ -4976,29 +5407,12 @@ struct ArmamentBox
 	bool bIoned;
 };
 
-struct EventsParser;
-struct ResourcesTemplate;
-struct EventTemplate;
-struct RandomAmount;
-struct ShipTemplate;
-
-struct EventsParser
+struct Settings
 {
-	static bool ParseBoolean(const std::string& str)
-	{
-		return str == "true" || str == "TRUE" || str == "True";
-	}
-
-	LIBZHL_API RandomAmount *PullMinMax(rapidxml::xml_node<char> *node, const std::string &name);
-	LIBZHL_API void **ProcessEvent(rapidxml::xml_node<char> *node, const std::string &event, EventTemplate &eventref);
-	LIBZHL_API static ShipTemplate *__stdcall ProcessShipEvent(ShipTemplate *event, EventsParser *parser, rapidxml::xml_node<char> *node);
-	LIBZHL_API ResourcesTemplate *ProcessModifyItem(ResourcesTemplate &resources, rapidxml::xml_node<char> *node, const std::string &unk);
-	LIBZHL_API void AddAllEvents();
-	LIBZHL_API void AddEvents(EventGenerator &generator, char *file, const std::string &fileName);
+	LIBZHL_API static char __stdcall GetCommandConsole();
+	LIBZHL_API static bool __stdcall GetDlcEnabled();
+	LIBZHL_API static std::string &__stdcall GetHotkeyName(std::string &strRef, const std::string &name);
 	
-	std::unordered_map<std::string, EventTemplate*> eventTemplates;
-	std::vector<EventTemplate*> trashList;
-	std::unordered_map<std::string, ShipEvent> shipTemplates;
 };
 
 struct TouchTooltip
@@ -5009,16 +5423,30 @@ struct MindBox
 {
 };
 
-struct Settings
+struct freetype
 {
-	LIBZHL_API static char __stdcall GetCommandConsole();
-	LIBZHL_API static bool __stdcall GetDlcEnabled();
-	LIBZHL_API static std::string &__stdcall GetHotkeyName(std::string &strRef, const std::string &name);
+	//struct font_data;
 	
-};
+	//static Pointf easy_measurePrintLines(int fontType, float x, float y, int width, const std::string& text);
+	//static Pointf measurePrintLines(font_data &fontData, const std::string& str);
 
-struct ArtilleryBox
-{
+	struct font_data
+	{
+		float h;
+		int font;
+		float fontsize;
+		float baseline;
+		float lineHeight;
+	};
+	
+	LIBZHL_API static double __stdcall easy_measurePrintLines(int fontData, float x, float y, int width, const std::string &text);
+	LIBZHL_API static int __stdcall easy_print(int fontData, float x, float y, const std::string &text);
+	LIBZHL_API static int __stdcall easy_printRightAlign(int fontData, float x, float y, const std::string &text);
+	LIBZHL_API static int __stdcall easy_printNewlinesCentered(int fontData, float x, float y, int width, const std::string &text);
+	LIBZHL_API static int __stdcall easy_printAutoNewlines(int fontData, float x, float y, int width, const std::string &text);
+	LIBZHL_API static int __stdcall easy_printCenter(int fontData, float x, float y, const std::string &text);
+	LIBZHL_API static int __stdcall easy_printAutoShrink(int fontData, float x, float y, int width, char unk, const std::string &text);
+	
 };
 
 struct WeaponBox : ArmamentBox
@@ -5038,56 +5466,62 @@ struct WeaponBox : ArmamentBox
 	bool wasCharged;
 };
 
-struct MantisAnimation : CrewAnimation
-{
-};
+struct MouseControl;
 
-struct RepairStoreBox
+struct MouseControl
 {
+	LIBZHL_API std::string &SetTooltip(const std::string &tooltip);
+	LIBZHL_API Point MeasureTooltip(int unk);
+	LIBZHL_API void QueueStaticTooltip(Point pos);
+	LIBZHL_API void OnLoop();
+	LIBZHL_API void InstantTooltip();
+	
+	Point position;
+	Point lastPosition;
+	int aiming_required;
+	int iTeleporting;
+	int iMindControlling;
+	bool bSellingStuff;
+	bool valid;
+	bool newHover;
+	bool lastValid;
+	int animateDoor;
+	GL_Texture *validPointer;
+	GL_Texture *invalidPointer;
+	GL_Texture *selling;
+	Animation openDoor;
+	int tooltipFont;
+	std::string tooltip;
+	float tooltipTimer;
+	bool bMoving;
+	bool bHideMouse;
+	GL_Texture *lastIcon;
+	GL_Texture *lastAddition;
+	bool bForceTooltip;
+	std::string tooltipTitle;
+	std::string lastTooltipText;
+	int iHacking;
+	int overrideTooltipWidth;
+	Point staticTooltip;
 };
 
 struct WeaponSystemBox
 {
 };
 
-struct MindSystem : ShipSystem
+struct InputEvent
 {
-	std::pair<float, float> controlTimer;
-	bool bCanUse;
-	int iArmed;
-	std::vector<CrewMember*> controlledCrew;
-	bool bSuperShields;
-	bool bBlocked;
-	int iQueuedTarget;
-	int iQueuedShip;
-	std::vector<CrewMember*> queuedCrew;
+	InputEventType type;
+	InputEventDetail detail;
+	double timestamp;
+	InputEventUnion event;
 };
 
-struct ShipRepairDrone
+struct MantisAnimation : CrewAnimation
 {
 };
 
-struct HackingSystem : ShipSystem
-{
-	LIBZHL_API void BlowHackingDrone();
-	LIBZHL_API void OnLoop();
-	
-	bool bHacking;
-	HackingDrone drone;
-	bool bBlocked;
-	bool bArmed;
-	ShipSystem *currentSystem;
-	std::pair<float, float> effectTimer;
-	bool bCanHack;
-	ShipSystem *queuedSystem;
-	int spendDrone;
-};
-
-struct SuperShieldDrone
-{
-};
-
-struct CloakingSystem
+struct RepairStoreBox
 {
 };
 
@@ -5151,11 +5585,12 @@ struct LIBZHL_INTERFACE EnergyAlien
 	virtual bool HasSpecialPower() LIBZHL_PLACEHOLDER
 	virtual void ResetPower() LIBZHL_PLACEHOLDER
 	virtual float GetSuffocationMultiplier() LIBZHL_PLACEHOLDER
-	virtual bool BlockRoom() LIBZHL_PLACEHOLDER
+	virtual int BlockRoom() LIBZHL_PLACEHOLDER
 	virtual Damage *GetRoomDamage(CrewMember *crew) LIBZHL_PLACEHOLDER
 	virtual bool IsAnaerobic() LIBZHL_PLACEHOLDER
 	virtual void UpdateRepair() LIBZHL_PLACEHOLDER
 	virtual bool CanStim() LIBZHL_PLACEHOLDER
+	LIBZHL_API static Damage *__stdcall GetRoomDamage(Damage *dmg, EnergyAlien *crew);
 	
 	int iShipId;
 	float x;
@@ -5240,6 +5675,18 @@ struct LIBZHL_INTERFACE EnergyAlien
 	bool bExploded;
 };
 
+struct SuperShieldDrone
+{
+};
+
+struct CloakingSystem
+{
+};
+
+struct Moddable
+{
+};
+
 struct GL_FrameBuffer;
 
 struct CApp;
@@ -5275,7 +5722,7 @@ struct CApp : CEvent
 	LIBZHL_API void OnRender();
 	LIBZHL_API int OnInit();
 	LIBZHL_API int OnExecute();
-	LIBZHL_API int OnEvent(void *inputEvent);
+	LIBZHL_API void OnEvent(const InputEvent *inputEvent);
 	
 	bool Running;
 	bool shift_held;
@@ -5315,17 +5762,17 @@ struct CApp : CEvent
 	char useDirect3D;
 };
 
-struct ShipInfo;
-
-struct ShipInfo
+struct MindSystem : ShipSystem
 {
-	LIBZHL_API char AddAugmentation(const std::string &augment);
-	LIBZHL_API bool HasAugmentation(const std::string &augment);
-	LIBZHL_API float GetAugmentationValue(const std::string &augment);
-	
-	std::map<std::string, int> augList;
-	std::map<std::string, int> equipList;
-	int augCount;
+	std::pair<float, float> controlTimer;
+	bool bCanUse;
+	int iArmed;
+	std::vector<CrewMember*> controlledCrew;
+	bool bSuperShields;
+	bool bBlocked;
+	int iQueuedTarget;
+	int iQueuedShip;
+	std::vector<CrewMember*> queuedCrew;
 };
 
 struct WarningWithLines : WarningMessage
@@ -5421,26 +5868,8 @@ struct CFPS
 	int speedLevel;
 };
 
-struct BossShip : CompleteShip
+struct ShipRepairDrone
 {
-	LIBZHL_API void Restart();
-	LIBZHL_API bool IncomingFire();
-	LIBZHL_API void constructor(SpaceManager *space);
-	LIBZHL_API void SaveBoss(void *file);
-	LIBZHL_API int LoadBoss(void *file);
-	LIBZHL_API int ClearLocation();
-	LIBZHL_API char Defeated();
-	LIBZHL_API int GetSubEvent();
-	LIBZHL_API void StartStage();
-	LIBZHL_API LocationEvent *GetEvent();
-	LIBZHL_API void OnLoop();
-	
-	int currentStage;
-	TimerHelper powerTimer;
-	int powerCount;
-	std::vector<int> crewCounts;
-	bool bDeathBegan;
-	int nextStage;
 };
 
 struct Door : CrewTarget
@@ -5522,54 +5951,28 @@ struct CrewStoreBox : StoreBox
 	CrewBlueprint blueprint;
 };
 
-struct WeaponBlueprint : Blueprint
-{
-	struct BoostPower
-	{
-		int type;
-		float amount;
-		int count;
-	};
-	
-	struct MiniProjectile
-	{
-		std::string image;
-		bool fake;
-	};
-	
-	std::string typeName;
-	Damage damage;
-	int shots;
-	int missiles;
-	float cooldown;
-	int power;
-	int length;
-	float speed;
-	int miniCount;
-	EffectsBlueprint effects;
-	std::string weaponArt;
-	std::string combatIcon;
-	std::string explosion;
-	int radius;
-	std::vector<MiniProjectile> miniProjectiles;
-	BoostPower boostPower;
-	int drone_targetable;
-	int spin;
-	int chargeLevels;
-	TextString flavorType;
-	GL_Color color;
-};
-
-struct OuterHull
+struct BatterySystem
 {
 };
 
 struct CrewBox
 {
+	CrewBox(Point pos_, CrewMember *crew_, int number_)
+	{
+		this->constructor(pos_, crew_, number_);
+	}
+
+	~CrewBox()
+	{
+		this->destructor();
+	}
+
 	LIBZHL_API void constructor(Point pos, CrewMember *crew, int number);
 	LIBZHL_API void OnRender();
 	LIBZHL_API CrewMember *GetSelected(int mouseX, int mouseY);
 	LIBZHL_API void OnLoop(bool selected);
+	LIBZHL_API void OnRenderSkillLevel();
+	LIBZHL_API void destructor();
 	
 	Globals::Rect box;
 	Globals::Rect skillBox;

@@ -15,17 +15,20 @@ enum PowerReadyState
     POWER_NOT_READY_AI_DISABLED,
     POWER_NOT_READY_OUT_OF_COMBAT,
     POWER_NOT_READY_IN_COMBAT,
+    POWER_NOT_READY_MIN_HEALTH,
+    POWER_NOT_READY_MAX_HEALTH
 };
 
 struct CrewAnimation_Extend
 {
 public:
     CrewAnimation *orig;
-    Animation* effectAnim = NULL;
-    Animation* tempEffectAnim = NULL;
-    GL_Texture* tempEffectStrip = NULL;
+    Animation* effectAnim = nullptr;
+    Animation* tempEffectAnim = nullptr;
+    GL_Texture* tempEffectStrip = nullptr;
 
     bool temporaryPowerActive;
+    bool isAbilityDrone = false;
 
     void OnInit(const std::string& name, Pointf position, bool enemy);
 };
@@ -57,7 +60,8 @@ public:
     void TemporaryPowerFinished();
     PowerReadyState PowerReady();
 
-
+    bool isIonDrone = false;
+    bool isAbilityDrone = false;
 };
 
 CrewMember_Extend* Get_CrewMember_Extend(CrewMember* c);

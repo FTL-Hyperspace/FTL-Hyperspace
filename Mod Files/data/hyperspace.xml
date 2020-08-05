@@ -1,12 +1,49 @@
 <FTL>
 
-<version>4</version>
+<version>5</version>
 
 <!-- Enables the game's built in infinite mode
 (found by ih8ih8sn0w)
 -->
 
 <infinite enabled="false"/>
+
+<!-- Discord rich presence integration -->
+
+<discord enabled="true">
+	<miniships> <!-- Asset ids for miniships - if a ship does not have a miniship defined here, it will use the "miniship_question" asset which has to be created in your application -->
+		<miniship>miniship_anaerobic_cruiser</miniship>
+		<miniship>miniship_anaerobic_cruiser_2</miniship>
+		<miniship>miniship_circle_cruiser</miniship>
+		<miniship>miniship_circle_cruiser_2</miniship>
+		<miniship>miniship_circle_cruiser_3</miniship>
+		<miniship>miniship_crystal_cruiser</miniship>
+		<miniship>miniship_crystal_cruiser_2</miniship>
+		<miniship>miniship_energy_cruiser</miniship>
+		<miniship>miniship_energy_cruiser_2</miniship>
+		<miniship>miniship_energy_cruiser_3</miniship>
+		<miniship>miniship_fed_cruiser</miniship>
+		<miniship>miniship_fed_cruiser_2</miniship>
+		<miniship>miniship_fed_cruiser_3</miniship>
+		<miniship>miniship_jelly_cruiser</miniship>
+		<miniship>miniship_jelly_cruiser_2</miniship>
+		<miniship>miniship_jelly_cruiser_3</miniship>
+		<miniship>miniship_kestral</miniship>
+		<miniship>miniship_kestral_2</miniship>
+		<miniship>miniship_kestral_3</miniship>
+		<miniship>miniship_mantis_cruiser</miniship>
+		<miniship>miniship_mantis_cruiser_2</miniship>
+		<miniship>miniship_mantis_cruiser_3</miniship>
+		<miniship>miniship_rock_cruiser</miniship>
+		<miniship>miniship_rock_cruiser_2</miniship>
+		<miniship>miniship_rock_cruiser_3</miniship>
+		<miniship>miniship_stealth</miniship>
+		<miniship>miniship_stealth_2</miniship>
+		<miniship>miniship_stealth_3</miniship>
+	</miniships>
+	<appId>728949575586545695</appId> <!-- Discord app id -->
+	<icon>big_icon</icon> <!-- internal asset id for large icon -->
+</discord>
 
 <!-- Hull bar indicator
 Displays the amount of hull points left for the player or enemy
@@ -32,7 +69,24 @@ This means that you can't get past defense drones easily anymore
 <!-- Custom title screen
 Changes the background and logo and moves the FTL logo slightly -->
 
-<titleScreen logo_x="862" logo_y="7" enabled="true"/>
+<!-- Syntax for splash images -
+
+The first one would load a splash image from main_menus/splash_img.png
+You can have multiple splash images and it will pick them at random
+
+If the chance attribute is set to 1 or above, every time the main menu is loaded there is a x/10000 chance that it loads that splash image
+
+
+<titleScreen logo_x="862" logo_y="7" enabled="true">
+    <splashImages>
+        <splashImage x="50" y="50" center="true">img</splashImage>
+        <splashImage x="50" y="50" center="true" chance="1">img_secret</splashImage>
+    </splashImages>
+</titleScreen> -->
+
+<titleScreen logo_x="862" logo_y="7" enabled="true">
+	
+</titleScreen>
 
 <forceDlc enabled="false"/>
 
@@ -67,12 +121,20 @@ SPEED          Changes game speed                      Usage: SPEED <speed>     
 
 <!-- Infinite Ships
 
+You can make a customShip with no name to set default values for all ships
+
 Syntax -> 
 
 <ships>
+	<customShip>
+		<hiddenAug>FIRE_EXTINGUISHERS</hiddenAug>
+		<crewLimit>12</crewLimit>
+	</customShip>
+	
 	<ship name="PLAYER_SHIP_CUSTOM" b="true" c="true"/>
 	<customShip name="PLAYER_SHIP_CUSTOM_2">
 		<hiddenAug>ENERGY_SHIELD</hiddenAug>
+		<crewLimit>6</crewLimit>
 	</customShip>
 	...
 </ships>
@@ -80,7 +142,6 @@ Syntax ->
 -->
 
 <ships>
-
 </ships>
 
 
@@ -98,22 +159,26 @@ Syntax ->
 <crew>
 	(default human values)
 	<race name="newRace">
+		<controllable>true</controllable>
 		<canFight>true</canFight>
+		<canRepair>true</canRepair>
+		<canMan>true</canMan>
 		<canSuffocate>true</canSuffocate>
 		<canSabotage>true</canSabotage>
 		<canBurn>true</canBurn>
 		<maxHealth>100</maxHealth>
-		<moveSpeedMultiplier>1</moveSpeedMultiplier>
-		<repairSpeed>1</repairSpeed>
-		<damageMultiplier>1</damageMultiplier>
+		<moveSpeedMultiplier>1.0</moveSpeedMultiplier>
+		<repairSpeed>1.0</repairSpeed>
+		<damageMultiplier>1.0</damageMultiplier>
 		<bonusPower>0</bonusPower>
 		<fireRepairMultiplier>1.2</fireRepairMultiplier>
-		<sabotageSpeedMultiplier>1</sabotageSpeedMultiplier>
-		<suffocationModifier>1</suffocationModifier>
+		<sabotageSpeedMultiplier>1.0</sabotageSpeedMultiplier>
+		<suffocationModifier>1.0</suffocationModifier>
 		<isTelepathic>false</isTelepathic>
 		<isAnaerobic>false</isAnaerobic>
-		<fireDamageMultiplier>1</fireDamageMultiplier>
+		<fireDamageMultiplier>1.0</fireDamageMultiplier>
 		<canPhaseThroughDoors>false</canPhaseThroughDoors>
+		<defaultSkillLevel>0</defaultSkillLevel>
 		<deathSounds>
 			<deathSound>death1</deathSound>
 			<deathSound>death2</deathSound>
@@ -125,8 +190,8 @@ Syntax ->
 			<repairSound>repair</repairSound>
 		</repairSounds>
 		<oxygenChangeSpeed>-0.525</oxygenChangeSpeed> (lanius speed)
-		<damageTakenMultiplier>1</damageTakenMultiplier>
-		<passiveHealAmount>1</passiveHealAmount>
+		<damageTakenMultiplier>1.0</damageTakenMultiplier>
+		<passiveHealAmount>1.0</passiveHealAmount>
 		<passiveHealDelay>15</passiveHealDelay>
 		<detectsLifeforms>false</detectsLifeforms>
 		<skills>
@@ -154,6 +219,7 @@ Syntax ->
 			<shipFriendlyFire>false</shipFriendlyFire>
 		</deathEffect>
 		<animBase>rock</animBase> (for rock stomping animation)
+		<healSpeed>1.0</healSpeed>
 		<powerEffect>
 			<cooldown>30</cooldown>
 			<jumpCooldown>full</jumpCooldown>
@@ -189,9 +255,9 @@ Syntax ->
 			<tooltip id="power_ready">Ready: Click to lock down room with special power</tooltip>
 			<cooldownColor r="133" g="231" b="237"/>
 			<effectAnim>explosion_crystal</effectAnim>
-			<crewHealth>0</crewHealth>
-			<enemyHealth>0</enemyHealth>
-			<selfHealth>0</selfHealth>
+			<crewHealth>0.0</crewHealth>
+			<enemyHealth>0.0</enemyHealth>
+			<selfHealth>0.0</selfHealth>
 			
 			<temporaryEffect>
 				<duration>10</duration>
@@ -199,25 +265,37 @@ Syntax ->
 				<finishSounds>
 					<finishSound>mindControlEnd</finishSound>
 				</finishSounds>
+				<controllable>true</controllable>
 				<moveSpeedMultiplier>1.2</moveSpeedMultiplier>
 				<repairSpeed>1.2</repairSpeed>
 				<damageMultiplier>1.2</damageMultiplier>
 				<bonusPower>0</bonusPower>
 				<canFight>true</canFight>
+				<canRepair>true</canRepair>
 				<canSabotage>true</canSabotage>
 				<canSuffocate>true</canSuffocate>
 				<oxygenChangeSpeed>0</oxygenChangeSpeed>
 				<detectsLifeforms>false</detectsLifeforms>
 				<isTelepathic>false</isTelepathic>
 				<fireDamageMultiplier>1</fireDamageMultiplier>
+				<suffocationModifier>
 				<damageTakenMultiplier>1</damageTakenMultiplier>
 				<allDamageTakenMultiplier>1</allDamageTakenMultiplier>
 				<sabotageSpeedMultiplier>1</sabotageSpeedMultiplier>
 				<effectAnim>mindcontrol</effectAnim>
 				<invulnerable>false</invulnerable>
-				<animSheet>human_effect</animSheet>
+				<animSheet baseVisible="true">human_effect</animSheet>
 			</temporaryEffect>
 		</powerEffect>
+	</race>
+	
+	
+	drone attribute can be BATTLE, REPAIR, BOARDER or BOARDER_ION, and will use default values for those drones
+	you can change anything with drones that you can with crew (realistically) apart from <powerEffect>
+	
+	<race name="newDrone" drone="BATTLE">
+		<canMan>true</canMan>
+		<canRepair>true</canRepair>
 	</race>
 	...
 </crew>
@@ -231,9 +309,33 @@ Syntax ->
 	</race>
 </crew>
 
+
+<!-- Custom drones
+
+crewBlueprint needs to be defined as a crewBlueprint in blueprints.xml and a custom race in the <crew> tag in hyperspace.xml
+tooltipName is the name that shows up when you hover over the drone
+A flying boarding drone uses a _fly animation (e.g. newDrone_fly) for its texture
+
+Syntax ->
+
+<drones>
+	<drone name="BATTLE_CUSTOM">
+		<crewBlueprint>newDrone</crewBlueprint>
+		<tooltipName>Anti-Personnel Drone II</tooltipName>
+	</drone>
+</drones>
+
+-->
+
+<drones>
+
+</drones>
+
 <!-- Custom Augments
 
 <locked> means you cannot remove it (sell or replace with another augment) once it's equipped.
+useForReqs is for whether you want the augment to work for blue options or not. True by default.
+warning attribute removes red warning text
 
 Syntax ->
 <augments>
@@ -241,6 +343,7 @@ Syntax ->
     	<function name="ADV_SCANNERS"/>
 		<function name="CREW_STIMS" value="0.2"/>
 		<function name="O2_MASKS" value="0.2" preferHigher="false"/>
+		<function name="HACKING_STUN" useForReqs="false" warning="false"/>
 		
 		<locked/>
     </aug>
@@ -255,12 +358,18 @@ Syntax ->
 
 For beaconType and unvisitedTooltip/visitedTooltip, you can either use "id" or "text" as an attribute for the text - "id" pulls it from text_misc.xml while "text" uses the attribute's value.
 
+To remove a hidden augment, use <remove> in the actual event tag for the event and put "HIDDEN " before the augment name, e.g. to remove a hidden zoltan shield make a remove tag with "HIDDEN ENERGY_SHIELD"
+
 Syntax -> 
 <events>
 	<bossShip>AUTO_ASSAULT_DLC</bossShip>
 	<eventFile>special</eventFile>
-	<exitBeacon sectorName="CIVILIAN_SECTOR" event="BOARDERS" rebelEvent="FLEET_HARD" nebulaEvent="NEBULA_HOSTILE"/>
-	<rebelBeacon sectorName="CIVILIAN_SECTOR" event="BOARDERS" nebulaEvent="NEBULA_AUTO"/>
+	
+	<sector name="CIVILIAN_SECTOR">
+        <exitBeacon event="BOARDERS" rebelEvent="FLEET_HARD" nebulaEvent="NEBULA_HOSTILE"/>
+        <rebelBeacon event="BOARDERS" nebulaEvent="NEBULA_AUTO"/>
+        <removeFirstBeaconNebula/>
+    </sector>
 	
 	<event name="CIVILIAN_ASTEROIDS_BEACON_2" recursive="false">
 		<checkCargo/>
@@ -274,8 +383,21 @@ Syntax ->
 		<beaconType id="map_icon_trader" text="TRADER" global="false">
 			<color r="255" g="166" b="226" a="1.0"/>
 			<unvisitedTooltip id="map_unvisited_loc">An unvisited location.</unvisitedTooltip>
-			<visitedTooltip id="map_nothing_loc">An explored location.</visitedTooltip>
+			<unvisitedTooltip id="map_unvisited_loc">An unvisited trader location.</unvisitedTooltip>
+			<visitedTooltip id="map_nothing_loc">An explored location. A trader was here.</visitedTooltip>
 		</beaconType>
+	</event>
+	
+	<event name="CRYSTAL_TEST">
+		<secretSectorWarp>ENGI_HOME</secretSectorWarp>
+	</event>
+	
+	<event name="FREE_WIN">
+		<win text="Custom event victory!"/>
+	</event>
+	
+	<event name="FREE_HIDDEN_ENERGY_SHIELD" recursive="false">
+		<hiddenAug>ENERGY_SHIELD</hiddenAug>
 	</event>
 </events>
 

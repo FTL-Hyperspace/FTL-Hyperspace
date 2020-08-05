@@ -52,6 +52,28 @@ void ShipManager::JumpLeave(ShipManager *this<ecx>);
 void ShipManager::ModifyScrapCount(ShipManager *this<ecx>, int scrap, bool income);
 "578d7c240883e4f0ff77fc5589e557565383ec1c8b81c80400008b3f8b701c83feff74??":
 bool ShipManager::DoSensorsProvide(ShipManager *this<ecx>, int vision);
+"5731c08d7c240883e4f0ff77fc5589e5575389cb83ec108b5104b9????????85d20f95c0890424e8????????83ec04837b0401b9????????19d2":
+bool ShipManager::IsCrewFull(ShipManager *this<ecx>);
+"5731c08d7c240883e4f0ff77fc5589e5575389cb83ec108b5104b9????????85d20f95c0890424e8????????83ec04837b040119d283e2fe":
+bool ShipManager::IsCrewOverFull(ShipManager *this<ecx>);
+"578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b178b82b800000083f8020f84????????83f8030f85????????89542404":
+CrewDrone *ShipManager::CreateCrewDrone(ShipManager *this<ecx>, const DroneBlueprint *bp);
+"578d7c240883e4f0ff77fc5589e557565383ec3c8b3fc745dc0000000083bfb8000000070f87????????8b87b800000089cbff2485????????8db42600000000e8????????c70424????????8945d4":
+SpaceDrone *ShipManager::CreateSpaceDrone(ShipManager *this<ecx>, const DroneBlueprint *bp);
+"578d7c240883e4f0ff77fc5589e55783ec148b47048b0fc744240800000000c7442404ffffffff890424":
+bool ShipManager::CommandCrewMoveRoom(ShipManager *this<ecx>, CrewMember *crew, int roomId);
+"55b8????????89e5538b550883e4f083faff74??8b99c80400008b149383faff74??8b49188b0c9185c9":
+int ShipManager::GetSystemRoom(ShipManager *this<ecx>, int sysId);
+"578d7c240883e4f0ff77fc5589e5575389cb83ec108b078b90c8040000837a0cff75??c701????????c741040000000089d8c7410800000000":
+static std::vector<ProjectileFactory*>& ShipManager::GetWeaponList(std::vector<ProjectileFactory*> &wepList<ecx>, ShipManager *ship);
+"578d7c240883e4f0ff77fc5589e557565383ec1c8b81c80400008b1f8b7704837810ff":
+Drone* ShipManager::AddDrone(ShipManager *this<ecx>, const DroneBlueprint *bp, int slot);
+"578d7c240883e4f0ff77fc5589e557565389cf83ec4c8b410485c075??c641100189f9e8????????8b8fc00400008b97bc04000089c8":
+void ShipManager::Restart(ShipManager *this<ecx>);
+"558b81c804000089e583e4f08b55088b049083f8ff74??8b51188b0c82e8????????":
+int ShipManager::GetSystemPower(ShipManager *this<ecx>, int systemId);
+"5589e557565383e4f083ec108b41688b51648944240c29d0c1f80285c074??894c240431db31ffeb??8db4260000000001c78b44240c":
+int ShipManager::CountCrewShipId(ShipManager *this<ecx>, int roomId, int shipId);
 
 struct ShipManager {{
 	ShipManager(int shipId) 
@@ -66,5 +88,18 @@ struct ShipManager {{
 		auto rooms = graph->rooms.size();
 		return this->ship.GetRoomCenter(rng % rooms);
 	}
+	
+	Pointf GetRoomCenter(int roomId)
+	{
+		return ship.GetRoomCenter(roomId);
+	}
+	
+	std::vector<ProjectileFactory*> GetWeaponList()
+	{
+		std::vector<ProjectileFactory*> vec = std::vector<ProjectileFactory*>();
+		ShipManager::GetWeaponList(vec, this);
+		return vec;
+	}
+	
 
 }};

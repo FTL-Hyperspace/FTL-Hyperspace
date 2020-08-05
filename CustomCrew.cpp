@@ -85,6 +85,45 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                 crew.powerDef.tempPower = TemporaryPowerDefinition();
                 crew.powerDef.tempPower.cooldownColor = GL_Color(1.f, 1.f, 1.f, 1.f);
 
+                if (child->first_attribute("drone"))
+                {
+                    std::string droneType = child->first_attribute("drone")->value();
+
+                    crew.canBurn = false;
+                    crew.canRepair = false;
+                    crew.canSabotage = false;
+                    crew.canSuffocate = false;
+                    crew.controllable = false;
+                    crew.canFight = false;
+                    crew.canMan = false;
+                    crew.moveSpeedMultiplier = 0.5f;
+
+                    if (droneType == "BOARDER")
+                    {
+                        crew.canFight = true;
+                        crew.canSabotage = true;
+                        crew.damageMultiplier = 1.2f;
+                        crew.maxHealth = 150;
+                    }
+                    if (droneType == "BATTLE")
+                    {
+                        crew.canFight = true;
+                        crew.damageMultiplier = 1.2f;
+                        crew.maxHealth = 150;
+                    }
+                    if (droneType == "BOARDER_ION")
+                    {
+                        crew.canSabotage = true;
+                        crew.maxHealth = 125;
+                    }
+                    if (droneType == "REPAIR")
+                    {
+                        crew.canRepair = true;
+                        crew.maxHealth = 25;
+                        crew.repairSpeed = 2.f;
+                    }
+                }
+
                 try
                 {
                     for (auto stat = child->first_node(); stat; stat = stat->next_sibling())
@@ -96,9 +135,21 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                         {
                             crew.canFight = EventsParser::ParseBoolean(val);
                         }
+                        if (str == "controllable")
+                        {
+                            crew.controllable = EventsParser::ParseBoolean(val);
+                        }
+                        if (str == "canRepair")
+                        {
+                            crew.canRepair = EventsParser::ParseBoolean(val);
+                        }
                         if (str == "canSabotage")
                         {
                             crew.canSabotage = EventsParser::ParseBoolean(val);
+                        }
+                        if (str == "canMan")
+                        {
+                            crew.canMan = EventsParser::ParseBoolean(val);
                         }
                         if (str == "canSuffocate")
                         {
@@ -155,6 +206,10 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                         if (str == "canPhaseThroughDoors")
                         {
                             crew.canPhaseThroughDoors = EventsParser::ParseBoolean(val);
+                        }
+                        if (str == "healSpeed")
+                        {
+                            crew.healSpeed = boost::lexical_cast<float>(val);
                         }
                         if (str == "deathSounds")
                         {
@@ -236,6 +291,10 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                         {
                             crew.sabotageSpeedMultiplier = boost::lexical_cast<float>(val);
                         }
+                        if (str == "defaultSkillLevel")
+                        {
+                            crew.defaultSkillLevel = boost::lexical_cast<int>(val);
+                        }
                         if (str == "deathEffect")
                         {
                             crew.hasDeathExplosion = true;
@@ -312,6 +371,7 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                                     for (auto reqNode = effectNode->first_node(); reqNode; reqNode = reqNode->next_sibling())
                                     {
                                         std::string req = reqNode->name();
+                                        std::string reqVal = reqNode->value();
 
                                         if (req == "enemyShip")
                                         {
@@ -348,6 +408,14 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                                         if (req == "inCombat")
                                         {
                                             crew.powerDef.req.inCombat = true;
+                                        }
+                                        if (req == "minHealth")
+                                        {
+                                            crew.powerDef.req.minHealth = boost::lexical_cast<int>(reqVal);
+                                        }
+                                        if (req == "maxHealth")
+                                        {
+                                            crew.powerDef.req.maxHealth = boost::lexical_cast<int>(reqVal);
                                         }
                                     }
                                 }
@@ -502,6 +570,10 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                                         if (tempEffectName == "animSheet")
                                         {
                                             crew.powerDef.tempPower.animSheet = tempEffectNode->value();
+                                            if (tempEffectNode->first_attribute("baseVisible"))
+                                            {
+                                                crew.powerDef.tempPower.baseVisible = EventsParser::ParseBoolean(tempEffectNode->first_attribute("baseVisible")->value());
+                                            }
                                         }
                                         if (tempEffectName == "effectAnim")
                                         {
@@ -511,17 +583,33 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                                         {
                                             crew.powerDef.tempPower.invulnerable = EventsParser::ParseBoolean(tempEffectNode->value());
                                         }
+                                        if (tempEffectName == "controllable")
+                                        {
+                                            crew.powerDef.tempPower.controllable = EventsParser::ParseBoolean(tempEffectNode->value());
+                                        }
                                         if (tempEffectName == "canFight")
                                         {
                                             crew.powerDef.tempPower.canFight = EventsParser::ParseBoolean(tempEffectNode->value());
+                                        }
+                                        if (tempEffectName == "canRepair")
+                                        {
+                                            crew.powerDef.tempPower.canRepair = EventsParser::ParseBoolean(tempEffectNode->value());
                                         }
                                         if (tempEffectName == "canSabotage")
                                         {
                                             crew.powerDef.tempPower.canSabotage = EventsParser::ParseBoolean(tempEffectNode->value());
                                         }
+                                        if (tempEffectName == "canMan")
+                                        {
+                                            crew.powerDef.tempPower.canMan = EventsParser::ParseBoolean(tempEffectNode->value());
+                                        }
                                         if (tempEffectName == "canSuffocate")
                                         {
                                             crew.powerDef.tempPower.canSuffocate = EventsParser::ParseBoolean(tempEffectNode->value());
+                                        }
+                                        if (tempEffectName == "suffocationModifier")
+                                        {
+                                            crew.powerDef.tempPower.suffocationModifier = boost::lexical_cast<float>(tempEffectNode->value());
                                         }
                                         if (tempEffectName == "oxygenChangeSpeed")
                                         {
@@ -554,6 +642,14 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                                         if (tempEffectName == "sabotageSpeedMultiplier")
                                         {
                                             crew.powerDef.tempPower.sabotageSpeedMultiplier = boost::lexical_cast<float>(tempEffectNode->value());
+                                        }
+                                        if (tempEffectName == "healAmount")
+                                        {
+                                            crew.powerDef.tempPower.healAmount = boost::lexical_cast<float>(tempEffectNode->value());
+                                        }
+                                        if (tempEffectName == "damageEnemiesAmount")
+                                        {
+                                            crew.powerDef.tempPower.damageEnemiesAmount = boost::lexical_cast<float>(tempEffectNode->value());
                                         }
                                     }
                                 }
@@ -597,10 +693,7 @@ CrewMember* CustomCrewManager::CreateCrewMember(CrewBlueprint* bp, int shipId, b
 
 bool CustomCrewManager::IsRace(const std::string& race)
 {
-    return std::count_if(blueprintNames.begin(),
-                         blueprintNames.end(),
-                         [race](std::pair<std::string, CrewDefinition> i) { return i.first == race; } )
-                          > 0;
+    return blueprintNames.find(race) != blueprintNames.end();
 }
 
 
@@ -641,7 +734,7 @@ PowerReadyState CrewMember_Extend::PowerReady()
             if (i->iRoomId == orig->iRoomId)
             {
                 enemyInRoom = enemyInRoom || (i->iShipId == orig->iShipId);
-                friendlyInRoom = friendlyInRoom || (i->iShipId == orig->iShipId);
+                friendlyInRoom = friendlyInRoom || (i->iShipId == orig->iShipId && i != orig);
             }
         }
 
@@ -669,6 +762,14 @@ PowerReadyState CrewMember_Extend::PowerReady()
     else if (req.inCombat && (crewShip && (!crewShip->current_target || !crewShip->current_target->_targetable.hostile)))
     {
         return POWER_NOT_READY_IN_COMBAT;
+    }
+    else if (req.minHealth.enabled && orig->health.first < req.minHealth.value)
+    {
+        return POWER_NOT_READY_MIN_HEALTH;
+    }
+    else if (req.maxHealth.enabled && orig->health.first > req.maxHealth.value)
+    {
+        return POWER_NOT_READY_MAX_HEALTH;
     }
 
     return POWER_READY;
@@ -711,25 +812,25 @@ void CrewMember_Extend::ActivatePower()
 
     if (powerDef.sounds.size() > 0)
     {
-        int rng = rand();
+        int rng = random32();
 
         std::string sound = powerDef.sounds[rng % powerDef.sounds.size()];
 
-        G_->GetSoundControl()->PlaySoundMix(sound, -1, false);
+        G_->GetSoundControl()->PlaySoundMix(sound, -1.f, false);
     }
 
     auto aex = CMA_EX(orig->crewAnim);
 
     aex->temporaryPowerActive = true;
 
-    if (aex->effectAnim != NULL)
+    if (aex->effectAnim != nullptr)
     {
         aex->effectAnim->SetCurrentFrame(0);
         aex->effectAnim->tracker.SetLoop(false, -1);
         aex->effectAnim->Start(true);
     }
 
-    if (aex->tempEffectAnim != NULL)
+    if (aex->tempEffectAnim != nullptr)
     {
 
         aex->tempEffectAnim->SetCurrentFrame(0);
@@ -739,10 +840,13 @@ void CrewMember_Extend::ActivatePower()
 
     if (powerDef.win)
     {
+        G_->GetSoundControl()->StopPlaylist(100);
+        G_->GetSoundControl()->PlaySoundMix("victory", -1.f, false);
+
         G_->GetCApp()->gui->Victory();
     }
 
-    if (powerDef.crewHealth > 0.f || powerDef.enemyHealth > 0.f)
+    if (powerDef.crewHealth || powerDef.enemyHealth)
     {
         for (auto i : ship->vCrewList)
         {
@@ -760,7 +864,7 @@ void CrewMember_Extend::ActivatePower()
         }
     }
 
-    if (powerDef.selfHealth > 0.f)
+    if (powerDef.selfHealth)
     {
         orig->DirectModifyHealth(powerDef.selfHealth);
     }
@@ -784,7 +888,7 @@ void CrewMember_Extend::TemporaryPowerFinished()
 
     if (powerDef.tempPower.sounds.size() > 0)
     {
-        int rng = rand();
+        int rng = random32();
 
         std::string sound = powerDef.tempPower.sounds[rng % powerDef.tempPower.sounds.size()];
 
@@ -793,7 +897,7 @@ void CrewMember_Extend::TemporaryPowerFinished()
 
     auto aex = CMA_EX(orig->crewAnim);
 
-    if (aex->tempEffectAnim != NULL)
+    if (aex->tempEffectAnim != nullptr)
     {
         aex->tempEffectAnim->tracker.Stop(false);
     }
@@ -806,7 +910,6 @@ void CrewMember_Extend::TemporaryPowerFinished()
 void CrewAnimation_Extend::OnInit(const std::string& name, Pointf position, bool enemy)
 {
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
-
 
 
     if (custom->IsRace(orig->race))
@@ -868,10 +971,13 @@ HOOK_METHOD_PRIORITY(CrewMember, constructor, -899, (CrewBlueprint& bp, int ship
             crewAnim = new RockAnimation(bp.name, shipId, Pointf(0, 0), enemy);
         }
 
-        if (def.passiveHealAmount > 0.f)
+        if (def.passiveHealAmount != 0.f)
         {
-            ex->passiveHealTimer = new TimerHelper();
-            ex->passiveHealTimer->Start(def.passiveHealDelay);
+            if (def.passiveHealDelay > 0)
+            {
+                ex->passiveHealTimer = new TimerHelper();
+                ex->passiveHealTimer->Start(def.passiveHealDelay);
+            }
         }
 
         ex->powerCooldown.first = 0.f;
@@ -901,6 +1007,13 @@ HOOK_METHOD_PRIORITY(CrewMember, constructor, -899, (CrewBlueprint& bp, int ship
         blueprint.skillLevel[4].second = skillsDef.skills["repair"].requirement * 2;
         blueprint.skillLevel[5].second = skillsDef.skills["combat"].requirement * 2;
 
+        for (int i = 0; i < blueprint.skillLevel.size(); i++)
+        {
+            if (blueprint.skillLevel[i].first < (def.defaultSkillLevel / 2.f) * blueprint.skillLevel[i].second)
+            {
+                blueprint.skillLevel[i].first = ((def.defaultSkillLevel / 2.f) * blueprint.skillLevel[i].second);
+            }
+        }
     }
 }
 
@@ -980,15 +1093,32 @@ HOOK_METHOD_PRIORITY(CrewMember, UpdateHealth, 2000, () -> void)
         mod = 0.2f;
     }
 
+
+    if (custom->IsRace(species))
+    {
+        auto def = custom->GetDefinition(species);
+
+        mod = def.healSpeed;
+    }
+
+
     DirectModifyHealth(G_->GetCFPS()->GetSpeedFactor() * fMedbay * mod * 0.4f);
     CrewMember_Extend* ex = CM_EX(this);
-    if (ex->isHealing)
+
+    if (custom->IsRace(species))
     {
-        if (custom->IsRace(species) && ex->passiveHealTimer)
+        auto def = custom->GetDefinition(species);
+
+        if (ex->temporaryPowerActive && def.powerDef.tempPower.healAmount != 0.f)
         {
-            DirectModifyHealth(G_->GetCFPS()->GetSpeedFactor() * custom->GetDefinition(species).passiveHealAmount * 0.4f);
+            DirectModifyHealth(G_->GetCFPS()->GetSpeedFactor() * def.powerDef.tempPower.healAmount * 0.06245f);
+        }
+        else if (ex->isHealing)
+        {
+            DirectModifyHealth(G_->GetCFPS()->GetSpeedFactor() * def.passiveHealAmount * 0.4f);
         }
     }
+
     //super();
 }
 HOOK_METHOD_PRIORITY(CrewMember, DirectModifyHealth, 1000, (float healthMod) -> void)
@@ -1027,13 +1157,10 @@ HOOK_METHOD_PRIORITY(CrewMember, DirectModifyHealth, 1000, (float healthMod) -> 
 
 
     super(healthMod);
-    if (healthMod < 0.f)
+    if (custom->IsRace(species) && healthMod < 0.f && ex->passiveHealTimer)
     {
         ex->isHealing = false;
-        if (custom->IsRace(species) && ex->passiveHealTimer)
-        {
-            ex->passiveHealTimer->Start(custom->GetDefinition(species).passiveHealDelay);
-        }
+        ex->passiveHealTimer->Start(custom->GetDefinition(species).passiveHealDelay);
     }
 }
 HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
@@ -1054,6 +1181,10 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
                 ex->isHealing = true;
             }
         }
+        else
+        {
+            ex->isHealing = true;
+        }
 
         if (ex->hasSpecialPower && !G_->GetCApp()->menu.shipBuilder.bOpen)
         {
@@ -1073,11 +1204,11 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
         }
 
         auto aex = CMA_EX(crewAnim);
-        if (aex->effectAnim != NULL)
+        if (aex->effectAnim != nullptr)
         {
             aex->effectAnim->Update();
         }
-        if (aex->tempEffectAnim != NULL)
+        if (aex->tempEffectAnim != nullptr)
         {
             aex->tempEffectAnim->Update();
         }
@@ -1110,7 +1241,7 @@ HOOK_METHOD(CrewMember, LoadState, (int file) -> void)
     ex->temporaryPowerActive = FileHelper::readInteger(file);
     aex->temporaryPowerActive = ex->temporaryPowerActive;
 
-    if (aex->tempEffectAnim != NULL && aex->temporaryPowerActive)
+    if (aex->tempEffectAnim != nullptr && aex->temporaryPowerActive)
     {
         aex->tempEffectAnim->SetCurrentFrame(0);
         aex->tempEffectAnim->tracker.SetLoop(true, 0);
@@ -1201,7 +1332,7 @@ HOOK_METHOD_PRIORITY(CrewMember, GetNewGoal, 2000, () -> bool)
                         left = true;
                     }
 
-                    int offset = (G_->GetRNG() ? rand() : random32()) % 17;
+                    int offset = random32() % 17;
                     if (door->bVertical)
                     {
                         if (left)
@@ -1388,7 +1519,7 @@ HOOK_STATIC(CrewAnimation, GetDeathSound, (std::string& strRef, CrewAnimation *a
             int rng = 0;
             if (G_->GetRNG())
             {
-                rng = rand();
+                rng = random32();
             }
             else
             {
@@ -1419,7 +1550,7 @@ HOOK_STATIC(CrewAnimation, GetShootingSound, (std::string& strRef, CrewAnimation
             int rng = 0;
             if (G_->GetRNG())
             {
-                rng = rand();
+                rng = random32();
             }
             else
             {
@@ -1450,7 +1581,7 @@ HOOK_STATIC(CrewMember, GetUniqueRepairing, (std::string& strRef, CrewMember *cr
             int rng = 0;
             if (G_->GetRNG())
             {
-                rng = rand();
+                rng = random32();
             }
             else
             {
@@ -1599,7 +1730,7 @@ HOOK_METHOD(ShipObject, HasEquipment, (const std::string& name) -> int)
                         {
                             return 1;
                         }
-                        else if (def.detectsLifeforms)
+                        else if (def.detectsLifeforms && i->Functional())
                         {
                             return 1;
                         }
@@ -1639,8 +1770,6 @@ HOOK_METHOD(ShipManager, OnLoop, () -> void)
             {
                 ShipSystem_Extend* sys_ex = SYS_EX(lastSys);
 
-                printf("Cleared power loss for: %s\n", lastSys->name.c_str());
-
                 lastSys->SetPowerLoss(0);
             }
             if (sys)
@@ -1648,8 +1777,6 @@ HOOK_METHOD(ShipManager, OnLoop, () -> void)
                 ShipSystem_Extend* sys_ex = SYS_EX(sys);
 
                 sys->SetPowerLoss(1);
-
-                printf("Set power loss for: %s\n", sys->name.c_str());
             }
 
             ex->lastRoom = i->iRoomId;
@@ -1662,6 +1789,7 @@ HOOK_METHOD(ShipManager, OnLoop, () -> void)
     super();
 }
 */
+
 
 HOOK_METHOD(CrewMember, OnLoop, () -> void)
 {
@@ -1694,8 +1822,16 @@ HOOK_METHOD(CrewMember, OnLoop, () -> void)
 static bool shipFriendlyFire = true;
 static bool blockDamageArea = false;
 
-
-
+HOOK_STATIC(IonDrone, GetRoomDamage, (Damage *damage, IonDrone* crew) -> Damage*)
+{
+    if (blockDamageArea) return damage;
+    return super(damage, crew);
+}
+HOOK_STATIC(EnergyAlien, GetRoomDamage, (Damage *damage, EnergyAlien* crew) -> Damage*)
+{
+    if (blockDamageArea) return damage;
+    return super(damage, crew);
+}
 
 HOOK_STATIC(CrewMember, GetRoomDamage, (Damage *damage, CrewMember *crew) -> Damage*)
 {
@@ -1766,6 +1902,18 @@ HOOK_STATIC(CrewMember, GetRoomDamage, (Damage *damage, CrewMember *crew) -> Dam
             }
         }
     }
+    else
+    {
+        if (crew->species == "energy")
+        {
+            ret = EnergyAlien::GetRoomDamage(damage, (EnergyAlien*)crew);
+        }
+
+        if (CM_EX(crew)->isIonDrone)
+        {
+            ret = IonDrone::GetRoomDamage(damage, (IonDrone*)crew);
+        }
+    }
 
     return ret;
 }
@@ -1776,6 +1924,8 @@ HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
     super();
     blockDamageArea = false;
 
+    CustomCrewManager *custom = CustomCrewManager::GetInstance();
+
     for (auto i : vCrewList)
     {
         Damage* dmg = new Damage();
@@ -1785,6 +1935,24 @@ HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
         unsigned int bitmask = false << 24 | dmg->bFriendlyFire << 16 | dmg->crystalShard << 8 | dmg->bLockdown;
 
         DamageArea(Pointf(i->x, i->y), dmg->iDamage, dmg->iShieldPiercing, dmg->fireChance, dmg->breachChance, dmg->stunChance, dmg->iIonDamage, dmg->iSystemDamage, dmg->iPersDamage, dmg->bHullBuster, dmg->ownerId, dmg->selfId, bitmask, dmg->iStun, true);
+
+        if (custom->IsRace(i->species))
+        {
+            auto def = custom->GetDefinition(i->species);
+
+            if (CM_EX(i)->temporaryPowerActive)
+            {
+                float healthChange = G_->GetCFPS()->GetSpeedFactor() * def.powerDef.tempPower.damageEnemiesAmount * 0.06245f;
+
+                for (auto crew : vCrewList)
+                {
+                    if (crew->iRoomId == i->iRoomId && crew->iShipId != i->iShipId)
+                    {
+                        crew->DirectModifyHealth(healthChange);
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -1857,9 +2025,14 @@ HOOK_METHOD_PRIORITY(CrewBox, OnRender, 1000, () -> void)
 
     auto crew = pCrew;
     auto health = crew->health;
-    if (health.first > 25.f || health.first == 0.f)
+    if (health.first > 25.f || health.first == 0.f || std::floor(health.first) == std::floor(health.second))
     {
         flashHealthTracker.Stop(false);
+    }
+
+    if (number < 0)
+    {
+        return;
     }
 
     GL_Color boxColor = GL_Color();
@@ -1946,7 +2119,7 @@ HOOK_METHOD_PRIORITY(CrewBox, OnRender, 1000, () -> void)
 
         int cooldownHeight = std::floor((cooldown.first / cooldown.second) * (box.h - 6));
 
-        GL_Primitive* prim = NULL;
+        GL_Primitive* prim = nullptr;
 
         if (cooldownHeight == lastCooldownHeight && cooldownBar)
         {
@@ -1959,7 +2132,7 @@ HOOK_METHOD_PRIORITY(CrewBox, OnRender, 1000, () -> void)
 
             if (cooldownHeight <= 0)
             {
-                cooldownBar = NULL;
+                cooldownBar = nullptr;
             }
             else
             {
@@ -2008,10 +2181,10 @@ HOOK_METHOD_PRIORITY(CrewBox, OnRender, 1000, () -> void)
     else
     {
         lastHealthWidth = healthWidth;
-        GL_Primitive *prim = NULL;
+        GL_Primitive *prim = nullptr;
         if (health.first <= 0)
         {
-            healthBar = NULL;
+            healthBar = nullptr;
         }
         else
         {
@@ -2115,6 +2288,8 @@ HOOK_METHOD(CrewBox, GetSelected, (int mouseX, int mouseY) -> CrewMember*)
                 auto state = ex->PowerReady();
 
                 std::string tooltipName = "";
+                std::string replaceValue = "";
+
 
                 switch (state)
                 {
@@ -2148,11 +2323,23 @@ HOOK_METHOD(CrewBox, GetSelected, (int mouseX, int mouseY) -> CrewMember*)
                 case POWER_NOT_READY_IN_COMBAT:
                     tooltipName = "power_not_ready_in_combat";
                     break;
+                case POWER_NOT_READY_MIN_HEALTH:
+                    tooltipName = "power_not_ready_min_health";
+                    replaceValue = boost::lexical_cast<std::string>(def.powerDef.req.minHealth.value);
+                    break;
+                case POWER_NOT_READY_MAX_HEALTH:
+                    tooltipName = "power_not_ready_max_health";
+                    replaceValue = boost::lexical_cast<std::string>(def.powerDef.req.maxHealth.value);
+                    break;
                 }
 
                 if (!tooltipName.empty())
                 {
                     tooltip = G_->GetTextLibrary()->GetText(tooltipName);
+                    if (!replaceValue.empty())
+                    {
+                        boost::algorithm::replace_all(tooltip, "\\1", replaceValue);
+                    }
                 }
             }
 
@@ -2182,7 +2369,7 @@ HOOK_METHOD(CrewMember, OnRender, (bool outlineOnly) -> void)
     CSurface::GL_PushMatrix();
     CSurface::GL_Translate(x, y);
 
-    if (ex->effectAnim != NULL && !ex->effectAnim->tracker.done)
+    if (ex->effectAnim != nullptr && !ex->effectAnim->tracker.done)
     {
         CSurface::GL_PushMatrix();
         CSurface::GL_Translate(-std::ceil((float)ex->effectAnim->info.frameWidth / 2), -std::ceil((float)ex->effectAnim->info.frameHeight / 2));
@@ -2191,7 +2378,7 @@ HOOK_METHOD(CrewMember, OnRender, (bool outlineOnly) -> void)
         CSurface::GL_PopMatrix();
     }
 
-    if (ex->tempEffectAnim != NULL && !ex->tempEffectAnim->tracker.done && ex->tempEffectAnim->tracker.running)
+    if (ex->tempEffectAnim != nullptr && !ex->tempEffectAnim->tracker.done && ex->tempEffectAnim->tracker.running)
     {
         CSurface::GL_PushMatrix();
         CSurface::GL_Translate(-std::ceil((float)ex->tempEffectAnim->info.frameWidth / 2), -std::ceil((float)ex->tempEffectAnim->info.frameHeight / 2));
@@ -2205,9 +2392,13 @@ HOOK_METHOD(CrewMember, OnRender, (bool outlineOnly) -> void)
 
 HOOK_METHOD(CrewAnimation, OnRender, (float scale, int selectedState, bool outlineOnly) -> void)
 {
-    super(scale, selectedState, outlineOnly);
-
+    auto custom = CustomCrewManager::GetInstance();
     auto aex = CMA_EX(this);
+
+    if (outlineOnly || (!aex->temporaryPowerActive || (custom->IsRace(race) && custom->GetDefinition(race).powerDef.tempPower.baseVisible)))
+    {
+        super(scale, selectedState, outlineOnly);
+    }
 
     if (!outlineOnly && aex->temporaryPowerActive && aex->tempEffectStrip)
     {
@@ -2257,7 +2448,7 @@ HOOK_METHOD(ShipManager, OnLoop, () -> void)
 
         for (auto j : vCrewList)
         {
-            if (i->roomId == j->iRoomId)
+            if (i->roomId == j->iRoomId && j->iShipId == iShipId && j->Functional())
             {
                 if (custom->IsRace(j->species))
                 {
@@ -2275,7 +2466,7 @@ HOOK_METHOD(ShipManager, OnLoop, () -> void)
 
                     bonusPowerCounter += def.bonusPower;
 
-                    if (j->AtFinalGoal())
+                    if (j->AtFinalGoal() && !j->IsDrone())
                     {
                         permanentPowerCounter += def.bonusPower;
                     }
@@ -2284,7 +2475,7 @@ HOOK_METHOD(ShipManager, OnLoop, () -> void)
                 if (j->ProvidesPower())
                 {
                     bonusPowerCounter++;
-                    if (j->AtFinalGoal())
+                    if (j->AtFinalGoal() && !j->IsDrone())
                     {
                         permanentPowerCounter++;
                     }
@@ -2331,4 +2522,80 @@ HOOK_METHOD(CrewMember, UpdateRepair, () -> void)
     super();
 
     sabotageMultiplier = 1.f;
+}
+
+static bool windowFrameCheck = false;
+static int windowFrameHeight = 0;
+
+HOOK_METHOD(WindowFrame, constructor, (int x, int y, int w, int h) -> void)
+{
+    if (windowFrameCheck)
+    {
+        h = windowFrameHeight;
+        windowFrameCheck = false;
+    }
+
+    super(x, y, w, h);
+}
+
+HOOK_METHOD(InfoBox, SetBlueprintCrew, (const CrewBlueprint& bp, int yShift, bool detailedCrew) -> void)
+{
+    super(bp, yShift, detailedCrew);
+
+    Pointf titleSize = freetype_hack::easy_measurePrintLines(16, 0, 0, descBoxSize.x, desc.title.GetText());
+    Pointf descSize = freetype_hack::easy_measurePrintLines(10, 0, 0, descBoxSize.x, desc.description.GetText());
+
+    Pointf boxSize = titleSize + descSize + Pointf(0, 28.f);
+    boxSize.y = std::max(boxSize.y, 183.f);
+
+
+    windowFrameCheck = true;
+    windowFrameHeight = boxSize.y;
+
+    super(bp, yShift, detailedCrew);
+
+    windowFrameCheck = false;
+    descBoxSize.y = boxSize.y;
+}
+
+bool blockAnimationUpdate = false;
+
+HOOK_METHOD(AnimationTracker, Update, () -> void)
+{
+    if (blockAnimationUpdate) return;
+
+    super();
+}
+
+HOOK_METHOD(CrewMember, OnRenderHealth, () -> void)
+{
+    bool fullHealth = std::floor(health.first) == std::floor(health.second);
+
+    if (fullHealth)
+    {
+        flashHealthTracker.SetProgress(0.5f);
+        blockAnimationUpdate = true;
+    }
+
+    super();
+
+    blockAnimationUpdate = false;
+
+    if (fullHealth)
+    {
+        flashHealthTracker.Start(0.5f);
+    }
+}
+
+HOOK_METHOD(CrewAI, PrioritizeIntruderRoom, (CrewMember *crew, int roomId, int target) -> int)
+{
+    if (!crew->CanSabotage())
+    {
+        if (ship->CountCrewShipId(roomId, !crew->iShipId) == 0)
+        {
+            return 1000;
+        }
+    }
+
+    return super(crew, roomId, target);
 }

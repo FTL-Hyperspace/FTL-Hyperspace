@@ -7,7 +7,7 @@
 </mod:findName>
 
 <mod:findName type="text" name="version">
-  <mod:setValue>\1 (Hyperspace 0.4)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 0.5)</mod:setValue>
 </mod:findName>
 
 <text name="augment_no_effect">These augmentations will have no effect with this augment installed:</text>
@@ -29,3 +29,21 @@
 <text name="power_not_ready_has_clonebay">Not Ready: No clone bay available</text>
 <text name="power_not_ready_out_of_combat">Not Ready: In combat</text>
 <text name="power_not_ready_in_combat">Not Ready: No enemy ship</text>
+<text name="power_not_ready_min_health">Not Ready: Health is below \1</text> <!-- \1 is min health req -->
+<text name="power_not_ready_max_health">Not Ready: Health is above \1</text> <!-- \1 is max health req -->
+
+<!-- Discord Integration -->
+
+<text name="discord_main_menu">In main menu</text>
+<text name="discord_hangar">In the hangar</text>
+<text name="discord_dying">Dying</text>
+<text name="discord_exploring">Exploring</text>
+<text name="discord_battle">In Battle</text>
+<text name="discord_battle_boss">In Boss Battle (Phase \1)</text> <!-- \1 is boss phase -->
+<text name="discord_sector">\1 (\2/8)</text> <!-- \1 is sector name, \2 is sector number -->
+<text name="discord_ship">\1 Type \2</text> <!-- \1 is ship name, \2 is ship type (A, B or C) -->
+<text name="discord_playing_modded">Playing modded (\1)</text> <!-- \1 is discord_mod -->
+<text name="discord_playing_vanilla">Playing vanilla</text>
+<text name="discord_victory">Victory</text>
+<text name="discord_dead">Dead</text>
+<text name="discord_mod"></text>

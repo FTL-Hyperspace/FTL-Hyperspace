@@ -2,6 +2,14 @@
 int Ship::GetSelectedRoomId(Ship *this<ecx>, int x, int y, bool unk);
 "578d7c240883e4f0ff77fc5589e557565389cb81ec????????8b078b570889c68985d0feffff8b47048995ccfeffff8985c8feffff8b4104890424":
 void Ship::LockdownRoom(Ship *this<ecx>, int roomId, Pointf pos);
+"538b81bc0300008b89c00300008b5c240829c1c1f90469c9????????85c974??3b98ec00000074??05????????31d2eb??05????????3b9810ffffff":
+bool Ship::RoomLocked(Ship *this<ecx>, int roomId);
+"578d7c240883e4f0ff77fc5589e557565383ec1c8b59088b410c8b178b770429d8":
+bool Ship::FullRoom(Ship *this<ecx>, int roomId, bool intruder);
+"578d7c240883e4f0ff77fc5589f889e557565389cf83ec1c8b008b51088b0c828d1c85????????8b5134":
+int Ship::EmptySlots(Ship *this<ecx>, int roomId);
+"578d7c240883e4f0ff77fc5589e55783ec148b178b41088b0c900fb64704":
+int Ship::GetAvailableRoomSlot(Ship *this<ecx>, int roomId, bool intruder);
 
 struct Ship depends (ShipGraph) {{
 	Pointf GetRoomCenter(int room)

@@ -18,7 +18,6 @@ HOOK_METHOD(ShipManager, CreateSystems, () -> int)
 {
     for (auto const &x: this->systemKey)
     {
-        printf("%d\n", x);
     }
     return super();
 }

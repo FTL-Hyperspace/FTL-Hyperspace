@@ -15,6 +15,7 @@ struct CustomShipDefinition
 {
     std::string name;
     std::map<std::string, int> hiddenAugs = std::map<std::string, int>();
+    int crewLimit = 8;
 };
 
 
@@ -22,7 +23,7 @@ struct CustomShipDefinition
 class ShipButtonList
 {
 public:
-    ShipButtonList(int _page, int _id, ShipButton* _a, ShipButton* _b=NULL, ShipButton* _c=NULL)
+    ShipButtonList(int _page, int _id, ShipButton* _a, ShipButton* _b=NULL, ShipButton* _c=nullptr)
     : page(_page),
       id(_id),
       a(_a),
@@ -149,9 +150,14 @@ public:
         return this->shipDefs[name];
     }
 
+    CustomShipDefinition& GetDefaultDefinition()
+    {
+        return this->shipDefs["default"];
+    }
+
     int GetRandomShipIndex()
     {
-        return (rand() % shipButtonDefs.size());
+        return (random32() % shipButtonDefs.size());
     }
 
     int ShipCount(int type=0)

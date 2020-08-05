@@ -1,6 +1,22 @@
 #include "CustomCrew.h"
 
 
+static bool __attribute__((fastcall)) CrewMember_GetControllable(CrewMember *_this)
+{
+    bool req = _this->iShipId == 0 && !_this->bDead && !_this->bMindControlled;
+
+    CustomCrewManager *custom = CustomCrewManager::GetInstance();
+    auto def = custom->GetDefinition(_this->species);
+
+    auto ex = CM_EX(_this);
+    if (ex->temporaryPowerActive && def.powerDef.tempPower.controllable.enabled)
+    {
+        return def.powerDef.tempPower.controllable.value && req;
+    }
+
+    return def.controllable && req;
+}
+
 static bool __attribute__((fastcall)) CrewMember_CanSuffocate(CrewMember *_this)
 {
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
@@ -29,18 +45,51 @@ static bool __attribute__((fastcall)) CrewMember_CanFight(CrewMember *_this)
     return def.canFight;
 }
 
+static bool __attribute__((fastcall)) CrewMember_CanRepair(CrewMember *_this)
+{
+    bool req = !_this->intruder && !_this->bDead && _this->crewAnim->status != 3;
+
+    CustomCrewManager *custom = CustomCrewManager::GetInstance();
+    auto def = custom->GetDefinition(_this->species);
+
+    auto ex = CM_EX(_this);
+    if (ex->temporaryPowerActive && def.powerDef.tempPower.canRepair.enabled)
+    {
+        return def.powerDef.tempPower.canRepair.value && req;
+    }
+
+    return def.canRepair && req;
+}
+
 static bool __attribute__((fastcall)) CrewMember_CanSabotage(CrewMember *_this)
 {
+    bool req = _this->intruder;
+
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
     auto def = custom->GetDefinition(_this->species);
 
     auto ex = CM_EX(_this);
     if (ex->temporaryPowerActive && def.powerDef.tempPower.canSabotage.enabled)
     {
-        return def.powerDef.tempPower.canSabotage.value;
+        return def.powerDef.tempPower.canSabotage.value && req;
     }
 
-    return def.canSabotage && _this->intruder;
+    return def.canSabotage && req;
+}
+
+static bool __attribute__((fastcall)) CrewMember_CanMan(CrewMember *_this)
+{
+    bool req = !_this->intruder && _this->fStunTime == 0.f && _this->crewAnim->status != 3;
+    CustomCrewManager *custom = CustomCrewManager::GetInstance();
+    auto def = custom->GetDefinition(_this->species);
+
+    auto ex = CM_EX(_this);
+    if (ex->temporaryPowerActive && def.powerDef.tempPower.canMan.enabled)
+    {
+        return def.powerDef.tempPower.canMan.value && req;
+    }
+
+    return def.canMan && req;
 }
 
 
@@ -127,6 +176,14 @@ static bool __attribute__((fastcall)) CrewMember_IsTelepathic(CrewMember *_this)
 static float __attribute__((fastcall)) CrewMember_GetSuffocationModifier(CrewMember *_this)
 {
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
+    auto def = custom->GetDefinition(_this->species);
+
+    auto ex = CM_EX(_this);
+    if (ex->temporaryPowerActive && def.powerDef.tempPower.suffocationModifier.enabled)
+    {
+        return def.powerDef.tempPower.suffocationModifier.value;
+    }
+
     return custom->GetDefinition(_this->species).suffocationModifier;
 }
 
@@ -191,8 +248,11 @@ void SetupVTable(CrewMember *crew)
     DWORD dwOldProtect, dwBkup;
     VirtualProtect(&vtable[0], sizeof(void*) * 57, PAGE_EXECUTE_READWRITE, &dwOldProtect);
 
+    vtable[23] = (void*)&CrewMember_GetControllable;
     vtable[25] = (void*)&CrewMember_CanFight;
+    vtable[26] = (void*)&CrewMember_CanRepair;
     vtable[27] = (void*)&CrewMember_CanSabotage;
+    vtable[28] = (void*)&CrewMember_CanMan;
     vtable[31] = (void*)&CrewMember_CanSuffocate;
     vtable[32] = (void*)&CrewMember_CanBurn;
     vtable[33] = (void*)&CrewMember_GetMaxHealth;
@@ -220,7 +280,8 @@ HOOK_METHOD_PRIORITY(CrewMember, constructor, 500, (CrewBlueprint& bp, int shipI
     super(bp, shipId, intruder, animation);
 
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
-    if ( custom->IsRace(species) )
+
+    if (custom->IsRace(species) && !IsDrone())
     {
         SetupVTable(this);
         health.first = GetMaxHealth();
@@ -232,6 +293,7 @@ HOOK_METHOD_PRIORITY(CrewMember, constructor, 500, (CrewBlueprint& bp, int shipI
 static bool __attribute__((fastcall)) CrewAnimation_CustomDeath(CrewAnimation *_this)
 {
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
+    if (!custom->IsRace(_this->race)) return false;
     return custom->GetDefinition(_this->race).hasCustomDeathAnimation;
 }
 
@@ -254,7 +316,7 @@ HOOK_METHOD_PRIORITY(CrewAnimation, constructor, 500, (int shipId, const std::st
     super(shipId, race, unk, hostile);
 
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
-    if ( custom->IsRace(race) )
+    if (custom->IsRace(race) && !bDrone)
     {
         SetupVTable(this);
     }

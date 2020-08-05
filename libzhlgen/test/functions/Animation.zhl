@@ -10,3 +10,7 @@ void Animation::Start(Animation *this<ecx>, bool reset);
 void Animation::AddSoundQueue(Animation *this<ecx>, int unk, const std::string& sound);
 "8b442404390174??89c2890185d274??8b500489510889c285d274??8b400889410c":
 void Animation::SetAnimationId(Animation *this<ecx>, GL_Texture *tex);
+
+struct Animation
+{{
+}};

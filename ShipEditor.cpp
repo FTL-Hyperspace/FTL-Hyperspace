@@ -198,8 +198,6 @@ HOOK_METHOD_PRIORITY(ShipBuilder, MouseMove, -1000, () -> void)
 {
     ShipEditor *editor = ShipEditor::GetInstance();
 
-    printf("%d\n", editor->enabled);
-
     if (editor->enabled)
     {
 
@@ -213,8 +211,6 @@ HOOK_METHOD_PRIORITY(ShipBuilder, MouseMove, -1000, () -> void)
 HOOK_METHOD_PRIORITY(ShipBuilder, MouseClick, -1000, () -> void)
 {
     ShipEditor *editor = ShipEditor::GetInstance();
-
-    printf("%d\n", editor->enabled);
 
     if (editor->enabled)
     {

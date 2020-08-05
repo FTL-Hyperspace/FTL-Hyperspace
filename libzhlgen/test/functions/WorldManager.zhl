@@ -18,3 +18,13 @@ LocationEvent *WorldManager::ModifyResources(WorldManager *this<ecx>, LocationEv
 void WorldManager::ModifyEnvironment(WorldManager *this<ecx>, int envFlag, int envTarget);
 "5789ca81c2????????8d7c240883e4f0ff77fc5589e5575653":
 void WorldManager::CheckStatusEffects(WorldManager *this<ecx>, std::vector<StatusEffect>& vec);
+"578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b098b3785c9":
+void WorldManager::StartGame(WorldManager *this<ecx>, ShipManager *ship);
+".578d7c240883e4f0ff77fc5589e5575389cb83ec10e8????????e8????????":
+void WorldManager::Restart(WorldManager *this<ecx>);
+"578d7c240883e4f0ff77fc5589e557565389cb8db51cfeffff81ec????????8b07c7852cfeffff00000000c78530feffff00000000c78534feffff00000000c78538feffff00000000c7853cfeffff00000000":
+void WorldManager::LoadGame(WorldManager *this<ecx>, const std::string& fileName);
+"578d7c240883e4f0ff77fc5589e557565389cf81ec????????c70424????????e8????????83ec0484c074??8d65f45b5e5f5d8d67f85f":
+void WorldManager::OnLoop(WorldManager *this<ecx>);
+"578d7c240883e4f0ff77fc5589e557565389ce8d5dd88d7dd083ec3c8b018b480881c1????????e8????????8b068b5008895dd08b8aa4060000":
+void WorldManager::CreateNewGame(WorldManager *this<ecx>);

@@ -10,9 +10,15 @@ void CrewAnimation::OnRender(CrewAnimation *this<ecx>, float scale, int selected
 void CrewAnimation::OnInit(CrewAnimation *this<ecx>, const std::string& name, Pointf position, bool enemy);
 "578d7c240883e4f0ff77fc5589e557568d8578feffff5389cf81ec????????898570feffff8b91ac0900008b81a80900008d8d70feffff":
 void CrewAnimation::SetupStrips(CrewAnimation *this<ecx>);
+"578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b078b57048b4f088b770c8945c08b47108955c48b57148b7f188945bc8b433883f8060f84????????84d20f85????????80bbec09000000":
+void CrewAnimation::OnUpdate(CrewAnimation *this<ecx>, Pointf position, bool moving, bool fighting, bool repairing, bool dying, bool onFire);
 
 struct CrewAnimation
 {{
+	CrewAnimation()
+	{
+	}
+
 	CrewAnimation(int shipId, const std::string& race, Pointf unk, char hostile)
 	{
 		this->constructor(shipId, race, unk, hostile);

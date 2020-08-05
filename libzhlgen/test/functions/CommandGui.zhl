@@ -14,3 +14,9 @@ void CommandGui::constructor(CommandGui *this<ecx>);
 void CommandGui::AddEnemyShip(CommandGui *this<ecx>, CompleteShip *ship);
 "578d7c240883e4f0ff77fc5589e557565381ec????????8b8108170000898d7cffffff8b400880b868060000000f85????????":
 void CommandGui::Victory(CommandGui *this<ecx>);
+"578d7c240883e4f0ff77fc5589e55756538d992003000089cf8d75cc81ec????????898d54ffffff89d9e8????????ba????????8d8d5cffffffc70424????????":
+void CommandGui::OnInit(CommandGui *this<ecx>);
+"578d7c240883e4f0ff77fc5589e557565389ceb9????????81ec????????8b1f8b7f04891c24897c2404e8????????8b960c1700008b8610170000":
+void CommandGui::MouseMove(CommandGui *this<ecx>, int mX, int mY);
+"578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b470480b984420000008b37":
+void CommandGui::LButtonDown(CommandGui *this<ecx>, int mX, int mY, bool shiftHeld);

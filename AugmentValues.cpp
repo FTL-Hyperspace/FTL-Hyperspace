@@ -10,14 +10,7 @@ HOOK_METHOD_PRIORITY(ProjectileFactory, SpendMissiles, 1000, () -> int)
         if (HasEquipment("EXPLOSIVE_REPLICATOR"))
         {
             int rng = 0;
-            if (G_->GetRNG())
-            {
-                rng = rand();
-            }
-            else
-            {
-                rng = random32();
-            }
+            rng = random32();
 
             rng %= 100;
 

@@ -47,16 +47,6 @@ void ZHL::SetLogPath(const char *logPath)
 }
 
 //#define HOOK_LOG
-
-static int fopen_s(FILE **f, const char *name, const char *mode) {
-    int ret = 0;
-    *f = fopen(name, mode);
-    /* Can't be sure about 1-to-1 mapping of errno and MS' errno_t */
-    if (!*f)
-        ret = errno;
-    return ret;
-}
-
 static void Log(const char *format, ...)
 {
 	if(!g_logPath) return;

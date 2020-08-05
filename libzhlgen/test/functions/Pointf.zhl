@@ -1,9 +1,30 @@
 "f30f10442404f30f1101f30f10442408f30f114104c20800908db426000000005589e583ec04f30f1009f30f104104f30f5c4d08f30f5c450cf30f59c9f30f59c0f30f58c1f30f110424":
 void Pointf::constructor(Pointf *this<ecx>, float x, float y);
 "5589e583ec04f30f1009f30f104104f30f5c4d08f30f5c450cf30f59c9f30f59c0f30f58c1f30f110424":
-int Pointf::RelativeDistance(Pointf *this<ecx>, Pointf other);
+float Pointf::RelativeDistance(Pointf *this<ecx>, Pointf other);
 
 struct Pointf {{
 	Pointf() : x(0.f), y(0.f) {}
 	Pointf(float _x, float _y) : x(_x), y(_y) {}
+	
+	Pointf operator+(const Pointf& other)
+	{
+		return Pointf(x + other.x, y + other.y);
+	}
+	
+	Pointf operator-(const Pointf& other)
+	{		
+		return Pointf(x - other.x, y - other.y);
+	}
+	
+	Pointf operator/(float amount)
+	{		
+		return Pointf(x / amount, y / amount);
+	}
+	
+	Pointf operator*(float amount)
+	{		
+		return Pointf(x * amount, y * amount);
+	}
+
 }};

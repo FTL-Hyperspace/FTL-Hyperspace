@@ -1,3 +1,6 @@
+"558b018b510489e52b45082b550c5d0fafc00fafd201d0":
+int Point::RelativeDistance(Point *this<ecx>, Point other);
+
 struct Point 
 {{
 	Point(int xx, int yy) : x(xx), y(yy)  { }

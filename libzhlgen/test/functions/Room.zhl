@@ -1,4 +1,5 @@
-
+"530fb65424088b41348b49288d1c928d1c988b43082b03c1f802c1e0052b430403430c2b0491":
+int Room::GetEmptySlots(Room *this<ecx>, bool intruder);
 
 
 struct Room depends (Globals, Point) {{

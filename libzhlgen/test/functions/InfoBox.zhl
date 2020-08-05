@@ -4,6 +4,10 @@ void InfoBox::OnRender(InfoBox *this<ecx>);
 int InfoBox::Clear(InfoBox *this<ecx>);
 "578d7c240883e4f0ff77fc5589e557565389cb83c10c83ec2c8b378b5708":
 int InfoBox::SetDescription(InfoBox *this<ecx>, Description *desc, int width, int height, InfoBox::ExpandDir dir); 
+"578d7c240883e4f0ff77fc5589e557565389cb8d4d9c81ec????????8b47048b378945948b470cc744240400000000893424894588e8????????8d461c":
+void InfoBox::SetBlueprintWeapon(InfoBox *this<ecx>, const WeaponBlueprint* bp, int status, bool hasWeaponSystem, int yShift); 
+".578d7c240883e4f0ff77fc5589f889e557565389cf83c10c81ec????????8b50048b30899558fdffff8b50088b400c89b544fdffff899548fdffff898554fdffff8d461c":
+void InfoBox::SetBlueprintDrone(InfoBox *this<ecx>, const DroneBlueprint* bp, int status, bool hasDroneSystem, int yShift); 
 "578d7c240883e4f0ff77fc5589e557565389cb83c10c83ec1c8b378d461c890424":
 void InfoBox::SetBlueprint(InfoBox *this<ecx>, const ItemBlueprint* bp);
 ".5789ca8d7c240883e4f0ff77fc5589e55756538d720c81ec????????8b078b5f08898d78fdffffc782c000000031010000c782c4000000b6000000c7821c0100004300000089c1":

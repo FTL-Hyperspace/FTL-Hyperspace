@@ -18,30 +18,40 @@ void CustomAugmentManager::ParseCustomAugmentNode(rapidxml::xml_node<char>* node
                 AugmentDefinition* augDef = new AugmentDefinition();
 
                 augDef->name = augName;
-                augDef->functions = std::map<std::string, std::pair<float, bool>>();
+                augDef->functions = std::map<std::string, AugmentFunction>();
 
                 for (auto functionNode = child->first_node(); functionNode; functionNode = functionNode->next_sibling())
                 {
                     if (strcmp(functionNode->name(), "function") == 0)
                     {
+                        auto func = AugmentFunction();
+
                         const std::string& functionName = functionNode->first_attribute("name")->value();
 
                         if (functionName != augName)
                         {
-                            float functionValue = G_->GetBlueprints()->GetAugmentValue(functionName);
+                            func.value = G_->GetBlueprints()->GetAugmentValue(functionName);
                             bool preferHigher = true;
 
                             if (functionNode->first_attribute("value"))
                             {
-                                functionValue = boost::lexical_cast<float>(functionNode->first_attribute("value")->value());
+                                func.value = boost::lexical_cast<float>(functionNode->first_attribute("value")->value());
                             }
                             if (functionNode->first_attribute("preferHigher"))
                             {
-                                preferHigher = EventsParser::ParseBoolean(functionNode->first_attribute("preferHigher")->value());
+                                func.preferHigher = EventsParser::ParseBoolean(functionNode->first_attribute("preferHigher")->value());
+                            }
+                            if (functionNode->first_attribute("useForReqs"))
+                            {
+                                func.useForReqs = EventsParser::ParseBoolean(functionNode->first_attribute("useForReqs")->value());
+                            }
+                            if (functionNode->first_attribute("warning"))
+                            {
+                                func.warning = EventsParser::ParseBoolean(functionNode->first_attribute("warning")->value());
                             }
 
 
-                            augDef->functions[functionName] = std::pair<float, bool>(functionValue, preferHigher);
+                            augDef->functions[functionName] = func;
                         }
                     }
                     if (strcmp(functionNode->name(), "locked") == 0)
@@ -60,9 +70,9 @@ void CustomAugmentManager::ParseCustomAugmentNode(rapidxml::xml_node<char>* node
     }
 }
 
-std::map<std::string, std::pair<float, bool>> CustomAugmentManager::GetPotentialAugments(const std::string& name)
+std::map<std::string, AugmentFunction> CustomAugmentManager::GetPotentialAugments(const std::string& name, bool req)
 {
-    auto ret = std::map<std::string, std::pair<float, bool>>();
+    auto ret = std::map<std::string, AugmentFunction>();
 
 
     for (auto const& i: augDefs)
@@ -72,7 +82,7 @@ std::map<std::string, std::pair<float, bool>> CustomAugmentManager::GetPotential
             if (!i.second->functions.empty())
             {
                 auto val = i.second->functions.find(name);
-                if (val != i.second->functions.end())
+                if (val != i.second->functions.end() && (!req || i.second->functions[name].useForReqs))
                 {
                     ret[i.second->name] = val->second;
                 }
@@ -135,7 +145,7 @@ HOOK_METHOD_PRIORITY(ShipObject, HasAugmentation, 2000, (const std::string& name
         augCount = augList.at(name);
     }
 
-    std::map<std::string, std::pair<float, bool>> potentialAugs = customAug->GetPotentialAugments(name);
+    std::map<std::string, AugmentFunction> potentialAugs = customAug->GetPotentialAugments(name);
 
 
 
@@ -149,6 +159,17 @@ HOOK_METHOD_PRIORITY(ShipObject, HasAugmentation, 2000, (const std::string& name
 
 
     return augCount;
+}
+
+static bool useAugmentReq = false;
+
+HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
+{
+    useAugmentReq = true;
+
+    super(event);
+
+    useAugmentReq = false;
 }
 
 HOOK_METHOD_PRIORITY(ShipObject, HasEquipment, 2000, (const std::string& name) -> int)
@@ -166,7 +187,7 @@ HOOK_METHOD_PRIORITY(ShipObject, HasEquipment, 2000, (const std::string& name) -
     }
 
     CustomAugmentManager* customAug = CustomAugmentManager::GetInstance();
-    std::map<std::string, std::pair<float, bool>> potentialAugs = customAug->GetPotentialAugments(name);
+    std::map<std::string, AugmentFunction> potentialAugs = customAug->GetPotentialAugments(name, useAugmentReq);
 
 
 
@@ -203,7 +224,7 @@ HOOK_METHOD_PRIORITY(ShipObject, GetAugmentationValue, 1000, (const std::string&
     float augValue = augBlueprint->value * augCount;
 
     CustomAugmentManager* customAug = CustomAugmentManager::GetInstance();
-    std::map<std::string, std::pair<float, bool>> potentialAugs = customAug->GetPotentialAugments(name);
+    std::map<std::string, AugmentFunction> potentialAugs = customAug->GetPotentialAugments(name);
 
 
     float highestValue = augValue;
@@ -212,11 +233,11 @@ HOOK_METHOD_PRIORITY(ShipObject, GetAugmentationValue, 1000, (const std::string&
         if (augList.count(x.first))
         {
             augCount += augList.at(x.first);
-            augValue += x.second.first * augList.at(x.first);
+            augValue += x.second.value * augList.at(x.first);
 
-            if ((x.second.second && x.second.first > highestValue) || (!x.second.second && x.second.first < highestValue))
+            if ((x.second.preferHigher && x.second.value > highestValue) || (!x.second.preferHigher && x.second.value < highestValue))
             {
-                highestValue = x.second.first;
+                highestValue = x.second.value;
             }
         }
     }
@@ -263,9 +284,12 @@ HOOK_METHOD(InfoBox, SetBlueprintAugment, (const AugmentBlueprint* bp) -> void)
         int counter = 0;
         for (auto const &x: customAug->GetAugmentDefinition(bp->name)->functions)
         {
+            if (!x.second.warning)
+                continue;
+
             auto bp = blueprints->GetAugmentBlueprint(x.first);
 
-            if (((x.second.second && bp->value <= x.second.first) || (!x.second.second && bp->value >= x.second.first)) && !bp->stacking)
+            if (((x.second.preferHigher && bp->value <= x.second.value) || (!x.second.preferHigher && bp->value >= x.second.value)) && !bp->stacking)
             {
                 warn += bp->desc.title.GetText() + "\n";
                 counter++;
@@ -284,14 +308,7 @@ HOOK_METHOD(InfoBox, SetBlueprintAugment, (const AugmentBlueprint* bp) -> void)
     bDetailed = false;
 }
 
-static GL_Texture* augLockTexture = NULL;
-
-HOOK_METHOD(Equipment, OnInit, (ShipManager* ship) -> void)
-{
-    super(ship);
-
-    augLockTexture = G_->GetResources()->GetImageId("upgradeUI/Equipment/aug_lock.png");
-}
+static GL_Texture* augLockTexture = nullptr;
 
 HOOK_METHOD(Equipment, MouseClick, (int mX, int mY) -> void)
 {
@@ -322,6 +339,12 @@ HOOK_METHOD(EquipmentBox, OnRender, (bool isEmpty) -> void)
     if (CanHoldAugment())
     {
         CustomAugmentManager* customAug = CustomAugmentManager::GetInstance();
+
+        if (!augLockTexture)
+        {
+            augLockTexture = G_->GetResources()->GetImageId("upgradeUI/Equipment/aug_lock.png");
+        }
+
         if (item.augment && customAug->IsAugment(item.augment->name) && customAug->GetAugmentDefinition(item.augment->name)->locked && augLockTexture)
         {
             float xPos = slot == 4 ? location.x - 36.f : location.x - 24.f;
@@ -336,15 +359,40 @@ HOOK_METHOD(Equipment, OnLoop, () -> void)
     super();
     CustomAugmentManager* customAug = CustomAugmentManager::GetInstance();
 
+    EquipmentBox *firstSlot;
+    EquipmentBox *fullSlot;
+    bool swapSlots = false;
+
     for (auto i : vEquipmentBoxes)
     {
         if (i->CanHoldAugment())
         {
+            if (i->item.augment && i->slot == 0)
+            {
+                firstSlot = i;
+            }
+
             if (i->item.augment && customAug->IsAugment(i->item.augment->name) && customAug->GetAugmentDefinition(i->item.augment->name)->locked)
             {
                 i->bBlocked = true;
+
+                if (i->slot == 4)
+                {
+                    fullSlot = i;
+                    swapSlots = true;
+                }
             }
         }
+    }
+
+    if (swapSlots)
+    {
+        EquipmentBoxItem item1 = fullSlot->item;
+        EquipmentBoxItem item2 = firstSlot->item;
+        fullSlot->RemoveItem();
+        firstSlot->RemoveItem();
+        fullSlot->AddItem(item2);
+        firstSlot->AddItem(item1);
     }
 }
 

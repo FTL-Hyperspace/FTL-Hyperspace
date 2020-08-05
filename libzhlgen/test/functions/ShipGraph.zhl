@@ -1,8 +1,6 @@
 "8d4c240483e4f0ff71fc5589e55756535181ec????????a1????????8b15????????8b1929c2":
 static cleanup ShipGraph* ShipGraph::GetShipInfo(int shipId);
-"578d7c240883e4f0ff77fc5589e557565383ec3c8b57048b018d4dd88b1f8b0490890424e8????????":
-Point ShipGraph::GetSlotWorldPosition(ShipGraph *this<ecx>, int x, int y);
-".578d7c240883e4f0ff77fc5589f889e557565389cf83ec4c8b188b70048b40088945c08b01":
+"578d7c240883e4f0ff77fc5589f889e557565389cf83ec4c8b188b70048b40088945c08b01":
 Point ShipGraph::GetSlotRenderPosition(ShipGraph *this<ecX>, int x, int y, char unk);
 ".538b411c8b59188b54240829d8c1f80239c27d??85d278??8b04935bc20400":
 int ShipGraph::DoorCount(ShipGraph *this<ecx>, int unk);
@@ -48,10 +46,19 @@ Globals::Rect *ShipGraph::GetRoomShape(ShipGraph *this<ecx>, int room);
 float ShipGraph::GetRoomOxygen(ShipGraph *this<ecx>, int room);
 ".5653b8????????8b5c240c85db78??8b318b510429f2c1fa02":
 bool ShipGraph::GetRoomBlackedOut(ShipGraph *this<ecx>, int room);
+"578d7c240883e4f0ff77fc5589e557565381ec????????8b078b7704898d6cffffff8b10894588":
+static Slot* ShipGraph::GetClosestSlot(Slot *slot<ecx>, ShipGraph *graph, Point pos, int shipId, bool intruder);
 
 
-struct ShipGraph depends (Point, Pointf, Room) {{
-
+struct ShipGraph depends (Point, Pointf, Room) 
+{{
+	Slot* GetClosestSlot(Point pos, int shipId, bool intruder)
+	{
+		Slot* slot = nullptr;
+		ShipGraph::GetClosestSlot(slot, this, pos, shipId, intruder);
+		return slot;
+	}
+	
 	static Point TranslateFromGrid(int xx, int yy)
 	{
 		return Point(xx * 35, yy * 35);
@@ -92,9 +99,17 @@ struct ShipGraph depends (Point, Pointf, Room) {{
 				
 				xx = rect.x + rect.w / 2;
 				yy = rect.y + rect.h / 2;
+				break;
 			}
 		}
 		
 		return Pointf(xx, yy);
 	}
+	
+	Point GetSlotWorldPosition(int roomId, int slotId)
+	{
+		Globals::Rect rect = rooms[roomId]->rect;
+		return Point(rect.x + 35 * (slotId % (rect.w / 35)) + 17, rect.y + 35 * (slotId / (rect.h / 35)) + 17);
+	}
+	
 }};

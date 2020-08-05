@@ -15,10 +15,11 @@ HOOK_METHOD(CApp, OnKeyDown, (SDLKey key) -> void)
     if (key == SDLKey::SDLK_LEFTBRACKET) testVal -= 1;
     if (key == SDLKey::SDLK_RIGHTBRACKET) testVal += 1;
 
+    if (key == SDLKey::SDLK_KP_MINUS)
+    {
+    }
     if (key == SDLKey::SDLK_KP_PLUS)
     {
-        auto boxes = gui->equipScreen.vEquipmentBoxes;
-
     }
 
     super(key);
@@ -38,7 +39,6 @@ HOOK_METHOD(ShipStatus, RenderEvadeOxygen, (bool unk) -> void)
 
     displayWarning = true;
     oxygenMessage->flash = true;
-
 }
 
 HOOK_METHOD(WarningMessage, OnRender, () -> void)

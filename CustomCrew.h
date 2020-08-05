@@ -1,17 +1,18 @@
 #include "Global.h"
+#include <unordered_map>
 
 template <typename T>
-struct StatusValue
+struct ToggleValue
 {
     T value;
     bool enabled = false;
 
-    StatusValue()
+    ToggleValue()
     {
         enabled = false;
     }
 
-    StatusValue(const T val)
+    ToggleValue(const T val)
     {
         value = val;
         enabled = true;
@@ -93,24 +94,32 @@ struct TemporaryPowerDefinition
 
     std::string effectAnim;
     std::string animSheet;
+    bool baseVisible = true;
     std::vector<std::string> sounds;
 
-    StatusValue<float> moveSpeedMultiplier;
-    StatusValue<float> damageMultiplier;
-    StatusValue<float> repairSpeed;
-    StatusValue<bool> canFight;
-    StatusValue<bool> canSabotage;
-    StatusValue<bool> canSuffocate;
-    StatusValue<float> oxygenChangeSpeed;
-    StatusValue<bool> canPhaseThroughDoors;
-    StatusValue<float> fireDamageMultiplier;
-    StatusValue<bool> isTelepathic;
-    StatusValue<bool> detectsLifeforms;
-    StatusValue<float> damageTakenMultiplier;
-    StatusValue<float> sabotageSpeedMultiplier;
-    StatusValue<float> allDamageTakenMultiplier;
+    ToggleValue<float> moveSpeedMultiplier;
+    ToggleValue<float> damageMultiplier;
+    ToggleValue<float> repairSpeed;
+    ToggleValue<bool> controllable;
+    ToggleValue<bool> canFight;
+    ToggleValue<bool> canRepair;
+    ToggleValue<bool> canSabotage;
+    ToggleValue<bool> canMan;
+    ToggleValue<bool> canSuffocate;
+    ToggleValue<float> oxygenChangeSpeed;
+    ToggleValue<bool> canPhaseThroughDoors;
+    ToggleValue<float> fireDamageMultiplier;
+    ToggleValue<bool> isTelepathic;
+    ToggleValue<bool> detectsLifeforms;
+    ToggleValue<float> damageTakenMultiplier;
+    ToggleValue<float> sabotageSpeedMultiplier;
+    ToggleValue<float> allDamageTakenMultiplier;
+    ToggleValue<float> suffocationModifier;
+
     int bonusPower = 0;
     bool invulnerable;
+    float healAmount = 0.f;
+    float damageEnemiesAmount = 0.f;
 
     GL_Color cooldownColor;
 };
@@ -126,6 +135,8 @@ struct ActivatedPowerRequirements
     bool aiDisabled;
     bool outOfCombat;
     bool inCombat;
+    ToggleValue<int> minHealth;
+    ToggleValue<int> maxHealth;
 };
 
 struct ActivatedPowerDefinition
@@ -173,8 +184,11 @@ struct CrewDefinition
     std::vector<std::string> repairSounds;
 
     bool canFight = true;
+    bool canRepair = true;
     bool canSabotage = true;
+    bool canMan = true;
     bool canSuffocate = true;
+    bool controllable = true;
     bool canBurn = true;
     int maxHealth = 100;
     float moveSpeedMultiplier = 1.f;
@@ -198,6 +212,8 @@ struct CrewDefinition
     std::string animBase = "human";
     float sabotageSpeedMultiplier = 1.f;
     float allDamageTakenMultiplier = 1.f;
+    int defaultSkillLevel = 0;
+    float healSpeed = 1.f;
 
     Damage explosionDef;
     bool explosionShipFriendlyFire = false;
@@ -238,5 +254,5 @@ public:
 private:
     static CustomCrewManager instance;
 
-    std::map<std::string, CrewDefinition> blueprintNames;
+    std::unordered_map<std::string, CrewDefinition> blueprintNames;
 };

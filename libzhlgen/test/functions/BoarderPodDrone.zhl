@@ -1,0 +1,4 @@
+"578d7c240883e4f0ff77fc5589fa89e557565389cfbb????????81ec????????8b028b720889c18985acfeffff8b4204890c248974240889f989b5bcfeffff":
+void BoarderPodDrone::constructor(BoarderPodDrone *this<ecx>, int _iShipId, int _selfId, const DroneBlueprint& _bp);
+"578d7c240883e4f0ff77fc5589e5575383ec208b0785c074??8b1089cb89815001000089c1ff521c89434c8b43048d4df0":
+void BoarderPodDrone::SetMovementTarget(BoarderPodDrone *this<ecx>, Targetable *target);

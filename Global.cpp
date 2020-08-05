@@ -4,32 +4,33 @@
 
 Global *Global::instance = new Global();
 
-ResourceControl* Global::__resourceControl = NULL;
-CApp* Global::__cApp = NULL;
-ShipInfo** Global::__enemyShipInfo = NULL;
-CFPS* Global::__cFPS = NULL;
-BlueprintManager *Global::__blueprints = NULL;
-SoundControl *Global::__soundControl = NULL;
-MouseControl *Global::__mouseControl = NULL;
-TextLibrary *Global::__textLibrary = NULL;
-CrewMemberFactory *Global::__crewFactory = NULL;
-TutorialManager *Global::__tutorialManager = NULL;
-EventGenerator *Global::__eventGenerator = NULL;
-EventsParser *Global::__eventsParser = NULL;
-EventSystem *Global::__eventSystem = NULL;
-AnimationControl *Global::__animations = NULL;
+ResourceControl* Global::__resourceControl = nullptr;
+CApp* Global::__cApp = nullptr;
+ShipInfo** Global::__enemyShipInfo = nullptr;
+CFPS* Global::__cFPS = nullptr;
+BlueprintManager *Global::__blueprints = nullptr;
+SoundControl *Global::__soundControl = nullptr;
+MouseControl *Global::__mouseControl = nullptr;
+TextLibrary *Global::__textLibrary = nullptr;
+CrewMemberFactory *Global::__crewFactory = nullptr;
+TutorialManager *Global::__tutorialManager = nullptr;
+EventGenerator *Global::__eventGenerator = nullptr;
+EventsParser *Global::__eventsParser = nullptr;
+EventSystem *Global::__eventSystem = nullptr;
+AnimationControl *Global::__animations = nullptr;
 
-bool *Global::showBeaconPath = NULL;
+bool *Global::showBeaconPath = nullptr;
 unsigned int Global::currentSeed = 0;
-int64_t *Global::randomState = NULL;
+int64_t *Global::randomState = nullptr;
 std::mt19937 Global::seededRng;
-bool *Global::__rng = NULL;
-bool *Global::showWelcome = NULL;
-bool *Global::dlcEnabled = NULL;
-int *Global::difficulty = NULL;
+bool *Global::__rng = nullptr;
+bool *Global::showWelcome = nullptr;
+bool *Global::dlcEnabled = nullptr;
+int *Global::difficulty = nullptr;
 bool Global::forceDlc = false;
 bool Global::isCustomSeed = false;
 unsigned int Global::sectorMapSeed = -1;
+ShaderSourceCallback** Global::fragment_shader_source_callback = nullptr;
 
 
 HOOK_METHOD(CApp, OnInit, () -> int)
@@ -89,6 +90,7 @@ void Global::Initialize(CApp *cApp)
     dlcEnabled = (bool*)((__baseAddress + __dlcEnabledOffset));
     __rng = (bool*)((__baseAddress + __rngOffset));
     difficulty = (int*)((__baseAddress + __difficultyOffset));
+    fragment_shader_source_callback = (ShaderSourceCallback**)((__baseAddress + __fragmentCallbackOffset));
 
 
 

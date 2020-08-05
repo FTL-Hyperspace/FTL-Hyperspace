@@ -3,10 +3,18 @@
 #include <map>
 #include "rapidxml.hpp"
 
+struct AugmentFunction
+{
+    float value;
+    bool preferHigher = true;
+    bool useForReqs = true;
+    bool warning = true;
+};
+
 struct AugmentDefinition
 {
     std::string name;
-    std::map<std::string, std::pair<float, bool>> functions = std::map<std::string, std::pair<float, bool>>();
+    std::map<std::string, AugmentFunction> functions = std::map<std::string, AugmentFunction>();
     bool locked = false;
 };
 
@@ -21,7 +29,7 @@ public:
 
     void ParseCustomAugmentNode(rapidxml::xml_node<char>* node);
 
-    std::map<std::string, std::pair<float, bool>> GetPotentialAugments(const std::string& name);
+    std::map<std::string, AugmentFunction> GetPotentialAugments(const std::string& name, bool req=false);
 
     AugmentDefinition* GetAugmentDefinition(const std::string& name)
     {

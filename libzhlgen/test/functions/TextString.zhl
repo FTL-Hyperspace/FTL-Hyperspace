@@ -3,6 +3,11 @@ static std::string& TextString::GetText(std::string& ref<ecx>, TextString *textS
 
 struct TextString depends (TextLibrary)
 {{
+	TextString()
+	{
+		isLiteral = true;
+	}
+
 	std::string GetText()
 	{
 		std::string ret = std::string();

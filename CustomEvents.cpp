@@ -15,7 +15,15 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
         {
             if (eventNode->value())
             {
-                bossShipIds.push_back(std::string(eventNode->value()));
+                BossShipDefinition def = BossShipDefinition();
+                def.shipId = eventNode->value();
+
+                if (eventNode->first_attribute("yOffset"))
+                {
+                    def.yOffset = boost::lexical_cast<int>(eventNode->first_attribute("yOffset")->value());
+                }
+
+                bossShipIds[def.shipId] = def;
             }
         }
 
@@ -27,48 +35,64 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
             }
         }
 
-        if (strcmp(eventNode->name(), "exitBeacon") == 0)
+        if (strcmp(eventNode->name(), "sector") == 0)
         {
-            SectorExit* exit = new SectorExit();
+            std::string sectorName = eventNode->first_attribute("name")->value();
 
-            if (eventNode->first_attribute("sectorName"))
+            if (!sectorName.empty())
             {
-                exit->sectorName = eventNode->first_attribute("sectorName")->value();
-            }
-            if (eventNode->first_attribute("event"))
-            {
-                exit->event = eventNode->first_attribute("event")->value();
-            }
-            if (eventNode->first_attribute("rebelEvent"))
-            {
-                exit->rebelEvent = eventNode->first_attribute("rebelEvent")->value();
-            }
-            if (eventNode->first_attribute("nebulaEvent"))
-            {
-                exit->nebulaEvent = eventNode->first_attribute("nebulaEvent")->value();
+                CustomSector *sec = new CustomSector();
+
+                sec->sectorName = sectorName;
+
+                for (auto sectorNode = eventNode->first_node(); sectorNode; sectorNode = sectorNode->next_sibling())
+                {
+                    if (strcmp(sectorNode->name(), "exitBeacon") == 0)
+                    {
+                        SectorExit exit = SectorExit();
+
+                        if (sectorNode->first_attribute("event"))
+                        {
+                            exit.event = sectorNode->first_attribute("event")->value();
+                        }
+                        if (sectorNode->first_attribute("rebelEvent"))
+                        {
+                            exit.rebelEvent = sectorNode->first_attribute("rebelEvent")->value();
+                        }
+                        if (sectorNode->first_attribute("nebulaEvent"))
+                        {
+                            exit.nebulaEvent = sectorNode->first_attribute("nebulaEvent")->value();
+                        }
+
+                        sec->exitBeacons = exit;
+                    }
+
+                    if (strcmp(sectorNode->name(), "rebelBeacon") == 0)
+                    {
+                        SectorFleet fleet = SectorFleet();
+
+                        if (sectorNode->first_attribute("event"))
+                        {
+                            fleet.event = sectorNode->first_attribute("event")->value();
+                        }
+                        if (sectorNode->first_attribute("nebulaEvent"))
+                        {
+                            fleet.nebulaEvent = sectorNode->first_attribute("nebulaEvent")->value();
+                        }
+
+                        sec->fleetBeacons = fleet;
+                    }
+
+                    if (strcmp(sectorNode->name(), "removeFirstBeaconNebula") == 0)
+                    {
+                        sec->removeFirstBeaconNebula = true;
+                    }
+
+                    customSectors.push_back(sec);
+                }
             }
 
-            customExitBeacons.push_back(exit);
-        }
 
-        if (strcmp(eventNode->name(), "rebelBeacon") == 0)
-        {
-            SectorFleet* exit = new SectorFleet();
-
-            if (eventNode->first_attribute("sectorName"))
-            {
-                exit->sectorName = eventNode->first_attribute("sectorName")->value();
-            }
-            if (eventNode->first_attribute("event"))
-            {
-                exit->event = eventNode->first_attribute("event")->value();
-            }
-            if (eventNode->first_attribute("nebulaEvent"))
-            {
-                exit->nebulaEvent = eventNode->first_attribute("nebulaEvent")->value();
-            }
-
-            customFleetBeacons.push_back(exit);
         }
 
         if (strcmp(eventNode->name(), "event") == 0)
@@ -101,6 +125,11 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
                     if (nodeName == "noQuestText")
                     {
                         customEvent->noQuestText = true;
+                    }
+
+                    if (nodeName == "secretSectorWarp")
+                    {
+                        customEvent->secretSectorWarp = child->value();
                     }
 
                     if (nodeName == "beaconType")
@@ -156,6 +185,20 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
                                 }
                             }
 
+                            if (strcmp(child2->name(), "undiscoveredTooltip") == 0)
+                            {
+                                if (child2->first_attribute("id"))
+                                {
+                                    beaconType->undiscoveredTooltip.data = child2->first_attribute("id")->value();
+                                    beaconType->undiscoveredTooltip.isLiteral = false;
+                                }
+                                else
+                                {
+                                    beaconType->undiscoveredTooltip.data = child2->value();
+                                    beaconType->undiscoveredTooltip.isLiteral = true;
+                                }
+                            }
+
                             if (strcmp(child2->name(), "color") == 0)
                             {
                                 ParseColorNode(color, child2);
@@ -175,9 +218,21 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
                     {
                         customEvent->removeNebula = true;
                     }
+                    if (nodeName == "hiddenAug")
+                    {
+                        customEvent->hiddenAugs.push_back(child->value());
+                    }
+                    if (nodeName == "win")
+                    {
+                        customEvent->win = true;
+                        if (child->first_attribute("text"))
+                        {
+                            customEvent->gameOverText = child->first_attribute("text")->value();
+                        }
+                    }
                 }
 
-                customEvents.push_back(customEvent);
+                customEvents[eventName] = customEvent;
             }
         }
     }
@@ -207,24 +262,25 @@ CustomEvent *CustomEventsParser::GetCustomEvent(const std::string& event)
     std::string baseEvent = CustomEventsParser::GetBaseEventName(event);
     bool isParent = baseEvent == event;
 
-    auto it = std::find_if(customEvents.begin(), customEvents.end(), [&baseEvent](CustomEvent* x) { return baseEvent == x->eventName; });
+    auto it = customEvents.find(event);
 
     if (it != customEvents.end())
     {
-        CustomEvent* customEvent = *it;
-        if (!customEvent->recursive && !isParent) return NULL;
+        CustomEvent* customEvent = customEvents[event];
+
+        if (!customEvent->recursive && !isParent) return nullptr;
         else
         {
             return customEvent;
         }
     }
 
-    return NULL;
+    return nullptr;
 }
 
-SectorExit *CustomEventsParser::GetSectorExit(const std::string& sectorName)
+CustomSector *CustomEventsParser::GetCustomSector(const std::string& sectorName)
 {
-    for (auto i : customExitBeacons)
+    for (auto i : customSectors)
     {
         if (i->sectorName == sectorName)
         {
@@ -232,20 +288,7 @@ SectorExit *CustomEventsParser::GetSectorExit(const std::string& sectorName)
         }
     }
 
-    return NULL;
-}
-
-SectorFleet *CustomEventsParser::GetSectorFleet(const std::string& sectorName)
-{
-    for (auto i : customFleetBeacons)
-    {
-        if (i->sectorName == sectorName)
-        {
-            return i;
-        }
-    }
-
-    return NULL;
+    return nullptr;
 }
 
 //=====================================================================================
@@ -300,6 +343,8 @@ HOOK_METHOD(ShipObject, HasEquipment, (const std::string& equipment) -> int)
     return ret;
 }
 
+static std::string removeHiddenAug = "";
+
 HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
 {
     auto customEvents = CustomEventsParser::GetInstance();
@@ -307,6 +352,15 @@ HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
     if (customEvents->GetCustomEvent(event->eventName))
     {
         g_checkCargo = customEvents->GetCustomEvent(event->eventName)->checkCargo;
+    }
+
+    if (!event->stuff.removeItem.empty())
+    {
+        if (boost::algorithm::starts_with(event->stuff.removeItem, "HIDDEN "))
+        {
+            removeHiddenAug = event->stuff.removeItem;
+            event->stuff.removeItem = "";
+        }
     }
 
     super(event);
@@ -321,11 +375,31 @@ HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEve
     if (customEvents->GetCustomEvent(event->eventName))
     {
         g_checkCargo = customEvents->GetCustomEvent(event->eventName)->checkCargo;
+
+        for (auto i : customEvents->GetCustomEvent(event->eventName)->hiddenAugs)
+        {
+            auto augList = G_->GetShipInfo()->augList;
+
+            if (augList.find("HIDDEN " + i) != augList.end())
+            {
+                G_->GetShipInfo()->augList["HIDDEN " + i]++;
+            }
+            else
+            {
+                G_->GetShipInfo()->augList["HIDDEN " + i] = 1;
+            }
+        }
     }
+
 
     auto ret = super(event);
 
     g_checkCargo = false;
+
+    if (!removeHiddenAug.empty())
+    {
+        playerShip->shipManager->RemoveItem(removeHiddenAug);
+    }
 
     return ret;
 }
@@ -409,7 +483,7 @@ HOOK_METHOD(CommandGui, AddEnemyShip, (CompleteShip *ship) -> void)
     super(ship);
     auto custom = CustomEventsParser::GetInstance();
 
-    if (custom->IsBossShip(ship->shipManager->myBlueprint.blueprintName))
+    if (custom->GetBossShipDefinition(ship->shipManager->myBlueprint.blueprintName))
     {
         shipPosition.x = 150;
         ftlButton.bBossFight = true;
@@ -423,19 +497,19 @@ HOOK_METHOD(CombatControl, AddEnemyShip, (CompleteShip *ship) -> void)
     super(ship);
     auto custom = CustomEventsParser::GetInstance();
 
-    if (custom->IsBossShip(ship->shipManager->myBlueprint.blueprintName))
+    if (custom->GetBossShipDefinition(ship->shipManager->myBlueprint.blueprintName))
     {
         boxPosition.x = 5;
         boxPosition.y = 7;
 
         targetPosition.x = boxPosition.x + 261 - ShipGraph::GetShipInfo(currentTarget->shipManager->iShipId)->shipBox.w / 2;
-        targetPosition.y = boxPosition.y + 120;
+        targetPosition.y = boxPosition.y + custom->GetBossShipDefinition(ship->shipManager->myBlueprint.blueprintName)->yOffset;
 
         boss_visual = true;
     }
 }
 
-GL_Texture* boxCustom[3];
+static GL_Texture* boxCustom[3];
 
 HOOK_METHOD(StarMap, constructor, () -> void)
 {
@@ -449,7 +523,7 @@ static std::map<Location*, bool[2]> locValues = std::map<Location*, bool[2]>();
 
 HOOK_METHOD(StarMap, AddQuest, (const std::string& questEvent, bool force) -> bool)
 {
-    locValues.empty();
+    locValues.clear();
 
     for (auto i : locations)
     {
@@ -467,7 +541,6 @@ HOOK_METHOD(StarMap, AddQuest, (const std::string& questEvent, bool force) -> bo
     for (auto i : locValues)
     {
         i.first->questLoc = i.second[0];
-        i.first->beacon = i.second[1];
     }
 
     return ret;
@@ -479,12 +552,13 @@ HOOK_METHOD(StarMap, RenderLabels, () -> void)
     CSurface::GL_Translate(position.x, position.y, 0.f);
     CSurface::GL_Translate(translation.x, translation.y, 0.f);
 
-    locValues.empty();
+    locValues.clear();
 
     if (!outOfFuel)
     {
         for (auto i : locations)
         {
+
             CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(i->event->eventName);
 
             if (customEvent && customEvent->hasCustomBeacon && (i->questLoc || i->beacon))
@@ -561,51 +635,59 @@ HOOK_METHOD(StarMap, GenerateMap, (bool tutorial, bool seed) -> LocationEvent*)
     if (!tutorial && !bossLevel)
     {
         auto custom = CustomEventsParser::GetInstance();
-        SectorExit *customBeacon = custom->GetSectorExit(currentSector->description.type);
 
-        if (customBeacon)
+        if (custom->GetCustomSector(currentSector->description.type))
         {
-            EventGenerator *eventGenerator = G_->GetEventGenerator();
+            CustomSector* customSector = custom->GetCustomSector(currentSector->description.type);
 
-            for (auto i : locations)
+            if (customSector)
             {
-                if (i->beacon)
+                SectorExit customBeacon = customSector->exitBeacons;
+
+                EventGenerator *eventGenerator = G_->GetEventGenerator();
+                for (auto i : locations)
                 {
-                    std::string event = "";
-                    if (i->dangerZone && !customBeacon->rebelEvent.empty())
+                    if (i->beacon)
                     {
-                        event = customBeacon->rebelEvent;
-                    }
-                    else
-                    {
-                        if (i->nebula && !customBeacon->nebulaEvent.empty())
+                        std::string event = "";
+                        if (i->dangerZone && !customBeacon.rebelEvent.empty())
                         {
-                            event = customBeacon->nebulaEvent;
+                            event = customBeacon.rebelEvent;
                         }
-                        else if (!customBeacon->event.empty())
+                        else
                         {
-                            event = customBeacon->event;
-                        }
-                    }
-                    if (!event.empty())
-                    {
-                        LocationEvent *newEvent = eventGenerator->GetBaseEvent(event, worldLevel, false, -1);
-
-                        bool isNebula = i->nebula;
-
-                        if (newEvent)
-                        {
-                            i->event = newEvent;
-                            if (isNebula)
+                            if (i->nebula && !customBeacon.nebulaEvent.empty())
                             {
-                                i->nebula = true;
-                                newEvent->environment = 3;
-                                //i->event->statusEffects.push_back(*StatusEffect::GetNebulaEffect());
+                                event = customBeacon.nebulaEvent;
+                            }
+                            else if (!customBeacon.event.empty())
+                            {
+                                event = customBeacon.event;
+                            }
+                        }
+                        if (!event.empty())
+                        {
+                            LocationEvent *newEvent = eventGenerator->GetBaseEvent(event, worldLevel, false, -1);
+
+                            bool isNebula = i->nebula;
+
+                            if (newEvent)
+                            {
+                                i->event = newEvent;
+                                if (isNebula)
+                                {
+                                    i->nebula = true;
+                                    newEvent->environment = 3;
+                                    //i->event->statusEffects.push_back(*StatusEffect::GetNebulaEffect());
+                                }
                             }
                         }
                     }
                 }
             }
+
+
+
         }
     }
 
@@ -663,22 +745,28 @@ HOOK_METHOD(StarMap, TurnIntoFleetLocation, (Location *loc) -> void)
     if (!bossLevel)
     {
         auto custom = CustomEventsParser::GetInstance();
-        SectorExit *customBeacon = custom->GetSectorExit(currentSector->description.type);
-        if (customBeacon && loc->beacon && !customBeacon->rebelEvent.empty())
+
+        CustomSector *customSector = custom->GetCustomSector(currentSector->description.type);
+
+        if (customSector)
         {
-            bool isNebula = loc->nebula;
-
-            LocationEvent *newEvent = eventGenerator->GetBaseEvent(customBeacon->rebelEvent, worldLevel, false, -1);
-
-            if (newEvent)
+            SectorExit customBeacon = customSector->exitBeacons;
+            if (loc->beacon && !customBeacon.rebelEvent.empty())
             {
-                loc->event->ClearEvent(false);
-                loc->event = newEvent;
+                bool isNebula = loc->nebula;
 
-                if (isNebula)
+                LocationEvent *newEvent = eventGenerator->GetBaseEvent(customBeacon.rebelEvent, worldLevel, false, -1);
+
+                if (newEvent)
                 {
-                    loc->nebula = true;
-                    newEvent->environment = 3;
+                    loc->event->ClearEvent(false);
+                    loc->event = newEvent;
+
+                    if (isNebula)
+                    {
+                        loc->nebula = true;
+                        newEvent->environment = 3;
+                    }
                 }
             }
         }
@@ -687,17 +775,20 @@ HOOK_METHOD(StarMap, TurnIntoFleetLocation, (Location *loc) -> void)
     if (!loc->beacon || bossLevel)
     {
         auto custom = CustomEventsParser::GetInstance();
-        SectorFleet *customBeacon = custom->GetSectorFleet(currentSector->description.type);
-        if (customBeacon)
+        CustomSector *customSector = custom->GetCustomSector(currentSector->description.type);
+
+        if (customSector)
         {
+            SectorFleet customBeacon = customSector->fleetBeacons;
+
             std::string event = "";
-            if (loc->nebula && !customBeacon->nebulaEvent.empty())
+            if (loc->nebula && !customBeacon.nebulaEvent.empty())
             {
-                event = customBeacon->nebulaEvent;
+                event = customBeacon.nebulaEvent;
             }
-            else if (!customBeacon->event.empty())
+            else if (!customBeacon.event.empty())
             {
-                event = customBeacon->event;
+                event = customBeacon.event;
             }
 
             if (!event.empty())
@@ -740,7 +831,6 @@ HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *loc) -> void)
 
 HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
 {
-
     super(loc);
 
 
@@ -768,19 +858,22 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
             space.nebulaClouds.clear();
         }
     }
+
+    starMap.currentLoc->event->eventName = loc->eventName;
 }
 
 HOOK_STATIC(StarMap, GetLocationText, (std::string& strRef, StarMap *starMap, const Location* loc) -> std::string&)
 {
     CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(loc->event->eventName);
 
-    if (!customEvent || loc->fleetChanging || loc == starMap->currentLoc || !customEvent->beacon || (!customEvent->beacon->global && !loc->known && !starMap->bMapRevealed))
+    if (!customEvent) return super(strRef, starMap, loc);
+
+    if (loc->fleetChanging || loc == starMap->currentLoc || !customEvent->beacon)
     {
         return super(strRef, starMap, loc);
     }
 
     TextString tooltip;
-
 
 
     if (loc->visited)
@@ -790,6 +883,10 @@ HOOK_STATIC(StarMap, GetLocationText, (std::string& strRef, StarMap *starMap, co
     else
     {
         tooltip = customEvent->beacon->unvisitedTooltip;
+    }
+    if (!customEvent->beacon->global && !loc->known && !starMap->bMapRevealed)
+    {
+        tooltip = customEvent->beacon->undiscoveredTooltip;
     }
     if (tooltip.data.empty())
     {
@@ -847,4 +944,103 @@ HOOK_STATIC(StarMap, GetLocationText, (std::string& strRef, StarMap *starMap, co
     }
 
     return strRef;
+}
+
+HOOK_METHOD(StarMap, GenerateNebulas, (const std::vector<std::string>& names) -> void)
+{
+    super(names);
+
+    CustomSector* customSector = CustomEventsParser::GetInstance()->GetCustomSector(currentSector->description.type);
+
+    if (customSector && customSector->removeFirstBeaconNebula)
+    {
+        if (currentLoc->nebula)
+        {
+            StarMap::NebulaInfo* firstNebula;
+            int index = 0;
+            for (auto nebula : currentNebulas)
+            {
+                if (currentLoc->loc.x > nebula.x && currentLoc->loc.x < nebula.x + nebula.w && currentLoc->loc.y > nebula.y && currentLoc->loc.y < nebula.y + nebula.w)
+                {
+                    firstNebula = &nebula;
+                    break;
+                }
+
+                index++;
+            }
+
+            for (auto i : locations)
+            {
+                if (i->loc.x > firstNebula->x && i->loc.x < firstNebula->x + firstNebula->w && i->loc.y > firstNebula->y && i->loc.y < firstNebula->y + firstNebula->w)
+                {
+                    if (i->nebula)
+                    {
+                        i->nebula = false;
+                        i->event->environment = 0;
+                        i->event->statusEffects.erase(
+                            std::remove_if(
+                                i->event->statusEffects.begin(),
+                                i->event->statusEffects.end(),
+                                [](const StatusEffect& item) { return item.system == 7; }),
+                            i->event->statusEffects.end());
+                    }
+                }
+            }
+
+            if (firstNebula)
+            {
+                currentNebulas.erase(currentNebulas.begin() + index);
+            }
+        }
+    }
+}
+
+
+HOOK_METHOD(StarMap, StartSecretSector, () -> void)
+{
+    CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(currentLoc->event->eventName);
+
+    if (customEvent && !customEvent->secretSectorWarp.empty())
+    {
+        bSecretSector = true;
+        Sector *newSector = new Sector();
+
+        newSector->description = *G_->GetEventGenerator()->GetSpecificSector(customEvent->secretSectorWarp);
+
+        currentSector = newSector;
+    }
+    else
+    {
+        super();
+    }
+}
+
+static std::string replaceGameOverText = "";
+
+HOOK_METHOD(GameOver, OpenText, (const std::string& text) -> void)
+{
+    if (!replaceGameOverText.empty()) return super(replaceGameOverText);
+
+    return super(text);
+}
+
+HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEvent*)
+{
+    LocationEvent *ret = super(event);
+
+    CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(event->eventName);
+
+    if (customEvent && customEvent->win)
+    {
+        G_->GetSoundControl()->StopPlaylist(100);
+        G_->GetSoundControl()->PlaySoundMix("victory", -1.f, false);
+
+        replaceGameOverText = customEvent->gameOverText;
+
+        commandGui->Victory();
+
+        replaceGameOverText = "";
+    }
+
+    return ret;
 }

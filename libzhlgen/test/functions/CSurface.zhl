@@ -9,7 +9,7 @@ static cleanup void CSurface::GL_SetColorTint(float r, float g, float b, float a
 
 
 "5589e55653bb????????83e4f081ec????????8d44243cf30f110424f30f105d08894424088d442438f30f114c2424f30f1154242889442404f30f115c242ce8????????660fefe4":
-static cleanup void CSurface::GL_Rotate2(float unk1, float unk2, float unk3, float unk4);
+static cleanup void CSurface::GL_Rotate2(float angle, float x, float y, float z=0.f);
 ".5589e583e4f0e8????????85c0c9":
 static cleanup bool CSurface::IsFrameBufferSupported();
 ".5589e583e4f0e8????????e8????????":
@@ -37,7 +37,7 @@ static cleanup int CSurface::GL_PushMatrix();
 ".5589e583e4f083ec30a1????????85c0":
 static cleanup int CSurface::GL_PopMatrix();
 ".55660fefe489e5565383e4f081ec????????f30f1055080f2ed4f30f104d0cf30f104510f30f105d147a??":
-static cleanup void CSurface::GL_Rotate(float unk1, float unk2, float unk3, float unk4);
+static cleanup void CSurface::GL_Rotate(float angle, float x, float y, float z=0.f);
 ".55b9????????89e583e4f083ec10f30f1005????????f30f10550c0f2ed0f30f104d10f30f105d080f9bc20f45d10f2ec80f9bc00f45c1":
 static cleanup void CSurface::GL_Scale(float x, float y, float z);
 ".55660fefc0b9????????89e583e4f083ec20f30f105d0c0f2ed8":
@@ -92,7 +92,36 @@ static cleanup GL_Primitive* CSurface::GL_CreateMultiImagePrimitive(GL_Texture* 
 "8d4c240483e4f0ff71fc5589e556535183ec5c8b31f30f105118f30f1035????????0f2ed6f30f10690cf30f106110f30f116dc0f30f1165c4":
 static cleanup GL_Primitive* CSurface::GL_CreateImagePrimitive(GL_Texture *tex, float x, float y, float size_x, float size_y, float rotate, GL_Color color);
 
-struct CSurface depends
-{{
+"5531c089e5565383e4f083ec208b75088b5d0c8b551083fe0177??85d274??85db74??803b0074??":
+static cleanup int CSurface::shader_create_from_source(ShaderType type, const char* source, int length);
+".5589e557565383e4f083ec208b5d088b7d0c85db7e??a1????????39c38944241c7d??0fb605????????8b15????????84c08844241b75??89d18b0c9985c974??85ff7e??":
+static cleanup int CSurface::shader_pipeline_create(int vertex_shader, int fragment_shader);
+".5589e557565383e4f083ec108b5d0885db7e??3b1d????????":
+static cleanup void CSurface::shader_pipeline_destroy(int pipeline);
+".5589e5565383e4f083ec108b4d0883f90074??7e??3b0d????????7d??803d??????????":
+static cleanup void CSurface::shader_pipeline_apply(int pipeline);
+"55b8????????89e557565383e4f0e8????????29c48b752085f674??8b5d1c85db0f84????????8d5c2420be????????31ff89d88b4d1085c97e??":
+static cleanup char* CSurface::generate_fragment_shader_source(GraphicsPrimitiveType primitive_type, int position_count, int texcoord_count, GraphicsTextureColorType texcolor_type, int tex_offset, int color_count, int color_uniform, int fog, int alpha_test, GraphicsComparisonType alpha_comparison);
 
+struct CSurface
+{{
+	static void GL_ApplyShader(int pipeline)
+	{
+		shader_pipeline_apply(pipeline);
+	}
+	
+	static void GL_DestroyShader(int pipeline)
+	{
+		shader_pipeline_destroy(pipeline);
+	}
+	
+	static int GL_CreateShaderPipeline(int vertex_shader, int fragment_shader)
+	{
+		return shader_pipeline_create(vertex_shader, fragment_shader);
+	}
+	
+	static int GL_CreateShader(ShaderType type, const char* source)
+	{
+		return shader_create_from_source(type, source, -1);
+	}
 }};

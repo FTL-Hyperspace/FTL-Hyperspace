@@ -36,6 +36,8 @@ void CustomBoss::ParseBossNode(rapidxml::xml_node<char> *node)
 
             if (nodeName == "surgeDrones")
             {
+                customSurgeDrones = true;
+
                 for (auto droneNode = bossNode->first_node(); droneNode; droneNode = droneNode->next_sibling())
                 {
                     if (droneNode->first_attribute("difficulty"))
@@ -77,7 +79,7 @@ HOOK_METHOD(BossShip, StartStage, () -> void)
     {
         for (int i = 0; i < CustomBoss::instance.initialCrewList.size(); i++)
         {
-            shipManager->AddCrewMemberFromString("", CustomBoss::instance.initialCrewList[i].first, false, CustomBoss::instance.initialCrewList[i].second, false, rand() % 2);
+            shipManager->AddCrewMemberFromString("", CustomBoss::instance.initialCrewList[i].first, false, CustomBoss::instance.initialCrewList[i].second, false, random32() % 2);
         }
     }
     else
@@ -87,7 +89,7 @@ HOOK_METHOD(BossShip, StartStage, () -> void)
         {
             if (i.second < roomCount)
             {
-                shipManager->AddCrewMemberFromString("", i.first, false, i.second, false, rand() % 2);
+                shipManager->AddCrewMemberFromString("", i.first, false, i.second, false, random32() % 2);
             }
         }
     }
@@ -152,6 +154,8 @@ HOOK_METHOD(BossShip, LoadBoss, (int fh) -> void)
 
 HOOK_METHOD(ShipManager, PrepareSuperDrones, () -> void)
 {
+    if (!CustomBoss::instance.customSurgeDrones) return;
+
     if (superDrones.size() == 0)
     {
         std::vector<DroneCount> droneCount = CustomBoss::instance.droneSurgeDef[*G_->difficulty];

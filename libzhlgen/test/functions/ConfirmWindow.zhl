@@ -1,2 +1,12 @@
+"578d7c240883e4f0ff77fc5589f889e557565389cb83ec7c8b5008":
+void ConfirmWindow::SetText(ConfirmWindow *this<ecx>, const TextString& text_, int minWidth, bool autoCenter, const TextString& yesText_, const TextString& noText_);
 "578d7c240883e4f0ff77fc5589e557565389cb81ec????????8b8184000000":
 void ConfirmWindow::OnRender(ConfirmWindow *this<ecx>);
+"578d7c240883e4f0ff77fc5589e557565389cb83ec3c8b078b570489042489542404e8????????8b838400000083ec08":
+void ConfirmWindow::SetPosition(ConfirmWindow *this<ecx>, Point pos);
+"578d7c240883e4f0ff77fc5589e557565389cb83ec3ce8????????807b7c000f84????????8b938000000089d085c00f84????????8b52088b03":
+void ConfirmWindow::Open(ConfirmWindow *this<ecx>);
+"8079040074??5589e55389cb83e4f083ec1080b9c80000000075??80bbb80100000074??80bbb90100000074??8b03":
+void ConfirmWindow::MouseClick(ConfirmWindow *this<ecx>, int mX, int mY);
+"578d7c240883e4f0ff77fc5589e557565383ec1c807904008b378b7f0474??89cb":
+void ConfirmWindow::MouseMove(ConfirmWindow *this<ecx>, int mX, int mY);

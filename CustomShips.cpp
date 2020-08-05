@@ -2,6 +2,7 @@
 #include "freetype.h"
 #include "Seeds.h"
 #include <algorithm>
+#include <boost/lexical_cast.hpp>
 
 CustomShipSelect CustomShipSelect::instance = CustomShipSelect();
 
@@ -23,13 +24,20 @@ void CustomShipSelect::ParseShipsNode(rapidxml::xml_node<char> *node)
     // parse <ships> node in hyperspace.xml
     try
     {
+        shipDefs["default"] = CustomShipDefinition();
+
+
         for (auto child = node->first_node(); child; child = child->next_sibling())
         {
             CustomShipDefinition def;
             std::string name = child->name();
+
             if (name == "ship")
             {
                 def = CustomShipDefinition();
+
+                def.crewLimit = GetDefaultDefinition().crewLimit;
+
                 if (child->first_attribute("name"))
                 {
                     std::string shipName = std::string(child->first_attribute("name")->value());
@@ -54,8 +62,15 @@ void CustomShipSelect::ParseShipsNode(rapidxml::xml_node<char> *node)
 
             if (name == "customShip")
             {
-
-                std::string shipName = child->first_attribute("name")->value();
+                std::string shipName;
+                if (!child->first_attribute("name"))
+                {
+                    shipName = "default";
+                }
+                else
+                {
+                    shipName = child->first_attribute("name")->value();
+                }
 
                 if (shipDefs.find(shipName) == shipDefs.end())
                 {
@@ -65,6 +80,8 @@ void CustomShipSelect::ParseShipsNode(rapidxml::xml_node<char> *node)
                 {
                     def = shipDefs[shipName];
                 }
+
+                def.crewLimit = GetDefaultDefinition().crewLimit;
 
                 for (auto shipNode = child->first_node(); shipNode; shipNode = shipNode->next_sibling())
                 {
@@ -82,9 +99,15 @@ void CustomShipSelect::ParseShipsNode(rapidxml::xml_node<char> *node)
                             def.hiddenAugs[val]++;
                         }
                     }
+                    if (name == "crewLimit")
+                    {
+                        def.crewLimit = boost::lexical_cast<int>(val);
+                    }
                 }
+
                 shipDefs[shipName] = def;
             }
+
         }
     }
     catch (std::exception)
@@ -721,8 +744,34 @@ HOOK_METHOD_PRIORITY(ShipManager, OnInit, 100, (ShipBlueprint *bp, int shipLevel
         }
     }
 
+    for (auto i : customSel->GetDefaultDefinition().hiddenAugs)
+    {
+        G_->GetShipInfo()->augList["HIDDEN " + i.first] = i.second;
+    }
+
 
     return ret;
+}
+
+HOOK_METHOD(ShipManager, Restart, () -> void)
+{
+    super();
+
+    auto customSel = CustomShipSelect::GetInstance();
+    auto ex = SM_EX(this);
+
+    if (ex->hasCustomDef)
+    {
+        for (auto i : customSel->GetDefinition(myBlueprint.blueprintName).hiddenAugs)
+        {
+            G_->GetShipInfo()->augList["HIDDEN " + i.first] = i.second;
+        }
+    }
+
+    for (auto i : customSel->GetDefaultDefinition().hiddenAugs)
+    {
+        G_->GetShipInfo()->augList["HIDDEN " + i.first] = i.second;
+    }
 }
 
 HOOK_METHOD(ShipButton, constructor, (int shipType, int shipVariant) -> void)
@@ -923,7 +972,7 @@ HOOK_METHOD(ShipBuilder, MouseClick, (int x, int y) -> void)
         if (currentShipId >= 100 && customSel->Initialized())
         {
             int id = customSel->GetRandomShipIndex();
-            int variant = rand() % 3;
+            int variant = random32() % 3;
 
             if (variant == 2 && !customSel->GetShipButtonDefinition(id).typeC)
                 variant = 1;
@@ -1345,4 +1394,40 @@ HOOK_METHOD_PRIORITY(MenuScreen, OnRender, 1000, () -> void)
         CSurface::GL_RemoveColorTint();
         confirmDialog.OnRender();
     }
+}
+
+HOOK_METHOD(ShipManager, IsCrewFull, () -> bool)
+{
+    if (iShipId == 1) return false;
+
+    auto custom = CustomShipSelect::GetInstance();
+    int crewCount = G_->GetCrewFactory()->GetCrewCount(iShipId);
+    int crewLimit = custom->GetDefaultDefinition().crewLimit;
+
+    if (custom->HasCustomDef(myBlueprint.blueprintName))
+    {
+        crewLimit = custom->GetDefinition(myBlueprint.blueprintName).crewLimit;
+    }
+
+    if (crewLimit > crewCount)
+    {
+        return bAutomated;
+    }
+    return true;
+}
+
+HOOK_METHOD(ShipManager, IsCrewOverFull, () -> bool)
+{
+    if (iShipId == 1) return false;
+
+    auto custom = CustomShipSelect::GetInstance();
+    int crewCount = G_->GetCrewFactory()->GetCrewCount(iShipId);
+    int crewLimit = custom->GetDefaultDefinition().crewLimit;
+
+    if (custom->HasCustomDef(myBlueprint.blueprintName))
+    {
+        crewLimit = custom->GetDefinition(myBlueprint.blueprintName).crewLimit;
+    }
+
+    return crewLimit < crewCount;
 }

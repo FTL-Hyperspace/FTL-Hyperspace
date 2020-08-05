@@ -1,0 +1,479 @@
+#include "CustomDrones.h"
+#include "CustomCrew.h"
+#include <boost/lexical_cast.hpp>
+
+CustomDroneManager CustomDroneManager::_instance = CustomDroneManager();
+
+void CustomDroneManager::ParseDroneNode(rapidxml::xml_node<char> *node)
+{
+    try
+    {
+        for (auto droneNode = node->first_node(); droneNode; droneNode = droneNode->next_sibling())
+        {
+            if (strcmp(droneNode->name(), "drone") == 0)
+            {
+                CustomDroneDefinition* def = new CustomDroneDefinition();
+
+                def->name = droneNode->first_attribute("name")->value();
+
+                for (auto child = droneNode->first_node(); child; child = child->next_sibling())
+                {
+                    std::string name = child->name();
+                    std::string val = child->value();
+
+                    if (name == "crewBlueprint")
+                    {
+                        def->crewBlueprint = val;
+                    }
+                    if (name == "tooltipName")
+                    {
+                        def->tooltipName = val;
+                    }
+                    if (name == "ability")
+                    {
+                        def->hasAbility = true;
+
+                        DroneAbilityDefinition::AIType ai;
+                        if (child->first_attribute("ai"))
+                        {
+                            std::string aiString = child->first_attribute("ai")->value();
+
+                            if (aiString == "systems")
+                            {
+                                ai = DroneAbilityDefinition::AIType::SYSTEMS;
+                            }
+                            if (aiString == "systems_power")
+                            {
+                                ai = DroneAbilityDefinition::AIType::SYSTEMS_POWER;
+                            }
+                            if (aiString == "heal")
+                            {
+                                ai = DroneAbilityDefinition::AIType::CREW_HEAL;
+                            }
+                            if (aiString == "enemies")
+                            {
+                                ai = DroneAbilityDefinition::AIType::ENEMIES;
+                            }
+                        }
+
+                        def->ability.ai = ai;
+                    }
+                }
+
+                droneDefs.push_back(def);
+            }
+        }
+    }
+    catch (std::exception)
+    {
+        MessageBoxA(GetDesktopWindow(), "Error parsing <drones> in hyperspace.xml", "Error", MB_ICONERROR | MB_SETFOREGROUND);
+    }
+}
+
+
+
+//====================================================
+
+HOOK_METHOD(CrewMemberFactory, CreateBoarderDrone, (int shipId, DroneBlueprint *bp) -> BoarderDrone*)
+{
+    CustomDroneDefinition *customDrone = CustomDroneManager::GetInstance()->GetDefinition(bp->name);
+
+    if (customDrone)
+    {
+        if (customDrone->hasAbility)
+        {
+            AbilityDrone* drone = new AbilityDrone(customDrone->crewBlueprint, customDrone->tooltipName, shipId, bp, customDrone->ability);
+            CM_EX(drone)->isAbilityDrone = true;
+            CMA_EX(drone->crewAnim)->isAbilityDrone = true;
+
+            crewMembers.push_back(drone);
+
+            return (BoarderDrone*)drone;
+        }
+    }
+
+    return super(shipId, bp);
+}
+
+HOOK_METHOD(DroneBlueprint, RenderIcon, (float scale) -> void)
+{
+    CustomDroneDefinition *customDrone = CustomDroneManager::GetInstance()->GetDefinition(name);
+    if ((type == 2 || type == 3 || type == 4) && customDrone)
+    {
+        CSurface::GL_PushMatrix();
+        auto walkDown = G_->GetAnimationControl()->GetAnimation(customDrone->crewBlueprint + "_walk_down");
+        auto base = G_->GetResources()->GetImageId("people/" + customDrone->crewBlueprint + "_base.png");
+        auto layer = G_->GetResources()->GetImageId("people/" + customDrone->crewBlueprint + "_layer1.png");
+
+        CSurface::GL_Translate(std::floor(std::floor((-scale * walkDown->info.frameWidth)) / 2.f) + 1, std::floor(std::floor((-scale * walkDown->info.frameHeight)) / 2.f) + 1);
+
+        walkDown->SetCurrentFrame(0);
+        walkDown->SetAnimationId(base);
+        walkDown->OnRender(1.f, COLOR_WHITE, false);
+        walkDown->SetAnimationId(layer);
+        walkDown->OnRender(1.f, GL_Color(128.f / 255.f, 255.f / 255.f, 141.f / 255.f, 1.f), false);
+
+        delete walkDown;
+
+        CSurface::GL_PopMatrix();
+        return;
+    }
+
+    super(scale);
+}
+
+HOOK_METHOD(CrewAnimation, OnInit, (const std::string& name, Pointf position, bool enemy) -> void)
+{
+    super(name, position, enemy);
+
+    CustomDroneDefinition *customDrone = CustomDroneManager::GetInstance()->GetDefinitionByRace(race);
+    if (customDrone)
+    {
+        bDrone = true;
+    }
+}
+
+HOOK_METHOD(CrewDrone, constructor, (const std::string& droneType, const std::string& name, int shipId, const DroneBlueprint* blueprint, CrewAnimation *anim) -> void)
+{
+    CustomDroneDefinition *customDrone = CustomDroneManager::GetInstance()->GetDefinition(blueprint->name);
+
+    if (customDrone)
+    {
+        super(customDrone->crewBlueprint, customDrone->tooltipName.empty() ? name : customDrone->tooltipName, shipId, blueprint, nullptr);
+    }
+    else
+    {
+        super(droneType, name, shipId, blueprint, anim);
+    }
+}
+
+HOOK_METHOD(CrewAI, UpdateDrones, () -> void)
+{
+    bool hasDrone = false;
+
+    for (auto i : crewList)
+    {
+        if (i->IsDrone() && !i->intruder)
+        {
+            hasDrone = true;
+            break;
+        }
+    }
+
+    if (!hasDrone) return;
+
+    CustomCrewManager *custom = CustomCrewManager::GetInstance();
+
+    for (auto crew : crewList)
+    {
+        if (!crew->GetControllable() && crew->IsDrone() && !crew->IsDead() && crew->Functional() && crew->crewAnim->status != 3)
+        {
+            std::vector<CrewTask> taskList(desiredTaskList);
+            taskList.insert(taskList.end(), bonusTaskList.begin(), bonusTaskList.end());
+
+            if (taskList.empty())
+            {
+                AssignCrewmembers();
+                return;
+            }
+
+            if (crew->CanFight())
+            {
+                CrewTask closestTask;
+                float closestDist = FLT_MAX;
+                int newTaskId = 4;
+
+                for (auto task : taskList)
+                {
+                    if (task.taskId == 7)
+                    {
+                        if (!ship->ship.FullRoom(task.room, false))
+                        {
+                            float dist = ship->GetRoomCenter(task.room).RelativeDistance(Pointf(crew->x, crew->y));
+
+                            if (dist < closestDist)
+                            {
+                                closestDist = dist;
+                                closestTask = task;
+                                newTaskId = task.taskId;
+                            }
+                        }
+                    }
+                }
+
+                if (newTaskId != 4)
+                {
+                    if (!ship->ship.RoomLocked(closestTask.room))
+                    {
+                        if (ship->CommandCrewMoveRoom(crew, closestTask.room))
+                        {
+                            crew->SetTask(closestTask);
+                        }
+                    }
+                }
+            }
+            if (!crew->IsBusy() && crew->CanRepair())
+            {
+                crew->ClearTask();
+
+                for (auto task : taskList)
+                {
+                    if (task.taskId <= 3 && task.taskId > 0)
+                    {
+                        if (PrioritizeTask(task, -1) < PrioritizeTask(crew->task, -1))
+                        {
+                            if (!ship->ship.RoomLocked(task.room) && (ship->CommandCrewMoveRoom(crew, task.room) || task.room == crew->currentSlot.roomId))
+                            {
+                                crew->SetTask(task);
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (!crew->IsBusy() && crew->CanMan())
+            {
+                for (auto task : taskList)
+                {
+                    if (task.taskId == 0 && task.system != 5 && task.system != 2 && task.system != 6)
+                    {
+                        if (PrioritizeTask(task, -1) < PrioritizeTask(crew->task, -1))
+                        {
+                            if (!ship->ship.RoomLocked(task.room) && (ship->CommandCrewMoveRoom(crew, task.room) || task.room == crew->currentSlot.roomId))
+                            {
+                                crew->SetTask(task);
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (!crew->IsBusy() && crew->task.taskId != 0)
+            {
+                bool idle = true;
+
+                if (custom->IsRace(crew->species))
+                {
+                    auto def = custom->GetDefinition(crew->species);
+
+                    if (def.providesPower || def.bonusPower > 0)
+                    {
+                        idle = false;
+
+                        int maxPowerDiff = 0;
+                        int targetRoom = -1;
+
+                        for (auto i : ship->vSystemList)
+                        {
+                            int powerDiff = i->powerState.second - i->powerState.first;
+
+                            if (i->iSystemType == 3)
+                            {
+                                int maxPower = 0;
+                                for (auto wep : ship->GetWeaponList())
+                                {
+                                    maxPower += wep->requiredPower;
+                                }
+
+                                powerDiff = maxPower - i->powerState.first;
+                            }
+
+                            if (powerDiff > maxPowerDiff && powerDiff > 0 && !ShipSystem::IsSubsystem(i->iSystemType) && i->iSystemType != 4 && i->iSystemType != 5)
+                            {
+                                maxPowerDiff = powerDiff;
+                                targetRoom = i->roomId;
+                                if (targetRoom != -1 && !ship->ship.RoomLocked(targetRoom) && (ship->CommandCrewMoveRoom(crew, targetRoom) || targetRoom == crew->currentSlot.roomId))
+                                {
+                                    CrewTask task = CrewTask();
+                                    task.room = targetRoom;
+                                    task.taskId = 4;
+                                    task.system = -1;
+
+                                    crew->SetTask(task);
+                                }
+                                else
+                                {
+                                    targetRoom = -1;
+                                }
+                            }
+                        }
+
+                        if (targetRoom == -1)
+                        {
+                            int priorityList[7] = { 3, 0, 13, 1, 11, 10, 15 };
+
+                            for (auto i : priorityList)
+                            {
+                                if (i == 3)
+                                {
+                                    int maxPower = 0;
+                                    for (auto wep : ship->GetWeaponList())
+                                    {
+                                        maxPower += wep->requiredPower;
+                                    }
+                                    if (maxPower == 0) continue;
+                                }
+
+                                targetRoom = ship->GetSystemRoom(i);
+                                if (targetRoom != -1 && !ship->ship.RoomLocked(targetRoom) && (ship->CommandCrewMoveRoom(crew, targetRoom) || targetRoom == crew->currentSlot.roomId))
+                                {
+                                    CrewTask task = CrewTask();
+                                    task.room = targetRoom;
+                                    task.taskId = 4;
+                                    task.system = -1;
+
+                                    crew->SetTask(task);
+
+                                    break;
+                                }
+                                else
+                                {
+                                    targetRoom = -1;
+                                }
+                            }
+                        }
+
+                        if (targetRoom == -1)
+                        {
+                            idle = true;
+                        }
+                    }
+                }
+
+
+
+                if (idle)
+                {
+                    int droneRoom = ship->GetSystemRoom(4);
+                    if (!ship->ship.RoomLocked(droneRoom))
+                    {
+                        if (ship->CommandCrewMoveRoom(crew, droneRoom) || droneRoom == crew->currentSlot.roomId)
+                        {
+                            CrewTask task = CrewTask();
+                            task.room = droneRoom;
+                            task.taskId = 4;
+                            task.system = -1;
+
+                            crew->SetTask(task);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+HOOK_METHOD(ShipManager, CreateSpaceDrone, (const DroneBlueprint *bp) -> SpaceDrone*)
+{
+    SpaceDrone* ret = super(bp);
+    if (ret)
+    {
+        if (current_target)
+        {
+            //ret->movementTarget = &current_target->_targetable;
+        }
+    }
+    return ret;
+}
+
+
+HOOK_METHOD(CrewDrone, OnLoop, () -> void)
+{
+    SetFrozen(_drone.deployed && !_drone.powered);
+
+    ShipGraph *shipGraph = ShipGraph::GetShipInfo(currentShipId);
+
+    if (currentSlot.slotId != -1 && iRoomId != -1 && !intruder)
+    {
+        if (_drone.deployed && !_drone.powered && shipGraph->rooms[iRoomId]->primarySlot == currentSlot.slotId)
+        {
+            bFrozenLocation = false;
+        }
+
+        if (!bFrozenLocation)
+        {
+            int closestSlot = -1;
+            int closestRoom = -1;
+            int closestDist = INT_MAX;
+
+            for (auto room : shipGraph->rooms)
+            {
+                std::vector<int> emptySlots = std::vector<int>();
+
+                for (int slot = 0; slot < room->slots[intruder].size(); slot++)
+                {
+                    if (slot != room->primarySlot && room->slots[intruder][slot] == false)
+                    {
+                        emptySlots.push_back(slot);
+                    }
+                }
+
+                for (auto slot : emptySlots)
+                {
+                    int dist = shipGraph->GetSlotWorldPosition(room->iRoomId, slot).RelativeDistance(currentSlot.worldLocation);
+
+                    if (dist < closestDist)
+                    {
+                        closestSlot = slot;
+                        closestRoom = room->iRoomId;
+                        closestDist = dist;
+                    }
+                }
+            }
+
+            bFrozenLocation = true;
+
+            if (closestRoom != -1)
+            {
+                MoveToRoom(closestRoom, closestSlot, intruder);
+            }
+
+        }
+    }
+
+    super();
+}
+
+HOOK_METHOD(BoarderPodDrone, constructor, (int _iShipId, int _selfId, const DroneBlueprint& _bp) -> void)
+{
+    super(_iShipId, _selfId, _bp);
+
+    CustomDroneManager* customDrone = CustomDroneManager::GetInstance();
+
+    if (customDrone->GetDefinition(_bp.name))
+    {
+        std::string race = customDrone->GetDefinition(_bp.name)->crewBlueprint;
+
+        baseSheet = G_->GetResources()->GetImageId("people/" + race + "_base.png");
+        colorSheet = G_->GetResources()->GetImageId("people/" + race + "_layer1.png");
+        droneImage = *G_->GetAnimationControl()->GetAnimation(race + "_fly");
+    }
+}
+
+HOOK_METHOD(CrewControl, OnLoop, () -> void)
+{
+    printf("%08X %08X\n", this, &selectedCrew);
+    super();
+}
+
+HOOK_METHOD(CrewControl, MouseMove, (int mX, int mY, int wX, int wY) -> void)
+{
+    super(mX, mY, wX, wY);
+
+    if (selectedDoor) return;
+
+    for (auto i : shipManager->vCrewList)
+    {
+        if (i->IsDrone() && i->GetControllable() && i->Functional() && i->selectionState != 1)
+        {
+            Pointf pos = Pointf(i->x, i->y) - Pointf(17.f, 17.f);
+
+            if (wX - pos.x < 34.f && wX - pos.x > 0.f && wY - pos.y < 34.f && wY - pos.y > 0.f)
+            {
+                potentialSelectedCrew.push_back(i);
+                i->selectionState = 2;
+            }
+        }
+    }
+}

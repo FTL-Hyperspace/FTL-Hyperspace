@@ -30,5 +30,5 @@ HOOK_METHOD(SystemStoreBox, constructor, (ShipManager *shopper, Equipment *equip
     if (CustomStore::instance.freeDrones.size() <= 0)
         return;
 
-    freeBlueprint = G_->GetBlueprints()->GetDroneBlueprint(CustomStore::instance.freeDrones[rand() % CustomStore::instance.freeDrones.size()])->name;
+    freeBlueprint = G_->GetBlueprints()->GetDroneBlueprint(CustomStore::instance.freeDrones[random32() % CustomStore::instance.freeDrones.size()])->name;
 }

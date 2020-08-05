@@ -7,6 +7,7 @@ struct BeaconType
     GL_Color color;
     bool global = false;
     TextString beaconText;
+    TextString undiscoveredTooltip;
     TextString unvisitedTooltip;
     TextString visitedTooltip;
 };
@@ -22,11 +23,16 @@ struct CustomEvent
     bool noQuestText = false;
     bool removeHazards = false;
     bool removeNebula = false;
+    std::string secretSectorWarp = "";
+
+    bool win = false;
+    std::string gameOverText = "";
+
+    std::vector<std::string> hiddenAugs = std::vector<std::string>();
 };
 
 struct SectorExit
 {
-    std::string sectorName;
     std::string event = "";
     std::string rebelEvent = "";
     std::string nebulaEvent = "";
@@ -34,11 +40,23 @@ struct SectorExit
 
 struct SectorFleet
 {
-    std::string sectorName;
     std::string event = "";
     std::string nebulaEvent = "";
 };
 
+struct CustomSector
+{
+    std::string sectorName;
+    SectorExit exitBeacons;
+    SectorFleet fleetBeacons;
+    bool removeFirstBeaconNebula = false;
+};
+
+struct BossShipDefinition
+{
+    std::string shipId;
+    int yOffset = 120;
+};
 
 class CustomEventsParser
 {
@@ -55,15 +73,18 @@ public:
         return instance;
     }
 
-    bool IsBossShip(const std::string& shipId)
+    BossShipDefinition *GetBossShipDefinition(const std::string& shipId)
     {
-        return std::find(bossShipIds.begin(), bossShipIds.end(), shipId) != bossShipIds.end();
+        if (bossShipIds.find(shipId) != bossShipIds.end())
+        {
+            return &bossShipIds[shipId];
+        }
+
+        return nullptr;
     }
 
     CustomEvent *GetCustomEvent(const std::string& event);
-
-    SectorExit* GetSectorExit(const std::string& sectorName);
-    SectorFleet* GetSectorFleet(const std::string& sectorName);
+    CustomSector *GetCustomSector(const std::string& sectorName);
 
     static std::string GetBaseEventName(const std::string& event)
     {
@@ -81,9 +102,8 @@ public:
 
 
 private:
-    std::vector<SectorExit*> customExitBeacons;
-    std::vector<SectorFleet*> customFleetBeacons;
-    std::vector<CustomEvent*> customEvents;
-    std::vector<std::string> bossShipIds;
+    std::vector<CustomSector*> customSectors;
+    std::unordered_map<std::string, CustomEvent*> customEvents;
+    std::unordered_map<std::string, BossShipDefinition> bossShipIds;
     static CustomEventsParser *instance;
 };

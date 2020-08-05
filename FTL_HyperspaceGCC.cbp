@@ -5,31 +5,34 @@
 		<Option title="FTL_HyperspaceGCC" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
-		<Option virtualFolders="Content/Misc/;Core/Systems/;Content/;Core/Systems/;Content/Crew/;Core/Systems/;Content/Ship/;Core/Systems/;Core/Systems/;Content/;Core/Systems/;Core/;Core/Weapons/;Content/;Core/Systems/;Core/Crew/;Content/;Core/Systems/;Core/Events/;Content/;Core/Systems/;Core/;Core/Weapons/;Content/;Core/Ship/;Content/;Core/Systems/;Core/Resources/;Content/;Core/Systems/;Content/Map/;Core/Systems/;Core/Map/;Content/;Core/Systems/;ZHL/;Assembly/;Content/Augments/;Core/Augments/;Core/Seed/;Core/Boss/;Content/ShipEditor/;Core/SaveFile/;Core/Store/" />
+		<Option virtualFolders="Content/Misc/;Core/Systems/;Content/;Core/Systems/;Content/Crew/;Core/Systems/;Content/Ship/;Core/Systems/;Core/Systems/;Content/;Core/Systems/;Core/;Core/Weapons/;Content/;Core/Systems/;Core/Crew/;Content/;Core/Systems/;Core/Events/;Content/;Core/Systems/;Core/;Core/Weapons/;Content/;Core/Ship/;Content/;Core/Systems/;Core/Resources/;Content/;Core/Systems/;Content/Map/;Core/Systems/;Core/Map/;Content/;Core/Systems/;ZHL/;Content/Augments/;Core/Augments/;Core/Seed/;Core/Boss/;Content/ShipEditor/;Core/SaveFile/;Core/Store/;Core/CommandGui/;Core/CApp/;Content/Discord/;Core/Equipment/;Core/Drones/;Core/Credits/" />
 		<Build>
 			<Target title="Debug">
 				<Option output="C:/Program Files (x86)/Steam/steamapps/common/FTL Faster Than Light/Hyperspace" imp_lib="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).a" def_file="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).def" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="C:/Program Files (x86)/Steam/steamapps/common/FTL Faster Than Light" />
 				<Option object_output="obj/Debug/" />
 				<Option type="3" />
-				<Option compiler="gcc" />
+				<Option compiler="copy_of_gnu_gcc_compiler_mingw-w64_x86" />
 				<Option host_application="C:/Program Files (x86)/Steam/steamapps/common/FTL Faster Than Light/FTLGame.exe" />
 				<Option run_host_application_in_terminal="0" />
 				<Option createDefFile="1" />
 				<Option createStaticLib="1" />
 				<Compiler>
 					<Add option="-Wall" />
+					<Add option="-m32" />
 					<Add option="-g" />
 					<Add option="-masm=intel -std=c++11 -g" />
 					<Add option="-DBUILD_DLL" />
 					<Add option="-DDEBUG" />
 					<Add directory="rapidxml" />
 					<Add directory="C:/boost/include/boost-1_70" />
-					<Add directory="lua/luajit/src" />
+					<Add directory="discord/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-static-libstdc++" />
 					<Add option="-static-libgcc" />
+					<Add option="-static" />
+					<Add option="-m32" />
 					<Add library="user32" />
 					<Add library="libboost_atomic-mgw82-mt-x32-1_70.a" />
 					<Add library="libboost_chrono-mgw82-mt-x32-1_70.a" />
@@ -66,9 +69,9 @@
 					<Add library="libboost_unit_test_framework-mgw82-mt-x32-1_70.a" />
 					<Add library="libboost_wave-mgw82-mt-x32-1_70.a" />
 					<Add library="libboost_wserialization-mgw82-mt-x32-1_70.a" />
-					<Add library="lua51" />
+					<Add library="discord/lib/libdiscord-rpc.a" />
 					<Add directory="C:/boost/lib" />
-					<Add directory="lua/lib" />
+					<Add directory="discord/lib" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -76,22 +79,26 @@
 				<Option working_dir="C:/SteamLibrary/steamapps/common/FTL Faster Than Light/FTLGame.exe" />
 				<Option object_output="obj/Release/" />
 				<Option type="3" />
-				<Option compiler="gcc" />
+				<Option compiler="copy_of_gnu_gcc_compiler_mingw-w64_x86" />
 				<Option host_application="C:/Program Files (x86)/Steam/steamapps/common/FTL Faster Than Light/FTLGame.exe" />
 				<Option run_host_application_in_terminal="0" />
 				<Option createDefFile="1" />
 				<Option createStaticLib="1" />
 				<Compiler>
 					<Add option="-Wall" />
+					<Add option="-m32" />
 					<Add option="-masm=intel -std=c++11" />
 					<Add option="-DBUILD_DLL" />
 					<Add directory="rapidxml" />
 					<Add directory="C:/boost/include/boost-1_70" />
+					<Add directory="discord/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
 					<Add option="-static-libstdc++" />
 					<Add option="-static-libgcc" />
+					<Add option="-static" />
+					<Add option="-m32" />
 					<Add library="user32" />
 					<Add library="libboost_atomic-mgw82-mt-x32-1_70.a" />
 					<Add library="libboost_chrono-mgw82-mt-x32-1_70.a" />
@@ -128,15 +135,17 @@
 					<Add library="libboost_unit_test_framework-mgw82-mt-x32-1_70.a" />
 					<Add library="libboost_wave-mgw82-mt-x32-1_70.a" />
 					<Add library="libboost_wserialization-mgw82-mt-x32-1_70.a" />
+					<Add library="libdiscord-rpc.a" />
 					<Add directory="C:/boost/lib" />
+					<Add directory="discord/lib" />
 				</Linker>
 			</Target>
 		</Build>
-		<Unit filename="ASMHooks.cpp">
-			<Option virtualFolder="Assembly/" />
+		<Unit filename="AbilityDrone.cpp">
+			<Option virtualFolder="Core/Drones/" />
 		</Unit>
-		<Unit filename="ASMHooks.h">
-			<Option virtualFolder="Assembly/" />
+		<Unit filename="AbilityDrone.h">
+			<Option virtualFolder="Core/Drones/" />
 		</Unit>
 		<Unit filename="AugmentValues.cpp">
 			<Option virtualFolder="Content/Augments/" />
@@ -165,6 +174,9 @@
 		<Unit filename="CommandConsole.h">
 			<Option virtualFolder="Content/Misc/" />
 		</Unit>
+		<Unit filename="Credits.cpp">
+			<Option virtualFolder="Core/Credits/" />
+		</Unit>
 		<Unit filename="CrewMember_Extend.cpp">
 			<Option virtualFolder="Core/Crew/" />
 		</Unit>
@@ -186,11 +198,32 @@
 		<Unit filename="CustomBoss.h">
 			<Option virtualFolder="Core/Boss/" />
 		</Unit>
+		<Unit filename="CustomCommandGui.cpp">
+			<Option virtualFolder="Core/CommandGui/" />
+		</Unit>
+		<Unit filename="CustomCommandGui.h">
+			<Option virtualFolder="Core/CommandGui/" />
+		</Unit>
 		<Unit filename="CustomCrew.cpp">
 			<Option virtualFolder="Core/Crew/" />
 		</Unit>
 		<Unit filename="CustomCrew.h">
 			<Option virtualFolder="Core/Crew/" />
+		</Unit>
+		<Unit filename="CustomCrewManifest.cpp">
+			<Option virtualFolder="Core/Crew/" />
+		</Unit>
+		<Unit filename="CustomCrewManifest.h">
+			<Option virtualFolder="Core/Crew/" />
+		</Unit>
+		<Unit filename="CustomDrones.cpp">
+			<Option virtualFolder="Core/Drones/" />
+		</Unit>
+		<Unit filename="CustomDrones.h">
+			<Option virtualFolder="Core/Drones/" />
+		</Unit>
+		<Unit filename="CustomEquipment.cpp">
+			<Option virtualFolder="Core/Equipment/" />
 		</Unit>
 		<Unit filename="CustomEvents.cpp">
 			<Option virtualFolder="Core/Events/" />
@@ -228,6 +261,15 @@
 		<Unit filename="CustomWeapons.cpp">
 			<Option virtualFolder="Core/Weapons/" />
 		</Unit>
+		<Unit filename="DiscordIntegration.cpp">
+			<Option virtualFolder="Content/Discord/" />
+		</Unit>
+		<Unit filename="DiscordIntegration.h">
+			<Option virtualFolder="Content/Discord/" />
+		</Unit>
+		<Unit filename="DroneVTable.cpp">
+			<Option virtualFolder="Core/Drones/" />
+		</Unit>
 		<Unit filename="FTLGame.cpp" />
 		<Unit filename="FTLGame.h" />
 		<Unit filename="Global.cpp">
@@ -247,6 +289,9 @@
 		</Unit>
 		<Unit filename="Infinite.h">
 			<Option virtualFolder="Content/Map/" />
+		</Unit>
+		<Unit filename="Input.cpp">
+			<Option virtualFolder="Core/CApp/" />
 		</Unit>
 		<Unit filename="MainMenu.cpp">
 			<Option virtualFolder="Content/Misc/" />

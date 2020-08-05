@@ -1,0 +1,10 @@
+"578d7c240883e4f0ff77fc5589e557565381ec????????8b510c8b4110c745940000000029d0c1f80285c00f84????????89cfeb??":
+void CrewAI::UpdateDrones(CrewAI *this<ecx>);
+"578d7c240883e4f0ff77fc5589e557565389ce83ec2c8b49308b463429c8c1f80269c0????????":
+void CrewAI::AssignCrewmembers(CrewAI *this<ecx>);
+"578d7c240883e4f0ff77fc5589f889e557565389cf83ec2c8b700c8b188b50048b4008":
+int CrewAI::PrioritizeTask(CrewAI *this<ecx>, CrewTask task, int crewId);
+"8b511c8b411839d00f84????????5729c2c1fa028d7c240883e4f0ff77fc5589e557565331db89ce83ec3c":
+void CrewAI::UpdateIntruders(CrewAI *this<ecx>);
+"578d7c240883e4f0ff77fc5589e557565389cb83ec3c8b078b77048b7f088945e4897dd889c78b4078c70424????????":
+int CrewAI::PrioritizeIntruderRoom(CrewAI *this<ecx>, CrewMember *crew, int roomId, int target);

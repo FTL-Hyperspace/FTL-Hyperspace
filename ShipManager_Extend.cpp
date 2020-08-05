@@ -20,7 +20,7 @@ HOOK_METHOD_PRIORITY(ShipManager, constructor, 900, (int iShipId) -> void)
 
 ShipManager_Extend* Get_ShipManager_Extend(ShipManager* c)
 {
-    if (!c) return NULL;
+    if (!c) return nullptr;
 
     DWORD dEx = 0;
 

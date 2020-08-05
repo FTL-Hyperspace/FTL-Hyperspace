@@ -2,6 +2,13 @@
 static Animation* AnimationControl::GetAnimation(Animation& animRef<ecx>, AnimationControl *animControl, const std::string& animName);
 
 struct AnimationControl depends (Animation)
-{
-
-};
+{{
+	Animation* GetAnimation(const std::string& animName)
+	{
+		Animation* animRef = new Animation();
+		
+		AnimationControl::GetAnimation(*animRef, this, animName);
+		
+		return animRef;
+	}
+}};
