@@ -1,6 +1,6 @@
 <FTL>
 
-<version>5</version>
+<version>53</version>
 
 <!-- Enables the game's built in infinite mode
 (found by ih8ih8sn0w)
@@ -88,7 +88,11 @@ If the chance attribute is set to 1 or above, every time the main menu is loaded
 	
 </titleScreen>
 
+<!-- Disables toggling off Advanced Edition -->
+
 <forceDlc enabled="false"/>
+
+<seeds enabled="true"/>
 
 <!-- Enables command console in game - press L to use
 
@@ -115,6 +119,7 @@ STORE          Creates a store at your location        Usage: STORE [sector]    
 KILL           Kills a person on your ship             Usage: KILL <crew_name>        Example: KILL John
 DELETECREW     Kills everyone on the enemy ship        Usage: DELETECREW
 SPEED          Changes game speed                      Usage: SPEED <speed>           Example: SPEED 3 (any integer from -2 to 3)
+DAMAGESYS      Damages a system                        Usage: DAMAGESYS <system_name> Example: DAMAGESYS medbay
 -->
 
 <console enabled="true"/> 
@@ -122,6 +127,10 @@ SPEED          Changes game speed                      Usage: SPEED <speed>     
 <!-- Infinite Ships
 
 You can make a customShip with no name to set default values for all ships
+
+<roomAnim> and <iconAnim> let you choose animations for rooms (from animations.xml)
+<roomAnim> is displayed only when the room has vision, while <iconAnim> is displayed always
+
 
 Syntax -> 
 
@@ -133,6 +142,13 @@ Syntax ->
 	
 	<ship name="PLAYER_SHIP_CUSTOM" b="true" c="true"/>
 	<customShip name="PLAYER_SHIP_CUSTOM_2">
+		<rooms>
+			<roomAnim>customRoomAnimation</roomAnim>
+			<iconAnim>customRoomIcon</iconAnim>
+		</rooms>
+		<crew>
+			<human room="1"/>
+		</crew>
 		<hiddenAug>ENERGY_SHIELD</hiddenAug>
 		<crewLimit>6</crewLimit>
 	</customShip>
@@ -154,31 +170,40 @@ jumpCooldown can either be "continue", "reset", or "full", and it is "full" by d
 
 animSheet pulls from img/people/<animSheet>.png and acts as a layer on top of the crew
 
+healSpeed determines how fast crew heal in the medbay and how fast drones heal in the drone control room.
+
+When animFrame is set for <powerEffect> and <temporaryPowerEffect> it makes it so that the effect only happens on that frame of the effect animation.
+
+When animSoundFrame is set for <repairSounds> AND <animBase> is rock, instead of having a looping repair sound it will instead play a single sound at that frame of the animation.
+
+<transformRace> in <powerEffect> allows the crewmember to transform into another race while keeping their name and skills
+
+<animBase> can be either mantis or rock
+
 Syntax -> 
 
 <crew>
 	(default human values)
 	<race name="newRace">
-		<controllable>true</controllable>
 		<canFight>true</canFight>
+		<controllable>true</controllable>
 		<canRepair>true</canRepair>
+		<canSabotage>true</canSabotage>
 		<canMan>true</canMan>
 		<canSuffocate>true</canSuffocate>
-		<canSabotage>true</canSabotage>
 		<canBurn>true</canBurn>
 		<maxHealth>100</maxHealth>
 		<moveSpeedMultiplier>1.0</moveSpeedMultiplier>
 		<repairSpeed>1.0</repairSpeed>
 		<damageMultiplier>1.0</damageMultiplier>
-		<bonusPower>0</bonusPower>
 		<fireRepairMultiplier>1.2</fireRepairMultiplier>
-		<sabotageSpeedMultiplier>1.0</sabotageSpeedMultiplier>
 		<suffocationModifier>1.0</suffocationModifier>
+		<bonusPower>0</bonusPower>
 		<isTelepathic>false</isTelepathic>
 		<isAnaerobic>false</isAnaerobic>
 		<fireDamageMultiplier>1.0</fireDamageMultiplier>
 		<canPhaseThroughDoors>false</canPhaseThroughDoors>
-		<defaultSkillLevel>0</defaultSkillLevel>
+		<healSpeed>1.0</healSpeed>
 		<deathSounds>
 			<deathSound>death1</deathSound>
 			<deathSound>death2</deathSound>
@@ -186,14 +211,16 @@ Syntax ->
 		<shootingSounds>
 			<shootingSound>crewLaser</shootingSound>
 		</shootingSounds>
-		<repairSounds>
+		<repairSounds animSoundFrame="-1">
 			<repairSound>repair</repairSound>
 		</repairSounds>
+		<animBase>rock</animBase> (for rock stomping animation, use <animBase>mantis</animBase> for mantis shooting animation (they are mutually exclusive))
 		<oxygenChangeSpeed>-0.525</oxygenChangeSpeed> (lanius speed)
 		<damageTakenMultiplier>1.0</damageTakenMultiplier>
 		<passiveHealAmount>1.0</passiveHealAmount>
 		<passiveHealDelay>15</passiveHealDelay>
 		<detectsLifeforms>false</detectsLifeforms>
+		<healCrewAmount>0.0</healCrewAmount>
 		<skills>
 			<piloting req="15"/>
 			<engines req="15"/>
@@ -202,8 +229,9 @@ Syntax ->
 			<repair req="18"/>
 			<combat req="8"/>
 		</skills>
-		<hasCustomDeathAnimation>false</hasCustomDeathAnimation>
-		<hasDeathExplosion>false</hasDeathExplosion>
+		<sabotageSpeedMultiplier>1.0</sabotageSpeedMultiplier>
+		<defaultSkillLevel>0</defaultSkillLevel>
+		<cloneLoseSkills>true</cloneLoseSkills>
 		<deathEffect>
 			<damage>0</damage>
 			<fireChance>0</fireChance>
@@ -218,8 +246,6 @@ Syntax ->
 			<stun>0</stun>
 			<shipFriendlyFire>false</shipFriendlyFire>
 		</deathEffect>
-		<animBase>rock</animBase> (for rock stomping animation)
-		<healSpeed>1.0</healSpeed>
 		<powerEffect>
 			<cooldown>30</cooldown>
 			<jumpCooldown>full</jumpCooldown>
@@ -227,7 +253,7 @@ Syntax ->
 				<powerSound>lockdown1</powerSound>
 				<powerSound>lockdown2</powerSound>
 			</powerSounds>
-			<req>
+			<req type="enemy">
 				<enemyShip/>
 				<playerShip/>
 				<friendlyInRoom/>
@@ -236,7 +262,21 @@ Syntax ->
 				<inCombat/>
 				<outOfCombat/>
 				<hasClonebay/>
+				<minHealth>10</minHealth>
+				<maxHealth>40</maxHealth>
 				<aiDisabled/>
+			</req>
+			<req type="player">
+				<enemyShip/>
+				<playerShip/>
+				<friendlyInRoom/>
+				<enemyInRoom/>
+				<systemInRoom/>
+				<inCombat/>
+				<outOfCombat/>
+				<hasClonebay/>
+				<minHealth>10</minHealth>
+				<maxHealth>40</maxHealth>
 			</req>
 			<damage>0</damage>
 			<fireChance>0</fireChance>
@@ -251,6 +291,7 @@ Syntax ->
 			<stun>0</stun>
 			<shipFriendlyFire>false</shipFriendlyFire>
 			<win>false</win>
+			<animFrame>-1</animFrame>
 			<buttonText id="button_lockdown">LOCKDOWN</buttonText>
 			<tooltip id="power_ready">Ready: Click to lock down room with special power</tooltip>
 			<cooldownColor r="133" g="231" b="237"/>
@@ -258,6 +299,8 @@ Syntax ->
 			<crewHealth>0.0</crewHealth>
 			<enemyHealth>0.0</enemyHealth>
 			<selfHealth>0.0</selfHealth>
+			<transformRace>engi</transformRace>
+			<activateWhenReady enemiesOnly="false">false</activateWhenReady>
 			
 			<temporaryEffect>
 				<duration>10</duration>
@@ -285,6 +328,8 @@ Syntax ->
 				<effectAnim>mindcontrol</effectAnim>
 				<invulnerable>false</invulnerable>
 				<animSheet baseVisible="true">human_effect</animSheet>
+				<animFrame>-1</animFrame>
+				<effectFinishAnim>mindcontrol</effectFinishAnim>
 			</temporaryEffect>
 		</powerEffect>
 	</race>
@@ -315,6 +360,7 @@ Syntax ->
 crewBlueprint needs to be defined as a crewBlueprint in blueprints.xml and a custom race in the <crew> tag in hyperspace.xml
 tooltipName is the name that shows up when you hover over the drone
 A flying boarding drone uses a _fly animation (e.g. newDrone_fly) for its texture
+The animations for drones will use the <crewBlueprint> tag for a prefix. Look at "boarder_" animations in vanilla as an example.
 
 Syntax ->
 
@@ -335,7 +381,7 @@ Syntax ->
 
 <locked> means you cannot remove it (sell or replace with another augment) once it's equipped.
 useForReqs is for whether you want the augment to work for blue options or not. True by default.
-warning attribute removes red warning text
+warning attribute being false removes red warning text
 
 Syntax ->
 <augments>
@@ -360,6 +406,14 @@ For beaconType and unvisitedTooltip/visitedTooltip, you can either use "id" or "
 
 To remove a hidden augment, use <remove> in the actual event tag for the event and put "HIDDEN " before the augment name, e.g. to remove a hidden zoltan shield make a remove tag with "HIDDEN ENERGY_SHIELD"
 
+<loadEvent> makes it so that the event that's loaded is NOT preloaded when the sector is generated,
+and instead loaded only when needed. This helps with loading times at the start of a sector, as well as
+reducing RAM usage and making events that load each other possible (useful for stuff like back buttons in events).
+The seeded attribute makes it so that randomly generated things in the same beacon are the same every time that event
+is loaded. Otherwise it will not depend on the seed/beacon and will instead be random every time the event is loaded in that beacon.
+
+The req attribute for beaconType makes it so that the beacon label is only visible when the ship has a specific piece of equipment (augment, weapon, drone, race) installed.
+
 Syntax -> 
 <events>
 	<bossShip>AUTO_ASSAULT_DLC</bossShip>
@@ -380,12 +434,14 @@ Syntax ->
 	<event name="TRADER_CIV">
 		<preventQuest/>
 		<noQuestText/>
-		<beaconType id="map_icon_trader" text="TRADER" global="false">
+		<beaconType id="map_icon_trader" text="TRADER" global="false" req="EQUIPMENT_REQU>
 			<color r="255" g="166" b="226" a="1.0"/>
-			<unvisitedTooltip id="map_unvisited_loc">An unvisited location.</unvisitedTooltip>
+			<undiscoveredTooltip id="map_unvisited_loc">An unvisited location.</unvisitedTooltip>
 			<unvisitedTooltip id="map_unvisited_loc">An unvisited trader location.</unvisitedTooltip>
 			<visitedTooltip id="map_nothing_loc">An explored location. A trader was here.</visitedTooltip>
 		</beaconType>
+		<playSound>sell</playSound>
+		<changeBackground>BACK_SECTOR_CIVILIAN</changeBackground>
 	</event>
 	
 	<event name="CRYSTAL_TEST">
@@ -393,11 +449,15 @@ Syntax ->
 	</event>
 	
 	<event name="FREE_WIN">
-		<win text="Custom event victory!"/>
+		<win text="Custom event victory!" creditsText="credit_victory"/>
 	</event>
 	
 	<event name="FREE_HIDDEN_ENERGY_SHIELD" recursive="false">
 		<hiddenAug>ENERGY_SHIELD</hiddenAug>
+	</event>
+	
+	<event name="LOAD_OTHER_BIG_EVENT">
+		<loadEvent name="BIG_EVENT" seeded="true"/>
 	</event>
 </events>
 

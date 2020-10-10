@@ -93,6 +93,7 @@ struct TemporaryPowerDefinition
     float duration;
 
     std::string effectAnim;
+    std::string effectFinishAnim;
     std::string animSheet;
     bool baseVisible = true;
     std::vector<std::string> sounds;
@@ -115,11 +116,13 @@ struct TemporaryPowerDefinition
     ToggleValue<float> sabotageSpeedMultiplier;
     ToggleValue<float> allDamageTakenMultiplier;
     ToggleValue<float> suffocationModifier;
+    ToggleValue<float> healCrewAmount;
 
     int bonusPower = 0;
     bool invulnerable;
     float healAmount = 0.f;
     float damageEnemiesAmount = 0.f;
+    int animFrame = -1;
 
     GL_Color cooldownColor;
 };
@@ -165,12 +168,18 @@ struct ActivatedPowerDefinition
     TextString tooltip;
     std::string effectAnim;
 
-    ActivatedPowerRequirements req;
+    ActivatedPowerRequirements playerReq;
+    ActivatedPowerRequirements enemyReq;
 
     bool win = false;
     float crewHealth = 0.f;
     float enemyHealth = 0.f;
     float selfHealth = 0.f;
+    int animFrame = -1;
+
+    bool activateWhenReady = false;
+    bool activateReadyEnemies = false;
+    std::string transformRace = "";
 
 
     TemporaryPowerDefinition tempPower;
@@ -182,6 +191,7 @@ struct CrewDefinition
     std::vector<std::string> deathSounds;
     std::vector<std::string> shootingSounds;
     std::vector<std::string> repairSounds;
+    int repairSoundFrame = -1;
 
     bool canFight = true;
     bool canRepair = true;
@@ -214,6 +224,8 @@ struct CrewDefinition
     float allDamageTakenMultiplier = 1.f;
     int defaultSkillLevel = 0;
     float healSpeed = 1.f;
+    bool cloneLoseSkills = true;
+    float healCrewAmount = 0.f;
 
     Damage explosionDef;
     bool explosionShipFriendlyFire = false;
@@ -244,6 +256,18 @@ public:
     CrewDefinition& GetDefinition(const std::string& name)
     {
         return this->blueprintNames[name];
+    }
+
+    std::vector<std::string> GetBlueprintNames()
+    {
+        std::vector<std::string> ret = std::vector<std::string>();
+
+        for (auto i : blueprintNames)
+        {
+            ret.push_back(i.first);
+        }
+
+        return ret;
     }
 
     static CustomCrewManager *GetInstance()

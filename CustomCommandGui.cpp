@@ -128,7 +128,8 @@ HOOK_METHOD(CrewControl, UpdateCrewBoxes, () -> void)
         return;
     }
 
-    crewBoxes.clear();
+
+    ClearCrewBoxes();
 
     int counter = 0;
     int boxY = 155;
@@ -142,6 +143,7 @@ HOOK_METHOD(CrewControl, UpdateCrewBoxes, () -> void)
 
         counter++;
     }
+
 
     lastCrewPage = currentCrewPage;
     lastCrewCount = crewList.size();
@@ -173,3 +175,11 @@ HOOK_METHOD(CommandGui, OnInit, () -> void)
     CustomCommandGui::GetInstance()->OnInit();
 }
 
+HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEvent*)
+{
+    LocationEvent *ret = super(event);
+
+    commandGui->crewControl.UpdateCrewBoxes();
+
+    return ret;
+}

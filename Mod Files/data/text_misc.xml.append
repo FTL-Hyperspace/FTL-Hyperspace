@@ -7,7 +7,7 @@
 </mod:findName>
 
 <mod:findName type="text" name="version">
-  <mod:setValue>\1 (Hyperspace 0.5)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 0.5.3)</mod:setValue>
 </mod:findName>
 
 <text name="augment_no_effect">These augmentations will have no effect with this augment installed:</text>

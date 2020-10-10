@@ -4,6 +4,7 @@
 class SeedInputBox
 {
 public:
+    static bool seedsEnabled;
     static Pointf drawLocation;
     static float width;
     static float height;

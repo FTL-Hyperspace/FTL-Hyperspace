@@ -1,13 +1,11 @@
-#include "ShipManager_Extend.h"
+#include "Room_Extend.h"
 
 
-HOOK_METHOD_PRIORITY(ShipManager, constructor, 900, (int iShipId) -> void)
+HOOK_METHOD_PRIORITY(Room, constructor, 900, (int shipId, int x, int y, int w, int h, int roomId) -> void)
 {
+	super(shipId, x, y, w, h, roomId);
 
-
-	super(iShipId);
-
-	auto ex = new ShipManager_Extend();
+	auto ex = new Room_Extend();
 
     DWORD dEx = (DWORD)ex;
 
@@ -18,14 +16,14 @@ HOOK_METHOD_PRIORITY(ShipManager, constructor, 900, (int iShipId) -> void)
 	ex->orig = this;
 }
 
-HOOK_METHOD(ShipManager, destructor, () -> void)
+HOOK_METHOD(Room, destructor, () -> void)
 {
-    delete SM_EX(this);
+    delete RM_EX(this);
 
     return super();
 }
 
-ShipManager_Extend* Get_ShipManager_Extend(ShipManager* c)
+Room_Extend* Get_Room_Extend(Room* c)
 {
     if (!c) return nullptr;
 
@@ -40,5 +38,5 @@ ShipManager_Extend* Get_ShipManager_Extend(ShipManager* c)
     dEx <<= 8;
     dEx |= c->gap_ex_2[1];
 
-    return (ShipManager_Extend*)dEx;
+    return (Room_Extend*)dEx;
 }

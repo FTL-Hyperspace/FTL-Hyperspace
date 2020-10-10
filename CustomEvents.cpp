@@ -132,6 +132,16 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
                         customEvent->secretSectorWarp = child->value();
                     }
 
+                    if (nodeName == "loadEvent")
+                    {
+                        customEvent->eventLoad = child->value();
+
+                        if (child->first_attribute("seeded"))
+                        {
+                            customEvent->eventLoadSeeded = EventsParser::ParseBoolean(child->first_attribute("seeded")->value());
+                        }
+                    }
+
                     if (nodeName == "beaconType")
                     {
                         BeaconType* beaconType = new BeaconType();
@@ -146,6 +156,10 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
                         {
                             beaconType->beaconText.data = child->first_attribute("text")->value();
                             beaconType->beaconText.isLiteral = true;
+                        }
+                        if (child->first_attribute("req"))
+                        {
+                            beaconType->equipmentReq = child->first_attribute("req")->value();
                         }
 
                         if (child->first_attribute("global"))
@@ -229,6 +243,18 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
                         {
                             customEvent->gameOverText = child->first_attribute("text")->value();
                         }
+                        if (child->first_attribute("creditsText"))
+                        {
+                            customEvent->gameOverCreditsText = child->first_attribute("creditsText")->value();
+                        }
+                    }
+                    if (nodeName == "playSound")
+                    {
+                        customEvent->playSound = child->value();
+                    }
+                    if (nodeName == "changeBackground")
+                    {
+                        customEvent->changeBackground = child->value();
                     }
                 }
 
@@ -262,11 +288,11 @@ CustomEvent *CustomEventsParser::GetCustomEvent(const std::string& event)
     std::string baseEvent = CustomEventsParser::GetBaseEventName(event);
     bool isParent = baseEvent == event;
 
-    auto it = customEvents.find(event);
+    auto it = customEvents.find(baseEvent);
 
     if (it != customEvents.end())
     {
-        CustomEvent* customEvent = customEvents[event];
+        CustomEvent* customEvent = customEvents[baseEvent];
 
         if (!customEvent->recursive && !isParent) return nullptr;
         else
@@ -573,46 +599,50 @@ HOOK_METHOD(StarMap, RenderLabels, () -> void)
             if (customEvent && customEvent->hasCustomBeacon && (bMapRevealed || customEvent->beacon->global || i->known))
             {
                 BeaconType *beaconType = customEvent->beacon;
-                std::string text = std::string();
 
-                text = customEvent->beacon->beaconText.GetText();
-
-                Pointf printLines = freetype_hack::easy_measurePrintLines(51, 0, 0, 999, text);
-                float x = i->loc.x - 1.f;
-                float y = i->loc.y - 33.f;
-
-                float x2 = 0.f;
-                float y2 = 0.f;
-
-                GL_Color color = beaconType->color;
-                color.a = color.a * (i->flashTracker.GetAlphaLevel(false) * 0.5 + 0.5);
-
-                GL_Texture** box;
-
-                if (color.r == 255.f && color.g == 255.f && color.b == 255.f)
+                if (beaconType->equipmentReq.empty() || shipManager->HasEquipment(beaconType->equipmentReq))
                 {
-                    box = boxWhite;
+                    std::string text = std::string();
+
+                    text = customEvent->beacon->beaconText.GetText();
+
+                    Pointf printLines = freetype_hack::easy_measurePrintLines(51, 0, 0, 999, text);
+                    float x = i->loc.x - 1.f;
+                    float y = i->loc.y - 33.f;
+
+                    float x2 = 0.f;
+                    float y2 = 0.f;
+
+                    GL_Color color = beaconType->color;
+                    color.a = color.a * (i->flashTracker.GetAlphaLevel(false) * 0.5 + 0.5);
+
+                    GL_Texture** box;
+
+                    if (color.r == 255.f && color.g == 255.f && color.b == 255.f)
+                    {
+                        box = boxWhite;
+                    }
+                    else
+                    {
+                        box = boxCustom;
+                    }
+
+                    if (box[0])
+                    {
+                        x2 = box[0]->width_;
+                        y2 = box[0]->height_;
+                    }
+
+
+                    CSurface::GL_BlitPixelImage(box[0], x, y, x2, y2, 0.f, color, false);
+
+                    CSurface::GL_BlitPixelImage(box[1], x + box[0]->width_, y, printLines.x - 8, box[1]->height_, 0.f, color, false);
+
+                    CSurface::GL_BlitPixelImage(box[2], x + box[0]->width_ + printLines.x - 8, y, box[2]->width_, box[2]->height_, 0.f, color, false);
+
+                    CSurface::GL_SetColor(color);
+                    freetype::easy_print(51, i->loc.x + 14.f, i->loc.y - 25.f, text);
                 }
-                else
-                {
-                    box = boxCustom;
-                }
-
-                if (box[0])
-                {
-                    x2 = box[0]->width_;
-                    y2 = box[0]->height_;
-                }
-
-
-                CSurface::GL_BlitPixelImage(box[0], x, y, x2, y2, 0.f, color, false);
-
-                CSurface::GL_BlitPixelImage(box[1], x + box[0]->width_, y, printLines.x - 8, box[1]->height_, 0.f, color, false);
-
-                CSurface::GL_BlitPixelImage(box[2], x + box[0]->width_ + printLines.x - 8, y, box[2]->width_, box[2]->height_, 0.f, color, false);
-
-                CSurface::GL_SetColor(color);
-                freetype::easy_print(51, i->loc.x + 14.f, i->loc.y - 25.f, text);
             }
         }
     }
@@ -833,10 +863,16 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
 {
     super(loc);
 
-
     CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(loc->eventName);
     if (customEvent)
     {
+        if (!customEvent->eventLoad.empty())
+        {
+            int seed = customEvent->eventLoadSeeded ? (int)(starMap.currentLoc->loc.x + starMap.currentLoc->loc.y) ^ starMap.currentSectorSeed : -1;
+
+            super(G_->GetEventGenerator()->GetBaseEvent(customEvent->eventLoad, starMap.currentSector->level, true, seed));
+        }
+
         if (customEvent->removeHazards)
         {
             space.asteroidGenerator.bRunning = false;
@@ -875,7 +911,6 @@ HOOK_STATIC(StarMap, GetLocationText, (std::string& strRef, StarMap *starMap, co
 
     TextString tooltip;
 
-
     if (loc->visited)
     {
         tooltip = customEvent->beacon->visitedTooltip;
@@ -888,6 +923,7 @@ HOOK_STATIC(StarMap, GetLocationText, (std::string& strRef, StarMap *starMap, co
     {
         tooltip = customEvent->beacon->undiscoveredTooltip;
     }
+
     if (tooltip.data.empty())
     {
         return super(strRef, starMap, loc);
@@ -1015,7 +1051,48 @@ HOOK_METHOD(StarMap, StartSecretSector, () -> void)
     }
 }
 
+/*
+static std::string sectorChange = "";
+
+HOOK_METHOD(StarMap, SaveGame, (int file) -> void)
+{
+    FileHelper::writeInt(file, bSecretSector);
+    FileHelper::writeString(file, currentSector->description.type);
+
+    super(file);
+
+}
+
+HOOK_METHOD(StarMap, LoadGame, (int file) -> void)
+{
+    if (FileHelper::readInteger(file))
+    {
+        sectorChange = FileHelper::readString(file);
+    }
+
+    super(file);
+
+    sectorChange = "";
+}
+
+HOOK_METHOD(StarMap, GenerateMap, (bool tutorial, bool seed) -> LocationEvent*)
+{
+    if (!sectorChange.empty() && bSecretSector)
+    {
+        Sector *newSector = new Sector();
+
+        newSector->description = *G_->GetEventGenerator()->GetSpecificSector(sectorChange);
+
+        currentSector = newSector;
+    }
+
+    return super(tutorial, seed);
+}
+*/
+
 static std::string replaceGameOverText = "";
+static std::string replaceGameOverCreditsText = "";
+static bool shouldReplaceCreditsText = false;
 
 HOOK_METHOD(GameOver, OpenText, (const std::string& text) -> void)
 {
@@ -1036,11 +1113,36 @@ HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEve
         G_->GetSoundControl()->PlaySoundMix("victory", -1.f, false);
 
         replaceGameOverText = customEvent->gameOverText;
+        replaceGameOverCreditsText = customEvent->gameOverCreditsText;
 
         commandGui->Victory();
 
         replaceGameOverText = "";
     }
 
+    if (customEvent && !customEvent->playSound.empty())
+    {
+        G_->GetSoundControl()->PlaySoundMix(customEvent->playSound, -1.f, false);
+    }
+
+    if (customEvent && !customEvent->changeBackground.empty())
+    {
+        space.currentBack = G_->GetResources()->GetImageId(G_->GetEventGenerator()->GetImageFromList(customEvent->changeBackground));
+    }
+
     return ret;
+}
+
+HOOK_STATIC(TextLibrary, GetText, (std::string& str, TextLibrary *lib, const std::string& name, const std::string& lang) -> std::string&)
+{
+    if (!shouldReplaceCreditsText || replaceGameOverCreditsText.empty() || name != "credit_victory") return super(str, lib, name, lang);
+
+    return super(str, lib, replaceGameOverCreditsText, lang);
+}
+
+HOOK_METHOD(CreditScreen, OnRender, () -> void)
+{
+    shouldReplaceCreditsText = true;
+    super();
+    shouldReplaceCreditsText = false;
 }

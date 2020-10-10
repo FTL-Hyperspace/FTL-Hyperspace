@@ -13,6 +13,8 @@
 
 #include "CrewMember_Extend.h"
 #include "ShipManager_Extend.h"
+#include "Blueprint_Extend.h"
+#include "Room_Extend.h"
 #include <random>
 
 //#include "LuaState.h"
@@ -44,9 +46,8 @@ public:
     EventsParser *GetEventsParser() { return __eventsParser; }
     EventSystem *GetEventSystem() { return __eventSystem; }
     AnimationControl *GetAnimationControl() { return __animations; }
+    AchievementTracker *GetAchievementTracker() { return __achievementTracker; }
     int GetVersion() { return __version; }
-
-    bool GetRNG() { return *__rng; }
 
     DWORD GetBaseAddress() { return __baseAddress; }
 
@@ -60,7 +61,6 @@ public:
     static bool* dlcEnabled;
     static int* difficulty;
     static bool forceDlc;
-    static bool* __rng;
 
     static ShaderSourceCallback** fragment_shader_source_callback;
 
@@ -92,6 +92,7 @@ private:
     const DWORD __animationsOffset =       0x004CB0A0;
     const DWORD __difficultyOffset =       0x004C8CB4;
     const DWORD __fragmentCallbackOffset = 0x004DC53C;
+    const DWORD __achievementOffset =      0x004C5780;
 
     DWORD __baseAddress = 0;
 
@@ -109,8 +110,9 @@ private:
     static EventsParser *__eventsParser;
     static EventSystem *__eventSystem;
     static AnimationControl *__animations;
+    static AchievementTracker *__achievementTracker;
 
-    const int __version = 5;
+    const int __version = 53;
 
 
 };

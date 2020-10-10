@@ -83,8 +83,6 @@ HOOK_METHOD(CrewMemberFactory, CreateBoarderDrone, (int shipId, DroneBlueprint *
         if (customDrone->hasAbility)
         {
             AbilityDrone* drone = new AbilityDrone(customDrone->crewBlueprint, customDrone->tooltipName, shipId, bp, customDrone->ability);
-            CM_EX(drone)->isAbilityDrone = true;
-            CMA_EX(drone->crewAnim)->isAbilityDrone = true;
 
             crewMembers.push_back(drone);
 
@@ -504,23 +502,36 @@ HOOK_METHOD(CrewControl, OnLoop, () -> void)
     super();
 }
 
-HOOK_METHOD(CrewControl, MouseMove, (int mX, int mY, int wX, int wY) -> void)
+HOOK_METHOD(CrewDrone, OnLoop, () -> void)
 {
-    super(mX, mY, wX, wY);
+    super();
 
-    if (selectedDoor) return;
-
-    for (auto i : shipManager->vCrewList)
+    if (CM_EX(this)->isAbilityDrone)
     {
-        if (i->IsDrone() && i->GetControllable() && i->Functional() && i->selectionState != 1)
-        {
-            Pointf pos = Pointf(i->x, i->y) - Pointf(17.f, 17.f);
+        ((AbilityDrone*)this)->new_OnLoop();
+    }
+}
 
-            if (wX - pos.x < 34.f && wX - pos.x > 0.f && wY - pos.y < 34.f && wY - pos.y > 0.f)
-            {
-                potentialSelectedCrew.push_back(i);
-                i->selectionState = 2;
-            }
-        }
+HOOK_METHOD(CrewAnimation, OnRender, (float scale, int selectedState, bool outlineOnly) -> void)
+{
+    if (CMA_EX(this)->isAbilityDrone)
+    {
+        if (((AbilityDroneAnimation*)this)->new_OnRender(scale, selectedState, outlineOnly)) return;
+    }
+
+    super(scale, selectedState, outlineOnly);
+
+}
+
+
+HOOK_METHOD(CrewAnimation, OnInit, (const std::string& _race, Pointf position, bool enemy) -> void)
+{
+    super(_race, position, enemy);
+
+    CustomDroneDefinition *customDrone = CustomDroneManager::GetInstance()->GetDefinitionByRace(_race);
+
+    if (customDrone && customDrone->hasAbility)
+    {
+        ((AbilityDroneAnimation*)this)->new_OnInit(_race, position, enemy);
     }
 }

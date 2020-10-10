@@ -21,7 +21,7 @@ static std::vector<std::string>* CrewMemberFactory::GetCrewNames(std::vector<std
 ".578d7c240883e4f0ff77fc5589e55756":
 RepairDrone* CrewMemberFactory::CreateRepairDrone(CrewMemberFactory *this<ecx>, int shipId, const DroneBlueprint* bp);
 ".578d7c240883e4f0ff77fc5589f889e55756":
-void CrewMemberFactory::GetCrewPortraitList(CrewMemberFactory *this<ecx>, std::vector<CrewMember*>* vec, int unk);
+void CrewMemberFactory::GetCrewPortraitList(CrewMemberFactory *this<ecx>, std::vector<CrewMember*>* vec, int teamId);
 ".578d7c240883e4f0ff77fc5589e557565383ec4c":
 void CrewMemberFactory::GetCloneReadyList(CrewMemberFactory *this<ecx>, std::vector<CrewMember*>& vec, bool unk);
 ".578d7c240883e4f0ff77fc5589f889e5":
@@ -36,3 +36,8 @@ void CrewMemberFactory::OnLoop(CrewMemberFactory *this<ecx>);
 void CrewMemberFactory::RemoveExcessCrew(CrewMemberFactory *this<ecx>);
 ".578d7c240883e4f0ff77fc5589e557":
 CrewMember* CrewMemberFactory::CreateCrewMember(CrewMemberFactory *this<ecx>, CrewBlueprint* bp, int shipId, bool intruder);
+
+struct CrewMemberFactory
+{{
+	std::vector<CrewMember*> GetCrewPortraitList
+}}

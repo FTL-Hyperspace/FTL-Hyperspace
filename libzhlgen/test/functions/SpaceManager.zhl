@@ -13,7 +13,7 @@ void SpaceManager::UpdatePlanetImage(SpaceManager *this<ecx>);
 ".578d7c240883e4f0":
 void SpaceManager::SwitchImages(SpaceManager *this<ecx>, ImageDesc planet, ImageDesc unk1, ImageDesc unk2);
 ".578d7c240883e4f0":
-ImageDesc* SpaceManager::SwitchBackground(SpaceManager *this<ecx>, const std::string& name);
+static void SpaceManager::SwitchBackground(ImageDesc *ret<ecx>, SpaceManager *space, const std::string& name);
 ".5789ca83c10c8d7c2408":
 void SpaceManager::StartAsteroids(SpaceManager *this<ecx>, int shieldCount, bool unk);
 ".578d7c240883e4f0ff77fc5589e557565389cb81ec????????":
@@ -74,3 +74,14 @@ void SpaceManager::SetNebula(SpaceManager *this<ecx>, bool state);
 void SpaceManager::SetStorm(SpaceManager *this<ecx>, bool state);
 "578d7c240883e4f0ff77fc5589f889e55756538d99b802000089cf8d75d083ec3c8b0088818802000089d9":
 void SpaceManager::SetFireLevel(SpaceManager *this<ecx>, bool state);
+
+struct SpaceManager
+{{
+	ImageDesc* SwitchBackground(const std::string& name)
+	{
+		ImageDesc* ret = new ImageDesc;
+		SwitchBackground(ret, this, name);
+		
+		return ret;
+	}
+}};

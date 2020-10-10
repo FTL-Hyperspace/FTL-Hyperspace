@@ -1,5 +1,13 @@
+"558d511089e55389cb83e4f083ec108b4108c701????????39d074??890424e8????????89d9e8????????":
+void CachedImage::destructor(CachedImage *this<ecx>);
+
 struct CachedImage
 {{
+	~CachedImage()
+	{
+		this->destructor();
+	}
+
 	enum Centered
 	{
 	  CENTERED = 0x0,

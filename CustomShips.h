@@ -11,10 +11,22 @@ struct ShipButtonDefinition
     bool typeC;
 };
 
+struct RoomDefinition
+{
+    int roomId;
+    std::string roomAnim;
+    std::string iconAnim;
+    bool sensorBlind = false;
+};
+
 struct CustomShipDefinition
 {
     std::string name;
     std::map<std::string, int> hiddenAugs = std::map<std::string, int>();
+    std::vector<std::pair<std::string, int>> crewList = std::vector<std::pair<std::string, int>>();
+
+    std::unordered_map<int, RoomDefinition*> roomDefs;
+
     int crewLimit = 8;
 };
 

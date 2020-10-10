@@ -10,3 +10,13 @@ void TextButton::constructor(TextButton *this<ecx>);
 void TextButton::OnInit(TextButton *this<ecx>, Point pos, Point size, int cornerInset, const TextString& buttonLabel, int font);
 "578d7c240883e4f0ff77fc5589e557565389cf81ec????????80b9b4000000000f85????????8b474885c0":
 void TextButton::OnRender(TextButton *this<ecx>);
+"5589e55389cb81c3????????83e4f083ec108b4148c701????????890424e8????????8b4380890424e8????????8b4384890424e8????????8b4394890424":
+void TextButton::destructor(TextButton *this<ecx>);
+
+sruct TextButton
+{{
+	~TextButton()
+	{
+		this->destrucotr();
+	}
+}};

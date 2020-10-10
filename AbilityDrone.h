@@ -40,7 +40,7 @@ public:
 
     AbilityDroneAnimation(int shipId, const std::string& race, Pointf unk, bool hostile);
 
-    void new_OnRender(float scale, int selectedState, bool outlineOnly);
+    bool new_OnRender(float scale, int selectedState, bool outlineOnly);
     void new_OnUpdate(bool isUsingAbility);
     void new_OnInit(const std::string& race, Pointf position, bool enemy);
 };

@@ -14,7 +14,6 @@ struct Projectile;
 struct WeaponAnimation;
 struct Drone;
 struct Door;
-struct Repairable;
 struct Room;
 struct CrewMember;
 struct CrewAnimation;
@@ -44,6 +43,7 @@ struct MindSystem;
 struct WeaponSystem;
 struct DroneSystem;
 struct ShipSystem;
+struct OuterHull;
 struct TeleportSystem;
 struct ChoiceText;
 struct Targetable;
@@ -238,9 +238,6 @@ struct std__vector_6DoorZ1
   Door **_finish;
   Door **_end;
 };
-
-/* 294 */
-struct OuterHull;
 
 /* 466 */
 struct std__vector_11OuterHullZ1
@@ -522,9 +519,11 @@ struct Room
   Globals__Rect rect;
   int iRoomId;
   bool bBlackedOut;
+  unsigned __int8 gap_ex_1[2];
   std__vector_3int filledSlots;
   std__vector_17std__vector_4bool slots;
   bool bWarningLight;
+  unsigned __int8 gap_ex_2[2];
   AnimationTracker lightTracker;
   int iFireCount;
   std__vector_9Animation fires;
@@ -589,6 +588,27 @@ struct Door
   int x;
   int y;
   bool bVertical;
+};
+
+/* 180 */
+struct Repairable
+{
+  Selectable _base;
+  ShipObject shipObj;
+  float fDamage;
+  Point pLoc;
+  float fMaxDamage;
+  std__string name;
+  int roomId;
+  int iRepairCount;
+};
+
+/* 294 */
+struct OuterHull
+{
+  Repairable _base;
+  Animation breach;
+  Animation heal;
 };
 
 /* 454 */
@@ -734,9 +754,7 @@ struct TextString
 {
   std__string data;
   bool isLiteral;
-  char _PAD_1;
-  char _PAD_2;
-  char _PAD_3;
+  unsigned __int8 gap_ex[3];
 };
 
 /* 519 */
@@ -3332,19 +3350,6 @@ struct WarningWithLines
   int bottomTextLimit;
 };
 
-/* 180 */
-struct Repairable
-{
-  Selectable _base;
-  ShipObject shipObj;
-  float fDamage;
-  Point pLoc;
-  float fMaxDamage;
-  std__string name;
-  int roomId;
-  int iRepairCount;
-};
-
 /* 217 */
 struct CrewBox
 {
@@ -5352,7 +5357,20 @@ struct InputEvent
   InputEventUnion event;
 };
 
-/* 727 */
+/* 736 */
+struct std__map_43std__string___std__map_18std__string___bool
+{
+  char unk[24];
+};
+
+/* 748 */
+struct GL_Line
+{
+  Pointf start;
+  Pointf end;
+};
+
+/* 749 */
 union __attribute__((aligned(8))) __m64
 {
   unsigned __int64 m64_u64;
@@ -5366,7 +5384,7 @@ union __attribute__((aligned(8))) __m64
   unsigned __int32 m64_u32[2];
 };
 
-/* 728 */
+/* 750 */
 union __attribute__((aligned(16))) __m128
 {
   float m128_f32[4];
@@ -5380,13 +5398,13 @@ union __attribute__((aligned(16))) __m128
   unsigned __int32 m128_u32[4];
 };
 
-/* 729 */
+/* 751 */
 struct __m128d
 {
   double m128d_f64[2];
 };
 
-/* 730 */
+/* 752 */
 union __attribute__((aligned(16))) __m128i
 {
   __int8 m128i_i8[16];
@@ -5397,24 +5415,5 @@ union __attribute__((aligned(16))) __m128i
   unsigned __int16 m128i_u16[8];
   unsigned __int32 m128i_u32[4];
   unsigned __int64 m128i_u64[2];
-};
-
-/* 736 */
-struct std__map_43std__string___std__map_18std__string___bool
-{
-  char unk[24];
-};
-
-/* 743 */
-struct std::bad_alloc;
-
-/* 744 */
-struct __cxxabiv1::__si_class_type_info;
-
-/* 745 */
-struct LONG_DOUBLE_12
-{
-  _TBYTE value;
-  char padding[2];
 };
 

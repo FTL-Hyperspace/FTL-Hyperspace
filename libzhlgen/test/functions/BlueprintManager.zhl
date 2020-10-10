@@ -10,3 +10,36 @@ float BlueprintManager::GetAugmentValue(BlueprintManager *this<ecx>, const std::
 AugmentBlueprint* BlueprintManager::GetAugmentBlueprint(BlueprintManager *this<ecx>, const std::string& name);
 "578d91c80000008d7c240883e4f0ff77fc5589e557565383ec3c8b99cc000000894dcc":
 ItemBlueprint* BlueprintManager::GetItemBlueprint(BlueprintManager *this<ecx>, const std::string& name);
+"578d7c240883e4f0ff77fc5589f889e557565389cf81ec????????8b18899d14ffffff8b5804e8????????8b8514ffffff8d8d4cffffff8b7318895c2404890424e8????????8d954cffffff83ec088d4f1c":
+static WeaponBlueprint* BlueprintManager::ProcessWeaponBlueprint(WeaponBlueprint* bp<ecx>, BlueprintManager *bpM, rapidxml::xml_node<char>* node);
+"578d7c240883e4f0ff77fc5589e557565383ec7c8b5f04894d94e8????????8b5b1885db0f84????????8d75cce9????????895c2404893424e8????????":
+static Description* BlueprintManager::ProcessDescription(Description *desc<ecx>, BlueprintManager *bpM, rapidxml::xml_node<char>* node);
+"57660fefc08d7c240883e4f0ff77fc5589f889e557565389cf83ec5c8b308b58040f11018d41300f1141100f114120":
+static EffectsBlueprint* BlueprintManager::ProcessEffectsBlueprint(EffectsBlueprint *bp<ecx>, BlueprintManager *bpM, rapidxml::xml_node<char>* node);
+"578d7c240883e4f0ff77fc5589f889e557565389cb83ec6c8b3f8b7004e8????????8d47648d5768":
+static CrewBlueprint* BlueprintManager::GetCrewBlueprint(CrewBlueprint* bp<ecx>, BlueprintManager *bpM, const std::string& name);
+
+
+struct BlueprintManager
+{{
+	Description* ProcessDescription(rapidxml::xml_node<char>* node)
+	{
+		Description* desc = new Description;
+		
+		return ProcessDescription(desc, this, node);
+	}
+	
+	EffectsBlueprint* ProcessEffectsBlueprint(rapidxml::xml_node<char>* node)
+	{
+		EffectsBlueprint* effects = new EffectsBlueprint;
+		
+		return ProcessEffectsBlueprint(effects, this, node);
+	}
+	
+	CrewBlueprint* GetCrewBlueprint(const std::string& name)
+	{
+		CrewBlueprint* bp = new CrewBlueprint;
+		
+		return GetCrewBlueprint(bp, this, name);
+	}
+}};

@@ -102,6 +102,11 @@ static cleanup void CSurface::shader_pipeline_destroy(int pipeline);
 static cleanup void CSurface::shader_pipeline_apply(int pipeline);
 "55b8????????89e557565383e4f0e8????????29c48b752085f674??8b5d1c85db0f84????????8d5c2420be????????31ff89d88b4d1085c97e??":
 static cleanup char* CSurface::generate_fragment_shader_source(GraphicsPrimitiveType primitive_type, int position_count, int texcoord_count, GraphicsTextureColorType texcolor_type, int tex_offset, int color_count, int color_uniform, int fog, int alpha_test, GraphicsComparisonType alpha_comparison);
+"8d4c240483e4f0ff71fc5589e55756535181ec????????8b79088b018b5104897dcc8b790c897dc88b7910897dc48b7914897dc08b7918":
+static cleanup int CSurface::opengl_select_shader(const void *primitive, const void *texture, int tex_offset, int color_uniform, int fog, int alpha_test, GraphicsComparisonType alpha_comparison);
+
+"5589e557565383e4f083ec508b7d08f30f10651c8b77042b3789f2c1fa040f2e25????????0f8a????????0f85????????8d0c95????????89d08954244c":
+static cleanup GL_Primitive* CSurface::GL_CreateMultiLinePrimitive(std::vector<GL_Line>& vec, GL_Color color, float thickness);
 
 struct CSurface
 {{

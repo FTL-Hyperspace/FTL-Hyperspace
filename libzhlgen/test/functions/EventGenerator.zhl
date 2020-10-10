@@ -4,6 +4,8 @@ LocationEvent *EventGenerator::GetBaseEvent(EventGenerator *this<ecx>, const std
 LocationEvent *EventGenerator::CreateEvent1(EventGenerator *this<ecx>, const std::string& name, int worldLevel);
 "578d7c240883e4f0ff77fc5589e557565389ce81ec????????8b078b7f04c744240807690fc789c389851cffffff83c00c":
 static Sector *EventGenerator::GetSpecificSector(SectorDescription *desc<ecx>, EventGenerator *eventGenerator, const std::string& name);
+"578d7c240883e4f0ff77fc5589e557565389ce83ec2c8b1f8b7f0481c3????????893c2489d9":
+static void EventGenerator::GetImageFromList(std::string& ret<ecx>, EventGenerator *eventGenerator, const std::string& listName);
 
 struct EventGenerator depends (SectorDescription, Sector)
 {{
@@ -14,5 +16,13 @@ struct EventGenerator depends (SectorDescription, Sector)
 		
 		return desc;
 	}
-
+	
+	std::string GetImageFromList(const std::string& listName)
+	{
+		std::string ret = std::string();
+		
+		GetImageFromList(ret, this, listName);
+		
+		return ret;
+	}
 }};

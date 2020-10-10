@@ -330,6 +330,11 @@ struct GlobalConst depends(RandomAmount, CAchievement, Point)
 	};
 
 	typedef char *ShaderSourceCallback(GraphicsPrimitiveType, int, int, GraphicsTextureColorType, int, int, int, int, int, GraphicsComparisonType);
+	
+	static DWORD GetBaseAddress()
+	{
+		return (DWORD)GetModuleHandle(NULL);
+	}
 }};
 
 

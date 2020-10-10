@@ -8,3 +8,11 @@ int CrewAI::PrioritizeTask(CrewAI *this<ecx>, CrewTask task, int crewId);
 void CrewAI::UpdateIntruders(CrewAI *this<ecx>);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec3c8b078b77048b7f088945e4897dd889c78b4078c70424????????":
 int CrewAI::PrioritizeIntruderRoom(CrewAI *this<ecx>, CrewMember *crew, int roomId, int target);
+"578d7c240883e4f0ff77fc5589e557565389ce83ec5c8b410c8b178b3c908b87a80100008b9fa4010000":
+void CrewAI::UpdateCrewMember(CrewAI *this<ecx>, int crewId);
+"8b510c8b4110c641070029d0c1f80285c00f84????????578d7c240883e4f0ff77fc5589e557565389ce31db83ec3c":
+void CrewAI::CheckForHealing(CrewAI *this<ecx>);
+"578d7c240883e4f0ff77fc5589e557565389ce83ec6c8b018d4dd0890424e8????????8b55d08b460c":
+void CrewAI::OnLoop(CrewAI *this<ecx>);
+"578d7c240883e4f0ff77fc5589e557565389cf83ec7c8b01c64108018b4004890424":
+void CrewAI::CheckForProblems(CrewAI *this<ecx>);

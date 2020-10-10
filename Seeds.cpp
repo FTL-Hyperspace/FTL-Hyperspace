@@ -13,20 +13,25 @@ Pointf SeedInputBox::drawLocation;
 float SeedInputBox::width = 158.f;
 float SeedInputBox::height = 21.f;
 bool SeedInputBox::firstClick = true;
+bool SeedInputBox::seedsEnabled = true;
 std::string SeedInputBox::prompt;
 
 HOOK_GLOBAL(srandom32, (unsigned int seed) -> void)
 {
+    if (!SeedInputBox::seedsEnabled) return super(seed);
     srand(seed);
 }
 
 HOOK_GLOBAL(random32, () -> unsigned int)
 {
+    if (!SeedInputBox::seedsEnabled) return super();
 	return rand() << 15 | rand();
 }
 
 HOOK_METHOD(Store, OnInit, (ShipManager *shopper, Equipment *equip, int worldLevel) -> void)
 {
+    if (!SeedInputBox::seedsEnabled) return super(shopper, equip, worldLevel);
+
     StarMap starMap = G_->GetWorld()->starMap;
 
     Location *storeLoc = starMap.currentLoc;
@@ -52,7 +57,7 @@ HOOK_METHOD(ShipBuilder, Open, () -> void)
 	SeedInputBox::firstClick = true;
 
 	std::string txt;
-    TextLibrary::GetText(txt, G_->GetTextLibrary(), "seed_prompt", G_->GetTextLibrary()->currentLanguage);
+    TextLibrary::GetText(txt, G_->GetTextLibrary(), SeedInputBox::seedsEnabled ? "seed_prompt" : "seed_prompt_disabled", G_->GetTextLibrary()->currentLanguage);
     SeedInputBox::prompt = txt;
 
     SeedInputBox::seedInput->SetText("");
@@ -127,6 +132,7 @@ HOOK_METHOD(ShipBuilder, MouseMove, (int x, int y) -> void)
 
 HOOK_METHOD(ShipBuilder, MouseClick, (int x, int y) -> void)
 {
+    if (!SeedInputBox::seedsEnabled) return super(x, y);
 	if (SeedInputBox::seedInput && !bRenaming)
 	{
 		if (x > SeedInputBox::drawLocation.x && x < SeedInputBox::drawLocation.x + SeedInputBox::width &&
@@ -185,6 +191,8 @@ static bool startingNewGame = false;
 
 HOOK_METHOD(StarMap, NewGame, (bool unk) -> Location*)
 {
+    if (!SeedInputBox::seedsEnabled) return super(unk);
+
 	std::string str = std::string();
 	TextInput::GetText(str, SeedInputBox::seedInput);
 	if (str == "" || unk)
@@ -227,6 +235,7 @@ bool generatingMap = false;
 
 HOOK_METHOD(StarMap, GenerateMap, (bool unk, bool seed) -> Location*)
 {
+    if (!SeedInputBox::seedsEnabled) return super(unk, seed);
 	if (startingNewGame)
 	{
 		this->currentSectorSeed = Global::currentSeed;
@@ -253,6 +262,7 @@ HOOK_METHOD(StarMap, GenerateMap, (bool unk, bool seed) -> Location*)
 HOOK_METHOD(StarMap, GenerateSectorMap, () -> void)
 {
     //printf("Generating sector map seed: %d\n", generateSectorMapSeed);
+    if (!SeedInputBox::seedsEnabled) return super();
 
     this->sectorMapSeed = Global::currentSeed;
     srandom32(this->sectorMapSeed);

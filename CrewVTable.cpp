@@ -238,7 +238,7 @@ static void __attribute__((fastcall)) CrewMember_ActivatePower(CrewMember *_this
 {
     auto ex = CM_EX(_this);
 
-    ex->ActivatePower();
+    ex->PreparePower();
 }
 
 void SetupVTable(CrewMember *crew)

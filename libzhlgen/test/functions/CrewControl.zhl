@@ -12,3 +12,5 @@ void CrewControl::MouseMove(CrewControl *this<ecx>, int mX, int mY, int wX, int 
 void CrewControl::LButton(CrewControl *this<ecx>, int mX, int mY, int wX, int wY, bool shiftHeld);
 "5589e557565383e4f083ec208b45088b50048b3089d029f0c1f80285c00f84????????31db":
 static void CrewControl::ClearDeadCrew(std::vector<CrewMember*> crew);
+"5589e557565389ce83e4f083ec108b513c8b494089c829d083f8037e??31db908b3c9a85ff":
+void CrewControl::ClearCrewBoxes(CrewControl *this<ecx>);

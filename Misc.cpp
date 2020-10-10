@@ -1,5 +1,6 @@
 #include "Global.h"
 #include "ASMHooks.h"
+#include "CustomCrew.h"
 
 HOOK_METHOD(CrewEquipBox, RemoveItem, () -> int)
 {
@@ -20,6 +21,13 @@ HOOK_METHOD(CApp, OnKeyDown, (SDLKey key) -> void)
     }
     if (key == SDLKey::SDLK_KP_PLUS)
     {
+        std::string species = CustomCrewManager::GetInstance()->GetBlueprintNames()[testVal % CustomCrewManager::GetInstance()->GetBlueprintNames().size()];
+
+        for (auto i : G_->GetWorld()->playerShip->shipManager->vCrewList)
+        {
+        }
+
+        testVal++;
     }
 
     super(key);

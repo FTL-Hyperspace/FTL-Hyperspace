@@ -10,7 +10,17 @@ void Animation::Start(Animation *this<ecx>, bool reset);
 void Animation::AddSoundQueue(Animation *this<ecx>, int unk, const std::string& sound);
 "8b442404390174??89c2890185d274??8b500489510889c285d274??8b400889410c":
 void Animation::SetAnimationId(Animation *this<ecx>, GL_Texture *tex);
+"558d91a400000089e557565383e4f083ec208b819c000000894c241839d074??890424e8????????8b4424188bb08c00000089f38974241c8bb088000000":
+void Animation::destructor(Animation *this<ecx>);
+"578d7c240883e4f0ff77fc5589e5575389cb83ec208b0784c00f85????????660fefd2f30f10412cc6413200c64130010f2ed00f87????????f30f104924":
+void Animation::StartReverse(Animation *this<ecx>, bool reset);
+"f30f10512480793000f30f104c24048b5104f30f59ca660fefdb660fefc0f30f11492cf30f2ada74??f30f5ecaf30f5fc80f28c1f30f59c383ea01":
+void Animation::SetProgress(Animation *this<ecx>, float progress);
 
 struct Animation
 {{
+	~Animation()
+	{
+		this->destructor();
+	}
 }};

@@ -18,12 +18,12 @@ EventGenerator *Global::__eventGenerator = nullptr;
 EventsParser *Global::__eventsParser = nullptr;
 EventSystem *Global::__eventSystem = nullptr;
 AnimationControl *Global::__animations = nullptr;
+AchievementTracker *Global::__achievementTracker = nullptr;
 
 bool *Global::showBeaconPath = nullptr;
 unsigned int Global::currentSeed = 0;
 int64_t *Global::randomState = nullptr;
 std::mt19937 Global::seededRng;
-bool *Global::__rng = nullptr;
 bool *Global::showWelcome = nullptr;
 bool *Global::dlcEnabled = nullptr;
 int *Global::difficulty = nullptr;
@@ -82,13 +82,13 @@ void Global::Initialize(CApp *cApp)
     __eventsParser = (EventsParser*)(__baseAddress + __eventsParseOffset);
     __eventSystem = (EventSystem*)(__baseAddress + __eventSystem);
     __animations = (AnimationControl*)(__baseAddress + __animationsOffset);
+    __achievementTracker = (AchievementTracker*)(__baseAddress + __achievementOffset);
     seededRng = std::mt19937(std::chrono::system_clock::now().time_since_epoch().count());
     currentSeed = 0;
 
     showWelcome = (bool*)((__baseAddress + __showWelcomeOffset));
     showBeaconPath = (bool*)((__baseAddress + __beaconPathOffset));
     dlcEnabled = (bool*)((__baseAddress + __dlcEnabledOffset));
-    __rng = (bool*)((__baseAddress + __rngOffset));
     difficulty = (int*)((__baseAddress + __difficultyOffset));
     fragment_shader_source_callback = (ShaderSourceCallback**)((__baseAddress + __fragmentCallbackOffset));
 

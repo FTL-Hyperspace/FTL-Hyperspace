@@ -25,12 +25,25 @@ public:
     CrewAnimation *orig;
     Animation* effectAnim = nullptr;
     Animation* tempEffectAnim = nullptr;
+    Animation* effectFinishAnim = nullptr;
     GL_Texture* tempEffectStrip = nullptr;
+
+    bool isMantisAnimation = false;
+
+    Pointf effectPos;
+    Pointf effectWorldPos;
+    bool powerDone = true;
 
     bool temporaryPowerActive;
     bool isAbilityDrone = false;
 
     void OnInit(const std::string& name, Pointf position, bool enemy);
+
+    ~CrewAnimation_Extend()
+    {
+        delete effectAnim;
+        delete tempEffectAnim;
+    }
 };
 
 struct CrewMember_Extend
@@ -51,17 +64,29 @@ public:
     std::pair<float, float> powerCooldown = std::pair<float, float>();
     std::pair<float, float> temporaryPowerDuration = std::pair<float, float>();
 
+    int powerRoom;
+    int powerShip;
+
     bool powerActivated = false;
     bool temporaryPowerActive = false;
-    bool hasEffectAnim = false;
-    bool hasTempEffectAnim = false;
 
     void ActivatePower();
+    void PreparePower();
+    void ActivateTemporaryPower();
     void TemporaryPowerFinished();
+    Damage* GetPowerDamage();
     PowerReadyState PowerReady();
 
     bool isIonDrone = false;
     bool isAbilityDrone = false;
+
+    void Initialize(CrewBlueprint& bp, int shipId, bool enemy, CrewAnimation *animation);
+
+
+    ~CrewMember_Extend()
+    {
+        delete passiveHealTimer;
+    }
 };
 
 CrewMember_Extend* Get_CrewMember_Extend(CrewMember* c);

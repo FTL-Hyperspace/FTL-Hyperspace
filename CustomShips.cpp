@@ -103,6 +103,55 @@ void CustomShipSelect::ParseShipsNode(rapidxml::xml_node<char> *node)
                     {
                         def.crewLimit = boost::lexical_cast<int>(val);
                     }
+                    if (name == "rooms")
+                    {
+                        for (auto roomNode = shipNode->first_node(); roomNode; roomNode = roomNode->next_sibling())
+                        {
+                            if (strcmp(roomNode->name(), "room") == 0 && roomNode->first_attribute("id"))
+                            {
+                                RoomDefinition* roomDef = new RoomDefinition();
+
+                                int roomId = boost::lexical_cast<int>(roomNode->first_attribute("id")->value());
+
+                                for (auto roomDefNode = roomNode->first_node(); roomDefNode; roomDefNode = roomDefNode->next_sibling())
+                                {
+                                    std::string roomName = roomDefNode->name();
+                                    std::string roomValue = roomDefNode->value();
+
+                                    if (roomName == "roomAnim")
+                                    {
+                                        roomDef->roomAnim = roomValue;
+                                    }
+                                    if (roomName == "iconAnim")
+                                    {
+                                        roomDef->iconAnim = roomValue;
+                                    }
+                                    if (roomName == "sensorBlind")
+                                    {
+                                        roomDef->sensorBlind = EventsParser::ParseBoolean(roomValue);
+                                    }
+                                }
+
+                                def.roomDefs[roomId] = roomDef;
+                            }
+                        }
+                    }
+                    if (name == "crew")
+                    {
+                        for (auto crewNode = shipNode->first_node(); crewNode; crewNode = crewNode->next_sibling())
+                        {
+                            int roomId = 0;
+
+                            if (crewNode->first_attribute("room"))
+                            {
+                                roomId = boost::lexical_cast<int>(crewNode->first_attribute("room")->value());
+                            }
+
+                            auto crewDef = std::pair<std::string, int>(crewNode->name(), roomId);
+
+                            def.crewList.push_back(crewDef);
+                        }
+                    }
                 }
 
                 shipDefs[shipName] = def;
@@ -724,23 +773,53 @@ bool CustomShipSelect::CycleShipPrevious(ShipBuilder *builder)
 
 //==========================
 
-
-HOOK_METHOD_PRIORITY(ShipManager, OnInit, 100, (ShipBlueprint *bp, int shipLevel) -> int)
+void ShipManager_Extend::Initialize()
 {
     auto customSel = CustomShipSelect::GetInstance();
 
-    int ret = super(bp, shipLevel);
+    isNewShip = customSel->IsCustomShip(orig->myBlueprint.blueprintName);
+    hasCustomDef = customSel->HasCustomDef(orig->myBlueprint.blueprintName);
 
-    auto ex = SM_EX(this);
-
-    ex->isNewShip = customSel->IsCustomShip(bp->blueprintName);
-    ex->hasCustomDef = customSel->HasCustomDef(bp->blueprintName);
-
-    if (ex->hasCustomDef)
+    if (hasCustomDef)
     {
-        for (auto i : customSel->GetDefinition(bp->blueprintName).hiddenAugs)
+        for (auto i : customSel->GetDefinition(orig->myBlueprint.blueprintName).hiddenAugs)
         {
             G_->GetShipInfo()->augList["HIDDEN " + i.first] = i.second;
+        }
+
+        for (auto i : customSel->GetDefinition(orig->myBlueprint.blueprintName).roomDefs)
+        {
+            if (i.first < orig->ship.vRoomList.size())
+            {
+                auto rex = RM_EX(orig->ship.vRoomList[i.first]);
+
+                if (!i.second->roomAnim.empty())
+                {
+                    Animation *roomAnim = G_->GetAnimationControl()->GetAnimation(i.second->roomAnim);
+
+                    rex->roomAnim = roomAnim;
+                    roomAnim->Start(true);
+                    roomAnim->tracker.SetLoop(true, 0.f);
+                }
+
+                if (!i.second->iconAnim.empty())
+                {
+                    Animation *iconAnim = G_->GetAnimationControl()->GetAnimation(i.second->iconAnim);
+
+                    rex->iconAnim = iconAnim;
+                    iconAnim->Start(true);
+                    iconAnim->tracker.SetLoop(true, 0.f);
+                }
+
+                rex->sensorBlind = i.second->sensorBlind;
+            }
+        }
+
+        for (auto i : customSel->GetDefinition(orig->myBlueprint.blueprintName).crewList)
+        {
+            orig->AddCrewMemberFromString("", i.first, false, i.second, false, random32() % 2);
+
+            orig->bAutomated = false;
         }
     }
 
@@ -748,7 +827,14 @@ HOOK_METHOD_PRIORITY(ShipManager, OnInit, 100, (ShipBlueprint *bp, int shipLevel
     {
         G_->GetShipInfo()->augList["HIDDEN " + i.first] = i.second;
     }
+}
 
+
+HOOK_METHOD_PRIORITY(ShipManager, OnInit, 100, (ShipBlueprint *bp, int shipLevel) -> int)
+{
+    int ret = super(bp, shipLevel);
+
+    SM_EX(this)->Initialize();
 
     return ret;
 }
@@ -757,31 +843,7 @@ HOOK_METHOD(ShipManager, Restart, () -> void)
 {
     super();
 
-    auto customSel = CustomShipSelect::GetInstance();
-    auto ex = SM_EX(this);
-
-    if (ex->hasCustomDef)
-    {
-        for (auto i : customSel->GetDefinition(myBlueprint.blueprintName).hiddenAugs)
-        {
-            G_->GetShipInfo()->augList["HIDDEN " + i.first] = i.second;
-        }
-    }
-
-    for (auto i : customSel->GetDefaultDefinition().hiddenAugs)
-    {
-        G_->GetShipInfo()->augList["HIDDEN " + i.first] = i.second;
-    }
-}
-
-HOOK_METHOD(ShipButton, constructor, (int shipType, int shipVariant) -> void)
-{
-    super(shipType, shipVariant);
-}
-
-HOOK_METHOD(ResourceControl, GetImageId, (std::string& name) -> void*)
-{
-    return super(name);
+    SM_EX(this)->Initialize();
 }
 
 HOOK_METHOD(ScoreKeeper, GetShipUnlocked, (int shipId, int shipVariant) -> bool)
@@ -1033,6 +1095,7 @@ HOOK_METHOD(MenuScreen, constructor, () -> void)
 }
 
 
+
 HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
 {
     bool isVanillaShip = currentShipId < 100;
@@ -1251,6 +1314,46 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
 }
 
 
+HOOK_METHOD(GameOver, OnRender, () -> void)
+{
+    if (bShowStats)
+    {
+        CSurface::GL_SetColorTint(COLOR_TINT);
+    }
+
+    if (SeedInputBox::seedsEnabled)
+    {
+        CSurface::GL_BlitPixelImageWide(seedBox,
+                                position.x + 160.f,
+                                position.y + 325.f,
+                                162,
+                                72,
+                                1.f,
+                                COLOR_WHITE,
+                                false);
+
+        CSurface::GL_SetColor(COLOR_BUTTON_ON);
+
+        freetype::easy_printCenter(13, position.x + 81.f + 160.f, position.y + 325.f + 16.f, G_->GetTextLibrary()->GetText("menu_status_seed"));
+
+        CSurface::GL_SetColor(COLOR_BUTTON_TEXT);
+
+        char buf[12];
+
+        sprintf(buf, "%u", Global::currentSeed);
+
+        freetype::easy_printCenter(62, position.x + 81.f + 160.f, position.y + 325.f + 40.f, std::string(buf));
+    }
+
+    if (bShowStats)
+    {
+        CSurface::GL_RemoveColorTint();
+    }
+
+    super();
+}
+
+
 HOOK_METHOD_PRIORITY(MenuScreen, OnRender, 1000, () -> void)
 {
     if (G_->GetWorld()->playerShip)
@@ -1277,13 +1380,17 @@ HOOK_METHOD_PRIORITY(MenuScreen, OnRender, 1000, () -> void)
 
                 CSurface::GL_SetColor(COLOR_BUTTON_ON);
 
-                freetype::easy_printCenter(13, statusPosition.x + 81.f + 66.f, statusPosition.y + 205.f + 16.f, G_->GetTextLibrary()->GetText("menu_status_seed"));
+                freetype::easy_printCenter(13, statusPosition.x + 66.f + 81.f, statusPosition.y + 205.f + 16.f, G_->GetTextLibrary()->GetText("menu_status_seed"));
 
                 CSurface::GL_SetColor(COLOR_BUTTON_TEXT);
 
-                char buf[12];
-                sprintf(buf, "%u", Global::currentSeed);
-                freetype::easy_printCenter(62, statusPosition.x + 81.f + 66.f, statusPosition.y + 205.f + 40, std::string(buf));
+                char buf[12] = "-";
+
+                if (SeedInputBox::seedsEnabled)
+                {
+                    sprintf(buf, "%u", Global::currentSeed);
+                }
+                freetype::easy_printCenter(62, statusPosition.x + 66.f + 81.f, statusPosition.y + 205.f + 40, std::string(buf));
 
                 if (confirmDialog.bOpen)
                 {
@@ -1384,8 +1491,11 @@ HOOK_METHOD_PRIORITY(MenuScreen, OnRender, 1000, () -> void)
 
     CSurface::GL_SetColor(COLOR_BUTTON_TEXT);
 
-    char buf[12];
-    sprintf(buf, "%u", Global::currentSeed);
+    char buf[12] = "-";
+    if (SeedInputBox::seedsEnabled)
+    {
+        sprintf(buf, "%u", Global::currentSeed);
+    }
     freetype::easy_printCenter(62, statusPosition.x + 81.f + 66.f, statusPosition.y + 72.f + 40, std::string(buf));
 
 
@@ -1411,8 +1521,9 @@ HOOK_METHOD(ShipManager, IsCrewFull, () -> bool)
 
     if (crewLimit > crewCount)
     {
-        return bAutomated;
+        return false;
     }
+
     return true;
 }
 
@@ -1431,3 +1542,263 @@ HOOK_METHOD(ShipManager, IsCrewOverFull, () -> bool)
 
     return crewLimit < crewCount;
 }
+
+HOOK_METHOD(Room, constructor, (int iShipId, int x, int y, int w, int h, int roomId) -> void)
+{
+    super(iShipId, x, y, w, h, roomId);
+
+    CSurface::GL_DestroyPrimitive(o2LowPrimitive);
+
+    char buf[128];
+
+    sprintf(buf, "effects/low_o2_stripes_%dx%d.png", w, h);
+
+    o2LowPrimitive = G_->GetResources()->CreateImagePrimitiveString(buf, rect.x, rect.y, 0, COLOR_WHITE, 0.5f, false);
+}
+
+
+HOOK_METHOD(ShipManager, CheckVision, () -> void)
+{
+    return super();
+
+    bool canSee = false;
+
+    if (iShipId == 0)
+    {
+        int sensorRoom = systemKey[7];
+
+        if (sensorRoom != -1)
+        {
+            ShipSystem *sensors = vSystemList[sensorRoom];
+            canSee = sensors->GetEffectivePower() > 0 && !IsSystemHacked(7);
+        }
+    }
+    else if (current_target != nullptr)
+    {
+        int sensorRoom = current_target->systemKey[7];
+
+        if (sensorRoom != -1)
+        {
+            ShipSystem *sensors = current_target->vSystemList[sensorRoom];
+            canSee = sensors->GetEffectivePower() > 1 || IsSystemHacked(7);
+        }
+    }
+
+
+    for (auto i : ship.vRoomList)
+    {
+        if (tempVision[i->iRoomId])
+        {
+            i->bBlackedOut = false;
+            continue;
+        }
+        if (canSee)
+        {
+            i->bBlackedOut = false;
+        }
+        if (RM_EX(i)->sensorBlind)
+        {
+            i->bBlackedOut = true;
+        }
+    }
+
+    if (iShipId == 1 && !canSee)
+    {
+        bool giveAch = true;
+
+        for (int i = 0; i < ship.vRoomList.size(); i++)
+        {
+            if (ShipGraph::GetShipInfo(iShipId)->GetRoomBlackedOut(i))
+            {
+                giveAch = false;
+                break;
+            }
+        }
+
+        if (giveAch)
+        {
+            G_->GetAchievementTracker()->SetAchievement("ACH_SLUG_VISION", false, true);
+        }
+    }
+
+}
+
+HOOK_METHOD(ShipManager, OnLoop, () -> void)
+{
+    super();
+
+    for (auto i : ship.vRoomList)
+    {
+        auto ex = RM_EX(i);
+
+        if (ex->roomAnim)
+        {
+            ex->roomAnim->Update();
+        }
+        if (ex->iconAnim)
+        {
+            ex->iconAnim->Update();
+        }
+    }
+}
+
+HOOK_METHOD(Ship, OnRenderSparks, () -> void)
+{
+    for (auto room : vRoomList)
+    {
+        if (RM_EX(room)->iconAnim)
+        {
+            CSurface::GL_PushMatrix();
+            CSurface::GL_Translate(room->rect.x, room->rect.y);
+            RM_EX(room)->iconAnim->OnRender(1.f, COLOR_WHITE, false);
+            CSurface::GL_PopMatrix();
+        }
+    }
+
+    super();
+}
+
+HOOK_METHOD(Ship, OnRenderBreaches, () -> void)
+{
+    for (auto room : vRoomList)
+    {
+        if (room->bBlackedOut) continue;
+
+        if (RM_EX(room)->roomAnim)
+        {
+            CSurface::GL_PushMatrix();
+            CSurface::GL_Translate(room->rect.x, room->rect.y);
+            RM_EX(room)->roomAnim->OnRender(1.f, COLOR_WHITE, false);
+            CSurface::GL_PopMatrix();
+        }
+    }
+
+    super();
+}
+
+
+HOOK_METHOD(Ship, OnInit, (ShipBlueprint& bp) -> void)
+{
+    super(bp);
+
+    CSurface::GL_DestroyPrimitive(wallsPrimitive);
+
+    std::vector<GL_Line> walls = std::vector<GL_Line>();
+
+    // door length: 21
+    std::vector<GL_Line> gaps = std::vector<GL_Line>();
+
+    for (auto door : vDoorList)
+    {
+        if (door->bVertical)
+        {
+            gaps.push_back(GL_Line(door->x, door->y - door->height / 2, door->x, door->y + door->height / 2));
+        }
+        else
+        {
+            gaps.push_back(GL_Line(door->x - door->width / 2, door->y, door->x + door->width / 2, door->y));
+        }
+    }
+
+    for (auto i : vRoomList)
+    {
+
+        for (int j = 0; j < (i->rect.w / 35); j++)
+        {
+            // top
+
+
+            walls.push_back(GL_Line(i->rect.x + j * 35 - (j != 0), i->rect.y + 1, i->rect.x + 9 + j * 35, i->rect.y + 1));
+
+            bool hasDoor = false;
+
+            for (auto gap : gaps)
+            {
+                if (gap.start.x == i->rect.x + 9 + j * 35 && gap.start.y == i->rect.y)
+                {
+                    hasDoor = true;
+                    break;
+                }
+            }
+
+            if (!hasDoor)
+            {
+                walls.push_back(GL_Line(i->rect.x + 9 + j * 35, i->rect.y + 1, i->rect.x + 9 + j * 35 + 16, i->rect.y + 1));
+            }
+
+
+            walls.push_back(GL_Line(i->rect.x + j * 35 + 27 - 2, i->rect.y + 1, i->rect.x + 9 + j * 35 + 26, i->rect.y + 1));
+
+            // bottom
+
+            walls.push_back(GL_Line(i->rect.x + j * 35 - (j != 0), i->rect.y + i->rect.h - 1, i->rect.x + 9 + j * 35, i->rect.y + i->rect.h - 1));
+
+            hasDoor = false;
+
+            for (auto gap : gaps)
+            {
+                if (gap.start.x == i->rect.x + 9 + j * 35 && gap.start.y == i->rect.y + i->rect.h)
+                {
+                    hasDoor = true;
+                    break;
+                }
+            }
+
+            if (!hasDoor)
+            {
+                walls.push_back(GL_Line(i->rect.x + 9 + j * 35, i->rect.y + i->rect.h - 1, i->rect.x + 9 + j * 35 + 16, i->rect.y + i->rect.h - 1));
+            }
+
+            walls.push_back(GL_Line(i->rect.x + j * 35 + 27 - 2, i->rect.y + i->rect.h - 1, i->rect.x + 8 + j * 35 + 26, i->rect.y + i->rect.h - 1));
+        }
+
+        for (int j = 0; j < (i->rect.h / 35); j++)
+        {
+            walls.push_back(GL_Line(i->rect.x + 1, i->rect.y + j * 35 - (j != 0), i->rect.x + 1, i->rect.y + 9 + j * 35));
+
+            bool hasDoor = false;
+
+            for (auto gap : gaps)
+            {
+                if (gap.start.x == i->rect.x && gap.start.y == i->rect.y + 9 + j * 35)
+                {
+                    hasDoor = true;
+                    break;
+                }
+            }
+
+            if (!hasDoor)
+            {
+                walls.push_back(GL_Line(i->rect.x + 1, i->rect.y + 9 + j * 35, i->rect.x + 1, i->rect.y + 9 + j * 35 + 16));
+            }
+
+
+            walls.push_back(GL_Line(i->rect.x + 1, i->rect.y + j * 35 + 27 - 2, i->rect.x + 1, i->rect.y + 9 + j * 35 + 26));
+
+            walls.push_back(GL_Line(i->rect.x + i->rect.w - 1, i->rect.y + j * 35 - (j != 0), i->rect.x + i->rect.w - 1, i->rect.y + 9 + j * 35));
+
+            hasDoor = false;
+
+            for (auto gap : gaps)
+            {
+                if (gap.start.x == i->rect.x + i->rect.w && gap.start.y == i->rect.y + 9 + j * 35)
+                {
+                    hasDoor = true;
+                    break;
+                }
+            }
+
+            if (!hasDoor)
+            {
+                walls.push_back(GL_Line(i->rect.x + i->rect.w - 1, i->rect.y + 9 + j * 35, i->rect.x + i->rect.w - 1, i->rect.y + 9 + j * 35 + 16));
+            }
+
+
+            walls.push_back(GL_Line(i->rect.x + i->rect.w - 1, i->rect.y + j * 35 + 27 - 2, i->rect.x + i->rect.w - 1, i->rect.y + 9 + j * 35 + 26));
+
+        }
+    }
+
+    wallsPrimitive = CSurface::GL_CreateMultiLinePrimitive(walls, GL_Color(0.f, 0.f, 0.f, 1.f), 2.f);
+}
+

@@ -77,6 +77,17 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
 
         return true;
     }
+    if (cmdName == "DAMAGESYS" && command.length() > 9)
+    {
+        ShipSystem* sys = commandGui->shipComplete->shipManager->GetSystem(ShipSystem::NameToSystemId(boost::trim_copy(command.substr(10))));
+
+        if (sys)
+        {
+            sys->healthState.first = 0;
+        }
+
+        return true;
+    }
     if (cmdName == "DEBUG")
     {
         return true;

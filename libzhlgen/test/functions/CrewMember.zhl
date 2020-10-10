@@ -80,7 +80,7 @@ void CrewMember::SavePosition(CrewMember *this<ecx>);
 ".c781fc060000ffffffffc781f8060000ffffffff":
 void CrewMember::ClearPosition(CrewMember *this<ecx>);
 ".8b54240489c88b8af806000089088b8afc060000894804":
-Slot* CrewMember::GetSavedPosition(CrewMember *this<ecx>);
+static void CrewMember::GetSavedPosition(Slot *ret<ecx>, CrewMember *crew);
 ".8b4424048981f80600008b4424088981fc060000":
 void CrewMember::SetSavePosition(CrewMember *this<ecx>, Slot position);
 ".8b416885c074??8b015589e5":

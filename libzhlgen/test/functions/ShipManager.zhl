@@ -74,6 +74,17 @@ void ShipManager::Restart(ShipManager *this<ecx>);
 int ShipManager::GetSystemPower(ShipManager *this<ecx>, int systemId);
 "5589e557565383e4f083ec108b41688b51648944240c29d0c1f80285c074??894c240431db31ffeb??8db4260000000001c78b44240c":
 int ShipManager::CountCrewShipId(ShipManager *this<ecx>, int roomId, int shipId);
+"8b44240483f8ff74??8b91c80400008b048283f8ff74??8b51188b0482":
+ShipSystem* ShipManager::GetSystem(ShipManager *this<ecx>, int systemId);
+"5789c805????????8d7c240883e4f0ff77fc5589e557565381ec????????8b3789cf89442404898d90feffff893424e8????????80bf68060000008d85c0feffff89c1898594feffff":
+void ShipManager::ExportShip(ShipManager *this<ecx>, int file);
+".578d7c240883e4f0ff77fc5589e557565389ce":
+void ShipManager::destructor(ShipManager *this<ecx>);
+"578d7c240883e4f0ff77fc5589e557565389cb83ec5c8b81c8040000c645b7008b701c83feff74??":
+void ShipManager::CheckVision(ShipManager *this<ecx>);
+"5383ec048b54240c83fa1174??8b99c804000031c0833c93ff75??83c4045bc20400891424e8????????83ec04":
+bool ShipManager::IsSystemHacked(ShipManager *this<ecx>, int systemId);
+
 
 struct ShipManager {{
 	ShipManager(int shipId) 

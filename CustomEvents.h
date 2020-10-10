@@ -10,6 +10,7 @@ struct BeaconType
     TextString undiscoveredTooltip;
     TextString unvisitedTooltip;
     TextString visitedTooltip;
+    std::string equipmentReq;
 };
 
 struct CustomEvent
@@ -24,11 +25,16 @@ struct CustomEvent
     bool removeHazards = false;
     bool removeNebula = false;
     std::string secretSectorWarp = "";
+    std::string eventLoad = "";
+    bool eventLoadSeeded = true;
 
     bool win = false;
     std::string gameOverText = "";
+    std::string gameOverCreditsText = "";
 
     std::vector<std::string> hiddenAugs = std::vector<std::string>();
+    std::string playSound = "";
+    std::string changeBackground = "";
 };
 
 struct SectorExit

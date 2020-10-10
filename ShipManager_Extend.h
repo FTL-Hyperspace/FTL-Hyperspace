@@ -10,6 +10,12 @@ struct ShipManager_Extend
 
     std::map<std::string, int> GetAugmentList();
 
+    void Initialize();
+
+    ~ShipManager_Extend()
+    {
+    }
+
     //CrewMember *captain;
 };
 
