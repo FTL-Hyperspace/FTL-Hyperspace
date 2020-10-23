@@ -84,6 +84,9 @@ void ShipManager::destructor(ShipManager *this<ecx>);
 void ShipManager::CheckVision(ShipManager *this<ecx>);
 "5383ec048b54240c83fa1174??8b99c804000031c0833c93ff75??83c4045bc20400891424e8????????83ec04":
 bool ShipManager::IsSystemHacked(ShipManager *this<ecx>, int systemId);
+"578d7c240883e4f0ff77fc5589e557565383ec4c8b078b51648945d48b47048945d00fb64708":
+CrewMember* ShipManager::GetSelectedCrewPoint(ShipManager *this<ecx>, int x, int y, bool intruder);
+
 
 
 struct ShipManager {{

@@ -10,7 +10,7 @@ struct ShipManager_Extend
 
     std::map<std::string, int> GetAugmentList();
 
-    void Initialize();
+    void Initialize(bool restarting=false);
 
     ~ShipManager_Extend()
     {

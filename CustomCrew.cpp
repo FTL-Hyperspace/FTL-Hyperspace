@@ -314,6 +314,39 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                         {
                             crew.cloneLoseSkills = EventsParser::ParseBoolean(val);
                         }
+                        if (str == "droneAI")
+                        {
+                            crew.droneAI.hasCustomAI = true;
+                            for (auto effectNode = stat->first_node(); effectNode; effectNode = effectNode->next_sibling())
+                            {
+                                std::string effectName = std::string(effectNode->name());
+
+                                if (effectName == "fightAI")
+                                {
+                                    crew.droneAI.fightAI = true;
+                                }
+                                if (effectName == "repairAI")
+                                {
+                                    crew.droneAI.repairAI = true;
+                                }
+                                if (effectName == "manAI")
+                                {
+                                    crew.droneAI.manAI = true;
+                                }
+                                if (effectName == "batteryAI")
+                                {
+                                    crew.droneAI.batteryAI = true;
+                                }
+                                if (effectName == "returnToDroneRoom")
+                                {
+                                    crew.droneAI.returnToDroneRoom = true;
+                                }
+                            }
+                        }
+                        if (str == "droneMoveFromManningSlot")
+                        {
+                            crew.droneMoveFromManningSlot = EventsParser::ParseBoolean(val);
+                        }
                         if (str == "deathEffect")
                         {
                             crew.hasDeathExplosion = true;
@@ -1328,7 +1361,7 @@ HOOK_METHOD_PRIORITY(CrewMember, UpdateHealth, 2000, () -> void)
     {
         auto def = custom->GetDefinition(species);
 
-        if (ex->temporaryPowerActive && def.powerDef.tempPower.healAmount != 0.f && health.first != health.second)
+        if (ex->temporaryPowerActive && def.powerDef.tempPower.healAmount != 0.f && health.first != health.second && Functional())
         {
             if (def.powerDef.tempPower.healAmount > 0.f && health.first != health.second)
             {
@@ -1336,7 +1369,7 @@ HOOK_METHOD_PRIORITY(CrewMember, UpdateHealth, 2000, () -> void)
             }
             DirectModifyHealth(G_->GetCFPS()->GetSpeedFactor() * def.powerDef.tempPower.healAmount * 0.06245f);
         }
-        else if (ex->isHealing && def.passiveHealAmount != 0.f && health.first != health.second)
+        else if (ex->isHealing && def.passiveHealAmount != 0.f && health.first != health.second && Functional())
         {
             if (def.passiveHealAmount > 0.f && health.first != health.second)
             {
@@ -2132,8 +2165,7 @@ static bool shipFriendlyFire = true;
 static bool blockDamageArea = false;
 
 HOOK_STATIC(IonDrone, GetRoomDamage, (Damage *damage, IonDrone* crew) -> Damage*)
-{
-    if (blockDamageArea) return damage;
+{    if (blockDamageArea) return damage;
     return super(damage, crew);
 }
 HOOK_STATIC(EnergyAlien, GetRoomDamage, (Damage *damage, EnergyAlien* crew) -> Damage*)
@@ -2147,44 +2179,48 @@ HOOK_STATIC(CrewMember, GetRoomDamage, (Damage *damage, CrewMember *crew) -> Dam
     Damage *ret = super(damage, crew);
 
     auto custom = CustomCrewManager::GetInstance();
-    if (custom->IsRace(crew->species) && !blockDamageArea)
+    if (!blockDamageArea)
     {
-        if (custom->GetDefinition(crew->species).hasDeathExplosion)
+        if (custom->IsRace(crew->species))
         {
-            auto ex = CM_EX(crew);
-
-            if (ex->triggerExplosion && !ex->exploded)
+            if (custom->GetDefinition(crew->species).hasDeathExplosion)
             {
-                Damage *customDamage = &(custom->GetDefinition(crew->species).explosionDef);
+                auto ex = CM_EX(crew);
 
-                damage->iDamage = customDamage->iDamage;
-                damage->fireChance = customDamage->fireChance;
-                damage->breachChance = customDamage->breachChance;
-                damage->stunChance = customDamage->stunChance;
-                damage->iIonDamage = customDamage->iIonDamage;
-                damage->iSystemDamage = customDamage->iSystemDamage;
-                damage->iPersDamage = customDamage->iPersDamage;
-                damage->bHullBuster = customDamage->bHullBuster;
-                damage->ownerId = crew->iShipId;
-                damage->selfId = (int)crew;
-                damage->bLockdown = customDamage->bLockdown;
-                damage->crystalShard = customDamage->crystalShard;
-                damage->bFriendlyFire = customDamage->bFriendlyFire;
-                damage->iStun = customDamage->iStun;
-                shipFriendlyFire = custom->GetDefinition(crew->species).explosionShipFriendlyFire;
+                if (ex->triggerExplosion && !ex->exploded)
+                {
+                    Damage *customDamage = &(custom->GetDefinition(crew->species).explosionDef);
 
-                ret = damage;
+                    damage->iDamage = customDamage->iDamage;
+                    damage->fireChance = customDamage->fireChance;
+                    damage->breachChance = customDamage->breachChance;
+                    damage->stunChance = customDamage->stunChance;
+                    damage->iIonDamage = customDamage->iIonDamage;
+                    damage->iSystemDamage = customDamage->iSystemDamage;
+                    damage->iPersDamage = customDamage->iPersDamage;
+                    damage->bHullBuster = customDamage->bHullBuster;
+                    damage->ownerId = crew->iShipId;
+                    damage->selfId = (int)crew;
+                    damage->bLockdown = customDamage->bLockdown;
+                    damage->crystalShard = customDamage->crystalShard;
+                    damage->bFriendlyFire = customDamage->bFriendlyFire;
+                    damage->iStun = customDamage->iStun;
+                    shipFriendlyFire = custom->GetDefinition(crew->species).explosionShipFriendlyFire;
 
-                ex->exploded = true;
+                    ret = damage;
+
+                    ex->exploded = true;
+                }
             }
         }
-    }
-    else
-    {
-        if (crew->species == "energy")
+        else
         {
-            ret = EnergyAlien::GetRoomDamage(damage, (EnergyAlien*)crew);
+            if (crew->species == "energy")
+            {
+                ret = EnergyAlien::GetRoomDamage(damage, (EnergyAlien*)crew);
+            }
         }
+
 
         if (CM_EX(crew)->isIonDrone)
         {
@@ -3023,6 +3059,39 @@ HOOK_STATIC(CrewMember, GetSavedPosition, (Slot *ret, CrewMember *crew) -> void)
     return super(ret, crew);
 }
 
+HOOK_METHOD(ShipManager, GetSelectedCrewPoint, (int mX, int mY, bool intruder) -> CrewMember*)
+{
+    if (vCrewList.empty())
+    {
+        return nullptr;
+    }
+
+    for (auto i : vCrewList)
+    {
+        if (i->ContainsPoint(mX, mY))
+        {
+            if (i->IsDead())
+            {
+                continue;
+            }
+            if (intruder != i->NeedsIntruderSlot())
+            {
+                continue;
+            }
+            if (!i->GetControllable() && !intruder)
+            {
+                continue;
+            }
+
+            if (Point(i->x, i->y).Distance(Point(mX, mY)) <= 14)
+            {
+                return i;
+            }
+        }
+    }
+
+    return nullptr;
+}
 
 HOOK_METHOD(CrewControl, MouseMove, (int mX, int mY, int wX, int wY) -> void)
 {

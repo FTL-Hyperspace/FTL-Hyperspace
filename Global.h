@@ -112,7 +112,7 @@ private:
     static AnimationControl *__animations;
     static AchievementTracker *__achievementTracker;
 
-    const int __version = 53;
+    const int __version = 54;
 
 
 };

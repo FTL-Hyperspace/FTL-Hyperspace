@@ -88,6 +88,16 @@ struct SkillsDefinition
     std::map<std::string, Skill> skills = std::map<std::string, Skill>();
 };
 
+struct DroneAI
+{
+    bool hasCustomAI;
+    bool fightAI;
+    bool repairAI;
+    bool manAI;
+    bool batteryAI;
+    bool returnToDroneRoom;
+};
+
 struct TemporaryPowerDefinition
 {
     float duration;
@@ -226,6 +236,8 @@ struct CrewDefinition
     float healSpeed = 1.f;
     bool cloneLoseSkills = true;
     float healCrewAmount = 0.f;
+    DroneAI droneAI;
+    bool droneMoveFromManningSlot;
 
     Damage explosionDef;
     bool explosionShipFriendlyFire = false;

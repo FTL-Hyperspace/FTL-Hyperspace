@@ -29,6 +29,7 @@ public:
     GL_Texture* tempEffectStrip = nullptr;
 
     bool isMantisAnimation = false;
+    bool isIonDrone = false;
 
     Pointf effectPos;
     Pointf effectWorldPos;

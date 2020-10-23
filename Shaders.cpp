@@ -9,8 +9,6 @@ HOOK_STATIC(CSurface, generate_fragment_shader_source, (GraphicsPrimitiveType pr
 
     char* ret = super(primitive_type, position_count, texcoord_count, texcolor_type, tex_offset, color_count, color_uniform, fog, alpha_test, alpha_comparison);
 
-    printf("\n--%d--\n%s\n-----\n", shaderCounter, ret);
-
     if (texcolor_type == GRAPHICS_TEXCOLOR_RGBA && tex_offset == 1)
     {
         shaderCounter++;
@@ -27,8 +25,6 @@ HOOK_STATIC(CSurface, generate_fragment_shader_source, (GraphicsPrimitiveType pr
 HOOK_METHOD(CApp, OnInit, () -> void)
 {
     shader = G_->GetResources()->LoadFile("data/shaders/default.fs");
-
-    printf("%s\n", shader);
 
     super();
 }

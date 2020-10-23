@@ -59,6 +59,10 @@ HOOK_METHOD_PRIORITY(CrewAnimation, OnInit, 900, (const std::string& _race, Poin
 
 	super(_race, position, enemy);
     ex->OnInit(_race, position, enemy);
+    if (_race == "boarder_ion")
+    {
+        CMA_EX(this)->isIonDrone = true;
+    }
 }
 
 HOOK_METHOD(CrewAnimation, destructor, () -> void)

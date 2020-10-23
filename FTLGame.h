@@ -59,6 +59,7 @@ struct Point
 	friend bool operator!=(const Point &a, const Point &b) {return a.x!=b.x || a.y!=b.y;}
 
 	LIBZHL_API int RelativeDistance(Point other);
+	LIBZHL_API int Distance(Point other);
 	
 	int x;
 	int y;
@@ -3457,6 +3458,7 @@ struct ShipManager : ShipObject
 	LIBZHL_API void destructor();
 	LIBZHL_API void CheckVision();
 	LIBZHL_API bool IsSystemHacked(int systemId);
+	LIBZHL_API CrewMember *GetSelectedCrewPoint(int x, int y, bool intruder);
 	
 	Targetable _targetable;
 	Collideable _collideable;
@@ -4609,8 +4611,6 @@ struct BoarderDrone : CrewDrone
 
 	BoarderDrone(const std::string& _type, const std::string& _name, int _shipId, const DroneBlueprint* _blueprint, CrewAnimation *_anim)
 	{
-		printf("BoarderDrone::BoarderDrone (%08X)\n", &constructor);
-	
 		this->constructor(_type, _name, _shipId, _blueprint, _anim);
 	}
 

@@ -145,8 +145,36 @@ HOOK_METHOD(CrewDrone, constructor, (const std::string& droneType, const std::st
     }
 }
 
+static bool blockControllableAI;
+
+HOOK_METHOD(ShipManager, CommandCrewMoveRoom, (CrewMember* crew, int room) -> bool)
+{
+    if (blockControllableAI)
+    {
+        auto custom = CustomCrewManager::GetInstance();
+        if (crew->GetControllable() || (custom->IsRace(crew->species) && custom->GetDefinition(crew->species).droneAI.hasCustomAI)) return false;
+    }
+
+    return super(crew, room);
+}
+
+HOOK_METHOD(CrewMember, SetTask, (CrewTask task) -> void)
+{
+    if (blockControllableAI)
+    {
+        auto custom = CustomCrewManager::GetInstance();
+        if (GetControllable() || (custom->IsRace(species) && custom->GetDefinition(species).droneAI.hasCustomAI)) return;
+    }
+
+    super(task);
+}
+
 HOOK_METHOD(CrewAI, UpdateDrones, () -> void)
 {
+    blockControllableAI = true;
+    super();
+    blockControllableAI = false;
+
     bool hasDrone = false;
 
     for (auto i : crewList)
@@ -164,195 +192,207 @@ HOOK_METHOD(CrewAI, UpdateDrones, () -> void)
 
     for (auto crew : crewList)
     {
-        if (!crew->GetControllable() && crew->IsDrone() && !crew->IsDead() && crew->Functional() && crew->crewAnim->status != 3)
+        if (crew->IsDrone() && custom->IsRace(crew->species))
         {
-            std::vector<CrewTask> taskList(desiredTaskList);
-            taskList.insert(taskList.end(), bonusTaskList.begin(), bonusTaskList.end());
-
-            if (taskList.empty())
+            auto def = custom->GetDefinition(crew->species);
+            if (def.droneAI.hasCustomAI && !crew->GetControllable() && !crew->IsDead() && crew->Functional() && crew->crewAnim->status != 3)
             {
-                AssignCrewmembers();
-                return;
-            }
+                std::vector<CrewTask> taskList(desiredTaskList);
+                taskList.insert(taskList.end(), bonusTaskList.begin(), bonusTaskList.end());
 
-            if (crew->CanFight())
-            {
-                CrewTask closestTask;
-                float closestDist = FLT_MAX;
-                int newTaskId = 4;
-
-                for (auto task : taskList)
+                if (taskList.empty())
                 {
-                    if (task.taskId == 7)
-                    {
-                        if (!ship->ship.FullRoom(task.room, false))
-                        {
-                            float dist = ship->GetRoomCenter(task.room).RelativeDistance(Pointf(crew->x, crew->y));
-
-                            if (dist < closestDist)
-                            {
-                                closestDist = dist;
-                                closestTask = task;
-                                newTaskId = task.taskId;
-                            }
-                        }
-                    }
+                    AssignCrewmembers();
+                    return;
                 }
 
-                if (newTaskId != 4)
+                if (crew->CanFight())
                 {
-                    if (!ship->ship.RoomLocked(closestTask.room))
+                    if (def.droneAI.fightAI)
                     {
-                        if (ship->CommandCrewMoveRoom(crew, closestTask.room))
-                        {
-                            crew->SetTask(closestTask);
-                        }
-                    }
-                }
-            }
-            if (!crew->IsBusy() && crew->CanRepair())
-            {
-                crew->ClearTask();
+                        CrewTask closestTask;
+                        float closestDist = FLT_MAX;
+                        int newTaskId = 4;
 
-                for (auto task : taskList)
-                {
-                    if (task.taskId <= 3 && task.taskId > 0)
-                    {
-                        if (PrioritizeTask(task, -1) < PrioritizeTask(crew->task, -1))
+                        for (auto task : taskList)
                         {
-                            if (!ship->ship.RoomLocked(task.room) && (ship->CommandCrewMoveRoom(crew, task.room) || task.room == crew->currentSlot.roomId))
+                            if (task.taskId == 7)
                             {
-                                crew->SetTask(task);
-                            }
-                        }
-                    }
-                }
-            }
-
-            if (!crew->IsBusy() && crew->CanMan())
-            {
-                for (auto task : taskList)
-                {
-                    if (task.taskId == 0 && task.system != 5 && task.system != 2 && task.system != 6)
-                    {
-                        if (PrioritizeTask(task, -1) < PrioritizeTask(crew->task, -1))
-                        {
-                            if (!ship->ship.RoomLocked(task.room) && (ship->CommandCrewMoveRoom(crew, task.room) || task.room == crew->currentSlot.roomId))
-                            {
-                                crew->SetTask(task);
-                            }
-                        }
-                    }
-                }
-            }
-
-            if (!crew->IsBusy() && crew->task.taskId != 0)
-            {
-                bool idle = true;
-
-                if (custom->IsRace(crew->species))
-                {
-                    auto def = custom->GetDefinition(crew->species);
-
-                    if (def.providesPower || def.bonusPower > 0)
-                    {
-                        idle = false;
-
-                        int maxPowerDiff = 0;
-                        int targetRoom = -1;
-
-                        for (auto i : ship->vSystemList)
-                        {
-                            int powerDiff = i->powerState.second - i->powerState.first;
-
-                            if (i->iSystemType == 3)
-                            {
-                                int maxPower = 0;
-                                for (auto wep : ship->GetWeaponList())
+                                if (!ship->ship.FullRoom(task.room, false))
                                 {
-                                    maxPower += wep->requiredPower;
-                                }
+                                    float dist = ship->GetRoomCenter(task.room).RelativeDistance(Pointf(crew->x, crew->y));
 
-                                powerDiff = maxPower - i->powerState.first;
-                            }
-
-                            if (powerDiff > maxPowerDiff && powerDiff > 0 && !ShipSystem::IsSubsystem(i->iSystemType) && i->iSystemType != 4 && i->iSystemType != 5)
-                            {
-                                maxPowerDiff = powerDiff;
-                                targetRoom = i->roomId;
-                                if (targetRoom != -1 && !ship->ship.RoomLocked(targetRoom) && (ship->CommandCrewMoveRoom(crew, targetRoom) || targetRoom == crew->currentSlot.roomId))
-                                {
-                                    CrewTask task = CrewTask();
-                                    task.room = targetRoom;
-                                    task.taskId = 4;
-                                    task.system = -1;
-
-                                    crew->SetTask(task);
-                                }
-                                else
-                                {
-                                    targetRoom = -1;
+                                    if (dist < closestDist)
+                                    {
+                                        closestDist = dist;
+                                        closestTask = task;
+                                        newTaskId = task.taskId;
+                                    }
                                 }
                             }
                         }
 
-                        if (targetRoom == -1)
+                        if (newTaskId != 4)
                         {
-                            int priorityList[7] = { 3, 0, 13, 1, 11, 10, 15 };
-
-                            for (auto i : priorityList)
+                            if (!ship->ship.RoomLocked(closestTask.room))
                             {
-                                if (i == 3)
+                                if (ship->CommandCrewMoveRoom(crew, closestTask.room))
+                                {
+                                    crew->SetTask(closestTask);
+                                }
+                            }
+                        }
+                    }
+                }
+                if (!crew->IsBusy() && crew->CanRepair())
+                {
+                    if (def.droneAI.repairAI)
+                    {
+                        crew->ClearTask();
+
+                        for (auto task : taskList)
+                        {
+                            if (task.taskId <= 3 && task.taskId > 0)
+                            {
+                                if (PrioritizeTask(task, -1) < PrioritizeTask(crew->task, -1))
+                                {
+                                    if (!ship->ship.RoomLocked(task.room) && (ship->CommandCrewMoveRoom(crew, task.room) || task.room == crew->currentSlot.roomId))
+                                    {
+                                        crew->SetTask(task);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (!crew->IsBusy() && crew->CanMan())
+                {
+                    if (def.droneAI.manAI)
+                    {
+                        for (auto task : taskList)
+                        {
+                            if (task.taskId == 0 && task.system != 5 && task.system != 2 && task.system != 6)
+                            {
+                                if (PrioritizeTask(task, -1) < PrioritizeTask(crew->task, -1))
+                                {
+                                    if (!ship->ship.RoomLocked(task.room) && (ship->CommandCrewMoveRoom(crew, task.room) || task.room == crew->currentSlot.roomId))
+                                    {
+                                        crew->SetTask(task);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (!crew->IsBusy() && crew->task.taskId != 0)
+                {
+                    bool idle = true;
+
+                    if (def.droneAI.batteryAI)
+                    {
+                        if (def.providesPower || def.bonusPower > 0)
+                        {
+                            idle = false;
+
+                            int maxPowerDiff = 0;
+                            int targetRoom = -1;
+
+                            for (auto i : ship->vSystemList)
+                            {
+                                int powerDiff = i->powerState.second - i->powerState.first;
+
+                                if (i->iSystemType == 3)
                                 {
                                     int maxPower = 0;
                                     for (auto wep : ship->GetWeaponList())
                                     {
                                         maxPower += wep->requiredPower;
                                     }
-                                    if (maxPower == 0) continue;
+
+                                    powerDiff = maxPower - i->powerState.first;
                                 }
 
-                                targetRoom = ship->GetSystemRoom(i);
-                                if (targetRoom != -1 && !ship->ship.RoomLocked(targetRoom) && (ship->CommandCrewMoveRoom(crew, targetRoom) || targetRoom == crew->currentSlot.roomId))
+                                if (powerDiff > maxPowerDiff && powerDiff > 0 && !ShipSystem::IsSubsystem(i->iSystemType) && i->iSystemType != 4 && i->iSystemType != 5)
+                                {
+                                    maxPowerDiff = powerDiff;
+                                    targetRoom = i->roomId;
+                                    if (targetRoom != -1 && !ship->ship.RoomLocked(targetRoom) && (ship->CommandCrewMoveRoom(crew, targetRoom) || targetRoom == crew->currentSlot.roomId))
+                                    {
+                                        CrewTask task = CrewTask();
+                                        task.room = targetRoom;
+                                        task.taskId = 4;
+                                        task.system = -1;
+
+                                        crew->SetTask(task);
+                                    }
+                                    else
+                                    {
+                                        targetRoom = -1;
+                                    }
+                                }
+                            }
+
+                            if (targetRoom == -1)
+                            {
+                                int priorityList[7] = { 3, 0, 13, 1, 11, 10, 15 };
+
+                                for (auto i : priorityList)
+                                {
+                                    if (i == 3)
+                                    {
+                                        int maxPower = 0;
+                                        for (auto wep : ship->GetWeaponList())
+                                        {
+                                            maxPower += wep->requiredPower;
+                                        }
+                                        if (maxPower == 0) continue;
+                                    }
+
+                                    targetRoom = ship->GetSystemRoom(i);
+                                    if (targetRoom != -1 && !ship->ship.RoomLocked(targetRoom) && (ship->CommandCrewMoveRoom(crew, targetRoom) || targetRoom == crew->currentSlot.roomId))
+                                    {
+                                        CrewTask task = CrewTask();
+                                        task.room = targetRoom;
+                                        task.taskId = 4;
+                                        task.system = -1;
+
+                                        crew->SetTask(task);
+
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        targetRoom = -1;
+                                    }
+                                }
+                            }
+
+                            if (targetRoom == -1)
+                            {
+                                idle = true;
+                            }
+                        }
+                    }
+
+                    if (idle)
+                    {
+                        if (def.droneAI.returnToDroneRoom)
+                        {
+                            int droneRoom = ship->GetSystemRoom(4);
+                            if (!ship->ship.RoomLocked(droneRoom))
+                            {
+                                if (ship->CommandCrewMoveRoom(crew, droneRoom) || droneRoom == crew->currentSlot.roomId)
                                 {
                                     CrewTask task = CrewTask();
-                                    task.room = targetRoom;
+                                    task.room = droneRoom;
                                     task.taskId = 4;
                                     task.system = -1;
 
                                     crew->SetTask(task);
-
-                                    break;
-                                }
-                                else
-                                {
-                                    targetRoom = -1;
                                 }
                             }
-                        }
-
-                        if (targetRoom == -1)
-                        {
-                            idle = true;
-                        }
-                    }
-                }
-
-
-
-                if (idle)
-                {
-                    int droneRoom = ship->GetSystemRoom(4);
-                    if (!ship->ship.RoomLocked(droneRoom))
-                    {
-                        if (ship->CommandCrewMoveRoom(crew, droneRoom) || droneRoom == crew->currentSlot.roomId)
-                        {
-                            CrewTask task = CrewTask();
-                            task.room = droneRoom;
-                            task.taskId = 4;
-                            task.system = -1;
-
-                            crew->SetTask(task);
                         }
                     }
                 }
@@ -404,65 +444,68 @@ HOOK_METHOD(ShipManager, CreateSpaceDrone, (const DroneBlueprint *bp) -> SpaceDr
 
 HOOK_METHOD(CrewDrone, OnLoop, () -> void)
 {
-    SetFrozen(_drone.deployed && !_drone.powered);
-
-    ShipGraph *shipGraph = ShipGraph::GetShipInfo(currentShipId);
-
-    if (currentSlot.slotId != -1 && iRoomId != -1 && !intruder)
+    if (CustomCrewManager::GetInstance()->IsRace(species) && CustomCrewManager::GetInstance()->GetDefinition(species).droneMoveFromManningSlot)
     {
-        if (_drone.deployed && !_drone.powered && shipGraph->rooms[iRoomId]->primarySlot == currentSlot.slotId)
+        SetFrozen(_drone.deployed && !_drone.powered);
+
+        ShipGraph *shipGraph = ShipGraph::GetShipInfo(currentShipId);
+
+        if (currentSlot.slotId != -1 && iRoomId != -1 && !intruder)
         {
-            bFrozenLocation = false;
-        }
-
-        if (!bFrozenLocation)
-        {
-            int closestSlot = -1;
-            int closestRoom = -1;
-            int closestDist = INT_MAX;
-
-            Room *currentRoom = shipGraph->rooms[iRoomId];
-
-            if (currentRoom->primarySlot != currentSlot.slotId)
+            if (_drone.deployed && !_drone.powered && shipGraph->rooms[iRoomId]->primarySlot == currentSlot.slotId)
             {
+                bFrozenLocation = false;
+            }
+
+            if (!bFrozenLocation)
+            {
+                int closestSlot = -1;
+                int closestRoom = -1;
+                int closestDist = INT_MAX;
+
+                Room *currentRoom = shipGraph->rooms[iRoomId];
+
+                if (currentRoom->primarySlot != currentSlot.slotId)
+                {
+                    bFrozenLocation = true;
+                    return super();
+                }
+
+                for (auto room : shipGraph->rooms)
+                {
+                    std::vector<int> emptySlots = std::vector<int>();
+
+                    for (int slot = 0; slot < room->slots[intruder].size(); slot++)
+                    {
+                        if (slot != room->primarySlot && room->slots[intruder][slot] == false)
+                        {
+                            emptySlots.push_back(slot);
+                        }
+                    }
+
+                    for (auto slot : emptySlots)
+                    {
+                        int dist = shipGraph->GetSlotWorldPosition(room->iRoomId, slot).RelativeDistance(currentSlot.worldLocation);
+
+                        if (dist < closestDist)
+                        {
+                            closestSlot = slot;
+                            closestRoom = room->iRoomId;
+                            closestDist = dist;
+                        }
+                    }
+                }
+
+
+
                 bFrozenLocation = true;
-                return super();
-            }
 
-            for (auto room : shipGraph->rooms)
-            {
-                std::vector<int> emptySlots = std::vector<int>();
-
-                for (int slot = 0; slot < room->slots[intruder].size(); slot++)
+                if (closestRoom != -1)
                 {
-                    if (slot != room->primarySlot && room->slots[intruder][slot] == false)
-                    {
-                        emptySlots.push_back(slot);
-                    }
+                    MoveToRoom(closestRoom, closestSlot, intruder);
                 }
 
-                for (auto slot : emptySlots)
-                {
-                    int dist = shipGraph->GetSlotWorldPosition(room->iRoomId, slot).RelativeDistance(currentSlot.worldLocation);
-
-                    if (dist < closestDist)
-                    {
-                        closestSlot = slot;
-                        closestRoom = room->iRoomId;
-                        closestDist = dist;
-                    }
-                }
             }
-
-
-
-            bFrozenLocation = true;
-
-            if (closestRoom != -1)
-            {
-                MoveToRoom(closestRoom, closestSlot, intruder);
-            }
-
         }
     }
 

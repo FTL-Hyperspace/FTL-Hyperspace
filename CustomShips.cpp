@@ -773,7 +773,7 @@ bool CustomShipSelect::CycleShipPrevious(ShipBuilder *builder)
 
 //==========================
 
-void ShipManager_Extend::Initialize()
+void ShipManager_Extend::Initialize(bool restarting)
 {
     auto customSel = CustomShipSelect::GetInstance();
 
@@ -815,11 +815,14 @@ void ShipManager_Extend::Initialize()
             }
         }
 
-        for (auto i : customSel->GetDefinition(orig->myBlueprint.blueprintName).crewList)
+        if (!restarting)
         {
-            orig->AddCrewMemberFromString("", i.first, false, i.second, false, random32() % 2);
+            for (auto i : customSel->GetDefinition(orig->myBlueprint.blueprintName).crewList)
+            {
+                orig->AddCrewMemberFromString("", i.first, false, i.second, false, random32() % 2);
 
-            orig->bAutomated = false;
+                orig->bAutomated = false;
+            }
         }
     }
 
@@ -843,7 +846,7 @@ HOOK_METHOD(ShipManager, Restart, () -> void)
 {
     super();
 
-    SM_EX(this)->Initialize();
+    SM_EX(this)->Initialize(true);
 }
 
 HOOK_METHOD(ScoreKeeper, GetShipUnlocked, (int shipId, int shipVariant) -> bool)
