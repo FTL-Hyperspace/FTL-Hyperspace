@@ -20,3 +20,9 @@ void CommandGui::OnInit(CommandGui *this<ecx>);
 void CommandGui::MouseMove(CommandGui *this<ecx>, int mX, int mY);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b470480b984420000008b37":
 void CommandGui::LButtonDown(CommandGui *this<ecx>, int mX, int mY, bool shiftHeld);
+"578d7c240883e4f0ff77fc5589e557565389cb83ec5c0fb6b18442000089f084c00f85????????8b81d83f000085c074??":
+void CommandGui::OnLoop(CommandGui *this<ecx>);
+"578d7c240883e4f0ff77fc5589e557565389cb8d45a883ec7c8b89081700008945a0c745a4000000008b7108c645a800":
+void CommandGui::CheckGameover(CommandGui *this<ecx>);
+"803d??????????75??5589e55389cb8b890817000083e4f085c974??8b41088b108b524481fa????????75??80b8990400000075??e8????????84c0":
+bool CommandGui::IsGameOver(CommandGui *this<ecx>);

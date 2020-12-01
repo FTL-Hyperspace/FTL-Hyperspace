@@ -24,3 +24,5 @@ char ProjectileFactory::FireNextShot(ProjectileFactory *this<ecx>);
 int ProjectileFactory::SpendMissiles(ProjectileFactory *this<ecx>);
 "578d7c240883e4f0ff77fc5589e557538d994801000083ec20807f0400f30f100774??8d9948010000c70424????????f30f1145f489d9":
 void ProjectileFactory::OnRender(ProjectileFactory *this<ecx>, float alpha, bool forceVisual);
+"8b411c83b8d8010000017e??8b812c06000085c0b8????????0f4f812c060000c38b8134010000":
+int ProjectileFactory::NumTargetsRequired(ProjectileFactory *this<ecx>);

@@ -47,6 +47,7 @@ public:
     EventSystem *GetEventSystem() { return __eventSystem; }
     AnimationControl *GetAnimationControl() { return __animations; }
     AchievementTracker *GetAchievementTracker() { return __achievementTracker; }
+    ScoreKeeper *GetScoreKeeper() { return __scoreKeeper; }
     int GetVersion() { return __version; }
 
     DWORD GetBaseAddress() { return __baseAddress; }
@@ -61,6 +62,7 @@ public:
     static bool* dlcEnabled;
     static int* difficulty;
     static bool forceDlc;
+    static FILE* logFile;
 
     static ShaderSourceCallback** fragment_shader_source_callback;
 
@@ -93,6 +95,7 @@ private:
     const DWORD __difficultyOffset =       0x004C8CB4;
     const DWORD __fragmentCallbackOffset = 0x004DC53C;
     const DWORD __achievementOffset =      0x004C5780;
+    const DWORD __scoreKeeperOffset =      0x004C5980;
 
     DWORD __baseAddress = 0;
 
@@ -111,8 +114,9 @@ private:
     static EventSystem *__eventSystem;
     static AnimationControl *__animations;
     static AchievementTracker *__achievementTracker;
+    static ScoreKeeper *__scoreKeeper;
 
-    const int __version = 54;
+    const int __version = 56;
 
 
 };

@@ -1,3 +1,6 @@
+"578d7c240883e4f0ff77fc5589e557565389cb81ec????????8b4f0c8b47048b5708f30f1007c703????????f30f114304c643080085c9":
+void DamageMessage::constructor(DamageMessage *this<ecx>, float length, Pointf pos, DamageMessage::MessageType type);
+
 struct DamageMessage 
 {{
 
@@ -7,4 +10,8 @@ struct DamageMessage
 	  RESIST = 0x1,
 	};
 
+	DamageMessage(float length, Pointf pos, MessageType type)
+	{
+		constructor(length, pos, type);
+	}
 }};

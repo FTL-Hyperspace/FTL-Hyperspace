@@ -1,18 +1,23 @@
 #include "FTLGame.h"
 
+struct RoomAnim
+{
+    Animation *anim;
+    int renderLayer;
+};
 
 struct Room_Extend
 {
     Room *orig;
 
-    Animation* roomAnim;
-    Animation* iconAnim;
+    std::vector<RoomAnim> roomAnims;
     bool sensorBlind = false;
+
+    float sysDamageResistChance = 0.f;
+    float ionDamageResistChance = 0.f;
 
     ~Room_Extend()
     {
-        delete roomAnim;
-        delete iconAnim;
     }
 
     //CrewMember *captain;

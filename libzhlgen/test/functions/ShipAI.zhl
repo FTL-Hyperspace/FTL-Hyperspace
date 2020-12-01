@@ -1,0 +1,4 @@
+"5589e556538b750889cbc741040000000083e4f083c108e8????????8d4b74e8????????89f0c683a900000000":
+void ShipAI::constructor(ShipAI *this<ecx>, bool unk);
+".8b44240484c074??80b9ec0000000075??c781f0000000000000008881ec000000":
+void ShipAI::SetStalemate(ShipAI *this<ecx>, bool stalemate);

@@ -264,6 +264,9 @@
 		<Unit filename="CustomWeapons.cpp">
 			<Option virtualFolder="Core/Weapons/" />
 		</Unit>
+		<Unit filename="Debugging.cpp">
+			<Option virtualFolder="Content/Misc/" />
+		</Unit>
 		<Unit filename="DiscordIntegration.cpp">
 			<Option virtualFolder="Content/Discord/" />
 		</Unit>

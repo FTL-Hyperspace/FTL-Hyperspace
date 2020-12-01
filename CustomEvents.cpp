@@ -99,9 +99,18 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
         {
             if (eventNode->first_attribute("name"))
             {
-                CustomEvent* customEvent = new CustomEvent();
-
                 std::string eventName = std::string(eventNode->first_attribute("name")->value());
+
+                CustomEvent *customEvent;
+                if (eventName == "default_victory")
+                {
+                    customEvent = defaultVictory;
+                }
+                else
+                {
+                    customEvent = new CustomEvent();
+                }
+
                 customEvent->eventName = eventName;
 
                 if (eventNode->first_attribute("recursive"))
@@ -238,14 +247,18 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
                     }
                     if (nodeName == "win")
                     {
-                        customEvent->win = true;
+                        customEvent->gameOver.enabled = true;
                         if (child->first_attribute("text"))
                         {
-                            customEvent->gameOverText = child->first_attribute("text")->value();
+                            customEvent->gameOver.text = child->first_attribute("text")->value();
                         }
                         if (child->first_attribute("creditsText"))
                         {
-                            customEvent->gameOverCreditsText = child->first_attribute("creditsText")->value();
+                            customEvent->gameOver.creditsText = child->first_attribute("creditsText")->value();
+                        }
+                        if (child->first_attribute("creditsBackground"))
+                        {
+                            customEvent->gameOver.creditsBackground = child->first_attribute("creditsBackground")->value();
                         }
                     }
                     if (nodeName == "playSound")
@@ -427,6 +440,8 @@ HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEve
         playerShip->shipManager->RemoveItem(removeHiddenAug);
     }
 
+    removeHiddenAug = "";
+
     return ret;
 }
 
@@ -434,7 +449,7 @@ HOOK_METHOD(ShipManager, RemoveItem, (const std::string& name) -> void)
 {
     bool removedItem = false;
 
-    if (HasAugmentation(name))
+    if (HasAugmentation(name) || boost::algorithm::starts_with(name, "HIDDEN "))
     {
         RemoveAugmentation(name);
         removedItem = true;
@@ -1051,28 +1066,29 @@ HOOK_METHOD(StarMap, StartSecretSector, () -> void)
     }
 }
 
-/*
+
 static std::string sectorChange = "";
 
 HOOK_METHOD(StarMap, SaveGame, (int file) -> void)
 {
-    FileHelper::writeInt(file, bSecretSector);
     FileHelper::writeString(file, currentSector->description.type);
-
     super(file);
-
 }
 
-HOOK_METHOD(StarMap, LoadGame, (int file) -> void)
+HOOK_METHOD(StarMap, LoadGame, (int file) -> Location*)
 {
-    if (FileHelper::readInteger(file))
-    {
-        sectorChange = FileHelper::readString(file);
-    }
-
-    super(file);
-
+    sectorChange = FileHelper::readString(file);
+    Location* ret = super(file);
     sectorChange = "";
+    return ret;
+}
+
+
+HOOK_METHOD(StarMap, NewGame, (bool unk) -> Location*)
+{
+    bSecretSector = false;
+
+    return super(unk);
 }
 
 HOOK_METHOD(StarMap, GenerateMap, (bool tutorial, bool seed) -> LocationEvent*)
@@ -1088,11 +1104,13 @@ HOOK_METHOD(StarMap, GenerateMap, (bool tutorial, bool seed) -> LocationEvent*)
 
     return super(tutorial, seed);
 }
-*/
+
 
 static std::string replaceGameOverText = "";
 static std::string replaceGameOverCreditsText = "";
 static bool shouldReplaceCreditsText = false;
+static bool shouldReplaceBackground = false;
+static std::string replaceCreditsBackground = "";
 
 HOOK_METHOD(GameOver, OpenText, (const std::string& text) -> void)
 {
@@ -1101,20 +1119,28 @@ HOOK_METHOD(GameOver, OpenText, (const std::string& text) -> void)
     return super(text);
 }
 
+HOOK_METHOD(CommandGui, OnLoop, () -> void)
+{
+    super();
+}
+
 HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEvent*)
 {
     LocationEvent *ret = super(event);
 
     CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(event->eventName);
 
-    if (customEvent && customEvent->win)
+    if (customEvent && customEvent->gameOver.enabled)
     {
         G_->GetSoundControl()->StopPlaylist(100);
         G_->GetSoundControl()->PlaySoundMix("victory", -1.f, false);
 
-        replaceGameOverText = customEvent->gameOverText;
-        replaceGameOverCreditsText = customEvent->gameOverCreditsText;
+        replaceGameOverText = customEvent->gameOver.text;
+        replaceGameOverCreditsText = customEvent->gameOver.creditsText;
+        replaceCreditsBackground = G_->GetEventGenerator()->GetImageFromList(customEvent->gameOver.creditsBackground);
 
+        G_->GetScoreKeeper()->SetVictory(true);
+        commandGui->gameover = true;
         commandGui->Victory();
 
         replaceGameOverText = "";
@@ -1140,9 +1166,53 @@ HOOK_STATIC(TextLibrary, GetText, (std::string& str, TextLibrary *lib, const std
     return super(str, lib, replaceGameOverCreditsText, lang);
 }
 
+HOOK_METHOD(ResourceControl, GetImageId, (const std::string& name) -> GL_Texture*)
+{
+    if (shouldReplaceBackground && !replaceCreditsBackground.empty() && name == "stars/bg_darknebula.png")
+    {
+        return super(replaceCreditsBackground);
+    }
+
+    return super(name);
+}
+
+HOOK_METHOD(CreditScreen, Start, (const std::string& shipName, const std::vector<std::string>& crewNames) -> void)
+{
+    auto defaultVictory = CustomEventsParser::GetInstance()->defaultVictory;
+    if (defaultVictory)
+    {
+        if (replaceCreditsBackground.empty() && !defaultVictory->gameOver.creditsBackground.empty())
+        {
+            replaceCreditsBackground = G_->GetEventGenerator()->GetImageFromList(defaultVictory->gameOver.creditsBackground);
+        }
+        if (replaceGameOverCreditsText.empty() && !defaultVictory->gameOver.creditsText.empty())
+        {
+            replaceGameOverCreditsText = defaultVictory->gameOver.creditsText;
+        }
+    }
+
+    return super(shipName, crewNames);
+}
+
+HOOK_METHOD(CreditScreen, Done, () -> bool)
+{
+    bool ret = super();
+
+    if (ret)
+    {
+        replaceCreditsBackground = "";
+        replaceGameOverCreditsText = "";
+    }
+
+    return ret;
+}
+
 HOOK_METHOD(CreditScreen, OnRender, () -> void)
 {
+    shouldReplaceBackground = true;
     shouldReplaceCreditsText = true;
     super();
     shouldReplaceCreditsText = false;
+    shouldReplaceBackground = false;
 }
+

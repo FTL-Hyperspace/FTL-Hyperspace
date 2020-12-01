@@ -15,7 +15,15 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
         {
             if (eventNode->value())
             {
-                bossShipIds.push_back(std::string(eventNode->value()));
+                BossShipDefinition def = BossShipDefinition();
+                def.shipId = eventNode->value();
+
+                if (eventNode->first_attribute("yOffset"))
+                {
+                    def.yOffset = boost::lexical_cast<int>(eventNode->first_attribute("yOffset")->value());
+                }
+
+                bossShipIds[def.shipId] = def;
             }
         }
 
@@ -27,13 +35,15 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
             }
         }
 
-        if (strcmp(eventNode->name(), "sector"))
+        if (strcmp(eventNode->name(), "sector") == 0)
         {
             std::string sectorName = eventNode->first_attribute("name")->value();
 
             if (!sectorName.empty())
             {
                 CustomSector *sec = new CustomSector();
+
+                sec->sectorName = sectorName;
 
                 for (auto sectorNode = eventNode->first_node(); sectorNode; sectorNode = sectorNode->next_sibling())
                 {
@@ -122,6 +132,16 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
                         customEvent->secretSectorWarp = child->value();
                     }
 
+                    if (nodeName == "loadEvent")
+                    {
+                        customEvent->eventLoad = child->value();
+
+                        if (child->first_attribute("seeded"))
+                        {
+                            customEvent->eventLoadSeeded = EventsParser::ParseBoolean(child->first_attribute("seeded")->value());
+                        }
+                    }
+
                     if (nodeName == "beaconType")
                     {
                         BeaconType* beaconType = new BeaconType();
@@ -136,6 +156,10 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
                         {
                             beaconType->beaconText.data = child->first_attribute("text")->value();
                             beaconType->beaconText.isLiteral = true;
+                        }
+                        if (child->first_attribute("req"))
+                        {
+                            beaconType->equipmentReq = child->first_attribute("req")->value();
                         }
 
                         if (child->first_attribute("global"))
@@ -175,6 +199,20 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
                                 }
                             }
 
+                            if (strcmp(child2->name(), "undiscoveredTooltip") == 0)
+                            {
+                                if (child2->first_attribute("id"))
+                                {
+                                    beaconType->undiscoveredTooltip.data = child2->first_attribute("id")->value();
+                                    beaconType->undiscoveredTooltip.isLiteral = false;
+                                }
+                                else
+                                {
+                                    beaconType->undiscoveredTooltip.data = child2->value();
+                                    beaconType->undiscoveredTooltip.isLiteral = true;
+                                }
+                            }
+
                             if (strcmp(child2->name(), "color") == 0)
                             {
                                 ParseColorNode(color, child2);
@@ -194,9 +232,37 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
                     {
                         customEvent->removeNebula = true;
                     }
+                    if (nodeName == "hiddenAug")
+                    {
+                        customEvent->hiddenAugs.push_back(child->value());
+                    }
+                    if (nodeName == "win")
+                    {
+                        customEvent->gameOver.enabled = true;
+                        if (child->first_attribute("text"))
+                        {
+                            customEvent->gameOver.text = child->first_attribute("text")->value();
+                        }
+                        if (child->first_attribute("creditsText"))
+                        {
+                            customEvent->gameOver.creditsText = child->first_attribute("creditsText")->value();
+                        }
+                        if (child->first_attribute("creditsBackground"))
+                        {
+                            customEvent->gameOver.creditsBackground = child->first_attribute("creditsBackground")->value();
+                        }
+                    }
+                    if (nodeName == "playSound")
+                    {
+                        customEvent->playSound = child->value();
+                    }
+                    if (nodeName == "changeBackground")
+                    {
+                        customEvent->changeBackground = child->value();
+                    }
                 }
 
-                customEvents.push_back(customEvent);
+                customEvents[eventName] = customEvent;
             }
         }
     }
@@ -226,12 +292,13 @@ CustomEvent *CustomEventsParser::GetCustomEvent(const std::string& event)
     std::string baseEvent = CustomEventsParser::GetBaseEventName(event);
     bool isParent = baseEvent == event;
 
-    auto it = std::find_if(customEvents.begin(), customEvents.end(), [&baseEvent](CustomEvent* x) { return baseEvent == x->eventName; });
+    auto it = customEvents.find(baseEvent);
 
     if (it != customEvents.end())
     {
-        CustomEvent* customEvent = *it;
-        if (!customEvent->recursive && !isParent) return NULL;
+        CustomEvent* customEvent = customEvents[baseEvent];
+
+        if (!customEvent->recursive && !isParent) return nullptr;
         else
         {
             return customEvent;
@@ -306,6 +373,8 @@ HOOK_METHOD(ShipObject, HasEquipment, (const std::string& equipment) -> int)
     return ret;
 }
 
+static std::string removeHiddenAug = "";
+
 HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
 {
     auto customEvents = CustomEventsParser::GetInstance();
@@ -313,6 +382,15 @@ HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
     if (customEvents->GetCustomEvent(event->eventName))
     {
         g_checkCargo = customEvents->GetCustomEvent(event->eventName)->checkCargo;
+    }
+
+    if (!event->stuff.removeItem.empty())
+    {
+        if (boost::algorithm::starts_with(event->stuff.removeItem, "HIDDEN "))
+        {
+            removeHiddenAug = event->stuff.removeItem;
+            event->stuff.removeItem = "";
+        }
     }
 
     super(event);
@@ -327,11 +405,32 @@ HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEve
     if (customEvents->GetCustomEvent(event->eventName))
     {
         g_checkCargo = customEvents->GetCustomEvent(event->eventName)->checkCargo;
+
+        for (auto i : customEvents->GetCustomEvent(event->eventName)->hiddenAugs)
+        {
+            auto augList = G_->GetShipInfo()->augList;
+
+            if (augList.find("HIDDEN " + i) != augList.end())
+            {
+                G_->GetShipInfo()->augList["HIDDEN " + i]++;
+            }
+            else
+            {
+                G_->GetShipInfo()->augList["HIDDEN " + i] = 1;
+            }
+        }
     }
+
 
     auto ret = super(event);
 
     g_checkCargo = false;
+
+    if (!removeHiddenAug.empty())
+    {
+
+        playerShip->shipManager->RemoveItem(removeHiddenAug);
+    }
 
     return ret;
 }
@@ -339,6 +438,12 @@ HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEve
 HOOK_METHOD(ShipManager, RemoveItem, (const std::string& name) -> void)
 {
     bool removedItem = false;
+
+    if (boost::algorithm::starts_with(name, "HIDDEN "))
+    {
+        RemoveAugmentation(name);
+        removedItem = true;
+    }
 
     if (HasAugmentation(name))
     {
@@ -415,7 +520,7 @@ HOOK_METHOD(CommandGui, AddEnemyShip, (CompleteShip *ship) -> void)
     super(ship);
     auto custom = CustomEventsParser::GetInstance();
 
-    if (custom->IsBossShip(ship->shipManager->myBlueprint.blueprintName))
+    if (custom->GetBossShipDefinition(ship->shipManager->myBlueprint.blueprintName))
     {
         shipPosition.x = 150;
         ftlButton.bBossFight = true;
@@ -429,19 +534,19 @@ HOOK_METHOD(CombatControl, AddEnemyShip, (CompleteShip *ship) -> void)
     super(ship);
     auto custom = CustomEventsParser::GetInstance();
 
-    if (custom->IsBossShip(ship->shipManager->myBlueprint.blueprintName))
+    if (custom->GetBossShipDefinition(ship->shipManager->myBlueprint.blueprintName))
     {
         boxPosition.x = 5;
         boxPosition.y = 7;
 
         targetPosition.x = boxPosition.x + 261 - ShipGraph::GetShipInfo(currentTarget->shipManager->iShipId)->shipBox.w / 2;
-        targetPosition.y = boxPosition.y + 50;
+        targetPosition.y = boxPosition.y + custom->GetBossShipDefinition(ship->shipManager->myBlueprint.blueprintName)->yOffset;
 
         boss_visual = true;
     }
 }
 
-GL_Texture* boxCustom[3];
+static GL_Texture* boxCustom[3];
 
 HOOK_METHOD(StarMap, constructor, () -> void)
 {
@@ -455,7 +560,7 @@ static std::map<Location*, bool[2]> locValues = std::map<Location*, bool[2]>();
 
 HOOK_METHOD(StarMap, AddQuest, (const std::string& questEvent, bool force) -> bool)
 {
-    locValues.empty();
+    locValues.clear();
 
     for (auto i : locations)
     {
@@ -484,7 +589,7 @@ HOOK_METHOD(StarMap, RenderLabels, () -> void)
     CSurface::GL_Translate(position.x, position.y, 0.f);
     CSurface::GL_Translate(translation.x, translation.y, 0.f);
 
-    locValues.empty();
+    locValues.clear();
 
     if (!outOfFuel)
     {
@@ -505,46 +610,50 @@ HOOK_METHOD(StarMap, RenderLabels, () -> void)
             if (customEvent && customEvent->hasCustomBeacon && (bMapRevealed || customEvent->beacon->global || i->known))
             {
                 BeaconType *beaconType = customEvent->beacon;
-                std::string text = std::string();
 
-                text = customEvent->beacon->beaconText.GetText();
-
-                Pointf printLines = freetype_hack::easy_measurePrintLines(51, 0, 0, 999, text);
-                float x = i->loc.x - 1.f;
-                float y = i->loc.y - 33.f;
-
-                float x2 = 0.f;
-                float y2 = 0.f;
-
-                GL_Color color = beaconType->color;
-                color.a = color.a * (i->flashTracker.GetAlphaLevel(false) * 0.5 + 0.5);
-
-                GL_Texture** box;
-
-                if (color.r == 255.f && color.g == 255.f && color.b == 255.f)
+                if (beaconType->equipmentReq.empty() || shipManager->HasEquipment(beaconType->equipmentReq))
                 {
-                    box = boxWhite;
+                    std::string text = std::string();
+
+                    text = customEvent->beacon->beaconText.GetText();
+
+                    Pointf printLines = freetype_hack::easy_measurePrintLines(51, 0, 0, 999, text);
+                    float x = i->loc.x - 1.f;
+                    float y = i->loc.y - 33.f;
+
+                    float x2 = 0.f;
+                    float y2 = 0.f;
+
+                    GL_Color color = beaconType->color;
+                    color.a = color.a * (i->flashTracker.GetAlphaLevel(false) * 0.5 + 0.5);
+
+                    GL_Texture** box;
+
+                    if (color.r == 255.f && color.g == 255.f && color.b == 255.f)
+                    {
+                        box = boxWhite;
+                    }
+                    else
+                    {
+                        box = boxCustom;
+                    }
+
+                    if (box[0])
+                    {
+                        x2 = box[0]->width_;
+                        y2 = box[0]->height_;
+                    }
+
+
+                    CSurface::GL_BlitPixelImage(box[0], x, y, x2, y2, 0.f, color, false);
+
+                    CSurface::GL_BlitPixelImage(box[1], x + box[0]->width_, y, printLines.x - 8, box[1]->height_, 0.f, color, false);
+
+                    CSurface::GL_BlitPixelImage(box[2], x + box[0]->width_ + printLines.x - 8, y, box[2]->width_, box[2]->height_, 0.f, color, false);
+
+                    CSurface::GL_SetColor(color);
+                    freetype::easy_print(51, i->loc.x + 14.f, i->loc.y - 25.f, text);
                 }
-                else
-                {
-                    box = boxCustom;
-                }
-
-                if (box[0])
-                {
-                    x2 = box[0]->width_;
-                    y2 = box[0]->height_;
-                }
-
-
-                CSurface::GL_BlitPixelImage(box[0], x, y, x2, y2, 0.f, color, false);
-
-                CSurface::GL_BlitPixelImage(box[1], x + box[0]->width_, y, printLines.x - 8, box[1]->height_, 0.f, color, false);
-
-                CSurface::GL_BlitPixelImage(box[2], x + box[0]->width_ + printLines.x - 8, y, box[2]->width_, box[2]->height_, 0.f, color, false);
-
-                CSurface::GL_SetColor(color);
-                freetype::easy_print(51, i->loc.x + 14.f, i->loc.y - 25.f, text);
             }
         }
     }
@@ -763,13 +872,18 @@ HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *loc) -> void)
 
 HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
 {
-
     super(loc);
-
 
     CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(loc->eventName);
     if (customEvent)
     {
+        if (!customEvent->eventLoad.empty())
+        {
+            int seed = customEvent->eventLoadSeeded ? (int)(starMap.currentLoc->loc.x + starMap.currentLoc->loc.y) ^ starMap.currentSectorSeed : -1;
+
+            super(G_->GetEventGenerator()->GetBaseEvent(customEvent->eventLoad, starMap.currentSector->level, true, seed));
+        }
+
         if (customEvent->removeHazards)
         {
             space.asteroidGenerator.bRunning = false;
@@ -791,20 +905,22 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
             space.nebulaClouds.clear();
         }
     }
+
+    starMap.currentLoc->event->eventName = loc->eventName;
 }
 
 HOOK_STATIC(StarMap, GetLocationText, (std::string& strRef, StarMap *starMap, const Location* loc) -> std::string&)
 {
     CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(loc->event->eventName);
 
-    if (!customEvent || loc->fleetChanging || loc == starMap->currentLoc || !customEvent->beacon || (!customEvent->beacon->global && !loc->known && !starMap->bMapRevealed))
+    if (!customEvent) return super(strRef, starMap, loc);
+
+    if (loc->fleetChanging || loc == starMap->currentLoc || !customEvent->beacon)
     {
         return super(strRef, starMap, loc);
     }
 
     TextString tooltip;
-
-
 
     if (loc->visited)
     {
@@ -814,6 +930,11 @@ HOOK_STATIC(StarMap, GetLocationText, (std::string& strRef, StarMap *starMap, co
     {
         tooltip = customEvent->beacon->unvisitedTooltip;
     }
+    if (!customEvent->beacon->global && !loc->known && !starMap->bMapRevealed)
+    {
+        tooltip = customEvent->beacon->undiscoveredTooltip;
+    }
+
     if (tooltip.data.empty())
     {
         return super(strRef, starMap, loc);
@@ -878,8 +999,6 @@ HOOK_METHOD(StarMap, GenerateNebulas, (const std::vector<std::string>& names) ->
 
     CustomSector* customSector = CustomEventsParser::GetInstance()->GetCustomSector(currentSector->description.type);
 
-    printf("%s\n", currentSector->description.type.c_str());
-
     if (customSector && customSector->removeFirstBeaconNebula)
     {
         if (currentLoc->nebula)
@@ -905,6 +1024,12 @@ HOOK_METHOD(StarMap, GenerateNebulas, (const std::vector<std::string>& names) ->
                     {
                         i->nebula = false;
                         i->event->environment = 0;
+                        i->event->statusEffects.erase(
+                            std::remove_if(
+                                i->event->statusEffects.begin(),
+                                i->event->statusEffects.end(),
+                                [](const StatusEffect& item) { return item.system == 7; }),
+                            i->event->statusEffects.end());
                     }
                 }
             }
@@ -936,3 +1061,129 @@ HOOK_METHOD(StarMap, StartSecretSector, () -> void)
         super();
     }
 }
+
+/*
+static std::string sectorChange = "";
+
+HOOK_METHOD(StarMap, SaveGame, (int file) -> void)
+{
+    FileHelper::writeInt(file, bSecretSector);
+    FileHelper::writeString(file, currentSector->description.type);
+
+    super(file);
+
+}
+
+HOOK_METHOD(StarMap, LoadGame, (int file) -> void)
+{
+    if (FileHelper::readInteger(file))
+    {
+        sectorChange = FileHelper::readString(file);
+    }
+
+    super(file);
+
+    sectorChange = "";
+}
+
+HOOK_METHOD(StarMap, GenerateMap, (bool tutorial, bool seed) -> LocationEvent*)
+{
+    if (!sectorChange.empty() && bSecretSector)
+    {
+        Sector *newSector = new Sector();
+
+        newSector->description = *G_->GetEventGenerator()->GetSpecificSector(sectorChange);
+
+        currentSector = newSector;
+    }
+
+    return super(tutorial, seed);
+}
+*/
+
+static std::string replaceGameOverText = "";
+static std::string replaceGameOverCreditsText = "";
+static bool shouldReplaceCreditsText = false;
+static bool shouldReplaceBackground = false;
+static std::string replaceCreditsBackground = "";
+
+HOOK_METHOD(GameOver, OpenText, (const std::string& text) -> void)
+{
+    if (!replaceGameOverText.empty()) return super(replaceGameOverText);
+
+    return super(text);
+}
+
+HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEvent*)
+{
+    LocationEvent *ret = super(event);
+
+    CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(event->eventName);
+
+    if (customEvent && customEvent->gameOver.enabled)
+    {
+        G_->GetSoundControl()->StopPlaylist(100);
+        G_->GetSoundControl()->PlaySoundMix("victory", -1.f, false);
+
+        replaceGameOverText = customEvent->gameOver.text;
+        replaceGameOverCreditsText = customEvent->gameOver.creditsText;
+        replaceCreditsBackground = customEvent->gameOver.creditsBackground;
+
+        commandGui->Victory();
+
+        replaceGameOverText = "";
+    }
+
+    if (customEvent && !customEvent->playSound.empty())
+    {
+        G_->GetSoundControl()->PlaySoundMix(customEvent->playSound, -1.f, false);
+    }
+
+    if (customEvent && !customEvent->changeBackground.empty())
+    {
+        space.currentBack = G_->GetResources()->GetImageId(G_->GetEventGenerator()->GetImageFromList(customEvent->changeBackground));
+    }
+
+    return ret;
+}
+
+HOOK_STATIC(TextLibrary, GetText, (std::string& str, TextLibrary *lib, const std::string& name, const std::string& lang) -> std::string&)
+{
+    if (!shouldReplaceCreditsText || replaceGameOverCreditsText.empty() || name != "credit_victory") return super(str, lib, name, lang);
+
+    return super(str, lib, replaceGameOverCreditsText, lang);
+}
+
+HOOK_METHOD(ResourceControl, GetImageId, (const std::string& name) -> GL_Texture*)
+{
+    if (shouldReplaceBackground && !replaceCreditsBackground.empty() && name == "stars/bg_darknebula.png")
+    {
+        return super("stars/" + replaceCreditsBackground + ".png");
+    }
+
+    return super(name);
+}
+
+HOOK_METHOD(CreditScreen, Done, () -> bool)
+{
+    bool ret = super();
+
+    if (ret)
+    {
+        printf("done\n");
+        replaceCreditsBackground = "";
+        replaceGameOverCreditsText = "";
+    }
+
+    return ret;
+}
+
+HOOK_METHOD(CreditScreen, OnRender, () -> void)
+{
+    shouldReplaceBackground = true;
+    shouldReplaceCreditsText = true;
+    super();
+    shouldReplaceCreditsText = false;
+    shouldReplaceBackground = false;
+}
+

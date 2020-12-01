@@ -120,15 +120,28 @@ void CustomShipSelect::ParseShipsNode(rapidxml::xml_node<char> *node)
 
                                     if (roomName == "roomAnim")
                                     {
-                                        roomDef->roomAnim = roomValue;
-                                    }
-                                    if (roomName == "iconAnim")
-                                    {
-                                        roomDef->iconAnim = roomValue;
+                                        auto def = RoomAnimDef();
+
+                                        def.animName = roomValue;
+
+                                        if (roomDefNode->first_attribute("renderLayer"))
+                                        {
+                                            def.renderLayer = boost::lexical_cast<int>(roomDefNode->first_attribute("renderLayer")->value());
+                                        }
+
+                                        roomDef->roomAnims.push_back(def);
                                     }
                                     if (roomName == "sensorBlind")
                                     {
                                         roomDef->sensorBlind = EventsParser::ParseBoolean(roomValue);
+                                    }
+                                    if (roomName == "sysDamageResistChance")
+                                    {
+                                        roomDef->sysDamageResistChance = boost::lexical_cast<float>(roomValue);
+                                    }
+                                    if (roomName == "ionDamageResistChance")
+                                    {
+                                        roomDef->ionDamageResistChance = boost::lexical_cast<float>(roomValue);
                                     }
                                 }
 
@@ -151,6 +164,14 @@ void CustomShipSelect::ParseShipsNode(rapidxml::xml_node<char> *node)
 
                             def.crewList.push_back(crewDef);
                         }
+                    }
+                    if (name == "noJump")
+                    {
+                        def.noJump = true;
+                    }
+                    if (name == "noFuelStalemate")
+                    {
+                        def.noFuelStalemate = true;
                     }
                 }
 
@@ -773,6 +794,8 @@ bool CustomShipSelect::CycleShipPrevious(ShipBuilder *builder)
 
 //==========================
 
+static bool importingShip = false;
+
 void ShipManager_Extend::Initialize(bool restarting)
 {
     auto customSel = CustomShipSelect::GetInstance();
@@ -782,9 +805,12 @@ void ShipManager_Extend::Initialize(bool restarting)
 
     if (hasCustomDef)
     {
-        for (auto i : customSel->GetDefinition(orig->myBlueprint.blueprintName).hiddenAugs)
+        if (!importingShip)
         {
-            G_->GetShipInfo()->augList["HIDDEN " + i.first] = i.second;
+            for (auto i : customSel->GetDefinition(orig->myBlueprint.blueprintName).hiddenAugs)
+            {
+                G_->GetShipInfo()->augList["HIDDEN " + i.first] = i.second;
+            }
         }
 
         for (auto i : customSel->GetDefinition(orig->myBlueprint.blueprintName).roomDefs)
@@ -793,25 +819,24 @@ void ShipManager_Extend::Initialize(bool restarting)
             {
                 auto rex = RM_EX(orig->ship.vRoomList[i.first]);
 
-                if (!i.second->roomAnim.empty())
+                for (auto def : i.second->roomAnims)
                 {
-                    Animation *roomAnim = G_->GetAnimationControl()->GetAnimation(i.second->roomAnim);
+                    Animation *anim = G_->GetAnimationControl()->GetAnimation(def.animName);
+                    RoomAnim roomAnim = RoomAnim();
 
-                    rex->roomAnim = roomAnim;
-                    roomAnim->Start(true);
-                    roomAnim->tracker.SetLoop(true, 0.f);
-                }
+                    roomAnim.anim = anim;
+                    roomAnim.renderLayer = def.renderLayer;
 
-                if (!i.second->iconAnim.empty())
-                {
-                    Animation *iconAnim = G_->GetAnimationControl()->GetAnimation(i.second->iconAnim);
+                    anim->Start(true);
+                    anim->tracker.SetLoop(true, 0.f);
 
-                    rex->iconAnim = iconAnim;
-                    iconAnim->Start(true);
-                    iconAnim->tracker.SetLoop(true, 0.f);
+                    rex->roomAnims.push_back(roomAnim);
+
                 }
 
                 rex->sensorBlind = i.second->sensorBlind;
+                rex->sysDamageResistChance = i.second->sysDamageResistChance;
+                rex->ionDamageResistChance = i.second->ionDamageResistChance;
             }
         }
 
@@ -832,6 +857,13 @@ void ShipManager_Extend::Initialize(bool restarting)
     }
 }
 
+
+HOOK_METHOD(ShipManager, ImportShip, (int fileHelper) -> void)
+{
+    importingShip = true;
+    super(fileHelper);
+    importingShip = false;
+}
 
 HOOK_METHOD_PRIORITY(ShipManager, OnInit, 100, (ShipBlueprint *bp, int shipLevel) -> int)
 {
@@ -1634,13 +1666,31 @@ HOOK_METHOD(ShipManager, OnLoop, () -> void)
     {
         auto ex = RM_EX(i);
 
-        if (ex->roomAnim)
+        for (auto anim : ex->roomAnims)
         {
-            ex->roomAnim->Update();
+            anim.anim->Update();
         }
-        if (ex->iconAnim)
+    }
+}
+
+HOOK_METHOD(ShipManager, OnRender, (bool showInterior, bool doorControlMode) -> void)
+{
+    super(showInterior, doorControlMode);
+
+    if (bShowRoom && !bDestroyed && !bJumping)
+    {
+        for (auto room : ship.vRoomList)
         {
-            ex->iconAnim->Update();
+            for (auto i : RM_EX(room)->roomAnims)
+            {
+                if (i.renderLayer == 3)
+                {
+                    CSurface::GL_PushMatrix();
+                    CSurface::GL_Translate(room->rect.x, room->rect.y);
+                    i.anim->OnRender(1.f, COLOR_WHITE, false);
+                    CSurface::GL_PopMatrix();
+                }
+            }
         }
     }
 }
@@ -1649,12 +1699,15 @@ HOOK_METHOD(Ship, OnRenderSparks, () -> void)
 {
     for (auto room : vRoomList)
     {
-        if (RM_EX(room)->iconAnim)
+        for (auto i : RM_EX(room)->roomAnims)
         {
-            CSurface::GL_PushMatrix();
-            CSurface::GL_Translate(room->rect.x, room->rect.y);
-            RM_EX(room)->iconAnim->OnRender(1.f, COLOR_WHITE, false);
-            CSurface::GL_PopMatrix();
+            if (i.renderLayer == 2)
+            {
+                CSurface::GL_PushMatrix();
+                CSurface::GL_Translate(room->rect.x, room->rect.y);
+                i.anim->OnRender(1.f, COLOR_WHITE, false);
+                CSurface::GL_PopMatrix();
+            }
         }
     }
 
@@ -1667,16 +1720,39 @@ HOOK_METHOD(Ship, OnRenderBreaches, () -> void)
     {
         if (room->bBlackedOut) continue;
 
-        if (RM_EX(room)->roomAnim)
+        for (auto i : RM_EX(room)->roomAnims)
         {
-            CSurface::GL_PushMatrix();
-            CSurface::GL_Translate(room->rect.x, room->rect.y);
-            RM_EX(room)->roomAnim->OnRender(1.f, COLOR_WHITE, false);
-            CSurface::GL_PopMatrix();
+            if (i.renderLayer == 1)
+            {
+                CSurface::GL_PushMatrix();
+                CSurface::GL_Translate(room->rect.x, room->rect.y);
+                i.anim->OnRender(1.f, COLOR_WHITE, false);
+                CSurface::GL_PopMatrix();
+            }
         }
     }
 
     super();
+}
+
+HOOK_METHOD(Ship, OnRenderFloor, () -> void)
+{
+    super();
+    for (auto room : vRoomList)
+    {
+        if (room->bBlackedOut) continue;
+
+        for (auto i : RM_EX(room)->roomAnims)
+        {
+            if (i.renderLayer == 0)
+            {
+                CSurface::GL_PushMatrix();
+                CSurface::GL_Translate(room->rect.x, room->rect.y);
+                i.anim->OnRender(1.f, COLOR_WHITE, false);
+                CSurface::GL_PopMatrix();
+            }
+        }
+    }
 }
 
 
@@ -1805,3 +1881,52 @@ HOOK_METHOD(Ship, OnInit, (ShipBlueprint& bp) -> void)
     wallsPrimitive = CSurface::GL_CreateMultiLinePrimitive(walls, GL_Color(0.f, 0.f, 0.f, 1.f), 2.f);
 }
 
+HOOK_METHOD(CommandGui, OnLoop, () -> void)
+{
+    super();
+    auto custom = CustomShipSelect::GetInstance();
+
+    if (shipComplete && shipComplete->shipManager->current_target && custom->HasCustomDef(shipComplete->shipManager->current_target->myBlueprint.blueprintName) && custom->GetDefinition(shipComplete->shipManager->current_target->myBlueprint.blueprintName).noJump)
+    {
+        ftlButton.bActive = false;
+    }
+}
+
+HOOK_METHOD(ShipManager, DamageSystem, (int roomId,  int iDamage, int iShieldPiercing, int fireChance, int breachChance, int stunChance, int iIonDamage, int iSystemDamage, int iPersDamage, char bHullBuster, int ownerId, int selfId, int bLockdown, int iStun) -> bool)
+{
+    Damage* dmg = (Damage*)&iDamage;
+
+    auto ex = RM_EX(ship.vRoomList[roomId]);
+
+    if (random32() % 100 < ex->sysDamageResistChance && (iSystemDamage > 0 || iSystemDamage != -iDamage))
+    {
+        iSystemDamage = -iDamage;
+        auto msg = new DamageMessage(1.f, ship.GetRoomCenter(roomId), DamageMessage::MessageType::RESIST);
+        msg->color.a = 1.f;
+        damMessages.push_back(msg);
+    }
+    if (random32() % 100 < ex->ionDamageResistChance && iIonDamage > 0)
+    {
+        iIonDamage = 0;
+        auto msg = new DamageMessage(1.f, ship.GetRoomCenter(roomId), DamageMessage::MessageType::RESIST);
+        msg->color.r = 40.f / 255.f;
+        msg->color.g = 210.f / 255.f;
+        msg->color.b = 230.f / 255.f;
+        msg->color.a = 1.f;
+        damMessages.push_back(msg);
+    }
+
+    super(roomId, iDamage, iShieldPiercing, fireChance, breachChance, stunChance, iIonDamage, iSystemDamage, iPersDamage, bHullBuster, ownerId, selfId, bLockdown, iStun);
+}
+
+HOOK_METHOD(ShipAI, SetStalemate, (bool stalemate) -> void)
+{
+
+    auto custom = CustomShipSelect::GetInstance();
+    if (custom->HasCustomDef(ship->myBlueprint.blueprintName) && custom->GetDefinition(ship->myBlueprint.blueprintName).noFuelStalemate)
+    {
+        return super(!(target->GetSystem(6)->GetPowerCap() && target->GetSystem(1)->GetPowerCap()) && ship->CountCrew(true) == 0);
+    }
+
+    return super(stalemate);
+}

@@ -396,6 +396,58 @@ HOOK_METHOD(Equipment, OnLoop, () -> void)
     }
 }
 
+static bool exportingShip = false;
+
+HOOK_METHOD(ShipManager, ExportShip, (int fileHelper) -> void)
+{
+    super(fileHelper);
+
+    std::vector<std::string> hiddenList = std::vector<std::string>();
+
+    auto augList = G_->GetShipInfo(iShipId)->augList;
+
+    for (auto i : augList)
+    {
+        if (boost::algorithm::starts_with(i.first, "HIDDEN "))
+        {
+            for (int j = 0; j < i.second; j++)
+            {
+                hiddenList.push_back(i.first);
+            }
+        }
+    }
+
+    FileHelper::writeInt(fileHelper, hiddenList.size());
+
+    for (auto i : hiddenList)
+    {
+        FileHelper::writeString(fileHelper, i);
+    }
+}
+
+HOOK_METHOD(ShipManager, ImportShip, (int fileHelper) -> void)
+{
+    super(fileHelper);
+
+    int hiddenCount = FileHelper::readInteger(fileHelper);
+    auto augList = G_->GetShipInfo(iShipId)->augList;
+
+    for (int i = 0; i < hiddenCount; i++)
+    {
+        auto aug = FileHelper::readString(fileHelper);
+
+        if (augList.find(aug) != augList.end())
+        {
+            augList[aug]++;
+        }
+        else
+        {
+            augList[aug] = 1;
+        }
+    }
+
+    G_->GetShipInfo(iShipId)->augList = augList;
+}
 
 HOOK_STATIC(ShipObject, GetAugmentationList, (std::vector<std::string>& vec, ShipObject *shipObj) -> std::vector<std::string>&)
 {
@@ -404,4 +456,37 @@ HOOK_STATIC(ShipObject, GetAugmentationList, (std::vector<std::string>& vec, Shi
     vec = CustomAugmentManager::RemoveHiddenAugments(vec);
 
     return vec;
+}
+
+HOOK_METHOD(ShipObject, GetAugmentationCount, () -> int)
+{
+    int count = 0;
+
+    for (auto i : G_->GetShipInfo(iShipId)->augList)
+    {
+        if (!boost::algorithm::starts_with(i.first, "HIDDEN "))
+        {
+            count += i.second;
+        }
+    }
+
+    return count;
+}
+
+HOOK_METHOD(ShipObject, RemoveAugmentation, (const std::string& name) -> void)
+{
+    super(name);
+
+    int augCount = 0;
+
+    for (auto i : G_->GetShipInfo(iShipId)->augList)
+    {
+
+        if (!boost::algorithm::starts_with(i.first, "HIDDEN "))
+        {
+            augCount += i.second;
+        }
+    }
+
+    G_->GetShipInfo(iShipId)->augCount = augCount;
 }

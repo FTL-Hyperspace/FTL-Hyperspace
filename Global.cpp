@@ -19,6 +19,7 @@ EventsParser *Global::__eventsParser = nullptr;
 EventSystem *Global::__eventSystem = nullptr;
 AnimationControl *Global::__animations = nullptr;
 AchievementTracker *Global::__achievementTracker = nullptr;
+ScoreKeeper *Global::__scoreKeeper = nullptr;
 
 bool *Global::showBeaconPath = nullptr;
 unsigned int Global::currentSeed = 0;
@@ -31,6 +32,7 @@ bool Global::forceDlc = false;
 bool Global::isCustomSeed = false;
 unsigned int Global::sectorMapSeed = -1;
 ShaderSourceCallback** Global::fragment_shader_source_callback = nullptr;
+FILE *Global::logFile = nullptr;
 
 
 HOOK_METHOD(CApp, OnInit, () -> int)
@@ -83,6 +85,7 @@ void Global::Initialize(CApp *cApp)
     __eventSystem = (EventSystem*)(__baseAddress + __eventSystem);
     __animations = (AnimationControl*)(__baseAddress + __animationsOffset);
     __achievementTracker = (AchievementTracker*)(__baseAddress + __achievementOffset);
+    __scoreKeeper = (ScoreKeeper*)(__baseAddress + __scoreKeeperOffset);
     seededRng = std::mt19937(std::chrono::system_clock::now().time_since_epoch().count());
     currentSeed = 0;
 
@@ -91,6 +94,7 @@ void Global::Initialize(CApp *cApp)
     dlcEnabled = (bool*)((__baseAddress + __dlcEnabledOffset));
     difficulty = (int*)((__baseAddress + __difficultyOffset));
     fragment_shader_source_callback = (ShaderSourceCallback**)((__baseAddress + __fragmentCallbackOffset));
+    logFile = fopen("FTL_HS.log", "w");
 
 
 

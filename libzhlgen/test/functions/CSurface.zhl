@@ -49,7 +49,7 @@ static cleanup int CSurface::GL_SetColor(float r, float g, float b, float a);
 ".a1????????3b05????????74??83e810a3????????":
 static cleanup void CSurface::GL_RemoveColorTint();
 ".8b15????????8b0d????????5539d189e58b450874??29ca83e2f08d5411f0":
-static cleanup GL_Color& CSurface::GetColorTint(GL_Color& ref);
+static cleanup GL_Color& CSurface::GetColorTint(GL_Color* ref);
 ".5589e583e4f083ec10c744240804000000":
 static cleanup bool CSurface::GL_EnableBlend();
 ".5589e583e4f083ec10c744240800000000":
@@ -128,5 +128,14 @@ struct CSurface
 	static int GL_CreateShader(ShaderType type, const char* source)
 	{
 		return shader_create_from_source(type, source, -1);
+	}
+	
+	static GL_Color GetColorTint()
+	{
+		GL_Color* color = new GL_Color();
+		
+		GetColorTint(color);
+		
+		return *color;
 	}
 }};

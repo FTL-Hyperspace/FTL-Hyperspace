@@ -1,6 +1,6 @@
 <FTL>
 
-<version>53</version>
+<version>54</version>
 
 <!-- Enables the game's built in infinite mode
 (found by ih8ih8sn0w)
@@ -128,9 +128,12 @@ DAMAGESYS      Damages a system                        Usage: DAMAGESYS <system_
 
 You can make a customShip with no name to set default values for all ships
 
-<roomAnim> and <iconAnim> let you choose animations for rooms (from animations.xml)
-<roomAnim> is displayed only when the room has vision, while <iconAnim> is displayed always
-
+<roomAnim> lets you choose animations for rooms (from animations.xml)
+roomAnim render layers:
+0 - draws below everything except floor, including no O2 stripes - can't see when room has no vision
+1 - draws below everything but above O2 stripes - can't see when room has no vision
+2 - draws below crew - can see when room has no vision
+3 - draws above crew - can see when room has no vision
 
 Syntax -> 
 
@@ -143,14 +146,21 @@ Syntax ->
 	<ship name="PLAYER_SHIP_CUSTOM" b="true" c="true"/>
 	<customShip name="PLAYER_SHIP_CUSTOM_2">
 		<rooms>
-			<roomAnim>customRoomAnimation</roomAnim>
-			<iconAnim>customRoomIcon</iconAnim>
+			<room id="1">
+				<roomAnim renderLayer="1">custom</roomAnim>
+				<sysDamageResistChance>50</sysDamageResistChance>
+				<ionDamageResistChance>10</ionDamageResistChance>
+			</room>
 		</rooms>
 		<crew>
 			<human room="1"/>
 		</crew>
 		<hiddenAug>ENERGY_SHIELD</hiddenAug>
 		<crewLimit>6</crewLimit>
+	</customShip>
+	
+	<customShip name="ENEMY_SHIP">
+		<noJump/>
 	</customShip>
 	...
 </ships>
@@ -332,6 +342,17 @@ Syntax ->
 				<effectFinishAnim>mindcontrol</effectFinishAnim>
 			</temporaryEffect>
 		</powerEffect>
+		
+		<droneAI>
+			<fightAI/>
+			<repairAI/>
+			<manAI/>
+			<batteryAI/>
+			<returnToDroneRoom/>
+		</droneAI>
+		
+		<droneMoveFromManningSlot>true</droneMoveFromManningSlot>
+
 	</race>
 	
 	
@@ -449,7 +470,11 @@ Syntax ->
 	</event>
 	
 	<event name="FREE_WIN">
-		<win text="Custom event victory!" creditsText="credit_victory"/>
+		<win text="Custom event victory!" creditsText="credit_victory" creditsBackground="imageList"/>
+	</event>
+	
+	<event name="default_victory"> -> This is the default <win> tag for winning the game by killing the flagship
+		<win text="Custom event victory!" creditsText="credit_victory" creditsBackground="imageList"/>
 	</event>
 	
 	<event name="FREE_HIDDEN_ENERGY_SHIELD" recursive="false">
@@ -459,6 +484,8 @@ Syntax ->
 	<event name="LOAD_OTHER_BIG_EVENT">
 		<loadEvent name="BIG_EVENT" seeded="true"/>
 	</event>
+	
+	
 </events>
 
 

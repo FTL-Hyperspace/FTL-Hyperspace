@@ -21,10 +21,9 @@ HOOK_METHOD(CApp, OnKeyDown, (SDLKey key) -> void)
     }
     if (key == SDLKey::SDLK_KP_PLUS)
     {
-        std::string species = CustomCrewManager::GetInstance()->GetBlueprintNames()[testVal % CustomCrewManager::GetInstance()->GetBlueprintNames().size()];
-
-        for (auto i : G_->GetWorld()->playerShip->shipManager->vCrewList)
+        for (auto i : G_->GetShipInfo()->augList)
         {
+            printf("%s %d\n", i.first.c_str(), i.second);
         }
 
         testVal++;

@@ -13,6 +13,14 @@ struct BeaconType
     std::string equipmentReq;
 };
 
+struct EventGameOver
+{
+    bool enabled = false;
+    std::string text = "";
+    std::string creditsText = "";
+    std::string creditsBackground = "";
+};
+
 struct CustomEvent
 {
     std::string eventName;
@@ -27,14 +35,13 @@ struct CustomEvent
     std::string secretSectorWarp = "";
     std::string eventLoad = "";
     bool eventLoadSeeded = true;
+    EventGameOver gameOver = EventGameOver();
 
-    bool win = false;
-    std::string gameOverText = "";
-    std::string gameOverCreditsText = "";
 
     std::vector<std::string> hiddenAugs = std::vector<std::string>();
     std::string playSound = "";
     std::string changeBackground = "";
+
 };
 
 struct SectorExit
@@ -105,6 +112,7 @@ public:
     }
 
     std::vector<std::string> eventFiles;
+    CustomEvent *defaultVictory = new CustomEvent();
 
 
 private:

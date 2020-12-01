@@ -17,8 +17,8 @@ static const std::string CREW_SKILLS[6] =
     "combat"
 };
 
-CustomCrewManager CustomCrewManager::instance = CustomCrewManager();
 
+CustomCrewManager CustomCrewManager::instance = CustomCrewManager();
 
 void CustomCrewManager::AddCrewDefinition(CrewDefinition crew)
 {
@@ -313,6 +313,10 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                         if (str == "cloneLoseSkills")
                         {
                             crew.cloneLoseSkills = EventsParser::ParseBoolean(val);
+                        }
+                        if (str == "allDamageTakenMultiplier")
+                        {
+                            crew.allDamageTakenMultiplier = boost::lexical_cast<float>(val);
                         }
                         if (str == "droneAI")
                         {
@@ -824,23 +828,23 @@ PowerReadyState CrewMember_Extend::PowerReady()
     {
         return POWER_NOT_READY_ACTIVATED;
     }
-    else if (powerCooldown.first < powerCooldown.second)
+    if (powerCooldown.first < powerCooldown.second)
     {
         return POWER_NOT_READY_COOLDOWN;
     }
-    else if (!orig->intruder && req.enemyShip)
+    if (!orig->intruder && req.enemyShip)
     {
         return POWER_NOT_READY_ENEMY_SHIP;
     }
-    else if (orig->intruder && req.playerShip)
+    if (orig->intruder && req.playerShip)
     {
         return POWER_NOT_READY_PLAYER_SHIP;
     }
-    else if (currentShip && !currentShip->GetSystemInRoom(orig->iRoomId) && req.systemInRoom)
+    if (currentShip && !currentShip->GetSystemInRoom(orig->iRoomId) && req.systemInRoom)
     {
         return POWER_NOT_READY_SYSTEM_IN_ROOM;
     }
-    else if ((req.enemyInRoom || req.friendlyInRoom) && currentShip)
+    if ((req.enemyInRoom || req.friendlyInRoom) && currentShip)
     {
         bool enemyInRoom = false;
         bool friendlyInRoom = false;
@@ -849,7 +853,7 @@ PowerReadyState CrewMember_Extend::PowerReady()
         {
             if (i->iRoomId == orig->iRoomId)
             {
-                enemyInRoom = enemyInRoom || (i->iShipId == orig->iShipId);
+                enemyInRoom = enemyInRoom || (i->iShipId != orig->iShipId);
                 friendlyInRoom = friendlyInRoom || (i->iShipId == orig->iShipId && i != orig);
             }
         }
@@ -863,27 +867,27 @@ PowerReadyState CrewMember_Extend::PowerReady()
             return POWER_NOT_READY_FRIENDLY_IN_ROOM;
         }
     }
-    else if ((!crewShip || !crewShip->HasSystem(13)) && req.hasClonebay)
+    if ((!crewShip || !crewShip->HasSystem(13)) && req.hasClonebay)
     {
         return POWER_NOT_READY_HAS_CLONEBAY;
     }
-    else if (req.aiDisabled && orig->iShipId == 1)
+    if (req.aiDisabled && orig->iShipId == 1)
     {
         return POWER_NOT_READY_AI_DISABLED;
     }
-    else if (req.outOfCombat && (crewShip && crewShip->current_target && crewShip->current_target->_targetable.hostile))
+    if (req.outOfCombat && (crewShip && crewShip->current_target && crewShip->current_target->_targetable.hostile))
     {
         return POWER_NOT_READY_OUT_OF_COMBAT;
     }
-    else if (req.inCombat && (crewShip && (!crewShip->current_target || !crewShip->current_target->_targetable.hostile)))
+    if (req.inCombat && (crewShip && (!crewShip->current_target || !crewShip->current_target->_targetable.hostile)))
     {
         return POWER_NOT_READY_IN_COMBAT;
     }
-    else if (req.minHealth.enabled && orig->health.first < req.minHealth.value)
+    if (req.minHealth.enabled && orig->health.first < req.minHealth.value)
     {
         return POWER_NOT_READY_MIN_HEALTH;
     }
-    else if (req.maxHealth.enabled && orig->health.first > req.maxHealth.value)
+    if (req.maxHealth.enabled && orig->health.first > req.maxHealth.value)
     {
         return POWER_NOT_READY_MAX_HEALTH;
     }
@@ -1020,6 +1024,8 @@ void CrewMember_Extend::ActivatePower()
         G_->GetSoundControl()->StopPlaylist(100);
         G_->GetSoundControl()->PlaySoundMix("victory", -1.f, false);
 
+        G_->GetScoreKeeper()->SetVictory(true);
+        G_->GetCApp()->gui->gameover = true;
         G_->GetCApp()->gui->Victory();
     }
 
@@ -1245,22 +1251,13 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
 
         auto skillsDef = def.skillsDef;
 
-        orig->blueprint.skillLevel[0].first = ((float)orig->blueprint.skillLevel[0].first / orig->blueprint.skillLevel[0].second) * (skillsDef.skills["piloting"].requirement * 2);
-        orig->blueprint.skillLevel[1].first = ((float)orig->blueprint.skillLevel[1].first / orig->blueprint.skillLevel[1].second) * (skillsDef.skills["engines"].requirement * 2);
-        orig->blueprint.skillLevel[2].first = ((float)orig->blueprint.skillLevel[2].first / orig->blueprint.skillLevel[2].second) * (skillsDef.skills["shields"].requirement * 2);
-        orig->blueprint.skillLevel[3].first = ((float)orig->blueprint.skillLevel[3].first / orig->blueprint.skillLevel[3].second) * (skillsDef.skills["weapons"].requirement * 2);
-        orig->blueprint.skillLevel[4].first = ((float)orig->blueprint.skillLevel[4].first / orig->blueprint.skillLevel[4].second) * (skillsDef.skills["repair"].requirement * 2);
-        orig->blueprint.skillLevel[5].first = ((float)orig->blueprint.skillLevel[5].first / orig->blueprint.skillLevel[5].second) * (skillsDef.skills["combat"].requirement * 2);
-
-        orig->blueprint.skillLevel[0].second = skillsDef.skills["piloting"].requirement * 2;
-        orig->blueprint.skillLevel[1].second = skillsDef.skills["engines"].requirement * 2;
-        orig->blueprint.skillLevel[2].second = skillsDef.skills["shields"].requirement * 2;
-        orig->blueprint.skillLevel[3].second = skillsDef.skills["weapons"].requirement * 2;
-        orig->blueprint.skillLevel[4].second = skillsDef.skills["repair"].requirement * 2;
-        orig->blueprint.skillLevel[5].second = skillsDef.skills["combat"].requirement * 2;
+        std::string skillOrder[6] = {"piloting", "engines", "shields", "weapons", "repair", "combat"};
 
         for (int i = 0; i < orig->blueprint.skillLevel.size(); i++)
         {
+            orig->blueprint.skillLevel[i].first = ((float)orig->blueprint.skillLevel[i].first / orig->blueprint.skillLevel[i].second) * (skillsDef.skills[skillOrder[i]].requirement * 2);
+            orig->blueprint.skillLevel[i].second = skillsDef.skills[skillOrder[i]].requirement * 2;
+
             if (orig->blueprint.skillLevel[i].first < (def.defaultSkillLevel / 2.f) * orig->blueprint.skillLevel[i].second)
             {
                 orig->blueprint.skillLevel[i].first = ((def.defaultSkillLevel / 2.f) * orig->blueprint.skillLevel[i].second);
@@ -1278,19 +1275,15 @@ HOOK_METHOD(CrewBlueprint, RandomSkills, (int worldLevel) -> void)
     if (custom->IsRace(name))
     {
         auto skillsDef = custom->GetDefinition(name).skillsDef;
-        skillLevel[0].first = ((float)skillLevel[0].first / skillLevel[0].second) * (skillsDef.skills["piloting"].requirement * 2);
-        skillLevel[1].first = ((float)skillLevel[1].first / skillLevel[1].second) * (skillsDef.skills["engines"].requirement * 2);
-        skillLevel[2].first = ((float)skillLevel[2].first / skillLevel[2].second) * (skillsDef.skills["shields"].requirement * 2);
-        skillLevel[3].first = ((float)skillLevel[3].first / skillLevel[3].second) * (skillsDef.skills["weapons"].requirement * 2);
-        skillLevel[4].first = ((float)skillLevel[4].first / skillLevel[4].second) * (skillsDef.skills["repair"].requirement * 2);
-        skillLevel[5].first = ((float)skillLevel[5].first / skillLevel[5].second) * (skillsDef.skills["combat"].requirement * 2);
 
-        skillLevel[0].second = skillsDef.skills["piloting"].requirement * 2;
-        skillLevel[1].second = skillsDef.skills["engines"].requirement * 2;
-        skillLevel[2].second = skillsDef.skills["shields"].requirement * 2;
-        skillLevel[3].second = skillsDef.skills["weapons"].requirement * 2;
-        skillLevel[4].second = skillsDef.skills["repair"].requirement * 2;
-        skillLevel[5].second = skillsDef.skills["combat"].requirement * 2;
+        std::string skillOrder[6] = {"piloting", "engines", "shields", "weapons", "repair", "combat"};
+
+        for (int i = 0; i < skillLevel.size(); i++)
+        {
+
+            skillLevel[i].first = ((float)skillLevel[i].first / skillLevel[i].second) * (skillsDef.skills[skillOrder[i]].requirement * 2);
+            skillLevel[i].second = skillsDef.skills[skillOrder[i]].requirement * 2;
+        }
     }
 }
 
@@ -2258,7 +2251,7 @@ HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
             auto def = custom->GetDefinition(i->species);
 
             auto ex = CM_EX(i);
-            if (ex->temporaryPowerActive)
+            if (ex->temporaryPowerActive && i->Functional())
             {
                 if (def.powerDef.tempPower.damageEnemiesAmount != 0.f)
                 {
@@ -2274,7 +2267,7 @@ HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
                 }
             }
 
-            if (def.healCrewAmount != 0.f || (ex->temporaryPowerActive && def.powerDef.tempPower.healCrewAmount.enabled))
+            if (i->Functional() && def.healCrewAmount != 0.f || (ex->temporaryPowerActive && def.powerDef.tempPower.healCrewAmount.enabled))
             {
                 float healCrew = G_->GetCFPS()->GetSpeedFactor() * def.healCrewAmount * 0.06245f;
 

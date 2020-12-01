@@ -4,3 +4,5 @@ void CreditScreen::OnRender(CreditScreen *this<ecx>);
 void CreditScreen::constructor(CreditScreen *this<ecx>);
 "578d7c240883e4f0ff77fc5589f889e557565389cf8d9d20ffffff81ec????????8b088b4004c744240400000000899d18ffffffc78500ffffff100000008985b8feffff8d8500ffffff":
 void CreditScreen::Start(CreditScreen *this<ecx>, const std::string& shipName, const std::vector<std::string>& crewNames);
+"55660fefc089e553bb????????83e4f083ec108b51402b513cc1fa0369d2????????89d0f7e3b8????????d1ea8d1492c1e20329d0f30f2ac00f2e01":
+bool CreditScreen::Done(CreditScreen *this<ecx>);

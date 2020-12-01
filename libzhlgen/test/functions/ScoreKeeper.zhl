@@ -8,3 +8,5 @@ void ScoreKeeper::OnInit(ScoreKeeper *this<ecx>);
 void ScoreKeeper::Save(ScoreKeeper *this<ecx>, bool saveScore);
 "578d7c240883e4f0ff77fc5589e557565383ec1c8b178b47048b5f088b7f0c83faff74??83f8ff":
 void ScoreKeeper::UnlockShip(ScoreKeeper *this<ecx>, int shipType, int shipVariant, bool save, bool hidePopup);
+"8b44240484c088818802000074??83814802000001c20400":
+void ScoreKeeper::SetVictory(ScoreKeeper *this<ecx>, bool victory);
