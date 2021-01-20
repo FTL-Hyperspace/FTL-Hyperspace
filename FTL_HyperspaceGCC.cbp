@@ -237,11 +237,17 @@
 		<Unit filename="CustomMap.cpp">
 			<Option virtualFolder="Core/Map/" />
 		</Unit>
-		<Unit filename="CustomSaves.cpp">
-			<Option virtualFolder="Core/Resources/" />
+		<Unit filename="CustomScoreKeeper.cpp">
+			<Option virtualFolder="Core/Ship/" />
 		</Unit>
-		<Unit filename="CustomSaves.h">
-			<Option virtualFolder="Core/Resources/" />
+		<Unit filename="CustomScoreKeeper.h">
+			<Option virtualFolder="Core/Ship/" />
+		</Unit>
+		<Unit filename="CustomShipSelect.cpp">
+			<Option virtualFolder="Core/Ship/" />
+		</Unit>
+		<Unit filename="CustomShipSelect.h">
+			<Option virtualFolder="Core/Ship/" />
 		</Unit>
 		<Unit filename="CustomShips.cpp">
 			<Option virtualFolder="Core/Ship/" />
@@ -262,6 +268,9 @@
 			<Option virtualFolder="Core/Systems/" />
 		</Unit>
 		<Unit filename="CustomWeapons.cpp">
+			<Option virtualFolder="Core/Weapons/" />
+		</Unit>
+		<Unit filename="CustomWeapons.h">
 			<Option virtualFolder="Core/Weapons/" />
 		</Unit>
 		<Unit filename="Debugging.cpp">
@@ -323,6 +332,9 @@
 		<Unit filename="Resources.h">
 			<Option virtualFolder="Core/Resources/" />
 		</Unit>
+		<Unit filename="ReturnHacks.cpp">
+			<Option virtualFolder="Core/" />
+		</Unit>
 		<Unit filename="Room_Extend.cpp">
 			<Option virtualFolder="Core/Ship/" />
 		</Unit>
@@ -330,6 +342,9 @@
 			<Option virtualFolder="Core/Ship/" />
 		</Unit>
 		<Unit filename="SaveFile.cpp">
+			<Option virtualFolder="Core/SaveFile/" />
+		</Unit>
+		<Unit filename="SaveFile.h">
 			<Option virtualFolder="Core/SaveFile/" />
 		</Unit>
 		<Unit filename="Seeds.cpp">
@@ -355,6 +370,18 @@
 		</Unit>
 		<Unit filename="ShipTypeC.cpp">
 			<Option virtualFolder="Content/Ship/" />
+		</Unit>
+		<Unit filename="ShipUnlocks.cpp">
+			<Option virtualFolder="Core/Ship/" />
+		</Unit>
+		<Unit filename="ShipUnlocks.h">
+			<Option virtualFolder="Core/Ship/" />
+		</Unit>
+		<Unit filename="ShipZoom.cpp">
+			<Option virtualFolder="Core/Ship/" />
+		</Unit>
+		<Unit filename="ShipZoom.h">
+			<Option virtualFolder="Core/Ship/" />
 		</Unit>
 		<Unit filename="SigScan.cpp">
 			<Option virtualFolder="ZHL/" />

@@ -1,5 +1,5 @@
 
-enum SystemId
+enum class SystemId
 {
     SHIELDS,
     ENGINES,

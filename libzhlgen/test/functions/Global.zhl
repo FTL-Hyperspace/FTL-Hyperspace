@@ -35,6 +35,7 @@ struct GlobalPre
 	typedef std::map<std::string, std::string> std_map_std_string_std_string;
 	typedef std::map<std::string, int> std_map_std_string_int;
 	typedef std::map<std::string, bool> std_map_std_string_bool;
+
 	
 }};
 
@@ -342,58 +343,11 @@ struct GlobalConst depends(RandomAmount, CAchievement, Point)
 //=================================================================================================================
 // This block will be copied to the end of the generated header file
 // Inlined utility functions can go here (feel free to replace the current ones with your own)
-/*
+
 struct GlobalPost
 {{
-	inline float Lerp(float c, float a, float b) {return (1.f-c)*a + c*b;}
-	inline float InverseLerp(float c, float a, float b) {return (c-a)/(b-a);}
-	inline float Clamp(float c, float a, float b) {return c<a ? a : (c>b ? b : c);}
-	inline float Remap(float x, float a1, float b1, float a2, float b2, bool clamp = false)
-	{
-		return Lerp(clamp ? Clamp(InverseLerp(x, a1, b1), 0.f, 1.f) : InverseLerp(x, a1, b1), a2, b2);
-	}
-	
-	inline float Round(float f)
-	{
-		return f >= 0.f ? floor(f+0.5f) : ceil(f-0.5f);
-	}
-	
-	inline float NormalizeAngle(float ang)
-	{
-		while(ang >= 180.f) ang -= 360.f;
-		while(ang < -180.f) ang += 360.f;
-		return ang;
-	}
-	
-	inline float LerpAngle(float c, float a, float b)
-	{
-		return NormalizeAngle(a + c * NormalizeAngle(b - a));
-	}
-	
-	inline float Approach(float c, float a, float b)
-	{
-		if(fabs(b-a) <= c)
-			return b;
-		else if(b > a)
-			return a + c;
-		else
-			return a - c;
-	}
-	
-	inline float ApproachAngle(float c, float a, float b)
-	{
-		float d = NormalizeAngle(b-a);
-		if(fabs(d) <= c)
-			return b;
-		else if(d > 0)
-			return NormalizeAngle(a+c);
-		else
-			return NormalizeAngle(a-c);
-	}
-	
-
 }};
-*/
+
 //=================================================================================================================
 // Example hook definitions
 

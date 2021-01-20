@@ -3,7 +3,7 @@
 
 #include "HullNumbers.h"
 #include "CommandConsole.h"
-#include "CustomShips.h"
+#include "CustomShipSelect.h"
 #include "CustomCrew.h"
 #include "CustomEvents.h"
 #include "CustomAugments.h"
@@ -15,6 +15,7 @@
 #include "DiscordIntegration.h"
 #include "CustomDrones.h"
 #include "Seeds.h"
+#include "SaveFile.h"
 
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string/replace.hpp>
@@ -29,15 +30,14 @@ GL_Color& ParseColorNode(GL_Color& colorRef, rapidxml::xml_node<char>* node)
     return colorRef;
 }
 
-HOOK_METHOD(ScoreKeeper, OnInit, () -> void)
+HOOK_METHOD(AchievementTracker, LoadAchievementDescriptions, () -> void)
 {
-    super();
-
     if (G_ && !G_->AreResourcesInitialized())
     {
         G_->InitializeResources(G_->GetResources());
     }
 
+    super();
 }
 
 
@@ -142,11 +142,11 @@ void Global::InitializeResources(ResourceControl *resources)
             }
             if (strcmp(node->name(), "boss") == 0)
             {
-                CustomBoss::instance.ParseBossNode(node);
+                CustomBoss::instance->ParseBossNode(node);
             }
             if (strcmp(node->name(), "store") == 0)
             {
-                CustomStore::instance.ParseStoreNode(node);
+                CustomStore::instance->ParseStoreNode(node);
             }
             if (strcmp(node->name(), "drones") == 0)
             {
@@ -187,6 +187,10 @@ void Global::InitializeResources(ResourceControl *resources)
 
                     DiscordHandler::GetInstance()->SetLargeImageText(details);
                 }
+            }
+            if (strcmp(node->name(), "saveFile") == 0)
+            {
+                SaveFileHandler::instance->ParseSaveFileNode(node);
             }
         }
 

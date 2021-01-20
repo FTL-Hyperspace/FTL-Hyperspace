@@ -1,5 +1,7 @@
-#include "Blueprint_Extend.h"
+#include "Global.h"
 
+/*
+NOT WORKING
 HOOK_METHOD_PRIORITY(WeaponBlueprint, constructor, 900, () -> void)
 {
 	super();
@@ -13,16 +15,6 @@ HOOK_METHOD_PRIORITY(WeaponBlueprint, constructor, 900, () -> void)
 	desc.shortTitle.gap_ex[1] = dEx & 0xFF;
 	ex->orig = this;
 	ex->weapon = new WeaponBlueprint_Data();
-}
-
-HOOK_METHOD(WeaponBlueprint, destructor, () -> void)
-{
-    if (BP_EX(this)->weapon)
-    {
-        delete BP_EX(this)->weapon;
-    }
-
-    super();
 }
 
 Blueprint_Extend* Get_Blueprint_Extend(const Blueprint* c)
@@ -51,3 +43,4 @@ HOOK_METHOD(Description, copy_assign_2, (const Description& other) -> Descriptio
 
     return ret;
 }
+*/

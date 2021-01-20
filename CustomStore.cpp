@@ -1,6 +1,6 @@
 #include "CustomStore.h"
 
-CustomStore CustomStore::instance = CustomStore();
+CustomStore* CustomStore::instance = new CustomStore();
 
 void CustomStore::ParseStoreNode(rapidxml::xml_node<char>* node)
 {
@@ -27,14 +27,17 @@ HOOK_METHOD(SystemStoreBox, constructor, (ShipManager *shopper, Equipment *equip
         return;
     }
 
-    if (CustomStore::instance.freeDrones.size() <= 0)
+    if (CustomStore::instance->freeDrones.size() <= 0)
         return;
 
-    int oldPrice = G_->GetBlueprints()->GetDroneBlueprint(freeBlueprint)->desc.cost / 2;
+    auto bp = G_->GetBlueprints()->GetDroneBlueprint(freeBlueprint);
 
-    DroneBlueprint *newBlueprint = G_->GetBlueprints()->GetDroneBlueprint(CustomStore::instance.freeDrones[random32() % CustomStore::instance.freeDrones.size()]);
+    int oldPrice = bp->desc.cost / 2;
+
+    DroneBlueprint *newBlueprint = G_->GetBlueprints()->GetDroneBlueprint(CustomStore::instance->freeDrones[random32() % CustomStore::instance->freeDrones.size()]);
     freeBlueprint = newBlueprint->name;
 
     desc.cost -= oldPrice;
     desc.cost += newBlueprint->desc.cost / 2;
+
 }

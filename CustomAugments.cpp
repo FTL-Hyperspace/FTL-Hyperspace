@@ -136,8 +136,6 @@ HOOK_METHOD_PRIORITY(ShipObject, HasAugmentation, 2000, (const std::string& name
 
     std::map<std::string, int> augList = CustomAugmentManager::CheckHiddenAugments(G_->GetShipInfo(iShipId)->augList);
 
-    AugmentBlueprint* augBlueprint = G_->GetBlueprints()->GetAugmentBlueprint(name);
-
     int augCount = 0;
 
     if (augList.count(name) > 0)
@@ -174,9 +172,6 @@ HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
 
 HOOK_METHOD_PRIORITY(ShipObject, HasEquipment, 2000, (const std::string& name) -> int)
 {
-    ItemBlueprint* bp = G_->GetBlueprints()->GetItemBlueprint(name);
-
-
     auto ship = G_->GetShipManager(iShipId);
     std::map<std::string, int> augList = CustomAugmentManager::CheckHiddenAugments(G_->GetShipInfo(iShipId)->augList);
 
@@ -247,7 +242,9 @@ HOOK_METHOD_PRIORITY(ShipObject, GetAugmentationValue, 1000, (const std::string&
         return 0.f;
     }
 
-    return augBlueprint->stacking ? augValue : highestValue;
+    auto ret = augBlueprint->stacking ? augValue : highestValue;
+
+    return ret;
 }
 
 
@@ -303,6 +300,7 @@ HOOK_METHOD(InfoBox, SetBlueprintAugment, (const AugmentBlueprint* bp) -> void)
     Pointf s = freetype_hack::easy_measurePrintLines(10, 0, 0, descBoxSize.x, warning + "\n" + desc.description.GetText());
     descBoxSize.y = s.y;
 
+    delete primaryBox;
     primaryBox = new WindowFrame(7, 7, 323, s.y + 58);
 
     bDetailed = false;

@@ -32,11 +32,9 @@ HOOK_METHOD(Store, OnInit, (ShipManager *shopper, Equipment *equip, int worldLev
 {
     if (!SeedInputBox::seedsEnabled) return super(shopper, equip, worldLevel);
 
-    StarMap starMap = G_->GetWorld()->starMap;
+    Location *storeLoc = G_->GetWorld()->starMap.currentLoc;
 
-    Location *storeLoc = starMap.currentLoc;
-
-    srand((int)(storeLoc->loc.x + storeLoc->loc.y) ^ starMap.currentSectorSeed);
+    srand((int)(storeLoc->loc.x + storeLoc->loc.y) ^ G_->GetWorld()->starMap.currentSectorSeed);
 
     super(shopper, equip, worldLevel);
 }

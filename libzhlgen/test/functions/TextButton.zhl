@@ -7,16 +7,24 @@ static void TextButton::__DO_NOT_HOOK();
 ".578d7c240883e4f0ff77fc5589e557565389cb8d49048d7324":
 void TextButton::constructor(TextButton *this<ecx>);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec3c8b4f0c8b078b57148b7704894dd08b4f108945c88b4708":
-void TextButton::OnInit(TextButton *this<ecx>, Point pos, Point size, int cornerInset, const TextString& buttonLabel, int font);
+void TextButton::OnInit(TextButton *this<ecx>, int x, int y, int w, int h, int cornerInset, TextString* buttonLabel, int font);
 "578d7c240883e4f0ff77fc5589e557565389cf81ec????????80b9b4000000000f85????????8b474885c0":
 void TextButton::OnRender(TextButton *this<ecx>);
 "5589e55389cb81c3????????83e4f083ec108b4148c701????????890424e8????????8b4380890424e8????????8b4384890424e8????????8b4394890424":
 void TextButton::destructor(TextButton *this<ecx>);
+"578d7c240883e4f0ff77fc5589e557565389cb83ec5c80b9b40000000075??8b83a80000008b93ac000000":
+int64_t TextButton::GetSizeX(TextButton *this<ecx>);
+"578d7c240883e4f0ff77fc5589e557565389cb83ec5c8b378b47088b57048b4e0c8945b88b470c8955b4894c24048b4e08":
+void TextButton::OnInitRect(TextButton *this<ecx>, Globals::Rect& rect, int cornerInset, TextString& buttonLabel, int font);
 
-sruct TextButton
+
+struct TextButton
 {{
-	~TextButton()
+public:
+	int GetSize()
 	{
-		this->destrucotr();
+		int64_t ret = GetSizeX();
+		int* ptr = (int*)&ret;
+		return *ptr;
 	}
 }};

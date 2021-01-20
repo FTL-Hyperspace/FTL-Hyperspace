@@ -1,6 +1,17 @@
 <FTL>
 
-<version>54</version>
+<version>6</version>
+
+<!-- Custom save file:
+
+With inheritMode, 0 forces inheriting the vanilla save file, 1 asks, and 2 forces a new file
+The prefix is the prefix of the save file name (e.g. ae_prof.sav would be ae)
+Ideally, the prefix should be unique for every mod with custom save files
+-->
+<saveFile>
+    <prefix>hs</prefix>
+    <inheritMode>0</inheritMode>
+</saveFile>
 
 <!-- Enables the game's built in infinite mode
 (found by ih8ih8sn0w)
@@ -126,24 +137,64 @@ DAMAGESYS      Damages a system                        Usage: DAMAGESYS <system_
 
 <!-- Infinite Ships
 
-You can make a customShip with no name to set default values for all ships
+You can make a customShip with no name (or name "default") to set default values for all ships
+Make sure this is above every <ship> and <customShip> tag, though
 
 <roomAnim> lets you choose animations for rooms (from animations.xml)
 roomAnim render layers:
 0 - draws below everything except floor, including no O2 stripes - can't see when room has no vision
 1 - draws below everything but above O2 stripes - can't see when room has no vision
 2 - draws below crew - can see when room has no vision
-3 - draws above crew - can see when room has no vision
+3 - draws above crew - can see when room has no vision, but not when you can't actually see the room outline
+4 - draws above everything
+
+<empty> in shipOrder means that the slot that the ship would take up is empty instead
+
+Unlocks:
+variant attribute is what variant you want the unlock method for (a, b or c)
+
+type is the unlock method (0 is beat flagship, 1 is reach sector, 2 is any victory, 3 is other ship unlocks, 4 is for event unlocks)
+shipReq is the ship that you have to do it with to unlock it
+value is only used for reach sector currently which defines which sector the player has to reach
+silent tag defines whether or not it will show up in the top right and plays the sound
+
+for the achievement icon that appears on the top right when you unlock the ship, you will need to add an icon in img/achievements 
+it will use whatever the layoutFile is with "_1" put on the end
+so for the engi ship, the layoutFile is mup_engi_b, so the icon would be img/achievements/mup_engi_b_1.png
+
+you can also put multiple unlock methods which will let the player do ANY of them to unlock the ship
+putting the secret attribute on the ship tag will make the ship show up as "Unidentified Cruiser" when hovering over it in the ship selection screen
 
 Syntax -> 
 
-<ships>
-	<customShip>
+<ships removeFirstShipPage="false">
+	<shipOrder>
+		<ship>PLAYER_SHIP_CUSTOM1</ship>
+		<ship>PLAYER_SHIP_CUSTOM7</ship>
+		<ship>PLAYER_SHIP_CUSTOM2</ship>
+		<ship>PLAYER_SHIP_CUSTOM3</ship>
+		<empty/>
+		<empty/>
+		<ship>PLAYER_SHIP_CUSTOM4</ship>
+		<ship>PLAYER_SHIP_CUSTOM9</ship>
+		<ship>PLAYER_SHIP_CUSTOM8</ship>
+		<empty/>
+	</shipOrder>
+	
+	<customShip> 
 		<hiddenAug>FIRE_EXTINGUISHERS</hiddenAug>
 		<crewLimit>12</crewLimit>
 	</customShip>
 	
-	<ship name="PLAYER_SHIP_CUSTOM" b="true" c="true"/>
+	<ship name="PLAYER_SHIP_CUSTOM" b="true" c="true">
+		<unlock variant="a">
+            <type>1</type>
+            <shipReq>PLAYER_SHIP_CUSTOM_2</shipReq>
+            <value>5</value>
+			<silent/>
+        </unlock>
+    </ship>
+	
 	<customShip name="PLAYER_SHIP_CUSTOM_2">
 		<rooms>
 			<room id="1">
@@ -153,14 +204,18 @@ Syntax ->
 			</room>
 		</rooms>
 		<crew>
-			<human room="1"/>
+			<human room="1" name="Joe"/>
 		</crew>
 		<hiddenAug>ENERGY_SHIELD</hiddenAug>
 		<crewLimit>6</crewLimit>
+		<startingScrap>0</startingScrap>
+		<startingFuel>0</startingFuel>
 	</customShip>
 	
 	<customShip name="ENEMY_SHIP">
 		<noJump/>
+		<hpCap>30</hpCap>
+		<noFuelStalemate/>
 	</customShip>
 	...
 </ships>
@@ -242,6 +297,9 @@ Syntax ->
 		<sabotageSpeedMultiplier>1.0</sabotageSpeedMultiplier>
 		<defaultSkillLevel>0</defaultSkillLevel>
 		<cloneLoseSkills>true</cloneLoseSkills>
+		<damageEnemiesAmount>0</damageEnemiesAmount>
+		<powerDrain>0</powerDrain>
+		<powerDrainFriendly>false</powerDrainFriendly>
 		<deathEffect>
 			<damage>0</damage>
 			<fireChance>0</fireChance>
@@ -340,6 +398,8 @@ Syntax ->
 				<animSheet baseVisible="true">human_effect</animSheet>
 				<animFrame>-1</animFrame>
 				<effectFinishAnim>mindcontrol</effectFinishAnim>
+				<damageEnemiesAmount>0</damageEnemiesAmount>
+				<powerDrain>0</powerDrain>
 			</temporaryEffect>
 		</powerEffect>
 		
@@ -485,7 +545,18 @@ Syntax ->
 		<loadEvent name="BIG_EVENT" seeded="true"/>
 	</event>
 	
+	<event name="REMOVE_ITEMS">
+		<removeItem>HIDDEN ENERGY_SHIELD</removeItem>
+		<removeItem>NANO_MEDBAY</removeItem>
+	</event>
 	
+	<event name="UNLOCK_CUSTOM_SHIP">
+		<unlockShip>PLAYER_SHIP_CUSTOM</unlockShip>
+	</event>
+	
+	<event name="SANDBOX_GIVE_SCRAP">
+		<disableScrapScore/>
+	</event>
 </events>
 
 

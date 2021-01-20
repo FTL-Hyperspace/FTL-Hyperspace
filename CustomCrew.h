@@ -1,3 +1,4 @@
+#pragma once
 #include "Global.h"
 #include <unordered_map>
 
@@ -127,11 +128,12 @@ struct TemporaryPowerDefinition
     ToggleValue<float> allDamageTakenMultiplier;
     ToggleValue<float> suffocationModifier;
     ToggleValue<float> healCrewAmount;
+    ToggleValue<int> powerDrain;
+    ToggleValue<float> damageEnemiesAmount;
 
     int bonusPower = 0;
     bool invulnerable;
     float healAmount = 0.f;
-    float damageEnemiesAmount = 0.f;
     int animFrame = -1;
 
     GL_Color cooldownColor;
@@ -238,6 +240,9 @@ struct CrewDefinition
     float healCrewAmount = 0.f;
     DroneAI droneAI;
     bool droneMoveFromManningSlot;
+    int powerDrain = 0;
+    bool powerDrainFriendly = false;
+    float damageEnemiesAmount = 0.f;
 
     Damage explosionDef;
     bool explosionShipFriendlyFire = false;

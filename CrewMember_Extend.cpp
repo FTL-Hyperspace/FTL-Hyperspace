@@ -1,4 +1,4 @@
-#include "CrewMember_Extend.h"
+#include "Global.h"
 #include "CustomCrew.h"
 
 HOOK_METHOD_PRIORITY(CrewMember, constructor, 900, (CrewBlueprint& blueprint, int shipId, bool intruder, CrewAnimation *animation) -> void)

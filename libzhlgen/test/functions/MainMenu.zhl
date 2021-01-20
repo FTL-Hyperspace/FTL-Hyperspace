@@ -4,3 +4,9 @@ void MainMenu::OnRender(MainMenu *this<ecx>);
 void MainMenu::Open(MainMenu *this<ecx>);
 "578d7c240883e4f0ff77fc5589e557565389cf81ec????????80b910340000000f85????????a1????????89f9":
 void MainMenu::OnLoop(MainMenu *this<ecx>);
+"578d412c8d7c240883e4f0ff77fc5589e557565389cb8dbb040100008db37001000083ec4cc60100":
+void MainMenu::constructor(MainMenu *this<ecx>);
+"578d7c240883e4f0ff77fc5589e557565383ec4c80b910340000008b078b57040f85????????80b9d03100000089cb":
+void MainMenu::MouseClick(MainMenu *this<ecx>, int x, int y);
+"578d7c240883e4f0ff77fc5589e557565383ec5c80b910340000008b078b77048945b40f85????????80b95c2f00000089cf0f85????????80b9d031000000":
+void MainMenu::MouseMove(MainMenu *this<ecx>, int x, int y);

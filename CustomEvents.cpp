@@ -1,6 +1,7 @@
 #include "CustomEvents.h"
 #include "freetype.h"
 #include "Resources.h"
+#include "ShipUnlocks.h"
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
 
@@ -108,7 +109,14 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
                 }
                 else
                 {
-                    customEvent = new CustomEvent();
+                    if (GetCustomEvent(eventName) == nullptr)
+                    {
+                        customEvent = new CustomEvent();
+                    }
+                    else
+                    {
+                        customEvent = GetCustomEvent(eventName);
+                    }
                 }
 
                 customEvent->eventName = eventName;
@@ -269,6 +277,28 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
                     {
                         customEvent->changeBackground = child->value();
                     }
+                    if (nodeName == "unlockShip")
+                    {
+                        customEvent->unlockShip = child->value();
+
+                        if (child->first_attribute("silent"))
+                        {
+                            customEvent->unlockShipSilent = EventsParser::ParseBoolean(child->first_attribute("silent")->value());
+                        }
+
+                        if (child->first_attribute("shipReq"))
+                        {
+                            customEvent->unlockShipReq = child->first_attribute("shipReq")->value();
+                        }
+                    }
+                    if (nodeName == "disableScrapScore")
+                    {
+                        customEvent->disableScrapScore = true;
+                    }
+                    if (nodeName == "removeItem")
+                    {
+                        customEvent->removeItems.push_back(child->value());
+                    }
                 }
 
                 customEvents[eventName] = customEvent;
@@ -402,16 +432,20 @@ HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
         }
     }
 
+
+
     super(event);
 
     g_checkCargo = false;
 }
 
+// hidden augs, checkCargo
 HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEvent*)
 {
     auto customEvents = CustomEventsParser::GetInstance();
+    auto customEvent = customEvents->GetCustomEvent(event->eventName);
 
-    if (customEvents->GetCustomEvent(event->eventName))
+    if (customEvent)
     {
         g_checkCargo = customEvents->GetCustomEvent(event->eventName)->checkCargo;
 
@@ -438,6 +472,15 @@ HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEve
     if (!removeHiddenAug.empty())
     {
         playerShip->shipManager->RemoveItem(removeHiddenAug);
+    }
+
+
+    if (customEvent)
+    {
+        for (auto i : customEvent->removeItems)
+        {
+            playerShip->shipManager->RemoveItem(i);
+        }
     }
 
     removeHiddenAug = "";
@@ -857,6 +900,14 @@ HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *loc) -> void)
     CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(loc->eventName);
     if (customEvent)
     {
+        if (!customEvent->unlockShip.empty())
+        {
+            if (customEvent->unlockShipReq.empty() || G_->GetAchievementTracker()->currentShip == customEvent->unlockShipReq)
+            {
+                CustomShipUnlocks::instance->UnlockShip(customEvent->unlockShip, customEvent->unlockShipSilent);
+            }
+        }
+
         if (customEvent->noQuestText)
         {
             std::string str;
@@ -1124,37 +1175,62 @@ HOOK_METHOD(CommandGui, OnLoop, () -> void)
     super();
 }
 
+static bool blockScrapCollected = false;
+
+HOOK_METHOD(ScoreKeeper, AddScrapCollected, (int scrap) -> void)
+{
+    if (blockScrapCollected) return;
+
+    super(scrap);
+}
+
 HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEvent*)
 {
-    LocationEvent *ret = super(event);
-
     CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(event->eventName);
 
-    if (customEvent && customEvent->gameOver.enabled)
+    if (customEvent)
     {
-        G_->GetSoundControl()->StopPlaylist(100);
-        G_->GetSoundControl()->PlaySoundMix("victory", -1.f, false);
-
-        replaceGameOverText = customEvent->gameOver.text;
-        replaceGameOverCreditsText = customEvent->gameOver.creditsText;
-        replaceCreditsBackground = G_->GetEventGenerator()->GetImageFromList(customEvent->gameOver.creditsBackground);
-
-        G_->GetScoreKeeper()->SetVictory(true);
-        commandGui->gameover = true;
-        commandGui->Victory();
-
-        replaceGameOverText = "";
+        if (customEvent->disableScrapScore)
+        {
+            blockScrapCollected = true;
+        }
     }
 
-    if (customEvent && !customEvent->playSound.empty())
+    LocationEvent *ret = super(event);
+
+    blockScrapCollected = false;
+
+    if (customEvent)
     {
-        G_->GetSoundControl()->PlaySoundMix(customEvent->playSound, -1.f, false);
+        if (customEvent->gameOver.enabled)
+        {
+            G_->GetSoundControl()->StopPlaylist(100);
+            G_->GetSoundControl()->PlaySoundMix("victory", -1.f, false);
+
+            replaceGameOverText = customEvent->gameOver.text;
+            replaceGameOverCreditsText = customEvent->gameOver.creditsText;
+            replaceCreditsBackground = G_->GetEventGenerator()->GetImageFromList(customEvent->gameOver.creditsBackground);
+
+            G_->GetScoreKeeper()->SetVictory(true);
+            commandGui->gameover = true;
+            commandGui->Victory();
+
+            replaceGameOverText = "";
+        }
+
+        if (!customEvent->playSound.empty())
+        {
+            G_->GetSoundControl()->PlaySoundMix(customEvent->playSound, -1.f, false);
+        }
+
+        if (!customEvent->changeBackground.empty())
+        {
+            space.currentBack = G_->GetResources()->GetImageId(G_->GetEventGenerator()->GetImageFromList(customEvent->changeBackground));
+        }
     }
 
-    if (customEvent && !customEvent->changeBackground.empty())
-    {
-        space.currentBack = G_->GetResources()->GetImageId(G_->GetEventGenerator()->GetImageFromList(customEvent->changeBackground));
-    }
+
+
 
     return ret;
 }
@@ -1215,4 +1291,3 @@ HOOK_METHOD(CreditScreen, OnRender, () -> void)
     shouldReplaceCreditsText = false;
     shouldReplaceBackground = false;
 }
-

@@ -138,6 +138,16 @@ HOOK_METHOD(CrewDrone, constructor, (const std::string& droneType, const std::st
     if (customDrone)
     {
         super(customDrone->crewBlueprint, customDrone->tooltipName.empty() ? name : customDrone->tooltipName, shipId, blueprint, nullptr);
+
+        if (!customDrone->tooltipName.empty())
+        {
+            TextString textName = TextString();
+
+            textName.data = customDrone->tooltipName;
+            textName.isLiteral = true;
+
+            SetName(textName, true);
+        }
     }
     else
     {

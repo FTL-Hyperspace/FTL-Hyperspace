@@ -1,7 +1,7 @@
 #include "CustomBoss.h"
 #include <boost/lexical_cast.hpp>
 
-CustomBoss CustomBoss::instance = CustomBoss();
+CustomBoss* CustomBoss::instance = new CustomBoss();
 
 
 void CustomBoss::ParseBossNode(rapidxml::xml_node<char> *node)
@@ -77,15 +77,15 @@ HOOK_METHOD(BossShip, StartStage, () -> void)
 
     if (currentStage == 1)
     {
-        for (int i = 0; i < CustomBoss::instance.initialCrewList.size(); i++)
+        for (int i = 0; i < CustomBoss::instance->initialCrewList.size(); i++)
         {
-            shipManager->AddCrewMemberFromString("", CustomBoss::instance.initialCrewList[i].first, false, CustomBoss::instance.initialCrewList[i].second, false, random32() % 2);
+            shipManager->AddCrewMemberFromString("", CustomBoss::instance->initialCrewList[i].first, false, CustomBoss::instance->initialCrewList[i].second, false, random32() % 2);
         }
     }
     else
     {
         int roomCount = ShipGraph::GetShipInfo(iShipId)->RoomCount();
-        for (auto i : CustomBoss::instance.currentCrewCounts)
+        for (auto i : CustomBoss::instance->currentCrewCounts)
         {
             if (i.second < roomCount)
             {
@@ -102,14 +102,14 @@ HOOK_METHOD(BossShip, OnLoop, () -> void)
 
     if (!shipManager->bJumping && !shipManager->bDestroyed)
     {
-        CustomBoss::instance.currentCrewCounts.clear();
+        CustomBoss::instance->currentCrewCounts.clear();
 
         for (auto i : shipManager->vCrewList)
         {
             if (!i->bDead && !i->IsDrone() && iShipId == i->iShipId)
             {
                 auto crewDef = std::pair<std::string, int>(i->species, i->iRoomId);
-                CustomBoss::instance.currentCrewCounts.push_back(crewDef);
+                CustomBoss::instance->currentCrewCounts.push_back(crewDef);
             }
         }
     }
@@ -126,8 +126,8 @@ HOOK_METHOD(ShipManager, AddCrewMemberFromString, (const std::string& name, cons
 
 HOOK_METHOD(BossShip, SaveBoss, (int fh) -> void)
 {
-    FileHelper::writeInt(fh, CustomBoss::instance.currentCrewCounts.size());
-    for (auto i : CustomBoss::instance.currentCrewCounts)
+    FileHelper::writeInt(fh, CustomBoss::instance->currentCrewCounts.size());
+    for (auto i : CustomBoss::instance->currentCrewCounts)
     {
         FileHelper::writeString(fh, i.first);
         FileHelper::writeInt(fh, i.second);
@@ -154,11 +154,11 @@ HOOK_METHOD(BossShip, LoadBoss, (int fh) -> void)
 
 HOOK_METHOD(ShipManager, PrepareSuperDrones, () -> void)
 {
-    if (!CustomBoss::instance.customSurgeDrones) return;
+    if (!CustomBoss::instance->customSurgeDrones) return;
 
     if (superDrones.size() == 0)
     {
-        std::vector<DroneCount> droneCount = CustomBoss::instance.droneSurgeDef[*G_->difficulty];
+        std::vector<DroneCount> droneCount = CustomBoss::instance->droneSurgeDef[*G_->difficulty];
 
         for (auto i : droneCount)
         {

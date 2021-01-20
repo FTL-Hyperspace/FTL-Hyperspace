@@ -33,7 +33,21 @@ bool Global::isCustomSeed = false;
 unsigned int Global::sectorMapSeed = -1;
 ShaderSourceCallback** Global::fragment_shader_source_callback = nullptr;
 FILE *Global::logFile = nullptr;
+bool *Global::firstTimeShips = nullptr;
 
+void hs_log_file(const char *str...)
+{
+    va_list va;
+    va_start(va, str);
+
+    FILE* log = G_->logFile;
+    if (log != nullptr)
+    {
+        vfprintf(log, str, va);
+        fflush(G_->logFile);
+    }
+    va_end(va);
+}
 
 HOOK_METHOD(CApp, OnInit, () -> int)
 {
@@ -93,6 +107,8 @@ void Global::Initialize(CApp *cApp)
     showBeaconPath = (bool*)((__baseAddress + __beaconPathOffset));
     dlcEnabled = (bool*)((__baseAddress + __dlcEnabledOffset));
     difficulty = (int*)((__baseAddress + __difficultyOffset));
+    firstTimeShips = (bool*)((__baseAddress + __firstTimeShipsOffset));
+    *firstTimeShips = false;
     fragment_shader_source_callback = (ShaderSourceCallback**)((__baseAddress + __fragmentCallbackOffset));
     logFile = fopen("FTL_HS.log", "w");
 

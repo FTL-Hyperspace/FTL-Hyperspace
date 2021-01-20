@@ -1,4 +1,4 @@
-#ifndef G_
+#pragma once
 #define WIN32_LEAN_AND_MEAN
 
 #include <Windows.h>
@@ -13,11 +13,13 @@
 
 #include "CrewMember_Extend.h"
 #include "ShipManager_Extend.h"
+#include "System_Extend.h"
 #include "Blueprint_Extend.h"
 #include "Room_Extend.h"
 #include <random>
 
 //#include "LuaState.h"
+
 
 class Global
 {
@@ -63,6 +65,7 @@ public:
     static int* difficulty;
     static bool forceDlc;
     static FILE* logFile;
+    static bool* firstTimeShips;
 
     static ShaderSourceCallback** fragment_shader_source_callback;
 
@@ -96,6 +99,7 @@ private:
     const DWORD __fragmentCallbackOffset = 0x004DC53C;
     const DWORD __achievementOffset =      0x004C5780;
     const DWORD __scoreKeeperOffset =      0x004C5980;
+    const DWORD __firstTimeShipsOffset =   0x004C8D30;
 
     DWORD __baseAddress = 0;
 
@@ -116,11 +120,11 @@ private:
     static AchievementTracker *__achievementTracker;
     static ScoreKeeper *__scoreKeeper;
 
-    const int __version = 56;
+    const int __version = 61;
 
 
 };
 
+void hs_log_file(const char *str...);
 
 #define G_ (Global::GetInstance())
-#endif

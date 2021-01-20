@@ -40,6 +40,7 @@ struct CrewBlueprint;
 struct WorldManager;
 struct OxygenSystem;
 struct HackingSystem;
+struct CloakingSystem;
 struct MindSystem;
 struct WeaponSystem;
 struct DroneSystem;
@@ -446,7 +447,7 @@ struct Ship
   std__vector_6RoomZ1 vRoomList;
   std__vector_6DoorZ1 vDoorList;
   std__vector_11OuterHullZ1 vOuterWalls;
-  std__vector_11OuterHullZ1 vOuterAirlocks;
+  std__vector_6DoorZ1 vOuterAirlocks;
   std__pair_9int___int hullIntegrity;
   std__vector_11WeaponMount weaponMounts;
   std__string floorImageName;
@@ -2744,9 +2745,6 @@ struct std__vector_12ShipSystemZ1
   ShipSystem **_end;
 };
 
-/* 287 */
-struct CloakingSystem;
-
 /* 286 */
 struct BatterySystem;
 
@@ -3929,6 +3927,17 @@ struct TeleportSystem
   bool bSuperShields;
 };
 
+/* 287 */
+struct CloakingSystem
+{
+  ShipSystem _base;
+  bool bTurnedOn;
+  TimerHelper timer;
+  std__string soundeffect;
+  AnimationTracker glowTracker;
+  GL_Primitive *glowImage;
+};
+
 /* 288 */
 struct MindSystem
 {
@@ -4455,8 +4464,27 @@ struct DefenseDrone
   int currentTargetType;
 };
 
+/* 758 */
+struct std__vector_28std__vector_14CAchievementZ1
+{
+  std__vector_14CAchievementZ1 *_start;
+  std__vector_14CAchievementZ1 *_finish;
+  std__vector_14CAchievementZ1 *_end;
+};
+
 /* 165 */
-struct AchievementTracker;
+struct AchievementTracker
+{
+  std__vector_14CAchievementZ1 recentlyUnlocked;
+  std__vector_28std__vector_14CAchievementZ1 shipUnlocks;
+  std__vector_14CAchievementZ1 achievements;
+  std__map_17std__string___int gameFlags;
+  AnimationTracker achievementPopup;
+  GL_Primitive *popupBox;
+  GL_Primitive *achievementBox[2];
+  GL_Primitive *achievementOverlay[2];
+  std__string currentShip;
+};
 
 /* 166 */
 struct IonDrone
@@ -4588,8 +4616,25 @@ struct std__pair_22CAchievementZ1___Point
   Point _second;
 };
 
+/* 302 */
+struct LaserBlast
+{
+  Projectile _base;
+  Targetable *movingTarget;
+  float spinAngle;
+  float spinSpeed;
+};
+
 /* 170 */
-struct PDSFire;
+struct PDSFire
+{
+  LaserBlast _base;
+  Pointf startPoint;
+  bool passedTarget;
+  float currentScale;
+  bool missed;
+  Animation explosionAnimation;
+};
 
 /* 175 */
 struct ShipGraph
@@ -5001,15 +5046,6 @@ struct PowerManager;
 /* 299 */
 struct BeamWeapon;
 
-/* 302 */
-struct LaserBlast
-{
-  Projectile _base;
-  Targetable *movingTarget;
-  float spinAngle;
-  float spinSpeed;
-};
-
 /* 304 */
 struct Spreadable;
 
@@ -5107,8 +5143,49 @@ struct SlugAlien;
 /* 384 */
 struct RepairStoreBox;
 
+/* 766 */
+struct std__array_28std__vector_10HotkeyDesc___4
+{
+  int unk1;
+  char unk[44];
+};
+
 /* 389 */
-struct SettingValues;
+struct SettingValues
+{
+  int fullscreen;
+  int currentFullscreen;
+  int lastFullscreen;
+  int sound;
+  int music;
+  int difficulty;
+  bool commandConsole;
+  bool altPause;
+  bool touchAutoPause;
+  bool lowend;
+  bool fbError;
+  std__string language;
+  bool languageSet;
+  Point screenResolution;
+  int dialogKeys;
+  bool logging;
+  bool bShowChangelog;
+  int loadingSaveVersion;
+  bool achPopups;
+  bool vsync;
+  bool frameLimit;
+  bool manualResolution;
+  bool manualWindowed;
+  bool manualStretched;
+  bool showPaths;
+  bool swapTextureType;
+  bool colorblind;
+  std__array_28std__vector_10HotkeyDesc___4 hotkeys;
+  bool holdingModifier;
+  bool bDlcEnabled;
+  int openedList;
+  bool beamTutorial;
+};
 
 /* 663 */
 struct std__map_43std__string___std_map_std_string_std_string
@@ -5376,5 +5453,34 @@ struct GL_Line
 {
   Pointf start;
   Pointf end;
+};
+
+/* 763 */
+struct HotkeyDesc
+{
+  std__string name;
+  int key;
+};
+
+/* 764 */
+struct std__array_14HotkeyDesc___4
+{
+  char unk[48];
+};
+
+/* 765 */
+struct std__vector_27std__array_14HotkeyDesc___4
+{
+  std__array_14HotkeyDesc___4 *_start;
+  std__array_14HotkeyDesc___4 *_finish;
+  std__array_14HotkeyDesc___4 *_end;
+};
+
+/* 767 */
+struct std__vector_10HotkeyDesc
+{
+  HotkeyDesc *_start;
+  HotkeyDesc *_finish;
+  HotkeyDesc *_end;
 };
 

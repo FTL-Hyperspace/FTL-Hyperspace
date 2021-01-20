@@ -1,6 +1,7 @@
 #include "Global.h"
 #include "ASMHooks.h"
 #include "CustomCrew.h"
+#include "ShipUnlocks.h"
 
 HOOK_METHOD(CrewEquipBox, RemoveItem, () -> int)
 {
@@ -18,14 +19,10 @@ HOOK_METHOD(CApp, OnKeyDown, (SDLKey key) -> void)
 
     if (key == SDLKey::SDLK_KP_MINUS)
     {
+        testVal--;
     }
     if (key == SDLKey::SDLK_KP_PLUS)
     {
-        for (auto i : G_->GetShipInfo()->augList)
-        {
-            printf("%s %d\n", i.first.c_str(), i.second);
-        }
-
         testVal++;
     }
 

@@ -1,4 +1,4 @@
-#ifndef CM_EX
+#pragma once
 #include "FTLGame.h"
 
 enum PowerReadyState
@@ -40,11 +40,7 @@ public:
 
     void OnInit(const std::string& name, Pointf position, bool enemy);
 
-    ~CrewAnimation_Extend()
-    {
-        delete effectAnim;
-        delete tempEffectAnim;
-    }
+    ~CrewAnimation_Extend();
 };
 
 struct CrewMember_Extend
@@ -95,4 +91,3 @@ CrewAnimation_Extend* Get_CrewAnimation_Extend(CrewAnimation *c);
 
 #define CM_EX Get_CrewMember_Extend
 #define CMA_EX Get_CrewAnimation_Extend
-#endif

@@ -1,5 +1,5 @@
 #include "CustomCrewManifest.h"
-#include "CustomShips.h"
+#include "CustomShipSelect.h"
 #include "freetype.h"
 #include <algorithm>
 #include <boost/lexical_cast.hpp>
@@ -13,10 +13,10 @@ void CustomCrewManifest::OnInit(CrewManifest *manifest, ShipManager *ship)
 
     std::string buttonImg("upgradeUI/Equipment/button_crew_arrow");
     leftButton = new Button();
-    leftButton->OnInit(buttonImg, 850, 139);
+    leftButton->OnInit(buttonImg, crewManifest->position.x + 515, crewManifest->position.y + 54);
 
     rightButton = new Button();
-    rightButton->OnInit(buttonImg, 885, 139);
+    rightButton->OnInit(buttonImg, crewManifest->position.x + 550, crewManifest->position.y + 54);
 
     rightButton->bMirror = true;
 

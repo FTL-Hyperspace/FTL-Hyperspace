@@ -7,8 +7,22 @@
 </mod:findName>
 
 <mod:findName type="text" name="version">
-  <mod:setValue>\1 (Hyperspace 0.5.4)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 0.6)</mod:setValue>
 </mod:findName>
+
+<mod:findName type="text" name="fire_chance">
+  <mod:setValue>Fire Chance: \1%</mod:setValue> <!-- \1 is blueprint fireChance * 10, \2 is low/medium/high -->
+</mod:findName>
+
+<mod:findName type="text" name="breach_chance">
+  <mod:setValue>Breach Chance: \2%</mod:setValue> <!-- \1 is blueprint breachChance * 10, \2 is actual breachChance, \3 is low/medium/high -->
+</mod:findName>
+
+<mod:findName type="text" name="stun_chance">
+  <mod:setValue>Stun Chance: \1%</mod:setValue> <!-- \1 is blueprint stunChance * 10, \2 is low/medium/high -->
+</mod:findName>
+
+<text name="free_missile_chance">Chance To Not Use Missile: \1%</text>  <!-- \1: chance -->
 
 <text name="augment_no_effect">These augmentations will have no effect with this augment installed:</text>
 
@@ -47,3 +61,7 @@
 <text name="discord_victory">Victory</text>
 <text name="discord_dead">Dead</text>
 <text name="discord_mod"></text>
+
+<!-- New save file -->
+
+<text name="transfer_save_dialog">It appears this is either your first time playing this mod, or have not yet set up a new save file! Would you like to transfer vanilla progress, or play with a fresh save? This will NOT influence your vanilla progress in any way.</text>

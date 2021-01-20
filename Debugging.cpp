@@ -1,19 +1,6 @@
 #include "Global.h"
 #include <time.h>
-
-void hs_log_file(const char *str...)
-{
-    va_list va;
-    va_start(va, str);
-
-    FILE* log = G_->logFile;
-    if (log != nullptr)
-    {
-        vfprintf(log, str, va);
-        fflush(G_->logFile);
-    }
-    va_end(va);
-}
+#include <boost/algorithm/string.hpp>
 
 void copy_log(const char *oldName, const char *newName)
 {
@@ -76,4 +63,43 @@ HOOK_METHOD(WorldManager, CreateShip, (ShipEvent* shipEvent, bool boss) -> Compl
                  ret && ret->shipManager->myBlueprint.blueprintName.empty() ?  ".." : ret->shipManager->myBlueprint.blueprintName.c_str());
 
     return ret;
+}
+
+static bool generatingEvents = false;
+
+HOOK_METHOD(StarMap, GenerateEvents, (bool unk) -> void)
+{
+    hs_log_file("\n-- Generating Events --\n");
+
+    if (!forceSectorChoice.empty())
+    {
+        hs_log_file("Sector: %s\n", forceSectorChoice.c_str());
+    }
+    else if (currentSector)
+    {
+        hs_log_file("Sector: %s\n", currentSector->description.type.c_str());
+    }
+
+    generatingEvents = true;
+    super(unk);
+    generatingEvents = false;
+
+    hs_log_file("-- Done Generating Events --\n\n");
+}
+
+HOOK_METHOD(EventGenerator, GetBaseEvent, (const std::string& name, int worldLevel, char ignoreUnique, int seed) -> LocationEvent*)
+{
+    if (generatingEvents)
+    {
+        hs_log_file("Getting Event: %s\n", name.c_str());
+    }
+
+    super(name, worldLevel, ignoreUnique, seed);
+}
+
+HOOK_METHOD(StarMap, GenerateNebulas, (std::vector<std::string>& names) -> void)
+{
+    hs_log_file("Generating nebulas: %s\n", boost::algorithm::join(names, ", ").c_str());
+
+    super(names);
 }

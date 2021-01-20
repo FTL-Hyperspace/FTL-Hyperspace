@@ -1,3 +1,4 @@
+#pragma once
 #include "FTLGame.h"
 
 struct RoomAnim
@@ -18,6 +19,7 @@ struct Room_Extend
 
     ~Room_Extend()
     {
+
     }
 
     //CrewMember *captain;

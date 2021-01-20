@@ -1,4 +1,5 @@
 #include "CommandConsole.h"
+#include "ShipUnlocks.h"
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
 
@@ -91,6 +92,10 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
     if (cmdName == "DEBUG")
     {
         return true;
+    }
+    if (command == "SHIP ALL")
+    {
+        CustomShipUnlocks::instance->UnlockAllShips();
     }
 
 

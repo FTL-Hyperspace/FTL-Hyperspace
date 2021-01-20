@@ -53,7 +53,7 @@ static cleanup bool FileHelper::saveFileExists();
 ".8d4c240483e4f0ff71fc5589e5565351":
 static cleanup bool FileHelper::writeFloat(int file, float data);
 ".8d4c240483e4f0ff71fc5589e55756535183ec488b41048b318b38":
-static cleanup bool FileHelper::writeString(int file, std::string& data);
+static cleanup bool FileHelper::writeString(int file, const std::string& data);
 "8d4c240483e4f0ff71fc5589e556535183ec3c803d??????????8b41048b198945e075??":
 static cleanup bool FileHelper::writeInt(int file, int data);
 

@@ -1,5 +1,6 @@
 #include "Global.h"
 #include "CustomCommandGui.h"
+#include "ShipZoom.h"
 
 static void OnScrollWheel(float direction)
 {

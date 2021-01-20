@@ -1,3 +1,4 @@
+#pragma once
 #include "Global.h"
 
 struct DroneCount
@@ -18,5 +19,5 @@ public:
     void ParseBossNode(rapidxml::xml_node<char> *node);
 
 
-    static CustomBoss instance;
+    static CustomBoss* instance;
 };

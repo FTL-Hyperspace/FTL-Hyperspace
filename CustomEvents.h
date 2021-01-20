@@ -1,3 +1,4 @@
+#pragma once
 #include "Global.h"
 #include <algorithm>
 
@@ -24,6 +25,9 @@ struct EventGameOver
 struct CustomEvent
 {
     std::string eventName;
+    std::string unlockShip;
+    bool unlockShipSilent;
+    std::string unlockShipReq;
     BeaconType *beacon;
     bool hasCustomBeacon = false;
     bool checkCargo = false;
@@ -36,9 +40,11 @@ struct CustomEvent
     std::string eventLoad = "";
     bool eventLoadSeeded = true;
     EventGameOver gameOver = EventGameOver();
+    bool disableScrapScore = false;
 
 
     std::vector<std::string> hiddenAugs = std::vector<std::string>();
+    std::vector<std::string> removeItems = std::vector<std::string>();
     std::string playSound = "";
     std::string changeBackground = "";
 

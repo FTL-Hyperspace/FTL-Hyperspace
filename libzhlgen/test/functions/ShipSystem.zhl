@@ -1,7 +1,7 @@
 "578d7c240883e4f0ff77fc5589e557565389cbb9????????83ec2cf30f100ff30f114de4e8????????d95de031c0f30f1045e0f30f5945e4f30f5883080100000f2e05????????f30f118308010000":
 char ShipSystem::DamageOverTime(ShipSystem *this<ecx>, float unk);
 ".8b414083e80383f801":
-int ShipSystem::CheckForRepower(ShipSystem *this<ecx>);
+void ShipSystem::CheckForRepower(ShipSystem *this<ecx>);
 ".8d4c240483e4f0ff71fc5589e5535183ec108b19c70424????????89d9e8????????83ec0485c075??":
 static cleanup int ShipSystem::NameToSystemId(const std::string& name);
 "8b414885c07e??80794c0074??8b9104010000399100010000ba????????":
@@ -13,7 +13,7 @@ void ShipSystem::OnLoop(ShipSystem *this<ecx>);
 "538b812801000083f8ff0f94c285c00f9fc008d075??83b9a8010000017e??8b911c0100008b415483fa077e??":
 bool ShipSystem::Ioned(ShipSystem *this<ecx>, int num);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b338b0f8b8680000000898b200100003d????????0f85????????":
-void ShipSystem::SetPowerLoss(ShipSystem *this<ecx>, int power);
+int ShipSystem::SetPowerLoss(ShipSystem *this<ecx>, int power);
 "578d7c240883e4f0ff77fc5589e557565381ec????????8b078b5f048b770c898d24feffff898504feffff8b4708":
 void ShipSystem::constructor(ShipSystem *this<ecx>, int systemId, int roomId, int shipId, int startingPower);
 "8b811c01000083f8077f??85c0ba????????0f48c2c38d76008dbc27000000008b415485c0":
@@ -36,3 +36,5 @@ static void ShipSystem::__DO_NOT_HOOK(ShipSystem *this<ecx>);
 bool ShipSystem::PartialDamage(ShipSystem *this<ecx>, float amount);
 "8b54240483fa060f94c183fa0c0f94c008c875??83ea0783fa01":
 static cleanup bool ShipSystem::IsSubsystem(int systemType);
+"83b91c010000077e??8b812001000085c07e??8b4140c7811c010000e8030000c7812001000000000000c781240100000100000083e80383f80176??55":
+void ShipSystem::ClearStatus(ShipSystem *this<ecx>);

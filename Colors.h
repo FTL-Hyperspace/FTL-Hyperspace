@@ -1,3 +1,4 @@
+#pragma once
 #include "FTLGame.h"
 
 extern const GL_Color COLOR_BUTTON_TEXT;

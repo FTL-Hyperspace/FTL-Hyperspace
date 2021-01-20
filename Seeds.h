@@ -1,5 +1,4 @@
-#ifndef SEEDS_H
-#define SEEDS_H
+#pragma once
 
 class SeedInputBox
 {
@@ -16,5 +15,3 @@ public:
 static unsigned int nextSeed;
 unsigned int SeededRandom32();
 void SetSeed(UINT);
-
-#endif
