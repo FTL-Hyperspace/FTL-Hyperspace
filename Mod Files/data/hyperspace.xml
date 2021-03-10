@@ -1,6 +1,6 @@
 <FTL>
 
-<version>6</version>
+<version>62</version>
 
 <!-- Custom save file:
 
@@ -131,6 +131,7 @@ KILL           Kills a person on your ship             Usage: KILL <crew_name>  
 DELETECREW     Kills everyone on the enemy ship        Usage: DELETECREW
 SPEED          Changes game speed                      Usage: SPEED <speed>           Example: SPEED 3 (any integer from -2 to 3)
 DAMAGESYS      Damages a system                        Usage: DAMAGESYS <system_name> Example: DAMAGESYS medbay
+SHIP_CUSTOM    Unlocks a customs ship (permanently)    Usage: SHIP_CUSTOM <ship_name> Example: SHIP_CUSTOM PLAYER_SHIP_CUSTOM
 -->
 
 <console enabled="true"/> 
@@ -205,6 +206,7 @@ Syntax ->
 		</rooms>
 		<crew>
 			<human room="1" name="Joe"/>
+			<CREW_BLUEPRINT_LIST room="1" isList="true"/>
 		</crew>
 		<hiddenAug>ENERGY_SHIELD</hiddenAug>
 		<crewLimit>6</crewLimit>
@@ -326,7 +328,7 @@ Syntax ->
 				<playerShip/>
 				<friendlyInRoom/>
 				<enemyInRoom/>
-				<systemInRoom/>
+				<systemInRoom damaged="false"/>
 				<inCombat/>
 				<outOfCombat/>
 				<hasClonebay/>
@@ -339,7 +341,7 @@ Syntax ->
 				<playerShip/>
 				<friendlyInRoom/>
 				<enemyInRoom/>
-				<systemInRoom/>
+				<systemInRoom damaged="true"/>
 				<inCombat/>
 				<outOfCombat/>
 				<hasClonebay/>

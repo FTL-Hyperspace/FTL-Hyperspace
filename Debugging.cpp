@@ -2,6 +2,8 @@
 #include <time.h>
 #include <boost/algorithm/string.hpp>
 
+// Code for creation of FTL_HS.log and crashlogs
+
 void copy_log(const char *oldName, const char *newName)
 {
     FILE *f = fopen(oldName, "rb");

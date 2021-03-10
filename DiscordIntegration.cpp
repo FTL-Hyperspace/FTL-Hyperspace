@@ -3,13 +3,15 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
 
+// Rich presence integration
+
 DiscordHandler DiscordHandler::_instance = DiscordHandler();
 
 void DiscordHandler::ParseDiscordNode(rapidxml::xml_node<char>* node)
 {
     for (auto child = node->first_node(); child; child = child->next_sibling())
     {
-        if (strcmp(child->name(), "miniships") == 0)
+        if (strcmp(child->name(), "miniships") == 0) // Miniship icons for the small icon on the bottom left of presence
         {
             for (auto minishipChild = child->first_node(); minishipChild; minishipChild = minishipChild->next_sibling())
             {
@@ -20,12 +22,12 @@ void DiscordHandler::ParseDiscordNode(rapidxml::xml_node<char>* node)
             }
         }
 
-        if (strcmp(child->name(), "appId") == 0)
+        if (strcmp(child->name(), "appId") == 0) // App ID if the mod has a custom Discord application, needed to add your own miniships
         {
             appId = child->value();
         }
 
-        if (strcmp(child->name(), "icon") == 0)
+        if (strcmp(child->name(), "icon") == 0) // large icon that shows up on the left side of presence
         {
             largeImageKey = child->value();
         }
@@ -85,7 +87,14 @@ void DiscordHandler::StartTime()
 
 void DiscordHandler::UpdatePresence()
 {
-    if (initialized && (lastLargeImageKey != largeImageKey || lastSmallImageKey != smallImageKey || lastLargeImageText != largeImageText || lastSmallImageText != smallImageText || lastState != state || lastDetails != details || lastTime != startTimestamp))
+    if (initialized &&
+        (lastLargeImageKey != largeImageKey ||
+         lastSmallImageKey != smallImageKey ||
+         lastLargeImageText != largeImageText ||
+         lastSmallImageText != smallImageText ||
+         lastState != state ||
+         lastDetails != details ||
+         lastTime != startTimestamp)) // Only update presence if something has changed
     {
         DiscordRichPresence *presence = new DiscordRichPresence();
 

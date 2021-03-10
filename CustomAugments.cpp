@@ -33,19 +33,19 @@ void CustomAugmentManager::ParseCustomAugmentNode(rapidxml::xml_node<char>* node
                             func.value = G_->GetBlueprints()->GetAugmentValue(functionName);
                             bool preferHigher = true;
 
-                            if (functionNode->first_attribute("value"))
+                            if (functionNode->first_attribute("value")) // Value of sub-augment
                             {
                                 func.value = boost::lexical_cast<float>(functionNode->first_attribute("value")->value());
                             }
-                            if (functionNode->first_attribute("preferHigher"))
+                            if (functionNode->first_attribute("preferHigher")) // Use higher or lower value for non-stackable augments?
                             {
                                 func.preferHigher = EventsParser::ParseBoolean(functionNode->first_attribute("preferHigher")->value());
                             }
-                            if (functionNode->first_attribute("useForReqs"))
+                            if (functionNode->first_attribute("useForReqs")) // Used for blue options?
                             {
                                 func.useForReqs = EventsParser::ParseBoolean(functionNode->first_attribute("useForReqs")->value());
                             }
-                            if (functionNode->first_attribute("warning"))
+                            if (functionNode->first_attribute("warning")) // Display warning about which augments will have no effect with it?
                             {
                                 func.warning = EventsParser::ParseBoolean(functionNode->first_attribute("warning")->value());
                             }
@@ -170,6 +170,9 @@ HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
     useAugmentReq = false;
 }
 
+
+// Replaced ShipObject::HasEquipment function for Hyperspace augments
+
 HOOK_METHOD_PRIORITY(ShipObject, HasEquipment, 2000, (const std::string& name) -> int)
 {
     auto ship = G_->GetShipManager(iShipId);
@@ -201,6 +204,10 @@ HOOK_METHOD_PRIORITY(ShipObject, HasEquipment, 2000, (const std::string& name) -
 
 
 }
+
+
+
+// Replaced ShipObject::GetAugmentationValue function for custom Hyperspace augments
 
 HOOK_METHOD_PRIORITY(ShipObject, GetAugmentationValue, 1000, (const std::string& name) -> float)
 {
@@ -247,6 +254,9 @@ HOOK_METHOD_PRIORITY(ShipObject, GetAugmentationValue, 1000, (const std::string&
     return ret;
 }
 
+
+
+// Make augment box scale with text
 
 HOOK_METHOD(InfoBox, SetBlueprintAugment, (const AugmentBlueprint* bp) -> void)
 {
@@ -305,6 +315,10 @@ HOOK_METHOD(InfoBox, SetBlueprintAugment, (const AugmentBlueprint* bp) -> void)
 
     bDetailed = false;
 }
+
+
+
+// Locked augments
 
 static GL_Texture* augLockTexture = nullptr;
 
@@ -393,6 +407,10 @@ HOOK_METHOD(Equipment, OnLoop, () -> void)
         firstSlot->AddItem(item1);
     }
 }
+
+
+
+// Hidden augments
 
 static bool exportingShip = false;
 

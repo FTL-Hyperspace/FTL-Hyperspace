@@ -6,7 +6,7 @@ class CommandConsole
 {
 public:
     bool enabled;
-    bool shouldOpen;
+    //bool shouldOpen;
     bool RunCommand(CommandGui *commandGui, const std::string& command);
 
 

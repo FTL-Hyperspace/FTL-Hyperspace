@@ -202,7 +202,7 @@ HOOK_STATIC(WeaponBlueprint, GetDescription, (std::string* strRef, WeaponBluepri
         descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp->damage.iDamage)) + "\n";
     }
 
-    if (bp->damage.iShieldPiercing > 0)
+    if (bp->damage.iShieldPiercing != 0)
     {
         currentText = tLib->GetText("shield_piercing");
         descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp->damage.iShieldPiercing)) + "\n";
@@ -220,7 +220,7 @@ HOOK_STATIC(WeaponBlueprint, GetDescription, (std::string* strRef, WeaponBluepri
         }
         else if (bp->damage.fireChance >= 4)
         {
-            level = tLib->GetText("chance_med");
+            level = tLib->GetText("chance_medium");
         }
 
         boost::algorithm::replace_all(currentText, "\\2", level);
@@ -241,14 +241,25 @@ HOOK_STATIC(WeaponBlueprint, GetDescription, (std::string* strRef, WeaponBluepri
         }
         else if (bp->damage.breachChance >= 4)
         {
-            level = tLib->GetText("chance_med");
+            level = tLib->GetText("chance_medium");
         }
 
         boost::algorithm::replace_all(currentText, "\\3", level);
 
         descText += currentText + "\n";
     }
-    if (bp->damage.stunChance > 0 && Settings::GetDlcEnabled())
+
+    if (bp->damage.iIonDamage != 0)
+    {
+        currentText = tLib->GetText("ion_damage");
+        descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp->damage.iIonDamage)) + "\n";
+    }
+    if (bp->damage.iStun > 0)
+    {
+        currentText = tLib->GetText("stun_damage");
+        descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp->damage.iStun)) + "\n";
+    }
+    else if (bp->damage.stunChance > 0 && Settings::GetDlcEnabled())
     {
         currentText = tLib->GetText("stun_chance");
         boost::algorithm::replace_all(currentText, "\\1", std::to_string(bp->damage.stunChance * 10));
@@ -260,30 +271,19 @@ HOOK_STATIC(WeaponBlueprint, GetDescription, (std::string* strRef, WeaponBluepri
         }
         else if (bp->damage.stunChance >= 4)
         {
-            level = tLib->GetText("chance_med");
+            level = tLib->GetText("chance_medium");
         }
 
         boost::algorithm::replace_all(currentText, "\\2", level);
 
         descText += currentText + "\n";
     }
-
-    if (bp->damage.iIonDamage > 0)
-    {
-        currentText = tLib->GetText("ion_damage");
-        descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp->damage.iIonDamage)) + "\n";
-    }
-    if (bp->damage.iStun > 0)
-    {
-        currentText = tLib->GetText("stun_damage");
-        descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp->damage.iStun)) + "\n";
-    }
-    if (bp->damage.iPersDamage > 0)
+    if (bp->damage.iPersDamage != 0)
     {
         currentText = tLib->GetText("personnel_damage");
         descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp->damage.iPersDamage * 15)) + "\n";
     }
-    if (bp->damage.iSystemDamage > 0)
+    if (bp->damage.iSystemDamage != 0)
     {
         currentText = tLib->GetText("system_damage");
         descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp->damage.iSystemDamage)) + "\n";

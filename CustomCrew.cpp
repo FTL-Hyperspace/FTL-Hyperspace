@@ -462,6 +462,10 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                                         if (req == "systemInRoom")
                                         {
                                             reqDef.systemInRoom = true;
+                                            if (reqNode->first_attribute("damaged"))
+                                            {
+                                                reqDef.systemDamaged = EventsParser::ParseBoolean(reqNode->first_attribute("damaged")->value());
+                                            }
                                         }
                                         if (req == "hasClonebay")
                                         {
@@ -869,6 +873,12 @@ PowerReadyState CrewMember_Extend::PowerReady()
     {
         return POWER_NOT_READY_SYSTEM_IN_ROOM;
     }
+    else if (currentShip && req.systemDamaged)
+    {
+        auto sys = currentShip->GetSystemInRoom(orig->iRoomId);
+
+        if (sys && sys->healthState.first == sys->healthState.second) return POWER_NOT_READY_SYSTEM_DAMAGED;
+    }
     if ((req.enemyInRoom || req.friendlyInRoom) && currentShip)
     {
         bool enemyInRoom = false;
@@ -1229,11 +1239,29 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
 
         if (def.animBase == "rock")
         {
-            if (animation) animation->destructor();
+            std::vector<GL_Color> layerColors = std::vector<GL_Color>();
+            std::vector<GL_Texture*> layerStrips = std::vector<GL_Texture*>();
+
+            bool replaceLayers = false;
+
+            if (animation)
+            {
+                layerColors = animation->layerColors;
+                layerStrips = animation->layerStrips;
+                replaceLayers = true;
+            }
+
+            delete animation;
 
             blockAddSoundQueue = true;
             orig->crewAnim = new RockAnimation(bp.name, shipId, Pointf(0, 0), enemy);
             blockAddSoundQueue = false;
+
+            if (replaceLayers)
+            {
+                orig->crewAnim->layerColors = layerColors;
+                orig->crewAnim->layerStrips = layerStrips;
+            }
 
             if (def.repairSoundFrame != -1 && def.repairSounds.size() > 0 && !enemy)
             {
@@ -1248,11 +1276,29 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
         }
         if (def.animBase == "mantis")
         {
+            std::vector<GL_Color> layerColors = std::vector<GL_Color>();
+            std::vector<GL_Texture*> layerStrips = std::vector<GL_Texture*>();
+
+            bool replaceLayers = false;
+
+            if (animation)
+            {
+                layerColors = animation->layerColors;
+                layerStrips = animation->layerStrips;
+                replaceLayers = true;
+            }
+
             delete animation;
 
             orig->crewAnim = new MantisAnimation;
             orig->crewAnim->constructor(shipId, bp.name, Pointf(0, 0), enemy);
             CMA_EX(orig->crewAnim)->isMantisAnimation = true;
+
+            if (replaceLayers)
+            {
+                orig->crewAnim->layerColors = layerColors;
+                orig->crewAnim->layerStrips = layerStrips;
+            }
         }
 
 
@@ -2759,6 +2805,9 @@ HOOK_METHOD(CrewBox, GetSelected, (int mouseX, int mouseY) -> CrewMember*)
                     break;
                 case POWER_NOT_READY_IN_COMBAT:
                     tooltipName = "power_not_ready_in_combat";
+                    break;
+                case POWER_NOT_READY_SYSTEM_DAMAGED:
+                    tooltipName = "power_not_ready_system_damaged";
                     break;
                 case POWER_NOT_READY_MIN_HEALTH:
                     tooltipName = "power_not_ready_min_health";

@@ -146,6 +146,7 @@ struct ActivatedPowerRequirements
     bool enemyInRoom;
     bool friendlyInRoom;
     bool systemInRoom;
+    bool systemDamaged;
     bool hasClonebay;
     bool aiDisabled;
     bool outOfCombat;

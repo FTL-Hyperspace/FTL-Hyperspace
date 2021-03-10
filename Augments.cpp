@@ -1,5 +1,6 @@
 #include "Global.h"
 
+// NANOBOT_DEFENSE_SYSTEM Augment
 
 HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
 {
@@ -17,6 +18,11 @@ HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
     }
     super();
 }
+
+
+
+
+// FTL_JUMPER_GOOD Augment
 
 static int fuelReq = 0;
 

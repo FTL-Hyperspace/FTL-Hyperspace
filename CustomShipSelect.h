@@ -40,6 +40,7 @@ struct CrewPlacementDefinition
     std::string species;
     int roomId;
     std::string name;
+    bool isList;
 };
 
 struct CustomShipDefinition
@@ -47,8 +48,8 @@ struct CustomShipDefinition
     std::string name;
     std::map<std::string, int> hiddenAugs = std::map<std::string, int>();
     std::vector<CrewPlacementDefinition> crewList = std::vector<CrewPlacementDefinition>();
-    bool noJump;
-    bool noFuelStalemate;
+    bool noJump = false;
+    bool noFuelStalemate = false;
     int hpCap = 20;
     int startingFuel = -1;
     int startingScrap = -1;
@@ -56,19 +57,6 @@ struct CustomShipDefinition
     std::unordered_map<int, RoomDefinition*> roomDefs;
 
     int crewLimit = 8;
-
-    CustomShipDefinition(const CustomShipDefinition& defaultDefinition)
-    {
-        crewLimit = defaultDefinition.crewLimit;
-        hiddenAugs = defaultDefinition.hiddenAugs;
-        roomDefs = defaultDefinition.roomDefs;
-        crewList = defaultDefinition.crewList;
-        noJump = defaultDefinition.noJump;
-        noFuelStalemate = defaultDefinition.noFuelStalemate;
-        hpCap = defaultDefinition.hpCap;
-        startingFuel = defaultDefinition.startingFuel;
-        startingScrap = defaultDefinition.startingScrap;
-    }
 
     CustomShipDefinition()
     {
@@ -282,10 +270,7 @@ public:
 
     bool HasCustomDef(std::string& id)
     {
-        return std::count_if(shipDefs.begin(),
-                         shipDefs.end(),
-                         [id](std::pair<std::string, CustomShipDefinition> i) { return i.first == id; } )
-                          > 0;
+        return !(shipDefs.find(id) == shipDefs.end());
     }
 
     bool CustomShipOrder()

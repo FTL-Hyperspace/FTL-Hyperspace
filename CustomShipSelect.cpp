@@ -177,21 +177,22 @@ void CustomShipSelect::ParseShipsNode(rapidxml::xml_node<char> *node)
                         {
                             int roomId = 0;
                             std::string crewName = "";
+                            auto crewDef = CrewPlacementDefinition();
+
+                            crewDef.species = crewNode->name();
 
                             if (crewNode->first_attribute("room"))
                             {
-                                roomId = boost::lexical_cast<int>(crewNode->first_attribute("room")->value());
+                                crewDef.roomId = boost::lexical_cast<int>(crewNode->first_attribute("room")->value());
                             }
                             if (crewNode->first_attribute("name"))
                             {
-                                crewName = crewNode->first_attribute("name")->value();
+                                crewDef.name = crewNode->first_attribute("name")->value();
                             }
-
-                            auto crewDef = CrewPlacementDefinition();
-                            crewDef.species = crewNode->name();
-                            crewDef.roomId = roomId;
-                            crewDef.name = crewName;
-
+                            if (crewNode->first_attribute("list"))
+                            {
+                                crewDef.isList = EventsParser::ParseBoolean(crewNode->first_attribute("list")->value());
+                            }
 
                             def.crewList.push_back(crewDef);
                         }
@@ -211,7 +212,6 @@ void CustomShipSelect::ParseShipsNode(rapidxml::xml_node<char> *node)
                     if (name == "startingFuel")
                     {
                         def.startingFuel = boost::lexical_cast<int>(val);
-                        printf("starting fuel for %s: %d\n", shipName.c_str(), def.startingFuel);
                     }
                     if (name == "startingScrap")
                     {

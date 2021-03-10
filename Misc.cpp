@@ -3,12 +3,18 @@
 #include "CustomCrew.h"
 #include "ShipUnlocks.h"
 
+// Plays airlock sound when crew have been "dismissed"
+
 HOOK_METHOD(CrewEquipBox, RemoveItem, () -> int)
 {
     int ret = super();
     G_->GetSoundControl()->PlaySoundMix("airLoss", -1.f, false);
     return ret;
 }
+
+
+
+// Doesn't do anything, but I usually use this to test random stuff by changing what the numpad buttons do
 
 static int testVal = 0;
 
@@ -28,6 +34,10 @@ HOOK_METHOD(CApp, OnKeyDown, (SDLKey key) -> void)
 
     super(key);
 }
+
+
+
+// Don't display low O2 warning if ship does not have an oxygen system
 
 static bool displayWarning = true;
 

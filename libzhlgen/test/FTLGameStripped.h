@@ -3699,11 +3699,13 @@ struct Projectile
   int currentSpace;
   int targetId;
   bool dead;
+  unsigned __int8 gap_ex_1[2];
   Animation death_animation;
   Animation flight_animation;
   Pointf speed;
   bool missed;
   bool hitTarget;
+  unsigned __int8 gap_ex_2[2];
   std__string hitSolidSound;
   std__string hitShieldSound;
   std__string missSound;

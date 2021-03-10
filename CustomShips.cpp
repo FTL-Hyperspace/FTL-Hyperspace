@@ -52,16 +52,40 @@ void ShipManager_Extend::Initialize(bool restarting)
         {
             for (auto i : def.crewList)
             {
+                auto species = i.species;
+
+                if (i.isList)
+                {
+                    auto bpList = std::vector<std::string>();
+                    BlueprintManager::GetBlueprintList(bpList, G_->GetBlueprints(), i.species);
+
+                    if (!bpList.empty())
+                    {
+                        species = bpList[rand() % bpList.size()];
+                    }
+                    else
+                    {
+                        species = "human";
+                    }
+                }
+
                 orig->AddCrewMemberFromString(i.name, i.species, false, i.roomId, false, random32() % 2);
 
                 orig->bAutomated = false;
             }
         }
-    }
 
-    for (auto i : customSel->GetDefaultDefinition().hiddenAugs)
-    {
-        G_->GetShipInfo()->augList["HIDDEN " + i.first] = i.second;
+        if (restarting)
+        {
+            if (def.startingScrap != -1)
+            {
+                orig->currentScrap = def.startingScrap;
+            }
+            if (def.startingFuel != -1)
+            {
+                orig->fuel_count = def.startingFuel;
+            }
+        }
     }
 }
 

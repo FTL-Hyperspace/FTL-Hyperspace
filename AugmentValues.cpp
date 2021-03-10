@@ -1,5 +1,6 @@
 #include "Global.h"
 
+// Fixes value tag for EXPLOSIVE_REPLICATOR augment
 
 HOOK_METHOD_PRIORITY(ProjectileFactory, SpendMissiles, 1000, () -> int)
 {

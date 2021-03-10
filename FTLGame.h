@@ -4166,6 +4166,9 @@ struct JoystickInputEvent
 
 struct Projectile : Collideable
 {
+	LIBZHL_API void CollisionCheck(Collideable *other);
+	LIBZHL_API void constructor(Pointf position, int ownerId, int targetId, Pointf target);
+	
 	Targetable _targetable;
 	Pointf position;
 	Pointf last_position;
@@ -4180,11 +4183,13 @@ struct Projectile : Collideable
 	int currentSpace;
 	int targetId;
 	bool dead;
+	unsigned __int8 gap_ex_1[2];
 	Animation death_animation;
 	Animation flight_animation;
 	Pointf speed;
 	bool missed;
 	bool hitTarget;
+	unsigned __int8 gap_ex_2[2];
 	std::string hitSolidSound;
 	std::string hitShieldSound;
 	std::string missSound;

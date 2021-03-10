@@ -34,7 +34,12 @@ HOOK_METHOD(Store, OnInit, (ShipManager *shopper, Equipment *equip, int worldLev
 
     Location *storeLoc = G_->GetWorld()->starMap.currentLoc;
 
-    srand((int)(storeLoc->loc.x + storeLoc->loc.y) ^ G_->GetWorld()->starMap.currentSectorSeed);
+    int a = storeLoc->loc.x;
+    int b = storeLoc->loc.y;
+    int storeSeed = ((a + b) * (a + b + 1)) / 2 + b;
+
+
+    srand(storeSeed ^ G_->GetWorld()->starMap.currentSectorSeed);
 
     super(shopper, equip, worldLevel);
 }

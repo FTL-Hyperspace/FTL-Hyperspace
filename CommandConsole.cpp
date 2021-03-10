@@ -97,6 +97,16 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
     {
         CustomShipUnlocks::instance->UnlockAllShips();
     }
+    if (cmdName == "SHIP_CUSTOM")
+    {
+        std::string shipName = boost::trim_copy(command.substr(11));
+
+        if (CustomShipUnlocks::instance->CustomShipHasUnlock(shipName))
+        {
+            CustomShipUnlocks::instance->UnlockShip(shipName, false, true);
+        }
+
+    }
 
 
     return false;
@@ -107,26 +117,10 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
 static AnimationTracker *g_consoleMessage;
 
 
-HOOK_METHOD(CommandGui, constructor, () -> void)
-{
-    super();
-
-    //g_consoleMessage = new AnimationTracker();
-    //g_consoleMessage->time = 2.f;
-    //g_consoleMessage->loop = true;
-    //g_consoleMessage->Start(0.f);
-}
-
-HOOK_METHOD(CommandGui, RenderStatic, () -> void)
-{
-    super();
-
-    //g_consoleMessage->Update()
-}
-
-
 HOOK_METHOD(CommandGui, KeyDown, (SDLKey key, bool shiftHeld) -> void)
 {
+    // TODO: Allow user to customise speedhack and console key
+
     if (key == 96)
     {
         //shouldOpen = !shouldOpen;

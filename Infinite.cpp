@@ -13,6 +13,8 @@ HOOK_METHOD(StarMap, GenerateSectorMap, () -> void)
     super();
 }
 
+// Fixes sectors clipping out of sector box
+
 HOOK_METHOD(ResourceControl, RenderImageString, (std::string& tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror) -> int)
 {
     if (tex == "map/sector_box.png" && g_infiniteMode)

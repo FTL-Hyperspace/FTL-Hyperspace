@@ -1,5 +1,7 @@
 #include "Global.h"
 
+// Unused
+
 static Location *wormhole;
 static GL_Texture *wormholeTexture;
 
