@@ -31,7 +31,6 @@ int *Global::difficulty = nullptr;
 bool Global::forceDlc = false;
 bool Global::isCustomSeed = false;
 unsigned int Global::sectorMapSeed = -1;
-ShaderSourceCallback** Global::fragment_shader_source_callback = nullptr;
 FILE *Global::logFile = nullptr;
 bool *Global::firstTimeShips = nullptr;
 
@@ -109,7 +108,7 @@ void Global::Initialize(CApp *cApp)
     difficulty = (int*)((__baseAddress + __difficultyOffset));
     firstTimeShips = (bool*)((__baseAddress + __firstTimeShipsOffset));
     *firstTimeShips = false;
-    fragment_shader_source_callback = (ShaderSourceCallback**)((__baseAddress + __fragmentCallbackOffset));
+    //fragment_shader_source_callback = (ShaderSourceCallback**)((__baseAddress + __fragmentCallbackOffset));
     logFile = fopen("FTL_HS.log", "w");
 
 

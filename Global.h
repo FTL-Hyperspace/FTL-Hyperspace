@@ -67,7 +67,7 @@ public:
     static FILE* logFile;
     static bool* firstTimeShips;
 
-    static ShaderSourceCallback** fragment_shader_source_callback;
+    //static ShaderSourceCallback** fragment_shader_source_callback;
 
     //LuaState* lua;
 
@@ -120,7 +120,7 @@ private:
     static AchievementTracker *__achievementTracker;
     static ScoreKeeper *__scoreKeeper;
 
-    const int __version = 62;
+    const int __version = 63;
 
 
 };

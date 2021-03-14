@@ -1058,41 +1058,14 @@ HOOK_METHOD(StarMap, GenerateNebulas, (const std::vector<std::string>& names) ->
     {
         if (currentLoc->nebula)
         {
-            StarMap::NebulaInfo* firstNebula;
-            int index = 0;
-            for (auto nebula : currentNebulas)
-            {
-                if (currentLoc->loc.x > nebula.x && currentLoc->loc.x < nebula.x + nebula.w && currentLoc->loc.y > nebula.y && currentLoc->loc.y < nebula.y + nebula.w)
-                {
-                    firstNebula = &nebula;
-                    break;
-                }
-
-                index++;
-            }
-
-            for (auto i : locations)
-            {
-                if (i->loc.x > firstNebula->x && i->loc.x < firstNebula->x + firstNebula->w && i->loc.y > firstNebula->y && i->loc.y < firstNebula->y + firstNebula->w)
-                {
-                    if (i->nebula)
-                    {
-                        i->nebula = false;
-                        i->event->environment = 0;
-                        i->event->statusEffects.erase(
-                            std::remove_if(
-                                i->event->statusEffects.begin(),
-                                i->event->statusEffects.end(),
-                                [](const StatusEffect& item) { return item.system == 7; }),
-                            i->event->statusEffects.end());
-                    }
-                }
-            }
-
-            if (firstNebula)
-            {
-                currentNebulas.erase(currentNebulas.begin() + index);
-            }
+            currentLoc->nebula = false;
+            currentLoc->event->environment = 0;
+            currentLoc->event->statusEffects.erase(
+                std::remove_if(
+                    currentLoc->event->statusEffects.begin(),
+                    currentLoc->event->statusEffects.end(),
+                    [](const StatusEffect& item) { return item.system == 7; }),
+                currentLoc->event->statusEffects.end());
         }
     }
 }

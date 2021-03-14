@@ -72,6 +72,7 @@
 					<Add library="C:/boost/lib/libboost_unit_test_framework-mgw92-mt-x32-1_70.a" />
 					<Add library="C:/boost/lib/libboost_wave-mgw92-mt-x32-1_70.a" />
 					<Add library="C:/boost/lib/libboost_wserialization-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_wserialization-mgw92-mt-x32-1_70.a" />
 					<Add directory="C:/boost/lib" />
 					<Add directory="discord/lib" />
 				</Linker>
@@ -103,48 +104,51 @@
 					<Add option="-m32" />
 					<Add library="user32" />
 					<Add library="libdiscord-rpc.a" />
-					<Add library="C:/boost/lib/libboost_atomic-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_chrono-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_container-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_context-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_contract-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_coroutine-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_date_time-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_exception-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_filesystem-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_graph-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_iostreams-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_locale-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_log_setup-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_log-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_math_c99f-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_math_c99l-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_math_c99-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_math_tr1f-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_math_tr1l-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_math_tr1-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_numpy38-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_prg_exec_monitor-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_program_options-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_python38-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_random-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_regex-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_serialization-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_stacktrace_basic-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_stacktrace_noop-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_system-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_test_exec_monitor-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_thread-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_timer-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_type_erasure-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_unit_test_framework-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_wave-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_wserialization-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_atomic-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_chrono-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_container-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_context-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_contract-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_coroutine-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_date_time-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_exception-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_filesystem-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_graph-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_iostreams-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_locale-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_log_setup-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_log-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_math_c99f-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_math_c99l-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_math_c99-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_math_tr1f-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_math_tr1l-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_math_tr1-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_numpy38-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_prg_exec_monitor-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_program_options-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_python38-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_random-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_regex-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_serialization-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_stacktrace_basic-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_stacktrace_noop-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_system-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_test_exec_monitor-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_thread-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_timer-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_type_erasure-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_unit_test_framework-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_wave-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_wserialization-mgw92-mt-x32-1_70.a" />
 					<Add directory="C:/boost/lib" />
 					<Add directory="discord/lib" />
 				</Linker>
 			</Target>
 		</Build>
+		<Linker>
+			<Add library="libboost_wserialization-mgw92-mt-x32-1_70.a" />
+		</Linker>
 		<Unit filename="AbilityDrone.cpp">
 			<Option virtualFolder="Core/Drones/" />
 		</Unit>

@@ -6,7 +6,7 @@ HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
 {
     for (auto i : vCrewList)
     {
-        if (i->intruder && !i->bMindControlled)
+        if (i->intruder && !i->bMindControlled && i->crewAnim->status != 6)
         {
             if (HasAugmentation("NANOBOT_DEFENSE_SYSTEM"))
             {
