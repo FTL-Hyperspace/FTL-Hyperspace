@@ -12,7 +12,7 @@
 				<Option working_dir="C:/Program Files (x86)/Steam/steamapps/common/FTL Faster Than Light" />
 				<Option object_output="obj/Debug/" />
 				<Option type="3" />
-				<Option compiler="copy_of_gnu_gcc_compiler_mingw-w64_x86" />
+				<Option compiler="gcc" />
 				<Option host_application="C:/Program Files (x86)/Steam/steamapps/common/FTL Faster Than Light/FTLGame.exe" />
 				<Option run_host_application_in_terminal="0" />
 				<Option createDefFile="1" />
