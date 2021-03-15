@@ -853,6 +853,13 @@ PowerReadyState CrewMember_Extend::PowerReady()
     ShipManager *currentShip = G_->GetShipManager(orig->currentShipId);
     ShipManager *crewShip = G_->GetShipManager(orig->iShipId);
 
+    if (orig->crewAnim->status == 6)
+    {
+        if (CustomCrewManager::GetInstance()->GetDefinition(orig->species).powerDef.transformRace != "")
+        {
+            return POWER_NOT_READY_TELEPORTING;
+        }
+    }
     if (temporaryPowerActive)
     {
         return POWER_NOT_READY_ACTIVATED;
