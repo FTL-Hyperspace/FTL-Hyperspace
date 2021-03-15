@@ -46,6 +46,7 @@
 <text name="power_not_ready_min_health">Not Ready: Health is below \1</text> <!-- \1 is min health req -->
 <text name="power_not_ready_max_health">Not Ready: Health is above \1</text> <!-- \1 is max health req -->
 <text name="power_not_ready_system_damaged">Not Ready: No damaged system in room</text>
+<text name="power_not_ready_teleporting">Not Ready: Can't transform mid-teleport</text>
 
 <!-- Discord Integration -->
 

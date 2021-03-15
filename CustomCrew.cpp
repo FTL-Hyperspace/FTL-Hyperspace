@@ -853,6 +853,13 @@ PowerReadyState CrewMember_Extend::PowerReady()
     ShipManager *currentShip = G_->GetShipManager(orig->currentShipId);
     ShipManager *crewShip = G_->GetShipManager(orig->iShipId);
 
+    if (orig->crewAnim->status == 6)
+    {
+        if (CustomCrewManager::GetInstance()->GetDefinition(orig->species).powerDef.transformRace != "")
+        {
+            return POWER_NOT_READY_TELEPORTING;
+        }
+    }
     if (temporaryPowerActive)
     {
         return POWER_NOT_READY_ACTIVATED;
@@ -2816,6 +2823,9 @@ HOOK_METHOD(CrewBox, GetSelected, (int mouseX, int mouseY) -> CrewMember*)
                 case POWER_NOT_READY_MAX_HEALTH:
                     tooltipName = "power_not_ready_max_health";
                     replaceValue = boost::lexical_cast<std::string>(def.powerDef.playerReq.maxHealth.value);
+                    break;
+                case POWER_NOT_READY_TELEPORTING:
+                    tooltipName = "power_not_ready_teleporting";
                     break;
                 }
 
