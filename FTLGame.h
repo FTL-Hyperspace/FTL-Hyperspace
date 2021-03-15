@@ -3324,6 +3324,10 @@ struct Targetable;
 struct WeaponControl : ArmamentControl
 {
 	LIBZHL_API void Fire(std::vector<Pointf> &points, int target, bool autoFire);
+	LIBZHL_API void OnRender();
+	LIBZHL_API void MouseMove(int x, int y);
+	LIBZHL_API void LButton(int x, int y);
+	LIBZHL_API void constructor();
 	
 	Targetable *currentTarget;
 	ProjectileFactory *armedWeapon;

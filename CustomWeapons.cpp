@@ -300,3 +300,5 @@ HOOK_STATIC(WeaponBlueprint, GetDescription, (std::string* strRef, WeaponBluepri
 
     strRef->assign(descText);
 }
+
+
