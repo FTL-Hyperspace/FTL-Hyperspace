@@ -17862,7 +17862,7 @@ namespace _func499
 {
 	static void *func = 0;
 	static short argdata[] = {0x101};
-	static FunctionDefinition funcObj("GenericButton::constructor", typeid(void (GenericButton::*)()), "578d7c240883e4f0ff77fc5589e5575389cb8d490483ec20c741fce8d58b0083c324e8????????660fefc0c743e8ffffffffc743ecffffffffc743f000000000", argdata, 1, 5, &func);
+	static FunctionDefinition funcObj("GenericButton::constructor", typeid(void (GenericButton::*)()), "578d7c240883e4f0ff77fc5589e5575389cb8d490483ec20c741fce8d58b0083c324e8????????660fefc0c743e8ffffffff", argdata, 1, 5, &func);
 }
 
 __declspec(naked) void GenericButton::constructor()
