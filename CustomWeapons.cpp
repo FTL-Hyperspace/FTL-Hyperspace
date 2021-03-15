@@ -301,4 +301,35 @@ HOOK_STATIC(WeaponBlueprint, GetDescription, (std::string* strRef, WeaponBluepri
     strRef->assign(descText);
 }
 
+static Button* smallAutoFireButton;
 
+HOOK_METHOD(WeaponControl, constructor, () -> void)
+{
+    super();
+
+    smallAutoFireButton = new Button();
+    smallAutoFireButton->OnInit("button_small_autofire", 0, 0);
+}
+
+HOOK_METHOD(WeaponControl, OnRender, () -> void)
+{
+    super();
+
+    if (this->shipManager->myBlueprint.weaponSlots <= 2 && this->shipManager->myBlueprint.weaponSlots > 0 && this->shipManager->HasSystem(3))
+    {
+        CSurface::GL_PushMatrix();
+        CSurface::GL_Translate(this->location.x, this->location.y, 0.0);
+        smallAutoFireButton->OnRender();
+        CSurface::GL_PopMatrix();
+    }
+}
+
+HOOK_METHOD(WeaponControl, MouseMove, (int x, int y) -> void)
+{
+    super(x, y);
+}
+
+HOOK_METHOD(WeaponControl, LButton, (int x, int y) -> void)
+{
+    super(x, y);
+}
