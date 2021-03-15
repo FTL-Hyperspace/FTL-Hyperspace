@@ -2824,6 +2824,9 @@ HOOK_METHOD(CrewBox, GetSelected, (int mouseX, int mouseY) -> CrewMember*)
                     tooltipName = "power_not_ready_max_health";
                     replaceValue = boost::lexical_cast<std::string>(def.powerDef.playerReq.maxHealth.value);
                     break;
+                case POWER_NOT_READY_TELEPORTING:
+                    tooltipName = "power_not_ready_teleporting";
+                    break;
                 }
 
                 if (!tooltipName.empty())
