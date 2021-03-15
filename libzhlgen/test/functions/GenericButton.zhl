@@ -10,3 +10,13 @@ virtual void GenericButton::OnRightClick(GenericButton *this<ecx>);
 virtual void GenericButton::ResetPrimitives(GenericButton *this<ecx>);
 ".f3c39090909090909090909090909090":
 virtual void GenericButton::OnClick(GenericButton *this<ecx>);
+"578d7c240883e4f0ff77fc5589e5575389cb8d490483ec20c741fce8d58b0083c324e8????????660fefc0c743e8ffffffffc743ecffffffffc743f000000000":
+void GenericButton::constructor(GenericButton *this<ecx>);
+
+struct GenericButton
+{{
+	GenericButton()
+	{
+		this->constructor();
+	}
+}};

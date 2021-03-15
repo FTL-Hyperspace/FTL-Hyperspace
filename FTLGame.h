@@ -682,6 +682,11 @@ struct Globals
 
 struct LIBZHL_INTERFACE GenericButton
 {
+	GenericButton()
+	{
+		this->constructor();
+	}
+
 	virtual ~GenericButton() {}
 	virtual void Reset() LIBZHL_PLACEHOLDER
 	LIBZHL_API virtual void SetLocation(Point pos);
@@ -694,6 +699,7 @@ struct LIBZHL_INTERFACE GenericButton
 	LIBZHL_API virtual void OnRightClick();
 	virtual void OnTouch() LIBZHL_PLACEHOLDER
 	LIBZHL_API virtual void ResetPrimitives();
+	LIBZHL_API void constructor();
 	
 	Point position;
 	Globals::Rect hitbox;
