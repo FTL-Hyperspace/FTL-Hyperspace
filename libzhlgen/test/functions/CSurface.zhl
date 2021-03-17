@@ -92,6 +92,7 @@ static cleanup GL_Primitive* CSurface::GL_CreateMultiImagePrimitive(GL_Texture* 
 "8d4c240483e4f0ff71fc5589e556535183ec5c8b31f30f105118f30f1035????????0f2ed6f30f10690cf30f106110f30f116dc0f30f1165c4":
 static cleanup GL_Primitive* CSurface::GL_CreateImagePrimitive(GL_Texture *tex, float x, float y, float size_x, float size_y, float rotate, GL_Color color);
 
+/* Could cause OpenGL issues
 "5531c089e5565383e4f083ec208b75088b5d0c8b551083fe0177??85d274??85db74??803b0074??":
 static cleanup int CSurface::shader_create_from_source(ShaderType type, const char* source, int length);
 ".5589e557565383e4f083ec208b5d088b7d0c85db7e??a1????????39c38944241c7d??0fb605????????8b15????????84c08844241b75??89d18b0c9985c974??85ff7e??":
@@ -104,12 +105,14 @@ static cleanup void CSurface::shader_pipeline_apply(int pipeline);
 static cleanup char* CSurface::generate_fragment_shader_source(GraphicsPrimitiveType primitive_type, int position_count, int texcoord_count, GraphicsTextureColorType texcolor_type, int tex_offset, int color_count, int color_uniform, int fog, int alpha_test, GraphicsComparisonType alpha_comparison);
 "8d4c240483e4f0ff71fc5589e55756535181ec????????8b79088b018b5104897dcc8b790c897dc88b7910897dc48b7914897dc08b7918":
 static cleanup int CSurface::opengl_select_shader(const void *primitive, const void *texture, int tex_offset, int color_uniform, int fog, int alpha_test, GraphicsComparisonType alpha_comparison);
+*/
 
 "5589e557565383e4f083ec508b7d08f30f10651c8b77042b3789f2c1fa040f2e25????????0f8a????????0f85????????8d0c95????????89d08954244c":
 static cleanup GL_Primitive* CSurface::GL_CreateMultiLinePrimitive(std::vector<GL_Line>& vec, GL_Color color, float thickness);
 
 struct CSurface
 {{
+	/*
 	static void GL_ApplyShader(int pipeline)
 	{
 		shader_pipeline_apply(pipeline);
@@ -129,6 +132,7 @@ struct CSurface
 	{
 		return shader_create_from_source(type, source, -1);
 	}
+	*/
 	
 	static GL_Color GetColorTint()
 	{
@@ -138,4 +142,5 @@ struct CSurface
 		
 		return *color;
 	}
+	
 }};
