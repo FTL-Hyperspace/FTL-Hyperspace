@@ -309,6 +309,15 @@ HOOK_METHOD(WeaponControl, constructor, () -> void)
 
     smallAutoFireButton = new Button();
     smallAutoFireButton->OnInit("button_small_autofire", 0, 0);
+    smallAutoFireButton->hitbox.w = 28;
+    smallAutoFireButton->hitbox.h = 28;
+}
+
+HOOK_METHOD(WeaponControl, LinkShip, (ShipManager *ship) -> void)
+{
+    super(ship);
+
+    smallAutoFireButton->bRenderSelected = autoFiring;
 }
 
 HOOK_METHOD(WeaponControl, OnRender, () -> void)
@@ -317,8 +326,12 @@ HOOK_METHOD(WeaponControl, OnRender, () -> void)
 
     if (this->shipManager->myBlueprint.weaponSlots <= 2 && this->shipManager->myBlueprint.weaponSlots > 0 && this->shipManager->HasSystem(3))
     {
+        smallAutoFireButton->hitbox.x = this->location.x + 184;
+        smallAutoFireButton->hitbox.y = this->location.y + 61;
+
+
         CSurface::GL_PushMatrix();
-        CSurface::GL_Translate(this->location.x + 180, this->location.y + 60, 0.0);
+        CSurface::GL_Translate(this->location.x + 184, this->location.y + 61, 0.0);
         smallAutoFireButton->OnRender();
         CSurface::GL_PopMatrix();
     }
@@ -328,9 +341,9 @@ HOOK_METHOD(WeaponControl, MouseMove, (int x, int y) -> void)
 {
     super(x, y);
 
-    if (this->shipManager->myBlueprint.weaponSlots <= 2 && this->shipManager->myBlueprint.weaponSlots > 0 && this->shipManager->HasSystem(3))
+    if (this->shipManager->myBlueprint.weaponSlots <= 2 && this->shipManager->myBlueprint.weaponSlots > 0 && this->shipManager->HasSystem(3) && !Dragging())
     {
-        smallAutoFireButton->MouseMove(this->location.x, this->location.y, 0);
+        smallAutoFireButton->MouseMove(x, y, false);
     }
 }
 
@@ -342,7 +355,8 @@ HOOK_METHOD(WeaponControl, LButton, (int x, int y) -> void)
     {
         if (smallAutoFireButton->bActive && smallAutoFireButton->bHover)
         {
-            this->autoFiring = !(this->autoFiring);
+            SetAutofiring(!autoFiring, false);
+            smallAutoFireButton->bRenderSelected = autoFiring;
         }
     }
 }
