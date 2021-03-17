@@ -10,6 +10,8 @@ void Button::OnRender(Button *this<ecx>);
 void Button::SetInactiveImage(Button *this<ecx>, GL_Texture *texture);
 ".5589e5565383e4f083ec108b450839414c74??89414c8b018b40303d????????75??8d59548d7160":
 void Button::SetActiveImage(Button *this<ecx>, GL_Texture *texture);
+"578d7c240883e4f0ff77fc5589e55756538d45a889cb83ec7c8b3f8945a08b178b770489d0":
+void Button::SetImageBase(Button *this<ecx>, const std::string& imageBase);
 
 
 struct Button

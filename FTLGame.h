@@ -725,6 +725,7 @@ struct Button : GenericButton
 	LIBZHL_API void OnRender();
 	LIBZHL_API void SetInactiveImage(GL_Texture *texture);
 	LIBZHL_API void SetActiveImage(GL_Texture *texture);
+	LIBZHL_API void SetImageBase(const std::string &imageBase);
 	
 	GL_Texture *images[3];
 	GL_Primitive *primitives[3];
@@ -3633,7 +3634,7 @@ struct ShipManager : ShipObject
 	LIBZHL_API int GetDodgeFactor();
 	LIBZHL_API void OnRender(char showInterior, char doorControlMode);
 	LIBZHL_API int CountCrew(char boarders);
-	LIBZHL_API int TeleportCrew(ShipManager *other, int room, char comingBack);
+	LIBZHL_API static std::vector<CrewMember*> *__stdcall TeleportCrew(std::vector<CrewMember*> *crewList, ShipManager *ship, int roomId, bool intruders);
 	LIBZHL_API int OnInit(ShipBlueprint *bp, int shipLevel);
 	LIBZHL_API char HasSystem(int systemId);
 	LIBZHL_API ShipSystem *GetSystemInRoom(int roomId);
