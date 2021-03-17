@@ -318,7 +318,7 @@ HOOK_METHOD(WeaponControl, OnRender, () -> void)
     if (this->shipManager->myBlueprint.weaponSlots <= 2 && this->shipManager->myBlueprint.weaponSlots > 0 && this->shipManager->HasSystem(3))
     {
         CSurface::GL_PushMatrix();
-        CSurface::GL_Translate(this->location.x, this->location.y, 0.0);
+        CSurface::GL_Translate(this->location.x + 180, this->location.y + 60, 0.0);
         smallAutoFireButton->OnRender();
         CSurface::GL_PopMatrix();
     }
@@ -327,9 +327,22 @@ HOOK_METHOD(WeaponControl, OnRender, () -> void)
 HOOK_METHOD(WeaponControl, MouseMove, (int x, int y) -> void)
 {
     super(x, y);
+
+    if (this->shipManager->myBlueprint.weaponSlots <= 2 && this->shipManager->myBlueprint.weaponSlots > 0 && this->shipManager->HasSystem(3))
+    {
+        smallAutoFireButton->MouseMove(this->location.x, this->location.y, 0);
+    }
 }
 
 HOOK_METHOD(WeaponControl, LButton, (int x, int y) -> void)
 {
     super(x, y);
+
+    if (this->shipManager->myBlueprint.weaponSlots <= 2 && this->shipManager->myBlueprint.weaponSlots > 0 && this->shipManager->HasSystem(3))
+    {
+        if (smallAutoFireButton->bActive && smallAutoFireButton->bHover)
+        {
+            this->autoFiring = !(this->autoFiring);
+        }
+    }
 }
