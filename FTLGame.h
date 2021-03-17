@@ -723,6 +723,8 @@ struct Button : GenericButton
 	LIBZHL_API void OnInit(const std::string &img, int x, int y);
 	LIBZHL_API void constructor();
 	LIBZHL_API void OnRender();
+	LIBZHL_API void SetInactiveImage(GL_Texture *texture);
+	LIBZHL_API void SetActiveImage(GL_Texture *texture);
 	
 	GL_Texture *images[3];
 	GL_Primitive *primitives[3];
