@@ -934,6 +934,8 @@ struct CrewTarget : ShipObject
 {
 };
 
+struct CommandGui;
+
 struct Animation;
 
 struct AnimationDescriptor
@@ -987,11 +989,14 @@ struct Animation
 	GL_Primitive *mirroredPrimitive;
 };
 
+struct ArmamentControl;
+
 struct ArmamentBox;
-struct CommandGui;
 
 struct ArmamentControl
 {
+	LIBZHL_API bool Dragging();
+	
 	void *vptr;
 	int systemId;
 	CommandGui *gui;
@@ -4463,6 +4468,21 @@ struct RockAnimation : CrewAnimation
 
 struct TeleportSystem : ShipSystem
 {
+	LIBZHL_API void SetHackingLevel(int hackingLevel);
+	LIBZHL_API void OnRenderFloor();
+	LIBZHL_API void constructor(int systemId, int roomId, int shipId, int startingPower);
+	LIBZHL_API float GetChargedPercent();
+	LIBZHL_API bool Charged();
+	LIBZHL_API void ClearCrewLocations();
+	LIBZHL_API void UpdateCrewLocation(int unk);
+	LIBZHL_API void SetArmed(int armed);
+	LIBZHL_API void ForceReady();
+	LIBZHL_API bool CanSend();
+	LIBZHL_API bool CanReceive();
+	LIBZHL_API void InitiateTeleport();
+	LIBZHL_API void OnLoop();
+	LIBZHL_API void Jump();
+	
 	float chargeLevel;
 	bool bCanSend;
 	bool bCanReceive;
