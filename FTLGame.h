@@ -5682,6 +5682,7 @@ struct PackageModuleInfo
 
 struct CSurface
 {
+	/*
 	static void GL_ApplyShader(int pipeline)
 	{
 		shader_pipeline_apply(pipeline);
@@ -5701,6 +5702,7 @@ struct CSurface
 	{
 		return shader_create_from_source(type, source, -1);
 	}
+	*/
 	
 	static GL_Color GetColorTint()
 	{
@@ -5710,6 +5712,7 @@ struct CSurface
 		
 		return *color;
 	}
+	
 
 	LIBZHL_API static GL_Color &__stdcall GL_GetColor();
 	LIBZHL_API static void __stdcall GL_SetColorTint(GL_Color color);
