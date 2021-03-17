@@ -100,3 +100,26 @@ HOOK_METHOD(ShipSystem, GetEffectivePower, () -> int)
 
     return boostPower + iBatteryPower + powerState.first + iBonusPower;
 }
+
+HOOK_STATIC(ShipManager, TeleportCrew, (std::vector<CrewMember*>* crewList, ShipManager *ship, int roomId, bool intruders) -> std::vector<CrewMember*>*)
+{
+
+    super(crewList, ship, roomId, intruders);
+
+    for (auto i : ship->vCrewList)
+    {
+        if (roomId != i->iRoomId)
+        {
+            continue;
+        }
+
+        if (i->NeedsIntruderSlot() == intruders && i->CanTeleport())
+        {
+            i->StartTeleport();
+
+            crewList->push_back(i);
+        }
+    }
+
+    return crewList;
+}
