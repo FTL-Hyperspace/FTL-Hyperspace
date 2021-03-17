@@ -308,7 +308,7 @@ HOOK_METHOD(WeaponControl, constructor, () -> void)
     super();
 
     smallAutoFireButton = new Button();
-    smallAutoFireButton->OnInit("button_small_autofire", 0, 0);
+    smallAutoFireButton->OnInit("button_small_autofireOn", 0, 0);
     smallAutoFireButton->hitbox.w = 28;
     smallAutoFireButton->hitbox.h = 28;
 }
@@ -317,7 +317,14 @@ HOOK_METHOD(WeaponControl, LinkShip, (ShipManager *ship) -> void)
 {
     super(ship);
 
-    smallAutoFireButton->bRenderSelected = autoFiring;
+    if(autoFiring){
+        smallAutoFireButton->SetImageBase("button_small_autofireOn");
+        smallAutoFireButton->bRenderOff = true;
+    }
+    else {
+        smallAutoFireButton->SetImageBase("button_small_autofireOff");
+        smallAutoFireButton->bRenderOff = true;
+    }
 }
 
 HOOK_METHOD(WeaponControl, OnRender, () -> void)
@@ -328,7 +335,6 @@ HOOK_METHOD(WeaponControl, OnRender, () -> void)
     {
         smallAutoFireButton->hitbox.x = this->location.x + 184;
         smallAutoFireButton->hitbox.y = this->location.y + 61;
-
 
         CSurface::GL_PushMatrix();
         CSurface::GL_Translate(this->location.x + 184, this->location.y + 61, 0.0);
@@ -344,6 +350,16 @@ HOOK_METHOD(WeaponControl, MouseMove, (int x, int y) -> void)
     if (this->shipManager->myBlueprint.weaponSlots <= 2 && this->shipManager->myBlueprint.weaponSlots > 0 && this->shipManager->HasSystem(3) && !Dragging())
     {
         smallAutoFireButton->MouseMove(x, y, false);
+        if(smallAutoFireButton->bHover){
+            smallAutoFireButton->bRenderOff = false;
+            smallAutoFireButton->bRenderSelected = true;
+        }
+        else {
+            smallAutoFireButton->bRenderOff = true;
+            smallAutoFireButton->bRenderSelected = false;
+
+        }
+
     }
 }
 
@@ -356,7 +372,16 @@ HOOK_METHOD(WeaponControl, LButton, (int x, int y) -> void)
         if (smallAutoFireButton->bActive && smallAutoFireButton->bHover)
         {
             SetAutofiring(!autoFiring, false);
-            smallAutoFireButton->bRenderSelected = autoFiring;
+            if (autoFiring) {
+                smallAutoFireButton->SetImageBase("button_small_autofireOn");
+                smallAutoFireButton->bRenderSelected = false;
+                smallAutoFireButton->bRenderOff = true;
+            }
+            else {
+                smallAutoFireButton->SetImageBase("button_small_autofireOff");
+                smallAutoFireButton->bRenderSelected = false;
+                smallAutoFireButton->bRenderOff = true;
+            }
         }
     }
 }
