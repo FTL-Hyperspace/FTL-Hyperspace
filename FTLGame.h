@@ -3322,17 +3322,19 @@ struct InputBox : FocusWindow
 	int lastInputIndex;
 };
 
-struct WeaponControl;
-
 struct Targetable;
+
+struct WeaponControl;
 
 struct WeaponControl : ArmamentControl
 {
 	LIBZHL_API void Fire(std::vector<Pointf> &points, int target, bool autoFire);
 	LIBZHL_API void OnRender();
-	LIBZHL_API void MouseMove(int x, int y);
 	LIBZHL_API void LButton(int x, int y);
+	LIBZHL_API void MouseMove(int x, int y);
+	LIBZHL_API void LinkShip(ShipManager *ship);
 	LIBZHL_API void constructor();
+	LIBZHL_API void SetAutofiring(bool on, bool simple);
 	
 	Targetable *currentTarget;
 	ProjectileFactory *armedWeapon;
@@ -5752,12 +5754,6 @@ struct CSurface
 	LIBZHL_API static void __stdcall AddTexVertices(std::vector<GL_TexVertex> *vec, float x1, float y1, float u1, float v1, float x2, float y2, float u2, float v2);
 	LIBZHL_API static GL_Primitive *__stdcall GL_CreateMultiImagePrimitive(GL_Texture *tex, std::vector<GL_TexVertex> *vec, GL_Color color);
 	LIBZHL_API static GL_Primitive *__stdcall GL_CreateImagePrimitive(GL_Texture *tex, float x, float y, float size_x, float size_y, float rotate, GL_Color color);
-	LIBZHL_API static int __stdcall shader_create_from_source(ShaderType type, const char *source, int length);
-	LIBZHL_API static int __stdcall shader_pipeline_create(int vertex_shader, int fragment_shader);
-	LIBZHL_API static void __stdcall shader_pipeline_destroy(int pipeline);
-	LIBZHL_API static void __stdcall shader_pipeline_apply(int pipeline);
-	LIBZHL_API static char *__stdcall generate_fragment_shader_source(GraphicsPrimitiveType primitive_type, int position_count, int texcoord_count, GraphicsTextureColorType texcolor_type, int tex_offset, int color_count, int color_uniform, int fog, int alpha_test, GraphicsComparisonType alpha_comparison);
-	LIBZHL_API static int __stdcall opengl_select_shader(const void *primitive, const void *texture, int tex_offset, int color_uniform, int fog, int alpha_test, GraphicsComparisonType alpha_comparison);
 	LIBZHL_API static GL_Primitive *__stdcall GL_CreateMultiLinePrimitive(std::vector<GL_Line> &vec, GL_Color color, float thickness);
 	
 };
