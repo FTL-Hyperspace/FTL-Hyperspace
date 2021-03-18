@@ -21971,7 +21971,7 @@ namespace _func614
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff};
-	static FunctionDefinition funcObj("Settings::GetHotkey", typeid(SDLKey (*)(const std::string &)), "5589e557565383e4f083ec20c7442410a08c4c008b4424108b785c8b406089c629fec1fe0269c6????????85c0", argdata, 1, 2, &func);
+	static FunctionDefinition funcObj("Settings::GetHotkey", typeid(SDLKey (*)(const std::string &)), ".5589e557565383e4f083ec20c7442410a08c4c008b4424108b785c8b406089c6", argdata, 1, 2, &func);
 }
 
 __declspec(naked) SDLKey Settings::GetHotkey(const std::string &hotkeyName)
