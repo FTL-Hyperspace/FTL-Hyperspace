@@ -1999,6 +1999,8 @@ struct BlueprintManager
 		
 		return GetCrewBlueprint(bp, this, name);
 	}
+	
+	
 
 	LIBZHL_API static std::vector<std::string> &__stdcall GetBlueprintList(std::vector<std::string> &vec, BlueprintManager *bpM, const std::string &str);
 	LIBZHL_API ShipBlueprint *GetShipBlueprint(const std::string &name, int sector);
@@ -2010,6 +2012,7 @@ struct BlueprintManager
 	LIBZHL_API static Description *__stdcall ProcessDescription(Description *desc, BlueprintManager *bpM, rapidxml::xml_node<char> *node);
 	LIBZHL_API static EffectsBlueprint *__stdcall ProcessEffectsBlueprint(EffectsBlueprint *bp, BlueprintManager *bpM, rapidxml::xml_node<char> *node);
 	LIBZHL_API static CrewBlueprint *__stdcall GetCrewBlueprint(CrewBlueprint *bp, BlueprintManager *bpM, const std::string &name);
+	LIBZHL_API static AugmentBlueprint *__stdcall GetRandomAugment(AugmentBlueprint *bp, BlueprintManager *bpM);
 	
 	int rarityTotal;
 	std::map<std::string, ShipBlueprint> shipBlueprints;
@@ -2828,6 +2831,7 @@ struct Store;
 struct Store : FocusWindow
 {
 	LIBZHL_API void OnInit(ShipManager *shopper, Equipment *equip, int worldLevel);
+	LIBZHL_API void CreateStoreBoxes(int type, Equipment *equip);
 	
 	GL_Texture *box;
 	TextString headingTitle[4];
@@ -3328,6 +3332,7 @@ struct WeaponControl : ArmamentControl
 	LIBZHL_API void MouseMove(int x, int y);
 	LIBZHL_API void LButton(int x, int y);
 	LIBZHL_API void constructor();
+	LIBZHL_API void KeyDown(SDLKey key);
 	
 	Targetable *currentTarget;
 	ProjectileFactory *armedWeapon;
@@ -5778,6 +5783,7 @@ struct Settings
 	LIBZHL_API static char __stdcall GetCommandConsole();
 	LIBZHL_API static bool __stdcall GetDlcEnabled();
 	LIBZHL_API static std::string &__stdcall GetHotkeyName(std::string &strRef, const std::string &name);
+	LIBZHL_API static SDLKey __stdcall GetHotkey(const std::string &hotkeyName);
 	
 };
 
