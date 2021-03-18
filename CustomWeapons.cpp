@@ -397,3 +397,31 @@ HOOK_METHOD(WeaponControl, LButton, (int x, int y) -> void)
         }
     }
 }
+
+HOOK_METHOD(WeaponControl, KeyDown, (SDLKey key) -> void)
+{
+    super(key);
+
+    if (this->shipManager->myBlueprint.weaponSlots <= 2 && this->shipManager->myBlueprint.weaponSlots > 0 && this->shipManager->HasSystem(3))
+    {
+        if (key == Settings::GetHotkey("autofire"))
+        {
+            if (smallAutoFireButton->bActive)
+            {
+                SetAutofiring(!autoFiring, false);
+                if (autoFiring)
+                {
+                    smallAutoFireButton->SetImageBase("button_small_autofireOn");
+                    smallAutoFireButton->bRenderSelected = false;
+                    smallAutoFireButton->bRenderOff = true;
+                }
+                else
+                {
+                    smallAutoFireButton->SetImageBase("button_small_autofireOff");
+                    smallAutoFireButton->bRenderSelected = false;
+                    smallAutoFireButton->bRenderOff = true;
+                }
+            }
+        }
+    }
+}
