@@ -353,6 +353,18 @@ HOOK_METHOD(WeaponControl, MouseMove, (int x, int y) -> void)
         if(smallAutoFireButton->bHover){
             smallAutoFireButton->bRenderOff = false;
             smallAutoFireButton->bRenderSelected = true;
+
+            std::string replaceWith;
+            std::string tooltip = G_->GetTextLibrary()->GetText("tooltip_autofire");
+
+            Settings::GetHotkeyName(replaceWith, "autofire");
+            boost::algorithm::replace_all(tooltip, "\\1", replaceWith);
+
+            Settings::GetHotkeyName(replaceWith, "force_autofire");
+            boost::algorithm::replace_all(tooltip, "\\2", replaceWith);
+
+            G_->GetMouseControl()->bForceTooltip = true;
+            G_->GetMouseControl()->SetTooltip(tooltip);
         }
         else {
             smallAutoFireButton->bRenderOff = true;
