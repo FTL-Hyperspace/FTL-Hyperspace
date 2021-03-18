@@ -301,4 +301,127 @@ HOOK_STATIC(WeaponBlueprint, GetDescription, (std::string* strRef, WeaponBluepri
     strRef->assign(descText);
 }
 
+static Button* smallAutoFireButton;
 
+HOOK_METHOD(WeaponControl, constructor, () -> void)
+{
+    super();
+
+    smallAutoFireButton = new Button();
+    smallAutoFireButton->OnInit("button_small_autofireOn", 0, 0);
+    smallAutoFireButton->hitbox.w = 28;
+    smallAutoFireButton->hitbox.h = 28;
+}
+
+HOOK_METHOD(WeaponControl, LinkShip, (ShipManager *ship) -> void)
+{
+    super(ship);
+
+    if(autoFiring){
+        smallAutoFireButton->SetImageBase("button_small_autofireOn");
+        smallAutoFireButton->bRenderOff = true;
+    }
+    else {
+        smallAutoFireButton->SetImageBase("button_small_autofireOff");
+        smallAutoFireButton->bRenderOff = true;
+    }
+}
+
+HOOK_METHOD(WeaponControl, OnRender, () -> void)
+{
+    super();
+
+    if (this->shipManager->myBlueprint.weaponSlots <= 2 && this->shipManager->myBlueprint.weaponSlots > 0 && this->shipManager->HasSystem(3))
+    {
+        smallAutoFireButton->hitbox.x = this->location.x + 184;
+        smallAutoFireButton->hitbox.y = this->location.y + 61;
+
+        CSurface::GL_PushMatrix();
+        CSurface::GL_Translate(this->location.x + 184, this->location.y + 61, 0.0);
+        smallAutoFireButton->OnRender();
+        CSurface::GL_PopMatrix();
+    }
+}
+
+HOOK_METHOD(WeaponControl, MouseMove, (int x, int y) -> void)
+{
+    super(x, y);
+
+    if (this->shipManager->myBlueprint.weaponSlots <= 2 && this->shipManager->myBlueprint.weaponSlots > 0 && this->shipManager->HasSystem(3) && !Dragging())
+    {
+        smallAutoFireButton->MouseMove(x, y, false);
+        if(smallAutoFireButton->bHover){
+            smallAutoFireButton->bRenderOff = false;
+            smallAutoFireButton->bRenderSelected = true;
+
+            std::string replaceWith;
+            std::string tooltip = G_->GetTextLibrary()->GetText("tooltip_autofire");
+
+            Settings::GetHotkeyName(replaceWith, "autofire");
+            boost::algorithm::replace_all(tooltip, "\\1", replaceWith);
+
+            Settings::GetHotkeyName(replaceWith, "force_autofire");
+            boost::algorithm::replace_all(tooltip, "\\2", replaceWith);
+
+            G_->GetMouseControl()->bForceTooltip = true;
+            G_->GetMouseControl()->SetTooltip(tooltip);
+        }
+        else {
+            smallAutoFireButton->bRenderOff = true;
+            smallAutoFireButton->bRenderSelected = false;
+
+        }
+
+    }
+}
+
+HOOK_METHOD(WeaponControl, LButton, (int x, int y) -> void)
+{
+    super(x, y);
+
+    if (this->shipManager->myBlueprint.weaponSlots <= 2 && this->shipManager->myBlueprint.weaponSlots > 0 && this->shipManager->HasSystem(3))
+    {
+        if (smallAutoFireButton->bActive && smallAutoFireButton->bHover)
+        {
+            SetAutofiring(!autoFiring, false);
+            if (autoFiring) {
+                smallAutoFireButton->SetImageBase("button_small_autofireOn");
+                smallAutoFireButton->bRenderSelected = false;
+                smallAutoFireButton->bRenderOff = true;
+            }
+            else {
+                smallAutoFireButton->SetImageBase("button_small_autofireOff");
+                smallAutoFireButton->bRenderSelected = false;
+                smallAutoFireButton->bRenderOff = true;
+            }
+        }
+    }
+}
+
+HOOK_METHOD(WeaponControl, KeyDown, (SDLKey key) -> void)
+{
+    super(key);
+
+    if (this->shipManager->myBlueprint.weaponSlots <= 2 && this->shipManager->myBlueprint.weaponSlots > 0 && this->shipManager->HasSystem(3))
+    {
+        if (key == Settings::GetHotkey("autofire"))
+        {
+            if (smallAutoFireButton->bActive)
+            {
+                SetAutofiring(!autoFiring, false);
+                if (autoFiring)
+                {
+                    smallAutoFireButton->SetImageBase("button_small_autofireOn");
+                    smallAutoFireButton->bRenderSelected = false;
+                    smallAutoFireButton->bRenderOff = true;
+                }
+                else
+                {
+                    smallAutoFireButton->SetImageBase("button_small_autofireOff");
+                    smallAutoFireButton->bRenderSelected = false;
+                    smallAutoFireButton->bRenderOff = true;
+                }
+            }
+        }
+    }
+}

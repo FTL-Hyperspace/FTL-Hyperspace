@@ -723,6 +723,9 @@ struct Button : GenericButton
 	LIBZHL_API void OnInit(const std::string &img, int x, int y);
 	LIBZHL_API void constructor();
 	LIBZHL_API void OnRender();
+	LIBZHL_API void SetInactiveImage(GL_Texture *texture);
+	LIBZHL_API void SetActiveImage(GL_Texture *texture);
+	LIBZHL_API void SetImageBase(const std::string &imageBase);
 	
 	GL_Texture *images[3];
 	GL_Primitive *primitives[3];
@@ -934,6 +937,8 @@ struct CrewTarget : ShipObject
 {
 };
 
+struct CommandGui;
+
 struct Animation;
 
 struct AnimationDescriptor
@@ -987,11 +992,14 @@ struct Animation
 	GL_Primitive *mirroredPrimitive;
 };
 
+struct ArmamentControl;
+
 struct ArmamentBox;
-struct CommandGui;
 
 struct ArmamentControl
 {
+	LIBZHL_API bool Dragging();
+	
 	void *vptr;
 	int systemId;
 	CommandGui *gui;
@@ -3321,17 +3329,19 @@ struct InputBox : FocusWindow
 	int lastInputIndex;
 };
 
-struct WeaponControl;
-
 struct Targetable;
+
+struct WeaponControl;
 
 struct WeaponControl : ArmamentControl
 {
 	LIBZHL_API void Fire(std::vector<Pointf> &points, int target, bool autoFire);
 	LIBZHL_API void OnRender();
-	LIBZHL_API void MouseMove(int x, int y);
 	LIBZHL_API void LButton(int x, int y);
+	LIBZHL_API void MouseMove(int x, int y);
+	LIBZHL_API void LinkShip(ShipManager *ship);
 	LIBZHL_API void constructor();
+	LIBZHL_API void SetAutofiring(bool on, bool simple);
 	LIBZHL_API void KeyDown(SDLKey key);
 	
 	Targetable *currentTarget;
@@ -3629,7 +3639,7 @@ struct ShipManager : ShipObject
 	LIBZHL_API int GetDodgeFactor();
 	LIBZHL_API void OnRender(char showInterior, char doorControlMode);
 	LIBZHL_API int CountCrew(char boarders);
-	LIBZHL_API int TeleportCrew(ShipManager *other, int room, char comingBack);
+	LIBZHL_API static std::vector<CrewMember*> *__stdcall TeleportCrew(std::vector<CrewMember*> *crewList, ShipManager *ship, int roomId, bool intruders);
 	LIBZHL_API int OnInit(ShipBlueprint *bp, int shipLevel);
 	LIBZHL_API char HasSystem(int systemId);
 	LIBZHL_API ShipSystem *GetSystemInRoom(int roomId);
@@ -4468,6 +4478,21 @@ struct RockAnimation : CrewAnimation
 
 struct TeleportSystem : ShipSystem
 {
+	LIBZHL_API void SetHackingLevel(int hackingLevel);
+	LIBZHL_API void OnRenderFloor();
+	LIBZHL_API void constructor(int systemId, int roomId, int shipId, int startingPower);
+	LIBZHL_API float GetChargedPercent();
+	LIBZHL_API bool Charged();
+	LIBZHL_API void ClearCrewLocations();
+	LIBZHL_API void UpdateCrewLocation(int unk);
+	LIBZHL_API void SetArmed(int armed);
+	LIBZHL_API void ForceReady();
+	LIBZHL_API bool CanSend();
+	LIBZHL_API bool CanReceive();
+	LIBZHL_API void InitiateTeleport();
+	LIBZHL_API void OnLoop();
+	LIBZHL_API void Jump();
+	
 	float chargeLevel;
 	bool bCanSend;
 	bool bCanReceive;
@@ -5665,6 +5690,7 @@ struct PackageModuleInfo
 
 struct CSurface
 {
+	/*
 	static void GL_ApplyShader(int pipeline)
 	{
 		shader_pipeline_apply(pipeline);
@@ -5684,6 +5710,7 @@ struct CSurface
 	{
 		return shader_create_from_source(type, source, -1);
 	}
+	*/
 	
 	static GL_Color GetColorTint()
 	{
@@ -5693,6 +5720,7 @@ struct CSurface
 		
 		return *color;
 	}
+	
 
 	LIBZHL_API static GL_Color &__stdcall GL_GetColor();
 	LIBZHL_API static void __stdcall GL_SetColorTint(GL_Color color);
@@ -5737,12 +5765,6 @@ struct CSurface
 	LIBZHL_API static void __stdcall AddTexVertices(std::vector<GL_TexVertex> *vec, float x1, float y1, float u1, float v1, float x2, float y2, float u2, float v2);
 	LIBZHL_API static GL_Primitive *__stdcall GL_CreateMultiImagePrimitive(GL_Texture *tex, std::vector<GL_TexVertex> *vec, GL_Color color);
 	LIBZHL_API static GL_Primitive *__stdcall GL_CreateImagePrimitive(GL_Texture *tex, float x, float y, float size_x, float size_y, float rotate, GL_Color color);
-	LIBZHL_API static int __stdcall shader_create_from_source(ShaderType type, const char *source, int length);
-	LIBZHL_API static int __stdcall shader_pipeline_create(int vertex_shader, int fragment_shader);
-	LIBZHL_API static void __stdcall shader_pipeline_destroy(int pipeline);
-	LIBZHL_API static void __stdcall shader_pipeline_apply(int pipeline);
-	LIBZHL_API static char *__stdcall generate_fragment_shader_source(GraphicsPrimitiveType primitive_type, int position_count, int texcoord_count, GraphicsTextureColorType texcolor_type, int tex_offset, int color_count, int color_uniform, int fog, int alpha_test, GraphicsComparisonType alpha_comparison);
-	LIBZHL_API static int __stdcall opengl_select_shader(const void *primitive, const void *texture, int tex_offset, int color_uniform, int fog, int alpha_test, GraphicsComparisonType alpha_comparison);
 	LIBZHL_API static GL_Primitive *__stdcall GL_CreateMultiLinePrimitive(std::vector<GL_Line> &vec, GL_Color color, float thickness);
 	
 };
