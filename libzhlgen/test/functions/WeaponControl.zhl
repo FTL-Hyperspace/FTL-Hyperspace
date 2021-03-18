@@ -10,5 +10,10 @@ void WeaponControl::MouseMove(WeaponControl *this<ecx>, int x, int y);
 void WeaponControl::LinkShip(WeaponControl *this<ecx>, ShipManager *ship);
 "578d7c240883e4f0ff77fc5589e557565389cf8db518feffff81ec????????898d10fdffffc70424????????e8????????8d8f9800000083ec04c707????????c7878c00000000000000c7879000000000000000":
 void WeaponControl::constructor(WeaponControl *this<ecx>);
+<<<<<<< HEAD
 "578d7c240883e4f0ff77fc5589e557565389ce83ec5c8b078b7f04f30f101d????????84c08881940000000f84????????f30f1005????????f30f100d????????":
 void WeaponControl::SetAutofiring(WeaponControl *this<ecx>, bool on, bool simple);
+=======
+"578d7c240883e4f0ff77fc5589e557565389ce83ec4c8b3f893c24e8????????83ec0484c0":
+void WeaponControl::KeyDown(WeaponControl *this<ecx>, SDLKey key);
+>>>>>>> master
