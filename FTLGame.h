@@ -3341,11 +3341,6 @@ struct WeaponControl : ArmamentControl
 	LIBZHL_API void MouseMove(int x, int y);
 	LIBZHL_API void LinkShip(ShipManager *ship);
 	LIBZHL_API void constructor();
-<<<<<<< HEAD
-	LIBZHL_API void SetAutofiring(bool on, bool simple);
-=======
-	LIBZHL_API void KeyDown(SDLKey key);
->>>>>>> master
 	
 	Targetable *currentTarget;
 	ProjectileFactory *armedWeapon;
