@@ -18,7 +18,8 @@ static Description* BlueprintManager::ProcessDescription(Description *desc<ecx>,
 static EffectsBlueprint* BlueprintManager::ProcessEffectsBlueprint(EffectsBlueprint *bp<ecx>, BlueprintManager *bpM, rapidxml::xml_node<char>* node);
 "578d7c240883e4f0ff77fc5589f889e557565389cb83ec6c8b3f8b7004e8????????8d47648d5768":
 static CrewBlueprint* BlueprintManager::GetCrewBlueprint(CrewBlueprint* bp<ecx>, BlueprintManager *bpM, const std::string& name);
-
+"578d7c240883e4f0ff77fc5589e5575389cb83ec108b078b57040fb64f08895424088d504c":
+static AugmentBlueprint* BlueprintManager::GetRandomAugment(AugmentBlueprint* bp<ecx>, BlueprintManager *bpM);
 
 struct BlueprintManager
 {{
@@ -42,4 +43,6 @@ struct BlueprintManager
 		
 		return GetCrewBlueprint(bp, this, name);
 	}
+	
+	
 }};

@@ -1,2 +1,4 @@
 "578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b078b918c0400008945e48b47048945dc8b4708":
 void Store::OnInit(Store *this<ecx>, ShipManager *shopper, Equipment *equip, int worldLevel);
+"578d7c240883e4f0ff77fc5589e557565389cb83ec7c8b178b47048955a08945a4":
+void Store::CreateStoreBoxes(Store *this<ecx>, int type, Equipment *equip);
