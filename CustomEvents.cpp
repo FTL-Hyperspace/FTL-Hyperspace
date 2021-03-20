@@ -332,17 +332,7 @@ HOOK_STATIC(ShipManager, SelectRandomCrew, (CrewBlueprint &bp, ShipManager *ship
     {
         CrewMember* crew;
         crew = ship->AddCrewMemberFromString("No one", "human", false, 0, false, false);
-        for (auto i : crew->blueprint.colorLayers)
-        {
-          for (auto j : i)
-          {
-            j.a = 0;
-          }
-          printf("======\n");
-        }
         super(bp, ship, seed, unk);
- //       bp = crew->blueprint;
- //       return &bp;
     }
     else
     {
