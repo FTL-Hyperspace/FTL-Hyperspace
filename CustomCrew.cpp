@@ -167,6 +167,10 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                         {
                             crew.maxHealth = boost::lexical_cast<int>(val);
                         }
+                        if (str == "stunMultiplier")
+                        {
+                            crew.stunMultiplier = boost::lexical_cast<float>(val);
+                        }
                         if (str == "moveSpeedMultiplier")
                         {
                             crew.moveSpeedMultiplier = boost::lexical_cast<float>(val);
@@ -1514,6 +1518,16 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
         else
         {
             ex->isHealing = true;
+        }
+
+        if (fStunTime == 0)
+        {
+            ex->stunChanged = false;
+        }
+        else if (ex->stunChanged == false)
+        {
+            fStunTime = fStunTime * def.stunMultiplier;
+            ex->stunChanged = true;
         }
 
         if (ex->hasSpecialPower && !G_->GetCApp()->menu.shipBuilder.bOpen)

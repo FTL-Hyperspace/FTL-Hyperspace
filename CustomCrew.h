@@ -109,6 +109,7 @@ struct TemporaryPowerDefinition
     bool baseVisible = true;
     std::vector<std::string> sounds;
 
+    ToggleValue<float> stunMultiplier;
     ToggleValue<float> moveSpeedMultiplier;
     ToggleValue<float> damageMultiplier;
     ToggleValue<float> repairSpeed;
@@ -214,6 +215,7 @@ struct CrewDefinition
     bool controllable = true;
     bool canBurn = true;
     int maxHealth = 100;
+    float stunMultiplier = 1.f;
     float moveSpeedMultiplier = 1.f;
     float repairSpeed = 1.f;
     float damageMultiplier = 1.f;

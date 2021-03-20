@@ -79,6 +79,8 @@ public:
     bool isIonDrone = false;
     bool isAbilityDrone = false;
 
+    bool stunChanged = false; // for use in stun resistance checking
+
     void Initialize(CrewBlueprint& bp, int shipId, bool enemy, CrewAnimation *animation);
 
 
