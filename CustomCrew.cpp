@@ -167,6 +167,10 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                         {
                             crew.maxHealth = boost::lexical_cast<int>(val);
                         }
+                        if (str == "stunMultiplier")
+                        {
+                            crew.stunMultiplier = boost::lexical_cast<float>(val);
+                        }
                         if (str == "moveSpeedMultiplier")
                         {
                             crew.moveSpeedMultiplier = boost::lexical_cast<float>(val);
@@ -664,6 +668,10 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                                                     crew.powerDef.tempPower.sounds.push_back(std::string(soundNode->value()));
                                                 }
                                             }
+                                        }
+                                        if (tempEffectName == "stunMultiplier")
+                                        {
+                                            crew.powerDef.tempPower.stunMultiplier = boost::lexical_cast<float>(tempEffectNode->value());
                                         }
                                         if (tempEffectName == "moveSpeedMultiplier")
                                         {
@@ -1515,6 +1523,38 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
         {
             ex->isHealing = true;
         }
+
+        if (fStunTime != 0.f)
+        {
+            if (fStunTime < ex->prevStun)
+            {
+                float stunMultiplier = 1.f;
+
+                if (ex->temporaryPowerActive && def.powerDef.tempPower.stunMultiplier.enabled)
+                {
+                    stunMultiplier = def.powerDef.tempPower.stunMultiplier.value;
+                }
+                else
+                {
+                    stunMultiplier = def.stunMultiplier;
+                }
+
+                if (stunMultiplier != 0.f)
+                {
+                    fStunTime = ex->prevStun - ((ex->prevStun - fStunTime) * (1.f / stunMultiplier));
+                    if (fStunTime < 0.f)
+                    {
+                        fStunTime = 0.f;
+                    }
+                }
+                else
+                {
+                    fStunTime = 0.f;
+                }
+            }
+        }
+
+        ex->prevStun = fStunTime;
 
         if (ex->hasSpecialPower && !G_->GetCApp()->menu.shipBuilder.bOpen)
         {
