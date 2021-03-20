@@ -999,6 +999,7 @@ struct ArmamentBox;
 struct ArmamentControl
 {
 	LIBZHL_API bool Dragging();
+	LIBZHL_API void SetPosition(int x, int y);
 	
 	void *vptr;
 	int systemId;
@@ -4555,6 +4556,8 @@ struct CombatControl
 	LIBZHL_API void UpdateAiming();
 	LIBZHL_API bool UpdateTarget();
 	LIBZHL_API void DrawHostileBox(GL_Color color, int stencilBit);
+	LIBZHL_API void OnInit(Point pos);
+	LIBZHL_API void OnLoop();
 	
 	CommandGui *gui;
 	ShipManager *shipManager;
@@ -4613,6 +4616,9 @@ struct UpgradeBox
 
 struct SystemControl
 {
+	LIBZHL_API void CreateSystemBoxes();
+	LIBZHL_API SystemBox *GetSystemBox(int systemId);
+	
 	ShipManager *shipManager;
 	CombatControl *combatControl;
 	std::vector<SystemBox*> sysBoxes;

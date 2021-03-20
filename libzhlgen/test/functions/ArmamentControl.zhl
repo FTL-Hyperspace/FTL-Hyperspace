@@ -1,2 +1,4 @@
 "578d7c240883e4f0ff77fc5589e5575389cb83ec10837970ff74??8b43688b536c8d4960890424":
 bool ArmamentControl::Dragging(ArmamentControl *this<ecx>);
+"5589e5565383e4f083ec108b450839411c8b550c74??89411c89512031db8b51408b414489ce":
+void ArmamentControl::SetPosition(ArmamentControl *this<ecx>, int x, int y);
