@@ -669,6 +669,10 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                                                 }
                                             }
                                         }
+                                        if (tempEffectName == "stunMultiplier")
+                                        {
+                                            crew.powerDef.tempPower.stunMultiplier = boost::lexical_cast<float>(tempEffectNode->value());
+                                        }
                                         if (tempEffectName == "moveSpeedMultiplier")
                                         {
                                             crew.powerDef.tempPower.moveSpeedMultiplier = boost::lexical_cast<float>(tempEffectNode->value());
@@ -1520,15 +1524,47 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
             ex->isHealing = true;
         }
 
-        if (fStunTime == 0)
+        if (fStunTime != 0)
         {
-            ex->stunChanged = false;
+            if (fStunTime > ex->prevStun)
+            {
+                // do nothing, wait for next frame
+            }
+            else
+            {
+                if (ex->temporaryPowerActive && def.powerDef.tempPower.stunMultiplier.enabled)
+                {
+                    if (def.powerDef.tempPower.stunMultiplier.value != 0)
+                    {
+                        fStunTime = ex->prevStun - ((ex->prevStun - fStunTime) * (1 / def.powerDef.tempPower.stunMultiplier.value));
+                        if (fStunTime < 0)
+                        {
+                            fStunTime = 0;
+                        }
+                    }
+                    else
+                    {
+                        fStunTime = 0;
+                    }
+                }
+                else
+                {
+                    if (def.stunMultiplier != 0)
+                    {
+                        fStunTime = ex->prevStun - ((ex->prevStun - fStunTime) * (1 / def.stunMultiplier));
+                        if (fStunTime < 0)
+                        {
+                            fStunTime = 0;
+                        }
+                    }
+                    else
+                    {
+                        fStunTime = 0;
+                    }
+                }
+            }
         }
-        else if (ex->stunChanged == false)
-        {
-            fStunTime = fStunTime * def.stunMultiplier;
-            ex->stunChanged = true;
-        }
+        ex->prevStun = fStunTime;
 
         if (ex->hasSpecialPower && !G_->GetCApp()->menu.shipBuilder.bOpen)
         {
