@@ -326,6 +326,30 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
     }
 }
 
+HOOK_STATIC(ShipManager, SelectRandomCrew, (CrewBlueprint &bp, ShipManager *ship, int seed, const std::string &unk) -> CrewBlueprint*)
+{
+    if (ship->CountCrew(false) == 0)
+    {
+        CrewMember* crew;
+        crew = ship->AddCrewMemberFromString("No one", "human", false, 0, false, false);
+        for (auto i : crew->blueprint.colorLayers)
+        {
+          for (auto j : i)
+          {
+            j.a = 0;
+          }
+          printf("======\n");
+        }
+        super(bp, ship, seed, unk);
+ //       bp = crew->blueprint;
+ //       return &bp;
+    }
+    else
+    {
+        super(bp, ship, seed, unk);
+    }
+}
+
 CustomEvent *CustomEventsParser::GetCustomEvent(const std::string& event)
 {
     std::string baseEvent = CustomEventsParser::GetBaseEventName(event);
