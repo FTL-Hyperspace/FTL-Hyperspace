@@ -193,6 +193,7 @@ struct ActivatedPowerDefinition
     bool activateWhenReady = false;
     bool activateReadyEnemies = false;
     std::string transformRace = "";
+    std::string callEvent = "";
 
 
     TemporaryPowerDefinition tempPower;

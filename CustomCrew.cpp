@@ -639,6 +639,10 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                                 {
                                     crew.powerDef.transformRace = effectNode->value();
                                 }
+                                if (effectName == "callEvent")
+                                {
+                                    crew.powerDef.callEvent = effectNode->value();
+                                }
                                 if (effectName == "temporaryEffect")
                                 {
                                     crew.powerDef.hasTemporaryPower = true;
@@ -1127,6 +1131,10 @@ void CrewMember_Extend::ActivatePower()
             G_->GetCApp()->gui->crewControl.ClearCrewBoxes();
             G_->GetCApp()->gui->crewControl.UpdateCrewBoxes();
         }
+    }
+    if (!powerDef.callEvent.empty())
+    {
+        G_->GetWorld()->UpdateLocation(G_->GetEventGenerator()->GetBaseEvent(powerDef.callEvent, G_->GetWorld()->starMap.currentSector->level, true, -1));
     }
 }
 
