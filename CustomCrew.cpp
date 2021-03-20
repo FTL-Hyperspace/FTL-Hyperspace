@@ -1524,46 +1524,36 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
             ex->isHealing = true;
         }
 
-        if (fStunTime != 0)
+        if (fStunTime != 0.f)
         {
-            if (fStunTime > ex->prevStun)
+            if (fStunTime < ex->prevStun)
             {
-                // do nothing, wait for next frame
-            }
-            else
-            {
+                float stunMultiplier = 1.f;
+
                 if (ex->temporaryPowerActive && def.powerDef.tempPower.stunMultiplier.enabled)
                 {
-                    if (def.powerDef.tempPower.stunMultiplier.value != 0)
+                    stunMultiplier = def.powerDef.tempPower.stunMultiplier.value;
+                }
+                else
+                {
+                    stunMultiplier = def.stunMultiplier;
+                }
+
+                if (stunMultiplier != 0.f)
+                {
+                    fStunTime = ex->prevStun - ((ex->prevStun - fStunTime) * (1.f / stunMultiplier));
+                    if (fStunTime < 0.f)
                     {
-                        fStunTime = ex->prevStun - ((ex->prevStun - fStunTime) * (1 / def.powerDef.tempPower.stunMultiplier.value));
-                        if (fStunTime < 0)
-                        {
-                            fStunTime = 0;
-                        }
-                    }
-                    else
-                    {
-                        fStunTime = 0;
+                        fStunTime = 0.f;
                     }
                 }
                 else
                 {
-                    if (def.stunMultiplier != 0)
-                    {
-                        fStunTime = ex->prevStun - ((ex->prevStun - fStunTime) * (1 / def.stunMultiplier));
-                        if (fStunTime < 0)
-                        {
-                            fStunTime = 0;
-                        }
-                    }
-                    else
-                    {
-                        fStunTime = 0;
-                    }
+                    fStunTime = 0.f;
                 }
             }
         }
+
         ex->prevStun = fStunTime;
 
         if (ex->hasSpecialPower && !G_->GetCApp()->menu.shipBuilder.bOpen)
