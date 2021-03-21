@@ -2980,7 +2980,7 @@ struct TapBoxFrame
 struct SystemBox
 {
   VTable_SystemBox *_vtable;
-  const Point location;
+  Point location;
   GL_Primitive *timerCircle[10];
   GL_Primitive *timerLines;
   GL_Primitive *timerStencil;
