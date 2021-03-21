@@ -334,6 +334,9 @@
 		<Unit filename="Projectile_Extend.h">
 			<Option virtualFolder="Core/Weapons/" />
 		</Unit>
+		<Unit filename="Renderer.cpp">
+			<Option virtualFolder="Core/CApp/" />
+		</Unit>
 		<Unit filename="Resources.cpp">
 			<Option virtualFolder="Core/Resources/" />
 		</Unit>
