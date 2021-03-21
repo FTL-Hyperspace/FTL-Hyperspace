@@ -246,6 +246,7 @@ struct CrewDefinition
     int powerDrain = 0;
     bool powerDrainFriendly = false;
     float damageEnemiesAmount = 0.f;
+    std::string transformRace = "";
 
     Damage explosionDef;
     bool explosionShipFriendlyFire = false;

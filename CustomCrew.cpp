@@ -419,6 +419,10 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                                 {
                                     crew.explosionShipFriendlyFire = EventsParser::ParseBoolean(effectNode->value());
                                 }
+                                if (effectName == "transformRace")
+                                {
+                                    crew.transformRace = effectNode->value();
+                                }
                             }
                         }
                         if (str == "powerEffect")
@@ -2373,6 +2377,40 @@ HOOK_STATIC(CrewMember, GetRoomDamage, (Damage *damage, CrewMember *crew) -> Dam
                     ret = damage;
 
                     ex->exploded = true;
+
+                    if (!custom->GetDefinition(crew->species).transformRace.empty())
+                    {
+                        std::string newCrew = custom->GetDefinition(crew->species).transformRace;
+                        auto newBlueprint = G_->GetBlueprints()->GetCrewBlueprint(newCrew);
+
+                        crew->blueprint.powers = newBlueprint->powers;
+                        crew->blueprint.name = newBlueprint->name;
+                        crew->blueprint.desc = newBlueprint->desc;
+                        crew->blueprint.type = newBlueprint->type;
+                        crew->species = newCrew;
+
+                        delete newBlueprint;
+
+                        auto newCrewAnim = new CrewAnimation(crew->iShipId, crew->species, Pointf(0, 0), crew->iShipId == 1);
+
+                        crew->crewAnim->anims = newCrewAnim->anims;
+                        crew->crewAnim->baseStrip = newCrewAnim->baseStrip;
+                        crew->crewAnim->colorStrip = newCrewAnim->colorStrip;
+                        crew->crewAnim->bDrone = newCrewAnim->bDrone;
+                        crew->crewAnim->bGhost = newCrewAnim->bGhost;
+                        crew->crewAnim->race = newCrewAnim->race;
+                        crew->crewAnim->status = 0;
+                        crew->bDead = false;
+
+                        ex->Initialize(crew->blueprint, crew->iShipId, crew->iShipId == 1, crew->crewAnim);
+                        crew->health.first = crew->health.second;
+
+                        if (crew->iShipId == 0)
+                        {
+                            G_->GetCApp()->gui->crewControl.ClearCrewBoxes();
+                            G_->GetCApp()->gui->crewControl.UpdateCrewBoxes();
+                        }
+                    }
                 }
             }
         }
