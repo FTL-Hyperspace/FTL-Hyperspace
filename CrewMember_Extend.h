@@ -81,6 +81,13 @@ public:
 
     float prevStun = 0.f; // for use in stun resistance checking
 
+    float augDamageMultiplier = 1.f;
+    float augSabotageMultiplier = 1.f;
+    float augHealthMultiplier = 1.f;
+    float augDamageTakenMultiplier = 1.f;
+    float augFireDamageTakenMultiplier = 1.f;
+    float augRepairSpeedMultiplier = 1.f;
+
     void Initialize(CrewBlueprint& bp, int shipId, bool enemy, CrewAnimation *animation);
 
 

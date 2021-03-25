@@ -102,7 +102,23 @@ static bool __attribute__((fastcall)) CrewMember_CanBurn(CrewMember *_this)
 static int __attribute__((fastcall)) CrewMember_GetMaxHealth(CrewMember *_this)
 {
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
-    return custom->GetDefinition(_this->species).maxHealth;
+    CrewMember_Extend* ex = CM_EX(_this);
+    if (_this->GetShipObject()->HasAugmentation("HEALTH_BOOST"))
+    {
+        float augAmount = _this->GetShipObject()->GetAugmentationValue("HEALTH_BOOST");
+        if (augAmount != ex->augHealthMultiplier)
+        {
+            _this->health.second /= ex->augHealthMultiplier;
+            _this->health.second *= augAmount;
+            _this->health.first *= (augAmount / ex->augHealthMultiplier);
+        }
+        ex->augHealthMultiplier = augAmount;
+    }
+    else
+    {
+        ex->augHealthMultiplier = 1.f;
+    }
+    return custom->GetDefinition(_this->species).maxHealth * ex->augHealthMultiplier;
 }
 
 static float __attribute__((fastcall)) CrewMember_GetMoveSpeedMultiplier(CrewMember *_this)
@@ -124,13 +140,22 @@ static float __attribute__((fastcall)) CrewMember_GetRepairSpeed(CrewMember *_th
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
     auto def = custom->GetDefinition(_this->species);
 
-    auto ex = CM_EX(_this);
-    if (ex->temporaryPowerActive && def.powerDef.tempPower.repairSpeed.enabled)
+    CrewMember_Extend* ex = CM_EX(_this);
+    if (_this->GetShipObject()->HasAugmentation("REPAIR_BOOST"))
     {
-        return def.powerDef.tempPower.repairSpeed.value;
+        float augAmount = _this->GetShipObject()->GetAugmentationValue("REPAIR_BOOST");
+        ex->augRepairSpeedMultiplier = augAmount;
+        if (ex->temporaryPowerActive && def.powerDef.tempPower.repairSpeed.enabled)
+        {
+            return def.powerDef.tempPower.repairSpeed.value * ex->augRepairSpeedMultiplier;
+        }
+    }
+    else
+    {
+        ex->augRepairSpeedMultiplier = 1.f;
     }
 
-    return def.repairSpeed;
+    return def.repairSpeed * ex->augRepairSpeedMultiplier;
 }
 
 static float __attribute__((fastcall)) CrewMember_GetDamageMultiplier(CrewMember *_this)
@@ -139,24 +164,46 @@ static float __attribute__((fastcall)) CrewMember_GetDamageMultiplier(CrewMember
     auto def = custom->GetDefinition(_this->species);
 
     auto ex = CM_EX(_this);
-    if (ex->temporaryPowerActive && def.powerDef.tempPower.damageMultiplier.enabled)
+    if (_this->GetShipObject()->HasAugmentation("DAMAGE_BOOST"))
     {
-        return def.powerDef.tempPower.damageMultiplier.value;
+        float augAmount = _this->GetShipObject()->GetAugmentationValue("DAMAGE_BOOST");
+        ex->augDamageMultiplier = augAmount;
+        if (ex->temporaryPowerActive && def.powerDef.tempPower.damageMultiplier.enabled)
+        {
+            return def.powerDef.tempPower.damageMultiplier.value * ex->augDamageMultiplier;
+        }
+    }
+    else
+    {
+        ex->augDamageMultiplier = 1.f;
     }
 
-    return def.damageMultiplier;
+    return def.damageMultiplier * ex->augDamageMultiplier;
 }
 
 static bool __attribute__((fastcall)) CrewMember_ProvidesPower(CrewMember *_this)
 {
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
+
     return custom->GetDefinition(_this->species).providesPower;
 }
 
 static float __attribute__((fastcall)) CrewMember_FireRepairMultiplier(CrewMember *_this)
 {
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
-    return custom->GetDefinition(_this->species).fireRepairMultiplier;
+    auto def = custom->GetDefinition(_this->species);
+
+    CrewMember_Extend* ex = CM_EX(_this);
+    if (_this->GetShipObject()->HasAugmentation("REPAIR_BOOST"))
+    {
+        float augAmount = _this->GetShipObject()->GetAugmentationValue("REPAIR_BOOST");
+        ex->augRepairSpeedMultiplier = augAmount;
+    }
+    else
+    {
+        ex->augRepairSpeedMultiplier = 1.f;
+    }
+    return custom->GetDefinition(_this->species).fireRepairMultiplier * ex->augRepairSpeedMultiplier;
 }
 
 static bool __attribute__((fastcall)) CrewMember_IsTelepathic(CrewMember *_this)

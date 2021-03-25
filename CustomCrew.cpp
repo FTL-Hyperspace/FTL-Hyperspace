@@ -3031,6 +3031,14 @@ HOOK_METHOD(ShipManager, OnLoop, () -> void)
                         permanentPowerCounter++;
                     }
                 }
+
+                CrewMember_Extend* ex = CM_EX(j);
+                if (j->GetShipObject()->HasAugmentation("POWER_BOOST"))
+                {
+                    float augAmount = j->GetShipObject()->GetAugmentationValue("POWER_BOOST");
+                    permanentPowerCounter += augAmount;
+                    bonusPowerCounter += augAmount;
+                }
             }
         }
 
@@ -3067,6 +3075,25 @@ HOOK_METHOD(CrewMember, UpdateRepair, () -> void)
         else
         {
             sabotageMultiplier = def.sabotageSpeedMultiplier;
+        }
+
+        auto ex = CM_EX(this);
+        if (this->GetShipObject()->HasAugmentation("SABOTAGE_BOOST"))
+        {
+            float augAmount = this->GetShipObject()->GetAugmentationValue("SABOTAGE_BOOST");
+            ex->augSabotageMultiplier = augAmount;
+            if (ex->temporaryPowerActive && def.powerDef.tempPower.sabotageSpeedMultiplier.enabled)
+            {
+                sabotageMultiplier *= def.powerDef.tempPower.sabotageSpeedMultiplier.value * ex->augSabotageMultiplier;
+            }
+            else
+            {
+                sabotageMultiplier *= ex->augSabotageMultiplier;
+            }
+        }
+        else
+        {
+            ex->augSabotageMultiplier = 1.f;
         }
     }
 
