@@ -1316,13 +1316,39 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
             }
         }
 
-
-        if (def.passiveHealAmount != 0.f)
+        float passiveHealAmount = def.passiveHealAmount;
+        float augAmount = 0.f;
+        float augMultAmount = 1.f;
+        if (orig->GetShipObject()->HasAugmentation("PASSIVE_HEAL_BOOST"))
+        {
+            augMultAmount = orig->GetShipObject()->GetAugmentationValue("PASSIVE_HEAL_BOOST");
+        }
+        if (orig->GetShipObject()->HasAugmentation("FLAT_PASSIVE_HEAL_BOOST"))
+        {
+            augAmount = orig->GetShipObject()->GetAugmentationValue("FLAT_PASSIVE_HEAL_BOOST");
+        }
+        passiveHealAmount = passiveHealAmount * augMultAmount + augAmount;
+        if (passiveHealAmount != 0.f)
         {
             if (def.passiveHealDelay > 0)
             {
-                passiveHealTimer = new TimerHelper();
-                passiveHealTimer->Start(def.passiveHealDelay);
+                augAmount = 0.f;
+                augMultAmount = 1.f;
+                if (orig->GetShipObject()->HasAugmentation("PASSIVE_HEAL_DELAY_BOOST"))
+                {
+                    augMultAmount = orig->GetShipObject()->GetAugmentationValue("PASSIVE_HEAL_DELAY_BOOST");
+                }
+                if (orig->GetShipObject()->HasAugmentation("FLAT_PASSIVE_HEAL_DELAY_BOOST"))
+                {
+                    augAmount = orig->GetShipObject()->GetAugmentationValue("FLAT_PASSIVE_HEAL_DELAY_BOOST");
+                }
+                float passiveHealDelay = def.passiveHealDelay;
+                passiveHealDelay = passiveHealDelay * augMultAmount + augAmount;
+                if (passiveHealDelay > 0)
+                {
+                    passiveHealTimer = new TimerHelper();
+                    passiveHealTimer->Start(def.passiveHealDelay);
+                }
             }
         }
 
@@ -1387,6 +1413,16 @@ HOOK_METHOD_PRIORITY(CrewMember, UpdateHealth, 2000, () -> void)
             auto def = custom->GetDefinition(species);
 
             auto ex = CM_EX(this);
+            float augAmount = 0.f;
+            float augMultAmount = 1.f;
+            if (this->GetShipObject()->HasAugmentation("FIRE_DAMAGE_TAKEN_BOOST"))
+            {
+                augMultAmount = this->GetShipObject()->GetAugmentationValue("FIRE_DAMAGE_TAKEN_BOOST");
+            }
+            if (this->GetShipObject()->HasAugmentation("FLAT_FIRE_DAMAGE_TAKEN_BOOST"))
+            {
+                augAmount = this->GetShipObject()->GetAugmentationValue("FLAT_FIRE_DAMAGE_TAKEN_BOOST");
+            }
             if (ex->temporaryPowerActive && def.powerDef.tempPower.fireDamageMultiplier.enabled)
             {
                 fireMultiplier = def.powerDef.tempPower.fireDamageMultiplier.value;
@@ -1395,6 +1431,7 @@ HOOK_METHOD_PRIORITY(CrewMember, UpdateHealth, 2000, () -> void)
             {
                 fireMultiplier = def.fireDamageMultiplier;
             }
+            fireMultiplier = fireMultiplier * augMultAmount + augAmount;
         }
 
         DirectModifyHealth(G_->GetCFPS()->GetSpeedFactor() * (iOnFire * -0.133f * fireMultiplier));
@@ -1428,8 +1465,17 @@ HOOK_METHOD_PRIORITY(CrewMember, UpdateHealth, 2000, () -> void)
     if (custom->IsRace(species))
     {
         auto def = custom->GetDefinition(species);
-
-        mod = def.healSpeed;
+        float augAmount = 0.f;
+        float augMultAmount = 1.f;
+        if (this->GetShipObject()->HasAugmentation("HEAL_SPEED_BOOST"))
+        {
+            augMultAmount = this->GetShipObject()->GetAugmentationValue("HEAL_SPEED_BOOST");
+        }
+        if (this->GetShipObject()->HasAugmentation("FLAT_HEAL_SPEED_BOOST"))
+        {
+            augAmount = this->GetShipObject()->GetAugmentationValue("FLAT_HEAL_SPEED_BOOST");
+        }
+        mod = def.healSpeed * augMultAmount + augAmount;
     }
 
 
@@ -1490,6 +1536,17 @@ HOOK_METHOD_PRIORITY(CrewMember, DirectModifyHealth, 1000, (float healthMod) -> 
                 healthMod *= def.allDamageTakenMultiplier;
             }
         }
+        float augAmount = 0.f;
+        float augMultAmount = 1.f;
+        if (this->GetShipObject()->HasAugmentation("DAMAGE_TAKEN_BOOST"))
+        {
+            augMultAmount = this->GetShipObject()->GetAugmentationValue("DAMAGE_TAKEN_BOOST");
+        }
+        if (this->GetShipObject()->HasAugmentation("FLAT_DAMAGE_TAKEN_BOOST"))
+        {
+            augAmount = this->GetShipObject()->GetAugmentationValue("FLAT_DAMAGE_TAKEN_BOOST");
+        }
+        healthMod = healthMod * augMultAmount + augAmount;
     }
 
 
@@ -1538,8 +1595,19 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
                 {
                     stunMultiplier = def.stunMultiplier;
                 }
+                float augAmount = 0.f;
+                float augMultAmount = 1.f;
+                if (this->GetShipObject()->HasAugmentation("STUN_MULTIPLIER_BOOST"))
+                {
+                    augMultAmount = this->GetShipObject()->GetAugmentationValue("STUN_MULTIPLIER_BOOST");
+                }
+                if (this->GetShipObject()->HasAugmentation("FLAT_STUN_MULTIPLIER_BOOST"))
+                {
+                    augAmount = this->GetShipObject()->GetAugmentationValue("FLAT_STUN_MULTIPLIER_BOOST");
+                }
 
-                if (stunMultiplier != 0.f)
+                stunMultiplier = stunMultiplier * augMultAmount + augAmount;
+                if (stunMultiplier > 0.f)
                 {
                     fStunTime = ex->prevStun - ((ex->prevStun - fStunTime) * (1.f / stunMultiplier));
                     if (fStunTime < 0.f)
@@ -1646,7 +1714,10 @@ HOOK_METHOD(CrewMember, LoadState, (int file) -> void)
 HOOK_METHOD_PRIORITY(CrewMember, GetNewGoal, 2000, () -> bool)
 {
     auto ex = CM_EX(this);
-
+    if (this->GetShipObject()->HasAugmentation("ALL_CREW_PHASE"))
+    {
+        ex->canPhaseThroughDoors = (bool)this->GetShipObject()->GetAugmentationValue("ALL_CREW_PHASE");
+    }
     if (last_door && !ex->canPhaseThroughDoors)
     {
         last_door->FakeClose();
@@ -2083,15 +2154,16 @@ HOOK_METHOD(ShipManager, UpdateEnvironment, () -> void)
                 }
 
                 float augAmount = 0.f;
-                if (_this->GetShipObject()->HasAugmentation("OXYGEN_CHANGE_BOOST"))
+                float augMultAmount = 1.f;
+                if (x->GetShipObject()->HasAugmentation("OXYGEN_CHANGE_BOOST"))
                 {
-                    ex->augOxygenChangeMultiplier = _this->GetShipObject()->GetAugmentationValue("OXYGEN_CHANGE_BOOST");
+                    augMultAmount = x->GetShipObject()->GetAugmentationValue("OXYGEN_CHANGE_BOOST");
                 }
-                if (_this->GetShipObject()->HasAugmentation("FLAT_OXYGEN_CHANGE_BOOST"))
+                if (x->GetShipObject()->HasAugmentation("FLAT_OXYGEN_CHANGE_BOOST"))
                 {
-                    augAmount = _this->GetShipObject()->GetAugmentationValue("FLAT_OXYGEN_CHANGE_BOOST");
+                    augAmount = x->GetShipObject()->GetAugmentationValue("FLAT_OXYGEN_CHANGE_BOOST");
                 }
-                oxygenModifier = oxygenModifier * ex->augOxygenChangeMultiplier + augAmount;
+                oxygenModifier = oxygenModifier * augMultAmount + augAmount;
                 if (oxygenModifier != 0.f && !x->bDead)
                 {
                     if (oxygenSystem->oxygenLevels[x->iRoomId] == 0.f)
@@ -2126,8 +2198,18 @@ HOOK_METHOD(CrewMember, ApplyDamage, (float damage) -> bool)
         {
             damageTakenMultiplier = def.damageTakenMultiplier;
         }
+        float augAmount = 0.f;
+        float augMultAmount = 1.f;
+        if (this->GetShipObject()->HasAugmentation("COMBAT_DAMAGE_TAKEN_BOOST"))
+        {
+            augMultAmount = this->GetShipObject()->GetAugmentationValue("COMBAT_DAMAGE_TAKEN_BOOST");
+        }
+        if (this->GetShipObject()->HasAugmentation("FLAT_COMBAT_DAMAGE_TAKEN_BOOST"))
+        {
+            augAmount = this->GetShipObject()->GetAugmentationValue("FLAT_COMBAT_DAMAGE_TAKEN_BOOST");
+        }
 
-        damage *= damageTakenMultiplier;
+        damage = damage * (damageTakenMultiplier * augMultAmount + augAmount);
     }
 
     return super(damage);
@@ -2189,6 +2271,10 @@ HOOK_METHOD(ShipObject, HasEquipment, (const std::string& name) -> int)
 
                     if (!i->intruder)
                     {
+                        if (HasAugmentation("ALL_CREW_DETECT_LIFEFORMS"))
+                        {
+                            return GetAugmentationValue("ALL_CREW_DETECT_LIFEFORMS");
+                        }
                         if (ex->temporaryPowerActive && def.powerDef.tempPower.detectsLifeforms.enabled && def.powerDef.tempPower.detectsLifeforms.value)
                         {
                             return 1;
@@ -2274,11 +2360,21 @@ HOOK_METHOD(ShipManager, OnLoop, () -> void)
                 powerDrain = def.powerDef.tempPower.powerDrain.value;
             }
 
+            if (i->GetShipObject()->HasAugmentation("POWER_DRAIN_BOOST"))
+            {
+                powerDrain += i->GetShipObject()->GetAugmentationValue("POWER_DRAIN_BOOST");
+            }
+
             ShipSystem* sys = GetSystemInRoom(i->iRoomId);
 
             if (sys && sys->iSystemType != (int)SystemId::PILOT)
             {
-                if (i->intruder || def.powerDrainFriendly)
+                bool powerDrainFriendly = def.powerDrainFriendly;
+                if (i->GetShipObject()->HasAugmentation("ALL_CREW_POWER_DRAIN_FRIENDLY"))
+                {
+                    powerDrainFriendly = (bool)i->GetShipObject()->GetAugmentationValue("ALL_CREW_POWER_DRAIN_FRIENDLY");
+                }
+                if (i->intruder || powerDrainFriendly)
                 {
                     ShipSystem_Extend* sys_ex = SYS_EX(sys);
 
@@ -2441,6 +2537,17 @@ HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
                     damageEnemies = G_->GetCFPS()->GetSpeedFactor() * def.powerDef.tempPower.damageEnemiesAmount.value * 0.06245f;
                 }
             }
+            float augAmount = 0.f;
+            float augMultAmount = 1.f;
+            if (i->GetShipObject()->HasAugmentation("DAMAGE_ENEMIES_BOOST"))
+            {
+                augMultAmount = i->GetShipObject()->GetAugmentationValue("DAMAGE_ENEMIES_BOOST");
+            }
+            if (i->GetShipObject()->HasAugmentation("FLAT_DAMAGE_ENEMIES_BOOST"))
+            {
+                augAmount = i->GetShipObject()->GetAugmentationValue("FLAT_DAMAGE_ENEMIES_BOOST");
+            }
+            damageEnemies = damageEnemies * augMultAmount + augAmount;
 
             if (i->Functional() && damageEnemies != 0.f)
             {
@@ -2452,14 +2559,26 @@ HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
                     }
                 }
             }
+            float healCrewAmount = def.healCrewAmount;
+            augAmount = 0.f;
+            augMultAmount = 1.f;
+            if (i->GetShipObject()->HasAugmentation("HEAL_CREW_BOOST"))
+            {
+                augMultAmount = i->GetShipObject()->GetAugmentationValue("HEAL_CREW_BOOST");
+            }
+            if (i->GetShipObject()->HasAugmentation("FLAT_HEAL_CREW_BOOST"))
+            {
+                augAmount = i->GetShipObject()->GetAugmentationValue("FLAT_HEAL_CREW_BOOST");
+            }
+            healCrewAmount = healCrewAmount * augMultAmount + augAmount;
 
             if (i->Functional() && def.healCrewAmount != 0.f || (ex->temporaryPowerActive && def.powerDef.tempPower.healCrewAmount.enabled))
             {
-                float healCrew = G_->GetCFPS()->GetSpeedFactor() * def.healCrewAmount * 0.06245f;
+                float healCrew = G_->GetCFPS()->GetSpeedFactor() * healCrewAmount * 0.06245f;
 
                 if (ex->temporaryPowerActive && def.powerDef.tempPower.healCrewAmount.enabled)
                 {
-                    healCrew = G_->GetCFPS()->GetSpeedFactor() * def.powerDef.tempPower.healCrewAmount.value * 0.06245f;
+                    healCrew = G_->GetCFPS()->GetSpeedFactor() * (def.powerDef.tempPower.healCrewAmount.value * augMultAmount + augAmount) * 0.06245f;
                 }
 
                 for (auto crew : vCrewList)
@@ -3042,7 +3161,6 @@ HOOK_METHOD(ShipManager, OnLoop, () -> void)
                     }
                 }
 
-                CrewMember_Extend* ex = CM_EX(j);
                 if (j->GetShipObject()->HasAugmentation("POWER_BOOST"))
                 {
                     float augAmount = j->GetShipObject()->GetAugmentationValue("POWER_BOOST");
@@ -3087,24 +3205,17 @@ HOOK_METHOD(CrewMember, UpdateRepair, () -> void)
             sabotageMultiplier = def.sabotageSpeedMultiplier;
         }
 
-        auto ex = CM_EX(this);
+        float augAmount = 0.f;
+        float augMultAmount = 1.f;
         if (this->GetShipObject()->HasAugmentation("SABOTAGE_BOOST"))
         {
-            float augAmount = this->GetShipObject()->GetAugmentationValue("SABOTAGE_BOOST");
-            ex->augSabotageMultiplier = augAmount;
-            if (ex->temporaryPowerActive && def.powerDef.tempPower.sabotageSpeedMultiplier.enabled)
-            {
-                sabotageMultiplier *= def.powerDef.tempPower.sabotageSpeedMultiplier.value * ex->augSabotageMultiplier;
-            }
-            else
-            {
-                sabotageMultiplier *= ex->augSabotageMultiplier;
-            }
+            augMultAmount = this->GetShipObject()->GetAugmentationValue("SABOTAGE_BOOST");
         }
-        else
+        if (this->GetShipObject()->HasAugmentation("FLAT_SABOTAGE_BOOST"))
         {
-            ex->augSabotageMultiplier = 1.f;
+            augAmount = this->GetShipObject()->GetAugmentationValue("FLAT_SABOTAGE_BOOST");
         }
+        sabotageMultiplier = sabotageMultiplier * augMultAmount + augAmount;
     }
 
     super();
@@ -3190,7 +3301,12 @@ HOOK_METHOD(CrewAI, PrioritizeIntruderRoom, (CrewMember *crew, int roomId, int t
 
 HOOK_METHOD(CrewMember, Clone, () -> void)
 {
-    if (!CustomCrewManager::GetInstance()->IsRace(species) || CustomCrewManager::GetInstance()->GetDefinition(species).cloneLoseSkills) return super();
+    bool cloneLoseSkills = CustomCrewManager::GetInstance()->GetDefinition(species).cloneLoseSkills;
+    if (this->GetShipObject()->HasAugmentation("ALL_CREW_LOSE_SKILLS_ON_CLONE"))
+    {
+        cloneLoseSkills = (bool)this->GetShipObject()->GetAugmentationValue("ALL_CREW_LOSE_SKILLS_ON_CLONE");
+    }
+    if (!CustomCrewManager::GetInstance()->IsRace(species) || cloneLoseSkills) return super();
 
     bOutOfGame = false;
     bDead = false;

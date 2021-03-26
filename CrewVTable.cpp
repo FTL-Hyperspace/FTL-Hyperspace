@@ -131,34 +131,21 @@ static bool __attribute__((fastcall)) CrewMember_CanBurn(CrewMember *_this)
 static int __attribute__((fastcall)) CrewMember_GetMaxHealth(CrewMember *_this)
 {
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
-    CrewMember_Extend* ex = CM_EX(_this);
     float augAmount = 0.f;
+    float augMultAmount = 1.f;
     if (_this->GetShipObject()->HasAugmentation("HEALTH_BOOST"))
     {
-        float augAmount = _this->GetShipObject()->GetAugmentationValue("HEALTH_BOOST");
-        if (augAmount != ex->augHealthMultiplier)
-        {
-            _this->health.second /= ex->augHealthMultiplier;
-            _this->health.second *= augAmount;
-            _this->health.first *= (augAmount / ex->augHealthMultiplier);
-        }
-        ex->augHealthMultiplier = augAmount;
-    }
-    else
-    {
-        ex->augHealthMultiplier = 1.f;
+        augMultAmount = _this->GetShipObject()->GetAugmentationValue("DRONE_HEALTH_BOOST");
     }
     if (_this->GetShipObject()->HasAugmentation("FLAT_HEALTH_BOOST"))
     {
-        augAmount = _this->GetShipObject()->GetAugmentationValue("FLAT_HEALTH_BOOST");
-        _this->health.second += augAmount;
-        _this->health.first += _this->health.first / (_this->health.second - augAmount) * augAmount;
+        augAmount = _this->GetShipObject()->GetAugmentationValue("DRONE_FLAT_HEALTH_BOOST");
     }
     else
     {
         augAmount = 0.f;
     }
-    return custom->GetDefinition(_this->species).maxHealth * ex->augHealthMultiplier + augAmount;
+    return custom->GetDefinition(_this->species).maxHealth * augMultAmount + augAmount;
 }
 
 static float __attribute__((fastcall)) CrewMember_GetMoveSpeedMultiplier(CrewMember *_this)
@@ -167,12 +154,22 @@ static float __attribute__((fastcall)) CrewMember_GetMoveSpeedMultiplier(CrewMem
     auto def = custom->GetDefinition(_this->species);
 
     auto ex = CM_EX(_this);
+    float augAmount = 0.f;
+    float augMultAmount = 1.f;
+    if (_this->GetShipObject()->HasAugmentation("SPEED_BOOST"))
+    {
+        augMultAmount = _this->GetShipObject()->GetAugmentationValue("SPEED_BOOST");
+    }
+    if (_this->GetShipObject()->HasAugmentation("FLAT_SPEED_BOOST"))
+    {
+        augAmount = _this->GetShipObject()->GetAugmentationValue("FLAT_SPEED_BOOST");
+    }
     if (ex->temporaryPowerActive && def.powerDef.tempPower.moveSpeedMultiplier.enabled)
     {
-        return def.powerDef.tempPower.moveSpeedMultiplier.value;
+        return def.powerDef.tempPower.moveSpeedMultiplier.value * augMultAmount + augAmount;
     }
 
-    return def.moveSpeedMultiplier;
+    return def.moveSpeedMultiplier * augMultAmount + augAmount;
 }
 
 static float __attribute__((fastcall)) CrewMember_GetRepairSpeed(CrewMember *_this)
@@ -182,28 +179,21 @@ static float __attribute__((fastcall)) CrewMember_GetRepairSpeed(CrewMember *_th
 
     CrewMember_Extend* ex = CM_EX(_this);
     float augAmount = 0.f;
+    float augMultAmount = 1.f;
     if (_this->GetShipObject()->HasAugmentation("REPAIR_BOOST"))
     {
-        ex->augRepairSpeedMultiplier = _this->GetShipObject()->GetAugmentationValue("REPAIR_BOOST");
-        if (_this->GetShipObject()->HasAugmentation("FLAT_REPAIR_BOOST"))
-        {
-            augAmount = _this->GetShipObject()->GetAugmentationValue("FLAT_REPAIR_BOOST");
-        }
-        if (ex->temporaryPowerActive && def.powerDef.tempPower.repairSpeed.enabled)
-        {
-            return (def.powerDef.tempPower.repairSpeed.value * ex->augRepairSpeedMultiplier) + augAmount;
-        }
+        augMultAmount = _this->GetShipObject()->GetAugmentationValue("REPAIR_BOOST");
     }
-    else
+    if (_this->GetShipObject()->HasAugmentation("FLAT_REPAIR_BOOST"))
     {
-        if (_this->GetShipObject()->HasAugmentation("FLAT_REPAIR_BOOST"))
-        {
-            augAmount = _this->GetShipObject()->GetAugmentationValue("FLAT_REPAIR_BOOST");
-        }
-        ex->augRepairSpeedMultiplier = 1.f + augAmount;
+        augAmount = _this->GetShipObject()->GetAugmentationValue("FLAT_REPAIR_BOOST");
+    }
+    if (ex->temporaryPowerActive && def.powerDef.tempPower.repairSpeed.enabled)
+    {
+        return (def.powerDef.tempPower.repairSpeed.value * augMultAmount) + augAmount;
     }
 
-    return def.repairSpeed * ex->augRepairSpeedMultiplier;
+    return def.repairSpeed * augMultAmount + augAmount;
 }
 
 static float __attribute__((fastcall)) CrewMember_GetDamageMultiplier(CrewMember *_this)
@@ -214,28 +204,21 @@ static float __attribute__((fastcall)) CrewMember_GetDamageMultiplier(CrewMember
     auto ex = CM_EX(_this);
 
     float augAmount = 0.f;
+    float augMultAmount = 1.f;
     if (_this->GetShipObject()->HasAugmentation("DAMAGE_BOOST"))
     {
-        ex->augDamageMultiplier = _this->GetShipObject()->GetAugmentationValue("DAMAGE_BOOST");
-        if (_this->GetShipObject()->HasAugmentation("FLAT_DAMAGE_BOOST"))
-        {
-            augAmount = _this->GetShipObject()->GetAugmentationValue("FLAT_DAMAGE_BOOST");
-        }
-        if (ex->temporaryPowerActive && def.powerDef.tempPower.damageMultiplier.enabled)
-        {
-            return (def.powerDef.tempPower.damageMultiplier.value * ex->augDamageMultiplier) + augAmount;
-        }
+        augMultAmount = _this->GetShipObject()->GetAugmentationValue("DAMAGE_BOOST");
     }
-    else
+    if (_this->GetShipObject()->HasAugmentation("FLAT_DAMAGE_BOOST"))
     {
-        if (_this->GetShipObject()->HasAugmentation("FLAT_DAMAGE_BOOST"))
-        {
-            augAmount = _this->GetShipObject()->GetAugmentationValue("FLAT_DAMAGE_BOOST");
-        }
-        ex->augDamageMultiplier = 1.f;
+        augAmount = _this->GetShipObject()->GetAugmentationValue("FLAT_DAMAGE_BOOST");
+    }
+    if (ex->temporaryPowerActive && def.powerDef.tempPower.damageMultiplier.enabled)
+    {
+        return (def.powerDef.tempPower.damageMultiplier.value * augMultAmount) + augAmount;
     }
 
-    return def.damageMultiplier * ex->augDamageMultiplier + augAmount;
+    return def.damageMultiplier * augMultAmount + augAmount;
 }
 
 static bool __attribute__((fastcall)) CrewMember_ProvidesPower(CrewMember *_this)
@@ -252,20 +235,16 @@ static float __attribute__((fastcall)) CrewMember_FireRepairMultiplier(CrewMembe
 
     CrewMember_Extend* ex = CM_EX(_this);
     float augAmount = 0.f;
+    float augMultAmount = 1.f;
     if (_this->GetShipObject()->HasAugmentation("FIRE_REPAIR_BOOST"))
     {
-        augAmount = _this->GetShipObject()->GetAugmentationValue("FIRE_REPAIR_BOOST");
-        ex->augRepairSpeedMultiplier = augAmount;
-    }
-    else
-    {
-        ex->augRepairSpeedMultiplier = 1.f;
+        augMultAmount = _this->GetShipObject()->GetAugmentationValue("FIRE_REPAIR_BOOST");
     }
     if (_this->GetShipObject()->HasAugmentation("FLAT_FIRE_REPAIR_BOOST"))
     {
         augAmount = _this->GetShipObject()->GetAugmentationValue("FLAT_FIRE_REPAIR_BOOST");
     }
-    return (custom->GetDefinition(_this->species).fireRepairMultiplier * ex->augFireRepairSpeedMultiplier) + augAmount;
+    return (custom->GetDefinition(_this->species).fireRepairMultiplier * augMultAmount) + augAmount;
 }
 
 static bool __attribute__((fastcall)) CrewMember_IsTelepathic(CrewMember *_this)
@@ -292,12 +271,22 @@ static float __attribute__((fastcall)) CrewMember_GetSuffocationModifier(CrewMem
     auto def = custom->GetDefinition(_this->species);
 
     auto ex = CM_EX(_this);
+    float augAmount = 0.f;
+    float augMultAmount = 1.f;
+    if (_this->GetShipObject()->HasAugmentation("SUFFOCATION_BOOST"))
+    {
+        augMultAmount = _this->GetShipObject()->GetAugmentationValue("SUFFOCATION_BOOST");
+    }
+    if (_this->GetShipObject()->HasAugmentation("FLAT_SUFFOCATION_BOOST"))
+    {
+        augAmount = _this->GetShipObject()->GetAugmentationValue("FLAT_SUFFOCATION_BOOST");
+    }
     if (ex->temporaryPowerActive && def.powerDef.tempPower.suffocationModifier.enabled)
     {
-        return def.powerDef.tempPower.suffocationModifier.value;
+        return def.powerDef.tempPower.suffocationModifier.value * augMultAmount + augAmount;
     }
 
-    return custom->GetDefinition(_this->species).suffocationModifier;
+    return custom->GetDefinition(_this->species).suffocationModifier * augMultAmount + augAmount;
 }
 
 static bool __attribute__((fastcall)) CrewMember_IsAnaerobic(CrewMember *_this)
@@ -322,27 +311,27 @@ static std::pair<float, float> __attribute__((fastcall)) CrewMember_GetPowerCool
     auto ex = CM_EX(_this);
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
     auto def = custom->GetDefinition(_this->species);
+
     float augAmount = 0.f;
+    float augMultAmount = 1.f;
     if (_this->GetShipObject()->HasAugmentation("COOLDOWN_BOOST"))
     {
-        ex->augCooldownMultiplier = _this->GetShipObject()->GetAugmentationValue("COOLDOWN_BOOST");
-        if (_this->GetShipObject()->HasAugmentation("FLAT_COOLDOWN_BOOST"))
-        {
-            augAmount = _this->GetShipObject()->GetAugmentationValue("FLAT_COOLDOWN_BOOST");
-        }
+        augMultAmount = _this->GetShipObject()->GetAugmentationValue("COOLDOWN_BOOST");
     }
-    else
+
+    if (_this->GetShipObject()->HasAugmentation("FLAT_COOLDOWN_BOOST"))
     {
-        if (_this->GetShipObject()->HasAugmentation("FLAT_REPAIR_BOOST"))
-        {
-            augAmount = _this->GetShipObject()->GetAugmentationValue("FLAT_REPAIR_BOOST");
-        }
-        ex->augCooldownMultiplier = 1.f;
+        augAmount = _this->GetShipObject()->GetAugmentationValue("FLAT_COOLDOWN_BOOST");
     }
-    ex->powerCooldown.second = ex->powerCooldown.second * ex->augCooldownMultiplier + augAmount;
+
+    ex->powerCooldown.second = ex->powerCooldown.second * augMultAmount + augAmount;
     if (ex->powerCooldown.second < 0.5)
     {
         ex->powerCooldown.second = 0.5;
+    }
+    if (ex->powerCooldown.first > ex->powerCooldown.second)
+    {
+        ex->powerCooldown.first = ex->powerCooldown.second;
     }
     return ex->powerCooldown;
 }
