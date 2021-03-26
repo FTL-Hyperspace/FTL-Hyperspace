@@ -2082,6 +2082,16 @@ HOOK_METHOD(ShipManager, UpdateEnvironment, () -> void)
                     oxygenModifier = def.oxygenChangeSpeed;
                 }
 
+                float augAmount = 0.f;
+                if (_this->GetShipObject()->HasAugmentation("OXYGEN_CHANGE_BOOST"))
+                {
+                    ex->augOxygenChangeMultiplier = _this->GetShipObject()->GetAugmentationValue("OXYGEN_CHANGE_BOOST");
+                }
+                if (_this->GetShipObject()->HasAugmentation("FLAT_OXYGEN_CHANGE_BOOST"))
+                {
+                    augAmount = _this->GetShipObject()->GetAugmentationValue("FLAT_OXYGEN_CHANGE_BOOST");
+                }
+                oxygenModifier = oxygenModifier * ex->augOxygenChangeMultiplier + augAmount;
                 if (oxygenModifier != 0.f && !x->bDead)
                 {
                     if (oxygenSystem->oxygenLevels[x->iRoomId] == 0.f)

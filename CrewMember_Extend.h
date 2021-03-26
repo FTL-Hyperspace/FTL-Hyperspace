@@ -87,6 +87,9 @@ public:
     float augDamageTakenMultiplier = 1.f;
     float augFireDamageTakenMultiplier = 1.f;
     float augRepairSpeedMultiplier = 1.f;
+    float augFireRepairSpeedMultiplier = 1.f;
+    float augCooldownMultiplier = 1.f;
+    float augOxygenChangeMultiplier = 1.f;
 
     void Initialize(CrewBlueprint& bp, int shipId, bool enemy, CrewAnimation *animation);
 
