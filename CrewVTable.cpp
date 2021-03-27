@@ -282,7 +282,7 @@ static float __attribute__((fastcall)) CrewMember_GetRepairSpeed(CrewMember *_th
     }
     if (ex->temporaryPowerActive && def.powerDef.tempPower.repairSpeed.enabled)
     {
-        return (def.powerDef.tempPower.repairSpeed.value * augMultAmount) + augAmount;
+        return ((def.powerDef.tempPower.repairSpeed.value * augMultAmount) + augAmount) * otherCrewStatMultiplier;
     }
 
     return (def.repairSpeed * augMultAmount + augAmount) * otherCrewStatMultiplier;
@@ -472,7 +472,7 @@ static float __attribute__((fastcall)) CrewMember_GetSuffocationModifier(CrewMem
     }
     if (ex->temporaryPowerActive && def.powerDef.tempPower.suffocationModifier.enabled)
     {
-        return def.powerDef.tempPower.suffocationModifier.value * augMultAmount + augAmount;
+        return (def.powerDef.tempPower.suffocationModifier.value * augMultAmount + augAmount) * otherCrewStatMultiplier;
     }
 
     return (custom->GetDefinition(_this->species).suffocationModifier * augMultAmount + augAmount) * otherCrewStatMultiplier;
