@@ -3982,76 +3982,42 @@ float CrewMember_Extend::CalculateStat(CrewStat stat)
     float augMultAmount = 1.f;
     float augAmount = 0.f;
     std::vector<StatBoost> personalStatBoosts;
+
+    auto checkingCrewList = std::vector<CrewMember*>();
+
     if (playerShip != nullptr)
     {
-        for (auto otherCrew: playerShip->vCrewList)
-        {
-            auto ex = CM_EX(otherCrew);
-
-            if (ex->temporaryPowerActive)
-            {
-                for (StatBoost statBoost : ex->outgoingAbilityStatBoosts)
-                {
-                    if (((statBoost.shipTarget == StatBoost::ShipTarget::PLAYER_SHIP && orig->currentShipId == 0) || (statBoost.shipTarget == StatBoost::ShipTarget::CURRENT_ALL && orig->currentShipId == otherCrew->currentShipId) || (statBoost.shipTarget == StatBoost::ShipTarget::CURRENT_ROOM && orig->iRoomId == otherCrew->iRoomId && orig->currentShipId == otherCrew->currentShipId) || (statBoost.shipTarget == StatBoost::ShipTarget::ALL))
-                        && (otherCrew != orig || statBoost.affectsSelf)
-                        && ((!otherCrew->intruder && statBoost.crewTarget == StatBoost::CrewTarget::ALLIES) || (otherCrew->intruder && statBoost.crewTarget == StatBoost::CrewTarget::ENEMIES) || statBoost.crewTarget == StatBoost::CrewTarget::ALL)
-                        && ((std::find(statBoost.whiteList.begin(), statBoost.whiteList.end(), orig->species) != statBoost.whiteList.end()) || (!statBoost.blackList.empty() && std::find(statBoost.blackList.begin(), statBoost.blackList.end(), orig->species) == statBoost.blackList.end()) || (statBoost.blackList.empty() && statBoost.whiteList.empty()))
-                        ) // If the boost affects this ship and/or this room, and the boost comes from someone else or affects self, and the boost comes from an ally and affects allies or an enemy and affects enemies, and the boost specifically lets this race take it or doesn't ban it
-                    {
-                        personalStatBoosts.push_back(statBoost);
-                    }
-                }
-            }
-            else
-            {
-                for (StatBoost statBoost : ex->outgoingStatBoosts)
-                {
-                    //printf("( %d, %d, %d, %d )", ((statBoost.shipTarget == StatBoost::ShipTarget::PLAYER_SHIP && orig->currentShipId == 0) || (statBoost.shipTarget == StatBoost::ShipTarget::CURRENT_ALL && orig->currentShipId == otherCrew->currentShipId) || (statBoost.shipTarget == StatBoost::ShipTarget::CURRENT_ROOM && orig->iRoomId == otherCrew->iRoomId && orig->currentShipId == otherCrew->currentShipId) || (statBoost.shipTarget == StatBoost::ShipTarget::ALL)), (otherCrew != orig || statBoost.affectsSelf), (statBoost.crewTarget == StatBoost::CrewTarget::ALL),(std::find(statBoost.whiteList.begin(), statBoost.whiteList.end(), orig->species) != statBoost.whiteList.end()) || (std::find(statBoost.blackList.begin(), statBoost.blackList.end(), orig->species) == statBoost.blackList.end()));
-                    if (((statBoost.shipTarget == StatBoost::ShipTarget::PLAYER_SHIP && orig->currentShipId == 0) || (statBoost.shipTarget == StatBoost::ShipTarget::CURRENT_ALL && orig->currentShipId == otherCrew->currentShipId) || (statBoost.shipTarget == StatBoost::ShipTarget::CURRENT_ROOM && orig->iRoomId == otherCrew->iRoomId && orig->currentShipId == otherCrew->currentShipId) || (statBoost.shipTarget == StatBoost::ShipTarget::ALL))
-                        && (otherCrew != orig || statBoost.affectsSelf)
-                        && ((!otherCrew->intruder && statBoost.crewTarget == StatBoost::CrewTarget::ALLIES) || (otherCrew->intruder && statBoost.crewTarget == StatBoost::CrewTarget::ENEMIES) || statBoost.crewTarget == StatBoost::CrewTarget::ALL)
-                        && ((std::find(statBoost.whiteList.begin(), statBoost.whiteList.end(), orig->species) != statBoost.whiteList.end()) || (!statBoost.blackList.empty() && std::find(statBoost.blackList.begin(), statBoost.blackList.end(), orig->species) == statBoost.blackList.end()) || (statBoost.blackList.empty() && statBoost.whiteList.empty()))
-                        ) // If the boost affects this ship and/or this room, and the boost comes from someone else or affects self, and the boost comes from an ally and affects allies or an enemy and affects enemies, and the boost specifically lets this race take it or doesn't ban it
-                    {
-                        personalStatBoosts.push_back(statBoost);
-                    }
-                }
-            }
-
-        }
+        checkingCrewList.insert(checkingCrewList.end(), playerShip->vCrewList.begin(), playerShip->vCrewList.end());
     }
     if (enemyShip != nullptr)
     {
-        for (auto otherCrew: enemyShip->vCrewList)
+        checkingCrewList.insert(checkingCrewList.end(), enemyShip->vCrewList.begin(), enemyShip->vCrewList.end());
+    }
+
+    for (auto otherCrew: checkingCrewList)
+    {
+        auto ex = CM_EX(otherCrew);
+
+        auto currentStatBoosts = std::vector<StatBoost>();
+
+        if (ex->temporaryPowerActive)
         {
-            auto ex = CM_EX(otherCrew);
-            if (ex->temporaryPowerActive)
+            currentStatBoosts = ex->outgoingAbilityStatBoosts;
+        }
+        else
+        {
+            currentStatBoosts = ex->outgoingStatBoosts;
+        }
+
+        for (StatBoost statBoost : currentStatBoosts)
+        {
+            if ((((statBoost.shipTarget == StatBoost::ShipTarget::PLAYER_SHIP && orig->currentShipId == 0) || (statBoost.shipTarget == StatBoost::ShipTarget::ENEMY_SHIP && orig->currentShipId == 1)) || (statBoost.shipTarget == StatBoost::ShipTarget::CURRENT_ALL && orig->currentShipId == otherCrew->currentShipId) || (statBoost.shipTarget == StatBoost::ShipTarget::CURRENT_ROOM && orig->iRoomId == otherCrew->iRoomId && orig->currentShipId == otherCrew->currentShipId) || (statBoost.shipTarget == StatBoost::ShipTarget::ALL))
+                && (otherCrew != orig || statBoost.affectsSelf)
+                && ((otherCrew->iShipId == orig->iShipId && statBoost.crewTarget == StatBoost::CrewTarget::ALLIES) || (otherCrew->iShipId != orig->iShipId && statBoost.crewTarget == StatBoost::CrewTarget::ENEMIES) || statBoost.crewTarget == StatBoost::CrewTarget::ALL)
+                && ((std::find(statBoost.whiteList.begin(), statBoost.whiteList.end(), orig->species) != statBoost.whiteList.end()) || (!statBoost.blackList.empty() && std::find(statBoost.blackList.begin(), statBoost.blackList.end(), orig->species) == statBoost.blackList.end()) || (statBoost.blackList.empty() && statBoost.whiteList.empty()))
+                ) // If the boost affects this ship and/or this room, and the boost comes from someone else or affects self, and the boost comes from an ally and affects allies or an enemy and affects enemies, and the boost specifically lets this race take it or doesn't ban it
             {
-                for (StatBoost statBoost : ex->outgoingStatBoosts)
-                {
-                    if (((statBoost.shipTarget == StatBoost::ShipTarget::ENEMY_SHIP && orig->currentShipId == 1) || (statBoost.shipTarget == StatBoost::ShipTarget::CURRENT_ALL && orig->currentShipId == otherCrew->currentShipId) || (statBoost.shipTarget == StatBoost::ShipTarget::CURRENT_ROOM && orig->iRoomId == otherCrew->iRoomId && orig->currentShipId == otherCrew->currentShipId) || (statBoost.shipTarget == StatBoost::ShipTarget::ALL))
-                        && (otherCrew != orig || statBoost.affectsSelf)
-                        && ((!otherCrew->intruder && statBoost.crewTarget == StatBoost::CrewTarget::ALLIES) || (otherCrew->intruder && statBoost.crewTarget == StatBoost::CrewTarget::ENEMIES) || statBoost.crewTarget == StatBoost::CrewTarget::ALL)
-                        && ((std::find(statBoost.whiteList.begin(), statBoost.whiteList.end(), orig->species) != statBoost.whiteList.end()) || (!statBoost.blackList.empty() && std::find(statBoost.blackList.begin(), statBoost.blackList.end(), orig->species) == statBoost.blackList.end()) || (statBoost.blackList.empty() && statBoost.whiteList.empty()))
-                        ) // If the boost affects this ship and/or this room, and the boost comes from someone else or affects self, and the boost comes from an ally and affects allies or an enemy and affects enemies, and the boost specifically lets this race take it or doesn't ban it
-                    {
-                            personalStatBoosts.push_back(statBoost);
-                    }
-                }
-            }
-            else
-            {
-                for (StatBoost statBoost : ex->outgoingStatBoosts)
-                {
-                    if (((statBoost.shipTarget == StatBoost::ShipTarget::ENEMY_SHIP && orig->currentShipId == 1) || (statBoost.shipTarget == StatBoost::ShipTarget::CURRENT_ALL && orig->currentShipId == otherCrew->currentShipId) || (statBoost.shipTarget == StatBoost::ShipTarget::CURRENT_ROOM && orig->iRoomId == otherCrew->iRoomId && orig->currentShipId == otherCrew->currentShipId) || (statBoost.shipTarget == StatBoost::ShipTarget::ALL))
-                        && (otherCrew != orig || statBoost.affectsSelf)
-                        && ((!otherCrew->intruder && statBoost.crewTarget == StatBoost::CrewTarget::ALLIES) || (otherCrew->intruder && statBoost.crewTarget == StatBoost::CrewTarget::ENEMIES) || statBoost.crewTarget == StatBoost::CrewTarget::ALL)
-                        && ((std::find(statBoost.whiteList.begin(), statBoost.whiteList.end(), orig->species) != statBoost.whiteList.end()) || (!statBoost.blackList.empty() && std::find(statBoost.blackList.begin(), statBoost.blackList.end(), orig->species) == statBoost.blackList.end()) || (statBoost.blackList.empty() && statBoost.whiteList.empty()))
-                        ) // If the boost affects this ship and/or this room, and the boost comes from someone else or affects self, and the boost comes from an ally and affects allies or an enemy and affects enemies, and the boost specifically lets this race take it or doesn't ban it
-                    {
-                            personalStatBoosts.push_back(statBoost);
-                    }
-                }
+                personalStatBoosts.push_back(statBoost);
             }
         }
     }
