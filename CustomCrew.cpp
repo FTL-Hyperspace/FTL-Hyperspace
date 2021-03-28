@@ -1947,10 +1947,10 @@ HOOK_METHOD(CrewMember, LoadState, (int file) -> void)
 HOOK_METHOD_PRIORITY(CrewMember, GetNewGoal, 2000, () -> bool)
 {
     auto ex = CM_EX(this);
-    if (this->GetShipObject()->HasAugmentation("ALL_CREW_PHASE"))
-    {
-        ex->canPhaseThroughDoors = (bool)this->GetShipObject()->GetAugmentationValue("ALL_CREW_PHASE");
-    }
+//    if (this->GetShipObject()->HasAugmentation("ALL_CREW_PHASE"))
+//    {
+//        ex->canPhaseThroughDoors = (bool)this->GetShipObject()->GetAugmentationValue("ALL_CREW_PHASE");
+//    }
     if (last_door && !ex->canPhaseThroughDoors)
     {
         last_door->FakeClose();
@@ -2565,10 +2565,10 @@ HOOK_METHOD(ShipObject, HasEquipment, (const std::string& name) -> int)
 
                     if (!i->intruder)
                     {
-                        if (HasAugmentation("ALL_CREW_DETECT_LIFEFORMS"))
-                        {
-                            return GetAugmentationValue("ALL_CREW_DETECT_LIFEFORMS");
-                        }
+//                        if (HasAugmentation("ALL_CREW_DETECT_LIFEFORMS"))
+//                        {
+//                            return GetAugmentationValue("ALL_CREW_DETECT_LIFEFORMS");
+//                        }
                         if (ex->temporaryPowerActive && def.powerDef.tempPower.detectsLifeforms.enabled && def.powerDef.tempPower.detectsLifeforms.value)
                         {
                             return 1;
@@ -2654,10 +2654,10 @@ HOOK_METHOD(ShipManager, OnLoop, () -> void)
                 powerDrain = def.powerDef.tempPower.powerDrain.value;
             }
 
-            if (i->GetShipObject()->HasAugmentation("POWER_DRAIN_BOOST"))
-            {
-                powerDrain += i->GetShipObject()->GetAugmentationValue("POWER_DRAIN_BOOST");
-            }
+//            if (i->GetShipObject()->HasAugmentation("POWER_DRAIN_BOOST"))
+//            {
+//                powerDrain += i->GetShipObject()->GetAugmentationValue("POWER_DRAIN_BOOST");
+//            }
 
 //            ShipManager *ship;
 //            if (i->currentShipId == 0)
@@ -2693,10 +2693,10 @@ HOOK_METHOD(ShipManager, OnLoop, () -> void)
             if (sys && sys->iSystemType != (int)SystemId::PILOT)
             {
                 bool powerDrainFriendly = def.powerDrainFriendly;
-                if (i->GetShipObject()->HasAugmentation("ALL_CREW_POWER_DRAIN_FRIENDLY"))
-                {
-                    powerDrainFriendly = (bool)i->GetShipObject()->GetAugmentationValue("ALL_CREW_POWER_DRAIN_FRIENDLY");
-                }
+//                if (i->GetShipObject()->HasAugmentation("ALL_CREW_POWER_DRAIN_FRIENDLY"))
+//                {
+//                    powerDrainFriendly = (bool)i->GetShipObject()->GetAugmentationValue("ALL_CREW_POWER_DRAIN_FRIENDLY");
+//                }
                 if (i->intruder || powerDrainFriendly)
                 {
                     ShipSystem_Extend* sys_ex = SYS_EX(sys);
@@ -3545,12 +3545,12 @@ HOOK_METHOD(ShipManager, OnLoop, () -> void)
                     }
                 }
 
-                if (j->GetShipObject()->HasAugmentation("POWER_BOOST"))
-                {
-                    float augAmount = j->GetShipObject()->GetAugmentationValue("POWER_BOOST");
-                    permanentPowerCounter += augAmount;
-                    bonusPowerCounter += augAmount;
-                }
+//                if (j->GetShipObject()->HasAugmentation("POWER_BOOST"))
+//                {
+//                    float augAmount = j->GetShipObject()->GetAugmentationValue("POWER_BOOST");
+//                    permanentPowerCounter += augAmount;
+//                    bonusPowerCounter += augAmount;
+//                }
 
 //                ShipManager *ship;
 //                if (j->currentShipId == 0)
@@ -3749,10 +3749,10 @@ HOOK_METHOD(CrewAI, PrioritizeIntruderRoom, (CrewMember *crew, int roomId, int t
 HOOK_METHOD(CrewMember, Clone, () -> void)
 {
     bool cloneLoseSkills = CustomCrewManager::GetInstance()->GetDefinition(species).cloneLoseSkills;
-    if (this->GetShipObject()->HasAugmentation("ALL_CREW_LOSE_SKILLS_ON_CLONE"))
-    {
-        cloneLoseSkills = (bool)this->GetShipObject()->GetAugmentationValue("ALL_CREW_LOSE_SKILLS_ON_CLONE");
-    }
+//    if (this->GetShipObject()->HasAugmentation("ALL_CREW_LOSE_SKILLS_ON_CLONE"))
+//    {
+//        cloneLoseSkills = (bool)this->GetShipObject()->GetAugmentationValue("ALL_CREW_LOSE_SKILLS_ON_CLONE");
+//    }
     if (!CustomCrewManager::GetInstance()->IsRace(species) || cloneLoseSkills) return super();
 
     bOutOfGame = false;

@@ -9,10 +9,10 @@ static bool __attribute__((fastcall)) CrewMember_GetControllable(CrewMember *_th
     auto def = custom->GetDefinition(_this->species);
 
     auto ex = CM_EX(_this);
-    if (_this->GetShipObject()->HasAugmentation("ALL_CREW_CONTROLLABLE"))
-    {
-        return (bool)(_this->GetShipObject()->GetAugmentationValue("ALL_CREW_CONTROLLABLE"));
-    }
+//    if (_this->GetShipObject()->HasAugmentation("ALL_CREW_CONTROLLABLE"))
+//    {
+//        return (bool)(_this->GetShipObject()->GetAugmentationValue("ALL_CREW_CONTROLLABLE"));
+//    }
     if (ex->temporaryPowerActive && def.powerDef.tempPower.controllable.enabled)
     {
         return def.powerDef.tempPower.controllable.value && req;
@@ -27,10 +27,10 @@ static bool __attribute__((fastcall)) CrewMember_CanSuffocate(CrewMember *_this)
     auto def = custom->GetDefinition(_this->species);
 
     auto ex = CM_EX(_this);
-    if (_this->GetShipObject()->HasAugmentation("ALL_CREW_SUFFOCATE"))
-    {
-        return (bool)(_this->GetShipObject()->GetAugmentationValue("ALL_CREW_SUFFOCATE"));
-    }
+//    if (_this->GetShipObject()->HasAugmentation("ALL_CREW_SUFFOCATE"))
+//    {
+//        return (bool)(_this->GetShipObject()->GetAugmentationValue("ALL_CREW_SUFFOCATE"));
+//    }
     if (ex->temporaryPowerActive && def.powerDef.tempPower.canSuffocate.enabled)
     {
         return def.powerDef.tempPower.canSuffocate.value;
@@ -45,10 +45,10 @@ static bool __attribute__((fastcall)) CrewMember_CanFight(CrewMember *_this)
     auto def = custom->GetDefinition(_this->species);
 
     auto ex = CM_EX(_this);
-    if (_this->GetShipObject()->HasAugmentation("ALL_CREW_FIGHT"))
-    {
-        return (bool)(_this->GetShipObject()->GetAugmentationValue("ALL_CREW_FIGHT"));
-    }
+//    if (_this->GetShipObject()->HasAugmentation("ALL_CREW_FIGHT"))
+//    {
+//        return (bool)(_this->GetShipObject()->GetAugmentationValue("ALL_CREW_FIGHT"));
+//    }
     if (ex->temporaryPowerActive && def.powerDef.tempPower.canFight.enabled)
     {
         return def.powerDef.tempPower.canFight.value;
@@ -65,10 +65,10 @@ static bool __attribute__((fastcall)) CrewMember_CanRepair(CrewMember *_this)
     auto def = custom->GetDefinition(_this->species);
 
     auto ex = CM_EX(_this);
-    if (_this->GetShipObject()->HasAugmentation("ALL_CREW_REPAIR"))
-    {
-        return (bool)(_this->GetShipObject()->GetAugmentationValue("ALL_CREW_REPAIR"));
-    }
+//    if (_this->GetShipObject()->HasAugmentation("ALL_CREW_REPAIR"))
+//    {
+//        return (bool)(_this->GetShipObject()->GetAugmentationValue("ALL_CREW_REPAIR"));
+//    }
     if (ex->temporaryPowerActive && def.powerDef.tempPower.canRepair.enabled)
     {
         return def.powerDef.tempPower.canRepair.value && req;
@@ -85,10 +85,10 @@ static bool __attribute__((fastcall)) CrewMember_CanSabotage(CrewMember *_this)
     auto def = custom->GetDefinition(_this->species);
 
     auto ex = CM_EX(_this);
-    if (_this->GetShipObject()->HasAugmentation("ALL_CREW_SABOTAGE"))
-    {
-        return (bool)(_this->GetShipObject()->GetAugmentationValue("ALL_CREW_SABOTAGE"));
-    }
+//    if (_this->GetShipObject()->HasAugmentation("ALL_CREW_SABOTAGE"))
+//    {
+//        return (bool)(_this->GetShipObject()->GetAugmentationValue("ALL_CREW_SABOTAGE"));
+//    }
     if (ex->temporaryPowerActive && def.powerDef.tempPower.canSabotage.enabled)
     {
         return def.powerDef.tempPower.canSabotage.value && req;
@@ -104,10 +104,10 @@ static bool __attribute__((fastcall)) CrewMember_CanMan(CrewMember *_this)
     auto def = custom->GetDefinition(_this->species);
 
     auto ex = CM_EX(_this);
-    if (_this->GetShipObject()->HasAugmentation("ALL_CREW_MAN"))
-    {
-        return (bool)(_this->GetShipObject()->GetAugmentationValue("ALL_CREW_MAN"));
-    }
+//    if (_this->GetShipObject()->HasAugmentation("ALL_CREW_MAN"))
+//    {
+//        return (bool)(_this->GetShipObject()->GetAugmentationValue("ALL_CREW_MAN"));
+//    }
 
     if (ex->temporaryPowerActive && def.powerDef.tempPower.canMan.enabled)
     {
@@ -121,10 +121,10 @@ static bool __attribute__((fastcall)) CrewMember_CanMan(CrewMember *_this)
 static bool __attribute__((fastcall)) CrewMember_CanBurn(CrewMember *_this)
 {
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
-    if (_this->GetShipObject()->HasAugmentation("ALL_CREW_BURN"))
-    {
-        return (bool)(_this->GetShipObject()->GetAugmentationValue("ALL_CREW_BURN"));
-    }
+//    if (_this->GetShipObject()->HasAugmentation("ALL_CREW_BURN"))
+//    {
+//        return (bool)(_this->GetShipObject()->GetAugmentationValue("ALL_CREW_BURN"));
+//    }
     return custom->GetDefinition(_this->species).canBurn;
 }
 
@@ -178,7 +178,7 @@ static int __attribute__((fastcall)) CrewMember_GetMaxHealth(CrewMember *_this)
 //    int newMaxHealth = (custom->GetDefinition(_this->species).maxHealth * augMultAmount + augAmount) * otherCrewStatMultiplier;
 //    _this->health.first *= newMaxHealth / _this->health.second;
 //    return newMaxHealth;
-    return custom->GetDefinition(_this->species).maxHealth;
+    return def.maxHealth;
 }
 
 static float __attribute__((fastcall)) CrewMember_GetMoveSpeedMultiplier(CrewMember *_this)
@@ -416,10 +416,10 @@ static bool __attribute__((fastcall)) CrewMember_IsTelepathic(CrewMember *_this)
     auto def = custom->GetDefinition(_this->species);
 
     auto ex = CM_EX(_this);
-    if (_this->GetShipObject()->HasAugmentation("ALL_CREW_TELEPATHIC"))
-    {
-        return (bool)(_this->GetShipObject()->GetAugmentationValue("ALL_CREW_TELEPATHIC"));
-    }
+//    if (_this->GetShipObject()->HasAugmentation("ALL_CREW_TELEPATHIC"))
+//    {
+//        return (bool)(_this->GetShipObject()->GetAugmentationValue("ALL_CREW_TELEPATHIC"));
+//    }
     if (ex->temporaryPowerActive && def.powerDef.tempPower.isTelepathic.enabled)
     {
         return def.powerDef.tempPower.isTelepathic.value;
@@ -485,10 +485,10 @@ static float __attribute__((fastcall)) CrewMember_GetSuffocationModifier(CrewMem
 static bool __attribute__((fastcall)) CrewMember_IsAnaerobic(CrewMember *_this)
 {
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
-    if (_this->GetShipObject()->HasAugmentation("ALL_CREW_ANAEROBIC"))
-    {
-        return (bool)(_this->GetShipObject()->GetAugmentationValue("ALL_CREW_ANAEROBIC"));
-    }
+//    if (_this->GetShipObject()->HasAugmentation("ALL_CREW_ANAEROBIC"))
+//    {
+//        return (bool)(_this->GetShipObject()->GetAugmentationValue("ALL_CREW_ANAEROBIC"));
+//    }
     return custom->GetDefinition(_this->species).isAnaerobic;
 }
 
