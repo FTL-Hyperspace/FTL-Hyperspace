@@ -400,6 +400,12 @@
 		<Unit filename="SigScan.h">
 			<Option virtualFolder="ZHL/" />
 		</Unit>
+		<Unit filename="StatBoost.cpp">
+			<Option virtualFolder="Core/Crew/" />
+		</Unit>
+		<Unit filename="StatBoost.h">
+			<Option virtualFolder="Core/Crew/" />
+		</Unit>
 		<Unit filename="System_Extend.cpp">
 			<Option virtualFolder="Core/Systems/" />
 		</Unit>
