@@ -55,6 +55,7 @@ struct CustomShipDefinition
     int startingScrap = -1;
 
     std::unordered_map<int, RoomDefinition*> roomDefs;
+    std::vector<std::string> shipIcons;
 
     int crewLimit = 8;
 

@@ -2,6 +2,7 @@
 #include "freetype.h"
 #include "Seeds.h"
 #include "ShipUnlocks.h"
+#include "EnemyShipIcons.h"
 #include <algorithm>
 #include <boost/lexical_cast.hpp>
 
@@ -26,6 +27,11 @@ void CustomShipSelect::ParseShipsNode(rapidxml::xml_node<char> *node)
         {
             CustomShipDefinition def;
             std::string name = child->name();
+
+            if (name == "shipIcons")
+            {
+                ShipIconManager::instance->ParseShipIconNode(child);
+            }
 
             if (name == "ship")
             {
@@ -124,6 +130,18 @@ void CustomShipSelect::ParseShipsNode(rapidxml::xml_node<char> *node)
                     if (name == "crewLimit")
                     {
                         def.crewLimit = boost::lexical_cast<int>(val);
+                    }
+                    if (name == "shipIcons")
+                    {
+                        for (auto iconNode = shipNode->first_node(); iconNode; iconNode = iconNode->next_sibling())
+                        {
+                            std::string iconName = iconNode->name();
+
+                            if (iconName == "shipIcon")
+                            {
+                                def.shipIcons.push_back(iconNode->value());
+                            }
+                        }
                     }
                     if (name == "rooms")
                     {
