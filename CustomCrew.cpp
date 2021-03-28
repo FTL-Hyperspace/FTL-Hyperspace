@@ -1457,6 +1457,7 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
 
         for (auto statBoost : def.passiveStatBoosts)
         {
+            statBoost.source = orig;
             outgoingStatBoosts.push_back(statBoost);
         }
 
@@ -3965,115 +3966,4 @@ CrewAnimation_Extend::~CrewAnimation_Extend()
 {
     if (effectAnim) effectAnim->destructor();
     if (tempEffectAnim) tempEffectAnim->destructor();
-}
-
-float CrewMember_Extend::CalculateStat(CrewStat stat)
-{
-    CustomCrewManager *custom = CustomCrewManager::GetInstance();
-    auto def = custom->GetDefinition(orig->species);
-
-    ShipManager* playerShip;
-    ShipManager* enemyShip;
-    playerShip = G_->GetShipManager(0);
-    enemyShip = G_->GetShipManager(1);
-
-    float otherCrewStatMultiplier = 1.f;
-    float otherCrewStatModifier = 0.f;
-    float augMultAmount = 1.f;
-    float augAmount = 0.f;
-    std::vector<StatBoost> personalStatBoosts;
-
-    auto checkingCrewList = std::vector<CrewMember*>();
-
-    if (playerShip != nullptr)
-    {
-        checkingCrewList.insert(checkingCrewList.end(), playerShip->vCrewList.begin(), playerShip->vCrewList.end());
-    }
-    if (enemyShip != nullptr)
-    {
-        checkingCrewList.insert(checkingCrewList.end(), enemyShip->vCrewList.begin(), enemyShip->vCrewList.end());
-    }
-
-    for (auto otherCrew: checkingCrewList)
-    {
-        auto ex = CM_EX(otherCrew);
-
-        auto currentStatBoosts = std::vector<StatBoost>();
-
-        if (ex->temporaryPowerActive)
-        {
-            currentStatBoosts = ex->outgoingAbilityStatBoosts;
-        }
-        else
-        {
-            currentStatBoosts = ex->outgoingStatBoosts;
-        }
-
-        for (StatBoost statBoost : currentStatBoosts)
-        {
-            if ((((statBoost.shipTarget == StatBoost::ShipTarget::PLAYER_SHIP && orig->currentShipId == 0) || (statBoost.shipTarget == StatBoost::ShipTarget::ENEMY_SHIP && orig->currentShipId == 1)) || (statBoost.shipTarget == StatBoost::ShipTarget::CURRENT_ALL && orig->currentShipId == otherCrew->currentShipId) || (statBoost.shipTarget == StatBoost::ShipTarget::CURRENT_ROOM && orig->iRoomId == otherCrew->iRoomId && orig->currentShipId == otherCrew->currentShipId) || (statBoost.shipTarget == StatBoost::ShipTarget::ALL))
-                && (otherCrew != orig || statBoost.affectsSelf)
-                && ((otherCrew->iShipId == orig->iShipId && statBoost.crewTarget == StatBoost::CrewTarget::ALLIES) || (otherCrew->iShipId != orig->iShipId && statBoost.crewTarget == StatBoost::CrewTarget::ENEMIES) || statBoost.crewTarget == StatBoost::CrewTarget::ALL)
-                && ((std::find(statBoost.whiteList.begin(), statBoost.whiteList.end(), orig->species) != statBoost.whiteList.end()) || (!statBoost.blackList.empty() && std::find(statBoost.blackList.begin(), statBoost.blackList.end(), orig->species) == statBoost.blackList.end()) || (statBoost.blackList.empty() && statBoost.whiteList.empty()))
-                ) // If the boost affects this ship and/or this room, and the boost comes from someone else or affects self, and the boost comes from an ally and affects allies or an enemy and affects enemies, and the boost specifically lets this race take it or doesn't ban it
-            {
-                personalStatBoosts.push_back(statBoost);
-            }
-        }
-    }
-
-    StatBoost prioritySet;
-    for (StatBoost statBoost : personalStatBoosts)
-    {
-        if (statBoost.stat == stat)
-        {
-            if (statBoost.boostType == StatBoost::BoostType::MULT)
-            {
-                otherCrewStatMultiplier += statBoost.amount - 1;
-            }
-            else if (statBoost.boostType == StatBoost::BoostType::FLAT)
-            {
-                otherCrewStatModifier += statBoost.amount;
-            }
-            else if (statBoost.boostType == StatBoost::BoostType::SET)
-            {
-                if (prioritySet.priority == -1)
-                {
-                    prioritySet = statBoost;
-                }
-                else if (statBoost.priority > prioritySet.priority)
-                {
-                    prioritySet = statBoost;
-                }
-            }
-        }
-    }
-//    printf("Amount: %f, Size: %i", otherCrewStatMultiplier, personalStatBoosts.size());
-
-    switch(stat)
-    {
-        case CrewStat::MAX_HEALTH:
-            break;
-        case CrewStat::STUN_MULTIPLIER:
-            break;
-        case CrewStat::MOVE_SPEED_MULTIPLIER:
-            if (orig->GetShipObject()->HasAugmentation("SPEED_BOOST"))
-            {
-                augMultAmount = orig->GetShipObject()->GetAugmentationValue("SPEED_BOOST");
-            }
-            if (orig->GetShipObject()->HasAugmentation("FLAT_SPEED_BOOST"))
-            {
-                augAmount = orig->GetShipObject()->GetAugmentationValue("FLAT_SPEED_BOOST");
-            }
-            if (prioritySet.priority != -1)
-            {
-                return prioritySet.amount;
-            }
-            else
-            {
-                return (def.moveSpeedMultiplier * augMultAmount + augAmount) * otherCrewStatMultiplier + otherCrewStatModifier;
-            }
-    }
-
-    return 0.f;
 }

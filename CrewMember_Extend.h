@@ -91,6 +91,7 @@ struct StatBoost
   };
 
   CrewStat stat;
+  CrewMember* source;
   float amount;
   int priority = -1;
   float duration;
