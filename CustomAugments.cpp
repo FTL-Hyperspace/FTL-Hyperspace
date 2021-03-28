@@ -492,11 +492,12 @@ HOOK_METHOD(ShipObject, AddAugmentation, (const std::string& name) -> void)
 {
     super(name);
 
+    /*
     ShipManager* ship = G_->GetShipManager(this);
     if (ship != nullptr)
     {
         auto sm = SM_EX(ship);
-    }
+    }*/
 }
 HOOK_METHOD(ShipObject, RemoveAugmentation, (const std::string& name) -> void)
 {
@@ -515,9 +516,11 @@ HOOK_METHOD(ShipObject, RemoveAugmentation, (const std::string& name) -> void)
 
     G_->GetShipInfo(iShipId)->augCount = augCount;
 
+    /*
     ShipManager* ship = G_->GetShipManager(this);
     if (ship != nullptr)
     {
         auto sm = SM_EX(ship);
     }
+    */
 }

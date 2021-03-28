@@ -1,5 +1,6 @@
 #pragma once
 #include "FTLGame.h"
+#include <array>
 
 enum PowerReadyState
 {
@@ -23,7 +24,7 @@ enum PowerReadyState
 
 enum class CrewStat
 {
-  MAX_HEALTH,
+  MAX_HEALTH = 0,
   STUN_MULTIPLIER,
   MOVE_SPEED_MULTIPLIER,
   REPAIR_SPEED_MULTIPLIER,
@@ -42,11 +43,32 @@ enum class CrewStat
   DAMAGE_ENEMIES_AMOUNT
 };
 
+static const std::array<std::string, 17> crewStats =
+{
+  "MAX_HEALTH",
+  "STUN_MULTIPLIER",
+  "MOVE_SPEED_MULTIPLIER",
+  "REPAIR_SPEED_MULTIPLIER",
+  "DAMAGE_MULTIPLIER",
+  "FIRE_REPAIR_MULTIPLIER",
+  "SUFFOCATION_MULTIPLIER",
+  "FIRE_DAMAGE_MULTIPLIER",
+  "OXYGEN_CHANGE_SPEED",
+  "DAMAGE_TAKEN_MULTIPLIER",
+  "PASSIVE_HEAL_AMOUNT",
+  "PASSIVE_HEAL_DELAY",
+  "SABOTAGE_SPEED_MULTIPLIER",
+  "ALL_DAMAGE_TAKEN_MULTIPLIER",
+  "HEAL_SPEED_MULTIPLIER",
+  "HEAL_CREW_AMOUNT",
+  "DAMAGE_ENEMIES_AMOUNT"
+};
+
 struct StatBoost
 {
   enum class BoostType
   {
-    MULTIPLICATIVE,
+    MULT,
     FLAT,
     SET
   };

@@ -161,6 +161,8 @@ struct TemporaryPowerDefinition
     ToggleValue<bool> powerDrainFriendlyAura = false;
     ToggleValue<float> damageEnemiesAmountAura = 0.f;
 
+    std::vector<StatBoost> statBoosts;
+
     int bonusPower = 0;
     bool invulnerable;
     float healAmount = 0.f;
@@ -223,7 +225,6 @@ struct ActivatedPowerDefinition
     bool activateWhenReady = false;
     bool activateReadyEnemies = false;
     std::string transformRace = "";
-
 
     TemporaryPowerDefinition tempPower;
 };
@@ -308,6 +309,8 @@ struct CrewDefinition
     bool explosionShipFriendlyFire = false;
 
     ActivatedPowerDefinition powerDef;
+
+    std::vector<StatBoost> passiveStatBoosts;
 
 
     SkillsDefinition skillsDef;

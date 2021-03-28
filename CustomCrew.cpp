@@ -2,6 +2,7 @@
 
 #include "Resources.h"
 #include "freetype.h"
+#include "StatBoost.h"
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
 #include <algorithm>
@@ -16,6 +17,9 @@ static const std::string CREW_SKILLS[6] =
     "repair",
     "combat"
 };
+
+
+
 
 
 CustomCrewManager CustomCrewManager::instance = CustomCrewManager();
@@ -266,6 +270,13 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                             if (stat->first_attribute("animSoundFrame"))
                             {
                                 crew.repairSoundFrame = boost::lexical_cast<int>(stat->first_attribute("animSoundFrame")->value());
+                            }
+                        }
+                        if (str == "passiveStatBoosts")
+                        {
+                            for (auto statBoostNode = stat->first_node(); statBoostNode; statBoostNode = statBoostNode->next_sibling())
+                            {
+                                crew.passiveStatBoosts.push_back(ParseStatBoostNode(statBoostNode));
                             }
                         }
                         if (str == "animBase")
@@ -800,6 +811,13 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                                         if (tempEffectName == "healthMultiplier")
                                         {
                                             crew.powerDef.tempPower.healthMultiplier = boost::lexical_cast<float>(tempEffectNode->value());
+                                        }
+                                        if (tempEffectName == "statBoosts")
+                                        {
+                                            for (auto statBoostNode = tempEffectNode->first_node(); statBoostNode; statBoostNode = statBoostNode->next_sibling())
+                                            {
+                                                crew.powerDef.tempPower.statBoosts.push_back(ParseStatBoostNode(statBoostNode));
+                                            }
                                         }
                                     }
                                 }
@@ -3968,7 +3986,7 @@ float CrewMember_Extend::CalculateStat(CrewStat stat)
             StatBoost test;
             test.amount = 2.5;
             test.stat = CrewStat::MOVE_SPEED_MULTIPLIER;
-            test.boostType = StatBoost::BoostType::MULTIPLICATIVE;
+            test.boostType = StatBoost::BoostType::MULT;
             test.shipTarget = StatBoost::ShipTarget::CURRENT_ROOM;
             test.crewTarget = StatBoost::CrewTarget::ALL;
             test.affectsSelf = false;
@@ -4048,7 +4066,7 @@ float CrewMember_Extend::CalculateStat(CrewStat stat)
     {
         if (statBoost.stat == stat)
         {
-            if (statBoost.boostType == StatBoost::BoostType::MULTIPLICATIVE)
+            if (statBoost.boostType == StatBoost::BoostType::MULT)
             {
                 otherCrewStatMultiplier += statBoost.amount - 1;
             }
