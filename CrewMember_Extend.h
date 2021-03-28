@@ -141,7 +141,7 @@ public:
 
     std::vector<StatBoost> outgoingStatBoosts;
     std::vector<StatBoost> outgoingAbilityStatBoosts;
-    std::vector<StatBoost> personalStatBoosts;
+//    std::vector<StatBoost> personalStatBoosts;
 
     void Initialize(CrewBlueprint& bp, int shipId, bool enemy, CrewAnimation *animation);
 
