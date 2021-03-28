@@ -4074,7 +4074,7 @@ float CrewMember_Extend::CalculateStat(CrewStat stat)
             }
             else
             {
-                return (def.moveSpeedMultiplier * augMultAmount + augAmount * otherCrewStatMultiplier);
+                return (def.moveSpeedMultiplier * augMultAmount + augAmount) * otherCrewStatMultiplier + otherCrewStatModifier;
             }
     }
 
