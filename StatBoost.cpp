@@ -10,14 +10,11 @@ StatBoost ParseStatBoostNode(rapidxml::xml_node<char>* node)
     if (stat != crewStats.end())
     {
         int statId = stat - crewStats.begin();
-
         def.stat = static_cast<CrewStat>(statId);
-
         for (auto child = node->first_node(); child; child = child->next_sibling())
         {
             std::string name = child->name();
             std::string val = child->value();
-
             if (name == "boostType")
             {
                 if (val == "MULT")
@@ -36,6 +33,7 @@ StatBoost ParseStatBoostNode(rapidxml::xml_node<char>* node)
             if (name == "amount")
             {
                 def.amount = boost::lexical_cast<float>(val);
+
             }
             if (name == "priority")
             {
@@ -89,20 +87,19 @@ StatBoost ParseStatBoostNode(rapidxml::xml_node<char>* node)
             }
             if (name == "whiteList")
             {
-                for (auto crewChild = child->first_node(); crewChild; crewChild->next_sibling())
+                for (auto crewChild = child->first_node(); crewChild; crewChild = crewChild->next_sibling())
                 {
                     def.whiteList.push_back(crewChild->name());
                 }
             }
             if (name == "blackList")
             {
-                for (auto crewChild = child->first_node(); crewChild; crewChild->next_sibling())
+                for (auto crewChild = child->first_node(); crewChild; crewChild = crewChild->next_sibling())
                 {
                     def.blackList.push_back(crewChild->name());
                 }
             }
         }
     }
-
     return def;
 }

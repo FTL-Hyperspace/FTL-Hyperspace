@@ -93,9 +93,10 @@ struct StatBoost
   CrewStat stat;
   float amount;
   int priority = -1;
+  float duration;
   bool affectsSelf;
-  std::vector<std::string> whiteList;
-  std::vector<std::string> blackList;
+  std::vector<std::string> whiteList = std::vector<std::string>();
+  std::vector<std::string> blackList = std::vector<std::string>();
   BoostType boostType;
   ShipTarget shipTarget;
   CrewTarget crewTarget;
@@ -161,8 +162,8 @@ public:
 
     float prevStun = 0.f; // for use in stun resistance checking
 
-    std::vector<StatBoost> outgoingStatBoosts;
-    std::vector<StatBoost> outgoingAbilityStatBoosts;
+    std::vector<StatBoost> outgoingStatBoosts = std::vector<StatBoost>();
+    std::vector<StatBoost> outgoingAbilityStatBoosts = std::vector<StatBoost>();
 //    std::vector<StatBoost> personalStatBoosts;
 
     void Initialize(CrewBlueprint& bp, int shipId, bool enemy, CrewAnimation *animation);

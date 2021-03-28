@@ -1455,6 +1455,11 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
         hasTemporaryPower = def.powerDef.hasTemporaryPower;
         canPhaseThroughDoors = def.canPhaseThroughDoors;
 
+        for (auto statBoost : def.passiveStatBoosts)
+        {
+            outgoingStatBoosts.push_back(statBoost);
+        }
+
 
         auto skillsDef = def.skillsDef;
 
@@ -3982,16 +3987,6 @@ float CrewMember_Extend::CalculateStat(CrewStat stat)
         for (auto otherCrew: playerShip->vCrewList)
         {
             auto ex = CM_EX(otherCrew);
-            ex->outgoingStatBoosts.clear();
-            StatBoost test;
-            test.amount = 2.5;
-            test.stat = CrewStat::MOVE_SPEED_MULTIPLIER;
-            test.boostType = StatBoost::BoostType::MULT;
-            test.shipTarget = StatBoost::ShipTarget::CURRENT_ROOM;
-            test.crewTarget = StatBoost::CrewTarget::ALL;
-            test.affectsSelf = false;
-            test.blackList.push_back("energy");
-            ex->outgoingStatBoosts.push_back(test);
 
             if (ex->temporaryPowerActive)
             {
@@ -4000,7 +3995,7 @@ float CrewMember_Extend::CalculateStat(CrewStat stat)
                     if (((statBoost.shipTarget == StatBoost::ShipTarget::PLAYER_SHIP && orig->currentShipId == 0) || (statBoost.shipTarget == StatBoost::ShipTarget::CURRENT_ALL && orig->currentShipId == otherCrew->currentShipId) || (statBoost.shipTarget == StatBoost::ShipTarget::CURRENT_ROOM && orig->iRoomId == otherCrew->iRoomId && orig->currentShipId == otherCrew->currentShipId) || (statBoost.shipTarget == StatBoost::ShipTarget::ALL))
                         && (otherCrew != orig || statBoost.affectsSelf)
                         && ((!otherCrew->intruder && statBoost.crewTarget == StatBoost::CrewTarget::ALLIES) || (otherCrew->intruder && statBoost.crewTarget == StatBoost::CrewTarget::ENEMIES) || statBoost.crewTarget == StatBoost::CrewTarget::ALL)
-                        && ((std::find(statBoost.whiteList.begin(), statBoost.whiteList.end(), orig->species) != statBoost.whiteList.end()) || (std::find(statBoost.blackList.begin(), statBoost.blackList.end(), orig->species) == statBoost.blackList.end()))
+                        && ((std::find(statBoost.whiteList.begin(), statBoost.whiteList.end(), orig->species) != statBoost.whiteList.end()) || (!statBoost.blackList.empty() && std::find(statBoost.blackList.begin(), statBoost.blackList.end(), orig->species) == statBoost.blackList.end()) || (statBoost.blackList.empty() && statBoost.whiteList.empty()))
                         ) // If the boost affects this ship and/or this room, and the boost comes from someone else or affects self, and the boost comes from an ally and affects allies or an enemy and affects enemies, and the boost specifically lets this race take it or doesn't ban it
                     {
                         personalStatBoosts.push_back(statBoost);
@@ -4015,7 +4010,7 @@ float CrewMember_Extend::CalculateStat(CrewStat stat)
                     if (((statBoost.shipTarget == StatBoost::ShipTarget::PLAYER_SHIP && orig->currentShipId == 0) || (statBoost.shipTarget == StatBoost::ShipTarget::CURRENT_ALL && orig->currentShipId == otherCrew->currentShipId) || (statBoost.shipTarget == StatBoost::ShipTarget::CURRENT_ROOM && orig->iRoomId == otherCrew->iRoomId && orig->currentShipId == otherCrew->currentShipId) || (statBoost.shipTarget == StatBoost::ShipTarget::ALL))
                         && (otherCrew != orig || statBoost.affectsSelf)
                         && ((!otherCrew->intruder && statBoost.crewTarget == StatBoost::CrewTarget::ALLIES) || (otherCrew->intruder && statBoost.crewTarget == StatBoost::CrewTarget::ENEMIES) || statBoost.crewTarget == StatBoost::CrewTarget::ALL)
-                        && ((std::find(statBoost.whiteList.begin(), statBoost.whiteList.end(), orig->species) != statBoost.whiteList.end()) || (std::find(statBoost.blackList.begin(), statBoost.blackList.end(), orig->species) == statBoost.blackList.end()))
+                        && ((std::find(statBoost.whiteList.begin(), statBoost.whiteList.end(), orig->species) != statBoost.whiteList.end()) || (!statBoost.blackList.empty() && std::find(statBoost.blackList.begin(), statBoost.blackList.end(), orig->species) == statBoost.blackList.end()) || (statBoost.blackList.empty() && statBoost.whiteList.empty()))
                         ) // If the boost affects this ship and/or this room, and the boost comes from someone else or affects self, and the boost comes from an ally and affects allies or an enemy and affects enemies, and the boost specifically lets this race take it or doesn't ban it
                     {
                         personalStatBoosts.push_back(statBoost);
@@ -4037,7 +4032,7 @@ float CrewMember_Extend::CalculateStat(CrewStat stat)
                     if (((statBoost.shipTarget == StatBoost::ShipTarget::ENEMY_SHIP && orig->currentShipId == 1) || (statBoost.shipTarget == StatBoost::ShipTarget::CURRENT_ALL && orig->currentShipId == otherCrew->currentShipId) || (statBoost.shipTarget == StatBoost::ShipTarget::CURRENT_ROOM && orig->iRoomId == otherCrew->iRoomId && orig->currentShipId == otherCrew->currentShipId) || (statBoost.shipTarget == StatBoost::ShipTarget::ALL))
                         && (otherCrew != orig || statBoost.affectsSelf)
                         && ((!otherCrew->intruder && statBoost.crewTarget == StatBoost::CrewTarget::ALLIES) || (otherCrew->intruder && statBoost.crewTarget == StatBoost::CrewTarget::ENEMIES) || statBoost.crewTarget == StatBoost::CrewTarget::ALL)
-                        && ((std::find(statBoost.whiteList.begin(), statBoost.whiteList.end(), orig->species) != statBoost.whiteList.end()) || (std::find(statBoost.blackList.begin(), statBoost.blackList.end(), orig->species) == statBoost.blackList.end()))
+                        && ((std::find(statBoost.whiteList.begin(), statBoost.whiteList.end(), orig->species) != statBoost.whiteList.end()) || (!statBoost.blackList.empty() && std::find(statBoost.blackList.begin(), statBoost.blackList.end(), orig->species) == statBoost.blackList.end()) || (statBoost.blackList.empty() && statBoost.whiteList.empty()))
                         ) // If the boost affects this ship and/or this room, and the boost comes from someone else or affects self, and the boost comes from an ally and affects allies or an enemy and affects enemies, and the boost specifically lets this race take it or doesn't ban it
                     {
                             personalStatBoosts.push_back(statBoost);
@@ -4051,7 +4046,7 @@ float CrewMember_Extend::CalculateStat(CrewStat stat)
                     if (((statBoost.shipTarget == StatBoost::ShipTarget::ENEMY_SHIP && orig->currentShipId == 1) || (statBoost.shipTarget == StatBoost::ShipTarget::CURRENT_ALL && orig->currentShipId == otherCrew->currentShipId) || (statBoost.shipTarget == StatBoost::ShipTarget::CURRENT_ROOM && orig->iRoomId == otherCrew->iRoomId && orig->currentShipId == otherCrew->currentShipId) || (statBoost.shipTarget == StatBoost::ShipTarget::ALL))
                         && (otherCrew != orig || statBoost.affectsSelf)
                         && ((!otherCrew->intruder && statBoost.crewTarget == StatBoost::CrewTarget::ALLIES) || (otherCrew->intruder && statBoost.crewTarget == StatBoost::CrewTarget::ENEMIES) || statBoost.crewTarget == StatBoost::CrewTarget::ALL)
-                        && ((std::find(statBoost.whiteList.begin(), statBoost.whiteList.end(), orig->species) != statBoost.whiteList.end()) || (std::find(statBoost.blackList.begin(), statBoost.blackList.end(), orig->species) == statBoost.blackList.end()))
+                        && ((std::find(statBoost.whiteList.begin(), statBoost.whiteList.end(), orig->species) != statBoost.whiteList.end()) || (!statBoost.blackList.empty() && std::find(statBoost.blackList.begin(), statBoost.blackList.end(), orig->species) == statBoost.blackList.end()) || (statBoost.blackList.empty() && statBoost.whiteList.empty()))
                         ) // If the boost affects this ship and/or this room, and the boost comes from someone else or affects self, and the boost comes from an ally and affects allies or an enemy and affects enemies, and the boost specifically lets this race take it or doesn't ban it
                     {
                             personalStatBoosts.push_back(statBoost);
