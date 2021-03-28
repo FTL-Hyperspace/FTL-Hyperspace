@@ -21,6 +21,64 @@ enum PowerReadyState
     POWER_NOT_READY_TELEPORTING
 };
 
+enum class CrewStat
+{
+  MAX_HEALTH,
+  STUN_MULTIPLIER,
+  MOVE_SPEED_MULTIPLIER,
+  REPAIR_SPEED_MULTIPLIER,
+  DAMAGE_MULTIPLIER,
+  FIRE_REPAIR_MULTIPLIER,
+  SUFFOCATION_MULTIPLIER,
+  FIRE_DAMAGE_MULTIPLIER,
+  OXYGEN_CHANGE_SPEED,
+  DAMAGE_TAKEN_MULTIPLIER,
+  PASSIVE_HEAL_AMOUNT,
+  PASSIVE_HEAL_DELAY,
+  SABOTAGE_SPEED_MULTIPLIER,
+  ALL_DAMAGE_TAKEN_MULTIPLIER,
+  HEAL_SPEED_MULTIPLIER,
+  HEAL_CREW_AMOUNT,
+  DAMAGE_ENEMIES_AMOUNT
+};
+
+struct StatBoost
+{
+  enum class BoostType
+  {
+    MULTIPLICATIVE,
+    FLAT,
+    SET
+  };
+
+  enum class ShipTarget
+  {
+    PLAYER_SHIP,
+    ENEMY_SHIP,
+    CURRENT_ALL,
+    CURRENT_ROOM,
+    OTHER_ALL,
+    ALL
+  };
+
+  enum class CrewTarget
+  {
+    ALLIES,
+    ENEMIES,
+    ALL
+  };
+
+  CrewStat stat;
+  float amount;
+  int priority = -1;
+  bool affectsSelf;
+  std::vector<std::string> whiteList;
+  std::vector<std::string> blackList;
+  BoostType boostType;
+  ShipTarget shipTarget;
+  CrewTarget crewTarget;
+};
+
 struct CrewAnimation_Extend
 {
 public:
@@ -81,6 +139,10 @@ public:
 
     float prevStun = 0.f; // for use in stun resistance checking
 
+    std::vector<StatBoost> outgoingStatBoosts;
+    std::vector<StatBoost> outgoingAbilityStatBoosts;
+    std::vector<StatBoost> personalStatBoosts;
+
     void Initialize(CrewBlueprint& bp, int shipId, bool enemy, CrewAnimation *animation);
 
 
@@ -88,6 +150,8 @@ public:
     {
         delete passiveHealTimer;
     }
+
+    float CalculateStat(CrewStat stat);
 };
 
 CrewMember_Extend* Get_CrewMember_Extend(CrewMember* c);
