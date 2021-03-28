@@ -134,50 +134,51 @@ static int __attribute__((fastcall)) CrewMember_GetMaxHealth(CrewMember *_this)
     auto ex = CM_EX(_this);
     auto def = custom->GetDefinition(_this->species);
 
-    float otherCrewStatMultiplier = 1.f;
-    ShipManager *ship;
-    if (_this->currentShipId == 0)
-    {
-        ship = G_->GetShipManager(0);
-    }
-    else
-    {
-        ship = G_->GetShipManager(1);
-    }
-
-    if (ship != nullptr)
-    {
-        for (auto i: ship->vCrewList)
-        {
-            if (i->iRoomId == _this->iRoomId && i != _this)
-            {
-                auto otherCrew = CM_EX(i);
-                if (otherCrew->temporaryPowerActive && custom->GetDefinition(i->species).powerDef.tempPower.healthMultiplierAura.enabled)
-                {
-                    otherCrewStatMultiplier += custom->GetDefinition(i->species).powerDef.tempPower.healthMultiplierAura.value - 1;
-                }
-                else
-                {
-                    otherCrewStatMultiplier += custom->GetDefinition(i->species).healthMultiplierAura - 1;
-                }
-            }
-        }
-    }
-
-    float augAmount = 0.f;
-    float augMultAmount = 1.f;
-    if (_this->GetShipObject()->HasAugmentation("HEALTH_BOOST"))
-    {
-        augMultAmount = _this->GetShipObject()->GetAugmentationValue("HEALTH_BOOST");
-    }
-    if (_this->GetShipObject()->HasAugmentation("FLAT_HEALTH_BOOST"))
-    {
-        augAmount = _this->GetShipObject()->GetAugmentationValue("FLAT_HEALTH_BOOST");
-    }
-
-    int newMaxHealth = (custom->GetDefinition(_this->species).maxHealth * augMultAmount + augAmount) * otherCrewStatMultiplier;
+//    float otherCrewStatMultiplier = 1.f;
+//    ShipManager *ship;
+//    if (_this->currentShipId == 0)
+//    {
+//        ship = G_->GetShipManager(0);
+//    }
+//    else
+//    {
+//        ship = G_->GetShipManager(1);
+//    }
+//
+//    if (ship != nullptr)
+//    {
+//        for (auto i: ship->vCrewList)
+//        {
+//            if (i->iRoomId == _this->iRoomId && i != _this)
+//            {
+//                auto otherCrew = CM_EX(i);
+//                if (otherCrew->temporaryPowerActive && custom->GetDefinition(i->species).powerDef.tempPower.healthMultiplierAura.enabled)
+//                {
+//                    otherCrewStatMultiplier += custom->GetDefinition(i->species).powerDef.tempPower.healthMultiplierAura.value - 1;
+//                }
+//                else
+//                {
+//                    otherCrewStatMultiplier += custom->GetDefinition(i->species).healthMultiplierAura - 1;
+//                }
+//            }
+//        }
+//    }
+//
+//    float augAmount = 0.f;
+//    float augMultAmount = 1.f;
+//    if (_this->GetShipObject()->HasAugmentation("HEALTH_BOOST"))
+//    {
+//        augMultAmount = _this->GetShipObject()->GetAugmentationValue("HEALTH_BOOST");
+//    }
+//    if (_this->GetShipObject()->HasAugmentation("FLAT_HEALTH_BOOST"))
+//    {
+//        augAmount = _this->GetShipObject()->GetAugmentationValue("FLAT_HEALTH_BOOST");
+//    }
+//
+//    int newMaxHealth = (custom->GetDefinition(_this->species).maxHealth * augMultAmount + augAmount) * otherCrewStatMultiplier;
 //    _this->health.first *= newMaxHealth / _this->health.second;
-    return newMaxHealth;
+//    return newMaxHealth;
+    return custom->GetDefinition(_this->species).maxHealth;
 }
 
 static float __attribute__((fastcall)) CrewMember_GetMoveSpeedMultiplier(CrewMember *_this)
@@ -501,30 +502,30 @@ static bool __attribute__((fastcall)) CrewMember_HasSpecialPower(CrewMember *_th
 static std::pair<float, float> __attribute__((fastcall)) CrewMember_GetPowerCooldown(CrewMember *_this)
 {
     auto ex = CM_EX(_this);
-    CustomCrewManager *custom = CustomCrewManager::GetInstance();
-    auto def = custom->GetDefinition(_this->species);
-
-    float augAmount = 0.f;
-    float augMultAmount = 1.f;
-    if (_this->GetShipObject()->HasAugmentation("COOLDOWN_BOOST"))
-    {
-        augMultAmount = _this->GetShipObject()->GetAugmentationValue("COOLDOWN_BOOST");
-    }
-
-    if (_this->GetShipObject()->HasAugmentation("FLAT_COOLDOWN_BOOST"))
-    {
-        augAmount = _this->GetShipObject()->GetAugmentationValue("FLAT_COOLDOWN_BOOST");
-    }
-
-    ex->powerCooldown.second = ex->powerCooldown.second * augMultAmount + augAmount;
-    if (ex->powerCooldown.second < 0.5)
-    {
-        ex->powerCooldown.second = 0.5;
-    }
-    if (ex->powerCooldown.first > ex->powerCooldown.second)
-    {
-        ex->powerCooldown.first = ex->powerCooldown.second;
-    }
+//    CustomCrewManager *custom = CustomCrewManager::GetInstance();
+//    auto def = custom->GetDefinition(_this->species);
+//
+//    float augAmount = 0.f;
+//    float augMultAmount = 1.f;
+//    if (_this->GetShipObject()->HasAugmentation("COOLDOWN_BOOST"))
+//    {
+//        augMultAmount = _this->GetShipObject()->GetAugmentationValue("COOLDOWN_BOOST");
+//    }
+//
+//    if (_this->GetShipObject()->HasAugmentation("FLAT_COOLDOWN_BOOST"))
+//    {
+//        augAmount = _this->GetShipObject()->GetAugmentationValue("FLAT_COOLDOWN_BOOST");
+//    }
+//
+//    ex->powerCooldown.second = ex->powerCooldown.second * augMultAmount + augAmount;
+//    if (ex->powerCooldown.second < 0.5)
+//    {
+//        ex->powerCooldown.second = 0.5;
+//    }
+//    if (ex->powerCooldown.first > ex->powerCooldown.second)
+//    {
+//        ex->powerCooldown.first = ex->powerCooldown.second;
+//    }
     return ex->powerCooldown;
 }
 
