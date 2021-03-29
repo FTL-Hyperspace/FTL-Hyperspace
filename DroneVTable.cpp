@@ -19,6 +19,11 @@ static bool __attribute__((fastcall)) CrewDrone_GetControllable(CrewDrone *_this
 static bool __attribute__((fastcall)) CrewDrone_CanFight(CrewDrone *_this)
 {
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
+
+    if (_this->_drone.blueprint->name == "BOARDER_ION") {
+        return false;
+    }
+
     if (custom->IsRace(_this->species))
     {
         return custom->GetDefinition(_this->species).canFight;
@@ -170,7 +175,7 @@ static int __attribute__((fastcall)) CrewDrone_GetMaxHealth(CrewDrone *_this)
 
     if (_this->_drone.blueprint->typeName == "BOARDER")
     {
-        return 150;
+        return _this->_drone.blueprint->name == "BOARDER_ION" ? 125 : 150;
     }
     else if (_this->_drone.blueprint->typeName == "BOARDER_ION")
     {
