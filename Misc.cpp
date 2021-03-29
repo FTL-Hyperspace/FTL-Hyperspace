@@ -56,8 +56,6 @@ HOOK_METHOD(CApp, OnKeyDown, (SDLKey key) -> void)
         ShipIconManager::instance->bossBoxPos.y--;
     }
 
-    printf("normal: %d %d, boss: %d %d\n", ShipIconManager::instance->normalBoxPos.x, ShipIconManager::instance->normalBoxPos.y, ShipIconManager::instance->bossBoxPos.x, ShipIconManager::instance->bossBoxPos.y);
-
     super(key);
 }
 
