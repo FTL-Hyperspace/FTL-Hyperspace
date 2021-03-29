@@ -1,5 +1,6 @@
 #include "CustomShips.h"
 #include "CustomShipSelect.h"
+#include "EnemyShipIcons.h"
 
 static bool importingShip = false;
 
@@ -45,6 +46,18 @@ void ShipManager_Extend::Initialize(bool restarting)
                 rex->sensorBlind = i.second->sensorBlind;
                 rex->sysDamageResistChance = i.second->sysDamageResistChance;
                 rex->ionDamageResistChance = i.second->ionDamageResistChance;
+            }
+        }
+
+        for (auto i : def.shipIcons)
+        {
+            auto iconDef = ShipIconManager::instance->GetShipIconDefinition(i);
+            if (iconDef)
+            {
+                ShipIcon* icon = new ShipIcon();
+
+                icon->OnInit(iconDef->name, iconDef->tooltip, icons.size());
+                icons.push_back(icon);
             }
         }
 

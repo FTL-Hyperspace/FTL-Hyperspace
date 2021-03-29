@@ -293,6 +293,12 @@
 		<Unit filename="DroneVTable.cpp">
 			<Option virtualFolder="Core/Drones/" />
 		</Unit>
+		<Unit filename="EnemyShipIcons.cpp">
+			<Option virtualFolder="Core/Ship/" />
+		</Unit>
+		<Unit filename="EnemyShipIcons.h">
+			<Option virtualFolder="Core/Ship/" />
+		</Unit>
 		<Unit filename="FTLGame.cpp" />
 		<Unit filename="FTLGame.h" />
 		<Unit filename="Global.cpp">

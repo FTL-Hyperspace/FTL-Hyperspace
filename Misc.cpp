@@ -2,6 +2,7 @@
 #include "ASMHooks.h"
 #include "CustomCrew.h"
 #include "ShipUnlocks.h"
+#include "EnemyShipIcons.h"
 
 // Plays airlock sound when crew have been "dismissed"
 
@@ -31,6 +32,31 @@ HOOK_METHOD(CApp, OnKeyDown, (SDLKey key) -> void)
     {
         testVal++;
     }
+
+    if (key == SDLKey::SDLK_RIGHT)
+    {
+        ShipIconManager::instance->normalBoxPos.x++;
+        ShipIconManager::instance->bossBoxPos.x++;
+    }
+    if (key == SDLKey::SDLK_DOWN)
+    {
+        ShipIconManager::instance->normalBoxPos.y++;
+        ShipIconManager::instance->bossBoxPos.y++;
+
+    }
+    if (key == SDLKey::SDLK_LEFT)
+    {
+        ShipIconManager::instance->normalBoxPos.x--;
+        ShipIconManager::instance->bossBoxPos.x--;
+
+    }
+    if (key == SDLKey::SDLK_UP)
+    {
+        ShipIconManager::instance->normalBoxPos.y--;
+        ShipIconManager::instance->bossBoxPos.y--;
+    }
+
+    printf("normal: %d %d, boss: %d %d\n", ShipIconManager::instance->normalBoxPos.x, ShipIconManager::instance->normalBoxPos.y, ShipIconManager::instance->bossBoxPos.x, ShipIconManager::instance->bossBoxPos.y);
 
     super(key);
 }
