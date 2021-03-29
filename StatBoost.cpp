@@ -265,11 +265,11 @@ float CrewMember_Extend::CalculateStat(CrewStat stat)
             break;
     }
 
-//    std::sort(personalStatBoosts.begin(), personalStatBoosts.end(),
-//        [](const StatBoost &a, const StatBoost &b) -> bool
-//        {
-//            return a.priority > b.priority;
-//        });
+    std::sort(personalStatBoosts.begin(), personalStatBoosts.end(),
+        [](const StatBoost &a, const StatBoost &b) -> bool
+        {
+            return a.priority > b.priority;
+        });
 
     for (StatBoost statBoost : personalStatBoosts)
     {
