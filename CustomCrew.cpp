@@ -1131,6 +1131,15 @@ void CrewMember_Extend::ActivatePower()
     {
         orig->DirectModifyHealth(powerDef.selfHealth);
     }
+    StatBoost testBoost;
+    testBoost.duration = 5;
+    testBoost.amount = 5;
+    testBoost.boostType = StatBoost::BoostType::FLAT;
+    testBoost.shipTarget = StatBoost::ShipTarget::ALL;
+    testBoost.crewTarget = StatBoost::CrewTarget::ALL;
+    testBoost.stat = CrewStat::MOVE_SPEED_MULTIPLIER;
+    testBoost.affectsSelf = true;
+    timedStatBoosts.push_back(testBoost);
 
     auto aex = CMA_EX(orig->crewAnim);
     aex->powerDone = true;
@@ -2773,6 +2782,34 @@ HOOK_METHOD(CrewMember, OnLoop, () -> void)
                 ex->triggerExplosion = false;
                 ex->exploded = false;
             }
+        }
+        if (!ex->timedStatBoosts.empty())
+        {
+            int counter = 0;
+            for (StatBoost statBoost : ex->timedStatBoosts)
+            {
+                if (statBoost.timerHelper)
+                {
+                    statBoost.timerHelper->Update();
+                    if (statBoost.timerHelper->Done())
+                    {
+                        ex->timedStatBoosts.erase(ex->timedStatBoosts.begin() + counter);
+                    }
+                }
+                else
+                {
+                    if (statBoost.duration != -1)
+                    {
+                        statBoost.timerHelper = new TimerHelper();
+                        statBoost.timerHelper->Start(statBoost.duration);
+                    }
+                    else
+                    {
+                        // the "timed" stat boost is actually permanent
+                    }
+                }
+            }
+                ++counter;
         }
     }
 }

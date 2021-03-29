@@ -339,19 +339,35 @@ static float __attribute__((fastcall)) CrewMember_GetDamageMultiplier(CrewMember
 //    {
 //        augAmount = _this->GetShipObject()->GetAugmentationValue("FLAT_DAMAGE_BOOST");
 //    }
+
+//    if (_this->crewAnim->status == 7)
+//    {
+//        return def.rangedDamageMultiplier;
+//    }
+//    if (ex->temporaryPowerActive && def.powerDef.tempPower.damageMultiplier.enabled)
+//    {
+//        if (_this->crewAnim->status == 7)
+//        {
+//            return def.powerDef.tempPower.rangedDamageMultiplier.value;
+//        }
+//        return def.powerDef.tempPower.damageMultiplier.value;
+//    }
+//    return def.damageMultiplier;
+
+//    if (!ex->outgoingTimedStatBoosts.empty())
+//    {
+//        for (StatBoost statBoost : outgoingTimedStatBoosts)
+//        {
+//        }
+//    }
     if (_this->crewAnim->status == 7)
     {
-        return def.rangedDamageMultiplier;
+        return ex->CalculateStat(CrewStat::RANGED_DAMAGE_MULTIPLIER);
     }
-    if (ex->temporaryPowerActive && def.powerDef.tempPower.damageMultiplier.enabled)
+    else
     {
-        if (_this->crewAnim->status == 7)
-        {
-            return def.powerDef.tempPower.rangedDamageMultiplier.value;
-        }
-        return def.powerDef.tempPower.damageMultiplier.value;
+        return ex->CalculateStat(CrewStat::DAMAGE_MULTIPLIER);
     }
-    return def.damageMultiplier;
 }
 
 static bool __attribute__((fastcall)) CrewMember_ProvidesPower(CrewMember *_this)

@@ -29,6 +29,7 @@ enum class CrewStat
   MOVE_SPEED_MULTIPLIER,
   REPAIR_SPEED_MULTIPLIER,
   DAMAGE_MULTIPLIER,
+  RANGED_DAMAGE_MULTIPLIER,
   FIRE_REPAIR_MULTIPLIER,
   SUFFOCATION_MULTIPLIER,
   FIRE_DAMAGE_MULTIPLIER,
@@ -43,13 +44,14 @@ enum class CrewStat
   DAMAGE_ENEMIES_AMOUNT
 };
 
-static const std::array<std::string, 17> crewStats =
+static const std::array<std::string, 18> crewStats =
 {
   "MAX_HEALTH",
   "STUN_MULTIPLIER",
   "MOVE_SPEED_MULTIPLIER",
   "REPAIR_SPEED_MULTIPLIER",
   "DAMAGE_MULTIPLIER",
+  "RANGED_DAMAGE_MULTIPLIER",
   "FIRE_REPAIR_MULTIPLIER",
   "SUFFOCATION_MULTIPLIER",
   "FIRE_DAMAGE_MULTIPLIER",
@@ -87,6 +89,7 @@ struct StatBoost
   {
     ALLIES,
     ENEMIES,
+    SELF,
     ALL
   };
 
@@ -94,7 +97,8 @@ struct StatBoost
   CrewMember* source;
   float amount;
   int priority = -1;
-  float duration;
+  float duration = -1;
+  TimerHelper* timerHelper;
   bool affectsSelf;
   std::vector<std::string> whiteList = std::vector<std::string>();
   std::vector<std::string> blackList = std::vector<std::string>();
@@ -165,6 +169,9 @@ public:
 
     std::vector<StatBoost> outgoingStatBoosts = std::vector<StatBoost>();
     std::vector<StatBoost> outgoingAbilityStatBoosts = std::vector<StatBoost>();
+//    std::vector<StatBoost> outgoingTimedStatBoosts = std::vector<StatBoost>();
+    std::vector<StatBoost> outgoingTimedAbilityStatBoosts = std::vector<StatBoost>();
+    std::vector<StatBoost> timedStatBoosts = std::vector<StatBoost>();
 //    std::vector<StatBoost> personalStatBoosts;
 
     void Initialize(CrewBlueprint& bp, int shipId, bool enemy, CrewAnimation *animation);

@@ -205,6 +205,12 @@ float CrewMember_Extend::CalculateStat(CrewStat stat)
                 finalStat += orig->GetShipObject()->GetAugmentationValue("FLAT_SPEED_BOOST");
             }
             break;
+        case CrewStat::REPAIR_SPEED_MULTIPLIER:
+            break;
+        case CrewStat::DAMAGE_MULTIPLIER:
+            finalStat = (temporaryPowerActive && def.powerDef.tempPower.damageMultiplier.enabled) ? def.powerDef.tempPower.damageMultiplier.value : def.damageMultiplier;
+        case CrewStat::RANGED_DAMAGE_MULTIPLIER:
+            finalStat = (temporaryPowerActive && def.powerDef.tempPower.rangedDamageMultiplier.enabled) ? def.powerDef.tempPower.rangedDamageMultiplier.value : def.rangedDamageMultiplier;
     }
 
 //    std::sort(personalStatBoosts.begin(), personalStatBoosts.end(),
