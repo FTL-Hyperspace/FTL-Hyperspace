@@ -209,8 +209,10 @@ float CrewMember_Extend::CalculateStat(CrewStat stat)
             break;
         case CrewStat::DAMAGE_MULTIPLIER:
             finalStat = (temporaryPowerActive && def.powerDef.tempPower.damageMultiplier.enabled) ? def.powerDef.tempPower.damageMultiplier.value : def.damageMultiplier;
+            break;
         case CrewStat::RANGED_DAMAGE_MULTIPLIER:
             finalStat = (temporaryPowerActive && def.powerDef.tempPower.rangedDamageMultiplier.enabled) ? def.powerDef.tempPower.rangedDamageMultiplier.value : def.rangedDamageMultiplier;
+            break;
     }
 
 //    std::sort(personalStatBoosts.begin(), personalStatBoosts.end(),
