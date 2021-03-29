@@ -1466,7 +1466,8 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
 
         for (auto statBoost : def.passiveStatBoosts)
         {
-            statBoost.source = orig;
+            statBoost.crewSource = orig;
+            statBoost.boostSource = StatBoost::BoostSource::CREW;
             outgoingStatBoosts.push_back(statBoost);
         }
 

@@ -24,87 +24,100 @@ enum PowerReadyState
 
 enum class CrewStat
 {
-  MAX_HEALTH = 0,
-  STUN_MULTIPLIER,
-  MOVE_SPEED_MULTIPLIER,
-  REPAIR_SPEED_MULTIPLIER,
-  DAMAGE_MULTIPLIER,
-  RANGED_DAMAGE_MULTIPLIER,
-  FIRE_REPAIR_MULTIPLIER,
-  SUFFOCATION_MULTIPLIER,
-  FIRE_DAMAGE_MULTIPLIER,
-  OXYGEN_CHANGE_SPEED,
-  DAMAGE_TAKEN_MULTIPLIER,
-  PASSIVE_HEAL_AMOUNT,
-  PASSIVE_HEAL_DELAY,
-  SABOTAGE_SPEED_MULTIPLIER,
-  ALL_DAMAGE_TAKEN_MULTIPLIER,
-  HEAL_SPEED_MULTIPLIER,
-  HEAL_CREW_AMOUNT,
-  DAMAGE_ENEMIES_AMOUNT
+    MAX_HEALTH = 0,
+    STUN_MULTIPLIER,
+    MOVE_SPEED_MULTIPLIER,
+    REPAIR_SPEED_MULTIPLIER,
+    DAMAGE_MULTIPLIER,
+    RANGED_DAMAGE_MULTIPLIER,
+    FIRE_REPAIR_MULTIPLIER,
+    SUFFOCATION_MULTIPLIER,
+    FIRE_DAMAGE_MULTIPLIER,
+    OXYGEN_CHANGE_SPEED,
+    DAMAGE_TAKEN_MULTIPLIER,
+    PASSIVE_HEAL_AMOUNT,
+    PASSIVE_HEAL_DELAY,
+    SABOTAGE_SPEED_MULTIPLIER,
+    ALL_DAMAGE_TAKEN_MULTIPLIER,
+    HEAL_SPEED_MULTIPLIER,
+    HEAL_CREW_AMOUNT,
+    DAMAGE_ENEMIES_AMOUNT
 };
 
 static const std::array<std::string, 18> crewStats =
 {
-  "MAX_HEALTH",
-  "STUN_MULTIPLIER",
-  "MOVE_SPEED_MULTIPLIER",
-  "REPAIR_SPEED_MULTIPLIER",
-  "DAMAGE_MULTIPLIER",
-  "RANGED_DAMAGE_MULTIPLIER",
-  "FIRE_REPAIR_MULTIPLIER",
-  "SUFFOCATION_MULTIPLIER",
-  "FIRE_DAMAGE_MULTIPLIER",
-  "OXYGEN_CHANGE_SPEED",
-  "DAMAGE_TAKEN_MULTIPLIER",
-  "PASSIVE_HEAL_AMOUNT",
-  "PASSIVE_HEAL_DELAY",
-  "SABOTAGE_SPEED_MULTIPLIER",
-  "ALL_DAMAGE_TAKEN_MULTIPLIER",
-  "HEAL_SPEED_MULTIPLIER",
-  "HEAL_CREW_AMOUNT",
-  "DAMAGE_ENEMIES_AMOUNT"
+    "MAX_HEALTH",
+    "STUN_MULTIPLIER",
+    "MOVE_SPEED_MULTIPLIER",
+    "REPAIR_SPEED_MULTIPLIER",
+    "DAMAGE_MULTIPLIER",
+    "RANGED_DAMAGE_MULTIPLIER",
+    "FIRE_REPAIR_MULTIPLIER",
+    "SUFFOCATION_MULTIPLIER",
+    "FIRE_DAMAGE_MULTIPLIER",
+    "OXYGEN_CHANGE_SPEED",
+    "DAMAGE_TAKEN_MULTIPLIER",
+    "PASSIVE_HEAL_AMOUNT",
+    "PASSIVE_HEAL_DELAY",
+    "SABOTAGE_SPEED_MULTIPLIER",
+    "ALL_DAMAGE_TAKEN_MULTIPLIER",
+    "HEAL_SPEED_MULTIPLIER",
+    "HEAL_CREW_AMOUNT",
+    "DAMAGE_ENEMIES_AMOUNT"
 };
 
 struct StatBoost
 {
-  enum class BoostType
-  {
-    MULT,
-    FLAT,
-    SET
-  };
+    enum class BoostType
+    {
+        MULT,
+        FLAT,
+        SET
+    };
 
-  enum class ShipTarget
-  {
-    PLAYER_SHIP,
-    ENEMY_SHIP,
-    CURRENT_ALL,
-    CURRENT_ROOM,
-    OTHER_ALL,
-    ALL
-  };
+    enum class BoostSource
+    {
+        CREW,
+        AUGMENT
+    };
 
-  enum class CrewTarget
-  {
-    ALLIES,
-    ENEMIES,
-    SELF,
-    ALL
-  };
+    enum class ShipTarget
+    {
+        PLAYER_SHIP,
+        ENEMY_SHIP,
+        CURRENT_ALL,
+        CURRENT_ROOM,
+        OTHER_ALL,
+        ALL
+    };
 
-  CrewStat stat;
-  CrewMember* source;
-  float amount;
-  int priority = -1;
-  float duration = -1;
-  TimerHelper* timerHelper;
-  bool affectsSelf;
-  std::vector<std::string> whiteList = std::vector<std::string>();
-  std::vector<std::string> blackList = std::vector<std::string>();
-  BoostType boostType;
-  ShipTarget shipTarget;
-  CrewTarget crewTarget;
+    enum class CrewTarget
+    {
+        ALLIES,
+        ENEMIES,
+        SELF,
+        ALL
+    };
+
+    CrewStat stat;
+    CrewMember* crewSource;
+    float amount;
+    int priority = -1;
+    float duration = -1;
+    TimerHelper* timerHelper;
+    bool affectsSelf;
+    std::vector<std::string> whiteList = std::vector<std::string>();
+    std::vector<std::string> blackList = std::vector<std::string>();
+    BoostType boostType;
+    BoostSource boostSource;
+    ShipTarget shipTarget;
+    CrewTarget crewTarget;
+    int sourceShipId;
+
+    ~StatBoost()
+    {
+        delete timerHelper;
+    }
 };
 
 struct CrewAnimation_Extend
