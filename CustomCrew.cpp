@@ -1647,6 +1647,8 @@ HOOK_METHOD_PRIORITY(CrewMember, GetNewGoal, 2000, () -> bool)
 {
     auto ex = CM_EX(this);
 
+    if (!ex->canPhaseThroughDoors) return super();
+
     if (last_door && !ex->canPhaseThroughDoors)
     {
         last_door->FakeClose();
