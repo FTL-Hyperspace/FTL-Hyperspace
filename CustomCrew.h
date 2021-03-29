@@ -109,12 +109,14 @@ struct TemporaryPowerDefinition
     bool baseVisible = true;
     std::vector<std::string> sounds;
 
+    ToggleValue<int> maxHealth;
     ToggleValue<float> healthMultiplier;
     ToggleValue<float> stunMultiplier;
     ToggleValue<float> moveSpeedMultiplier;
     ToggleValue<float> damageMultiplier;
     ToggleValue<float> rangedDamageMultiplier;
     ToggleValue<float> repairSpeed;
+    ToggleValue<float> fireRepairMultiplier;
     ToggleValue<bool> controllable;
     ToggleValue<bool> canFight;
     ToggleValue<bool> canRepair;
@@ -127,8 +129,11 @@ struct TemporaryPowerDefinition
     ToggleValue<bool> isTelepathic;
     ToggleValue<bool> detectsLifeforms;
     ToggleValue<float> damageTakenMultiplier;
+    ToggleValue<float> passiveHealAmount;
+    ToggleValue<int> passiveHealDelay;
     ToggleValue<float> sabotageSpeedMultiplier;
     ToggleValue<float> allDamageTakenMultiplier;
+    ToggleValue<float> healSpeed;
     ToggleValue<float> suffocationModifier;
     ToggleValue<float> healCrewAmount;
     ToggleValue<int> powerDrain;
@@ -285,7 +290,7 @@ struct CrewDefinition
     float damageMultiplierAura = 1.f;
     float rangedDamageMultiplierAura = 1.f;
     int bonusPowerAura = 0;
-    float fireRepairMultiplierAura = 1.f;
+    float fireRepairMultiplierAura = 1.2f;
     float suffocationModifierAura = 1.f;
     bool isTelepathicAura = false;
     bool isAnaerobicAura = false;

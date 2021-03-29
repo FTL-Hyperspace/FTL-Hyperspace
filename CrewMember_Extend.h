@@ -31,7 +31,7 @@ enum class CrewStat
     DAMAGE_MULTIPLIER,
     RANGED_DAMAGE_MULTIPLIER,
     FIRE_REPAIR_MULTIPLIER,
-    SUFFOCATION_MULTIPLIER,
+    SUFFOCATION_MODIFIER,
     FIRE_DAMAGE_MULTIPLIER,
     OXYGEN_CHANGE_SPEED,
     DAMAGE_TAKEN_MULTIPLIER,
@@ -46,24 +46,24 @@ enum class CrewStat
 
 static const std::array<std::string, 18> crewStats =
 {
-    "MAX_HEALTH",
-    "STUN_MULTIPLIER",
-    "MOVE_SPEED_MULTIPLIER",
-    "REPAIR_SPEED_MULTIPLIER",
-    "DAMAGE_MULTIPLIER",
-    "RANGED_DAMAGE_MULTIPLIER",
-    "FIRE_REPAIR_MULTIPLIER",
-    "SUFFOCATION_MULTIPLIER",
-    "FIRE_DAMAGE_MULTIPLIER",
-    "OXYGEN_CHANGE_SPEED",
-    "DAMAGE_TAKEN_MULTIPLIER",
-    "PASSIVE_HEAL_AMOUNT",
-    "PASSIVE_HEAL_DELAY",
-    "SABOTAGE_SPEED_MULTIPLIER",
-    "ALL_DAMAGE_TAKEN_MULTIPLIER",
-    "HEAL_SPEED_MULTIPLIER",
-    "HEAL_CREW_AMOUNT",
-    "DAMAGE_ENEMIES_AMOUNT"
+    "maxHealth",
+    "stunMultiplier",
+    "moveSpeedMultiplier",
+    "repairSpeed",
+    "damageMultiplier",
+    "rangedDamageMultiplier",
+    "fireRepairMultiplier",
+    "suffocationModifier",
+    "fireDamageMultiplier",
+    "oxygenChangeSpeed",
+    "damageTakenMultiplier",
+    "passiveHealAmount",
+    "passiveHealDelay",
+    "sabotageSpeedMultiplier",
+    "allDamageTakenMultiplier",
+    "healSpeed",
+    "healCrewAmount",
+    "damageEnemiesAmount"
 };
 
 struct StatBoost

@@ -130,10 +130,6 @@ static bool __attribute__((fastcall)) CrewMember_CanBurn(CrewMember *_this)
 
 static int __attribute__((fastcall)) CrewMember_GetMaxHealth(CrewMember *_this)
 {
-    CustomCrewManager *custom = CustomCrewManager::GetInstance();
-    auto ex = CM_EX(_this);
-    auto def = custom->GetDefinition(_this->species);
-
 //    float otherCrewStatMultiplier = 1.f;
 //    ShipManager *ship;
 //    if (_this->currentShipId == 0)
@@ -178,189 +174,28 @@ static int __attribute__((fastcall)) CrewMember_GetMaxHealth(CrewMember *_this)
 //    int newMaxHealth = (custom->GetDefinition(_this->species).maxHealth * augMultAmount + augAmount) * otherCrewStatMultiplier;
 //    _this->health.first *= newMaxHealth / _this->health.second;
 //    return newMaxHealth;
-    return def.maxHealth;
+    auto ex = CM_EX(_this);
+    return ex->CalculateStat(CrewStat::MAX_HEALTH);
 }
 
 static float __attribute__((fastcall)) CrewMember_GetMoveSpeedMultiplier(CrewMember *_this)
 {
     auto ex = CM_EX(_this);
     return ex->CalculateStat(CrewStat::MOVE_SPEED_MULTIPLIER);
-/*     CustomCrewManager *custom = CustomCrewManager::GetInstance();
- *     auto def = custom->GetDefinition(_this->species);
- *
- *     float otherCrewStatMultiplier = 1.f;
- *     ShipManager *ship;
- *     if (_this->currentShipId == 0)
- *     {
- *         ship = G_->GetShipManager(0);
- *     }
- *     else
- *     {
- *         ship = G_->GetShipManager(1);
- *     }
- *
- *     if (ship != nullptr)
- *     {
- *         for (auto i: ship->vCrewList)
- *         {
- *             if (i->iRoomId == _this->iRoomId && i != _this)
- *             {
- *                 auto otherCrew = CM_EX(i);
- *                 if (otherCrew->temporaryPowerActive && custom->GetDefinition(i->species).powerDef.tempPower.moveSpeedMultiplierAura.enabled)
- *                 {
- *                     otherCrewStatMultiplier += custom->GetDefinition(i->species).powerDef.tempPower.moveSpeedMultiplierAura.value - 1;
- *                 }
- *                 else
- *                 {
- *                     otherCrewStatMultiplier += custom->GetDefinition(i->species).healthMultiplierAura - 1;
- *                 }
- *             }
- *         }
- *     }
- *
- *     auto ex = CM_EX(_this);
- *     float augAmount = 0.f;
- *     float augMultAmount = 1.f;
- *     if (_this->GetShipObject()->HasAugmentation("SPEED_BOOST"))
- *     {
- *         augMultAmount = _this->GetShipObject()->GetAugmentationValue("SPEED_BOOST");
- *     }
- *     if (_this->GetShipObject()->HasAugmentation("FLAT_SPEED_BOOST"))
- *     {
- *         augAmount = _this->GetShipObject()->GetAugmentationValue("FLAT_SPEED_BOOST");
- *     }
- *     if (ex->temporaryPowerActive && def.powerDef.tempPower.moveSpeedMultiplier.enabled)
- *     {
- *         return (def.powerDef.tempPower.moveSpeedMultiplier.value * augMultAmount + augAmount) * otherCrewStatMultiplier;
- *     }
- *
- *     return (def.moveSpeedMultiplier * augMultAmount + augAmount) * otherCrewStatMultiplier;
- */
 }
 
 static float __attribute__((fastcall)) CrewMember_GetRepairSpeed(CrewMember *_this)
 {
-    CustomCrewManager *custom = CustomCrewManager::GetInstance();
-    auto def = custom->GetDefinition(_this->species);
-
-//    float otherCrewStatMultiplier = 1.f;
-//    ShipManager *ship;
-//    if (_this->currentShipId == 0)
-//    {
-//        ship = G_->GetShipManager(0);
-//    }
-//    else
-//    {
-//        ship = G_->GetShipManager(1);
-//    }
-//
-//    if (ship != nullptr)
-//    {
-//        for (auto i: ship->vCrewList)
-//        {
-//            if (i->iRoomId == _this->iRoomId && i != _this)
-//            {
-//                auto otherCrew = CM_EX(i);
-//                if (otherCrew->temporaryPowerActive && custom->GetDefinition(i->species).powerDef.tempPower.repairSpeedAura.enabled)
-//                {
-//                    otherCrewStatMultiplier += custom->GetDefinition(i->species).powerDef.tempPower.repairSpeedAura.value - 1;
-//                }
-//                else
-//                {
-//                    otherCrewStatMultiplier += custom->GetDefinition(i->species).repairSpeedAura - 1;
-//                }
-//            }
-//        }
-//    }
-//
-//    CrewMember_Extend* ex = CM_EX(_this);
-//    float augAmount = 0.f;
-//    float augMultAmount = 1.f;
-//    if (_this->GetShipObject()->HasAugmentation("REPAIR_BOOST"))
-//    {
-//        augMultAmount = _this->GetShipObject()->GetAugmentationValue("REPAIR_BOOST");
-//    }
-//    if (_this->GetShipObject()->HasAugmentation("FLAT_REPAIR_BOOST"))
-//    {
-//        augAmount = _this->GetShipObject()->GetAugmentationValue("FLAT_REPAIR_BOOST");
-//    }
-//    if (ex->temporaryPowerActive && def.powerDef.tempPower.repairSpeed.enabled)
-//    {
-//        return ((def.powerDef.tempPower.repairSpeed.value * augMultAmount) + augAmount) * otherCrewStatMultiplier;
-//    }
-
-    return def.repairSpeed;
+    auto ex = CM_EX(_this);
+    return ex->CalculateStat(CrewStat::REPAIR_SPEED_MULTIPLIER);
 }
 
 static float __attribute__((fastcall)) CrewMember_GetDamageMultiplier(CrewMember *_this)
 {
-    CustomCrewManager *custom = CustomCrewManager::GetInstance();
-    auto def = custom->GetDefinition(_this->species);
-
     auto ex = CM_EX(_this);
+    auto def = CustomCrewManager::GetInstance()->GetDefinition(_this->species);
 
-//    float otherCrewStatMultiplier = 1.f;
-//    ShipManager *ship;
-//    if (_this->currentShipId == 0)
-//    {
-//        ship = G_->GetShipManager(0);
-//    }
-//    else
-//    {
-//        ship = G_->GetShipManager(1);
-//    }
-//
-//    if (ship != nullptr)
-//    {
-//        for (auto i: ship->vCrewList)
-//        {
-//            if (i->iRoomId == _this->iRoomId && i != _this)
-//            {
-//                auto otherCrew = CM_EX(i);
-//                if (otherCrew->temporaryPowerActive && custom->GetDefinition(i->species).powerDef.tempPower.damageMultiplierAura.enabled)
-//                {
-//                    otherCrewStatMultiplier += custom->GetDefinition(i->species).powerDef.tempPower.damageMultiplierAura.value - 1;
-//                }
-//                else
-//                {
-//                    otherCrewStatMultiplier += custom->GetDefinition(i->species).damageMultiplierAura - 1;
-//                }
-//            }
-//        }
-//    }
-//
-//    float augAmount = 0.f;
-//    float augMultAmount = 1.f;
-//    if (_this->GetShipObject()->HasAugmentation("DAMAGE_BOOST"))
-//    {
-//        augMultAmount = _this->GetShipObject()->GetAugmentationValue("DAMAGE_BOOST");
-//    }
-//    if (_this->GetShipObject()->HasAugmentation("FLAT_DAMAGE_BOOST"))
-//    {
-//        augAmount = _this->GetShipObject()->GetAugmentationValue("FLAT_DAMAGE_BOOST");
-//    }
-
-//    if (_this->crewAnim->status == 7)
-//    {
-//        return def.rangedDamageMultiplier;
-//    }
-//    if (ex->temporaryPowerActive && def.powerDef.tempPower.damageMultiplier.enabled)
-//    {
-//        if (_this->crewAnim->status == 7)
-//        {
-//            return def.powerDef.tempPower.rangedDamageMultiplier.value;
-//        }
-//        return def.powerDef.tempPower.damageMultiplier.value;
-//    }
-//    return def.damageMultiplier;
-
-//    if (!ex->outgoingTimedStatBoosts.empty())
-//    {
-//        for (StatBoost statBoost : outgoingTimedStatBoosts)
-//        {
-//        }
-//    }
-    if (_this->crewAnim->status == 7)
+    if (_this->crewAnim->status == 7 && def.rangedDamageMultiplier != 1.f)
     {
         return ex->CalculateStat(CrewStat::RANGED_DAMAGE_MULTIPLIER);
     }
@@ -379,51 +214,8 @@ static bool __attribute__((fastcall)) CrewMember_ProvidesPower(CrewMember *_this
 
 static float __attribute__((fastcall)) CrewMember_FireRepairMultiplier(CrewMember *_this)
 {
-    CustomCrewManager *custom = CustomCrewManager::GetInstance();
-    auto def = custom->GetDefinition(_this->species);
-
-//    float otherCrewStatMultiplier = 1.f;
-//    ShipManager *ship;
-//    if (_this->currentShipId == 0)
-//    {
-//        ship = G_->GetShipManager(0);
-//    }
-//    else
-//    {
-//        ship = G_->GetShipManager(1);
-//    }
-//
-//    if (ship != nullptr)
-//    {
-//        for (auto i: ship->vCrewList)
-//        {
-//            if (i->iRoomId == _this->iRoomId && i != _this)
-//            {
-//                auto otherCrew = CM_EX(i);
-//                if (otherCrew->temporaryPowerActive && custom->GetDefinition(i->species).powerDef.tempPower.fireRepairMultiplierAura.enabled)
-//                {
-//                    otherCrewStatMultiplier += custom->GetDefinition(i->species).powerDef.tempPower.fireRepairMultiplierAura.value - 1;
-//                }
-//                else
-//                {
-//                    otherCrewStatMultiplier += custom->GetDefinition(i->species).fireRepairMultiplierAura - 1;
-//                }
-//            }
-//        }
-//    }
-//
-//    CrewMember_Extend* ex = CM_EX(_this);
-//    float augAmount = 0.f;
-//    float augMultAmount = 1.f;
-//    if (_this->GetShipObject()->HasAugmentation("FIRE_REPAIR_BOOST"))
-//    {
-//        augMultAmount = _this->GetShipObject()->GetAugmentationValue("FIRE_REPAIR_BOOST");
-//    }
-//    if (_this->GetShipObject()->HasAugmentation("FLAT_FIRE_REPAIR_BOOST"))
-//    {
-//        augAmount = _this->GetShipObject()->GetAugmentationValue("FLAT_FIRE_REPAIR_BOOST");
-//    }
-    return custom->GetDefinition(_this->species).fireRepairMultiplier;
+    auto ex = CM_EX(_this);
+    return ex->CalculateStat(CrewStat::FIRE_REPAIR_MULTIPLIER);
 }
 
 static bool __attribute__((fastcall)) CrewMember_IsTelepathic(CrewMember *_this)
@@ -446,56 +238,8 @@ static bool __attribute__((fastcall)) CrewMember_IsTelepathic(CrewMember *_this)
 
 static float __attribute__((fastcall)) CrewMember_GetSuffocationModifier(CrewMember *_this)
 {
-    CustomCrewManager *custom = CustomCrewManager::GetInstance();
-    auto def = custom->GetDefinition(_this->species);
-
-//    float otherCrewStatMultiplier = 1.f;
-//    ShipManager *ship;
-//    if (_this->currentShipId == 0)
-//    {
-//        ship = G_->GetShipManager(0);
-//    }
-//    else
-//    {
-//        ship = G_->GetShipManager(1);
-//    }
-//
-//    if (ship != nullptr)
-//    {
-//        for (auto i: ship->vCrewList)
-//        {
-//            if (i->iRoomId == _this->iRoomId && i != _this)
-//            {
-//                auto otherCrew = CM_EX(i);
-//                if (otherCrew->temporaryPowerActive && custom->GetDefinition(i->species).powerDef.tempPower.suffocationModifierAura.enabled)
-//                {
-//                    otherCrewStatMultiplier += custom->GetDefinition(i->species).powerDef.tempPower.suffocationModifierAura.value - 1;
-//                }
-//                else
-//                {
-//                    otherCrewStatMultiplier += custom->GetDefinition(i->species).suffocationModifierAura - 1;
-//                }
-//            }
-//        }
-//    }
-//
-//    auto ex = CM_EX(_this);
-//    float augAmount = 0.f;
-//    float augMultAmount = 1.f;
-//    if (_this->GetShipObject()->HasAugmentation("SUFFOCATION_BOOST"))
-//    {
-//        augMultAmount = _this->GetShipObject()->GetAugmentationValue("SUFFOCATION_BOOST");
-//    }
-//    if (_this->GetShipObject()->HasAugmentation("FLAT_SUFFOCATION_BOOST"))
-//    {
-//        augAmount = _this->GetShipObject()->GetAugmentationValue("FLAT_SUFFOCATION_BOOST");
-//    }
-//    if (ex->temporaryPowerActive && def.powerDef.tempPower.suffocationModifier.enabled)
-//    {
-//        return (def.powerDef.tempPower.suffocationModifier.value * augMultAmount + augAmount) * otherCrewStatMultiplier;
-//    }
-
-    return custom->GetDefinition(_this->species).suffocationModifier;
+    auto ex = CM_EX(_this);
+    return ex->CalculateStat(CrewStat::SUFFOCATION_MODIFIER);
 }
 
 static bool __attribute__((fastcall)) CrewMember_IsAnaerobic(CrewMember *_this)

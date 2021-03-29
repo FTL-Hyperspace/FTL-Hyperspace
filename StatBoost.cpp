@@ -1,3 +1,6 @@
+#pragma GCC push_options
+#pragma GCC optimize ("O3")
+
 #include "StatBoost.h"
 #include "CustomCrew.h"
 #include "CustomAugments.h"
@@ -209,10 +212,6 @@ float CrewMember_Extend::CalculateStat(CrewStat stat)
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
     auto def = custom->GetDefinition(orig->species);
 
-    float otherCrewStatMultiplier = 1.f;
-    float otherCrewStatModifier = 0.f;
-    float augMultAmount = 1.f;
-    float augAmount = 0.f;
     std::vector<StatBoost> personalStatBoosts;
 
     auto it = statBoosts.find(stat);
@@ -249,19 +248,59 @@ float CrewMember_Extend::CalculateStat(CrewStat stat)
     switch(stat)
     {
         case CrewStat::MAX_HEALTH:
+            finalStat = (temporaryPowerActive && def.powerDef.tempPower.maxHealth.enabled) ? def.powerDef.tempPower.maxHealth.value : def.maxHealth;
             break;
         case CrewStat::STUN_MULTIPLIER:
+            finalStat = (temporaryPowerActive && def.powerDef.tempPower.stunMultiplier.enabled) ? def.powerDef.tempPower.stunMultiplier.value : def.stunMultiplier;
             break;
         case CrewStat::MOVE_SPEED_MULTIPLIER:
             finalStat = (temporaryPowerActive && def.powerDef.tempPower.moveSpeedMultiplier.enabled) ? def.powerDef.tempPower.moveSpeedMultiplier.value : def.moveSpeedMultiplier;
             break;
         case CrewStat::REPAIR_SPEED_MULTIPLIER:
+            finalStat = (temporaryPowerActive && def.powerDef.tempPower.repairSpeed.enabled) ? def.powerDef.tempPower.repairSpeed.value : def.repairSpeed;
             break;
         case CrewStat::DAMAGE_MULTIPLIER:
             finalStat = (temporaryPowerActive && def.powerDef.tempPower.damageMultiplier.enabled) ? def.powerDef.tempPower.damageMultiplier.value : def.damageMultiplier;
             break;
         case CrewStat::RANGED_DAMAGE_MULTIPLIER:
-            finalStat = (temporaryPowerActive && def.powerDef.tempPower.rangedDamageMultiplier.enabled) ? def.powerDef.tempPower.rangedDamageMultiplier.value : def.rangedDamageMultiplier;
+            finalStat = (temporaryPowerActive && def.powerDef.tempPower.damageMultiplier.enabled) ? def.powerDef.tempPower.damageMultiplier.value : def.damageMultiplier;
+            finalStat *= (temporaryPowerActive && def.powerDef.tempPower.rangedDamageMultiplier.enabled) ? def.powerDef.tempPower.rangedDamageMultiplier.value : def.rangedDamageMultiplier;
+            break;
+        case CrewStat::FIRE_REPAIR_MULTIPLIER:
+            finalStat = (temporaryPowerActive && def.powerDef.tempPower.fireRepairMultiplier.enabled) ? def.powerDef.tempPower.fireRepairMultiplier.value : def.fireRepairMultiplier;
+            break;
+        case CrewStat::SUFFOCATION_MODIFIER:
+            finalStat = (temporaryPowerActive && def.powerDef.tempPower.suffocationModifier.enabled) ? def.powerDef.tempPower.suffocationModifier.value : def.suffocationModifier;
+            break;
+        case CrewStat::FIRE_DAMAGE_MULTIPLIER:
+            finalStat = (temporaryPowerActive && def.powerDef.tempPower.fireDamageMultiplier.enabled) ? def.powerDef.tempPower.fireDamageMultiplier.value : def.fireDamageMultiplier;
+            break;
+        case CrewStat::OXYGEN_CHANGE_SPEED:
+            finalStat = (temporaryPowerActive && def.powerDef.tempPower.oxygenChangeSpeed.enabled) ? def.powerDef.tempPower.oxygenChangeSpeed.value : def.oxygenChangeSpeed;
+            break;
+        case CrewStat::DAMAGE_TAKEN_MULTIPLIER:
+            finalStat = (temporaryPowerActive && def.powerDef.tempPower.damageTakenMultiplier.enabled) ? def.powerDef.tempPower.damageTakenMultiplier.value : def.damageTakenMultiplier;
+            break;
+        case CrewStat::PASSIVE_HEAL_AMOUNT:
+            finalStat = (temporaryPowerActive && def.powerDef.tempPower.passiveHealAmount.enabled) ? def.powerDef.tempPower.passiveHealAmount.value : def.passiveHealAmount;
+            break;
+        case CrewStat::PASSIVE_HEAL_DELAY:
+            finalStat = (temporaryPowerActive && def.powerDef.tempPower.passiveHealDelay.enabled) ? def.powerDef.tempPower.passiveHealDelay.value : def.passiveHealDelay;
+            break;
+        case CrewStat::SABOTAGE_SPEED_MULTIPLIER:
+            finalStat = (temporaryPowerActive && def.powerDef.tempPower.sabotageSpeedMultiplier.enabled) ? def.powerDef.tempPower.sabotageSpeedMultiplier.value : def.sabotageSpeedMultiplier;
+            break;
+        case CrewStat::ALL_DAMAGE_TAKEN_MULTIPLIER:
+            finalStat = (temporaryPowerActive && def.powerDef.tempPower.allDamageTakenMultiplier.enabled) ? def.powerDef.tempPower.allDamageTakenMultiplier.value : def.allDamageTakenMultiplier;
+            break;
+        case CrewStat::HEAL_SPEED_MULTIPLIER:
+            finalStat = (temporaryPowerActive && def.powerDef.tempPower.healSpeed.enabled) ? def.powerDef.tempPower.healSpeed.value : def.healSpeed;
+            break;
+        case CrewStat::HEAL_CREW_AMOUNT:
+            finalStat = (temporaryPowerActive && def.powerDef.tempPower.healCrewAmount.enabled) ? def.powerDef.tempPower.healCrewAmount.value : def.healCrewAmount;
+            break;
+        case CrewStat::DAMAGE_ENEMIES_AMOUNT:
+            finalStat = (temporaryPowerActive && def.powerDef.tempPower.damageEnemiesAmount.enabled) ? def.powerDef.tempPower.damageEnemiesAmount.value : def.damageEnemiesAmount;
             break;
     }
 
@@ -291,3 +330,5 @@ float CrewMember_Extend::CalculateStat(CrewStat stat)
     }
     return finalStat;
 }
+
+#pragma GCC pop_options
