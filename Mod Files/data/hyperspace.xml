@@ -430,6 +430,142 @@ Syntax ->
 -->
 
 <crew>
+	<!-- Vanilla Races -->
+	
+	<race name="human">
+		<skills>
+			<piloting req="13"/>
+			<engines req="13"/>
+			<shields req="50"/>
+			<weapons req="58"/>
+			<repair req="16"/>
+			<combat req="7"/>
+		</skills>
+	</race>
+	
+	<race name="engi">
+		<repairSpeed>2.0</repairSpeed>
+		<damageMultiplier>0.5</damageMultiplier>
+		
+		<deathSounds>
+			<deathSound>engiDeath</deathSound>
+		</deathSounds>
+	</race>
+	
+	<race name="mantis">
+		<repairSpeed>0.5</repairSpeed>
+		<damageMultiplier>1.5</damageMultiplier>
+		<moveSpeedMultiplier>1.2</moveSpeedMultiplier>
+		<animBase>mantis</animBase>
+		
+		<deathSounds>
+			<deathSound>mantisDeath</deathSound>
+		</deathSounds>
+		
+		<shootingSounds>
+			<shootingSound>mantisSpit1</shootingSound>
+			<shootingSound>mantisSpit2</shootingSound>
+			<shootingSound>mantisSpit3</shootingSound>
+		</shootingSounds>
+	</race>
+	
+	<race name="rock">
+		<maxHealth>150</maxHealth>
+		<moveSpeedMultiplier>0.5</moveSpeedMultiplier>
+		<fireRepairMultiplier>2.0</fireRepairMultiplier>
+		<canBurn>false</canBurn>
+		<animBase>rock</animBase>
+		
+		<repairSounds animSoundFrame="5">
+			<repairSound>rockThud1</repairSound>
+			<repairSound>rockThud2</repairSound>
+			<repairSound>rockThud3</repairSound>
+		</repairSounds>
+		
+		<deathSounds>
+			<deathSound>rockDeath</deathSound>
+		</deathSounds>
+		
+		<shootingSounds>
+			<shootingSound>rockThrow1</shootingSound>
+			<shootingSound>rockThrow2</shootingSound>
+			<shootingSound>rockThrow3</shootingSound>
+		</shootingSounds>
+	</race>
+	
+	<race name="energy">
+		<bonusPower>1</bonusPower>
+		<maxHealth>70</maxHealth>
+		
+		<deathEffect>
+			<persDamage>1</persDamage>
+			<friendlyFire>false</friendlyFire>
+		</deathEffect>
+		
+		<deathSounds>
+			<deathSound>energyDeath</deathSound>
+		</deathSounds>
+	</race>
+	
+	<race name="slug">
+		<isTelepathic>true</isTelepathic>
+		<detectsLifeforms>true</detectsLifeforms>
+	</race>
+	
+	<race name="crystal">
+		<maxHealth>125</maxHealth>
+		<moveSpeedMultiplier>0.8</moveSpeedMultiplier>
+		<fireRepairMultiplier>1.0</fireRepairMultiplier>
+		<canBurn>false</canBurn>
+		<animBase>rock</animBase>
+		
+		<repairSounds animSoundFrame="5">
+			<repairSound>rockThud1</repairSound>
+			<repairSound>rockThud2</repairSound>
+			<repairSound>rockThud3</repairSound>
+		</repairSounds>
+		
+		<deathSounds>
+			<deathSound>crystalDeath</deathSound>
+		</deathSounds>
+		
+		<shootingSounds>
+			<shootingSound>rockThrow1</shootingSound>
+			<shootingSound>rockThrow2</shootingSound>
+			<shootingSound>rockThrow3</shootingSound>
+		</shootingSounds>
+		
+		<powerEffect>
+			<cooldown>30</cooldown>
+			<jumpCooldown>full</jumpCooldown>
+			<powerSounds>
+				<powerSound>lockdown1</powerSound>
+				<powerSound>lockdown2</powerSound>
+			</powerSounds>
+			<lockdown>true</lockdown>
+			<buttonText id="button_lockdown">LOCKDOWN</buttonText>
+			<tooltip id="power_ready"></tooltip>
+			<cooldownColor r="133" g="231" b="237"/>
+			<effectAnim>explosion_crystal</effectAnim>
+		</powerEffect>
+	</race>
+	
+	<race name="anaerobic">
+		<moveSpeedMultiplier>0.85</moveSpeedMultiplier>
+		<oxygenChangeSpeed>-0.525</oxygenChangeSpeed>
+		<canSuffocate>false</canSuffocate>
+		
+		<repairSounds>
+			<repairSound>shrikeRepair</repairSound>
+		</repairSounds>
+		
+		<deathSounds>
+			<deathSound>shrikeDeath</deathSound>
+		</deathSounds>
+	</race>
+	
+	<!-- Unused race -->
+
 	<race name="ghost">
 		<canPhaseThroughDoors>true</canPhaseThroughDoors>
 		<canSuffocate>false</canSuffocate>
