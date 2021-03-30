@@ -150,6 +150,7 @@ struct StatBoost
     std::vector<int> sourceRoomIds = std::vector<int>();
     std::vector<std::string> systemList = std::vector<std::string>();
 
+    SystemRoomTarget systemRoomTarget;
     BoostType boostType;
     BoostSource boostSource;
     ShipTarget shipTarget;

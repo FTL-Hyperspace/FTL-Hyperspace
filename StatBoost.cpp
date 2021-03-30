@@ -83,6 +83,17 @@ StatBoost ParseStatBoostNode(rapidxml::xml_node<char>* node)
                     def.shipTarget = StatBoost::ShipTarget::ALL;
                 }
             }
+            if (name == "systemRoomTarget")
+            {
+                if (val == "ALL")
+                {
+                    def.systemRoomTarget = StatBoost::SystemRoomTarget::ALL;
+                }
+                if (val == "NONE")
+                {
+                    def.systemRoomTarget = StatBoost::SystemRoomTarget::NONE;
+                }
+            }
             if (name == "crewTarget")
             {
                 if (val == "ALLIES")
@@ -167,6 +178,165 @@ HOOK_METHOD(WorldManager, OnLoop, () -> void)
         for (StatBoost statBoost : currentStatBoosts)
         {
             statBoost.sourceShipId = otherCrew->currentShipId;
+            if (!statBoost.systemList.empty())
+            {
+                for (auto system : statBoost.systemList)
+                {
+                    if (playerShip != nullptr)
+                    {
+                        if (system == "SHIELDS")
+                        {
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(0));
+                        }
+                        else if (system == "ENGINES")
+                        {
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(1));
+                        }
+                        else if (system == "OXYGEN")
+                        {
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(2));
+                        }
+                        else if (system == "WEAPONS")
+                        {
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(3));
+                        }
+                        else if (system == "DRONES")
+                        {
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(4));
+                        }
+                        else if (system == "MEDBAY")
+                        {
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(5));
+                        }
+                        else if (system == "TELEPORTER")
+                        {
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(6));
+                        }
+                        else if (system == "CLOAKING")
+                        {
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(7));
+                        }
+                        else if (system == "ARTILLERY")
+                        {
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(8));
+                        }
+                        else if (system == "CLONE_BAY")
+                        {
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(9));
+                        }
+                        else if (system == "MIND_CONTROL")
+                        {
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(10));
+                        }
+                        else if (system == "HACKING")
+                        {
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(11));
+                        }
+                        else if (system == "PILOTING")
+                        {
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(12));
+                        }
+                        else if (system == "SENSORS")
+                        {
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(13));
+                        }
+                        else if (system == "DOORS")
+                        {
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(14));
+                        }
+                        else if (system == "BATTERY")
+                        {
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(15));
+                        }
+                    }
+                    if (enemyShip != nullptr)
+                    {
+                        if (system == "SHIELDS")
+                        {
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(0));
+                        }
+                        else if (system == "ENGINES")
+                        {
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(1));
+                        }
+                        else if (system == "OXYGEN")
+                        {
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(2));
+                        }
+                        else if (system == "WEAPONS")
+                        {
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(3));
+                        }
+                        else if (system == "DRONES")
+                        {
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(4));
+                        }
+                        else if (system == "MEDBAY")
+                        {
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(5));
+                        }
+                        else if (system == "TELEPORTER")
+                        {
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(6));
+                        }
+                        else if (system == "CLOAKING")
+                        {
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(7));
+                        }
+                        else if (system == "ARTILLERY")
+                        {
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(8));
+                        }
+                        else if (system == "CLONE_BAY")
+                        {
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(9));
+                        }
+                        else if (system == "MIND_CONTROL")
+                        {
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(10));
+                        }
+                        else if (system == "HACKING")
+                        {
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(11));
+                        }
+                        else if (system == "PILOTING")
+                        {
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(12));
+                        }
+                        else if (system == "SENSORS")
+                        {
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(13));
+                        }
+                        else if (system == "DOORS")
+                        {
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(14));
+                        }
+                        else if (system == "BATTERY")
+                        {
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(15));
+                        }
+                        else if (system == "ALL")
+                        {
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(0));
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(1));
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(2));
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(3));
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(4));
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(5));
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(6));
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(7));
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(8));
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(9));
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(10));
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(11));
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(12));
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(13));
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(14));
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(15));
+                        }
+                    }
+                }
+            }
 
             auto it = statBoosts.find(statBoost.stat);
             if (statBoosts.find(statBoost.stat) != statBoosts.end())
@@ -240,6 +410,7 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, bool &boolValue)
                     && (statBoost.crewSource != orig || statBoost.affectsSelf)
                     && ((statBoost.crewSource->iShipId == orig->iShipId && statBoost.crewTarget == StatBoost::CrewTarget::ALLIES) || (statBoost.crewSource->iShipId != orig->iShipId && statBoost.crewTarget == StatBoost::CrewTarget::ENEMIES) || statBoost.crewTarget == StatBoost::CrewTarget::ALL)
                     && ((std::find(statBoost.whiteList.begin(), statBoost.whiteList.end(), orig->species) != statBoost.whiteList.end()) || (!statBoost.blackList.empty() && std::find(statBoost.blackList.begin(), statBoost.blackList.end(), orig->species) == statBoost.blackList.end()) || (statBoost.blackList.empty() && statBoost.whiteList.empty()))
+                    && (statBoost.systemList.empty() || (std::find(statBoost.sourceRoomIds.begin(), statBoost.sourceRoomIds.end(), orig->iRoomId) != statBoost.sourceRoomIds.end() && statBoost.systemRoomTarget == StatBoost::SystemRoomTarget::ALL) || (std::find(statBoost.sourceRoomIds.begin(), statBoost.sourceRoomIds.end(), orig->iRoomId) == statBoost.sourceRoomIds.end() && statBoost.systemRoomTarget == StatBoost::SystemRoomTarget::NONE))
                     ) // If the boost affects this ship and/or this room, and the boost comes from someone else or affects self, and the boost comes from an ally and affects allies or an enemy and affects enemies, and the boost specifically lets this race take it or doesn't ban it
                 {
                     personalStatBoosts.push_back(statBoost);
@@ -251,6 +422,7 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, bool &boolValue)
                 if (((statBoost.shipTarget == StatBoost::ShipTarget::PLAYER_SHIP && orig->currentShipId == 0) || (statBoost.shipTarget == StatBoost::ShipTarget::ENEMY_SHIP && orig->currentShipId == 1) || (statBoost.shipTarget == StatBoost::ShipTarget::CURRENT_ALL && orig->currentShipId == statBoost.sourceShipId) || (statBoost.shipTarget == StatBoost::ShipTarget::ALL))
                     && ((statBoost.sourceShipId == orig->iShipId && statBoost.crewTarget == StatBoost::CrewTarget::ALLIES) || (statBoost.sourceShipId != orig->iShipId && statBoost.crewTarget == StatBoost::CrewTarget::ENEMIES) ||  (statBoost.crewTarget == StatBoost::CrewTarget::ALL))
                     && ((std::find(statBoost.whiteList.begin(), statBoost.whiteList.end(), orig->species) != statBoost.whiteList.end()) || (!statBoost.blackList.empty() && std::find(statBoost.blackList.begin(), statBoost.blackList.end(), orig->species) == statBoost.blackList.end()) || (statBoost.blackList.empty() && statBoost.whiteList.empty()))
+                    && (statBoost.systemList.empty() || (std::find(statBoost.sourceRoomIds.begin(), statBoost.sourceRoomIds.end(), orig->iRoomId) != statBoost.sourceRoomIds.end() && statBoost.systemRoomTarget == StatBoost::SystemRoomTarget::ALL) || (std::find(statBoost.sourceRoomIds.begin(), statBoost.sourceRoomIds.end(), orig->iRoomId) == statBoost.sourceRoomIds.end() && statBoost.systemRoomTarget == StatBoost::SystemRoomTarget::NONE))
                     )
                 {
                     personalStatBoosts.push_back(statBoost);
