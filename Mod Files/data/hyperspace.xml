@@ -516,7 +516,7 @@ Syntax ->
 		<maxHealth>125</maxHealth>
 		<moveSpeedMultiplier>0.8</moveSpeedMultiplier>
 		<fireRepairMultiplier>1.0</fireRepairMultiplier>
-		<canBurn>false</canBurn>
+		<suffocationModifier>0.5</suffocationModifier>
 		<animBase>rock</animBase>
 		
 		<repairSounds animSoundFrame="5">
