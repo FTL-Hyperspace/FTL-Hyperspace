@@ -184,155 +184,54 @@ HOOK_METHOD(WorldManager, OnLoop, () -> void)
                 {
                     if (playerShip != nullptr)
                     {
-                        if (system == "SHIELDS")
+                        if (system == "all")
                         {
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(0));
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId("artillery")));
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId("battery")));
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId("cloaking")));
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId("clonebay")));
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId("doors")));
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId("drones")));
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId("engines")));
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId("hacking")));
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId("medbay")));
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId("mind")));
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId("oxygen")));
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId("pilot")));
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId("sensors")));
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId("shields")));
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId("teleporter")));
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId("weapons")));
                         }
-                        else if (system == "ENGINES")
+                        else
                         {
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(1));
-                        }
-                        else if (system == "OXYGEN")
-                        {
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(2));
-                        }
-                        else if (system == "WEAPONS")
-                        {
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(3));
-                        }
-                        else if (system == "DRONES")
-                        {
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(4));
-                        }
-                        else if (system == "MEDBAY")
-                        {
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(5));
-                        }
-                        else if (system == "TELEPORTER")
-                        {
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(6));
-                        }
-                        else if (system == "CLOAKING")
-                        {
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(7));
-                        }
-                        else if (system == "ARTILLERY")
-                        {
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(8));
-                        }
-                        else if (system == "CLONE_BAY")
-                        {
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(9));
-                        }
-                        else if (system == "MIND_CONTROL")
-                        {
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(10));
-                        }
-                        else if (system == "HACKING")
-                        {
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(11));
-                        }
-                        else if (system == "PILOTING")
-                        {
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(12));
-                        }
-                        else if (system == "SENSORS")
-                        {
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(13));
-                        }
-                        else if (system == "DOORS")
-                        {
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(14));
-                        }
-                        else if (system == "BATTERY")
-                        {
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(15));
+                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId(system)));
                         }
                     }
                     if (enemyShip != nullptr)
                     {
-                        if (system == "SHIELDS")
+                        if (system == "all")
                         {
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(0));
+                            statBoost.sourceRoomIds.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId("artillery")));
+                            statBoost.sourceRoomIds.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId("battery")));
+                            statBoost.sourceRoomIds.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId("cloaking")));
+                            statBoost.sourceRoomIds.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId("clonebay")));
+                            statBoost.sourceRoomIds.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId("doors")));
+                            statBoost.sourceRoomIds.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId("drones")));
+                            statBoost.sourceRoomIds.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId("engines")));
+                            statBoost.sourceRoomIds.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId("hacking")));
+                            statBoost.sourceRoomIds.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId("medbay")));
+                            statBoost.sourceRoomIds.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId("mind")));
+                            statBoost.sourceRoomIds.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId("oxygen")));
+                            statBoost.sourceRoomIds.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId("pilot")));
+                            statBoost.sourceRoomIds.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId("sensors")));
+                            statBoost.sourceRoomIds.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId("shields")));
+                            statBoost.sourceRoomIds.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId("teleporter")));
+                            statBoost.sourceRoomIds.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId("weapons")));
                         }
-                        else if (system == "ENGINES")
+                        else
                         {
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(1));
-                        }
-                        else if (system == "OXYGEN")
-                        {
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(2));
-                        }
-                        else if (system == "WEAPONS")
-                        {
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(3));
-                        }
-                        else if (system == "DRONES")
-                        {
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(4));
-                        }
-                        else if (system == "MEDBAY")
-                        {
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(5));
-                        }
-                        else if (system == "TELEPORTER")
-                        {
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(6));
-                        }
-                        else if (system == "CLOAKING")
-                        {
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(7));
-                        }
-                        else if (system == "ARTILLERY")
-                        {
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(8));
-                        }
-                        else if (system == "CLONE_BAY")
-                        {
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(9));
-                        }
-                        else if (system == "MIND_CONTROL")
-                        {
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(10));
-                        }
-                        else if (system == "HACKING")
-                        {
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(11));
-                        }
-                        else if (system == "PILOTING")
-                        {
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(12));
-                        }
-                        else if (system == "SENSORS")
-                        {
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(13));
-                        }
-                        else if (system == "DOORS")
-                        {
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(14));
-                        }
-                        else if (system == "BATTERY")
-                        {
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(15));
-                        }
-                        else if (system == "ALL")
-                        {
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(0));
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(1));
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(2));
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(3));
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(4));
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(5));
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(6));
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(7));
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(8));
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(9));
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(10));
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(11));
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(12));
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(13));
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(14));
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(15));
+                            statBoost.sourceRoomIds.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId(system)));
                         }
                     }
                 }
