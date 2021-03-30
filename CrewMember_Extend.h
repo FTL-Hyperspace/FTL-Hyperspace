@@ -147,7 +147,7 @@ struct StatBoost
     bool affectsSelf;
     std::vector<std::string> whiteList = std::vector<std::string>();
     std::vector<std::string> blackList = std::vector<std::string>();
-    std::vector<int> sourceRoomIds = std::vector<int>();
+    std::pair<std::vector<int>,std::vector<int>> sourceRoomIds = std::pair<std::vector<int>,std::vector<int>>();
     std::vector<std::string> systemList = std::vector<std::string>();
 
     SystemRoomTarget systemRoomTarget;

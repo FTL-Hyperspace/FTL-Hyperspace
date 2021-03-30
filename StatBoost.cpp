@@ -186,52 +186,52 @@ HOOK_METHOD(WorldManager, OnLoop, () -> void)
                     {
                         if (system == "all")
                         {
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId("artillery")));
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId("battery")));
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId("cloaking")));
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId("clonebay")));
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId("doors")));
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId("drones")));
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId("engines")));
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId("hacking")));
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId("medbay")));
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId("mind")));
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId("oxygen")));
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId("pilot")));
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId("sensors")));
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId("shields")));
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId("teleporter")));
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId("weapons")));
+                            statBoost.sourceRoomIds.first.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId("artillery")));
+                            statBoost.sourceRoomIds.first.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId("battery")));
+                            statBoost.sourceRoomIds.first.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId("cloaking")));
+                            statBoost.sourceRoomIds.first.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId("clonebay")));
+                            statBoost.sourceRoomIds.first.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId("doors")));
+                            statBoost.sourceRoomIds.first.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId("drones")));
+                            statBoost.sourceRoomIds.first.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId("engines")));
+                            statBoost.sourceRoomIds.first.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId("hacking")));
+                            statBoost.sourceRoomIds.first.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId("medbay")));
+                            statBoost.sourceRoomIds.first.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId("mind")));
+                            statBoost.sourceRoomIds.first.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId("oxygen")));
+                            statBoost.sourceRoomIds.first.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId("pilot")));
+                            statBoost.sourceRoomIds.first.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId("sensors")));
+                            statBoost.sourceRoomIds.first.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId("shields")));
+                            statBoost.sourceRoomIds.first.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId("teleporter")));
+                            statBoost.sourceRoomIds.first.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId("weapons")));
                         }
                         else
                         {
-                            statBoost.sourceRoomIds.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId(system)));
+                            statBoost.sourceRoomIds.first.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId(system)));
                         }
                     }
                     if (enemyShip != nullptr)
                     {
                         if (system == "all")
                         {
-                            statBoost.sourceRoomIds.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId("artillery")));
-                            statBoost.sourceRoomIds.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId("battery")));
-                            statBoost.sourceRoomIds.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId("cloaking")));
-                            statBoost.sourceRoomIds.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId("clonebay")));
-                            statBoost.sourceRoomIds.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId("doors")));
-                            statBoost.sourceRoomIds.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId("drones")));
-                            statBoost.sourceRoomIds.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId("engines")));
-                            statBoost.sourceRoomIds.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId("hacking")));
-                            statBoost.sourceRoomIds.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId("medbay")));
-                            statBoost.sourceRoomIds.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId("mind")));
-                            statBoost.sourceRoomIds.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId("oxygen")));
-                            statBoost.sourceRoomIds.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId("pilot")));
-                            statBoost.sourceRoomIds.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId("sensors")));
-                            statBoost.sourceRoomIds.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId("shields")));
-                            statBoost.sourceRoomIds.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId("teleporter")));
-                            statBoost.sourceRoomIds.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId("weapons")));
+                            statBoost.sourceRoomIds.second.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId("artillery")));
+                            statBoost.sourceRoomIds.second.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId("battery")));
+                            statBoost.sourceRoomIds.second.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId("cloaking")));
+                            statBoost.sourceRoomIds.second.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId("clonebay")));
+                            statBoost.sourceRoomIds.second.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId("doors")));
+                            statBoost.sourceRoomIds.second.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId("drones")));
+                            statBoost.sourceRoomIds.second.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId("engines")));
+                            statBoost.sourceRoomIds.second.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId("hacking")));
+                            statBoost.sourceRoomIds.second.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId("medbay")));
+                            statBoost.sourceRoomIds.second.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId("mind")));
+                            statBoost.sourceRoomIds.second.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId("oxygen")));
+                            statBoost.sourceRoomIds.second.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId("pilot")));
+                            statBoost.sourceRoomIds.second.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId("sensors")));
+                            statBoost.sourceRoomIds.second.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId("shields")));
+                            statBoost.sourceRoomIds.second.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId("teleporter")));
+                            statBoost.sourceRoomIds.second.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId("weapons")));
                         }
                         else
                         {
-                            statBoost.sourceRoomIds.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId(system)));
+                            statBoost.sourceRoomIds.second.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId(system)));
                         }
                     }
                 }
@@ -309,7 +309,7 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, bool &boolValue)
                     && (statBoost.crewSource != orig || statBoost.affectsSelf)
                     && ((statBoost.crewSource->iShipId == orig->iShipId && statBoost.crewTarget == StatBoost::CrewTarget::ALLIES) || (statBoost.crewSource->iShipId != orig->iShipId && statBoost.crewTarget == StatBoost::CrewTarget::ENEMIES) || statBoost.crewTarget == StatBoost::CrewTarget::ALL)
                     && ((std::find(statBoost.whiteList.begin(), statBoost.whiteList.end(), orig->species) != statBoost.whiteList.end()) || (!statBoost.blackList.empty() && std::find(statBoost.blackList.begin(), statBoost.blackList.end(), orig->species) == statBoost.blackList.end()) || (statBoost.blackList.empty() && statBoost.whiteList.empty()))
-                    && (statBoost.systemList.empty() || (std::find(statBoost.sourceRoomIds.begin(), statBoost.sourceRoomIds.end(), orig->iRoomId) != statBoost.sourceRoomIds.end() && statBoost.systemRoomTarget == StatBoost::SystemRoomTarget::ALL) || (std::find(statBoost.sourceRoomIds.begin(), statBoost.sourceRoomIds.end(), orig->iRoomId) == statBoost.sourceRoomIds.end() && statBoost.systemRoomTarget == StatBoost::SystemRoomTarget::NONE))
+                    && (statBoost.systemList.empty() || (std::find(statBoost.sourceRoomIds.first.begin(), statBoost.sourceRoomIds.first.end(), orig->iRoomId) != statBoost.sourceRoomIds.first.end() && statBoost.systemRoomTarget == StatBoost::SystemRoomTarget::ALL) || (std::find(statBoost.sourceRoomIds.second.begin(), statBoost.sourceRoomIds.second.end(), orig->iRoomId) != statBoost.sourceRoomIds.second.end() && statBoost.systemRoomTarget == StatBoost::SystemRoomTarget::ALL) || (std::find(statBoost.sourceRoomIds.first.begin(), statBoost.sourceRoomIds.first.end(), orig->iRoomId) == statBoost.sourceRoomIds.first.end() && statBoost.systemRoomTarget == StatBoost::SystemRoomTarget::NONE) || (std::find(statBoost.sourceRoomIds.second.begin(), statBoost.sourceRoomIds.second.end(), orig->iRoomId) == statBoost.sourceRoomIds.second.end() && statBoost.systemRoomTarget == StatBoost::SystemRoomTarget::NONE))
                     ) // If the boost affects this ship and/or this room, and the boost comes from someone else or affects self, and the boost comes from an ally and affects allies or an enemy and affects enemies, and the boost specifically lets this race take it or doesn't ban it
                 {
                     personalStatBoosts.push_back(statBoost);
@@ -321,7 +321,7 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, bool &boolValue)
                 if (((statBoost.shipTarget == StatBoost::ShipTarget::PLAYER_SHIP && orig->currentShipId == 0) || (statBoost.shipTarget == StatBoost::ShipTarget::ENEMY_SHIP && orig->currentShipId == 1) || (statBoost.shipTarget == StatBoost::ShipTarget::CURRENT_ALL && orig->currentShipId == statBoost.sourceShipId) || (statBoost.shipTarget == StatBoost::ShipTarget::ALL))
                     && ((statBoost.sourceShipId == orig->iShipId && statBoost.crewTarget == StatBoost::CrewTarget::ALLIES) || (statBoost.sourceShipId != orig->iShipId && statBoost.crewTarget == StatBoost::CrewTarget::ENEMIES) ||  (statBoost.crewTarget == StatBoost::CrewTarget::ALL))
                     && ((std::find(statBoost.whiteList.begin(), statBoost.whiteList.end(), orig->species) != statBoost.whiteList.end()) || (!statBoost.blackList.empty() && std::find(statBoost.blackList.begin(), statBoost.blackList.end(), orig->species) == statBoost.blackList.end()) || (statBoost.blackList.empty() && statBoost.whiteList.empty()))
-                    && (statBoost.systemList.empty() || (std::find(statBoost.sourceRoomIds.begin(), statBoost.sourceRoomIds.end(), orig->iRoomId) != statBoost.sourceRoomIds.end() && statBoost.systemRoomTarget == StatBoost::SystemRoomTarget::ALL) || (std::find(statBoost.sourceRoomIds.begin(), statBoost.sourceRoomIds.end(), orig->iRoomId) == statBoost.sourceRoomIds.end() && statBoost.systemRoomTarget == StatBoost::SystemRoomTarget::NONE))
+                    && (statBoost.systemList.empty() || (std::find(statBoost.sourceRoomIds.first.begin(), statBoost.sourceRoomIds.first.end(), orig->iRoomId) != statBoost.sourceRoomIds.first.end() && statBoost.systemRoomTarget == StatBoost::SystemRoomTarget::ALL) || (std::find(statBoost.sourceRoomIds.second.begin(), statBoost.sourceRoomIds.second.end(), orig->iRoomId) != statBoost.sourceRoomIds.second.end() && statBoost.systemRoomTarget == StatBoost::SystemRoomTarget::ALL) || (std::find(statBoost.sourceRoomIds.first.begin(), statBoost.sourceRoomIds.first.end(), orig->iRoomId) == statBoost.sourceRoomIds.first.end() && statBoost.systemRoomTarget == StatBoost::SystemRoomTarget::NONE) || (std::find(statBoost.sourceRoomIds.second.begin(), statBoost.sourceRoomIds.second.end(), orig->iRoomId) == statBoost.sourceRoomIds.second.end() && statBoost.systemRoomTarget == StatBoost::SystemRoomTarget::NONE))
                     )
                 {
                     personalStatBoosts.push_back(statBoost);
