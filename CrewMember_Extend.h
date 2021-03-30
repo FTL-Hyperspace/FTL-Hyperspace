@@ -143,7 +143,7 @@ struct StatBoost
     bool isBool = false;
     int priority = -1;
     float duration = -1;
-    TimerHelper* timerHelper;
+    //TimerHelper* timerHelper;
     bool affectsSelf;
     std::vector<std::string> whiteList = std::vector<std::string>();
     std::vector<std::string> blackList = std::vector<std::string>();
@@ -159,7 +159,7 @@ struct StatBoost
 
     ~StatBoost()
     {
-        delete timerHelper;
+        //delete timerHelper;
     }
 };
 

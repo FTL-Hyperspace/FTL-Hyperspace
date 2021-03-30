@@ -2328,6 +2328,7 @@ HOOK_METHOD(CrewMember, OnLoop, () -> void)
                 ex->exploded = false;
             }
         }
+        /*
         if (!ex->timedStatBoosts.empty())
         {
             int counter = 0;
@@ -2356,6 +2357,7 @@ HOOK_METHOD(CrewMember, OnLoop, () -> void)
             }
             ++counter;
         }
+        */
     }
 }
 
