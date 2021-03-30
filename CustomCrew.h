@@ -122,10 +122,12 @@ struct TemporaryPowerDefinition
     ToggleValue<bool> canSabotage;
     ToggleValue<bool> canMan;
     ToggleValue<bool> canSuffocate;
+    ToggleValue<bool> canBurn;
     ToggleValue<float> oxygenChangeSpeed;
     ToggleValue<bool> canPhaseThroughDoors;
     ToggleValue<float> fireDamageMultiplier;
     ToggleValue<bool> isTelepathic;
+    ToggleValue<bool> isAnaerobic;
     ToggleValue<bool> detectsLifeforms;
     ToggleValue<float> damageTakenMultiplier;
     ToggleValue<float> passiveHealAmount;
@@ -136,11 +138,11 @@ struct TemporaryPowerDefinition
     ToggleValue<float> suffocationModifier;
     ToggleValue<float> healCrewAmount;
     ToggleValue<int> powerDrain;
+    ToggleValue<int> bonusPower;
     ToggleValue<float> damageEnemiesAmount;
 
     std::vector<StatBoost> statBoosts;
 
-    int bonusPower = 0;
     bool invulnerable;
     float healAmount = 0.f;
     int animFrame = -1;

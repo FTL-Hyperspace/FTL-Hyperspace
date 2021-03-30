@@ -1661,11 +1661,13 @@ HOOK_METHOD(CrewMember, LoadState, (int file) -> void)
 HOOK_METHOD_PRIORITY(CrewMember, GetNewGoal, 2000, () -> bool)
 {
     auto ex = CM_EX(this);
+    CustomCrewManager *custom = CustomCrewManager::GetInstance();
+    auto def = custom->GetDefinition(this->species);
+
+    ex->canPhaseThroughDoors = (ex->temporaryPowerActive && def.powerDef.tempPower.canMan.enabled) ? def.powerDef.tempPower.canMan.value : def.canMan;
+    ex->CalculateStat(CrewStat::CAN_PHASE_THROUGH_DOORS, ex->canPhaseThroughDoors);
+
     if (!ex->canPhaseThroughDoors) return super();
-//    if (this->GetShipObject()->HasAugmentation("ALL_CREW_PHASE"))
-//    {
-//        ex->canPhaseThroughDoors = (bool)this->GetShipObject()->GetAugmentationValue("ALL_CREW_PHASE");
-//    }
     if (last_door && !ex->canPhaseThroughDoors)
     {
         last_door->FakeClose();
@@ -2260,59 +2262,19 @@ HOOK_METHOD(ShipManager, OnLoop, () -> void)
     {
         if (custom->IsRace(i->species))
         {
-            CrewMember_Extend* ex = CM_EX(i);
-
+            CustomCrewManager *custom = CustomCrewManager::GetInstance();
             auto def = custom->GetDefinition(i->species);
-            int powerDrain = def.powerDrain;
 
-            if (CM_EX(i)->temporaryPowerActive && def.powerDef.tempPower.powerDrain.enabled)
-            {
-                powerDrain = def.powerDef.tempPower.powerDrain.value;
-            }
-
-//            if (i->GetShipObject()->HasAugmentation("POWER_DRAIN_BOOST"))
-//            {
-//                powerDrain += i->GetShipObject()->GetAugmentationValue("POWER_DRAIN_BOOST");
-//            }
-
-//            ShipManager *ship;
-//            if (i->currentShipId == 0)
-//            {
-//                ship = G_->GetShipManager(0);
-//            }
-//            else
-//            {
-//                ship = G_->GetShipManager(1);
-//            }
-//
-//            if (ship != nullptr)
-//            {
-//                for (auto f: ship->vCrewList)
-//                {
-//                    if (f->iRoomId == i->iRoomId && f != i)
-//                    {
-//                        auto otherCrew = CM_EX(f);
-//                        if (otherCrew->temporaryPowerActive && custom->GetDefinition(i->species).powerDef.tempPower.powerDrainAura.enabled)
-//                        {
-//                            powerDrain += custom->GetDefinition(i->species).powerDef.tempPower.powerDrainAura.value;
-//                        }
-//                        else
-//                        {
-//                            powerDrain += custom->GetDefinition(i->species).powerDrainAura;
-//                        }
-//                    }
-//                }
-//            }
+            auto ex = CM_EX(i);
+            bool throwAway;
+            int powerDrain = ex->CalculateStat(CrewStat::POWER_DRAIN, throwAway);
 
             ShipSystem* sys = GetSystemInRoom(i->iRoomId);
 
             if (sys && sys->iSystemType != (int)SystemId::PILOT)
             {
                 bool powerDrainFriendly = def.powerDrainFriendly;
-//                if (i->GetShipObject()->HasAugmentation("ALL_CREW_POWER_DRAIN_FRIENDLY"))
-//                {
-//                    powerDrainFriendly = (bool)i->GetShipObject()->GetAugmentationValue("ALL_CREW_POWER_DRAIN_FRIENDLY");
-//                }
+                ex->CalculateStat(CrewStat::POWER_DRAIN_FRIENDLY, powerDrainFriendly);
                 if (i->intruder || powerDrainFriendly)
                 {
                     ShipSystem_Extend* sys_ex = SYS_EX(sys);
@@ -3073,21 +3035,12 @@ HOOK_METHOD(ShipManager, OnLoop, () -> void)
                 {
                     auto def = custom->GetDefinition(j->species);
 
-                    if (CM_EX(j)->temporaryPowerActive && def.powerDef.tempPower.bonusPower > 0)
-                    {
-                        bonusPowerCounter += def.powerDef.tempPower.bonusPower;
-
-                        if (j->AtFinalGoal())
-                        {
-                            permanentPowerCounter += def.powerDef.tempPower.bonusPower;
-                        }
-                    }
-
-                    bonusPowerCounter += def.bonusPower;
+                    auto ex = CM_EX(j);
+                    bonusPowerCounter = ex->CalculateStat(CrewStat::BONUS_POWER, ex->canPhaseThroughDoors);
 
                     if (j->AtFinalGoal() && !j->IsDrone())
                     {
-                        permanentPowerCounter += def.bonusPower;
+                        permanentPowerCounter += bonusPowerCounter;
                     }
                 }
 
@@ -3099,45 +3052,6 @@ HOOK_METHOD(ShipManager, OnLoop, () -> void)
                         permanentPowerCounter++;
                     }
                 }
-
-//                if (j->GetShipObject()->HasAugmentation("POWER_BOOST"))
-//                {
-//                    float augAmount = j->GetShipObject()->GetAugmentationValue("POWER_BOOST");
-//                    permanentPowerCounter += augAmount;
-//                    bonusPowerCounter += augAmount;
-//                }
-
-//                ShipManager *ship;
-//                if (j->currentShipId == 0)
-//                {
-//                    ship = G_->GetShipManager(0);
-//                }
-//                else
-//                {
-//                    ship = G_->GetShipManager(1);
-//                }
-//
-//                if (ship != nullptr)
-//                {
-//                    for (auto k: ship->vCrewList)
-//                    {
-//                        if (k->iRoomId == j->iRoomId && k != j)
-//                        {
-//                            auto otherCrew = CM_EX(k);
-//                            if (otherCrew->temporaryPowerActive && custom->GetDefinition(k->species).powerDef.tempPower.bonusPowerAura.enabled)
-//                            {
-//                                bonusPowerCounter += custom->GetDefinition(k->species).powerDef.tempPower.bonusPowerAura.value;
-//                                permanentPowerCounter += custom->GetDefinition(k->species).powerDef.tempPower.bonusPowerAura.value;
-//                            }
-//                            else
-//                            {
-//                                bonusPowerCounter += custom->GetDefinition(k->species).bonusPowerAura;
-//                                permanentPowerCounter += custom->GetDefinition(k->species).bonusPowerAura;
-//                            }
-//                        }
-//                    }
-//                }
-
             }
         }
 
@@ -3253,10 +3167,11 @@ HOOK_METHOD(CrewAI, PrioritizeIntruderRoom, (CrewMember *crew, int roomId, int t
 HOOK_METHOD(CrewMember, Clone, () -> void)
 {
     bool cloneLoseSkills = CustomCrewManager::GetInstance()->GetDefinition(species).cloneLoseSkills;
-//    if (this->GetShipObject()->HasAugmentation("ALL_CREW_LOSE_SKILLS_ON_CLONE"))
-//    {
-//        cloneLoseSkills = (bool)this->GetShipObject()->GetAugmentationValue("ALL_CREW_LOSE_SKILLS_ON_CLONE");
-//    }
+    CustomCrewManager *custom = CustomCrewManager::GetInstance();
+    auto def = custom->GetDefinition(this->species);
+
+    auto ex = CM_EX(this);
+    ex->CalculateStat(CrewStat::CLONE_LOSE_SKILLS, cloneLoseSkills);
     if (!CustomCrewManager::GetInstance()->IsRace(species) || cloneLoseSkills) return super();
 
     bOutOfGame = false;
