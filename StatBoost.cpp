@@ -389,6 +389,12 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, bool &boolValue)
         case CrewStat::DAMAGE_ENEMIES_AMOUNT:
             finalStat = (temporaryPowerActive && def.powerDef.tempPower.damageEnemiesAmount.enabled) ? def.powerDef.tempPower.damageEnemiesAmount.value : def.damageEnemiesAmount;
             break;
+        case CrewStat::BONUS_POWER:
+            finalStat = (temporaryPowerActive && def.powerDef.tempPower.bonusPower.enabled) ? def.powerDef.tempPower.bonusPower.value : def.bonusPower;
+            break;
+        case CrewStat::POWER_DRAIN:
+            finalStat = (temporaryPowerActive && def.powerDef.tempPower.powerDrain.enabled) ? def.powerDef.tempPower.powerDrain.value : def.powerDrain;
+            break;
         case CrewStat::CAN_FIGHT:
             boolValue = (temporaryPowerActive && def.powerDef.tempPower.canFight.enabled) ? def.powerDef.tempPower.canFight.value : def.canFight;
             isBool = true;

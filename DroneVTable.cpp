@@ -8,13 +8,14 @@ static bool __attribute__((fastcall)) CrewDrone_GetControllable(CrewDrone *_this
 
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
 
-//    if (_this->GetShipObject()->HasAugmentation("ALL_DRONE_CREW_CONTROLLABLE"))
-//    {
-//        return (bool)_this->GetShipObject()->GetAugmentationValue("ALL_DRONE_CREW_CONTROLLABLE");
-//    }
     if (custom->IsRace(_this->species))
     {
-        return custom->GetDefinition(_this->species).controllable && req;
+        auto def = custom->GetDefinition(_this->species);
+
+        auto ex = CM_EX(_this);
+        bool ret = (ex->temporaryPowerActive && def.powerDef.tempPower.controllable.enabled) ? def.powerDef.tempPower.controllable.value : def.controllable;
+        ex->CalculateStat(CrewStat::CONTROLLABLE, ret);
+        return ret && req;
     }
 
     return false;
@@ -30,7 +31,12 @@ static bool __attribute__((fastcall)) CrewDrone_CanFight(CrewDrone *_this)
 
     if (custom->IsRace(_this->species))
     {
-        return custom->GetDefinition(_this->species).canFight;
+        auto def = custom->GetDefinition(_this->species);
+
+        auto ex = CM_EX(_this);
+        bool ret = (ex->temporaryPowerActive && def.powerDef.tempPower.canFight.enabled) ? def.powerDef.tempPower.canFight.value : def.canFight;
+        ex->CalculateStat(CrewStat::CAN_FIGHT, ret);
+        return ret;
     }
 
     if (_this->_drone.blueprint->typeName == "BOARDER")
@@ -63,7 +69,12 @@ static bool __attribute__((fastcall)) CrewDrone_CanRepair(CrewDrone *_this)
 //    }
     if (custom->IsRace(_this->species))
     {
-        return custom->GetDefinition(_this->species).canRepair && req;
+        auto def = custom->GetDefinition(_this->species);
+
+        auto ex = CM_EX(_this);
+        bool ret = (ex->temporaryPowerActive && def.powerDef.tempPower.canRepair.enabled) ? def.powerDef.tempPower.canRepair.value : def.canRepair;
+        ex->CalculateStat(CrewStat::CAN_REPAIR, ret);
+        return ret && req;
     }
 
     if (_this->_drone.blueprint->typeName == "BOARDER")
@@ -95,7 +106,12 @@ static bool __attribute__((fastcall)) CrewDrone_CanSabotage(CrewDrone *_this)
 //    }
     if (custom->IsRace(_this->species))
     {
-        return custom->GetDefinition(_this->species).canSabotage && req;
+        auto def = custom->GetDefinition(_this->species);
+
+        auto ex = CM_EX(_this);
+        bool ret = (ex->temporaryPowerActive && def.powerDef.tempPower.canSabotage.enabled) ? def.powerDef.tempPower.canSabotage.value : def.canSabotage;
+        ex->CalculateStat(CrewStat::CAN_SABOTAGE, ret);
+        return ret && req;
     }
 
     if (_this->_drone.blueprint->typeName == "BOARDER")
@@ -128,7 +144,12 @@ static bool __attribute__((fastcall)) CrewDrone_CanMan(CrewDrone *_this)
 //    }
     if (custom->IsRace(_this->species))
     {
-        return custom->GetDefinition(_this->species).canMan && req;
+        auto def = custom->GetDefinition(_this->species);
+
+        auto ex = CM_EX(_this);
+        bool ret = (ex->temporaryPowerActive && def.powerDef.tempPower.canMan.enabled) ? def.powerDef.tempPower.canMan.value : def.canMan;
+        ex->CalculateStat(CrewStat::CAN_MAN, ret);
+        return ret && req;
     }
 
     return false;
@@ -144,7 +165,12 @@ static bool __attribute__((fastcall)) CrewDrone_CanSuffocate(CrewDrone *_this)
 //    }
     if (custom->IsRace(_this->species))
     {
-        return custom->GetDefinition(_this->species).canSuffocate;
+        auto def = custom->GetDefinition(_this->species);
+
+        auto ex = CM_EX(_this);
+        bool ret = (ex->temporaryPowerActive && def.powerDef.tempPower.canSuffocate.enabled) ? def.powerDef.tempPower.canSuffocate.value : def.canSuffocate;
+        ex->CalculateStat(CrewStat::CAN_SUFFOCATE, ret);
+        return ret;
     }
 
     return false;
@@ -160,7 +186,12 @@ static bool __attribute__((fastcall)) CrewDrone_CanBurn(CrewDrone *_this)
 //    }
     if (custom->IsRace(_this->species))
     {
-        return custom->GetDefinition(_this->species).canBurn;
+        auto def = custom->GetDefinition(_this->species);
+
+        auto ex = CM_EX(_this);
+        bool ret = (ex->temporaryPowerActive && def.powerDef.tempPower.canBurn.enabled) ? def.powerDef.tempPower.canBurn.value : def.canBurn;
+        ex->CalculateStat(CrewStat::CAN_BURN, ret);
+        return ret;
     }
 
     return false;
@@ -282,7 +313,12 @@ static bool __attribute__((fastcall)) CrewDrone_IsTelepathic(CrewDrone *_this)
 //    }
     if (custom->IsRace(_this->species))
     {
-        return custom->GetDefinition(_this->species).isTelepathic && req;
+        auto def = custom->GetDefinition(_this->species);
+
+        auto ex = CM_EX(_this);
+        bool ret = (ex->temporaryPowerActive && def.powerDef.tempPower.isTelepathic.enabled) ? def.powerDef.tempPower.isTelepathic.value : def.isTelepathic;
+        ex->CalculateStat(CrewStat::IS_TELEPATHIC, ret);
+        return ret && req;
     }
 
     return false;
@@ -312,7 +348,12 @@ static bool __attribute__((fastcall)) CrewDrone_IsAnaerobic(CrewDrone *_this)
 //    }
     if (custom->IsRace(_this->species))
     {
-        return custom->GetDefinition(_this->species).isAnaerobic && req;
+        auto def = custom->GetDefinition(_this->species);
+
+        auto ex = CM_EX(_this);
+        bool ret = (ex->temporaryPowerActive && def.powerDef.tempPower.isAnaerobic.enabled) ? def.powerDef.tempPower.isAnaerobic.value : def.isAnaerobic;
+        ex->CalculateStat(CrewStat::IS_ANAEROBIC, ret);
+        return ret && req;
     }
 
     return false;
