@@ -41,10 +41,25 @@ enum class CrewStat
     ALL_DAMAGE_TAKEN_MULTIPLIER,
     HEAL_SPEED_MULTIPLIER,
     HEAL_CREW_AMOUNT,
-    DAMAGE_ENEMIES_AMOUNT
+    DAMAGE_ENEMIES_AMOUNT,
+    BONUS_POWER,
+    POWER_DRAIN,
+    CAN_FIGHT,
+    CAN_REPAIR,
+    CAN_SABOTAGE,
+    CAN_MAN,
+    CAN_SUFFOCATE,
+    CONTROLLABLE,
+    CAN_BURN,
+    IS_TELEPATHIC,
+    IS_ANAEROBIC,
+    CAN_PHASE_THROUGH_DOORS,
+    DETECTS_LIFEFORMS,
+    CLONE_LOSE_SKILLS,
+    POWER_DRAIN_FRIENDLY
 };
 
-static const std::array<std::string, 18> crewStats =
+static const std::array<std::string, 33> crewStats =
 {
     "maxHealth",
     "stunMultiplier",
@@ -63,7 +78,22 @@ static const std::array<std::string, 18> crewStats =
     "allDamageTakenMultiplier",
     "healSpeed",
     "healCrewAmount",
-    "damageEnemiesAmount"
+    "damageEnemiesAmount",
+    "bonusPower",
+    "powerDrain",
+    "canFight",
+    "canRepair",
+    "canSabotage",
+    "canMan",
+    "canSuffocate",
+    "controllable",
+    "canBurn",
+    "isTelepathic",
+    "isAnaerobic",
+    "canPhaseThroughDoors",
+    "detectsLifeforms",
+    "cloneLoseSkills",
+    "powerDrainFriendly",
 };
 
 struct StatBoost
@@ -72,7 +102,8 @@ struct StatBoost
     {
         MULT,
         FLAT,
-        SET
+        SET,
+        FLIP
     };
 
     enum class BoostSource
@@ -91,6 +122,12 @@ struct StatBoost
         ALL
     };
 
+    enum class SystemRoomTarget
+    {
+        ALL,
+        NONE
+    };
+
     enum class CrewTarget
     {
         ALLIES,
@@ -102,12 +139,17 @@ struct StatBoost
     CrewStat stat;
     CrewMember* crewSource;
     float amount;
+    bool value;
+    bool isBool = false;
     int priority = -1;
     float duration = -1;
     TimerHelper* timerHelper;
     bool affectsSelf;
     std::vector<std::string> whiteList = std::vector<std::string>();
     std::vector<std::string> blackList = std::vector<std::string>();
+    std::vector<int> sourceRoomIds = std::vector<int>();
+    std::vector<std::string> systemList = std::vector<std::string>();
+
     BoostType boostType;
     BoostSource boostSource;
     ShipTarget shipTarget;
@@ -195,7 +237,7 @@ public:
         delete passiveHealTimer;
     }
 
-    float CalculateStat(CrewStat stat);
+    float CalculateStat(CrewStat stat, bool& boolValue);
 };
 
 CrewMember_Extend* Get_CrewMember_Extend(CrewMember* c);

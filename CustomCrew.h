@@ -110,7 +110,6 @@ struct TemporaryPowerDefinition
     std::vector<std::string> sounds;
 
     ToggleValue<int> maxHealth;
-    ToggleValue<float> healthMultiplier;
     ToggleValue<float> stunMultiplier;
     ToggleValue<float> moveSpeedMultiplier;
     ToggleValue<float> damageMultiplier;
@@ -138,33 +137,6 @@ struct TemporaryPowerDefinition
     ToggleValue<float> healCrewAmount;
     ToggleValue<int> powerDrain;
     ToggleValue<float> damageEnemiesAmount;
-
-    ToggleValue<float> healthMultiplierAura = 1.f;
-    ToggleValue<float> stunMultiplierAura = 1.f;
-    ToggleValue<float> moveSpeedMultiplierAura = 1.f;
-    ToggleValue<float> repairSpeedAura = 1.f;
-    ToggleValue<float> damageMultiplierAura = 1.f;
-    ToggleValue<float> rangedDamageMultiplierAura = 1.f;
-    ToggleValue<int> bonusPowerAura = 0;
-    ToggleValue<float> fireRepairMultiplierAura = 1.f;
-    ToggleValue<float> suffocationModifierAura = 1.f;
-    ToggleValue<bool> isTelepathicAura = false;
-    ToggleValue<bool> isAnaerobicAura = false;
-    ToggleValue<float> fireDamageMultiplierAura = 1.f;
-    ToggleValue<bool> canPhaseThroughDoorsAura = false;
-    ToggleValue<float> oxygenChangeSpeedAura = 1.f;
-    ToggleValue<float> damageTakenMultiplierAura = 1.f;
-    ToggleValue<float> passiveHealAmountAura = 1.f;
-    ToggleValue<int> passiveHealDelayAura = 0;
-    ToggleValue<bool> detectsLifeformsAura = false;
-    ToggleValue<float> sabotageSpeedMultiplierAura = 1.f;
-    ToggleValue<float> allDamageTakenMultiplierAura = 1.f;
-    ToggleValue<float> healSpeedAura = 1.f;
-    ToggleValue<bool> cloneLoseSkillsAura = true;
-    ToggleValue<float> healCrewAmountAura = 0.f;
-    ToggleValue<int> powerDrainAura = 0;
-    ToggleValue<bool> powerDrainFriendlyAura = false;
-    ToggleValue<float> damageEnemiesAmountAura = 0.f;
 
     std::vector<StatBoost> statBoosts;
 
@@ -282,33 +254,6 @@ struct CrewDefinition
     int powerDrain = 0;
     bool powerDrainFriendly = false;
     float damageEnemiesAmount = 0.f;
-
-    float healthMultiplierAura = 1.f;
-    float stunMultiplierAura = 1.f;
-    float moveSpeedMultiplierAura = 1.f;
-    float repairSpeedAura = 1.f;
-    float damageMultiplierAura = 1.f;
-    float rangedDamageMultiplierAura = 1.f;
-    int bonusPowerAura = 0;
-    float fireRepairMultiplierAura = 1.2f;
-    float suffocationModifierAura = 1.f;
-    bool isTelepathicAura = false;
-    bool isAnaerobicAura = false;
-    float fireDamageMultiplierAura = 1.f;
-    bool canPhaseThroughDoorsAura = false;
-    float oxygenChangeSpeedAura = 1.f;
-    float damageTakenMultiplierAura = 1.f;
-    float passiveHealAmountAura = 1.f;
-    int passiveHealDelayAura = 0;
-    bool detectsLifeformsAura = false;
-    float sabotageSpeedMultiplierAura = 1.f;
-    float allDamageTakenMultiplierAura = 1.f;
-    float healSpeedAura = 1.f;
-    bool cloneLoseSkillsAura = true;
-    float healCrewAmountAura = 0.f;
-    int powerDrainAura = 0;
-    bool powerDrainFriendlyAura = false;
-    float damageEnemiesAmountAura = 0.f;
 
     Damage explosionDef;
     bool explosionShipFriendlyFire = false;

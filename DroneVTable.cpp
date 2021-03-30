@@ -171,7 +171,8 @@ static float __attribute__((fastcall)) CrewDrone_GetMoveSpeedMultiplier(CrewDron
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
     if (custom->IsRace(_this->species))
     {
-        return CM_EX(_this)->CalculateStat(CrewStat::MOVE_SPEED_MULTIPLIER);
+        bool throwAway;
+        return CM_EX(_this)->CalculateStat(CrewStat::MOVE_SPEED_MULTIPLIER, throwAway);
     }
 
     return 0.5f;
@@ -182,7 +183,8 @@ static float __attribute__((fastcall)) CrewDrone_GetRepairSpeed(CrewDrone *_this
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
     if (custom->IsRace(_this->species))
     {
-        return CM_EX(_this)->CalculateStat(CrewStat::REPAIR_SPEED_MULTIPLIER);
+        bool throwAway;
+        return CM_EX(_this)->CalculateStat(CrewStat::REPAIR_SPEED_MULTIPLIER, throwAway);
     }
 
     return 2.f;
@@ -193,7 +195,8 @@ static int __attribute__((fastcall)) CrewDrone_GetMaxHealth(CrewDrone *_this)
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
     if (custom->IsRace(_this->species))
     {
-        return CM_EX(_this)->CalculateStat(CrewStat::MAX_HEALTH);
+        bool throwAway;
+        return CM_EX(_this)->CalculateStat(CrewStat::MAX_HEALTH, throwAway);
     }
 
     if (_this->_drone.blueprint->typeName == "BOARDER")
@@ -219,7 +222,8 @@ static float __attribute__((fastcall)) CrewDrone_GetDamageMultiplier(CrewDrone *
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
     if (custom->IsRace(_this->species))
     {
-        return CM_EX(_this)->CalculateStat(CrewStat::DAMAGE_MULTIPLIER);
+        bool throwAway;
+        return CM_EX(_this)->CalculateStat(CrewStat::DAMAGE_MULTIPLIER,throwAway);
     }
 
     if (_this->_drone.blueprint->typeName == "BOARDER")
@@ -259,7 +263,8 @@ static float __attribute__((fastcall)) CrewDrone_GetFireRepairMultiplier(CrewDro
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
     if (custom->IsRace(_this->species))
     {
-        return CM_EX(_this)->CalculateStat(CrewStat::FIRE_REPAIR_MULTIPLIER);
+        bool throwAway;
+        return CM_EX(_this)->CalculateStat(CrewStat::FIRE_REPAIR_MULTIPLIER, throwAway);
     }
 
     return 1.2f;
@@ -288,7 +293,8 @@ static float __attribute__((fastcall)) CrewDrone_GetSuffocationModifier(CrewDron
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
     if (custom->IsRace(_this->species))
     {
-        return CM_EX(_this)->CalculateStat(CrewStat::SUFFOCATION_MODIFIER);
+        bool throwAway;
+        return CM_EX(_this)->CalculateStat(CrewStat::SUFFOCATION_MODIFIER, throwAway);
     }
 
     return 0.f;

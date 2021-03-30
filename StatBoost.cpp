@@ -34,11 +34,19 @@ StatBoost ParseStatBoostNode(rapidxml::xml_node<char>* node)
                 {
                     def.boostType = StatBoost::BoostType::SET;
                 }
+                if (val == "FLIP")
+                {
+                    def.boostType = StatBoost::BoostType::FLIP;
+                }
             }
             if (name == "amount")
             {
                 def.amount = boost::lexical_cast<float>(val);
 
+            }
+            if (name == "value")
+            {
+                def.value = EventsParser::ParseBoolean(val);
             }
             if (name == "priority")
             {
@@ -102,6 +110,13 @@ StatBoost ParseStatBoostNode(rapidxml::xml_node<char>* node)
                 for (auto crewChild = child->first_node(); crewChild; crewChild = crewChild->next_sibling())
                 {
                     def.blackList.push_back(crewChild->name());
+                }
+            }
+            if (name == "systemList")
+            {
+                for (auto crewChild = child->first_node(); crewChild; crewChild = crewChild->next_sibling())
+                {
+                    def.systemList.push_back(crewChild->name());
                 }
             }
         }
@@ -207,7 +222,7 @@ HOOK_METHOD(WorldManager, OnLoop, () -> void)
     }
 }
 
-float CrewMember_Extend::CalculateStat(CrewStat stat)
+float CrewMember_Extend::CalculateStat(CrewStat stat, bool &boolValue)
 {
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
     auto def = custom->GetDefinition(orig->species);
@@ -245,6 +260,7 @@ float CrewMember_Extend::CalculateStat(CrewStat stat)
     }
 
     float finalStat = 0.f;
+    bool isBool = false;
     switch(stat)
     {
         case CrewStat::MAX_HEALTH:
@@ -302,6 +318,58 @@ float CrewMember_Extend::CalculateStat(CrewStat stat)
         case CrewStat::DAMAGE_ENEMIES_AMOUNT:
             finalStat = (temporaryPowerActive && def.powerDef.tempPower.damageEnemiesAmount.enabled) ? def.powerDef.tempPower.damageEnemiesAmount.value : def.damageEnemiesAmount;
             break;
+        case CrewStat::CAN_FIGHT:
+            boolValue = (temporaryPowerActive && def.powerDef.tempPower.canFight.enabled) ? def.powerDef.tempPower.canFight.value : def.canFight;
+            isBool = true;
+            break;
+        case CrewStat::CAN_REPAIR:
+            boolValue = (temporaryPowerActive && def.powerDef.tempPower.canFight.enabled) ? def.powerDef.tempPower.canFight.value : def.canFight;
+            isBool = true;
+            break;
+        case CrewStat::CAN_SABOTAGE:
+            boolValue = (temporaryPowerActive && def.powerDef.tempPower.canFight.enabled) ? def.powerDef.tempPower.canFight.value : def.canFight;
+            isBool = true;
+            break;
+        case CrewStat::CAN_MAN:
+            boolValue = (temporaryPowerActive && def.powerDef.tempPower.canMan.enabled) ? def.powerDef.tempPower.canMan.value : def.canMan;
+            isBool = true;
+            break;
+        case CrewStat::CAN_SUFFOCATE:
+            boolValue = (temporaryPowerActive && def.powerDef.tempPower.canFight.enabled) ? def.powerDef.tempPower.canFight.value : def.canFight;
+            isBool = true;
+            break;
+        case CrewStat::CONTROLLABLE:
+            boolValue = (temporaryPowerActive && def.powerDef.tempPower.canFight.enabled) ? def.powerDef.tempPower.canFight.value : def.canFight;
+            isBool = true;
+            break;
+        case CrewStat::CAN_BURN:
+            boolValue = (temporaryPowerActive && def.powerDef.tempPower.canFight.enabled) ? def.powerDef.tempPower.canFight.value : def.canFight;
+            isBool = true;
+            break;
+        case CrewStat::IS_TELEPATHIC:
+            boolValue = (temporaryPowerActive && def.powerDef.tempPower.canFight.enabled) ? def.powerDef.tempPower.canFight.value : def.canFight;
+            isBool = true;
+            break;
+        case CrewStat::IS_ANAEROBIC:
+            boolValue = (temporaryPowerActive && def.powerDef.tempPower.canFight.enabled) ? def.powerDef.tempPower.canFight.value : def.canFight;
+            isBool = true;
+            break;
+        case CrewStat::CAN_PHASE_THROUGH_DOORS:
+            boolValue = (temporaryPowerActive && def.powerDef.tempPower.canFight.enabled) ? def.powerDef.tempPower.canFight.value : def.canFight;
+            isBool = true;
+            break;
+        case CrewStat::DETECTS_LIFEFORMS:
+            boolValue = (temporaryPowerActive && def.powerDef.tempPower.canFight.enabled) ? def.powerDef.tempPower.canFight.value : def.canFight;
+            isBool = true;
+            break;
+        case CrewStat::CLONE_LOSE_SKILLS:
+            boolValue = (temporaryPowerActive && def.powerDef.tempPower.canFight.enabled) ? def.powerDef.tempPower.canFight.value : def.canFight;
+            isBool = true;
+            break;
+        case CrewStat::POWER_DRAIN_FRIENDLY:
+            boolValue = (temporaryPowerActive && def.powerDef.tempPower.canFight.enabled) ? def.powerDef.tempPower.canFight.value : def.canFight;
+            isBool = true;
+            break;
     }
 
     std::sort(personalStatBoosts.begin(), personalStatBoosts.end(),
@@ -314,19 +382,37 @@ float CrewMember_Extend::CalculateStat(CrewStat stat)
     {
         if (statBoost.stat == stat)
         {
-            if (statBoost.boostType == StatBoost::BoostType::MULT)
+            if (isBool)
             {
-                finalStat *= statBoost.amount;
+                if (statBoost.boostType == StatBoost::BoostType::SET)
+                {
+                    boolValue = statBoost.value;
+                }
+                else if (statBoost.boostType == StatBoost::BoostType::FLIP)
+                {
+                    boolValue = !boolValue;
+                }
             }
-            else if (statBoost.boostType == StatBoost::BoostType::FLAT)
+            else
             {
-                finalStat += statBoost.amount;
-            }
-            else if (statBoost.boostType == StatBoost::BoostType::SET)
-            {
-                finalStat = statBoost.amount;
+                if (statBoost.boostType == StatBoost::BoostType::MULT)
+                {
+                    finalStat *= statBoost.amount;
+                }
+                else if (statBoost.boostType == StatBoost::BoostType::FLAT)
+                {
+                    finalStat += statBoost.amount;
+                }
+                else if (statBoost.boostType == StatBoost::BoostType::SET)
+                {
+                    finalStat = statBoost.amount;
+                }
             }
         }
+    }
+    if (stat == CrewStat::MAX_HEALTH)
+    {
+        orig->health.first *= (int)finalStat / orig->health.second;
     }
     return finalStat;
 }
