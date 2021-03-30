@@ -10,7 +10,7 @@ static bool __attribute__((fastcall)) CrewMember_GetControllable(CrewMember *_th
 
     auto ex = CM_EX(_this);
     bool ret = (ex->temporaryPowerActive && def.powerDef.tempPower.controllable.enabled) ? def.powerDef.tempPower.controllable.value : def.controllable;
-    ex->CalculateStat(CrewStat::CONTROLLABLE, ret);
+    ex->CalculateStat(CrewStat::CONTROLLABLE, &ret);
     return ret && req;
 }
 
@@ -21,7 +21,7 @@ static bool __attribute__((fastcall)) CrewMember_CanSuffocate(CrewMember *_this)
 
     auto ex = CM_EX(_this);
     bool ret = (ex->temporaryPowerActive && def.powerDef.tempPower.canSuffocate.enabled) ? def.powerDef.tempPower.canSuffocate.value : def.canSuffocate;
-    ex->CalculateStat(CrewStat::CAN_SUFFOCATE, ret);
+    ex->CalculateStat(CrewStat::CAN_SUFFOCATE, &ret);
     return ret;
 }
 
@@ -32,7 +32,7 @@ static bool __attribute__((fastcall)) CrewMember_CanFight(CrewMember *_this)
 
     auto ex = CM_EX(_this);
     bool ret = (ex->temporaryPowerActive && def.powerDef.tempPower.canFight.enabled) ? def.powerDef.tempPower.canFight.value : def.canFight;
-    ex->CalculateStat(CrewStat::CAN_FIGHT, ret);
+    ex->CalculateStat(CrewStat::CAN_FIGHT, &ret);
     return ret;
 }
 
@@ -45,7 +45,7 @@ static bool __attribute__((fastcall)) CrewMember_CanRepair(CrewMember *_this)
 
     auto ex = CM_EX(_this);
     bool ret = (ex->temporaryPowerActive && def.powerDef.tempPower.canRepair.enabled) ? def.powerDef.tempPower.canRepair.value : def.canRepair;
-    ex->CalculateStat(CrewStat::CAN_REPAIR, ret);
+    ex->CalculateStat(CrewStat::CAN_REPAIR, &ret);
     return ret && req;
 }
 
@@ -58,7 +58,7 @@ static bool __attribute__((fastcall)) CrewMember_CanSabotage(CrewMember *_this)
 
     auto ex = CM_EX(_this);
     bool ret = (ex->temporaryPowerActive && def.powerDef.tempPower.canSabotage.enabled) ? def.powerDef.tempPower.canSabotage.value : def.canSabotage;
-    ex->CalculateStat(CrewStat::CAN_SABOTAGE, ret);
+    ex->CalculateStat(CrewStat::CAN_SABOTAGE, &ret);
     return ret && req;
 }
 
@@ -70,7 +70,7 @@ static bool __attribute__((fastcall)) CrewMember_CanMan(CrewMember *_this)
 
     auto ex = CM_EX(_this);
     bool ret = (ex->temporaryPowerActive && def.powerDef.tempPower.canMan.enabled) ? def.powerDef.tempPower.canMan.value : def.canMan;
-    ex->CalculateStat(CrewStat::CAN_MAN, ret);
+    ex->CalculateStat(CrewStat::CAN_MAN, &ret);
     return ret && req;
 }
 
@@ -82,44 +82,40 @@ static bool __attribute__((fastcall)) CrewMember_CanBurn(CrewMember *_this)
 
     auto ex = CM_EX(_this);
     bool ret = (ex->temporaryPowerActive && def.powerDef.tempPower.canBurn.enabled) ? def.powerDef.tempPower.canBurn.value : def.canBurn;
-    ex->CalculateStat(CrewStat::CAN_BURN, ret);
+    ex->CalculateStat(CrewStat::CAN_BURN, &ret);
     return ret;
 }
 
 static int __attribute__((fastcall)) CrewMember_GetMaxHealth(CrewMember *_this)
 {
     auto ex = CM_EX(_this);
-    bool throwAway;
-    _this->health.second = ex->CalculateStat(CrewStat::MAX_HEALTH, throwAway);
+    _this->health.second = ex->CalculateStat(CrewStat::MAX_HEALTH);
     return _this->health.second;
 }
 
 static float __attribute__((fastcall)) CrewMember_GetMoveSpeedMultiplier(CrewMember *_this)
 {
     auto ex = CM_EX(_this);
-    bool throwAway;
-    return ex->CalculateStat(CrewStat::MOVE_SPEED_MULTIPLIER, throwAway);
+    return ex->CalculateStat(CrewStat::MOVE_SPEED_MULTIPLIER);
 }
 
 static float __attribute__((fastcall)) CrewMember_GetRepairSpeed(CrewMember *_this)
 {
     auto ex = CM_EX(_this);
-    bool throwAway;
-    return ex->CalculateStat(CrewStat::REPAIR_SPEED_MULTIPLIER, throwAway);
+    return ex->CalculateStat(CrewStat::REPAIR_SPEED_MULTIPLIER);
 }
 
 static float __attribute__((fastcall)) CrewMember_GetDamageMultiplier(CrewMember *_this)
 {
     auto ex = CM_EX(_this);
     auto def = CustomCrewManager::GetInstance()->GetDefinition(_this->species);
-    bool throwAway;
     if (_this->crewAnim->status == 7 && def.rangedDamageMultiplier != 1.f)
     {
-        return ex->CalculateStat(CrewStat::RANGED_DAMAGE_MULTIPLIER, throwAway);
+        return ex->CalculateStat(CrewStat::RANGED_DAMAGE_MULTIPLIER);
     }
     else
     {
-        return ex->CalculateStat(CrewStat::DAMAGE_MULTIPLIER, throwAway);
+        return ex->CalculateStat(CrewStat::DAMAGE_MULTIPLIER);
     }
 }
 
@@ -133,8 +129,7 @@ static bool __attribute__((fastcall)) CrewMember_ProvidesPower(CrewMember *_this
 static float __attribute__((fastcall)) CrewMember_FireRepairMultiplier(CrewMember *_this)
 {
     auto ex = CM_EX(_this);
-    bool throwAway;
-    return ex->CalculateStat(CrewStat::FIRE_REPAIR_MULTIPLIER, throwAway);
+    return ex->CalculateStat(CrewStat::FIRE_REPAIR_MULTIPLIER);
 }
 
 static bool __attribute__((fastcall)) CrewMember_IsTelepathic(CrewMember *_this)
@@ -144,15 +139,14 @@ static bool __attribute__((fastcall)) CrewMember_IsTelepathic(CrewMember *_this)
 
     auto ex = CM_EX(_this);
     bool ret = (ex->temporaryPowerActive && def.powerDef.tempPower.isTelepathic.enabled) ? def.powerDef.tempPower.isTelepathic.value : def.isTelepathic;
-    ex->CalculateStat(CrewStat::IS_TELEPATHIC, ret);
+    ex->CalculateStat(CrewStat::IS_TELEPATHIC, &ret);
     return ret;
 }
 
 static float __attribute__((fastcall)) CrewMember_GetSuffocationModifier(CrewMember *_this)
 {
     auto ex = CM_EX(_this);
-    bool throwAway;
-    return ex->CalculateStat(CrewStat::SUFFOCATION_MODIFIER, throwAway);
+    return ex->CalculateStat(CrewStat::SUFFOCATION_MODIFIER);
 }
 
 static bool __attribute__((fastcall)) CrewMember_IsAnaerobic(CrewMember *_this)
@@ -162,7 +156,7 @@ static bool __attribute__((fastcall)) CrewMember_IsAnaerobic(CrewMember *_this)
 
     auto ex = CM_EX(_this);
     bool ret = (ex->temporaryPowerActive && def.powerDef.tempPower.isAnaerobic.enabled) ? def.powerDef.tempPower.isAnaerobic.value : def.isAnaerobic;
-    ex->CalculateStat(CrewStat::IS_ANAEROBIC, ret);
+    ex->CalculateStat(CrewStat::IS_ANAEROBIC, &ret);
     return ret;
 }
 
@@ -176,30 +170,6 @@ static bool __attribute__((fastcall)) CrewMember_HasSpecialPower(CrewMember *_th
 static std::pair<float, float> __attribute__((fastcall)) CrewMember_GetPowerCooldown(CrewMember *_this)
 {
     auto ex = CM_EX(_this);
-//    CustomCrewManager *custom = CustomCrewManager::GetInstance();
-//    auto def = custom->GetDefinition(_this->species);
-//
-//    float augAmount = 0.f;
-//    float augMultAmount = 1.f;
-//    if (_this->GetShipObject()->HasAugmentation("COOLDOWN_BOOST"))
-//    {
-//        augMultAmount = _this->GetShipObject()->GetAugmentationValue("COOLDOWN_BOOST");
-//    }
-//
-//    if (_this->GetShipObject()->HasAugmentation("FLAT_COOLDOWN_BOOST"))
-//    {
-//        augAmount = _this->GetShipObject()->GetAugmentationValue("FLAT_COOLDOWN_BOOST");
-//    }
-//
-//    ex->powerCooldown.second = ex->powerCooldown.second * augMultAmount + augAmount;
-//    if (ex->powerCooldown.second < 0.5)
-//    {
-//        ex->powerCooldown.second = 0.5;
-//    }
-//    if (ex->powerCooldown.first > ex->powerCooldown.second)
-//    {
-//        ex->powerCooldown.first = ex->powerCooldown.second;
-//    }
     return ex->powerCooldown;
 }
 

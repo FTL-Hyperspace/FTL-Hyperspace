@@ -186,22 +186,10 @@ HOOK_METHOD(WorldManager, OnLoop, () -> void)
                     {
                         if (system == "all")
                         {
-                            statBoost.sourceRoomIds.first.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId("artillery")));
-                            statBoost.sourceRoomIds.first.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId("battery")));
-                            statBoost.sourceRoomIds.first.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId("cloaking")));
-                            statBoost.sourceRoomIds.first.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId("clonebay")));
-                            statBoost.sourceRoomIds.first.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId("doors")));
-                            statBoost.sourceRoomIds.first.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId("drones")));
-                            statBoost.sourceRoomIds.first.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId("engines")));
-                            statBoost.sourceRoomIds.first.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId("hacking")));
-                            statBoost.sourceRoomIds.first.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId("medbay")));
-                            statBoost.sourceRoomIds.first.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId("mind")));
-                            statBoost.sourceRoomIds.first.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId("oxygen")));
-                            statBoost.sourceRoomIds.first.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId("pilot")));
-                            statBoost.sourceRoomIds.first.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId("sensors")));
-                            statBoost.sourceRoomIds.first.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId("shields")));
-                            statBoost.sourceRoomIds.first.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId("teleporter")));
-                            statBoost.sourceRoomIds.first.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId("weapons")));
+                            for (int i = 0; i < 15; i++)
+                            {
+                                statBoost.sourceRoomIds.first.push_back(playerShip->GetSystemRoom(i));
+                            }
                         }
                         else
                         {
@@ -212,22 +200,10 @@ HOOK_METHOD(WorldManager, OnLoop, () -> void)
                     {
                         if (system == "all")
                         {
-                            statBoost.sourceRoomIds.second.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId("artillery")));
-                            statBoost.sourceRoomIds.second.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId("battery")));
-                            statBoost.sourceRoomIds.second.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId("cloaking")));
-                            statBoost.sourceRoomIds.second.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId("clonebay")));
-                            statBoost.sourceRoomIds.second.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId("doors")));
-                            statBoost.sourceRoomIds.second.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId("drones")));
-                            statBoost.sourceRoomIds.second.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId("engines")));
-                            statBoost.sourceRoomIds.second.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId("hacking")));
-                            statBoost.sourceRoomIds.second.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId("medbay")));
-                            statBoost.sourceRoomIds.second.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId("mind")));
-                            statBoost.sourceRoomIds.second.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId("oxygen")));
-                            statBoost.sourceRoomIds.second.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId("pilot")));
-                            statBoost.sourceRoomIds.second.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId("sensors")));
-                            statBoost.sourceRoomIds.second.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId("shields")));
-                            statBoost.sourceRoomIds.second.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId("teleporter")));
-                            statBoost.sourceRoomIds.second.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId("weapons")));
+                            for (int i = 0; i < 15; i++)
+                            {
+                                statBoost.sourceRoomIds.second.push_back(enemyShip->GetSystemRoom(i));
+                            }
                         }
                         else
                         {
@@ -291,7 +267,7 @@ HOOK_METHOD(WorldManager, OnLoop, () -> void)
     }
 }
 
-float CrewMember_Extend::CalculateStat(CrewStat stat, bool &boolValue)
+float CrewMember_Extend::CalculateStat(CrewStat stat, bool* boolValue)
 {
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
     auto def = custom->GetDefinition(orig->species);
@@ -396,55 +372,55 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, bool &boolValue)
             finalStat = (temporaryPowerActive && def.powerDef.tempPower.powerDrain.enabled) ? def.powerDef.tempPower.powerDrain.value : def.powerDrain;
             break;
         case CrewStat::CAN_FIGHT:
-            boolValue = (temporaryPowerActive && def.powerDef.tempPower.canFight.enabled) ? def.powerDef.tempPower.canFight.value : def.canFight;
+            *boolValue = (temporaryPowerActive && def.powerDef.tempPower.canFight.enabled) ? def.powerDef.tempPower.canFight.value : def.canFight;
             isBool = true;
             break;
         case CrewStat::CAN_REPAIR:
-            boolValue = (temporaryPowerActive && def.powerDef.tempPower.canFight.enabled) ? def.powerDef.tempPower.canFight.value : def.canFight;
+            *boolValue = (temporaryPowerActive && def.powerDef.tempPower.canRepair.enabled) ? def.powerDef.tempPower.canRepair.value : def.canRepair;
             isBool = true;
             break;
         case CrewStat::CAN_SABOTAGE:
-            boolValue = (temporaryPowerActive && def.powerDef.tempPower.canFight.enabled) ? def.powerDef.tempPower.canFight.value : def.canFight;
+            *boolValue = (temporaryPowerActive && def.powerDef.tempPower.canSabotage.enabled) ? def.powerDef.tempPower.canSabotage.value : def.canSabotage;
             isBool = true;
             break;
         case CrewStat::CAN_MAN:
-            boolValue = (temporaryPowerActive && def.powerDef.tempPower.canMan.enabled) ? def.powerDef.tempPower.canMan.value : def.canMan;
+            *boolValue = (temporaryPowerActive && def.powerDef.tempPower.canMan.enabled) ? def.powerDef.tempPower.canMan.value : def.canMan;
             isBool = true;
             break;
         case CrewStat::CAN_SUFFOCATE:
-            boolValue = (temporaryPowerActive && def.powerDef.tempPower.canFight.enabled) ? def.powerDef.tempPower.canFight.value : def.canFight;
+            *boolValue = (temporaryPowerActive && def.powerDef.tempPower.canSuffocate.enabled) ? def.powerDef.tempPower.canSuffocate.value : def.canSuffocate;
             isBool = true;
             break;
         case CrewStat::CONTROLLABLE:
-            boolValue = (temporaryPowerActive && def.powerDef.tempPower.canFight.enabled) ? def.powerDef.tempPower.canFight.value : def.canFight;
+            *boolValue = (temporaryPowerActive && def.powerDef.tempPower.controllable.enabled) ? def.powerDef.tempPower.controllable.value : def.controllable;
             isBool = true;
             break;
         case CrewStat::CAN_BURN:
-            boolValue = (temporaryPowerActive && def.powerDef.tempPower.canFight.enabled) ? def.powerDef.tempPower.canFight.value : def.canFight;
+            *boolValue = (temporaryPowerActive && def.powerDef.tempPower.canBurn.enabled) ? def.powerDef.tempPower.canBurn.value : def.canBurn;
             isBool = true;
             break;
         case CrewStat::IS_TELEPATHIC:
-            boolValue = (temporaryPowerActive && def.powerDef.tempPower.canFight.enabled) ? def.powerDef.tempPower.canFight.value : def.canFight;
+            *boolValue = (temporaryPowerActive && def.powerDef.tempPower.isTelepathic.enabled) ? def.powerDef.tempPower.isTelepathic.value : def.isTelepathic;
             isBool = true;
             break;
         case CrewStat::IS_ANAEROBIC:
-            boolValue = (temporaryPowerActive && def.powerDef.tempPower.canFight.enabled) ? def.powerDef.tempPower.canFight.value : def.canFight;
+            *boolValue = (temporaryPowerActive && def.powerDef.tempPower.isAnaerobic.enabled) ? def.powerDef.tempPower.isAnaerobic.value : def.isAnaerobic;
             isBool = true;
             break;
         case CrewStat::CAN_PHASE_THROUGH_DOORS:
-            boolValue = (temporaryPowerActive && def.powerDef.tempPower.canFight.enabled) ? def.powerDef.tempPower.canFight.value : def.canFight;
+            *boolValue = (temporaryPowerActive && def.powerDef.tempPower.canPhaseThroughDoors.enabled) ? def.powerDef.tempPower.canPhaseThroughDoors.value : def.canPhaseThroughDoors;
             isBool = true;
             break;
         case CrewStat::DETECTS_LIFEFORMS:
-            boolValue = (temporaryPowerActive && def.powerDef.tempPower.canFight.enabled) ? def.powerDef.tempPower.canFight.value : def.canFight;
+            *boolValue = (temporaryPowerActive && def.powerDef.tempPower.detectsLifeforms.enabled) ? def.powerDef.tempPower.detectsLifeforms.value : def.detectsLifeforms;
             isBool = true;
             break;
         case CrewStat::CLONE_LOSE_SKILLS:
-            boolValue = (temporaryPowerActive && def.powerDef.tempPower.canFight.enabled) ? def.powerDef.tempPower.canFight.value : def.canFight;
+            *boolValue = def.cloneLoseSkills;
             isBool = true;
             break;
         case CrewStat::POWER_DRAIN_FRIENDLY:
-            boolValue = (temporaryPowerActive && def.powerDef.tempPower.canFight.enabled) ? def.powerDef.tempPower.canFight.value : def.canFight;
+            *boolValue = def.powerDrainFriendly;
             isBool = true;
             break;
     }
@@ -463,11 +439,11 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, bool &boolValue)
             {
                 if (statBoost.boostType == StatBoost::BoostType::SET)
                 {
-                    boolValue = statBoost.value;
+                    *boolValue = statBoost.value;
                 }
                 else if (statBoost.boostType == StatBoost::BoostType::FLIP)
                 {
-                    boolValue = !boolValue;
+                    *boolValue = !*boolValue;
                 }
             }
             else

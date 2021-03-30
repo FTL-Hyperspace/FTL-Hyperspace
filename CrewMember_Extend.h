@@ -238,7 +238,7 @@ public:
         delete passiveHealTimer;
     }
 
-    float CalculateStat(CrewStat stat, bool& boolValue);
+    float CalculateStat(CrewStat stat, bool* boolValue=nullptr);
 };
 
 CrewMember_Extend* Get_CrewMember_Extend(CrewMember* c);
