@@ -1,4 +1,6 @@
 #include "CustomCrew.h"
+#include <chrono>
+#include <iostream>
 
 #include "Resources.h"
 #include "freetype.h"
@@ -1423,7 +1425,19 @@ HOOK_METHOD_PRIORITY(CrewMember, UpdateHealth, 2000, () -> void)
 
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
     auto ex = CM_EX(this);
+
+//    using std::chrono::steady_clock;
+//    using std::chrono::duration_cast;
+//    using std::chrono::duration;
+//    using std::chrono::milliseconds;
+//    auto t1 = steady_clock::now();
+
     auto def = custom->GetDefinition(this->species);
+
+//    auto t2 = steady_clock::now();
+//    duration<double, std::nano> ms_double = t2 - t1;
+//    std::cout << "Definition time: " << ms_double.count();
+
     if (iOnFire && CanBurn())
     {
         float fireMultiplier = 1.f;

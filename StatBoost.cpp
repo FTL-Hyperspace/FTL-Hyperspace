@@ -1,11 +1,13 @@
 #pragma GCC push_options
-#pragma GCC optimize ("O3")
+#pragma GCC optimize ("O2")
 
 #include "StatBoost.h"
 #include "CustomCrew.h"
 #include "CustomAugments.h"
 #include <algorithm>
 #include <boost/lexical_cast.hpp>
+//#include <chrono>
+//#include <iostream>
 
 StatBoost ParseStatBoostNode(rapidxml::xml_node<char>* node)
 {
@@ -139,6 +141,11 @@ static std::unordered_map<CrewStat, std::vector<StatBoost>> statBoosts;
 HOOK_METHOD(WorldManager, OnLoop, () -> void)
 {
     super();
+//    using std::chrono::steady_clock;
+//    using std::chrono::duration_cast;
+//    using std::chrono::duration;
+//    using std::chrono::milliseconds;
+//    auto t1 = steady_clock::now();
 
     statBoosts.clear();
 
@@ -265,10 +272,19 @@ HOOK_METHOD(WorldManager, OnLoop, () -> void)
             }
         }
     }
+//    auto t2 = steady_clock::now();
+//    duration<double, std::nano> ms_double = t2 - t1;
+//    std::cout << "World manager time: " << ms_double.count();
 }
 
 float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition& def, bool* boolValue)
 {
+//    using std::chrono::steady_clock;
+//    using std::chrono::duration_cast;
+//    using std::chrono::duration;
+//    using std::chrono::milliseconds;
+//    auto t1 = steady_clock::now();
+
     std::vector<StatBoost> personalStatBoosts;
 
     auto it = statBoosts.find(stat);
@@ -464,6 +480,9 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition& def,
     {
         orig->health.first *= (int)finalStat / orig->health.second;
     }
+//    auto t2 = steady_clock::now();
+//    duration<double, std::nano> ms_double = t2 - t1;
+//    std::cout << "Calculate stat time: " << ms_double.count();
     return finalStat;
 }
 

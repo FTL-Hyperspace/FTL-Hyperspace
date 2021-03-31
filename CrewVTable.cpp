@@ -1,3 +1,5 @@
+#pragma GCC push_options
+#pragma GCC optimize ("O1")
 #include "CustomCrew.h"
 
 
@@ -288,6 +290,6 @@ HOOK_METHOD_PRIORITY(CrewAnimation, constructor, 500, (int shipId, const std::st
     }
 }
 
-
+#pragma GCC pop_options
 
 
