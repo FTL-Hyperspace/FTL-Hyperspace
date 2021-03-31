@@ -33,29 +33,6 @@ HOOK_METHOD(CApp, OnKeyDown, (SDLKey key) -> void)
         testVal++;
     }
 
-    if (key == SDLKey::SDLK_RIGHT)
-    {
-        ShipIconManager::instance->normalBoxPos.x++;
-        ShipIconManager::instance->bossBoxPos.x++;
-    }
-    if (key == SDLKey::SDLK_DOWN)
-    {
-        ShipIconManager::instance->normalBoxPos.y++;
-        ShipIconManager::instance->bossBoxPos.y++;
-
-    }
-    if (key == SDLKey::SDLK_LEFT)
-    {
-        ShipIconManager::instance->normalBoxPos.x--;
-        ShipIconManager::instance->bossBoxPos.x--;
-
-    }
-    if (key == SDLKey::SDLK_UP)
-    {
-        ShipIconManager::instance->normalBoxPos.y--;
-        ShipIconManager::instance->bossBoxPos.y--;
-    }
-
     super(key);
 }
 
