@@ -2,6 +2,8 @@
 #include "Global.h"
 #include <unordered_map>
 
+struct StatBoost;
+
 template <typename T>
 struct ToggleValue
 {

@@ -267,11 +267,8 @@ HOOK_METHOD(WorldManager, OnLoop, () -> void)
     }
 }
 
-float CrewMember_Extend::CalculateStat(CrewStat stat, bool* boolValue)
+float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition def, bool* boolValue)
 {
-    CustomCrewManager *custom = CustomCrewManager::GetInstance();
-    auto def = custom->GetDefinition(orig->species);
-
     std::vector<StatBoost> personalStatBoosts;
 
     auto it = statBoosts.find(stat);

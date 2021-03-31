@@ -9,24 +9,27 @@ static bool __attribute__((fastcall)) CrewMember_GetControllable(CrewMember *_th
         return false;
     }
     auto ex = CM_EX(_this);
+    auto def = CustomCrewManager::GetInstance()->GetDefinition(_this->species);
     bool ret = false;
-    ex->CalculateStat(CrewStat::CONTROLLABLE, &ret);
+    ex->CalculateStat(CrewStat::CONTROLLABLE, def, &ret);
     return ret && req;
 }
 
 static bool __attribute__((fastcall)) CrewMember_CanSuffocate(CrewMember *_this)
 {
     auto ex = CM_EX(_this);
+    auto def = CustomCrewManager::GetInstance()->GetDefinition(_this->species);
     bool ret = false;
-    ex->CalculateStat(CrewStat::CAN_SUFFOCATE, &ret);
+    ex->CalculateStat(CrewStat::CAN_SUFFOCATE, def, &ret);
     return ret;
 }
 
 static bool __attribute__((fastcall)) CrewMember_CanFight(CrewMember *_this)
 {
     auto ex = CM_EX(_this);
+    auto def = CustomCrewManager::GetInstance()->GetDefinition(_this->species);
     bool ret = false;
-    ex->CalculateStat(CrewStat::CAN_FIGHT, &ret);
+    ex->CalculateStat(CrewStat::CAN_FIGHT, def, &ret);
     return ret;
 }
 
@@ -38,8 +41,9 @@ static bool __attribute__((fastcall)) CrewMember_CanRepair(CrewMember *_this)
         return false;
     }
     auto ex = CM_EX(_this);
+    auto def = CustomCrewManager::GetInstance()->GetDefinition(_this->species);
     bool ret = false;
-    ex->CalculateStat(CrewStat::CAN_REPAIR, &ret);
+    ex->CalculateStat(CrewStat::CAN_REPAIR, def, &ret);
     return ret && req;
 }
 
@@ -51,8 +55,9 @@ static bool __attribute__((fastcall)) CrewMember_CanSabotage(CrewMember *_this)
         return false;
     }
     auto ex = CM_EX(_this);
+    auto def = CustomCrewManager::GetInstance()->GetDefinition(_this->species);
     bool ret = false;
-    ex->CalculateStat(CrewStat::CAN_SABOTAGE, &ret);
+    ex->CalculateStat(CrewStat::CAN_SABOTAGE, def, &ret);
     return ret && req;
 }
 
@@ -64,8 +69,9 @@ static bool __attribute__((fastcall)) CrewMember_CanMan(CrewMember *_this)
         return false;
     }
     auto ex = CM_EX(_this);
+    auto def = CustomCrewManager::GetInstance()->GetDefinition(_this->species);
     bool ret = false;
-    ex->CalculateStat(CrewStat::CAN_MAN, &ret);
+    ex->CalculateStat(CrewStat::CAN_MAN, def, &ret);
     return ret && req;
 }
 
@@ -73,28 +79,32 @@ static bool __attribute__((fastcall)) CrewMember_CanMan(CrewMember *_this)
 static bool __attribute__((fastcall)) CrewMember_CanBurn(CrewMember *_this)
 {
     auto ex = CM_EX(_this);
+    auto def = CustomCrewManager::GetInstance()->GetDefinition(_this->species);
     bool ret = false;
-    ex->CalculateStat(CrewStat::CAN_BURN, &ret);
+    ex->CalculateStat(CrewStat::CAN_BURN, def, &ret);
     return ret;
 }
 
 static int __attribute__((fastcall)) CrewMember_GetMaxHealth(CrewMember *_this)
 {
     auto ex = CM_EX(_this);
-    _this->health.second = ex->CalculateStat(CrewStat::MAX_HEALTH);
+    auto def = CustomCrewManager::GetInstance()->GetDefinition(_this->species);
+    _this->health.second = ex->CalculateStat(CrewStat::MAX_HEALTH, def);
     return _this->health.second;
 }
 
 static float __attribute__((fastcall)) CrewMember_GetMoveSpeedMultiplier(CrewMember *_this)
 {
     auto ex = CM_EX(_this);
-    return ex->CalculateStat(CrewStat::MOVE_SPEED_MULTIPLIER);
+    auto def = CustomCrewManager::GetInstance()->GetDefinition(_this->species);
+    return ex->CalculateStat(CrewStat::MOVE_SPEED_MULTIPLIER, def);
 }
 
 static float __attribute__((fastcall)) CrewMember_GetRepairSpeed(CrewMember *_this)
 {
     auto ex = CM_EX(_this);
-    return ex->CalculateStat(CrewStat::REPAIR_SPEED_MULTIPLIER);
+    auto def = CustomCrewManager::GetInstance()->GetDefinition(_this->species);
+    return ex->CalculateStat(CrewStat::REPAIR_SPEED_MULTIPLIER, def);
 }
 
 static float __attribute__((fastcall)) CrewMember_GetDamageMultiplier(CrewMember *_this)
@@ -103,11 +113,11 @@ static float __attribute__((fastcall)) CrewMember_GetDamageMultiplier(CrewMember
     auto def = CustomCrewManager::GetInstance()->GetDefinition(_this->species);
     if (_this->crewAnim->status == 7 && def.rangedDamageMultiplier != 1.f)
     {
-        return ex->CalculateStat(CrewStat::RANGED_DAMAGE_MULTIPLIER);
+        return ex->CalculateStat(CrewStat::RANGED_DAMAGE_MULTIPLIER, def);
     }
     else
     {
-        return ex->CalculateStat(CrewStat::DAMAGE_MULTIPLIER);
+        return ex->CalculateStat(CrewStat::DAMAGE_MULTIPLIER, def);
     }
 }
 
@@ -121,28 +131,32 @@ static bool __attribute__((fastcall)) CrewMember_ProvidesPower(CrewMember *_this
 static float __attribute__((fastcall)) CrewMember_FireRepairMultiplier(CrewMember *_this)
 {
     auto ex = CM_EX(_this);
-    return ex->CalculateStat(CrewStat::FIRE_REPAIR_MULTIPLIER);
+    auto def = CustomCrewManager::GetInstance()->GetDefinition(_this->species);
+    return ex->CalculateStat(CrewStat::FIRE_REPAIR_MULTIPLIER, def);
 }
 
 static bool __attribute__((fastcall)) CrewMember_IsTelepathic(CrewMember *_this)
 {
     auto ex = CM_EX(_this);
+    auto def = CustomCrewManager::GetInstance()->GetDefinition(_this->species);
     bool ret = false;
-    ex->CalculateStat(CrewStat::IS_TELEPATHIC, &ret);
+    ex->CalculateStat(CrewStat::IS_TELEPATHIC, def, &ret);
     return ret;
 }
 
 static float __attribute__((fastcall)) CrewMember_GetSuffocationModifier(CrewMember *_this)
 {
     auto ex = CM_EX(_this);
-    return ex->CalculateStat(CrewStat::SUFFOCATION_MODIFIER);
+    auto def = CustomCrewManager::GetInstance()->GetDefinition(_this->species);
+    return ex->CalculateStat(CrewStat::SUFFOCATION_MODIFIER, def);
 }
 
 static bool __attribute__((fastcall)) CrewMember_IsAnaerobic(CrewMember *_this)
 {
     auto ex = CM_EX(_this);
+    auto def = CustomCrewManager::GetInstance()->GetDefinition(_this->species);
     bool ret = false;
-    ex->CalculateStat(CrewStat::IS_ANAEROBIC, &ret);
+    ex->CalculateStat(CrewStat::IS_ANAEROBIC, def, &ret);
     return ret;
 }
 
