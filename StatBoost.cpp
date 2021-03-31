@@ -267,7 +267,7 @@ HOOK_METHOD(WorldManager, OnLoop, () -> void)
     }
 }
 
-float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition def, bool* boolValue)
+float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition& def, bool* boolValue)
 {
     std::vector<StatBoost> personalStatBoosts;
 
