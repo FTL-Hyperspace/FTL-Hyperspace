@@ -1,3 +1,5 @@
+#pragma GCC push_options
+#pragma GCC optimize ("O1")
 #include "CustomDrones.h"
 #include "CustomCrew.h"
 #include <algorithm>
@@ -443,3 +445,4 @@ HOOK_METHOD_PRIORITY(CrewMemberFactory, CreateBoarderDrone, -900, (int shipId, D
     return drone;
 }
 
+#pragma GCC pop_options
