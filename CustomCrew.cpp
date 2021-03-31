@@ -1657,9 +1657,6 @@ HOOK_METHOD_PRIORITY(CrewMember, GetNewGoal, 2000, () -> bool)
 {
     auto ex = CM_EX(this);
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
-    auto def = custom->GetDefinition(this->species);
-
-    ex->canPhaseThroughDoors = (ex->temporaryPowerActive && def.powerDef.tempPower.canMan.enabled) ? def.powerDef.tempPower.canMan.value : def.canMan;
     ex->CalculateStat(CrewStat::CAN_PHASE_THROUGH_DOORS, &ex->canPhaseThroughDoors);
 
     if (!ex->canPhaseThroughDoors) return super();
@@ -2256,7 +2253,6 @@ HOOK_METHOD(ShipManager, OnLoop, () -> void)
         if (custom->IsRace(i->species))
         {
             CustomCrewManager *custom = CustomCrewManager::GetInstance();
-            auto def = custom->GetDefinition(i->species);
 
             auto ex = CM_EX(i);
             int powerDrain = ex->CalculateStat(CrewStat::POWER_DRAIN);
@@ -2265,7 +2261,7 @@ HOOK_METHOD(ShipManager, OnLoop, () -> void)
 
             if (sys && sys->iSystemType != (int)SystemId::PILOT)
             {
-                bool powerDrainFriendly = def.powerDrainFriendly;
+                bool powerDrainFriendly = false;
                 ex->CalculateStat(CrewStat::POWER_DRAIN_FRIENDLY, &powerDrainFriendly);
                 if (i->intruder || powerDrainFriendly)
                 {
@@ -3156,9 +3152,8 @@ HOOK_METHOD(CrewAI, PrioritizeIntruderRoom, (CrewMember *crew, int roomId, int t
 
 HOOK_METHOD(CrewMember, Clone, () -> void)
 {
-    bool cloneLoseSkills = CustomCrewManager::GetInstance()->GetDefinition(species).cloneLoseSkills;
+    bool cloneLoseSkills = false;
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
-    auto def = custom->GetDefinition(this->species);
 
     auto ex = CM_EX(this);
     ex->CalculateStat(CrewStat::CLONE_LOSE_SKILLS, &cloneLoseSkills);
