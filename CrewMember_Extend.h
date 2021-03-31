@@ -2,6 +2,8 @@
 #include "FTLGame.h"
 #include <array>
 
+struct CrewDefinition;
+
 enum PowerReadyState
 {
     POWER_NOT_READY_COOLDOWN,
@@ -238,7 +240,7 @@ public:
         delete passiveHealTimer;
     }
 
-    float CalculateStat(CrewStat stat, bool* boolValue=nullptr);
+    float CalculateStat(CrewStat stat, const CrewDefinition& def, bool* boolValue=nullptr);
 };
 
 CrewMember_Extend* Get_CrewMember_Extend(CrewMember* c);
