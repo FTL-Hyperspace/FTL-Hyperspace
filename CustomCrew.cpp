@@ -1,6 +1,8 @@
 #include "CustomCrew.h"
 #include <chrono>
 #include <iostream>
+#include <sstream>
+#include <iomanip>
 
 #include "Resources.h"
 #include "freetype.h"
@@ -3298,19 +3300,36 @@ HOOK_METHOD(CrewControl, MouseMove, (int mX, int mY, int wX, int wY) -> void)
 
     if (selectedDoor) return;
 
+    std::string tooltip = "";
     for (auto i : shipManager->vCrewList)
     {
         if (i->Functional() && i->selectionState != 1 && std::find(potentialSelectedCrew.begin(), potentialSelectedCrew.end(), i) == potentialSelectedCrew.end())
         {
             Pointf pos = Pointf(i->x, i->y) - Pointf(17.f, 17.f);
 
-            if (wX - pos.x < 34.f && wX - pos.x > 0.f && wY - pos.y < 34.f && wY - pos.y > 0.f)
+            if (wX - pos.x < 35.f && wX - pos.x > 0.f && wY - pos.y < 35.f && wY - pos.y > 0.f)
             {
                 potentialSelectedCrew.push_back(i);
                 i->selectionState = 2;
             }
         }
     }
+    for (auto i : potentialSelectedCrew)
+    {
+        tooltip += i->blueprint.crewNameLong.GetText() + " (" + i->blueprint.desc.title.GetText() + "):" + '\n';
+        for (auto j : i->blueprint.powers)
+        {
+            tooltip += j.GetText() + '\n';
+        }
+        tooltip += '\n';
+        std::stringstream stream;
+        stream << std::fixed <<std::setprecision(2) << i->health.first;
+        tooltip += "Health: " + stream.str() + "/" + std::to_string((int)i->health.second) + '\n' + '\n';
+    }
+    boost::trim_right(tooltip);
+//    G_->GetMouseControl()->bForceTooltip = true;
+    G_->GetMouseControl()->overrideTooltipWidth = 400;
+    G_->GetMouseControl()->SetTooltip(tooltip);
 
     selectedCrew.erase(std::remove_if(selectedCrew.begin(), selectedCrew.end(), [](CrewMember* crew) { return !crew->GetControllable(); }), selectedCrew.end());
 }
