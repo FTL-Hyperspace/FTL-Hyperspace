@@ -412,6 +412,12 @@
 		<Unit filename="StatBoost.h">
 			<Option virtualFolder="Core/Crew/" />
 		</Unit>
+		<Unit filename="Store_Extend.cpp">
+			<Option virtualFolder="Core/Store/" />
+		</Unit>
+		<Unit filename="Store_Extend.h">
+			<Option virtualFolder="Core/Store/" />
+		</Unit>
 		<Unit filename="System_Extend.cpp">
 			<Option virtualFolder="Core/Systems/" />
 		</Unit>
