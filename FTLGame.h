@@ -2863,6 +2863,7 @@ struct Store : FocusWindow
 	LIBZHL_API void SetPositions();
 	LIBZHL_API void LoadStore(int file, int worldLevel);
 	LIBZHL_API void SetPosition(Point pos);
+	LIBZHL_API void destructor();
 	
 	GL_Texture *box;
 	TextString headingTitle[4];

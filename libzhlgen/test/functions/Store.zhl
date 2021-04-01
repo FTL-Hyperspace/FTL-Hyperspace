@@ -34,6 +34,8 @@ void Store::SetPositions(Store *this<ecx>);
 void Store::LoadStore(Store *this<ecx>, int file, int worldLevel);
 "578d7c240883e4f0ff77fc5589e5575389cb83ec108b078b570489042489542404e8????????":
 void Store::SetPosition(Store *this<ecx>, Point pos);
+"5589e557565331db89ce83e4f083ec108bb9900400008b918c040000c701????????89f829d0c1f80285c074??":
+void Store::destructor(Store *this<ecx>);
 
 
 struct Store
