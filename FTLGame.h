@@ -3978,20 +3978,31 @@ struct BombProjectile
 {
 };
 
-struct StoreBox
+struct LIBZHL_INTERFACE StoreBox
 {
 	StoreBox(const std::string& buttonImage, ShipManager *shopper, Equipment *ship)
 	{
 		this->constructor(buttonImage, shopper, ship);
 	}
 
-	LIBZHL_API void MouseClick(int x, int y);
-	LIBZHL_API void Activate();
+	virtual ~StoreBox() {}
+	LIBZHL_API virtual void OnLoop();
+	virtual void OnRender() LIBZHL_PLACEHOLDER
+	virtual void MouseMove(int, int) LIBZHL_PLACEHOLDER
+	LIBZHL_API virtual void MouseClick(int x, int y);
+	virtual void OnTouch() LIBZHL_PLACEHOLDER
+	LIBZHL_API virtual void Activate();
+	virtual void Purchase() LIBZHL_PLACEHOLDER
+	virtual int SetInfoBox(InfoBox&, int) LIBZHL_PLACEHOLDER
+	virtual bool CanHold() LIBZHL_PLACEHOLDER
+	virtual bool RequiresConfirm() LIBZHL_PLACEHOLDER
+	virtual void Confirm(bool) LIBZHL_PLACEHOLDER
+	virtual TextString GetConfirmText() LIBZHL_PLACEHOLDER
+	virtual int GetExtraData() LIBZHL_PLACEHOLDER
+	virtual void SetExtraData(int) LIBZHL_PLACEHOLDER
 	LIBZHL_API void InitBlueprint(Blueprint *bp);
 	LIBZHL_API void constructor(const std::string &buttonImage, ShipManager *shopper, Equipment *equip);
-	LIBZHL_API void OnLoop();
 	
-	void *vptr;
 	int itemId;
 	int itemBox;
 	std::string buttonImage;
@@ -5072,19 +5083,6 @@ struct GL_Line
 	Pointf end;
 };
 
-struct MindSystem : ShipSystem
-{
-	std::pair<float, float> controlTimer;
-	bool bCanUse;
-	int iArmed;
-	std::vector<CrewMember*> controlledCrew;
-	bool bSuperShields;
-	bool bBlocked;
-	int iQueuedTarget;
-	int iQueuedShip;
-	std::vector<CrewMember*> queuedCrew;
-};
-
 struct ArtilleryBox
 {
 };
@@ -5559,6 +5557,19 @@ struct HackingDrone : SpaceDrone
 	int prefRoom;
 };
 
+struct ShipInfo;
+
+struct ShipInfo
+{
+	LIBZHL_API char AddAugmentation(const std::string &augment);
+	LIBZHL_API bool HasAugmentation(const std::string &augment);
+	LIBZHL_API float GetAugmentationValue(const std::string &augment);
+	
+	std::map<std::string, int> augList;
+	std::map<std::string, int> equipList;
+	int augCount;
+};
+
 struct ShipGenerator
 {
 	LIBZHL_API static ShipManager *__stdcall CreateShip(const std::string &name, int sector, ShipEvent &event);
@@ -5591,22 +5602,6 @@ struct WeaponStoreBox
 
 struct DroneStoreBox
 {
-};
-
-struct HackingSystem : ShipSystem
-{
-	LIBZHL_API void BlowHackingDrone();
-	LIBZHL_API void OnLoop();
-	
-	bool bHacking;
-	HackingDrone drone;
-	bool bBlocked;
-	bool bArmed;
-	ShipSystem *currentSystem;
-	std::pair<float, float> effectTimer;
-	bool bCanHack;
-	ShipSystem *queuedSystem;
-	int spendDrone;
 };
 
 struct SlugAlien
@@ -6014,6 +6009,22 @@ struct InputEvent
 	InputEventUnion event;
 };
 
+struct HackingSystem : ShipSystem
+{
+	LIBZHL_API void BlowHackingDrone();
+	LIBZHL_API void OnLoop();
+	
+	bool bHacking;
+	HackingDrone drone;
+	bool bBlocked;
+	bool bArmed;
+	ShipSystem *currentSystem;
+	std::pair<float, float> effectTimer;
+	bool bCanHack;
+	ShipSystem *queuedSystem;
+	int spendDrone;
+};
+
 struct MantisAnimation;
 
 struct MantisAnimation : CrewAnimation
@@ -6203,17 +6214,17 @@ struct CloakingSystem : ShipSystem
 	GL_Primitive *glowImage;
 };
 
-struct ShipInfo;
-
-struct ShipInfo
+struct MindSystem : ShipSystem
 {
-	LIBZHL_API char AddAugmentation(const std::string &augment);
-	LIBZHL_API bool HasAugmentation(const std::string &augment);
-	LIBZHL_API float GetAugmentationValue(const std::string &augment);
-	
-	std::map<std::string, int> augList;
-	std::map<std::string, int> equipList;
-	int augCount;
+	std::pair<float, float> controlTimer;
+	bool bCanUse;
+	int iArmed;
+	std::vector<CrewMember*> controlledCrew;
+	bool bSuperShields;
+	bool bBlocked;
+	int iQueuedTarget;
+	int iQueuedShip;
+	std::vector<CrewMember*> queuedCrew;
 };
 
 struct GL_FrameBuffer;

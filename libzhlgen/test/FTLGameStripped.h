@@ -93,6 +93,7 @@ struct VTable_CrewMember;
 struct VTable_ShipSystem;
 struct VTable_Blueprint;
 struct VTable_CrewAnimation;
+struct VTable_StoreBox;
 
 /* 1 */
 struct Globals
@@ -4308,7 +4309,7 @@ struct VTable_CompleteShip
 /* 221 */
 struct StoreBox
 {
-  void *vptr;
+  VTable_StoreBox *_vtable;
   int itemId;
   int itemBox;
   std__string buttonImage;
@@ -4396,6 +4397,26 @@ struct VTable_CrewAnimation
   std__string *(__stdcall *GetDeathSound)(std__string *str, CrewAnimation *anim);
   void (__thiscall *Restart)(CrewAnimation *this);
   bool (__thiscall *CustomDeath)(CrewAnimation *this);
+};
+
+/* 797 */
+struct VTable_StoreBox
+{
+  void (__thiscall *Free)(StoreBox *);
+  void (__thiscall *OnLoop)(StoreBox *);
+  void (__thiscall *OnRender)(StoreBox *);
+  void (__thiscall *MouseMove)(StoreBox *, int, int);
+  void (__thiscall *MouseClick)(StoreBox *, int, int);
+  void (__thiscall *OnTouch)(StoreBox *);
+  void (__thiscall *Activate)(StoreBox *);
+  void (__thiscall *Purchase)(StoreBox *);
+  int (__thiscall *SetInfoBox)(StoreBox *, InfoBox *, int);
+  bool (__thiscall *CanHold)(StoreBox *);
+  bool (__thiscall *RequiresConfirm)(StoreBox *);
+  void (__thiscall *Confirm)(StoreBox *, bool);
+  TextString (__thiscall *GetConfirmText)(StoreBox *);
+  int (__thiscall *GetExtraData)(StoreBox *);
+  void (__thiscall *SetExtraData)(StoreBox *, int);
 };
 
 /* 156 */
