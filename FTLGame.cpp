@@ -13325,7 +13325,7 @@ namespace _func376
 	static FunctionDefinition funcObj("CSurface::GL_SetStencilMode", typeid(void (*)(GL_StencilMode , int , int )), ".5589e5565383e4f083ec108b45088b5d0c8b751083f801a3????????891d????????8935????????0f84????????0f82????????", argdata, 3, 6, &func);
 }
 
-__declspec(naked) void CSurface::GL_SetStencilMode(GL_StencilMode stencilMode, int unk1, int unk2)
+__declspec(naked) void CSurface::GL_SetStencilMode(GL_StencilMode stencilMode, int ref, int mask)
 {
 	__asm__
 	(
@@ -13337,8 +13337,8 @@ __declspec(naked) void CSurface::GL_SetStencilMode(GL_StencilMode stencilMode, i
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+16]\n\t"		// unk2
-		"push [ebp+12]\n\t"		// unk1
+		"push [ebp+16]\n\t"		// mask
+		"push [ebp+12]\n\t"		// ref
 		"push [ebp+8]\n\t"		// stencilMode
 	);
 	__asm__("call %0\n\t" :: "m"(_func376::func));

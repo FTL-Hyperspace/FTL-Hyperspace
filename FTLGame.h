@@ -1222,6 +1222,7 @@ struct FocusWindow
 	void *vptr;
 	bool bOpen;
 	bool bFullFocus;
+	unsigned __int8 gap_ex_fw[2];
 	Point close;
 	bool bCloseButtonSelected;
 	Point position;
@@ -2883,6 +2884,7 @@ struct Store : FocusWindow
 	int sectionCount;
 	int types[4];
 	bool bShowPage2;
+	unsigned __int8 gap_ex_2[2];
 	StoreBox *confirmBuy;
 	int forceSystemInfoWidth;
 };
@@ -5771,7 +5773,7 @@ struct CSurface
 	LIBZHL_API static void __stdcall GL_ClearColor();
 	LIBZHL_API static int __stdcall SetViewPort(int left, int bottom, int h, int w);
 	LIBZHL_API static void __stdcall GL_PopScissor();
-	LIBZHL_API static void __stdcall GL_SetStencilMode(GL_StencilMode stencilMode, int unk1, int unk2);
+	LIBZHL_API static void __stdcall GL_SetStencilMode(GL_StencilMode stencilMode, int ref, int mask);
 	LIBZHL_API static void __stdcall GL_PopStencilMode();
 	LIBZHL_API static int __stdcall GL_OrthoProjection(float mx1, float mx2, float mx3, float mx4, float mx5, float mx6);
 	LIBZHL_API static int __stdcall GL_LoadIdentity();

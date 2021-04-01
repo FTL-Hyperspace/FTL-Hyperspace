@@ -1093,6 +1093,7 @@ struct FocusWindow
   void *vptr;
   bool bOpen;
   bool bFullFocus;
+  unsigned __int8 gap_ex_fw[2];
   Point close;
   bool bCloseButtonSelected;
   Point position;
@@ -3665,6 +3666,7 @@ struct Store
   int sectionCount;
   int types[4];
   bool bShowPage2;
+  unsigned __int8 gap_ex_2[2];
   StoreBox *confirmBuy;
   int forceSystemInfoWidth;
 };
