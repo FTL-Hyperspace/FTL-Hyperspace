@@ -1,21 +1,86 @@
 #include "CustomStore.h"
+#include "Store_Extend.h"
+#include <boost/lexical_cast.hpp>
 
 CustomStore* CustomStore::instance = new CustomStore();
 
-void CustomStore::ParseStoreNode(rapidxml::xml_node<char>* node)
+FullStore CustomStore::ParseStoreNode(rapidxml::xml_node<char>* node)
 {
+    FullStore def = FullStore();
     for (auto storeNode = node->first_node(); storeNode; storeNode = storeNode->next_sibling())
     {
-        std::string nodeName = storeNode->name();
-
-        if (nodeName == "freeDrones")
+        std::string name = storeNode->name();
+        std::string val = storeNode->value();
+        if (name == "freeDrones")
         {
             for (auto droneNode = storeNode->first_node(); droneNode; droneNode = droneNode->next_sibling())
             {
                 freeDrones.push_back(droneNode->name());
             }
+            if (name == "addCategory")
+            {
+                for (auto categoryNode = storeNode->first_node(); categoryNode; categoryNode = categoryNode->next_sibling())
+                {
+                    std::string categoryName = categoryNode->name();
+                    if (categoryName == "WEAPONS")
+                    {
+                        StoreCategory storeCategory = StoreCategory();
+                        storeCategory.categoryType = CategoryType::WEAPONS;
+                        for (auto weaponNode = categoryNode->first_node(); weaponNode; weaponNode = weaponNode->next_sibling())
+                        {
+                            std::string weaponNodeName = weaponNode->name();
+                            std::string weaponVal = weaponNode->value();
+                            for (auto blueprintNode = weaponNode->first_node(); blueprintNode; blueprintNode = blueprintNode->next_sibling())
+                            {
+                                StoreItem item = StoreItem();
+                                std::string blueprintNodeName = blueprintNode->name();
+                                std::string blueprintNodeVal = blueprintNode->value();
+                                if (blueprintNodeName == "bundledItems")
+                                {
+
+                                }
+                                else if (blueprintNodeName == "bundledResources")
+                                {
+
+                                }
+                                else if (blueprintNodeName == "stock")
+                                {
+                                    item.stock == boost::lexical_cast<int>(blueprintNode->value());
+                                }
+                                else if (blueprintNodeName == "currency")
+                                {
+                                    if (blueprintNodeVal == "CREW")
+                                    {
+                                        item.individualCurrency = Currency::CREW;
+                                    }
+                                }
+                            }
+                        }
+
+
+                        def.categories.push_back(storeCategory);
+                    }
+                    else if (categoryName == "DRONES")
+                    {
+
+                    }
+                    else if (categoryName == "AUGMENTS")
+                    {
+
+                    }
+                    else if (categoryName == "CREW")
+                    {
+
+                    }
+                    else if (categoryName == "SYSTEMS")
+                    {
+
+                    }
+                }
+            }
         }
     }
+    return def;
 }
 
 HOOK_METHOD(SystemStoreBox, constructor, (ShipManager *shopper, Equipment *equip, int sys) -> void)
@@ -137,6 +202,12 @@ HOOK_METHOD(Store, OnRender, () -> void)
         CSurface::GL_RemoveColorTint();
         confirmDialog.OnRender();
     }
+}
+
+HOOK_METHOD(Store, OnInit, (ShipManager *shopper, Equipment *equip, int worldLevel) -> void)
+{
+    super(shopper, equip, worldLevel);
+    auto ex = STORE_EX(this);
 }
 
 

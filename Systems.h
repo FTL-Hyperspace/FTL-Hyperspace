@@ -1,4 +1,4 @@
-
+#pragma once
 enum class SystemId
 {
     SHIELDS,    //0
