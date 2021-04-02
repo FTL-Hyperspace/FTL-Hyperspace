@@ -5480,6 +5480,7 @@ struct WorldManager
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void CreateNewGame();
 	LIBZHL_API bool HostileEnvironment();
+	LIBZHL_API void CreateStore(LocationEvent *event);
 	
 	CompleteShip *playerShip;
 	BossShip *bossShip;

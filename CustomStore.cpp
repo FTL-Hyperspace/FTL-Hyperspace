@@ -4,9 +4,8 @@
 
 CustomStore* CustomStore::instance = new CustomStore();
 
-FullStore CustomStore::ParseStoreNode(rapidxml::xml_node<char>* node)
+void CustomStore::ParseStoreNode(rapidxml::xml_node<char>* node)
 {
-    FullStore def = FullStore();
     for (auto storeNode = node->first_node(); storeNode; storeNode = storeNode->next_sibling())
     {
         std::string name = storeNode->name();
@@ -17,70 +16,84 @@ FullStore CustomStore::ParseStoreNode(rapidxml::xml_node<char>* node)
             {
                 freeDrones.push_back(droneNode->name());
             }
-            if (name == "addCategory")
+        }
+        if (name == "customStore")
+        {
+            std::string id = storeNode->first_attribute("id")->value();
+            StoreDefinition def = StoreDefinition();
+
+            for (auto cStoreNode = storeNode->first_node(); cStoreNode; cStoreNode = cStoreNode->next_sibling())
             {
-                for (auto categoryNode = storeNode->first_node(); categoryNode; categoryNode = categoryNode->next_sibling())
+                // do xml parsing for custom stores here
+
+                if (name == "addCategory")
                 {
-                    std::string categoryName = categoryNode->name();
-                    if (categoryName == "WEAPONS")
+                    for (auto categoryNode = cStoreNode->first_node(); categoryNode; categoryNode = categoryNode->next_sibling())
                     {
-                        StoreCategory storeCategory = StoreCategory();
-                        storeCategory.categoryType = CategoryType::WEAPONS;
-                        for (auto weaponNode = categoryNode->first_node(); weaponNode; weaponNode = weaponNode->next_sibling())
+                        std::string categoryName = categoryNode->name();
+                        if (categoryName == "WEAPONS")
                         {
-                            std::string weaponNodeName = weaponNode->name();
-                            std::string weaponVal = weaponNode->value();
-                            for (auto blueprintNode = weaponNode->first_node(); blueprintNode; blueprintNode = blueprintNode->next_sibling())
+                            StoreCategory storeCategory = StoreCategory();
+                            storeCategory.categoryType = CategoryType::WEAPONS;
+                            for (auto weaponNode = categoryNode->first_node(); weaponNode; weaponNode = weaponNode->next_sibling())
                             {
-                                StoreItem item = StoreItem();
-                                std::string blueprintNodeName = blueprintNode->name();
-                                std::string blueprintNodeVal = blueprintNode->value();
-                                if (blueprintNodeName == "bundledItems")
+                                std::string weaponNodeName = weaponNode->name();
+                                std::string weaponVal = weaponNode->value();
+                                for (auto blueprintNode = weaponNode->first_node(); blueprintNode; blueprintNode = blueprintNode->next_sibling())
                                 {
-
-                                }
-                                else if (blueprintNodeName == "bundledResources")
-                                {
-
-                                }
-                                else if (blueprintNodeName == "stock")
-                                {
-                                    item.stock == boost::lexical_cast<int>(blueprintNode->value());
-                                }
-                                else if (blueprintNodeName == "currency")
-                                {
-                                    if (blueprintNodeVal == "CREW")
+                                    StoreItem item = StoreItem();
+                                    std::string blueprintNodeName = blueprintNode->name();
+                                    std::string blueprintNodeVal = blueprintNode->value();
+                                    if (blueprintNodeName == "bundledItems")
                                     {
-                                        item.individualCurrency = Currency::CREW;
+
+                                    }
+                                    else if (blueprintNodeName == "bundledResources")
+                                    {
+
+                                    }
+                                    else if (blueprintNodeName == "stock")
+                                    {
+                                        item.stock == boost::lexical_cast<int>(blueprintNode->value());
+                                    }
+                                    else if (blueprintNodeName == "currency")
+                                    {
+                                        if (blueprintNodeVal == "CREW")
+                                        {
+                                            item.individualCurrency = Currency::CREW;
+                                        }
                                     }
                                 }
                             }
+
+
+                            def.categories.push_back(storeCategory);
                         }
+                        else if (categoryName == "DRONES")
+                        {
 
+                        }
+                        else if (categoryName == "AUGMENTS")
+                        {
 
-                        def.categories.push_back(storeCategory);
-                    }
-                    else if (categoryName == "DRONES")
-                    {
+                        }
+                        else if (categoryName == "CREW")
+                        {
 
-                    }
-                    else if (categoryName == "AUGMENTS")
-                    {
+                        }
+                        else if (categoryName == "SYSTEMS")
+                        {
 
-                    }
-                    else if (categoryName == "CREW")
-                    {
-
-                    }
-                    else if (categoryName == "SYSTEMS")
-                    {
-
+                        }
                     }
                 }
             }
+
+            storeDefs[id] = def;
+
+
         }
     }
-    return def;
 }
 
 HOOK_METHOD(SystemStoreBox, constructor, (ShipManager *shopper, Equipment *equip, int sys) -> void)
@@ -104,14 +117,115 @@ HOOK_METHOD(SystemStoreBox, constructor, (ShipManager *shopper, Equipment *equip
 
     desc.cost -= oldPrice;
     desc.cost += newBlueprint->desc.cost / 2;
+}
+
+void StoreComplete::OnInit(const StoreDefinition& def, ShipManager *ship, Equipment *equip, int worldLevel)
+{
 
 }
 
+void StoreComplete::OnRender()
+{
+    CSurface::GL_PushMatrix();
+    if (orig->confirmBuy)
+    {
+        CSurface::GL_SetColorTint(COLOR_TINT);
+    }
 
+    CSurface::GL_Translate(orig->position.x, orig->position.y);
+
+    CSurface::GL_BlitPixelImage(orig->box, 0, 0, orig->box->width_, orig->box->height_, 0, COLOR_WHITE, false);
+    CSurface::GL_SetColor(COLOR_BUTTON_TEXT);
+
+    orig->DrawBuySellTabText();
+    freetype::easy_print(62, 18.f, 45.f, G_->GetTextLibrary()->GetText("store_title_items"));
+    freetype::easy_print(62, 18.f, 254.f, G_->GetTextLibrary()->GetText("store_title_repair"));
+
+    CSurface::GL_SetColor(COLOR_BUTTON_ON);
+
+    std::string currentHullText = G_->GetTextLibrary()->GetText("store_current_hull");
+
+    float currentHullY = 419.f;
+
+    if (currentHullText.find('\n') == std::string::npos)
+    {
+        currentHullY = 427.f;
+    }
+
+    freetype::easy_printCenter(59, 73.f, currentHullY, currentHullText);
+
+    CSurface::GL_SetColor(COLOR_BUTTON_TEXT);
+
+    CSurface::GL_PopMatrix();
+
+    CSurface::GL_SetColor(COLOR_BUTTON_ON);
+
+    for (auto section : pages[currentPage].sections)
+    {
+        for (auto box : section.storeBoxes[section.currentSection])
+        {
+            box->OnRender();
+        }
+    }
+
+    char buffer[64];
+    sprintf(buffer, "%d", orig->shopper->ship.hullIntegrity.first);
+    freetype::easy_print(0, orig->position.x + 143, orig->position.y + 432, buffer);
+    orig->infoBox.OnRender();
+    if (orig->confirmBuy)
+    {
+        CSurface::GL_RemoveColorTint();
+        orig->confirmDialog.OnRender();
+    }
+}
+
+void StoreComplete::NextPage()
+{
+    currentPage++;
+
+    if (currentPage >= pages.size())
+    {
+        currentPage = 0;
+    }
+}
+
+void StoreComplete::PreviousPage()
+{
+    currentPage--;
+    if (currentPage < 0)
+    {
+        currentPage = pages.size() - 1;
+    }
+}
+
+void StoreComplete::KeyDown(SDLKey key)
+{
+    if (key == SDLKey::SDLK_RIGHT)
+    {
+        NextPage();
+    }
+    if (key == SDLKey::SDLK_LEFT)
+    {
+        PreviousPage();
+    }
+}
+
+HOOK_METHOD(Store, KeyDown, (SDLKey key) -> void)
+{
+    STORE_EX(this)->customStore->KeyDown(key);
+
+    return;
+    super(key);
+}
 
 HOOK_METHOD(Store, OnRender, () -> void)
 {
     //return super();
+
+    STORE_EX(this)->customStore->OnRender();
+
+    return;
+
 
     CSurface::GL_PushMatrix();
     if (confirmBuy)
@@ -204,13 +318,67 @@ HOOK_METHOD(Store, OnRender, () -> void)
     }
 }
 
-HOOK_METHOD(Store, OnInit, (ShipManager *shopper, Equipment *equip, int worldLevel) -> void)
+static bool inCreateStore = false;
+std::string storeEventName;
+
+HOOK_METHOD(WorldManager, CreateStore, (LocationEvent *event) -> void)
 {
-    super(shopper, equip, worldLevel);
-    auto ex = STORE_EX(this);
+    inCreateStore = true;
+    storeEventName = event->eventName;
+    super(event);
+    inCreateStore = false;
 }
 
+HOOK_METHOD(Store, OnInit, (ShipManager *shopper, Equipment *equip, int worldLevel) -> void)
+{
+    // if (custom store)
+    {
+        StoreComplete* newStore = new StoreComplete(this);
 
+        StoreDefinition newDef = StoreDefinition();
+
+        super(shopper, equip, worldLevel);
+        newStore->OnInit(newDef, shopper, equip, worldLevel);
+
+        STORE_EX(this)->isCustomStore = true;
+        STORE_EX(this)->customStore = newStore;
+
+        return;
+    }
+
+    super(shopper, equip, worldLevel);
+}
+
+HOOK_METHOD(Store, RelinkShip, (ShipManager *ship, Equipment *equip) -> void)
+{
+    if (STORE_EX(this)->isCustomStore)
+    {
+        // do stuff
+    }
+
+    super(ship, equip);
+}
+
+HOOK_METHOD(Store, LoadStore, (int file, int worldLevel) -> void)
+{
+    if (STORE_EX(this)->isCustomStore)
+    {
+        // load custom store
+        return;
+    }
+
+    super(file, worldLevel);
+}
+
+HOOK_METHOD(Store, OnLoop, () -> void)
+{
+    if (STORE_EX(this)->isCustomStore)
+    {
+        return;
+    }
+
+    super();
+}
 
 
 

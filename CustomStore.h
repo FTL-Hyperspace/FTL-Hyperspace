@@ -5,8 +5,10 @@
 class CustomStore
 {
 public:
-    FullStore ParseStoreNode(rapidxml::xml_node<char> *node);
+    void ParseStoreNode(rapidxml::xml_node<char> *node);
     std::vector<std::string> freeDrones = std::vector<std::string>();
 
     static CustomStore* instance;
+private:
+    std::unordered_map<std::string, StoreDefinition> storeDefs;
 };

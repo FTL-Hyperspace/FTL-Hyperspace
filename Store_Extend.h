@@ -57,8 +57,6 @@ struct HullRepair
 
 struct StoreItem
 {
-    StoreBox* origItem;
-    std::string blueprintList; // for random items
     std::string itemName;
     std::string iconFileName;
 
@@ -91,7 +89,7 @@ struct StoreCategory
     int categoryStock; // infinite by default
 };
 
-struct FullStore
+struct StoreDefinition
 {
     std::vector<StoreCategory> categories;
     std::vector<ResourceItem> resources;
@@ -111,10 +109,50 @@ struct FullStore
     int storeNum; // for when multiple stores are created at once
 };
 
+class StoreSection
+{
+public:
+    std::vector<std::vector<StoreBox*>> storeBoxes;
+    int currentSection;
+};
+
+class StorePage
+{
+public:
+    std::vector<StoreSection> sections;
+};
+
+class StoreComplete
+{
+    Store *orig;
+    StoreDefinition def;
+
+    std::vector<StorePage> pages;
+    int currentPage = 0;
+
+public:
+    void OnRender();
+    void OnInit(const StoreDefinition& def, ShipManager* ship, Equipment* equip, int worldLevel);
+    void MouseClick(int x, int y);
+    void MouseMove(int x, int y);
+    void KeyDown(SDLKey key);
+    void OnLoop();
+    void SetPositions();
+    void NextPage();
+    void PreviousPage();
+    void CreateStoreBoxes();
+
+    StoreComplete(Store* original)
+    {
+        orig = original;
+    }
+};
+
 struct Store_Extend
 {
     Store *orig;
-    FullStore customStore;
+    bool isCustomStore = false;
+    StoreComplete* customStore;
 
 
     ~Store_Extend()
