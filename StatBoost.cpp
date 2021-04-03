@@ -478,7 +478,14 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition& def,
     }
     if (stat == CrewStat::MAX_HEALTH)
     {
-        orig->health.first *= (int)finalStat / orig->health.second;
+        if (orig->health.second > 0)
+        {
+            orig->health.first *= (int)finalStat / orig->health.second;
+        }
+        else
+        {
+            orig->health.first = finalStat;
+        }
     }
 //    auto t2 = steady_clock::now();
 //    duration<double, std::nano> ms_double = t2 - t1;
