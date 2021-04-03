@@ -37,6 +37,8 @@ struct CustomEvent
     bool removeHazards = false;
     bool removeNebula = false;
     std::string secretSectorWarp = "";
+    bool recallBoarders = false;
+    int recallBoardersShip = 0;
     std::string eventLoad = "";
     bool eventLoadSeeded = true;
     EventGameOver gameOver = EventGameOver();
@@ -127,3 +129,5 @@ private:
     std::unordered_map<std::string, BossShipDefinition> bossShipIds;
     static CustomEventsParser *instance;
 };
+
+void RecallBoarders(int direction);
