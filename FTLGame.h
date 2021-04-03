@@ -3980,9 +3980,18 @@ struct BombProjectile
 
 struct LIBZHL_INTERFACE StoreBox
 {
+	StoreBox()
+	{
+	}
+	
 	StoreBox(const std::string& buttonImage, ShipManager *shopper, Equipment *ship)
 	{
 		this->constructor(buttonImage, shopper, ship);
+	}
+	
+	void SetPosition(int x, int y)
+	{
+		SetPosition(Point(x, y));
 	}
 
 	virtual ~StoreBox() {}
@@ -4002,6 +4011,7 @@ struct LIBZHL_INTERFACE StoreBox
 	virtual void SetExtraData(int) LIBZHL_PLACEHOLDER
 	LIBZHL_API void InitBlueprint(Blueprint *bp);
 	LIBZHL_API void constructor(const std::string &buttonImage, ShipManager *shopper, Equipment *equip);
+	LIBZHL_API void SetPosition(Point pos);
 	
 	int itemId;
 	int itemBox;
@@ -4019,8 +4029,18 @@ struct LIBZHL_INTERFACE StoreBox
 	Point pushIcon;
 };
 
-struct ItemStoreBox
+struct ItemStoreBox;
+
+struct ItemStoreBox : StoreBox
 {
+	ItemStoreBox(ShipManager *_ship, const std::string& _resourceName)
+	{
+		this->constructor(_ship, _resourceName);
+	}
+
+	LIBZHL_API void constructor(ShipManager *ship, const std::string &resourceName);
+	
+	ItemBlueprint *blueprint;
 };
 
 struct CrewEquipBox;
@@ -4121,8 +4141,9 @@ struct EventDamage
 	int effect;
 };
 
-struct AugmentStoreBox
+struct AugmentStoreBox : StoreBox
 {
+	AugmentBlueprint *blueprint;
 };
 
 struct StatusEffect;
@@ -5513,6 +5534,15 @@ struct WorldManager
 
 struct PowerManager
 {
+	std::pair<int, int> currentPower;
+	int over_powered;
+	float fFuel;
+	bool failedPowerup;
+	int iTempPowerCap;
+	int iTempPowerLoss;
+	int iTempDividePower;
+	int iHacked;
+	std::pair<int, int> batteryPower;
 };
 
 struct DoorBox
@@ -5597,12 +5627,14 @@ struct ToggleButton
 {
 };
 
-struct WeaponStoreBox
+struct WeaponStoreBox : StoreBox
 {
+	WeaponBlueprint *blueprint;
 };
 
-struct DroneStoreBox
+struct DroneStoreBox : StoreBox
 {
+	DroneBlueprint *blueprint;
 };
 
 struct SlugAlien
@@ -6040,8 +6072,11 @@ struct MantisAnimation : CrewAnimation
 	
 };
 
-struct RepairStoreBox
+struct RepairStoreBox : StoreBox
 {
+	bool repairAll;
+	int repairCost;
+	TextString buttonText;
 };
 
 struct EngineSystem

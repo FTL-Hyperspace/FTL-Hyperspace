@@ -17,13 +17,6 @@ enum class Currency
     HULL
 };
 
-enum class Resource
-{
-    FUEL,
-    MISSILES,
-    DRONE_PARTS
-};
-
 enum class CategoryType
 {
     WEAPONS,
@@ -35,17 +28,14 @@ enum class CategoryType
 
 struct ResourceItem
 {
-    Resource type;
+    std::string type; // fuel, missiles or drones
     int minCount;
     int maxCount;
 
     bool modifiedPrice = false;
     bool flatModifier = false;
-    bool setPrice = false;
     float modifier = 1.f; // multiplies the price by 1 by default
-    int price;
-
-    bool visible;
+    int price = -1;
 };
 
 struct HullRepair
@@ -109,10 +99,19 @@ struct StoreDefinition
     int storeNum; // for when multiple stores are created at once
 };
 
+class CustomStoreBox : public StoreBox
+{
+    CustomStoreBox(const std::string& buttonImage, ShipManager *shopper, Equipment *ship) : StoreBox(buttonImage, shopper, ship)
+    {
+
+    }
+};
+
 class StoreSection
 {
 public:
-    std::vector<std::vector<StoreBox*>> storeBoxes;
+    std::vector<std::vector<CustomStoreBox*>> storeBoxes;
+
     int currentSection;
 };
 
@@ -128,6 +127,8 @@ class StoreComplete
     StoreDefinition def;
 
     std::vector<StorePage> pages;
+    std::vector<ItemStoreBox*> resourceBoxes;
+    std::vector<RepairStoreBox*> repairBoxes;
     int currentPage = 0;
 
 public:
@@ -157,7 +158,7 @@ struct Store_Extend
 
     ~Store_Extend()
     {
-
+        delete customStore;
     }
 };
 

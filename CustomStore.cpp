@@ -119,9 +119,57 @@ HOOK_METHOD(SystemStoreBox, constructor, (ShipManager *shopper, Equipment *equip
     desc.cost += newBlueprint->desc.cost / 2;
 }
 
-void StoreComplete::OnInit(const StoreDefinition& def, ShipManager *ship, Equipment *equip, int worldLevel)
+void StoreComplete::OnInit(const StoreDefinition& def, ShipManager *ship, Equipment *equip, int level)
 {
+    orig->worldLevel = level;
+    orig->shopper = ship;
 
+    for (auto i : def.resources)
+    {
+        ItemStoreBox* box = new ItemStoreBox(ship, i.type);
+
+        box->count = i.minCount + (random32() % (i.maxCount - i.minCount + 1));
+        if (i.modifiedPrice)
+        {
+            if (i.flatModifier)
+            {
+                box->desc.cost += i.modifier;
+            }
+            else
+            {
+                box->desc.cost *= i.modifier;
+            }
+        }
+        if (i.price != -1)
+        {
+            box->desc.cost = i.price;
+        }
+
+        resourceBoxes.push_back(box);
+    }
+
+    SetPositions();
+}
+
+void StoreComplete::SetPositions()
+{
+    orig->box = G_->GetResources()->GetImageId("storeUI/store_buy_main.png");
+
+    orig->infoBoxLoc.x = orig->position.x + 600;
+    orig->infoBoxLoc.y = orig->position.y;
+    orig->infoBox.location = orig->infoBoxLoc;
+
+
+
+
+    int resourceBoxOffsets[3] = {0, 50, 99};
+
+    for (int i = 0; i < resourceBoxes.size(); i++)
+    {
+        auto box = resourceBoxes[i];
+
+        box->SetPosition(orig->position.x + 18, orig->position.y + 83 + resourceBoxOffsets[i]);
+    }
 }
 
 void StoreComplete::OnRender()
@@ -134,7 +182,11 @@ void StoreComplete::OnRender()
 
     CSurface::GL_Translate(orig->position.x, orig->position.y);
 
-    CSurface::GL_BlitPixelImage(orig->box, 0, 0, orig->box->width_, orig->box->height_, 0, COLOR_WHITE, false);
+    if (orig->box)
+    {
+        CSurface::GL_BlitPixelImage(orig->box, 0, 0, orig->box->width_, orig->box->height_, 0, COLOR_WHITE, false);
+    }
+
     CSurface::GL_SetColor(COLOR_BUTTON_TEXT);
 
     orig->DrawBuySellTabText();
@@ -160,13 +212,58 @@ void StoreComplete::OnRender()
 
     CSurface::GL_SetColor(COLOR_BUTTON_ON);
 
-    for (auto section : pages[currentPage].sections)
+    std::string unavailableText = G_->GetTextLibrary()->GetText("store_unavailable");
+
+    if (pages.size() > 0)
     {
-        for (auto box : section.storeBoxes[section.currentSection])
+        for (auto section : pages[currentPage].sections)
         {
-            box->OnRender();
+            for (auto box : section.storeBoxes[section.currentSection])
+            {
+                box->OnRender();
+            }
+        }
+
+        if (pages[currentPage].sections.size() == 1)
+        {
+            CSurface::GL_SetColor(COLOR_BUTTON_ON);
+
+            freetype::easy_printCenter(52, orig->position.x + 394, orig->position.y + 336, unavailableText);
         }
     }
+    else
+    {
+        CSurface::GL_SetColor(COLOR_BUTTON_ON);
+
+        freetype::easy_printCenter(52, orig->position.x + 394, orig->position.y + 152, unavailableText);
+        freetype::easy_printCenter(52, orig->position.x + 394, orig->position.y + 362, unavailableText);
+    }
+
+    for (auto i : resourceBoxes)
+    {
+        i->OnRender();
+    }
+
+    if (resourceBoxes.empty())
+    {
+        CSurface::GL_SetColor(COLOR_BUTTON_ON);
+
+        freetype::easy_printCenter(52, orig->position.x + 102, orig->position.y + 152, unavailableText);
+    }
+
+    for (auto i : repairBoxes)
+    {
+        i->OnRender();
+    }
+
+    if (repairBoxes.empty())
+    {
+        CSurface::GL_SetColor(COLOR_BUTTON_ON);
+
+        freetype::easy_printCenter(52, orig->position.x + 102, orig->position.y + 336, unavailableText);
+    }
+
+    CSurface::GL_SetColor(COLOR_BUTTON_ON);
 
     char buffer[64];
     sprintf(buffer, "%d", orig->shopper->ship.hullIntegrity.first);
@@ -210,6 +307,37 @@ void StoreComplete::KeyDown(SDLKey key)
     }
 }
 
+void StoreComplete::OnLoop()
+{
+    for (auto i : resourceBoxes)
+    {
+        i->OnLoop();
+    }
+}
+
+void StoreComplete::MouseClick(int x, int y)
+{
+    for (auto i : resourceBoxes)
+    {
+        i->MouseClick(x, y);
+    }
+}
+
+void StoreComplete::MouseMove(int x, int y)
+{
+    orig->infoBox.Clear();
+
+    for (auto i : resourceBoxes)
+    {
+        i->MouseMove(x, y);
+
+        if ((i->button.bHover || i->button.bSelected) && i->count > 0)
+        {
+            i->SetInfoBox(orig->infoBox, 347);
+        }
+    }
+}
+
 HOOK_METHOD(Store, KeyDown, (SDLKey key) -> void)
 {
     STORE_EX(this)->customStore->KeyDown(key);
@@ -222,10 +350,11 @@ HOOK_METHOD(Store, OnRender, () -> void)
 {
     //return super();
 
-    STORE_EX(this)->customStore->OnRender();
-
-    return;
-
+    if (STORE_EX(this)->isCustomStore)
+    {
+        STORE_EX(this)->customStore->OnRender();
+        return;
+    }
 
     CSurface::GL_PushMatrix();
     if (confirmBuy)
@@ -336,8 +465,13 @@ HOOK_METHOD(Store, OnInit, (ShipManager *shopper, Equipment *equip, int worldLev
         StoreComplete* newStore = new StoreComplete(this);
 
         StoreDefinition newDef = StoreDefinition();
+        ResourceItem item = ResourceItem();
+        item.minCount = 3;
+        item.maxCount = 10;
+        item.price = 2;
+        item.type = "missiles";
 
-        super(shopper, equip, worldLevel);
+
         newStore->OnInit(newDef, shopper, equip, worldLevel);
 
         STORE_EX(this)->isCustomStore = true;
@@ -354,6 +488,7 @@ HOOK_METHOD(Store, RelinkShip, (ShipManager *ship, Equipment *equip) -> void)
     if (STORE_EX(this)->isCustomStore)
     {
         // do stuff
+        return;
     }
 
     super(ship, equip);
@@ -374,21 +509,42 @@ HOOK_METHOD(Store, OnLoop, () -> void)
 {
     if (STORE_EX(this)->isCustomStore)
     {
+        STORE_EX(this)->customStore->OnLoop();
         return;
     }
 
     super();
 }
 
+HOOK_METHOD(Store, SetPositions, () -> void)
+{
+    if (STORE_EX(this)->isCustomStore)
+    {
+        STORE_EX(this)->customStore->SetPositions();
+        return;
+    }
 
+    super();
+}
 
+HOOK_METHOD(Store, MouseMove, (int x, int y) -> void)
+{
+    if (STORE_EX(this)->isCustomStore)
+    {
+        STORE_EX(this)->customStore->MouseMove(x, y);
+        return;
+    }
 
+    super(x, y);
+}
 
+HOOK_METHOD(Store, MouseClick, (int x, int y) -> void)
+{
+    if (STORE_EX(this)->isCustomStore)
+    {
+        STORE_EX(this)->customStore->MouseClick(x, y);
+        return;
+    }
 
-
-
-
-
-
-
-
+    super(x, y);
+}

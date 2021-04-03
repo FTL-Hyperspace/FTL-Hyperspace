@@ -5066,7 +5066,18 @@ struct BlueprintManager
 };
 
 /* 297 */
-struct PowerManager;
+struct PowerManager
+{
+  std__pair_9int___int currentPower;
+  int over_powered;
+  float fFuel;
+  bool failedPowerup;
+  int iTempPowerCap;
+  int iTempPowerLoss;
+  int iTempDividePower;
+  int iHacked;
+  std__pair_9int___int batteryPower;
+};
 
 /* 299 */
 struct BeamWeapon;
@@ -5166,7 +5177,13 @@ struct RockAlien;
 struct SlugAlien;
 
 /* 384 */
-struct RepairStoreBox;
+struct RepairStoreBox
+{
+  StoreBox _base;
+  bool repairAll;
+  int repairCost;
+  TextString buttonText;
+};
 
 /* 766 */
 struct std__array_28std__vector_10HotkeyDesc___4
@@ -5227,10 +5244,18 @@ struct TextLibrary
 };
 
 /* 400 */
-struct DroneStoreBox;
+struct DroneStoreBox
+{
+  StoreBox _base;
+  DroneBlueprint *blueprint;
+};
 
 /* 401 */
-struct WeaponStoreBox;
+struct WeaponStoreBox
+{
+  StoreBox _base;
+  WeaponBlueprint *blueprint;
+};
 
 /* 404 */
 struct ToggleButton;
@@ -5246,7 +5271,11 @@ struct freetype__font_data
 };
 
 /* 408 */
-struct ItemStoreBox;
+struct ItemStoreBox
+{
+  StoreBox _base;
+  ItemBlueprint *blueprint;
+};
 
 /* 410 */
 struct EngiAnimation;
@@ -5255,7 +5284,11 @@ struct EngiAnimation;
 struct SlugAnimation;
 
 /* 414 */
-struct AugmentStoreBox;
+struct AugmentStoreBox
+{
+  StoreBox _base;
+  AugmentBlueprint *blueprint;
+};
 
 /* 415 */
 struct CrystalAnimation;
@@ -5507,5 +5540,52 @@ struct std__vector_10HotkeyDesc
   HotkeyDesc *_start;
   HotkeyDesc *_finish;
   HotkeyDesc *_end;
+};
+
+/* 798 */
+union __attribute__((aligned(8))) __m64
+{
+  unsigned __int64 m64_u64;
+  float m64_f32[2];
+  __int8 m64_i8[8];
+  __int16 m64_i16[4];
+  __int32 m64_i32[2];
+  __int64 m64_i64;
+  unsigned __int8 m64_u8[8];
+  unsigned __int16 m64_u16[4];
+  unsigned __int32 m64_u32[2];
+};
+
+/* 799 */
+union __attribute__((aligned(16))) __m128
+{
+  float m128_f32[4];
+  unsigned __int64 m128_u64[2];
+  __int8 m128_i8[16];
+  __int16 m128_i16[8];
+  __int32 m128_i32[4];
+  __int64 m128_i64[2];
+  unsigned __int8 m128_u8[16];
+  unsigned __int16 m128_u16[8];
+  unsigned __int32 m128_u32[4];
+};
+
+/* 800 */
+struct __m128d
+{
+  double m128d_f64[2];
+};
+
+/* 801 */
+union __attribute__((aligned(16))) __m128i
+{
+  __int8 m128i_i8[16];
+  __int16 m128i_i16[8];
+  __int32 m128i_i32[4];
+  __int64 m128i_i64[2];
+  unsigned __int8 m128i_u8[16];
+  unsigned __int16 m128i_u16[8];
+  unsigned __int32 m128i_u32[4];
+  unsigned __int64 m128i_u64[2];
 };
 

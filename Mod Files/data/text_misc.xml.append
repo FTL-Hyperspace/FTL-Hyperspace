@@ -30,6 +30,10 @@
 <text name="menu_status_seed">Seed</text>
 <text name="unlocks_disabled">Unlocks Disabled</text>
 
+
+
+<text name="store_unavailable">UNAVAILABLE</text>
+
 <mod:findName type="text" name="power_not_ready">
   <mod:setValue>Not Ready: Power charging (see charge left of portrait)</mod:setValue>
 </mod:findName>
