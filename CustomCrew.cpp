@@ -1138,7 +1138,7 @@ void CrewMember_Extend::ActivatePower()
     auto aex = CMA_EX(orig->crewAnim);
     aex->powerDone = true;
 
-    if (!powerDef.transformRace.empty())
+    if (!powerDef.transformRace.empty() && orig->crewAnim->status != 3)
     {
         std::string species = powerDef.transformRace;
 
@@ -3041,11 +3041,14 @@ HOOK_METHOD(ShipManager, OnLoop, () -> void)
                     auto def = custom->GetDefinition(j->species);
 
                     auto ex = CM_EX(j);
-                    bonusPowerCounter = ex->CalculateStat(CrewStat::BONUS_POWER, def);
+
+                    int bonusPower = ex->CalculateStat(CrewStat::BONUS_POWER, def);
+
+                    bonusPowerCounter += bonusPower;
 
                     if (j->AtFinalGoal() && !j->IsDrone())
                     {
-                        permanentPowerCounter += bonusPowerCounter;
+                        permanentPowerCounter += bonusPower;
                     }
                 }
 

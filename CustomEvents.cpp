@@ -1048,8 +1048,13 @@ HOOK_STATIC(StarMap, GetLocationText, (std::string& strRef, StarMap *starMap, co
     return strRef;
 }
 
-HOOK_METHOD(StarMap, GenerateNebulas, (const std::vector<std::string>& names) -> void)
+HOOK_METHOD(StarMap, GenerateNebulas, (std::vector<std::string>& names) -> void)
 {
+    if (names.size() > locations.size())
+    {
+        names.resize(locations.size());
+    }
+
     super(names);
 
     CustomSector* customSector = CustomEventsParser::GetInstance()->GetCustomSector(currentSector->description.type);
