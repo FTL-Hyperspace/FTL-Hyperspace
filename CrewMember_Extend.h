@@ -121,6 +121,8 @@ struct StatBoost
         CURRENT_ALL,
         CURRENT_ROOM,
         OTHER_ALL,
+        ORIGINAL_SHIP,
+        ORIGINAL_OTHER_SHIP,
         ALL
     };
 
