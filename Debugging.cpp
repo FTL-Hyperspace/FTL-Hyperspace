@@ -105,3 +105,12 @@ HOOK_METHOD(StarMap, GenerateNebulas, (std::vector<std::string>& names) -> void)
 
     super(names);
 }
+
+HOOK_METHOD(CApp, OnInit, () -> void)
+{
+    super();
+    std::string date = __DATE__;
+    std::string time = __TIME__;
+
+    hs_log_file(("Hyperspace compiled: " + date + " " + time).c_str());
+}
