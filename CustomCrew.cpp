@@ -1138,7 +1138,7 @@ void CrewMember_Extend::ActivatePower()
     auto aex = CMA_EX(orig->crewAnim);
     aex->powerDone = true;
 
-    if (!powerDef.transformRace.empty())
+    if (!powerDef.transformRace.empty() && orig->crewAnim->status != 3)
     {
         std::string species = powerDef.transformRace;
 
