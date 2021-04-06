@@ -140,6 +140,31 @@ struct StatBoost
         ALL
     };
 
+    enum class DroneTarget
+    {
+        DRONES,
+        CREW,
+        ALL
+    };
+
+    enum class ExtraConditions
+    {
+        BURNING,
+        SUFFOCATING,
+        MIND_CONTROLLED,
+        STUNNED,
+        REPAIRING,
+        FIGHTING,
+        SHOOTING,
+        MOVING,
+        IDLE,
+        MANNING,
+        FIREFIGHTING,
+        DYING,
+        TELEPORTING_OR_CLONING,
+
+    };
+
     CrewStat stat;
     CrewMember* crewSource;
     float amount;
@@ -148,17 +173,25 @@ struct StatBoost
     int priority = -1;
     float duration = -1;
     //TimerHelper* timerHelper;
+
     bool affectsSelf;
+
     std::vector<std::string> whiteList = std::vector<std::string>();
     std::vector<std::string> blackList = std::vector<std::string>();
     std::pair<std::vector<int>,std::vector<int>> sourceRoomIds = std::pair<std::vector<int>,std::vector<int>>();
+    std::vector<std::string> systemRoomReqs = std::vector<std::string>();
     std::vector<std::string> systemList = std::vector<std::string>();
 
+    std::vector<StatBoost> extraConditions = std::vector<StatBoost>();
+    bool extraConditionsReq;
     SystemRoomTarget systemRoomTarget;
+    bool systemRoomReq;
     BoostType boostType;
     BoostSource boostSource;
     ShipTarget shipTarget;
     CrewTarget crewTarget;
+    DroneTarget droneTarget = DroneTarget::ALL;
+
     int sourceShipId;
 
     ~StatBoost()
@@ -229,6 +262,7 @@ public:
 
     std::vector<StatBoost> outgoingStatBoosts = std::vector<StatBoost>();
     std::vector<StatBoost> outgoingAbilityStatBoosts = std::vector<StatBoost>();
+    std::vector<StatBoost> tempOutgoingStatBoosts = std::vector<StatBoost>();
 //    std::vector<StatBoost> outgoingTimedStatBoosts = std::vector<StatBoost>();
     std::vector<StatBoost> outgoingTimedAbilityStatBoosts = std::vector<StatBoost>();
     std::vector<StatBoost> timedStatBoosts = std::vector<StatBoost>();
@@ -242,6 +276,7 @@ public:
         delete passiveHealTimer;
     }
 
+    bool BoostCheck(StatBoost statBoost);
     float CalculateStat(CrewStat stat, const CrewDefinition& def, bool* boolValue=nullptr);
 };
 

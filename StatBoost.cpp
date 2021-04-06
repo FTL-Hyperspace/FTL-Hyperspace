@@ -285,6 +285,108 @@ HOOK_METHOD(WorldManager, OnLoop, () -> void)
 //    std::cout << "World manager time: " << ms_double.count();
 }
 
+bool CrewMember_Extend::BoostCheck(StatBoost statBoost)
+{
+    bool ret = false;
+    if (statBoost.boostSource == StatBoost::BoostSource::CREW)
+    {
+        if(((statBoost.shipTarget == StatBoost::ShipTarget::PLAYER_SHIP && orig->currentShipId == 0)
+            || (statBoost.shipTarget == StatBoost::ShipTarget::ORIGINAL_SHIP && orig->currentShipId == statBoost.crewSource->iShipId)
+            || (statBoost.shipTarget == StatBoost::ShipTarget::ORIGINAL_OTHER_SHIP && orig->currentShipId != statBoost.crewSource->iShipId)
+            || (statBoost.shipTarget == StatBoost::ShipTarget::ENEMY_SHIP && orig->currentShipId == 1))
+            || (statBoost.shipTarget == StatBoost::ShipTarget::CURRENT_ALL && orig->currentShipId == statBoost.crewSource->currentShipId)
+            || (statBoost.shipTarget == StatBoost::ShipTarget::CURRENT_ROOM && orig->iRoomId == statBoost.crewSource->iRoomId && orig->currentShipId == statBoost.crewSource->currentShipId)
+            || (statBoost.shipTarget == StatBoost::ShipTarget::ALL)
+           )
+        {
+            if(
+                (statBoost.crewSource != orig)
+                || (statBoost.affectsSelf)
+                )
+            {
+                if(
+                    ((statBoost.crewSource->iShipId == orig->iShipId && statBoost.crewTarget == StatBoost::CrewTarget::ALLIES)
+                    || (statBoost.crewSource->iShipId != orig->iShipId && statBoost.crewTarget == StatBoost::CrewTarget::ENEMIES)
+                    || (statBoost.crewTarget == StatBoost::CrewTarget::ALL)
+                    || (statBoost.crewSource == orig && statBoost.affectsSelf))
+                   )
+                {
+                    if(
+                        (std::find(statBoost.whiteList.begin(), statBoost.whiteList.end(), orig->species) != statBoost.whiteList.end())
+                        || (!statBoost.blackList.empty() && std::find(statBoost.blackList.begin(), statBoost.blackList.end(), orig->species) == statBoost.blackList.end())
+                        || (statBoost.blackList.empty() && statBoost.whiteList.empty())
+                        || (statBoost.crewSource == orig && statBoost.affectsSelf)
+                       )
+                    {
+                        if(
+                            (statBoost.systemList.empty())
+                            || (std::find(statBoost.sourceRoomIds.first.begin(), statBoost.sourceRoomIds.first.end(), orig->iRoomId) != statBoost.sourceRoomIds.first.end() && statBoost.systemRoomTarget == StatBoost::SystemRoomTarget::ALL && orig->currentShipId == 0)
+                            || (std::find(statBoost.sourceRoomIds.second.begin(), statBoost.sourceRoomIds.second.end(), orig->iRoomId) != statBoost.sourceRoomIds.second.end() && statBoost.systemRoomTarget == StatBoost::SystemRoomTarget::ALL && orig->currentShipId == 1)
+                            || (std::find(statBoost.sourceRoomIds.first.begin(), statBoost.sourceRoomIds.first.end(), orig->iRoomId) == statBoost.sourceRoomIds.first.end() && statBoost.systemRoomTarget == StatBoost::SystemRoomTarget::NONE && orig->currentShipId == 0)
+                            || (std::find(statBoost.sourceRoomIds.second.begin(), statBoost.sourceRoomIds.second.end(), orig->iRoomId) == statBoost.sourceRoomIds.second.end() && statBoost.systemRoomTarget == StatBoost::SystemRoomTarget::NONE && orig->currentShipId == 1)
+                           )
+                        {
+                            if(
+                               (statBoost.droneTarget == StatBoost::DroneTarget::DRONES && orig->IsDrone())
+                               || (statBoost.droneTarget == StatBoost::DroneTarget::CREW && !orig->IsDrone())
+                               || (statBoost.droneTarget == StatBoost::DroneTarget::ALL)
+                               )
+                            {
+                                ret = true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    else if (statBoost.boostSource == StatBoost::BoostSource::AUGMENT)
+    {
+        if(
+            (statBoost.shipTarget == StatBoost::ShipTarget::PLAYER_SHIP && orig->currentShipId == 0)
+            || (statBoost.shipTarget == StatBoost::ShipTarget::ORIGINAL_SHIP && orig->currentShipId == statBoost.sourceShipId)
+            || (statBoost.shipTarget == StatBoost::ShipTarget::ORIGINAL_OTHER_SHIP && orig->currentShipId != statBoost.sourceShipId)
+            || (statBoost.shipTarget == StatBoost::ShipTarget::ENEMY_SHIP && orig->currentShipId == 1)
+            || (statBoost.shipTarget == StatBoost::ShipTarget::CURRENT_ALL && orig->currentShipId == statBoost.sourceShipId)
+            || (statBoost.shipTarget == StatBoost::ShipTarget::ALL)
+            )
+        {
+            if(
+                (statBoost.sourceShipId == orig->iShipId && statBoost.crewTarget == StatBoost::CrewTarget::ALLIES)
+                || (statBoost.sourceShipId != orig->iShipId && statBoost.crewTarget == StatBoost::CrewTarget::ENEMIES)
+                ||  (statBoost.crewTarget == StatBoost::CrewTarget::ALL)
+                )
+            {
+                if(
+                    (std::find(statBoost.whiteList.begin(), statBoost.whiteList.end(), orig->species) != statBoost.whiteList.end())
+                    || (!statBoost.blackList.empty() && std::find(statBoost.blackList.begin(), statBoost.blackList.end(), orig->species) == statBoost.blackList.end())
+                    || (statBoost.blackList.empty() && statBoost.whiteList.empty())
+                    )
+                {
+                    if(
+                        (statBoost.systemList.empty())
+                        || (std::find(statBoost.sourceRoomIds.first.begin(), statBoost.sourceRoomIds.first.end(), orig->iRoomId) != statBoost.sourceRoomIds.first.end() && statBoost.systemRoomTarget == StatBoost::SystemRoomTarget::ALL && orig->currentShipId == 0)
+                        || (std::find(statBoost.sourceRoomIds.second.begin(), statBoost.sourceRoomIds.second.end(), orig->iRoomId) != statBoost.sourceRoomIds.second.end() && statBoost.systemRoomTarget == StatBoost::SystemRoomTarget::ALL && orig->currentShipId == 1)
+                        || (std::find(statBoost.sourceRoomIds.first.begin(), statBoost.sourceRoomIds.first.end(), orig->iRoomId) == statBoost.sourceRoomIds.first.end() && statBoost.systemRoomTarget == StatBoost::SystemRoomTarget::NONE && orig->currentShipId == 0)
+                        || (std::find(statBoost.sourceRoomIds.second.begin(), statBoost.sourceRoomIds.second.end(), orig->iRoomId) == statBoost.sourceRoomIds.second.end() && statBoost.systemRoomTarget == StatBoost::SystemRoomTarget::NONE && orig->currentShipId == 1)
+                        )
+                    {
+                        if(
+                             (statBoost.droneTarget == StatBoost::DroneTarget::DRONES && orig->IsDrone())
+                             || (statBoost.droneTarget == StatBoost::DroneTarget::CREW && !orig->IsDrone())
+                             || (statBoost.droneTarget == StatBoost::DroneTarget::ALL)
+                             )
+                        {
+                            ret = true;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return ret;
+}
+
 float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition& def, bool* boolValue)
 {
 //    using std::chrono::steady_clock;
@@ -300,29 +402,9 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition& def,
     {
         for (StatBoost statBoost : (*it).second)
         {
-            if (statBoost.boostSource == StatBoost::BoostSource::CREW)
+            if (BoostCheck(statBoost)) // If the boost affects this ship and/or this room, and the boost comes from someone else or affects self, and the boost comes from an ally and affects allies or an enemy and affects enemies, and the boost specifically lets this race take it or doesn't ban it
             {
-                if ((((statBoost.shipTarget == StatBoost::ShipTarget::PLAYER_SHIP && orig->currentShipId == 0) || (statBoost.shipTarget == StatBoost::ShipTarget::ORIGINAL_SHIP && orig->currentShipId == statBoost.crewSource->iShipId) || (statBoost.shipTarget == StatBoost::ShipTarget::ORIGINAL_OTHER_SHIP && orig->currentShipId != statBoost.crewSource->iShipId) || (statBoost.shipTarget == StatBoost::ShipTarget::ENEMY_SHIP && orig->currentShipId == 1)) || (statBoost.shipTarget == StatBoost::ShipTarget::CURRENT_ALL && orig->currentShipId == statBoost.crewSource->currentShipId) || (statBoost.shipTarget == StatBoost::ShipTarget::CURRENT_ROOM && orig->iRoomId == statBoost.crewSource->iRoomId && orig->currentShipId == statBoost.crewSource->currentShipId) || (statBoost.shipTarget == StatBoost::ShipTarget::ALL))
-                    && (statBoost.crewSource != orig || statBoost.affectsSelf)
-                    && ((statBoost.crewSource->iShipId == orig->iShipId && statBoost.crewTarget == StatBoost::CrewTarget::ALLIES) || (statBoost.crewSource->iShipId != orig->iShipId && statBoost.crewTarget == StatBoost::CrewTarget::ENEMIES) || statBoost.crewTarget == StatBoost::CrewTarget::ALL || (statBoost.crewSource == orig && statBoost.affectsSelf))
-                    && ((std::find(statBoost.whiteList.begin(), statBoost.whiteList.end(), orig->species) != statBoost.whiteList.end()) || (!statBoost.blackList.empty() && std::find(statBoost.blackList.begin(), statBoost.blackList.end(), orig->species) == statBoost.blackList.end()) || (statBoost.blackList.empty() && statBoost.whiteList.empty()))
-                    && (statBoost.systemList.empty() || (std::find(statBoost.sourceRoomIds.first.begin(), statBoost.sourceRoomIds.first.end(), orig->iRoomId) != statBoost.sourceRoomIds.first.end() && statBoost.systemRoomTarget == StatBoost::SystemRoomTarget::ALL && orig->currentShipId == 0) || (std::find(statBoost.sourceRoomIds.second.begin(), statBoost.sourceRoomIds.second.end(), orig->iRoomId) != statBoost.sourceRoomIds.second.end() && statBoost.systemRoomTarget == StatBoost::SystemRoomTarget::ALL && orig->currentShipId == 1) || (std::find(statBoost.sourceRoomIds.first.begin(), statBoost.sourceRoomIds.first.end(), orig->iRoomId) == statBoost.sourceRoomIds.first.end() && statBoost.systemRoomTarget == StatBoost::SystemRoomTarget::NONE && orig->currentShipId == 0) || (std::find(statBoost.sourceRoomIds.second.begin(), statBoost.sourceRoomIds.second.end(), orig->iRoomId) == statBoost.sourceRoomIds.second.end() && statBoost.systemRoomTarget == StatBoost::SystemRoomTarget::NONE && orig->currentShipId == 1))
-                    ) // If the boost affects this ship and/or this room, and the boost comes from someone else or affects self, and the boost comes from an ally and affects allies or an enemy and affects enemies, and the boost specifically lets this race take it or doesn't ban it
-                {
-                    personalStatBoosts.push_back(statBoost);
-                }
-            }
-
-            if (statBoost.boostSource == StatBoost::BoostSource::AUGMENT)
-            {
-                if (((statBoost.shipTarget == StatBoost::ShipTarget::PLAYER_SHIP && orig->currentShipId == 0) || (statBoost.shipTarget == StatBoost::ShipTarget::ORIGINAL_SHIP && orig->currentShipId == statBoost.sourceShipId) || (statBoost.shipTarget == StatBoost::ShipTarget::ORIGINAL_OTHER_SHIP && orig->currentShipId != statBoost.sourceShipId) || (statBoost.shipTarget == StatBoost::ShipTarget::ENEMY_SHIP && orig->currentShipId == 1) || (statBoost.shipTarget == StatBoost::ShipTarget::CURRENT_ALL && orig->currentShipId == statBoost.sourceShipId) || (statBoost.shipTarget == StatBoost::ShipTarget::ALL))
-                    && ((statBoost.sourceShipId == orig->iShipId && statBoost.crewTarget == StatBoost::CrewTarget::ALLIES) || (statBoost.sourceShipId != orig->iShipId && statBoost.crewTarget == StatBoost::CrewTarget::ENEMIES) ||  (statBoost.crewTarget == StatBoost::CrewTarget::ALL))
-                    && ((std::find(statBoost.whiteList.begin(), statBoost.whiteList.end(), orig->species) != statBoost.whiteList.end()) || (!statBoost.blackList.empty() && std::find(statBoost.blackList.begin(), statBoost.blackList.end(), orig->species) == statBoost.blackList.end()) || (statBoost.blackList.empty() && statBoost.whiteList.empty()))
-                    && (statBoost.systemList.empty() || (std::find(statBoost.sourceRoomIds.first.begin(), statBoost.sourceRoomIds.first.end(), orig->iRoomId) != statBoost.sourceRoomIds.first.end() && statBoost.systemRoomTarget == StatBoost::SystemRoomTarget::ALL && orig->currentShipId == 0) || (std::find(statBoost.sourceRoomIds.second.begin(), statBoost.sourceRoomIds.second.end(), orig->iRoomId) != statBoost.sourceRoomIds.second.end() && statBoost.systemRoomTarget == StatBoost::SystemRoomTarget::ALL && orig->currentShipId == 1) || (std::find(statBoost.sourceRoomIds.first.begin(), statBoost.sourceRoomIds.first.end(), orig->iRoomId) == statBoost.sourceRoomIds.first.end() && statBoost.systemRoomTarget == StatBoost::SystemRoomTarget::NONE && orig->currentShipId == 0) || (std::find(statBoost.sourceRoomIds.second.begin(), statBoost.sourceRoomIds.second.end(), orig->iRoomId) == statBoost.sourceRoomIds.second.end() && statBoost.systemRoomTarget == StatBoost::SystemRoomTarget::NONE && orig->currentShipId == 1))
-                    )
-                {
-                    personalStatBoosts.push_back(statBoost);
-                }
+                personalStatBoosts.push_back(statBoost);
             }
         }
     }
