@@ -5431,6 +5431,8 @@ struct SpaceManager
 	bool playerShipInFront;
 };
 
+struct BoardingEvent;
+
 struct WorldManager
 {
 	LIBZHL_API void constructor();
@@ -5449,6 +5451,7 @@ struct WorldManager
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void CreateNewGame();
 	LIBZHL_API bool HostileEnvironment();
+	LIBZHL_API bool AddBoarders(BoardingEvent &boardingEvent);
 	
 	CompleteShip *playerShip;
 	BossShip *bossShip;

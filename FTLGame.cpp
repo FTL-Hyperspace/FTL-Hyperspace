@@ -35347,3 +35347,37 @@ __declspec(naked) bool WorldManager::HostileEnvironment()
 	);
 }
 
+namespace _func989
+{
+	static void *func = 0;
+	static short argdata[] = {0x101, 0x1ff};
+	static FunctionDefinition funcObj("WorldManager::AddBoarders", typeid(bool (WorldManager::*)(BoardingEvent &)), "578d7c240883e4f0ff77fc5589e557565383ec4c8b018b1f8b500831c083baf00700000e7f??", argdata, 2, 1, &func);
+}
+
+__declspec(naked) bool WorldManager::AddBoarders(BoardingEvent &boardingEvent)
+{
+	__asm__
+	(
+		"push ebp\n\t"
+		"mov ebp, esp\n\t"
+		"push edx\n\t"
+		"push ecx\n\t"
+		"push ebx\n\t"
+		"push esi\n\t"
+		"push edi\n\t"
+		"push [ebp+8]\n\t"		// boardingEvent
+	);
+	__asm__("call %0\n\t" :: "m"(_func989::func));
+	__asm__
+	(
+		"pop edi\n\t"
+		"pop esi\n\t"
+		"pop ebx\n\t"
+		"pop ecx\n\t"
+		"pop edx\n\t"
+		"mov esp, ebp\n\t"
+		"pop ebp\n\t"
+		"ret 4\n\t"
+	);
+}
+
