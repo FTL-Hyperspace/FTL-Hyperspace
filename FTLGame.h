@@ -3603,6 +3603,38 @@ struct TeleportSystem;
 
 struct ShipManager : ShipObject
 {
+	ShipManager(int shipId) 
+	{
+		this->constructor(shipId);
+	}
+	
+	Pointf GetRandomRoomCenter()
+	{
+		auto rng = rand();
+		auto graph = ShipGraph::GetShipInfo(this->iShipId);
+		auto rooms = graph->rooms.size();
+		return this->ship.GetRoomCenter(rng % rooms);
+	}
+	
+	Pointf GetRoomCenter(int roomId)
+	{
+		return ship.GetRoomCenter(roomId);
+	}
+	
+	std::vector<ProjectileFactory*> GetWeaponList()
+	{
+		std::vector<ProjectileFactory*> vec = std::vector<ProjectileFactory*>();
+		ShipManager::GetWeaponList(vec, this);
+		return vec;
+	}
+	
+	~ShipManager()
+	{
+		this->destructor2();
+	}
+	
+
+
 	LIBZHL_API int constructor(int shipId);
 	LIBZHL_API void AddInitialCrew(std::vector<CrewBlueprint> &blueprints);
 	LIBZHL_API int GetDodgeFactor();
@@ -3653,6 +3685,7 @@ struct ShipManager : ShipObject
 	LIBZHL_API void DamageSystem(int roomId, int iDamage, int iShieldPiercing, int fireChance, int breachChance, int stunChance, int iIonDamage, int iSystemDamage, int iPersDamage, char bHullBuster, int ownerId, int selfId, int bLockdown, int iStun);
 	LIBZHL_API void ClearStatusSystem(int system);
 	LIBZHL_API void ResetScrapLevel();
+	LIBZHL_API void JumpArrive();
 	
 	Targetable _targetable;
 	Collideable _collideable;
