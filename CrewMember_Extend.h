@@ -39,6 +39,7 @@ enum class CrewStat
     DAMAGE_TAKEN_MULTIPLIER,
     PASSIVE_HEAL_AMOUNT,
     PASSIVE_HEAL_DELAY,
+    ACTIVE_HEAL_AMOUNT,
     SABOTAGE_SPEED_MULTIPLIER,
     ALL_DAMAGE_TAKEN_MULTIPLIER,
     HEAL_SPEED_MULTIPLIER,
@@ -61,7 +62,7 @@ enum class CrewStat
     POWER_DRAIN_FRIENDLY
 };
 
-static const std::array<std::string, 33> crewStats =
+static const std::array<std::string, 34> crewStats =
 {
     "maxHealth",
     "stunMultiplier",
@@ -76,6 +77,7 @@ static const std::array<std::string, 33> crewStats =
     "damageTakenMultiplier",
     "passiveHealAmount",
     "passiveHealDelay",
+    "healAmount",
     "sabotageSpeedMultiplier",
     "allDamageTakenMultiplier",
     "healSpeed",
@@ -121,6 +123,8 @@ struct StatBoost
         CURRENT_ALL,
         CURRENT_ROOM,
         OTHER_ALL,
+        ORIGINAL_SHIP,
+        ORIGINAL_OTHER_SHIP,
         ALL
     };
 
@@ -138,6 +142,31 @@ struct StatBoost
         ALL
     };
 
+    enum class DroneTarget
+    {
+        DRONES,
+        CREW,
+        ALL
+    };
+
+    enum class ExtraCondition
+    {
+        BURNING,
+        SUFFOCATING,
+        MIND_CONTROLLED,
+        STUNNED,
+        REPAIRING,
+        FIGHTING,
+        SHOOTING,
+        MOVING,
+        IDLE,
+        MANNING,
+        FIREFIGHTING,
+        DYING,
+        TELEPORTING_OR_CLONING,
+
+    };
+
     CrewStat stat;
     CrewMember* crewSource;
     float amount;
@@ -146,17 +175,25 @@ struct StatBoost
     int priority = -1;
     float duration = -1;
     //TimerHelper* timerHelper;
+
     bool affectsSelf;
+
     std::vector<std::string> whiteList = std::vector<std::string>();
     std::vector<std::string> blackList = std::vector<std::string>();
     std::pair<std::vector<int>,std::vector<int>> sourceRoomIds = std::pair<std::vector<int>,std::vector<int>>();
+    std::vector<std::string> systemRoomReqs = std::vector<std::string>();
     std::vector<std::string> systemList = std::vector<std::string>();
 
+    std::vector<ExtraCondition> extraConditions = std::vector<ExtraCondition>();
+    bool extraConditionsReq;
     SystemRoomTarget systemRoomTarget;
+    bool systemRoomReq;
     BoostType boostType;
     BoostSource boostSource;
     ShipTarget shipTarget;
     CrewTarget crewTarget;
+    DroneTarget droneTarget = DroneTarget::ALL;
+
     int sourceShipId;
 
     ~StatBoost()
@@ -227,6 +264,7 @@ public:
 
     std::vector<StatBoost> outgoingStatBoosts = std::vector<StatBoost>();
     std::vector<StatBoost> outgoingAbilityStatBoosts = std::vector<StatBoost>();
+    std::vector<StatBoost> tempOutgoingStatBoosts = std::vector<StatBoost>();
 //    std::vector<StatBoost> outgoingTimedStatBoosts = std::vector<StatBoost>();
     std::vector<StatBoost> outgoingTimedAbilityStatBoosts = std::vector<StatBoost>();
     std::vector<StatBoost> timedStatBoosts = std::vector<StatBoost>();
@@ -240,6 +278,7 @@ public:
         delete passiveHealTimer;
     }
 
+    bool BoostCheck(const StatBoost& statBoost);
     float CalculateStat(CrewStat stat, const CrewDefinition& def, bool* boolValue=nullptr);
 };
 

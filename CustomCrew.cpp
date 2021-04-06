@@ -1138,7 +1138,7 @@ void CrewMember_Extend::ActivatePower()
     auto aex = CMA_EX(orig->crewAnim);
     aex->powerDone = true;
 
-    if (!powerDef.transformRace.empty())
+    if (!powerDef.transformRace.empty() && orig->crewAnim->status != 3)
     {
         std::string species = powerDef.transformRace;
 
@@ -1485,8 +1485,17 @@ HOOK_METHOD_PRIORITY(CrewMember, UpdateHealth, 2000, () -> void)
     if (custom->IsRace(species))
     {
         float passiveHealAmount = ex->CalculateStat(CrewStat::PASSIVE_HEAL_AMOUNT, def);
+        float healAmount = ex->CalculateStat(CrewStat::ACTIVE_HEAL_AMOUNT, def);
 
-        if (ex->isHealing && passiveHealAmount != 0.f && health.first != health.second && Functional())
+        if (healAmount != 0.f && health.first != health.second && Functional())
+        {
+            if (healAmount > 0.f && health.first != health.second)
+            {
+                fMedbay += 0.0000000001;
+            }
+            DirectModifyHealth(G_->GetCFPS()->GetSpeedFactor() * healAmount * 0.06245f);
+        }
+        else if (ex->isHealing && passiveHealAmount != 0.f && health.first != health.second && Functional())
         {
             if (passiveHealAmount > 0.f && health.first != health.second)
             {
