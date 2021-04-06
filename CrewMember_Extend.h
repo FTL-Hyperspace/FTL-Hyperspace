@@ -163,7 +163,7 @@ struct StatBoost
         MANNING,
         FIREFIGHTING,
         DYING,
-        TELEPORTING_OR_CLONING,
+        TELEPORTING_OR_CLONING
 
     };
 

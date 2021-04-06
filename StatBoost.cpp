@@ -50,6 +50,11 @@ StatBoost ParseStatBoostNode(rapidxml::xml_node<char>* node)
             {
                 def.value = EventsParser::ParseBoolean(val);
             }
+            if (name == "duration")
+            {
+                def.duration = boost::lexical_cast<float>(val);
+
+            }
             if (name == "priority")
             {
                 def.priority = boost::lexical_cast<int>(val);
@@ -289,10 +294,12 @@ bool CrewMember_Extend::BoostCheck(const StatBoost& statBoost)
 {
     if (statBoost.boostSource == StatBoost::BoostSource::CREW)
     {
-        if(((statBoost.shipTarget == StatBoost::ShipTarget::PLAYER_SHIP && orig->currentShipId == 0)
+        if(
+            (statBoost.shipTarget == StatBoost::ShipTarget::PLAYER_SHIP && orig->currentShipId == 0)
             || (statBoost.shipTarget == StatBoost::ShipTarget::ORIGINAL_SHIP && orig->currentShipId == statBoost.crewSource->iShipId)
             || (statBoost.shipTarget == StatBoost::ShipTarget::ORIGINAL_OTHER_SHIP && orig->currentShipId != statBoost.crewSource->iShipId)
-            || (statBoost.shipTarget == StatBoost::ShipTarget::ENEMY_SHIP && orig->currentShipId == 1))
+            || (statBoost.shipTarget == StatBoost::ShipTarget::OTHER_ALL && orig->currentShipId != statBoost.crewSource->currentShipId);
+            || (statBoost.shipTarget == StatBoost::ShipTarget::ENEMY_SHIP && orig->currentShipId == 1)
             || (statBoost.shipTarget == StatBoost::ShipTarget::CURRENT_ALL && orig->currentShipId == statBoost.crewSource->currentShipId)
             || (statBoost.shipTarget == StatBoost::ShipTarget::CURRENT_ROOM && orig->iRoomId == statBoost.crewSource->iRoomId && orig->currentShipId == statBoost.crewSource->currentShipId)
             || (statBoost.shipTarget == StatBoost::ShipTarget::ALL)
@@ -304,10 +311,10 @@ bool CrewMember_Extend::BoostCheck(const StatBoost& statBoost)
                 )
             {
                 if(
-                    ((statBoost.crewSource->iShipId == orig->iShipId && statBoost.crewTarget == StatBoost::CrewTarget::ALLIES)
+                    (statBoost.crewSource->iShipId == orig->iShipId && statBoost.crewTarget == StatBoost::CrewTarget::ALLIES)
                     || (statBoost.crewSource->iShipId != orig->iShipId && statBoost.crewTarget == StatBoost::CrewTarget::ENEMIES)
                     || (statBoost.crewTarget == StatBoost::CrewTarget::ALL)
-                    || (statBoost.crewSource == orig && statBoost.affectsSelf))
+                    || (statBoost.crewSource == orig && statBoost.affectsSelf)
                    )
                 {
                     if(
@@ -353,13 +360,15 @@ bool CrewMember_Extend::BoostCheck(const StatBoost& statBoost)
             if(
                 (statBoost.sourceShipId == orig->iShipId && statBoost.crewTarget == StatBoost::CrewTarget::ALLIES)
                 || (statBoost.sourceShipId != orig->iShipId && statBoost.crewTarget == StatBoost::CrewTarget::ENEMIES)
-                ||  (statBoost.crewTarget == StatBoost::CrewTarget::ALL)
+                || (statBoost.crewTarget == StatBoost::CrewTarget::ALL)
+                || (statBoost.crewSource == orig && statBoost.affectsSelf)
                 )
             {
                 if(
                     (std::find(statBoost.whiteList.begin(), statBoost.whiteList.end(), orig->species) != statBoost.whiteList.end())
                     || (!statBoost.blackList.empty() && std::find(statBoost.blackList.begin(), statBoost.blackList.end(), orig->species) == statBoost.blackList.end())
                     || (statBoost.blackList.empty() && statBoost.whiteList.empty())
+                    || (statBoost.crewSource == orig && statBoost.affectsSelf)
                     )
                 {
                     if(
