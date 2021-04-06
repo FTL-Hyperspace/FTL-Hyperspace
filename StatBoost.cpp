@@ -53,7 +53,6 @@ StatBoost ParseStatBoostNode(rapidxml::xml_node<char>* node)
             if (name == "duration")
             {
                 def.duration = boost::lexical_cast<float>(val);
-
             }
             if (name == "priority")
             {
@@ -262,23 +261,26 @@ HOOK_METHOD(WorldManager, OnLoop, () -> void)
                 {
                     for (auto statBoost : customAug->GetAugmentDefinition(augPair.first)->statBoosts)
                     {
-                        statBoost.boostSource = StatBoost::BoostSource::AUGMENT;
-                        statBoost.sourceShipId = shipId;
-
-                        auto it = statBoosts.find(statBoost.stat);
-                        if (statBoosts.find(statBoost.stat) != statBoosts.end())
+                        if (statBoost.duration == -1)
                         {
-                            for (int i = 0; i < augPair.second; i++)
-                                (*it).second.push_back(statBoost);
-                        }
-                        else
-                        {
-                            std::vector<StatBoost> newVector = std::vector<StatBoost>();
+                            statBoost.boostSource = StatBoost::BoostSource::AUGMENT;
+                            statBoost.sourceShipId = shipId;
 
-                            for (int i = 0; i < augPair.second; i++)
-                                newVector.push_back(statBoost);
+                            auto it = statBoosts.find(statBoost.stat);
+                            if (statBoosts.find(statBoost.stat) != statBoosts.end())
+                            {
+                                for (int i = 0; i < augPair.second; i++)
+                                    (*it).second.push_back(statBoost);
+                            }
+                            else
+                            {
+                                std::vector<StatBoost> newVector = std::vector<StatBoost>();
 
-                            statBoosts[statBoost.stat] = newVector;
+                                for (int i = 0; i < augPair.second; i++)
+                                    newVector.push_back(statBoost);
+
+                                statBoosts[statBoost.stat] = newVector;
+                            }
                         }
                     }
                 }
@@ -289,6 +291,101 @@ HOOK_METHOD(WorldManager, OnLoop, () -> void)
 //    duration<double, std::nano> ms_double = t2 - t1;
 //    std::cout << "World manager time: " << ms_double.count();
 }
+
+
+
+HOOK_METHOD(ShipManager, JumpArrive, () -> void)
+{
+    super();
+    CustomAugmentManager* customAug = CustomAugmentManager::GetInstance();
+
+    if (G_->GetShipInfo(0) != nullptr)
+    {
+        std::map<std::string, int> augMap = CustomAugmentManager::CheckHiddenAugments(G_->GetShipInfo(0)->augList);
+        for (auto augPair : augMap)
+        {
+            if (customAug->IsAugment(augPair.first))
+            {
+                for (auto statBoost : customAug->GetAugmentDefinition(augPair.first)->statBoosts)
+                {
+                    statBoost.boostSource = StatBoost::BoostSource::AUGMENT;
+                    statBoost.sourceShipId = 0;
+                    for (auto i : this->vCrewList)
+                    {
+                        auto ex = CM_EX(i);
+                        if (statBoost.duration != -1)
+                        {
+                            statBoost.timerHelper = new TimerHelper();
+                            statBoost.timerHelper->Start(statBoost.duration);
+                            auto it = ex->timedStatBoosts.find(statBoost.stat);
+                            if (ex->timedStatBoosts.find(statBoost.stat) != ex->timedStatBoosts.end())
+                            {
+                                for (int i = 0; i < augPair.second; i++)
+                                    (*it).second.push_back(statBoost);
+                            }
+                            else
+                            {
+                                std::vector<StatBoost> newVector = std::vector<StatBoost>();
+
+                                for (int i = 0; i < augPair.second; i++)
+                                    newVector.push_back(statBoost);
+
+                                ex->timedStatBoosts[statBoost.stat] = newVector;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+HOOK_METHOD(CrewMember, constructor, (CrewBlueprint& bp, int shipId, bool intruder, CrewAnimation* animation) -> void)
+{
+    super(bp, shipId, intruder, animation);
+    printf("%s", "boarders added yo");
+    CustomAugmentManager* customAug = CustomAugmentManager::GetInstance();
+    if (shipId == 1)
+    {
+        if (G_->GetShipInfo(1) != nullptr)
+        {
+            std::map<std::string, int> augMap = CustomAugmentManager::CheckHiddenAugments(G_->GetShipInfo(1)->augList);
+            for (auto augPair : augMap)
+            {
+                if (customAug->IsAugment(augPair.first))
+                {
+                    for (auto statBoost : customAug->GetAugmentDefinition(augPair.first)->statBoosts)
+                    {
+                        statBoost.boostSource = StatBoost::BoostSource::AUGMENT;
+                        statBoost.sourceShipId = 1;
+                        auto ex = CM_EX(this);
+                        if (statBoost.duration != -1)
+                        {
+                            statBoost.timerHelper = new TimerHelper();
+                            statBoost.timerHelper->Start(statBoost.duration);
+                            auto it = ex->timedStatBoosts.find(statBoost.stat);
+                            if (ex->timedStatBoosts.find(statBoost.stat) != ex->timedStatBoosts.end())
+                            {
+                                for (int i = 0; i < augPair.second; i++)
+                                    (*it).second.push_back(statBoost);
+                            }
+                            else
+                            {
+                                std::vector<StatBoost> newVector = std::vector<StatBoost>();
+
+                                for (int i = 0; i < augPair.second; i++)
+                                    newVector.push_back(statBoost);
+
+                                ex->timedStatBoosts[statBoost.stat] = newVector;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
 
 bool CrewMember_Extend::BoostCheck(const StatBoost& statBoost)
 {
@@ -404,15 +501,27 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition& def,
 //    auto t1 = steady_clock::now();
 
     std::vector<StatBoost> personalStatBoosts;
+    std::unordered_map<CrewStat, std::vector<StatBoost>> allStatBoosts;
 
-    auto it = statBoosts.find(stat);
-    if (it != statBoosts.end())
+    allStatBoosts.reserve(statBoosts.size() + timedStatBoosts.size());
+    allStatBoosts.insert(statBoosts.begin(), statBoosts.end());
+    allStatBoosts.insert(timedStatBoosts.begin(), timedStatBoosts.end());
+
+    auto it = allStatBoosts.find(stat);
+    if (it != allStatBoosts.end())
     {
         for (StatBoost statBoost : (*it).second)
         {
             if (BoostCheck(statBoost)) // If the boost affects this ship and/or this room, and the boost comes from someone else or affects self, and the boost comes from an ally and affects allies or an enemy and affects enemies, and the boost specifically lets this race take it or doesn't ban it
             {
-                personalStatBoosts.push_back(statBoost);
+                if (statBoost.duration != -1 && statBoost.timerHelper->Running())
+                {
+                    personalStatBoosts.push_back(statBoost);
+                }
+                else if (statBoost.duration == -1)
+                {
+                    personalStatBoosts.push_back(statBoost);
+                }
             }
         }
     }

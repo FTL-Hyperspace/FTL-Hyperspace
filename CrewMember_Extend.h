@@ -174,7 +174,7 @@ struct StatBoost
     bool isBool = false;
     int priority = -1;
     float duration = -1;
-    //TimerHelper* timerHelper;
+    TimerHelper* timerHelper;
 
     bool affectsSelf;
 
@@ -266,8 +266,8 @@ public:
     std::vector<StatBoost> outgoingAbilityStatBoosts = std::vector<StatBoost>();
     std::vector<StatBoost> tempOutgoingStatBoosts = std::vector<StatBoost>();
 //    std::vector<StatBoost> outgoingTimedStatBoosts = std::vector<StatBoost>();
-    std::vector<StatBoost> outgoingTimedAbilityStatBoosts = std::vector<StatBoost>();
-    std::vector<StatBoost> timedStatBoosts = std::vector<StatBoost>();
+//    std::vector<StatBoost> outgoingTimedAbilityStatBoosts = std::vector<StatBoost>();
+    std::unordered_map<CrewStat, std::vector<StatBoost>> timedStatBoosts = std::unordered_map<CrewStat, std::vector<StatBoost>>();
 //    std::vector<StatBoost> personalStatBoosts;
 
     void Initialize(CrewBlueprint& bp, int shipId, bool enemy, CrewAnimation *animation);

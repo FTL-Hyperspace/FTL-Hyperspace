@@ -1355,7 +1355,7 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
             if (passiveHealDelay > 0)
             {
                 passiveHealTimer = new TimerHelper();
-                passiveHealTimer->Start(def.passiveHealDelay);
+                passiveHealTimer->Start(passiveHealDelay);
             }
         }
 
@@ -1627,6 +1627,22 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
         if (aex->effectFinishAnim != nullptr)
         {
             aex->effectFinishAnim->Update();
+        }
+
+        for (auto timedBoosts : ex->timedStatBoosts)
+        {
+            for (auto statBoost : timedBoosts.second)
+            {
+                printf("%s ", "code's happenin' yo");
+                statBoost.timerHelper->Update();
+//                printf("%f %s ", statBoost.timerHelper->currTime, " <- time yo ");
+//                printf("%b %s ", statBoost.timerHelper->Running(), " <- is code running?");
+//                printf("%d %s ", statBoost.timerHelper->Done(), " <- is code done?");
+            }
+            ex->timedStatBoosts[timedBoosts.first].erase(std::remove_if(ex->timedStatBoosts[timedBoosts.first].begin(),
+                                       ex->timedStatBoosts[timedBoosts.first].end(),
+                                       [](const StatBoost& statBoost) { return statBoost.timerHelper->Done(); }),
+                                       ex->timedStatBoosts[timedBoosts.first].end());
         }
     }
 }
