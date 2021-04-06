@@ -3603,38 +3603,6 @@ struct TeleportSystem;
 
 struct ShipManager : ShipObject
 {
-	ShipManager(int shipId) 
-	{
-		this->constructor(shipId);
-	}
-	
-	Pointf GetRandomRoomCenter()
-	{
-		auto rng = rand();
-		auto graph = ShipGraph::GetShipInfo(this->iShipId);
-		auto rooms = graph->rooms.size();
-		return this->ship.GetRoomCenter(rng % rooms);
-	}
-	
-	Pointf GetRoomCenter(int roomId)
-	{
-		return ship.GetRoomCenter(roomId);
-	}
-	
-	std::vector<ProjectileFactory*> GetWeaponList()
-	{
-		std::vector<ProjectileFactory*> vec = std::vector<ProjectileFactory*>();
-		ShipManager::GetWeaponList(vec, this);
-		return vec;
-	}
-	
-	~ShipManager()
-	{
-		this->destructor2();
-	}
-	
-
-
 	LIBZHL_API int constructor(int shipId);
 	LIBZHL_API void AddInitialCrew(std::vector<CrewBlueprint> &blueprints);
 	LIBZHL_API int GetDodgeFactor();
