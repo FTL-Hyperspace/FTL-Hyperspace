@@ -1495,7 +1495,7 @@ HOOK_METHOD_PRIORITY(CrewMember, UpdateHealth, 2000, () -> void)
             }
             DirectModifyHealth(G_->GetCFPS()->GetSpeedFactor() * healAmount * 0.06245f);
         }
-        else if (ex->isHealing && passiveHealAmount != 0.f && health.first != health.second && Functional())
+        if (ex->isHealing && passiveHealAmount != 0.f && health.first != health.second && Functional())
         {
             if (passiveHealAmount > 0.f && health.first != health.second)
             {
