@@ -39,6 +39,7 @@ enum class CrewStat
     DAMAGE_TAKEN_MULTIPLIER,
     PASSIVE_HEAL_AMOUNT,
     PASSIVE_HEAL_DELAY,
+    ACTIVE_HEAL_AMOUNT,
     SABOTAGE_SPEED_MULTIPLIER,
     ALL_DAMAGE_TAKEN_MULTIPLIER,
     HEAL_SPEED_MULTIPLIER,
@@ -61,7 +62,7 @@ enum class CrewStat
     POWER_DRAIN_FRIENDLY
 };
 
-static const std::array<std::string, 33> crewStats =
+static const std::array<std::string, 34> crewStats =
 {
     "maxHealth",
     "stunMultiplier",
@@ -76,6 +77,7 @@ static const std::array<std::string, 33> crewStats =
     "damageTakenMultiplier",
     "passiveHealAmount",
     "passiveHealDelay",
+    "healAmount",
     "sabotageSpeedMultiplier",
     "allDamageTakenMultiplier",
     "healSpeed",
@@ -147,7 +149,7 @@ struct StatBoost
         ALL
     };
 
-    enum class ExtraConditions
+    enum class ExtraCondition
     {
         BURNING,
         SUFFOCATING,
@@ -182,7 +184,7 @@ struct StatBoost
     std::vector<std::string> systemRoomReqs = std::vector<std::string>();
     std::vector<std::string> systemList = std::vector<std::string>();
 
-    std::vector<StatBoost> extraConditions = std::vector<StatBoost>();
+    std::vector<ExtraCondition> extraConditions = std::vector<ExtraCondition>();
     bool extraConditionsReq;
     SystemRoomTarget systemRoomTarget;
     bool systemRoomReq;
@@ -276,7 +278,7 @@ public:
         delete passiveHealTimer;
     }
 
-    bool BoostCheck(StatBoost statBoost);
+    bool BoostCheck(const StatBoost& statBoost);
     float CalculateStat(CrewStat stat, const CrewDefinition& def, bool* boolValue=nullptr);
 };
 

@@ -1485,8 +1485,9 @@ HOOK_METHOD_PRIORITY(CrewMember, UpdateHealth, 2000, () -> void)
     if (custom->IsRace(species))
     {
         float passiveHealAmount = ex->CalculateStat(CrewStat::PASSIVE_HEAL_AMOUNT, def);
-        float healAmount = ex->CalculateStat(CrewStat::HEAL_SPEED_MULTIPLIER, def);
-        if (ex->temporaryPowerActive && healAmount != 0.f && health.first != health.second && Functional())
+        float healAmount = ex->CalculateStat(CrewStat::ACTIVE_HEAL_AMOUNT, def);
+
+        if (healAmount != 0.f && health.first != health.second && Functional())
         {
             if (healAmount > 0.f && health.first != health.second)
             {

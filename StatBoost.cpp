@@ -285,9 +285,8 @@ HOOK_METHOD(WorldManager, OnLoop, () -> void)
 //    std::cout << "World manager time: " << ms_double.count();
 }
 
-bool CrewMember_Extend::BoostCheck(StatBoost statBoost)
+bool CrewMember_Extend::BoostCheck(const StatBoost& statBoost)
 {
-    bool ret = false;
     if (statBoost.boostSource == StatBoost::BoostSource::CREW)
     {
         if(((statBoost.shipTarget == StatBoost::ShipTarget::PLAYER_SHIP && orig->currentShipId == 0)
@@ -332,7 +331,7 @@ bool CrewMember_Extend::BoostCheck(StatBoost statBoost)
                                || (statBoost.droneTarget == StatBoost::DroneTarget::ALL)
                                )
                             {
-                                ret = true;
+                                return true;
                             }
                         }
                     }
@@ -377,14 +376,14 @@ bool CrewMember_Extend::BoostCheck(StatBoost statBoost)
                              || (statBoost.droneTarget == StatBoost::DroneTarget::ALL)
                              )
                         {
-                            ret = true;
+                            return true;
                         }
                     }
                 }
             }
         }
     }
-    return ret;
+    return false;
 }
 
 float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition& def, bool* boolValue)
@@ -449,6 +448,9 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition& def,
             break;
         case CrewStat::PASSIVE_HEAL_AMOUNT:
             finalStat = (temporaryPowerActive && def.powerDef.tempPower.passiveHealAmount.enabled) ? def.powerDef.tempPower.passiveHealAmount.value : def.passiveHealAmount;
+            break;
+        case CrewStat::ACTIVE_HEAL_AMOUNT:
+            finalStat = (temporaryPowerActive) ? def.powerDef.tempPower.healAmount : 0.f;
             break;
         case CrewStat::PASSIVE_HEAL_DELAY:
             finalStat = (temporaryPowerActive && def.powerDef.tempPower.passiveHealDelay.enabled) ? def.powerDef.tempPower.passiveHealDelay.value : def.passiveHealDelay;
