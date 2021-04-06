@@ -981,7 +981,7 @@ int CustomShipSelect::CountUnlockedShips(int variant=-1)
         {
             if (def && CustomShipUnlocks::instance->GetCustomShipUnlocked(def->name, variant))
             {
-                if ((variant == 1 && def->typeB) || (variant == 2 && def->typeC))
+                if (def->VariantExists(variant))
                 {
                     counter++;
                 }
