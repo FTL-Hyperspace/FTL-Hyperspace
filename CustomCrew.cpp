@@ -1628,42 +1628,6 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
         {
             aex->effectFinishAnim->Update();
         }
-
-        for (auto timedBoosts : ex->timedStatBoosts)
-        {
-            for (auto statBoost : timedBoosts.second)
-            {
-                statBoost.timerHelper->Update();
-            }
-            ex->timedStatBoosts[timedBoosts.first].erase(std::remove_if(ex->timedStatBoosts[timedBoosts.first].begin(),
-                                       ex->timedStatBoosts[timedBoosts.first].end(),
-                                       [](const StatBoost& statBoost) { return statBoost.timerHelper->Done(); }),
-                                       ex->timedStatBoosts[timedBoosts.first].end());
-        }
-
-        for (auto boostAnim : aex->boostAnim)
-        {
-            boostAnim->Update();
-            bool removeAnim = false;
-            for (auto statBoost : ex->personalStatBoosts)
-            {
-                if (statBoost.boostAnim == boostAnim->animName)
-                {
-                    // keep the animation going
-                }
-                else
-                {
-                    removeAnim = true;
-                    break;
-                }
-            }
-            if (removeAnim)
-            {
-                boostAnim->tracker.Stop(false);
-                aex->boostAnim.erase(std::find(aex->boostAnim.begin(), aex->boostAnim.end(), boostAnim));
-                boostAnim->destructor();
-            }
-        }
     }
 }
 
@@ -3418,8 +3382,4 @@ CrewAnimation_Extend::~CrewAnimation_Extend()
 {
     if (effectAnim) effectAnim->destructor();
     if (tempEffectAnim) tempEffectAnim->destructor();
-    for (auto anim : boostAnim)
-    {
-        anim->destructor();
-    }
 }

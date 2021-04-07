@@ -500,8 +500,8 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition& def,
 //    using std::chrono::milliseconds;
 //    auto t1 = steady_clock::now();
 
-//    std::vector<StatBoost> personalStatBoosts;
-    personalStatBoosts.clear();
+    std::vector<StatBoost> personalStatBoosts;
+//    personalStatBoosts.clear();
     std::unordered_map<CrewStat, std::vector<StatBoost>> allStatBoosts;
 
     allStatBoosts.reserve(statBoosts.size() + timedStatBoosts.size());
@@ -685,29 +685,6 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition& def,
                     finalStat = statBoost.amount;
                 }
             }
-            if (statBoost.boostAnim != "")
-            {
-                auto aex = CMA_EX(orig->crewAnim);
-
-                bool newAnim = true;
-                for (auto animation : aex->boostAnim)
-                {
-                    if (animation->animName == statBoost.boostAnim)
-                    {
-                        newAnim = false;
-                        break;
-                    }
-                }
-                if (newAnim)
-                {
-                    Animation *anim = new Animation();
-                    AnimationControl::GetAnimation(*anim, G_->GetAnimationControl(), statBoost.boostAnim);
-                    aex->boostAnim.push_back(anim);
-                    anim->SetCurrentFrame(0);
-                    anim->tracker.SetLoop(true, 0);
-                    anim->Start(true);
-                }
-            }
         }
     }
     if (stat == CrewStat::MAX_HEALTH)
@@ -725,6 +702,135 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition& def,
 //    duration<double, std::nano> ms_double = t2 - t1;
 //    std::cout << "Calculate stat time: " << ms_double.count();
     return finalStat;
+}
+
+HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
+{
+    super();
+    auto custom = CustomCrewManager::GetInstance();
+    CrewMember_Extend* ex = CM_EX(this);
+    if (custom->IsRace(species))
+    {
+        for (auto timedBoosts : ex->timedStatBoosts)
+        {
+            for (auto statBoost : timedBoosts.second)
+            {
+                statBoost.timerHelper->Update();
+            }
+            ex->timedStatBoosts[timedBoosts.first].erase(std::remove_if(ex->timedStatBoosts[timedBoosts.first].begin(),
+                                       ex->timedStatBoosts[timedBoosts.first].end(),
+                                       [](const StatBoost& statBoost) { return statBoost.timerHelper->Done(); }),
+                                       ex->timedStatBoosts[timedBoosts.first].end());
+        }
+
+        auto aex = CMA_EX(crewAnim);
+        for (auto statBoost : statBoosts)
+        {
+            for (auto singleStatBoost : statBoost.second)
+            {
+                if (singleStatBoost.boostAnim != "")
+                {
+                    bool result = ex->BoostCheck(singleStatBoost);
+                    if (result)
+                    {
+//                        bool newAnim = true;
+//                        for (auto animation : aex->boostAnim)
+//                        {
+//                            if (animation->animName == singleStatBoost.boostAnim)
+//                            {
+//                                newAnim = false;
+//                            }
+//                        }
+//                        if (newAnim)
+//                        {
+                            Animation* anim = new Animation();
+                            AnimationControl::GetAnimation(*anim, G_->GetAnimationControl(), singleStatBoost.boostAnim);
+                            aex->boostAnim.push_back(anim);
+                            anim->SetCurrentFrame(0);
+                            anim->tracker.SetLoop(true, 0);
+                            anim->Start(true);
+//                        }
+                    }
+                    else
+                    {
+                        auto it = aex->boostAnim.begin();
+                        while (it != aex->boostAnim.end())
+                        {
+                            if ((*it)->animName == singleStatBoost.boostAnim)
+                            {
+                                (*it)->tracker.Stop(false);
+                                it = aex->boostAnim.erase(it);
+                                //anim->destructor();
+                            }
+                            else
+                            {
+                                ++it;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        for (auto statBoost : ex->timedStatBoosts)
+        {
+            for (auto singleStatBoost : statBoost.second)
+            {
+                Animation *anim;
+                if (singleStatBoost.boostAnim != "")
+                {
+                    bool result = ex->BoostCheck(singleStatBoost);
+                    if (result)
+                    {
+                        bool newAnim = true;
+                        for (auto animation : aex->boostAnim)
+                        {
+                            if (animation->animName == singleStatBoost.boostAnim)
+                            {
+                                newAnim = false;
+                            }
+                        }
+                        if (newAnim)
+                        {
+                            anim = new Animation();
+                            AnimationControl::GetAnimation(*anim, G_->GetAnimationControl(), singleStatBoost.boostAnim);
+                            aex->boostAnim.push_back(anim);
+                            anim->SetCurrentFrame(0);
+                            anim->tracker.SetLoop(true, 0);
+                            anim->Start(true);
+                        }
+                    }
+                    else
+                    {
+                        auto it = aex->boostAnim.begin();
+                        while (it != aex->boostAnim.end())
+                        {
+                            if ((*it)->animName == singleStatBoost.boostAnim)
+                            {
+                                if (anim)
+                                {
+                                    anim->tracker.Stop(false);
+                                    it = aex->boostAnim.erase(it);
+                                    //anim->destructor();
+                                }
+                                else
+                                {
+                                    ++it;
+                                }
+                            }
+                            else
+                            {
+                                ++it;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        for (auto boostAnim : aex->boostAnim)
+        {
+            boostAnim->Update();
+        }
+    }
 }
 
 #pragma GCC pop_options
