@@ -1633,16 +1633,36 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
         {
             for (auto statBoost : timedBoosts.second)
             {
-                printf("%s ", "code's happenin' yo");
                 statBoost.timerHelper->Update();
-//                printf("%f %s ", statBoost.timerHelper->currTime, " <- time yo ");
-//                printf("%b %s ", statBoost.timerHelper->Running(), " <- is code running?");
-//                printf("%d %s ", statBoost.timerHelper->Done(), " <- is code done?");
             }
             ex->timedStatBoosts[timedBoosts.first].erase(std::remove_if(ex->timedStatBoosts[timedBoosts.first].begin(),
                                        ex->timedStatBoosts[timedBoosts.first].end(),
                                        [](const StatBoost& statBoost) { return statBoost.timerHelper->Done(); }),
                                        ex->timedStatBoosts[timedBoosts.first].end());
+        }
+
+        for (auto boostAnim : aex->boostAnim)
+        {
+            boostAnim->Update();
+            bool removeAnim = false;
+            for (auto statBoost : ex->personalStatBoosts)
+            {
+                if (statBoost.boostAnim == boostAnim->animName)
+                {
+                    // keep the animation going
+                }
+                else
+                {
+                    removeAnim = true;
+                    break;
+                }
+            }
+            if (removeAnim)
+            {
+                boostAnim->tracker.Stop(false);
+                aex->boostAnim.erase(std::find(aex->boostAnim.begin(), aex->boostAnim.end(), boostAnim));
+                boostAnim->destructor();
+            }
         }
     }
 }
@@ -2961,6 +2981,18 @@ HOOK_METHOD(CrewMember, OnRender, (bool outlineOnly) -> void)
         CSurface::GL_PopMatrix();
     }
 
+    for (auto boostAnim : ex->boostAnim)
+    {
+        if (boostAnim != nullptr && !boostAnim->tracker.done && boostAnim->tracker.running)
+        {
+            CSurface::GL_PushMatrix();
+            CSurface::GL_Translate(-std::ceil((float)boostAnim->info.frameWidth / 2), -std::ceil((float)boostAnim->info.frameHeight / 2));
+            CSurface::GL_Translate(0, PositionShift());
+            boostAnim->OnRender(1.f, COLOR_WHITE, false);
+            CSurface::GL_PopMatrix();
+        }
+    }
+
     CSurface::GL_PopMatrix();
 }
 
@@ -3386,4 +3418,8 @@ CrewAnimation_Extend::~CrewAnimation_Extend()
 {
     if (effectAnim) effectAnim->destructor();
     if (tempEffectAnim) tempEffectAnim->destructor();
+    for (auto anim : boostAnim)
+    {
+        anim->destructor();
+    }
 }

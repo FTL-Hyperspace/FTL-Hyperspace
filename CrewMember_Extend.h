@@ -176,6 +176,8 @@ struct StatBoost
     float duration = -1;
     TimerHelper* timerHelper;
 
+    std::string boostAnim = "";
+
     bool affectsSelf;
 
     std::vector<std::string> whiteList = std::vector<std::string>();
@@ -209,6 +211,7 @@ public:
     Animation* effectAnim = nullptr;
     Animation* tempEffectAnim = nullptr;
     Animation* effectFinishAnim = nullptr;
+    std::vector<Animation*> boostAnim = std::vector<Animation*>();
     GL_Texture* tempEffectStrip = nullptr;
 
     bool isMantisAnimation = false;
@@ -268,7 +271,7 @@ public:
 //    std::vector<StatBoost> outgoingTimedStatBoosts = std::vector<StatBoost>();
 //    std::vector<StatBoost> outgoingTimedAbilityStatBoosts = std::vector<StatBoost>();
     std::unordered_map<CrewStat, std::vector<StatBoost>> timedStatBoosts = std::unordered_map<CrewStat, std::vector<StatBoost>>();
-//    std::vector<StatBoost> personalStatBoosts;
+    std::vector<StatBoost> personalStatBoosts;
 
     void Initialize(CrewBlueprint& bp, int shipId, bool enemy, CrewAnimation *animation);
 

@@ -58,6 +58,10 @@ StatBoost ParseStatBoostNode(rapidxml::xml_node<char>* node)
             {
                 def.priority = boost::lexical_cast<int>(val);
             }
+            if (name == "boostAnim")
+            {
+                def.boostAnim = val;
+            }
             if (name == "affectsSelf")
             {
                 def.affectsSelf = EventsParser::ParseBoolean(val);
@@ -343,41 +347,37 @@ HOOK_METHOD(ShipManager, JumpArrive, () -> void)
 HOOK_METHOD(CrewMember, constructor, (CrewBlueprint& bp, int shipId, bool intruder, CrewAnimation* animation) -> void)
 {
     super(bp, shipId, intruder, animation);
-    printf("%s", "boarders added yo");
     CustomAugmentManager* customAug = CustomAugmentManager::GetInstance();
-    if (shipId == 1)
+    if (G_->GetShipInfo(shipId) != nullptr)
     {
-        if (G_->GetShipInfo(1) != nullptr)
+        std::map<std::string, int> augMap = CustomAugmentManager::CheckHiddenAugments(G_->GetShipInfo(shipId)->augList);
+        for (auto augPair : augMap)
         {
-            std::map<std::string, int> augMap = CustomAugmentManager::CheckHiddenAugments(G_->GetShipInfo(1)->augList);
-            for (auto augPair : augMap)
+            if (customAug->IsAugment(augPair.first))
             {
-                if (customAug->IsAugment(augPair.first))
+                for (auto statBoost : customAug->GetAugmentDefinition(augPair.first)->statBoosts)
                 {
-                    for (auto statBoost : customAug->GetAugmentDefinition(augPair.first)->statBoosts)
+                    statBoost.boostSource = StatBoost::BoostSource::AUGMENT;
+                    statBoost.sourceShipId = shipId;
+                    auto ex = CM_EX(this);
+                    if (statBoost.duration != -1)
                     {
-                        statBoost.boostSource = StatBoost::BoostSource::AUGMENT;
-                        statBoost.sourceShipId = 1;
-                        auto ex = CM_EX(this);
-                        if (statBoost.duration != -1)
+                        statBoost.timerHelper = new TimerHelper();
+                        statBoost.timerHelper->Start(statBoost.duration);
+                        auto it = ex->timedStatBoosts.find(statBoost.stat);
+                        if (ex->timedStatBoosts.find(statBoost.stat) != ex->timedStatBoosts.end())
                         {
-                            statBoost.timerHelper = new TimerHelper();
-                            statBoost.timerHelper->Start(statBoost.duration);
-                            auto it = ex->timedStatBoosts.find(statBoost.stat);
-                            if (ex->timedStatBoosts.find(statBoost.stat) != ex->timedStatBoosts.end())
-                            {
-                                for (int i = 0; i < augPair.second; i++)
-                                    (*it).second.push_back(statBoost);
-                            }
-                            else
-                            {
-                                std::vector<StatBoost> newVector = std::vector<StatBoost>();
+                            for (int i = 0; i < augPair.second; i++)
+                                (*it).second.push_back(statBoost);
+                        }
+                        else
+                        {
+                            std::vector<StatBoost> newVector = std::vector<StatBoost>();
 
-                                for (int i = 0; i < augPair.second; i++)
-                                    newVector.push_back(statBoost);
+                            for (int i = 0; i < augPair.second; i++)
+                                newVector.push_back(statBoost);
 
-                                ex->timedStatBoosts[statBoost.stat] = newVector;
-                            }
+                            ex->timedStatBoosts[statBoost.stat] = newVector;
                         }
                     }
                 }
@@ -500,7 +500,8 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition& def,
 //    using std::chrono::milliseconds;
 //    auto t1 = steady_clock::now();
 
-    std::vector<StatBoost> personalStatBoosts;
+//    std::vector<StatBoost> personalStatBoosts;
+    personalStatBoosts.clear();
     std::unordered_map<CrewStat, std::vector<StatBoost>> allStatBoosts;
 
     allStatBoosts.reserve(statBoosts.size() + timedStatBoosts.size());
@@ -682,6 +683,29 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition& def,
                 else if (statBoost.boostType == StatBoost::BoostType::SET)
                 {
                     finalStat = statBoost.amount;
+                }
+            }
+            if (statBoost.boostAnim != "")
+            {
+                auto aex = CMA_EX(orig->crewAnim);
+
+                bool newAnim = true;
+                for (auto animation : aex->boostAnim)
+                {
+                    if (animation->animName == statBoost.boostAnim)
+                    {
+                        newAnim = false;
+                        break;
+                    }
+                }
+                if (newAnim)
+                {
+                    Animation *anim = new Animation();
+                    AnimationControl::GetAnimation(*anim, G_->GetAnimationControl(), statBoost.boostAnim);
+                    aex->boostAnim.push_back(anim);
+                    anim->SetCurrentFrame(0);
+                    anim->tracker.SetLoop(true, 0);
+                    anim->Start(true);
                 }
             }
         }
