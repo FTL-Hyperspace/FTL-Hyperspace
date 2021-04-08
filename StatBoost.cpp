@@ -22,6 +22,10 @@ StatBoost ParseStatBoostNode(rapidxml::xml_node<char>* node)
         {
             std::string name = child->name();
             std::string val = child->value();
+            if (name == "statBoost")
+            {
+                def.providedStatBoosts.push_back(parseStatBoostNode(name, val, child));
+            }
             if (name == "boostType")
             {
                 if (val == "MULT")
@@ -733,23 +737,23 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
                     bool result = ex->BoostCheck(singleStatBoost);
                     if (result)
                     {
-//                        bool newAnim = true;
-//                        for (auto animation : aex->boostAnim)
-//                        {
-//                            if (animation->animName == singleStatBoost.boostAnim)
-//                            {
-//                                newAnim = false;
-//                            }
-//                        }
-//                        if (newAnim)
-//                        {
+                        bool newAnim = true;
+                        for (auto animation : aex->boostAnim)
+                        {
+                            if (animation->animName == singleStatBoost.boostAnim)
+                            {
+                                newAnim = false;
+                            }
+                        }
+                        if (newAnim)
+                        {
                             Animation* anim = new Animation();
                             AnimationControl::GetAnimation(*anim, G_->GetAnimationControl(), singleStatBoost.boostAnim);
                             aex->boostAnim.push_back(anim);
                             anim->SetCurrentFrame(0);
                             anim->tracker.SetLoop(true, 0);
                             anim->Start(true);
-//                        }
+                        }
                     }
                     else
                     {
