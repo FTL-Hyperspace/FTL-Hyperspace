@@ -21,9 +21,15 @@ void InfoBox::SetBlueprintAugment(InfoBox *this<ecx>, const AugmentBlueprint* bp
 int InfoBox::CalcBoxHeight(InfoBox *this<ecx>);
 "83b9b4000000ff74??31c0c38d742600578d7c240883e4f0ff77fc5589e557565389cb83ec4c80792400":
 bool InfoBox::IsEmpty(InfoBox *this<ecx>);
+"578d7c240883e4f0ff77fc5589e5575389cb83ec10c744240400000000c70424????????e8????????8d43148d8bc0000000":
+void InfoBox::constructor(InfoBox *this<ecx>);
 
 struct InfoBox 
 {{
+	InfoBox()
+	{
+		this->constructor();
+	}
 
 	enum ExpandDir
 	{
