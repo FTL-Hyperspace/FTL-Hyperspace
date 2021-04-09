@@ -1242,6 +1242,7 @@ struct ChoiceText
 struct ChoiceBox : FocusWindow
 {
 	LIBZHL_API void OnRender();
+	LIBZHL_API void MouseMove(int x, int y);
 	
 	GL_Texture *textBox;
 	WindowFrame *box;
