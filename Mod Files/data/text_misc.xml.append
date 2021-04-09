@@ -48,6 +48,9 @@
 <text name="power_not_ready_system_damaged">Not Ready: No damaged system in room</text>
 <text name="power_not_ready_teleporting">Not Ready: Can't transform mid-teleport</text>
 
+<text name="health_tooltip">Health</text>
+<text name="mind_controlled_tooltip">Mind Controlled</text>
+
 <!-- Discord Integration -->
 
 <text name="discord_main_menu">In main menu</text>

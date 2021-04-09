@@ -2,6 +2,8 @@
 #include "Global.h"
 #include <unordered_map>
 
+extern bool g_advancedCrewTooltips;
+
 struct StatBoost;
 
 template <typename T>

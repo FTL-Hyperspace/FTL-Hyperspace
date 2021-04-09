@@ -77,6 +77,18 @@ This means that you can't get past defense drones easily anymore
 
 <hackingDroneFix enabled="true"/>
 
+<!--  Shows the power list of crew that are moused over
+Primarily useful for mods that add significant amounts of custom crew
+-->
+
+<advancedCrewTooltips enabled="true"/>
+
+<!--  Shows the info box of equipment/crew that are moused over
+Perfect for mods that add lots of custom equipment and/or to reduce memorization in general
+-->
+
+<eventTooltips enabled="true"/>
+
 <!-- Custom title screen
 Changes the background and logo and moves the FTL logo slightly -->
 
