@@ -22,7 +22,9 @@ void CustomAugmentManager::ParseCustomAugmentNode(rapidxml::xml_node<char>* node
 
                 for (auto functionNode = child->first_node(); functionNode; functionNode = functionNode->next_sibling())
                 {
-                    if (strcmp(functionNode->name(), "function") == 0)
+                    std::string functionNodeName = functionNode->name();
+
+                    if (functionNodeName == "function")
                     {
                         auto func = AugmentFunction();
 
@@ -50,13 +52,23 @@ void CustomAugmentManager::ParseCustomAugmentNode(rapidxml::xml_node<char>* node
                                 func.warning = EventsParser::ParseBoolean(functionNode->first_attribute("warning")->value());
                             }
 
-
                             augDef->functions[functionName] = func;
                         }
                     }
-                    if (strcmp(functionNode->name(), "locked") == 0)
+                    if (functionNodeName == "locked")
                     {
                         augDef->locked = true;
+                    }
+
+                    if (functionNodeName == "statBoosts")
+                    {
+                        for (auto statBoostNode = functionNode->first_node(); statBoostNode; statBoostNode = statBoostNode->next_sibling())
+                        {
+                            if (strcmp(statBoostNode->name(), "statBoost") == 0)
+                            {
+                                augDef->statBoosts.push_back(ParseStatBoostNode(statBoostNode));
+                            }
+                        }
                     }
                 }
 
@@ -488,7 +500,6 @@ HOOK_METHOD(ShipObject, GetAugmentationCount, () -> int)
 
     return count;
 }
-
 HOOK_METHOD(ShipObject, RemoveAugmentation, (const std::string& name) -> void)
 {
     super(name);
@@ -505,4 +516,12 @@ HOOK_METHOD(ShipObject, RemoveAugmentation, (const std::string& name) -> void)
     }
 
     G_->GetShipInfo(iShipId)->augCount = augCount;
+
+    /*
+    ShipManager* ship = G_->GetShipManager(this);
+    if (ship != nullptr)
+    {
+        auto sm = SM_EX(ship);
+    }
+    */
 }

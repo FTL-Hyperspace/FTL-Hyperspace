@@ -1,7 +1,10 @@
 #include "CustomCrew.h"
+#include <chrono>
+#include <iostream>
 
 #include "Resources.h"
 #include "freetype.h"
+#include "StatBoost.h"
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
 #include <algorithm>
@@ -16,6 +19,9 @@ static const std::string CREW_SKILLS[6] =
     "repair",
     "combat"
 };
+
+
+
 
 
 CustomCrewManager CustomCrewManager::instance = CustomCrewManager();
@@ -167,6 +173,10 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                         {
                             crew.maxHealth = boost::lexical_cast<int>(val);
                         }
+                        if (str == "stunMultiplier")
+                        {
+                            crew.stunMultiplier = boost::lexical_cast<float>(val);
+                        }
                         if (str == "moveSpeedMultiplier")
                         {
                             crew.moveSpeedMultiplier = boost::lexical_cast<float>(val);
@@ -178,6 +188,10 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                         if (str == "damageMultiplier")
                         {
                             crew.damageMultiplier = boost::lexical_cast<float>(val);
+                        }
+                        if (str == "rangedDamageMultiplier")
+                        {
+                            crew.rangedDamageMultiplier = boost::lexical_cast<float>(val);
                         }
                         if (str == "fireRepairMultiplier")
                         {
@@ -258,6 +272,13 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                             if (stat->first_attribute("animSoundFrame"))
                             {
                                 crew.repairSoundFrame = boost::lexical_cast<int>(stat->first_attribute("animSoundFrame")->value());
+                            }
+                        }
+                        if (str == "passiveStatBoosts")
+                        {
+                            for (auto statBoostNode = stat->first_node(); statBoostNode; statBoostNode = statBoostNode->next_sibling())
+                            {
+                                crew.passiveStatBoosts.push_back(ParseStatBoostNode(statBoostNode));
                             }
                         }
                         if (str == "animBase")
@@ -665,6 +686,10 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                                                 }
                                             }
                                         }
+                                        if (tempEffectName == "stunMultiplier")
+                                        {
+                                            crew.powerDef.tempPower.stunMultiplier = boost::lexical_cast<float>(tempEffectNode->value());
+                                        }
                                         if (tempEffectName == "moveSpeedMultiplier")
                                         {
                                             crew.powerDef.tempPower.moveSpeedMultiplier = boost::lexical_cast<float>(tempEffectNode->value());
@@ -780,6 +805,13 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                                         if (tempEffectName == "powerDrain")
                                         {
                                             crew.powerDef.tempPower.powerDrain = boost::lexical_cast<int>(tempEffectNode->value());
+                                        }
+                                        if (tempEffectName == "statBoosts")
+                                        {
+                                            for (auto statBoostNode = tempEffectNode->first_node(); statBoostNode; statBoostNode = statBoostNode->next_sibling())
+                                            {
+                                                crew.powerDef.tempPower.statBoosts.push_back(ParseStatBoostNode(statBoostNode));
+                                            }
                                         }
                                     }
                                 }
@@ -1093,11 +1125,20 @@ void CrewMember_Extend::ActivatePower()
     {
         orig->DirectModifyHealth(powerDef.selfHealth);
     }
+//    StatBoost testBoost;
+//    testBoost.duration = 5;
+//    testBoost.amount = 5;
+//    testBoost.boostType = StatBoost::BoostType::FLAT;
+//    testBoost.shipTarget = StatBoost::ShipTarget::ALL;
+//    testBoost.crewTarget = StatBoost::CrewTarget::ALL;
+//    testBoost.stat = CrewStat::MOVE_SPEED_MULTIPLIER;
+//    testBoost.affectsSelf = true;
+//    timedStatBoosts.push_back(testBoost);
 
     auto aex = CMA_EX(orig->crewAnim);
     aex->powerDone = true;
 
-    if (!powerDef.transformRace.empty())
+    if (!powerDef.transformRace.empty() && orig->crewAnim->status != 3)
     {
         std::string species = powerDef.transformRace;
 
@@ -1307,11 +1348,11 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
                 orig->crewAnim->layerStrips = layerStrips;
             }
         }
-
-
-        if (def.passiveHealAmount != 0.f)
+        float passiveHealAmount = CalculateStat(CrewStat::PASSIVE_HEAL_AMOUNT, def);
+        if (passiveHealAmount != 0.f)
         {
-            if (def.passiveHealDelay > 0)
+            float passiveHealDelay = CalculateStat(CrewStat::PASSIVE_HEAL_DELAY, def);
+            if (passiveHealDelay > 0)
             {
                 passiveHealTimer = new TimerHelper();
                 passiveHealTimer->Start(def.passiveHealDelay);
@@ -1325,6 +1366,19 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
         hasSpecialPower = def.powerDef.hasSpecialPower;
         hasTemporaryPower = def.powerDef.hasTemporaryPower;
         canPhaseThroughDoors = def.canPhaseThroughDoors;
+
+        for (auto statBoost : def.passiveStatBoosts)
+        {
+            statBoost.crewSource = orig;
+            statBoost.boostSource = StatBoost::BoostSource::CREW;
+            outgoingStatBoosts.push_back(statBoost);
+        }
+        for (auto statBoost : def.powerDef.tempPower.statBoosts)
+        {
+            statBoost.crewSource = orig;
+            statBoost.boostSource = StatBoost::BoostSource::CREW;
+            outgoingAbilityStatBoosts.push_back(statBoost);
+        }
 
 
         auto skillsDef = def.skillsDef;
@@ -1370,23 +1424,27 @@ HOOK_METHOD_PRIORITY(CrewMember, UpdateHealth, 2000, () -> void)
     if (G_->GetCApp()->menu.shipBuilder.bOpen) return;
 
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
+    auto ex = CM_EX(this);
+
+//    using std::chrono::steady_clock;
+//    using std::chrono::duration_cast;
+//    using std::chrono::duration;
+//    using std::chrono::milliseconds;
+//    auto t1 = steady_clock::now();
+
+    auto def = custom->GetDefinition(this->species);
+
+//    auto t2 = steady_clock::now();
+//    duration<double, std::nano> ms_double = t2 - t1;
+//    std::cout << "Definition time: " << ms_double.count();
+
     if (iOnFire && CanBurn())
     {
         float fireMultiplier = 1.f;
 
         if (custom->IsRace(species))
         {
-            auto def = custom->GetDefinition(species);
-
-            auto ex = CM_EX(this);
-            if (ex->temporaryPowerActive && def.powerDef.tempPower.fireDamageMultiplier.enabled)
-            {
-                fireMultiplier = def.powerDef.tempPower.fireDamageMultiplier.value;
-            }
-            else
-            {
-                fireMultiplier = def.fireDamageMultiplier;
-            }
+            fireMultiplier = ex->CalculateStat(CrewStat::FIRE_DAMAGE_MULTIPLIER, def);
         }
 
         DirectModifyHealth(G_->GetCFPS()->GetSpeedFactor() * (iOnFire * -0.133f * fireMultiplier));
@@ -1419,34 +1477,31 @@ HOOK_METHOD_PRIORITY(CrewMember, UpdateHealth, 2000, () -> void)
 
     if (custom->IsRace(species))
     {
-        auto def = custom->GetDefinition(species);
-
-        mod = def.healSpeed;
+        mod = ex->CalculateStat(CrewStat::HEAL_SPEED_MULTIPLIER, def);
     }
 
-
     DirectModifyHealth(G_->GetCFPS()->GetSpeedFactor() * fMedbay * mod * 0.4f);
-    CrewMember_Extend* ex = CM_EX(this);
 
     if (custom->IsRace(species))
     {
-        auto def = custom->GetDefinition(species);
+        float passiveHealAmount = ex->CalculateStat(CrewStat::PASSIVE_HEAL_AMOUNT, def);
+        float healAmount = ex->CalculateStat(CrewStat::ACTIVE_HEAL_AMOUNT, def);
 
-        if (ex->temporaryPowerActive && def.powerDef.tempPower.healAmount != 0.f && health.first != health.second && Functional())
+        if (healAmount != 0.f && health.first != health.second && Functional())
         {
-            if (def.powerDef.tempPower.healAmount > 0.f && health.first != health.second)
+            if (healAmount > 0.f && health.first != health.second)
             {
                 fMedbay += 0.0000000001;
             }
-            DirectModifyHealth(G_->GetCFPS()->GetSpeedFactor() * def.powerDef.tempPower.healAmount * 0.06245f);
+            DirectModifyHealth(G_->GetCFPS()->GetSpeedFactor() * healAmount * 0.06245f);
         }
-        else if (ex->isHealing && def.passiveHealAmount != 0.f && health.first != health.second && Functional())
+        if (ex->isHealing && passiveHealAmount != 0.f && health.first != health.second && Functional())
         {
-            if (def.passiveHealAmount > 0.f && health.first != health.second)
+            if (passiveHealAmount > 0.f && health.first != health.second)
             {
                 fMedbay += 0.0000000001;
             }
-            DirectModifyHealth(G_->GetCFPS()->GetSpeedFactor() * def.passiveHealAmount * 0.4f);
+            DirectModifyHealth(G_->GetCFPS()->GetSpeedFactor() * passiveHealAmount * 0.4f);
         }
     }
 
@@ -1456,42 +1511,28 @@ HOOK_METHOD_PRIORITY(CrewMember, DirectModifyHealth, 1000, (float healthMod) -> 
 {
     auto custom = CustomCrewManager::GetInstance();
     CrewMember_Extend* ex = CM_EX(this);
+    auto def = custom->GetDefinition(this->species);
 
     if (custom->IsRace(species))
     {
-        auto def = custom->GetDefinition(species);
         if (healthMod < 0.f)
         {
-            if (CM_EX(this)->temporaryPowerActive)
+            if (ex->temporaryPowerActive && def.powerDef.tempPower.invulnerable)
             {
-                if (def.powerDef.tempPower.invulnerable)
-                {
-                    return;
-                }
-                if (def.powerDef.tempPower.allDamageTakenMultiplier.enabled)
-                {
-                    healthMod *= def.powerDef.tempPower.allDamageTakenMultiplier.value;
-                }
-                else
-                {
-                    healthMod *= def.allDamageTakenMultiplier;
-                }
+                return;
             }
             else
             {
-                healthMod *= def.allDamageTakenMultiplier;
+                healthMod *= ex->CalculateStat(CrewStat::ALL_DAMAGE_TAKEN_MULTIPLIER, def);
             }
         }
     }
-
-
-
 
     super(healthMod);
     if (custom->IsRace(species) && healthMod < 0.f && ex->passiveHealTimer)
     {
         ex->isHealing = false;
-        ex->passiveHealTimer->Start(custom->GetDefinition(species).passiveHealDelay);
+        ex->passiveHealTimer->Start(ex->CalculateStat(CrewStat::PASSIVE_HEAL_DELAY, def));
     }
 }
 HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
@@ -1502,7 +1543,6 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
     CrewMember_Extend* ex = CM_EX(this);
     if (custom->IsRace(species))
     {
-        auto def = custom->GetDefinition(species);
         if (ex->passiveHealTimer)
         {
             ex->passiveHealTimer->Update();
@@ -1515,6 +1555,30 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
         {
             ex->isHealing = true;
         }
+
+        if (fStunTime != 0.f)
+        {
+            if (fStunTime < ex->prevStun)
+            {
+                auto def = custom->GetDefinition(species);
+                float stunMultiplier = ex->CalculateStat(CrewStat::STUN_MULTIPLIER, def);
+
+                if (stunMultiplier > 0.f)
+                {
+                    fStunTime = ex->prevStun - ((ex->prevStun - fStunTime) * (1.f / stunMultiplier));
+                    if (fStunTime < 0.f)
+                    {
+                        fStunTime = 0.f;
+                    }
+                }
+                else
+                {
+                    fStunTime = 0.f;
+                }
+            }
+        }
+
+        ex->prevStun = fStunTime;
 
         if (ex->hasSpecialPower && !G_->GetCApp()->menu.shipBuilder.bOpen)
         {
@@ -1530,7 +1594,7 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
             else
             {
                 ex->powerCooldown.first = std::min(ex->powerCooldown.second, (float)(G_->GetCFPS()->GetSpeedFactor() * 0.0625) + ex->powerCooldown.first);
-
+                auto def = custom->GetDefinition(species);
                 if (def.powerDef.activateWhenReady && ex->PowerReady() == POWER_READY)
                 {
                     if (iShipId == 1 || !def.powerDef.activateReadyEnemies)
@@ -1545,7 +1609,7 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
         if (aex->effectAnim != nullptr)
         {
             aex->effectAnim->Update();
-
+            auto def = custom->GetDefinition(species);
             if (!aex->powerDone && def.powerDef.animFrame != -1 && aex->effectAnim->tracker.running && aex->effectAnim->currentFrame == def.powerDef.animFrame)
             {
                 ex->ActivatePower();
@@ -1606,6 +1670,12 @@ HOOK_METHOD(CrewMember, LoadState, (int file) -> void)
 HOOK_METHOD_PRIORITY(CrewMember, GetNewGoal, 2000, () -> bool)
 {
     auto ex = CM_EX(this);
+    CustomCrewManager *custom = CustomCrewManager::GetInstance();
+
+    auto def = CustomCrewManager::GetInstance()->GetDefinition(this->species);
+    ex->CalculateStat(CrewStat::CAN_PHASE_THROUGH_DOORS, def, &ex->canPhaseThroughDoors);
+
+    if (!ex->canPhaseThroughDoors) return super();
 
     if (last_door && !ex->canPhaseThroughDoors)
     {
@@ -2029,18 +2099,8 @@ HOOK_METHOD(ShipManager, UpdateEnvironment, () -> void)
             if (custom->IsRace(x->species))
             {
                 auto def = custom->GetDefinition(x->species);
-                float oxygenModifier = 0.f;
-
                 auto ex = CM_EX(x);
-
-                if (ex->temporaryPowerActive && def.powerDef.tempPower.oxygenChangeSpeed.enabled)
-                {
-                    oxygenModifier = def.powerDef.tempPower.oxygenChangeSpeed.value;
-                }
-                else
-                {
-                    oxygenModifier = def.oxygenChangeSpeed;
-                }
+                float oxygenModifier = ex->CalculateStat(CrewStat::OXYGEN_CHANGE_SPEED, def);
 
                 if (oxygenModifier != 0.f && !x->bDead)
                 {
@@ -2064,20 +2124,11 @@ HOOK_METHOD(CrewMember, ApplyDamage, (float damage) -> bool)
 
     if (custom->IsRace(species))
     {
-        float damageTakenMultiplier = 1.f;
         auto def = custom->GetDefinition(species);
         auto ex = CM_EX(this);
+        float damageTakenMultiplier = ex->CalculateStat(CrewStat::DAMAGE_TAKEN_MULTIPLIER, def);
 
-        if (ex->temporaryPowerActive && def.powerDef.tempPower.damageTakenMultiplier.enabled)
-        {
-            damageTakenMultiplier = def.powerDef.tempPower.damageTakenMultiplier.value;
-        }
-        else
-        {
-            damageTakenMultiplier = def.damageTakenMultiplier;
-        }
-
-        damage *= damageTakenMultiplier;
+        damage = damage * (damageTakenMultiplier);
     }
 
     return super(damage);
@@ -2139,6 +2190,10 @@ HOOK_METHOD(ShipObject, HasEquipment, (const std::string& name) -> int)
 
                     if (!i->intruder)
                     {
+//                        if (HasAugmentation("ALL_CREW_DETECT_LIFEFORMS"))
+//                        {
+//                            return GetAugmentationValue("ALL_CREW_DETECT_LIFEFORMS");
+//                        }
                         if (ex->temporaryPowerActive && def.powerDef.tempPower.detectsLifeforms.enabled && def.powerDef.tempPower.detectsLifeforms.value)
                         {
                             return 1;
@@ -2214,21 +2269,19 @@ HOOK_METHOD(ShipManager, OnLoop, () -> void)
     {
         if (custom->IsRace(i->species))
         {
-            CrewMember_Extend* ex = CM_EX(i);
-
             auto def = custom->GetDefinition(i->species);
-            int powerDrain = def.powerDrain;
+            CustomCrewManager *custom = CustomCrewManager::GetInstance();
 
-            if (CM_EX(i)->temporaryPowerActive && def.powerDef.tempPower.powerDrain.enabled)
-            {
-                powerDrain = def.powerDef.tempPower.powerDrain.value;
-            }
+            auto ex = CM_EX(i);
+            int powerDrain = ex->CalculateStat(CrewStat::POWER_DRAIN, def);
 
             ShipSystem* sys = GetSystemInRoom(i->iRoomId);
 
             if (sys && sys->iSystemType != (int)SystemId::PILOT)
             {
-                if (i->intruder || def.powerDrainFriendly)
+                bool powerDrainFriendly = false;
+                ex->CalculateStat(CrewStat::POWER_DRAIN_FRIENDLY, def, &powerDrainFriendly);
+                if (i->intruder || powerDrainFriendly)
                 {
                     ShipSystem_Extend* sys_ex = SYS_EX(sys);
 
@@ -2265,8 +2318,9 @@ HOOK_METHOD(CrewMember, OnLoop, () -> void)
     if (custom->IsRace(species))
     {
         auto ex = CM_EX(this);
+        auto def = custom->GetDefinition(this->species);
 
-        if (custom->GetDefinition(species).hasDeathExplosion)
+        if (def.hasDeathExplosion)
         {
             if (crewAnim->status == 3)
             {
@@ -2281,6 +2335,36 @@ HOOK_METHOD(CrewMember, OnLoop, () -> void)
                 ex->exploded = false;
             }
         }
+        /*
+        if (!ex->timedStatBoosts.empty())
+        {
+            int counter = 0;
+            for (StatBoost statBoost : ex->timedStatBoosts)
+            {
+                if (statBoost.timerHelper)
+                {
+                    statBoost.timerHelper->Update();
+                    if (statBoost.timerHelper->Done())
+                    {
+                        ex->timedStatBoosts.erase(ex->timedStatBoosts.begin() + counter);
+                    }
+                }
+                else
+                {
+                    if (statBoost.duration != -1)
+                    {
+                        statBoost.timerHelper = new TimerHelper();
+                        statBoost.timerHelper->Start(statBoost.duration);
+                    }
+                    else
+                    {
+                        // the "timed" stat boost is actually permanent
+                    }
+                }
+            }
+            ++counter;
+        }
+        */
     }
 }
 
@@ -2381,16 +2465,7 @@ HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
             auto def = custom->GetDefinition(i->species);
 
             auto ex = CM_EX(i);
-
-            float damageEnemies = def.damageEnemiesAmount;
-
-            if (ex->temporaryPowerActive)
-            {
-                if (def.powerDef.tempPower.damageEnemiesAmount.enabled)
-                {
-                    damageEnemies = G_->GetCFPS()->GetSpeedFactor() * def.powerDef.tempPower.damageEnemiesAmount.value * 0.06245f;
-                }
-            }
+            float damageEnemies = ex->CalculateStat(CrewStat::DAMAGE_ENEMIES_AMOUNT, def) * G_->GetCFPS()->GetSpeedFactor() * 0.06245f;
 
             if (i->Functional() && damageEnemies != 0.f)
             {
@@ -2402,14 +2477,15 @@ HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
                     }
                 }
             }
+            float healCrewAmount = ex->CalculateStat(CrewStat::HEAL_CREW_AMOUNT, def);
 
             if (i->Functional() && def.healCrewAmount != 0.f || (ex->temporaryPowerActive && def.powerDef.tempPower.healCrewAmount.enabled))
             {
-                float healCrew = G_->GetCFPS()->GetSpeedFactor() * def.healCrewAmount * 0.06245f;
+                float healCrew = G_->GetCFPS()->GetSpeedFactor() * healCrewAmount * 0.06245f;
 
                 if (ex->temporaryPowerActive && def.powerDef.tempPower.healCrewAmount.enabled)
                 {
-                    healCrew = G_->GetCFPS()->GetSpeedFactor() * def.powerDef.tempPower.healCrewAmount.value * 0.06245f;
+                    healCrew = G_->GetCFPS()->GetSpeedFactor() * (def.powerDef.tempPower.healCrewAmount.value) * 0.06245f;
                 }
 
                 for (auto crew : vCrewList)
@@ -2965,21 +3041,15 @@ HOOK_METHOD(ShipManager, OnLoop, () -> void)
                 {
                     auto def = custom->GetDefinition(j->species);
 
-                    if (CM_EX(j)->temporaryPowerActive && def.powerDef.tempPower.bonusPower > 0)
-                    {
-                        bonusPowerCounter += def.powerDef.tempPower.bonusPower;
+                    auto ex = CM_EX(j);
 
-                        if (j->AtFinalGoal())
-                        {
-                            permanentPowerCounter += def.powerDef.tempPower.bonusPower;
-                        }
-                    }
+                    int bonusPower = ex->CalculateStat(CrewStat::BONUS_POWER, def);
 
-                    bonusPowerCounter += def.bonusPower;
+                    bonusPowerCounter += bonusPower;
 
                     if (j->AtFinalGoal() && !j->IsDrone())
                     {
-                        permanentPowerCounter += def.bonusPower;
+                        permanentPowerCounter += bonusPower;
                     }
                 }
 
@@ -3015,19 +3085,11 @@ HOOK_METHOD(ShipSystem, PartialDamage, (float amount) -> bool)
 HOOK_METHOD(CrewMember, UpdateRepair, () -> void)
 {
     auto custom = CustomCrewManager::GetInstance();
-
+    auto ex = CM_EX(this);
+    auto def = custom->GetDefinition(this->species);
     if (custom->IsRace(species))
     {
-        auto def = custom->GetDefinition(species);
-
-        if (CM_EX(this)->temporaryPowerActive && def.powerDef.tempPower.sabotageSpeedMultiplier.enabled)
-        {
-            sabotageMultiplier = def.powerDef.tempPower.sabotageSpeedMultiplier.value;
-        }
-        else
-        {
-            sabotageMultiplier = def.sabotageSpeedMultiplier;
-        }
+        sabotageMultiplier = ex->CalculateStat(CrewStat::SABOTAGE_SPEED_MULTIPLIER, def);
     }
 
     super();
@@ -3113,7 +3175,13 @@ HOOK_METHOD(CrewAI, PrioritizeIntruderRoom, (CrewMember *crew, int roomId, int t
 
 HOOK_METHOD(CrewMember, Clone, () -> void)
 {
-    if (!CustomCrewManager::GetInstance()->IsRace(species) || CustomCrewManager::GetInstance()->GetDefinition(species).cloneLoseSkills) return super();
+    bool cloneLoseSkills = false;
+    CustomCrewManager *custom = CustomCrewManager::GetInstance();
+    auto def = custom->GetDefinition(this->species);
+
+    auto ex = CM_EX(this);
+    ex->CalculateStat(CrewStat::CLONE_LOSE_SKILLS, def, &cloneLoseSkills);
+    if (!CustomCrewManager::GetInstance()->IsRace(species) || cloneLoseSkills) return super();
 
     bOutOfGame = false;
     bDead = false;

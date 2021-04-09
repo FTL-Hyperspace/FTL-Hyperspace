@@ -793,7 +793,7 @@ struct LIBZHL_INTERFACE SystemBox
 	virtual void CloseTouchTooltip(bool unk) LIBZHL_PLACEHOLDER
 	virtual void KeyDown(int key, bool unk) LIBZHL_PLACEHOLDER
 	
-	const Point location;
+	Point location;
 	GL_Primitive *timerCircle[10];
 	GL_Primitive *timerLines;
 	GL_Primitive *timerStencil;
@@ -999,6 +999,7 @@ struct ArmamentBox;
 struct ArmamentControl
 {
 	LIBZHL_API bool Dragging();
+	LIBZHL_API void SetPosition(int x, int y);
 	
 	void *vptr;
 	int systemId;
@@ -4555,6 +4556,8 @@ struct CombatControl
 	LIBZHL_API void UpdateAiming();
 	LIBZHL_API bool UpdateTarget();
 	LIBZHL_API void DrawHostileBox(GL_Color color, int stencilBit);
+	LIBZHL_API void OnInit(Point pos);
+	LIBZHL_API void OnLoop();
 	
 	CommandGui *gui;
 	ShipManager *shipManager;
@@ -4613,6 +4616,10 @@ struct UpgradeBox
 
 struct SystemControl
 {
+	LIBZHL_API void CreateSystemBoxes();
+	LIBZHL_API SystemBox *GetSystemBox(int systemId);
+	LIBZHL_API void RenderPowerBar();
+	
 	ShipManager *shipManager;
 	CombatControl *combatControl;
 	std::vector<SystemBox*> sysBoxes;
@@ -5733,7 +5740,7 @@ struct CSurface
 	LIBZHL_API static void __stdcall GL_ClearColor();
 	LIBZHL_API static int __stdcall SetViewPort(int left, int bottom, int h, int w);
 	LIBZHL_API static void __stdcall GL_PopScissor();
-	LIBZHL_API static void __stdcall GL_SetStencilMode(GL_StencilMode stencilMode, int unk1, int unk2);
+	LIBZHL_API static void __stdcall GL_SetStencilMode(GL_StencilMode stencilMode, int ref, int mask);
 	LIBZHL_API static void __stdcall GL_PopStencilMode();
 	LIBZHL_API static int __stdcall GL_OrthoProjection(float mx1, float mx2, float mx3, float mx4, float mx5, float mx6);
 	LIBZHL_API static int __stdcall GL_LoadIdentity();

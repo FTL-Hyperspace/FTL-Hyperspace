@@ -2,6 +2,7 @@
 #include "freetype.h"
 #include "Seeds.h"
 #include "ShipUnlocks.h"
+#include "EnemyShipIcons.h"
 #include <algorithm>
 #include <boost/lexical_cast.hpp>
 
@@ -26,6 +27,11 @@ void CustomShipSelect::ParseShipsNode(rapidxml::xml_node<char> *node)
         {
             CustomShipDefinition def;
             std::string name = child->name();
+
+            if (name == "shipIcons")
+            {
+                ShipIconManager::instance->ParseShipIconNode(child);
+            }
 
             if (name == "ship")
             {
@@ -124,6 +130,18 @@ void CustomShipSelect::ParseShipsNode(rapidxml::xml_node<char> *node)
                     if (name == "crewLimit")
                     {
                         def.crewLimit = boost::lexical_cast<int>(val);
+                    }
+                    if (name == "shipIcons")
+                    {
+                        for (auto iconNode = shipNode->first_node(); iconNode; iconNode = iconNode->next_sibling())
+                        {
+                            std::string iconName = iconNode->name();
+
+                            if (iconName == "shipIcon")
+                            {
+                                def.shipIcons.push_back(iconNode->value());
+                            }
+                        }
                     }
                     if (name == "rooms")
                     {
@@ -963,7 +981,10 @@ int CustomShipSelect::CountUnlockedShips(int variant=-1)
         {
             if (def && CustomShipUnlocks::instance->GetCustomShipUnlocked(def->name, variant))
             {
-                counter++;
+                if (def->VariantExists(variant))
+                {
+                    counter++;
+                }
             }
         }
         else
@@ -1233,6 +1254,7 @@ HOOK_METHOD(ShipBuilder, OnLoop, () -> void)
         bool buttonsActive = false;
 
         buttonsActive = customSel->CountUnlockedShips(currentType) > 1;
+
         leftButton.SetActive(buttonsActive);
         rightButton.SetActive(buttonsActive);
         randomButton.SetActive(customSel->CountUnlockedShips(0) + customSel->CountUnlockedShips(1) + customSel->CountUnlockedShips(2) > 1);

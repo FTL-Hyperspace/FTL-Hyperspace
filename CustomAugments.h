@@ -3,6 +3,7 @@
 #include <vector>
 #include <map>
 #include "rapidxml.hpp"
+#include "StatBoost.h"
 
 struct AugmentFunction
 {
@@ -17,6 +18,7 @@ struct AugmentDefinition
     std::string name;
     std::map<std::string, AugmentFunction> functions = std::map<std::string, AugmentFunction>();
     bool locked = false;
+    std::vector<StatBoost> statBoosts = std::vector<StatBoost>();
 };
 
 

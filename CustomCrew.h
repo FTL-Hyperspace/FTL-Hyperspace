@@ -2,6 +2,8 @@
 #include "Global.h"
 #include <unordered_map>
 
+struct StatBoost;
+
 template <typename T>
 struct ToggleValue
 {
@@ -109,29 +111,40 @@ struct TemporaryPowerDefinition
     bool baseVisible = true;
     std::vector<std::string> sounds;
 
+    ToggleValue<int> maxHealth;
+    ToggleValue<float> stunMultiplier;
     ToggleValue<float> moveSpeedMultiplier;
     ToggleValue<float> damageMultiplier;
+    ToggleValue<float> rangedDamageMultiplier;
     ToggleValue<float> repairSpeed;
+    ToggleValue<float> fireRepairMultiplier;
     ToggleValue<bool> controllable;
     ToggleValue<bool> canFight;
     ToggleValue<bool> canRepair;
     ToggleValue<bool> canSabotage;
     ToggleValue<bool> canMan;
     ToggleValue<bool> canSuffocate;
+    ToggleValue<bool> canBurn;
     ToggleValue<float> oxygenChangeSpeed;
     ToggleValue<bool> canPhaseThroughDoors;
     ToggleValue<float> fireDamageMultiplier;
     ToggleValue<bool> isTelepathic;
+    ToggleValue<bool> isAnaerobic;
     ToggleValue<bool> detectsLifeforms;
     ToggleValue<float> damageTakenMultiplier;
+    ToggleValue<float> passiveHealAmount;
+    ToggleValue<int> passiveHealDelay;
     ToggleValue<float> sabotageSpeedMultiplier;
     ToggleValue<float> allDamageTakenMultiplier;
+    ToggleValue<float> healSpeed;
     ToggleValue<float> suffocationModifier;
     ToggleValue<float> healCrewAmount;
     ToggleValue<int> powerDrain;
+    ToggleValue<int> bonusPower;
     ToggleValue<float> damageEnemiesAmount;
 
-    int bonusPower = 0;
+    std::vector<StatBoost> statBoosts;
+
     bool invulnerable;
     float healAmount = 0.f;
     int animFrame = -1;
@@ -194,7 +207,6 @@ struct ActivatedPowerDefinition
     bool activateReadyEnemies = false;
     std::string transformRace = "";
 
-
     TemporaryPowerDefinition tempPower;
 };
 
@@ -214,9 +226,11 @@ struct CrewDefinition
     bool controllable = true;
     bool canBurn = true;
     int maxHealth = 100;
+    float stunMultiplier = 1.f;
     float moveSpeedMultiplier = 1.f;
     float repairSpeed = 1.f;
     float damageMultiplier = 1.f;
+    float rangedDamageMultiplier = 1.f;
     bool providesPower = false;
     int bonusPower = 0;
     float fireRepairMultiplier = 1.2f;
@@ -228,7 +242,7 @@ struct CrewDefinition
     float oxygenChangeSpeed = 0.f;
     float damageTakenMultiplier = 1.f;
     float passiveHealAmount = 0.f;
-    int passiveHealDelay = 15;
+    int passiveHealDelay = 0;
     bool detectsLifeforms = false;
     bool hasCustomDeathAnimation = false;
     bool hasDeathExplosion = false;
@@ -249,6 +263,8 @@ struct CrewDefinition
     bool explosionShipFriendlyFire = false;
 
     ActivatedPowerDefinition powerDef;
+
+    std::vector<StatBoost> passiveStatBoosts;
 
 
     SkillsDefinition skillsDef;
