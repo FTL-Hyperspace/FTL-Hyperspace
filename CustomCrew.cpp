@@ -1140,7 +1140,7 @@ void CrewMember_Extend::ActivatePower()
     auto aex = CMA_EX(orig->crewAnim);
     aex->powerDone = true;
 
-    if (!powerDef.transformRace.empty())
+    if (!powerDef.transformRace.empty() && orig->crewAnim->status != 3)
     {
         std::string species = powerDef.transformRace;
 
@@ -1487,8 +1487,9 @@ HOOK_METHOD_PRIORITY(CrewMember, UpdateHealth, 2000, () -> void)
     if (custom->IsRace(species))
     {
         float passiveHealAmount = ex->CalculateStat(CrewStat::PASSIVE_HEAL_AMOUNT, def);
-        float healAmount = ex->CalculateStat(CrewStat::HEAL_SPEED_MULTIPLIER, def);
-        if (ex->temporaryPowerActive && healAmount != 0.f && health.first != health.second && Functional())
+        float healAmount = ex->CalculateStat(CrewStat::ACTIVE_HEAL_AMOUNT, def);
+
+        if (healAmount != 0.f && health.first != health.second && Functional())
         {
             if (healAmount > 0.f && health.first != health.second)
             {
@@ -1496,7 +1497,7 @@ HOOK_METHOD_PRIORITY(CrewMember, UpdateHealth, 2000, () -> void)
             }
             DirectModifyHealth(G_->GetCFPS()->GetSpeedFactor() * healAmount * 0.06245f);
         }
-        else if (ex->isHealing && passiveHealAmount != 0.f && health.first != health.second && Functional())
+        if (ex->isHealing && passiveHealAmount != 0.f && health.first != health.second && Functional())
         {
             if (passiveHealAmount > 0.f && health.first != health.second)
             {
@@ -2466,7 +2467,7 @@ HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
             auto def = custom->GetDefinition(i->species);
 
             auto ex = CM_EX(i);
-            float damageEnemies = ex->CalculateStat(CrewStat::DAMAGE_ENEMIES_AMOUNT, def);
+            float damageEnemies = ex->CalculateStat(CrewStat::DAMAGE_ENEMIES_AMOUNT, def) * G_->GetCFPS()->GetSpeedFactor() * 0.06245f;
 
             if (i->Functional() && damageEnemies != 0.f)
             {
@@ -3043,11 +3044,14 @@ HOOK_METHOD(ShipManager, OnLoop, () -> void)
                     auto def = custom->GetDefinition(j->species);
 
                     auto ex = CM_EX(j);
-                    bonusPowerCounter = ex->CalculateStat(CrewStat::BONUS_POWER, def);
+
+                    int bonusPower = ex->CalculateStat(CrewStat::BONUS_POWER, def);
+
+                    bonusPowerCounter += bonusPower;
 
                     if (j->AtFinalGoal() && !j->IsDrone())
                     {
-                        permanentPowerCounter += bonusPowerCounter;
+                        permanentPowerCounter += bonusPower;
                     }
                 }
 

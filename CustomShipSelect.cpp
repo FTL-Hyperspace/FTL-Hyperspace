@@ -981,7 +981,10 @@ int CustomShipSelect::CountUnlockedShips(int variant=-1)
         {
             if (def && CustomShipUnlocks::instance->GetCustomShipUnlocked(def->name, variant))
             {
-                counter++;
+                if (def->VariantExists(variant))
+                {
+                    counter++;
+                }
             }
         }
         else
@@ -1251,6 +1254,7 @@ HOOK_METHOD(ShipBuilder, OnLoop, () -> void)
         bool buttonsActive = false;
 
         buttonsActive = customSel->CountUnlockedShips(currentType) > 1;
+
         leftButton.SetActive(buttonsActive);
         rightButton.SetActive(buttonsActive);
         randomButton.SetActive(customSel->CountUnlockedShips(0) + customSel->CountUnlockedShips(1) + customSel->CountUnlockedShips(2) > 1);

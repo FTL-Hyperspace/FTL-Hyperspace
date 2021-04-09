@@ -193,7 +193,14 @@ public:
         }
         else
         {
-            auto it = std::find_if(shipButtonDefs.begin(), shipButtonDefs.end(), [&name](const ShipButtonDefinition& def) { return def.name == name; });
+            std::string finalName = name;
+
+            if (boost::ends_with(name, "_2") || boost::ends_with(name, "_3"))
+            {
+                finalName = name.substr(0, name.size() - 2);
+            }
+
+            auto it = std::find_if(shipButtonDefs.begin(), shipButtonDefs.end(), [&finalName](const ShipButtonDefinition& def) { return def.name == finalName; });
 
             if (it != shipButtonDefs.end())
             {
