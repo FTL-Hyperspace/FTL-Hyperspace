@@ -1,8 +1,132 @@
 #include "CustomStore.h"
+#include "CustomEvents.h"
 #include "Store_Extend.h"
 #include <boost/lexical_cast.hpp>
+#include <array>
 
 CustomStore* CustomStore::instance = new CustomStore();
+
+static HullRepair ParseHullRepairNode(rapidxml::xml_node<char>* node)
+{
+    HullRepair def;
+
+    for (auto cNode = node->first_node(); cNode; cNode = cNode->next_sibling())
+    {
+        std::string name = cNode->name();
+        std::string val = cNode->value();
+
+        if (name == "price")
+        {
+            def.price = boost::lexical_cast<int>(val);
+        }
+    }
+
+    return def;
+}
+
+static ResourceItem ParseResourceNode(rapidxml::xml_node<char>* node)
+{
+    ResourceItem def;
+
+    for (auto cNode = node->first_node(); cNode; cNode = cNode->next_sibling())
+    {
+        std::string name = cNode->name();
+        std::string val = cNode->value();
+
+        if (name == "type")
+        {
+            def.type = val;
+        }
+        if (name == "minCount")
+        {
+            def.minCount = boost::lexical_cast<int>(val);
+        }
+        if (name == "maxCount")
+        {
+            def.maxCount = boost::lexical_cast<int>(val);
+        }
+        if (name == "price")
+        {
+            def.price = boost::lexical_cast<int>(val);
+        }
+        if (name == "modifier")
+        {
+            if (cNode->first_attribute("flat"))
+            {
+                def.flatModifier = EventsParser::ParseBoolean(cNode->first_attribute("flat")->value());
+            }
+
+            def.modifier = boost::lexical_cast<float>(val);
+            def.modifiedPrice = true;
+        }
+    }
+
+    return def;
+}
+
+static StoreItem ParseStoreItemNode(rapidxml::xml_node<char>* node)
+{
+    StoreItem def;
+
+    for (auto cNode = node->first_node(); cNode; cNode = cNode->next_sibling())
+    {
+        std::string name = cNode->name();
+        std::string val = cNode->value();
+
+        if (name == "blueprint")
+        {
+            def.blueprint = val;
+
+        }
+        if (name == "price")
+        {
+            def.price = boost::lexical_cast<int>(val);
+        }
+        if (name == "modifier")
+        {
+            if (cNode->first_attribute("flat"))
+            {
+                def.flatModifier = EventsParser::ParseBoolean(cNode->first_attribute("flat")->value());
+            }
+
+            def.modifier = boost::lexical_cast<float>(val);
+            def.modifiedPrice = true;
+        }
+    }
+
+    return def;
+}
+
+static StoreCategory ParseCategoryNode(rapidxml::xml_node<char>* node)
+{
+    StoreCategory def;
+
+    if (node->first_attribute("type"))
+    {
+        std::array<std::string, 5> categories = {"WEAPONS", "DRONES", "AUGMENTS", "CREW", "SYSTEMS"};
+
+        auto it = std::find(categories.begin(), categories.end(), node->first_attribute("type")->value());
+        if (it != categories.end())
+        {
+            def.categoryType = static_cast<CategoryType>(it - categories.begin());
+        }
+    }
+
+    for (auto cNode = node->first_node(); cNode; cNode = cNode->next_sibling())
+    {
+        std::string name = cNode->name();
+        std::string val = cNode->value();
+
+
+        if (name == "item")
+        {
+            auto item = ParseStoreItemNode(cNode);
+            def.items.push_back(item);
+        }
+    }
+
+    return def;
+}
 
 void CustomStore::ParseStoreNode(rapidxml::xml_node<char>* node)
 {
@@ -25,73 +149,30 @@ void CustomStore::ParseStoreNode(rapidxml::xml_node<char>* node)
             for (auto cStoreNode = storeNode->first_node(); cStoreNode; cStoreNode = cStoreNode->next_sibling())
             {
                 // do xml parsing for custom stores here
+                std::string cStoreName = cStoreNode->name();
 
-                if (name == "addCategory")
+                if (cStoreName == "hullRepair")
                 {
-                    for (auto categoryNode = cStoreNode->first_node(); categoryNode; categoryNode = categoryNode->next_sibling())
-                    {
-                        std::string categoryName = categoryNode->name();
-                        if (categoryName == "WEAPONS")
-                        {
-                            StoreCategory storeCategory = StoreCategory();
-                            storeCategory.categoryType = CategoryType::WEAPONS;
-                            for (auto weaponNode = categoryNode->first_node(); weaponNode; weaponNode = weaponNode->next_sibling())
-                            {
-                                std::string weaponNodeName = weaponNode->name();
-                                std::string weaponVal = weaponNode->value();
-                                for (auto blueprintNode = weaponNode->first_node(); blueprintNode; blueprintNode = blueprintNode->next_sibling())
-                                {
-                                    StoreItem item = StoreItem();
-                                    std::string blueprintNodeName = blueprintNode->name();
-                                    std::string blueprintNodeVal = blueprintNode->value();
-                                    if (blueprintNodeName == "bundledItems")
-                                    {
+                    def.hullRepair = ParseHullRepairNode(cStoreNode);
+                    def.hullRepair.visible = true;
 
-                                    }
-                                    else if (blueprintNodeName == "bundledResources")
-                                    {
+                    printf("Set hullRepair to visible\n");
+                }
 
-                                    }
-                                    else if (blueprintNodeName == "stock")
-                                    {
-                                        item.stock == boost::lexical_cast<int>(blueprintNode->value());
-                                    }
-                                    else if (blueprintNodeName == "currency")
-                                    {
-                                        if (blueprintNodeVal == "CREW")
-                                        {
-                                            item.individualCurrency = Currency::CREW;
-                                        }
-                                    }
-                                }
-                            }
+                if (cStoreName == "resource")
+                {
+                    def.resources.push_back(ParseResourceNode(cStoreNode));
+                }
 
+                if (cStoreName == "category")
+                {
+                    auto cat = ParseCategoryNode(cStoreNode);
 
-                            def.categories.push_back(storeCategory);
-                        }
-                        else if (categoryName == "DRONES")
-                        {
-
-                        }
-                        else if (categoryName == "AUGMENTS")
-                        {
-
-                        }
-                        else if (categoryName == "CREW")
-                        {
-
-                        }
-                        else if (categoryName == "SYSTEMS")
-                        {
-
-                        }
-                    }
+                    def.categories.push_back(cat);
                 }
             }
 
             storeDefs[id] = def;
-
-
         }
     }
 }
@@ -117,6 +198,254 @@ HOOK_METHOD(SystemStoreBox, constructor, (ShipManager *shopper, Equipment *equip
 
     desc.cost -= oldPrice;
     desc.cost += newBlueprint->desc.cost / 2;
+}
+
+static int GetItemPricing(const StoreItem& item, const Blueprint& itemBlueprint)
+{
+    int price = item.price;
+    if (price == -1)
+    {
+        price = itemBlueprint.desc.cost;
+    }
+
+    if (item.modifiedPrice)
+    {
+        if (item.flatModifier)
+        {
+            price += item.modifier;
+        }
+        else
+        {
+            price *= item.modifier;
+        }
+    }
+
+    return price;
+}
+
+std::vector<StoreBox*> StoreComplete::CreateCustomStoreBoxes(const StoreCategory& category, ShipManager *ship, Equipment *equip)
+{
+    auto vec = std::vector<StoreBox*>();
+
+    for (auto i : orig->vStoreBoxes)
+    {
+        delete i;
+    }
+
+    orig->vStoreBoxes.clear();
+
+    if (category.categoryType == CategoryType::WEAPONS)
+    {
+        orig->CreateStoreBoxes(0, equip);
+        for (auto i : category.items)
+        {
+            WeaponStoreBox* box;
+
+            if (i.blueprint.empty())
+            {
+                box = (WeaponStoreBox*)orig->vStoreBoxes.back();
+                orig->vStoreBoxes.pop_back();
+
+                box->desc.cost = GetItemPricing(i, *box->blueprint);
+
+                vec.push_back(box);
+            }
+            else
+            {
+                WeaponBlueprint* bp;
+
+                auto potentialList = G_->GetBlueprints()->GetBlueprintList(i.blueprint);
+
+                if (potentialList.empty())
+                {
+                    bp = G_->GetBlueprints()->GetWeaponBlueprint(i.blueprint);
+                }
+                else
+                {
+                    bp = G_->GetBlueprints()->GetWeaponBlueprint(potentialList[random32() % potentialList.size()]);
+                }
+
+                if (bp)
+                {
+                    box = new WeaponStoreBox(ship, equip, bp);
+
+                    box->desc.cost = GetItemPricing(i, *bp);
+
+                    vec.push_back(box);
+                }
+            }
+        }
+    }
+    else if (category.categoryType == CategoryType::DRONES)
+    {
+        orig->CreateStoreBoxes(1, equip);
+
+        for (auto i : category.items)
+        {
+            DroneStoreBox* box;
+
+            if (i.blueprint.empty())
+            {
+                box = (DroneStoreBox*)orig->vStoreBoxes.back();
+                orig->vStoreBoxes.pop_back();
+
+                box->desc.cost = GetItemPricing(i, *box->blueprint);
+
+                vec.push_back(box);
+            }
+            else
+            {
+                DroneBlueprint* bp;
+
+                auto potentialList = G_->GetBlueprints()->GetBlueprintList(i.blueprint);
+
+                if (potentialList.empty())
+                {
+                    bp = G_->GetBlueprints()->GetDroneBlueprint(i.blueprint);
+                }
+                else
+                {
+                    bp = G_->GetBlueprints()->GetDroneBlueprint(potentialList[random32() % potentialList.size()]);
+                }
+
+                if (bp)
+                {
+                    box = new DroneStoreBox(ship, equip, bp);
+
+                    box->desc.cost = GetItemPricing(i, *bp);
+
+                    vec.push_back(box);
+                }
+            }
+        }
+    }
+    else if (category.categoryType == CategoryType::AUGMENTS)
+    {
+        orig->CreateStoreBoxes(2, equip);
+
+        for (auto i : category.items)
+        {
+            AugmentStoreBox* box;
+
+            if (i.blueprint.empty())
+            {
+                box = (AugmentStoreBox*)orig->vStoreBoxes.back();
+                orig->vStoreBoxes.pop_back();
+
+                box->desc.cost = GetItemPricing(i, *box->blueprint);
+
+                vec.push_back(box);
+            }
+            else
+            {
+                AugmentBlueprint* bp;
+
+                auto potentialList = G_->GetBlueprints()->GetBlueprintList(i.blueprint);
+
+                if (potentialList.empty())
+                {
+                    bp = G_->GetBlueprints()->GetAugmentBlueprint(i.blueprint);
+                }
+                else
+                {
+                    bp = G_->GetBlueprints()->GetAugmentBlueprint(potentialList[random32() % potentialList.size()]);
+                }
+
+                if (bp)
+                {
+                    box = new AugmentStoreBox(ship, bp);
+
+                    vec.push_back(box);
+
+                    delete bp;
+                }
+            }
+        }
+    }
+    else if (category.categoryType == CategoryType::CREW)
+    {
+        orig->CreateStoreBoxes(3, equip);
+
+        for (auto i : category.items)
+        {
+            CrewStoreBox* box;
+
+            if (i.blueprint.empty())
+            {
+                box = (CrewStoreBox*)orig->vStoreBoxes.back();
+                orig->vStoreBoxes.pop_back();
+
+                box->desc.cost = GetItemPricing(i, box->blueprint);
+
+                vec.push_back(box);
+            }
+            else
+            {
+                std::string species = i.blueprint;
+
+                auto potentialList = G_->GetBlueprints()->GetBlueprintList(i.blueprint);
+
+                if (!potentialList.empty())
+                {
+                    species = potentialList[random32() % potentialList.size()];
+                }
+
+                auto bp = G_->GetBlueprints()->GetCrewBlueprint(species);
+
+                if (bp)
+                {
+                    box = new CrewStoreBox(ship, orig->worldLevel, species);
+
+                    box->desc.cost = GetItemPricing(i, *bp);
+
+                    vec.push_back(box);
+
+                    delete bp;
+                }
+            }
+        }
+    }
+    else if (category.categoryType == CategoryType::SYSTEMS)
+    {
+        orig->CreateStoreBoxes(4, equip);
+
+        for (auto i : category.items)
+        {
+            SystemStoreBox* box;
+
+            if (i.blueprint.empty())
+            {
+                box = (SystemStoreBox*)orig->vStoreBoxes.back();
+                orig->vStoreBoxes.pop_back();
+
+                box->desc.cost = GetItemPricing(i, *box->blueprint);
+
+                vec.push_back(box);
+            }
+            else
+            {
+                auto bp = G_->GetBlueprints()->GetSystemBlueprint(i.blueprint);
+
+                if (bp)
+                {
+                    box = new SystemStoreBox(ship, equip, ShipSystem::NameToSystemId(i.blueprint));
+
+                    box->desc.cost = GetItemPricing(i, *bp);
+
+                    vec.push_back(box);
+
+                    delete bp;
+                }
+
+            }
+        }
+    }
+
+    orig->vStoreBoxes.clear();
+
+
+    return vec;
+
 }
 
 void StoreComplete::OnInit(const StoreDefinition& def, ShipManager *ship, Equipment *equip, int level)
@@ -148,7 +477,96 @@ void StoreComplete::OnInit(const StoreDefinition& def, ShipManager *ship, Equipm
         resourceBoxes.push_back(box);
     }
 
+    if (def.hullRepair.visible)
+    {
+        int price = def.hullRepair.price;
+
+        if (price == -1)
+        {
+            price = 2;
+            if (level > 5)
+            {
+                price = 4;
+            }
+            else if (level > 2)
+            {
+                price = 3;
+            }
+        }
+
+        RepairStoreBox* repairOne = new RepairStoreBox(ship, false, price);
+        RepairStoreBox* repairAll = new RepairStoreBox(ship, true, price);
+
+        repairBoxes.push_back(repairOne);
+        repairBoxes.push_back(repairAll);
+    }
+
+    StorePage currPage = StorePage();
+
+    for (int i = 0; i < def.categories.size(); i++)
+    {
+        auto cat = def.categories[i];
+        StoreSection sec = StoreSection();
+        sec.category = cat.categoryType;
+
+        auto newBoxes = CreateCustomStoreBoxes(cat, ship, equip);
+
+        int currentSec = -1;
+        for (int boxIdx = 0; boxIdx < newBoxes.size(); boxIdx++)
+        {
+            if (boxIdx % 3 == 0)
+            {
+                currentSec++;
+
+                sec.storeBoxes.push_back(std::vector<CustomStoreBox*>());
+            }
+
+            auto customBox = new CustomStoreBox();
+            customBox->orig = newBoxes[boxIdx];
+
+            sec.storeBoxes[currentSec].push_back(customBox);
+        }
+
+        currPage.sections.push_back(sec);
+
+        if (i % 2 == 1 || i == def.categories.size() - 1)
+        {
+            pages.push_back(currPage);
+            currPage = StorePage();
+        }
+    }
+
     SetPositions();
+}
+
+std::string StoreComplete::GetHeadingText(CategoryType type)
+{
+    std::string base = "store_title_";
+
+    switch (type)
+    {
+    case CategoryType::WEAPONS:
+        return base + "weapons";
+    case CategoryType::DRONES:
+        return base + "drones";
+    case CategoryType::AUGMENTS:
+        return base + "augments";
+    case CategoryType::CREW:
+        return base + "crew";
+    case CategoryType::SYSTEMS:
+        return base + "systems";
+    }
+}
+
+void StoreComplete::InitHeadings()
+{
+    for (auto& page : pages)
+    {
+        for (auto& sec : page.sections)
+        {
+            sec.headingTitle = GetHeadingText(sec.category);
+        }
+    }
 }
 
 void StoreComplete::SetPositions()
@@ -159,9 +577,6 @@ void StoreComplete::SetPositions()
     orig->infoBoxLoc.y = orig->position.y;
     orig->infoBox.location = orig->infoBoxLoc;
 
-
-
-
     int resourceBoxOffsets[3] = {0, 50, 99};
 
     for (int i = 0; i < resourceBoxes.size(); i++)
@@ -169,6 +584,48 @@ void StoreComplete::SetPositions()
         auto box = resourceBoxes[i];
 
         box->SetPosition(orig->position.x + 18, orig->position.y + 83 + resourceBoxOffsets[i]);
+    }
+
+    int repairBoxOffsets[3] = {291, 346};
+
+    for (int i = 0; i < repairBoxes.size(); i++)
+    {
+        auto box = repairBoxes[i];
+        box->SetPosition(orig->position.x + 18, orig->position.y + repairBoxOffsets[i]);
+    }
+
+    InitHeadings();
+
+    for (auto page : pages)
+    {
+        for (int secIndex = 0; secIndex < page.sections.size(); secIndex++)
+        {
+            auto section = page.sections[secIndex];
+
+            Point boxPos(208, 103 + secIndex * 209);
+            Point altBoxPos(203, 83 + secIndex * 209);
+
+            for (auto boxList : section.storeBoxes)
+            {
+                for (int boxIndex = 0; boxIndex < boxList.size(); boxIndex++)
+                {
+                    auto box = boxList[boxIndex];
+
+                    if (section.category != CategoryType::AUGMENTS && section.category != CategoryType::SYSTEMS)
+                    {
+                        box->orig->SetPosition(boxPos.x + orig->position.x, boxPos.y + orig->position.y);
+
+                        boxPos.x += 125;
+                    }
+                    else
+                    {
+                        box->orig->SetPosition(altBoxPos.x + orig->position.x, altBoxPos.y + orig->position.y);
+
+                        altBoxPos.y += 53;
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -216,27 +673,33 @@ void StoreComplete::OnRender()
 
     if (pages.size() > 0)
     {
+        Point headingPos = Point(206, 45);
         for (auto section : pages[currentPage].sections)
         {
+            CSurface::GL_SetColor(COLOR_BUTTON_TEXT);
+            freetype::easy_print(62, orig->position.x + headingPos.x, orig->position.y + headingPos.y, G_->GetTextLibrary()->GetText(section.headingTitle));
+
             for (auto box : section.storeBoxes[section.currentSection])
             {
-                box->OnRender();
+                box->orig->OnRender();
             }
+
+            headingPos.y += 209;
         }
 
         if (pages[currentPage].sections.size() == 1)
         {
             CSurface::GL_SetColor(COLOR_BUTTON_ON);
 
-            freetype::easy_printCenter(52, orig->position.x + 394, orig->position.y + 336, unavailableText);
+            freetype::easy_printCenter(52, orig->position.x + 394, orig->position.y + 358, unavailableText);
         }
     }
     else
     {
         CSurface::GL_SetColor(COLOR_BUTTON_ON);
 
-        freetype::easy_printCenter(52, orig->position.x + 394, orig->position.y + 152, unavailableText);
-        freetype::easy_printCenter(52, orig->position.x + 394, orig->position.y + 362, unavailableText);
+        freetype::easy_printCenter(52, orig->position.x + 394, orig->position.y + 148, unavailableText);
+        freetype::easy_printCenter(52, orig->position.x + 394, orig->position.y + 358, unavailableText);
     }
 
     for (auto i : resourceBoxes)
@@ -248,7 +711,7 @@ void StoreComplete::OnRender()
     {
         CSurface::GL_SetColor(COLOR_BUTTON_ON);
 
-        freetype::easy_printCenter(52, orig->position.x + 102, orig->position.y + 152, unavailableText);
+        freetype::easy_printCenter(52, orig->position.x + 102, orig->position.y + 148, unavailableText);
     }
 
     for (auto i : repairBoxes)
@@ -260,7 +723,7 @@ void StoreComplete::OnRender()
     {
         CSurface::GL_SetColor(COLOR_BUTTON_ON);
 
-        freetype::easy_printCenter(52, orig->position.x + 102, orig->position.y + 336, unavailableText);
+        freetype::easy_printCenter(52, orig->position.x + 102, orig->position.y + 332, unavailableText);
     }
 
     CSurface::GL_SetColor(COLOR_BUTTON_ON);
@@ -313,13 +776,80 @@ void StoreComplete::OnLoop()
     {
         i->OnLoop();
     }
+
+    for (auto i : repairBoxes)
+    {
+        i->OnLoop();
+    }
+
+    if (pages.size() > 0)
+    {
+        for (auto sec : pages[currentPage].sections)
+        {
+            if (sec.storeBoxes.size() > 0)
+            {
+                for (auto i : sec.storeBoxes[sec.currentSection])
+                {
+                    i->orig->OnLoop();
+                }
+            }
+        }
+    }
+
 }
 
 void StoreComplete::MouseClick(int x, int y)
 {
+    if (orig->confirmBuy)
+    {
+        orig->confirmDialog.MouseClick(x, y);
+
+        if (!orig->confirmDialog.bOpen)
+        {
+            orig->confirmBuy->Confirm(orig->confirmDialog.result);
+            orig->confirmBuy = nullptr;
+        }
+
+    }
+
     for (auto i : resourceBoxes)
     {
         i->MouseClick(x, y);
+    }
+
+    for (auto i : repairBoxes)
+    {
+        i->MouseClick(x, y);
+    }
+
+    if (pages.size() > 0)
+    {
+        for (auto sec : pages[currentPage].sections)
+        {
+            if (sec.storeBoxes.size() > 0)
+            {
+                for (auto i : sec.storeBoxes[sec.currentSection])
+                {
+                    i->orig->MouseClick(x, y);
+
+
+                    if (i->orig->RequiresConfirm())
+                    {
+                        orig->confirmBuy = i->orig;
+
+                        TextString yes;
+                        yes.data = "confirm_yes";
+                        yes.isLiteral = false;
+                        TextString no;
+                        no.data = "confirm_no";
+                        no.isLiteral = false;
+
+                        orig->confirmDialog.SetText(i->orig->GetConfirmText(), 300, true, yes, no);
+                        orig->confirmDialog.Open();
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -336,6 +866,31 @@ void StoreComplete::MouseMove(int x, int y)
             i->SetInfoBox(orig->infoBox, 347);
         }
     }
+
+    for (auto i : repairBoxes)
+    {
+        i->MouseMove(x, y);
+    }
+
+    if (pages.size() > 0)
+    {
+        for (auto sec : pages[currentPage].sections)
+        {
+            if (sec.storeBoxes.size() > 0)
+            {
+                for (auto i : sec.storeBoxes[sec.currentSection])
+                {
+                    i->orig->MouseMove(x, y);
+
+
+                    if ((i->orig->button.bHover || i->orig->button.bSelected) && i->orig->count > 0)
+                    {
+                        i->orig->SetInfoBox(orig->infoBox, 347);
+                    }
+                }
+            }
+        }
+    }
 }
 
 HOOK_METHOD(Store, KeyDown, (SDLKey key) -> void)
@@ -348,14 +903,15 @@ HOOK_METHOD(Store, KeyDown, (SDLKey key) -> void)
 
 HOOK_METHOD(Store, OnRender, () -> void)
 {
-    //return super();
-
     if (STORE_EX(this)->isCustomStore)
     {
         STORE_EX(this)->customStore->OnRender();
         return;
     }
 
+    return super();
+
+    // Unused rewritten code - could have some use in the future
     CSurface::GL_PushMatrix();
     if (confirmBuy)
     {
@@ -447,37 +1003,41 @@ HOOK_METHOD(Store, OnRender, () -> void)
     }
 }
 
-static bool inCreateStore = false;
-std::string storeEventName;
+std::string customStoreId;
 
 HOOK_METHOD(WorldManager, CreateStore, (LocationEvent *event) -> void)
 {
-    inCreateStore = true;
-    storeEventName = event->eventName;
+    auto customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(event->eventName);
+
+    customStoreId = "";
+
+
+    if (customEvent)
+    {
+        customStoreId = customEvent->customStore;
+    }
+
     super(event);
-    inCreateStore = false;
 }
 
 HOOK_METHOD(Store, OnInit, (ShipManager *shopper, Equipment *equip, int worldLevel) -> void)
 {
-    // if (custom store)
+    //return super(shopper, equip, worldLevel);
+    if (!customStoreId.empty())
     {
-        StoreComplete* newStore = new StoreComplete(this);
+        auto def = CustomStore::instance->GetStoreDefinition(customStoreId);
 
-        StoreDefinition newDef = StoreDefinition();
-        ResourceItem item = ResourceItem();
-        item.minCount = 3;
-        item.maxCount = 10;
-        item.price = 2;
-        item.type = "missiles";
+        if (def)
+        {
+            StoreComplete* newStore = new StoreComplete(this);
 
+            newStore->OnInit(*def, shopper, equip, worldLevel);
 
-        newStore->OnInit(newDef, shopper, equip, worldLevel);
+            STORE_EX(this)->isCustomStore = true;
+            STORE_EX(this)->customStore = newStore;
 
-        STORE_EX(this)->isCustomStore = true;
-        STORE_EX(this)->customStore = newStore;
-
-        return;
+            return;
+        }
     }
 
     super(shopper, equip, worldLevel);

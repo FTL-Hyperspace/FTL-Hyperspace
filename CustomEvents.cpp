@@ -299,6 +299,10 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
                     {
                         customEvent->removeItems.push_back(child->value());
                     }
+                    if (nodeName == "customStore")
+                    {
+                        customEvent->customStore = child->value();
+                    }
                 }
 
                 customEvents[eventName] = customEvent;

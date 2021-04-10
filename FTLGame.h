@@ -1983,8 +1983,11 @@ struct ItemBlueprint : Blueprint
 {
 };
 
-struct SystemBlueprint
+struct SystemBlueprint : Blueprint
 {
+	int maxPower;
+	int startPower;
+	std::vector<int> upgradeCosts;
 };
 
 struct BlueprintManager
@@ -2010,6 +2013,15 @@ struct BlueprintManager
 		return GetCrewBlueprint(bp, this, name);
 	}
 	
+	std::vector<std::string> GetBlueprintList(const std::string& name)
+	{
+		std::vector<std::string> bpList = std::vector<std::string>();
+		
+		GetBlueprintList(bpList, this, name);
+		
+		return bpList;
+	}
+	
 	
 
 	LIBZHL_API static std::vector<std::string> &__stdcall GetBlueprintList(std::vector<std::string> &vec, BlueprintManager *bpM, const std::string &str);
@@ -2022,7 +2034,9 @@ struct BlueprintManager
 	LIBZHL_API static Description *__stdcall ProcessDescription(Description *desc, BlueprintManager *bpM, rapidxml::xml_node<char> *node);
 	LIBZHL_API static EffectsBlueprint *__stdcall ProcessEffectsBlueprint(EffectsBlueprint *bp, BlueprintManager *bpM, rapidxml::xml_node<char> *node);
 	LIBZHL_API static CrewBlueprint *__stdcall GetCrewBlueprint(CrewBlueprint *bp, BlueprintManager *bpM, const std::string &name);
+	LIBZHL_API WeaponBlueprint *GetWeaponBlueprint(const std::string &name);
 	LIBZHL_API static AugmentBlueprint *__stdcall GetRandomAugment(AugmentBlueprint *bp, BlueprintManager *bpM);
+	LIBZHL_API SystemBlueprint *GetSystemBlueprint(const std::string &name);
 	
 	int rarityTotal;
 	std::map<std::string, ShipBlueprint> shipBlueprints;
@@ -3978,6 +3992,14 @@ struct BombProjectile
 {
 };
 
+struct OuterHull : Repairable
+{
+	Animation breach;
+	Animation heal;
+};
+
+struct ItemStoreBox;
+
 struct LIBZHL_INTERFACE StoreBox
 {
 	StoreBox()
@@ -4028,8 +4050,6 @@ struct LIBZHL_INTERFACE StoreBox
 	float fIconScale;
 	Point pushIcon;
 };
-
-struct ItemStoreBox;
 
 struct ItemStoreBox : StoreBox
 {
@@ -4141,8 +4161,17 @@ struct EventDamage
 	int effect;
 };
 
+struct AugmentStoreBox;
+
 struct AugmentStoreBox : StoreBox
 {
+	AugmentStoreBox(ShipManager *_ship, const AugmentBlueprint* _bp)
+	{
+		this->constructor(_ship, _bp);
+	}
+
+	LIBZHL_API void constructor(ShipManager *ship, const AugmentBlueprint *bp);
+	
 	AugmentBlueprint *blueprint;
 };
 
@@ -5627,13 +5656,32 @@ struct ToggleButton
 {
 };
 
+struct WeaponStoreBox;
+
 struct WeaponStoreBox : StoreBox
 {
+	WeaponStoreBox(ShipManager *_ship, Equipment *_equip, const WeaponBlueprint *_bp)
+	{
+		this->constructor(_ship, _equip, _bp);
+	}
+
+	LIBZHL_API static void __stdcall __DO_NOT_HOOK();
+	LIBZHL_API void constructor(ShipManager *ship, Equipment *equip, const WeaponBlueprint *weaponBp);
+	
 	WeaponBlueprint *blueprint;
 };
 
+struct DroneStoreBox;
+
 struct DroneStoreBox : StoreBox
 {
+	DroneStoreBox(ShipManager *_ship, Equipment *_equip, const DroneBlueprint* _bp)
+	{
+		this->constructor(_ship, _equip, _bp);
+	}
+
+	LIBZHL_API void constructor(ShipManager *ship, Equipment *equip, const DroneBlueprint *bp);
+	
 	DroneBlueprint *blueprint;
 };
 
@@ -5701,6 +5749,11 @@ struct SystemStoreBox;
 
 struct SystemStoreBox : StoreBox
 {
+	SystemStoreBox(ShipManager *_shopper, Equipment *_equip, int _sys)
+	{
+		this->constructor(_shopper, _equip, _sys);
+	}
+
 	LIBZHL_API void SetExtraData(int droneChoice);
 	LIBZHL_API void constructor(ShipManager *shopper, Equipment *equip, int sys);
 	
@@ -6072,8 +6125,17 @@ struct MantisAnimation : CrewAnimation
 	
 };
 
+struct RepairStoreBox;
+
 struct RepairStoreBox : StoreBox
 {
+	RepairStoreBox(ShipManager *_ship, bool _repairAll, int _price)
+	{
+		this->constructor(_ship, _repairAll, _price);
+	}
+
+	LIBZHL_API void constructor(ShipManager *ship, bool repairAll, int price);
+	
 	bool repairAll;
 	int repairCost;
 	TextString buttonText;
@@ -6507,7 +6569,13 @@ struct CrewStoreBox;
 
 struct CrewStoreBox : StoreBox
 {
+	CrewStoreBox(ShipManager *_ship, int _worldLevel, const std::string& _type)
+	{
+		this->constructor(_ship, _worldLevel, _type);
+	}
+
 	LIBZHL_API void Purchase();
+	LIBZHL_API void constructor(ShipManager *ship, int worldLevel, const std::string &type);
 	
 	std::string name;
 	Animation crewPortrait;
@@ -6552,12 +6620,6 @@ struct CrewBox
 	Animation stunned;
 	bool hideExtra;
 	std::string sTooltip;
-};
-
-struct OuterHull : Repairable
-{
-	Animation breach;
-	Animation heal;
 };
 
 LIBZHL_API float __stdcall font_text_width(freetype::font_data &fontData, const char *str, float size);

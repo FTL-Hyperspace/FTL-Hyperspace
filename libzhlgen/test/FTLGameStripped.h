@@ -52,6 +52,7 @@ struct Targetable;
 struct BoarderDrone;
 struct LocationEvent__Choice;
 struct DroneBlueprint;
+struct SystemBlueprint;
 struct AugmentBlueprint;
 struct WeaponBlueprint;
 struct CrewCustomizeBox;
@@ -1013,9 +1014,6 @@ struct std__vector_14EquipmentBoxZ1
   EquipmentBox **_finish;
   EquipmentBox **_end;
 };
-
-/* 329 */
-struct SystemBlueprint;
 
 /* 314 */
 struct Description
@@ -2962,6 +2960,15 @@ struct CrewCustomizeBox
   GL_Primitive *box;
   GL_Primitive *box_on;
   GL_Texture *bigBox;
+};
+
+/* 329 */
+struct SystemBlueprint
+{
+  Blueprint _base;
+  int maxPower;
+  int startPower;
+  std__vector_3int upgradeCosts;
 };
 
 /* 238 */
@@ -5540,52 +5547,5 @@ struct std__vector_10HotkeyDesc
   HotkeyDesc *_start;
   HotkeyDesc *_finish;
   HotkeyDesc *_end;
-};
-
-/* 798 */
-union __attribute__((aligned(8))) __m64
-{
-  unsigned __int64 m64_u64;
-  float m64_f32[2];
-  __int8 m64_i8[8];
-  __int16 m64_i16[4];
-  __int32 m64_i32[2];
-  __int64 m64_i64;
-  unsigned __int8 m64_u8[8];
-  unsigned __int16 m64_u16[4];
-  unsigned __int32 m64_u32[2];
-};
-
-/* 799 */
-union __attribute__((aligned(16))) __m128
-{
-  float m128_f32[4];
-  unsigned __int64 m128_u64[2];
-  __int8 m128_i8[16];
-  __int16 m128_i16[8];
-  __int32 m128_i32[4];
-  __int64 m128_i64[2];
-  unsigned __int8 m128_u8[16];
-  unsigned __int16 m128_u16[8];
-  unsigned __int32 m128_u32[4];
-};
-
-/* 800 */
-struct __m128d
-{
-  double m128d_f64[2];
-};
-
-/* 801 */
-union __attribute__((aligned(16))) __m128i
-{
-  __int8 m128i_i8[16];
-  __int16 m128i_i16[8];
-  __int32 m128i_i32[4];
-  __int64 m128i_i64[2];
-  unsigned __int8 m128i_u8[16];
-  unsigned __int16 m128i_u16[8];
-  unsigned __int32 m128i_u32[4];
-  unsigned __int64 m128i_u64[2];
 };
 

@@ -21,8 +21,8 @@ enum class CategoryType
 {
     WEAPONS,
     DRONES,
+    AUGMENTS,
     CREW,
-    AUGMENTATIONS,
     SYSTEMS
 };
 
@@ -41,13 +41,13 @@ struct ResourceItem
 struct HullRepair
 {
     int maxRepairs = -1; // infinite
-    int price; // sector-scaled by default
+    int price = -1; // sector-scaled by default
     bool visible;
 };
 
 struct StoreItem
 {
-    std::string itemName;
+    std::string blueprint;
     std::string iconFileName;
 
     std::vector<StoreItem> bundledItems;
@@ -55,13 +55,12 @@ struct StoreItem
 
     bool modifiedPrice = false;
     bool flatModifier = false;
-    bool setPrice = false;
     float modifier = 1.f; // multiplies the price by 1 by default
 
     float bundleChance;
     float bundlePriceIncrease;
 
-    int price; // item's xml price by default
+    int price = -1; // item's xml price by default
     int stock = -1; // infinite by default
     Currency individualCurrency; // uses the store's currency by default
 };
@@ -69,11 +68,9 @@ struct StoreItem
 struct StoreCategory
 {
     std::vector<StoreItem> items;
-    std::string blueprintList;
 
     CategoryType categoryType;
     std::vector<SystemId> allowedSystems; // contains all by default
-    std::string categoryName;
     std::string iconFileName;
 
     int categoryStock; // infinite by default
@@ -99,12 +96,10 @@ struct StoreDefinition
     int storeNum; // for when multiple stores are created at once
 };
 
-class CustomStoreBox : public StoreBox
+class CustomStoreBox
 {
-    CustomStoreBox(const std::string& buttonImage, ShipManager *shopper, Equipment *ship) : StoreBox(buttonImage, shopper, ship)
-    {
-
-    }
+public:
+    StoreBox *orig;
 };
 
 class StoreSection
@@ -113,6 +108,10 @@ public:
     std::vector<std::vector<CustomStoreBox*>> storeBoxes;
 
     int currentSection;
+    CategoryType category;
+    std::string headingTitle;
+
+
 };
 
 class StorePage
@@ -129,6 +128,7 @@ class StoreComplete
     std::vector<StorePage> pages;
     std::vector<ItemStoreBox*> resourceBoxes;
     std::vector<RepairStoreBox*> repairBoxes;
+
     int currentPage = 0;
 
 public:
@@ -142,6 +142,9 @@ public:
     void NextPage();
     void PreviousPage();
     void CreateStoreBoxes();
+    void InitHeadings();
+    std::vector<StoreBox*> CreateCustomStoreBoxes(const StoreCategory& category, ShipManager *ship, Equipment *equip);
+    std::string GetHeadingText(CategoryType type);
 
     StoreComplete(Store* original)
     {
