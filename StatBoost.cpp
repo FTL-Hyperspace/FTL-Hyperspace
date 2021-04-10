@@ -24,7 +24,7 @@ StatBoost ParseStatBoostNode(rapidxml::xml_node<char>* node)
             std::string val = child->value();
             if (name == "statBoost")
             {
-                def.providedStatBoosts.push_back(parseStatBoostNode(name, val, child));
+                def.providedStatBoosts.push_back(ParseStatBoostNode(child));
             }
             if (name == "boostType")
             {
@@ -187,6 +187,106 @@ HOOK_METHOD(WorldManager, OnLoop, () -> void)
         checkingCrewList.insert(checkingCrewList.end(), enemyShip->vCrewList.begin(), enemyShip->vCrewList.end());
     }
 
+    // Check augment stat boosts
+
+    CustomAugmentManager* customAug = CustomAugmentManager::GetInstance();
+
+    for (int shipId = 0; shipId < 2; shipId++)
+    {
+        if (G_->GetShipInfo(shipId) != nullptr)
+        {
+            std::map<std::string, int> augMap = CustomAugmentManager::CheckHiddenAugments(G_->GetShipInfo(shipId)->augList);
+            for (auto augPair : augMap)
+            {
+                if (customAug->IsAugment(augPair.first))
+                {
+                    for (auto statBoost : customAug->GetAugmentDefinition(augPair.first)->statBoosts)
+                    {
+                        if (statBoost.duration == -1)
+                        {
+                            statBoost.boostSource = StatBoost::BoostSource::AUGMENT;
+                            statBoost.sourceShipId = shipId;
+
+                            auto it = statBoosts.find(statBoost.stat);
+                            if (statBoosts.find(statBoost.stat) != statBoosts.end())
+                            {
+                                for (int i = 0; i < augPair.second; i++)
+                                    (*it).second.push_back(statBoost);
+                            }
+                            else
+                            {
+                                std::vector<StatBoost> newVector = std::vector<StatBoost>();
+
+                                for (int i = 0; i < augPair.second; i++)
+                                    newVector.push_back(statBoost);
+
+                                statBoosts[statBoost.stat] = newVector;
+                            }
+                            for (StatBoost recursiveBoost : statBoost.providedStatBoosts)
+                            {
+                                for (auto recursiveCrew : checkingCrewList)
+                                {
+                                    auto ex2 = CM_EX(recursiveCrew);
+                                    if (ex2->BoostCheck(statBoost))
+                                    {
+                                        recursiveBoost.crewSource = recursiveCrew;
+                                        recursiveBoost.sourceShipId = recursiveCrew->currentShipId;
+                                        if (!recursiveBoost.systemList.empty())
+                                        {
+                                            for (auto system : recursiveBoost.systemList)
+                                            {
+                                                if (playerShip != nullptr)
+                                                {
+                                                    if (system == "all")
+                                                    {
+                                                        for (int i = 0; i < 15; i++)
+                                                        {
+                                                            recursiveBoost.sourceRoomIds.first.push_back(playerShip->GetSystemRoom(i));
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        recursiveBoost.sourceRoomIds.first.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId(system)));
+                                                    }
+                                                }
+                                                if (enemyShip != nullptr)
+                                                {
+                                                    if (system == "all")
+                                                    {
+                                                        for (int i = 0; i < 15; i++)
+                                                        {
+                                                            recursiveBoost.sourceRoomIds.second.push_back(enemyShip->GetSystemRoom(i));
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        recursiveBoost.sourceRoomIds.second.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId(system)));
+                                                    }
+                                                }
+                                            }
+                                        }
+
+                                        auto it = statBoosts.find(recursiveBoost.stat);
+                                        if (statBoosts.find(recursiveBoost.stat) != statBoosts.end())
+                                        {
+                                            (*it).second.push_back(recursiveBoost);
+                                        }
+                                        else
+                                        {
+                                            std::vector<StatBoost> newVector = std::vector<StatBoost>();
+                                            newVector.push_back(recursiveBoost);
+                                            statBoosts[recursiveBoost.stat] = newVector;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     for (auto otherCrew : checkingCrewList)
     {
         auto ex = CM_EX(otherCrew);
@@ -251,44 +351,60 @@ HOOK_METHOD(WorldManager, OnLoop, () -> void)
                 newVector.push_back(statBoost);
                 statBoosts[statBoost.stat] = newVector;
             }
-        }
-    }
-
-    // Check augment stat boosts
-
-    CustomAugmentManager* customAug = CustomAugmentManager::GetInstance();
-
-    for (int shipId = 0; shipId < 2; shipId++)
-    {
-        if (G_->GetShipInfo(shipId) != nullptr)
-        {
-            std::map<std::string, int> augMap = CustomAugmentManager::CheckHiddenAugments(G_->GetShipInfo(shipId)->augList);
-            for (auto augPair : augMap)
+            for (StatBoost recursiveBoost : statBoost.providedStatBoosts)
             {
-                if (customAug->IsAugment(augPair.first))
+                for (auto recursiveCrew : checkingCrewList)
                 {
-                    for (auto statBoost : customAug->GetAugmentDefinition(augPair.first)->statBoosts)
+                    auto ex2 = CM_EX(recursiveCrew);
+                    if (ex2->BoostCheck(statBoost))
                     {
-                        if (statBoost.duration == -1)
+                        recursiveBoost.crewSource = recursiveCrew;
+                        recursiveBoost.sourceShipId = recursiveCrew->currentShipId;
+                        if (!recursiveBoost.systemList.empty())
                         {
-                            statBoost.boostSource = StatBoost::BoostSource::AUGMENT;
-                            statBoost.sourceShipId = shipId;
-
-                            auto it = statBoosts.find(statBoost.stat);
-                            if (statBoosts.find(statBoost.stat) != statBoosts.end())
+                            for (auto system : recursiveBoost.systemList)
                             {
-                                for (int i = 0; i < augPair.second; i++)
-                                    (*it).second.push_back(statBoost);
+                                if (playerShip != nullptr)
+                                {
+                                    if (system == "all")
+                                    {
+                                        for (int i = 0; i < 15; i++)
+                                        {
+                                            recursiveBoost.sourceRoomIds.first.push_back(playerShip->GetSystemRoom(i));
+                                        }
+                                    }
+                                    else
+                                    {
+                                        recursiveBoost.sourceRoomIds.first.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId(system)));
+                                    }
+                                }
+                                if (enemyShip != nullptr)
+                                {
+                                    if (system == "all")
+                                    {
+                                        for (int i = 0; i < 15; i++)
+                                        {
+                                            recursiveBoost.sourceRoomIds.second.push_back(enemyShip->GetSystemRoom(i));
+                                        }
+                                    }
+                                    else
+                                    {
+                                        recursiveBoost.sourceRoomIds.second.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId(system)));
+                                    }
+                                }
                             }
-                            else
-                            {
-                                std::vector<StatBoost> newVector = std::vector<StatBoost>();
+                        }
 
-                                for (int i = 0; i < augPair.second; i++)
-                                    newVector.push_back(statBoost);
-
-                                statBoosts[statBoost.stat] = newVector;
-                            }
+                        auto it = statBoosts.find(recursiveBoost.stat);
+                        if (statBoosts.find(recursiveBoost.stat) != statBoosts.end())
+                        {
+                            (*it).second.push_back(recursiveBoost);
+                        }
+                        else
+                        {
+                            std::vector<StatBoost> newVector = std::vector<StatBoost>();
+                            newVector.push_back(recursiveBoost);
+                            statBoosts[recursiveBoost.stat] = newVector;
                         }
                     }
                 }
@@ -321,6 +437,7 @@ HOOK_METHOD(ShipManager, JumpArrive, () -> void)
                     for (auto i : this->vCrewList)
                     {
                         auto ex = CM_EX(i);
+                        ex->timedStatBoosts.clear();
                         if (statBoost.duration != -1)
                         {
                             statBoost.timerHelper = new TimerHelper();
@@ -510,7 +627,9 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition& def,
 
     allStatBoosts.reserve(statBoosts.size() + timedStatBoosts.size());
     allStatBoosts.insert(statBoosts.begin(), statBoosts.end());
+//    printf("size before: %i ", allStatBoosts.size());
     allStatBoosts.insert(timedStatBoosts.begin(), timedStatBoosts.end());
+//    printf("size after: %i ", allStatBoosts.size());
 
     auto it = allStatBoosts.find(stat);
     if (it != allStatBoosts.end())

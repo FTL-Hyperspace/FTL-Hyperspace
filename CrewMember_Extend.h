@@ -59,10 +59,11 @@ enum class CrewStat
     CAN_PHASE_THROUGH_DOORS,
     DETECTS_LIFEFORMS,
     CLONE_LOSE_SKILLS,
-    POWER_DRAIN_FRIENDLY
+    POWER_DRAIN_FRIENDLY,
+    STAT_BOOST
 };
 
-static const std::array<std::string, 34> crewStats =
+static const std::array<std::string, 35> crewStats =
 {
     "maxHealth",
     "stunMultiplier",
@@ -98,6 +99,7 @@ static const std::array<std::string, 34> crewStats =
     "detectsLifeforms",
     "cloneLoseSkills",
     "powerDrainFriendly",
+    "statBoost"
 };
 
 struct StatBoost
@@ -185,6 +187,8 @@ struct StatBoost
     std::pair<std::vector<int>,std::vector<int>> sourceRoomIds = std::pair<std::vector<int>,std::vector<int>>();
     std::vector<std::string> systemRoomReqs = std::vector<std::string>();
     std::vector<std::string> systemList = std::vector<std::string>();
+
+    std::vector<StatBoost> providedStatBoosts = std::vector<StatBoost>();
 
     std::vector<ExtraCondition> extraConditions = std::vector<ExtraCondition>();
     bool extraConditionsReq;
