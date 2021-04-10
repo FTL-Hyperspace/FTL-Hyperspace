@@ -59,10 +59,11 @@ enum class CrewStat
     CAN_PHASE_THROUGH_DOORS,
     DETECTS_LIFEFORMS,
     CLONE_LOSE_SKILLS,
-    POWER_DRAIN_FRIENDLY
+    POWER_DRAIN_FRIENDLY,
+    STAT_BOOST
 };
 
-static const std::array<std::string, 34> crewStats =
+static const std::array<std::string, 35> crewStats =
 {
     "maxHealth",
     "stunMultiplier",
@@ -98,6 +99,7 @@ static const std::array<std::string, 34> crewStats =
     "detectsLifeforms",
     "cloneLoseSkills",
     "powerDrainFriendly",
+    "statBoost"
 };
 
 struct StatBoost
@@ -163,7 +165,7 @@ struct StatBoost
         MANNING,
         FIREFIGHTING,
         DYING,
-        TELEPORTING_OR_CLONING,
+        TELEPORTING_OR_CLONING
 
     };
 
@@ -174,7 +176,9 @@ struct StatBoost
     bool isBool = false;
     int priority = -1;
     float duration = -1;
-    //TimerHelper* timerHelper;
+    TimerHelper* timerHelper;
+
+    std::string boostAnim = "";
 
     bool affectsSelf;
 
@@ -183,6 +187,8 @@ struct StatBoost
     std::pair<std::vector<int>,std::vector<int>> sourceRoomIds = std::pair<std::vector<int>,std::vector<int>>();
     std::vector<std::string> systemRoomReqs = std::vector<std::string>();
     std::vector<std::string> systemList = std::vector<std::string>();
+
+    std::vector<StatBoost> providedStatBoosts = std::vector<StatBoost>();
 
     std::vector<ExtraCondition> extraConditions = std::vector<ExtraCondition>();
     bool extraConditionsReq;
@@ -209,6 +215,7 @@ public:
     Animation* effectAnim = nullptr;
     Animation* tempEffectAnim = nullptr;
     Animation* effectFinishAnim = nullptr;
+    std::vector<Animation*> boostAnim = std::vector<Animation*>();
     GL_Texture* tempEffectStrip = nullptr;
 
     bool isMantisAnimation = false;
@@ -266,8 +273,8 @@ public:
     std::vector<StatBoost> outgoingAbilityStatBoosts = std::vector<StatBoost>();
     std::vector<StatBoost> tempOutgoingStatBoosts = std::vector<StatBoost>();
 //    std::vector<StatBoost> outgoingTimedStatBoosts = std::vector<StatBoost>();
-    std::vector<StatBoost> outgoingTimedAbilityStatBoosts = std::vector<StatBoost>();
-    std::vector<StatBoost> timedStatBoosts = std::vector<StatBoost>();
+//    std::vector<StatBoost> outgoingTimedAbilityStatBoosts = std::vector<StatBoost>();
+    std::unordered_map<CrewStat, std::vector<StatBoost>> timedStatBoosts = std::unordered_map<CrewStat, std::vector<StatBoost>>();
 //    std::vector<StatBoost> personalStatBoosts;
 
     void Initialize(CrewBlueprint& bp, int shipId, bool enemy, CrewAnimation *animation);

@@ -3691,6 +3691,7 @@ struct ShipManager : ShipObject
 	LIBZHL_API void DamageSystem(int roomId, int iDamage, int iShieldPiercing, int fireChance, int breachChance, int stunChance, int iIonDamage, int iSystemDamage, int iPersDamage, char bHullBuster, int ownerId, int selfId, int bLockdown, int iStun);
 	LIBZHL_API void ClearStatusSystem(int system);
 	LIBZHL_API void ResetScrapLevel();
+	LIBZHL_API void JumpArrive();
 	
 	Targetable _targetable;
 	Collideable _collideable;
@@ -5436,6 +5437,8 @@ struct SpaceManager
 	bool playerShipInFront;
 };
 
+struct BoardingEvent;
+
 struct WorldManager
 {
 	LIBZHL_API void constructor();
@@ -5454,6 +5457,7 @@ struct WorldManager
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void CreateNewGame();
 	LIBZHL_API bool HostileEnvironment();
+	LIBZHL_API bool AddBoarders(BoardingEvent &boardingEvent);
 	
 	CompleteShip *playerShip;
 	BossShip *bossShip;

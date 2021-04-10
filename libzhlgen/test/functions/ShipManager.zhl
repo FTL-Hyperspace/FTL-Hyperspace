@@ -98,6 +98,8 @@ void ShipManager::DamageSystem(ShipManager *this<ecx>, int roomId, int iDamage, 
 void ShipManager::ClearStatusSystem(ShipManager *this<ecx>, int system);
 "a1????????c781d40400001e00000083f80174??83f80274??f3c3908d742600c781d404000000000000c3908d742600c781d40400000a000000":
 void ShipManager::ResetScrapLevel(ShipManager *this<ecx>);
+"578d7c240883e4f0ff77fc5589e557565389ce81c1????????83ec3c8b411cc741ec000000008941208b812cfcffff89810c040000c70424????????":
+void ShipManager::JumpArrive(ShipManager *this<ecx>);
 
 struct ShipManager {{
 	ShipManager(int shipId) 

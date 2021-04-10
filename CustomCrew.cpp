@@ -1357,7 +1357,7 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
             if (passiveHealDelay > 0)
             {
                 passiveHealTimer = new TimerHelper();
-                passiveHealTimer->Start(def.passiveHealDelay);
+                passiveHealTimer->Start(passiveHealDelay);
             }
         }
 
@@ -2945,6 +2945,18 @@ HOOK_METHOD(CrewMember, OnRender, (bool outlineOnly) -> void)
         CSurface::GL_Translate(0, PositionShift());
         ex->tempEffectAnim->OnRender(1.f, COLOR_WHITE, false);
         CSurface::GL_PopMatrix();
+    }
+
+    for (auto boostAnim : ex->boostAnim)
+    {
+        if (boostAnim != nullptr && !boostAnim->tracker.done && boostAnim->tracker.running)
+        {
+            CSurface::GL_PushMatrix();
+            CSurface::GL_Translate(-std::ceil((float)boostAnim->info.frameWidth / 2), -std::ceil((float)boostAnim->info.frameHeight / 2));
+            CSurface::GL_Translate(0, PositionShift());
+            boostAnim->OnRender(1.f, COLOR_WHITE, false);
+            CSurface::GL_PopMatrix();
+        }
     }
 
     CSurface::GL_PopMatrix();
