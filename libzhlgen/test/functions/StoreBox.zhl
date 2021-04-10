@@ -1,0 +1,29 @@
+"8079640075??c208008db426000000008079650074??8b015589e583e4f0":
+void StoreBox::MouseClick(StoreBox *this<ecx>, int x, int y);
+"578d7c240883e4f0ff77fc5589e5575383ec308b81380100008b80d40400003981e80000007e??b9????????c70424????????8d5de8e8????????8d45e083ec04":
+void StoreBox::Activate(StoreBox *this<ecx>);
+"578d7c240883e4f0ff77fc5589e557565389ce81c1????????83ec4c8b1f8b83b8000000898170ffffff8d431c890424e8????????":
+void StoreBox::InitBlueprint(StoreBox *this<ecx>, Blueprint* bp);
+"578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b07c701????????c74104ffffffffc741080000000089c28945c48b47048945c08b470889d78b7704":
+void StoreBox::constructor(StoreBox *this<ecx>, const std::string& buttonImage, ShipManager *shopper, Equipment *equip);
+"5731c08d7c240883e4f0ff77fc5589e5575389cb83ec108b913001000085d27e??80b9f80000000074??":
+void StoreBox::OnLoop(StoreBox *this<ecx>);
+"578d7c240883e4f0ff77fc5589e5575389cb8d4df083ec208b078b570489042489542404e8????????8b45f08b55f483ec08":
+void StoreBox::SetPosition(StoreBox *this<ecx>, Point pos);
+
+struct StoreBox
+{{
+	StoreBox()
+	{
+	}
+	
+	StoreBox(const std::string& buttonImage, ShipManager *shopper, Equipment *ship)
+	{
+		this->constructor(buttonImage, shopper, ship);
+	}
+	
+	void SetPosition(int x, int y)
+	{
+		SetPosition(Point(x, y));
+	}
+}};

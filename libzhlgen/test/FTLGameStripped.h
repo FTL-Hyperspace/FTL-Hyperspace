@@ -52,6 +52,7 @@ struct Targetable;
 struct BoarderDrone;
 struct LocationEvent__Choice;
 struct DroneBlueprint;
+struct SystemBlueprint;
 struct AugmentBlueprint;
 struct WeaponBlueprint;
 struct CrewCustomizeBox;
@@ -93,6 +94,7 @@ struct VTable_CrewMember;
 struct VTable_ShipSystem;
 struct VTable_Blueprint;
 struct VTable_CrewAnimation;
+struct VTable_StoreBox;
 
 /* 1 */
 struct Globals
@@ -1013,9 +1015,6 @@ struct std__vector_14EquipmentBoxZ1
   EquipmentBox **_end;
 };
 
-/* 329 */
-struct SystemBlueprint;
-
 /* 314 */
 struct Description
 {
@@ -1093,6 +1092,7 @@ struct FocusWindow
   void *vptr;
   bool bOpen;
   bool bFullFocus;
+  unsigned __int8 gap_ex_fw[2];
   Point close;
   bool bCloseButtonSelected;
   Point position;
@@ -2962,6 +2962,15 @@ struct CrewCustomizeBox
   GL_Texture *bigBox;
 };
 
+/* 329 */
+struct SystemBlueprint
+{
+  Blueprint _base;
+  int maxPower;
+  int startPower;
+  std__vector_3int upgradeCosts;
+};
+
 /* 238 */
 struct TouchTooltip;
 
@@ -3665,6 +3674,7 @@ struct Store
   int sectionCount;
   int types[4];
   bool bShowPage2;
+  unsigned __int8 gap_ex_2[2];
   StoreBox *confirmBuy;
   int forceSystemInfoWidth;
 };
@@ -4306,7 +4316,7 @@ struct VTable_CompleteShip
 /* 221 */
 struct StoreBox
 {
-  void *vptr;
+  VTable_StoreBox *_vtable;
   int itemId;
   int itemBox;
   std__string buttonImage;
@@ -4394,6 +4404,26 @@ struct VTable_CrewAnimation
   std__string *(__stdcall *GetDeathSound)(std__string *str, CrewAnimation *anim);
   void (__thiscall *Restart)(CrewAnimation *this);
   bool (__thiscall *CustomDeath)(CrewAnimation *this);
+};
+
+/* 797 */
+struct VTable_StoreBox
+{
+  void (__thiscall *Free)(StoreBox *);
+  void (__thiscall *OnLoop)(StoreBox *);
+  void (__thiscall *OnRender)(StoreBox *);
+  void (__thiscall *MouseMove)(StoreBox *, int, int);
+  void (__thiscall *MouseClick)(StoreBox *, int, int);
+  void (__thiscall *OnTouch)(StoreBox *);
+  void (__thiscall *Activate)(StoreBox *);
+  void (__thiscall *Purchase)(StoreBox *);
+  int (__thiscall *SetInfoBox)(StoreBox *, InfoBox *, int);
+  bool (__thiscall *CanHold)(StoreBox *);
+  bool (__thiscall *RequiresConfirm)(StoreBox *);
+  void (__thiscall *Confirm)(StoreBox *, bool);
+  TextString (__thiscall *GetConfirmText)(StoreBox *);
+  int (__thiscall *GetExtraData)(StoreBox *);
+  void (__thiscall *SetExtraData)(StoreBox *, int);
 };
 
 /* 156 */
@@ -5043,7 +5073,18 @@ struct BlueprintManager
 };
 
 /* 297 */
-struct PowerManager;
+struct PowerManager
+{
+  std__pair_9int___int currentPower;
+  int over_powered;
+  float fFuel;
+  bool failedPowerup;
+  int iTempPowerCap;
+  int iTempPowerLoss;
+  int iTempDividePower;
+  int iHacked;
+  std__pair_9int___int batteryPower;
+};
 
 /* 299 */
 struct BeamWeapon;
@@ -5143,7 +5184,13 @@ struct RockAlien;
 struct SlugAlien;
 
 /* 384 */
-struct RepairStoreBox;
+struct RepairStoreBox
+{
+  StoreBox _base;
+  bool repairAll;
+  int repairCost;
+  TextString buttonText;
+};
 
 /* 766 */
 struct std__array_28std__vector_10HotkeyDesc___4
@@ -5204,10 +5251,18 @@ struct TextLibrary
 };
 
 /* 400 */
-struct DroneStoreBox;
+struct DroneStoreBox
+{
+  StoreBox _base;
+  DroneBlueprint *blueprint;
+};
 
 /* 401 */
-struct WeaponStoreBox;
+struct WeaponStoreBox
+{
+  StoreBox _base;
+  WeaponBlueprint *blueprint;
+};
 
 /* 404 */
 struct ToggleButton;
@@ -5223,7 +5278,11 @@ struct freetype__font_data
 };
 
 /* 408 */
-struct ItemStoreBox;
+struct ItemStoreBox
+{
+  StoreBox _base;
+  ItemBlueprint *blueprint;
+};
 
 /* 410 */
 struct EngiAnimation;
@@ -5232,7 +5291,11 @@ struct EngiAnimation;
 struct SlugAnimation;
 
 /* 414 */
-struct AugmentStoreBox;
+struct AugmentStoreBox
+{
+  StoreBox _base;
+  AugmentBlueprint *blueprint;
+};
 
 /* 415 */
 struct CrystalAnimation;
