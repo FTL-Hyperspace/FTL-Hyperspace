@@ -155,8 +155,6 @@ void CustomStore::ParseStoreNode(rapidxml::xml_node<char>* node)
                 {
                     def.hullRepair = ParseHullRepairNode(cStoreNode);
                     def.hullRepair.visible = true;
-
-                    printf("Set hullRepair to visible\n");
                 }
 
                 if (cStoreName == "resource")
