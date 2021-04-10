@@ -6,6 +6,7 @@
 #include "CustomShipSelect.h"
 #include "CustomCrew.h"
 #include "CustomEvents.h"
+#include "EventTooltip.h"
 #include "CustomAugments.h"
 #include "Infinite.h"
 #include "Balance.h"
@@ -93,6 +94,18 @@ void Global::InitializeResources(ResourceControl *resources)
             {
                 auto enabled = node->first_attribute("enabled")->value();
                 g_hackingDroneFix = EventsParser::ParseBoolean(enabled);
+            }
+
+            if (strcmp(node->name(), "eventTooltips") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                g_eventTooltips = EventsParser::ParseBoolean(enabled);
+            }
+
+            if (strcmp(node->name(), "advancedCrewTooltips") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                g_advancedCrewTooltips = EventsParser::ParseBoolean(enabled);
             }
 
             if (strcmp(node->name(), "console") == 0)

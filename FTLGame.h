@@ -1064,6 +1064,10 @@ struct SystemBlueprint;
 
 struct InfoBox
 {
+	InfoBox()
+	{
+		this->constructor();
+	}
 
 	enum ExpandDir
 	{
@@ -1084,6 +1088,7 @@ struct InfoBox
 	LIBZHL_API void SetBlueprintAugment(const AugmentBlueprint *bp);
 	LIBZHL_API int CalcBoxHeight();
 	LIBZHL_API bool IsEmpty();
+	LIBZHL_API void constructor();
 	
 	Point location;
 	const SystemBlueprint *blueprint;
@@ -1242,6 +1247,7 @@ struct ChoiceText
 struct ChoiceBox : FocusWindow
 {
 	LIBZHL_API void OnRender();
+	LIBZHL_API void MouseMove(int x, int y);
 	
 	GL_Texture *textBox;
 	WindowFrame *box;
