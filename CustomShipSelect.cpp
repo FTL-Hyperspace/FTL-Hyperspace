@@ -893,7 +893,7 @@ int CustomShipSelect::CycleShipNext(int currentShipId, int currentType)
             }
 
             counter++;
-            if (counter > 100)
+            if (counter > 1000)
             {
                 printf("Infinite loop while getting next ship!");
                 break;
@@ -947,7 +947,7 @@ int CustomShipSelect::CycleShipPrevious(int currentShipId, int currentType)
             }
 
             counter++;
-            if (counter > 100)
+            if (counter > 1000)
             {
                 printf("Infinite loop while getting next ship!");
                 break;
@@ -1257,7 +1257,7 @@ HOOK_METHOD(ShipBuilder, OnLoop, () -> void)
 
         leftButton.SetActive(buttonsActive);
         rightButton.SetActive(buttonsActive);
-        randomButton.SetActive(customSel->CountUnlockedShips(0) + customSel->CountUnlockedShips(1) + customSel->CountUnlockedShips(2) > 1);
+        randomButton.SetActive(customSel->CountUnlockedShips(-1) > 1);
         startButton.SetActive(true);
     }
     else
