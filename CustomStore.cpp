@@ -6,9 +6,9 @@
 
 CustomStore* CustomStore::instance = new CustomStore();
 
-static HullRepair ParseHullRepairNode(rapidxml::xml_node<char>* node)
+static ItemPrice ParsePriceNode(rapidxml::xml_node<char>* node)
 {
-    HullRepair def;
+    ItemPrice def;
 
     for (auto cNode = node->first_node(); cNode; cNode = cNode->next_sibling())
     {
@@ -17,8 +17,62 @@ static HullRepair ParseHullRepairNode(rapidxml::xml_node<char>* node)
 
         if (name == "price")
         {
-            def.price = boost::lexical_cast<int>(val);
+            if (cNode->first_attribute("min") && cNode->first_attribute("max"))
+            {
+                def.minMaxPrice.first = boost::lexical_cast<int>(cNode->first_attribute("min")->value());
+                def.minMaxPrice.second = boost::lexical_cast<int>(cNode->first_attribute("max")->value());
+                def.useMinMax = true;
+
+                if (def.minMaxPrice.first > def.minMaxPrice.second)
+                {
+                    def.minMaxPrice.second = def.minMaxPrice.first;
+                }
+            }
+
+            if (!val.empty())
+            {
+                def.price = boost::lexical_cast<int>(val);
+            }
         }
+        if (name == "sectorScaled")
+        {
+            def.sectorScaled = true;
+        }
+        if (name == "modifier")
+        {
+            if (cNode->first_attribute("min") && cNode->first_attribute("max"))
+            {
+                def.minMaxModifier.first = boost::lexical_cast<float>(cNode->first_attribute("min")->value());
+                def.minMaxModifier.second = boost::lexical_cast<float>(cNode->first_attribute("max")->value());
+
+                if (def.minMaxModifier.first > def.minMaxModifier.second)
+                {
+                    def.minMaxModifier.second = def.minMaxModifier.first;
+                }
+            }
+
+            if (!val.empty())
+            {
+                def.minMaxModifier.first = boost::lexical_cast<float>(val);
+                def.minMaxModifier.second = boost::lexical_cast<float>(val);
+            }
+
+            def.hasModifier = true;
+        }
+    }
+
+    return def;
+}
+
+static HullRepair ParseHullRepairNode(rapidxml::xml_node<char>* node)
+{
+    HullRepair def;
+    def.price = ParsePriceNode(node);
+
+    for (auto cNode = node->first_node(); cNode; cNode = cNode->next_sibling())
+    {
+        std::string name = cNode->name();
+        std::string val = cNode->value();
     }
 
     return def;
@@ -27,6 +81,7 @@ static HullRepair ParseHullRepairNode(rapidxml::xml_node<char>* node)
 static ResourceItem ParseResourceNode(rapidxml::xml_node<char>* node)
 {
     ResourceItem def;
+    def.price = ParsePriceNode(node);
 
     for (auto cNode = node->first_node(); cNode; cNode = cNode->next_sibling())
     {
@@ -37,27 +92,19 @@ static ResourceItem ParseResourceNode(rapidxml::xml_node<char>* node)
         {
             def.type = val;
         }
-        if (name == "minCount")
+        if (name == "count")
         {
-            def.minCount = boost::lexical_cast<int>(val);
-        }
-        if (name == "maxCount")
-        {
-            def.maxCount = boost::lexical_cast<int>(val);
-        }
-        if (name == "price")
-        {
-            def.price = boost::lexical_cast<int>(val);
-        }
-        if (name == "modifier")
-        {
-            if (cNode->first_attribute("flat"))
+            if (cNode->first_attribute("min") && cNode->first_attribute("max"))
             {
-                def.flatModifier = EventsParser::ParseBoolean(cNode->first_attribute("flat")->value());
+                def.minMaxCount.first = boost::lexical_cast<int>(cNode->first_attribute("min"));
+                def.minMaxCount.second = boost::lexical_cast<int>(cNode->first_attribute("max"));
             }
 
-            def.modifier = boost::lexical_cast<float>(val);
-            def.modifiedPrice = true;
+            if (!val.empty())
+            {
+                def.minMaxCount.first = boost::lexical_cast<int>(val);
+                def.minMaxCount.second = boost::lexical_cast<int>(val);
+            }
         }
     }
 
@@ -67,6 +114,7 @@ static ResourceItem ParseResourceNode(rapidxml::xml_node<char>* node)
 static StoreItem ParseStoreItemNode(rapidxml::xml_node<char>* node)
 {
     StoreItem def;
+    def.price = ParsePriceNode(node);
 
     for (auto cNode = node->first_node(); cNode; cNode = cNode->next_sibling())
     {
@@ -77,20 +125,6 @@ static StoreItem ParseStoreItemNode(rapidxml::xml_node<char>* node)
         {
             def.blueprint = val;
 
-        }
-        if (name == "price")
-        {
-            def.price = boost::lexical_cast<int>(val);
-        }
-        if (name == "modifier")
-        {
-            if (cNode->first_attribute("flat"))
-            {
-                def.flatModifier = EventsParser::ParseBoolean(cNode->first_attribute("flat")->value());
-            }
-
-            def.modifier = boost::lexical_cast<float>(val);
-            def.modifiedPrice = true;
         }
     }
 
@@ -198,27 +232,57 @@ HOOK_METHOD(SystemStoreBox, constructor, (ShipManager *shopper, Equipment *equip
     desc.cost += newBlueprint->desc.cost / 2;
 }
 
-static int GetItemPricing(const StoreItem& item, const Blueprint& itemBlueprint)
+static int GetItemPricing(const ItemPrice& price, int defaultCost, int worldLevel)
 {
-    int price = item.price;
-    if (price == -1)
+    printf("%d\n", worldLevel);
+
+    int finalPrice = price.price;
+
+    if (finalPrice == -1)
     {
-        price = itemBlueprint.desc.cost;
+        finalPrice = defaultCost;
     }
 
-    if (item.modifiedPrice)
+    if (price.useMinMax)
     {
-        if (item.flatModifier)
+        if (price.sectorScaled)
         {
-            price += item.modifier;
+            finalPrice = std::floor((float)(price.minMaxPrice.second - price.minMaxPrice.first) * ((float)worldLevel / 7.f) + price.minMaxPrice.first);
         }
         else
         {
-            price *= item.modifier;
+            finalPrice = random32() % (price.minMaxPrice.second - price.minMaxPrice.first + 1) + price.minMaxPrice.first;
         }
     }
 
-    return price;
+    if (price.hasModifier)
+    {
+        float modifier;
+
+        if (price.minMaxModifier.first == price.minMaxModifier.second)
+        {
+            modifier = price.minMaxModifier.first;
+        }
+        else
+        {
+            int rng = random32() % RAND_MAX;
+
+            float random = (float)rng / (float)RAND_MAX;
+            float range = price.minMaxModifier.second - price.minMaxModifier.first;
+            modifier = (random * range) + price.minMaxModifier.first;
+        }
+
+        if (price.flatModifier)
+        {
+            finalPrice += modifier;
+        }
+        else
+        {
+            finalPrice *= modifier;
+        }
+    }
+
+    return finalPrice;
 }
 
 std::vector<StoreBox*> StoreComplete::CreateCustomStoreBoxes(const StoreCategory& category, ShipManager *ship, Equipment *equip)
@@ -244,7 +308,7 @@ std::vector<StoreBox*> StoreComplete::CreateCustomStoreBoxes(const StoreCategory
                 box = (WeaponStoreBox*)orig->vStoreBoxes.back();
                 orig->vStoreBoxes.pop_back();
 
-                box->desc.cost = GetItemPricing(i, *box->blueprint);
+                box->desc.cost = GetItemPricing(i.price, box->blueprint->desc.cost, orig->worldLevel);
 
                 vec.push_back(box);
             }
@@ -267,7 +331,7 @@ std::vector<StoreBox*> StoreComplete::CreateCustomStoreBoxes(const StoreCategory
                 {
                     box = new WeaponStoreBox(ship, equip, bp);
 
-                    box->desc.cost = GetItemPricing(i, *bp);
+                    box->desc.cost = GetItemPricing(i.price, bp->desc.cost, orig->worldLevel);
 
                     vec.push_back(box);
                 }
@@ -287,7 +351,7 @@ std::vector<StoreBox*> StoreComplete::CreateCustomStoreBoxes(const StoreCategory
                 box = (DroneStoreBox*)orig->vStoreBoxes.back();
                 orig->vStoreBoxes.pop_back();
 
-                box->desc.cost = GetItemPricing(i, *box->blueprint);
+                box->desc.cost = GetItemPricing(i.price, box->blueprint->desc.cost, orig->worldLevel);
 
                 vec.push_back(box);
             }
@@ -310,7 +374,7 @@ std::vector<StoreBox*> StoreComplete::CreateCustomStoreBoxes(const StoreCategory
                 {
                     box = new DroneStoreBox(ship, equip, bp);
 
-                    box->desc.cost = GetItemPricing(i, *bp);
+                    box->desc.cost = GetItemPricing(i.price, bp->desc.cost, orig->worldLevel);
 
                     vec.push_back(box);
                 }
@@ -330,7 +394,7 @@ std::vector<StoreBox*> StoreComplete::CreateCustomStoreBoxes(const StoreCategory
                 box = (AugmentStoreBox*)orig->vStoreBoxes.back();
                 orig->vStoreBoxes.pop_back();
 
-                box->desc.cost = GetItemPricing(i, *box->blueprint);
+                box->desc.cost = GetItemPricing(i.price, box->blueprint->desc.cost, orig->worldLevel);
 
                 vec.push_back(box);
             }
@@ -353,6 +417,8 @@ std::vector<StoreBox*> StoreComplete::CreateCustomStoreBoxes(const StoreCategory
                 {
                     box = new AugmentStoreBox(ship, bp);
 
+                    box->desc.cost = GetItemPricing(i.price, box->blueprint->desc.cost, orig->worldLevel);
+
                     vec.push_back(box);
 
                     delete bp;
@@ -373,7 +439,7 @@ std::vector<StoreBox*> StoreComplete::CreateCustomStoreBoxes(const StoreCategory
                 box = (CrewStoreBox*)orig->vStoreBoxes.back();
                 orig->vStoreBoxes.pop_back();
 
-                box->desc.cost = GetItemPricing(i, box->blueprint);
+                box->desc.cost = GetItemPricing(i.price, box->blueprint.desc.cost, orig->worldLevel);
 
                 vec.push_back(box);
             }
@@ -394,7 +460,7 @@ std::vector<StoreBox*> StoreComplete::CreateCustomStoreBoxes(const StoreCategory
                 {
                     box = new CrewStoreBox(ship, orig->worldLevel, species);
 
-                    box->desc.cost = GetItemPricing(i, *bp);
+                    box->desc.cost = GetItemPricing(i.price, bp->desc.cost, orig->worldLevel);
 
                     vec.push_back(box);
 
@@ -416,7 +482,7 @@ std::vector<StoreBox*> StoreComplete::CreateCustomStoreBoxes(const StoreCategory
                 box = (SystemStoreBox*)orig->vStoreBoxes.back();
                 orig->vStoreBoxes.pop_back();
 
-                box->desc.cost = GetItemPricing(i, *box->blueprint);
+                box->desc.cost = GetItemPricing(i.price, box->desc.cost, orig->worldLevel);
 
                 vec.push_back(box);
             }
@@ -428,7 +494,7 @@ std::vector<StoreBox*> StoreComplete::CreateCustomStoreBoxes(const StoreCategory
                 {
                     box = new SystemStoreBox(ship, equip, ShipSystem::NameToSystemId(i.blueprint));
 
-                    box->desc.cost = GetItemPricing(i, *bp);
+                    box->desc.cost = GetItemPricing(i.price, box->desc.cost, orig->worldLevel);
 
                     vec.push_back(box);
 
@@ -455,42 +521,25 @@ void StoreComplete::OnInit(const StoreDefinition& def, ShipManager *ship, Equipm
     {
         ItemStoreBox* box = new ItemStoreBox(ship, i.type);
 
-        box->count = i.minCount + (random32() % (i.maxCount - i.minCount + 1));
-        if (i.modifiedPrice)
-        {
-            if (i.flatModifier)
-            {
-                box->desc.cost += i.modifier;
-            }
-            else
-            {
-                box->desc.cost *= i.modifier;
-            }
-        }
-        if (i.price != -1)
-        {
-            box->desc.cost = i.price;
-        }
+        box->count = i.minMaxCount.first + (random32() % (i.minMaxCount.second - i.minMaxCount.first + 1));
+        GetItemPricing(i.price, box->blueprint->desc.cost, level);
 
         resourceBoxes.push_back(box);
     }
 
     if (def.hullRepair.visible)
     {
-        int price = def.hullRepair.price;
-
-        if (price == -1)
+        int price = 2;
+        if (level > 5)
         {
-            price = 2;
-            if (level > 5)
-            {
-                price = 4;
-            }
-            else if (level > 2)
-            {
-                price = 3;
-            }
+            price = 4;
         }
+        else if (level > 2)
+        {
+            price = 3;
+        }
+
+        price = GetItemPricing(def.hullRepair.price, price, level);
 
         RepairStoreBox* repairOne = new RepairStoreBox(ship, false, price);
         RepairStoreBox* repairAll = new RepairStoreBox(ship, true, price);
