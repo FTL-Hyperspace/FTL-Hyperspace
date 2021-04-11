@@ -522,7 +522,7 @@ void StoreComplete::OnInit(const StoreDefinition& def, ShipManager *ship, Equipm
         ItemStoreBox* box = new ItemStoreBox(ship, i.type);
 
         box->count = i.minMaxCount.first + (random32() % (i.minMaxCount.second - i.minMaxCount.first + 1));
-        GetItemPricing(i.price, box->blueprint->desc.cost, level);
+        box->blueprint->desc.cost = GetItemPricing(i.price, box->blueprint->desc.cost, level);
 
         resourceBoxes.push_back(box);
     }
