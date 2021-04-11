@@ -26,41 +26,47 @@ enum class CategoryType
     SYSTEMS
 };
 
+struct ItemPrice
+{
+    int price = -1;
+    std::pair<int, int> minMaxPrice;
+
+    bool useMinMax = false;
+    bool sectorScaled = false;
+
+
+
+    std::pair<float, float> minMaxModifier;
+    bool flatModifier = false;
+    bool hasModifier = false;
+};
+
 struct ResourceItem
 {
     std::string type; // fuel, missiles or drones
-    int minCount;
-    int maxCount;
+    std::pair<int, int> minMaxCount;
 
-    bool modifiedPrice = false;
-    bool flatModifier = false;
-    float modifier = 1.f; // multiplies the price by 1 by default
-    int price = -1;
+    ItemPrice price;
 };
 
 struct HullRepair
 {
     int maxRepairs = -1; // infinite
-    int price = -1; // sector-scaled by default
+    ItemPrice price;
     bool visible;
 };
 
 struct StoreItem
 {
     std::string blueprint;
-    std::string iconFileName;
 
     std::vector<StoreItem> bundledItems;
     std::vector<ResourceItem> bundledResources;
 
-    bool modifiedPrice = false;
-    bool flatModifier = false;
-    float modifier = 1.f; // multiplies the price by 1 by default
-
+    ItemPrice price;
     float bundleChance;
     float bundlePriceIncrease;
 
-    int price = -1; // item's xml price by default
     int stock = -1; // infinite by default
     Currency individualCurrency; // uses the store's currency by default
 };
@@ -71,7 +77,8 @@ struct StoreCategory
 
     CategoryType categoryType;
     std::vector<SystemId> allowedSystems; // contains all by default
-    std::string iconFileName;
+
+    std::string customTitle;
 
     int categoryStock; // infinite by default
 };
