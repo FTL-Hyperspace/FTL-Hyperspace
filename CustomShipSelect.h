@@ -273,7 +273,7 @@ public:
 
     bool IsCustomShip(std::string& id)
     {
-        return std::count_if(shipButtonDefs.begin(), shipButtonDefs.end(), [id](ShipButtonDefinition i) { return id == i.name || (id.size() > 3 && id.substr(0, id.size() - 3) == i.name); }) > 0;
+        return std::count_if(shipButtonDefs.begin(), shipButtonDefs.end(), [id](ShipButtonDefinition i) { return id == i.name || (id.size() > 3 && id.substr(0, id.size() - 2) == i.name); }) > 0;
     }
 
     bool HasCustomDef(std::string& id)
