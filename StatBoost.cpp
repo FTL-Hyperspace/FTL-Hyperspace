@@ -623,16 +623,54 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition& def,
 
     std::vector<StatBoost> personalStatBoosts;
 //    personalStatBoosts.clear();
-    std::unordered_map<CrewStat, std::vector<StatBoost>> allStatBoosts;
+//    std::unordered_map<CrewStat, std::vector<StatBoost>> allStatBoosts;
 
-    allStatBoosts.reserve(statBoosts.size() + timedStatBoosts.size());
-    allStatBoosts.insert(statBoosts.begin(), statBoosts.end());
+//    allStatBoosts.reserve(statBoosts.size() + timedStatBoosts.size());
+//    allStatBoosts.insert(statBoosts.begin(), statBoosts.end());
 //    printf("size before: %i ", allStatBoosts.size());
-    allStatBoosts.insert(timedStatBoosts.begin(), timedStatBoosts.end());
+//    allStatBoosts.insert(timedStatBoosts.begin(), timedStatBoosts.end());
 //    printf("size after: %i ", allStatBoosts.size());
 
-    auto it = allStatBoosts.find(stat);
-    if (it != allStatBoosts.end())
+//    auto it = allStatBoosts.find(stat);
+//    if (it != allStatBoosts.end())
+//    {
+//        for (StatBoost statBoost : (*it).second)
+//        {
+//            if (BoostCheck(statBoost)) // If the boost affects this ship and/or this room, and the boost comes from someone else or affects self, and the boost comes from an ally and affects allies or an enemy and affects enemies, and the boost specifically lets this race take it or doesn't ban it
+//            {
+//                if (statBoost.duration != -1 && statBoost.timerHelper->Running())
+//                {
+//                    personalStatBoosts.push_back(statBoost);
+//                }
+//                else if (statBoost.duration == -1)
+//                {
+//                    personalStatBoosts.push_back(statBoost);
+//                }
+//            }
+//        }
+//    }
+
+    auto it = statBoosts.find(stat);
+    if (it != statBoosts.end())
+    {
+        for (StatBoost statBoost : (*it).second)
+        {
+            if (BoostCheck(statBoost)) // If the boost affects this ship and/or this room, and the boost comes from someone else or affects self, and the boost comes from an ally and affects allies or an enemy and affects enemies, and the boost specifically lets this race take it or doesn't ban it
+            {
+                if (statBoost.duration != -1 && statBoost.timerHelper->Running())
+                {
+                    personalStatBoosts.push_back(statBoost);
+                }
+                else if (statBoost.duration == -1)
+                {
+                    personalStatBoosts.push_back(statBoost);
+                }
+            }
+        }
+    }
+
+    it = timedStatBoosts.find(stat);
+    if (it != timedStatBoosts.end())
     {
         for (StatBoost statBoost : (*it).second)
         {
