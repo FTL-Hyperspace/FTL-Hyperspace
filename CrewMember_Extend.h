@@ -199,6 +199,9 @@ struct StatBoost
     Damage* deathEffectChange;
     bool explosionShipFriendlyFire;
 
+    std::vector<float> powerScaling = std::vector<float>();
+    int systemPowerScaling;
+
     std::vector<ExtraCondition> extraConditions = std::vector<ExtraCondition>();
     bool extraConditionsReq;
     SystemRoomTarget systemRoomTarget;

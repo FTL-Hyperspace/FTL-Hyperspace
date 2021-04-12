@@ -2502,14 +2502,9 @@ HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
             }
             float healCrewAmount = ex->CalculateStat(CrewStat::HEAL_CREW_AMOUNT, def);
 
-            if (i->Functional() && def.healCrewAmount != 0.f || (ex->temporaryPowerActive && def.powerDef.tempPower.healCrewAmount.enabled))
+            if (i->Functional() && healCrewAmount != 0.f)
             {
                 float healCrew = G_->GetCFPS()->GetSpeedFactor() * healCrewAmount * 0.06245f;
-
-                if (ex->temporaryPowerActive && def.powerDef.tempPower.healCrewAmount.enabled)
-                {
-                    healCrew = G_->GetCFPS()->GetSpeedFactor() * (def.powerDef.tempPower.healCrewAmount.value) * 0.06245f;
-                }
 
                 for (auto crew : vCrewList)
                 {
