@@ -114,7 +114,8 @@ struct StatBoost
         MULT,
         FLAT,
         SET,
-        FLIP
+        FLIP,
+        SET_VALUE
     };
 
     enum class BoostSource
@@ -275,6 +276,11 @@ public:
     void TemporaryPowerFinished();
     Damage* GetPowerDamage();
     PowerReadyState PowerReady();
+
+    ActivatedPowerDefinition* powerChange;
+    Damage* deathEffectChange;
+    bool explosionShipFriendlyFire;
+    bool hasDeathExplosion;
 
     bool isIonDrone = false;
     bool isAbilityDrone = false;

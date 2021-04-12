@@ -698,6 +698,7 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition& def,
 
     float finalStat = 0.f;
     bool isBool = false;
+    bool isEffect = false;
     switch(stat)
     {
         case CrewStat::MAX_HEALTH:
@@ -817,8 +818,10 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition& def,
             isBool = true;
             break;
         case CrewStat::DEATH_EFFECT:
+            isEffect = true;
             break;
         case CrewStat::POWER_EFFECT:
+            isEffect = true;
             break;
     }
 
@@ -841,6 +844,56 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition& def,
                 else if (statBoost.boostType == StatBoost::BoostType::FLIP)
                 {
                     *boolValue = !*boolValue;
+                }
+            }
+            else if (isEffect)
+            {
+                if (statBoost.powerChange)
+                {
+                    if (statBoost.boostType == StatBoost::BoostType::MULT)
+                    {
+
+                    }
+                    else if (statBoost.boostType == StatBoost::BoostType::FLAT)
+                    {
+
+                    }
+                    else if (statBoost.boostType == StatBoost::BoostType::SET)
+                    {
+                        powerChange = statBoost.powerChange;
+                    }
+                    else if (statBoost.boostType == StatBoost::BoostType::SET_VALUE)
+                    {
+
+                    }
+                }
+                else
+                {
+                    if (statBoost.boostType == StatBoost::BoostType::MULT)
+                    {
+
+                    }
+                    else if (statBoost.boostType == StatBoost::BoostType::FLAT)
+                    {
+
+                    }
+                    else if (statBoost.boostType == StatBoost::BoostType::SET)
+                    {
+                        deathEffectChange = statBoost.deathEffectChange;
+                        explosionShipFriendlyFire = statBoost.explosionShipFriendlyFire;
+                        if (deathEffectChange)
+                        {
+                            hasDeathExplosion = true;
+                        }
+                        else
+                        {
+                            hasDeathExplosion = false;
+                        }
+                    }
+                    else if (statBoost.boostType == StatBoost::BoostType::SET_VALUE)
+                    {
+
+                    }
                 }
             }
             else
