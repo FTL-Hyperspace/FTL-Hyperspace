@@ -5572,8 +5572,12 @@ struct WorldManager
 	std::vector<LocationEvent::Choice> originalChoiceList;
 };
 
+struct PowerManager;
+
 struct PowerManager
 {
+	LIBZHL_API static PowerManager *__stdcall GetPowerManager(int iShipId);
+	
 	std::pair<int, int> currentPower;
 	int over_powered;
 	float fFuel;
