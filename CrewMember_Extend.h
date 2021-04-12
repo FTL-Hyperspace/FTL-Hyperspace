@@ -3,6 +3,7 @@
 #include <array>
 
 struct CrewDefinition;
+struct ActivatedPowerDefinition;
 
 enum PowerReadyState
 {
@@ -60,10 +61,12 @@ enum class CrewStat
     DETECTS_LIFEFORMS,
     CLONE_LOSE_SKILLS,
     POWER_DRAIN_FRIENDLY,
-    STAT_BOOST
+    STAT_BOOST,
+    DEATH_EFFECT,
+    POWER_EFFECT
 };
 
-static const std::array<std::string, 35> crewStats =
+static const std::array<std::string, 37> crewStats =
 {
     "maxHealth",
     "stunMultiplier",
@@ -99,7 +102,9 @@ static const std::array<std::string, 35> crewStats =
     "detectsLifeforms",
     "cloneLoseSkills",
     "powerDrainFriendly",
-    "statBoost"
+    "statBoost",
+    "deathEffect",
+    "powerEffect"
 };
 
 struct StatBoost
@@ -189,6 +194,10 @@ struct StatBoost
     std::vector<std::string> systemList = std::vector<std::string>();
 
     std::vector<StatBoost> providedStatBoosts = std::vector<StatBoost>();
+
+    ActivatedPowerDefinition* powerChange;
+    Damage* deathEffectChange;
+    bool explosionShipFriendlyFire;
 
     std::vector<ExtraCondition> extraConditions = std::vector<ExtraCondition>();
     bool extraConditionsReq;

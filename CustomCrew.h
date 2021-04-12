@@ -283,6 +283,8 @@ public:
 
 
     void AddCrewDefinition(CrewDefinition crew);
+    void ParseDeathEffect(rapidxml::xml_node<char>* stat, bool* friendlyFire, Damage* explosionDef);
+    void ParseAbilityEffect(rapidxml::xml_node<char>* stat, ActivatedPowerDefinition* powerDef);
     void ParseCrewNode(rapidxml::xml_node<char> *node);
     CrewMember* CreateCrewMember(CrewBlueprint* bp, int shipId, bool intruder);
     bool IsRace(const std::string& race);

@@ -1,5 +1,5 @@
 #pragma GCC push_options
-#pragma GCC optimize ("O2")
+#pragma GCC optimize ("Ofast")
 
 #include "StatBoost.h"
 #include "CustomCrew.h"
@@ -151,6 +151,14 @@ StatBoost ParseStatBoostNode(rapidxml::xml_node<char>* node)
                 {
                     def.systemList.push_back(crewChild->name());
                 }
+            }
+            if (name == "deathEffect")
+            {
+                CustomCrewManager::GetInstance()->ParseDeathEffect(child, &def.explosionShipFriendlyFire, def.deathEffectChange);
+            }
+            if (name == "powerEffect")
+            {
+                CustomCrewManager::GetInstance()->ParseAbilityEffect(child, def.powerChange);
             }
         }
     }
@@ -807,6 +815,10 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition& def,
         case CrewStat::POWER_DRAIN_FRIENDLY:
             *boolValue = def.powerDrainFriendly;
             isBool = true;
+            break;
+        case CrewStat::DEATH_EFFECT:
+            break;
+        case CrewStat::POWER_EFFECT:
             break;
     }
 
