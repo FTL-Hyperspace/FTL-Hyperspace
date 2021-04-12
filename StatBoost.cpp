@@ -163,6 +163,14 @@ StatBoost ParseStatBoostNode(rapidxml::xml_node<char>* node)
                             def.systemPowerScaling.push_back(i);
                         }
                     }
+                    else if (systemChild->name() == "reactorMax")
+                    {
+                        def.systemPowerScaling.push_back(16);
+                    }
+                    else if (systemChild->name() == "reactorCurrent")
+                    {
+                        def.systemPowerScaling.push_back(17);
+                    }
                     else
                     {
                         def.systemPowerScaling.push_back(ShipSystem::NameToSystemId(systemChild->name()));
@@ -924,9 +932,29 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition& def,
             else
             {
                 int numPower = 0;
+                bool systemExists = true;
                 for (auto system : statBoost.systemPowerScaling)
                 {
-                    numPower += std::max(0, G_->GetShipManager(orig->iShipId)->GetSystem(system)->GetEffectivePower());
+                    if (system == 16)
+                    {
+                        int number = G_->GetShipManager(orig->iShipId)->GetSystem(system)->GetEffectivePower();
+                        else
+                        {
+                            systemExists = false;
+                        }
+                    }
+                    else
+                    {
+                        int number = G_->GetShipManager(orig->iShipId)->GetSystem(system)->GetEffectivePower();
+                        if (number != -1)
+                        {
+                            numPower += number;
+                        }
+                        else
+                        {
+                            systemExists = false;
+                        }
+                    }
                 }
                 if (numPower > statBoost.powerScaling.size() - 1)
                 {
@@ -935,7 +963,7 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition& def,
 
                 if (statBoost.boostType == StatBoost::BoostType::MULT)
                 {
-                    if (!statBoost.powerScaling.empty())
+                    if (!statBoost.powerScaling.empty() && systemExists)
                     {
                         finalStat = finalStat + finalStat * (statBoost.amount * (statBoost.powerScaling.at(numPower)));
                     }
