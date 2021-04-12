@@ -201,7 +201,7 @@ struct StatBoost
     bool explosionShipFriendlyFire;
 
     std::vector<float> powerScaling = std::vector<float>();
-    int systemPowerScaling;
+    std::vector<int> systemPowerScaling;
 
     std::vector<ExtraCondition> extraConditions = std::vector<ExtraCondition>();
     bool extraConditionsReq;

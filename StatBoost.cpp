@@ -152,6 +152,31 @@ StatBoost ParseStatBoostNode(rapidxml::xml_node<char>* node)
                     def.systemList.push_back(crewChild->name());
                 }
             }
+            if (name == "systemPowerDependency")
+            {
+                for (auto systemChild = child->first_node(); systemChild; systemChild = systemChild->next_sibling())
+                {
+                    if (systemChild->name() == "all")
+                    {
+                        for (int i = 0; i < 15; i++)
+                        {
+                            def.systemPowerScaling.push_back(i);
+                        }
+                    }
+                    else
+                    {
+                        def.systemPowerScaling.push_back(ShipSystem::NameToSystemId(systemChild->name()));
+                    }
+                }
+            }
+            if (name == "systemPowerScaling")
+            {
+                for (auto systemChild = child->first_node(); systemChild; systemChild = systemChild->next_sibling())
+                {
+                    printf("%f", systemChild->value());
+                    def.powerScaling.push_back(boost::lexical_cast<float>(systemChild->value()));
+                }
+            }
             if (name == "deathEffect")
             {
                 CustomCrewManager::GetInstance()->ParseDeathEffect(child, &def.explosionShipFriendlyFire, def.deathEffectChange);
@@ -898,17 +923,48 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition& def,
             }
             else
             {
+                int numPower = 0;
+                for (auto system : statBoost.systemPowerScaling)
+                {
+                    numPower += std::max(0, G_->GetShipManager(orig->iShipId)->GetSystem(system)->GetEffectivePower());
+                }
+                if (numPower > statBoost.powerScaling.size() - 1)
+                {
+                    numPower = statBoost.powerScaling.size() - 1;
+                }
+
                 if (statBoost.boostType == StatBoost::BoostType::MULT)
                 {
-                    finalStat *= statBoost.amount;
+                    if (!statBoost.powerScaling.empty())
+                    {
+                        finalStat = finalStat + finalStat * (statBoost.amount * (statBoost.powerScaling.at(numPower)));
+                    }
+                    else
+                    {
+                        finalStat *= statBoost.amount;
+                    }
                 }
                 else if (statBoost.boostType == StatBoost::BoostType::FLAT)
                 {
-                    finalStat += statBoost.amount;
+                    if (!statBoost.powerScaling.empty())
+                    {
+                        finalStat += (statBoost.amount * (statBoost.powerScaling.at(numPower)));
+                    }
+                    else
+                    {
+                        finalStat += statBoost.amount;
+                    }
                 }
                 else if (statBoost.boostType == StatBoost::BoostType::SET)
                 {
-                    finalStat = statBoost.amount;
+                    if (!statBoost.powerScaling.empty())
+                    {
+                        finalStat = (statBoost.amount * (statBoost.amount * (statBoost.powerScaling.at(numPower))));
+                    }
+                    else
+                    {
+                        finalStat = statBoost.amount;
+                    }
                 }
             }
         }
