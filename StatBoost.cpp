@@ -1017,11 +1017,61 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition& def,
                 {
                     if (!statBoost.powerScaling.empty() && systemExists)
                     {
-                        finalStat = finalStat + (finalStat * (statBoost.amount * (statBoost.powerScaling.at(numPower + 1))) - 1);
+                        if (statBoost.amount == 0)
+                        {
+                            finalStat = 0;
+                        }
+                        else if (statBoost.powerScaling.at(numPower + 1) == 0)
+                        {
+                            // finalStat stays the same
+                        }
+                        else
+                        {
+                            if (statBoost.powerScaling.at(numPower + 1) < 1)
+                            {
+                                if (statBoost.amount > 1)
+                                {
+                                    finalStat = finalStat + (finalStat * statBoost.amount * statBoost.powerScaling.at(numPower + 1));
+                                }
+                                else
+                                {
+                                    finalStat = finalStat * statBoost.amount * statBoost.powerScaling.at(numPower + 1);
+                                }
+                            }
+                            else
+                            {
+                                finalStat = finalStat * statBoost.amount * statBoost.powerScaling.at(numPower + 1);
+                            }
+                        }
                     }
                     else if (!statBoost.powerScaling.empty())
                     {
-                        finalStat = finalStat + (finalStat * (statBoost.amount * (statBoost.powerScaling.at(0))) - 1);
+                        if (statBoost.amount == 0)
+                        {
+                            finalStat = 0;
+                        }
+                        else if (statBoost.powerScaling.at(0) == 0)
+                        {
+                            // finalStat stays the same
+                        }
+                        else
+                        {
+                            if (statBoost.powerScaling.at(0) < 1)
+                            {
+                                if (statBoost.amount > 1)
+                                {
+                                    finalStat = finalStat + (finalStat * statBoost.amount * statBoost.powerScaling.at(0));
+                                }
+                                else
+                                {
+                                    finalStat = finalStat * statBoost.amount * statBoost.powerScaling.at(0);
+                                }
+                            }
+                            else
+                            {
+                                finalStat = finalStat * statBoost.amount * statBoost.powerScaling.at(0);
+                            }
+                        }
                     }
                     else
                     {
