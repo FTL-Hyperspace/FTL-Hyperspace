@@ -131,6 +131,21 @@ StatBoost ParseStatBoostNode(rapidxml::xml_node<char>* node)
                     def.crewTarget = StatBoost::CrewTarget::ALL;
                 }
             }
+            if (name == "droneTarget")
+            {
+                if (val == "DRONES")
+                {
+                    def.droneTarget = StatBoost::DroneTarget::DRONES;
+                }
+                if (val == "CREW")
+                {
+                    def.droneTarget = StatBoost::DroneTarget::CREW;
+                }
+                if (val == "ALL")
+                {
+                    def.droneTarget = StatBoost::DroneTarget::ALL;
+                }
+            }
             if (name == "whiteList")
             {
                 for (auto crewChild = child->first_node(); crewChild; crewChild = crewChild->next_sibling())
@@ -181,18 +196,17 @@ StatBoost ParseStatBoostNode(rapidxml::xml_node<char>* node)
             {
                 for (auto systemChild = child->first_node(); systemChild; systemChild = systemChild->next_sibling())
                 {
-                    printf("%f", systemChild->value());
                     def.powerScaling.push_back(boost::lexical_cast<float>(systemChild->value()));
                 }
             }
-            if (name == "deathEffect")
-            {
-                CustomCrewManager::GetInstance()->ParseDeathEffect(child, &def.explosionShipFriendlyFire, def.deathEffectChange);
-            }
-            if (name == "powerEffect")
-            {
-                CustomCrewManager::GetInstance()->ParseAbilityEffect(child, def.powerChange);
-            }
+//            if (name == "deathEffect")
+//            {
+//                CustomCrewManager::GetInstance()->ParseDeathEffect(child, &def.explosionShipFriendlyFire, def.deathEffectChange);
+//            }
+//            if (name == "powerEffect")
+//            {
+//                CustomCrewManager::GetInstance()->ParseAbilityEffect(child, def.powerChange);
+//            }
         }
     }
     return def;
@@ -935,37 +949,44 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition& def,
                 bool systemExists = true;
                 for (auto system : statBoost.systemPowerScaling)
                 {
+                    ShipManager* shipManager = G_->GetShipManager(orig->iShipId);
                     if (system == 16)
                     {
-                        int number = G_->GetShipManager(orig->iShipId)->GetSystem(system)->GetEffectivePower();
-                        else
-                        {
-                            systemExists = false;
-                        }
+                        numPower += PowerManager::GetPowerManager(orig->iShipId)->currentPower.second;
+                    }
+                    else if (system == 17)
+                    {
+                        numPower += PowerManager::GetPowerManager(orig->iShipId)->currentPower.first;
                     }
                     else
                     {
-                        int number = G_->GetShipManager(orig->iShipId)->GetSystem(system)->GetEffectivePower();
-                        if (number != -1)
+                        if (shipManager != nullptr)
                         {
-                            numPower += number;
-                        }
-                        else
-                        {
-                            systemExists = false;
+                            if (shipManager->GetSystemRoom(system) != -1)
+                            {
+                                numPower += shipManager->GetSystem(system)->GetEffectivePower();
+                            }
+                            else
+                            {
+                                systemExists = false;
+                            }
                         }
                     }
                 }
-                if (numPower > statBoost.powerScaling.size() - 1)
+                if (numPower > statBoost.powerScaling.size() - 2)
                 {
-                    numPower = statBoost.powerScaling.size() - 1;
+                    numPower = statBoost.powerScaling.size() - 2;
                 }
 
                 if (statBoost.boostType == StatBoost::BoostType::MULT)
                 {
                     if (!statBoost.powerScaling.empty() && systemExists)
                     {
-                        finalStat = finalStat + finalStat * (statBoost.amount * (statBoost.powerScaling.at(numPower)));
+                        finalStat = finalStat + finalStat * (statBoost.amount * (statBoost.powerScaling.at(numPower + 1)));
+                    }
+                    else if (!statBoost.powerScaling.empty())
+                    {
+                        finalStat = finalStat + finalStat * (statBoost.amount * (statBoost.powerScaling.at(0)));
                     }
                     else
                     {
@@ -974,9 +995,13 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition& def,
                 }
                 else if (statBoost.boostType == StatBoost::BoostType::FLAT)
                 {
-                    if (!statBoost.powerScaling.empty())
+                    if (!statBoost.powerScaling.empty() && systemExists)
                     {
-                        finalStat += (statBoost.amount * (statBoost.powerScaling.at(numPower)));
+                        finalStat += (statBoost.amount * (statBoost.powerScaling.at(numPower + 1)));
+                    }
+                    else if (!statBoost.powerScaling.empty())
+                    {
+                        finalStat += (statBoost.amount * (statBoost.powerScaling.at(0)));
                     }
                     else
                     {
@@ -985,9 +1010,13 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition& def,
                 }
                 else if (statBoost.boostType == StatBoost::BoostType::SET)
                 {
-                    if (!statBoost.powerScaling.empty())
+                    if (!statBoost.powerScaling.empty() && systemExists)
                     {
-                        finalStat = (statBoost.amount * (statBoost.amount * (statBoost.powerScaling.at(numPower))));
+                        finalStat = (statBoost.amount * (statBoost.amount * (statBoost.powerScaling.at(numPower + 1))));
+                    }
+                    else if (!statBoost.powerScaling.empty())
+                    {
+                        finalStat = (statBoost.amount * (statBoost.amount * (statBoost.powerScaling.at(0))));
                     }
                     else
                     {

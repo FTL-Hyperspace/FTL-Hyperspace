@@ -469,6 +469,10 @@ void CustomCrewManager::ParseDeathEffect(rapidxml::xml_node<char>* stat, bool* f
             *friendlyFire = EventsParser::ParseBoolean(effectNode->value());
         }
     }
+    if (!explosionDef)
+    {
+        explosionDef = new Damage();
+    }
     *explosionDef = def;
 }
 
@@ -854,6 +858,10 @@ void CustomCrewManager::ParseAbilityEffect(rapidxml::xml_node<char>* stat, Activ
                 }
             }
         }
+    }
+    if (!powerDef)
+    {
+        powerDef = new ActivatedPowerDefinition();
     }
     *powerDef = def;
 }
@@ -3366,13 +3374,13 @@ HOOK_METHOD(CrewControl, MouseMove, (int mX, int mY, int wX, int wY) -> void)
             if (i->health.first == i->health.second)
             {
                 std::stringstream stream;
-                tooltip += G_->GetTextLibrary()->GetText("health_tooltip") + ": " + std::to_string(maxHealth) + "/" + std::to_string(maxHealth) + '\n';
+                tooltip += G_->GetTextLibrary()->GetText("advanced_health_tooltip") + ": " + std::to_string(maxHealth) + "/" + std::to_string(maxHealth) + '\n';
             }
             else
             {
                 std::stringstream stream;
                 stream << std::fixed <<std::setprecision(2) << i->health.first;
-                tooltip += G_->GetTextLibrary()->GetText("health_tooltip") + ": " + stream.str() + "/" + std::to_string(maxHealth) + '\n';
+                tooltip += G_->GetTextLibrary()->GetText("advanced_health_tooltip") + ": " + stream.str() + "/" + std::to_string(maxHealth) + '\n';
             }
             if (i->bMindControlled)
             {
