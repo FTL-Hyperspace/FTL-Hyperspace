@@ -262,6 +262,41 @@ HOOK_METHOD(WorldManager, OnLoop, () -> void)
                             statBoost.boostSource = StatBoost::BoostSource::AUGMENT;
                             statBoost.sourceShipId = shipId;
 
+                            if (!statBoost.systemList.empty())
+                            {
+                                for (auto system : statBoost.systemList)
+                                {
+                                    if (playerShip != nullptr)
+                                    {
+                                        if (system == "all")
+                                        {
+                                            for (int i = 0; i < 15; i++)
+                                            {
+                                                statBoost.sourceRoomIds.first.push_back(playerShip->GetSystemRoom(i));
+                                            }
+                                        }
+                                        else
+                                        {
+                                            statBoost.sourceRoomIds.first.push_back(playerShip->GetSystemRoom(ShipSystem::NameToSystemId(system)));
+                                        }
+                                    }
+                                    if (enemyShip != nullptr)
+                                    {
+                                        if (system == "all")
+                                        {
+                                            for (int i = 0; i < 15; i++)
+                                            {
+                                                statBoost.sourceRoomIds.second.push_back(enemyShip->GetSystemRoom(i));
+                                            }
+                                        }
+                                        else
+                                        {
+                                            statBoost.sourceRoomIds.second.push_back(enemyShip->GetSystemRoom(ShipSystem::NameToSystemId(system)));
+                                        }
+                                    }
+                                }
+                            }
+
                             auto it = statBoosts.find(statBoost.stat);
                             if (statBoosts.find(statBoost.stat) != statBoosts.end())
                             {
@@ -982,7 +1017,7 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition& def,
                 {
                     if (!statBoost.powerScaling.empty() && systemExists)
                     {
-                        finalStat = finalStat + finalStat * (statBoost.amount * (statBoost.powerScaling.at(numPower + 1)));
+                        finalStat = finalStat + (finalStat * (statBoost.amount * (statBoost.powerScaling.at(numPower + 1))) - 1);
                     }
                     else if (!statBoost.powerScaling.empty())
                     {
