@@ -1021,7 +1021,7 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition& def,
                     }
                     else if (!statBoost.powerScaling.empty())
                     {
-                        finalStat = finalStat + finalStat * (statBoost.amount * (statBoost.powerScaling.at(0)));
+                        finalStat = finalStat + (finalStat * (statBoost.amount * (statBoost.powerScaling.at(0))) - 1);
                     }
                     else
                     {
