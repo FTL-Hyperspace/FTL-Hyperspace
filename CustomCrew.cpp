@@ -1626,7 +1626,9 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
             {
                 ex->powerCooldown.first = std::min(ex->powerCooldown.second, (float)(G_->GetCFPS()->GetSpeedFactor() * 0.0625) + ex->powerCooldown.first);
                 auto def = custom->GetDefinition(species);
-                if (def.powerDef.activateWhenReady && ex->PowerReady() == POWER_READY)
+                bool activateWhenReady;
+                ex->CalculateStat(CrewStat::ACTIVATE_WHEN_READY, def, &activateWhenReady);
+                if (activateWhenReady && ex->PowerReady() == POWER_READY)
                 {
                     if (iShipId == 1 || !def.powerDef.activateReadyEnemies)
                     {

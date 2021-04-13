@@ -63,10 +63,11 @@ enum class CrewStat
     POWER_DRAIN_FRIENDLY,
     STAT_BOOST,
     DEATH_EFFECT,
-    POWER_EFFECT
+    POWER_EFFECT,
+    ACTIVATE_WHEN_READY
 };
 
-static const std::array<std::string, 37> crewStats =
+static const std::array<std::string, 38> crewStats =
 {
     "maxHealth",
     "stunMultiplier",
@@ -104,7 +105,8 @@ static const std::array<std::string, 37> crewStats =
     "powerDrainFriendly",
     "statBoost",
     "deathEffect",
-    "powerEffect"
+    "powerEffect",
+    "activateWhenReady"
 };
 
 struct StatBoost

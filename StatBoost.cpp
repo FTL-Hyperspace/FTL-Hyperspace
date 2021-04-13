@@ -899,6 +899,10 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition& def,
             *boolValue = def.powerDrainFriendly;
             isBool = true;
             break;
+        case CrewStat::ACTIVATE_WHEN_READY:
+            *boolValue = def.powerDef.activateWhenReady;
+            isBool = true;
+            break;
         case CrewStat::DEATH_EFFECT:
             isEffect = true;
             break;
