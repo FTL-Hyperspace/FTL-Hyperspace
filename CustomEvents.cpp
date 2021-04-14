@@ -795,13 +795,13 @@ HOOK_METHOD(StarMap, TurnIntoFleetLocation, (Location *loc) -> void)
         locEvent->ClearEvent(false);
         std::string event;
 
-        if (loc->nebula)
-        {
-            event = "FLEET_EASY_NEBULA";
-        }
-        else if (loc->beacon)
+        if (loc->beacon)
         {
             event = "FLEET_EASY_BEACON";
+        }
+        else if (loc->nebula)
+        {
+            event = "FLEET_EASY_NEBULA";
         }
         else
         {
