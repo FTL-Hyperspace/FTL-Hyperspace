@@ -825,6 +825,7 @@ HOOK_METHOD(StarMap, TurnIntoFleetLocation, (Location *loc) -> void)
         if (loc->beacon && loc->nebula)
         {
             loc->event->environment = 3;
+            loc->event->statusEffects.push_back({2, 7, 0, 2});
         }
     }
 
