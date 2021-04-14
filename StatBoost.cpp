@@ -847,6 +847,9 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition& def,
         case CrewStat::POWER_DRAIN:
             finalStat = (temporaryPowerActive && def.powerDef.tempPower.powerDrain.enabled) ? def.powerDef.tempPower.powerDrain.value : def.powerDrain;
             break;
+        case CrewStat::DEFAULT_SKILL_LEVEL:
+            finalStat = def.defaultSkillLevel;
+            break;
         case CrewStat::CAN_FIGHT:
             *boolValue = (temporaryPowerActive && def.powerDef.tempPower.canFight.enabled) ? def.powerDef.tempPower.canFight.value : def.canFight;
             isBool = true;
