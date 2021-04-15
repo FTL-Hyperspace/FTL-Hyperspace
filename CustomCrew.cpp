@@ -1527,7 +1527,7 @@ HOOK_METHOD_PRIORITY(CrewMember, UpdateHealth, 2000, () -> void)
         float healAmount = ex->CalculateStat(CrewStat::ACTIVE_HEAL_AMOUNT, def);
         float trueHealAmount = ex->CalculateStat(CrewStat::TRUE_HEAL_AMOUNT, def);
 
-        if (healAmount != 0.f && health.first != health.second && Functional())
+        if (healAmount != 0.f && Functional())
         {
             if (healAmount > 0.f && health.first != health.second)
             {
