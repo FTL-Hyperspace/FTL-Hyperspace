@@ -2713,7 +2713,7 @@ struct LIBZHL_INTERFACE CrewMember
 	LIBZHL_API void CycleColorLayer(int unk);
 	LIBZHL_API static std::string &__stdcall GetUniqueRepairing(std::string &strRef, CrewMember *crew);
 	LIBZHL_API void SetTask(CrewTask task);
-	LIBZHL_API static void __stdcall GetTooltip(std::string &strRef, CrewMember *crew);
+	LIBZHL_API static std::string &__stdcall GetTooltip(std::string &strRef, CrewMember *crew);
 	
 	int iShipId;
 	float x;

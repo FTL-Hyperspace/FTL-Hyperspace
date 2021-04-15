@@ -12360,17 +12360,16 @@ namespace _func349
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("CrewMember::GetTooltip", typeid(void (*)(std::string &, CrewMember *)), "578d7c240883e4f0ff77fc5589e557565381ec????????8b1f898d18ffffffc70424????????e8????????83ec0480bbe4020000008d45d0", argdata, 2, 4, &func);
+	static FunctionDefinition funcObj("CrewMember::GetTooltip", typeid(std::string &(*)(std::string &, CrewMember *)), "578d7c240883e4f0ff77fc5589e557565381ec????????8b1f898d18ffffffc70424????????e8????????83ec0480bbe4020000008d45d0", argdata, 2, 0, &func);
 }
 
-__declspec(naked) void CrewMember::GetTooltip(std::string &strRef, CrewMember *crew)
+__declspec(naked) std::string &CrewMember::GetTooltip(std::string &strRef, CrewMember *crew)
 {
 	__asm__
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
 		"push edx\n\t"
-		"push eax\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
 		"push esi\n\t"
@@ -12385,7 +12384,6 @@ __declspec(naked) void CrewMember::GetTooltip(std::string &strRef, CrewMember *c
 		"pop esi\n\t"
 		"pop ebx\n\t"
 		"pop ecx\n\t"
-		"pop eax\n\t"
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
