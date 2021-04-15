@@ -1533,7 +1533,7 @@ HOOK_METHOD_PRIORITY(CrewMember, UpdateHealth, 2000, () -> void)
             {
                 fMedbay += 0.0000000001;
             }
-            DirectModifyHealth(G_->GetCFPS()->GetSpeedFactor() * healAmount * mod * 0.0601f);
+            DirectModifyHealth(G_->GetCFPS()->GetSpeedFactor() * healAmount * mod * 0.06245f);
         }
         if (ex->isHealing && passiveHealAmount != 0.f && health.first != health.second && Functional())
         {
@@ -1541,7 +1541,7 @@ HOOK_METHOD_PRIORITY(CrewMember, UpdateHealth, 2000, () -> void)
             {
                 fMedbay += 0.0000000001;
             }
-            DirectModifyHealth(G_->GetCFPS()->GetSpeedFactor() * passiveHealAmount * mod * 0.0601f);
+            DirectModifyHealth(G_->GetCFPS()->GetSpeedFactor() * passiveHealAmount * mod * 0.06245f);
         }
         if (ex->isHealing && trueHealAmount != 0.f && health.first != health.second && Functional())
         {
@@ -1549,7 +1549,7 @@ HOOK_METHOD_PRIORITY(CrewMember, UpdateHealth, 2000, () -> void)
             {
                 fMedbay += 0.0000000001;
             }
-            DirectModifyHealth(G_->GetCFPS()->GetSpeedFactor() * trueHealAmount * 0.0601f);
+            DirectModifyHealth(G_->GetCFPS()->GetSpeedFactor() * trueHealAmount * 0.06245f);
         }
     }
 
@@ -2527,7 +2527,7 @@ HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
             auto def = custom->GetDefinition(i->species);
 
             auto ex = CM_EX(i);
-            float damageEnemies = ex->CalculateStat(CrewStat::DAMAGE_ENEMIES_AMOUNT, def) * G_->GetCFPS()->GetSpeedFactor() * 0.0601f;
+            float damageEnemies = ex->CalculateStat(CrewStat::DAMAGE_ENEMIES_AMOUNT, def) * G_->GetCFPS()->GetSpeedFactor() * 0.06245f;
 
             if (i->Functional() && damageEnemies != 0.f)
             {
@@ -2543,7 +2543,7 @@ HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
 
             if (i->Functional() && healCrewAmount != 0.f)
             {
-                float healCrew = G_->GetCFPS()->GetSpeedFactor() * healCrewAmount * 0.0601f;
+                float healCrew = G_->GetCFPS()->GetSpeedFactor() * healCrewAmount * 0.06245f;
 
                 for (auto crew : vCrewList)
                 {
