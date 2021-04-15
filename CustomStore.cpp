@@ -51,6 +51,11 @@ static ItemPrice ParsePriceNode(rapidxml::xml_node<char>* node)
                 }
             }
 
+            if (cNode->first_attribute("flat") && EventsParser::ParseBoolean(cNode->first_attribute("flat")->value()) == true)
+            {
+                def.flatModifier = true;
+            }
+
             if (!val.empty())
             {
                 def.minMaxModifier.first = boost::lexical_cast<float>(val);
