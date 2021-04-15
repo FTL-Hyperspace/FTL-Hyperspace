@@ -7,6 +7,7 @@ struct CustomWeaponDefinition
 
     int freeMissileChance;
     std::string descriptionOverride;
+    bool hideEventTooltip = false;
 };
 
 class CustomWeaponManager

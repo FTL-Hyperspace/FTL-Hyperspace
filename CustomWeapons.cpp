@@ -25,6 +25,10 @@ HOOK_STATIC(BlueprintManager, ProcessWeaponBlueprint, (WeaponBlueprint* bp, Blue
         {
             weaponDef.descriptionOverride = val;
         }
+        if (name == "hideEventTooltip")
+        {
+            weaponDef.hideEventTooltip = EventsParser::ParseBoolean(val);
+        }
     }
 
     CustomWeaponManager::instance->AddWeaponDefinition(weaponDef);
