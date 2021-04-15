@@ -3,6 +3,9 @@
 #include <unordered_map>
 
 extern bool g_advancedCrewTooltips;
+extern bool g_showEnemyPowers;
+extern bool g_showAllyPowers;
+extern int g_advancedCrewTooltipRounding;
 
 struct StatBoost;
 
@@ -135,6 +138,7 @@ struct TemporaryPowerDefinition
     ToggleValue<bool> detectsLifeforms;
     ToggleValue<float> damageTakenMultiplier;
     ToggleValue<float> passiveHealAmount;
+    ToggleValue<float> trueHealAmount;
     ToggleValue<int> passiveHealDelay;
     ToggleValue<float> sabotageSpeedMultiplier;
     ToggleValue<float> allDamageTakenMultiplier;
@@ -244,6 +248,7 @@ struct CrewDefinition
     float oxygenChangeSpeed = 0.f;
     float damageTakenMultiplier = 1.f;
     float passiveHealAmount = 0.f;
+    float trueHealAmount = 0.f;
     int passiveHealDelay = 0;
     bool detectsLifeforms = false;
     bool hasCustomDeathAnimation = false;

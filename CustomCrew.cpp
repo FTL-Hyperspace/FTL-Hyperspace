@@ -22,8 +22,10 @@ static const std::string CREW_SKILLS[6] =
     "combat"
 };
 
-bool g_advancedCrewTooltips = false;
-
+bool g_advancedCrewTooltips = true;
+bool g_showEnemyPowers = true;
+bool g_showAllyPowers = false;
+int g_advancedCrewTooltipRounding = 2;
 
 
 CustomCrewManager CustomCrewManager::instance = CustomCrewManager();
@@ -298,6 +300,10 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                         if (str == "passiveHealAmount")
                         {
                             crew.passiveHealAmount = boost::lexical_cast<float>(val);
+                        }
+                        if (str == "trueHealAmount")
+                        {
+                            crew.trueHealAmount = boost::lexical_cast<float>(val);
                         }
                         if (str == "passiveHealDelay")
                         {
@@ -1380,7 +1386,8 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
             }
         }
         float passiveHealAmount = CalculateStat(CrewStat::PASSIVE_HEAL_AMOUNT, def);
-        if (passiveHealAmount != 0.f)
+        float trueHealAmount = CalculateStat(CrewStat::TRUE_HEAL_AMOUNT, def);
+        if (passiveHealAmount != 0.f || trueHealAmount != 0.f)
         {
             float passiveHealDelay = CalculateStat(CrewStat::PASSIVE_HEAL_DELAY, def);
             if (passiveHealDelay > 0)
@@ -1518,6 +1525,7 @@ HOOK_METHOD_PRIORITY(CrewMember, UpdateHealth, 2000, () -> void)
     {
         float passiveHealAmount = ex->CalculateStat(CrewStat::PASSIVE_HEAL_AMOUNT, def);
         float healAmount = ex->CalculateStat(CrewStat::ACTIVE_HEAL_AMOUNT, def);
+        float trueHealAmount = ex->CalculateStat(CrewStat::TRUE_HEAL_AMOUNT, def);
 
         if (healAmount != 0.f && health.first != health.second && Functional())
         {
@@ -1525,7 +1533,7 @@ HOOK_METHOD_PRIORITY(CrewMember, UpdateHealth, 2000, () -> void)
             {
                 fMedbay += 0.0000000001;
             }
-            DirectModifyHealth(G_->GetCFPS()->GetSpeedFactor() * healAmount * 0.06245f);
+            DirectModifyHealth(G_->GetCFPS()->GetSpeedFactor() * healAmount * mod * 0.0601f);
         }
         if (ex->isHealing && passiveHealAmount != 0.f && health.first != health.second && Functional())
         {
@@ -1533,7 +1541,15 @@ HOOK_METHOD_PRIORITY(CrewMember, UpdateHealth, 2000, () -> void)
             {
                 fMedbay += 0.0000000001;
             }
-            DirectModifyHealth(G_->GetCFPS()->GetSpeedFactor() * passiveHealAmount * 0.4f);
+            DirectModifyHealth(G_->GetCFPS()->GetSpeedFactor() * passiveHealAmount * mod * 0.0601f);
+        }
+        if (ex->isHealing && trueHealAmount != 0.f && health.first != health.second && Functional())
+        {
+            if (trueHealAmount > 0.f && health.first != health.second)
+            {
+                fMedbay += 0.0000000001;
+            }
+            DirectModifyHealth(G_->GetCFPS()->GetSpeedFactor() * trueHealAmount * 0.0601f);
         }
     }
 
@@ -1575,7 +1591,19 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
     CrewMember_Extend* ex = CM_EX(this);
     if (custom->IsRace(species))
     {
-        if (ex->passiveHealTimer)
+        auto def = custom->GetDefinition(species);
+        float delay = ex->CalculateStat(CrewStat::PASSIVE_HEAL_DELAY, def);
+        if (!ex->passiveHealTimer && delay != 0)
+        {
+            ex->passiveHealTimer = new TimerHelper();
+            ex->passiveHealTimer->Start(delay);
+        }
+        else if (ex->passiveHealTimer && delay == 0)
+        {
+            delete ex->passiveHealTimer;
+            ex->isHealing = true;
+        }
+        else if (ex->passiveHealTimer)
         {
             ex->passiveHealTimer->Update();
             if (ex->passiveHealTimer->Done())
@@ -2499,7 +2527,7 @@ HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
             auto def = custom->GetDefinition(i->species);
 
             auto ex = CM_EX(i);
-            float damageEnemies = ex->CalculateStat(CrewStat::DAMAGE_ENEMIES_AMOUNT, def) * G_->GetCFPS()->GetSpeedFactor() * 0.06245f;
+            float damageEnemies = ex->CalculateStat(CrewStat::DAMAGE_ENEMIES_AMOUNT, def) * G_->GetCFPS()->GetSpeedFactor() * 0.0601f;
 
             if (i->Functional() && damageEnemies != 0.f)
             {
@@ -2515,7 +2543,7 @@ HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
 
             if (i->Functional() && healCrewAmount != 0.f)
             {
-                float healCrew = G_->GetCFPS()->GetSpeedFactor() * healCrewAmount * 0.06245f;
+                float healCrew = G_->GetCFPS()->GetSpeedFactor() * healCrewAmount * 0.0601f;
 
                 for (auto crew : vCrewList)
                 {
@@ -3362,7 +3390,16 @@ HOOK_METHOD(CrewControl, MouseMove, (int mX, int mY, int wX, int wY) -> void)
         for (auto i : potentialSelectedCrew)
         {
             tooltip += i->blueprint.crewNameLong.GetText() + " (" + i->blueprint.desc.title.GetText() + "):";
-            if (i->iShipId == 1)
+            if (g_showEnemyPowers && i->iShipId == 1)
+            {
+                tooltip += '\n';
+                for (auto j : i->blueprint.powers)
+                {
+                    tooltip += j.GetText() + '\n';
+                }
+                boost::trim_right(tooltip);
+            }
+            else if (g_showAllyPowers && i->iShipId == 0)
             {
                 tooltip += '\n';
                 for (auto j : i->blueprint.powers)
@@ -3379,10 +3416,14 @@ HOOK_METHOD(CrewControl, MouseMove, (int mX, int mY, int wX, int wY) -> void)
                 std::stringstream stream;
                 tooltip += G_->GetTextLibrary()->GetText("advanced_health_tooltip") + ": " + std::to_string(maxHealth) + "/" + std::to_string(maxHealth) + '\n';
             }
+            else if (g_advancedCrewTooltipRounding == 0)
+            {
+                tooltip += G_->GetTextLibrary()->GetText("advanced_health_tooltip") + ": " + std::to_string((int)i->health.first) + "/" + std::to_string(maxHealth) + '\n';
+            }
             else
             {
                 std::stringstream stream;
-                stream << std::fixed <<std::setprecision(2) << i->health.first;
+                stream << std::fixed <<std::setprecision(g_advancedCrewTooltipRounding) << i->health.first;
                 tooltip += G_->GetTextLibrary()->GetText("advanced_health_tooltip") + ": " + stream.str() + "/" + std::to_string(maxHealth) + '\n';
             }
             if (i->bMindControlled)

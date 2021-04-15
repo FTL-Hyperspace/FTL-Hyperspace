@@ -106,6 +106,21 @@ void Global::InitializeResources(ResourceControl *resources)
             {
                 auto enabled = node->first_attribute("enabled")->value();
                 g_advancedCrewTooltips = EventsParser::ParseBoolean(enabled);
+                if(g_advancedCrewTooltips)
+                {
+                    if(node->first_attribute("ally"))
+                    {
+                        g_showAllyPowers = EventsParser::ParseBoolean(node->first_attribute("ally")->value());
+                    }
+                    if(node->first_attribute("enemy"))
+                    {
+                        g_showEnemyPowers = EventsParser::ParseBoolean(node->first_attribute("enemy")->value());
+                    }
+                    if(node->first_attribute("rounding"))
+                    {
+                        g_advancedCrewTooltipRounding = boost::lexical_cast<int>(node->first_attribute("rounding")->value());
+                    }
+                }
             }
 
             if (strcmp(node->name(), "console") == 0)

@@ -820,6 +820,9 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition& def,
         case CrewStat::PASSIVE_HEAL_AMOUNT:
             finalStat = (temporaryPowerActive && def.powerDef.tempPower.passiveHealAmount.enabled) ? def.powerDef.tempPower.passiveHealAmount.value : def.passiveHealAmount;
             break;
+        case CrewStat::TRUE_HEAL_AMOUNT:
+            finalStat = (temporaryPowerActive && def.powerDef.tempPower.trueHealAmount.enabled) ? def.powerDef.tempPower.trueHealAmount.value : def.trueHealAmount;
+            break;
         case CrewStat::ACTIVE_HEAL_AMOUNT:
             finalStat = (temporaryPowerActive) ? def.powerDef.tempPower.healAmount : 0.f;
             break;
@@ -1024,61 +1027,11 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition& def,
                 {
                     if (!statBoost.powerScaling.empty() && systemExists)
                     {
-                        if (statBoost.amount == 0)
-                        {
-                            finalStat = 0;
-                        }
-                        else if (statBoost.powerScaling.at(numPower + 1) == 0)
-                        {
-                            // finalStat stays the same
-                        }
-                        else
-                        {
-                            if (statBoost.powerScaling.at(numPower + 1) < 1)
-                            {
-                                if (statBoost.amount > 1)
-                                {
-                                    finalStat = finalStat + (finalStat * statBoost.amount * statBoost.powerScaling.at(numPower + 1));
-                                }
-                                else
-                                {
-                                    finalStat = finalStat * statBoost.amount * statBoost.powerScaling.at(numPower + 1);
-                                }
-                            }
-                            else
-                            {
-                                finalStat = finalStat * statBoost.amount * statBoost.powerScaling.at(numPower + 1);
-                            }
-                        }
+                        finalStat = finalStat * (1 + (statBoost.amount - 1) * statBoost.powerScaling.at(numPower + 1));
                     }
                     else if (!statBoost.powerScaling.empty())
                     {
-                        if (statBoost.amount == 0)
-                        {
-                            finalStat = 0;
-                        }
-                        else if (statBoost.powerScaling.at(0) == 0)
-                        {
-                            // finalStat stays the same
-                        }
-                        else
-                        {
-                            if (statBoost.powerScaling.at(0) < 1)
-                            {
-                                if (statBoost.amount > 1)
-                                {
-                                    finalStat = finalStat + (finalStat * statBoost.amount * statBoost.powerScaling.at(0));
-                                }
-                                else
-                                {
-                                    finalStat = finalStat * statBoost.amount * statBoost.powerScaling.at(0);
-                                }
-                            }
-                            else
-                            {
-                                finalStat = finalStat * statBoost.amount * statBoost.powerScaling.at(0);
-                            }
-                        }
+                        finalStat = finalStat * (1 + (statBoost.amount - 1) * statBoost.powerScaling.at(0));
                     }
                     else
                     {
@@ -1104,11 +1057,11 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition& def,
                 {
                     if (!statBoost.powerScaling.empty() && systemExists)
                     {
-                        finalStat = (statBoost.amount * (statBoost.amount * (statBoost.powerScaling.at(numPower + 1))));
+                        finalStat = (statBoost.amount * (statBoost.powerScaling.at(numPower + 1)));
                     }
                     else if (!statBoost.powerScaling.empty())
                     {
-                        finalStat = (statBoost.amount * (statBoost.amount * (statBoost.powerScaling.at(0))));
+                        finalStat = (statBoost.amount * (statBoost.powerScaling.at(0)));
                     }
                     else
                     {
