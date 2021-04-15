@@ -3371,7 +3371,6 @@ HOOK_METHOD(CrewControl, MouseMove, (int mX, int mY, int wX, int wY) -> void)
 
     if (selectedDoor) return;
 
-    std::string tooltip = "";
     for (auto i : shipManager->vCrewList)
     {
         if (i->Functional() && i->selectionState != 1 && std::find(potentialSelectedCrew.begin(), potentialSelectedCrew.end(), i) == potentialSelectedCrew.end())
@@ -3385,61 +3384,69 @@ HOOK_METHOD(CrewControl, MouseMove, (int mX, int mY, int wX, int wY) -> void)
             }
         }
     }
-    if (g_advancedCrewTooltips)
-    {
-        for (auto i : potentialSelectedCrew)
-        {
-            tooltip += i->blueprint.crewNameLong.GetText() + " (" + i->blueprint.desc.title.GetText() + "):";
-            if (g_showEnemyPowers && i->iShipId == 1)
-            {
-                tooltip += '\n';
-                for (auto j : i->blueprint.powers)
-                {
-                    tooltip += j.GetText() + '\n';
-                }
-                boost::trim_right(tooltip);
-            }
-            else if (g_showAllyPowers && i->iShipId == 0)
-            {
-                tooltip += '\n';
-                for (auto j : i->blueprint.powers)
-                {
-                    tooltip += j.GetText() + '\n';
-                }
-                boost::trim_right(tooltip);
-            }
-            tooltip += '\n';
-
-            int maxHealth = (int)i->health.second;
-            if (i->health.first == i->health.second)
-            {
-                std::stringstream stream;
-                tooltip += G_->GetTextLibrary()->GetText("advanced_health_tooltip") + ": " + std::to_string(maxHealth) + "/" + std::to_string(maxHealth) + '\n';
-            }
-            else if (g_advancedCrewTooltipRounding == 0)
-            {
-                tooltip += G_->GetTextLibrary()->GetText("advanced_health_tooltip") + ": " + std::to_string((int)i->health.first) + "/" + std::to_string(maxHealth) + '\n';
-            }
-            else
-            {
-                std::stringstream stream;
-                stream << std::fixed <<std::setprecision(g_advancedCrewTooltipRounding) << i->health.first;
-                tooltip += G_->GetTextLibrary()->GetText("advanced_health_tooltip") + ": " + stream.str() + "/" + std::to_string(maxHealth) + '\n';
-            }
-            if (i->bMindControlled)
-            {
-                tooltip += G_->GetTextLibrary()->GetText("mind_controlled_tooltip");
-                tooltip += '\n';
-            }
-            tooltip += '\n';
-        }
-        boost::trim_right(tooltip);
-    //    G_->GetMouseControl()->bForceTooltip = true;
-        G_->GetMouseControl()->overrideTooltipWidth = 400;
-        G_->GetMouseControl()->SetTooltip(tooltip);
-    }
 
     selectedCrew.erase(std::remove_if(selectedCrew.begin(), selectedCrew.end(), [](CrewMember* crew) { return !crew->GetControllable(); }), selectedCrew.end());
+}
+
+HOOK_STATIC(CrewMember, GetTooltip, (std::string& strRef, CrewMember* crew) -> std::string&)
+{
+    super(strRef, crew);
+    if (g_advancedCrewTooltips)
+    {
+        std::string tooltip = "";
+        tooltip += "-" + crew->blueprint.crewNameLong.GetText() + " (" + crew->blueprint.desc.title.GetText() + "):" + '\n';
+        int maxHealth = (int)crew->health.second;
+        if (crew->health.first == 0)
+        {
+            tooltip += G_->GetTextLibrary()->GetText("advanced_health_tooltip") + ": " + G_->GetTextLibrary()->GetText("death_tooltip");
+        }
+        else if (crew->health.first == crew->health.second)
+        {
+            std::stringstream stream;
+            tooltip += G_->GetTextLibrary()->GetText("advanced_health_tooltip") + ": " + std::to_string(maxHealth) + "/" + std::to_string(maxHealth) + " (100%)";
+        }
+        else if (g_advancedCrewTooltipRounding == 0)
+        {
+            tooltip += G_->GetTextLibrary()->GetText("advanced_health_tooltip") + ": " + std::to_string((int)crew->health.first) + "/" + std::to_string(maxHealth) + " (" + std::to_string((int)(crew->health.first / maxHealth * 100)) + "%)";
+        }
+        else
+        {
+            std::stringstream stream;
+            stream << std::fixed <<std::setprecision(g_advancedCrewTooltipRounding) << crew->health.first;
+            tooltip += G_->GetTextLibrary()->GetText("advanced_health_tooltip") + ": " + stream.str() + "/" + std::to_string(maxHealth) + " (" + std::to_string((int)(crew->health.first / maxHealth * 100)) + "%)";
+        }
+        if (g_showEnemyPowers && crew->iShipId == 1)
+        {
+            tooltip += '\n';
+            for (auto j : crew->blueprint.powers)
+            {
+                tooltip += "*" + j.GetText() + '\n';
+            }
+            boost::trim_right(tooltip);
+        }
+        else if (g_showAllyPowers && crew->iShipId == 0)
+        {
+            tooltip += '\n';
+            for (auto j : crew->blueprint.powers)
+            {
+                tooltip += j.GetText() + '\n';
+            }
+            boost::trim_right(tooltip);
+        }
+        tooltip += '\n';
+
+        if (crew->bMindControlled)
+        {
+            tooltip += G_->GetTextLibrary()->GetText("mind_controlled_tooltip");
+        }
+        boost::trim_right(tooltip);
+        strRef.assign(tooltip);
+        return strRef;
+    }
+    else
+    {
+        return super(strRef, crew);
+    }
 }
 
 HOOK_METHOD(CrewAnimation, FireShot, () -> bool)
