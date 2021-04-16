@@ -29,6 +29,11 @@ static ItemPrice ParsePriceNode(rapidxml::xml_node<char>* node)
                 }
             }
 
+            if (cNode->first_attribute("flat"))
+            {
+                def.flatModifier = EventsParser::ParseBoolean(cNode->first_attribute("flat")->value());
+            }
+
             if (!val.empty())
             {
                 def.price = boost::lexical_cast<int>(val);
@@ -157,6 +162,10 @@ static StoreCategory ParseCategoryNode(rapidxml::xml_node<char>* node)
             auto item = ParseStoreItemNode(cNode);
             def.items.push_back(item);
         }
+        if (name == "customTitle")
+        {
+            def.customTitle = val;
+        }
     }
 
     return def;
@@ -234,8 +243,6 @@ HOOK_METHOD(SystemStoreBox, constructor, (ShipManager *shopper, Equipment *equip
 
 static int GetItemPricing(const ItemPrice& price, int defaultCost, int worldLevel)
 {
-    printf("%d\n", worldLevel);
-
     int finalPrice = price.price;
 
     if (finalPrice == -1)
@@ -522,7 +529,8 @@ void StoreComplete::OnInit(const StoreDefinition& def, ShipManager *ship, Equipm
         ItemStoreBox* box = new ItemStoreBox(ship, i.type);
 
         box->count = i.minMaxCount.first + (random32() % (i.minMaxCount.second - i.minMaxCount.first + 1));
-        box->blueprint->desc.cost = GetItemPricing(i.price, box->blueprint->desc.cost, level);
+
+        box->desc.cost = GetItemPricing(i.price, box->blueprint->desc.cost, level);
 
         resourceBoxes.push_back(box);
     }
@@ -556,6 +564,8 @@ void StoreComplete::OnInit(const StoreDefinition& def, ShipManager *ship, Equipm
         StoreSection sec = StoreSection();
         sec.category = cat.categoryType;
 
+        sec.customTitle = cat.customTitle;
+
         auto newBoxes = CreateCustomStoreBoxes(cat, ship, equip);
 
         int currentSec = -1;
@@ -570,6 +580,12 @@ void StoreComplete::OnInit(const StoreDefinition& def, ShipManager *ship, Equipm
 
             auto customBox = new CustomStoreBox();
             customBox->orig = newBoxes[boxIdx];
+            if (customBox->orig->pBlueprint)
+            {
+                customBox->originalPrice = customBox->orig->pBlueprint->desc.cost;
+                customBox->showSale = true;
+            }
+            //customBox->orig->button.SetImageBase(customBox->orig->buttonImage + "_custom");
 
             sec.storeBoxes[currentSec].push_back(customBox);
         }
@@ -724,11 +740,18 @@ void StoreComplete::OnRender()
         for (auto section : pages[currentPage].sections)
         {
             CSurface::GL_SetColor(COLOR_BUTTON_TEXT);
-            freetype::easy_print(62, orig->position.x + headingPos.x, orig->position.y + headingPos.y, G_->GetTextLibrary()->GetText(section.headingTitle));
+            if (section.customTitle.empty())
+            {
+                freetype::easy_print(62, orig->position.x + headingPos.x, orig->position.y + headingPos.y, G_->GetTextLibrary()->GetText(section.headingTitle));
+            }
+            else
+            {
+                freetype::easy_print(62, orig->position.x + headingPos.x, orig->position.y + headingPos.y, section.customTitle);
+            }
 
             for (auto box : section.storeBoxes[section.currentSection])
             {
-                box->orig->OnRender();
+                box->OnRender();
             }
 
             headingPos.y += 209;
@@ -1070,9 +1093,13 @@ HOOK_METHOD(WorldManager, CreateStore, (LocationEvent *event) -> void)
 HOOK_METHOD(Store, OnInit, (ShipManager *shopper, Equipment *equip, int worldLevel) -> void)
 {
     //return super(shopper, equip, worldLevel);
-    if (!customStoreId.empty())
+    if (!customStoreId.empty() || !CustomStore::instance->forceCustomStore.empty())
     {
-        auto def = CustomStore::instance->GetStoreDefinition(customStoreId);
+        std::string storeId = CustomStore::instance->forceCustomStore;
+
+        if (storeId.empty()) storeId = customStoreId;
+
+        auto def = CustomStore::instance->GetStoreDefinition(storeId);
 
         if (def)
         {
@@ -1085,6 +1112,8 @@ HOOK_METHOD(Store, OnInit, (ShipManager *shopper, Equipment *equip, int worldLev
 
             return;
         }
+
+        CustomStore::instance->forceCustomStore = "";
     }
 
     super(shopper, equip, worldLevel);

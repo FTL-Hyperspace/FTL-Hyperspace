@@ -3175,8 +3175,8 @@ struct VTable_Blueprint
 {
   void (__thiscall *Free)(Blueprint *this);
   void (__thiscall *RenderIcon)(Blueprint *this, float unk);
-  std__string *(__stdcall *GetNameLong)(std__string *str, Blueprint *bp);
-  std__string *(__stdcall *GetNameShort)(std__string *str, Blueprint *bp);
+  std__string *(__stdcall *GetNameLongFake)(std__string *retstr, Blueprint *bp);
+  std__string *(__stdcall *GetNameShortFake)(std__string *retstr, Blueprint *bp);
   int (__thiscall *GetType)(Blueprint *this);
 };
 
@@ -4327,7 +4327,7 @@ struct StoreBox
   int cost_position;
   ShipManager *shopper;
   Equipment *equipScreen;
-  const Blueprint *pBlueprint;
+  Blueprint *pBlueprint;
   bool bEquipmentBox;
   float fIconScale;
   Point pushIcon;
