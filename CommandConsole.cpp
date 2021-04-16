@@ -1,5 +1,6 @@
 #include "CommandConsole.h"
 #include "ShipUnlocks.h"
+#include "CustomStore.h"
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
 
@@ -31,6 +32,16 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
             {
                 printf("boost::bad_lexical_cast in RunCommand STORE\n");
             }
+        }
+        return true;
+    }
+    if (cmdName == "FORCE_STORE")
+    {
+        if (command.length() > 12)
+        {
+            std::string storeId = boost::trim_copy(command.substr(12));
+
+            CustomStore::instance->forceCustomStore = storeId;
         }
         return true;
     }
@@ -96,6 +107,7 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
     if (command == "SHIP ALL")
     {
         CustomShipUnlocks::instance->UnlockAllShips();
+        return true;
     }
     if (cmdName == "SHIP_CUSTOM")
     {
@@ -105,7 +117,7 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
         {
             CustomShipUnlocks::instance->UnlockShip(shipName, false, true);
         }
-
+        return true;
     }
 
 

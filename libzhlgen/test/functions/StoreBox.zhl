@@ -10,6 +10,8 @@ void StoreBox::constructor(StoreBox *this<ecx>, const std::string& buttonImage, 
 void StoreBox::OnLoop(StoreBox *this<ecx>);
 "578d7c240883e4f0ff77fc5589e5575389cb8d4df083ec208b078b570489042489542404e8????????8b45f08b55f483ec08":
 void StoreBox::SetPosition(StoreBox *this<ecx>, Point pos);
+"578d7c240883e4f0ff77fc5589e557565389cf8d492481ec????????80b920010000000f84????????e8????????":
+void StoreBox::OnRender(StoreBox *this<ecx>);
 
 struct StoreBox
 {{

@@ -1,0 +1,18 @@
+"578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b17807a500075??83c238c7442408f0b78c00c70424????????89542404e8????????":
+static std::string* Blueprint::GetNameShort(std::string& ret<ecx>, Blueprint* bp);
+
+struct Blueprint
+{{
+	
+	std::string GetNameShort()
+	{
+		// so hacky
+		
+		std::string ret;
+		
+		GetNameShort(ret, this);
+	
+		
+		return ret;
+	}
+}};

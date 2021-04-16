@@ -18,6 +18,8 @@ public:
         return nullptr;
     }
 
+    std::string forceCustomStore;
+
     static CustomStore* instance;
 private:
     std::unordered_map<std::string, StoreDefinition> storeDefs;

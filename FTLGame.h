@@ -1161,11 +1161,26 @@ struct Blueprint;
 
 struct LIBZHL_INTERFACE Blueprint
 {
+	
+	std::string GetNameShort()
+	{
+		// so hacky
+		
+		std::string ret;
+		
+		GetNameShort(ret, this);
+	
+		
+		return ret;
+	}
+
 	virtual ~Blueprint() {}
 	virtual void RenderIcon(float unk) LIBZHL_PLACEHOLDER
-	virtual std::string *GetNameLong(Blueprint *bp) LIBZHL_PLACEHOLDER
-	virtual std::string *GetNameShort(Blueprint *bp) LIBZHL_PLACEHOLDER
+	virtual std::string *GetNameLongFake(Blueprint *bp) LIBZHL_PLACEHOLDER
+	virtual std::string *GetNameShortFake(Blueprint *bp) LIBZHL_PLACEHOLDER
 	virtual int GetType() LIBZHL_PLACEHOLDER
+	LIBZHL_API static std::string *__stdcall GetNameShort(std::string &ret, Blueprint *bp);
+	
 	std::string name;
 	Description desc;
 	int type;
@@ -1177,11 +1192,19 @@ struct CrewBlueprint : Blueprint
 	{
 		this->destructor();
 	}
+	
+	std::string GetNameShort()
+	{
+		std::string ret;
+		GetNameShort(ret, this);
+		return ret;
+	}
 
 	LIBZHL_API void RandomSkills(int worldLevel);
 	LIBZHL_API void RenderSkill(int x, int y, int length, int height, int skill);
 	LIBZHL_API void RenderIcon(float opacity);
 	LIBZHL_API void destructor();
+	LIBZHL_API static std::string *__stdcall GetNameShort(std::string &ret, CrewBlueprint *bp);
 	
 	TextString crewName;
 	TextString crewNameLong;
@@ -4026,7 +4049,7 @@ struct LIBZHL_INTERFACE StoreBox
 
 	virtual ~StoreBox() {}
 	LIBZHL_API virtual void OnLoop();
-	virtual void OnRender() LIBZHL_PLACEHOLDER
+	LIBZHL_API virtual void OnRender();
 	virtual void MouseMove(int, int) LIBZHL_PLACEHOLDER
 	LIBZHL_API virtual void MouseClick(int x, int y);
 	virtual void OnTouch() LIBZHL_PLACEHOLDER
@@ -4053,7 +4076,7 @@ struct LIBZHL_INTERFACE StoreBox
 	int cost_position;
 	ShipManager *shopper;
 	Equipment *equipScreen;
-	const Blueprint *pBlueprint;
+	Blueprint *pBlueprint;
 	bool bEquipmentBox;
 	float fIconScale;
 	Point pushIcon;
@@ -5972,11 +5995,6 @@ struct DamageMessage
 
 struct freetype
 {
-	//struct font_data;
-	
-	//static Pointf easy_measurePrintLines(int fontType, float x, float y, int width, const std::string& text);
-	//static Pointf measurePrintLines(font_data &fontData, const std::string& str);
-
 	struct font_data
 	{
 		float h;
@@ -5987,6 +6005,7 @@ struct freetype
 	};
 	
 	LIBZHL_API static double __stdcall easy_measurePrintLines(int fontData, float x, float y, int width, const std::string &text);
+	LIBZHL_API static int __stdcall easy_measureWidth(int fontData, const std::string &text);
 	LIBZHL_API static int __stdcall easy_print(int fontData, float x, float y, const std::string &text);
 	LIBZHL_API static int __stdcall easy_printRightAlign(int fontData, float x, float y, const std::string &text);
 	LIBZHL_API static int __stdcall easy_printNewlinesCentered(int fontData, float x, float y, int width, const std::string &text);

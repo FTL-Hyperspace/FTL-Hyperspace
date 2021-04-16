@@ -106,7 +106,16 @@ struct StoreDefinition
 class CustomStoreBox
 {
 public:
+    void OnRender();
+
     StoreBox *orig;
+    bool showSale = false;
+    int originalPrice = -1;
+
+    ~CustomStoreBox()
+    {
+        delete orig;
+    }
 };
 
 class StoreSection
@@ -117,8 +126,7 @@ public:
     int currentSection;
     CategoryType category;
     std::string headingTitle;
-
-
+    std::string customTitle;
 };
 
 class StorePage
@@ -156,6 +164,31 @@ public:
     StoreComplete(Store* original)
     {
         orig = original;
+    }
+
+    ~StoreComplete()
+    {
+        for (auto i : resourceBoxes)
+        {
+            delete i;
+        }
+        for (auto i : repairBoxes)
+        {
+            delete i;
+        }
+        for (auto page : pages)
+        {
+            for (auto section : page.sections)
+            {
+                for (auto i : section.storeBoxes)
+                {
+                    for (auto j : i)
+                    {
+                        delete j;
+                    }
+                }
+            }
+        }
     }
 };
 
