@@ -29,11 +29,6 @@ static ItemPrice ParsePriceNode(rapidxml::xml_node<char>* node)
                 }
             }
 
-            if (cNode->first_attribute("flat"))
-            {
-                def.flatModifier = EventsParser::ParseBoolean(cNode->first_attribute("flat")->value());
-            }
-
             if (!val.empty())
             {
                 def.price = boost::lexical_cast<int>(val);
@@ -54,6 +49,11 @@ static ItemPrice ParsePriceNode(rapidxml::xml_node<char>* node)
                 {
                     def.minMaxModifier.second = def.minMaxModifier.first;
                 }
+            }
+
+            if (cNode->first_attribute("flat"))
+            {
+                def.flatModifier = EventsParser::ParseBoolean(cNode->first_attribute("flat")->value());
             }
 
             if (!val.empty())
@@ -101,8 +101,8 @@ static ResourceItem ParseResourceNode(rapidxml::xml_node<char>* node)
         {
             if (cNode->first_attribute("min") && cNode->first_attribute("max"))
             {
-                def.minMaxCount.first = boost::lexical_cast<int>(cNode->first_attribute("min"));
-                def.minMaxCount.second = boost::lexical_cast<int>(cNode->first_attribute("max"));
+                def.minMaxCount.first = boost::lexical_cast<int>(cNode->first_attribute("min")->value());
+                def.minMaxCount.second = boost::lexical_cast<int>(cNode->first_attribute("max")->value());
             }
 
             if (!val.empty())
@@ -427,8 +427,6 @@ std::vector<StoreBox*> StoreComplete::CreateCustomStoreBoxes(const StoreCategory
                     box->desc.cost = GetItemPricing(i.price, box->blueprint->desc.cost, orig->worldLevel);
 
                     vec.push_back(box);
-
-                    delete bp;
                 }
             }
         }
@@ -504,8 +502,6 @@ std::vector<StoreBox*> StoreComplete::CreateCustomStoreBoxes(const StoreCategory
                     box->desc.cost = GetItemPricing(i.price, box->desc.cost, orig->worldLevel);
 
                     vec.push_back(box);
-
-                    delete bp;
                 }
 
             }
@@ -951,7 +947,6 @@ void StoreComplete::MouseMove(int x, int y)
                 for (auto i : sec.storeBoxes[sec.currentSection])
                 {
                     i->orig->MouseMove(x, y);
-
 
                     if ((i->orig->button.bHover || i->orig->button.bSelected) && i->orig->count > 0)
                     {
