@@ -2595,27 +2595,31 @@ HOOK_METHOD(ShipManager, DamageArea, (Pointf location,  int iDamage, int iShield
     if (blockDamageArea) return false;
     Damage* dmg = (Damage*)&iDamage;
 
-    if (ownerId == iShipId && !shipFriendlyFire)
+    if (!shipFriendlyFire)
     {
         shipFriendlyFire = true;
-        int roomId = ship.GetSelectedRoomId(location.x, location.y, true);
 
-        if (roomId == -1)
-            return false;
-
-        if (!bJumping)
+        if (ownerId == iShipId)
         {
-            for (auto i : vCrewList)
-            {
-                if (i->iRoomId == roomId)
-                {
+            int roomId = ship.GetSelectedRoomId(location.x, location.y, true);
 
-                    DamageCrew(i, iDamage, iShieldPiercing, fireChance, breachChance, stunChance, iIonDamage, iSystemDamage, iPersDamage, bHullBuster, ownerId, selfId, bLockdown, iStun);
+            if (roomId == -1)
+                return false;
+
+            if (!bJumping)
+            {
+                for (auto i : vCrewList)
+                {
+                    if (i->iRoomId == roomId)
+                    {
+
+                        DamageCrew(i, iDamage, iShieldPiercing, fireChance, breachChance, stunChance, iIonDamage, iSystemDamage, iPersDamage, bHullBuster, ownerId, selfId, bLockdown, iStun);
+                    }
                 }
             }
-        }
 
-        return true;
+            return true;
+        }
     }
 
     return super(location, iDamage, iShieldPiercing, fireChance, breachChance, stunChance, iIonDamage, iSystemDamage, iPersDamage, bHullBuster, ownerId, selfId, bLockdown, iStun, forceHit);
