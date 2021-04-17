@@ -7,6 +7,7 @@
 #include "CustomCrew.h"
 #include "CustomEvents.h"
 #include "EventTooltip.h"
+#include "CooldownNumbers.h"
 #include "CustomAugments.h"
 #include "Infinite.h"
 #include "Balance.h"
@@ -100,6 +101,12 @@ void Global::InitializeResources(ResourceControl *resources)
             {
                 auto enabled = node->first_attribute("enabled")->value();
                 g_eventTooltips = EventsParser::ParseBoolean(enabled);
+            }
+
+            if (strcmp(node->name(), "showNumericalWeaponCooldown") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                g_showWeaponCooldown = EventsParser::ParseBoolean(enabled);
             }
 
             if (strcmp(node->name(), "advancedCrewTooltips") == 0)

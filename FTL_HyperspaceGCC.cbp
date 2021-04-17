@@ -185,6 +185,8 @@
 		<Unit filename="CommandConsole.h">
 			<Option virtualFolder="Content/Misc/" />
 		</Unit>
+		<Unit filename="CooldownNumbers.cpp" />
+		<Unit filename="CooldownNumbers.h" />
 		<Unit filename="Credits.cpp">
 			<Option virtualFolder="Core/Credits/" />
 		</Unit>

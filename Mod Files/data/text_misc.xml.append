@@ -54,6 +54,7 @@
 
 <text name="health_tooltip">Health</text>
 <text name="mind_controlled_tooltip">Mind Controlled</text>
+<text name="weapon_cooldown_negative">Disabled</text>
 
 <!-- Discord Integration -->
 
