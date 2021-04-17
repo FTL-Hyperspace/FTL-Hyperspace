@@ -3439,10 +3439,10 @@ HOOK_STATIC(CrewMember, GetTooltip, (std::string& strRef, CrewMember* crew) -> s
         }
         tooltip += '\n';
 
-        if (crew->bMindControlled)
-        {
-            tooltip += G_->GetTextLibrary()->GetText("mind_controlled_tooltip");
-        }
+//        if (crew->bMindControlled)
+//        {
+//            tooltip += G_->GetTextLibrary()->GetText("mind_controlled_tooltip");
+//        }
         boost::trim_right(tooltip);
         strRef.assign(tooltip);
         return strRef;
