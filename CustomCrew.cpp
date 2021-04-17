@@ -1,4 +1,5 @@
 #include "CustomCrew.h"
+#include "CustomOptions.h"
 #include <chrono>
 #include <iostream>
 #include <sstream>
@@ -3395,7 +3396,8 @@ HOOK_METHOD(CrewControl, MouseMove, (int mX, int mY, int wX, int wY) -> void)
 HOOK_STATIC(CrewMember, GetTooltip, (std::string& strRef, CrewMember* crew) -> std::string&)
 {
     super(strRef, crew);
-    if (g_advancedCrewTooltips)
+    auto custom = CustomOptionsManager::GetInstance();
+    if (custom->advancedCrewTooltips.currentValue)
     {
         std::string tooltip = "";
         tooltip += "-" + crew->blueprint.crewNameLong.GetText() + " (" + crew->blueprint.desc.title.GetText() + "):" + '\n';
@@ -3409,17 +3411,17 @@ HOOK_STATIC(CrewMember, GetTooltip, (std::string& strRef, CrewMember* crew) -> s
             std::stringstream stream;
             tooltip += G_->GetTextLibrary()->GetText("advanced_health_tooltip") + ": " + std::to_string(maxHealth) + "/" + std::to_string(maxHealth) + " (100%)";
         }
-        else if (g_advancedCrewTooltipRounding == 0)
+        else if (custom->advancedCrewTooltipRounding.currentAmount == 0)
         {
             tooltip += G_->GetTextLibrary()->GetText("advanced_health_tooltip") + ": " + std::to_string((int)crew->health.first) + "/" + std::to_string(maxHealth) + " (" + std::to_string((int)(crew->health.first / maxHealth * 100)) + "%)";
         }
         else
         {
             std::stringstream stream;
-            stream << std::fixed <<std::setprecision(g_advancedCrewTooltipRounding) << crew->health.first;
+            stream << std::fixed <<std::setprecision(custom->advancedCrewTooltipRounding.currentAmount) << crew->health.first;
             tooltip += G_->GetTextLibrary()->GetText("advanced_health_tooltip") + ": " + stream.str() + "/" + std::to_string(maxHealth) + " (" + std::to_string((int)(crew->health.first / maxHealth * 100)) + "%)";
         }
-        if (g_showEnemyPowers && crew->iShipId == 1)
+        if (custom->showEnemyPowers.currentValue && crew->iShipId == 1)
         {
             tooltip += '\n';
             for (auto j : crew->blueprint.powers)
@@ -3428,12 +3430,12 @@ HOOK_STATIC(CrewMember, GetTooltip, (std::string& strRef, CrewMember* crew) -> s
             }
             boost::trim_right(tooltip);
         }
-        else if (g_showAllyPowers && crew->iShipId == 0)
+        else if (custom->showAllyPowers.currentValue && crew->iShipId == 0)
         {
             tooltip += '\n';
             for (auto j : crew->blueprint.powers)
             {
-                tooltip += j.GetText() + '\n';
+                tooltip += "*" + j.GetText() + '\n';
             }
             boost::trim_right(tooltip);
         }

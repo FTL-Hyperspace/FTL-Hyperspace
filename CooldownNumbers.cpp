@@ -1,11 +1,10 @@
 #include "CooldownNumbers.h"
-
-bool g_showWeaponCooldown = true;
+#include "CustomOptions.h"
 
 HOOK_METHOD(WeaponBox, RenderBox, (bool dragging, bool flashPowerBox) -> void)
 {
     super(dragging, flashPowerBox);
-    if (pWeapon && g_showWeaponCooldown)
+    if (pWeapon && CustomOptionsManager::GetInstance()->showWeaponCooldown.currentValue)
     {
         std::stringstream stream;
         if (pWeapon->cooldown.first < 0)

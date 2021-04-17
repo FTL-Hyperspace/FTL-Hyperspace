@@ -1,6 +1,7 @@
 #include "CommandConsole.h"
 #include "ShipUnlocks.h"
 #include "CustomStore.h"
+#include "CustomOptions.h"
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
 
@@ -138,6 +139,35 @@ HOOK_METHOD(CommandGui, KeyDown, (SDLKey key, bool shiftHeld) -> void)
         //shouldOpen = !shouldOpen;
 
         speedEnabled = !speedEnabled;
+    }
+
+    if (key == SDLK_LALT)
+    {
+        auto custom = CustomOptionsManager::GetInstance();
+        if (custom->showAllyPowers.defaultValue != true)
+        {
+            custom->showAllyPowers.currentValue = !custom->showAllyPowers.currentValue;
+        }
+        if (custom->showEnemyPowers.defaultValue != true)
+        {
+            custom->showEnemyPowers.currentValue = !custom->showEnemyPowers.currentValue;
+        }
+        if (custom->advancedCrewTooltipRounding.defaultAmount == 0)
+        {
+            if (custom->advancedCrewTooltipRounding.currentAmount == 0)
+            {
+                custom->advancedCrewTooltipRounding.currentAmount = 2;
+            }
+            else
+            {
+                custom->advancedCrewTooltipRounding.currentAmount = 0;
+            }
+        }
+
+        if (custom->showWeaponCooldown.defaultValue != true)
+        {
+            custom->showWeaponCooldown.currentValue = !custom->showWeaponCooldown.currentValue;
+        }
     }
 
     super(key, shiftHeld);

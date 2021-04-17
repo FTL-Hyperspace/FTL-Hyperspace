@@ -2,11 +2,6 @@
 #include "Global.h"
 #include <unordered_map>
 
-extern bool g_advancedCrewTooltips;
-extern bool g_showEnemyPowers;
-extern bool g_showAllyPowers;
-extern int g_advancedCrewTooltipRounding;
-
 struct StatBoost;
 
 template <typename T>
