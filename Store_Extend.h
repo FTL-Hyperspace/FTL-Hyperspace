@@ -144,6 +144,9 @@ class StoreComplete
     std::vector<ItemStoreBox*> resourceBoxes;
     std::vector<RepairStoreBox*> repairBoxes;
 
+    Button* leftButton;
+    Button* rightButton;
+
     int currentPage = 0;
 
 public:
@@ -189,6 +192,9 @@ public:
                 }
             }
         }
+
+        delete leftButton;
+        delete rightButton;
     }
 };
 

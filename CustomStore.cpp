@@ -517,6 +517,10 @@ std::vector<StoreBox*> StoreComplete::CreateCustomStoreBoxes(const StoreCategory
 
 void StoreComplete::OnInit(const StoreDefinition& def, ShipManager *ship, Equipment *equip, int level)
 {
+    delete orig->box;
+
+    orig->box = G_->GetResources()->GetImageId("storeUI/store_buy_main_custom.png");
+
     orig->worldLevel = level;
     orig->shopper = ship;
 
@@ -595,6 +599,18 @@ void StoreComplete::OnInit(const StoreDefinition& def, ShipManager *ship, Equipm
         }
     }
 
+    std::string buttonImg("storeUI/button_store_arrow");
+    leftButton = new Button();
+    leftButton->OnInit(buttonImg, orig->position.x + 451, orig->position.y + 12);
+
+    rightButton = new Button();
+    rightButton->OnInit(buttonImg, orig->position.x + 547, orig->position.y + 12);
+
+    rightButton->bMirror = true;
+
+    leftButton->bActive = pages.size() > 1;
+    rightButton->bActive = pages.size() > 1;
+
     SetPositions();
 }
 
@@ -630,11 +646,14 @@ void StoreComplete::InitHeadings()
 
 void StoreComplete::SetPositions()
 {
-    orig->box = G_->GetResources()->GetImageId("storeUI/store_buy_main.png");
+    orig->box = G_->GetResources()->GetImageId("storeUI/store_buy_main_custom.png");
 
     orig->infoBoxLoc.x = orig->position.x + 600;
     orig->infoBoxLoc.y = orig->position.y;
     orig->infoBox.location = orig->infoBoxLoc;
+
+    leftButton->SetLocation(Point(orig->position.x + 451, orig->position.y + 12));
+    rightButton->SetLocation(Point(orig->position.x + 547, orig->position.y + 12));
 
     int resourceBoxOffsets[3] = {0, 50, 99};
 
@@ -724,7 +743,12 @@ void StoreComplete::OnRender()
 
     CSurface::GL_SetColor(COLOR_BUTTON_TEXT);
 
+    freetype::easy_printCenter(63, 515, 11, std::to_string(currentPage + 1));
+
     CSurface::GL_PopMatrix();
+
+    leftButton->OnRender();
+    rightButton->OnRender();
 
     CSurface::GL_SetColor(COLOR_BUTTON_ON);
 
@@ -862,6 +886,8 @@ void StoreComplete::OnLoop()
         }
     }
 
+    leftButton->OnLoop();
+    rightButton->OnLoop();
 }
 
 void StoreComplete::MouseClick(int x, int y)
@@ -917,6 +943,15 @@ void StoreComplete::MouseClick(int x, int y)
             }
         }
     }
+
+    if (leftButton->bActive && leftButton->bHover)
+    {
+        PreviousPage();
+    }
+    if (rightButton->bActive && rightButton->bHover)
+    {
+        NextPage();
+    }
 }
 
 void StoreComplete::MouseMove(int x, int y)
@@ -956,6 +991,9 @@ void StoreComplete::MouseMove(int x, int y)
             }
         }
     }
+
+    leftButton->MouseMove(x, y, false);
+    rightButton->MouseMove(x, y, false);
 }
 
 HOOK_METHOD(Store, KeyDown, (SDLKey key) -> void)
