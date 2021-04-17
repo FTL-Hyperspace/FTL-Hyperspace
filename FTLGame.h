@@ -6063,8 +6063,12 @@ struct MindBox
 {
 };
 
+struct WeaponBox;
+
 struct WeaponBox : ArmamentBox
 {
+	LIBZHL_API void RenderBox(bool dragging, bool flashPowerBox);
+	
 	ProjectileFactory *pWeapon;
 	bool armed;
 	bool armedForAutofire;
