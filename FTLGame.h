@@ -1179,6 +1179,7 @@ struct LIBZHL_INTERFACE Blueprint
 	virtual std::string *GetNameLongFake(Blueprint *bp) LIBZHL_PLACEHOLDER
 	virtual std::string *GetNameShortFake(Blueprint *bp) LIBZHL_PLACEHOLDER
 	virtual int GetType() LIBZHL_PLACEHOLDER
+	LIBZHL_API void destructor();
 	LIBZHL_API static std::string *__stdcall GetNameShort(std::string &ret, Blueprint *bp);
 	
 	std::string name;
