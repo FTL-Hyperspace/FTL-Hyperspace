@@ -743,7 +743,23 @@ void StoreComplete::OnRender()
 
     CSurface::GL_SetColor(COLOR_BUTTON_TEXT);
 
-    freetype::easy_printCenter(63, 515, 11, std::to_string(currentPage + 1));
+    if (pages.size() > 9)
+    {
+        freetype::easy_printCenter(63, 515, 11, std::to_string(currentPage + 1));
+    }
+    else
+    {
+        std::string pageStr = std::to_string(currentPage + 1);
+        std::string maxPageStr = std::to_string(pages.size());
+
+        if (pages.size() == 0)
+        {
+            pageStr = "1";
+            maxPageStr = "1";
+        }
+
+        freetype::easy_printCenter(63, 515, 11, pageStr + "/" + maxPageStr);
+    }
 
     CSurface::GL_PopMatrix();
 
