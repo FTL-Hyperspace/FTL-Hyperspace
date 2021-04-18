@@ -360,6 +360,14 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                         {
                             crew.damageEnemiesAmount = boost::lexical_cast<float>(val);
                         }
+                        if (str == "nameRace")
+                        {
+                            crew.nameRace = stat->value();
+                            if (stat->first_attribute("transformName"))
+                            {
+                                crew.transformName = stat->first_attribute("transformName")->value();
+                            }
+                        }
                         if (str == "droneAI")
                         {
                             crew.droneAI.hasCustomAI = true;
@@ -2351,9 +2359,38 @@ HOOK_METHOD(ShipManager, OnLoop, () -> void)
                     sys_ex->additionalPowerLoss += powerDrain;
                 }
             }
+            if (!def.nameRace.empty() && !def.transformName.empty() && i->blueprint.crewNameLong.GetText() == def.transformName && i->crewAnim->status != 3) // this is stupid
+            {
+                std::string newSpecies = def.nameRace;
+
+                auto newBlueprint = G_->GetBlueprints()->GetCrewBlueprint(newSpecies);
+
+                i->blueprint.powers = newBlueprint->powers;
+                i->blueprint.name = newBlueprint->name;
+                i->blueprint.desc = newBlueprint->desc;
+                i->blueprint.type = newBlueprint->type;
+                i->species = newSpecies;
+
+                delete newBlueprint;
+
+                auto newCrewAnim = new CrewAnimation(i->iShipId, i->species, Pointf(0, 0), i->iShipId == 1);
+
+                i->crewAnim->anims = newCrewAnim->anims;
+                i->crewAnim->baseStrip = newCrewAnim->baseStrip;
+                i->crewAnim->colorStrip = newCrewAnim->colorStrip;
+                i->crewAnim->bDrone = newCrewAnim->bDrone;
+                i->crewAnim->bGhost = newCrewAnim->bGhost;
+                i->crewAnim->race = newCrewAnim->race;
+
+                ex->Initialize(i->blueprint, i->iShipId, i->iShipId == 1, i->crewAnim);
+
+                if (i->iShipId == 0)
+                {
+                    G_->GetCApp()->gui->crewControl.ClearCrewBoxes();
+                    G_->GetCApp()->gui->crewControl.UpdateCrewBoxes();
+                }
+            }
         }
-
-
     }
 
     for (auto i : vSystemList)

@@ -268,6 +268,9 @@ struct CrewDefinition
 
     std::vector<StatBoost> passiveStatBoosts;
 
+    std::string nameRace = "";
+    std::string transformName = "";
+
 
     SkillsDefinition skillsDef;
 };
