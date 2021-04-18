@@ -199,10 +199,47 @@ StatBoost ParseStatBoostNode(rapidxml::xml_node<char>* node)
                     def.powerScaling.push_back(boost::lexical_cast<float>(systemChild->value()));
                 }
             }
-//            if (name == "deathEffect")
-//            {
-//                CustomCrewManager::GetInstance()->ParseDeathEffect(child, &def.explosionShipFriendlyFire, def.deathEffectChange);
-//            }
+            if (name == "deathEffect")
+            {
+                def.deathEffectChange = new Damage();
+
+                def.deathEffectChange->ownerId = -1;
+                def.deathEffectChange->selfId = -1;
+                def.deathEffectChange->crystalShard = false;
+
+                if (def.boostType == StatBoost::BoostType::MULT)
+                {
+                    def.deathEffectChange->iDamage = 1;
+                    def.deathEffectChange->iShieldPiercing = 1;
+                    def.deathEffectChange->fireChance = 1;
+                    def.deathEffectChange->breachChance = 1;
+                    def.deathEffectChange->stunChance = 1;
+                    def.deathEffectChange->iIonDamage = 1;
+                    def.deathEffectChange->iSystemDamage = 1;
+                    def.deathEffectChange->iPersDamage = 1;
+                    def.deathEffectChange->bHullBuster = true;
+                    def.deathEffectChange->bLockdown = true;
+                    def.deathEffectChange->bFriendlyFire = true;
+                    def.deathEffectChange->iStun = 1;
+                }
+                else
+                {
+                    def.deathEffectChange->iDamage = 0;
+                    def.deathEffectChange->iShieldPiercing = 0;
+                    def.deathEffectChange->fireChance = 0;
+                    def.deathEffectChange->breachChance = 0;
+                    def.deathEffectChange->stunChance = 0;
+                    def.deathEffectChange->iIonDamage = 0;
+                    def.deathEffectChange->iSystemDamage = 0;
+                    def.deathEffectChange->iPersDamage = 0;
+                    def.deathEffectChange->bHullBuster = false;
+                    def.deathEffectChange->bLockdown = false;
+                    def.deathEffectChange->bFriendlyFire = false;
+                    def.deathEffectChange->iStun = 0;
+                }
+
+                CustomCrewManager::GetInstance()->ParseDeathEffect(child, &def.explosionShipFriendlyFire, def.deathEffectChange);
+            }
 //            if (name == "powerEffect")
 //            {
 //                CustomCrewManager::GetInstance()->ParseAbilityEffect(child, def.powerChange);
@@ -910,6 +947,9 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition& def,
             isBool = true;
             break;
         case CrewStat::DEATH_EFFECT:
+            deathEffectChange = def.explosionDef;
+            explosionShipFriendlyFire = def.explosionShipFriendlyFire;
+            hasDeathExplosion = def.hasDeathExplosion;
             isEffect = true;
             break;
         case CrewStat::POWER_EFFECT:
@@ -963,19 +1003,51 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition& def,
                 {
                     if (statBoost.boostType == StatBoost::BoostType::MULT)
                     {
-
+                        if (statBoost.deathEffectChange)
+                        {
+                            hasDeathExplosion = true;
+                            explosionShipFriendlyFire &= statBoost.explosionShipFriendlyFire;
+                            deathEffectChange.iDamage *= statBoost.deathEffectChange->iDamage;
+                            deathEffectChange.iShieldPiercing *= statBoost.deathEffectChange->iShieldPiercing;
+                            deathEffectChange.fireChance *= statBoost.deathEffectChange->fireChance;
+                            deathEffectChange.breachChance *= statBoost.deathEffectChange->breachChance;
+                            deathEffectChange.stunChance *= statBoost.deathEffectChange->stunChance;
+                            deathEffectChange.iIonDamage *= statBoost.deathEffectChange->iIonDamage;
+                            deathEffectChange.iSystemDamage *= statBoost.deathEffectChange->iSystemDamage;
+                            deathEffectChange.iPersDamage *= statBoost.deathEffectChange->iPersDamage;
+                            deathEffectChange.bHullBuster &= statBoost.deathEffectChange->bHullBuster;
+                            deathEffectChange.bLockdown &= statBoost.deathEffectChange->bLockdown;
+                            deathEffectChange.bFriendlyFire &= statBoost.deathEffectChange->bFriendlyFire;
+                            deathEffectChange.iStun *= statBoost.deathEffectChange->iStun;
+                        }
                     }
                     else if (statBoost.boostType == StatBoost::BoostType::FLAT)
                     {
-
+                        if (statBoost.deathEffectChange)
+                        {
+                            hasDeathExplosion = true;
+                            explosionShipFriendlyFire |= statBoost.explosionShipFriendlyFire;
+                            deathEffectChange.iDamage += statBoost.deathEffectChange->iDamage;
+                            deathEffectChange.iShieldPiercing += statBoost.deathEffectChange->iShieldPiercing;
+                            deathEffectChange.fireChance += statBoost.deathEffectChange->fireChance;
+                            deathEffectChange.breachChance += statBoost.deathEffectChange->breachChance;
+                            deathEffectChange.stunChance += statBoost.deathEffectChange->stunChance;
+                            deathEffectChange.iIonDamage += statBoost.deathEffectChange->iIonDamage;
+                            deathEffectChange.iSystemDamage += statBoost.deathEffectChange->iSystemDamage;
+                            deathEffectChange.iPersDamage += statBoost.deathEffectChange->iPersDamage;
+                            deathEffectChange.bHullBuster |= statBoost.deathEffectChange->bHullBuster;
+                            deathEffectChange.bLockdown |= statBoost.deathEffectChange->bLockdown;
+                            deathEffectChange.bFriendlyFire |= statBoost.deathEffectChange->bFriendlyFire;
+                            deathEffectChange.iStun += statBoost.deathEffectChange->iStun;
+                        }
                     }
                     else if (statBoost.boostType == StatBoost::BoostType::SET)
                     {
-                        deathEffectChange = statBoost.deathEffectChange;
-                        explosionShipFriendlyFire = statBoost.explosionShipFriendlyFire;
-                        if (deathEffectChange)
+                        if (statBoost.deathEffectChange)
                         {
                             hasDeathExplosion = true;
+                            explosionShipFriendlyFire = statBoost.explosionShipFriendlyFire;
+                            deathEffectChange = *statBoost.deathEffectChange;
                         }
                         else
                         {

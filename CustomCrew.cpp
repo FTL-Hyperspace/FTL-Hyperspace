@@ -2473,21 +2473,19 @@ HOOK_METHOD(CrewMember, OnLoop, () -> void)
         auto ex = CM_EX(this);
         auto def = custom->GetDefinition(this->species);
 
-        if (def.hasDeathExplosion)
+        if (crewAnim->status == 3)
         {
-            if (crewAnim->status == 3)
+            if (!ex->exploded && !ex->triggerExplosion)
             {
-                if (!ex->exploded && !ex->triggerExplosion)
-                {
-                    ex->triggerExplosion = true;
-                }
-            }
-            else if (!bDead)
-            {
-                ex->triggerExplosion = false;
-                ex->exploded = false;
+                ex->triggerExplosion = true;
             }
         }
+        else if (!bDead)
+        {
+            ex->triggerExplosion = false;
+            ex->exploded = false;
+        }
+
         /*
         if (!ex->timedStatBoosts.empty())
         {
@@ -2543,13 +2541,18 @@ HOOK_STATIC(CrewMember, GetRoomDamage, (Damage *damage, CrewMember *crew) -> Dam
     {
         if (custom->IsRace(crew->species))
         {
-            if (custom->GetDefinition(crew->species).hasDeathExplosion)
-            {
-                auto ex = CM_EX(crew);
+            auto ex = CM_EX(crew);
 
-                if (ex->triggerExplosion && !ex->exploded)
+            if (ex->triggerExplosion && !ex->exploded)
+            {
+                ex->exploded = true;
+
+                auto def = custom->GetDefinition(crew->species);
+                ex->CalculateStat(CrewStat::DEATH_EFFECT, def);
+
+                if (ex->hasDeathExplosion)
                 {
-                    Damage *customDamage = &(custom->GetDefinition(crew->species).explosionDef);
+                    Damage *customDamage = &ex->deathEffectChange;
 
                     damage->iDamage = customDamage->iDamage;
                     damage->fireChance = customDamage->fireChance;
@@ -2565,11 +2568,9 @@ HOOK_STATIC(CrewMember, GetRoomDamage, (Damage *damage, CrewMember *crew) -> Dam
                     damage->crystalShard = customDamage->crystalShard;
                     damage->bFriendlyFire = customDamage->bFriendlyFire;
                     damage->iStun = customDamage->iStun;
-                    shipFriendlyFire = custom->GetDefinition(crew->species).explosionShipFriendlyFire;
+                    shipFriendlyFire = ex->explosionShipFriendlyFire;
 
                     ret = damage;
-
-                    ex->exploded = true;
                 }
             }
         }

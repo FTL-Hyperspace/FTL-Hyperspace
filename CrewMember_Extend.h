@@ -284,7 +284,7 @@ public:
     PowerReadyState PowerReady();
 
     ActivatedPowerDefinition* powerChange;
-    Damage* deathEffectChange;
+    Damage deathEffectChange;
     bool explosionShipFriendlyFire;
     bool hasDeathExplosion;
 
