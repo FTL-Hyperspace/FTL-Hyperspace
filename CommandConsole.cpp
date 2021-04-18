@@ -141,9 +141,9 @@ HOOK_METHOD(CommandGui, KeyDown, (SDLKey key, bool shiftHeld) -> void)
         speedEnabled = !speedEnabled;
     }
 
-    if (key == SDLK_LALT)
+    auto custom = CustomOptionsManager::GetInstance();
+    if (key == SDLK_LALT && custom->holdButton.currentValue == false)
     {
-        auto custom = CustomOptionsManager::GetInstance();
         if (custom->showAllyPowers.defaultValue != true)
         {
             custom->showAllyPowers.currentValue = !custom->showAllyPowers.currentValue;

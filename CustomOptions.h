@@ -21,6 +21,8 @@ public:
         int currentAmount = 0;
     };
 
+    Setting holdButton;
+
 //    Setting hullNumbers;
 
     Setting advancedCrewTooltips;
