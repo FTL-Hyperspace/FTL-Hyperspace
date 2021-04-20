@@ -640,6 +640,8 @@ bool questActuallyEnoughTime = false;
 HOOK_METHOD(StarMap, AddQuest, (const std::string& questEvent, bool force) -> bool)
 {
     int saveWorldLevel = worldLevel;
+    int numAddedQuests = addedQuests.size();
+
     CustomEvent *questCustomEvent = CustomEventsParser::GetInstance()->GetCustomEvent(questEvent);
 
     questActuallyEnoughTime = false;
@@ -705,6 +707,9 @@ HOOK_METHOD(StarMap, AddQuest, (const std::string& questEvent, bool force) -> bo
                     if (!questCustomEvent->questNebulaQuest.empty())
                     {
                         i->event = G_->GetEventGenerator()->GetBaseEvent(questCustomEvent->questNebulaQuest, worldLevel, false, -1);
+                        if (addedQuests.size() > numAddedQuests) {
+                            addedQuests[numAddedQuests].first = questCustomEvent->questNebulaQuest;
+                        }
                     }
                     if (!questCustomEvent->questClearNebula)
                     {
