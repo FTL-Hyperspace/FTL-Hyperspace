@@ -144,6 +144,37 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
                         customEvent->noQuestText = true;
                     }
 
+                    if (nodeName == "nebulaQuest")
+                    {
+                        customEvent->questAllowNebula = true;
+
+                        if (child->first_attribute("force"))
+                        {
+                            customEvent->questForceNebula = EventsParser::ParseBoolean(child->first_attribute("force")->value());
+                        }
+
+                        if (child->first_attribute("nebulaEvent"))
+                        {
+                            customEvent->questNebulaQuest = child->first_attribute("nebulaEvent")->value();
+                            customEvent->questClearNebula = true;
+                        }
+
+                        if (child->first_attribute("clear"))
+                        {
+                            customEvent->questClearNebula = EventsParser::ParseBoolean(child->first_attribute("clear")->value());
+                        }
+                    }
+
+                    if (nodeName == "lastStandQuest")
+                    {
+                        customEvent->questLastStand = true;
+
+                        if (child->first_attribute("noBoss"))
+                        {
+                            customEvent->questNoBoss = EventsParser::ParseBoolean(child->first_attribute("noBoss")->value());
+                        }
+                    }
+
                     if (nodeName == "secretSectorWarp")
                     {
                         customEvent->secretSectorWarp = child->value();
@@ -604,27 +635,86 @@ HOOK_METHOD(StarMap, constructor, () -> void)
 }
 
 static std::map<Location*, bool[2]> locValues = std::map<Location*, bool[2]>();
+bool questActuallyEnoughTime = false;
 
 HOOK_METHOD(StarMap, AddQuest, (const std::string& questEvent, bool force) -> bool)
 {
+    int saveWorldLevel = worldLevel;
+    CustomEvent *questCustomEvent = CustomEventsParser::GetInstance()->GetCustomEvent(questEvent);
+
+    questActuallyEnoughTime = false;
     locValues.clear();
 
     for (auto i : locations)
     {
+        locValues[i][0] = i->questLoc;
+        locValues[i][1] = i->nebula;
         CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(i->event->eventName);
+
+        if (questCustomEvent) {
+            if (questCustomEvent->questForceNebula)
+            {
+                i->nebula = !i->nebula;
+            }
+            else if (questCustomEvent->questAllowNebula)
+            {
+                i->nebula = false;
+            }
+        }
         if (customEvent && customEvent->preventQuest)
         {
-            locValues[i][0] = i->questLoc;
+            i->nebula = true;
+        }
+    }
 
-            i->questLoc = true;
+    if ((bInfiniteMode || (questCustomEvent && questCustomEvent->questLastStand)) && worldLevel > 5)
+    {
+        worldLevel = 5;
+
+        if (bInfiniteMode || !(questCustomEvent && questCustomEvent->questNoBoss))
+        {
+            questActuallyEnoughTime = true;
+        }
+        if (bossLevel && !(questCustomEvent && questCustomEvent->questNoBoss))
+        {
+            force = true;
         }
     }
 
     bool ret = super(questEvent, force);
 
+    worldLevel = saveWorldLevel;
+
     for (auto i : locValues)
     {
-        i.first->questLoc = i.second[0];
+        i.first->nebula = i.second[1];
+    }
+
+    if (ret)
+    {
+        for (auto i : locations)
+        {
+            if (i->questLoc != locValues[i][0]) //found the new quest location
+            {
+                if ((bInfiniteMode || (questCustomEvent && questCustomEvent->questLastStand)) && worldLevel > 5)
+                {
+                    i->event = G_->GetEventGenerator()->GetBaseEvent(questEvent, worldLevel, false, -1);
+                }
+                if (questCustomEvent && i->nebula)
+                {
+                    if (!questCustomEvent->questNebulaQuest.empty())
+                    {
+                        i->event = G_->GetEventGenerator()->GetBaseEvent(questCustomEvent->questNebulaQuest, worldLevel, false, -1);
+                    }
+                    if (!questCustomEvent->questClearNebula)
+                    {
+                        i->event->environment = 3;
+                        i->event->statusEffects.push_back({2,7,0,2});
+                    }
+                }
+                break;
+            }
+        }
     }
 
     return ret;
@@ -921,6 +1011,15 @@ HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *loc) -> void)
             str.insert(0, "\n\n");
             loc->text.data = boost::algorithm::replace_first_copy(loc->text.data, str, "");
         }
+    }
+    if (questActuallyEnoughTime)
+    {
+        std::string str;
+        std::string repl;
+
+        str = G_->GetTextLibrary()->GetText("no_time");
+        repl = G_->GetTextLibrary()->GetText("added_quest_sector");
+        loc->text.data = boost::algorithm::replace_first_copy(loc->text.data, str, repl);
     }
     super(loc);
 }

@@ -34,6 +34,12 @@ struct CustomEvent
     bool recursive = true;
     bool preventQuest = false;
     bool noQuestText = false;
+    bool questAllowNebula = false;
+    bool questForceNebula = false;
+    bool questClearNebula = false;
+    std::string questNebulaQuest = "";
+    bool questLastStand = false;
+    bool questNoBoss = false;
     bool removeHazards = false;
     bool removeNebula = false;
     std::string secretSectorWarp = "";
