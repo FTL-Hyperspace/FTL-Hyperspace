@@ -81,11 +81,14 @@ struct StoreCategory
     std::string customTitle;
 
     int categoryStock; // infinite by default
+    int chance = 100;
+    int groupChance = 0;
+    bool preventDuplicates = true;
 };
 
 struct StoreDefinition
 {
-    std::vector<StoreCategory> categories;
+    std::unordered_map<int, std::vector<StoreCategory>> categories;
     std::vector<ResourceItem> resources;
     HullRepair hullRepair;
 
