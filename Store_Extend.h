@@ -83,7 +83,7 @@ struct StoreCategory
     int categoryStock; // infinite by default
     int chance = 100;
     int groupChance = 0;
-    bool preventDuplicates = true;
+    bool allowDuplicates = false;
 };
 
 struct StoreDefinition

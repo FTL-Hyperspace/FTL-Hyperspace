@@ -174,6 +174,10 @@ static StoreCategory ParseCategoryNode(rapidxml::xml_node<char>* node)
         {
             def.groupChance = boost::lexical_cast<int>(val);
         }
+        if (name == "allowDuplicates")
+        {
+            def.allowDuplicates = true;
+        }
     }
 
     return def;
@@ -354,9 +358,12 @@ std::vector<StoreBox*> StoreComplete::CreateCustomStoreBoxes(const StoreCategory
                 }
                 else
                 {
-                    potentialList.erase(std::remove_if(potentialList.begin(), potentialList.end(),
-                                                       [&usedBlueprints](const std::string& o) { return std::find(usedBlueprints.begin(), usedBlueprints.end(), o) != usedBlueprints.end(); }),
-                                                       potentialList.end());
+                    if (!category.allowDuplicates)
+                    {
+                        potentialList.erase(std::remove_if(potentialList.begin(), potentialList.end(),
+                                                           [&usedBlueprints](const std::string& o) { return std::find(usedBlueprints.begin(), usedBlueprints.end(), o) != usedBlueprints.end(); }),
+                                                           potentialList.end());
+                    }
 
                     if (!potentialList.empty())
                     {
@@ -414,9 +421,12 @@ std::vector<StoreBox*> StoreComplete::CreateCustomStoreBoxes(const StoreCategory
                 }
                 else
                 {
-                    potentialList.erase(std::remove_if(potentialList.begin(), potentialList.end(),
-                                                       [&usedBlueprints](const std::string& o) { return std::find(usedBlueprints.begin(), usedBlueprints.end(), o) != usedBlueprints.end(); }),
-                                                       potentialList.end());
+                    if (!category.allowDuplicates)
+                    {
+                        potentialList.erase(std::remove_if(potentialList.begin(), potentialList.end(),
+                                                           [&usedBlueprints](const std::string& o) { return std::find(usedBlueprints.begin(), usedBlueprints.end(), o) != usedBlueprints.end(); }),
+                                                           potentialList.end());
+                    }
 
                     if (!potentialList.empty())
                     {
@@ -474,9 +484,12 @@ std::vector<StoreBox*> StoreComplete::CreateCustomStoreBoxes(const StoreCategory
                 }
                 else
                 {
-                    potentialList.erase(std::remove_if(potentialList.begin(), potentialList.end(),
-                                                       [&usedBlueprints](const std::string& o) { return std::find(usedBlueprints.begin(), usedBlueprints.end(), o) != usedBlueprints.end(); }),
-                                                       potentialList.end());
+                    if (!category.allowDuplicates)
+                    {
+                        potentialList.erase(std::remove_if(potentialList.begin(), potentialList.end(),
+                                                           [&usedBlueprints](const std::string& o) { return std::find(usedBlueprints.begin(), usedBlueprints.end(), o) != usedBlueprints.end(); }),
+                                                           potentialList.end());
+                    }
 
                     if (!potentialList.empty())
                     {
