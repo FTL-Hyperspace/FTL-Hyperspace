@@ -102,3 +102,8 @@ void CustomStoreBox::OnRender()
         }
     }
 }
+
+HOOK_METHOD(SystemStoreBox, CanHold, () -> bool)
+{
+    return super() && !shopper->HasSystem(type);
+}

@@ -166,6 +166,14 @@ static StoreCategory ParseCategoryNode(rapidxml::xml_node<char>* node)
         {
             def.customTitle = val;
         }
+        if (name == "chance")
+        {
+            def.chance = boost::lexical_cast<int>(val);
+        }
+        if (name == "groupChance")
+        {
+            def.groupChance = boost::lexical_cast<int>(val);
+        }
     }
 
     return def;
@@ -209,7 +217,14 @@ void CustomStore::ParseStoreNode(rapidxml::xml_node<char>* node)
                 {
                     auto cat = ParseCategoryNode(cStoreNode);
 
-                    def.categories.push_back(cat);
+                    int group = -1;
+
+                    if (cStoreNode->first_attribute("group"))
+                    {
+                        group = boost::lexical_cast<int>(cStoreNode->first_attribute("group")->value());
+                    }
+
+                    def.categories[group].push_back(cat);
                 }
             }
 
@@ -303,9 +318,12 @@ std::vector<StoreBox*> StoreComplete::CreateCustomStoreBoxes(const StoreCategory
 
     orig->vStoreBoxes.clear();
 
+    auto usedBlueprints = std::vector<std::string>();
+
     if (category.categoryType == CategoryType::WEAPONS)
     {
         orig->CreateStoreBoxes(0, equip);
+
         for (auto i : category.items)
         {
             WeaponStoreBox* box;
@@ -318,6 +336,11 @@ std::vector<StoreBox*> StoreComplete::CreateCustomStoreBoxes(const StoreCategory
                 box->desc.cost = GetItemPricing(i.price, box->blueprint->desc.cost, orig->worldLevel);
 
                 vec.push_back(box);
+
+                if (box->pBlueprint)
+                {
+                    usedBlueprints.push_back(box->pBlueprint->name);
+                }
             }
             else
             {
@@ -331,7 +354,14 @@ std::vector<StoreBox*> StoreComplete::CreateCustomStoreBoxes(const StoreCategory
                 }
                 else
                 {
-                    bp = G_->GetBlueprints()->GetWeaponBlueprint(potentialList[random32() % potentialList.size()]);
+                    potentialList.erase(std::remove_if(potentialList.begin(), potentialList.end(),
+                                                       [&usedBlueprints](const std::string& o) { return std::find(usedBlueprints.begin(), usedBlueprints.end(), o) != usedBlueprints.end(); }),
+                                                       potentialList.end());
+
+                    if (!potentialList.empty())
+                    {
+                        bp = G_->GetBlueprints()->GetWeaponBlueprint(potentialList[random32() % potentialList.size()]);
+                    }
                 }
 
                 if (bp)
@@ -341,6 +371,11 @@ std::vector<StoreBox*> StoreComplete::CreateCustomStoreBoxes(const StoreCategory
                     box->desc.cost = GetItemPricing(i.price, bp->desc.cost, orig->worldLevel);
 
                     vec.push_back(box);
+
+                    if (box->pBlueprint)
+                    {
+                        usedBlueprints.push_back(box->pBlueprint->name);
+                    }
                 }
             }
         }
@@ -361,6 +396,11 @@ std::vector<StoreBox*> StoreComplete::CreateCustomStoreBoxes(const StoreCategory
                 box->desc.cost = GetItemPricing(i.price, box->blueprint->desc.cost, orig->worldLevel);
 
                 vec.push_back(box);
+
+                if (box->pBlueprint)
+                {
+                    usedBlueprints.push_back(box->pBlueprint->name);
+                }
             }
             else
             {
@@ -374,7 +414,14 @@ std::vector<StoreBox*> StoreComplete::CreateCustomStoreBoxes(const StoreCategory
                 }
                 else
                 {
-                    bp = G_->GetBlueprints()->GetDroneBlueprint(potentialList[random32() % potentialList.size()]);
+                    potentialList.erase(std::remove_if(potentialList.begin(), potentialList.end(),
+                                                       [&usedBlueprints](const std::string& o) { return std::find(usedBlueprints.begin(), usedBlueprints.end(), o) != usedBlueprints.end(); }),
+                                                       potentialList.end());
+
+                    if (!potentialList.empty())
+                    {
+                        bp = G_->GetBlueprints()->GetDroneBlueprint(potentialList[random32() % potentialList.size()]);
+                    }
                 }
 
                 if (bp)
@@ -384,6 +431,11 @@ std::vector<StoreBox*> StoreComplete::CreateCustomStoreBoxes(const StoreCategory
                     box->desc.cost = GetItemPricing(i.price, bp->desc.cost, orig->worldLevel);
 
                     vec.push_back(box);
+
+                    if (box->pBlueprint)
+                    {
+                        usedBlueprints.push_back(box->pBlueprint->name);
+                    }
                 }
             }
         }
@@ -404,6 +456,11 @@ std::vector<StoreBox*> StoreComplete::CreateCustomStoreBoxes(const StoreCategory
                 box->desc.cost = GetItemPricing(i.price, box->blueprint->desc.cost, orig->worldLevel);
 
                 vec.push_back(box);
+
+                if (box->pBlueprint)
+                {
+                    usedBlueprints.push_back(box->pBlueprint->name);
+                }
             }
             else
             {
@@ -417,7 +474,14 @@ std::vector<StoreBox*> StoreComplete::CreateCustomStoreBoxes(const StoreCategory
                 }
                 else
                 {
-                    bp = G_->GetBlueprints()->GetAugmentBlueprint(potentialList[random32() % potentialList.size()]);
+                    potentialList.erase(std::remove_if(potentialList.begin(), potentialList.end(),
+                                                       [&usedBlueprints](const std::string& o) { return std::find(usedBlueprints.begin(), usedBlueprints.end(), o) != usedBlueprints.end(); }),
+                                                       potentialList.end());
+
+                    if (!potentialList.empty())
+                    {
+                        bp = G_->GetBlueprints()->GetAugmentBlueprint(potentialList[random32() % potentialList.size()]);
+                    }
                 }
 
                 if (bp)
@@ -427,6 +491,11 @@ std::vector<StoreBox*> StoreComplete::CreateCustomStoreBoxes(const StoreCategory
                     box->desc.cost = GetItemPricing(i.price, box->blueprint->desc.cost, orig->worldLevel);
 
                     vec.push_back(box);
+
+                    if (box->pBlueprint)
+                    {
+                        usedBlueprints.push_back(box->pBlueprint->name);
+                    }
                 }
             }
         }
@@ -497,7 +566,8 @@ std::vector<StoreBox*> StoreComplete::CreateCustomStoreBoxes(const StoreCategory
 
                 if (bp)
                 {
-                    box = new SystemStoreBox(ship, equip, ShipSystem::NameToSystemId(i.blueprint));
+                    int sysId = ShipSystem::NameToSystemId(i.blueprint);
+                    box = new SystemStoreBox(ship, equip, sysId);
 
                     box->desc.cost = GetItemPricing(i.price, box->desc.cost, orig->worldLevel);
 
@@ -517,6 +587,10 @@ std::vector<StoreBox*> StoreComplete::CreateCustomStoreBoxes(const StoreCategory
 
 void StoreComplete::OnInit(const StoreDefinition& def, ShipManager *ship, Equipment *equip, int level)
 {
+    delete orig->box;
+
+    orig->box = G_->GetResources()->GetImageId("storeUI/store_buy_main_custom.png");
+
     orig->worldLevel = level;
     orig->shopper = ship;
 
@@ -552,11 +626,92 @@ void StoreComplete::OnInit(const StoreDefinition& def, ShipManager *ship, Equipm
         repairBoxes.push_back(repairAll);
     }
 
+    auto chosenCategories = std::vector<StoreCategory>();
+
+    if (def.categories.find(-1) != def.categories.end())
+    {
+        auto catList = def.categories.at(-1);
+        for (auto cat : catList)
+        {
+            if (random32() % 100 < cat.chance)
+            {
+                chosenCategories.push_back(cat);
+            }
+        }
+    }
+
+    for (auto secPair : def.categories)
+    {
+        if (secPair.first == -1) continue;
+        int rng = random32() % 100;
+
+        auto chancedVec = std::vector<StoreCategory>();
+        auto unchancedVec = std::vector<StoreCategory>();
+
+        for (auto cat : secPair.second)
+        {
+            if (cat.groupChance > 0)
+            {
+                chancedVec.push_back(cat);
+            }
+            else
+            {
+                unchancedVec.push_back(cat);
+            }
+        }
+
+
+        int totalChance = 0;
+        for (auto cat : chancedVec)
+        {
+            totalChance += cat.groupChance;
+        }
+
+        StoreCategory* selectedCat = nullptr;
+
+        if (rng < totalChance)
+        {
+            int cumChance = 0;
+            for (auto cat : chancedVec)
+            {
+                if (rng > cumChance && rng < cumChance + cat.groupChance)
+                {
+                    selectedCat = &cat;
+                    break;
+                }
+
+                cumChance += cat.groupChance;
+            }
+        }
+        else if (unchancedVec.size() > 0)
+        {
+            int secChanceSize = (100 - totalChance) / unchancedVec.size();
+
+            if (secChanceSize <= 0) secChanceSize = 1;
+
+            int idx = rng / secChanceSize;
+
+            if (idx < unchancedVec.size())
+            {
+                selectedCat = &unchancedVec[idx];
+            }
+        }
+
+        if (selectedCat != nullptr)
+        {
+            if (random32() % 100 < selectedCat->chance)
+            {
+                chosenCategories.push_back(*selectedCat);
+            }
+        }
+    }
+
+
     StorePage currPage = StorePage();
 
-    for (int i = 0; i < def.categories.size(); i++)
+    for (int i = 0; i < chosenCategories.size(); i++)
     {
-        auto cat = def.categories[i];
+        auto cat = chosenCategories[i];
         StoreSection sec = StoreSection();
         sec.category = cat.categoryType;
 
@@ -588,12 +743,24 @@ void StoreComplete::OnInit(const StoreDefinition& def, ShipManager *ship, Equipm
 
         currPage.sections.push_back(sec);
 
-        if (i % 2 == 1 || i == def.categories.size() - 1)
+        if (i % 2 == 1 || i == chosenCategories.size() - 1)
         {
             pages.push_back(currPage);
             currPage = StorePage();
         }
     }
+
+    std::string buttonImg("storeUI/button_store_arrow");
+    leftButton = new Button();
+    leftButton->OnInit(buttonImg, orig->position.x + 451, orig->position.y + 12);
+
+    rightButton = new Button();
+    rightButton->OnInit(buttonImg, orig->position.x + 547, orig->position.y + 12);
+
+    rightButton->bMirror = true;
+
+    leftButton->bActive = pages.size() > 1;
+    rightButton->bActive = pages.size() > 1;
 
     SetPositions();
 }
@@ -630,11 +797,14 @@ void StoreComplete::InitHeadings()
 
 void StoreComplete::SetPositions()
 {
-    orig->box = G_->GetResources()->GetImageId("storeUI/store_buy_main.png");
+    orig->box = G_->GetResources()->GetImageId("storeUI/store_buy_main_custom.png");
 
     orig->infoBoxLoc.x = orig->position.x + 600;
     orig->infoBoxLoc.y = orig->position.y;
     orig->infoBox.location = orig->infoBoxLoc;
+
+    leftButton->SetLocation(Point(orig->position.x + 451, orig->position.y + 12));
+    rightButton->SetLocation(Point(orig->position.x + 547, orig->position.y + 12));
 
     int resourceBoxOffsets[3] = {0, 50, 99};
 
@@ -724,7 +894,28 @@ void StoreComplete::OnRender()
 
     CSurface::GL_SetColor(COLOR_BUTTON_TEXT);
 
+    if (pages.size() > 9)
+    {
+        freetype::easy_printCenter(63, 515, 11, std::to_string(currentPage + 1));
+    }
+    else
+    {
+        std::string pageStr = std::to_string(currentPage + 1);
+        std::string maxPageStr = std::to_string(pages.size());
+
+        if (pages.size() == 0)
+        {
+            pageStr = "1";
+            maxPageStr = "1";
+        }
+
+        freetype::easy_printCenter(63, 515, 11, pageStr + "/" + maxPageStr);
+    }
+
     CSurface::GL_PopMatrix();
+
+    leftButton->OnRender();
+    rightButton->OnRender();
 
     CSurface::GL_SetColor(COLOR_BUTTON_ON);
 
@@ -862,6 +1053,8 @@ void StoreComplete::OnLoop()
         }
     }
 
+    leftButton->OnLoop();
+    rightButton->OnLoop();
 }
 
 void StoreComplete::MouseClick(int x, int y)
@@ -917,6 +1110,15 @@ void StoreComplete::MouseClick(int x, int y)
             }
         }
     }
+
+    if (leftButton->bActive && leftButton->bHover)
+    {
+        PreviousPage();
+    }
+    if (rightButton->bActive && rightButton->bHover)
+    {
+        NextPage();
+    }
 }
 
 void StoreComplete::MouseMove(int x, int y)
@@ -956,6 +1158,9 @@ void StoreComplete::MouseMove(int x, int y)
             }
         }
     }
+
+    leftButton->MouseMove(x, y, false);
+    rightButton->MouseMove(x, y, false);
 }
 
 HOOK_METHOD(Store, KeyDown, (SDLKey key) -> void)

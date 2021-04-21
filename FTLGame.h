@@ -5796,6 +5796,7 @@ struct SystemStoreBox : StoreBox
 
 	LIBZHL_API void SetExtraData(int droneChoice);
 	LIBZHL_API void constructor(ShipManager *shopper, Equipment *equip, int sys);
+	LIBZHL_API bool CanHold();
 	
 	SystemBlueprint *blueprint;
 	int type;
