@@ -40,6 +40,8 @@ struct CustomEvent
     std::string questNebulaQuest = "";
     bool questLastStand = false;
     bool questNoBoss = false;
+    bool questNoNextSector = false;
+    bool questAggressive = false;
     bool removeHazards = false;
     bool removeNebula = false;
     std::string secretSectorWarp = "";

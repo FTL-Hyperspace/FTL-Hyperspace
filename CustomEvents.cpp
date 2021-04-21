@@ -175,6 +175,16 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
                         }
                     }
 
+                    if (nodeName == "noNextSectorQuest")
+                    {
+                        customEvent->questNoNextSector = true;
+
+                        if (child->first_attribute("aggressive"))
+                        {
+                            customEvent->questAggressive = EventsParser::ParseBoolean(child->first_attribute("aggressive")->value());
+                        }
+                    }
+
                     if (nodeName == "secretSectorWarp")
                     {
                         customEvent->secretSectorWarp = child->value();
@@ -636,15 +646,18 @@ HOOK_METHOD(StarMap, constructor, () -> void)
 
 static std::map<Location*, bool[2]> locValues = std::map<Location*, bool[2]>();
 bool questActuallyEnoughTime = false;
+bool questNextSectorPopped = false;
 
 HOOK_METHOD(StarMap, AddQuest, (const std::string& questEvent, bool force) -> bool)
 {
     int saveWorldLevel = worldLevel;
     int numAddedQuests = addedQuests.size();
+    int numDelayedQuests = delayedQuests.size();
 
     CustomEvent *questCustomEvent = CustomEventsParser::GetInstance()->GetCustomEvent(questEvent);
 
     questActuallyEnoughTime = false;
+    questNextSectorPopped = false;
     locValues.clear();
 
     for (auto i : locations)
@@ -684,6 +697,21 @@ HOOK_METHOD(StarMap, AddQuest, (const std::string& questEvent, bool force) -> bo
     }
 
     bool ret = super(questEvent, force);
+
+    if (!ret && questCustomEvent && questCustomEvent->questAggressive)
+    {
+        if (delayedQuests.size() > numDelayedQuests)
+        {
+            delayedQuests.pop_back();
+        }
+        ret = super(questEvent, true);
+    }
+
+    if (!ret && questCustomEvent && questCustomEvent->questNoNextSector && delayedQuests.size() > numDelayedQuests)
+    {
+        delayedQuests.pop_back();
+        questNextSectorPopped = true;
+    }
 
     worldLevel = saveWorldLevel;
 
@@ -1024,6 +1052,15 @@ HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *loc) -> void)
 
         str = G_->GetTextLibrary()->GetText("no_time");
         repl = G_->GetTextLibrary()->GetText("added_quest_sector");
+        loc->text.data = boost::algorithm::replace_first_copy(loc->text.data, str, repl);
+    }
+    if (questNextSectorPopped)
+    {
+        std::string str;
+        std::string repl;
+
+        str = G_->GetTextLibrary()->GetText("added_quest_sector");
+        repl = G_->GetTextLibrary()->GetText("no_time_sector");
         loc->text.data = boost::algorithm::replace_first_copy(loc->text.data, str, repl);
     }
     super(loc);
