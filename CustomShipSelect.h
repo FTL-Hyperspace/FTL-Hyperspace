@@ -1,5 +1,6 @@
 #pragma once
 #include "Global.h"
+#include "ToggleValue.h"
 #include <array>
 #include <algorithm>
 #include <boost/algorithm/string/predicate.hpp>
@@ -56,6 +57,7 @@ struct CustomShipDefinition
 
     std::unordered_map<int, RoomDefinition*> roomDefs;
     std::vector<std::string> shipIcons;
+    ToggleValue<bool> forceAutomated;
 
     int crewLimit = 8;
 

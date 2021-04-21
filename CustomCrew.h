@@ -1,5 +1,6 @@
 #pragma once
 #include "Global.h"
+#include "ToggleValue.h"
 #include <unordered_map>
 
 extern bool g_advancedCrewTooltips;
@@ -8,30 +9,6 @@ extern bool g_showAllyPowers;
 extern int g_advancedCrewTooltipRounding;
 
 struct StatBoost;
-
-template <typename T>
-struct ToggleValue
-{
-    T value;
-    bool enabled = false;
-
-    ToggleValue()
-    {
-        enabled = false;
-    }
-
-    ToggleValue(const T val)
-    {
-        value = val;
-        enabled = true;
-    }
-
-    void operator=(const T val)
-    {
-        value = val;
-        enabled = true;
-    }
-};
 
 struct Skill
 {

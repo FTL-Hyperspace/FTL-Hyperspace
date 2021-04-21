@@ -99,6 +99,11 @@ void ShipManager_Extend::Initialize(bool restarting)
                 orig->fuel_count = def.startingFuel;
             }
         }
+
+        if (def.forceAutomated.enabled)
+        {
+            orig->bAutomated = def.forceAutomated.value;
+        }
     }
 }
 

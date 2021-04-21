@@ -436,6 +436,9 @@
 		<Unit filename="Systems.h">
 			<Option virtualFolder="Core/Systems/" />
 		</Unit>
+		<Unit filename="ToggleValue.h">
+			<Option virtualFolder="Core/" />
+		</Unit>
 		<Unit filename="Wormhole.cpp">
 			<Option virtualFolder="Content/Map/" />
 		</Unit>
