@@ -20349,7 +20349,7 @@ namespace _func569
 {
 	static void *func = 0;
 	static short argdata[] = {0x101};
-	static FunctionDefinition funcObj("Projectile::destructor", typeid(void (Projectile::*)()), "558d915c02000089e557565389ce83e4f083ec208b8154020000c701????????894c2418c74104f8b84b0039d074??", argdata, 1, 5, &func);
+	static FunctionDefinition funcObj("Projectile::destructor", typeid(void (Projectile::*)()), ".558d915c02000089e5575653", argdata, 1, 5, &func);
 }
 
 __declspec(naked) void Projectile::destructor()
