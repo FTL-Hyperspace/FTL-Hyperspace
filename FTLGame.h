@@ -4316,6 +4316,7 @@ struct Projectile : Collideable
 {
 	LIBZHL_API void CollisionCheck(Collideable *other);
 	LIBZHL_API void constructor(Pointf position, int ownerId, int targetId, Pointf target);
+	LIBZHL_API void destructor();
 	
 	Targetable _targetable;
 	Pointf position;
