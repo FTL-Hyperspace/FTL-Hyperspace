@@ -1,5 +1,5 @@
 #pragma GCC push_options
-#pragma GCC optimize ("Ofast")
+#pragma GCC optimize ("O2")
 
 #include "StatBoost.h"
 #include "CustomCrew.h"
