@@ -3,11 +3,6 @@
 #include "ToggleValue.h"
 #include <unordered_map>
 
-extern bool g_advancedCrewTooltips;
-extern bool g_showEnemyPowers;
-extern bool g_showAllyPowers;
-extern int g_advancedCrewTooltipRounding;
-
 struct StatBoost;
 
 struct Skill
@@ -249,6 +244,10 @@ struct CrewDefinition
     ActivatedPowerDefinition powerDef;
 
     std::vector<StatBoost> passiveStatBoosts;
+
+    std::vector<std::string> nameRace;
+    std::vector<std::string> transformName;
+    bool changeIfSame = true;
 
 
     SkillsDefinition skillsDef;

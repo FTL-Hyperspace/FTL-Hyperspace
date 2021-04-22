@@ -1,4 +1,5 @@
 #include "CustomCrew.h"
+#include "CustomOptions.h"
 #include <chrono>
 #include <iostream>
 #include <sstream>
@@ -358,6 +359,18 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                         if (str == "damageEnemiesAmount")
                         {
                             crew.damageEnemiesAmount = boost::lexical_cast<float>(val);
+                        }
+                        if (str == "nameRace")
+                        {
+                            crew.nameRace.push_back(stat->value());
+                            if (stat->first_attribute("transformName"))
+                            {
+                                crew.transformName.push_back(stat->first_attribute("transformName")->value());
+                            }
+                            if (stat->first_attribute("changeIfSame"))
+                            {
+                                crew.changeIfSame = EventsParser::ParseBoolean(stat->first_attribute("changeIfSame")->value());
+                            }
                         }
                         if (str == "droneAI")
                         {
@@ -2350,9 +2363,89 @@ HOOK_METHOD(ShipManager, OnLoop, () -> void)
                     sys_ex->additionalPowerLoss += powerDrain;
                 }
             }
+
+            if (def.changeIfSame)
+            {
+                int counter = 0;
+                for (auto name : def.transformName)
+                {
+                    if (i->blueprint.crewNameLong.GetText() == name && i->crewAnim->status != 3) // this is stupid
+                    {
+                        std::string newSpecies = def.nameRace.at(counter);
+                        ++counter;
+
+                        auto newBlueprint = G_->GetBlueprints()->GetCrewBlueprint(newSpecies);
+
+                        i->blueprint.powers = newBlueprint->powers;
+                        i->blueprint.name = newBlueprint->name;
+                        i->blueprint.desc = newBlueprint->desc;
+                        i->blueprint.type = newBlueprint->type;
+                        i->species = newSpecies;
+
+                        delete newBlueprint;
+
+                        auto newCrewAnim = new CrewAnimation(i->iShipId, i->species, Pointf(0, 0), i->iShipId == 1);
+
+                        i->crewAnim->anims = newCrewAnim->anims;
+                        i->crewAnim->baseStrip = newCrewAnim->baseStrip;
+                        i->crewAnim->colorStrip = newCrewAnim->colorStrip;
+                        i->crewAnim->bDrone = newCrewAnim->bDrone;
+                        i->crewAnim->bGhost = newCrewAnim->bGhost;
+                        i->crewAnim->race = newCrewAnim->race;
+
+                        ex->Initialize(i->blueprint, i->iShipId, i->iShipId == 1, i->crewAnim);
+
+                        if (i->iShipId == 0)
+                        {
+                            G_->GetCApp()->gui->crewControl.ClearCrewBoxes();
+                            G_->GetCApp()->gui->crewControl.UpdateCrewBoxes();
+                        }
+                    }
+                }
+            }
+            else
+            {
+                bool change = true;
+                for (auto check : def.transformName)
+                {
+                    if (i->blueprint.crewNameLong.GetText() != check)
+                    {
+                        change = false;
+                    }
+                }
+                if (change)
+                {
+                    std::string newSpecies = def.nameRace.at(0);
+
+                    auto newBlueprint = G_->GetBlueprints()->GetCrewBlueprint(newSpecies);
+
+                    i->blueprint.powers = newBlueprint->powers;
+                    i->blueprint.name = newBlueprint->name;
+                    i->blueprint.desc = newBlueprint->desc;
+                    i->blueprint.type = newBlueprint->type;
+                    i->species = newSpecies;
+
+                    delete newBlueprint;
+
+                    auto newCrewAnim = new CrewAnimation(i->iShipId, i->species, Pointf(0, 0), i->iShipId == 1);
+
+                    i->crewAnim->anims = newCrewAnim->anims;
+                    i->crewAnim->baseStrip = newCrewAnim->baseStrip;
+                    i->crewAnim->colorStrip = newCrewAnim->colorStrip;
+                    i->crewAnim->bDrone = newCrewAnim->bDrone;
+                    i->crewAnim->bGhost = newCrewAnim->bGhost;
+                    i->crewAnim->race = newCrewAnim->race;
+
+                    ex->Initialize(i->blueprint, i->iShipId, i->iShipId == 1, i->crewAnim);
+
+                    if (i->iShipId == 0)
+                    {
+                        G_->GetCApp()->gui->crewControl.ClearCrewBoxes();
+                        G_->GetCApp()->gui->crewControl.UpdateCrewBoxes();
+                    }
+                }
+            }
         }
-
-
     }
 
     for (auto i : vSystemList)
@@ -3395,7 +3488,8 @@ HOOK_METHOD(CrewControl, MouseMove, (int mX, int mY, int wX, int wY) -> void)
 HOOK_STATIC(CrewMember, GetTooltip, (std::string& strRef, CrewMember* crew) -> std::string&)
 {
     super(strRef, crew);
-    if (g_advancedCrewTooltips)
+    auto custom = CustomOptionsManager::GetInstance();
+    if (custom->advancedCrewTooltips.currentValue)
     {
         std::string tooltip = "";
         tooltip += "-" + crew->blueprint.crewNameLong.GetText() + " (" + crew->blueprint.desc.title.GetText() + "):" + '\n';
@@ -3409,17 +3503,17 @@ HOOK_STATIC(CrewMember, GetTooltip, (std::string& strRef, CrewMember* crew) -> s
             std::stringstream stream;
             tooltip += G_->GetTextLibrary()->GetText("advanced_health_tooltip") + ": " + std::to_string(maxHealth) + "/" + std::to_string(maxHealth) + " (100%)";
         }
-        else if (g_advancedCrewTooltipRounding == 0)
+        else if (custom->advancedCrewTooltipRounding.currentAmount == 0)
         {
             tooltip += G_->GetTextLibrary()->GetText("advanced_health_tooltip") + ": " + std::to_string((int)crew->health.first) + "/" + std::to_string(maxHealth) + " (" + std::to_string((int)(crew->health.first / maxHealth * 100)) + "%)";
         }
         else
         {
             std::stringstream stream;
-            stream << std::fixed <<std::setprecision(g_advancedCrewTooltipRounding) << crew->health.first;
+            stream << std::fixed <<std::setprecision(custom->advancedCrewTooltipRounding.currentAmount) << crew->health.first;
             tooltip += G_->GetTextLibrary()->GetText("advanced_health_tooltip") + ": " + stream.str() + "/" + std::to_string(maxHealth) + " (" + std::to_string((int)(crew->health.first / maxHealth * 100)) + "%)";
         }
-        if (g_showEnemyPowers && crew->iShipId == 1)
+        if (custom->showEnemyPowers.currentValue && crew->iShipId == 1)
         {
             tooltip += '\n';
             for (auto j : crew->blueprint.powers)
@@ -3428,12 +3522,12 @@ HOOK_STATIC(CrewMember, GetTooltip, (std::string& strRef, CrewMember* crew) -> s
             }
             boost::trim_right(tooltip);
         }
-        else if (g_showAllyPowers && crew->iShipId == 0)
+        else if (custom->showAllyPowers.currentValue && crew->iShipId == 0)
         {
             tooltip += '\n';
             for (auto j : crew->blueprint.powers)
             {
-                tooltip += j.GetText() + '\n';
+                tooltip += "*" + j.GetText() + '\n';
             }
             boost::trim_right(tooltip);
         }

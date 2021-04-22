@@ -1,5 +1,6 @@
 #include "rapidxml.hpp"
 #include "Resources.h"
+#include "CustomOptions.h"
 
 #include "HullNumbers.h"
 #include "CommandConsole.h"
@@ -7,6 +8,7 @@
 #include "CustomCrew.h"
 #include "CustomEvents.h"
 #include "EventTooltip.h"
+#include "CooldownNumbers.h"
 #include "CustomAugments.h"
 #include "Infinite.h"
 #include "Balance.h"
@@ -49,7 +51,7 @@ void Global::InitializeResources(ResourceControl *resources)
 
     char *hyperspacetext = resources->LoadFile("data/hyperspace.xml");
 
-
+    auto customOptions = CustomOptionsManager::GetInstance();
 
     try
     {
@@ -99,26 +101,38 @@ void Global::InitializeResources(ResourceControl *resources)
             if (strcmp(node->name(), "eventTooltips") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
-                g_eventTooltips = EventsParser::ParseBoolean(enabled);
+                customOptions->eventTooltips.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->eventTooltips.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
+            if (strcmp(node->name(), "showNumericalWeaponCooldown") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->showWeaponCooldown.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->showWeaponCooldown.currentValue = EventsParser::ParseBoolean(enabled);
             }
 
             if (strcmp(node->name(), "advancedCrewTooltips") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
-                g_advancedCrewTooltips = EventsParser::ParseBoolean(enabled);
-                if(g_advancedCrewTooltips)
+                customOptions->advancedCrewTooltips.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->advancedCrewTooltips.currentValue = EventsParser::ParseBoolean(enabled);
+                if(enabled)
                 {
                     if(node->first_attribute("ally"))
                     {
-                        g_showAllyPowers = EventsParser::ParseBoolean(node->first_attribute("ally")->value());
+                        customOptions->showAllyPowers.defaultValue = EventsParser::ParseBoolean(node->first_attribute("ally")->value());
+                        customOptions->showAllyPowers.currentValue = EventsParser::ParseBoolean(node->first_attribute("ally")->value());
                     }
                     if(node->first_attribute("enemy"))
                     {
-                        g_showEnemyPowers = EventsParser::ParseBoolean(node->first_attribute("enemy")->value());
+                        customOptions->showEnemyPowers.defaultValue = EventsParser::ParseBoolean(node->first_attribute("enemy")->value());
+                        customOptions->showEnemyPowers.currentValue = EventsParser::ParseBoolean(node->first_attribute("enemy")->value());
                     }
                     if(node->first_attribute("rounding"))
                     {
-                        g_advancedCrewTooltipRounding = boost::lexical_cast<int>(node->first_attribute("rounding")->value());
+                        customOptions->advancedCrewTooltipRounding.defaultAmount = boost::lexical_cast<int>(node->first_attribute("rounding")->value());
+                        customOptions->advancedCrewTooltipRounding.currentAmount = boost::lexical_cast<int>(node->first_attribute("rounding")->value());
                     }
                 }
             }

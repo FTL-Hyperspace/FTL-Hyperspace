@@ -5,7 +5,7 @@
 		<Option title="FTL_HyperspaceGCC" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
-		<Option virtualFolders="Content/Misc/;Core/Systems/;Content/;Core/Systems/;Content/Crew/;Core/Systems/;Content/Ship/;Core/Systems/;Core/Systems/;Content/;Core/Systems/;Core/;Core/Weapons/;Content/;Core/Systems/;Core/Crew/;Content/;Core/Systems/;Core/Events/;Content/;Core/Systems/;Core/;Core/Weapons/;Content/;Core/Ship/;Content/;Core/Systems/;Core/Resources/;Content/;Core/Systems/;Content/Map/;Core/Systems/;Core/Map/;Content/;Core/Systems/;ZHL/;Content/Augments/;Core/Augments/;Core/Seed/;Core/Boss/;Content/ShipEditor/;Core/SaveFile/;Core/Store/;Core/CommandGui/;Core/CApp/;Content/Discord/;Core/Equipment/;Core/Drones/;Core/Credits/;Core/Shaders/;Core/Blueprints/" />
+		<Option virtualFolders="Content/Misc/;Core/Systems/;Content/;Core/Systems/;Content/Crew/;Core/Systems/;Content/Ship/;Core/Systems/;Core/Systems/;Content/;Core/Systems/;Core/;Core/Weapons/;Content/;Core/Systems/;Core/Crew/;Content/;Core/Systems/;Core/Events/;Content/;Core/Systems/;Core/;Core/Weapons/;Content/;Core/Ship/;Content/;Core/Systems/;Core/Resources/;Content/;Core/Systems/;Content/Map/;Core/Systems/;Core/Map/;Content/;Core/Systems/;ZHL/;Content/Augments/;Core/Augments/;Core/Seed/;Core/Boss/;Content/ShipEditor/;Core/SaveFile/;Core/Store/;Core/CommandGui/;Core/CApp/;Content/Discord/;Core/Equipment/;Core/Drones/;Core/Credits/;Core/Shaders/;Core/Blueprints/;Core/Options/" />
 		<Build>
 			<Target title="Debug">
 				<Option output="C:/Program Files (x86)/Steam/steamapps/common/FTL Faster Than Light/Hyperspace" imp_lib="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).a" def_file="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).def" prefix_auto="1" extension_auto="1" />
@@ -185,6 +185,12 @@
 		<Unit filename="CommandConsole.h">
 			<Option virtualFolder="Content/Misc/" />
 		</Unit>
+		<Unit filename="CooldownNumbers.cpp">
+			<Option virtualFolder="Core/Weapons/" />
+		</Unit>
+		<Unit filename="CooldownNumbers.h">
+			<Option virtualFolder="Core/Weapons/" />
+		</Unit>
 		<Unit filename="Credits.cpp">
 			<Option virtualFolder="Core/Credits/" />
 		</Unit>
@@ -244,6 +250,12 @@
 		</Unit>
 		<Unit filename="CustomMap.cpp">
 			<Option virtualFolder="Core/Map/" />
+		</Unit>
+		<Unit filename="CustomOptions.cpp">
+			<Option virtualFolder="Core/Options/" />
+		</Unit>
+		<Unit filename="CustomOptions.h">
+			<Option virtualFolder="Core/Options/" />
 		</Unit>
 		<Unit filename="CustomScoreKeeper.cpp">
 			<Option virtualFolder="Core/Ship/" />
