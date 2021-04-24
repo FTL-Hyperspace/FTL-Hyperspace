@@ -7,4 +7,10 @@ struct DroneStoreBox
 	{
 		this->constructor(_ship, _equip, _bp);
 	}
+	
+	DroneStoreBox()
+	{
+		StoreBox::constructor("storeUI/store_buy_drones", nullptr, nullptr);
+		this->bEquipmentBox = true;
+	}
 }};

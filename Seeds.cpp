@@ -28,7 +28,7 @@ HOOK_GLOBAL(random32, () -> unsigned int)
 	return rand() << 15 | rand();
 }
 
-HOOK_METHOD(Store, OnInit, (ShipManager *shopper, Equipment *equip, int worldLevel) -> void)
+HOOK_METHOD_PRIORITY(Store, OnInit, -900, (ShipManager *shopper, Equipment *equip, int worldLevel) -> void)
 {
     if (!SeedInputBox::seedsEnabled) return super(shopper, equip, worldLevel);
 

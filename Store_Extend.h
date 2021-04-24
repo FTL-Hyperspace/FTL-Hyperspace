@@ -111,7 +111,7 @@ class CustomStoreBox
 public:
     void OnRender();
 
-    StoreBox *orig;
+    StoreBox *orig = nullptr;
     bool showSale = false;
     int originalPrice = -1;
 
@@ -140,15 +140,15 @@ public:
 
 class StoreComplete
 {
-    Store *orig;
+    Store *orig = nullptr;
     StoreDefinition def;
 
     std::vector<StorePage> pages;
     std::vector<ItemStoreBox*> resourceBoxes;
     std::vector<RepairStoreBox*> repairBoxes;
 
-    Button* leftButton;
-    Button* rightButton;
+    Button* leftButton = nullptr;
+    Button* rightButton = nullptr;
 
     int currentPage = 0;
 
@@ -164,6 +164,9 @@ public:
     void PreviousPage();
     void CreateStoreBoxes();
     void InitHeadings();
+    void SaveStore(int file);
+    void LoadStore(int file, int worldLevel);
+    void RelinkShip(ShipManager *ship, Equipment *equip);
     std::vector<StoreBox*> CreateCustomStoreBoxes(const StoreCategory& category, ShipManager *ship, Equipment *equip);
     std::string GetHeadingText(CategoryType type);
 
@@ -203,9 +206,9 @@ public:
 
 struct Store_Extend
 {
-    Store *orig;
+    Store *orig = nullptr;
     bool isCustomStore = false;
-    StoreComplete* customStore;
+    StoreComplete* customStore = nullptr;
 
 
     ~Store_Extend()

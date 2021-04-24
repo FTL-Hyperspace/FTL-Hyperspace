@@ -7,4 +7,9 @@ struct AugmentStoreBox
 	{
 		this->constructor(_ship, _bp);
 	}
+	
+	AugmentStoreBox()
+	{
+		StoreBox::constructor("storeUI/store_weapons", nullptr, nullptr);
+	}
 }};

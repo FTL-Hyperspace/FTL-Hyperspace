@@ -4201,6 +4201,11 @@ struct AugmentStoreBox : StoreBox
 	{
 		this->constructor(_ship, _bp);
 	}
+	
+	AugmentStoreBox()
+	{
+		StoreBox::constructor("storeUI/store_weapons", nullptr, nullptr);
+	}
 
 	LIBZHL_API void constructor(ShipManager *ship, const AugmentBlueprint *bp);
 	
@@ -5705,6 +5710,12 @@ struct WeaponStoreBox : StoreBox
 	{
 		this->constructor(_ship, _equip, _bp);
 	}
+	
+	WeaponStoreBox()
+	{
+		StoreBox::constructor("storeUI/store_buy_weapons", nullptr, nullptr);
+		this->bEquipmentBox = true;
+	}
 
 	LIBZHL_API static void __stdcall __DO_NOT_HOOK();
 	LIBZHL_API void constructor(ShipManager *ship, Equipment *equip, const WeaponBlueprint *weaponBp);
@@ -5719,6 +5730,12 @@ struct DroneStoreBox : StoreBox
 	DroneStoreBox(ShipManager *_ship, Equipment *_equip, const DroneBlueprint* _bp)
 	{
 		this->constructor(_ship, _equip, _bp);
+	}
+	
+	DroneStoreBox()
+	{
+		StoreBox::constructor("storeUI/store_buy_drones", nullptr, nullptr);
+		this->bEquipmentBox = true;
 	}
 
 	LIBZHL_API void constructor(ShipManager *ship, Equipment *equip, const DroneBlueprint *bp);
@@ -6614,6 +6631,11 @@ struct CrewStoreBox : StoreBox
 	CrewStoreBox(ShipManager *_ship, int _worldLevel, const std::string& _type)
 	{
 		this->constructor(_ship, _worldLevel, _type);
+	}
+	
+	CrewStoreBox()
+	{
+		StoreBox::constructor("storeUI/store_buy_crew", nullptr, nullptr);
 	}
 
 	LIBZHL_API void Purchase();
