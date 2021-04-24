@@ -6,9 +6,32 @@ HOOK_METHOD(WeaponBox, RenderBox, (bool dragging, bool flashPowerBox) -> void)
     super(dragging, flashPowerBox);
     if (pWeapon && CustomOptionsManager::GetInstance()->showWeaponCooldown.currentValue)
     {
+        if (pWeapon->powered)
+        {
+            if (!pWeapon->targets.empty())
+            {
+                if (pWeapon->autoFiring)
+                {
+                    CSurface::GL_SetColor(GL_Color(255.f / 255.f, 255.f / 255.f, 50.f / 255.f, 1.f));
+                }
+                else
+                {
+                    CSurface::GL_SetColor(GL_Color(255.f / 255.f, 120.f / 255.f, 120.f / 255.f, 1.f));
+                }
+            }
+            else
+            {
+                CSurface::GL_SetColor(GL_Color(243.f / 255.f, 255.f / 255.f, 230.f / 255.f, 1.f));
+            }
+        }
+        else
+        {
+            CSurface::GL_SetColor(GL_Color(150.f / 255.f, 150.f / 255.f, 150.f / 255.f, 1.f));
+        }
         std::stringstream stream;
         if (pWeapon->cooldown.first < 0)
         {
+            CSurface::GL_SetColor(GL_Color(150.f / 255.f, 150.f / 255.f, 150.f / 255.f, 1.f));
             stream << G_->GetTextLibrary()->GetText("weapon_cooldown_negative");
         }
         else
