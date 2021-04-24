@@ -9,4 +9,9 @@ struct CrewStoreBox
 	{
 		this->constructor(_ship, _worldLevel, _type);
 	}
+	
+	CrewStoreBox()
+	{
+		StoreBox::constructor("storeUI/store_buy_crew", nullptr, nullptr);
+	}
 }};

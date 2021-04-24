@@ -9,4 +9,10 @@ struct WeaponStoreBox
 	{
 		this->constructor(_ship, _equip, _bp);
 	}
+	
+	WeaponStoreBox()
+	{
+		StoreBox::constructor("storeUI/store_buy_weapons", nullptr, nullptr);
+		this->bEquipmentBox = true;
+	}
 }};

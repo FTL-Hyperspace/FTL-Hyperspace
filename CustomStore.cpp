@@ -330,7 +330,7 @@ std::vector<StoreBox*> StoreComplete::CreateCustomStoreBoxes(const StoreCategory
 
         for (auto i : category.items)
         {
-            WeaponStoreBox* box;
+            WeaponStoreBox* box = nullptr;
 
             if (i.blueprint.empty())
             {
@@ -348,7 +348,7 @@ std::vector<StoreBox*> StoreComplete::CreateCustomStoreBoxes(const StoreCategory
             }
             else
             {
-                WeaponBlueprint* bp;
+                WeaponBlueprint* bp = nullptr;
 
                 auto potentialList = G_->GetBlueprints()->GetBlueprintList(i.blueprint);
 
@@ -393,7 +393,7 @@ std::vector<StoreBox*> StoreComplete::CreateCustomStoreBoxes(const StoreCategory
 
         for (auto i : category.items)
         {
-            DroneStoreBox* box;
+            DroneStoreBox* box = nullptr;
 
             if (i.blueprint.empty())
             {
@@ -411,7 +411,7 @@ std::vector<StoreBox*> StoreComplete::CreateCustomStoreBoxes(const StoreCategory
             }
             else
             {
-                DroneBlueprint* bp;
+                DroneBlueprint* bp = nullptr;
 
                 auto potentialList = G_->GetBlueprints()->GetBlueprintList(i.blueprint);
 
@@ -456,7 +456,7 @@ std::vector<StoreBox*> StoreComplete::CreateCustomStoreBoxes(const StoreCategory
 
         for (auto i : category.items)
         {
-            AugmentStoreBox* box;
+            AugmentStoreBox* box = nullptr;
 
             if (i.blueprint.empty())
             {
@@ -474,7 +474,7 @@ std::vector<StoreBox*> StoreComplete::CreateCustomStoreBoxes(const StoreCategory
             }
             else
             {
-                AugmentBlueprint* bp;
+                AugmentBlueprint* bp = nullptr;
 
                 auto potentialList = G_->GetBlueprints()->GetBlueprintList(i.blueprint);
 
@@ -519,7 +519,7 @@ std::vector<StoreBox*> StoreComplete::CreateCustomStoreBoxes(const StoreCategory
 
         for (auto i : category.items)
         {
-            CrewStoreBox* box;
+            CrewStoreBox* box = nullptr;
 
             if (i.blueprint.empty())
             {
@@ -562,7 +562,7 @@ std::vector<StoreBox*> StoreComplete::CreateCustomStoreBoxes(const StoreCategory
 
         for (auto i : category.items)
         {
-            SystemStoreBox* box;
+            SystemStoreBox* box = nullptr;
 
             if (i.blueprint.empty())
             {
@@ -600,7 +600,7 @@ std::vector<StoreBox*> StoreComplete::CreateCustomStoreBoxes(const StoreCategory
 
 void StoreComplete::OnInit(const StoreDefinition& def, ShipManager *ship, Equipment *equip, int level)
 {
-    delete orig->box;
+    //delete orig->box;
 
     orig->box = G_->GetResources()->GetImageId("storeUI/store_buy_main_custom.png");
 
@@ -810,6 +810,23 @@ void StoreComplete::InitHeadings()
 
 void StoreComplete::SetPositions()
 {
+    if (!leftButton)
+    {
+        std::string buttonImg("storeUI/button_store_arrow");
+        leftButton = new Button();
+        leftButton->OnInit(buttonImg, orig->position.x + 451, orig->position.y + 12);
+    }
+    if (!rightButton)
+    {
+        std::string buttonImg("storeUI/button_store_arrow");
+        rightButton = new Button();
+        rightButton->OnInit(buttonImg, orig->position.x + 547, orig->position.y + 12);
+        rightButton->bMirror = true;
+    }
+
+    leftButton->bActive = pages.size() > 1;
+    rightButton->bActive = pages.size() > 1;
+
     orig->box = G_->GetResources()->GetImageId("storeUI/store_buy_main_custom.png");
 
     orig->infoBoxLoc.x = orig->position.x + 600;
@@ -1285,6 +1302,199 @@ HOOK_METHOD(Store, OnRender, () -> void)
         confirmDialog.OnRender();
     }
 }
+void StoreComplete::SaveStore(int file)
+{
+    FileHelper::writeInt(file, pages.size());
+    for (auto page : pages)
+    {
+        FileHelper::writeInt(file, page.sections.size());
+        for (auto sec : page.sections)
+        {
+            FileHelper::writeInt(file, static_cast<int>(file, sec.category));
+            FileHelper::writeString(file, sec.customTitle);
+            FileHelper::writeInt(file, sec.storeBoxes.size());
+
+            for (auto boxSec : sec.storeBoxes)
+            {
+                FileHelper::writeInt(file, boxSec.size());
+
+                for (auto storeBox : boxSec)
+                {
+                    if (storeBox->orig->pBlueprint)
+                    {
+                        FileHelper::writeInt(file, storeBox->orig->count);
+                        FileHelper::writeString(file, storeBox->orig->pBlueprint->name);
+                        FileHelper::writeInt(file, storeBox->orig->GetExtraData());
+                        FileHelper::writeInt(file, storeBox->orig->desc.cost);
+
+                        FileHelper::writeInt(file, storeBox->showSale);
+                        FileHelper::writeInt(file, storeBox->originalPrice);
+                    }
+                    else
+                    {
+                        FileHelper::writeInt(file, -1);
+                    }
+                }
+            }
+        }
+    }
+
+    FileHelper::writeInt(file, resourceBoxes.size());
+    for (auto storeBox : resourceBoxes)
+    {
+        FileHelper::writeInt(file, storeBox->itemId);
+        FileHelper::writeInt(file, storeBox->count);
+        FileHelper::writeInt(file, storeBox->desc.cost);
+    }
+
+    FileHelper::writeInt(file, repairBoxes.size() > 0);
+    if (repairBoxes.size() > 0)
+    {
+        FileHelper::writeInt(file, repairBoxes[0]->desc.cost);
+    }
+}
+
+void StoreComplete::LoadStore(int file, int worldLevel)
+{
+    int pageCount = FileHelper::readInteger(file);
+    for (int pageNum = 0; pageNum < pageCount; pageNum++)
+    {
+        StorePage page = StorePage();
+
+        int secCount = FileHelper::readInteger(file);
+
+        for (int secNum = 0; secNum < secCount; secNum++)
+        {
+            StoreSection sec = StoreSection();
+
+            sec.category = static_cast<CategoryType>(FileHelper::readInteger(file));
+            sec.customTitle = FileHelper::readString(file);
+            int boxSecCount = FileHelper::readInteger(file);
+
+            for (int boxSecNum = 0; boxSecNum < boxSecCount; boxSecNum++)
+            {
+                int boxCount = FileHelper::readInteger(file);
+
+                std::vector<CustomStoreBox*> boxSec = std::vector<CustomStoreBox*>();
+
+                for (int boxNum = 0; boxNum < boxCount; boxNum++)
+                {
+                    int count = FileHelper::readInteger(file);
+
+                    if (count == -1)
+                    {
+                        continue;
+                    }
+
+                    std::string blueprintName = FileHelper::readString(file);
+
+                    CustomStoreBox* box = new CustomStoreBox();
+
+                    switch (sec.category)
+                    {
+                    case CategoryType::WEAPONS:
+
+                        box->orig = new WeaponStoreBox(nullptr, nullptr, G_->GetBlueprints()->GetWeaponBlueprint(blueprintName));
+                        break;
+                    case CategoryType::DRONES:
+                        box->orig = new DroneStoreBox(nullptr, nullptr, G_->GetBlueprints()->GetDroneBlueprint(blueprintName));
+                        break;
+                    case CategoryType::AUGMENTS:
+                        box->orig = new AugmentStoreBox(nullptr, G_->GetBlueprints()->GetAugmentBlueprint(blueprintName));
+                        break;
+                    case CategoryType::CREW:
+                        box->orig = new CrewStoreBox(nullptr, worldLevel, blueprintName);
+                        break;
+                    case CategoryType::SYSTEMS:
+                        box->orig = new SystemStoreBox(nullptr, nullptr, ShipSystem::NameToSystemId(blueprintName));
+                        break;
+                    }
+
+                    box->orig->count = count;
+                    box->orig->SetExtraData(FileHelper::readInteger(file));
+                    box->orig->desc.cost = FileHelper::readInteger(file);
+
+                    box->showSale = FileHelper::readInteger(file);
+                    box->originalPrice = FileHelper::readInteger(file);
+
+                    boxSec.push_back(box);
+                }
+
+                sec.storeBoxes.push_back(boxSec);
+            }
+
+            page.sections.push_back(sec);
+        }
+
+        pages.push_back(page);
+    }
+
+
+    int resourceBoxCount = FileHelper::readInteger(file);
+    for (int i = 0; i < resourceBoxCount; i++)
+    {
+        int itemId = FileHelper::readInteger(file);
+
+        std::string blueprintName;
+
+        if (itemId == 0) blueprintName = "missiles";
+        else if (itemId == 1) blueprintName = "fuel";
+        else blueprintName = "drones";
+
+        ItemStoreBox* box = new ItemStoreBox(nullptr, blueprintName);
+
+        box->count = FileHelper::readInteger(file);
+        box->desc.cost = FileHelper::readInteger(file);
+
+        resourceBoxes.push_back(box);
+    }
+
+    bool hasRepairBoxes = FileHelper::readInteger(file);
+
+    if (hasRepairBoxes)
+    {
+        int price = FileHelper::readInteger(file);
+        RepairStoreBox* repairOne = new RepairStoreBox(nullptr, false, price);
+        RepairStoreBox* repairAll = new RepairStoreBox(nullptr, true, price);
+
+        repairBoxes.push_back(repairOne);
+        repairBoxes.push_back(repairAll);
+    }
+
+
+}
+
+void StoreComplete::RelinkShip(ShipManager *ship, Equipment *equip)
+{
+    orig->shopper = ship;
+
+    for (auto pg : pages)
+    {
+        for (auto sec : pg.sections)
+        {
+            for (auto boxSec : sec.storeBoxes)
+            {
+                for (auto box : boxSec)
+                {
+                    box->orig->shopper = ship;
+                    box->orig->equipScreen = equip;
+                }
+            }
+        }
+    }
+
+    for (auto i : repairBoxes)
+    {
+        i->shopper = ship;
+        i->equipScreen = equip;
+    }
+
+    for (auto i : resourceBoxes)
+    {
+        i->shopper = ship;
+        i->equipScreen = equip;
+    }
+}
 
 std::string customStoreId;
 
@@ -1303,9 +1513,8 @@ HOOK_METHOD(WorldManager, CreateStore, (LocationEvent *event) -> void)
     super(event);
 }
 
-HOOK_METHOD(Store, OnInit, (ShipManager *shopper, Equipment *equip, int worldLevel) -> void)
+HOOK_METHOD(Store, OnInit, (ShipManager *_shopper, Equipment *_equip, int _worldLevel) -> void)
 {
-    //return super(shopper, equip, worldLevel);
     if (!customStoreId.empty() || !CustomStore::instance->forceCustomStore.empty())
     {
         std::string storeId = CustomStore::instance->forceCustomStore;
@@ -1314,11 +1523,11 @@ HOOK_METHOD(Store, OnInit, (ShipManager *shopper, Equipment *equip, int worldLev
 
         auto def = CustomStore::instance->GetStoreDefinition(storeId);
 
-        if (def)
+        if (def && !STORE_EX(this)->isCustomStore)
         {
             StoreComplete* newStore = new StoreComplete(this);
 
-            newStore->OnInit(*def, shopper, equip, worldLevel);
+            newStore->OnInit(*def, _shopper, _equip, _worldLevel);
 
             STORE_EX(this)->isCustomStore = true;
             STORE_EX(this)->customStore = newStore;
@@ -1329,13 +1538,14 @@ HOOK_METHOD(Store, OnInit, (ShipManager *shopper, Equipment *equip, int worldLev
         CustomStore::instance->forceCustomStore = "";
     }
 
-    super(shopper, equip, worldLevel);
+    super(_shopper, _equip, _worldLevel);
 }
 
 HOOK_METHOD(Store, RelinkShip, (ShipManager *ship, Equipment *equip) -> void)
 {
     if (STORE_EX(this)->isCustomStore)
     {
+        STORE_EX(this)->customStore->RelinkShip(ship, equip);
         // do stuff
         return;
     }
@@ -1345,13 +1555,35 @@ HOOK_METHOD(Store, RelinkShip, (ShipManager *ship, Equipment *equip) -> void)
 
 HOOK_METHOD(Store, LoadStore, (int file, int worldLevel) -> void)
 {
-    if (STORE_EX(this)->isCustomStore)
+    bool isCustomStore = FileHelper::readInteger(file);
+
+    STORE_EX(this)->isCustomStore = isCustomStore;
+
+    if (isCustomStore)
     {
-        // load custom store
+        STORE_EX(this)->customStore = new StoreComplete(this);
+        STORE_EX(this)->customStore->LoadStore(file, worldLevel);
+
         return;
     }
 
     super(file, worldLevel);
+}
+
+HOOK_METHOD(Store, SaveStore, (int file) -> void)
+{
+    FileHelper::writeInt(file, STORE_EX(this)->isCustomStore);
+
+    if (STORE_EX(this)->isCustomStore)
+    {
+        STORE_EX(this)->customStore->SaveStore(file);
+
+        return;
+    }
+
+    super(file);
+
+
 }
 
 HOOK_METHOD(Store, OnLoop, () -> void)
