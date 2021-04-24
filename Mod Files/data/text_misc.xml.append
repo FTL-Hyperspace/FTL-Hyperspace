@@ -52,9 +52,16 @@
 <text name="power_not_ready_system_damaged">Not Ready: No damaged system in room</text>
 <text name="power_not_ready_teleporting">Not Ready: Can't transform mid-teleport</text>
 
-<text name="health_tooltip">Health</text>
-<text name="mind_controlled_tooltip">Mind Controlled</text>
+<mod:findName type="text" name="health_tooltip">
+  <mod:setValue>Health</mod:setValue>
+</mod:findName>
 <text name="weapon_cooldown_negative">Disabled</text>
+
+<!-- Hotkeys -->
+
+<text name="hotkey_speed">Toggle Speedhack</text>
+<text name="hotkey_console">Open Console</text>
+<text name="hotkey_info">Toggle Extra Info</text>
 
 <!-- Discord Integration -->
 
