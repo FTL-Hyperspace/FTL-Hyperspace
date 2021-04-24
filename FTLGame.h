@@ -3388,8 +3388,13 @@ struct Ship : ShipObject
 	std::vector<LockdownShard> lockdowns;
 };
 
+struct InputBox;
+
 struct InputBox : FocusWindow
 {
+	LIBZHL_API void TextEvent(CEvent::TextEvent event);
+	LIBZHL_API void StartInput();
+	
 	WindowFrame *textBox;
 	std::string mainText;
 	bool bDone;
@@ -5987,6 +5992,10 @@ struct Settings
 	LIBZHL_API static bool __stdcall GetDlcEnabled();
 	LIBZHL_API static std::string &__stdcall GetHotkeyName(std::string &strRef, const std::string &name);
 	LIBZHL_API static SDLKey __stdcall GetHotkey(const std::string &hotkeyName);
+	LIBZHL_API static void __stdcall SetHotkey(const std::string &hotkeyName, SDLKey key);
+	LIBZHL_API static void __stdcall SaveSettings();
+	LIBZHL_API static void __stdcall ResetHotkeys();
+	LIBZHL_API static void __stdcall LoadSettings();
 	
 };
 

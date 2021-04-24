@@ -128,13 +128,11 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
 //===============================================
 
 static AnimationTracker *g_consoleMessage;
-
+static bool shouldOpenConsole = true;
 
 HOOK_METHOD(CommandGui, KeyDown, (SDLKey key, bool shiftHeld) -> void)
 {
-    // TODO: Allow user to customise speedhack and console key
-
-    if (key == 96)
+    if (key == Settings::GetHotkey("speed"))
     {
         //shouldOpen = !shouldOpen;
 
@@ -142,7 +140,7 @@ HOOK_METHOD(CommandGui, KeyDown, (SDLKey key, bool shiftHeld) -> void)
     }
 
     auto custom = CustomOptionsManager::GetInstance();
-    if (key == SDLK_LALT && custom->holdButton.currentValue == false)
+    if (key == Settings::GetHotkey("info") && custom->holdButton.currentValue == false)
     {
         if (custom->showAllyPowers.defaultValue != true)
         {
@@ -170,13 +168,42 @@ HOOK_METHOD(CommandGui, KeyDown, (SDLKey key, bool shiftHeld) -> void)
         }
     }
 
+    if (key == Settings::GetHotkey("console"))
+    {
+        if (!writeErrorDialog.bOpen &&
+            !menuBox.bOpen &&
+            !gameOverScreen.bOpen &&
+            !shipComplete->shipManager->bJumping &&
+            !inputBox.bOpen &&
+            key != Settings::GetHotkey("options"))
+        {
+            bool shouldCheckConsoleKey = true;
+
+            for (auto i : focusWindows)
+            {
+                if (i->bOpen)
+                {
+                    shouldCheckConsoleKey = false;
+                    break;
+                }
+            }
+
+            if (shouldCheckConsoleKey)
+            {
+                inputBox.StartInput();
+            }
+        }
+    }
+
+    shouldOpenConsole = false;
     super(key, shiftHeld);
+    shouldOpenConsole = true;
 }
 
 
 HOOK_STATIC(Settings, GetCommandConsole, () -> char)
 {
-    return CommandConsole::GetInstance()->enabled; //&& CommandConsole::GetInstance()->shouldOpen;
+    return shouldOpenConsole && CommandConsole::GetInstance()->enabled; //&& CommandConsole::GetInstance()->shouldOpen;
 }
 
 HOOK_METHOD(CommandGui, RunCommand, (std::string& command) -> void)
