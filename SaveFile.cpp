@@ -75,6 +75,22 @@ HOOK_METHOD(ScoreKeeper, Save, (bool saveScore) -> void)
     std::string userFolder;
     FileHelper::getUserFolder(userFolder);
 
+    if (FileHelper::fileExists(userFolder + SaveFileHandler::instance->savePrefix + "_prof.sav"))
+    {
+        int file = FileHelper::readBinaryFile(userFolder + SaveFileHandler::instance->savePrefix + "_prof.sav");
+
+        int fileLen = FileHelper::fileLength(file);
+        if (fileLen > 0)
+        {
+            char* bin = FileHelper::readBuffer(file, fileLen, false);
+            FileHelper::closeBinaryFile(file);
+
+            file = FileHelper::createBinaryFile(userFolder + SaveFileHandler::instance->savePrefix + "_prof_backup.sav");
+            FileHelper::writeData(file, bin, fileLen);
+            FileHelper::closeBinaryFile(file);
+        }
+    }
+
     super(saveScore);
 
     std::string newSave = userFolder;

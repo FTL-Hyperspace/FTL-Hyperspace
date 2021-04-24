@@ -248,6 +248,12 @@
 		<Unit filename="CustomEvents.h">
 			<Option virtualFolder="Core/Events/" />
 		</Unit>
+		<Unit filename="CustomHotkeys.cpp">
+			<Option virtualFolder="Core/Options/" />
+		</Unit>
+		<Unit filename="CustomHotkeys.h">
+			<Option virtualFolder="Core/Options/" />
+		</Unit>
 		<Unit filename="CustomMap.cpp">
 			<Option virtualFolder="Core/Map/" />
 		</Unit>
