@@ -497,6 +497,12 @@ is loaded. Otherwise it will not depend on the seed/beacon and will instead be r
 
 The req attribute for beaconType makes it so that the beacon label is only visible when the ship has a specific piece of equipment (augment, weapon, drone, race) installed.
 
+For nebulaQuest, if nebulaEvent is set then the event will be replaced by nebulaEvent if the quest beacon is a nebula beacon.
+If force="true" then the quest must spawn in a nebula, otherwise it can spawn outside the nebula as well.
+If clear="false" then a nebula will be added to the quest event if in a nebula beacon, otherwise the event's normal environment will be used.
+Default behaviour is clear="true" if force="true" or if nebulaEvent is set, otherwise clear="false".
+For lastStandQuest, if noBoss="true" then the quest cannot actually spawn in the last stand, but will spawn if the player goes to a secret sector.
+
 Syntax -> 
 <events>
 	<bossShip>AUTO_ASSAULT_DLC</bossShip>
@@ -525,6 +531,12 @@ Syntax ->
 		</beaconType>
 		<playSound>sell</playSound>
 		<changeBackground>BACK_SECTOR_CIVILIAN</changeBackground>
+	</event>
+	
+	<event name="QUEST_DESTINATION">
+		<nebulaQuest force="false" clear="false" nebulaEvent="NEBULA_QUEST_DESTINATION"/>
+		<lastStandQuest noBoss="false"/>
+		<noNextSectorQuest aggressive="false"/>
 	</event>
 	
 	<event name="CRYSTAL_TEST">

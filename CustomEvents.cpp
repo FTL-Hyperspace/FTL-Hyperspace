@@ -151,6 +151,7 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
                         if (child->first_attribute("force"))
                         {
                             customEvent->questForceNebula = EventsParser::ParseBoolean(child->first_attribute("force")->value());
+                            customEvent->questClearNebula = true;
                         }
 
                         if (child->first_attribute("nebulaEvent"))
@@ -682,17 +683,18 @@ HOOK_METHOD(StarMap, AddQuest, (const std::string& questEvent, bool force) -> bo
         }
     }
 
-    if ((bInfiniteMode || (questCustomEvent && questCustomEvent->questLastStand)) && worldLevel > 5)
+    if ((bInfiniteMode || (questCustomEvent && questCustomEvent->questLastStand)) && (worldLevel > 5 || bossLevel))
     {
         worldLevel = 5;
+        bool bossQuest = questCustomEvent && questCustomEvent->questLastStand && !questCustomEvent->questNoBoss;
 
-        if (bInfiniteMode || !(questCustomEvent && questCustomEvent->questNoBoss))
+        if (bInfiniteMode || bossQuest)
         {
             questActuallyEnoughTime = true;
         }
-        if (bossLevel && !(questCustomEvent && questCustomEvent->questNoBoss))
+        if (bossLevel)
         {
-            force = true;
+            force = bossQuest;
         }
     }
 
