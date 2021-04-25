@@ -2133,10 +2133,10 @@ namespace _func60
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("BlueprintManager::GetUnusedCrewName", typeid(void (*)(std::string *, BlueprintManager *, bool *)), "578d7c240883e4f0ff77fc5589e557565389ce8d5dd083ec4c8b178b47048b0d????????8945c08d427c8955bc8945c48d45d88945d0", argdata, 3, 4, &func);
+	static FunctionDefinition funcObj("BlueprintManager::GetUnusedCrewName", typeid(void (*)(std::string &, BlueprintManager *, bool *)), "578d7c240883e4f0ff77fc5589e557565383ec5c8b07894db4c7410400000000c6410800c745a815000000", argdata, 3, 4, &func);
 }
 
-__declspec(naked) void BlueprintManager::GetUnusedCrewName(std::string *strRef, BlueprintManager *bpM, bool *isMale_ret)
+__declspec(naked) void BlueprintManager::GetUnusedCrewName(std::string &strRef, BlueprintManager *bpM, bool *isMale_ret)
 {
 	__asm__
 	(
@@ -2171,10 +2171,10 @@ namespace _func61
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("BlueprintManager::GetCrewName", typeid(void (*)(std::string *, BlueprintManager *, bool *)), "578d7c240883e4f0ff77fc5589e557565389ce8d5dd083ec4c8b178b47048b0d????????8945c08d427c8955bc8945c4", argdata, 3, 4, &func);
+	static FunctionDefinition funcObj("BlueprintManager::GetCrewName", typeid(void (*)(std::string &, BlueprintManager *, bool *)), "578d7c240883e4f0ff77fc5589e557565389ce8d5dd083ec4c8b178b47048b0d????????8945c08d427c8955bc8945c4", argdata, 3, 4, &func);
 }
 
-__declspec(naked) void BlueprintManager::GetCrewName(std::string *strRef, BlueprintManager *bpM, bool *isMale_ret)
+__declspec(naked) void BlueprintManager::GetCrewName(std::string &strRef, BlueprintManager *bpM, bool *isMale_ret)
 {
 	__asm__
 	(
