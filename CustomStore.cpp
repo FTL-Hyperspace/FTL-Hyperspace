@@ -129,7 +129,10 @@ static StoreItem ParseStoreItemNode(rapidxml::xml_node<char>* node)
         if (name == "blueprint")
         {
             def.blueprint = val;
-
+        }
+        if (name == "mysteryItem")
+        {
+            def.mysteryItem = EventsParser::ParseBoolean(val);
         }
     }
 
@@ -229,6 +232,11 @@ void CustomStore::ParseStoreNode(rapidxml::xml_node<char>* node)
                     }
 
                     def.categories[group].push_back(cat);
+                }
+
+                if (cStoreName == "itemPurchaseLimit")
+                {
+                    def.purchaseLimit = boost::lexical_cast<int>(cStoreNode->value());
                 }
             }
 
@@ -744,10 +752,12 @@ void StoreComplete::OnInit(const StoreDefinition& def, ShipManager *ship, Equipm
 
             auto customBox = new CustomStoreBox();
             customBox->orig = newBoxes[boxIdx];
+            auto boxDef = cat.items[boxIdx];
             if (customBox->orig->pBlueprint)
             {
                 customBox->originalPrice = customBox->orig->pBlueprint->desc.cost;
                 customBox->showSale = true;
+                customBox->mysteryItem = boxDef.mysteryItem;
             }
             //customBox->orig->button.SetImageBase(customBox->orig->buttonImage + "_custom");
 
@@ -774,6 +784,8 @@ void StoreComplete::OnInit(const StoreDefinition& def, ShipManager *ship, Equipm
 
     leftButton->bActive = pages.size() > 1;
     rightButton->bActive = pages.size() > 1;
+
+    itemPurchaseLimit = def.purchaseLimit;
 
     SetPositions();
 }
@@ -822,6 +834,11 @@ void StoreComplete::SetPositions()
         rightButton = new Button();
         rightButton->OnInit(buttonImg, orig->position.x + 547, orig->position.y + 12);
         rightButton->bMirror = true;
+    }
+
+    if (!limitIndicator)
+    {
+        limitIndicator = G_->GetResources()->GetImageId("storeUI/store_limit_indicator.png");
     }
 
     leftButton->bActive = pages.size() > 1;
@@ -1019,6 +1036,18 @@ void StoreComplete::OnRender()
     sprintf(buffer, "%d", orig->shopper->ship.hullIntegrity.first);
     freetype::easy_print(0, orig->position.x + 143, orig->position.y + 432, buffer);
     orig->infoBox.OnRender();
+
+    if (itemPurchaseLimit != -1)
+    {
+        G_->GetResources()->RenderImage(limitIndicator, orig->position.x - 47, orig->position.y + 26, 0.f, COLOR_WHITE, 1.f, false);
+
+        CSurface::GL_SetColor(COLOR_BUTTON_ON);
+
+        std::string txt = std::to_string(itemPurchaseLimit - itemsPurchased);
+
+        freetype::easy_printCenter(0, orig->position.x - 16, orig->position.y + 60, txt);
+    }
+
     if (orig->confirmBuy)
     {
         CSurface::GL_RemoveColorTint();
@@ -1078,6 +1107,11 @@ void StoreComplete::OnLoop()
                 for (auto i : sec.storeBoxes[sec.currentSection])
                 {
                     i->orig->OnLoop();
+
+                    if (itemPurchaseLimit != -1 && itemsPurchased >= itemPurchaseLimit)
+                    {
+                        i->orig->button.SetActive(false);
+                    }
                 }
             }
         }
@@ -1087,8 +1121,22 @@ void StoreComplete::OnLoop()
     rightButton->OnLoop();
 }
 
+static StoreBox* g_purchasedStoreItem = nullptr;
+
+HOOK_METHOD(StoreBox, Purchase, () -> void)
+{
+    if (pBlueprint && pBlueprint->GetType() != 5)
+    {
+        g_purchasedStoreItem = this;
+    }
+
+    super();
+}
+
 void StoreComplete::MouseClick(int x, int y)
 {
+    g_purchasedStoreItem = nullptr;
+
     if (orig->confirmBuy)
     {
         orig->confirmDialog.MouseClick(x, y);
@@ -1098,7 +1146,6 @@ void StoreComplete::MouseClick(int x, int y)
             orig->confirmBuy->Confirm(orig->confirmDialog.result);
             orig->confirmBuy = nullptr;
         }
-
     }
 
     for (auto i : resourceBoxes)
@@ -1149,6 +1196,11 @@ void StoreComplete::MouseClick(int x, int y)
     {
         NextPage();
     }
+
+    if (g_purchasedStoreItem)
+    {
+        itemsPurchased++;
+    }
 }
 
 void StoreComplete::MouseMove(int x, int y)
@@ -1180,7 +1232,7 @@ void StoreComplete::MouseMove(int x, int y)
                 {
                     i->orig->MouseMove(x, y);
 
-                    if ((i->orig->button.bHover || i->orig->button.bSelected) && i->orig->count > 0)
+                    if ((i->orig->button.bHover || i->orig->button.bSelected) && i->orig->count > 0 && !i->mysteryItem)
                     {
                         i->orig->SetInfoBox(orig->infoBox, 347);
                     }
@@ -1195,10 +1247,13 @@ void StoreComplete::MouseMove(int x, int y)
 
 HOOK_METHOD(Store, KeyDown, (SDLKey key) -> void)
 {
-    STORE_EX(this)->customStore->KeyDown(key);
+    if (STORE_EX(this)->isCustomStore)
+    {
+        STORE_EX(this)->customStore->KeyDown(key);
+        return;
+    }
 
-    return;
-    super(key);
+    return super(key);
 }
 
 HOOK_METHOD(Store, OnRender, () -> void)
@@ -1329,6 +1384,7 @@ void StoreComplete::SaveStore(int file)
 
                         FileHelper::writeInt(file, storeBox->showSale);
                         FileHelper::writeInt(file, storeBox->originalPrice);
+                        FileHelper::writeInt(file, storeBox->mysteryItem);
                     }
                     else
                     {
@@ -1352,6 +1408,9 @@ void StoreComplete::SaveStore(int file)
     {
         FileHelper::writeInt(file, repairBoxes[0]->desc.cost);
     }
+
+    FileHelper::writeInt(file, itemPurchaseLimit);
+    FileHelper::writeInt(file, itemsPurchased);
 }
 
 void StoreComplete::LoadStore(int file, int worldLevel)
@@ -1416,6 +1475,7 @@ void StoreComplete::LoadStore(int file, int worldLevel)
 
                     box->showSale = FileHelper::readInteger(file);
                     box->originalPrice = FileHelper::readInteger(file);
+                    box->mysteryItem = FileHelper::readInteger(file);
 
                     boxSec.push_back(box);
                 }
@@ -1461,7 +1521,8 @@ void StoreComplete::LoadStore(int file, int worldLevel)
         repairBoxes.push_back(repairAll);
     }
 
-
+    itemPurchaseLimit = FileHelper::readInteger(file);
+    itemsPurchased = FileHelper::readInteger(file);
 }
 
 void StoreComplete::RelinkShip(ShipManager *ship, Equipment *equip)

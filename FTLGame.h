@@ -4062,7 +4062,7 @@ struct LIBZHL_INTERFACE StoreBox
 	LIBZHL_API virtual void MouseClick(int x, int y);
 	virtual void OnTouch() LIBZHL_PLACEHOLDER
 	LIBZHL_API virtual void Activate();
-	virtual void Purchase() LIBZHL_PLACEHOLDER
+	LIBZHL_API virtual void Purchase();
 	virtual int SetInfoBox(InfoBox&, int) LIBZHL_PLACEHOLDER
 	virtual bool CanHold() LIBZHL_PLACEHOLDER
 	virtual bool RequiresConfirm() LIBZHL_PLACEHOLDER

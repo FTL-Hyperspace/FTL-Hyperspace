@@ -12,6 +12,8 @@ void StoreBox::OnLoop(StoreBox *this<ecx>);
 void StoreBox::SetPosition(StoreBox *this<ecx>, Point pos);
 "578d7c240883e4f0ff77fc5589e557565389cf8d492481ec????????80b920010000000f84????????e8????????":
 void StoreBox::OnRender(StoreBox *this<ecx>);
+"57ba????????8d7c240883e4f0ff77fc5589e55756538d7dd08d75d889cbb9????????83ec3c8975d0":
+void StoreBox::Purchase(StoreBox *this<ecx>);
 
 struct StoreBox
 {{
