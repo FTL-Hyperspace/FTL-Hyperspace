@@ -1,3 +1,5 @@
+<text name="no_time_sector">Upon examining your map, you realize you just won't have time and need to get to the next sector! You leave the quest for another day.</text>
+
 <mod:findName type="text" name="no_type_c">
   <mod:setValue>Hangar Empty</mod:setValue>
 </mod:findName>
