@@ -69,6 +69,7 @@ struct StoreItem
 
     int stock = -1; // infinite by default
     Currency individualCurrency; // uses the store's currency by default
+    bool mysteryItem = false;
 };
 
 struct StoreCategory
@@ -100,7 +101,8 @@ struct StoreDefinition
     std::vector<Currency> validSells; // is weapons, drones, augments by default
     std::vector<std::string> validItemSells;
 
-    int totalItemStock = -1; // infinite by default
+    int purchaseLimit = -1; // infinite by default
+    int scrapPurchaseLimit = -1;
     int sellLimit = -1;
 
     int storeNum; // for when multiple stores are created at once
@@ -114,6 +116,7 @@ public:
     StoreBox *orig = nullptr;
     bool showSale = false;
     int originalPrice = -1;
+    bool mysteryItem = false;
 
     ~CustomStoreBox()
     {
@@ -149,8 +152,14 @@ class StoreComplete
 
     Button* leftButton = nullptr;
     Button* rightButton = nullptr;
+    GL_Texture *limitIndicator = nullptr;
 
     int currentPage = 0;
+
+    int itemPurchaseLimit = -1;
+
+    int itemsPurchased = 0;
+    int scrapPurchased = 0;
 
 public:
     void OnRender();

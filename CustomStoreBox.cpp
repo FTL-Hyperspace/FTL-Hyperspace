@@ -30,6 +30,11 @@ void CustomStoreBox::OnRender()
                 {
                     text = ((CrewBlueprint*)orig->pBlueprint)->GetNameShort();
                 }
+                if (mysteryItem)
+                {
+                    text = "?";
+                }
+
                 freetype::easy_printCenter(6, 59.f, 58.f, text);
             }
 
@@ -59,7 +64,15 @@ void CustomStoreBox::OnRender()
             CSurface::GL_Translate(orig->pushIcon.x + 60.f, orig->pushIcon.y + 34.f);
             if (orig->pBlueprint)
             {
-                orig->pBlueprint->RenderIcon(orig->fIconScale);
+                if (mysteryItem)
+                {
+                    CSurface::GL_SetColor(COLOR_BUTTON_ON);
+                    freetype::easy_printCenter(24, 0.f, -26.f, "?");
+                }
+                else
+                {
+                    orig->pBlueprint->RenderIcon(orig->fIconScale);
+                }
             }
 
             CSurface::GL_PopMatrix();
@@ -70,7 +83,7 @@ void CustomStoreBox::OnRender()
 
     if (orig->count <= 0) return;
 
-    if (orig->symbol)
+    if (orig->symbol && !mysteryItem)
     {
         CSurface::GL_PushMatrix();
         CSurface::GL_Translate(orig->button.position.x, orig->button.position.y);
@@ -97,6 +110,9 @@ void CustomStoreBox::OnRender()
         if (orig->desc.cost != -1)
         {
             std::string txt = orig->desc.title.GetText();
+
+            if (mysteryItem) txt = "?";
+
             freetype::easy_print(14,orig-> button.position.x + 48.f, orig->button.position.y + 2.f, txt);
             freetype::easy_print(0, orig->button.position.x + 345.f, orig->button.position.y + 14.f, std::to_string(orig->desc.cost));
         }
@@ -107,3 +123,20 @@ HOOK_METHOD(SystemStoreBox, CanHold, () -> bool)
 {
     return super() && !shopper->HasSystem(type);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
