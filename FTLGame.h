@@ -2067,6 +2067,8 @@ struct BlueprintManager
 	LIBZHL_API WeaponBlueprint *GetWeaponBlueprint(const std::string &name);
 	LIBZHL_API static AugmentBlueprint *__stdcall GetRandomAugment(AugmentBlueprint *bp, BlueprintManager *bpM);
 	LIBZHL_API SystemBlueprint *GetSystemBlueprint(const std::string &name);
+	LIBZHL_API static void __stdcall GetUnusedCrewName(std::string *strRef, BlueprintManager *bpM, bool *isMale_ret);
+	LIBZHL_API static void __stdcall GetCrewName(std::string *strRef, BlueprintManager *bpM, bool *isMale_ret);
 	
 	int rarityTotal;
 	std::map<std::string, ShipBlueprint> shipBlueprints;
