@@ -2269,11 +2269,9 @@ HOOK_METHOD(ShipObject, HasEquipment, (const std::string& name) -> int)
 //                        {
 //                            return GetAugmentationValue("ALL_CREW_DETECT_LIFEFORMS");
 //                        }
-                        if (ex->temporaryPowerActive && def.powerDef.tempPower.detectsLifeforms.enabled && def.powerDef.tempPower.detectsLifeforms.value)
-                        {
-                            return 1;
-                        }
-                        else if (def.detectsLifeforms && i->Functional())
+                        bool detectsLifeforms;
+                        ex->CalculateStat(CrewStat::DETECTS_LIFEFORMS, def, &detectsLifeforms);
+                        if (detectsLifeforms && i->Functional())
                         {
                             return 1;
                         }

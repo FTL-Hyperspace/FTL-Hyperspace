@@ -21,9 +21,10 @@ public:
         int currentAmount = 0;
     };
 
-    Setting holdButton;
+//    Setting holdButton;
 
 //    Setting hullNumbers;
+    Setting redesignedWeaponTooltips;
 
     Setting advancedCrewTooltips;
     Setting showAllyPowers;

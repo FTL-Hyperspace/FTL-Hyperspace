@@ -98,6 +98,13 @@ void Global::InitializeResources(ResourceControl *resources)
                 g_hackingDroneFix = EventsParser::ParseBoolean(enabled);
             }
 
+            if (strcmp(node->name(), "redesignedWeaponTooltips") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->redesignedWeaponTooltips.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->redesignedWeaponTooltips.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
             if (strcmp(node->name(), "eventTooltips") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();

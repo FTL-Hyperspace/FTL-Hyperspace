@@ -140,7 +140,7 @@ HOOK_METHOD(CommandGui, KeyDown, (SDLKey key, bool shiftHeld) -> void)
     }
 
     auto custom = CustomOptionsManager::GetInstance();
-    if (key == Settings::GetHotkey("info") && custom->holdButton.currentValue == false)
+    if (key == Settings::GetHotkey("info"))
     {
         if (custom->showAllyPowers.defaultValue != true)
         {
@@ -165,6 +165,11 @@ HOOK_METHOD(CommandGui, KeyDown, (SDLKey key, bool shiftHeld) -> void)
         if (custom->showWeaponCooldown.defaultValue != true)
         {
             custom->showWeaponCooldown.currentValue = !custom->showWeaponCooldown.currentValue;
+        }
+
+        if (custom->redesignedWeaponTooltips.defaultValue != true)
+        {
+            custom->redesignedWeaponTooltips.currentValue = !custom->redesignedWeaponTooltips.currentValue;
         }
     }
 
