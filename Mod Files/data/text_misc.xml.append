@@ -57,6 +57,29 @@
 </mod:findName>
 <text name="weapon_cooldown_negative">Disabled</text>
 
+<!-- Redesigned Weapon Tooltips -->
+
+<text name="description_stats">Stats:</text>
+<text name="requires_no_power">Requires no power</text>
+<text name="provides_bonus_power">Provides Bonus Power</text>
+<text name="cannot_fire">Can't be shot</text>
+<text name="ammo_consumption">Missile Consumption: \1</text>
+<text name="redesigned_boost_power_damage_positive">Chain Effect: Increase damage by \1</text>
+<text name="redesigned_boost_power_damage_negative">Chain Effect: Decrease damage by \1</text>
+<text name="redesigned_boost_power_speed_positive">Chain Effect: Decrease cooldown by \1</text>
+<text name="redesigned_boost_power_speed_negative">Chain Effect: Increase cooldown by \1</text>
+<text name="redesigned_damage_cap">Chain Damage Cap: \1 damage (\2 chains)</text>
+<text name="redesigned_speed_cap">Chain Cooldown Cap: \1 (\2 chains)</text>
+<text name="shot_radius">Shot Radius: \1</text>
+<text name="beam_length">Beam Length: \1</text>
+<text name="swipe_speed">Beam Speed: \1</text>
+<text name="redesigned_double_damage">2x hull damage on systemless rooms.</text>
+<text name="redesigned_damage_room">Normal Damage Per Room: \1 (x15 for crew)</text>
+<text name="redesigned_damage_shot">Normal Damage Per Shot: \1 (x15 for crew)</text>
+<text name="hull_damage">Hull Damage: \1</text>
+<text name="stun_length">seconds long</text>
+<text name="weapon_lockdown">Locks down rooms on hit</text>
+
 <!-- Hotkeys -->
 
 <text name="hotkey_speed">Toggle Speedhack</text>

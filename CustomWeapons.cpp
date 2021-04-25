@@ -321,24 +321,24 @@ HOOK_STATIC(WeaponBlueprint, GetDescription, (std::string* strRef, WeaponBluepri
                 descText += tLib->GetText("redesigned_double_damage") + "\n";
             }
 
-            if (bp->damage.iPersDamage == 0 && bp->damage.iSystemDamage == 0)
-            {
-                if (bp->damage.iDamage != 0)
-                {
-                    if (bp->type == 2)
-                    {
-                        currentText = tLib->GetText("redesigned_damage_room");
-                        descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp->damage.iDamage)) + "\n";
-                    }
-                    else
-                    {
-                        currentText = tLib->GetText("redesigned_damage_shot");
-                        descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp->damage.iDamage)) + "\n";
-                    }
-                }
-            }
-            else
-            {
+//            if (bp->damage.iPersDamage == 0 && bp->damage.iSystemDamage == 0)
+//            {
+//                if (bp->damage.iDamage != 0)
+//                {
+//                    if (bp->type == 2)
+//                    {
+//                        currentText = tLib->GetText("redesigned_damage_room");
+//                        descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp->damage.iDamage)) + "\n";
+//                    }
+//                    else
+//                    {
+//                        currentText = tLib->GetText("redesigned_damage_shot");
+//                        descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp->damage.iDamage)) + "\n";
+//                    }
+//                }
+//            }
+//            else
+//            {
                 if (bp->type == 2)
                 {
                     if (bp->damage.iDamage != 0)
@@ -375,7 +375,7 @@ HOOK_STATIC(WeaponBlueprint, GetDescription, (std::string* strRef, WeaponBluepri
                         descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string((bp->damage.iDamage + bp->damage.iPersDamage) * 15)) + "\n";
                     }
                 }
-            }
+//            }
 
             if (bp->damage.iIonDamage != 0)
             {
@@ -400,6 +400,12 @@ HOOK_STATIC(WeaponBlueprint, GetDescription, (std::string* strRef, WeaponBluepri
             boost::trim_right(descText);
             descText += "\n\n";
 
+
+            if (bp->damage.bLockdown)
+            {
+                currentText = tLib->GetText("weapon_lockdown");
+                descText += currentText + "\n";
+            }
             if (bp->damage.fireChance > 0)
             {
                 currentText = tLib->GetText("fire_chance");
