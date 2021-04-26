@@ -1069,7 +1069,6 @@ void CrewMember_Extend::ActivateTemporaryPower()
 void CrewMember_Extend::PreparePower()
 {
     ActivatedPowerDefinition powerDef = CustomCrewManager::GetInstance()->GetDefinition(orig->species).powerDef;
-    auto aex = CMA_EX(orig->crewAnim);
 
     powerShip = orig->currentShipId;
     powerRoom = orig->iRoomId;
@@ -1082,6 +1081,8 @@ void CrewMember_Extend::PreparePower()
     {
         ActivateTemporaryPower();
     }
+
+    auto aex = CMA_EX(orig->crewAnim);
 
     if (aex->effectAnim != nullptr)
     {
@@ -1210,6 +1211,8 @@ void CrewMember_Extend::ActivatePower()
         orig->crewAnim->bDrone = newCrewAnim->bDrone;
         orig->crewAnim->bGhost = newCrewAnim->bGhost;
         orig->crewAnim->race = newCrewAnim->race;
+
+        delete newCrewAnim;
 
         Initialize(orig->blueprint, orig->iShipId, orig->iShipId == 1, orig->crewAnim);
 
@@ -1349,8 +1352,7 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
                 replaceLayers = true;
             }
 
-            //delete animation;
-            // commenting this out ^ may cause memory leak but it's the only way I can get it to not crash
+            delete animation;
 
             blockAddSoundQueue = true;
             orig->crewAnim = new RockAnimation(bp.name, shipId, Pointf(0, 0), enemy);
@@ -1387,8 +1389,7 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
                 replaceLayers = true;
             }
 
-            //delete animation;
-            // commenting this out ^ may cause memory leak but it's the only way I can get it to not crash
+            delete animation;
 
             orig->crewAnim = new MantisAnimation;
             orig->crewAnim->constructor(shipId, bp.name, Pointf(0, 0), enemy);
@@ -1687,12 +1688,17 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
         {
             aex->effectAnim->Update();
             auto def = custom->GetDefinition(species);
+
+            // Do it this way since ActivatePower() might delete aex if the crewmember transforms into a different race.
+            bool activateTemporaryPower = !aex->temporaryPowerActive && def.powerDef.tempPower.animFrame != -1 && aex->effectAnim->tracker.running && aex->effectAnim->currentFrame == def.powerDef.tempPower.animFrame;
+
             if (!aex->powerDone && def.powerDef.animFrame != -1 && aex->effectAnim->tracker.running && aex->effectAnim->currentFrame == def.powerDef.animFrame)
             {
                 ex->ActivatePower();
+                aex = CMA_EX(crewAnim);
             }
 
-            if (!aex->temporaryPowerActive && def.powerDef.tempPower.animFrame != -1 && aex->effectAnim->tracker.running && aex->effectAnim->currentFrame == def.powerDef.tempPower.animFrame)
+            if (activateTemporaryPower)
             {
                 ex->ActivateTemporaryPower();
             }
