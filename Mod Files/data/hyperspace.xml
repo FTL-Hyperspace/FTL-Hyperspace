@@ -79,15 +79,31 @@ This means that you can't get past defense drones easily anymore
 
 <!--  Shows the power list of crew that are moused over
 Primarily useful for mods that add significant amounts of custom crew
+
+Ally: whether ally powers are displayed when mousing over crew
+Enemy: whether enemy powers are displayed when mousing over crew
+Rounding: the number of decimal places to show health to, e.g. rounding of 1 means you'll see numbers like "45.5"
 -->
 
-<advancedCrewTooltips enabled="true"/>
+<advancedCrewTooltips enabled="true" ally="false" enemy="false" rounding="2"/>
 
 <!--  Shows the info box of equipment/crew that are moused over
 Perfect for mods that add lots of custom equipment and/or to reduce memorization in general
 -->
 
 <eventTooltips enabled="true"/>
+
+<!--  Shows the cooldown of weapons above their box
+Tends to be helpful when you have multiple sources of cooldown reduction
+-->
+
+<showNumericalWeaponCooldown enabled="true"/>
+
+<!--  Shows newly redesigned weapon tooltips with more info and (maybe) better organization
+Tends to be helpful with "weirder" weapons in mods due to having more clear information (e.g. separating hull/system/crew damage)
+-->
+
+<redesignedWeaponTooltips enabled="true"/>
 
 <!-- Custom title screen
 Changes the background and logo and moves the FTL logo slightly -->
@@ -249,13 +265,15 @@ jumpCooldown can either be "continue", "reset", or "full", and it is "full" by d
 
 animSheet pulls from img/people/<animSheet>.png and acts as a layer on top of the crew
 
-healSpeed determines how fast crew heal in the medbay and how fast drones heal in the drone control room.
+healSpeed determines how fast crew heal in the medbay/from non-true healing sources and how fast drones heal in the drone control room.
 
 When animFrame is set for <powerEffect> and <temporaryPowerEffect> it makes it so that the effect only happens on that frame of the effect animation.
 
 When animSoundFrame is set for <repairSounds> AND <animBase> is rock, instead of having a looping repair sound it will instead play a single sound at that frame of the animation.
 
 <transformRace> in <powerEffect> allows the crewmember to transform into another race while keeping their name and skills
+
+<nameRace> allows the crewmember to change into a different race if they are given a certain name (indicated by the transformName attribute), and the changeIfSame attribute (default to true) specifies whether they change when they *are* named that, or *aren't* named that
 
 <animBase> can be either mantis or rock
 
@@ -264,6 +282,7 @@ Syntax ->
 <crew>
 	(default human values)
 	<race name="newRace">
+		<nameRace transformName="Admiral Billy" changeIfSame="true">newRace2</nameRace>
 		<canFight>true</canFight>
 		<controllable>true</controllable>
 		<canRepair>true</canRepair>
@@ -298,6 +317,7 @@ Syntax ->
 		<damageTakenMultiplier>1.0</damageTakenMultiplier>
 		<passiveHealAmount>1.0</passiveHealAmount>
 		<passiveHealDelay>15</passiveHealDelay>
+		<trueHealAmount>2.0</trueHealAmount>
 		<detectsLifeforms>false</detectsLifeforms>
 		<healCrewAmount>0.0</healCrewAmount>
 		<skills>
@@ -630,6 +650,107 @@ Syntax ->
 <augments>
 
 </augments>
+
+<!-- Stat boosts
+
+Stat boosts can be added in one of two ways: through crew, and through augments.
+For augments and crew active abilities, statboosts should be placed in a <statBoosts> tag (as many as you want, the <statBoosts> tag should contain all of them)
+For passive crew boosts, they should be placed in a <passiveStatBoosts> tag, but otherwise the code is the same
+As the name implies, stat boosts can be used to boost (or just generally modify) a given stat, but also you can use stat boosts to apply other stat boosts to crew (therefore buffing everyone except the recipient) by using "statBoost" for the statBoost name
+
+boostType: what the boost does to the stat; for numerical amounts, it can be FLAT, MULT, or SET, and for true/false values it can be SET or FLIP
+value/amount: use value for true/false stats and amount for numerical ones
+shipTarget: the ship/room that the statBoost affects. For augments, you can use PLAYER_SHIP, ENEMY_SHIP, ORIGINAL_SHIP, ORIGINAL_OTHER_SHIP, or ALL, and for crew you can use the same but also OTHER_ALL, CURRENT_ROOM, and CURRENT_ALL
+crewTarget: determines what crew the boost affects. it can be ALLIES, ENEMIES, or ALL
+droneTarget: determines whether the boost affects drones or not. it can be DRONES, CREW, or ALL (the default)
+whiteList/blackList: determines the species that the boost applies to. whiteLists mean that only those species get the boost, and blackLists mean that only those species won't get the boost.
+affectsSelf: determines if the boost affects the source in addition to its normal targets, defaults to false
+priority: determines the timing of when the boost gets applied, useful when you want to change how things stack. A bigger priority number means that the boost is calculated first, and the default priority is 0
+systemList: the list of systems to use with the next variable. can be the file-name of any system (e.g. "mind") or all
+systemRoomTarget: determines if the boost only works in the systems provided, or only *doesn't* work in those systems.
+systemPowerDependency: determines the systems that affect the power of this stat boost. can be any amount of system file names, reactorMax, reactorCurrent, or all
+systemPowerScaling: determines how the boost is affected by the total power bars within the systems in systemPowerDependency. The tag name doesn't matter; the first value is used when the system isn't there, the second is used when the system is offline, and the third onwards determines the power at each given bar of power (with any amount of power over the max using the last number)
+deathEffect: can be used to add any <deathEffect> as an additional part of the statBoost
+duration: for augments, determines how long a boost will apply after jumping, measured in seconds
+boostAnim: the animation that shows up on crew members that are affected by the boost.
+
+Stat boost syntax examples->
+
+<statBoost name = "canBurn">
+	<boostType>SET</boostType>
+	<value>TRUE</value>
+	<shipTarget>ALL</shipTarget>
+	<crewTarget>ENEMIES</crewTarget>
+	<droneTarget>CREW</droneTarget>
+	<blackList>
+		<superRock/>
+	</blackList>
+	<duration>15</duration>
+	<priority>0</priority>
+	<boostAnim>fireVulnerabilityAnimation</boostAnim>
+</statBoost>
+
+<statBoost name = "fireDamageMultiplier">
+	<boostType>MULT</boostType>
+	<shipTarget>ALL</shipTarget>
+	<crewTarget>ENEMIES</crewTarget>
+	<amount>2.0</amount>
+	<priority>9998</priority>
+	<systemRoomTarget>ALL</systemRoomTarget>
+	<systemList>
+		<all/>
+	</systemList>
+	<systemPowerDependency>
+		<weapons/>
+	</systemPowerDependency>
+	<systemPowerScaling>
+		<noSys>0.0</noSys>
+		<noPwr>0.5</noPwr>
+		<onePwr>1.0</onePwr>
+		<twoPwr>2.0</twoPwr>
+		<threePwr>3.0</threePwr>
+		<morePwr>4.0</morePwr>
+	</systemPowerScaling>
+</statBoost>
+
+<statBoost name = "statBoost">
+	<shipTarget>ALL</shipTarget>
+	<crewTarget>ENEMIES</crewTarget>
+	<priority>9998</priority>
+	<systemRoomTarget>ALL</systemRoomTarget>
+	<systemList>
+		<all/>
+	</systemList>
+	<statBoost>
+		(insert another statBoost here to apply to all affected targets)
+	</statBoost>
+</statBoost>
+
+Syntax (for an augment)->
+
+<aug name="WEIRD_FIRE_ENHANCER">
+	<statBoosts>
+		<statBoost name = "canBurn">
+			(insert statBoost here)
+		</statBoost>
+	</statBoosts>
+</aug>
+
+Syntax (for crew)->
+
+<race name="fireBoi">
+	<passiveStatBoosts>
+		(insert statBoost here)
+	</passiveStatBoosts>
+	<powerEffect>
+		(insert rest of ability)
+		<statBoosts>
+			(insert statBoost here)
+		</statBoosts>
+	</abilityEffect>
+</race>
+
+-->
 
 <!-- Custom Event Characteristics
 
