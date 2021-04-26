@@ -1349,7 +1349,8 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
                 replaceLayers = true;
             }
 
-            delete animation;
+            //delete animation;
+            // commenting this out ^ may cause memory leak but it's the only way I can get it to not crash
 
             blockAddSoundQueue = true;
             orig->crewAnim = new RockAnimation(bp.name, shipId, Pointf(0, 0), enemy);
@@ -1386,7 +1387,8 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
                 replaceLayers = true;
             }
 
-            delete animation;
+            //delete animation;
+            // commenting this out ^ may cause memory leak but it's the only way I can get it to not crash
 
             orig->crewAnim = new MantisAnimation;
             orig->crewAnim->constructor(shipId, bp.name, Pointf(0, 0), enemy);
