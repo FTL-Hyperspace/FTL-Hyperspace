@@ -375,9 +375,9 @@ HOOK_METHOD(WeaponControl, MouseMove, (int x, int y) -> void)
     }
 }
 
-HOOK_METHOD(WeaponControl, LButton, (int x, int y) -> void)
+HOOK_METHOD(WeaponControl, LButton, (int x, int y, bool holdingShift) -> bool)
 {
-    super(x, y);
+    bool ret = super(x, y);
 
     if (this->shipManager->myBlueprint.weaponSlots <= 2 && this->shipManager->myBlueprint.weaponSlots > 0 && this->shipManager->HasSystem(3))
     {
@@ -394,13 +394,16 @@ HOOK_METHOD(WeaponControl, LButton, (int x, int y) -> void)
                 smallAutoFireButton->bRenderSelected = false;
                 smallAutoFireButton->bRenderOff = true;
             }
+            return autoFiring;
         }
     }
+
+    return ret;
 }
 
-HOOK_METHOD(WeaponControl, KeyDown, (SDLKey key) -> int)
+HOOK_METHOD(WeaponControl, KeyDown, (SDLKey key) -> bool)
 {
-    int ret = super(key);
+    bool ret = super(key);
 
     if (this->shipManager->myBlueprint.weaponSlots <= 2 && this->shipManager->myBlueprint.weaponSlots > 0 && this->shipManager->HasSystem(3))
     {
@@ -421,6 +424,7 @@ HOOK_METHOD(WeaponControl, KeyDown, (SDLKey key) -> int)
                     smallAutoFireButton->bRenderSelected = false;
                     smallAutoFireButton->bRenderOff = true;
                 }
+                return autoFiring;
             }
         }
     }

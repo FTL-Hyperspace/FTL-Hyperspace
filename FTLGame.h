@@ -3414,12 +3414,12 @@ struct WeaponControl : ArmamentControl
 {
 	LIBZHL_API void Fire(std::vector<Pointf> &points, int target, bool autoFire);
 	LIBZHL_API void OnRender();
-	LIBZHL_API void LButton(int x, int y);
+	LIBZHL_API bool LButton(int x, int y, bool holdingShift);
 	LIBZHL_API void MouseMove(int x, int y);
 	LIBZHL_API void LinkShip(ShipManager *ship);
 	LIBZHL_API void constructor();
 	LIBZHL_API void SetAutofiring(bool on, bool simple);
-	LIBZHL_API int KeyDown(SDLKey key);
+	LIBZHL_API bool KeyDown(SDLKey key);
 	
 	Targetable *currentTarget;
 	ProjectileFactory *armedWeapon;
