@@ -13,4 +13,4 @@ void WeaponControl::constructor(WeaponControl *this<ecx>);
 "578d7c240883e4f0ff77fc5589e557565389ce83ec5c8b078b7f04f30f101d????????84c08881940000000f84????????f30f1005????????f30f100d????????":
 void WeaponControl::SetAutofiring(WeaponControl *this<ecx>, bool on, bool simple);
 "578d7c240883e4f0ff77fc5589e557565389ce83ec4c8b3f893c24e8????????83ec0484c0":
-void WeaponControl::KeyDown(WeaponControl *this<ecx>, SDLKey key);
+int WeaponControl::KeyDown(WeaponControl *this<ecx>, SDLKey key);
