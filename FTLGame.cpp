@@ -36365,17 +36365,16 @@ namespace _func1017
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("WeaponControl::KeyDown", typeid(void (WeaponControl::*)(SDLKey )), "578d7c240883e4f0ff77fc5589e557565389ce83ec4c8b3f893c24e8????????83ec0484c0", argdata, 2, 5, &func);
+	static FunctionDefinition funcObj("WeaponControl::KeyDown", typeid(int (WeaponControl::*)(SDLKey )), "578d7c240883e4f0ff77fc5589e557565389ce83ec4c8b3f893c24e8????????83ec0484c0", argdata, 2, 1, &func);
 }
 
-__declspec(naked) void WeaponControl::KeyDown(SDLKey key)
+__declspec(naked) int WeaponControl::KeyDown(SDLKey key)
 {
 	__asm__
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
 		"push edx\n\t"
-		"push eax\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
 		"push esi\n\t"
@@ -36389,7 +36388,6 @@ __declspec(naked) void WeaponControl::KeyDown(SDLKey key)
 		"pop esi\n\t"
 		"pop ebx\n\t"
 		"pop ecx\n\t"
-		"pop eax\n\t"
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"

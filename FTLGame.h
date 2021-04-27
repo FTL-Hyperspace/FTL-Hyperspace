@@ -3419,7 +3419,7 @@ struct WeaponControl : ArmamentControl
 	LIBZHL_API void LinkShip(ShipManager *ship);
 	LIBZHL_API void constructor();
 	LIBZHL_API void SetAutofiring(bool on, bool simple);
-	LIBZHL_API void KeyDown(SDLKey key);
+	LIBZHL_API int KeyDown(SDLKey key);
 	
 	Targetable *currentTarget;
 	ProjectileFactory *armedWeapon;
