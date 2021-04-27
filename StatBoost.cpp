@@ -857,6 +857,9 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition& def,
         case CrewStat::PASSIVE_HEAL_AMOUNT:
             finalStat = (temporaryPowerActive && def.powerDef.tempPower.passiveHealAmount.enabled) ? def.powerDef.tempPower.passiveHealAmount.value : def.passiveHealAmount;
             break;
+        case CrewStat::TRUE_PASSIVE_HEAL_AMOUNT:
+            finalStat = (temporaryPowerActive && def.powerDef.tempPower.truePassiveHealAmount.enabled) ? def.powerDef.tempPower.truePassiveHealAmount.value : def.truePassiveHealAmount;
+            break;
         case CrewStat::TRUE_HEAL_AMOUNT:
             finalStat = (temporaryPowerActive && def.powerDef.tempPower.trueHealAmount.enabled) ? def.powerDef.tempPower.trueHealAmount.value : def.trueHealAmount;
             break;

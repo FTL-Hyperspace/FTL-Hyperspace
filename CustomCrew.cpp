@@ -306,6 +306,10 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                         {
                             crew.trueHealAmount = boost::lexical_cast<float>(val);
                         }
+                        if (str == "truePassiveHealAmount")
+                        {
+                            crew.truePassiveHealAmount = boost::lexical_cast<float>(val);
+                        }
                         if (str == "passiveHealDelay")
                         {
                             crew.passiveHealDelay = boost::lexical_cast<int>(val);
@@ -1401,8 +1405,8 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
             }
         }
         float passiveHealAmount = CalculateStat(CrewStat::PASSIVE_HEAL_AMOUNT, def);
-        float trueHealAmount = CalculateStat(CrewStat::TRUE_HEAL_AMOUNT, def);
-        if (passiveHealAmount != 0.f || trueHealAmount != 0.f)
+        float truePassiveHealAmount = CalculateStat(CrewStat::TRUE_PASSIVE_HEAL_AMOUNT, def);
+        if (passiveHealAmount != 0.f || truePassiveHealAmount != 0.f)
         {
             float passiveHealDelay = CalculateStat(CrewStat::PASSIVE_HEAL_DELAY, def);
             if (passiveHealDelay > 0)
@@ -1541,6 +1545,7 @@ HOOK_METHOD_PRIORITY(CrewMember, UpdateHealth, 2000, () -> void)
         float passiveHealAmount = ex->CalculateStat(CrewStat::PASSIVE_HEAL_AMOUNT, def);
         float healAmount = ex->CalculateStat(CrewStat::ACTIVE_HEAL_AMOUNT, def);
         float trueHealAmount = ex->CalculateStat(CrewStat::TRUE_HEAL_AMOUNT, def);
+        float truePassiveHealAmount = ex->CalculateStat(CrewStat::TRUE_PASSIVE_HEAL_AMOUNT, def);
 
         if (healAmount != 0.f && Functional())
         {
@@ -1558,13 +1563,21 @@ HOOK_METHOD_PRIORITY(CrewMember, UpdateHealth, 2000, () -> void)
             }
             DirectModifyHealth(G_->GetCFPS()->GetSpeedFactor() * passiveHealAmount * mod * 0.06245f);
         }
-        if (ex->isHealing && trueHealAmount != 0.f && health.first != health.second && Functional())
+        if (trueHealAmount != 0.f && Functional())
         {
             if (trueHealAmount > 0.f && health.first != health.second)
             {
                 fMedbay += 0.0000000001;
             }
             DirectModifyHealth(G_->GetCFPS()->GetSpeedFactor() * trueHealAmount * 0.06245f);
+        }
+        if (ex->isHealing && truePassiveHealAmount != 0.f && health.first != health.second && Functional())
+        {
+            if (trueHealAmount > 0.f && health.first != health.second)
+            {
+                fMedbay += 0.0000000001;
+            }
+            DirectModifyHealth(G_->GetCFPS()->GetSpeedFactor() * truePassiveHealAmount * 0.06245f);
         }
     }
 

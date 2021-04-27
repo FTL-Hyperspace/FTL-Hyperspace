@@ -110,6 +110,7 @@ struct TemporaryPowerDefinition
     ToggleValue<bool> detectsLifeforms;
     ToggleValue<float> damageTakenMultiplier;
     ToggleValue<float> passiveHealAmount;
+    ToggleValue<float> truePassiveHealAmount;
     ToggleValue<float> trueHealAmount;
     ToggleValue<int> passiveHealDelay;
     ToggleValue<float> sabotageSpeedMultiplier;
@@ -220,6 +221,7 @@ struct CrewDefinition
     float oxygenChangeSpeed = 0.f;
     float damageTakenMultiplier = 1.f;
     float passiveHealAmount = 0.f;
+    float truePassiveHealAmount = 0.f;
     float trueHealAmount = 0.f;
     int passiveHealDelay = 0;
     bool detectsLifeforms = false;

@@ -39,6 +39,7 @@ enum class CrewStat
     OXYGEN_CHANGE_SPEED,
     DAMAGE_TAKEN_MULTIPLIER,
     PASSIVE_HEAL_AMOUNT,
+    TRUE_PASSIVE_HEAL_AMOUNT,
     TRUE_HEAL_AMOUNT,
     PASSIVE_HEAL_DELAY,
     ACTIVE_HEAL_AMOUNT,
@@ -69,7 +70,7 @@ enum class CrewStat
     DEFAULT_SKILL_LEVEL
 };
 
-static const std::array<std::string, 40> crewStats =
+static const std::array<std::string, 41> crewStats =
 {
     "maxHealth",
     "stunMultiplier",
@@ -83,6 +84,7 @@ static const std::array<std::string, 40> crewStats =
     "oxygenChangeSpeed",
     "damageTakenMultiplier",
     "passiveHealAmount",
+    "truePassiveHealAmount",
     "trueHealAmount",
     "passiveHealDelay",
     "healAmount",
