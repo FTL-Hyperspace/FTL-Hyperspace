@@ -4805,6 +4805,7 @@ struct ShipStatus
 	LIBZHL_API void RenderHealth(bool unk);
 	LIBZHL_API void OnInit(Point unk, float unk2);
 	LIBZHL_API void RenderEvadeOxygen(bool unk);
+	LIBZHL_API void OnRender();
 	
 	Point location;
 	float size;
