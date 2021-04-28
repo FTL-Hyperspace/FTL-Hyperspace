@@ -1,1 +1,4 @@
 <phase volume="6">aliens/bp_phase.ogg</phase>
+
+<moreInfoOn volume="10">ui/select_up1.wav</moreInfoOn>
+<moreInfoOff volume="10">ui/select_down2.wav</moreInfoOff>

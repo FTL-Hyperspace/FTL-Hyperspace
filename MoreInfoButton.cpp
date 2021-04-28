@@ -38,6 +38,8 @@ HOOK_METHOD(CommandGui, OnLoop, () -> void)
         custom->showWeaponCooldown.currentValue = true;
         custom->redesignedWeaponTooltips.currentValue = true;
         moreInfoButton->SetImageBase("statusUI/moreInfoButtonOn");
+
+        G_->GetSoundControl()->PlaySoundMix("moreInfoOn", -1.f, false);
     }
     else if (custom->altModeChanged)
     {
@@ -48,6 +50,8 @@ HOOK_METHOD(CommandGui, OnLoop, () -> void)
         custom->showWeaponCooldown.currentValue = custom->showWeaponCooldown.defaultValue;
         custom->redesignedWeaponTooltips.currentValue = custom->redesignedWeaponTooltips.defaultValue;
         moreInfoButton->SetImageBase("statusUI/moreInfoButtonOff");
+
+        G_->GetSoundControl()->PlaySoundMix("moreInfoOff", -1.f, false);
     }
 }
 
