@@ -9,7 +9,7 @@
 </mod:findName>
 
 <mod:findName type="text" name="version">
-  <mod:setValue>\1 (Hyperspace 0.6)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 0.7)</mod:setValue>
 </mod:findName>
 
 <mod:findName type="text" name="fire_chance">
@@ -54,9 +54,7 @@
 <text name="power_not_ready_system_damaged">Not Ready: No damaged system in room</text>
 <text name="power_not_ready_teleporting">Not Ready: Can't transform mid-teleport</text>
 
-<mod:findName type="text" name="health_tooltip">
-  <mod:setValue>Health</mod:setValue>
-</mod:findName>
+<text name="advanced_health_tooltip">Health</text>
 <text name="weapon_cooldown_negative">Disabled</text>
 
 <!-- Redesigned Weapon Tooltips -->
@@ -91,7 +89,7 @@
 <!-- More Info Button -->
 
 <text name="tooltip_more_info">Click here to toggle the display of additional information on crew and weapons.
-Default key is 'ALT'.</text>
+Key: \1.</text> <!-- \1 is more info hotkey -->
 
 <!-- Discord Integration -->
 

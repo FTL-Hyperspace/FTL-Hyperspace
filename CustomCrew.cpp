@@ -3119,6 +3119,7 @@ HOOK_METHOD(CrewMember, OnRender, (bool outlineOnly) -> void)
         CSurface::GL_PopMatrix();
     }
 
+    /*
     for (auto boostAnim : ex->boostAnim)
     {
         if (boostAnim != nullptr && !boostAnim->tracker.done && boostAnim->tracker.running)
@@ -3130,6 +3131,7 @@ HOOK_METHOD(CrewMember, OnRender, (bool outlineOnly) -> void)
             CSurface::GL_PopMatrix();
         }
     }
+    */
 
     CSurface::GL_PopMatrix();
 }

@@ -1182,6 +1182,7 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
                                        ex->timedStatBoosts[timedBoosts.first].end());
         }
 
+        /*
         auto aex = CMA_EX(crewAnim);
         for (auto statBoost : statBoosts)
         {
@@ -1289,6 +1290,7 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
         {
             boostAnim->Update();
         }
+        */
     }
 }
 

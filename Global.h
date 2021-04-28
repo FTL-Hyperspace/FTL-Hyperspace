@@ -124,7 +124,7 @@ private:
     static ScoreKeeper *__scoreKeeper;
     static SettingValues *__settingValues;
 
-    const int __version = 64;
+    const int __version = 70;
 
 
 };

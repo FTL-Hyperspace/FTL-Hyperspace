@@ -1,6 +1,6 @@
 <FTL>
 
-<version>63</version>
+<version>70</version>
 
 <!-- Custom save file:
 
@@ -97,13 +97,13 @@ Perfect for mods that add lots of custom equipment and/or to reduce memorization
 Tends to be helpful when you have multiple sources of cooldown reduction
 -->
 
-<showNumericalWeaponCooldown enabled="true"/>
+<showNumericalWeaponCooldown enabled="false"/>
 
 <!--  Shows newly redesigned weapon tooltips with more info and (maybe) better organization
 Tends to be helpful with "weirder" weapons in mods due to having more clear information (e.g. separating hull/system/crew damage)
 -->
 
-<redesignedWeaponTooltips enabled="true"/>
+<redesignedWeaponTooltips enabled="false"/>
 
 <!-- Custom title screen
 Changes the background and logo and moves the FTL logo slightly -->
@@ -246,6 +246,7 @@ Syntax ->
 		<noJump/>
 		<hpCap>30</hpCap>
 		<noFuelStalemate/>
+		<autoShipForce>false</autoShipForce>
 	</customShip>
 	...
 </ships>
@@ -300,6 +301,7 @@ Syntax ->
 		<isTelepathic>false</isTelepathic>
 		<isAnaerobic>false</isAnaerobic>
 		<fireDamageMultiplier>1.0</fireDamageMultiplier>
+		<stunMultiplier>1.0</stunMultiplier>
 		<canPhaseThroughDoors>false</canPhaseThroughDoors>
 		<healSpeed>1.0</healSpeed>
 		<deathSounds>
@@ -434,6 +436,7 @@ Syntax ->
 				<effectFinishAnim>mindcontrol</effectFinishAnim>
 				<damageEnemiesAmount>0</damageEnemiesAmount>
 				<powerDrain>0</powerDrain>
+				<stunMultiplier>1.0</stunMultiplier>
 			</temporaryEffect>
 		</powerEffect>
 		
@@ -464,6 +467,7 @@ Syntax ->
 <crew>
 	<!-- Vanilla Races -->
 	
+	<!--
 	<race name="human">
 		<skills>
 			<piloting req="13"/>
@@ -595,6 +599,7 @@ Syntax ->
 			<deathSound>shrikeDeath</deathSound>
 		</deathSounds>
 	</race>
+	-->
 	
 	<!-- Unused race -->
 
@@ -653,6 +658,9 @@ Syntax ->
 
 <!-- Stat boosts
 
+NOTE:
+TO USE STAT BOOSTS, THE RACE MUST BE LAID OUT AS A CUSTOM CREW IN THE <crew> TAG
+
 Stat boosts can be added in one of two ways: through crew, and through augments.
 For augments and crew active abilities, statboosts should be placed in a <statBoosts> tag (as many as you want, the <statBoosts> tag should contain all of them)
 For passive crew boosts, they should be placed in a <passiveStatBoosts> tag, but otherwise the code is the same
@@ -672,7 +680,6 @@ systemPowerDependency: determines the systems that affect the power of this stat
 systemPowerScaling: determines how the boost is affected by the total power bars within the systems in systemPowerDependency. The tag name doesn't matter; the first value is used when the system isn't there, the second is used when the system is offline, and the third onwards determines the power at each given bar of power (with any amount of power over the max using the last number)
 deathEffect: can be used to add any <deathEffect> as an additional part of the statBoost
 duration: for augments, determines how long a boost will apply after jumping, measured in seconds
-boostAnim: the animation that shows up on crew members that are affected by the boost.
 
 Stat boost syntax examples->
 
@@ -687,7 +694,6 @@ Stat boost syntax examples->
 	</blackList>
 	<duration>15</duration>
 	<priority>0</priority>
-	<boostAnim>fireVulnerabilityAnimation</boostAnim>
 </statBoost>
 
 <statBoost name = "fireDamageMultiplier">
@@ -772,6 +778,10 @@ If clear="false" then a nebula will be added to the quest event if in a nebula b
 Default behaviour is clear="true" if force="true" or if nebulaEvent is set, otherwise clear="false".
 For lastStandQuest, if noBoss="true" then the quest cannot actually spawn in the last stand, but will spawn if the player goes to a secret sector.
 
+You can load custom stores by supplying the custom store id
+The event has to load a vanilla store in events.xml - it will be replaced with the custom store on load
+
+
 Syntax -> 
 <events>
 	<bossShip>AUTO_ASSAULT_DLC</bossShip>
@@ -840,6 +850,10 @@ Syntax ->
 	<event name="SANDBOX_GIVE_SCRAP">
 		<disableScrapScore/>
 	</event>
+	
+	<event name="STOREEVENT_STORE_CUSTOM" recursive="true">
+		<customStore>STORE_CUSTOM</customStore>
+	</event>
 </events>
 
 
@@ -848,6 +862,9 @@ Syntax ->
 <events>
 	
 </events>
+
+
+
 
 <boss>
 	<crew>
@@ -873,7 +890,138 @@ Syntax ->
 	</surgeDrones>
 </boss>
 
+<!-- Custom Stores
+	The Custom Store id will be what is used to spawn the store from a custom event
+	
+	Prices:
+		These same tags can be used for the price of any item/resource/hull repair
+		flat or not flat determines whether the amount is just added onto the price of the item or if it's a multiplier respectively
+		
+		<item>
+			<price>10</price>         Option 1: Set price (if price is not set, defaults to -1 meaning it will use the blueprint price)
+			<price min="5" max="10"/> Option 2: Min-max price, uses random between min-max if not <sectorScaled/>
+
+			<sectorScaled/> chooses between min-max price depending on sector ((max - min) * ((sector - 1) / 7) + min)
+
+			<modifier flat="false">0.8</modifier>        Option 1: Set modifier (flat is false by default)
+			<modifier min="0.5" max="0.9" flat="false"/> Option 2: random modifier between min-max
+		</item>
+	
+	Hull repair:
+		If a hullRepair tag is not set, you will not be able to repair your hull at the store
+		
+	Resources:
+		type can be "missiles", "drones", or "fuel"
+		count can either have min and max attributes, or a set amount
+		
+	Category:
+		A store category has 3 (or fewer) items of a specific type inside it
+		the type for a category can be: "WEAPONS", "DRONES", "AUGMENTS", "CREW", "SYSTEMS"
+		
+		Stores can have infinite categories, pages will be created to accomodate them
+		
+		customTitle is the title that appears above the store items. If it's not set it will use the default for the type
+		
+		A category can have a group that it belongs to
+		Only one category per group is displayed, unless a group is not set
+		The groupChance determines the chance that the category will be chosen
+		If a groupChance is not set for a category, it will evenly distribute the chance between the categories that don't have a groupChance set (while keeping the chance for the ones that do have it set)
+		NOTE: the sum of all groupChances in a group should never go beyond 100
+		
+		allowDuplicates sets whether or not duplicate checking is enabled for that single category (duplicate checking is only used for items using a blueprintList)
+		
+		chance is the chance that the category shows up at all (this is rolled separately from groupChance)
+		
+	Item:
+		blueprint can either be empty or a blueprint/blueprintList - if it is empty, it will use vanilla generation
+		mysteryItem decides whether or not you can see what the item is before purchasing
+		
+		System id list: shields, engines, oxygen, weapons, drones, medbay, pilot, sensors, doors, teleporter, cloaking, artillery, battery, clonebay, mind, hacking
+	
+	Item purchase limit sets the number of total items that can be purchased from a store	
+	
+    <customStore id="STORE_CUSTOM">
+        <itemPurchaseLimit>2</itemPurchaseLimit>
+		
+		<hullRepair>
+			<price min="3" max="8"/>
+			<sectorScaled/>
+			<modifier min="-2" max="2" flat="true"/>
+		</hullRepair>
+		
+		<resource>
+			<type>missiles</type>
+			<count min="8" max="20"/>
+			<price>2</price>
+		</resource>
+		<resource>
+			<type>drones</type>
+			<count min="8" max="20"/>
+			<price>2</price>
+		</resource>
+		
+		With the two categories below, there is a 25% chance that the category chosen will be the mystery item category, with items chosen from the MYSTERY_ITEM_POOL blueprintList
+		(Meaning there is a 75% chance of choosing the non-mystery item category, which will contain visible items from a STORE_CUSTOM_WEAPON_POOL blueprintList)
+		<category type="WEAPONS" group="1">
+            <item>
+                <blueprint>MYSTERY_ITEM_POOL</blueprint>
+                <modifier min="0.8" max="1.1" flat="false"/>
+				<mysteryItem>true</mysteryItem>
+            </item>    
+            <item>
+                <blueprint>MYSTERY_ITEM_POOL</blueprint>
+                <modifier min="0.8" max="1.1" flat="false"/>
+				<mysteryItem>true</mysteryItem>
+            </item>    
+            <item>
+                <blueprint>MYSTERY_ITEM_POOL</blueprint>
+                <modifier min="0.8" max="1.1" flat="false"/>
+				<mysteryItem>true</mysteryItem>
+            </item>   
+			
+			<groupChance>25</groupChance>
+        </category>
+		<category type="WEAPONS" group="1">
+			<allowDuplicates/>
+            <item>
+                <blueprint>STORE_CUSTOM_WEAPON_POOL</blueprint>
+                <modifier min="0.8" max="1.1" flat="false"/>
+            </item> 
+			<item>
+                <blueprint>STORE_CUSTOM_WEAPON_POOL</blueprint>
+                <modifier min="0.8" max="1.1" flat="false"/>
+            </item>    			
+            <item>
+                <blueprint>STORE_CUSTOM_WEAPON_POOL</blueprint>
+                <modifier min="0.8" max="1.1" flat="false"/>
+            </item>
+        </category>
+		
+		<category type="SYSTEMS"> This spawn a weapons system at the weapon system blueprint price 50% of the time
+			<chance>50</chance>
+			<item>
+				<blueprint>weapons</blueprint>
+			</item>
+		</category>
+		
+		<category type="DRONES"> This category will use vanilla generation of drone schematics, but discount them
+			<item>
+                <modifier min="0.5" max="0.8" flat="false"/>
+			</item>
+			
+			<item>
+                <modifier min="0.5" max="0.8" flat="false"/>
+			</item>
+			
+			<item>
+                <modifier min="0.5" max="0.8" flat="false"/>
+			</item>
+		</category>
+    </customStore>
+-->
+
 <!-- freeDrones lets you customise the drone you get when buying a drone system. It can be a drone blueprintList as well. -->
+
 <store>
 	<freeDrones>
 		<COMBAT_1/>
