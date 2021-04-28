@@ -1,5 +1,6 @@
 #include "MoreInfoButton.h"
 #include "CustomOptions.h"
+#include <boost/algorithm/string.hpp>
 
 static Button* moreInfoButton;
 
@@ -59,7 +60,12 @@ HOOK_METHOD(CommandGui, MouseMove, (int mX, int mY) -> void)
         moreInfoButton->MouseMove(mX, mY, false);
         if (moreInfoButton->bActive && moreInfoButton->bHover)
         {
-            G_->GetMouseControl()->SetTooltip(G_->GetTextLibrary()->GetText("tooltip_more_info"));
+            std::string replaceWith;
+            std::string tooltip = G_->GetTextLibrary()->GetText("tooltip_more_info");
+
+            Settings::GetHotkeyName(replaceWith, "info");
+            boost::algorithm::replace_all(tooltip, "\\1", replaceWith);
+            G_->GetMouseControl()->SetTooltip(tooltip);
         }
     }
 }
