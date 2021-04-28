@@ -142,35 +142,8 @@ HOOK_METHOD(CommandGui, KeyDown, (SDLKey key, bool shiftHeld) -> void)
     auto custom = CustomOptionsManager::GetInstance();
     if (key == Settings::GetHotkey("info"))
     {
-        if (custom->showAllyPowers.defaultValue != true)
-        {
-            custom->showAllyPowers.currentValue = !custom->showAllyPowers.currentValue;
-        }
-        if (custom->showEnemyPowers.defaultValue != true)
-        {
-            custom->showEnemyPowers.currentValue = !custom->showEnemyPowers.currentValue;
-        }
-        if (custom->advancedCrewTooltipRounding.defaultAmount == 0)
-        {
-            if (custom->advancedCrewTooltipRounding.currentAmount == 0)
-            {
-                custom->advancedCrewTooltipRounding.currentAmount = 2;
-            }
-            else
-            {
-                custom->advancedCrewTooltipRounding.currentAmount = 0;
-            }
-        }
-
-        if (custom->showWeaponCooldown.defaultValue != true)
-        {
-            custom->showWeaponCooldown.currentValue = !custom->showWeaponCooldown.currentValue;
-        }
-
-        if (custom->redesignedWeaponTooltips.defaultValue != true)
-        {
-            custom->redesignedWeaponTooltips.currentValue = !custom->redesignedWeaponTooltips.currentValue;
-        }
+        custom->altMode = !custom->altMode;
+        custom->altModeChanged = true;
     }
 
     if (key == Settings::GetHotkey("console"))

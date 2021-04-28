@@ -21,6 +21,9 @@ public:
         int currentAmount = 0;
     };
 
+    bool altMode = false;
+    bool altModeChanged = false;
+
 //    Setting holdButton;
 
 //    Setting hullNumbers;

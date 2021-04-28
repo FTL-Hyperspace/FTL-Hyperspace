@@ -88,6 +88,11 @@
 <text name="hotkey_console">Open Console</text>
 <text name="hotkey_info">Toggle Extra Info</text>
 
+<!-- More Info Button -->
+
+<text name="tooltip_more_info">Click here to toggle the display of additional information on crew and weapons.
+Default key is 'ALT'.</text>
+
 <!-- Discord Integration -->
 
 <text name="discord_main_menu">In main menu</text>

@@ -361,6 +361,8 @@
 		<Unit filename="Misc.h">
 			<Option virtualFolder="Content/Misc/" />
 		</Unit>
+		<Unit filename="MoreInfoButton.cpp" />
+		<Unit filename="MoreInfoButton.h" />
 		<Unit filename="Projectile_Extend.cpp">
 			<Option virtualFolder="Core/Weapons/" />
 		</Unit>
