@@ -63,10 +63,11 @@ void CustomBoss::ParseBossNode(rapidxml::xml_node<char> *node)
     }
 }
 
+// This build disables the custom flagship crew as it might affect the boarding AI.
 
 
 static bool isStartingStage = false;
-
+/*
 HOOK_METHOD(BossShip, StartStage, () -> void)
 {
     isStartingStage = true;
@@ -94,7 +95,7 @@ HOOK_METHOD(BossShip, StartStage, () -> void)
         }
     }
 }
-
+*/
 HOOK_METHOD(BossShip, OnLoop, () -> void)
 {
     super();
@@ -123,7 +124,7 @@ HOOK_METHOD(ShipManager, AddCrewMemberFromString, (const std::string& name, cons
         return super(name, race, intruder, roomId, init, male);
     }
 }
-
+/*
 HOOK_METHOD(BossShip, SaveBoss, (int fh) -> void)
 {
     FileHelper::writeInt(fh, CustomBoss::instance->currentCrewCounts.size());
@@ -150,7 +151,7 @@ HOOK_METHOD(BossShip, LoadBoss, (int fh) -> void)
 
     super(fh);
 }
-
+*/
 
 HOOK_METHOD(ShipManager, PrepareSuperDrones, () -> void)
 {
