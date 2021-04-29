@@ -6098,7 +6098,15 @@ struct WeaponBox;
 
 struct WeaponBox : ArmamentBox
 {
+	std::string GenerateTooltip()
+	{
+		std::string ret;
+		GenerateTooltip(ret, this);
+		return ret;
+	}
+
 	LIBZHL_API void RenderBox(bool dragging, bool flashPowerBox);
+	LIBZHL_API static void __stdcall GenerateTooltip(std::string &retStr, WeaponBox *_this);
 	
 	ProjectileFactory *pWeapon;
 	bool armed;
