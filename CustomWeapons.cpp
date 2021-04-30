@@ -306,14 +306,14 @@ HOOK_STATIC(WeaponBox, GenerateTooltip, (std::string &retStr, WeaponBox *_this) 
             boost::trim_right(descText);
             descText += "\n\n";
 
-            if (bp->drone_targetable != 0)
-            {
-                descText += tLib->GetText("weapon_not_drone_targetable") + "\n";
-            }
-            else
-            {
-                descText += tLib->GetText("weapon_drone_targetable") + "\n";
-            }
+//            if (bp->drone_targetable != 0)
+//            {
+//                descText += tLib->GetText("weapon_not_drone_targetable") + "\n";
+//            }
+//            else
+//            {
+//                descText += tLib->GetText("weapon_drone_targetable") + "\n";
+//            }
 
             if (bp->damage.bHullBuster)
             {
