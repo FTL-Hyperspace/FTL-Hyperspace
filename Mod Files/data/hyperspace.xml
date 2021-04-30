@@ -467,7 +467,6 @@ Syntax ->
 <crew>
 	<!-- Vanilla Races -->
 	
-	<!--
 	<race name="human">
 		<skills>
 			<piloting req="13"/>
@@ -599,7 +598,6 @@ Syntax ->
 			<deathSound>shrikeDeath</deathSound>
 		</deathSounds>
 	</race>
-	-->
 	
 	<!-- Unused race -->
 

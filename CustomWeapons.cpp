@@ -338,42 +338,85 @@ HOOK_STATIC(WeaponBox, GenerateTooltip, (std::string &retStr, WeaponBox *_this) 
 //            }
 //            else
 //            {
-                if (bp->type == 2)
-                {
-                    if (bp->damage.iDamage != 0)
+//                if (bp->type == 2)
+//                {
+                    if (bp->damage.iDamage > 0)
                     {
                         currentText = tLib->GetText("hull_damage");
                         descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp->damage.iDamage)) + "\n";
                     }
-                    if (bp->damage.iSystemDamage + bp->damage.iDamage != 0)
+                    else if (bp->damage.iDamage < 0)
                     {
-                        currentText = tLib->GetText("system_damage");
-                        descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp->damage.iSystemDamage + bp->damage.iDamage)) + "\n";
+                        currentText = tLib->GetText("hull_damage_negative");
+                        descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp->damage.iDamage * -1)) + "\n";
                     }
-                    if (bp->damage.iPersDamage + bp->damage.iDamage != 0)
+
+                    if (bp->damage.iDamage >= 0)
                     {
-                        currentText = tLib->GetText("personnel_damage");
-                        descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string((bp->damage.iDamage + bp->damage.iPersDamage) * 15)) + "\n";
+                        if (bp->damage.iSystemDamage + bp->damage.iDamage > 0)
+                        {
+                            currentText = tLib->GetText("system_damage");
+                            descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp->damage.iSystemDamage + bp->damage.iDamage)) + "\n";
+                        }
+                        else if (bp->damage.iSystemDamage + bp->damage.iDamage < 0)
+                        {
+                            currentText = tLib->GetText("system_damage_negative");
+                            descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string((bp->damage.iSystemDamage + bp->damage.iDamage) * -1)) + "\n";
+                        }
+                        if (bp->damage.iPersDamage + bp->damage.iDamage > 0)
+                        {
+                            currentText = tLib->GetText("personnel_damage");
+                            descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string((bp->damage.iDamage + bp->damage.iPersDamage) * 15)) + "\n";
+                        }
+                        else if (bp->damage.iPersDamage + bp->damage.iDamage < 0)
+                        {
+                            currentText = tLib->GetText("personnel_damage_negative");
+                            descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(((bp->damage.iDamage + bp->damage.iPersDamage) * -1) * 15)) + "\n";
+                        }
+
                     }
-                }
-                else
-                {
-                    if (bp->damage.iDamage != 0)
+                    else
                     {
-                        currentText = tLib->GetText("hull_damage");
-                        descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp->damage.iDamage)) + "\n";
+                        if (bp->damage.iSystemDamage > 0)
+                        {
+                            currentText = tLib->GetText("system_damage");
+                            descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp->damage.iSystemDamage)) + "\n";
+                        }
+                        else if (bp->damage.iSystemDamage < 0)
+                        {
+                            currentText = tLib->GetText("system_damage_negative");
+                            descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string((bp->damage.iSystemDamage) * -1)) + "\n";
+                        }
+                        if (bp->damage.iPersDamage > 0)
+                        {
+                            currentText = tLib->GetText("personnel_damage");
+                            descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string((bp->damage.iPersDamage) * 15)) + "\n";
+                        }
+                        else if (bp->damage.iPersDamage < 0)
+                        {
+                            currentText = tLib->GetText("personnel_damage_negative");
+                            descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(((bp->damage.iPersDamage) * -1) * 15)) + "\n";
+                        }
                     }
-                    if (bp->damage.iSystemDamage + bp->damage.iDamage != 0)
-                    {
-                        currentText = tLib->GetText("system_damage");
-                        descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp->damage.iSystemDamage + bp->damage.iDamage)) + "\n";
-                    }
-                    if (bp->damage.iPersDamage + bp->damage.iDamage != 0)
-                    {
-                        currentText = tLib->GetText("personnel_damage");
-                        descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string((bp->damage.iDamage + bp->damage.iPersDamage) * 15)) + "\n";
-                    }
-                }
+//                }
+//                else
+//                {
+//                    if (bp->damage.iDamage != 0)
+//                    {
+//                        currentText = tLib->GetText("hull_damage");
+//                        descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp->damage.iDamage)) + "\n";
+//                    }
+//                    if (bp->damage.iSystemDamage + bp->damage.iDamage != 0)
+//                    {
+//                        currentText = tLib->GetText("system_damage");
+//                        descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp->damage.iSystemDamage + bp->damage.iDamage)) + "\n";
+//                    }
+//                    if (bp->damage.iPersDamage + bp->damage.iDamage != 0)
+//                    {
+//                        currentText = tLib->GetText("personnel_damage");
+//                        descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string((bp->damage.iDamage + bp->damage.iPersDamage) * 15)) + "\n";
+//                    }
+//                }
 //            }
 
             if (bp->damage.iIonDamage != 0)
@@ -687,14 +730,14 @@ HOOK_STATIC(WeaponBlueprint, GetDescription, (std::string* strRef, WeaponBluepri
             boost::trim_right(descText);
             descText += "\n\n";
 
-            if (bp->drone_targetable != 0)
-            {
-                descText += tLib->GetText("weapon_not_drone_targetable") + "\n";
-            }
-            else
-            {
-                descText += tLib->GetText("weapon_drone_targetable") + "\n";
-            }
+//            if (bp->drone_targetable != 0)
+//            {
+//                descText += tLib->GetText("weapon_not_drone_targetable") + "\n";
+//            }
+//            else
+//            {
+//                descText += tLib->GetText("weapon_drone_targetable") + "\n";
+//            }
 
             if (bp->damage.bHullBuster)
             {
@@ -719,42 +762,64 @@ HOOK_STATIC(WeaponBlueprint, GetDescription, (std::string* strRef, WeaponBluepri
 //            }
 //            else
 //            {
-                if (bp->type == 2)
-                {
-                    if (bp->damage.iDamage != 0)
+                    if (bp->damage.iDamage > 0)
                     {
                         currentText = tLib->GetText("hull_damage");
                         descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp->damage.iDamage)) + "\n";
                     }
-                    if (bp->damage.iSystemDamage + bp->damage.iDamage != 0)
+                    else if (bp->damage.iDamage < 0)
                     {
-                        currentText = tLib->GetText("system_damage");
-                        descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp->damage.iSystemDamage + bp->damage.iDamage)) + "\n";
+                        currentText = tLib->GetText("hull_damage_negative");
+                        descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp->damage.iDamage * -1)) + "\n";
                     }
-                    if (bp->damage.iPersDamage + bp->damage.iDamage != 0)
+
+                    if (bp->damage.iDamage >= 0)
                     {
-                        currentText = tLib->GetText("personnel_damage");
-                        descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string((bp->damage.iDamage + bp->damage.iPersDamage) * 15)) + "\n";
+                        if (bp->damage.iSystemDamage + bp->damage.iDamage > 0)
+                        {
+                            currentText = tLib->GetText("system_damage");
+                            descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp->damage.iSystemDamage + bp->damage.iDamage)) + "\n";
+                        }
+                        else if (bp->damage.iSystemDamage + bp->damage.iDamage < 0)
+                        {
+                            currentText = tLib->GetText("system_damage_negative");
+                            descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string((bp->damage.iSystemDamage + bp->damage.iDamage) * -1)) + "\n";
+                        }
+                        if (bp->damage.iPersDamage + bp->damage.iDamage > 0)
+                        {
+                            currentText = tLib->GetText("personnel_damage");
+                            descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string((bp->damage.iDamage + bp->damage.iPersDamage) * 15)) + "\n";
+                        }
+                        else if (bp->damage.iPersDamage + bp->damage.iDamage < 0)
+                        {
+                            currentText = tLib->GetText("personnel_damage_negative");
+                            descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(((bp->damage.iDamage + bp->damage.iPersDamage) * -1) * 15)) + "\n";
+                        }
+
                     }
-                }
-                else
-                {
-                    if (bp->damage.iDamage != 0)
+                    else
                     {
-                        currentText = tLib->GetText("hull_damage");
-                        descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp->damage.iDamage)) + "\n";
+                        if (bp->damage.iSystemDamage > 0)
+                        {
+                            currentText = tLib->GetText("system_damage");
+                            descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp->damage.iSystemDamage)) + "\n";
+                        }
+                        else if (bp->damage.iSystemDamage < 0)
+                        {
+                            currentText = tLib->GetText("system_damage_negative");
+                            descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string((bp->damage.iSystemDamage) * -1)) + "\n";
+                        }
+                        if (bp->damage.iPersDamage > 0)
+                        {
+                            currentText = tLib->GetText("personnel_damage");
+                            descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string((bp->damage.iPersDamage) * 15)) + "\n";
+                        }
+                        else if (bp->damage.iPersDamage < 0)
+                        {
+                            currentText = tLib->GetText("personnel_damage_negative");
+                            descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(((bp->damage.iPersDamage) * -1) * 15)) + "\n";
+                        }
                     }
-                    if (bp->damage.iSystemDamage + bp->damage.iDamage != 0)
-                    {
-                        currentText = tLib->GetText("system_damage");
-                        descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp->damage.iSystemDamage + bp->damage.iDamage)) + "\n";
-                    }
-                    if (bp->damage.iPersDamage + bp->damage.iDamage != 0)
-                    {
-                        currentText = tLib->GetText("personnel_damage");
-                        descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string((bp->damage.iDamage + bp->damage.iPersDamage) * 15)) + "\n";
-                    }
-                }
 //            }
 
             if (bp->damage.iIonDamage != 0)
