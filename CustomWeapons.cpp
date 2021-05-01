@@ -917,13 +917,13 @@ HOOK_STATIC(WeaponBlueprint, GetDescription, (std::string* strRef, WeaponBluepri
 
                 descText += currentText + "\n";
             }
-            if (bp->damage.iStun > 0)
+            if (bp->damage.iStun > 0 && Settings::GetDlcEnabled())
             {
                 currentText = tLib->GetText("stun_chance");
                 boost::algorithm::replace_all(currentText, "\\1", std::to_string(100));
                 descText += currentText + " (" + std::to_string(bp->damage.iStun) + " " + tLib->GetText("stun_length") + ")\n";
             }
-            else if (bp->damage.stunChance > 0)
+            else if (bp->damage.stunChance > 0 && Settings::GetDlcEnabled())
             {
                 currentText = tLib->GetText("stun_chance");
                 boost::algorithm::replace_all(currentText, "\\1", std::to_string(bp->damage.stunChance * 10));
@@ -1085,7 +1085,7 @@ HOOK_STATIC(WeaponBlueprint, GetDescription, (std::string* strRef, WeaponBluepri
             currentText = tLib->GetText("ion_damage");
             descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp->damage.iIonDamage)) + "\n";
         }
-        if (bp->damage.iStun > 0)
+        if (bp->damage.iStun > 0 && Settings::GetDlcEnabled())
         {
             currentText = tLib->GetText("stun_damage");
             descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp->damage.iStun)) + "\n";
