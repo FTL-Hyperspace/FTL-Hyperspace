@@ -1873,6 +1873,7 @@ struct LIBZHL_INTERFACE ShipSystem
 	LIBZHL_API static void __DO_NOT_HOOK();
 	LIBZHL_API static bool __stdcall IsSubsystem(int systemType);
 	LIBZHL_API void ClearStatus();
+	LIBZHL_API static void __stdcall GetLevelDescription(void *unk, std::string &retStr, int systemId, int level, bool tooltip);
 	
 	int selectedState;
 	ShipObject _shipObj;

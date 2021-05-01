@@ -298,6 +298,33 @@ HOOK_METHOD(ShipSystem, SetPowerLoss, (int powerLoss) -> int)
 }
 */
 
+HOOK_STATIC(ShipSystem, GetLevelDescription, (void* unk, std::string& retStr, int systemId, int level, bool tooltip) -> void)
+{
+    super(unk, retStr, systemId, level, tooltip);
+
+    std::string name = "";
+    SystemIdToName(name, systemId);
+    auto tLib = G_->GetTextLibrary();
+    if (tooltip)
+    {
+        bool hacked = false; // figure out method
+        if (hacked)
+        {
+            name += "_tooltip_hacked";
+        }
+        else
+        {
+            name += "_" + std::to_string(level) + "_tooltip";
+        }
+        retStr.assign(tLib->GetText(name));
+    }
+    else
+    {
+        name += "_" + std::to_string(level);
+        retStr.assign(tLib->GetText(name));
+    }
+}
+
 HOOK_METHOD(ShipSystem, GetEffectivePower, () -> int)
 {
     int boostPower = 0;
