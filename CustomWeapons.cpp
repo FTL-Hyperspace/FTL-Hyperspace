@@ -944,7 +944,10 @@ HOOK_STATIC(WeaponBlueprint, GetDescription, (std::string* strRef, WeaponBluepri
             }
         }
         boost::trim_right(descText);
-        descText += "\n";
+        descText += "\n\n";
+        currentText = tLib->GetText("scrap_value");
+        currentText = boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp->desc.cost));
+        descText += boost::algorithm::replace_all_copy(currentText, "\\2", std::to_string(bp->desc.cost / 2)) + "\n";
     }
     else
     {
