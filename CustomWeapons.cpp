@@ -125,8 +125,16 @@ HOOK_STATIC(WeaponBox, GenerateTooltip, (std::string &retStr, WeaponBox *_this) 
         }
         else if (bp->power == 0)
         {
-            currentText = tLib->GetText("requires_no_power");
-            descText += currentText + "\n";
+            if (bp->cooldown >= 0)
+            {
+                currentText = tLib->GetText("requires_no_power");
+                descText += currentText + "\n";
+            }
+            else
+            {
+                currentText = tLib->GetText("cannot_fire");
+                descText += currentText + "\n";
+            }
         }
         else
         {
@@ -145,8 +153,11 @@ HOOK_STATIC(WeaponBox, GenerateTooltip, (std::string &retStr, WeaponBox *_this) 
         }
         else
         {
-            currentText = tLib->GetText("cannot_fire");
-            descText += currentText + "\n";
+            if (bp->power != 0)
+            {
+                currentText = tLib->GetText("cannot_fire");
+                descText += currentText + "\n";
+            }
         }
 
         if (bp->cooldown >= 0)
@@ -549,8 +560,16 @@ HOOK_STATIC(WeaponBlueprint, GetDescription, (std::string* strRef, WeaponBluepri
         }
         else if (bp->power == 0)
         {
-            currentText = tLib->GetText("requires_no_power");
-            descText += currentText + "\n";
+            if (bp->cooldown >= 0)
+            {
+                currentText = tLib->GetText("requires_no_power");
+                descText += currentText + "\n";
+            }
+            else
+            {
+                currentText = tLib->GetText("cannot_fire");
+                descText += currentText + "\n";
+            }
         }
         else
         {
@@ -569,8 +588,11 @@ HOOK_STATIC(WeaponBlueprint, GetDescription, (std::string* strRef, WeaponBluepri
         }
         else
         {
-            currentText = tLib->GetText("cannot_fire");
-            descText += currentText + "\n";
+            if (bp->power != 0)
+            {
+                currentText = tLib->GetText("cannot_fire");
+                descText += currentText + "\n";
+            }
         }
 
         if (bp->cooldown >= 0)
@@ -587,7 +609,7 @@ HOOK_STATIC(WeaponBlueprint, GetDescription, (std::string* strRef, WeaponBluepri
                 descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(weaponDef->freeMissileChance)) + "\n";
             }
 
-            if (bp->boostPower.count > 1)
+            if (bp->boostPower.count > 0)
             {
                 std::string boostType = "";
 
