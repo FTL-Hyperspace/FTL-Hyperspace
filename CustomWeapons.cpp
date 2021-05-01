@@ -923,7 +923,7 @@ HOOK_STATIC(WeaponBlueprint, GetDescription, (std::string* strRef, WeaponBluepri
                 boost::algorithm::replace_all(currentText, "\\1", std::to_string(100));
                 descText += currentText + " (" + std::to_string(bp->damage.iStun) + " " + tLib->GetText("stun_length") + ")\n";
             }
-            else if (bp->damage.stunChance > 0 && Settings::GetDlcEnabled())
+            else if (bp->damage.stunChance > 0)
             {
                 currentText = tLib->GetText("stun_chance");
                 boost::algorithm::replace_all(currentText, "\\1", std::to_string(bp->damage.stunChance * 10));
