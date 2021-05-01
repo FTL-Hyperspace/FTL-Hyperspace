@@ -2,30 +2,239 @@
 
 
 /*
+(working) test system
+
 HOOK_STATIC(ShipSystem, NameToSystemId, (std::string& name) -> int)
 {
-
     if (name == "test")
     {
-        return 100;
+        return 20;
     }
 
     return super(name);
 }
 
-HOOK_METHOD(ShipManager, CreateSystems, () -> int)
+HOOK_STATIC(ShipSystem, SystemIdToName, (std::string& strRef, int systemId) -> std::string&)
 {
-    for (auto const &x: this->systemKey)
+    super(strRef, systemId);
+    if (systemId == 20)
     {
+        strRef.assign("test");
     }
-    return super();
+
+    return strRef;
 }
 
-HOOK_METHOD(ShipSystem, constructor, (int systemId, int roomId, int shipId, int power) -> void)
+
+
+HOOK_METHOD(ShipSystem, constructor, (int systemId, int roomId, int shipId, int startingPower) -> void)
 {
+    super(systemId, roomId, shipId, startingPower);
+
+    if (systemId == 20)
+    {
+        bNeedsPower = true;
+        bBoostable = false;
+        bNeedsManned = false;
+        bLevelBoostable = false;
+    }
+}
+
+HOOK_METHOD(ShipManager, CreateSystems, () -> int)
+{
+    if (myBlueprint.systemInfo.find(0) != myBlueprint.systemInfo.end())
+    {
+        auto shieldInfo = myBlueprint.systemInfo[0];
+
+        auto sys = new Shields(shieldInfo.location[0], iShipId, 0, myBlueprint.shieldFile);
+        shieldSystem = sys;
+        sys->SetBaseEllipse(ship.GetBaseEllipse());
+    }
+    else
+    {
+        shieldSystem = nullptr;
+    }
+
+    systemKey.clear();
+    for (int i = 0; i < 21; i++)
+    {
+        systemKey.push_back(-1);
+    }
+
+    for (auto i : myBlueprint.systems)
+    {
+        AddSystem(i);
+    }
+}
+*/
+
+HOOK_METHOD(SystemControl, CreateSystemBoxes, () -> void)
+{
+    (*Global::droneWeaponPosition).first = Point(0, 0);
+    (*Global::droneWeaponPosition).second = Point(0, 0);
+
+    for (auto i : sysBoxes)
+    {
+        delete i;
+    }
+
+    sysBoxes.clear();
+
+    SystemPower.x = 0;
+    SystemPower.y = 0;
+
+    int xPos = 22;
+
+    //std::vector<int> systemOrder = { 0, 1, 2, 3, 4, 5, 9, 10, 11, 12, 13, 14, 15, 20 };
+    std::vector<int> systemOrder = { 0, 1, 2, 3, 4, 5, 9, 10, 11, 12, 13, 14, 15 };
+
+    for (auto sysId : systemOrder)
+    {
+        auto sys = shipManager->GetSystem(sysId);
+        if (!sys || !sys->bNeedsPower) continue;
+
+        switch (sysId)
+        {
+        case 14:
+            {
+                auto box = new MindBox(Point(xPos + 36, 269), shipManager->mindSystem);
+                sysBoxes.push_back(box);
+                xPos += 54;
+                break;
+            }
+        case 13:
+            {
+                auto box = new CloneBox(Point(xPos + 36, 269), shipManager->cloneSystem);
+                sysBoxes.push_back(box);
+                xPos += 36;
+                break;
+            }
+        case 15:
+            {
+                auto box = new HackBox(Point(xPos + 36, 269), shipManager->hackingSystem, shipManager);
+                sysBoxes.push_back(box);
+                xPos += 54;
+                break;
+            }
+        case 9:
+            {
+                auto box = new TeleportBox(Point(xPos + 36, 269), shipManager->teleportSystem);
+                sysBoxes.push_back(box);
+                xPos += 54;
+                break;
+            }
+        case 10:
+            {
+                auto box = new CloakingBox(Point(xPos + 36, 269), shipManager->cloakSystem);
+                sysBoxes.push_back(box);
+                xPos += 54;
+                break;
+            }
+        case 11:
+            {
+                if (shipManager->artillerySystems.size() > 0)
+                {
+                    auto artillerySys = shipManager->artillerySystems[0];
+                    auto box = new ArtilleryBox(Point(xPos + 36, 269), artillerySys);
+                    sysBoxes.push_back(box);
+                    xPos += 36;
+                }
+            }
+            break;
+        case 3:
+            break;
+        case 4:
+            break;
+        default:
+            auto box = new SystemBox(Point(xPos + 36, 269), sys, true);
+            sysBoxes.push_back(box);
+            xPos += 36;
+        }
+    }
 
 
-    return super(systemId, roomId, shipId, power);
+    if (shipManager->HasSystem(3))
+    {
+        (*Global::droneWeaponPosition).second = Point(position.x + xPos + 36, position.y + 269);
+        auto box = new WeaponSystemBox(Point(xPos + 36, 269), shipManager->GetSystem(3), &combatControl->weapControl);
+
+        sysBoxes.push_back(box);
+
+        if (shipManager->myBlueprint.weaponSlots >= 4)
+        {
+            xPos += 436;
+        }
+        else if (shipManager->myBlueprint.weaponSlots == 3)
+        {
+            xPos += 339;
+        }
+        else
+        {
+            xPos += 242;
+        }
+    }
+    if (shipManager->HasSystem(4))
+    {
+        (*Global::droneWeaponPosition).first = Point(position.x + xPos + 36, position.y + 269);
+        auto box = new SystemBox(Point(xPos + 36, 269), shipManager->GetSystem(4), true);
+
+        sysBoxes.push_back(box);
+    }
+
+    int subSystemOrder[4] = { 6, 7, 8, 12 };
+
+    int subXPos = subSystemPosition.x - 36;
+    int subYPos = subSystemPosition.y;
+
+    for (int i = 0; i < 4; i++)
+    {
+        int sysId = subSystemOrder[i];
+
+        auto sys = shipManager->GetSystem(sysId);
+        switch (sysId)
+        {
+        case 8:
+            if (sys)
+            {
+                auto box = new DoorBox(Point(subXPos + 36, subYPos), sys, shipManager);
+                sysBoxes.push_back(box);
+                subXPos += sub_spacing + 36;
+            }
+            subXPos += 15;
+            break;
+        case 12:
+            if (sys)
+            {
+                auto box = new BatteryBox(Point(subXPos + 36, subYPos), shipManager->batterySystem);
+                sysBoxes.push_back(box);
+                subXPos += sub_spacing + 36;
+            }
+            subXPos += 18;
+            break;
+        default:
+            if (sys)
+            {
+                auto box = new SystemBox(Point(subXPos + 36, subYPos), sys, true);
+                sysBoxes.push_back(box);
+            }
+            subXPos += sub_spacing + 36;
+            break;
+        }
+    }
+}
+
+/*
+HOOK_METHOD(ShipManager, AddSystem, (int sysId) -> ShipSystem*)
+{
+    if (sysId == 100)
+    {
+        auto sys = new TestSystem(100, 1, iShipId, 0);
+        addedSystem = true;
+        printf("%d\n", systemKey.size());
+        return sys;
+    }
+
+    return super(sysId);
 }
 */
 

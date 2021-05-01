@@ -68,6 +68,7 @@ public:
     static bool forceDlc;
     static FILE* logFile;
     static bool* firstTimeShips;
+    static std::pair<Point, Point>* droneWeaponPosition;
 
     //static ShaderSourceCallback** fragment_shader_source_callback;
 
@@ -103,6 +104,7 @@ private:
     const DWORD __scoreKeeperOffset =      0x004C5980;
     const DWORD __firstTimeShipsOffset =   0x004C8D30;
     const DWORD __settingValuesOffset =    0x004C8CA0;
+    const DWORD __droneWeaponPosOffset =   0x004C7400;
 
     DWORD __baseAddress = 0;
 

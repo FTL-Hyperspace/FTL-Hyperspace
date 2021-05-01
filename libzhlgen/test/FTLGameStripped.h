@@ -42,6 +42,7 @@ struct OxygenSystem;
 struct HackingSystem;
 struct CloakingSystem;
 struct MindSystem;
+struct Shields;
 struct WeaponSystem;
 struct DroneSystem;
 struct ShipSystem;
@@ -95,6 +96,7 @@ struct VTable_ShipSystem;
 struct VTable_Blueprint;
 struct VTable_CrewAnimation;
 struct VTable_StoreBox;
+struct Shields__ShieldAnimation;
 
 /* 1 */
 struct Globals
@@ -2751,9 +2753,6 @@ struct BatterySystem;
 /* 296 */
 struct CloneSystem;
 
-/* 289 */
-struct Shields;
-
 /* 295 */
 struct EngineSystem;
 
@@ -2763,12 +2762,12 @@ struct MedbaySystem;
 /* 290 */
 struct ArtillerySystem;
 
-/* 496 */
-struct std__vector_15ArtillerySystem
+/* 815 */
+struct std__vector_17ArtillerySystemZ1
 {
-  ArtillerySystem *_start;
-  ArtillerySystem *_finish;
-  ArtillerySystem *_end;
+  ArtillerySystem **_start;
+  ArtillerySystem **_finish;
+  ArtillerySystem **_end;
 };
 
 /* 507 */
@@ -2840,7 +2839,7 @@ struct ShipManager
   DroneSystem *droneSystem;
   EngineSystem *engineSystem;
   MedbaySystem *medbaySystem;
-  std__vector_15ArtillerySystem artillerySystems;
+  std__vector_17ArtillerySystemZ1 artillerySystems;
   std__vector_12CrewMemberZ1 vCrewList;
   Spreader_Fire fireSpreader;
   Ship ship;
@@ -3998,6 +3997,61 @@ struct HackingSystem
   int spendDrone;
 };
 
+/* 818 */
+struct ShieldPower
+{
+  int first;
+  int second;
+  std__pair_9int___int super;
+};
+
+/* 819 */
+struct Shields__Shield
+{
+  float charger;
+  ShieldPower power;
+  float superTimer;
+};
+
+/* 817 */
+struct std__vector_24Shields__ShieldAnimation
+{
+  Shields__ShieldAnimation *_start;
+  Shields__ShieldAnimation *_finish;
+  Shields__ShieldAnimation *_end;
+};
+
+/* 289 */
+struct Shields
+{
+  ShipSystem _base;
+  float ellipseRatio;
+  Point center;
+  Globals__Ellipse baseShield;
+  int iHighlightedSide;
+  float debug_x;
+  float debug_y;
+  Shields__Shield shields;
+  bool shields_shutdown;
+  std__vector_24Shields__ShieldAnimation shieldHits;
+  AnimationTracker shieldsDown;
+  bool superShieldDown;
+  Pointf shieldsDownPoint;
+  AnimationTracker shieldsUp;
+  GL_Texture *shieldImage;
+  GL_Primitive *shieldPrimitive;
+  std__string shieldImageName;
+  bool bEnemyPresent;
+  std__vector_15DamageMessageZ1 damMessages;
+  bool bBarrierMode;
+  float lastHitTimer;
+  float chargeTime;
+  int lastHitShieldLevel;
+  AnimationTracker superShieldUp;
+  Point superUpLoc;
+  bool bExcessChargeHack;
+};
+
 /* 291 */
 struct WeaponSystem
 {
@@ -4387,6 +4441,21 @@ struct VTable_ShipSystem
   bool (__thiscall *Clickable)(ShipSystem *this);
   bool (__thiscall *Powered)(ShipSystem *this);
   void (__thiscall *ShipDestroyed)(ShipSystem *this);
+};
+
+/* 816 */
+struct Shields__ShieldAnimation
+{
+  Pointf location;
+  float current_size;
+  float end_size;
+  float current_thickness;
+  float end_thickness;
+  float length;
+  float dx;
+  int side;
+  int ownerId;
+  int damage;
 };
 
 /* 693 */
@@ -4800,15 +4869,6 @@ struct Algae;
 /* 194 */
 struct DebugHelper;
 
-/* 195 */
-struct CloneBox;
-
-/* 196 */
-struct BatteryBox;
-
-/* 197 */
-struct MindBox;
-
 /* 203 */
 struct CooldownSystemBox
 {
@@ -4822,11 +4882,58 @@ struct CooldownSystemBox
   int lastBarTop;
 };
 
+/* 195 */
+struct CloneBox
+{
+  CooldownSystemBox _base;
+  CloneSystem *cloneSys;
+  GL_Texture *pipe[3];
+  GL_Texture *boxBottom;
+  GL_Texture *boxMiddle;
+  GL_Texture *boxTop;
+  GL_Texture *boxSolo;
+  GL_Texture *boxFill;
+  WarningMessage *dyingCrewWarning;
+};
+
+/* 196 */
+struct BatteryBox
+{
+  CooldownSystemBox _base;
+  BatterySystem *batterySystem;
+  Button batteryButton;
+  Point buttonOffset;
+};
+
+/* 197 */
+struct MindBox
+{
+  CooldownSystemBox _base;
+  MindSystem *mindSystem;
+  Button mindControl;
+  Point buttonOffset;
+  WarningMessage *superShieldWarning;
+};
+
 /* 204 */
-struct ArtilleryBox;
+struct ArtilleryBox
+{
+  CooldownSystemBox _base;
+  ArtillerySystem *artSystem;
+  Point buttonOffset;
+};
 
 /* 206 */
-struct WeaponSystemBox;
+struct WeaponSystemBox
+{
+  SystemBox _base;
+  WeaponControl *weapControl;
+  TextButton autofireButton;
+  Point buttonOffset;
+  TouchTooltip *autofireTouchTooltip;
+  bool touchTipWasOpen;
+  bool autofireTipWasOpen;
+};
 
 /* 207 */
 struct MouseControl
@@ -5099,7 +5206,14 @@ struct BattleDrone
 };
 
 /* 312 */
-struct CloakingBox;
+struct CloakingBox
+{
+  CooldownSystemBox _base;
+  std__vector_8ButtonZ1 buttons;
+  Button *currentButton;
+  CloakingSystem *cloakSystem;
+  Point buttonOffset;
+};
 
 /* 315 */
 struct MantisAlien;
@@ -5111,7 +5225,16 @@ struct RepairDrone
 };
 
 /* 317 */
-struct TeleportBox;
+struct TeleportBox
+{
+  SystemBox _base;
+  GL_Texture *box;
+  Button teleportLeave;
+  Button teleportArrive;
+  TeleportSystem *teleSystem;
+  Point buttonOffset;
+  WarningMessage superShieldWarning;
+};
 
 /* 319 */
 struct CrystalAlien
@@ -5163,10 +5286,32 @@ struct IonDroneAnimation
 struct Ghost;
 
 /* 335 */
-struct DoorBox;
+struct DoorBox
+{
+  SystemBox _base;
+  GL_Texture *box;
+  Button openDoors;
+  Button closeDoors;
+  ShipManager *ship;
+  Point buttonOffset;
+};
 
 /* 336 */
-struct HackBox;
+struct HackBox
+{
+  CooldownSystemBox _base;
+  HackingSystem *hackSys;
+  std__vector_8ButtonZ1 buttons;
+  Button *currentButton;
+  Point buttonOffset;
+  GL_Texture *box;
+  GL_Texture *box2;
+  Button hackButton;
+  Button overlayButton;
+  ShipManager *shipManager;
+  AnimationTracker flashTracker;
+  WarningMessage *superShieldWarning;
+};
 
 /* 337 */
 struct Missile;
@@ -5195,8 +5340,7 @@ struct RepairStoreBox
 /* 766 */
 struct std__array_28std__vector_10HotkeyDesc___4
 {
-  int unk1;
-  char unk[44];
+  char unk[48];
 };
 
 /* 389 */
@@ -5344,6 +5488,14 @@ struct std__vector_10CrewMember
   CrewMember *_start;
   CrewMember *_finish;
   CrewMember *_end;
+};
+
+/* 496 */
+struct std__vector_15ArtillerySystem
+{
+  ArtillerySystem *_start;
+  ArtillerySystem *_finish;
+  ArtillerySystem *_end;
 };
 
 /* 497 */
@@ -5547,5 +5699,52 @@ struct std__vector_10HotkeyDesc
   HotkeyDesc *_start;
   HotkeyDesc *_finish;
   HotkeyDesc *_end;
+};
+
+/* 811 */
+union __attribute__((aligned(8))) __m64
+{
+  unsigned __int64 m64_u64;
+  float m64_f32[2];
+  __int8 m64_i8[8];
+  __int16 m64_i16[4];
+  __int32 m64_i32[2];
+  __int64 m64_i64;
+  unsigned __int8 m64_u8[8];
+  unsigned __int16 m64_u16[4];
+  unsigned __int32 m64_u32[2];
+};
+
+/* 812 */
+union __attribute__((aligned(16))) __m128
+{
+  float m128_f32[4];
+  unsigned __int64 m128_u64[2];
+  __int8 m128_i8[16];
+  __int16 m128_i16[8];
+  __int32 m128_i32[4];
+  __int64 m128_i64[2];
+  unsigned __int8 m128_u8[16];
+  unsigned __int16 m128_u16[8];
+  unsigned __int32 m128_u32[4];
+};
+
+/* 813 */
+struct __m128d
+{
+  double m128d_f64[2];
+};
+
+/* 814 */
+union __attribute__((aligned(16))) __m128i
+{
+  __int8 m128i_i8[16];
+  __int16 m128i_i16[8];
+  __int32 m128i_i32[4];
+  __int64 m128i_i64[2];
+  unsigned __int8 m128i_u8[16];
+  unsigned __int16 m128i_u16[8];
+  unsigned __int32 m128i_u32[4];
+  unsigned __int64 m128i_u64[2];
 };
 

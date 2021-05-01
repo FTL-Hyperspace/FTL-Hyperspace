@@ -38,3 +38,15 @@ bool ShipSystem::PartialDamage(ShipSystem *this<ecx>, float amount);
 static cleanup bool ShipSystem::IsSubsystem(int systemType);
 "83b91c010000077e??8b812001000085c07e??8b4140c7811c010000e8030000c7812001000000000000c781240100000100000083e80383f80176??55":
 void ShipSystem::ClearStatus(ShipSystem *this<ecx>);
+"8d4c240483e4f0ff71fc5589e55756535181ec????????8b41048b398b59088b510c83f80f0f87????????85db":
+static void ShipSystem::GetLevelDescription(std::string& retStr<ecx>, int systemId, int level, bool tooltip);
+
+struct ShipSystem
+{{
+	ShipSystem() { }
+	
+	ShipSystem(int systemId, int roomId, int shipId, int startingPower)
+	{
+		this->constructor(systemId, roomId, shipId, startingPower);
+	}
+}};

@@ -1,0 +1,10 @@
+"578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b77088b078b5704c744240c0100000089742408":
+void ArtilleryBox::constructor(ArtilleryBox *this<ecx>, Point pos, ArtillerySystem* sys);
+
+struct ArtilleryBox
+{{
+	ArtilleryBox(Point pos, ArtillerySystem* sys)
+	{
+		this->constructor(pos, sys);
+	}
+}};

@@ -1,2 +1,14 @@
 "578d7c240883e4f0ff77fc5589e557565389ce83ec7c0fb641508b1fc781b401000000000000":
 void SystemBox::OnRender(SystemBox *this<ecx>, bool ignoreStatus);
+"578d7c240883e4f0ff77fc5589e557565389ce8d9e8000000081ec????????8b4f088b57048b078b7f0cc706????????":
+void SystemBox::constructor(SystemBox *this<ecx>, Point pos, ShipSystem *sys, bool playerUI);
+
+struct SystemBox
+{{
+	SystemBox() { }
+	
+	SystemBox(Point pos, ShipSystem *sys, bool playerUI)
+	{
+		this->constructor(pos, sys, playerUI);
+	}
+}};
