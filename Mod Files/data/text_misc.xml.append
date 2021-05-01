@@ -82,6 +82,7 @@
 <text name="personnel_damage_negative">Crew Healing: \1</text>
 <text name="stun_length">seconds long</text>
 <text name="weapon_lockdown">Locks down rooms on hit</text>
+<text name="scrap_value">Buy/Sell Price: \1 scrap/\2 scrap</text>
 
 <!-- Hotkeys -->
 
