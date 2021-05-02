@@ -31960,17 +31960,16 @@ namespace _func894
 {
 	static void *func = 0;
 	static short argdata[] = {0x101};
-	static FunctionDefinition funcObj("StarMap::GetNewLocation", typeid(void (StarMap::*)()), ".31c080797c00747880b9ac06000000755c5589e5", argdata, 1, 5, &func);
+	static FunctionDefinition funcObj("StarMap::GetNewLocation", typeid(Location *(StarMap::*)()), ".31c080797c00747880b9ac06000000755c5589e5", argdata, 1, 1, &func);
 }
 
-__declspec(naked) void StarMap::GetNewLocation()
+__declspec(naked) Location *StarMap::GetNewLocation()
 {
 	__asm__
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
 		"push edx\n\t"
-		"push eax\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
 		"push esi\n\t"
@@ -31983,7 +31982,6 @@ __declspec(naked) void StarMap::GetNewLocation()
 		"pop esi\n\t"
 		"pop ebx\n\t"
 		"pop ecx\n\t"
-		"pop eax\n\t"
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"

@@ -5291,7 +5291,7 @@ struct StarMap : FocusWindow
 	LIBZHL_API void constructor();
 	LIBZHL_API void RenderSectorName(Sector *unk0, GL_Color unk1);
 	LIBZHL_API void UpdateDangerZone();
-	LIBZHL_API void GetNewLocation();
+	LIBZHL_API Location *GetNewLocation();
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void UpdateBoss();
 	LIBZHL_API void GenerateEvents(bool tutorial);

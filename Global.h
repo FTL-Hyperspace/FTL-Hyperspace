@@ -67,6 +67,13 @@ public:
     static FILE* logFile;
     static bool* firstTimeShips;
 
+    static unsigned int questSeed;
+    static std::vector<unsigned int> delayedQuestSeeds;
+    static int delayedQuestIndex;
+    static std::vector<unsigned int> lastDelayedQuestSeeds;
+
+    static unsigned int bossFleetSeed;
+
     //static ShaderSourceCallback** fragment_shader_source_callback;
 
     //LuaState* lua;

@@ -1,6 +1,7 @@
 #include "CustomEvents.h"
 #include "freetype.h"
 #include "Resources.h"
+#include "Seeds.h"
 #include "ShipUnlocks.h"
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
@@ -646,14 +647,27 @@ HOOK_METHOD(StarMap, constructor, () -> void)
 }
 
 static std::map<Location*, bool[2]> locValues = std::map<Location*, bool[2]>();
-bool questActuallyEnoughTime = false;
-bool questNextSectorPopped = false;
+static bool questActuallyEnoughTime = false;
+static bool questNextSectorPopped = false;
+static int overrideWorldLevel = -1;
 
 HOOK_METHOD(StarMap, AddQuest, (const std::string& questEvent, bool force) -> bool)
 {
-    int saveWorldLevel = worldLevel;
+    int savedSeed;
+    int nextQuestSeed;
+    overrideWorldLevel = worldLevel;
     int numAddedQuests = addedQuests.size();
     int numDelayedQuests = delayedQuests.size();
+
+    if (SeedInputBox::seedsEnabled) savedSeed = random32();
+
+    if (Global::lastDelayedQuestSeeds.size() > 0)
+    {
+        Global::questSeed = Global::lastDelayedQuestSeeds[Global::delayedQuestIndex++];
+        hs_log_file("Read delayed quest seed: %d\n", Global::questSeed);
+    }
+
+    hs_log_file("New quest: %s %d\n", questEvent.c_str(), Global::questSeed);
 
     CustomEvent *questCustomEvent = CustomEventsParser::GetInstance()->GetCustomEvent(questEvent);
 
@@ -698,7 +712,9 @@ HOOK_METHOD(StarMap, AddQuest, (const std::string& questEvent, bool force) -> bo
         }
     }
 
+    if (SeedInputBox::seedsEnabled) srandom32(Global::questSeed);
     bool ret = super(questEvent, force);
+    if (SeedInputBox::seedsEnabled) nextQuestSeed = random32();
 
     if (!ret && questCustomEvent && questCustomEvent->questAggressive)
     {
@@ -706,7 +722,9 @@ HOOK_METHOD(StarMap, AddQuest, (const std::string& questEvent, bool force) -> bo
         {
             delayedQuests.pop_back();
         }
+        if (SeedInputBox::seedsEnabled) srandom32(Global::questSeed);
         ret = super(questEvent, true);
+        if (SeedInputBox::seedsEnabled) nextQuestSeed = random32();
     }
 
     if (!ret && questCustomEvent && questCustomEvent->questNoNextSector && delayedQuests.size() > numDelayedQuests)
@@ -715,7 +733,8 @@ HOOK_METHOD(StarMap, AddQuest, (const std::string& questEvent, bool force) -> bo
         questNextSectorPopped = true;
     }
 
-    worldLevel = saveWorldLevel;
+    worldLevel = overrideWorldLevel;
+    overrideWorldLevel = -1;
 
     for (auto i : locValues)
     {
@@ -728,14 +747,11 @@ HOOK_METHOD(StarMap, AddQuest, (const std::string& questEvent, bool force) -> bo
         {
             if (i->questLoc != locValues[i][0]) //found the new quest location
             {
-                if ((bInfiniteMode || (questCustomEvent && questCustomEvent->questLastStand)) && worldLevel > 5)
-                {
-                    i->event = G_->GetEventGenerator()->GetBaseEvent(questEvent, worldLevel, false, -1);
-                }
                 if (questCustomEvent && i->nebula)
                 {
                     if (!questCustomEvent->questNebulaQuest.empty())
                     {
+                        if (SeedInputBox::seedsEnabled) srandom32(Global::questSeed);
                         i->event = G_->GetEventGenerator()->GetBaseEvent(questCustomEvent->questNebulaQuest, worldLevel, false, -1);
                         if (addedQuests.size() > numAddedQuests) {
                             addedQuests[numAddedQuests].first = questCustomEvent->questNebulaQuest;
@@ -752,7 +768,33 @@ HOOK_METHOD(StarMap, AddQuest, (const std::string& questEvent, bool force) -> bo
         }
     }
 
+    if (ret && addedQuests.size() > numAddedQuests)
+    {
+        addedQuests[numAddedQuests].first = "QUEST " + std::to_string(Global::questSeed) + " " + addedQuests[numAddedQuests].first;
+    }
+
+    if (!ret && delayedQuests.size() > numDelayedQuests)
+    {
+        Global::delayedQuestSeeds.push_back(Global::questSeed);
+    }
+
+    if (SeedInputBox::seedsEnabled)
+    {
+        Global::questSeed = nextQuestSeed;
+        srandom32(savedSeed);
+    }
+
     return ret;
+}
+
+HOOK_METHOD(EventGenerator, GetBaseEvent, (const std::string& name, int worldLevel, char ignoreUnique, int seed) -> LocationEvent*)
+{
+    if (overrideWorldLevel > -1)
+    {
+        return super(name, overrideWorldLevel, ignoreUnique, seed);
+    }
+
+    return super(name, worldLevel, ignoreUnique, seed);
 }
 
 HOOK_METHOD(StarMap, RenderLabels, () -> void)
