@@ -95,7 +95,7 @@ void StarMap::RenderSectorName(StarMap *this<ecx>, Sector * unk0, GL_Color unk1)
 ".578d7c240883e4f0ff77fc5589e557565389cb83ec4c80b9c0060000000f85????????80b980080000000f85????????8bb38000000083fe3b0f8f????????89d9e8????????01f083f83b898380000000":
 void StarMap::UpdateDangerZone(StarMap *this<ecx>);
 ".31c080797c00747880b9ac06000000755c5589e5":
-void StarMap::GetNewLocation(StarMap *this<ecx>);
+Location* StarMap::GetNewLocation(StarMap *this<ecx>);
 ".80790400750ac389f68dbc2700000000578d7c24":
 void StarMap::OnLoop(StarMap *this<ecx>);
 ".80b98008000000740c5589e583e4f0e8acf3ffff":
