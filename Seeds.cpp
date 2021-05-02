@@ -419,9 +419,13 @@ HOOK_METHOD_PRIORITY(StarMap, SaveGame, 500, (int file) -> void)
 
 HOOK_METHOD(StarMap, UpdateBoss, () -> void)
 {
+    if (!SeedInputBox::seedsEnabled) return super();
+
+    int saveSeed = random32();
     hs_log_file("Update boss fleet with seed: %d\n", Global::bossFleetSeed);
     srandom32(Global::bossFleetSeed);
     super();
     Global::bossFleetSeed = random32();
     hs_log_file("Next boss fleet seed: %d\n", Global::bossFleetSeed);
+    srandom32(saveSeed);
 }
