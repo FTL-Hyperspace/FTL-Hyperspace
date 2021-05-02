@@ -336,3 +336,22 @@ HOOK_METHOD(ShipSystem, GetEffectivePower, () -> int)
 
     return boostPower + iBatteryPower + powerState.first + iBonusPower;
 }
+
+HOOK_STATIC(ShipSystem, GetLevelDescription, (void* unk, std::string &retStr, int systemId, int level, bool tooltip) -> void)
+{
+    super(unk, retStr, systemId, level, tooltip);
+
+    std::string name = "";
+    SystemIdToName(name, systemId);
+    auto tLib = G_->GetTextLibrary();
+    name += "_" + std::to_string(level + 1);
+    if (tooltip)
+    {
+        name += "_" + std::to_string(level) + "_tooltip";
+        retStr.assign(tLib->GetText(name));
+    }
+    else
+    {
+        retStr.assign(tLib->GetText(name));
+    }
+}
