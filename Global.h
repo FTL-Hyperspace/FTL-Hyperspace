@@ -69,6 +69,8 @@ public:
     static FILE* logFile;
     static bool* firstTimeShips;
 
+    static unsigned int worldLevelSeed;
+
     static unsigned int questSeed;
     static std::vector<unsigned int> delayedQuestSeeds;
     static int delayedQuestIndex;
