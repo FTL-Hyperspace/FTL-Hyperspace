@@ -32062,41 +32062,6 @@ __declspec(naked) void StarMap::OnLoop()
 namespace _func897
 {
 	static void *func = 0;
-	static short argdata[] = {0x101};
-	static FunctionDefinition funcObj("StarMap::UpdateBoss", typeid(void (StarMap::*)()), ".80b98008000000740c5589e583e4f0e8acf3ffff", argdata, 1, 5, &func);
-}
-
-__declspec(naked) void StarMap::UpdateBoss()
-{
-	__asm__
-	(
-		"push ebp\n\t"
-		"mov ebp, esp\n\t"
-		"push edx\n\t"
-		"push eax\n\t"
-		"push ecx\n\t"
-		"push ebx\n\t"
-		"push esi\n\t"
-		"push edi\n\t"
-	);
-	__asm__("call %0\n\t" :: "m"(_func897::func));
-	__asm__
-	(
-		"pop edi\n\t"
-		"pop esi\n\t"
-		"pop ebx\n\t"
-		"pop ecx\n\t"
-		"pop eax\n\t"
-		"pop edx\n\t"
-		"mov esp, ebp\n\t"
-		"pop ebp\n\t"
-		"ret\n\t"
-	);
-}
-
-namespace _func898
-{
-	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
 	static FunctionDefinition funcObj("StarMap::GenerateEvents", typeid(void (StarMap::*)(bool )), ".578d7c240883e4f0ff77fc5589e557565381ec????????8b81a00600008b919c0600008b37898de8feffff898504ffffff29d0c1f802", argdata, 2, 5, &func);
 }
@@ -32115,7 +32080,7 @@ __declspec(naked) void StarMap::GenerateEvents(bool tutorial)
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// tutorial
 	);
-	__asm__("call %0\n\t" :: "m"(_func898::func));
+	__asm__("call %0\n\t" :: "m"(_func897::func));
 	__asm__
 	(
 		"pop edi\n\t"
@@ -32130,7 +32095,7 @@ __declspec(naked) void StarMap::GenerateEvents(bool tutorial)
 	);
 }
 
-namespace _func899
+namespace _func898
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
@@ -32151,7 +32116,7 @@ __declspec(naked) void StarMap::AddConnections(Location *unk0)
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// unk0
 	);
-	__asm__("call %0\n\t" :: "m"(_func899::func));
+	__asm__("call %0\n\t" :: "m"(_func898::func));
 	__asm__
 	(
 		"pop edi\n\t"
@@ -32166,7 +32131,7 @@ __declspec(naked) void StarMap::AddConnections(Location *unk0)
 	);
 }
 
-namespace _func900
+namespace _func899
 {
 	static void *func = 0;
 	static short argdata[] = {0x101};
@@ -32186,7 +32151,7 @@ __declspec(naked) void StarMap::MapConnected()
 		"push esi\n\t"
 		"push edi\n\t"
 	);
-	__asm__("call %0\n\t" :: "m"(_func900::func));
+	__asm__("call %0\n\t" :: "m"(_func899::func));
 	__asm__
 	(
 		"pop edi\n\t"
@@ -32201,7 +32166,7 @@ __declspec(naked) void StarMap::MapConnected()
 	);
 }
 
-namespace _func901
+namespace _func900
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x2ff, 0x2ff};
@@ -32225,7 +32190,7 @@ __declspec(naked) void StarMap::ConnectLocations(Point unk0, Point unk1)
 		"push [ebp+12]\n\t"		// unk0
 		"push [ebp+8]\n\t"		// unk0
 	);
-	__asm__("call %0\n\t" :: "m"(_func901::func));
+	__asm__("call %0\n\t" :: "m"(_func900::func));
 	__asm__
 	(
 		"pop edi\n\t"
@@ -32240,7 +32205,7 @@ __declspec(naked) void StarMap::ConnectLocations(Point unk0, Point unk1)
 	);
 }
 
-namespace _func902
+namespace _func901
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x2ff};
@@ -32262,7 +32227,7 @@ __declspec(naked) void StarMap::PopulateGrid(Point unk0)
 		"push [ebp+12]\n\t"		// unk0
 		"push [ebp+8]\n\t"		// unk0
 	);
-	__asm__("call %0\n\t" :: "m"(_func902::func));
+	__asm__("call %0\n\t" :: "m"(_func901::func));
 	__asm__
 	(
 		"pop edi\n\t"
@@ -32277,7 +32242,7 @@ __declspec(naked) void StarMap::PopulateGrid(Point unk0)
 	);
 }
 
-namespace _func903
+namespace _func902
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff};
@@ -32298,7 +32263,7 @@ __declspec(naked) Location *StarMap::PopClosestLoc(std::vector<Location*> &vec, 
 		"push [ebp+12]\n\t"		// map
 		"push [ebp+8]\n\t"		// vec
 	);
-	__asm__("call %0\n\t" :: "m"(_func903::func));
+	__asm__("call %0\n\t" :: "m"(_func902::func));
 	__asm__
 	(
 		"pop edi\n\t"
@@ -32312,7 +32277,7 @@ __declspec(naked) Location *StarMap::PopClosestLoc(std::vector<Location*> &vec, 
 	);
 }
 
-namespace _func904
+namespace _func903
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff, 0x1ff, 0x1ff};
@@ -32337,7 +32302,7 @@ __declspec(naked) void StarMap::Dijkstra0(std::vector<Location*> &ref, StarMap *
 		"push [ebp+12]\n\t"		// starMap
 		"mov ecx, [ebp+8]\n\t"	// ref
 	);
-	__asm__("call %0\n\t" :: "m"(_func904::func));
+	__asm__("call %0\n\t" :: "m"(_func903::func));
 	__asm__
 	(
 		"pop edi\n\t"
@@ -32352,7 +32317,7 @@ __declspec(naked) void StarMap::Dijkstra0(std::vector<Location*> &ref, StarMap *
 	);
 }
 
-namespace _func905
+namespace _func904
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff};
@@ -32373,7 +32338,7 @@ __declspec(naked) bool StarMap::AddQuest(const std::string &questEvent, bool for
 		"push [ebp+12]\n\t"		// force
 		"push [ebp+8]\n\t"		// questEvent
 	);
-	__asm__("call %0\n\t" :: "m"(_func905::func));
+	__asm__("call %0\n\t" :: "m"(_func904::func));
 	__asm__
 	(
 		"pop edi\n\t"
@@ -32387,7 +32352,7 @@ __declspec(naked) bool StarMap::AddQuest(const std::string &questEvent, bool for
 	);
 }
 
-namespace _func906
+namespace _func905
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff};
@@ -32408,7 +32373,7 @@ __declspec(naked) Location *StarMap::GenerateMap(bool tutorial, bool seed)
 		"push [ebp+12]\n\t"		// seed
 		"push [ebp+8]\n\t"		// tutorial
 	);
-	__asm__("call %0\n\t" :: "m"(_func906::func));
+	__asm__("call %0\n\t" :: "m"(_func905::func));
 	__asm__
 	(
 		"pop edi\n\t"
@@ -32422,7 +32387,7 @@ __declspec(naked) Location *StarMap::GenerateMap(bool tutorial, bool seed)
 	);
 }
 
-namespace _func907
+namespace _func906
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
@@ -32442,7 +32407,7 @@ __declspec(naked) Location *StarMap::NewGame(bool unk0)
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// unk0
 	);
-	__asm__("call %0\n\t" :: "m"(_func907::func));
+	__asm__("call %0\n\t" :: "m"(_func906::func));
 	__asm__
 	(
 		"pop edi\n\t"
@@ -32456,7 +32421,7 @@ __declspec(naked) Location *StarMap::NewGame(bool unk0)
 	);
 }
 
-namespace _func908
+namespace _func907
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff, 0x1ff, 0x1ff};
@@ -32481,7 +32446,7 @@ __declspec(naked) void StarMap::Dijkstra1(std::vector<Location*> &ref, StarMap *
 		"push [ebp+12]\n\t"		// starMap
 		"mov ecx, [ebp+8]\n\t"	// ref
 	);
-	__asm__("call %0\n\t" :: "m"(_func908::func));
+	__asm__("call %0\n\t" :: "m"(_func907::func));
 	__asm__
 	(
 		"pop edi\n\t"
@@ -32496,7 +32461,7 @@ __declspec(naked) void StarMap::Dijkstra1(std::vector<Location*> &ref, StarMap *
 	);
 }
 
-namespace _func909
+namespace _func908
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff};
@@ -32518,7 +32483,7 @@ __declspec(naked) void StarMap::MouseMove(int x, int y)
 		"push [ebp+12]\n\t"		// y
 		"push [ebp+8]\n\t"		// x
 	);
-	__asm__("call %0\n\t" :: "m"(_func909::func));
+	__asm__("call %0\n\t" :: "m"(_func908::func));
 	__asm__
 	(
 		"pop edi\n\t"
@@ -32533,7 +32498,7 @@ __declspec(naked) void StarMap::MouseMove(int x, int y)
 	);
 }
 
-namespace _func910
+namespace _func909
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff, 0x1ff, 0x1ff, 0x1ff, 0x1ff};
@@ -32559,7 +32524,7 @@ __declspec(naked) void StarMap::OnTouch(TouchAction unk0, int unk1, int unk2, in
 		"push [ebp+12]\n\t"		// unk1
 		"push [ebp+8]\n\t"		// unk0
 	);
-	__asm__("call %0\n\t" :: "m"(_func910::func));
+	__asm__("call %0\n\t" :: "m"(_func909::func));
 	__asm__
 	(
 		"pop edi\n\t"
@@ -32574,7 +32539,7 @@ __declspec(naked) void StarMap::OnTouch(TouchAction unk0, int unk1, int unk2, in
 	);
 }
 
-namespace _func911
+namespace _func910
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
@@ -32594,7 +32559,7 @@ __declspec(naked) Location *StarMap::LoadGame(int fileHelper)
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// fileHelper
 	);
-	__asm__("call %0\n\t" :: "m"(_func911::func));
+	__asm__("call %0\n\t" :: "m"(_func910::func));
 	__asm__
 	(
 		"pop edi\n\t"
@@ -32608,7 +32573,7 @@ __declspec(naked) Location *StarMap::LoadGame(int fileHelper)
 	);
 }
 
-namespace _func912
+namespace _func911
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff, 0x1ff};
@@ -32631,7 +32596,7 @@ __declspec(naked) void StarMap::RenderLeftInsetButton(float unk0, float unk1, bo
 		"push [ebp+12]\n\t"		// unk1
 		"push [ebp+8]\n\t"		// unk0
 	);
-	__asm__("call %0\n\t" :: "m"(_func912::func));
+	__asm__("call %0\n\t" :: "m"(_func911::func));
 	__asm__
 	(
 		"pop edi\n\t"
@@ -32646,7 +32611,7 @@ __declspec(naked) void StarMap::RenderLeftInsetButton(float unk0, float unk1, bo
 	);
 }
 
-namespace _func913
+namespace _func912
 {
 	static void *func = 0;
 	static short argdata[] = {0x101};
@@ -32654,6 +32619,41 @@ namespace _func913
 }
 
 __declspec(naked) void StarMap::RenderDistressButtons()
+{
+	__asm__
+	(
+		"push ebp\n\t"
+		"mov ebp, esp\n\t"
+		"push edx\n\t"
+		"push eax\n\t"
+		"push ecx\n\t"
+		"push ebx\n\t"
+		"push esi\n\t"
+		"push edi\n\t"
+	);
+	__asm__("call %0\n\t" :: "m"(_func912::func));
+	__asm__
+	(
+		"pop edi\n\t"
+		"pop esi\n\t"
+		"pop ebx\n\t"
+		"pop ecx\n\t"
+		"pop eax\n\t"
+		"pop edx\n\t"
+		"mov esp, ebp\n\t"
+		"pop ebp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func913
+{
+	static void *func = 0;
+	static short argdata[] = {0x101};
+	static FunctionDefinition funcObj("StarMap::OnRender", typeid(void (StarMap::*)()), ".578d7c240883e4f0ff77fc5589e557565389cb81ec????????80b91007000000", argdata, 1, 5, &func);
+}
+
+__declspec(naked) void StarMap::OnRender()
 {
 	__asm__
 	(
@@ -32684,41 +32684,6 @@ __declspec(naked) void StarMap::RenderDistressButtons()
 namespace _func914
 {
 	static void *func = 0;
-	static short argdata[] = {0x101};
-	static FunctionDefinition funcObj("StarMap::OnRender", typeid(void (StarMap::*)()), ".578d7c240883e4f0ff77fc5589e557565389cb81ec????????80b91007000000", argdata, 1, 5, &func);
-}
-
-__declspec(naked) void StarMap::OnRender()
-{
-	__asm__
-	(
-		"push ebp\n\t"
-		"mov ebp, esp\n\t"
-		"push edx\n\t"
-		"push eax\n\t"
-		"push ecx\n\t"
-		"push ebx\n\t"
-		"push esi\n\t"
-		"push edi\n\t"
-	);
-	__asm__("call %0\n\t" :: "m"(_func914::func));
-	__asm__
-	(
-		"pop edi\n\t"
-		"pop esi\n\t"
-		"pop ebx\n\t"
-		"pop ecx\n\t"
-		"pop eax\n\t"
-		"pop edx\n\t"
-		"mov esp, ebp\n\t"
-		"pop ebp\n\t"
-		"ret\n\t"
-	);
-}
-
-namespace _func915
-{
-	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff, 0x1ff};
 	static FunctionDefinition funcObj("StarMap::DrawConnection", typeid(void (StarMap::*)(const Pointf &, const Pointf &, const GL_Color *)), "578d7c240883e4f0ff77fc5589e557565381ec????????8b078b57048b5f08894db889458089d689957cffffff8b5004", argdata, 4, 5, &func);
 }
@@ -32739,7 +32704,7 @@ __declspec(naked) void StarMap::DrawConnection(const Pointf &pos1, const Pointf 
 		"push [ebp+12]\n\t"		// pos2
 		"push [ebp+8]\n\t"		// pos1
 	);
-	__asm__("call %0\n\t" :: "m"(_func915::func));
+	__asm__("call %0\n\t" :: "m"(_func914::func));
 	__asm__
 	(
 		"pop edi\n\t"
@@ -32754,7 +32719,7 @@ __declspec(naked) void StarMap::DrawConnection(const Pointf &pos1, const Pointf 
 	);
 }
 
-namespace _func916
+namespace _func915
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
@@ -32775,7 +32740,7 @@ __declspec(naked) void StarMap::TurnIntoFleetLocation(Location *loc)
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// loc
 	);
-	__asm__("call %0\n\t" :: "m"(_func916::func));
+	__asm__("call %0\n\t" :: "m"(_func915::func));
 	__asm__
 	(
 		"pop edi\n\t"
@@ -32790,7 +32755,7 @@ __declspec(naked) void StarMap::TurnIntoFleetLocation(Location *loc)
 	);
 }
 
-namespace _func917
+namespace _func916
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff};
@@ -32812,7 +32777,7 @@ __declspec(naked) std::string &StarMap::GetLocationText(std::string &strRef, Sta
 		"push [ebp+12]\n\t"		// starMap
 		"mov ecx, [ebp+8]\n\t"	// strRef
 	);
-	__asm__("call %0\n\t" :: "m"(_func917::func));
+	__asm__("call %0\n\t" :: "m"(_func916::func));
 	__asm__
 	(
 		"pop edi\n\t"
@@ -32826,7 +32791,7 @@ __declspec(naked) std::string &StarMap::GetLocationText(std::string &strRef, Sta
 	);
 }
 
-namespace _func918
+namespace _func917
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff};
@@ -32848,7 +32813,7 @@ __declspec(naked) void StarMap::SetupNoFuel(int seed, const std::string &forceEs
 		"push [ebp+12]\n\t"		// forceEscape
 		"push [ebp+8]\n\t"		// seed
 	);
-	__asm__("call %0\n\t" :: "m"(_func918::func));
+	__asm__("call %0\n\t" :: "m"(_func917::func));
 	__asm__
 	(
 		"pop edi\n\t"
@@ -32863,7 +32828,7 @@ __declspec(naked) void StarMap::SetupNoFuel(int seed, const std::string &forceEs
 	);
 }
 
-namespace _func919
+namespace _func918
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
@@ -32884,7 +32849,7 @@ __declspec(naked) void StarMap::GenerateNebulas(const std::vector<std::string> &
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// names
 	);
-	__asm__("call %0\n\t" :: "m"(_func919::func));
+	__asm__("call %0\n\t" :: "m"(_func918::func));
 	__asm__
 	(
 		"pop edi\n\t"
@@ -32896,6 +32861,41 @@ __declspec(naked) void StarMap::GenerateNebulas(const std::vector<std::string> &
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
 		"ret 4\n\t"
+	);
+}
+
+namespace _func919
+{
+	static void *func = 0;
+	static short argdata[] = {0x101};
+	static FunctionDefinition funcObj("StarMap::UpdateBoss", typeid(void (StarMap::*)()), "578d7c240883e4f0ff77fc5589e557565389ce83ec3c8b81680800008b91740800008b3c82", argdata, 1, 5, &func);
+}
+
+__declspec(naked) void StarMap::UpdateBoss()
+{
+	__asm__
+	(
+		"push ebp\n\t"
+		"mov ebp, esp\n\t"
+		"push edx\n\t"
+		"push eax\n\t"
+		"push ecx\n\t"
+		"push ebx\n\t"
+		"push esi\n\t"
+		"push edi\n\t"
+	);
+	__asm__("call %0\n\t" :: "m"(_func919::func));
+	__asm__
+	(
+		"pop edi\n\t"
+		"pop esi\n\t"
+		"pop ebx\n\t"
+		"pop ecx\n\t"
+		"pop eax\n\t"
+		"pop edx\n\t"
+		"mov esp, ebp\n\t"
+		"pop ebp\n\t"
+		"ret\n\t"
 	);
 }
 
