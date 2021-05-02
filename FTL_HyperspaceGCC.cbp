@@ -377,6 +377,9 @@
 		<Unit filename="MoreInfoButton.h">
 			<Option virtualFolder="Content/Misc/" />
 		</Unit>
+		<Unit filename="NeutralTeleporterFix.cpp">
+			<Option virtualFolder="Content/Misc/" />
+		</Unit>
 		<Unit filename="Projectile_Extend.cpp">
 			<Option virtualFolder="Core/Weapons/" />
 		</Unit>
