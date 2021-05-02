@@ -187,6 +187,7 @@ HOOK_METHOD(ScoreKeeper, UnlockShip, (int shipId, int shipType, bool save, bool 
 HOOK_METHOD(StarMap, SaveGame, (int file) -> void)
 {
     FileHelper::writeInt(file, Global::currentSeed);
+    FileHelper::writeInt(file, Global::worldLevelSeed);
     FileHelper::writeInt(file, Global::isCustomSeed);
     super(file);
 }
@@ -229,6 +230,7 @@ HOOK_METHOD(StarMap, LoadGame, (int fh) -> Location*)
     loadingMap = true;
 
     Global::currentSeed = FileHelper::readInteger(fh);
+    Global::worldLevelSeed = FileHelper::readInteger(fh);
     Global::isCustomSeed = FileHelper::readInteger(fh);
 
 	Location *ret = super(fh);
@@ -236,6 +238,16 @@ HOOK_METHOD(StarMap, LoadGame, (int fh) -> Location*)
 	loadingMap = false;
 
     return ret;
+}
+
+HOOK_METHOD(StarMap, AdvanceWorldLevel, () -> void)
+{
+    super();
+
+    SetSeed(Global::worldLevelSeed);
+    Global::worldLevelSeed = SeededRandom32();
+
+    hs_log_file("Next worldLevel seed: %d\n", Global::worldLevelSeed);
 }
 
 int eventNumber = 0;
@@ -246,6 +258,7 @@ HOOK_METHOD(StarMap, GenerateMap, (bool unk, bool seed) -> Location*)
 	if (startingNewGame)
 	{
 		this->currentSectorSeed = Global::currentSeed;
+		Global::worldLevelSeed = currentSectorSeed;
 
         startingNewGame = false;
 	}
@@ -253,11 +266,25 @@ HOOK_METHOD(StarMap, GenerateMap, (bool unk, bool seed) -> Location*)
     {
         if (!seed)
         {
+            if (bSecretSector)
+            {
+                SetSeed(currentSectorSeed);
+            }
+            else
+            {
+                int a = currentSector->location.x;
+                int b = currentSector->location.y;
+
+                SetSeed((((a + b) * (a + b + 1)) / 2 + b)^Global::worldLevelSeed^0xf8072a96);
+            }
             currentSectorSeed = SeededRandom32();
+            SetSeed(currentSectorSeed);
+            hs_log_file("New sector seed: %d\n", currentSectorSeed);
         }
         else
         {
             SetSeed(currentSectorSeed);
+            hs_log_file("Loaded sector seed: %d\n", currentSectorSeed);
         }
     }
 
@@ -428,4 +455,15 @@ HOOK_METHOD(StarMap, UpdateBoss, () -> void)
     Global::bossFleetSeed = random32();
     hs_log_file("Next boss fleet seed: %d\n", Global::bossFleetSeed);
     srandom32(saveSeed);
+}
+
+HOOK_METHOD(StarMap, AdvanceWorldLevel, () -> void)
+{
+    super();
+
+    if (SeedInputBox::seedsEnabled && bSecretSector)
+    {
+        hs_log_file("Pick random next sector using seed: %d\n", currentSectorSeed);
+        srandom32(currentSectorSeed&0x7fffffff);
+    }
 }
