@@ -425,7 +425,7 @@ Syntax ->
 				<detectsLifeforms>false</detectsLifeforms>
 				<isTelepathic>false</isTelepathic>
 				<fireDamageMultiplier>1</fireDamageMultiplier>
-				<suffocationModifier>
+				<suffocationModifier>1</suffocationModifier>
 				<damageTakenMultiplier>1</damageTakenMultiplier>
 				<allDamageTakenMultiplier>1</allDamageTakenMultiplier>
 				<sabotageSpeedMultiplier>1</sabotageSpeedMultiplier>
