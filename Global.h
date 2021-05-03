@@ -60,6 +60,7 @@ public:
     static unsigned int sectorMapSeed;
     static int64_t* randomState;
     static std::mt19937 seededRng;
+    static int seededRngCounter;
     static bool* showWelcome;
     static bool* dlcEnabled;
     static int* difficulty;
@@ -120,7 +121,7 @@ private:
     static AchievementTracker *__achievementTracker;
     static ScoreKeeper *__scoreKeeper;
 
-    const int __version = 634;
+    const int __version = 635;
 
 
 };

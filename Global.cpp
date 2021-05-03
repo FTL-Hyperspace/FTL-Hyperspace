@@ -25,6 +25,7 @@ bool *Global::showBeaconPath = nullptr;
 unsigned int Global::currentSeed = 0;
 int64_t *Global::randomState = nullptr;
 std::mt19937 Global::seededRng;
+int Global::seededRngCounter = 0;
 bool *Global::showWelcome = nullptr;
 bool *Global::dlcEnabled = nullptr;
 int *Global::difficulty = nullptr;

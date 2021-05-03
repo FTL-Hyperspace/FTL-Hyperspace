@@ -187,6 +187,7 @@ HOOK_METHOD(StarMap, SaveGame, (int file) -> void)
 {
     FileHelper::writeInt(file, Global::currentSeed);
     FileHelper::writeInt(file, Global::isCustomSeed);
+    FileHelper::writeInt(file, Global::seededRngCounter);
     super(file);
 }
 
@@ -228,6 +229,11 @@ HOOK_METHOD(StarMap, LoadGame, (int fh) -> Location*)
     Global::currentSeed = FileHelper::readInteger(fh);
     Global::isCustomSeed = FileHelper::readInteger(fh);
 
+    int rngCounter = FileHelper::readInteger(fh);
+
+    SetSeed(Global::currentSeed);
+    while (Global::seededRngCounter < rngCounter) SeededRandom32();
+
 	Location *ret = super(fh);
 
     return ret;
@@ -250,10 +256,6 @@ HOOK_METHOD(StarMap, GenerateMap, (bool unk, bool seed) -> Location*)
         if (!seed)
         {
             currentSectorSeed = SeededRandom32();
-        }
-        else
-        {
-            SetSeed(currentSectorSeed);
         }
     }
 
@@ -278,6 +280,7 @@ unsigned int SeededRandom32()
 {
 
 	unsigned int ret = Global::seededRng();
+	Global::seededRngCounter++;
 
     return ret;
 }
@@ -287,6 +290,7 @@ unsigned int SeededRandom32()
 void SetSeed(unsigned int seed)
 {
 	Global::seededRng = std::mt19937(seed);
+	Global::seededRngCounter = 0;
 	//Global::currentSeed = seed;
 	nextSeed = seed;
 }
