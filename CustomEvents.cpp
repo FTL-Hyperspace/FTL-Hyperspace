@@ -668,10 +668,7 @@ HOOK_METHOD(StarMap, AddQuest, (const std::string& questEvent, bool force) -> bo
     if (Global::lastDelayedQuestSeeds.size() > 0)
     {
         Global::questSeed = Global::lastDelayedQuestSeeds[Global::delayedQuestIndex++];
-        hs_log_file("Read delayed quest seed: %d\n", Global::questSeed);
     }
-
-    hs_log_file("New quest: %s %d\n", questEvent.c_str(), Global::questSeed);
 
     CustomEvent *questCustomEvent = CustomEventsParser::GetInstance()->GetCustomEvent(questEvent);
 

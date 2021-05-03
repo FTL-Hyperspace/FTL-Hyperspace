@@ -246,8 +246,6 @@ HOOK_METHOD(StarMap, AdvanceWorldLevel, () -> void)
 
     SetSeed(Global::worldLevelSeed);
     Global::worldLevelSeed = SeededRandom32();
-
-    hs_log_file("Next worldLevel seed: %d\n", Global::worldLevelSeed);
 }
 
 int eventNumber = 0;
@@ -279,12 +277,10 @@ HOOK_METHOD(StarMap, GenerateMap, (bool unk, bool seed) -> Location*)
             }
             currentSectorSeed = SeededRandom32();
             SetSeed(currentSectorSeed);
-            hs_log_file("New sector seed: %d\n", currentSectorSeed);
         }
         else
         {
             SetSeed(currentSectorSeed);
-            hs_log_file("Loaded sector seed: %d\n", currentSectorSeed);
         }
     }
 
@@ -304,8 +300,6 @@ HOOK_METHOD_PRIORITY(StarMap, GenerateMap, 1000, (bool unk, bool seed) -> Locati
         Global::delayedQuestSeeds.clear();
 
         Global::bossFleetSeed = (currentSectorSeed ^ 0x46157fab) & 0x7fffffff;
-
-        hs_log_file("Generate boss fleet seed: %d\n", Global::bossFleetSeed);
     }
 
     auto ret = super(unk, seed);
@@ -358,8 +352,6 @@ HOOK_METHOD(StarMap, GetNewLocation, () -> Location*)
         Global::questSeed = ((((a + b) * (a + b + 1)) / 2 + b)^currentSectorSeed^0x282b2048) & 0x7fffffff;
     }
 
-    hs_log_file("New location quest seed: %d\n", Global::questSeed);
-
     return ret;
 }
 
@@ -381,9 +373,6 @@ HOOK_METHOD_PRIORITY(StarMap, NewGame, 500, (bool unk) -> Location*)
         Global::questSeed = ((((a + b) * (a + b + 1)) / 2 + b)^currentSectorSeed^0x282b2048) & 0x7fffffff;
     }
 
-    hs_log_file("New game quest seed: %d\n", Global::questSeed);
-    hs_log_file("New game boss fleet seed: %d\n", Global::bossFleetSeed);
-
     return ret;
 }
 
@@ -394,17 +383,13 @@ HOOK_METHOD_PRIORITY(StarMap, LoadGame, 500, (int fh) -> Location*)
     Global::delayedQuestSeeds.clear();
     Global::lastDelayedQuestSeeds.clear();
 
-    hs_log_file("Load current quest seed: %d\n", Global::questSeed);
-
     int numDelayedQuests = FileHelper::readInteger(fh);
     for (int i=0; i<numDelayedQuests; ++i)
     {
         Global::delayedQuestSeeds.push_back(FileHelper::readInteger(fh));
-        hs_log_file("Load delayed quest seed: %d\n", Global::delayedQuestSeeds[i]);
     }
 
     Global::bossFleetSeed = FileHelper::readInteger(fh);
-    hs_log_file("Load current boss fleet seed: %d\n", Global::bossFleetSeed);
 
     auto ret = super(fh);
 
@@ -429,17 +414,14 @@ HOOK_METHOD(EventGenerator, GetBaseEvent, (const std::string& name, int worldLev
 HOOK_METHOD_PRIORITY(StarMap, SaveGame, 500, (int file) -> void)
 {
     FileHelper::writeInt(file, Global::questSeed);
-    hs_log_file("Save current quest seed: %d\n", Global::questSeed);
 
     FileHelper::writeInt(file, Global::delayedQuestSeeds.size());
     for (auto i : Global::delayedQuestSeeds)
     {
         FileHelper::writeInt(file, i);
-        hs_log_file("Save delayed quest seed: %d\n", i);
     }
 
     FileHelper::writeInt(file, Global::bossFleetSeed);
-    hs_log_file("Save current boss fleet seed: %d\n", Global::bossFleetSeed);
 
     super(file);
 }
@@ -449,11 +431,9 @@ HOOK_METHOD(StarMap, UpdateBoss, () -> void)
     if (!SeedInputBox::seedsEnabled) return super();
 
     int saveSeed = random32();
-    hs_log_file("Update boss fleet with seed: %d\n", Global::bossFleetSeed);
     srandom32(Global::bossFleetSeed);
     super();
     Global::bossFleetSeed = random32();
-    hs_log_file("Next boss fleet seed: %d\n", Global::bossFleetSeed);
     srandom32(saveSeed);
 }
 
@@ -463,7 +443,6 @@ HOOK_METHOD(StarMap, AdvanceWorldLevel, () -> void)
 
     if (SeedInputBox::seedsEnabled && bSecretSector)
     {
-        hs_log_file("Pick random next sector using seed: %d\n", currentSectorSeed);
         srandom32(currentSectorSeed&0x7fffffff);
     }
 }
