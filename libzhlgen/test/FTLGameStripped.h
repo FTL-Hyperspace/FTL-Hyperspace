@@ -40,6 +40,7 @@ struct CrewBlueprint;
 struct WorldManager;
 struct OxygenSystem;
 struct HackingSystem;
+struct BatterySystem;
 struct CloakingSystem;
 struct MindSystem;
 struct Shields;
@@ -2747,9 +2748,6 @@ struct std__vector_12ShipSystemZ1
   ShipSystem **_end;
 };
 
-/* 286 */
-struct BatterySystem;
-
 /* 296 */
 struct CloneSystem;
 
@@ -3947,6 +3945,15 @@ struct CloakingSystem
   std__string soundeffect;
   AnimationTracker glowTracker;
   GL_Primitive *glowImage;
+};
+
+/* 286 */
+struct BatterySystem
+{
+  ShipSystem _base;
+  bool bTurnedOn;
+  TimerHelper timer;
+  std__string soundeffect;
 };
 
 /* 288 */

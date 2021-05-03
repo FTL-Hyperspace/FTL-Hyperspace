@@ -8,3 +8,5 @@ void MouseControl::QueueStaticTooltip(MouseControl *this<ecx>, Point pos);
 void MouseControl::OnLoop(MouseControl *this<ecx>);
 ".c6812801000001":
 void MouseControl::InstantTooltip(MouseControl *this<ecx>);
+"80b91d010000000f85????????578d7c240883e4f0ff77fc5589e557565389cf81ec????????0fb6411d8b592884c00f84????????":
+void MouseControl::OnRender(MouseControl *this<ecx>);

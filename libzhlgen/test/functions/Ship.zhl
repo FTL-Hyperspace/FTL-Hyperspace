@@ -26,6 +26,8 @@ void Ship::OnRenderBase(Ship *this<ecx>, bool unk);
 void Ship::OnRenderFloor(Ship *this<ecx>);
 "578d7c240883e4f0ff77fc5589e557565389ce83ec2c8b1f8b83f401000089018b83f80100008941048b83fc0100008941088b830002000089410c":
 static void Ship::GetBaseEllipse(Globals::Ellipse& ret<ecx>, Ship *_this);
+"578d7c240883e4f0ff77fc5589e557565383ec2c8b378b790c8b4108894de489fa29c2c1fa02":
+void Ship::SetSelectedRoom(Ship *this<ecx>, int roomId);
 
 struct Ship depends (ShipGraph, Globals::Ellipse) {{
 	Pointf GetRoomCenter(int room)

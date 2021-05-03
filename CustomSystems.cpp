@@ -1,12 +1,11 @@
 #include "CustomSystems.h"
+#include "OverclockerSystem.h"
 
-
-/*
-(working) test system
+//(working) test system
 
 HOOK_STATIC(ShipSystem, NameToSystemId, (std::string& name) -> int)
 {
-    if (name == "test")
+    if (name == "overclocker")
     {
         return 20;
     }
@@ -19,7 +18,7 @@ HOOK_STATIC(ShipSystem, SystemIdToName, (std::string& strRef, int systemId) -> s
     super(strRef, systemId);
     if (systemId == 20)
     {
-        strRef.assign("test");
+        strRef.assign("overclocker");
     }
 
     return strRef;
@@ -46,6 +45,7 @@ HOOK_METHOD(ShipManager, CreateSystems, () -> int)
     {
         auto shieldInfo = myBlueprint.systemInfo[0];
 
+
         auto sys = new Shields(shieldInfo.location[0], iShipId, 0, myBlueprint.shieldFile);
         shieldSystem = sys;
         sys->SetBaseEllipse(ship.GetBaseEllipse());
@@ -66,7 +66,6 @@ HOOK_METHOD(ShipManager, CreateSystems, () -> int)
         AddSystem(i);
     }
 }
-*/
 
 HOOK_METHOD(SystemControl, CreateSystemBoxes, () -> void)
 {
@@ -85,8 +84,8 @@ HOOK_METHOD(SystemControl, CreateSystemBoxes, () -> void)
 
     int xPos = 22;
 
-    //std::vector<int> systemOrder = { 0, 1, 2, 3, 4, 5, 9, 10, 11, 12, 13, 14, 15, 20 };
-    std::vector<int> systemOrder = { 0, 1, 2, 3, 4, 5, 9, 10, 11, 12, 13, 14, 15 };
+    std::vector<int> systemOrder = { 0, 1, 2, 3, 4, 5, 9, 10, 11, 12, 13, 14, 15, 20 };
+    //std::vector<int> systemOrder = { 0, 1, 2, 3, 4, 5, 9, 10, 11, 12, 13, 14, 15 };
 
     for (auto sysId : systemOrder)
     {
@@ -145,6 +144,15 @@ HOOK_METHOD(SystemControl, CreateSystemBoxes, () -> void)
             break;
         case 4:
             break;
+
+        // Custom systems
+        case 20:
+            {
+                auto box = new OverclockerBox(Point(xPos + 36, 269), sys, shipManager);
+                sysBoxes.push_back(box);
+                xPos += 54;
+                break;
+            }
         default:
             auto box = new SystemBox(Point(xPos + 36, 269), sys, true);
             sysBoxes.push_back(box);
@@ -298,6 +306,7 @@ HOOK_METHOD(ShipSystem, SetPowerLoss, (int powerLoss) -> int)
 }
 */
 
+/*
 HOOK_STATIC(ShipSystem, GetLevelDescription, (void* unk, std::string& retStr, int systemId, int level, bool tooltip) -> void)
 {
     super(unk, retStr, systemId, level, tooltip);
@@ -324,6 +333,7 @@ HOOK_STATIC(ShipSystem, GetLevelDescription, (void* unk, std::string& retStr, in
         retStr.assign(tLib->GetText(name));
     }
 }
+*/
 
 HOOK_METHOD(ShipSystem, GetEffectivePower, () -> int)
 {
@@ -337,6 +347,7 @@ HOOK_METHOD(ShipSystem, GetEffectivePower, () -> int)
     return boostPower + iBatteryPower + powerState.first + iBonusPower;
 }
 
+/*
 HOOK_STATIC(ShipSystem, GetLevelDescription, (void* unk, std::string &retStr, int systemId, int level, bool tooltip) -> void)
 {
     super(unk, retStr, systemId, level, tooltip);
@@ -355,3 +366,4 @@ HOOK_STATIC(ShipSystem, GetLevelDescription, (void* unk, std::string &retStr, in
         retStr.assign(tLib->GetText(name));
     }
 }
+*/

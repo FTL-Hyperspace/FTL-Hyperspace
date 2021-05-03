@@ -371,6 +371,12 @@
 		<Unit filename="MoreInfoButton.h">
 			<Option virtualFolder="Content/Misc/" />
 		</Unit>
+		<Unit filename="OverclockerSystem.cpp">
+			<Option virtualFolder="Core/Systems/" />
+		</Unit>
+		<Unit filename="OverclockerSystem.h">
+			<Option virtualFolder="Core/Systems/" />
+		</Unit>
 		<Unit filename="Projectile_Extend.cpp">
 			<Option virtualFolder="Core/Weapons/" />
 		</Unit>

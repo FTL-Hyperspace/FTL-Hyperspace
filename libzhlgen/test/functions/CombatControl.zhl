@@ -20,3 +20,13 @@ void CombatControl::DrawHostileBox(CombatControl *this<ecx>, GL_Color color, int
 void CombatControl::OnInit(CombatControl *this<ecx>, Point pos);
 "578d7c240883e4f0ff77fc5589e557565331f689cb83ec2c8b91440700008b814807000029d0c1f80285c074??":
 void CombatControl::OnLoop(CombatControl *this<ecx>);
+"578d7c240883e4f0ff77fc5589e5575389cb83ec108b89a400000085c974??0fb683a8000000f30f1005????????3205????????8b93c00300000f2e83b40e00000fb6c0":
+void CombatControl::SetMouseCursor(CombatControl *this<ecx>);
+"578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b915c07000085d274??8b4904c70424????????e8????????83ec0484c0":
+void CombatControl::DisarmAll(CombatControl *this<ecx>);
+"578d7c240883e4f0ff77fc5589e557565389cb83ec6c8b4904c70424????????e8????????83ec0484c0":
+bool CombatControl::SelectTarget(CombatControl *this<ecx>);
+"578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b81a40000008b378b7f0485c074??b8????????89d98845e7":
+bool CombatControl::MouseRClick(CombatControl *this<ecx>, int x, int y);
+"578d7c240883e4f0ff77fc5589e5575389cb83ec108b4904c70424????????e8????????83ec0484c075??8b83a400000085c0":
+bool CombatControl::WeaponsArmed(CombatControl *this<ecx>);
