@@ -129,7 +129,7 @@ private:
     static AchievementTracker *__achievementTracker;
     static ScoreKeeper *__scoreKeeper;
 
-    const int __version = 634;
+    const int __version = 635;
 
 
 };
