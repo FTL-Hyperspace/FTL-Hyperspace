@@ -1,7 +1,6 @@
 #include "CustomEvents.h"
 #include "freetype.h"
 #include "Resources.h"
-#include "Seeds.h"
 #include "ShipUnlocks.h"
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
@@ -143,48 +142,6 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
                     if (nodeName == "noQuestText")
                     {
                         customEvent->noQuestText = true;
-                    }
-
-                    if (nodeName == "nebulaQuest")
-                    {
-                        customEvent->questAllowNebula = true;
-
-                        if (child->first_attribute("force"))
-                        {
-                            customEvent->questForceNebula = EventsParser::ParseBoolean(child->first_attribute("force")->value());
-                            customEvent->questClearNebula = true;
-                        }
-
-                        if (child->first_attribute("nebulaEvent"))
-                        {
-                            customEvent->questNebulaQuest = child->first_attribute("nebulaEvent")->value();
-                            customEvent->questClearNebula = true;
-                        }
-
-                        if (child->first_attribute("clear"))
-                        {
-                            customEvent->questClearNebula = EventsParser::ParseBoolean(child->first_attribute("clear")->value());
-                        }
-                    }
-
-                    if (nodeName == "lastStandQuest")
-                    {
-                        customEvent->questLastStand = true;
-
-                        if (child->first_attribute("noBoss"))
-                        {
-                            customEvent->questNoBoss = EventsParser::ParseBoolean(child->first_attribute("noBoss")->value());
-                        }
-                    }
-
-                    if (nodeName == "noNextSectorQuest")
-                    {
-                        customEvent->questNoNextSector = true;
-
-                        if (child->first_attribute("aggressive"))
-                        {
-                            customEvent->questAggressive = EventsParser::ParseBoolean(child->first_attribute("aggressive")->value());
-                        }
                     }
 
                     if (nodeName == "secretSectorWarp")
@@ -647,151 +604,30 @@ HOOK_METHOD(StarMap, constructor, () -> void)
 }
 
 static std::map<Location*, bool[2]> locValues = std::map<Location*, bool[2]>();
-static bool questActuallyEnoughTime = false;
-static bool questNextSectorPopped = false;
-static int overrideWorldLevel = -1;
 
 HOOK_METHOD(StarMap, AddQuest, (const std::string& questEvent, bool force) -> bool)
 {
-    int savedSeed;
-    int nextQuestSeed;
-    overrideWorldLevel = worldLevel;
-    int numAddedQuests = addedQuests.size();
-    int numDelayedQuests = delayedQuests.size();
-
-    if (SeedInputBox::seedsEnabled) savedSeed = random32();
-
-    if (Global::lastDelayedQuestSeeds.size() > 0)
-    {
-        Global::questSeed = Global::lastDelayedQuestSeeds[Global::delayedQuestIndex++];
-    }
-
-    CustomEvent *questCustomEvent = CustomEventsParser::GetInstance()->GetCustomEvent(questEvent);
-
-    questActuallyEnoughTime = false;
-    questNextSectorPopped = false;
     locValues.clear();
 
     for (auto i : locations)
     {
-        locValues[i][0] = i->questLoc;
-        locValues[i][1] = i->nebula;
         CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(i->event->eventName);
-
-        if (questCustomEvent) {
-            if (questCustomEvent->questForceNebula)
-            {
-                i->nebula = !i->nebula;
-            }
-            else if (questCustomEvent->questAllowNebula)
-            {
-                i->nebula = false;
-            }
-        }
         if (customEvent && customEvent->preventQuest)
         {
-            i->nebula = true;
+            locValues[i][0] = i->questLoc;
+
+            i->questLoc = true;
         }
     }
 
-    if ((bInfiniteMode || (questCustomEvent && questCustomEvent->questLastStand)) && (worldLevel > 5 || bossLevel))
-    {
-        worldLevel = 5;
-        bool bossQuest = questCustomEvent && questCustomEvent->questLastStand && !questCustomEvent->questNoBoss;
-
-        if (bInfiniteMode || bossQuest)
-        {
-            questActuallyEnoughTime = true;
-        }
-        if (bossLevel)
-        {
-            force = bossQuest;
-        }
-    }
-
-    if (SeedInputBox::seedsEnabled) srandom32(Global::questSeed);
     bool ret = super(questEvent, force);
-    if (SeedInputBox::seedsEnabled) nextQuestSeed = random32();
-
-    if (!ret && questCustomEvent && questCustomEvent->questAggressive)
-    {
-        if (delayedQuests.size() > numDelayedQuests)
-        {
-            delayedQuests.pop_back();
-        }
-        if (SeedInputBox::seedsEnabled) srandom32(Global::questSeed);
-        ret = super(questEvent, true);
-        if (SeedInputBox::seedsEnabled) nextQuestSeed = random32();
-    }
-
-    if (!ret && questCustomEvent && questCustomEvent->questNoNextSector && delayedQuests.size() > numDelayedQuests)
-    {
-        delayedQuests.pop_back();
-        questNextSectorPopped = true;
-    }
-
-    worldLevel = overrideWorldLevel;
-    overrideWorldLevel = -1;
 
     for (auto i : locValues)
     {
-        i.first->nebula = i.second[1];
-    }
-
-    if (ret)
-    {
-        for (auto i : locations)
-        {
-            if (i->questLoc != locValues[i][0]) //found the new quest location
-            {
-                if (questCustomEvent && i->nebula)
-                {
-                    if (!questCustomEvent->questNebulaQuest.empty())
-                    {
-                        if (SeedInputBox::seedsEnabled) srandom32(Global::questSeed);
-                        i->event = G_->GetEventGenerator()->GetBaseEvent(questCustomEvent->questNebulaQuest, worldLevel, false, -1);
-                        if (addedQuests.size() > numAddedQuests) {
-                            addedQuests[numAddedQuests].first = questCustomEvent->questNebulaQuest;
-                        }
-                    }
-                    if (!questCustomEvent->questClearNebula)
-                    {
-                        i->event->environment = 3;
-                        i->event->statusEffects.push_back({2,7,0,2});
-                    }
-                }
-                break;
-            }
-        }
-    }
-
-    if (ret && addedQuests.size() > numAddedQuests)
-    {
-        addedQuests[numAddedQuests].first = "QUEST " + std::to_string(Global::questSeed) + " " + addedQuests[numAddedQuests].first;
-    }
-
-    if (!ret && delayedQuests.size() > numDelayedQuests)
-    {
-        Global::delayedQuestSeeds.push_back(Global::questSeed);
-    }
-
-    if (SeedInputBox::seedsEnabled)
-    {
-        Global::questSeed = nextQuestSeed;
-        srandom32(savedSeed);
+        i.first->questLoc = i.second[0];
     }
 
     return ret;
-}
-
-HOOK_METHOD(EventGenerator, GetBaseEvent, (const std::string& name, int worldLevel, char ignoreUnique, int seed) -> LocationEvent*)
-{
-    if (overrideWorldLevel > -1)
-    {
-        return super(name, overrideWorldLevel, ignoreUnique, seed);
-    }
-
-    return super(name, worldLevel, ignoreUnique, seed);
 }
 
 HOOK_METHOD(StarMap, RenderLabels, () -> void)
@@ -1086,24 +922,6 @@ HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *loc) -> void)
             str.insert(0, "\n\n");
             loc->text.data = boost::algorithm::replace_first_copy(loc->text.data, str, "");
         }
-    }
-    if (questActuallyEnoughTime)
-    {
-        std::string str;
-        std::string repl;
-
-        str = G_->GetTextLibrary()->GetText("no_time");
-        repl = G_->GetTextLibrary()->GetText("added_quest_sector");
-        loc->text.data = boost::algorithm::replace_first_copy(loc->text.data, str, repl);
-    }
-    if (questNextSectorPopped)
-    {
-        std::string str;
-        std::string repl;
-
-        str = G_->GetTextLibrary()->GetText("added_quest_sector");
-        repl = G_->GetTextLibrary()->GetText("no_time_sector");
-        loc->text.data = boost::algorithm::replace_first_copy(loc->text.data, str, repl);
     }
     super(loc);
 }

@@ -34,15 +34,6 @@ unsigned int Global::sectorMapSeed = -1;
 FILE *Global::logFile = nullptr;
 bool *Global::firstTimeShips = nullptr;
 
-unsigned int Global::worldLevelSeed = 0;
-
-unsigned int Global::questSeed = 0;
-std::vector<unsigned int> Global::delayedQuestSeeds = std::vector<unsigned int>();
-int Global::delayedQuestIndex = 0;
-std::vector<unsigned int> Global::lastDelayedQuestSeeds = std::vector<unsigned int>();
-
-unsigned int Global::bossFleetSeed = 0;
-
 void hs_log_file(const char *str...)
 {
     va_list va;

@@ -3,7 +3,6 @@
 #include "MainMenu.h"
 #include "Seeds.h"
 #include <boost/lexical_cast.hpp>
-#include <boost/algorithm/string.hpp>
 #include <iostream>
 #include <fstream>
 
@@ -187,7 +186,6 @@ HOOK_METHOD(ScoreKeeper, UnlockShip, (int shipId, int shipType, bool save, bool 
 HOOK_METHOD(StarMap, SaveGame, (int file) -> void)
 {
     FileHelper::writeInt(file, Global::currentSeed);
-    FileHelper::writeInt(file, Global::worldLevelSeed);
     FileHelper::writeInt(file, Global::isCustomSeed);
     super(file);
 }
@@ -227,28 +225,16 @@ HOOK_METHOD(StarMap, NewGame, (bool unk) -> Location*)
 
 HOOK_METHOD(StarMap, LoadGame, (int fh) -> Location*)
 {
-    loadingMap = true;
-
     Global::currentSeed = FileHelper::readInteger(fh);
-    Global::worldLevelSeed = FileHelper::readInteger(fh);
     Global::isCustomSeed = FileHelper::readInteger(fh);
 
 	Location *ret = super(fh);
 
-	loadingMap = false;
-
     return ret;
 }
 
-HOOK_METHOD(StarMap, AdvanceWorldLevel, () -> void)
-{
-    super();
-
-    SetSeed(Global::worldLevelSeed);
-    Global::worldLevelSeed = SeededRandom32();
-}
-
 int eventNumber = 0;
+bool generatingMap = false;
 
 HOOK_METHOD(StarMap, GenerateMap, (bool unk, bool seed) -> Location*)
 {
@@ -256,7 +242,6 @@ HOOK_METHOD(StarMap, GenerateMap, (bool unk, bool seed) -> Location*)
 	if (startingNewGame)
 	{
 		this->currentSectorSeed = Global::currentSeed;
-		Global::worldLevelSeed = currentSectorSeed;
 
         startingNewGame = false;
 	}
@@ -264,19 +249,7 @@ HOOK_METHOD(StarMap, GenerateMap, (bool unk, bool seed) -> Location*)
     {
         if (!seed)
         {
-            if (bSecretSector)
-            {
-                SetSeed(currentSectorSeed);
-            }
-            else
-            {
-                int a = currentSector->location.x;
-                int b = currentSector->location.y;
-
-                SetSeed((((a + b) * (a + b + 1)) / 2 + b)^Global::worldLevelSeed^0xf8072a96);
-            }
             currentSectorSeed = SeededRandom32();
-            SetSeed(currentSectorSeed);
         }
         else
         {
@@ -285,26 +258,6 @@ HOOK_METHOD(StarMap, GenerateMap, (bool unk, bool seed) -> Location*)
     }
 
     Location *ret = super(unk, true);
-
-    return ret;
-}
-
-HOOK_METHOD_PRIORITY(StarMap, GenerateMap, 1000, (bool unk, bool seed) -> Location*)
-{
-    generatingMap = true;
-
-    if (!loadingMap)
-    {
-        Global::lastDelayedQuestSeeds = Global::delayedQuestSeeds;
-        Global::delayedQuestIndex = 0;
-        Global::delayedQuestSeeds.clear();
-
-        Global::bossFleetSeed = (currentSectorSeed ^ 0x46157fab) & 0x7fffffff;
-    }
-
-    auto ret = super(unk, seed);
-
-    generatingMap = false;
 
     return ret;
 }
@@ -339,110 +292,4 @@ void SetSeed(unsigned int seed)
 }
 
 
-HOOK_METHOD(StarMap, GetNewLocation, () -> Location*)
-{
-    if (!readyToTravel || outOfFuel) return super();
 
-    auto ret = super();
-
-    if (SeedInputBox::seedsEnabled)
-    {
-        int a = currentLoc->loc.x;
-        int b = currentLoc->loc.y;
-        Global::questSeed = ((((a + b) * (a + b + 1)) / 2 + b)^currentSectorSeed^0x282b2048) & 0x7fffffff;
-    }
-
-    return ret;
-}
-
-// New game quest seeds
-HOOK_METHOD_PRIORITY(StarMap, NewGame, 500, (bool unk) -> Location*)
-{
-    Global::questSeed = 0;
-    Global::delayedQuestSeeds.clear();
-    Global::lastDelayedQuestSeeds.clear();
-
-    Global::bossFleetSeed = 0;
-
-    auto ret = super(unk);
-
-    if (SeedInputBox::seedsEnabled)
-    {
-        int a = currentLoc->loc.x;
-        int b = currentLoc->loc.y;
-        Global::questSeed = ((((a + b) * (a + b + 1)) / 2 + b)^currentSectorSeed^0x282b2048) & 0x7fffffff;
-    }
-
-    return ret;
-}
-
-// Load quest seeds
-HOOK_METHOD_PRIORITY(StarMap, LoadGame, 500, (int fh) -> Location*)
-{
-    Global::questSeed = FileHelper::readInteger(fh);
-    Global::delayedQuestSeeds.clear();
-    Global::lastDelayedQuestSeeds.clear();
-
-    int numDelayedQuests = FileHelper::readInteger(fh);
-    for (int i=0; i<numDelayedQuests; ++i)
-    {
-        Global::delayedQuestSeeds.push_back(FileHelper::readInteger(fh));
-    }
-
-    Global::bossFleetSeed = FileHelper::readInteger(fh);
-
-    auto ret = super(fh);
-
-    return ret;
-}
-
-HOOK_METHOD(EventGenerator, GetBaseEvent, (const std::string& name, int worldLevel, char ignoreUnique, int seed) -> LocationEvent*)
-{
-    if (boost::algorithm::starts_with(name, "QUEST ")) //loading a saved quest
-    {
-        std::string name2 = name.substr(6);
-        std::vector<std::string> s = std::vector<std::string>();
-        boost::split(s, name2, boost::is_any_of(" "));
-        if (SeedInputBox::seedsEnabled) srandom32(std::stoi(s[0]));
-        return super(s[1], worldLevel, ignoreUnique, seed);
-    }
-
-    return super(name, worldLevel, ignoreUnique, seed);
-}
-
-//Save quest seeds
-HOOK_METHOD_PRIORITY(StarMap, SaveGame, 500, (int file) -> void)
-{
-    FileHelper::writeInt(file, Global::questSeed);
-
-    FileHelper::writeInt(file, Global::delayedQuestSeeds.size());
-    for (auto i : Global::delayedQuestSeeds)
-    {
-        FileHelper::writeInt(file, i);
-    }
-
-    FileHelper::writeInt(file, Global::bossFleetSeed);
-
-    super(file);
-}
-
-HOOK_METHOD(StarMap, UpdateBoss, () -> void)
-{
-    if (!SeedInputBox::seedsEnabled) return super();
-
-    int saveSeed = random32();
-    srandom32(Global::bossFleetSeed);
-    super();
-    Global::bossFleetSeed = random32();
-    srandom32(saveSeed);
-}
-
-HOOK_METHOD(StarMap, AdvanceWorldLevel, () -> void)
-{
-    super();
-
-    if (SeedInputBox::seedsEnabled && bSecretSector)
-    {
-        srandom32(currentSectorSeed&0x7fffffff);
-    }
-}

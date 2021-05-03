@@ -95,9 +95,11 @@ void StarMap::RenderSectorName(StarMap *this<ecx>, Sector * unk0, GL_Color unk1)
 ".578d7c240883e4f0ff77fc5589e557565389cb83ec4c80b9c0060000000f85????????80b980080000000f85????????8bb38000000083fe3b0f8f????????89d9e8????????01f083f83b898380000000":
 void StarMap::UpdateDangerZone(StarMap *this<ecx>);
 ".31c080797c00747880b9ac06000000755c5589e5":
-Location* StarMap::GetNewLocation(StarMap *this<ecx>);
+void StarMap::GetNewLocation(StarMap *this<ecx>);
 ".80790400750ac389f68dbc2700000000578d7c24":
 void StarMap::OnLoop(StarMap *this<ecx>);
+".80b98008000000740c5589e583e4f0e8acf3ffff":
+void StarMap::UpdateBoss(StarMap *this<ecx>);
 ".578d7c240883e4f0ff77fc5589e557565381ec????????8b81a00600008b919c0600008b37898de8feffff898504ffffff29d0c1f802":
 void StarMap::GenerateEvents(StarMap *this<ecx>, bool tutorial);
 ".578d7c240883e4f0ff77fc5589e557565383ec2c":
@@ -142,8 +144,7 @@ static std::string& StarMap::GetLocationText(std::string& strRef<ecx>, StarMap *
 void StarMap::SetupNoFuel(StarMap *this<ecx>, int seed, const std::string& forceEscape);
 "578d7c240883e4f0ff77fc5589e557565381ec????????8b0789c78945888b40048b17":
 void StarMap::GenerateNebulas(StarMap *this<ecx>, const std::vector<std::string>& names);
-"578d7c240883e4f0ff77fc5589e557565389ce83ec3c8b81680800008b91740800008b3c82":
-void StarMap::UpdateBoss(StarMap *this<ecx>);
+
 
 struct StarMap
 {{
