@@ -39,6 +39,13 @@ HOOK_METHOD(WeaponBox, RenderBox, (bool dragging, bool flashPowerBox) -> void)
             stream << std::fixed <<std::setprecision(1) << pWeapon->cooldown.first / (1 + pWeapon->GetAugmentationValue("AUTO_COOLDOWN")) << "/" << pWeapon->cooldown.second / (1 + pWeapon->GetAugmentationValue("AUTO_COOLDOWN"));
         }
         freetype::easy_printCenter(51, location.x - (hotKey * 98) + 132, location.y - 34, stream.str());
+
+        if (pWeapon->blueprint->boostPower.type == 2)
+        {
+            std::stringstream stream2;
+            stream2 << std::setprecision(3) << pWeapon->blueprint->damage.iDamage + pWeapon->boostLevel * pWeapon->blueprint->boostPower.amount << " " + G_->GetTextLibrary()->GetText("damage_word");
+            freetype::easy_printCenter(51, location.x - (hotKey * 98) + 132, location.y - 44, stream2.str());
+        }
     }
 }
 

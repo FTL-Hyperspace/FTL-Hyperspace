@@ -174,7 +174,7 @@ HOOK_STATIC(WeaponBox, GenerateTooltip, (std::string &retStr, WeaponBox *_this) 
                 descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(weaponDef->freeMissileChance)) + "\n";
             }
 
-            if (bp->boostPower.count > 1)
+            if (bp->boostPower.count > 0)
             {
                 std::string boostType = "";
 
@@ -184,7 +184,7 @@ HOOK_STATIC(WeaponBox, GenerateTooltip, (std::string &retStr, WeaponBox *_this) 
                     {
                         currentText = tLib->GetText("redesigned_boost_power_damage_positive");
                         std::stringstream stream;
-                        stream << std::fixed <<std::setprecision(1) << bp->boostPower.amount;
+                        stream << std::setprecision(2) << bp->boostPower.amount;
                         boostType += boost::algorithm::replace_all_copy(currentText, "\\1", stream.str()) + "\n";
 
                         int dmg = bp->damage.iIonDamage;
@@ -200,14 +200,14 @@ HOOK_STATIC(WeaponBox, GenerateTooltip, (std::string &retStr, WeaponBox *_this) 
                         currentText = boost::algorithm::replace_all_copy(currentText, "\\1", damageCapString.str());
                         stream.str("");
                         stream.clear();
-                        stream << std::fixed <<std::setprecision(1) << bp->boostPower.count;
+                        stream << std::setprecision(2) << bp->boostPower.count;
                         boostType += boost::algorithm::replace_all_copy(currentText, "\\2", stream.str()) + "\n";
                     }
                     else
                     {
                         currentText = tLib->GetText("redesigned_boost_power_damage_negative");
                         std::stringstream stream;
-                        stream << std::fixed <<std::setprecision(1) << bp->boostPower.amount;
+                        stream << std::setprecision(2) << bp->boostPower.amount;
                         boostType += boost::algorithm::replace_all_copy(currentText, "\\1", stream.str()) + "\n";
 
                         int dmg = bp->damage.iIonDamage;
@@ -223,7 +223,7 @@ HOOK_STATIC(WeaponBox, GenerateTooltip, (std::string &retStr, WeaponBox *_this) 
                         currentText = boost::algorithm::replace_all_copy(currentText, "\\1", damageCapString.str());
                         stream.str("");
                         stream.clear();
-                        stream << std::fixed <<std::setprecision(1) << bp->boostPower.count;
+                        stream << std::setprecision(2) << bp->boostPower.count;
                         boostType += boost::algorithm::replace_all_copy(currentText, "\\2", stream.str()) + "\n";
                     }
                 }
@@ -233,7 +233,7 @@ HOOK_STATIC(WeaponBox, GenerateTooltip, (std::string &retStr, WeaponBox *_this) 
                     {
                         currentText = tLib->GetText("redesigned_boost_power_speed_positive");
                         std::stringstream stream;
-                        stream << std::fixed <<std::setprecision(1) << bp->boostPower.amount;
+                        stream << std::setprecision(4) << bp->boostPower.amount;
                         boostType += boost::algorithm::replace_all_copy(currentText, "\\1", stream.str()) + "\n";
 
                         std::stringstream speedCapString;
@@ -243,14 +243,14 @@ HOOK_STATIC(WeaponBox, GenerateTooltip, (std::string &retStr, WeaponBox *_this) 
                         currentText = boost::algorithm::replace_all_copy(currentText, "\\1", speedCapString.str());
                         stream.str("");
                         stream.clear();
-                        stream << std::fixed <<std::setprecision(1) << bp->boostPower.count;
+                        stream << std::setprecision(4) << bp->boostPower.count;
                         boostType += boost::algorithm::replace_all_copy(currentText, "\\2", stream.str()) + "\n";
                     }
                     else
                     {
                         currentText = tLib->GetText("redesigned_boost_power_speed_negative");
                         std::stringstream stream;
-                        stream << std::fixed <<std::setprecision(1) << bp->boostPower.amount;
+                        stream << std::setprecision(4) << bp->boostPower.amount;
                         boostType += boost::algorithm::replace_all_copy(currentText, "\\1", stream.str()) + "\n";
 
                         std::stringstream speedCapString;
@@ -260,7 +260,7 @@ HOOK_STATIC(WeaponBox, GenerateTooltip, (std::string &retStr, WeaponBox *_this) 
                         currentText = boost::algorithm::replace_all_copy(currentText, "\\1", speedCapString.str());
                         stream.str("");
                         stream.clear();
-                        stream << std::fixed <<std::setprecision(1) << bp->boostPower.count;
+                        stream << std::setprecision(4) << bp->boostPower.count;
                         boostType += boost::algorithm::replace_all_copy(currentText, "\\2", stream.str()) + "\n";
                     }
                 }
@@ -620,7 +620,7 @@ HOOK_STATIC(WeaponBlueprint, GetDescription, (std::string* strRef, WeaponBluepri
                     {
                         currentText = tLib->GetText("redesigned_boost_power_damage_positive");
                         std::stringstream stream;
-                        stream << std::fixed <<std::setprecision(1) << bp->boostPower.amount;
+                        stream << std::setprecision(2) << bp->boostPower.amount;
                         boostType += boost::algorithm::replace_all_copy(currentText, "\\1", stream.str()) + "\n";
 
                         int dmg = bp->damage.iIonDamage;
@@ -636,14 +636,14 @@ HOOK_STATIC(WeaponBlueprint, GetDescription, (std::string* strRef, WeaponBluepri
                         currentText = boost::algorithm::replace_all_copy(currentText, "\\1", damageCapString.str());
                         stream.str("");
                         stream.clear();
-                        stream << std::fixed <<std::setprecision(1) << bp->boostPower.count;
+                        stream << std::setprecision(2) << bp->boostPower.count;
                         boostType += boost::algorithm::replace_all_copy(currentText, "\\2", stream.str()) + "\n";
                     }
                     else
                     {
                         currentText = tLib->GetText("redesigned_boost_power_damage_negative");
                         std::stringstream stream;
-                        stream << std::fixed <<std::setprecision(1) << bp->boostPower.amount;
+                        stream << std::setprecision(2) << bp->boostPower.amount;
                         boostType += boost::algorithm::replace_all_copy(currentText, "\\1", stream.str()) + "\n";
 
                         int dmg = bp->damage.iIonDamage;
@@ -659,7 +659,7 @@ HOOK_STATIC(WeaponBlueprint, GetDescription, (std::string* strRef, WeaponBluepri
                         currentText = boost::algorithm::replace_all_copy(currentText, "\\1", damageCapString.str());
                         stream.str("");
                         stream.clear();
-                        stream << std::fixed <<std::setprecision(1) << bp->boostPower.count;
+                        stream << std::setprecision(2) << bp->boostPower.count;
                         boostType += boost::algorithm::replace_all_copy(currentText, "\\2", stream.str()) + "\n";
                     }
                 }
@@ -669,7 +669,7 @@ HOOK_STATIC(WeaponBlueprint, GetDescription, (std::string* strRef, WeaponBluepri
                     {
                         currentText = tLib->GetText("redesigned_boost_power_speed_positive");
                         std::stringstream stream;
-                        stream << std::fixed <<std::setprecision(1) << bp->boostPower.amount;
+                        stream << std::setprecision(4) << bp->boostPower.amount;
                         boostType += boost::algorithm::replace_all_copy(currentText, "\\1", stream.str()) + "\n";
 
                         std::stringstream speedCapString;
@@ -679,14 +679,14 @@ HOOK_STATIC(WeaponBlueprint, GetDescription, (std::string* strRef, WeaponBluepri
                         currentText = boost::algorithm::replace_all_copy(currentText, "\\1", speedCapString.str());
                         stream.str("");
                         stream.clear();
-                        stream << std::fixed <<std::setprecision(1) << bp->boostPower.count;
+                        stream << std::setprecision(4) << bp->boostPower.count;
                         boostType += boost::algorithm::replace_all_copy(currentText, "\\2", stream.str()) + "\n";
                     }
                     else
                     {
                         currentText = tLib->GetText("redesigned_boost_power_speed_negative");
                         std::stringstream stream;
-                        stream << std::fixed <<std::setprecision(1) << bp->boostPower.amount;
+                        stream << std::setprecision(4) << bp->boostPower.amount;
                         boostType += boost::algorithm::replace_all_copy(currentText, "\\1", stream.str()) + "\n";
 
                         std::stringstream speedCapString;
@@ -696,7 +696,7 @@ HOOK_STATIC(WeaponBlueprint, GetDescription, (std::string* strRef, WeaponBluepri
                         currentText = boost::algorithm::replace_all_copy(currentText, "\\1", speedCapString.str());
                         stream.str("");
                         stream.clear();
-                        stream << std::fixed <<std::setprecision(1) << bp->boostPower.count;
+                        stream << std::setprecision(4) << bp->boostPower.count;
                         boostType += boost::algorithm::replace_all_copy(currentText, "\\2", stream.str()) + "\n";
                     }
                 }
