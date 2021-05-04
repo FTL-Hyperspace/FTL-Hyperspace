@@ -470,6 +470,12 @@
 		<Unit filename="Systems.h">
 			<Option virtualFolder="Core/Systems/" />
 		</Unit>
+		<Unit filename="TemporalSystem.cpp">
+			<Option virtualFolder="Core/Systems/" />
+		</Unit>
+		<Unit filename="TemporalSystem.h">
+			<Option virtualFolder="Core/Systems/" />
+		</Unit>
 		<Unit filename="ToggleValue.h">
 			<Option virtualFolder="Core/" />
 		</Unit>

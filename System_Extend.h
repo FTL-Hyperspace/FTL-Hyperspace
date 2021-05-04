@@ -1,34 +1,44 @@
 #pragma once
 #include "FTLGame.h"
 
-struct OverclockerSystem_Wrapper
+enum TemporalArmState
+{
+    TEMPORAL_ARM_NONE = 0,
+    TEMPORAL_ARM_SPEED = 1,
+    TEMPORAL_ARM_SLOW = 2
+};
+
+struct TemporalSystem_Wrapper
 {
     ShipSystem *orig = nullptr;
     bool bTurnedOn = false;
+    bool isSpeeding = false;
     TimerHelper timer;
-    bool bArmed = false;
-    ShipSystem *currentSystem = nullptr;
+    TemporalArmState armState = TEMPORAL_ARM_NONE;
+
+    Room* currentRoom = nullptr;
+    int currentShipId = -1;
 
     bool IsReady()
     {
         return !bTurnedOn && !orig->GetLocked();
     }
 
-    bool GetArmed()
+    TemporalArmState GetArmed()
     {
-        return bArmed;
+        return armState;
     }
 
-    void SetArmed(bool armed)
+    void SetArmed(TemporalArmState newArmState)
     {
-        bArmed = armed;
+        armState = newArmState;
     }
 
-    void StartOverclock(ShipSystem *sys);
-    void StopOverclock();
+    void StartTimeDilation(int shipId, int roomId, bool speedUp);
+    void StopTimeDilation();
     void OnLoop();
 
-    OverclockerSystem_Wrapper(ShipSystem *sys) : orig(sys)
+    TemporalSystem_Wrapper(ShipSystem *sys) : orig(sys)
     {
 
     }
@@ -44,7 +54,7 @@ public:
 
     int iOverclockEffect = 0;
 
-    OverclockerSystem_Wrapper *overclockerSystem = nullptr;
+    TemporalSystem_Wrapper *temporalSystem = nullptr;
 
 private:
 };

@@ -17,6 +17,8 @@ struct Room_Extend
     float sysDamageResistChance = 0.f;
     float ionDamageResistChance = 0.f;
 
+    int timeDilation = 0;
+
     ~Room_Extend()
     {
 

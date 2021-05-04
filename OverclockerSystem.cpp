@@ -1,3 +1,4 @@
+/* Scarpped for now
 #include "OverclockerSystem.h"
 
 const int g_overclockerVTableSize = 22;
@@ -378,5 +379,5 @@ HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
     }
 
     super();
-
 }
+*/

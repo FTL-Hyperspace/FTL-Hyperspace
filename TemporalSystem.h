@@ -1,21 +1,20 @@
-/*
 #include "Global.h"
 
-class OverclockerBox : public CooldownSystemBox
+class TemporalBox : public CooldownSystemBox
 {
     ShipManager *shipManager;
 
-    Button* overclockButton = nullptr;
+    Button* speedUpButton = nullptr;
+    Button* slowDownButton = nullptr;
     Point buttonOffset;
     GL_Texture *box = nullptr;
 
 public:
-    OverclockerSystem_Wrapper *overclockerSystem;
+    TemporalSystem_Wrapper *temporalSystem;
 
-    OverclockerBox(Point pos, ShipSystem *sys, ShipManager *ship);
+    TemporalBox(Point pos, ShipSystem *sys, ShipManager *ship);
 
     void RenderBox(bool ignoreStatus);
     void NewMouseMove(int x, int y);
     void LeftMouseClick(bool unk);
 };
-*/

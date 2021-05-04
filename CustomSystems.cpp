@@ -1,11 +1,11 @@
 #include "CustomSystems.h"
-#include "OverclockerSystem.h"
+#include "TemporalSystem.h"
 
 //(working) test system
 
 HOOK_STATIC(ShipSystem, NameToSystemId, (std::string& name) -> int)
 {
-    if (name == "overclocker")
+    if (name == "temporal")
     {
         return 20;
     }
@@ -18,7 +18,7 @@ HOOK_STATIC(ShipSystem, SystemIdToName, (std::string& strRef, int systemId) -> s
     super(strRef, systemId);
     if (systemId == 20)
     {
-        strRef.assign("overclocker");
+        strRef.assign("temporal");
     }
 
     return strRef;
@@ -148,7 +148,7 @@ HOOK_METHOD(SystemControl, CreateSystemBoxes, () -> void)
         // Custom systems
         case 20:
             {
-                auto box = new OverclockerBox(Point(xPos + 36, 269), sys, shipManager);
+                auto box = new TemporalBox(Point(xPos + 36, 269), sys, shipManager);
                 sysBoxes.push_back(box);
                 xPos += 54;
                 break;
