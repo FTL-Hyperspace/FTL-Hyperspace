@@ -3299,26 +3299,6 @@ HOOK_METHOD(WindowFrame, constructor, (int x, int y, int w, int h) -> void)
     super(x, y, w, h);
 }
 
-HOOK_METHOD(InfoBox, SetBlueprintCrew, (const CrewBlueprint& bp, int yShift, bool detailedCrew) -> void)
-{
-    super(bp, yShift, detailedCrew);
-
-    Pointf titleSize = freetype_hack::easy_measurePrintLines(16, 0, 0, descBoxSize.x, desc.title.GetText());
-    Pointf descSize = freetype_hack::easy_measurePrintLines(10, 0, 0, descBoxSize.x, desc.description.GetText());
-
-    Pointf boxSize = titleSize + descSize + Pointf(0, 28.f);
-    boxSize.y = std::max(boxSize.y, 183.f);
-
-
-    windowFrameCheck = true;
-    windowFrameHeight = boxSize.y;
-
-    super(bp, yShift, detailedCrew);
-
-    windowFrameCheck = false;
-    descBoxSize.y = boxSize.y;
-}
-
 bool blockAnimationUpdate = false;
 
 HOOK_METHOD(AnimationTracker, Update, () -> void)
