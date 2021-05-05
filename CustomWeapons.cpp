@@ -278,15 +278,23 @@ HOOK_STATIC(WeaponBox, GenerateTooltip, (std::string &retStr, WeaponBox *_this) 
                 descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp->radius)) + "\n";
             }
 
-            if ((bp->type == 0 || bp->type == 1) && bp->shots > 0)
+            if (bp->type == 0 || bp->type == 1 || bp->type == 3 || bp->type == 4)
             {
-                currentText = tLib->GetText("shots");
-                descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp->shots)) + "\n";
-            }
-            if (bp->type == 4)
-            {
-                currentText = tLib->GetText("shots");
-                descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp->miniCount * bp->shots)) + "\n";
+                if (bp->type == 0 || bp->type == 1 || (bp->shots == 1 && bp->type != 4))
+                {
+                    currentText = tLib->GetText("shots");
+                    descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp->shots)) + "\n";
+                }
+                else if (bp->type == 3)
+                {
+                    currentText = tLib->GetText("bomb_shots");
+                    descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp->shots)) + "\n";
+                }
+                else
+                {
+                    currentText = tLib->GetText("shots");
+                    descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp->miniCount * bp->shots)) + "\n";
+                }
             }
 
             if (bp->chargeLevels > 1)
@@ -714,15 +722,23 @@ HOOK_STATIC(WeaponBlueprint, GetDescription, (std::string* strRef, WeaponBluepri
                 descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp->radius)) + "\n";
             }
 
-            if ((bp->type == 0 || bp->type == 1) && bp->shots > 0)
+            if (bp->type == 0 || bp->type == 1 || bp->type == 3 || bp->type == 4)
             {
-                currentText = tLib->GetText("shots");
-                descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp->shots)) + "\n";
-            }
-            if (bp->type == 4)
-            {
-                currentText = tLib->GetText("shots");
-                descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp->miniCount * bp->shots)) + "\n";
+                if (bp->type == 0 || bp->type == 1 || (bp->shots == 1 && bp->type != 4))
+                {
+                    currentText = tLib->GetText("shots");
+                    descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp->shots)) + "\n";
+                }
+                else if (bp->type == 3)
+                {
+                    currentText = tLib->GetText("bomb_shots");
+                    descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp->shots)) + "\n";
+                }
+                else
+                {
+                    currentText = tLib->GetText("shots");
+                    descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp->miniCount * bp->shots)) + "\n";
+                }
             }
 
             if (bp->chargeLevels > 1)
