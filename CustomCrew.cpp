@@ -1180,15 +1180,6 @@ void CrewMember_Extend::ActivatePower()
     {
         orig->DirectModifyHealth(powerDef.selfHealth);
     }
-//    StatBoost testBoost;
-//    testBoost.duration = 5;
-//    testBoost.amount = 5;
-//    testBoost.boostType = StatBoost::BoostType::FLAT;
-//    testBoost.shipTarget = StatBoost::ShipTarget::ALL;
-//    testBoost.crewTarget = StatBoost::CrewTarget::ALL;
-//    testBoost.stat = CrewStat::MOVE_SPEED_MULTIPLIER;
-//    testBoost.affectsSelf = true;
-//    timedStatBoosts.push_back(testBoost);
 
     auto aex = CMA_EX(orig->crewAnim);
     aex->powerDone = true;

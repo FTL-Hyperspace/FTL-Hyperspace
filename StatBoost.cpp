@@ -353,15 +353,18 @@ HOOK_METHOD(WorldManager, OnLoop, () -> void)
 
                                 statBoosts[statBoost.stat] = newVector;
                             }
-                            for (StatBoost recursiveBoost : statBoost.providedStatBoosts)
+                            for (StatBoost recursiveBoostDef : statBoost.providedStatBoosts)
                             {
                                 for (auto recursiveCrew : checkingCrewList)
                                 {
                                     auto ex2 = CM_EX(recursiveCrew);
                                     if (ex2->BoostCheck(statBoost))
                                     {
+                                        auto recursiveBoost = StatBoost(recursiveBoostDef);
+                                        recursiveBoost.GiveId();
                                         recursiveBoost.crewSource = recursiveCrew;
                                         recursiveBoost.sourceShipId = recursiveCrew->currentShipId;
+
                                         if (!recursiveBoost.systemList.empty())
                                         {
                                             for (auto system : recursiveBoost.systemList)
@@ -482,13 +485,15 @@ HOOK_METHOD(WorldManager, OnLoop, () -> void)
                 newVector.push_back(statBoost);
                 statBoosts[statBoost.stat] = newVector;
             }
-            for (StatBoost recursiveBoost : statBoost.providedStatBoosts)
+            for (StatBoost recursiveBoostDef : statBoost.providedStatBoosts)
             {
                 for (auto recursiveCrew : checkingCrewList)
                 {
                     auto ex2 = CM_EX(recursiveCrew);
                     if (ex2->BoostCheck(statBoost))
                     {
+                        auto recursiveBoost = StatBoost(recursiveBoostDef);
+                        recursiveBoost.GiveId();
                         recursiveBoost.crewSource = recursiveCrew;
                         recursiveBoost.sourceShipId = recursiveCrew->currentShipId;
                         if (!recursiveBoost.systemList.empty())
