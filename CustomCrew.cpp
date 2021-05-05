@@ -1425,14 +1425,20 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
         hasTemporaryPower = def.powerDef.hasTemporaryPower;
         canPhaseThroughDoors = def.canPhaseThroughDoors;
 
-        for (auto statBoost : def.passiveStatBoosts)
+        for (auto statBoostDef : def.passiveStatBoosts)
         {
+            StatBoost statBoost = StatBoost(statBoostDef);
+            statBoost.GiveId();
+
             statBoost.crewSource = orig;
             statBoost.boostSource = StatBoost::BoostSource::CREW;
             outgoingStatBoosts.push_back(statBoost);
         }
-        for (auto statBoost : def.powerDef.tempPower.statBoosts)
+        for (auto statBoostDef : def.powerDef.tempPower.statBoosts)
         {
+            StatBoost statBoost = StatBoost(statBoostDef);
+            statBoost.GiveId();
+
             statBoost.crewSource = orig;
             statBoost.boostSource = StatBoost::BoostSource::CREW;
             outgoingAbilityStatBoosts.push_back(statBoost);
@@ -3119,19 +3125,19 @@ HOOK_METHOD(CrewMember, OnRender, (bool outlineOnly) -> void)
         CSurface::GL_PopMatrix();
     }
 
-    /*
+
     for (auto boostAnim : ex->boostAnim)
     {
-        if (boostAnim != nullptr && !boostAnim->tracker.done && boostAnim->tracker.running)
+        if (boostAnim.second != nullptr && !boostAnim.second->tracker.done && boostAnim.second->tracker.running)
         {
             CSurface::GL_PushMatrix();
-            CSurface::GL_Translate(-std::ceil((float)boostAnim->info.frameWidth / 2), -std::ceil((float)boostAnim->info.frameHeight / 2));
+            CSurface::GL_Translate(-std::ceil((float)boostAnim.second->info.frameWidth / 2), -std::ceil((float)boostAnim.second->info.frameHeight / 2));
             CSurface::GL_Translate(0, PositionShift());
-            boostAnim->OnRender(1.f, COLOR_WHITE, false);
+            boostAnim.second->OnRender(1.f, COLOR_WHITE, false);
             CSurface::GL_PopMatrix();
         }
     }
-    */
+
 
     CSurface::GL_PopMatrix();
 }
