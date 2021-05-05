@@ -35,8 +35,6 @@ unsigned int Global::sectorMapSeed = -1;
 FILE *Global::logFile = nullptr;
 bool *Global::firstTimeShips = nullptr;
 
-unsigned int Global::worldLevelSeed = 0;
-
 unsigned int Global::questSeed = 0;
 std::vector<unsigned int> Global::delayedQuestSeeds = std::vector<unsigned int>();
 int Global::delayedQuestIndex = 0;

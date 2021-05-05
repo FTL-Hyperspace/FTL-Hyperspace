@@ -17,6 +17,9 @@ bool SeedInputBox::firstClick = true;
 bool SeedInputBox::seedsEnabled = true;
 std::string SeedInputBox::prompt;
 
+SeededRng worldRng = SeededRng(0);
+SeededRng secretRng = SeededRng(0);
+
 HOOK_GLOBAL(srandom32, (unsigned int seed) -> void)
 {
     if (!SeedInputBox::seedsEnabled) return super(seed);
@@ -187,8 +190,9 @@ HOOK_METHOD(ScoreKeeper, UnlockShip, (int shipId, int shipType, bool save, bool 
 HOOK_METHOD(StarMap, SaveGame, (int file) -> void)
 {
     FileHelper::writeInt(file, Global::currentSeed);
-    FileHelper::writeInt(file, Global::worldLevelSeed);
     FileHelper::writeInt(file, Global::isCustomSeed);
+    worldRng.Export(file);
+    secretRng.Export(file);
     super(file);
 }
 
@@ -203,15 +207,16 @@ HOOK_METHOD(StarMap, NewGame, (bool unk) -> Location*)
 	if (str == "" || unk)
 	{
 	    int seed = SeededRandom32();
-		SetSeed(seed);
+		worldRng = SeededRng(seed);
+		secretRng = SeededRng(seed);
 		Global::currentSeed = seed;
-
 		Global::isCustomSeed = false;
 	}
 	else
 	{
 	    int seed = boost::lexical_cast<unsigned int>(str);
-		SetSeed(seed);
+		worldRng = SeededRng(seed);
+		secretRng = SeededRng(seed);
 		Global::currentSeed = seed;
 		Global::isCustomSeed = true;
 	}
@@ -230,8 +235,9 @@ HOOK_METHOD(StarMap, LoadGame, (int fh) -> Location*)
     loadingMap = true;
 
     Global::currentSeed = FileHelper::readInteger(fh);
-    Global::worldLevelSeed = FileHelper::readInteger(fh);
     Global::isCustomSeed = FileHelper::readInteger(fh);
+    worldRng.Import(fh);
+    secretRng.Import(fh);
 
 	Location *ret = super(fh);
 
@@ -243,9 +249,7 @@ HOOK_METHOD(StarMap, LoadGame, (int fh) -> Location*)
 HOOK_METHOD(StarMap, AdvanceWorldLevel, () -> void)
 {
     super();
-
-    SetSeed(Global::worldLevelSeed);
-    Global::worldLevelSeed = SeededRandom32();
+    worldRng();
 }
 
 int eventNumber = 0;
@@ -256,7 +260,6 @@ HOOK_METHOD(StarMap, GenerateMap, (bool unk, bool seed) -> Location*)
 	if (startingNewGame)
 	{
 		this->currentSectorSeed = Global::currentSeed;
-		Global::worldLevelSeed = currentSectorSeed;
 
         startingNewGame = false;
 	}
@@ -266,21 +269,13 @@ HOOK_METHOD(StarMap, GenerateMap, (bool unk, bool seed) -> Location*)
         {
             if (bSecretSector)
             {
-                SetSeed(currentSectorSeed);
+                currentSectorSeed = secretRng();
             }
             else
             {
-                int a = currentSector->location.x;
-                int b = currentSector->location.y;
-
-                SetSeed((((a + b) * (a + b + 1)) / 2 + b)^Global::worldLevelSeed^0xf8072a96);
+                currentSectorSeed = worldRng.current + currentSector->location.y;
+                secretRng.reset(currentSectorSeed);
             }
-            currentSectorSeed = SeededRandom32();
-            SetSeed(currentSectorSeed);
-        }
-        else
-        {
-            SetSeed(currentSectorSeed);
         }
     }
 
