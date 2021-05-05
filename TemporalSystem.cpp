@@ -64,7 +64,7 @@ TemporalBox::TemporalBox(Point pos, ShipSystem *sys, ShipManager *ship)
     slowDownButton = new Button();
     slowDownButton->OnInit("systemUI/button_temporal_slow", 9, 35);
     speedUpButton = new Button();
-    speedUpButton->OnInit("systemUI/button_temporal_speed", 9, 10);
+    speedUpButton->OnInit("systemUI/button_temporal_speed", 9, 9);
 
     buttonOffset = Point(location.x + 34, location.y - 39);
 

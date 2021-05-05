@@ -84,7 +84,7 @@ HOOK_METHOD(SystemControl, CreateSystemBoxes, () -> void)
 
     int xPos = 22;
 
-    std::vector<int> systemOrder = { 0, 1, 2, 3, 4, 5, 9, 10, 11, 12, 13, 14, 15, 20 };
+    std::vector<int> systemOrder = { 0, 1, 5, 13, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 14, 15, 20 };
     //std::vector<int> systemOrder = { 0, 1, 2, 3, 4, 5, 9, 10, 11, 12, 13, 14, 15 };
 
     for (auto sysId : systemOrder)

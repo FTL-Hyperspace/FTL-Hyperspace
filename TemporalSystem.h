@@ -1,3 +1,4 @@
+#pragma once
 #include "Global.h"
 
 class TemporalBox : public CooldownSystemBox
