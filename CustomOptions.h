@@ -28,6 +28,9 @@ public:
 
 //    Setting hullNumbers;
     Setting redesignedWeaponTooltips;
+    Setting redesignedCrewTooltips;
+    Setting redesignedDroneTooltips;
+    Setting redesignedAugmentTooltips;
 
     Setting advancedCrewTooltips;
     Setting showAllyPowers;

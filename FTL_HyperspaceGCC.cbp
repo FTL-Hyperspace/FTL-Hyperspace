@@ -386,6 +386,12 @@
 		<Unit filename="Projectile_Extend.h">
 			<Option virtualFolder="Core/Weapons/" />
 		</Unit>
+		<Unit filename="RedesignedTooltips.cpp">
+			<Option virtualFolder="Content/Misc/" />
+		</Unit>
+		<Unit filename="RedesignedTooltips.h">
+			<Option virtualFolder="Content/Misc/" />
+		</Unit>
 		<Unit filename="Renderer.cpp">
 			<Option virtualFolder="Core/CApp/" />
 		</Unit>
