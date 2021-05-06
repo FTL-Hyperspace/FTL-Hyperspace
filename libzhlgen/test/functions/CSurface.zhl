@@ -9,7 +9,7 @@ static cleanup void CSurface::GL_SetColorTint(float r, float g, float b, float a
 
 
 "5589e55653bb????????83e4f081ec????????8d44243cf30f110424f30f105d08894424088d442438f30f114c2424f30f1154242889442404f30f115c242ce8????????660fefe4":
-static cleanup void CSurface::GL_Rotate2(float angle, float x, float y, float z=0.f);
+static cleanup void CSurface::GL_Rotate2(float angle, float x, float y, float z=1.f);
 ".5589e583e4f0e8????????85c0c9":
 static cleanup bool CSurface::IsFrameBufferSupported();
 ".5589e583e4f0e8????????e8????????":
@@ -37,7 +37,7 @@ static cleanup int CSurface::GL_PushMatrix();
 ".5589e583e4f083ec30a1????????85c0":
 static cleanup int CSurface::GL_PopMatrix();
 ".55660fefe489e5565383e4f081ec????????f30f1055080f2ed4f30f104d0cf30f104510f30f105d147a??":
-static cleanup void CSurface::GL_Rotate(float angle, float x, float y, float z=0.f);
+static cleanup void CSurface::GL_Rotate(float angle, float x, float y, float z=1.f);
 ".55b9????????89e583e4f083ec10f30f1005????????f30f10550c0f2ed0f30f104d10f30f105d080f9bc20f45d10f2ec80f9bc00f45c1":
 static cleanup void CSurface::GL_Scale(float x, float y, float z);
 ".55660fefc0b9????????89e583e4f083ec20f30f105d0c0f2ed8":

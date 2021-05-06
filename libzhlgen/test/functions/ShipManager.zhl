@@ -100,8 +100,11 @@ void ShipManager::ClearStatusSystem(ShipManager *this<ecx>, int system);
 void ShipManager::ResetScrapLevel(ShipManager *this<ecx>);
 "578d7c240883e4f0ff77fc5589e557565389ce81c1????????83ec3c8b411cc741ec000000008941208b812cfcffff89810c040000c70424????????":
 void ShipManager::JumpArrive(ShipManager *this<ecx>);
+"578d7c240883e4f0ff77fc5589e557565383ec4c8b51188b411cc745b80000000029d0c1f80285c00f84????????89cf":
+void ShipManager::CheckSpreadDamage(ShipManager *this<ecx>);
 
-struct ShipManager {{
+struct ShipManager depends (PowerManager)
+{{
 	ShipManager(int shipId) 
 	{
 		this->constructor(shipId);
@@ -130,6 +133,13 @@ struct ShipManager {{
 	~ShipManager()
 	{
 		this->destructor2();
+	}
+	
+	std::pair<int, int> GetAvailablePower()
+	{
+		PowerManager *powerMan = PowerManager::GetPowerManager(iShipId);
+		
+		return std::pair<int, int>(powerMan->currentPower.second, powerMan->currentPower.second - powerMan->currentPower.first);
 	}
 	
 

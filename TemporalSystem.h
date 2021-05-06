@@ -1,6 +1,21 @@
 #pragma once
 #include "Global.h"
 
+class TemporalSystemParser
+{
+public:
+    static float GetLevelDuration(int systemLevel);
+    static int GetLevelCooldown(int systemLevel);
+    static float GetDilationStrength(int effectStrength); // negative for slow
+    static void ParseSystemNode(rapidxml::xml_node<char>* node);
+
+private:
+    static std::map<int, float> levelSpeed;
+    static std::map<int, float> levelSlow;
+    static std::map<int, float> levelDurations;
+    static std::map<int, int> levelCooldowns;
+};
+
 class TemporalBox : public CooldownSystemBox
 {
     ShipManager *shipManager;

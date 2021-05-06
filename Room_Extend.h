@@ -18,11 +18,10 @@ struct Room_Extend
     float ionDamageResistChance = 0.f;
 
     int timeDilation = 0;
+    Animation* speedUpAnim = nullptr;
+    Animation* slowDownAnim = nullptr;
 
-    ~Room_Extend()
-    {
-
-    }
+    ~Room_Extend();
 
     //CrewMember *captain;
 };

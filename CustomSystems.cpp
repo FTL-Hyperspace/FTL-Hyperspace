@@ -1,7 +1,28 @@
 #include "CustomSystems.h"
 #include "TemporalSystem.h"
 
-//(working) test system
+void ParseSystemsNode(rapidxml::xml_node<char>* node)
+{
+    for (auto child = node->first_node(); child; child = child->next_sibling())
+    {
+        std::string name = child->name();
+        std::string val = child->value();
+
+        if (name == "system" && child->first_attribute("id"))
+        {
+            std::string sysName = child->first_attribute("id")->value();
+
+            if (sysName == "temporal")
+            {
+                TemporalSystemParser::ParseSystemNode(child);
+            }
+        }
+    }
+}
+
+
+
+
 
 HOOK_STATIC(ShipSystem, NameToSystemId, (std::string& name) -> int)
 {
@@ -229,6 +250,116 @@ HOOK_METHOD(SystemControl, CreateSystemBoxes, () -> void)
             break;
         }
     }
+}
+
+
+HOOK_METHOD(ShipBuilder, CreateSystemBoxes, () -> void)
+{
+    for (auto i : sysBoxes)
+    {
+        delete i;
+    }
+
+    sysBoxes.clear();
+
+    int xPos = 360;
+
+    std::vector<int> systemIds = { 1, 2, 3, 4, 5, 9, 10, 11, 12, 13, 14, 15, 20, 6, 7, 8, 12 };
+
+    for (auto i : systemIds)
+    {
+        if (currentShip->HasSystem(i))
+        {
+            auto sys = currentShip->GetSystem(i);
+            auto box = new SystemCustomBox(Point(xPos, 425), sys, currentShip);
+
+            sysBoxes.push_back(box);
+
+            box->bShowPower = true;
+            box->bSimplePower = true;
+
+            xPos += 38;
+        }
+    }
+}
+
+/*
+WHY is this crashing I don't understand it's literally doing the same thing the game does
+but no it has to crash on a function unrelated to it for some bizarre reason
+*/
+HOOK_METHOD(Upgrades, OnInit, (ShipManager *ship) -> void)
+{
+    bFullFocus = true;
+    shipManager = ship;
+    infoBoxLoc = Point(position.x + 600, position.y);
+    infoBox.location = infoBoxLoc;
+
+    TextString buttonLabel = TextString();
+    buttonLabel.isLiteral = false;
+    buttonLabel.data = "button_undo";
+
+    undoButton.OnInit(position.x + 33, position.y + 471, 97, 32, 4, &buttonLabel, 63);
+    undoButton.SetBaseImage("upgradeUI/buttons_undo_base.png", Point(-23, -7), 97);
+    undoButton.SetAutoWidth(true, false, 3, 0);
+
+    reactorButton.OnInit("upgradeUI/Equipment/equipment_reactor", position.x + 305, position.y + 327);
+    reactorButton.allowAnyTouch = true;
+    reactorButton.touchSelectable = true;
+    reactorButton.ship = ship;
+
+    box = G_->GetResources()->GetImageId("upgradeUI/Equipment/upgrades_main.png");
+
+    ClearUpgradeBoxes();
+
+    std::vector<int> systemOrder = { 0, 1, 5, 13, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 14, 15, 20 };
+
+    int systemXPos = position.x - 27;
+    int subsystemXPos = position.x - 50;
+
+    int numSystems = 0;
+    int numSubsystems = 0;
+
+    systemCount = 0;
+
+    for (auto i : systemOrder)
+    {
+        auto sys = ship->GetSystem(i);
+        if (sys)
+        {
+            int yPos = position.y + 115;
+            bool isSubsystem = !sys->bNeedsPower;
+
+            if (isSubsystem)
+            {
+                subsystemXPos += 66;
+                yPos = position.y + 330;
+                numSubsystems++;
+            }
+            else
+            {
+                systemXPos += 66;
+                numSystems++;
+            }
+
+            auto box = new UpgradeBox(ship, sys, Point(isSubsystem ? subsystemXPos : systemXPos, yPos), isSubsystem);
+            vUpgradeBoxes.push_back(box);
+            systemCount++;
+        }
+    }
+
+    for (int i = numSystems; i < 8; i++)
+    {
+        systemXPos += 66;
+        auto box = new UpgradeBox(Point(systemXPos, position.y + 115), false);
+        vUpgradeBoxes.push_back(box);
+    }
+    for (int i = numSubsystems; i < 4; i++)
+    {
+        subsystemXPos += 66;
+        auto box = new UpgradeBox(Point(subsystemXPos, position.y + 330), true);
+        vUpgradeBoxes.push_back(box);
+    }
+
 }
 
 /*

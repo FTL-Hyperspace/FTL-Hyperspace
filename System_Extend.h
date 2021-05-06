@@ -21,7 +21,7 @@ struct TemporalSystem_Wrapper
 
     bool IsReady()
     {
-        return !bTurnedOn && !orig->GetLocked();
+        return !bTurnedOn && !orig->GetLocked() && orig->Functioning();
     }
 
     TemporalArmState GetArmed()

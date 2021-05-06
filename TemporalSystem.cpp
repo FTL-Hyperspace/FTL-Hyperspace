@@ -1,4 +1,83 @@
 #include "TemporalSystem.h"
+#include "boost/algorithm/string.hpp"
+#include "boost/lexical_cast.hpp"
+#include <sstream>
+#include <iomanip>
+
+ std::map<int, float> TemporalSystemParser::levelSpeed = std::map<int, float>();
+ std::map<int, float> TemporalSystemParser::levelSlow = std::map<int, float>();
+ std::map<int, float> TemporalSystemParser::levelDurations = std::map<int, float>();
+ std::map<int, int> TemporalSystemParser::levelCooldowns = std::map<int, int>();
+
+void TemporalSystemParser::ParseSystemNode(rapidxml::xml_node<char>* node)
+{
+    for (auto child = node->first_node(); child; child = child->next_sibling())
+    {
+        std::string name = child->name();
+
+        if (boost::algorithm::starts_with(name, "level"))
+        {
+            std::string levelStr = name.substr(5);
+
+            if (child->first_attribute("duration"))
+            {
+                TemporalSystemParser::levelDurations[boost::lexical_cast<int>(levelStr)] = boost::lexical_cast<float>(child->first_attribute("duration")->value());
+            }
+            if (child->first_attribute("slowValue"))
+            {
+                TemporalSystemParser::levelSlow[boost::lexical_cast<int>(levelStr)] = boost::lexical_cast<float>(child->first_attribute("slowValue")->value());
+            }
+            if (child->first_attribute("speedValue"))
+            {
+                TemporalSystemParser::levelSpeed[boost::lexical_cast<int>(levelStr)] = boost::lexical_cast<float>(child->first_attribute("speedValue")->value());
+            }
+            if (child->first_attribute("cooldown"))
+            {
+                TemporalSystemParser::levelCooldowns[boost::lexical_cast<int>(levelStr)] = boost::lexical_cast<int>(child->first_attribute("cooldown")->value());
+            }
+        }
+    }
+}
+
+float TemporalSystemParser::GetLevelDuration(int level)
+{
+    if (levelDurations.find(level) != levelDurations.end())
+    {
+        return levelDurations[level];
+    }
+    else
+    {
+        return level * 8.f;
+    }
+}
+
+float TemporalSystemParser::GetDilationStrength(int level)
+{
+    auto timeMap = level > 0 ? levelSpeed : levelSlow;
+    auto absLevel = std::abs(level);
+
+    if (timeMap.find(level) != timeMap.end())
+    {
+        return timeMap[level];
+    }
+    else
+    {
+        return std::pow(2, level);
+    }
+}
+
+int TemporalSystemParser::GetLevelCooldown(int level)
+{
+    if (levelCooldowns.find(level) != levelCooldowns.end())
+    {
+        return levelCooldowns[level];
+    }
+    else
+    {
+        return 4;
+    }
+}
+
 
 const int g_temporalVTableSize = 22;
 static void* g_temporalVTable[g_temporalVTableSize];
@@ -139,7 +218,7 @@ void TemporalSystem_Wrapper::StartTimeDilation(int shipId, int roomId, bool spee
                 {
                     bTurnedOn = true;
                     orig->LockSystem(-1);
-                    timer.Start(orig->GetEffectivePower() * 10.f);
+                    timer.Start(TemporalSystemParser::GetLevelDuration(orig->GetEffectivePower()));
 
                     RM_EX(room)->timeDilation = speedUp ? orig->GetEffectivePower() : -orig->GetEffectivePower();
                     currentRoom = room;
@@ -158,7 +237,7 @@ void TemporalSystem_Wrapper::StopTimeDilation()
     {
         RM_EX(currentRoom)->timeDilation = 0;
 
-        orig->AddLock(4);
+        orig->AddLock(TemporalSystemParser::GetLevelCooldown(orig->GetEffectivePower()));
         bTurnedOn = false;
         currentRoom = nullptr;
         currentShipId = -1;
@@ -168,11 +247,10 @@ void TemporalSystem_Wrapper::StopTimeDilation()
 
 void TemporalSystem_Wrapper::OnLoop()
 {
-    timer.SetMaxTime(orig->GetEffectivePower() * 5.f);
+    timer.SetMaxTime(TemporalSystemParser::GetLevelDuration(orig->GetEffectivePower()));
 
     if (!orig->Functioning() || (orig->iHackEffect > 1 && orig->bUnderAttack) || currentShipId == -1 || G_->GetShipManager(currentShipId) == nullptr)
     {
-        // Stop time dilation
         StopTimeDilation();
     }
 
@@ -188,8 +266,6 @@ void TemporalSystem_Wrapper::OnLoop()
 
         if (currentRoom != nullptr && G_->GetShipManager(currentShipId) == nullptr) // not sure if this works
         {
-            // Set time dilation for room
-
             RM_EX(currentRoom)->timeDilation = isSpeeding ? orig->GetEffectivePower() : -orig->GetEffectivePower();
         }
     }
@@ -411,41 +487,186 @@ HOOK_METHOD(MouseControl, OnRender, () -> void)
     super();
 }
 
-
-HOOK_METHOD(ShipManager, OnRender, (bool showInterior, bool doorControlMode) -> void)
+HOOK_STATIC(ShipSystem, GetLevelDescription, (void* unk, std::string &retStr, int systemId, int level, bool tooltip) -> void)
 {
-    super(showInterior, doorControlMode);
+    super(unk, retStr, systemId, level, tooltip);
 
-    bool canSeeRooms = false;
-
-    if (iShipId == 1)
+    if (systemId == 20 && level != -1)
     {
-        bool hasCloakingSystem = systemKey[10] != -1;
+        int realLevel = level + 1;
 
-        canSeeRooms = (_targetable.hostile && (!hasCloakingSystem || !cloakSystem->bTurnedOn)) || bContainsPlayerCrew;
-    }
-    else
-    {
-        canSeeRooms = bShowRoom;
-    }
+        std::string replStr = G_->GetTextLibrary()->GetText(tooltip ? "temporal_tooltip" : "temporal");
 
-    canSeeRooms = canSeeRooms && !bDestroyed && !bJumping;
+        std::stringstream stream;
+        stream << std::fixed << std::setprecision(3) << TemporalSystemParser::GetDilationStrength(realLevel);
 
-    if (canSeeRooms)
-    {
-        for (auto room : ship.vRoomList)
-        {
-            if (RM_EX(room)->timeDilation != 0)
-            {
-                CSurface::GL_PushMatrix();
-                CSurface::GL_Translate(room->rect.x, room->rect.y);
-                CSurface::GL_SetColor(255.f, 0.f, 0.f, 1.f);
-                freetype::easy_print(0, 20.f, 20.f, std::to_string(RM_EX(room)->timeDilation));
-                CSurface::GL_PopMatrix();
-            }
-        }
+        std::string valueStr = stream.str();
+
+        boost::trim_right_if(valueStr, boost::is_any_of("0"));
+        boost::trim_right_if(valueStr, boost::is_any_of("."));
+
+        boost::algorithm::replace_all(replStr, "\\1", valueStr);
+
+        stream.str(std::string());
+
+        stream << std::fixed << std::setprecision(3) << TemporalSystemParser::GetLevelDuration(realLevel);
+
+        valueStr = stream.str();
+
+        boost::trim_right_if(valueStr, boost::is_any_of("0"));
+        boost::trim_right_if(valueStr, boost::is_any_of("."));
+
+        boost::algorithm::replace_all(replStr, "\\2", valueStr);
+        boost::algorithm::replace_all(replStr, "\\3", std::to_string(TemporalSystemParser::GetLevelCooldown(realLevel) * 5));
+        boost::algorithm::replace_all(replStr, "\\n", "\n");
+
+        retStr.assign(replStr);
     }
 }
+
+// Animation
+
+HOOK_METHOD(Ship, OnRenderWalls, (bool forceView, bool doorControlMode) -> void)
+{
+    for (auto i : vRoomList)
+    {
+        auto ex = RM_EX(i);
+        int timeDilation = ex->timeDilation;
+
+        if (timeDilation != 0)
+        {
+            Animation* anim = nullptr;
+
+            if (timeDilation > 0)
+            {
+                if (!ex->speedUpAnim)
+                {
+                    auto newAnim = new Animation();
+
+                    AnimationControl::GetAnimation(*newAnim, G_->GetAnimationControl(), "room_temporal_speed");
+
+                    ex->speedUpAnim = newAnim;
+                    ex->speedUpAnim->SetCurrentFrame(0);
+                    ex->speedUpAnim->tracker.SetLoop(true, 0);
+                    ex->speedUpAnim->Start(true);
+                }
+
+                anim = ex->speedUpAnim;
+            }
+            else if (timeDilation < 0)
+            {
+                if (!ex->slowDownAnim)
+                {
+                    ex->slowDownAnim = new Animation();
+                    AnimationControl::GetAnimation(*ex->slowDownAnim, G_->GetAnimationControl(), "room_temporal_slow");
+
+                    ex->slowDownAnim->SetCurrentFrame(0);
+                    ex->slowDownAnim->tracker.SetLoop(true, 0);
+                    ex->slowDownAnim->Start(true);
+                }
+
+                anim = ex->slowDownAnim;
+            }
+
+            CSurface::GL_PushMatrix();
+
+            // top
+
+            for (int xPos = 0; xPos < i->rect.w / 35; xPos++)
+            {
+                CSurface::GL_PushMatrix();
+
+                CSurface::GL_Translate(i->rect.x + xPos * 35, i->rect.y + i->rect.h - 35);
+                anim->OnRender(1.f, COLOR_WHITE, false);
+
+                CSurface::GL_PopMatrix();
+            }
+
+            // bottom
+
+            for (int xPos = 0; xPos < i->rect.w / 35; xPos++)
+            {
+                CSurface::GL_PushMatrix();
+
+                CSurface::GL_Translate(i->rect.x + xPos * 35 + 35, i->rect.y + 35.f);
+                CSurface::GL_Rotate(180.f, 0.f, 0.f, 1.f);
+                anim->OnRender(1.f, COLOR_WHITE, false);
+
+                CSurface::GL_PopMatrix();
+            }
+
+            // left
+
+            for (int yPos = 0; yPos < i->rect.h / 35; yPos++)
+            {
+                CSurface::GL_PushMatrix();
+
+                CSurface::GL_Translate(i->rect.x + 35, i->rect.y + yPos * 35.f);
+                CSurface::GL_Rotate(90.f, 0.f, 0.f, 1.f);
+                anim->OnRender(1.f, COLOR_WHITE, false);
+
+                CSurface::GL_PopMatrix();
+            }
+
+            // right
+
+            for (int yPos = 0; yPos < i->rect.h / 35; yPos++)
+            {
+                CSurface::GL_PushMatrix();
+
+                CSurface::GL_Translate(i->rect.x + i->rect.w - 35.f, i->rect.y + yPos * 35.f + 35.f);
+                CSurface::GL_Rotate(-90.f, 0.f, 0.f, 1.f);
+                anim->OnRender(1.f, COLOR_WHITE, false);
+
+                CSurface::GL_PopMatrix();
+            }
+
+            /*
+            for (int xPos = 0; xPos < i->rect.w / 35; xPos++)
+            {
+                CSurface::GL_PushMatrix();
+
+                CSurface::GL_Translate(i->rect.x + xPos * 35 + 35, i->rect.y + 35.f);
+                CSurface::GL_Rotate(180.f, 0.f, 0.f, 1.f);
+                anim->OnRender(1.f, COLOR_WHITE, false);
+
+                CSurface::GL_PopMatrix();
+            }
+            */
+
+
+            // left & right
+
+            /*
+            for (int yPos = 0; yPos < i->rect.h / 35; yPos++)
+            {
+                CSurface::GL_PushMatrix();
+
+                CSurface::GL_Translate(i->rect.x + i->rect.w - 35, i->rect.y + yPos * 35);
+                CSurface::GL_Rotate(90.f, 0.f, 0.f, 1.f);
+                anim->OnRender(1.f, COLOR_WHITE, false);
+
+                CSurface::GL_Rotate(180.f, i->rect.w / 2.f, i->rect.h / 2.f, 1.f);
+                anim->OnRender(1.f, COLOR_WHITE, false);
+
+                CSurface::GL_PopMatrix();
+            }
+            */
+
+            CSurface::GL_PopMatrix();
+        }
+    }
+
+    super(forceView, doorControlMode);
+}
+
+HOOK_METHOD(CrewAI, PrioritizeTask, (CrewTask task, int crewId) -> int)
+{
+    if (task.system == 20) task.system = 15;
+    return super(task, crewId);
+}
+
+// Effects
 
 static int g_dilationAmount = 0;
 
@@ -455,40 +676,74 @@ HOOK_METHOD(CFPS, GetSpeedFactor, () -> float)
 
     if (g_dilationAmount != 0)
     {
-        if (g_dilationAmount > 0)
-        {
-            ret *= (g_dilationAmount * 1.5);
-        }
-        else
-        {
-            ret /= -(g_dilationAmount * 1.5);
-        }
+        ret *= TemporalSystemParser::GetDilationStrength(g_dilationAmount);
     }
 
     return ret;
 }
 
 static std::map<int, int> g_crewDilationRooms = std::map<int, int>();
+static std::map<int, int> g_envDilationRooms = std::map<int, int>();
+static std::map<int, int> g_cloneDilationRooms = std::map<int, int>();
 
-HOOK_METHOD(CrewMember, OnLoop, () -> void)
+int GetRoomDilationAmount(std::map<int, int> roomMap, int roomId)
 {
     int dilationAmount = 0;
 
-    if (g_crewDilationRooms.find(iRoomId) != g_crewDilationRooms.end())
+    if (roomMap.find(roomId) != roomMap.end())
     {
-        dilationAmount = g_crewDilationRooms[iRoomId];
+        dilationAmount = roomMap[roomId];
     }
 
-    if (dilationAmount != 0)
-    {
-        g_dilationAmount = dilationAmount;
-        super();
-        g_dilationAmount = 0;
+    return dilationAmount;
+}
 
-        return;
-    }
+HOOK_METHOD(OxygenSystem, ModifyRoomOxygen, (int changeRoomId, float amount) -> void)
+{
+    int dilationAmount = GetRoomDilationAmount(g_envDilationRooms, changeRoomId);
+    super(changeRoomId, amount * (float)TemporalSystemParser::GetDilationStrength(dilationAmount));
+}
 
+HOOK_METHOD(OxygenSystem, UpdateBreach, (int breachRoomId, int hasBreach, bool unk3) -> void)
+{
+    g_dilationAmount = GetRoomDilationAmount(g_envDilationRooms, breachRoomId);
+    super(breachRoomId, hasBreach, unk3);
+    g_dilationAmount = 0;
+}
+
+HOOK_METHOD(Fire, OnLoop, () -> void)
+{
+    g_dilationAmount = GetRoomDilationAmount(g_envDilationRooms, roomId);
     super();
+    g_dilationAmount = 0;
+}
+
+HOOK_METHOD(Fire, UpdateDeathTimer, (int connectedFires) -> void)
+{
+    g_dilationAmount = GetRoomDilationAmount(g_envDilationRooms, roomId);
+    super(connectedFires);
+    g_dilationAmount = 0;
+}
+
+HOOK_METHOD(Fire, UpdateStartTimer, (int doorLevel) -> void)
+{
+    g_dilationAmount = GetRoomDilationAmount(g_envDilationRooms, roomId);
+    super(doorLevel);
+    g_dilationAmount = 0;
+}
+
+HOOK_METHOD(CrewMember, OnLoop, () -> void)
+{
+    g_dilationAmount = GetRoomDilationAmount(g_crewDilationRooms, iRoomId);
+    super();
+    g_dilationAmount = 0;
+}
+
+HOOK_METHOD(CloneSystem, OnLoop, () -> void)
+{
+    g_dilationAmount = GetRoomDilationAmount(g_cloneDilationRooms, roomId);
+    super();
+    g_dilationAmount = 0;
 }
 
 HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
@@ -504,4 +759,83 @@ HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
     super();
 
     g_crewDilationRooms.clear();
+}
+
+static bool g_inSpreadDamage = false;
+
+HOOK_METHOD(ShipSystem, DamageOverTime, (float amount) -> void)
+{
+    if (!g_inSpreadDamage) return super(amount);
+
+    g_dilationAmount = GetRoomDilationAmount(g_envDilationRooms, roomId);
+    super(amount);
+    g_dilationAmount = 0;
+}
+
+HOOK_METHOD(ShipManager, CheckSpreadDamage, () -> void)
+{
+    for (auto i : ship.vRoomList)
+    {
+        if (RM_EX(i)->timeDilation != 0)
+        {
+            g_envDilationRooms[i->iRoomId] = RM_EX(i)->timeDilation;
+        }
+    }
+
+    g_inSpreadDamage = true;
+    super();
+    g_inSpreadDamage = false;
+
+    g_envDilationRooms.clear();
+}
+
+HOOK_METHOD(ShipManager, UpdateEnvironment, () -> void)
+{
+    for (auto i : ship.vRoomList)
+    {
+        if (RM_EX(i)->timeDilation != 0)
+        {
+            g_envDilationRooms[i->iRoomId] = RM_EX(i)->timeDilation;
+        }
+    }
+
+    super();
+
+    g_envDilationRooms.clear();
+}
+
+HOOK_METHOD(ShipManager, OnLoop, () -> void)
+{
+    for (auto i : ship.vRoomList)
+    {
+        if (RM_EX(i)->timeDilation != 0)
+        {
+            g_cloneDilationRooms[i->iRoomId] = RM_EX(i)->timeDilation;
+        }
+    }
+
+    super();
+
+    g_cloneDilationRooms.clear();
+
+    for (auto i : ship.vRoomList)
+    {
+        auto ex = RM_EX(i);
+        int timeDilation = ex->timeDilation;
+
+        if (timeDilation > 0)
+        {
+            if (ex->speedUpAnim)
+            {
+                ex->speedUpAnim->Update();
+            }
+        }
+        else if (timeDilation < 0)
+        {
+            if (ex->slowDownAnim)
+            {
+                ex->slowDownAnim->Update();
+            }
+        }
+    }
 }

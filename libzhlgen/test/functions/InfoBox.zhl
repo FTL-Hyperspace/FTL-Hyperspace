@@ -24,6 +24,12 @@ bool InfoBox::IsEmpty(InfoBox *this<ecx>);
 "578d7c240883e4f0ff77fc5589e5575389cb83ec10c744240400000000c70424????????e8????????8d43148d8bc0000000":
 void InfoBox::constructor(InfoBox *this<ecx>);
 
+"578d7c240883e4f0ff77fc5589f889e557565389cb83ec4c8b70048b3f8b50088b480cc783c8000000000000008975bc8b701083ffff8b4014":
+void InfoBox::SetSystemId(InfoBox *this<ecx>, int systemId, int maxPower, int currentLevel, int upgrade, int yShift, int forceSystemWidth);
+"578d7c240883e4f0ff77fc5589e557565389cb83ec5c8b378b47048b57088b7f0c85f68945c40f84????????":
+void InfoBox::SetSystem(InfoBox *this<ecx>, ShipSystem *system, int upgrade, int yShift, int forceSystemWidth);
+
+
 struct InfoBox 
 {{
 	InfoBox()

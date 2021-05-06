@@ -17,6 +17,7 @@ struct Door;
 struct Room;
 struct CrewMember;
 struct CrewAnimation;
+struct Fire;
 struct ShipManager;
 struct Store;
 struct SystemBox;
@@ -29,6 +30,7 @@ struct CommandGui;
 struct EquipmentBox;
 struct CrewEquipBox;
 struct AugmentEquipBox;
+struct UpgradeBox;
 struct CombatControl;
 struct Pointf;
 struct Animation;
@@ -48,6 +50,7 @@ struct WeaponSystem;
 struct DroneSystem;
 struct ShipSystem;
 struct OuterHull;
+struct CloneSystem;
 struct TeleportSystem;
 struct ChoiceText;
 struct Targetable;
@@ -2008,9 +2011,6 @@ struct TabbedWindow
   bool bWindowLock;
 };
 
-/* 232 */
-struct UpgradeBox;
-
 /* 609 */
 struct std__vector_12UpgradeBoxZ1
 {
@@ -2747,9 +2747,6 @@ struct std__vector_12ShipSystemZ1
   ShipSystem **_finish;
   ShipSystem **_end;
 };
-
-/* 296 */
-struct CloneSystem;
 
 /* 295 */
 struct EngineSystem;
@@ -3632,6 +3629,23 @@ struct SpaceDrone
   Animation hackSparks;
 };
 
+/* 232 */
+struct UpgradeBox
+{
+  ShipSystem *system;
+  ShipManager *ship;
+  const SystemBlueprint *blueprint;
+  Point location;
+  int tempUpgrade;
+  Button *currentButton;
+  std__string buttonBaseName;
+  Button maxButton;
+  Button boxButton;
+  bool subsystem;
+  bool isDummy;
+  GL_Primitive *dummyBox;
+};
+
 /* 228 */
 struct AugmentEquipBox
 {
@@ -3971,6 +3985,28 @@ struct MindSystem
   std__vector_12CrewMemberZ1 queuedCrew;
 };
 
+/* 704 */
+struct std__map_23std__string___Animation
+{
+  char unk[24];
+};
+
+/* 296 */
+struct CloneSystem
+{
+  ShipSystem _base;
+  float fTimeToClone;
+  CrewMember *clone;
+  float fTimeGoal;
+  float fDeathTime;
+  GL_Texture *bottom;
+  GL_Texture *top;
+  GL_Texture *gas;
+  int slot;
+  Animation *currentCloneAnimation;
+  std__map_23std__string___Animation cloneAnimations;
+};
+
 /* 169 */
 struct HackingDrone
 {
@@ -4090,9 +4126,6 @@ struct DroneSystem
   int iStartingBatteryPower;
   std__vector_4bool repowerList;
 };
-
-/* 192 */
-struct Fire;
 
 /* 448 */
 struct std__vector_4Fire
@@ -4463,6 +4496,25 @@ struct Shields__ShieldAnimation
   int side;
   int ownerId;
   int damage;
+};
+
+/* 304 */
+struct Spreadable
+{
+  Repairable _base;
+  std__string soundName;
+};
+
+/* 192 */
+struct Fire
+{
+  Spreadable _base;
+  float fDeathTimer;
+  float fStartTimer;
+  float fOxygen;
+  Animation fireAnimation;
+  Animation smokeAnimation;
+  bool bWasOnFire;
 };
 
 /* 693 */
@@ -5203,9 +5255,6 @@ struct PowerManager
 /* 299 */
 struct BeamWeapon;
 
-/* 304 */
-struct Spreadable;
-
 /* 311 */
 struct BattleDrone
 {
@@ -5562,12 +5611,6 @@ struct std__map_28std__string___AnimationSheet
   char unk[24];
 };
 
-/* 704 */
-struct std__map_23std__string___Animation
-{
-  char unk[24];
-};
-
 /* 705 */
 struct std__map_29std__string___WeaponAnimation
 {
@@ -5708,7 +5751,7 @@ struct std__vector_10HotkeyDesc
   HotkeyDesc *_end;
 };
 
-/* 811 */
+/* 821 */
 union __attribute__((aligned(8))) __m64
 {
   unsigned __int64 m64_u64;
@@ -5722,7 +5765,7 @@ union __attribute__((aligned(8))) __m64
   unsigned __int32 m64_u32[2];
 };
 
-/* 812 */
+/* 822 */
 union __attribute__((aligned(16))) __m128
 {
   float m128_f32[4];
@@ -5736,13 +5779,13 @@ union __attribute__((aligned(16))) __m128
   unsigned __int32 m128_u32[4];
 };
 
-/* 813 */
+/* 823 */
 struct __m128d
 {
   double m128d_f64[2];
 };
 
-/* 814 */
+/* 824 */
 union __attribute__((aligned(16))) __m128i
 {
   __int8 m128i_i8[16];
