@@ -1,5 +1,7 @@
 #pragma once
 
+#include <boost/crc.hpp>
+
 class SeedInputBox
 {
 public:

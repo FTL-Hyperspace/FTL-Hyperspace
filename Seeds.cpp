@@ -269,8 +269,9 @@ HOOK_METHOD(StarMap, GenerateMap, (bool unk, bool seed) -> Location*)
         {
             if (bSecretSector)
             {
-                std::hash<std::string> hasher;
-                currentSectorSeed = secretRng() ^ ((unsigned int) hasher(currentSector->description.name.data));
+                boost::crc_32_type hasher;
+                hasher.process_bytes(currentSector->description.name.data.data(), currentSector->description.name.data.length());
+                currentSectorSeed = secretRng() ^ hasher.checksum();
             }
             else
             {
