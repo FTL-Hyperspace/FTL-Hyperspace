@@ -102,6 +102,9 @@ void ShipManager::ResetScrapLevel(ShipManager *this<ecx>);
 void ShipManager::JumpArrive(ShipManager *this<ecx>);
 "578d7c240883e4f0ff77fc5589e557565383ec4c8b51188b411cc745b80000000029d0c1f80285c00f84????????89cf":
 void ShipManager::CheckSpreadDamage(ShipManager *this<ecx>);
+"5731c08d7c240883e4f0ff77fc5589e55783ec148b1783faff74??8bb9c80400008b149783faff74??8b4918":
+bool ShipManager::ForceDecreaseSystemPower(ShipManager *this<ecx>, int sys);
+
 
 struct ShipManager depends (PowerManager)
 {{

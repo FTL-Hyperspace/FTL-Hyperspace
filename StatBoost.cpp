@@ -9,10 +9,11 @@
 //#include <chrono>
 //#include <iostream>
 
+uint64_t StatBoost::nextId = -1;
+
 StatBoost ParseStatBoostNode(rapidxml::xml_node<char>* node)
 {
     StatBoost def = StatBoost();
-
     auto stat = std::find(crewStats.begin(), crewStats.end(), node->first_attribute("name")->value());
     if (stat != crewStats.end())
     {
@@ -292,10 +293,13 @@ HOOK_METHOD(WorldManager, OnLoop, () -> void)
             {
                 if (customAug->IsAugment(augPair.first))
                 {
-                    for (auto statBoost : customAug->GetAugmentDefinition(augPair.first)->statBoosts)
+                    for (auto statBoostDef : customAug->GetAugmentDefinition(augPair.first)->statBoosts)
                     {
-                        if (statBoost.duration == -1)
+                        if (statBoostDef.duration == -1)
                         {
+                            StatBoost statBoost = StatBoost(statBoostDef);
+                            statBoost.GiveId();
+
                             statBoost.boostSource = StatBoost::BoostSource::AUGMENT;
                             statBoost.sourceShipId = shipId;
 
@@ -349,15 +353,18 @@ HOOK_METHOD(WorldManager, OnLoop, () -> void)
 
                                 statBoosts[statBoost.stat] = newVector;
                             }
-                            for (StatBoost recursiveBoost : statBoost.providedStatBoosts)
+                            for (StatBoost recursiveBoostDef : statBoost.providedStatBoosts)
                             {
                                 for (auto recursiveCrew : checkingCrewList)
                                 {
                                     auto ex2 = CM_EX(recursiveCrew);
                                     if (ex2->BoostCheck(statBoost))
                                     {
+                                        auto recursiveBoost = StatBoost(recursiveBoostDef);
+                                        recursiveBoost.GiveId();
                                         recursiveBoost.crewSource = recursiveCrew;
                                         recursiveBoost.sourceShipId = recursiveCrew->currentShipId;
+
                                         if (!recursiveBoost.systemList.empty())
                                         {
                                             for (auto system : recursiveBoost.systemList)
@@ -478,13 +485,15 @@ HOOK_METHOD(WorldManager, OnLoop, () -> void)
                 newVector.push_back(statBoost);
                 statBoosts[statBoost.stat] = newVector;
             }
-            for (StatBoost recursiveBoost : statBoost.providedStatBoosts)
+            for (StatBoost recursiveBoostDef : statBoost.providedStatBoosts)
             {
                 for (auto recursiveCrew : checkingCrewList)
                 {
                     auto ex2 = CM_EX(recursiveCrew);
                     if (ex2->BoostCheck(statBoost))
                     {
+                        auto recursiveBoost = StatBoost(recursiveBoostDef);
+                        recursiveBoost.GiveId();
                         recursiveBoost.crewSource = recursiveCrew;
                         recursiveBoost.sourceShipId = recursiveCrew->currentShipId;
                         if (!recursiveBoost.systemList.empty())
@@ -557,8 +566,11 @@ HOOK_METHOD(ShipManager, JumpArrive, () -> void)
         {
             if (customAug->IsAugment(augPair.first))
             {
-                for (auto statBoost : customAug->GetAugmentDefinition(augPair.first)->statBoosts)
+                for (auto statBoostDef : customAug->GetAugmentDefinition(augPair.first)->statBoosts)
                 {
+                    StatBoost statBoost = StatBoost(statBoostDef);
+                    statBoost.GiveId();
+
                     statBoost.boostSource = StatBoost::BoostSource::AUGMENT;
                     statBoost.sourceShipId = 0;
                     for (auto i : this->vCrewList)
@@ -603,8 +615,11 @@ HOOK_METHOD(CrewMember, constructor, (CrewBlueprint& bp, int shipId, bool intrud
         {
             if (customAug->IsAugment(augPair.first))
             {
-                for (auto statBoost : customAug->GetAugmentDefinition(augPair.first)->statBoosts)
+                for (auto statBoostDef : customAug->GetAugmentDefinition(augPair.first)->statBoosts)
                 {
+                    StatBoost statBoost = StatBoost(statBoostDef);
+                    statBoost.GiveId();
+
                     statBoost.boostSource = StatBoost::BoostSource::AUGMENT;
                     statBoost.sourceShipId = shipId;
                     auto ex = CM_EX(this);
@@ -1181,7 +1196,6 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
                                        ex->timedStatBoosts[timedBoosts.first].end());
         }
 
-        /*
         auto aex = CMA_EX(crewAnim);
         for (auto statBoost : statBoosts)
         {
@@ -1195,7 +1209,7 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
                         bool newAnim = true;
                         for (auto animation : aex->boostAnim)
                         {
-                            if (animation->animName == singleStatBoost.boostAnim)
+                            if (animation.first == singleStatBoost.realBoostId)
                             {
                                 newAnim = false;
                             }
@@ -1204,7 +1218,7 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
                         {
                             Animation* anim = new Animation();
                             AnimationControl::GetAnimation(*anim, G_->GetAnimationControl(), singleStatBoost.boostAnim);
-                            aex->boostAnim.push_back(anim);
+                            aex->boostAnim[singleStatBoost.realBoostId] = anim;
                             anim->SetCurrentFrame(0);
                             anim->tracker.SetLoop(true, 0);
                             anim->Start(true);
@@ -1212,19 +1226,12 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
                     }
                     else
                     {
-                        auto it = aex->boostAnim.begin();
-                        while (it != aex->boostAnim.end())
+                        auto it = aex->boostAnim.find(singleStatBoost.realBoostId);
+
+                        if (it != aex->boostAnim.end())
                         {
-                            if ((*it)->animName == singleStatBoost.boostAnim)
-                            {
-                                (*it)->tracker.Stop(false);
-                                it = aex->boostAnim.erase(it);
-                                //anim->destructor();
-                            }
-                            else
-                            {
-                                ++it;
-                            }
+                            (*it).second->destructor();
+                            aex->boostAnim.erase(it);
                         }
                     }
                 }
@@ -1234,7 +1241,6 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
         {
             for (auto singleStatBoost : statBoost.second)
             {
-                Animation *anim;
                 if (singleStatBoost.boostAnim != "")
                 {
                     bool result = ex->BoostCheck(singleStatBoost);
@@ -1243,16 +1249,16 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
                         bool newAnim = true;
                         for (auto animation : aex->boostAnim)
                         {
-                            if (animation->animName == singleStatBoost.boostAnim)
+                            if (animation.first == singleStatBoost.realBoostId)
                             {
                                 newAnim = false;
                             }
                         }
                         if (newAnim)
                         {
-                            anim = new Animation();
+                            Animation* anim = new Animation();
                             AnimationControl::GetAnimation(*anim, G_->GetAnimationControl(), singleStatBoost.boostAnim);
-                            aex->boostAnim.push_back(anim);
+                            aex->boostAnim[singleStatBoost.realBoostId] = anim;
                             anim->SetCurrentFrame(0);
                             anim->tracker.SetLoop(true, 0);
                             anim->Start(true);
@@ -1260,26 +1266,12 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
                     }
                     else
                     {
-                        auto it = aex->boostAnim.begin();
-                        while (it != aex->boostAnim.end())
+                        auto it = aex->boostAnim.find(singleStatBoost.realBoostId);
+
+                        if (it != aex->boostAnim.end())
                         {
-                            if ((*it)->animName == singleStatBoost.boostAnim)
-                            {
-                                if (anim)
-                                {
-                                    anim->tracker.Stop(false);
-                                    it = aex->boostAnim.erase(it);
-                                    //anim->destructor();
-                                }
-                                else
-                                {
-                                    ++it;
-                                }
-                            }
-                            else
-                            {
-                                ++it;
-                            }
+                            (*it).second->destructor();
+                            aex->boostAnim.erase(it);
                         }
                     }
                 }
@@ -1287,9 +1279,8 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
         }
         for (auto boostAnim : aex->boostAnim)
         {
-            boostAnim->Update();
+            boostAnim.second->Update();
         }
-        */
     }
 }
 

@@ -223,9 +223,21 @@ struct StatBoost
 
     int sourceShipId;
 
+    static uint64_t nextId;
+
+    bool isDefinition = false;
+    int realBoostId = -1;
+
+
+    void GiveId()
+    {
+        nextId++;
+        realBoostId = nextId;
+    }
+
     ~StatBoost()
     {
-        //delete timerHelper;
+        delete timerHelper;
     }
 };
 
@@ -236,7 +248,7 @@ public:
     Animation* effectAnim = nullptr;
     Animation* tempEffectAnim = nullptr;
     Animation* effectFinishAnim = nullptr;
-    std::vector<Animation*> boostAnim = std::vector<Animation*>();
+    std::unordered_map<uint64_t, Animation*> boostAnim = std::unordered_map<uint64_t, Animation*>();
     GL_Texture* tempEffectStrip = nullptr;
 
     bool isMantisAnimation = false;

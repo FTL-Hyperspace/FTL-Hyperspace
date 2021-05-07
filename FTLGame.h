@@ -1669,6 +1669,8 @@ struct ShipAI
 {
 	LIBZHL_API void constructor(bool unk);
 	LIBZHL_API void SetStalemate(bool stalemate);
+	LIBZHL_API void OnLoop(bool hostile);
+	LIBZHL_API double GetTeleportCommand();
 	
 	ShipManager *ship;
 	ShipManager *target;
@@ -3821,6 +3823,7 @@ struct ShipManager : ShipObject
 	LIBZHL_API void ResetScrapLevel();
 	LIBZHL_API void JumpArrive();
 	LIBZHL_API void CheckSpreadDamage();
+	LIBZHL_API bool ForceDecreaseSystemPower(int sys);
 	
 	Targetable _targetable;
 	Collideable _collideable;

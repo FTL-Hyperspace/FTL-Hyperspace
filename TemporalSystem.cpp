@@ -283,6 +283,26 @@ void SetTemporalArmed(ShipManager *ship, TemporalArmState armState)
     if (ship->GetSystem(20) != nullptr) SYS_EX(ship->GetSystem(20))->temporalSystem->SetArmed(armState);
 }
 
+HOOK_METHOD(ShipManager, JumpArrive, () -> void)
+{
+    super();
+
+    if (bWasSafe && HasSystem(20))
+    {
+        GetSystem(20)->LockSystem(0);
+    }
+}
+
+HOOK_METHOD(ShipManager, JumpLeave, () -> void)
+{
+    super();
+
+    if (HasSystem(20))
+    {
+        GetSystem(20)->LockSystem(0);
+    }
+}
+
 HOOK_METHOD(CooldownSystemBox, constructor, (Point pos, ShipSystem *sys, bool roundDown) -> void)
 {
     super(pos, sys, roundDown);
@@ -360,7 +380,7 @@ HOOK_METHOD(CombatControl, SelectTarget, () -> bool)
         }
         else if (selectedRoom != -1 && currentTarget)
         {
-            temporal->StartTimeDilation(1, selectedRoom, temporalArmed == TEMPORAL_ARM_SLOW);
+            temporal->StartTimeDilation(1, selectedRoom, temporalArmed == TEMPORAL_ARM_SPEED);
 
             SetTemporalArmed(shipManager, TEMPORAL_ARM_NONE);
             selectedSelfRoom = -1;

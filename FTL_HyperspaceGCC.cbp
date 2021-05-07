@@ -200,6 +200,12 @@
 		<Unit filename="CrewMember_Extend.h">
 			<Option virtualFolder="Core/Crew/" />
 		</Unit>
+		<Unit filename="CrewNames.cpp">
+			<Option virtualFolder="Core/Crew/" />
+		</Unit>
+		<Unit filename="CrewNames.h">
+			<Option virtualFolder="Core/Crew/" />
+		</Unit>
 		<Unit filename="CrewVTable.cpp">
 			<Option virtualFolder="Core/Crew/" />
 		</Unit>
@@ -371,6 +377,9 @@
 		<Unit filename="MoreInfoButton.h">
 			<Option virtualFolder="Content/Misc/" />
 		</Unit>
+		<Unit filename="NeutralTeleporterFix.cpp">
+			<Option virtualFolder="Content/Misc/" />
+		</Unit>
 		<Unit filename="OverclockerSystem.cpp">
 			<Option virtualFolder="Core/Systems/" />
 		</Unit>
@@ -382,6 +391,12 @@
 		</Unit>
 		<Unit filename="Projectile_Extend.h">
 			<Option virtualFolder="Core/Weapons/" />
+		</Unit>
+		<Unit filename="RedesignedTooltips.cpp">
+			<Option virtualFolder="Core/Equipment/" />
+		</Unit>
+		<Unit filename="RedesignedTooltips.h">
+			<Option virtualFolder="Core/Equipment/" />
 		</Unit>
 		<Unit filename="Renderer.cpp">
 			<Option virtualFolder="Core/CApp/" />

@@ -1180,15 +1180,6 @@ void CrewMember_Extend::ActivatePower()
     {
         orig->DirectModifyHealth(powerDef.selfHealth);
     }
-//    StatBoost testBoost;
-//    testBoost.duration = 5;
-//    testBoost.amount = 5;
-//    testBoost.boostType = StatBoost::BoostType::FLAT;
-//    testBoost.shipTarget = StatBoost::ShipTarget::ALL;
-//    testBoost.crewTarget = StatBoost::CrewTarget::ALL;
-//    testBoost.stat = CrewStat::MOVE_SPEED_MULTIPLIER;
-//    testBoost.affectsSelf = true;
-//    timedStatBoosts.push_back(testBoost);
 
     auto aex = CMA_EX(orig->crewAnim);
     aex->powerDone = true;
@@ -1425,14 +1416,20 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
         hasTemporaryPower = def.powerDef.hasTemporaryPower;
         canPhaseThroughDoors = def.canPhaseThroughDoors;
 
-        for (auto statBoost : def.passiveStatBoosts)
+        for (auto statBoostDef : def.passiveStatBoosts)
         {
+            StatBoost statBoost = StatBoost(statBoostDef);
+            statBoost.GiveId();
+
             statBoost.crewSource = orig;
             statBoost.boostSource = StatBoost::BoostSource::CREW;
             outgoingStatBoosts.push_back(statBoost);
         }
-        for (auto statBoost : def.powerDef.tempPower.statBoosts)
+        for (auto statBoostDef : def.powerDef.tempPower.statBoosts)
         {
+            StatBoost statBoost = StatBoost(statBoostDef);
+            statBoost.GiveId();
+
             statBoost.crewSource = orig;
             statBoost.boostSource = StatBoost::BoostSource::CREW;
             outgoingAbilityStatBoosts.push_back(statBoost);
@@ -3119,19 +3116,19 @@ HOOK_METHOD(CrewMember, OnRender, (bool outlineOnly) -> void)
         CSurface::GL_PopMatrix();
     }
 
-    /*
+
     for (auto boostAnim : ex->boostAnim)
     {
-        if (boostAnim != nullptr && !boostAnim->tracker.done && boostAnim->tracker.running)
+        if (boostAnim.second != nullptr && !boostAnim.second->tracker.done && boostAnim.second->tracker.running)
         {
             CSurface::GL_PushMatrix();
-            CSurface::GL_Translate(-std::ceil((float)boostAnim->info.frameWidth / 2), -std::ceil((float)boostAnim->info.frameHeight / 2));
+            CSurface::GL_Translate(-std::ceil((float)boostAnim.second->info.frameWidth / 2), -std::ceil((float)boostAnim.second->info.frameHeight / 2));
             CSurface::GL_Translate(0, PositionShift());
-            boostAnim->OnRender(1.f, COLOR_WHITE, false);
+            boostAnim.second->OnRender(1.f, COLOR_WHITE, false);
             CSurface::GL_PopMatrix();
         }
     }
-    */
+
 
     CSurface::GL_PopMatrix();
 }
@@ -3297,26 +3294,6 @@ HOOK_METHOD(WindowFrame, constructor, (int x, int y, int w, int h) -> void)
     }
 
     super(x, y, w, h);
-}
-
-HOOK_METHOD(InfoBox, SetBlueprintCrew, (const CrewBlueprint& bp, int yShift, bool detailedCrew) -> void)
-{
-    super(bp, yShift, detailedCrew);
-
-    Pointf titleSize = freetype_hack::easy_measurePrintLines(16, 0, 0, descBoxSize.x, desc.title.GetText());
-    Pointf descSize = freetype_hack::easy_measurePrintLines(10, 0, 0, descBoxSize.x, desc.description.GetText());
-
-    Pointf boxSize = titleSize + descSize + Pointf(0, 28.f);
-    boxSize.y = std::max(boxSize.y, 183.f);
-
-
-    windowFrameCheck = true;
-    windowFrameHeight = boxSize.y;
-
-    super(bp, yShift, detailedCrew);
-
-    windowFrameCheck = false;
-    descBoxSize.y = boxSize.y;
 }
 
 bool blockAnimationUpdate = false;
