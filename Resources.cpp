@@ -105,6 +105,24 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->redesignedWeaponTooltips.defaultValue = EventsParser::ParseBoolean(enabled);
                 customOptions->redesignedWeaponTooltips.currentValue = EventsParser::ParseBoolean(enabled);
             }
+            if (strcmp(node->name(), "redesignedCrewTooltips") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->redesignedCrewTooltips.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->redesignedCrewTooltips.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+            if (strcmp(node->name(), "redesignedDroneTooltips") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->redesignedDroneTooltips.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->redesignedDroneTooltips.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+            if (strcmp(node->name(), "redesignedAugmentTooltips") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->redesignedAugmentTooltips.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->redesignedAugmentTooltips.currentValue = EventsParser::ParseBoolean(enabled);
+            }
 
             if (strcmp(node->name(), "eventTooltips") == 0)
             {
