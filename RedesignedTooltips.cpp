@@ -1145,9 +1145,20 @@ HOOK_METHOD(InfoBox, SetBlueprintAugment, (const AugmentBlueprint* bp) -> void)
 
 static bool windowFrameCheck = false;
 static int windowFrameHeight = 0;
+
+HOOK_METHOD(WindowFrame, constructor, (int x, int y, int w, int h) -> void)
+{
+    if (windowFrameCheck)
+    {
+        h = windowFrameHeight;
+        windowFrameCheck = false;
+    }
+
+    super(x, y, w, h);
+}
+
 HOOK_METHOD(InfoBox, SetBlueprintCrew, (const CrewBlueprint& bp, int yShift, bool detailedCrew) -> void)
 {
-    super(bp, yShift, detailedCrew);
 //    if (CustomOptionsManager::GetInstance()->redesignedCrewTooltips.currentValue || CustomOptionsManager::GetInstance()->altMode)
 //    {
 //        std::string newDesc = bp.desc.description.data;
@@ -1177,22 +1188,24 @@ HOOK_METHOD(InfoBox, SetBlueprintCrew, (const CrewBlueprint& bp, int yShift, boo
 //    }
 //    else
 //    {
-        Pointf titleSize = freetype_hack::easy_measurePrintLines(16, 0, 0, descBoxSize.x, desc.title.GetText());
-        Pointf descSize = freetype_hack::easy_measurePrintLines(10, 0, 0, descBoxSize.x, desc.description.GetText());
+    super(bp, yShift, detailedCrew);
 
-        Pointf boxSize = titleSize + descSize + Pointf(0, 28.f);
-        boxSize.y = std::max(boxSize.y, 183.f);
+    Pointf titleSize = freetype_hack::easy_measurePrintLines(16, 0, 0, descBoxSize.x, desc.title.GetText());
+    Pointf descSize = freetype_hack::easy_measurePrintLines(10, 0, 0, descBoxSize.x, desc.description.GetText());
+
+    Pointf boxSize = titleSize + descSize + Pointf(0, 28.f);
+    boxSize.y = std::max(boxSize.y, 183.f);
 
 
-        windowFrameCheck = true;
-        windowFrameHeight = boxSize.y;
+    windowFrameCheck = true;
+    windowFrameHeight = boxSize.y;
 
-        super(bp, yShift, detailedCrew);
+    super(bp, yShift, detailedCrew);
 
-        windowFrameCheck = false;
-        descBoxSize.y = boxSize.y;
-//    }
+    windowFrameCheck = false;
+    descBoxSize.y = boxSize.y;
 }
+
 
 HOOK_METHOD(InfoBox, SetBlueprintDrone, (const DroneBlueprint* bp, int status, bool hasDroneSystem, int yShift) -> void)
 {
