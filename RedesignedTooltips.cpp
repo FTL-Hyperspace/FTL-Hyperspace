@@ -445,7 +445,7 @@ HOOK_STATIC(WeaponBox, GenerateTooltip, (std::string &retStr, WeaponBox *_this) 
 
 HOOK_STATIC(WeaponBlueprint, GetDescription, (std::string* strRef, WeaponBlueprint *bp, bool tooltip) -> void)
 {
-    if (tooltip) return super(strRef, bp, tooltip);
+    if (tooltip || bp->name.empty()) return super(strRef, bp, tooltip);
     super(strRef, bp, tooltip);
 
     auto tLib = G_->GetTextLibrary();
