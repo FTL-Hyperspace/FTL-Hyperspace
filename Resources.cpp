@@ -205,10 +205,12 @@ void Global::InitializeResources(ResourceControl *resources)
     catch (std::exception &e)
     {
         MessageBoxA(GetDesktopWindow(), "Failed parsing hyperspace.xml", "Error", MB_ICONERROR | MB_SETFOREGROUND);
+        exit(1);
     }
     catch (const char* e)
     {
         MessageBoxA(GetDesktopWindow(), e, "Error", MB_ICONERROR | MB_SETFOREGROUND);
+        exit(1);
     }
 
     //G_->lua = new LuaState;
