@@ -538,22 +538,6 @@ HOOK_METHOD(BoarderPodDrone, constructor, (int _iShipId, int _selfId, const Dron
     }
 }
 
-HOOK_METHOD(CrewControl, OnLoop, () -> void)
-{
-    std::vector<CrewMember*> filteredCrew = std::vector<CrewMember*>();
-
-    for (auto i : selectedCrew)
-    {
-        if (i->Functional())
-        {
-            filteredCrew.push_back(i);
-        }
-    }
-
-    selectedCrew = filteredCrew;
-
-    super();
-}
 
 HOOK_METHOD(CrewDrone, OnLoop, () -> void)
 {

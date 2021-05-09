@@ -1,11 +1,12 @@
 #pragma GCC push_options
 #pragma GCC optimize ("O1")
 #include "CustomCrew.h"
-
+#include "MindSystem.h"
 
 static bool __attribute__((fastcall)) CrewMember_GetControllable(CrewMember *_this)
 {
-    bool req = _this->iShipId == 0 && !_this->bDead && !_this->bMindControlled;
+    bool req = !_this->bDead && ((_this->iShipId == 0 && !_this->bMindControlled) || (_this->iShipId == 1 && _this->bMindControlled && MindSystemParser::GetControllable(-1)));
+
     if (!req)
     {
         return false;
