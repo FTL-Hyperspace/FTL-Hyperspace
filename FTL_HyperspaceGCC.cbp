@@ -425,6 +425,12 @@
 		<Unit filename="Shaders.cpp">
 			<Option virtualFolder="Core/Shaders/" />
 		</Unit>
+		<Unit filename="ShipBuilderSystemToggle.cpp">
+			<Option virtualFolder="Core/Ship/" />
+		</Unit>
+		<Unit filename="ShipBuilderSystemToggle.h">
+			<Option virtualFolder="Core/Ship/" />
+		</Unit>
 		<Unit filename="ShipEditor.cpp">
 			<Option virtualFolder="Content/ShipEditor/" />
 		</Unit>
