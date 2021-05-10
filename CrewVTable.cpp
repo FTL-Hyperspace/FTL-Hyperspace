@@ -5,7 +5,7 @@
 
 static bool __attribute__((fastcall)) CrewMember_GetControllable(CrewMember *_this)
 {
-    bool req = !_this->bDead && ((_this->iShipId == 0 && !_this->bMindControlled) || (_this->iShipId == 1 && _this->bMindControlled && MindSystemParser::GetControllable(-1)));
+    bool req = !_this->bDead && !_this->bMindControlled;
 
     if (!req)
     {

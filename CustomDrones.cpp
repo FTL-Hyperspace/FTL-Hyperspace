@@ -572,3 +572,20 @@ HOOK_METHOD(CrewAnimation, OnInit, (const std::string& _race, Pointf position, b
         ((AbilityDroneAnimation*)this)->new_OnInit(_race, position, enemy);
     }
 }
+
+HOOK_METHOD(CrewControl, OnLoop, () -> void)
+{
+    std::vector<CrewMember*> filteredCrew = std::vector<CrewMember*>();
+
+    for (auto i : selectedCrew)
+    {
+        if (i->Functional())
+        {
+            filteredCrew.push_back(i);
+        }
+    }
+
+    selectedCrew = filteredCrew;
+
+    super();
+}
