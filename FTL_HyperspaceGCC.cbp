@@ -365,12 +365,6 @@
 		<Unit filename="MainMenu.h">
 			<Option virtualFolder="Content/Misc/" />
 		</Unit>
-		<Unit filename="MindSystem.cpp">
-			<Option virtualFolder="Core/Systems/" />
-		</Unit>
-		<Unit filename="MindSystem.h">
-			<Option virtualFolder="Core/Systems/" />
-		</Unit>
 		<Unit filename="Misc.cpp">
 			<Option virtualFolder="Content/Misc/" />
 		</Unit>

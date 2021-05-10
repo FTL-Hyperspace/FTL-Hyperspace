@@ -47,7 +47,7 @@ float TemporalSystemParser::GetLevelDuration(int level)
     }
     else
     {
-        return 10.f;
+        return level * 8.f;
     }
 }
 
@@ -68,8 +68,6 @@ float TemporalSystemParser::GetDilationStrength(int level)
 
 int TemporalSystemParser::GetLevelCooldown(int level)
 {
-    printf("%d\n", levelCooldowns[level]);
-
     if (levelCooldowns.find(level) != levelCooldowns.end())
     {
         return levelCooldowns[level];
@@ -374,6 +372,7 @@ HOOK_METHOD(CombatControl, SelectTarget, () -> bool)
         if (selectedSelfRoom != -1)
         {
             temporal->StartTimeDilation(0, selectedSelfRoom, temporalArmed == TEMPORAL_ARM_SPEED);
+
             SetTemporalArmed(shipManager, TEMPORAL_ARM_NONE);
             selectedSelfRoom = -1;
             shipManager->ship.SetSelectedRoom(-1);
@@ -381,13 +380,10 @@ HOOK_METHOD(CombatControl, SelectTarget, () -> bool)
         }
         else if (selectedRoom != -1 && currentTarget)
         {
-            if (currentTarget && currentTarget->shipManager->GetShieldPower().super.first <= 0)
-            {
-                temporal->StartTimeDilation(1, selectedRoom, temporalArmed == TEMPORAL_ARM_SPEED);
-            }
+            temporal->StartTimeDilation(1, selectedRoom, temporalArmed == TEMPORAL_ARM_SPEED);
 
             SetTemporalArmed(shipManager, TEMPORAL_ARM_NONE);
-            selectedRoom = -1;
+            selectedSelfRoom = -1;
             currentTarget->shipManager->ship.SetSelectedRoom(-1);
             return true;
         }
@@ -728,11 +724,11 @@ HOOK_METHOD(OxygenSystem, ModifyRoomOxygen, (int changeRoomId, float amount) -> 
     super(changeRoomId, amount * (float)TemporalSystemParser::GetDilationStrength(dilationAmount));
 }
 
-HOOK_METHOD(OxygenSystem, ComputeAirLoss, (int changeRoomId, float amount, bool unk) -> void)
+HOOK_METHOD(OxygenSystem, UpdateBreach, (int breachRoomId, int hasBreach, bool unk3) -> void)
 {
-    int dilationAmount = GetRoomDilationAmount(g_envDilationRooms, changeRoomId);
-    if (dilationAmount > 0) printf("%d\n", dilationAmount);
-    super(changeRoomId, amount * (float)TemporalSystemParser::GetDilationStrength(dilationAmount), unk);
+    g_dilationAmount = GetRoomDilationAmount(g_envDilationRooms, breachRoomId);
+    super(breachRoomId, hasBreach, unk3);
+    g_dilationAmount = 0;
 }
 
 HOOK_METHOD(Fire, OnLoop, () -> void)
@@ -756,29 +752,6 @@ HOOK_METHOD(Fire, UpdateStartTimer, (int doorLevel) -> void)
     g_dilationAmount = 0;
 }
 
-/* fix this
-HOOK_METHOD(CrewAnimation, OnUpdate, (Pointf position, bool moving, bool fighting, bool repairing, bool dying, bool onFire) -> void)
-{
-    if (g_dilationAmount > 0)
-    {
-        float dilationMul = TemporalSystemParser::GetDilationStrength(g_dilationAmount);
-        int oldDilation = g_dilationAmount;
-        g_dilationAmount = 0;
-
-        for (int i = 0; i < std::floor(dilationMul); i++)
-        {
-            super(position, moving, fighting, repairing, dying, onFire);
-        }
-
-        g_dilationAmount = oldDilation;
-
-        return;
-    }
-
-    super(position, moving, fighting, repairing, dying, onFire);
-}
-*/
-
 HOOK_METHOD(CrewMember, OnLoop, () -> void)
 {
     g_dilationAmount = GetRoomDilationAmount(g_crewDilationRooms, iRoomId);
@@ -793,7 +766,7 @@ HOOK_METHOD(CloneSystem, OnLoop, () -> void)
     g_dilationAmount = 0;
 }
 
-HOOK_METHOD_PRIORITY(ShipManager, UpdateCrewMembers, -900, () -> void)
+HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
 {
     for (auto i : ship.vRoomList)
     {
@@ -836,7 +809,7 @@ HOOK_METHOD(ShipManager, CheckSpreadDamage, () -> void)
     g_envDilationRooms.clear();
 }
 
-HOOK_METHOD_PRIORITY(ShipManager, UpdateEnvironment, -900, () -> void)
+HOOK_METHOD(ShipManager, UpdateEnvironment, () -> void)
 {
     for (auto i : ship.vRoomList)
     {
@@ -851,7 +824,7 @@ HOOK_METHOD_PRIORITY(ShipManager, UpdateEnvironment, -900, () -> void)
     g_envDilationRooms.clear();
 }
 
-HOOK_METHOD_PRIORITY(ShipManager, OnLoop, -900,  () -> void)
+HOOK_METHOD(ShipManager, OnLoop, () -> void)
 {
     for (auto i : ship.vRoomList)
     {

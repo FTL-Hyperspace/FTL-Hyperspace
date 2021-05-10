@@ -875,7 +875,6 @@ struct CrewControl
 	LIBZHL_API void LButton(int mX, int mY, int wX, int wY, bool shiftHeld);
 	LIBZHL_API static void __stdcall ClearDeadCrew(std::vector<CrewMember*> crew);
 	LIBZHL_API void ClearCrewBoxes();
-	LIBZHL_API void SelectPotentialCrew(CrewMember *crew, bool allowTeleportLeaving);
 	
 	ShipManager *shipManager;
 	std::vector<CrewMember*> selectedCrew;
@@ -3770,13 +3769,6 @@ struct ShipManager : ShipObject
 		return std::pair<int, int>(powerMan->currentPower.second, powerMan->currentPower.second - powerMan->currentPower.first);
 	}
 	
-	ShieldPower GetShieldPower()
-	{
-		ShieldPower shieldPower;
-		GetShieldPower(shieldPower, this);
-		return shieldPower;
-	}
-	
 
 
 	LIBZHL_API int constructor(int shipId);
@@ -3832,7 +3824,6 @@ struct ShipManager : ShipObject
 	LIBZHL_API void JumpArrive();
 	LIBZHL_API void CheckSpreadDamage();
 	LIBZHL_API bool ForceDecreaseSystemPower(int sys);
-	LIBZHL_API static void __stdcall GetShieldPower(ShieldPower &power, ShipManager *ship);
 	
 	Targetable _targetable;
 	Collideable _collideable;
@@ -6352,7 +6343,6 @@ struct MouseControl
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void InstantTooltip();
 	LIBZHL_API void OnRender();
-	LIBZHL_API void SetDoor(int state);
 	
 	Point position;
 	Point lastPosition;
