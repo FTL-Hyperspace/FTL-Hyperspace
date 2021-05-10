@@ -14,3 +14,5 @@ void CrewControl::LButton(CrewControl *this<ecx>, int mX, int mY, int wX, int wY
 static void CrewControl::ClearDeadCrew(std::vector<CrewMember*> crew);
 "5589e557565389ce83e4f083ec108b513c8b494089c829d083f8037e??31db908b3c9a85ff":
 void CrewControl::ClearCrewBoxes(CrewControl *this<ecx>);
+"578d7c240883e4f0ff77fc5589e557565383ec2c8b1f8b570485db74??89ce8b0b":
+void CrewControl::SelectPotentialCrew(CrewControl *this<ecx>, CrewMember *crew, bool allowTeleportLeaving);

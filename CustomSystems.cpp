@@ -1,4 +1,5 @@
 #include "CustomSystems.h"
+#include "MindSystem.h"
 #include "TemporalSystem.h"
 
 void ParseSystemsNode(rapidxml::xml_node<char>* node)
@@ -82,9 +83,21 @@ HOOK_METHOD(ShipManager, CreateSystems, () -> int)
         systemKey.push_back(-1);
     }
 
-    for (auto i : myBlueprint.systems)
+    auto realBp = G_->GetBlueprints()->GetShipBlueprint(myBlueprint.blueprintName, -1);
+
+    if (realBp)
     {
-        AddSystem(i);
+        for (auto i : realBp->systems)
+        {
+            AddSystem(i);
+        }
+    }
+    else
+    {
+        for (auto i : myBlueprint.systems)
+        {
+            AddSystem(i);
+        }
     }
 }
 
@@ -264,7 +277,7 @@ HOOK_METHOD(ShipBuilder, CreateSystemBoxes, () -> void)
 
     int xPos = 360;
 
-    std::vector<int> systemIds = { 1, 2, 3, 4, 5, 9, 10, 11, 12, 13, 14, 15, 20, 6, 7, 8, 12 };
+    std::vector<int> systemIds = { 0, 1, 2, 3, 4, 5, 9, 10, 11, 13, 14, 15, 20, 6, 7, 8, 12 };
 
     for (auto i : systemIds)
     {
@@ -286,6 +299,8 @@ HOOK_METHOD(ShipBuilder, CreateSystemBoxes, () -> void)
 /*
 WHY is this crashing I don't understand it's literally doing the same thing the game does
 but no it has to crash on a function unrelated to it for some bizarre reason
+
+Fixed
 */
 HOOK_METHOD(Upgrades, OnInit, (ShipManager *ship) -> void)
 {
