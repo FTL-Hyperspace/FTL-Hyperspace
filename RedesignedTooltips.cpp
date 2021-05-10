@@ -1219,7 +1219,15 @@ HOOK_METHOD(InfoBox, SetBlueprintDrone, (const DroneBlueprint* bp, int status, b
 
 HOOK_METHOD(InfoBox, SetBlueprintDrone, (const DroneBlueprint* bp, int status, bool hasDroneSystem, int yShift) -> void)
 {
-    std::string newDesc = bp->desc.description.data;
+    std::string newDesc;
+    if (bp->desc.description.isLiteral)
+    {
+        newDesc = bp->desc.description.data;
+    }
+    else
+    {
+        newDesc = G_->GetTextLibrary()->GetText(bp->desc.description.data);
+    }
     std::string currentText = "";
 
     if(CustomOptionsManager::GetInstance()->redesignedDroneTooltips.currentValue || CustomOptionsManager::GetInstance()->altMode)
@@ -1515,6 +1523,7 @@ HOOK_METHOD(InfoBox, SetBlueprintDrone, (const DroneBlueprint* bp, int status, b
 
         DroneBlueprint newBp = *bp;
         newBp.desc.description.data.assign(newDesc);
+        newBp.desc.description.isLiteral = true;
 
         super(&newBp, status, hasDroneSystem, yShift);
 
