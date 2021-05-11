@@ -167,6 +167,9 @@
 		<Unit filename="Balance.h">
 			<Option virtualFolder="Content/Misc/" />
 		</Unit>
+		<Unit filename="BeamFixes.cpp">
+			<Option virtualFolder="Core/Weapons/" />
+		</Unit>
 		<Unit filename="Blueprint_Extend.cpp">
 			<Option virtualFolder="Core/Blueprints/" />
 		</Unit>
