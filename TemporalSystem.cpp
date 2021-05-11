@@ -68,8 +68,6 @@ float TemporalSystemParser::GetDilationStrength(int level)
 
 int TemporalSystemParser::GetLevelCooldown(int level)
 {
-    printf("%d\n", levelCooldowns[level]);
-
     if (levelCooldowns.find(level) != levelCooldowns.end())
     {
         return levelCooldowns[level];
@@ -182,10 +180,12 @@ void TemporalBox::NewMouseMove(int x, int y)
         if (speedUpButton->bActive && speedUpButton->bHover)
         {
             // tooltip
+            G_->GetMouseControl()->SetTooltip(G_->GetTextLibrary()->GetText("temporal_button_speed"));
         }
         if (slowDownButton->bActive && slowDownButton->bHover)
         {
             // tooltip
+            G_->GetMouseControl()->SetTooltip(G_->GetTextLibrary()->GetText("temporal_button_slow"));
         }
     }
 }
@@ -381,7 +381,7 @@ HOOK_METHOD(CombatControl, SelectTarget, () -> bool)
         }
         else if (selectedRoom != -1 && currentTarget)
         {
-            if (currentTarget && currentTarget->shipManager->GetShieldPower().super.first <= 0)
+            if (currentTarget && (currentTarget->shipManager->GetShieldPower().super.first <= 0 || shipManager->HasAugmentation("ZOLTAN_BYPASS")))
             {
                 temporal->StartTimeDilation(1, selectedRoom, temporalArmed == TEMPORAL_ARM_SPEED);
             }
@@ -415,9 +415,51 @@ HOOK_METHOD(CombatControl, UpdateTarget, () -> bool)
             currentTarget->shipManager->ship.SetSelectedRoom(selectedRoom);
         }
 
+        if (selectedRoom != -1 || selectedSelfRoom != -1)
+        {
+            std::string tooltipText = "";
+            if (selectedRoom != -1 && currentTarget && currentTarget->shipManager->GetShieldPower().super.first > 0 && !shipManager->HasAugmentation("ZOLTAN_BYPASS"))
+            {
+                G_->GetMouseControl()->SetTooltip(G_->GetTextLibrary()->GetText("temporal_arm_super_shields"));
+                G_->GetMouseControl()->InstantTooltip();
+            }
+            else if (GetTemporalArmed(shipManager) == TEMPORAL_ARM_SPEED)
+            {
+                tooltipText = G_->GetTextLibrary()->GetText("temporal_arm_speed");
+            }
+            else
+            {
+                tooltipText = G_->GetTextLibrary()->GetText("temporal_arm_slow");
+            }
 
+            if (!tooltipText.empty())
+            {
+                int power = shipManager->GetSystem(20)->GetEffectivePower();
 
-        // sys tooltip
+                std::stringstream stream;
+                stream << std::fixed << std::setprecision(3) << TemporalSystemParser::GetDilationStrength(power);
+
+                std::string valueStr = stream.str();
+
+                boost::trim_right_if(valueStr, boost::is_any_of("0"));
+                boost::trim_right_if(valueStr, boost::is_any_of("."));
+
+                boost::algorithm::replace_all(tooltipText, "\\1", valueStr);
+
+                stream.str(std::string());
+
+                stream << std::fixed << std::setprecision(3) << TemporalSystemParser::GetLevelDuration(power);
+
+                valueStr = stream.str();
+                boost::trim_right_if(valueStr, boost::is_any_of("0"));
+                boost::trim_right_if(valueStr, boost::is_any_of("."));
+
+                boost::algorithm::replace_all(tooltipText, "\\2", valueStr);
+
+                G_->GetMouseControl()->SetTooltip(tooltipText);
+                G_->GetMouseControl()->InstantTooltip();
+            }
+        }
 
         return true;
     }
@@ -645,38 +687,6 @@ HOOK_METHOD(Ship, OnRenderWalls, (bool forceView, bool doorControlMode) -> void)
                 CSurface::GL_PopMatrix();
             }
 
-            /*
-            for (int xPos = 0; xPos < i->rect.w / 35; xPos++)
-            {
-                CSurface::GL_PushMatrix();
-
-                CSurface::GL_Translate(i->rect.x + xPos * 35 + 35, i->rect.y + 35.f);
-                CSurface::GL_Rotate(180.f, 0.f, 0.f, 1.f);
-                anim->OnRender(1.f, COLOR_WHITE, false);
-
-                CSurface::GL_PopMatrix();
-            }
-            */
-
-
-            // left & right
-
-            /*
-            for (int yPos = 0; yPos < i->rect.h / 35; yPos++)
-            {
-                CSurface::GL_PushMatrix();
-
-                CSurface::GL_Translate(i->rect.x + i->rect.w - 35, i->rect.y + yPos * 35);
-                CSurface::GL_Rotate(90.f, 0.f, 0.f, 1.f);
-                anim->OnRender(1.f, COLOR_WHITE, false);
-
-                CSurface::GL_Rotate(180.f, i->rect.w / 2.f, i->rect.h / 2.f, 1.f);
-                anim->OnRender(1.f, COLOR_WHITE, false);
-
-                CSurface::GL_PopMatrix();
-            }
-            */
-
             CSurface::GL_PopMatrix();
         }
     }
@@ -731,7 +741,6 @@ HOOK_METHOD(OxygenSystem, ModifyRoomOxygen, (int changeRoomId, float amount) -> 
 HOOK_METHOD(OxygenSystem, ComputeAirLoss, (int changeRoomId, float amount, bool unk) -> void)
 {
     int dilationAmount = GetRoomDilationAmount(g_envDilationRooms, changeRoomId);
-    if (dilationAmount > 0) printf("%d\n", dilationAmount);
     super(changeRoomId, amount * (float)TemporalSystemParser::GetDilationStrength(dilationAmount), unk);
 }
 

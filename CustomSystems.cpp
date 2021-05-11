@@ -1,5 +1,4 @@
 #include "CustomSystems.h"
-#include "MindSystem.h"
 #include "TemporalSystem.h"
 
 void ParseSystemsNode(rapidxml::xml_node<char>* node)
