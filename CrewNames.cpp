@@ -5,7 +5,7 @@
 static bool inGetUnusedCrewName = false;
 static std::mt19937 crewNameRng;
 
-HOOK_GLOBAL_PRIORITY(random32, -900, () -> int)
+HOOK_GLOBAL_PRIORITY(random32, -900, () -> unsigned int)
 {
     if (inGetUnusedCrewName) return crewNameRng() >> 1;
 
