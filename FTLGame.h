@@ -5295,9 +5295,8 @@ struct StarMap : FocusWindow
 	LIBZHL_API void constructor();
 	LIBZHL_API void RenderSectorName(Sector *unk0, GL_Color unk1);
 	LIBZHL_API void UpdateDangerZone();
-	LIBZHL_API void GetNewLocation();
+	LIBZHL_API Location *GetNewLocation();
 	LIBZHL_API void OnLoop();
-	LIBZHL_API void UpdateBoss();
 	LIBZHL_API void GenerateEvents(bool tutorial);
 	LIBZHL_API void AddConnections(Location *unk0);
 	LIBZHL_API void MapConnected();
@@ -5320,6 +5319,7 @@ struct StarMap : FocusWindow
 	LIBZHL_API static std::string &__stdcall GetLocationText(std::string &strRef, StarMap *starMap, const Location *loc);
 	LIBZHL_API void SetupNoFuel(int seed, const std::string &forceEscape);
 	LIBZHL_API void GenerateNebulas(const std::vector<std::string> &names);
+	LIBZHL_API void UpdateBoss();
 	
 	float visual_size;
 	std::vector<Location*> locations;
