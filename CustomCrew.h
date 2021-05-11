@@ -1,34 +1,9 @@
 #pragma once
 #include "Global.h"
+#include "ToggleValue.h"
 #include <unordered_map>
 
-extern bool g_advancedCrewTooltips;
-
 struct StatBoost;
-
-template <typename T>
-struct ToggleValue
-{
-    T value;
-    bool enabled = false;
-
-    ToggleValue()
-    {
-        enabled = false;
-    }
-
-    ToggleValue(const T val)
-    {
-        value = val;
-        enabled = true;
-    }
-
-    void operator=(const T val)
-    {
-        value = val;
-        enabled = true;
-    }
-};
 
 struct Skill
 {
@@ -135,6 +110,8 @@ struct TemporaryPowerDefinition
     ToggleValue<bool> detectsLifeforms;
     ToggleValue<float> damageTakenMultiplier;
     ToggleValue<float> passiveHealAmount;
+    ToggleValue<float> truePassiveHealAmount;
+    ToggleValue<float> trueHealAmount;
     ToggleValue<int> passiveHealDelay;
     ToggleValue<float> sabotageSpeedMultiplier;
     ToggleValue<float> allDamageTakenMultiplier;
@@ -244,6 +221,8 @@ struct CrewDefinition
     float oxygenChangeSpeed = 0.f;
     float damageTakenMultiplier = 1.f;
     float passiveHealAmount = 0.f;
+    float truePassiveHealAmount = 0.f;
+    float trueHealAmount = 0.f;
     int passiveHealDelay = 0;
     bool detectsLifeforms = false;
     bool hasCustomDeathAnimation = false;
@@ -268,6 +247,10 @@ struct CrewDefinition
 
     std::vector<StatBoost> passiveStatBoosts;
 
+    std::vector<std::string> nameRace;
+    std::vector<std::string> transformName;
+    bool changeIfSame = true;
+
 
     SkillsDefinition skillsDef;
 };
@@ -283,6 +266,8 @@ public:
 
 
     void AddCrewDefinition(CrewDefinition crew);
+    void ParseDeathEffect(rapidxml::xml_node<char>* stat, bool* friendlyFire, Damage* explosionDef);
+    void ParseAbilityEffect(rapidxml::xml_node<char>* stat, ActivatedPowerDefinition* powerDef);
     void ParseCrewNode(rapidxml::xml_node<char> *node);
     CrewMember* CreateCrewMember(CrewBlueprint* bp, int shipId, bool intruder);
     bool IsRace(const std::string& race);

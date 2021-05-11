@@ -99,6 +99,11 @@ void ShipManager_Extend::Initialize(bool restarting)
                 orig->fuel_count = def.startingFuel;
             }
         }
+
+        if (def.forceAutomated.enabled)
+        {
+            orig->bAutomated = def.forceAutomated.value;
+        }
     }
 }
 
@@ -567,7 +572,7 @@ HOOK_STATIC(ShipGenerator, CreateShip, (const std::string& name, int sector, Shi
 {
     auto ret = super(name, sector, event);
 
-    auto bp = G_->GetBlueprints()->GetShipBlueprint(name, sector);
+    auto bp = G_->GetBlueprints()->GetShipBlueprint(ret->myBlueprint.blueprintName, sector);
 
     int totalHealth = bp->health + sector - ((*Global::difficulty == 0) ? 1 : 0);
 

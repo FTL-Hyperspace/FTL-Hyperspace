@@ -113,13 +113,14 @@ static float __attribute__((fastcall)) CrewMember_GetDamageMultiplier(CrewMember
 {
     auto ex = CM_EX(_this);
     auto def = CustomCrewManager::GetInstance()->GetDefinition(_this->species);
-    if (_this->crewAnim->status == 7 && def.rangedDamageMultiplier != 1.f)
+    float damage = ex->CalculateStat(CrewStat::DAMAGE_MULTIPLIER, def);
+    if (_this->crewAnim->status == 7)
     {
-        return ex->CalculateStat(CrewStat::RANGED_DAMAGE_MULTIPLIER, def);
+        return damage * ex->CalculateStat(CrewStat::RANGED_DAMAGE_MULTIPLIER, def);
     }
     else
     {
-        return ex->CalculateStat(CrewStat::DAMAGE_MULTIPLIER, def);
+        return damage;
     }
 }
 

@@ -49,6 +49,7 @@ struct CustomEvent
     bool eventLoadSeeded = true;
     EventGameOver gameOver = EventGameOver();
     bool disableScrapScore = false;
+    std::string customStore;
 
 
     std::vector<std::string> hiddenAugs = std::vector<std::string>();

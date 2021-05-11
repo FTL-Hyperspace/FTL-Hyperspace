@@ -235,6 +235,10 @@ void CustomShipSelect::ParseShipsNode(rapidxml::xml_node<char> *node)
                     {
                         def.startingScrap = boost::lexical_cast<int>(val);
                     }
+                    if (name == "autoShipForce")
+                    {
+                        def.forceAutomated = EventsParser::ParseBoolean(val);
+                    }
                 }
 
                 shipDefs[shipName] = def;

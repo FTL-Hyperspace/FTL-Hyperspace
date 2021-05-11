@@ -9,7 +9,7 @@
 </mod:findName>
 
 <mod:findName type="text" name="version">
-  <mod:setValue>\1 (Hyperspace 0.6)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 0.7)</mod:setValue>
 </mod:findName>
 
 <mod:findName type="text" name="fire_chance">
@@ -32,6 +32,10 @@
 <text name="menu_status_seed">Seed</text>
 <text name="unlocks_disabled">Unlocks Disabled</text>
 
+
+
+<text name="store_unavailable">UNAVAILABLE</text>
+
 <mod:findName type="text" name="power_not_ready">
   <mod:setValue>Not Ready: Power charging (see charge left of portrait)</mod:setValue>
 </mod:findName>
@@ -50,8 +54,46 @@
 <text name="power_not_ready_system_damaged">Not Ready: No damaged system in room</text>
 <text name="power_not_ready_teleporting">Not Ready: Can't transform mid-teleport</text>
 
-<text name="health_tooltip">Health</text>
-<text name="mind_controlled_tooltip">Mind Controlled</text>
+<text name="advanced_health_tooltip">Health</text>
+<text name="weapon_cooldown_negative">Disabled</text>
+
+<!-- Redesigned Weapon Tooltips -->
+
+<text name="description_stats">Stats:</text>
+<text name="requires_no_power">Requires no power</text>
+<text name="provides_bonus_power">Provides Bonus Power</text>
+<text name="cannot_fire">Can't be shot</text>
+<text name="ammo_consumption">Missile Consumption: \1</text>
+<text name="redesigned_boost_power_damage_positive">Chain Effect: Increase damage by \1</text>
+<text name="redesigned_boost_power_damage_negative">Chain Effect: Decrease damage by \1</text>
+<text name="redesigned_boost_power_speed_positive">Chain Effect: Decrease cooldown by \1</text>
+<text name="redesigned_boost_power_speed_negative">Chain Effect: Increase cooldown by \1</text>
+<text name="redesigned_damage_cap">Chain Damage Cap: \1 damage (\2 chains)</text>
+<text name="redesigned_speed_cap">Chain Cooldown Cap: \1 (\2 chains)</text>
+<text name="shot_radius">Shot Radius: \1</text>
+<text name="beam_length">Beam Length: \1</text>
+<text name="swipe_speed">Beam Speed: \1</text>
+<text name="redesigned_double_damage">2x hull damage on systemless rooms.</text>
+<text name="redesigned_damage_room">Normal Damage Per Room: \1 (x15 for crew)</text>
+<text name="redesigned_damage_shot">Normal Damage Per Shot: \1 (x15 for crew)</text>
+<text name="hull_damage">Hull Damage: \1</text>
+<text name="hull_damage_negative">Hull Repair: \1</text>
+<text name="system_damage_negative">System Repair: \1</text>
+<text name="personnel_damage_negative">Crew Healing: \1</text>
+<text name="stun_length">seconds long</text>
+<text name="weapon_lockdown">Locks down rooms on hit</text>
+<text name="scrap_value">Buy/Sell Price: \1 scrap/\2 scrap</text>
+
+<!-- Hotkeys -->
+
+<text name="hotkey_speed">Toggle Speedhack</text>
+<text name="hotkey_console">Open Console</text>
+<text name="hotkey_info">Toggle Extra Info</text>
+
+<!-- More Info Button -->
+
+<text name="tooltip_more_info">Click here to toggle the display of additional information on crew and weapons.
+Key: \1.</text> <!-- \1 is more info hotkey -->
 
 <!-- Discord Integration -->
 

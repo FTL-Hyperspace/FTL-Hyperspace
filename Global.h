@@ -28,7 +28,8 @@ public:
 
     void InitializeResources(ResourceControl *resources);
     bool AreResourcesInitialized() { return __resourcesInitialized; }
-    void Initialize(CApp *cApp);
+    void Initialize();
+    void SetCApp(CApp *cApp);
 
     ShipManager *GetShipManager(int iShipId);
 
@@ -50,6 +51,7 @@ public:
     AnimationControl *GetAnimationControl() { return __animations; }
     AchievementTracker *GetAchievementTracker() { return __achievementTracker; }
     ScoreKeeper *GetScoreKeeper() { return __scoreKeeper; }
+    SettingValues *GetSettings() { return __settingValues; }
     int GetVersion() { return __version; }
 
     DWORD GetBaseAddress() { return __baseAddress; }
@@ -100,6 +102,7 @@ private:
     const DWORD __achievementOffset =      0x004C5780;
     const DWORD __scoreKeeperOffset =      0x004C5980;
     const DWORD __firstTimeShipsOffset =   0x004C8D30;
+    const DWORD __settingValuesOffset =    0x004C8CA0;
 
     DWORD __baseAddress = 0;
 
@@ -119,8 +122,9 @@ private:
     static AnimationControl *__animations;
     static AchievementTracker *__achievementTracker;
     static ScoreKeeper *__scoreKeeper;
+    static SettingValues *__settingValues;
 
-    const int __version = 64;
+    const int __version = 71;
 
 
 };

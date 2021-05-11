@@ -1,5 +1,7 @@
 #include "CommandConsole.h"
 #include "ShipUnlocks.h"
+#include "CustomStore.h"
+#include "CustomOptions.h"
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
 
@@ -31,6 +33,16 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
             {
                 printf("boost::bad_lexical_cast in RunCommand STORE\n");
             }
+        }
+        return true;
+    }
+    if (cmdName == "FORCE_STORE")
+    {
+        if (command.length() > 12)
+        {
+            std::string storeId = boost::trim_copy(command.substr(12));
+
+            CustomStore::instance->forceCustomStore = storeId;
         }
         return true;
     }
@@ -96,6 +108,7 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
     if (command == "SHIP ALL")
     {
         CustomShipUnlocks::instance->UnlockAllShips();
+        return true;
     }
     if (cmdName == "SHIP_CUSTOM")
     {
@@ -105,7 +118,7 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
         {
             CustomShipUnlocks::instance->UnlockShip(shipName, false, true);
         }
-
+        return true;
     }
 
 
@@ -115,26 +128,60 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
 //===============================================
 
 static AnimationTracker *g_consoleMessage;
-
+static bool shouldOpenConsole = true;
 
 HOOK_METHOD(CommandGui, KeyDown, (SDLKey key, bool shiftHeld) -> void)
 {
-    // TODO: Allow user to customise speedhack and console key
-
-    if (key == 96)
+    if (key == Settings::GetHotkey("speed"))
     {
         //shouldOpen = !shouldOpen;
 
         speedEnabled = !speedEnabled;
     }
 
+    auto custom = CustomOptionsManager::GetInstance();
+    if (key == Settings::GetHotkey("info"))
+    {
+        custom->altMode = !custom->altMode;
+        custom->altModeChanged = true;
+    }
+
+    if (key == Settings::GetHotkey("console"))
+    {
+        if (!writeErrorDialog.bOpen &&
+            !menuBox.bOpen &&
+            !gameOverScreen.bOpen &&
+            !shipComplete->shipManager->bJumping &&
+            !inputBox.bOpen &&
+            key != Settings::GetHotkey("options"))
+        {
+            bool shouldCheckConsoleKey = true;
+
+            for (auto i : focusWindows)
+            {
+                if (i->bOpen)
+                {
+                    shouldCheckConsoleKey = false;
+                    break;
+                }
+            }
+
+            if (shouldCheckConsoleKey)
+            {
+                inputBox.StartInput();
+            }
+        }
+    }
+
+    shouldOpenConsole = false;
     super(key, shiftHeld);
+    shouldOpenConsole = true;
 }
 
 
 HOOK_STATIC(Settings, GetCommandConsole, () -> char)
 {
-    return CommandConsole::GetInstance()->enabled; //&& CommandConsole::GetInstance()->shouldOpen;
+    return shouldOpenConsole && CommandConsole::GetInstance()->enabled; //&& CommandConsole::GetInstance()->shouldOpen;
 }
 
 HOOK_METHOD(CommandGui, RunCommand, (std::string& command) -> void)

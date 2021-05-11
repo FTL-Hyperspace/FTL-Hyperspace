@@ -30,13 +30,26 @@
 			2.4.1 Hi-res Bkgs
 			1.0 for FTL 1.03.1
 	-->
-	<version><![CDATA[ 0.6 ]]></version>
+	<version><![CDATA[ 0.7 ]]></version>
 
 
 	<description>
 <![CDATA[
 
 The resource files required for the hard-coded Hyperspace mod.
+
+Credits:
+
+Development:
+	TheSwiftTiger
+	Winderps
+	ih8ih8sn0w
+	Admiral Billy
+	laszlogasd
+	mathchamp93
+
+Art:
+	SaltyFriedRice
 
 ]]>
 	</description>

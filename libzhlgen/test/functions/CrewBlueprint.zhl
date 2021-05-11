@@ -6,11 +6,20 @@ void CrewBlueprint::RenderSkill(CrewBlueprint *this<ecx>, int x, int y, int leng
 void CrewBlueprint::RenderIcon(CrewBlueprint *this<ecx>, float opacity);
 "5589e557565389ce83e4f083ec108b811c010000c701????????85c074??890424e8????????8bbe140100008b9e1001000039df74??":
 void CrewBlueprint::destructor(CrewBlueprint *this<ecx>);
+"578d7c240883e4f0ff77fc5589e557565389ce83ec4c8b1f80bbd4000000008dbbbc000000":
+static std::string* CrewBlueprint::GetNameShort(std::string& ret<ecx>, CrewBlueprint* bp);
 
 struct CrewBlueprint
 {{
 	~CrewBlueprint()
 	{
 		this->destructor();
+	}
+	
+	std::string GetNameShort()
+	{
+		std::string ret;
+		GetNameShort(ret, this);
+		return ret;
 	}
 }};

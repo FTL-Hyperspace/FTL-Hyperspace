@@ -1,6 +1,7 @@
 #pragma once
 #include "Global.h"
 #include "EventTooltip.h"
+#include "CustomWeapons.h"
 
 static InfoBox* infoBox;
 bool g_eventTooltips = true;
@@ -21,9 +22,9 @@ HOOK_METHOD(ChoiceBox, MouseMove, (int x, int y) -> void)
 
         if (potentialChoice != -1)
         {
-            ResourceEvent resource = choices.at(potentialChoice).rewards;
+            ResourceEvent& resource = choices.at(potentialChoice).rewards;
 
-            if (resource.weapon != nullptr)
+            if (resource.weapon != nullptr && !CustomWeaponManager::instance->GetWeaponDefinition(resource.weapon->name)->hideEventTooltip)
             {
                 infoBox->SetBlueprintWeapon(resource.weapon, 0, true, 0);
             }
