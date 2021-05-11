@@ -445,7 +445,7 @@ HOOK_STATIC(WeaponBox, GenerateTooltip, (std::string &retStr, WeaponBox *_this) 
 
 HOOK_STATIC(WeaponBlueprint, GetDescription, (std::string* strRef, WeaponBlueprint *bp, bool tooltip) -> void)
 {
-    if (tooltip) return super(strRef, bp, tooltip);
+    if (tooltip || bp->name.empty()) return super(strRef, bp, tooltip);
     super(strRef, bp, tooltip);
 
     auto tLib = G_->GetTextLibrary();
@@ -1065,7 +1065,15 @@ HOOK_METHOD(InfoBox, SetBlueprintAugment, (const AugmentBlueprint* bp) -> void)
     desc.shortTitle.data.assign(bp->desc.shortTitle.data);
     desc.shortTitle.isLiteral = bp->desc.shortTitle.isLiteral;
 
-    std::string newDesc = bp->desc.description.data;
+    std::string newDesc;
+    if (!bp->desc.description.isLiteral)
+    {
+        newDesc = G_->GetTextLibrary()->GetText(bp->desc.description.data);
+    }
+    else
+    {
+        newDesc = bp->desc.description.data;
+    }
     newDesc += "\n\n";
     std::string currentText = G_->GetTextLibrary()->GetText("scrap_value");
     currentText = boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp->desc.cost));
@@ -1074,12 +1082,13 @@ HOOK_METHOD(InfoBox, SetBlueprintAugment, (const AugmentBlueprint* bp) -> void)
     if (CustomOptionsManager::GetInstance()->redesignedAugmentTooltips.currentValue || CustomOptionsManager::GetInstance()->altMode)
     {
         desc.description.data.assign(newDesc);
+        desc.description.isLiteral = true;
     }
     else
     {
         desc.description.data.assign(bp->desc.description.data);
+        desc.description.isLiteral = bp->desc.description.isLiteral;
     }
-    desc.description.isLiteral = bp->desc.description.isLiteral;
 
     desc.cost = bp->desc.cost;
     desc.rarity = bp->desc.rarity;
@@ -1210,7 +1219,15 @@ HOOK_METHOD(InfoBox, SetBlueprintDrone, (const DroneBlueprint* bp, int status, b
 
 HOOK_METHOD(InfoBox, SetBlueprintDrone, (const DroneBlueprint* bp, int status, bool hasDroneSystem, int yShift) -> void)
 {
-    std::string newDesc = bp->desc.description.data;
+    std::string newDesc;
+    if (bp->desc.description.isLiteral)
+    {
+        newDesc = bp->desc.description.data;
+    }
+    else
+    {
+        newDesc = G_->GetTextLibrary()->GetText(bp->desc.description.data);
+    }
     std::string currentText = "";
 
     if(CustomOptionsManager::GetInstance()->redesignedDroneTooltips.currentValue || CustomOptionsManager::GetInstance()->altMode)
@@ -1506,6 +1523,7 @@ HOOK_METHOD(InfoBox, SetBlueprintDrone, (const DroneBlueprint* bp, int status, b
 
         DroneBlueprint newBp = *bp;
         newBp.desc.description.data.assign(newDesc);
+        newBp.desc.description.isLiteral = true;
 
         super(&newBp, status, hasDroneSystem, yShift);
 

@@ -1571,7 +1571,7 @@ HOOK_METHOD_PRIORITY(CrewMember, UpdateHealth, 2000, () -> void)
         }
         if (ex->isHealing && truePassiveHealAmount != 0.f && health.first != health.second && Functional())
         {
-            if (trueHealAmount > 0.f && health.first != health.second)
+            if (truePassiveHealAmount > 0.f && health.first != health.second)
             {
                 fMedbay += 0.0000000001;
             }

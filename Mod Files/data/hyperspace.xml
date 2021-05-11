@@ -295,6 +295,7 @@ Syntax ->
 		<moveSpeedMultiplier>1.0</moveSpeedMultiplier>
 		<repairSpeed>1.0</repairSpeed>
 		<damageMultiplier>1.0</damageMultiplier>
+		<rangedDamageMultiplier>1.0</rangedDamageMultiplier>
 		<fireRepairMultiplier>1.2</fireRepairMultiplier>
 		<suffocationModifier>1.0</suffocationModifier>
 		<bonusPower>0</bonusPower>
