@@ -302,13 +302,17 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                         {
                             crew.passiveHealAmount = boost::lexical_cast<float>(val);
                         }
-                        if (str == "trueHealAmount")
-                        {
-                            crew.trueHealAmount = boost::lexical_cast<float>(val);
-                        }
                         if (str == "truePassiveHealAmount")
                         {
                             crew.truePassiveHealAmount = boost::lexical_cast<float>(val);
+                        }
+                        if (str == "healAmount")
+                        {
+                            crew.healAmount = boost::lexical_cast<float>(val);
+                        }
+                        if (str == "trueHealAmount")
+                        {
+                            crew.trueHealAmount = boost::lexical_cast<float>(val);
                         }
                         if (str == "passiveHealDelay")
                         {
@@ -848,9 +852,21 @@ void CustomCrewManager::ParseAbilityEffect(rapidxml::xml_node<char>* stat, Activ
                 {
                     def.tempPower.sabotageSpeedMultiplier = boost::lexical_cast<float>(tempEffectNode->value());
                 }
+                if (tempEffectName == "passiveHealAmount")
+                {
+                    def.tempPower.passiveHealAmount = boost::lexical_cast<float>(tempEffectNode->value());
+                }
                 if (tempEffectName == "healAmount")
                 {
                     def.tempPower.healAmount = boost::lexical_cast<float>(tempEffectNode->value());
+                }
+                if (tempEffectName == "truePassiveHealAmount")
+                {
+                    def.tempPower.truePassiveHealAmount = boost::lexical_cast<float>(tempEffectNode->value());
+                }
+                if (tempEffectName == "trueHealAmount")
+                {
+                    def.tempPower.trueHealAmount = boost::lexical_cast<float>(tempEffectNode->value());
                 }
                 if (tempEffectName == "damageEnemiesAmount")
                 {
