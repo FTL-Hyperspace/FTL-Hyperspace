@@ -27,7 +27,6 @@ void CheckHashes()
 
         if (sha256 != f.second)
         {
-            hs_log_file(s);
             MessageBoxA(GetDesktopWindow(), "Wrong version of Irie Series Modpack detected. Please check that you are using the correct version of Hyperspace and the modpack.", "Error", MB_ICONERROR | MB_SETFOREGROUND);
             exit(1);
         }
