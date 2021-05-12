@@ -119,6 +119,7 @@ struct TemporaryPowerDefinition
     ToggleValue<float> suffocationModifier;
     ToggleValue<float> healCrewAmount;
     ToggleValue<int> powerDrain;
+    ToggleValue<bool> powerDrainFriendly;
     ToggleValue<int> bonusPower;
     ToggleValue<float> damageEnemiesAmount;
 
