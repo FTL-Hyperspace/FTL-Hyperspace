@@ -956,7 +956,7 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition& def,
             isBool = true;
             break;
         case CrewStat::POWER_DRAIN_FRIENDLY:
-            *boolValue = def.powerDrainFriendly;
+            *boolValue = (temporaryPowerActive && def.powerDef.tempPower.powerDrainFriendly.enabled) ? def.powerDef.tempPower.powerDrainFriendly.value : def.powerDrainFriendly;
             isBool = true;
             break;
         case CrewStat::ACTIVATE_WHEN_READY:

@@ -872,6 +872,10 @@ void CustomCrewManager::ParseAbilityEffect(rapidxml::xml_node<char>* stat, Activ
                 {
                     def.tempPower.powerDrain = boost::lexical_cast<int>(tempEffectNode->value());
                 }
+                if (tempEffectName == "powerDrainFriendly")
+                {
+                    def.tempPower.powerDrainFriendly = EventsParser::ParseBoolean(tempEffectNode->value());
+                }
                 if (tempEffectName == "statBoosts")
                 {
                     for (auto statBoostNode = tempEffectNode->first_node(); statBoostNode; statBoostNode = statBoostNode->next_sibling())
