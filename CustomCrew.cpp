@@ -3532,6 +3532,18 @@ HOOK_STATIC(CrewMember, GetTooltip, (std::string& strRef, CrewMember* crew) -> s
             stream << std::fixed <<std::setprecision(custom->advancedCrewTooltipRounding.currentAmount) << crew->health.first;
             tooltip += G_->GetTextLibrary()->GetText("advanced_health_tooltip") + ": " + stream.str() + "/" + std::to_string(maxHealth) + " (" + std::to_string((int)(crew->health.first / maxHealth * 100)) + "%)";
         }
+
+        if (crew->fStunTime != 0)
+        {
+            tooltip += '\n';
+            std::stringstream stream;
+            stream << std::fixed <<std::setprecision(1) << crew->fStunTime * CustomCrewManager::GetInstance()->GetDefinition(crew->species).stunMultiplier;
+            std::string currentText = G_->GetTextLibrary()->GetText("crew_stun_time");
+            currentText = boost::algorithm::replace_all_copy(currentText, "\\1", stream.str());
+            currentText = boost::algorithm::replace_all_copy(currentText, "\\2", stream.str());
+            tooltip += currentText;
+        }
+
         if (custom->showEnemyPowers.currentValue && crew->iShipId == 1)
         {
             tooltip += '\n';
