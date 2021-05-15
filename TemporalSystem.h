@@ -4,16 +4,21 @@
 class TemporalSystemParser
 {
 public:
-    static float GetLevelDuration(int systemLevel);
-    static int GetLevelCooldown(int systemLevel);
+    struct TemporalLevel
+    {
+        int duration;
+        int cooldown;
+        float strength;
+    };
+
+    static int GetDilationDuration(int systemLevel);
+    static int GetDilationCooldown(int systemLevel);
     static float GetDilationStrength(int effectStrength); // negative for slow
     static void ParseSystemNode(rapidxml::xml_node<char>* node);
 
 private:
-    static std::map<int, float> levelSpeed;
-    static std::map<int, float> levelSlow;
-    static std::map<int, float> levelDurations;
-    static std::map<int, int> levelCooldowns;
+    static std::map<int, TemporalLevel> levelSpeed;
+    static std::map<int, TemporalLevel> levelSlow;
 };
 
 class TemporalBox : public CooldownSystemBox

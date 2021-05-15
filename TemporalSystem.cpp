@@ -4,10 +4,34 @@
 #include <sstream>
 #include <iomanip>
 
- std::map<int, float> TemporalSystemParser::levelSpeed = std::map<int, float>();
- std::map<int, float> TemporalSystemParser::levelSlow = std::map<int, float>();
- std::map<int, float> TemporalSystemParser::levelDurations = std::map<int, float>();
- std::map<int, int> TemporalSystemParser::levelCooldowns = std::map<int, int>();
+std::map<int, TemporalSystemParser::TemporalLevel> TemporalSystemParser::levelSpeed = std::map<int, TemporalSystemParser::TemporalLevel>();
+std::map<int, TemporalSystemParser::TemporalLevel> TemporalSystemParser::levelSlow = std::map<int, TemporalSystemParser::TemporalLevel>();
+
+TemporalSystemParser::TemporalLevel ParseTemporalLevel(rapidxml::xml_node<char>* node)
+{
+    TemporalSystemParser::TemporalLevel def;
+
+    for (auto child = node->first_node(); child; child = child->next_sibling())
+    {
+        std::string name = child->name();
+        std::string val = child->value();
+
+        if (name == "cooldown")
+        {
+            def.cooldown = boost::lexical_cast<int>(val);
+        }
+        if (name == "duration")
+        {
+            def.duration = boost::lexical_cast<int>(val);
+        }
+        if (name == "strength")
+        {
+            def.strength = boost::lexical_cast<float>(val);
+        }
+    }
+
+    return def;
+}
 
 void TemporalSystemParser::ParseSystemNode(rapidxml::xml_node<char>* node)
 {
@@ -15,50 +39,51 @@ void TemporalSystemParser::ParseSystemNode(rapidxml::xml_node<char>* node)
     {
         std::string name = child->name();
 
-        if (boost::algorithm::starts_with(name, "level"))
+        for (auto subChild = child->first_node(); subChild; subChild = subChild->next_sibling())
         {
-            std::string levelStr = name.substr(5);
+            if (boost::algorithm::starts_with(subChild->name(), "level"))
+            {
+                std::string levelStr = std::string(subChild->name()).substr(5);
+                int level = boost::lexical_cast<int>(levelStr);
 
-            if (child->first_attribute("duration"))
-            {
-                TemporalSystemParser::levelDurations[boost::lexical_cast<int>(levelStr)] = boost::lexical_cast<float>(child->first_attribute("duration")->value());
-            }
-            if (child->first_attribute("slowValue"))
-            {
-                TemporalSystemParser::levelSlow[boost::lexical_cast<int>(levelStr)] = boost::lexical_cast<float>(child->first_attribute("slowValue")->value());
-            }
-            if (child->first_attribute("speedValue"))
-            {
-                TemporalSystemParser::levelSpeed[boost::lexical_cast<int>(levelStr)] = boost::lexical_cast<float>(child->first_attribute("speedValue")->value());
-            }
-            if (child->first_attribute("cooldown"))
-            {
-                TemporalSystemParser::levelCooldowns[boost::lexical_cast<int>(levelStr)] = boost::lexical_cast<int>(child->first_attribute("cooldown")->value());
+                auto temporalLevel = ParseTemporalLevel(subChild);
+
+                if (name == "speed")
+                {
+                    levelSpeed[level] = temporalLevel;
+                }
+                if (name == "slow")
+                {
+                    levelSlow[level] = temporalLevel;
+                }
             }
         }
     }
 }
 
-float TemporalSystemParser::GetLevelDuration(int level)
+int TemporalSystemParser::GetDilationDuration(int level)
 {
-    if (levelDurations.find(level) != levelDurations.end())
+    auto chosenMap = level > 0 ? levelSpeed : levelSlow;
+    auto absLevel = std::abs(level);
+
+    if (chosenMap.find(absLevel) != chosenMap.end())
     {
-        return levelDurations[level];
+        return chosenMap[absLevel].duration;
     }
     else
     {
-        return 10.f;
+        return 10;
     }
 }
 
 float TemporalSystemParser::GetDilationStrength(int level)
 {
-    auto timeMap = level > 0 ? levelSpeed : levelSlow;
+    auto chosenMap = level > 0 ? levelSpeed : levelSlow;
     auto absLevel = std::abs(level);
 
-    if (timeMap.find(level) != timeMap.end())
+    if (chosenMap.find(absLevel) != chosenMap.end())
     {
-        return timeMap[level];
+        return chosenMap[absLevel].strength;
     }
     else
     {
@@ -66,11 +91,14 @@ float TemporalSystemParser::GetDilationStrength(int level)
     }
 }
 
-int TemporalSystemParser::GetLevelCooldown(int level)
+int TemporalSystemParser::GetDilationCooldown(int level)
 {
-    if (levelCooldowns.find(level) != levelCooldowns.end())
+    auto chosenMap = level > 0 ? levelSpeed : levelSlow;
+    auto absLevel = std::abs(level);
+
+    if (chosenMap.find(absLevel) != chosenMap.end())
     {
-        return levelCooldowns[level];
+        return chosenMap[absLevel].cooldown;
     }
     else
     {
@@ -219,13 +247,17 @@ void TemporalSystem_Wrapper::StartTimeDilation(int shipId, int roomId, bool spee
                 if (room)
                 {
                     bTurnedOn = true;
-                    orig->LockSystem(-1);
-                    timer.Start(TemporalSystemParser::GetLevelDuration(orig->GetEffectivePower()));
-
-                    RM_EX(room)->timeDilation = speedUp ? orig->GetEffectivePower() : -orig->GetEffectivePower();
-                    currentRoom = room;
 
                     isSpeeding = speedUp;
+                    dilationStrength = orig->GetEffectivePower();
+
+                    orig->LockSystem(-1);
+
+                    timer.Start(TemporalSystemParser::GetDilationDuration(GetRealDilation()));
+
+                    RM_EX(room)->timeDilation = GetRealDilation();
+                    currentRoom = room;
+
                     currentShipId = shipId;
                 }
             }
@@ -239,18 +271,17 @@ void TemporalSystem_Wrapper::StopTimeDilation()
     {
         RM_EX(currentRoom)->timeDilation = 0;
 
-        orig->AddLock(TemporalSystemParser::GetLevelCooldown(orig->GetEffectivePower()));
+        orig->AddLock(TemporalSystemParser::GetDilationCooldown(GetRealDilation()));
         bTurnedOn = false;
         currentRoom = nullptr;
         currentShipId = -1;
+        dilationStrength = 0;
     }
 }
 
 
 void TemporalSystem_Wrapper::OnLoop()
 {
-    timer.SetMaxTime(TemporalSystemParser::GetLevelDuration(orig->GetEffectivePower()));
-
     if (!orig->Functioning() || (orig->iHackEffect > 1 && orig->bUnderAttack) || currentShipId == -1 || G_->GetShipManager(currentShipId) == nullptr)
     {
         StopTimeDilation();
@@ -258,17 +289,17 @@ void TemporalSystem_Wrapper::OnLoop()
 
     if (bTurnedOn)
     {
+        timer.SetMaxTime(TemporalSystemParser::GetDilationDuration(GetRealDilation()));
         timer.Update();
+
+        if (currentRoom != nullptr && G_->GetShipManager(currentShipId) == nullptr) // not sure if this works
+        {
+            RM_EX(currentRoom)->timeDilation = GetRealDilation();
+        }
 
         if (timer.Done())
         {
             StopTimeDilation();
-        }
-
-
-        if (currentRoom != nullptr && G_->GetShipManager(currentShipId) == nullptr) // not sure if this works
-        {
-            RM_EX(currentRoom)->timeDilation = isSpeeding ? orig->GetEffectivePower() : -orig->GetEffectivePower();
         }
     }
 }
@@ -287,12 +318,13 @@ void SetTemporalArmed(ShipManager *ship, TemporalArmState armState)
 
 HOOK_METHOD(ShipManager, JumpArrive, () -> void)
 {
-    super();
-
     if (bWasSafe && HasSystem(20))
     {
         GetSystem(20)->LockSystem(0);
     }
+
+    super();
+
 }
 
 HOOK_METHOD(ShipManager, JumpLeave, () -> void)
@@ -403,6 +435,49 @@ HOOK_METHOD(CombatControl, WeaponsArmed, () -> bool)
     return ret | (GetTemporalArmed(shipManager) != TEMPORAL_ARM_NONE);
 }
 
+static std::string RemoveTrailingZeros(std::string str)
+{
+    boost::trim_right_if(str, boost::is_any_of("0"));
+    boost::trim_right_if(str, boost::is_any_of("."));
+
+    return str;
+}
+
+static void ReplaceTemporalText(std::string& tooltipText, int power)
+{
+    std::stringstream stream;
+    std::string valueStr;
+
+    int counter = 0;
+
+
+    for (int i = 0; i < 2; i++)
+    {
+        int realDilation = i == 0 ? power : -power;
+
+        counter++;
+
+        stream << std::fixed << std::setprecision(3) << TemporalSystemParser::GetDilationStrength(realDilation);
+        valueStr = RemoveTrailingZeros(stream.str());
+        boost::algorithm::replace_all(tooltipText, "\\" + std::to_string(counter), valueStr);
+        stream.str(std::string());
+
+        counter++;
+
+        stream << TemporalSystemParser::GetDilationCooldown(realDilation) * 5;
+        valueStr = stream.str();
+        boost::algorithm::replace_all(tooltipText, "\\" + std::to_string(counter), valueStr);
+        stream.str(std::string());
+
+        counter++;
+
+        stream << TemporalSystemParser::GetDilationDuration(realDilation);
+        valueStr = stream.str();
+        boost::algorithm::replace_all(tooltipText, "\\" + std::to_string(counter), valueStr);
+        stream.str(std::string());
+    }
+}
+
 HOOK_METHOD(CombatControl, UpdateTarget, () -> bool)
 {
     bool ret = super();
@@ -418,7 +493,7 @@ HOOK_METHOD(CombatControl, UpdateTarget, () -> bool)
         if (selectedRoom != -1 || selectedSelfRoom != -1)
         {
             std::string tooltipText = "";
-            if (selectedRoom != -1 && currentTarget && currentTarget->shipManager->GetShieldPower().super.first > 0 && !shipManager->HasAugmentation("ZOLTAN_BYPASS"))
+            if (selectedRoom != -1 && currentTarget && (currentTarget->shipManager->GetShieldPower().super.first > 0 && !shipManager->HasAugmentation("ZOLTAN_BYPASS")))
             {
                 G_->GetMouseControl()->SetTooltip(G_->GetTextLibrary()->GetText("temporal_arm_super_shields"));
                 G_->GetMouseControl()->InstantTooltip();
@@ -436,25 +511,7 @@ HOOK_METHOD(CombatControl, UpdateTarget, () -> bool)
             {
                 int power = shipManager->GetSystem(20)->GetEffectivePower();
 
-                std::stringstream stream;
-                stream << std::fixed << std::setprecision(3) << TemporalSystemParser::GetDilationStrength(power);
-
-                std::string valueStr = stream.str();
-
-                boost::trim_right_if(valueStr, boost::is_any_of("0"));
-                boost::trim_right_if(valueStr, boost::is_any_of("."));
-
-                boost::algorithm::replace_all(tooltipText, "\\1", valueStr);
-
-                stream.str(std::string());
-
-                stream << std::fixed << std::setprecision(3) << TemporalSystemParser::GetLevelDuration(power);
-
-                valueStr = stream.str();
-                boost::trim_right_if(valueStr, boost::is_any_of("0"));
-                boost::trim_right_if(valueStr, boost::is_any_of("."));
-
-                boost::algorithm::replace_all(tooltipText, "\\2", valueStr);
+                ReplaceTemporalText(tooltipText, power);
 
                 G_->GetMouseControl()->SetTooltip(tooltipText);
                 G_->GetMouseControl()->InstantTooltip();
@@ -563,27 +620,7 @@ HOOK_STATIC(ShipSystem, GetLevelDescription, (void* unk, std::string &retStr, in
 
         std::string replStr = G_->GetTextLibrary()->GetText(tooltip ? "temporal_tooltip" : "temporal");
 
-        std::stringstream stream;
-        stream << std::fixed << std::setprecision(3) << TemporalSystemParser::GetDilationStrength(realLevel);
-
-        std::string valueStr = stream.str();
-
-        boost::trim_right_if(valueStr, boost::is_any_of("0"));
-        boost::trim_right_if(valueStr, boost::is_any_of("."));
-
-        boost::algorithm::replace_all(replStr, "\\1", valueStr);
-
-        stream.str(std::string());
-
-        stream << std::fixed << std::setprecision(3) << TemporalSystemParser::GetLevelDuration(realLevel);
-
-        valueStr = stream.str();
-
-        boost::trim_right_if(valueStr, boost::is_any_of("0"));
-        boost::trim_right_if(valueStr, boost::is_any_of("."));
-
-        boost::algorithm::replace_all(replStr, "\\2", valueStr);
-        boost::algorithm::replace_all(replStr, "\\3", std::to_string(TemporalSystemParser::GetLevelCooldown(realLevel) * 5));
+        ReplaceTemporalText(replStr, realLevel);
         boost::algorithm::replace_all(replStr, "\\n", "\n");
 
         retStr.assign(replStr);

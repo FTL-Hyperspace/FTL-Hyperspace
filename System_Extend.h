@@ -13,6 +13,7 @@ struct TemporalSystem_Wrapper
     ShipSystem *orig = nullptr;
     bool bTurnedOn = false;
     bool isSpeeding = false;
+    int dilationStrength = 0;
     TimerHelper timer;
     TemporalArmState armState = TEMPORAL_ARM_NONE;
 
@@ -32,6 +33,11 @@ struct TemporalSystem_Wrapper
     void SetArmed(TemporalArmState newArmState)
     {
         armState = newArmState;
+    }
+
+    int GetRealDilation()
+    {
+        return isSpeeding ? dilationStrength : -dilationStrength;
     }
 
     void StartTimeDilation(int shipId, int roomId, bool speedUp);
