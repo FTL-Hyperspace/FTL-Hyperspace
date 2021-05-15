@@ -2671,7 +2671,7 @@ struct LIBZHL_INTERFACE CrewMember
 	LIBZHL_API bool BadAtCombat();
 	LIBZHL_API void EmptySlot();
 	LIBZHL_API bool NeedsSlot();
-	LIBZHL_API void DirectModifyHealth(float health);
+	LIBZHL_API bool DirectModifyHealth(float health);
 	LIBZHL_API void ModifyHealth(float health);
 	LIBZHL_API bool RepairingSystem();
 	LIBZHL_API bool Sabotaging();

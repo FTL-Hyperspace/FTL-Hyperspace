@@ -1601,7 +1601,7 @@ HOOK_METHOD_PRIORITY(CrewMember, UpdateHealth, 2000, () -> void)
 
     //super();
 }
-HOOK_METHOD_PRIORITY(CrewMember, DirectModifyHealth, 1000, (float healthMod) -> void)
+HOOK_METHOD_PRIORITY(CrewMember, DirectModifyHealth, 1000, (float healthMod) -> bool)
 {
     auto custom = CustomCrewManager::GetInstance();
     CrewMember_Extend* ex = CM_EX(this);
@@ -1613,7 +1613,7 @@ HOOK_METHOD_PRIORITY(CrewMember, DirectModifyHealth, 1000, (float healthMod) -> 
         {
             if (ex->temporaryPowerActive && def.powerDef.tempPower.invulnerable)
             {
-                return;
+                return false;
             }
             else
             {
@@ -1622,12 +1622,14 @@ HOOK_METHOD_PRIORITY(CrewMember, DirectModifyHealth, 1000, (float healthMod) -> 
         }
     }
 
-    super(healthMod);
+    bool ret = super(healthMod);
     if (custom->IsRace(species) && healthMod < 0.f && ex->passiveHealTimer)
     {
         ex->isHealing = false;
         ex->passiveHealTimer->Start(ex->CalculateStat(CrewStat::PASSIVE_HEAL_DELAY, def));
     }
+	
+	return ret;
 }
 HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
 {
