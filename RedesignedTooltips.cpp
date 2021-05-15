@@ -351,13 +351,17 @@ HOOK_STATIC(WeaponBox, GenerateTooltip, (std::string &retStr, WeaponBox *_this) 
             if (bp->damage.iShieldPiercing != 0)
             {
                 currentText = tLib->GetText("shield_piercing");
-                if (bp->type != 2)
+                if (bp->type != 2 || bp->damage.iDamage > 0)
                 {
                     descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp->damage.iShieldPiercing)) + "\n";
                 }
                 else if (bp->damage.iDamage == 0 && bp->damage.iShieldPiercing - 1 > 0)
                 {
                     descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp->damage.iShieldPiercing - 1)) + "\n";
+                }
+                else
+                {
+                    descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp->damage.iShieldPiercing + bp->damage.iDamage - 1)) + "\n";
                 }
             }
 
