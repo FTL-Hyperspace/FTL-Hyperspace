@@ -665,7 +665,7 @@ HOOK_METHOD(StarMap, AddQuest, (const std::string& questEvent, bool force) -> bo
 
     if (SeedInputBox::seedsEnabled) savedSeed = random32();
 
-    if (Global::lastDelayedQuestSeeds.size() > 0)
+    if (Global::lastDelayedQuestSeeds.size() > Global::delayedQuestIndex)
     {
         Global::questSeed = Global::lastDelayedQuestSeeds[Global::delayedQuestIndex++];
     }

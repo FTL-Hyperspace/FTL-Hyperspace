@@ -302,6 +302,7 @@ HOOK_METHOD_PRIORITY(StarMap, GenerateMap, 1000, (bool unk, bool seed) -> Locati
     auto ret = super(unk, seed);
 
     generatingMap = false;
+    Global::lastDelayedQuestSeeds.clear();
 
     return ret;
 }
