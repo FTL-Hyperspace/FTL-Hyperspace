@@ -878,7 +878,7 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition& def,
             finalStat = (temporaryPowerActive && def.powerDef.tempPower.trueHealAmount.enabled) ? def.powerDef.tempPower.trueHealAmount.value : def.trueHealAmount;
             break;
         case CrewStat::ACTIVE_HEAL_AMOUNT:
-            finalStat = (temporaryPowerActive) ? def.powerDef.tempPower.healAmount : 0.f;
+            finalStat = (temporaryPowerActive && def.powerDef.tempPower.healAmount.enabled) ? def.powerDef.tempPower.healAmount.value : def.healAmount;
             break;
         case CrewStat::PASSIVE_HEAL_DELAY:
             finalStat = (temporaryPowerActive && def.powerDef.tempPower.passiveHealDelay.enabled) ? def.powerDef.tempPower.passiveHealDelay.value : def.passiveHealDelay;
@@ -956,7 +956,7 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition& def,
             isBool = true;
             break;
         case CrewStat::POWER_DRAIN_FRIENDLY:
-            *boolValue = def.powerDrainFriendly;
+            *boolValue = (temporaryPowerActive && def.powerDef.tempPower.powerDrainFriendly.enabled) ? def.powerDef.tempPower.powerDrainFriendly.value : def.powerDrainFriendly;
             isBool = true;
             break;
         case CrewStat::ACTIVATE_WHEN_READY:

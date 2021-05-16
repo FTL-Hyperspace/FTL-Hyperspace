@@ -111,6 +111,7 @@ struct TemporaryPowerDefinition
     ToggleValue<float> damageTakenMultiplier;
     ToggleValue<float> passiveHealAmount;
     ToggleValue<float> truePassiveHealAmount;
+    ToggleValue<float> healAmount;
     ToggleValue<float> trueHealAmount;
     ToggleValue<int> passiveHealDelay;
     ToggleValue<float> sabotageSpeedMultiplier;
@@ -119,13 +120,13 @@ struct TemporaryPowerDefinition
     ToggleValue<float> suffocationModifier;
     ToggleValue<float> healCrewAmount;
     ToggleValue<int> powerDrain;
+    ToggleValue<bool> powerDrainFriendly;
     ToggleValue<int> bonusPower;
     ToggleValue<float> damageEnemiesAmount;
 
     std::vector<StatBoost> statBoosts;
 
     bool invulnerable;
-    float healAmount = 0.f;
     int animFrame = -1;
 
     GL_Color cooldownColor;
@@ -222,6 +223,7 @@ struct CrewDefinition
     float damageTakenMultiplier = 1.f;
     float passiveHealAmount = 0.f;
     float truePassiveHealAmount = 0.f;
+    float healAmount = 0.f;
     float trueHealAmount = 0.f;
     int passiveHealDelay = 0;
     bool detectsLifeforms = false;

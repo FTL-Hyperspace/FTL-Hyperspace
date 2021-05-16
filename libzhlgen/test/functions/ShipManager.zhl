@@ -102,6 +102,10 @@ void ShipManager::ResetScrapLevel(ShipManager *this<ecx>);
 void ShipManager::JumpArrive(ShipManager *this<ecx>);
 "5731c08d7c240883e4f0ff77fc5589e55783ec148b1783faff74??8bb9c80400008b149783faff74??8b4918":
 bool ShipManager::ForceDecreaseSystemPower(ShipManager *this<ecx>, int sys);
+"5731c08d7c240883e4f0ff77fc5589e5575383ec108b91c80400008b1f8b7f04837a0cff74??8b4948":
+int ShipManager::AddWeapon(ShipManager *this<ecx>, const WeaponBlueprint* bp, int slot);
+"578d7c240883e4f0ff77fc5589e557565383ec4c8b3f8b178b470429d0c1f80369c0????????85c00f84????????":
+void ShipManager::AddEquipmentFromList(ShipManager *this<ecx>, std::vector<std::string> equipmentList);
 
 
 struct ShipManager {{

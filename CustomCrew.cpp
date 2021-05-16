@@ -302,13 +302,17 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                         {
                             crew.passiveHealAmount = boost::lexical_cast<float>(val);
                         }
-                        if (str == "trueHealAmount")
-                        {
-                            crew.trueHealAmount = boost::lexical_cast<float>(val);
-                        }
                         if (str == "truePassiveHealAmount")
                         {
                             crew.truePassiveHealAmount = boost::lexical_cast<float>(val);
+                        }
+                        if (str == "healAmount")
+                        {
+                            crew.healAmount = boost::lexical_cast<float>(val);
+                        }
+                        if (str == "trueHealAmount")
+                        {
+                            crew.trueHealAmount = boost::lexical_cast<float>(val);
                         }
                         if (str == "passiveHealDelay")
                         {
@@ -848,9 +852,21 @@ void CustomCrewManager::ParseAbilityEffect(rapidxml::xml_node<char>* stat, Activ
                 {
                     def.tempPower.sabotageSpeedMultiplier = boost::lexical_cast<float>(tempEffectNode->value());
                 }
+                if (tempEffectName == "passiveHealAmount")
+                {
+                    def.tempPower.passiveHealAmount = boost::lexical_cast<float>(tempEffectNode->value());
+                }
                 if (tempEffectName == "healAmount")
                 {
                     def.tempPower.healAmount = boost::lexical_cast<float>(tempEffectNode->value());
+                }
+                if (tempEffectName == "truePassiveHealAmount")
+                {
+                    def.tempPower.truePassiveHealAmount = boost::lexical_cast<float>(tempEffectNode->value());
+                }
+                if (tempEffectName == "trueHealAmount")
+                {
+                    def.tempPower.trueHealAmount = boost::lexical_cast<float>(tempEffectNode->value());
                 }
                 if (tempEffectName == "damageEnemiesAmount")
                 {
@@ -871,6 +887,10 @@ void CustomCrewManager::ParseAbilityEffect(rapidxml::xml_node<char>* stat, Activ
                 if (tempEffectName == "powerDrain")
                 {
                     def.tempPower.powerDrain = boost::lexical_cast<int>(tempEffectNode->value());
+                }
+                if (tempEffectName == "powerDrainFriendly")
+                {
+                    def.tempPower.powerDrainFriendly = EventsParser::ParseBoolean(tempEffectNode->value());
                 }
                 if (tempEffectName == "statBoosts")
                 {
@@ -1581,7 +1601,7 @@ HOOK_METHOD_PRIORITY(CrewMember, UpdateHealth, 2000, () -> void)
 
     //super();
 }
-HOOK_METHOD_PRIORITY(CrewMember, DirectModifyHealth, 1000, (float healthMod) -> void)
+HOOK_METHOD_PRIORITY(CrewMember, DirectModifyHealth, 1000, (float healthMod) -> bool)
 {
     auto custom = CustomCrewManager::GetInstance();
     CrewMember_Extend* ex = CM_EX(this);
@@ -1593,7 +1613,7 @@ HOOK_METHOD_PRIORITY(CrewMember, DirectModifyHealth, 1000, (float healthMod) -> 
         {
             if (ex->temporaryPowerActive && def.powerDef.tempPower.invulnerable)
             {
-                return;
+                return false;
             }
             else
             {
@@ -1602,12 +1622,14 @@ HOOK_METHOD_PRIORITY(CrewMember, DirectModifyHealth, 1000, (float healthMod) -> 
         }
     }
 
-    super(healthMod);
+    bool ret = super(healthMod);
     if (custom->IsRace(species) && healthMod < 0.f && ex->passiveHealTimer)
     {
         ex->isHealing = false;
         ex->passiveHealTimer->Start(ex->CalculateStat(CrewStat::PASSIVE_HEAL_DELAY, def));
     }
+	
+	return ret;
 }
 HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
 {
@@ -3512,6 +3534,17 @@ HOOK_STATIC(CrewMember, GetTooltip, (std::string& strRef, CrewMember* crew) -> s
             stream << std::fixed <<std::setprecision(custom->advancedCrewTooltipRounding.currentAmount) << crew->health.first;
             tooltip += G_->GetTextLibrary()->GetText("advanced_health_tooltip") + ": " + stream.str() + "/" + std::to_string(maxHealth) + " (" + std::to_string((int)(crew->health.first / maxHealth * 100)) + "%)";
         }
+
+        if (crew->fStunTime != 0)
+        {
+            tooltip += '\n';
+            std::stringstream stream;
+            stream << std::fixed <<std::setprecision(1) << crew->fStunTime * CustomCrewManager::GetInstance()->GetDefinition(crew->species).stunMultiplier;
+            std::string currentText = G_->GetTextLibrary()->GetText("crew_stun_time");
+            currentText = boost::algorithm::replace_all_copy(currentText, "\\1", stream.str());
+            tooltip += currentText;
+        }
+
         if (custom->showEnemyPowers.currentValue && crew->iShipId == 1)
         {
             tooltip += '\n';
