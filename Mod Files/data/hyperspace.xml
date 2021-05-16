@@ -771,12 +771,6 @@ is loaded. Otherwise it will not depend on the seed/beacon and will instead be r
 
 The req attribute for beaconType makes it so that the beacon label is only visible when the ship has a specific piece of equipment (augment, weapon, drone, race) installed.
 
-For nebulaQuest, if nebulaEvent is set then the event will be replaced by nebulaEvent if the quest beacon is a nebula beacon.
-If force="true" then the quest must spawn in a nebula, otherwise it can spawn outside the nebula as well.
-If clear="false" then a nebula will be added to the quest event if in a nebula beacon, otherwise the event's normal environment will be used.
-Default behaviour is clear="true" if force="true" or if nebulaEvent is set, otherwise clear="false".
-For lastStandQuest, if noBoss="true" then the quest cannot actually spawn in the last stand, but will spawn if the player goes to a secret sector.
-
 You can load custom stores by supplying the custom store id
 The event has to load a vanilla store in events.xml - it will be replaced with the custom store on load
 
@@ -791,6 +785,10 @@ Syntax ->
         <rebelBeacon event="BOARDERS" nebulaEvent="NEBULA_AUTO"/>
         <removeFirstBeaconNebula/>
     </sector>
+	
+	<quest>
+		(same syntax as quest tag in a quest destination event, but sets the default for all quests)
+	</quest>
 	
 	<event name="CIVILIAN_ASTEROIDS_BEACON_2" recursive="false">
 		<checkCargo/>
@@ -812,9 +810,19 @@ Syntax ->
 	</event>
 	
 	<event name="QUEST_DESTINATION">
-		<nebulaQuest force="false" clear="false" nebulaEvent="NEBULA_QUEST_DESTINATION"/>
-		<lastStandQuest noBoss="false"/>
-		<noNextSectorQuest aggressive="false"/>
+		<quest>
+			<nonNebulaBeacon>true</nonNebulaBeacon> (allows the quest to spawn at a non-nebula beacon, default true)
+			<nebulaBeacon>false</nebulaBeacon> (allows the quest to spawn at a nebula beacon, default false)
+			<currentSector>true</currentSector> (allows the quest to spawn in the current sector, default true)
+			<nextSector>true</nextSector> (allows the quest to spawn in the next sector(s), default true)
+			<sectorEight>false</sectorEight> (allows the quest to spawn in sector 8 including secret sectors, default is same as lastStand, forced true in infinite)
+			<lastStand>false</lastStand> (allows the quest to spawn in the last stand)
+			
+			<createNebula>true</createNebula> (adds the nebula background/effect to the event if a nebula beacon is selected, default true if nonNebulaBeacon is true and nebulaEvent is not set, otherwise false)
+			<nebulaEvent>NEBULA_QUEST_DESTINATION</nebulaEvent> (replaces the quest event with the named event if a nebula beacon is selected, default is to not replace the event)
+			
+			<aggressive>0</aggressive> (aggressive spawn (default 0/off), 1 = lower priority than next sector, 2 = higher priority than next sector)
+		</quest>
 	</event>
 	
 	<event name="CRYSTAL_TEST">

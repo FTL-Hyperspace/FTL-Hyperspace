@@ -31,7 +31,7 @@ struct CustomQuest
     ToggleValue<std::string> nebulaEvent;
     ToggleValue<bool> currentSector;
     ToggleValue<bool> nextSector;
-    ToggleValue<bool> aggressive;
+    ToggleValue<int> aggressive;
     ToggleValue<bool> sectorEight;
     ToggleValue<bool> lastStand;
 
@@ -43,7 +43,7 @@ struct CustomQuest
         nebulaEvent.value = "";
         currentSector.value = true;
         nextSector.value = true;
-        aggressive.value = false;
+        aggressive.value = 0;
         sectorEight.value = false;
         lastStand.value = false;
     }
