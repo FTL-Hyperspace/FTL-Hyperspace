@@ -70,6 +70,13 @@ public:
     static bool* firstTimeShips;
     static std::pair<Point, Point>* droneWeaponPosition;
 
+    static unsigned int questSeed;
+    static std::vector<unsigned int> delayedQuestSeeds;
+    static int delayedQuestIndex;
+    static std::vector<unsigned int> lastDelayedQuestSeeds;
+
+    static unsigned int bossFleetSeed;
+
     //static ShaderSourceCallback** fragment_shader_source_callback;
 
     //LuaState* lua;

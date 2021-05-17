@@ -62,7 +62,7 @@ void CrewMember::EmptySlot(CrewMember *this<ecx>);
 ".0fb681fc01000084c075??83b98c000000ff74??":
 bool CrewMember::NeedsSlot(CrewMember *this<ecx>);
 ".57660fefc98d7c240883e4f0ff77fc5589e557565383ec4cf30f1041280f2ec8f30f10170f83????????f30f2cf0f30f58c2":
-void CrewMember::DirectModifyHealth(CrewMember *this<ecx>, float health);
+bool CrewMember::DirectModifyHealth(CrewMember *this<ecx>, float health);
 ".578d7c240883e4f0ff77fc5589e55753":
 void CrewMember::ModifyHealth(CrewMember *this<ecx>, float health);
 ".578d7c240883e4f0ff77fc5589e5":

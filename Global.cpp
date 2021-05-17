@@ -36,6 +36,13 @@ FILE *Global::logFile = nullptr;
 bool *Global::firstTimeShips = nullptr;
 std::pair<Point, Point> *Global::droneWeaponPosition = nullptr;
 
+unsigned int Global::questSeed = 0;
+std::vector<unsigned int> Global::delayedQuestSeeds = std::vector<unsigned int>();
+int Global::delayedQuestIndex = 0;
+std::vector<unsigned int> Global::lastDelayedQuestSeeds = std::vector<unsigned int>();
+
+unsigned int Global::bossFleetSeed = 0;
+
 void hs_log_file(const char *str...)
 {
     va_list va;

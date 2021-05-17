@@ -106,6 +106,10 @@ void ShipManager::CheckSpreadDamage(ShipManager *this<ecx>);
 bool ShipManager::ForceDecreaseSystemPower(ShipManager *this<ecx>, int sys);
 "5589c889e58b55088b524485d274??8b8aec0100005d89088b8af00100008948048b8af40100008b92f801000089480889500c":
 static void ShipManager::GetShieldPower(ShieldPower &power<ecx>, ShipManager *ship);
+"5731c08d7c240883e4f0ff77fc5589e5575383ec108b91c80400008b1f8b7f04837a0cff74??8b4948":
+int ShipManager::AddWeapon(ShipManager *this<ecx>, const WeaponBlueprint* bp, int slot);
+"578d7c240883e4f0ff77fc5589e557565383ec4c8b3f8b178b470429d0c1f80369c0????????85c00f84????????":
+void ShipManager::AddEquipmentFromList(ShipManager *this<ecx>, std::vector<std::string> equipmentList);
 
 
 struct ShipManager depends (PowerManager, ShieldPower)
