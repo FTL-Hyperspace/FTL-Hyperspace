@@ -657,8 +657,8 @@ static int overrideWorldLevel = -1;
 
 HOOK_METHOD(StarMap, AddQuest, (const std::string& questEvent, bool force) -> bool)
 {
-    int savedSeed;
-    int nextQuestSeed;
+    int savedSeed = 0;
+    int nextQuestSeed = Global::questSeed;
     overrideWorldLevel = worldLevel;
     int numAddedQuests = addedQuests.size();
     int numDelayedQuests = delayedQuests.size();
@@ -715,7 +715,7 @@ HOOK_METHOD(StarMap, AddQuest, (const std::string& questEvent, bool force) -> bo
 
     if (SeedInputBox::seedsEnabled) srandom32(Global::questSeed);
     bool ret = super(questEvent, force);
-    if (SeedInputBox::seedsEnabled) nextQuestSeed = random32();
+    if (SeedInputBox::seedsEnabled && !Global::delayedQuestIndex) nextQuestSeed = random32();
 
     if (!ret && questCustomEvent && questCustomEvent->questAggressive)
     {
@@ -725,7 +725,7 @@ HOOK_METHOD(StarMap, AddQuest, (const std::string& questEvent, bool force) -> bo
         }
         if (SeedInputBox::seedsEnabled) srandom32(Global::questSeed);
         ret = super(questEvent, true);
-        if (SeedInputBox::seedsEnabled) nextQuestSeed = random32();
+        if (SeedInputBox::seedsEnabled && !Global::delayedQuestIndex) nextQuestSeed = random32();
     }
 
     if (!ret && questCustomEvent && questCustomEvent->questNoNextSector && delayedQuests.size() > numDelayedQuests)
