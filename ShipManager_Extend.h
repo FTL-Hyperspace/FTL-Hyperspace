@@ -35,6 +35,8 @@ struct ShipManager_Extend
 
     std::vector<ShipIcon*> icons;
 
+    int missCounter;
+
     void Initialize(bool restarting=false);
 
     ~ShipManager_Extend()
