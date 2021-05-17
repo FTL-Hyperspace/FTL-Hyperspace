@@ -805,7 +805,7 @@ HOOK_METHOD(StarMap, AddQuest, (const std::string& questEvent, bool force) -> bo
     {
         if (SeedInputBox::seedsEnabled) srandom32(Global::questSeed);
         ret = super(questEvent, true);
-        if (SeedInputBox::seedsEnabled) nextQuestSeed = random32();
+        if (SeedInputBox::seedsEnabled && !Global::delayedQuestIndex) nextQuestSeed = random32();
     }
 
     worldLevel = overrideWorldLevel;
