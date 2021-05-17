@@ -3767,6 +3767,7 @@ struct ShipManager : ShipObject
 	LIBZHL_API bool ForceDecreaseSystemPower(int sys);
 	LIBZHL_API int AddWeapon(const WeaponBlueprint *bp, int slot);
 	LIBZHL_API void AddEquipmentFromList(std::vector<std::string> equipmentList);
+	LIBZHL_API bool GetDodged();
 	
 	Targetable _targetable;
 	Collideable _collideable;

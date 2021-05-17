@@ -106,7 +106,8 @@ bool ShipManager::ForceDecreaseSystemPower(ShipManager *this<ecx>, int sys);
 int ShipManager::AddWeapon(ShipManager *this<ecx>, const WeaponBlueprint* bp, int slot);
 "578d7c240883e4f0ff77fc5589e557565383ec4c8b3f8b178b470429d0c1f80369c0????????85c00f84????????":
 void ShipManager::AddEquipmentFromList(ShipManager *this<ecx>, std::vector<std::string> equipmentList);
-
+"8079100075??b8????????c38d742600578d7c240883e4f0ff77fc5589e5575653":
+bool ShipManager::GetDodged(ShipManager *this<ecx>);
 
 struct ShipManager {{
 	ShipManager(int shipId) 
