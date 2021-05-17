@@ -303,6 +303,7 @@ HOOK_METHOD_PRIORITY(StarMap, GenerateMap, 1000, (bool unk, bool seed) -> Locati
 
     generatingMap = false;
     Global::lastDelayedQuestSeeds.clear();
+    Global::delayedQuestIndex = 0;
 
     return ret;
 }
@@ -359,6 +360,7 @@ HOOK_METHOD_PRIORITY(StarMap, NewGame, 500, (bool unk) -> Location*)
     Global::questSeed = 0;
     Global::delayedQuestSeeds.clear();
     Global::lastDelayedQuestSeeds.clear();
+    Global::delayedQuestIndex = 0;
 
     Global::bossFleetSeed = 0;
 
@@ -380,6 +382,7 @@ HOOK_METHOD_PRIORITY(StarMap, LoadGame, 500, (int fh) -> Location*)
     Global::questSeed = FileHelper::readInteger(fh);
     Global::delayedQuestSeeds.clear();
     Global::lastDelayedQuestSeeds.clear();
+    Global::delayedQuestIndex = 0;
 
     int numDelayedQuests = FileHelper::readInteger(fh);
     for (int i=0; i<numDelayedQuests; ++i)
