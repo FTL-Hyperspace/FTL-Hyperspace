@@ -533,6 +533,9 @@ Syntax ->
 		<bonusPower>1</bonusPower>
 		<maxHealth>70</maxHealth>
 		
+		<hasCustomDeathAnimation>true</hasCustomDeathAnimation>
+		<hasDeathExplosion>true</hasDeathExplosion>
+		
 		<deathEffect>
 			<persDamage>1</persDamage>
 			<friendlyFire>false</friendlyFire>
@@ -606,6 +609,19 @@ Syntax ->
 		<canPhaseThroughDoors>true</canPhaseThroughDoors>
 		<canSuffocate>false</canSuffocate>
 		<maxHealth>50</maxHealth>
+	</race>
+	
+	<race name="repair" drone="REPAIR">
+		<hasCustomDeathAnimation>true</hasCustomDeathAnimation>
+	</race>
+	
+	<race name="battle" drone="BATTLE">
+		<canSabotage>true</canSabotage>
+		<hasCustomDeathAnimation>true</hasCustomDeathAnimation>
+	</race>
+	
+	<race name="boarder_ion" drone="BOARDER_ION">
+		<hasCustomDeathAnimation>true</hasCustomDeathAnimation>
 	</race>
 </crew>
 
