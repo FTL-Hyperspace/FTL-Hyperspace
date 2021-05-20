@@ -977,7 +977,7 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition& def,
     std::sort(personalStatBoosts.begin(), personalStatBoosts.end(),
         [](const StatBoost &a, const StatBoost &b) -> bool
         {
-            return a.priority > b.priority;
+            return a.priority < b.priority;
         });
 
     for (StatBoost statBoost : personalStatBoosts)
