@@ -66,15 +66,20 @@ void CustomBoss::ParseBossNode(rapidxml::xml_node<char> *node)
 
 
 static bool isStartingStage = false;
+static bool spawnBossCrew = false;
+static BossShip* bossShipStartingStage;
 
 HOOK_METHOD(BossShip, StartStage, () -> void)
 {
     isStartingStage = true;
+    spawnBossCrew = true;
+    bossShipStartingStage = this;
 
     super();
 
     isStartingStage = false;
 
+    /*
     if (currentStage == 1)
     {
         for (int i = 0; i < CustomBoss::instance->initialCrewList.size(); i++)
@@ -93,6 +98,7 @@ HOOK_METHOD(BossShip, StartStage, () -> void)
             }
         }
     }
+    */
 }
 
 HOOK_METHOD(BossShip, OnLoop, () -> void)
@@ -118,10 +124,33 @@ HOOK_METHOD(BossShip, OnLoop, () -> void)
 
 HOOK_METHOD(ShipManager, AddCrewMemberFromString, (const std::string& name, const std::string& race, bool intruder, int roomId, bool init, bool male) -> CrewMember*)
 {
-    if (!isStartingStage)
+    if (isStartingStage)
     {
-        return super(name, race, intruder, roomId, init, male);
+        if (spawnBossCrew)
+        {
+            spawnBossCrew = false;
+            if (bossShipStartingStage->currentStage == 1)
+            {
+                for (int i = 0; i < CustomBoss::instance->initialCrewList.size(); i++)
+                {
+                    super("", CustomBoss::instance->initialCrewList[i].first, false, CustomBoss::instance->initialCrewList[i].second, false, random32() % 2);
+                }
+            }
+            else
+            {
+                int roomCount = ShipGraph::GetShipInfo(bossShipStartingStage->iShipId)->RoomCount();
+                for (auto i : CustomBoss::instance->currentCrewCounts)
+                {
+                    if (i.second < roomCount)
+                    {
+                        super("", i.first, false, i.second, false, random32() % 2);
+                    }
+                }
+            }
+        }
+        return nullptr;
     }
+    return super(name, race, intruder, roomId, init, male);
 }
 
 HOOK_METHOD(BossShip, SaveBoss, (int fh) -> void)

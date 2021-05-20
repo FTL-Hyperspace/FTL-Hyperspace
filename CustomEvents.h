@@ -1,5 +1,6 @@
 #pragma once
 #include "Global.h"
+#include "ToggleValue.h"
 #include <algorithm>
 
 struct BeaconType
@@ -22,6 +23,45 @@ struct EventGameOver
     std::string creditsBackground = "";
 };
 
+struct CustomQuest
+{
+    ToggleValue<bool> nonNebulaBeacon;
+    ToggleValue<bool> nebulaBeacon;
+    ToggleValue<bool> createNebula;
+    ToggleValue<std::string> nebulaEvent;
+    ToggleValue<bool> currentSector;
+    ToggleValue<bool> nextSector;
+    ToggleValue<int> aggressive;
+    ToggleValue<bool> sectorEight;
+    ToggleValue<bool> lastStand;
+
+    CustomQuest()
+    {
+        nonNebulaBeacon.value = true;
+        nebulaBeacon.value = false;
+        createNebula.value = true;
+        nebulaEvent.value = "";
+        currentSector.value = true;
+        nextSector.value = true;
+        aggressive.value = 0;
+        sectorEight.value = false;
+        lastStand.value = false;
+    }
+
+    void add(CustomQuest *other)
+    {
+        if (other->nonNebulaBeacon.enabled) nonNebulaBeacon = other->nonNebulaBeacon;
+        if (other->nebulaBeacon.enabled) nebulaBeacon = other->nebulaBeacon;
+        if (other->createNebula.enabled) createNebula = other->createNebula;
+        if (other->nebulaEvent.enabled) nebulaEvent = other->nebulaEvent;
+        if (other->currentSector.enabled) currentSector = other->currentSector;
+        if (other->nextSector.enabled) nextSector = other->nextSector;
+        if (other->aggressive.enabled) aggressive = other->aggressive;
+        if (other->sectorEight.enabled) sectorEight = other->sectorEight;
+        if (other->lastStand.enabled) lastStand = other->lastStand;
+    }
+};
+
 struct CustomEvent
 {
     std::string eventName;
@@ -34,14 +74,7 @@ struct CustomEvent
     bool recursive = true;
     bool preventQuest = false;
     bool noQuestText = false;
-    bool questAllowNebula = false;
-    bool questForceNebula = false;
-    bool questClearNebula = false;
-    std::string questNebulaQuest = "";
-    bool questLastStand = false;
-    bool questNoBoss = false;
-    bool questNoNextSector = false;
-    bool questAggressive = false;
+    CustomQuest *customQuest;
     bool removeHazards = false;
     bool removeNebula = false;
     std::string secretSectorWarp = "";
@@ -95,6 +128,7 @@ public:
     }
 
     void ParseCustomEventNode(rapidxml::xml_node<char> *node);
+    void ParseCustomQuestNode(rapidxml::xml_node<char> *node, CustomQuest *quest);
 
     static CustomEventsParser *GetInstance()
     {
@@ -128,7 +162,7 @@ public:
 
     std::vector<std::string> eventFiles;
     CustomEvent *defaultVictory = new CustomEvent();
-
+    CustomQuest *defaultQuest = new CustomQuest();
 
 private:
     std::vector<CustomSector*> customSectors;
