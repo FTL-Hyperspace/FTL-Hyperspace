@@ -612,15 +612,18 @@ Syntax ->
 	</race>
 	
 	<race name="repair" drone="REPAIR">
+		<healSpeed>0.2</healSpeed>
 		<hasCustomDeathAnimation>true</hasCustomDeathAnimation>
 	</race>
 	
 	<race name="battle" drone="BATTLE">
+		<healSpeed>0.2</healSpeed>
 		<canSabotage>true</canSabotage>
 		<hasCustomDeathAnimation>true</hasCustomDeathAnimation>
 	</race>
 	
 	<race name="boarder_ion" drone="BOARDER_ION">
+		<healSpeed>0.2</healSpeed>
 		<hasCustomDeathAnimation>true</hasCustomDeathAnimation>
 	</race>
 </crew>
