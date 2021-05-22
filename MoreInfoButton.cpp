@@ -35,8 +35,12 @@ HOOK_METHOD(CommandGui, OnLoop, () -> void)
         {
             custom->advancedCrewTooltipRounding.currentAmount = 2;
         }
+        custom->eventTooltips.currentValue = true;
+        custom->showReactor.currentValue = true;
         custom->showWeaponCooldown.currentValue = true;
         custom->redesignedWeaponTooltips.currentValue = true;
+        custom->redesignedDroneTooltips.currentValue = true;
+        custom->redesignedAugmentTooltips.currentValue = true;
         moreInfoButton->SetImageBase("statusUI/moreInfoButtonOn");
 
         G_->GetSoundControl()->PlaySoundMix("moreInfoOn", -1.f, false);
@@ -47,8 +51,12 @@ HOOK_METHOD(CommandGui, OnLoop, () -> void)
         custom->showAllyPowers.currentValue = custom->showAllyPowers.defaultValue;
         custom->showEnemyPowers.currentValue = custom->showEnemyPowers.defaultValue;
         custom->advancedCrewTooltipRounding.currentAmount = custom->advancedCrewTooltipRounding.defaultAmount;
+        custom->eventTooltips.currentValue = custom->eventTooltips.defaultValue;
+        custom->showReactor.currentValue = custom->showReactor.defaultValue;
         custom->showWeaponCooldown.currentValue = custom->showWeaponCooldown.defaultValue;
         custom->redesignedWeaponTooltips.currentValue = custom->redesignedWeaponTooltips.defaultValue;
+        custom->redesignedDroneTooltips.currentValue = custom->redesignedDroneTooltips.defaultValue;
+        custom->redesignedAugmentTooltips.currentValue = custom->redesignedAugmentTooltips.defaultValue;
         moreInfoButton->SetImageBase("statusUI/moreInfoButtonOff");
 
         G_->GetSoundControl()->PlaySoundMix("moreInfoOff", -1.f, false);

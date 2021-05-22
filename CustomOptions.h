@@ -41,6 +41,8 @@ public:
 
     Setting showWeaponCooldown;
 
+    Setting showReactor;
+
 //    Setting hackingDroneFix;
 
 //    Setting infiniteMode;

@@ -1083,7 +1083,7 @@ HOOK_METHOD(InfoBox, SetBlueprintAugment, (const AugmentBlueprint* bp) -> void)
     currentText = boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp->desc.cost));
     newDesc += boost::algorithm::replace_all_copy(currentText, "\\2", std::to_string(bp->desc.cost / 2));
 
-    if (CustomOptionsManager::GetInstance()->redesignedAugmentTooltips.currentValue || CustomOptionsManager::GetInstance()->altMode)
+    if (CustomOptionsManager::GetInstance()->redesignedAugmentTooltips.currentValue)
     {
         desc.description.data.assign(newDesc);
         desc.description.isLiteral = true;
@@ -1131,7 +1131,7 @@ HOOK_METHOD(InfoBox, SetBlueprintAugment, (const AugmentBlueprint* bp) -> void)
             warning.assign(warn);
     }
     Pointf s;
-    if (CustomOptionsManager::GetInstance()->redesignedAugmentTooltips.currentValue || CustomOptionsManager::GetInstance()->altMode)
+    if (CustomOptionsManager::GetInstance()->redesignedAugmentTooltips.currentValue)
     {
         s = freetype_hack::easy_measurePrintLines(10, 0, 0, descBoxSize.x, warning + "\n" + newDesc);
     }
@@ -1163,7 +1163,7 @@ HOOK_METHOD(WindowFrame, constructor, (int x, int y, int w, int h) -> void)
 
 HOOK_METHOD(InfoBox, SetBlueprintCrew, (const CrewBlueprint& bp, int yShift, bool detailedCrew) -> void)
 {
-//    if (CustomOptionsManager::GetInstance()->redesignedCrewTooltips.currentValue || CustomOptionsManager::GetInstance()->altMode)
+//    if (CustomOptionsManager::GetInstance()->redesignedCrewTooltips.currentValue)
 //    {
 //        std::string newDesc = bp.desc.description.data;
 //        newDesc += "\n\n";
@@ -1234,9 +1234,9 @@ HOOK_METHOD(InfoBox, SetBlueprintDrone, (const DroneBlueprint* bp, int status, b
     }
     std::string currentText = "";
 
-    if(CustomOptionsManager::GetInstance()->redesignedDroneTooltips.currentValue || CustomOptionsManager::GetInstance()->altMode)
+    if(CustomOptionsManager::GetInstance()->redesignedDroneTooltips.currentValue)
     {
-        if (!bp->weaponBlueprint.empty() && (CustomOptionsManager::GetInstance()->redesignedDroneTooltips.currentValue || CustomOptionsManager::GetInstance()->altMode))
+        if (!bp->weaponBlueprint.empty() && (CustomOptionsManager::GetInstance()->redesignedDroneTooltips.currentValue))
         {
             auto weaponDef = CustomWeaponManager::instance->GetWeaponDefinition(bp->weaponBlueprint);
             auto droneBp = G_->GetBlueprints()->GetWeaponBlueprint(bp->weaponBlueprint);

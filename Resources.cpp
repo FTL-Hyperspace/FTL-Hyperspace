@@ -138,6 +138,13 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->showWeaponCooldown.currentValue = EventsParser::ParseBoolean(enabled);
             }
 
+            if (strcmp(node->name(), "showReactor") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->showReactor.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->showReactor.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
             if (strcmp(node->name(), "advancedCrewTooltips") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
