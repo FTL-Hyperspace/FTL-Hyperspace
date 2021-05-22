@@ -1,4 +1,5 @@
 #include "CustomShipSelect.h"
+#include "CustomOptions.h"
 #include "freetype.h"
 #include "Seeds.h"
 #include "ShipUnlocks.h"
@@ -1500,6 +1501,14 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
     }
 
     introScreen.OnRender();
+
+    if (!shipSelect.bOpen && CustomOptionsManager::GetInstance()->showReactor.currentValue)
+    {
+        //show reactor
+        CSurface::GL_SetColor(GL_Color(100.0/255, 1, 100.0/255, 1));
+        //was at 310/450
+        freetype::easy_print(52, 371, 380, "Reactor: " + std::to_string(PowerManager::GetPowerManager(0)->currentPower.second));
+    }
 }
 
 
