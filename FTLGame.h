@@ -1846,7 +1846,7 @@ struct LIBZHL_INTERFACE ShipSystem
 	virtual std::string *GetName() LIBZHL_PLACEHOLDER
 	virtual void SetName(std::string &name) LIBZHL_PLACEHOLDER
 	virtual void Repair() LIBZHL_PLACEHOLDER
-	virtual bool PartialRepair(float amount, bool unk) LIBZHL_PLACEHOLDER
+	LIBZHL_API virtual bool PartialRepair(float speed, bool autoRepair);
 	LIBZHL_API virtual bool PartialDamage(float amount);
 	virtual bool NeedsRepairing() LIBZHL_PLACEHOLDER
 	virtual bool Functioning() LIBZHL_PLACEHOLDER
@@ -1871,9 +1871,9 @@ struct LIBZHL_INTERFACE ShipSystem
 	virtual void CheckMaxPower() LIBZHL_PLACEHOLDER
 	LIBZHL_API virtual void SetBonusPower(int amount, int permanentPower);
 	virtual void AddDamage(int damage) LIBZHL_PLACEHOLDER
-	LIBZHL_API virtual void ForceDecreasePower(int powerLoss);
+	LIBZHL_API virtual bool ForceDecreasePower(int powerLoss);
 	virtual bool ForceIncreasePower(int power) LIBZHL_PLACEHOLDER
-	virtual void StopHacking() LIBZHL_PLACEHOLDER
+	LIBZHL_API virtual void StopHacking();
 	virtual void OnRender() LIBZHL_PLACEHOLDER
 	virtual void OnRenderFloor() LIBZHL_PLACEHOLDER
 	virtual void OnRenderEffects() LIBZHL_PLACEHOLDER
@@ -1902,6 +1902,11 @@ struct LIBZHL_INTERFACE ShipSystem
 	LIBZHL_API static void __stdcall GetLevelDescription(void *unk, std::string &retStr, int systemId, int level, bool tooltip);
 	LIBZHL_API bool GetLocked();
 	LIBZHL_API void AddLock(int lock);
+	LIBZHL_API void SaveState(int file);
+	LIBZHL_API void LoadState(int file);
+	LIBZHL_API bool UpgradeSystem(int amount);
+	LIBZHL_API bool IncreasePower(int amount, bool force);
+	LIBZHL_API bool DecreasePower(bool force);
 	
 	int selectedState;
 	ShipObject _shipObj;

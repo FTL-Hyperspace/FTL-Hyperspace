@@ -102,7 +102,7 @@ int TemporalSystemParser::GetDilationCooldown(int level)
     }
     else
     {
-        return 4;
+        return 2;
     }
 }
 
@@ -269,7 +269,8 @@ void TemporalSystem_Wrapper::StopTimeDilation()
 {
     if (bTurnedOn)
     {
-        RM_EX(currentRoom)->timeDilation = 0;
+        if (currentRoom)
+            RM_EX(currentRoom)->timeDilation = 0;
 
         orig->AddLock(TemporalSystemParser::GetDilationCooldown(GetRealDilation()));
         bTurnedOn = false;
@@ -333,7 +334,10 @@ HOOK_METHOD(ShipManager, JumpLeave, () -> void)
 
     if (HasSystem(20))
     {
+        GetSystem(20)->StopHacking();
+        SYS_EX(GetSystem(20))->temporalSystem->StopTimeDilation();
         GetSystem(20)->LockSystem(0);
+
     }
 }
 
@@ -755,7 +759,7 @@ HOOK_METHOD(CFPS, GetSpeedFactor, () -> float)
 
 static std::map<int, int> g_crewDilationRooms = std::map<int, int>();
 static std::map<int, int> g_envDilationRooms = std::map<int, int>();
-static std::map<int, int> g_cloneDilationRooms = std::map<int, int>();
+static std::map<int, int> g_sysDilationRooms = std::map<int, int>();
 
 int GetRoomDilationAmount(std::map<int, int> roomMap, int roomId)
 {
@@ -825,6 +829,7 @@ HOOK_METHOD(CrewAnimation, OnUpdate, (Pointf position, bool moving, bool fightin
 }
 */
 
+
 HOOK_METHOD(CrewMember, OnLoop, () -> void)
 {
     g_dilationAmount = GetRoomDilationAmount(g_crewDilationRooms, iRoomId);
@@ -834,9 +839,32 @@ HOOK_METHOD(CrewMember, OnLoop, () -> void)
 
 HOOK_METHOD(CloneSystem, OnLoop, () -> void)
 {
-    g_dilationAmount = GetRoomDilationAmount(g_cloneDilationRooms, roomId);
+    g_dilationAmount = GetRoomDilationAmount(g_sysDilationRooms, roomId);
     super();
     g_dilationAmount = 0;
+}
+
+static bool g_inUpdateHealth = false;
+static bool g_inUpdateCrewMembers = false;
+
+HOOK_METHOD(CrewMember, DirectModifyHealth, (float healthMod) -> bool)
+{
+    if (g_inUpdateCrewMembers && !g_inUpdateHealth)
+    {
+        int dilationAmount = GetRoomDilationAmount(g_crewDilationRooms, iRoomId);
+
+        return super(healthMod * (float)TemporalSystemParser::GetDilationStrength(dilationAmount));
+    }
+
+    return super(healthMod);
+}
+
+HOOK_METHOD(CrewMember, UpdateHealth, () -> bool)
+{
+    g_inUpdateHealth = true;
+    auto ret = super();
+    g_inUpdateHealth = false;
+    return ret;
 }
 
 HOOK_METHOD_PRIORITY(ShipManager, UpdateCrewMembers, -900, () -> void)
@@ -849,7 +877,9 @@ HOOK_METHOD_PRIORITY(ShipManager, UpdateCrewMembers, -900, () -> void)
         }
     }
 
+    g_inUpdateCrewMembers = true;
     super();
+    g_inUpdateCrewMembers = false;
 
     g_crewDilationRooms.clear();
 }
@@ -897,19 +927,35 @@ HOOK_METHOD_PRIORITY(ShipManager, UpdateEnvironment, -900, () -> void)
     g_envDilationRooms.clear();
 }
 
+HOOK_METHOD(ShipSystem, PartialRepair, (float speed, bool autoRepair) -> bool)
+{
+    if (autoRepair)
+    {
+        g_dilationAmount = GetRoomDilationAmount(g_sysDilationRooms, roomId);
+
+        bool ret = super(speed, autoRepair);
+
+        g_dilationAmount = 0;
+
+        return ret;
+    }
+
+    return super(speed, autoRepair);
+}
+
 HOOK_METHOD_PRIORITY(ShipManager, OnLoop, -900,  () -> void)
 {
     for (auto i : ship.vRoomList)
     {
         if (RM_EX(i)->timeDilation != 0)
         {
-            g_cloneDilationRooms[i->iRoomId] = RM_EX(i)->timeDilation;
+            g_sysDilationRooms[i->iRoomId] = RM_EX(i)->timeDilation;
         }
     }
 
     super();
 
-    g_cloneDilationRooms.clear();
+    g_sysDilationRooms.clear();
 
     for (auto i : ship.vRoomList)
     {
@@ -930,5 +976,85 @@ HOOK_METHOD_PRIORITY(ShipManager, OnLoop, -900,  () -> void)
                 ex->slowDownAnim->Update();
             }
         }
+    }
+}
+
+HOOK_METHOD(ShipManager, ExportShip, (int file) -> void)
+{
+    super(file);
+
+    FileHelper::writeInt(file, HasSystem(20));
+
+    if (HasSystem(20))
+    {
+        auto sys = GetSystem(20);
+
+        FileHelper::writeInt(file, sys->powerState.second);
+        FileHelper::writeInt(file, sys->powerState.first);
+        FileHelper::writeInt(file, sys->healthState.second - sys->healthState.first);
+
+        FileHelper::writeInt(file, sys->iLockCount);
+        FileHelper::writeInt(file, std::floor(sys->lockTimer.currTime * 5000));
+        FileHelper::writeInt(file, std::floor(sys->fRepairOverTime));
+        FileHelper::writeInt(file, std::floor(sys->fDamageOverTime));
+        FileHelper::writeInt(file, sys->iBatteryPower);
+        FileHelper::writeInt(file, sys->bUnderAttack ? sys->iHackEffect : 0);
+        FileHelper::writeInt(file, sys->iHackEffect > 0 ? sys->bUnderAttack : 0);
+        sys->SaveState(file);
+    }
+}
+
+HOOK_METHOD(ShipManager, ImportShip, (int file) -> void)
+{
+    super(file);
+
+    bool hasTemporal = FileHelper::readInteger(file);
+
+    if (hasTemporal)
+    {
+        //AddSystem(20);
+        auto sys = GetSystem(20);
+
+        bool canDecrease = sys->DecreasePower(false);
+        while (canDecrease)
+        {
+            canDecrease = sys->DecreasePower(false);
+        }
+
+        int maxPower = FileHelper::readInteger(file);
+        while (sys->powerState.second < maxPower)
+        {
+            sys->UpgradeSystem(1);
+        }
+
+        sys->SetBonusPower(0, 0);
+
+        int setPower = FileHelper::readInteger(file);
+
+        while (sys->powerState.first != setPower)
+        {
+            if (!sys->IncreasePower(1, true)) break;
+        }
+
+
+
+        sys->AddDamage(FileHelper::readInteger(file));
+        sys->AddLock(FileHelper::readInteger(file));
+        sys->lockTimer.currTime = ((float)FileHelper::readInteger(file)) / 5000.f;
+
+        sys->repairedLastFrame = true;
+        sys->fRepairOverTime = FileHelper::readInteger(file);
+
+        sys->damagedLastFrame = true;
+        sys->fDamageOverTime = FileHelper::readInteger(file);
+
+        sys->ForceBatteryPower(FileHelper::readInteger(file));
+        sys->SetHackingLevel(FileHelper::readInteger(file));
+        sys->bUnderAttack = FileHelper::readInteger(file);
+
+        sys->LoadState(file);
+
+        SYS_EX(sys)->temporalSystem->bTurnedOn = true;
+        SYS_EX(sys)->temporalSystem->StopTimeDilation();
     }
 }

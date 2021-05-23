@@ -23,7 +23,7 @@ void ShipSystem::SetPowerCap(ShipSystem *this<ecx>, int cap);
 "578d7c240883e4f0ff77fc5589e55783ec148b0783f80075??8b812801000085c0":
 void ShipSystem::LockSystem(ShipSystem *this<ecx>, int lock);
 "578d7c240883e4f0ff77fc5589e557565383ec2c80b918010000008b1f74??":
-void ShipSystem::ForceDecreasePower(ShipSystem *this<ecx>, int powerLoss);
+bool ShipSystem::ForceDecreasePower(ShipSystem *this<ecx>, int powerLoss);
 "8b414831d285c07e??80794c0074??8b810401000039810001000074??8b8170010000034150":
 int ShipSystem::GetEffectivePower(ShipSystem *this<ecx>);
 "538b59548b910001000001da2b91040100002b91200100008b891c01000083f9077f??85c9b8????????0f49c139c20f4ec2":
@@ -44,6 +44,20 @@ static cleanup void ShipSystem::GetLevelDescription(void* unk<esi>, std::string&
 bool ShipSystem::GetLocked(ShipSystem *this<ecx>);
 "578d7c240883e4f0ff77fc5589e55783ec148b81280100008b1785c07f??83f8ff74??85c074??85d2":
 void ShipSystem::AddLock(ShipSystem *this<ecx>, int lock);
+"8b01c681ac010000008b40643d????????75??c781a801000000000000c36690578d7c240883e4f0ff77fc5589e55783ec14":
+void ShipSystem::StopHacking(ShipSystem *this<ecx>);
+"5589e5565389ce83e4f083ec108b5d088b811c010000891c2489442404e8????????8b8620010000891c2489442404e8????????8b8624010000891c2489442404e8????????":
+void ShipSystem::SaveState(ShipSystem *this<ecx>, int file);
+"5589e5565389cb83e4f083ec108b7508893424e8????????89342489831c010000e8????????893424898320010000e8????????8983240100008d65f85b":
+void ShipSystem::LoadState(ShipSystem *this<ecx>, int file);
+"8b015589e556538b401089cb8b750883e4f03d????????75??8b810001000085c00f94c001735401b304010000":
+bool ShipSystem::UpgradeSystem(ShipSystem *this<ecx>, int amount);
+"578d7c240883e4f0ff77fc5589f889e557565383ec2c8b70048b81280100008b3f85c0":
+bool ShipSystem::IncreasePower(ShipSystem *this<ecx>, int amount, bool force);
+"578d7c240883e4f0ff77fc5589e557565383ec1c0fb681180100008b1f84c074??8b812801000085c00f9fc283f8ff0f94c008d075??83b9a8010000017f??":
+bool ShipSystem::DecreasePower(ShipSystem *this<ecx>, bool force);
+"5531c089e5565383e4f083ec108b91040100003991000100008b750c74??89cbb9????????e8????????f30f100d????????89f0f30f10450884c0f30f59c1d95c240c":
+bool ShipSystem::PartialRepair(ShipSystem *this<ecx>, float speed, bool autoRepair);
 
 struct ShipSystem
 {{
