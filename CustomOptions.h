@@ -43,6 +43,8 @@ public:
 
     Setting showReactor;
 
+    Setting showAllConnections;
+
 //    Setting hackingDroneFix;
 
 //    Setting infiniteMode;

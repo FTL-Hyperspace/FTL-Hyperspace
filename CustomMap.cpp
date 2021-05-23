@@ -1,6 +1,7 @@
 #include "Global.h"
 #include "freetype.h"
 #include "CustomEvents.h"
+#include "CustomOptions.h"
 #include <unordered_set>
 
 HOOK_METHOD(StarMap, OnRender, () -> void)
@@ -251,7 +252,7 @@ HOOK_STATIC(CSurface, GL_BlitMultiColorImage, (GL_Texture *tex, const std::vecto
 
 HOOK_METHOD(StarMap, DrawConnection, (const Pointf& pos1, const Pointf& pos2, const GL_Color& color) -> void)
 {
-    if (g_firstTimeConnection)
+    if (g_firstTimeConnection && CustomOptionsManager::GetInstance()->showAllConnections.currentValue == true)
     {
         for (auto i : g_locConnections)
         {
