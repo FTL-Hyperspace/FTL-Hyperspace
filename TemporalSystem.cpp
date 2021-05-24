@@ -744,6 +744,7 @@ HOOK_METHOD(CrewAI, PrioritizeTask, (CrewTask task, int crewId) -> int)
 // Effects
 
 static int g_dilationAmount = 0;
+static float g_dilationExtraMul = 1.0;
 
 HOOK_METHOD(CFPS, GetSpeedFactor, () -> float)
 {
@@ -751,7 +752,7 @@ HOOK_METHOD(CFPS, GetSpeedFactor, () -> float)
 
     if (g_dilationAmount != 0)
     {
-        ret *= TemporalSystemParser::GetDilationStrength(g_dilationAmount);
+        ret *= TemporalSystemParser::GetDilationStrength(g_dilationAmount) * g_dilationExtraMul;
     }
 
     return ret;
@@ -806,28 +807,28 @@ HOOK_METHOD(Fire, UpdateStartTimer, (int doorLevel) -> void)
     g_dilationAmount = 0;
 }
 
-/* fix this
+
 HOOK_METHOD(CrewAnimation, OnUpdate, (Pointf position, bool moving, bool fighting, bool repairing, bool dying, bool onFire) -> void)
 {
     if (g_dilationAmount > 0)
     {
         float dilationMul = TemporalSystemParser::GetDilationStrength(g_dilationAmount);
-        int oldDilation = g_dilationAmount;
-        g_dilationAmount = 0;
 
-        for (int i = 0; i < std::floor(dilationMul); i++)
+        g_dilationExtraMul = 1.0 / std::ceil(dilationMul);
+
+        for (int i = 0; i < std::ceil(dilationMul); i++)
         {
             super(position, moving, fighting, repairing, dying, onFire);
         }
 
-        g_dilationAmount = oldDilation;
+        g_dilationExtraMul = 1.0;
 
         return;
     }
 
     super(position, moving, fighting, repairing, dying, onFire);
 }
-*/
+
 
 
 HOOK_METHOD(CrewMember, OnLoop, () -> void)
@@ -845,11 +846,12 @@ HOOK_METHOD(CloneSystem, OnLoop, () -> void)
 }
 
 static bool g_inUpdateHealth = false;
+static bool g_inApplyDamage = false;
 static bool g_inUpdateCrewMembers = false;
 
 HOOK_METHOD(CrewMember, DirectModifyHealth, (float healthMod) -> bool)
 {
-    if (g_inUpdateCrewMembers && !g_inUpdateHealth)
+    if (g_inUpdateCrewMembers && !g_inUpdateHealth && !g_inApplyDamage)
     {
         int dilationAmount = GetRoomDilationAmount(g_crewDilationRooms, iRoomId);
 
@@ -864,6 +866,14 @@ HOOK_METHOD(CrewMember, UpdateHealth, () -> bool)
     g_inUpdateHealth = true;
     auto ret = super();
     g_inUpdateHealth = false;
+    return ret;
+}
+
+HOOK_METHOD(CrewMember, ApplyDamage, (float damage) -> bool)
+{
+    g_inApplyDamage = true;
+    auto ret = super(damage);
+    g_inApplyDamage = false;
     return ret;
 }
 
