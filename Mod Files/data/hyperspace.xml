@@ -575,7 +575,7 @@ Syntax ->
 		</shootingSounds>
 		
 		<powerEffect>
-			<cooldown>30</cooldown>
+			<cooldown>50</cooldown>
 			<jumpCooldown>full</jumpCooldown>
 			<powerSounds>
 				<powerSound>lockdown1</powerSound>
