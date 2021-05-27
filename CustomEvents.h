@@ -84,6 +84,7 @@ struct CustomEvent
     bool disableScrapScore = false;
     std::string customStore;
     std::string jumpEvent = "";
+    bool resetFtl = false;
 
 
     std::vector<std::string> hiddenAugs = std::vector<std::string>();

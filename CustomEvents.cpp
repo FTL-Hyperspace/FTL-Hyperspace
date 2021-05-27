@@ -170,6 +170,11 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
                         customEvent->jumpEvent = child->value();
                     }
 
+                    if (nodeName == "resetFtl")
+                    {
+                        customEvent->resetFtl = true;
+                    }
+
                     if (nodeName == "beaconType")
                     {
                         BeaconType* beaconType = new BeaconType();
@@ -1235,6 +1240,11 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
             space.bStorm = false;
             space.nebulaClouds.clear();
         }
+
+        if (customEvent->resetFtl)
+        {
+            G_->GetWorld()->playerShip->shipManager->jump_timer.first = 0.f;
+        }
     }
 
     starMap.currentLoc->event->eventName = loc->eventName;
@@ -1560,7 +1570,21 @@ HOOK_METHOD(StarMap, SaveGame, (int file) -> void)
 
 HOOK_METHOD(StarMap, Open, () -> void)
 {
+    if (!jumpEvent.empty())
+    {
+        auto oldName = currentLoc->event->eventName;
+        LocationEvent* event = G_->GetEventGenerator()->GetBaseEvent(jumpEvent, currentSector->level, true, -1);
+        jumpEvent = "";
+        G_->GetWorld()->UpdateLocation(event);
+        currentLoc->event->eventName = oldName;
+        return;
+    }
 
+    super();
+}
+
+HOOK_METHOD_PRIORITY(StarMap, Open, 9999, () -> void)
+{
     if (!bOpen)
     {
         closeButton.SetActive(true);
@@ -1588,16 +1612,4 @@ HOOK_METHOD(StarMap, Open, () -> void)
     }
 
     return;
-
-    if (!jumpEvent.empty())
-    {
-        auto oldName = currentLoc->event->eventName;
-        LocationEvent* event = G_->GetEventGenerator()->GetBaseEvent(jumpEvent, currentSector->level, true, -1);
-        jumpEvent = "";
-        G_->GetWorld()->UpdateLocation(event);
-        currentLoc->event->eventName = oldName;
-        return;
-    }
-
-    super();
 }
