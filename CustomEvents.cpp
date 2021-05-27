@@ -1560,6 +1560,35 @@ HOOK_METHOD(StarMap, SaveGame, (int file) -> void)
 
 HOOK_METHOD(StarMap, Open, () -> void)
 {
+
+    if (!bOpen)
+    {
+        closeButton.SetActive(true);
+
+        finalSectorChoice = -1;
+        potentialSectorChoice = -1;
+
+        int rng = random32();
+        shipRotation[0] = rng % 360;
+        rng = random32();
+        shipRotation[1] = rng % 360;
+
+        if (shipManager->fuel_count == 0)
+        {
+            hoverLoc = nullptr;
+        }
+        else
+        {
+            hoverLoc = currentLoc;
+            targetBoxTimer.Start(0.f);
+        }
+        potentialLoc = nullptr;
+
+        bOpen = true;
+    }
+
+    return;
+
     if (!jumpEvent.empty())
     {
         auto oldName = currentLoc->event->eventName;
