@@ -83,6 +83,7 @@ struct CustomEvent
     EventGameOver gameOver = EventGameOver();
     bool disableScrapScore = false;
     std::string customStore;
+    std::string jumpEvent = "";
 
 
     std::vector<std::string> hiddenAugs = std::vector<std::string>();

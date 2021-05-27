@@ -165,6 +165,11 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
                         }
                     }
 
+                    if (nodeName == "jumpEvent")
+                    {
+                        customEvent->jumpEvent = child->value();
+                    }
+
                     if (nodeName == "beaconType")
                     {
                         BeaconType* beaconType = new BeaconType();
@@ -1189,6 +1194,8 @@ HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *loc) -> void)
     super(loc);
 }
 
+static std::string jumpEvent = "";
+
 HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
 {
     super(loc);
@@ -1201,6 +1208,11 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
             int seed = customEvent->eventLoadSeeded ? (int)(starMap.currentLoc->loc.x + starMap.currentLoc->loc.y) ^ starMap.currentSectorSeed : -1;
 
             super(G_->GetEventGenerator()->GetBaseEvent(customEvent->eventLoad, starMap.currentSector->level, true, seed));
+        }
+
+        if (!customEvent->jumpEvent.empty())
+        {
+            jumpEvent = customEvent->jumpEvent;
         }
 
         if (customEvent->removeHazards)
@@ -1532,4 +1544,31 @@ HOOK_METHOD(CreditScreen, OnRender, () -> void)
     super();
     shouldReplaceCreditsText = false;
     shouldReplaceBackground = false;
+}
+
+HOOK_METHOD(StarMap, LoadGame, (int fh) -> Location*)
+{
+    jumpEvent = FileHelper::readString(fh);
+    return super(fh);
+}
+
+HOOK_METHOD(StarMap, SaveGame, (int file) -> void)
+{
+    FileHelper::writeString(file, jumpEvent);
+    return super(file);
+}
+
+HOOK_METHOD(StarMap, Open, () -> void)
+{
+    if (!jumpEvent.empty())
+    {
+        auto oldName = currentLoc->event->eventName;
+        LocationEvent* event = G_->GetEventGenerator()->GetBaseEvent(jumpEvent, currentSector->level, true, -1);
+        jumpEvent = "";
+        G_->GetWorld()->UpdateLocation(event);
+        currentLoc->event->eventName = oldName;
+        return;
+    }
+
+    super();
 }
