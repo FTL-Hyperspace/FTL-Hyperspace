@@ -341,6 +341,7 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
     }
 }
 
+
 void CustomEventsParser::ParseCustomQuestNode(rapidxml::xml_node<char> *node, CustomQuest *quest)
 {
     for (auto child = node->first_node(); child; child = child->next_sibling())
@@ -390,6 +391,19 @@ void CustomEventsParser::ParseCustomQuestNode(rapidxml::xml_node<char> *node, Cu
         {
             quest->lastStand = EventsParser::ParseBoolean(child->value());
         }
+	}
+}
+HOOK_STATIC(ShipManager, SelectRandomCrew, (CrewBlueprint &bp, ShipManager *ship, int seed, const std::string &unk) -> CrewBlueprint*)
+{
+    if (ship->CountCrew(false) == 0)
+    {
+        CrewMember* crew;
+        crew = ship->AddCrewMemberFromString("No one", "human", false, 0, false, false);
+        super(bp, ship, seed, unk);
+    }
+    else
+    {
+        super(bp, ship, seed, unk);
     }
 }
 
