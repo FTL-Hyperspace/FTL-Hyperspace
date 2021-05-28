@@ -1,8 +1,8 @@
 #include "Global.h"
 #include "freetype.h"
 #include "CustomEvents.h"
-
-
+#include "CustomOptions.h"
+#include <unordered_set>
 
 HOOK_METHOD(StarMap, OnRender, () -> void)
 {
@@ -220,4 +220,82 @@ HOOK_METHOD(StarMap, OnRender, () -> void)
     }
 }
 
+static bool g_firstTimeConnection = false;
+static std::vector<std::unordered_set<Location*>> g_locConnections;
+static bool g_useNonColorVertices = false;
 
+
+HOOK_STATIC(CSurface, GL_BlitMultiColorImage, (GL_Texture *tex, const std::vector<GL_ColorTexVertex>& texVertices, bool unk) -> void)
+{
+    if (g_useNonColorVertices)
+    {
+        auto newVec = std::vector<GL_TexVertex>();
+
+        for (auto i : texVertices)
+        {
+            GL_TexVertex newVertex;
+            newVertex.x = i.x;
+            newVertex.y = i.y;
+            newVertex.u = i.u;
+            newVertex.v = i.v;
+
+            newVec.push_back(newVertex);
+        }
+
+        CSurface::GL_BlitMultiImage(tex, newVec, unk);
+
+        return;
+    }
+
+    super(tex, texVertices, unk);
+}
+
+HOOK_METHOD(StarMap, DrawConnection, (const Pointf& pos1, const Pointf& pos2, const GL_Color& color) -> void)
+{
+    if (g_firstTimeConnection && CustomOptionsManager::GetInstance()->showAllConnections.currentValue == true)
+    {
+        for (auto i : g_locConnections)
+        {
+            std::vector<Location*> vec = std::vector<Location*>(i.begin(), i.end());
+
+            if (vec[0] != hoverLoc && vec[1] != hoverLoc && vec[0] != currentLoc && vec[1] != currentLoc)
+            {
+                g_useNonColorVertices = true;
+                super(vec[0]->loc, vec[1]->loc, GL_Color(255.f, 255.f, 255.f, 1.f));
+                g_useNonColorVertices = false;
+            }
+        }
+
+        g_firstTimeConnection = false;
+    }
+
+    super(pos1, pos2, color);
+}
+
+HOOK_METHOD(StarMap, OnRender, () -> void)
+{
+    g_firstTimeConnection = true;
+    super();
+    g_firstTimeConnection = false;
+}
+
+HOOK_METHOD(StarMap, GenerateMap, (bool unk1, bool unk2) -> Location*)
+{
+    auto ret = super(unk1, unk2);
+
+    g_locConnections.clear();
+
+    for (auto i : locations)
+    {
+        for (auto x : i->connectedLocations)
+        {
+            auto newSet = std::unordered_set<Location*>({ i, x });
+            if (std::find(g_locConnections.begin(), g_locConnections.end(), newSet) == g_locConnections.end())
+            {
+                g_locConnections.push_back(newSet);
+            }
+        }
+    }
+
+    return ret;
+}

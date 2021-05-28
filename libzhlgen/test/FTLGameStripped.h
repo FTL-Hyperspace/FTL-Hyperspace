@@ -5798,3 +5798,16 @@ union __attribute__((aligned(16))) __m128i
   unsigned __int64 m128i_u64[2];
 };
 
+/* 825 */
+struct GL_ColorTexVertex
+{
+  float x;
+  float y;
+  float u;
+  float v;
+  float r;
+  float g;
+  float b;
+  float a;
+};
+
