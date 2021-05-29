@@ -110,6 +110,10 @@ static cleanup int CSurface::opengl_select_shader(const void *primitive, const v
 "5589e557565383e4f083ec508b7d08f30f10651c8b77042b3789f2c1fa040f2e25????????0f8a????????0f85????????8d0c95????????89d08954244c":
 static cleanup GL_Primitive* CSurface::GL_CreateMultiLinePrimitive(std::vector<GL_Line>& vec, GL_Color color, float thickness);
 
+"5589e557565383e4f083ec408b75088b46042b06c1f8048d14c5????????89c78944243cc1e00581fa????????ba????????0f47c2":
+static cleanup GL_Primitive* CSurface::GL_CreateMultiRectPrimitive(std::vector<Globals::Rect> >& vec, GL_Color color);
+
+
 struct CSurface
 {{
 	/*
