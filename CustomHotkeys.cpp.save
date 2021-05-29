@@ -15,12 +15,10 @@ HOOK_METHOD(ControlsScreen, OnInit, () -> void)
 {
     super();
 
-    for (int i = 0; i < 4; i++)
+    for (auto i : buttons[0])
     {
-        auto vec = this->buttons[i];
-        vec[0].rect.x = 0;
-
-        printf("%08X %08X %08X\n", &(vec[0]), vec[0].rect.x, this);
+        i.rect.x += 20;
+        printf("")
     }
 }
 

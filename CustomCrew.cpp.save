@@ -4,14 +4,9 @@
 #include "freetype.h"
 #include "StatBoost.h"
 #include "TemporalSystem.h"
-
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
 #include <algorithm>
-#include <iostream>
-#include <sstream>
-#include <iomanip>
-
 
 static const std::string CREW_SKILLS[6] =
 {
@@ -2659,9 +2654,9 @@ HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
             auto def = custom->GetDefinition(i->species);
 
             auto ex = CM_EX(i);
-            float timeDilation = TemporalSystemParser::GetDilationStrength(RM_EX(ship.vRoomList[i->iRoomId])->timeDilation);
+            float timeDilation = TemporalSystemParser::GetDilationStrength(RM_EX(ship.vRoomList[iRoomId]))
 
-            float damageEnemies = ex->CalculateStat(CrewStat::DAMAGE_ENEMIES_AMOUNT, def) * G_->GetCFPS()->GetSpeedFactor() * 0.06245f * timeDilation;
+            float damageEnemies = ex->CalculateStat(CrewStat::DAMAGE_ENEMIES_AMOUNT, def) * G_->GetCFPS()->GetSpeedFactor() * 0.06245f;
 
             if (i->Functional() && damageEnemies != 0.f)
             {
@@ -2677,7 +2672,7 @@ HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
 
             if (i->Functional() && healCrewAmount != 0.f)
             {
-                float healCrew = G_->GetCFPS()->GetSpeedFactor() * healCrewAmount * 0.06245f * timeDilation;
+                float healCrew = G_->GetCFPS()->GetSpeedFactor() * healCrewAmount * 0.06245f;
 
                 for (auto crew : vCrewList)
                 {

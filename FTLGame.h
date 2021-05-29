@@ -2319,6 +2319,8 @@ struct ConfirmWindow : FocusWindow
 	bool result;
 };
 
+struct OptionsScreen;
+
 struct SlideBar
 {
 	Globals::Rect box;
@@ -2330,12 +2332,28 @@ struct SlideBar
 	std::pair<int, int> minMax;
 };
 
+struct ControlsScreen;
+
+struct ControlButton;
+
 struct ControlButton
 {
+	LIBZHL_API void OnRender();
+	
+	Globals::Rect rect;
+	std::string value;
+	TextString desc;
+	std::string key;
+	int state;
+	int descLength;
 };
 
 struct ControlsScreen
 {
+	LIBZHL_API void OnInit();
+	LIBZHL_API void OnLoop();
+	LIBZHL_API void OnRender();
+	
 	std::vector<ControlButton> buttons[4];
 	int selectedButton;
 	TextButton defaultButton;
@@ -2353,6 +2371,9 @@ struct LanguageChooser : FocusWindow
 
 struct OptionsScreen : ChoiceBox
 {
+	LIBZHL_API void OnInit();
+	LIBZHL_API void OnLoop();
+	
 	Point position;
 	Point wipeProfilePosition;
 	SlideBar soundVolume;
@@ -3544,34 +3565,6 @@ struct InputBox : FocusWindow
 	int lastInputIndex;
 };
 
-struct Targetable;
-
-struct WeaponControl;
-
-struct WeaponControl : ArmamentControl
-{
-	LIBZHL_API void Fire(std::vector<Pointf> &points, int target, bool autoFire);
-	LIBZHL_API void OnRender();
-	LIBZHL_API bool LButton(int x, int y, bool holdingShift);
-	LIBZHL_API void MouseMove(int x, int y);
-	LIBZHL_API void LinkShip(ShipManager *ship);
-	LIBZHL_API void constructor();
-	LIBZHL_API void SetAutofiring(bool on, bool simple);
-	LIBZHL_API bool KeyDown(SDLKey key);
-	
-	Targetable *currentTarget;
-	ProjectileFactory *armedWeapon;
-	bool autoFiring;
-	TextButton autoFireButton;
-	GL_Primitive *autoFireBase;
-	GL_Primitive *targetIcon[4];
-	GL_Primitive *targetIconYellow[4];
-	Pointf autoFireFocus;
-	WarningMessage missileMessage;
-	WarningMessage systemMessage;
-	int armedSlot;
-};
-
 struct Projectile;
 
 struct AsteroidGenerator;
@@ -3915,6 +3908,8 @@ struct ShipRepair
 {
 };
 
+struct Targetable;
+
 struct SpaceDrone : Drone
 {
 	LIBZHL_API float UpdateAimingAngle(Pointf location, float percentage, float forceDesired);
@@ -4192,55 +4187,6 @@ struct ItemStoreBox : StoreBox
 	ItemBlueprint *blueprint;
 };
 
-struct CrewEquipBox;
-
-struct CrewEquipBox : EquipmentBox
-{
-	CrewEquipBox(Point pos_, ShipManager *ship_, int slot_)
-	{
-		this->constructor(pos_, ship_, slot_);
-	}
-
-	LIBZHL_API void RemoveItem();
-	LIBZHL_API void constructor(Point pos, ShipManager *ship, int slot);
-	LIBZHL_API bool GetConfirmDelete();
-	LIBZHL_API void RenderLabels(bool dragging, bool isNew);
-	LIBZHL_API void OnRender(bool unk);
-	LIBZHL_API void OnTextInput(SDLKey key);
-	LIBZHL_API void OnTextEvent(CEvent::TextEvent event);
-	LIBZHL_API void MouseClick(int mX, int mY);
-	LIBZHL_API void CloseRename();
-	
-	ShipManager *ship;
-	bool bDead;
-	TextButton deleteButton;
-	TextButton renameButton;
-	bool bShowDelete;
-	bool bShowRename;
-	bool bQuickRenaming;
-	TextInput nameInput;
-	GL_Primitive *box;
-	GL_Primitive *box_on;
-	bool bConfirmDelete;
-};
-
-struct CrewCustomizeBox : CrewEquipBox
-{
-	TextButton customizeButton;
-	bool bCustomizing;
-	Point customizeLocation;
-	TextButton acceptButton;
-	TextButton bigRenameButton;
-	Button leftButton;
-	Button rightButton;
-	bool bRenaming;
-	bool haveCustomizeTouch;
-	bool customizeActivated;
-	GL_Primitive *box;
-	GL_Primitive *box_on;
-	GL_Texture *bigBox;
-};
-
 struct HotkeyDesc
 {
 	std::string name;
@@ -4487,6 +4433,8 @@ struct MenuScreen : FocusWindow
 	int selectedAch;
 	InfoBox info;
 };
+
+struct CrewEquipBox;
 
 struct CrewManifest;
 
@@ -4741,6 +4689,32 @@ struct HandAnimation
 	Pointf location;
 	bool bRunning;
 	float pause;
+};
+
+struct WeaponControl;
+
+struct WeaponControl : ArmamentControl
+{
+	LIBZHL_API void Fire(std::vector<Pointf> &points, int target, bool autoFire);
+	LIBZHL_API void OnRender();
+	LIBZHL_API bool LButton(int x, int y, bool holdingShift);
+	LIBZHL_API void MouseMove(int x, int y);
+	LIBZHL_API void LinkShip(ShipManager *ship);
+	LIBZHL_API void constructor();
+	LIBZHL_API void SetAutofiring(bool on, bool simple);
+	LIBZHL_API bool KeyDown(SDLKey key);
+	
+	Targetable *currentTarget;
+	ProjectileFactory *armedWeapon;
+	bool autoFiring;
+	TextButton autoFireButton;
+	GL_Primitive *autoFireBase;
+	GL_Primitive *targetIcon[4];
+	GL_Primitive *targetIconYellow[4];
+	Pointf autoFireFocus;
+	WarningMessage missileMessage;
+	WarningMessage systemMessage;
+	int armedSlot;
 };
 
 struct CombatControl
@@ -5204,6 +5178,48 @@ struct IonDrone : BoarderDrone
 	LIBZHL_API static Damage *__stdcall GetRoomDamage(Damage *dmg, IonDrone *crew);
 	
 	int lastRoom;
+};
+
+struct CrewEquipBox : EquipmentBox
+{
+	CrewEquipBox(Point pos_, ShipManager *ship_, int slot_)
+	{
+		this->constructor(pos_, ship_, slot_);
+	}
+
+	LIBZHL_API void RemoveItem();
+	LIBZHL_API void constructor(Point pos, ShipManager *ship, int slot);
+	LIBZHL_API bool GetConfirmDelete();
+	LIBZHL_API void RenderLabels(bool dragging, bool isNew);
+	LIBZHL_API void OnRender(bool unk);
+	LIBZHL_API void OnTextInput(SDLKey key);
+	LIBZHL_API void OnTextEvent(CEvent::TextEvent event);
+	LIBZHL_API void MouseClick(int mX, int mY);
+	LIBZHL_API void CloseRename();
+	
+	ShipManager *ship;
+	bool bDead;
+	TextButton deleteButton;
+	TextButton renameButton;
+	bool bShowDelete;
+	bool bShowRename;
+	bool bQuickRenaming;
+	TextInput nameInput;
+	GL_Primitive *box;
+	GL_Primitive *box_on;
+	bool bConfirmDelete;
+};
+
+struct GL_ColorTexVertex
+{
+	float x;
+	float y;
+	float u;
+	float v;
+	float r;
+	float g;
+	float b;
+	float a;
 };
 
 struct MedbaySystem
@@ -6886,6 +6902,28 @@ struct ShipRepairDrone
 {
 };
 
+struct BossShip : CompleteShip
+{
+	LIBZHL_API void Restart();
+	LIBZHL_API bool IncomingFire();
+	LIBZHL_API void constructor(SpaceManager *space);
+	LIBZHL_API void SaveBoss(void *file);
+	LIBZHL_API int LoadBoss(void *file);
+	LIBZHL_API int ClearLocation();
+	LIBZHL_API char Defeated();
+	LIBZHL_API int GetSubEvent();
+	LIBZHL_API void StartStage();
+	LIBZHL_API LocationEvent *GetEvent();
+	LIBZHL_API void OnLoop();
+	
+	int currentStage;
+	TimerHelper powerTimer;
+	int powerCount;
+	std::vector<int> crewCounts;
+	bool bDeathBegan;
+	int nextStage;
+};
+
 struct Door : CrewTarget
 {
 public:
@@ -6954,28 +6992,6 @@ public:
 	bool bVertical;
 };
 
-struct BossShip : CompleteShip
-{
-	LIBZHL_API void Restart();
-	LIBZHL_API bool IncomingFire();
-	LIBZHL_API void constructor(SpaceManager *space);
-	LIBZHL_API void SaveBoss(void *file);
-	LIBZHL_API int LoadBoss(void *file);
-	LIBZHL_API int ClearLocation();
-	LIBZHL_API char Defeated();
-	LIBZHL_API int GetSubEvent();
-	LIBZHL_API void StartStage();
-	LIBZHL_API LocationEvent *GetEvent();
-	LIBZHL_API void OnLoop();
-	
-	int currentStage;
-	TimerHelper powerTimer;
-	int powerCount;
-	std::vector<int> crewCounts;
-	bool bDeathBegan;
-	int nextStage;
-};
-
 struct CrewStoreBox;
 
 struct CrewStoreBox : StoreBox
@@ -6996,6 +7012,23 @@ struct CrewStoreBox : StoreBox
 	std::string name;
 	Animation crewPortrait;
 	CrewBlueprint blueprint;
+};
+
+struct CrewCustomizeBox : CrewEquipBox
+{
+	TextButton customizeButton;
+	bool bCustomizing;
+	Point customizeLocation;
+	TextButton acceptButton;
+	TextButton bigRenameButton;
+	Button leftButton;
+	Button rightButton;
+	bool bRenaming;
+	bool haveCustomizeTouch;
+	bool customizeActivated;
+	GL_Primitive *box;
+	GL_Primitive *box_on;
+	GL_Texture *bigBox;
 };
 
 struct CrewBox
@@ -7034,17 +7067,17 @@ struct CrewBox
 	std::string sTooltip;
 };
 
-struct OuterHull : Repairable
-{
-	Animation breach;
-	Animation heal;
-};
-
 struct BatterySystem : ShipSystem
 {
 	bool bTurnedOn;
 	TimerHelper timer;
 	std::string soundeffect;
+};
+
+struct OuterHull : Repairable
+{
+	Animation breach;
+	Animation heal;
 };
 
 LIBZHL_API float __stdcall font_text_width(freetype::font_data &fontData, const char *str, float size);

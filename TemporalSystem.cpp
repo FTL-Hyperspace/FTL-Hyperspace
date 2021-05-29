@@ -849,6 +849,7 @@ static bool g_inUpdateHealth = false;
 static bool g_inApplyDamage = false;
 static bool g_inUpdateCrewMembers = false;
 
+/*
 HOOK_METHOD(CrewMember, DirectModifyHealth, (float healthMod) -> bool)
 {
     if (g_inUpdateCrewMembers && !g_inUpdateHealth && !g_inApplyDamage)
@@ -860,6 +861,7 @@ HOOK_METHOD(CrewMember, DirectModifyHealth, (float healthMod) -> bool)
 
     return super(healthMod);
 }
+*/
 
 HOOK_METHOD(CrewMember, UpdateHealth, () -> bool)
 {

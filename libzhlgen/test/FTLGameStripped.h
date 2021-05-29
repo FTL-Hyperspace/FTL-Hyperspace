@@ -32,6 +32,7 @@ struct CrewEquipBox;
 struct AugmentEquipBox;
 struct UpgradeBox;
 struct CombatControl;
+struct ControlButton;
 struct Pointf;
 struct Animation;
 struct DamageMessage;
@@ -1350,9 +1351,6 @@ struct SlideBar
   Point rectStart;
   std__pair_9int___int minMax;
 };
-
-/* 248 */
-struct ControlButton;
 
 /* 571 */
 struct std__vector_13ControlButton
@@ -3188,6 +3186,17 @@ struct ShipAchievementInfo
   CAchievement *achievement;
   Point position;
   int dimension;
+};
+
+/* 248 */
+struct ControlButton
+{
+  Globals__Rect rect;
+  std__string value;
+  TextString desc;
+  std__string key;
+  int state;
+  int descLength;
 };
 
 /* 382 */
@@ -5751,7 +5760,20 @@ struct std__vector_10HotkeyDesc
   HotkeyDesc *_end;
 };
 
-/* 821 */
+/* 825 */
+struct GL_ColorTexVertex
+{
+  float x;
+  float y;
+  float u;
+  float v;
+  float r;
+  float g;
+  float b;
+  float a;
+};
+
+/* 826 */
 union __attribute__((aligned(8))) __m64
 {
   unsigned __int64 m64_u64;
@@ -5765,7 +5787,7 @@ union __attribute__((aligned(8))) __m64
   unsigned __int32 m64_u32[2];
 };
 
-/* 822 */
+/* 827 */
 union __attribute__((aligned(16))) __m128
 {
   float m128_f32[4];
@@ -5779,13 +5801,13 @@ union __attribute__((aligned(16))) __m128
   unsigned __int32 m128_u32[4];
 };
 
-/* 823 */
+/* 828 */
 struct __m128d
 {
   double m128d_f64[2];
 };
 
-/* 824 */
+/* 829 */
 union __attribute__((aligned(16))) __m128i
 {
   __int8 m128i_i8[16];
