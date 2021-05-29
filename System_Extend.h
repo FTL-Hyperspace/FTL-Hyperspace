@@ -20,6 +20,10 @@ struct TemporalSystem_Wrapper
     Room* currentRoom = nullptr;
     int currentShipId = -1;
 
+    int queuedRoomId = -1;
+    int queuedShipId = -1;
+    bool queuedSpeedUp = false;
+
     bool IsReady()
     {
         return !bTurnedOn && !orig->GetLocked() && orig->Functioning();
@@ -32,6 +36,12 @@ struct TemporalSystem_Wrapper
 
     void SetArmed(TemporalArmState newArmState)
     {
+        if (newArmState != TemporalArmState::TEMPORAL_ARM_NONE)
+        {
+            queuedRoomId = -1;
+            queuedShipId = -1;
+        }
+
         armState = newArmState;
     }
 

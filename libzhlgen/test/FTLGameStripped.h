@@ -17,6 +17,7 @@ struct Door;
 struct Room;
 struct CrewMember;
 struct CrewAnimation;
+struct LockdownShard;
 struct Fire;
 struct ShipManager;
 struct Store;
@@ -438,9 +439,6 @@ struct Animation
   GL_Primitive *mirroredPrimitive;
 };
 
-/* 189 */
-struct LockdownShard;
-
 /* 473 */
 struct std__vector_13LockdownShard
 {
@@ -740,6 +738,20 @@ struct WeaponAnimation
   int iHackLevel;
   Animation hackSparks;
   bool playerShip;
+};
+
+/* 189 */
+struct LockdownShard
+{
+  Animation shard;
+  Pointf position;
+  Pointf goal;
+  float speed;
+  bool bArrived;
+  bool bDone;
+  float lifeTime;
+  bool superFreeze;
+  int lockingRoom;
 };
 
 /* 461 */

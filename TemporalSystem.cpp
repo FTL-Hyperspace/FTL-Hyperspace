@@ -208,12 +208,24 @@ void TemporalBox::NewMouseMove(int x, int y)
         if (speedUpButton->bActive && speedUpButton->bHover)
         {
             // tooltip
-            G_->GetMouseControl()->SetTooltip(G_->GetTextLibrary()->GetText("temporal_button_speed"));
+            std::string hotkey;
+            Settings::GetHotkeyName(hotkey, "temporal_speed");
+            std::string tooltip = G_->GetTextLibrary()->GetText("temporal_button_speed");
+            boost::algorithm::replace_all(tooltip, "\\1", hotkey);
+            boost::algorithm::replace_all(tooltip, "\\n", "\n");
+
+            G_->GetMouseControl()->SetTooltip(tooltip);
         }
         if (slowDownButton->bActive && slowDownButton->bHover)
         {
             // tooltip
-            G_->GetMouseControl()->SetTooltip(G_->GetTextLibrary()->GetText("temporal_button_slow"));
+            std::string hotkey;
+            Settings::GetHotkeyName(hotkey, "temporal_slow");
+            std::string tooltip = G_->GetTextLibrary()->GetText("temporal_button_slow");
+            boost::algorithm::replace_all(tooltip, "\\1", hotkey);
+            boost::algorithm::replace_all(tooltip, "\\n", "\n");
+
+            G_->GetMouseControl()->SetTooltip(tooltip);
         }
     }
 }
@@ -233,8 +245,37 @@ void TemporalBox::LeftMouseClick(bool unk)
     }
 }
 
+void TemporalBox::OnKeyDown(SDLKey key, bool shift)
+{
+    if (!pSystem->GetLocked())
+    {
+        if (Settings::GetHotkey("temporal_speed") == key || Settings::GetHotkey("temporal_slow") == key)
+        {
+            bool speed = key == Settings::GetHotkey("temporal_speed");
+
+            if (speed)
+            {
+                if (speedUpButton->bActive)
+                {
+                    temporalSystem->SetArmed(TEMPORAL_ARM_SPEED);
+                }
+            }
+            else
+            {
+                if (slowDownButton->bActive)
+                {
+                    temporalSystem->SetArmed(TEMPORAL_ARM_SLOW);
+                }
+            }
+        }
+    }
+}
+
 void TemporalSystem_Wrapper::StartTimeDilation(int shipId, int roomId, bool speedUp)
 {
+    queuedShipId = -1;
+    queuedRoomId = -1;
+
     if (!orig->GetLocked())
     {
         if (orig->Functioning())
@@ -283,6 +324,11 @@ void TemporalSystem_Wrapper::StopTimeDilation()
 
 void TemporalSystem_Wrapper::OnLoop()
 {
+    if (queuedShipId != -1 && queuedRoomId != -1)
+    {
+        StartTimeDilation(queuedShipId, queuedRoomId, queuedSpeedUp);
+    }
+
     if (!orig->Functioning() || (orig->iHackEffect > 1 && orig->bUnderAttack) || currentShipId == -1 || G_->GetShipManager(currentShipId) == nullptr)
     {
         StopTimeDilation();
@@ -371,6 +417,16 @@ HOOK_METHOD(SystemBox, MouseClick, (bool unk) -> bool)
     }
 }
 
+HOOK_METHOD(SystemBox, KeyDown, (SDLKey key, bool shift) -> void)
+{
+    if (pSystem->iSystemType == 20)
+    {
+        ((TemporalBox*)this)->OnKeyDown(key, shift);
+    }
+
+    super(key, shift);
+}
+
 HOOK_METHOD(ShipSystem, OnLoop, () -> void)
 {
     super();
@@ -409,7 +465,10 @@ HOOK_METHOD(CombatControl, SelectTarget, () -> bool)
 
         if (selectedSelfRoom != -1)
         {
-            temporal->StartTimeDilation(0, selectedSelfRoom, temporalArmed == TEMPORAL_ARM_SPEED);
+            temporal->queuedShipId = 0;
+            temporal->queuedRoomId = selectedSelfRoom;
+            temporal->queuedSpeedUp = temporalArmed == TEMPORAL_ARM_SPEED;
+
             SetTemporalArmed(shipManager, TEMPORAL_ARM_NONE);
             selectedSelfRoom = -1;
             shipManager->ship.SetSelectedRoom(-1);
@@ -419,7 +478,9 @@ HOOK_METHOD(CombatControl, SelectTarget, () -> bool)
         {
             if (currentTarget && (currentTarget->shipManager->GetShieldPower().super.first <= 0 || shipManager->HasAugmentation("ZOLTAN_BYPASS")))
             {
-                temporal->StartTimeDilation(1, selectedRoom, temporalArmed == TEMPORAL_ARM_SPEED);
+                temporal->queuedShipId = 1;
+                temporal->queuedRoomId = selectedRoom;
+                temporal->queuedSpeedUp = temporalArmed == TEMPORAL_ARM_SPEED;
             }
 
             SetTemporalArmed(shipManager, TEMPORAL_ARM_NONE);
@@ -528,6 +589,53 @@ HOOK_METHOD(CombatControl, UpdateTarget, () -> bool)
     return ret;
 }
 
+CachedImage *temporalTarget_speed = nullptr;
+CachedImage *temporalTarget_slow = nullptr;
+
+HOOK_METHOD(CombatControl, constructor, () -> void)
+{
+    super();
+
+    temporalTarget_speed = new CachedImage("misc/temporal_placed_speed.png", 0, 0);
+    temporalTarget_slow = new CachedImage("misc/temporal_placed_slow.png", 0, 0);
+}
+
+
+HOOK_METHOD(ShipManager, RenderChargeBars, () -> void)
+{
+    super();
+    auto& combatControl = G_->GetCApp()->gui->combatControl;
+    auto playerShip = combatControl.shipManager;
+
+    if (playerShip->HasSystem(SYS_TEMPORAL))
+    {
+        auto sys = SYS_EX(playerShip->GetSystem(SYS_TEMPORAL))->temporalSystem;
+
+        if (sys->queuedShipId == 1 && sys->queuedRoomId != -1)
+        {
+            CachedImage *img = nullptr;
+
+            if (sys->queuedSpeedUp)
+            {
+                img = temporalTarget_speed;
+            }
+            else
+            {
+                img = temporalTarget_slow;
+            }
+
+            if (img != nullptr)
+            {
+                auto pos = combatControl.currentTarget->shipManager->GetRoomCenter(sys->queuedRoomId);
+                img->SetPosition(pos.x - 20, pos.y - 20);
+
+                img->OnRender(COLOR_WHITE);
+            }
+        }
+    }
+
+}
+
 HOOK_METHOD(CombatControl, OnRenderCombat, () -> void)
 {
     super();
@@ -613,6 +721,8 @@ HOOK_METHOD(MouseControl, OnRender, () -> void)
 
     super();
 }
+
+// Level Tooltip
 
 HOOK_STATIC(ShipSystem, GetLevelDescription, (void* unk, std::string &retStr, int systemId, int level, bool tooltip) -> void)
 {
@@ -735,6 +845,8 @@ HOOK_METHOD(Ship, OnRenderWalls, (bool forceView, bool doorControlMode) -> void)
     super(forceView, doorControlMode);
 }
 
+// AI
+
 HOOK_METHOD(CrewAI, PrioritizeTask, (CrewTask task, int crewId) -> int)
 {
     if (task.system == 20) task.system = 15;
@@ -761,6 +873,7 @@ HOOK_METHOD(CFPS, GetSpeedFactor, () -> float)
 static std::map<int, int> g_crewDilationRooms = std::map<int, int>();
 static std::map<int, int> g_envDilationRooms = std::map<int, int>();
 static std::map<int, int> g_sysDilationRooms = std::map<int, int>();
+static std::map<int, int> g_shardDilationRooms = std::map<int, int>();
 
 int GetRoomDilationAmount(std::map<int, int> roomMap, int roomId)
 {
@@ -955,6 +1068,15 @@ HOOK_METHOD(ShipSystem, PartialRepair, (float speed, bool autoRepair) -> bool)
     return super(speed, autoRepair);
 }
 
+HOOK_METHOD(LockdownShard, Update, () -> void)
+{
+    g_dilationAmount = GetRoomDilationAmount(g_shardDilationRooms, lockingRoom);
+
+    super();
+
+    g_dilationAmount = 0;
+}
+
 HOOK_METHOD_PRIORITY(ShipManager, OnLoop, -900,  () -> void)
 {
     for (auto i : ship.vRoomList)
@@ -962,12 +1084,14 @@ HOOK_METHOD_PRIORITY(ShipManager, OnLoop, -900,  () -> void)
         if (RM_EX(i)->timeDilation != 0)
         {
             g_sysDilationRooms[i->iRoomId] = RM_EX(i)->timeDilation;
+            g_shardDilationRooms[i->iRoomId] = RM_EX(i)->timeDilation;
         }
     }
 
     super();
 
     g_sysDilationRooms.clear();
+    g_shardDilationRooms.clear();
 
     for (auto i : ship.vRoomList)
     {

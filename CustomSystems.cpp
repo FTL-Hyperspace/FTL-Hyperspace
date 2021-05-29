@@ -376,18 +376,37 @@ HOOK_METHOD(Upgrades, OnInit, (ShipManager *ship) -> void)
 
 }
 
-/*
-HOOK_METHOD(ShipManager, AddSystem, (int sysId) -> ShipSystem*)
+HOOK_METHOD(CombatControl, KeyDown, (SDLKey key) -> void)
 {
-    if (sysId == 100)
+    if (weapControl.KeyDown(key) || droneControl.KeyDown(key))
     {
-        auto sys = new TestSystem(100, 1, iShipId, 0);
-        addedSystem = true;
-        printf("%d\n", systemKey.size());
-        return sys;
-    }
+        if (shipManager->HasSystem(SYS_MIND))
+        {
+            shipManager->mindSystem->SetArmed(0);
+        }
+        if (shipManager->HasSystem(SYS_HACKING))
+        {
+            shipManager->hackingSystem->bArmed = false;
+        }
+        if (shipManager->HasSystem(SYS_TEMPORAL))
+        {
+            auto temporalSys = SYS_EX(shipManager->GetSystem(SYS_TEMPORAL))->temporalSystem;
 
-    return super(sysId);
+            temporalSys->SetArmed(TemporalArmState::TEMPORAL_ARM_NONE);
+        }
+
+        shipManager->ship.SetSelectedRoom(-1);
+        if (currentTarget)
+        {
+            currentTarget->shipManager->ship.SetSelectedRoom(-1);
+        }
+    }
+}
+
+/*
+HOOK_METHOD(ShipManager, RenderChargeBars, () -> void)
+{
+
 }
 */
 

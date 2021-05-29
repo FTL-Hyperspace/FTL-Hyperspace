@@ -30,3 +30,9 @@ bool CombatControl::SelectTarget(CombatControl *this<ecx>);
 bool CombatControl::MouseRClick(CombatControl *this<ecx>, int x, int y);
 "578d7c240883e4f0ff77fc5589e5575389cb83ec108b4904c70424????????e8????????83ec0484c075??8b83a400000085c0":
 bool CombatControl::WeaponsArmed(CombatControl *this<ecx>);
+"578d7c240883e4f0ff77fc5589e557565389cb83c11483ec1c8b37893424e8????????83ec0484c074??8b4b04":
+void CombatControl::KeyDown(CombatControl *this<ecx>, SDLKey key);
+"578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b4904c70424????????e8????????83ec0484c089c6":
+void CombatControl::DisarmTeleporter(CombatControl *this<ecx>);
+"578d7c240883e4f0ff77fc5589e557565389ce83c1088d5d9c81ec????????c741f800000000c741fc00000000e8????????8d4e14c7461000000000e8????????8d8ec4030000":
+void CombatControl::constructor(CombatControl *this<ecx>);

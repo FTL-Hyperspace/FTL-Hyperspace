@@ -2390,7 +2390,7 @@ HOOK_METHOD(ShipManager, OnLoop, () -> void)
 
             ShipSystem* sys = GetSystemInRoom(i->iRoomId);
 
-            if (sys && sys->iSystemType != (int)SystemId::PILOT)
+            if (sys && sys->iSystemType != SYS_PILOT)
             {
                 bool powerDrainFriendly = false;
                 ex->CalculateStat(CrewStat::POWER_DRAIN_FRIENDLY, def, &powerDrainFriendly);
@@ -2659,35 +2659,40 @@ HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
             auto def = custom->GetDefinition(i->species);
 
             auto ex = CM_EX(i);
-            float timeDilation = TemporalSystemParser::GetDilationStrength(RM_EX(ship.vRoomList[i->iRoomId])->timeDilation);
-
-            float damageEnemies = ex->CalculateStat(CrewStat::DAMAGE_ENEMIES_AMOUNT, def) * G_->GetCFPS()->GetSpeedFactor() * 0.06245f * timeDilation;
-
-            if (i->Functional() && damageEnemies != 0.f)
+            if (i->iRoomId != -1)
             {
-                for (auto crew : vCrewList)
+                // damageEnemiesAmount/healEnemiesAmount time dilation/temporal system
+                // Didn't want to do this here but I don't think I have a choice
+                float timeDilation = TemporalSystemParser::GetDilationStrength(RM_EX(ship.vRoomList[i->iRoomId])->timeDilation);
+
+                float damageEnemies = ex->CalculateStat(CrewStat::DAMAGE_ENEMIES_AMOUNT, def) * G_->GetCFPS()->GetSpeedFactor() * 0.06245f * timeDilation;
+
+                if (i->Functional() && damageEnemies != 0.f)
                 {
-                    if (crew->iRoomId == i->iRoomId && crew->iShipId != i->iShipId)
+                    for (auto crew : vCrewList)
                     {
-                        crew->DirectModifyHealth(-damageEnemies);
+                        if (crew->iRoomId == i->iRoomId && crew->iShipId != i->iShipId)
+                        {
+                            crew->DirectModifyHealth(-damageEnemies);
+                        }
                     }
                 }
-            }
-            float healCrewAmount = ex->CalculateStat(CrewStat::HEAL_CREW_AMOUNT, def);
+                float healCrewAmount = ex->CalculateStat(CrewStat::HEAL_CREW_AMOUNT, def);
 
-            if (i->Functional() && healCrewAmount != 0.f)
-            {
-                float healCrew = G_->GetCFPS()->GetSpeedFactor() * healCrewAmount * 0.06245f * timeDilation;
-
-                for (auto crew : vCrewList)
+                if (i->Functional() && healCrewAmount != 0.f)
                 {
-                    if (crew->iRoomId == i->iRoomId && crew->iShipId == i->iShipId && crew != i)
+                    float healCrew = G_->GetCFPS()->GetSpeedFactor() * healCrewAmount * 0.06245f * timeDilation;
+
+                    for (auto crew : vCrewList)
                     {
-                        if (healCrew > 0.f && crew->health.first != crew->health.second)
+                        if (crew->iRoomId == i->iRoomId && crew->iShipId == i->iShipId && crew != i)
                         {
-                            crew->fMedbay += 0.0000000001;
+                            if (healCrew > 0.f && crew->health.first != crew->health.second)
+                            {
+                                crew->fMedbay += 0.0000000001;
+                            }
+                            crew->DirectModifyHealth(healCrew);
                         }
-                        crew->DirectModifyHealth(healCrew);
                     }
                 }
             }

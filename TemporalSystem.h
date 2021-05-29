@@ -38,4 +38,5 @@ public:
     void RenderBox(bool ignoreStatus);
     void NewMouseMove(int x, int y);
     void LeftMouseClick(bool unk);
+    void OnKeyDown(SDLKey key, bool shift);
 };

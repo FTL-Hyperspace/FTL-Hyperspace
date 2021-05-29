@@ -2,42 +2,57 @@
 
 static std::vector<CustomHotkey> customHotkeys =
 {
-    {"console", SDLKey::SDLK_l, 1, -1},
-    {"speed", SDLKey::SDLK_BACKQUOTE, 1, -1},
-    {"info", SDLKey::SDLK_LALT, 1, -1},
-    {"temporal", SDLKey::SDLK_LALT, 3, 0},
-    {"un_temporal", SDLKey::SDLK_LALT, 3, 9},
-    {"temporal_speed", SDLKey::SDLK_LALT, 1, -1},
-    {"temporal_slow", SDLKey::SDLK_LALT, 1, -1},
+    {"console", SDLKey::SDLK_l, 0, -1},
+    {"speed", SDLKey::SDLK_BACKQUOTE, 0, -1},
+    {"info", SDLKey::SDLK_LALT, 0, 11},
+    {"temporal", SDLKey::SDLK_SEMICOLON, 2, 11},
+    {"un_temporal", SDLKey::SDLK_UNKNOWN, 2, -1},
+    {"temporal_speed", SDLKey::SDLK_PERIOD, 1, 8},
+    {"temporal_slow", SDLKey::SDLK_COMMA, 1, 9},
 };
 
 HOOK_METHOD(ControlsScreen, OnInit, () -> void)
 {
-    super();
-
     for (int i = 0; i < 4; i++)
     {
-        auto vec = this->buttons[i];
-        vec[0].rect.x = 0;
+        buttons[i].clear();
+    }
 
-        printf("%08X %08X %08X\n", &(vec[0]), vec[0].rect.x, this);
+    super();
+
+    Point origin = Point(480, 130);
+    int btnsPerColumn = 8;
+    for (int page = 0; page < 3; page++)
+    {
+        if (page == 0)
+        {
+            btnsPerColumn = 12;
+        }
+        else if (page == 1)
+        {
+            btnsPerColumn = 10;
+        }
+        else if (page == 2)
+        {
+            btnsPerColumn = 12;
+        }
+
+        for (int i = 0; i < buttons[page].size(); i++)
+        {
+            auto& button = buttons[page][i];
+
+            button.rect.x = origin.x + ((i >= btnsPerColumn) ? 440 : 0);
+            button.rect.y = origin.y + (40 * (i >= btnsPerColumn ? i - btnsPerColumn : i));
+        }
+
     }
 }
-
 
 HOOK_STATIC(Settings, ResetHotkeys, () -> void)
 {
     super();
 
     SettingValues* settings = G_->GetSettings();
-
-    int c = 0;
-
-    for (auto i : settings->hotkeys[1])
-    {
-        printf("%d %s\n", c, i.name.c_str());
-        c++;
-    }
 
     for (auto i : customHotkeys)
     {
