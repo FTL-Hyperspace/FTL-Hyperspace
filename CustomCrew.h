@@ -164,6 +164,10 @@ struct ActivatedPowerDefinition
     bool hasTemporaryPower = false;
     int jumpCooldown = JUMP_COOLDOWN_FULL;
 
+    int powerCharges = -1;
+    int initialCharges = 2147483647;
+    int chargesPerJump = 1073741823;
+
 
     std::vector<std::string> sounds;
 

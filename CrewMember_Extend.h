@@ -22,7 +22,8 @@ enum PowerReadyState
     POWER_NOT_READY_MIN_HEALTH,
     POWER_NOT_READY_MAX_HEALTH,
     POWER_NOT_READY_SYSTEM_DAMAGED,
-    POWER_NOT_READY_TELEPORTING
+    POWER_NOT_READY_TELEPORTING,
+    POWER_NOT_READY_CHARGES
 };
 
 enum class CrewStat
@@ -287,6 +288,7 @@ public:
 
     std::pair<float, float> powerCooldown = std::pair<float, float>();
     std::pair<float, float> temporaryPowerDuration = std::pair<float, float>();
+    std::pair<int, int> powerCharges = std::pair<int, int>();
 
     int powerRoom;
     int powerShip;

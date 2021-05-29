@@ -53,6 +53,7 @@
 <text name="power_not_ready_max_health">Not Ready: Health is above \1</text> <!-- \1 is max health req -->
 <text name="power_not_ready_system_damaged">Not Ready: No damaged system in room</text>
 <text name="power_not_ready_teleporting">Not Ready: Can't transform mid-teleport</text>
+<text name="power_not_ready_charges">Not Ready: Out of charges</text>
 
 <text name="advanced_health_tooltip">Health</text>
 <text name="weapon_cooldown_negative">Disabled</text>

@@ -659,6 +659,18 @@ void CustomCrewManager::ParseAbilityEffect(rapidxml::xml_node<char>* stat, Activ
         {
             def.cooldown = boost::lexical_cast<float>(effectNode->value());
         }
+        if (effectName == "powerCharges")
+        {
+            def.powerCharges = boost::lexical_cast<int>(effectNode->value());
+        }
+        if (effectName == "initialCharges")
+        {
+            def.chargesPerJump = boost::lexical_cast<int>(effectNode->value());
+        }
+        if (effectName == "chargesPerJump")
+        {
+            def.chargesPerJump = boost::lexical_cast<int>(effectNode->value());
+        }
         if (effectName == "shipFriendlyFire")
         {
             def.shipFriendlyFire = EventsParser::ParseBoolean(effectNode->value());
@@ -970,6 +982,10 @@ PowerReadyState CrewMember_Extend::PowerReady()
     {
         return POWER_NOT_READY_ACTIVATED;
     }
+    if (powerCharges.second >= 0 && powerCharges.first <= 0)
+    {
+        return POWER_NOT_READY_CHARGES;
+    }
     if (powerCooldown.first < powerCooldown.second)
     {
         return POWER_NOT_READY_COOLDOWN;
@@ -1160,6 +1176,7 @@ void CrewMember_Extend::ActivatePower()
     }
 
     powerCooldown.first = 0;
+    powerCharges.first = std::max(0, powerCharges.first - 1);
 
     powerActivated = true;
 
@@ -1432,6 +1449,8 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
         powerCooldown.second = def.powerDef.cooldown;
         temporaryPowerDuration.second = def.powerDef.tempPower.duration;
         temporaryPowerDuration.first = temporaryPowerDuration.second;
+        powerCharges.second = def.powerDef.powerCharges;
+        powerCharges.first = std::min(def.powerDef.initialCharges ,def.powerDef.powerCharges);
         hasSpecialPower = def.powerDef.hasSpecialPower;
         hasTemporaryPower = def.powerDef.hasTemporaryPower;
         canPhaseThroughDoors = def.canPhaseThroughDoors;
@@ -1702,7 +1721,15 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
             else
             {
                 auto def = custom->GetDefinition(species);
-                ex->powerCooldown.first = std::max(0.f, std::min(ex->powerCooldown.second, (float)(G_->GetCFPS()->GetSpeedFactor() * 0.0625 * ex->CalculateStat(CrewStat::POWER_RECHARGE_MULTIPLIER, def)) + ex->powerCooldown.first));
+                if (ex->powerCharges.second >= 0 && ex->powerCharges.first <= 0)
+                {
+                    ex->powerCooldown.first = 0.f;
+                }
+                else
+                {
+                    ex->powerCooldown.first = std::max(0.f, std::min(ex->powerCooldown.second, (float)(G_->GetCFPS()->GetSpeedFactor() * 0.0625 * ex->CalculateStat(CrewStat::POWER_RECHARGE_MULTIPLIER, def)) + ex->powerCooldown.first));
+                }
+
                 bool activateWhenReady;
                 ex->CalculateStat(CrewStat::ACTIVATE_WHEN_READY, def, &activateWhenReady);
                 if (activateWhenReady && ex->PowerReady() == POWER_READY)
@@ -1754,6 +1781,8 @@ HOOK_METHOD(CrewMember, SaveState, (int file) -> void)
     FileHelper::writeFloat(file, ex->powerCooldown.second);
     FileHelper::writeFloat(file, ex->temporaryPowerDuration.first);
     FileHelper::writeFloat(file, ex->temporaryPowerDuration.second);
+    FileHelper::writeInt(file, ex->powerCharges.first);
+    FileHelper::writeInt(file, ex->powerCharges.second);
     FileHelper::writeInt(file, ex->temporaryPowerActive);
 
     super(file);
@@ -1769,6 +1798,8 @@ HOOK_METHOD(CrewMember, LoadState, (int file) -> void)
     ex->powerCooldown.second = FileHelper::readFloat(file);
     ex->temporaryPowerDuration.first = FileHelper::readFloat(file);
     ex->temporaryPowerDuration.second = FileHelper::readFloat(file);
+    ex->powerCharges.first = FileHelper::readInteger(file);
+    ex->powerCharges.second = FileHelper::readInteger(file);
     ex->temporaryPowerActive = FileHelper::readInteger(file);
     aex->temporaryPowerActive = ex->temporaryPowerActive;
 
@@ -3095,6 +3126,9 @@ HOOK_METHOD(CrewBox, GetSelected, (int mouseX, int mouseY) -> CrewMember*)
                     break;
                 case POWER_NOT_READY_TELEPORTING:
                     tooltipName = "power_not_ready_teleporting";
+                    break;
+                case POWER_NOT_READY_CHARGES:
+                    tooltipName = "power_not_ready_charges";
                     break;
                 }
 
