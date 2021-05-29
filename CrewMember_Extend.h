@@ -67,10 +67,11 @@ enum class CrewStat
     DEATH_EFFECT,
     POWER_EFFECT,
     ACTIVATE_WHEN_READY,
-    DEFAULT_SKILL_LEVEL
+    DEFAULT_SKILL_LEVEL,
+    POWER_RECHARGE_MULTIPLIER
 };
 
-static const std::array<std::string, 41> crewStats =
+static const std::array<std::string, 42> crewStats =
 {
     "maxHealth",
     "stunMultiplier",
@@ -112,7 +113,8 @@ static const std::array<std::string, 41> crewStats =
     "deathEffect",
     "powerEffect",
     "activateWhenReady",
-    "defaultSkillLevel"
+    "defaultSkillLevel",
+    "powerRechargeMultiplier"
 };
 
 struct StatBoost
@@ -155,7 +157,9 @@ struct StatBoost
         ALLIES,
         ENEMIES,
         SELF,
-        ALL
+        ALL,
+        CURRENT_ALLIES,
+        CURRENT_ENEMIES
     };
 
     enum class DroneTarget

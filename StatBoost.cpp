@@ -131,6 +131,14 @@ StatBoost ParseStatBoostNode(rapidxml::xml_node<char>* node)
                 {
                     def.crewTarget = StatBoost::CrewTarget::ALL;
                 }
+                if (val == "CURRENT_ALLIES")
+                {
+                    def.crewTarget = StatBoost::CrewTarget::CURRENT_ALLIES;
+                }
+                if (val == "CURRENT_ENEMIES")
+                {
+                    def.crewTarget = StatBoost::CrewTarget::CURRENT_ENEMIES;
+                }
             }
             if (name == "droneTarget")
             {
@@ -675,6 +683,8 @@ bool CrewMember_Extend::BoostCheck(const StatBoost& statBoost)
                     || (statBoost.crewSource->iShipId != orig->iShipId && statBoost.crewTarget == StatBoost::CrewTarget::ENEMIES)
                     || (statBoost.crewTarget == StatBoost::CrewTarget::ALL)
                     || (statBoost.crewSource == orig && statBoost.affectsSelf)
+                    || ((statBoost.crewSource->iShipId == orig->iShipId) == (statBoost.crewSource->bMindControlled == orig->bMindControlled) && statBoost.crewTarget == StatBoost::CrewTarget::CURRENT_ALLIES)
+                    || ((statBoost.crewSource->iShipId != orig->iShipId) == (statBoost.crewSource->bMindControlled == orig->bMindControlled) && statBoost.crewTarget == StatBoost::CrewTarget::CURRENT_ENEMIES)
                    )
                 {
                     if(
@@ -722,6 +732,8 @@ bool CrewMember_Extend::BoostCheck(const StatBoost& statBoost)
                 || (statBoost.sourceShipId != orig->iShipId && statBoost.crewTarget == StatBoost::CrewTarget::ENEMIES)
                 || (statBoost.crewTarget == StatBoost::CrewTarget::ALL)
                 || (statBoost.crewSource == orig && statBoost.affectsSelf)
+                || (statBoost.sourceShipId == orig->iShipId != orig->bMindControlled && statBoost.crewTarget == StatBoost::CrewTarget::CURRENT_ALLIES)
+                || (statBoost.sourceShipId != orig->iShipId != orig->bMindControlled && statBoost.crewTarget == StatBoost::CrewTarget::CURRENT_ENEMIES)
                 )
             {
                 if(
@@ -906,6 +918,9 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition& def,
             break;
         case CrewStat::DEFAULT_SKILL_LEVEL:
             finalStat = def.defaultSkillLevel;
+            break;
+        case CrewStat::POWER_RECHARGE_MULTIPLIER:
+            finalStat = 1.0;
             break;
         case CrewStat::CAN_FIGHT:
             *boolValue = (temporaryPowerActive && def.powerDef.tempPower.canFight.enabled) ? def.powerDef.tempPower.canFight.value : def.canFight;
@@ -1096,7 +1111,7 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition& def,
                     {
                         if (shipManager != nullptr)
                         {
-                            if (shipManager->GetSystemRoom(system) != -1)
+                            if (shipManager->GetSystemRoom(system) != -1 && shipManager->GetSystem(system)->iHackEffect < 2)
                             {
                                 numPower += shipManager->GetSystem(system)->GetEffectivePower();
                             }

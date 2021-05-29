@@ -1628,7 +1628,7 @@ HOOK_METHOD_PRIORITY(CrewMember, DirectModifyHealth, 1000, (float healthMod) -> 
         ex->isHealing = false;
         ex->passiveHealTimer->Start(ex->CalculateStat(CrewStat::PASSIVE_HEAL_DELAY, def));
     }
-	
+
 	return ret;
 }
 HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
@@ -1701,8 +1701,8 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
             }
             else
             {
-                ex->powerCooldown.first = std::min(ex->powerCooldown.second, (float)(G_->GetCFPS()->GetSpeedFactor() * 0.0625) + ex->powerCooldown.first);
                 auto def = custom->GetDefinition(species);
+                ex->powerCooldown.first = std::max(0.f, std::min(ex->powerCooldown.second, (float)(G_->GetCFPS()->GetSpeedFactor() * 0.0625 * ex->CalculateStat(CrewStat::POWER_RECHARGE_MULTIPLIER, def)) + ex->powerCooldown.first));
                 bool activateWhenReady;
                 ex->CalculateStat(CrewStat::ACTIVATE_WHEN_READY, def, &activateWhenReady);
                 if (activateWhenReady && ex->PowerReady() == POWER_READY)
