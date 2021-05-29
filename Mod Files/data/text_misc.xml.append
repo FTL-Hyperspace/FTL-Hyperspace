@@ -36,6 +36,9 @@
 
 <text name="store_unavailable">UNAVAILABLE</text>
 
+<mod:findName type="text" name="power_ready">
+  <mod:setValue>Ready: Click to lock down room with special power</mod:setValue>
+</mod:findName>
 <mod:findName type="text" name="power_not_ready">
   <mod:setValue>Not Ready: Power charging (see charge left of portrait)</mod:setValue>
 </mod:findName>

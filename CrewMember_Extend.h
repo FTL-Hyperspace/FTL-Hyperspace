@@ -313,6 +313,9 @@ public:
 
     float prevStun = 0.f; // for use in stun resistance checking
 
+    GL_Primitive *crewBox_chargesBar = nullptr;
+    std::pair<int, int> crewBox_lastPowerCharges = std::pair<int, int>(0,0);
+
     std::vector<StatBoost> outgoingStatBoosts = std::vector<StatBoost>();
     std::vector<StatBoost> outgoingAbilityStatBoosts = std::vector<StatBoost>();
     std::vector<StatBoost> tempOutgoingStatBoosts = std::vector<StatBoost>();
@@ -327,6 +330,11 @@ public:
     ~CrewMember_Extend()
     {
         delete passiveHealTimer;
+        if (crewBox_chargesBar != nullptr)
+        {
+            CSurface::GL_DestroyPrimitive(crewBox_chargesBar);
+            crewBox_chargesBar = nullptr;
+        }
     }
 
     bool BoostCheck(const StatBoost& statBoost);

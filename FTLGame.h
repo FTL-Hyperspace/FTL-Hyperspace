@@ -5884,6 +5884,38 @@ struct PackageModuleInfo
 
 struct CSurface
 {
+	/*
+	static void GL_ApplyShader(int pipeline)
+	{
+		shader_pipeline_apply(pipeline);
+	}
+	
+	static void GL_DestroyShader(int pipeline)
+	{
+		shader_pipeline_destroy(pipeline);
+	}
+	
+	static int GL_CreateShaderPipeline(int vertex_shader, int fragment_shader)
+	{
+		return shader_pipeline_create(vertex_shader, fragment_shader);
+	}
+	
+	static int GL_CreateShader(ShaderType type, const char* source)
+	{
+		return shader_create_from_source(type, source, -1);
+	}
+	*/
+	
+	static GL_Color GetColorTint()
+	{
+		GL_Color* color = new GL_Color();
+		
+		GetColorTint(color);
+		
+		return *color;
+	}
+	
+
 	LIBZHL_API static GL_Color &__stdcall GL_GetColor();
 	LIBZHL_API static void __stdcall GL_SetColorTint(GL_Color color);
 	LIBZHL_API static void __stdcall GL_SetColorTint(float r, float g, float b, float a);
@@ -5928,6 +5960,7 @@ struct CSurface
 	LIBZHL_API static GL_Primitive *__stdcall GL_CreateMultiImagePrimitive(GL_Texture *tex, std::vector<GL_TexVertex> *vec, GL_Color color);
 	LIBZHL_API static GL_Primitive *__stdcall GL_CreateImagePrimitive(GL_Texture *tex, float x, float y, float size_x, float size_y, float rotate, GL_Color color);
 	LIBZHL_API static GL_Primitive *__stdcall GL_CreateMultiLinePrimitive(std::vector<GL_Line> &vec, GL_Color color, float thickness);
+	LIBZHL_API static GL_Primitive *__stdcall GL_CreateMultiRectPrimitive(std::vector<Globals::Rect> &vec, GL_Color color);
 	
 };
 
