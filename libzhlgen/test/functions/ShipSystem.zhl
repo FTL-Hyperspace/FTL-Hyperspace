@@ -63,6 +63,13 @@ struct ShipSystem
 {{
 	ShipSystem() { }
 	
+	static std::string SystemIdToName(int id)
+	{
+		std::string ret;
+		SystemIdToName(ret, id);
+		return ret;
+	}
+	
 	ShipSystem(int systemId, int roomId, int shipId, int startingPower)
 	{
 		this->constructor(systemId, roomId, shipId, startingPower);

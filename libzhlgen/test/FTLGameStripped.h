@@ -48,6 +48,7 @@ struct BatterySystem;
 struct CloakingSystem;
 struct MindSystem;
 struct Shields;
+struct ArtillerySystem;
 struct WeaponSystem;
 struct DroneSystem;
 struct ShipSystem;
@@ -2764,9 +2765,6 @@ struct EngineSystem;
 /* 409 */
 struct MedbaySystem;
 
-/* 290 */
-struct ArtillerySystem;
-
 /* 815 */
 struct std__vector_17ArtillerySystemZ1
 {
@@ -4146,6 +4144,15 @@ struct DroneSystem
   int slot_count;
   int iStartingBatteryPower;
   std__vector_4bool repowerList;
+};
+
+/* 290 */
+struct ArtillerySystem
+{
+  ShipSystem _base;
+  ProjectileFactory *projectileFactory;
+  Targetable *target;
+  bool bCloaked;
 };
 
 /* 448 */
@@ -5783,52 +5790,5 @@ struct GL_ColorTexVertex
   float g;
   float b;
   float a;
-};
-
-/* 826 */
-union __attribute__((aligned(8))) __m64
-{
-  unsigned __int64 m64_u64;
-  float m64_f32[2];
-  __int8 m64_i8[8];
-  __int16 m64_i16[4];
-  __int32 m64_i32[2];
-  __int64 m64_i64;
-  unsigned __int8 m64_u8[8];
-  unsigned __int16 m64_u16[4];
-  unsigned __int32 m64_u32[2];
-};
-
-/* 827 */
-union __attribute__((aligned(16))) __m128
-{
-  float m128_f32[4];
-  unsigned __int64 m128_u64[2];
-  __int8 m128_i8[16];
-  __int16 m128_i16[8];
-  __int32 m128_i32[4];
-  __int64 m128_i64[2];
-  unsigned __int8 m128_u8[16];
-  unsigned __int16 m128_u16[8];
-  unsigned __int32 m128_u32[4];
-};
-
-/* 828 */
-struct __m128d
-{
-  double m128d_f64[2];
-};
-
-/* 829 */
-union __attribute__((aligned(16))) __m128i
-{
-  __int8 m128i_i8[16];
-  __int16 m128i_i16[8];
-  __int32 m128i_i32[4];
-  __int64 m128i_i64[2];
-  unsigned __int8 m128i_u8[16];
-  unsigned __int16 m128i_u16[8];
-  unsigned __int32 m128i_u32[4];
-  unsigned __int64 m128i_u64[2];
 };
 

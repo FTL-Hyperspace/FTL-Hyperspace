@@ -118,7 +118,6 @@ HOOK_METHOD(SystemControl, CreateSystemBoxes, () -> void)
     int xPos = 22;
 
     std::vector<int> systemOrder = { 0, 1, 5, 13, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 14, 15, 20 };
-    //std::vector<int> systemOrder = { 0, 1, 2, 3, 4, 5, 9, 10, 11, 12, 13, 14, 15 };
 
     for (auto sysId : systemOrder)
     {
@@ -127,43 +126,51 @@ HOOK_METHOD(SystemControl, CreateSystemBoxes, () -> void)
 
         switch (sysId)
         {
-        case 14:
+        case SYS_MIND:
             {
                 auto box = new MindBox(Point(xPos + 36, 269), shipManager->mindSystem);
                 sysBoxes.push_back(box);
                 xPos += 54;
                 break;
             }
-        case 13:
+        case SYS_CLONEBAY:
             {
                 auto box = new CloneBox(Point(xPos + 36, 269), shipManager->cloneSystem);
                 sysBoxes.push_back(box);
                 xPos += 36;
                 break;
             }
-        case 15:
+        case SYS_HACKING:
             {
                 auto box = new HackBox(Point(xPos + 36, 269), shipManager->hackingSystem, shipManager);
                 sysBoxes.push_back(box);
                 xPos += 54;
                 break;
             }
-        case 9:
+        case SYS_TELEPORTER:
             {
                 auto box = new TeleportBox(Point(xPos + 36, 269), shipManager->teleportSystem);
                 sysBoxes.push_back(box);
                 xPos += 54;
                 break;
             }
-        case 10:
+        case SYS_CLOAKING:
             {
                 auto box = new CloakingBox(Point(xPos + 36, 269), shipManager->cloakSystem);
                 sysBoxes.push_back(box);
                 xPos += 54;
                 break;
             }
-        case 11:
+        case SYS_ARTILLERY:
             {
+                for (auto i : shipManager->artillerySystems)
+                {
+                    auto box = new ArtilleryBox(Point(xPos + 36, 269), i);
+                    sysBoxes.push_back(box);
+                    xPos += 36;
+                }
+
+                /*
                 if (shipManager->artillerySystems.size() > 0)
                 {
                     auto artillerySys = shipManager->artillerySystems[0];
@@ -171,15 +178,16 @@ HOOK_METHOD(SystemControl, CreateSystemBoxes, () -> void)
                     sysBoxes.push_back(box);
                     xPos += 36;
                 }
+                */
             }
             break;
-        case 3:
+        case SYS_WEAPONS:
             break;
-        case 4:
+        case SYS_DRONES:
             break;
 
         // Custom systems
-        case 20:
+        case SYS_TEMPORAL:
             {
                 auto box = new TemporalBox(Point(xPos + 36, 269), sys, shipManager);
                 sysBoxes.push_back(box);
@@ -224,7 +232,7 @@ HOOK_METHOD(SystemControl, CreateSystemBoxes, () -> void)
 
     int subSystemOrder[4] = { 6, 7, 8, 12 };
 
-    int subXPos = subSystemPosition.x - 36;
+    int subXPos = subSystemPosition.x;
     int subYPos = subSystemPosition.y;
 
     for (int i = 0; i < 4; i++)
@@ -234,33 +242,32 @@ HOOK_METHOD(SystemControl, CreateSystemBoxes, () -> void)
         auto sys = shipManager->GetSystem(sysId);
         switch (sysId)
         {
-        case 8:
+        case SYS_DOORS:
             if (sys)
             {
-                auto box = new DoorBox(Point(subXPos + 36, subYPos), sys, shipManager);
+                auto box = new DoorBox(Point(subXPos, subYPos), sys, shipManager);
                 sysBoxes.push_back(box);
-                subXPos += sub_spacing + 36;
             }
+
             subXPos += 15;
             break;
-        case 12:
+        case SYS_BATTERY:
             if (sys)
             {
-                auto box = new BatteryBox(Point(subXPos + 36, subYPos), shipManager->batterySystem);
+                auto box = new BatteryBox(Point(subXPos, subYPos), shipManager->batterySystem);
                 sysBoxes.push_back(box);
-                subXPos += sub_spacing + 36;
             }
             subXPos += 18;
             break;
         default:
             if (sys)
             {
-                auto box = new SystemBox(Point(subXPos + 36, subYPos), sys, true);
+                auto box = new SystemBox(Point(subXPos, subYPos), sys, true);
                 sysBoxes.push_back(box);
             }
-            subXPos += sub_spacing + 36;
             break;
         }
+        subXPos += sub_spacing + 36;
     }
 }
 
@@ -280,17 +287,34 @@ HOOK_METHOD(ShipBuilder, CreateSystemBoxes, () -> void)
 
     for (auto i : systemIds)
     {
-        if (currentShip->HasSystem(i))
+        if (i == SYS_ARTILLERY)
         {
-            auto sys = currentShip->GetSystem(i);
-            auto box = new SystemCustomBox(Point(xPos, 425), sys, currentShip);
+            for (auto sys : currentShip->artillerySystems)
+            {
+                auto box = new SystemCustomBox(Point(xPos, 425), sys, currentShip);
 
-            sysBoxes.push_back(box);
+                sysBoxes.push_back(box);
 
-            box->bShowPower = true;
-            box->bSimplePower = true;
+                box->bShowPower = true;
+                box->bSimplePower = true;
 
-            xPos += 38;
+                xPos += 38;
+            }
+        }
+        else
+        {
+            if (currentShip->HasSystem(i))
+            {
+                auto sys = currentShip->GetSystem(i);
+                auto box = new SystemCustomBox(Point(xPos, 425), sys, currentShip);
+
+                sysBoxes.push_back(box);
+
+                box->bShowPower = true;
+                box->bSimplePower = true;
+
+                xPos += 38;
+            }
         }
     }
 }
@@ -337,27 +361,54 @@ HOOK_METHOD(Upgrades, OnInit, (ShipManager *ship) -> void)
 
     for (auto i : systemOrder)
     {
-        auto sys = ship->GetSystem(i);
-        if (sys)
+        if (i == SYS_ARTILLERY)
         {
-            int yPos = position.y + 115;
-            bool isSubsystem = !sys->bNeedsPower;
-
-            if (isSubsystem)
+            for (auto sys : ship->artillerySystems)
             {
-                subsystemXPos += 66;
-                yPos = position.y + 330;
-                numSubsystems++;
-            }
-            else
-            {
-                systemXPos += 66;
-                numSystems++;
-            }
+                int yPos = position.y + 115;
+                bool isSubsystem = !sys->bNeedsPower;
 
-            auto box = new UpgradeBox(ship, sys, Point(isSubsystem ? subsystemXPos : systemXPos, yPos), isSubsystem);
-            vUpgradeBoxes.push_back(box);
-            systemCount++;
+                if (isSubsystem)
+                {
+                    subsystemXPos += 66;
+                    yPos = position.y + 330;
+                    numSubsystems++;
+                }
+                else
+                {
+                    systemXPos += 66;
+                    numSystems++;
+                }
+
+                auto box = new UpgradeBox(ship, sys, Point(isSubsystem ? subsystemXPos : systemXPos, yPos), isSubsystem);
+                vUpgradeBoxes.push_back(box);
+                systemCount++;
+            }
+        }
+        else
+        {
+            auto sys = ship->GetSystem(i);
+            if (sys)
+            {
+                int yPos = position.y + 115;
+                bool isSubsystem = !sys->bNeedsPower;
+
+                if (isSubsystem)
+                {
+                    subsystemXPos += 66;
+                    yPos = position.y + 330;
+                    numSubsystems++;
+                }
+                else
+                {
+                    systemXPos += 66;
+                    numSystems++;
+                }
+
+                auto box = new UpgradeBox(ship, sys, Point(isSubsystem ? subsystemXPos : systemXPos, yPos), isSubsystem);
+                vUpgradeBoxes.push_back(box);
+                systemCount++;
+            }
         }
     }
 

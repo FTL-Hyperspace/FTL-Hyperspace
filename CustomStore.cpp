@@ -1357,6 +1357,7 @@ HOOK_METHOD(Store, OnRender, () -> void)
         confirmDialog.OnRender();
     }
 }
+
 void StoreComplete::SaveStore(int file)
 {
     FileHelper::writeInt(file, pages.size());
@@ -1689,4 +1690,99 @@ HOOK_METHOD(Store, MouseClick, (int x, int y) -> void)
     }
 
     super(x, y);
+}
+
+HOOK_METHOD(Store, CreateStoreBoxes, (int category, Equipment* equip) -> void)
+{
+    if (category == 4) // systems
+    {
+        bool guaranteedShields = !shopper->HasSystem(0);
+        bool guaranteedDrones = (!shopper->HasSystem(4)) && types[0] == 1 || types[1] == 1 || types[2] == 1 || types[3] == 1;
+        int guaranteedMedicalId = -1;
+
+        auto& systemPlacements = shopper->myBlueprint.systemInfo;
+
+        if (!shopper->HasSystem(5) && (!Settings::GetDlcEnabled() || !shopper->HasSystem(13)))
+        {
+            if (!Settings::GetDlcEnabled())
+            {
+                guaranteedMedicalId = SYS_MEDBAY;
+            }
+            else
+            {
+                if (random32() % 1 == 0)
+                {
+                    guaranteedMedicalId = SYS_MEDBAY;
+                }
+                else
+                {
+                    guaranteedMedicalId = SYS_CLONEBAY;
+                }
+            }
+        }
+
+        int numAddedSystems = 0;
+
+        if (guaranteedShields && systemPlacements.find(SYS_SHIELDS) != systemPlacements.end())
+        {
+            vStoreBoxes.push_back(new SystemStoreBox(shopper, equip, SYS_SHIELDS));
+            numAddedSystems++;
+        }
+        if (guaranteedDrones && systemPlacements.find(SYS_DRONES) != systemPlacements.end())
+        {
+            vStoreBoxes.push_back(new SystemStoreBox(shopper, equip, SYS_DRONES));
+            numAddedSystems++;
+        }
+        if (guaranteedMedicalId != -1 && systemPlacements.find(guaranteedMedicalId) != systemPlacements.end())
+        {
+            vStoreBoxes.push_back(new SystemStoreBox(shopper, equip, guaranteedMedicalId));
+            numAddedSystems++;
+        }
+
+        std::vector<int> newSystems = std::vector<int>();
+
+        std::vector<int> systemCheckList = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 20 };
+        std::vector<int> aeSystems = { 12, 13, 14, 15 };
+
+        if (Settings::GetDlcEnabled())
+        {
+            systemCheckList.insert(systemCheckList.end(), aeSystems.begin(), aeSystems.end());
+        }
+
+        for (auto sysId : systemCheckList)
+        {
+            if (sysId == SYS_SHIELDS && guaranteedShields ||
+                sysId == SYS_DRONES && guaranteedDrones ||
+                sysId == guaranteedMedicalId)
+            {
+                continue;
+            }
+
+            auto bp = G_->GetBlueprints()->GetSystemBlueprint(ShipSystem::SystemIdToName(sysId));
+
+            if (!shopper->HasSystem(sysId) && bp && bp->desc.rarity > 0 && systemPlacements.find(sysId) != systemPlacements.end())
+            {
+                newSystems.push_back(sysId);
+            }
+        }
+
+        for (int i = 0; i < (3 - numAddedSystems); i++)
+        {
+            if (newSystems.size() == 0)
+            {
+                vStoreBoxes.push_back(new StoreBox("storeUI/store_weapons", nullptr, nullptr));
+                continue;
+            }
+
+            int chosenIdx = random32() % newSystems.size();
+
+            vStoreBoxes.push_back(new SystemStoreBox(shopper, equip, newSystems[chosenIdx]));
+
+            newSystems.erase(newSystems.begin() + chosenIdx);
+        }
+
+        return;
+    }
+
+    return super(category, equip);
 }
