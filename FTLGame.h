@@ -4776,6 +4776,7 @@ struct CombatControl
 	LIBZHL_API void KeyDown(SDLKey key);
 	LIBZHL_API void DisarmTeleporter();
 	LIBZHL_API void constructor();
+	LIBZHL_API void RenderSelfAiming();
 	
 	CommandGui *gui;
 	ShipManager *shipManager;

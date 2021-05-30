@@ -633,7 +633,38 @@ HOOK_METHOD(ShipManager, RenderChargeBars, () -> void)
             }
         }
     }
+}
 
+HOOK_METHOD(CombatControl, RenderSelfAiming, () -> void)
+{
+    super();
+
+    if (shipManager->HasSystem(SYS_TEMPORAL))
+    {
+        auto sys = SYS_EX(shipManager->GetSystem(SYS_TEMPORAL))->temporalSystem;
+
+        if (sys->queuedShipId == 0 && sys->queuedRoomId != -1)
+        {
+            CachedImage *img = nullptr;
+
+            if (sys->queuedSpeedUp)
+            {
+                img = temporalTarget_speed;
+            }
+            else
+            {
+                img = temporalTarget_slow;
+            }
+
+            if (img != nullptr)
+            {
+                auto pos = shipManager->GetRoomCenter(sys->queuedRoomId);
+                img->SetPosition(pos.x - 20, pos.y - 20);
+
+                img->OnRender(COLOR_WHITE);
+            }
+        }
+    }
 }
 
 HOOK_METHOD(CombatControl, OnRenderCombat, () -> void)
