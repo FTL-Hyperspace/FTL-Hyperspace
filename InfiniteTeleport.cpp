@@ -1,6 +1,6 @@
 #include "Global.h"
 
-std::vector<CrewMember*> TeleportCrewShip(ShipManager *ship, int roomId, bool intruders)
+std::vector<CrewMember*> TeleportCrewShip(ShipManager *ship, int roomId, bool intruders, int maximum=-1)
 {
     std::vector<CrewMember*> leavingCrewList = std::vector<CrewMember*>();
 
@@ -19,6 +19,8 @@ std::vector<CrewMember*> TeleportCrewShip(ShipManager *ship, int roomId, bool in
             leavingCrewList.push_back(i);
 
             teleCounter++;
+
+            if (teleCounter >= maximum && maximum != -1) return leavingCrewList;
         }
     }
 
@@ -48,11 +50,23 @@ HOOK_METHOD(CompleteShip, InitiateTeleport, (int targetRoom, int command) -> voi
 
     if (command == 1)
     {
-        leavingParty = TeleportCrewShip(shipManager, teleSysRoom, false);
+        int freeSlots = 0;
+
+        for (auto i : ShipGraph::GetShipInfo(enemyShip->shipManager->iShipId)->rooms)
+        {
+            freeSlots += i->GetEmptySlots(true);
+        }
+
+        if (freeSlots > 0)
+        {
+            leavingParty = TeleportCrewShip(shipManager, teleSysRoom, false, freeSlots);
+        }
     }
     if (command == 2)
     {
-        arrivingParty = TeleportCrewShip(enemyShip->shipManager, teleTargetRoom, true);
+        int freeSlots = ShipGraph::GetShipInfo(iShipId)->rooms[teleSysRoom]->GetEmptySlots(false);
+
+        arrivingParty = TeleportCrewShip(enemyShip->shipManager, teleTargetRoom, true, freeSlots);
     }
 
     if (!leavingParty.empty() || !arrivingParty.empty())
