@@ -8,11 +8,18 @@ CrewMember *CrewBox::GetSelected(CrewBox *this<ecx>, int mouseX, int mouseY);
 void CrewBox::OnLoop(CrewBox *this<ecx>, bool selected);
 "578d7c240883e4f0ff77fc5589e5575389cb83ec3080b9300100000075??8b43048d4de8":
 void CrewBox::OnRenderSkillLevel(CrewBox *this<ecx>);
+"5589e557565389ce83e4f083ec208b813c010000894c2418890424e8????????8b8640010000890424e8????????8b8644010000890424e8????????8b8648010000890424":
+void CrewBox::destructor(CrewBox *this<ecx>);
 
 struct CrewBox
 {{
 	CrewBox(Point pos_, CrewMember *crew_, int number_)
 	{
 		this->constructor(pos_, crew_, number_);
+	}
+	
+	~CrewBox()
+	{
+		this->destructor();
 	}
 }};

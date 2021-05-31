@@ -6818,12 +6818,18 @@ struct CrewBox
 	{
 		this->constructor(pos_, crew_, number_);
 	}
+	
+	~CrewBox()
+	{
+		this->destructor();
+	}
 
 	LIBZHL_API void constructor(Point pos, CrewMember *crew, int number);
 	LIBZHL_API void OnRender();
 	LIBZHL_API CrewMember *GetSelected(int mouseX, int mouseY);
 	LIBZHL_API void OnLoop(bool selected);
 	LIBZHL_API void OnRenderSkillLevel();
+	LIBZHL_API void destructor();
 	
 	Globals::Rect box;
 	Globals::Rect skillBox;
