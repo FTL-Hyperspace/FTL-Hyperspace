@@ -427,6 +427,7 @@ HOOK_METHOD(Upgrades, OnInit, (ShipManager *ship) -> void)
 
 }
 
+
 HOOK_METHOD(CombatControl, KeyDown, (SDLKey key) -> void)
 {
     if (weapControl.KeyDown(key) || droneControl.KeyDown(key))

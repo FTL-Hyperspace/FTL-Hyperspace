@@ -112,6 +112,10 @@ int ShipManager::AddWeapon(ShipManager *this<ecx>, const WeaponBlueprint* bp, in
 void ShipManager::AddEquipmentFromList(ShipManager *this<ecx>, std::vector<std::string> equipmentList);
 "8b410485c075??c3908db4260000000080b9b00400000075??80b9990400000074??f3c38b915408000085d2":
 void ShipManager::RenderChargeBars(ShipManager *this<ecx>);
+"578d7c240883e4f0ff77fc5589f889e557565389cf83ec3c8b188b81c8040000837810ff0f84????????8b414c":
+void ShipManager::ExportBattleState(ShipManager *this<ecx>, int file);
+"578d7c240883e4f0ff77fc5589e557565389cb83ec3c8b81c80400008b37837810ff0f84????????8b414c8d4ddc05????????":
+void ShipManager::ImportBattleState(ShipManager *this<ecx>, int file);
 
 struct ShipManager depends (PowerManager, ShieldPower)
 {{

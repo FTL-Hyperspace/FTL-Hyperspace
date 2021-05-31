@@ -670,10 +670,9 @@ HOOK_METHOD(CombatControl, RenderSelfAiming, () -> void)
 HOOK_METHOD(CombatControl, OnRenderCombat, () -> void)
 {
     super();
-    if (open && !weapControl.armedWeapon)
+    if (open)
     {
-
-        if (GetTemporalArmed(shipManager) != TEMPORAL_ARM_NONE)
+        if (GetTemporalArmed(shipManager) != TEMPORAL_ARM_NONE && !weapControl.armedWeapon)
         {
             g_iTemporal = GetTemporalArmed(shipManager);
 
@@ -1203,8 +1202,6 @@ HOOK_METHOD(ShipManager, ImportShip, (int file) -> void)
             if (!sys->IncreasePower(1, true)) break;
         }
 
-
-
         sys->AddDamage(FileHelper::readInteger(file));
         sys->AddLock(FileHelper::readInteger(file));
         sys->lockTimer.currTime = ((float)FileHelper::readInteger(file)) / 5000.f;
@@ -1220,8 +1217,76 @@ HOOK_METHOD(ShipManager, ImportShip, (int file) -> void)
         sys->bUnderAttack = FileHelper::readInteger(file);
 
         sys->LoadState(file);
+    }
+}
 
-        SYS_EX(sys)->temporalSystem->bTurnedOn = true;
-        SYS_EX(sys)->temporalSystem->StopTimeDilation();
+HOOK_METHOD(ShipManager, ExportBattleState, (int file) -> void)
+{
+    super(file);
+
+    if (systemKey[20] != -1)
+    {
+        auto sys = SYS_EX(GetSystem(20))->temporalSystem;
+
+        FileHelper::writeInt(file, sys->bTurnedOn);
+        FileHelper::writeInt(file, sys->isSpeeding);
+        FileHelper::writeInt(file, sys->timer.running);
+        FileHelper::writeInt(file, std::floor(sys->timer.currGoal * 5000));
+        FileHelper::writeInt(file, std::floor(sys->timer.currTime * 5000));
+        FileHelper::writeInt(file, sys->currentShipId);
+        FileHelper::writeInt(file, sys->dilationStrength);
+
+
+        if (sys->currentRoom != nullptr)
+        {
+            FileHelper::writeInt(file, sys->currentRoom->iRoomId);
+        }
+        else
+        {
+            FileHelper::writeInt(file, -1);
+        }
+    }
+}
+
+HOOK_METHOD(ShipManager, ImportBattleState, (int file) -> void)
+{
+    super(file);
+
+    if (systemKey[20] != -1)
+    {
+        auto sys = SYS_EX(GetSystem(20))->temporalSystem;
+
+        sys->bTurnedOn = FileHelper::readInteger(file);
+        sys->isSpeeding = FileHelper::readInteger(file);
+
+        if (FileHelper::readInteger(file))
+        {
+            sys->timer.Start(-1);
+
+        }
+        sys->timer.SetMaxTime(((float)FileHelper::readInteger(file)) / 5000.f);
+        sys->timer.currTime = ((float)FileHelper::readInteger(file)) / 5000.f;
+
+        int shipId = FileHelper::readInteger(file);
+        int strength = FileHelper::readInteger(file);
+        int roomId = FileHelper::readInteger(file);
+
+        sys->currentShipId = shipId;
+        sys->dilationStrength = strength;
+
+
+        if (roomId != -1 && shipId != -1)
+        {
+            if (shipId == iShipId)
+            {
+                RM_EX(ship.vRoomList[roomId])->timeDilation = sys->isSpeeding ? strength : -strength;
+                sys->currentRoom = ship.vRoomList[roomId];
+            }
+            else if (current_target)
+            {
+                RM_EX(current_target->ship.vRoomList[roomId])->timeDilation = sys->isSpeeding ? strength : -strength;;
+                sys->currentRoom = current_target->ship.vRoomList[roomId];
+            }
+        }
     }
 }

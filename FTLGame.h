@@ -3900,6 +3900,8 @@ struct ShipManager : ShipObject
 	LIBZHL_API int AddWeapon(const WeaponBlueprint *bp, int slot);
 	LIBZHL_API void AddEquipmentFromList(std::vector<std::string> equipmentList);
 	LIBZHL_API void RenderChargeBars();
+	LIBZHL_API void ExportBattleState(int file);
+	LIBZHL_API void ImportBattleState(int file);
 	
 	Targetable _targetable;
 	Collideable _collideable;
