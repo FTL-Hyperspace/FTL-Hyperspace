@@ -1,5 +1,6 @@
 #pragma once
 #include "Global.h"
+#include "ToggleValue.h"
 #include <array>
 #include <algorithm>
 #include <boost/algorithm/string/predicate.hpp>
@@ -55,6 +56,8 @@ struct CustomShipDefinition
     int startingScrap = -1;
 
     std::unordered_map<int, RoomDefinition*> roomDefs;
+    std::vector<std::string> shipIcons;
+    ToggleValue<bool> forceAutomated;
 
     int crewLimit = 8;
 
@@ -192,7 +195,14 @@ public:
         }
         else
         {
-            auto it = std::find_if(shipButtonDefs.begin(), shipButtonDefs.end(), [&name](const ShipButtonDefinition& def) { return def.name == name; });
+            std::string finalName = name;
+
+            if (boost::ends_with(name, "_2") || boost::ends_with(name, "_3"))
+            {
+                finalName = name.substr(0, name.size() - 2);
+            }
+
+            auto it = std::find_if(shipButtonDefs.begin(), shipButtonDefs.end(), [&finalName](const ShipButtonDefinition& def) { return def.name == finalName; });
 
             if (it != shipButtonDefs.end())
             {
@@ -265,7 +275,7 @@ public:
 
     bool IsCustomShip(std::string& id)
     {
-        return std::count_if(shipButtonDefs.begin(), shipButtonDefs.end(), [id](ShipButtonDefinition i) { return boost::starts_with(id, i.name); }) > 0;
+        return std::count_if(shipButtonDefs.begin(), shipButtonDefs.end(), [id](ShipButtonDefinition i) { return id == i.name || (id.size() > 3 && id.substr(0, id.size() - 2) == i.name); }) > 0;
     }
 
     bool HasCustomDef(std::string& id)

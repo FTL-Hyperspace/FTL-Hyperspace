@@ -22,7 +22,9 @@ void CustomAugmentManager::ParseCustomAugmentNode(rapidxml::xml_node<char>* node
 
                 for (auto functionNode = child->first_node(); functionNode; functionNode = functionNode->next_sibling())
                 {
-                    if (strcmp(functionNode->name(), "function") == 0)
+                    std::string functionNodeName = functionNode->name();
+
+                    if (functionNodeName == "function")
                     {
                         auto func = AugmentFunction();
 
@@ -50,13 +52,23 @@ void CustomAugmentManager::ParseCustomAugmentNode(rapidxml::xml_node<char>* node
                                 func.warning = EventsParser::ParseBoolean(functionNode->first_attribute("warning")->value());
                             }
 
-
                             augDef->functions[functionName] = func;
                         }
                     }
-                    if (strcmp(functionNode->name(), "locked") == 0)
+                    if (functionNodeName == "locked")
                     {
                         augDef->locked = true;
+                    }
+
+                    if (functionNodeName == "statBoosts")
+                    {
+                        for (auto statBoostNode = functionNode->first_node(); statBoostNode; statBoostNode = statBoostNode->next_sibling())
+                        {
+                            if (strcmp(statBoostNode->name(), "statBoost") == 0)
+                            {
+                                augDef->statBoosts.push_back(ParseStatBoostNode(statBoostNode));
+                            }
+                        }
                     }
                 }
 
@@ -254,70 +266,6 @@ HOOK_METHOD_PRIORITY(ShipObject, GetAugmentationValue, 1000, (const std::string&
     return ret;
 }
 
-
-
-// Make augment box scale with text
-
-HOOK_METHOD(InfoBox, SetBlueprintAugment, (const AugmentBlueprint* bp) -> void)
-{
-    desc.title.data.assign(bp->desc.title.data);
-    desc.title.isLiteral = bp->desc.title.isLiteral;
-
-    desc.shortTitle.data.assign(bp->desc.shortTitle.data);
-    desc.shortTitle.isLiteral = bp->desc.shortTitle.isLiteral;
-
-
-    desc.description.data.assign(bp->desc.description.data);
-    desc.description.isLiteral = bp->desc.description.isLiteral;
-
-    desc.cost = bp->desc.cost;
-    desc.rarity = bp->desc.rarity;
-    desc.baseRarity = bp->desc.baseRarity;
-    desc.bp = bp->desc.bp;
-    desc.locked = bp->desc.locked;
-
-    descBoxSize.x = 305;
-    descBoxSize.y = 266;
-    primaryBoxOffset = 67;
-
-    CustomAugmentManager* customAug = CustomAugmentManager::GetInstance();
-
-    if (customAug->IsAugment(bp->name))
-    {
-        std::string warn = G_->GetTextLibrary()->GetText("augment_no_effect");
-        warn.append("\n");
-
-        BlueprintManager* blueprints = G_->GetBlueprints();
-        int counter = 0;
-        for (auto const &x: customAug->GetAugmentDefinition(bp->name)->functions)
-        {
-            if (!x.second.warning)
-                continue;
-
-            auto bp = blueprints->GetAugmentBlueprint(x.first);
-
-            if (((x.second.preferHigher && bp->value <= x.second.value) || (!x.second.preferHigher && bp->value >= x.second.value)) && !bp->stacking)
-            {
-                warn += bp->desc.title.GetText() + "\n";
-                counter++;
-            }
-        }
-
-        if (counter > 0)
-            warning.assign(warn);
-    }
-
-    Pointf s = freetype_hack::easy_measurePrintLines(10, 0, 0, descBoxSize.x, warning + "\n" + desc.description.GetText());
-    descBoxSize.y = s.y;
-
-    delete primaryBox;
-    primaryBox = new WindowFrame(7, 7, 323, s.y + 58);
-
-    bDetailed = false;
-}
-
-
-
 // Locked augments
 
 static GL_Texture* augLockTexture = nullptr;
@@ -488,7 +436,6 @@ HOOK_METHOD(ShipObject, GetAugmentationCount, () -> int)
 
     return count;
 }
-
 HOOK_METHOD(ShipObject, RemoveAugmentation, (const std::string& name) -> void)
 {
     super(name);
@@ -505,4 +452,12 @@ HOOK_METHOD(ShipObject, RemoveAugmentation, (const std::string& name) -> void)
     }
 
     G_->GetShipInfo(iShipId)->augCount = augCount;
+
+    /*
+    ShipManager* ship = G_->GetShipManager(this);
+    if (ship != nullptr)
+    {
+        auto sm = SM_EX(ship);
+    }
+    */
 }

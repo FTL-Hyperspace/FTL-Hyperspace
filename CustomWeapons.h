@@ -1,12 +1,36 @@
 #pragma once
 #include "Global.h"
 
+struct WeaponAttribute
+{
+    enum class MathType
+    {
+        SET,
+        FLAT,
+        MULT
+    };
+
+    std::string attribute;
+    float amount;
+};
+
+struct WeaponModifier
+{
+    std::string name;
+    std::vector<std::string> targets;
+    std::string titleSuffix;
+    std::string descriptionSuffix;
+
+    std::vector<WeaponAttribute> attributes;
+};
+
 struct CustomWeaponDefinition
 {
     std::string name;
 
     int freeMissileChance;
     std::string descriptionOverride;
+    bool hideEventTooltip = false;
 };
 
 class CustomWeaponManager

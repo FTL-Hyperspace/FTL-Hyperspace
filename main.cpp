@@ -24,6 +24,8 @@ extern "C" BOOL APIENTRY DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpv
             ZHL::SetLogPath("zhl.log");
             ZHL::Init();
 
+            G_->Initialize();
+
 
 
 

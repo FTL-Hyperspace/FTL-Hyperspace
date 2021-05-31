@@ -18,6 +18,16 @@ static Description* BlueprintManager::ProcessDescription(Description *desc<ecx>,
 static EffectsBlueprint* BlueprintManager::ProcessEffectsBlueprint(EffectsBlueprint *bp<ecx>, BlueprintManager *bpM, rapidxml::xml_node<char>* node);
 "578d7c240883e4f0ff77fc5589f889e557565389cb83ec6c8b3f8b7004e8????????8d47648d5768":
 static CrewBlueprint* BlueprintManager::GetCrewBlueprint(CrewBlueprint* bp<ecx>, BlueprintManager *bpM, const std::string& name);
+"578d7c240883e4f0ff77fc5589e557565389cb8d4dd083ec4c8b378dbbf4000000c70424????????e8????????83ec04":
+WeaponBlueprint* BlueprintManager::GetWeaponBlueprint(BlueprintManager *this<ecx>, const std::string& name);
+"578d7c240883e4f0ff77fc5589e5575389cb83ec108b078b57040fb64f08895424088d504c":
+static AugmentBlueprint* BlueprintManager::GetRandomAugment(AugmentBlueprint* bp<ecx>, BlueprintManager *bpM);
+"578d91e00000008d7c240883e4f0ff77fc5589e557565383ec3c8b99e4000000894dcc8b378955d085db0f84????????8955d489df":
+SystemBlueprint* BlueprintManager::GetSystemBlueprint(BlueprintManager *this<ecx>, const std::string& name);
+"578d7c240883e4f0ff77fc5589e557565383ec5c8b07894db4c7410400000000c6410800c745a815000000":
+static void BlueprintManager::GetUnusedCrewName(std::string& strRef<ecx>, BlueprintManager* bpM, bool* isMale_ret);
+"578d7c240883e4f0ff77fc5589e557565389ce8d5dd083ec4c8b178b47048b0d????????8945c08d427c8955bc8945c4":
+static void BlueprintManager::GetCrewName(std::string& strRef<ecx>, BlueprintManager* bpM, bool* isMale_ret);
 
 
 struct BlueprintManager
@@ -42,4 +52,15 @@ struct BlueprintManager
 		
 		return GetCrewBlueprint(bp, this, name);
 	}
+	
+	std::vector<std::string> GetBlueprintList(const std::string& name)
+	{
+		std::vector<std::string> bpList = std::vector<std::string>();
+		
+		GetBlueprintList(bpList, this, name);
+		
+		return bpList;
+	}
+	
+	
 }};

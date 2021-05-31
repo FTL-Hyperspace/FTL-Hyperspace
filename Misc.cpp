@@ -2,6 +2,7 @@
 #include "ASMHooks.h"
 #include "CustomCrew.h"
 #include "ShipUnlocks.h"
+#include "EnemyShipIcons.h"
 
 // Plays airlock sound when crew have been "dismissed"
 

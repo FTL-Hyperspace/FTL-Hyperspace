@@ -1,3 +1,5 @@
+#pragma GCC push_options
+#pragma GCC optimize ("O1")
 #include "CustomDrones.h"
 #include "CustomCrew.h"
 #include <algorithm>
@@ -5,12 +7,29 @@
 static bool __attribute__((fastcall)) CrewDrone_GetControllable(CrewDrone *_this)
 {
     bool req = _this->iShipId == 0 && !_this->IsDead() && !_this->bMindControlled && _this->Functional();
+    if (!req)
+    {
+        return false;
+    }
 
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
 
+    if (_this->_drone.blueprint->name == "BOARDER_ION" && custom->IsRace("boarder_ion"))
+    {
+        auto ex = CM_EX(_this);
+        auto def = custom->GetDefinition("boarder_ion");
+        bool ret = false;
+        ex->CalculateStat(CrewStat::CONTROLLABLE, def, &ret);
+        return ret && req;
+    }
+
     if (custom->IsRace(_this->species))
     {
-        return custom->GetDefinition(_this->species).controllable && req;
+        auto ex = CM_EX(_this);
+        auto def = custom->GetDefinition(_this->species);
+        bool ret = false;
+        ex->CalculateStat(CrewStat::CONTROLLABLE, def, &ret);
+        return ret && req;
     }
 
     return false;
@@ -19,9 +38,26 @@ static bool __attribute__((fastcall)) CrewDrone_GetControllable(CrewDrone *_this
 static bool __attribute__((fastcall)) CrewDrone_CanFight(CrewDrone *_this)
 {
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
+
+    if (_this->_drone.blueprint->name == "BOARDER_ION") {
+        if (custom->IsRace("boarder_ion"))
+        {
+            auto ex = CM_EX(_this);
+            auto def = custom->GetDefinition("boarder_ion");
+            bool ret = false;
+            ex->CalculateStat(CrewStat::CAN_FIGHT, def, &ret);
+            return ret;
+        }
+        return false;
+    }
+
     if (custom->IsRace(_this->species))
     {
-        return custom->GetDefinition(_this->species).canFight;
+        auto ex = CM_EX(_this);
+        auto def = custom->GetDefinition(_this->species);
+        bool ret = false;
+        ex->CalculateStat(CrewStat::CAN_FIGHT, def, &ret);
+        return ret;
     }
 
     if (_this->_drone.blueprint->typeName == "BOARDER")
@@ -45,12 +81,33 @@ static bool __attribute__((fastcall)) CrewDrone_CanFight(CrewDrone *_this)
 static bool __attribute__((fastcall)) CrewDrone_CanRepair(CrewDrone *_this)
 {
     bool req = _this->_drone.powered;
+    if (!req)
+    {
+        return false;
+    }
 
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
 
+//    if (_this->GetShipObject()->HasAugmentation("ALL_DRONE_CREW_REPAIR"))
+//    {
+//        return (bool)_this->GetShipObject()->GetAugmentationValue("ALL_DRONE_CREW_REPAIR");
+//    }
+    if (_this->_drone.blueprint->name == "BOARDER_ION" && custom->IsRace("boarder_ion"))
+    {
+        auto ex = CM_EX(_this);
+        auto def = custom->GetDefinition("boarder_ion");
+        bool ret = false;
+        ex->CalculateStat(CrewStat::CAN_REPAIR, def, &ret);
+        return ret && req;
+    }
+
     if (custom->IsRace(_this->species))
     {
-        return custom->GetDefinition(_this->species).canRepair && req;
+        auto ex = CM_EX(_this);
+        auto def = custom->GetDefinition(_this->species);
+        bool ret = false;
+        ex->CalculateStat(CrewStat::CAN_REPAIR, def, &ret);
+        return ret && req;
     }
 
     if (_this->_drone.blueprint->typeName == "BOARDER")
@@ -74,11 +131,32 @@ static bool __attribute__((fastcall)) CrewDrone_CanRepair(CrewDrone *_this)
 static bool __attribute__((fastcall)) CrewDrone_CanSabotage(CrewDrone *_this)
 {
     bool req = _this->intruder;
+    if (!req)
+    {
+        return false;
+    }
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
+
+//    if (_this->GetShipObject()->HasAugmentation("ALL_DRONE_CREW_SABOTAGE"))
+//    {
+//        return (bool)_this->GetShipObject()->GetAugmentationValue("ALL_DRONE_CREW_SABOTAGE");
+//    }
+    if (_this->_drone.blueprint->name == "BOARDER_ION" && custom->IsRace("boarder_ion"))
+    {
+        auto ex = CM_EX(_this);
+        auto def = custom->GetDefinition("boarder_ion");
+        bool ret = false;
+        ex->CalculateStat(CrewStat::CAN_SABOTAGE, def, &ret);
+        return ret && req;
+    }
 
     if (custom->IsRace(_this->species))
     {
-        return custom->GetDefinition(_this->species).canSabotage && req;
+        auto ex = CM_EX(_this);
+        auto def = custom->GetDefinition(_this->species);
+        bool ret = false;
+        ex->CalculateStat(CrewStat::CAN_SABOTAGE, def, &ret);
+        return ret && req;
     }
 
     if (_this->_drone.blueprint->typeName == "BOARDER")
@@ -102,11 +180,33 @@ static bool __attribute__((fastcall)) CrewDrone_CanSabotage(CrewDrone *_this)
 static bool __attribute__((fastcall)) CrewDrone_CanMan(CrewDrone *_this)
 {
     bool req = !_this->intruder && _this->fStunTime == 0.f && _this->crewAnim->status != 3;
+    if (!req)
+    {
+        return false;
+    }
 
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
+
+//    if (_this->GetShipObject()->HasAugmentation("ALL_DRONE_CREW_MAN"))
+//    {
+//        return (bool)_this->GetShipObject()->GetAugmentationValue("ALL_DRONE_CREW_MAN");
+//    }
+    if (_this->_drone.blueprint->name == "BOARDER_ION" && custom->IsRace("boarder_ion"))
+    {
+        auto ex = CM_EX(_this);
+        auto def = custom->GetDefinition("boarder_ion");
+        bool ret = false;
+        ex->CalculateStat(CrewStat::CAN_MAN, def, &ret);
+        return ret && req;
+    }
+
     if (custom->IsRace(_this->species))
     {
-        return custom->GetDefinition(_this->species).canMan && req;
+        auto ex = CM_EX(_this);
+        auto def = custom->GetDefinition(_this->species);
+        bool ret = false;
+        ex->CalculateStat(CrewStat::CAN_MAN, def, &ret);
+        return ret && req;
     }
 
     return false;
@@ -116,9 +216,26 @@ static bool __attribute__((fastcall)) CrewDrone_CanSuffocate(CrewDrone *_this)
 {
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
 
+//    if (_this->GetShipObject()->HasAugmentation("ALL_DRONE_CREW_SUFFOCATE"))
+//    {
+//        return (bool)_this->GetShipObject()->GetAugmentationValue("ALL_DRONE_CREW_SUFFOCATE");
+//    }
+    if (_this->_drone.blueprint->name == "BOARDER_ION" && custom->IsRace("boarder_ion"))
+    {
+        auto ex = CM_EX(_this);
+        auto def = custom->GetDefinition("boarder_ion");
+        bool ret = false;
+        ex->CalculateStat(CrewStat::CAN_SUFFOCATE, def, &ret);
+        return ret;
+    }
+
     if (custom->IsRace(_this->species))
     {
-        return custom->GetDefinition(_this->species).canSuffocate;
+        auto ex = CM_EX(_this);
+        auto def = custom->GetDefinition(_this->species);
+        bool ret = false;
+        ex->CalculateStat(CrewStat::CAN_SUFFOCATE, def, &ret);
+        return ret;
     }
 
     return false;
@@ -128,9 +245,26 @@ static bool __attribute__((fastcall)) CrewDrone_CanBurn(CrewDrone *_this)
 {
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
 
+//    if (_this->GetShipObject()->HasAugmentation("ALL_DRONE_CREW_BURN"))
+//    {
+//        return (bool)_this->GetShipObject()->GetAugmentationValue("ALL_DRONE_CREW_BURN");
+//    }
+    if (_this->_drone.blueprint->name == "BOARDER_ION" && custom->IsRace("boarder_ion"))
+    {
+        auto ex = CM_EX(_this);
+        auto def = custom->GetDefinition("boarder_ion");
+        bool ret = false;
+        ex->CalculateStat(CrewStat::CAN_BURN, def, &ret);
+        return ret;
+    }
+
     if (custom->IsRace(_this->species))
     {
-        return custom->GetDefinition(_this->species).canBurn;
+        auto ex = CM_EX(_this);
+        auto def = custom->GetDefinition(_this->species);
+        bool ret = false;
+        ex->CalculateStat(CrewStat::CAN_BURN, def, &ret);
+        return ret;
     }
 
     return false;
@@ -139,10 +273,15 @@ static bool __attribute__((fastcall)) CrewDrone_CanBurn(CrewDrone *_this)
 static float __attribute__((fastcall)) CrewDrone_GetMoveSpeedMultiplier(CrewDrone *_this)
 {
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
-
+    if (_this->_drone.blueprint->name == "BOARDER_ION" && custom->IsRace("boarder_ion"))
+    {
+        auto def = custom->GetDefinition("boarder_ion");
+        return CM_EX(_this)->CalculateStat(CrewStat::MOVE_SPEED_MULTIPLIER, def);
+    }
     if (custom->IsRace(_this->species))
     {
-        return custom->GetDefinition(_this->species).moveSpeedMultiplier;
+        auto def = custom->GetDefinition(_this->species);
+        return CM_EX(_this)->CalculateStat(CrewStat::MOVE_SPEED_MULTIPLIER, def);
     }
 
     return 0.5f;
@@ -151,10 +290,15 @@ static float __attribute__((fastcall)) CrewDrone_GetMoveSpeedMultiplier(CrewDron
 static float __attribute__((fastcall)) CrewDrone_GetRepairSpeed(CrewDrone *_this)
 {
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
-
+    if (_this->_drone.blueprint->name == "BOARDER_ION" && custom->IsRace("boarder_ion"))
+    {
+        auto def = custom->GetDefinition("boarder_ion");
+        return CM_EX(_this)->CalculateStat(CrewStat::REPAIR_SPEED_MULTIPLIER, def);
+    }
     if (custom->IsRace(_this->species))
     {
-        return custom->GetDefinition(_this->species).repairSpeed;
+        auto def = custom->GetDefinition(_this->species);
+        return CM_EX(_this)->CalculateStat(CrewStat::REPAIR_SPEED_MULTIPLIER, def);
     }
 
     return 2.f;
@@ -163,14 +307,20 @@ static float __attribute__((fastcall)) CrewDrone_GetRepairSpeed(CrewDrone *_this
 static int __attribute__((fastcall)) CrewDrone_GetMaxHealth(CrewDrone *_this)
 {
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
+    if (_this->_drone.blueprint->name == "BOARDER_ION" && custom->IsRace("boarder_ion"))
+    {
+        auto def = custom->GetDefinition("boarder_ion");
+        return CM_EX(_this)->CalculateStat(CrewStat::MAX_HEALTH, def);
+    }
     if (custom->IsRace(_this->species))
     {
-        return custom->GetDefinition(_this->species).maxHealth;
+        auto def = custom->GetDefinition(_this->species);
+        return CM_EX(_this)->CalculateStat(CrewStat::MAX_HEALTH, def);
     }
 
     if (_this->_drone.blueprint->typeName == "BOARDER")
     {
-        return 150;
+        return _this->_drone.blueprint->name == "BOARDER_ION" ? 125 : 150;
     }
     else if (_this->_drone.blueprint->typeName == "BOARDER_ION")
     {
@@ -189,9 +339,15 @@ static int __attribute__((fastcall)) CrewDrone_GetMaxHealth(CrewDrone *_this)
 static float __attribute__((fastcall)) CrewDrone_GetDamageMultiplier(CrewDrone *_this)
 {
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
+    if (_this->_drone.blueprint->name == "BOARDER_ION" && custom->IsRace("boarder_ion"))
+    {
+        auto def = custom->GetDefinition("boarder_ion");
+        return CM_EX(_this)->CalculateStat(CrewStat::DAMAGE_MULTIPLIER, def);
+    }
     if (custom->IsRace(_this->species))
     {
-        return custom->GetDefinition(_this->species).damageMultiplier;
+        auto def = custom->GetDefinition(_this->species);
+        return CM_EX(_this)->CalculateStat(CrewStat::DAMAGE_MULTIPLIER, def);
     }
 
     if (_this->_drone.blueprint->typeName == "BOARDER")
@@ -215,9 +371,17 @@ static float __attribute__((fastcall)) CrewDrone_GetDamageMultiplier(CrewDrone *
 static bool __attribute__((fastcall)) CrewDrone_ProvidesPower(CrewDrone *_this)
 {
     bool req = _this->_drone.powered;
+    if (!req)
+    {
+        return false;
+    }
 
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
 
+    if (_this->_drone.blueprint->name == "BOARDER_ION" && custom->IsRace("boarder_ion"))
+    {
+        return custom->GetDefinition("boarder_ion").providesPower && req;
+    }
     if (custom->IsRace(_this->species))
     {
         return custom->GetDefinition(_this->species).providesPower && req;
@@ -229,9 +393,15 @@ static bool __attribute__((fastcall)) CrewDrone_ProvidesPower(CrewDrone *_this)
 static float __attribute__((fastcall)) CrewDrone_GetFireRepairMultiplier(CrewDrone *_this)
 {
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
+    if (_this->_drone.blueprint->name == "BOARDER_ION" && custom->IsRace("boarder_ion"))
+    {
+        auto def = custom->GetDefinition("boarder_ion");
+        return CM_EX(_this)->CalculateStat(CrewStat::FIRE_REPAIR_MULTIPLIER, def);
+    }
     if (custom->IsRace(_this->species))
     {
-        return custom->GetDefinition(_this->species).fireRepairMultiplier;
+        auto def = custom->GetDefinition(_this->species);
+        return CM_EX(_this)->CalculateStat(CrewStat::FIRE_REPAIR_MULTIPLIER, def);
     }
 
     return 1.2f;
@@ -240,12 +410,33 @@ static float __attribute__((fastcall)) CrewDrone_GetFireRepairMultiplier(CrewDro
 static bool __attribute__((fastcall)) CrewDrone_IsTelepathic(CrewDrone *_this)
 {
     bool req = _this->_drone.powered;
+    if (!req)
+    {
+        return false;
+    }
 
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
 
+//    if (_this->GetShipObject()->HasAugmentation("ALL_DRONE_CREW_TELEPATHIC"))
+//    {
+//        return (bool)_this->GetShipObject()->GetAugmentationValue("ALL_DRONE_CREW_TELEPATHIC");
+//    }
+    if (_this->_drone.blueprint->name == "BOARDER_ION" && custom->IsRace("boarder_ion"))
+    {
+        auto ex = CM_EX(_this);
+        auto def = custom->GetDefinition("boarder_ion");
+        bool ret = (ex->temporaryPowerActive && def.powerDef.tempPower.isTelepathic.enabled) ? def.powerDef.tempPower.isTelepathic.value : def.isTelepathic;
+        ex->CalculateStat(CrewStat::IS_TELEPATHIC, def, &ret);
+        return ret && req;
+    }
+
     if (custom->IsRace(_this->species))
     {
-        return custom->GetDefinition(_this->species).isTelepathic && req;
+        auto ex = CM_EX(_this);
+        auto def = custom->GetDefinition(_this->species);
+        bool ret = (ex->temporaryPowerActive && def.powerDef.tempPower.isTelepathic.enabled) ? def.powerDef.tempPower.isTelepathic.value : def.isTelepathic;
+        ex->CalculateStat(CrewStat::IS_TELEPATHIC, def, &ret);
+        return ret && req;
     }
 
     return false;
@@ -254,9 +445,15 @@ static bool __attribute__((fastcall)) CrewDrone_IsTelepathic(CrewDrone *_this)
 static float __attribute__((fastcall)) CrewDrone_GetSuffocationModifier(CrewDrone *_this)
 {
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
+    if (_this->_drone.blueprint->name == "BOARDER_ION" && custom->IsRace("boarder_ion"))
+    {
+        auto def = custom->GetDefinition("boarder_ion");
+        return CM_EX(_this)->CalculateStat(CrewStat::SUFFOCATION_MODIFIER, def);
+    }
     if (custom->IsRace(_this->species))
     {
-        return custom->GetDefinition(_this->species).suffocationModifier;
+        auto def = custom->GetDefinition(_this->species);
+        return CM_EX(_this)->CalculateStat(CrewStat::SUFFOCATION_MODIFIER, def);
     }
 
     return 0.f;
@@ -265,12 +462,33 @@ static float __attribute__((fastcall)) CrewDrone_GetSuffocationModifier(CrewDron
 static bool __attribute__((fastcall)) CrewDrone_IsAnaerobic(CrewDrone *_this)
 {
     bool req = _this->_drone.powered;
+    if (!req)
+    {
+        return false;
+    }
 
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
 
+//    if (_this->GetShipObject()->HasAugmentation("ALL_DRONE_CREW_ANAEROBIC"))
+//    {
+//        return (bool)_this->GetShipObject()->GetAugmentationValue("ALL_DRONE_CREW_ANAEROBIC");
+//    }
+    if (_this->_drone.blueprint->name == "BOARDER_ION" && custom->IsRace("boarder_ion"))
+    {
+        auto ex = CM_EX(_this);
+        auto def = custom->GetDefinition("boarder_ion");
+        bool ret = false;
+        ex->CalculateStat(CrewStat::IS_ANAEROBIC, def, &ret);
+        return ret && req;
+    }
+
     if (custom->IsRace(_this->species))
     {
-        return custom->GetDefinition(_this->species).isAnaerobic && req;
+        auto ex = CM_EX(_this);
+        auto def = custom->GetDefinition(_this->species);
+        bool ret = false;
+        ex->CalculateStat(CrewStat::IS_ANAEROBIC, def, &ret);
+        return ret && req;
     }
 
     return false;
@@ -341,3 +559,4 @@ HOOK_METHOD_PRIORITY(CrewMemberFactory, CreateBoarderDrone, -900, (int shipId, D
     return drone;
 }
 
+#pragma GCC pop_options

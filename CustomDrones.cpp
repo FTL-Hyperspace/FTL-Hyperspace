@@ -162,7 +162,7 @@ HOOK_METHOD(ShipManager, CommandCrewMoveRoom, (CrewMember* crew, int room) -> bo
     if (blockControllableAI)
     {
         auto custom = CustomCrewManager::GetInstance();
-        if (crew->GetControllable() || (custom->IsRace(crew->species) && custom->GetDefinition(crew->species).droneAI.hasCustomAI)) return false;
+        if (crew->GetControllable() || (!crew->intruder && custom->IsRace(crew->species) && custom->GetDefinition(crew->species).droneAI.hasCustomAI)) return false;
     }
 
     return super(crew, room);
@@ -173,7 +173,7 @@ HOOK_METHOD(CrewMember, SetTask, (CrewTask task) -> void)
     if (blockControllableAI)
     {
         auto custom = CustomCrewManager::GetInstance();
-        if (GetControllable() || (custom->IsRace(species) && custom->GetDefinition(species).droneAI.hasCustomAI)) return;
+        if (GetControllable() || (!intruder && custom->IsRace(species) && custom->GetDefinition(species).droneAI.hasCustomAI)) return;
     }
 
     super(task);
@@ -202,7 +202,7 @@ HOOK_METHOD(CrewAI, UpdateDrones, () -> void)
 
     for (auto crew : crewList)
     {
-        if (crew->IsDrone() && custom->IsRace(crew->species))
+        if (crew->IsDrone() && !crew->intruder && custom->IsRace(crew->species))
         {
             auto def = custom->GetDefinition(crew->species);
             if (def.droneAI.hasCustomAI && !crew->GetControllable() && !crew->IsDead() && crew->Functional() && crew->crewAnim->status != 3)
@@ -586,5 +586,42 @@ HOOK_METHOD(CrewAnimation, OnInit, (const std::string& _race, Pointf position, b
     if (customDrone && customDrone->hasAbility)
     {
         ((AbilityDroneAnimation*)this)->new_OnInit(_race, position, enemy);
+    }
+}
+
+
+HOOK_METHOD (CombatControl, OnInit, (Point pos) -> void)
+{
+    super(pos);
+
+    if(!this->shipManager->HasSystem(3))
+    {
+        Point movedPos = this->droneControl.location;
+        movedPos.x += 36;
+        this->droneControl.location = movedPos;
+    }
+}
+
+HOOK_METHOD (CombatControl, OnLoop, () -> void)
+{
+    super();
+
+    if(!this->shipManager->HasSystem(3))
+    {
+        Point movedPos = this->droneControl.location;
+        movedPos.x += 36;
+        this->droneControl.location = movedPos;
+    }
+}
+
+HOOK_METHOD (SystemControl, CreateSystemBoxes, () -> void)
+{
+    super();
+    if(!this->shipManager->HasSystem(3))
+    {
+        SystemBox* movedDroneSystemBox = GetSystemBox(4);
+        Point movedBoxPos = movedDroneSystemBox->location;
+        movedBoxPos.x += 36;
+        movedDroneSystemBox->location = movedBoxPos;
     }
 }

@@ -17,6 +17,7 @@ struct Door;
 struct Room;
 struct CrewMember;
 struct CrewAnimation;
+struct Fire;
 struct ShipManager;
 struct Store;
 struct SystemBox;
@@ -29,6 +30,7 @@ struct CommandGui;
 struct EquipmentBox;
 struct CrewEquipBox;
 struct AugmentEquipBox;
+struct UpgradeBox;
 struct CombatControl;
 struct Pointf;
 struct Animation;
@@ -40,18 +42,22 @@ struct CrewBlueprint;
 struct WorldManager;
 struct OxygenSystem;
 struct HackingSystem;
+struct BatterySystem;
 struct CloakingSystem;
 struct MindSystem;
+struct Shields;
 struct WeaponSystem;
 struct DroneSystem;
 struct ShipSystem;
 struct OuterHull;
+struct CloneSystem;
 struct TeleportSystem;
 struct ChoiceText;
 struct Targetable;
 struct BoarderDrone;
 struct LocationEvent__Choice;
 struct DroneBlueprint;
+struct SystemBlueprint;
 struct AugmentBlueprint;
 struct WeaponBlueprint;
 struct CrewCustomizeBox;
@@ -93,6 +99,8 @@ struct VTable_CrewMember;
 struct VTable_ShipSystem;
 struct VTable_Blueprint;
 struct VTable_CrewAnimation;
+struct VTable_StoreBox;
+struct Shields__ShieldAnimation;
 
 /* 1 */
 struct Globals
@@ -1013,9 +1021,6 @@ struct std__vector_14EquipmentBoxZ1
   EquipmentBox **_end;
 };
 
-/* 329 */
-struct SystemBlueprint;
-
 /* 314 */
 struct Description
 {
@@ -1093,6 +1098,7 @@ struct FocusWindow
   void *vptr;
   bool bOpen;
   bool bFullFocus;
+  unsigned __int8 gap_ex_fw[2];
   Point close;
   bool bCloseButtonSelected;
   Point position;
@@ -2005,9 +2011,6 @@ struct TabbedWindow
   bool bWindowLock;
 };
 
-/* 232 */
-struct UpgradeBox;
-
 /* 609 */
 struct std__vector_12UpgradeBoxZ1
 {
@@ -2745,15 +2748,6 @@ struct std__vector_12ShipSystemZ1
   ShipSystem **_end;
 };
 
-/* 286 */
-struct BatterySystem;
-
-/* 296 */
-struct CloneSystem;
-
-/* 289 */
-struct Shields;
-
 /* 295 */
 struct EngineSystem;
 
@@ -2763,12 +2757,12 @@ struct MedbaySystem;
 /* 290 */
 struct ArtillerySystem;
 
-/* 496 */
-struct std__vector_15ArtillerySystem
+/* 815 */
+struct std__vector_17ArtillerySystemZ1
 {
-  ArtillerySystem *_start;
-  ArtillerySystem *_finish;
-  ArtillerySystem *_end;
+  ArtillerySystem **_start;
+  ArtillerySystem **_finish;
+  ArtillerySystem **_end;
 };
 
 /* 507 */
@@ -2840,7 +2834,7 @@ struct ShipManager
   DroneSystem *droneSystem;
   EngineSystem *engineSystem;
   MedbaySystem *medbaySystem;
-  std__vector_15ArtillerySystem artillerySystems;
+  std__vector_17ArtillerySystemZ1 artillerySystems;
   std__vector_12CrewMemberZ1 vCrewList;
   Spreader_Fire fireSpreader;
   Ship ship;
@@ -2962,6 +2956,15 @@ struct CrewCustomizeBox
   GL_Texture *bigBox;
 };
 
+/* 329 */
+struct SystemBlueprint
+{
+  Blueprint _base;
+  int maxPower;
+  int startPower;
+  std__vector_3int upgradeCosts;
+};
+
 /* 238 */
 struct TouchTooltip;
 
@@ -2980,7 +2983,7 @@ struct TapBoxFrame
 struct SystemBox
 {
   VTable_SystemBox *_vtable;
-  const Point location;
+  Point location;
   GL_Primitive *timerCircle[10];
   GL_Primitive *timerLines;
   GL_Primitive *timerStencil;
@@ -3166,8 +3169,8 @@ struct VTable_Blueprint
 {
   void (__thiscall *Free)(Blueprint *this);
   void (__thiscall *RenderIcon)(Blueprint *this, float unk);
-  std__string *(__stdcall *GetNameLong)(std__string *str, Blueprint *bp);
-  std__string *(__stdcall *GetNameShort)(std__string *str, Blueprint *bp);
+  std__string *(__stdcall *GetNameLongFake)(std__string *retstr, Blueprint *bp);
+  std__string *(__stdcall *GetNameShortFake)(std__string *retstr, Blueprint *bp);
   int (__thiscall *GetType)(Blueprint *this);
 };
 
@@ -3626,6 +3629,23 @@ struct SpaceDrone
   Animation hackSparks;
 };
 
+/* 232 */
+struct UpgradeBox
+{
+  ShipSystem *system;
+  ShipManager *ship;
+  const SystemBlueprint *blueprint;
+  Point location;
+  int tempUpgrade;
+  Button *currentButton;
+  std__string buttonBaseName;
+  Button maxButton;
+  Button boxButton;
+  bool subsystem;
+  bool isDummy;
+  GL_Primitive *dummyBox;
+};
+
 /* 228 */
 struct AugmentEquipBox
 {
@@ -3665,6 +3685,7 @@ struct Store
   int sectionCount;
   int types[4];
   bool bShowPage2;
+  unsigned __int8 gap_ex_2[2];
   StoreBox *confirmBuy;
   int forceSystemInfoWidth;
 };
@@ -3940,6 +3961,15 @@ struct CloakingSystem
   GL_Primitive *glowImage;
 };
 
+/* 286 */
+struct BatterySystem
+{
+  ShipSystem _base;
+  bool bTurnedOn;
+  TimerHelper timer;
+  std__string soundeffect;
+};
+
 /* 288 */
 struct MindSystem
 {
@@ -3953,6 +3983,28 @@ struct MindSystem
   int iQueuedTarget;
   int iQueuedShip;
   std__vector_12CrewMemberZ1 queuedCrew;
+};
+
+/* 704 */
+struct std__map_23std__string___Animation
+{
+  char unk[24];
+};
+
+/* 296 */
+struct CloneSystem
+{
+  ShipSystem _base;
+  float fTimeToClone;
+  CrewMember *clone;
+  float fTimeGoal;
+  float fDeathTime;
+  GL_Texture *bottom;
+  GL_Texture *top;
+  GL_Texture *gas;
+  int slot;
+  Animation *currentCloneAnimation;
+  std__map_23std__string___Animation cloneAnimations;
 };
 
 /* 169 */
@@ -3988,6 +4040,61 @@ struct HackingSystem
   int spendDrone;
 };
 
+/* 818 */
+struct ShieldPower
+{
+  int first;
+  int second;
+  std__pair_9int___int super;
+};
+
+/* 819 */
+struct Shields__Shield
+{
+  float charger;
+  ShieldPower power;
+  float superTimer;
+};
+
+/* 817 */
+struct std__vector_24Shields__ShieldAnimation
+{
+  Shields__ShieldAnimation *_start;
+  Shields__ShieldAnimation *_finish;
+  Shields__ShieldAnimation *_end;
+};
+
+/* 289 */
+struct Shields
+{
+  ShipSystem _base;
+  float ellipseRatio;
+  Point center;
+  Globals__Ellipse baseShield;
+  int iHighlightedSide;
+  float debug_x;
+  float debug_y;
+  Shields__Shield shields;
+  bool shields_shutdown;
+  std__vector_24Shields__ShieldAnimation shieldHits;
+  AnimationTracker shieldsDown;
+  bool superShieldDown;
+  Pointf shieldsDownPoint;
+  AnimationTracker shieldsUp;
+  GL_Texture *shieldImage;
+  GL_Primitive *shieldPrimitive;
+  std__string shieldImageName;
+  bool bEnemyPresent;
+  std__vector_15DamageMessageZ1 damMessages;
+  bool bBarrierMode;
+  float lastHitTimer;
+  float chargeTime;
+  int lastHitShieldLevel;
+  AnimationTracker superShieldUp;
+  Point superUpLoc;
+  bool bExcessChargeHack;
+};
+
 /* 291 */
 struct WeaponSystem
 {
@@ -4019,9 +4126,6 @@ struct DroneSystem
   int iStartingBatteryPower;
   std__vector_4bool repowerList;
 };
-
-/* 192 */
-struct Fire;
 
 /* 448 */
 struct std__vector_4Fire
@@ -4306,7 +4410,7 @@ struct VTable_CompleteShip
 /* 221 */
 struct StoreBox
 {
-  void *vptr;
+  VTable_StoreBox *_vtable;
   int itemId;
   int itemBox;
   std__string buttonImage;
@@ -4317,7 +4421,7 @@ struct StoreBox
   int cost_position;
   ShipManager *shopper;
   Equipment *equipScreen;
-  const Blueprint *pBlueprint;
+  Blueprint *pBlueprint;
   bool bEquipmentBox;
   float fIconScale;
   Point pushIcon;
@@ -4379,6 +4483,40 @@ struct VTable_ShipSystem
   void (__thiscall *ShipDestroyed)(ShipSystem *this);
 };
 
+/* 816 */
+struct Shields__ShieldAnimation
+{
+  Pointf location;
+  float current_size;
+  float end_size;
+  float current_thickness;
+  float end_thickness;
+  float length;
+  float dx;
+  int side;
+  int ownerId;
+  int damage;
+};
+
+/* 304 */
+struct Spreadable
+{
+  Repairable _base;
+  std__string soundName;
+};
+
+/* 192 */
+struct Fire
+{
+  Spreadable _base;
+  float fDeathTimer;
+  float fStartTimer;
+  float fOxygen;
+  Animation fireAnimation;
+  Animation smokeAnimation;
+  bool bWasOnFire;
+};
+
 /* 693 */
 struct VTable_CrewAnimation
 {
@@ -4394,6 +4532,26 @@ struct VTable_CrewAnimation
   std__string *(__stdcall *GetDeathSound)(std__string *str, CrewAnimation *anim);
   void (__thiscall *Restart)(CrewAnimation *this);
   bool (__thiscall *CustomDeath)(CrewAnimation *this);
+};
+
+/* 797 */
+struct VTable_StoreBox
+{
+  void (__thiscall *Free)(StoreBox *);
+  void (__thiscall *OnLoop)(StoreBox *);
+  void (__thiscall *OnRender)(StoreBox *);
+  void (__thiscall *MouseMove)(StoreBox *, int, int);
+  void (__thiscall *MouseClick)(StoreBox *, int, int);
+  void (__thiscall *OnTouch)(StoreBox *);
+  void (__thiscall *Activate)(StoreBox *);
+  void (__thiscall *Purchase)(StoreBox *);
+  int (__thiscall *SetInfoBox)(StoreBox *, InfoBox *, int);
+  bool (__thiscall *CanHold)(StoreBox *);
+  bool (__thiscall *RequiresConfirm)(StoreBox *);
+  void (__thiscall *Confirm)(StoreBox *, bool);
+  TextString (__thiscall *GetConfirmText)(StoreBox *);
+  int (__thiscall *GetExtraData)(StoreBox *);
+  void (__thiscall *SetExtraData)(StoreBox *, int);
 };
 
 /* 156 */
@@ -4770,15 +4928,6 @@ struct Algae;
 /* 194 */
 struct DebugHelper;
 
-/* 195 */
-struct CloneBox;
-
-/* 196 */
-struct BatteryBox;
-
-/* 197 */
-struct MindBox;
-
 /* 203 */
 struct CooldownSystemBox
 {
@@ -4792,11 +4941,58 @@ struct CooldownSystemBox
   int lastBarTop;
 };
 
+/* 195 */
+struct CloneBox
+{
+  CooldownSystemBox _base;
+  CloneSystem *cloneSys;
+  GL_Texture *pipe[3];
+  GL_Texture *boxBottom;
+  GL_Texture *boxMiddle;
+  GL_Texture *boxTop;
+  GL_Texture *boxSolo;
+  GL_Texture *boxFill;
+  WarningMessage *dyingCrewWarning;
+};
+
+/* 196 */
+struct BatteryBox
+{
+  CooldownSystemBox _base;
+  BatterySystem *batterySystem;
+  Button batteryButton;
+  Point buttonOffset;
+};
+
+/* 197 */
+struct MindBox
+{
+  CooldownSystemBox _base;
+  MindSystem *mindSystem;
+  Button mindControl;
+  Point buttonOffset;
+  WarningMessage *superShieldWarning;
+};
+
 /* 204 */
-struct ArtilleryBox;
+struct ArtilleryBox
+{
+  CooldownSystemBox _base;
+  ArtillerySystem *artSystem;
+  Point buttonOffset;
+};
 
 /* 206 */
-struct WeaponSystemBox;
+struct WeaponSystemBox
+{
+  SystemBox _base;
+  WeaponControl *weapControl;
+  TextButton autofireButton;
+  Point buttonOffset;
+  TouchTooltip *autofireTouchTooltip;
+  bool touchTipWasOpen;
+  bool autofireTipWasOpen;
+};
 
 /* 207 */
 struct MouseControl
@@ -5043,13 +5239,21 @@ struct BlueprintManager
 };
 
 /* 297 */
-struct PowerManager;
+struct PowerManager
+{
+  std__pair_9int___int currentPower;
+  int over_powered;
+  float fFuel;
+  bool failedPowerup;
+  int iTempPowerCap;
+  int iTempPowerLoss;
+  int iTempDividePower;
+  int iHacked;
+  std__pair_9int___int batteryPower;
+};
 
 /* 299 */
 struct BeamWeapon;
-
-/* 304 */
-struct Spreadable;
 
 /* 311 */
 struct BattleDrone
@@ -5058,7 +5262,14 @@ struct BattleDrone
 };
 
 /* 312 */
-struct CloakingBox;
+struct CloakingBox
+{
+  CooldownSystemBox _base;
+  std__vector_8ButtonZ1 buttons;
+  Button *currentButton;
+  CloakingSystem *cloakSystem;
+  Point buttonOffset;
+};
 
 /* 315 */
 struct MantisAlien;
@@ -5070,7 +5281,16 @@ struct RepairDrone
 };
 
 /* 317 */
-struct TeleportBox;
+struct TeleportBox
+{
+  SystemBox _base;
+  GL_Texture *box;
+  Button teleportLeave;
+  Button teleportArrive;
+  TeleportSystem *teleSystem;
+  Point buttonOffset;
+  WarningMessage superShieldWarning;
+};
 
 /* 319 */
 struct CrystalAlien
@@ -5122,10 +5342,32 @@ struct IonDroneAnimation
 struct Ghost;
 
 /* 335 */
-struct DoorBox;
+struct DoorBox
+{
+  SystemBox _base;
+  GL_Texture *box;
+  Button openDoors;
+  Button closeDoors;
+  ShipManager *ship;
+  Point buttonOffset;
+};
 
 /* 336 */
-struct HackBox;
+struct HackBox
+{
+  CooldownSystemBox _base;
+  HackingSystem *hackSys;
+  std__vector_8ButtonZ1 buttons;
+  Button *currentButton;
+  Point buttonOffset;
+  GL_Texture *box;
+  GL_Texture *box2;
+  Button hackButton;
+  Button overlayButton;
+  ShipManager *shipManager;
+  AnimationTracker flashTracker;
+  WarningMessage *superShieldWarning;
+};
 
 /* 337 */
 struct Missile;
@@ -5143,13 +5385,18 @@ struct RockAlien;
 struct SlugAlien;
 
 /* 384 */
-struct RepairStoreBox;
+struct RepairStoreBox
+{
+  StoreBox _base;
+  bool repairAll;
+  int repairCost;
+  TextString buttonText;
+};
 
 /* 766 */
 struct std__array_28std__vector_10HotkeyDesc___4
 {
-  int unk1;
-  char unk[44];
+  char unk[48];
 };
 
 /* 389 */
@@ -5204,10 +5451,18 @@ struct TextLibrary
 };
 
 /* 400 */
-struct DroneStoreBox;
+struct DroneStoreBox
+{
+  StoreBox _base;
+  DroneBlueprint *blueprint;
+};
 
 /* 401 */
-struct WeaponStoreBox;
+struct WeaponStoreBox
+{
+  StoreBox _base;
+  WeaponBlueprint *blueprint;
+};
 
 /* 404 */
 struct ToggleButton;
@@ -5223,7 +5478,11 @@ struct freetype__font_data
 };
 
 /* 408 */
-struct ItemStoreBox;
+struct ItemStoreBox
+{
+  StoreBox _base;
+  ItemBlueprint *blueprint;
+};
 
 /* 410 */
 struct EngiAnimation;
@@ -5232,7 +5491,11 @@ struct EngiAnimation;
 struct SlugAnimation;
 
 /* 414 */
-struct AugmentStoreBox;
+struct AugmentStoreBox
+{
+  StoreBox _base;
+  AugmentBlueprint *blueprint;
+};
 
 /* 415 */
 struct CrystalAnimation;
@@ -5281,6 +5544,14 @@ struct std__vector_10CrewMember
   CrewMember *_start;
   CrewMember *_finish;
   CrewMember *_end;
+};
+
+/* 496 */
+struct std__vector_15ArtillerySystem
+{
+  ArtillerySystem *_start;
+  ArtillerySystem *_finish;
+  ArtillerySystem *_end;
 };
 
 /* 497 */
@@ -5336,12 +5607,6 @@ struct GL_TexVertex
 
 /* 703 */
 struct std__map_28std__string___AnimationSheet
-{
-  char unk[24];
-};
-
-/* 704 */
-struct std__map_23std__string___Animation
 {
   char unk[24];
 };
@@ -5484,5 +5749,18 @@ struct std__vector_10HotkeyDesc
   HotkeyDesc *_start;
   HotkeyDesc *_finish;
   HotkeyDesc *_end;
+};
+
+/* 825 */
+struct GL_ColorTexVertex
+{
+  float x;
+  float y;
+  float u;
+  float v;
+  float r;
+  float g;
+  float b;
+  float a;
 };
 

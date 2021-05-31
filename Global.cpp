@@ -20,6 +20,7 @@ EventSystem *Global::__eventSystem = nullptr;
 AnimationControl *Global::__animations = nullptr;
 AchievementTracker *Global::__achievementTracker = nullptr;
 ScoreKeeper *Global::__scoreKeeper = nullptr;
+SettingValues *Global::__settingValues = nullptr;
 
 bool *Global::showBeaconPath = nullptr;
 unsigned int Global::currentSeed = 0;
@@ -33,6 +34,13 @@ bool Global::isCustomSeed = false;
 unsigned int Global::sectorMapSeed = -1;
 FILE *Global::logFile = nullptr;
 bool *Global::firstTimeShips = nullptr;
+
+unsigned int Global::questSeed = 0;
+std::vector<unsigned int> Global::delayedQuestSeeds = std::vector<unsigned int>();
+int Global::delayedQuestIndex = 0;
+std::vector<unsigned int> Global::lastDelayedQuestSeeds = std::vector<unsigned int>();
+
+unsigned int Global::bossFleetSeed = 0;
 
 void hs_log_file(const char *str...)
 {
@@ -50,7 +58,7 @@ void hs_log_file(const char *str...)
 
 HOOK_METHOD(CApp, OnInit, () -> int)
 {
-    G_->Initialize(this);
+    G_->SetCApp(this);
     return super();
 }
 
@@ -77,14 +85,18 @@ ShipManager* Global::GetShipManager(int iShipId)
     }
 }
 
-void Global::Initialize(CApp *cApp)
+void Global::SetCApp(CApp *cApp)
+{
+    __cApp = cApp;
+}
+
+void Global::Initialize()
 {
     printf("Initializing Hyperspace...\n");
     __baseAddress = (DWORD)GetModuleHandle(NULL);
 
 
     __resourceControl = (ResourceControl*)(__baseAddress + __resourcesOffset);
-    __cApp = cApp;
     __cFPS = (CFPS*)(__baseAddress + __cFPSOffset);
     __enemyShipInfo = (ShipInfo**)(__baseAddress + __shipInfoOffset);
     __blueprints = (BlueprintManager*)(__baseAddress + __blueprintOffset);
@@ -99,6 +111,7 @@ void Global::Initialize(CApp *cApp)
     __animations = (AnimationControl*)(__baseAddress + __animationsOffset);
     __achievementTracker = (AchievementTracker*)(__baseAddress + __achievementOffset);
     __scoreKeeper = (ScoreKeeper*)(__baseAddress + __scoreKeeperOffset);
+    __settingValues = (SettingValues*)(__baseAddress + __settingValuesOffset);
     seededRng = std::mt19937(std::chrono::system_clock::now().time_since_epoch().count());
     currentSeed = 0;
 

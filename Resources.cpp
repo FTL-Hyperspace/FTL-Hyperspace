@@ -1,11 +1,14 @@
 #include "rapidxml.hpp"
 #include "Resources.h"
+#include "CustomOptions.h"
 
 #include "HullNumbers.h"
 #include "CommandConsole.h"
 #include "CustomShipSelect.h"
 #include "CustomCrew.h"
 #include "CustomEvents.h"
+#include "EventTooltip.h"
+#include "CooldownNumbers.h"
 #include "CustomAugments.h"
 #include "Infinite.h"
 #include "Balance.h"
@@ -48,7 +51,7 @@ void Global::InitializeResources(ResourceControl *resources)
 
     char *hyperspacetext = resources->LoadFile("data/hyperspace.xml");
 
-
+    auto customOptions = CustomOptionsManager::GetInstance();
 
     try
     {
@@ -93,6 +96,84 @@ void Global::InitializeResources(ResourceControl *resources)
             {
                 auto enabled = node->first_attribute("enabled")->value();
                 g_hackingDroneFix = EventsParser::ParseBoolean(enabled);
+            }
+
+            if (strcmp(node->name(), "redesignedWeaponTooltips") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->redesignedWeaponTooltips.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->redesignedWeaponTooltips.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+            if (strcmp(node->name(), "redesignedCrewTooltips") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->redesignedCrewTooltips.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->redesignedCrewTooltips.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+            if (strcmp(node->name(), "redesignedDroneTooltips") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->redesignedDroneTooltips.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->redesignedDroneTooltips.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+            if (strcmp(node->name(), "redesignedAugmentTooltips") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->redesignedAugmentTooltips.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->redesignedAugmentTooltips.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
+            if (strcmp(node->name(), "eventTooltips") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->eventTooltips.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->eventTooltips.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
+            if (strcmp(node->name(), "showNumericalWeaponCooldown") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->showWeaponCooldown.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->showWeaponCooldown.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
+            if (strcmp(node->name(), "showReactor") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->showReactor.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->showReactor.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
+            if (strcmp(node->name(), "showAllConnections") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->showAllConnections.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->showAllConnections.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
+            if (strcmp(node->name(), "advancedCrewTooltips") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->advancedCrewTooltips.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->advancedCrewTooltips.currentValue = EventsParser::ParseBoolean(enabled);
+                if(enabled)
+                {
+                    if(node->first_attribute("ally"))
+                    {
+                        customOptions->showAllyPowers.defaultValue = EventsParser::ParseBoolean(node->first_attribute("ally")->value());
+                        customOptions->showAllyPowers.currentValue = EventsParser::ParseBoolean(node->first_attribute("ally")->value());
+                    }
+                    if(node->first_attribute("enemy"))
+                    {
+                        customOptions->showEnemyPowers.defaultValue = EventsParser::ParseBoolean(node->first_attribute("enemy")->value());
+                        customOptions->showEnemyPowers.currentValue = EventsParser::ParseBoolean(node->first_attribute("enemy")->value());
+                    }
+                    if(node->first_attribute("rounding"))
+                    {
+                        customOptions->advancedCrewTooltipRounding.defaultAmount = boost::lexical_cast<int>(node->first_attribute("rounding")->value());
+                        customOptions->advancedCrewTooltipRounding.currentAmount = boost::lexical_cast<int>(node->first_attribute("rounding")->value());
+                    }
+                }
             }
 
             if (strcmp(node->name(), "console") == 0)

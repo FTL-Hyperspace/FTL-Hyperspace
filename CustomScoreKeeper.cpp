@@ -36,8 +36,26 @@ void CustomScoreKeeper::AddTopScore(TopScore& topScore, int type = 0)
 
         if (scoreKeeper->newestShipBest != -1)
         {
-            scoreKeeper->newestShipType = 100 + CustomShipSelect::GetInstance()->GetShipButtonIdFromName(topScore.blueprint);
-            scoreKeeper->newestShipLayout = type;
+            int id = CustomShipSelect::GetInstance()->GetShipButtonIdFromName(topScore.blueprint);
+
+            if (id == -1) scoreKeeper->newestShipType = -1;
+            else
+            {
+                scoreKeeper->newestShipType = 100 + id;
+            }
+
+            int shipLayout = 0;
+
+            if (boost::ends_with(topScore.blueprint, "_2"))
+            {
+                shipLayout = 1;
+            }
+            else if (boost::ends_with(topScore.blueprint, "_3"))
+            {
+                shipLayout = 2;
+            }
+
+            scoreKeeper->newestShipLayout = shipLayout;
         }
     }
 
@@ -352,6 +370,11 @@ HOOK_METHOD(ScoreKeeper, Open, (bool fromGameOver) -> void)
 {
     super(fromGameOver);
 
+    if (newestShipType != -1 && fromGameOver)
+    {
+        selectedLayout = newestShipLayout;
+    }
+
     if (newestShipType == -1 || !fromGameOver)
     {
         auto customSel = CustomShipSelect::GetInstance();
@@ -362,7 +385,13 @@ HOOK_METHOD(ScoreKeeper, Open, (bool fromGameOver) -> void)
         {
             if (customSel->CustomShipOrder())
             {
-                selectedShip = customSel->GetShipButtonIdFromName(customSel->customShipOrder[0]) + 100;
+                int id = customSel->GetShipButtonIdFromName(customSel->customShipOrder[0]);
+
+                if (id == -1) selectedShip = -1;
+                else
+                {
+                    selectedShip = id + 100;
+                }
             }
             else
             {
@@ -372,6 +401,9 @@ HOOK_METHOD(ScoreKeeper, Open, (bool fromGameOver) -> void)
             SetupTopShip(0);
         }
     }
+
+
+    CheckTypes();
 }
 
 HOOK_METHOD(ScoreKeeper, OnRender, (bool lastPlaythrough) -> void)

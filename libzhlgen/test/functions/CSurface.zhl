@@ -25,7 +25,7 @@ static cleanup int CSurface::SetViewPort(int left, int bottom, int h, int w);
 ".5589e583e4f083ec10a1????????8b15????????89c129d1c1f90485c974??83e810":
 static cleanup void CSurface::GL_PopScissor();
 ".5589e5565383e4f083ec108b45088b5d0c8b751083f801a3????????891d????????8935????????0f84????????0f82????????":
-static cleanup void CSurface::GL_SetStencilMode(GL_StencilMode stencilMode, int unk1, int unk2);
+static cleanup void CSurface::GL_SetStencilMode(GL_StencilMode stencilMode, int ref, int mask);
 ".8b15????????8b0d????????89d029c8c1f80269c0????????85c075??c36690558d4440fd83ea0c89e556":
 static cleanup void CSurface::GL_PopStencilMode();
 ".5589e583e4f083ec20f30f10451cf30f11442414f30f104518f30f11442410f30f104514f30f1144240c":
@@ -92,6 +92,12 @@ static cleanup GL_Primitive* CSurface::GL_CreateMultiImagePrimitive(GL_Texture* 
 "8d4c240483e4f0ff71fc5589e556535183ec5c8b31f30f105118f30f1035????????0f2ed6f30f10690cf30f106110f30f116dc0f30f1165c4":
 static cleanup GL_Primitive* CSurface::GL_CreateImagePrimitive(GL_Texture *tex, float x, float y, float size_x, float size_y, float rotate, GL_Color color);
 
+"5589e557565383e4f083ec508b45108b15????????8b5d088b7d0c89442430a1????????39d00f84????????29d083e0f08d4402f0f30f1018f30f106804f30f106008f30f10500c8b47042b07":
+static cleanup void CSurface::GL_BlitMultiColorImage(GL_Texture *tex, const std::vector<GL_ColorTexVertex>& texVertices, bool unk);
+"5589e557565383e4f083ec508b45108b15????????8b5d088b750c89442420a1????????39d00f84????????29d083e0f08d4402f0f30f1020f30f106804f30f107008f30f10780cf30f1164242c":
+static cleanup void CSurface::GL_BlitMultiImage(GL_Texture *tex, const std::vector<GL_TexVertex>& texVertices, bool unk);
+
+
 /* Could cause OpenGL issues
 "5531c089e5565383e4f083ec208b75088b5d0c8b551083fe0177??85d274??85db74??803b0074??":
 static cleanup int CSurface::shader_create_from_source(ShaderType type, const char* source, int length);
@@ -109,6 +115,10 @@ static cleanup int CSurface::opengl_select_shader(const void *primitive, const v
 
 "5589e557565383e4f083ec508b7d08f30f10651c8b77042b3789f2c1fa040f2e25????????0f8a????????0f85????????8d0c95????????89d08954244c":
 static cleanup GL_Primitive* CSurface::GL_CreateMultiLinePrimitive(std::vector<GL_Line>& vec, GL_Color color, float thickness);
+
+"5589e557565383e4f083ec408b75088b46042b06c1f8048d14c5????????89c78944243cc1e00581fa????????ba????????0f47c2":
+static cleanup GL_Primitive* CSurface::GL_CreateMultiRectPrimitive(std::vector<Globals::Rect>& vec, GL_Color color);
+
 
 struct CSurface
 {{

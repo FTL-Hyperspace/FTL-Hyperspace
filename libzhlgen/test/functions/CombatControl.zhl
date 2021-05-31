@@ -16,3 +16,7 @@ void CombatControl::UpdateAiming(CombatControl *this<ecx>);
 bool CombatControl::UpdateTarget(CombatControl *this<ecx>);
 "578d7c240883e4f0ff77fc5589e55756538d5dd089ce83ec7c8b471089d9c744240400000000c70424????????8945b8e8????????8b86680700000345d4":
 void CombatControl::DrawHostileBox(CombatControl *this<ecx>, GL_Color color, int stencilBit);
+"578d7c240883e4f0ff77fc5589e5575389cb83ec208b078b57048981640700008b816411000089916807000085c00f84????????8d8b68110000e8????????a1????????":
+void CombatControl::OnInit(CombatControl *this<ecx>, Point pos);
+"578d7c240883e4f0ff77fc5589e557565331f689cb83ec2c8b91440700008b814807000029d0c1f80285c074??":
+void CombatControl::OnLoop(CombatControl *this<ecx>);

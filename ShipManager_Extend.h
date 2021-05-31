@@ -1,6 +1,28 @@
 #pragma once
 #include "FTLGame.h"
 
+struct ShipIcon
+{
+    GL_Texture* icon;
+    GL_Texture* box;
+    std::string tooltip;
+    int index;
+
+    ShipIcon()
+    {
+
+    }
+
+    ~ShipIcon()
+    {
+        delete icon;
+        delete box;
+    }
+
+    void OnInit(const std::string& texture, const std::string& tip, int index);
+    void OnRender(GL_Color color, bool boss);
+    void MouseMove(int x, int y, bool boss);
+};
 
 struct ShipManager_Extend
 {
@@ -10,6 +32,8 @@ struct ShipManager_Extend
     std::map<std::string, int> hiddenAugs = std::map<std::string, int>();
 
     std::map<std::string, int> GetAugmentList();
+
+    std::vector<ShipIcon*> icons;
 
     void Initialize(bool restarting=false);
 

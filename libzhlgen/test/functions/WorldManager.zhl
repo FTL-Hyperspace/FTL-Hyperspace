@@ -30,3 +30,7 @@ void WorldManager::OnLoop(WorldManager *this<ecx>);
 void WorldManager::CreateNewGame(WorldManager *this<ecx>);
 "5589e55389cb83c10883e4f0e8????????84c075??8b038b4808b8????????8b91f007000085d274??":
 bool WorldManager::HostileEnvironment(WorldManager *this<ecx>);
+"578d7c240883e4f0ff77fc5589e557565383ec4c8b018b1f8b500831c083baf00700000e7f??":
+bool WorldManager::AddBoarders(WorldManager *this<ecx>, BoardingEvent& boardingEvent);
+"578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b378b961c06000085d274??0fb683451200008b89e40d0000891424":
+void WorldManager::CreateStore(WorldManager *this<ecx>, LocationEvent* event);
