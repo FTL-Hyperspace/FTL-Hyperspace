@@ -4,7 +4,7 @@ static std::vector<CustomHotkey> customHotkeys =
 {
     {"console", SDLKey::SDLK_l, 1},
     {"speed", SDLKey::SDLK_BACKQUOTE, 1},
-    {"info", SDLKey::SDLK_LALT, 1}
+    {"info", SDLKey::SDLK_RALT, 1}
 };
 
 
