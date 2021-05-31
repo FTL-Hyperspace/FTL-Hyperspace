@@ -62,8 +62,9 @@
 <text name="weapon_cooldown_negative">Disabled</text>
 <text name="crew_stun_time">Stunned: \1 seconds</text>
 
-<!-- Redesigned Weapon Tooltips -->
+<!-- Redesigned Tooltips -->
 
+<text name="crew_stun_time">Stunned: \1 seconds</text>
 <text name="description_stats">Stats:</text>
 <text name="requires_no_power">Requires no power</text>
 <text name="provides_bonus_power">Provides Bonus Power</text>
@@ -88,6 +89,17 @@
 <text name="stun_length">seconds long</text>
 <text name="weapon_lockdown">Locks down rooms on hit</text>
 <text name="scrap_value">Buy/Sell Price: \1 scrap/\2 scrap</text>
+<text name="damage_word">Damage</text>
+<text name="bomb_shots">Shots per charge: \1 (1 on own ship)</text>
+<text name="crew_scrap_value">Hire Price: \1~</text>
+<text name="drone_speed">Drone Speed: \1</text>
+<text name="defense_drone_reload_speed">Reload Speed: \1ms</text>
+<text name="defense_drone_projectile_speed">Projectile Speed: \1</text>
+<text name="defense_drone_orbit_speed">Orbit Speed: \1</text>
+<text name="defense_drone_projectile_target_all">Projectile Target: All</text>
+<text name="defense_drone_projectile_target_solid">Projectile Target: Solid</text>
+<text name="defense_drone_drone_target_all">Target: All Drones</text>
+<text name="defense_drone_drone_target_solid">Target: Solid Drones</text>
 
 <!-- Hotkeys -->
 

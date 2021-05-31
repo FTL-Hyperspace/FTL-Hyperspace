@@ -144,6 +144,13 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->showReactor.currentValue = EventsParser::ParseBoolean(enabled);
             }
 
+            if (strcmp(node->name(), "showAllConnections") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->showAllConnections.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->showAllConnections.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
             if (strcmp(node->name(), "advancedCrewTooltips") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
