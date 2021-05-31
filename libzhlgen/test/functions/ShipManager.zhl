@@ -9,7 +9,7 @@ void ShipManager::OnRender(ShipManager *this<ecx>, char showInterior, char doorC
 "5589e557565383e4f083ec100fb645088b51648844240f8b416829d0c1f80285c00f84????????":
 int ShipManager::CountCrew(ShipManager *this<ecx>, char boarders);
 "578d7c240883e4f0ff77fc5589f889e557565383ec3c8b3f8b70040fb64008":
-static std::vector<CrewMember*>* ShipManager::TeleportCrew(std::vector<CrewMember*>* crewList<ecx>, ShipManager *ship, int roomId, bool intruders);
+static void ShipManager::TeleportCrew(std::vector<CrewMember*>& crewList<ecx>, ShipManager *ship, int roomId, bool intruders);
 "578d7c240883e4f0ff77fc5589fa89e55756538d99e0040000":
 int ShipManager::OnInit(ShipManager *this<ecx>, ShipBlueprint *bp, int shipLevel);
 "8b44240483f81174??8b91c8040000833c82ff0f95c0c204008db42600000000b8????????":

@@ -5676,22 +5676,23 @@ namespace _func160
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("CompleteShip::InitiateTeleport", typeid(int (CompleteShip::*)(int , int )), ".578d7c240883e4f0ff77fc5589e557565383ec4c8b811c0100003981180100008b178b7704", argdata, 3, 1, &func);
+	static FunctionDefinition funcObj("CompleteShip::InitiateTeleport", typeid(void (CompleteShip::*)(int , int )), ".578d7c240883e4f0ff77fc5589e557565383ec4c8b811c0100003981180100008b178b7704", argdata, 3, 5, &func);
 }
 
-__declspec(naked) int CompleteShip::InitiateTeleport(int room, int shipId)
+__declspec(naked) void CompleteShip::InitiateTeleport(int targetRoom, int command)
 {
 	__asm__
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
 		"push edx\n\t"
+		"push eax\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+12]\n\t"		// shipId
-		"push [ebp+8]\n\t"		// room
+		"push [ebp+12]\n\t"		// command
+		"push [ebp+8]\n\t"		// targetRoom
 	);
 	__asm__("call %0\n\t" :: "m"(_func160::func));
 	__asm__
@@ -5700,6 +5701,7 @@ __declspec(naked) int CompleteShip::InitiateTeleport(int room, int shipId)
 		"pop esi\n\t"
 		"pop ebx\n\t"
 		"pop ecx\n\t"
+		"pop eax\n\t"
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
@@ -25765,16 +25767,17 @@ namespace _func720
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("ShipManager::TeleportCrew", typeid(std::vector<CrewMember*> *(*)(std::vector<CrewMember*> *, ShipManager *, int , bool )), "578d7c240883e4f0ff77fc5589f889e557565383ec3c8b3f8b70040fb64008", argdata, 4, 0, &func);
+	static FunctionDefinition funcObj("ShipManager::TeleportCrew", typeid(void (*)(std::vector<CrewMember*> &, ShipManager *, int , bool )), "578d7c240883e4f0ff77fc5589f889e557565383ec3c8b3f8b70040fb64008", argdata, 4, 4, &func);
 }
 
-__declspec(naked) std::vector<CrewMember*> *ShipManager::TeleportCrew(std::vector<CrewMember*> *crewList, ShipManager *ship, int roomId, bool intruders)
+__declspec(naked) void ShipManager::TeleportCrew(std::vector<CrewMember*> &crewList, ShipManager *ship, int roomId, bool intruders)
 {
 	__asm__
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
 		"push edx\n\t"
+		"push eax\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
 		"push esi\n\t"
@@ -25791,6 +25794,7 @@ __declspec(naked) std::vector<CrewMember*> *ShipManager::TeleportCrew(std::vecto
 		"pop esi\n\t"
 		"pop ebx\n\t"
 		"pop ecx\n\t"
+		"pop eax\n\t"
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"

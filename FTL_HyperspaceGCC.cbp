@@ -359,6 +359,9 @@
 		<Unit filename="Infinite.h">
 			<Option virtualFolder="Content/Map/" />
 		</Unit>
+		<Unit filename="InfiniteTeleport.cpp">
+			<Option virtualFolder="Core/Systems/" />
+		</Unit>
 		<Unit filename="Input.cpp">
 			<Option virtualFolder="Core/CApp/" />
 		</Unit>

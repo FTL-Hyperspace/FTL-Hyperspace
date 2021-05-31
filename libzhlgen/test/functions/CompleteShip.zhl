@@ -23,7 +23,7 @@ char CompleteShip::SaveState(CompleteShip *this<ecx>, int unk);
 ".578d7c240883e4f0ff77fc5589e5575389cb83ec208b07890424":
 void CompleteShip::LoadState(CompleteShip *this<ecx>, int unk);
 ".578d7c240883e4f0ff77fc5589e557565383ec4c8b811c0100003981180100008b178b7704":
-int CompleteShip::InitiateTeleport(CompleteShip *this<ecx>, int room, int shipId);
+void CompleteShip::InitiateTeleport(CompleteShip *this<ecx>, int targetRoom, int command);
 ".578d7c240883e4f0ff77fc5589e557565389cf31db83ec2c8b4908e8????????":
 virtual void CompleteShip::OnLoop(CompleteShip *this<ecx>);
 ".5589e557565389cb83e4f083ec208b7d088bb7280100008b872401000039c60f84????????":

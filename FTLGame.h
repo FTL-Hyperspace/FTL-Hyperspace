@@ -3686,7 +3686,7 @@ struct ShipManager : ShipObject
 	LIBZHL_API int GetDodgeFactor();
 	LIBZHL_API void OnRender(char showInterior, char doorControlMode);
 	LIBZHL_API int CountCrew(char boarders);
-	LIBZHL_API static std::vector<CrewMember*> *__stdcall TeleportCrew(std::vector<CrewMember*> *crewList, ShipManager *ship, int roomId, bool intruders);
+	LIBZHL_API static void __stdcall TeleportCrew(std::vector<CrewMember*> &crewList, ShipManager *ship, int roomId, bool intruders);
 	LIBZHL_API int OnInit(ShipBlueprint *bp, int shipLevel);
 	LIBZHL_API char HasSystem(int systemId);
 	LIBZHL_API ShipSystem *GetSystemInRoom(int roomId);
@@ -6462,7 +6462,7 @@ struct LIBZHL_INTERFACE CompleteShip
 	LIBZHL_API CrewMember *AddCrewMember2(CrewMember *member, int unk);
 	LIBZHL_API char SaveState(int unk);
 	LIBZHL_API void LoadState(int unk);
-	LIBZHL_API int InitiateTeleport(int room, int shipId);
+	LIBZHL_API void InitiateTeleport(int targetRoom, int command);
 	LIBZHL_API void GetTeleportingParty();
 	LIBZHL_API CrewMember *KillRandomCrew();
 	LIBZHL_API int CountCrew(bool boarders);
