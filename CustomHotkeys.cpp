@@ -4,7 +4,7 @@ static std::vector<CustomHotkey> customHotkeys =
 {
     {"console", SDLKey::SDLK_l, 0, -1},
     {"speed", SDLKey::SDLK_BACKQUOTE, 0, -1},
-    {"info", SDLKey::SDLK_LALT, 0, 11},
+    {"info", SDLKey::SDLK_RALT, 0, 11},
     {"temporal", SDLKey::SDLK_SEMICOLON, 2, 11},
     {"un_temporal", SDLKey::SDLK_UNKNOWN, 2, -1},
     {"temporal_speed", SDLKey::SDLK_PERIOD, 1, 8},
