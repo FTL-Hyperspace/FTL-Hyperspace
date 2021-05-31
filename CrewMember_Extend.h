@@ -22,7 +22,8 @@ enum PowerReadyState
     POWER_NOT_READY_MIN_HEALTH,
     POWER_NOT_READY_MAX_HEALTH,
     POWER_NOT_READY_SYSTEM_DAMAGED,
-    POWER_NOT_READY_TELEPORTING
+    POWER_NOT_READY_TELEPORTING,
+    POWER_NOT_READY_CHARGES
 };
 
 enum class CrewStat
@@ -67,10 +68,11 @@ enum class CrewStat
     DEATH_EFFECT,
     POWER_EFFECT,
     ACTIVATE_WHEN_READY,
-    DEFAULT_SKILL_LEVEL
+    DEFAULT_SKILL_LEVEL,
+    POWER_RECHARGE_MULTIPLIER
 };
 
-static const std::array<std::string, 41> crewStats =
+static const std::array<std::string, 42> crewStats =
 {
     "maxHealth",
     "stunMultiplier",
@@ -112,7 +114,8 @@ static const std::array<std::string, 41> crewStats =
     "deathEffect",
     "powerEffect",
     "activateWhenReady",
-    "defaultSkillLevel"
+    "defaultSkillLevel",
+    "powerRechargeMultiplier"
 };
 
 struct StatBoost
@@ -155,7 +158,9 @@ struct StatBoost
         ALLIES,
         ENEMIES,
         SELF,
-        ALL
+        ALL,
+        CURRENT_ALLIES,
+        CURRENT_ENEMIES
     };
 
     enum class DroneTarget
@@ -283,6 +288,7 @@ public:
 
     std::pair<float, float> powerCooldown = std::pair<float, float>();
     std::pair<float, float> temporaryPowerDuration = std::pair<float, float>();
+    std::pair<int, int> powerCharges = std::pair<int, int>();
 
     int powerRoom;
     int powerShip;
@@ -307,6 +313,9 @@ public:
 
     float prevStun = 0.f; // for use in stun resistance checking
 
+    GL_Primitive *crewBox_chargesBar = nullptr;
+    std::pair<int, int> crewBox_lastPowerCharges = std::pair<int, int>(0,0);
+
     std::vector<StatBoost> outgoingStatBoosts = std::vector<StatBoost>();
     std::vector<StatBoost> outgoingAbilityStatBoosts = std::vector<StatBoost>();
     std::vector<StatBoost> tempOutgoingStatBoosts = std::vector<StatBoost>();
@@ -323,6 +332,11 @@ public:
     ~CrewMember_Extend()
     {
         delete passiveHealTimer;
+        if (crewBox_chargesBar != nullptr)
+        {
+            CSurface::GL_DestroyPrimitive(crewBox_chargesBar);
+            crewBox_chargesBar = nullptr;
+        }
     }
 
     bool BoostCheck(const StatBoost& statBoost);

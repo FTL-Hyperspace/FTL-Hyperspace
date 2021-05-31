@@ -659,6 +659,18 @@ void CustomCrewManager::ParseAbilityEffect(rapidxml::xml_node<char>* stat, Activ
         {
             def.cooldown = boost::lexical_cast<float>(effectNode->value());
         }
+        if (effectName == "powerCharges")
+        {
+            def.powerCharges = boost::lexical_cast<int>(effectNode->value());
+        }
+        if (effectName == "initialCharges")
+        {
+            def.chargesPerJump = boost::lexical_cast<int>(effectNode->value());
+        }
+        if (effectName == "chargesPerJump")
+        {
+            def.chargesPerJump = boost::lexical_cast<int>(effectNode->value());
+        }
         if (effectName == "shipFriendlyFire")
         {
             def.shipFriendlyFire = EventsParser::ParseBoolean(effectNode->value());
@@ -970,6 +982,10 @@ PowerReadyState CrewMember_Extend::PowerReady()
     {
         return POWER_NOT_READY_ACTIVATED;
     }
+    if (powerCharges.second >= 0 && powerCharges.first <= 0)
+    {
+        return POWER_NOT_READY_CHARGES;
+    }
     if (powerCooldown.first < powerCooldown.second)
     {
         return POWER_NOT_READY_COOLDOWN;
@@ -1160,6 +1176,7 @@ void CrewMember_Extend::ActivatePower()
     }
 
     powerCooldown.first = 0;
+    powerCharges.first = std::max(0, powerCharges.first - 1);
 
     powerActivated = true;
 
@@ -1432,6 +1449,8 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
         powerCooldown.second = def.powerDef.cooldown;
         temporaryPowerDuration.second = def.powerDef.tempPower.duration;
         temporaryPowerDuration.first = temporaryPowerDuration.second;
+        powerCharges.second = def.powerDef.powerCharges;
+        powerCharges.first = std::min(def.powerDef.initialCharges ,def.powerDef.powerCharges);
         hasSpecialPower = def.powerDef.hasSpecialPower;
         hasTemporaryPower = def.powerDef.hasTemporaryPower;
         canPhaseThroughDoors = def.canPhaseThroughDoors;
@@ -1701,8 +1720,16 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
             }
             else
             {
-                ex->powerCooldown.first = std::min(ex->powerCooldown.second, (float)(G_->GetCFPS()->GetSpeedFactor() * 0.0625) + ex->powerCooldown.first);
                 auto def = custom->GetDefinition(species);
+                if (ex->powerCharges.second >= 0 && ex->powerCharges.first <= 0)
+                {
+                    ex->powerCooldown.first = 0.f;
+                }
+                else
+                {
+                    ex->powerCooldown.first = std::max(0.f, std::min(ex->powerCooldown.second, (float)(G_->GetCFPS()->GetSpeedFactor() * 0.0625 * ex->CalculateStat(CrewStat::POWER_RECHARGE_MULTIPLIER, def)) + ex->powerCooldown.first));
+                }
+
                 bool activateWhenReady;
                 ex->CalculateStat(CrewStat::ACTIVATE_WHEN_READY, def, &activateWhenReady);
                 if (activateWhenReady && ex->PowerReady() == POWER_READY)
@@ -1754,6 +1781,8 @@ HOOK_METHOD(CrewMember, SaveState, (int file) -> void)
     FileHelper::writeFloat(file, ex->powerCooldown.second);
     FileHelper::writeFloat(file, ex->temporaryPowerDuration.first);
     FileHelper::writeFloat(file, ex->temporaryPowerDuration.second);
+    FileHelper::writeInt(file, ex->powerCharges.first);
+    FileHelper::writeInt(file, ex->powerCharges.second);
     FileHelper::writeInt(file, ex->temporaryPowerActive);
 
     super(file);
@@ -1769,6 +1798,8 @@ HOOK_METHOD(CrewMember, LoadState, (int file) -> void)
     ex->powerCooldown.second = FileHelper::readFloat(file);
     ex->temporaryPowerDuration.first = FileHelper::readFloat(file);
     ex->temporaryPowerDuration.second = FileHelper::readFloat(file);
+    ex->powerCharges.first = FileHelper::readInteger(file);
+    ex->powerCharges.second = FileHelper::readInteger(file);
     ex->temporaryPowerActive = FileHelper::readInteger(file);
     aex->temporaryPowerActive = ex->temporaryPowerActive;
 
@@ -2779,6 +2810,54 @@ HOOK_METHOD(CrewBox, constructor, (Point pos, CrewMember *crew, int number) -> v
             {
                 powerButton.label = crewDef.powerDef.buttonLabel;
             }
+
+            if (crewDef.powerDef.powerCharges > 1)
+            {
+                GL_Color boxColor = GL_Color();
+                boxColor.r = 1.0f;
+                boxColor.g = 1.0f;
+                boxColor.b = 1.0f;
+                boxColor.a = 1.0f;
+
+                CSurface::GL_DestroyPrimitive(boxBackground);
+                boxBackground = CSurface::GL_CreateRectPrimitive(box.x-8, box.y, box.w+7, box.h, boxColor);
+
+                CSurface::GL_DestroyPrimitive(skillBoxBackground);
+
+                std::vector<Globals::Rect> boxRects = std::vector<Globals::Rect>();
+                boxRects.push_back({box.x-8, box.y, box.w+90, box.h});
+                boxRects.push_back({box.x+box.w+3, box.y+box.h, 80, skillBox.h-box.h});
+
+                skillBoxBackground = CSurface::GL_CreateMultiRectPrimitive(boxRects, boxColor);
+
+                boxColor.a = 1.0f;
+
+                CSurface::GL_DestroyPrimitive(boxOutline);
+
+                std::vector<GL_Line> boxLines = std::vector<GL_Line>();
+                boxLines.emplace_back(Pointf(box.x-8, box.y+1), Pointf(box.x+box.w, box.y+1)); //top
+                boxLines.emplace_back(Pointf(box.x-8, box.y+box.h-1), Pointf(box.x+box.w, box.y+box.h-1)); //bottom
+                boxLines.emplace_back(Pointf(box.x-7, box.y), Pointf(box.x-7, box.y+box.h)); //left
+                boxLines.emplace_back(Pointf(box.x-1, box.y), Pointf(box.x-1, box.y+box.h)); //right of charge bar
+                boxLines.emplace_back(Pointf(box.x+6, box.y), Pointf(box.x+6, box.y+box.h)); //right of cooldown bar
+                boxLines.emplace_back(Pointf(box.x+box.w-1, box.y), Pointf(box.x+box.w-1, box.y+box.h)); //right
+
+                boxOutline = CSurface::GL_CreateMultiLinePrimitive(boxLines, boxColor, 2);
+
+                CSurface::GL_DestroyPrimitive(skillBoxOutline);
+
+                boxLines = std::vector<GL_Line>();
+                boxLines.emplace_back(Pointf(box.x-8, box.y+1), Pointf(skillBox.x+skillBox.w-1, box.y+1)); //top
+                boxLines.emplace_back(Pointf(box.x-8, box.y+box.h-1), Pointf(box.x+box.w+5, box.y+box.h-1)); //bottom of box
+                boxLines.emplace_back(Pointf(box.x-7, box.y), Pointf(box.x-7, box.y+box.h)); //left
+                boxLines.emplace_back(Pointf(box.x-1, box.y), Pointf(box.x-1, box.y+box.h)); //right of charge bar
+                boxLines.emplace_back(Pointf(box.x+6, box.y), Pointf(box.x+6, box.y+box.h)); //right of cooldown bar
+                boxLines.emplace_back(Pointf(box.x+box.w+4, box.y+box.h), Pointf(box.x+box.w+4, skillBox.y+skillBox.h)); //left of skillBox
+                boxLines.emplace_back(Pointf(box.x+box.w+3, box.y+skillBox.h-1), Pointf(skillBox.x+skillBox.w, box.y+skillBox.h-1)); //bottom of skillBox
+                boxLines.emplace_back(Pointf(skillBox.x+skillBox.w-1, skillBox.y), Pointf(skillBox.x+skillBox.w-1, skillBox.y+skillBox.h)); //right of skillBox
+
+                skillBoxOutline = CSurface::GL_CreateMultiLinePrimitive(boxLines, boxColor, 2);
+            }
         }
     }
 }
@@ -2873,6 +2952,7 @@ HOOK_METHOD_PRIORITY(CrewBox, OnRender, 1000, () -> void)
         auto ex = CM_EX(crew);
 
         std::pair<float, float> cooldown;
+        std::pair<int, int> charges = ex->powerCharges;
 
         if (ex->temporaryPowerActive)
         {
@@ -2918,9 +2998,80 @@ HOOK_METHOD_PRIORITY(CrewBox, OnRender, 1000, () -> void)
                     }
                 }
 
-                prim = CSurface::GL_CreateRectPrimitive(box.x - 1, (box.h - cooldownHeight) + box.y - 3, 4, cooldownHeight, barColor);
+                if (charges.second > 1)
+                {
+                    prim = CSurface::GL_CreateRectPrimitive(box.x + 1, (box.h - cooldownHeight) + box.y - 3, 3, cooldownHeight, barColor);
+                }
+                else
+                {
+                    prim = CSurface::GL_CreateRectPrimitive(box.x - 1, (box.h - cooldownHeight) + box.y - 3, 4, cooldownHeight, barColor);
+                }
 
                 cooldownBar = prim;
+            }
+        }
+
+        if (prim)
+        {
+            CSurface::GL_RenderPrimitive(prim);
+        }
+
+        prim = nullptr;
+
+        if (charges == ex->crewBox_lastPowerCharges)
+        {
+            prim = ex->crewBox_chargesBar;
+        }
+        else
+        {
+            CSurface::GL_DestroyPrimitive(ex->crewBox_chargesBar);
+            ex->crewBox_lastPowerCharges = charges;
+
+            if (charges.first <= 0)
+            {
+                ex->crewBox_chargesBar = nullptr;
+            }
+            else
+            {
+                GL_Color barColor = GL_Color(133.f / 255.f, 231.f / 255.f, 237.f / 255.f, 1.f);
+
+                if (CustomCrewManager::GetInstance()->IsRace(crew->species))
+                {
+                    auto powerDef = CustomCrewManager::GetInstance()->GetDefinition(crew->species).powerDef;
+
+                    barColor = powerDef.cooldownColor;
+                }
+
+                if (charges.second > 7)
+                {
+                    int chargesHeight = std::max(1, (box.h - 6) * charges.first / charges.second);
+                    prim = CSurface::GL_CreateRectPrimitive(box.x - 5, (box.h - chargesHeight) + box.y - 3, 2, chargesHeight, barColor);
+                    ex->crewBox_chargesBar = prim;
+                }
+                else
+                {
+                    int chargesGap = 1;
+                    int chargesMaxHeight = box.h - 6 - (chargesGap * (charges.second - 1));
+
+                    int segmentHeight = chargesMaxHeight / charges.second;
+                    int segmentRemainder = chargesMaxHeight % charges.second;
+
+                    int y0 = 0;
+                    int y1 = 0;
+
+                    std::vector<Globals::Rect> rectCharges = std::vector<Globals::Rect>();
+
+                    for (int i=0; i<charges.first; ++i)
+                    {
+                        y1 = y0 + segmentHeight;
+                        if (i < segmentRemainder) y1++;
+                        rectCharges.push_back({box.x - 5, box.y + box.h - y1 - 3, 2, y1 - y0});
+                        y0 = y1 + chargesGap;
+                    }
+
+                    prim = CSurface::GL_CreateMultiRectPrimitive(rectCharges, barColor);
+                    ex->crewBox_chargesBar = prim;
+                }
             }
         }
 
@@ -2946,6 +3097,8 @@ HOOK_METHOD_PRIORITY(CrewBox, OnRender, 1000, () -> void)
     }
     else
     {
+        CSurface::GL_DestroyPrimitive(healthBar);
+
         lastHealthWidth = healthWidth;
         GL_Primitive *prim = nullptr;
         if (health.first <= 0)
@@ -2954,7 +3107,7 @@ HOOK_METHOD_PRIORITY(CrewBox, OnRender, 1000, () -> void)
         }
         else
         {
-            CSurface::GL_DestroyPrimitive(healthBar);
+            //CSurface::GL_DestroyPrimitive(healthBar);
 
             GL_Color healthColor = GL_Color(0.f, 1.f, 0.f, 1.f);
 
@@ -3028,6 +3181,8 @@ HOOK_METHOD(CrewBox, GetSelected, (int mouseX, int mouseY) -> CrewMember*)
 {
     auto ret = super(mouseX, mouseY);
 
+    bool appendHotkey = false;
+
     if (CustomCrewManager::GetInstance()->IsRace(pCrew->species))
     {
         auto def = CustomCrewManager::GetInstance()->GetDefinition(pCrew->species);
@@ -3036,16 +3191,10 @@ HOOK_METHOD(CrewBox, GetSelected, (int mouseX, int mouseY) -> CrewMember*)
             std::string tooltip = "";
             if (pCrew->PowerReady())
             {
+                appendHotkey = true;
                 if (!def.powerDef.tooltip.data.empty())
                 {
                     tooltip = def.powerDef.tooltip.GetText();
-
-                    if (!tooltip.empty())
-                    {
-                        std::string replaceWith;
-                        Settings::GetHotkeyName(replaceWith, "lockdown");
-                        boost::algorithm::replace_all(tooltip, "\\1", replaceWith);
-                    }
                 }
             }
             else
@@ -3059,6 +3208,9 @@ HOOK_METHOD(CrewBox, GetSelected, (int mouseX, int mouseY) -> CrewMember*)
 
                 switch (state)
                 {
+                case POWER_NOT_READY_COOLDOWN:
+                    tooltipName = "power_not_ready";
+                    break;
                 case POWER_NOT_READY_ACTIVATED:
                     tooltipName = "power_not_ready_activated";
                     break;
@@ -3103,6 +3255,9 @@ HOOK_METHOD(CrewBox, GetSelected, (int mouseX, int mouseY) -> CrewMember*)
                 case POWER_NOT_READY_TELEPORTING:
                     tooltipName = "power_not_ready_teleporting";
                     break;
+                case POWER_NOT_READY_CHARGES:
+                    tooltipName = "power_not_ready_charges";
+                    break;
                 }
 
                 if (!tooltipName.empty())
@@ -3118,6 +3273,25 @@ HOOK_METHOD(CrewBox, GetSelected, (int mouseX, int mouseY) -> CrewMember*)
             if (!tooltip.empty())
             {
                 sTooltip = tooltip;
+            }
+
+            if (def.powerDef.powerCharges > -1)
+            {
+                auto ex = CM_EX(pCrew);
+                std::string tooltip = G_->GetTextLibrary()->GetText("power_number_charges");
+                boost::algorithm::replace_all(tooltip, "\\1", boost::lexical_cast<std::string>(ex->powerCharges.first));
+                boost::algorithm::replace_all(tooltip, "\\2", boost::lexical_cast<std::string>(ex->powerCharges.second));
+                sTooltip = sTooltip + "\n" + tooltip;
+            }
+
+            if (appendHotkey)
+            {
+                auto ex = CM_EX(pCrew);
+                std::string tooltip = G_->GetTextLibrary()->GetText("hotkey");
+                std::string replaceWith;
+                Settings::GetHotkeyName(replaceWith, "lockdown");
+                boost::algorithm::replace_all(tooltip, "\\1", replaceWith);
+                sTooltip = sTooltip + "\n" + tooltip;
             }
         }
     }

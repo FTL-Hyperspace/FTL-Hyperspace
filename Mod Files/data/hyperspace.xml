@@ -354,6 +354,9 @@ Syntax ->
 		<powerEffect>
 			<cooldown>30</cooldown>
 			<jumpCooldown>full</jumpCooldown>
+			<powerCharges>-1</powerCharges> (maximum number of ability uses per fight)
+			<initialCharges>999</initialCharges> (initial number of ability uses when the crewmember is born)
+			<chargesPerJump>999</chargesPerJump> (number of uses regenerated per jump)
 			<powerSounds>
 				<powerSound>lockdown1</powerSound>
 				<powerSound>lockdown2</powerSound>
@@ -575,7 +578,7 @@ Syntax ->
 		</shootingSounds>
 		
 		<powerEffect>
-			<cooldown>30</cooldown>
+			<cooldown>50</cooldown>
 			<jumpCooldown>full</jumpCooldown>
 			<powerSounds>
 				<powerSound>lockdown1</powerSound>
