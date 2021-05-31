@@ -330,11 +330,7 @@ public:
     ~CrewMember_Extend()
     {
         delete passiveHealTimer;
-        if (crewBox_chargesBar != nullptr)
-        {
-            CSurface::GL_DestroyPrimitive(crewBox_chargesBar);
-            crewBox_chargesBar = nullptr;
-        }
+        CSurface::GL_DestroyPrimitive(crewBox_chargesBar);
     }
 
     bool BoostCheck(const StatBoost& statBoost);

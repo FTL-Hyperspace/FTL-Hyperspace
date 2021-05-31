@@ -2855,6 +2855,14 @@ HOOK_METHOD(CrewBox, constructor, (Point pos, CrewMember *crew, int number) -> v
     }
 }
 
+HOOK_METHOD(CrewBox, destructor, () -> void)
+{
+    auto ex = CM_EX(pCrew);
+    CSurface::GL_DestroyPrimitive(ex->crewBox_chargesBar);
+    ex->crewBox_chargesBar = nullptr;
+    super();
+}
+
 HOOK_METHOD_PRIORITY(CrewBox, OnRender, 1000, () -> void)
 {
     //return super();
@@ -3011,7 +3019,7 @@ HOOK_METHOD_PRIORITY(CrewBox, OnRender, 1000, () -> void)
 
         prim = nullptr;
 
-        if (charges == ex->crewBox_lastPowerCharges)
+        if (charges == ex->crewBox_lastPowerCharges && ex->crewBox_chargesBar)
         {
             prim = ex->crewBox_chargesBar;
         }
