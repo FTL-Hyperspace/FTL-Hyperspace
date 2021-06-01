@@ -119,6 +119,98 @@ struct BossShipDefinition
     int yOffset = 120;
 };
 
+class CustomReq
+{
+public:
+    static int HasEquipment_Any(ShipObject& ship, const std::vector<std::string>& blueprintList)
+    {
+        int ret = 0;
+
+        for (auto const& blueprint : blueprintList)
+        {
+            ret = std::max(ret, ship.HasEquipment(blueprint));
+        }
+        return ret;
+    }
+
+    static int HasEquipment_All(ShipObject& ship, const std::vector<std::string>& blueprintList)
+    {
+        int ret = 2147483647;
+
+        for (auto const& blueprint : blueprintList)
+        {
+            ret = std::min(ret, ship.HasEquipment(blueprint));
+        }
+        return ret;
+    }
+
+    static int HasEquipment_Sum(ShipObject& ship, const std::vector<std::string>& blueprintList)
+    {
+        int ret = 0;
+
+        for (auto const& blueprint : blueprintList)
+        {
+            ret += ship.HasEquipment(blueprint);
+        }
+        return ret;
+    }
+
+    enum REQ_TYPE
+    {
+        TYPE_ANY,
+        TYPE_ALL,
+        TYPE_SUM
+    };
+
+    std::string name = "";
+    int type = TYPE_ANY;
+    std::vector<std::string> blueprints = std::vector<std::string>();
+    std::vector<CustomReq> children = std::vector<CustomReq>();
+    int lvl = -1;
+    int max_lvl = -1;
+    int mult = 1;
+    int constant = 0;
+
+    int HasEquipment(ShipObject& ship)
+    {
+        int ret;
+
+        switch(type)
+        {
+        case TYPE_ANY:
+            ret = HasEquipment_Any(ship, blueprints);
+            for (auto& child : children)
+            {
+                ret = std::max(ret, child.HasEquipment(ship));
+            }
+            break;
+        case TYPE_ALL:
+            ret = HasEquipment_All(ship, blueprints);
+            for (auto& child : children)
+            {
+                ret = std::min(ret, child.HasEquipment(ship));
+            }
+            break;
+        case TYPE_SUM:
+            ret = HasEquipment_Sum(ship, blueprints);
+            for (auto& child : children)
+            {
+                ret += child.HasEquipment(ship);
+            }
+            break;
+        }
+
+        if (lvl > -1 || max_lvl > -1)
+        {
+            int counter = ret;
+            ret = counter >= lvl;
+            if (max_lvl > -1) ret &= counter <= max_lvl;
+        }
+
+        return ret * mult + constant;
+    }
+};
+
 class CustomEventsParser
 {
 public:
@@ -129,6 +221,7 @@ public:
 
     void ParseCustomEventNode(rapidxml::xml_node<char> *node);
     void ParseCustomQuestNode(rapidxml::xml_node<char> *node, CustomQuest *quest);
+    void ParseCustomReqNode(rapidxml::xml_node<char> *node, CustomReq *req);
 
     static CustomEventsParser *GetInstance()
     {
@@ -147,6 +240,7 @@ public:
 
     CustomEvent *GetCustomEvent(const std::string& event);
     CustomSector *GetCustomSector(const std::string& sectorName);
+    CustomReq *GetCustomReq(const std::string& blueprint);
 
     static std::string GetBaseEventName(const std::string& event)
     {
@@ -168,5 +262,6 @@ private:
     std::vector<CustomSector*> customSectors;
     std::unordered_map<std::string, CustomEvent*> customEvents;
     std::unordered_map<std::string, BossShipDefinition> bossShipIds;
+    std::unordered_map<std::string, CustomReq*> customReqs;
     static CustomEventsParser *instance;
 };
