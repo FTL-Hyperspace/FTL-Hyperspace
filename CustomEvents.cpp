@@ -1022,6 +1022,8 @@ HOOK_METHOD(StarMap, RenderLabels, () -> void)
 
     locValues.clear();
 
+    advancedCheckEquipment = true;
+
     if (!outOfFuel)
     {
         for (auto i : locations)
@@ -1042,7 +1044,7 @@ HOOK_METHOD(StarMap, RenderLabels, () -> void)
             {
                 BeaconType *beaconType = customEvent->beacon;
 
-                if (beaconType->equipmentReq.empty() || shipManager->HasEquipment(beaconType->equipmentReq))
+                if (beaconType->equipmentReq.empty() || (shipManager->HasEquipment(beaconType->equipmentReq) > 0) )
                 {
                     std::string text = std::string();
 
@@ -1090,6 +1092,8 @@ HOOK_METHOD(StarMap, RenderLabels, () -> void)
     }
 
     CSurface::GL_PopMatrix();
+
+    advancedCheckEquipment = false;
 
     super();
 
