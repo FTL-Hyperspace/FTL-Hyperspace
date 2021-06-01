@@ -5472,7 +5472,7 @@ struct SpaceManager
 	
 	LIBZHL_API void constructor();
 	LIBZHL_API int GetScreenShake();
-	LIBZHL_API void SaveSpace(void *fileHelper);
+	LIBZHL_API void SaveSpace(int fileHelper);
 	LIBZHL_API void SwitchBeacon();
 	LIBZHL_API ImageDesc *SwitchPlanet(const std::string &name);
 	LIBZHL_API void UpdatePlanetImage();
@@ -6031,6 +6031,7 @@ struct CSurface
 	LIBZHL_API static GL_Primitive *__stdcall GL_CreateRectPrimitive(float x, float y, float w, float h, GL_Color color);
 	LIBZHL_API static void __stdcall AddTexVertices(std::vector<GL_TexVertex> *vec, float x1, float y1, float u1, float v1, float x2, float y2, float u2, float v2);
 	LIBZHL_API static GL_Primitive *__stdcall GL_CreateMultiImagePrimitive(GL_Texture *tex, std::vector<GL_TexVertex> *vec, GL_Color color);
+	LIBZHL_API static void __stdcall GL_PushStencilMode();
 	LIBZHL_API static GL_Primitive *__stdcall GL_CreateImagePrimitive(GL_Texture *tex, float x, float y, float size_x, float size_y, float rotate, GL_Color color);
 	LIBZHL_API static void __stdcall GL_BlitMultiColorImage(GL_Texture *tex, const std::vector<GL_ColorTexVertex> &texVertices, bool unk);
 	LIBZHL_API static void __stdcall GL_BlitMultiImage(GL_Texture *tex, const std::vector<GL_TexVertex> &texVertices, bool unk);
@@ -6619,13 +6620,22 @@ struct PackageModuleInfo;
 struct ResourceManager;
 
 struct ResourceControl
-{
+{	
 	enum ImageSwappingMode
 	{
 	  SWAP_NONE = 0x0,
 	  SWAP_SHIP_SETS = 0x1,
 	  SWAP_DYNAMIC_SHIPS = 0x2,
 	};
+	
+	ImageDesc GetImageData(GL_Texture *tex)
+	{
+		ImageDesc desc;
+		
+		GetImageData(desc, this, tex);
+		
+		return desc;		
+	}
 
 	struct DynamicImageInfo
 	{
@@ -6651,6 +6661,7 @@ struct ResourceControl
 	LIBZHL_API int RenderImageString(std::string &tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror);
 	LIBZHL_API GL_Primitive *CreateImagePrimitiveString(const std::string &tex, int x, int y, int rotation, GL_Color color, float alpha, bool mirror);
 	LIBZHL_API freetype::font_data &GetFontData(int fontType, bool unk);
+	LIBZHL_API static void __stdcall GetImageData(ImageDesc &ref, ResourceControl *resources, GL_Texture *tex);
 	
 	std::unordered_map<std::string, GL_Texture*> images;
 	std::unordered_map<int, freetype::font_data> fonts;
