@@ -38,6 +38,7 @@ HOOK_METHOD(CommandGui, OnLoop, () -> void)
         custom->eventTooltips.currentValue = true;
         custom->showReactor.currentValue = true;
         custom->showAllConnections.currentValue = true;
+        custom->alternateOxygenRendering.currentValue = true;
         custom->showWeaponCooldown.currentValue = true;
         custom->redesignedWeaponTooltips.currentValue = true;
         custom->redesignedDroneTooltips.currentValue = true;
@@ -55,6 +56,7 @@ HOOK_METHOD(CommandGui, OnLoop, () -> void)
         custom->eventTooltips.currentValue = custom->eventTooltips.defaultValue;
         custom->showReactor.currentValue = custom->showReactor.defaultValue;
         custom->showAllConnections.currentValue = custom->showAllConnections.defaultValue;
+        custom->alternateOxygenRendering.currentValue = custom->alternateOxygenRendering.defaultValue;
         custom->showWeaponCooldown.currentValue = custom->showWeaponCooldown.defaultValue;
         custom->redesignedWeaponTooltips.currentValue = custom->redesignedWeaponTooltips.defaultValue;
         custom->redesignedDroneTooltips.currentValue = custom->redesignedDroneTooltips.defaultValue;

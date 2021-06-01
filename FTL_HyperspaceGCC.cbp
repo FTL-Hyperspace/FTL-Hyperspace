@@ -155,6 +155,12 @@
 		<Unit filename="AbilityDrone.h">
 			<Option virtualFolder="Core/Drones/" />
 		</Unit>
+		<Unit filename="AlternateOxygenRendering.cpp">
+			<Option virtualFolder="Content/Ship/" />
+		</Unit>
+		<Unit filename="AlternateOxygenRendering.h">
+			<Option virtualFolder="Content/Ship/" />
+		</Unit>
 		<Unit filename="AugmentValues.cpp">
 			<Option virtualFolder="Content/Augments/" />
 		</Unit>

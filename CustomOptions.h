@@ -45,6 +45,8 @@ public:
 
     Setting showAllConnections;
 
+    Setting alternateOxygenRendering;
+
 //    Setting hackingDroneFix;
 
 //    Setting infiniteMode;

@@ -151,6 +151,13 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->showAllConnections.currentValue = EventsParser::ParseBoolean(enabled);
             }
 
+            if (strcmp(node->name(), "alternateOxygenRendering") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->alternateOxygenRendering.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->alternateOxygenRendering.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
             if (strcmp(node->name(), "advancedCrewTooltips") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
