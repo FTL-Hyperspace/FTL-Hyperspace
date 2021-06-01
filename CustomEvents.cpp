@@ -580,8 +580,6 @@ HOOK_METHOD_PRIORITY(ShipObject, HasEquipment, -100, (const std::string& equipme
 {
     if (advancedCheckEquipment)
     {
-        hs_log_file("Check Equipment: %s\n", equipment.c_str());
-
         if (boost::algorithm::starts_with(equipment, "ANY "))
         {
             std::string child = equipment.substr(4);
