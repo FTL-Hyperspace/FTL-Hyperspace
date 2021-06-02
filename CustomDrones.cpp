@@ -538,22 +538,6 @@ HOOK_METHOD(BoarderPodDrone, constructor, (int _iShipId, int _selfId, const Dron
     }
 }
 
-HOOK_METHOD(CrewControl, OnLoop, () -> void)
-{
-    std::vector<CrewMember*> filteredCrew = std::vector<CrewMember*>();
-
-    for (auto i : selectedCrew)
-    {
-        if (i->Functional())
-        {
-            filteredCrew.push_back(i);
-        }
-    }
-
-    selectedCrew = filteredCrew;
-
-    super();
-}
 
 HOOK_METHOD(CrewDrone, OnLoop, () -> void)
 {
@@ -589,39 +573,19 @@ HOOK_METHOD(CrewAnimation, OnInit, (const std::string& _race, Pointf position, b
     }
 }
 
-
-HOOK_METHOD (CombatControl, OnInit, (Point pos) -> void)
+HOOK_METHOD(CrewControl, OnLoop, () -> void)
 {
-    super(pos);
+    std::vector<CrewMember*> filteredCrew = std::vector<CrewMember*>();
 
-    if(!this->shipManager->HasSystem(3))
+    for (auto i : selectedCrew)
     {
-        Point movedPos = this->droneControl.location;
-        movedPos.x += 36;
-        this->droneControl.location = movedPos;
+        if (i->Functional())
+        {
+            filteredCrew.push_back(i);
+        }
     }
-}
 
-HOOK_METHOD (CombatControl, OnLoop, () -> void)
-{
+    selectedCrew = filteredCrew;
+
     super();
-
-    if(!this->shipManager->HasSystem(3))
-    {
-        Point movedPos = this->droneControl.location;
-        movedPos.x += 36;
-        this->droneControl.location = movedPos;
-    }
-}
-
-HOOK_METHOD (SystemControl, CreateSystemBoxes, () -> void)
-{
-    super();
-    if(!this->shipManager->HasSystem(3))
-    {
-        SystemBox* movedDroneSystemBox = GetSystemBox(4);
-        Point movedBoxPos = movedDroneSystemBox->location;
-        movedBoxPos.x += 36;
-        movedDroneSystemBox->location = movedBoxPos;
-    }
 }

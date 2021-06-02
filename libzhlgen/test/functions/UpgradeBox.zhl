@@ -1,0 +1,28 @@
+"578d51248d7c240883e4f0ff77fc5589f889e557565389cb83c13481ec????????8b378b7f048b40088951e8":
+void UpgradeBox::constructorEmpty(UpgradeBox *this<ecx>, Point pos, bool subsystem);
+"578d7c240883e4f0ff77fc5589fa89e557565389cb83ec5c8b47048b720c8b52108b0f8b7f08c743140000000089038945ac8d83a0000000":
+void UpgradeBox::constructorSystem(UpgradeBox *this<ecx>, ShipManager *ship, ShipSystem *sys, Point pos, bool subsystem);
+"5589e55389cb83e4f083ec108b8110010000890424e8????????8d8ba0000000e8????????8d4b3483c324e8????????8b43f839d874??890424":
+void UpgradeBox::destructor(UpgradeBox *this<ecx>);
+
+struct UpgradeBox
+{{
+	UpgradeBox()
+	{
+	}
+	
+	UpgradeBox(Point pos, bool subsystem)
+	{
+		this->constructorEmpty(pos, subsystem);
+	}
+	
+	UpgradeBox(ShipManager *ship, ShipSystem *sys, Point pos, bool subsystem)
+	{
+		this->constructorSystem(ship, sys, pos, subsystem);
+	}
+	
+	~UpgradeBox()
+	{
+		this->destructor();
+	}
+}};

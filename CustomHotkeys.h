@@ -6,5 +6,6 @@ struct CustomHotkey
     std::string hotkeyName;
     SDLKey defaultValue;
     int page;
+    int index; // -1
 };
 

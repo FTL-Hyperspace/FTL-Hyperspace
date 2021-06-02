@@ -17,6 +17,7 @@ struct Door;
 struct Room;
 struct CrewMember;
 struct CrewAnimation;
+struct LockdownShard;
 struct Fire;
 struct ShipManager;
 struct Store;
@@ -32,6 +33,7 @@ struct CrewEquipBox;
 struct AugmentEquipBox;
 struct UpgradeBox;
 struct CombatControl;
+struct ControlButton;
 struct Pointf;
 struct Animation;
 struct DamageMessage;
@@ -46,6 +48,7 @@ struct BatterySystem;
 struct CloakingSystem;
 struct MindSystem;
 struct Shields;
+struct ArtillerySystem;
 struct WeaponSystem;
 struct DroneSystem;
 struct ShipSystem;
@@ -437,9 +440,6 @@ struct Animation
   GL_Primitive *mirroredPrimitive;
 };
 
-/* 189 */
-struct LockdownShard;
-
 /* 473 */
 struct std__vector_13LockdownShard
 {
@@ -739,6 +739,20 @@ struct WeaponAnimation
   int iHackLevel;
   Animation hackSparks;
   bool playerShip;
+};
+
+/* 189 */
+struct LockdownShard
+{
+  Animation shard;
+  Pointf position;
+  Pointf goal;
+  float speed;
+  bool bArrived;
+  bool bDone;
+  float lifeTime;
+  bool superFreeze;
+  int lockingRoom;
 };
 
 /* 461 */
@@ -1350,9 +1364,6 @@ struct SlideBar
   Point rectStart;
   std__pair_9int___int minMax;
 };
-
-/* 248 */
-struct ControlButton;
 
 /* 571 */
 struct std__vector_13ControlButton
@@ -2754,9 +2765,6 @@ struct EngineSystem;
 /* 409 */
 struct MedbaySystem;
 
-/* 290 */
-struct ArtillerySystem;
-
 /* 815 */
 struct std__vector_17ArtillerySystemZ1
 {
@@ -3188,6 +3196,17 @@ struct ShipAchievementInfo
   CAchievement *achievement;
   Point position;
   int dimension;
+};
+
+/* 248 */
+struct ControlButton
+{
+  Globals__Rect rect;
+  std__string value;
+  TextString desc;
+  std__string key;
+  int state;
+  int descLength;
 };
 
 /* 382 */
@@ -4125,6 +4144,15 @@ struct DroneSystem
   int slot_count;
   int iStartingBatteryPower;
   std__vector_4bool repowerList;
+};
+
+/* 290 */
+struct ArtillerySystem
+{
+  ShipSystem _base;
+  ProjectileFactory *projectileFactory;
+  Targetable *target;
+  bool bCloaked;
 };
 
 /* 448 */

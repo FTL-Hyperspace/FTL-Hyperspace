@@ -100,15 +100,25 @@ void ShipManager::ClearStatusSystem(ShipManager *this<ecx>, int system);
 void ShipManager::ResetScrapLevel(ShipManager *this<ecx>);
 "578d7c240883e4f0ff77fc5589e557565389ce81c1????????83ec3c8b411cc741ec000000008941208b812cfcffff89810c040000c70424????????":
 void ShipManager::JumpArrive(ShipManager *this<ecx>);
+"578d7c240883e4f0ff77fc5589e557565383ec4c8b51188b411cc745b80000000029d0c1f80285c00f84????????89cf":
+void ShipManager::CheckSpreadDamage(ShipManager *this<ecx>);
 "5731c08d7c240883e4f0ff77fc5589e55783ec148b1783faff74??8bb9c80400008b149783faff74??8b4918":
 bool ShipManager::ForceDecreaseSystemPower(ShipManager *this<ecx>, int sys);
+"5589c889e58b55088b524485d274??8b8aec0100005d89088b8af00100008948048b8af40100008b92f801000089480889500c":
+static void ShipManager::GetShieldPower(ShieldPower &power<ecx>, ShipManager *ship);
 "5731c08d7c240883e4f0ff77fc5589e5575383ec108b91c80400008b1f8b7f04837a0cff74??8b4948":
 int ShipManager::AddWeapon(ShipManager *this<ecx>, const WeaponBlueprint* bp, int slot);
 "578d7c240883e4f0ff77fc5589e557565383ec4c8b3f8b178b470429d0c1f80369c0????????85c00f84????????":
 void ShipManager::AddEquipmentFromList(ShipManager *this<ecx>, std::vector<std::string> equipmentList);
+"8b410485c075??c3908db4260000000080b9b00400000075??80b9990400000074??f3c38b915408000085d2":
+void ShipManager::RenderChargeBars(ShipManager *this<ecx>);
+"578d7c240883e4f0ff77fc5589f889e557565389cf83ec3c8b188b81c8040000837810ff0f84????????8b414c":
+void ShipManager::ExportBattleState(ShipManager *this<ecx>, int file);
+"578d7c240883e4f0ff77fc5589e557565389cb83ec3c8b81c80400008b37837810ff0f84????????8b414c8d4ddc05????????":
+void ShipManager::ImportBattleState(ShipManager *this<ecx>, int file);
 
-
-struct ShipManager {{
+struct ShipManager depends (PowerManager, ShieldPower)
+{{
 	ShipManager(int shipId) 
 	{
 		this->constructor(shipId);
@@ -137,6 +147,20 @@ struct ShipManager {{
 	~ShipManager()
 	{
 		this->destructor2();
+	}
+	
+	std::pair<int, int> GetAvailablePower()
+	{
+		PowerManager *powerMan = PowerManager::GetPowerManager(iShipId);
+		
+		return std::pair<int, int>(powerMan->currentPower.second, powerMan->currentPower.second - powerMan->currentPower.first);
+	}
+	
+	ShieldPower GetShieldPower()
+	{
+		ShieldPower shieldPower;
+		GetShieldPower(shieldPower, this);
+		return shieldPower;
 	}
 	
 

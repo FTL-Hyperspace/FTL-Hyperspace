@@ -2,10 +2,10 @@
 #pragma GCC optimize ("O1")
 #include "CustomCrew.h"
 
-
 static bool __attribute__((fastcall)) CrewMember_GetControllable(CrewMember *_this)
 {
     bool req = _this->iShipId == 0 && !_this->bDead && !_this->bMindControlled;
+
     if (!req)
     {
         return false;

@@ -1,20 +1,21 @@
 #pragma once
-enum class SystemId
+enum SystemId
 {
-    SHIELDS,    //0
-    ENGINES,    //1
-    OXYGEN,     //2
-    WEAPONS,    //3
-    DRONES,     //4
-    MEDBAY,     //5
-    PILOT,      //6
-    SENSORS,    //7
-    DOORS,      //8
-    TELEPORTER, //9
-    CLOAKING,   //10
-    ARTILLERY,  //11
-    BATTERY,    //12
-    CLONEBAY,   //13
-    MIND,       //14
-    HACKING     //15
+    SYS_SHIELDS,    //0
+    SYS_ENGINES,    //1
+    SYS_OXYGEN,     //2
+    SYS_WEAPONS,    //3
+    SYS_DRONES,     //4
+    SYS_MEDBAY,     //5
+    SYS_PILOT,      //6
+    SYS_SENSORS,    //7
+    SYS_DOORS,      //8
+    SYS_TELEPORTER, //9
+    SYS_CLOAKING,   //10
+    SYS_ARTILLERY,  //11
+    SYS_BATTERY,    //12
+    SYS_CLONEBAY,   //13
+    SYS_MIND,       //14
+    SYS_HACKING,    //15
+    SYS_TEMPORAL    = 20,
 };
