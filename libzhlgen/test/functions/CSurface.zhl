@@ -88,6 +88,8 @@ static cleanup void CSurface::AddTexVertices(std::vector<GL_TexVertex>* vec, flo
 
 "8d4c240483e4f0ff71fc5589e55756535183ec588b71048b198b4604":
 static cleanup GL_Primitive* CSurface::GL_CreateMultiImagePrimitive(GL_Texture* tex, std::vector<GL_TexVertex>* vec, GL_Color color);
+".a1????????3b05????????74??85c074??8b15????????89108b15????????8950048b15????????89500883c00ca3????????c38d4c240483e4f0":
+static cleanup void CSurface::GL_PushStencilMode();
 
 "8d4c240483e4f0ff71fc5589e556535183ec5c8b31f30f105118f30f1035????????0f2ed6f30f10690cf30f106110f30f116dc0f30f1165c4":
 static cleanup GL_Primitive* CSurface::GL_CreateImagePrimitive(GL_Texture *tex, float x, float y, float size_x, float size_y, float rotate, GL_Color color);

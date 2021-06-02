@@ -3,7 +3,7 @@ void SpaceManager::constructor(SpaceManager *this<ecx>);
 ".0fb68188030000c6818803000000":
 int SpaceManager::GetScreenShake(SpaceManager *this<ecx>);
 ".578d7c240883e4f0ff77fc":
-void SpaceManager::SaveSpace(SpaceManager *this<ecx>, void* fileHelper);
+void SpaceManager::SaveSpace(SpaceManager *this<ecx>, int fileHelper);
 ".8b54240489c88b8ae802000089088b8aec0200008948048b8af00200008948088b8af4020000":
 void SpaceManager::SwitchBeacon(SpaceManager *this<ecx>);
 ".578d7c240883e4f0ff77fc5589e5575653":

@@ -263,6 +263,12 @@
 		<Unit filename="CustomEvents.h">
 			<Option virtualFolder="Core/Events/" />
 		</Unit>
+		<Unit filename="CustomFleetShips.cpp">
+			<Option virtualFolder="Core/Events/" />
+		</Unit>
+		<Unit filename="CustomFleetShips.h">
+			<Option virtualFolder="Core/Events/" />
+		</Unit>
 		<Unit filename="CustomHotkeys.cpp">
 			<Option virtualFolder="Core/Options/" />
 		</Unit>

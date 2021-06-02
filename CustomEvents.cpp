@@ -3,6 +3,7 @@
 #include "Resources.h"
 #include "Seeds.h"
 #include "ShipUnlocks.h"
+#include "CustomFleetShips.h"
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
 
@@ -34,6 +35,11 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
             {
                 eventFiles.push_back(std::string(eventNode->value()));
             }
+        }
+
+        if (strcmp(eventNode->name(), "fleetDef") == 0)
+        {
+            ParseFleetShipNode(eventNode);
         }
 
         if (strcmp(eventNode->name(), "sector") == 0)
@@ -92,8 +98,6 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
                     customSectors.push_back(sec);
                 }
             }
-
-
         }
 
         if (strcmp(eventNode->name(), "event") == 0)
@@ -308,6 +312,42 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
                     if (nodeName == "customStore")
                     {
                         customEvent->customStore = child->value();
+                    }
+                    if (nodeName == "customFleet")
+                    {
+                        bool right = false;
+                        bool firing = false;
+                        bool autoDarkening = false;
+
+                        if (child->first_attribute("right"))
+                        {
+                            right = EventsParser::ParseBoolean(child->first_attribute("right")->value());
+                        }
+                        if (child->first_attribute("firing"))
+                        {
+                            firing = EventsParser::ParseBoolean(child->first_attribute("firing")->value());
+                        }
+                        if (child->first_attribute("autoDarkening"))
+                        {
+                            autoDarkening = EventsParser::ParseBoolean(child->first_attribute("autoDarkening")->value());
+                        }
+
+                        if (!right)
+                        {
+                            customEvent->leftFleet.fleetDefName = child->value();
+                            customEvent->leftFleet.firing = firing;
+                            customEvent->leftFleet.autoDarkening = autoDarkening;
+                        }
+                        else
+                        {
+                            customEvent->rightFleet.fleetDefName = child->value();
+                            customEvent->rightFleet.firing = firing;
+                            customEvent->rightFleet.autoDarkening = autoDarkening;
+                        }
+                    }
+                    if (nodeName == "clearCustomFleet")
+                    {
+                        customEvent->clearCustomFleet = true;
                     }
                 }
 
