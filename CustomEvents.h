@@ -93,6 +93,7 @@ struct CustomEvent
 
     EventFleet leftFleet;
     EventFleet rightFleet;
+    bool clearCustomFleet;
 
     std::vector<std::string> hiddenAugs = std::vector<std::string>();
     std::vector<std::string> removeItems = std::vector<std::string>();

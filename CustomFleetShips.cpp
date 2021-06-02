@@ -126,15 +126,13 @@ void CreateFullFleet(SpaceManager *space, EventFleet& leftFleet, EventFleet& rig
     }
 }
 
-HOOK_METHOD(WorldManager, CreateLocation, (Location* loc) -> void)
+void ClearCustomFleet(SpaceManager *space)
 {
-    super(loc);
-
-    space.fleetShip = G_->GetResources()->GetImageData(G_->GetResources()->GetImageId("ship/fleet/fleet_big.png"));
-    space.fleetShip.x = 550;
-    space.fleetShip.y = 447;
-    space.fleetShip.w = space.fleetShip.w * 2 - 100;
-    space.fleetShip.h += 25;
+    space->fleetShip = G_->GetResources()->GetImageData(G_->GetResources()->GetImageId("ship/fleet/fleet_big.png"));
+    space->fleetShip.x = 550;
+    space->fleetShip.y = 447;
+    space->fleetShip.w = space->fleetShip.w * 2 - 100;
+    space->fleetShip.h += 25;
 
     for (auto& layer : g_currentFleetShips)
     {
@@ -143,6 +141,14 @@ HOOK_METHOD(WorldManager, CreateLocation, (Location* loc) -> void)
 
     g_leftFleet = EventFleet();
     g_rightFleet = EventFleet();
+
+}
+
+HOOK_METHOD(WorldManager, CreateLocation, (Location* loc) -> void)
+{
+    super(loc);
+
+    ClearCustomFleet(&space);
 
     auto customEvents = CustomEventsParser::GetInstance();
     auto customEvent = customEvents->GetCustomEvent(loc->event->eventName);
@@ -157,13 +163,20 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent* loc) -> void)
 {
     super(loc);
 
-    if (g_currentFleetShips.empty())
-    {
-        auto customEvents = CustomEventsParser::GetInstance();
-        auto customEvent = customEvents->GetCustomEvent(loc->eventName);
+    auto customEvents = CustomEventsParser::GetInstance();
+    auto customEvent = customEvents->GetCustomEvent(loc->eventName);
 
-        if (customEvent != nullptr)
+    if (customEvent != nullptr)
+    {
+        if (customEvent->clearCustomFleet)
         {
+            ClearCustomFleet(&space);
+        }
+
+        if ((!customEvent->leftFleet.fleetDefName.empty() || !customEvent->rightFleet.fleetDefName.empty()) &&
+            !(customEvent->leftFleet.fleetDefName == g_leftFleet.fleetDefName && customEvent->rightFleet.fleetDefName == g_rightFleet.fleetDefName))
+        {
+            ClearCustomFleet(&space);
             CreateFullFleet(&space, customEvent->leftFleet, customEvent->rightFleet);
         }
     }

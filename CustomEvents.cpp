@@ -345,6 +345,10 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
                             customEvent->rightFleet.autoDarkening = autoDarkening;
                         }
                     }
+                    if (nodeName == "clearCustomFleet")
+                    {
+                        customEvent->clearCustomFleet = true;
+                    }
                 }
 
                 customEvents[eventName] = customEvent;
