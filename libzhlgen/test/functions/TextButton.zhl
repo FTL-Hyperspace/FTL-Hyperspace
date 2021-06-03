@@ -16,7 +16,10 @@ void TextButton::destructor(TextButton *this<ecx>);
 int64_t TextButton::GetSizeX(TextButton *this<ecx>);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec5c8b378b47088b57048b4e0c8945b88b470c8955b4894c24048b4e08":
 void TextButton::OnInitRect(TextButton *this<ecx>, Globals::Rect& rect, int cornerInset, TextString& buttonLabel, int font);
-
+"578d7c240883e4f0ff77fc5589e557565389ce83ec2c8b57048b078b4f088b5f0c8955e08b5004894de485d275??":
+void TextButton::SetBaseImage(TextButton *this<ecx>, const std::string& name, Point pos, int autoWidthMin);
+"8b5424048b4424108891b40000008b54240885c08891c00000008b54240c8991b80000007e??8981bc000000":
+void TextButton::SetAutoWidth(TextButton *this<ecx>, bool autoWidth, bool autoRightAlign, int margin, int min);
 
 struct TextButton
 {{

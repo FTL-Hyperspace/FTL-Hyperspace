@@ -63,6 +63,13 @@ struct CustomQuest
     }
 };
 
+struct EventFleet
+{
+    std::string fleetDefName;
+    bool firing;
+    bool autoDarkening;
+};
+
 struct CustomEvent
 {
     std::string eventName;
@@ -87,6 +94,9 @@ struct CustomEvent
     bool disableScrapScore = false;
     std::string customStore;
 
+    EventFleet leftFleet;
+    EventFleet rightFleet;
+    bool clearCustomFleet;
 
     std::vector<std::string> hiddenAugs = std::vector<std::string>();
     std::vector<std::string> removeItems = std::vector<std::string>();

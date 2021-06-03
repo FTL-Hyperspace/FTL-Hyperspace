@@ -324,6 +324,8 @@ public:
     std::unordered_map<CrewStat, std::vector<StatBoost>> timedStatBoosts = std::unordered_map<CrewStat, std::vector<StatBoost>>();
 //    std::vector<StatBoost> personalStatBoosts;
 
+    float extraMedbay = 0.f;
+
     void Initialize(CrewBlueprint& bp, int shipId, bool enemy, CrewAnimation *animation);
 
 

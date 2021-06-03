@@ -1,0 +1,10 @@
+"578d7c240883e4f0ff77fc5589f889e557565389cf8d75d083ec6c8b108b58088b4804c744240c00000000891424895c2408894c2404":
+void CloakingBox::constructor(CloakingBox *this<ecx>, Point pos, CloakingSystem* sys);
+
+struct CloakingBox
+{{
+	CloakingBox(Point pos, CloakingSystem* sys)
+	{
+		this->constructor(pos, sys);
+	}
+}};

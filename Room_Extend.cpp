@@ -1,4 +1,4 @@
-#include "Room_Extend.h"
+#include "Global.h"
 
 
 HOOK_METHOD_PRIORITY(Room, constructor, 900, (int shipId, int x, int y, int w, int h, int roomId) -> void)
@@ -39,4 +39,18 @@ Room_Extend* Get_Room_Extend(Room* c)
     dEx |= c->gap_ex_2[1];
 
     return (Room_Extend*)dEx;
+}
+
+Room_Extend::~Room_Extend()
+{
+    if (speedUpAnim)
+        speedUpAnim->destructor();
+
+    if (slowDownAnim)
+        slowDownAnim->destructor();
+
+    for (auto i : roomAnims)
+    {
+        delete i.anim;
+    }
 }

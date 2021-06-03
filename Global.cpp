@@ -34,6 +34,7 @@ bool Global::isCustomSeed = false;
 unsigned int Global::sectorMapSeed = -1;
 FILE *Global::logFile = nullptr;
 bool *Global::firstTimeShips = nullptr;
+std::pair<Point, Point> *Global::droneWeaponPosition = nullptr;
 
 unsigned int Global::questSeed = 0;
 std::vector<unsigned int> Global::delayedQuestSeeds = std::vector<unsigned int>();
@@ -121,6 +122,7 @@ void Global::Initialize()
     difficulty = (int*)((__baseAddress + __difficultyOffset));
     firstTimeShips = (bool*)((__baseAddress + __firstTimeShipsOffset));
     *firstTimeShips = false;
+    droneWeaponPosition = (std::pair<Point, Point>*)((__baseAddress + __droneWeaponPosOffset));
     //fragment_shader_source_callback = (ShaderSourceCallback**)((__baseAddress + __fragmentCallbackOffset));
     logFile = fopen("FTL_HS.log", "w");
 
