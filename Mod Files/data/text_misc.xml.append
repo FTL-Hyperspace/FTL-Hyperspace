@@ -109,8 +109,15 @@
 
 <!-- More Info Button -->
 
-<text name="tooltip_more_info">Click here to toggle the display of additional information on crew and weapons.
-Key: \1.</text> <!-- \1 is more info hotkey -->
+<text name="tooltip_more_info">Toggle advanced information, which provides extra info for:
+-Weapon/Drone/Augment Tooltips
+-Crew hover tooltips
+-Map connections
+-Room oxygen colors
+-Reactor numbers in hanger
+-Event equipment tooltips
+
+Key: \1</text> <!-- \1 is more info hotkey -->
 
 <!-- Discord Integration -->
 
