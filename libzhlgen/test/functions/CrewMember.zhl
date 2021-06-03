@@ -94,7 +94,7 @@ void CrewMember::SetFrozenLocation(CrewMember *this<ecx>, bool frozenLocation);
 ".8b4424048981a40100008b4424088981a8010000":
 void CrewMember::SetCrewTask(CrewMember *this<ecx>, CrewTask task);
 ".578d7c240883e4f0ff77fc5589f889e557":
-Slot* CrewMember::FindSlot(CrewMember *this<ecx>, int unk1, int roomId, bool unk2);
+Slot* CrewMember::FindSlot(CrewMember *this<ecx>, int roomId, int slotId, bool closeEnough);
 ".578d7c240883e4f0ff77fc5589e55756":
 bool CrewMember::CheckRoomPath(CrewMember *this<ecx>, int roomId);
 ".57660fefc9660fefc08d7c240883e4f0ff77fc5589e5":

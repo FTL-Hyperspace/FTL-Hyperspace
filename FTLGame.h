@@ -1078,6 +1078,7 @@ struct Room : Selectable
 	LIBZHL_API void OnRenderWalls(float alpha);
 	LIBZHL_API static void __stdcall __DO_NOT_HOOK();
 	LIBZHL_API void destructor();
+	LIBZHL_API int GetEmptySlot(bool intruder);
 	
 	ShipObject _shipObject;
 	Globals::Rect rect;
@@ -2906,7 +2907,7 @@ struct LIBZHL_INTERFACE CrewMember
 	LIBZHL_API void SetFrozen(bool frozen);
 	LIBZHL_API void SetFrozenLocation(bool frozenLocation);
 	LIBZHL_API void SetCrewTask(CrewTask task);
-	LIBZHL_API Slot *FindSlot(int unk1, int roomId, bool unk2);
+	LIBZHL_API Slot *FindSlot(int roomId, int slotId, bool closeEnough);
 	LIBZHL_API bool CheckRoomPath(int roomId);
 	LIBZHL_API void SetPosition(Point pos);
 	LIBZHL_API void ClearTask();
