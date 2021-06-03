@@ -3903,6 +3903,7 @@ struct ShipManager : ShipObject
 	LIBZHL_API void RenderChargeBars();
 	LIBZHL_API void ExportBattleState(int file);
 	LIBZHL_API void ImportBattleState(int file);
+	LIBZHL_API bool DoorsFunction();
 	
 	Targetable _targetable;
 	Collideable _collideable;
@@ -7020,6 +7021,7 @@ public:
 	LIBZHL_API void FakeClose();
 	LIBZHL_API bool IsSealed(int shipId);
 	LIBZHL_API void FakeOpen();
+	LIBZHL_API void Manipulate();
 	
 	Selectable _selectable;
 	int iRoom1;

@@ -116,6 +116,8 @@ void ShipManager::RenderChargeBars(ShipManager *this<ecx>);
 void ShipManager::ExportBattleState(ShipManager *this<ecx>, int file);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec3c8b81c80400008b37837810ff0f84????????8b414c8d4ddc05????????":
 void ShipManager::ImportBattleState(ShipManager *this<ecx>, int file);
+"8b81c80400008b402083f8ff74??5589e5538b511889cb83e4f08b0c828b01ff502c84c074??":
+bool ShipManager::DoorsFunction(ShipManager *this<ecx>);
 
 struct ShipManager depends (PowerManager, ShieldPower)
 {{

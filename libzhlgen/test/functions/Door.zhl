@@ -4,6 +4,8 @@ void Door::FakeClose(Door *this<ecx>);
 bool Door::IsSealed(Door *this<ecx>, int shipId);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec1c83b9b400000004":
 void Door::FakeOpen(Door *this<ecx>);
+"578d7c240883e4f0ff77fc5589e557565389cb83ec1c0fb6411883f00184c088411875??8079200074??83bbb40000000474??":
+void Door::Manipulate(Door *this<ecx>);
 
 struct Door depends (Point, ShipGraph)
 {{
