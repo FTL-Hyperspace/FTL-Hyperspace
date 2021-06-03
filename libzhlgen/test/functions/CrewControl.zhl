@@ -16,3 +16,5 @@ static void CrewControl::ClearDeadCrew(std::vector<CrewMember*> crew);
 void CrewControl::ClearCrewBoxes(CrewControl *this<ecx>);
 "578d7c240883e4f0ff77fc5589e557565383ec2c8b1f8b570485db74??89ce8b0b":
 void CrewControl::SelectPotentialCrew(CrewControl *this<ecx>, CrewMember *crew, bool allowTeleportLeaving);
+"578d7c240883e4f0ff77fc5589e557565389ce83ec2c807930000f84????????8b398b461c85c074??":
+void CrewControl::RButton(CrewControl *this<ecx>, int x, int y, bool shiftHeld);

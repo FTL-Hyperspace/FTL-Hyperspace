@@ -892,6 +892,7 @@ struct CrewControl
 	LIBZHL_API static void __stdcall ClearDeadCrew(std::vector<CrewMember*> crew);
 	LIBZHL_API void ClearCrewBoxes();
 	LIBZHL_API void SelectPotentialCrew(CrewMember *crew, bool allowTeleportLeaving);
+	LIBZHL_API void RButton(int x, int y, bool shiftHeld);
 	
 	ShipManager *shipManager;
 	std::vector<CrewMember*> selectedCrew;
