@@ -20,6 +20,8 @@ std::string SeedInputBox::prompt;
 SeededRng worldRng = SeededRng(0);
 SeededRng secretRng = SeededRng(0);
 
+bool loadingMap = false;
+
 HOOK_GLOBAL(srandom32, (unsigned int seed) -> void)
 {
     if (!SeedInputBox::seedsEnabled) return super(seed);

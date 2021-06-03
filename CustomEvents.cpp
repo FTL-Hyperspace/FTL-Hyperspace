@@ -150,6 +150,24 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
                         ParseCustomQuestNode(child, customEvent->customQuest);
                     }
 
+                    if (nodeName == "preventBossFleet")
+                    {
+                        customEvent->preventBossFleet = 1;
+                        if (child->first_attribute("forever") && EventsParser::ParseBoolean(child->first_attribute("forever")->value()))
+                        {
+                            customEvent->preventBossFleet = 2;
+                        }
+                    }
+
+                    if (nodeName == "runFromFleet")
+                    {
+                        customEvent->runFromFleet = 2;
+                        if (child->first_attribute("closest") && EventsParser::ParseBoolean(child->first_attribute("closest")->value()))
+                        {
+                            customEvent->runFromFleet = 1;
+                        }
+                    }
+
                     if (nodeName == "secretSectorWarp")
                     {
                         customEvent->secretSectorWarp = child->value();
@@ -1027,7 +1045,7 @@ HOOK_METHOD(StarMap, GenerateMap, (bool tutorial, bool seed) -> LocationEvent*)
     return ret;
 }
 
-HOOK_METHOD(StarMap, TurnIntoFleetLocation, (Location *loc) -> void)
+HOOK_METHOD_PRIORITY(StarMap, TurnIntoFleetLocation, 9999, (Location *loc) -> void)
 {
     EventGenerator *eventGenerator = G_->GetEventGenerator();
 
@@ -1532,4 +1550,115 @@ HOOK_METHOD(CreditScreen, OnRender, () -> void)
     super();
     shouldReplaceCreditsText = false;
     shouldReplaceBackground = false;
+}
+
+static BossFleetPrevention bossFleetPrevention = BossFleetPrevention();
+static bool inUpdateBoss = false;
+
+HOOK_METHOD(StarMap, UpdateBoss, () -> void)
+{
+    inUpdateBoss = true;
+
+    bossFleetPrevention.starMap = this;
+    bossFleetPrevention.Set();
+
+    super();
+
+    bossFleetPrevention.Clear();
+
+    inUpdateBoss = false;
+}
+
+HOOK_METHOD(StarMap, GenerateMap, (bool unk, bool seed) -> Location*)
+{
+    auto ret = super(unk, seed);
+
+    if (!loadingMap)
+    {
+        for (auto i : locations)
+        {
+            if (!i->dangerZone && i->fleetChanging)
+            {
+                auto locEvent = i->event;
+                auto customEvents = CustomEventsParser::GetInstance();
+                auto customEvent = customEvents->GetCustomEvent(locEvent->eventName);
+
+                if (customEvent && customEvent->preventBossFleet)
+                {
+                    i->fleetChanging = false;
+                }
+            }
+        }
+    }
+
+    return ret;
+}
+
+HOOK_METHOD(StarMap, TurnIntoFleetLocation, (Location *loc) -> void)
+{
+    if (!loadingMap) {
+        auto locEvent = loc->event;
+        auto customEvents = CustomEventsParser::GetInstance();
+        auto customEvent = customEvents->GetCustomEvent(locEvent->eventName);
+
+        if (!loc->visited && customEvent && customEvent->runFromFleet)
+        {
+            bool requireClosest = customEvent->runFromFleet == 1;
+            int closestDistance = 9999;
+
+            auto allowedDestinations = std::vector<Location*>();
+            auto path = std::vector<Location*>();
+
+            for (auto i : locations)
+            {
+                if (!i->beacon && !i->visited && (!i->dangerZone || bossFleetPrevention.fleetBlockedLocs.count(i)) && !i->newSector && !i->questLoc && !i->fleetChanging && i->nebula == loc->nebula && i != currentLoc && i != potentialLoc && !i->event->store && !i->event->repair)
+                {
+                    auto destinationEvent = customEvents->GetCustomEvent(i->event->eventName);
+
+                    if (!(destinationEvent && destinationEvent->preventQuest))
+                    {
+                        if (requireClosest)
+                        {
+                            path.clear();
+                            Dijkstra0(path, this, loc, i, true);
+                            if (path.size() < closestDistance)
+                            {
+                                allowedDestinations.clear();
+                                closestDistance = path.size();
+                            }
+                            if (path.size() <= closestDistance)
+                            {
+                                allowedDestinations.push_back(i);
+                            }
+                        }
+                        else
+                        {
+                            allowedDestinations.push_back(i);
+                        }
+                    }
+                }
+            }
+            if (allowedDestinations.size())
+            {
+                loc->questLoc = false;
+
+                auto dest = allowedDestinations[random32()%allowedDestinations.size()];
+                unsigned int seed = random32();
+                dest->event = G_->GetEventGenerator()->GetBaseEvent(locEvent->eventName, worldLevel, true, seed);
+                dest->questLoc = true;
+                dest->visited = 0;
+
+                if (inUpdateBoss)
+                {
+                    bossFleetPrevention.Clear();
+                    bossFleetPrevention.Set();
+                }
+
+                auto destIt = std::find(locations.begin(), locations.end(), dest);
+                addedQuests.push_back({"QUEST " + std::to_string(seed) + " " + locEvent->eventName, std::distance(locations.begin(), destIt)});
+            }
+        }
+    }
+
+    super(loc);
 }
