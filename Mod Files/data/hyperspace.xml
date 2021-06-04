@@ -888,6 +888,23 @@ Syntax ->
 		<customStore>STORE_CUSTOM</customStore>
 	</event>
 	
+	<event name="CRYSTAL_HOME_ACCEPT">
+		<jumpEvent>GOTO_CRYSTAL_HOME</jumpEvent>
+	</event>
+	
+	<event name="JUMPEVENT_CLEAR">
+		<jumpEvent/>
+	</event>
+	
+	<event name="HACKER_SABOTAGE_FTL">
+		<resetFtl/>
+	</event>
+	
+	<event name="INVINCIBLE_MERCHANT">
+		<preventBossFleet forever="false"/> -> default allows fleet to overtake when no other beacons remain; forever="true" makes event stay forever (until visited)
+		<runFromFleet closest="true"/> -> when overtaken by fleet/boss the event will respawn at another beacon (default prefers nearby beacons)
+	</event>
+	
 	<req name="CUSTOM_REQ" type="any/all/sum" mult="1" const="0"> -> "any" is synonomous with "max", "all" is synonomous with "min", "sum" is synonomous with "count"
 		<name>BLUEPRINT_1</name>
 		<name>BLUEPRINT_2</name>
