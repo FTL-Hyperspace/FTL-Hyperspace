@@ -796,6 +796,10 @@ The req attribute for beaconType makes it so that the beacon label is only visib
 You can load custom stores by supplying the custom store id
 The event has to load a vanilla store in events.xml - it will be replaced with the custom store on load
 
+<req> is used to make custom requirements for blue options (and also for beacon label requirements).
+For example <choice req="CUSTOM_REQ"> in events.xml will look for a <req> named "CUSTOM_REQ" before looking for a blueprintList or blueprint.
+Alternatively, you can use the keywords ANY, ALL, or SUM with a blueprintList (e.g. "ALL LIST_GATLING_PARTS") for simpler custom requirements to avoid needing to add a <req> here.
+
 
 Syntax -> 
 <events>
@@ -883,6 +887,30 @@ Syntax ->
 	<event name="STOREEVENT_STORE_CUSTOM" recursive="true">
 		<customStore>STORE_CUSTOM</customStore>
 	</event>
+	
+	<req name="CUSTOM_REQ" type="any/all/sum" mult="1" const="0"> -> "any" is synonomous with "max", "all" is synonomous with "min", "sum" is synonomous with "count"
+		<name>BLUEPRINT_1</name>
+		<name>BLUEPRINT_2</name>
+		<name>BLUEPRINT_3</name>
+	</req>
+	
+	<req name="HAS_UPG_MEDICAL" type="any" lvl="2"> -> when lvl or max_lvl is specified, becomes a boolean value (1 if the condition is met, 0 if not).
+		<name>medbay</name>
+		<name>clonebay</name>
+	</req>
+	
+	<req name="COUNT_HUMANS" type="sum" load="LIST_CREW_HUMAN"/> -> load keyword allows using an existing blueprintList instead of copying it into the req
+	
+	<req name="MAJORITY_HUMAN" type="sum"> -> example returns the number of humans minus the number of aliens
+		<name>COUNT_HUMANS</name> -> if name matches another custom req, that req is checked recursively
+		<req type="sum" load="LIST_CREW_ALIENS" mult="-1"/> -> can also nest req's directly
+	</req>
+	
+	<req name="KEYWORD_EXAMPLE"> -> these keywords work the same way as those directly used in a <choice>
+		<name>ANY LIST_WEAPONS_ION</name>
+		<name>ALL LIST_SUBSYSTEMS</name>
+		<name>SUM LIST_CREW_ENGI</name>
+	</req>
 </events>
 
 

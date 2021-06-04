@@ -369,6 +369,27 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
         {
             ParseCustomQuestNode(eventNode, defaultQuest);
         }
+
+        if (strcmp(eventNode->name(), "req") == 0)
+        {
+            std::string reqName = std::string(eventNode->first_attribute("name")->value());
+
+            CustomReq *customReq;
+            if (GetCustomReq(reqName) == nullptr)
+            {
+                customReq = new CustomReq();
+            }
+            else
+            {
+                customReq = GetCustomReq(reqName);
+                delete customReq;
+                customReq = new CustomReq();
+            }
+
+            ParseCustomReqNode(eventNode, customReq);
+
+            customReqs[reqName] = customReq;
+        }
     }
 
     char* eventText = G_->GetResources()->LoadFile("data/events_hyperspace.xml");
@@ -443,6 +464,68 @@ void CustomEventsParser::ParseCustomQuestNode(rapidxml::xml_node<char> *node, Cu
     }
 }
 
+void CustomEventsParser::ParseCustomReqNode(rapidxml::xml_node<char> *node, CustomReq *req)
+{
+    if (node->first_attribute("name"))
+    {
+        req->name = node->first_attribute("name")->value();
+    }
+    if (node->first_attribute("type"))
+    {
+        std::string reqtype = node->first_attribute("type")->value();
+        boost::algorithm::to_lower(reqtype);
+        if (reqtype == "any" || reqtype=="max")
+        {
+            req->type = CustomReq::TYPE_ANY;
+        }
+        else if (reqtype == "all" || reqtype=="min")
+        {
+            req->type = CustomReq::TYPE_ALL;
+        }
+        else if (reqtype == "sum" || reqtype=="count")
+        {
+            req->type = CustomReq::TYPE_SUM;
+        }
+        else
+        {
+            MessageBoxA(GetDesktopWindow(), ("Invalid Custom Req Type found: "+reqtype).c_str(), "Error", MB_ICONERROR | MB_SETFOREGROUND);
+        }
+    }
+    if (node->first_attribute("lvl"))
+    {
+        req->lvl = boost::lexical_cast<int>(node->first_attribute("lvl")->value());
+    }
+    if (node->first_attribute("max_lvl"))
+    {
+        req->max_lvl = boost::lexical_cast<int>(node->first_attribute("max_lvl")->value());
+    }
+    if (node->first_attribute("mult"))
+    {
+        req->mult = boost::lexical_cast<int>(node->first_attribute("mult")->value());
+    }
+    if (node->first_attribute("const"))
+    {
+        req->constant = boost::lexical_cast<int>(node->first_attribute("const")->value());
+    }
+    if (node->first_attribute("load"))
+    {
+        BlueprintManager::GetBlueprintList(req->blueprints, G_->GetBlueprints(), node->first_attribute("load")->value());
+    }
+    for (auto child = node->first_node(); child; child = child->next_sibling())
+    {
+        std::string nodeName(child->name());
+        if (nodeName == "name")
+        {
+            req->blueprints.push_back(child->value());
+        }
+        if (nodeName == "req")
+        {
+            req->children.emplace_back();
+            ParseCustomReqNode(child, &(req->children.back()));
+        }
+    }
+}
+
 CustomEvent *CustomEventsParser::GetCustomEvent(const std::string& event)
 {
     std::string baseEvent = CustomEventsParser::GetBaseEventName(event);
@@ -472,6 +555,18 @@ CustomSector *CustomEventsParser::GetCustomSector(const std::string& sectorName)
         {
             return i;
         }
+    }
+
+    return nullptr;
+}
+
+CustomReq *CustomEventsParser::GetCustomReq(const std::string& blueprint)
+{
+    auto it = customReqs.find(blueprint);
+
+    if (it != customReqs.end())
+    {
+        return it->second;
     }
 
     return nullptr;
@@ -529,6 +624,48 @@ HOOK_METHOD(ShipObject, HasEquipment, (const std::string& equipment) -> int)
     return ret;
 }
 
+static bool advancedCheckEquipment = false;
+
+HOOK_METHOD_PRIORITY(ShipObject, HasEquipment, -100, (const std::string& equipment) -> int)
+{
+    if (advancedCheckEquipment)
+    {
+        if (boost::algorithm::starts_with(equipment, "ANY "))
+        {
+            std::string child = equipment.substr(4);
+            auto blueprintList = std::vector<std::string>();
+            BlueprintManager::GetBlueprintList(blueprintList, G_->GetBlueprints(), child);
+            if (!blueprintList.size()) blueprintList.push_back(child);
+            return CustomReq::HasEquipment_Any(*(ShipObject*)this, blueprintList);
+        }
+        if (boost::algorithm::starts_with(equipment, "ALL "))
+        {
+            std::string child = equipment.substr(4);
+            auto blueprintList = std::vector<std::string>();
+            BlueprintManager::GetBlueprintList(blueprintList, G_->GetBlueprints(), child);
+            if (!blueprintList.size()) blueprintList.push_back(child);
+            return CustomReq::HasEquipment_All(*(ShipObject*)this, blueprintList);
+        }
+        if (boost::algorithm::starts_with(equipment, "SUM "))
+        {
+            std::string child = equipment.substr(4);
+            auto blueprintList = std::vector<std::string>();
+            BlueprintManager::GetBlueprintList(blueprintList, G_->GetBlueprints(), child);
+            if (!blueprintList.size()) blueprintList.push_back(child);
+            return CustomReq::HasEquipment_Sum(*(ShipObject*)this, blueprintList);
+        }
+
+        auto customReq = CustomEventsParser::GetInstance()->GetCustomReq(equipment);
+
+        if (customReq != nullptr)
+        {
+            return customReq->HasEquipment(*(ShipObject*)this);
+        }
+    }
+
+    return super(equipment);
+}
+
 static std::string removeHiddenAug = "";
 
 HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
@@ -549,9 +686,11 @@ HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
         }
     }
 
-
+    advancedCheckEquipment = true;
 
     super(event);
+
+    advancedCheckEquipment = false;
 
     g_checkCargo = false;
 }
@@ -933,6 +1072,8 @@ HOOK_METHOD(StarMap, RenderLabels, () -> void)
 
     locValues.clear();
 
+    advancedCheckEquipment = true;
+
     if (!outOfFuel)
     {
         for (auto i : locations)
@@ -953,7 +1094,7 @@ HOOK_METHOD(StarMap, RenderLabels, () -> void)
             {
                 BeaconType *beaconType = customEvent->beacon;
 
-                if (beaconType->equipmentReq.empty() || shipManager->HasEquipment(beaconType->equipmentReq))
+                if (beaconType->equipmentReq.empty() || (shipManager->HasEquipment(beaconType->equipmentReq) > 0) )
                 {
                     std::string text = std::string();
 
@@ -1001,6 +1142,8 @@ HOOK_METHOD(StarMap, RenderLabels, () -> void)
     }
 
     CSurface::GL_PopMatrix();
+
+    advancedCheckEquipment = false;
 
     super();
 
