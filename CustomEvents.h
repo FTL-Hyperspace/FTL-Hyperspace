@@ -90,6 +90,8 @@ struct CustomEvent
     EventGameOver gameOver = EventGameOver();
     bool disableScrapScore = false;
     std::string customStore;
+    std::string jumpEvent = "";
+    bool resetFtl = false;
 
     EventFleet leftFleet;
     EventFleet rightFleet;
