@@ -1222,7 +1222,7 @@ HOOK_METHOD(StarMap, GenerateMap, (bool tutorial, bool seed) -> LocationEvent*)
                                 {
                                     i->nebula = true;
                                     newEvent->environment = 3;
-                                    //i->event->statusEffects.push_back(*StatusEffect::GetNebulaEffect());
+                                    newEvent->statusEffects.push_back({2, 7, 0, 2});
                                 }
                             }
                         }
@@ -1251,7 +1251,7 @@ HOOK_METHOD_PRIORITY(StarMap, TurnIntoFleetLocation, 9999, (Location *loc) -> vo
         locEvent->ClearEvent(false);
         std::string event;
 
-        if (loc->beacon)
+        if (loc->beacon && !bossLevel)
         {
             event = "FLEET_EASY_BEACON";
         }
@@ -1276,6 +1276,7 @@ HOOK_METHOD_PRIORITY(StarMap, TurnIntoFleetLocation, 9999, (Location *loc) -> vo
             loc->event = replaceEvent;
         }
 
+        loc->event->fleetPosition = 1;
         loc->event->repair = false;
 
         if (loc->beacon && loc->nebula)
@@ -1311,6 +1312,7 @@ HOOK_METHOD_PRIORITY(StarMap, TurnIntoFleetLocation, 9999, (Location *loc) -> vo
                     {
                         loc->nebula = true;
                         newEvent->environment = 3;
+                        newEvent->statusEffects.push_back({2, 7, 0, 2});
                     }
                 }
             }
