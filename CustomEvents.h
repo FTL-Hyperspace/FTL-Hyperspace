@@ -2,6 +2,7 @@
 #include "Global.h"
 #include "ToggleValue.h"
 #include <algorithm>
+#include <unordered_set>
 
 struct BeaconType
 {
@@ -82,6 +83,8 @@ struct CustomEvent
     bool preventQuest = false;
     bool noQuestText = false;
     CustomQuest *customQuest;
+    int preventBossFleet = 0;
+    int runFromFleet = 0;
     bool removeHazards = false;
     bool removeNebula = false;
     std::string secretSectorWarp = "";
@@ -276,4 +279,67 @@ private:
     std::unordered_map<std::string, BossShipDefinition> bossShipIds;
     std::unordered_map<std::string, CustomReq*> customReqs;
     static CustomEventsParser *instance;
+};
+
+class BossFleetPrevention
+{
+public:
+    StarMap* starMap;
+    std::unordered_map<Location*, int> potentialFleetLocs = std::unordered_map<Location*, int>();
+    std::unordered_set<Location*> fleetBlockedLocs = std::unordered_set<Location*>();
+
+    void Clear()
+    {
+        for (auto i : fleetBlockedLocs)
+        {
+            if (i->beacon || !i->boss)
+            {
+                i->dangerZone = false;
+            }
+        }
+        potentialFleetLocs.clear();
+        fleetBlockedLocs.clear();
+    }
+
+    void Set()
+    {
+        bool hasVulnerableLoc = false;
+
+        for (auto i : starMap->locations)
+        {
+            if (!i->dangerZone && !i->fleetChanging && !i->beacon)
+            {
+                if (i->visited)
+                {
+                    potentialFleetLocs[i] = 0;
+                    hasVulnerableLoc = true;
+                }
+                else
+                {
+                    auto locEvent = i->event;
+                    auto customEvents = CustomEventsParser::GetInstance();
+                    auto customEvent = customEvents->GetCustomEvent(locEvent->eventName);
+
+                    if (customEvent && customEvent->preventBossFleet)
+                    {
+                        potentialFleetLocs[i] = customEvent->preventBossFleet;
+                    }
+                    else
+                    {
+                        potentialFleetLocs[i] = 0;
+                        hasVulnerableLoc = true;
+                    }
+                }
+            }
+        }
+
+        for (auto i : potentialFleetLocs)
+        {
+            if (i.second && (hasVulnerableLoc || i.second == 2))
+            {
+                fleetBlockedLocs.insert(i.first);
+                i.first->dangerZone = true;
+            }
+        }
+    }
 };

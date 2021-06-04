@@ -106,5 +106,5 @@ static unsigned int nextSeed;
 unsigned int SeededRandom32();
 void SetSeed(UINT);
 
-static bool loadingMap = false;
+extern bool loadingMap;
 static bool generatingMap = false;
