@@ -64,7 +64,8 @@ HOOK_METHOD(CompleteShip, InitiateTeleport, (int targetRoom, int command) -> voi
     }
     if (command == 2)
     {
-        arrivingParty = TeleportCrewShip(enemyShip->shipManager, teleTargetRoom, true, -1);
+        int arrivingSlots = std::max(ShipGraph::GetShipInfo(shipManager->iShipId)->GetNumSlots(teleSysRoom), 4);
+        arrivingParty = TeleportCrewShip(enemyShip->shipManager, teleTargetRoom, true, arrivingSlots);
     }
 
     if (!leavingParty.empty() || !arrivingParty.empty())
