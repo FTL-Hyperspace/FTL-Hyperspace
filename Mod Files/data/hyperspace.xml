@@ -399,7 +399,7 @@ Syntax ->
 			<stun>0</stun>
 			<shipFriendlyFire>false</shipFriendlyFire>
 			<win>false</win>
-			<animFrame>-1</animFrame>
+			<animFrame followCrew="false">-1</animFrame>
 			<buttonText id="button_lockdown">LOCKDOWN</buttonText>
 			<tooltip id="power_ready">Ready: Click to lock down room with special power</tooltip>
 			<cooldownColor r="133" g="231" b="237"/>

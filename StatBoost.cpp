@@ -274,6 +274,10 @@ HOOK_METHOD(WorldManager, OnLoop, () -> void)
     ShipManager* enemyShip;
     playerShip = this->playerShip->shipManager;
     enemyShip = this->playerShip->shipManager->current_target;
+    if (enemyShip == nullptr && G_->GetWorld()->commandGui->combatControl.currentTarget != nullptr)
+    {
+        enemyShip = G_->GetWorld()->commandGui->combatControl.currentTarget->shipManager;
+    }
 
     // Check crew stat boosts
 

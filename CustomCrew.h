@@ -186,6 +186,7 @@ struct ActivatedPowerDefinition
     float enemyHealth = 0.f;
     float selfHealth = 0.f;
     int animFrame = -1;
+    bool followCrew = false;
 
     bool activateWhenReady = false;
     bool activateReadyEnemies = false;

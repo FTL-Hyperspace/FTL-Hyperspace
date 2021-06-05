@@ -682,6 +682,10 @@ void CustomCrewManager::ParseAbilityEffect(rapidxml::xml_node<char>* stat, Activ
         if (effectName == "animFrame")
         {
             def.animFrame = boost::lexical_cast<int>(effectNode->value());
+            if (effectNode->first_attribute("followCrew"))
+            {
+                def.followCrew = EventsParser::ParseBoolean(effectNode->first_attribute("followCrew")->value());
+            }
         }
         if (effectName == "buttonText")
         {
@@ -1173,6 +1177,10 @@ void CrewMember_Extend::ActivatePower()
     else
     {
         ship = G_->GetWorld()->playerShip->enemyShip->shipManager;
+        if (ship == nullptr && G_->GetWorld()->commandGui->combatControl.currentTarget != nullptr)
+        {
+            ship = G_->GetWorld()->commandGui->combatControl.currentTarget->shipManager;
+        }
     }
 
     powerCooldown.first = 0;
@@ -1743,10 +1751,20 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
         }
 
         auto aex = CMA_EX(crewAnim);
+
         if (aex->effectAnim != nullptr)
         {
-            aex->effectAnim->Update();
             auto def = custom->GetDefinition(species);
+
+            if (!aex->powerDone && def.powerDef.followCrew)
+            {
+                ex->powerShip = currentShipId;
+                ex->powerRoom = iRoomId;
+                aex->effectPos = Pointf(x - std::ceil((float)aex->effectAnim->info.frameWidth / 2), y - std::ceil((float)aex->effectAnim->info.frameHeight / 2) + PositionShift());
+                aex->effectWorldPos = Pointf(x, y);
+            }
+
+            aex->effectAnim->Update();
 
             // Do it this way since ActivatePower() might delete aex if the crewmember transforms into a different race.
             bool activateTemporaryPower = !aex->temporaryPowerActive && def.powerDef.tempPower.animFrame != -1 && aex->effectAnim->tracker.running && aex->effectAnim->currentFrame == def.powerDef.tempPower.animFrame;
@@ -2734,6 +2752,17 @@ HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
                 if (ex->powerShip != iShipId)
                 {
                     actualShip = current_target;
+                    if (actualShip == nullptr)
+                    {
+                        if (ex->powerShip == 0)
+                        {
+                            actualShip = G_->GetWorld()->playerShip->shipManager;
+                        }
+                        else if (G_->GetWorld()->commandGui->combatControl.currentTarget != nullptr)
+                        {
+                            actualShip = G_->GetWorld()->commandGui->combatControl.currentTarget->shipManager;
+                        }
+                    }
                 }
 
                 Damage* dmg = ex->GetPowerDamage();
