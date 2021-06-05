@@ -1177,10 +1177,6 @@ void CrewMember_Extend::ActivatePower()
     else
     {
         ship = G_->GetWorld()->playerShip->enemyShip->shipManager;
-        if (ship == nullptr && G_->GetWorld()->commandGui->combatControl.currentTarget != nullptr)
-        {
-            ship = G_->GetWorld()->commandGui->combatControl.currentTarget->shipManager;
-        }
     }
 
     powerCooldown.first = 0;
@@ -1203,7 +1199,7 @@ void CrewMember_Extend::ActivatePower()
         G_->GetCApp()->gui->Victory();
     }
 
-    if (powerDef.crewHealth || powerDef.enemyHealth)
+    if ((powerDef.crewHealth || powerDef.enemyHealth) && ship)
     {
         for (auto i : ship->vCrewList)
         {
@@ -2754,14 +2750,7 @@ HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
                     actualShip = current_target;
                     if (actualShip == nullptr)
                     {
-                        if (ex->powerShip == 0)
-                        {
-                            actualShip = G_->GetWorld()->playerShip->shipManager;
-                        }
-                        else if (G_->GetWorld()->commandGui->combatControl.currentTarget != nullptr)
-                        {
-                            actualShip = G_->GetWorld()->commandGui->combatControl.currentTarget->shipManager;
-                        }
+                        actualShip = ex->powerShip ? G_->GetWorld()->playerShip->enemyShip->shipManager : G_->GetWorld()->playerShip->shipManager;
                     }
                 }
 
