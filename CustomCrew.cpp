@@ -1176,7 +1176,7 @@ void CrewMember_Extend::ActivatePower()
     }
     else
     {
-        ship = G_->GetWorld()->playerShip->enemyShip->shipManager;
+        ship = G_->GetWorld()->playerShip->enemyShip ? G_->GetWorld()->playerShip->enemyShip->shipManager : nullptr;
     }
 
     powerCooldown.first = 0;
@@ -2750,16 +2750,18 @@ HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
                     actualShip = current_target;
                     if (actualShip == nullptr)
                     {
-                        actualShip = ex->powerShip ? G_->GetWorld()->playerShip->enemyShip->shipManager : G_->GetWorld()->playerShip->shipManager;
+                        actualShip = ex->powerShip ? (G_->GetWorld()->playerShip->enemyShip ? G_->GetWorld()->playerShip->enemyShip->shipManager : nullptr) : G_->GetWorld()->playerShip->shipManager;
                     }
                 }
 
-                Damage* dmg = ex->GetPowerDamage();
-                unsigned int bitmask = false << 24 | dmg->bFriendlyFire << 16 | dmg->crystalShard << 8 | dmg->bLockdown;
+                if (actualShip)
+                {
+                    Damage* dmg = ex->GetPowerDamage();
+                    unsigned int bitmask = false << 24 | dmg->bFriendlyFire << 16 | dmg->crystalShard << 8 | dmg->bLockdown;
 
-                shipFriendlyFire = def.powerDef.shipFriendlyFire;
-                actualShip->DamageArea(CMA_EX(i->crewAnim)->effectWorldPos, dmg->iDamage, dmg->iShieldPiercing, dmg->fireChance, dmg->breachChance, dmg->stunChance, dmg->iIonDamage, dmg->iSystemDamage, dmg->iPersDamage, dmg->bHullBuster, dmg->ownerId, dmg->selfId, bitmask, dmg->iStun, true);
-
+                    shipFriendlyFire = def.powerDef.shipFriendlyFire;
+                    actualShip->DamageArea(CMA_EX(i->crewAnim)->effectWorldPos, dmg->iDamage, dmg->iShieldPiercing, dmg->fireChance, dmg->breachChance, dmg->stunChance, dmg->iIonDamage, dmg->iSystemDamage, dmg->iPersDamage, dmg->bHullBuster, dmg->ownerId, dmg->selfId, bitmask, dmg->iStun, true);
+                }
                 ex->powerActivated = false;
             }
         }

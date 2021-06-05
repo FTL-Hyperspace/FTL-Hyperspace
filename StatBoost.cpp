@@ -273,7 +273,7 @@ HOOK_METHOD(WorldManager, OnLoop, () -> void)
     ShipManager* playerShip;
     ShipManager* enemyShip;
     playerShip = this->playerShip->shipManager;
-    enemyShip = this->playerShip->enemyShip->shipManager;
+    enemyShip = this->playerShip->enemyShip ? this->playerShip->enemyShip->shipManager : nullptr;
 
     // Check crew stat boosts
 
