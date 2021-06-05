@@ -577,24 +577,60 @@ std::vector<StoreBox*> StoreComplete::CreateCustomStoreBoxes(const StoreCategory
                 box = (SystemStoreBox*)orig->vStoreBoxes.back();
                 orig->vStoreBoxes.pop_back();
 
-                box->desc.cost = GetItemPricing(i.price, box->desc.cost, orig->worldLevel);
+                box->desc.cost = GetItemPricing(i.price, box->blueprint->desc.cost, orig->worldLevel);
 
                 vec.push_back(box);
+
+                if (box->pBlueprint)
+                {
+                    usedBlueprints.push_back(box->pBlueprint->name);
+                }
             }
             else
             {
-                auto bp = G_->GetBlueprints()->GetSystemBlueprint(i.blueprint);
+                SystemBlueprint* bp = nullptr;
+
+                auto potentialList = G_->GetBlueprints()->GetBlueprintList(i.blueprint);
+
+                if (potentialList.empty())
+                {
+                    bp = G_->GetBlueprints()->GetSystemBlueprint(i.blueprint);
+                }
+                else
+                {
+                    potentialList.erase(std::remove_if(potentialList.begin(), potentialList.end(),
+                                   [&ship](const std::string& o) { int sysId = ShipSystem::NameToSystemId(o);
+                                                                             return ship->HasSystem(sysId) ||  // Remove if the ship has the system
+                                                                             ship->myBlueprint.systemInfo.find(sysId) == ship->myBlueprint.systemInfo.end(); // Remove if the ship can't fit the system
+                                                                             }),
+                                   potentialList.end());
+
+                    if (!category.allowDuplicates)
+                    {
+                        potentialList.erase(std::remove_if(potentialList.begin(), potentialList.end(),
+                                                           [&usedBlueprints](const std::string& o) { return std::find(usedBlueprints.begin(), usedBlueprints.end(), o) != usedBlueprints.end(); }),
+                                                           potentialList.end());
+                    }
+
+                    if (!potentialList.empty())
+                    {
+                        bp = G_->GetBlueprints()->GetSystemBlueprint(potentialList[random32() % potentialList.size()]);
+                    }
+                }
 
                 if (bp)
                 {
-                    int sysId = ShipSystem::NameToSystemId(i.blueprint);
-                    box = new SystemStoreBox(ship, equip, sysId);
+                    box = new SystemStoreBox(ship, equip, ShipSystem::NameToSystemId(bp->name));
 
-                    box->desc.cost = GetItemPricing(i.price, box->desc.cost, orig->worldLevel);
+                    box->desc.cost = GetItemPricing(i.price, box->blueprint->desc.cost, orig->worldLevel);
 
                     vec.push_back(box);
-                }
 
+                    if (box->pBlueprint)
+                    {
+                        usedBlueprints.push_back(box->pBlueprint->name);
+                    }
+                }
             }
         }
     }

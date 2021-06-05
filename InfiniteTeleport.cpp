@@ -64,9 +64,7 @@ HOOK_METHOD(CompleteShip, InitiateTeleport, (int targetRoom, int command) -> voi
     }
     if (command == 2)
     {
-        int freeSlots = ShipGraph::GetShipInfo(iShipId)->rooms[teleSysRoom]->GetEmptySlots(false);
-
-        arrivingParty = TeleportCrewShip(enemyShip->shipManager, teleTargetRoom, true, freeSlots);
+        arrivingParty = TeleportCrewShip(enemyShip->shipManager, teleTargetRoom, true, -1);
     }
 
     if (!leavingParty.empty() || !arrivingParty.empty())
