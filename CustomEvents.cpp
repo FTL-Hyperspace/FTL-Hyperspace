@@ -1927,3 +1927,54 @@ HOOK_METHOD(StarMap, TurnIntoFleetLocation, (Location *loc) -> void)
 
     super(loc);
 }
+
+HOOK_METHOD(ShipManager, SelectRandomCrew, (CrewBlueprint &bp, ShipManager *ship, int seed, const std::string &unk) -> CrewBlueprint*)
+{
+    std::string species = unk;
+
+    super(bp, ship, seed, unk);
+
+    auto blueprintList = std::vector<std::string>();
+    auto blueprintList2 = std::vector<std::string>();
+
+    BlueprintManager::GetBlueprintList(blueprintList, G_->GetBlueprints(), species);
+
+    for (int i=0; i<blueprintList.size(); ++i)
+    {
+        BlueprintManager::GetBlueprintList(blueprintList2, G_->GetBlueprints(), blueprintList[i]);
+        for (auto j : blueprintList2)
+        {
+            blueprintList.push_back(j);
+        }
+    }
+
+    if (!blueprintList.size()) return &bp;
+
+    if (seed != -1) srandom32(seed);
+
+    auto eligibleCrewList = std::vector<CrewMember*>();
+    auto crewList = std::vector<CrewMember*>();
+    G_->GetCrewFactory()->GetCrewList(&crewList, 0, false);
+
+    for (auto crew: crewList)
+    {
+        if (!crew->IsDrone())
+        {
+            for (auto i : blueprintList)
+            {
+                if (crew->species == i)
+                {
+                    eligibleCrewList.push_back(crew);
+                    break;
+                }
+            }
+        }
+    }
+
+    if (eligibleCrewList.size())
+    {
+        bp = eligibleCrewList[((unsigned int)random32()) % eligibleCrewList.size()]->blueprint;
+    }
+
+    return &bp;
+}
