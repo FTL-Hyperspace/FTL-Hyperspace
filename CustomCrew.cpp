@@ -808,6 +808,10 @@ void CustomCrewManager::ParseAbilityEffect(rapidxml::xml_node<char>* stat, Activ
                 {
                     def.tempPower.invulnerable = EventsParser::ParseBoolean(tempEffectNode->value());
                 }
+                if (tempEffectName == "hackDoors")
+                {
+                    def.tempPower.hackDoors = EventsParser::ParseBoolean(tempEffectNode->value());
+                }
                 if (tempEffectName == "controllable")
                 {
                     def.tempPower.controllable = EventsParser::ParseBoolean(tempEffectNode->value());
@@ -3841,3 +3845,69 @@ CrewAnimation_Extend::~CrewAnimation_Extend()
     if (tempEffectAnim) tempEffectAnim->destructor();
 }
 
+// Hack door ability
+HOOK_METHOD(Ship, OnLoop, () -> void)
+{
+    CompleteShip* completeShip;
+    ShipManager* shipManager;
+
+    if (iShipId == 0)
+    {
+        completeShip = G_->GetWorld()->playerShip;
+    }
+    else
+    {
+        completeShip = G_->GetWorld()->playerShip->enemyShip;
+    }
+    if (!completeShip) return super();
+
+    shipManager = completeShip->shipManager;
+
+    CustomCrewManager *custom = CustomCrewManager::GetInstance();
+    auto doors = std::unordered_map<Door*,int>();
+
+    for (auto crew : shipManager->vCrewList)
+    {
+        if (custom->IsRace(crew->species) && !crew->IsDead() && crew->iRoomId >= 0)
+        {
+            auto ex = CM_EX(crew);
+            auto def = custom->GetDefinition(crew->species);
+            if (ex->temporaryPowerActive && def.powerDef.tempPower.hackDoors)
+            {
+
+                for (auto door : vDoorList)
+                {
+                    if (door->iRoom1 == crew->iRoomId || door->iRoom2 == crew->iRoomId)
+                    {
+                        auto it = doors.emplace(door, 0);
+                        it.first->second += (crew->intruder ? 1 : -1);
+                    }
+                }
+                for (auto door : vOuterAirlocks)
+                {
+                    if (door->iRoom1 == crew->iRoomId || door->iRoom2 == crew->iRoomId)
+                    {
+                        auto it = doors.emplace(door, 0);
+                        it.first->second += (crew->intruder ? 1 : -1);
+                    }
+                }
+            }
+        }
+    }
+
+    for (auto door : doors)
+    {
+        if (!door.first->iHacked && door.second > 0)
+        {
+            hs_log_file("Set door hacked.\n");
+            door.first->iHacked = 1;
+        }
+        else if (door.first->iHacked && door.second < 0)
+        {
+            hs_log_file("Set door not hacked.\n");
+            door.first->iHacked = 0;
+        }
+    }
+
+    super();
+}

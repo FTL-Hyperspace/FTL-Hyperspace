@@ -127,6 +127,7 @@ struct TemporaryPowerDefinition
     std::vector<StatBoost> statBoosts;
 
     bool invulnerable;
+    bool hackDoors = false;
     int animFrame = -1;
 
     GL_Color cooldownColor;
