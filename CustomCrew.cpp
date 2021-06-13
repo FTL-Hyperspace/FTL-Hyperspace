@@ -3846,7 +3846,7 @@ CrewAnimation_Extend::~CrewAnimation_Extend()
 }
 
 // Hack door ability
-HOOK_METHOD(Ship, OnLoop, () -> void)
+HOOK_METHOD(Ship, OnLoop, (std::vector<float> &oxygenLevels) -> void)
 {
     CompleteShip* completeShip;
     ShipManager* shipManager;
@@ -3859,7 +3859,7 @@ HOOK_METHOD(Ship, OnLoop, () -> void)
     {
         completeShip = G_->GetWorld()->playerShip->enemyShip;
     }
-    if (!completeShip) return super();
+    if (!completeShip) return super(oxygenLevels);
 
     shipManager = completeShip->shipManager;
 
@@ -3899,15 +3899,13 @@ HOOK_METHOD(Ship, OnLoop, () -> void)
     {
         if (!door.first->iHacked && door.second > 0)
         {
-            hs_log_file("Set door hacked.\n");
             door.first->iHacked = 1;
         }
         else if (door.first->iHacked && door.second < 0)
         {
-            hs_log_file("Set door not hacked.\n");
             door.first->iHacked = 0;
         }
     }
 
-    super();
+    super(oxygenLevels);
 }

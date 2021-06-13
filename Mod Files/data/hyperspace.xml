@@ -435,6 +435,7 @@ Syntax ->
 				<sabotageSpeedMultiplier>1</sabotageSpeedMultiplier>
 				<effectAnim>mindcontrol</effectAnim>
 				<invulnerable>false</invulnerable>
+				<hackDoors>false</hackDoors>
 				<animSheet baseVisible="true">human_effect</animSheet>
 				<animFrame>-1</animFrame>
 				<effectFinishAnim>mindcontrol</effectFinishAnim>
