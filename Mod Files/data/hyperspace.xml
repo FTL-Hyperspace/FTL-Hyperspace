@@ -594,7 +594,7 @@ Syntax ->
 	
 	<race name="anaerobic">
 		<moveSpeedMultiplier>0.85</moveSpeedMultiplier>
-		<oxygenChangeSpeed>-0.525</oxygenChangeSpeed>
+		<oxygenChangeSpeed>-0.5</oxygenChangeSpeed>
 		<canSuffocate>false</canSuffocate>
 		
 		<repairSounds>
