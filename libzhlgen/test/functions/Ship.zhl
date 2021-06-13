@@ -28,6 +28,8 @@ void Ship::OnRenderFloor(Ship *this<ecx>);
 static void Ship::GetBaseEllipse(Globals::Ellipse& ret<ecx>, Ship *_this);
 "578d7c240883e4f0ff77fc5589e557565383ec2c8b378b790c8b4108894de489fa29c2c1fa02":
 void Ship::SetSelectedRoom(Ship *this<ecx>, int roomId);
+"578d7c240883e4f0ff77fc5589e557568db19c0300005381ec????????894dac8b1f89cf89f1e8????????80bfae0300000074??c70424????????":
+void Ship::OnLoop(Ship *this<ecx>, std::vector<float>& oxygenLevels);
 
 struct Ship depends (ShipGraph, Globals::Ellipse) {{
 	Pointf GetRoomCenter(int room)
