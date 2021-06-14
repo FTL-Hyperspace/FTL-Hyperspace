@@ -368,6 +368,10 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                         {
                             crew.damageEnemiesAmount = boost::lexical_cast<float>(val);
                         }
+                        if (str == "hackDoors")
+                        {
+                            crew.hackDoors = EventsParser::ParseBoolean(val);
+                        }
                         if (str == "nameRace")
                         {
                             crew.nameRace.push_back(stat->value());
@@ -3872,7 +3876,9 @@ HOOK_METHOD(Ship, OnLoop, (std::vector<float> &oxygenLevels) -> void)
         {
             auto ex = CM_EX(crew);
             auto def = custom->GetDefinition(crew->species);
-            if (ex->temporaryPowerActive && def.powerDef.tempPower.hackDoors)
+            bool hackDoors;
+            ex->CalculateStat(CrewStat::HACK_DOORS, def, &hackDoors);
+            if (hackDoors)
             {
 
                 for (auto door : vDoorList)

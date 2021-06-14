@@ -123,11 +123,11 @@ struct TemporaryPowerDefinition
     ToggleValue<bool> powerDrainFriendly;
     ToggleValue<int> bonusPower;
     ToggleValue<float> damageEnemiesAmount;
+    ToggleValue<bool> hackDoors;
 
     std::vector<StatBoost> statBoosts;
 
     bool invulnerable;
-    bool hackDoors = false;
     int animFrame = -1;
 
     GL_Color cooldownColor;
@@ -247,6 +247,7 @@ struct CrewDefinition
     int powerDrain = 0;
     bool powerDrainFriendly = false;
     float damageEnemiesAmount = 0.f;
+    bool hackDoors = false;
 
     Damage explosionDef;
     bool explosionShipFriendlyFire = false;
