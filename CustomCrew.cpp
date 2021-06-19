@@ -3841,66 +3841,63 @@ CrewAnimation_Extend::~CrewAnimation_Extend()
 }
 
 // Hack door ability
+ShipManager* shipManagerForShip = nullptr;
+
+HOOK_METHOD(ShipManager, OnLoop, () -> void)
+{
+    shipManagerForShip = this;
+    super();
+    shipManagerForShip = nullptr;
+}
+
 HOOK_METHOD(Ship, OnLoop, (std::vector<float> &oxygenLevels) -> void)
 {
-    CompleteShip* completeShip;
-    ShipManager* shipManager;
-
-    if (iShipId == 0)
+    if (shipManagerForShip != nullptr)
     {
-        completeShip = G_->GetWorld()->playerShip;
-    }
-    else
-    {
-        completeShip = G_->GetWorld()->playerShip->enemyShip;
-    }
-    if (!completeShip) return super(oxygenLevels);
+        CustomCrewManager *custom = CustomCrewManager::GetInstance();
+        auto doors = std::unordered_map<Door*,int>();
 
-    shipManager = completeShip->shipManager;
-
-    CustomCrewManager *custom = CustomCrewManager::GetInstance();
-    auto doors = std::unordered_map<Door*,int>();
-
-    for (auto crew : shipManager->vCrewList)
-    {
-        if (custom->IsRace(crew->species) && !crew->IsDead() && crew->iRoomId >= 0)
+        for (auto crew : shipManagerForShip->vCrewList)
         {
-            auto ex = CM_EX(crew);
-            auto def = custom->GetDefinition(crew->species);
-            bool hackDoors;
-            ex->CalculateStat(CrewStat::HACK_DOORS, def, &hackDoors);
-            if (hackDoors)
+            if (custom->IsRace(crew->species) && !crew->IsDead() && crew->iRoomId >= 0)
             {
+                auto ex = CM_EX(crew);
+                auto def = custom->GetDefinition(crew->species);
+                bool hackDoors;
+                ex->CalculateStat(CrewStat::HACK_DOORS, def, &hackDoors);
+                if (hackDoors)
+                {
 
-                for (auto door : vDoorList)
-                {
-                    if (door->iRoom1 == crew->iRoomId || door->iRoom2 == crew->iRoomId)
+                    for (auto door : vDoorList)
                     {
-                        auto it = doors.emplace(door, 0);
-                        it.first->second += (crew->intruder ? 1 : -1);
+                        if (door->iRoom1 == crew->iRoomId || door->iRoom2 == crew->iRoomId)
+                        {
+                            auto it = doors.emplace(door, 0);
+                            it.first->second += (crew->intruder ? 1 : -1);
+                        }
                     }
-                }
-                for (auto door : vOuterAirlocks)
-                {
-                    if (door->iRoom1 == crew->iRoomId || door->iRoom2 == crew->iRoomId)
+                    for (auto door : vOuterAirlocks)
                     {
-                        auto it = doors.emplace(door, 0);
-                        it.first->second += (crew->intruder ? 1 : -1);
+                        if (door->iRoom1 == crew->iRoomId || door->iRoom2 == crew->iRoomId)
+                        {
+                            auto it = doors.emplace(door, 0);
+                            it.first->second += (crew->intruder ? 1 : -1);
+                        }
                     }
                 }
             }
         }
-    }
 
-    for (auto door : doors)
-    {
-        if (!door.first->iHacked && door.second > 0)
+        for (auto door : doors)
         {
-            door.first->iHacked = 1;
-        }
-        else if (door.first->iHacked && door.second < 0)
-        {
-            door.first->iHacked = 0;
+            if (!door.first->iHacked && door.second > 0)
+            {
+                door.first->iHacked = 1;
+            }
+            else if (door.first->iHacked && door.second < 0)
+            {
+                door.first->iHacked = 0;
+            }
         }
     }
 
