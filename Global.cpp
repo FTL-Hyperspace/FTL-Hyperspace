@@ -43,6 +43,8 @@ std::vector<unsigned int> Global::lastDelayedQuestSeeds = std::vector<unsigned i
 
 unsigned int Global::bossFleetSeed = 0;
 
+bool loadingGame = false;
+
 void hs_log_file(const char *str...)
 {
     va_list va;
@@ -130,4 +132,11 @@ void Global::Initialize()
 
     SetWindowTextA((HWND)GetModuleHandle(NULL), "FTL: Hyperspace");
     printf("Hyperspace initialized\n");
+}
+
+HOOK_METHOD(WorldManager, LoadGame, (const std::string file) -> void)
+{
+    loadingGame = true;
+    super(file);
+    loadingGame = false;
 }

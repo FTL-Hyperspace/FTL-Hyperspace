@@ -974,6 +974,10 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition& def,
             *boolValue = (temporaryPowerActive && def.powerDef.tempPower.powerDrainFriendly.enabled) ? def.powerDef.tempPower.powerDrainFriendly.value : def.powerDrainFriendly;
             isBool = true;
             break;
+        case CrewStat::HACK_DOORS:
+            *boolValue = (temporaryPowerActive && def.powerDef.tempPower.hackDoors.enabled) ? def.powerDef.tempPower.hackDoors.value : def.hackDoors;
+            isBool = true;
+            break;
         case CrewStat::ACTIVATE_WHEN_READY:
             *boolValue = def.powerDef.activateWhenReady;
             isBool = true;

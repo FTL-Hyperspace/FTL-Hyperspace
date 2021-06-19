@@ -3548,6 +3548,7 @@ struct Ship : ShipObject
 	LIBZHL_API void OnRenderFloor();
 	LIBZHL_API static void __stdcall GetBaseEllipse(Globals::Ellipse &ret, Ship *_this);
 	LIBZHL_API void SetSelectedRoom(int roomId);
+	LIBZHL_API void OnLoop(std::vector<float> &oxygenLevels);
 	
 	std::vector<Room*> vRoomList;
 	std::vector<Door*> vDoorList;

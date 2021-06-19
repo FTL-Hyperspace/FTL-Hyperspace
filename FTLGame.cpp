@@ -25325,6 +25325,42 @@ namespace _func706
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
+	static FunctionDefinition funcObj("Ship::OnLoop", typeid(void (Ship::*)(std::vector<float> &)), "578d7c240883e4f0ff77fc5589e557568db19c0300005381ec????????894dac8b1f89cf89f1e8????????80bfae0300000074??c70424????????", argdata, 2, 5, &func);
+}
+
+__declspec(naked) void Ship::OnLoop(std::vector<float> &oxygenLevels)
+{
+	__asm__
+	(
+		"push ebp\n\t"
+		"mov ebp, esp\n\t"
+		"push edx\n\t"
+		"push eax\n\t"
+		"push ecx\n\t"
+		"push ebx\n\t"
+		"push esi\n\t"
+		"push edi\n\t"
+		"push [ebp+8]\n\t"		// oxygenLevels
+	);
+	__asm__("call %0\n\t" :: "m"(_func705::func));
+	__asm__
+	(
+		"pop edi\n\t"
+		"pop esi\n\t"
+		"pop ebx\n\t"
+		"pop ecx\n\t"
+		"pop eax\n\t"
+		"pop edx\n\t"
+		"mov esp, ebp\n\t"
+		"pop ebp\n\t"
+		"ret 4\n\t"
+	);
+}
+
+namespace _func706
+{
+	static void *func = 0;
+	static short argdata[] = {0x101, 0x1ff};
 	static FunctionDefinition funcObj("ShipAI::constructor", typeid(void (ShipAI::*)(bool )), "5589e556538b750889cbc741040000000083e4f083c108e8????????8d4b74e8????????89f0c683a900000000", argdata, 2, 5, &func);
 }
 

@@ -368,6 +368,10 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                         {
                             crew.damageEnemiesAmount = boost::lexical_cast<float>(val);
                         }
+                        if (str == "hackDoors")
+                        {
+                            crew.hackDoors = EventsParser::ParseBoolean(val);
+                        }
                         if (str == "nameRace")
                         {
                             crew.nameRace.push_back(stat->value());
@@ -808,6 +812,10 @@ void CustomCrewManager::ParseAbilityEffect(rapidxml::xml_node<char>* stat, Activ
                 {
                     def.tempPower.invulnerable = EventsParser::ParseBoolean(tempEffectNode->value());
                 }
+                if (tempEffectName == "hackDoors")
+                {
+                    def.tempPower.hackDoors = EventsParser::ParseBoolean(tempEffectNode->value());
+                }
                 if (tempEffectName == "controllable")
                 {
                     def.tempPower.controllable = EventsParser::ParseBoolean(tempEffectNode->value());
@@ -947,15 +955,6 @@ CrewMember* CustomCrewManager::CreateCrewMember(CrewBlueprint* bp, int shipId, b
 bool CustomCrewManager::IsRace(const std::string& race)
 {
     return blueprintNames.find(race) != blueprintNames.end();
-}
-
-static bool loadingGame = false;
-
-HOOK_METHOD(WorldManager, LoadGame, (const std::string file) -> void)
-{
-    loadingGame = true;
-    super(file);
-    loadingGame = false;
 }
 
 PowerReadyState CrewMember_Extend::PowerReady()
@@ -3841,3 +3840,69 @@ CrewAnimation_Extend::~CrewAnimation_Extend()
     if (tempEffectAnim) tempEffectAnim->destructor();
 }
 
+// Hack door ability
+HOOK_METHOD(Ship, OnLoop, (std::vector<float> &oxygenLevels) -> void)
+{
+    CompleteShip* completeShip;
+    ShipManager* shipManager;
+
+    if (iShipId == 0)
+    {
+        completeShip = G_->GetWorld()->playerShip;
+    }
+    else
+    {
+        completeShip = G_->GetWorld()->playerShip->enemyShip;
+    }
+    if (!completeShip) return super(oxygenLevels);
+
+    shipManager = completeShip->shipManager;
+
+    CustomCrewManager *custom = CustomCrewManager::GetInstance();
+    auto doors = std::unordered_map<Door*,int>();
+
+    for (auto crew : shipManager->vCrewList)
+    {
+        if (custom->IsRace(crew->species) && !crew->IsDead() && crew->iRoomId >= 0)
+        {
+            auto ex = CM_EX(crew);
+            auto def = custom->GetDefinition(crew->species);
+            bool hackDoors;
+            ex->CalculateStat(CrewStat::HACK_DOORS, def, &hackDoors);
+            if (hackDoors)
+            {
+
+                for (auto door : vDoorList)
+                {
+                    if (door->iRoom1 == crew->iRoomId || door->iRoom2 == crew->iRoomId)
+                    {
+                        auto it = doors.emplace(door, 0);
+                        it.first->second += (crew->intruder ? 1 : -1);
+                    }
+                }
+                for (auto door : vOuterAirlocks)
+                {
+                    if (door->iRoom1 == crew->iRoomId || door->iRoom2 == crew->iRoomId)
+                    {
+                        auto it = doors.emplace(door, 0);
+                        it.first->second += (crew->intruder ? 1 : -1);
+                    }
+                }
+            }
+        }
+    }
+
+    for (auto door : doors)
+    {
+        if (!door.first->iHacked && door.second > 0)
+        {
+            door.first->iHacked = 1;
+        }
+        else if (door.first->iHacked && door.second < 0)
+        {
+            door.first->iHacked = 0;
+        }
+    }
+
+    super(oxygenLevels);
+}

@@ -1404,6 +1404,34 @@ HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *loc) -> void)
 
 static std::string jumpEvent = "";
 
+HOOK_METHOD(WorldManager, CreateLocation, (Location *location) -> void)
+{
+    super(location);
+
+    if (loadingGame) return;
+
+    auto loc = location->event;
+    if (!loc) return;
+
+    CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(loc->eventName);
+    if (customEvent)
+    {
+        if (!customEvent->jumpEvent.empty())
+        {
+            jumpEvent = customEvent->jumpEvent;
+        }
+
+        if (!customEvent->eventLoad.empty())
+        {
+            int seed = customEvent->eventLoadSeeded ? (int)(location->loc.x + location->loc.y) ^ starMap.currentSectorSeed : -1;
+
+            UpdateLocation(G_->GetEventGenerator()->GetBaseEvent(customEvent->eventLoad, starMap.currentSector->level, true, seed));
+        }
+    }
+
+    location->event->eventName = loc->eventName;
+}
+
 HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
 {
     super(loc);
@@ -1411,13 +1439,6 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
     CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(loc->eventName);
     if (customEvent)
     {
-        if (!customEvent->eventLoad.empty())
-        {
-            int seed = customEvent->eventLoadSeeded ? (int)(starMap.currentLoc->loc.x + starMap.currentLoc->loc.y) ^ starMap.currentSectorSeed : -1;
-
-            super(G_->GetEventGenerator()->GetBaseEvent(customEvent->eventLoad, starMap.currentSector->level, true, seed));
-        }
-
         if (!customEvent->jumpEvent.empty())
         {
             jumpEvent = customEvent->jumpEvent;
@@ -1447,6 +1468,13 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
         if (customEvent->resetFtl)
         {
             G_->GetWorld()->playerShip->shipManager->jump_timer.first = 0.f;
+        }
+
+        if (!customEvent->eventLoad.empty())
+        {
+            int seed = customEvent->eventLoadSeeded ? (int)(starMap.currentLoc->loc.x + starMap.currentLoc->loc.y) ^ starMap.currentSectorSeed : -1;
+
+            UpdateLocation(G_->GetEventGenerator()->GetBaseEvent(customEvent->eventLoad, starMap.currentSector->level, true, seed));
         }
     }
 

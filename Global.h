@@ -20,6 +20,7 @@
 
 //#include "LuaState.h"
 
+extern bool loadingGame;
 
 class Global
 {
