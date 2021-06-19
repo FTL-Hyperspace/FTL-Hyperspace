@@ -6687,6 +6687,8 @@ struct SuperShieldDrone
 
 struct CloakingSystem : ShipSystem
 {
+	LIBZHL_API void OnLoop();
+	
 	bool bTurnedOn;
 	TimerHelper timer;
 	std::string soundeffect;
