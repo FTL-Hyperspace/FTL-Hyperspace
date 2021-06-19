@@ -957,15 +957,6 @@ bool CustomCrewManager::IsRace(const std::string& race)
     return blueprintNames.find(race) != blueprintNames.end();
 }
 
-static bool loadingGame = false;
-
-HOOK_METHOD(WorldManager, LoadGame, (const std::string file) -> void)
-{
-    loadingGame = true;
-    super(file);
-    loadingGame = false;
-}
-
 PowerReadyState CrewMember_Extend::PowerReady()
 {
     if (loadingGame) return POWER_NOT_READY_COOLDOWN;
