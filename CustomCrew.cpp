@@ -3859,7 +3859,7 @@ HOOK_METHOD(Ship, OnLoop, (std::vector<float> &oxygenLevels) -> void)
 
         for (auto crew : shipManagerForShip->vCrewList)
         {
-            if (custom->IsRace(crew->species) && !crew->IsDead() && crew->iRoomId >= 0)
+            if (custom->IsRace(crew->species) && !crew->IsDead() && crew->Functional() && crew->iRoomId >= 0)
             {
                 auto ex = CM_EX(crew);
                 auto def = custom->GetDefinition(crew->species);
