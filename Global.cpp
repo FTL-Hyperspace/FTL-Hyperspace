@@ -67,25 +67,14 @@ HOOK_METHOD(CApp, OnInit, () -> int)
 
 ShipManager* Global::GetShipManager(int iShipId)
 {
-    ShipManager *playerShip = NULL;
+    CompleteShip *playerShip = G_->GetWorld()->playerShip;
 
-    if (G_->GetWorld()->playerShip)
+    if (playerShip)
     {
-        playerShip = G_->GetWorld()->playerShip->shipManager;
+        if (iShipId == 1) return playerShip->enemyShip ? playerShip->enemyShip->shipManager : nullptr;
+        return playerShip->shipManager;
     }
-    else
-    {
-        playerShip = G_->GetCApp()->menu.shipBuilder.currentShip;
-    }
-
-    if (iShipId == 1 && playerShip)
-    {
-        return playerShip->current_target;
-    }
-    else
-    {
-        return playerShip;
-    }
+    return iShipId == 1 ? nullptr : G_->GetCApp()->menu.shipBuilder.currentShip;
 }
 
 void Global::SetCApp(CApp *cApp)

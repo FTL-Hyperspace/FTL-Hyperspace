@@ -1100,16 +1100,27 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition& def,
             {
                 int numPower = 0;
                 bool systemExists = true;
+
+                int statBoostSourceShipId = 0;
+                if (statBoost.boostSource == StatBoost::BoostSource::AUGMENT)
+                {
+                    statBoostSourceShipId = statBoost.sourceShipId;
+                }
+                else if (statBoost.boostSource == StatBoost::BoostSource::CREW)
+                {
+                    statBoostSourceShipId = statBoost.crewSource->iShipId;
+                }
+
                 for (auto system : statBoost.systemPowerScaling)
                 {
-                    ShipManager* shipManager = G_->GetShipManager(orig->iShipId);
+                    ShipManager* shipManager = G_->GetShipManager(statBoostSourceShipId);
                     if (system == 16)
                     {
-                        numPower += PowerManager::GetPowerManager(orig->iShipId)->currentPower.second;
+                        numPower += PowerManager::GetPowerManager(statBoostSourceShipId)->currentPower.second;
                     }
                     else if (system == 17)
                     {
-                        numPower += PowerManager::GetPowerManager(orig->iShipId)->currentPower.first;
+                        numPower += PowerManager::GetPowerManager(statBoostSourceShipId)->currentPower.first;
                     }
                     else
                     {
