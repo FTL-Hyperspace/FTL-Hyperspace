@@ -672,6 +672,10 @@ HOOK_METHOD_PRIORITY(ShipObject, HasEquipment, -100, (const std::string& equipme
             if (!blueprintList.size()) blueprintList.push_back(child);
             return CustomReq::HasEquipment_Sum(*(ShipObject*)this, blueprintList);
         }
+        if (boost::algorithm::starts_with(equipment, "SEC "))
+        {
+            return G_->GetWorld()->starMap.currentSector->description.type == equipment.substr(4);
+        }
 
         auto customReq = CustomEventsParser::GetInstance()->GetCustomReq(equipment);
 
