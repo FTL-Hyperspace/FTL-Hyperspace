@@ -212,6 +212,21 @@ StatBoostDefinition StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<char
                     def.powerScaling.push_back(boost::lexical_cast<float>(systemChild->value()));
                 }
             }
+            if (name == "maxStacks")
+            {
+                if (!val.empty())
+                {
+                    def.maxStacks = boost::lexical_cast<int>(val);
+                }
+                if (child->first_attribute("id"))
+                {
+                    def.stackId = GiveStackId(child->first_attribute("id")->value());
+                }
+                else
+                {
+                    def.stackId = GiveStackId();
+                }
+            }
             if (name == "deathEffect")
             {
                 def.deathEffectChange = new Damage();
@@ -697,6 +712,7 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition& def,
 //    auto t1 = steady_clock::now();
 
     std::vector<StatBoost> personalStatBoosts;
+    std::unordered_map<int, std::vector<StatBoost*>> stackLimitedStatBoosts;
     auto& statBoosts = StatBoostManager::GetInstance()->statBoosts;
 
 //    personalStatBoosts.clear();
@@ -734,11 +750,7 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition& def,
         {
             if (BoostCheck(statBoost)) // If the boost affects this ship and/or this room, and the boost comes from someone else or affects self, and the boost comes from an ally and affects allies or an enemy and affects enemies, and the boost specifically lets this race take it or doesn't ban it
             {
-                if (statBoost.def.duration != -1 && statBoost.timerHelper.Running())
-                {
-                    personalStatBoosts.push_back(statBoost);
-                }
-                else if (statBoost.def.duration == -1)
+                if (statBoost.def.duration == -1 || statBoost.timerHelper.Running())
                 {
                     personalStatBoosts.push_back(statBoost);
                 }
@@ -753,11 +765,7 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition& def,
         {
             if (BoostCheck(statBoost)) // If the boost affects this ship and/or this room, and the boost comes from someone else or affects self, and the boost comes from an ally and affects allies or an enemy and affects enemies, and the boost specifically lets this race take it or doesn't ban it
             {
-                if (statBoost.def.duration != -1 && statBoost.timerHelper.Running())
-                {
-                    personalStatBoosts.push_back(statBoost);
-                }
-                else if (statBoost.def.duration == -1)
+                if (statBoost.def.duration == -1 || statBoost.timerHelper.Running())
                 {
                     personalStatBoosts.push_back(statBoost);
                 }
@@ -921,6 +929,28 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition& def,
         {
             return a.def.priority < b.def.priority;
         });
+
+    for (auto& statBoost : personalStatBoosts)
+    {
+        if (statBoost.def.stackId)
+        {
+            stackLimitedStatBoosts[statBoost.def.stackId].push_back(&statBoost);
+        }
+    }
+
+    for (auto& statBoostsPair : stackLimitedStatBoosts)
+    {
+        auto& statBoosts = statBoostsPair.second;
+
+        int stacks = 0;
+
+        for (auto it = statBoosts.rbegin(); it != statBoosts.rend(); ++it)
+        {
+            auto statBoost = *it;
+            statBoost->iStacks = std::min(statBoost->iStacks, std::max(statBoost->def.maxStacks - stacks, 0));
+            stacks += statBoost->iStacks;
+        }
+    }
 
     for (StatBoost& statBoost : personalStatBoosts)
     {

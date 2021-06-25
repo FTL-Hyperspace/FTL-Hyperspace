@@ -204,7 +204,8 @@ struct StatBoostDefinition
     static uint64_t nextId;
 
     int realBoostId = -1;
-
+    int stackId = 0;
+    int maxStacks = 2147483647;
 
     void GiveId()
     {
@@ -255,6 +256,22 @@ private:
     ShipManager* playerShip;
     ShipManager* enemyShip;
     std::vector<CrewMember*> checkingCrewList;
+
+    int nextStackId = 0;
+    std::unordered_map<std::string, int> stackIdMap;
+
+    int GiveStackId()
+    {
+        return ++nextStackId;
+    }
+
+    int GiveStackId(std::string stringId)
+    {
+        auto it = stackIdMap.find(stringId);
+        if (it != stackIdMap.end()) return it->second;
+        stackIdMap[stringId] = ++nextStackId;
+        return nextStackId;
+    }
 
     void CreateAugmentBoost(StatBoostDefinition& def, int shipId, int nStacks);
     void CreateCrewBoost(StatBoostDefinition& def, CrewMember* otherCrew, int nStacks);
