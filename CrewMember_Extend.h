@@ -1,12 +1,13 @@
 #pragma once
 #include "FTLGame.h"
 #include "StatBoost.h"
+#include "Constants.h"
 #include <array>
 
 struct CrewDefinition;
 struct ActivatedPowerDefinition;
 
-enum class CrewStat;
+enum class CrewStat : unsigned int;
 struct StatBoost;
 
 enum PowerReadyState
@@ -118,6 +119,8 @@ public:
         delete passiveHealTimer;
         CSurface::GL_DestroyPrimitive(crewBox_chargesBar);
     }
+
+    std::pair<float,int> statCache[numStats] = {};
 
     bool BoostCheck(const StatBoost& statBoost);
     float CalculateStat(CrewStat stat, const CrewDefinition& def, bool* boolValue=nullptr);

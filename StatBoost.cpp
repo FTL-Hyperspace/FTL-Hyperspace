@@ -10,6 +10,7 @@
 //#include <iostream>
 
 uint64_t StatBoostDefinition::nextId = -1;
+int StatBoostManager::statCacheFrame = 1;
 
 StatBoostManager StatBoostManager::instance = StatBoostManager();
 
@@ -491,6 +492,7 @@ void StatBoostManager::OnLoop(WorldManager* world)
     }
 
     checkingCrewList.clear();
+    statCacheFrame++;
 }
 
 void StatBoostManager::CreateTimedAugmentBoost(StatBoost statBoost, CrewMember* crew)
@@ -710,6 +712,12 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition& def,
 //    using std::chrono::duration;
 //    using std::chrono::milliseconds;
 //    auto t1 = steady_clock::now();
+
+    if (statCache[(unsigned int)stat].second == StatBoostManager::statCacheFrame)
+    {
+        if (boolValue != nullptr) *boolValue = statCache[(unsigned int)stat].first;
+        return statCache[(unsigned int)stat].first;
+    }
 
     std::vector<StatBoost> personalStatBoosts;
     std::unordered_map<int, std::vector<StatBoost*>> stackLimitedStatBoosts;
@@ -1160,6 +1168,18 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition& def,
             orig->health.first = finalStat;
         }
     }
+
+    if (isBool)
+    {
+        statCache[(unsigned int)stat].first = *boolValue;
+        statCache[(unsigned int)stat].second = StatBoostManager::statCacheFrame;
+    }
+    else if (!isEffect)
+    {
+        statCache[(unsigned int)stat].first = finalStat;
+        statCache[(unsigned int)stat].second = StatBoostManager::statCacheFrame;
+    }
+
 //    auto t2 = steady_clock::now();
 //    duration<double, std::nano> ms_double = t2 - t1;
 //    std::cout << "Calculate stat time: " << ms_double.count();

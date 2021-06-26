@@ -1,9 +1,10 @@
 #pragma once
 #include "Global.h"
+#include "Constants.h"
 
 struct ActivatedPowerDefinition;
 
-enum class CrewStat
+enum class CrewStat : unsigned int
 {
     MAX_HEALTH = 0,
     STUN_MULTIPLIER,
@@ -50,7 +51,7 @@ enum class CrewStat
     HACK_DOORS
 };
 
-static const std::array<std::string, 43> crewStats =
+static const std::array<std::string, numStats> crewStats =
 {
     "maxHealth",
     "stunMultiplier",
@@ -235,6 +236,8 @@ struct StatBoost
 class StatBoostManager
 {
 public:
+    static int statCacheFrame;
+
     std::unordered_map<CrewStat, std::vector<StatBoost>> statBoosts;
     std::vector<StatBoost> animBoosts;
 
