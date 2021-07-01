@@ -281,5 +281,3 @@ private:
     void CreateCrewBoost(StatBoost statBoost, CrewMember* otherCrew);
     void CreateRecursiveBoosts(StatBoost& statBoost, int nStacks);
 };
-
-void CreateAugmentBoost(StatBoostDefinition& def, ShipManager* playerShip, ShipManager* enemyShip, int nStacks);

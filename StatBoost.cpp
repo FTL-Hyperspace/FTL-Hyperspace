@@ -30,7 +30,7 @@ StatBoostDefinition StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<char
             std::string val = child->value();
             if (name == "statBoost")
             {
-                def.providedStatBoosts.push_back(ParseStatBoostNode(child, StatBoostDefinition::BoostSource::AUGMENT));
+                def.providedStatBoosts.push_back(ParseStatBoostNode(child, StatBoostDefinition::BoostSource::CREW));
             }
             if (name == "boostType")
             {
