@@ -51,6 +51,10 @@ void CustomAugmentManager::ParseCustomAugmentNode(rapidxml::xml_node<char>* node
                             {
                                 func.warning = EventsParser::ParseBoolean(functionNode->first_attribute("warning")->value());
                             }
+                            if (functionNode->first_attribute("sys")) // System must be installed, functional, and powered
+                            {
+                                func.sys = ShipSystem::NameToSystemId(functionNode->first_attribute("sys")->value());
+                            }
 
                             augDef->functions[functionName] = func;
                         }
@@ -82,7 +86,7 @@ void CustomAugmentManager::ParseCustomAugmentNode(rapidxml::xml_node<char>* node
     }
 }
 
-std::map<std::string, AugmentFunction> CustomAugmentManager::GetPotentialAugments(const std::string& name, bool req)
+std::map<std::string, AugmentFunction> CustomAugmentManager::GetPotentialAugments(const std::string& name, int shipId, bool req)
 {
     auto ret = std::map<std::string, AugmentFunction>();
 
@@ -94,9 +98,35 @@ std::map<std::string, AugmentFunction> CustomAugmentManager::GetPotentialAugment
             if (!i.second->functions.empty())
             {
                 auto val = i.second->functions.find(name);
-                if (val != i.second->functions.end() && (!req || i.second->functions[name].useForReqs))
+
+                if (val != i.second->functions.end())
                 {
-                    ret[i.second->name] = val->second;
+                    if (!req)
+                    {
+                        if (val->second.sys == -1)
+                        {
+                            ret[i.second->name] = val->second;
+                        }
+                        else
+                        {
+                            hs_log_file("Aug needs sys %d\n", val->second.sys);
+                            ShipManager* shipManager = G_->GetShipManager(shipId);
+                            if (shipManager != nullptr && shipManager->GetSystemRoom(val->second.sys) != -1)
+                            {
+                                hs_log_file("Ship has system room for this system.\n");
+                                ShipSystem* sys = shipManager->GetSystem(val->second.sys);
+                                if (sys != nullptr && sys->iHackEffect < 2 && sys->GetEffectivePower() > 0)
+                                {
+                                    hs_log_file("System is powered.\n");
+                                    ret[i.second->name] = val->second;
+                                }
+                            }
+                        }
+                    }
+                    else if (i.second->functions[name].useForReqs)
+                    {
+                        ret[i.second->name] = val->second;
+                    }
                 }
             }
         }
@@ -155,7 +185,7 @@ HOOK_METHOD_PRIORITY(ShipObject, HasAugmentation, 2000, (const std::string& name
         augCount = augList.at(name);
     }
 
-    std::map<std::string, AugmentFunction> potentialAugs = customAug->GetPotentialAugments(name);
+    std::map<std::string, AugmentFunction> potentialAugs = customAug->GetPotentialAugments(name, iShipId);
 
 
 
@@ -197,7 +227,7 @@ HOOK_METHOD_PRIORITY(ShipObject, HasEquipment, 2000, (const std::string& name) -
     }
 
     CustomAugmentManager* customAug = CustomAugmentManager::GetInstance();
-    std::map<std::string, AugmentFunction> potentialAugs = customAug->GetPotentialAugments(name, useAugmentReq);
+    std::map<std::string, AugmentFunction> potentialAugs = customAug->GetPotentialAugments(name, iShipId, useAugmentReq);
 
 
 
@@ -238,7 +268,7 @@ HOOK_METHOD_PRIORITY(ShipObject, GetAugmentationValue, 1000, (const std::string&
     float augValue = augBlueprint->value * augCount;
 
     CustomAugmentManager* customAug = CustomAugmentManager::GetInstance();
-    std::map<std::string, AugmentFunction> potentialAugs = customAug->GetPotentialAugments(name);
+    std::map<std::string, AugmentFunction> potentialAugs = customAug->GetPotentialAugments(name, iShipId);
 
 
     float highestValue = augValue;
