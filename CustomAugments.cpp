@@ -109,15 +109,12 @@ std::map<std::string, AugmentFunction> CustomAugmentManager::GetPotentialAugment
                         }
                         else
                         {
-                            hs_log_file("Aug needs sys %d\n", val->second.sys);
                             ShipManager* shipManager = G_->GetShipManager(shipId);
                             if (shipManager != nullptr && shipManager->GetSystemRoom(val->second.sys) != -1)
                             {
-                                hs_log_file("Ship has system room for this system.\n");
                                 ShipSystem* sys = shipManager->GetSystem(val->second.sys);
                                 if (sys != nullptr && sys->iHackEffect < 2 && sys->GetEffectivePower() > 0)
                                 {
-                                    hs_log_file("System is powered.\n");
                                     ret[i.second->name] = val->second;
                                 }
                             }
