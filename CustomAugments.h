@@ -5,6 +5,11 @@
 #include "rapidxml.hpp"
 #include "StatBoost.h"
 
+struct AugmentSuperShield
+{
+    int value;
+};
+
 struct AugmentFunction
 {
     float value;
@@ -17,6 +22,7 @@ struct AugmentDefinition
 {
     std::string name;
     std::map<std::string, AugmentFunction> functions = std::map<std::string, AugmentFunction>();
+    AugmentSuperShield superShield;
     bool locked = false;
     std::vector<StatBoost> statBoosts = std::vector<StatBoost>();
 };
@@ -46,6 +52,8 @@ public:
 
     static std::map<std::string, int> CheckHiddenAugments(const std::map<std::string, int>& augList);
     static std::vector<std::string> RemoveHiddenAugments(const std::vector<std::string>& augList);
+
+    static int CustomAugmentManager::GetSuperShieldValue(int shipId);
 
     static CustomAugmentManager* GetInstance()
     {

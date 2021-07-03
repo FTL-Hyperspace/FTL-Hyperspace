@@ -55,6 +55,16 @@ void CustomAugmentManager::ParseCustomAugmentNode(rapidxml::xml_node<char>* node
                             augDef->functions[functionName] = func;
                         }
                     }
+                    if (functionNodeName == "superShield")
+                    {
+                        for (auto child = functionNode->first_node(); child; child = child->next_sibling())
+                        {
+                            if (strcmp(child->name(), "value") == 0)
+                            {
+                                augDef->superShield.value = boost::lexical_cast<int>(child->first_attribute("value")->value());
+                            }
+                        }
+                    }
                     if (functionNodeName == "locked")
                     {
                         augDef->locked = true;
@@ -461,3 +471,28 @@ HOOK_METHOD(ShipObject, RemoveAugmentation, (const std::string& name) -> void)
     }
     */
 }
+
+// Super Shields
+
+int CustomAugmentManager::GetSuperShieldValue(int shipId)
+{
+    std::map<std::string, int> augList = CustomAugmentManager::CheckHiddenAugments(G_->GetShipInfo(iShipId)->augList);
+    CustomAugmentManager* customAug = CustomAugmentManager::GetInstance();
+
+    int superShieldValue = 0;
+
+    for (auto& aug : augList)
+    {
+        if (customAug->IsAugment(aug.first))
+        {
+            auto superShield = customAug->GetAugmentDefinition(aug.first)->superShield;
+            if (superShield.value > 0)
+            {
+                superShieldValue = std::max(superShieldValue, superShield.value);
+            }
+        }
+    }
+
+    return superShieldValue;
+}
+
