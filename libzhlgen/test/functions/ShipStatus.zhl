@@ -6,3 +6,5 @@ void ShipStatus::OnInit(ShipStatus *this<ecx>, Point unk, float unk2);
 void ShipStatus::RenderEvadeOxygen(ShipStatus *this<ecx>, bool unk);
 "578d7c240883e4f0ff77fc5589e5575389cb83ec10e8????????660fefc0c744240800000000f30f2a4304f30f11442404660fefc0f30f2a03":
 void ShipStatus::OnRender(ShipStatus *this<ecx>);
+"578d7c240883e4f0ff77fc5589e557565389cf83ec5c8b410c8d4dc88b10890424ff52388b45cc8b4f0c":
+void ShipStatus::RenderShields(ShipStatus *this<ecx>, bool renderText);
