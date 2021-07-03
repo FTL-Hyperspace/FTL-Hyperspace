@@ -6951,6 +6951,10 @@ struct Shields : ShipSystem
 	LIBZHL_API void *CollisionReal(float x, float y, Damage damage, bool unk);
 	LIBZHL_API void constructor(int roomId, int shipId, int startingPower, const std::string shieldFile);
 	LIBZHL_API void SetBaseEllipse(Globals::Ellipse ellipse);
+	LIBZHL_API void InstantCharge();
+	LIBZHL_API void Jump();
+	LIBZHL_API void OnLoop();
+	LIBZHL_API void AddSuperShield(Point pos);
 	
 	float ellipseRatio;
 	Point center;
