@@ -488,3 +488,26 @@ HOOK_METHOD(ShipObject, RemoveAugmentation, (const std::string& name) -> void)
     }
     */
 }
+
+HOOK_METHOD(ShipManager, OnLoop, () -> void)
+{
+    super();
+
+    if (current_target != nullptr)
+    {
+        bool has_defense = false;
+        bool scrambled = false;
+        for (auto drone : spaceDrones)
+        {
+            if (drone->type == 0)
+            {
+                if (!has_defense)
+                {
+                    has_defense = true;
+                    scrambled = current_target->HasEquipment("DEFENSE_SCRAMBLER");
+                }
+                drone->bDisrupted = scrambled;
+            }
+        }
+    }
+}
