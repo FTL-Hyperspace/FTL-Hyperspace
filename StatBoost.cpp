@@ -210,7 +210,35 @@ StatBoostDefinition StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<char
             {
                 for (auto systemChild = child->first_node(); systemChild; systemChild = systemChild->next_sibling())
                 {
-                    def.powerScaling.push_back(boost::lexical_cast<float>(systemChild->value()));
+                    bool noSys = false;
+                    bool hackedSys = false;
+
+                    if (systemChild->name() == "noSys")
+                    {
+                        noSys = true;
+                        def.powerScalingNoSys = boost::lexical_cast<float>(systemChild->value());
+                    }
+                    else if (systemChild->name() == "hackedSys")
+                    {
+                        hackedSys = true;
+                        def.powerScalingHackedSys = boost::lexical_cast<float>(systemChild->value());
+                    }
+                    else
+                    {
+                        def.powerScaling.push_back(boost::lexical_cast<float>(systemChild->value()));
+                    }
+
+                    if (def.powerScaling.size())
+                    {
+                        if (!noSys)
+                        {
+                            def.powerScalingNoSys = def.powerScaling.at(0);
+                        }
+                        if (!hackedSys)
+                        {
+                            def.powerScalingHackedSys = def.powerScaling.at(0);
+                        }
+                    }
                 }
             }
             if (name == "maxStacks")
@@ -1062,7 +1090,8 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition& def,
                 else
                 {
                     int numPower = 0;
-                    bool systemExists = true;
+                    float sysPowerScaling = statBoost.def.powerScalingNoSys;
+                    bool systemExists = false;
 
                     int statBoostSourceShipId = 0;
                     if (statBoost.def.boostSource == StatBoostDefinition::BoostSource::AUGMENT)
@@ -1076,47 +1105,48 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition& def,
 
                     for (auto system : statBoost.def.systemPowerScaling)
                     {
-                        ShipManager* shipManager = G_->GetShipManager(statBoostSourceShipId);
                         if (system == 16)
                         {
+                            systemExists = true;
                             numPower += PowerManager::GetPowerManager(statBoostSourceShipId)->currentPower.second;
                         }
                         else if (system == 17)
                         {
+                            systemExists = true;
                             numPower += PowerManager::GetPowerManager(statBoostSourceShipId)->currentPower.first;
                         }
                         else
                         {
+                            ShipManager* shipManager = G_->GetShipManager(statBoostSourceShipId);
                             if (shipManager != nullptr)
                             {
                                 if (shipManager->GetSystemRoom(system) != -1)
                                 {
-                                    if (shipManager->GetSystem(system)->iHackEffect < 2)
+                                    if (shipManager->GetSystem(system)->iHackEffect >= 2)
                                     {
+                                        sysPowerScaling = statBoost.def.powerScalingHackedSys;
+                                        systemExists = false;
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        systemExists = true;
                                         numPower += shipManager->GetSystem(system)->GetEffectivePower();
                                     }
-                                }
-                                else
-                                {
-                                    systemExists = false;
                                 }
                             }
                         }
                     }
-                    if (numPower > statBoost.def.powerScaling.size() - 2)
+                    if (systemExists)
                     {
-                        numPower = statBoost.def.powerScaling.size() - 2;
+                        sysPowerScaling = statBoost.def.powerScaling.at(numPower < statBoost.def.powerScaling.size() ? numPower : statBoost.def.powerScaling.size()-1);
                     }
 
                     if (statBoost.def.boostType == StatBoostDefinition::BoostType::MULT)
                     {
-                        if (!statBoost.def.powerScaling.empty() && systemExists)
+                        if (!statBoost.def.powerScaling.empty())
                         {
-                            finalStat = finalStat * (1 + (statBoost.def.amount - 1) * statBoost.def.powerScaling.at(numPower + 1));
-                        }
-                        else if (!statBoost.def.powerScaling.empty())
-                        {
-                            finalStat = finalStat * (1 + (statBoost.def.amount - 1) * statBoost.def.powerScaling.at(0));
+                            finalStat = finalStat * (1 + (statBoost.def.amount - 1) * sysPowerScaling);
                         }
                         else
                         {
@@ -1125,33 +1155,11 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition& def,
                     }
                     else if (statBoost.def.boostType == StatBoostDefinition::BoostType::FLAT)
                     {
-                        if (!statBoost.def.powerScaling.empty() && systemExists)
-                        {
-                            finalStat += (statBoost.def.amount * (statBoost.def.powerScaling.at(numPower + 1)));
-                        }
-                        else if (!statBoost.def.powerScaling.empty())
-                        {
-                            finalStat += (statBoost.def.amount * (statBoost.def.powerScaling.at(0)));
-                        }
-                        else
-                        {
-                            finalStat += statBoost.def.amount;
-                        }
+                        finalStat += statBoost.def.amount * sysPowerScaling;
                     }
                     else if (statBoost.def.boostType == StatBoostDefinition::BoostType::SET)
                     {
-                        if (!statBoost.def.powerScaling.empty() && systemExists)
-                        {
-                            finalStat = (statBoost.def.amount * (statBoost.def.powerScaling.at(numPower + 1)));
-                        }
-                        else if (!statBoost.def.powerScaling.empty())
-                        {
-                            finalStat = (statBoost.def.amount * (statBoost.def.powerScaling.at(0)));
-                        }
-                        else
-                        {
-                            finalStat = statBoost.def.amount;
-                        }
+                        finalStat = statBoost.def.amount * sysPowerScaling;
                     }
                 }
             }
