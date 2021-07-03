@@ -12,6 +12,8 @@ void Shields::Jump(Shields *this<ecx>);
 void Shields::OnLoop(Shields *this<ecx>);
 "57ba????????8d7c240883e4f0ff77fc5589e557565383ec1c8b81f40100008b378b7f0483c001":
 void Shields::AddSuperShield(Shields *this<ecx>, Point pos);
+"578d7c240883e4f0ff77fc5589e557565389cb81ec????????8b81ec010000f30f103ff30f117dc485c0f30f105f040f85????????8b410c":
+void Shields::RenderBase(Shields *this<ecx>, float alpha, float superShieldOverwrite);
 
 struct Shields
 {{

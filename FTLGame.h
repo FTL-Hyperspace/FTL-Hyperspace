@@ -6955,6 +6955,7 @@ struct Shields : ShipSystem
 	LIBZHL_API void Jump();
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void AddSuperShield(Point pos);
+	LIBZHL_API void RenderBase(float alpha, float superShieldOverwrite);
 	
 	float ellipseRatio;
 	Point center;
