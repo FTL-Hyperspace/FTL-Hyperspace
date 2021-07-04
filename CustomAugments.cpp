@@ -61,7 +61,7 @@ void CustomAugmentManager::ParseCustomAugmentNode(rapidxml::xml_node<char>* node
                         {
                             if (strcmp(child->name(), "value") == 0)
                             {
-                                augDef->superShield.value = boost::lexical_cast<int>(child->first_attribute("value")->value());
+                                augDef->superShield.value = boost::lexical_cast<int>(child->value());
                             }
                         }
                     }
@@ -476,7 +476,7 @@ HOOK_METHOD(ShipObject, RemoveAugmentation, (const std::string& name) -> void)
 
 int CustomAugmentManager::GetSuperShieldValue(int shipId)
 {
-    std::map<std::string, int> augList = CustomAugmentManager::CheckHiddenAugments(G_->GetShipInfo(iShipId)->augList);
+    std::map<std::string, int> augList = CustomAugmentManager::CheckHiddenAugments(G_->GetShipInfo(shipId)->augList);
     CustomAugmentManager* customAug = CustomAugmentManager::GetInstance();
 
     int superShieldValue = 0;
@@ -496,3 +496,130 @@ int CustomAugmentManager::GetSuperShieldValue(int shipId)
     return superShieldValue;
 }
 
+HOOK_METHOD(Shields, AddSuperShield, (Point pos) -> void)
+{
+    auto currentSuper = shields.power.super;
+
+    super(pos);
+
+    int customSuper = CustomAugmentManager::GetSuperShieldValue(_shipObj.iShipId);
+    if (customSuper > 5)
+    {
+        shields.power.super.second = customSuper;
+        shields.power.super.first = std::min(currentSuper.first+1,customSuper);
+    }
+}
+
+HOOK_METHOD(Shields, InstantCharge, () -> void)
+{
+    super();
+
+    int customSuper = CustomAugmentManager::GetSuperShieldValue(_shipObj.iShipId);
+    if (customSuper > 0)
+    {
+        shields.power.super.second = customSuper;
+        shields.power.super.first = customSuper;
+    }
+}
+
+HOOK_METHOD(Shields, Jump, () -> void)
+{
+    super();
+
+    int customSuper = CustomAugmentManager::GetSuperShieldValue(_shipObj.iShipId);
+    if (customSuper > 0)
+    {
+        shields.power.super.second = customSuper;
+        shields.power.super.first = customSuper;
+    }
+}
+
+HOOK_METHOD(Shields, OnLoop, () -> void)
+{
+    bool noSuper = shields.power.super.second < 1;
+
+    super();
+
+    int customSuper = CustomAugmentManager::GetSuperShieldValue(_shipObj.iShipId);
+    if (customSuper > 0)
+    {
+        shields.power.super.second = customSuper;
+        if (noSuper) shields.power.super.first = customSuper;
+    }
+}
+
+HOOK_METHOD(ShipStatus, RenderShields, (bool renderText) -> void)
+{
+    int superShield = ship->GetShieldPower().super.first;
+
+    if (superShield > 5 && ship->shieldSystem != nullptr)
+    {
+        ship->shieldSystem->shields.power.super.first = 5;
+        super(renderText);
+        ship->shieldSystem->shields.power.super.first = superShield;
+        return;
+    }
+
+    super(renderText);
+}
+
+int enemySuperShieldBar = 5;
+
+HOOK_METHOD(CombatControl, RenderTarget, () -> void)
+{
+    int superShieldSize = currentTarget->shipManager->GetShieldPower().super.second;
+
+    if (superShieldSize != enemySuperShieldBar && superShieldSize > 0)
+    {
+        superShieldBox5.SetImagePath("combatUI/box_hostiles_shield_super"+std::to_string(superShieldSize)+".png");
+        enemySuperShieldBar = superShieldSize;
+    }
+
+    super();
+}
+
+bool override_GL_RenderPrimitiveWithColor = false;
+Shields* Shields_GL_RenderPrimitiveWithColor = nullptr;
+
+HOOK_METHOD(Shields, RenderBase, (float alpha, float superShieldOverwrite) -> void)
+{
+    int customSuper = CustomAugmentManager::GetSuperShieldValue(_shipObj.iShipId);
+    if (customSuper > 0)
+    {
+        override_GL_RenderPrimitiveWithColor = true;
+        Shields_GL_RenderPrimitiveWithColor = this;
+    }
+
+    super(alpha, superShieldOverwrite);
+    override_GL_RenderPrimitiveWithColor = false;
+    Shields_GL_RenderPrimitiveWithColor = nullptr;
+}
+
+HOOK_METHOD(CSurface, GL_RenderPrimitiveWithColor, (GL_Primitive *primitive, GL_Color color) -> void)
+{
+    if (!override_GL_RenderPrimitiveWithColor) return super(primitive, color);
+    if (Shields_GL_RenderPrimitiveWithColor != nullptr)
+    {
+        auto& shields = Shields_GL_RenderPrimitiveWithColor;
+        if (color.r < 0.4)
+        {
+            GL_Texture* shieldTex = G_->GetResources()->GetImageId("ship/enemy_shields_white.png"); //temporary
+
+            float width = shieldTex->width_;
+            float height = shieldTex->height_;
+
+            //GL_Primitive* shieldPrim = GL_CreatePixelImagePrimitive(shieldTex,0.0,0.0,shieldTex->width_,shieldTex->height_,0.0,GL_Color(1.0,1.0,1.0,1.0),false);
+            GL_Primitive* shieldPrim = GL_CreateImagePrimitive(shieldTex,0.0,0.0,width,height,0.0,GL_Color(1.0,1.0,1.0,1.0));
+
+            GL_PopMatrix();
+
+            GL_PushMatrix();
+            GL_Translate(shields->baseShield.center.x - shields->baseShield.a, shields->baseShield.center.y - shields->baseShield.b, 0.0);
+            GL_Scale((2.0*shields->baseShield.a) / width, (2.0*shields->baseShield.b) / height, 1.0);
+
+            return super(shieldPrim, GL_Color(1.0,0.0,1.0,color.a));
+        }
+    }
+
+    return super(primitive, color);
+}

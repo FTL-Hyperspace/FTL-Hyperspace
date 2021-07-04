@@ -35,6 +35,8 @@ unsigned int Global::sectorMapSeed = -1;
 FILE *Global::logFile = nullptr;
 bool *Global::firstTimeShips = nullptr;
 std::pair<Point, Point> *Global::droneWeaponPosition = nullptr;
+GL_Color *Global::superShieldColor = nullptr;
+//GL_Color Global::defaultSuperShieldColor = GL_Color(255.0, 255.0, 255.0, 1.0);
 
 unsigned int Global::questSeed = 0;
 std::vector<unsigned int> Global::delayedQuestSeeds = std::vector<unsigned int>();
@@ -115,6 +117,9 @@ void Global::Initialize()
     *firstTimeShips = false;
     droneWeaponPosition = (std::pair<Point, Point>*)((__baseAddress + __droneWeaponPosOffset));
     //fragment_shader_source_callback = (ShaderSourceCallback**)((__baseAddress + __fragmentCallbackOffset));
+    superShieldColor = (GL_Color*)((__baseAddress + __superShieldColorOffset));
+    //defaultSuperShieldColor = *superShieldColor;
+    //*superShieldColor = GL_Color(1084.0, 0.0, 310.0, 1.0);
     logFile = fopen("FTL_HS.log", "w");
 
 

@@ -70,6 +70,8 @@ public:
     static FILE* logFile;
     static bool* firstTimeShips;
     static std::pair<Point, Point>* droneWeaponPosition;
+    static GL_Color* superShieldColor;
+    //static GL_Color defaultSuperShieldColor;
 
     static unsigned int questSeed;
     static std::vector<unsigned int> delayedQuestSeeds;
@@ -113,6 +115,8 @@ private:
     const DWORD __firstTimeShipsOffset =   0x004C8D30;
     const DWORD __settingValuesOffset =    0x004C8CA0;
     const DWORD __droneWeaponPosOffset =   0x004C7400;
+
+    const DWORD __superShieldColorOffset = 0x004CC670;
 
     DWORD __baseAddress = 0;
 

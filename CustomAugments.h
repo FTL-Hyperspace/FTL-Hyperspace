@@ -53,7 +53,7 @@ public:
     static std::map<std::string, int> CheckHiddenAugments(const std::map<std::string, int>& augList);
     static std::vector<std::string> RemoveHiddenAugments(const std::vector<std::string>& augList);
 
-    static int CustomAugmentManager::GetSuperShieldValue(int shipId);
+    static int GetSuperShieldValue(int shipId);
 
     static CustomAugmentManager* GetInstance()
     {
