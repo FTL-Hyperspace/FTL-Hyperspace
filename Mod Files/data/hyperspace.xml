@@ -661,6 +661,10 @@ Syntax ->
 useForReqs is for whether you want the augment to work for blue options or not. True by default.
 warning attribute being false removes red warning text
 
+<superShield> lets you specify a custom super shield value instead of the default 5. Generally should be used along with <function name="ENERGY_SHIELD"/> so it still counts for blue options, etc.
+You can also specify a custom shield image and tint. Custom images are useful for colors that don't work well on the standard blue shield, such as yellow, red, pink, and white.
+Using <shieldImage> is equivalent to using both <playerImage> and <enemyImage>.
+
 Syntax ->
 <augments>
     <aug name="CUSTOM_AUG">
@@ -668,6 +672,15 @@ Syntax ->
 		<function name="CREW_STIMS" value="0.2"/>
 		<function name="O2_MASKS" value="0.2" preferHigher="false"/>
 		<function name="HACKING_STUN" useForReqs="false" warning="false"/>
+		
+		<superShield>
+			<value>5</value> (gives custom supershield value; when multiple augments are present the highest value is used)
+			<add>0</add> (gives custom supershield value that is added to existing custom supershields to allow stacking)
+			<color r="100.0" g="255.0" b="100.0" a="1.0"/> (changes the super shield tint)
+			<shieldImage>ship/shield_image.png</shieldImage> (use a different shield image for player and enemy)
+			<playerImage>ship/shield_image.png</playerImage> (use a different shield image for player)
+			<enemyImage>ship/shield_image.png</enemyImage> (use a different shield image for enemy)
+		</superShield>
 		
 		<locked/>
     </aug>

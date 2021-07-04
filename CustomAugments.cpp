@@ -537,7 +537,7 @@ int CustomAugmentManager::GetSuperShieldValue(int shipId)
             }
             if (superShield.add > 0)
             {
-                superShieldAdd += superShield.add;
+                superShieldAdd += superShield.add * aug.second;
             }
             if (superShield.customRender && superShield.value > superShieldRenderValue)
             {
