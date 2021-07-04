@@ -4780,6 +4780,7 @@ struct CombatControl
 	LIBZHL_API void DisarmTeleporter();
 	LIBZHL_API void constructor();
 	LIBZHL_API void RenderSelfAiming();
+	LIBZHL_API void RenderShipStatus(Pointf pos, GL_Color color);
 	
 	CommandGui *gui;
 	ShipManager *shipManager;
