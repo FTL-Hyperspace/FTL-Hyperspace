@@ -1791,6 +1791,12 @@ HOOK_METHOD(CreditScreen, OnRender, () -> void)
     shouldReplaceBackground = false;
 }
 
+HOOK_METHOD(StarMap, NewGame, (bool unk) -> Location*)
+{
+    jumpEvent = "";
+    return super(unk);
+}
+
 HOOK_METHOD(StarMap, LoadGame, (int fh) -> Location*)
 {
     jumpEvent = FileHelper::readString(fh);
