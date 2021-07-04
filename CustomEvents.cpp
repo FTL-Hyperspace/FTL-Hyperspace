@@ -1637,6 +1637,8 @@ HOOK_METHOD(StarMap, LoadGame, (int file) -> Location*)
 HOOK_METHOD(StarMap, NewGame, (bool unk) -> Location*)
 {
     bSecretSector = false;
+    pursuitDelay = 0;
+    reversedPath = false;
 
     return super(unk);
 }
