@@ -685,6 +685,29 @@ HOOK_METHOD(ShipStatus, RenderShields, (bool renderText) -> void)
     super(renderText);
 }
 
+HOOK_METHOD(CombatControl, RenderShipStatus, (Pointf pos, GL_Color color) -> void)
+{
+    super(pos, color);
+
+    if (CustomAugmentManager::GetInstance()->superShieldCustomRender[1])
+    {
+        auto enemyShield = currentTarget->shipManager->GetShieldPower();
+
+        if (enemyShield.super.first > 0)
+        {
+            GL_Color superColor = CustomAugmentManager::GetInstance()->superShieldColor[1];
+            superColor.a = 1.0;
+
+            CSurface::GL_PushMatrix();
+            CSurface::GL_Translate(pos.x, pos.y, 0.0);
+
+            CSurface::GL_DrawRect(enemyShield.second*23.f + 16.f, 38.0, enemyShield.super.first*10.f, 7.0, superColor);
+
+            CSurface::GL_PopMatrix();
+        }
+    }
+}
+
 bool override_GL_RenderPrimitiveWithColor = false;
 Shields* Shields_GL_RenderPrimitiveWithColor = nullptr;
 

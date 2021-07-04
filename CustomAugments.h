@@ -11,7 +11,7 @@ struct AugmentSuperShield
     int add = 0;
     bool customRender = false;
     std::string shieldTexture[2] = {"", ""};
-    GL_Color shieldColor = GL_Color(0.0,0.0,0.0,0.0);
+    GL_Color shieldColor = GL_Color(1.0,1.0,1.0,1.0);
 };
 
 struct AugmentFunction
