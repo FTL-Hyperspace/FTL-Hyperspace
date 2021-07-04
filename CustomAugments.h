@@ -7,7 +7,10 @@
 
 struct AugmentSuperShield
 {
-    int value;
+    int value = 0;
+    bool customRender = false;
+    std::string shieldTexture[2] = {"", ""};
+    GL_Color shieldColor = GL_Color(0.0,0.0,0.0,0.0);
 };
 
 struct AugmentFunction
@@ -49,6 +52,10 @@ public:
     {
         return augDefs.find(name) != augDefs.end();
     }
+
+    bool superShieldCustomRender[2] = {false, false};
+    std::string superShieldTexture[2] = {"", ""};
+    GL_Color superShieldColor[2] = {GL_Color(0.0,0.0,0.0,0.0), GL_Color(0.0,0.0,0.0,0.0)};
 
     static std::map<std::string, int> CheckHiddenAugments(const std::map<std::string, int>& augList);
     static std::vector<std::string> RemoveHiddenAugments(const std::vector<std::string>& augList);
