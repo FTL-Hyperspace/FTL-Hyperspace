@@ -20,6 +20,7 @@
 #include "Seeds.h"
 #include "SaveFile.h"
 #include "CustomSystems.h"
+#include "AlternateOxygenRendering.h"
 
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string/replace.hpp>
@@ -157,6 +158,20 @@ void Global::InitializeResources(ResourceControl *resources)
                 auto enabled = node->first_attribute("enabled")->value();
                 customOptions->alternateOxygenRendering.defaultValue = EventsParser::ParseBoolean(enabled);
                 customOptions->alternateOxygenRendering.currentValue = EventsParser::ParseBoolean(enabled);
+                if (EventsParser::ParseBoolean(enabled))
+                {
+                    for (auto child = node->first_node(); child; child = child->next_sibling())
+                    {
+                        if (strcmp(child->name(), "gradient") == 0)
+                        {
+                            AlternateOxygenManager::GetInstance()->ParseGradientNode(child);
+                        }
+                    }
+                    if (AlternateOxygenManager::GetInstance()->IsGradientEmpty())
+                    {
+                        AlternateOxygenManager::GetInstance()->CreateDefaultGradient();
+                    }
+                }
             }
 
             if (strcmp(node->name(), "advancedCrewTooltips") == 0)

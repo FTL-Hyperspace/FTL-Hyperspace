@@ -105,6 +105,19 @@ Tends to be helpful with "weirder" weapons in mods due to having more clear info
 
 <redesignedWeaponTooltips enabled="false"/>
 
+<!--  Alternate color scheme for O2 levels
+The gradient tag is optional and allows specifying a custom gradient (the default alternate is included here).
+Vanilla is 255,176,169 at no O2 and 230,226,219 at full O2.
+If the "oxygen" attribute is omitted, then the value will be auto-generated: 0.0 for the first point, 100.0 for the last point, and equal spacing for points in between.
+-->
+
+<alternateOxygenRendering enabled="false">
+	<gradient>
+		<color r="0" g="0" b="219" oxygen="0.0"/>
+		<color r="230" g="226" b="219" oxygen="100.0"/>
+	</gradient>
+</alternateOxygenRendering>
+
 <!-- Custom title screen
 Changes the background and logo and moves the FTL logo slightly -->
 
