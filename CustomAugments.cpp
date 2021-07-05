@@ -710,6 +710,7 @@ HOOK_METHOD(CombatControl, RenderShipStatus, (Pointf pos, GL_Color color) -> voi
 
 bool override_GL_RenderPrimitiveWithColor = false;
 Shields* Shields_GL_RenderPrimitiveWithColor = nullptr;
+GL_Primitive* customSuperShieldPrimitives[2] = {nullptr, nullptr};
 
 HOOK_METHOD(Shields, RenderBase, (float alpha, float superShieldOverwrite) -> void)
 {
@@ -753,6 +754,9 @@ HOOK_METHOD(CSurface, GL_RenderPrimitiveWithColor, (GL_Primitive *primitive, GL_
 
                 //GL_Primitive* shieldPrim = GL_CreatePixelImagePrimitive(shieldTex,0.0,0.0,width,height,0.0,GL_Color(1.0,1.0,1.0,1.0),false);
                 GL_Primitive* shieldPrim = GL_CreateImagePrimitive(shieldTex,0.0,0.0,width,height,0.0,GL_Color(1.0,1.0,1.0,1.0));
+
+                GL_DestroyPrimitive(customSuperShieldPrimitives[shields->_shipObj.iShipId]);
+                customSuperShieldPrimitives[shields->_shipObj.iShipId] = shieldPrim;
 
                 GL_PopMatrix();
 
