@@ -28,6 +28,8 @@ void TextButton::SetActiveColor(TextButton *this<ecx>, GL_Color color);
 void TextButton::SetSelectedColor(TextButton *this<ecx>, GL_Color color);
 ".807964000f85????????f30f1005????????c6416401f30f100d????????c741740000803ff30f1015????????f30f5ec8c781840000000000803ff30f101d????????c781940000000000803ff30f5ed0f30f114970f30f100d????????":
 void TextButton::SetTextColor(TextButton *this<ecx>, GL_Color color);
+"578d7c240883e4f0ff77fc5589e557565389cf81ec????????807964000f84????????8b4704c745c000000000c745c400000000c745c8000000008945b08b4708":
+void TextButton::InitPrimitives(TextButton *this<ecx>);
 
 struct TextButton
 {{

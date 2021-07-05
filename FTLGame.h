@@ -1270,6 +1270,7 @@ public:
 	LIBZHL_API void SetActiveColor(GL_Color color);
 	LIBZHL_API void SetSelectedColor(GL_Color color);
 	LIBZHL_API void SetTextColor(GL_Color color);
+	LIBZHL_API void InitPrimitives();
 	
 	GL_Primitive *primitives[3];
 	GL_Texture *baseImage;

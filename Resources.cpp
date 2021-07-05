@@ -21,6 +21,7 @@
 #include "SaveFile.h"
 #include "CustomSystems.h"
 #include "AlternateOxygenRendering.h"
+#include "TextButtonColor.h"
 
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string/replace.hpp>
@@ -262,6 +263,10 @@ void Global::InitializeResources(ResourceControl *resources)
                 {
                     SeedInputBox::seedsEnabled = EventsParser::ParseBoolean(node->first_attribute("enabled")->value());
                 }
+            }
+            if (strcmp(node->name(), "textButtonColors") == 0)
+            {
+                ParseTextButtonColorsNode(node);
             }
             if (strcmp(node->name(), "customSystems") == 0)
             {

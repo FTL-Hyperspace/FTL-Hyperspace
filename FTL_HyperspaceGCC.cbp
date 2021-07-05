@@ -512,6 +512,12 @@
 		<Unit filename="TemporalSystem.h">
 			<Option virtualFolder="Content/Systems/" />
 		</Unit>
+		<Unit filename="TextButtonColor.cpp">
+			<Option virtualFolder="Content/Misc/" />
+		</Unit>
+		<Unit filename="TextButtonColor.h">
+			<Option virtualFolder="Content/Misc/" />
+		</Unit>
 		<Unit filename="ToggleValue.h">
 			<Option virtualFolder="Core/" />
 		</Unit>

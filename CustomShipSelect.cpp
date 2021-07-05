@@ -30,38 +30,6 @@ void CustomShipSelect::ParseShipsNode(rapidxml::xml_node<char> *node)
             CustomShipDefinition def;
             std::string name = child->name();
 
-            if (boost::algorithm::starts_with(name, "typeButtonColor"))
-            {
-                int arrayIndex = 0;
-                std::string suffix = name.substr(15);
-
-                if (suffix == "Inactive")
-                {
-                    arrayIndex = 0;
-                }
-                else if (suffix == "Active")
-                {
-                    arrayIndex = 1;
-                }
-                else if (suffix == "Selected")
-                {
-                    arrayIndex = 2;
-                }
-                else if (suffix == "Text")
-                {
-                    arrayIndex = 3;
-                }
-                else
-                {
-                    arrayIndex = -1;
-                }
-
-                if (arrayIndex != -1)
-                {
-                    ParseColorNode(typeButtonColors[arrayIndex], child);
-
-                }
-            }
 
             if (name == "shipIcons")
             {
@@ -1756,17 +1724,6 @@ HOOK_METHOD(ShipBuilder, Open, () -> void)
         {
             customSel->SwitchShip(this, 100, 0);
         }
-    }
-
-    TextButton* buttons[3] = { &typeA, &typeB, &typeC };
-    auto custom = CustomShipSelect::GetInstance();
-
-    for (auto& i : buttons)
-    {
-        i->SetInactiveColor(custom->typeButtonColors[0]);
-        i->SetActiveColor(custom->typeButtonColors[1]);
-        i->SetSelectedColor(custom->typeButtonColors[2]);
-        i->SetTextColor(custom->typeButtonColors[3]);
     }
 }
 
