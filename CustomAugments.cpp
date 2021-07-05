@@ -51,6 +51,10 @@ void CustomAugmentManager::ParseCustomAugmentNode(rapidxml::xml_node<char>* node
                             {
                                 func.warning = EventsParser::ParseBoolean(functionNode->first_attribute("warning")->value());
                             }
+                            if (functionNode->first_attribute("sys")) // System must be installed, functional, and powered
+                            {
+                                func.sys = ShipSystem::NameToSystemId(functionNode->first_attribute("sys")->value());
+                            }
 
                             augDef->functions[functionName] = func;
                         }
@@ -132,7 +136,7 @@ void CustomAugmentManager::ParseCustomAugmentNode(rapidxml::xml_node<char>* node
     }
 }
 
-std::map<std::string, AugmentFunction> CustomAugmentManager::GetPotentialAugments(const std::string& name, bool req)
+std::map<std::string, AugmentFunction> CustomAugmentManager::GetPotentialAugments(const std::string& name, int shipId, bool req)
 {
     auto ret = std::map<std::string, AugmentFunction>();
 
@@ -144,9 +148,32 @@ std::map<std::string, AugmentFunction> CustomAugmentManager::GetPotentialAugment
             if (!i.second->functions.empty())
             {
                 auto val = i.second->functions.find(name);
-                if (val != i.second->functions.end() && (!req || i.second->functions[name].useForReqs))
+
+                if (val != i.second->functions.end())
                 {
-                    ret[i.second->name] = val->second;
+                    if (!req)
+                    {
+                        if (val->second.sys == -1)
+                        {
+                            ret[i.second->name] = val->second;
+                        }
+                        else
+                        {
+                            ShipManager* shipManager = G_->GetShipManager(shipId);
+                            if (shipManager != nullptr && shipManager->GetSystemRoom(val->second.sys) != -1)
+                            {
+                                ShipSystem* sys = shipManager->GetSystem(val->second.sys);
+                                if (sys != nullptr && sys->iHackEffect < 2 && sys->GetEffectivePower() > 0)
+                                {
+                                    ret[i.second->name] = val->second;
+                                }
+                            }
+                        }
+                    }
+                    else if (i.second->functions[name].useForReqs)
+                    {
+                        ret[i.second->name] = val->second;
+                    }
                 }
             }
         }
@@ -205,7 +232,7 @@ HOOK_METHOD_PRIORITY(ShipObject, HasAugmentation, 2000, (const std::string& name
         augCount = augList.at(name);
     }
 
-    std::map<std::string, AugmentFunction> potentialAugs = customAug->GetPotentialAugments(name);
+    std::map<std::string, AugmentFunction> potentialAugs = customAug->GetPotentialAugments(name, iShipId);
 
 
 
@@ -247,7 +274,7 @@ HOOK_METHOD_PRIORITY(ShipObject, HasEquipment, 2000, (const std::string& name) -
     }
 
     CustomAugmentManager* customAug = CustomAugmentManager::GetInstance();
-    std::map<std::string, AugmentFunction> potentialAugs = customAug->GetPotentialAugments(name, useAugmentReq);
+    std::map<std::string, AugmentFunction> potentialAugs = customAug->GetPotentialAugments(name, iShipId, useAugmentReq);
 
 
 
@@ -288,7 +315,7 @@ HOOK_METHOD_PRIORITY(ShipObject, GetAugmentationValue, 1000, (const std::string&
     float augValue = augBlueprint->value * augCount;
 
     CustomAugmentManager* customAug = CustomAugmentManager::GetInstance();
-    std::map<std::string, AugmentFunction> potentialAugs = customAug->GetPotentialAugments(name);
+    std::map<std::string, AugmentFunction> potentialAugs = customAug->GetPotentialAugments(name, iShipId);
 
 
     float highestValue = augValue;
@@ -770,4 +797,27 @@ HOOK_METHOD(CSurface, GL_RenderPrimitiveWithColor, (GL_Primitive *primitive, GL_
     }
 
     return super(primitive, color);
+}
+
+HOOK_METHOD(ShipManager, OnLoop, () -> void)
+{
+    super();
+
+    if (current_target != nullptr)
+    {
+        bool has_defense = false;
+        bool scrambled = false;
+        for (auto drone : spaceDrones)
+        {
+            if (drone->type == 0)
+            {
+                if (!has_defense)
+                {
+                    has_defense = true;
+                    scrambled = current_target->HasEquipment("DEFENSE_SCRAMBLER");
+                }
+                drone->bDisrupted = scrambled;
+            }
+        }
+    }
 }
