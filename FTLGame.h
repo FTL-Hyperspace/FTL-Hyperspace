@@ -1266,6 +1266,10 @@ public:
 	LIBZHL_API void OnInitRect(Globals::Rect &rect, int cornerInset, TextString &buttonLabel, int font);
 	LIBZHL_API void SetBaseImage(const std::string &name, Point pos, int autoWidthMin);
 	LIBZHL_API void SetAutoWidth(bool autoWidth, bool autoRightAlign, int margin, int min);
+	LIBZHL_API void SetInactiveColor(GL_Color color);
+	LIBZHL_API void SetActiveColor(GL_Color color);
+	LIBZHL_API void SetSelectedColor(GL_Color color);
+	LIBZHL_API void SetTextColor(GL_Color color);
 	
 	GL_Primitive *primitives[3];
 	GL_Texture *baseImage;

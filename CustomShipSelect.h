@@ -301,6 +301,11 @@ public:
 
     std::vector<std::string> customShipOrder = std::vector<std::string>();
     bool hideFirstPage;
+
+    GL_Color typeButtonColors[4] = { GL_Color(164.f / 255.f, 171.f / 255.f, 160.f / 255.f, 1.f),
+                                     GL_Color(235.f / 255.f, 245 / 255.f, 229.f / 255.f, 1.f),
+                                     GL_Color(235.f / 255.f, 230.f / 255.f, 94.f / 255.f, 1.f),
+                                     GL_Color(25.f / 255.f, 49.f / 255.f, 51.f / 255.f, 1.f) };
 private:
     ShipSelect* shipSelect;
     Button* leftButton;
@@ -319,6 +324,7 @@ private:
     int lastSelectedShip = -1;
 
     bool open;
+
 
     static CustomShipSelect instance;
 
