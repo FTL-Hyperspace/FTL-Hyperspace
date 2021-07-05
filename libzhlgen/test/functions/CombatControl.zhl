@@ -38,3 +38,5 @@ void CombatControl::DisarmTeleporter(CombatControl *this<ecx>);
 void CombatControl::constructor(CombatControl *this<ecx>);
 "578d7c240883e4f0ff77fc5589e5575389cb83c11483ec30e8????????8b4b04c70424????????e8????????83ec0484c00f84????????8b4b04":
 void CombatControl::RenderSelfAiming(CombatControl *this<ecx>);
+"578d7c240883e4f0ff77fc5589f889e557565389cf81ec????????8b188b7004898564ffffffe8????????89742404891c248d75d0c744240800000000":
+void CombatControl::RenderShipStatus(CombatControl *this<ecx>, Pointf pos, GL_Color color);

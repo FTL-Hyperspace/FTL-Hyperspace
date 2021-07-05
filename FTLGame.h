@@ -4784,6 +4784,7 @@ struct CombatControl
 	LIBZHL_API void DisarmTeleporter();
 	LIBZHL_API void constructor();
 	LIBZHL_API void RenderSelfAiming();
+	LIBZHL_API void RenderShipStatus(Pointf pos, GL_Color color);
 	
 	CommandGui *gui;
 	ShipManager *shipManager;
@@ -4928,6 +4929,7 @@ struct ShipStatus
 	LIBZHL_API void OnInit(Point unk, float unk2);
 	LIBZHL_API void RenderEvadeOxygen(bool unk);
 	LIBZHL_API void OnRender();
+	LIBZHL_API void RenderShields(bool renderText);
 	
 	Point location;
 	float size;
@@ -6955,6 +6957,11 @@ struct Shields : ShipSystem
 	LIBZHL_API void *CollisionReal(float x, float y, Damage damage, bool unk);
 	LIBZHL_API void constructor(int roomId, int shipId, int startingPower, const std::string shieldFile);
 	LIBZHL_API void SetBaseEllipse(Globals::Ellipse ellipse);
+	LIBZHL_API void InstantCharge();
+	LIBZHL_API void Jump();
+	LIBZHL_API void OnLoop();
+	LIBZHL_API void AddSuperShield(Point pos);
+	LIBZHL_API void RenderBase(float alpha, float superShieldOverwrite);
 	
 	float ellipseRatio;
 	Point center;
