@@ -283,7 +283,7 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                         {
                             for (auto statBoostNode = stat->first_node(); statBoostNode; statBoostNode = statBoostNode->next_sibling())
                             {
-                                crew.passiveStatBoosts.push_back(ParseStatBoostNode(statBoostNode));
+                                crew.passiveStatBoosts.push_back(StatBoostManager::GetInstance()->ParseStatBoostNode(statBoostNode, StatBoostDefinition::BoostSource::CREW));
                             }
                         }
                         if (str == "animBase")
@@ -920,7 +920,7 @@ void CustomCrewManager::ParseAbilityEffect(rapidxml::xml_node<char>* stat, Activ
                 {
                     for (auto statBoostNode = tempEffectNode->first_node(); statBoostNode; statBoostNode = statBoostNode->next_sibling())
                     {
-                        def.tempPower.statBoosts.push_back(ParseStatBoostNode(statBoostNode));
+                        def.tempPower.statBoosts.push_back(StatBoostManager::GetInstance()->ParseStatBoostNode(statBoostNode, StatBoostDefinition::BoostSource::CREW));
                     }
                 }
             }
@@ -1461,19 +1461,15 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
         for (auto statBoostDef : def.passiveStatBoosts)
         {
             StatBoost statBoost = StatBoost(statBoostDef);
-            statBoost.GiveId();
 
             statBoost.crewSource = orig;
-            statBoost.boostSource = StatBoost::BoostSource::CREW;
             outgoingStatBoosts.push_back(statBoost);
         }
         for (auto statBoostDef : def.powerDef.tempPower.statBoosts)
         {
             StatBoost statBoost = StatBoost(statBoostDef);
-            statBoost.GiveId();
 
             statBoost.crewSource = orig;
-            statBoost.boostSource = StatBoost::BoostSource::CREW;
             outgoingAbilityStatBoosts.push_back(statBoost);
         }
 

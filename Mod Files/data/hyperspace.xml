@@ -717,7 +717,7 @@ As the name implies, stat boosts can be used to boost (or just generally modify)
 boostType: what the boost does to the stat; for numerical amounts, it can be FLAT, MULT, or SET, and for true/false values it can be SET or FLIP
 value/amount: use value for true/false stats and amount for numerical ones
 shipTarget: the ship/room that the statBoost affects. For augments, you can use PLAYER_SHIP, ENEMY_SHIP, ORIGINAL_SHIP, ORIGINAL_OTHER_SHIP, or ALL, and for crew you can use the same but also OTHER_ALL, CURRENT_ROOM, and CURRENT_ALL
-crewTarget: determines what crew the boost affects. it can be ALLIES, ENEMIES, or ALL
+crewTarget: determines what crew the boost affects. it can be ALLIES, ENEMIES, ALL, CURRENT_ALLIES, or CURRENT_ENEMIES. CURRENT_ALLIES and CURRENT_ENEMIES factor in mind control.
 droneTarget: determines whether the boost affects drones or not. it can be DRONES, CREW, or ALL (the default)
 whiteList/blackList: determines the species that the boost applies to. whiteLists mean that only those species get the boost, and blackLists mean that only those species won't get the boost.
 affectsSelf: determines if the boost affects the source in addition to its normal targets, defaults to false
@@ -728,6 +728,7 @@ systemPowerDependency: determines the systems that affect the power of this stat
 systemPowerScaling: determines how the boost is affected by the total power bars within the systems in systemPowerDependency. The tag name doesn't matter; the first value is used when the system isn't there, the second is used when the system is offline, and the third onwards determines the power at each given bar of power (with any amount of power over the max using the last number)
 deathEffect: can be used to add any <deathEffect> as an additional part of the statBoost
 duration: for augments, determines how long a boost will apply after jumping, measured in seconds
+maxStacks: determines how many stacks of the boost can be applied to a single crewmember. Works per stat. Can have an "id" attribute which specifies an id to use for stat boosts that share a stack limit. If the id is not included then the stack limit applies only to that specific boost.
 
 Stat boost syntax examples->
 
@@ -780,6 +781,16 @@ Stat boost syntax examples->
 	</statBoost>
 </statBoost>
 
+<statBoost name = "damageMultiplier">
+	<boostType>MULT</boostType>
+	<amount>2.0</amount>
+	<shipTarget>CURRENT_ROOM</shipTarget>
+	<crewTarget>ALLIES</crewTarget>
+	<droneTarget>CREW</droneTarget>
+	<priority>0</priority>
+	<maxStacks id="bigDamageBooster">1</maxStacks>
+</statBoost>
+
 Syntax (for an augment)->
 
 <aug name="WEIRD_FIRE_ENHANCER">
@@ -826,6 +837,7 @@ The event has to load a vanilla store in events.xml - it will be replaced with t
 <req> is used to make custom requirements for blue options (and also for beacon label requirements).
 For example <choice req="CUSTOM_REQ"> in events.xml will look for a <req> named "CUSTOM_REQ" before looking for a blueprintList or blueprint.
 Alternatively, you can use the keywords ANY, ALL, or SUM with a blueprintList (e.g. "ALL LIST_GATLING_PARTS") for simpler custom requirements to avoid needing to add a <req> here.
+The keyword SEC can be used to check the current sector ID instead of checking a blueprint.
 
 
 Syntax -> 
@@ -880,6 +892,10 @@ Syntax ->
 	
 	<event name="CRYSTAL_TEST">
 		<secretSectorWarp>ENGI_HOME</secretSectorWarp>
+	</event>
+	
+	<event name="CREW_STUCK">
+		<recallBoarders/>
 	</event>
 	
 	<event name="FREE_WIN">
@@ -954,6 +970,7 @@ Syntax ->
 		<name>ANY LIST_WEAPONS_ION</name>
 		<name>ALL LIST_SUBSYSTEMS</name>
 		<name>SUM LIST_CREW_ENGI</name>
+		<name>SEC SECTOR_ID</name>
 	</req>
 </events>
 

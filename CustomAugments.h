@@ -28,7 +28,7 @@ struct AugmentDefinition
     std::map<std::string, AugmentFunction> functions = std::map<std::string, AugmentFunction>();
     AugmentSuperShield superShield;
     bool locked = false;
-    std::vector<StatBoost> statBoosts = std::vector<StatBoost>();
+    std::vector<StatBoostDefinition> statBoosts = std::vector<StatBoostDefinition>();
 };
 
 

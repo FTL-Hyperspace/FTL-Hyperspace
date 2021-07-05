@@ -194,6 +194,9 @@
 		<Unit filename="CommandConsole.h">
 			<Option virtualFolder="Content/Misc/" />
 		</Unit>
+		<Unit filename="Constants.h">
+			<Option virtualFolder="Core/" />
+		</Unit>
 		<Unit filename="CooldownNumbers.cpp">
 			<Option virtualFolder="Core/Weapons/" />
 		</Unit>

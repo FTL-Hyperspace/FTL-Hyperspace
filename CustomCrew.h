@@ -3,6 +3,7 @@
 #include "ToggleValue.h"
 #include <unordered_map>
 
+struct StatBoostDefinition;
 struct StatBoost;
 
 struct Skill
@@ -125,7 +126,7 @@ struct TemporaryPowerDefinition
     ToggleValue<float> damageEnemiesAmount;
     ToggleValue<bool> hackDoors;
 
-    std::vector<StatBoost> statBoosts;
+    std::vector<StatBoostDefinition> statBoosts;
 
     bool invulnerable;
     int animFrame = -1;
@@ -254,7 +255,7 @@ struct CrewDefinition
 
     ActivatedPowerDefinition powerDef;
 
-    std::vector<StatBoost> passiveStatBoosts;
+    std::vector<StatBoostDefinition> passiveStatBoosts;
 
     std::vector<std::string> nameRace;
     std::vector<std::string> transformName;
