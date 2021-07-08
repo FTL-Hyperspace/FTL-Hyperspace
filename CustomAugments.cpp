@@ -635,6 +635,23 @@ HOOK_METHOD(Shields, OnLoop, () -> void)
     }
 }
 
+/*
+HOOK_METHOD(Shields, CollisionReal, (float x, float y, Damage damage, bool unk) -> void)
+{
+    super(x, y, damage, unk);
+
+    if (CustomAugmentManager::GetInstance()->superShieldCustomRender[_shipObj.iShipId] && !damMessages.empty())
+    {
+        DamageMessage* damMessage = damMessages.back();
+        if (damMessage->color.r == 0.1568628f && damMessage->color.g == 0.9411765f && damMessage->color.b == 0.1568628f) // r=40 g=240 b=40
+        {
+            damMessage->color = CustomAugmentManager::GetInstance()->superShieldColor[_shipObj.iShipId];
+            damMessage->color.a = 1.0;
+        }
+    }
+}
+*/
+
 int numSuperShieldBars = 0;
 std::vector<GL_Primitive*> superShieldBars;
 
