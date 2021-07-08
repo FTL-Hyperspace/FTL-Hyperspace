@@ -294,6 +294,7 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
                     if (nodeName == "win")
                     {
                         customEvent->gameOver.enabled = true;
+                        customEvent->gameOver.victory = true;
                         if (child->first_attribute("text"))
                         {
                             customEvent->gameOver.text = child->first_attribute("text")->value();
@@ -305,6 +306,14 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
                         if (child->first_attribute("creditsBackground"))
                         {
                             customEvent->gameOver.creditsBackground = child->first_attribute("creditsBackground")->value();
+                        }
+                    }
+                    if (nodeName == "lose")
+                    {
+                        customEvent->gameOver.enabled = true;
+                        if (child->first_attribute("text"))
+                        {
+                            customEvent->gameOver.text = child->first_attribute("text")->value();
                         }
                     }
                     if (nodeName == "playSound")
@@ -1705,18 +1714,31 @@ HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEve
     {
         if (customEvent->gameOver.enabled)
         {
-            G_->GetSoundControl()->StopPlaylist(100);
-            G_->GetSoundControl()->PlaySoundMix("victory", -1.f, false);
+            if (customEvent->gameOver.victory)
+            {
+                G_->GetSoundControl()->StopPlaylist(100);
+                G_->GetSoundControl()->PlaySoundMix("victory", -1.f, false);
 
-            replaceGameOverText = customEvent->gameOver.text;
-            replaceGameOverCreditsText = customEvent->gameOver.creditsText;
-            replaceCreditsBackground = G_->GetEventGenerator()->GetImageFromList(customEvent->gameOver.creditsBackground);
+                replaceGameOverText = customEvent->gameOver.text;
+                replaceGameOverCreditsText = customEvent->gameOver.creditsText;
+                replaceCreditsBackground = G_->GetEventGenerator()->GetImageFromList(customEvent->gameOver.creditsBackground);
 
-            G_->GetScoreKeeper()->SetVictory(true);
-            commandGui->gameover = true;
-            commandGui->Victory();
+                G_->GetScoreKeeper()->SetVictory(true);
+                commandGui->gameover = true;
+                commandGui->Victory();
 
-            replaceGameOverText = "";
+                replaceGameOverText = "";
+            }
+            else
+            {
+                replaceGameOverText = customEvent->gameOver.text;
+
+                G_->GetScoreKeeper()->SetVictory(false);
+                commandGui->gameover = true;
+                commandGui->CheckGameover();
+
+                replaceGameOverText = "";
+            }
         }
 
         if (!customEvent->playSound.empty())

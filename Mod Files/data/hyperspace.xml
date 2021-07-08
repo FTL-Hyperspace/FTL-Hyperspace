@@ -906,6 +906,10 @@ Syntax ->
 		<win text="Custom event victory!" creditsText="credit_victory" creditsBackground="imageList"/>
 	</event>
 	
+	<event name="YOU_LOSE">
+		<lose text="Custom event defeat."/>
+	</event>
+	
 	<event name="FREE_HIDDEN_ENERGY_SHIELD" recursive="false">
 		<hiddenAug>ENERGY_SHIELD</hiddenAug>
 	</event>

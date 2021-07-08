@@ -19,6 +19,7 @@ struct BeaconType
 struct EventGameOver
 {
     bool enabled = false;
+    bool victory = false;
     std::string text = "";
     std::string creditsText = "";
     std::string creditsBackground = "";
