@@ -127,6 +127,7 @@ struct CustomSector
     SectorExit exitBeacons;
     SectorFleet fleetBeacons;
     bool removeFirstBeaconNebula = false;
+    ToggleValue<bool> nebulaSector;
 };
 
 struct BossShipDefinition

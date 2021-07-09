@@ -849,6 +849,7 @@ Syntax ->
         <exitBeacon event="BOARDERS" rebelEvent="FLEET_HARD" nebulaEvent="NEBULA_HOSTILE"/>
         <rebelBeacon event="BOARDERS" nebulaEvent="NEBULA_AUTO"/>
         <removeFirstBeaconNebula/>
+        <nebulaSector>false</nebulaSector> -> Overrides the nebula sector flag for fleet pursuit.
     </sector>
 	
 	<quest>

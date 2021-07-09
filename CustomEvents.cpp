@@ -95,6 +95,11 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
                         sec->removeFirstBeaconNebula = true;
                     }
 
+                    if (strcmp(sectorNode->name(), "nebulaSector") == 0)
+                    {
+                        sec->nebulaSector = EventsParser::ParseBoolean(sectorNode->value());
+                    }
+
                     customSectors.push_back(sec);
                 }
             }
@@ -1243,7 +1248,10 @@ HOOK_METHOD(StarMap, GenerateMap, (bool tutorial, bool seed) -> LocationEvent*)
                 }
             }
 
-
+            if (customSector->nebulaSector.enabled)
+            {
+                bNebulaMap = customSector->nebulaSector.value;
+            }
 
         }
     }
