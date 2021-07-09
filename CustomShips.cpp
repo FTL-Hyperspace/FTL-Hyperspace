@@ -588,6 +588,11 @@ HOOK_STATIC(ShipGenerator, CreateShip, (const std::string& name, int sector, Shi
                 totalHealth = def.hpCap;
             }
         }
+
+        if (def.forceAutomated.enabled)
+        {
+            ret->bAutomated = def.forceAutomated.value;
+        }
     }
     else if (totalHealth > 20)
     {
