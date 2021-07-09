@@ -38,7 +38,7 @@ HOOK_METHOD(CommandGui, OnLoop, () -> void)
         custom->eventTooltips.currentValue = true;
         custom->showReactor.currentValue = true;
         custom->showAllConnections.currentValue = true;
-        custom->alternateOxygenRendering.currentValue = false;
+        custom->alternateOxygenRendering.currentValue = true;
         custom->showWeaponCooldown.currentValue = true;
         custom->redesignedWeaponTooltips.currentValue = true;
         custom->redesignedDroneTooltips.currentValue = true;
