@@ -23581,7 +23581,7 @@ __declspec(naked) void Room::destructor()
 namespace _func658
 {
 	static void *func = 0;
-	static short argdata[] = {0x1ff, 0x1ff};
+	static short argdata[] = {0x101, 0x1ff};
 	static FunctionDefinition funcObj("Room::GetEmptySlot", typeid(int (Room::*)(bool )), "555756538b54241484d275??8b417083f8ff74??8b593489c5be????????c1ed0589c1d3e68b3b8534af75??", argdata, 2, 1, &func);
 }
 
@@ -23597,7 +23597,6 @@ __declspec(naked) int Room::GetEmptySlot(bool intruder)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// intruder
-		"mov eccx, ecx\n\t	// this\n\t"
 	);
 	__asm__("call %0\n\t" :: "m"(_func658::func));
 	__asm__

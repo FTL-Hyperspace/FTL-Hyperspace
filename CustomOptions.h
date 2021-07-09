@@ -39,6 +39,9 @@ public:
 
     Setting eventTooltips;
 
+    Setting alternateCrewMovement;
+    Setting rightClickDoorOpening;
+
     Setting showWeaponCooldown;
 
     Setting showReactor;

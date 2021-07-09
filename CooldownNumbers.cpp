@@ -43,7 +43,18 @@ HOOK_METHOD(WeaponBox, RenderBox, (bool dragging, bool flashPowerBox) -> void)
         if (pWeapon->blueprint->boostPower.type == 2)
         {
             std::stringstream stream2;
-            stream2 << std::setprecision(3) << pWeapon->blueprint->damage.iDamage + pWeapon->boostLevel * pWeapon->blueprint->boostPower.amount << " " + G_->GetTextLibrary()->GetText("damage_word");
+            if (pWeapon->blueprint->damage.iDamage != 0)
+            {
+                stream2 << std::setprecision(3) << pWeapon->blueprint->damage.iDamage + pWeapon->boostLevel * pWeapon->blueprint->boostPower.amount << " " + G_->GetTextLibrary()->GetText("damage_word");
+            }
+            else if (pWeapon->blueprint->damage.iIonDamage != 0)
+            {
+                stream2 << std::setprecision(3) << pWeapon->blueprint->damage.iIonDamage + pWeapon->boostLevel * pWeapon->blueprint->boostPower.amount << " " + G_->GetTextLibrary()->GetText("damage_word");
+            }
+            else
+            {
+                stream2 << std::setprecision(3) << pWeapon->blueprint->damage.iDamage + pWeapon->boostLevel * pWeapon->blueprint->boostPower.amount << " " + G_->GetTextLibrary()->GetText("damage_word");
+            }
             freetype::easy_printCenter(51, location.x - (hotKey * 98) + 132, location.y - 44, stream2.str());
         }
     }
