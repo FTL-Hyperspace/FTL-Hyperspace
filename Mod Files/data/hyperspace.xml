@@ -817,6 +817,238 @@ Syntax (for crew)->
 
 -->
 
+<!-- Custom Rewards
+
+Allows customization of autoRewards. You can both customize the ranges for scrap and resource rewards at each reward level, as well as add completely new reward types.
+
+resourceRewards allows you to specify a custom range for scrap and for each resource at each reward level.
+For resources, the formula is simply X = randint(min,max)
+For scrap, the formula is X = randint(min,max) / 1000.0 * (baseAmount + sectorLevel * sectorAmount)
+sectorLevel is the current sector number minus 1, then add 1 on EASY or subtract 1 on HARD. sectorLevel can never be negative.
+
+Each reward entry specifies a custom reward type, either overriding a vanilla type or adding a completely new one.
+A reward type can have its own resourceRewards to alter the resource distributions for that reward type.
+You can also specify which items will block the reward (e.g. to prevent a random weapon from overriding a specific weapon given by the same event) as well as which items the reward should generate (e.g. random weapon).
+The actual reward then specifies which resources to include, as well as how many different resources to include (scrap is always included if specified and does not count towards this number).
+The "bonus" entry allows you to generate an additional reward with a random chance.
+You can add additional entries for specific reward levels for finer control.
+
+Example:
+
+<rewards>
+	<resourceRewards> -> Applies by default if not overridden by a specific reward type, any missing entries will use vanilla default
+		<scrap level="LOW" min="500" max="700" baseAmount="15.0" sectorAmount="5.0"/>
+		<scrap level="MED" min="800" max="1300" baseAmount="15.0" sectorAmount="5.0"/>
+		<scrap level="HIGH" min="1300" max="1550" baseAmount="15.0" sectorAmount="5.0"/>
+	</resourceRewards>
+	
+	<reward name="engi_standard">
+		<resourceRewards> -> Applies for this reward type only, any missing entries will use the default resourceRewards
+			<droneparts level="LOW" min="1" max="2"/>
+			<droneparts level="MED" min="2" max="3"/>
+			<droneparts level="HIGH" min="3" max="5"/>
+		</resourceRewards>
+	
+		<reward minResources="2" maxResources="2"> -> Specifies the types of resources to include as well as bonus reward chances. minResources and maxResources limits the number of different resources to include.
+			<resource name="scrap"/>
+			<resource name="fuel" level="LOW"/> -> Overrides the reward level for this specific resource
+			<resource name="missiles" level="LOW"/>
+			<resource name="droneparts" level="LOW"/>
+			<bonus roll="300"> -> Specifies bonus rewards. This functions as a second reward type that will add additional items or resources, overriding existing resources or items.
+				<weapon chance="2"/>
+				<drone chance="5"/> -> Chance of getting this bonus is 5/300.
+				<augment chance="2"/>
+			</bonus>
+		</reward>
+		
+		<reward level="HIGH" minResources="2" maxResources="2"> -> Specifies a different reward to include at a particular level
+			<resource name="scrap"/>
+			<resource name="fuel" level="LOW"/>
+			<resource name="missiles" level="LOW"/>
+			<resource name="droneparts" level="MED"/>
+			<bonus roll="300">
+				<weapon chance="2"/>
+				<drone chance="5"/>
+				<augment chance="2"/>
+			</bonus>
+		</reward>
+	</reward>
+	
+	<reward name="engi_stuff"> -> Included for completeness. Usually a "standard" reward gives variable scrap but low resources, while a "stuff" reward gives low scrap but variable resources.
+		<resourceRewards>
+			<droneparts level="LOW" min="1" max="2"/>
+			<droneparts level="MED" min="2" max="3"/>
+			<droneparts level="HIGH" min="3" max="5"/>
+		</resourceRewards>
+	
+		<reward minResources="2" maxResources="2">
+			<resource name="scrap" level="LOW"/>
+			<resource name="fuel"/>
+			<resource name="missiles"/>
+			<resource name="droneparts"/>
+			<bonus roll="150">
+				<weapon chance="2"/>
+				<drone chance="5"/>
+				<augment chance="2"/>
+			</bonus>
+		</reward>
+	</reward>
+	
+	<reward name="weapon_or_drone">
+		<skipIfWeapon/>  -> If the event already has a weapon then skip this reward.
+		<skipIfDrone/>   -> If the event already has a drone then skip this reward.
+		<skipIfAugment/> -> If the event already has an augment then skip this reward.
+		<reward>
+			<bonus roll="2"> -> Will pick either the "weapon" reward or the "drone" reward with equal probability. No additional resources besides what those reward types generate (which is scrap in vanilla).
+				<weapon chance="1"/>
+				<drone chance="1"/>
+			</bonus>
+		</reward>
+	</reward>
+	
+	<reward name="motherlode"> -> Gives a weapon, drone, augment, and scrap.
+		<weapon/>  -> Free random weapon.
+		<drone/>   -> Free random drone.
+		<augment/> -> Free random augment.
+		<reward>
+			<resource name="scrap"/>
+		</reward>
+	</reward>
+</rewards>
+
+-->
+
+<!-- If you just want to make adjustments to the vanilla values you can uncomment everything inside this tag and make your adjustments -->
+<rewards>
+	<!--
+	<resourceRewards>
+		<scrap level="LOW" min="500" max="700" baseAmount="15.0" sectorAmount="6.0"/>
+		<scrap level="MED" min="800" max="1300" baseAmount="15.0" sectorAmount="6.0"/>
+		<scrap level="HIGH" min="1300" max="1550" baseAmount="15.0" sectorAmount="6.0"/>
+		
+		<fuel level="LOW" min="1" max="2"/>
+		<fuel level="MED" min="2" max="4"/>
+		<fuel level="HIGH" min="3" max="6"/>
+		
+		<missiles level="LOW" min="1" max="2"/>
+		<missiles level="MED" min="2" max="4"/>
+		<missiles level="HIGH" min="4" max="8"/>
+		
+		<droneparts level="LOW" min="1" max="1"/>
+		<droneparts level="MED" min="1" max="1"/>
+		<droneparts level="HIGH" min="1" max="2"/>
+	</resourceRewards>
+	
+	<reward name="standard">
+		<reward minResources="2" maxResources="2">
+			<resource name="scrap"/>
+			<resource name="fuel" level="LOW"/>
+			<resource name="missiles" level="LOW"/>
+			<resource name="droneparts" level="LOW"/>
+			<bonus roll="100">
+				<item chance="3"/>
+			</bonus>
+		</reward>
+	</reward>
+	
+	<reward name="stuff">
+		<reward minResources="2" maxResources="2">
+			<resource name="scrap" level="LOW"/>
+			<resource name="fuel" />
+			<resource name="missiles"/>
+			<resource name="droneparts"/>
+			<bonus roll="100">
+				<item chance="6"/>
+			</bonus>
+		</reward>
+	</reward>
+	
+	<reward name="scrap_only">
+		<reward>
+			<resource name="scrap"/>
+		</reward>
+	</reward>
+	
+	<reward name="fuel">
+		<reward>
+			<resource name="scrap"/>
+			<resource name="fuel"/>
+		</reward>
+	</reward>
+	
+	<reward name="missiles">
+		<reward>
+			<resource name="scrap"/>
+			<resource name="missiles"/>
+		</reward>
+	</reward>
+	
+	<reward name="droneparts">
+		<reward>
+			<resource name="scrap"/>
+			<resource name="droneparts"/>
+		</reward>
+	</reward>
+	
+	<reward name="fuel_only">
+		<reward>
+			<resource name="fuel"/>
+		</reward>
+	</reward>
+	
+	<reward name="missiles_only">
+		<reward>
+			<resource name="missiles"/>
+		</reward>
+	</reward>
+	
+	<reward name="droneparts_only">
+		<reward>
+			<resource name="droneparts"/>
+		</reward>
+	</reward>
+	
+	<reward name="item">
+		<skipIfWeapon/>
+		<skipIfDrone/>
+		<reward>
+			<bonus roll="3">
+				<weapon chance="1"/>
+				<drone chance="1"/>
+				<augment chance="1"/>
+			</bonus>
+		</reward>
+	</reward>
+	
+	<reward name="weapon">
+		<skipIfWeapon/>
+		<skipIfDrone/>
+		<weapon/>
+		<reward>
+			<resource name="scrap"/>
+		</reward>
+	</reward>
+	
+	<reward name="drone">
+		<skipIfWeapon/>
+		<skipIfDrone/>
+		<drone/>
+		<reward>
+			<resource name="scrap"/>
+		</reward>
+	</reward>
+	
+	<reward name="augment">
+		<skipIfWeapon/>
+		<skipIfDrone/>
+		<augment/>
+		<reward>
+			<resource name="scrap"/>
+		</reward>
+	</reward>
+	-->
+</rewards>
+
 <!-- Custom Event Characteristics
 
 For beaconType and unvisitedTooltip/visitedTooltip, you can either use "id" or "text" as an attribute for the text - "id" pulls it from text_misc.xml while "text" uses the attribute's value.

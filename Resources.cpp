@@ -7,6 +7,7 @@
 #include "CustomShipSelect.h"
 #include "CustomCrew.h"
 #include "CustomEvents.h"
+#include "CustomRewards.h"
 #include "EventTooltip.h"
 #include "CooldownNumbers.h"
 #include "CustomAugments.h"
@@ -223,6 +224,12 @@ void Global::InitializeResources(ResourceControl *resources)
             {
                 auto customCrewManager = CustomCrewManager::GetInstance();
                 customCrewManager->ParseCrewNode(node);
+            }
+
+            if (strcmp(node->name(), "rewards") == 0)
+            {
+                auto customRewardsManager = CustomRewardsManager::GetInstance();
+                customRewardsManager->ParseRewardsNode(node);
             }
 
             if (strcmp(node->name(), "events") == 0)
