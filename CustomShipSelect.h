@@ -13,6 +13,7 @@ struct ShipButtonDefinition
     bool typeC;
 
     bool secretCruiser = false;
+    bool noAppend = false;
 
     bool VariantExists(int variant)
     {

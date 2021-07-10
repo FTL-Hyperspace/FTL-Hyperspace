@@ -120,6 +120,14 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
         }
         return true;
     }
+    if (cmdName == "SHIP_CUSTOM_LOCK")
+    {
+        std::string shipName = boost::trim_copy(command.substr(16));
+
+        CustomShipUnlocks::instance->RemoveShipUnlock(shipName);
+
+        return true;
+    }
 
 
     return false;

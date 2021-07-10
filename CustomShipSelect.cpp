@@ -62,6 +62,10 @@ void CustomShipSelect::ParseShipsNode(rapidxml::xml_node<char> *node)
                     {
                         buttonDef.secretCruiser = EventsParser::ParseBoolean(child->first_attribute("secret")->value());
                     }
+                    if (child->first_attribute("noAppend"))
+                    {
+                        buttonDef.noAppend = EventsParser::ParseBoolean(child->first_attribute("noAppend")->value());
+                    }
 
                     if (G_->GetScoreKeeper()->GetShipId(shipName).first == -1)
                     {
@@ -267,9 +271,12 @@ void CustomShipSelect::OnInit(ShipSelect* shipSelect_)
 
             for (const ShipButtonDefinition& i : shipButtonDefs)
             {
-                if (std::find(customShipOrder.begin(), customShipOrder.end(), i.name) == customShipOrder.end())
+                if (!i.noAppend)
                 {
-                    toAdd.push_back(i.name);
+                    if (std::find(customShipOrder.begin(), customShipOrder.end(), i.name) == customShipOrder.end())
+                    {
+                        toAdd.push_back(i.name);
+                    }
                 }
             }
 

@@ -57,6 +57,18 @@ public:
         return customShipUnlocks.find(name) != customShipUnlocks.end();
     }
 
+    void RemoveShipUnlock(const std::string& name)
+    {
+        auto it = std::find(customUnlockedShips.begin(), customUnlockedShips.end(), name);
+
+        if (it != customUnlockedShips.end())
+        {
+            customUnlockedShips.erase(it);
+        }
+
+        G_->GetScoreKeeper()->Save(false);
+    }
+
     void WipeProfile();
 
     int loadVersion = 0;
