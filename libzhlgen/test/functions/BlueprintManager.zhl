@@ -21,14 +21,17 @@ static CrewBlueprint* BlueprintManager::GetCrewBlueprint(CrewBlueprint* bp<ecx>,
 "578d7c240883e4f0ff77fc5589e557565389cb8d4dd083ec4c8b378dbbf4000000c70424????????e8????????83ec04":
 WeaponBlueprint* BlueprintManager::GetWeaponBlueprint(BlueprintManager *this<ecx>, const std::string& name);
 "578d7c240883e4f0ff77fc5589e5575389cb83ec108b078b57040fb64f08895424088d504c":
-static AugmentBlueprint* BlueprintManager::GetRandomAugment(AugmentBlueprint* bp<ecx>, BlueprintManager *bpM);
+static void BlueprintManager::GetRandomAugment(std::vector<AugmentBlueprint*>& vec, BlueprintManager* bpM, int count, bool demo_lock);
 "578d91e00000008d7c240883e4f0ff77fc5589e557565383ec3c8b99e4000000894dcc8b378955d085db0f84????????8955d489df":
 SystemBlueprint* BlueprintManager::GetSystemBlueprint(BlueprintManager *this<ecx>, const std::string& name);
 "578d7c240883e4f0ff77fc5589e557565383ec5c8b07894db4c7410400000000c6410800c745a815000000":
 static void BlueprintManager::GetUnusedCrewName(std::string& strRef<ecx>, BlueprintManager* bpM, bool* isMale_ret);
 "578d7c240883e4f0ff77fc5589e557565389ce8d5dd083ec4c8b178b47048b0d????????8945c08d427c8955bc8945c4":
 static void BlueprintManager::GetCrewName(std::string& strRef<ecx>, BlueprintManager* bpM, bool* isMale_ret);
-
+"578d7c240883e4f0ff77fc5589e5575389cb83ec108b078b57040fb64f08895424088d501c890424894c240c8954240489d9e8????????":
+static void BlueprintManager::GetRandomWeapon(std::vector<WeaponBlueprint*>& vec, BlueprintManager* bpM, int count, bool demo_lock);
+"578d7c240883e4f0ff77fc5589e5575389cb83ec108b078b57040fb64f08895424088d5034890424894c240c":
+static void BlueprintManager::GetRandomDrone(std::vector<DroneBlueprint*>& vec, BlueprintManager* bpM, int count, bool demo_lock);
 
 struct BlueprintManager
 {{
@@ -61,6 +64,35 @@ struct BlueprintManager
 		
 		return bpList;
 	}
+	
+	
+	std::vector<AugmentBlueprint*> GetRandomAugment(int count, bool demo_lock)
+	{
+		std::vector<AugmentBlueprint*> bps;
+		
+		GetRandomAugment(bps, this, count, demo_lock);
+		
+		return bps;
+	}
+	std::vector<WeaponBlueprint*> GetRandomWeapon(int count, bool demo_lock)
+	{
+		std::vector<WeaponBlueprint*> bps;
+		
+		GetRandomWeapon(bps, this, count, demo_lock);
+		
+		return bps;
+	}
+	
+	std::vector<DroneBlueprint*> GetRandomDrone(int count, bool demo_lock)
+	{
+		std::vector<DroneBlueprint*> bps;
+		
+		GetRandomDrone(bps, this, count, demo_lock);
+		
+		return bps;
+	}
+	
+	
 	
 	
 }};

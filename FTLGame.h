@@ -2260,6 +2260,35 @@ struct BlueprintManager
 	}
 	
 	
+	std::vector<AugmentBlueprint*> GetRandomAugment(int count, bool demo_lock)
+	{
+		std::vector<AugmentBlueprint*> bps;
+		
+		GetRandomAugment(bps, this, count, demo_lock);
+		
+		return bps;
+	}
+	std::vector<WeaponBlueprint*> GetRandomWeapon(int count, bool demo_lock)
+	{
+		std::vector<WeaponBlueprint*> bps;
+		
+		GetRandomWeapon(bps, this, count, demo_lock);
+		
+		return bps;
+	}
+	
+	std::vector<DroneBlueprint*> GetRandomDrone(int count, bool demo_lock)
+	{
+		std::vector<DroneBlueprint*> bps;
+		
+		GetRandomDrone(bps, this, count, demo_lock);
+		
+		return bps;
+	}
+	
+	
+	
+	
 
 	LIBZHL_API static std::vector<std::string> &__stdcall GetBlueprintList(std::vector<std::string> &vec, BlueprintManager *bpM, const std::string &str);
 	LIBZHL_API ShipBlueprint *GetShipBlueprint(const std::string &name, int sector);
@@ -2272,10 +2301,12 @@ struct BlueprintManager
 	LIBZHL_API static EffectsBlueprint *__stdcall ProcessEffectsBlueprint(EffectsBlueprint *bp, BlueprintManager *bpM, rapidxml::xml_node<char> *node);
 	LIBZHL_API static CrewBlueprint *__stdcall GetCrewBlueprint(CrewBlueprint *bp, BlueprintManager *bpM, const std::string &name);
 	LIBZHL_API WeaponBlueprint *GetWeaponBlueprint(const std::string &name);
-	LIBZHL_API static AugmentBlueprint *__stdcall GetRandomAugment(AugmentBlueprint *bp, BlueprintManager *bpM);
+	LIBZHL_API static void __stdcall GetRandomAugment(std::vector<AugmentBlueprint*> &vec, BlueprintManager *bpM, int count, bool demo_lock);
 	LIBZHL_API SystemBlueprint *GetSystemBlueprint(const std::string &name);
 	LIBZHL_API static void __stdcall GetUnusedCrewName(std::string &strRef, BlueprintManager *bpM, bool *isMale_ret);
 	LIBZHL_API static void __stdcall GetCrewName(std::string &strRef, BlueprintManager *bpM, bool *isMale_ret);
+	LIBZHL_API static void __stdcall GetRandomWeapon(std::vector<WeaponBlueprint*> &vec, BlueprintManager *bpM, int count, bool demo_lock);
+	LIBZHL_API static void __stdcall GetRandomDrone(std::vector<DroneBlueprint*> &vec, BlueprintManager *bpM, int count, bool demo_lock);
 	
 	int rarityTotal;
 	std::map<std::string, ShipBlueprint> shipBlueprints;
