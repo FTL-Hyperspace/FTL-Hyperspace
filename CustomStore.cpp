@@ -181,6 +181,13 @@ static StoreCategory ParseCategoryNode(rapidxml::xml_node<char>* node)
         {
             def.allowDuplicates = true;
         }
+        if (name == "guaranteedSystems")
+        {
+            for (auto systemNode = cNode->first_node(); systemNode; systemNode = systemNode->next_sibling())
+            {
+                def.guaranteedSystems.push_back(systemNode->name());
+            }
+        }
     }
 
     return def;
@@ -598,6 +605,7 @@ std::vector<StoreBox*> StoreComplete::CreateCustomStoreBoxes(const StoreCategory
                 }
                 else
                 {
+
                     potentialList.erase(std::remove_if(potentialList.begin(), potentialList.end(),
                                    [&ship](const std::string& o) { int sysId = ShipSystem::NameToSystemId(o);
                                                                              return ship->HasSystem(sysId) ||  // Remove if the ship has the system
@@ -614,7 +622,17 @@ std::vector<StoreBox*> StoreComplete::CreateCustomStoreBoxes(const StoreCategory
 
                     if (!potentialList.empty())
                     {
-                        bp = G_->GetBlueprints()->GetSystemBlueprint(potentialList[random32() % potentialList.size()]);
+                        std::string pickedBlueprint = potentialList[random32() % potentialList.size()];
+
+                        for (auto i : category.guaranteedSystems)
+                        {
+                            if (std::find(potentialList.begin(), potentialList.end(), i) != potentialList.end())
+                            {
+                                pickedBlueprint = i;
+                            }
+                        }
+
+                        bp = G_->GetBlueprints()->GetSystemBlueprint(pickedBlueprint);
                     }
                 }
 

@@ -77,7 +77,7 @@ struct StoreCategory
     std::vector<StoreItem> items;
 
     CategoryType categoryType;
-    std::vector<SystemId> allowedSystems; // contains all by default
+    std::vector<std::string> guaranteedSystems;
 
     std::string customTitle;
 
