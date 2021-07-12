@@ -36,8 +36,6 @@ struct ResourceRewards
     std::unordered_map<int,CustomResourceReward> fuel;
     std::unordered_map<int,CustomResourceReward> missiles;
     std::unordered_map<int,CustomResourceReward> drones;
-
-    bool GetReward(ResourceEvent &resourceEvent, const std::string &type, int level, int worldLevel);
 };
 
 struct CustomReward
@@ -99,6 +97,49 @@ struct CustomRewardType
     bool augment = false;
 
     std::string GetReward(ResourceEvent &resourceEvent, int level, int worldLevel);
+
+    bool GetCustomScrapReward(CustomScrapReward& ret, int level)
+    {
+        auto it = rewards.scrap.find(level);
+        if (it != rewards.scrap.end())
+        {
+            ret = it->second;
+            return true;
+        }
+        return false;
+    }
+
+    bool GetCustomResourceReward(CustomResourceReward& ret, const std::string& type, int level)
+    {
+        if (type == "fuel")
+        {
+            auto it = rewards.fuel.find(level);
+            if (it != rewards.fuel.end())
+            {
+                ret = it->second;
+                return true;
+            }
+        }
+        else if (type == "missiles")
+        {
+            auto it = rewards.missiles.find(level);
+            if (it != rewards.missiles.end())
+            {
+                ret = it->second;
+                return true;
+            }
+        }
+        else if (type == "droneparts")
+        {
+            auto it = rewards.drones.find(level);
+            if (it != rewards.drones.end())
+            {
+                ret = it->second;
+                return true;
+            }
+        }
+        return false;
+    }
 };
 
 class CustomRewardsManager
@@ -131,6 +172,11 @@ public:
     ResourceRewards defaultRewards;
 
     std::unordered_map<std::string,CustomRewardType> rewards;
+
+    CustomRewardType* GenerateReward_LocalType = nullptr;
+
+    bool GetCustomScrapReward(CustomScrapReward& ret, int level);
+    bool GetCustomResourceReward(CustomResourceReward& ret, const std::string& type, int level);
 
     void ParseRewardsNode(rapidxml::xml_node<char> *node);
     void ParseResourceRewardNode(rapidxml::xml_node<char> *node, ResourceRewards& rewards);

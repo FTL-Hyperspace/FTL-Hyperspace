@@ -260,41 +260,56 @@ void CustomRewardsManager::ParseRewardGenerator(rapidxml::xml_node<char> *node, 
     }
 }
 
-bool ResourceRewards::GetReward(ResourceEvent &resourceEvent, const std::string &type, int level, int worldLevel)
+bool CustomRewardsManager::GetCustomScrapReward(CustomScrapReward& ret, int level)
 {
-    if (type == "scrap")
+    if (GenerateReward_LocalType != nullptr)
     {
-        auto it = scrap.find(level);
-        if (it != scrap.end())
-        {
-            resourceEvent.scrap = it->second.GetReward(worldLevel);
-            return true;
-        }
+        bool success = GenerateReward_LocalType->GetCustomScrapReward(ret, level);
+        if (success) return success;
     }
-    else if (type == "fuel")
+
+    auto it = defaultRewards.scrap.find(level);
+    if (it != defaultRewards.scrap.end())
     {
-        auto it = fuel.find(level);
-        if (it != fuel.end())
+        ret = it->second;
+        return true;
+    }
+
+    return false;
+}
+
+bool CustomRewardsManager::GetCustomResourceReward(CustomResourceReward& ret, const std::string& type, int level)
+{
+    if (GenerateReward_LocalType != nullptr)
+    {
+        bool success = GenerateReward_LocalType->GetCustomResourceReward(ret, type, level);
+        if (success) return success;
+    }
+
+    if (type == "fuel")
+    {
+        auto it = defaultRewards.fuel.find(level);
+        if (it != defaultRewards.fuel.end())
         {
-            resourceEvent.fuel = it->second.GetReward();
+            ret = it->second;
             return true;
         }
     }
     else if (type == "missiles")
     {
-        auto it = missiles.find(level);
-        if (it != missiles.end())
+        auto it = defaultRewards.missiles.find(level);
+        if (it != defaultRewards.missiles.end())
         {
-            resourceEvent.missiles = it->second.GetReward();
+            ret = it->second;
             return true;
         }
     }
     else if (type == "droneparts")
     {
-        auto it = drones.find(level);
-        if (it != drones.end())
+        auto it = defaultRewards.drones.find(level);
+        if (it != defaultRewards.drones.end())
         {
-            resourceEvent.drones = it->second.GetReward();
+            ret = it->second;
             return true;
         }
     }
@@ -320,13 +335,11 @@ std::string CustomRewardGenerator::GetReward(ResourceEvent &resourceEvent, int l
     {
         if (reward->second.overrideLevel != -1)
         {
-            hasCustom = resourceRewards.GetReward(resourceEvent, "scrap", reward->second.overrideLevel, worldLevel);
-            if (!hasCustom) GetValue(resourceEvent, "scrap", reward->second.overrideLevel, worldLevel);
+            GetValue(resourceEvent, "scrap", reward->second.overrideLevel, worldLevel);
         }
         else
         {
-            hasCustom = resourceRewards.GetReward(resourceEvent, "scrap", level, worldLevel);
-            if (!hasCustom) GetValue(resourceEvent, "scrap", level, worldLevel);
+            GetValue(resourceEvent, "scrap", level, worldLevel);
         }
     }
 
@@ -344,13 +357,11 @@ std::string CustomRewardGenerator::GetReward(ResourceEvent &resourceEvent, int l
         {
             if (reward->second.overrideLevel != -1)
             {
-                hasCustom = resourceRewards.GetReward(resourceEvent, resource, reward->second.overrideLevel, worldLevel);
-                if (!hasCustom) GetValue(resourceEvent, resource, reward->second.overrideLevel, worldLevel);
+                GetValue(resourceEvent, resource, reward->second.overrideLevel, worldLevel);
             }
             else
             {
-                hasCustom = resourceRewards.GetReward(resourceEvent, resource, level, worldLevel);
-                if (!hasCustom) GetValue(resourceEvent, resource, level, worldLevel);
+                GetValue(resourceEvent, resource, level, worldLevel);
             }
         }
     }
@@ -411,10 +422,13 @@ HOOK_GLOBAL(GenerateReward, (ResourceEvent &resourceEvent, RewardDesc &reward, i
     if (reward.level == -1) return;
 
     auto customRewards = CustomRewardsManager::GetInstance();
+    if (customRewards == nullptr) return super(resourceEvent, reward, worldLevel);
 
     auto customReward = customRewards->rewards.find(reward.reward);
     if (customReward != customRewards->rewards.end())
     {
+        customRewards->GenerateReward_LocalType = &(customReward->second);
+
         RewardDesc tempReward = reward;
 
         int rewardWorldLevel = worldLevel;
@@ -438,6 +452,8 @@ HOOK_GLOBAL(GenerateReward, (ResourceEvent &resourceEvent, RewardDesc &reward, i
             tempReward.reward = bonus;
             GenerateReward(resourceEvent, tempReward, worldLevel);
         }
+
+        customRewards->GenerateReward_LocalType = nullptr;
     }
     else
     {
@@ -447,9 +463,39 @@ HOOK_GLOBAL(GenerateReward, (ResourceEvent &resourceEvent, RewardDesc &reward, i
 
 HOOK_GLOBAL(GetValue, (ResourceEvent &resourceEvent, const std::string &type, int level, int worldLevel) -> void)
 {
-    bool hasCustom = CustomRewardsManager::GetInstance()->defaultRewards.GetReward(resourceEvent, type, level, worldLevel);
-    if (!hasCustom)
+    CustomRewardsManager* customRewards = CustomRewardsManager::GetInstance();
+    if (customRewards == nullptr) return super(resourceEvent, type, level, worldLevel);
+
+    CustomScrapReward customScrap;
+    CustomResourceReward customResource;
+
+    bool foundCustom = false;
+
+    if (type == "scrap")
     {
-        super(resourceEvent, type, level, worldLevel);
+        foundCustom = customRewards->GetCustomScrapReward(customScrap, level);
+        if (!foundCustom) return super(resourceEvent, type, level, worldLevel);
+        resourceEvent.scrap = customScrap.GetReward(worldLevel);
+        return;
     }
+    else
+    {
+        foundCustom = customRewards->GetCustomResourceReward(customResource, type, level);
+        if (!foundCustom) return super(resourceEvent, type, level, worldLevel);
+        if (type == "fuel")
+        {
+            resourceEvent.fuel = customResource.GetReward();
+        }
+        else if (type == "missiles")
+        {
+            resourceEvent.missiles = customResource.GetReward();
+        }
+        else if (type == "droneparts")
+        {
+            resourceEvent.drones = customResource.GetReward();
+        }
+        return;
+    }
+
+    super(resourceEvent, type, level, worldLevel);
 }
