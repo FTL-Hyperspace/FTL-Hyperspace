@@ -3,17 +3,24 @@
 
 #include <boost/algorithm/string.hpp>
 
-struct CustomScrapReward
+struct CustomScrapScaling
 {
-    int minimum = 0;
-    int maximum = 0;
     float baseAmount = 15.0;
     float sectorAmount = 6.0;
 
-    int GetReward(int worldLevel)
+    int difficultyAmount = 0;
+
+    int GetReward(int worldLevel, float resourceAmount)
     {
-        float randomScrap = (float)(minimum + random32()%(maximum-minimum+1));
-        return (int)(randomScrap / 1000.0 * (sectorAmount*worldLevel + baseAmount));
+        worldLevel = std::max(0, worldLevel + difficultyAmount);
+
+        return (int)(resourceAmount / 1000.0 * (sectorAmount*worldLevel + baseAmount));
+    }
+
+    void SetDefault()
+    {
+        baseAmount = 15.0;
+        sectorAmount = 6.0;
     }
 };
 
@@ -26,16 +33,94 @@ struct CustomResourceReward
     {
         return minimum + random32()%(maximum-minimum+1);
     }
+
+    void SetDefault(const std::string& type, int level)
+    {
+        if (type == "scrap")
+        {
+            switch(level)
+            {
+            case 0:
+                minimum = 500;
+                maximum = 700;
+                break;
+            case 1:
+                minimum = 800;
+                maximum = 1300;
+                break;
+            case 2:
+                minimum = 1300;
+                maximum = 1550;
+                break;
+            }
+        }
+        else if (type == "fuel")
+        {
+            switch(level)
+            {
+            case 0:
+                minimum = 1;
+                maximum = 2;
+                break;
+            case 1:
+                minimum = 2;
+                maximum = 4;
+                break;
+            case 2:
+                minimum = 3;
+                maximum = 6;
+                break;
+            }
+        }
+        else if (type == "missiles")
+        {
+            switch(level)
+            {
+            case 0:
+                minimum = 1;
+                maximum = 2;
+                break;
+            case 1:
+                minimum = 2;
+                maximum = 4;
+                break;
+            case 2:
+                minimum = 4;
+                maximum = 8;
+                break;
+            }
+        }
+        else if (type == "droneparts")
+        {
+            switch(level)
+            {
+            case 0:
+                minimum = 1;
+                maximum = 1;
+                break;
+            case 1:
+                minimum = 1;
+                maximum = 1;
+                break;
+            case 2:
+                minimum = 1;
+                maximum = 2;
+                break;
+            }
+        }
+    }
 };
 
 struct ResourceRewards
 {
     // Defines scrap and resource ranges for each reward level
 
-    std::unordered_map<int,CustomScrapReward> scrap;
+    std::unordered_map<int,CustomResourceReward> scrap;
     std::unordered_map<int,CustomResourceReward> fuel;
     std::unordered_map<int,CustomResourceReward> missiles;
     std::unordered_map<int,CustomResourceReward> drones;
+
+    std::unordered_map<int,CustomScrapScaling> scrapScaling;
 };
 
 struct CustomReward
@@ -98,12 +183,15 @@ struct CustomRewardType
 
     std::string GetReward(ResourceEvent &resourceEvent, int level, int worldLevel);
 
-    bool GetCustomScrapReward(CustomScrapReward& ret, int level)
+    bool GetCustomScrapScaling(CustomScrapScaling& ret, const std::string& type, int level)
     {
-        auto it = rewards.scrap.find(level);
-        if (it != rewards.scrap.end())
+        auto it = rewards.scrapScaling.find(level);
+        if (it != rewards.scrapScaling.end())
         {
             ret = it->second;
+
+            ret.difficultyAmount += (1 - *G_->difficulty);
+
             return true;
         }
         return false;
@@ -111,7 +199,16 @@ struct CustomRewardType
 
     bool GetCustomResourceReward(CustomResourceReward& ret, const std::string& type, int level)
     {
-        if (type == "fuel")
+        if (type == "scrap")
+        {
+            auto it = rewards.scrap.find(level);
+            if (it != rewards.scrap.end())
+            {
+                ret = it->second;
+                return true;
+            }
+        }
+        else if (type == "fuel")
         {
             auto it = rewards.fuel.find(level);
             if (it != rewards.fuel.end())
@@ -175,11 +272,13 @@ public:
 
     CustomRewardType* GenerateReward_LocalType = nullptr;
 
-    bool GetCustomScrapReward(CustomScrapReward& ret, int level);
+    bool GetCustomScrapScaling(CustomScrapScaling& ret, const std::string& type, int level);
     bool GetCustomResourceReward(CustomResourceReward& ret, const std::string& type, int level);
 
     void ParseRewardsNode(rapidxml::xml_node<char> *node);
-    void ParseResourceRewardNode(rapidxml::xml_node<char> *node, ResourceRewards& rewards);
+    void ParseResourceRewardsNode(rapidxml::xml_node<char> *node, ResourceRewards& rewards);
+    bool ParseScrapScaling(rapidxml::xml_node<char> *node, CustomScrapScaling& scaling);
+    bool ParseResourceNode(rapidxml::xml_node<char> *node, CustomResourceReward& reward);
     void ParseBonusRewardNode(rapidxml::xml_node<char> *node, CustomBonusReward& rewards);
     void ParseRewardGenerator(rapidxml::xml_node<char> *node, CustomRewardType& rewards);
 
