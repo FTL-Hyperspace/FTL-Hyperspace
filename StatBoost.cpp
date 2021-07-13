@@ -185,24 +185,26 @@ StatBoostDefinition StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<char
             {
                 for (auto systemChild = child->first_node(); systemChild; systemChild = systemChild->next_sibling())
                 {
-                    if (systemChild->name() == "all")
+                    std::string systemChildName = systemChild->name();
+
+                    if (systemChildName == "all")
                     {
                         for (int i = 0; i < 15; i++)
                         {
                             def.systemPowerScaling.push_back(i);
                         }
                     }
-                    else if (systemChild->name() == "reactorMax")
+                    else if (systemChildName == "reactorMax")
                     {
                         def.systemPowerScaling.push_back(16);
                     }
-                    else if (systemChild->name() == "reactorCurrent")
+                    else if (systemChildName == "reactorCurrent")
                     {
                         def.systemPowerScaling.push_back(17);
                     }
                     else
                     {
-                        def.systemPowerScaling.push_back(ShipSystem::NameToSystemId(systemChild->name()));
+                        def.systemPowerScaling.push_back(ShipSystem::NameToSystemId(systemChildName));
                     }
                 }
             }
@@ -210,15 +212,17 @@ StatBoostDefinition StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<char
             {
                 for (auto systemChild = child->first_node(); systemChild; systemChild = systemChild->next_sibling())
                 {
+                    std::string systemChildName = systemChild->name();
+
                     bool noSys = false;
                     bool hackedSys = false;
 
-                    if (systemChild->name() == "noSys")
+                    if (systemChildName == "noSys")
                     {
                         noSys = true;
                         def.powerScalingNoSys = boost::lexical_cast<float>(systemChild->value());
                     }
-                    else if (systemChild->name() == "hackedSys")
+                    else if (systemChildName == "hackedSys")
                     {
                         hackedSys = true;
                         def.powerScalingHackedSys = boost::lexical_cast<float>(systemChild->value());
