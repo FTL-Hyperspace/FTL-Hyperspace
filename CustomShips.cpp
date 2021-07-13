@@ -18,7 +18,7 @@ void ShipManager_Extend::Initialize(bool restarting)
         {
             for (auto i : def.hiddenAugs)
             {
-                G_->GetShipInfo()->augList["HIDDEN " + i.first] = i.second;
+                G_->GetShipInfo(orig->iShipId)->augList["HIDDEN " + i.first] = i.second;
             }
         }
 
