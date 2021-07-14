@@ -19,8 +19,8 @@ static ItemPrice ParsePriceNode(rapidxml::xml_node<char>* node)
         {
             if (cNode->first_attribute("min") && cNode->first_attribute("max"))
             {
-                def.minMaxPrice.first = boost::lexical_cast<int>(cNode->first_attribute("min")->value());
-                def.minMaxPrice.second = boost::lexical_cast<int>(cNode->first_attribute("max")->value());
+                def.minMaxPrice.first = boost::lexical_cast<float>(cNode->first_attribute("min")->value());
+                def.minMaxPrice.second = boost::lexical_cast<float>(cNode->first_attribute("max")->value());
                 def.useMinMax = true;
 
                 if (def.minMaxPrice.first > def.minMaxPrice.second)
@@ -292,7 +292,7 @@ static int GetItemPricing(const ItemPrice& price, int defaultCost, int worldLeve
         }
         else
         {
-            finalPrice = random32() % (price.minMaxPrice.second - price.minMaxPrice.first + 1) + price.minMaxPrice.first;
+            finalPrice = random32() % ((int)price.minMaxPrice.second - (int)price.minMaxPrice.first + 1) + (int)price.minMaxPrice.first;
         }
     }
 
