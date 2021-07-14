@@ -43,6 +43,14 @@ std::vector<unsigned int> Global::delayedQuestSeeds = std::vector<unsigned int>(
 int Global::delayedQuestIndex = 0;
 std::vector<unsigned int> Global::lastDelayedQuestSeeds = std::vector<unsigned int>();
 
+std::vector<std::vector<GL_Color*>> Global::colorPointers = std::vector<std::vector<GL_Color*>>();
+std::vector<std::vector<DWORD>> Global::colorOffsets
+{
+    { 0x004C84E0 }, // detailsBarOn
+    { 0x004C84F0 }, // detailsBarOff
+};
+
+
 unsigned int Global::bossFleetSeed = 0;
 
 bool loadingGame = false;
@@ -120,6 +128,19 @@ void Global::Initialize()
     superShieldColor = (GL_Color*)((__baseAddress + __superShieldColorOffset));
     //defaultSuperShieldColor = *superShieldColor;
     //*superShieldColor = GL_Color(1084.0, 0.0, 310.0, 1.0);
+
+    for (auto vec : colorOffsets)
+    {
+        std::vector<GL_Color*> newVec = std::vector<GL_Color*>();
+
+        for (auto offset : vec)
+        {
+            newVec.push_back((GL_Color*)(__baseAddress + offset));
+        }
+
+        colorPointers.push_back(newVec);
+    }
+
     logFile = fopen("FTL_HS.log", "w");
 
 

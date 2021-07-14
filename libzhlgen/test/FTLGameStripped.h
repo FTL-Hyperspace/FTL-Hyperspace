@@ -1869,29 +1869,29 @@ struct TextButton0
   Point baseImageOffset;
   GL_Primitive *basePrimitive;
   bool colorsSet;
-  char gap65[3];
+  _BYTE gap65[3];
   GL_Color colors[3];
   GL_Color textColor;
   Point buttonSize;
   int cornerInset;
   bool autoWidth;
-  char gapB5[3];
+  _BYTE gapB5[3];
   int autoWidthMargin;
   int autoWidthMin;
   bool autoRightAlign;
-  char gapC1[3];
+  _BYTE gapC1[3];
   TextString label;
   int font;
   int lineHeight;
   int textYOffset;
-  char autoShrink;
-  char ready;
 };
 
 /* 236 */
 struct FTLButton
 {
   TextButton0 _base;
+  bool autoShrinkText;
+  bool ready;
   float ftl_blink;
   float ftl_blink_dx;
   float pullout;

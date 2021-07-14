@@ -233,6 +233,12 @@
 		<Unit filename="CustomBoss.h">
 			<Option virtualFolder="Core/Boss/" />
 		</Unit>
+		<Unit filename="CustomColors.cpp">
+			<Option virtualFolder="Content/Misc/" />
+		</Unit>
+		<Unit filename="CustomColors.h">
+			<Option virtualFolder="Content/Misc/" />
+		</Unit>
 		<Unit filename="CustomCommandGui.cpp">
 			<Option virtualFolder="Core/CommandGui/" />
 		</Unit>
@@ -511,12 +517,6 @@
 		</Unit>
 		<Unit filename="TemporalSystem.h">
 			<Option virtualFolder="Content/Systems/" />
-		</Unit>
-		<Unit filename="TextButtonColor.cpp">
-			<Option virtualFolder="Content/Misc/" />
-		</Unit>
-		<Unit filename="TextButtonColor.h">
-			<Option virtualFolder="Content/Misc/" />
 		</Unit>
 		<Unit filename="ToggleValue.h">
 			<Option virtualFolder="Core/" />

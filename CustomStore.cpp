@@ -1195,65 +1195,75 @@ void StoreComplete::MouseClick(int x, int y)
     {
         orig->confirmDialog.MouseClick(x, y);
 
+        if (orig->confirmDialog.noButton.bActive && orig->confirmDialog.noButton.bHover) // Not sure why I need this, but it doesn't close on no otherwise
+        {
+            orig->confirmDialog.result = false;
+            CSurface::GL_DestroyPrimitive(orig->confirmDialog.window);
+            orig->confirmDialog.window = nullptr;
+            orig->confirmDialog.bOpen = false;
+        }
+
         if (!orig->confirmDialog.bOpen)
         {
             orig->confirmBuy->Confirm(orig->confirmDialog.result);
             orig->confirmBuy = nullptr;
         }
     }
-
-    for (auto i : resourceBoxes)
+    else
     {
-        i->MouseClick(x, y);
-    }
-
-    for (auto i : repairBoxes)
-    {
-        i->MouseClick(x, y);
-    }
-
-    if (pages.size() > 0)
-    {
-        for (auto sec : pages[currentPage].sections)
+        for (auto i : resourceBoxes)
         {
-            if (sec.storeBoxes.size() > 0)
+            i->MouseClick(x, y);
+        }
+
+        for (auto i : repairBoxes)
+        {
+            i->MouseClick(x, y);
+        }
+
+        if (pages.size() > 0)
+        {
+            for (auto sec : pages[currentPage].sections)
             {
-                for (auto i : sec.storeBoxes[sec.currentSection])
+                if (sec.storeBoxes.size() > 0)
                 {
-                    i->orig->MouseClick(x, y);
-
-
-                    if (i->orig->RequiresConfirm())
+                    for (auto i : sec.storeBoxes[sec.currentSection])
                     {
-                        orig->confirmBuy = i->orig;
+                        i->orig->MouseClick(x, y);
 
-                        TextString yes;
-                        yes.data = "confirm_yes";
-                        yes.isLiteral = false;
-                        TextString no;
-                        no.data = "confirm_no";
-                        no.isLiteral = false;
 
-                        orig->confirmDialog.SetText(i->orig->GetConfirmText(), 300, true, yes, no);
-                        orig->confirmDialog.Open();
+                        if (i->orig->RequiresConfirm())
+                        {
+                            orig->confirmBuy = i->orig;
+
+                            TextString yes;
+                            yes.data = "confirm_yes";
+                            yes.isLiteral = false;
+                            TextString no;
+                            no.data = "confirm_no";
+                            no.isLiteral = false;
+
+                            orig->confirmDialog.SetText(i->orig->GetConfirmText(), 300, true, yes, no);
+                            orig->confirmDialog.Open();
+                        }
                     }
                 }
             }
         }
-    }
 
-    if (leftButton->bActive && leftButton->bHover)
-    {
-        PreviousPage();
-    }
-    if (rightButton->bActive && rightButton->bHover)
-    {
-        NextPage();
-    }
+        if (leftButton->bActive && leftButton->bHover)
+        {
+            PreviousPage();
+        }
+        if (rightButton->bActive && rightButton->bHover)
+        {
+            NextPage();
+        }
 
-    if (g_purchasedStoreItem)
-    {
-        itemsPurchased++;
+        if (g_purchasedStoreItem)
+        {
+            itemsPurchased++;
+        }
     }
 }
 
