@@ -821,10 +821,13 @@ Syntax (for crew)->
 
 Allows customization of autoRewards. You can both customize the ranges for scrap and resource rewards at each reward level, as well as add completely new reward types.
 
+rewardScaling allows specifying scaling parameters for scrap: baseAmount, sectorAmount, and difficultyAmount.
 resourceRewards allows you to specify a custom range for scrap and for each resource at each reward level.
+You can also include scrap scaling for a particular reward level in resourceRewards and override what's in rewardScaling if you wish.
+
 For resources, the formula is simply X = randint(min,max)
-For scrap, the formula is X = randint(min,max) / 1000.0 * (baseAmount + sectorLevel * sectorAmount)
-sectorLevel is the current sector number minus 1, then add 1 on EASY or subtract 1 on HARD. sectorLevel can never be negative.
+For scrap, the formula is X = randint(min,max) / 1000.0 * (baseAmount + max(0, worldLevel+difficultyAmount) * sectorAmount)
+worldLevel is the current sector number minus 1; difficultyAmount is normally +1 on EASY, 0 on NORMAL, and -1 on HARD.
 
 Each reward entry specifies a custom reward type, either overriding a vanilla type or adding a completely new one.
 A reward type can have its own resourceRewards to alter the resource distributions for that reward type.
@@ -833,9 +836,46 @@ The actual reward then specifies which resources to include, as well as how many
 The "bonus" entry allows you to generate an additional reward with a random chance.
 You can add additional entries for specific reward levels for finer control.
 
+Priority order for scrap/resource ranges:
+
+1. resourceRewards of the autoReward type, for the specified resource and reward level.
+2. Default resourceRewards, for the specified resource and reward level.
+3. Vanilla range for the specified resource and reward level.
+
+Priority order for scrap scaling:
+
+1. resourceRewards of the autoReward type, for the specified reward level. difficultyAmount is automatically adjusted.
+2. rewardScaling of the autoReward type for the current difficulty.
+3. rewardScaling of the autoReward type for NORMAL difficulty. difficultyAmount is automatically adjusted.
+4. Default resourceRewards, for the specified reward level. difficultyAmount is automatically adjusted.
+5. Default rewardScaling for the current difficulty.
+6. Default rewardScaling for NORMAL difficulty. difficultyAmount is automatically adjusted.
+7. Vanilla scaling.
+
 Example:
 
 <rewards>
+	<rewardScaling> -> Used for scrap scaling that does not depend on the reward level
+		<scrap baseAmount="15.0" sectorAmount="6.0"/>
+	</rewardScaling>
+	
+	<rewardScaling difficulty="0"> -> Override for specific difficulty level (0 = easy, 1 = normal, 2 = hard). Default when not specified is normal.
+		<scrap baseAmount="15.0" sectorAmount="6.0" difficultyAmount="1"/> -> Same behaviour as vanilla easy; acts like you are 1 sector ahead compared to normal.
+	</rewardScaling>
+	
+	<rewardScaling difficulty="2"> -> Note that for reward scaling at a specified difficulty, the automatic difficulty adjustment is cancelled unless difficultyAmount is explicitly specified in the child tags.
+		<scrap sectorAmount="2.0"> -> Example of piecewise specification (specify the multiplier per sector). sectorAmount will be used to extrapolate if necessary (e.g. for infinite mode).
+			<amount>15.0</amount> -> Hard sector 1
+			<amount>15.0</amount> -> Hard sector 2
+			<amount>20.0</amount> -> Hard sector 3
+			<amount>24.5</amount> -> Hard sector 4
+			<amount>28.5</amount> -> Hard sector 5
+			<amount>32.0</amount> -> Hard sector 6
+			<amount>35.0</amount> -> Hard sector 7
+			<amount>37.5</amount> -> Hard sector 8
+		</scrap>
+	</rewardScaling>
+
 	<resourceRewards> -> Applies by default if not overridden by a specific reward type, any missing entries will use vanilla default
 		<scrap level="LOW" min="500" max="700" baseAmount="15.0" sectorAmount="5.0"/>
 		<scrap level="MED" min="800" max="1300" baseAmount="15.0" sectorAmount="5.0"/>
@@ -907,6 +947,10 @@ Example:
 	</reward>
 	
 	<reward name="motherlode"> -> Gives a weapon, drone, augment, and scrap.
+		<rewardScaling> -> rewardScaling can also be given to a specific reward type to override the global scaling
+			<scrap baseAmount="20.0" sectorAmount="8.0"/>
+		</rewardScaling>
+	
 		<weapon/>  -> Free random weapon.
 		<drone/>   -> Free random drone.
 		<augment/> -> Free random augment.
@@ -921,10 +965,14 @@ Example:
 <!-- If you just want to make adjustments to the vanilla values you can uncomment everything inside this tag and make your adjustments -->
 <rewards>
 	<!--
+	<rewardScaling>
+		<scrap baseAmount="15.0" sectorAmount="6.0"/>
+	</rewardScaling>
+	
 	<resourceRewards>
-		<scrap level="LOW" min="500" max="700" baseAmount="15.0" sectorAmount="6.0"/>
-		<scrap level="MED" min="800" max="1300" baseAmount="15.0" sectorAmount="6.0"/>
-		<scrap level="HIGH" min="1300" max="1550" baseAmount="15.0" sectorAmount="6.0"/>
+		<scrap level="LOW" min="500" max="700"/>
+		<scrap level="MED" min="800" max="1300"/>
+		<scrap level="HIGH" min="1300" max="1550"/>
 		
 		<fuel level="LOW" min="1" max="2"/>
 		<fuel level="MED" min="2" max="4"/>

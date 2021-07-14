@@ -10,17 +10,32 @@ struct CustomScrapScaling
 
     int difficultyAmount = 0;
 
+    std::vector<float> amounts;
+
     int GetReward(int worldLevel, float resourceAmount)
     {
         worldLevel = std::max(0, worldLevel + difficultyAmount);
 
-        return (int)(resourceAmount / 1000.0 * (sectorAmount*worldLevel + baseAmount));
+        if (amounts.empty()) // Not piecewise
+        {
+            return (int)(resourceAmount / 1000.0 * (sectorAmount*worldLevel + baseAmount));
+        }
+        else if (worldLevel >= amounts.size()) // Extrapolate
+        {
+            return (int)(resourceAmount / 1000.0 * (amounts.back() + sectorAmount*(worldLevel-amounts.size()+1)));
+        }
+        else // Piecewise
+        {
+            return (int)(resourceAmount / 1000.0 * amounts[worldLevel]);
+        }
     }
 
     void SetDefault()
     {
         baseAmount = 15.0;
         sectorAmount = 6.0;
+        difficultyAmount = 1 - *G_->difficulty;
+        amounts.clear();
     }
 };
 
@@ -111,6 +126,11 @@ struct CustomResourceReward
     }
 };
 
+struct RewardScaling
+{
+    CustomScrapScaling scrap;
+};
+
 struct ResourceRewards
 {
     // Defines scrap and resource ranges for each reward level
@@ -168,6 +188,7 @@ struct CustomRewardType
     // Defines the entirety of a reward type
 
     ResourceRewards rewards;
+    std::unordered_map<int,RewardScaling> scaling;
 
     CustomRewardGenerator defaultRewardGenerator;
 
@@ -189,11 +210,25 @@ struct CustomRewardType
         if (it != rewards.scrapScaling.end())
         {
             ret = it->second;
-
             ret.difficultyAmount += (1 - *G_->difficulty);
-
             return true;
         }
+
+        auto scaling_it = scaling.find(*G_->difficulty);
+        if (scaling_it != scaling.end())
+        {
+            ret = scaling_it->second.scrap;
+            return true;
+        }
+
+        scaling_it = scaling.find(1);
+        if (scaling_it != scaling.end())
+        {
+            ret = scaling_it->second.scrap;
+            ret.difficultyAmount += (1 - *G_->difficulty);
+            return true;
+        }
+
         return false;
     }
 
@@ -267,6 +302,7 @@ public:
     int nextRewardLevel;
 
     ResourceRewards defaultRewards;
+    std::unordered_map<int,RewardScaling> defaultScaling;
 
     std::unordered_map<std::string,CustomRewardType> rewards;
 
@@ -277,6 +313,7 @@ public:
 
     void ParseRewardsNode(rapidxml::xml_node<char> *node);
     void ParseResourceRewardsNode(rapidxml::xml_node<char> *node, ResourceRewards& rewards);
+    int ParseRewardScalingNode(rapidxml::xml_node<char> *node, RewardScaling& rewards);
     bool ParseScrapScaling(rapidxml::xml_node<char> *node, CustomScrapScaling& scaling);
     bool ParseResourceNode(rapidxml::xml_node<char> *node, CustomResourceReward& reward);
     void ParseBonusRewardNode(rapidxml::xml_node<char> *node, CustomBonusReward& rewards);

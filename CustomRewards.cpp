@@ -15,6 +15,15 @@ void CustomRewardsManager::ParseRewardsNode(rapidxml::xml_node<char> *node)
                 ParseResourceRewardsNode(child, defaultRewards);
             }
 
+            if (strcmp(child->name(), "rewardScaling") == 0)
+            {
+                RewardScaling scaling;
+
+                int difficulty = ParseRewardScalingNode(child, scaling);
+
+                defaultScaling[difficulty] = scaling;
+            }
+
             if (strcmp(child->name(), "reward") == 0)
             {
                 std::string rewardName = child->first_attribute("name")->value();
@@ -51,6 +60,15 @@ void CustomRewardsManager::ParseRewardsNode(rapidxml::xml_node<char> *node)
                     if (strcmp(child2->name(), "resourceRewards") == 0)
                     {
                         ParseResourceRewardsNode(child2, newReward.rewards);
+                    }
+
+                    if (strcmp(child2->name(), "rewardScaling") == 0)
+                    {
+                        RewardScaling scaling;
+
+                        int difficulty = ParseRewardScalingNode(child2, scaling);
+
+                        newReward.scaling[difficulty] = scaling;
                     }
 
                     if (strcmp(child2->name(), "reward") == 0)
@@ -117,6 +135,34 @@ void CustomRewardsManager::ParseResourceRewardsNode(rapidxml::xml_node<char> *no
     }
 }
 
+int CustomRewardsManager::ParseRewardScalingNode(rapidxml::xml_node<char> *node, RewardScaling& rewards)
+{
+    int difficulty = 1;
+    if (node->first_attribute("difficulty"))
+    {
+        difficulty = boost::lexical_cast<int>(node->first_attribute("difficulty")->value());
+    }
+
+    for (auto child = node->first_node(); child; child = child->next_sibling())
+    {
+        bool isValid = false;
+
+        std::string name = std::string(child->name());
+
+        if (name == "scrap")
+        {
+            CustomScrapScaling scrapScaling;
+            isValid = ParseScrapScaling(child, scrapScaling);
+            if (isValid)
+            {
+                rewards.scrap = scrapScaling;
+            }
+        }
+    }
+
+    return difficulty;
+}
+
 bool CustomRewardsManager::ParseScrapScaling(rapidxml::xml_node<char> *node, CustomScrapScaling& scaling)
 {
     bool isValid = false;
@@ -131,6 +177,18 @@ bool CustomRewardsManager::ParseScrapScaling(rapidxml::xml_node<char> *node, Cus
     {
         isValid = true;
         scaling.sectorAmount = boost::lexical_cast<float>(node->first_attribute("sectorAmount")->value());
+    }
+
+    if (node->first_attribute("difficultyAmount"))
+    {
+        isValid = true;
+        scaling.difficultyAmount = boost::lexical_cast<int>(node->first_attribute("difficultyAmount")->value());
+    }
+
+    for (auto child = node->first_node(); child; child = child->next_sibling())
+    {
+        isValid = true;
+        scaling.amounts.push_back(boost::lexical_cast<float>(child->value()));
     }
 
     return isValid;
@@ -243,6 +301,21 @@ bool CustomRewardsManager::GetCustomScrapScaling(CustomScrapScaling& ret, const 
     if (it != defaultRewards.scrapScaling.end())
     {
         ret = it->second;
+        ret.difficultyAmount += (1 - *G_->difficulty);
+        return true;
+    }
+
+    auto scaling_it = defaultScaling.find(*G_->difficulty);
+    if (scaling_it != defaultScaling.end())
+    {
+        ret = scaling_it->second.scrap;
+        return true;
+    }
+
+    scaling_it = defaultScaling.find(1);
+    if (scaling_it != defaultScaling.end())
+    {
+        ret = scaling_it->second.scrap;
         ret.difficultyAmount += (1 - *G_->difficulty);
         return true;
     }
