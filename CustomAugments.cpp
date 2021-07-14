@@ -4,6 +4,9 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
 
+#pragma GCC push_options
+#pragma GCC optimize ("O1")
+
 CustomAugmentManager CustomAugmentManager::instance = CustomAugmentManager();
 
 void CustomAugmentManager::ParseCustomAugmentNode(rapidxml::xml_node<char>* node)
@@ -729,25 +732,133 @@ HOOK_METHOD(ShipStatus, RenderShields, (bool renderText) -> void)
     super(renderText);
 }
 
+CachedImage extend_shieldCircleCharged[5];
+CachedImage extend_shieldCircleUncharged[5];
+CachedImage extend_shieldCircleHacked[5];
+CachedImage extend_shieldCircleHackedCharged[5];
+
+HOOK_METHOD(CombatControl, constructor, () -> void)
+{
+    super();
+
+    for (int i=0; i<5; ++i)
+    {
+        extend_shieldCircleCharged[i] = this->shieldCircleCharged[0];
+        extend_shieldCircleCharged[i].x += 23*(5+i);
+
+        extend_shieldCircleUncharged[i] = this->shieldCircleUncharged[0];
+        extend_shieldCircleUncharged[i].x += 23*(5+i);
+
+        extend_shieldCircleHacked[i] = this->shieldCircleHacked[0];
+        extend_shieldCircleHacked[i].x += 23*(5+i);
+
+        extend_shieldCircleHackedCharged[i] = this->shieldCircleHackedCharged[0];
+        extend_shieldCircleHackedCharged[i].x += 23*(5+i);
+    }
+}
+
 HOOK_METHOD(CombatControl, RenderShipStatus, (Pointf pos, GL_Color color) -> void)
 {
-    super(pos, color);
+    auto enemyShield = currentTarget->shipManager->GetShieldPower();
 
-    if (CustomAugmentManager::GetInstance()->superShieldCustomRender[1])
+    if (enemyShield.second > 5 && currentTarget->shipManager->shieldSystem != nullptr)
     {
-        auto enemyShield = currentTarget->shipManager->GetShieldPower();
+        if (currentTarget->shipManager->shieldSystem->shields.power.first > 5)
+        {
+            currentTarget->shipManager->shieldSystem->shields.power.first = 5;
+        }
+        if (currentTarget->shipManager->shieldSystem->shields.power.second > 5)
+        {
+            currentTarget->shipManager->shieldSystem->shields.power.second = 5;
+        }
+        currentTarget->shipManager->shieldSystem->shields.power.super.first = 0;
+
+        super(pos, color);
+
+        currentTarget->shipManager->shieldSystem->shields.power = enemyShield;
+
+        CSurface::GL_PushMatrix();
+        CSurface::GL_Translate(pos.x, pos.y, 0.0);
+
+        bool isHacked = currentTarget->shipManager->IsSystemHacked(0);
+
+        for (int i=5; i<enemyShield.second; ++i)
+        {
+            if (i >= 10) break;
+            if (enemyShield.first > i)
+            {
+                if (isHacked)
+                {
+                    extend_shieldCircleHackedCharged[i-5].OnRender(GL_Color(1.0, 1.0, 1.0, 1.0));
+                }
+                else
+                {
+                    extend_shieldCircleCharged[i-5].OnRender(GL_Color(1.0, 1.0, 1.0, 1.0));
+                }
+            }
+            else
+            {
+                if (isHacked)
+                {
+                    extend_shieldCircleHacked[i-5].OnRender(GL_Color(1.0, 1.0, 1.0, 1.0));
+                }
+                else
+                {
+                    extend_shieldCircleUncharged[i-5].OnRender(GL_Color(1.0, 1.0, 1.0, 1.0));
+                }
+            }
+        }
 
         if (enemyShield.super.first > 0)
         {
-            GL_Color superColor = CustomAugmentManager::GetInstance()->superShieldColor[1];
-            superColor.a = 1.0;
+            GL_Color superColor = GL_Color(100.0/255.0, 255.0/255.0, 100.0/255.0, 1.0);
 
-            CSurface::GL_PushMatrix();
-            CSurface::GL_Translate(pos.x, pos.y, 0.0);
+            if (CustomAugmentManager::GetInstance()->superShieldCustomRender[1])
+            {
+                    superColor = CustomAugmentManager::GetInstance()->superShieldColor[1];
+                    superColor.a = 1.0;
+            }
 
-            CSurface::GL_DrawRect(enemyShield.second*23.f + 16.f, 38.0, enemyShield.super.first*10.f, 7.0, superColor);
+            int superBar_x = enemyShield.second * 23;
 
-            CSurface::GL_PopMatrix();
+            if (enemyShield.super.second == 5)
+            {
+                superShieldBox5.SetPosition(superBar_x + 13, 35);
+                superShieldBox5.OnRender(GL_Color(1.0, 1.0, 1.0, 1.0));
+            }
+            else if (enemyShield.super.second == 12)
+            {
+                superShieldBox12.SetPosition(superBar_x + 13, 35);
+                superShieldBox12.OnRender(GL_Color(1.0, 1.0, 1.0, 1.0));
+            }
+            else
+            {
+                CSurface::GL_DrawRect(superBar_x + 13.f, 35.f, enemyShield.super.second*10+6, 13.f, GL_Color(0.0, 0.0, 0.0, 0.5));
+                CSurface::GL_DrawRectOutline(superBar_x + 13, 35, enemyShield.super.second*10+6, 13, GL_Color(1.0, 1.0, 1.0, 1.0), 2.f);
+            }
+            CSurface::GL_DrawRect(superBar_x + 16.f, 38.f, enemyShield.super.first*10, 7.f, superColor);
+        }
+
+        CSurface::GL_PopMatrix();
+    }
+    else
+    {
+        super(pos, color);
+
+        if (CustomAugmentManager::GetInstance()->superShieldCustomRender[1])
+        {
+            if (enemyShield.super.first > 0)
+            {
+                GL_Color superColor = CustomAugmentManager::GetInstance()->superShieldColor[1];
+                superColor.a = 1.0;
+
+                CSurface::GL_PushMatrix();
+                CSurface::GL_Translate(pos.x, pos.y, 0.0);
+
+                CSurface::GL_DrawRect(enemyShield.second*23.f + 16.f, 38.f, enemyShield.super.first*10, 7.f, superColor);
+
+                CSurface::GL_PopMatrix();
+            }
         }
     }
 }
@@ -838,3 +949,5 @@ HOOK_METHOD(ShipManager, OnLoop, () -> void)
         }
     }
 }
+
+#pragma GCC pop_options
