@@ -21,6 +21,7 @@ struct AugmentFunction
     bool useForReqs = true;
     bool warning = true;
     int sys = -1;
+    bool modifyChoiceTextScrap = false;
 };
 
 struct AugmentDefinition
@@ -44,6 +45,7 @@ public:
     void ParseCustomAugmentNode(rapidxml::xml_node<char>* node);
 
     std::map<std::string, AugmentFunction> GetPotentialAugments(const std::string& name, int iShipId, bool req=false);
+    std::map<std::string, AugmentFunction> GetPotentialAugments_ScrapText();
 
     AugmentDefinition* GetAugmentDefinition(const std::string& name)
     {

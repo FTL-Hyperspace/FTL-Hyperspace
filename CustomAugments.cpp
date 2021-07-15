@@ -59,6 +59,10 @@ void CustomAugmentManager::ParseCustomAugmentNode(rapidxml::xml_node<char>* node
                             {
                                 func.sys = ShipSystem::NameToSystemId(functionNode->first_attribute("sys")->value());
                             }
+                            if (functionNode->first_attribute("modifyChoiceTextScrap")) // For scrap recovery arm, modifies the scrap values in choice dialogs (does not modify scrap collected in score/stats)
+                            {
+                                func.modifyChoiceTextScrap = EventsParser::ParseBoolean(functionNode->first_attribute("modifyChoiceTextScrap")->value());
+                            }
 
                             augDef->functions[functionName] = func;
                         }
@@ -177,6 +181,48 @@ std::map<std::string, AugmentFunction> CustomAugmentManager::GetPotentialAugment
                     else if (i.second->functions[name].useForReqs)
                     {
                         ret[i.second->name] = val->second;
+                    }
+                }
+            }
+        }
+    }
+
+    return ret;
+}
+
+std::map<std::string, AugmentFunction> CustomAugmentManager::GetPotentialAugments_ScrapText()
+{
+    auto ret = std::map<std::string, AugmentFunction>();
+
+
+    for (auto const& i: augDefs)
+    {
+        if (i.second)
+        {
+            if (!i.second->functions.empty())
+            {
+                auto val = i.second->functions.find("SCRAP_COLLECTOR");
+
+                if (val != i.second->functions.end())
+                {
+                    if (val->second.modifyChoiceTextScrap)
+                    {
+                        if (val->second.sys == -1)
+                        {
+                            ret[i.second->name] = val->second;
+                        }
+                        else
+                        {
+                            ShipManager* shipManager = G_->GetShipManager(0);
+                            if (shipManager != nullptr && shipManager->GetSystemRoom(val->second.sys) != -1)
+                            {
+                                ShipSystem* sys = shipManager->GetSystem(val->second.sys);
+                                if (sys != nullptr && sys->iHackEffect < 2 && sys->GetEffectivePower() > 0)
+                                {
+                                    ret[i.second->name] = val->second;
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -955,14 +1001,50 @@ HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
 {
     super(event);
 
-    if (CustomOptionsManager::GetInstance()->showScrapCollectorScrap.currentValue == false) return;
+    float augValue = 0.f;
 
-    float scrapBonus = G_->GetShipManager(0)->GetAugmentationValue("SCRAP_COLLECTOR");
-
-    if (commandGui->choiceBox.rewards.scrap > 0) commandGui->choiceBox.rewards.scrap += commandGui->choiceBox.rewards.scrap * scrapBonus;
-    for (auto& choice : commandGui->choiceBox.choices)
+    if (CustomOptionsManager::GetInstance()->showScrapCollectorScrap.currentValue == false)
     {
-        if (choice.rewards.scrap > 0) choice.rewards.scrap += choice.rewards.scrap * scrapBonus;
+        AugmentBlueprint* augBlueprint = G_->GetBlueprints()->GetAugmentBlueprint("SCRAP_COLLECTOR");
+        CustomAugmentManager* customAug = CustomAugmentManager::GetInstance();
+
+        std::map<std::string, int> augList = CustomAugmentManager::CheckHiddenAugments(G_->GetShipInfo(0)->augList);
+        std::map<std::string, AugmentFunction> potentialAugs = customAug->GetPotentialAugments_ScrapText();
+
+        float highestValue = 0.f;
+        for (auto const& x: potentialAugs)
+        {
+            if (augList.count(x.first))
+            {
+                augValue += x.second.value * augList.at(x.first);
+
+                if ((x.second.preferHigher && x.second.value > highestValue) || (!x.second.preferHigher && x.second.value < highestValue))
+                {
+                    highestValue = x.second.value;
+                }
+            }
+        }
+
+        if (!augBlueprint->stacking) augValue = highestValue;
+    }
+    else
+    {
+        augValue = G_->GetShipManager(0)->GetAugmentationValue("SCRAP_COLLECTOR");
+    }
+
+    if (augValue != 0.f)
+    {
+        if (commandGui->choiceBox.rewards.scrap > 0)
+        {
+            commandGui->choiceBox.rewards.scrap = commandGui->choiceBox.rewards.scrap + commandGui->choiceBox.rewards.scrap * augValue;
+        }
+        for (auto& choice : commandGui->choiceBox.choices)
+        {
+            if (choice.rewards.scrap > 0)
+            {
+                choice.rewards.scrap = choice.rewards.scrap + choice.rewards.scrap * augValue;
+            }
+        }
     }
 }
 
