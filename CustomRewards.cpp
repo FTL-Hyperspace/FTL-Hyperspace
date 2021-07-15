@@ -12,7 +12,16 @@ void CustomRewardsManager::ParseRewardsNode(rapidxml::xml_node<char> *node)
         {
             if (strcmp(child->name(), "resourceRewards") == 0)
             {
-                ParseResourceRewardNode(child, defaultRewards);
+                ParseResourceRewardsNode(child, defaultRewards);
+            }
+
+            if (strcmp(child->name(), "rewardScaling") == 0)
+            {
+                RewardScaling scaling;
+
+                int difficulty = ParseRewardScalingNode(child, scaling);
+
+                defaultScaling[difficulty] = scaling;
             }
 
             if (strcmp(child->name(), "reward") == 0)
@@ -50,7 +59,16 @@ void CustomRewardsManager::ParseRewardsNode(rapidxml::xml_node<char> *node)
 
                     if (strcmp(child2->name(), "resourceRewards") == 0)
                     {
-                        ParseResourceRewardNode(child2, newReward.rewards);
+                        ParseResourceRewardsNode(child2, newReward.rewards);
+                    }
+
+                    if (strcmp(child2->name(), "rewardScaling") == 0)
+                    {
+                        RewardScaling scaling;
+
+                        int difficulty = ParseRewardScalingNode(child2, scaling);
+
+                        newReward.scaling[difficulty] = scaling;
                     }
 
                     if (strcmp(child2->name(), "reward") == 0)
@@ -70,118 +88,129 @@ void CustomRewardsManager::ParseRewardsNode(rapidxml::xml_node<char> *node)
 
 }
 
-void CustomRewardsManager::ParseResourceRewardNode(rapidxml::xml_node<char> *node, ResourceRewards& rewards)
+void CustomRewardsManager::ParseResourceRewardsNode(rapidxml::xml_node<char> *node, ResourceRewards& rewards)
 {
     for (auto child = node->first_node(); child; child = child->next_sibling())
     {
+        int level = -1;
+        bool isValid = false;
+
+        std::string name = std::string(child->name());
+        if (child->first_attribute("level"))
+        {
+            level = GetRewardLevel(child->first_attribute("level")->value());
+        }
+
+        CustomResourceReward resourceReward;
+        isValid = ParseResourceNode(child, resourceReward);
+        if (isValid)
+        {
+            if (name == "scrap")
+            {
+                rewards.scrap[level] = resourceReward;
+            }
+            else if (name == "fuel")
+            {
+                rewards.fuel[level] = resourceReward;
+            }
+            else if (name == "missiles")
+            {
+                rewards.missiles[level] = resourceReward;
+            }
+            else if (name == "droneparts")
+            {
+                rewards.drones[level] = resourceReward;
+            }
+        }
+
+        if (name == "scrap")
+        {
+            CustomScrapScaling scrapScaling;
+            isValid = ParseScrapScaling(child, scrapScaling);
+            if (isValid)
+            {
+                rewards.scrapScaling[level] = scrapScaling;
+            }
+        }
+    }
+}
+
+int CustomRewardsManager::ParseRewardScalingNode(rapidxml::xml_node<char> *node, RewardScaling& rewards)
+{
+    int difficulty = 1;
+    if (node->first_attribute("difficulty"))
+    {
+        difficulty = boost::lexical_cast<int>(node->first_attribute("difficulty")->value());
+    }
+
+    for (auto child = node->first_node(); child; child = child->next_sibling())
+    {
+        bool isValid = false;
+
         std::string name = std::string(child->name());
 
         if (name == "scrap")
         {
-            CustomScrapReward reward;
-
-            int level = -1;
-
-            if (child->first_attribute("level"))
+            CustomScrapScaling scrapScaling;
+            isValid = ParseScrapScaling(child, scrapScaling);
+            if (isValid)
             {
-                level = GetRewardLevel(child->first_attribute("level")->value());
+                rewards.scrap = scrapScaling;
             }
-
-            if (child->first_attribute("min"))
-            {
-                reward.minimum = boost::lexical_cast<int>(child->first_attribute("min")->value());
-            }
-
-            if (child->first_attribute("max"))
-            {
-                reward.maximum = boost::lexical_cast<int>(child->first_attribute("max")->value());
-            }
-
-            if (child->first_attribute("baseAmount"))
-            {
-                reward.baseAmount = boost::lexical_cast<float>(child->first_attribute("baseAmount")->value());
-            }
-
-            if (child->first_attribute("sectorAmount"))
-            {
-                reward.sectorAmount = boost::lexical_cast<float>(child->first_attribute("sectorAmount")->value());
-            }
-
-            rewards.scrap[level] = reward;
-        }
-
-        if (name == "fuel")
-        {
-            CustomResourceReward reward;
-
-            int level = -1;
-
-            if (child->first_attribute("level"))
-            {
-                level = GetRewardLevel(child->first_attribute("level")->value());
-            }
-
-            if (child->first_attribute("min"))
-            {
-                reward.minimum = boost::lexical_cast<int>(child->first_attribute("min")->value());
-            }
-
-            if (child->first_attribute("max"))
-            {
-                reward.maximum = boost::lexical_cast<int>(child->first_attribute("max")->value());
-            }
-
-            rewards.fuel[level] = reward;
-        }
-
-        if (name == "missiles")
-        {
-            CustomResourceReward reward;
-
-            int level = -1;
-
-            if (child->first_attribute("level"))
-            {
-                level = GetRewardLevel(child->first_attribute("level")->value());
-            }
-
-            if (child->first_attribute("min"))
-            {
-                reward.minimum = boost::lexical_cast<int>(child->first_attribute("min")->value());
-            }
-
-            if (child->first_attribute("max"))
-            {
-                reward.maximum = boost::lexical_cast<int>(child->first_attribute("max")->value());
-            }
-
-            rewards.missiles[level] = reward;
-        }
-
-        if (name == "droneparts")
-        {
-            CustomResourceReward reward;
-
-            int level = -1;
-
-            if (child->first_attribute("level"))
-            {
-                level = GetRewardLevel(child->first_attribute("level")->value());
-            }
-
-            if (child->first_attribute("min"))
-            {
-                reward.minimum = boost::lexical_cast<int>(child->first_attribute("min")->value());
-            }
-
-            if (child->first_attribute("max"))
-            {
-                reward.maximum = boost::lexical_cast<int>(child->first_attribute("max")->value());
-            }
-
-            rewards.drones[level] = reward;
         }
     }
+
+    return difficulty;
+}
+
+bool CustomRewardsManager::ParseScrapScaling(rapidxml::xml_node<char> *node, CustomScrapScaling& scaling)
+{
+    bool isValid = false;
+
+    if (node->first_attribute("baseAmount"))
+    {
+        isValid = true;
+        scaling.baseAmount = boost::lexical_cast<float>(node->first_attribute("baseAmount")->value());
+    }
+
+    if (node->first_attribute("sectorAmount"))
+    {
+        isValid = true;
+        scaling.sectorAmount = boost::lexical_cast<float>(node->first_attribute("sectorAmount")->value());
+    }
+
+    if (node->first_attribute("difficultyAmount"))
+    {
+        isValid = true;
+        scaling.difficultyAmount = boost::lexical_cast<int>(node->first_attribute("difficultyAmount")->value());
+    }
+
+    for (auto child = node->first_node(); child; child = child->next_sibling())
+    {
+        isValid = true;
+        scaling.amounts.push_back(boost::lexical_cast<float>(child->value()));
+    }
+
+    return isValid;
+}
+
+bool CustomRewardsManager::ParseResourceNode(rapidxml::xml_node<char> *node, CustomResourceReward& reward)
+{
+    bool isValid = false;
+
+    if (node->first_attribute("min"))
+    {
+        isValid = true;
+        reward.minimum = boost::lexical_cast<int>(node->first_attribute("min")->value());
+    }
+
+    if (node->first_attribute("max"))
+    {
+        isValid = true;
+        reward.maximum = boost::lexical_cast<int>(node->first_attribute("max")->value());
+    }
+
+    return isValid;
 }
 
 void CustomRewardsManager::ParseBonusRewardNode(rapidxml::xml_node<char> *node, CustomBonusReward& rewards)
@@ -260,41 +289,81 @@ void CustomRewardsManager::ParseRewardGenerator(rapidxml::xml_node<char> *node, 
     }
 }
 
-bool ResourceRewards::GetReward(ResourceEvent &resourceEvent, const std::string &type, int level, int worldLevel)
+bool CustomRewardsManager::GetCustomScrapScaling(CustomScrapScaling& ret, const std::string& type, int level)
 {
+    if (GenerateReward_LocalType != nullptr)
+    {
+        bool success = GenerateReward_LocalType->GetCustomScrapScaling(ret, type, level);
+        if (success) return success;
+    }
+
+    auto it = defaultRewards.scrapScaling.find(level);
+    if (it != defaultRewards.scrapScaling.end())
+    {
+        ret = it->second;
+        ret.difficultyAmount += (1 - *G_->difficulty);
+        return true;
+    }
+
+    auto scaling_it = defaultScaling.find(*G_->difficulty);
+    if (scaling_it != defaultScaling.end())
+    {
+        ret = scaling_it->second.scrap;
+        return true;
+    }
+
+    scaling_it = defaultScaling.find(1);
+    if (scaling_it != defaultScaling.end())
+    {
+        ret = scaling_it->second.scrap;
+        ret.difficultyAmount += (1 - *G_->difficulty);
+        return true;
+    }
+
+    return false;
+}
+
+bool CustomRewardsManager::GetCustomResourceReward(CustomResourceReward& ret, const std::string& type, int level)
+{
+    if (GenerateReward_LocalType != nullptr)
+    {
+        bool success = GenerateReward_LocalType->GetCustomResourceReward(ret, type, level);
+        if (success) return success;
+    }
+
     if (type == "scrap")
     {
-        auto it = scrap.find(level);
-        if (it != scrap.end())
+        auto it = defaultRewards.scrap.find(level);
+        if (it != defaultRewards.scrap.end())
         {
-            resourceEvent.scrap = it->second.GetReward(worldLevel);
+            ret = it->second;
             return true;
         }
     }
     else if (type == "fuel")
     {
-        auto it = fuel.find(level);
-        if (it != fuel.end())
+        auto it = defaultRewards.fuel.find(level);
+        if (it != defaultRewards.fuel.end())
         {
-            resourceEvent.fuel = it->second.GetReward();
+            ret = it->second;
             return true;
         }
     }
     else if (type == "missiles")
     {
-        auto it = missiles.find(level);
-        if (it != missiles.end())
+        auto it = defaultRewards.missiles.find(level);
+        if (it != defaultRewards.missiles.end())
         {
-            resourceEvent.missiles = it->second.GetReward();
+            ret = it->second;
             return true;
         }
     }
     else if (type == "droneparts")
     {
-        auto it = drones.find(level);
-        if (it != drones.end())
+        auto it = defaultRewards.drones.find(level);
+        if (it != defaultRewards.drones.end())
         {
-            resourceEvent.drones = it->second.GetReward();
+            ret = it->second;
             return true;
         }
     }
@@ -304,8 +373,6 @@ bool ResourceRewards::GetReward(ResourceEvent &resourceEvent, const std::string 
 std::string CustomRewardGenerator::GetReward(ResourceEvent &resourceEvent, int level, int worldLevel, ResourceRewards& resourceRewards)
 {
     std::vector<std::string> resourcesRemaining = resources;
-
-    bool hasCustom;
 
     // Roll the number of different resource types to include.
     int numResources = minResources;
@@ -320,13 +387,11 @@ std::string CustomRewardGenerator::GetReward(ResourceEvent &resourceEvent, int l
     {
         if (reward->second.overrideLevel != -1)
         {
-            hasCustom = resourceRewards.GetReward(resourceEvent, "scrap", reward->second.overrideLevel, worldLevel);
-            if (!hasCustom) GetValue(resourceEvent, "scrap", reward->second.overrideLevel, worldLevel);
+            GetValue(resourceEvent, "scrap", reward->second.overrideLevel, worldLevel);
         }
         else
         {
-            hasCustom = resourceRewards.GetReward(resourceEvent, "scrap", level, worldLevel);
-            if (!hasCustom) GetValue(resourceEvent, "scrap", level, worldLevel);
+            GetValue(resourceEvent, "scrap", level, worldLevel);
         }
     }
 
@@ -344,13 +409,11 @@ std::string CustomRewardGenerator::GetReward(ResourceEvent &resourceEvent, int l
         {
             if (reward->second.overrideLevel != -1)
             {
-                hasCustom = resourceRewards.GetReward(resourceEvent, resource, reward->second.overrideLevel, worldLevel);
-                if (!hasCustom) GetValue(resourceEvent, resource, reward->second.overrideLevel, worldLevel);
+                GetValue(resourceEvent, resource, reward->second.overrideLevel, worldLevel);
             }
             else
             {
-                hasCustom = resourceRewards.GetReward(resourceEvent, resource, level, worldLevel);
-                if (!hasCustom) GetValue(resourceEvent, resource, level, worldLevel);
+                GetValue(resourceEvent, resource, level, worldLevel);
             }
         }
     }
@@ -411,33 +474,28 @@ HOOK_GLOBAL(GenerateReward, (ResourceEvent &resourceEvent, RewardDesc &reward, i
     if (reward.level == -1) return;
 
     auto customRewards = CustomRewardsManager::GetInstance();
+    if (customRewards == nullptr) return super(resourceEvent, reward, worldLevel);
 
     auto customReward = customRewards->rewards.find(reward.reward);
     if (customReward != customRewards->rewards.end())
     {
-        RewardDesc tempReward = reward;
+        customRewards->GenerateReward_LocalType = &(customReward->second);
 
-        int rewardWorldLevel = worldLevel;
-        if (*G_->difficulty == 0)
-        {
-            rewardWorldLevel += 1; // EASY
-        }
-        else if (*G_->difficulty == 2 && rewardWorldLevel > 0)
-        {
-            rewardWorldLevel -= 1; // HARD
-        }
+        RewardDesc tempReward = reward;
 
         if (tempReward.level == 3)
         {
             tempReward.level = random32()%3;
         }
 
-        std::string bonus = customReward->second.GetReward(resourceEvent, tempReward.level, rewardWorldLevel);
+        std::string bonus = customReward->second.GetReward(resourceEvent, tempReward.level, worldLevel);
         if (!bonus.empty())
         {
             tempReward.reward = bonus;
             GenerateReward(resourceEvent, tempReward, worldLevel);
         }
+
+        customRewards->GenerateReward_LocalType = nullptr;
     }
     else
     {
@@ -447,9 +505,43 @@ HOOK_GLOBAL(GenerateReward, (ResourceEvent &resourceEvent, RewardDesc &reward, i
 
 HOOK_GLOBAL(GetValue, (ResourceEvent &resourceEvent, const std::string &type, int level, int worldLevel) -> void)
 {
-    bool hasCustom = CustomRewardsManager::GetInstance()->defaultRewards.GetReward(resourceEvent, type, level, worldLevel);
-    if (!hasCustom)
+    CustomRewardsManager* customRewards = CustomRewardsManager::GetInstance();
+    if (customRewards == nullptr) return super(resourceEvent, type, level, worldLevel);
+
+    CustomResourceReward customResource;
+    CustomScrapScaling customScaling;
+
+    bool foundCustomReward = false;
+    bool foundCustomScaling = false;
+
+    foundCustomReward = customRewards->GetCustomResourceReward(customResource, type, level);
+
+    if (type == "scrap")
     {
-        super(resourceEvent, type, level, worldLevel);
+        foundCustomScaling = customRewards->GetCustomScrapScaling(customScaling, type, level);
+    }
+
+    if (!(foundCustomReward || foundCustomScaling)) return super(resourceEvent, type, level, worldLevel);
+
+    if (!foundCustomReward) customResource.SetDefault(type, level);
+
+    if (type == "scrap")
+    {
+        if (!foundCustomScaling) customScaling.SetDefault();
+
+        float randomScrap = customResource.GetReward();
+        resourceEvent.scrap = customScaling.GetReward(worldLevel, randomScrap);
+    }
+    if (type == "fuel")
+    {
+        resourceEvent.fuel = customResource.GetReward();
+    }
+    else if (type == "missiles")
+    {
+        resourceEvent.missiles = customResource.GetReward();
+    }
+    else if (type == "droneparts")
+    {
+        resourceEvent.drones = customResource.GetReward();
     }
 }
