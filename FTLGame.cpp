@@ -2173,7 +2173,7 @@ __declspec(naked) WeaponBlueprint *BlueprintManager::GetWeaponBlueprint(const st
 namespace _func61
 {
 	static void *func = 0;
-	static short argdata[] = {0x1ff, 0x1ff, 0x1ff, 0x1ff};
+	static short argdata[] = {0x101, 0x1ff, 0x1ff, 0x1ff};
 	static FunctionDefinition funcObj("BlueprintManager::GetRandomAugment", typeid(void (*)(std::vector<AugmentBlueprint*> &, BlueprintManager *, int , bool )), "578d7c240883e4f0ff77fc5589e5575389cb83ec108b078b57040fb64f08895424088d504c", argdata, 4, 4, &func);
 }
 
@@ -2192,7 +2192,7 @@ __declspec(naked) void BlueprintManager::GetRandomAugment(std::vector<AugmentBlu
 		"push [ebp+20]\n\t"		// demo_lock
 		"push [ebp+16]\n\t"		// count
 		"push [ebp+12]\n\t"		// bpM
-		"push [ebp+8]\n\t"		// vec
+		"mov ecx, [ebp+8]\n\t"	// vec
 	);
 	__asm__("call %0\n\t" :: "m"(_func61::func));
 	__asm__
@@ -2322,7 +2322,7 @@ __declspec(naked) void BlueprintManager::GetCrewName(std::string &strRef, Bluepr
 namespace _func65
 {
 	static void *func = 0;
-	static short argdata[] = {0x1ff, 0x1ff, 0x1ff, 0x1ff};
+	static short argdata[] = {0x101, 0x1ff, 0x1ff, 0x1ff};
 	static FunctionDefinition funcObj("BlueprintManager::GetRandomWeapon", typeid(void (*)(std::vector<WeaponBlueprint*> &, BlueprintManager *, int , bool )), "578d7c240883e4f0ff77fc5589e5575389cb83ec108b078b57040fb64f08895424088d501c890424894c240c8954240489d9e8????????", argdata, 4, 4, &func);
 }
 
@@ -2341,7 +2341,7 @@ __declspec(naked) void BlueprintManager::GetRandomWeapon(std::vector<WeaponBluep
 		"push [ebp+20]\n\t"		// demo_lock
 		"push [ebp+16]\n\t"		// count
 		"push [ebp+12]\n\t"		// bpM
-		"push [ebp+8]\n\t"		// vec
+		"mov ecx, [ebp+8]\n\t"	// vec
 	);
 	__asm__("call %0\n\t" :: "m"(_func65::func));
 	__asm__
@@ -2361,7 +2361,7 @@ __declspec(naked) void BlueprintManager::GetRandomWeapon(std::vector<WeaponBluep
 namespace _func66
 {
 	static void *func = 0;
-	static short argdata[] = {0x1ff, 0x1ff, 0x1ff, 0x1ff};
+	static short argdata[] = {0x101, 0x1ff, 0x1ff, 0x1ff};
 	static FunctionDefinition funcObj("BlueprintManager::GetRandomDrone", typeid(void (*)(std::vector<DroneBlueprint*> &, BlueprintManager *, int , bool )), "578d7c240883e4f0ff77fc5589e5575389cb83ec108b078b57040fb64f08895424088d5034890424894c240c", argdata, 4, 4, &func);
 }
 
@@ -2380,7 +2380,7 @@ __declspec(naked) void BlueprintManager::GetRandomDrone(std::vector<DroneBluepri
 		"push [ebp+20]\n\t"		// demo_lock
 		"push [ebp+16]\n\t"		// count
 		"push [ebp+12]\n\t"		// bpM
-		"push [ebp+8]\n\t"		// vec
+		"mov ecx, [ebp+8]\n\t"	// vec
 	);
 	__asm__("call %0\n\t" :: "m"(_func66::func));
 	__asm__
@@ -20020,11 +20020,11 @@ __declspec(naked) float __stdcall getSkillBonus(int skill, int level)
 namespace _func559
 {
 	static void *func = 0;
-	static short argdata[] = {0x1ff, 0x8ff, 0x1ff};
-	static FunctionDefinition funcObj("GenerateReward", typeid(void (*)(ResourceEvent &, RewardDesc , int )), "8d4c240483e4f0ff71fc5589e55756535181ec????????8b018b79088985d4fcffff8b410489bdd0fcffff8985ccfcffff8b4018", argdata, 3, 6, &func);
+	static short argdata[] = {0x1ff, 0x1ff, 0x1ff};
+	static FunctionDefinition funcObj("GenerateReward", typeid(void (*)(ResourceEvent &, RewardDesc &, int )), "8d4c240483e4f0ff71fc5589e55756535181ec????????8b018b79088985d4fcffff8b410489bdd0fcffff8985ccfcffff8b4018", argdata, 3, 6, &func);
 }
 
-__declspec(naked) void __stdcall GenerateReward(ResourceEvent &ref, RewardDesc reward, int worldLevel)
+__declspec(naked) void __stdcall GenerateReward(ResourceEvent &ref, RewardDesc &reward, int worldLevel)
 {
 	__asm__
 	(
@@ -20036,21 +20036,14 @@ __declspec(naked) void __stdcall GenerateReward(ResourceEvent &ref, RewardDesc r
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+44]\n\t"		// worldLevel
-		"push [ebp+40]\n\t"		// reward
-		"push [ebp+36]\n\t"		// reward
-		"push [ebp+32]\n\t"		// reward
-		"push [ebp+28]\n\t"		// reward
-		"push [ebp+24]\n\t"		// reward
-		"push [ebp+20]\n\t"		// reward
-		"push [ebp+16]\n\t"		// reward
+		"push [ebp+16]\n\t"		// worldLevel
 		"push [ebp+12]\n\t"		// reward
 		"push [ebp+8]\n\t"		// ref
 	);
 	__asm__("call %0\n\t" :: "m"(_func559::func));
 	__asm__
 	(
-		"add esp, 40\n\t"
+		"add esp, 12\n\t"
 		"pop edi\n\t"
 		"pop esi\n\t"
 		"pop ebx\n\t"
@@ -20059,7 +20052,7 @@ __declspec(naked) void __stdcall GenerateReward(ResourceEvent &ref, RewardDesc r
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 40\n\t"
+		"ret 12\n\t"
 	);
 }
 

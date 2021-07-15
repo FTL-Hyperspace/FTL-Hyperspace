@@ -7202,12 +7202,13 @@ struct BatterySystem : ShipSystem
 };
 
 struct ResourceEvent;
+struct RewardDesc;
 
 LIBZHL_API float __stdcall font_text_width(freetype::font_data &fontData, const char *str, float size);
 LIBZHL_API int __stdcall random32();
 LIBZHL_API void __stdcall srandom32(unsigned int seed);
 LIBZHL_API float __stdcall getSkillBonus(int skill, int level);
-LIBZHL_API void __stdcall GenerateReward(ResourceEvent &ref, RewardDesc reward, int worldLevel);
+LIBZHL_API void __stdcall GenerateReward(ResourceEvent &ref, RewardDesc &reward, int worldLevel);
 LIBZHL_API void __stdcall GetValue(ResourceEvent &ref, const std::string &type, int level, int worldLevel);
 
 
