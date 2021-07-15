@@ -22,16 +22,16 @@
 #include "SaveFile.h"
 #include "CustomSystems.h"
 #include "AlternateOxygenRendering.h"
-#include "TextButtonColor.h"
+#include "CustomColors.h"
 
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string/replace.hpp>
 
-GL_Color& ParseColorNode(GL_Color& colorRef, rapidxml::xml_node<char>* node)
+GL_Color& ParseColorNode(GL_Color& colorRef, rapidxml::xml_node<char>* node, bool divide)
 {
-    if (node->first_attribute("r")) { colorRef.r = boost::lexical_cast<float>(node->first_attribute("r")->value()) / 255.f; }
-    if (node->first_attribute("g")) { colorRef.g = boost::lexical_cast<float>(node->first_attribute("g")->value()) / 255.f; }
-    if (node->first_attribute("b")) { colorRef.b = boost::lexical_cast<float>(node->first_attribute("b")->value()) / 255.f; }
+    if (node->first_attribute("r")) { colorRef.r = boost::lexical_cast<float>(node->first_attribute("r")->value()) / (divide ? 255.f : 1.f); }
+    if (node->first_attribute("g")) { colorRef.g = boost::lexical_cast<float>(node->first_attribute("g")->value()) / (divide ? 255.f : 1.f); }
+    if (node->first_attribute("b")) { colorRef.b = boost::lexical_cast<float>(node->first_attribute("b")->value()) / (divide ? 255.f : 1.f); }
     if (node->first_attribute("a")) { colorRef.a = boost::lexical_cast<float>(node->first_attribute("a")->value()); }
 
     return colorRef;
@@ -155,6 +155,13 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->showAllConnections.currentValue = EventsParser::ParseBoolean(enabled);
             }
 
+            if (strcmp(node->name(), "showScrapCollectorScrap") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->showScrapCollectorScrap.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->showScrapCollectorScrap.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
             if (strcmp(node->name(), "alternateOxygenRendering") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
@@ -271,9 +278,9 @@ void Global::InitializeResources(ResourceControl *resources)
                     SeedInputBox::seedsEnabled = EventsParser::ParseBoolean(node->first_attribute("enabled")->value());
                 }
             }
-            if (strcmp(node->name(), "textButtonColors") == 0)
+            if (strcmp(node->name(), "colors") == 0)
             {
-                ParseTextButtonColorsNode(node);
+                ParseCustomColorsNode(node);
             }
             if (strcmp(node->name(), "customSystems") == 0)
             {

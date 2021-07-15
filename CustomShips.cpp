@@ -602,6 +602,23 @@ HOOK_STATIC(ShipGenerator, CreateShip, (const std::string& name, int sector, Shi
     ret->ship.hullIntegrity.second = totalHealth;
     ret->ship.hullIntegrity.first = totalHealth;
 
+    if (ret->shieldSystem != nullptr) // Fixes a generation bug where >10 shield power spawns damaged.
+    {
+        int damageRepaired = ret->shieldSystem->healthState.second - ret->shieldSystem->healthState.first;
+
+        if (damageRepaired > 0)
+        {
+            ret->shieldSystem->healthState.first = ret->shieldSystem->healthState.second;
+
+            for (int i=0; i<damageRepaired; ++i)
+            {
+                ret->shieldSystem->IncreasePower(1, false);
+            }
+
+            ret->shieldSystem->shields.power.second = ret->shieldSystem->GetEffectivePower() / 2;
+            ret->shieldSystem->shields.power.first = ret->shieldSystem->shields.power.second;
+        }
+    }
 
     return ret;
 }

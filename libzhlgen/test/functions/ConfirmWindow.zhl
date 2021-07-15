@@ -12,7 +12,8 @@ void ConfirmWindow::MouseClick(ConfirmWindow *this<ecx>, int mX, int mY);
 void ConfirmWindow::MouseMove(ConfirmWindow *this<ecx>, int mX, int mY);
 "5589e55389cb83e4f0e8????????8d43248d8b88000000c703????????c7432000000000c643240089431c8d434cc6433401c7433800000000c7434000000000894344":
 void ConfirmWindow::constructor(ConfirmWindow *this<ecx>);
-
+"5589e55389cb83e4f083ec108b8184000000890424e8????????c783840000000000000089d9e8????????8b5dfc":
+void ConfirmWindow::Close(ConfirmWindow *this<ecx>);
 
 struct ConfirmWindow
 {{

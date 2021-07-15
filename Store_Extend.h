@@ -29,7 +29,7 @@ enum class CategoryType
 struct ItemPrice
 {
     int price = -1;
-    std::pair<int, int> minMaxPrice;
+    std::pair<float, float> minMaxPrice;
 
     bool useMinMax = false;
     bool sectorScaled = false;

@@ -80,6 +80,8 @@ public:
 
     static unsigned int bossFleetSeed;
 
+    static std::vector<std::vector<GL_Color*>> colorPointers;
+
     //static ShaderSourceCallback** fragment_shader_source_callback;
 
     //LuaState* lua;
@@ -117,6 +119,8 @@ private:
     const DWORD __droneWeaponPosOffset =   0x004C7400;
 
     const DWORD __superShieldColorOffset = 0x004CC670;
+
+    static std::vector<std::vector<DWORD>> colorOffsets;
 
     DWORD __baseAddress = 0;
 

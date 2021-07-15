@@ -1381,8 +1381,12 @@ struct ResourceEvent
 
 struct ChoiceBox;
 
+struct FocusWindow;
+
 struct FocusWindow
 {
+	LIBZHL_API void MouseClick(int x, int y);
+	
 	void *vptr;
 	bool bOpen;
 	bool bFullFocus;
@@ -2364,6 +2368,7 @@ struct ConfirmWindow : FocusWindow
 	LIBZHL_API void MouseClick(int mX, int mY);
 	LIBZHL_API void MouseMove(int mX, int mY);
 	LIBZHL_API void constructor();
+	LIBZHL_API void Close();
 	
 	TextString text;
 	int textHeight;
@@ -3939,6 +3944,7 @@ struct ShipManager : ShipObject
 	LIBZHL_API void RenderChargeBars();
 	LIBZHL_API void ExportBattleState(int file);
 	LIBZHL_API void ImportBattleState(int file);
+	LIBZHL_API bool SystemFunctions(int systemId);
 	
 	Targetable _targetable;
 	Collideable _collideable;
@@ -4093,6 +4099,8 @@ struct TeleportBox : SystemBox
 	WarningMessage superShieldWarning;
 };
 
+struct FTLButton;
+
 struct TextButton0 : GenericButton
 {
 	GL_Primitive *primitives[3];
@@ -4100,27 +4108,29 @@ struct TextButton0 : GenericButton
 	Point baseImageOffset;
 	GL_Primitive *basePrimitive;
 	bool colorsSet;
-	char gap65[3];
+	unsigned char gap65[3];
 	GL_Color colors[3];
 	GL_Color textColor;
 	Point buttonSize;
 	int cornerInset;
 	bool autoWidth;
-	char gapB5[3];
+	unsigned char gapB5[3];
 	int autoWidthMargin;
 	int autoWidthMin;
 	bool autoRightAlign;
-	char gapC1[3];
+	unsigned char gapC1[3];
 	TextString label;
 	int font;
 	int lineHeight;
 	int textYOffset;
-	char autoShrink;
-	char ready;
 };
 
 struct FTLButton : TextButton0
 {
+	LIBZHL_API void OnRender();
+	
+	bool autoShrinkText;
+	bool ready;
 	float ftl_blink;
 	float ftl_blink_dx;
 	float pullout;
@@ -5020,8 +5030,6 @@ struct ShipStatus
 	Point energyShieldPos;
 	Point intruderPos;
 };
-
-struct FocusWindow;
 
 struct GameOver;
 

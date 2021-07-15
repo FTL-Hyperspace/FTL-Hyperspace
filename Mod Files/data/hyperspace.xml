@@ -105,6 +105,12 @@ Tends to be helpful with "weirder" weapons in mods due to having more clear info
 
 <redesignedWeaponTooltips enabled="false"/>
 
+<!--  Shows the scrap values with scrap arm augment modifiers taken into account.
+Does not include repair arm.
+-->
+
+<showScrapCollectorScrap enabled="false"/>
+
 <!--  Alternate color scheme for O2 levels
 The gradient tag is optional and allows specifying a custom gradient (the default alternate is included here).
 Vanilla is 255,176,169 at no O2 and 230,226,219 at full O2.
@@ -673,6 +679,7 @@ Syntax ->
 <locked> means you cannot remove it (sell or replace with another augment) once it's equipped.
 useForReqs is for whether you want the augment to work for blue options or not. True by default.
 warning attribute being false removes red warning text
+modifyChoiceTextScrap is only used for SCRAP_COLLECTOR; it causes the scrap amounts shown in event dialogues to account for the augment. It does not affect the "scrap collected" in the stats or the player's score.
 
 <superShield> lets you specify a custom super shield value instead of the default 5. Generally should be used along with <function name="ENERGY_SHIELD"/> so it still counts for blue options, etc.
 You can also specify a custom shield image and tint. Custom images are useful for colors that don't work well on the standard blue shield, such as yellow, red, pink, and white.
@@ -685,6 +692,7 @@ Syntax ->
 		<function name="CREW_STIMS" value="0.2"/>
 		<function name="O2_MASKS" value="0.2" preferHigher="false"/>
 		<function name="HACKING_STUN" useForReqs="false" warning="false"/>
+		<function name="SCRAP_COLLECTOR" value="-0.1" modifyChoiceTextScrap="true"/>
 		
 		<superShield>
 			<value>5</value> (gives custom supershield value; when multiple augments are present the highest value is used)
