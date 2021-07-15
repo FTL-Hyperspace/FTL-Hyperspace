@@ -154,6 +154,13 @@ void Global::InitializeResources(ResourceControl *resources)
                 customOptions->showAllConnections.currentValue = EventsParser::ParseBoolean(enabled);
             }
 
+            if (strcmp(node->name(), "showScrapCollectorScrap") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->showScrapCollectorScrap.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->showScrapCollectorScrap.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
             if (strcmp(node->name(), "alternateOxygenRendering") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();

@@ -47,6 +47,8 @@ public:
 
     Setting alternateOxygenRendering;
 
+    Setting showScrapCollectorScrap;
+
 //    Setting hackingDroneFix;
 
 //    Setting infiniteMode;

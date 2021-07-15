@@ -1,4 +1,5 @@
 #include "CustomAugments.h"
+#include "CustomOptions.h"
 #include "Global.h"
 #include "freetype.h"
 #include <boost/lexical_cast.hpp>
@@ -947,6 +948,21 @@ HOOK_METHOD(ShipManager, OnLoop, () -> void)
                 drone->bDisrupted = scrambled;
             }
         }
+    }
+}
+
+HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
+{
+    super(event);
+
+    if (CustomOptionsManager::GetInstance()->showScrapCollectorScrap.currentValue == false) return;
+
+    float scrapBonus = G_->GetShipManager(0)->GetAugmentationValue("SCRAP_COLLECTOR");
+
+    if (commandGui->choiceBox.rewards.scrap > 0) commandGui->choiceBox.rewards.scrap += commandGui->choiceBox.rewards.scrap * scrapBonus;
+    for (auto& choice : commandGui->choiceBox.choices)
+    {
+        if (choice.rewards.scrap > 0) choice.rewards.scrap += choice.rewards.scrap * scrapBonus;
     }
 }
 

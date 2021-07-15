@@ -105,6 +105,12 @@ Tends to be helpful with "weirder" weapons in mods due to having more clear info
 
 <redesignedWeaponTooltips enabled="false"/>
 
+<!--  Shows the scrap values with scrap arm augment modifiers taken into account.
+Does not include repair arm.
+-->
+
+<showScrapCollectorScrap enabled="false"/>
+
 <!--  Alternate color scheme for O2 levels
 The gradient tag is optional and allows specifying a custom gradient (the default alternate is included here).
 Vanilla is 255,176,169 at no O2 and 230,226,219 at full O2.
