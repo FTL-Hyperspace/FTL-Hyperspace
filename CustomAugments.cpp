@@ -5,9 +5,6 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
 
-#pragma GCC push_options
-#pragma GCC optimize ("O1")
-
 CustomAugmentManager CustomAugmentManager::instance = CustomAugmentManager();
 
 void CustomAugmentManager::ParseCustomAugmentNode(rapidxml::xml_node<char>* node)
@@ -1047,5 +1044,3 @@ HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
         }
     }
 }
-
-#pragma GCC pop_options
