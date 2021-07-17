@@ -5397,6 +5397,7 @@ struct ArtilleryBox : CooldownSystemBox
 	}
 
 	LIBZHL_API void constructor(Point pos, ArtillerySystem *sys);
+	LIBZHL_API void OnRender(bool ignoreStatus);
 	
 	ArtillerySystem *artSystem;
 	Point buttonOffset;

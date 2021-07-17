@@ -161,6 +161,9 @@
 		<Unit filename="AlternateOxygenRendering.h">
 			<Option virtualFolder="Content/Ship/" />
 		</Unit>
+		<Unit filename="ArtilleryBarFix.cpp">
+			<Option virtualFolder="Content/Systems/" />
+		</Unit>
 		<Unit filename="AugmentValues.cpp">
 			<Option virtualFolder="Content/Augments/" />
 		</Unit>
