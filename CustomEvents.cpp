@@ -2048,3 +2048,18 @@ HOOK_METHOD(ShipManager, SelectRandomCrew, (CrewBlueprint &bp, ShipManager *ship
 
     return &bp;
 }
+
+
+HOOK_STATIC(ShipManager, SelectRandomCrew, (CrewBlueprint &bp, ShipManager *ship, int seed, const std::string &unk) -> CrewBlueprint*)
+{
+    if (ship->CountCrew(false) == 0)
+    {
+        CrewMember* crew;
+        crew = ship->AddCrewMemberFromString(G_->GetTextLibrary()->GetText("autoship_dismissed_crew_name"), "human", false, 0, false, false);
+        super(bp, ship, seed, unk);
+    }
+    else
+    {
+        super(bp, ship, seed, unk);
+    }
+}
