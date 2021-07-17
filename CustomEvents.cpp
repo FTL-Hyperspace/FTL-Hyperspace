@@ -331,7 +331,7 @@ HOOK_STATIC(ShipManager, SelectRandomCrew, (CrewBlueprint &bp, ShipManager *ship
     if (ship->CountCrew(false) == 0)
     {
         CrewMember* crew;
-        crew = ship->AddCrewMemberFromString("No one", "human", false, 0, false, false);
+        crew = ship->AddCrewMemberFromString(G_->GetTextLibrary()->GetText("autoship_dismissed_crew_name"), "human", false, 0, false, false);
         super(bp, ship, seed, unk);
     }
     else
