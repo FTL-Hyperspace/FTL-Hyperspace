@@ -16,14 +16,6 @@ HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
             }
         }
     }
-    if (HasAugmentation("AUTOSHIP"))
-    {
-        bAutomated = true;
-    }
-    else
-    {
-        bAutomated = false;
-    }
     super();
 }
 
