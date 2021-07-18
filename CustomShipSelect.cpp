@@ -246,6 +246,14 @@ void CustomShipSelect::ParseShipsNode(rapidxml::xml_node<char> *node)
                     {
                         def.forceAutomated = EventsParser::ParseBoolean(val);
                     }
+                    if (name == "systemLimit")
+                    {
+                        def.systemLimit = boost::lexical_cast<int>(val);
+                    }
+                    if (name == "systemLimit")
+                    {
+                        def.subsystemLimit = boost::lexical_cast<int>(val);
+                    }
                 }
 
                 shipDefs[shipName] = def;

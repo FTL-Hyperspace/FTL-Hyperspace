@@ -118,7 +118,10 @@ void ShipManager::ExportBattleState(ShipManager *this<ecx>, int file);
 void ShipManager::ImportBattleState(ShipManager *this<ecx>, int file);
 "558b81c804000089e583e4f08b55088b149031c083faff74??8b41188b0c908b01ff502c":
 bool ShipManager::SystemFunctions(ShipManager *this<ecx>, int systemId);
-
+"5589e557565383e4f083ec108b450883f8050f84????????83f80d74??8b791c8b511889f829d0":
+bool ShipManager::CanFitSystem(ShipManager *this<ecx>, int systemId);
+"5589e557565383e4f083ec108b791c8b511889f829d0c1f80285c074??894c240c31db31f6eb??":
+bool ShipManager::CanFitSubsystem(ShipManager *this<ecx>, int systemId);
 
 struct ShipManager depends (PowerManager, ShieldPower)
 {{

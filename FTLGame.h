@@ -3945,6 +3945,8 @@ struct ShipManager : ShipObject
 	LIBZHL_API void ExportBattleState(int file);
 	LIBZHL_API void ImportBattleState(int file);
 	LIBZHL_API bool SystemFunctions(int systemId);
+	LIBZHL_API bool CanFitSystem(int systemId);
+	LIBZHL_API bool CanFitSubsystem(int systemId);
 	
 	Targetable _targetable;
 	Collideable _collideable;
@@ -4905,6 +4907,12 @@ struct UpgradeBox
 	LIBZHL_API void constructorEmpty(Point pos, bool subsystem);
 	LIBZHL_API void constructorSystem(ShipManager *ship, ShipSystem *sys, Point pos, bool subsystem);
 	LIBZHL_API void destructor();
+	LIBZHL_API void OnRender();
+	LIBZHL_API void MouseMove(int mX, int mY);
+	LIBZHL_API void MouseClick(int mX, int mY);
+	LIBZHL_API void MouseRightClick(int mX, int mY);
+	LIBZHL_API void Undo();
+	LIBZHL_API void Accept();
 	
 	ShipSystem *system;
 	ShipManager *ship;
@@ -5101,8 +5109,12 @@ struct TabbedWindow : FocusWindow
 	bool bWindowLock;
 };
 
+struct ReactorButton;
+
 struct ReactorButton : Button
 {
+	LIBZHL_API void Accept();
+	
 	int tempUpgrade;
 	ShipManager *ship;
 	bool selected;
@@ -5112,6 +5124,13 @@ struct Upgrades : FocusWindow
 {
 	LIBZHL_API void OnInit(ShipManager *ship);
 	LIBZHL_API void ClearUpgradeBoxes();
+	LIBZHL_API void MouseMove(int mX, int mY);
+	LIBZHL_API void OnLoop();
+	LIBZHL_API void MouseClick(int mX, int mY);
+	LIBZHL_API void MouseRightClick(int mX, int mY);
+	LIBZHL_API void OnRender();
+	LIBZHL_API void Close();
+	LIBZHL_API void ConfirmUpgrades();
 	
 	GL_Texture *box;
 	std::vector<UpgradeBox*> vUpgradeBoxes;
@@ -6076,6 +6095,7 @@ struct SystemStoreBox : StoreBox
 	LIBZHL_API void SetExtraData(int droneChoice);
 	LIBZHL_API void constructor(ShipManager *shopper, Equipment *equip, int sys);
 	LIBZHL_API bool CanHold();
+	LIBZHL_API void MouseMove(int mX, int mY);
 	
 	SystemBlueprint *blueprint;
 	int type;
