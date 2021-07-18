@@ -819,73 +819,73 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition& def,
     switch(stat)
     {
         case CrewStat::MAX_HEALTH:
-            finalStat = (temporaryPowerActive && def.powerDef.tempPower.maxHealth.enabled) ? def.powerDef.tempPower.maxHealth.value : def.maxHealth;
+            finalStat = (temporaryPowerActive && def.GetPowerDef()->tempPower.maxHealth.enabled) ? def.GetPowerDef()->tempPower.maxHealth.value : def.maxHealth;
             break;
         case CrewStat::STUN_MULTIPLIER:
-            finalStat = (temporaryPowerActive && def.powerDef.tempPower.stunMultiplier.enabled) ? def.powerDef.tempPower.stunMultiplier.value : def.stunMultiplier;
+            finalStat = (temporaryPowerActive && def.GetPowerDef()->tempPower.stunMultiplier.enabled) ? def.GetPowerDef()->tempPower.stunMultiplier.value : def.stunMultiplier;
             break;
         case CrewStat::MOVE_SPEED_MULTIPLIER:
-            finalStat = (temporaryPowerActive && def.powerDef.tempPower.moveSpeedMultiplier.enabled) ? def.powerDef.tempPower.moveSpeedMultiplier.value : def.moveSpeedMultiplier;
+            finalStat = (temporaryPowerActive && def.GetPowerDef()->tempPower.moveSpeedMultiplier.enabled) ? def.GetPowerDef()->tempPower.moveSpeedMultiplier.value : def.moveSpeedMultiplier;
             break;
         case CrewStat::REPAIR_SPEED_MULTIPLIER:
-            finalStat = (temporaryPowerActive && def.powerDef.tempPower.repairSpeed.enabled) ? def.powerDef.tempPower.repairSpeed.value : def.repairSpeed;
+            finalStat = (temporaryPowerActive && def.GetPowerDef()->tempPower.repairSpeed.enabled) ? def.GetPowerDef()->tempPower.repairSpeed.value : def.repairSpeed;
             break;
         case CrewStat::DAMAGE_MULTIPLIER:
-            finalStat = (temporaryPowerActive && def.powerDef.tempPower.damageMultiplier.enabled) ? def.powerDef.tempPower.damageMultiplier.value : def.damageMultiplier;
+            finalStat = (temporaryPowerActive && def.GetPowerDef()->tempPower.damageMultiplier.enabled) ? def.GetPowerDef()->tempPower.damageMultiplier.value : def.damageMultiplier;
             break;
         case CrewStat::RANGED_DAMAGE_MULTIPLIER:
-            finalStat = (temporaryPowerActive && def.powerDef.tempPower.rangedDamageMultiplier.enabled) ? def.powerDef.tempPower.rangedDamageMultiplier.value : def.rangedDamageMultiplier;
+            finalStat = (temporaryPowerActive && def.GetPowerDef()->tempPower.rangedDamageMultiplier.enabled) ? def.GetPowerDef()->tempPower.rangedDamageMultiplier.value : def.rangedDamageMultiplier;
             break;
         case CrewStat::FIRE_REPAIR_MULTIPLIER:
-            finalStat = (temporaryPowerActive && def.powerDef.tempPower.fireRepairMultiplier.enabled) ? def.powerDef.tempPower.fireRepairMultiplier.value : def.fireRepairMultiplier;
+            finalStat = (temporaryPowerActive && def.GetPowerDef()->tempPower.fireRepairMultiplier.enabled) ? def.GetPowerDef()->tempPower.fireRepairMultiplier.value : def.fireRepairMultiplier;
             break;
         case CrewStat::SUFFOCATION_MODIFIER:
-            finalStat = (temporaryPowerActive && def.powerDef.tempPower.suffocationModifier.enabled) ? def.powerDef.tempPower.suffocationModifier.value : def.suffocationModifier;
+            finalStat = (temporaryPowerActive && def.GetPowerDef()->tempPower.suffocationModifier.enabled) ? def.GetPowerDef()->tempPower.suffocationModifier.value : def.suffocationModifier;
             break;
         case CrewStat::FIRE_DAMAGE_MULTIPLIER:
-            finalStat = (temporaryPowerActive && def.powerDef.tempPower.fireDamageMultiplier.enabled) ? def.powerDef.tempPower.fireDamageMultiplier.value : def.fireDamageMultiplier;
+            finalStat = (temporaryPowerActive && def.GetPowerDef()->tempPower.fireDamageMultiplier.enabled) ? def.GetPowerDef()->tempPower.fireDamageMultiplier.value : def.fireDamageMultiplier;
             break;
         case CrewStat::OXYGEN_CHANGE_SPEED:
-            finalStat = (temporaryPowerActive && def.powerDef.tempPower.oxygenChangeSpeed.enabled) ? def.powerDef.tempPower.oxygenChangeSpeed.value : def.oxygenChangeSpeed;
+            finalStat = (temporaryPowerActive && def.GetPowerDef()->tempPower.oxygenChangeSpeed.enabled) ? def.GetPowerDef()->tempPower.oxygenChangeSpeed.value : def.oxygenChangeSpeed;
             break;
         case CrewStat::DAMAGE_TAKEN_MULTIPLIER:
-            finalStat = (temporaryPowerActive && def.powerDef.tempPower.damageTakenMultiplier.enabled) ? def.powerDef.tempPower.damageTakenMultiplier.value : def.damageTakenMultiplier;
+            finalStat = (temporaryPowerActive && def.GetPowerDef()->tempPower.damageTakenMultiplier.enabled) ? def.GetPowerDef()->tempPower.damageTakenMultiplier.value : def.damageTakenMultiplier;
             break;
         case CrewStat::PASSIVE_HEAL_AMOUNT:
-            finalStat = (temporaryPowerActive && def.powerDef.tempPower.passiveHealAmount.enabled) ? def.powerDef.tempPower.passiveHealAmount.value : def.passiveHealAmount;
+            finalStat = (temporaryPowerActive && def.GetPowerDef()->tempPower.passiveHealAmount.enabled) ? def.GetPowerDef()->tempPower.passiveHealAmount.value : def.passiveHealAmount;
             break;
         case CrewStat::TRUE_PASSIVE_HEAL_AMOUNT:
-            finalStat = (temporaryPowerActive && def.powerDef.tempPower.truePassiveHealAmount.enabled) ? def.powerDef.tempPower.truePassiveHealAmount.value : def.truePassiveHealAmount;
+            finalStat = (temporaryPowerActive && def.GetPowerDef()->tempPower.truePassiveHealAmount.enabled) ? def.GetPowerDef()->tempPower.truePassiveHealAmount.value : def.truePassiveHealAmount;
             break;
         case CrewStat::TRUE_HEAL_AMOUNT:
-            finalStat = (temporaryPowerActive && def.powerDef.tempPower.trueHealAmount.enabled) ? def.powerDef.tempPower.trueHealAmount.value : def.trueHealAmount;
+            finalStat = (temporaryPowerActive && def.GetPowerDef()->tempPower.trueHealAmount.enabled) ? def.GetPowerDef()->tempPower.trueHealAmount.value : def.trueHealAmount;
             break;
         case CrewStat::ACTIVE_HEAL_AMOUNT:
-            finalStat = (temporaryPowerActive && def.powerDef.tempPower.healAmount.enabled) ? def.powerDef.tempPower.healAmount.value : def.healAmount;
+            finalStat = (temporaryPowerActive && def.GetPowerDef()->tempPower.healAmount.enabled) ? def.GetPowerDef()->tempPower.healAmount.value : def.healAmount;
             break;
         case CrewStat::PASSIVE_HEAL_DELAY:
-            finalStat = (temporaryPowerActive && def.powerDef.tempPower.passiveHealDelay.enabled) ? def.powerDef.tempPower.passiveHealDelay.value : def.passiveHealDelay;
+            finalStat = (temporaryPowerActive && def.GetPowerDef()->tempPower.passiveHealDelay.enabled) ? def.GetPowerDef()->tempPower.passiveHealDelay.value : def.passiveHealDelay;
             break;
         case CrewStat::SABOTAGE_SPEED_MULTIPLIER:
-            finalStat = (temporaryPowerActive && def.powerDef.tempPower.sabotageSpeedMultiplier.enabled) ? def.powerDef.tempPower.sabotageSpeedMultiplier.value : def.sabotageSpeedMultiplier;
+            finalStat = (temporaryPowerActive && def.GetPowerDef()->tempPower.sabotageSpeedMultiplier.enabled) ? def.GetPowerDef()->tempPower.sabotageSpeedMultiplier.value : def.sabotageSpeedMultiplier;
             break;
         case CrewStat::ALL_DAMAGE_TAKEN_MULTIPLIER:
-            finalStat = (temporaryPowerActive && def.powerDef.tempPower.allDamageTakenMultiplier.enabled) ? def.powerDef.tempPower.allDamageTakenMultiplier.value : def.allDamageTakenMultiplier;
+            finalStat = (temporaryPowerActive && def.GetPowerDef()->tempPower.allDamageTakenMultiplier.enabled) ? def.GetPowerDef()->tempPower.allDamageTakenMultiplier.value : def.allDamageTakenMultiplier;
             break;
         case CrewStat::HEAL_SPEED_MULTIPLIER:
-            finalStat = (temporaryPowerActive && def.powerDef.tempPower.healSpeed.enabled) ? def.powerDef.tempPower.healSpeed.value : def.healSpeed;
+            finalStat = (temporaryPowerActive && def.GetPowerDef()->tempPower.healSpeed.enabled) ? def.GetPowerDef()->tempPower.healSpeed.value : def.healSpeed;
             break;
         case CrewStat::HEAL_CREW_AMOUNT:
-            finalStat = (temporaryPowerActive && def.powerDef.tempPower.healCrewAmount.enabled) ? def.powerDef.tempPower.healCrewAmount.value : def.healCrewAmount;
+            finalStat = (temporaryPowerActive && def.GetPowerDef()->tempPower.healCrewAmount.enabled) ? def.GetPowerDef()->tempPower.healCrewAmount.value : def.healCrewAmount;
             break;
         case CrewStat::DAMAGE_ENEMIES_AMOUNT:
-            finalStat = (temporaryPowerActive && def.powerDef.tempPower.damageEnemiesAmount.enabled) ? def.powerDef.tempPower.damageEnemiesAmount.value : def.damageEnemiesAmount;
+            finalStat = (temporaryPowerActive && def.GetPowerDef()->tempPower.damageEnemiesAmount.enabled) ? def.GetPowerDef()->tempPower.damageEnemiesAmount.value : def.damageEnemiesAmount;
             break;
         case CrewStat::BONUS_POWER:
-            finalStat = (temporaryPowerActive && def.powerDef.tempPower.bonusPower.enabled) ? def.powerDef.tempPower.bonusPower.value : def.bonusPower;
+            finalStat = (temporaryPowerActive && def.GetPowerDef()->tempPower.bonusPower.enabled) ? def.GetPowerDef()->tempPower.bonusPower.value : def.bonusPower;
             break;
         case CrewStat::POWER_DRAIN:
-            finalStat = (temporaryPowerActive && def.powerDef.tempPower.powerDrain.enabled) ? def.powerDef.tempPower.powerDrain.value : def.powerDrain;
+            finalStat = (temporaryPowerActive && def.GetPowerDef()->tempPower.powerDrain.enabled) ? def.GetPowerDef()->tempPower.powerDrain.value : def.powerDrain;
             break;
         case CrewStat::DEFAULT_SKILL_LEVEL:
             finalStat = def.defaultSkillLevel;
@@ -894,47 +894,47 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition& def,
             finalStat = 1.0;
             break;
         case CrewStat::CAN_FIGHT:
-            *boolValue = (temporaryPowerActive && def.powerDef.tempPower.canFight.enabled) ? def.powerDef.tempPower.canFight.value : def.canFight;
+            *boolValue = (temporaryPowerActive && def.GetPowerDef()->tempPower.canFight.enabled) ? def.GetPowerDef()->tempPower.canFight.value : def.canFight;
             isBool = true;
             break;
         case CrewStat::CAN_REPAIR:
-            *boolValue = (temporaryPowerActive && def.powerDef.tempPower.canRepair.enabled) ? def.powerDef.tempPower.canRepair.value : def.canRepair;
+            *boolValue = (temporaryPowerActive && def.GetPowerDef()->tempPower.canRepair.enabled) ? def.GetPowerDef()->tempPower.canRepair.value : def.canRepair;
             isBool = true;
             break;
         case CrewStat::CAN_SABOTAGE:
-            *boolValue = (temporaryPowerActive && def.powerDef.tempPower.canSabotage.enabled) ? def.powerDef.tempPower.canSabotage.value : def.canSabotage;
+            *boolValue = (temporaryPowerActive && def.GetPowerDef()->tempPower.canSabotage.enabled) ? def.GetPowerDef()->tempPower.canSabotage.value : def.canSabotage;
             isBool = true;
             break;
         case CrewStat::CAN_MAN:
-            *boolValue = (temporaryPowerActive && def.powerDef.tempPower.canMan.enabled) ? def.powerDef.tempPower.canMan.value : def.canMan;
+            *boolValue = (temporaryPowerActive && def.GetPowerDef()->tempPower.canMan.enabled) ? def.GetPowerDef()->tempPower.canMan.value : def.canMan;
             isBool = true;
             break;
         case CrewStat::CAN_SUFFOCATE:
-            *boolValue = (temporaryPowerActive && def.powerDef.tempPower.canSuffocate.enabled) ? def.powerDef.tempPower.canSuffocate.value : def.canSuffocate;
+            *boolValue = (temporaryPowerActive && def.GetPowerDef()->tempPower.canSuffocate.enabled) ? def.GetPowerDef()->tempPower.canSuffocate.value : def.canSuffocate;
             isBool = true;
             break;
         case CrewStat::CONTROLLABLE:
-            *boolValue = (temporaryPowerActive && def.powerDef.tempPower.controllable.enabled) ? def.powerDef.tempPower.controllable.value : def.controllable;
+            *boolValue = (temporaryPowerActive && def.GetPowerDef()->tempPower.controllable.enabled) ? def.GetPowerDef()->tempPower.controllable.value : def.controllable;
             isBool = true;
             break;
         case CrewStat::CAN_BURN:
-            *boolValue = (temporaryPowerActive && def.powerDef.tempPower.canBurn.enabled) ? def.powerDef.tempPower.canBurn.value : def.canBurn;
+            *boolValue = (temporaryPowerActive && def.GetPowerDef()->tempPower.canBurn.enabled) ? def.GetPowerDef()->tempPower.canBurn.value : def.canBurn;
             isBool = true;
             break;
         case CrewStat::IS_TELEPATHIC:
-            *boolValue = (temporaryPowerActive && def.powerDef.tempPower.isTelepathic.enabled) ? def.powerDef.tempPower.isTelepathic.value : def.isTelepathic;
+            *boolValue = (temporaryPowerActive && def.GetPowerDef()->tempPower.isTelepathic.enabled) ? def.GetPowerDef()->tempPower.isTelepathic.value : def.isTelepathic;
             isBool = true;
             break;
         case CrewStat::IS_ANAEROBIC:
-            *boolValue = (temporaryPowerActive && def.powerDef.tempPower.isAnaerobic.enabled) ? def.powerDef.tempPower.isAnaerobic.value : def.isAnaerobic;
+            *boolValue = (temporaryPowerActive && def.GetPowerDef()->tempPower.isAnaerobic.enabled) ? def.GetPowerDef()->tempPower.isAnaerobic.value : def.isAnaerobic;
             isBool = true;
             break;
         case CrewStat::CAN_PHASE_THROUGH_DOORS:
-            *boolValue = (temporaryPowerActive && def.powerDef.tempPower.canPhaseThroughDoors.enabled) ? def.powerDef.tempPower.canPhaseThroughDoors.value : def.canPhaseThroughDoors;
+            *boolValue = (temporaryPowerActive && def.GetPowerDef()->tempPower.canPhaseThroughDoors.enabled) ? def.GetPowerDef()->tempPower.canPhaseThroughDoors.value : def.canPhaseThroughDoors;
             isBool = true;
             break;
         case CrewStat::DETECTS_LIFEFORMS:
-            *boolValue = (temporaryPowerActive && def.powerDef.tempPower.detectsLifeforms.enabled) ? def.powerDef.tempPower.detectsLifeforms.value : def.detectsLifeforms;
+            *boolValue = (temporaryPowerActive && def.GetPowerDef()->tempPower.detectsLifeforms.enabled) ? def.GetPowerDef()->tempPower.detectsLifeforms.value : def.detectsLifeforms;
             isBool = true;
             break;
         case CrewStat::CLONE_LOSE_SKILLS:
@@ -942,15 +942,15 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition& def,
             isBool = true;
             break;
         case CrewStat::POWER_DRAIN_FRIENDLY:
-            *boolValue = (temporaryPowerActive && def.powerDef.tempPower.powerDrainFriendly.enabled) ? def.powerDef.tempPower.powerDrainFriendly.value : def.powerDrainFriendly;
+            *boolValue = (temporaryPowerActive && def.GetPowerDef()->tempPower.powerDrainFriendly.enabled) ? def.GetPowerDef()->tempPower.powerDrainFriendly.value : def.powerDrainFriendly;
             isBool = true;
             break;
         case CrewStat::HACK_DOORS:
-            *boolValue = (temporaryPowerActive && def.powerDef.tempPower.hackDoors.enabled) ? def.powerDef.tempPower.hackDoors.value : def.hackDoors;
+            *boolValue = (temporaryPowerActive && def.GetPowerDef()->tempPower.hackDoors.enabled) ? def.GetPowerDef()->tempPower.hackDoors.value : def.hackDoors;
             isBool = true;
             break;
         case CrewStat::ACTIVATE_WHEN_READY:
-            *boolValue = def.powerDef.activateWhenReady;
+            *boolValue = def.GetPowerDef()->activateWhenReady;
             isBool = true;
             break;
         case CrewStat::DEATH_EFFECT:

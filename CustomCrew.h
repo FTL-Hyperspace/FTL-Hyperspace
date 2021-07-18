@@ -152,12 +152,49 @@ struct ActivatedPowerRequirements
 
 struct ActivatedPowerDefinition
 {
+    ActivatedPowerDefinition()
+    {
+        damage = Damage();
+        damage.iDamage = 0;
+        damage.iShieldPiercing = 0;
+        damage.fireChance = 0;
+        damage.breachChance = 0;
+        damage.stunChance = 0;
+        damage.iIonDamage = 0;
+        damage.iSystemDamage = 0;
+        damage.iPersDamage = 0;
+        damage.bHullBuster = false;
+        damage.ownerId = -1;
+        damage.selfId = -1;
+        damage.bLockdown = false;
+        damage.crystalShard = false;
+        damage.bFriendlyFire = false;
+        damage.iStun = 0;
+        sounds = std::vector<std::string>();
+        buttonLabel = TextString();
+        cooldownColor = GL_Color(133.f / 255.f, 231.f / 255.f, 237.f / 255.f, 1.f);
+        tempPower = TemporaryPowerDefinition();
+        tempPower.cooldownColor = GL_Color(1.f, 1.f, 1.f, 1.f);
+        playerReq = ActivatedPowerRequirements();
+        enemyReq = ActivatedPowerRequirements();
+    }
+
     enum JUMP_COOLDOWN
     {
         JUMP_COOLDOWN_FULL,
         JUMP_COOLDOWN_RESET,
         JUMP_COOLDOWN_CONTINUE
     };
+
+    static std::vector<ActivatedPowerDefinition> powerDefs;
+
+    void AssignIndex()
+    {
+        this->index = powerDefs.size();
+        powerDefs.push_back(*this);
+    }
+
+    unsigned int index = 0;
 
     Damage damage;
     float cooldown = 50.f;
@@ -253,7 +290,13 @@ struct CrewDefinition
     Damage explosionDef;
     bool explosionShipFriendlyFire = false;
 
-    ActivatedPowerDefinition powerDef;
+    //ActivatedPowerDefinition powerDef;
+    unsigned int powerDefIdx = 0;
+    ActivatedPowerDefinition* GetPowerDef() const
+    {
+        if (powerDefIdx == -1) return nullptr;
+        return &ActivatedPowerDefinition::powerDefs[powerDefIdx];
+    }
 
     std::vector<StatBoostDefinition> passiveStatBoosts;
 
@@ -270,7 +313,8 @@ class CustomCrewManager
 public:
     CustomCrewManager()
     {
-
+        ActivatedPowerDefinition powerDef;
+        powerDef.AssignIndex();
     }
 
 
