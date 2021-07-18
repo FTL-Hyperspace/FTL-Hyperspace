@@ -190,7 +190,7 @@ static void __attribute__((fastcall)) CrewMember_ResetPower(CrewMember *_this)
     auto ex = CM_EX(_this);
 
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
-    auto def = custom->GetDefinition(_this->species).GetPowerDef();
+    auto def = ex->GetPowerDef();
 
     auto jumpCooldown = def->jumpCooldown;
 

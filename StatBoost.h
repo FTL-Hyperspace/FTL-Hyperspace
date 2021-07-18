@@ -185,7 +185,7 @@ struct StatBoostDefinition
 
     std::vector<StatBoostDefinition> providedStatBoosts = std::vector<StatBoostDefinition>();
 
-    ActivatedPowerDefinition* powerChange;
+    unsigned int powerChange = 0;
     Damage* deathEffectChange;
     bool explosionShipFriendlyFire;
 

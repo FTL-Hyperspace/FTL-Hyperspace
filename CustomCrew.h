@@ -294,7 +294,6 @@ struct CrewDefinition
     unsigned int powerDefIdx = 0;
     ActivatedPowerDefinition* GetPowerDef() const
     {
-        if (powerDefIdx == -1) return nullptr;
         return &ActivatedPowerDefinition::powerDefs[powerDefIdx];
     }
 

@@ -40,6 +40,7 @@ public:
     Animation* effectFinishAnim = nullptr;
     std::unordered_map<uint64_t, Animation*> boostAnim = std::unordered_map<uint64_t, Animation*>();
     GL_Texture* tempEffectStrip = nullptr;
+    bool tempEffectBaseVisible = true;
 
     bool isMantisAnimation = false;
     bool isIonDrone = false;
@@ -52,6 +53,7 @@ public:
     bool isAbilityDrone = false;
 
     void OnInit(const std::string& name, Pointf position, bool enemy);
+    void PreparePower(ActivatedPowerDefinition* def);
 
     ~CrewAnimation_Extend();
 };
@@ -88,7 +90,11 @@ public:
     Damage* GetPowerDamage();
     PowerReadyState PowerReady();
 
-    ActivatedPowerDefinition* powerChange;
+    unsigned int powerChange;
+    unsigned int powerDefIdx = 0;
+    ActivatedPowerDefinition* GetPowerDef() const;
+    ActivatedPowerDefinition* CalculatePowerDef();
+
     Damage deathEffectChange;
     bool explosionShipFriendlyFire;
     bool hasDeathExplosion;
@@ -97,9 +103,6 @@ public:
     bool isAbilityDrone = false;
 
     float prevStun = 0.f; // for use in stun resistance checking
-
-    GL_Primitive *crewBox_chargesBar = nullptr;
-    std::pair<int, int> crewBox_lastPowerCharges = std::pair<int, int>(0,0);
 
     std::vector<StatBoost> outgoingStatBoosts = std::vector<StatBoost>();
     std::vector<StatBoost> outgoingAbilityStatBoosts = std::vector<StatBoost>();
@@ -117,7 +120,6 @@ public:
     ~CrewMember_Extend()
     {
         delete passiveHealTimer;
-        CSurface::GL_DestroyPrimitive(crewBox_chargesBar);
     }
 
     std::pair<float,int> statCache[numStats] = {};
