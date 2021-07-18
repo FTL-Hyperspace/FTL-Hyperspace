@@ -129,10 +129,10 @@ class StoreSection
 public:
     std::vector<std::vector<CustomStoreBox*>> storeBoxes;
 
-    int currentSection;
+    int currentSection = 0;
     CategoryType category;
-    std::string headingTitle;
-    std::string customTitle;
+    std::string headingTitle = "";
+    std::string customTitle = "";
 };
 
 class StorePage
