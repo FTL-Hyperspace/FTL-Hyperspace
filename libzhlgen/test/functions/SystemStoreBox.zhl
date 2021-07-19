@@ -4,6 +4,8 @@ void SystemStoreBox::SetExtraData(SystemStoreBox *this<ecx>, int droneChoice);
 void SystemStoreBox::constructor(SystemStoreBox *this<ecx>, ShipManager *shopper, Equipment *equip, int sys);
 "8b913801000031c085d274??578d7c240883e4f0ff77fc5589e5575389cb83ec108b4104890424e8????????":
 bool SystemStoreBox::CanHold(SystemStoreBox *this<ecx>);
+"578d7c240883e4f0ff77fc5589e557565389cb83ec5c8b81300100008b378b7f0485c07e??":
+void SystemStoreBox::MouseMove(SystemStoreBox *this<ecx>, int mX, int mY);
 
 struct SystemStoreBox
 {{

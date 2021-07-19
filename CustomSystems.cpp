@@ -1,5 +1,6 @@
 #include "CustomSystems.h"
 #include "TemporalSystem.h"
+#include "CustomShipSelect.h"
 
 void ParseSystemsNode(rapidxml::xml_node<char>* node)
 {
@@ -319,114 +320,6 @@ HOOK_METHOD(ShipBuilder, CreateSystemBoxes, () -> void)
     }
 }
 
-/*
-WHY is this crashing I don't understand it's literally doing the same thing the game does
-but no it has to crash on a function unrelated to it for some bizarre reason
-
-Fixed
-*/
-HOOK_METHOD(Upgrades, OnInit, (ShipManager *ship) -> void)
-{
-    bFullFocus = true;
-    shipManager = ship;
-    infoBoxLoc = Point(position.x + 600, position.y);
-    infoBox.location = infoBoxLoc;
-
-    TextString buttonLabel = TextString();
-    buttonLabel.isLiteral = false;
-    buttonLabel.data = "button_undo";
-
-    undoButton.OnInit(position.x + 33, position.y + 471, 97, 32, 4, &buttonLabel, 63);
-    undoButton.SetBaseImage("upgradeUI/buttons_undo_base.png", Point(-23, -7), 97);
-    undoButton.SetAutoWidth(true, false, 3, 0);
-
-    reactorButton.OnInit("upgradeUI/Equipment/equipment_reactor", position.x + 305, position.y + 327);
-    reactorButton.allowAnyTouch = true;
-    reactorButton.touchSelectable = true;
-    reactorButton.ship = ship;
-
-    box = G_->GetResources()->GetImageId("upgradeUI/Equipment/upgrades_main.png");
-
-    ClearUpgradeBoxes();
-
-    std::vector<int> systemOrder = { 0, 1, 5, 13, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 14, 15, 20 };
-
-    int systemXPos = position.x - 27;
-    int subsystemXPos = position.x - 50;
-
-    int numSystems = 0;
-    int numSubsystems = 0;
-
-    systemCount = 0;
-
-    for (auto i : systemOrder)
-    {
-        if (i == SYS_ARTILLERY)
-        {
-            for (auto sys : ship->artillerySystems)
-            {
-                int yPos = position.y + 115;
-                bool isSubsystem = !sys->bNeedsPower;
-
-                if (isSubsystem)
-                {
-                    subsystemXPos += 66;
-                    yPos = position.y + 330;
-                    numSubsystems++;
-                }
-                else
-                {
-                    systemXPos += 66;
-                    numSystems++;
-                }
-
-                auto box = new UpgradeBox(ship, sys, Point(isSubsystem ? subsystemXPos : systemXPos, yPos), isSubsystem);
-                vUpgradeBoxes.push_back(box);
-                systemCount++;
-            }
-        }
-        else
-        {
-            auto sys = ship->GetSystem(i);
-            if (sys)
-            {
-                int yPos = position.y + 115;
-                bool isSubsystem = !sys->bNeedsPower;
-
-                if (isSubsystem)
-                {
-                    subsystemXPos += 66;
-                    yPos = position.y + 330;
-                    numSubsystems++;
-                }
-                else
-                {
-                    systemXPos += 66;
-                    numSystems++;
-                }
-
-                auto box = new UpgradeBox(ship, sys, Point(isSubsystem ? subsystemXPos : systemXPos, yPos), isSubsystem);
-                vUpgradeBoxes.push_back(box);
-                systemCount++;
-            }
-        }
-    }
-
-    for (int i = numSystems; i < 8; i++)
-    {
-        systemXPos += 66;
-        auto box = new UpgradeBox(Point(systemXPos, position.y + 115), false);
-        vUpgradeBoxes.push_back(box);
-    }
-    for (int i = numSubsystems; i < 4; i++)
-    {
-        subsystemXPos += 66;
-        auto box = new UpgradeBox(Point(subsystemXPos, position.y + 330), true);
-        vUpgradeBoxes.push_back(box);
-    }
-
-}
-
 
 HOOK_METHOD(CombatControl, KeyDown, (SDLKey key) -> void)
 {
@@ -453,6 +346,61 @@ HOOK_METHOD(CombatControl, KeyDown, (SDLKey key) -> void)
             currentTarget->shipManager->ship.SetSelectedRoom(-1);
         }
     }
+}
+
+HOOK_METHOD(ShipManager, CanFitSystem, (int systemId) -> bool)
+{
+    if (systemId == SYS_MEDBAY)
+    {
+        return systemKey[SYS_CLONEBAY] != -1;
+    }
+    else if (systemId == SYS_CLONEBAY)
+    {
+        return systemKey[SYS_MEDBAY] != -1;
+    }
+
+    int count = 0;
+
+    for (auto i : vSystemList)
+    {
+        if (i->bNeedsPower)
+        {
+            count++;
+        }
+    }
+
+    auto custom = CustomShipSelect::GetInstance();
+    int sysLimit = custom->GetDefaultDefinition().systemLimit;
+
+    if (custom->HasCustomDef(myBlueprint.blueprintName))
+    {
+        sysLimit = custom->GetDefinition(myBlueprint.blueprintName).systemLimit;
+    }
+
+    return count < sysLimit;
+}
+
+HOOK_METHOD(ShipManager, CanFitSubsystem, (int systemId) -> bool)
+{
+    int count = 0;
+
+    for (auto i : vSystemList)
+    {
+        if (!i->bNeedsPower)
+        {
+            count++;
+        }
+    }
+
+    auto custom = CustomShipSelect::GetInstance();
+    int sysLimit = custom->GetDefaultDefinition().subsystemLimit;
+
+    if (custom->HasCustomDef(myBlueprint.blueprintName))
+    {
+        sysLimit = custom->GetDefinition(myBlueprint.blueprintName).subsystemLimit;
+    }
+
+    return count < sysLimit;
 }
 
 /*

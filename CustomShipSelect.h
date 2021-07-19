@@ -61,6 +61,8 @@ struct CustomShipDefinition
     ToggleValue<bool> forceAutomated;
 
     int crewLimit = 8;
+    int systemLimit = 8;
+    int subsystemLimit = 4;
 
     CustomShipDefinition()
     {
