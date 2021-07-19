@@ -154,6 +154,11 @@ void CustomUpgrades::Close()
             }
         }
 
+        for (auto i : orig->vUpgradeBoxes)
+        {
+            i->Accept();
+        }
+
         orig->reactorButton.Accept();
         orig->bOpen = false;
         G_->GetEventSystem()->AddEvent(13);
