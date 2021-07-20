@@ -1093,7 +1093,7 @@ void StoreComplete::OnRender()
 
     if (itemPurchaseLimit != -1)
     {
-        G_->GetResources()->RenderImage(limitIndicator, orig->position.x - 47, orig->position.y + 26, 0.f, COLOR_WHITE, 1.f, false);
+        G_->GetResources()->RenderImage(limitIndicator, orig->position.x + 7 - limitIndicator->width_, orig->position.y + 26, 0.f, COLOR_WHITE, 1.f, false);
 
         CSurface::GL_SetColor(COLOR_BUTTON_ON);
 
