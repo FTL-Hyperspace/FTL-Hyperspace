@@ -3,4 +3,4 @@ bool ArmamentControl::Dragging(ArmamentControl *this<ecx>);
 "5589e5565383e4f083ec108b450839411c8b550c74??89411c89512031db8b51408b414489ce":
 void ArmamentControl::SetPosition(ArmamentControl *this<ecx>, int x, int y);
 "578d7c240883e4f0ff77fc5589e557565331db89ce83ec2c8b078b79148945e4":
-bool ArmamentControl::KeyDown(ArmamentControl *this<ecx>, int key);
+bool ArmamentControl::KeyDown(ArmamentControl *this<ecx>, SDLKey key);

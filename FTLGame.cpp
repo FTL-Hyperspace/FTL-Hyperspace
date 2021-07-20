@@ -1119,10 +1119,10 @@ namespace _func31
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("ArmamentControl::KeyDown", typeid(bool (ArmamentControl::*)(int )), "578d7c240883e4f0ff77fc5589e557565331db89ce83ec2c8b078b79148945e4", argdata, 2, 1, &func);
+	static FunctionDefinition funcObj("ArmamentControl::KeyDown", typeid(bool (ArmamentControl::*)(SDLKey )), "578d7c240883e4f0ff77fc5589e557565331db89ce83ec2c8b078b79148945e4", argdata, 2, 1, &func);
 }
 
-__declspec(naked) bool ArmamentControl::KeyDown(int key)
+__declspec(naked) bool ArmamentControl::KeyDown(SDLKey key)
 {
 	__asm__
 	(

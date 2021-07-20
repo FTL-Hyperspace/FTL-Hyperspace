@@ -1125,7 +1125,7 @@ struct ArmamentControl
 {
 	LIBZHL_API bool Dragging();
 	LIBZHL_API void SetPosition(int x, int y);
-	LIBZHL_API bool KeyDown(int key);
+	LIBZHL_API bool KeyDown(SDLKey key);
 	
 	void *vptr;
 	int systemId;

@@ -323,7 +323,8 @@ HOOK_METHOD(ShipBuilder, CreateSystemBoxes, () -> void)
 
 HOOK_METHOD(CombatControl, KeyDown, (SDLKey key) -> void)
 {
-    if (weapControl.KeyDown(key) || droneControl.KeyDown(key))
+    bool isWeaponKey = weapControl.KeyDown(key);
+    if (isWeaponKey || droneControl.KeyDown(key))
     {
         if (shipManager->HasSystem(SYS_MIND))
         {
@@ -345,6 +346,10 @@ HOOK_METHOD(CombatControl, KeyDown, (SDLKey key) -> void)
         {
             currentTarget->shipManager->ship.SetSelectedRoom(-1);
         }
+    }
+    if (isWeaponKey)
+    {
+        aimingPoints.clear();
     }
 }
 
