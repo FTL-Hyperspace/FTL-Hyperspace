@@ -1895,6 +1895,8 @@ HOOK_METHOD(CrewMember, LoadState, (int file) -> void)
     ex->temporaryPowerActive = FileHelper::readInteger(file);
     ex->powerDefIdx = FileHelper::readInteger(file);
 
+    if (ex->powerDefIdx >= ActivatedPowerDefinition::powerDefs.size()) ex->powerDefIdx = 0; // bounds check
+
     auto powerDef = ex->GetPowerDef();
     ex->hasSpecialPower = powerDef->hasSpecialPower;
     ex->hasTemporaryPower = powerDef->hasTemporaryPower;
