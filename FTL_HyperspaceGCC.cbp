@@ -536,6 +536,9 @@
 		<Unit filename="ToggleValue.h">
 			<Option virtualFolder="Core/" />
 		</Unit>
+		<Unit filename="TriggeredEvents.cpp">
+			<Option virtualFolder="Core/Events/" />
+		</Unit>
 		<Unit filename="Wormhole.cpp">
 			<Option virtualFolder="Content/Map/" />
 		</Unit>

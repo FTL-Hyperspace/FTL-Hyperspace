@@ -64,6 +64,82 @@ struct CustomQuest
     }
 };
 
+class TriggeredEventDefinition
+{
+public:
+    static std::vector<TriggeredEventDefinition> defs;
+    static unsigned int PushDef(TriggeredEventDefinition& def);
+public:
+    unsigned int idx = -1;
+
+    std::string name = "";
+    std::string event = "";
+    bool seeded = true;
+    int minLoops = 1;
+    int maxLoops = 1;
+    float triggerMinTime = -1.f;
+    float triggerMaxTime = -1.f;
+    int triggerMinJumps = -1;
+    int triggerMaxJumps = -1;
+    bool clearOnJump = false;
+};
+
+class TriggeredEvent
+{
+public:
+    static std::unordered_map<std::string, TriggeredEvent> eventList;
+
+    static void NewEvent(TriggeredEventDefinition* def);
+    static void DestroyEvent(const std::string& name);
+    static void UpdateAll();
+    static void JumpAll();
+    static void TriggerCheck();
+    static void SaveAll(int file);
+    static void LoadAll(int file);
+
+public:
+    TriggeredEventDefinition* def;
+
+    unsigned int seed = -1;
+    int loops;
+    TimerHelper* triggerTimer = nullptr;
+    int triggerJumps;
+
+    bool triggered = false;
+
+    TriggeredEvent(TriggeredEventDefinition* newDef) : def{newDef}
+    {
+        if (def->seeded) seed = random32();
+
+        if (def->maxLoops > def->minLoops)
+        {
+            loops = def->minLoops + random32()%(def->maxLoops-def->minLoops+1);
+        }
+        else
+        {
+            loops = def->minLoops;
+        }
+
+        if (def->triggerMinTime != -1.f)
+        {
+            triggerTimer = new TimerHelper();
+        }
+
+        Reset();
+    }
+
+    ~TriggeredEvent()
+    {
+        delete triggerTimer;
+    }
+
+    void Reset();
+    void Update();
+    void Jump();
+    void Save(int file);
+    void Load(int file);
+};
+
 struct EventFleet
 {
     std::string fleetDefName;
@@ -84,6 +160,8 @@ struct CustomEvent
     bool preventQuest = false;
     bool noQuestText = false;
     CustomQuest *customQuest;
+    std::vector<unsigned int> triggeredEvents;
+    std::vector<std::string> clearTriggeredEvents;
     int preventBossFleet = 0;
     int runFromFleet = 0;
     bool removeHazards = false;

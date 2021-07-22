@@ -159,6 +159,73 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
                         ParseCustomQuestNode(child, customEvent->customQuest);
                     }
 
+                    if (nodeName == "triggeredEvent")
+                    {
+                        TriggeredEventDefinition def;
+                        if (child->first_attribute("event"))
+                        {
+                            def.event = child->first_attribute("event")->value();
+                            def.name = child->first_attribute("event")->value();
+                        }
+                        if (child->first_attribute("name"))
+                        {
+                            def.name = child->first_attribute("name")->value();
+                        }
+                        if (child->first_attribute("seeded"))
+                        {
+                            def.seeded = EventsParser::ParseBoolean(child->first_attribute("seeded")->value());
+                        }
+                        if (child->first_attribute("clearOnJump"))
+                        {
+                            def.clearOnJump = EventsParser::ParseBoolean(child->first_attribute("clearOnJump")->value());
+                        }
+                        if (child->first_attribute("loops"))
+                        {
+                            def.minLoops = boost::lexical_cast<int>(child->first_attribute("loops")->value());
+                            def.maxLoops = boost::lexical_cast<int>(child->first_attribute("loops")->value());
+                        }
+                        if (child->first_attribute("minLoops"))
+                        {
+                            def.minLoops = boost::lexical_cast<int>(child->first_attribute("minLoops")->value());
+                        }
+                        if (child->first_attribute("maxLoops"))
+                        {
+                            def.maxLoops = boost::lexical_cast<int>(child->first_attribute("maxLoops")->value());
+                        }
+                        if (child->first_attribute("time"))
+                        {
+                            def.triggerMinTime = boost::lexical_cast<float>(child->first_attribute("time")->value());
+                            def.triggerMaxTime = boost::lexical_cast<float>(child->first_attribute("time")->value());
+                        }
+                        if (child->first_attribute("minTime"))
+                        {
+                            def.triggerMinTime = boost::lexical_cast<float>(child->first_attribute("minTime")->value());
+                        }
+                        if (child->first_attribute("maxTime"))
+                        {
+                            def.triggerMaxTime = boost::lexical_cast<float>(child->first_attribute("maxTime")->value());
+                        }
+                        if (child->first_attribute("jumps"))
+                        {
+                            def.triggerMinJumps = boost::lexical_cast<int>(child->first_attribute("jumps")->value());
+                            def.triggerMaxJumps = boost::lexical_cast<int>(child->first_attribute("jumps")->value());
+                        }
+                        if (child->first_attribute("minJumps"))
+                        {
+                            def.triggerMinJumps = boost::lexical_cast<int>(child->first_attribute("minJumps")->value());
+                        }
+                        if (child->first_attribute("maxJumps"))
+                        {
+                            def.triggerMaxJumps = boost::lexical_cast<int>(child->first_attribute("maxJumps")->value());
+                        }
+                        customEvent->triggeredEvents.push_back(TriggeredEventDefinition::PushDef(def));
+                    }
+
+                    if (nodeName == "clearTriggeredEvent")
+                    {
+                        customEvent->clearTriggeredEvents.push_back(child->first_attribute("name")->value());
+                    }
+
                     if (nodeName == "preventBossFleet")
                     {
                         customEvent->preventBossFleet = 1;
@@ -1758,10 +1825,17 @@ HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEve
         {
             space.currentBack = G_->GetResources()->GetImageId(G_->GetEventGenerator()->GetImageFromList(customEvent->changeBackground));
         }
+
+        for (auto& triggeredEvent: customEvent->triggeredEvents)
+        {
+            TriggeredEvent::NewEvent(&TriggeredEventDefinition::defs.at(triggeredEvent));
+        }
+
+        for (auto& triggeredEvent: customEvent->clearTriggeredEvents)
+        {
+            TriggeredEvent::DestroyEvent(triggeredEvent);
+        }
     }
-
-
-
 
     return ret;
 }
