@@ -4,6 +4,8 @@
 std::vector<TriggeredEventDefinition> TriggeredEventDefinition::defs = std::vector<TriggeredEventDefinition>();
 std::unordered_map<std::string, TriggeredEvent> TriggeredEvent::eventList = std::unordered_map<std::string, TriggeredEvent>();
 
+TriggeredEventGui *TriggeredEventGui::instance = new TriggeredEventGui();
+
 bool locationUpdated;
 
 unsigned int TriggeredEventDefinition::PushDef(TriggeredEventDefinition& def)
@@ -149,6 +151,7 @@ void TriggeredEvent::SaveAll(int file)
 void TriggeredEvent::LoadAll(int file)
 {
     TriggeredEvent::eventList.clear();
+    TriggeredEventGui::GetInstance()->reset = true;
 
     int n = FileHelper::readInteger(file);
 
@@ -192,6 +195,7 @@ void TriggeredEvent::Load(int file)
 HOOK_METHOD(WorldManager, CreateNewGame, () -> void)
 {
     TriggeredEvent::eventList.clear();
+    TriggeredEventGui::GetInstance()->reset = true;
     super();
 }
 
@@ -228,4 +232,10 @@ HOOK_METHOD(StarMap, UpdateDangerZone, () -> void)
 {
     TriggeredEvent::JumpAll();
     super();
+}
+
+HOOK_METHOD(ShipStatus, OnRender, () -> void)
+{
+    super();
+    TriggeredEventGui::GetInstance()->OnRender();
 }

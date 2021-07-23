@@ -2,6 +2,7 @@
 #include "Global.h"
 #include "ToggleValue.h"
 #include <algorithm>
+#include <memory>
 #include <unordered_set>
 
 struct BeaconType
@@ -138,6 +139,107 @@ public:
     void Jump();
     void Save(int file);
     void Load(int file);
+};
+
+struct GL_Primitive_Deleter {
+    void operator()(GL_Primitive* p) {
+        hs_log_file("Destroy primitive %d\n", p);
+        CSurface::GL_DestroyPrimitive(p);
+    }
+};
+
+class TriggeredEventBox
+{
+public:
+    TriggeredEvent* event;
+
+    std::unique_ptr<GL_Primitive, GL_Primitive_Deleter> backgroundIcon;
+    std::unique_ptr<GL_Primitive, GL_Primitive_Deleter> backgroundIconRed;
+
+    int x;
+    int y;
+    int width;
+
+    /*~TriggeredEventBox() noexcept
+    {
+        CSurface::GL_DestroyPrimitive(backgroundIcon);
+        CSurface::GL_DestroyPrimitive(backgroundIconRed);
+    }*/
+
+    TriggeredEventBox(const TriggeredEventBox&) = delete;
+    TriggeredEventBox(TriggeredEventBox&& other) noexcept = default; /*:
+        event{std::move(other.event)},
+        backgroundIcon{other.backgroundIcon},
+        backgroundIconRed{other.backgroundIconRed},
+        x{std::move(other.x)},
+        y{std::move(other.y)},
+        width{std::move(other.width)}
+    {
+        other.backgroundIcon = nullptr;
+        other.backgroundIconRed = nullptr;
+    };*/
+    TriggeredEventBox& operator=(const TriggeredEventBox&) = delete;
+    //TriggeredEventBox& operator=(TriggeredEventBox&&) noexcept = default;
+
+    TriggeredEventBox(TriggeredEvent* e, int x_, int y_) :
+        event{e},
+        x{x_},
+        y{y_}
+    {
+        backgroundIcon.reset(G_->GetResources()->CreateImagePrimitiveString("statusUI/top_stopwatch.png", x, y, 0, GL_Color(1.f,1.f,1.f,1.f), 1.f, false));
+        backgroundIconRed.reset(G_->GetResources()->CreateImagePrimitiveString("statusUI/top_stopwatch_red.png", x, y, 0, GL_Color(1.f,1.f,1.f,1.f), 1.f, false));
+        width = backgroundIcon->texture->width_;
+    }
+
+    void OnRender()
+    {
+        CSurface::GL_RenderPrimitive(backgroundIcon.get());
+        CSurface::GL_SetColor(GL_Color(243.f / 255.f, 255.f / 255.f, 230.f / 255.f, 1.f));
+        //freetype::easy_printCenter(0, x+83, y+23, "1:00:00"); // big stopwatch
+        freetype::easy_printCenter(0, x+51, y+15, "1:00"); // small stopwatch
+    }
+};
+
+class TriggeredEventGui
+{
+public:
+    std::vector<TriggeredEventBox> boxes;
+
+    bool reset = true;
+
+    void CreateBoxes()
+    {
+        boxes.clear();
+        // 126,71 for big stopwatch
+        // 122,75 for small
+        int x = 122;
+        int y = 75;
+
+        for (int i=0; i<6; ++i)
+        {
+            boxes.emplace_back(nullptr, x, y);
+            x += boxes.back().width;
+        }
+        reset = false;
+    }
+
+    void OnRender()
+    {
+        if (reset) CreateBoxes();
+
+        for (auto& box: boxes)
+        {
+            box.OnRender();
+        }
+    }
+
+    static TriggeredEventGui *GetInstance()
+    {
+        return instance;
+    }
+
+private:
+    static TriggeredEventGui *instance;
 };
 
 struct EventFleet
