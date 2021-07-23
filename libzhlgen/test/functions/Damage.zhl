@@ -5,4 +5,5 @@ struct Damage
 	Damage()
 	{
 	};
+	
 }};

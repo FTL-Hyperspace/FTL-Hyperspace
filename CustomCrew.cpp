@@ -4,6 +4,7 @@
 #include "freetype.h"
 #include "StatBoost.h"
 #include "TemporalSystem.h"
+#include "CustomDamage.h"
 
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
@@ -1117,22 +1118,22 @@ Damage* CrewMember_Extend::GetPowerDamage()
 
     auto powerDef = GetPowerDef();
 
-    Damage* customDamage = &(powerDef->damage);
+    Damage* newDamage = &(powerDef->damage);
 
-    damage->iDamage = customDamage->iDamage;
-    damage->fireChance = customDamage->fireChance;
-    damage->breachChance = customDamage->breachChance;
-    damage->stunChance = customDamage->stunChance;
-    damage->iIonDamage = customDamage->iIonDamage;
-    damage->iSystemDamage = customDamage->iSystemDamage;
-    damage->iPersDamage = customDamage->iPersDamage;
-    damage->bHullBuster = customDamage->bHullBuster;
+    damage->iDamage = newDamage->iDamage;
+    damage->fireChance = newDamage->fireChance;
+    damage->breachChance = newDamage->breachChance;
+    damage->stunChance = newDamage->stunChance;
+    damage->iIonDamage = newDamage->iIonDamage;
+    damage->iSystemDamage = newDamage->iSystemDamage;
+    damage->iPersDamage = newDamage->iPersDamage;
+    damage->bHullBuster = newDamage->bHullBuster;
     damage->ownerId = orig->iShipId;
     damage->selfId = (int)orig;
     damage->bLockdown = false;
-    damage->crystalShard = customDamage->crystalShard;
-    damage->bFriendlyFire = customDamage->bFriendlyFire;
-    damage->iStun = customDamage->iStun;
+    damage->crystalShard = newDamage->crystalShard;
+    damage->bFriendlyFire = newDamage->bFriendlyFire;
+    damage->iStun = newDamage->iStun;
 
     return damage;
 }
@@ -2772,16 +2773,13 @@ HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
 
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
 
-
     for (auto i : vCrewList)
     {
         Damage* dmg = new Damage;
 
         CrewMember::GetRoomDamage(dmg, i);
 
-        unsigned int bitmask = false << 24 | dmg->bFriendlyFire << 16 | dmg->crystalShard << 8 | dmg->bLockdown;
-
-        DamageArea(Pointf(i->x, i->y), dmg->iDamage, dmg->iShieldPiercing, dmg->fireChance, dmg->breachChance, dmg->stunChance, dmg->iIonDamage, dmg->iSystemDamage, dmg->iPersDamage, dmg->bHullBuster, dmg->ownerId, dmg->selfId, bitmask, dmg->iStun, true);
+        DamageArea(Pointf(i->x, i->y), *((DamageParameter*)dmg), true);
 
         delete dmg;
 
@@ -2843,10 +2841,9 @@ HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
                 if (actualShip)
                 {
                     Damage* dmg = ex->GetPowerDamage();
-                    unsigned int bitmask = false << 24 | dmg->bFriendlyFire << 16 | dmg->crystalShard << 8 | dmg->bLockdown;
 
                     shipFriendlyFire = ex->GetPowerDef()->shipFriendlyFire;
-                    actualShip->DamageArea(CMA_EX(i->crewAnim)->effectWorldPos, dmg->iDamage, dmg->iShieldPiercing, dmg->fireChance, dmg->breachChance, dmg->stunChance, dmg->iIonDamage, dmg->iSystemDamage, dmg->iPersDamage, dmg->bHullBuster, dmg->ownerId, dmg->selfId, bitmask, dmg->iStun, true);
+                    actualShip->DamageArea(CMA_EX(i->crewAnim)->effectWorldPos, *((DamageParameter*)dmg), true);
 
                     delete dmg;
                 }
@@ -2856,28 +2853,24 @@ HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
     }
 }
 
-HOOK_METHOD(ShipManager, DamageCrew, (CrewMember *crew, int iDamage, int iShieldPiercing, int fireChance, int breachChance, int stunChance, int iIonDamage, int iSystemDamage, int iPersDamage, int bHullBuster, int ownerId, int selfId, int bLockdown, int iStun) -> char)
+
+HOOK_METHOD(ShipManager, DamageCrew, (CrewMember *crew, DamageParameter dmgParameter) -> char)
 {
-    Damage* dmg = (Damage*)&iDamage;
+    Damage* dmg = (Damage*)&dmgParameter;
 
-    if ((CrewMember*)dmg->selfId == crew)
-    {
-        return false;
-    }
-
-    return super(crew, iDamage, iShieldPiercing, fireChance, breachChance, stunChance, iIonDamage, iSystemDamage, iPersDamage, bHullBuster, ownerId, selfId, bLockdown, iStun);
+    return super(crew, dmgParameter);
 }
 
-HOOK_METHOD(ShipManager, DamageArea, (Pointf location,  int iDamage, int iShieldPiercing, int fireChance, int breachChance, int stunChance, int iIonDamage, int iSystemDamage, int iPersDamage, char bHullBuster, int ownerId, int selfId, int bLockdown, int iStun, bool forceHit) -> bool)
+HOOK_METHOD_PRIORITY(ShipManager, DamageArea, -1000, (Pointf location, DamageParameter damageParameter, bool forceHit) -> bool)
 {
     if (blockDamageArea) return false;
-    Damage* dmg = (Damage*)&iDamage;
+    Damage* dmg = (Damage*)&damageParameter;
 
     if (!shipFriendlyFire)
     {
         shipFriendlyFire = true;
 
-        if (ownerId == iShipId)
+        if (dmg->ownerId == iShipId)
         {
             int roomId = ship.GetSelectedRoomId(location.x, location.y, true);
 
@@ -2890,8 +2883,7 @@ HOOK_METHOD(ShipManager, DamageArea, (Pointf location,  int iDamage, int iShield
                 {
                     if (i->iRoomId == roomId)
                     {
-
-                        DamageCrew(i, iDamage, iShieldPiercing, fireChance, breachChance, stunChance, iIonDamage, iSystemDamage, iPersDamage, bHullBuster, ownerId, selfId, bLockdown, iStun);
+                        DamageCrew(i, damageParameter);
                     }
                 }
             }
@@ -2900,7 +2892,7 @@ HOOK_METHOD(ShipManager, DamageArea, (Pointf location,  int iDamage, int iShield
         }
     }
 
-    return super(location, iDamage, iShieldPiercing, fireChance, breachChance, stunChance, iIonDamage, iSystemDamage, iPersDamage, bHullBuster, ownerId, selfId, bLockdown, iStun, forceHit);
+    return super(location, damageParameter, forceHit);
 }
 
 HOOK_METHOD(CrewBox, constructor, (Point pos, CrewMember *crew, int number) -> void)

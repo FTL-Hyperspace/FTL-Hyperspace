@@ -592,6 +592,7 @@ struct Damage
 	Damage()
 	{
 	};
+	
 
 	int iDamage;
 	int iShieldPiercing;
@@ -602,11 +603,13 @@ struct Damage
 	int iSystemDamage;
 	int iPersDamage;
 	bool bHullBuster;
+	unsigned __int8 gap_ex_1[3];
 	int ownerId;
 	int selfId;
 	bool bLockdown;
 	bool crystalShard;
 	bool bFriendlyFire;
+	unsigned __int8 gap_ex_2;
 	int iStun;
 };
 
@@ -3811,10 +3814,28 @@ struct Collideable
 	void *vptr;
 };
 
+struct TeleportSystem;
 struct MedbaySystem;
 struct OxygenSystem;
 
 struct ArtillerySystem;
+
+struct DamageParameter
+{
+	int iDamage;
+	int iShieldPiercing;
+	int fireChance;
+	int breachChance;
+	int stunChance;
+	int iIonDamage;
+	int iSystemDamage;
+	int iPersDamage;
+	int hullBusterMask;
+	int ownerId;
+	int selfId;
+	int lockdownShardFriendlyFireMask;
+	int iStun;
+};
 
 struct MindSystem;
 
@@ -3834,8 +3855,6 @@ struct PowerManager
 	int iHacked;
 	std::pair<int, int> batteryPower;
 };
-
-struct TeleportSystem;
 
 struct ShipManager : ShipObject
 {
@@ -3903,9 +3922,9 @@ struct ShipManager : ShipObject
 	LIBZHL_API CrewMember *AddCrewMemberFromBlueprint(CrewBlueprint *bp, int slot, bool init, int roomId, bool intruder);
 	LIBZHL_API CrewMember *AddCrewMemberFromString(const std::string &name, const std::string &race, char intruder, int roomId, char init, char male);
 	LIBZHL_API int GetOxygenPercentage();
-	LIBZHL_API char DamageCrew(CrewMember *crew, int iDamage, int iShieldPiercing, int fireChance, int breachChance, int stunChance, int iIonDamage, int iSystemDamage, int iPersDamage, char bHullBuster, int ownerId, int selfId, int bLockdown, int iStun);
+	LIBZHL_API char DamageCrew(CrewMember *crew, DamageParameter dmg);
 	LIBZHL_API void RemoveItem(const std::string &name);
-	LIBZHL_API char DamageArea(Pointf location, int iDamage, int iShieldPiercing, int fireChance, int breachChance, int stunChance, int iIonDamage, int iSystemDamage, int iPersDamage, char bHullBuster, int ownerId, int selfId, int bLockdown, int iStun, char forceHit);
+	LIBZHL_API char DamageArea(Pointf location, DamageParameter dmg, char forceHit);
 	LIBZHL_API static CrewBlueprint *__stdcall SelectRandomCrew(CrewBlueprint &bp, ShipManager *ship, int seed, const std::string &unk);
 	LIBZHL_API void ClearStatusAll();
 	LIBZHL_API void PrepareSuperDrones();
@@ -3932,7 +3951,7 @@ struct ShipManager : ShipObject
 	LIBZHL_API bool IsSystemHacked(int systemId);
 	LIBZHL_API CrewMember *GetSelectedCrewPoint(int x, int y, bool intruder);
 	LIBZHL_API void RenderWeapons();
-	LIBZHL_API void DamageSystem(int roomId, int iDamage, int iShieldPiercing, int fireChance, int breachChance, int stunChance, int iIonDamage, int iSystemDamage, int iPersDamage, char bHullBuster, int ownerId, int selfId, int bLockdown, int iStun);
+	LIBZHL_API void DamageSystem(int roomId, DamageParameter dmg);
 	LIBZHL_API void ClearStatusSystem(int system);
 	LIBZHL_API void ResetScrapLevel();
 	LIBZHL_API void JumpArrive();
@@ -4480,6 +4499,7 @@ struct Projectile : Collideable
 	LIBZHL_API void CollisionCheck(Collideable *other);
 	LIBZHL_API void constructor(Pointf position, int ownerId, int targetId, Pointf target);
 	LIBZHL_API void destructor();
+	LIBZHL_API void Initialize(WeaponBlueprint &bp);
 	
 	Targetable _targetable;
 	Pointf position;
@@ -5336,6 +5356,14 @@ struct MedbaySystem
 {
 };
 
+struct GL_TexVertex
+{
+	float x;
+	float y;
+	float u;
+	float v;
+};
+
 struct ProjectileFactory : ShipObject
 {
 	LIBZHL_API void constructor(const WeaponBlueprint *bp, int shipId);
@@ -5356,7 +5384,7 @@ struct ProjectileFactory : ShipObject
 	std::pair<float, float> cooldown;
 	std::pair<float, float> subCooldown;
 	float baseCooldown;
-	const WeaponBlueprint *blueprint;
+	WeaponBlueprint *blueprint;
 	Point localPosition;
 	Animation flight_animation;
 	bool autoFiring;
@@ -5904,14 +5932,6 @@ struct MemoryInputEvent
 
 struct EngineSystem
 {
-};
-
-struct GL_TexVertex
-{
-	float x;
-	float y;
-	float u;
-	float v;
 };
 
 struct HackingDrone;
@@ -7015,7 +7035,7 @@ struct Shields : ShipSystem
 		int damage;
 	};
 	
-	LIBZHL_API void *CollisionReal(float x, float y, Damage damage, bool unk);
+	LIBZHL_API void *CollisionReal(float x, float y, DamageParameter damage, bool unk);
 	LIBZHL_API void constructor(int roomId, int shipId, int startingPower, const std::string shieldFile);
 	LIBZHL_API void SetBaseEllipse(Globals::Ellipse ellipse);
 	LIBZHL_API void InstantCharge();

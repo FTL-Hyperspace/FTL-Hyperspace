@@ -1,5 +1,6 @@
 #include "CustomWeapons.h"
 #include "CustomOptions.h"
+#include "CustomDamage.h"
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
 #include <iomanip>
@@ -235,3 +236,33 @@ HOOK_METHOD(WeaponControl, KeyDown, (SDLKey key) -> bool)
 
     return ret;
 }
+
+/*
+HOOK_METHOD(ProjectileFactory, constructor, (const WeaponBlueprint* bp, int shipId) -> void)
+{
+    super(bp, shipId);
+
+    CustomDamage* customDmg = new CustomDamage;
+
+    customDmg->timeDilation = 1;
+
+    CustomDamageManager::AttachCustomDamage(blueprint->damage, customDmg);
+}
+
+HOOK_METHOD(Projectile, Initialize, (WeaponBlueprint& bp) -> void)
+{
+    super(bp);
+
+    auto customDmg = CustomDamageManager::GetCustomDamage(&bp.damage);
+
+    if (customDmg != nullptr)
+    {
+        CustomDamageManager::AttachCustomDamage(damage, customDmg);
+        printf("%08X\n", CustomDamageManager::GetCustomDamage(&damage));
+    }
+}
+*/
+
+
+
+

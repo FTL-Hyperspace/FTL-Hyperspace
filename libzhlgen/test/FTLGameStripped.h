@@ -3087,11 +3087,13 @@ struct Damage
   int iSystemDamage;
   int iPersDamage;
   bool bHullBuster;
+  unsigned __int8 gap_ex_1[3];
   int ownerId;
   int selfId;
   bool bLockdown;
   bool crystalShard;
   bool bFriendlyFire;
+  unsigned __int8 gap_ex_2;
   int iStun;
 };
 
@@ -3451,7 +3453,7 @@ struct ProjectileFactory
   std__pair_13float___float cooldown;
   std__pair_13float___float subCooldown;
   float baseCooldown;
-  const WeaponBlueprint *blueprint;
+  WeaponBlueprint *blueprint;
   Point localPosition;
   Animation flight_animation;
   bool autoFiring;
@@ -5792,3 +5794,19 @@ struct GL_ColorTexVertex
   float a;
 };
 
+struct DamageParameter
+{
+  int iDamage;
+  int iShieldPiercing;
+  int fireChance;
+  int breachChance;
+  int stunChance;
+  int iIonDamage;
+  int iSystemDamage;
+  int iPersDamage;
+  int hullBusterMask;
+  int ownerId;
+  int selfId;
+  int lockdownShardFriendlyFireMask;
+  int iStun;
+};
