@@ -2063,3 +2063,13 @@ HOOK_STATIC(ShipManager, SelectRandomCrew, (CrewBlueprint &bp, ShipManager *ship
         super(bp, ship, seed, unk);
     }
 }
+
+HOOK_METHOD(ShipObject, HasEquipment, (const std::string& name) -> int)
+{
+    if (name == "difficulty")
+    {
+        return *G_->difficulty;
+    }
+
+    return super(name);
+}
