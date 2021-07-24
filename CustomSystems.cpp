@@ -357,11 +357,17 @@ HOOK_METHOD(ShipManager, CanFitSystem, (int systemId) -> bool)
 {
     if (systemId == SYS_MEDBAY)
     {
-        return systemKey[SYS_CLONEBAY] != -1;
+        if (systemKey[SYS_CLONEBAY] != -1)
+        {
+            return true;
+        }
     }
     else if (systemId == SYS_CLONEBAY)
     {
-        return systemKey[SYS_MEDBAY] != -1;
+        if (systemKey[SYS_MEDBAY] != -1)
+        {
+            return true;
+        }
     }
 
     int count = 0;
