@@ -269,33 +269,25 @@ void CustomShipSelect::ParseShipsNode(rapidxml::xml_node<char> *node)
 
 void CustomShipSelect::OnInit(ShipSelect* shipSelect_)
 {
-    useCustomShipOrder = customShipOrder.size() > 0;
-
-    if (useCustomShipOrder)
+    if (!initialized)
     {
-        if (!initialized)
-        {
-            auto toAdd = std::vector<std::string>();
+        auto toAdd = std::vector<std::string>();
 
-            for (const ShipButtonDefinition& i : shipButtonDefs)
+        for (const ShipButtonDefinition& i : shipButtonDefs)
+        {
+            if (!i.noAppend)
             {
-                if (!i.noAppend)
+                if (std::find(customShipOrder.begin(), customShipOrder.end(), i.name) == customShipOrder.end())
                 {
-                    if (std::find(customShipOrder.begin(), customShipOrder.end(), i.name) == customShipOrder.end())
-                    {
-                        toAdd.push_back(i.name);
-                    }
+                    toAdd.push_back(i.name);
                 }
             }
-
-            customShipOrder.insert(customShipOrder.end(), toAdd.begin(), toAdd.end());
         }
-        maxShipPage = std::ceil(customShipOrder.size() / 10.f);
+
+        customShipOrder.insert(customShipOrder.end(), toAdd.begin(), toAdd.end());
     }
-    else
-    {
-        maxShipPage = std::ceil(shipButtonDefs.size() / 10.f);
-    }
+
+    maxShipPage = std::ceil(customShipOrder.size() / 10.f);
 
     if (hideFirstPage && shipPage == 0)
     {
@@ -306,17 +298,11 @@ void CustomShipSelect::OnInit(ShipSelect* shipSelect_)
         maxShipPage = 0;
     else if (!initialized)
     {
-        for (int i = 0; i < (useCustomShipOrder ? customShipOrder.size() : shipButtonDefs.size()); i++)
+        for (int i = 0; i < (customShipOrder.size()); i++)
         {
             int shipId = 0;
-            if (useCustomShipOrder)
-            {
-                shipId = GetShipButtonIdFromName(customShipOrder[i]);
-            }
-            else
-            {
-                shipId = i;
-            }
+            shipId = GetShipButtonIdFromName(customShipOrder[i]);
+
 
             if (shipId == -1)
                 continue;
@@ -879,12 +865,7 @@ void CustomShipSelect::Close()
 
 int CustomShipSelect::CycleShipNext(int currentShipId, int currentType)
 {
-    int numShips = shipButtonDefs.size() - 1;
-
-    if (useCustomShipOrder)
-    {
-        numShips = customShipOrder.size();
-    }
+    int numShips = customShipOrder.size();
 
     int index = GetShipButtonOrderIndex(currentShipId - 100);
     if (index == -1) index = 0;
@@ -933,12 +914,7 @@ int CustomShipSelect::CycleShipNext(int currentShipId, int currentType)
 
 int CustomShipSelect::CycleShipPrevious(int currentShipId, int currentType)
 {
-    int numShips = shipButtonDefs.size() - 1;
-
-    if (useCustomShipOrder)
-    {
-        numShips = customShipOrder.size() - 1;
-    }
+    int numShips = customShipOrder.size() - 1;
 
     int index = GetShipButtonOrderIndex(currentShipId - 100);
     if (index == -1) index = numShips;
@@ -995,7 +971,7 @@ int CustomShipSelect::CountUnlockedShips(int variant=-1)
 {
     int counter = 0;
 
-    for (int i = 0; i < (useCustomShipOrder ? customShipOrder.size() : shipButtonDefs.size()); i++)
+    for (int i = 0; i < (customShipOrder.size()); i++)
     {
         ShipButtonDefinition* def = GetOrderedShipButtonDefinition(i);
 
@@ -1731,14 +1707,7 @@ HOOK_METHOD(ShipBuilder, Open, () -> void)
     {
         currentShip->destructor2();
 
-        if (customSel->CustomShipOrder())
-        {
-            customSel->SwitchShip(this, customSel->GetShipButtonIdFromName(customSel->customShipOrder[0]) + 100, 0);
-        }
-        else
-        {
-            customSel->SwitchShip(this, 100, 0);
-        }
+        customSel->SwitchShip(this, customSel->GetShipButtonIdFromName(customSel->customShipOrder[0]) + 100, 0);
     }
 }
 

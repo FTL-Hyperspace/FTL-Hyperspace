@@ -383,19 +383,12 @@ HOOK_METHOD(ScoreKeeper, Open, (bool fromGameOver) -> void)
 
         if (customSel->hideFirstPage)
         {
-            if (customSel->CustomShipOrder())
-            {
-                int id = customSel->GetShipButtonIdFromName(customSel->customShipOrder[0]);
+            int id = customSel->GetShipButtonIdFromName(customSel->customShipOrder[0]);
 
-                if (id == -1) selectedShip = -1;
-                else
-                {
-                    selectedShip = id + 100;
-                }
-            }
+            if (id == -1) selectedShip = -1;
             else
             {
-                selectedShip = 100;
+                selectedShip = id + 100;
             }
 
             SetupTopShip(0);
