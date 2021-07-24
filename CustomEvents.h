@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <memory>
 #include <unordered_set>
+#include <boost/format.hpp>
 
 struct BeaconType
 {
@@ -65,12 +66,47 @@ struct CustomQuest
     }
 };
 
+class TriggeredEventBoxDefinition
+{
+public:
+    enum class TextType
+    {
+        TIME_AUTO,
+        TIME_CLOCK,
+        TIME_SECONDS,
+        JUMPS
+    };
+
+    std::string image = "";
+    std::string image2 = "";
+    int x = 0;
+    int y = 0;
+    int w = 0;
+    int h = 0;
+
+    int left = 0;
+    int right = 0;
+    int top = 0;
+    int bottom = 0;
+
+    TextType textType = TextType::TIME_AUTO;
+    GL_Color textColor = GL_Color(1.f, 1.f, 1.f, 1.f);
+    GL_Color textColor2 = GL_Color(1.f, 1.f, 1.f, 1.f);
+    int text_x = 0;
+    int text_y = 0;
+
+    float warningTime = -999.f;
+    int warningJumps = -999;
+    bool flash = false;
+};
+
 class TriggeredEventDefinition
 {
 public:
     static std::vector<TriggeredEventDefinition> defs;
     static unsigned int PushDef(TriggeredEventDefinition& def);
 public:
+    TriggeredEventBoxDefinition* box = nullptr;
     unsigned int idx = -1;
 
     std::string name = "";
@@ -134,6 +170,13 @@ public:
         delete triggerTimer;
     }
 
+    float GetTimeLeft()
+    {
+        if (triggerTimer == nullptr) return 0.0;
+        if (triggerTimer->currTime >= triggerTimer->currGoal) return 0.0;
+        return triggerTimer->currGoal - triggerTimer->currTime;
+    }
+
     void Reset();
     void Update();
     void Jump();
@@ -154,49 +197,88 @@ public:
     TriggeredEvent* event;
 
     std::unique_ptr<GL_Primitive, GL_Primitive_Deleter> backgroundIcon;
-    std::unique_ptr<GL_Primitive, GL_Primitive_Deleter> backgroundIconRed;
+    std::unique_ptr<GL_Primitive, GL_Primitive_Deleter> backgroundIcon2;
 
     int x;
     int y;
     int width;
+    int height;
+    int text_x;
+    int text_y;
 
-    /*~TriggeredEventBox() noexcept
-    {
-        CSurface::GL_DestroyPrimitive(backgroundIcon);
-        CSurface::GL_DestroyPrimitive(backgroundIconRed);
-    }*/
-
+    ~TriggeredEventBox() noexcept = default;
     TriggeredEventBox(const TriggeredEventBox&) = delete;
-    TriggeredEventBox(TriggeredEventBox&& other) noexcept = default; /*:
-        event{std::move(other.event)},
-        backgroundIcon{other.backgroundIcon},
-        backgroundIconRed{other.backgroundIconRed},
-        x{std::move(other.x)},
-        y{std::move(other.y)},
-        width{std::move(other.width)}
-    {
-        other.backgroundIcon = nullptr;
-        other.backgroundIconRed = nullptr;
-    };*/
+    TriggeredEventBox(TriggeredEventBox&& other) noexcept = default;
     TriggeredEventBox& operator=(const TriggeredEventBox&) = delete;
-    //TriggeredEventBox& operator=(TriggeredEventBox&&) noexcept = default;
+    TriggeredEventBox& operator=(TriggeredEventBox&&) noexcept = default;
+
+
 
     TriggeredEventBox(TriggeredEvent* e, int x_, int y_) :
         event{e},
         x{x_},
         y{y_}
     {
-        backgroundIcon.reset(G_->GetResources()->CreateImagePrimitiveString("statusUI/top_stopwatch.png", x, y, 0, GL_Color(1.f,1.f,1.f,1.f), 1.f, false));
-        backgroundIconRed.reset(G_->GetResources()->CreateImagePrimitiveString("statusUI/top_stopwatch_red.png", x, y, 0, GL_Color(1.f,1.f,1.f,1.f), 1.f, false));
-        width = backgroundIcon->texture->width_;
+        backgroundIcon.reset(G_->GetResources()->CreateImagePrimitiveString(e->def->box->image, x - e->def->box->x, y - e->def->box->y, 0, GL_Color(1.f,1.f,1.f,1.f), 1.f, false));
+        backgroundIcon2.reset(G_->GetResources()->CreateImagePrimitiveString(e->def->box->image2, x - e->def->box->x, y - e->def->box->y, 0, GL_Color(1.f,1.f,1.f,1.f), 1.f, false));
+        width = e->def->box->w;
+        height = e->def->box->h;
+        text_x = x + e->def->box->text_x;
+        text_y = y + e->def->box->text_y;
     }
 
-    void OnRender()
+    static std::string GetTimeTextClock(int t)
     {
-        CSurface::GL_RenderPrimitive(backgroundIcon.get());
-        CSurface::GL_SetColor(GL_Color(243.f / 255.f, 255.f / 255.f, 230.f / 255.f, 1.f));
+        if (t >= 3600)
+        {
+            int h = t/3600;
+            int m = (t/60)%60;
+            int s = t%60;
+            return boost::str(boost::format("%d:%02d:%02d") % h % m % s);
+        }
+        else
+        {
+            int m = t/60;
+            int s = t%60;
+            return boost::str(boost::format("%d:%02d") % m % s);
+        }
+    }
+
+    std::string GetTimeTextSeconds(float t)
+    {
+        return boost::str(boost::format("%.1f") % t);
+    }
+
+    void OnRender(bool flash)
+    {
+        std::string text;
+
+        bool useIcon2 = (event->triggerTimer != nullptr && event->GetTimeLeft() < event->def->box->warningTime) || (event->triggerJumps <= event->def->box->warningJumps);
+        if (event->def->box->flash) useIcon2 = useIcon2 && flash;
+
+        CSurface::GL_RenderPrimitive(useIcon2 ? backgroundIcon2.get() : backgroundIcon.get());
+        CSurface::GL_SetColor(useIcon2 ? event->def->box->textColor2 : event->def->box->textColor);
         //freetype::easy_printCenter(0, x+83, y+23, "1:00:00"); // big stopwatch
-        freetype::easy_printCenter(0, x+51, y+15, "1:00"); // small stopwatch
+        //freetype::easy_printCenter(0, x+51, y+15, "1:00"); // small stopwatch
+
+        if (event->def->box->textType == TriggeredEventBoxDefinition::TextType::JUMPS)
+        {
+            text = std::to_string(event->triggerJumps);
+        }
+        else
+        {
+            float t = event->GetTimeLeft();
+            if (event->def->box->textType == TriggeredEventBoxDefinition::TextType::TIME_CLOCK || t >= 60.f)
+            {
+                text = GetTimeTextClock(t);
+            }
+            else
+            {
+                text = GetTimeTextSeconds(t);
+            }
+        }
+
+        freetype::easy_printCenter(0, text_x, text_y, text);
     }
 };
 
@@ -204,22 +286,46 @@ class TriggeredEventGui
 {
 public:
     std::vector<TriggeredEventBox> boxes;
+    std::unordered_map<std::string, TriggeredEventBoxDefinition> boxDefs;
+
+    AnimationTracker flashTracker;
 
     bool reset = true;
+
+    TriggeredEventGui()
+    {
+        flashTracker.time = 1.f;
+        flashTracker.loop = true;
+        flashTracker.current_time = 0.f;
+        flashTracker.running = true;
+        flashTracker.reverse = false;
+        flashTracker.done = false;
+        flashTracker.loopDelay = 0.f;
+        flashTracker.currentDelay = 0.f;
+    }
 
     void CreateBoxes()
     {
         boxes.clear();
         // 126,71 for big stopwatch
         // 122,75 for small
-        int x = 122;
-        int y = 75;
+        int x = 132;
+        int y = 82;
 
-        for (int i=0; i<6; ++i)
+        int i=0;
+
+        for (auto& event: TriggeredEvent::eventList)
         {
-            boxes.emplace_back(nullptr, x, y);
-            x += boxes.back().width;
+            TriggeredEventBoxDefinition* box = event.second.def->box;
+            if (box != nullptr)
+            {
+                if (i>0) x += box->left;
+                boxes.emplace_back(&event.second, x, y);
+                x += box->w + box->right;
+                i++;
+            }
         }
+
         reset = false;
     }
 
@@ -227,9 +333,12 @@ public:
     {
         if (reset) CreateBoxes();
 
+        flashTracker.Update();
+        bool flash = flashTracker.current_time < 0.5f;
+
         for (auto& box: boxes)
         {
-            box.OnRender();
+            box.OnRender(flash);
         }
     }
 
@@ -419,6 +528,7 @@ public:
     void ParseCustomEventNode(rapidxml::xml_node<char> *node);
     void ParseCustomQuestNode(rapidxml::xml_node<char> *node, CustomQuest *quest);
     void ParseCustomReqNode(rapidxml::xml_node<char> *node, CustomReq *req);
+    void ParseCustomTriggeredEventBoxNode(rapidxml::xml_node<char> *node, TriggeredEventBoxDefinition *box);
 
     static CustomEventsParser *GetInstance()
     {

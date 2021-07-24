@@ -171,6 +171,7 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
                         {
                             def.name = child->first_attribute("name")->value();
                         }
+
                         if (child->first_attribute("seeded"))
                         {
                             def.seeded = EventsParser::ParseBoolean(child->first_attribute("seeded")->value());
@@ -218,6 +219,20 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
                         {
                             def.triggerMaxJumps = boost::lexical_cast<int>(child->first_attribute("maxJumps")->value());
                         }
+
+                        for (auto child2 = child->first_node(); child2; child2 = child2->next_sibling())
+                        {
+                            if (strcmp(child2->name(), "triggeredEventBox") == 0)
+                            {
+                                def.box = new TriggeredEventBoxDefinition();
+                                if (child2->first_attribute("load"))
+                                {
+                                    *def.box = TriggeredEventGui::GetInstance()->boxDefs.at(child2->first_attribute("load")->value());
+                                }
+                                ParseCustomTriggeredEventBoxNode(child2, def.box);
+                            }
+                        }
+
                         customEvent->triggeredEvents.push_back(TriggeredEventDefinition::PushDef(def));
                     }
 
@@ -488,6 +503,16 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
             ParseCustomReqNode(eventNode, customReq);
 
             customReqs[reqName] = customReq;
+        }
+
+        if (strcmp(eventNode->name(), "triggeredEventBox") == 0)
+        {
+            TriggeredEventBoxDefinition boxDef;
+            ParseCustomTriggeredEventBoxNode(eventNode, &boxDef);
+            if (eventNode->first_attribute("name"))
+            {
+                TriggeredEventGui::GetInstance()->boxDefs[eventNode->first_attribute("name")->value()] = boxDef;
+            }
         }
     }
 

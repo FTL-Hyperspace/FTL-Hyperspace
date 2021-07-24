@@ -1,5 +1,7 @@
 #include "CustomEvents.h"
 #include "Seeds.h"
+#include <boost/lexical_cast.hpp>
+#include <boost/algorithm/string.hpp>
 
 std::vector<TriggeredEventDefinition> TriggeredEventDefinition::defs = std::vector<TriggeredEventDefinition>();
 std::unordered_map<std::string, TriggeredEvent> TriggeredEvent::eventList = std::unordered_map<std::string, TriggeredEvent>();
@@ -7,6 +9,142 @@ std::unordered_map<std::string, TriggeredEvent> TriggeredEvent::eventList = std:
 TriggeredEventGui *TriggeredEventGui::instance = new TriggeredEventGui();
 
 bool locationUpdated;
+
+void CustomEventsParser::ParseCustomTriggeredEventBoxNode(rapidxml::xml_node<char> *node, TriggeredEventBoxDefinition *box)
+{
+    for (auto child = node->first_node(); child; child = child->next_sibling())
+    {
+        std::string nodeName(child->name());
+        if (nodeName == "image")
+        {
+            if (child->first_attribute("name"))
+            {
+                box->image = child->first_attribute("name")->value();
+            }
+            if (child->first_attribute("x"))
+            {
+                box->x = boost::lexical_cast<int>(child->first_attribute("x")->value());
+            }
+            if (child->first_attribute("y"))
+            {
+                box->y = boost::lexical_cast<int>(child->first_attribute("y")->value());
+            }
+            if (child->first_attribute("w"))
+            {
+                box->w = boost::lexical_cast<int>(child->first_attribute("w")->value());
+            }
+            if (child->first_attribute("h"))
+            {
+                box->h = boost::lexical_cast<int>(child->first_attribute("h")->value());
+            }
+            if (child->first_attribute("left"))
+            {
+                box->left = boost::lexical_cast<int>(child->first_attribute("left")->value());
+            }
+            if (child->first_attribute("right"))
+            {
+                box->right = boost::lexical_cast<int>(child->first_attribute("right")->value());
+            }
+            if (child->first_attribute("top"))
+            {
+                box->top = boost::lexical_cast<int>(child->first_attribute("top")->value());
+            }
+            if (child->first_attribute("bottom"))
+            {
+                box->bottom = boost::lexical_cast<int>(child->first_attribute("bottom")->value());
+            }
+        }
+        if (nodeName == "image2")
+        {
+            if (child->first_attribute("name"))
+            {
+                box->image2 = child->first_attribute("name")->value();
+            }
+        }
+        if (nodeName == "text")
+        {
+            if (child->first_attribute("type"))
+            {
+                std::string textType = child->first_attribute("type")->value();
+                boost::algorithm::to_lower(textType);
+                if (textType == "auto")
+                {
+                    box->textType = TriggeredEventBoxDefinition::TextType::TIME_AUTO;
+                }
+                if (textType == "clock")
+                {
+                    box->textType = TriggeredEventBoxDefinition::TextType::TIME_CLOCK;
+                }
+                if (textType == "seconds")
+                {
+                    box->textType = TriggeredEventBoxDefinition::TextType::TIME_SECONDS;
+                }
+                if (textType == "jumps")
+                {
+                    box->textType = TriggeredEventBoxDefinition::TextType::JUMPS;
+                }
+            }
+            if (child->first_attribute("x"))
+            {
+                box->text_x = boost::lexical_cast<int>(child->first_attribute("x")->value());
+            }
+            if (child->first_attribute("y"))
+            {
+                box->text_y = boost::lexical_cast<int>(child->first_attribute("y")->value());
+            }
+            if (child->first_attribute("r"))
+            {
+                box->textColor.r = boost::lexical_cast<float>(child->first_attribute("r")->value()) / 255.f;
+            }
+            if (child->first_attribute("g"))
+            {
+                box->textColor.g = boost::lexical_cast<float>(child->first_attribute("g")->value()) / 255.f;
+            }
+            if (child->first_attribute("b"))
+            {
+                box->textColor.b = boost::lexical_cast<float>(child->first_attribute("b")->value()) / 255.f;
+            }
+            if (child->first_attribute("a"))
+            {
+                box->textColor.a = boost::lexical_cast<float>(child->first_attribute("a")->value());
+            }
+        }
+        if (nodeName == "text2")
+        {
+            if (child->first_attribute("r"))
+            {
+                box->textColor2.r = boost::lexical_cast<float>(child->first_attribute("r")->value()) / 255.f;
+            }
+            if (child->first_attribute("g"))
+            {
+                box->textColor2.g = boost::lexical_cast<float>(child->first_attribute("g")->value()) / 255.f;
+            }
+            if (child->first_attribute("b"))
+            {
+                box->textColor2.b = boost::lexical_cast<float>(child->first_attribute("b")->value()) / 255.f;
+            }
+            if (child->first_attribute("a"))
+            {
+                box->textColor2.a = boost::lexical_cast<float>(child->first_attribute("a")->value());
+            }
+        }
+        if (nodeName == "warning")
+        {
+            if (child->first_attribute("time"))
+            {
+                box->warningTime = boost::lexical_cast<float>(child->first_attribute("time")->value());
+            }
+            if (child->first_attribute("jumps"))
+            {
+                box->warningJumps = boost::lexical_cast<int>(child->first_attribute("jumps")->value());
+            }
+            if (child->first_attribute("flash"))
+            {
+                box->flash = EventsParser::ParseBoolean(child->first_attribute("flash")->value());
+            }
+        }
+    }
+}
 
 unsigned int TriggeredEventDefinition::PushDef(TriggeredEventDefinition& def)
 {
@@ -27,6 +165,8 @@ void TriggeredEvent::NewEvent(TriggeredEventDefinition* def)
     }
     eventList.emplace(std::piecewise_construct, std::forward_as_tuple(def->name), std::forward_as_tuple(def));
 
+    TriggeredEventGui::GetInstance()->reset = true;
+
     if (def->seeded && SeedInputBox::seedsEnabled) Global::questSeed = random32();
 }
 
@@ -36,6 +176,7 @@ void TriggeredEvent::DestroyEvent(const std::string& name)
     if (it != eventList.end())
     {
         eventList.erase(it);
+        TriggeredEventGui::GetInstance()->reset = true;
     }
 }
 
@@ -55,6 +196,7 @@ void TriggeredEvent::JumpAll()
         if (it->second.def->clearOnJump)
         {
             it = eventList.erase(it);
+            TriggeredEventGui::GetInstance()->reset = true;
         }
         else
         {
@@ -76,6 +218,7 @@ void TriggeredEvent::TriggerCheck()
             if (--(it->second.loops) <= 0)
             {
                 eventList.erase(it);
+                TriggeredEventGui::GetInstance()->reset = true;
             }
             else
             {
