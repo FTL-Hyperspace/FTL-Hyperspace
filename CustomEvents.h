@@ -258,8 +258,6 @@ public:
 
         CSurface::GL_RenderPrimitive(useIcon2 ? backgroundIcon2.get() : backgroundIcon.get());
         CSurface::GL_SetColor(useIcon2 ? event->def->box->textColor2 : event->def->box->textColor);
-        //freetype::easy_printCenter(0, x+83, y+23, "1:00:00"); // big stopwatch
-        //freetype::easy_printCenter(0, x+51, y+15, "1:00"); // small stopwatch
 
         if (event->def->box->textType == TriggeredEventBoxDefinition::TextType::JUMPS)
         {
@@ -307,8 +305,6 @@ public:
     void CreateBoxes()
     {
         boxes.clear();
-        // 126,71 for big stopwatch
-        // 122,75 for small
         int x = 132;
         int y = 82;
 
