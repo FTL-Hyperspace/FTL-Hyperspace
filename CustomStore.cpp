@@ -747,7 +747,7 @@ void StoreComplete::OnInit(const StoreDefinition& def, ShipManager *ship, Equipm
         if (rng < totalChance)
         {
             int cumChance = 0;
-            for (auto cat : chancedVec)
+            for (auto& cat : chancedVec)
             {
                 if (rng > cumChance && rng < cumChance + cat.groupChance)
                 {
@@ -794,6 +794,11 @@ void StoreComplete::OnInit(const StoreDefinition& def, ShipManager *ship, Equipm
 
         auto newBoxes = CreateCustomStoreBoxes(cat, ship, equip);
 
+        if (newBoxes.size() == 0)
+        {
+            continue;
+        }
+
         int currentSec = -1;
         for (int boxIdx = 0; boxIdx < newBoxes.size(); boxIdx++)
         {
@@ -820,7 +825,7 @@ void StoreComplete::OnInit(const StoreDefinition& def, ShipManager *ship, Equipm
 
         currPage.sections.push_back(sec);
 
-        if (i % 2 == 1 || i == chosenCategories.size() - 1)
+        if ((currPage.sections.size() % 2 == 0 && currPage.sections.size() != 1) || i == chosenCategories.size() - 1)
         {
             pages.push_back(currPage);
             currPage = StorePage();
