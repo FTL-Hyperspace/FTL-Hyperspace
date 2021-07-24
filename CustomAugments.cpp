@@ -602,7 +602,7 @@ int CustomAugmentManager::GetSuperShieldValue(int shipId)
 
     for (auto& aug : augList)
     {
-        if (customAug->IsAugment(aug.first))
+        if (customAug->IsAugment(aug.first) && aug.second > 0)
         {
             auto superShield = customAug->GetAugmentDefinition(aug.first)->superShield;
             if (superShield.value > superShieldValue)
