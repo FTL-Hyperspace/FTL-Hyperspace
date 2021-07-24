@@ -1,7 +1,7 @@
 "5589e58b45088b550c5d89415c895160c208008d":
 void StarMap::SetPosition(StarMap *this<ecx>, Point unk0);
 ".80b91007000000741a5653837c240c31741e837c":
-void StarMap::KeyDown(StarMap *this<ecx>, int unk0);
+bool StarMap::KeyDown(StarMap *this<ecx>, int unk0);
 ".56538b999804000085db78??83fb0119d283e2e083c24083fb0119c0":
 int StarMap::GetNextDangerMove(StarMap *this<ecx>);
 ".80790400740ac389f68dbc2700000000578d7c24":

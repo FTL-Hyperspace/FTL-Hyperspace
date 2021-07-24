@@ -1106,10 +1106,30 @@ struct std__vector_11UnlockArrow
   UnlockArrow *_end;
 };
 
+struct VTable_FocusWindow
+{
+  void (__thiscall *Free)(FocusWindow *);
+  void (__thiscall *SetOpen)(FocusWindow *, bool);
+  void (__thiscall *Open)(FocusWindow *);
+  void (__thiscall *Close)(FocusWindow *);
+  void (__thiscall *SetPosition)(FocusWindow *, Point position);
+  void (__thiscall *OnLoop)(FocusWindow *);
+  bool (__thiscall *LockWindow)(FocusWindow *);
+  void (__thiscall *OnRender)(FocusWindow *);
+  void (__thiscall *MouseMove)(FocusWindow *, int, int);
+  void (__thiscall *MouseClick)(FocusWindow *, int, int);
+  void (__thiscall *MouseUp)(FocusWindow *, int, int);
+  void (__thiscall *MouseRightClick)(FocusWindow *, int, int);
+  void (__thiscall *OnTouch)(FocusWindow *, void *);
+  bool (__thiscall *KeyDown)(FocusWindow *, int);
+  bool (__thiscall *KeyUp)(FocusWindow *, int);
+  bool (__thiscall *PriorityPopup)(FocusWindow *);
+};
+
 /* 241 */
 struct FocusWindow
 {
-  void *vptr;
+  VTable_FocusWindow *_vtable;
   bool bOpen;
   bool bFullFocus;
   unsigned __int8 gap_ex_fw[2];
@@ -5791,4 +5811,3 @@ struct GL_ColorTexVertex
   float b;
   float a;
 };
-

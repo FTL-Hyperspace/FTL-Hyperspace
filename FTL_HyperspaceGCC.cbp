@@ -401,6 +401,12 @@
 		<Unit filename="Input.cpp">
 			<Option virtualFolder="Core/CApp/" />
 		</Unit>
+		<Unit filename="InternalAugmentDisplay.cpp">
+			<Option virtualFolder="Core/Equipment/" />
+		</Unit>
+		<Unit filename="InternalAugmentDisplay.h">
+			<Option virtualFolder="Core/Equipment/" />
+		</Unit>
 		<Unit filename="MainMenu.cpp">
 			<Option virtualFolder="Content/Misc/" />
 		</Unit>
