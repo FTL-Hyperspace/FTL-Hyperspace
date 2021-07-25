@@ -89,7 +89,9 @@ public:
     int priority = 0;
 
     std::string image = "";
+    GL_Color imageColor = GL_Color(1.f, 1.f, 1.f, 1.f);
     std::string image2 = "";
+    GL_Color imageColor2 = GL_Color(1.f, 1.f, 1.f, 1.f);
     int x = 0;
     int y = 0;
     int w = 0;
@@ -101,6 +103,7 @@ public:
     int bottom = 0;
 
     std::string imageFront = "";
+    GL_Color imageColorFront = GL_Color(1.f, 1.f, 1.f, 1.f);
     int front_x;
     int front_y;
 
@@ -121,6 +124,7 @@ class TriggeredEventDefinition
 {
 public:
     static std::vector<TriggeredEventDefinition> defs;
+    static std::unordered_map<std::string,std::vector<std::pair<float,std::string>>> timerSoundDefs;
     static unsigned int PushDef(TriggeredEventDefinition& def);
 public:
     TriggeredEventBoxDefinition* box = nullptr;
@@ -262,9 +266,9 @@ public:
         y{y_}
     {
         boxDef = e->def->box;
-        if (!boxDef->image.empty()) backgroundIcon.reset(G_->GetResources()->CreateImagePrimitiveString(boxDef->image, x - boxDef->x, y - boxDef->y, 0, GL_Color(1.f,1.f,1.f,1.f), 1.f, false));
-        if (!boxDef->image2.empty()) backgroundIcon2.reset(G_->GetResources()->CreateImagePrimitiveString(boxDef->image2, x - boxDef->x, y - boxDef->y, 0, GL_Color(1.f,1.f,1.f,1.f), 1.f, false));
-        if (!boxDef->imageFront.empty()) foregroundIcon.reset(G_->GetResources()->CreateImagePrimitiveString(boxDef->imageFront, x - boxDef->x + boxDef->front_x, y - boxDef->y + boxDef->front_y, 0, GL_Color(1.f,1.f,1.f,1.f), 1.f, false));
+        if (!boxDef->image.empty()) backgroundIcon.reset(G_->GetResources()->CreateImagePrimitiveString(boxDef->image, x - boxDef->x, y - boxDef->y, 0, boxDef->imageColor, 1.f, false));
+        if (!boxDef->image2.empty()) backgroundIcon2.reset(G_->GetResources()->CreateImagePrimitiveString(boxDef->image2, x - boxDef->x, y - boxDef->y, 0, boxDef->imageColor2, 1.f, false));
+        if (!boxDef->imageFront.empty()) foregroundIcon.reset(G_->GetResources()->CreateImagePrimitiveString(boxDef->imageFront, x + boxDef->front_x, y + boxDef->front_y, 0, boxDef->imageColorFront, 1.f, false));
         width = boxDef->w;
         height = boxDef->h;
         text_x = x + boxDef->text_x;
@@ -354,6 +358,7 @@ struct CustomEvent
     std::string customStore;
     std::string jumpEvent = "";
     bool resetFtl = false;
+    bool instantEscape = false;
 
     EventFleet leftFleet;
     EventFleet rightFleet;
@@ -364,6 +369,15 @@ struct CustomEvent
     std::string playSound = "";
     std::string changeBackground = "";
 
+    std::vector<EventDamage> enemyDamage = std::vector<EventDamage>();
+};
+
+struct CustomShipEvent
+{
+    std::string eventName;
+    std::vector<unsigned int> triggeredEvents;
+    std::vector<std::string> clearTriggeredEvents;
+    std::string jumpEvent = "";
 };
 
 struct SectorExit
@@ -497,7 +511,9 @@ public:
     void ParseCustomEventNode(rapidxml::xml_node<char> *node);
     void ParseCustomQuestNode(rapidxml::xml_node<char> *node, CustomQuest *quest);
     void ParseCustomReqNode(rapidxml::xml_node<char> *node, CustomReq *req);
+    void ParseCustomTriggeredEventNode(rapidxml::xml_node<char> *node, TriggeredEventDefinition *def);
     void ParseCustomTriggeredEventBoxNode(rapidxml::xml_node<char> *node, TriggeredEventBoxDefinition *box);
+    void ParseCustomTriggeredEventSounds(rapidxml::xml_node<char> *node, std::vector<std::pair<float,std::string>> *vec);
 
     static CustomEventsParser *GetInstance()
     {
@@ -515,6 +531,7 @@ public:
     }
 
     CustomEvent *GetCustomEvent(const std::string& event);
+    CustomShipEvent *GetCustomShipEvent(const std::string& event);
     CustomSector *GetCustomSector(const std::string& sectorName);
     CustomReq *GetCustomReq(const std::string& blueprint);
 
@@ -537,6 +554,7 @@ public:
 private:
     std::vector<CustomSector*> customSectors;
     std::unordered_map<std::string, CustomEvent*> customEvents;
+    std::unordered_map<std::string, CustomShipEvent*> customShipEvents;
     std::unordered_map<std::string, BossShipDefinition> bossShipIds;
     std::unordered_map<std::string, CustomReq*> customReqs;
     static CustomEventsParser *instance;
