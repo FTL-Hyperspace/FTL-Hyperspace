@@ -5792,3 +5792,21 @@ struct GL_ColorTexVertex
   float a;
 };
 
+/* 843 */
+struct DamageParameter
+{
+  int iDamage;
+  int iShieldPiercing;
+  int fireChance;
+  int breachChance;
+  int stunChance;
+  int iIonDamage;
+  int iSystemDamage;
+  int iPersDamage;
+  int hullBusterMask;
+  int ownerId;
+  int selfId;
+  int lockdownShardFriendlyFireMask;
+  int iStun;
+};
+

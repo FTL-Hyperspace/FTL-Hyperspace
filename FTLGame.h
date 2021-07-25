@@ -3590,6 +3590,7 @@ struct Ship : ShipObject
 	LIBZHL_API static void __stdcall GetBaseEllipse(Globals::Ellipse &ret, Ship *_this);
 	LIBZHL_API void SetSelectedRoom(int roomId);
 	LIBZHL_API void OnLoop(std::vector<float> &oxygenLevels);
+	LIBZHL_API void BreachRandomHull(int roomId);
 	
 	std::vector<Room*> vRoomList;
 	std::vector<Door*> vDoorList;
@@ -3814,6 +3815,23 @@ struct Collideable
 struct MedbaySystem;
 struct OxygenSystem;
 
+struct DamageParameter
+{
+	int iDamage;
+	int iShieldPiercing;
+	int fireChance;
+	int breachChance;
+	int stunChance;
+	int iIonDamage;
+	int iSystemDamage;
+	int iPersDamage;
+	int hullBusterMask;
+	int ownerId;
+	int selfId;
+	int lockdownShardFriendlyFireMask;
+	int iStun;
+};
+
 struct ArtillerySystem;
 
 struct MindSystem;
@@ -3947,6 +3965,9 @@ struct ShipManager : ShipObject
 	LIBZHL_API bool SystemFunctions(int systemId);
 	LIBZHL_API bool CanFitSystem(int systemId);
 	LIBZHL_API bool CanFitSubsystem(int systemId);
+	LIBZHL_API int DamageHull(int dmg, bool force);
+	LIBZHL_API void DamageSystem(int systemId, DamageParameter damage);
+	LIBZHL_API void StartFire(int roomId);
 	
 	Targetable _targetable;
 	Collideable _collideable;
@@ -5336,6 +5357,14 @@ struct MedbaySystem
 {
 };
 
+struct GL_TexVertex
+{
+	float x;
+	float y;
+	float u;
+	float v;
+};
+
 struct ProjectileFactory : ShipObject
 {
 	LIBZHL_API void constructor(const WeaponBlueprint *bp, int shipId);
@@ -5904,14 +5933,6 @@ struct MemoryInputEvent
 
 struct EngineSystem
 {
-};
-
-struct GL_TexVertex
-{
-	float x;
-	float y;
-	float u;
-	float v;
 };
 
 struct HackingDrone;
