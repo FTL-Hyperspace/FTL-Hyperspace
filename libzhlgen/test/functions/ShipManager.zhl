@@ -92,8 +92,6 @@ bool ShipManager::IsSystemHacked(ShipManager *this<ecx>, int systemId);
 CrewMember* ShipManager::GetSelectedCrewPoint(ShipManager *this<ecx>, int x, int y, bool intruder);
 "578d7c240883e4f0ff77fc5589e5578db994000000565389ce89f983ec5ce8????????8945c08b86c8040000":
 void ShipManager::RenderWeapons(ShipManager *this<ecx>);
-"578d7c240883e4f0ff77fc5589f889e557565383ec6c8b308b58048b4018897db089cf8975c485c0":
-void ShipManager::DamageSystem(ShipManager *this<ecx>, int roomId, int iDamage, int iShieldPiercing, int fireChance, int breachChance, int stunChance, int iIonDamage, int iSystemDamage, int iPersDamage, char bHullBuster, int ownerId, int selfId, int bLockdown, int iStun);
 "5589e583e4f083ec108b450883f81174??83f8ff74??8b91c80400008b048283f8ff74??8b51188b0c8285c974??e8????????c9":
 void ShipManager::ClearStatusSystem(ShipManager *this<ecx>, int system);
 "a1????????c781d40400001e00000083f80174??83f80274??f3c3908d742600c781d404000000000000c3908d742600c781d40400000a000000":
