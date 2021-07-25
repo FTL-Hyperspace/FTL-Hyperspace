@@ -101,6 +101,9 @@
 <text name="defense_drone_drone_target_all">Target: All Drones</text>
 <text name="defense_drone_drone_target_solid">Target: Solid Drones</text>
 
+<text name="teleporter_instant">No cooldown</text>
+<text name="clonebay_instant_fullheal">Instant clone + Full heal on jump</text>
+
 <!-- Hotkeys -->
 
 <text name="hotkey_speed">Toggle Speedhack</text>

@@ -1629,6 +1629,11 @@ HOOK_METHOD(WorldManager, CreateLocation, (Location *location) -> void)
             jumpEvent = customEvent->jumpEvent;
         }
 
+        if (!customEvent->changeBackground.empty())
+        {
+            space.currentBack = G_->GetResources()->GetImageId(G_->GetEventGenerator()->GetImageFromList(customEvent->changeBackground));
+        }
+
         if (!customEvent->eventLoad.empty())
         {
             int seed = customEvent->eventLoadSeeded ? (int)(location->loc.x + location->loc.y) ^ starMap.currentSectorSeed : -1;
@@ -1671,6 +1676,11 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
             space.bNebula = false;
             space.bStorm = false;
             space.nebulaClouds.clear();
+        }
+
+        if (!customEvent->changeBackground.empty())
+        {
+            space.currentBack = G_->GetResources()->GetImageId(G_->GetEventGenerator()->GetImageFromList(customEvent->changeBackground));
         }
 
         if (customEvent->resetFtl)
@@ -1939,11 +1949,6 @@ HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEve
         if (!customEvent->playSound.empty())
         {
             G_->GetSoundControl()->PlaySoundMix(customEvent->playSound, -1.f, false);
-        }
-
-        if (!customEvent->changeBackground.empty())
-        {
-            space.currentBack = G_->GetResources()->GetImageId(G_->GetEventGenerator()->GetImageFromList(customEvent->changeBackground));
         }
 
         for (auto& triggeredEvent: customEvent->triggeredEvents)
@@ -2256,4 +2261,14 @@ HOOK_STATIC(ShipManager, SelectRandomCrew, (CrewBlueprint &bp, ShipManager *ship
     {
         super(bp, ship, seed, unk);
     }
+}
+
+HOOK_METHOD(ShipObject, HasEquipment, (const std::string& name) -> int)
+{
+    if (name == "difficulty")
+    {
+        return *G_->difficulty;
+    }
+
+    return super(name);
 }
