@@ -1152,6 +1152,7 @@ Syntax ->
 	<triggeredEventBox name="DEFAULT_TIMER" pos="default/scrap/topright/combat" priority="0"> -> priority affects sorting order of multiple boxes in the same pos
 		<image name="statusUI/top_stopwatch.png" x="6" y="11" w="122" h="35" left="5" right="5" top="5" bottom="5" r="255" g="255" b="255" a="1.0"/> -> sets origin point of image, dimensions, margins, and tint
 		<image2 name="statusUI/top_stopwatch_red.png" r="255" g="255" b="255" a="1.0"/>
+		<icon name="map/map_icon_warning.png" x="0" y="0" r="255" g="255" b="255" a="1.0"/> -> adds another icon to draw on top of the background image of the box
 		<text type="auto/clock/seconds/jumps" x="77" y="12" r="235" g="245" b="229" a="1.0"/> -> auto chooses clock or seconds based on remaining time
 		<text2 r="253" g="84" b="70" a="1.0"/>
 		<warning time="10.0" flash="true"/> -> use image2 and text2 below this time threshold
