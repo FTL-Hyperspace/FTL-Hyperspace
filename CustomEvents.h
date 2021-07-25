@@ -232,7 +232,6 @@ public:
 
 struct GL_Primitive_Deleter {
     void operator()(GL_Primitive* p) {
-        hs_log_file("Destroy primitive %d\n", p);
         CSurface::GL_DestroyPrimitive(p);
     }
 };

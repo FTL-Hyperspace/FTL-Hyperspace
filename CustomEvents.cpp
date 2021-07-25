@@ -1592,7 +1592,7 @@ void EventDamageEnemy(EventDamage eventDamage)
     if (enemyShip != nullptr)
     {
         if (enemyShip->bJumping) return;
-        //enemyShip->DamageHull(eventDamage.amount,true);
+        enemyShip->DamageHull(eventDamage.amount,true);
         if (eventDamage.system == -1) return;
         int room = -1;
         if (eventDamage.system == 18)
@@ -1609,23 +1609,23 @@ void EventDamageEnemy(EventDamage eventDamage)
             room = enemyShip->GetSystemRoom(eventDamage.system);
         }
         if (room == -1) return;
-        //enemyShip->DamageSystem(room, 0, 0, 0, 0, 0, 0, 0, eventDamage.amount, 0, false, -1, -1, false, 0);
+        enemyShip->DamageSystem(room, DamageParameter{0, 0, 0, 0, 0, 0, eventDamage.amount, 0, false, -1, -1, false, 0});
         if (eventDamage.effect == 4)
         {
             int effect = random32();
             if (effect&1)
             {
-                //enemyShip->StartFire(room);
+                enemyShip->StartFire(room);
             }
             else
             {
-                //enemyShip->BreachRandomHull(room);
+                enemyShip->ship.BreachRandomHull(room);
             }
         }
         else
         {
-            //if (effect&1) enemyShip->StartFire(room);
-            //if (effect&2) enemyShip->BreachRandomHull(room);
+            if (eventDamage.effect&1) enemyShip->StartFire(room);
+            if (eventDamage.effect&2) enemyShip->ship.BreachRandomHull(room);
         }
     }
 }
@@ -1659,8 +1659,12 @@ HOOK_METHOD(WorldManager, CreateLocation, (Location *location) -> void)
 
         if (customEvent->instantEscape)
         {
-            ShipManager* enemyShip = G_->GetShipManager(1);
-            if (enemyShip != nullptr && !enemyShip->bDestroyed) enemyShip->JumpLeave();
+            CompleteShip* enemyShip = G_->GetWorld()->playerShip->enemyShip;
+            if (enemyShip != nullptr && !enemyShip->shipManager->bDestroyed)
+            {
+                enemyShip->shipAI.escaping = true;
+                enemyShip->shipManager->JumpLeave();
+            }
         }
 
         if (!customEvent->eventLoad.empty())
@@ -1719,8 +1723,12 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
 
         if (customEvent->instantEscape)
         {
-            ShipManager* enemyShip = G_->GetShipManager(1);
-            if (enemyShip != nullptr && !enemyShip->bDestroyed) enemyShip->JumpLeave();
+            CompleteShip* enemyShip = G_->GetWorld()->playerShip->enemyShip;
+            if (enemyShip != nullptr && !enemyShip->shipManager->bDestroyed)
+            {
+                enemyShip->shipAI.escaping = true;
+                enemyShip->shipManager->JumpLeave();
+            }
         }
 
         for (EventDamage& eventDamage: customEvent->enemyDamage)
