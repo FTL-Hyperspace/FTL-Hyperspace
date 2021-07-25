@@ -120,6 +120,7 @@ public:
     static unsigned int PushDef(TriggeredEventDefinition& def);
 public:
     TriggeredEventBoxDefinition* box = nullptr;
+    std::vector<std::pair<float,std::string>> timerSounds;
     unsigned int idx = -1;
 
     std::string name = "";
@@ -141,6 +142,14 @@ public:
     int maxEnemyDamage = -1;
     float enemyHullScaling = 0.f;
     float enemyDamageScaling = 0.f;
+    int minPlayerCrew = -1;
+    int maxPlayerCrew = -1;
+    int minPlayerDeaths = -1;
+    int maxPlayerDeaths = -1;
+    int minEnemyCrew = -1;
+    int maxEnemyCrew = -1;
+    int minEnemyDeaths = -1;
+    int maxEnemyDeaths = -1;
     bool clearOnJump = false;
     bool thisFight = false;
 };
@@ -164,9 +173,12 @@ public:
     unsigned int seed = -1;
     int loops;
     TimerHelper* triggerTimer = nullptr;
+    int timerSoundIndex = 0;
     int triggerJumps;
     int triggerPlayerHull;
     int triggerEnemyHull;
+    int triggerPlayerCrew;
+    int triggerEnemyCrew;
 
     bool triggered = false;
 

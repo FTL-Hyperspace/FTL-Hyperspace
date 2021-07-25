@@ -307,6 +307,11 @@ void TriggeredEvent::Reset()
         triggerTimer->currTime = 0.f;
         triggerTimer->currGoal = goal;
         triggerTimer->running = true;
+
+        for (timerSoundIndex = 0; timerSoundIndex < def->timerSounds.size(); ++timerSoundIndex)
+        {
+            if (goal > def->timerSounds[timerSoundIndex].first) break;
+        }
     }
 
     if (def->triggerMaxJumps > def->triggerMinJumps)
@@ -375,6 +380,54 @@ void TriggeredEvent::Reset()
             }
         }
     }
+
+    triggerPlayerCrew = -1;
+    if (def->minPlayerCrew > -1)
+    {
+        if (def->maxPlayerCrew > def->minPlayerCrew)
+        {
+            triggerPlayerCrew = std::max(triggerPlayerCrew, def->minPlayerCrew + random32()%(def->maxPlayerCrew-def->minPlayerCrew+1));
+        }
+        else
+        {
+            triggerPlayerCrew = std::max(triggerPlayerCrew, def->minPlayerCrew);
+        }
+    }
+    if (def->minPlayerDeaths > -1)
+    {
+        if (def->maxPlayerDeaths > def->minPlayerDeaths)
+        {
+            triggerPlayerCrew = std::max(triggerPlayerCrew, G_->GetCrewFactory()->playerCrew - def->minPlayerDeaths + random32()%(def->maxPlayerDeaths-def->minPlayerDeaths+1));
+        }
+        else
+        {
+            triggerPlayerCrew = std::max(triggerPlayerCrew, G_->GetCrewFactory()->playerCrew - def->minPlayerDeaths);
+        }
+    }
+
+    triggerEnemyCrew = -1;
+    if (def->minEnemyCrew > -1)
+    {
+        if (def->maxEnemyCrew > def->minEnemyCrew)
+        {
+            triggerEnemyCrew = std::max(triggerEnemyCrew, def->minEnemyCrew + random32()%(def->maxEnemyCrew-def->minEnemyCrew+1));
+        }
+        else
+        {
+            triggerEnemyCrew = std::max(triggerEnemyCrew, def->minEnemyCrew);
+        }
+    }
+    if (def->minEnemyDeaths > -1)
+    {
+        if (def->maxEnemyDeaths > def->minEnemyDeaths)
+        {
+            triggerEnemyCrew = std::max(triggerEnemyCrew, G_->GetCrewFactory()->enemyCrew - def->minEnemyDeaths + random32()%(def->maxEnemyDeaths-def->minEnemyDeaths+1));
+        }
+        else
+        {
+            triggerEnemyCrew = std::max(triggerEnemyCrew, G_->GetCrewFactory()->enemyCrew - def->minEnemyDeaths);
+        }
+    }
 }
 
 void TriggeredEvent::Update()
@@ -384,6 +437,13 @@ void TriggeredEvent::Update()
     if (triggerTimer != nullptr)
     {
         triggerTimer->Update();
+
+        float remainingTime = triggerTimer->currGoal - triggerTimer->currTime;
+        for ( ; timerSoundIndex < def->timerSounds.size() && remainingTime <= def->timerSounds[timerSoundIndex].first; ++timerSoundIndex)
+        {
+            G_->GetSoundControl()->PlaySoundMix(def->timerSounds[timerSoundIndex].second, -1.f, false);
+        }
+
         if (triggerTimer->Done())
         {
             triggered = true;
@@ -412,6 +472,16 @@ void TriggeredEvent::Update()
                 triggered = true;
             }
         }
+    }
+
+    if (triggerPlayerCrew >= 0 && G_->GetCrewFactory()->playerCrew <= triggerPlayerCrew)
+    {
+        triggered = true;
+    }
+
+    if (triggerEnemyCrew >= 0 && G_->GetCrewFactory()->enemyCrew <= triggerEnemyCrew)
+    {
+        triggered = true;
     }
 }
 
@@ -463,6 +533,10 @@ void TriggeredEvent::Save(int file)
         FileHelper::writeFloat(file, triggerTimer->currGoal);
     }
     FileHelper::writeInt(file, triggerJumps);
+    FileHelper::writeInt(file, triggerPlayerHull);
+    FileHelper::writeInt(file, triggerEnemyHull);
+    FileHelper::writeInt(file, triggerPlayerCrew);
+    FileHelper::writeInt(file, triggerEnemyCrew);
     FileHelper::writeInt(file, triggered);
 }
 
@@ -475,8 +549,18 @@ void TriggeredEvent::Load(int file)
     {
         triggerTimer->currTime = FileHelper::readFloat(file);
         triggerTimer->currGoal = FileHelper::readFloat(file);
+
+        float remainingTime = triggerTimer->currGoal - triggerTimer->currTime;
+        for (timerSoundIndex = 0; timerSoundIndex < def->timerSounds.size(); ++timerSoundIndex)
+        {
+            if (remainingTime > def->timerSounds[timerSoundIndex].first) break;
+        }
     }
     triggerJumps = FileHelper::readInteger(file);
+    triggerPlayerHull = FileHelper::readInteger(file);
+    triggerEnemyHull = FileHelper::readInteger(file);
+    triggerPlayerCrew = FileHelper::readInteger(file);
+    triggerEnemyCrew = FileHelper::readInteger(file);
     triggered = FileHelper::readInteger(file);
 }
 
