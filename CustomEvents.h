@@ -69,6 +69,14 @@ struct CustomQuest
 class TriggeredEventBoxDefinition
 {
 public:
+    enum class BoxPosition
+    {
+        DEFAULT,
+        SCRAP,
+        TOPRIGHT,
+        COMBAT
+    };
+
     enum class TextType
     {
         TIME_AUTO,
@@ -76,6 +84,9 @@ public:
         TIME_SECONDS,
         JUMPS
     };
+
+    BoxPosition boxPosition = BoxPosition::DEFAULT;
+    int priority = 0;
 
     std::string image = "";
     std::string image2 = "";
@@ -94,6 +105,8 @@ public:
     GL_Color textColor2 = GL_Color(1.f, 1.f, 1.f, 1.f);
     int text_x = 0;
     int text_y = 0;
+
+    TextString tooltip = TextString();
 
     float warningTime = -999.f;
     int warningJumps = -999;
@@ -118,7 +131,18 @@ public:
     float triggerMaxTime = -1.f;
     int triggerMinJumps = -1;
     int triggerMaxJumps = -1;
+    int minPlayerHull = -1;
+    int maxPlayerHull = -1;
+    int minPlayerDamage = -1;
+    int maxPlayerDamage = -1;
+    int minEnemyHull = -1;
+    int maxEnemyHull = -1;
+    int minEnemyDamage = -1;
+    int maxEnemyDamage = -1;
+    float enemyHullScaling = 0.f;
+    float enemyDamageScaling = 0.f;
     bool clearOnJump = false;
+    bool thisFight = false;
 };
 
 class TriggeredEvent
@@ -141,6 +165,8 @@ public:
     int loops;
     TimerHelper* triggerTimer = nullptr;
     int triggerJumps;
+    int triggerPlayerHull;
+    int triggerEnemyHull;
 
     bool triggered = false;
 
@@ -195,6 +221,7 @@ class TriggeredEventBox
 {
 public:
     TriggeredEvent* event;
+    TriggeredEventBoxDefinition* boxDef;
 
     std::unique_ptr<GL_Primitive, GL_Primitive_Deleter> backgroundIcon;
     std::unique_ptr<GL_Primitive, GL_Primitive_Deleter> backgroundIcon2;
@@ -212,79 +239,38 @@ public:
     TriggeredEventBox& operator=(const TriggeredEventBox&) = delete;
     TriggeredEventBox& operator=(TriggeredEventBox&&) noexcept = default;
 
-
-
     TriggeredEventBox(TriggeredEvent* e, int x_, int y_) :
         event{e},
         x{x_},
         y{y_}
     {
-        backgroundIcon.reset(G_->GetResources()->CreateImagePrimitiveString(e->def->box->image, x - e->def->box->x, y - e->def->box->y, 0, GL_Color(1.f,1.f,1.f,1.f), 1.f, false));
-        backgroundIcon2.reset(G_->GetResources()->CreateImagePrimitiveString(e->def->box->image2, x - e->def->box->x, y - e->def->box->y, 0, GL_Color(1.f,1.f,1.f,1.f), 1.f, false));
-        width = e->def->box->w;
-        height = e->def->box->h;
-        text_x = x + e->def->box->text_x;
-        text_y = y + e->def->box->text_y;
+        boxDef = e->def->box;
+        backgroundIcon.reset(G_->GetResources()->CreateImagePrimitiveString(boxDef->image, x - boxDef->x, y - boxDef->y, 0, GL_Color(1.f,1.f,1.f,1.f), 1.f, false));
+        backgroundIcon2.reset(G_->GetResources()->CreateImagePrimitiveString(boxDef->image2, x - boxDef->x, y - boxDef->y, 0, GL_Color(1.f,1.f,1.f,1.f), 1.f, false));
+        width = boxDef->w;
+        height = boxDef->h;
+        text_x = x + boxDef->text_x;
+        text_y = y + boxDef->text_y;
     }
 
-    static std::string GetTimeTextClock(int t)
-    {
-        if (t >= 3600)
-        {
-            int h = t/3600;
-            int m = (t/60)%60;
-            int s = t%60;
-            return boost::str(boost::format("%d:%02d:%02d") % h % m % s);
-        }
-        else
-        {
-            int m = t/60;
-            int s = t%60;
-            return boost::str(boost::format("%d:%02d") % m % s);
-        }
-    }
-
-    std::string GetTimeTextSeconds(float t)
-    {
-        return boost::str(boost::format("%.1f") % t);
-    }
-
-    void OnRender(bool flash)
-    {
-        std::string text;
-
-        bool useIcon2 = (event->triggerTimer != nullptr && event->GetTimeLeft() < event->def->box->warningTime) || (event->triggerJumps <= event->def->box->warningJumps);
-        if (event->def->box->flash) useIcon2 = useIcon2 && flash;
-
-        CSurface::GL_RenderPrimitive(useIcon2 ? backgroundIcon2.get() : backgroundIcon.get());
-        CSurface::GL_SetColor(useIcon2 ? event->def->box->textColor2 : event->def->box->textColor);
-
-        if (event->def->box->textType == TriggeredEventBoxDefinition::TextType::JUMPS)
-        {
-            text = std::to_string(event->triggerJumps);
-        }
-        else
-        {
-            float t = event->GetTimeLeft();
-            if (event->def->box->textType == TriggeredEventBoxDefinition::TextType::TIME_CLOCK || t >= 60.f)
-            {
-                text = GetTimeTextClock(t);
-            }
-            else
-            {
-                text = GetTimeTextSeconds(t);
-            }
-        }
-
-        freetype::easy_printCenter(0, text_x, text_y, text);
-    }
+    static std::string GetTimeTextClock(int t);
+    static std::string GetTimeTextSeconds(float t);
+    void OnRender(bool flash);
+    void MouseMove(int mx, int my);
 };
 
 class TriggeredEventGui
 {
 public:
-    std::vector<TriggeredEventBox> boxes;
+    Point normalBoxPos = Point(1259, 110);
+    Point bossBoxPos = Point(1266, 72);
+
     std::unordered_map<std::string, TriggeredEventBoxDefinition> boxDefs;
+
+    std::vector<TriggeredEventBox> boxes;
+    TriggeredEventBox* scrapBox = nullptr;
+    std::vector<TriggeredEventBox> topRightBoxes;
+    std::vector<TriggeredEventBox> combatBoxes;
 
     AnimationTracker flashTracker;
 
@@ -302,41 +288,10 @@ public:
         flashTracker.currentDelay = 0.f;
     }
 
-    void CreateBoxes()
-    {
-        boxes.clear();
-        int x = 132;
-        int y = 82;
-
-        int i=0;
-
-        for (auto& event: TriggeredEvent::eventList)
-        {
-            TriggeredEventBoxDefinition* box = event.second.def->box;
-            if (box != nullptr)
-            {
-                if (i>0) x += box->left;
-                boxes.emplace_back(&event.second, x, y);
-                x += box->w + box->right;
-                i++;
-            }
-        }
-
-        reset = false;
-    }
-
-    void OnRender()
-    {
-        if (reset) CreateBoxes();
-
-        flashTracker.Update();
-        bool flash = flashTracker.current_time < 0.5f;
-
-        for (auto& box: boxes)
-        {
-            box.OnRender(flash);
-        }
-    }
+    void CreateBoxes();
+    void OnRender();
+    void OnRenderCombat(CombatControl* this2);
+    void MouseMove(int x, int y);
 
     static TriggeredEventGui *GetInstance()
     {

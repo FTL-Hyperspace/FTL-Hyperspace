@@ -176,6 +176,11 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
                         {
                             def.seeded = EventsParser::ParseBoolean(child->first_attribute("seeded")->value());
                         }
+                        if (child->first_attribute("thisFight"))
+                        {
+                            def.thisFight = EventsParser::ParseBoolean(child->first_attribute("thisFight")->value());
+                            def.clearOnJump = def.thisFight;
+                        }
                         if (child->first_attribute("clearOnJump"))
                         {
                             def.clearOnJump = EventsParser::ParseBoolean(child->first_attribute("clearOnJump")->value());
@@ -218,6 +223,66 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
                         if (child->first_attribute("maxJumps"))
                         {
                             def.triggerMaxJumps = boost::lexical_cast<int>(child->first_attribute("maxJumps")->value());
+                        }
+                        if (child->first_attribute("playerHull"))
+                        {
+                            def.minPlayerHull = boost::lexical_cast<int>(child->first_attribute("playerHull")->value());
+                            def.maxPlayerHull = boost::lexical_cast<int>(child->first_attribute("playerHull")->value());
+                        }
+                        if (child->first_attribute("minPlayerHull"))
+                        {
+                            def.minPlayerHull = boost::lexical_cast<int>(child->first_attribute("minPlayerHull")->value());
+                        }
+                        if (child->first_attribute("maxPlayerHull"))
+                        {
+                            def.maxPlayerHull = boost::lexical_cast<int>(child->first_attribute("maxPlayerHull")->value());
+                        }
+                        if (child->first_attribute("playerDamage"))
+                        {
+                            def.minPlayerDamage = boost::lexical_cast<int>(child->first_attribute("playerDamage")->value());
+                            def.maxPlayerDamage = boost::lexical_cast<int>(child->first_attribute("playerDamage")->value());
+                        }
+                        if (child->first_attribute("minPlayerDamage"))
+                        {
+                            def.minPlayerDamage = boost::lexical_cast<int>(child->first_attribute("minPlayerDamage")->value());
+                        }
+                        if (child->first_attribute("maxPlayerDamage"))
+                        {
+                            def.maxPlayerDamage = boost::lexical_cast<int>(child->first_attribute("maxPlayerDamage")->value());
+                        }
+                        if (child->first_attribute("minEnemyHull"))
+                        {
+                            def.minEnemyHull = boost::lexical_cast<int>(child->first_attribute("minEnemyHull")->value());
+                        }
+                        if (child->first_attribute("maxEnemyHull"))
+                        {
+                            def.maxEnemyHull = boost::lexical_cast<int>(child->first_attribute("maxEnemyHull")->value());
+                        }
+                        if (child->first_attribute("enemyHull"))
+                        {
+                            def.minEnemyHull = boost::lexical_cast<int>(child->first_attribute("enemyHull")->value());
+                            def.maxEnemyHull = boost::lexical_cast<int>(child->first_attribute("enemyHull")->value());
+                        }
+                        if (child->first_attribute("minEnemyDamage"))
+                        {
+                            def.minEnemyDamage = boost::lexical_cast<int>(child->first_attribute("minEnemyDamage")->value());
+                        }
+                        if (child->first_attribute("maxEnemyDamage"))
+                        {
+                            def.maxEnemyDamage = boost::lexical_cast<int>(child->first_attribute("maxEnemyDamage")->value());
+                        }
+                        if (child->first_attribute("enemyDamage"))
+                        {
+                            def.minEnemyDamage = boost::lexical_cast<int>(child->first_attribute("enemyDamage")->value());
+                            def.maxEnemyDamage = boost::lexical_cast<int>(child->first_attribute("enemyDamage")->value());
+                        }
+                        if (child->first_attribute("enemyHullScaling"))
+                        {
+                            def.enemyHullScaling = boost::lexical_cast<float>(child->first_attribute("enemyHullScaling")->value());
+                        }
+                        if (child->first_attribute("enemyDamageScaling"))
+                        {
+                            def.enemyDamageScaling = boost::lexical_cast<float>(child->first_attribute("enemyDamageScaling")->value());
                         }
 
                         for (auto child2 = child->first_node(); child2; child2 = child2->next_sibling())
@@ -512,6 +577,36 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
             if (eventNode->first_attribute("name"))
             {
                 TriggeredEventGui::GetInstance()->boxDefs[eventNode->first_attribute("name")->value()] = boxDef;
+            }
+        }
+
+        if (strcmp(eventNode->name(), "combatTimerPosition") == 0)
+        {
+            for (auto child = eventNode->first_node(); child; child = child->next_sibling())
+            {
+                std::string nodeName(child->name());
+                if (nodeName == "normalPos")
+                {
+                    if (child->first_attribute("x"))
+                    {
+                        TriggeredEventGui::GetInstance()->normalBoxPos.x = boost::lexical_cast<int>(child->first_attribute("x")->value());
+                    }
+                    if (child->first_attribute("y"))
+                    {
+                        TriggeredEventGui::GetInstance()->normalBoxPos.y = boost::lexical_cast<int>(child->first_attribute("y")->value());
+                    }
+                }
+                if (nodeName == "bossPos")
+                {
+                    if (child->first_attribute("x"))
+                    {
+                        TriggeredEventGui::GetInstance()->bossBoxPos.x = boost::lexical_cast<int>(child->first_attribute("x")->value());
+                    }
+                    if (child->first_attribute("y"))
+                    {
+                        TriggeredEventGui::GetInstance()->bossBoxPos.y = boost::lexical_cast<int>(child->first_attribute("y")->value());
+                    }
+                }
             }
         }
     }
