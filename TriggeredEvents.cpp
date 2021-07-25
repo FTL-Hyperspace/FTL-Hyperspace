@@ -86,6 +86,21 @@ void CustomEventsParser::ParseCustomTriggeredEventBoxNode(rapidxml::xml_node<cha
                 box->image2 = child->first_attribute("name")->value();
             }
         }
+        if (nodeName == "icon")
+        {
+            if (child->first_attribute("name"))
+            {
+                box->imageFront = child->first_attribute("name")->value();
+            }
+            if (child->first_attribute("x"))
+            {
+                box->front_x = boost::lexical_cast<int>(child->first_attribute("x")->value());
+            }
+            if (child->first_attribute("y"))
+            {
+                box->front_y = boost::lexical_cast<int>(child->first_attribute("y")->value());
+            }
+        }
         if (nodeName == "text")
         {
             if (child->first_attribute("type"))
@@ -635,8 +650,18 @@ void TriggeredEventBox::OnRender(bool flash)
     bool useIcon2 = (event->triggerTimer != nullptr && event->GetTimeLeft() < boxDef->warningTime) || (event->triggerJumps <= boxDef->warningJumps);
     if (boxDef->flash) useIcon2 = useIcon2 && flash;
 
-    CSurface::GL_RenderPrimitive(useIcon2 ? backgroundIcon2.get() : backgroundIcon.get());
-    CSurface::GL_SetColor(useIcon2 ? boxDef->textColor2 : boxDef->textColor);
+    if (useIcon2)
+    {
+        if (backgroundIcon2.get() != nullptr) CSurface::GL_RenderPrimitive(backgroundIcon2.get());
+        CSurface::GL_SetColor(boxDef->textColor2);
+    }
+    else
+    {
+        if (backgroundIcon.get() != nullptr) CSurface::GL_RenderPrimitive(backgroundIcon.get());
+        CSurface::GL_SetColor(boxDef->textColor);
+    }
+
+    if (foregroundIcon.get() != nullptr) CSurface::GL_RenderPrimitive(foregroundIcon.get());
 
     if (boxDef->textType == TriggeredEventBoxDefinition::TextType::JUMPS)
     {

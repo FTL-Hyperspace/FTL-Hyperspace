@@ -100,6 +100,10 @@ public:
     int top = 0;
     int bottom = 0;
 
+    std::string imageFront = "";
+    int front_x;
+    int front_y;
+
     TextType textType = TextType::TIME_AUTO;
     GL_Color textColor = GL_Color(1.f, 1.f, 1.f, 1.f);
     GL_Color textColor2 = GL_Color(1.f, 1.f, 1.f, 1.f);
@@ -237,6 +241,7 @@ public:
 
     std::unique_ptr<GL_Primitive, GL_Primitive_Deleter> backgroundIcon;
     std::unique_ptr<GL_Primitive, GL_Primitive_Deleter> backgroundIcon2;
+    std::unique_ptr<GL_Primitive, GL_Primitive_Deleter> foregroundIcon;
 
     int x;
     int y;
@@ -257,8 +262,9 @@ public:
         y{y_}
     {
         boxDef = e->def->box;
-        backgroundIcon.reset(G_->GetResources()->CreateImagePrimitiveString(boxDef->image, x - boxDef->x, y - boxDef->y, 0, GL_Color(1.f,1.f,1.f,1.f), 1.f, false));
-        backgroundIcon2.reset(G_->GetResources()->CreateImagePrimitiveString(boxDef->image2, x - boxDef->x, y - boxDef->y, 0, GL_Color(1.f,1.f,1.f,1.f), 1.f, false));
+        if (!boxDef->image.empty()) backgroundIcon.reset(G_->GetResources()->CreateImagePrimitiveString(boxDef->image, x - boxDef->x, y - boxDef->y, 0, GL_Color(1.f,1.f,1.f,1.f), 1.f, false));
+        if (!boxDef->image2.empty()) backgroundIcon2.reset(G_->GetResources()->CreateImagePrimitiveString(boxDef->image2, x - boxDef->x, y - boxDef->y, 0, GL_Color(1.f,1.f,1.f,1.f), 1.f, false));
+        if (!boxDef->imageFront.empty()) foregroundIcon.reset(G_->GetResources()->CreateImagePrimitiveString(boxDef->imageFront, x - boxDef->x + boxDef->front_x, y - boxDef->y + boxDef->front_y, 0, GL_Color(1.f,1.f,1.f,1.f), 1.f, false));
         width = boxDef->w;
         height = boxDef->h;
         text_x = x + boxDef->text_x;
