@@ -250,7 +250,7 @@ void CustomShipSelect::ParseShipsNode(rapidxml::xml_node<char> *node)
                     {
                         def.systemLimit = boost::lexical_cast<int>(val);
                     }
-                    if (name == "systemLimit")
+                    if (name == "subsystemLimit")
                     {
                         def.subsystemLimit = boost::lexical_cast<int>(val);
                     }
