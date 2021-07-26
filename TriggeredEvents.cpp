@@ -585,7 +585,7 @@ void TriggeredEvent::Reset()
         {
             int minTime = def->triggerMinTime * 1000.f;
             int maxTime = def->triggerMaxTime * 1000.f;
-            goal = (minTime + random32()%(maxTime-minTime+1)) / 1000;
+            goal = (minTime + random32()%(maxTime-minTime+1)) / 1000.f;
         }
         triggerTimer->currTime = 0.f;
         triggerTimer->currGoal = goal;

@@ -173,6 +173,42 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
                         customEvent->clearTriggeredEvents.push_back(child->first_attribute("name")->value());
                     }
 
+                    if (nodeName == "triggeredEventModifier")
+                    {
+                        TriggeredEventModifier def;
+                        if (child->first_attribute("name"))
+                        {
+                            def.name = child->first_attribute("name")->value();
+                        }
+                        if (child->first_attribute("time"))
+                        {
+                            def.minTime = boost::lexical_cast<float>(child->first_attribute("time")->value());
+                            def.maxTime = boost::lexical_cast<float>(child->first_attribute("time")->value());
+                        }
+                        if (child->first_attribute("minTime"))
+                        {
+                            def.minTime = boost::lexical_cast<float>(child->first_attribute("minTime")->value());
+                        }
+                        if (child->first_attribute("maxTime"))
+                        {
+                            def.maxTime = boost::lexical_cast<float>(child->first_attribute("maxTime")->value());
+                        }
+                        if (child->first_attribute("jumps"))
+                        {
+                            def.minJumps = boost::lexical_cast<int>(child->first_attribute("jumps")->value());
+                            def.maxJumps = boost::lexical_cast<int>(child->first_attribute("jumps")->value());
+                        }
+                        if (child->first_attribute("minJumps"))
+                        {
+                            def.minJumps = boost::lexical_cast<int>(child->first_attribute("minJumps")->value());
+                        }
+                        if (child->first_attribute("maxJumps"))
+                        {
+                            def.maxJumps = boost::lexical_cast<int>(child->first_attribute("maxJumps")->value());
+                        }
+                        customEvent->triggeredEventModifiers.push_back(def);
+                    }
+
                     if (nodeName == "preventBossFleet")
                     {
                         customEvent->preventBossFleet = 1;
@@ -483,6 +519,42 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
                     if (nodeName == "clearTriggeredEvent")
                     {
                         customEvent->clearTriggeredEvents.push_back(child->first_attribute("name")->value());
+                    }
+
+                    if (nodeName == "triggeredEventModifier")
+                    {
+                        TriggeredEventModifier def;
+                        if (child->first_attribute("name"))
+                        {
+                            def.name = child->first_attribute("name")->value();
+                        }
+                        if (child->first_attribute("time"))
+                        {
+                            def.minTime = boost::lexical_cast<float>(child->first_attribute("time")->value());
+                            def.maxTime = boost::lexical_cast<float>(child->first_attribute("time")->value());
+                        }
+                        if (child->first_attribute("minTime"))
+                        {
+                            def.minTime = boost::lexical_cast<float>(child->first_attribute("minTime")->value());
+                        }
+                        if (child->first_attribute("maxTime"))
+                        {
+                            def.maxTime = boost::lexical_cast<float>(child->first_attribute("maxTime")->value());
+                        }
+                        if (child->first_attribute("jumps"))
+                        {
+                            def.minJumps = boost::lexical_cast<int>(child->first_attribute("jumps")->value());
+                            def.maxJumps = boost::lexical_cast<int>(child->first_attribute("jumps")->value());
+                        }
+                        if (child->first_attribute("minJumps"))
+                        {
+                            def.minJumps = boost::lexical_cast<int>(child->first_attribute("minJumps")->value());
+                        }
+                        if (child->first_attribute("maxJumps"))
+                        {
+                            def.maxJumps = boost::lexical_cast<int>(child->first_attribute("maxJumps")->value());
+                        }
+                        customEvent->triggeredEventModifiers.push_back(def);
                     }
 
                     if (nodeName == "jumpEvent")
@@ -1761,14 +1833,19 @@ HOOK_METHOD(WorldManager, CreateShip, (ShipEvent* shipEvent, bool boss) -> Compl
             jumpEvent = customEvent->jumpEvent;
         }
 
+        for (auto& triggeredEvent: customEvent->clearTriggeredEvents)
+        {
+            TriggeredEvent::DestroyEvent(triggeredEvent);
+        }
+
         for (auto& triggeredEvent: customEvent->triggeredEvents)
         {
             TriggeredEvent::NewEvent(&TriggeredEventDefinition::defs.at(triggeredEvent));
         }
 
-        for (auto& triggeredEvent: customEvent->clearTriggeredEvents)
+        for (auto& triggeredEvent: customEvent->triggeredEventModifiers)
         {
-            TriggeredEvent::DestroyEvent(triggeredEvent);
+            triggeredEvent.ApplyModifier();
         }
     }
 
@@ -2027,14 +2104,19 @@ HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEve
             G_->GetSoundControl()->PlaySoundMix(customEvent->playSound, -1.f, false);
         }
 
+        for (auto& triggeredEvent: customEvent->clearTriggeredEvents)
+        {
+            TriggeredEvent::DestroyEvent(triggeredEvent);
+        }
+
         for (auto& triggeredEvent: customEvent->triggeredEvents)
         {
             TriggeredEvent::NewEvent(&TriggeredEventDefinition::defs.at(triggeredEvent));
         }
 
-        for (auto& triggeredEvent: customEvent->clearTriggeredEvents)
+        for (auto& triggeredEvent: customEvent->triggeredEventModifiers)
         {
-            TriggeredEvent::DestroyEvent(triggeredEvent);
+            triggeredEvent.ApplyModifier();
         }
     }
 

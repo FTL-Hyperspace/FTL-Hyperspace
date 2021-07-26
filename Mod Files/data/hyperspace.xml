@@ -1298,6 +1298,7 @@ Syntax ->
 		<triggeredEvent name="EXAMPLE_TRIGGER_ENEMY" event="TRIGGERED_EVENT" enemyHull="10" enemyDamage="10" enemyCrew="1" enemyDeaths="3"/> -> Same but for the enemy; requires enemy to be present.
 		<triggeredEvent name="EXAMPLE_TRIGGER_ENEMY2" event="TRIGGERED_EVENT" enemyHull="10" enemyDamage="10" enemyHullScaling="0.5" enemyDamageScaling="0.5"/> -> Scales enemyHull and enemyDamage by sector.
 		<clearTriggeredEvent name="EXAMPLE_TRIGGER_TO_CLEAR"/>
+		<triggeredEventModifier name="EXAMPLE_TRIGGER_ADDTIME" time="60.0" jumps="3"/> -> can also use minTime/maxTime and/or minJumps/maxJumps for random modifier.
 	</event>
 	
 	<shipEvent name="PIRATE">

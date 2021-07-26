@@ -230,6 +230,43 @@ public:
     void Load(int file);
 };
 
+class TriggeredEventModifier
+{
+public:
+    std::string name = "";
+    float minTime = 0.f;
+    float maxTime = 0.f;
+    int minJumps = 0;
+    int maxJumps = 0;
+
+    void ApplyModifier()
+    {
+        auto it = TriggeredEvent::eventList.find(name);
+        if (it != TriggeredEvent::eventList.end())
+        {
+            TriggeredEvent& event = it->second;
+            if (event.triggerTimer != nullptr)
+            {
+                float modTime = minTime;
+                if (maxTime > minTime)
+                {
+                    int minTime_ = minTime * 1000.f;
+                    int maxTime_ = maxTime * 1000.f;
+                    modTime = (minTime_ + random32()%(maxTime_-minTime_+1)) / 1000.f;
+                }
+                event.triggerTimer->currGoal += modTime;
+                if (event.triggerTimer->currGoal < event.triggerTimer->currTime) event.triggerTimer->currGoal = event.triggerTimer->currTime;
+            }
+            if (event.triggerJumps >= 0)
+            {
+                int modJumps = minJumps;
+                if (maxJumps > minJumps) modJumps = minJumps + random32()%(maxJumps-minJumps+1);
+                event.triggerJumps = std::max(0, event.triggerJumps + modJumps);
+            }
+        }
+    }
+};
+
 struct GL_Primitive_Deleter {
     void operator()(GL_Primitive* p) {
         CSurface::GL_DestroyPrimitive(p);
@@ -345,6 +382,7 @@ struct CustomEvent
     CustomQuest *customQuest;
     std::vector<unsigned int> triggeredEvents;
     std::vector<std::string> clearTriggeredEvents;
+    std::vector<TriggeredEventModifier> triggeredEventModifiers;
     int preventBossFleet = 0;
     int runFromFleet = 0;
     bool removeHazards = false;
@@ -376,6 +414,7 @@ struct CustomShipEvent
     std::string eventName;
     std::vector<unsigned int> triggeredEvents;
     std::vector<std::string> clearTriggeredEvents;
+    std::vector<TriggeredEventModifier> triggeredEventModifiers;
     std::string jumpEvent = "";
 };
 
