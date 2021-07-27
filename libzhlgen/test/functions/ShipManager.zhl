@@ -92,8 +92,6 @@ bool ShipManager::IsSystemHacked(ShipManager *this<ecx>, int systemId);
 CrewMember* ShipManager::GetSelectedCrewPoint(ShipManager *this<ecx>, int x, int y, bool intruder);
 "578d7c240883e4f0ff77fc5589e5578db994000000565389ce89f983ec5ce8????????8945c08b86c8040000":
 void ShipManager::RenderWeapons(ShipManager *this<ecx>);
-"578d7c240883e4f0ff77fc5589f889e557565383ec6c8b308b58048b4018897db089cf8975c485c0":
-void ShipManager::DamageSystem(ShipManager *this<ecx>, int roomId, int iDamage, int iShieldPiercing, int fireChance, int breachChance, int stunChance, int iIonDamage, int iSystemDamage, int iPersDamage, char bHullBuster, int ownerId, int selfId, int bLockdown, int iStun);
 "5589e583e4f083ec108b450883f81174??83f8ff74??8b91c80400008b048283f8ff74??8b51188b0c8285c974??e8????????c9":
 void ShipManager::ClearStatusSystem(ShipManager *this<ecx>, int system);
 "a1????????c781d40400001e00000083f80174??83f80274??f3c3908d742600c781d404000000000000c3908d742600c781d40400000a000000":
@@ -122,6 +120,12 @@ bool ShipManager::SystemFunctions(ShipManager *this<ecx>, int systemId);
 bool ShipManager::CanFitSystem(ShipManager *this<ecx>, int systemId);
 "5589e557565383e4f083ec108b791c8b511889f829d0c1f80285c074??894c240c31db31f6eb??":
 bool ShipManager::CanFitSubsystem(ShipManager *this<ecx>, int systemId);
+"578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b018b378b57048b40403d????????75??0fb681d804000038d0":
+int ShipManager::DamageHull(ShipManager *this<ecx>, int dmg, bool force);
+"578d7c240883e4f0ff77fc5589f889e557565383ec6c8b308b58048b4018897db089cf":
+void ShipManager::DamageSystem(ShipManager *this<ecx>, int systemId, DamageParameter damage);
+"5783c1708d7c240883e4f0ff77fc5589e55783ec148b07c744240402000000890424e8????????8b7dfc83ec08c9":
+void ShipManager::StartFire(ShipManager *this<ecx>, int roomId);
 
 struct ShipManager depends (PowerManager, ShieldPower)
 {{

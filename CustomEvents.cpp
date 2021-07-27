@@ -159,6 +159,56 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
                         ParseCustomQuestNode(child, customEvent->customQuest);
                     }
 
+                    if (nodeName == "triggeredEvent")
+                    {
+                        TriggeredEventDefinition def;
+
+                        ParseCustomTriggeredEventNode(child, &def);
+
+                        customEvent->triggeredEvents.push_back(TriggeredEventDefinition::PushDef(def));
+                    }
+
+                    if (nodeName == "clearTriggeredEvent")
+                    {
+                        customEvent->clearTriggeredEvents.push_back(child->first_attribute("name")->value());
+                    }
+
+                    if (nodeName == "triggeredEventModifier")
+                    {
+                        TriggeredEventModifier def;
+                        if (child->first_attribute("name"))
+                        {
+                            def.name = child->first_attribute("name")->value();
+                        }
+                        if (child->first_attribute("time"))
+                        {
+                            def.minTime = boost::lexical_cast<float>(child->first_attribute("time")->value());
+                            def.maxTime = boost::lexical_cast<float>(child->first_attribute("time")->value());
+                        }
+                        if (child->first_attribute("minTime"))
+                        {
+                            def.minTime = boost::lexical_cast<float>(child->first_attribute("minTime")->value());
+                        }
+                        if (child->first_attribute("maxTime"))
+                        {
+                            def.maxTime = boost::lexical_cast<float>(child->first_attribute("maxTime")->value());
+                        }
+                        if (child->first_attribute("jumps"))
+                        {
+                            def.minJumps = boost::lexical_cast<int>(child->first_attribute("jumps")->value());
+                            def.maxJumps = boost::lexical_cast<int>(child->first_attribute("jumps")->value());
+                        }
+                        if (child->first_attribute("minJumps"))
+                        {
+                            def.minJumps = boost::lexical_cast<int>(child->first_attribute("minJumps")->value());
+                        }
+                        if (child->first_attribute("maxJumps"))
+                        {
+                            def.maxJumps = boost::lexical_cast<int>(child->first_attribute("maxJumps")->value());
+                        }
+                        customEvent->triggeredEventModifiers.push_back(def);
+                    }
+
                     if (nodeName == "preventBossFleet")
                     {
                         customEvent->preventBossFleet = 1;
@@ -200,6 +250,11 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
                     if (nodeName == "resetFtl")
                     {
                         customEvent->resetFtl = true;
+                    }
+
+                    if (nodeName == "instantEscape")
+                    {
+                        customEvent->instantEscape = true;
                     }
 
                     if (nodeName == "beaconType")
@@ -391,11 +446,126 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
                     {
                         customEvent->clearCustomFleet = true;
                     }
+                    if (nodeName == "enemyDamage")
+                    {
+                        EventDamage eventDamage{-1,0,0};
+                        if (child->first_attribute("amount"))
+                        {
+                            eventDamage.amount = boost::lexical_cast<int>(child->first_attribute("amount")->value());
+                        }
+                        if (child->first_attribute("system"))
+                        {
+                            eventDamage.system = ShipSystem::NameToSystemId(child->first_attribute("system")->value());
+                        }
+                        if (child->first_attribute("effect"))
+                        {
+                            std::string damageEffect = child->first_attribute("effect")->value();
+                            if (damageEffect == "fire")
+                            {
+                                eventDamage.effect = 1;
+                            }
+                            if (damageEffect == "breach")
+                            {
+                                eventDamage.effect = 2;
+                            }
+                            if (damageEffect == "all")
+                            {
+                                eventDamage.effect = 3;
+                            }
+                            if (damageEffect == "random")
+                            {
+                                eventDamage.effect = 4;
+                            }
+                        }
+                        customEvent->enemyDamage.push_back(eventDamage);
+                    }
                 }
 
                 customEvents[eventName] = customEvent;
             }
         }
+
+        if (strcmp(eventNode->name(), "shipEvent") == 0)
+        {
+            if (eventNode->first_attribute("name"))
+            {
+                std::string eventName = std::string(eventNode->first_attribute("name")->value());
+
+                CustomShipEvent *customEvent;
+				if (GetCustomShipEvent(eventName) == nullptr)
+				{
+					customEvent = new CustomShipEvent();
+				}
+				else
+				{
+					customEvent = GetCustomShipEvent(eventName);
+				}
+
+                customEvent->eventName = eventName;
+
+                for (auto child = eventNode->first_node(); child; child = child->next_sibling())
+                {
+                    std::string nodeName(child->name());
+
+                    if (nodeName == "triggeredEvent")
+                    {
+                        TriggeredEventDefinition def;
+
+                        ParseCustomTriggeredEventNode(child, &def);
+
+                        customEvent->triggeredEvents.push_back(TriggeredEventDefinition::PushDef(def));
+                    }
+
+                    if (nodeName == "clearTriggeredEvent")
+                    {
+                        customEvent->clearTriggeredEvents.push_back(child->first_attribute("name")->value());
+                    }
+
+                    if (nodeName == "triggeredEventModifier")
+                    {
+                        TriggeredEventModifier def;
+                        if (child->first_attribute("name"))
+                        {
+                            def.name = child->first_attribute("name")->value();
+                        }
+                        if (child->first_attribute("time"))
+                        {
+                            def.minTime = boost::lexical_cast<float>(child->first_attribute("time")->value());
+                            def.maxTime = boost::lexical_cast<float>(child->first_attribute("time")->value());
+                        }
+                        if (child->first_attribute("minTime"))
+                        {
+                            def.minTime = boost::lexical_cast<float>(child->first_attribute("minTime")->value());
+                        }
+                        if (child->first_attribute("maxTime"))
+                        {
+                            def.maxTime = boost::lexical_cast<float>(child->first_attribute("maxTime")->value());
+                        }
+                        if (child->first_attribute("jumps"))
+                        {
+                            def.minJumps = boost::lexical_cast<int>(child->first_attribute("jumps")->value());
+                            def.maxJumps = boost::lexical_cast<int>(child->first_attribute("jumps")->value());
+                        }
+                        if (child->first_attribute("minJumps"))
+                        {
+                            def.minJumps = boost::lexical_cast<int>(child->first_attribute("minJumps")->value());
+                        }
+                        if (child->first_attribute("maxJumps"))
+                        {
+                            def.maxJumps = boost::lexical_cast<int>(child->first_attribute("maxJumps")->value());
+                        }
+                        customEvent->triggeredEventModifiers.push_back(def);
+                    }
+
+                    if (nodeName == "jumpEvent")
+                    {
+                        customEvent->jumpEvent = child->value();
+                    }
+                }
+
+                customShipEvents[eventName] = customEvent;
+			}
+		}
 
         if (strcmp(eventNode->name(), "quest") == 0)
         {
@@ -421,6 +591,56 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
             ParseCustomReqNode(eventNode, customReq);
 
             customReqs[reqName] = customReq;
+        }
+
+        if (strcmp(eventNode->name(), "triggeredEventBox") == 0)
+        {
+            TriggeredEventBoxDefinition boxDef;
+            ParseCustomTriggeredEventBoxNode(eventNode, &boxDef);
+            if (eventNode->first_attribute("name"))
+            {
+                TriggeredEventGui::GetInstance()->boxDefs[eventNode->first_attribute("name")->value()] = boxDef;
+            }
+        }
+
+        if (strcmp(eventNode->name(), "timerSounds") == 0)
+        {
+            std::vector<std::pair<float,std::string>> timerSounds;
+            ParseCustomTriggeredEventSounds(eventNode, &timerSounds);
+            if (eventNode->first_attribute("name"))
+            {
+                TriggeredEventDefinition::timerSoundDefs[eventNode->first_attribute("name")->value()] = timerSounds;
+            }
+        }
+
+        if (strcmp(eventNode->name(), "combatTimerPosition") == 0)
+        {
+            for (auto child = eventNode->first_node(); child; child = child->next_sibling())
+            {
+                std::string nodeName(child->name());
+                if (nodeName == "normalPos")
+                {
+                    if (child->first_attribute("x"))
+                    {
+                        TriggeredEventGui::GetInstance()->normalBoxPos.x = boost::lexical_cast<int>(child->first_attribute("x")->value());
+                    }
+                    if (child->first_attribute("y"))
+                    {
+                        TriggeredEventGui::GetInstance()->normalBoxPos.y = boost::lexical_cast<int>(child->first_attribute("y")->value());
+                    }
+                }
+                if (nodeName == "bossPos")
+                {
+                    if (child->first_attribute("x"))
+                    {
+                        TriggeredEventGui::GetInstance()->bossBoxPos.x = boost::lexical_cast<int>(child->first_attribute("x")->value());
+                    }
+                    if (child->first_attribute("y"))
+                    {
+                        TriggeredEventGui::GetInstance()->bossBoxPos.y = boost::lexical_cast<int>(child->first_attribute("y")->value());
+                    }
+                }
+            }
         }
     }
 
@@ -574,6 +794,19 @@ CustomEvent *CustomEventsParser::GetCustomEvent(const std::string& event)
         {
             return customEvent;
         }
+    }
+
+    return nullptr;
+}
+
+CustomShipEvent *CustomEventsParser::GetCustomShipEvent(const std::string& event)
+{
+    auto it = customShipEvents.find(event);
+
+    if (it != customShipEvents.end())
+    {
+        CustomShipEvent* customEvent = customShipEvents[event];
+        return customEvent;
     }
 
     return nullptr;
@@ -1425,6 +1658,50 @@ HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *loc) -> void)
 
 static std::string jumpEvent = "";
 
+void EventDamageEnemy(EventDamage eventDamage)
+{
+    ShipManager* enemyShip = G_->GetShipManager(1);
+    if (enemyShip != nullptr)
+    {
+        if (enemyShip->bJumping) return;
+        enemyShip->DamageHull(eventDamage.amount,true);
+        if (eventDamage.system == -1) return;
+        int room = -1;
+        if (eventDamage.system == 18)
+        {
+            ShipSystem* randomSystem = enemyShip->vSystemList[random32() % enemyShip->vSystemList.size()];
+            room = randomSystem->GetRoomId();
+        }
+        else if (eventDamage.system == 19)
+        {
+            room = random32() % ShipGraph::GetShipInfo(1)->RoomCount();
+        }
+        else
+        {
+            room = enemyShip->GetSystemRoom(eventDamage.system);
+        }
+        if (room == -1) return;
+        enemyShip->DamageSystem(room, DamageParameter{0, 0, 0, 0, 0, 0, eventDamage.amount, 0, false, -1, -1, false, 0});
+        if (eventDamage.effect == 4)
+        {
+            int effect = random32();
+            if (effect&1)
+            {
+                enemyShip->StartFire(room);
+            }
+            else
+            {
+                enemyShip->ship.BreachRandomHull(room);
+            }
+        }
+        else
+        {
+            if (eventDamage.effect&1) enemyShip->StartFire(room);
+            if (eventDamage.effect&2) enemyShip->ship.BreachRandomHull(room);
+        }
+    }
+}
+
 HOOK_METHOD(WorldManager, CreateLocation, (Location *location) -> void)
 {
     super(location);
@@ -1445,6 +1722,21 @@ HOOK_METHOD(WorldManager, CreateLocation, (Location *location) -> void)
         if (!customEvent->changeBackground.empty())
         {
             space.currentBack = G_->GetResources()->GetImageId(G_->GetEventGenerator()->GetImageFromList(customEvent->changeBackground));
+        }
+
+        for (EventDamage& eventDamage: customEvent->enemyDamage)
+        {
+            EventDamageEnemy(eventDamage);
+        }
+
+        if (customEvent->instantEscape)
+        {
+            CompleteShip* enemyShip = G_->GetWorld()->playerShip->enemyShip;
+            if (enemyShip != nullptr && !enemyShip->shipManager->bDestroyed)
+            {
+                enemyShip->shipAI.escaping = true;
+                enemyShip->shipManager->JumpLeave();
+            }
         }
 
         if (!customEvent->eventLoad.empty())
@@ -1501,6 +1793,21 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
             G_->GetWorld()->playerShip->shipManager->jump_timer.first = 0.f;
         }
 
+        if (customEvent->instantEscape)
+        {
+            CompleteShip* enemyShip = G_->GetWorld()->playerShip->enemyShip;
+            if (enemyShip != nullptr && !enemyShip->shipManager->bDestroyed)
+            {
+                enemyShip->shipAI.escaping = true;
+                enemyShip->shipManager->JumpLeave();
+            }
+        }
+
+        for (EventDamage& eventDamage: customEvent->enemyDamage)
+        {
+            EventDamageEnemy(eventDamage);
+        }
+
         if (!customEvent->eventLoad.empty())
         {
             int seed = customEvent->eventLoadSeeded ? (int)(starMap.currentLoc->loc.x + starMap.currentLoc->loc.y) ^ starMap.currentSectorSeed : -1;
@@ -1510,6 +1817,39 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
     }
 
     starMap.currentLoc->event->eventName = loc->eventName;
+}
+
+HOOK_METHOD(WorldManager, CreateShip, (ShipEvent* shipEvent, bool boss) -> CompleteShip*)
+{
+
+    auto ret = super(shipEvent, boss);
+
+    CustomShipEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomShipEvent(shipEvent->name);
+
+    if (customEvent)
+    {
+        if (!customEvent->jumpEvent.empty())
+        {
+            jumpEvent = customEvent->jumpEvent;
+        }
+
+        for (auto& triggeredEvent: customEvent->clearTriggeredEvents)
+        {
+            TriggeredEvent::DestroyEvent(triggeredEvent);
+        }
+
+        for (auto& triggeredEvent: customEvent->triggeredEvents)
+        {
+            TriggeredEvent::NewEvent(&TriggeredEventDefinition::defs.at(triggeredEvent));
+        }
+
+        for (auto& triggeredEvent: customEvent->triggeredEventModifiers)
+        {
+            triggeredEvent.ApplyModifier();
+        }
+    }
+
+    return ret;
 }
 
 HOOK_STATIC(StarMap, GetLocationText, (std::string& strRef, StarMap *starMap, const Location* loc) -> std::string&)
@@ -1763,10 +2103,22 @@ HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEve
         {
             G_->GetSoundControl()->PlaySoundMix(customEvent->playSound, -1.f, false);
         }
+
+        for (auto& triggeredEvent: customEvent->clearTriggeredEvents)
+        {
+            TriggeredEvent::DestroyEvent(triggeredEvent);
+        }
+
+        for (auto& triggeredEvent: customEvent->triggeredEvents)
+        {
+            TriggeredEvent::NewEvent(&TriggeredEventDefinition::defs.at(triggeredEvent));
+        }
+
+        for (auto& triggeredEvent: customEvent->triggeredEventModifiers)
+        {
+            triggeredEvent.ApplyModifier();
+        }
     }
-
-
-
 
     return ret;
 }
