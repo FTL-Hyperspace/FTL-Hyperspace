@@ -1285,7 +1285,7 @@ void CrewMember_Extend::ActivatePower()
         orig->blueprint.name = newBlueprint->name;
         orig->blueprint.desc = newBlueprint->desc;
         orig->blueprint.type = newBlueprint->type;
-        orig->species = species;
+        orig->species = newBlueprint->name;
 
         delete newBlueprint;
 
@@ -2587,7 +2587,7 @@ HOOK_METHOD(ShipManager, OnLoop, () -> void)
                         i->blueprint.name = newBlueprint->name;
                         i->blueprint.desc = newBlueprint->desc;
                         i->blueprint.type = newBlueprint->type;
-                        i->species = newSpecies;
+                        i->species = newBlueprint->name;
 
                         delete newBlueprint;
 
@@ -2599,6 +2599,8 @@ HOOK_METHOD(ShipManager, OnLoop, () -> void)
                         i->crewAnim->bDrone = newCrewAnim->bDrone;
                         i->crewAnim->bGhost = newCrewAnim->bGhost;
                         i->crewAnim->race = newCrewAnim->race;
+
+                        delete newCrewAnim;
 
                         ex->Initialize(i->blueprint, i->iShipId, i->iShipId == 1, i->crewAnim);
 
