@@ -64,7 +64,7 @@ public:
     CrewMember *orig;
     bool canPhaseThroughDoors = false;
     bool isHealing = false;
-    TimerHelper* passiveHealTimer;
+    TimerHelper* passiveHealTimer = nullptr;
     int lastRoom = -1;
     int lastShipId = -1;
     bool exploded = false;

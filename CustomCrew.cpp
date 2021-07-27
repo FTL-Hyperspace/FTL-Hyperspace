@@ -1521,7 +1521,7 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
         if (passiveHealAmount != 0.f || truePassiveHealAmount != 0.f)
         {
             float passiveHealDelay = CalculateStat(CrewStat::PASSIVE_HEAL_DELAY, def);
-            if (passiveHealDelay > 0)
+            if (passiveHealDelay > 0 && passiveHealTimer == nullptr)
             {
                 passiveHealTimer = new TimerHelper();
                 passiveHealTimer->Start(passiveHealDelay);
@@ -1747,6 +1747,7 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
         else if (ex->passiveHealTimer && delay == 0)
         {
             delete ex->passiveHealTimer;
+            ex->passiveHealTimer = nullptr;
             ex->isHealing = true;
         }
         else if (ex->passiveHealTimer)
