@@ -2133,7 +2133,44 @@ HOOK_METHOD_PRIORITY(CrewMember, GetNewGoal, 2000, () -> bool)
     return result;
 }
 
+HOOK_STATIC(BlueprintManager, GetCrewBlueprint, (CrewBlueprint *bp, BlueprintManager *bpM, const std::string &name) -> CrewBlueprint*)
+{
+    std::vector<std::string> blueprintList = bpM->GetBlueprintList(name);
+    if (blueprintList.empty())
+    {
+        return super(bp, bpM, name);
+    }
+    else
+    {
+        return GetCrewBlueprint(bp, bpM, blueprintList[random32()%blueprintList.size()]);
+    }
+}
 
+HOOK_METHOD(ShipManager, AddCrewMemberFromString, (const std::string& name, const std::string& race, bool intruder, int roomId, bool init, bool male) -> CrewMember*)
+{
+    std::vector<std::string> blueprintList = G_->GetBlueprints()->GetBlueprintList(race);
+    if (blueprintList.empty())
+    {
+        return super(name, race, intruder, roomId, init, male);
+    }
+    else
+    {
+        return AddCrewMemberFromString(name, blueprintList[random32()%blueprintList.size()], intruder, roomId, init, male);
+    }
+}
+
+HOOK_METHOD(CompleteShip, AddCrewMember1, (const std::string &race, const std::string &name, bool hostile) -> CrewMember*)
+{
+    std::vector<std::string> blueprintList = G_->GetBlueprints()->GetBlueprintList(race);
+    if (blueprintList.empty())
+    {
+        return super(race, name, hostile);
+    }
+    else
+    {
+        return AddCrewMember1(blueprintList[random32()%blueprintList.size()], name, hostile);
+    }
+}
 
 HOOK_METHOD(CrewMemberFactory, CreateCrewMember, (CrewBlueprint* bp, int shipId, bool intruder) -> CrewMember*)
 {
