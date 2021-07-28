@@ -1707,6 +1707,7 @@ HOOK_METHOD(WorldManager, CreateLocation, (Location *location) -> void)
     super(location);
 
     if (loadingGame) return;
+    if (location->visited > 1 && !location->boss && !location->dangerZone) return;
 
     auto loc = location->event;
     if (!loc) return;
@@ -1714,11 +1715,6 @@ HOOK_METHOD(WorldManager, CreateLocation, (Location *location) -> void)
     CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(loc->eventName);
     if (customEvent)
     {
-        if (!customEvent->jumpEvent.empty())
-        {
-            jumpEvent = customEvent->jumpEvent;
-        }
-
         if (!customEvent->changeBackground.empty())
         {
             space.currentBack = G_->GetResources()->GetImageId(G_->GetEventGenerator()->GetImageFromList(customEvent->changeBackground));
@@ -1757,11 +1753,6 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
     CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(loc->eventName);
     if (customEvent)
     {
-        if (!customEvent->jumpEvent.empty())
-        {
-            jumpEvent = customEvent->jumpEvent;
-        }
-
         if (customEvent->removeHazards)
         {
             space.asteroidGenerator.bRunning = false;
@@ -1823,6 +1814,8 @@ HOOK_METHOD(WorldManager, CreateShip, (ShipEvent* shipEvent, bool boss) -> Compl
 {
 
     auto ret = super(shipEvent, boss);
+
+    if (loadingGame) return ret;
 
     CustomShipEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomShipEvent(shipEvent->name);
 
@@ -2102,6 +2095,11 @@ HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEve
         if (!customEvent->playSound.empty())
         {
             G_->GetSoundControl()->PlaySoundMix(customEvent->playSound, -1.f, false);
+        }
+
+        if (!customEvent->jumpEvent.empty())
+        {
+            jumpEvent = customEvent->jumpEvent;
         }
 
         for (auto& triggeredEvent: customEvent->clearTriggeredEvents)
