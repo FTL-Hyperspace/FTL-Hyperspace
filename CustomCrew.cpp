@@ -1155,6 +1155,8 @@ void CrewMember_Extend::ActivateTemporaryPower()
     {
         canPhaseThroughDoors = powerDef->tempPower.canPhaseThroughDoors.value;
     }
+
+    StatBoostManager::GetInstance()->statCacheFrame++; // resets stat cache in case game is paused
 }
 
 void CrewMember_Extend::PreparePower()
@@ -1307,6 +1309,8 @@ void CrewMember_Extend::ActivatePower()
             G_->GetCApp()->gui->crewControl.ClearCrewBoxes();
             G_->GetCApp()->gui->crewControl.UpdateCrewBoxes();
         }
+
+        StatBoostManager::GetInstance()->statCacheFrame++; // resets stat cache in case game is paused
     }
 }
 
@@ -2609,6 +2613,8 @@ HOOK_METHOD(ShipManager, OnLoop, () -> void)
                             G_->GetCApp()->gui->crewControl.ClearCrewBoxes();
                             G_->GetCApp()->gui->crewControl.UpdateCrewBoxes();
                         }
+
+                        StatBoostManager::GetInstance()->statCacheFrame++; // resets stat cache
                     }
                 }
             }
