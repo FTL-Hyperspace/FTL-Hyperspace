@@ -32438,22 +32438,25 @@ __declspec(naked) void SpaceManager::SwitchBeacon()
 namespace _func906
 {
 	static void *func = 0;
-	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("SpaceManager::SwitchPlanet", typeid(ImageDesc *(SpaceManager::*)(const std::string &)), ".578d7c240883e4f0ff77fc5589e5575653", argdata, 2, 1, &func);
+	static short argdata[] = {0x101, 0x1ff, 0x1ff};
+	static FunctionDefinition funcObj("SpaceManager::SwitchPlanet", typeid(void (*)(ImageDesc *, SpaceManager *, const std::string &)), ".578d7c240883e4f0ff77fc5589e5575653", argdata, 3, 4, &func);
 }
 
-__declspec(naked) ImageDesc *SpaceManager::SwitchPlanet(const std::string &name)
+__declspec(naked) void SpaceManager::SwitchPlanet(ImageDesc *ret, SpaceManager *space, const std::string &name)
 {
 	__asm__
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
 		"push edx\n\t"
+		"push eax\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+8]\n\t"		// name
+		"push [ebp+16]\n\t"		// name
+		"push [ebp+12]\n\t"		// space
+		"mov ecx, [ebp+8]\n\t"	// ret
 	);
 	__asm__("call %0\n\t" :: "m"(_func906::func));
 	__asm__
@@ -32462,10 +32465,11 @@ __declspec(naked) ImageDesc *SpaceManager::SwitchPlanet(const std::string &name)
 		"pop esi\n\t"
 		"pop ebx\n\t"
 		"pop ecx\n\t"
+		"pop eax\n\t"
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret 12\n\t"
 	);
 }
 

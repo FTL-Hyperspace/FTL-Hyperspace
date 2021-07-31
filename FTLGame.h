@@ -5759,6 +5759,13 @@ struct SpaceManager
 		
 		return ret;
 	}
+	ImageDesc* SwitchPlanet(const std::string& name)
+	{
+		ImageDesc* ret = new ImageDesc;
+		SwitchPlanet(ret, this, name);
+		
+		return ret;
+	}
 
 	struct FleetShip
 	{
@@ -5770,7 +5777,7 @@ struct SpaceManager
 	LIBZHL_API int GetScreenShake();
 	LIBZHL_API void SaveSpace(int fileHelper);
 	LIBZHL_API void SwitchBeacon();
-	LIBZHL_API ImageDesc *SwitchPlanet(const std::string &name);
+	LIBZHL_API static void __stdcall SwitchPlanet(ImageDesc *ret, SpaceManager *space, const std::string &name);
 	LIBZHL_API void UpdatePlanetImage();
 	LIBZHL_API void SwitchImages(ImageDesc planet, ImageDesc unk1, ImageDesc unk2);
 	LIBZHL_API static void __stdcall SwitchBackground(ImageDesc *ret, SpaceManager *space, const std::string &name);

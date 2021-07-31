@@ -1736,9 +1736,29 @@ void EventDamageEnemy(EventDamage eventDamage)
 
 HOOK_METHOD(WorldManager, CreateLocation, (Location *location) -> void)
 {
+    bool needsBackground = location->space.tex == nullptr && location->planet.tex == nullptr;
+
     super(location);
 
     if (loadingGame) return;
+
+    // Load correct federation base background if the boss got there first
+    if (needsBackground && location->boss && location->beacon && location->event != nullptr)
+    {
+        ImageDesc* image;
+
+        image = space.SwitchBackground(location->event->spaceImage);
+        location->space = *image;
+        delete image;
+
+        image = space.SwitchPlanet(location->event->planetImage);
+        location->planet = *image;
+        delete image;
+
+        location->spaceImage = location->event->spaceImage;
+        location->planetImage = location->event->planetImage;
+    }
+
     if (location->visited > 1 && !location->boss && !location->dangerZone) return;
 
     auto loc = location->event;
