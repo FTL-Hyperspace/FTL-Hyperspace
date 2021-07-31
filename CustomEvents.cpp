@@ -245,6 +245,15 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
                     if (nodeName == "jumpEvent")
                     {
                         customEvent->jumpEvent = child->value();
+                        if (child->first_attribute("loop"))
+                        {
+                            customEvent->jumpEventLoop = EventsParser::ParseBoolean(child->first_attribute("loop")->value());
+                        }
+                    }
+
+                    if (nodeName == "clearJumpEvent")
+                    {
+                        customEvent->jumpEventClear = true;
                     }
 
                     if (nodeName == "resetFtl")
@@ -560,6 +569,15 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
                     if (nodeName == "jumpEvent")
                     {
                         customEvent->jumpEvent = child->value();
+                        if (child->first_attribute("loop"))
+                        {
+                            customEvent->jumpEventLoop = EventsParser::ParseBoolean(child->first_attribute("loop")->value());
+                        }
+                    }
+
+                    if (nodeName == "clearJumpEvent")
+                    {
+                        customEvent->jumpEventClear = true;
                     }
                 }
 
@@ -1657,6 +1675,7 @@ HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *loc) -> void)
 }
 
 static std::string jumpEvent = "";
+static bool jumpEventLoop = false;
 
 void EventDamageEnemy(EventDamage eventDamage)
 {
@@ -1821,9 +1840,16 @@ HOOK_METHOD(WorldManager, CreateShip, (ShipEvent* shipEvent, bool boss) -> Compl
 
     if (customEvent)
     {
+        if (customEvent->jumpEventClear)
+        {
+            jumpEvent = "";
+            jumpEventLoop = false;
+        }
+
         if (!customEvent->jumpEvent.empty())
         {
             jumpEvent = customEvent->jumpEvent;
+            jumpEventLoop = customEvent->jumpEventLoop;
         }
 
         for (auto& triggeredEvent: customEvent->clearTriggeredEvents)
@@ -2097,9 +2123,16 @@ HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEve
             G_->GetSoundControl()->PlaySoundMix(customEvent->playSound, -1.f, false);
         }
 
+        if (customEvent->jumpEventClear)
+        {
+            jumpEvent = "";
+            jumpEventLoop = false;
+        }
+
         if (!customEvent->jumpEvent.empty())
         {
             jumpEvent = customEvent->jumpEvent;
+            jumpEventLoop = customEvent->jumpEventLoop;
         }
 
         for (auto& triggeredEvent: customEvent->clearTriggeredEvents)
@@ -2181,18 +2214,21 @@ HOOK_METHOD(CreditScreen, OnRender, () -> void)
 HOOK_METHOD(StarMap, NewGame, (bool unk) -> Location*)
 {
     jumpEvent = "";
+    jumpEventLoop = false;
     return super(unk);
 }
 
 HOOK_METHOD(StarMap, LoadGame, (int fh) -> Location*)
 {
     jumpEvent = FileHelper::readString(fh);
+    jumpEventLoop = FileHelper::readInteger(fh);
     return super(fh);
 }
 
 HOOK_METHOD(StarMap, SaveGame, (int file) -> void)
 {
     FileHelper::writeString(file, jumpEvent);
+    FileHelper::writeInt(file, jumpEventLoop);
     return super(file);
 }
 
@@ -2202,7 +2238,7 @@ HOOK_METHOD(StarMap, Open, () -> void)
     {
         auto oldName = currentLoc->event->eventName;
         LocationEvent* event = G_->GetEventGenerator()->GetBaseEvent(jumpEvent, currentSector->level, true, -1);
-        jumpEvent = "";
+        if (!jumpEventLoop) jumpEvent = "";
         G_->GetWorld()->UpdateLocation(event);
         currentLoc->event->eventName = oldName;
         return;

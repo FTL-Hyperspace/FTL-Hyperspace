@@ -394,6 +394,8 @@ struct CustomEvent
     bool disableScrapScore = false;
     std::string customStore;
     std::string jumpEvent = "";
+    bool jumpEventLoop = false;
+    bool jumpEventClear = false;
     bool resetFtl = false;
     bool instantEscape = false;
 
@@ -416,6 +418,8 @@ struct CustomShipEvent
     std::vector<std::string> clearTriggeredEvents;
     std::vector<TriggeredEventModifier> triggeredEventModifiers;
     std::string jumpEvent = "";
+    bool jumpEventLoop = false;
+    bool jumpEventClear = false;
 };
 
 struct SectorExit
