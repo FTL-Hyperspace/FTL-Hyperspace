@@ -398,6 +398,9 @@ struct CustomEvent
     bool jumpEventClear = false;
     bool resetFtl = false;
     bool instantEscape = false;
+    bool goToFlagship = false;
+    bool goToFlagshipBase = false;
+    bool goToFlagshipFleet = false;
 
     EventFleet leftFleet;
     EventFleet rightFleet;
@@ -664,3 +667,5 @@ public:
         }
     }
 };
+
+void GoToFlagship(bool atBase, bool allFleet);

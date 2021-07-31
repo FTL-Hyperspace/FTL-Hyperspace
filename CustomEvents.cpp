@@ -266,6 +266,19 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
                         customEvent->instantEscape = true;
                     }
 
+                    if (nodeName == "goToFlagship")
+                    {
+                        customEvent->goToFlagship = true;
+                        if (child->first_attribute("atBase"))
+                        {
+                            customEvent->goToFlagshipBase = EventsParser::ParseBoolean(child->first_attribute("atBase")->value());
+                        }
+                        if (child->first_attribute("allFleet"))
+                        {
+                            customEvent->goToFlagshipFleet = EventsParser::ParseBoolean(child->first_attribute("allFleet")->value());
+                        }
+                    }
+
                     if (nodeName == "beaconType")
                     {
                         BeaconType* beaconType = new BeaconType();
@@ -2135,6 +2148,11 @@ HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEve
             jumpEventLoop = customEvent->jumpEventLoop;
         }
 
+        if (customEvent->goToFlagship)
+        {
+            GoToFlagship(customEvent->goToFlagshipBase, customEvent->goToFlagshipFleet);
+        }
+
         for (auto& triggeredEvent: customEvent->clearTriggeredEvents)
         {
             TriggeredEvent::DestroyEvent(triggeredEvent);
@@ -2463,4 +2481,70 @@ HOOK_METHOD(ShipObject, HasEquipment, (const std::string& name) -> int)
     }
 
     return super(name);
+}
+
+void GoToFlagship(bool atBase, bool allFleet)
+{
+    StarMap& starMap = G_->GetWorld()->starMap;
+
+    if (!starMap.bossLevel) return;
+
+    // Advance Flagship to base.
+    if (atBase && !starMap.boss_path[starMap.bossLoc]->beacon)
+    {
+        Location* base = nullptr;
+        unsigned int bossLoc;
+        for (bossLoc=0; bossLoc<starMap.boss_path.size(); ++bossLoc)
+        {
+            if (starMap.boss_path[bossLoc]->beacon)
+            {
+                base = starMap.boss_path[bossLoc];
+                break;
+            }
+        }
+
+        if (base != nullptr)
+        {
+            starMap.boss_path[starMap.bossLoc]->boss = false;
+
+            starMap.bossJumping = false;
+            starMap.arrivedAtBase = 3;
+            starMap.bossLoc = bossLoc;
+            base->boss = true;
+            LocationEvent* baseEvent = base->event;
+            if (baseEvent != nullptr)
+            {
+                baseEvent->pStore = nullptr;
+                baseEvent->store = false;
+                baseEvent->repair = false;
+                baseEvent->distressBeacon = false;
+            }
+            starMap.bossPosition = base->loc;
+        }
+    }
+
+    // Fleet overtakes entire sector (except base).
+    if (allFleet)
+    {
+        for (Location* loc : starMap.locations)
+        {
+            if (!loc->beacon)
+            {
+                starMap.TurnIntoFleetLocation(loc);
+            }
+        }
+    }
+
+    Location* dest = starMap.boss_path[starMap.bossLoc];
+    if (starMap.bossJumping && starMap.bossLoc+1 < starMap.boss_path.size())
+    {
+        dest = starMap.boss_path[starMap.bossLoc + 1];
+    }
+
+    CommandGui* commandGui = G_->GetWorld()->commandGui;
+
+    starMap.potentialLoc = dest;
+    starMap.readyToTravel = true;
+    starMap.outOfFuel = false;
+    commandGui->waitLocation = false;
 }

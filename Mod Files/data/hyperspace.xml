@@ -1282,6 +1282,10 @@ Syntax ->
 		<enemyDamage amount="30" system="random" effect="random"/> -> same syntax as vanilla <damage> tag.
 	</event>
 	
+	<event name="GOTO_FLAGSHIP">
+		<goToFlagship atBase="false" allFleet="false"/> -> atBase advances the flagship to the base and forces the player to beat the flagship there; allFleet converts all other beacons to fleet-controlled.
+	</event>
+	
 	<event name="CREATE_TRIGGERED_EVENT">
 		<triggeredEvent name="EXAMPLE_TRIGGER" event="TRIGGERED_EVENT" seeded="true" thisFight="false" clearOnJump="false" loops="1" time="60.0">
 			<triggeredEventBox load="DEFAULT_TIMER" ...> -> You can either specify the full triggeredEventBox definition as above, or load a named triggeredEventBox and override specific parameters by including them here.
