@@ -2153,15 +2153,16 @@ HOOK_STATIC(BlueprintManager, GetCrewBlueprint, (CrewBlueprint *bp, BlueprintMan
 
 HOOK_METHOD(ShipManager, AddCrewMemberFromString, (const std::string& name, const std::string& race, bool intruder, int roomId, bool init, bool male) -> CrewMember*)
 {
-    std::vector<std::string> blueprintList = G_->GetBlueprints()->GetBlueprintList(race);
-    if (blueprintList.empty())
+    std::string actualRace = race;
+    std::vector<std::string> blueprintList = G_->GetBlueprints()->GetBlueprintList(actualRace);
+
+    while (!blueprintList.empty())
     {
-        return super(name, race, intruder, roomId, init, male);
+        actualRace = blueprintList[random32()%blueprintList.size()];
+        blueprintList = G_->GetBlueprints()->GetBlueprintList(actualRace);
     }
-    else
-    {
-        return AddCrewMemberFromString(name, blueprintList[random32()%blueprintList.size()], intruder, roomId, init, male);
-    }
+
+    return super(name, actualRace, intruder, roomId, init, male);
 }
 
 HOOK_METHOD(CompleteShip, AddCrewMember1, (const std::string &race, const std::string &name, bool hostile) -> CrewMember*)
