@@ -126,6 +126,8 @@ int ShipManager::DamageHull(ShipManager *this<ecx>, int dmg, bool force);
 void ShipManager::DamageSystem(ShipManager *this<ecx>, int systemId, DamageParameter damage);
 "5783c1708d7c240883e4f0ff77fc5589e55783ec148b07c744240402000000890424e8????????8b7dfc83ec08c9":
 void ShipManager::StartFire(ShipManager *this<ecx>, int roomId);
+"57b9406e8c008d7c240883e4f0ff77fc5589e557565383ec4c":
+CrewMember* ShipManager::FindCrew(ShipManager *this<ecx>, const CrewBlueprint *bp);
 
 struct ShipManager depends (PowerManager, ShieldPower)
 {{

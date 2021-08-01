@@ -412,6 +412,8 @@ struct CustomEvent
     std::string changeBackground = "";
 
     std::vector<EventDamage> enemyDamage = std::vector<EventDamage>();
+
+    std::pair<std::string,std::string> transformRace = std::pair<std::string,std::string>("","");
 };
 
 struct CustomShipEvent

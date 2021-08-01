@@ -1277,10 +1277,16 @@ void CrewMember_Extend::ActivatePower()
     auto aex = CMA_EX(orig->crewAnim);
     aex->powerDone = true;
 
-    if (!powerDef->transformRace.empty() && orig->crewAnim->status != 3)
+    if (!powerDef->transformRace.empty())
     {
-        std::string species = powerDef->transformRace;
+        TransformRace(powerDef->transformRace);
+    }
+}
 
+bool CrewMember_Extend::TransformRace(const std::string& species)
+{
+    if (orig->crewAnim->status != 3)
+    {
         auto newBlueprint = G_->GetBlueprints()->GetCrewBlueprint(species);
 
         orig->blueprint.powers = newBlueprint->powers;
@@ -1291,6 +1297,7 @@ void CrewMember_Extend::ActivatePower()
 
         delete newBlueprint;
 
+        /*
         auto newCrewAnim = new CrewAnimation(orig->iShipId, orig->species, Pointf(0, 0), orig->iShipId == 1);
 
         orig->crewAnim->anims = newCrewAnim->anims;
@@ -1301,6 +1308,7 @@ void CrewMember_Extend::ActivatePower()
         orig->crewAnim->race = newCrewAnim->race;
 
         delete newCrewAnim;
+        */
 
         Initialize(orig->blueprint, orig->iShipId, orig->iShipId == 1, orig->crewAnim);
 
@@ -1311,6 +1319,10 @@ void CrewMember_Extend::ActivatePower()
         }
 
         StatBoostManager::GetInstance()->statCacheFrame++; // resets stat cache in case game is paused
+    }
+    else
+    {
+        transformRace = species;
     }
 }
 
@@ -1416,10 +1428,15 @@ HOOK_METHOD(Animation, AddSoundQueue, (int frame, const std::string& str) -> voi
 
 HOOK_METHOD_PRIORITY(CrewMember, constructor, -899, (CrewBlueprint& bp, int shipId, bool enemy, CrewAnimation *animation) -> void)
 {
+    for (unsigned int i=0; i<bp.colorLayers.size(); ++i)
+    {
+        if (bp.colorChoices[i] >= (int) bp.colorLayers[i].size()) bp.colorLayers[i].resize(bp.colorChoices[i]+1, GL_Color(0.0,0.0,0.0,0.0));
+    }
 
     super(bp, shipId, enemy, animation);
 
     CrewMember_Extend* ex = CM_EX(this);
+    if (ex->originalRace.empty()) ex->originalRace = species;
     ex->Initialize(bp, shipId, enemy, animation);
 }
 
@@ -1432,94 +1449,90 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
         auto def = custom->GetDefinition(orig->species);
         auto powerDef = CalculatePowerDef();
         auto aex = CMA_EX(orig->crewAnim);
+        Pointf lastPosition = Pointf(0, 0);
+
+        std::vector<GL_Color> layerColors = std::vector<GL_Color>();
+        std::vector<GL_Texture*> layerStrips = std::vector<GL_Texture*>();
+        bool male = animation->bMale;
+
+        bool replaceLayers = false;
+
+        if (animation)
+        {
+            layerColors = animation->layerColors;
+            layerStrips = animation->layerStrips;
+            replaceLayers = true;
+            lastPosition = animation->lastPosition;
+        }
+
+        CrewAnimation_Extend aex_old = *CMA_EX(orig->crewAnim);
+
+        aex->effectAnim = nullptr;
+        aex->effectFinishAnim = nullptr;
+        aex->tempEffectAnim = nullptr;
 
         if (def.animBase == "rock")
         {
-            std::vector<GL_Color> layerColors = std::vector<GL_Color>();
-            std::vector<GL_Texture*> layerStrips = std::vector<GL_Texture*>();
-
-            bool replaceLayers = false;
-
-            if (animation)
-            {
-                layerColors = animation->layerColors;
-                layerStrips = animation->layerStrips;
-                replaceLayers = true;
-            }
-
-            CrewAnimation_Extend aex_old = *CMA_EX(orig->crewAnim);
-
-            aex->effectAnim = nullptr;
-            aex->effectFinishAnim = nullptr;
-            aex->tempEffectAnim = nullptr;
-
-            delete animation;
-
             blockAddSoundQueue = true;
-            orig->crewAnim = new RockAnimation(bp.name, shipId, Pointf(0, 0), enemy);
+            orig->crewAnim = new RockAnimation(bp.name, shipId, lastPosition, enemy);
             aex = CMA_EX(orig->crewAnim);
+            aex->crewAnimationType = "rock";
             blockAddSoundQueue = false;
+        }
+        else if (def.animBase == "mantis")
+        {
+            orig->crewAnim = new MantisAnimation;
+            orig->crewAnim->constructor(shipId, bp.name, lastPosition, enemy);
+            aex = CMA_EX(orig->crewAnim);
+            aex->isMantisAnimation = true;
+            aex->crewAnimationType = "mantis";
+        }
+        else
+        {
+            orig->crewAnim = new CrewAnimation(shipId, bp.name, lastPosition, enemy);
+            aex = CMA_EX(orig->crewAnim);
+        }
 
-            aex->effectAnim = aex_old.effectAnim;
-            aex->effectFinishAnim = aex_old.effectFinishAnim;
-            aex->tempEffectAnim = aex_old.tempEffectAnim;
-            aex->tempEffectStrip = aex_old.tempEffectStrip;
+        aex->effectAnim = aex_old.effectAnim;
+        aex->effectFinishAnim = aex_old.effectFinishAnim;
+        aex->tempEffectAnim = aex_old.tempEffectAnim;
+        aex->tempEffectStrip = aex_old.tempEffectStrip;
 
-            if (replaceLayers)
+        orig->crewAnim->bMale = male;
+
+        if (replaceLayers && !orig->crewAnim->bDrone)
+        {
+            auto bpM = G_->GetBlueprints();
+            auto it = bpM->crewBlueprints.find(bp.name);
+            if (it != bpM->crewBlueprints.end() && it->second.colorLayers.size() < layerColors.size())
             {
-                orig->crewAnim->layerColors = layerColors;
-                orig->crewAnim->layerStrips = layerStrips;
+                layerColors.resize(it->second.colorLayers.size());
             }
+            orig->crewAnim->layerColors = layerColors;
+            orig->crewAnim->SetupStrips();
+        }
 
-            if (def.repairSoundFrame != -1 && def.repairSounds.size() > 0 && !enemy)
+        if (animation)
+        {
+            //orig->crewAnim->shots = animation->shots; // this crashes when a shot from the old anim hits an enemy
+            orig->crewAnim->shootTimer = animation->shootTimer;
+            orig->crewAnim->punchTimer = animation->punchTimer;
+            orig->crewAnim->currentShip = animation->currentShip;
+        }
+
+        if (def.repairSoundFrame != -1 && def.repairSounds.size() > 0 && !enemy)
+        {
+            for (auto sound : def.repairSounds)
             {
-                for (auto sound : def.repairSounds)
+                for (int i = 0; i < 4; i++)
                 {
-                    for (int i = 0; i < 4; i++)
-                    {
-                        orig->crewAnim->anims[i][2].AddSoundQueue(def.repairSoundFrame, sound);
-                    }
+                    orig->crewAnim->anims[i][2].AddSoundQueue(def.repairSoundFrame, sound);
                 }
             }
         }
-        if (def.animBase == "mantis")
-        {
-            std::vector<GL_Color> layerColors = std::vector<GL_Color>();
-            std::vector<GL_Texture*> layerStrips = std::vector<GL_Texture*>();
 
-            bool replaceLayers = false;
+        delete animation;
 
-            if (animation)
-            {
-                layerColors = animation->layerColors;
-                layerStrips = animation->layerStrips;
-                replaceLayers = true;
-            }
-
-            CrewAnimation_Extend aex_old = *CMA_EX(orig->crewAnim);
-
-            aex->effectAnim = nullptr;
-            aex->effectFinishAnim = nullptr;
-            aex->tempEffectAnim = nullptr;
-
-            delete animation;
-
-            orig->crewAnim = new MantisAnimation;
-            orig->crewAnim->constructor(shipId, bp.name, Pointf(0, 0), enemy);
-            aex = CMA_EX(orig->crewAnim);
-            aex->isMantisAnimation = true;
-
-            aex->effectAnim = aex_old.effectAnim;
-            aex->effectFinishAnim = aex_old.effectFinishAnim;
-            aex->tempEffectAnim = aex_old.tempEffectAnim;
-            aex->tempEffectStrip = aex_old.tempEffectStrip;
-
-            if (replaceLayers)
-            {
-                orig->crewAnim->layerColors = layerColors;
-                orig->crewAnim->layerStrips = layerStrips;
-            }
-        }
         float passiveHealAmount = CalculateStat(CrewStat::PASSIVE_HEAL_AMOUNT, def);
         float truePassiveHealAmount = CalculateStat(CrewStat::TRUE_PASSIVE_HEAL_AMOUNT, def);
         if (passiveHealAmount != 0.f || truePassiveHealAmount != 0.f)
@@ -1542,6 +1555,7 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
         hasTemporaryPower = powerDef->hasTemporaryPower;
         canPhaseThroughDoors = def.canPhaseThroughDoors;
 
+        outgoingStatBoosts.clear();
         for (auto statBoostDef : def.passiveStatBoosts)
         {
             StatBoost statBoost = StatBoost(statBoostDef);
@@ -1549,6 +1563,7 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
             statBoost.crewSource = orig;
             outgoingStatBoosts.push_back(statBoost);
         }
+        outgoingAbilityStatBoosts.clear();
         for (auto statBoostDef : powerDef->tempPower.statBoosts)
         {
             StatBoost statBoost = StatBoost(statBoostDef);
@@ -1881,6 +1896,8 @@ HOOK_METHOD(CrewMember, SaveState, (int file) -> void)
     FileHelper::writeInt(file, ex->powerCharges.second);
     FileHelper::writeInt(file, ex->temporaryPowerActive);
     FileHelper::writeInt(file, ex->powerDefIdx);
+    FileHelper::writeString(file, ex->transformRace);
+    FileHelper::writeString(file, ex->originalRace);
 
     super(file);
 
@@ -1899,6 +1916,29 @@ HOOK_METHOD(CrewMember, LoadState, (int file) -> void)
     ex->powerCharges.second = FileHelper::readInteger(file);
     ex->temporaryPowerActive = FileHelper::readInteger(file);
     ex->powerDefIdx = FileHelper::readInteger(file);
+    ex->transformRace = FileHelper::readString(file);
+    ex->originalRace = FileHelper::readString(file);
+
+    auto bpM = G_->GetBlueprints();
+    auto it = bpM->crewBlueprints.find(ex->originalRace);
+    if (it != bpM->crewBlueprints.end())
+    {
+        blueprint.colorLayers = it->second.colorLayers;
+        blueprint.colorChoices.resize(blueprint.colorLayers.size(), -1);
+        unsigned int n = std::min(blueprint.colorLayers.size(), crewAnim->layerColors.size());
+        unsigned int i;
+        for (i=0; i<n; ++i)
+        {
+            if (blueprint.colorChoices[i] < blueprint.colorLayers[i].size())
+            {
+                crewAnim->layerColors[i] = blueprint.colorLayers[i][blueprint.colorChoices[i]];
+            }
+        }
+        for (; i<crewAnim->layerColors.size(); ++i)
+        {
+            crewAnim->layerColors[i] = GL_Color(0.0, 0.0, 0.0, 0.0);
+        }
+    }
 
     if (ex->powerDefIdx >= ActivatedPowerDefinition::powerDefs.size()) ex->powerDefIdx = 0; // bounds check
 
@@ -2581,41 +2621,12 @@ HOOK_METHOD(ShipManager, OnLoop, () -> void)
                 int counter = 0;
                 for (auto name : def.transformName)
                 {
-                    if (i->blueprint.crewNameLong.GetText() == name && i->crewAnim->status != 3) // this is stupid
+                    if (i->blueprint.crewNameLong.GetText() == name) // this is stupid
                     {
                         std::string newSpecies = def.nameRace.at(counter);
                         ++counter;
 
-                        auto newBlueprint = G_->GetBlueprints()->GetCrewBlueprint(newSpecies);
-
-                        i->blueprint.powers = newBlueprint->powers;
-                        i->blueprint.name = newBlueprint->name;
-                        i->blueprint.desc = newBlueprint->desc;
-                        i->blueprint.type = newBlueprint->type;
-                        i->species = newBlueprint->name;
-
-                        delete newBlueprint;
-
-                        auto newCrewAnim = new CrewAnimation(i->iShipId, i->species, Pointf(0, 0), i->iShipId == 1);
-
-                        i->crewAnim->anims = newCrewAnim->anims;
-                        i->crewAnim->baseStrip = newCrewAnim->baseStrip;
-                        i->crewAnim->colorStrip = newCrewAnim->colorStrip;
-                        i->crewAnim->bDrone = newCrewAnim->bDrone;
-                        i->crewAnim->bGhost = newCrewAnim->bGhost;
-                        i->crewAnim->race = newCrewAnim->race;
-
-                        delete newCrewAnim;
-
-                        ex->Initialize(i->blueprint, i->iShipId, i->iShipId == 1, i->crewAnim);
-
-                        if (i->iShipId == 0)
-                        {
-                            G_->GetCApp()->gui->crewControl.ClearCrewBoxes();
-                            G_->GetCApp()->gui->crewControl.UpdateCrewBoxes();
-                        }
-
-                        StatBoostManager::GetInstance()->statCacheFrame++; // resets stat cache
+                        ex->TransformRace(newSpecies);
                     }
                 }
             }
@@ -2633,34 +2644,11 @@ HOOK_METHOD(ShipManager, OnLoop, () -> void)
                 {
                     std::string newSpecies = def.nameRace.at(0);
 
-                    auto newBlueprint = G_->GetBlueprints()->GetCrewBlueprint(newSpecies);
-
-                    i->blueprint.powers = newBlueprint->powers;
-                    i->blueprint.name = newBlueprint->name;
-                    i->blueprint.desc = newBlueprint->desc;
-                    i->blueprint.type = newBlueprint->type;
-                    i->species = newSpecies;
-
-                    delete newBlueprint;
-
-                    auto newCrewAnim = new CrewAnimation(i->iShipId, i->species, Pointf(0, 0), i->iShipId == 1);
-
-                    i->crewAnim->anims = newCrewAnim->anims;
-                    i->crewAnim->baseStrip = newCrewAnim->baseStrip;
-                    i->crewAnim->colorStrip = newCrewAnim->colorStrip;
-                    i->crewAnim->bDrone = newCrewAnim->bDrone;
-                    i->crewAnim->bGhost = newCrewAnim->bGhost;
-                    i->crewAnim->race = newCrewAnim->race;
-
-                    ex->Initialize(i->blueprint, i->iShipId, i->iShipId == 1, i->crewAnim);
-
-                    if (i->iShipId == 0)
-                    {
-                        G_->GetCApp()->gui->crewControl.ClearCrewBoxes();
-                        G_->GetCApp()->gui->crewControl.UpdateCrewBoxes();
-                    }
+                    ex->TransformRace(newSpecies);
                 }
             }
+
+            if (!ex->transformRace.empty()) ex->TransformRace(ex->transformRace);
         }
     }
 

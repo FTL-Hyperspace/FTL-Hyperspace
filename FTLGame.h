@@ -3967,6 +3967,7 @@ struct ShipManager : ShipObject
 	LIBZHL_API int DamageHull(int dmg, bool force);
 	LIBZHL_API void DamageSystem(int systemId, DamageParameter damage);
 	LIBZHL_API void StartFire(int roomId);
+	LIBZHL_API CrewMember *FindCrew(const CrewBlueprint *bp);
 	
 	Targetable _targetable;
 	Collideable _collideable;

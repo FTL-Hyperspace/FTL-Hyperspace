@@ -279,6 +279,16 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
                         }
                     }
 
+                    if (nodeName == "transformRace")
+                    {
+                        customEvent->transformRace.second = child->value();
+
+                        if (child->first_attribute("class"))
+                        {
+                            customEvent->transformRace.first = child->first_attribute("class")->value();
+                        }
+                    }
+
                     if (nodeName == "beaconType")
                     {
                         BeaconType* beaconType = new BeaconType();
@@ -1684,7 +1694,35 @@ HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *loc) -> void)
         repl = G_->GetTextLibrary()->GetText("no_time_sector");
         loc->text.data = boost::algorithm::replace_first_copy(loc->text.data, str, repl);
     }
+
     super(loc);
+
+    if (customEvent)
+    {
+        if (!customEvent->transformRace.second.empty() && G_->GetCrewFactory()->playerCrew > 0)
+        {
+            if (lastSelectedCrewSeed == -1) lastSelectedCrewSeed = random32();
+
+            CrewBlueprint crewBlue;
+            ShipManager::SelectRandomCrew(crewBlue, playerShip->shipManager, lastSelectedCrewSeed, customEvent->transformRace.first);
+
+            CrewBlueprint* newBlueprint = G_->GetBlueprints()->GetCrewBlueprint(customEvent->transformRace.second);
+
+            crewBlue.powers = newBlueprint->powers;
+            crewBlue.name = newBlueprint->name;
+            crewBlue.desc = newBlueprint->desc;
+            crewBlue.type = newBlueprint->type;
+
+            if (newBlueprint->colorLayers.size() < crewBlue.colorLayers.size()) crewBlue.colorLayers.resize(newBlueprint->colorLayers.size());
+            if (newBlueprint->colorChoices.size() < crewBlue.colorChoices.size()) crewBlue.colorChoices.resize(newBlueprint->colorChoices.size());
+
+            delete newBlueprint;
+
+            commandGui->choiceBox.rewards.crew = 1;
+            commandGui->choiceBox.rewards.crewType = crewBlue.name;
+            commandGui->choiceBox.rewards.crewBlue = crewBlue;
+        }
+    }
 }
 
 static std::string jumpEvent = "";
@@ -2173,6 +2211,26 @@ HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEve
             GoToFlagship(customEvent->goToFlagshipBase, customEvent->goToFlagshipFleet);
         }
 
+        if (!customEvent->transformRace.second.empty() && G_->GetCrewFactory()->playerCrew > 0)
+        {
+            if (lastSelectedCrewSeed == -1) lastSelectedCrewSeed = random32();
+
+            CrewBlueprint crewBlue;
+            ShipManager::SelectRandomCrew(crewBlue, playerShip->shipManager, lastSelectedCrewSeed, customEvent->transformRace.first);
+
+            // Select the race now for consistent seeding with the event box generation.
+            CrewBlueprint* newBlueprint = G_->GetBlueprints()->GetCrewBlueprint(customEvent->transformRace.second);
+            std::string newSpecies = newBlueprint->name;
+            delete newBlueprint;
+
+            CrewMember* crew = playerShip->shipManager->FindCrew(&crewBlue);
+            if (crew != nullptr)
+            {
+                auto ex = CM_EX(crew);
+                ex->TransformRace(newSpecies);
+            }
+        }
+
         for (auto& triggeredEvent: customEvent->clearTriggeredEvents)
         {
             TriggeredEvent::DestroyEvent(triggeredEvent);
@@ -2427,11 +2485,12 @@ HOOK_METHOD(StarMap, TurnIntoFleetLocation, (Location *loc) -> void)
     super(loc);
 }
 
-HOOK_STATIC(ShipManager, SelectRandomCrew, (CrewBlueprint &bp, ShipManager *ship, int seed, const std::string &unk) -> CrewBlueprint*)
+HOOK_STATIC_PRIORITY(ShipManager, SelectRandomCrew, 100, (CrewBlueprint &bp, ShipManager *ship, int seed, const std::string &unk) -> CrewBlueprint*)
 {
     std::string species = unk;
+    super(bp, ship, seed, species); // species is not const?!
 
-    super(bp, ship, seed, unk);
+    species = unk;
 
     auto blueprintList = std::vector<std::string>();
     auto blueprintList2 = std::vector<std::string>();
@@ -2478,7 +2537,6 @@ HOOK_STATIC(ShipManager, SelectRandomCrew, (CrewBlueprint &bp, ShipManager *ship
     return &bp;
 }
 
-
 HOOK_STATIC(ShipManager, SelectRandomCrew, (CrewBlueprint &bp, ShipManager *ship, int seed, const std::string &unk) -> CrewBlueprint*)
 {
     if (ship->CountCrew(false) == 0 && ship->bAutomated)
@@ -2491,6 +2549,30 @@ HOOK_STATIC(ShipManager, SelectRandomCrew, (CrewBlueprint &bp, ShipManager *ship
     {
         super(bp, ship, seed, unk);
     }
+}
+
+HOOK_METHOD_PRIORITY(ShipManager, FindCrew, 9999, (const CrewBlueprint* bp) -> CrewMember*)
+{
+    std::vector<CrewMember*> crewList = std::vector<CrewMember*>();
+    G_->GetCrewFactory()->GetCrewList(&crewList, 0, false);
+
+    for (CrewMember* crew: crewList)
+    {
+        if (crew->blueprint.crewNameLong.isLiteral != bp->crewNameLong.isLiteral) continue;
+        if (crew->blueprint.crewNameLong.data != bp->crewNameLong.data) continue;
+        if (crew->blueprint.colorChoices.size() != bp->colorChoices.size()) continue;
+        for (unsigned int i=0; i<bp->colorChoices.size(); ++i)
+        {
+            if (crew->blueprint.colorChoices[i] != bp->colorChoices[i]) goto ShipManager__FindCrew__continue_crewList_loop;
+        }
+        if (crew->blueprint.male != bp->male) continue;
+        if (crew->blueprint.name != bp->name) continue;
+        return crew;
+        ShipManager__FindCrew__continue_crewList_loop:
+        ;
+    }
+
+    return nullptr;
 }
 
 HOOK_METHOD(ShipObject, HasEquipment, (const std::string& name) -> int)

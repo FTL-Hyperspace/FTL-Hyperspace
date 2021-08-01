@@ -42,6 +42,7 @@ public:
     GL_Texture* tempEffectStrip = nullptr;
     bool tempEffectBaseVisible = true;
 
+    std::string crewAnimationType = "human";
     bool isMantisAnimation = false;
     bool isIonDrone = false;
 
@@ -114,7 +115,11 @@ public:
 
     float extraMedbay = 0.f;
 
+    std::string originalRace;
+    std::string transformRace = "";
+
     void Initialize(CrewBlueprint& bp, int shipId, bool enemy, CrewAnimation *animation);
+    bool TransformRace(const std::string& newRace);
 
 
     ~CrewMember_Extend()
