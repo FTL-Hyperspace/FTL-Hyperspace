@@ -197,7 +197,19 @@ void CustomEventsParser::ParseCustomTriggeredEventNode(rapidxml::xml_node<char> 
             def->box = new TriggeredEventBoxDefinition();
             if (child->first_attribute("load"))
             {
-                *(def->box) = TriggeredEventGui::GetInstance()->boxDefs.at(child->first_attribute("load")->value());
+                std::string loadName = child->first_attribute("load")->value();
+                auto it = TriggeredEventGui::GetInstance()->boxDefs.find(loadName);
+                if (it != TriggeredEventGui::GetInstance()->boxDefs.end())
+                {
+                    *(def->box) = it->second;
+                }
+                else
+                {
+                    def->loadBox = new std::vector<char>();
+                    rapidxml::print(std::back_inserter(*(def->loadBox)), *child, 0);
+                    def->loadBox->push_back('\0');
+                    continue;
+                }
             }
             ParseCustomTriggeredEventBoxNode(child, def->box);
         }
@@ -205,7 +217,16 @@ void CustomEventsParser::ParseCustomTriggeredEventNode(rapidxml::xml_node<char> 
         {
             if (child->first_attribute("load"))
             {
-                def->timerSounds = TriggeredEventDefinition::timerSoundDefs.at(child->first_attribute("load")->value());
+                std::string loadName = child->first_attribute("load")->value();
+                auto it = TriggeredEventDefinition::timerSoundDefs.find(loadName);
+                if (it != TriggeredEventDefinition::timerSoundDefs.end())
+                {
+                    def->timerSounds = it->second;
+                }
+                else
+                {
+                    def->loadTimerSounds = loadName;
+                }
             }
             ParseCustomTriggeredEventSounds(child, &(def->timerSounds));
         }

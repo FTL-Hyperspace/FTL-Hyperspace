@@ -5,6 +5,7 @@
 #include <memory>
 #include <unordered_set>
 #include <boost/format.hpp>
+#include <rapidxml_print.hpp>
 
 struct BeaconType
 {
@@ -128,7 +129,11 @@ public:
     static unsigned int PushDef(TriggeredEventDefinition& def);
 public:
     TriggeredEventBoxDefinition* box = nullptr;
+    std::vector<char>* loadBox = nullptr;
+
     std::vector<std::pair<float,std::string>> timerSounds;
+    std::string loadTimerSounds = "";
+
     unsigned int idx = -1;
 
     std::string name = "";
@@ -379,7 +384,6 @@ struct CustomEvent
     bool recursive = true;
     bool preventQuest = false;
     bool noQuestText = false;
-    CustomQuest *customQuest;
     std::vector<unsigned int> triggeredEvents;
     std::vector<std::string> clearTriggeredEvents;
     std::vector<TriggeredEventModifier> triggeredEventModifiers;
@@ -556,7 +560,9 @@ public:
     }
 
     void ParseCustomEventNode(rapidxml::xml_node<char> *node);
-    void ParseCustomQuestNode(rapidxml::xml_node<char> *node, CustomQuest *quest);
+    void ParseVanillaEventNode(rapidxml::xml_node<char> *node, const std::string &eventName, const std::string &baseEventName);
+    bool ParseCustomEvent(rapidxml::xml_node<char> *node, CustomEvent *event);
+    bool ParseCustomQuestNode(rapidxml::xml_node<char> *node, CustomQuest *quest);
     void ParseCustomReqNode(rapidxml::xml_node<char> *node, CustomReq *req);
     void ParseCustomTriggeredEventNode(rapidxml::xml_node<char> *node, TriggeredEventDefinition *def);
     void ParseCustomTriggeredEventBoxNode(rapidxml::xml_node<char> *node, TriggeredEventBoxDefinition *box);
@@ -579,6 +585,7 @@ public:
 
     CustomEvent *GetCustomEvent(const std::string& event);
     CustomShipEvent *GetCustomShipEvent(const std::string& event);
+    CustomQuest *GetCustomQuest(const std::string& event);
     CustomSector *GetCustomSector(const std::string& sectorName);
     CustomReq *GetCustomReq(const std::string& blueprint);
 
@@ -601,7 +608,10 @@ public:
 private:
     std::vector<CustomSector*> customSectors;
     std::unordered_map<std::string, CustomEvent*> customEvents;
+    std::unordered_map<std::string, CustomEvent*> customRecursiveEvents;
+    std::unordered_map<std::string, std::vector<CustomEvent*>> vCustomEvents;
     std::unordered_map<std::string, CustomShipEvent*> customShipEvents;
+    std::unordered_map<std::string, CustomQuest*> customQuests;
     std::unordered_map<std::string, BossShipDefinition> bossShipIds;
     std::unordered_map<std::string, CustomReq*> customReqs;
     static CustomEventsParser *instance;

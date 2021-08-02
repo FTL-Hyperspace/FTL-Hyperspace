@@ -17896,23 +17896,25 @@ namespace _func500
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("EventsParser::ProcessEvent", typeid(void **(EventsParser::*)(rapidxml::xml_node<char> *, const std::string &, EventTemplate &)), "578d7c240883e4f0ff77fc5589e557565389ce81ec????????8b07898d2cfeffff8b5f08898528feffff8b4704c70424????????89c1898524feffffe8????????83ec0485c074??", argdata, 4, 1, &func);
+	static FunctionDefinition funcObj("EventsParser::ProcessEvent", typeid(void (*)(std::string &, EventsParser *, rapidxml::xml_node<char> *, const std::string &)), "578d7c240883e4f0ff77fc5589e557565389ce81ec????????8b07898d2cfeffff8b5f08898528feffff8b4704c70424????????89c1898524feffffe8????????83ec0485c074??", argdata, 4, 4, &func);
 }
 
-__declspec(naked) void **EventsParser::ProcessEvent(rapidxml::xml_node<char> *node, const std::string &event, EventTemplate &eventref)
+__declspec(naked) void EventsParser::ProcessEvent(std::string &strRef, EventsParser *eventsParser, rapidxml::xml_node<char> *node, const std::string &eventName)
 {
 	__asm__
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
 		"push edx\n\t"
+		"push eax\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+16]\n\t"		// eventref
-		"push [ebp+12]\n\t"		// event
-		"push [ebp+8]\n\t"		// node
+		"push [ebp+20]\n\t"		// eventName
+		"push [ebp+16]\n\t"		// node
+		"push [ebp+12]\n\t"		// eventsParser
+		"mov ecx, [ebp+8]\n\t"	// strRef
 	);
 	__asm__("call %0\n\t" :: "m"(_func500::func));
 	__asm__
@@ -17921,10 +17923,11 @@ __declspec(naked) void **EventsParser::ProcessEvent(rapidxml::xml_node<char> *no
 		"pop esi\n\t"
 		"pop ebx\n\t"
 		"pop ecx\n\t"
+		"pop eax\n\t"
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret 16\n\t"
 	);
 }
 
