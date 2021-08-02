@@ -363,7 +363,7 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
     }
 }
 
-bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, CustomEvent *customEvent)
+bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, CustomEvent *customEvent, bool parsingVanilla)
 {
     bool isDefault = true;
 
@@ -641,7 +641,7 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
             isDefault = false;
             customEvent->changeBackground = child->value();
         }
-        if (nodeName == "unlockShip")
+        if (nodeName == "unlockCustomShip" || (!parsingVanilla && nodeName == "unlockShip"))
         {
             std::string shipName = child->value();
             if (!shipName.empty())
@@ -1115,7 +1115,7 @@ void CustomEventsParser::ParseVanillaEventNode(rapidxml::xml_node<char> *node, c
         customEvent = new CustomEvent();
         customEvent->eventName = eventName;
         customEvent->recursive = false;
-        bool isDefault = ParseCustomEvent(node, customEvent);
+        bool isDefault = ParseCustomEvent(node, customEvent, true);
         if (isDefault)
         {
             delete customEvent;
@@ -1129,7 +1129,7 @@ void CustomEventsParser::ParseVanillaEventNode(rapidxml::xml_node<char> *node, c
     else
     {
         customEvent = it->second;
-        ParseCustomEvent(node, customEvent);
+        ParseCustomEvent(node, customEvent, true);
     }
 }
 

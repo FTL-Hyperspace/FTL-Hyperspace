@@ -564,7 +564,7 @@ public:
     void ParseCustomEventNode(rapidxml::xml_node<char> *node);
     void ParseVanillaEventNode(rapidxml::xml_node<char> *node, const std::string &eventName, const std::string &baseEventName);
     void ParseVanillaShipEventNode(rapidxml::xml_node<char> *node, const std::string &eventName);
-    bool ParseCustomEvent(rapidxml::xml_node<char> *node, CustomEvent *event);
+    bool ParseCustomEvent(rapidxml::xml_node<char> *node, CustomEvent *event, bool parsingVanilla = false);
     bool ParseCustomShipEvent(rapidxml::xml_node<char> *node, CustomShipEvent *event);
     bool ParseCustomQuestNode(rapidxml::xml_node<char> *node, CustomQuest *quest);
     void ParseCustomBeaconType(rapidxml::xml_node<char> *node, BeaconType *beaconType);
