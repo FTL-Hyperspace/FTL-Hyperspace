@@ -196,89 +196,21 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
             if (eventNode->first_attribute("name"))
             {
                 std::string eventName = std::string(eventNode->first_attribute("name")->value());
-
                 CustomShipEvent *customEvent;
-				if (GetCustomShipEvent(eventName) == nullptr)
-				{
-					customEvent = new CustomShipEvent();
-				}
-				else
-				{
-					customEvent = GetCustomShipEvent(eventName);
-				}
 
-                customEvent->eventName = eventName;
-
-                for (auto child = eventNode->first_node(); child; child = child->next_sibling())
+                auto it = customShipEvents.find(eventName);
+                if (it == customShipEvents.end())
                 {
-                    std::string nodeName(child->name());
-
-                    if (nodeName == "triggeredEvent")
-                    {
-                        TriggeredEventDefinition def;
-
-                        ParseCustomTriggeredEventNode(child, &def);
-
-                        customEvent->triggeredEvents.push_back(TriggeredEventDefinition::PushDef(def));
-                    }
-
-                    if (nodeName == "clearTriggeredEvent")
-                    {
-                        customEvent->clearTriggeredEvents.push_back(child->first_attribute("name")->value());
-                    }
-
-                    if (nodeName == "triggeredEventModifier")
-                    {
-                        TriggeredEventModifier def;
-                        if (child->first_attribute("name"))
-                        {
-                            def.name = child->first_attribute("name")->value();
-                        }
-                        if (child->first_attribute("time"))
-                        {
-                            def.minTime = boost::lexical_cast<float>(child->first_attribute("time")->value());
-                            def.maxTime = boost::lexical_cast<float>(child->first_attribute("time")->value());
-                        }
-                        if (child->first_attribute("minTime"))
-                        {
-                            def.minTime = boost::lexical_cast<float>(child->first_attribute("minTime")->value());
-                        }
-                        if (child->first_attribute("maxTime"))
-                        {
-                            def.maxTime = boost::lexical_cast<float>(child->first_attribute("maxTime")->value());
-                        }
-                        if (child->first_attribute("jumps"))
-                        {
-                            def.minJumps = boost::lexical_cast<int>(child->first_attribute("jumps")->value());
-                            def.maxJumps = boost::lexical_cast<int>(child->first_attribute("jumps")->value());
-                        }
-                        if (child->first_attribute("minJumps"))
-                        {
-                            def.minJumps = boost::lexical_cast<int>(child->first_attribute("minJumps")->value());
-                        }
-                        if (child->first_attribute("maxJumps"))
-                        {
-                            def.maxJumps = boost::lexical_cast<int>(child->first_attribute("maxJumps")->value());
-                        }
-                        customEvent->triggeredEventModifiers.push_back(def);
-                    }
-
-                    if (nodeName == "jumpEvent")
-                    {
-                        customEvent->jumpEvent = child->value();
-                        if (child->first_attribute("loop"))
-                        {
-                            customEvent->jumpEventLoop = EventsParser::ParseBoolean(child->first_attribute("loop")->value());
-                        }
-                    }
-
-                    if (nodeName == "clearJumpEvent")
-                    {
-                        customEvent->jumpEventClear = true;
-                    }
+                    customEvent = new CustomShipEvent();
+                    customEvent->eventName = eventName;
+                    ParseCustomShipEvent(eventNode, customEvent);
+                    customShipEvents[eventName] = customEvent;
                 }
-
-                customShipEvents[eventName] = customEvent;
+                else
+                {
+                    customEvent = it->second;
+                    ParseCustomShipEvent(eventNode, customEvent);
+                }
 			}
 		}
 
@@ -724,17 +656,21 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
         }
         if (nodeName == "unlockShip")
         {
-            isDefault = false;
-            customEvent->unlockShip = child->value();
-
-            if (child->first_attribute("silent"))
+            std::string shipName = child->value();
+            if (!shipName.empty())
             {
-                customEvent->unlockShipSilent = EventsParser::ParseBoolean(child->first_attribute("silent")->value());
-            }
+                isDefault = false;
+                customEvent->unlockShip = shipName;
 
-            if (child->first_attribute("shipReq"))
-            {
-                customEvent->unlockShipReq = child->first_attribute("shipReq")->value();
+                if (child->first_attribute("silent"))
+                {
+                    customEvent->unlockShipSilent = EventsParser::ParseBoolean(child->first_attribute("silent")->value());
+                }
+
+                if (child->first_attribute("shipReq"))
+                {
+                    customEvent->unlockShipReq = child->first_attribute("shipReq")->value();
+                }
             }
         }
         if (nodeName == "disableScrapScore")
@@ -827,6 +763,88 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
                 }
             }
             customEvent->enemyDamage.push_back(eventDamage);
+        }
+    }
+
+    return isDefault;
+}
+
+bool CustomEventsParser::ParseCustomShipEvent(rapidxml::xml_node<char> *node, CustomShipEvent *customEvent)
+{
+    bool isDefault = true;
+
+    for (auto child = node->first_node(); child; child = child->next_sibling())
+    {
+        std::string nodeName(child->name());
+
+        if (nodeName == "triggeredEvent")
+        {
+            isDefault = false;
+
+            TriggeredEventDefinition def;
+
+            ParseCustomTriggeredEventNode(child, &def);
+
+            customEvent->triggeredEvents.push_back(TriggeredEventDefinition::PushDef(def));
+        }
+
+        if (nodeName == "clearTriggeredEvent")
+        {
+            isDefault = false;
+            customEvent->clearTriggeredEvents.push_back(child->first_attribute("name")->value());
+        }
+
+        if (nodeName == "triggeredEventModifier")
+        {
+            isDefault = false;
+            TriggeredEventModifier def;
+            if (child->first_attribute("name"))
+            {
+                def.name = child->first_attribute("name")->value();
+            }
+            if (child->first_attribute("time"))
+            {
+                def.minTime = boost::lexical_cast<float>(child->first_attribute("time")->value());
+                def.maxTime = boost::lexical_cast<float>(child->first_attribute("time")->value());
+            }
+            if (child->first_attribute("minTime"))
+            {
+                def.minTime = boost::lexical_cast<float>(child->first_attribute("minTime")->value());
+            }
+            if (child->first_attribute("maxTime"))
+            {
+                def.maxTime = boost::lexical_cast<float>(child->first_attribute("maxTime")->value());
+            }
+            if (child->first_attribute("jumps"))
+            {
+                def.minJumps = boost::lexical_cast<int>(child->first_attribute("jumps")->value());
+                def.maxJumps = boost::lexical_cast<int>(child->first_attribute("jumps")->value());
+            }
+            if (child->first_attribute("minJumps"))
+            {
+                def.minJumps = boost::lexical_cast<int>(child->first_attribute("minJumps")->value());
+            }
+            if (child->first_attribute("maxJumps"))
+            {
+                def.maxJumps = boost::lexical_cast<int>(child->first_attribute("maxJumps")->value());
+            }
+            customEvent->triggeredEventModifiers.push_back(def);
+        }
+
+        if (nodeName == "jumpEvent")
+        {
+            isDefault = false;
+            customEvent->jumpEvent = child->value();
+            if (child->first_attribute("loop"))
+            {
+                customEvent->jumpEventLoop = EventsParser::ParseBoolean(child->first_attribute("loop")->value());
+            }
+        }
+
+        if (nodeName == "clearJumpEvent")
+        {
+            isDefault = false;
+            customEvent->jumpEventClear = true;
         }
     }
 
@@ -1051,12 +1069,53 @@ void CustomEventsParser::ParseVanillaEventNode(rapidxml::xml_node<char> *node, c
     }
 }
 
+void CustomEventsParser::ParseVanillaShipEventNode(rapidxml::xml_node<char> *node, const std::string &eventName)
+{
+    CustomShipEvent* customEvent;
+
+    auto it = customShipEvents.find(eventName);
+    if (it == customShipEvents.end())
+    {
+        customEvent = new CustomShipEvent();
+        customEvent->eventName = eventName;
+        bool isDefault = ParseCustomShipEvent(node, customEvent);
+        if (isDefault)
+        {
+            delete customEvent;
+        }
+        else
+        {
+            customShipEvents[eventName] = customEvent;
+        }
+    }
+    else
+    {
+        customEvent = it->second;
+        ParseCustomShipEvent(node, customEvent);
+    }
+}
+
 HOOK_STATIC(EventsParser, ProcessEvent, (std::string &strRef, EventsParser *eventsParser, rapidxml::xml_node<char> *node, const std::string &eventName) -> void)
 {
     super(strRef, eventsParser, node, eventName);
     if (!node->first_attribute("load"))
     {
         CustomEventsParser::GetInstance()->ParseVanillaEventNode(node, strRef, eventName);
+    }
+}
+
+HOOK_STATIC(EventsParser, ProcessEventList, (std::vector<std::string> &vecRef, EventsParser *eventsParser, rapidxml::xml_node<char> *node, const std::string &listName) -> void)
+{
+    super(vecRef, eventsParser, node, listName);
+    CustomEventsParser::GetInstance()->ParseVanillaEventNode(node, listName, listName);
+}
+
+HOOK_STATIC(EventsParser, ProcessShipEvent, (ShipTemplate &shipEvent, EventsParser *eventsParser, rapidxml::xml_node<char> *node) -> void)
+{
+    super(shipEvent, eventsParser, node);
+    if (node->first_attribute("name"))
+    {
+        CustomEventsParser::GetInstance()->ParseVanillaShipEventNode(node, shipEvent.shipEventName);
     }
 }
 

@@ -18123,7 +18123,7 @@ __declspec(naked) void EventsParser::AddEvents(EventGenerator &generator, char *
 namespace _func506
 {
 	static void *func = 0;
-	static short argdata[] = {0x1ff, 0x1ff, 0x1ff, 0x1ff};
+	static short argdata[] = {0x101, 0x1ff, 0x1ff, 0x1ff};
 	static FunctionDefinition funcObj("EventsParser::ProcessEventList", typeid(void (*)(std::vector<std::string> &, EventsParser *, rapidxml::xml_node<char> *, const std::string &)), "5789c88d7c240883e4f0ff77fc5589e557565383ec5c8b1f894db08b4f04c700????????c7400400000000c7400800000000", argdata, 4, 4, &func);
 }
 
@@ -18142,7 +18142,7 @@ __declspec(naked) void EventsParser::ProcessEventList(std::vector<std::string> &
 		"push [ebp+20]\n\t"		// listName
 		"push [ebp+16]\n\t"		// node
 		"push [ebp+12]\n\t"		// eventsParser
-		"push [ebp+8]\n\t"		// vecRef
+		"mov ecx, [ebp+8]\n\t"	// vecRef
 	);
 	__asm__("call %0\n\t" :: "m"(_func506::func));
 	__asm__

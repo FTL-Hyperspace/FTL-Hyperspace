@@ -11,7 +11,7 @@ void EventsParser::AddAllEvents(EventsParser *this<ecx>);
 "57b8????????8d7c240883e4f0ff77fc5589e5575653e8????????29c48b77048b4708898d80fffeff8b1f85f6898578fffeff0f84????????":
 void EventsParser::AddEvents(EventsParser *this<ecx>, EventGenerator& generator, char* file, const std::string& fileName);
 "5789c88d7c240883e4f0ff77fc5589e557565383ec5c8b1f894db08b4f04c700????????c7400400000000c7400800000000":
-static void EventsParser::ProcessEventList(std::vector<std::string>& vecRef, EventsParser *eventsParser, rapidxml::xml_node<char>* node, const std::string& listName);
+static void EventsParser::ProcessEventList(std::vector<std::string>& vecRef<ecx>, EventsParser *eventsParser, rapidxml::xml_node<char>* node, const std::string& listName);
 
 
 struct EventsParser
