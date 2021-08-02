@@ -2158,9 +2158,15 @@ HOOK_METHOD(WorldManager, CreateLocation, (Location *location) -> void)
 
 HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
 {
+    CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(loc->eventName);
+
+    if (!loadingGame)
+    {
+        lastSelectedCrewSeed = -1;
+    }
+
     super(loc);
 
-    CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(loc->eventName);
     if (customEvent)
     {
         if (customEvent->removeHazards)

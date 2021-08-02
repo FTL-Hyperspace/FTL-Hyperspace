@@ -183,7 +183,7 @@ public:
 public:
     TriggeredEventDefinition* def;
 
-    unsigned int seed = -1;
+    int seed = -1;
     int loops;
     TimerHelper* triggerTimer = nullptr;
     int timerSoundIndex = 0;

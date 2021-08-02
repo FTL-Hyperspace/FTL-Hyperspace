@@ -577,7 +577,7 @@ void TriggeredEvent::TriggerCheck()
         if (it->second.triggered)
         {
             std::string eventName = it->second.def->event;
-            unsigned int seed = it->second.seed;
+            int seed = it->second.seed;
             int level = G_->GetWorld()->starMap.currentSector->level;
 
             if (--(it->second.loops) <= 0)
