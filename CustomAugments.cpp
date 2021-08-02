@@ -700,10 +700,12 @@ HOOK_METHOD(Shields, CollisionReal, (float x, float y, Damage damage, bool unk) 
 */
 
 int numSuperShieldBars = 0;
-std::vector<GL_Primitive*> superShieldBars;
+std::vector<GL_Primitive*> superShieldBars = std::vector<GL_Primitive*>();
 
 HOOK_METHOD(ShipStatus, RenderShields, (bool renderText) -> void)
 {
+    if (!ship) return super(renderText);
+
     auto superShield = ship->GetShieldPower().super;
 
     if (superShield.first > 0)

@@ -329,9 +329,15 @@ void Global::InitializeResources(ResourceControl *resources)
 
         doc.clear();
     }
+    catch (rapidxml::parse_error& e)
+    {
+        std::string msg = std::string("Failed parsing hyperspace.xml\n") + std::string(e.what());
+        MessageBoxA(GetDesktopWindow(), msg.c_str(), "Error", MB_ICONERROR | MB_SETFOREGROUND);
+    }
     catch (std::exception &e)
     {
-        MessageBoxA(GetDesktopWindow(), "Failed parsing hyperspace.xml", "Error", MB_ICONERROR | MB_SETFOREGROUND);
+        std::string msg = std::string("Failed parsing hyperspace.xml\n") + std::string(e.what());
+        MessageBoxA(GetDesktopWindow(), msg.c_str(), "Error", MB_ICONERROR | MB_SETFOREGROUND);
     }
     catch (const char* e)
     {

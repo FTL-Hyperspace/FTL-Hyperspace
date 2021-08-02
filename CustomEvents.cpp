@@ -27,7 +27,25 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
 
     if (eventText)
     {
-        G_->GetEventsParser()->AddEvents(*G_->GetEventGenerator(), eventText, "data/events_hyperspace.xml");
+        try
+        {
+            G_->GetEventsParser()->AddEvents(*G_->GetEventGenerator(), eventText, "data/events_hyperspace.xml");
+        }
+        catch (rapidxml::parse_error& e)
+        {
+            std::string msg = std::string("Failed parsing events_hyperspace.xml\n") + std::string(e.what());
+            MessageBoxA(GetDesktopWindow(), msg.c_str(), "Error", MB_ICONERROR | MB_SETFOREGROUND);
+        }
+        catch (std::exception &e)
+        {
+            std::string msg = std::string("Failed parsing events_hyperspace.xml\n") + std::string(e.what());
+            MessageBoxA(GetDesktopWindow(), msg.c_str(), "Error", MB_ICONERROR | MB_SETFOREGROUND);
+        }
+        catch (const char* e)
+        {
+            std::string msg = std::string("Failed parsing events_hyperspace.xml\n") + std::string(e);
+            MessageBoxA(GetDesktopWindow(), msg.c_str(), "Error", MB_ICONERROR | MB_SETFOREGROUND);
+        }
     }
 
     for (auto i : CustomEventsParser::GetInstance()->eventFiles)
@@ -38,7 +56,25 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
 
         if (eventText)
         {
-            G_->GetEventsParser()->AddEvents(*G_->GetEventGenerator(), eventText, fileName);
+            try
+            {
+                G_->GetEventsParser()->AddEvents(*G_->GetEventGenerator(), eventText, fileName);
+            }
+            catch (rapidxml::parse_error& e)
+            {
+                std::string msg = std::string("Failed parsing ") + fileName + std::string("\n") + std::string(e.what());
+                MessageBoxA(GetDesktopWindow(), msg.c_str(), "Error", MB_ICONERROR | MB_SETFOREGROUND);
+            }
+            catch (std::exception &e)
+            {
+                std::string msg = std::string("Failed parsing ") + fileName + std::string("\n") + std::string(e.what());
+                MessageBoxA(GetDesktopWindow(), msg.c_str(), "Error", MB_ICONERROR | MB_SETFOREGROUND);
+            }
+            catch (const char* e)
+            {
+                std::string msg = std::string("Failed parsing ") + fileName + std::string("\n") + std::string(e);
+                MessageBoxA(GetDesktopWindow(), msg.c_str(), "Error", MB_ICONERROR | MB_SETFOREGROUND);
+            }
         }
     }
 
@@ -221,23 +257,30 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
 
         if (strcmp(eventNode->name(), "req") == 0)
         {
-            std::string reqName = std::string(eventNode->first_attribute("name")->value());
-
-            CustomReq *customReq;
-            if (GetCustomReq(reqName) == nullptr)
+            if (eventNode->first_attribute("name"))
             {
-                customReq = new CustomReq();
+                std::string reqName = std::string(eventNode->first_attribute("name")->value());
+
+                CustomReq *customReq;
+                if (GetCustomReq(reqName) == nullptr)
+                {
+                    customReq = new CustomReq();
+                }
+                else
+                {
+                    customReq = GetCustomReq(reqName);
+                    delete customReq;
+                    customReq = new CustomReq();
+                }
+
+                ParseCustomReqNode(eventNode, customReq);
+
+                customReqs[reqName] = customReq;
             }
             else
             {
-                customReq = GetCustomReq(reqName);
-                delete customReq;
-                customReq = new CustomReq();
+                MessageBoxA(GetDesktopWindow(), "Custom req is missing a name!", "Error", MB_ICONERROR | MB_SETFOREGROUND);
             }
-
-            ParseCustomReqNode(eventNode, customReq);
-
-            customReqs[reqName] = customReq;
         }
 
         if (strcmp(eventNode->name(), "triggeredEventBox") == 0)
@@ -318,7 +361,17 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
             {
                 if (node->first_attribute("load"))
                 {
-                    *(def.box) = TriggeredEventGui::GetInstance()->boxDefs.at(node->first_attribute("load")->value());
+                    std::string loadName = node->first_attribute("load")->value();
+                    auto it = TriggeredEventGui::GetInstance()->boxDefs.find(loadName);
+                    if (it != TriggeredEventGui::GetInstance()->boxDefs.end())
+                    {
+                        *(def.box) = it->second;
+                    }
+                    else
+                    {
+                        std::string msg = std::string("Failed to load triggeredEventBox ") + loadName;
+                        MessageBoxA(GetDesktopWindow(), msg.c_str(), "Error", MB_ICONERROR | MB_SETFOREGROUND);
+                    }
                 }
                 ParseCustomTriggeredEventBoxNode(node, def.box);
             }
@@ -328,12 +381,20 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
         }
         if (!def.loadTimerSounds.empty())
         {
-            std::vector<std::pair<float,std::string>>& defaultTimerSounds = TriggeredEventDefinition::timerSoundDefs.at(def.loadTimerSounds);
-            for (std::pair<float,std::string>& timerSound : defaultTimerSounds)
+            auto it = TriggeredEventDefinition::timerSoundDefs.find(def.loadTimerSounds);
+            if (it != TriggeredEventDefinition::timerSoundDefs.end())
             {
-                def.timerSounds.push_back(timerSound);
+                for (std::pair<float,std::string>& timerSound : it->second)
+                {
+                    def.timerSounds.push_back(timerSound);
+                }
+                std::sort(def.timerSounds.begin(), def.timerSounds.end(), [](const std::pair<float,std::string> &a, const std::pair<float,std::string> &b) -> bool {return a.first > b.first;});
             }
-            std::sort(def.timerSounds.begin(), def.timerSounds.end(), [](const std::pair<float,std::string> &a, const std::pair<float,std::string> &b) -> bool {return a.first > b.first;});
+            else
+            {
+                std::string msg = std::string("Failed to load timerSounds ") + def.loadTimerSounds;
+                MessageBoxA(GetDesktopWindow(), msg.c_str(), "Error", MB_ICONERROR | MB_SETFOREGROUND);
+            }
         }
     }
 
@@ -424,45 +485,59 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
 
         if (nodeName == "clearTriggeredEvent")
         {
-            isDefault = false;
-            customEvent->clearTriggeredEvents.push_back(child->first_attribute("name")->value());
+            if (child->first_attribute("name"))
+            {
+                isDefault = false;
+                customEvent->clearTriggeredEvents.push_back(child->first_attribute("name")->value());
+            }
+            else
+            {
+                MessageBoxA(GetDesktopWindow(), "clearTriggeredEvent is missing a name!", "Error", MB_ICONERROR | MB_SETFOREGROUND);
+            }
         }
 
         if (nodeName == "triggeredEventModifier")
         {
-            isDefault = false;
-            TriggeredEventModifier def;
             if (child->first_attribute("name"))
             {
-                def.name = child->first_attribute("name")->value();
+                isDefault = false;
+                TriggeredEventModifier def;
+                if (child->first_attribute("name"))
+                {
+                    def.name = child->first_attribute("name")->value();
+                }
+                if (child->first_attribute("time"))
+                {
+                    def.minTime = boost::lexical_cast<float>(child->first_attribute("time")->value());
+                    def.maxTime = boost::lexical_cast<float>(child->first_attribute("time")->value());
+                }
+                if (child->first_attribute("minTime"))
+                {
+                    def.minTime = boost::lexical_cast<float>(child->first_attribute("minTime")->value());
+                }
+                if (child->first_attribute("maxTime"))
+                {
+                    def.maxTime = boost::lexical_cast<float>(child->first_attribute("maxTime")->value());
+                }
+                if (child->first_attribute("jumps"))
+                {
+                    def.minJumps = boost::lexical_cast<int>(child->first_attribute("jumps")->value());
+                    def.maxJumps = boost::lexical_cast<int>(child->first_attribute("jumps")->value());
+                }
+                if (child->first_attribute("minJumps"))
+                {
+                    def.minJumps = boost::lexical_cast<int>(child->first_attribute("minJumps")->value());
+                }
+                if (child->first_attribute("maxJumps"))
+                {
+                    def.maxJumps = boost::lexical_cast<int>(child->first_attribute("maxJumps")->value());
+                }
+                customEvent->triggeredEventModifiers.push_back(def);
             }
-            if (child->first_attribute("time"))
+            else
             {
-                def.minTime = boost::lexical_cast<float>(child->first_attribute("time")->value());
-                def.maxTime = boost::lexical_cast<float>(child->first_attribute("time")->value());
+                MessageBoxA(GetDesktopWindow(), "triggeredEventModifier is missing a name!", "Error", MB_ICONERROR | MB_SETFOREGROUND);
             }
-            if (child->first_attribute("minTime"))
-            {
-                def.minTime = boost::lexical_cast<float>(child->first_attribute("minTime")->value());
-            }
-            if (child->first_attribute("maxTime"))
-            {
-                def.maxTime = boost::lexical_cast<float>(child->first_attribute("maxTime")->value());
-            }
-            if (child->first_attribute("jumps"))
-            {
-                def.minJumps = boost::lexical_cast<int>(child->first_attribute("jumps")->value());
-                def.maxJumps = boost::lexical_cast<int>(child->first_attribute("jumps")->value());
-            }
-            if (child->first_attribute("minJumps"))
-            {
-                def.minJumps = boost::lexical_cast<int>(child->first_attribute("minJumps")->value());
-            }
-            if (child->first_attribute("maxJumps"))
-            {
-                def.maxJumps = boost::lexical_cast<int>(child->first_attribute("maxJumps")->value());
-            }
-            customEvent->triggeredEventModifiers.push_back(def);
         }
 
         if (nodeName == "preventBossFleet")
