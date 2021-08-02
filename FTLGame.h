@@ -4990,6 +4990,8 @@ struct SoundControl
 
 struct StarMap;
 
+struct ResourceEvent;
+
 struct ShipStatus;
 
 struct WarningWithLines;
@@ -5182,6 +5184,7 @@ struct CommandGui
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void CheckGameover();
 	LIBZHL_API bool IsGameOver();
+	LIBZHL_API void NewLocation(const std::string &mainText, std::vector<ChoiceText> choices, ResourceEvent &resources, bool testingEvents);
 	
 	ShipStatus shipStatus;
 	CrewControl crewControl;
@@ -6317,10 +6320,11 @@ struct EventsParser
 
 	LIBZHL_API RandomAmount *PullMinMax(rapidxml::xml_node<char> *node, const std::string &name);
 	LIBZHL_API static void __stdcall ProcessEvent(std::string &strRef, EventsParser *eventsParser, rapidxml::xml_node<char> *node, const std::string &eventName);
-	LIBZHL_API static ShipTemplate *__stdcall ProcessShipEvent(ShipTemplate *event, EventsParser *parser, rapidxml::xml_node<char> *node);
+	LIBZHL_API static void __stdcall ProcessShipEvent(ShipTemplate &shipEvent, EventsParser *eventsParser, rapidxml::xml_node<char> *node);
 	LIBZHL_API ResourcesTemplate *ProcessModifyItem(ResourcesTemplate &resources, rapidxml::xml_node<char> *node, const std::string &unk);
 	LIBZHL_API void AddAllEvents();
 	LIBZHL_API void AddEvents(EventGenerator &generator, char *file, const std::string &fileName);
+	LIBZHL_API static void __stdcall ProcessEventList(std::vector<std::string> &vecRef, EventsParser *eventsParser, rapidxml::xml_node<char> *node, const std::string &listName);
 	
 	std::unordered_map<std::string, EventTemplate*> eventTemplates;
 	std::vector<EventTemplate*> trashList;
@@ -7250,7 +7254,6 @@ struct BatterySystem : ShipSystem
 	std::string soundeffect;
 };
 
-struct ResourceEvent;
 struct RewardDesc;
 
 LIBZHL_API float __stdcall font_text_width(freetype::font_data &fontData, const char *str, float size);
