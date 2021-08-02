@@ -1310,7 +1310,7 @@ bool CrewMember_Extend::TransformRace(const std::string& species)
         delete newCrewAnim;
         */
 
-        Initialize(orig->blueprint, orig->iShipId, orig->iShipId == 1, orig->crewAnim);
+        Initialize(orig->blueprint, orig->iShipId, orig->iShipId == 1, orig->crewAnim, true);
 
         if (orig->iShipId == 0)
         {
@@ -1441,7 +1441,7 @@ HOOK_METHOD_PRIORITY(CrewMember, constructor, -899, (CrewBlueprint& bp, int ship
 }
 
 
-void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, CrewAnimation *animation)
+void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, CrewAnimation *animation, bool isTransform)
 {
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
     if (custom->IsRace(orig->species))
@@ -1505,14 +1505,17 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
 
             if (replaceLayers && !orig->crewAnim->bDrone)
             {
+                orig->crewAnim->layerColors = layerColors;
+
                 auto bpM = G_->GetBlueprints();
                 auto it = bpM->crewBlueprints.find(bp.name);
-                if (it != bpM->crewBlueprints.end() && it->second.colorLayers.size() < layerColors.size())
+                if (it != bpM->crewBlueprints.end() && it->second.colorLayers.size() < orig->crewAnim->layerColors.size())
                 {
-                    layerColors.resize(it->second.colorLayers.size());
+                    orig->crewAnim->layerColors.resize(it->second.colorLayers.size());
                 }
-                orig->crewAnim->layerColors = layerColors;
                 orig->crewAnim->SetupStrips();
+
+                orig->crewAnim->layerColors = layerColors;
             }
 
             if (animation)
@@ -1549,14 +1552,17 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
             }
         }
 
-        powerCooldown.first = 0.f;
-        powerCooldown.second = powerDef->cooldown;
-        temporaryPowerDuration.second = powerDef->tempPower.duration;
-        temporaryPowerDuration.first = temporaryPowerDuration.second;
-        powerCharges.second = powerDef->powerCharges;
-        powerCharges.first = std::min(powerDef->initialCharges, powerDef->powerCharges);
-        hasSpecialPower = powerDef->hasSpecialPower;
-        hasTemporaryPower = powerDef->hasTemporaryPower;
+        if (!isTransform) // might not need this at all since CalculatePowerDef() initializes this
+        {
+            powerCooldown.first = 0.f;
+            powerCooldown.second = powerDef->cooldown;
+            temporaryPowerDuration.second = powerDef->tempPower.duration;
+            temporaryPowerDuration.first = temporaryPowerDuration.second;
+            powerCharges.second = powerDef->powerCharges;
+            powerCharges.first = std::min(powerDef->initialCharges, powerDef->powerCharges);
+            hasSpecialPower = powerDef->hasSpecialPower;
+            hasTemporaryPower = powerDef->hasTemporaryPower;
+        }
         canPhaseThroughDoors = def.canPhaseThroughDoors;
 
         outgoingStatBoosts.clear();

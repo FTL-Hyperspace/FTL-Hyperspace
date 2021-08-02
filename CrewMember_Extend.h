@@ -118,7 +118,7 @@ public:
     std::string originalRace;
     std::string transformRace = "";
 
-    void Initialize(CrewBlueprint& bp, int shipId, bool enemy, CrewAnimation *animation);
+    void Initialize(CrewBlueprint& bp, int shipId, bool enemy, CrewAnimation *animation, bool isTransform = false);
     bool TransformRace(const std::string& newRace);
 
 
