@@ -289,6 +289,21 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
                 }
             }
         }
+
+        if (strcmp(eventNode->name(), "beaconType") == 0)
+        {
+            if (eventNode->first_attribute("name"))
+            {
+                std::string beaconName = std::string(eventNode->first_attribute("name")->value());
+
+                BeaconType *beaconType = new BeaconType();
+                beaconType->eventName = beaconName;
+
+                ParseCustomBeaconType(eventNode, beaconType);
+
+                customBeacons[beaconName] = beaconType;
+            }
+        }
     }
 
     // Post-processing
@@ -320,6 +335,31 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
             }
             std::sort(def.timerSounds.begin(), def.timerSounds.end(), [](const std::pair<float,std::string> &a, const std::pair<float,std::string> &b) -> bool {return a.first > b.first;});
         }
+    }
+
+    for (auto& def : customEvents)
+    {
+        if (!def.second->loadBeacon.empty())
+        {
+            auto it = customBeacons.find(def.second->loadBeacon);
+            if (it != customBeacons.end())
+            {
+                def.second->beacon = it->second;
+            }
+        }
+        def.second->loadBeacon = "";
+    }
+    for (auto& def : customRecursiveEvents)
+    {
+        if (!def.second->loadBeacon.empty())
+        {
+            auto it = customBeacons.find(def.second->loadBeacon);
+            if (it != customBeacons.end())
+            {
+                def.second->beacon = it->second;
+            }
+        }
+        def.second->loadBeacon = "";
     }
 }
 
@@ -494,6 +534,18 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
             customEvent->instantEscape = true;
         }
 
+        if (nodeName == "escape")
+        {
+            isDefault = false;
+            customEvent->escape = true;
+        }
+
+        if (nodeName == "surrender")
+        {
+            isDefault = false;
+            customEvent->surrender = true;
+        }
+
         if (nodeName == "goToFlagship")
         {
             isDefault = false;
@@ -522,85 +574,20 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
         if (nodeName == "beaconType")
         {
             isDefault = false;
-            BeaconType* beaconType = new BeaconType();
-            beaconType->eventName = customEvent->eventName;
 
-            if (child->first_attribute("id"))
+            if (child->first_attribute("load"))
             {
-                beaconType->beaconText.data = child->first_attribute("id")->value();
-                beaconType->beaconText.isLiteral = false;
+                customEvent->loadBeacon = child->first_attribute("load")->value();
             }
-            else if (child->first_attribute("text"))
+            else
             {
-                beaconType->beaconText.data = child->first_attribute("text")->value();
-                beaconType->beaconText.isLiteral = true;
+                BeaconType* beaconType = new BeaconType();
+                beaconType->eventName = customEvent->eventName;
+
+                ParseCustomBeaconType(child, beaconType);
+
+                customEvent->beacon = beaconType;
             }
-            if (child->first_attribute("req"))
-            {
-                beaconType->equipmentReq = child->first_attribute("req")->value();
-            }
-
-            if (child->first_attribute("global"))
-            {
-                beaconType->global = EventsParser::ParseBoolean(child->first_attribute("global")->value());
-            }
-
-            GL_Color color = GL_Color(255.f, 255.f, 255.f, 1.f);
-
-            for (auto child2 = child->first_node(); child2; child2 = child2->next_sibling())
-            {
-                if (strcmp(child2->name(), "unvisitedTooltip") == 0)
-                {
-                    if (child2->first_attribute("id"))
-                    {
-                        beaconType->unvisitedTooltip.data = child2->first_attribute("id")->value();
-                        beaconType->unvisitedTooltip.isLiteral = false;
-                    }
-                    else
-                    {
-                        beaconType->unvisitedTooltip.data = child2->value();
-                        beaconType->unvisitedTooltip.isLiteral = true;
-                    }
-                }
-
-                if (strcmp(child2->name(), "visitedTooltip") == 0)
-                {
-                    if (child2->first_attribute("id"))
-                    {
-                        beaconType->visitedTooltip.data = child2->first_attribute("id")->value();
-                        beaconType->visitedTooltip.isLiteral = false;
-                    }
-                    else
-                    {
-                        beaconType->visitedTooltip.data = child2->value();
-                        beaconType->visitedTooltip.isLiteral = true;
-                    }
-                }
-
-                if (strcmp(child2->name(), "undiscoveredTooltip") == 0)
-                {
-                    if (child2->first_attribute("id"))
-                    {
-                        beaconType->undiscoveredTooltip.data = child2->first_attribute("id")->value();
-                        beaconType->undiscoveredTooltip.isLiteral = false;
-                    }
-                    else
-                    {
-                        beaconType->undiscoveredTooltip.data = child2->value();
-                        beaconType->undiscoveredTooltip.isLiteral = true;
-                    }
-                }
-
-                if (strcmp(child2->name(), "color") == 0)
-                {
-                    ParseColorNode(color, child2);
-                }
-            }
-
-            beaconType->color = color;
-
-            customEvent->beacon = beaconType;
-            customEvent->hasCustomBeacon = true;
         }
         if (nodeName == "removeHazards")
         {
@@ -913,6 +900,83 @@ bool CustomEventsParser::ParseCustomQuestNode(rapidxml::xml_node<char> *node, Cu
         }
     }
     return isDefault;
+}
+
+void CustomEventsParser::ParseCustomBeaconType(rapidxml::xml_node<char> *node, BeaconType *beaconType)
+{
+    if (node->first_attribute("id"))
+    {
+        beaconType->beaconText.data = node->first_attribute("id")->value();
+        beaconType->beaconText.isLiteral = false;
+    }
+    else if (node->first_attribute("text"))
+    {
+        beaconType->beaconText.data = node->first_attribute("text")->value();
+        beaconType->beaconText.isLiteral = true;
+    }
+    if (node->first_attribute("req"))
+    {
+        beaconType->equipmentReq = node->first_attribute("req")->value();
+    }
+
+    if (node->first_attribute("global"))
+    {
+        beaconType->global = EventsParser::ParseBoolean(node->first_attribute("global")->value());
+    }
+
+    GL_Color color = GL_Color(255.f, 255.f, 255.f, 1.f);
+
+    for (auto child = node->first_node(); child; child = child->next_sibling())
+    {
+        if (strcmp(child->name(), "unvisitedTooltip") == 0)
+        {
+            if (child->first_attribute("id"))
+            {
+                beaconType->unvisitedTooltip.data = child->first_attribute("id")->value();
+                beaconType->unvisitedTooltip.isLiteral = false;
+            }
+            else
+            {
+                beaconType->unvisitedTooltip.data = child->value();
+                beaconType->unvisitedTooltip.isLiteral = true;
+            }
+        }
+
+        if (strcmp(child->name(), "visitedTooltip") == 0)
+        {
+            if (child->first_attribute("id"))
+            {
+                beaconType->visitedTooltip.data = child->first_attribute("id")->value();
+                beaconType->visitedTooltip.isLiteral = false;
+            }
+            else
+            {
+                beaconType->visitedTooltip.data = child->value();
+                beaconType->visitedTooltip.isLiteral = true;
+            }
+        }
+
+        if (strcmp(child->name(), "undiscoveredTooltip") == 0)
+        {
+            if (child->first_attribute("id"))
+            {
+                beaconType->undiscoveredTooltip.data = child->first_attribute("id")->value();
+                beaconType->undiscoveredTooltip.isLiteral = false;
+            }
+            else
+            {
+                beaconType->undiscoveredTooltip.data = child->value();
+                beaconType->undiscoveredTooltip.isLiteral = true;
+            }
+        }
+
+        if (strcmp(child->name(), "color") == 0)
+        {
+            ParseColorNode(color, child);
+        }
+    }
+
+    beaconType->color = color;
 }
 
 void CustomEventsParser::ParseCustomReqNode(rapidxml::xml_node<char> *node, CustomReq *req)
@@ -1629,7 +1693,7 @@ HOOK_METHOD(StarMap, RenderLabels, () -> void)
 
             CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(i->event->eventName);
 
-            if (customEvent && customEvent->hasCustomBeacon && (i->questLoc || i->beacon))
+            if (customEvent && customEvent->beacon && (i->questLoc || i->beacon))
             {
                 locValues[i][0] = i->questLoc;
                 locValues[i][1] = i->beacon;
@@ -1638,7 +1702,7 @@ HOOK_METHOD(StarMap, RenderLabels, () -> void)
                 i->beacon = false;
             }
 
-            if (customEvent && customEvent->hasCustomBeacon && (bMapRevealed || customEvent->beacon->global || i->known))
+            if (customEvent && customEvent->beacon && (bMapRevealed || customEvent->beacon->global || i->known))
             {
                 BeaconType *beaconType = customEvent->beacon;
 
@@ -2063,6 +2127,24 @@ HOOK_METHOD(WorldManager, CreateLocation, (Location *location) -> void)
             }
         }
 
+        if (customEvent->escape)
+        {
+            CompleteShip* enemyShip = G_->GetWorld()->playerShip->enemyShip;
+            if (enemyShip != nullptr && !enemyShip->shipManager->bDestroyed)
+            {
+                enemyShip->shipAI.escaping = true;
+            }
+        }
+
+        if (customEvent->surrender)
+        {
+            CompleteShip* enemyShip = G_->GetWorld()->playerShip->enemyShip;
+            if (enemyShip != nullptr && !enemyShip->shipManager->bDestroyed)
+            {
+                enemyShip->shipAI.surrendered = true;
+            }
+        }
+
         if (!customEvent->eventLoad.empty())
         {
             int seed = customEvent->eventLoadSeeded ? (int)(location->loc.x + location->loc.y) ^ starMap.currentSectorSeed : -1;
@@ -2119,6 +2201,24 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
             {
                 enemyShip->shipAI.escaping = true;
                 enemyShip->shipManager->JumpLeave();
+            }
+        }
+
+        if (customEvent->escape)
+        {
+            CompleteShip* enemyShip = G_->GetWorld()->playerShip->enemyShip;
+            if (enemyShip != nullptr && !enemyShip->shipManager->bDestroyed)
+            {
+                enemyShip->shipAI.escaping = true;
+            }
+        }
+
+        if (customEvent->surrender)
+        {
+            CompleteShip* enemyShip = G_->GetWorld()->playerShip->enemyShip;
+            if (enemyShip != nullptr && !enemyShip->shipManager->bDestroyed)
+            {
+                enemyShip->shipAI.surrendered = true;
             }
         }
 

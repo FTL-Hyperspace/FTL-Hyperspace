@@ -379,7 +379,7 @@ struct CustomEvent
     bool unlockShipSilent;
     std::string unlockShipReq;
     BeaconType *beacon;
-    bool hasCustomBeacon = false;
+    std::string loadBeacon = "";
     bool checkCargo = false;
     bool recursive = true;
     bool preventQuest = false;
@@ -402,6 +402,8 @@ struct CustomEvent
     bool jumpEventClear = false;
     bool resetFtl = false;
     bool instantEscape = false;
+    bool escape = false;
+    bool surrender = false;
     bool goToFlagship = false;
     bool goToFlagshipBase = false;
     bool goToFlagshipFleet = false;
@@ -565,6 +567,7 @@ public:
     bool ParseCustomEvent(rapidxml::xml_node<char> *node, CustomEvent *event);
     bool ParseCustomShipEvent(rapidxml::xml_node<char> *node, CustomShipEvent *event);
     bool ParseCustomQuestNode(rapidxml::xml_node<char> *node, CustomQuest *quest);
+    void ParseCustomBeaconType(rapidxml::xml_node<char> *node, BeaconType *beaconType);
     void ParseCustomReqNode(rapidxml::xml_node<char> *node, CustomReq *req);
     void ParseCustomTriggeredEventNode(rapidxml::xml_node<char> *node, TriggeredEventDefinition *def);
     void ParseCustomTriggeredEventBoxNode(rapidxml::xml_node<char> *node, TriggeredEventBoxDefinition *box);
@@ -615,6 +618,7 @@ private:
     std::unordered_map<std::string, CustomShipEvent*> customShipEvents;
     std::unordered_map<std::string, CustomQuest*> customQuests;
     std::unordered_map<std::string, BossShipDefinition> bossShipIds;
+    std::unordered_map<std::string, BeaconType*> customBeacons;
     std::unordered_map<std::string, CustomReq*> customReqs;
     static CustomEventsParser *instance;
 };
