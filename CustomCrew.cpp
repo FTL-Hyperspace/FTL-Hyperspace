@@ -1449,89 +1449,93 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
         auto def = custom->GetDefinition(orig->species);
         auto powerDef = CalculatePowerDef();
         auto aex = CMA_EX(orig->crewAnim);
-        Pointf lastPosition = Pointf(0, 0);
 
-        std::vector<GL_Color> layerColors = std::vector<GL_Color>();
-        std::vector<GL_Texture*> layerStrips = std::vector<GL_Texture*>();
-        bool male = animation->bMale;
-
-        bool replaceLayers = false;
-
-        if (animation)
+        if (!orig->crewAnim->bDrone || def.animBase == "rock" || def.animBase == "mantis")
         {
-            layerColors = animation->layerColors;
-            layerStrips = animation->layerStrips;
-            replaceLayers = true;
-            lastPosition = animation->lastPosition;
-        }
+            Pointf lastPosition = Pointf(0, 0);
+            std::vector<GL_Color> layerColors = std::vector<GL_Color>();
+            std::vector<GL_Texture*> layerStrips = std::vector<GL_Texture*>();
+            bool male = false;
 
-        CrewAnimation_Extend aex_old = *CMA_EX(orig->crewAnim);
+            bool replaceLayers = false;
 
-        aex->effectAnim = nullptr;
-        aex->effectFinishAnim = nullptr;
-        aex->tempEffectAnim = nullptr;
-
-        if (def.animBase == "rock")
-        {
-            blockAddSoundQueue = true;
-            orig->crewAnim = new RockAnimation(bp.name, shipId, lastPosition, enemy);
-            aex = CMA_EX(orig->crewAnim);
-            aex->crewAnimationType = "rock";
-            blockAddSoundQueue = false;
-        }
-        else if (def.animBase == "mantis")
-        {
-            orig->crewAnim = new MantisAnimation;
-            orig->crewAnim->constructor(shipId, bp.name, lastPosition, enemy);
-            aex = CMA_EX(orig->crewAnim);
-            aex->isMantisAnimation = true;
-            aex->crewAnimationType = "mantis";
-        }
-        else
-        {
-            orig->crewAnim = new CrewAnimation(shipId, bp.name, lastPosition, enemy);
-            aex = CMA_EX(orig->crewAnim);
-        }
-
-        aex->effectAnim = aex_old.effectAnim;
-        aex->effectFinishAnim = aex_old.effectFinishAnim;
-        aex->tempEffectAnim = aex_old.tempEffectAnim;
-        aex->tempEffectStrip = aex_old.tempEffectStrip;
-
-        orig->crewAnim->bMale = male;
-
-        if (replaceLayers && !orig->crewAnim->bDrone)
-        {
-            auto bpM = G_->GetBlueprints();
-            auto it = bpM->crewBlueprints.find(bp.name);
-            if (it != bpM->crewBlueprints.end() && it->second.colorLayers.size() < layerColors.size())
+            if (animation)
             {
-                layerColors.resize(it->second.colorLayers.size());
+                layerColors = animation->layerColors;
+                layerStrips = animation->layerStrips;
+                male = animation->bMale;
+                replaceLayers = true;
+                lastPosition = animation->lastPosition;
             }
-            orig->crewAnim->layerColors = layerColors;
-            orig->crewAnim->SetupStrips();
-        }
 
-        if (animation)
-        {
-            //orig->crewAnim->shots = animation->shots; // this crashes when a shot from the old anim hits an enemy
-            orig->crewAnim->shootTimer = animation->shootTimer;
-            orig->crewAnim->punchTimer = animation->punchTimer;
-            orig->crewAnim->currentShip = animation->currentShip;
-        }
+            CrewAnimation_Extend aex_old = *CMA_EX(orig->crewAnim);
 
-        if (def.repairSoundFrame != -1 && def.repairSounds.size() > 0 && !enemy)
-        {
-            for (auto sound : def.repairSounds)
+            aex->effectAnim = nullptr;
+            aex->effectFinishAnim = nullptr;
+            aex->tempEffectAnim = nullptr;
+
+            if (def.animBase == "rock")
             {
-                for (int i = 0; i < 4; i++)
+                blockAddSoundQueue = true;
+                orig->crewAnim = new RockAnimation(bp.name, shipId, lastPosition, enemy);
+                aex = CMA_EX(orig->crewAnim);
+                aex->crewAnimationType = "rock";
+                blockAddSoundQueue = false;
+            }
+            else if (def.animBase == "mantis")
+            {
+                orig->crewAnim = new MantisAnimation;
+                orig->crewAnim->constructor(shipId, bp.name, lastPosition, enemy);
+                aex = CMA_EX(orig->crewAnim);
+                aex->isMantisAnimation = true;
+                aex->crewAnimationType = "mantis";
+            }
+            else
+            {
+                orig->crewAnim = new CrewAnimation(shipId, bp.name, lastPosition, enemy);
+                aex = CMA_EX(orig->crewAnim);
+            }
+
+            aex->effectAnim = aex_old.effectAnim;
+            aex->effectFinishAnim = aex_old.effectFinishAnim;
+            aex->tempEffectAnim = aex_old.tempEffectAnim;
+            aex->tempEffectStrip = aex_old.tempEffectStrip;
+
+            orig->crewAnim->bMale = male;
+
+            if (replaceLayers && !orig->crewAnim->bDrone)
+            {
+                auto bpM = G_->GetBlueprints();
+                auto it = bpM->crewBlueprints.find(bp.name);
+                if (it != bpM->crewBlueprints.end() && it->second.colorLayers.size() < layerColors.size())
                 {
-                    orig->crewAnim->anims[i][2].AddSoundQueue(def.repairSoundFrame, sound);
+                    layerColors.resize(it->second.colorLayers.size());
+                }
+                orig->crewAnim->layerColors = layerColors;
+                orig->crewAnim->SetupStrips();
+            }
+
+            if (animation)
+            {
+                //orig->crewAnim->shots = animation->shots; // this crashes when a shot from the old anim hits an enemy
+                orig->crewAnim->shootTimer = animation->shootTimer;
+                orig->crewAnim->punchTimer = animation->punchTimer;
+                orig->crewAnim->currentShip = animation->currentShip;
+            }
+
+            if (def.repairSoundFrame != -1 && def.repairSounds.size() > 0 && !enemy)
+            {
+                for (auto sound : def.repairSounds)
+                {
+                    for (int i = 0; i < 4; i++)
+                    {
+                        orig->crewAnim->anims[i][2].AddSoundQueue(def.repairSoundFrame, sound);
+                    }
                 }
             }
-        }
 
-        delete animation;
+            delete animation;
+        }
 
         float passiveHealAmount = CalculateStat(CrewStat::PASSIVE_HEAL_AMOUNT, def);
         float truePassiveHealAmount = CalculateStat(CrewStat::TRUE_PASSIVE_HEAL_AMOUNT, def);
