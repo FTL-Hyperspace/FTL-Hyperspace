@@ -1287,6 +1287,14 @@ bool CrewMember_Extend::TransformRace(const std::string& species)
 {
     if (orig->crewAnim->status != 3)
     {
+        auto& equipList = G_->GetShipInfo(orig->iShipId)->equipList;
+
+        auto it = equipList.find(orig->type);
+        if (it != equipList.end())
+        {
+            if (it->second > 0) it->second -= 1;
+        }
+
         auto newBlueprint = G_->GetBlueprints()->GetCrewBlueprint(species);
 
         orig->blueprint.powers = newBlueprint->powers;
@@ -1294,8 +1302,19 @@ bool CrewMember_Extend::TransformRace(const std::string& species)
         orig->blueprint.desc = newBlueprint->desc;
         orig->blueprint.type = newBlueprint->type;
         orig->species = newBlueprint->name;
+        orig->type = newBlueprint->name;
 
         delete newBlueprint;
+
+        it = equipList.find(orig->type);
+        if (it != equipList.end())
+        {
+            it->second += 1;
+        }
+        else
+        {
+            equipList[orig->type] = 1;
+        }
 
         /*
         auto newCrewAnim = new CrewAnimation(orig->iShipId, orig->species, Pointf(0, 0), orig->iShipId == 1);
