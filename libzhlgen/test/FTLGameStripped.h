@@ -11,6 +11,7 @@ struct SpaceManager;
 struct NebulaCloud;
 struct SpaceDrone;
 struct Projectile;
+struct CrewLaser;
 struct WeaponAnimation;
 struct Drone;
 struct Door;
@@ -4361,9 +4362,6 @@ struct std__vector_12GL_TextureZ1
   GL_Texture **_end;
 };
 
-/* 172 */
-struct CrewLaser;
-
 /* 674 */
 struct std__vector_9CrewLaser
 {
@@ -4560,6 +4558,15 @@ struct VTable_CrewAnimation
   std__string *(__stdcall *GetDeathSound)(std__string *str, CrewAnimation *anim);
   void (__thiscall *Restart)(CrewAnimation *this);
   bool (__thiscall *CustomDeath)(CrewAnimation *this);
+};
+
+/* 172 */
+struct CrewLaser
+{
+  Projectile _base;
+  int r;
+  int g;
+  int b;
 };
 
 /* 797 */
