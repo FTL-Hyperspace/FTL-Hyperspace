@@ -1285,7 +1285,7 @@ void CrewMember_Extend::ActivatePower()
 
 bool CrewMember_Extend::TransformRace(const std::string& species)
 {
-    if (orig->crewAnim->status != 3)
+    if (orig->crewAnim->status != 6 && orig->crewAnim->status != 3)
     {
         auto& equipList = G_->GetShipInfo(orig->iShipId)->equipList;
 
@@ -1338,6 +1338,8 @@ bool CrewMember_Extend::TransformRace(const std::string& species)
         }
 
         StatBoostManager::GetInstance()->statCacheFrame++; // resets stat cache in case game is paused
+
+        transformRace = "";
     }
     else
     {
@@ -1475,6 +1477,8 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
             std::vector<GL_Color> layerColors = std::vector<GL_Color>();
             std::vector<GL_Texture*> layerStrips = std::vector<GL_Texture*>();
             bool male = false;
+            bool uniqueBoolShoot = false;
+            bool uniqueBoolFire = false;
 
             bool replaceLayers = false;
 
@@ -1485,13 +1489,27 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
                 male = animation->bMale;
                 replaceLayers = true;
                 lastPosition = animation->lastPosition;
+
+                if (aex->crewAnimationType == "rock")
+                {
+                    uniqueBoolFire = animation->uniqueBool1;
+                    uniqueBoolShoot = animation->uniqueBool2;
+                }
+                else if (aex->crewAnimationType == "mantis")
+                {
+                    uniqueBoolShoot = animation->uniqueBool1;
+                }
             }
 
-            CrewAnimation_Extend aex_old = *CMA_EX(orig->crewAnim);
+            Animation* effectAnim = aex->effectAnim;
+            Animation* effectFinishAnim = aex->effectFinishAnim;
+            Animation* tempEffectAnim = aex->tempEffectAnim;
+            GL_Texture* tempEffectStrip = aex->tempEffectStrip;
 
             aex->effectAnim = nullptr;
             aex->effectFinishAnim = nullptr;
             aex->tempEffectAnim = nullptr;
+            aex->tempEffectStrip = nullptr;
 
             if (def.animBase == "rock")
             {
@@ -1515,10 +1533,10 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
                 aex = CMA_EX(orig->crewAnim);
             }
 
-            aex->effectAnim = aex_old.effectAnim;
-            aex->effectFinishAnim = aex_old.effectFinishAnim;
-            aex->tempEffectAnim = aex_old.tempEffectAnim;
-            aex->tempEffectStrip = aex_old.tempEffectStrip;
+            aex->effectAnim = effectAnim;
+            aex->effectFinishAnim = effectFinishAnim;
+            aex->tempEffectAnim = tempEffectAnim;
+            aex->tempEffectStrip = tempEffectStrip;
 
             orig->crewAnim->bMale = male;
 
@@ -1539,10 +1557,34 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
 
             if (animation)
             {
-                //orig->crewAnim->shots = animation->shots; // this crashes when a shot from the old anim hits an enemy
+                orig->crewAnim->direction = animation->direction;
+                orig->crewAnim->sub_direction = animation->sub_direction;
+                orig->crewAnim->status = animation->status;
+                orig->crewAnim->moveDirection = animation->moveDirection;
+                orig->crewAnim->shots = animation->shots;
                 orig->crewAnim->shootTimer = animation->shootTimer;
                 orig->crewAnim->punchTimer = animation->punchTimer;
+                orig->crewAnim->target = animation->target;
+                orig->crewAnim->fDamageDone = animation->fDamageDone;
+                orig->crewAnim->bFrozen = animation->bFrozen;
+                orig->crewAnim->bTyping = animation->bTyping;
                 orig->crewAnim->currentShip = animation->currentShip;
+                orig->crewAnim->forcedAnimation = animation->forcedAnimation;
+                orig->crewAnim->forcedDirection = animation->forcedDirection;
+                orig->crewAnim->bStunned = animation->bStunned;
+                orig->crewAnim->bDoorTarget = animation->bDoorTarget;
+
+                orig->crewAnim->anims.at(animation->direction).at(animation->status).SetProgress(animation->anims.at(animation->direction).at(animation->status).tracker.Progress(-1.f));
+
+                if (aex->crewAnimationType == "rock")
+                {
+                    orig->crewAnim->uniqueBool1 = uniqueBoolFire;
+                    orig->crewAnim->uniqueBool2 = uniqueBoolShoot;
+                }
+                else if (aex->crewAnimationType == "mantis")
+                {
+                    orig->crewAnim->uniqueBool1 = uniqueBoolShoot;
+                }
             }
 
             if (def.repairSoundFrame != -1 && def.repairSounds.size() > 0 && !enemy)
@@ -1557,6 +1599,7 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
             }
 
             delete animation;
+            animation = orig->crewAnim;
         }
 
         float passiveHealAmount = CalculateStat(CrewStat::PASSIVE_HEAL_AMOUNT, def);
