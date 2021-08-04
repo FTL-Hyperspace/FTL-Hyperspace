@@ -491,7 +491,7 @@ void StatBoostManager::OnLoop(WorldManager* world)
             std::map<std::string, int> augMap = CustomAugmentManager::CheckHiddenAugments(G_->GetShipInfo(shipId)->augList);
             for (auto augPair : augMap)
             {
-                if (customAug->IsAugment(augPair.first))
+                if (customAug->IsAugment(augPair.first) && augPair.second > 0)
                 {
                     for (auto statBoostDef : customAug->GetAugmentDefinition(augPair.first)->statBoosts)
                     {

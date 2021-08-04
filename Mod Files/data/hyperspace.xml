@@ -1144,6 +1144,39 @@ Syntax ->
 		(same syntax as quest tag in a quest destination event, but sets the default for all quests)
 	</quest>
 	
+	<combatTimerPosition> -> override timer positions on enemy box; defaults are calibrated for vanilla
+		<normalPos x="1259" y="110"/>
+        <bossPos x="1266" y="72"/>
+	</combatTimerPosition>
+
+	<triggeredEventBox name="DEFAULT_TIMER" pos="default/scrap/topright/combat" priority="0"> -> priority affects sorting order of multiple boxes in the same pos
+		<image name="statusUI/top_stopwatch.png" x="6" y="11" w="122" h="35" left="5" right="5" top="5" bottom="5" r="255" g="255" b="255" a="1.0"/> -> sets origin point of image, dimensions, margins, and tint
+		<image2 name="statusUI/top_stopwatch_red.png" r="255" g="255" b="255" a="1.0"/>
+		<icon name="map/map_icon_warning.png" x="0" y="0" r="255" g="255" b="255" a="1.0"/> -> adds another icon to draw on top of the background image of the box
+		<text type="auto/clock/seconds/jumps" x="77" y="12" r="235" g="245" b="229" a="1.0"/> -> auto chooses clock or seconds based on remaining time
+		<text2 r="253" g="84" b="70" a="1.0"/>
+		<warning time="10.0" flash="true"/> -> use image2 and text2 below this time threshold
+		<tooltip id="tooltip_id"/> -> load tooltip
+	</triggeredEventBox>
+	
+	<triggeredEventBox name="DEFAULT_JUMPS">
+		<image name="statusUI/top_jumptimer.png" x="10" y="7" w="59" h="26" left="4" right="4" top="4" bottom="4"/>
+		<image2 name="statusUI/top_jumptimer_red.png"/>
+		<text type="jumps" x="41" y="8" r="235" g="245" b="229"/>
+		<text2 r="253" g="84" b="70"/>
+		<warning jumps="1" flash="true"/> -> use image2 and text2 below this jump threshold
+		<tooltip>Tooltip</tooltip> -> literal tooltip
+	</triggeredEventBox>
+	
+	<timerSounds name="DEFAULT_TIMER_SOUNDS">
+		<timerSound t="5">jumpReady</timerSound>
+		<timerSound t="4">jumpReady</timerSound>
+		<timerSound t="3">jumpReady</timerSound>
+		<timerSound t="2">jumpReady</timerSound>
+		<timerSound t="1">jumpReady</timerSound>
+		<timerSound t="0">jumpReady</timerSound>
+	</timerSounds>
+	
 	<event name="CIVILIAN_ASTEROIDS_BEACON_2" recursive="false">
 		<checkCargo/>
 		<removeHazards/>
@@ -1240,6 +1273,44 @@ Syntax ->
 		<preventBossFleet forever="false"/> -> default allows fleet to overtake when no other beacons remain; forever="true" makes event stay forever (until visited)
 		<runFromFleet closest="true"/> -> when overtaken by fleet/boss the event will respawn at another beacon (default prefers nearby beacons)
 	</event>
+	
+	<event name="GOODBYE">
+		<instantEscape/>
+	</event>
+	
+	<event name="ENEMY_BOOM">
+		<enemyDamage amount="30" system="random" effect="random"/> -> same syntax as vanilla <damage> tag.
+	</event>
+	
+	<event name="GOTO_FLAGSHIP">
+		<goToFlagship atBase="false" allFleet="false"/> -> atBase advances the flagship to the base and forces the player to beat the flagship there; allFleet converts all other beacons to fleet-controlled.
+	</event>
+	
+	<event name="CREATE_TRIGGERED_EVENT">
+		<triggeredEvent name="EXAMPLE_TRIGGER" event="TRIGGERED_EVENT" seeded="true" thisFight="false" clearOnJump="false" loops="1" time="60.0">
+			<triggeredEventBox load="DEFAULT_TIMER" ...> -> You can either specify the full triggeredEventBox definition as above, or load a named triggeredEventBox and override specific parameters by including them here.
+				...
+			</triggeredEventBox>
+			<timerSounds load="DEFAULT_TIMER_SOUNDS" ...> -> You can either specify the full timerSounds definition as above, or load a named timerSounds and add additional sounds if desired.
+				...
+			</timerSounds>
+		</triggeredEvent>
+		<triggeredEvent name="EXAMPLE_TRIGGER_RANDOM" event="TRIGGERED_EVENT" minLoops="3" maxLoops="5" minTime="50.0" maxTime="70.0"/> -> Can also use min/max for the triggers shown below
+		<triggeredEvent name="EXAMPLE_TRIGGER_JUMPS" event="TRIGGERED_EVENT" jumps="1"/> -> Ticks every time the player jumps or waits
+		<triggeredEvent name="EXAMPLE_TRIGGER_PLAYER" event="TRIGGERED_EVENT" playerHull="10" playerDamage="10" playerCrew="1" playerDeaths="3"/> -> Hull and Crew check how much you have left; Damage and Deaths count relative to when the trigger was created
+		                                                                                                                                             (so if this trigger is created when you are at 25 hull it will trigger at 15 hull)
+		<triggeredEvent name="EXAMPLE_TRIGGER_ENEMY" event="TRIGGERED_EVENT" enemyHull="10" enemyDamage="10" enemyCrew="1" enemyDeaths="3"/> -> Same but for the enemy; requires enemy to be present.
+		<triggeredEvent name="EXAMPLE_TRIGGER_ENEMY2" event="TRIGGERED_EVENT" enemyHull="10" enemyDamage="10" enemyHullScaling="0.5" enemyDamageScaling="0.5"/> -> Scales enemyHull and enemyDamage by sector.
+		<clearTriggeredEvent name="EXAMPLE_TRIGGER_TO_CLEAR"/>
+		<triggeredEventModifier name="EXAMPLE_TRIGGER_ADDTIME" time="60.0" jumps="3"/> -> can also use minTime/maxTime and/or minJumps/maxJumps for random modifier.
+	</event>
+	
+	<shipEvent name="PIRATE">
+		(below are same as in event)
+		<triggeredEvent .../>
+		<clearTriggeredEvent .../>
+		<jumpEvent .../>
+	</shipEvent>
 	
 	<req name="CUSTOM_REQ" type="any/all/sum" mult="1" const="0"> -> "any" is synonomous with "max", "all" is synonomous with "min", "sum" is synonomous with "count"
 		<name>BLUEPRINT_1</name>

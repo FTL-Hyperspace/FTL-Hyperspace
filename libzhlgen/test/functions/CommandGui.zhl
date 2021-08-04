@@ -26,3 +26,5 @@ void CommandGui::OnLoop(CommandGui *this<ecx>);
 void CommandGui::CheckGameover(CommandGui *this<ecx>);
 "803d??????????75??5589e55389cb8b890817000083e4f085c974??8b41088b108b524481fa????????75??80b8990400000075??e8????????84c0":
 bool CommandGui::IsGameOver(CommandGui *this<ecx>);
+"578d7c240883e4f0ff77fc5589e557565381ec????????8b078b5f04898dd8fdffff8985d4fdffff8b47088985e4fdffff":
+void CommandGui::NewLocation(CommandGui *this<ecx>, const std::string& mainText, std::vector<ChoiceText> choices, ResourceEvent& resources, bool testingEvents);

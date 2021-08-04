@@ -222,34 +222,27 @@ public:
     {
         if (id > customShipOrder.size()) return nullptr;
 
-        if (useCustomShipOrder)
-        {
-            id = GetShipButtonIdFromName(customShipOrder[id]);
+        id = GetShipButtonIdFromName(customShipOrder[id]);
 
-            if (id == -1) return nullptr;
-        }
+        if (id == -1) return nullptr;
 
         return &shipButtonDefs[id];
     }
 
     int GetShipButtonOrderIndex(int id)
     {
-        if (useCustomShipOrder)
-        {
-            auto name = shipButtonDefs[id].name;
-            auto it = std::find(customShipOrder.begin(), customShipOrder.end(), name);
+        auto name = shipButtonDefs[id].name;
+        auto it = std::find(customShipOrder.begin(), customShipOrder.end(), name);
 
-            if (it != customShipOrder.end())
-            {
-                return std::distance(customShipOrder.begin(), it);
-            }
-            else
-            {
-                return -1;
-            }
+        if (it != customShipOrder.end())
+        {
+            return std::distance(customShipOrder.begin(), it);
+        }
+        else
+        {
+            return -1;
         }
 
-        return id;
     }
 
     ShipButtonDefinition& GetShipButtonDefinition(int id)
@@ -286,12 +279,6 @@ public:
         return !(shipDefs.find(id) == shipDefs.end());
     }
 
-    bool CustomShipOrder()
-    {
-        return useCustomShipOrder;
-    }
-
-
     bool Initialized()
     {
         return initialized;
@@ -314,7 +301,6 @@ private:
     std::vector<ShipButtonList*> shipButtons = std::vector<ShipButtonList*>();
     std::vector<ShipButtonDefinition> shipButtonDefs = std::vector<ShipButtonDefinition> ();
     std::map<std::string, CustomShipDefinition> shipDefs = std::map<std::string, CustomShipDefinition>();
-    bool useCustomShipOrder;
 
     int shipPage = 0;
     int maxShipPage;

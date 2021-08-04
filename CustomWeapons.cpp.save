@@ -34,7 +34,7 @@ HOOK_STATIC(BlueprintManager, ProcessWeaponBlueprint, (WeaponBlueprint* bp, Blue
         }
         if (name == "accuracyMod")
         {
-            weaponDef.customDamage.accuracyMod = boost::lexical_cast<int>(val);
+            
         }
     }
 

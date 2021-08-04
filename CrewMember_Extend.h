@@ -42,6 +42,7 @@ public:
     GL_Texture* tempEffectStrip = nullptr;
     bool tempEffectBaseVisible = true;
 
+    std::string crewAnimationType = "human";
     bool isMantisAnimation = false;
     bool isIonDrone = false;
 
@@ -64,7 +65,7 @@ public:
     CrewMember *orig;
     bool canPhaseThroughDoors = false;
     bool isHealing = false;
-    TimerHelper* passiveHealTimer;
+    TimerHelper* passiveHealTimer = nullptr;
     int lastRoom = -1;
     int lastShipId = -1;
     bool exploded = false;
@@ -114,7 +115,11 @@ public:
 
     float extraMedbay = 0.f;
 
-    void Initialize(CrewBlueprint& bp, int shipId, bool enemy, CrewAnimation *animation);
+    std::string originalRace;
+    std::string transformRace = "";
+
+    void Initialize(CrewBlueprint& bp, int shipId, bool enemy, CrewAnimation *animation, bool isTransform = false);
+    bool TransformRace(const std::string& newRace);
 
 
     ~CrewMember_Extend()

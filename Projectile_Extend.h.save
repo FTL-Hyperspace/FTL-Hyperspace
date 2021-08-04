@@ -1,12 +1,11 @@
 #pragma once
 #include "FTLGame.h"
-#include "CustomDamage.h"
 
 struct Projectile_Extend
 {
     Projectile *orig;
 
-    CustomDamage customDamage;
+    CustomDama
 
     ~Projectile_Extend()
     {

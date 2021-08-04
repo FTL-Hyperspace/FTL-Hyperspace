@@ -11,6 +11,74 @@ CustomEventsParser *CustomEventsParser::instance = new CustomEventsParser();
 
 void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
 {
+    // First pass; load all the event files to process any Hyperspace stuff in those files.
+    for (auto eventNode = node->first_node(); eventNode; eventNode = eventNode->next_sibling())
+    {
+        if (strcmp(eventNode->name(), "eventFile") == 0)
+        {
+            if (eventNode->value())
+            {
+                eventFiles.push_back(std::string(eventNode->value()));
+            }
+        }
+    }
+
+    char* eventText = G_->GetResources()->LoadFile("data/events_hyperspace.xml");
+
+    if (eventText)
+    {
+        try
+        {
+            G_->GetEventsParser()->AddEvents(*G_->GetEventGenerator(), eventText, "data/events_hyperspace.xml");
+        }
+        catch (rapidxml::parse_error& e)
+        {
+            std::string msg = std::string("Failed parsing events_hyperspace.xml\n") + std::string(e.what());
+            MessageBoxA(GetDesktopWindow(), msg.c_str(), "Error", MB_ICONERROR | MB_SETFOREGROUND);
+        }
+        catch (std::exception &e)
+        {
+            std::string msg = std::string("Failed parsing events_hyperspace.xml\n") + std::string(e.what());
+            MessageBoxA(GetDesktopWindow(), msg.c_str(), "Error", MB_ICONERROR | MB_SETFOREGROUND);
+        }
+        catch (const char* e)
+        {
+            std::string msg = std::string("Failed parsing events_hyperspace.xml\n") + std::string(e);
+            MessageBoxA(GetDesktopWindow(), msg.c_str(), "Error", MB_ICONERROR | MB_SETFOREGROUND);
+        }
+    }
+
+    for (auto i : CustomEventsParser::GetInstance()->eventFiles)
+    {
+        std::string fileName = "data/events_" + i + ".xml";
+
+        char* eventText = G_->GetResources()->LoadFile(fileName);
+
+        if (eventText)
+        {
+            try
+            {
+                G_->GetEventsParser()->AddEvents(*G_->GetEventGenerator(), eventText, fileName);
+            }
+            catch (rapidxml::parse_error& e)
+            {
+                std::string msg = std::string("Failed parsing ") + fileName + std::string("\n") + std::string(e.what());
+                MessageBoxA(GetDesktopWindow(), msg.c_str(), "Error", MB_ICONERROR | MB_SETFOREGROUND);
+            }
+            catch (std::exception &e)
+            {
+                std::string msg = std::string("Failed parsing ") + fileName + std::string("\n") + std::string(e.what());
+                MessageBoxA(GetDesktopWindow(), msg.c_str(), "Error", MB_ICONERROR | MB_SETFOREGROUND);
+            }
+            catch (const char* e)
+            {
+                std::string msg = std::string("Failed parsing ") + fileName + std::string("\n") + std::string(e);
+                MessageBoxA(GetDesktopWindow(), msg.c_str(), "Error", MB_ICONERROR | MB_SETFOREGROUND);
+            }
+        }
+    }
+
+    // Second pass; process Hyperspace event stuff in hyperspace.xml.
     for (auto eventNode = node->first_node(); eventNode; eventNode = eventNode->next_sibling())
     {
         if (strcmp(eventNode->name(), "bossShip") == 0)
@@ -26,14 +94,6 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
                 }
 
                 bossShipIds[def.shipId] = def;
-            }
-        }
-
-        if (strcmp(eventNode->name(), "eventFile") == 0)
-        {
-            if (eventNode->value())
-            {
-                eventFiles.push_back(std::string(eventNode->value()));
             }
         }
 
@@ -115,287 +175,80 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
                 if (eventName == "default_victory")
                 {
                     customEvent = defaultVictory;
+                    customEvent->eventName = "default_victory";
+                    ParseCustomEvent(eventNode, customEvent);
                 }
                 else
                 {
-                    if (GetCustomEvent(eventName) == nullptr)
+                    if (eventNode->first_attribute("recursive") && !EventsParser::ParseBoolean(eventNode->first_attribute("recursive")->value()))
                     {
-                        customEvent = new CustomEvent();
-                    }
-                    else
-                    {
-                        customEvent = GetCustomEvent(eventName);
-                    }
-                }
-
-                customEvent->eventName = eventName;
-
-                if (eventNode->first_attribute("recursive"))
-                {
-                    customEvent->recursive = EventsParser::ParseBoolean(eventNode->first_attribute("recursive")->value());
-                }
-
-                for (auto child = eventNode->first_node(); child; child = child->next_sibling())
-                {
-                    std::string nodeName(child->name());
-                    if (nodeName == "checkCargo")
-                    {
-                        customEvent->checkCargo = true;
-                    }
-
-                    if (nodeName == "preventQuest")
-                    {
-                        customEvent->preventQuest = true;
-                    }
-
-                    if (nodeName == "noQuestText")
-                    {
-                        customEvent->noQuestText = true;
-                    }
-
-                    if (nodeName == "quest")
-                    {
-                        customEvent->customQuest = new CustomQuest;
-                        ParseCustomQuestNode(child, customEvent->customQuest);
-                    }
-
-                    if (nodeName == "preventBossFleet")
-                    {
-                        customEvent->preventBossFleet = 1;
-                        if (child->first_attribute("forever") && EventsParser::ParseBoolean(child->first_attribute("forever")->value()))
+                        auto it = customEvents.find(eventName);
+                        if (it == customEvents.end())
                         {
-                            customEvent->preventBossFleet = 2;
-                        }
-                    }
-
-                    if (nodeName == "runFromFleet")
-                    {
-                        customEvent->runFromFleet = 2;
-                        if (child->first_attribute("closest") && EventsParser::ParseBoolean(child->first_attribute("closest")->value()))
-                        {
-                            customEvent->runFromFleet = 1;
-                        }
-                    }
-
-                    if (nodeName == "secretSectorWarp")
-                    {
-                        customEvent->secretSectorWarp = child->value();
-                    }
-
-                    if (nodeName == "loadEvent")
-                    {
-                        customEvent->eventLoad = child->value();
-
-                        if (child->first_attribute("seeded"))
-                        {
-                            customEvent->eventLoadSeeded = EventsParser::ParseBoolean(child->first_attribute("seeded")->value());
-                        }
-                    }
-
-                    if (nodeName == "jumpEvent")
-                    {
-                        customEvent->jumpEvent = child->value();
-                    }
-
-                    if (nodeName == "resetFtl")
-                    {
-                        customEvent->resetFtl = true;
-                    }
-
-                    if (nodeName == "beaconType")
-                    {
-                        BeaconType* beaconType = new BeaconType();
-                        beaconType->eventName = eventName;
-
-                        if (child->first_attribute("id"))
-                        {
-                            beaconType->beaconText.data = child->first_attribute("id")->value();
-                            beaconType->beaconText.isLiteral = false;
-                        }
-                        else if (child->first_attribute("text"))
-                        {
-                            beaconType->beaconText.data = child->first_attribute("text")->value();
-                            beaconType->beaconText.isLiteral = true;
-                        }
-                        if (child->first_attribute("req"))
-                        {
-                            beaconType->equipmentReq = child->first_attribute("req")->value();
-                        }
-
-                        if (child->first_attribute("global"))
-                        {
-                            beaconType->global = EventsParser::ParseBoolean(child->first_attribute("global")->value());
-                        }
-
-                        GL_Color color = GL_Color(255.f, 255.f, 255.f, 1.f);
-
-                        for (auto child2 = child->first_node(); child2; child2 = child2->next_sibling())
-                        {
-                            if (strcmp(child2->name(), "unvisitedTooltip") == 0)
-                            {
-                                if (child2->first_attribute("id"))
-                                {
-                                    beaconType->unvisitedTooltip.data = child2->first_attribute("id")->value();
-                                    beaconType->unvisitedTooltip.isLiteral = false;
-                                }
-                                else
-                                {
-                                    beaconType->unvisitedTooltip.data = child2->value();
-                                    beaconType->unvisitedTooltip.isLiteral = true;
-                                }
-                            }
-
-                            if (strcmp(child2->name(), "visitedTooltip") == 0)
-                            {
-                                if (child2->first_attribute("id"))
-                                {
-                                    beaconType->visitedTooltip.data = child2->first_attribute("id")->value();
-                                    beaconType->visitedTooltip.isLiteral = false;
-                                }
-                                else
-                                {
-                                    beaconType->visitedTooltip.data = child2->value();
-                                    beaconType->visitedTooltip.isLiteral = true;
-                                }
-                            }
-
-                            if (strcmp(child2->name(), "undiscoveredTooltip") == 0)
-                            {
-                                if (child2->first_attribute("id"))
-                                {
-                                    beaconType->undiscoveredTooltip.data = child2->first_attribute("id")->value();
-                                    beaconType->undiscoveredTooltip.isLiteral = false;
-                                }
-                                else
-                                {
-                                    beaconType->undiscoveredTooltip.data = child2->value();
-                                    beaconType->undiscoveredTooltip.isLiteral = true;
-                                }
-                            }
-
-                            if (strcmp(child2->name(), "color") == 0)
-                            {
-                                ParseColorNode(color, child2);
-                            }
-                        }
-
-                        beaconType->color = color;
-
-                        customEvent->beacon = beaconType;
-                        customEvent->hasCustomBeacon = true;
-                    }
-                    if (nodeName == "removeHazards")
-                    {
-                        customEvent->removeHazards = true;
-                    }
-                    if (nodeName == "removeNebula")
-                    {
-                        customEvent->removeNebula = true;
-                    }
-                    if (nodeName == "hiddenAug")
-                    {
-                        customEvent->hiddenAugs.push_back(child->value());
-                    }
-                    if (nodeName == "win")
-                    {
-                        customEvent->gameOver.enabled = true;
-                        customEvent->gameOver.victory = true;
-                        if (child->first_attribute("text"))
-                        {
-                            customEvent->gameOver.text = child->first_attribute("text")->value();
-                        }
-                        if (child->first_attribute("creditsText"))
-                        {
-                            customEvent->gameOver.creditsText = child->first_attribute("creditsText")->value();
-                        }
-                        if (child->first_attribute("creditsBackground"))
-                        {
-                            customEvent->gameOver.creditsBackground = child->first_attribute("creditsBackground")->value();
-                        }
-                    }
-                    if (nodeName == "lose")
-                    {
-                        customEvent->gameOver.enabled = true;
-                        if (child->first_attribute("text"))
-                        {
-                            customEvent->gameOver.text = child->first_attribute("text")->value();
-                        }
-                    }
-                    if (nodeName == "playSound")
-                    {
-                        customEvent->playSound = child->value();
-                    }
-                    if (nodeName == "changeBackground")
-                    {
-                        customEvent->changeBackground = child->value();
-                    }
-                    if (nodeName == "unlockShip")
-                    {
-                        customEvent->unlockShip = child->value();
-
-                        if (child->first_attribute("silent"))
-                        {
-                            customEvent->unlockShipSilent = EventsParser::ParseBoolean(child->first_attribute("silent")->value());
-                        }
-
-                        if (child->first_attribute("shipReq"))
-                        {
-                            customEvent->unlockShipReq = child->first_attribute("shipReq")->value();
-                        }
-                    }
-                    if (nodeName == "disableScrapScore")
-                    {
-                        customEvent->disableScrapScore = true;
-                    }
-                    if (nodeName == "removeItem")
-                    {
-                        customEvent->removeItems.push_back(child->value());
-                    }
-                    if (nodeName == "customStore")
-                    {
-                        customEvent->customStore = child->value();
-                    }
-                    if (nodeName == "customFleet")
-                    {
-                        bool right = false;
-                        bool firing = false;
-                        bool autoDarkening = false;
-
-                        if (child->first_attribute("right"))
-                        {
-                            right = EventsParser::ParseBoolean(child->first_attribute("right")->value());
-                        }
-                        if (child->first_attribute("firing"))
-                        {
-                            firing = EventsParser::ParseBoolean(child->first_attribute("firing")->value());
-                        }
-                        if (child->first_attribute("autoDarkening"))
-                        {
-                            autoDarkening = EventsParser::ParseBoolean(child->first_attribute("autoDarkening")->value());
-                        }
-
-                        if (!right)
-                        {
-                            customEvent->leftFleet.fleetDefName = child->value();
-                            customEvent->leftFleet.firing = firing;
-                            customEvent->leftFleet.autoDarkening = autoDarkening;
+                            customEvent = new CustomEvent();
+                            customEvent->eventName = eventName;
+                            customEvent->recursive = false;
+                            ParseCustomEvent(eventNode, customEvent);
+                            customEvents[eventName] = customEvent;
                         }
                         else
                         {
-                            customEvent->rightFleet.fleetDefName = child->value();
-                            customEvent->rightFleet.firing = firing;
-                            customEvent->rightFleet.autoDarkening = autoDarkening;
+                            customEvent = it->second;
+                            ParseCustomEvent(eventNode, customEvent);
                         }
                     }
-                    if (nodeName == "clearCustomFleet")
+                    else
                     {
-                        customEvent->clearCustomFleet = true;
+                        auto it = customRecursiveEvents.find(eventName);
+                        if (it == customRecursiveEvents.end())
+                        {
+                            customEvent = new CustomEvent();
+                            customEvent->eventName = eventName;
+                            ParseCustomEvent(eventNode, customEvent);
+                            customRecursiveEvents[eventName] = customEvent;
+                        }
+                        else
+                        {
+                            customEvent = it->second;
+                            ParseCustomEvent(eventNode, customEvent);
+                        }
+
+                        auto it2 = vCustomEvents.find(eventName);
+                        if (it2 != vCustomEvents.end())
+                        {
+                            std::vector<CustomEvent*>& vCustomEvent = it2->second;
+                            for (CustomEvent* customEvent : vCustomEvent)
+                            {
+                                ParseCustomEvent(eventNode, customEvent);
+                            }
+                        }
                     }
                 }
-
-                customEvents[eventName] = customEvent;
             }
         }
+
+        if (strcmp(eventNode->name(), "shipEvent") == 0)
+        {
+            if (eventNode->first_attribute("name"))
+            {
+                std::string eventName = std::string(eventNode->first_attribute("name")->value());
+                CustomShipEvent *customEvent;
+
+                auto it = customShipEvents.find(eventName);
+                if (it == customShipEvents.end())
+                {
+                    customEvent = new CustomShipEvent();
+                    customEvent->eventName = eventName;
+                    ParseCustomShipEvent(eventNode, customEvent);
+                    customShipEvents[eventName] = customEvent;
+                }
+                else
+                {
+                    customEvent = it->second;
+                    ParseCustomShipEvent(eventNode, customEvent);
+                }
+			}
+		}
 
         if (strcmp(eventNode->name(), "quest") == 0)
         {
@@ -404,96 +257,801 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
 
         if (strcmp(eventNode->name(), "req") == 0)
         {
-            std::string reqName = std::string(eventNode->first_attribute("name")->value());
-
-            CustomReq *customReq;
-            if (GetCustomReq(reqName) == nullptr)
+            if (eventNode->first_attribute("name"))
             {
-                customReq = new CustomReq();
+                std::string reqName = std::string(eventNode->first_attribute("name")->value());
+
+                CustomReq *customReq;
+                if (GetCustomReq(reqName) == nullptr)
+                {
+                    customReq = new CustomReq();
+                }
+                else
+                {
+                    customReq = GetCustomReq(reqName);
+                    delete customReq;
+                    customReq = new CustomReq();
+                }
+
+                ParseCustomReqNode(eventNode, customReq);
+
+                customReqs[reqName] = customReq;
             }
             else
             {
-                customReq = GetCustomReq(reqName);
-                delete customReq;
-                customReq = new CustomReq();
+                MessageBoxA(GetDesktopWindow(), "Custom req is missing a name!", "Error", MB_ICONERROR | MB_SETFOREGROUND);
+            }
+        }
+
+        if (strcmp(eventNode->name(), "triggeredEventBox") == 0)
+        {
+            TriggeredEventBoxDefinition boxDef;
+            ParseCustomTriggeredEventBoxNode(eventNode, &boxDef);
+            if (eventNode->first_attribute("name"))
+            {
+                TriggeredEventGui::GetInstance()->boxDefs[eventNode->first_attribute("name")->value()] = boxDef;
+            }
+        }
+
+        if (strcmp(eventNode->name(), "timerSounds") == 0)
+        {
+            std::vector<std::pair<float,std::string>> timerSounds;
+            ParseCustomTriggeredEventSounds(eventNode, &timerSounds);
+            if (eventNode->first_attribute("name"))
+            {
+                TriggeredEventDefinition::timerSoundDefs[eventNode->first_attribute("name")->value()] = timerSounds;
+            }
+        }
+
+        if (strcmp(eventNode->name(), "combatTimerPosition") == 0)
+        {
+            for (auto child = eventNode->first_node(); child; child = child->next_sibling())
+            {
+                std::string nodeName(child->name());
+                if (nodeName == "normalPos")
+                {
+                    if (child->first_attribute("x"))
+                    {
+                        TriggeredEventGui::GetInstance()->normalBoxPos.x = boost::lexical_cast<int>(child->first_attribute("x")->value());
+                    }
+                    if (child->first_attribute("y"))
+                    {
+                        TriggeredEventGui::GetInstance()->normalBoxPos.y = boost::lexical_cast<int>(child->first_attribute("y")->value());
+                    }
+                }
+                if (nodeName == "bossPos")
+                {
+                    if (child->first_attribute("x"))
+                    {
+                        TriggeredEventGui::GetInstance()->bossBoxPos.x = boost::lexical_cast<int>(child->first_attribute("x")->value());
+                    }
+                    if (child->first_attribute("y"))
+                    {
+                        TriggeredEventGui::GetInstance()->bossBoxPos.y = boost::lexical_cast<int>(child->first_attribute("y")->value());
+                    }
+                }
+            }
+        }
+
+        if (strcmp(eventNode->name(), "beaconType") == 0)
+        {
+            if (eventNode->first_attribute("name"))
+            {
+                std::string beaconName = std::string(eventNode->first_attribute("name")->value());
+
+                BeaconType *beaconType = new BeaconType();
+                beaconType->eventName = beaconName;
+
+                ParseCustomBeaconType(eventNode, beaconType);
+
+                customBeacons[beaconName] = beaconType;
+            }
+        }
+    }
+
+    // Post-processing
+    for (auto& def : TriggeredEventDefinition::defs)
+    {
+        if (def.loadBox)
+        {
+            rapidxml::xml_document<> doc;
+            doc.parse<0>(def.loadBox->data());
+            auto node = doc.first_node("triggeredEventBox");
+            if (node)
+            {
+                if (node->first_attribute("load"))
+                {
+                    std::string loadName = node->first_attribute("load")->value();
+                    auto it = TriggeredEventGui::GetInstance()->boxDefs.find(loadName);
+                    if (it != TriggeredEventGui::GetInstance()->boxDefs.end())
+                    {
+                        *(def.box) = it->second;
+                    }
+                    else
+                    {
+                        std::string msg = std::string("Failed to load triggeredEventBox ") + loadName;
+                        MessageBoxA(GetDesktopWindow(), msg.c_str(), "Error", MB_ICONERROR | MB_SETFOREGROUND);
+                    }
+                }
+                ParseCustomTriggeredEventBoxNode(node, def.box);
             }
 
-            ParseCustomReqNode(eventNode, customReq);
-
-            customReqs[reqName] = customReq;
+            delete def.loadBox;
+            def.loadBox = nullptr;
         }
-    }
-
-    char* eventText = G_->GetResources()->LoadFile("data/events_hyperspace.xml");
-
-    if (eventText)
-    {
-        G_->GetEventsParser()->AddEvents(*G_->GetEventGenerator(), eventText, "data/events_hyperspace.xml");
-    }
-
-    for (auto i : CustomEventsParser::GetInstance()->eventFiles)
-    {
-        std::string fileName = "data/events_" + i + ".xml";
-
-        char* eventText = G_->GetResources()->LoadFile(fileName);
-
-        if (eventText)
+        if (!def.loadTimerSounds.empty())
         {
-            G_->GetEventsParser()->AddEvents(*G_->GetEventGenerator(), eventText, fileName);
+            auto it = TriggeredEventDefinition::timerSoundDefs.find(def.loadTimerSounds);
+            if (it != TriggeredEventDefinition::timerSoundDefs.end())
+            {
+                for (std::pair<float,std::string>& timerSound : it->second)
+                {
+                    def.timerSounds.push_back(timerSound);
+                }
+                std::sort(def.timerSounds.begin(), def.timerSounds.end(), [](const std::pair<float,std::string> &a, const std::pair<float,std::string> &b) -> bool {return a.first > b.first;});
+            }
+            else
+            {
+                std::string msg = std::string("Failed to load timerSounds ") + def.loadTimerSounds;
+                MessageBoxA(GetDesktopWindow(), msg.c_str(), "Error", MB_ICONERROR | MB_SETFOREGROUND);
+            }
         }
+    }
+
+    for (auto& def : customEvents)
+    {
+        if (!def.second->loadBeacon.empty())
+        {
+            auto it = customBeacons.find(def.second->loadBeacon);
+            if (it != customBeacons.end())
+            {
+                def.second->beacon = it->second;
+            }
+        }
+        def.second->loadBeacon = "";
+    }
+    for (auto& def : customRecursiveEvents)
+    {
+        if (!def.second->loadBeacon.empty())
+        {
+            auto it = customBeacons.find(def.second->loadBeacon);
+            if (it != customBeacons.end())
+            {
+                def.second->beacon = it->second;
+            }
+        }
+        def.second->loadBeacon = "";
     }
 }
 
-void CustomEventsParser::ParseCustomQuestNode(rapidxml::xml_node<char> *node, CustomQuest *quest)
+bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, CustomEvent *customEvent, bool parsingVanilla)
 {
+    bool isDefault = true;
+
+    for (auto child = node->first_node(); child; child = child->next_sibling())
+    {
+        std::string nodeName(child->name());
+        if (nodeName == "checkCargo")
+        {
+            isDefault = false;
+            customEvent->checkCargo = true;
+        }
+
+        if (nodeName == "preventQuest")
+        {
+            isDefault = false;
+            customEvent->preventQuest = true;
+        }
+
+        if (nodeName == "noQuestText")
+        {
+            isDefault = false;
+            customEvent->noQuestText = true;
+        }
+
+        if (nodeName == "quest")
+        {
+            std::string questEventName;
+            if (child->first_attribute("event"))
+            {
+                questEventName = child->first_attribute("event")->value();
+            }
+            else
+            {
+                questEventName = customEvent->eventName;
+            }
+
+            CustomQuest* newCustomQuest = new CustomQuest();
+            bool questIsDefault = ParseCustomQuestNode(child, newCustomQuest);
+            if (questIsDefault)
+            {
+                delete newCustomQuest;
+            }
+            else
+            {
+                customQuests[questEventName] = newCustomQuest;
+            }
+        }
+
+        if (nodeName == "triggeredEvent")
+        {
+            isDefault = false;
+            TriggeredEventDefinition def;
+
+            ParseCustomTriggeredEventNode(child, &def);
+
+            customEvent->triggeredEvents.push_back(TriggeredEventDefinition::PushDef(def));
+        }
+
+        if (nodeName == "clearTriggeredEvent")
+        {
+            if (child->first_attribute("name"))
+            {
+                isDefault = false;
+                customEvent->clearTriggeredEvents.push_back(child->first_attribute("name")->value());
+            }
+            else
+            {
+                MessageBoxA(GetDesktopWindow(), "clearTriggeredEvent is missing a name!", "Error", MB_ICONERROR | MB_SETFOREGROUND);
+            }
+        }
+
+        if (nodeName == "triggeredEventModifier")
+        {
+            if (child->first_attribute("name"))
+            {
+                isDefault = false;
+                TriggeredEventModifier def;
+                if (child->first_attribute("name"))
+                {
+                    def.name = child->first_attribute("name")->value();
+                }
+                if (child->first_attribute("time"))
+                {
+                    def.minTime = boost::lexical_cast<float>(child->first_attribute("time")->value());
+                    def.maxTime = boost::lexical_cast<float>(child->first_attribute("time")->value());
+                }
+                if (child->first_attribute("minTime"))
+                {
+                    def.minTime = boost::lexical_cast<float>(child->first_attribute("minTime")->value());
+                }
+                if (child->first_attribute("maxTime"))
+                {
+                    def.maxTime = boost::lexical_cast<float>(child->first_attribute("maxTime")->value());
+                }
+                if (child->first_attribute("jumps"))
+                {
+                    def.minJumps = boost::lexical_cast<int>(child->first_attribute("jumps")->value());
+                    def.maxJumps = boost::lexical_cast<int>(child->first_attribute("jumps")->value());
+                }
+                if (child->first_attribute("minJumps"))
+                {
+                    def.minJumps = boost::lexical_cast<int>(child->first_attribute("minJumps")->value());
+                }
+                if (child->first_attribute("maxJumps"))
+                {
+                    def.maxJumps = boost::lexical_cast<int>(child->first_attribute("maxJumps")->value());
+                }
+                customEvent->triggeredEventModifiers.push_back(def);
+            }
+            else
+            {
+                MessageBoxA(GetDesktopWindow(), "triggeredEventModifier is missing a name!", "Error", MB_ICONERROR | MB_SETFOREGROUND);
+            }
+        }
+
+        if (nodeName == "preventBossFleet")
+        {
+            isDefault = false;
+            customEvent->preventBossFleet = 1;
+            if (child->first_attribute("forever") && EventsParser::ParseBoolean(child->first_attribute("forever")->value()))
+            {
+                customEvent->preventBossFleet = 2;
+            }
+        }
+
+        if (nodeName == "runFromFleet")
+        {
+            isDefault = false;
+            customEvent->runFromFleet = 2;
+            if (child->first_attribute("closest") && EventsParser::ParseBoolean(child->first_attribute("closest")->value()))
+            {
+                customEvent->runFromFleet = 1;
+            }
+        }
+
+        if (nodeName == "secretSectorWarp" || nodeName == "secretSector")
+        {
+            std::string sec = child->value();
+            if (!sec.empty())
+            {
+                isDefault = false;
+                customEvent->secretSectorWarp = sec;
+            }
+        }
+
+        if (nodeName == "loadEvent")
+        {
+            isDefault = false;
+            customEvent->eventLoad = child->value();
+
+            if (child->first_attribute("seeded"))
+            {
+                customEvent->eventLoadSeeded = EventsParser::ParseBoolean(child->first_attribute("seeded")->value());
+            }
+        }
+
+        if (nodeName == "jumpEvent")
+        {
+            isDefault = false;
+            customEvent->jumpEvent = child->value();
+            if (child->first_attribute("loop"))
+            {
+                customEvent->jumpEventLoop = EventsParser::ParseBoolean(child->first_attribute("loop")->value());
+            }
+        }
+
+        if (nodeName == "clearJumpEvent")
+        {
+            isDefault = false;
+            customEvent->jumpEventClear = true;
+        }
+
+        if (nodeName == "resetFtl")
+        {
+            isDefault = false;
+            customEvent->resetFtl = true;
+        }
+
+        if (nodeName == "instantEscape")
+        {
+            isDefault = false;
+            customEvent->instantEscape = true;
+        }
+
+        if (nodeName == "escape")
+        {
+            isDefault = false;
+            customEvent->escape = true;
+        }
+
+        if (nodeName == "surrender")
+        {
+            isDefault = false;
+            customEvent->surrender = true;
+        }
+
+        if (nodeName == "goToFlagship")
+        {
+            isDefault = false;
+            customEvent->goToFlagship = true;
+            if (child->first_attribute("atBase"))
+            {
+                customEvent->goToFlagshipBase = EventsParser::ParseBoolean(child->first_attribute("atBase")->value());
+            }
+            if (child->first_attribute("allFleet"))
+            {
+                customEvent->goToFlagshipFleet = EventsParser::ParseBoolean(child->first_attribute("allFleet")->value());
+            }
+        }
+
+        if (nodeName == "transformRace")
+        {
+            isDefault = false;
+            customEvent->transformRace.second = child->value();
+
+            if (child->first_attribute("class"))
+            {
+                customEvent->transformRace.first = child->first_attribute("class")->value();
+            }
+        }
+
+        if (nodeName == "beaconType")
+        {
+            isDefault = false;
+
+            if (child->first_attribute("load"))
+            {
+                customEvent->loadBeacon = child->first_attribute("load")->value();
+            }
+            else
+            {
+                BeaconType* beaconType = new BeaconType();
+                beaconType->eventName = customEvent->eventName;
+
+                ParseCustomBeaconType(child, beaconType);
+
+                customEvent->beacon = beaconType;
+            }
+        }
+        if (nodeName == "removeHazards")
+        {
+            isDefault = false;
+            customEvent->removeHazards = true;
+        }
+        if (nodeName == "removeNebula")
+        {
+            isDefault = false;
+            customEvent->removeNebula = true;
+        }
+        if (nodeName == "hiddenAug")
+        {
+            isDefault = false;
+            customEvent->hiddenAugs.push_back(child->value());
+        }
+        if (nodeName == "win")
+        {
+            isDefault = false;
+            customEvent->gameOver.enabled = true;
+            customEvent->gameOver.victory = true;
+            if (child->first_attribute("text"))
+            {
+                customEvent->gameOver.text = child->first_attribute("text")->value();
+            }
+            if (child->first_attribute("creditsText"))
+            {
+                customEvent->gameOver.creditsText = child->first_attribute("creditsText")->value();
+            }
+            if (child->first_attribute("creditsBackground"))
+            {
+                customEvent->gameOver.creditsBackground = child->first_attribute("creditsBackground")->value();
+            }
+        }
+        if (nodeName == "lose")
+        {
+            isDefault = false;
+            customEvent->gameOver.enabled = true;
+            if (child->first_attribute("text"))
+            {
+                customEvent->gameOver.text = child->first_attribute("text")->value();
+            }
+        }
+        if (nodeName == "playSound")
+        {
+            isDefault = false;
+            customEvent->playSound = child->value();
+        }
+        if (nodeName == "changeBackground")
+        {
+            isDefault = false;
+            customEvent->changeBackground = child->value();
+        }
+        if (nodeName == "unlockCustomShip" || (!parsingVanilla && nodeName == "unlockShip"))
+        {
+            std::string shipName = child->value();
+            if (!shipName.empty())
+            {
+                isDefault = false;
+                customEvent->unlockShip = shipName;
+
+                if (child->first_attribute("silent"))
+                {
+                    customEvent->unlockShipSilent = EventsParser::ParseBoolean(child->first_attribute("silent")->value());
+                }
+
+                if (child->first_attribute("shipReq"))
+                {
+                    customEvent->unlockShipReq = child->first_attribute("shipReq")->value();
+                }
+            }
+        }
+        if (nodeName == "disableScrapScore")
+        {
+            isDefault = false;
+            customEvent->disableScrapScore = true;
+        }
+        if (nodeName == "removeItem")
+        {
+            isDefault = false;
+            customEvent->removeItems.push_back(child->value());
+        }
+        if (nodeName == "customStore" || nodeName == "store")
+        {
+            std::string storeName = child->value();
+            if (!storeName.empty())
+            {
+                isDefault = false;
+                customEvent->customStore = storeName;
+            }
+        }
+        if (nodeName == "customFleet")
+        {
+            isDefault = false;
+            bool right = false;
+            bool firing = false;
+            bool autoDarkening = false;
+
+            if (child->first_attribute("right"))
+            {
+                right = EventsParser::ParseBoolean(child->first_attribute("right")->value());
+            }
+            if (child->first_attribute("firing"))
+            {
+                firing = EventsParser::ParseBoolean(child->first_attribute("firing")->value());
+            }
+            if (child->first_attribute("autoDarkening"))
+            {
+                autoDarkening = EventsParser::ParseBoolean(child->first_attribute("autoDarkening")->value());
+            }
+
+            if (!right)
+            {
+                customEvent->leftFleet.fleetDefName = child->value();
+                customEvent->leftFleet.firing = firing;
+                customEvent->leftFleet.autoDarkening = autoDarkening;
+            }
+            else
+            {
+                customEvent->rightFleet.fleetDefName = child->value();
+                customEvent->rightFleet.firing = firing;
+                customEvent->rightFleet.autoDarkening = autoDarkening;
+            }
+        }
+        if (nodeName == "clearCustomFleet")
+        {
+            isDefault = false;
+            customEvent->clearCustomFleet = true;
+        }
+        if (nodeName == "enemyDamage")
+        {
+            isDefault = false;
+            EventDamage eventDamage{-1,0,0};
+            if (child->first_attribute("amount"))
+            {
+                eventDamage.amount = boost::lexical_cast<int>(child->first_attribute("amount")->value());
+            }
+            if (child->first_attribute("system"))
+            {
+                eventDamage.system = ShipSystem::NameToSystemId(child->first_attribute("system")->value());
+            }
+            if (child->first_attribute("effect"))
+            {
+                std::string damageEffect = child->first_attribute("effect")->value();
+                if (damageEffect == "fire")
+                {
+                    eventDamage.effect = 1;
+                }
+                if (damageEffect == "breach")
+                {
+                    eventDamage.effect = 2;
+                }
+                if (damageEffect == "all")
+                {
+                    eventDamage.effect = 3;
+                }
+                if (damageEffect == "random")
+                {
+                    eventDamage.effect = 4;
+                }
+            }
+            customEvent->enemyDamage.push_back(eventDamage);
+        }
+    }
+
+    return isDefault;
+}
+
+bool CustomEventsParser::ParseCustomShipEvent(rapidxml::xml_node<char> *node, CustomShipEvent *customEvent)
+{
+    bool isDefault = true;
+
+    for (auto child = node->first_node(); child; child = child->next_sibling())
+    {
+        std::string nodeName(child->name());
+
+        if (nodeName == "triggeredEvent")
+        {
+            isDefault = false;
+
+            TriggeredEventDefinition def;
+
+            ParseCustomTriggeredEventNode(child, &def);
+
+            customEvent->triggeredEvents.push_back(TriggeredEventDefinition::PushDef(def));
+        }
+
+        if (nodeName == "clearTriggeredEvent")
+        {
+            isDefault = false;
+            customEvent->clearTriggeredEvents.push_back(child->first_attribute("name")->value());
+        }
+
+        if (nodeName == "triggeredEventModifier")
+        {
+            isDefault = false;
+            TriggeredEventModifier def;
+            if (child->first_attribute("name"))
+            {
+                def.name = child->first_attribute("name")->value();
+            }
+            if (child->first_attribute("time"))
+            {
+                def.minTime = boost::lexical_cast<float>(child->first_attribute("time")->value());
+                def.maxTime = boost::lexical_cast<float>(child->first_attribute("time")->value());
+            }
+            if (child->first_attribute("minTime"))
+            {
+                def.minTime = boost::lexical_cast<float>(child->first_attribute("minTime")->value());
+            }
+            if (child->first_attribute("maxTime"))
+            {
+                def.maxTime = boost::lexical_cast<float>(child->first_attribute("maxTime")->value());
+            }
+            if (child->first_attribute("jumps"))
+            {
+                def.minJumps = boost::lexical_cast<int>(child->first_attribute("jumps")->value());
+                def.maxJumps = boost::lexical_cast<int>(child->first_attribute("jumps")->value());
+            }
+            if (child->first_attribute("minJumps"))
+            {
+                def.minJumps = boost::lexical_cast<int>(child->first_attribute("minJumps")->value());
+            }
+            if (child->first_attribute("maxJumps"))
+            {
+                def.maxJumps = boost::lexical_cast<int>(child->first_attribute("maxJumps")->value());
+            }
+            customEvent->triggeredEventModifiers.push_back(def);
+        }
+
+        if (nodeName == "jumpEvent")
+        {
+            isDefault = false;
+            customEvent->jumpEvent = child->value();
+            if (child->first_attribute("loop"))
+            {
+                customEvent->jumpEventLoop = EventsParser::ParseBoolean(child->first_attribute("loop")->value());
+            }
+        }
+
+        if (nodeName == "clearJumpEvent")
+        {
+            isDefault = false;
+            customEvent->jumpEventClear = true;
+        }
+    }
+
+    return isDefault;
+}
+
+bool CustomEventsParser::ParseCustomQuestNode(rapidxml::xml_node<char> *node, CustomQuest *quest)
+{
+    bool isDefault = true;
+
     for (auto child = node->first_node(); child; child = child->next_sibling())
     {
         std::string nodeName(child->name());
         if (nodeName == "nonNebulaBeacon")
         {
+            isDefault = false;
             quest->nonNebulaBeacon = EventsParser::ParseBoolean(child->value());
         }
 
         if (nodeName == "nebulaBeacon")
         {
+            isDefault = false;
             quest->nebulaBeacon = EventsParser::ParseBoolean(child->value());
         }
 
         if (nodeName == "createNebula")
         {
+            isDefault = false;
             quest->createNebula = EventsParser::ParseBoolean(child->value());
         }
 
         if (nodeName == "nebulaEvent")
         {
+            isDefault = false;
             quest->nebulaEvent = child->value();
         }
 
         if (nodeName == "currentSector")
         {
+            isDefault = false;
             quest->currentSector = EventsParser::ParseBoolean(child->value());
         }
 
         if (nodeName == "nextSector")
         {
+            isDefault = false;
             quest->nextSector = EventsParser::ParseBoolean(child->value());
         }
 
         if (nodeName == "aggressive")
         {
+            isDefault = false;
             quest->aggressive = boost::lexical_cast<int>(child->value());
         }
 
         if (nodeName == "sectorEight")
         {
+            isDefault = false;
             quest->sectorEight = EventsParser::ParseBoolean(child->value());
         }
 
         if (nodeName == "lastStand")
         {
+            isDefault = false;
             quest->lastStand = EventsParser::ParseBoolean(child->value());
         }
     }
+    return isDefault;
+}
+
+void CustomEventsParser::ParseCustomBeaconType(rapidxml::xml_node<char> *node, BeaconType *beaconType)
+{
+    if (node->first_attribute("id"))
+    {
+        beaconType->beaconText.data = node->first_attribute("id")->value();
+        beaconType->beaconText.isLiteral = false;
+    }
+    else if (node->first_attribute("text"))
+    {
+        beaconType->beaconText.data = node->first_attribute("text")->value();
+        beaconType->beaconText.isLiteral = true;
+    }
+    if (node->first_attribute("req"))
+    {
+        beaconType->equipmentReq = node->first_attribute("req")->value();
+    }
+
+    if (node->first_attribute("global"))
+    {
+        beaconType->global = EventsParser::ParseBoolean(node->first_attribute("global")->value());
+    }
+
+    GL_Color color = GL_Color(255.f, 255.f, 255.f, 1.f);
+
+    for (auto child = node->first_node(); child; child = child->next_sibling())
+    {
+        if (strcmp(child->name(), "unvisitedTooltip") == 0)
+        {
+            if (child->first_attribute("id"))
+            {
+                beaconType->unvisitedTooltip.data = child->first_attribute("id")->value();
+                beaconType->unvisitedTooltip.isLiteral = false;
+            }
+            else
+            {
+                beaconType->unvisitedTooltip.data = child->value();
+                beaconType->unvisitedTooltip.isLiteral = true;
+            }
+        }
+
+        if (strcmp(child->name(), "visitedTooltip") == 0)
+        {
+            if (child->first_attribute("id"))
+            {
+                beaconType->visitedTooltip.data = child->first_attribute("id")->value();
+                beaconType->visitedTooltip.isLiteral = false;
+            }
+            else
+            {
+                beaconType->visitedTooltip.data = child->value();
+                beaconType->visitedTooltip.isLiteral = true;
+            }
+        }
+
+        if (strcmp(child->name(), "undiscoveredTooltip") == 0)
+        {
+            if (child->first_attribute("id"))
+            {
+                beaconType->undiscoveredTooltip.data = child->first_attribute("id")->value();
+                beaconType->undiscoveredTooltip.isLiteral = false;
+            }
+            else
+            {
+                beaconType->undiscoveredTooltip.data = child->value();
+                beaconType->undiscoveredTooltip.isLiteral = true;
+            }
+        }
+
+        if (strcmp(child->name(), "color") == 0)
+        {
+            ParseColorNode(color, child);
+        }
+    }
+
+    beaconType->color = color;
 }
 
 void CustomEventsParser::ParseCustomReqNode(rapidxml::xml_node<char> *node, CustomReq *req)
@@ -560,22 +1118,40 @@ void CustomEventsParser::ParseCustomReqNode(rapidxml::xml_node<char> *node, Cust
 
 CustomEvent *CustomEventsParser::GetCustomEvent(const std::string& event)
 {
-    std::string baseEvent = CustomEventsParser::GetBaseEventName(event);
-    bool isParent = baseEvent == event;
-
-    auto it = customEvents.find(baseEvent);
-
+    auto it = customEvents.find(event);
     if (it != customEvents.end())
     {
-        CustomEvent* customEvent = customEvents[baseEvent];
-
-        if (!customEvent->recursive && !isParent) return nullptr;
-        else
-        {
-            return customEvent;
-        }
+        return it->second;
     }
 
+    std::string baseEvent = CustomEventsParser::GetBaseEventName(event);
+
+    it = customRecursiveEvents.find(baseEvent);
+    if (it != customRecursiveEvents.end())
+    {
+        return it->second;
+    }
+
+    return nullptr;
+}
+
+CustomShipEvent *CustomEventsParser::GetCustomShipEvent(const std::string& event)
+{
+    auto it = customShipEvents.find(event);
+
+    if (it != customShipEvents.end())
+    {
+        CustomShipEvent* customEvent = customShipEvents[event];
+        return customEvent;
+    }
+
+    return nullptr;
+}
+
+CustomQuest *CustomEventsParser::GetCustomQuest(const std::string& event)
+{
+    auto it = customQuests.find(event);
+    if (it != customQuests.end()) return it->second;
     return nullptr;
 }
 
@@ -602,6 +1178,84 @@ CustomReq *CustomEventsParser::GetCustomReq(const std::string& blueprint)
     }
 
     return nullptr;
+}
+
+void CustomEventsParser::ParseVanillaEventNode(rapidxml::xml_node<char> *node, const std::string &eventName, const std::string &baseEventName)
+{
+    CustomEvent* customEvent;
+
+    auto it = customEvents.find(eventName);
+    if (it == customEvents.end())
+    {
+        customEvent = new CustomEvent();
+        customEvent->eventName = eventName;
+        customEvent->recursive = false;
+        bool isDefault = ParseCustomEvent(node, customEvent, true);
+        if (isDefault)
+        {
+            delete customEvent;
+        }
+        else
+        {
+            customEvents[eventName] = customEvent;
+            vCustomEvents[baseEventName].push_back(customEvent);
+        }
+    }
+    else
+    {
+        customEvent = it->second;
+        ParseCustomEvent(node, customEvent, true);
+    }
+}
+
+void CustomEventsParser::ParseVanillaShipEventNode(rapidxml::xml_node<char> *node, const std::string &eventName)
+{
+    CustomShipEvent* customEvent;
+
+    auto it = customShipEvents.find(eventName);
+    if (it == customShipEvents.end())
+    {
+        customEvent = new CustomShipEvent();
+        customEvent->eventName = eventName;
+        bool isDefault = ParseCustomShipEvent(node, customEvent);
+        if (isDefault)
+        {
+            delete customEvent;
+        }
+        else
+        {
+            customShipEvents[eventName] = customEvent;
+        }
+    }
+    else
+    {
+        customEvent = it->second;
+        ParseCustomShipEvent(node, customEvent);
+    }
+}
+
+HOOK_STATIC(EventsParser, ProcessEvent, (std::string &strRef, EventsParser *eventsParser, rapidxml::xml_node<char> *node, const std::string &eventName) -> void)
+{
+    super(strRef, eventsParser, node, eventName);
+    if (!node->first_attribute("load"))
+    {
+        CustomEventsParser::GetInstance()->ParseVanillaEventNode(node, strRef, eventName);
+    }
+}
+
+HOOK_STATIC(EventsParser, ProcessEventList, (std::vector<std::string> &vecRef, EventsParser *eventsParser, rapidxml::xml_node<char> *node, const std::string &listName) -> void)
+{
+    super(vecRef, eventsParser, node, listName);
+    CustomEventsParser::GetInstance()->ParseVanillaEventNode(node, listName, listName);
+}
+
+HOOK_STATIC(EventsParser, ProcessShipEvent, (ShipTemplate &shipEvent, EventsParser *eventsParser, rapidxml::xml_node<char> *node) -> void)
+{
+    super(shipEvent, eventsParser, node);
+    if (node->first_attribute("name"))
+    {
+        CustomEventsParser::GetInstance()->ParseVanillaShipEventNode(node, shipEvent.shipEventName);
+    }
 }
 
 //=====================================================================================
@@ -918,11 +1572,8 @@ HOOK_METHOD(StarMap, AddQuest, (const std::string& questEvent, bool force) -> bo
 
     // Get the custom quest options (default and event-specific).
     CustomQuest quest = *(CustomEventsParser::GetInstance()->defaultQuest);
-    CustomEvent *questCustomEvent = CustomEventsParser::GetInstance()->GetCustomEvent(questEvent);
-    if (questCustomEvent && questCustomEvent->customQuest)
-    {
-        quest.add(questCustomEvent->customQuest);
-    }
+    CustomQuest *eventCustomQuest = CustomEventsParser::GetInstance()->GetCustomQuest(questEvent);
+    if (eventCustomQuest) quest.add(eventCustomQuest);
 
     // Set dynamic defaults.
     if (!quest.createNebula.enabled)
@@ -1117,7 +1768,7 @@ HOOK_METHOD(StarMap, RenderLabels, () -> void)
 
             CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(i->event->eventName);
 
-            if (customEvent && customEvent->hasCustomBeacon && (i->questLoc || i->beacon))
+            if (customEvent && customEvent->beacon && (i->questLoc || i->beacon))
             {
                 locValues[i][0] = i->questLoc;
                 locValues[i][1] = i->beacon;
@@ -1126,7 +1777,7 @@ HOOK_METHOD(StarMap, RenderLabels, () -> void)
                 i->beacon = false;
             }
 
-            if (customEvent && customEvent->hasCustomBeacon && (bMapRevealed || customEvent->beacon->global || i->known))
+            if (customEvent && customEvent->beacon && (bMapRevealed || customEvent->beacon->global || i->known))
             {
                 BeaconType *beaconType = customEvent->beacon;
 
@@ -1420,16 +2071,110 @@ HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *loc) -> void)
         repl = G_->GetTextLibrary()->GetText("no_time_sector");
         loc->text.data = boost::algorithm::replace_first_copy(loc->text.data, str, repl);
     }
+
     super(loc);
+
+    if (customEvent)
+    {
+        if (!customEvent->transformRace.second.empty() && G_->GetCrewFactory()->playerCrew > 0)
+        {
+            if (lastSelectedCrewSeed == -1) lastSelectedCrewSeed = random32();
+
+            CrewBlueprint crewBlue;
+            ShipManager::SelectRandomCrew(crewBlue, playerShip->shipManager, lastSelectedCrewSeed, customEvent->transformRace.first);
+
+            CrewBlueprint* newBlueprint = G_->GetBlueprints()->GetCrewBlueprint(customEvent->transformRace.second);
+
+            crewBlue.powers = newBlueprint->powers;
+            crewBlue.name = newBlueprint->name;
+            crewBlue.desc = newBlueprint->desc;
+            crewBlue.type = newBlueprint->type;
+
+            if (newBlueprint->colorLayers.size() < crewBlue.colorLayers.size()) crewBlue.colorLayers.resize(newBlueprint->colorLayers.size());
+            if (newBlueprint->colorChoices.size() < crewBlue.colorChoices.size()) crewBlue.colorChoices.resize(newBlueprint->colorChoices.size());
+
+            delete newBlueprint;
+
+            commandGui->choiceBox.rewards.crew = 1;
+            commandGui->choiceBox.rewards.crewType = crewBlue.name;
+            commandGui->choiceBox.rewards.crewBlue = crewBlue;
+        }
+    }
 }
 
 static std::string jumpEvent = "";
+static bool jumpEventLoop = false;
+
+void EventDamageEnemy(EventDamage eventDamage)
+{
+    ShipManager* enemyShip = G_->GetShipManager(1);
+    if (enemyShip != nullptr)
+    {
+        if (enemyShip->bJumping) return;
+        enemyShip->DamageHull(eventDamage.amount,true);
+        if (eventDamage.system == -1) return;
+        int room = -1;
+        if (eventDamage.system == 18)
+        {
+            ShipSystem* randomSystem = enemyShip->vSystemList[random32() % enemyShip->vSystemList.size()];
+            room = randomSystem->GetRoomId();
+        }
+        else if (eventDamage.system == 19)
+        {
+            room = random32() % ShipGraph::GetShipInfo(1)->RoomCount();
+        }
+        else
+        {
+            room = enemyShip->GetSystemRoom(eventDamage.system);
+        }
+        if (room == -1) return;
+        enemyShip->DamageSystem(room, DamageParameter{0, 0, 0, 0, 0, 0, eventDamage.amount, 0, false, -1, -1, false, 0});
+        if (eventDamage.effect == 4)
+        {
+            int effect = random32();
+            if (effect&1)
+            {
+                enemyShip->StartFire(room);
+            }
+            else
+            {
+                enemyShip->ship.BreachRandomHull(room);
+            }
+        }
+        else
+        {
+            if (eventDamage.effect&1) enemyShip->StartFire(room);
+            if (eventDamage.effect&2) enemyShip->ship.BreachRandomHull(room);
+        }
+    }
+}
 
 HOOK_METHOD(WorldManager, CreateLocation, (Location *location) -> void)
 {
+    bool needsBackground = location->space.tex == nullptr && location->planet.tex == nullptr;
+
     super(location);
 
     if (loadingGame) return;
+
+    // Load correct federation base background if the boss got there first
+    if (needsBackground && location->boss && location->beacon && location->event != nullptr)
+    {
+        ImageDesc* image;
+
+        image = space.SwitchBackground(location->event->spaceImage);
+        location->space = *image;
+        delete image;
+
+        image = space.SwitchPlanet(location->event->planetImage);
+        location->planet = *image;
+        delete image;
+
+        location->spaceImage = location->event->spaceImage;
+        location->planetImage = location->event->planetImage;
+    }
+
+    if (location->visited > 1 && !location->boss && !location->dangerZone) return;
 
     auto loc = location->event;
     if (!loc) return;
@@ -1437,9 +2182,42 @@ HOOK_METHOD(WorldManager, CreateLocation, (Location *location) -> void)
     CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(loc->eventName);
     if (customEvent)
     {
-        if (!customEvent->jumpEvent.empty())
+        if (!customEvent->changeBackground.empty())
         {
-            jumpEvent = customEvent->jumpEvent;
+            space.currentBack = G_->GetResources()->GetImageId(G_->GetEventGenerator()->GetImageFromList(customEvent->changeBackground));
+        }
+
+        for (EventDamage& eventDamage: customEvent->enemyDamage)
+        {
+            EventDamageEnemy(eventDamage);
+        }
+
+        if (customEvent->instantEscape)
+        {
+            CompleteShip* enemyShip = G_->GetWorld()->playerShip->enemyShip;
+            if (enemyShip != nullptr && !enemyShip->shipManager->bDestroyed)
+            {
+                enemyShip->shipAI.escaping = true;
+                enemyShip->shipManager->JumpLeave();
+            }
+        }
+
+        if (customEvent->escape)
+        {
+            CompleteShip* enemyShip = G_->GetWorld()->playerShip->enemyShip;
+            if (enemyShip != nullptr && !enemyShip->shipManager->bDestroyed)
+            {
+                enemyShip->shipAI.escaping = true;
+            }
+        }
+
+        if (customEvent->surrender)
+        {
+            CompleteShip* enemyShip = G_->GetWorld()->playerShip->enemyShip;
+            if (enemyShip != nullptr && !enemyShip->shipManager->bDestroyed)
+            {
+                enemyShip->shipAI.surrendered = true;
+            }
         }
 
         if (!customEvent->eventLoad.empty())
@@ -1455,16 +2233,17 @@ HOOK_METHOD(WorldManager, CreateLocation, (Location *location) -> void)
 
 HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
 {
+    CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(loc->eventName);
+
+    if (!loadingGame)
+    {
+        lastSelectedCrewSeed = -1;
+    }
+
     super(loc);
 
-    CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(loc->eventName);
     if (customEvent)
     {
-        if (!customEvent->jumpEvent.empty())
-        {
-            jumpEvent = customEvent->jumpEvent;
-        }
-
         if (customEvent->removeHazards)
         {
             space.asteroidGenerator.bRunning = false;
@@ -1486,9 +2265,47 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
             space.nebulaClouds.clear();
         }
 
+        if (!customEvent->changeBackground.empty())
+        {
+            space.currentBack = G_->GetResources()->GetImageId(G_->GetEventGenerator()->GetImageFromList(customEvent->changeBackground));
+        }
+
         if (customEvent->resetFtl)
         {
             G_->GetWorld()->playerShip->shipManager->jump_timer.first = 0.f;
+        }
+
+        if (customEvent->instantEscape)
+        {
+            CompleteShip* enemyShip = G_->GetWorld()->playerShip->enemyShip;
+            if (enemyShip != nullptr && !enemyShip->shipManager->bDestroyed)
+            {
+                enemyShip->shipAI.escaping = true;
+                enemyShip->shipManager->JumpLeave();
+            }
+        }
+
+        if (customEvent->escape)
+        {
+            CompleteShip* enemyShip = G_->GetWorld()->playerShip->enemyShip;
+            if (enemyShip != nullptr && !enemyShip->shipManager->bDestroyed)
+            {
+                enemyShip->shipAI.escaping = true;
+            }
+        }
+
+        if (customEvent->surrender)
+        {
+            CompleteShip* enemyShip = G_->GetWorld()->playerShip->enemyShip;
+            if (enemyShip != nullptr && !enemyShip->shipManager->bDestroyed)
+            {
+                enemyShip->shipAI.surrendered = true;
+            }
+        }
+
+        for (EventDamage& eventDamage: customEvent->enemyDamage)
+        {
+            EventDamageEnemy(eventDamage);
         }
 
         if (!customEvent->eventLoad.empty())
@@ -1500,6 +2317,48 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
     }
 
     starMap.currentLoc->event->eventName = loc->eventName;
+}
+
+HOOK_METHOD(WorldManager, CreateShip, (ShipEvent* shipEvent, bool boss) -> CompleteShip*)
+{
+
+    auto ret = super(shipEvent, boss);
+
+    if (loadingGame) return ret;
+
+    CustomShipEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomShipEvent(shipEvent->name);
+
+    if (customEvent)
+    {
+        if (customEvent->jumpEventClear)
+        {
+            jumpEvent = "";
+            jumpEventLoop = false;
+        }
+
+        if (!customEvent->jumpEvent.empty())
+        {
+            jumpEvent = customEvent->jumpEvent;
+            jumpEventLoop = customEvent->jumpEventLoop;
+        }
+
+        for (auto& triggeredEvent: customEvent->clearTriggeredEvents)
+        {
+            TriggeredEvent::DestroyEvent(triggeredEvent);
+        }
+
+        for (auto& triggeredEvent: customEvent->triggeredEvents)
+        {
+            TriggeredEvent::NewEvent(&TriggeredEventDefinition::defs.at(triggeredEvent));
+        }
+
+        for (auto& triggeredEvent: customEvent->triggeredEventModifiers)
+        {
+            triggeredEvent.ApplyModifier();
+        }
+    }
+
+    return ret;
 }
 
 HOOK_STATIC(StarMap, GetLocationText, (std::string& strRef, StarMap *starMap, const Location* loc) -> std::string&)
@@ -1754,14 +2613,58 @@ HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEve
             G_->GetSoundControl()->PlaySoundMix(customEvent->playSound, -1.f, false);
         }
 
-        if (!customEvent->changeBackground.empty())
+        if (customEvent->jumpEventClear)
         {
-            space.currentBack = G_->GetResources()->GetImageId(G_->GetEventGenerator()->GetImageFromList(customEvent->changeBackground));
+            jumpEvent = "";
+            jumpEventLoop = false;
+        }
+
+        if (!customEvent->jumpEvent.empty())
+        {
+            jumpEvent = customEvent->jumpEvent;
+            jumpEventLoop = customEvent->jumpEventLoop;
+        }
+
+        if (customEvent->goToFlagship)
+        {
+            GoToFlagship(customEvent->goToFlagshipBase, customEvent->goToFlagshipFleet);
+        }
+
+        if (!customEvent->transformRace.second.empty() && G_->GetCrewFactory()->playerCrew > 0)
+        {
+            if (lastSelectedCrewSeed == -1) lastSelectedCrewSeed = random32();
+
+            CrewBlueprint crewBlue;
+            ShipManager::SelectRandomCrew(crewBlue, playerShip->shipManager, lastSelectedCrewSeed, customEvent->transformRace.first);
+
+            // Select the race now for consistent seeding with the event box generation.
+            CrewBlueprint* newBlueprint = G_->GetBlueprints()->GetCrewBlueprint(customEvent->transformRace.second);
+            std::string newSpecies = newBlueprint->name;
+            delete newBlueprint;
+
+            CrewMember* crew = playerShip->shipManager->FindCrew(&crewBlue);
+            if (crew != nullptr)
+            {
+                auto ex = CM_EX(crew);
+                ex->TransformRace(newSpecies);
+            }
+        }
+
+        for (auto& triggeredEvent: customEvent->clearTriggeredEvents)
+        {
+            TriggeredEvent::DestroyEvent(triggeredEvent);
+        }
+
+        for (auto& triggeredEvent: customEvent->triggeredEvents)
+        {
+            TriggeredEvent::NewEvent(&TriggeredEventDefinition::defs.at(triggeredEvent));
+        }
+
+        for (auto& triggeredEvent: customEvent->triggeredEventModifiers)
+        {
+            triggeredEvent.ApplyModifier();
         }
     }
-
-
-
 
     return ret;
 }
@@ -1826,18 +2729,21 @@ HOOK_METHOD(CreditScreen, OnRender, () -> void)
 HOOK_METHOD(StarMap, NewGame, (bool unk) -> Location*)
 {
     jumpEvent = "";
+    jumpEventLoop = false;
     return super(unk);
 }
 
 HOOK_METHOD(StarMap, LoadGame, (int fh) -> Location*)
 {
     jumpEvent = FileHelper::readString(fh);
+    jumpEventLoop = FileHelper::readInteger(fh);
     return super(fh);
 }
 
 HOOK_METHOD(StarMap, SaveGame, (int file) -> void)
 {
     FileHelper::writeString(file, jumpEvent);
+    FileHelper::writeInt(file, jumpEventLoop);
     return super(file);
 }
 
@@ -1847,7 +2753,7 @@ HOOK_METHOD(StarMap, Open, () -> void)
     {
         auto oldName = currentLoc->event->eventName;
         LocationEvent* event = G_->GetEventGenerator()->GetBaseEvent(jumpEvent, currentSector->level, true, -1);
-        jumpEvent = "";
+        if (!jumpEventLoop) jumpEvent = "";
         G_->GetWorld()->UpdateLocation(event);
         currentLoc->event->eventName = oldName;
         return;
@@ -1998,11 +2904,12 @@ HOOK_METHOD(StarMap, TurnIntoFleetLocation, (Location *loc) -> void)
     super(loc);
 }
 
-HOOK_METHOD(ShipManager, SelectRandomCrew, (CrewBlueprint &bp, ShipManager *ship, int seed, const std::string &unk) -> CrewBlueprint*)
+HOOK_STATIC_PRIORITY(ShipManager, SelectRandomCrew, 100, (CrewBlueprint &bp, ShipManager *ship, int seed, const std::string &unk) -> CrewBlueprint*)
 {
     std::string species = unk;
+    super(bp, ship, seed, species); // species is not const?!
 
-    super(bp, ship, seed, unk);
+    species = unk;
 
     auto blueprintList = std::vector<std::string>();
     auto blueprintList2 = std::vector<std::string>();
@@ -2049,7 +2956,6 @@ HOOK_METHOD(ShipManager, SelectRandomCrew, (CrewBlueprint &bp, ShipManager *ship
     return &bp;
 }
 
-
 HOOK_STATIC(ShipManager, SelectRandomCrew, (CrewBlueprint &bp, ShipManager *ship, int seed, const std::string &unk) -> CrewBlueprint*)
 {
     if (ship->CountCrew(false) == 0 && ship->bAutomated)
@@ -2062,4 +2968,104 @@ HOOK_STATIC(ShipManager, SelectRandomCrew, (CrewBlueprint &bp, ShipManager *ship
     {
         super(bp, ship, seed, unk);
     }
+}
+
+HOOK_METHOD_PRIORITY(ShipManager, FindCrew, 9999, (const CrewBlueprint* bp) -> CrewMember*)
+{
+    std::vector<CrewMember*> crewList = std::vector<CrewMember*>();
+    G_->GetCrewFactory()->GetCrewList(&crewList, 0, false);
+
+    for (CrewMember* crew: crewList)
+    {
+        if (crew->blueprint.crewNameLong.isLiteral != bp->crewNameLong.isLiteral) continue;
+        if (crew->blueprint.crewNameLong.data != bp->crewNameLong.data) continue;
+        if (crew->blueprint.colorChoices.size() != bp->colorChoices.size()) continue;
+        for (unsigned int i=0; i<bp->colorChoices.size(); ++i)
+        {
+            if (crew->blueprint.colorChoices[i] != bp->colorChoices[i]) goto ShipManager__FindCrew__continue_crewList_loop;
+        }
+        if (crew->blueprint.male != bp->male) continue;
+        if (crew->blueprint.name != bp->name) continue;
+        return crew;
+        ShipManager__FindCrew__continue_crewList_loop:
+        ;
+    }
+
+    return nullptr;
+}
+
+HOOK_METHOD(ShipObject, HasEquipment, (const std::string& name) -> int)
+{
+    if (name == "difficulty")
+    {
+        return *G_->difficulty;
+    }
+
+    return super(name);
+}
+
+void GoToFlagship(bool atBase, bool allFleet)
+{
+    StarMap& starMap = G_->GetWorld()->starMap;
+
+    if (!starMap.bossLevel) return;
+
+    // Advance Flagship to base.
+    if (atBase && !starMap.boss_path[starMap.bossLoc]->beacon)
+    {
+        Location* base = nullptr;
+        unsigned int bossLoc;
+        for (bossLoc=0; bossLoc<starMap.boss_path.size(); ++bossLoc)
+        {
+            if (starMap.boss_path[bossLoc]->beacon)
+            {
+                base = starMap.boss_path[bossLoc];
+                break;
+            }
+        }
+
+        if (base != nullptr)
+        {
+            starMap.boss_path[starMap.bossLoc]->boss = false;
+
+            starMap.bossJumping = false;
+            starMap.arrivedAtBase = 3;
+            starMap.bossLoc = bossLoc;
+            base->boss = true;
+            LocationEvent* baseEvent = base->event;
+            if (baseEvent != nullptr)
+            {
+                baseEvent->pStore = nullptr;
+                baseEvent->store = false;
+                baseEvent->repair = false;
+                baseEvent->distressBeacon = false;
+            }
+            starMap.bossPosition = base->loc;
+        }
+    }
+
+    // Fleet overtakes entire sector (except base).
+    if (allFleet)
+    {
+        for (Location* loc : starMap.locations)
+        {
+            if (!loc->beacon)
+            {
+                starMap.TurnIntoFleetLocation(loc);
+            }
+        }
+    }
+
+    Location* dest = starMap.boss_path[starMap.bossLoc];
+    if (starMap.bossJumping && starMap.bossLoc+1 < starMap.boss_path.size())
+    {
+        dest = starMap.boss_path[starMap.bossLoc + 1];
+    }
+
+    CommandGui* commandGui = G_->GetWorld()->commandGui;
+
+    starMap.potentialLoc = dest;
+    starMap.readyToTravel = true;
+    starMap.outOfFuel = false;
+    commandGui->waitLocation = false;
 }

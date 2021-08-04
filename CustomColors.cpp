@@ -5,7 +5,7 @@ GL_Color g_defaultTextButtonColors[4] =
 {
     GL_Color(164.f / 255.f, 171.f / 255.f, 160.f / 255.f, 1.f), // inactive
     GL_Color(235.f / 255.f, 245.f / 255.f, 229.f / 255.f, 1.f), // active
-    GL_Color(235.f / 255.f, 230.f / 255.f, 94.f / 255.f, 1.f),  // selected
+    GL_Color(255.f / 255.f, 230.f / 255.f, 94.f / 255.f, 1.f),  // selected
     GL_Color(25.f / 255.f, 49.f / 255.f, 51.f / 255.f, 1.f),    // text
 };
 

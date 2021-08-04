@@ -524,6 +524,9 @@
 		<Unit filename="Store_Extend.h">
 			<Option virtualFolder="Core/Store/" />
 		</Unit>
+		<Unit filename="SystemDescriptionFixes.cpp">
+			<Option virtualFolder="Core/Systems/" />
+		</Unit>
 		<Unit filename="System_Extend.cpp">
 			<Option virtualFolder="Core/Systems/" />
 		</Unit>
@@ -541,6 +544,9 @@
 		</Unit>
 		<Unit filename="ToggleValue.h">
 			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="TriggeredEvents.cpp">
+			<Option virtualFolder="Core/Events/" />
 		</Unit>
 		<Unit filename="Wormhole.cpp">
 			<Option virtualFolder="Content/Map/" />

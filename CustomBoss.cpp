@@ -122,7 +122,7 @@ HOOK_METHOD(BossShip, OnLoop, () -> void)
 
 }
 
-HOOK_METHOD(ShipManager, AddCrewMemberFromString, (const std::string& name, const std::string& race, bool intruder, int roomId, bool init, bool male) -> CrewMember*)
+HOOK_METHOD_PRIORITY(ShipManager, AddCrewMemberFromString, -100, (const std::string& name, const std::string& race, bool intruder, int roomId, bool init, bool male) -> CrewMember*)
 {
     if (isStartingStage)
     {

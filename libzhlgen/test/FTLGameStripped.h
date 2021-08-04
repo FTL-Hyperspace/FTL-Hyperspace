@@ -11,6 +11,7 @@ struct SpaceManager;
 struct NebulaCloud;
 struct SpaceDrone;
 struct Projectile;
+struct CrewLaser;
 struct WeaponAnimation;
 struct Drone;
 struct Door;
@@ -3087,13 +3088,11 @@ struct Damage
   int iSystemDamage;
   int iPersDamage;
   bool bHullBuster;
-  unsigned __int8 gap_ex_1[3];
   int ownerId;
   int selfId;
   bool bLockdown;
   bool crystalShard;
   bool bFriendlyFire;
-  unsigned __int8 gap_ex_2;
   int iStun;
 };
 
@@ -3453,7 +3452,7 @@ struct ProjectileFactory
   std__pair_13float___float cooldown;
   std__pair_13float___float subCooldown;
   float baseCooldown;
-  WeaponBlueprint *blueprint;
+  const WeaponBlueprint *blueprint;
   Point localPosition;
   Animation flight_animation;
   bool autoFiring;
@@ -4363,9 +4362,6 @@ struct std__vector_12GL_TextureZ1
   GL_Texture **_end;
 };
 
-/* 172 */
-struct CrewLaser;
-
 /* 674 */
 struct std__vector_9CrewLaser
 {
@@ -4562,6 +4558,15 @@ struct VTable_CrewAnimation
   std__string *(__stdcall *GetDeathSound)(std__string *str, CrewAnimation *anim);
   void (__thiscall *Restart)(CrewAnimation *this);
   bool (__thiscall *CustomDeath)(CrewAnimation *this);
+};
+
+/* 172 */
+struct CrewLaser
+{
+  Projectile _base;
+  int r;
+  int g;
+  int b;
 };
 
 /* 797 */
@@ -5794,6 +5799,7 @@ struct GL_ColorTexVertex
   float a;
 };
 
+/* 843 */
 struct DamageParameter
 {
   int iDamage;
@@ -5810,3 +5816,4 @@ struct DamageParameter
   int lockdownShardFriendlyFireMask;
   int iStun;
 };
+

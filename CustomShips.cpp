@@ -530,9 +530,9 @@ HOOK_METHOD(CommandGui, OnLoop, () -> void)
     }
 }
 
-HOOK_METHOD(ShipManager, DamageSystem, (int roomId, DamageParameter dmgParameter) -> bool)
+HOOK_METHOD(ShipManager, DamageSystem, (int roomId, DamageParameter dmgParam) -> void)
 {
-    Damage* dmg = (Damage*)&dmgParameter;
+    Damage* dmg = (Damage*)&dmgParam;
 
     auto ex = RM_EX(ship.vRoomList[roomId]);
 
@@ -554,7 +554,7 @@ HOOK_METHOD(ShipManager, DamageSystem, (int roomId, DamageParameter dmgParameter
         damMessages.push_back(msg);
     }
 
-    super(roomId, dmgParameter);
+    super(roomId, dmgParam);
 }
 
 HOOK_METHOD(ShipAI, SetStalemate, (bool stalemate) -> void)
@@ -602,21 +602,32 @@ HOOK_STATIC(ShipGenerator, CreateShip, (const std::string& name, int sector, Shi
     ret->ship.hullIntegrity.second = totalHealth;
     ret->ship.hullIntegrity.first = totalHealth;
 
-    if (ret->shieldSystem != nullptr) // Fixes a generation bug where >10 shield power spawns damaged.
+    return ret;
+}
+
+HOOK_METHOD(WorldManager, CreateShip, (ShipEvent* shipEvent, bool boss) -> CompleteShip*)
+{
+
+    CompleteShip* ret = super(shipEvent, boss);
+    if (ret == nullptr) return ret;
+
+    ShipManager* shipManager = ret->shipManager;
+
+    if (shipManager->shieldSystem != nullptr) // Fixes a generation bug where >10 shield power spawns damaged; doesn't fix save/load issues
     {
-        int damageRepaired = ret->shieldSystem->healthState.second - ret->shieldSystem->healthState.first;
+        int damageRepaired = shipManager->shieldSystem->healthState.second - shipManager->shieldSystem->healthState.first;
 
         if (damageRepaired > 0)
         {
-            ret->shieldSystem->healthState.first = ret->shieldSystem->healthState.second;
+            shipManager->shieldSystem->healthState.first = shipManager->shieldSystem->healthState.second;
 
             for (int i=0; i<damageRepaired; ++i)
             {
-                ret->shieldSystem->IncreasePower(1, false);
+                shipManager->shieldSystem->IncreasePower(1, false);
             }
 
-            ret->shieldSystem->shields.power.second = ret->shieldSystem->GetEffectivePower() / 2;
-            ret->shieldSystem->shields.power.first = ret->shieldSystem->shields.power.second;
+            shipManager->shieldSystem->shields.power.second = shipManager->shieldSystem->GetEffectivePower() / 2;
+            shipManager->shieldSystem->shields.power.first = shipManager->shieldSystem->shields.power.second;
         }
     }
 
