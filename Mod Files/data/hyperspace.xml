@@ -111,6 +111,12 @@ Does not include repair arm.
 
 <showScrapCollectorScrap enabled="false"/>
 
+<!--  Modification that makes enemies able to use weapon pre-igniter augment.
+-->
+
+<enemyPreigniterFix enabled="false"/>
+
+
 <!--  Alternate color scheme for O2 levels
 The gradient tag is optional and allows specifying a custom gradient (the default alternate is included here).
 Vanilla is 255,176,169 at no O2 and 230,226,219 at full O2.

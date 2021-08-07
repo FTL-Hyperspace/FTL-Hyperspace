@@ -23,6 +23,7 @@
 #include "CustomSystems.h"
 #include "AlternateOxygenRendering.h"
 #include "CustomColors.h"
+#include "CustomShips.h"
 
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string/replace.hpp>
@@ -100,6 +101,12 @@ void Global::InitializeResources(ResourceControl *resources)
             {
                 auto enabled = node->first_attribute("enabled")->value();
                 g_hackingDroneFix = EventsParser::ParseBoolean(enabled);
+            }
+
+            if (strcmp(node->name(), "enemyPreigniterFix") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                g_enemyPreigniterFix = EventsParser::ParseBoolean(enabled);
             }
 
             if (strcmp(node->name(), "redesignedWeaponTooltips") == 0)

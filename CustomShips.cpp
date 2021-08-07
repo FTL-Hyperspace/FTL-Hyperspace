@@ -4,6 +4,8 @@
 
 static bool importingShip = false;
 
+bool g_enemyPreigniterFix = false;
+
 void ShipManager_Extend::Initialize(bool restarting)
 {
     auto customSel = CustomShipSelect::GetInstance();
@@ -612,6 +614,18 @@ HOOK_METHOD(WorldManager, CreateShip, (ShipEvent* shipEvent, bool boss) -> Compl
     if (ret == nullptr) return ret;
 
     ShipManager* shipManager = ret->shipManager;
+
+    if (g_enemyPreigniterFix && shipManager->HasAugmentation("WEAPON_PREIGNITE") && shipManager->weaponSystem != nullptr)
+    {
+        for (ProjectileFactory* weapon : shipManager->weaponSystem->weapons)
+        {
+            shipManager->weaponSystem->IncreasePower(weapon->requiredPower, false);
+        }
+        for (ProjectileFactory* weapon : shipManager->weaponSystem->weapons)
+        {
+            weapon->ForceCoolup();
+        }
+    }
 
     if (shipManager->shieldSystem != nullptr) // Fixes a generation bug where >10 shield power spawns damaged; doesn't fix save/load issues
     {
