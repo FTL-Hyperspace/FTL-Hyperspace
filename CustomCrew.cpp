@@ -3028,7 +3028,7 @@ HOOK_METHOD(CrewBox, constructor, (Point pos, CrewMember *crew, int number) -> v
                 powerButton.label = powerDef->buttonLabel;
             }
 
-            if (powerDef->powerCharges > 1)
+            if (powerDef->powerCharges > 0)
             {
                 GL_Color boxColor = GL_Color();
                 boxColor.r = 1.0f;
