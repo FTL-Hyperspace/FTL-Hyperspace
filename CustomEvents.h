@@ -404,6 +404,14 @@ struct CustomEvent
     bool instantEscape = false;
     bool escape = false;
     bool surrender = false;
+    bool loadEscape = false;
+    bool loadSurrender = false;
+    bool loadEscapeForced = false;
+    bool loadSurrenderForced = false;
+    bool disableEscape = false;
+    bool disableSurrender = false;
+    bool disableEscapeForced = false;
+    bool disableSurrenderForced = false;
     bool goToFlagship = false;
     bool goToFlagshipBase = false;
     bool goToFlagshipFleet = false;
@@ -431,6 +439,8 @@ struct CustomShipEvent
     std::string jumpEvent = "";
     bool jumpEventLoop = false;
     bool jumpEventClear = false;
+
+    bool invincible = false;
 };
 
 struct SectorExit

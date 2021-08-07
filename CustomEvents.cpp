@@ -621,6 +621,46 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
             customEvent->surrender = true;
         }
 
+        if (nodeName == "loadEscape")
+        {
+            isDefault = false;
+            customEvent->loadEscape = true;
+            if (child->first_attribute("force"))
+            {
+                customEvent->loadEscapeForced = EventsParser::ParseBoolean(child->first_attribute("force")->value());
+            }
+        }
+
+        if (nodeName == "loadSurrender")
+        {
+            isDefault = false;
+            customEvent->loadSurrender = true;
+            if (child->first_attribute("force"))
+            {
+                customEvent->loadSurrenderForced = EventsParser::ParseBoolean(child->first_attribute("force")->value());
+            }
+        }
+
+        if (nodeName == "disableEscape")
+        {
+            isDefault = false;
+            customEvent->disableEscape = true;
+            if (child->first_attribute("force"))
+            {
+                customEvent->disableEscapeForced = EventsParser::ParseBoolean(child->first_attribute("force")->value());
+            }
+        }
+
+        if (nodeName == "disableSurrender")
+        {
+            isDefault = false;
+            customEvent->disableSurrender = true;
+            if (child->first_attribute("force"))
+            {
+                customEvent->disableSurrenderForced = EventsParser::ParseBoolean(child->first_attribute("force")->value());
+            }
+        }
+
         if (nodeName == "goToFlagship")
         {
             isDefault = false;
@@ -907,6 +947,12 @@ bool CustomEventsParser::ParseCustomShipEvent(rapidxml::xml_node<char> *node, Cu
         {
             isDefault = false;
             customEvent->jumpEventClear = true;
+        }
+
+        if (nodeName == "invincible")
+        {
+            isDefault = false;
+            customEvent->invincible = true;
         }
     }
 
@@ -2149,6 +2195,91 @@ void EventDamageEnemy(EventDamage eventDamage)
     }
 }
 
+void CustomCreateLocation(WorldManager* world, CustomEvent* customEvent)
+{
+    if (!customEvent->changeBackground.empty())
+    {
+        world->space.currentBack = G_->GetResources()->GetImageId(G_->GetEventGenerator()->GetImageFromList(customEvent->changeBackground));
+    }
+
+    for (EventDamage& eventDamage: customEvent->enemyDamage)
+    {
+        EventDamageEnemy(eventDamage);
+    }
+
+    if (customEvent->instantEscape)
+    {
+        CompleteShip* enemyShip = world->playerShip->enemyShip;
+        if (enemyShip != nullptr && !enemyShip->shipManager->bDestroyed)
+        {
+            enemyShip->shipAI.escaping = true;
+            enemyShip->shipManager->JumpLeave();
+        }
+    }
+
+    if (customEvent->escape)
+    {
+        CompleteShip* enemyShip = world->playerShip->enemyShip;
+        if (enemyShip != nullptr && !enemyShip->shipManager->bDestroyed)
+        {
+            enemyShip->shipAI.escaping = true;
+        }
+    }
+
+    if (customEvent->surrender)
+    {
+        CompleteShip* enemyShip = world->playerShip->enemyShip;
+        if (enemyShip != nullptr && !enemyShip->shipManager->bDestroyed)
+        {
+            enemyShip->shipAI.surrendered = true;
+        }
+    }
+
+    if (customEvent->loadEscape)
+    {
+        CompleteShip* enemyShip = world->playerShip->enemyShip;
+        if (enemyShip != nullptr && (customEvent->loadEscapeForced || enemyShip->shipAI.escapeThreshold > 0))
+        {
+            enemyShip->shipAI.escapeThreshold = 2147483647;
+        }
+    }
+
+    if (customEvent->loadSurrender)
+    {
+        CompleteShip* enemyShip = world->playerShip->enemyShip;
+        if (enemyShip != nullptr && (customEvent->loadSurrenderForced || enemyShip->shipAI.surrenderThreshold > 0))
+        {
+            enemyShip->shipAI.surrenderThreshold = 2147483647;
+        }
+    }
+
+    if (customEvent->disableEscape)
+    {
+        CompleteShip* enemyShip = world->playerShip->enemyShip;
+        if (enemyShip != nullptr)
+        {
+            enemyShip->shipAI.escapeThreshold = 0;
+            if (customEvent->disableEscapeForced)
+            {
+                enemyShip->shipAI.escaping = false;
+            }
+        }
+    }
+
+    if (customEvent->disableSurrender)
+    {
+        CompleteShip* enemyShip = world->playerShip->enemyShip;
+        if (enemyShip != nullptr)
+        {
+            enemyShip->shipAI.surrenderThreshold = 0;
+            if (customEvent->disableSurrenderForced)
+            {
+                enemyShip->shipAI.surrendered = false;
+            }
+        }
+    }
+}
+
 HOOK_METHOD(WorldManager, CreateLocation, (Location *location) -> void)
 {
     bool needsBackground = location->space.tex == nullptr && location->planet.tex == nullptr;
@@ -2182,43 +2313,7 @@ HOOK_METHOD(WorldManager, CreateLocation, (Location *location) -> void)
     CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(loc->eventName);
     if (customEvent)
     {
-        if (!customEvent->changeBackground.empty())
-        {
-            space.currentBack = G_->GetResources()->GetImageId(G_->GetEventGenerator()->GetImageFromList(customEvent->changeBackground));
-        }
-
-        for (EventDamage& eventDamage: customEvent->enemyDamage)
-        {
-            EventDamageEnemy(eventDamage);
-        }
-
-        if (customEvent->instantEscape)
-        {
-            CompleteShip* enemyShip = G_->GetWorld()->playerShip->enemyShip;
-            if (enemyShip != nullptr && !enemyShip->shipManager->bDestroyed)
-            {
-                enemyShip->shipAI.escaping = true;
-                enemyShip->shipManager->JumpLeave();
-            }
-        }
-
-        if (customEvent->escape)
-        {
-            CompleteShip* enemyShip = G_->GetWorld()->playerShip->enemyShip;
-            if (enemyShip != nullptr && !enemyShip->shipManager->bDestroyed)
-            {
-                enemyShip->shipAI.escaping = true;
-            }
-        }
-
-        if (customEvent->surrender)
-        {
-            CompleteShip* enemyShip = G_->GetWorld()->playerShip->enemyShip;
-            if (enemyShip != nullptr && !enemyShip->shipManager->bDestroyed)
-            {
-                enemyShip->shipAI.surrendered = true;
-            }
-        }
+        CustomCreateLocation(this, customEvent);
 
         if (!customEvent->eventLoad.empty())
         {
@@ -2265,48 +2360,12 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
             space.nebulaClouds.clear();
         }
 
-        if (!customEvent->changeBackground.empty())
-        {
-            space.currentBack = G_->GetResources()->GetImageId(G_->GetEventGenerator()->GetImageFromList(customEvent->changeBackground));
-        }
-
         if (customEvent->resetFtl)
         {
             G_->GetWorld()->playerShip->shipManager->jump_timer.first = 0.f;
         }
 
-        if (customEvent->instantEscape)
-        {
-            CompleteShip* enemyShip = G_->GetWorld()->playerShip->enemyShip;
-            if (enemyShip != nullptr && !enemyShip->shipManager->bDestroyed)
-            {
-                enemyShip->shipAI.escaping = true;
-                enemyShip->shipManager->JumpLeave();
-            }
-        }
-
-        if (customEvent->escape)
-        {
-            CompleteShip* enemyShip = G_->GetWorld()->playerShip->enemyShip;
-            if (enemyShip != nullptr && !enemyShip->shipManager->bDestroyed)
-            {
-                enemyShip->shipAI.escaping = true;
-            }
-        }
-
-        if (customEvent->surrender)
-        {
-            CompleteShip* enemyShip = G_->GetWorld()->playerShip->enemyShip;
-            if (enemyShip != nullptr && !enemyShip->shipManager->bDestroyed)
-            {
-                enemyShip->shipAI.surrendered = true;
-            }
-        }
-
-        for (EventDamage& eventDamage: customEvent->enemyDamage)
-        {
-            EventDamageEnemy(eventDamage);
-        }
+        CustomCreateLocation(this, customEvent);
 
         if (!customEvent->eventLoad.empty())
         {
@@ -2355,6 +2414,11 @@ HOOK_METHOD(WorldManager, CreateShip, (ShipEvent* shipEvent, bool boss) -> Compl
         for (auto& triggeredEvent: customEvent->triggeredEventModifiers)
         {
             triggeredEvent.ApplyModifier();
+        }
+
+        if (customEvent->invincible)
+        {
+            ret->shipManager->bInvincible = true;
         }
     }
 
