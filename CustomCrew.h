@@ -125,6 +125,7 @@ struct TemporaryPowerDefinition
     ToggleValue<int> bonusPower;
     ToggleValue<float> damageEnemiesAmount;
     ToggleValue<bool> hackDoors;
+    ToggleValue<float> powerRechargeMultiplier;
 
     std::vector<StatBoostDefinition> statBoosts;
 
@@ -286,6 +287,7 @@ struct CrewDefinition
     bool powerDrainFriendly = false;
     float damageEnemiesAmount = 0.f;
     bool hackDoors = false;
+    float powerRechargeMultiplier = 1.f;
 
     Damage explosionDef;
     bool explosionShipFriendlyFire = false;

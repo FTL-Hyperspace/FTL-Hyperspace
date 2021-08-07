@@ -348,6 +348,10 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                         {
                             crew.hackDoors = EventsParser::ParseBoolean(val);
                         }
+                        if (str == "powerRechargeMultiplier")
+                        {
+                            crew.powerRechargeMultiplier = boost::lexical_cast<float>(val);
+                        }
                         if (str == "nameRace")
                         {
                             crew.nameRace.push_back(stat->value());
@@ -894,6 +898,10 @@ void CustomCrewManager::ParseAbilityEffect(rapidxml::xml_node<char>* stat, Activ
                 if (tempEffectName == "powerDrainFriendly")
                 {
                     def.tempPower.powerDrainFriendly = EventsParser::ParseBoolean(tempEffectNode->value());
+                }
+                if (tempEffectName == "powerRechargeMultiplier")
+                {
+                    def.tempPower.powerRechargeMultiplier = boost::lexical_cast<float>(tempEffectNode->value());
                 }
                 if (tempEffectName == "statBoosts")
                 {
