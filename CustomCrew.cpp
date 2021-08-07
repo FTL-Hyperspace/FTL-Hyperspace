@@ -532,10 +532,50 @@ void CustomCrewManager::ParseAbilityEffect(rapidxml::xml_node<char>* stat, Activ
                 if (req == "friendlyInRoom")
                 {
                     reqDef.friendlyInRoom = true;
+                    reqDef.checkRoomCrew = true;
                 }
                 if (req == "enemyInRoom")
                 {
                     reqDef.enemyInRoom = true;
+                    reqDef.checkRoomCrew = true;
+                }
+                if (req == "whiteList")
+                {
+                    auto *whiteList = &reqDef.whiteList;
+                    if (reqNode->first_attribute("enemy"))
+                    {
+                        whiteList = EventsParser::ParseBoolean(reqNode->first_attribute("enemy")->value()) ? &reqDef.enemyWhiteList : &reqDef.friendlyWhiteList;
+                    }
+                    if (reqNode->first_attribute("load"))
+                    {
+                        BlueprintManager::GetBlueprintList(*whiteList, G_->GetBlueprints(), reqNode->first_attribute("load")->value());
+                    }
+                    for (auto crewChild = reqNode->first_node(); crewChild; crewChild = crewChild->next_sibling())
+                    {
+                        whiteList->push_back(crewChild->name());
+                    }
+                    reqDef.checkRoomCrew = true;
+                }
+                if (req == "blackList")
+                {
+                    bool friendlyList = true;
+                    bool enemyList = true;
+                    if (reqNode->first_attribute("enemy"))
+                    {
+                        enemyList = EventsParser::ParseBoolean(reqNode->first_attribute("enemy")->value());
+                        friendlyList = !enemyList;
+                    }
+                    if (reqNode->first_attribute("load"))
+                    {
+                        if (friendlyList) BlueprintManager::GetBlueprintList(reqDef.friendlyBlackList, G_->GetBlueprints(), reqNode->first_attribute("load")->value());
+                        if (enemyList) BlueprintManager::GetBlueprintList(reqDef.enemyBlackList, G_->GetBlueprints(), reqNode->first_attribute("load")->value());
+                    }
+                    for (auto crewChild = reqNode->first_node(); crewChild; crewChild = crewChild->next_sibling())
+                    {
+                        if (friendlyList) reqDef.friendlyBlackList.push_back(crewChild->name());
+                        if (enemyList) reqDef.enemyBlackList.push_back(crewChild->name());
+                    }
+                    reqDef.checkRoomCrew = true;
                 }
                 if (req == "systemInRoom")
                 {
@@ -560,6 +600,18 @@ void CustomCrewManager::ParseAbilityEffect(rapidxml::xml_node<char>* stat, Activ
                 if (req == "inCombat")
                 {
                     reqDef.inCombat = true;
+                }
+                if (req == "isManning")
+                {
+                    reqDef.isManning = true;
+                }
+                if (req == "requiredSystem")
+                {
+                    reqDef.requiredSystem = ShipSystem::NameToSystemId(reqNode->value());
+                    if (reqNode->first_attribute("functional"))
+                    {
+                        reqDef.requiredSystemFunctional = EventsParser::ParseBoolean(reqNode->first_attribute("functional")->value());
+                    }
                 }
                 if (req == "minHealth")
                 {
@@ -1066,27 +1118,124 @@ PowerReadyState CrewMember_Extend::PowerReady()
 
         if (sys && sys->healthState.first == sys->healthState.second) return POWER_NOT_READY_SYSTEM_DAMAGED;
     }
-    if ((req.enemyInRoom || req.friendlyInRoom) && currentShip)
+    if (req.checkRoomCrew && currentShip)
     {
-        bool enemyInRoom = false;
-        bool friendlyInRoom = false;
+        bool enemyInRoom = !req.enemyInRoom;
+        bool friendlyInRoom = !req.friendlyInRoom;
+        bool whiteList = req.whiteList.empty();
+        bool enemyWhiteList = req.enemyWhiteList.empty();
+        bool friendlyWhiteList = req.friendlyWhiteList.empty();
+        bool enemyBlackList = true;
+        bool friendlyBlackList = true;
 
         for (auto i : currentShip->vCrewList)
         {
             if (i->iRoomId == orig->iRoomId)
             {
-                enemyInRoom = enemyInRoom || (i->iShipId != orig->iShipId);
-                friendlyInRoom = friendlyInRoom || (i->iShipId == orig->iShipId && i != orig);
+                if (i->iShipId != orig->iShipId)
+                {
+                    enemyInRoom = true;
+                    if (!whiteList)
+                    {
+                        for (std::string& race : req.whiteList)
+                        {
+                            if (i->species == race)
+                            {
+                                whiteList = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (!enemyWhiteList)
+                    {
+                        for (std::string& race : req.enemyWhiteList)
+                        {
+                            if (i->species == race)
+                            {
+                                enemyWhiteList = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (enemyBlackList)
+                    {
+                        for (std::string& race : req.enemyBlackList)
+                        {
+                            if (i->species == race)
+                            {
+                                enemyBlackList = false;
+                                break;
+                            }
+                        }
+                    }
+                }
+                else if (i != orig)
+                {
+                    friendlyInRoom = true;
+                    if (!whiteList)
+                    {
+                        for (std::string& race : req.whiteList)
+                        {
+                            if (i->species == race)
+                            {
+                                whiteList = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (!friendlyWhiteList)
+                    {
+                        for (std::string& race : req.friendlyWhiteList)
+                        {
+                            if (i->species == race)
+                            {
+                                friendlyWhiteList = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (friendlyBlackList)
+                    {
+                        for (std::string& race : req.friendlyBlackList)
+                        {
+                            if (i->species == race)
+                            {
+                                friendlyBlackList = false;
+                                break;
+                            }
+                        }
+                    }
+                }
             }
         }
 
-        if (!enemyInRoom && req.enemyInRoom)
+        if (!enemyInRoom)
         {
             return POWER_NOT_READY_ENEMY_IN_ROOM;
         }
-        else if (!friendlyInRoom && req.friendlyInRoom)
+        else if (!friendlyInRoom)
         {
             return POWER_NOT_READY_FRIENDLY_IN_ROOM;
+        }
+        else if (!whiteList)
+        {
+            return POWER_NOT_READY_WHITELIST;
+        }
+        else if (!enemyWhiteList)
+        {
+            return POWER_NOT_READY_ENEMY_WHITELIST;
+        }
+        else if (!friendlyWhiteList)
+        {
+            return POWER_NOT_READY_FRIENDLY_WHITELIST;
+        }
+        else if (!enemyBlackList)
+        {
+            return POWER_NOT_READY_ENEMY_BLACKLIST;
+        }
+        else if (!friendlyBlackList)
+        {
+            return POWER_NOT_READY_FRIENDLY_BLACKLIST;
         }
     }
     if ((!crewShip || !crewShip->HasSystem(13)) && req.hasClonebay)
@@ -1104,6 +1253,26 @@ PowerReadyState CrewMember_Extend::PowerReady()
     if (req.inCombat && (crewShip && (!crewShip->current_target || !crewShip->current_target->_targetable.hostile)))
     {
         return POWER_NOT_READY_IN_COMBAT;
+    }
+    if (req.isManning && !orig->bActiveManning)
+    {
+        return POWER_NOT_READY_MANNING;
+    }
+    if (req.requiredSystem != -1)
+    {
+        if (!crewShip || !crewShip->HasSystem(req.requiredSystem))
+        {
+            return POWER_NOT_READY_SYSTEM;
+        }
+        ShipSystem* sys = crewShip->GetSystem(req.requiredSystem);
+        if (sys == nullptr)
+        {
+            return POWER_NOT_READY_SYSTEM;
+        }
+        if (req.requiredSystemFunctional && (sys->iHackEffect > 1 || sys->GetEffectivePower() == 0))
+        {
+            return POWER_NOT_READY_SYSTEM_FUNCTIONAL;
+        }
     }
     if (req.minHealth.enabled && orig->health.first < req.minHealth.value)
     {
@@ -3426,8 +3595,26 @@ HOOK_METHOD(CrewBox, GetSelected, (int mouseX, int mouseY) -> CrewMember*)
                 case POWER_NOT_READY_FRIENDLY_IN_ROOM:
                     tooltipName = "power_not_ready_friendly_in_room";
                     break;
+                case POWER_NOT_READY_WHITELIST:
+                    tooltipName = "power_not_ready_whitelist";
+                    break;
+                case POWER_NOT_READY_ENEMY_WHITELIST:
+                    tooltipName = "power_not_ready_enemy_whitelist";
+                    break;
+                case POWER_NOT_READY_FRIENDLY_WHITELIST:
+                    tooltipName = "power_not_ready_friendly_whitelist";
+                    break;
+                case POWER_NOT_READY_ENEMY_BLACKLIST:
+                    tooltipName = "power_not_ready_enemy_blacklist";
+                    break;
+                case POWER_NOT_READY_FRIENDLY_BLACKLIST:
+                    tooltipName = "power_not_ready_friendly_blacklist";
+                    break;
                 case POWER_NOT_READY_SYSTEM_IN_ROOM:
                     tooltipName = "power_not_ready_system_in_room";
+                    break;
+                case POWER_NOT_READY_SYSTEM_DAMAGED:
+                    tooltipName = "power_not_ready_system_damaged";
                     break;
                 case POWER_NOT_READY_AI_DISABLED:
                     tooltipName = "power_not_ready_ai_disabled";
@@ -3441,8 +3628,22 @@ HOOK_METHOD(CrewBox, GetSelected, (int mouseX, int mouseY) -> CrewMember*)
                 case POWER_NOT_READY_IN_COMBAT:
                     tooltipName = "power_not_ready_in_combat";
                     break;
-                case POWER_NOT_READY_SYSTEM_DAMAGED:
-                    tooltipName = "power_not_ready_system_damaged";
+                case POWER_NOT_READY_MANNING:
+                    tooltipName = "power_not_ready_manning";
+                    break;
+                case POWER_NOT_READY_SYSTEM:
+                    tooltipName = "power_not_ready_system";
+                    {
+                        SystemBlueprint* bp = G_->GetBlueprints()->GetSystemBlueprint(ShipSystem::SystemIdToName(ex->GetPowerDef()->playerReq.requiredSystem));
+                        if (bp != nullptr) replaceValue = bp->desc.title.GetText();
+                    }
+                    break;
+                case POWER_NOT_READY_SYSTEM_FUNCTIONAL:
+                    tooltipName = "power_not_ready_system_functional";
+                    {
+                        SystemBlueprint* bp = G_->GetBlueprints()->GetSystemBlueprint(ShipSystem::SystemIdToName(ex->GetPowerDef()->playerReq.requiredSystem));
+                        if (bp != nullptr) replaceValue = bp->desc.title.GetText();
+                    }
                     break;
                 case POWER_NOT_READY_MIN_HEALTH:
                     tooltipName = "power_not_ready_min_health";

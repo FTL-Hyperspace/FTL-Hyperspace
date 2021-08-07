@@ -139,14 +139,23 @@ struct ActivatedPowerRequirements
 {
     bool playerShip;
     bool enemyShip;
+    bool checkRoomCrew;
     bool enemyInRoom;
     bool friendlyInRoom;
+    std::vector<std::string> whiteList;
+    std::vector<std::string> friendlyWhiteList;
+    std::vector<std::string> friendlyBlackList;
+    std::vector<std::string> enemyWhiteList;
+    std::vector<std::string> enemyBlackList;
     bool systemInRoom;
     bool systemDamaged;
     bool hasClonebay;
     bool aiDisabled;
     bool outOfCombat;
     bool inCombat;
+    bool isManning;
+    int requiredSystem = -1;
+    bool requiredSystemFunctional;
     ToggleValue<int> minHealth;
     ToggleValue<int> maxHealth;
 };
