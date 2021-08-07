@@ -162,6 +162,10 @@ StatBoostDefinition StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<char
             }
             if (name == "whiteList")
             {
+                if (child->first_attribute("load"))
+                {
+                    BlueprintManager::GetBlueprintList(def.whiteList, G_->GetBlueprints(), child->first_attribute("load")->value());
+                }
                 for (auto crewChild = child->first_node(); crewChild; crewChild = crewChild->next_sibling())
                 {
                     def.whiteList.push_back(crewChild->name());
@@ -169,6 +173,10 @@ StatBoostDefinition StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<char
             }
             if (name == "blackList")
             {
+                if (child->first_attribute("load"))
+                {
+                    BlueprintManager::GetBlueprintList(def.blackList, G_->GetBlueprints(), child->first_attribute("load")->value());
+                }
                 for (auto crewChild = child->first_node(); crewChild; crewChild = crewChild->next_sibling())
                 {
                     def.blackList.push_back(crewChild->name());
