@@ -275,7 +275,7 @@ HOOK_METHOD(SystemStoreBox, constructor, (ShipManager *shopper, Equipment *equip
     desc.cost += newBlueprint->desc.cost / 2;
 }
 
-static int GetItemPricing(const ItemPrice& price, int defaultCost, int worldLevel)
+static int GetItemPricing(const ItemPrice& price, int defaultCost, int worldLevel, int freeBlueprintCost = 0)
 {
     int finalPrice = price.price;
 
@@ -295,6 +295,8 @@ static int GetItemPricing(const ItemPrice& price, int defaultCost, int worldLeve
             finalPrice = random32() % ((int)price.minMaxPrice.second - (int)price.minMaxPrice.first + 1) + (int)price.minMaxPrice.first;
         }
     }
+
+    finalPrice += freeBlueprintCost/2;
 
     if (price.hasModifier)
     {
@@ -584,7 +586,10 @@ std::vector<StoreBox*> StoreComplete::CreateCustomStoreBoxes(const StoreCategory
                 box = (SystemStoreBox*)orig->vStoreBoxes.back();
                 orig->vStoreBoxes.pop_back();
 
-                box->desc.cost = GetItemPricing(i.price, box->blueprint->desc.cost, orig->worldLevel);
+                Blueprint* freeBlueprint = nullptr;
+                if (!box->freeBlueprint.empty()) freeBlueprint = G_->GetBlueprints()->GetDroneBlueprint(box->freeBlueprint);
+
+                box->desc.cost = GetItemPricing(i.price, box->blueprint->desc.cost, orig->worldLevel, freeBlueprint ? freeBlueprint->desc.cost : 0);
 
                 vec.push_back(box);
 
@@ -640,7 +645,10 @@ std::vector<StoreBox*> StoreComplete::CreateCustomStoreBoxes(const StoreCategory
                 {
                     box = new SystemStoreBox(ship, equip, ShipSystem::NameToSystemId(bp->name));
 
-                    box->desc.cost = GetItemPricing(i.price, box->blueprint->desc.cost, orig->worldLevel);
+                    Blueprint* freeBlueprint = nullptr;
+                    if (!box->freeBlueprint.empty()) freeBlueprint = G_->GetBlueprints()->GetDroneBlueprint(box->freeBlueprint);
+
+                    box->desc.cost = GetItemPricing(i.price, box->blueprint->desc.cost, orig->worldLevel, freeBlueprint ? freeBlueprint->desc.cost : 0);
 
                     vec.push_back(box);
 
