@@ -3392,7 +3392,7 @@ HOOK_METHOD_PRIORITY(CrewBox, OnRender, 1000, () -> void)
                     }
                 }
 
-                if (charges.second > 1)
+                if (charges.second > 0)
                 {
                     prim = CSurface::GL_CreateRectPrimitive(box.x + 1, (box.h - cooldownHeight) + box.y - 3, 3, cooldownHeight, barColor);
                 }
