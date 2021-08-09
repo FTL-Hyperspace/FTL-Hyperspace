@@ -30274,7 +30274,7 @@ namespace _func844
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("ShipManager::FindCrew", typeid(CrewMember *(ShipManager::*)(const CrewBlueprint *)), "57b9406e8c008d7c240883e4f0ff77fc5589e557565383ec4c", argdata, 2, 1, &func);
+	static FunctionDefinition funcObj("ShipManager::FindCrew", typeid(CrewMember *(ShipManager::*)(const CrewBlueprint *)), "57b9????????8d7c240883e4f0ff77fc5589e557565383ec4c8b07c745dc00000000c744240800000000c744240400000000c745e000000000c745e4000000008945c489c38d45dc890424", argdata, 2, 1, &func);
 }
 
 __declspec(naked) CrewMember *ShipManager::FindCrew(const CrewBlueprint *bp)
