@@ -5817,3 +5817,12 @@ struct DamageParameter
   int iStun;
 };
 
+/* 852 */
+struct SystemControl__PowerBars
+{
+  GL_Primitive *normal[30];
+  GL_Primitive *tiny[30];
+  GL_Primitive *empty[30];
+  GL_Primitive *damaged[30];
+};
+

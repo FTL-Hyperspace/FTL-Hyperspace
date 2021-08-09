@@ -1941,6 +1941,7 @@ struct LIBZHL_INTERFACE ShipSystem
 	LIBZHL_API bool UpgradeSystem(int amount);
 	LIBZHL_API bool IncreasePower(int amount, bool force);
 	LIBZHL_API bool DecreasePower(bool force);
+	LIBZHL_API void RenderPowerBoxes(int x, int y, int width, int height, int gap, int heightMod, bool flash);
 	
 	int selectedState;
 	ShipObject _shipObj;
@@ -4954,9 +4955,18 @@ struct UpgradeBox
 
 struct SystemControl
 {
+	struct PowerBars
+	{
+		GL_Primitive *normal[30];
+		GL_Primitive *tiny[30];
+		GL_Primitive *empty[30];
+		GL_Primitive *damaged[30];
+	};
+	
 	LIBZHL_API void CreateSystemBoxes();
 	LIBZHL_API SystemBox *GetSystemBox(int systemId);
 	LIBZHL_API void RenderPowerBar();
+	LIBZHL_API static SystemControl::PowerBars *__stdcall GetPowerBars(int width, int height, int gap, bool useShieldGap);
 	
 	ShipManager *shipManager;
 	CombatControl *combatControl;
@@ -5363,6 +5373,13 @@ struct GL_ColorTexVertex
 
 struct MedbaySystem
 {
+};
+
+struct BatterySystem : ShipSystem
+{
+	bool bTurnedOn;
+	TimerHelper timer;
+	std::string soundeffect;
 };
 
 struct GL_TexVertex
@@ -7032,13 +7049,6 @@ struct BossShip : CompleteShip
 	std::vector<int> crewCounts;
 	bool bDeathBegan;
 	int nextStage;
-};
-
-struct BatterySystem : ShipSystem
-{
-	bool bTurnedOn;
-	TimerHelper timer;
-	std::string soundeffect;
 };
 
 struct Door : CrewTarget

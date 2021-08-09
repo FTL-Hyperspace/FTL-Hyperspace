@@ -13,26 +13,27 @@ HOOK_METHOD(ShipManager, DamageArea, (Pointf location, DamageParameter dmgParam,
 
     if (custom)
     {
-        if (custom->timeDilation != 0)
-        {
-            int roomId = ship.GetSelectedRoomId(location.x, location.y, true);
-
-            if (roomId != -1)
-            {
-                RM_EX(ship.vRoomList[roomId])->timeDilation = custom->timeDilation;
-            }
-        }
+        if (custom->)
     }
 
     return super(location, dmgParam, forceHit);
 }
 
+HOOK_METHOD(ShipManager, GetDodgeFactor, () -> int)
+{
+    int ret = super();
 
-HOOK_METHOD(ShipManager, GetDodged, () -> bool)
+    if (CustomDamageManager::currentWeaponDmg != nullptr)
+    {
+        ret -= CustomDamageManager::currentWeaponDmg->accuracyMod;
+    }
+
+    return ret;
+}
 
 HOOK_METHOD(ProjectileFactory, Update, () -> void)
 {
-    CustomDamageManager::currentWeaponDmg = CustomWeaponManager::GetWeaponDefinition().customDamage;
+    CustomDamageManager::currentWeaponDmg = &CustomWeaponManager::instance->GetWeaponDefinition(blueprint->name)->customDamage;
 
     super();
 

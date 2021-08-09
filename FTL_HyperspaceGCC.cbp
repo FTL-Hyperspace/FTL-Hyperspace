@@ -371,6 +371,9 @@
 		<Unit filename="EnemyShipIcons.h">
 			<Option virtualFolder="Core/Ship/" />
 		</Unit>
+		<Unit filename="ErosionEffect.cpp">
+			<Option virtualFolder="Core/Weapons/" />
+		</Unit>
 		<Unit filename="EventTooltip.cpp">
 			<Option virtualFolder="Core/Events/" />
 		</Unit>

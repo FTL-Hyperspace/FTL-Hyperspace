@@ -1,10 +1,20 @@
 #pragma once
 #include "FTLGame.h"
 
+struct ErosionEffect
+{
+    float systemDamageSpeed = 0.8f;
+    float systemRepairMultiplier = 0.75f;
+    int erosionTime = 10;
+    std::string animation = "room_erosion";
+};
+
 struct CustomDamage
 {
-    int timeDilation = 0;
-    int accuracyMod = 100;
+    int accuracyMod = 0;
+
+    int erosionChance = 10;
+    ErosionEffect erosionEffect;
 };
 
 

@@ -22,7 +22,6 @@ HOOK_STATIC(BlueprintManager, ProcessWeaponBlueprint, (WeaponBlueprint* bp, Blue
         if (name == "freeMissileChance")
         {
             weaponDef.freeMissileChance = boost::lexical_cast<int>(val);
-
         }
         if (name == "descriptionOverride")
         {
