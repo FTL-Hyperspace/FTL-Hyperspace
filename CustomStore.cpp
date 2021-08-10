@@ -1667,10 +1667,11 @@ HOOK_METHOD(Store, OnInit, (ShipManager *_shopper, Equipment *_equip, int _world
         {
             StoreComplete* newStore = new StoreComplete(this);
 
-            newStore->OnInit(*def, _shopper, _equip, _worldLevel);
-
             STORE_EX(this)->isCustomStore = true;
             STORE_EX(this)->customStore = newStore;
+
+            // Moved this after setting isCustomStore as Store::CreateStoreBoxes will check isCustomStore
+            newStore->OnInit(*def, _shopper, _equip, _worldLevel);
 
             return;
         }
@@ -1844,26 +1845,46 @@ HOOK_METHOD(Store, CreateStoreBoxes, (int category, Equipment* equip) -> void)
             }
         }
 
-        // This should replicate the original behaviour in vanilla.
 
-        int numSystemsToAdd = 3;
-        if (newSystems.size() < 3) numSystemsToAdd = newSystems.size();
-        numSystemsToAdd -= numAddedSystems;
-        for (int i = 0; i < newSystems.size(); i++)
+        if (STORE_EX(this)->isCustomStore)
         {
-            if (numSystemsToAdd <= 0) break;
-            if (random32()%(newSystems.size()-i) < numSystemsToAdd)
+            for (int i = 0; i < (3 - numAddedSystems); i++)
             {
-                vStoreBoxes.push_back(new SystemStoreBox(shopper, equip, newSystems[i]));
-                numAddedSystems++;
-                numSystemsToAdd--;
+                if (newSystems.size() == 0)
+                {
+                    vStoreBoxes.push_back(new StoreBox("storeUI/store_weapons", nullptr, nullptr));
+                    continue;
+                }
+
+                int chosenIdx = random32() % newSystems.size();
+
+                vStoreBoxes.push_back(new SystemStoreBox(shopper, equip, newSystems[chosenIdx]));
+
+                newSystems.erase(newSystems.begin() + chosenIdx);
             }
         }
-
-        for (int i = 0; i < (3 - numAddedSystems); i++)
+        else
         {
-            vStoreBoxes.push_back(new StoreBox("storeUI/store_weapons", nullptr, nullptr));
-            continue;
+            // This should replicate the original behaviour in vanilla.
+            int numSystemsToAdd = 3;
+            if (newSystems.size() < 3) numSystemsToAdd = newSystems.size();
+            numSystemsToAdd -= numAddedSystems;
+            for (int i = 0; i < newSystems.size(); i++)
+            {
+                if (numSystemsToAdd <= 0) break;
+                if (random32()%(newSystems.size()-i) < numSystemsToAdd)
+                {
+                    vStoreBoxes.push_back(new SystemStoreBox(shopper, equip, newSystems[i]));
+                    numAddedSystems++;
+                    numSystemsToAdd--;
+                }
+            }
+
+            for (int i = 0; i < (3 - numAddedSystems); i++)
+            {
+                vStoreBoxes.push_back(new StoreBox("storeUI/store_weapons", nullptr, nullptr));
+                continue;
+            }
         }
 
         return;
