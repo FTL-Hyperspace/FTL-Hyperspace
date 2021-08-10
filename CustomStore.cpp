@@ -1,5 +1,6 @@
 #include "CustomStore.h"
 #include "CustomEvents.h"
+#include "CustomShipSelect.h"
 #include "Store_Extend.h"
 #include <boost/lexical_cast.hpp>
 #include <array>
@@ -587,7 +588,7 @@ std::vector<StoreBox*> StoreComplete::CreateCustomStoreBoxes(const StoreCategory
                 orig->vStoreBoxes.pop_back();
 
                 Blueprint* freeBlueprint = nullptr;
-                if (!box->freeBlueprint.empty()) freeBlueprint = G_->GetBlueprints()->GetDroneBlueprint(box->freeBlueprint);
+                if (box->shopper && !box->freeBlueprint.empty()) freeBlueprint = G_->GetBlueprints()->GetDroneBlueprint(box->freeBlueprint);
 
                 box->desc.cost = GetItemPricing(i.price, box->blueprint->desc.cost, orig->worldLevel, freeBlueprint ? freeBlueprint->desc.cost : 0);
 
@@ -1774,7 +1775,7 @@ HOOK_METHOD(Store, CreateStoreBoxes, (int category, Equipment* equip) -> void)
     if (category == 4) // systems
     {
         bool guaranteedShields = !shopper->HasSystem(0);
-        bool guaranteedDrones = (!shopper->HasSystem(4)) && types[0] == 1 || types[1] == 1 || types[2] == 1 || types[3] == 1;
+        bool guaranteedDrones = (!shopper->HasSystem(4)) && (types[0] == 1 || types[1] == 1 || types[2] == 1 || types[3] == 1);
         int guaranteedMedicalId = -1;
 
         auto& systemPlacements = shopper->myBlueprint.systemInfo;
@@ -1800,14 +1801,14 @@ HOOK_METHOD(Store, CreateStoreBoxes, (int category, Equipment* equip) -> void)
 
         int numAddedSystems = 0;
 
-        if (guaranteedShields && systemPlacements.find(SYS_SHIELDS) != systemPlacements.end())
-        {
-            vStoreBoxes.push_back(new SystemStoreBox(shopper, equip, SYS_SHIELDS));
-            numAddedSystems++;
-        }
         if (guaranteedDrones && systemPlacements.find(SYS_DRONES) != systemPlacements.end())
         {
             vStoreBoxes.push_back(new SystemStoreBox(shopper, equip, SYS_DRONES));
+            numAddedSystems++;
+        }
+        if (guaranteedShields && systemPlacements.find(SYS_SHIELDS) != systemPlacements.end())
+        {
+            vStoreBoxes.push_back(new SystemStoreBox(shopper, equip, SYS_SHIELDS));
             numAddedSystems++;
         }
         if (guaranteedMedicalId != -1 && systemPlacements.find(guaranteedMedicalId) != systemPlacements.end())
@@ -1830,7 +1831,7 @@ HOOK_METHOD(Store, CreateStoreBoxes, (int category, Equipment* equip) -> void)
         {
             if (sysId == SYS_SHIELDS && guaranteedShields ||
                 sysId == SYS_DRONES && guaranteedDrones ||
-                sysId == guaranteedMedicalId)
+                (sysId == SYS_MEDBAY || sysId == SYS_CLONEBAY) && guaranteedMedicalId>0)
             {
                 continue;
             }
@@ -1843,23 +1844,67 @@ HOOK_METHOD(Store, CreateStoreBoxes, (int category, Equipment* equip) -> void)
             }
         }
 
+        // This should replicate the original behaviour in vanilla.
+
+        int numSystemsToAdd = 3;
+        if (newSystems.size() < 3) numSystemsToAdd = newSystems.size();
+        numSystemsToAdd -= numAddedSystems;
+        for (int i = 0; i < newSystems.size(); i++)
+        {
+            if (numSystemsToAdd <= 0) break;
+            if (random32()%(newSystems.size()-i) < numSystemsToAdd)
+            {
+                vStoreBoxes.push_back(new SystemStoreBox(shopper, equip, newSystems[i]));
+                numAddedSystems++;
+                numSystemsToAdd--;
+            }
+        }
+
         for (int i = 0; i < (3 - numAddedSystems); i++)
         {
-            if (newSystems.size() == 0)
-            {
-                vStoreBoxes.push_back(new StoreBox("storeUI/store_weapons", nullptr, nullptr));
-                continue;
-            }
-
-            int chosenIdx = random32() % newSystems.size();
-
-            vStoreBoxes.push_back(new SystemStoreBox(shopper, equip, newSystems[chosenIdx]));
-
-            newSystems.erase(newSystems.begin() + chosenIdx);
+            vStoreBoxes.push_back(new StoreBox("storeUI/store_weapons", nullptr, nullptr));
+            continue;
         }
 
         return;
     }
 
     return super(category, equip);
+}
+
+HOOK_METHOD(SystemStoreBox, Activate, () -> void)
+{
+    if (shopper->currentScrap < desc.cost) return super(); // Not enough scrap
+    if (itemId == 5 && shopper->HasSystem(13) || itemId == 13 && shopper->HasSystem(5)) return super(); // Change medical system
+    bool isSubsystem = ShipSystem::IsSubsystem(itemId);
+
+    auto custom = CustomShipSelect::GetInstance();
+    int sysLimit = isSubsystem ? custom->GetDefaultDefinition().subsystemLimit : custom->GetDefaultDefinition().systemLimit;
+
+    if (custom->HasCustomDef(shopper->myBlueprint.blueprintName))
+    {
+        sysLimit = isSubsystem ? custom->GetDefinition(shopper->myBlueprint.blueprintName).subsystemLimit : custom->GetDefinition(shopper->myBlueprint.blueprintName).systemLimit;
+    }
+
+    if (isSubsystem && sysLimit >= 4) return super(); // Subsystem limit doesn't currently matter if one can have at least 4.
+
+    int sysCount = 0;
+
+    for (auto i : shopper->vSystemList)
+    {
+        if (i->bNeedsPower != isSubsystem)
+        {
+            sysCount++;
+        }
+    }
+
+    if (sysLimit - sysCount == 1)
+    {
+        bConfirming = true;
+        confirmString = "confirm_buy_last_system";
+    }
+    if (!bConfirming)
+    {
+        Purchase();
+    }
 }

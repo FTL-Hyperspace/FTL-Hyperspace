@@ -6143,6 +6143,8 @@ struct SystemStoreBox : StoreBox
 	LIBZHL_API void constructor(ShipManager *shopper, Equipment *equip, int sys);
 	LIBZHL_API bool CanHold();
 	LIBZHL_API void MouseMove(int mX, int mY);
+	LIBZHL_API void Activate();
+	LIBZHL_API void Purchase();
 	
 	SystemBlueprint *blueprint;
 	int type;
