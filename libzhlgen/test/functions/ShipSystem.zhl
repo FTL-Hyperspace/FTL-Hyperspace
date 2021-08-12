@@ -58,6 +58,8 @@ bool ShipSystem::IncreasePower(ShipSystem *this<ecx>, int amount, bool force);
 bool ShipSystem::DecreasePower(ShipSystem *this<ecx>, bool force);
 "5531c089e5565383e4f083ec108b91040100003991000100008b750c74??89cbb9????????e8????????f30f100d????????89f0f30f10450884c0f30f59c1d95c240c":
 bool ShipSystem::PartialRepair(ShipSystem *this<ecx>, float speed, bool autoRepair);
+"578d7c240883e4f0ff77fc5589f889e557565389cf81ec????????8b70088b188975a08b700c895d848b5804":
+void ShipSystem::RenderPowerBoxes(ShipSystem *this<ecx>, int x, int y, int width, int height, int gap, int heightMod, bool flash);
 
 struct ShipSystem
 {{

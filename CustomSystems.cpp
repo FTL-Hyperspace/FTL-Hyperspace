@@ -521,3 +521,18 @@ HOOK_METHOD(ShipSystem, GetEffectivePower, () -> int)
 
     return boostPower + iBatteryPower + powerState.first + iBonusPower;
 }
+
+/*
+HOOK_METHOD(ShipSystem, RenderPowerBoxes, (int x, int y, int width, int height, int gap, int heightMod, bool flash) -> void)
+{
+    super(x, y, width, height, gap, heightMod, flash);
+
+    CSurface::GL_PushMatrix();
+    CSurface::GL_Translate((x + (64 - width)) / 2.f, (y + 10 - gap));
+
+    if (powerState.second > 0)
+    {
+
+    }
+}
+*/

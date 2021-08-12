@@ -1,5 +1,5 @@
 "578d7c240883e4f0ff77fc5589e557565389ce83c10481ec????????8b47408b1ff30f105f04c741fc00000000f30f105708":
-void* Shields::CollisionReal(Shields *this<ecx>, float x, float y, Damage damage, bool unk);
+void* Shields::CollisionReal(Shields *this<ecx>, float x, float y, DamageParameter damage, bool unk);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec7c8b57048b078b4f088b770cc70424????????8954240889442404894c240c89d9":
 void Shields::constructor(Shields *this<ecx>, int roomId, int shipId, int startingPower, const std::string shieldFile);
 "5589e5f30f104d108b4508f30f1045148b550cf30f1181d8010000f30f5ec1f30f1189d40100008981cc0100008991d00100005df30f1181c0010000":

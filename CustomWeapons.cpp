@@ -1,5 +1,6 @@
 #include "CustomWeapons.h"
 #include "CustomOptions.h"
+#include "CustomDamage.h"
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
 #include <iomanip>
@@ -21,7 +22,6 @@ HOOK_STATIC(BlueprintManager, ProcessWeaponBlueprint, (WeaponBlueprint* bp, Blue
         if (name == "freeMissileChance")
         {
             weaponDef.freeMissileChance = boost::lexical_cast<int>(val);
-
         }
         if (name == "descriptionOverride")
         {
@@ -30,6 +30,10 @@ HOOK_STATIC(BlueprintManager, ProcessWeaponBlueprint, (WeaponBlueprint* bp, Blue
         if (name == "hideEventTooltip")
         {
             weaponDef.hideEventTooltip = EventsParser::ParseBoolean(val);
+        }
+        if (name == "accuracyMod")
+        {
+            weaponDef.customDamage.accuracyMod = boost::lexical_cast<int>(val);
         }
     }
 
@@ -235,3 +239,4 @@ HOOK_METHOD(WeaponControl, KeyDown, (SDLKey key) -> bool)
 
     return ret;
 }
+

@@ -1,6 +1,5 @@
 #include "Projectile_Extend.h"
 
-/*
 HOOK_METHOD_PRIORITY(Projectile, constructor, 900, (Pointf position, int ownerId, int targetId, Pointf target) -> void)
 {
 	super(position, ownerId, targetId, target);
@@ -40,4 +39,3 @@ Projectile_Extend* Get_Projectile_Extend(Projectile* c)
 
     return (Projectile_Extend*)dEx;
 }
-*/

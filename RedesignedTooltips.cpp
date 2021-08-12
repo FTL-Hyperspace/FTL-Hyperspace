@@ -526,6 +526,12 @@ HOOK_STATIC(WeaponBlueprint, GetDescription, (std::string* strRef, WeaponBluepri
                 descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(weaponDef->freeMissileChance)) + "\n";
             }
 
+            if (weaponDef->customDamage.accuracyMod != 0)
+            {
+                currentText = tLib->GetText("accuracy_modifier");
+                descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(weaponDef->customDamage.accuracyMod)) + "\n";
+            }
+
             if (bp->boostPower.count > 0)
             {
                 std::string boostType = "";
@@ -1053,6 +1059,11 @@ HOOK_STATIC(WeaponBlueprint, GetDescription, (std::string* strRef, WeaponBluepri
         {
             currentText = tLib->GetText("free_missile_chance");
             descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(weaponDef->freeMissileChance)) + "\n";
+        }
+        if (weaponDef->customDamage.accuracyMod != 0)
+        {
+            currentText = tLib->GetText("accuracy_modifier");
+            descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(weaponDef->customDamage.accuracyMod)) + "\n";
         }
     }
 

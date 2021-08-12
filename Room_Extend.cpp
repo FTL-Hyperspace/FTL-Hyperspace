@@ -49,6 +49,11 @@ Room_Extend::~Room_Extend()
     if (slowDownAnim)
         slowDownAnim->destructor();
 
+    if (erosionAnim)
+        erosionAnim->destructor();
+
+    delete currentErosion;
+
     for (auto i : roomAnims)
     {
         delete i.anim;

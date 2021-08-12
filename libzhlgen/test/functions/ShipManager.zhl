@@ -35,11 +35,11 @@ CrewMember *ShipManager::AddCrewMemberFromString(ShipManager *this<ecx>, const s
 "8b81c8040000837808ff74??55660fefc989e583e4f083ec208b4124f30f1005????????f30f5980d0010000f30f5ac8f20f110c24e8????????dd5c2418f20f2c442418":
 int ShipManager::GetOxygenPercentage(ShipManager *this<ecx>);
 "578d7c240883e4f0ff77fc5589f889e557565383ec2c807832008b1f8b7f2875??3b7b04":
-char ShipManager::DamageCrew(ShipManager *this<ecx>, CrewMember *crew, int iDamage, int iShieldPiercing, int fireChance, int breachChance, int stunChance, int iIonDamage, int iSystemDamage, int iPersDamage, char bHullBuster, int ownerId, int selfId, int bLockdown, int iStun);
+char ShipManager::DamageCrew(ShipManager *this<ecx>, CrewMember *crew, DamageParameter dmg);
 "578d7c240883e4f0ff77fc5589e55756538d45d889cb83ec5c8b378945d0894dac":
 void ShipManager::RemoveItem(ShipManager *this<ecx>, const std::string& name); 
 "578d7c240883e4f0ff77fc5589e557565389ce81ec????????8b47088b5f3cf30f105704f30f100f8945908b4710f30f118d78fffffff30f119574ffffff":
-char ShipManager::DamageArea(ShipManager *this<ecx>, Pointf location, int iDamage, int iShieldPiercing, int fireChance, int breachChance, int stunChance, int iIonDamage, int iSystemDamage, int iPersDamage, char bHullBuster, int ownerId, int selfId, int bLockdown, int iStun, char forceHit);
+char ShipManager::DamageArea(ShipManager *this<ecx>, Pointf location, DamageParameter dmg, char forceHit);
 "578d7c240883e4f0ff77fc5589e557565383ec5c8b47048b7708894da883f8ff":
 static CrewBlueprint* ShipManager::SelectRandomCrew(CrewBlueprint& bp<ecx>, ShipManager *ship, int seed, const std::string& unk);
 "5589e5565331db89ce83e4f083ec108b51188b411c29d0c1f80285c074??66908b0c9a":
@@ -128,6 +128,8 @@ void ShipManager::DamageSystem(ShipManager *this<ecx>, int systemId, DamageParam
 void ShipManager::StartFire(ShipManager *this<ecx>, int roomId);
 "57b9????????8d7c240883e4f0ff77fc5589e557565383ec4c8b07c745dc00000000c744240800000000c744240400000000c745e000000000c745e4000000008945c489c38d45dc890424":
 CrewMember* ShipManager::FindCrew(ShipManager *this<ecx>, const CrewBlueprint *bp);
+"8079100075??b8????????c38d742600578d7c240883e4f0ff77fc5589e5575653":
+bool ShipManager::GetDodged(ShipManager *this<ecx>);
 
 struct ShipManager depends (PowerManager, ShieldPower)
 {{

@@ -26,3 +26,5 @@ int ProjectileFactory::SpendMissiles(ProjectileFactory *this<ecx>);
 void ProjectileFactory::OnRender(ProjectileFactory *this<ecx>, float alpha, bool forceVisual);
 "8b411c83b8d8010000017e??8b812c06000085c0b8????????0f4f812c060000c38b8134010000":
 int ProjectileFactory::NumTargetsRequired(ProjectileFactory *this<ecx>);
+"578d7c240883e4f0ff77fc5589e557565389cf81ec????????8b912c06000085d20f8e????????0fb681f600000084c08885b4feffff":
+void ProjectileFactory::Update(ProjectileFactory *this<ecx>);
