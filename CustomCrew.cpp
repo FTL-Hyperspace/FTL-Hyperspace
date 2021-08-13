@@ -3142,6 +3142,11 @@ HOOK_METHOD(ShipManager, DamageCrew, (CrewMember *crew, DamageParameter dmgParam
 {
     Damage* dmg = (Damage*)&dmgParameter;
 
+    if ((CrewMember*)dmg->selfId == crew)
+    {
+        return false;
+    }
+
     return super(crew, dmgParameter);
 }
 
