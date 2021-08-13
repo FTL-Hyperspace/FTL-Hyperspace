@@ -581,6 +581,12 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
             }
         }
 
+        if (nodeName == "restartEvent")
+        {
+            isDefault = false;
+            customEvent->restartEvent = true;
+        }
+
         if (nodeName == "jumpEvent")
         {
             isDefault = false;
@@ -2378,6 +2384,11 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
             int seed = customEvent->eventLoadSeeded ? (int)(starMap.currentLoc->loc.x + starMap.currentLoc->loc.y) ^ starMap.currentSectorSeed : -1;
 
             UpdateLocation(G_->GetEventGenerator()->GetBaseEvent(customEvent->eventLoad, starMap.currentSector->level, true, seed));
+        }
+
+        if (customEvent->restartEvent)
+        {
+            super(starMap.currentLoc->event);
         }
     }
 

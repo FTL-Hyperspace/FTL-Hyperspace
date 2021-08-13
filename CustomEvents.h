@@ -397,6 +397,7 @@ struct CustomEvent
     std::string secretSectorWarp = "";
     std::string eventLoad = "";
     bool eventLoadSeeded = true;
+    bool restartEvent = false;
     EventGameOver gameOver = EventGameOver();
     bool disableScrapScore = false;
     std::string customStore;
