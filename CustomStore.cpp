@@ -584,19 +584,21 @@ std::vector<StoreBox*> StoreComplete::CreateCustomStoreBoxes(const StoreCategory
 
             if (i.blueprint.empty())
             {
-                box = (SystemStoreBox*)orig->vStoreBoxes.back();
-                orig->vStoreBoxes.pop_back();
-
-                Blueprint* freeBlueprint = nullptr;
-                if (box->shopper && !box->freeBlueprint.empty()) freeBlueprint = G_->GetBlueprints()->GetDroneBlueprint(box->freeBlueprint);
-
-                box->desc.cost = GetItemPricing(i.price, box->blueprint->desc.cost, orig->worldLevel, freeBlueprint ? freeBlueprint->desc.cost : 0);
-
-                vec.push_back(box);
-
-                if (box->pBlueprint)
+                if (!orig->vStoreBoxes.empty())
                 {
-                    usedBlueprints.push_back(box->pBlueprint->name);
+                    box = (SystemStoreBox*)orig->vStoreBoxes.front();
+                    orig->vStoreBoxes.erase(orig->vStoreBoxes.begin());
+
+                    if (box->pBlueprint)
+                    {
+                        Blueprint* freeBlueprint = G_->GetBlueprints()->GetDroneBlueprint(box->freeBlueprint);
+
+                        box->desc.cost = GetItemPricing(i.price, box->blueprint->desc.cost, orig->worldLevel, freeBlueprint ? freeBlueprint->desc.cost : 0);
+
+                        vec.push_back(box);
+
+                        usedBlueprints.push_back(box->pBlueprint->name);
+                    }
                 }
             }
             else
