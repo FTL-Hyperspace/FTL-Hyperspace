@@ -7,6 +7,9 @@
 #include <boost/format.hpp>
 #include <rapidxml_print.hpp>
 
+extern bool locationUpdated;
+extern std::vector<std::pair<std::string,int>> eventQueue;
+
 struct BeaconType
 {
     std::string eventName;
@@ -441,6 +444,7 @@ struct CustomShipEvent
     bool jumpEventClear = false;
 
     bool invincible = false;
+    bool deadCrewAuto = false;
 };
 
 struct SectorExit

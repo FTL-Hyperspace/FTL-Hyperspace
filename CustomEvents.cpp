@@ -954,6 +954,12 @@ bool CustomEventsParser::ParseCustomShipEvent(rapidxml::xml_node<char> *node, Cu
             isDefault = false;
             customEvent->invincible = true;
         }
+
+        if (nodeName == "deadCrewAuto")
+        {
+            isDefault = false;
+            customEvent->deadCrewAuto = true;
+        }
     }
 
     return isDefault;
@@ -3132,4 +3138,27 @@ void GoToFlagship(bool atBase, bool allFleet)
     starMap.readyToTravel = true;
     starMap.outOfFuel = false;
     commandGui->waitLocation = false;
+}
+
+HOOK_METHOD(CompleteShip, DeadCrew, () -> bool)
+{
+    bool ret = super();
+
+    if (ret && !bPlayerShip)
+    {
+        ShipEvent& event = G_->GetWorld()->currentShipEvent;
+
+        CustomShipEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomShipEvent(event.name);
+        if (customEvent)
+        {
+            if (customEvent->deadCrewAuto)
+            {
+                shipManager->bAutomated = true;
+                eventQueue.push_back({event.deadCrew, event.shipSeed});
+                return false;
+            }
+        }
+    }
+
+    return ret;
 }

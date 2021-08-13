@@ -10,7 +10,8 @@ std::unordered_map<std::string,std::vector<std::pair<float,std::string>>> Trigge
 
 TriggeredEventGui *TriggeredEventGui::instance = new TriggeredEventGui();
 
-bool locationUpdated;
+bool locationUpdated = false;
+std::vector<std::pair<std::string,int>> eventQueue = std::vector<std::pair<std::string,int>>();
 
 void CustomEventsParser::ParseCustomTriggeredEventNode(rapidxml::xml_node<char> *node, TriggeredEventDefinition *def)
 {
@@ -894,6 +895,19 @@ HOOK_METHOD(WorldManager, OnLoop, () -> void)
     TriggeredEvent::UpdateAll();
 
     super();
+
+    if (!locationUpdated && !eventQueue.empty())
+    {
+        std::string eventName = eventQueue.back().first;
+        int seed = eventQueue.back().second;
+        int level = G_->GetWorld()->starMap.currentSector->level;
+
+        G_->GetWorld()->UpdateLocation(G_->GetEventGenerator()->GetBaseEvent(eventName, level, true, seed));
+        locationUpdated = true;
+
+        eventQueue.pop_back();
+        return;
+    }
 
     if (!locationUpdated && (playerShip && !playerShip->shipManager->bJumping)) TriggeredEvent::TriggerCheck();
 }
