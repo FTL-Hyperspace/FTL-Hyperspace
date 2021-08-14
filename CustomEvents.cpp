@@ -287,6 +287,17 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
             }
         }
 
+        if (strcmp(eventNode->name(), "loadEventList") == 0)
+        {
+
+            EventLoadList *eventLoadList = new EventLoadList();
+            ParseCustomEventLoadList(eventNode, eventLoadList);
+            if (eventNode->first_attribute("name"))
+            {
+                customEventLoadLists[eventNode->first_attribute("name")->value()] = eventLoadList;
+            }
+        }
+
         if (strcmp(eventNode->name(), "triggeredEventBox") == 0)
         {
             TriggeredEventBoxDefinition boxDef;
@@ -586,6 +597,13 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
             {
                 customEvent->eventLoadSeeded = EventsParser::ParseBoolean(child->first_attribute("seeded")->value());
             }
+        }
+
+        if (nodeName == "loadEventList")
+        {
+            isDefault = false;
+            customEvent->eventLoadList = new EventLoadList();
+            ParseCustomEventLoadList(child, customEvent->eventLoadList);
         }
 
         if (nodeName == "restartEvent")
@@ -1177,6 +1195,54 @@ void CustomEventsParser::ParseCustomReqNode(rapidxml::xml_node<char> *node, Cust
         {
             req->children.emplace_back();
             ParseCustomReqNode(child, &(req->children.back()));
+        }
+    }
+}
+
+void CustomEventsParser::ParseCustomEventLoadList(rapidxml::xml_node<char> *node, EventLoadList *eventList)
+{
+    if (node->first_attribute("seeded"))
+    {
+        eventList->seeded = EventsParser::ParseBoolean(node->first_attribute("seeded")->value());
+    }
+    if (node->first_attribute("first"))
+    {
+        eventList->useFirst = EventsParser::ParseBoolean(node->first_attribute("first")->value());
+    }
+    if (node->first_attribute("default"))
+    {
+        eventList->defaultEvent = node->first_attribute("default")->value();
+    }
+    for (auto child = node->first_node(); child; child = child->next_sibling())
+    {
+        std::string nodeName(child->name());
+        if (nodeName == "event")
+        {
+            EventLoadListEvent event;
+
+            if (child->first_attribute("name"))
+            {
+                event.event = child->first_attribute("name")->value();
+            }
+            if (child->first_attribute("req"))
+            {
+                event.req = child->first_attribute("req")->value();
+            }
+            if (child->first_attribute("max_lvl"))
+            {
+                event.max_lvl = boost::lexical_cast<int>(child->first_attribute("max_lvl")->value());
+                event.lvl = -2147483648;
+            }
+            if (child->first_attribute("lvl"))
+            {
+                event.lvl = boost::lexical_cast<int>(child->first_attribute("lvl")->value());
+            }
+            if (child->first_attribute("max_group"))
+            {
+                event.max_group = boost::lexical_cast<int>(child->first_attribute("max_group")->value());
+            }
+
+            eventList->events.push_back(event);
         }
     }
 }
@@ -2301,6 +2367,76 @@ void CustomCreateLocation(WorldManager* world, CustomEvent* customEvent)
     }
 }
 
+LocationEvent* CustomEventsParser::GetEvent(WorldManager *world, EventLoadList *eventList, int seed)
+{
+    if (!eventList->seeded) seed = -1;
+
+    ShipManager* player = G_->GetShipManager(0);
+    std::unordered_set<int> used_groups;
+    std::vector<LocationEvent*> candidateEvents;
+
+    for (auto& event : eventList->events)
+    {
+        if (event.max_group != -1 && used_groups.count(event.max_group)) continue;
+
+        if (!event.req.empty())
+        {
+            int result = player->HasEquipment(event.req);
+            if (result < event.lvl || result > event.max_lvl) continue;
+            if (event.max_group != -1) used_groups.insert(event.max_group);
+        }
+
+        LocationEvent* locEvent = GetEvent(world, event.event, seed);
+        if (locEvent && world->CheckRequirements(locEvent))
+        {
+            if (eventList->useFirst) return locEvent;
+            candidateEvents.push_back(locEvent);
+        }
+        else
+        {
+            delete locEvent;
+        }
+    }
+
+    if (candidateEvents.empty())
+    {
+        if (eventList->defaultEvent.empty()) return nullptr;
+        return GetEvent(world, eventList->defaultEvent, seed);
+    }
+    if (candidateEvents.size() == 1) return candidateEvents[0];
+
+    if (seed != -1) srandom32(seed);
+    LocationEvent* ret = candidateEvents[random32()%candidateEvents.size()];
+    for (LocationEvent* event : candidateEvents)
+    {
+        if (event != ret) delete event;
+    }
+
+    return ret;
+}
+
+LocationEvent* CustomEventsParser::GetEvent(WorldManager *world, std::string eventName, int seed)
+{
+    auto it = customEventLoadLists.find(eventName);
+    if (it != customEventLoadLists.end())
+    {
+        return GetEvent(world, it->second, seed);
+    }
+    return G_->GetEventGenerator()->GetBaseEvent(eventName, world->starMap.currentSector->level, true, seed);
+}
+
+void CustomEventsParser::LoadEvent(WorldManager *world, EventLoadList *eventList, int seed)
+{
+    LocationEvent *event = GetEvent(world, eventList, seed);
+    if (event) world->UpdateLocation(event);
+}
+
+void CustomEventsParser::LoadEvent(WorldManager *world, std::string eventName, int seed)
+{
+    LocationEvent *event = GetEvent(world, eventName, seed);
+    if (event) world->UpdateLocation(event);
+}
+
 HOOK_METHOD(WorldManager, CreateLocation, (Location *location) -> void)
 {
     bool needsBackground = location->space.tex == nullptr && location->planet.tex == nullptr;
@@ -2336,11 +2472,16 @@ HOOK_METHOD(WorldManager, CreateLocation, (Location *location) -> void)
     {
         CustomCreateLocation(this, customEvent);
 
+        if (customEvent->eventLoadList != nullptr)
+        {
+            int seed = customEvent->eventLoadList->seeded ? (int)(location->loc.x + location->loc.y) ^ starMap.currentSectorSeed : -1;
+            CustomEventsParser::GetInstance()->LoadEvent(this, customEvent->eventLoadList, seed);
+        }
+
         if (!customEvent->eventLoad.empty())
         {
             int seed = customEvent->eventLoadSeeded ? (int)(location->loc.x + location->loc.y) ^ starMap.currentSectorSeed : -1;
-
-            UpdateLocation(G_->GetEventGenerator()->GetBaseEvent(customEvent->eventLoad, starMap.currentSector->level, true, seed));
+            CustomEventsParser::GetInstance()->LoadEvent(this, customEvent->eventLoad, seed);
         }
     }
 
@@ -2388,11 +2529,16 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
 
         CustomCreateLocation(this, customEvent);
 
+        if (customEvent->eventLoadList != nullptr)
+        {
+            int seed = customEvent->eventLoadList->seeded ? (int)(starMap.currentLoc->loc.x + starMap.currentLoc->loc.y) ^ starMap.currentSectorSeed : -1;
+            CustomEventsParser::GetInstance()->LoadEvent(this, customEvent->eventLoadList, seed);
+        }
+
         if (!customEvent->eventLoad.empty())
         {
             int seed = customEvent->eventLoadSeeded ? (int)(starMap.currentLoc->loc.x + starMap.currentLoc->loc.y) ^ starMap.currentSectorSeed : -1;
-
-            UpdateLocation(G_->GetEventGenerator()->GetBaseEvent(customEvent->eventLoad, starMap.currentSector->level, true, seed));
+            CustomEventsParser::GetInstance()->LoadEvent(this, customEvent->eventLoad, seed);
         }
 
         if (customEvent->restartEvent)

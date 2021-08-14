@@ -5894,6 +5894,7 @@ struct WorldManager
 	LIBZHL_API bool HostileEnvironment();
 	LIBZHL_API bool AddBoarders(BoardingEvent &boardingEvent);
 	LIBZHL_API void CreateStore(LocationEvent *event);
+	LIBZHL_API bool CheckRequirements(LocationEvent *event);
 	
 	CompleteShip *playerShip;
 	BossShip *bossShip;

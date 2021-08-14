@@ -375,6 +375,23 @@ struct EventFleet
     bool autoDarkening;
 };
 
+struct EventLoadListEvent
+{
+    std::string event = "";
+    std::string req = "";
+    int lvl = 1;
+    int max_lvl = 2147483647;
+    int max_group = -1;
+};
+
+struct EventLoadList
+{
+    std::vector<EventLoadListEvent> events;
+    bool seeded = true;
+    bool useFirst = false;
+    std::string defaultEvent = "";
+};
+
 struct CustomEvent
 {
     std::string eventName;
@@ -397,6 +414,7 @@ struct CustomEvent
     std::string secretSectorWarp = "";
     std::string eventLoad = "";
     bool eventLoadSeeded = true;
+    EventLoadList *eventLoadList = nullptr;
     bool restartEvent = false;
     EventGameOver gameOver = EventGameOver();
     bool disableScrapScore = false;
@@ -590,6 +608,7 @@ public:
     void ParseCustomTriggeredEventNode(rapidxml::xml_node<char> *node, TriggeredEventDefinition *def);
     void ParseCustomTriggeredEventBoxNode(rapidxml::xml_node<char> *node, TriggeredEventBoxDefinition *box);
     void ParseCustomTriggeredEventSounds(rapidxml::xml_node<char> *node, std::vector<std::pair<float,std::string>> *vec);
+    void ParseCustomEventLoadList(rapidxml::xml_node<char> *node, EventLoadList *eventList);
 
     static CustomEventsParser *GetInstance()
     {
@@ -624,6 +643,11 @@ public:
         }
     }
 
+    LocationEvent* GetEvent(WorldManager *world, EventLoadList *eventList, int seed);
+    LocationEvent* GetEvent(WorldManager *world, std::string eventName, int seed);
+    void LoadEvent(WorldManager *world, EventLoadList *eventList, int seed);
+    void LoadEvent(WorldManager *world, std::string eventName, int seed);
+
     std::vector<std::string> eventFiles;
     CustomEvent *defaultVictory = new CustomEvent();
     CustomQuest *defaultQuest = new CustomQuest();
@@ -638,6 +662,7 @@ private:
     std::unordered_map<std::string, BossShipDefinition> bossShipIds;
     std::unordered_map<std::string, BeaconType*> customBeacons;
     std::unordered_map<std::string, CustomReq*> customReqs;
+    std::unordered_map<std::string, EventLoadList*> customEventLoadLists;
     static CustomEventsParser *instance;
 };
 
