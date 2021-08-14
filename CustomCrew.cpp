@@ -2749,25 +2749,31 @@ HOOK_METHOD(ShipObject, HasEquipment, (const std::string& name) -> int)
         {
             auto custom = CustomCrewManager::GetInstance();
 
-            ShipManager *currentShip;
-            if (iShipId == 0)
+            std::vector<CrewMember*> vCrewList;
+
+            auto world = G_->GetWorld();
+
+            ShipManager *playerShip = world->playerShip->shipManager;
+            ShipManager *enemyShip = world->playerShip->enemyShip ? world->playerShip->enemyShip->shipManager : nullptr;
+
+            if (playerShip != nullptr)
             {
-                currentShip = G_->GetWorld()->playerShip->shipManager;
+                vCrewList.insert(vCrewList.end(), playerShip->vCrewList.begin(), playerShip->vCrewList.end());
             }
-            else
+            if (enemyShip != nullptr)
             {
-                currentShip = G_->GetWorld()->playerShip->shipManager->current_target;
+                vCrewList.insert(vCrewList.end(), enemyShip->vCrewList.begin(), enemyShip->vCrewList.end());
             }
 
 
-            for (auto i : currentShip->vCrewList)
+            for (auto i : vCrewList)
             {
                 if (custom->IsRace(i->species))
                 {
                     auto def = custom->GetDefinition(i->species);
                     auto ex = CM_EX(i);
 
-                    if (!i->intruder)
+                    if (!i->iShipId == iShipId)
                     {
 //                        if (HasAugmentation("ALL_CREW_DETECT_LIFEFORMS"))
 //                        {
