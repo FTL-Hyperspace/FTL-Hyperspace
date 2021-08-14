@@ -9,9 +9,8 @@
 
 CustomEventsParser *CustomEventsParser::instance = new CustomEventsParser();
 
-void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
+void CustomEventsParser::ParseCustomEventNodeFiles(rapidxml::xml_node<char> *node)
 {
-    // First pass; load all the event files to process any Hyperspace stuff in those files.
     for (auto eventNode = node->first_node(); eventNode; eventNode = eventNode->next_sibling())
     {
         if (strcmp(eventNode->name(), "eventFile") == 0)
@@ -22,7 +21,10 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
             }
         }
     }
+}
 
+void CustomEventsParser::ReadCustomEventFiles()
+{
     char* eventText = G_->GetResources()->LoadFile("data/events_hyperspace.xml");
 
     if (eventText)
@@ -77,8 +79,10 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
             }
         }
     }
+}
 
-    // Second pass; process Hyperspace event stuff in hyperspace.xml.
+void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
+{
     for (auto eventNode = node->first_node(); eventNode; eventNode = eventNode->next_sibling())
     {
         if (strcmp(eventNode->name(), "bossShip") == 0)
@@ -348,8 +352,10 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
             }
         }
     }
+}
 
-    // Post-processing
+void CustomEventsParser::PostProcessCustomEvents()
+{
     for (auto& def : TriggeredEventDefinition::defs)
     {
         if (def.loadBox)
@@ -376,6 +382,7 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
                 ParseCustomTriggeredEventBoxNode(node, def.box);
             }
 
+            doc.clear();
             delete def.loadBox;
             def.loadBox = nullptr;
         }
@@ -1262,6 +1269,7 @@ void CustomEventsParser::ParseVanillaEventNode(rapidxml::xml_node<char> *node, c
     else
     {
         customEvent = it->second;
+        *customEvent = CustomEvent(); // Reset the customEvent
         ParseCustomEvent(node, customEvent, true);
     }
 }
@@ -1288,6 +1296,7 @@ void CustomEventsParser::ParseVanillaShipEventNode(rapidxml::xml_node<char> *nod
     else
     {
         customEvent = it->second;
+        *customEvent = CustomShipEvent(); // Reset the customEvent
         ParseCustomShipEvent(node, customEvent);
     }
 }

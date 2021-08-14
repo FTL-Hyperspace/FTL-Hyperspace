@@ -576,7 +576,10 @@ public:
 
     }
 
+    void ParseCustomEventNodeFiles(rapidxml::xml_node<char> *node);
+    void ReadCustomEventFiles();
     void ParseCustomEventNode(rapidxml::xml_node<char> *node);
+    void PostProcessCustomEvents();
     void ParseVanillaEventNode(rapidxml::xml_node<char> *node, const std::string &eventName, const std::string &baseEventName);
     void ParseVanillaShipEventNode(rapidxml::xml_node<char> *node, const std::string &eventName);
     bool ParseCustomEvent(rapidxml::xml_node<char> *node, CustomEvent *event, bool parsingVanilla = false);

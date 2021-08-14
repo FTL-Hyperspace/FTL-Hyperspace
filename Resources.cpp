@@ -68,15 +68,16 @@ void Global::InitializeResources(ResourceControl *resources)
         rapidxml::xml_document<> doc;
         doc.parse<0>(hyperspacetext);
 
-        auto node = doc.first_node("FTL");
-        if (!node)
+        auto parentNode = doc.first_node("FTL");
+        if (!parentNode)
             throw "No parent node found in hyperspace.xml";
 
         bool checkedVersion = false;
 
         std::string discordModName = "";
 
-        for (node = node->first_node(); node; node = node->next_sibling())
+        // First Pass
+        for (auto node = parentNode->first_node(); node; node = node->next_sibling())
         {
             if (strcmp(node->name(), "version") == 0)
             {
@@ -249,7 +250,7 @@ void Global::InitializeResources(ResourceControl *resources)
             if (strcmp(node->name(), "events") == 0)
             {
                 auto customEventParser = CustomEventsParser::GetInstance();
-                customEventParser->ParseCustomEventNode(node);
+                customEventParser->ParseCustomEventNodeFiles(node);
             }
 
             if (strcmp(node->name(), "augments") == 0)
@@ -326,6 +327,28 @@ void Global::InitializeResources(ResourceControl *resources)
             {
                 SaveFileHandler::instance->ParseSaveFileNode(node);
             }
+        }
+
+        // Processing after first pass
+        {
+            auto customEventParser = CustomEventsParser::GetInstance();
+            customEventParser->ReadCustomEventFiles();
+        }
+
+        // Second Pass
+        for (auto node = parentNode->first_node(); node; node = node->next_sibling())
+        {
+            if (strcmp(node->name(), "events") == 0)
+            {
+                auto customEventParser = CustomEventsParser::GetInstance();
+                customEventParser->ParseCustomEventNode(node);
+            }
+        }
+
+        // Processing after second pass
+        {
+            auto customEventParser = CustomEventsParser::GetInstance();
+            customEventParser->PostProcessCustomEvents();
         }
 
 
