@@ -460,6 +460,8 @@ void StatBoostManager::CreateRecursiveBoosts(StatBoost& statBoost, int nStacks)
     {
         for (auto recursiveCrew : checkingCrewList)
         {
+            if (!recursiveCrew->Functional()) continue;
+
             auto ex = CM_EX(recursiveCrew);
             if (ex->BoostCheck(statBoost))
             {
@@ -515,6 +517,8 @@ void StatBoostManager::OnLoop(WorldManager* world)
 
     for (auto otherCrew : checkingCrewList)
     {
+        if (!otherCrew->Functional()) continue;
+
         auto ex = CM_EX(otherCrew);
 
         auto currentStatBoosts = std::vector<StatBoost>();

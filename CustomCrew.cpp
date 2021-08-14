@@ -2856,7 +2856,7 @@ HOOK_METHOD(ShipManager, OnLoop, () -> void)
             CustomCrewManager *custom = CustomCrewManager::GetInstance();
 
             auto ex = CM_EX(i);
-            int powerDrain = ex->CalculateStat(CrewStat::POWER_DRAIN, def);
+            int powerDrain = i->Functional() ? ex->CalculateStat(CrewStat::POWER_DRAIN, def) : 0;
 
             ShipSystem* sys = GetSystemInRoom(i->iRoomId);
 
