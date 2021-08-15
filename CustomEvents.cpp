@@ -4,6 +4,7 @@
 #include "Seeds.h"
 #include "ShipUnlocks.h"
 #include "CustomFleetShips.h"
+#include "CustomBoss.h"
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
 
@@ -318,6 +319,16 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
             }
         }
 
+        if (strcmp(eventNode->name(), "warningMessage") == 0)
+        {
+            TriggeredEventWarningDefinition warningDef;
+            ParseCustomTriggeredEventWarningNode(eventNode, &warningDef);
+            if (eventNode->first_attribute("name"))
+            {
+                TriggeredEventGui::GetInstance()->warningDefs[eventNode->first_attribute("name")->value()] = warningDef;
+            }
+        }
+
         if (strcmp(eventNode->name(), "combatTimerPosition") == 0)
         {
             for (auto child = eventNode->first_node(); child; child = child->next_sibling())
@@ -413,6 +424,34 @@ void CustomEventsParser::PostProcessCustomEvents()
                 std::string msg = std::string("Failed to load timerSounds ") + def.loadTimerSounds;
                 MessageBoxA(GetDesktopWindow(), msg.c_str(), "Error", MB_ICONERROR | MB_SETFOREGROUND);
             }
+        }
+        if (def.loadWarning)
+        {
+            rapidxml::xml_document<> doc;
+            doc.parse<0>(def.loadWarning->data());
+            auto node = doc.first_node("warningMessage");
+            if (node)
+            {
+                if (node->first_attribute("load"))
+                {
+                    std::string loadName = node->first_attribute("load")->value();
+                    auto it = TriggeredEventGui::GetInstance()->warningDefs.find(loadName);
+                    if (it != TriggeredEventGui::GetInstance()->warningDefs.end())
+                    {
+                        *(def.warning) = it->second;
+                    }
+                    else
+                    {
+                        std::string msg = std::string("Failed to load warningMessage ") + loadName;
+                        MessageBoxA(GetDesktopWindow(), msg.c_str(), "Error", MB_ICONERROR | MB_SETFOREGROUND);
+                    }
+                }
+                ParseCustomTriggeredEventWarningNode(node, def.warning);
+            }
+
+            doc.clear();
+            delete def.loadWarning;
+            def.loadWarning = nullptr;
         }
     }
 
@@ -896,6 +935,66 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
                 }
             }
             customEvent->enemyDamage.push_back(eventDamage);
+        }
+        if (nodeName == "superDrones")
+        {
+            isDefault = false;
+            if (child->first_attribute("player"))
+            {
+                customEvent->superDrones = EventsParser::ParseBoolean(child->first_attribute("player")->value()) ? 0 : 1;
+            }
+            else
+            {
+                customEvent->superDrones = 1;
+            }
+            if (child->first_attribute("name"))
+            {
+                customEvent->superDronesName = child->first_attribute("name")->value();
+            }
+        }
+        if (nodeName == "clearSuperDrones")
+        {
+            isDefault = false;
+            if (child->first_attribute("player"))
+            {
+                customEvent->clearSuperDrones = EventsParser::ParseBoolean(child->first_attribute("player")->value()) ? 0 : 1;
+            }
+            else
+            {
+                customEvent->clearSuperDrones = 1;
+            }
+        }
+        if (nodeName == "superBarrage")
+        {
+            isDefault = false;
+            if (child->first_attribute("player"))
+            {
+                customEvent->superBarrage = EventsParser::ParseBoolean(child->first_attribute("player")->value()) ? 0 : 1;
+            }
+            else
+            {
+                customEvent->superBarrage = 1;
+            }
+        }
+        if (nodeName == "superShields")
+        {
+            isDefault = false;
+            if (child->first_attribute("player"))
+            {
+                customEvent->powerSuperShields = EventsParser::ParseBoolean(child->first_attribute("player")->value()) ? 0 : 1;
+            }
+            else
+            {
+                customEvent->powerSuperShields = 1;
+            }
+            if (child->first_attribute("amount"))
+            {
+                customEvent->powerSuperShieldsSet = boost::lexical_cast<int>(child->first_attribute("amount")->value());
+            }
+            if (child->first_attribute("add"))
+            {
+                customEvent->powerSuperShieldsAdd = boost::lexical_cast<int>(child->first_attribute("add")->value());
+            }
         }
     }
 
@@ -2362,6 +2461,63 @@ void CustomCreateLocation(WorldManager* world, CustomEvent* customEvent)
             if (customEvent->disableSurrenderForced)
             {
                 enemyShip->shipAI.surrendered = false;
+            }
+        }
+    }
+
+    if (customEvent->superDrones != -1)
+    {
+        ShipManager* shipManager = G_->GetShipManager(customEvent->superDrones);
+        if (shipManager != nullptr)
+        {
+            droneSurgeOverride = customEvent->superDronesName;
+            shipManager->PrepareSuperDrones();
+        }
+    }
+
+    if (customEvent->clearSuperDrones != -1)
+    {
+        ShipManager* shipManager = G_->GetShipManager(customEvent->clearSuperDrones);
+        if (shipManager != nullptr)
+        {
+            for (auto i : shipManager->superDrones)
+            {
+                delete i;
+            }
+            shipManager->superDrones.clear();
+        }
+    }
+
+    if (customEvent->superBarrage != -1)
+    {
+        ShipManager* shipManager = G_->GetShipManager(customEvent->superBarrage);
+        if (shipManager != nullptr)
+        {
+            shipManager->PrepareSuperBarrage();
+        }
+    }
+
+    if (customEvent->powerSuperShields != -1)
+    {
+        ShipManager* shipManager = G_->GetShipManager(customEvent->powerSuperShields);
+        if (shipManager != nullptr)
+        {
+            Shields *shields = shipManager->shieldSystem;
+            if (shields != nullptr)
+            {
+                if (customEvent->powerSuperShieldsSet > shields->shields.power.super.second)
+                {
+                    shields->shields.power.super.second = customEvent->powerSuperShieldsSet;
+                }
+                if (customEvent->powerSuperShieldsSet == -1)
+                {
+                    shields->shields.power.super.first = shields->shields.power.super.second;
+                }
+                else if (customEvent->powerSuperShieldsSet > shields->shields.power.super.first)
+                {
+                    shields->shields.power.super.first = customEvent->powerSuperShieldsSet;
+                }
+                shields->shields.power.super.first = std::min(shields->shields.power.super.second, shields->shields.power.super.first + customEvent->powerSuperShieldsAdd);
             }
         }
     }

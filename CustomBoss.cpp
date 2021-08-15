@@ -3,6 +3,8 @@
 
 CustomBoss* CustomBoss::instance = new CustomBoss();
 
+std::string droneSurgeOverride = "";
+
 
 void CustomBoss::ParseBossNode(rapidxml::xml_node<char> *node)
 {
@@ -36,23 +38,17 @@ void CustomBoss::ParseBossNode(rapidxml::xml_node<char> *node)
 
             if (nodeName == "surgeDrones")
             {
-                customSurgeDrones = true;
-
-                for (auto droneNode = bossNode->first_node(); droneNode; droneNode = droneNode->next_sibling())
+                if (bossNode->first_attribute("name"))
                 {
-                    if (droneNode->first_attribute("difficulty"))
-                    {
-                        int difficulty = boost::lexical_cast<int>(droneNode->first_attribute("difficulty")->value());
+                    auto def = new std::array<std::vector<DroneCount>,3>();
+                    ParseBossDroneNode(bossNode, def);
+                    droneSurgeDefs[bossNode->first_attribute("name")->value()] = def;
+                }
+                else
+                {
+                    customSurgeDrones = true;
 
-                        if (difficulty > 2) continue;
-
-                        DroneCount droneCount = DroneCount();
-
-                        droneCount.drone = droneNode->first_attribute("name")->value();
-                        droneCount.number = boost::lexical_cast<int>(droneNode->first_attribute("count")->value());
-
-                        droneSurgeDef[difficulty].push_back(droneCount);
-                    }
+                    ParseBossDroneNode(bossNode, &droneSurgeDef);
                 }
             }
         }
@@ -63,7 +59,25 @@ void CustomBoss::ParseBossNode(rapidxml::xml_node<char> *node)
     }
 }
 
+void CustomBoss::ParseBossDroneNode(rapidxml::xml_node<char> *node, std::array<std::vector<DroneCount>,3> *def)
+{
+    for (auto droneNode = node->first_node(); droneNode; droneNode = droneNode->next_sibling())
+    {
+        if (droneNode->first_attribute("difficulty"))
+        {
+            int difficulty = boost::lexical_cast<int>(droneNode->first_attribute("difficulty")->value());
 
+            if (difficulty > 2) continue;
+
+            DroneCount droneCount = DroneCount();
+
+            droneCount.drone = droneNode->first_attribute("name")->value();
+            droneCount.number = boost::lexical_cast<int>(droneNode->first_attribute("count")->value());
+
+            (*def)[difficulty].push_back(droneCount);
+        }
+    }
+}
 
 static bool isStartingStage = false;
 static bool spawnBossCrew = false;
@@ -183,11 +197,22 @@ HOOK_METHOD(BossShip, LoadBoss, (int fh) -> void)
 
 HOOK_METHOD(ShipManager, PrepareSuperDrones, () -> void)
 {
-    if (!CustomBoss::instance->customSurgeDrones) return;
+    std::array<std::vector<DroneCount>,3> *def = nullptr;
+    if (CustomBoss::instance->customSurgeDrones) def = &(CustomBoss::instance->droneSurgeDef);
+    if (!droneSurgeOverride.empty())
+    {
+        auto it = CustomBoss::instance->droneSurgeDefs.find(droneSurgeOverride);
+        if (it != CustomBoss::instance->droneSurgeDefs.end())
+        {
+            def = it->second;
+        }
+        droneSurgeOverride = "";
+    }
+    if (def == nullptr) return super();
 
     if (superDrones.size() == 0)
     {
-        std::vector<DroneCount> droneCount = CustomBoss::instance->droneSurgeDef[*G_->difficulty];
+        std::vector<DroneCount> droneCount = (*def)[*G_->difficulty];
 
         for (auto i : droneCount)
         {

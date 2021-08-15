@@ -124,6 +124,19 @@ public:
     bool flash = false;
 };
 
+struct TriggeredEventWarningDefinition
+{
+    std::string image = "";
+    TextString text;
+    Point position = Point(0,0);
+    float time = 5.0;
+    bool centerText = true;
+    bool flash = false;
+    GL_Color textColor = GL_Color(253.f, 84.f, 70.f, 1.f);
+    std::string sound = "";
+    bool useWarningLine = false;
+};
+
 class TriggeredEventDefinition
 {
 public:
@@ -136,6 +149,9 @@ public:
 
     std::vector<std::pair<float,std::string>> timerSounds;
     std::string loadTimerSounds = "";
+
+    TriggeredEventWarningDefinition* warning = nullptr;
+    std::vector<char>* loadWarning = nullptr;
 
     unsigned int idx = -1;
 
@@ -178,6 +194,7 @@ public:
     static void NewEvent(TriggeredEventDefinition* def);
     static void DestroyEvent(const std::string& name);
     static void UpdateAll();
+    static void RenderAll();
     static void JumpAll();
     static void TriggerCheck();
     static void SaveAll(int file);
@@ -198,6 +215,9 @@ public:
 
     bool triggered = false;
 
+    WarningMessage* warning = nullptr;
+    float warningTime = -1.f;
+
     TriggeredEvent(TriggeredEventDefinition* newDef) : def{newDef}
     {
         if (def->seeded) seed = random32();
@@ -216,12 +236,30 @@ public:
             triggerTimer = new TimerHelper();
         }
 
+        if (def->warning != nullptr)
+        {
+            warning = new WarningMessage();
+            if (!def->warning->image.empty())
+            {
+                warning->InitImage(def->warning->image, def->warning->position, def->warning->time, def->warning->flash);
+            }
+            else
+            {
+                warning->InitText(def->warning->text, def->warning->position, def->warning->time, def->warning->textColor, def->warning->centerText, def->warning->flash);
+            }
+            if (!def->warning->sound.empty()) warning->SetSound(def->warning->sound);
+            warning->useWarningLine = def->warning->useWarningLine;
+            warning->SetLoop(true);
+            warningTime = def->warning->time;
+        }
+
         Reset();
     }
 
     ~TriggeredEvent()
     {
         delete triggerTimer;
+        delete warning;
     }
 
     float GetTimeLeft()
@@ -233,6 +271,7 @@ public:
 
     void Reset();
     void Update();
+    void OnRender();
     void Jump();
     void Save(int file);
     void Load(int file);
@@ -332,6 +371,7 @@ public:
     Point bossBoxPos = Point(1266, 72);
 
     std::unordered_map<std::string, TriggeredEventBoxDefinition> boxDefs;
+    std::unordered_map<std::string, TriggeredEventWarningDefinition> warningDefs;
 
     std::vector<TriggeredEventBox> boxes;
     TriggeredEventBox* scrapBox = nullptr;
@@ -450,6 +490,14 @@ struct CustomEvent
     std::vector<EventDamage> enemyDamage = std::vector<EventDamage>();
 
     std::pair<std::string,std::string> transformRace = std::pair<std::string,std::string>("","");
+
+    int superDrones = -1;
+    std::string superDronesName = "";
+    int clearSuperDrones = -1;
+    int superBarrage = -1;
+    int powerSuperShields = -1;
+    int powerSuperShieldsSet = -1;
+    int powerSuperShieldsAdd = 0;
 };
 
 struct CustomShipEvent
@@ -608,6 +656,7 @@ public:
     void ParseCustomTriggeredEventNode(rapidxml::xml_node<char> *node, TriggeredEventDefinition *def);
     void ParseCustomTriggeredEventBoxNode(rapidxml::xml_node<char> *node, TriggeredEventBoxDefinition *box);
     void ParseCustomTriggeredEventSounds(rapidxml::xml_node<char> *node, std::vector<std::pair<float,std::string>> *vec);
+    void ParseCustomTriggeredEventWarningNode(rapidxml::xml_node<char> *node, TriggeredEventWarningDefinition *warning);
     void ParseCustomEventLoadList(rapidxml::xml_node<char> *node, EventLoadList *eventList);
 
     static CustomEventsParser *GetInstance()

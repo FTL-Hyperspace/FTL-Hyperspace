@@ -1344,7 +1344,10 @@ Syntax ->
 			</triggeredEventBox>                                                                  specified, then this triggered event will not have a box.                                                               
 			<timerSounds load="DEFAULT_TIMER_SOUNDS">                                           Specifies timerSounds. If the load attribute is specified, then those timer sounds will be loaded and the ones specified here
 				...                                                                               will be appended. If not specified, then this triggered event will not have any sounds.
-			</timerSounds>                                                                      
+			</timerSounds>
+			<warningMessage image="_image_" id="test_id" x="0" y="0" time="5.0"                 Adds warningMessage which appears when remaining time is less than specified time. Warning is image warning if image is specified,
+			                centerText="true" flash="true" r="253" g="84" b="70"                  text otherwise (either id or literal string). x/y for offset. RGB for text only. sound is sound to play when warning appears.
+							sound="_sound_" useWarningLine="true">Text</warningMessage>           useWarningLine puts the "WARNING!" header underlined with the text below it.
 		</triggeredEvent>                                                                       
 		<clearTriggeredEvent name="TR_ID"/>                                                     Cancels the trigger named TR_ID.
 		<triggeredEventModifier name="TR_ID" time="60.0" jumps="1" .../>                        Modifies the time or jumps remaining for a trigger named TR_ID.
@@ -1359,6 +1362,10 @@ Syntax ->
 		<escape/>                                                                               Trigger's the enemy's normal escape sequence. Does not load the escape event.
 		<surrender/>                                                                            Trigger's the enemy's normal surrender behaviour. Does not load the surrender event.
 		<enemyDamage amount="1" system="sys" effect="eff"/>                                     Same syntax as vanilla's <damage> but afflicts the enemy ship.
+		<superDrones player="false" name="surge_name"/>                                         Triggers drone surge. For custom surge different from flagship add another <surgeDrones> tag in <boss> and give it a name.
+		<clearSuperDrones player="false"/>                                                      Clears any existing surge drones, allowing a new surge to be generated.
+		<superBarrage player="false"/>                                                          Triggers barrage surge (phase 3 laser surge).
+		<superShields player="false" amount="12" add="0"/>                                      Regenerates supershield to given amount (full if not given), then adds the given additional amount (if not full).
 		<win text="_text_" creditsText="_id_" creditsBackground="_id_"/>                        Immediately ends the run as a victory. The victory text, credits text, and credits background may be specified.
 		<lose text="_text_"/>                                                                   Immediately ends the run as a defeat. The game over text shall be specified.
 		<unlockShip silent="false" shipReq="REQ_SHIP_ID">PLAYER_SHIP_ID</unlockShip>            Unlocks the ship PLAYER_SHIP_ID. If silent is true, the unlock is silent. If shipReq is specified, the unlock only occurs if

@@ -231,6 +231,27 @@ void CustomEventsParser::ParseCustomTriggeredEventNode(rapidxml::xml_node<char> 
             }
             ParseCustomTriggeredEventSounds(child, &(def->timerSounds));
         }
+        if (strcmp(child->name(), "warningMessage") == 0)
+        {
+            def->warning = new TriggeredEventWarningDefinition();
+            if (child->first_attribute("load"))
+            {
+                std::string loadName = child->first_attribute("load")->value();
+                auto it = TriggeredEventGui::GetInstance()->warningDefs.find(loadName);
+                if (it != TriggeredEventGui::GetInstance()->warningDefs.end())
+                {
+                    *(def->warning) = it->second;
+                }
+                else
+                {
+                    def->loadWarning = new std::vector<char>();
+                    rapidxml::print(std::back_inserter(*(def->loadWarning)), *child, 0);
+                    def->loadWarning->push_back('\0');
+                    continue;
+                }
+            }
+            ParseCustomTriggeredEventWarningNode(child, def->warning);
+        }
     }
 }
 
@@ -489,6 +510,72 @@ void CustomEventsParser::ParseCustomTriggeredEventSounds(rapidxml::xml_node<char
     std::sort(vec->begin(), vec->end(), [](const std::pair<float,std::string> &a, const std::pair<float,std::string> &b) -> bool {return a.first > b.first;});
 }
 
+void CustomEventsParser::ParseCustomTriggeredEventWarningNode(rapidxml::xml_node<char> *node, TriggeredEventWarningDefinition *warning)
+{
+    if (node->first_attribute("image"))
+    {
+        warning->image = node->first_attribute("image")->value();
+    }
+
+    if (node->first_attribute("id"))
+    {
+        warning->text.data = node->first_attribute("id")->value();
+        warning->text.isLiteral = false;
+    }
+    else
+    {
+        warning->text.data = node->value();
+        warning->text.isLiteral = true;
+    }
+
+    if (node->first_attribute("x"))
+    {
+        warning->position.x = boost::lexical_cast<int>(node->first_attribute("x")->value());
+    }
+    if (node->first_attribute("y"))
+    {
+        warning->position.y = boost::lexical_cast<int>(node->first_attribute("y")->value());
+    }
+
+    if (node->first_attribute("time"))
+    {
+        warning->time = boost::lexical_cast<float>(node->first_attribute("time")->value());
+    }
+
+    if (node->first_attribute("centerText"))
+    {
+        warning->centerText = EventsParser::ParseBoolean(node->first_attribute("centerText")->value());
+    }
+
+    if (node->first_attribute("flash"))
+    {
+        warning->flash = EventsParser::ParseBoolean(node->first_attribute("flash")->value());
+    }
+
+    if (node->first_attribute("r"))
+    {
+        warning->textColor.r = boost::lexical_cast<float>(node->first_attribute("r")->value());
+    }
+    if (node->first_attribute("g"))
+    {
+        warning->textColor.g = boost::lexical_cast<float>(node->first_attribute("g")->value());
+    }
+    if (node->first_attribute("b"))
+    {
+        warning->textColor.b = boost::lexical_cast<float>(node->first_attribute("b")->value());
+    }
+
+    if (node->first_attribute("sound"))
+    {
+        warning->sound = node->first_attribute("sound")->value();
+    }
+
+    if (node->first_attribute("useWarningLine"))
+    {
+        warning->useWarningLine = EventsParser::ParseBoolean(node->first_attribute("useWarningLine")->value());
+    }
+}
+
 unsigned int TriggeredEventDefinition::PushDef(TriggeredEventDefinition& def)
 {
     unsigned int ret = defs.size();
@@ -554,6 +641,14 @@ void TriggeredEvent::UpdateAll()
     }
 }
 
+void TriggeredEvent::RenderAll()
+{
+    for (auto it=eventList.begin(); it!=eventList.end(); ++it)
+    {
+        it->second.OnRender();
+    }
+}
+
 void TriggeredEvent::JumpAll()
 {
     for (auto it=eventList.begin(); it!=eventList.end(); )
@@ -580,6 +675,11 @@ void TriggeredEvent::TriggerCheck()
             std::string eventName = it->second.def->event;
             int seed = it->second.seed;
             int level = G_->GetWorld()->starMap.currentSector->level;
+
+            if (it->second.warning != nullptr)
+            {
+                it->second.warning->tracker.Stop(false);
+            }
 
             if (--(it->second.loops) <= 0)
             {
@@ -749,6 +849,12 @@ void TriggeredEvent::Update()
             G_->GetSoundControl()->PlaySoundMix(def->timerSounds[timerSoundIndex].second, -1.f, false);
         }
 
+        if (warning != nullptr)
+        {
+            if (remainingTime < warningTime) warning->Start();
+            warning->OnLoop();
+        }
+
         if (triggerTimer->Done())
         {
             triggered = true;
@@ -787,6 +893,14 @@ void TriggeredEvent::Update()
     if (triggerEnemyCrew >= 0 && G_->GetCrewFactory()->enemyCrew <= triggerEnemyCrew)
     {
         triggered = true;
+    }
+}
+
+void TriggeredEvent::OnRender()
+{
+    if (warning != nullptr)
+    {
+        warning->OnRender();
     }
 }
 
@@ -1156,6 +1270,7 @@ HOOK_METHOD(ShipStatus, OnRender, () -> void)
 {
     super();
     TriggeredEventGui::GetInstance()->OnRender();
+    TriggeredEvent::RenderAll();
 }
 
 HOOK_METHOD(CombatControl, RenderTarget, () -> void)

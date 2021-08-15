@@ -704,8 +704,24 @@ struct LIBZHL_INTERFACE AnimationTracker
 
 struct WarningMessage
 {
+	WarningMessage()
+	{
+		this->constructor();
+	}
+
 	LIBZHL_API void Start();
 	LIBZHL_API void OnRender();
+	LIBZHL_API void RenderWithAlpha(float alpha);
+	LIBZHL_API void constructor();
+	LIBZHL_API void InitImage(const std::string &imageName, Point position, float time, bool flash);
+	LIBZHL_API void InitText(const TextString &text, Point position, float time, GL_Color textColor, bool centerText, bool flash);
+	LIBZHL_API void OnLoop();
+	LIBZHL_API void SetImage(const std::string &imageName);
+	LIBZHL_API void SetText(const TextString &text);
+	LIBZHL_API void SetText(const TextString &text, GL_Color textColor);
+	LIBZHL_API void SetPosition(Point position);
+	LIBZHL_API void SetLoop(bool loop);
+	LIBZHL_API void SetSound(const std::string &sound);
 	
 	void *vptr;
 	AnimationTracker tracker;
@@ -4010,6 +4026,7 @@ struct ShipManager : ShipObject
 	LIBZHL_API void StartFire(int roomId);
 	LIBZHL_API CrewMember *FindCrew(const CrewBlueprint *bp);
 	LIBZHL_API bool GetDodged();
+	LIBZHL_API void PrepareSuperBarrage();
 	
 	Targetable _targetable;
 	Collideable _collideable;
