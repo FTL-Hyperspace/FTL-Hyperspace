@@ -437,6 +437,9 @@
 		<Unit filename="OverclockerSystem.h">
 			<Option virtualFolder="Content/Systems/" />
 		</Unit>
+		<Unit filename="ProjectileVTable.cpp">
+			<Option virtualFolder="Core/Weapons/" />
+		</Unit>
 		<Unit filename="Projectile_Extend.cpp">
 			<Option virtualFolder="Core/Weapons/" />
 		</Unit>

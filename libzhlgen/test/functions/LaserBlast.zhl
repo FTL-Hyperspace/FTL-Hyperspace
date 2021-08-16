@@ -5,8 +5,5 @@ void LaserBlast::OnInit(LaserBlast *this<ecx>);
 
 struct LaserBlast
 {{
-	LaserBlast(Pointf position, int ownerId, int targetId, Pointf target)
-	{
-		this->constructor(position, ownerId, targetId, target);
-	}
+	LaserBlast(Pointf _position, int _ownerId, int _targetId, Pointf _target);
 }};

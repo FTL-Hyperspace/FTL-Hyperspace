@@ -262,9 +262,6 @@ HOOK_METHOD(ShipManager, PrepareSuperBarrage, () -> void)
         if (bp == nullptr) continue;
 
         LaserBlast *projectile = new LaserBlast(pos,iShipId,targetId,current_target->GetRandomRoomCenter());
-        projectile->movingTarget = nullptr;
-        projectile->spinAngle = 0;
-        projectile->spinSpeed = 0;
         projectile->heading = random32()%360;
         projectile->OnInit();
         projectile->Initialize(*bp);

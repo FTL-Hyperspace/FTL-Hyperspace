@@ -4027,7 +4027,6 @@ struct ShipManager : ShipObject
 	LIBZHL_API CrewMember *FindCrew(const CrewBlueprint *bp);
 	LIBZHL_API bool GetDodged();
 	LIBZHL_API void PrepareSuperBarrage();
-	LIBZHL_API Pointf GetRandomTargettingPoint(bool systemRoom);
 	
 	Targetable _targetable;
 	Collideable _collideable;
@@ -5309,10 +5308,7 @@ struct LaserBlast;
 
 struct LaserBlast : Projectile
 {
-	LaserBlast(Pointf position, int ownerId, int targetId, Pointf target)
-	{
-		this->constructor(position, ownerId, targetId, target);
-	}
+	LaserBlast(Pointf _position, int _ownerId, int _targetId, Pointf _target);
 
 	LIBZHL_API void OnUpdate();
 	LIBZHL_API void OnInit();

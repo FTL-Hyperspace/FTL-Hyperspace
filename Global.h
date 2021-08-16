@@ -56,6 +56,8 @@ public:
     SettingValues *GetSettings() { return __settingValues; }
     int GetVersion() { return __version; }
 
+    void *GetVTable_LaserBlast() { return __vtableLaserBlast; }
+
     DWORD GetBaseAddress() { return __baseAddress; }
 
     static bool* showBeaconPath;
@@ -121,6 +123,8 @@ private:
 
     const DWORD __superShieldColorOffset = 0x004CC670;
 
+    const DWORD __vtableLaserBlastOffset = 0x004BB67C;
+
     static std::vector<std::vector<DWORD>> colorOffsets;
 
     DWORD __baseAddress = 0;
@@ -142,6 +146,8 @@ private:
     static AchievementTracker *__achievementTracker;
     static ScoreKeeper *__scoreKeeper;
     static SettingValues *__settingValues;
+
+    static void *__vtableLaserBlast;
 
     const int __version = 72;
 

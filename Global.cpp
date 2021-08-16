@@ -38,6 +38,8 @@ std::pair<Point, Point> *Global::droneWeaponPosition = nullptr;
 GL_Color *Global::superShieldColor = nullptr;
 //GL_Color Global::defaultSuperShieldColor = GL_Color(255.0, 255.0, 255.0, 1.0);
 
+void *Global::__vtableLaserBlast = nullptr;
+
 unsigned int Global::questSeed = 0;
 std::vector<unsigned int> Global::delayedQuestSeeds = std::vector<unsigned int>();
 int Global::delayedQuestIndex = 0;
@@ -128,6 +130,8 @@ void Global::Initialize()
     superShieldColor = (GL_Color*)((__baseAddress + __superShieldColorOffset));
     //defaultSuperShieldColor = *superShieldColor;
     //*superShieldColor = GL_Color(1084.0, 0.0, 310.0, 1.0);
+
+    __vtableLaserBlast = (void*)(__baseAddress + __vtableLaserBlastOffset);
 
     for (auto vec : colorOffsets)
     {
