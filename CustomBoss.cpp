@@ -245,6 +245,40 @@ HOOK_METHOD(ShipManager, PrepareSuperDrones, () -> void)
     }
 }
 
+HOOK_METHOD(ShipManager, PrepareSuperBarrage, () -> void)
+{
+    ShipGraph* graph = ShipGraph::GetShipInfo(iShipId);
+    Pointf pos = {(float)graph->center.x, (float)graph->center.y};
+
+    if (current_target == nullptr) return;
+    int targetId = current_target->iShipId;
+
+    SoundControl* soundControl = G_->GetSoundControl();
+
+    for (int i=0; i<7; ++i)
+    {
+        std::string weaponName = "LASER_HEAVY_1";
+        WeaponBlueprint *bp = G_->GetBlueprints()->GetWeaponBlueprint(weaponName);
+        if (bp == nullptr) continue;
+
+        LaserBlast *projectile = new LaserBlast(pos,iShipId,targetId,current_target->GetRandomRoomCenter());
+        projectile->movingTarget = nullptr;
+        projectile->spinAngle = 0;
+        projectile->spinSpeed = 0;
+        projectile->heading = random32()%360;
+        projectile->OnInit();
+        projectile->Initialize(*bp);
+        projectile->damage.iDamage = 1;
+
+        if (!bp->effects.launchSounds.empty())
+        {
+            soundControl->PlaySoundMix(bp->effects.launchSounds[random32()%bp->effects.launchSounds.size()], -1.f, false);
+        }
+
+        superBarrage.push_back(projectile);
+    }
+}
+
 HOOK_METHOD(BossShip, GetEvent, () -> LocationEvent*)
 {
     LocationEvent *ret = super();
