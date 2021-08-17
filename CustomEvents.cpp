@@ -975,6 +975,10 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
             {
                 customEvent->superBarrage = 1;
             }
+            if (child->first_attribute("name"))
+            {
+                customEvent->superBarrageName = child->first_attribute("name")->value();
+            }
         }
         if (nodeName == "superShields")
         {
@@ -2495,6 +2499,7 @@ void CustomCreateLocation(WorldManager* world, CustomEvent* customEvent)
         ShipManager* shipManager = G_->GetShipManager(customEvent->superBarrage);
         if (shipManager != nullptr)
         {
+            barrageOverride = customEvent->superBarrageName;
             shipManager->PrepareSuperBarrage();
         }
     }
