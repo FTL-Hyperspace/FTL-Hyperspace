@@ -2480,10 +2480,12 @@ void CustomCreateLocation(WorldManager* world, CustomEvent* customEvent)
         ShipManager* shipManager = G_->GetShipManager(customEvent->clearSuperDrones);
         if (shipManager != nullptr)
         {
+            /*
             for (auto i : shipManager->superDrones)
             {
                 delete i;
             }
+            */
             shipManager->superDrones.clear();
         }
     }

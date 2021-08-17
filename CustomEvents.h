@@ -495,6 +495,7 @@ struct CustomEvent
     std::string superDronesName = "";
     int clearSuperDrones = -1;
     int superBarrage = -1;
+    std::string superBarrageName = "";
     int powerSuperShields = -1;
     int powerSuperShieldsSet = -1;
     int powerSuperShieldsAdd = 0;

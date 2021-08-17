@@ -1,10 +1,11 @@
 #include "CustomBoss.h"
 #include <boost/lexical_cast.hpp>
+#include <math.h>
 
 CustomBoss* CustomBoss::instance = new CustomBoss();
 
 std::string droneSurgeOverride = "";
-
+std::string barrageOverride = "";
 
 void CustomBoss::ParseBossNode(rapidxml::xml_node<char> *node)
 {
@@ -51,6 +52,22 @@ void CustomBoss::ParseBossNode(rapidxml::xml_node<char> *node)
                     ParseBossDroneNode(bossNode, &droneSurgeDef);
                 }
             }
+
+            if (nodeName == "surgeBarrage")
+            {
+                if (bossNode->first_attribute("name"))
+                {
+                    auto def = new std::array<std::vector<BarrageCount>,3>();
+                    ParseBossBarrageNode(bossNode, def);
+                    barrageDefs[bossNode->first_attribute("name")->value()] = def;
+                }
+                else
+                {
+                    customBarrage = true;
+
+                    ParseBossBarrageNode(bossNode, &barrageDef);
+                }
+            }
         }
     }
     catch (std::exception)
@@ -75,6 +92,38 @@ void CustomBoss::ParseBossDroneNode(rapidxml::xml_node<char> *node, std::array<s
             droneCount.number = boost::lexical_cast<int>(droneNode->first_attribute("count")->value());
 
             (*def)[difficulty].push_back(droneCount);
+        }
+    }
+}
+
+void CustomBoss::ParseBossBarrageNode(rapidxml::xml_node<char> *node, std::array<std::vector<BarrageCount>,3> *def)
+{
+    for (auto child = node->first_node(); child; child = child->next_sibling())
+    {
+        if (child->first_attribute("difficulty"))
+        {
+            int difficulty = boost::lexical_cast<int>(child->first_attribute("difficulty")->value());
+
+            if (difficulty > 2) continue;
+
+            BarrageCount barrageCount = BarrageCount();
+
+            barrageCount.weapon = child->first_attribute("name")->value();
+            barrageCount.number = boost::lexical_cast<int>(child->first_attribute("count")->value());
+
+            (*def)[difficulty].push_back(barrageCount);
+        }
+        else
+        {
+            for (int difficulty=0; difficulty<3; ++difficulty)
+            {
+                BarrageCount barrageCount = BarrageCount();
+
+                barrageCount.weapon = child->first_attribute("name")->value();
+                barrageCount.number = boost::lexical_cast<int>(child->first_attribute("count")->value());
+
+                (*def)[difficulty].push_back(barrageCount);
+            }
         }
     }
 }
@@ -247,6 +296,19 @@ HOOK_METHOD(ShipManager, PrepareSuperDrones, () -> void)
 
 HOOK_METHOD(ShipManager, PrepareSuperBarrage, () -> void)
 {
+    std::array<std::vector<BarrageCount>,3> *def = nullptr;
+    if (CustomBoss::instance->customBarrage) def = &(CustomBoss::instance->barrageDef);
+    if (!barrageOverride.empty())
+    {
+        auto it = CustomBoss::instance->barrageDefs.find(barrageOverride);
+        if (it != CustomBoss::instance->barrageDefs.end())
+        {
+            def = it->second;
+        }
+        barrageOverride = "";
+    }
+    if (def == nullptr) return super();
+
     ShipGraph* graph = ShipGraph::GetShipInfo(iShipId);
     Pointf pos = {(float)graph->center.x, (float)graph->center.y};
 
@@ -255,24 +317,96 @@ HOOK_METHOD(ShipManager, PrepareSuperBarrage, () -> void)
 
     SoundControl* soundControl = G_->GetSoundControl();
 
-    for (int i=0; i<7; ++i)
+    std::vector<BarrageCount> barrageCount = (*def)[*G_->difficulty];
+
+    for (auto i : barrageCount)
     {
-        std::string weaponName = "LASER_HEAVY_1";
-        WeaponBlueprint *bp = G_->GetBlueprints()->GetWeaponBlueprint(weaponName);
+        WeaponBlueprint *bp = G_->GetBlueprints()->GetWeaponBlueprint(i.weapon);
         if (bp == nullptr) continue;
 
-        LaserBlast *projectile = new LaserBlast(pos,iShipId,targetId,current_target->GetRandomRoomCenter());
-        projectile->heading = random32()%360;
-        projectile->OnInit();
-        projectile->Initialize(*bp);
-        projectile->damage.iDamage = 1;
-
-        if (!bp->effects.launchSounds.empty())
+        for (int j = 0; j < i.number; j++)
         {
-            soundControl->PlaySoundMix(bp->effects.launchSounds[random32()%bp->effects.launchSounds.size()], -1.f, false);
-        }
+            float heading = random32()%360;
+            Pointf targetPos = current_target->GetRandomRoomCenter();
 
-        superBarrage.push_back(projectile);
+            switch (bp->type)
+            {
+            case 0:
+                {
+                    LaserBlast *projectile = new LaserBlast(pos,iShipId,targetId,targetPos);
+                    projectile->heading = heading;
+                    projectile->OnInit();
+                    projectile->Initialize(*bp);
+
+                    if (!bp->effects.launchSounds.empty())
+                    {
+                        soundControl->PlaySoundMix(bp->effects.launchSounds[random32()%bp->effects.launchSounds.size()], -1.f, false);
+                    }
+
+                    superBarrage.push_back(projectile);
+                }
+                break;
+                /*
+            case 1:
+                Missile *projectile = new Missile(pos,iShipId,targetId,targetPos,heading);
+                projectile->Initialize(*bp);
+
+                if (!bp->effects.launchSounds.empty())
+                {
+                    soundControl->PlaySoundMix(bp->effects.launchSounds[random32()%bp->effects.launchSounds.size()], -1.f, false);
+                }
+
+                superBarrage.push_back(projectile);
+                break;
+                */
+            case 4:
+                for (auto &k : bp->miniProjectiles)
+                {
+                    float r = sqrt(random32()/2147483648.f) * bp->radius;
+                    float theta = random32()%360 * 0.01745329f;
+                    Pointf ppos = {targetPos.x + r*cos(theta), targetPos.y + r*sin(theta)};
+                    LaserBlast *projectile = new LaserBlast(pos,iShipId,targetId,ppos);
+                    projectile->heading = heading;
+                    projectile->OnInit();
+                    projectile->Initialize(*bp);
+
+                    Animation *anim = G_->GetAnimationControl()->GetAnimation(k.image);
+                    projectile->flight_animation = *anim;
+                    delete anim;
+
+                    if (k.fake)
+                    {
+                        projectile->damage.iDamage = 0;
+                        projectile->damage.iShieldPiercing = 0;
+                        projectile->damage.fireChance = 0;
+                        projectile->damage.breachChance = 0;
+                        projectile->damage.stunChance = 0;
+                        projectile->damage.iIonDamage = 0;
+                        projectile->damage.iSystemDamage = 0;
+                        projectile->damage.iPersDamage = 0;
+                        projectile->damage.bHullBuster = false;
+                        projectile->damage.ownerId = -1;
+                        projectile->damage.selfId = -1;
+                        projectile->damage.bLockdown = false;
+                        projectile->damage.crystalShard = false;
+                        projectile->damage.bFriendlyFire = true;
+                        projectile->damage.iStun = 0;
+                        projectile->death_animation.fScale = 0.25;
+                    }
+                    else
+                    {
+                        projectile->bBroadcastTarget = iShipId == 0;
+                    }
+
+                    superBarrage.push_back(projectile);
+                }
+                if (!bp->effects.launchSounds.empty())
+                {
+                    soundControl->PlaySoundMix(bp->effects.launchSounds[random32()%bp->effects.launchSounds.size()], -1.f, false);
+                }
+                break;
+            }
+        }
     }
 }
 
