@@ -21,7 +21,7 @@ SeededRng worldRng = SeededRng(0);
 SeededRng secretRng = SeededRng(0);
 
 bool loadingMap = false;
-
+/*
 HOOK_GLOBAL(srandom32, (unsigned int seed) -> void)
 {
     if (!SeedInputBox::seedsEnabled) return super(seed);
@@ -33,7 +33,7 @@ HOOK_GLOBAL(random32, () -> unsigned int)
     if (!SeedInputBox::seedsEnabled) return super();
 	return rand() << 15 | rand();
 }
-
+*/
 HOOK_METHOD_PRIORITY(Store, OnInit, -900, (ShipManager *shopper, Equipment *equip, int worldLevel) -> void)
 {
     if (!SeedInputBox::seedsEnabled) return super(shopper, equip, worldLevel);

@@ -295,6 +295,17 @@ HOOK_METHOD_PRIORITY(CrewAnimation, constructor, 500, (int shipId, const std::st
     }
 }
 
+HOOK_METHOD_PRIORITY(RockAnimation, constructor, 500, (const std::string &subRace, int iShipId, Pointf position, bool enemy) -> void)
+{
+    super(subRace, iShipId, position, enemy);
+
+    CustomCrewManager *custom = CustomCrewManager::GetInstance();
+    if (custom->IsRace(subRace))
+    {
+        SetupVTable(this);
+    }
+}
+
 #pragma GCC pop_options
 
 
