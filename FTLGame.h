@@ -498,9 +498,7 @@ struct BoardingGoal
 	int damageType;
 };
 
-struct BeamWeapon
-{
-};
+struct WeaponAnimation;
 
 struct GL_Color
 {
@@ -575,47 +573,6 @@ struct GL_Color
 	float a;
 };
 
-struct GL_Primitive
-{
-	int type;
-	float lineWidth;
-	bool hasTexture;
-	GL_Texture *texture;
-	bool textureAntialias;
-	bool hasColor;
-	GL_Color color;
-	int id;
-};
-
-struct Damage
-{
-	Damage()
-	{
-	};
-	
-
-	int iDamage;
-	int iShieldPiercing;
-	int fireChance;
-	int breachChance;
-	int stunChance;
-	int iIonDamage;
-	int iSystemDamage;
-	int iPersDamage;
-	bool bHullBuster;
-	int ownerId;
-	int selfId;
-	bool bLockdown;
-	bool crystalShard;
-	bool bFriendlyFire;
-	int iStun;
-};
-
-struct SystemCustomBox;
-
-struct ShipSystem;
-struct TouchTooltip;
-
 struct Pointf
 {
 	Pointf() : x(0.f), y(0.f) {}
@@ -649,29 +606,7 @@ struct Pointf
 	float y;
 };
 
-struct Globals
-{
-	struct Rect
-	{
-		int x;
-		int y;
-		int w;
-		int h;
-	};
-	
-	struct Ellipse
-	{
-		Point center;
-		float a;
-		float b;
-	};
-	
-	LIBZHL_API static float __stdcall AimAhead(Pointf delta, Pointf vr, float muzzleV);
-	LIBZHL_API static int __stdcall GetNextSpaceId();
-	
-};
-
-struct WarningMessage;
+struct Animation;
 
 struct AnimationTracker;
 
@@ -701,6 +636,216 @@ struct LIBZHL_INTERFACE AnimationTracker
 	float loopDelay;
 	float currentDelay;
 };
+
+struct AnimationDescriptor
+{
+	int numFrames;
+	int imageWidth;
+	int imageHeight;
+	int stripStartY;
+	int stripStartX;
+	int frameWidth;
+	int frameHeight;
+};
+
+struct Animation
+{
+	~Animation()
+	{
+		this->destructor();
+	}
+
+	LIBZHL_API void OnRender(float opacity, GL_Color color, bool mirror);
+	LIBZHL_API void Update();
+	LIBZHL_API void SetCurrentFrame(int frame);
+	LIBZHL_API void Start(bool reset);
+	LIBZHL_API void AddSoundQueue(int unk, const std::string &sound);
+	LIBZHL_API void SetAnimationId(GL_Texture *tex);
+	LIBZHL_API void destructor();
+	LIBZHL_API void StartReverse(bool reset);
+	LIBZHL_API void SetProgress(float progress);
+	
+	GL_Texture *animationStrip;
+	AnimationDescriptor info;
+	AnimationTracker tracker;
+	Pointf position;
+	std::string soundForward;
+	std::string soundReverse;
+	bool randomizeFrames;
+	float fScale;
+	float fYStretch;
+	int currentFrame;
+	bool bAlwaysMirror;
+	std::vector<void*> soundQueue;
+	float fadeOut;
+	float startFadeOut;
+	std::string animName;
+	int mask_x_pos;
+	int mask_x_size;
+	int mask_y_pos;
+	int mask_y_size;
+	GL_Primitive *primitive;
+	GL_Primitive *mirroredPrimitive;
+};
+
+struct CollisionResponse
+{
+	int collision_type;
+	Pointf point;
+	int damage;
+	int superDamage;
+};
+
+struct Targetable;
+
+struct Targetable
+{
+	void *vptr;
+	int type;
+	bool hostile;
+	bool targeted;
+};
+
+struct Collideable
+{
+	void *vptr;
+};
+
+struct WeaponBlueprint;
+struct Projectile;
+
+struct Damage
+{
+	Damage()
+	{
+	};
+	
+
+	int iDamage;
+	int iShieldPiercing;
+	int fireChance;
+	int breachChance;
+	int stunChance;
+	int iIonDamage;
+	int iSystemDamage;
+	int iPersDamage;
+	bool bHullBuster;
+	int ownerId;
+	int selfId;
+	bool bLockdown;
+	bool crystalShard;
+	bool bFriendlyFire;
+	int iStun;
+};
+
+struct Projectile : Collideable
+{
+	LIBZHL_API void CollisionCheck(Collideable *other);
+	LIBZHL_API void constructor(Pointf position, int ownerId, int targetId, Pointf target);
+	LIBZHL_API void destructor();
+	LIBZHL_API void Initialize(WeaponBlueprint &bp);
+	
+	Targetable _targetable;
+	Pointf position;
+	Pointf last_position;
+	float speed_magnitude;
+	Pointf target;
+	float heading;
+	int ownerId;
+	unsigned int selfId;
+	Damage damage;
+	float lifespan;
+	int destinationSpace;
+	int currentSpace;
+	int targetId;
+	bool dead;
+	unsigned __int8 gap_ex_1[2];
+	Animation death_animation;
+	Animation flight_animation;
+	Pointf speed;
+	bool missed;
+	bool hitTarget;
+	unsigned __int8 gap_ex_2[2];
+	std::string hitSolidSound;
+	std::string hitShieldSound;
+	std::string missSound;
+	float entryAngle;
+	bool startedDeath;
+	bool passedTarget;
+	bool bBroadcastTarget;
+	AnimationTracker flashTracker;
+	GL_Color color;
+};
+
+struct BeamWeapon : Projectile
+{
+	Pointf sub_end;
+	Pointf sub_start;
+	Pointf shield_end;
+	Pointf final_end;
+	Pointf target2;
+	Pointf target1;
+	float lifespan;
+	float length;
+	float dh;
+	CollisionResponse last_collision;
+	int soundChannel;
+	std::vector<Animation> contactAnimations;
+	float animationTimer;
+	int lastDamage;
+	Targetable *movingTarget;
+	float start_heading;
+	float timer;
+	WeaponAnimation *weapAnimation;
+	bool piercedShield;
+	bool oneSpace;
+	bool bDamageSuperShield;
+	int movingTargetId;
+	bool checkedCollision;
+	std::vector<Animation> smokeAnims;
+	Pointf lastSmokeAnim;
+};
+
+struct GL_Primitive
+{
+	int type;
+	float lineWidth;
+	bool hasTexture;
+	GL_Texture *texture;
+	bool textureAntialias;
+	bool hasColor;
+	GL_Color color;
+	int id;
+};
+
+struct SystemCustomBox;
+
+struct ShipSystem;
+struct TouchTooltip;
+
+struct Globals
+{
+	struct Rect
+	{
+		int x;
+		int y;
+		int w;
+		int h;
+	};
+	
+	struct Ellipse
+	{
+		Point center;
+		float a;
+		float b;
+	};
+	
+	LIBZHL_API static float __stdcall AimAhead(Pointf delta, Pointf vr, float muzzleV);
+	LIBZHL_API static int __stdcall GetNextSpaceId();
+	
+};
+
+struct WarningMessage;
 
 struct WarningMessage
 {
@@ -996,59 +1141,6 @@ struct Selectable
 
 struct Room;
 
-struct Animation;
-
-struct AnimationDescriptor
-{
-	int numFrames;
-	int imageWidth;
-	int imageHeight;
-	int stripStartY;
-	int stripStartX;
-	int frameWidth;
-	int frameHeight;
-};
-
-struct Animation
-{
-	~Animation()
-	{
-		this->destructor();
-	}
-
-	LIBZHL_API void OnRender(float opacity, GL_Color color, bool mirror);
-	LIBZHL_API void Update();
-	LIBZHL_API void SetCurrentFrame(int frame);
-	LIBZHL_API void Start(bool reset);
-	LIBZHL_API void AddSoundQueue(int unk, const std::string &sound);
-	LIBZHL_API void SetAnimationId(GL_Texture *tex);
-	LIBZHL_API void destructor();
-	LIBZHL_API void StartReverse(bool reset);
-	LIBZHL_API void SetProgress(float progress);
-	
-	GL_Texture *animationStrip;
-	AnimationDescriptor info;
-	AnimationTracker tracker;
-	Pointf position;
-	std::string soundForward;
-	std::string soundReverse;
-	bool randomizeFrames;
-	float fScale;
-	float fYStretch;
-	int currentFrame;
-	bool bAlwaysMirror;
-	std::vector<void*> soundQueue;
-	float fadeOut;
-	float startFadeOut;
-	std::string animName;
-	int mask_x_pos;
-	int mask_x_size;
-	int mask_y_pos;
-	int mask_y_size;
-	GL_Primitive *primitive;
-	GL_Primitive *mirroredPrimitive;
-};
-
 struct Room : Selectable
 {
 	Point GetIntoRoom(Point pos)
@@ -1198,7 +1290,6 @@ struct Description
 };
 
 struct WindowFrame;
-struct WeaponBlueprint;
 struct DroneBlueprint;
 struct CrewBlueprint;
 struct ItemBlueprint;
@@ -2736,60 +2827,6 @@ struct Ship;
 
 struct CrewTarget;
 
-struct Targetable
-{
-	void *vptr;
-	int type;
-	bool hostile;
-	bool targeted;
-};
-
-struct Collideable
-{
-	void *vptr;
-};
-
-struct Projectile;
-
-struct Projectile : Collideable
-{
-	LIBZHL_API void CollisionCheck(Collideable *other);
-	LIBZHL_API void constructor(Pointf position, int ownerId, int targetId, Pointf target);
-	LIBZHL_API void destructor();
-	LIBZHL_API void Initialize(WeaponBlueprint &bp);
-	
-	Targetable _targetable;
-	Pointf position;
-	Pointf last_position;
-	float speed_magnitude;
-	Pointf target;
-	float heading;
-	int ownerId;
-	unsigned int selfId;
-	Damage damage;
-	float lifespan;
-	int destinationSpace;
-	int currentSpace;
-	int targetId;
-	bool dead;
-	unsigned __int8 gap_ex_1[2];
-	Animation death_animation;
-	Animation flight_animation;
-	Pointf speed;
-	bool missed;
-	bool hitTarget;
-	unsigned __int8 gap_ex_2[2];
-	std::string hitSolidSound;
-	std::string hitShieldSound;
-	std::string missSound;
-	float entryAngle;
-	bool startedDeath;
-	bool passedTarget;
-	bool bBroadcastTarget;
-	AnimationTracker flashTracker;
-	GL_Color color;
-};
-
 struct CrewLaser : Projectile
 {
 	int r;
@@ -3696,8 +3733,6 @@ struct Ship : ShipObject
 	std::vector<LockdownShard> lockdowns;
 };
 
-struct Targetable;
-
 struct WeaponControl;
 
 struct WeaponControl : ArmamentControl
@@ -4313,8 +4348,13 @@ struct EventGenerator
 	
 };
 
-struct BombProjectile
+struct BombProjectile : Projectile
 {
+	bool bMissed;
+	DamageMessage *missMessage;
+	float explosiveDelay;
+	bool bSuperShield;
+	bool superShieldBypass;
 };
 
 struct LIBZHL_INTERFACE StoreBox
@@ -6114,11 +6154,7 @@ struct EngiAlien
 {
 };
 
-struct RepairAnimation
-{
-};
-
-struct Missile
+struct Missile : Projectile
 {
 };
 
@@ -6136,8 +6172,14 @@ struct IonDroneAnimation : CrewAnimation
 	bool damagedDoor;
 };
 
-struct Asteroid
+struct RepairAnimation
 {
+};
+
+struct Asteroid : Projectile
+{
+	GL_Texture *imageId;
+	float angle;
 };
 
 struct EnergyAnimation

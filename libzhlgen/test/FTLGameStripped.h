@@ -5287,8 +5287,45 @@ struct PowerManager
   std__pair_9int___int batteryPower;
 };
 
+/* 857 */
+struct CollisionResponse
+{
+  int collision_type;
+  Pointf point;
+  int damage;
+  int superDamage;
+};
+
 /* 299 */
-struct BeamWeapon;
+struct BeamWeapon
+{
+  Projectile _base;
+  Pointf sub_end;
+  Pointf sub_start;
+  Pointf shield_end;
+  Pointf final_end;
+  Pointf target2;
+  Pointf target1;
+  float lifespan;
+  float length;
+  float dh;
+  CollisionResponse last_collision;
+  int soundChannel;
+  std__vector_9Animation contactAnimations;
+  float animationTimer;
+  int lastDamage;
+  Targetable *movingTarget;
+  float start_heading;
+  float timer;
+  WeaponAnimation *weapAnimation;
+  bool piercedShield;
+  bool oneSpace;
+  bool bDamageSuperShield;
+  int movingTargetId;
+  bool checkedCollision;
+  std__vector_9Animation smokeAnims;
+  Pointf lastSmokeAnim;
+};
 
 /* 311 */
 struct BattleDrone
@@ -5347,7 +5384,15 @@ struct RockAnimation
 };
 
 /* 323 */
-struct BombProjectile;
+struct BombProjectile
+{
+  Projectile _base;
+  bool bMissed;
+  DamageMessage *missMessage;
+  float explosiveDelay;
+  bool bSuperShield;
+  bool superShieldBypass;
+};
 
 /* 326 */
 struct EnergyAnimation;
@@ -5405,10 +5450,18 @@ struct HackBox
 };
 
 /* 337 */
-struct Missile;
+struct Missile
+{
+  Projectile _base;
+};
 
 /* 338 */
-struct Asteroid;
+struct Asteroid
+{
+  Projectile _base;
+  GL_Texture *imageId;
+  float angle;
+};
 
 /* 340 */
 struct EngiAlien;
