@@ -319,6 +319,9 @@ HOOK_METHOD(ShipManager, PrepareSuperBarrage, () -> void)
 
     std::vector<BarrageCount> barrageCount = (*def)[*G_->difficulty];
 
+    std::vector<Pointf> bombTargets = std::vector<Pointf>();
+    unsigned int bombTargetIdx = 0;
+
     for (auto i : barrageCount)
     {
         WeaponBlueprint *bp = G_->GetBlueprints()->GetWeaponBlueprint(i.weapon);
@@ -326,85 +329,131 @@ HOOK_METHOD(ShipManager, PrepareSuperBarrage, () -> void)
 
         for (int j = 0; j < i.number; j++)
         {
-            float heading = random32()%360;
-            Pointf targetPos = current_target->GetRandomRoomCenter();
-
             switch (bp->type)
             {
             case 0:
                 {
+                    Pointf targetPos = current_target->GetRandomRoomCenter();
+                    float heading = random32()%360;
+
                     LaserBlast *projectile = new LaserBlast(pos,iShipId,targetId,targetPos);
                     projectile->heading = heading;
                     projectile->OnInit();
                     projectile->Initialize(*bp);
 
-                    if (!bp->effects.launchSounds.empty())
-                    {
-                        soundControl->PlaySoundMix(bp->effects.launchSounds[random32()%bp->effects.launchSounds.size()], -1.f, false);
-                    }
-
                     superBarrage.push_back(projectile);
                 }
                 break;
-                /*
             case 1:
-                Missile *projectile = new Missile(pos,iShipId,targetId,targetPos,heading);
-                projectile->Initialize(*bp);
-
-                if (!bp->effects.launchSounds.empty())
                 {
-                    soundControl->PlaySoundMix(bp->effects.launchSounds[random32()%bp->effects.launchSounds.size()], -1.f, false);
-                }
+                    Pointf targetPos = current_target->GetRandomRoomCenter();
+                    float heading = random32()%360;
 
-                superBarrage.push_back(projectile);
-                break;
-                */
-            case 4:
-                for (auto &k : bp->miniProjectiles)
-                {
-                    float r = sqrt(random32()/2147483648.f) * bp->radius;
-                    float theta = random32()%360 * 0.01745329f;
-                    Pointf ppos = {targetPos.x + r*cos(theta), targetPos.y + r*sin(theta)};
-                    LaserBlast *projectile = new LaserBlast(pos,iShipId,targetId,ppos);
-                    projectile->heading = heading;
-                    projectile->OnInit();
+                    Missile *projectile = new Missile(pos,iShipId,targetId,targetPos,heading);
                     projectile->Initialize(*bp);
 
-                    Animation *anim = G_->GetAnimationControl()->GetAnimation(k.image);
-                    projectile->flight_animation = *anim;
-                    delete anim;
+                    superBarrage.push_back(projectile);
+                }
+                break;
+            case 2:
+                {
+                    Pointf targetPos = current_target->GetRandomRoomCenter();
+                    Pointf finalPos;
+                    do
+                    {
+                        finalPos = current_target->GetRandomRoomCenter();
+                    }
+                    while (finalPos.x == targetPos.x && finalPos.y == targetPos.y);
+                    float heading = random32()%360;
 
-                    if (k.fake)
-                    {
-                        projectile->damage.iDamage = 0;
-                        projectile->damage.iShieldPiercing = 0;
-                        projectile->damage.fireChance = 0;
-                        projectile->damage.breachChance = 0;
-                        projectile->damage.stunChance = 0;
-                        projectile->damage.iIonDamage = 0;
-                        projectile->damage.iSystemDamage = 0;
-                        projectile->damage.iPersDamage = 0;
-                        projectile->damage.bHullBuster = false;
-                        projectile->damage.ownerId = -1;
-                        projectile->damage.selfId = -1;
-                        projectile->damage.bLockdown = false;
-                        projectile->damage.crystalShard = false;
-                        projectile->damage.bFriendlyFire = true;
-                        projectile->damage.iStun = 0;
-                        projectile->death_animation.fScale = 0.25;
-                    }
-                    else
-                    {
-                        projectile->bBroadcastTarget = iShipId == 0;
-                    }
+                    BeamWeapon *projectile = new BeamWeapon(pos,iShipId,targetId,targetPos,finalPos,bp->length,&current_target->_targetable);
+                    projectile->heading = heading;
+                    projectile->entryAngle = random32()%360;
+
+                    float theta = heading * 0.01745329f;
+                    projectile->sub_end.x = pos.x + 2000.f*cos(theta);
+                    projectile->sub_end.y = pos.y + 2000.f*sin(theta);
+
+                    projectile->Initialize(*bp);
 
                     superBarrage.push_back(projectile);
                 }
-                if (!bp->effects.launchSounds.empty())
+                break;
+            case 3:
                 {
-                    soundControl->PlaySoundMix(bp->effects.launchSounds[random32()%bp->effects.launchSounds.size()], -1.f, false);
+                    if (bombTargetIdx >= bombTargets.size())
+                    {
+                        bombTargets.clear();
+                        int numRooms = ShipGraph::GetShipInfo(targetId)->RoomCount();
+                        bombTargets.reserve(numRooms);
+                        for (int k=0; k<numRooms; ++k) bombTargets.push_back(current_target->GetRoomCenter(k));
+
+                        std::random_shuffle(bombTargets.begin(), bombTargets.end(), [](int i){return random32()%i;});
+                        bombTargetIdx = 0;
+                    }
+
+                    BombProjectile *projectile = new BombProjectile(pos,iShipId,targetId,bombTargets[bombTargetIdx++]);
+                    projectile->superShieldBypass = HasEquipment("ZOLTAN_BYPASS");
+                    projectile->Initialize(*bp);
+                    projectile->flight_animation.tracker.loop = false;
+
+                    superBarrage.push_back(projectile);
                 }
                 break;
+            case 4:
+                {
+                    Pointf targetPos = current_target->GetRandomRoomCenter();
+                    float heading = random32()%360;
+                    float entryAngle = random32()%360;
+
+                    for (auto &k : bp->miniProjectiles)
+                    {
+                        float r = sqrt(random32()/2147483648.f) * bp->radius;
+                        float theta = random32()%360 * 0.01745329f;
+                        Pointf ppos = {targetPos.x + r*cos(theta), targetPos.y + r*sin(theta)};
+                        LaserBlast *projectile = new LaserBlast(pos,iShipId,targetId,ppos);
+                        projectile->heading = heading;
+                        projectile->OnInit();
+                        projectile->entryAngle = entryAngle;
+                        projectile->Initialize(*bp);
+
+                        Animation *anim = G_->GetAnimationControl()->GetAnimation(k.image);
+                        projectile->flight_animation = *anim;
+                        delete anim;
+
+                        if (k.fake)
+                        {
+                            projectile->damage.iDamage = 0;
+                            projectile->damage.iShieldPiercing = 0;
+                            projectile->damage.fireChance = 0;
+                            projectile->damage.breachChance = 0;
+                            projectile->damage.stunChance = 0;
+                            projectile->damage.iIonDamage = 0;
+                            projectile->damage.iSystemDamage = 0;
+                            projectile->damage.iPersDamage = 0;
+                            projectile->damage.bHullBuster = false;
+                            projectile->damage.ownerId = -1;
+                            projectile->damage.selfId = -1;
+                            projectile->damage.bLockdown = false;
+                            projectile->damage.crystalShard = false;
+                            projectile->damage.bFriendlyFire = true;
+                            projectile->damage.iStun = 0;
+                            projectile->death_animation.fScale = 0.25;
+                        }
+                        else
+                        {
+                            projectile->bBroadcastTarget = iShipId == 0;
+                        }
+
+                        superBarrage.push_back(projectile);
+                    }
+
+                }
+                break;
+            }
+            if (!bp->effects.launchSounds.empty())
+            {
+                soundControl->PlaySoundMix(bp->effects.launchSounds[random32()%bp->effects.launchSounds.size()], -1.f, false);
             }
         }
     }

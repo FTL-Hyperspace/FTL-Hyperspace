@@ -498,6 +498,7 @@ struct BoardingGoal
 	int damageType;
 };
 
+struct BeamWeapon;
 struct WeaponAnimation;
 
 struct GL_Color
@@ -779,6 +780,13 @@ struct Projectile : Collideable
 
 struct BeamWeapon : Projectile
 {
+	BeamWeapon(Pointf _position, int _ownerId, int _targetId, Pointf _target, Pointf _target2, int _length, Targetable *_targetable)
+	{
+		this->constructor(_position, _ownerId, _targetId, _target, _target2, _length, _targetable);
+	}
+
+	LIBZHL_API void constructor(Pointf _position, int _ownerId, int _targetId, Pointf _target, Pointf _target2, int _length, Targetable *_targetable);
+	
 	Pointf sub_end;
 	Pointf sub_start;
 	Pointf shield_end;
@@ -4348,8 +4356,17 @@ struct EventGenerator
 	
 };
 
+struct LaserBlast;
+
 struct BombProjectile : Projectile
 {
+	BombProjectile(Pointf _position, int _ownerId, int _targetId, Pointf _target)
+	{
+		this->constructor(_position, _ownerId, _targetId, _target);
+	}
+
+	LIBZHL_API void constructor(Pointf _position, int _ownerId, int _targetId, Pointf _target);
+	
 	bool bMissed;
 	DamageMessage *missMessage;
 	float explosiveDelay;
@@ -5344,8 +5361,6 @@ struct DroneEquipBox : EquipmentBox
 {
 };
 
-struct LaserBlast;
-
 struct LaserBlast : Projectile
 {
 	LaserBlast(Pointf _position, int _ownerId, int _targetId, Pointf _target);
@@ -6154,8 +6169,17 @@ struct EngiAlien
 {
 };
 
+struct Missile;
+
 struct Missile : Projectile
 {
+	Missile(Pointf _position, int _ownerId, int _targetId, Pointf _target, float _heading)
+	{
+		this->constructor(_position, _ownerId, _targetId, _target, _heading);
+	}
+
+	LIBZHL_API void constructor(Pointf _position, int _ownerId, int _targetId, Pointf _target, float _heading);
+	
 };
 
 struct Ghost
