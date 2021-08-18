@@ -5226,6 +5226,9 @@ struct ReactorButton;
 struct ReactorButton : Button
 {
 	LIBZHL_API void Accept();
+	LIBZHL_API void OnClick();
+	LIBZHL_API void OnRightClick();
+	LIBZHL_API void OnRender();
 	
 	int tempUpgrade;
 	ShipManager *ship;
