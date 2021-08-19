@@ -230,6 +230,8 @@ struct ActivatedPowerDefinition
     ActivatedPowerRequirements playerReq;
     ActivatedPowerRequirements enemyReq;
 
+    ActivatedPowerRequirements *chargeReq = nullptr;
+
     bool win = false;
     float crewHealth = 0.f;
     float enemyHealth = 0.f;
@@ -332,6 +334,7 @@ public:
     void AddCrewDefinition(CrewDefinition crew);
     void ParseDeathEffect(rapidxml::xml_node<char>* stat, bool* friendlyFire, Damage* explosionDef);
     void ParseAbilityEffect(rapidxml::xml_node<char>* stat, ActivatedPowerDefinition* powerDef);
+    void ParsePowerRequirementsNode(rapidxml::xml_node<char> *node, ActivatedPowerRequirements *def);
     void ParseCrewNode(rapidxml::xml_node<char> *node);
     CrewMember* CreateCrewMember(CrewBlueprint* bp, int shipId, bool intruder);
     bool IsRace(const std::string& race);

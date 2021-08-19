@@ -429,6 +429,9 @@ Syntax ->
 				<isManning/>                                                             Requires the crewmember to be actively manning a system.
 				<requiredSystem functional="false">sysname</requiredSystem>              Requires a specific system to be installed. If functional="true" then it must also be powered and functional.
 			</req>
+			<chargeReq>                                                                  Requirements for the ability to charge. The ability cooldown is paused if the requirements are not met.
+				...
+			</chargeReq>
 			<damage>0</damage>
 			<fireChance>0</fireChance>
 			<breachChance>0</breachChance>
@@ -1288,10 +1291,11 @@ Syntax ->
 		<timerSound t="0">sound</timerSound>
 	</timerSounds>
 	
-	<beaconType name="BEACON_NAME" id="_id_" text="_text_" global="false" req="EQUIPMENT_REQ">  Specifies a custom beacon label with the name BEACON_NAME which can be used by one or more events. Use either id to load a text
-	                                                                                              id or text for a literal text string. If global is true, then the beacon label is visible anywhere on the map. Otherwise it is
+	<beaconType name="BEACON_NAME" id="_id_" text="_text_" req="EQUIPMENT_REQ"                  Specifies a custom beacon label with the name BEACON_NAME which can be used by one or more events. Use either id to load a text
+	            global="false" persist="false">`                                                  id or text for a literal text string. If global is true, then the beacon label is visible anywhere on the map. Otherwise it is
 	                                                                                              only visible if the player has been to an adjacent beacon or received a map update. The req tag can be used to specify a piece
-	                                                                                              of equipment the player requires to see the label (works the same way as blue options).
+	                                                                                              of equipment the player requires to see the label (works the same way as blue options). If persist is true, tag remains even
+	                                                                                              after the player has visited the beacon.
 		<color r="255" g="255" b="255" a="1.0"/>                                                The color of the label.
 		<undiscoveredTooltip id="_id_">_text_</unvisitedTooltip>                                Custom tooltip for if the beacon is undiscovered. Can use either text id or literal string.
 		<unvisitedTooltip id="_id_">_text_</unvisitedTooltip>                                   Custom tooltip for if the beacon is discovered but unvisited. Can use either text id or literal string.

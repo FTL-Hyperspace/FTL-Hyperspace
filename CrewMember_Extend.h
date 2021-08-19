@@ -6,6 +6,7 @@
 
 struct CrewDefinition;
 struct ActivatedPowerDefinition;
+struct ActivatedPowerRequirements;
 
 enum class CrewStat : unsigned int;
 struct StatBoost;
@@ -98,6 +99,7 @@ public:
     void TemporaryPowerFinished();
     Damage* GetPowerDamage();
     PowerReadyState PowerReady();
+    PowerReadyState PowerReq(const ActivatedPowerRequirements *req);
 
     unsigned int powerChange;
     unsigned int powerDefIdx = 0;

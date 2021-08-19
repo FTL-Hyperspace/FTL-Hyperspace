@@ -517,112 +517,7 @@ void CustomCrewManager::ParseAbilityEffect(rapidxml::xml_node<char>* stat, Activ
         {
             auto reqDef = ActivatedPowerRequirements();
 
-            for (auto reqNode = effectNode->first_node(); reqNode; reqNode = reqNode->next_sibling())
-            {
-                std::string req = reqNode->name();
-                std::string reqVal = reqNode->value();
-
-                if (req == "enemyShip")
-                {
-                    reqDef.enemyShip = true;
-                }
-                if (req == "playerShip")
-                {
-                    reqDef.playerShip = true;
-                }
-                if (req == "friendlyInRoom")
-                {
-                    reqDef.friendlyInRoom = true;
-                    reqDef.checkRoomCrew = true;
-                }
-                if (req == "enemyInRoom")
-                {
-                    reqDef.enemyInRoom = true;
-                    reqDef.checkRoomCrew = true;
-                }
-                if (req == "whiteList")
-                {
-                    auto *whiteList = &reqDef.whiteList;
-                    if (reqNode->first_attribute("enemy"))
-                    {
-                        whiteList = EventsParser::ParseBoolean(reqNode->first_attribute("enemy")->value()) ? &reqDef.enemyWhiteList : &reqDef.friendlyWhiteList;
-                    }
-                    if (reqNode->first_attribute("load"))
-                    {
-                        BlueprintManager::GetBlueprintList(*whiteList, G_->GetBlueprints(), reqNode->first_attribute("load")->value());
-                    }
-                    for (auto crewChild = reqNode->first_node(); crewChild; crewChild = crewChild->next_sibling())
-                    {
-                        whiteList->push_back(crewChild->name());
-                    }
-                    reqDef.checkRoomCrew = true;
-                }
-                if (req == "blackList")
-                {
-                    bool friendlyList = true;
-                    bool enemyList = true;
-                    if (reqNode->first_attribute("enemy"))
-                    {
-                        enemyList = EventsParser::ParseBoolean(reqNode->first_attribute("enemy")->value());
-                        friendlyList = !enemyList;
-                    }
-                    if (reqNode->first_attribute("load"))
-                    {
-                        if (friendlyList) BlueprintManager::GetBlueprintList(reqDef.friendlyBlackList, G_->GetBlueprints(), reqNode->first_attribute("load")->value());
-                        if (enemyList) BlueprintManager::GetBlueprintList(reqDef.enemyBlackList, G_->GetBlueprints(), reqNode->first_attribute("load")->value());
-                    }
-                    for (auto crewChild = reqNode->first_node(); crewChild; crewChild = crewChild->next_sibling())
-                    {
-                        if (friendlyList) reqDef.friendlyBlackList.push_back(crewChild->name());
-                        if (enemyList) reqDef.enemyBlackList.push_back(crewChild->name());
-                    }
-                    reqDef.checkRoomCrew = true;
-                }
-                if (req == "systemInRoom")
-                {
-                    reqDef.systemInRoom = true;
-                    if (reqNode->first_attribute("damaged"))
-                    {
-                        reqDef.systemDamaged = EventsParser::ParseBoolean(reqNode->first_attribute("damaged")->value());
-                    }
-                }
-                if (req == "hasClonebay")
-                {
-                    reqDef.hasClonebay = true;
-                }
-                if (req == "aiDisabled")
-                {
-                    reqDef.aiDisabled = true;
-                }
-                if (req == "outOfCombat")
-                {
-                    reqDef.outOfCombat = true;
-                }
-                if (req == "inCombat")
-                {
-                    reqDef.inCombat = true;
-                }
-                if (req == "isManning")
-                {
-                    reqDef.isManning = true;
-                }
-                if (req == "requiredSystem")
-                {
-                    reqDef.requiredSystem = ShipSystem::NameToSystemId(reqNode->value());
-                    if (reqNode->first_attribute("functional"))
-                    {
-                        reqDef.requiredSystemFunctional = EventsParser::ParseBoolean(reqNode->first_attribute("functional")->value());
-                    }
-                }
-                if (req == "minHealth")
-                {
-                    reqDef.minHealth = boost::lexical_cast<int>(reqVal);
-                }
-                if (req == "maxHealth")
-                {
-                    reqDef.maxHealth = boost::lexical_cast<int>(reqVal);
-                }
-            }
+            ParsePowerRequirementsNode(effectNode, &reqDef);
 
             if (effectNode->first_attribute("type"))
             {
@@ -645,7 +540,12 @@ void CustomCrewManager::ParseAbilityEffect(rapidxml::xml_node<char>* stat, Activ
                 def.enemyReq = reqDef;
                 def.playerReq = reqDef;
             }
+        }
+        if (effectName == "chargeReq")
+        {
+            def.chargeReq = new ActivatedPowerRequirements();
 
+            ParsePowerRequirementsNode(effectNode, def.chargeReq);
         }
         if (effectName == "jumpCooldown")
         {
@@ -973,6 +873,116 @@ void CustomCrewManager::ParseAbilityEffect(rapidxml::xml_node<char>* stat, Activ
     *powerDef = def;
 }
 
+void CustomCrewManager::ParsePowerRequirementsNode(rapidxml::xml_node<char> *node, ActivatedPowerRequirements *def)
+{
+    for (auto reqNode = node->first_node(); reqNode; reqNode = reqNode->next_sibling())
+    {
+        std::string req = reqNode->name();
+        std::string reqVal = reqNode->value();
+
+        if (req == "enemyShip")
+        {
+            def->enemyShip = true;
+        }
+        if (req == "playerShip")
+        {
+            def->playerShip = true;
+        }
+        if (req == "friendlyInRoom")
+        {
+            def->friendlyInRoom = true;
+            def->checkRoomCrew = true;
+        }
+        if (req == "enemyInRoom")
+        {
+            def->enemyInRoom = true;
+            def->checkRoomCrew = true;
+        }
+        if (req == "whiteList")
+        {
+            auto *whiteList = &def->whiteList;
+            if (reqNode->first_attribute("enemy"))
+            {
+                whiteList = EventsParser::ParseBoolean(reqNode->first_attribute("enemy")->value()) ? &def->enemyWhiteList : &def->friendlyWhiteList;
+            }
+            if (reqNode->first_attribute("load"))
+            {
+                BlueprintManager::GetBlueprintList(*whiteList, G_->GetBlueprints(), reqNode->first_attribute("load")->value());
+            }
+            for (auto crewChild = reqNode->first_node(); crewChild; crewChild = crewChild->next_sibling())
+            {
+                whiteList->push_back(crewChild->name());
+            }
+            def->checkRoomCrew = true;
+        }
+        if (req == "blackList")
+        {
+            bool friendlyList = true;
+            bool enemyList = true;
+            if (reqNode->first_attribute("enemy"))
+            {
+                enemyList = EventsParser::ParseBoolean(reqNode->first_attribute("enemy")->value());
+                friendlyList = !enemyList;
+            }
+            if (reqNode->first_attribute("load"))
+            {
+                if (friendlyList) BlueprintManager::GetBlueprintList(def->friendlyBlackList, G_->GetBlueprints(), reqNode->first_attribute("load")->value());
+                if (enemyList) BlueprintManager::GetBlueprintList(def->enemyBlackList, G_->GetBlueprints(), reqNode->first_attribute("load")->value());
+            }
+            for (auto crewChild = reqNode->first_node(); crewChild; crewChild = crewChild->next_sibling())
+            {
+                if (friendlyList) def->friendlyBlackList.push_back(crewChild->name());
+                if (enemyList) def->enemyBlackList.push_back(crewChild->name());
+            }
+            def->checkRoomCrew = true;
+        }
+        if (req == "systemInRoom")
+        {
+            def->systemInRoom = true;
+            if (reqNode->first_attribute("damaged"))
+            {
+                def->systemDamaged = EventsParser::ParseBoolean(reqNode->first_attribute("damaged")->value());
+            }
+        }
+        if (req == "hasClonebay")
+        {
+            def->hasClonebay = true;
+        }
+        if (req == "aiDisabled")
+        {
+            def->aiDisabled = true;
+        }
+        if (req == "outOfCombat")
+        {
+            def->outOfCombat = true;
+        }
+        if (req == "inCombat")
+        {
+            def->inCombat = true;
+        }
+        if (req == "isManning")
+        {
+            def->isManning = true;
+        }
+        if (req == "requiredSystem")
+        {
+            def->requiredSystem = ShipSystem::NameToSystemId(reqNode->value());
+            if (reqNode->first_attribute("functional"))
+            {
+                def->requiredSystemFunctional = EventsParser::ParseBoolean(reqNode->first_attribute("functional")->value());
+            }
+        }
+        if (req == "minHealth")
+        {
+            def->minHealth = boost::lexical_cast<int>(reqVal);
+        }
+        if (req == "maxHealth")
+        {
+            def->maxHealth = boost::lexical_cast<int>(reqVal);
+        }
+    }
+}
+
 
 CrewMember* CustomCrewManager::CreateCrewMember(CrewBlueprint* bp, int shipId, bool intruder)
 {
@@ -1063,69 +1073,36 @@ ActivatedPowerDefinition* CrewMember_Extend::CalculatePowerDef()
     return &ActivatedPowerDefinition::powerDefs[powerDefIdx];
 }
 
-PowerReadyState CrewMember_Extend::PowerReady()
+PowerReadyState CrewMember_Extend::PowerReq(const ActivatedPowerRequirements *req)
 {
-    if (loadingGame) return POWER_NOT_READY_COOLDOWN;
-    ActivatedPowerRequirements req;
-
-    auto powerDef = GetPowerDef();
-
-    if (orig->iShipId == 0)
-    {
-        req = powerDef->playerReq;
-    }
-    else
-    {
-        req = powerDef->enemyReq;
-    }
-
     ShipManager *currentShip = G_->GetShipManager(orig->currentShipId);
     ShipManager *crewShip = G_->GetShipManager(orig->iShipId);
 
-    if (orig->crewAnim->status == 6)
-    {
-        if (powerDef->transformRace != "")
-        {
-            return POWER_NOT_READY_TELEPORTING;
-        }
-    }
-    if (temporaryPowerActive)
-    {
-        return POWER_NOT_READY_ACTIVATED;
-    }
-    if (powerCharges.second >= 0 && powerCharges.first <= 0)
-    {
-        return POWER_NOT_READY_CHARGES;
-    }
-    if (powerCooldown.first < powerCooldown.second)
-    {
-        return POWER_NOT_READY_COOLDOWN;
-    }
-    if (!orig->intruder && req.enemyShip)
+    if (!orig->intruder && req->enemyShip)
     {
         return POWER_NOT_READY_ENEMY_SHIP;
     }
-    if (orig->intruder && req.playerShip)
+    if (orig->intruder && req->playerShip)
     {
         return POWER_NOT_READY_PLAYER_SHIP;
     }
-    if (currentShip && !currentShip->GetSystemInRoom(orig->iRoomId) && req.systemInRoom)
+    if (currentShip && !currentShip->GetSystemInRoom(orig->iRoomId) && req->systemInRoom)
     {
         return POWER_NOT_READY_SYSTEM_IN_ROOM;
     }
-    else if (currentShip && req.systemDamaged)
+    else if (currentShip && req->systemDamaged)
     {
         auto sys = currentShip->GetSystemInRoom(orig->iRoomId);
 
         if (sys && sys->healthState.first == sys->healthState.second) return POWER_NOT_READY_SYSTEM_DAMAGED;
     }
-    if (req.checkRoomCrew && currentShip)
+    if (req->checkRoomCrew && currentShip)
     {
-        bool enemyInRoom = !req.enemyInRoom;
-        bool friendlyInRoom = !req.friendlyInRoom;
-        bool whiteList = req.whiteList.empty();
-        bool enemyWhiteList = req.enemyWhiteList.empty();
-        bool friendlyWhiteList = req.friendlyWhiteList.empty();
+        bool enemyInRoom = !req->enemyInRoom;
+        bool friendlyInRoom = !req->friendlyInRoom;
+        bool whiteList = req->whiteList.empty();
+        bool enemyWhiteList = req->enemyWhiteList.empty();
+        bool friendlyWhiteList = req->friendlyWhiteList.empty();
         bool enemyBlackList = true;
         bool friendlyBlackList = true;
 
@@ -1138,7 +1115,7 @@ PowerReadyState CrewMember_Extend::PowerReady()
                     enemyInRoom = true;
                     if (!whiteList)
                     {
-                        for (std::string& race : req.whiteList)
+                        for (const std::string& race : req->whiteList)
                         {
                             if (i->species == race)
                             {
@@ -1149,7 +1126,7 @@ PowerReadyState CrewMember_Extend::PowerReady()
                     }
                     if (!enemyWhiteList)
                     {
-                        for (std::string& race : req.enemyWhiteList)
+                        for (const std::string& race : req->enemyWhiteList)
                         {
                             if (i->species == race)
                             {
@@ -1160,7 +1137,7 @@ PowerReadyState CrewMember_Extend::PowerReady()
                     }
                     if (enemyBlackList)
                     {
-                        for (std::string& race : req.enemyBlackList)
+                        for (const std::string& race : req->enemyBlackList)
                         {
                             if (i->species == race)
                             {
@@ -1175,7 +1152,7 @@ PowerReadyState CrewMember_Extend::PowerReady()
                     friendlyInRoom = true;
                     if (!whiteList)
                     {
-                        for (std::string& race : req.whiteList)
+                        for (const std::string& race : req->whiteList)
                         {
                             if (i->species == race)
                             {
@@ -1186,7 +1163,7 @@ PowerReadyState CrewMember_Extend::PowerReady()
                     }
                     if (!friendlyWhiteList)
                     {
-                        for (std::string& race : req.friendlyWhiteList)
+                        for (const std::string& race : req->friendlyWhiteList)
                         {
                             if (i->species == race)
                             {
@@ -1197,7 +1174,7 @@ PowerReadyState CrewMember_Extend::PowerReady()
                     }
                     if (friendlyBlackList)
                     {
-                        for (std::string& race : req.friendlyBlackList)
+                        for (const std::string& race : req->friendlyBlackList)
                         {
                             if (i->species == race)
                             {
@@ -1239,52 +1216,82 @@ PowerReadyState CrewMember_Extend::PowerReady()
             return POWER_NOT_READY_FRIENDLY_BLACKLIST;
         }
     }
-    if ((!crewShip || !crewShip->HasSystem(13)) && req.hasClonebay)
+    if ((!crewShip || !crewShip->HasSystem(13)) && req->hasClonebay)
     {
         return POWER_NOT_READY_HAS_CLONEBAY;
     }
-    if (req.aiDisabled && orig->iShipId == 1)
+    if (req->aiDisabled && orig->iShipId == 1)
     {
         return POWER_NOT_READY_AI_DISABLED;
     }
-    if (req.outOfCombat && (crewShip && crewShip->current_target && crewShip->current_target->_targetable.hostile))
+    if (req->outOfCombat && (crewShip && crewShip->current_target && crewShip->current_target->_targetable.hostile))
     {
         return POWER_NOT_READY_OUT_OF_COMBAT;
     }
-    if (req.inCombat && (crewShip && (!crewShip->current_target || !crewShip->current_target->_targetable.hostile)))
+    if (req->inCombat && (crewShip && (!crewShip->current_target || !crewShip->current_target->_targetable.hostile)))
     {
         return POWER_NOT_READY_IN_COMBAT;
     }
-    if (req.isManning && !orig->bActiveManning)
+    if (req->isManning && !orig->bActiveManning)
     {
         return POWER_NOT_READY_MANNING;
     }
-    if (req.requiredSystem != -1)
+    if (req->requiredSystem != -1)
     {
-        if (!crewShip || !crewShip->HasSystem(req.requiredSystem))
+        if (!crewShip || !crewShip->HasSystem(req->requiredSystem))
         {
             return POWER_NOT_READY_SYSTEM;
         }
-        ShipSystem* sys = crewShip->GetSystem(req.requiredSystem);
+        ShipSystem* sys = crewShip->GetSystem(req->requiredSystem);
         if (sys == nullptr)
         {
             return POWER_NOT_READY_SYSTEM;
         }
-        if (req.requiredSystemFunctional && (sys->iHackEffect > 1 || sys->GetEffectivePower() == 0))
+        if (req->requiredSystemFunctional && (sys->iHackEffect > 1 || sys->GetEffectivePower() == 0))
         {
             return POWER_NOT_READY_SYSTEM_FUNCTIONAL;
         }
     }
-    if (req.minHealth.enabled && orig->health.first < req.minHealth.value)
+    if (req->minHealth.enabled && orig->health.first < req->minHealth.value)
     {
         return POWER_NOT_READY_MIN_HEALTH;
     }
-    if (req.maxHealth.enabled && orig->health.first > req.maxHealth.value)
+    if (req->maxHealth.enabled && orig->health.first > req->maxHealth.value)
     {
         return POWER_NOT_READY_MAX_HEALTH;
     }
 
     return POWER_READY;
+}
+
+PowerReadyState CrewMember_Extend::PowerReady()
+{
+    if (loadingGame) return POWER_NOT_READY_COOLDOWN;
+
+    if (temporaryPowerActive)
+    {
+        return POWER_NOT_READY_ACTIVATED;
+    }
+    if (powerCharges.second >= 0 && powerCharges.first <= 0)
+    {
+        return POWER_NOT_READY_CHARGES;
+    }
+    if (powerCooldown.first < powerCooldown.second)
+    {
+        return POWER_NOT_READY_COOLDOWN;
+    }
+
+    auto powerDef = GetPowerDef();
+
+    if (orig->crewAnim->status == 6)
+    {
+        if (powerDef->transformRace != "")
+        {
+            return POWER_NOT_READY_TELEPORTING;
+        }
+    }
+
+    return PowerReq(orig->iShipId == 0 ? &powerDef->playerReq : &powerDef->enemyReq);
 }
 
 Damage* CrewMember_Extend::GetPowerDamage()
@@ -2076,7 +2083,7 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
                 {
                     ex->powerCooldown.first = 0.f;
                 }
-                else
+                else if (powerDef->chargeReq == nullptr || ex->PowerReq(powerDef->chargeReq) == POWER_READY)
                 {
                     ex->powerCooldown.first = std::max(0.f, std::min(ex->powerCooldown.second, (float)(G_->GetCFPS()->GetSpeedFactor() * 0.0625 * ex->CalculateStat(CrewStat::POWER_RECHARGE_MULTIPLIER, def)) + ex->powerCooldown.first));
                 }
@@ -3560,19 +3567,28 @@ HOOK_METHOD(CrewBox, GetSelected, (int mouseX, int mouseY) -> CrewMember*)
         auto def = CustomCrewManager::GetInstance()->GetDefinition(pCrew->species);
         if (pCrew->HasSpecialPower() && mouseX < powerButton.hitbox.x + powerButton.hitbox.w && mouseX > powerButton.hitbox.x && mouseY < powerButton.hitbox.y + powerButton.hitbox.h && mouseY > powerButton.hitbox.y)
         {
+            auto powerDef = ex->GetPowerDef();
+
             std::string tooltip = "";
             if (pCrew->PowerReady())
             {
                 appendHotkey = true;
-                if (!ex->GetPowerDef()->tooltip.data.empty())
+                if (!powerDef->tooltip.data.empty())
                 {
-                    tooltip = ex->GetPowerDef()->tooltip.GetText();
+                    tooltip = powerDef->tooltip.GetText();
                 }
             }
             else
             {
                 auto ex = CM_EX(pCrew);
                 auto state = ex->PowerReady();
+                auto powerReq = &powerDef->playerReq;
+                if (state == POWER_NOT_READY_COOLDOWN && powerDef->chargeReq != nullptr)
+                {
+                    powerReq = powerDef->chargeReq;
+                    state = ex->PowerReq(powerReq);
+                    if (state == POWER_READY) state = POWER_NOT_READY_COOLDOWN;
+                }
 
                 std::string tooltipName = "";
                 std::string replaceValue = "";
@@ -3637,24 +3653,24 @@ HOOK_METHOD(CrewBox, GetSelected, (int mouseX, int mouseY) -> CrewMember*)
                 case POWER_NOT_READY_SYSTEM:
                     tooltipName = "power_not_ready_system";
                     {
-                        SystemBlueprint* bp = G_->GetBlueprints()->GetSystemBlueprint(ShipSystem::SystemIdToName(ex->GetPowerDef()->playerReq.requiredSystem));
+                        SystemBlueprint* bp = G_->GetBlueprints()->GetSystemBlueprint(ShipSystem::SystemIdToName(powerReq->requiredSystem));
                         if (bp != nullptr) replaceValue = bp->desc.title.GetText();
                     }
                     break;
                 case POWER_NOT_READY_SYSTEM_FUNCTIONAL:
                     tooltipName = "power_not_ready_system_functional";
                     {
-                        SystemBlueprint* bp = G_->GetBlueprints()->GetSystemBlueprint(ShipSystem::SystemIdToName(ex->GetPowerDef()->playerReq.requiredSystem));
+                        SystemBlueprint* bp = G_->GetBlueprints()->GetSystemBlueprint(ShipSystem::SystemIdToName(powerReq->requiredSystem));
                         if (bp != nullptr) replaceValue = bp->desc.title.GetText();
                     }
                     break;
                 case POWER_NOT_READY_MIN_HEALTH:
                     tooltipName = "power_not_ready_min_health";
-                    replaceValue = boost::lexical_cast<std::string>(ex->GetPowerDef()->playerReq.minHealth.value);
+                    replaceValue = boost::lexical_cast<std::string>(powerReq->minHealth.value);
                     break;
                 case POWER_NOT_READY_MAX_HEALTH:
                     tooltipName = "power_not_ready_max_health";
-                    replaceValue = boost::lexical_cast<std::string>(ex->GetPowerDef()->playerReq.maxHealth.value);
+                    replaceValue = boost::lexical_cast<std::string>(powerReq->maxHealth.value);
                     break;
                 case POWER_NOT_READY_TELEPORTING:
                     tooltipName = "power_not_ready_teleporting";
