@@ -1989,11 +1989,20 @@ HOOK_METHOD(EventGenerator, GetBaseEvent, (const std::string& name, int worldLev
 
 HOOK_METHOD(StarMap, RenderLabels, () -> void)
 {
+    struct LocLabelValues
+    {
+        bool questLoc;
+        bool beacon;
+        bool repair;
+        Store *pStore;
+        bool store;
+        bool distressBeacon;
+    };
+    static std::unordered_map<Location*, LocLabelValues> locLabelValues = std::unordered_map<Location*, LocLabelValues>();
+
     CSurface::GL_PushMatrix();
     CSurface::GL_Translate(position.x, position.y, 0.f);
     CSurface::GL_Translate(translation.x, translation.y, 0.f);
-
-    locValues.clear();
 
     advancedCheckEquipment = true;
 
@@ -2004,13 +2013,21 @@ HOOK_METHOD(StarMap, RenderLabels, () -> void)
 
             CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(i->event->eventName);
 
-            if (customEvent && customEvent->beacon && (i->questLoc || i->beacon))
+            if (customEvent && customEvent->beacon && (i->questLoc || i->beacon || i->event->repair || i->event->pStore || i->event->store || i->event->distressBeacon))
             {
-                locValues[i][0] = i->questLoc;
-                locValues[i][1] = i->beacon;
+                locLabelValues[i].questLoc = i->questLoc;
+                locLabelValues[i].beacon = i->beacon;
+                locLabelValues[i].repair = i->event->repair;
+                locLabelValues[i].pStore = i->event->pStore;
+                locLabelValues[i].store = i->event->store;
+                locLabelValues[i].distressBeacon = i->event->distressBeacon;
 
                 i->questLoc = false;
                 i->beacon = false;
+                i->event->repair = false;
+                i->event->pStore = nullptr;
+                i->event->store = false;
+                i->event->distressBeacon = false;
             }
 
             if (customEvent && customEvent->beacon && (bMapRevealed || customEvent->beacon->global || i->known))
@@ -2070,10 +2087,14 @@ HOOK_METHOD(StarMap, RenderLabels, () -> void)
 
     super();
 
-    for (auto i : locValues)
+    for (auto i : locLabelValues)
     {
-        i.first->questLoc = i.second[0];
-        i.first->beacon = i.second[1];
+        i.first->questLoc = i.second.questLoc;
+        i.first->beacon = i.second.beacon;
+        i.first->event->repair = i.second.repair;
+        i.first->event->pStore = i.second.pStore;
+        i.first->event->store = i.second.store;
+        i.first->event->distressBeacon = i.second.distressBeacon;
     }
 }
 
@@ -2647,8 +2668,6 @@ HOOK_METHOD(WorldManager, CreateLocation, (Location *location) -> void)
             CustomEventsParser::GetInstance()->LoadEvent(this, customEvent->eventLoad, seed);
         }
     }
-
-    location->event->eventName = loc->eventName;
 }
 
 HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
@@ -2709,8 +2728,6 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
             super(starMap.currentLoc->event);
         }
     }
-
-    starMap.currentLoc->event->eventName = loc->eventName;
 }
 
 HOOK_METHOD(WorldManager, CreateShip, (ShipEvent* shipEvent, bool boss) -> CompleteShip*)
