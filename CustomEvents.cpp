@@ -597,6 +597,12 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
             }
         }
 
+        if (nodeName == "preventFleet")
+        {
+            isDefault = false;
+            customEvent->preventFleet = true;
+        }
+
         if (nodeName == "preventBossFleet")
         {
             isDefault = false;
@@ -2087,6 +2093,19 @@ HOOK_METHOD(StarMap, RenderLabels, () -> void)
 
     super();
 
+    for (auto i : locations)
+    {
+        if (i->fleetChanging && i->visited < 1)
+        {
+            LocationEvent *locEvent = i->event;
+            auto customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(locEvent->eventName);
+            if (customEvent && customEvent->preventFleet)
+            {
+                i->fleetChanging = false;
+            }
+        }
+    }
+
     for (auto i : locLabelValues)
     {
         i.first->questLoc = i.second.questLoc;
@@ -3253,11 +3272,13 @@ HOOK_METHOD(StarMap, GenerateMap, (bool unk, bool seed) -> Location*)
 
 HOOK_METHOD(StarMap, TurnIntoFleetLocation, (Location *loc) -> void)
 {
-    if (!loadingMap) {
-        auto locEvent = loc->event;
-        auto customEvents = CustomEventsParser::GetInstance();
-        auto customEvent = customEvents->GetCustomEvent(locEvent->eventName);
+    auto locEvent = loc->event;
+    auto customEvents = CustomEventsParser::GetInstance();
+    auto customEvent = customEvents->GetCustomEvent(locEvent->eventName);
 
+    if (customEvent && customEvent->preventFleet && loc->visited < 1) return;
+
+    if (!loadingMap) {
         if (!loc->visited && customEvent && customEvent->runFromFleet)
         {
             bool requireClosest = customEvent->runFromFleet == 1;

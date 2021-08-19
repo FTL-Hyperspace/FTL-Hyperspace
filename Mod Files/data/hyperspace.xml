@@ -1354,6 +1354,7 @@ Syntax ->
 		<secretSectorWarp>SEC_ID</secretSectorWarp>                                             Specifies the name of the secret sector to send the player to (instead of the default crystal sector).
 		<secretSector>SEC_ID</secretSector>                                                     Alias for secretSectorWarp. Allows specifying a custom secret sector in events.xml files with a single tag.
 		<goToFlagship atBase="false" allFleet="false"/>                                         Warps the player to the Flagship if they are in the last stand. If atBase is true, the flagship will be advanced to the base.
+		<preventFleet/>                                                                         Prevents the rebel fleet from overtaking this beacon whatsoever.
 		<preventBossFleet forever="false"/>                                                     Prevents this event from being randomly overtaken by the fleet in the last stand. If forever is false, it will be overtaken last.
 		<runFromFleet closest="false"/>                                                         If the fleet/boss overtakes this beacon, move it to a random beacon. If closest is true, prefer a nearby beacon.
 		                                                                                          If allFleet is true, then all beacons in the sector will become controlled by the Rebel fleet.

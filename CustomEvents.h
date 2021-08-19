@@ -447,6 +447,7 @@ struct CustomEvent
     std::vector<unsigned int> triggeredEvents;
     std::vector<std::string> clearTriggeredEvents;
     std::vector<TriggeredEventModifier> triggeredEventModifiers;
+    bool preventFleet = false;
     int preventBossFleet = 0;
     int runFromFleet = 0;
     bool removeHazards = false;
