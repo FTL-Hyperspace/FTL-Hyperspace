@@ -15,6 +15,7 @@ struct BeaconType
     std::string eventName;
     GL_Color color;
     bool global = false;
+    bool persistent = false;
     TextString beaconText;
     TextString undiscoveredTooltip;
     TextString unvisitedTooltip;

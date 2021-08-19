@@ -1191,6 +1191,11 @@ void CustomEventsParser::ParseCustomBeaconType(rapidxml::xml_node<char> *node, B
         beaconType->global = EventsParser::ParseBoolean(node->first_attribute("global")->value());
     }
 
+    if (node->first_attribute("persist"))
+    {
+        beaconType->persistent = EventsParser::ParseBoolean(node->first_attribute("persist")->value());
+    }
+
     GL_Color color = GL_Color(255.f, 255.f, 255.f, 1.f);
 
     for (auto child = node->first_node(); child; child = child->next_sibling())
@@ -2019,7 +2024,8 @@ HOOK_METHOD(StarMap, RenderLabels, () -> void)
 
             CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(i->event->eventName);
 
-            if (customEvent && customEvent->beacon && (i->questLoc || i->beacon || i->event->repair || i->event->pStore || i->event->store || i->event->distressBeacon))
+            if (customEvent && customEvent->beacon && (i->visited < 1 || customEvent->beacon->persistent) &&
+                (i->questLoc || i->beacon || i->event->repair || i->event->pStore || i->event->store || i->event->distressBeacon))
             {
                 locLabelValues[i].questLoc = i->questLoc;
                 locLabelValues[i].beacon = i->beacon;
@@ -2036,7 +2042,7 @@ HOOK_METHOD(StarMap, RenderLabels, () -> void)
                 i->event->distressBeacon = false;
             }
 
-            if (customEvent && customEvent->beacon && (bMapRevealed || customEvent->beacon->global || i->known))
+            if (customEvent && customEvent->beacon && (i->visited < 1 || customEvent->beacon->persistent) && (bMapRevealed || customEvent->beacon->global || i->known))
             {
                 BeaconType *beaconType = customEvent->beacon;
 
