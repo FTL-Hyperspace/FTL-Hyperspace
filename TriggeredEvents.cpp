@@ -987,20 +987,43 @@ HOOK_METHOD(WorldManager, CreateNewGame, () -> void)
 {
     TriggeredEvent::eventList.clear();
     TriggeredEventGui::GetInstance()->reset = true;
+
+    eventQueue.clear();
+
     super();
 }
 
 HOOK_METHOD_PRIORITY(StarMap, LoadGame, 100, (int file) -> Location*)
 {
     auto ret = super(file);
+
     TriggeredEvent::LoadAll(file);
+
+    int eventQueueSize = FileHelper::readInteger(file);
+
+    for (int i=0; i<eventQueueSize; ++i)
+    {
+        std::pair<std::string,int> event;
+        event.first = FileHelper::readString(file);
+        event.second = FileHelper::readInteger(file);
+        eventQueue.push_back(event);
+    }
+
     return ret;
 }
 
 HOOK_METHOD_PRIORITY(StarMap, SaveGame, 100, (int file) -> void)
 {
     super(file);
+
     TriggeredEvent::SaveAll(file);
+
+    FileHelper::writeInt(file, eventQueue.size());
+    for (auto& event : eventQueue)
+    {
+        FileHelper::writeString(file, event.first);
+        FileHelper::writeInt(file, event.second);
+    }
 }
 
 HOOK_METHOD(WorldManager, OnLoop, () -> void)

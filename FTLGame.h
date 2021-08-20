@@ -3432,6 +3432,8 @@ struct ShipEvent
 	int shipSeed;
 };
 
+struct ExplosionAnimation;
+
 struct GL_Texture
 {
 	int id_;
@@ -3490,6 +3492,8 @@ struct WeaponAnimation
 
 struct ExplosionAnimation : AnimationTracker
 {
+	LIBZHL_API void OnInit(rapidxml::xml_node<char> *node, const std::string &name, Point glowOffset);
+	
 	ShipObject shipObj;
 	std::vector<Animation> explosions;
 	std::vector<GL_Texture> pieces;

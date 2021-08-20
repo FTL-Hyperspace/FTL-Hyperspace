@@ -9,6 +9,7 @@
 
 extern bool locationUpdated;
 extern std::vector<std::pair<std::string,int>> eventQueue;
+extern bool alreadyWonCustom;
 
 struct BeaconType
 {
@@ -30,6 +31,7 @@ struct EventGameOver
     std::string text = "";
     std::string creditsText = "";
     std::string creditsBackground = "";
+    std::string sound = "";
 };
 
 struct CustomQuest
@@ -515,6 +517,8 @@ struct CustomShipEvent
 
     bool invincible = false;
     bool deadCrewAuto = false;
+
+    EventGameOver finalBoss = EventGameOver();
 };
 
 struct SectorExit

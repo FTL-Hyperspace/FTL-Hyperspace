@@ -9,6 +9,7 @@
 #include <boost/algorithm/string.hpp>
 
 CustomEventsParser *CustomEventsParser::instance = new CustomEventsParser();
+bool alreadyWonCustom = false;
 
 void CustomEventsParser::ParseCustomEventNodeFiles(rapidxml::xml_node<char> *node)
 {
@@ -800,6 +801,7 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
             isDefault = false;
             customEvent->gameOver.enabled = true;
             customEvent->gameOver.victory = true;
+            customEvent->gameOver.sound = "victory";
             if (child->first_attribute("text"))
             {
                 customEvent->gameOver.text = child->first_attribute("text")->value();
@@ -812,6 +814,10 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
             {
                 customEvent->gameOver.creditsBackground = child->first_attribute("creditsBackground")->value();
             }
+            if (child->first_attribute("sound"))
+            {
+                customEvent->gameOver.sound = child->first_attribute("sound")->value();
+            }
         }
         if (nodeName == "lose")
         {
@@ -820,6 +826,10 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
             if (child->first_attribute("text"))
             {
                 customEvent->gameOver.text = child->first_attribute("text")->value();
+            }
+            if (child->first_attribute("sound"))
+            {
+                customEvent->gameOver.sound = child->first_attribute("sound")->value();
             }
         }
         if (nodeName == "playSound")
@@ -1099,6 +1109,29 @@ bool CustomEventsParser::ParseCustomShipEvent(rapidxml::xml_node<char> *node, Cu
         {
             isDefault = false;
             customEvent->deadCrewAuto = true;
+        }
+        if (nodeName == "finalBoss")
+        {
+            isDefault = false;
+            customEvent->finalBoss.enabled = true;
+            customEvent->finalBoss.victory = true;
+            customEvent->finalBoss.sound = "victory";
+            if (child->first_attribute("text"))
+            {
+                customEvent->finalBoss.text = child->first_attribute("text")->value();
+            }
+            if (child->first_attribute("creditsText"))
+            {
+                customEvent->finalBoss.creditsText = child->first_attribute("creditsText")->value();
+            }
+            if (child->first_attribute("creditsBackground"))
+            {
+                customEvent->finalBoss.creditsBackground = child->first_attribute("creditsBackground")->value();
+            }
+            if (child->first_attribute("sound"))
+            {
+                customEvent->finalBoss.sound = child->first_attribute("sound")->value();
+            }
         }
     }
 
@@ -3035,8 +3068,10 @@ HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEve
             if (customEvent->gameOver.victory)
             {
                 G_->GetSoundControl()->StopPlaylist(100);
-                G_->GetSoundControl()->PlaySoundMix("victory", -1.f, false);
-
+                if (!customEvent->gameOver.sound.empty())
+                {
+                    G_->GetSoundControl()->PlaySoundMix(customEvent->gameOver.sound, -1.f, false);
+                }
                 replaceGameOverText = customEvent->gameOver.text;
                 replaceGameOverCreditsText = customEvent->gameOver.creditsText;
                 replaceCreditsBackground = G_->GetEventGenerator()->GetImageFromList(customEvent->gameOver.creditsBackground);
@@ -3049,6 +3084,11 @@ HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEve
             }
             else
             {
+                if (!customEvent->gameOver.sound.empty())
+                {
+                    G_->GetSoundControl()->StopPlaylist(100);
+                    G_->GetSoundControl()->PlaySoundMix(customEvent->gameOver.sound, -1.f, false);
+                }
                 replaceGameOverText = customEvent->gameOver.text;
 
                 G_->GetScoreKeeper()->SetVictory(false);
@@ -3181,6 +3221,11 @@ HOOK_METHOD(StarMap, NewGame, (bool unk) -> Location*)
 {
     jumpEvent = "";
     jumpEventLoop = false;
+    G_->GetWorld()->commandGui->alreadyWon = false;
+    alreadyWonCustom = false;
+    replaceGameOverText = "";
+    replaceGameOverCreditsText = "";
+    replaceCreditsBackground = "";
     return super(unk);
 }
 
@@ -3188,6 +3233,11 @@ HOOK_METHOD(StarMap, LoadGame, (int fh) -> Location*)
 {
     jumpEvent = FileHelper::readString(fh);
     jumpEventLoop = FileHelper::readInteger(fh);
+    G_->GetWorld()->commandGui->alreadyWon = FileHelper::readInteger(fh);
+    alreadyWonCustom = FileHelper::readInteger(fh);
+    replaceGameOverText = FileHelper::readString(fh);
+    replaceGameOverCreditsText = FileHelper::readString(fh);
+    replaceCreditsBackground = FileHelper::readString(fh);
     return super(fh);
 }
 
@@ -3195,6 +3245,11 @@ HOOK_METHOD(StarMap, SaveGame, (int file) -> void)
 {
     FileHelper::writeString(file, jumpEvent);
     FileHelper::writeInt(file, jumpEventLoop);
+    FileHelper::writeInt(file, G_->GetWorld()->commandGui->alreadyWon);
+    FileHelper::writeInt(file, alreadyWonCustom);
+    FileHelper::writeString(file, replaceGameOverText);
+    FileHelper::writeString(file, replaceGameOverCreditsText);
+    FileHelper::writeString(file, replaceCreditsBackground);
     return super(file);
 }
 
@@ -3540,8 +3595,71 @@ HOOK_METHOD(CompleteShip, DeadCrew, () -> bool)
                 eventQueue.push_back({event.deadCrew, event.shipSeed});
                 return false;
             }
+
+            if (customEvent->finalBoss.enabled && !alreadyWonCustom)
+            {
+                CommandGui* commandGui = G_->GetWorld()->commandGui;
+                commandGui->alreadyWon = true;
+                alreadyWonCustom = true;
+
+                if (!customEvent->finalBoss.sound.empty())
+                {
+                    G_->GetSoundControl()->StopPlaylist(100);
+                    G_->GetSoundControl()->PlaySoundMix(customEvent->finalBoss.sound, -1.f, false);
+                }
+
+                replaceGameOverText = customEvent->finalBoss.text;
+                replaceGameOverCreditsText = customEvent->finalBoss.creditsText;
+                replaceCreditsBackground = G_->GetEventGenerator()->GetImageFromList(customEvent->finalBoss.creditsBackground);
+            }
         }
     }
 
     return ret;
+}
+
+HOOK_METHOD(WorldManager, OnLoop, () -> void)
+{
+    super();
+
+    if (!playerShip) return;
+
+    if (alreadyWonCustom && commandGui->alreadyWon)
+    {
+        if (playerShip->DeadCrew() || (playerShip->shipManager->bDestroyed && playerShip->shipManager->ship.explosion.done))
+        {
+            ShipManager *enemy = playerShip->shipManager->current_target;
+            if (!enemy || !enemy->bDestroyed || enemy->ship.explosion.done)
+            {
+                G_->GetSoundControl()->StopPlaylist(100);
+                G_->GetScoreKeeper()->SetVictory(true);
+                commandGui->gameover = true;
+                commandGui->Victory();
+                replaceGameOverText = "";
+            }
+        }
+    }
+    else
+    {
+        ShipManager *enemy = playerShip->shipManager->current_target;
+        if (!enemy) return;
+
+        CustomShipEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomShipEvent(currentShipEvent.name);
+        if (customEvent && customEvent->finalBoss.enabled && enemy->bDestroyed)
+        {
+            enemy->ship.explosion.time = 6.0;
+            commandGui->alreadyWon = true;
+            alreadyWonCustom = true;
+
+            if (!customEvent->finalBoss.sound.empty())
+            {
+                G_->GetSoundControl()->StopPlaylist(100);
+                G_->GetSoundControl()->PlaySoundMix(customEvent->finalBoss.sound, -1.f, false);
+            }
+
+            replaceGameOverText = customEvent->finalBoss.text;
+            replaceGameOverCreditsText = customEvent->finalBoss.creditsText;
+            replaceCreditsBackground = G_->GetEventGenerator()->GetImageFromList(customEvent->finalBoss.creditsBackground);
+        }
+    }
 }
