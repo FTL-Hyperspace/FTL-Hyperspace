@@ -1372,7 +1372,8 @@ Syntax ->
 		<superBarrage player="false" name="surge_name"/>                                        Triggers barrage surge (phase 3 laser surge). For custom surge different from flagship add another <surgeBarrage> tag in <boss>
 		                                                                                          and give it a name.
 		<superShields player="false" amount="12" add="0"/>                                      Regenerates supershield to given amount (full if not given), then adds the given additional amount (if not full).
-		<win text="_text_" creditsText="_id_" creditsBackground="_id_" sound="victory"/>        Immediately ends the run as a victory. The victory text, credits text, and credits background may be specified.
+		<win text="_text_" creditsText="_id_" creditsBackground="_id_" sound="victory"          Immediately ends the run as a victory. The victory text, credits text, and credits background may be specified.
+		     music="title"/>
 		<lose text="_text_" sound=""/>                                                          Immediately ends the run as a defeat. The game over text shall be specified.
 		<unlockShip silent="false" shipReq="REQ_SHIP_ID">PLAYER_SHIP_ID</unlockShip>            Unlocks the ship PLAYER_SHIP_ID. If silent is true, the unlock is silent. If shipReq is specified, the unlock only occurs if
 		                                                                                          the player is currently playing as that ship. Use alias unlockCustomShip in events.xml files.
@@ -1389,8 +1390,8 @@ Syntax ->
 		
 		<invincible/>                                                                           Activate emergency FTL upon destruction similar to Flagship phases 1 and 2. No effect on gameplay.
 		<deadCrewAuto/>                                                                         When you kill the crew, the ship will become automated instead of neutral. The deadCrew event will still be loaded.
-		<finalBoss text="_text_" creditsText="_id_" creditsBackground="_id_" sound="victory"/>  When you defeat this ship, you win the game. Credits show ONLY for mutual destruction; otherwise use <win> for credits.
-		                                                                                          e.g. you can put <win> in the ship's <destroyed>. The sound attribute changes the tune that plays when you defeat the ship.
+		<finalBoss text="_text_" creditsText="_id_" creditsBackground="_id_" sound="victory"    When you defeat this ship, you win the game. Credits show ONLY for mutual destruction; otherwise use <win> for credits.
+		           music="title"/>                                                                e.g. you can put <win> in the ship's <destroyed>. The sound attribute changes the tune that plays when you defeat the ship.
 	</shipEvent>
 	
 	<req name="CUSTOM_REQ" type="_type_" mult="1" const="0" lvl="1" max_lvl="0" load="BPLIST">  Custom requirements for blue options. If a choice req matches a requirement named here, then it will be checked. A custom req
