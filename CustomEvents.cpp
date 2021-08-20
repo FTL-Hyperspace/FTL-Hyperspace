@@ -3257,11 +3257,9 @@ HOOK_METHOD(StarMap, Open, () -> void)
 {
     if (!jumpEvent.empty())
     {
-        auto oldName = currentLoc->event->eventName;
         LocationEvent* event = G_->GetEventGenerator()->GetBaseEvent(jumpEvent, currentSector->level, true, -1);
         if (!jumpEventLoop) jumpEvent = "";
         G_->GetWorld()->UpdateLocation(event);
-        currentLoc->event->eventName = oldName;
         return;
     }
 
