@@ -2692,6 +2692,11 @@ HOOK_METHOD(WorldManager, CreateLocation, (Location *location) -> void)
             int seed = customEvent->eventLoadSeeded ? (int)(location->loc.x + location->loc.y) ^ starMap.currentSectorSeed : -1;
             CustomEventsParser::GetInstance()->LoadEvent(this, customEvent->eventLoad, seed);
         }
+
+        if (!customEvent->secretSectorWarp.empty())
+        {
+            location->event->eventName = loc->eventName;
+        }
     }
 }
 
@@ -2751,6 +2756,11 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
         if (customEvent->restartEvent)
         {
             super(starMap.currentLoc->event);
+        }
+
+        if (!customEvent->secretSectorWarp.empty())
+        {
+            starMap.currentLoc->event->eventName = loc->eventName;
         }
     }
 }
