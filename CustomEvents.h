@@ -11,6 +11,8 @@ extern bool locationUpdated;
 extern std::vector<std::pair<std::string,int>> eventQueue;
 extern bool alreadyWonCustom;
 
+extern std::string replaceCreditsMusic;
+
 struct BeaconType
 {
     std::string eventName;
@@ -31,6 +33,7 @@ struct EventGameOver
     std::string text = "";
     std::string creditsText = "";
     std::string creditsBackground = "";
+    std::string creditsMusic = "";
     std::string sound = "";
 };
 

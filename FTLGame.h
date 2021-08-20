@@ -5076,6 +5076,7 @@ struct SoundControl
 {
 	LIBZHL_API int PlaySoundMix(const std::string &soundName, float volume, char loop);
 	LIBZHL_API void StopPlaylist(int fadeOut);
+	LIBZHL_API void StartPlaylist(std::vector<std::string> &playlist);
 	
 };
 
@@ -5159,6 +5160,7 @@ struct GameOver : FocusWindow
 {
 	LIBZHL_API void OpenText(const std::string &text);
 	LIBZHL_API void OnRender();
+	LIBZHL_API void OnLoop();
 	
 	std::vector<TextButton*> buttons;
 	GL_Primitive *box;

@@ -814,6 +814,10 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
             {
                 customEvent->gameOver.creditsBackground = child->first_attribute("creditsBackground")->value();
             }
+            if (child->first_attribute("music"))
+            {
+                customEvent->gameOver.creditsMusic = child->first_attribute("music")->value();
+            }
             if (child->first_attribute("sound"))
             {
                 customEvent->gameOver.sound = child->first_attribute("sound")->value();
@@ -1127,6 +1131,10 @@ bool CustomEventsParser::ParseCustomShipEvent(rapidxml::xml_node<char> *node, Cu
             if (child->first_attribute("creditsBackground"))
             {
                 customEvent->finalBoss.creditsBackground = child->first_attribute("creditsBackground")->value();
+            }
+            if (child->first_attribute("music"))
+            {
+                customEvent->finalBoss.creditsMusic = child->first_attribute("music")->value();
             }
             if (child->first_attribute("sound"))
             {
@@ -3023,6 +3031,7 @@ static std::string replaceGameOverCreditsText = "";
 static bool shouldReplaceCreditsText = false;
 static bool shouldReplaceBackground = false;
 static std::string replaceCreditsBackground = "";
+std::string replaceCreditsMusic = "";
 
 HOOK_METHOD(GameOver, OpenText, (const std::string& text) -> void)
 {
@@ -3075,6 +3084,7 @@ HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEve
                 replaceGameOverText = customEvent->gameOver.text;
                 replaceGameOverCreditsText = customEvent->gameOver.creditsText;
                 replaceCreditsBackground = G_->GetEventGenerator()->GetImageFromList(customEvent->gameOver.creditsBackground);
+                replaceCreditsMusic = customEvent->gameOver.creditsMusic;
 
                 G_->GetScoreKeeper()->SetVictory(true);
                 commandGui->gameover = true;
@@ -3226,6 +3236,7 @@ HOOK_METHOD(StarMap, NewGame, (bool unk) -> Location*)
     replaceGameOverText = "";
     replaceGameOverCreditsText = "";
     replaceCreditsBackground = "";
+    replaceCreditsMusic = "";
     return super(unk);
 }
 
@@ -3238,6 +3249,7 @@ HOOK_METHOD(StarMap, LoadGame, (int fh) -> Location*)
     replaceGameOverText = FileHelper::readString(fh);
     replaceGameOverCreditsText = FileHelper::readString(fh);
     replaceCreditsBackground = FileHelper::readString(fh);
+    replaceCreditsMusic = FileHelper::readString(fh);
     return super(fh);
 }
 
@@ -3250,6 +3262,7 @@ HOOK_METHOD(StarMap, SaveGame, (int file) -> void)
     FileHelper::writeString(file, replaceGameOverText);
     FileHelper::writeString(file, replaceGameOverCreditsText);
     FileHelper::writeString(file, replaceCreditsBackground);
+    FileHelper::writeString(file, replaceCreditsMusic);
     return super(file);
 }
 
@@ -3608,6 +3621,7 @@ HOOK_METHOD(CompleteShip, DeadCrew, () -> bool)
 
                 replaceGameOverText = customEvent->finalBoss.text;
                 replaceGameOverCreditsText = customEvent->finalBoss.creditsText;
+                replaceCreditsMusic = customEvent->finalBoss.creditsMusic;
                 replaceCreditsBackground = G_->GetEventGenerator()->GetImageFromList(customEvent->finalBoss.creditsBackground);
             }
         }
@@ -3657,6 +3671,7 @@ HOOK_METHOD(WorldManager, OnLoop, () -> void)
 
             replaceGameOverText = customEvent->finalBoss.text;
             replaceGameOverCreditsText = customEvent->finalBoss.creditsText;
+            replaceCreditsMusic = customEvent->finalBoss.creditsMusic;
             replaceCreditsBackground = G_->GetEventGenerator()->GetImageFromList(customEvent->finalBoss.creditsBackground);
         }
     }
