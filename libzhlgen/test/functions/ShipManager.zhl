@@ -132,6 +132,8 @@ CrewMember* ShipManager::FindCrew(ShipManager *this<ecx>, const CrewBlueprint *b
 bool ShipManager::GetDodged(ShipManager *this<ecx>);
 "578d7c240883e4f0ff77fc5589e55756538d995c08000081ec8c0000008b8188040000894db4c745a007000000895d9485c00f842a030000908db42600000000":
 void ShipManager::PrepareSuperBarrage(ShipManager *this<ecx>);
+"578d7c240883e4f0ff77fc5589e557565383ec7c8b47048b1f894d8c8945948b4708c70424????????894590e8????????8b53648b436883ec0429d0":
+std::string ShipManager::GetTooltip(ShipManager *this<ecx>, int x, int y);
 
 struct ShipManager depends (PowerManager, ShieldPower)
 {{

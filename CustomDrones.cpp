@@ -573,19 +573,3 @@ HOOK_METHOD(CrewAnimation, OnInit, (const std::string& _race, Pointf position, b
     }
 }
 
-HOOK_METHOD(CrewControl, OnLoop, () -> void)
-{
-    std::vector<CrewMember*> filteredCrew = std::vector<CrewMember*>();
-
-    for (auto i : selectedCrew)
-    {
-        if (i->Functional())
-        {
-            filteredCrew.push_back(i);
-        }
-    }
-
-    selectedCrew = filteredCrew;
-
-    super();
-}

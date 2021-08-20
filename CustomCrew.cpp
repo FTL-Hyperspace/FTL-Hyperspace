@@ -1291,7 +1291,7 @@ PowerReadyState CrewMember_Extend::PowerReady()
         }
     }
 
-    return PowerReq(orig->iShipId == 0 ? &powerDef->playerReq : &powerDef->enemyReq);
+    return PowerReq(orig->iShipId == 0 || orig->bMindControlled ? &powerDef->playerReq : &powerDef->enemyReq);
 }
 
 Damage* CrewMember_Extend::GetPowerDamage()
@@ -2092,7 +2092,7 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
                 ex->CalculateStat(CrewStat::ACTIVATE_WHEN_READY, def, &activateWhenReady);
                 if (activateWhenReady && ex->PowerReady() == POWER_READY)
                 {
-                    if (iShipId == 1 || !powerDef->activateReadyEnemies)
+                    if ((iShipId == 1 && !bMindControlled) || !powerDef->activateReadyEnemies)
                     {
                         ex->PreparePower();
                     }
@@ -4295,4 +4295,145 @@ HOOK_METHOD(Ship, OnLoop, (std::vector<float> &oxygenLevels) -> void)
     }
 
     super(oxygenLevels);
+}
+
+HOOK_METHOD(CrewControl, SelectPotentialCrew, (CrewMember *crew, bool allowTeleportLeaving) -> void)
+{
+    if (!crew) return;
+
+    if (!crew->GetControllable()) return;
+
+    if (allowTeleportLeaving || (crew->crewAnim->status != 6) || crew->crewAnim->anims[0][6].tracker.reverse)
+    {
+        if (std::find(potentialSelectedCrew.begin(), potentialSelectedCrew.end(), crew) == potentialSelectedCrew.end())
+        {
+            potentialSelectedCrew.push_back(crew);
+        }
+    }
+}
+
+
+HOOK_METHOD(CrewControl, KeyDown, (SDLKey key) -> void)
+{
+    super(key);
+
+    if (key == Settings::GetHotkey("lockdown"))
+    {
+        for (auto i : selectedCrew)
+        {
+            if (i->PowerReady())
+            {
+                CM_EX(i)->PreparePower();
+            }
+        }
+    }
+}
+
+
+
+
+
+HOOK_METHOD(CrewControl, OnLoop, () -> void)
+{
+    crewMessage.Update();
+    if (crewMessage.done)
+    {
+        crewMessage.Stop(false);
+    }
+
+    UpdateCrewBoxes();
+    if (!bUpdated)
+    {
+        mouseDown = false;
+        return;
+    }
+    std::vector<CrewMember*> filteredSelectedCrew = std::vector<CrewMember*>();
+
+    for (auto i : selectedCrew)
+    {
+        if (i->Functional() && !i->IsDead())
+        {
+            filteredSelectedCrew.push_back(i);
+        }
+    }
+
+    selectedCrew = filteredSelectedCrew;
+
+    std::vector<CrewMember*> filteredPotentialSelectedCrew = std::vector<CrewMember*>();
+
+    for (auto i : potentialSelectedCrew)
+    {
+        if (i->Functional() && !i->IsDead())
+        {
+            filteredPotentialSelectedCrew.push_back(i);
+        }
+    }
+
+    potentialSelectedCrew = filteredPotentialSelectedCrew;
+
+    for (auto i : shipManager->vCrewList)
+    {
+        i->selectionState = 0;
+    }
+    if (combatControl->currentTarget)
+    {
+        for (auto i : combatControl->currentTarget->shipManager->vCrewList)
+        {
+            i->selectionState = 0;
+        }
+    }
+
+    for (auto i : potentialSelectedCrew)
+    {
+        i->selectionState = 2;
+    }
+
+    for (auto i : selectedCrew)
+    {
+        i->selectionState = 1;
+    }
+
+    if (!selectedCrew.empty() || !potentialSelectedCrew.empty())
+    {
+        G_->GetMouseControl()->valid = 1;
+        G_->GetMouseControl()->lastValid = 1;
+    }
+
+    if (selectedDoor)
+    {
+        G_->GetMouseControl()->SetDoor(selectedDoor->bOpen ? 2 : ((int)selectedDoor->forcedOpen.running) + 1);
+    }
+
+
+    std::string tooltip = shipManager->GetTooltip(worldCurrentMouse.x, worldCurrentMouse.y);
+
+    if (tooltip.empty())
+    {
+        tooltip = combatControl->GetCrewTooltip(currentMouse.x, currentMouse.y);
+    }
+
+    if (!tooltip.empty())
+    {
+        G_->GetMouseControl()->SetTooltip(tooltip);
+    }
+
+    for (int i = 0; i < crewBoxes.size(); i++)
+    {
+        crewBoxes[i]->OnLoop(selectedCrewBox == i);
+    }
+
+    bUpdated = false;
+}
+
+HOOK_METHOD(CrewMember, OnRenderPath, () -> void)
+{
+    bool setShipId = false;
+    if (bMindControlled && iShipId == 1)
+    {
+        setShipId = true;
+        iShipId = 0;
+    }
+    super();
+
+    if (setShipId) iShipId = 1;
 }

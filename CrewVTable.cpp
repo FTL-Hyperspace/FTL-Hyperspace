@@ -4,7 +4,7 @@
 
 static bool __attribute__((fastcall)) CrewMember_GetControllable(CrewMember *_this)
 {
-    bool req = _this->iShipId == 0 && !_this->bDead && !_this->bMindControlled;
+    bool req = !_this->bDead && ((_this->iShipId == 0 && !_this->bMindControlled) || (_this->iShipId == 1 && _this->bMindControlled));
 
     if (!req)
     {
@@ -211,7 +211,8 @@ static void __attribute__((fastcall)) CrewMember_ActivatePower(CrewMember *_this
 {
     auto ex = CM_EX(_this);
 
-    ex->PreparePower();
+    if (!_this->bMindControlled)
+        ex->PreparePower();
 }
 
 void SetupVTable(CrewMember *crew)
