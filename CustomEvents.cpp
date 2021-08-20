@@ -1020,6 +1020,11 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
                 customEvent->powerSuperShieldsAdd = boost::lexical_cast<int>(child->first_attribute("add")->value());
             }
         }
+        if (nodeName == "noASBPlanet")
+        {
+            isDefault = false;
+            customEvent->noASBPlanet = true;
+        }
     }
 
     return isDefault;
@@ -2741,6 +2746,8 @@ HOOK_METHOD(WorldManager, CreateLocation, (Location *location) -> void)
     }
 }
 
+static bool g_noASBPlanet = false;
+
 HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
 {
     CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(loc->eventName);
@@ -2748,6 +2755,14 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
     if (!loadingGame)
     {
         lastSelectedCrewSeed = -1;
+    }
+
+    if (customEvent)
+    {
+        if (customEvent->noASBPlanet)
+        {
+            g_noASBPlanet = true;
+        }
     }
 
     super(loc);
@@ -2804,6 +2819,8 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
             starMap.currentLoc->event->eventName = loc->eventName;
         }
     }
+
+    g_noASBPlanet = false;
 }
 
 HOOK_METHOD(WorldManager, CreateShip, (ShipEvent* shipEvent, bool boss) -> CompleteShip*)
@@ -3674,5 +3691,23 @@ HOOK_METHOD(WorldManager, OnLoop, () -> void)
             replaceCreditsMusic = customEvent->finalBoss.creditsMusic;
             replaceCreditsBackground = G_->GetEventGenerator()->GetImageFromList(customEvent->finalBoss.creditsBackground);
         }
+    }
+}
+
+
+HOOK_METHOD(SpaceManager, SetPlanetaryDefense, (bool state, int target) -> void)
+{
+    bool dangerSet = false;
+    if (g_noASBPlanet && !dangerZone)
+    {
+        dangerSet = true;
+        dangerZone = true;
+    }
+
+    super(state, target);
+
+    if (dangerSet)
+    {
+        dangerZone = false;
     }
 }
