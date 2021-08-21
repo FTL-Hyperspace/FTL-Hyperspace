@@ -2995,7 +2995,7 @@ struct LIBZHL_INTERFACE CrewMember
 	virtual bool OutOfGame() LIBZHL_PLACEHOLDER
 	LIBZHL_API virtual void SetOutOfGame();
 	LIBZHL_API virtual bool Functional();
-	virtual bool CountForVictory() LIBZHL_PLACEHOLDER
+	LIBZHL_API virtual bool CountForVictory();
 	LIBZHL_API virtual bool GetControllable();
 	virtual bool ReadyToFight() LIBZHL_PLACEHOLDER
 	virtual bool CanFight() LIBZHL_PLACEHOLDER
@@ -4074,6 +4074,7 @@ struct ShipManager : ShipObject
 	LIBZHL_API CrewMember *FindCrew(const CrewBlueprint *bp);
 	LIBZHL_API bool GetDodged();
 	LIBZHL_API void PrepareSuperBarrage();
+	LIBZHL_API CrewMember *GetCrewmember(int slot, bool present);
 	
 	Targetable _targetable;
 	Collideable _collideable;
@@ -7238,6 +7239,8 @@ struct CrewStoreBox : StoreBox
 
 struct CrewCustomizeBox : CrewEquipBox
 {
+	LIBZHL_API void CheckContents();
+	
 	TextButton customizeButton;
 	bool bCustomizing;
 	Point customizeLocation;

@@ -113,6 +113,9 @@ public:
     bool isIonDrone = false;
     bool isAbilityDrone = false;
 
+    bool noSlot = false;
+    bool noClone = false;
+
     float prevStun = 0.f; // for use in stun resistance checking
 
     std::vector<StatBoost> outgoingStatBoosts = std::vector<StatBoost>();

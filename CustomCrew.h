@@ -299,6 +299,8 @@ struct CrewDefinition
     float damageEnemiesAmount = 0.f;
     bool hackDoors = false;
     float powerRechargeMultiplier = 1.f;
+    bool noSlot = false;
+    bool noClone = false;
 
     Damage explosionDef;
     bool explosionShipFriendlyFire = false;

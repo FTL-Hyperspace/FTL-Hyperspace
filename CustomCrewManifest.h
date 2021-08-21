@@ -31,11 +31,11 @@ public:
         return &instance;
     }
 private:
-    CrewManifest *crewManifest;
-    Button *leftButton;
-    Button *rightButton;
+    CrewManifest *crewManifest = nullptr;
+    Button *leftButton = nullptr;
+    Button *rightButton = nullptr;
 
-    CrewEquipBox *overCrewBox;
+    CrewEquipBox *overCrewBox = nullptr;
     std::vector<std::vector<CrewEquipBox*>> crewEquipBoxes;
 
     int currentPage = 0;

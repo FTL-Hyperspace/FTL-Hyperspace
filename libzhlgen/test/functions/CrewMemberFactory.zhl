@@ -23,7 +23,7 @@ RepairDrone* CrewMemberFactory::CreateRepairDrone(CrewMemberFactory *this<ecx>, 
 ".578d7c240883e4f0ff77fc5589f889e55756":
 void CrewMemberFactory::GetCrewPortraitList(CrewMemberFactory *this<ecx>, std::vector<CrewMember*>* vec, int teamId);
 ".578d7c240883e4f0ff77fc5589e557565383ec4c":
-void CrewMemberFactory::GetCloneReadyList(CrewMemberFactory *this<ecx>, std::vector<CrewMember*>& vec, bool unk);
+void CrewMemberFactory::GetCloneReadyList(CrewMemberFactory *this<ecx>, std::vector<CrewMember*>& vec, bool player);
 ".578d7c240883e4f0ff77fc5589f889e5":
 BattleDrone* CrewMemberFactory::CreateBattleDrone(CrewMemberFactory *this<ecx>, int shipId, const DroneBlueprint* bp);
 ".578d7c240883e4f0ff77fc5589e557":

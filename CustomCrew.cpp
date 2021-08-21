@@ -410,6 +410,14 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                             powerDef.AssignIndex();
                             crew.powerDefIdx = powerDef.index;
                         }
+                        if (str == "noSlot")
+                        {
+                            crew.noSlot = EventsParser::ParseBoolean(val);
+                        }
+                        if (str == "noClone")
+                        {
+                            crew.noClone = EventsParser::ParseBoolean(val);
+                        }
                     }
                 }
                 catch (boost::bad_lexical_cast const &e)
@@ -1829,6 +1837,9 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
             outgoingAbilityStatBoosts.push_back(statBoost);
         }
 
+
+        noSlot = def.noSlot;
+        noClone = def.noClone;
 
         auto skillsDef = def.skillsDef;
 
@@ -4295,4 +4306,72 @@ HOOK_METHOD(Ship, OnLoop, (std::vector<float> &oxygenLevels) -> void)
     }
 
     super(oxygenLevels);
+}
+
+static std::unordered_map<CrewMember*, std::pair<bool, bool>> g_tempOutOfGame = std::unordered_map<CrewMember*, std::pair<bool, bool>>();
+
+HOOK_METHOD(CrewMemberFactory, OnLoop, () -> void)
+{
+    for (auto i : crewMembers)
+    {
+        if (CM_EX(i)->noSlot)
+        {
+            g_tempOutOfGame[i] = std::pair<bool, bool>(i->bOutOfGame, i->clone_ready);
+
+            i->bOutOfGame = true;
+            i->clone_ready = false;
+        }
+    }
+
+    super();
+
+    for (auto i : g_tempOutOfGame)
+    {
+        auto c = i.first;
+
+        c->bOutOfGame = i.second.first;
+        c->clone_ready = i.second.second;
+    }
+
+    g_tempOutOfGame.clear();
+}
+
+
+static bool g_inCrewCustomizeBox = false;
+
+HOOK_METHOD(CrewCustomizeBox, CheckContents, () -> void)
+{
+    g_inCrewCustomizeBox = true;
+
+    super();
+    g_inCrewCustomizeBox = false;
+
+}
+
+HOOK_METHOD(ShipManager, GetCrewmember, (int slot, bool present) -> CrewMember*)
+{
+    if (vCrewList.empty()) return nullptr;
+
+    int currSlot = 0;
+
+    for (auto crew : vCrewList)
+    {
+        if (crew->iShipId == 1 || crew->IsDrone() || CM_EX(crew)->noSlot) continue;
+
+        if (currSlot == slot) return crew;
+
+        currSlot++;
+    }
+
+    return nullptr;
+}
+
+HOOK_METHOD(CrewMember, CheckSkills, () -> void)
+{
+    super();
+
+    if (CM_EX(this)->noClone)
+    {
+        clone_ready = false;
+    }
 }

@@ -217,6 +217,8 @@ static std::string& CrewMember::GetUniqueRepairing(std::string& strRef<ecx>, Cre
 void CrewMember::SetTask(CrewMember *this<ecx>, CrewTask task);
 "578d7c240883e4f0ff77fc5589e557565381ec????????8b1f898d18ffffffc70424????????e8????????83ec0480bbe4020000008d45d0":
 static std::string& CrewMember::GetTooltip(std::string& strRef<ecx>, CrewMember *crew);
+"8b015589e55389cb8b808800000083e4f03d????????75??0fb681fc01000084c075??8b939c000000":
+bool CrewMember::CountForVictory(CrewMember *this<ecx>);
 
 struct CrewMember depends (CrewAnimation, CrewBlueprint, ShipObject)
 {{
