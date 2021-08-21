@@ -2067,7 +2067,7 @@ HOOK_METHOD(StarMap, RenderLabels, () -> void)
     {
         for (auto i : locations)
         {
-
+            if (i->event == nullptr) continue;
             CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(i->event->eventName);
 
             if (customEvent && customEvent->beacon && (i->visited < 1 || customEvent->beacon->persistent) &&
@@ -2147,7 +2147,7 @@ HOOK_METHOD(StarMap, RenderLabels, () -> void)
 
     for (auto i : locations)
     {
-        if (i->fleetChanging && i->visited < 1)
+        if (i->fleetChanging && i->visited < 1 && i->event)
         {
             LocationEvent *locEvent = i->event;
             auto customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(locEvent->eventName);
@@ -2162,10 +2162,13 @@ HOOK_METHOD(StarMap, RenderLabels, () -> void)
     {
         i.first->questLoc = i.second.questLoc;
         i.first->beacon = i.second.beacon;
-        i.first->event->repair = i.second.repair;
-        i.first->event->pStore = i.second.pStore;
-        i.first->event->store = i.second.store;
-        i.first->event->distressBeacon = i.second.distressBeacon;
+        if (i.first->event != nullptr)
+        {
+            i.first->event->repair = i.second.repair;
+            i.first->event->pStore = i.second.pStore;
+            i.first->event->store = i.second.store;
+            i.first->event->distressBeacon = i.second.distressBeacon;
+        }
     }
 }
 
