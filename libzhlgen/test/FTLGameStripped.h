@@ -407,12 +407,12 @@ struct Pointf
   float y;
 };
 
-/* 471 */
-struct std__vector_6voidZ1
+/* 862 */
+struct std__vector_25std__vector_11std__string
 {
-  void **_start;
-  void **_finish;
-  void **_end;
+  std__vector_11std__string *_start;
+  std__vector_11std__string *_finish;
+  std__vector_11std__string *_end;
 };
 
 /* 266 */
@@ -429,7 +429,7 @@ struct Animation
   float fYStretch;
   int currentFrame;
   bool bAlwaysMirror;
-  std__vector_6voidZ1 soundQueue;
+  std__vector_25std__vector_11std__string soundQueue;
   float fadeOut;
   float startFadeOut;
   std__string animName;
@@ -5632,6 +5632,14 @@ struct std__vector_10CrewMember
   CrewMember *_start;
   CrewMember *_finish;
   CrewMember *_end;
+};
+
+/* 471 */
+struct std__vector_6voidZ1
+{
+  void **_start;
+  void **_finish;
+  void **_end;
 };
 
 /* 496 */

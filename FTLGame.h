@@ -677,7 +677,7 @@ struct Animation
 	float fYStretch;
 	int currentFrame;
 	bool bAlwaysMirror;
-	std::vector<void*> soundQueue;
+	std::vector<std::vector<std::string>> soundQueue;
 	float fadeOut;
 	float startFadeOut;
 	std::string animName;
