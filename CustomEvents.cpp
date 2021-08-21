@@ -2055,7 +2055,7 @@ HOOK_METHOD(StarMap, RenderLabels, () -> void)
         bool store;
         bool distressBeacon;
     };
-    static std::unordered_map<Location*, LocLabelValues> locLabelValues = std::unordered_map<Location*, LocLabelValues>();
+    std::unordered_map<Location*, LocLabelValues> locLabelValues = std::unordered_map<Location*, LocLabelValues>();
 
     CSurface::GL_PushMatrix();
     CSurface::GL_Translate(position.x, position.y, 0.f);
