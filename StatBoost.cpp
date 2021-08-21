@@ -908,6 +908,12 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition& def,
         case CrewStat::POWER_RECHARGE_MULTIPLIER:
             finalStat = (temporaryPowerActive && GetPowerDef()->tempPower.powerRechargeMultiplier.enabled) ? GetPowerDef()->tempPower.powerRechargeMultiplier.value : def.powerRechargeMultiplier;
             break;
+        case CrewStat::POWER_MAX_CHARGES:
+            finalStat = GetPowerDef()->powerCharges;
+            break;
+        case CrewStat::POWER_CHARGES_PER_JUMP:
+            finalStat = GetPowerDef()->chargesPerJump;
+            break;
         case CrewStat::CAN_FIGHT:
             *boolValue = (temporaryPowerActive && GetPowerDef()->tempPower.canFight.enabled) ? GetPowerDef()->tempPower.canFight.value : def.canFight;
             isBool = true;

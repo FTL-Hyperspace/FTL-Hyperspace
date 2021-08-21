@@ -190,9 +190,10 @@ static void __attribute__((fastcall)) CrewMember_ResetPower(CrewMember *_this)
     auto ex = CM_EX(_this);
 
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
-    auto def = ex->GetPowerDef();
+    auto def = custom->GetDefinition(_this->species);
+    auto powerDef = ex->GetPowerDef();
 
-    auto jumpCooldown = def->jumpCooldown;
+    auto jumpCooldown = powerDef->jumpCooldown;
 
     if (jumpCooldown == ActivatedPowerDefinition::JUMP_COOLDOWN_FULL)
     {
@@ -203,8 +204,7 @@ static void __attribute__((fastcall)) CrewMember_ResetPower(CrewMember *_this)
         ex->powerCooldown.first = 0;
     }
 
-    ex->powerCharges.first = std::min(ex->powerCharges.second, ex->powerCharges.first + def->chargesPerJump);
-
+    ex->powerCharges.first = std::min(ex->powerCharges.second, ex->powerCharges.first + (int)ex->CalculateStat(CrewStat::POWER_CHARGES_PER_JUMP, def));
 }
 
 static void __attribute__((fastcall)) CrewMember_ActivatePower(CrewMember *_this)

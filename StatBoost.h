@@ -48,6 +48,8 @@ enum class CrewStat : unsigned int
     ACTIVATE_WHEN_READY,
     DEFAULT_SKILL_LEVEL,
     POWER_RECHARGE_MULTIPLIER,
+    POWER_MAX_CHARGES,
+    POWER_CHARGES_PER_JUMP,
     HACK_DOORS
 };
 
@@ -95,6 +97,8 @@ static const std::array<std::string, numStats> crewStats =
     "activateWhenReady",
     "defaultSkillLevel",
     "powerRechargeMultiplier",
+    "powerCharges",
+    "chargesPerJump",
     "hackDoors"
 };
 

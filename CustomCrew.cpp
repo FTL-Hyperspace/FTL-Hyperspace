@@ -1014,20 +1014,24 @@ ActivatedPowerDefinition* CrewMember_Extend::GetPowerDef() const
 
 ActivatedPowerDefinition* CrewMember_Extend::CalculatePowerDef()
 {
+    CrewDefinition& def = CustomCrewManager::GetInstance()->GetDefinition(orig->species);
+
     if (!powerActivated && !temporaryPowerActive)
     {
         auto aex = CMA_EX(orig->crewAnim);
         if (aex->powerDone)
         {
-            CrewDefinition& def = CustomCrewManager::GetInstance()->GetDefinition(orig->species);
             CalculateStat(CrewStat::POWER_EFFECT, def); //powerChange
 
             if (powerChange != powerDefIdx)
             {
+                powerDefIdx = powerChange;
                 auto newDef = &ActivatedPowerDefinition::powerDefs[powerChange];
 
                 if (newDef->hasSpecialPower)
                 {
+                    int newPowerMaxCharges = CalculateStat(CrewStat::POWER_MAX_CHARGES, def);
+
                     if (hasSpecialPower)
                     {
                         powerCooldown.first = (powerCooldown.first/powerCooldown.second) * newDef->cooldown;
@@ -1035,20 +1039,20 @@ ActivatedPowerDefinition* CrewMember_Extend::CalculatePowerDef()
 
                         if (powerCharges.second >= 0)
                         {
-                            powerCharges.first = std::min(powerCharges.first, newDef->powerCharges);
+                            powerCharges.first = std::min(powerCharges.first, newPowerMaxCharges);
                         }
                         else
                         {
-                            powerCharges.first = std::min(newDef->initialCharges, newDef->powerCharges);
+                            powerCharges.first = std::min(newDef->initialCharges, newPowerMaxCharges);
                         }
-                        powerCharges.second = newDef->powerCharges;
+                        powerCharges.second = newPowerMaxCharges;
                     }
                     else
                     {
                         powerCooldown.first = 0.f;
                         powerCooldown.second = newDef->cooldown;
-                        powerCharges.second = newDef->powerCharges;
-                        powerCharges.first = std::min(newDef->initialCharges, newDef->powerCharges);
+                        powerCharges.second = newPowerMaxCharges;
+                        powerCharges.first = std::min(newDef->initialCharges, newPowerMaxCharges);
                     }
                 }
 
@@ -1057,8 +1061,6 @@ ActivatedPowerDefinition* CrewMember_Extend::CalculatePowerDef()
 
                 hasSpecialPower = newDef->hasSpecialPower;
                 hasTemporaryPower = newDef->hasTemporaryPower;
-
-                powerDefIdx = powerChange;
 
                 if (orig->iShipId == 0)
                 {
@@ -1070,6 +1072,14 @@ ActivatedPowerDefinition* CrewMember_Extend::CalculatePowerDef()
             }
         }
     }
+
+    if (hasSpecialPower)
+    {
+        int newPowerMaxCharges = CalculateStat(CrewStat::POWER_MAX_CHARGES, def);
+        powerCharges.first = std::min(powerCharges.first, newPowerMaxCharges);
+        powerCharges.second = newPowerMaxCharges;
+    }
+
     return &ActivatedPowerDefinition::powerDefs[powerDefIdx];
 }
 
