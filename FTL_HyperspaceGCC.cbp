@@ -302,6 +302,12 @@
 		<Unit filename="CustomOptions.h">
 			<Option virtualFolder="Core/Options/" />
 		</Unit>
+		<Unit filename="CustomReactor.cpp">
+			<Option virtualFolder="Core/Systems/" />
+		</Unit>
+		<Unit filename="CustomReactor.h">
+			<Option virtualFolder="Core/Systems/" />
+		</Unit>
 		<Unit filename="CustomRewards.cpp">
 			<Option virtualFolder="Core/Events/" />
 		</Unit>
