@@ -852,7 +852,6 @@ void TriggeredEvent::Update()
         if (warning != nullptr)
         {
             if (remainingTime < warningTime) warning->Start();
-            warning->OnLoop();
         }
 
         if (triggerTimer->Done())
@@ -900,6 +899,7 @@ void TriggeredEvent::OnRender()
 {
     if (warning != nullptr)
     {
+        warning->OnLoop();
         warning->OnRender();
     }
 }

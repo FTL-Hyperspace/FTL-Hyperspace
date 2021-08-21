@@ -2750,54 +2750,50 @@ HOOK_METHOD(ShipObject, HasEquipment, (const std::string& name) -> int)
 {
     if (name == "slug" && crewDetectLifeforms)
     {
-        int ret = super(name);
+        auto custom = CustomCrewManager::GetInstance();
 
-        if (ret == 0)
+        std::vector<CrewMember*> vCrewList;
+
+        auto world = G_->GetWorld();
+
+        ShipManager *playerShip = world->playerShip->shipManager;
+        ShipManager *enemyShip = world->playerShip->enemyShip ? world->playerShip->enemyShip->shipManager : nullptr;
+
+        if (playerShip != nullptr)
         {
-            auto custom = CustomCrewManager::GetInstance();
+            vCrewList.insert(vCrewList.end(), playerShip->vCrewList.begin(), playerShip->vCrewList.end());
+        }
+        if (enemyShip != nullptr)
+        {
+            vCrewList.insert(vCrewList.end(), enemyShip->vCrewList.begin(), enemyShip->vCrewList.end());
+        }
 
-            std::vector<CrewMember*> vCrewList;
 
-            auto world = G_->GetWorld();
-
-            ShipManager *playerShip = world->playerShip->shipManager;
-            ShipManager *enemyShip = world->playerShip->enemyShip ? world->playerShip->enemyShip->shipManager : nullptr;
-
-            if (playerShip != nullptr)
+        for (auto i : vCrewList)
+        {
+            if (custom->IsRace(i->species))
             {
-                vCrewList.insert(vCrewList.end(), playerShip->vCrewList.begin(), playerShip->vCrewList.end());
-            }
-            if (enemyShip != nullptr)
-            {
-                vCrewList.insert(vCrewList.end(), enemyShip->vCrewList.begin(), enemyShip->vCrewList.end());
-            }
+                auto def = custom->GetDefinition(i->species);
+                auto ex = CM_EX(i);
 
-
-            for (auto i : vCrewList)
-            {
-                if (custom->IsRace(i->species))
+                if (i->iShipId == iShipId)
                 {
-                    auto def = custom->GetDefinition(i->species);
-                    auto ex = CM_EX(i);
-
-                    if (!i->iShipId == iShipId)
-                    {
 //                        if (HasAugmentation("ALL_CREW_DETECT_LIFEFORMS"))
 //                        {
 //                            return GetAugmentationValue("ALL_CREW_DETECT_LIFEFORMS");
 //                        }
-                        bool detectsLifeforms;
-                        ex->CalculateStat(CrewStat::DETECTS_LIFEFORMS, def, &detectsLifeforms);
-                        if (detectsLifeforms && i->Functional())
-                        {
-                            return 1;
-                        }
+                    bool detectsLifeforms;
+                    ex->CalculateStat(CrewStat::DETECTS_LIFEFORMS, def, &detectsLifeforms);
+                    if (detectsLifeforms && i->Functional())
+                    {
+                        return 1;
                     }
                 }
             }
+            else if (i->species == "slug") return 1;
         }
 
-        return ret;
+        return 0;
     }
 
     return super(name);

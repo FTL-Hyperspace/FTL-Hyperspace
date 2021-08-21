@@ -484,6 +484,7 @@ struct CustomEvent
     bool goToFlagship = false;
     bool goToFlagshipBase = false;
     bool goToFlagshipFleet = false;
+    bool noASBPlanet = false;
 
     EventFleet leftFleet;
     EventFleet rightFleet;

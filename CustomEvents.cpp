@@ -1020,6 +1020,11 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
                 customEvent->powerSuperShieldsAdd = boost::lexical_cast<int>(child->first_attribute("add")->value());
             }
         }
+        if (nodeName == "noASBPlanet")
+        {
+            isDefault = false;
+            customEvent->noASBPlanet = true;
+        }
     }
 
     return isDefault;
@@ -2062,7 +2067,7 @@ HOOK_METHOD(StarMap, RenderLabels, () -> void)
     {
         for (auto i : locations)
         {
-
+            if (i->event == nullptr) continue;
             CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(i->event->eventName);
 
             if (customEvent && customEvent->beacon && (i->visited < 1 || customEvent->beacon->persistent) &&
@@ -2142,7 +2147,7 @@ HOOK_METHOD(StarMap, RenderLabels, () -> void)
 
     for (auto i : locations)
     {
-        if (i->fleetChanging && i->visited < 1)
+        if (i->fleetChanging && i->visited < 1 && i->event)
         {
             LocationEvent *locEvent = i->event;
             auto customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(locEvent->eventName);
@@ -2157,10 +2162,13 @@ HOOK_METHOD(StarMap, RenderLabels, () -> void)
     {
         i.first->questLoc = i.second.questLoc;
         i.first->beacon = i.second.beacon;
-        i.first->event->repair = i.second.repair;
-        i.first->event->pStore = i.second.pStore;
-        i.first->event->store = i.second.store;
-        i.first->event->distressBeacon = i.second.distressBeacon;
+        if (i.first->event != nullptr)
+        {
+            i.first->event->repair = i.second.repair;
+            i.first->event->pStore = i.second.pStore;
+            i.first->event->store = i.second.store;
+            i.first->event->distressBeacon = i.second.distressBeacon;
+        }
     }
 }
 
@@ -2741,6 +2749,8 @@ HOOK_METHOD(WorldManager, CreateLocation, (Location *location) -> void)
     }
 }
 
+static bool g_noASBPlanet = false;
+
 HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
 {
     CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(loc->eventName);
@@ -2748,6 +2758,14 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
     if (!loadingGame)
     {
         lastSelectedCrewSeed = -1;
+    }
+
+    if (customEvent)
+    {
+        if (customEvent->noASBPlanet)
+        {
+            g_noASBPlanet = true;
+        }
     }
 
     super(loc);
@@ -2804,6 +2822,8 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
             starMap.currentLoc->event->eventName = loc->eventName;
         }
     }
+
+    g_noASBPlanet = false;
 }
 
 HOOK_METHOD(WorldManager, CreateShip, (ShipEvent* shipEvent, bool boss) -> CompleteShip*)
@@ -3674,5 +3694,23 @@ HOOK_METHOD(WorldManager, OnLoop, () -> void)
             replaceCreditsMusic = customEvent->finalBoss.creditsMusic;
             replaceCreditsBackground = G_->GetEventGenerator()->GetImageFromList(customEvent->finalBoss.creditsBackground);
         }
+    }
+}
+
+
+HOOK_METHOD(SpaceManager, SetPlanetaryDefense, (bool state, int target) -> void)
+{
+    bool dangerSet = false;
+    if (g_noASBPlanet && !dangerZone)
+    {
+        dangerSet = true;
+        dangerZone = true;
+    }
+
+    super(state, target);
+
+    if (dangerSet)
+    {
+        dangerZone = false;
     }
 }
