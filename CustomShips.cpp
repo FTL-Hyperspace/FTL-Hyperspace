@@ -360,9 +360,9 @@ HOOK_METHOD(Ship, OnRenderBreaches, () -> void)
     super();
 }
 
-HOOK_METHOD(Ship, OnRenderFloor, () -> void)
+HOOK_METHOD(Ship, OnRenderFloor, (bool experimental) -> void)
 {
-    super();
+    super(experimental);
 
     for (auto room : vRoomList)
     {

@@ -291,11 +291,11 @@ void CustomCrewManifest::MouseClick(int mX, int mY)
     {
         for (auto i : GetPage(currentPage))
         {
-            i->MouseClick(mX, mY);
+            i->MouseClick();
         }
         if (!overCrewBox->IsEmpty())
         {
-            overCrewBox->MouseClick(mX, mY);
+            overCrewBox->MouseClick();
         }
     }
     else

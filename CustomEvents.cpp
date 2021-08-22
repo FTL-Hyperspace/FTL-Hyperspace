@@ -3400,7 +3400,7 @@ HOOK_METHOD(StarMap, TurnIntoFleetLocation, (Location *loc) -> void)
                         if (requireClosest)
                         {
                             path.clear();
-                            Dijkstra0(path, this, loc, i, true);
+                            Dijkstra0(path, this, loc, i);
                             if (path.size() < closestDistance)
                             {
                                 allowedDestinations.clear();

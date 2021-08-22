@@ -135,9 +135,9 @@ HOOK_METHOD(WeaponControl, LinkShip, (ShipManager *ship) -> void)
     }
 }
 
-HOOK_METHOD(WeaponControl, OnRender, () -> void)
+HOOK_METHOD(WeaponControl, OnRender, (bool unk) -> void)
 {
-    super();
+    super(unk);
 
     if (this->shipManager->myBlueprint.weaponSlots <= 2 && this->shipManager->myBlueprint.weaponSlots > 0 && this->shipManager->HasSystem(3))
     {

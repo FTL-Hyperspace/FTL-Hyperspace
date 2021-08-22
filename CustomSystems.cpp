@@ -85,11 +85,14 @@ HOOK_METHOD(ShipManager, CreateSystems, () -> int)
 
     auto realBp = G_->GetBlueprints()->GetShipBlueprint(myBlueprint.blueprintName, -1);
 
+    int ret = 0;
+
     if (realBp)
     {
         for (auto i : realBp->systems)
         {
             AddSystem(i);
+            ret++; // is this even correct?
         }
     }
     else
@@ -97,8 +100,10 @@ HOOK_METHOD(ShipManager, CreateSystems, () -> int)
         for (auto i : myBlueprint.systems)
         {
             AddSystem(i);
+            ret++; // is this even correct?
         }
     }
+    return ret;
 }
 
 HOOK_METHOD(SystemControl, CreateSystemBoxes, () -> void)
