@@ -228,6 +228,18 @@ void Global::InitializeResources(ResourceControl *resources)
                 g_infiniteMode = EventsParser::ParseBoolean(enabled);
             }
 
+            if (strcmp(node->name(), "transformColorMode") == 0)
+            {
+                if (strcmp(node->name(), "KEEP_COLORS") == 0)
+                {
+                    g_transformColorMode = TransformColorMode::KEEP_COLORS;
+                }
+                else if (strcmp(node->name(), "KEEP_INDICES") == 0)
+                {
+                    g_transformColorMode = TransformColorMode::KEEP_INDICES;
+                }
+            }
+
 
             if (strcmp(node->name(), "ships") == 0)
             {

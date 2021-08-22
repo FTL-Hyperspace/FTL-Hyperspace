@@ -125,12 +125,12 @@ public:
 
     float extraMedbay = 0.f;
 
-    std::string originalRace;
+    std::string originalRace; // for color layers
     std::string transformRace = "";
 
     void Initialize(CrewBlueprint& bp, int shipId, bool enemy, CrewAnimation *animation, bool isTransform = false);
     bool TransformRace(const std::string& newRace);
-
+    static void TransformColors(CrewBlueprint& bp, CrewBlueprint *newBlueprint);
 
     ~CrewMember_Extend()
     {

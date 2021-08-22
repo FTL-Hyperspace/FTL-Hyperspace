@@ -3,6 +3,14 @@
 #include "ToggleValue.h"
 #include <unordered_map>
 
+enum TransformColorMode
+{
+    KEEP_COLORS,
+    KEEP_INDICES
+};
+
+extern TransformColorMode g_transformColorMode;
+
 struct StatBoostDefinition;
 struct StatBoost;
 

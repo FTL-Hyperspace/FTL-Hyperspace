@@ -5,6 +5,7 @@
 #include "ShipUnlocks.h"
 #include "CustomFleetShips.h"
 #include "CustomBoss.h"
+#include "CustomCrew.h"
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
 
@@ -2421,8 +2422,15 @@ HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *loc) -> void)
             crewBlue.desc = newBlueprint->desc;
             crewBlue.type = newBlueprint->type;
 
-            if (newBlueprint->colorLayers.size() < crewBlue.colorLayers.size()) crewBlue.colorLayers.resize(newBlueprint->colorLayers.size());
-            if (newBlueprint->colorChoices.size() < crewBlue.colorChoices.size()) crewBlue.colorChoices.resize(newBlueprint->colorChoices.size());
+            if (g_transformColorMode == TransformColorMode::KEEP_INDICES)
+            {
+                CrewMember_Extend::TransformColors(crewBlue, newBlueprint);
+            }
+            else
+            {
+                if (newBlueprint->colorLayers.size() < crewBlue.colorLayers.size()) crewBlue.colorLayers.resize(newBlueprint->colorLayers.size());
+                if (newBlueprint->colorChoices.size() < crewBlue.colorChoices.size()) crewBlue.colorChoices.resize(newBlueprint->colorChoices.size());
+            }
 
             delete newBlueprint;
 

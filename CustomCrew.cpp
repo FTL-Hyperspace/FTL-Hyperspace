@@ -13,6 +13,7 @@
 #include <sstream>
 #include <iomanip>
 
+TransformColorMode g_transformColorMode = TransformColorMode::KEEP_INDICES;
 
 static const std::string CREW_SKILLS[6] =
 {
@@ -1478,6 +1479,24 @@ void CrewMember_Extend::ActivatePower()
     }
 }
 
+void CrewMember_Extend::TransformColors(CrewBlueprint& bp, CrewBlueprint *newBlueprint)
+{
+    int nLayers = std::min(bp.colorLayers.size(), newBlueprint->colorLayers.size());
+    for (int i=0; i<nLayers; i++)
+    {
+        if (newBlueprint->colorLayers[i].size() == bp.colorLayers[i].size())
+        {
+            newBlueprint->colorChoices[i] = bp.colorChoices[i];
+        }
+        else if (newBlueprint->colorChoices[i] == -1)
+        {
+            newBlueprint->colorChoices[i] = random32() % newBlueprint->colorLayers[i].size();
+        }
+    }
+    bp.colorLayers = newBlueprint->colorLayers;
+    bp.colorChoices = newBlueprint->colorChoices;
+}
+
 bool CrewMember_Extend::TransformRace(const std::string& species)
 {
     if (orig->crewAnim->status != 6 && orig->crewAnim->status != 3)
@@ -1498,6 +1517,19 @@ bool CrewMember_Extend::TransformRace(const std::string& species)
         orig->blueprint.type = newBlueprint->type;
         orig->species = newBlueprint->name;
         orig->type = newBlueprint->name;
+
+        if (g_transformColorMode == TransformColorMode::KEEP_INDICES)
+        {
+            originalRace = newBlueprint->name;
+
+            TransformColors(orig->blueprint, newBlueprint);
+
+            orig->crewAnim->layerColors.clear();
+            for (int i=0; i<orig->blueprint.colorLayers.size(); i++)
+            {
+                orig->crewAnim->layerColors.push_back(orig->blueprint.colorLayers[i][orig->blueprint.colorChoices[i]]);
+            }
+        }
 
         delete newBlueprint;
 
@@ -1739,15 +1771,22 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
             {
                 orig->crewAnim->layerColors = layerColors;
 
-                auto bpM = G_->GetBlueprints();
-                auto it = bpM->crewBlueprints.find(bp.name);
-                if (it != bpM->crewBlueprints.end() && it->second.colorLayers.size() < orig->crewAnim->layerColors.size())
+                if (g_transformColorMode == TransformColorMode::KEEP_COLORS)
                 {
-                    orig->crewAnim->layerColors.resize(it->second.colorLayers.size());
-                }
-                orig->crewAnim->SetupStrips();
+                    auto bpM = G_->GetBlueprints();
+                    auto it = bpM->crewBlueprints.find(bp.name);
+                    if (it != bpM->crewBlueprints.end() && it->second.colorLayers.size() < orig->crewAnim->layerColors.size())
+                    {
+                        orig->crewAnim->layerColors.resize(it->second.colorLayers.size());
+                    }
+                    orig->crewAnim->SetupStrips();
 
-                orig->crewAnim->layerColors = layerColors;
+                    orig->crewAnim->layerColors = layerColors;
+                }
+                else
+                {
+                    orig->crewAnim->SetupStrips();
+                }
             }
 
             if (animation)
@@ -2186,24 +2225,27 @@ HOOK_METHOD(CrewMember, LoadState, (int file) -> void)
     ex->transformRace = FileHelper::readString(file);
     ex->originalRace = FileHelper::readString(file);
 
-    auto bpM = G_->GetBlueprints();
-    auto it = bpM->crewBlueprints.find(ex->originalRace);
-    if (it != bpM->crewBlueprints.end())
+    if (species != ex->originalRace)
     {
-        blueprint.colorLayers = it->second.colorLayers;
-        blueprint.colorChoices.resize(blueprint.colorLayers.size(), -1);
-        unsigned int n = std::min(blueprint.colorLayers.size(), crewAnim->layerColors.size());
-        unsigned int i;
-        for (i=0; i<n; ++i)
+        auto bpM = G_->GetBlueprints();
+        auto it = bpM->crewBlueprints.find(ex->originalRace);
+        if (it != bpM->crewBlueprints.end())
         {
-            if (blueprint.colorChoices[i] < blueprint.colorLayers[i].size())
+            blueprint.colorLayers = it->second.colorLayers;
+            blueprint.colorChoices.resize(blueprint.colorLayers.size(), -1);
+            unsigned int n = std::min(blueprint.colorLayers.size(), crewAnim->layerColors.size());
+            unsigned int i;
+            for (i=0; i<n; ++i)
             {
-                crewAnim->layerColors[i] = blueprint.colorLayers[i][blueprint.colorChoices[i]];
+                if (blueprint.colorChoices[i] < blueprint.colorLayers[i].size())
+                {
+                    crewAnim->layerColors[i] = blueprint.colorLayers[i][blueprint.colorChoices[i]];
+                }
             }
-        }
-        for (; i<crewAnim->layerColors.size(); ++i)
-        {
-            crewAnim->layerColors[i] = GL_Color(0.0, 0.0, 0.0, 0.0);
+            for (; i<crewAnim->layerColors.size(); ++i)
+            {
+                crewAnim->layerColors[i] = GL_Color(0.0, 0.0, 0.0, 0.0);
+            }
         }
     }
 
