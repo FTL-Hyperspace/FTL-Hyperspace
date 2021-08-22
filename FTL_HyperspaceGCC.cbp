@@ -458,6 +458,12 @@
 		<Unit filename="RedesignedTooltips.h">
 			<Option virtualFolder="Core/Equipment/" />
 		</Unit>
+		<Unit filename="RenderReactorBar.cpp">
+			<Option virtualFolder="Core/CommandGui/" />
+		</Unit>
+		<Unit filename="RenderReactorBar.h">
+			<Option virtualFolder="Core/CommandGui/" />
+		</Unit>
 		<Unit filename="Renderer.cpp">
 			<Option virtualFolder="Core/CApp/" />
 		</Unit>

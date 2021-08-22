@@ -3942,6 +3942,17 @@ struct PowerManager;
 
 struct PowerManager
 {
+	int GetAvailablePower()
+	{
+		return currentPower.second - currentPower.first;
+	}
+	
+	int GetMaxPower()
+	{
+		int ret = currentPower.second - (iTempPowerLoss + iHacked);
+		return ret > iTempPowerCap ? iTempPowerCap : ret;
+	}
+
 	LIBZHL_API static PowerManager *__stdcall GetPowerManager(int iShipId);
 	
 	std::pair<int, int> currentPower;
@@ -6341,6 +6352,7 @@ struct EventSystem;
 struct EventSystem
 {
 	LIBZHL_API void AddEvent(int id);
+	LIBZHL_API bool PollEvent(int id);
 	
 };
 
