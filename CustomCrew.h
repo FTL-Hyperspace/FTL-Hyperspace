@@ -1,6 +1,8 @@
 #pragma once
 #include "Global.h"
 #include "ToggleValue.h"
+#include "CustomDamage.h"
+#include "CrewSpawn.h"
 #include <unordered_map>
 
 struct StatBoostDefinition;
@@ -126,6 +128,7 @@ struct TemporaryPowerDefinition
     ToggleValue<float> damageEnemiesAmount;
     ToggleValue<bool> hackDoors;
     ToggleValue<float> powerRechargeMultiplier;
+    ToggleValue<bool> noClone;
 
     std::vector<StatBoostDefinition> statBoosts;
 
@@ -242,6 +245,8 @@ struct ActivatedPowerDefinition
     bool activateWhenReady = false;
     bool activateReadyEnemies = false;
     std::string transformRace = "";
+
+    std::vector<CrewSpawn> crewSpawns;
 
     TemporaryPowerDefinition tempPower;
 };

@@ -48,7 +48,8 @@ enum class CrewStat : unsigned int
     ACTIVATE_WHEN_READY,
     DEFAULT_SKILL_LEVEL,
     POWER_RECHARGE_MULTIPLIER,
-    HACK_DOORS
+    HACK_DOORS,
+    NO_CLONE
 };
 
 static const std::array<std::string, numStats> crewStats =
@@ -95,7 +96,8 @@ static const std::array<std::string, numStats> crewStats =
     "activateWhenReady",
     "defaultSkillLevel",
     "powerRechargeMultiplier",
-    "hackDoors"
+    "hackDoors",
+    "noClone"
 };
 
 struct StatBoostDefinition

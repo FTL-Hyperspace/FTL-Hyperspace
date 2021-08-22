@@ -1,6 +1,8 @@
 #include "Global.h"
 #include "Projectile_Extend.h"
 #include "CustomWeapons.h"
+#include "StatBoost.h"
+#include <boost/lexical_cast.hpp>
 
 CustomDamage* CustomDamageManager::currentWeaponDmg = nullptr;
 

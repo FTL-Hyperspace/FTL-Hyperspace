@@ -9,6 +9,7 @@ struct ErosionEffect
     std::string animation = "room_erosion";
 };
 
+
 struct CustomDamage
 {
     int accuracyMod = 0;
