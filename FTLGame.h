@@ -651,11 +651,6 @@ struct AnimationDescriptor
 
 struct Animation
 {
-	~Animation()
-	{
-		this->destructor();
-	}
-
 	LIBZHL_API void OnRender(float opacity, GL_Color color, bool mirror);
 	LIBZHL_API void Update();
 	LIBZHL_API void SetCurrentFrame(int frame);

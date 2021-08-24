@@ -16,11 +16,3 @@ void Animation::destructor(Animation *this<ecx>);
 void Animation::StartReverse(Animation *this<ecx>, bool reset);
 "f30f10512480793000f30f104c24048b5104f30f59ca660fefdb660fefc0f30f11492cf30f2ada74??f30f5ecaf30f5fc80f28c1f30f59c383ea01":
 void Animation::SetProgress(Animation *this<ecx>, float progress);
-
-struct Animation
-{{
-	~Animation()
-	{
-		this->destructor();
-	}
-}};
