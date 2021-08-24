@@ -1785,13 +1785,17 @@ HOOK_METHOD(Store, CreateStoreBoxes, (int category, Equipment* equip) -> void)
 
         if (!shopper->HasSystem(5) && (!Settings::GetDlcEnabled() || !shopper->HasSystem(13)))
         {
-            if (!Settings::GetDlcEnabled())
+            if (!Settings::GetDlcEnabled() || systemPlacements.find(SYS_CLONEBAY) == systemPlacements.end())
             {
                 guaranteedMedicalId = SYS_MEDBAY;
             }
+            else if (systemPlacements.find(SYS_MEDBAY) == systemPlacements.end())
+            {
+                guaranteedMedicalId = SYS_CLONEBAY;
+            }
             else
             {
-                if (random32() % 1 == 0)
+                if ((random32() & 1) == 0)
                 {
                     guaranteedMedicalId = SYS_MEDBAY;
                 }
