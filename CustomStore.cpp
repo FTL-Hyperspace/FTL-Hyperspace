@@ -1446,7 +1446,7 @@ void StoreComplete::SaveStore(int file)
         FileHelper::writeInt(file, page.sections.size());
         for (auto sec : page.sections)
         {
-            FileHelper::writeInt(file, static_cast<int>(file, sec.category));
+            FileHelper::writeInt(file, static_cast<int>(sec.category));
             FileHelper::writeString(file, sec.customTitle);
             FileHelper::writeInt(file, sec.storeBoxes.size());
 

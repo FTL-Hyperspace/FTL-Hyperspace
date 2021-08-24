@@ -2257,6 +2257,7 @@ struct EffectsBlueprint
 		hitShieldSounds = other.hitShieldSounds;
 		missSounds = other.missSounds;
 		image = other.image;
+		return *this;
 	}
 
 	std::vector<std::string> launchSounds;
