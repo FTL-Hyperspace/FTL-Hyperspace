@@ -1243,6 +1243,8 @@ Syntax ->
 	
 	<eventFile>filename</eventFile>                    Parses events_filename.xml for events using the vanilla parser.
 	
+	<revisitEvent seeded="true">NOTHING</revisitEvent> Automatically loads this event by default when revisiting any beacon. Does not affect dive beacons.
+	
 	<sector name="SECTOR_ID">                                                              Custom sector specification.
         <exitBeacon event="EVENT_NAME" rebelEvent="EVENT_NAME" nebulaEvent="EVENT_NAME"/>  Changes the default exit beacon event. nebulaEvent is used for nebula exits; rebelEvent is used if the rebels overtake the exit.
         <rebelBeacon event="EVENT_NAME" nebulaEvent="EVENT_NAME"/>                         Changes the default rebel fleet events. nebulaEvent is used for nebula fleet events.
@@ -1338,6 +1340,7 @@ Syntax ->
 		<loadEventList ...>                                                                     See <loadEventList> above for syntax. Do not include a "name" attribute in this case.
 			...                                                                                   To use a named loadEventList, simply loadEvent it.
 		</loadEventList>
+		<revisitEvent seeded="true">NOTHING</revisitEvent>                                      Automatically loads this event by default when revisiting this beacon. Does not affect dive beacons.
 		<eventAlias name="ALIAS_NAME" jumpClear="false" once="false">EVENT_NAME</eventAlias>    Sets an alias. Any loadEvent or loadEventList action on ALIAS_NAME will load EVENT_NAME instead. Omit EVENT_NAME to clear.
 		                                                                                          Does not affect vanilla event loading. Set jumpClear to true to auto-clear on jump; set once to auto-clear on use.
 		<restartEvent/>                                                                         Loads the original beacon event. This load does not process Hyperspace tags that normally get processed on event load.

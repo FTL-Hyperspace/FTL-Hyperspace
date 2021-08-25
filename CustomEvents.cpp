@@ -174,6 +174,16 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
             }
         }
 
+        if (strcmp(eventNode->name(), "revisitEvent") == 0)
+        {
+            defaultRevisit = eventNode->value();
+
+            if (eventNode->first_attribute("seeded"))
+            {
+                defaultRevisitSeeded = EventsParser::ParseBoolean(eventNode->first_attribute("seeded")->value());
+            }
+        }
+
         if (strcmp(eventNode->name(), "event") == 0)
         {
             if (eventNode->first_attribute("name"))
@@ -645,6 +655,17 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
             if (child->first_attribute("seeded"))
             {
                 customEvent->eventLoadSeeded = EventsParser::ParseBoolean(child->first_attribute("seeded")->value());
+            }
+        }
+
+        if (nodeName == "revisitEvent")
+        {
+            isDefault = false;
+            customEvent->eventRevisit = child->value();
+
+            if (child->first_attribute("seeded"))
+            {
+                customEvent->eventRevisitSeeded = EventsParser::ParseBoolean(child->first_attribute("seeded")->value());
             }
         }
 
@@ -2790,12 +2811,38 @@ HOOK_METHOD(WorldManager, CreateLocation, (Location *location) -> void)
         location->planetImage = location->event->planetImage;
     }
 
-    if (location->visited > 1 && !location->boss && !location->dangerZone) return;
+    if (location->visited > 1 && !location->boss && !location->dangerZone)
+    {
+        std::string revisitEvent = CustomEventsParser::GetInstance()->defaultRevisit;
+        bool revisitSeeded = CustomEventsParser::GetInstance()->defaultRevisitSeeded;
+
+        auto loc = location->event;
+        if (loc)
+        {
+            if (loc->ship.present && loc->ship.hostile) return; // left behind an enemy ship
+
+            CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(loc->eventName);
+            if (customEvent && !customEvent->eventRevisit.empty())
+            {
+                revisitEvent = customEvent->eventRevisit;
+                revisitSeeded = customEvent->eventRevisitSeeded;
+            }
+        }
+
+        CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(loc->eventName);
+        if (!revisitEvent.empty())
+        {
+            int seed = revisitSeeded ? (int)(location->loc.x + location->loc.y) ^ (starMap.currentSectorSeed*location->visited + location->visited) : -1;
+            CustomEventsParser::GetInstance()->LoadEvent(this, revisitEvent, seed);
+        }
+        return;
+    }
 
     auto loc = location->event;
     if (!loc) return;
 
     CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(loc->eventName);
+
     if (customEvent)
     {
         CustomCreateLocation(this, customEvent);
@@ -2865,7 +2912,7 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
 
         if (customEvent->resetFtl)
         {
-            G_->GetWorld()->playerShip->shipManager->jump_timer.first = 0.f;
+            playerShip->shipManager->jump_timer.first = 0.f;
         }
 
         CustomCreateLocation(this, customEvent);

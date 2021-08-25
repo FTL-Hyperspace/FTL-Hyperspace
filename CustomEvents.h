@@ -471,6 +471,8 @@ struct CustomEvent
     std::string eventLoad = "";
     bool eventLoadSeeded = true;
     EventLoadList *eventLoadList = nullptr;
+    std::string eventRevisit = "";
+    bool eventRevisitSeeded = true;
     std::vector<std::pair<std::string, EventAlias>> eventAlias;
     bool restartEvent = false;
     EventGameOver gameOver = EventGameOver();
@@ -721,6 +723,8 @@ public:
     std::vector<std::string> eventFiles;
     CustomEvent *defaultVictory = new CustomEvent();
     CustomQuest *defaultQuest = new CustomQuest();
+    std::string defaultRevisit = "";
+    bool defaultRevisitSeeded = true;
 
 private:
     std::vector<CustomSector*> customSectors;
