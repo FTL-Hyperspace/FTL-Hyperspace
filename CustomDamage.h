@@ -9,13 +9,27 @@ struct ErosionEffect
     std::string animation = "room_erosion";
 };
 
+struct CrewSpawn;
 
 struct CustomDamage
 {
+    int sourceShipId = -1;
+
     int accuracyMod = 0;
 
     int erosionChance = 0;
     ErosionEffect erosionEffect;
+
+    int crewSpawnChance = 0;
+    std::vector<CrewSpawn*> crewSpawns; // if I try to include CrewSpawn.h it says that some other random thing is not declared??
+
+    ~CustomDamage()
+    {
+        for (auto i : crewSpawns)
+        {
+            delete i;
+        }
+    }
 };
 
 

@@ -1,6 +1,7 @@
 #include "CustomWeapons.h"
 #include "CustomOptions.h"
 #include "CustomDamage.h"
+#include "CrewSpawn.h"
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
 #include <iomanip>
@@ -34,6 +35,18 @@ HOOK_STATIC(BlueprintManager, ProcessWeaponBlueprint, (WeaponBlueprint* bp, Blue
         if (name == "accuracyMod")
         {
             weaponDef.customDamage.accuracyMod = boost::lexical_cast<int>(val);
+        }
+        if (name == "spawnCrewChance")
+        {
+            weaponDef.customDamage.crewSpawnChance = boost::lexical_cast<int>(val);
+        }
+        if (name == "spawnCrew")
+        {
+            CrewSpawn* crewSpawn = new CrewSpawn(CrewSpawn::ParseCrewSpawn(child));
+            if (!crewSpawn->race.empty())
+            {
+                weaponDef.customDamage.crewSpawns.push_back(crewSpawn);
+            }
         }
     }
 
