@@ -2551,7 +2551,13 @@ void CustomCreateLocation(WorldManager* world, CustomEvent* customEvent)
 
     if (!customEvent->changeBackground.empty())
     {
-        world->space.currentBack = G_->GetResources()->GetImageId(G_->GetEventGenerator()->GetImageFromList(customEvent->changeBackground));
+        ImageDesc* image;
+
+        image = world->space.SwitchBackground(customEvent->changeBackground);
+        world->starMap.currentLoc->space = *image;
+        delete image;
+
+        world->starMap.currentLoc->spaceImage = customEvent->changeBackground;
     }
 
     for (EventDamage& eventDamage: customEvent->enemyDamage)
