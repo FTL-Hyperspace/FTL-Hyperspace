@@ -12,6 +12,8 @@
 CustomEventsParser *CustomEventsParser::instance = new CustomEventsParser();
 bool alreadyWonCustom = false;
 
+std::unordered_map<std::string, EventAlias> eventAliases = std::unordered_map<std::string, EventAlias>();
+
 void CustomEventsParser::ParseCustomEventNodeFiles(rapidxml::xml_node<char> *node)
 {
     for (auto eventNode = node->first_node(); eventNode; eventNode = eventNode->next_sibling())
@@ -651,6 +653,26 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
             isDefault = false;
             customEvent->eventLoadList = new EventLoadList();
             ParseCustomEventLoadList(child, customEvent->eventLoadList);
+        }
+
+        if (nodeName == "eventAlias")
+        {
+            isDefault = false;
+            std::pair<std::string, EventAlias> alias;
+            if (child->first_attribute("name"))
+            {
+                alias.first = child->first_attribute("name")->value();
+            }
+            alias.second.event = child->value();
+            if (child->first_attribute("jumpClear"))
+            {
+                alias.second.jumpClear = EventsParser::ParseBoolean(child->first_attribute("jumpClear")->value());
+            }
+            if (child->first_attribute("once"))
+            {
+                alias.second.once = EventsParser::ParseBoolean(child->first_attribute("once")->value());
+            }
+            customEvent->eventAlias.push_back(alias);
         }
 
         if (nodeName == "restartEvent")
@@ -2490,6 +2512,22 @@ void EventDamageEnemy(EventDamage eventDamage)
 
 void CustomCreateLocation(WorldManager* world, CustomEvent* customEvent)
 {
+    for (auto& alias : customEvent->eventAlias)
+    {
+        if (alias.second.event.empty())
+        {
+            auto it = eventAliases.find(alias.first);
+            if (it != eventAliases.end())
+            {
+                eventAliases.erase(it);
+            }
+        }
+        else
+        {
+            eventAliases[alias.first] = alias.second;
+        }
+    }
+
     if (!customEvent->changeBackground.empty())
     {
         world->space.currentBack = G_->GetResources()->GetImageId(G_->GetEventGenerator()->GetImageFromList(customEvent->changeBackground));
@@ -2683,6 +2721,15 @@ LocationEvent* CustomEventsParser::GetEvent(WorldManager *world, EventLoadList *
 
 LocationEvent* CustomEventsParser::GetEvent(WorldManager *world, std::string eventName, int seed)
 {
+    auto it_alias = eventAliases.find(eventName);
+    if (it_alias != eventAliases.end())
+    {
+        eventName = it_alias->second.event;
+        if (it_alias->second.once)
+        {
+            eventAliases.erase(it_alias);
+        }
+    }
     auto it = customEventLoadLists.find(eventName);
     if (it != customEventLoadLists.end())
     {
@@ -2705,6 +2752,21 @@ void CustomEventsParser::LoadEvent(WorldManager *world, std::string eventName, i
 
 HOOK_METHOD(WorldManager, CreateLocation, (Location *location) -> void)
 {
+    if (!loadingGame)
+    {
+        for (auto it = eventAliases.begin(); it != eventAliases.end(); )
+        {
+            if (it->second.jumpClear)
+            {
+                it = eventAliases.erase(it);
+            }
+            else
+            {
+                ++it;
+            }
+        }
+    }
+
     bool needsBackground = location->space.tex == nullptr && location->planet.tex == nullptr;
 
     super(location);
@@ -3257,40 +3319,77 @@ HOOK_METHOD(CreditScreen, OnRender, () -> void)
 
 HOOK_METHOD(StarMap, NewGame, (bool unk) -> Location*)
 {
+    // jumpEvent
     jumpEvent = "";
     jumpEventLoop = false;
+
+    // eventAlias
+    eventAliases.clear();
+
+    // Game Over
     G_->GetWorld()->commandGui->alreadyWon = false;
     alreadyWonCustom = false;
     replaceGameOverText = "";
     replaceGameOverCreditsText = "";
     replaceCreditsBackground = "";
     replaceCreditsMusic = "";
+
     return super(unk);
 }
 
 HOOK_METHOD(StarMap, LoadGame, (int fh) -> Location*)
 {
+    // jumpEvent
     jumpEvent = FileHelper::readString(fh);
     jumpEventLoop = FileHelper::readInteger(fh);
+
+    // eventAlias
+    int n = FileHelper::readInteger(fh);
+    for (int i=0; i<n; ++i)
+    {
+        std::string alias_name = FileHelper::readString(fh);
+        EventAlias alias;
+        alias.event = FileHelper::readString(fh);
+        alias.jumpClear = FileHelper::readInteger(fh);
+        alias.once = FileHelper::readInteger(fh);
+        eventAliases[alias_name] = alias;
+    }
+
+    // Game Over
     G_->GetWorld()->commandGui->alreadyWon = FileHelper::readInteger(fh);
     alreadyWonCustom = FileHelper::readInteger(fh);
     replaceGameOverText = FileHelper::readString(fh);
     replaceGameOverCreditsText = FileHelper::readString(fh);
     replaceCreditsBackground = FileHelper::readString(fh);
     replaceCreditsMusic = FileHelper::readString(fh);
+
     return super(fh);
 }
 
 HOOK_METHOD(StarMap, SaveGame, (int file) -> void)
 {
+    // jumpEvent
     FileHelper::writeString(file, jumpEvent);
     FileHelper::writeInt(file, jumpEventLoop);
+
+    // eventAlias
+    FileHelper::writeInt(file, eventAliases.size());
+    for (auto& i : eventAliases)
+    {
+        FileHelper::writeString(file, i.first);
+        FileHelper::writeString(file, i.second.event);
+        FileHelper::writeInt(file, i.second.jumpClear);
+        FileHelper::writeInt(file, i.second.once);
+    }
+
+    // Game Over
     FileHelper::writeInt(file, G_->GetWorld()->commandGui->alreadyWon);
     FileHelper::writeInt(file, alreadyWonCustom);
     FileHelper::writeString(file, replaceGameOverText);
     FileHelper::writeString(file, replaceGameOverCreditsText);
     FileHelper::writeString(file, replaceCreditsBackground);
     FileHelper::writeString(file, replaceCreditsMusic);
+
     return super(file);
 }
 

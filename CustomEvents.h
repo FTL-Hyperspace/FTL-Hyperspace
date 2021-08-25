@@ -438,6 +438,15 @@ struct EventLoadList
     std::string defaultEvent = "";
 };
 
+struct EventAlias
+{
+    std::string event;
+    bool jumpClear = false;
+    bool once = false;
+};
+
+extern std::unordered_map<std::string, EventAlias> eventAliases;
+
 struct CustomEvent
 {
     std::string eventName;
@@ -462,6 +471,7 @@ struct CustomEvent
     std::string eventLoad = "";
     bool eventLoadSeeded = true;
     EventLoadList *eventLoadList = nullptr;
+    std::vector<std::pair<std::string, EventAlias>> eventAlias;
     bool restartEvent = false;
     EventGameOver gameOver = EventGameOver();
     bool disableScrapScore = false;
