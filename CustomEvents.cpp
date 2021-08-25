@@ -14,6 +14,8 @@ bool alreadyWonCustom = false;
 
 std::unordered_map<std::string, EventAlias> eventAliases = std::unordered_map<std::string, EventAlias>();
 
+std::unordered_map<int, std::string> renamedBeacons = std::unordered_map<int, std::string>();
+
 void CustomEventsParser::ParseCustomEventNodeFiles(rapidxml::xml_node<char> *node)
 {
     for (auto eventNode = node->first_node(); eventNode; eventNode = eventNode->next_sibling())
@@ -700,6 +702,12 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
         {
             isDefault = false;
             customEvent->restartEvent = true;
+        }
+
+        if (nodeName == "renameBeacon")
+        {
+            isDefault = false;
+            customEvent->renameBeacon = child->value();
         }
 
         if (nodeName == "jumpEvent")
@@ -2218,6 +2226,11 @@ HOOK_METHOD(StarMap, RenderLabels, () -> void)
 
 HOOK_METHOD(StarMap, GenerateMap, (bool tutorial, bool seed) -> LocationEvent*)
 {
+    if (!loadingGame)
+    {
+        renamedBeacons.clear();
+    }
+
     auto ret = super(tutorial, seed);
 
     if (!tutorial && !bossLevel)
@@ -2279,6 +2292,18 @@ HOOK_METHOD(StarMap, GenerateMap, (bool tutorial, bool seed) -> LocationEvent*)
                 bNebulaMap = customSector->nebulaSector.value;
             }
 
+        }
+    }
+
+    for (auto i : renamedBeacons)
+    {
+        if (i.first < locations.size())
+        {
+            LocationEvent *event = locations[i.first]->event;
+            if (event)
+            {
+                event->eventName = i.second;
+            }
         }
     }
 
@@ -2694,6 +2719,16 @@ void CustomCreateLocation(WorldManager* world, CustomEvent* customEvent)
                 }
                 shields->shields.power.super.first = std::min(shields->shields.power.super.second, shields->shields.power.super.first + customEvent->powerSuperShieldsAdd);
             }
+        }
+    }
+
+    if (!customEvent->renameBeacon.empty())
+    {
+        world->starMap.currentLoc->event->eventName = customEvent->renameBeacon;
+        auto it = std::find(world->starMap.locations.begin(), world->starMap.locations.end(), world->starMap.currentLoc);
+        if (it != world->starMap.locations.end())
+        {
+            renamedBeacons[std::distance(world->starMap.locations.begin(), it)] = customEvent->renameBeacon;
         }
     }
 }
@@ -3379,6 +3414,9 @@ HOOK_METHOD(StarMap, NewGame, (bool unk) -> Location*)
     // eventAlias
     eventAliases.clear();
 
+    // renamedBeacons
+    renamedBeacons.clear();
+
     // Game Over
     G_->GetWorld()->commandGui->alreadyWon = false;
     alreadyWonCustom = false;
@@ -3408,6 +3446,14 @@ HOOK_METHOD(StarMap, LoadGame, (int fh) -> Location*)
         eventAliases[alias_name] = alias;
     }
 
+    // renamedBeacons
+    n = FileHelper::readInteger(fh);
+    for (int i=0; i<n; ++i)
+    {
+        int idx = FileHelper::readInteger(fh);
+        renamedBeacons[idx] = FileHelper::readString(fh);
+    }
+
     // Game Over
     G_->GetWorld()->commandGui->alreadyWon = FileHelper::readInteger(fh);
     alreadyWonCustom = FileHelper::readInteger(fh);
@@ -3433,6 +3479,21 @@ HOOK_METHOD(StarMap, SaveGame, (int file) -> void)
         FileHelper::writeString(file, i.second.event);
         FileHelper::writeInt(file, i.second.jumpClear);
         FileHelper::writeInt(file, i.second.once);
+    }
+
+    // renamedBeacons
+    FileHelper::writeInt(file, renamedBeacons.size());
+    for (auto& i : renamedBeacons)
+    {
+        FileHelper::writeInt(file, i.first);
+        if (i.first < locations.size() && locations[i.first]->event)
+        {
+            FileHelper::writeString(file, locations[i.first]->event->eventName);
+        }
+        else
+        {
+            FileHelper::writeString(file, i.second);
+        }
     }
 
     // Game Over

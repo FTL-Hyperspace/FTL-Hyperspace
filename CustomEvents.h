@@ -13,6 +13,8 @@ extern bool alreadyWonCustom;
 
 extern std::string replaceCreditsMusic;
 
+extern std::unordered_map<int, std::string> renamedBeacons;
+
 struct BeaconType
 {
     std::string eventName;
@@ -475,6 +477,7 @@ struct CustomEvent
     bool eventRevisitSeeded = true;
     std::vector<std::pair<std::string, EventAlias>> eventAlias;
     bool restartEvent = false;
+    std::string renameBeacon = "";
     EventGameOver gameOver = EventGameOver();
     bool disableScrapScore = false;
     std::string customStore;
