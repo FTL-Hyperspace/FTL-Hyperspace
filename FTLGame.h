@@ -3802,8 +3802,12 @@ struct TouchInputEvent
 	float initial_y;
 };
 
+struct TabbedWindow;
+
 struct TabbedWindow : FocusWindow
 {
+	LIBZHL_API void Close();
+	
 	std::vector<Button*> buttons;
 	std::vector<FocusWindow*> windows;
 	std::vector<std::string> names;
@@ -3833,7 +3837,6 @@ struct DebugHelper
 	
 };
 
-struct TabbedWindow;
 struct Upgrades;
 struct SystemControl;
 struct TutorialManager;

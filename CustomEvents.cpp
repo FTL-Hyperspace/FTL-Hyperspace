@@ -3145,6 +3145,14 @@ HOOK_METHOD(StarMap, GenerateNebulas, (std::vector<std::string>& names) -> void)
 
 HOOK_METHOD(StarMap, StartSecretSector, () -> void)
 {
+    // Close store window to prevent crashes.
+    TabbedWindow& storeScreens = G_->GetWorld()->commandGui->storeScreens;
+    if (storeScreens.currentTab >= 0 && storeScreens.currentTab < storeScreens.windows.size() && storeScreens.windows[storeScreens.currentTab])
+    {
+        storeScreens.Close();
+    }
+    storeScreens.bOpen = false;
+
     CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(currentLoc->event->eventName);
 
     if (customEvent && !customEvent->secretSectorWarp.empty())
