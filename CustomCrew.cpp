@@ -4344,3 +4344,21 @@ HOOK_METHOD(Ship, OnLoop, (std::vector<float> &oxygenLevels) -> void)
 
     super(oxygenLevels);
 }
+
+// GetClosestSlot bug fix for unusual layouts
+HOOK_STATIC(ShipGraph, GetClosestSlot, (Slot *slot, ShipGraph *graph, Point pos, int shipId, bool intruder) -> Slot*)
+{
+    for (Room *room : graph->rooms)
+    {
+        Globals::Rect rect = room->rect;
+        if (pos.x >= rect.x && pos.x <= rect.x + rect.w && pos.y >= rect.y && pos.y <= rect.y + rect.h)
+        {
+            return super(slot, graph, pos, shipId, intruder);
+        }
+    }
+    // default return if not in any room
+    slot->roomId = -1;
+    slot->slotId = -1;
+    slot->worldLocation = {-1,-1};
+    return slot;
+}
