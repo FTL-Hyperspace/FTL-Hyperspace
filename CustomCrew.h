@@ -79,12 +79,12 @@ struct SkillsDefinition
 
 struct DroneAI
 {
-    bool hasCustomAI;
-    bool fightAI;
-    bool repairAI;
-    bool manAI;
-    bool batteryAI;
-    bool returnToDroneRoom;
+    bool hasCustomAI = false;
+    bool fightAI = false;
+    bool repairAI = false;
+    bool manAI = false;
+    bool batteryAI = false;
+    bool returnToDroneRoom = false;
 };
 
 struct TemporaryPowerDefinition
