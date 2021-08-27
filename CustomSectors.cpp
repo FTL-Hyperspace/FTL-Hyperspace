@@ -110,11 +110,11 @@ void ReplaceSector(SectorReplace &def)
     StarMap& starMap = G_->GetWorld()->starMap;
     std::vector<Sector*> sectors;
 
-    starMap.UpdateSectorMap(nullptr);
+    //starMap.UpdateSectorMap(nullptr);
 
     for (auto sec : starMap.sectors)
     {
-        if (sec->reachable && sec->description.type == def.targetSector)
+        if (sec->level > starMap.worldLevel && sec->description.type == def.targetSector)
         {
             sectors.push_back(sec);
         }
