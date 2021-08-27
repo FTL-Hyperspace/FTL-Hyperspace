@@ -110,6 +110,8 @@ void ReplaceSector(SectorReplace &def)
     StarMap& starMap = G_->GetWorld()->starMap;
     std::vector<Sector*> sectors;
 
+    starMap.UpdateSectorMap(nullptr);
+
     for (auto sec : starMap.sectors)
     {
         if (sec->reachable && sec->description.type == def.targetSector)
@@ -171,7 +173,33 @@ void ReplaceSector(Sector *sector, std::string sectorList, bool isLoading)
         }
     }
 
-    EventGenerator::GetSectorDescription(&sector->description, G_->GetEventGenerator(), sectorList, sector->level);
+    if (sectorList == "CIVILIAN" || sectorList == "HOSTILE" || sectorList == "NEBULA" || sectorList == "UNKNOWN")
+    {
+        EventGenerator::GetSectorDescription(&sector->description, G_->GetEventGenerator(), sectorList, sector->level);
+    }
+    else
+    {
+        SectorDescription *desc = G_->GetEventGenerator()->GetSpecificSector(sectorList);
+        sector->description = *desc;
+        delete desc;
+    }
+
+    if (sectorList == "CIVILIAN")
+    {
+        sector->type = 0;
+    }
+    if (sectorList == "HOSTILE")
+    {
+        sector->type = 1;
+    }
+    if (sectorList == "NEBULA")
+    {
+        sector->type = 2;
+    }
+    if (sectorList == "UNKNOWN")
+    {
+        sector->type = 4;
+    }
 
     if (!isLoading)
     {
