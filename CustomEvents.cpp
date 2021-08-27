@@ -6,6 +6,7 @@
 #include "CustomFleetShips.h"
 #include "CustomBoss.h"
 #include "CustomCrew.h"
+#include "CustomSectors.h"
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
 
@@ -15,6 +16,8 @@ bool alreadyWonCustom = false;
 std::unordered_map<std::string, EventAlias> eventAliases = std::unordered_map<std::string, EventAlias>();
 
 std::unordered_map<int, std::string> renamedBeacons = std::unordered_map<int, std::string>();
+
+std::unordered_map<int, std::pair<std::string, int>> regeneratedBeacons = std::unordered_map<int, std::pair<std::string, int>>();
 
 void CustomEventsParser::ParseCustomEventNodeFiles(rapidxml::xml_node<char> *node)
 {
@@ -308,10 +311,15 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
         {
 
             EventLoadList *eventLoadList = new EventLoadList();
-            ParseCustomEventLoadList(eventNode, eventLoadList);
+            std::string loadEventListName = "";
             if (eventNode->first_attribute("name"))
             {
-                customEventLoadLists[eventNode->first_attribute("name")->value()] = eventLoadList;
+                loadEventListName = eventNode->first_attribute("name")->value();
+            }
+            ParseCustomEventLoadList(eventNode, eventLoadList, loadEventListName);
+            if (!loadEventListName.empty())
+            {
+                customEventLoadLists[loadEventListName] = eventLoadList;
             }
         }
 
@@ -675,7 +683,7 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
         {
             isDefault = false;
             customEvent->eventLoadList = new EventLoadList();
-            ParseCustomEventLoadList(child, customEvent->eventLoadList);
+            ParseCustomEventLoadList(child, customEvent->eventLoadList, customEvent->eventName);
         }
 
         if (nodeName == "eventAlias")
@@ -724,6 +732,16 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
         {
             isDefault = false;
             customEvent->jumpEventClear = true;
+        }
+
+        if (nodeName == "replaceSector")
+        {
+            isDefault = false;
+            if (child->first_attribute("name"))
+            {
+                customEvent->replaceSector.targetSector = child->first_attribute("name")->value();
+            }
+            customEvent->replaceSector.sectorList = child->value();
         }
 
         if (nodeName == "resetFtl")
@@ -1411,7 +1429,7 @@ void CustomEventsParser::ParseCustomReqNode(rapidxml::xml_node<char> *node, Cust
     }
 }
 
-void CustomEventsParser::ParseCustomEventLoadList(rapidxml::xml_node<char> *node, EventLoadList *eventList)
+void CustomEventsParser::ParseCustomEventLoadList(rapidxml::xml_node<char> *node, EventLoadList *eventList, std::string& eventName)
 {
     if (node->first_attribute("seeded"))
     {
@@ -1425,6 +1443,10 @@ void CustomEventsParser::ParseCustomEventLoadList(rapidxml::xml_node<char> *node
     {
         eventList->defaultEvent = node->first_attribute("default")->value();
     }
+    if (node->first_attribute("generate"))
+    {
+        eventList->onGenerate = EventsParser::ParseBoolean(node->first_attribute("generate")->value());
+    }
     for (auto child = node->first_node(); child; child = child->next_sibling())
     {
         std::string nodeName(child->name());
@@ -1435,6 +1457,10 @@ void CustomEventsParser::ParseCustomEventLoadList(rapidxml::xml_node<char> *node
             if (child->first_attribute("name"))
             {
                 event.event = child->first_attribute("name")->value();
+            }
+            if (child->first_attribute("load"))
+            {
+                event.event = child->first_attribute("load")->value();
             }
             if (child->first_attribute("req"))
             {
@@ -1452,6 +1478,13 @@ void CustomEventsParser::ParseCustomEventLoadList(rapidxml::xml_node<char> *node
             if (child->first_attribute("max_group"))
             {
                 event.max_group = boost::lexical_cast<int>(child->first_attribute("max_group")->value());
+            }
+
+            if (event.event.empty())
+            {
+                std::string newEventName;
+                EventsParser::ProcessEvent(newEventName, G_->GetEventsParser(), child, eventName);
+                event.event = newEventName;
             }
 
             eventList->events.push_back(event);
@@ -2228,6 +2261,7 @@ HOOK_METHOD(StarMap, GenerateMap, (bool tutorial, bool seed) -> LocationEvent*)
 {
     if (!loadingGame)
     {
+        regeneratedBeacons.clear();
         renamedBeacons.clear();
     }
 
@@ -2292,6 +2326,40 @@ HOOK_METHOD(StarMap, GenerateMap, (bool tutorial, bool seed) -> LocationEvent*)
                 bNebulaMap = customSector->nebulaSector.value;
             }
 
+        }
+    }
+
+    if (!loadingGame)
+    {
+        auto custom = CustomEventsParser::GetInstance();
+
+        for (int i=0; i<locations.size(); ++i)
+        {
+            Location *loc = locations[i];
+            if (loc->event == nullptr) continue;
+
+            auto customEvent = custom->GetCustomEvent(loc->event->eventName);
+            if (customEvent && customEvent->eventLoadList && customEvent->eventLoadList->onGenerate)
+            {
+                int seed = customEvent->eventLoadList->seeded ? (int)(loc->loc.x + loc->loc.y) ^ currentSectorSeed : -1;
+                auto newEvent = custom->GetEvent(G_->GetWorld(), customEvent->eventLoadList, seed);
+                if (newEvent)
+                {
+                    delete loc->event;
+                    loc->event = newEvent;
+                    regeneratedBeacons[i] = std::pair<std::string,int>(newEvent->eventName, seed); // Note: doesn't respect nested "seeded" attributes in eventLoadLists.
+                }
+            }
+        }
+    }
+    else
+    {
+        for (auto i : regeneratedBeacons)
+        {
+            if (i.first < locations.size() && !locations[i.first]->questLoc && !locations[i.first]->dangerZone) // currently don't operate on dives/quests
+            {
+                locations[i.first]->event = G_->GetEventGenerator()->GetBaseEvent(i.second.first, worldLevel, true, i.second.second);
+            }
         }
     }
 
@@ -3351,6 +3419,11 @@ HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEve
         {
             triggeredEvent.ApplyModifier();
         }
+
+        if (!customEvent->replaceSector.targetSector.empty())
+        {
+            ReplaceSector(customEvent->replaceSector);
+        }
     }
 
     return ret;
@@ -3422,6 +3495,9 @@ HOOK_METHOD(StarMap, NewGame, (bool unk) -> Location*)
     // eventAlias
     eventAliases.clear();
 
+    // regeneratedBeacons
+    regeneratedBeacons.clear();
+
     // renamedBeacons
     renamedBeacons.clear();
 
@@ -3443,6 +3519,7 @@ HOOK_METHOD(StarMap, LoadGame, (int fh) -> Location*)
     jumpEventLoop = FileHelper::readInteger(fh);
 
     // eventAlias
+    eventAliases.clear();
     int n = FileHelper::readInteger(fh);
     for (int i=0; i<n; ++i)
     {
@@ -3454,7 +3531,19 @@ HOOK_METHOD(StarMap, LoadGame, (int fh) -> Location*)
         eventAliases[alias_name] = alias;
     }
 
+    // regeneratedBeacons
+    regeneratedBeacons.clear();
+    n = FileHelper::readInteger(fh);
+    for (int i=0; i<n; ++i)
+    {
+        int idx = FileHelper::readInteger(fh);
+        std::string eventName = FileHelper::readString(fh);
+        int seed = FileHelper::readInteger(fh);
+        regeneratedBeacons[idx] = std::pair<std::string,int>(eventName, seed);
+    }
+
     // renamedBeacons
+    renamedBeacons.clear();
     n = FileHelper::readInteger(fh);
     for (int i=0; i<n; ++i)
     {
@@ -3487,6 +3576,15 @@ HOOK_METHOD(StarMap, SaveGame, (int file) -> void)
         FileHelper::writeString(file, i.second.event);
         FileHelper::writeInt(file, i.second.jumpClear);
         FileHelper::writeInt(file, i.second.once);
+    }
+
+    // regeneratedBeacons
+    FileHelper::writeInt(file, regeneratedBeacons.size());
+    for (auto& i : regeneratedBeacons)
+    {
+        FileHelper::writeInt(file, i.first);
+        FileHelper::writeString(file, i.second.first);
+        FileHelper::writeInt(file, i.second.second);
     }
 
     // renamedBeacons

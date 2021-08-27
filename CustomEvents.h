@@ -14,6 +14,7 @@ extern bool alreadyWonCustom;
 extern std::string replaceCreditsMusic;
 
 extern std::unordered_map<int, std::string> renamedBeacons;
+extern std::unordered_map<int, std::pair<std::string, int>> regeneratedBeacons;
 
 struct BeaconType
 {
@@ -437,6 +438,7 @@ struct EventLoadList
     std::vector<EventLoadListEvent> events;
     bool seeded = true;
     bool useFirst = false;
+    bool onGenerate = false;
     std::string defaultEvent = "";
 };
 
@@ -445,6 +447,12 @@ struct EventAlias
     std::string event;
     bool jumpClear = false;
     bool once = false;
+};
+
+struct SectorReplace
+{
+    std::string targetSector = "";
+    std::string sectorList = "";
 };
 
 extern std::unordered_map<std::string, EventAlias> eventAliases;
@@ -484,6 +492,7 @@ struct CustomEvent
     std::string jumpEvent = "";
     bool jumpEventLoop = false;
     bool jumpEventClear = false;
+    SectorReplace replaceSector;
     bool resetFtl = false;
     bool instantEscape = false;
     bool escape = false;
@@ -683,7 +692,7 @@ public:
     void ParseCustomTriggeredEventBoxNode(rapidxml::xml_node<char> *node, TriggeredEventBoxDefinition *box);
     void ParseCustomTriggeredEventSounds(rapidxml::xml_node<char> *node, std::vector<std::pair<float,std::string>> *vec);
     void ParseCustomTriggeredEventWarningNode(rapidxml::xml_node<char> *node, TriggeredEventWarningDefinition *warning);
-    void ParseCustomEventLoadList(rapidxml::xml_node<char> *node, EventLoadList *eventList);
+    void ParseCustomEventLoadList(rapidxml::xml_node<char> *node, EventLoadList *eventList, std::string& eventName);
 
     static CustomEventsParser *GetInstance()
     {

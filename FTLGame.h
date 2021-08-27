@@ -4355,6 +4355,7 @@ struct EventGenerator
 	LIBZHL_API LocationEvent *CreateEvent1(const std::string &name, int worldLevel);
 	LIBZHL_API static Sector *__stdcall GetSpecificSector(SectorDescription *desc, EventGenerator *eventGenerator, const std::string &name);
 	LIBZHL_API static void __stdcall GetImageFromList(std::string &ret, EventGenerator *eventGenerator, const std::string &listName);
+	LIBZHL_API static SectorDescription *__stdcall GetSectorDescription(SectorDescription *desc, EventGenerator *eventGenerator, const std::string &type, int level);
 	
 };
 

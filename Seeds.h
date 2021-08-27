@@ -2,6 +2,8 @@
 
 #include <boost/crc.hpp>
 
+int GenerateLocationSeed(int a, int b);
+
 class SeedInputBox
 {
 public:
