@@ -222,6 +222,10 @@ putting the secret attribute on the ship tag will make the ship show up as "Unid
 Syntax -> 
 
 <ships removeFirstShipPage="false">
+	<hangarAnims>
+		<anim x="100" y="100">custom_anim</anim>
+	</hangarAnims>
+
 	<shipOrder>
 		<ship>PLAYER_SHIP_CUSTOM1</ship>
 		<ship>PLAYER_SHIP_CUSTOM7</ship>
