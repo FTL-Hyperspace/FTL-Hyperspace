@@ -229,18 +229,15 @@ StatBoostDefinition StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<char
                     {
                         noSys = true;
                         def.powerScalingNoSys = boost::lexical_cast<float>(systemChild->value());
-                        hs_log_file("noSys %f\n", def.powerScalingNoSys);
                     }
                     else if (systemChildName == "hackedSys")
                     {
                         hackedSys = true;
                         def.powerScalingHackedSys = boost::lexical_cast<float>(systemChild->value());
-                        hs_log_file("hackedSys %f\n", def.powerScalingHackedSys);
                     }
                     else
                     {
                         def.powerScaling.push_back(boost::lexical_cast<float>(systemChild->value()));
-                        hs_log_file("%d power %f\n", def.powerScaling.size()-1, def.powerScaling[def.powerScaling.size()-1]);
                     }
                 }
 
@@ -249,12 +246,10 @@ StatBoostDefinition StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<char
                     if (!noSys)
                     {
                         def.powerScalingNoSys = def.powerScaling.at(0);
-                        hs_log_file("Default noSys %f\n", def.powerScalingNoSys);
                     }
                     if (!hackedSys)
                     {
                         def.powerScalingHackedSys = def.powerScaling.at(0);
-                        hs_log_file("Default hackedSys %f\n", def.powerScalingHackedSys);
                     }
                 }
             }
