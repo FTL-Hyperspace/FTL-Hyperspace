@@ -12,6 +12,9 @@
 
 CustomEventsParser *CustomEventsParser::instance = new CustomEventsParser();
 bool alreadyWonCustom = false;
+bool bossDefeated = false;
+
+TimerHelper *restartMusicTimer = nullptr;
 
 std::unordered_map<std::string, EventAlias> eventAliases = std::unordered_map<std::string, EventAlias>();
 
@@ -911,6 +914,19 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
             isDefault = false;
             customEvent->playSound = child->value();
         }
+        if (nodeName == "playMusic")
+        {
+            isDefault = false;
+            std::string track = child->value();
+            if (track.empty())
+            {
+                customEvent->resetMusic = true;
+            }
+            else
+            {
+                customEvent->playMusic = child->value();
+            }
+        }
         if (nodeName == "changeBackground")
         {
             isDefault = false;
@@ -1189,11 +1205,11 @@ bool CustomEventsParser::ParseCustomShipEvent(rapidxml::xml_node<char> *node, Cu
             isDefault = false;
             customEvent->deadCrewAuto = true;
         }
-        if (nodeName == "finalBoss")
+        if (nodeName == "finalBoss" || nodeName == "miniBoss")
         {
             isDefault = false;
             customEvent->finalBoss.enabled = true;
-            customEvent->finalBoss.victory = true;
+            customEvent->finalBoss.victory = (nodeName == "finalBoss");
             customEvent->finalBoss.sound = "victory";
             if (child->first_attribute("text"))
             {
@@ -1214,6 +1230,10 @@ bool CustomEventsParser::ParseCustomShipEvent(rapidxml::xml_node<char> *node, Cu
             if (child->first_attribute("sound"))
             {
                 customEvent->finalBoss.sound = child->first_attribute("sound")->value();
+            }
+            if (child->first_attribute("musicDelay"))
+            {
+                customEvent->bossMusicDelay = boost::lexical_cast<int>(child->first_attribute("musicDelay")->value());
             }
         }
     }
@@ -3057,6 +3077,8 @@ HOOK_METHOD(WorldManager, CreateShip, (ShipEvent* shipEvent, bool boss) -> Compl
 
     auto ret = super(shipEvent, boss);
 
+    bossDefeated = false;
+
     if (loadingGame) return ret;
 
     CustomShipEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomShipEvent(shipEvent->name);
@@ -3368,6 +3390,17 @@ HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEve
             G_->GetSoundControl()->PlaySoundMix(customEvent->playSound, -1.f, false);
         }
 
+        if (customEvent->resetMusic)
+        {
+            G_->GetSoundControl()->StartPlaylist(starMap.currentSector->description.musicTracks);
+        }
+
+        if (!customEvent->playMusic.empty())
+        {
+            std::vector<std::string> track = {customEvent->playMusic};
+            G_->GetSoundControl()->StartPlaylist(track);
+        }
+
         if (customEvent->jumpEventClear)
         {
             jumpEvent = "";
@@ -3488,6 +3521,10 @@ HOOK_METHOD(CreditScreen, OnRender, () -> void)
 
 HOOK_METHOD(StarMap, NewGame, (bool unk) -> Location*)
 {
+    bossDefeated = false;
+    delete restartMusicTimer;
+    restartMusicTimer = nullptr;
+
     // jumpEvent
     jumpEvent = "";
     jumpEventLoop = false;
@@ -3514,6 +3551,10 @@ HOOK_METHOD(StarMap, NewGame, (bool unk) -> Location*)
 
 HOOK_METHOD(StarMap, LoadGame, (int fh) -> Location*)
 {
+    bossDefeated = false;
+    delete restartMusicTimer;
+    restartMusicTimer = nullptr;
+
     // jumpEvent
     jumpEvent = FileHelper::readString(fh);
     jumpEventLoop = FileHelper::readInteger(fh);
@@ -3954,22 +3995,34 @@ HOOK_METHOD(CompleteShip, DeadCrew, () -> bool)
                 return false;
             }
 
-            if (customEvent->finalBoss.enabled && !alreadyWonCustom)
+            if (customEvent->finalBoss.enabled && !bossDefeated)
             {
+                bossDefeated = true;
+
                 CommandGui* commandGui = G_->GetWorld()->commandGui;
-                commandGui->alreadyWon = true;
-                alreadyWonCustom = true;
 
                 if (!customEvent->finalBoss.sound.empty())
                 {
                     G_->GetSoundControl()->StopPlaylist(100);
                     G_->GetSoundControl()->PlaySoundMix(customEvent->finalBoss.sound, -1.f, false);
+
+                    delete restartMusicTimer;
+                    if (customEvent->bossMusicDelay != -1)
+                    {
+                        restartMusicTimer = new TimerHelper(false);
+                        restartMusicTimer->Start(customEvent->bossMusicDelay);
+                    }
                 }
 
-                replaceGameOverText = customEvent->finalBoss.text;
-                replaceGameOverCreditsText = customEvent->finalBoss.creditsText;
-                replaceCreditsMusic = customEvent->finalBoss.creditsMusic;
-                replaceCreditsBackground = G_->GetEventGenerator()->GetImageFromList(customEvent->finalBoss.creditsBackground);
+                if (customEvent->finalBoss.victory)
+                {
+                    commandGui->alreadyWon = true;
+                    alreadyWonCustom = true;
+                    replaceGameOverText = customEvent->finalBoss.text;
+                    replaceGameOverCreditsText = customEvent->finalBoss.creditsText;
+                    replaceCreditsMusic = customEvent->finalBoss.creditsMusic;
+                    replaceCreditsBackground = G_->GetEventGenerator()->GetImageFromList(customEvent->finalBoss.creditsBackground);
+                }
             }
         }
     }
@@ -3998,7 +4051,7 @@ HOOK_METHOD(WorldManager, OnLoop, () -> void)
             }
         }
     }
-    else
+    if (!bossDefeated)
     {
         ShipManager *enemy = playerShip->shipManager->current_target;
         if (!enemy) return;
@@ -4006,20 +4059,57 @@ HOOK_METHOD(WorldManager, OnLoop, () -> void)
         CustomShipEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomShipEvent(currentShipEvent.name);
         if (customEvent && customEvent->finalBoss.enabled && enemy->bDestroyed)
         {
+            bossDefeated = true;
             enemy->ship.explosion.time = 6.0;
-            commandGui->alreadyWon = true;
-            alreadyWonCustom = true;
 
             if (!customEvent->finalBoss.sound.empty())
             {
                 G_->GetSoundControl()->StopPlaylist(100);
                 G_->GetSoundControl()->PlaySoundMix(customEvent->finalBoss.sound, -1.f, false);
+
+                delete restartMusicTimer;
+                if (customEvent->bossMusicDelay != -1)
+                {
+                    restartMusicTimer = new TimerHelper(false);
+                    restartMusicTimer->Start(customEvent->bossMusicDelay);
+                }
             }
 
-            replaceGameOverText = customEvent->finalBoss.text;
-            replaceGameOverCreditsText = customEvent->finalBoss.creditsText;
-            replaceCreditsMusic = customEvent->finalBoss.creditsMusic;
-            replaceCreditsBackground = G_->GetEventGenerator()->GetImageFromList(customEvent->finalBoss.creditsBackground);
+            if (customEvent->finalBoss.victory)
+            {
+                commandGui->alreadyWon = true;
+                alreadyWonCustom = true;
+                replaceGameOverText = customEvent->finalBoss.text;
+                replaceGameOverCreditsText = customEvent->finalBoss.creditsText;
+                replaceCreditsMusic = customEvent->finalBoss.creditsMusic;
+                replaceCreditsBackground = G_->GetEventGenerator()->GetImageFromList(customEvent->finalBoss.creditsBackground);
+            }
+
+            commandGui->alreadyWon = true;
+            alreadyWonCustom = true;
+        }
+    }
+}
+
+HOOK_METHOD(CApp, OnLoop, () -> void)
+{
+    super();
+    if (restartMusicTimer != nullptr)
+    {
+        restartMusicTimer->Update();
+        if (restartMusicTimer->Done())
+        {
+            delete restartMusicTimer;
+            restartMusicTimer = nullptr;
+
+            if (!menu.bOpen)
+            {
+                Sector *sec = G_->GetWorld()->starMap.currentSector;
+                if (sec != nullptr)
+                {
+                    G_->GetSoundControl()->StartPlaylist(sec->description.musicTracks);
+                }
+            }
         }
     }
 }

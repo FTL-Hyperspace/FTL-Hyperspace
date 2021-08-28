@@ -10,6 +10,8 @@
 extern bool locationUpdated;
 extern std::vector<std::pair<std::string,int>> eventQueue;
 extern bool alreadyWonCustom;
+extern bool bossDefeated;
+extern TimerHelper *restartMusicTimer;
 
 extern std::string replaceCreditsMusic;
 
@@ -517,6 +519,8 @@ struct CustomEvent
     std::vector<std::string> hiddenAugs = std::vector<std::string>();
     std::vector<std::string> removeItems = std::vector<std::string>();
     std::string playSound = "";
+    std::string playMusic = "";
+    bool resetMusic = false;
     std::string changeBackground = "";
 
     std::vector<EventDamage> enemyDamage = std::vector<EventDamage>();
@@ -547,6 +551,7 @@ struct CustomShipEvent
     bool deadCrewAuto = false;
 
     EventGameOver finalBoss = EventGameOver();
+    int bossMusicDelay = -1;
 };
 
 struct SectorExit

@@ -1328,6 +1328,7 @@ Syntax ->
 		</beaconType>
 		<changeBackground>BACK_ID</changeBackground>                                            Changes the event background to the specified background.
 		<playSound>sound_id</playSound>                                                         Plays a sound.
+		<playMusic>music_id</playMusic>                                                         Plays a music track. Leave blank to reset and play the current sector's playlist.
 		<removeHazards/>                                                                        Removes all hazards (asteroids, pulsar, ASB, sun, and plasma storm). Nebula status is preserved.
 		<removeNebula/>                                                                         Removes nebula and plasma storm.
 		<customFleet right="false" firing="false" autoDarkening="false">FLEET_ID</customFleet>  Adds a custom fleet. If right is true, fleet comes from the right, otherwise it comes from the left. If firing is true, the
@@ -1411,7 +1412,9 @@ Syntax ->
 		<invincible/>                                                                           Activate emergency FTL upon destruction similar to Flagship phases 1 and 2. No effect on gameplay.
 		<deadCrewAuto/>                                                                         When you kill the crew, the ship will become automated instead of neutral. The deadCrew event will still be loaded.
 		<finalBoss text="_text_" creditsText="_id_" creditsBackground="_id_" sound="victory"    When you defeat this ship, you win the game. Credits show ONLY for mutual destruction; otherwise use <win> for credits.
-		           music="title"/>                                                                e.g. you can put <win> in the ship's <destroyed>. The sound attribute changes the tune that plays when you defeat the ship.
+		           music="title" musicDelay="-1"/>                                                e.g. you can put <win> in the ship's <destroyed>. The sound attribute changes the tune that plays when you defeat the ship.
+		                                                                                          musicDelay will automatically restart the current sector's music if set to a positive value.
+		<miniBoss sound="victory" musicDelay="-1"/>                                             Similar to <finalBoss> but does not set a victory flag. Uses long death animation + sound (optional).
 	</shipEvent>
 	
 	<req name="CUSTOM_REQ" type="_type_" mult="1" const="0" lvl="1" max_lvl="0" load="BPLIST">  Custom requirements for blue options. If a choice req matches a requirement named here, then it will be checked. A custom req
