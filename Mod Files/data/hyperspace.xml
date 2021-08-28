@@ -338,6 +338,12 @@ Syntax ->
 			<deathSound>death1</deathSound>
 			<deathSound>death2</deathSound>
 		</deathSounds>
+		<deathSounds male="true">                                                        Death sounds for male only.
+			<deathSound>maleDeath1</deathSound>
+		</deathSounds>
+		<deathSounds female="true">                                                      Death sounds for female only.
+			<deathSound>femaleDeath1</deathSound>
+		</deathSounds>
 		<shootingSounds>                                                                 Sounds to play when using ranged attack. A random sound is selected.
 			<shootingSound>crewLaser</shootingSound>
 		</shootingSounds>
@@ -345,6 +351,8 @@ Syntax ->
 			<repairSound>repair</repairSound>                                              on each loop of the animation on the specified frame (rock).
 		</repairSounds>
 		<animBase>rock</animBase>                                                        Use rock animBase for rock stomping and shooting animation; use mantis animBase for mantis shooting animation.
+		<animSheet>human</animSheet>                                                     Use animSheet of another race. Good for allowing multiple races to use the same animSheet to save space. Does not work for drones.
+		<animSheetFemale>female</animSheetFemale>                                        Use a different animSheet if female. Does not work for drones.
 		<oxygenChangeSpeed>-0.5</oxygenChangeSpeed>                                      Drains or replenishes oxygen in the room. A negative value drains (lanius).
 		<damageTakenMultiplier>1.0</damageTakenMultiplier>                               Modifier for damage taken in crew combat.
 		<passiveHealAmount>1.0</passiveHealAmount>                                       Amount of health to heal over time, in HP/second. Affected by healSpeed, stops at full health.

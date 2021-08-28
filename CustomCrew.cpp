@@ -222,11 +222,36 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                         }
                         if (str == "deathSounds")
                         {
+                            bool male = true;
+                            bool female = true;
+                            if (stat->first_attribute("male"))
+                            {
+                                if (EventsParser::ParseBoolean(stat->first_attribute("male")->value()))
+                                {
+                                    female = false;
+                                }
+                                else
+                                {
+                                    male = false;
+                                }
+                            }
+                            if (stat->first_attribute("female"))
+                            {
+                                if (EventsParser::ParseBoolean(stat->first_attribute("female")->value()))
+                                {
+                                    male = false;
+                                }
+                                else
+                                {
+                                    female = false;
+                                }
+                            }
                             for (auto deathSoundNode = stat->first_node(); deathSoundNode; deathSoundNode = deathSoundNode->next_sibling())
                             {
                                 if (strcmp(deathSoundNode->name(), "deathSound") == 0)
                                 {
-                                    crew.deathSounds.push_back(std::string(deathSoundNode->value()));
+                                    if (male) crew.deathSounds.push_back(std::string(deathSoundNode->value()));
+                                    if (female) crew.deathSoundsFemale.push_back(std::string(deathSoundNode->value()));
                                 }
                             }
                         }
@@ -267,6 +292,15 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                         if (str == "animBase")
                         {
                             crew.animBase = val;
+                        }
+                        if (str == "animSheet")
+                        {
+                            crew.animSheet[0] = val;
+                            crew.animSheet[1] = val;
+                        }
+                        if (str == "animSheetFemale")
+                        {
+                            crew.animSheet[0] = val;
                         }
                         if (str == "oxygenChangeSpeed")
                         {
@@ -1728,6 +1762,9 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
                 }
             }
 
+            std::string animSheet = def.animSheet[male?1:0];
+            if (animSheet.empty()) animSheet = bp.name;
+
             Animation* effectAnim = aex->effectAnim;
             Animation* effectFinishAnim = aex->effectFinishAnim;
             Animation* tempEffectAnim = aex->tempEffectAnim;
@@ -1741,7 +1778,7 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
             if (def.animBase == "rock")
             {
                 blockAddSoundQueue = true;
-                orig->crewAnim = new RockAnimation(bp.name, shipId, lastPosition, enemy);
+                orig->crewAnim = new RockAnimation(animSheet, shipId, lastPosition, enemy);
                 aex = CMA_EX(orig->crewAnim);
                 aex->crewAnimationType = "rock";
                 blockAddSoundQueue = false;
@@ -1749,14 +1786,14 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
             else if (def.animBase == "mantis")
             {
                 orig->crewAnim = new MantisAnimation;
-                orig->crewAnim->constructor(shipId, bp.name, lastPosition, enemy);
+                orig->crewAnim->constructor(shipId, animSheet, lastPosition, enemy);
                 aex = CMA_EX(orig->crewAnim);
                 aex->isMantisAnimation = true;
                 aex->crewAnimationType = "mantis";
             }
             else
             {
-                orig->crewAnim = new CrewAnimation(shipId, bp.name, lastPosition, enemy);
+                orig->crewAnim = new CrewAnimation(shipId, animSheet, lastPosition, enemy);
                 aex = CMA_EX(orig->crewAnim);
             }
 
@@ -2562,11 +2599,13 @@ HOOK_STATIC(CrewAnimation, GetDeathSound, (std::string& strRef, CrewAnimation *a
     {
         auto def = custom->GetDefinition(anim->race);
 
-        if (def.deathSounds.size() > 0)
+        std::vector<std::string>& deathSounds = anim->bMale ? def.deathSounds : def.deathSoundsFemale;
+
+        if (deathSounds.size() > 0)
         {
             int rng = random32();
 
-            strRef.assign(def.deathSounds[rng % def.deathSounds.size()]);
+            strRef.assign(deathSounds[rng % deathSounds.size()]);
 
             return strRef;
         }
@@ -2585,11 +2624,13 @@ HOOK_STATIC(RockAnimation, GetDeathSound, (std::string& strRef, RockAnimation *a
     {
         auto def = custom->GetDefinition(anim->race);
 
-        if (def.deathSounds.size() > 0)
+        std::vector<std::string>& deathSounds = anim->bMale ? def.deathSounds : def.deathSoundsFemale;
+
+        if (deathSounds.size() > 0)
         {
             int rng = random32();
 
-            strRef.assign(def.deathSounds[rng % def.deathSounds.size()]);
+            strRef.assign(deathSounds[rng % deathSounds.size()]);
 
             return strRef;
         }
@@ -2608,10 +2649,13 @@ HOOK_STATIC(MantisAnimation, GetDeathSound, (std::string& strRef, MantisAnimatio
     {
         auto def = custom->GetDefinition(anim->race);
 
-        if (def.deathSounds.size() > 0)
+        std::vector<std::string>& deathSounds = anim->bMale ? def.deathSounds : def.deathSoundsFemale;
+
+        if (deathSounds.size() > 0)
         {
             int rng = random32();
-            strRef.assign(def.deathSounds[rng % def.deathSounds.size()]);
+
+            strRef.assign(deathSounds[rng % deathSounds.size()]);
 
             return strRef;
         }

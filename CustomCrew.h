@@ -258,6 +258,7 @@ struct CrewDefinition
 {
     std::string race;
     std::vector<std::string> deathSounds;
+    std::vector<std::string> deathSoundsFemale;
     std::vector<std::string> shootingSounds;
     std::vector<std::string> repairSounds;
     int repairSoundFrame = -1;
@@ -294,6 +295,7 @@ struct CrewDefinition
     bool hasCustomDeathAnimation = false;
     bool hasDeathExplosion = false;
     std::string animBase = "human";
+    std::string animSheet[2] = {"",""};
     float sabotageSpeedMultiplier = 1.f;
     float allDamageTakenMultiplier = 1.f;
     int defaultSkillLevel = 0;
