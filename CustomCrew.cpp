@@ -3076,6 +3076,7 @@ HOOK_METHOD(ShipSystem, DamageOverTime, (float amount) -> bool)
             iBonusPower = 0;
         }
     }
+    return ret;
 }
 
 
