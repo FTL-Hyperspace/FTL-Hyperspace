@@ -2022,9 +2022,9 @@ struct LIBZHL_INTERFACE ShipSystem
 	virtual void RemoveBatteryPower() LIBZHL_PLACEHOLDER
 	virtual WeaponBlueprint *GetWeaponInfo() LIBZHL_PLACEHOLDER
 	virtual std::string *GetOverrideTooltip() LIBZHL_PLACEHOLDER
-	virtual void CheckMaxPower() LIBZHL_PLACEHOLDER
+	LIBZHL_API virtual void CheckMaxPower();
 	LIBZHL_API virtual void SetBonusPower(int amount, int permanentPower);
-	virtual void AddDamage(int damage) LIBZHL_PLACEHOLDER
+	LIBZHL_API virtual void AddDamage(int amount);
 	LIBZHL_API virtual bool ForceDecreasePower(int powerLoss);
 	virtual bool ForceIncreasePower(int power) LIBZHL_PLACEHOLDER
 	LIBZHL_API virtual void StopHacking();
@@ -2037,7 +2037,7 @@ struct LIBZHL_INTERFACE ShipSystem
 	virtual bool Clickable() LIBZHL_PLACEHOLDER
 	virtual bool Powered() LIBZHL_PLACEHOLDER
 	virtual void ShipDestroyed() LIBZHL_PLACEHOLDER
-	LIBZHL_API char DamageOverTime(float unk);
+	LIBZHL_API bool DamageOverTime(float unk);
 	LIBZHL_API void CheckForRepower();
 	LIBZHL_API static int __stdcall NameToSystemId(const std::string &name);
 	LIBZHL_API int IsMannedBoost();

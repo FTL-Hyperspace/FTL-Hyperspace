@@ -3011,14 +3011,70 @@ HOOK_METHOD(ShipManager, OnLoop, () -> void)
     {
         ShipSystem_Extend* sys_ex = SYS_EX(i);
 
+        /*
         i->iTempPowerLoss = sys_ex->oldPowerLoss + sys_ex->additionalPowerLoss;
-        if (i->iTempPowerLoss >= i->powerState.second)
+        int maxPowerLoss = i->powerState.second - (i->healthState.second - i->healthState.first);
+        if (i->iTempPowerLoss >= maxPowerLoss)
         {
-            i->iTempPowerLoss = i->powerState.second;
+            i->iTempPowerLoss = maxPowerLoss;
         }
+        */
 
         i->CheckMaxPower();
         i->CheckForRepower();
+    }
+}
+
+HOOK_METHOD(ShipSystem, GetMaxPower, () -> int)
+{
+    ShipSystem_Extend* sys_ex = SYS_EX(this);
+    iTempPowerLoss = sys_ex->oldPowerLoss + sys_ex->additionalPowerLoss;
+    int maxPowerLoss = powerState.second - (healthState.second - healthState.first);
+    if (iTempPowerLoss > maxPowerLoss) iTempPowerLoss = maxPowerLoss;
+    return super();
+}
+
+HOOK_METHOD(ShipSystem, CheckMaxPower, () -> void)
+{
+    ShipSystem_Extend* sys_ex = SYS_EX(this);
+    iTempPowerLoss = sys_ex->oldPowerLoss + sys_ex->additionalPowerLoss;
+    int maxPowerLoss = powerState.second - (healthState.second - healthState.first);
+    if (iTempPowerLoss > maxPowerLoss) iTempPowerLoss = maxPowerLoss;
+    super();
+}
+
+HOOK_METHOD(ShipSystem, CheckForRepower, () -> void)
+{
+    ShipSystem_Extend* sys_ex = SYS_EX(this);
+    iTempPowerLoss = sys_ex->oldPowerLoss + sys_ex->additionalPowerLoss;
+    int maxPowerLoss = powerState.second - (healthState.second - healthState.first);
+    if (iTempPowerLoss > maxPowerLoss) iTempPowerLoss = maxPowerLoss;
+    super();
+}
+
+HOOK_METHOD(ShipSystem, AddDamage, (int amount) -> void)
+{
+    int newHealth = std::max(0, std::min(healthState.first - amount, healthState.second));
+
+    ShipSystem_Extend* sys_ex = SYS_EX(this);
+    iTempPowerLoss = sys_ex->oldPowerLoss + sys_ex->additionalPowerLoss;
+    int maxPowerLoss = powerState.second - (healthState.second - newHealth);
+    if (iTempPowerLoss > maxPowerLoss) iTempPowerLoss = maxPowerLoss;
+
+    super(amount);
+}
+
+HOOK_METHOD(ShipSystem, DamageOverTime, (float amount) -> bool)
+{
+    auto ret = super(amount);
+    if (damagedLastFrame)
+    {
+        int maxPowerLoss = powerState.second - (healthState.second - healthState.first);
+        if (iTempPowerLoss > maxPowerLoss)
+        {
+            iTempPowerLoss = maxPowerLoss;
+            iBonusPower = 0;
+        }
     }
 }
 
