@@ -651,6 +651,15 @@ struct AnimationDescriptor
 
 struct Animation
 {
+	Animation()
+	{
+	}
+	Animation(const std::string& _image, int _length, float _time, Pointf _position, int _imageWidth, int _imageHeight, int _stripStartX, int _numFrames)
+	{
+		this->constructor(_image, _length, _time, _position, _imageWidth, _imageHeight, _stripStartX, _numFrames);
+	}
+
+	LIBZHL_API void constructor(const std::string &_image, int _length, float _time, Pointf _position, int _imageWidth, int _imageHeight, int _stripStartX, int _numFrames);
 	LIBZHL_API void OnRender(float opacity, GL_Color color, bool mirror);
 	LIBZHL_API void Update();
 	LIBZHL_API void SetCurrentFrame(int frame);
@@ -660,6 +669,7 @@ struct Animation
 	LIBZHL_API void destructor();
 	LIBZHL_API void StartReverse(bool reset);
 	LIBZHL_API void SetProgress(float progress);
+	LIBZHL_API int RandomStart();
 	
 	GL_Texture *animationStrip;
 	AnimationDescriptor info;

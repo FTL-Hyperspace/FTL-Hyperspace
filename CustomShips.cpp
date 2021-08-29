@@ -2,6 +2,8 @@
 #include "CustomShipSelect.h"
 #include "EnemyShipIcons.h"
 
+#include <boost/lexical_cast.hpp>
+
 static bool importingShip = false;
 
 bool g_enemyPreigniterFix = false;
@@ -646,4 +648,145 @@ HOOK_METHOD(WorldManager, CreateShip, (ShipEvent* shipEvent, bool boss) -> Compl
     }
 
     return ret;
+}
+
+static std::vector<Animation> extraEngineAnim[2];
+
+HOOK_METHOD(Ship, OnInit, (ShipBlueprint& bp) -> void)
+{
+    super(bp);
+
+    char *xmltext = G_->GetResources()->LoadFile("data/" + bp.imgFile + ".xml");
+    if (xmltext)
+    {
+        bool hasThrusters = false;
+        int nThrusters = 0;
+        std::vector<std::string> thrusters;
+        std::vector<Pointf> thrusterPos;
+
+        rapidxml::xml_document<> doc;
+        doc.parse<0>(xmltext);
+
+        rapidxml::xml_node<char> *node;
+        rapidxml::xml_node<char> *ftlnode = doc.first_node("FTL");
+        if (ftlnode)
+        {
+            node = ftlnode->first_node();
+        }
+        else
+        {
+            node = doc.first_node();
+        }
+
+        for ( ; node; node = node->next_sibling())
+        {
+            if (strcmp(node->name(), "thrusters") == 0)
+            {
+                hasThrusters = true;
+                for (auto child = node->first_node(); child; child = child->next_sibling())
+                {
+                    if (strcmp(child->name(), "thruster") == 0)
+                    {
+                        Pointf pos = {0.f,0.f};
+                        if (child->first_attribute("x"))
+                        {
+                            pos.x = boost::lexical_cast<float>(child->first_attribute("x")->value());
+                        }
+                        if (child->first_attribute("y"))
+                        {
+                            pos.y = boost::lexical_cast<float>(child->first_attribute("y")->value());
+                        }
+
+                        thrusters.push_back(child->value());
+                        thrusterPos.push_back(pos);
+
+                        nThrusters++;
+                    }
+                }
+            }
+        }
+
+        doc.clear();
+
+        if (hasThrusters)
+        {
+            ShipGraph *graph = ShipGraph::GetShipInfo(iShipId);
+            for (int i=0; i<2; ++i)
+            {
+                if (i < nThrusters)
+                {
+                    if (!thrusters[i].empty()) AnimationControl::GetAnimation(engineAnim[i], G_->GetAnimationControl(), thrusters[i]);
+                    engineAnim[i].position = {thrusterPos[i].x + shipImage.x + graph->shipBox.x, thrusterPos[i].y + shipImage.y + graph->shipBox.y};
+                    engineAnim[i].tracker.SetLoop(true, 0.f);
+                    engineAnim[i].RandomStart();
+                }
+                else
+                {
+                    AnimationControl::GetAnimation(engineAnim[i], G_->GetAnimationControl(), ""); // results in empty anim
+                }
+            }
+
+            extraEngineAnim[iShipId].clear();
+            extraEngineAnim[iShipId].reserve(nThrusters-2);
+
+            for (int i=2; i<nThrusters; ++i)
+            {
+                Pointf pos = {thrusterPos[i].x + shipImage.x + graph->shipBox.x, thrusterPos[i].y + shipImage.y + graph->shipBox.y};
+                if (thrusters[i].empty())
+                {
+                    extraEngineAnim[iShipId].emplace_back("effects/thrusters_on.png",4,0.5f,pos,88,70,0,-1);
+                }
+                else
+                {
+                    Animation anim;
+                    AnimationControl::GetAnimation(anim, G_->GetAnimationControl(), thrusters[i]);
+                    anim.position = pos;
+                    extraEngineAnim[iShipId].push_back(anim);
+                }
+                extraEngineAnim[iShipId][i-2].tracker.SetLoop(true, 0.f);
+                extraEngineAnim[iShipId][i-2].RandomStart();
+            }
+
+            //extraEngineAnim[iShipId].shrink_to_fit();
+
+            if (nThrusters) bShowEngines = true;
+        }
+    }
+}
+
+HOOK_METHOD(Ship, OnLoop, (std::vector<float> &oxygenLevels) -> void)
+{
+    super(oxygenLevels);
+
+    for (Animation& anim : extraEngineAnim[iShipId])
+    {
+        anim.Update();
+    }
+}
+
+HOOK_METHOD(Ship, OnRenderBase, (bool engines) -> void)
+{
+    super(engines);
+
+    if (engines && bShowEngines)
+    {
+        float alpha = 1.f;
+        if (bCloaked)
+        {
+            alpha = 0.5f;
+            if (cloakingTracker.running)
+            {
+                alpha = 1.f - 0.5f * cloakingTracker.Progress(-1.f);
+            }
+        }
+        if (iShipId != 0)
+        {
+            engineAnim[0].OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
+            engineAnim[1].OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
+        }
+        for (Animation& anim : extraEngineAnim[iShipId])
+        {
+            anim.OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
+        }
+    }
 }
