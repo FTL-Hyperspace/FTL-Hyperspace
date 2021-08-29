@@ -7,6 +7,7 @@
 #include "CustomBoss.h"
 #include "CustomCrew.h"
 #include "CustomSectors.h"
+#include "CustomOptions.h"
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
 
@@ -1307,6 +1308,8 @@ bool CustomEventsParser::ParseCustomQuestNode(rapidxml::xml_node<char> *node, Cu
 
 void CustomEventsParser::ParseCustomBeaconType(rapidxml::xml_node<char> *node, BeaconType *beaconType)
 {
+    beaconType->hideVanillaLabel = CustomOptionsManager::GetInstance()->defaults.beaconType_hideVanillaLabel;
+
     if (node->first_attribute("id"))
     {
         beaconType->beaconText.data = node->first_attribute("id")->value();
@@ -1330,6 +1333,11 @@ void CustomEventsParser::ParseCustomBeaconType(rapidxml::xml_node<char> *node, B
     if (node->first_attribute("persist"))
     {
         beaconType->persistent = EventsParser::ParseBoolean(node->first_attribute("persist")->value());
+    }
+
+    if (node->first_attribute("hideVanillaLabel"))
+    {
+        beaconType->hideVanillaLabel = EventsParser::ParseBoolean(node->first_attribute("hideVanillaLabel")->value());
     }
 
     GL_Color color = GL_Color(255.f, 255.f, 255.f, 1.f);
@@ -2175,23 +2183,7 @@ HOOK_METHOD(StarMap, RenderLabels, () -> void)
             if (i->event == nullptr) continue;
             CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(i->event->eventName);
 
-            if (customEvent && customEvent->beacon && (i->visited < 1 || customEvent->beacon->persistent) &&
-                (i->questLoc || i->beacon || i->event->repair || i->event->pStore || i->event->store || i->event->distressBeacon))
-            {
-                locLabelValues[i].questLoc = i->questLoc;
-                locLabelValues[i].beacon = i->beacon;
-                locLabelValues[i].repair = i->event->repair;
-                locLabelValues[i].pStore = i->event->pStore;
-                locLabelValues[i].store = i->event->store;
-                locLabelValues[i].distressBeacon = i->event->distressBeacon;
-
-                i->questLoc = false;
-                i->beacon = false;
-                i->event->repair = false;
-                i->event->pStore = nullptr;
-                i->event->store = false;
-                i->event->distressBeacon = false;
-            }
+            bool hideVanillaLabel = (customEvent && customEvent->beacon && customEvent->beacon->hideVanillaLabel && (i->visited < 1 || customEvent->beacon->persistent));
 
             if (customEvent && customEvent->beacon && (i->visited < 1 || customEvent->beacon->persistent) && (bMapRevealed || customEvent->beacon->global || i->known))
             {
@@ -2199,6 +2191,8 @@ HOOK_METHOD(StarMap, RenderLabels, () -> void)
 
                 if (beaconType->equipmentReq.empty() || (shipManager->HasEquipment(beaconType->equipmentReq) > 0) )
                 {
+                    hideVanillaLabel = true;
+
                     std::string text = std::string();
 
                     text = customEvent->beacon->beaconText.GetText();
@@ -2240,6 +2234,23 @@ HOOK_METHOD(StarMap, RenderLabels, () -> void)
                     CSurface::GL_SetColor(color);
                     freetype::easy_print(51, i->loc.x + 14.f, i->loc.y - 25.f, text);
                 }
+            }
+
+            if (hideVanillaLabel && (i->questLoc || i->beacon || i->event->repair || i->event->pStore || i->event->store || i->event->distressBeacon))
+            {
+                locLabelValues[i].questLoc = i->questLoc;
+                locLabelValues[i].beacon = i->beacon;
+                locLabelValues[i].repair = i->event->repair;
+                locLabelValues[i].pStore = i->event->pStore;
+                locLabelValues[i].store = i->event->store;
+                locLabelValues[i].distressBeacon = i->event->distressBeacon;
+
+                i->questLoc = false;
+                i->beacon = false;
+                i->event->repair = false;
+                i->event->pStore = nullptr;
+                i->event->store = false;
+                i->event->distressBeacon = false;
             }
         }
     }

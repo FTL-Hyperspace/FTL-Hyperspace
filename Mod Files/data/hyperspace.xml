@@ -2,6 +2,16 @@
 
 <version>72</version>
 
+<!-- Hyperspace defaults
+
+Allows some default parameters to be configured by the mod.
+This way mods that frequently use a particular value can just make it the default.
+-->
+
+<defaults>
+	<beaconType_hideVanillaLabel>true</beaconType_hideVanillaLabel>
+</defaults>
+
 <!-- Custom save file:
 
 With inheritMode, 0 forces inheriting the vanilla save file, 1 asks, and 2 forces a new file
@@ -1306,10 +1316,11 @@ Syntax ->
 	</timerSounds>
 	
 	<beaconType name="BEACON_NAME" id="_id_" text="_text_" req="EQUIPMENT_REQ"                  Specifies a custom beacon label with the name BEACON_NAME which can be used by one or more events. Use either id to load a text
-	            global="false" persist="false">`                                                  id or text for a literal text string. If global is true, then the beacon label is visible anywhere on the map. Otherwise it is
+	            global="false" persist="false" hideVanillaLabel="true">                           id or text for a literal text string. If global is true, then the beacon label is visible anywhere on the map. Otherwise it is
 	                                                                                              only visible if the player has been to an adjacent beacon or received a map update. The req tag can be used to specify a piece
 	                                                                                              of equipment the player requires to see the label (works the same way as blue options). If persist is true, tag remains even
-	                                                                                              after the player has visited the beacon.
+	                                                                                              after the player has visited the beacon. hideVanillaLabel prevents any vanilla labels from showing even if the player cannot see
+	                                                                                              the custom label. When false the vanilla label will only be hidden if the custom label is visible.
 		<color r="255" g="255" b="255" a="1.0"/>                                                The color of the label.
 		<undiscoveredTooltip id="_id_">_text_</unvisitedTooltip>                                Custom tooltip for if the beacon is undiscovered. Can use either text id or literal string.
 		<unvisitedTooltip id="_id_">_text_</unvisitedTooltip>                                   Custom tooltip for if the beacon is discovered but unvisited. Can use either text id or literal string.

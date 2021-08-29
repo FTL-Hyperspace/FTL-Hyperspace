@@ -21,6 +21,11 @@ public:
         int currentAmount = 0;
     };
 
+    struct Defaults
+    {
+        bool beaconType_hideVanillaLabel = true;
+    };
+
     bool altMode = false;
     bool altModeChanged = false;
 
@@ -48,6 +53,8 @@ public:
     Setting alternateOxygenRendering;
 
     Setting showScrapCollectorScrap;
+
+    Defaults defaults;
 
 //    Setting hackingDroneFix;
 

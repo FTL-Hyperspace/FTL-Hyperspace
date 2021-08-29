@@ -24,6 +24,7 @@ struct BeaconType
     GL_Color color;
     bool global = false;
     bool persistent = false;
+    bool hideVanillaLabel = false;
     TextString beaconText;
     TextString undiscoveredTooltip;
     TextString unvisitedTooltip;
