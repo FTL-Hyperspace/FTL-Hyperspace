@@ -3064,10 +3064,10 @@ HOOK_METHOD(ShipSystem, AddDamage, (int amount) -> void)
     super(amount);
 }
 
-HOOK_METHOD(ShipSystem, DamageOverTime, (float amount) -> bool)
+HOOK_METHOD(ShipSystem, DamageOverTime, (float speed) -> bool)
 {
-    auto ret = super(amount);
-    if (damagedLastFrame)
+    auto ret = super(speed);
+    if (ret)
     {
         int maxPowerLoss = powerState.second - (healthState.second - healthState.first);
         if (iTempPowerLoss > maxPowerLoss)
@@ -3075,6 +3075,19 @@ HOOK_METHOD(ShipSystem, DamageOverTime, (float amount) -> bool)
             iTempPowerLoss = maxPowerLoss;
             iBonusPower = 0;
         }
+    }
+    return ret;
+}
+
+HOOK_METHOD(ShipSystem, PartialRepair, (float speed, bool autoRepair) -> bool)
+{
+    auto ret = super(speed, autoRepair);
+    if (ret)
+    {
+        ShipSystem_Extend* sys_ex = SYS_EX(this);
+        iTempPowerLoss = sys_ex->oldPowerLoss + sys_ex->additionalPowerLoss;
+        int maxPowerLoss = powerState.second - (healthState.second - healthState.first);
+        if (iTempPowerLoss > maxPowerLoss) iTempPowerLoss = maxPowerLoss;
     }
     return ret;
 }
