@@ -650,7 +650,7 @@ HOOK_METHOD(WorldManager, CreateShip, (ShipEvent* shipEvent, bool boss) -> Compl
     return ret;
 }
 
-static std::vector<Animation> extraEngineAnim[2];
+static std::vector<std::pair<Animation,bool>> extraEngineAnim[2];
 
 HOOK_METHOD(Ship, OnInit, (ShipBlueprint& bp) -> void)
 {
@@ -661,8 +661,10 @@ HOOK_METHOD(Ship, OnInit, (ShipBlueprint& bp) -> void)
     {
         bool hasThrusters = false;
         int nThrusters = 0;
+        int nVanillaThrusters = 0;
         std::vector<std::string> thrusters;
         std::vector<Pointf> thrusterPos;
+        std::vector<bool> thrusterRot;
 
         rapidxml::xml_document<> doc;
         doc.parse<0>(xmltext);
@@ -688,6 +690,7 @@ HOOK_METHOD(Ship, OnInit, (ShipBlueprint& bp) -> void)
                     if (strcmp(child->name(), "thruster") == 0)
                     {
                         Pointf pos = {0.f,0.f};
+                        bool rot = false;
                         if (child->first_attribute("x"))
                         {
                             pos.x = boost::lexical_cast<float>(child->first_attribute("x")->value());
@@ -696,11 +699,17 @@ HOOK_METHOD(Ship, OnInit, (ShipBlueprint& bp) -> void)
                         {
                             pos.y = boost::lexical_cast<float>(child->first_attribute("y")->value());
                         }
+                        if (child->first_attribute("rotate"))
+                        {
+                            rot = EventsParser::ParseBoolean(child->first_attribute("rotate")->value());
+                        }
 
                         thrusters.push_back(child->value());
                         thrusterPos.push_back(pos);
+                        thrusterRot.push_back(rot);
 
                         nThrusters++;
+                        if (!rot && nVanillaThrusters<2) nVanillaThrusters++;
                     }
                 }
             }
@@ -711,40 +720,54 @@ HOOK_METHOD(Ship, OnInit, (ShipBlueprint& bp) -> void)
         if (hasThrusters)
         {
             ShipGraph *graph = ShipGraph::GetShipInfo(iShipId);
-            for (int i=0; i<2; ++i)
+            extraEngineAnim[iShipId].clear();
+            extraEngineAnim[iShipId].reserve(nThrusters-nVanillaThrusters);
+            nVanillaThrusters = 0;
+            int nExtraThrusters = 0;
+
+            for (int i=0; i<nThrusters; ++i)
             {
-                if (i < nThrusters)
+                if (!thrusterRot[i] && nVanillaThrusters<2)
                 {
-                    if (!thrusters[i].empty()) AnimationControl::GetAnimation(engineAnim[i], G_->GetAnimationControl(), thrusters[i]);
-                    engineAnim[i].position = {thrusterPos[i].x + shipImage.x + graph->shipBox.x, thrusterPos[i].y + shipImage.y + graph->shipBox.y};
-                    engineAnim[i].tracker.SetLoop(true, 0.f);
-                    engineAnim[i].RandomStart();
+                    if (!thrusters[i].empty()) AnimationControl::GetAnimation(engineAnim[nVanillaThrusters], G_->GetAnimationControl(), thrusters[i]);
+                    engineAnim[nVanillaThrusters].position = {thrusterPos[i].x + shipImage.x + graph->shipBox.x, thrusterPos[i].y + shipImage.y + graph->shipBox.y};
+                    engineAnim[nVanillaThrusters].tracker.SetLoop(true, 0.f);
+                    engineAnim[nVanillaThrusters].RandomStart();
+                    nVanillaThrusters++;
                 }
                 else
                 {
-                    AnimationControl::GetAnimation(engineAnim[i], G_->GetAnimationControl(), ""); // results in empty anim
+                    Pointf pos;
+                    if (thrusterRot[i])
+                    {
+                        pos = {-(thrusterPos[i].y + shipImage.y + graph->shipBox.y), (thrusterPos[i].x + shipImage.x + graph->shipBox.x)};
+                    }
+                    else
+                    {
+                        pos = {thrusterPos[i].x + shipImage.x + graph->shipBox.x, thrusterPos[i].y + shipImage.y + graph->shipBox.y};
+                    }
+                    if (thrusters[i].empty())
+                    {
+                        pos.x -= 22;
+                        extraEngineAnim[iShipId].emplace_back(std::make_pair(Animation("effects/thrusters_on.png",4,0.5f,pos,88,70,0,-1),thrusterRot[i]));
+                    }
+                    else
+                    {
+                        Animation anim;
+                        AnimationControl::GetAnimation(anim, G_->GetAnimationControl(), thrusters[i]);
+                        pos.x -= anim.info.frameWidth * anim.fScale;
+                        anim.position = pos;
+                        extraEngineAnim[iShipId].push_back({anim,thrusterRot[i]});
+                    }
+                    extraEngineAnim[iShipId][nExtraThrusters].first.tracker.SetLoop(true, 0.f);
+                    extraEngineAnim[iShipId][nExtraThrusters].first.RandomStart();
+                    nExtraThrusters++;
                 }
             }
 
-            extraEngineAnim[iShipId].clear();
-            extraEngineAnim[iShipId].reserve(nThrusters-2);
-
-            for (int i=2; i<nThrusters; ++i)
+            for (int i=nVanillaThrusters; i<2; ++i)
             {
-                Pointf pos = {thrusterPos[i].x + shipImage.x + graph->shipBox.x, thrusterPos[i].y + shipImage.y + graph->shipBox.y};
-                if (thrusters[i].empty())
-                {
-                    extraEngineAnim[iShipId].emplace_back("effects/thrusters_on.png",4,0.5f,pos,88,70,0,-1);
-                }
-                else
-                {
-                    Animation anim;
-                    AnimationControl::GetAnimation(anim, G_->GetAnimationControl(), thrusters[i]);
-                    anim.position = pos;
-                    extraEngineAnim[iShipId].push_back(anim);
-                }
-                extraEngineAnim[iShipId][i-2].tracker.SetLoop(true, 0.f);
-                extraEngineAnim[iShipId][i-2].RandomStart();
+                AnimationControl::GetAnimation(engineAnim[i], G_->GetAnimationControl(), ""); // results in empty anim
             }
 
             //extraEngineAnim[iShipId].shrink_to_fit();
@@ -758,15 +781,15 @@ HOOK_METHOD(Ship, OnLoop, (std::vector<float> &oxygenLevels) -> void)
 {
     super(oxygenLevels);
 
-    for (Animation& anim : extraEngineAnim[iShipId])
+    for (std::pair<Animation,bool>& anim : extraEngineAnim[iShipId])
     {
-        anim.Update();
+        anim.first.Update();
     }
 }
 
 HOOK_METHOD(Ship, OnRenderBase, (bool engines) -> void)
 {
-    super(engines);
+    super(false);
 
     if (engines && bShowEngines)
     {
@@ -779,14 +802,21 @@ HOOK_METHOD(Ship, OnRenderBase, (bool engines) -> void)
                 alpha = 1.f - 0.5f * cloakingTracker.Progress(-1.f);
             }
         }
-        if (iShipId != 0)
+        if (engineAnim[0].animationStrip) engineAnim[0].OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
+        if (engineAnim[1].animationStrip) engineAnim[1].OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
+        for (std::pair<Animation,bool>& anim : extraEngineAnim[iShipId])
         {
-            engineAnim[0].OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
-            engineAnim[1].OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
-        }
-        for (Animation& anim : extraEngineAnim[iShipId])
-        {
-            anim.OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
+            if (anim.second)
+            {
+                CSurface::GL_PushMatrix();
+                CSurface::GL_Rotate(-90.f, 0.f, 0.f, 1.f);
+                anim.first.OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
+                CSurface::GL_PopMatrix();
+            }
+            else
+            {
+                anim.first.OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
+            }
         }
     }
 }
