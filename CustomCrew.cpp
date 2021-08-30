@@ -1601,10 +1601,12 @@ bool CrewMember_Extend::TransformRace(const std::string& species)
         StatBoostManager::GetInstance()->statCacheFrame++; // resets stat cache in case game is paused
 
         transformRace = "";
+        return true;
     }
     else
     {
         transformRace = species;
+        return false;
     }
 }
 
