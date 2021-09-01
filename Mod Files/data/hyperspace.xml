@@ -1373,6 +1373,16 @@ Syntax ->
 		<clearJumpEvent/>                                                                       Clears the jumpEvent and allows the player to open the starmap.
 		<triggeredEvent name="TR_ID" event="EVENT_ID" seeded="true" thisFight="false"           Creates a triggered event for the event EVENT_ID. If name attribute is not specified, then name is EVENT_ID. If thisFight is
 		                clearOnJump="false" loops="1" time="60.0" ...>                            true, trigger is cancelled once the fight is over. If clearOnJump is true, trigger is cancelled upon jumping. Full syntax above.
+			<time amount="0.0" min="0.0" max="0.0"/>
+			<jumps amount="0" min="0" max="0"/>
+			<playerHull amount="0" min="0" max="0"/>
+			<enemyHull amount="0" min="0" max="0" scaling="0.0"/>
+			<playerDamage amount="0" min="0" max="0" countRepairs="true"/>
+			<enemyDamage amount="0" min="0" max="0" countRepairs="true"/>
+			<playerCrew amount="0" min="0" max="0" includeClonebay="true"/>
+			<enemyCrew amount="0" min="0" max="0" includeClonebay="true"/>
+			<playerDeaths amount="0" min="0" max="0" includeClonebay="true" countNewCrew="true"/>
+			<enemyDeaths amount="0" min="0" max="0" includeClonebay="true" countNewCrew="true"/>
 			<triggeredEventBox load="DEFAULT_TIMER" ...>                                        Specifies a triggeredEventBox for this triggered event. If the load attribute is specified, then defaults will be loaded from
 				...                                                                               the specified definition, and individual parameters can be overwritten. Otherwise, a full definition is required. If not
 			</triggeredEventBox>                                                                  specified, then this triggered event will not have a box.                                                               

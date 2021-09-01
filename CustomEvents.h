@@ -170,6 +170,8 @@ public:
     std::string name = "";
     std::string event = "";
     bool seeded = true;
+    bool clearOnJump = false;
+    bool thisFight = false;
     int minLoops = 1;
     int maxLoops = 1;
     float triggerMinTime = -1.f;
@@ -194,8 +196,14 @@ public:
     int maxEnemyCrew = -1;
     int minEnemyDeaths = -1;
     int maxEnemyDeaths = -1;
-    bool clearOnJump = false;
-    bool thisFight = false;
+    bool playerCountRepairs = true;
+    bool playerCountNewCrew = true;
+    bool enemyCountRepairs = true;
+    bool enemyCountNewCrew = true;
+    bool playerCrewCountClonebay = true;
+    bool enemyCrewCountClonebay = true;
+    bool playerDeathsCountClonebay = true;
+    bool enemyDeathsCountClonebay = true;
 };
 
 class TriggeredEvent
@@ -212,6 +220,8 @@ public:
     static void SaveAll(int file);
     static void LoadAll(int file);
 
+    static int playerCloneCount;
+
 public:
     TriggeredEventDefinition* def;
 
@@ -224,6 +234,16 @@ public:
     int triggerEnemyHull;
     int triggerPlayerCrew;
     int triggerEnemyCrew;
+
+    int triggerPlayerDamage;
+    int triggerEnemyDamage;
+    int triggerPlayerDeaths;
+    int triggerEnemyDeaths;
+
+    int currentPlayerHull;
+    int currentEnemyHull;
+    int currentPlayerCrew;
+    int currentEnemyCrew;
 
     bool triggered = false;
 
@@ -265,6 +285,11 @@ public:
             warningTime = def->warning->time;
         }
 
+        currentPlayerHull = 0;
+        currentEnemyHull = 0;
+        currentPlayerCrew = 0;
+        currentEnemyCrew = 0;
+
         Reset();
     }
 
@@ -279,6 +304,19 @@ public:
         if (triggerTimer == nullptr) return 0.0;
         if (triggerTimer->currTime >= triggerTimer->currGoal) return 0.0;
         return triggerTimer->currGoal - triggerTimer->currTime;
+    }
+
+    int GetPlayerCrew(bool clones)
+    {
+        int ret = G_->GetCrewFactory()->playerCrew;
+        if (!clones) ret -= playerCloneCount;
+        return ret;
+    }
+    int GetEnemyCrew(bool clones)
+    {
+        int ret = G_->GetCrewFactory()->enemyCrew;
+        if (!clones) ret -= G_->GetCrewFactory()->enemyCloneCount;
+        return ret;
     }
 
     void Reset();
