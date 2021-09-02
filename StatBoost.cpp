@@ -465,9 +465,18 @@ void StatBoostManager::CreateRecursiveBoosts(StatBoost& statBoost, int nStacks)
             auto ex = CM_EX(recursiveCrew);
             if (ex->BoostCheck(statBoost))
             {
+                int recursiveCrewStacks = nStacks;
+                if (statBoost.def.stackId)
+                {
+                    int& currentStacks = recursiveStackCount[recursiveCrew][statBoost.def.stackId];
+                    int maxStacks = statBoost.def.maxStacks - currentStacks;
+                    if (maxStacks <= 0) continue;
+                    if (recursiveCrewStacks > maxStacks) recursiveCrewStacks = maxStacks;
+                    currentStacks += recursiveCrewStacks;
+                }
                 for (StatBoostDefinition recursiveBoostDef : statBoost.def.providedStatBoosts)
                 {
-                    CreateCrewBoost(recursiveBoostDef, recursiveCrew, nStacks);
+                    CreateCrewBoost(recursiveBoostDef, recursiveCrew, recursiveCrewStacks);
                 }
             }
         }
@@ -539,6 +548,7 @@ void StatBoostManager::OnLoop(WorldManager* world)
     }
 
     checkingCrewList.clear();
+    recursiveStackCount.clear();
     statCacheFrame++;
 }
 

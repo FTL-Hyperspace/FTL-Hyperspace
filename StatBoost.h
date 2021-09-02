@@ -265,6 +265,7 @@ private:
     ShipManager* playerShip;
     ShipManager* enemyShip;
     std::vector<CrewMember*> checkingCrewList;
+    std::unordered_map<CrewMember*,std::unordered_map<int,int>> recursiveStackCount;
 
     int nextStackId = 0;
     std::unordered_map<std::string, int> stackIdMap;
