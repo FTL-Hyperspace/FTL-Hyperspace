@@ -3708,6 +3708,7 @@ struct Ship : ShipObject
 	LIBZHL_API void SetRoomBlackout(int roomId, bool blackout);
 	LIBZHL_API void OnRenderBase(bool unk);
 	LIBZHL_API void OnRenderFloor(bool unk);
+	LIBZHL_API void OnRenderJump(float progress);
 	LIBZHL_API static void __stdcall GetBaseEllipse(Globals::Ellipse &ret, Ship *_this);
 	LIBZHL_API void SetSelectedRoom(int roomId);
 	LIBZHL_API void OnLoop(std::vector<float> &oxygenLevels);

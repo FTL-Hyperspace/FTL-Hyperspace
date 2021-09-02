@@ -719,6 +719,7 @@ HOOK_METHOD(Ship, OnInit, (ShipBlueprint& bp) -> void)
 
         if (hasThrusters)
         {
+            thrustersImage = nullptr;
             ShipGraph *graph = ShipGraph::GetShipInfo(iShipId);
             extraEngineAnim[iShipId].clear();
             extraEngineAnim[iShipId].reserve(nThrusters-nVanillaThrusters);
@@ -802,6 +803,36 @@ HOOK_METHOD(Ship, OnRenderBase, (bool engines) -> void)
                 alpha = 1.f - 0.5f * cloakingTracker.Progress(-1.f);
             }
         }
+        if (engineAnim[0].animationStrip) engineAnim[0].OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
+        if (engineAnim[1].animationStrip) engineAnim[1].OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
+        for (std::pair<Animation,bool>& anim : extraEngineAnim[iShipId])
+        {
+            if (anim.second)
+            {
+                CSurface::GL_PushMatrix();
+                CSurface::GL_Rotate(-90.f, 0.f, 0.f, 1.f);
+                anim.first.OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
+                CSurface::GL_PopMatrix();
+            }
+            else
+            {
+                anim.first.OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
+            }
+        }
+    }
+}
+
+HOOK_METHOD(Ship, OnRenderJump, (float progress) -> void)
+{
+    bool customEngines = bShowEngines && thrustersImage == nullptr;
+    if (customEngines) bShowEngines = false;
+    super(progress);
+    if (customEngines) bShowEngines = true;
+
+    if (customEngines)
+    {
+        float alpha = 1.f - std::min(progress * 0.75f, 1.f);
+
         if (engineAnim[0].animationStrip) engineAnim[0].OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
         if (engineAnim[1].animationStrip) engineAnim[1].OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
         for (std::pair<Animation,bool>& anim : extraEngineAnim[iShipId])
