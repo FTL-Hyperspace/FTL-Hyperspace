@@ -354,7 +354,7 @@ void Global::InitializeResources(ResourceControl *resources)
 
         if (!checkedVersion)
         {
-            throw "Wrong version of Hyperspace detected. Please check that Hyperspace is installed correctly and you are using the correct version of Hyperspace for all of your mods. You can continue, but mods may function incorrectly.";
+            //throw "Wrong version of Hyperspace detected. Please check that Hyperspace is installed correctly and you are using the correct version of Hyperspace for all of your mods. You can continue, but mods may function incorrectly.";
         }
 
         doc.clear();

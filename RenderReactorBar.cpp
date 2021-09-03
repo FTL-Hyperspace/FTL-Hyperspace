@@ -1,5 +1,6 @@
 #include "RenderReactorBar.h"
 
+
 HOOK_METHOD(SystemControl, RenderPowerBar, () -> void)
 {
     PowerManager *playerPowerManager = PowerManager::GetPowerManager(0);
@@ -40,7 +41,7 @@ HOOK_METHOD(SystemControl, RenderPowerBar, () -> void)
     }
     else
     {
-        printf("No event poll\n");
+        //printf("No event poll\n");
     }
 
     this->flashBatteryPower.Update();
@@ -52,32 +53,23 @@ HOOK_METHOD(SystemControl, RenderPowerBar, () -> void)
     CSurface::GL_SetStencilMode(STENCIL_SET, 1, 1);
     CSurface::GL_Translate(0, wiresMaskY, 0);
     CSurface::GL_RenderPrimitive(this->wiresMask);
-    //printf("wiresMask: %i\n", wiresMaskY);
 
     int wiresImageY = (maxPower > displayLevel) ? (9 * displayLevel - 1) : (9 * maxPower - 1);
     CSurface::GL_Translate(0, wiresImageY, 0);
     CSurface::GL_SetStencilMode(STENCIL_USE, 0, 1);
     CSurface::GL_RenderPrimitiveWithAlpha(this->wiresImage, greyOpacity);
-    //printf("wiresImage: %i\n", wiresImageY);
 
     if(unusedPower)
     {
-        //int translateAmount = (unusedPower > 29) ? (unusedPower - 29) : unusedPower;
         int unusedMaskY = (unusedPower > displayLevel) ? (-9 * displayLevel) : (-9 * unusedPower);
         CSurface::GL_SetStencilMode(STENCIL_SET, 1, 1);
         CSurface::GL_Translate(0, (-9 * unusedPower), 0);
         CSurface::GL_RenderPrimitive(this->wiresMask);
-        //printf("unusedMask: %i\n", unusedMaskY);
 
         int unusedImageY = (unusedPower > displayLevel) ? (9 * displayLevel) : (9 * unusedPower);
         CSurface::GL_Translate(0, (9 * unusedPower), 0);
         CSurface::GL_SetStencilMode(STENCIL_USE, 0, 1);
         CSurface::GL_RenderPrimitive(this->wiresImage);
-        //printf("unusedImage: %i\n\n", unusedImageY);
-    }
-    else
-    {
-        //printf("\n");
     }
 
     CSurface::GL_SetStencilMode(STENCIL_IGNORE, 0, 0);
@@ -214,7 +206,6 @@ HOOK_METHOD(SystemControl, RenderPowerBar, () -> void)
                 }
             }//inner while(1) end
 
-            //if(maxPower == powerCounter) break;
             if(unusedPower > powerCounter)
             {
                 if(bPowerWarningRunning)
@@ -257,7 +248,6 @@ doubleWhileEnd:
     this->SystemPower.x = 12 - this->position.x;
     this->SystemPower.y = this->systemPowerPosition.y - sysPowerH + 10;
 
-    ///*
     if(reactorLevel > 29) {
         std::stringstream reactorStream;
         if(unusedPower > 27) {
@@ -271,12 +261,11 @@ doubleWhileEnd:
             freetype::easy_printCenter(62, 26, 48, reactorStream.str());
         }
     }
-    //*/
 
-    if(!powerWarning->tracker.done)
+    if(!powerWarning->tracker.done && powerWarning->tracker.running)
     {
         CSurface::GL_PushMatrix();
-        CSurface::GL_Translate(this->SystemPower.y - 74, 0);
+        CSurface::GL_Translate(250, this->SystemPower.y - 74);
         this->notEnoughPower->OnRender();
         CSurface::GL_PopMatrix();
     }

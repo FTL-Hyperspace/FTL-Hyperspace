@@ -64,6 +64,10 @@ struct CustomShipDefinition
     int systemLimit = 8;
     int subsystemLimit = 4;
 
+    std::vector<int> reactorPrices{15, 30, -1, -1, -1, -1};
+    int reactorPriceIncrement = 5;
+    int maxReactorLevel = 25;
+
     CustomShipDefinition()
     {
 
