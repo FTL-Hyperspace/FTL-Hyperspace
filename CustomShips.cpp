@@ -145,27 +145,6 @@ HOOK_METHOD(ShipManager, ImportShip, (int fileHelper) -> void)
     importingShip = true;
     super(fileHelper);
     importingShip = false;
-
-    if (shieldSystem)
-    {
-        hs_log_file("After ImportShip shield health: %d/%d\n", shieldSystem->healthState.first, shieldSystem->healthState.second);
-    }
-}
-
-HOOK_METHOD(BlueprintManager, GetShipBlueprint, (const std::string &name, int sector) -> ShipBlueprint*)
-{
-    auto ret = super(name,sector);
-
-    if (ret)
-    {
-        auto shield = ret->systemInfo.find(0);
-        if (shield != ret->systemInfo.end())
-        {
-            hs_log_file("After GetShipBlueprint shield power: %d/%d\n", shield->second.powerLevel, shield->second.maxPower);
-        }
-    }
-
-    return ret;
 }
 
 HOOK_METHOD(ShipManager, AddSystem, (int systemId) -> int)
@@ -175,7 +154,6 @@ HOOK_METHOD(ShipManager, AddSystem, (int systemId) -> int)
     if (systemId == 0 && shieldSystem)
     {
         shieldSystem->healthState.first = shieldSystem->healthState.second;
-        hs_log_file("After AddSystem shield health: %d/%d\n", shieldSystem->healthState.first, shieldSystem->healthState.second);
     }
 
     return ret;
