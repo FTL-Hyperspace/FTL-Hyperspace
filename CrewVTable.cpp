@@ -2,6 +2,8 @@
 #pragma GCC optimize ("O1")
 #include "CustomCrew.h"
 
+int requiresFullControl = 0;
+
 static bool __attribute__((fastcall)) CrewMember_GetControllable(CrewMember *_this)
 {
     bool req = _this->iShipId == 0 && !_this->bDead && !_this->bMindControlled;
@@ -14,6 +16,10 @@ static bool __attribute__((fastcall)) CrewMember_GetControllable(CrewMember *_th
     auto def = CustomCrewManager::GetInstance()->GetDefinition(_this->species);
     bool ret = false;
     ex->CalculateStat(CrewStat::CONTROLLABLE, def, &ret);
+    if (!ret && !requiresFullControl)
+    {
+        ret = def.selectable;
+    }
     return ret && req;
 }
 

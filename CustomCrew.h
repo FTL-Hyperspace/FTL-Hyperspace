@@ -10,6 +10,7 @@ enum TransformColorMode
 };
 
 extern TransformColorMode g_transformColorMode;
+extern int requiresFullControl;
 
 struct StatBoostDefinition;
 struct StatBoost;
@@ -269,6 +270,7 @@ struct CrewDefinition
     bool canMan = true;
     bool canSuffocate = true;
     bool controllable = true;
+    bool selectable = true;
     bool canBurn = true;
     int maxHealth = 100;
     float stunMultiplier = 1.f;

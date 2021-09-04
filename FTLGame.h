@@ -1067,6 +1067,7 @@ struct CrewControl
 	LIBZHL_API static void __stdcall ClearDeadCrew(std::vector<CrewMember*> crew);
 	LIBZHL_API void ClearCrewBoxes();
 	LIBZHL_API void SelectPotentialCrew(CrewMember *crew, bool allowTeleportLeaving);
+	LIBZHL_API void RButton(int mX, int mY, bool shiftHeld);
 	
 	ShipManager *shipManager;
 	std::vector<CrewMember*> selectedCrew;
@@ -4083,6 +4084,7 @@ struct ShipManager : ShipObject
 	LIBZHL_API CrewMember *FindCrew(const CrewBlueprint *bp);
 	LIBZHL_API bool GetDodged();
 	LIBZHL_API void PrepareSuperBarrage();
+	LIBZHL_API bool RestoreCrewPositions();
 	
 	Targetable _targetable;
 	Collideable _collideable;

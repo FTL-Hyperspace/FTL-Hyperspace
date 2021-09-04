@@ -4478,3 +4478,35 @@ HOOK_STATIC(ShipGraph, GetClosestSlot, (Slot *slot, ShipGraph *graph, Point pos,
     slot->worldLocation = {-1,-1};
     return slot;
 }
+
+// Selectable/controllable split - doesn't work properly with touchscreen
+HOOK_METHOD(CrewControl, RButton, (int mX, int mY, bool shiftHeld) -> void)
+{
+    requiresFullControl = 1;
+    super(mX, mY, shiftHeld);
+    requiresFullControl = 0;
+}
+
+HOOK_METHOD(ShipManager, RestoreCrewPositions, () -> bool)
+{
+    requiresFullControl = 1;
+    bool ret = super();
+    requiresFullControl = 0;
+    return ret;
+}
+
+HOOK_METHOD(ShipManager, CommandCrewMoveRoom, (CrewMember* crew, int room) -> bool)
+{
+    if (requiresFullControl == 1 && !crew->GetControllable())
+    {
+        return false;
+    }
+    return super(crew, room);
+}
+
+HOOK_METHOD_PRIORITY(CrewAI, OnLoop, -100, () -> void)
+{
+    requiresFullControl = -1;
+    super();
+    requiresFullControl = 0;
+}
