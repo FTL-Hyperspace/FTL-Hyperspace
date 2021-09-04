@@ -380,11 +380,11 @@ static bool __attribute__((fastcall)) CrewDrone_ProvidesPower(CrewDrone *_this)
 
     if (_this->_drone.blueprint->name == "BOARDER_ION" && custom->IsRace("boarder_ion"))
     {
-        return custom->GetDefinition("boarder_ion").providesPower && req;
+        return custom->GetDefinition("boarder_ion")->providesPower && req;
     }
     if (custom->IsRace(_this->species))
     {
-        return custom->GetDefinition(_this->species).providesPower && req;
+        return custom->GetDefinition(_this->species)->providesPower && req;
     }
 
     return false;
@@ -425,7 +425,7 @@ static bool __attribute__((fastcall)) CrewDrone_IsTelepathic(CrewDrone *_this)
     {
         auto ex = CM_EX(_this);
         auto def = custom->GetDefinition("boarder_ion");
-        bool ret = (ex->temporaryPowerActive && ex->GetPowerDef()->tempPower.isTelepathic.enabled) ? ex->GetPowerDef()->tempPower.isTelepathic.value : def.isTelepathic;
+        bool ret = (ex->temporaryPowerActive && ex->GetPowerDef()->tempPower.isTelepathic.enabled) ? ex->GetPowerDef()->tempPower.isTelepathic.value : def->isTelepathic;
         ex->CalculateStat(CrewStat::IS_TELEPATHIC, def, &ret);
         return ret && req;
     }
@@ -434,7 +434,7 @@ static bool __attribute__((fastcall)) CrewDrone_IsTelepathic(CrewDrone *_this)
     {
         auto ex = CM_EX(_this);
         auto def = custom->GetDefinition(_this->species);
-        bool ret = (ex->temporaryPowerActive && ex->GetPowerDef()->tempPower.isTelepathic.enabled) ? ex->GetPowerDef()->tempPower.isTelepathic.value : def.isTelepathic;
+        bool ret = (ex->temporaryPowerActive && ex->GetPowerDef()->tempPower.isTelepathic.enabled) ? ex->GetPowerDef()->tempPower.isTelepathic.value : def->isTelepathic;
         ex->CalculateStat(CrewStat::IS_TELEPATHIC, def, &ret);
         return ret && req;
     }

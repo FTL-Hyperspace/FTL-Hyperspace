@@ -18,7 +18,7 @@ static bool __attribute__((fastcall)) CrewMember_GetControllable(CrewMember *_th
     ex->CalculateStat(CrewStat::CONTROLLABLE, def, &ret);
     if (!ret && !requiresFullControl)
     {
-        ret = def.selectable;
+        ret = def->selectable;
     }
     return ret && req;
 }
@@ -134,7 +134,7 @@ static bool __attribute__((fastcall)) CrewMember_ProvidesPower(CrewMember *_this
 {
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
 
-    return custom->GetDefinition(_this->species).providesPower;
+    return custom->GetDefinition(_this->species)->providesPower;
 }
 
 static float __attribute__((fastcall)) CrewMember_FireRepairMultiplier(CrewMember *_this)
@@ -273,7 +273,7 @@ static bool __attribute__((fastcall)) CrewAnimation_CustomDeath(CrewAnimation *_
 {
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
     if (!custom->IsRace(_this->race)) return false;
-    return custom->GetDefinition(_this->race).hasCustomDeathAnimation;
+    return custom->GetDefinition(_this->race)->hasCustomDeathAnimation;
 }
 
 void SetupVTable(CrewAnimation *anim)

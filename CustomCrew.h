@@ -353,9 +353,9 @@ public:
     void SetupVTable(CrewMember *crew);
     void SwapVTable(void** vtable, int index, void* swapTo);
 
-    CrewDefinition& GetDefinition(const std::string& name)
+    CrewDefinition* GetDefinition(const std::string& name)
     {
-        return this->blueprintNames[name];
+        return &(this->blueprintNames[name]);
     }
 
     std::vector<std::string> GetBlueprintNames()

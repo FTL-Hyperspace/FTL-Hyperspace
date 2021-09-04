@@ -1028,7 +1028,7 @@ CrewMember* CustomCrewManager::CreateCrewMember(CrewBlueprint* bp, int shipId, b
     Pointf unk = Pointf(0.f, 0.f);
     CrewAnimation* animation = new CrewAnimation(shipId, race, unk, intruder);
 
-    CrewDefinition def = GetDefinition(race);
+    CrewDefinition* def = GetDefinition(race);
 
     CrewMember *crew;
     crew = new CrewMember(*bp, shipId, intruder, animation);
@@ -1049,7 +1049,7 @@ ActivatedPowerDefinition* CrewMember_Extend::GetPowerDef() const
 
 ActivatedPowerDefinition* CrewMember_Extend::CalculatePowerDef()
 {
-    CrewDefinition& def = CustomCrewManager::GetInstance()->GetDefinition(orig->species);
+    CrewDefinition* def = CustomCrewManager::GetInstance()->GetDefinition(orig->species);
 
     if (!powerActivated && !temporaryPowerActive)
     {
@@ -1639,7 +1639,7 @@ void CrewMember_Extend::TemporaryPowerFinished()
 
     aex->temporaryPowerActive = false;
 
-    canPhaseThroughDoors = CustomCrewManager::GetInstance()->GetDefinition(orig->species).canPhaseThroughDoors;
+    canPhaseThroughDoors = CustomCrewManager::GetInstance()->GetDefinition(orig->species)->canPhaseThroughDoors;
 
     if (aex->effectFinishAnim != nullptr)
     {
@@ -1734,7 +1734,7 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
         auto powerDef = CalculatePowerDef();
         auto aex = CMA_EX(orig->crewAnim);
 
-        if (!orig->crewAnim->bDrone || def.animBase == "rock" || def.animBase == "mantis")
+        if (!orig->crewAnim->bDrone || def->animBase == "rock" || def->animBase == "mantis")
         {
             Pointf lastPosition = Pointf(0, 0);
             std::vector<GL_Color> layerColors = std::vector<GL_Color>();
@@ -1764,7 +1764,7 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
                 }
             }
 
-            std::string animSheet = def.animSheet[male?1:0];
+            std::string animSheet = def->animSheet[male?1:0];
             if (animSheet.empty()) animSheet = bp.name;
 
             Animation* effectAnim = aex->effectAnim;
@@ -1777,7 +1777,7 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
             aex->tempEffectAnim = nullptr;
             aex->tempEffectStrip = nullptr;
 
-            if (def.animBase == "rock")
+            if (def->animBase == "rock")
             {
                 blockAddSoundQueue = true;
                 orig->crewAnim = new RockAnimation(animSheet, shipId, lastPosition, enemy);
@@ -1785,7 +1785,7 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
                 aex->crewAnimationType = "rock";
                 blockAddSoundQueue = false;
             }
-            else if (def.animBase == "mantis")
+            else if (def->animBase == "mantis")
             {
                 orig->crewAnim = new MantisAnimation;
                 orig->crewAnim->constructor(shipId, animSheet, lastPosition, enemy);
@@ -1860,13 +1860,13 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
                 }
             }
 
-            if (def.repairSoundFrame != -1 && def.repairSounds.size() > 0 && !enemy)
+            if (def->repairSoundFrame != -1 && def->repairSounds.size() > 0 && !enemy)
             {
-                for (auto sound : def.repairSounds)
+                for (auto sound : def->repairSounds)
                 {
                     for (int i = 0; i < 4; i++)
                     {
-                        orig->crewAnim->anims[i][2].AddSoundQueue(def.repairSoundFrame, sound);
+                        orig->crewAnim->anims[i][2].AddSoundQueue(def->repairSoundFrame, sound);
                     }
                 }
             }
@@ -1898,10 +1898,10 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
             hasSpecialPower = powerDef->hasSpecialPower;
             hasTemporaryPower = powerDef->hasTemporaryPower;
         }
-        canPhaseThroughDoors = def.canPhaseThroughDoors;
+        canPhaseThroughDoors = def->canPhaseThroughDoors;
 
         outgoingStatBoosts.clear();
-        for (auto statBoostDef : def.passiveStatBoosts)
+        for (auto statBoostDef : def->passiveStatBoosts)
         {
             StatBoost statBoost = StatBoost(statBoostDef);
 
@@ -1918,7 +1918,7 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
         }
 
 
-        auto skillsDef = def.skillsDef;
+        auto skillsDef = def->skillsDef;
 
         std::string skillOrder[6] = {"piloting", "engines", "shields", "weapons", "repair", "combat"};
 
@@ -1944,7 +1944,7 @@ HOOK_METHOD(CrewBlueprint, RandomSkills, (int worldLevel) -> void)
 
     if (custom->IsRace(name))
     {
-        auto skillsDef = custom->GetDefinition(name).skillsDef;
+        auto skillsDef = custom->GetDefinition(name)->skillsDef;
 
         std::string skillOrder[6] = {"piloting", "engines", "shields", "weapons", "repair", "combat"};
 
@@ -2601,7 +2601,7 @@ HOOK_STATIC(CrewAnimation, GetDeathSound, (std::string& strRef, CrewAnimation *a
     {
         auto def = custom->GetDefinition(anim->race);
 
-        std::vector<std::string>& deathSounds = anim->bMale ? def.deathSounds : def.deathSoundsFemale;
+        std::vector<std::string>& deathSounds = anim->bMale ? def->deathSounds : def->deathSoundsFemale;
 
         if (deathSounds.size() > 0)
         {
@@ -2626,7 +2626,7 @@ HOOK_STATIC(RockAnimation, GetDeathSound, (std::string& strRef, RockAnimation *a
     {
         auto def = custom->GetDefinition(anim->race);
 
-        std::vector<std::string>& deathSounds = anim->bMale ? def.deathSounds : def.deathSoundsFemale;
+        std::vector<std::string>& deathSounds = anim->bMale ? def->deathSounds : def->deathSoundsFemale;
 
         if (deathSounds.size() > 0)
         {
@@ -2651,7 +2651,7 @@ HOOK_STATIC(MantisAnimation, GetDeathSound, (std::string& strRef, MantisAnimatio
     {
         auto def = custom->GetDefinition(anim->race);
 
-        std::vector<std::string>& deathSounds = anim->bMale ? def.deathSounds : def.deathSoundsFemale;
+        std::vector<std::string>& deathSounds = anim->bMale ? def->deathSounds : def->deathSoundsFemale;
 
         if (deathSounds.size() > 0)
         {
@@ -2676,11 +2676,11 @@ HOOK_STATIC(CrewAnimation, GetShootingSound, (std::string& strRef, CrewAnimation
     {
         auto def = custom->GetDefinition(anim->race);
 
-        if (def.shootingSounds.size() > 0)
+        if (def->shootingSounds.size() > 0)
         {
             int rng = random32();
 
-            strRef.assign(def.shootingSounds[rng % def.shootingSounds.size()]);
+            strRef.assign(def->shootingSounds[rng % def->shootingSounds.size()]);
 
             return strRef;
         }
@@ -2699,11 +2699,11 @@ HOOK_STATIC(RockAnimation, GetShootingSound, (std::string& strRef, RockAnimation
     {
         auto def = custom->GetDefinition(anim->race);
 
-        if (def.shootingSounds.size() > 0)
+        if (def->shootingSounds.size() > 0)
         {
             int rng = random32();
 
-            strRef.assign(def.shootingSounds[rng % def.shootingSounds.size()]);
+            strRef.assign(def->shootingSounds[rng % def->shootingSounds.size()]);
 
             return strRef;
         }
@@ -2722,11 +2722,11 @@ HOOK_STATIC(MantisAnimation, GetShootingSound, (std::string& strRef, MantisAnima
     {
         auto def = custom->GetDefinition(anim->race);
 
-        if (def.shootingSounds.size() > 0)
+        if (def->shootingSounds.size() > 0)
         {
             int rng = random32();
 
-            strRef.assign(def.shootingSounds[rng % def.shootingSounds.size()]);
+            strRef.assign(def->shootingSounds[rng % def->shootingSounds.size()]);
 
             return strRef;
         }
@@ -2745,11 +2745,11 @@ HOOK_STATIC(CrewMember, GetUniqueRepairing, (std::string& strRef, CrewMember *cr
     {
         auto def = custom->GetDefinition(crew->species);
 
-        if (def.repairSounds.size() > 0 && def.repairSoundFrame == -1)
+        if (def->repairSounds.size() > 0 && def->repairSoundFrame == -1)
         {
             int rng = random32();
 
-            strRef.assign(def.repairSounds[rng % def.repairSounds.size()]);
+            strRef.assign(def->repairSounds[rng % def->repairSounds.size()]);
 
 
             return strRef;
@@ -2973,14 +2973,14 @@ HOOK_METHOD(ShipManager, OnLoop, () -> void)
                 }
             }
 
-            if (def.changeIfSame)
+            if (def->changeIfSame)
             {
                 int counter = 0;
-                for (auto name : def.transformName)
+                for (auto name : def->transformName)
                 {
                     if (i->blueprint.crewNameLong.GetText() == name) // this is stupid
                     {
-                        std::string newSpecies = def.nameRace.at(counter);
+                        std::string newSpecies = def->nameRace.at(counter);
                         ++counter;
 
                         ex->TransformRace(newSpecies);
@@ -2990,7 +2990,7 @@ HOOK_METHOD(ShipManager, OnLoop, () -> void)
             else
             {
                 bool change = true;
-                for (auto check : def.transformName)
+                for (auto check : def->transformName)
                 {
                     if (i->blueprint.crewNameLong.GetText() != check)
                     {
@@ -2999,7 +2999,7 @@ HOOK_METHOD(ShipManager, OnLoop, () -> void)
                 }
                 if (change)
                 {
-                    std::string newSpecies = def.nameRace.at(0);
+                    std::string newSpecies = def->nameRace.at(0);
 
                     ex->TransformRace(newSpecies);
                 }
@@ -3369,7 +3369,6 @@ HOOK_METHOD(CrewBox, constructor, (Point pos, CrewMember *crew, int number) -> v
     if (custom->IsRace(crew->species))
     {
         auto ex = CM_EX(crew);
-        auto crewDef = custom->GetDefinition(crew->species);
         auto powerDef = ex->GetPowerDef();
 
         if (powerDef->hasSpecialPower)
@@ -3728,7 +3727,6 @@ HOOK_METHOD(CrewBox, GetSelected, (int mouseX, int mouseY) -> CrewMember*)
     if (CustomCrewManager::GetInstance()->IsRace(pCrew->species))
     {
         auto ex = CM_EX(pCrew);
-        auto def = CustomCrewManager::GetInstance()->GetDefinition(pCrew->species);
         if (pCrew->HasSpecialPower() && mouseX < powerButton.hitbox.x + powerButton.hitbox.w && mouseX > powerButton.hitbox.x && mouseY < powerButton.hitbox.y + powerButton.hitbox.h && mouseY > powerButton.hitbox.y)
         {
             auto powerDef = ex->GetPowerDef();
@@ -4304,7 +4302,7 @@ HOOK_STATIC(CrewMember, GetTooltip, (std::string& strRef, CrewMember* crew) -> s
         {
             tooltip += '\n';
             std::stringstream stream;
-            stream << std::fixed <<std::setprecision(1) << crew->fStunTime * CustomCrewManager::GetInstance()->GetDefinition(crew->species).stunMultiplier;
+            stream << std::fixed <<std::setprecision(1) << crew->fStunTime * CustomCrewManager::GetInstance()->GetDefinition(crew->species)->stunMultiplier;
             std::string currentText = G_->GetTextLibrary()->GetText("crew_stun_time");
             currentText = boost::algorithm::replace_all_copy(currentText, "\\1", stream.str());
             tooltip += currentText;

@@ -162,7 +162,7 @@ HOOK_METHOD(ShipManager, CommandCrewMoveRoom, (CrewMember* crew, int room) -> bo
     if (blockControllableAI)
     {
         auto custom = CustomCrewManager::GetInstance();
-        if (crew->GetControllable() || (!crew->intruder && custom->IsRace(crew->species) && custom->GetDefinition(crew->species).droneAI.hasCustomAI)) return false;
+        if (crew->GetControllable() || (!crew->intruder && custom->IsRace(crew->species) && custom->GetDefinition(crew->species)->droneAI.hasCustomAI)) return false;
     }
 
     return super(crew, room);
@@ -173,7 +173,7 @@ HOOK_METHOD(CrewMember, SetTask, (CrewTask task) -> void)
     if (blockControllableAI)
     {
         auto custom = CustomCrewManager::GetInstance();
-        if (GetControllable() || (!intruder && custom->IsRace(species) && custom->GetDefinition(species).droneAI.hasCustomAI)) return;
+        if (GetControllable() || (!intruder && custom->IsRace(species) && custom->GetDefinition(species)->droneAI.hasCustomAI)) return;
     }
 
     super(task);
@@ -205,7 +205,7 @@ HOOK_METHOD(CrewAI, UpdateDrones, () -> void)
         if (crew->IsDrone() && !crew->intruder && custom->IsRace(crew->species))
         {
             auto def = custom->GetDefinition(crew->species);
-            if (def.droneAI.hasCustomAI && !crew->GetControllable() && !crew->IsDead() && crew->Functional() && crew->crewAnim->status != 3)
+            if (def->droneAI.hasCustomAI && !crew->GetControllable() && !crew->IsDead() && crew->Functional() && crew->crewAnim->status != 3)
             {
                 std::vector<CrewTask> taskList(desiredTaskList);
                 taskList.insert(taskList.end(), bonusTaskList.begin(), bonusTaskList.end());
@@ -218,7 +218,7 @@ HOOK_METHOD(CrewAI, UpdateDrones, () -> void)
 
                 if (crew->CanFight())
                 {
-                    if (def.droneAI.fightAI)
+                    if (def->droneAI.fightAI)
                     {
                         CrewTask closestTask;
                         float closestDist = FLT_MAX;
@@ -256,7 +256,7 @@ HOOK_METHOD(CrewAI, UpdateDrones, () -> void)
                 }
                 if (!crew->IsBusy() && crew->CanRepair())
                 {
-                    if (def.droneAI.repairAI)
+                    if (def->droneAI.repairAI)
                     {
                         crew->ClearTask();
 
@@ -278,7 +278,7 @@ HOOK_METHOD(CrewAI, UpdateDrones, () -> void)
 
                 if (!crew->IsBusy() && crew->CanMan())
                 {
-                    if (def.droneAI.manAI)
+                    if (def->droneAI.manAI)
                     {
                         for (auto task : taskList)
                         {
@@ -300,9 +300,9 @@ HOOK_METHOD(CrewAI, UpdateDrones, () -> void)
                 {
                     bool idle = true;
 
-                    if (def.droneAI.batteryAI)
+                    if (def->droneAI.batteryAI)
                     {
-                        if (def.providesPower || def.bonusPower > 0)
+                        if (def->providesPower || def->bonusPower > 0)
                         {
                             idle = false;
 
@@ -388,7 +388,7 @@ HOOK_METHOD(CrewAI, UpdateDrones, () -> void)
 
                     if (idle)
                     {
-                        if (def.droneAI.returnToDroneRoom)
+                        if (def->droneAI.returnToDroneRoom)
                         {
                             int droneRoom = ship->GetSystemRoom(4);
                             if (!ship->ship.RoomLocked(droneRoom))
@@ -454,7 +454,7 @@ HOOK_METHOD(ShipManager, CreateSpaceDrone, (const DroneBlueprint *bp) -> SpaceDr
 
 HOOK_METHOD(CrewDrone, OnLoop, () -> void)
 {
-    if (CustomCrewManager::GetInstance()->IsRace(species) && CustomCrewManager::GetInstance()->GetDefinition(species).droneMoveFromManningSlot)
+    if (CustomCrewManager::GetInstance()->IsRace(species) && CustomCrewManager::GetInstance()->GetDefinition(species)->droneMoveFromManningSlot)
     {
         SetFrozen(_drone.deployed && !_drone.powered);
 
