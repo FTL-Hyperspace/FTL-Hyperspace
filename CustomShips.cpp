@@ -5,6 +5,15 @@
 #include <boost/lexical_cast.hpp>
 
 static bool importingShip = false;
+static bool revisitingShip = false;
+
+HOOK_METHOD(WorldManager, CreateShip, (ShipEvent* shipEvent, bool boss) -> CompleteShip*)
+{
+    if (!boss && !shipEvent->actualBlueprint.blueprintName.empty()) revisitingShip = true;
+    CompleteShip* ret = super(shipEvent, boss);
+    revisitingShip = false;
+    return ret;
+}
 
 bool g_enemyPreigniterFix = false;
 
@@ -65,7 +74,7 @@ void ShipManager_Extend::Initialize(bool restarting)
             }
         }
 
-        if (!restarting)
+        if (!restarting && !revisitingShip)
         {
             for (auto i : def.crewList)
             {
@@ -136,7 +145,42 @@ HOOK_METHOD(ShipManager, ImportShip, (int fileHelper) -> void)
     importingShip = true;
     super(fileHelper);
     importingShip = false;
+
+    if (shieldSystem)
+    {
+        hs_log_file("After ImportShip shield health: %d/%d\n", shieldSystem->healthState.first, shieldSystem->healthState.second);
+    }
 }
+
+HOOK_METHOD(BlueprintManager, GetShipBlueprint, (const std::string &name, int sector) -> ShipBlueprint*)
+{
+    auto ret = super(name,sector);
+
+    if (ret)
+    {
+        auto shield = ret->systemInfo.find(0);
+        if (shield != ret->systemInfo.end())
+        {
+            hs_log_file("After GetShipBlueprint shield power: %d/%d\n", shield->second.powerLevel, shield->second.maxPower);
+        }
+    }
+
+    return ret;
+}
+
+HOOK_METHOD(ShipManager, AddSystem, (int systemId) -> int)
+{
+    auto ret = super(systemId);
+
+    if (systemId == 0 && shieldSystem)
+    {
+        shieldSystem->healthState.first = shieldSystem->healthState.second;
+        hs_log_file("After AddSystem shield health: %d/%d\n", shieldSystem->healthState.first, shieldSystem->healthState.second);
+    }
+
+    return ret;
+}
+
 
 HOOK_METHOD_PRIORITY(ShipManager, OnInit, 100, (ShipBlueprint *bp, int shipLevel) -> int)
 {
@@ -629,22 +673,13 @@ HOOK_METHOD(WorldManager, CreateShip, (ShipEvent* shipEvent, bool boss) -> Compl
         }
     }
 
-    if (shipManager->shieldSystem != nullptr) // Fixes a generation bug where >10 shield power spawns damaged; doesn't fix save/load issues
+    if (shipManager->shieldSystem != nullptr && shipManager->shieldSystem->powerState.second > 10)
     {
-        int damageRepaired = shipManager->shieldSystem->healthState.second - shipManager->shieldSystem->healthState.first;
-
-        if (damageRepaired > 0)
+        for (int i=shipManager->shieldSystem->powerState.second; i>0; i--)
         {
-            shipManager->shieldSystem->healthState.first = shipManager->shieldSystem->healthState.second;
-
-            for (int i=0; i<damageRepaired; ++i)
-            {
-                shipManager->shieldSystem->IncreasePower(1, false);
-            }
-
-            shipManager->shieldSystem->shields.power.second = shipManager->shieldSystem->GetEffectivePower() / 2;
-            shipManager->shieldSystem->shields.power.first = shipManager->shieldSystem->shields.power.second;
+            if (!shipManager->shieldSystem->IncreasePower(1,false)) break;
         }
+        shipManager->shieldSystem->InstantCharge();
     }
 
     return ret;
