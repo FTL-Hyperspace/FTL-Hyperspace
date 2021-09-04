@@ -132,6 +132,10 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                         {
                             crew.controllable = EventsParser::ParseBoolean(val);
                         }
+                        if (str == "selectable")
+                        {
+                            crew.selectable = EventsParser::ParseBoolean(val);
+                        }
                         if (str == "canRepair")
                         {
                             crew.canRepair = EventsParser::ParseBoolean(val);

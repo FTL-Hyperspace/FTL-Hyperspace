@@ -270,7 +270,7 @@ struct CrewDefinition
     bool canMan = true;
     bool canSuffocate = true;
     bool controllable = true;
-    bool selectable = true;
+    bool selectable = false;
     bool canBurn = true;
     int maxHealth = 100;
     float stunMultiplier = 1.f;
