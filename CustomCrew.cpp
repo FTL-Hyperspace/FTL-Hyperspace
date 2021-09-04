@@ -3244,7 +3244,7 @@ HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
 
         CrewMember::GetRoomDamage(dmg, i);
 
-        DamageArea(Pointf(i->x, i->y), *((DamageParameter*)dmg), true);
+        if (dmg->ownerId != -1) DamageArea(Pointf(i->x, i->y), *((DamageParameter*)dmg), true);
 
         delete dmg;
 
