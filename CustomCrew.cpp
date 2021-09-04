@@ -1905,7 +1905,7 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
         canPhaseThroughDoors = def->canPhaseThroughDoors;
 
         outgoingStatBoosts.clear();
-        for (auto statBoostDef : def->passiveStatBoosts)
+        for (StatBoostDefinition& statBoostDef : def->passiveStatBoosts)
         {
             StatBoost statBoost = StatBoost(statBoostDef);
 
@@ -1913,7 +1913,7 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
             outgoingStatBoosts.push_back(statBoost);
         }
         outgoingAbilityStatBoosts.clear();
-        for (auto statBoostDef : powerDef->tempPower.statBoosts)
+        for (StatBoostDefinition& statBoostDef : powerDef->tempPower.statBoosts)
         {
             StatBoost statBoost = StatBoost(statBoostDef);
 

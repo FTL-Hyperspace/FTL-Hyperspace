@@ -223,7 +223,7 @@ struct StatBoostDefinition
 
 struct StatBoost
 {
-    StatBoostDefinition def;
+    StatBoostDefinition* def;
 
     int iStacks = 1;
 
@@ -234,7 +234,11 @@ struct StatBoost
 
     int sourceShipId;
 
-    StatBoost(StatBoostDefinition definition) : def{definition}
+    StatBoost(StatBoostDefinition& definition) : def{&definition}
+    {
+    }
+
+    StatBoost(StatBoostDefinition* definition) : def{definition}
     {
     }
 };
@@ -283,8 +287,8 @@ private:
         return nextStackId;
     }
 
-    void CreateAugmentBoost(StatBoostDefinition& def, int shipId, int nStacks);
-    void CreateCrewBoost(StatBoostDefinition& def, CrewMember* otherCrew, int nStacks);
+    void CreateAugmentBoost(StatBoostDefinition* def, int shipId, int nStacks);
+    void CreateCrewBoost(StatBoostDefinition* def, CrewMember* otherCrew, int nStacks);
     void CreateCrewBoost(StatBoost statBoost, CrewMember* otherCrew);
     void CreateRecursiveBoosts(StatBoost& statBoost, int nStacks);
 };
