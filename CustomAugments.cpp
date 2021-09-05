@@ -19,7 +19,7 @@ void CustomAugmentManager::ParseCustomAugmentNode(rapidxml::xml_node<char>* node
                 AugmentDefinition* augDef = new AugmentDefinition();
 
                 augDef->name = augName;
-                augDef->functions = std::map<std::string, AugmentFunction>();
+                augDef->functions = std::unordered_map<std::string, AugmentFunction>();
 
                 for (auto functionNode = child->first_node(); functionNode; functionNode = functionNode->next_sibling())
                 {
@@ -62,6 +62,11 @@ void CustomAugmentManager::ParseCustomAugmentNode(rapidxml::xml_node<char>* node
                             }
 
                             augDef->functions[functionName] = func;
+                            augDefsByFunction[functionName][augName] = &(augDef->functions[functionName]);
+                            if (func.useForReqs)
+                            {
+                                augDefsByReq[functionName][augName] = &(augDef->functions[functionName]);
+                            }
                         }
                     }
                     if (functionNodeName == "superShield")
@@ -141,92 +146,32 @@ void CustomAugmentManager::ParseCustomAugmentNode(rapidxml::xml_node<char>* node
     }
 }
 
-std::map<std::string, AugmentFunction> CustomAugmentManager::GetPotentialAugments(const std::string& name, int shipId, bool req)
+bool AugmentFunction::Functional(int iShipId)
 {
-    auto ret = std::map<std::string, AugmentFunction>();
-
-
-    for (auto const& i: augDefs)
+    if (sys != -1)
     {
-        if (i.second)
+        ShipManager* shipManager = G_->GetShipManager(iShipId);
+        if (shipManager != nullptr && shipManager->GetSystemRoom(sys) != -1)
         {
-            if (!i.second->functions.empty())
+            ShipSystem* shipSystem = shipManager->GetSystem(sys);
+            if (shipSystem != nullptr && shipSystem->iHackEffect < 2 && shipSystem->GetEffectivePower() > 0)
             {
-                auto val = i.second->functions.find(name);
-
-                if (val != i.second->functions.end())
-                {
-                    if (!req)
-                    {
-                        if (val->second.sys == -1)
-                        {
-                            ret[i.second->name] = val->second;
-                        }
-                        else
-                        {
-                            ShipManager* shipManager = G_->GetShipManager(shipId);
-                            if (shipManager != nullptr && shipManager->GetSystemRoom(val->second.sys) != -1)
-                            {
-                                ShipSystem* sys = shipManager->GetSystem(val->second.sys);
-                                if (sys != nullptr && sys->iHackEffect < 2 && sys->GetEffectivePower() > 0)
-                                {
-                                    ret[i.second->name] = val->second;
-                                }
-                            }
-                        }
-                    }
-                    else if (i.second->functions[name].useForReqs)
-                    {
-                        ret[i.second->name] = val->second;
-                    }
-                }
+                return true;
             }
         }
+        return false;
     }
-
-    return ret;
+    return true;
 }
 
-std::map<std::string, AugmentFunction> CustomAugmentManager::GetPotentialAugments_ScrapText()
+std::unordered_map<std::string, AugmentFunction*>* CustomAugmentManager::GetPotentialAugments(const std::string& name, bool req)
 {
-    auto ret = std::map<std::string, AugmentFunction>();
+    return req ? &augDefsByReq[name] : &augDefsByFunction[name];
+}
 
-
-    for (auto const& i: augDefs)
-    {
-        if (i.second)
-        {
-            if (!i.second->functions.empty())
-            {
-                auto val = i.second->functions.find("SCRAP_COLLECTOR");
-
-                if (val != i.second->functions.end())
-                {
-                    if (val->second.modifyChoiceTextScrap)
-                    {
-                        if (val->second.sys == -1)
-                        {
-                            ret[i.second->name] = val->second;
-                        }
-                        else
-                        {
-                            ShipManager* shipManager = G_->GetShipManager(0);
-                            if (shipManager != nullptr && shipManager->GetSystemRoom(val->second.sys) != -1)
-                            {
-                                ShipSystem* sys = shipManager->GetSystem(val->second.sys);
-                                if (sys != nullptr && sys->iHackEffect < 2 && sys->GetEffectivePower() > 0)
-                                {
-                                    ret[i.second->name] = val->second;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    return ret;
+std::unordered_map<std::string, int>* CustomAugmentManager::GetShipAugments(int iShipId)
+{
+    return &(augListWithHidden[iShipId]);
 }
 
 std::map<std::string, int> CustomAugmentManager::CheckHiddenAugments(const std::map<std::string, int>& augList)
@@ -263,6 +208,28 @@ std::vector<std::string> CustomAugmentManager::RemoveHiddenAugments(const std::v
     return newList;
 }
 
+void CustomAugmentManager::UpdateAugments(int iShipId)
+{
+    std::unordered_map<std::string, int>& hiddenList = augListWithHidden[iShipId];
+    std::vector<std::string>& notHiddenList = augListNoHidden[iShipId];
+
+    hiddenList.clear();
+    notHiddenList.clear();
+
+    for (auto i : G_->GetShipInfo(iShipId)->augList)
+    {
+        if (boost::algorithm::starts_with(i.first, "HIDDEN "))
+        {
+            hiddenList[i.first.substr(7)] = i.second;
+        }
+        else
+        {
+            hiddenList[i.first] = i.second;
+            notHiddenList.push_back(i.first);
+        }
+    }
+}
+
 
 //======================
 
@@ -270,24 +237,24 @@ HOOK_METHOD_PRIORITY(ShipObject, HasAugmentation, 2000, (const std::string& name
 {
     CustomAugmentManager* customAug = CustomAugmentManager::GetInstance();
 
-    std::map<std::string, int> augList = CustomAugmentManager::CheckHiddenAugments(G_->GetShipInfo(iShipId)->augList);
+    std::unordered_map<std::string, int> *augList = customAug->GetShipAugments(iShipId);
 
     int augCount = 0;
 
-    if (augList.count(name) > 0)
+    if (augList->count(name) > 0)
     {
-        augCount = augList.at(name);
+        augCount = augList->at(name);
     }
 
-    std::map<std::string, AugmentFunction> potentialAugs = customAug->GetPotentialAugments(name, iShipId);
+    std::unordered_map<std::string, AugmentFunction*> *potentialAugs = customAug->GetPotentialAugments(name);
 
 
 
-    for (auto const& x: potentialAugs)
+    for (auto const& x: *potentialAugs)
     {
-        if (augList.count(x.first))
+        if (augList->count(x.first) && x.second->Functional(iShipId))
         {
-            augCount += augList.at(x.first);
+            augCount += augList->at(x.first);
         }
     }
 
@@ -311,32 +278,30 @@ HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
 
 HOOK_METHOD_PRIORITY(ShipObject, HasEquipment, 2000, (const std::string& name) -> int)
 {
+    CustomAugmentManager* customAug = CustomAugmentManager::GetInstance();
+
     auto ship = G_->GetShipManager(iShipId);
-    std::map<std::string, int> augList = CustomAugmentManager::CheckHiddenAugments(G_->GetShipInfo(iShipId)->augList);
+    std::unordered_map<std::string, int> *augList = customAug->GetShipAugments(iShipId);
 
     int augCount = 0;
-    if (augList.count(name) > 0)
+    if (augList->count(name) > 0)
     {
-        augCount = augList.at(name);
+        augCount = augList->at(name);
     }
 
-    CustomAugmentManager* customAug = CustomAugmentManager::GetInstance();
-    std::map<std::string, AugmentFunction> potentialAugs = customAug->GetPotentialAugments(name, iShipId, useAugmentReq);
+    std::unordered_map<std::string, AugmentFunction*> *potentialAugs = customAug->GetPotentialAugments(name, useAugmentReq);
 
 
 
-    for (auto const& x: potentialAugs)
+    for (auto const& x: *potentialAugs)
     {
-        if (augList.count(x.first))
+        if (augList->count(x.first) && x.second->Functional(iShipId))
         {
-            augCount += augList.at(x.first);
+            augCount += augList->at(x.first);
         }
     }
 
-    if (augCount > 0)
-        return augCount;
-
-    return super(name);
+    return augCount + super(name);
 
 
 }
@@ -347,35 +312,36 @@ HOOK_METHOD_PRIORITY(ShipObject, HasEquipment, 2000, (const std::string& name) -
 
 HOOK_METHOD_PRIORITY(ShipObject, GetAugmentationValue, 1000, (const std::string& name) -> float)
 {
+    CustomAugmentManager* customAug = CustomAugmentManager::GetInstance();
+
     AugmentBlueprint* augBlueprint = G_->GetBlueprints()->GetAugmentBlueprint(name);
 
     auto ship = G_->GetShipManager(iShipId);
-    std::map<std::string, int> augList = CustomAugmentManager::CheckHiddenAugments(G_->GetShipInfo(iShipId)->augList);
+    std::unordered_map<std::string, int> *augList = customAug->GetShipAugments(iShipId);
     int augCount = 0;
 
-    if (augList.count(name) > 0)
+    if (augList->count(name) > 0)
     {
-        augCount = augList.at(name);
+        augCount = augList->at(name);
     }
 
 
     float augValue = augBlueprint->value * augCount;
 
-    CustomAugmentManager* customAug = CustomAugmentManager::GetInstance();
-    std::map<std::string, AugmentFunction> potentialAugs = customAug->GetPotentialAugments(name, iShipId);
+    std::unordered_map<std::string, AugmentFunction*> *potentialAugs = customAug->GetPotentialAugments(name);
 
 
     float highestValue = augValue;
-    for (auto const& x: potentialAugs)
+    for (auto const& x: *potentialAugs)
     {
-        if (augList.count(x.first))
+        if (augList->count(x.first) && x.second->Functional(iShipId))
         {
-            augCount += augList.at(x.first);
-            augValue += x.second.value * augList.at(x.first);
+            augCount += augList->at(x.first);
+            augValue += x.second->value * augList->at(x.first);
 
-            if ((x.second.preferHigher && x.second.value > highestValue) || (!x.second.preferHigher && x.second.value < highestValue))
+            if ((x.second->preferHigher && x.second->value > highestValue) || (!x.second->preferHigher && x.second->value < highestValue))
             {
-                highestValue = x.second.value;
+                highestValue = x.second->value;
             }
         }
     }
@@ -535,6 +501,7 @@ HOOK_METHOD(ShipManager, ImportShip, (int fileHelper) -> void)
     }
 
     G_->GetShipInfo(iShipId)->augList = augList;
+    CustomAugmentManager::GetInstance()->UpdateAugments(iShipId);
 }
 
 HOOK_STATIC(ShipObject, GetAugmentationList, (std::vector<std::string>& vec, ShipObject *shipObj) -> std::vector<std::string>&)
@@ -560,6 +527,12 @@ HOOK_METHOD(ShipObject, GetAugmentationCount, () -> int)
 
     return count;
 }
+HOOK_METHOD(ShipObject, AddAugmentation, (const std::string& name) -> bool)
+{
+    auto ret = super(name);
+    CustomAugmentManager::GetInstance()->UpdateAugments(iShipId);
+    return ret;
+}
 HOOK_METHOD(ShipObject, RemoveAugmentation, (const std::string& name) -> void)
 {
     super(name);
@@ -577,6 +550,8 @@ HOOK_METHOD(ShipObject, RemoveAugmentation, (const std::string& name) -> void)
 
     G_->GetShipInfo(iShipId)->augCount = augCount;
 
+    CustomAugmentManager::GetInstance()->UpdateAugments(iShipId);
+
     /*
     ShipManager* ship = G_->GetShipManager(this);
     if (ship != nullptr)
@@ -590,8 +565,8 @@ HOOK_METHOD(ShipObject, RemoveAugmentation, (const std::string& name) -> void)
 
 int CustomAugmentManager::GetSuperShieldValue(int shipId)
 {
-    std::map<std::string, int> augList = CustomAugmentManager::CheckHiddenAugments(G_->GetShipInfo(shipId)->augList);
     CustomAugmentManager* customAug = CustomAugmentManager::GetInstance();
+    std::unordered_map<std::string, int> *augList = customAug->GetShipAugments(shipId);
 
     int superShieldValue = 0;
     int superShieldAdd = 0;
@@ -600,7 +575,7 @@ int CustomAugmentManager::GetSuperShieldValue(int shipId)
     std::string shieldTexture = "";
     GL_Color shieldColor = GL_Color(0.0, 0.0, 0.0, 0.0);
 
-    for (auto& aug : augList)
+    for (auto& aug : *augList)
     {
         if (customAug->IsAugment(aug.first) && aug.second > 0)
         {
@@ -1007,19 +982,19 @@ HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
         AugmentBlueprint* augBlueprint = G_->GetBlueprints()->GetAugmentBlueprint("SCRAP_COLLECTOR");
         CustomAugmentManager* customAug = CustomAugmentManager::GetInstance();
 
-        std::map<std::string, int> augList = CustomAugmentManager::CheckHiddenAugments(G_->GetShipInfo(0)->augList);
-        std::map<std::string, AugmentFunction> potentialAugs = customAug->GetPotentialAugments_ScrapText();
+        std::unordered_map<std::string, int> *augList = customAug->GetShipAugments(0);
+        std::unordered_map<std::string, AugmentFunction*> *potentialAugs = customAug->GetPotentialAugments("SCRAP_COLLECTOR");
 
         float highestValue = 0.f;
-        for (auto const& x: potentialAugs)
+        for (auto const& x: *potentialAugs)
         {
-            if (augList.count(x.first))
+            if (augList->count(x.first) && x.second->Functional(0))
             {
-                augValue += x.second.value * augList.at(x.first);
+                augValue += x.second->value * augList->at(x.first);
 
-                if ((x.second.preferHigher && x.second.value > highestValue) || (!x.second.preferHigher && x.second.value < highestValue))
+                if ((x.second->preferHigher && x.second->value > highestValue) || (!x.second->preferHigher && x.second->value < highestValue))
                 {
-                    highestValue = x.second.value;
+                    highestValue = x.second->value;
                 }
             }
         }

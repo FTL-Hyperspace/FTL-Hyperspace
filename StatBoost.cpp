@@ -507,8 +507,8 @@ void StatBoostManager::OnLoop(WorldManager* world)
     {
         if (G_->GetShipInfo(shipId) != nullptr)
         {
-            std::map<std::string, int> augMap = CustomAugmentManager::CheckHiddenAugments(G_->GetShipInfo(shipId)->augList);
-            for (auto augPair : augMap)
+            std::unordered_map<std::string, int> *augMap = customAug->GetShipAugments(shipId);
+            for (auto augPair : *augMap)
             {
                 if (customAug->IsAugment(augPair.first) && augPair.second > 0)
                 {
@@ -573,8 +573,23 @@ void StatBoostManager::CreateTimedAugmentBoost(StatBoost statBoost, CrewMember* 
     }
 }
 
+HOOK_METHOD(WorldManager, CreateNewGame, () -> void)
+{
+    StatBoostManager::GetInstance()->statBoosts.clear();
+    StatBoostManager::GetInstance()->animBoosts.clear();
+    super();
+}
+
+HOOK_METHOD(WorldManager, LoadGame, (const std::string& fileName) -> void)
+{
+    StatBoostManager::GetInstance()->statBoosts.clear();
+    StatBoostManager::GetInstance()->animBoosts.clear();
+    super(fileName);
+}
+
 HOOK_METHOD(WorldManager, OnLoop, () -> void)
 {
+    StatBoostManager::GetInstance()->OnLoop(this);
     super();
 //    using std::chrono::steady_clock;
 //    using std::chrono::duration_cast;
@@ -582,7 +597,7 @@ HOOK_METHOD(WorldManager, OnLoop, () -> void)
 //    using std::chrono::milliseconds;
 //    auto t1 = steady_clock::now();
 
-    StatBoostManager::GetInstance()->OnLoop(this);
+
 
 //    auto t2 = steady_clock::now();
 //    duration<double, std::nano> ms_double = t2 - t1;
@@ -602,8 +617,8 @@ HOOK_METHOD(ShipManager, JumpArrive, () -> void)
 
     if (G_->GetShipInfo(0) != nullptr)
     {
-        std::map<std::string, int> augMap = CustomAugmentManager::CheckHiddenAugments(G_->GetShipInfo(0)->augList);
-        for (auto augPair : augMap)
+        std::unordered_map<std::string, int> *augMap = customAug->GetShipAugments(0);
+        for (auto augPair : *augMap)
         {
             if (customAug->IsAugment(augPair.first))
             {
@@ -632,8 +647,8 @@ HOOK_METHOD(CrewMember, constructor, (CrewBlueprint& bp, int shipId, bool intrud
     CustomAugmentManager* customAug = CustomAugmentManager::GetInstance();
     if (G_->GetShipInfo(shipId) != nullptr)
     {
-        std::map<std::string, int> augMap = CustomAugmentManager::CheckHiddenAugments(G_->GetShipInfo(shipId)->augList);
-        for (auto augPair : augMap)
+        std::unordered_map<std::string, int> *augMap = customAug->GetShipAugments(shipId);
+        for (auto augPair : *augMap)
         {
             if (customAug->IsAugment(augPair.first))
             {

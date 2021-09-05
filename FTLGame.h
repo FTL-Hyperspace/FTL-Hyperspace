@@ -1135,7 +1135,7 @@ struct ShipObject
 	LIBZHL_API void RemoveAugmentation(const std::string &augment);
 	LIBZHL_API int HasEquipment(const std::string &equip);
 	LIBZHL_API static std::map<std::string, int> &__stdcall GetAugmentationList(std::vector<std::string> &vec, ShipObject *shipObj);
-	LIBZHL_API void AddAugmentation(const std::string &augment);
+	LIBZHL_API bool AddAugmentation(const std::string &augment);
 	LIBZHL_API static void __stdcall __DO_NOT_HOOK();
 	LIBZHL_API int GetAugmentationCount();
 	

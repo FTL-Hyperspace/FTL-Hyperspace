@@ -1135,7 +1135,8 @@ PowerReadyState CrewMember_Extend::PowerReq(const ActivatedPowerRequirements *re
     {
         return POWER_NOT_READY_PLAYER_SHIP;
     }
-    if (currentShip && !currentShip->GetSystemInRoom(orig->iRoomId) && req->systemInRoom)
+    // known bug: GetSystemInRoom rarely crashes upon loading a saved run, usually on chargeReq (it crashes trying to dereference a system in vSystemList)
+    if (currentShip && req->systemInRoom && !currentShip->GetSystemInRoom(orig->iRoomId))
     {
         return POWER_NOT_READY_SYSTEM_IN_ROOM;
     }
@@ -2237,6 +2238,9 @@ HOOK_METHOD(CrewMember, SaveState, (int file) -> void)
 {
     auto ex = CM_EX(this);
 
+    FileHelper::writeFloat(file, health.first);
+    FileHelper::writeFloat(file, health.second);
+
     FileHelper::writeFloat(file, ex->powerCooldown.first);
     FileHelper::writeFloat(file, ex->powerCooldown.second);
     FileHelper::writeFloat(file, ex->temporaryPowerDuration.first);
@@ -2256,6 +2260,11 @@ HOOK_METHOD(CrewMember, LoadState, (int file) -> void)
 {
     auto ex = CM_EX(this);
     auto aex = CMA_EX(crewAnim);
+
+    std::pair<float,float> customHealth;
+
+    customHealth.first = FileHelper::readFloat(file);
+    customHealth.second = FileHelper::readFloat(file);
 
     ex->powerCooldown.first = FileHelper::readFloat(file);
     ex->powerCooldown.second = FileHelper::readFloat(file);
@@ -2308,6 +2317,10 @@ HOOK_METHOD(CrewMember, LoadState, (int file) -> void)
     }
 
     super(file);
+
+    health = customHealth;
+    ex->statCache[(unsigned int)CrewStat::MAX_HEALTH].first = health.second;
+    ex->statCache[(unsigned int)CrewStat::MAX_HEALTH].second = StatBoostManager::statCacheFrame;
 }
 
 HOOK_METHOD_PRIORITY(CrewMember, GetNewGoal, 2000, () -> bool)

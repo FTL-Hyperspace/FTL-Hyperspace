@@ -1,3 +1,4 @@
+#include "CustomAugments.h"
 #include "CustomEvents.h"
 #include "freetype.h"
 #include "Resources.h"
@@ -1818,6 +1819,7 @@ HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEve
             {
                 G_->GetShipInfo()->augList["HIDDEN " + i] = 1;
             }
+            CustomAugmentManager::GetInstance()->UpdateAugments(0);
         }
     }
 
