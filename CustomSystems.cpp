@@ -91,16 +91,14 @@ HOOK_METHOD(ShipManager, CreateSystems, () -> int)
     {
         for (auto i : realBp->systems)
         {
-            AddSystem(i);
-            ret++; // is this even correct?
+            ret += AddSystem(i);
         }
     }
     else
     {
         for (auto i : myBlueprint.systems)
         {
-            AddSystem(i);
-            ret++; // is this even correct?
+            ret += AddSystem(i);
         }
     }
     return ret;
