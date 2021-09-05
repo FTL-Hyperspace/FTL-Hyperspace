@@ -144,6 +144,11 @@ HOOK_METHOD(ShipManager, ResetScrapLevel, () -> void)
 
 HOOK_METHOD(ShipManager, ImportShip, (int fileHelper) -> void)
 {
+    if (iShipId == 0)
+    {
+        G_->GetWorld()->playerShip = nullptr; // remove invalid reference
+    }
+
     importingShip = true;
     super(fileHelper);
     importingShip = false;
