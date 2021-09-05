@@ -573,8 +573,23 @@ void StatBoostManager::CreateTimedAugmentBoost(StatBoost statBoost, CrewMember* 
     }
 }
 
+HOOK_METHOD(WorldManager, CreateNewGame, () -> void)
+{
+    StatBoostManager::GetInstance()->statBoosts.clear();
+    StatBoostManager::GetInstance()->animBoosts.clear();
+    super();
+}
+
+HOOK_METHOD(WorldManager, LoadGame, (const std::string& fileName) -> void)
+{
+    StatBoostManager::GetInstance()->statBoosts.clear();
+    StatBoostManager::GetInstance()->animBoosts.clear();
+    super(fileName);
+}
+
 HOOK_METHOD(WorldManager, OnLoop, () -> void)
 {
+    StatBoostManager::GetInstance()->OnLoop(this);
     super();
 //    using std::chrono::steady_clock;
 //    using std::chrono::duration_cast;
@@ -582,7 +597,7 @@ HOOK_METHOD(WorldManager, OnLoop, () -> void)
 //    using std::chrono::milliseconds;
 //    auto t1 = steady_clock::now();
 
-    StatBoostManager::GetInstance()->OnLoop(this);
+
 
 //    auto t2 = steady_clock::now();
 //    duration<double, std::nano> ms_double = t2 - t1;
