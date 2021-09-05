@@ -504,7 +504,7 @@ struct CustomEvent
     std::string unlockShip;
     bool unlockShipSilent;
     std::string unlockShipReq;
-    BeaconType *beacon = nullptr;
+    BeaconType *beacon;
     std::string loadBeacon = "";
     bool checkCargo = false;
     bool recursive = true;
@@ -553,8 +553,7 @@ struct CustomEvent
 
     EventFleet leftFleet;
     EventFleet rightFleet;
-    bool clearCustomFleet = false;
-    bool noRealFleet = false;
+    bool clearCustomFleet;
 
     std::vector<std::string> hiddenAugs = std::vector<std::string>();
     std::vector<std::string> removeItems = std::vector<std::string>();

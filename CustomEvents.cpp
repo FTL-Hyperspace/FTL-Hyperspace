@@ -1010,11 +1010,6 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
             isDefault = false;
             customEvent->clearCustomFleet = true;
         }
-        if (nodeName == "noRealFleet")
-        {
-            isDefault = false;
-            customEvent->noRealFleet = true;
-        }
         if (nodeName == "enemyDamage")
         {
             isDefault = false;

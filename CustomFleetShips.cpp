@@ -156,11 +156,6 @@ HOOK_METHOD(WorldManager, CreateLocation, (Location* loc) -> void)
     if (customEvent != nullptr)
     {
         CreateFullFleet(&space, customEvent->leftFleet, customEvent->rightFleet);
-
-        if (!customEvent->noRealFleet)
-        {
-            loc->event->fleetPosition = 1;
-        }
     }
 }
 
@@ -176,8 +171,6 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent* loc) -> void)
         if (customEvent->clearCustomFleet)
         {
             ClearCustomFleet(&space);
-
-            loc->fleetPosition = 0;
         }
 
         if ((!customEvent->leftFleet.fleetDefName.empty() || !customEvent->rightFleet.fleetDefName.empty()) &&
@@ -185,11 +178,6 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent* loc) -> void)
         {
             ClearCustomFleet(&space);
             CreateFullFleet(&space, customEvent->leftFleet, customEvent->rightFleet);
-
-            if (!customEvent->noRealFleet)
-            {
-                loc->fleetPosition = 1;
-            }
         }
     }
 }
