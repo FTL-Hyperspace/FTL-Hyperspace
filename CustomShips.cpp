@@ -566,7 +566,7 @@ HOOK_METHOD(ShipManager, DamageSystem, (int roomId, DamageParameter dmgParam) ->
 
     if (random32() % 100 < ex->sysDamageResistChance && (dmg->iSystemDamage > 0 || dmg->iSystemDamage != -dmg->iDamage))
     {
-        dmg->iSystemDamage = -dmg->iDamage;
+        dmg->iSystemDamage = std::min(-dmg->iDamage, dmg->iSystemDamage);
         auto msg = new DamageMessage(1.f, ship.GetRoomCenter(roomId), DamageMessage::MessageType::RESIST);
         msg->color.a = 1.f;
         damMessages.push_back(msg);
