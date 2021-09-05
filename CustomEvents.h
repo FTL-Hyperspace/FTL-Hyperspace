@@ -501,10 +501,10 @@ extern std::unordered_map<std::string, EventAlias> eventAliases;
 struct CustomEvent
 {
     std::string eventName;
-    std::string unlockShip;
-    bool unlockShipSilent;
-    std::string unlockShipReq;
-    BeaconType *beacon;
+    std::string unlockShip = "";
+    bool unlockShipSilent = false;
+    std::string unlockShipReq = "";
+    BeaconType *beacon = nullptr;
     std::string loadBeacon = "";
     bool checkCargo = false;
     bool recursive = true;
@@ -529,7 +529,7 @@ struct CustomEvent
     std::string renameBeacon = "";
     EventGameOver gameOver = EventGameOver();
     bool disableScrapScore = false;
-    std::string customStore;
+    std::string customStore = "";
     std::string jumpEvent = "";
     bool jumpEventLoop = false;
     bool jumpEventClear = false;
@@ -553,7 +553,7 @@ struct CustomEvent
 
     EventFleet leftFleet;
     EventFleet rightFleet;
-    bool clearCustomFleet;
+    bool clearCustomFleet = false;
 
     std::vector<std::string> hiddenAugs = std::vector<std::string>();
     std::vector<std::string> removeItems = std::vector<std::string>();
