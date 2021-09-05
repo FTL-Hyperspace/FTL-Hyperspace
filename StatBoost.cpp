@@ -507,8 +507,8 @@ void StatBoostManager::OnLoop(WorldManager* world)
     {
         if (G_->GetShipInfo(shipId) != nullptr)
         {
-            std::map<std::string, int> augMap = CustomAugmentManager::CheckHiddenAugments(G_->GetShipInfo(shipId)->augList);
-            for (auto augPair : augMap)
+            std::unordered_map<std::string, int> *augMap = customAug->GetShipAugments(shipId);
+            for (auto augPair : *augMap)
             {
                 if (customAug->IsAugment(augPair.first) && augPair.second > 0)
                 {
@@ -602,8 +602,8 @@ HOOK_METHOD(ShipManager, JumpArrive, () -> void)
 
     if (G_->GetShipInfo(0) != nullptr)
     {
-        std::map<std::string, int> augMap = CustomAugmentManager::CheckHiddenAugments(G_->GetShipInfo(0)->augList);
-        for (auto augPair : augMap)
+        std::unordered_map<std::string, int> *augMap = customAug->GetShipAugments(0);
+        for (auto augPair : *augMap)
         {
             if (customAug->IsAugment(augPair.first))
             {
@@ -632,8 +632,8 @@ HOOK_METHOD(CrewMember, constructor, (CrewBlueprint& bp, int shipId, bool intrud
     CustomAugmentManager* customAug = CustomAugmentManager::GetInstance();
     if (G_->GetShipInfo(shipId) != nullptr)
     {
-        std::map<std::string, int> augMap = CustomAugmentManager::CheckHiddenAugments(G_->GetShipInfo(shipId)->augList);
-        for (auto augPair : augMap)
+        std::unordered_map<std::string, int> *augMap = customAug->GetShipAugments(shipId);
+        for (auto augPair : *augMap)
         {
             if (customAug->IsAugment(augPair.first))
             {

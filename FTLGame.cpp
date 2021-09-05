@@ -31110,17 +31110,16 @@ namespace _func867
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("ShipObject::AddAugmentation", typeid(void (ShipObject::*)(const std::string &)), "5789ca8d7c240883e4f0ff77fc5589e55756538d75d883ec4c8b078975d0", argdata, 2, 5, &func);
+	static FunctionDefinition funcObj("ShipObject::AddAugmentation", typeid(bool (ShipObject::*)(const std::string &)), "5789ca8d7c240883e4f0ff77fc5589e55756538d75d883ec4c8b078975d0", argdata, 2, 1, &func);
 }
 
-__declspec(naked) void ShipObject::AddAugmentation(const std::string &augment)
+__declspec(naked) bool ShipObject::AddAugmentation(const std::string &augment)
 {
 	__asm__
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
 		"push edx\n\t"
-		"push eax\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
 		"push esi\n\t"
@@ -31134,7 +31133,6 @@ __declspec(naked) void ShipObject::AddAugmentation(const std::string &augment)
 		"pop esi\n\t"
 		"pop ebx\n\t"
 		"pop ecx\n\t"
-		"pop eax\n\t"
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"

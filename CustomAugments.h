@@ -22,12 +22,14 @@ struct AugmentFunction
     bool warning = true;
     int sys = -1;
     bool modifyChoiceTextScrap = false;
+
+    bool Functional(int iShipId);
 };
 
 struct AugmentDefinition
 {
     std::string name;
-    std::map<std::string, AugmentFunction> functions = std::map<std::string, AugmentFunction>();
+    std::unordered_map<std::string, AugmentFunction> functions = std::unordered_map<std::string, AugmentFunction>();
     AugmentSuperShield superShield;
     bool locked = false;
     std::vector<StatBoostDefinition> statBoosts = std::vector<StatBoostDefinition>();
@@ -44,8 +46,7 @@ public:
 
     void ParseCustomAugmentNode(rapidxml::xml_node<char>* node);
 
-    std::map<std::string, AugmentFunction> GetPotentialAugments(const std::string& name, int iShipId, bool req=false);
-    std::map<std::string, AugmentFunction> GetPotentialAugments_ScrapText();
+    std::unordered_map<std::string, AugmentFunction*>* GetPotentialAugments(const std::string& name, bool req=false);
 
     AugmentDefinition* GetAugmentDefinition(const std::string& name)
     {
@@ -63,6 +64,9 @@ public:
 
     static std::map<std::string, int> CheckHiddenAugments(const std::map<std::string, int>& augList);
     static std::vector<std::string> RemoveHiddenAugments(const std::vector<std::string>& augList);
+    std::unordered_map<std::string, int>* GetShipAugments(int iShipId);
+
+    void UpdateAugments(int iShipId);
 
     static int GetSuperShieldValue(int shipId);
 
@@ -73,7 +77,10 @@ public:
 
 private:
     std::map<std::string, AugmentDefinition*> augDefs;
+    std::unordered_map<std::string, std::unordered_map<std::string, AugmentFunction*>> augDefsByFunction;
+    std::unordered_map<std::string, std::unordered_map<std::string, AugmentFunction*>> augDefsByReq;
     static CustomAugmentManager instance;
-
+    std::unordered_map<std::string, int> augListWithHidden[2];
+    std::vector<std::string> augListNoHidden[2];
 };
 

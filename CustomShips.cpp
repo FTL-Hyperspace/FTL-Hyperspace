@@ -1,3 +1,4 @@
+#include "CustomAugments.h"
 #include "CustomShips.h"
 #include "CustomShipSelect.h"
 #include "EnemyShipIcons.h"
@@ -33,6 +34,7 @@ void ShipManager_Extend::Initialize(bool restarting)
             {
                 G_->GetShipInfo(orig->iShipId)->augList["HIDDEN " + i.first] = i.second;
             }
+            CustomAugmentManager::GetInstance()->UpdateAugments(orig->iShipId);
         }
 
         for (auto i : def.roomDefs)
