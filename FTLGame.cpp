@@ -25616,11 +25616,11 @@ __declspec(naked) void Settings::LoadSettings()
 namespace _func713
 {
 	static void *func = 0;
-	static short argdata[] = {0x101, 0x1ff, 0x1ff, 0xdff, 0x1ff};
-	static FunctionDefinition funcObj("Shields::CollisionReal", typeid(void *(Shields::*)(float , float , DamageParameter , bool )), "578d7c240883e4f0ff77fc5589e557565389ce83c10481ec????????8b47408b1ff30f105f04c741fc00000000f30f105708", argdata, 5, 1, &func);
+	static short argdata[] = {0x101, 0x1ff, 0x2ff, 0xdff, 0x1ff};
+	static FunctionDefinition funcObj("Shields::CollisionReal", typeid(CollisionResponse *(*)(CollisionResponse &, Shields *, Pointf , DamageParameter , bool )), "578d7c240883e4f0ff77fc5589e557565389ce83c10481ec????????8b47408b1ff30f105f04c741fc00000000f30f105708", argdata, 5, 0, &func);
 }
 
-__declspec(naked) void *Shields::CollisionReal(float x, float y, DamageParameter damage, bool unk)
+__declspec(naked) CollisionResponse *Shields::CollisionReal(CollisionResponse &ret, Shields *shields, Pointf pos, DamageParameter damage, bool unk)
 {
 	__asm__
 	(
@@ -25631,7 +25631,9 @@ __declspec(naked) void *Shields::CollisionReal(float x, float y, DamageParameter
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+68]\n\t"		// unk
+		"push [ebp+76]\n\t"		// unk
+		"push [ebp+72]\n\t"		// damage
+		"push [ebp+68]\n\t"		// damage
 		"push [ebp+64]\n\t"		// damage
 		"push [ebp+60]\n\t"		// damage
 		"push [ebp+56]\n\t"		// damage
@@ -25643,10 +25645,10 @@ __declspec(naked) void *Shields::CollisionReal(float x, float y, DamageParameter
 		"push [ebp+32]\n\t"		// damage
 		"push [ebp+28]\n\t"		// damage
 		"push [ebp+24]\n\t"		// damage
-		"push [ebp+20]\n\t"		// damage
-		"push [ebp+16]\n\t"		// damage
-		"push [ebp+12]\n\t"		// y
-		"push [ebp+8]\n\t"		// x
+		"push [ebp+20]\n\t"		// pos
+		"push [ebp+16]\n\t"		// pos
+		"push [ebp+12]\n\t"		// shields
+		"mov ecx, [ebp+8]\n\t"	// ret
 	);
 	__asm__("call %0\n\t" :: "m"(_func713::func));
 	__asm__
@@ -25658,7 +25660,7 @@ __declspec(naked) void *Shields::CollisionReal(float x, float y, DamageParameter
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 64\n\t"
+		"ret 72\n\t"
 	);
 }
 

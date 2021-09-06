@@ -7309,6 +7309,8 @@ struct CrewBox
 	std::string sTooltip;
 };
 
+struct CollisionResponse;
+
 struct Shields : ShipSystem
 {
 	Shields(int roomId, int shipId, int startingPower, const std::string& shieldFile)
@@ -7337,7 +7339,7 @@ struct Shields : ShipSystem
 		int damage;
 	};
 	
-	LIBZHL_API void *CollisionReal(float x, float y, DamageParameter damage, bool unk);
+	LIBZHL_API static CollisionResponse *__stdcall CollisionReal(CollisionResponse &ret, Shields *shields, Pointf pos, DamageParameter damage, bool unk);
 	LIBZHL_API void constructor(int roomId, int shipId, int startingPower, const std::string &shieldFile);
 	LIBZHL_API void SetBaseEllipse(Globals::Ellipse ellipse);
 	LIBZHL_API void InstantCharge();
