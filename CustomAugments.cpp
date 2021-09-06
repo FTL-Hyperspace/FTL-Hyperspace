@@ -560,6 +560,11 @@ HOOK_METHOD(ShipObject, RemoveAugmentation, (const std::string& name) -> void)
     }
     */
 }
+HOOK_METHOD(ShipObject, ClearShipInfo, () -> void)
+{
+    super();
+    CustomAugmentManager::GetInstance()->UpdateAugments(iShipId);
+}
 
 // Super Shields
 

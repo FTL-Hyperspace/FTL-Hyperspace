@@ -14,6 +14,8 @@ bool ShipObject::AddAugmentation(ShipObject *this<ecx>, const std::string& augme
 static void ShipObject::__DO_NOT_HOOK();
 ".8b510431c085d20f94c06bc0340305????????8b4030":
 int ShipObject::GetAugmentationCount(ShipObject *this<ecx>);
+"578d7c240883e4f0ff77fc5589e557565331db83ec2c8b410485c00f94c36bdb34":
+void ShipObject::ClearShipInfo(ShipObject *this<ecx>);
 
 struct ShipObject
 {{

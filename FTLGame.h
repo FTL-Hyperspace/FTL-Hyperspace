@@ -1138,6 +1138,7 @@ struct ShipObject
 	LIBZHL_API bool AddAugmentation(const std::string &augment);
 	LIBZHL_API static void __stdcall __DO_NOT_HOOK();
 	LIBZHL_API int GetAugmentationCount();
+	LIBZHL_API void ClearShipInfo();
 	
 	void *vptr;
 	int iShipId;
