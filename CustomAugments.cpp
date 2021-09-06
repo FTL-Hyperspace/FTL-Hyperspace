@@ -71,6 +71,7 @@ void CustomAugmentManager::ParseCustomAugmentNode(rapidxml::xml_node<char>* node
                     }
                     if (functionNodeName == "superShield")
                     {
+                        augDef->superShield.present = true;
                         for (auto child = functionNode->first_node(); child; child = child->next_sibling())
                         {
                             if (strcmp(child->name(), "value") == 0)
@@ -577,31 +578,57 @@ int CustomAugmentManager::GetSuperShieldValue(int shipId)
     int superShieldAdd = 0;
     int superShieldRenderValue = -1;
     bool customRender = false;
+    bool hasEnergyShield = false;
+    bool hasCustomShield = false;
     std::string shieldTexture = "";
     GL_Color shieldColor = GL_Color(0.0, 0.0, 0.0, 0.0);
 
     for (auto& aug : *augList)
     {
-        if (customAug->IsAugment(aug.first) && aug.second > 0)
+        if (aug.second > 0)
         {
-            auto superShield = customAug->GetAugmentDefinition(aug.first)->superShield;
-            if (superShield.value > superShieldValue)
+            if (customAug->IsAugment(aug.first))
             {
-                superShieldValue = superShield.value;
+                auto augDef = customAug->GetAugmentDefinition(aug.first);
+                auto& superShield = augDef->superShield;
+
+                if (superShield.present)
+                {
+                    hasCustomShield = true;
+                    if (superShield.value > superShieldValue)
+                    {
+                        superShieldValue = superShield.value;
+                    }
+                    if (superShield.add > 0)
+                    {
+                        superShieldAdd += superShield.add * aug.second;
+                    }
+                    if (superShield.customRender && superShield.value > superShieldRenderValue)
+                    {
+                        superShieldRenderValue = superShield.value;
+                        customRender = true;
+                        shieldTexture = superShield.shieldTexture[shipId];
+                        shieldColor = superShield.shieldColor;
+                    }
+                }
+                else
+                {
+                    auto it = augDef->functions.find("ENERGY_SHIELD");
+                    if (it != augDef->functions.end() && it->second.Functional(shipId))
+                    {
+                        hasEnergyShield = true;
+                    }
+                }
             }
-            if (superShield.add > 0)
+            else if (aug.first == "ENERGY_SHIELD")
             {
-                superShieldAdd += superShield.add * aug.second;
-            }
-            if (superShield.customRender && superShield.value > superShieldRenderValue)
-            {
-                superShieldRenderValue = superShield.value;
-                customRender = true;
-                shieldTexture = superShield.shieldTexture[shipId];
-                shieldColor = superShield.shieldColor;
+                hasEnergyShield = true;
             }
         }
     }
+
+    if (!hasCustomShield) return 0;
+    if (hasEnergyShield && superShieldValue < 5) superShieldValue = 5;
 
     customAug->superShieldCustomRender[shipId] = customRender;
     customAug->superShieldTexture[shipId] = shieldTexture;
