@@ -276,25 +276,30 @@ HOOK_STATIC(WeaponBox, GenerateTooltip, (std::string &retStr, WeaponBox *_this) 
 
                     if (bp->damage.iDamage >= 0)
                     {
-                        if (bp->damage.iSystemDamage + bp->damage.iDamage > 0)
+                        int sysDamage = bp->damage.iSystemDamage;
+                        int persDamage = bp->damage.iPersDamage;
+                        if (!weaponDef->customDamage.noSysDamage) sysDamage += bp->damage.iDamage;
+                        if (!weaponDef->customDamage.noPersDamage) persDamage += bp->damage.iDamage;
+
+                        if (sysDamage > 0)
                         {
                             currentText = tLib->GetText("system_damage");
-                            descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp->damage.iSystemDamage + bp->damage.iDamage)) + "\n";
+                            descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(sysDamage)) + "\n";
                         }
-                        else if (bp->damage.iSystemDamage + bp->damage.iDamage < 0)
+                        else if (sysDamage < 0)
                         {
                             currentText = tLib->GetText("system_damage_negative");
-                            descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string((bp->damage.iSystemDamage + bp->damage.iDamage) * -1)) + "\n";
+                            descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string((sysDamage) * -1)) + "\n";
                         }
-                        if (bp->damage.iPersDamage + bp->damage.iDamage > 0)
+                        if (persDamage > 0)
                         {
                             currentText = tLib->GetText("personnel_damage");
-                            descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string((bp->damage.iDamage + bp->damage.iPersDamage) * 15)) + "\n";
+                            descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string((persDamage) * 15)) + "\n";
                         }
-                        else if (bp->damage.iPersDamage + bp->damage.iDamage < 0)
+                        else if (persDamage < 0)
                         {
                             currentText = tLib->GetText("personnel_damage_negative");
-                            descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(((bp->damage.iDamage + bp->damage.iPersDamage) * -1) * 15)) + "\n";
+                            descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(((persDamage) * -1) * 15)) + "\n";
                         }
 
                     }
@@ -728,25 +733,30 @@ HOOK_STATIC(WeaponBlueprint, GetDescription, (std::string* strRef, WeaponBluepri
 
                     if (bp->damage.iDamage >= 0)
                     {
-                        if (bp->damage.iSystemDamage + bp->damage.iDamage > 0)
+                        int sysDamage = bp->damage.iSystemDamage;
+                        int persDamage = bp->damage.iPersDamage;
+                        if (!weaponDef->customDamage.noSysDamage) sysDamage += bp->damage.iDamage;
+                        if (!weaponDef->customDamage.noPersDamage) persDamage += bp->damage.iDamage;
+
+                        if (sysDamage > 0)
                         {
                             currentText = tLib->GetText("system_damage");
-                            descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp->damage.iSystemDamage + bp->damage.iDamage)) + "\n";
+                            descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(sysDamage)) + "\n";
                         }
-                        else if (bp->damage.iSystemDamage + bp->damage.iDamage < 0)
+                        else if (sysDamage < 0)
                         {
                             currentText = tLib->GetText("system_damage_negative");
-                            descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string((bp->damage.iSystemDamage + bp->damage.iDamage) * -1)) + "\n";
+                            descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string((sysDamage) * -1)) + "\n";
                         }
-                        if (bp->damage.iPersDamage + bp->damage.iDamage > 0)
+                        if (persDamage > 0)
                         {
                             currentText = tLib->GetText("personnel_damage");
-                            descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string((bp->damage.iDamage + bp->damage.iPersDamage) * 15)) + "\n";
+                            descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string((persDamage) * 15)) + "\n";
                         }
-                        else if (bp->damage.iPersDamage + bp->damage.iDamage < 0)
+                        else if (persDamage < 0)
                         {
                             currentText = tLib->GetText("personnel_damage_negative");
-                            descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(((bp->damage.iDamage + bp->damage.iPersDamage) * -1) * 15)) + "\n";
+                            descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(((persDamage) * -1) * 15)) + "\n";
                         }
 
                     }
@@ -1041,15 +1051,19 @@ HOOK_STATIC(WeaponBlueprint, GetDescription, (std::string* strRef, WeaponBluepri
 
             descText += currentText + "\n";
         }
-        if (bp->damage.iPersDamage != 0)
+        int persDamage = bp->damage.iPersDamage;
+        if (weaponDef->customDamage.noPersDamage) persDamage -= bp->damage.iDamage;
+        if (persDamage != 0)
         {
             currentText = tLib->GetText("personnel_damage");
-            descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp->damage.iPersDamage * 15)) + "\n";
+            descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(persDamage * 15)) + "\n";
         }
-        if (bp->damage.iSystemDamage != 0)
+        int sysDamage = bp->damage.iSystemDamage;
+        if (weaponDef->customDamage.noSysDamage) sysDamage -= bp->damage.iDamage;
+        if (sysDamage != 0)
         {
             currentText = tLib->GetText("system_damage");
-            descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(bp->damage.iSystemDamage)) + "\n";
+            descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(sysDamage)) + "\n";
         }
         if (bp->damage.bHullBuster)
         {
@@ -1330,25 +1344,30 @@ HOOK_METHOD(InfoBox, SetBlueprintDrone, (const DroneBlueprint* bp, int status, b
 
                                 if (droneBp->damage.iDamage >= 0)
                                 {
-                                    if (droneBp->damage.iSystemDamage + droneBp->damage.iDamage > 0)
+                                    int sysDamage = droneBp->damage.iSystemDamage;
+                                    int persDamage = droneBp->damage.iPersDamage;
+                                    if (!weaponDef->customDamage.noSysDamage) sysDamage += droneBp->damage.iDamage;
+                                    if (!weaponDef->customDamage.noPersDamage) persDamage += droneBp->damage.iDamage;
+
+                                    if (sysDamage > 0)
                                     {
                                         currentText = tLib->GetText("system_damage");
-                                        newDesc += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(droneBp->damage.iSystemDamage + droneBp->damage.iDamage)) + "\n";
+                                        newDesc += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(sysDamage)) + "\n";
                                     }
-                                    else if (droneBp->damage.iSystemDamage + droneBp->damage.iDamage < 0)
+                                    else if (sysDamage < 0)
                                     {
                                         currentText = tLib->GetText("system_damage_negative");
-                                        newDesc += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string((droneBp->damage.iSystemDamage + droneBp->damage.iDamage) * -1)) + "\n";
+                                        newDesc += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string((sysDamage) * -1)) + "\n";
                                     }
-                                    if (droneBp->damage.iPersDamage + droneBp->damage.iDamage > 0)
+                                    if (persDamage > 0)
                                     {
                                         currentText = tLib->GetText("personnel_damage");
-                                        newDesc += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string((droneBp->damage.iDamage + droneBp->damage.iPersDamage) * 15)) + "\n";
+                                        newDesc += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string((persDamage) * 15)) + "\n";
                                     }
-                                    else if (droneBp->damage.iPersDamage + droneBp->damage.iDamage < 0)
+                                    else if (persDamage < 0)
                                     {
                                         currentText = tLib->GetText("personnel_damage_negative");
-                                        newDesc += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(((droneBp->damage.iDamage + droneBp->damage.iPersDamage) * -1) * 15)) + "\n";
+                                        newDesc += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(((persDamage) * -1) * 15)) + "\n";
                                     }
 
                                 }

@@ -17,9 +17,33 @@ HOOK_METHOD(ShipManager, GetDodgeFactor, () -> int)
     return ret;
 }
 
+HOOK_METHOD_PRIORITY(ShipManager, DamageSystem, -100, (int roomId, DamageParameter dmgParam) -> void)
+{
+    if (CustomDamageManager::currentWeaponDmg != nullptr && CustomDamageManager::currentWeaponDmg->noSysDamage)
+    {
+        dmgParam.iSystemDamage -= dmgParam.iDamage;
+    }
+
+    super(roomId, dmgParam);
+}
+
+HOOK_METHOD_PRIORITY(ShipManager, DamageCrew, -100, (CrewMember *crew, DamageParameter dmgParameter) -> char)
+{
+    if (CustomDamageManager::currentWeaponDmg != nullptr && CustomDamageManager::currentWeaponDmg->noPersDamage)
+    {
+        dmgParameter.iPersDamage -= dmgParameter.iDamage;
+    }
+
+    return super(crew, dmgParameter);
+}
+
 HOOK_METHOD(ProjectileFactory, Update, () -> void)
 {
+    // This only works if every weapon has a definition, if that changes then replace with the commented code below.
     CustomDamageManager::currentWeaponDmg = &CustomWeaponManager::instance->GetWeaponDefinition(blueprint->name)->customDamage;
+
+    //auto def = CustomWeaponManager::instance->GetWeaponDefinition(blueprint->name)
+    //if (def) CustomDamageManager::currentWeaponDmg = &def->customDamage;
 
     super();
 

@@ -13,6 +13,9 @@ struct CustomDamage
 {
     int accuracyMod = 0;
 
+    bool noSysDamage = false;
+    bool noPersDamage = false;
+
     int erosionChance = 0;
     ErosionEffect erosionEffect;
 };
