@@ -627,12 +627,12 @@ int CustomAugmentManager::GetSuperShieldValue(int shipId)
         }
     }
 
-    if (!hasCustomShield) return 0;
-    if (hasEnergyShield && superShieldValue < 5) superShieldValue = 5;
-
     customAug->superShieldCustomRender[shipId] = customRender;
     customAug->superShieldTexture[shipId] = shieldTexture;
     customAug->superShieldColor[shipId] = shieldColor;
+
+    if (!hasCustomShield) return 0;
+    if (hasEnergyShield && superShieldValue < 5) superShieldValue = 5;
 
     return superShieldValue + superShieldAdd;
 }
