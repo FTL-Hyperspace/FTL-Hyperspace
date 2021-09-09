@@ -612,6 +612,7 @@ struct CustomSector
     SectorExit exitBeacons;
     SectorFleet fleetBeacons;
     bool removeFirstBeaconNebula = false;
+    bool noExit = false;
     ToggleValue<bool> nebulaSector;
 };
 

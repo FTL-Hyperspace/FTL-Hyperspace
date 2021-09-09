@@ -174,6 +174,11 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
                         sec->removeFirstBeaconNebula = true;
                     }
 
+                    if (strcmp(sectorNode->name(), "noExit") == 0)
+                    {
+                        sec->noExit = true;
+                    }
+
                     if (strcmp(sectorNode->name(), "nebulaSector") == 0)
                     {
                         sec->nebulaSector = EventsParser::ParseBoolean(sectorNode->value());
@@ -2290,8 +2295,12 @@ HOOK_METHOD(StarMap, RenderLabels, () -> void)
     }
 }
 
+static Location* originalExit = nullptr;
+
 HOOK_METHOD(StarMap, GenerateMap, (bool tutorial, bool seed) -> LocationEvent*)
 {
+    originalExit = nullptr;
+
     if (!loadingGame)
     {
         regeneratedBeacons.clear();
@@ -2350,15 +2359,19 @@ HOOK_METHOD(StarMap, GenerateMap, (bool tutorial, bool seed) -> LocationEvent*)
                                 }
                             }
                         }
+                        if (customSector->noExit)
+                        {
+                            originalExit = i;
+                            i->beacon = false;
+                        }
                     }
                 }
-            }
 
-            if (customSector->nebulaSector.enabled)
-            {
-                bNebulaMap = customSector->nebulaSector.value;
+                if (customSector->nebulaSector.enabled)
+                {
+                    bNebulaMap = customSector->nebulaSector.value;
+                }
             }
-
         }
     }
 
@@ -2424,7 +2437,7 @@ HOOK_METHOD_PRIORITY(StarMap, TurnIntoFleetLocation, 9999, (Location *loc) -> vo
         locEvent->ClearEvent(false);
         std::string event;
 
-        if (loc->beacon && !bossLevel)
+        if ((loc->beacon || loc == originalExit) && !bossLevel)
         {
             event = "FLEET_EASY_BEACON";
         }
@@ -2452,7 +2465,7 @@ HOOK_METHOD_PRIORITY(StarMap, TurnIntoFleetLocation, 9999, (Location *loc) -> vo
         loc->event->fleetPosition = 1;
         loc->event->repair = false;
 
-        if (loc->beacon && loc->nebula)
+        if ((loc->beacon || loc == originalExit) && loc->nebula)
         {
             loc->event->environment = 3;
             loc->event->statusEffects.push_back({2, 7, 0, 2});
@@ -2470,7 +2483,7 @@ HOOK_METHOD_PRIORITY(StarMap, TurnIntoFleetLocation, 9999, (Location *loc) -> vo
         if (customSector)
         {
             SectorExit customBeacon = customSector->exitBeacons;
-            if (loc->beacon && !customBeacon.rebelEvent.empty())
+            if ((loc->beacon || loc == originalExit) && !customBeacon.rebelEvent.empty())
             {
                 bool isNebula = loc->nebula;
 
@@ -2492,7 +2505,7 @@ HOOK_METHOD_PRIORITY(StarMap, TurnIntoFleetLocation, 9999, (Location *loc) -> vo
         }
     }
 
-    if (!loc->beacon || bossLevel)
+    if (!(loc->beacon || loc == originalExit) || bossLevel)
     {
         auto custom = CustomEventsParser::GetInstance();
         CustomSector *customSector = custom->GetCustomSector(currentSector->description.type);
