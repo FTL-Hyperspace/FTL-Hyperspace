@@ -219,11 +219,20 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
                         auto it = customEvents.find(eventName);
                         if (it == customEvents.end())
                         {
-                            customEvent = new CustomEvent();
+                            auto it2 = customRecursiveEvents.find(eventName);
+                            if (it2 != customRecursiveEvents.end())
+                            {
+                                customEvent = new CustomEvent(*it2->second);
+                            }
+                            else
+                            {
+                                customEvent = new CustomEvent();
+                            }
                             customEvent->eventName = eventName;
                             customEvent->recursive = false;
                             ParseCustomEvent(eventNode, customEvent);
                             customEvents[eventName] = customEvent;
+                            vCustomEvents[eventName].push_back(customEvent);
                         }
                         else
                         {
