@@ -6501,6 +6501,11 @@ struct DamageMessage
 	{
 		constructor(length, pos, type);
 	}
+	
+	DamageMessage(float length, int amount, Pointf pos, bool unk)
+	{
+		constructor2(length, amount, pos, unk);
+	}
 
 	LIBZHL_API void constructor(float length, Pointf pos, DamageMessage::MessageType type);
 	LIBZHL_API void constructor2(float length, int amount, Pointf pos, bool unk);

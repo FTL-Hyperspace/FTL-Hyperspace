@@ -1056,6 +1056,14 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
                     eventDamage.effect = 4;
                 }
             }
+            if (child->first_attribute("force") && EventsParser::ParseBoolean(child->first_attribute("force")->value()))
+            {
+                eventDamage.effect |= 8;
+            }
+            if (child->first_attribute("damageHull") && !EventsParser::ParseBoolean(child->first_attribute("damageHull")->value()))
+            {
+                eventDamage.effect |= 16;
+            }
             customEvent->enemyDamage.push_back(eventDamage);
         }
         if (nodeName == "superDrones")
@@ -2641,7 +2649,7 @@ void EventDamageEnemy(EventDamage eventDamage)
     if (enemyShip != nullptr)
     {
         if (enemyShip->bJumping) return;
-        enemyShip->DamageHull(eventDamage.amount,true);
+        if (!(eventDamage.effect & 16)) enemyShip->DamageHull(eventDamage.amount,true);
         if (eventDamage.system == -1) return;
         int room = -1;
         if (eventDamage.system == 18)
@@ -2658,8 +2666,24 @@ void EventDamageEnemy(EventDamage eventDamage)
             room = enemyShip->GetSystemRoom(eventDamage.system);
         }
         if (room == -1) return;
-        enemyShip->DamageSystem(room, DamageParameter{0, 0, 0, 0, 0, 0, eventDamage.amount, 0, false, -1, -1, false, 0});
-        if (eventDamage.effect == 4)
+
+        if (eventDamage.effect & 8)
+        {
+            ShipSystem* sys = enemyShip->GetSystemInRoom(room);
+            if (sys)
+            {
+                sys->AddDamage(eventDamage.amount);
+                DamageMessage *msg = new DamageMessage(1.f, eventDamage.amount, enemyShip->ship.GetRoomCenter(room), false);
+                msg->color = GL_Color(1.f, 0.3921569f, 0.3921569f, 1.f);
+                enemyShip->damMessages.push_back(msg);
+            }
+        }
+        else
+        {
+            enemyShip->DamageSystem(room, DamageParameter{0, 0, 0, 0, 0, 0, eventDamage.amount, 0, false, -1, -1, false, 0});
+        }
+
+        if (eventDamage.effect & 4)
         {
             int effect = random32();
             if (effect&1)
@@ -2679,7 +2703,7 @@ void EventDamageEnemy(EventDamage eventDamage)
     }
 }
 
-void CustomCreateLocation(WorldManager* world, CustomEvent* customEvent)
+void CustomCreateLocation(WorldManager* world, LocationEvent* event, CustomEvent* customEvent)
 {
     for (auto& alias : customEvent->eventAlias)
     {
@@ -2706,6 +2730,11 @@ void CustomCreateLocation(WorldManager* world, CustomEvent* customEvent)
         delete image;
 
         world->starMap.currentLoc->spaceImage = customEvent->changeBackground;
+    }
+
+    if (!customEvent->enemyDamage.empty() && event->damage.empty())
+    {
+        G_->GetSoundControl()->PlaySoundMix("eventDamage", -1, false);
     }
 
     for (EventDamage& eventDamage: customEvent->enemyDamage)
@@ -3009,7 +3038,7 @@ HOOK_METHOD(WorldManager, CreateLocation, (Location *location) -> void)
 
     if (customEvent)
     {
-        CustomCreateLocation(this, customEvent);
+        CustomCreateLocation(this, loc, customEvent);
 
         if (customEvent->eventLoadList != nullptr)
         {
@@ -3079,7 +3108,7 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
             playerShip->shipManager->jump_timer.first = 0.f;
         }
 
-        CustomCreateLocation(this, customEvent);
+        CustomCreateLocation(this, loc, customEvent);
 
         if (customEvent->eventLoadList != nullptr)
         {

@@ -16,4 +16,9 @@ struct DamageMessage
 	{
 		constructor(length, pos, type);
 	}
+	
+	DamageMessage(float length, int amount, Pointf pos, bool unk)
+	{
+		constructor2(length, amount, pos, unk);
+	}
 }};
