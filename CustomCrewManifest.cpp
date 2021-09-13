@@ -1,6 +1,7 @@
 #include "CustomCrewManifest.h"
 #include "CustomShipSelect.h"
 #include "freetype.h"
+#include "CustomCrew.h"
 #include <algorithm>
 #include <boost/lexical_cast.hpp>
 
@@ -12,13 +13,19 @@ void CustomCrewManifest::OnInit(CrewManifest *manifest, ShipManager *ship)
     crewManifest = manifest;
 
     std::string buttonImg("upgradeUI/Equipment/button_crew_arrow");
-    leftButton = new Button();
-    leftButton->OnInit(buttonImg, crewManifest->position.x + 515, crewManifest->position.y + 54);
+    if (!leftButton)
+    {
+        leftButton = new Button();
+        leftButton->OnInit(buttonImg, crewManifest->position.x + 515, crewManifest->position.y + 54);
+    }
 
-    rightButton = new Button();
-    rightButton->OnInit(buttonImg, crewManifest->position.x + 550, crewManifest->position.y + 54);
+    if (!rightButton)
+    {
+        rightButton = new Button();
+        rightButton->OnInit(buttonImg, crewManifest->position.x + 550, crewManifest->position.y + 54);
 
-    rightButton->bMirror = true;
+        rightButton->bMirror = true;
+    }
 
 
 
@@ -28,6 +35,14 @@ void CustomCrewManifest::OnInit(CrewManifest *manifest, ShipManager *ship)
     if (custom->HasCustomDef(ship->myBlueprint.blueprintName))
     {
         crewLimit = custom->GetDefinition(ship->myBlueprint.blueprintName).crewLimit;
+    }
+
+    for (auto& page : crewEquipBoxes)
+    {
+        for (auto& i : page)
+        {
+            delete i;
+        }
     }
 
     crewEquipBoxes.clear();
@@ -78,6 +93,7 @@ void CustomCrewManifest::OnInit(CrewManifest *manifest, ShipManager *ship)
         boxX += 170;
     }
 
+    delete overCrewBox;
     overCrewBox = new CrewEquipBox(Point(146, crewManifest->position.y + crewManifest->overBox.GetHeight() + crewManifest->overBox.position.y), ship, crewLimit);
 }
 
@@ -204,6 +220,8 @@ void CustomCrewManifest::Update()
     std::vector<CrewMember*> crewList = std::vector<CrewMember*>();
 
     G_->GetCrewFactory()->GetCrewList(&crewList, 0, false);
+
+    crewList.erase(std::remove_if(crewList.begin(), crewList.end(), [](CrewMember* crew) { return CM_EX(crew)->noSlot; }), crewList.end());
 
     int slot = 0;
 

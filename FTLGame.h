@@ -1918,7 +1918,7 @@ struct CrewMemberFactory
 	LIBZHL_API static std::vector<std::string> *__stdcall GetCrewNames(std::vector<std::string> &vec, CrewMemberFactory *factory);
 	LIBZHL_API RepairDrone *CreateRepairDrone(int shipId, const DroneBlueprint *bp);
 	LIBZHL_API void GetCrewPortraitList(std::vector<CrewMember*> *vec, int teamId);
-	LIBZHL_API void GetCloneReadyList(std::vector<CrewMember*> &vec, bool unk);
+	LIBZHL_API void GetCloneReadyList(std::vector<CrewMember*> &vec, bool player);
 	LIBZHL_API BattleDrone *CreateBattleDrone(int shipId, const DroneBlueprint *bp);
 	LIBZHL_API void GetCrewList(std::vector<CrewMember*> *vec, int unk, bool unk2);
 	LIBZHL_API BoarderDrone *CreateBoarderDrone(int shipId, const DroneBlueprint *bp);
@@ -3003,7 +3003,7 @@ struct LIBZHL_INTERFACE CrewMember
 	virtual bool OutOfGame() LIBZHL_PLACEHOLDER
 	LIBZHL_API virtual void SetOutOfGame();
 	LIBZHL_API virtual bool Functional();
-	virtual bool CountForVictory() LIBZHL_PLACEHOLDER
+	LIBZHL_API virtual bool CountForVictory();
 	LIBZHL_API virtual bool GetControllable();
 	virtual bool ReadyToFight() LIBZHL_PLACEHOLDER
 	virtual bool CanFight() LIBZHL_PLACEHOLDER
@@ -4086,6 +4086,7 @@ struct ShipManager : ShipObject
 	LIBZHL_API bool GetDodged();
 	LIBZHL_API void PrepareSuperBarrage();
 	LIBZHL_API bool RestoreCrewPositions();
+	LIBZHL_API CrewMember *GetCrewmember(int slot, bool present);
 	
 	Targetable _targetable;
 	Collideable _collideable;
@@ -7257,6 +7258,8 @@ struct CrewStoreBox : StoreBox
 
 struct CrewCustomizeBox : CrewEquipBox
 {
+	LIBZHL_API void CheckContents();
+	
 	TextButton customizeButton;
 	bool bCustomizing;
 	Point customizeLocation;

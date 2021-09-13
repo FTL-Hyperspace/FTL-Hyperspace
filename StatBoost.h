@@ -50,7 +50,8 @@ enum class CrewStat : unsigned int
     POWER_RECHARGE_MULTIPLIER,
     POWER_MAX_CHARGES,
     POWER_CHARGES_PER_JUMP,
-    HACK_DOORS
+    HACK_DOORS,
+    NO_CLONE
 };
 
 static const std::array<std::string, numStats> crewStats =
@@ -99,7 +100,8 @@ static const std::array<std::string, numStats> crewStats =
     "powerRechargeMultiplier",
     "powerCharges",
     "chargesPerJump",
-    "hackDoors"
+    "hackDoors",
+    "noClone"
 };
 
 struct StatBoostDefinition

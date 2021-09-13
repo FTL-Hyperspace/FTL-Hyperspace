@@ -221,6 +221,12 @@
 		<Unit filename="CrewNames.h">
 			<Option virtualFolder="Core/Crew/" />
 		</Unit>
+		<Unit filename="CrewSpawn.cpp">
+			<Option virtualFolder="Core/Crew/" />
+		</Unit>
+		<Unit filename="CrewSpawn.h">
+			<Option virtualFolder="Core/Crew/" />
+		</Unit>
 		<Unit filename="CrewVTable.cpp">
 			<Option virtualFolder="Core/Crew/" />
 		</Unit>

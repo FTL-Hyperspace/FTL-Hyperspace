@@ -144,6 +144,15 @@ StatBoostDefinition StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<char
                 {
                     def.crewTarget = StatBoostDefinition::CrewTarget::CURRENT_ENEMIES;
                 }
+                if (val == "SELF")
+                {
+                    def.crewTarget = StatBoostDefinition::CrewTarget::SELF;
+                    def.affectsSelf = true;
+                }
+                if (val == "NONE")
+                {
+                    def.crewTarget = StatBoostDefinition::CrewTarget::SELF;
+                }
             }
             if (name == "droneTarget")
             {
@@ -993,6 +1002,10 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
             break;
         case CrewStat::HACK_DOORS:
             *boolValue = (temporaryPowerActive && GetPowerDef()->tempPower.hackDoors.enabled) ? GetPowerDef()->tempPower.hackDoors.value : def->hackDoors;
+            isBool = true;
+            break;
+        case CrewStat::NO_CLONE:
+            *boolValue = (temporaryPowerActive && GetPowerDef()->tempPower.noClone.enabled) ? GetPowerDef()->tempPower.noClone.value : def->noClone;
             isBool = true;
             break;
         case CrewStat::ACTIVATE_WHEN_READY:

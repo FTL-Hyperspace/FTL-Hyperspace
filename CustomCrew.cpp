@@ -449,6 +449,14 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                             powerDef.AssignIndex();
                             crew.powerDefIdx = powerDef.index;
                         }
+                        if (str == "noSlot")
+                        {
+                            crew.noSlot = EventsParser::ParseBoolean(val);
+                        }
+                        if (str == "noClone")
+                        {
+                            crew.noClone = EventsParser::ParseBoolean(val);
+                        }
                     }
                 }
                 catch (boost::bad_lexical_cast const &e)
@@ -725,6 +733,14 @@ void CustomCrewManager::ParseAbilityEffect(rapidxml::xml_node<char>* stat, Activ
         {
             def.transformRace = effectNode->value();
         }
+        if (effectName == "spawnCrew")
+        {
+            CrewSpawn newSpawn = CrewSpawn::ParseCrewSpawn(effectNode);
+            if (!newSpawn.race.empty())
+            {
+                def.crewSpawns.push_back(newSpawn);
+            }
+        }
         if (effectName == "temporaryEffect")
         {
             def.hasTemporaryPower = true;
@@ -901,6 +917,10 @@ void CustomCrewManager::ParseAbilityEffect(rapidxml::xml_node<char>* stat, Activ
                     {
                         def.tempPower.statBoosts.push_back(StatBoostManager::GetInstance()->ParseStatBoostNode(statBoostNode, StatBoostDefinition::BoostSource::CREW));
                     }
+                }
+                if (tempEffectName == "noClone")
+                {
+                    def.tempPower.noClone = EventsParser::ParseBoolean(tempEffectNode->value());
                 }
             }
         }
@@ -1404,6 +1424,7 @@ void CrewMember_Extend::PreparePower()
 
     powerShip = orig->currentShipId;
     powerRoom = orig->iRoomId;
+    aex->effectWorldPos = Pointf(orig->x, orig->y);
 
     if (powerDef->animFrame == -1)
     {
@@ -1443,7 +1464,6 @@ void CrewMember_Extend::PreparePower()
     {
         aex->effectPos = Pointf(orig->x - std::ceil((float)aex->effectAnim->info.frameWidth / 2), orig->y - std::ceil((float)aex->effectAnim->info.frameHeight / 2) + orig->PositionShift());
     }
-    aex->effectWorldPos = Pointf(orig->x, orig->y);
 }
 
 void CrewMember_Extend::ActivatePower()
@@ -1515,6 +1535,14 @@ void CrewMember_Extend::ActivatePower()
     if (!powerDef->transformRace.empty())
     {
         TransformRace(powerDef->transformRace);
+    }
+
+    for (auto i : powerDef->crewSpawns)
+    {
+        if (ship)
+        {
+            CrewSpawn::SpawnCrew(i, ship, ship->iShipId != orig->iShipId, aex->effectWorldPos);
+        }
     }
 }
 
@@ -1729,6 +1757,7 @@ HOOK_METHOD_PRIORITY(CrewMember, constructor, -899, (CrewBlueprint& bp, int ship
     ex->Initialize(bp, shipId, enemy, animation);
 }
 
+static bool g_forceNoSlot = false;
 
 void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, CrewAnimation *animation, bool isTransform)
 {
@@ -1924,6 +1953,7 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
 
 
         auto skillsDef = def->skillsDef;
+        noSlot = def->noSlot || g_forceNoSlot;
 
         std::string skillOrder[6] = {"piloting", "engines", "shields", "weapons", "repair", "combat"};
 
@@ -1938,6 +1968,8 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
                 orig->blueprint.skillLevel[i].first = ((defaultSkillLevel / 2.f) * orig->blueprint.skillLevel[i].second);
             }
         }
+
+        g_forceNoSlot = false;
     }
 }
 
@@ -4524,4 +4556,79 @@ HOOK_METHOD_PRIORITY(CrewAI, OnLoop, -100, () -> void)
     requiresFullControl = -1;
     super();
     requiresFullControl = 0;
+}
+
+static std::unordered_map<CrewMember*, std::pair<bool, bool>> g_tempOutOfGame = std::unordered_map<CrewMember*, std::pair<bool, bool>>();
+
+HOOK_METHOD(CrewMemberFactory, OnLoop, () -> void)
+{
+    for (auto i : crewMembers)
+    {
+        if (CM_EX(i)->noSlot)
+        {
+            g_tempOutOfGame[i] = std::pair<bool, bool>(i->bOutOfGame, i->clone_ready);
+
+            i->bOutOfGame = true;
+            i->clone_ready = false;
+        }
+    }
+
+    super();
+
+    for (auto i : g_tempOutOfGame)
+    {
+        auto c = i.first;
+
+        c->bOutOfGame = i.second.first;
+        c->clone_ready = i.second.second;
+    }
+
+    g_tempOutOfGame.clear();
+}
+
+
+static bool g_inCrewCustomizeBox = false;
+
+HOOK_METHOD(CrewCustomizeBox, CheckContents, () -> void)
+{
+    g_inCrewCustomizeBox = true;
+
+    super();
+    g_inCrewCustomizeBox = false;
+
+}
+
+HOOK_METHOD(ShipManager, GetCrewmember, (int slot, bool present) -> CrewMember*)
+{
+    if (vCrewList.empty()) return nullptr;
+
+    int currSlot = 0;
+
+    for (auto crew : vCrewList)
+    {
+        if (crew->iShipId == 1 || crew->IsDrone() || CM_EX(crew)->noSlot) continue;
+
+        if (currSlot == slot) return crew;
+
+        currSlot++;
+    }
+
+    return nullptr;
+}
+
+HOOK_METHOD(CrewMember, CheckSkills, () -> void)
+{
+    super();
+
+    auto custom = CustomCrewManager::GetInstance();
+    if (custom->IsRace(species))
+    {
+        auto ex = CM_EX(this);
+
+        ex->CalculateStat(CrewStat::NO_CLONE, custom->GetDefinition(species), &ex->noClone);
+        if (ex->noClone)
+        {
+            clone_ready = false;
+        }
+    }
 }

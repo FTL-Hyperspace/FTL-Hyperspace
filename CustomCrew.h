@@ -1,6 +1,8 @@
 #pragma once
 #include "Global.h"
 #include "ToggleValue.h"
+#include "CustomDamage.h"
+#include "CrewSpawn.h"
 #include <unordered_map>
 
 enum TransformColorMode
@@ -135,6 +137,7 @@ struct TemporaryPowerDefinition
     ToggleValue<float> damageEnemiesAmount;
     ToggleValue<bool> hackDoors;
     ToggleValue<float> powerRechargeMultiplier;
+    ToggleValue<bool> noClone;
 
     std::vector<StatBoostDefinition> statBoosts;
 
@@ -252,6 +255,8 @@ struct ActivatedPowerDefinition
     bool activateReadyEnemies = false;
     std::string transformRace = "";
 
+    std::vector<CrewSpawn> crewSpawns;
+
     TemporaryPowerDefinition tempPower;
 };
 
@@ -311,6 +316,8 @@ struct CrewDefinition
     float damageEnemiesAmount = 0.f;
     bool hackDoors = false;
     float powerRechargeMultiplier = 1.f;
+    bool noSlot = false;
+    bool noClone = false;
 
     Damage explosionDef;
     bool explosionShipFriendlyFire = false;
