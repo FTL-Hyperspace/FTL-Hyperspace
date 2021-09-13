@@ -36,6 +36,7 @@ HOOK_STATIC(BlueprintManager, ProcessWeaponBlueprint, (WeaponBlueprint* bp, Blue
         {
             weaponDef.customDamage.accuracyMod = boost::lexical_cast<int>(val);
         }
+        /*
         if (name == "spawnCrewChance")
         {
             weaponDef.customDamage.crewSpawnChance = boost::lexical_cast<int>(val);
@@ -48,6 +49,7 @@ HOOK_STATIC(BlueprintManager, ProcessWeaponBlueprint, (WeaponBlueprint* bp, Blue
                 weaponDef.customDamage.crewSpawns.push_back(crewSpawn);
             }
         }
+        */
     }
 
     CustomWeaponManager::instance->AddWeaponDefinition(weaponDef);

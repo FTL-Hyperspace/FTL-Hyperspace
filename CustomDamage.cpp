@@ -12,6 +12,7 @@ HOOK_METHOD(ShipManager, DamageArea, (Pointf location, DamageParameter dmgParam,
 
     auto custom = CustomDamageManager::currentWeaponDmg;
 
+    /*
     if (custom && custom->sourceShipId != -1)
     {
         int rng = random32() % 10;
@@ -24,6 +25,7 @@ HOOK_METHOD(ShipManager, DamageArea, (Pointf location, DamageParameter dmgParam,
             }
         }
     }
+    */
 
     return super(location, dmgParam, forceHit);
 }
