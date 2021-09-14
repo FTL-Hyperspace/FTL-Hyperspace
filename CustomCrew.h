@@ -98,6 +98,7 @@ struct TemporaryPowerDefinition
     std::string effectFinishAnim;
     std::string animSheet;
     bool baseVisible = true;
+    bool soundsEnemy = true;
     std::vector<std::string> sounds;
 
     ToggleValue<int> maxHealth;
@@ -231,6 +232,7 @@ struct ActivatedPowerDefinition
 
 
     std::vector<std::string> sounds;
+    bool soundsEnemy = true;
 
 
     TextString buttonLabel;

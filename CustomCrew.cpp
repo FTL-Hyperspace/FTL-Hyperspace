@@ -552,6 +552,11 @@ void CustomCrewManager::ParseAbilityEffect(rapidxml::xml_node<char>* stat, Activ
 
         if (effectName == "powerSounds")
         {
+            if (effectNode->first_attribute("enemy"))
+            {
+                def.soundsEnemy = EventsParser::ParseBoolean(effectNode->first_attribute("enemy")->value());
+            }
+
             for (auto soundNode = effectNode->first_node(); soundNode; soundNode = soundNode->next_sibling())
             {
                 if (strcmp(soundNode->name(), "powerSound") == 0)
@@ -759,6 +764,11 @@ void CustomCrewManager::ParseAbilityEffect(rapidxml::xml_node<char>* stat, Activ
                 }
                 if (tempEffectName == "finishSounds")
                 {
+                    if (tempEffectNode->first_attribute("enemy"))
+                    {
+                        def.tempPower.soundsEnemy = EventsParser::ParseBoolean(tempEffectNode->first_attribute("enemy")->value());
+                    }
+
                     for (auto soundNode = tempEffectNode->first_node(); soundNode; soundNode = soundNode->next_sibling())
                     {
                         if (strcmp(soundNode->name(), "finishSound") == 0)
@@ -1451,7 +1461,7 @@ void CrewMember_Extend::PreparePower()
         aex->tempEffectAnim->Start(true);
     }
 
-    if (powerDef->sounds.size() > 0)
+    if (powerDef->sounds.size() > 0 && (powerDef->soundsEnemy || orig->iShipId == 0))
     {
         int rng = random32();
 
@@ -1654,7 +1664,7 @@ void CrewMember_Extend::TemporaryPowerFinished()
 
     temporaryPowerActive = false;
 
-    if (powerDef->tempPower.sounds.size() > 0)
+    if (powerDef->tempPower.sounds.size() > 0  && (powerDef->tempPower.soundsEnemy || orig->iShipId == 0))
     {
         int rng = random32();
 
