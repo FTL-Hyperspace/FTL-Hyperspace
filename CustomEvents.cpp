@@ -2408,7 +2408,8 @@ HOOK_METHOD(StarMap, GenerateMap, (bool tutorial, bool seed) -> LocationEvent*)
                 auto newEvent = custom->GetEvent(G_->GetWorld(), customEvent->eventLoadList, seed);
                 if (newEvent)
                 {
-                    delete loc->event;
+                    //delete loc->event;
+                    loc->event->ClearEvent(false);
                     loc->event = newEvent;
                     regeneratedBeacons[i] = std::pair<std::string,int>(newEvent->eventName, seed); // Note: doesn't respect nested "seeded" attributes in eventLoadLists.
                 }
@@ -2912,7 +2913,8 @@ LocationEvent* CustomEventsParser::GetEvent(WorldManager *world, EventLoadList *
         }
         else
         {
-            delete locEvent;
+            locEvent->ClearEvent(false);
+            //delete locEvent;
         }
     }
 
