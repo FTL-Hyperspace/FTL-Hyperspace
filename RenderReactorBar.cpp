@@ -33,158 +33,120 @@ HOOK_METHOD(SystemControl, RenderPowerBar, () -> void)
     GL_Color powerBarColour = COLOR_GREEN;
 
 
-    if(G_->GetEventSystem()->PollEvent(11))
-    {
+    if(G_->GetEventSystem()->PollEvent(11)){
         printf("Successful event poll\n");
-        this->flashBatteryPower.Start(0);
-        this->flashTracker.Start(0);
-    }
-    else
-    {
-        //printf("No event poll\n");
+        flashBatteryPower.Start(0);
+        flashTracker.Start(0);
     }
 
     this->flashBatteryPower.Update();
     this->flashTracker.Update();
-    if(this->flashBatteryPower.done) this->flashBatteryPower.Stop(false);
+    if(flashBatteryPower.done) flashBatteryPower.Stop(false);
 
     //reactor wires rendering
     int wiresMaskY = (maxPower > displayLevel) ? (-9 * displayLevel + 1) : (-9 * maxPower + 1);
     CSurface::GL_SetStencilMode(STENCIL_SET, 1, 1);
     CSurface::GL_Translate(0, wiresMaskY, 0);
-    CSurface::GL_RenderPrimitive(this->wiresMask);
+    CSurface::GL_RenderPrimitive(wiresMask);
 
     int wiresImageY = (maxPower > displayLevel) ? (9 * displayLevel - 1) : (9 * maxPower - 1);
     CSurface::GL_Translate(0, wiresImageY, 0);
     CSurface::GL_SetStencilMode(STENCIL_USE, 0, 1);
-    CSurface::GL_RenderPrimitiveWithAlpha(this->wiresImage, greyOpacity);
+    CSurface::GL_RenderPrimitiveWithAlpha(wiresImage, greyOpacity);
 
-    if(unusedPower)
-    {
+    if(unusedPower){
         int unusedMaskY = (unusedPower > displayLevel) ? (-9 * displayLevel) : (-9 * unusedPower);
         CSurface::GL_SetStencilMode(STENCIL_SET, 1, 1);
         CSurface::GL_Translate(0, (-9 * unusedPower), 0);
-        CSurface::GL_RenderPrimitive(this->wiresMask);
+        CSurface::GL_RenderPrimitive(wiresMask);
 
         int unusedImageY = (unusedPower > displayLevel) ? (9 * displayLevel) : (9 * unusedPower);
         CSurface::GL_Translate(0, (9 * unusedPower), 0);
         CSurface::GL_SetStencilMode(STENCIL_USE, 0, 1);
-        CSurface::GL_RenderPrimitive(this->wiresImage);
+        CSurface::GL_RenderPrimitive(wiresImage);
     }
 
     CSurface::GL_SetStencilMode(STENCIL_IGNORE, 0, 0);
 
 
     //system wires rendering
-    if(this->sysBoxes.size() > 7)
+    if(sysBoxes.size() > 7)
     {
         while(1)
         {
-            currentSys = this->sysBoxes[startsAtTwo - 1]->pSystem;
+            currentSys = sysBoxes[startsAtTwo - 1]->pSystem;
 
-            if(currentSys->GetNeedsPower())
-            {
-                currentSysBox = this->sysBoxes[startsAtTwo - 2];
+            if(currentSys->GetNeedsPower()) {
+                currentSysBox = sysBoxes[startsAtTwo - 2];
                 sysBoxLocX = currentSysBox->location.x;
                 sysBoxLocY = currentSysBox->location.y;
                 CSurface::GL_Translate(sysBoxLocX, sysBoxLocY, 0);
 
-                if(currentSysBox->HasButton())
-                {
-                    currentSys = this->sysBoxes[startsAtTwo]->pSystem;
-                    if(this->sysBoxes.size() <= startsAtTwo || currentSys->GetNeedsPower())
-                    {
-                        CSurface::GL_RenderPrimitiveWithAlpha(this->button, greyOpacity);
-                        if(unusedPower) CSurface::GL_RenderPrimitive(this->button);
-                    }
-                    else
-                    {
-                        CSurface::GL_RenderPrimitiveWithAlpha(this->button_cap, greyOpacity);
-                        if(unusedPower) CSurface::GL_RenderPrimitive(this->button_cap);
+                if(currentSysBox->HasButton()) {
+                    currentSys = sysBoxes[startsAtTwo]->pSystem;
+                    if(sysBoxes.size() <= startsAtTwo || currentSys->GetNeedsPower()) {
+                        CSurface::GL_RenderPrimitiveWithAlpha(button, greyOpacity);
+                        if(unusedPower) CSurface::GL_RenderPrimitive(button);
+                    } else {
+                        CSurface::GL_RenderPrimitiveWithAlpha(button_cap, greyOpacity);
+                        if(unusedPower) CSurface::GL_RenderPrimitive(button_cap);
                     }
                 }//hasButton if end
-                else
-                {
-                    currentSys = this->sysBoxes[startsAtTwo - 2]->pSystem;
+                else {
+                    currentSys = sysBoxes[startsAtTwo - 2]->pSystem;
                     sysID = currentSys->GetId();
 
-                    if(sysID == 3)
-                    {
-                        if(numWeaponSlots == 2)
-                        {
-                            droneSysWireImage = this->drone2;
-                        }
-                        else if(numWeaponSlots == 3)
-                        {
-                            droneSysWireImage = this->drone3;
-                        }
-                        else
-                        {
-                            droneSysWireImage = this->drone;
-                        }
+                    if(sysID == 3) {
+                        if(numWeaponSlots == 2) droneSysWireImage = drone2;
+                        else if(numWeaponSlots == 3) droneSysWireImage = drone3;
+                        else droneSysWireImage = drone;
 
                         CSurface::GL_RenderPrimitiveWithAlpha(droneSysWireImage, greyOpacity);
                         if(unusedPower) CSurface::GL_RenderPrimitive(droneSysWireImage);
                     }//sysID if end
-                    else
-                    {
-                        currentSys = this->sysBoxes[startsAtTwo]->pSystem;
-                        if(this->sysBoxes.size() <= startsAtTwo || currentSys->GetNeedsPower())
-                        {
-                            CSurface::GL_RenderPrimitiveWithAlpha(this->noButton, greyOpacity);
-                            if(unusedPower) CSurface::GL_RenderPrimitive(this->noButton);
-                        }
-                        else
-                        {
-                            CSurface::GL_RenderPrimitiveWithAlpha(this->noButton_cap, greyOpacity);
-                            if(unusedPower) CSurface::GL_RenderPrimitive(this->noButton_cap);
+                    else {
+                        currentSys = sysBoxes[startsAtTwo]->pSystem;
+                        if(sysBoxes.size() <= startsAtTwo || currentSys->GetNeedsPower()) {
+                            CSurface::GL_RenderPrimitiveWithAlpha(noButton, greyOpacity);
+                            if(unusedPower) CSurface::GL_RenderPrimitive(noButton);
+                        } else {
+                            CSurface::GL_RenderPrimitiveWithAlpha(noButton_cap, greyOpacity);
+                            if(unusedPower) CSurface::GL_RenderPrimitive(noButton_cap);
                         }
                     }//sysID else end
                 }//hasButton else end
                 CSurface::GL_Translate(-sysBoxLocX, -sysBoxLocY, 0);
             }//needsPower if end
             startsAtTwo++;
-            if(this->sysBoxes.size() <= startsAtTwo) break;
+            if(sysBoxes.size() <= startsAtTwo) break;
         }//while(1) end
     }//sysBoxes.size > 7 end
 
     //reactor bars rendering
-    if(!powerWarning->tracker.done)
-    {
+    if(!powerWarning->tracker.done) {
         bPowerWarningRunning = powerWarning->tracker.running;
-        if(powerWarning->tracker.running && powerWarning->flash) {
-            bPowerWarningRunning = powerWarning->flashTracker.Progress(-1) < 0.5;
-        }
+        if(powerWarning->tracker.running && powerWarning->flash) bPowerWarningRunning = powerWarning->flashTracker.Progress(-1) < 0.5;
     }
 
-    sysPowerLocX = this->systemPowerPosition.x;
-    sysPowerLocY = this->systemPowerPosition.y;
     powerBars = SystemControl::GetPowerBars(28, 7, 2, false);
-
     CSurface::GL_PushMatrix();
-    CSurface::GL_Translate(sysPowerLocX, sysPowerLocY, 0);
+    CSurface::GL_Translate(systemPowerPosition.x, systemPowerPosition.y, 0);
 
-    if(maxPower > 0)
-    {
+    if(maxPower > 0) {
         powerCounter = 0;
-        while(1)
-        {
-            while(1)
-            {
-                if(powerCounter < batteryEffPower)
-                {
+        while(1) {
+            while(1) {
+                if(powerCounter < batteryEffPower) {
                     powerBarColour = COLOR_GREEN;
                     //if(colourBlindOn) powerBarColour = COLOR_CB_WHITE; //placeholder for when the colourblind setting is hooked
-                    if(this->flashBatteryPower.running) {
-                        if((this->flashTracker.Progress(-1) > 0.5) && !colourBlindOn)
-                            powerBarColour = COLOR_WHITE;
+                    if(flashBatteryPower.running) {
+                        if((flashTracker.Progress(-1) > 0.5) && !colourBlindOn) powerBarColour = COLOR_WHITE;
                     }
 
                     CSurface::GL_RenderPrimitiveWithColor(powerBars->tiny[powerCounter], powerBarColour);
                     CSurface::GL_RenderPrimitiveWithColor(powerBars->empty[powerCounter], borderColour);
                     powerCounter++;
-                    if(maxPower == powerCounter)
-                    {
+                    if(maxPower == powerCounter) {
                         sysPowerH = 9 * maxPower;
                         goto doubleWhileEnd;
                     } else if(powerCounter == displayLevel) {
@@ -206,10 +168,8 @@ HOOK_METHOD(SystemControl, RenderPowerBar, () -> void)
                 }
             }//inner while(1) end
 
-            if(unusedPower > powerCounter)
-            {
-                if(bPowerWarningRunning)
-                {
+            if(unusedPower > powerCounter) {
+                if(bPowerWarningRunning) {
                     CSurface::GL_RenderPrimitive(powerBars->normal[powerCounter]);
                 } else {
                     powerBarColour = COLOR_GREEN;
@@ -217,8 +177,7 @@ HOOK_METHOD(SystemControl, RenderPowerBar, () -> void)
                     CSurface::GL_RenderPrimitiveWithColor(powerBars->normal[powerCounter], powerBarColour);
                 }
                 powerCounter++;
-                if(maxPower == powerCounter)
-                {
+                if(maxPower == powerCounter) {
                     sysPowerH = 9 * maxPower;
                     goto doubleWhileEnd;
                 } else if(powerCounter == displayLevel) {
@@ -230,8 +189,7 @@ HOOK_METHOD(SystemControl, RenderPowerBar, () -> void)
 
             CSurface::GL_RenderPrimitive(powerBars->empty[powerCounter]);
             powerCounter++;
-            if(maxPower == powerCounter)
-            {
+            if(maxPower == powerCounter) {
                 sysPowerH = 9 * maxPower;
                 goto doubleWhileEnd;
             } else if(powerCounter == displayLevel) {
@@ -243,10 +201,10 @@ HOOK_METHOD(SystemControl, RenderPowerBar, () -> void)
 
 doubleWhileEnd:
     CSurface::GL_PopMatrix();
-    this->SystemPower.h = sysPowerH;
-    this->SystemPower.w = 28;
-    this->SystemPower.x = 12 - this->position.x;
-    this->SystemPower.y = this->systemPowerPosition.y - sysPowerH + 10;
+    SystemPower.h = sysPowerH;
+    SystemPower.w = 28;
+    SystemPower.x = 12 - position.x;
+    SystemPower.y = systemPowerPosition.y - sysPowerH + 10;
 
     if(reactorLevel > 29) {
         std::stringstream reactorStream;
@@ -262,11 +220,10 @@ doubleWhileEnd:
         }
     }
 
-    if(!powerWarning->tracker.done && powerWarning->tracker.running)
-    {
+    if(!powerWarning->tracker.done && powerWarning->tracker.running) {
         CSurface::GL_PushMatrix();
-        CSurface::GL_Translate(250, this->SystemPower.y - 74);
-        this->notEnoughPower->OnRender();
+        CSurface::GL_Translate(250, SystemPower.y - 74);
+        notEnoughPower->OnRender();
         CSurface::GL_PopMatrix();
     }
 }//hook end
