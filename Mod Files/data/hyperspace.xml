@@ -10,6 +10,7 @@ This way mods that frequently use a particular value can just make it the defaul
 
 <defaults>
 	<beaconType_hideVanillaLabel>true</beaconType_hideVanillaLabel>
+	<checkCargo>false</checkCargo>
 </defaults>
 
 <!-- Custom save file:
@@ -412,7 +413,7 @@ Syntax ->
 			<powerCharges>-1</powerCharges>                                              Maximum number of ability uses per fight. Default is unlimited.
 			<initialCharges>999</initialCharges>                                         Initial number of ability uses when the crewmember is born.
 			<chargesPerJump>999</chargesPerJump>                                         Number of uses regenerated per jump.
-			<powerSounds>                                                                Sound effects to use when activating the power.
+			<powerSounds enemy="true">                                                   Sound effects to use when activating the power. enemy="false" mutes the sound for enemy crew.
 				<powerSound>lockdown1</powerSound>
 				<powerSound>lockdown2</powerSound>
 			</powerSounds>
@@ -482,7 +483,7 @@ Syntax ->
 			<temporaryEffect>                                                                      Creates a temporary effect with the ability, modifying the crewmember's stats. Modified stats replace the original stats.
 				<duration>10</duration>                                                            Duration of the temporary effect.
 				<cooldownColor r="167" g="250" b="255"/>                                           Changes the color of the cooldown bar while the temporary effect is active.
-				<finishSounds>                                                                     Sound effect to play when the temporary effect ends.
+				<finishSounds enemy="true">                                                        Sound effect to play when the temporary effect ends. enemy="false" mutes the sound for enemy crew.
 					<finishSound>mindControlEnd</finishSound>
 				</finishSounds>
 				<controllable>true</controllable>
@@ -1347,7 +1348,7 @@ Syntax ->
 		                                                                                          by layer.
 		<clearCustomFleet/>                                                                     Removes a custom fleet if one is present.
 		<disableScrapScore/>                                                                    Any scrap gained from this event is not added to the player's score.
-		<checkCargo/>                                                                           Choice requirements will check the ship's cargo in addition to equipment.
+		<checkCargo/>                                                                           Choice requirements will check the ship's cargo in addition to equipment. Can put value of true or false, no value means true.
 		<hiddenAug>AUG_ID</hiddenAug>                                                           Gives the player a hidden augment named AUG_ID. Can be repeated.
 		<removeItem>ITEM_ID</removeItem>                                                        Removes the item with the specified name. Unlike vanilla's <remove> tag, this can be repeated, but it also does not display
 		                                                                                          a "removed" message. Hidden augments can be removed by giving the name "HIDDEN AUG_ID", replacing AUG_ID with the normal

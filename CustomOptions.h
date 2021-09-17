@@ -24,6 +24,7 @@ public:
     struct Defaults
     {
         bool beaconType_hideVanillaLabel = true;
+        bool checkCargo = false;
     };
 
     bool altMode = false;

@@ -24,6 +24,11 @@ std::unordered_map<int, std::string> renamedBeacons = std::unordered_map<int, st
 
 std::unordered_map<int, std::pair<std::string, int>> regeneratedBeacons = std::unordered_map<int, std::pair<std::string, int>>();
 
+CustomEvent::CustomEvent()
+{
+    checkCargo = CustomOptionsManager::GetInstance()->defaults.checkCargo;
+}
+
 void CustomEventsParser::ParseCustomEventNodeFiles(rapidxml::xml_node<char> *node)
 {
     for (auto eventNode = node->first_node(); eventNode; eventNode = eventNode->next_sibling())
@@ -534,7 +539,15 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
         if (nodeName == "checkCargo")
         {
             isDefault = false;
-            customEvent->checkCargo = true;
+            std::string nodeValue = child->value();
+            if (nodeValue.empty())
+            {
+                customEvent->checkCargo = true;
+            }
+            else
+            {
+                customEvent->checkCargo = EventsParser::ParseBoolean(nodeValue);
+            }
         }
 
         if (nodeName == "preventQuest")
@@ -1795,6 +1808,10 @@ HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
     {
         g_checkCargo = customEvents->GetCustomEvent(event->eventName)->checkCargo;
     }
+    else
+    {
+        g_checkCargo = CustomOptionsManager::GetInstance()->defaults.checkCargo;
+    }
 
     if (!event->stuff.removeItem.empty())
     {
@@ -1838,6 +1855,10 @@ HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEve
             }
             CustomAugmentManager::GetInstance()->UpdateAugments(0);
         }
+    }
+    else
+    {
+        g_checkCargo = CustomOptionsManager::GetInstance()->defaults.checkCargo;
     }
 
 

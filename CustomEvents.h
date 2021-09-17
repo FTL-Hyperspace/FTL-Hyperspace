@@ -574,6 +574,8 @@ struct CustomEvent
     int powerSuperShields = -1;
     int powerSuperShieldsSet = -1;
     int powerSuperShieldsAdd = 0;
+
+    CustomEvent();
 };
 
 struct CustomShipEvent
