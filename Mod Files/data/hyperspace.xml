@@ -325,8 +325,11 @@ Syntax ->
 	(default human values except where they're obviously not)
 	<race name="newRace">
 		<nameRace transformName="Admiral Billy" changeIfSame="true">newRace2</nameRace>  Transforms the crew's race to newRace2 if they're given the transformName (or if changeIfSame is false, if they are given a different name).
+		<noSlot>false</noSlot>                                                           If true, this crewmember does not count as an actual crewmember in the crew manifest.
+		<noClone>false</noClone>                                                         If true, this crewmember cannot be cloned.
 		<canFight>true</canFight>                                                        If true, this crewmember can fight enemy crewmembers.
 		<controllable>true</controllable>                                                If true, the player can control this crewmember. Otherwise it acts like an AI crewmember.
+		<selectable>false</selectable>                                                   If true, the player can select this crewmember if it belongs to them, even if they are not controllable. No effect when controllable.
 		<canRepair>true</canRepair>                                                      If true, this crewmember can repair systems and breaches and put out fires.
 		<canSabotage>true</canSabotage>                                                  If true, this crewmember can sabotage enemy systems.
 		<canMan>true</canMan>                                                            If true, this crewmember can man systems.
@@ -739,6 +742,7 @@ modifyChoiceTextScrap is only used for SCRAP_COLLECTOR; it causes the scrap amou
 <superShield> lets you specify a custom super shield value instead of the default 5. Generally should be used along with <function name="ENERGY_SHIELD"/> so it still counts for blue options, etc.
 You can also specify a custom shield image and tint. Custom images are useful for colors that don't work well on the standard blue shield, such as yellow, red, pink, and white.
 Using <shieldImage> is equivalent to using both <playerImage> and <enemyImage>.
+The vanilla energy shield (augment with ENERGY_SHIELD function but no custom <superShield>) is treated equivalently to a <superShield> with 5 points and no custom rendering.
 
 Syntax ->
 <augments>
@@ -800,7 +804,8 @@ systemPowerScaling: determines how the boost is affected by the total power bars
 deathEffect: When the statBoost name is "deathEffect", specifies the deathEffect to replace or be added to the crewmember's normal deathEffect.
 powerEffect: When the statBoost name is "powerEffect", adds a new powerEffect which replaces the crewmember's normal powerEffect. Active powerEffects will not be replaced until they finish.
 duration: for augments, determines how long a boost will apply after jumping, measured in seconds (WIP)
-maxStacks: determines how many stacks of the boost can be applied to a single crewmember. Works per stat. Can have an "id" attribute which specifies an id to use for stat boosts that share a stack limit. If the id is not included then the stack limit applies only to that specific boost.
+maxStacks: determines how many stacks of the boost can be applied to a single crewmember. Works per stat. Can have an "id" attribute which specifies an id to use for stat boosts that share a stack limit.
+  If the id is not included then the stack limit applies only to that specific boost. Also works with recursive stat boosts but in which case does not respect priority value (priority is arbitrary).
 statBoost: When statBoost name is "statBoost", the stat boost to provide to crewmembers meeting the criteria.
 
 Stat boost syntax examples->
@@ -1273,6 +1278,7 @@ Syntax ->
         <rebelBeacon event="EVENT_NAME" nebulaEvent="EVENT_NAME"/>                         Changes the default rebel fleet events. nebulaEvent is used for nebula fleet events.
         <removeFirstBeaconNebula/>                                                         Removes the nebula from the starting beacon.
         <nebulaSector>false</nebulaSector>                                                 Overrides whether the sector is a nebula sector, affecting the fleet pursuit when the player is in nebula. Useful for secret sectors.
+		<noExit/>                                                                          Removes the exit beacon, preventing normal travel to the next sector. Still creates an exit beacon event where the exit would be.
     </sector>
 	
 	<quest>                                      Specifies new defaults for quest spawning. This tag also exists for individual events to override the defaults.
@@ -1409,7 +1415,8 @@ Syntax ->
 		<instantEscape/>                                                                        Causes the enemy ship to jump away instantly (even if engines are destroyed, etc.).
 		<escape/>                                                                               Trigger's the enemy's normal escape sequence. Does not load the escape event.
 		<surrender/>                                                                            Trigger's the enemy's normal surrender behaviour. Does not load the surrender event.
-		<enemyDamage amount="1" system="sys" effect="eff"/>                                     Same syntax as vanilla's <damage> but afflicts the enemy ship.
+		<enemyDamage amount="1" system="sys" effect="eff" force="false" damageHull="true"/>     Same syntax as vanilla's <damage> but afflicts the enemy ship. If force="true" then bypasses all system damage resistances.
+		                                                                                          If damageHull="false" then do not inflict hull damage.
 		<superDrones player="false" name="surge_name"/>                                         Triggers drone surge. For custom surge different from flagship add another <surgeDrones> tag in <boss> and give it a name.
 		<clearSuperDrones player="false"/>                                                      Clears any existing surge drones, allowing a new surge to be generated.
 		<superBarrage player="false" name="surge_name"/>                                        Triggers barrage surge (phase 3 laser surge). For custom surge different from flagship add another <surgeBarrage> tag in <boss>

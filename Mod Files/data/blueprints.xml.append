@@ -49,6 +49,18 @@
 -->
 
 <!--
+<weaponBlueprint name="WEAPON_NAME">
+	...
+	<freeMissileChance>0.0</freeMissileChance>       Probability that the weapon does not consume missiles when fired. Rolled separately from explosive replicator.
+	<descriptionOverride>TEXT</descriptionOverride>  Replaces weapon description with custom text.
+	<hideEventTooltip>false</hideEventTooltip>       Prevents showing event tooltip on hover in events; useful for mystery weapons or weapons whose stats should otherwise not be seen on the event screen.
+	<accuracyMod>0</accuracyMod>                     Changes weapon accuracy. This is equivalent to subtracting accuracyMod from the enemy's evasion for this weapon when performing the evasion check.
+	<noSysDamage>false</noSysDamage>                 If true, then normal damage does not inflict corresponding system damage, only actual <sysDamage> will.
+	<noPersDamage>false</noPersDamage>               If true, then normal damage does not inflict corresponding crew damage, only actual <persDamage> will.
+</weaponBlueprint>
+-->
+
+<!--
 <shipBlueprint name="PLAYER_SHIP_KESTRAL" layout="kestral" img="kestral">
 	<class>Testrel V2</class>
 	<name>The Testrel V2</name>
