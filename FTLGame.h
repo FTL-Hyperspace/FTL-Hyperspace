@@ -7398,5 +7398,7 @@ LIBZHL_API float __stdcall getSkillBonus(int skill, int level);
 LIBZHL_API void __stdcall GenerateReward(ResourceEvent &ref, RewardDesc &reward, int worldLevel);
 LIBZHL_API void __stdcall GetValue(ResourceEvent &ref, const std::string &type, int level, int worldLevel);
 
+extern LIBZHL_API void **VTable_LaserBlast;
+extern LIBZHL_API void **VTable_Targetable_LaserBlast;
 
 
