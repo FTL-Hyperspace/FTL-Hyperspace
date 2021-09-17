@@ -109,7 +109,6 @@ void CustomShipSelect::ParseShipsNode(rapidxml::xml_node<char> *node)
                 else
                 {
                     shipName = child->first_attribute("name")->value();
-                    //printf("Ship name: %s\n", std::string shName = shipName);
                 }
 
                 def = CustomShipDefinition(GetDefaultDefinition());
@@ -258,30 +257,21 @@ void CustomShipSelect::ParseShipsNode(rapidxml::xml_node<char> *node)
                     if (name == "customReactor")
                     {
                         if(shipNode->first_attribute("maxLevel")) def.maxReactorLevel = boost::lexical_cast<int>(shipNode->first_attribute("maxLevel")->value());
+                        if(def.maxReactorLevel < 0) def.maxReactorLevel = 0;
                         if(def.maxReactorLevel > 25) def.reactorPrices.resize(ceil(def.maxReactorLevel / 5), -1);
                         for (auto reactorNode = shipNode->first_node(); reactorNode; reactorNode = reactorNode->next_sibling())
                         {
                             std::string reactName = reactorNode->name();
 
-                            //printf("reactorNode: %s\n", reactorNode->name());
                             if(reactName == "baseCost") def.reactorPrices[0] = boost::lexical_cast<int>(reactorNode->value());
                             if(reactName == "increment") def.reactorPriceIncrement = boost::lexical_cast<int>(reactorNode->value());
-                            //printf("BaseCost: %i\nincrement: %i\n", def.reactorPrices[0], def.reactorPriceIncrement);
                             if(reactName == "overrideCost") {
                                 int coloumn = boost::lexical_cast<int>(reactorNode->first_attribute("coloumn")->value());
                                 def.reactorPrices[coloumn] = boost::lexical_cast<int>(reactorNode->value());
-                                //printf("override: %i, %i\n}", coloumn, boost::lexical_cast<int>(reactorNode->value()));
                             }
-
-                            /*
-                            printf("reactorCosts:");
-                            for(int i = 0; i < def.reactorPrices.size(); i++) {
-                                printf(" %i", def.reactorPrices[i]);
-                            }
-                            printf("\n");
-                            */
                         }
                     }
+
                 }
 
                 shipDefs[shipName] = def;

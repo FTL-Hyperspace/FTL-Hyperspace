@@ -23,9 +23,8 @@ HOOK_METHOD(SystemControl, RenderPowerBar, () -> void)
     ShipSystem* currentSys;
     int sysBoxLocX, sysBoxLocY;
     int sysPowerLocX, sysPowerLocY, sysPowerH = 0;
-    int sysID, numWeaponSlots = this->shipManager->myBlueprint.weaponSlots;
+    int sysID, numWeaponSlots = shipManager->myBlueprint.weaponSlots;
     GL_Primitive* droneSysWireImage;
-    WarningMessage* powerWarning = this->notEnoughPower;
     int powerCounter;
     PowerBars* powerBars;
     bool colourBlindOn = false;
@@ -39,8 +38,8 @@ HOOK_METHOD(SystemControl, RenderPowerBar, () -> void)
         flashTracker.Start(0);
     }
 
-    this->flashBatteryPower.Update();
-    this->flashTracker.Update();
+    flashBatteryPower.Update();
+    flashTracker.Update();
     if(flashBatteryPower.done) flashBatteryPower.Stop(false);
 
     //reactor wires rendering
@@ -91,8 +90,7 @@ HOOK_METHOD(SystemControl, RenderPowerBar, () -> void)
                         CSurface::GL_RenderPrimitiveWithAlpha(button_cap, greyOpacity);
                         if(unusedPower) CSurface::GL_RenderPrimitive(button_cap);
                     }
-                }//hasButton if end
-                else {
+                } else {
                     currentSys = sysBoxes[startsAtTwo - 2]->pSystem;
                     sysID = currentSys->GetId();
 
@@ -103,8 +101,7 @@ HOOK_METHOD(SystemControl, RenderPowerBar, () -> void)
 
                         CSurface::GL_RenderPrimitiveWithAlpha(droneSysWireImage, greyOpacity);
                         if(unusedPower) CSurface::GL_RenderPrimitive(droneSysWireImage);
-                    }//sysID if end
-                    else {
+                    } else {
                         currentSys = sysBoxes[startsAtTwo]->pSystem;
                         if(sysBoxes.size() <= startsAtTwo || currentSys->GetNeedsPower()) {
                             CSurface::GL_RenderPrimitiveWithAlpha(noButton, greyOpacity);
@@ -113,7 +110,7 @@ HOOK_METHOD(SystemControl, RenderPowerBar, () -> void)
                             CSurface::GL_RenderPrimitiveWithAlpha(noButton_cap, greyOpacity);
                             if(unusedPower) CSurface::GL_RenderPrimitive(noButton_cap);
                         }
-                    }//sysID else end
+                    }
                 }//hasButton else end
                 CSurface::GL_Translate(-sysBoxLocX, -sysBoxLocY, 0);
             }//needsPower if end
@@ -123,9 +120,9 @@ HOOK_METHOD(SystemControl, RenderPowerBar, () -> void)
     }//sysBoxes.size > 7 end
 
     //reactor bars rendering
-    if(!powerWarning->tracker.done) {
-        bPowerWarningRunning = powerWarning->tracker.running;
-        if(powerWarning->tracker.running && powerWarning->flash) bPowerWarningRunning = powerWarning->flashTracker.Progress(-1) < 0.5;
+    if(!notEnoughPower->tracker.done) {
+        bPowerWarningRunning = notEnoughPower->tracker.running;
+        if(notEnoughPower->tracker.running && notEnoughPower->flash) bPowerWarningRunning = notEnoughPower->flashTracker.Progress(-1) < 0.5;
     }
 
     powerBars = SystemControl::GetPowerBars(28, 7, 2, false);
@@ -154,7 +151,7 @@ HOOK_METHOD(SystemControl, RenderPowerBar, () -> void)
                         goto doubleWhileEnd;
                     }
                     continue;
-                }//if(powerCounter < batteryEffPower)
+                }
 
                 if(powerCounter < std::min((reactorLevel + playerPowerManager->batteryPower.second), displayLevel)) break;
                 CSurface::GL_RenderPrimitiveWithColor(powerBars->damaged[powerCounter], blueColour);
@@ -185,7 +182,7 @@ HOOK_METHOD(SystemControl, RenderPowerBar, () -> void)
                     goto doubleWhileEnd;
                 }
                 continue;
-            }//if(unusedPower > powerCounter) end
+            }
 
             CSurface::GL_RenderPrimitive(powerBars->empty[powerCounter]);
             powerCounter++;
@@ -211,7 +208,7 @@ doubleWhileEnd:
         if(unusedPower > 27) {
             CSurface::GL_SetColor(COLOR_GREEN);
             int overflow = unusedPower - 27;
-            reactorStream << "+ " << overflow;
+            reactorStream << "+" << overflow;
             freetype::easy_printCenter(62, 26, 48, reactorStream.str());
         } else {
             CSurface::GL_SetColor(COLOR_WHITE);
@@ -220,7 +217,7 @@ doubleWhileEnd:
         }
     }
 
-    if(!powerWarning->tracker.done && powerWarning->tracker.running) {
+    if(!notEnoughPower->tracker.done && notEnoughPower->tracker.running){
         CSurface::GL_PushMatrix();
         CSurface::GL_Translate(250, SystemPower.y - 74);
         notEnoughPower->OnRender();

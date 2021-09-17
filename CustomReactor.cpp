@@ -94,18 +94,15 @@ HOOK_METHOD(ReactorButton, OnRender, ()->void)
     GL_Texture* activeImage = bHover ? reactorImageSel : reactorImage;
     G_->GetResources()->RenderImage(activeImage, 610, 412, 0, COLOR_WHITE, 1.f, false);
 
-    //GL_DrawRect(float x1, float y1, float x2, float y2, GL_Color color);
     if(tempLevel > 25){
         overCol = ceil((tempLevel - 25) / 5) + 1;
+        if(tempLevel == maxLevel) overCol--;
         if(displayReactorLevel < (overCol * 5)){
             displayTempUpgrade = displayTempUpgrade - (overCol * 5 - displayReactorLevel);
             displayReactorLevel = 0;
         } else {
             displayReactorLevel -= (overCol * 5);
         }
-        //int displayTempLevel = displayTempUpgrade + displayReactorLevel;
-        //printf("reactor: %i\ntemp: %i\nlevel: %i\n", reactorLevel, tempUpgrade, tempLevel);
-        //printf("dispReactor: %i\ndispTemp: %i\ndispLevel: %i\noverCol: %i\n\n", displayReactorLevel, displayTempUpgrade, displayTempLevel, overCol);
     }
 
     int displayTempLevel = displayTempUpgrade + displayReactorLevel;
