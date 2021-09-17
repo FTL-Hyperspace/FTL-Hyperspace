@@ -69,9 +69,6 @@ HOOK_METHOD(ReactorButton, OnRightClick, ()->void)
     }
 }
 
-
-
-//*
 HOOK_METHOD(ReactorButton, OnRender, ()->void)
 {
     auto def = CustomShipSelect::GetInstance()->GetDefinition(ship->myBlueprint.blueprintName);
@@ -152,11 +149,4 @@ HOOK_METHOD(ReactorButton, OnRender, ()->void)
     if(tempLevel == maxLevel) freetype::easy_print(14, 845, 496, "--");
     else if (currentCost >= 100) freetype::easy_printAutoShrink(14, 840, 494, 39, false, currentPrice);
     else freetype::easy_print(14, 845, 494, currentPrice);
-
-
-
-
-
 }
-//*/
-

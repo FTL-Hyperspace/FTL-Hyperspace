@@ -9,7 +9,7 @@ HOOK_METHOD(SystemControl, RenderPowerBar, () -> void)
     int powerBarCount = availablePower + playerPowerManager->batteryPower.second - playerPowerManager->batteryPower.first;
     int maxPower = playerPowerManager->currentPower.second + playerPowerManager->batteryPower.second;
     int unusedPower = powerBarCount - (maxPower - (reactorLevel + playerPowerManager->batteryPower.second));
-    int displayLevel = (reactorLevel > 29) ? 27 : 29;
+    int displayLevel = (reactorLevel + playerPowerManager->batteryPower.second > 29) ? 27 : 29;
 
     float greyOpacity = 0.5;
     int batteryEffPower = playerPowerManager->batteryPower.second - playerPowerManager->batteryPower.first;
@@ -28,7 +28,8 @@ HOOK_METHOD(SystemControl, RenderPowerBar, () -> void)
     int powerCounter;
     PowerBars* powerBars;
     bool colourBlindOn = false;
-    GL_Color COLOR_GREEN(100.f/255, 255.f/255, 100.f/255, 1.f), COLOR_CB_WHITE(243.f/255, 255.f/255, 238.f/255, 1), borderColour(230.f/255, 110.f/255, 30.f/255, 1.f), blueColour(40.f/255, 210.f/255, 230.f/255, 1.f);
+    GL_Color COLOR_GREEN(100.f/255, 255.f/255, 100.f/255, 1.f), COLOR_CB_WHITE(243.f/255, 255.f/255, 238.f/255, 1),
+    borderColour(230.f/255, 110.f/255, 30.f/255, 1.f), blueColour(40.f/255, 210.f/255, 230.f/255, 1.f);
     GL_Color powerBarColour = COLOR_GREEN;
 
 
@@ -198,12 +199,8 @@ HOOK_METHOD(SystemControl, RenderPowerBar, () -> void)
 
 doubleWhileEnd:
     CSurface::GL_PopMatrix();
-    SystemPower.h = sysPowerH;
-    SystemPower.w = 28;
-    SystemPower.x = 12 - position.x;
-    SystemPower.y = systemPowerPosition.y - sysPowerH + 10;
 
-    if(reactorLevel > 29) {
+    if(reactorLevel + playerPowerManager->batteryPower.second > 29){
         std::stringstream reactorStream;
         if(unusedPower > 27) {
             CSurface::GL_SetColor(COLOR_GREEN);
@@ -219,7 +216,7 @@ doubleWhileEnd:
 
     if(!notEnoughPower->tracker.done && notEnoughPower->tracker.running){
         CSurface::GL_PushMatrix();
-        CSurface::GL_Translate(250, SystemPower.y - 74);
+        CSurface::GL_Translate(74, 66);
         notEnoughPower->OnRender();
         CSurface::GL_PopMatrix();
     }
