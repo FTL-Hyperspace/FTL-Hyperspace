@@ -116,6 +116,14 @@ Tends to be helpful with "weirder" weapons in mods due to having more clear info
 
 <redesignedWeaponTooltips enabled="false"/>
 
+<!-- Shows maximum reactor in the hangar -->
+
+<showReactor enabled="false"/>
+
+<!-- Shows all beacon connections in the beacon map -->
+
+<showAllConnections enabled="false"/>
+
 <!--  Shows the scrap values with scrap arm augment modifiers taken into account.
 Does not include repair arm.
 -->
