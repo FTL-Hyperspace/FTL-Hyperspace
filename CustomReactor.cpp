@@ -89,9 +89,10 @@ HOOK_METHOD(ReactorButton, OnRender, ()->void)
     GL_Texture* reactorImage = G_->GetResources()->GetImageId("upgradeUI/equipment/equipment_reactor_on.png");
     GL_Texture* reactorImageSel = G_->GetResources()->GetImageId("upgradeUI/equipment/equipment_reactor_select2.png");
     GL_Texture* activeImage = bHover ? reactorImageSel : reactorImage;
+
     G_->GetResources()->RenderImage(activeImage, 610, 412, 0, COLOR_WHITE, 1.f, false);
 
-    if(tempLevel > 25){
+    if(tempLevel >= 25){
         overCol = ceil((tempLevel - 25) / 5) + 1;
         if(tempLevel == maxLevel) overCol--;
         if(displayReactorLevel < (overCol * 5)){
