@@ -411,6 +411,28 @@ HOOK_METHOD(CrewAI, UpdateDrones, () -> void)
     }
 }
 
+HOOK_METHOD(ShipManager, CreateSpaceDrone, (const DroneBlueprint *bp) -> SpaceDrone*)
+{
+    if (bp->type == 4)
+    {
+        for (auto i: myBlueprint.systemInfo)
+        {
+            if (i.second.systemId == SYS_DRONES)
+            {
+                return super(bp);
+            }
+        }
+
+        BoarderPodDrone *ret = new BoarderPodDrone(iShipId, Globals::GetNextSpaceId(), *bp);
+        ret->powerRequired = bp->power;
+        spaceDrones.push_back(ret);
+        droneTrash.push_back(ret);
+        newDroneArrivals.push_back(ret);
+        return ret;
+    }
+
+    return super(bp);
+}
 
 HOOK_METHOD(ShipManager, CreateSpaceDrone, (const DroneBlueprint *bp) -> SpaceDrone*)
 {

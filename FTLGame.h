@@ -4209,6 +4209,11 @@ struct BoarderPodDrone;
 
 struct BoarderPodDrone : SpaceDrone
 {
+	BoarderPodDrone(int _iShipId, int _selfId, const DroneBlueprint& _bp)
+	{
+		this->constructor(_iShipId, _selfId, _bp);
+	}
+
 	LIBZHL_API void constructor(int _iShipId, int _selfId, const DroneBlueprint &_bp);
 	LIBZHL_API void SetMovementTarget(Targetable *target);
 	

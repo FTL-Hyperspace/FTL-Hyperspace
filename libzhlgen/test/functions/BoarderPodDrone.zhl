@@ -2,3 +2,11 @@
 void BoarderPodDrone::constructor(BoarderPodDrone *this<ecx>, int _iShipId, int _selfId, const DroneBlueprint& _bp);
 "578d7c240883e4f0ff77fc5589e5575383ec208b0785c074??8b1089cb89815001000089c1ff521c89434c8b43048d4df0":
 void BoarderPodDrone::SetMovementTarget(BoarderPodDrone *this<ecx>, Targetable *target);
+
+struct BoarderPodDrone
+{{
+	BoarderPodDrone(int _iShipId, int _selfId, const DroneBlueprint& _bp)
+	{
+		this->constructor(_iShipId, _selfId, _bp);
+	}
+}};
