@@ -1,5 +1,5 @@
 "578d7c240883e4f0ff77fc5589e557565389cbb9????????83ec2cf30f100ff30f114de4e8????????d95de031c0f30f1045e0f30f5945e4f30f5883080100000f2e05????????f30f118308010000":
-char ShipSystem::DamageOverTime(ShipSystem *this<ecx>, float unk);
+bool ShipSystem::DamageOverTime(ShipSystem *this<ecx>, float unk);
 ".8b414083e80383f801":
 void ShipSystem::CheckForRepower(ShipSystem *this<ecx>);
 ".8d4c240483e4f0ff71fc5589e5535183ec108b19c70424????????89d9e8????????83ec0485c075??":
@@ -30,6 +30,8 @@ int ShipSystem::GetEffectivePower(ShipSystem *this<ecx>);
 int ShipSystem::GetMaxPower(ShipSystem *this<ecx>);
 "80b918010000000f84????????5589e5578bb904010000568bb100010000538b595489f829f083e4f089da29c28b811c010000":
 void ShipSystem::SetBonusPower(ShipSystem *this<ecx>, int amount, int permanentPower);
+"578d7c240883e4f0ff77fc5589e557565383ec2c80b918010000000f84????????8d81a401000089cf8945dc8d41508945d8eb49":
+void ShipSystem::CheckMaxPower(ShipSystem *this<ecx>);
 "55c701????????89e583e4f0e8????????c9c390909090909090909090909090b8????????":
 static void ShipSystem::__DO_NOT_HOOK(ShipSystem *this<ecx>);
 ".578d7c240883e4f0ff77fc5589e55783ec14f30f1007f30f110424e8????????8b7dfc83ec04":
@@ -60,6 +62,8 @@ bool ShipSystem::DecreasePower(ShipSystem *this<ecx>, bool force);
 bool ShipSystem::PartialRepair(ShipSystem *this<ecx>, float speed, bool autoRepair);
 "578d7c240883e4f0ff77fc5589f889e557565389cf81ec????????8b70088b188975a08b700c895d848b5804":
 void ShipSystem::RenderPowerBoxes(ShipSystem *this<ecx>, int x, int y, int width, int height, int gap, int heightMod, bool flash);
+"568b8100010000532b44240c8b99040100008b715439d80f4fc331d285c00f48c229c389810001000089f029d88b991c0100002b812001000083fb07":
+void ShipSystem::AddDamage(ShipSystem *this<ecx>, int amount);
 
 struct ShipSystem
 {{

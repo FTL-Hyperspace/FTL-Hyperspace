@@ -9,12 +9,22 @@
 
 extern bool locationUpdated;
 extern std::vector<std::pair<std::string,int>> eventQueue;
+extern bool alreadyWonCustom;
+extern bool bossDefeated;
+extern TimerHelper *restartMusicTimer;
+
+extern std::string replaceCreditsMusic;
+
+extern std::unordered_map<int, std::string> renamedBeacons;
+extern std::unordered_map<int, std::pair<std::string, int>> regeneratedBeacons;
 
 struct BeaconType
 {
     std::string eventName;
     GL_Color color;
     bool global = false;
+    bool persistent = false;
+    bool hideVanillaLabel = false;
     TextString beaconText;
     TextString undiscoveredTooltip;
     TextString unvisitedTooltip;
@@ -29,6 +39,8 @@ struct EventGameOver
     std::string text = "";
     std::string creditsText = "";
     std::string creditsBackground = "";
+    std::string creditsMusic = "";
+    std::string sound = "";
 };
 
 struct CustomQuest
@@ -158,6 +170,8 @@ public:
     std::string name = "";
     std::string event = "";
     bool seeded = true;
+    bool clearOnJump = false;
+    bool thisFight = false;
     int minLoops = 1;
     int maxLoops = 1;
     float triggerMinTime = -1.f;
@@ -182,8 +196,14 @@ public:
     int maxEnemyCrew = -1;
     int minEnemyDeaths = -1;
     int maxEnemyDeaths = -1;
-    bool clearOnJump = false;
-    bool thisFight = false;
+    bool playerCountRepairs = true;
+    bool playerCountNewCrew = true;
+    bool enemyCountRepairs = true;
+    bool enemyCountNewCrew = true;
+    bool playerCrewCountClonebay = true;
+    bool enemyCrewCountClonebay = true;
+    bool playerDeathsCountClonebay = true;
+    bool enemyDeathsCountClonebay = true;
 };
 
 class TriggeredEvent
@@ -200,6 +220,8 @@ public:
     static void SaveAll(int file);
     static void LoadAll(int file);
 
+    static int playerCloneCount;
+
 public:
     TriggeredEventDefinition* def;
 
@@ -212,6 +234,16 @@ public:
     int triggerEnemyHull;
     int triggerPlayerCrew;
     int triggerEnemyCrew;
+
+    int triggerPlayerDamage;
+    int triggerEnemyDamage;
+    int triggerPlayerDeaths;
+    int triggerEnemyDeaths;
+
+    int currentPlayerHull;
+    int currentEnemyHull;
+    int currentPlayerCrew;
+    int currentEnemyCrew;
 
     bool triggered = false;
 
@@ -253,6 +285,11 @@ public:
             warningTime = def->warning->time;
         }
 
+        currentPlayerHull = 0;
+        currentEnemyHull = 0;
+        currentPlayerCrew = 0;
+        currentEnemyCrew = 0;
+
         Reset();
     }
 
@@ -267,6 +304,19 @@ public:
         if (triggerTimer == nullptr) return 0.0;
         if (triggerTimer->currTime >= triggerTimer->currGoal) return 0.0;
         return triggerTimer->currGoal - triggerTimer->currTime;
+    }
+
+    int GetPlayerCrew(bool clones)
+    {
+        int ret = G_->GetCrewFactory()->playerCrew;
+        if (!clones) ret -= playerCloneCount;
+        return ret;
+    }
+    int GetEnemyCrew(bool clones)
+    {
+        int ret = G_->GetCrewFactory()->enemyCrew;
+        if (!clones) ret -= G_->GetCrewFactory()->enemyCloneCount;
+        return ret;
     }
 
     void Reset();
@@ -429,16 +479,32 @@ struct EventLoadList
     std::vector<EventLoadListEvent> events;
     bool seeded = true;
     bool useFirst = false;
+    bool onGenerate = false;
     std::string defaultEvent = "";
 };
+
+struct EventAlias
+{
+    std::string event;
+    bool jumpClear = false;
+    bool once = false;
+};
+
+struct SectorReplace
+{
+    std::string targetSector = "";
+    std::string sectorList = "";
+};
+
+extern std::unordered_map<std::string, EventAlias> eventAliases;
 
 struct CustomEvent
 {
     std::string eventName;
-    std::string unlockShip;
-    bool unlockShipSilent;
-    std::string unlockShipReq;
-    BeaconType *beacon;
+    std::string unlockShip = "";
+    bool unlockShipSilent = false;
+    std::string unlockShipReq = "";
+    BeaconType *beacon = nullptr;
     std::string loadBeacon = "";
     bool checkCargo = false;
     bool recursive = true;
@@ -447,6 +513,7 @@ struct CustomEvent
     std::vector<unsigned int> triggeredEvents;
     std::vector<std::string> clearTriggeredEvents;
     std::vector<TriggeredEventModifier> triggeredEventModifiers;
+    bool preventFleet = false;
     int preventBossFleet = 0;
     int runFromFleet = 0;
     bool removeHazards = false;
@@ -455,13 +522,18 @@ struct CustomEvent
     std::string eventLoad = "";
     bool eventLoadSeeded = true;
     EventLoadList *eventLoadList = nullptr;
+    std::string eventRevisit = "";
+    bool eventRevisitSeeded = true;
+    std::vector<std::pair<std::string, EventAlias>> eventAlias;
     bool restartEvent = false;
+    std::string renameBeacon = "";
     EventGameOver gameOver = EventGameOver();
     bool disableScrapScore = false;
-    std::string customStore;
+    std::string customStore = "";
     std::string jumpEvent = "";
     bool jumpEventLoop = false;
     bool jumpEventClear = false;
+    SectorReplace replaceSector;
     bool resetFtl = false;
     bool instantEscape = false;
     bool escape = false;
@@ -477,14 +549,17 @@ struct CustomEvent
     bool goToFlagship = false;
     bool goToFlagshipBase = false;
     bool goToFlagshipFleet = false;
+    bool noASBPlanet = false;
 
     EventFleet leftFleet;
     EventFleet rightFleet;
-    bool clearCustomFleet;
+    bool clearCustomFleet = false;
 
     std::vector<std::string> hiddenAugs = std::vector<std::string>();
     std::vector<std::string> removeItems = std::vector<std::string>();
     std::string playSound = "";
+    std::string playMusic = "";
+    bool resetMusic = false;
     std::string changeBackground = "";
 
     std::vector<EventDamage> enemyDamage = std::vector<EventDamage>();
@@ -499,6 +574,8 @@ struct CustomEvent
     int powerSuperShields = -1;
     int powerSuperShieldsSet = -1;
     int powerSuperShieldsAdd = 0;
+
+    CustomEvent();
 };
 
 struct CustomShipEvent
@@ -513,6 +590,9 @@ struct CustomShipEvent
 
     bool invincible = false;
     bool deadCrewAuto = false;
+
+    EventGameOver finalBoss = EventGameOver();
+    int bossMusicDelay = -1;
 };
 
 struct SectorExit
@@ -534,6 +614,7 @@ struct CustomSector
     SectorExit exitBeacons;
     SectorFleet fleetBeacons;
     bool removeFirstBeaconNebula = false;
+    bool noExit = false;
     ToggleValue<bool> nebulaSector;
 };
 
@@ -658,7 +739,7 @@ public:
     void ParseCustomTriggeredEventBoxNode(rapidxml::xml_node<char> *node, TriggeredEventBoxDefinition *box);
     void ParseCustomTriggeredEventSounds(rapidxml::xml_node<char> *node, std::vector<std::pair<float,std::string>> *vec);
     void ParseCustomTriggeredEventWarningNode(rapidxml::xml_node<char> *node, TriggeredEventWarningDefinition *warning);
-    void ParseCustomEventLoadList(rapidxml::xml_node<char> *node, EventLoadList *eventList);
+    void ParseCustomEventLoadList(rapidxml::xml_node<char> *node, EventLoadList *eventList, std::string& eventName);
 
     static CustomEventsParser *GetInstance()
     {
@@ -701,6 +782,8 @@ public:
     std::vector<std::string> eventFiles;
     CustomEvent *defaultVictory = new CustomEvent();
     CustomQuest *defaultQuest = new CustomQuest();
+    std::string defaultRevisit = "";
+    bool defaultRevisitSeeded = true;
 
 private:
     std::vector<CustomSector*> customSectors;

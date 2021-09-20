@@ -415,6 +415,8 @@ HOOK_METHOD(SystemBox, MouseClick, (bool unk) -> bool)
     {
         ((TemporalBox*)this)->LeftMouseClick(unk);
     }
+
+    return ret;
 }
 
 HOOK_METHOD(SystemBox, KeyDown, (SDLKey key, bool shift) -> void)
@@ -1041,13 +1043,14 @@ HOOK_METHOD_PRIORITY(ShipManager, UpdateCrewMembers, -900, () -> void)
 
 static bool g_inSpreadDamage = false;
 
-HOOK_METHOD(ShipSystem, DamageOverTime, (float amount) -> void)
+HOOK_METHOD(ShipSystem, DamageOverTime, (float amount) -> bool)
 {
     if (!g_inSpreadDamage) return super(amount);
 
     g_dilationAmount = GetRoomDilationAmount(g_envDilationRooms, roomId);
-    super(amount);
+    auto ret = super(amount);
     g_dilationAmount = 0;
+    return ret;
 }
 
 HOOK_METHOD(ShipManager, CheckSpreadDamage, () -> void)

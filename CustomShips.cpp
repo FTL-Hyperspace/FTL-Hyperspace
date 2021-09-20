@@ -1,8 +1,20 @@
+#include "CustomAugments.h"
 #include "CustomShips.h"
 #include "CustomShipSelect.h"
 #include "EnemyShipIcons.h"
 
+#include <boost/lexical_cast.hpp>
+
 static bool importingShip = false;
+static bool revisitingShip = false;
+
+HOOK_METHOD(WorldManager, CreateShip, (ShipEvent* shipEvent, bool boss) -> CompleteShip*)
+{
+    if (!boss && !shipEvent->actualBlueprint.blueprintName.empty()) revisitingShip = true;
+    CompleteShip* ret = super(shipEvent, boss);
+    revisitingShip = false;
+    return ret;
+}
 
 bool g_enemyPreigniterFix = false;
 
@@ -22,6 +34,7 @@ void ShipManager_Extend::Initialize(bool restarting)
             {
                 G_->GetShipInfo(orig->iShipId)->augList["HIDDEN " + i.first] = i.second;
             }
+            CustomAugmentManager::GetInstance()->UpdateAugments(orig->iShipId);
         }
 
         for (auto i : def.roomDefs)
@@ -63,7 +76,7 @@ void ShipManager_Extend::Initialize(bool restarting)
             }
         }
 
-        if (!restarting)
+        if (!restarting && !revisitingShip)
         {
             for (auto i : def.crewList)
             {
@@ -131,10 +144,28 @@ HOOK_METHOD(ShipManager, ResetScrapLevel, () -> void)
 
 HOOK_METHOD(ShipManager, ImportShip, (int fileHelper) -> void)
 {
+    if (iShipId == 0)
+    {
+        G_->GetWorld()->playerShip = nullptr; // remove invalid reference
+    }
+
     importingShip = true;
     super(fileHelper);
     importingShip = false;
 }
+
+HOOK_METHOD(ShipManager, AddSystem, (int systemId) -> int)
+{
+    auto ret = super(systemId);
+
+    if (systemId == 0 && shieldSystem)
+    {
+        shieldSystem->healthState.first = shieldSystem->healthState.second;
+    }
+
+    return ret;
+}
+
 
 HOOK_METHOD_PRIORITY(ShipManager, OnInit, 100, (ShipBlueprint *bp, int shipLevel) -> int)
 {
@@ -360,9 +391,9 @@ HOOK_METHOD(Ship, OnRenderBreaches, () -> void)
     super();
 }
 
-HOOK_METHOD(Ship, OnRenderFloor, () -> void)
+HOOK_METHOD(Ship, OnRenderFloor, (bool experimental) -> void)
 {
-    super();
+    super(experimental);
 
     for (auto room : vRoomList)
     {
@@ -538,7 +569,7 @@ HOOK_METHOD(ShipManager, DamageSystem, (int roomId, DamageParameter dmgParam) ->
 
     auto ex = RM_EX(ship.vRoomList[roomId]);
 
-    if (random32() % 100 < ex->sysDamageResistChance && (dmg->iSystemDamage > 0 || dmg->iSystemDamage != -dmg->iDamage))
+    if (random32() % 100 < ex->sysDamageResistChance && (dmg->iSystemDamage > -dmg->iDamage))
     {
         dmg->iSystemDamage = -dmg->iDamage;
         auto msg = new DamageMessage(1.f, ship.GetRoomCenter(roomId), DamageMessage::MessageType::RESIST);
@@ -627,23 +658,216 @@ HOOK_METHOD(WorldManager, CreateShip, (ShipEvent* shipEvent, bool boss) -> Compl
         }
     }
 
-    if (shipManager->shieldSystem != nullptr) // Fixes a generation bug where >10 shield power spawns damaged; doesn't fix save/load issues
+    if (shipManager->shieldSystem != nullptr && shipManager->shieldSystem->powerState.second > 10)
     {
-        int damageRepaired = shipManager->shieldSystem->healthState.second - shipManager->shieldSystem->healthState.first;
-
-        if (damageRepaired > 0)
+        for (int i=shipManager->shieldSystem->powerState.second; i>0; i--)
         {
-            shipManager->shieldSystem->healthState.first = shipManager->shieldSystem->healthState.second;
-
-            for (int i=0; i<damageRepaired; ++i)
-            {
-                shipManager->shieldSystem->IncreasePower(1, false);
-            }
-
-            shipManager->shieldSystem->shields.power.second = shipManager->shieldSystem->GetEffectivePower() / 2;
-            shipManager->shieldSystem->shields.power.first = shipManager->shieldSystem->shields.power.second;
+            if (!shipManager->shieldSystem->IncreasePower(1,false)) break;
         }
+        shipManager->shieldSystem->InstantCharge();
     }
 
     return ret;
+}
+
+static std::vector<std::pair<Animation,bool>> extraEngineAnim[2];
+
+HOOK_METHOD(Ship, OnInit, (ShipBlueprint& bp) -> void)
+{
+    super(bp);
+
+    char *xmltext = G_->GetResources()->LoadFile("data/" + bp.imgFile + ".xml");
+    if (xmltext)
+    {
+        bool hasThrusters = false;
+        int nThrusters = 0;
+        int nVanillaThrusters = 0;
+        std::vector<std::string> thrusters;
+        std::vector<Pointf> thrusterPos;
+        std::vector<bool> thrusterRot;
+
+        rapidxml::xml_document<> doc;
+        doc.parse<0>(xmltext);
+
+        rapidxml::xml_node<char> *node;
+        rapidxml::xml_node<char> *ftlnode = doc.first_node("FTL");
+        if (ftlnode)
+        {
+            node = ftlnode->first_node();
+        }
+        else
+        {
+            node = doc.first_node();
+        }
+
+        for ( ; node; node = node->next_sibling())
+        {
+            if (strcmp(node->name(), "thrusters") == 0)
+            {
+                hasThrusters = true;
+                for (auto child = node->first_node(); child; child = child->next_sibling())
+                {
+                    if (strcmp(child->name(), "thruster") == 0)
+                    {
+                        Pointf pos = {0.f,0.f};
+                        bool rot = false;
+                        if (child->first_attribute("x"))
+                        {
+                            pos.x = boost::lexical_cast<float>(child->first_attribute("x")->value());
+                        }
+                        if (child->first_attribute("y"))
+                        {
+                            pos.y = boost::lexical_cast<float>(child->first_attribute("y")->value());
+                        }
+                        if (child->first_attribute("rotate"))
+                        {
+                            rot = EventsParser::ParseBoolean(child->first_attribute("rotate")->value());
+                        }
+
+                        thrusters.push_back(child->value());
+                        thrusterPos.push_back(pos);
+                        thrusterRot.push_back(rot);
+
+                        nThrusters++;
+                        if (!rot && nVanillaThrusters<2) nVanillaThrusters++;
+                    }
+                }
+            }
+        }
+
+        doc.clear();
+
+        if (hasThrusters)
+        {
+            thrustersImage = nullptr;
+            ShipGraph *graph = ShipGraph::GetShipInfo(iShipId);
+            extraEngineAnim[iShipId].clear();
+            extraEngineAnim[iShipId].reserve(nThrusters-nVanillaThrusters);
+            nVanillaThrusters = 0;
+            int nExtraThrusters = 0;
+
+            for (int i=0; i<nThrusters; ++i)
+            {
+                if (!thrusterRot[i] && nVanillaThrusters<2)
+                {
+                    if (!thrusters[i].empty()) AnimationControl::GetAnimation(engineAnim[nVanillaThrusters], G_->GetAnimationControl(), thrusters[i]);
+                    engineAnim[nVanillaThrusters].position = {thrusterPos[i].x + shipImage.x + graph->shipBox.x, thrusterPos[i].y + shipImage.y + graph->shipBox.y};
+                    engineAnim[nVanillaThrusters].tracker.SetLoop(true, 0.f);
+                    engineAnim[nVanillaThrusters].RandomStart();
+                    nVanillaThrusters++;
+                }
+                else
+                {
+                    Pointf pos;
+                    if (thrusterRot[i])
+                    {
+                        pos = {-(thrusterPos[i].y + shipImage.y + graph->shipBox.y), (thrusterPos[i].x + shipImage.x + graph->shipBox.x)};
+                    }
+                    else
+                    {
+                        pos = {thrusterPos[i].x + shipImage.x + graph->shipBox.x, thrusterPos[i].y + shipImage.y + graph->shipBox.y};
+                    }
+                    if (thrusters[i].empty())
+                    {
+                        pos.x -= 22;
+                        extraEngineAnim[iShipId].emplace_back(std::make_pair(Animation("effects/thrusters_on.png",4,0.5f,pos,88,70,0,-1),thrusterRot[i]));
+                    }
+                    else
+                    {
+                        Animation anim;
+                        AnimationControl::GetAnimation(anim, G_->GetAnimationControl(), thrusters[i]);
+                        pos.x -= anim.info.frameWidth * anim.fScale;
+                        anim.position = pos;
+                        extraEngineAnim[iShipId].push_back({anim,thrusterRot[i]});
+                    }
+                    extraEngineAnim[iShipId][nExtraThrusters].first.tracker.SetLoop(true, 0.f);
+                    extraEngineAnim[iShipId][nExtraThrusters].first.RandomStart();
+                    nExtraThrusters++;
+                }
+            }
+
+            for (int i=nVanillaThrusters; i<2; ++i)
+            {
+                AnimationControl::GetAnimation(engineAnim[i], G_->GetAnimationControl(), ""); // results in empty anim
+            }
+
+            //extraEngineAnim[iShipId].shrink_to_fit();
+
+            if (nThrusters) bShowEngines = true;
+        }
+    }
+}
+
+HOOK_METHOD(Ship, OnLoop, (std::vector<float> &oxygenLevels) -> void)
+{
+    super(oxygenLevels);
+
+    for (std::pair<Animation,bool>& anim : extraEngineAnim[iShipId])
+    {
+        anim.first.Update();
+    }
+}
+
+HOOK_METHOD(Ship, OnRenderBase, (bool engines) -> void)
+{
+    super(false);
+
+    if (engines && bShowEngines)
+    {
+        float alpha = 1.f;
+        if (bCloaked)
+        {
+            alpha = 0.5f;
+            if (cloakingTracker.running)
+            {
+                alpha = 1.f - 0.5f * cloakingTracker.Progress(-1.f);
+            }
+        }
+        if (engineAnim[0].animationStrip) engineAnim[0].OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
+        if (engineAnim[1].animationStrip) engineAnim[1].OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
+        for (std::pair<Animation,bool>& anim : extraEngineAnim[iShipId])
+        {
+            if (anim.second)
+            {
+                CSurface::GL_PushMatrix();
+                CSurface::GL_Rotate(-90.f, 0.f, 0.f, 1.f);
+                anim.first.OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
+                CSurface::GL_PopMatrix();
+            }
+            else
+            {
+                anim.first.OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
+            }
+        }
+    }
+}
+
+HOOK_METHOD(Ship, OnRenderJump, (float progress) -> void)
+{
+    bool customEngines = bShowEngines && thrustersImage == nullptr;
+    if (customEngines) bShowEngines = false;
+    super(progress);
+    if (customEngines) bShowEngines = true;
+
+    if (customEngines)
+    {
+        float alpha = 1.f - std::min(progress * 0.75f, 1.f);
+
+        if (engineAnim[0].animationStrip) engineAnim[0].OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
+        if (engineAnim[1].animationStrip) engineAnim[1].OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
+        for (std::pair<Animation,bool>& anim : extraEngineAnim[iShipId])
+        {
+            if (anim.second)
+            {
+                CSurface::GL_PushMatrix();
+                CSurface::GL_Rotate(-90.f, 0.f, 0.f, 1.f);
+                anim.first.OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
+                CSurface::GL_PopMatrix();
+            }
+            else
+            {
+                anim.first.OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
+            }
+        }
+    }
 }

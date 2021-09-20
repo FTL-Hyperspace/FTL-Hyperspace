@@ -75,7 +75,7 @@ HOOK_METHOD(StarMap, MouseMove, (int x, int y) -> void)
     {
         std::vector<Location*> vec = std::vector<Location*>();
 
-        StarMap::Dijkstra0(vec, this, currentLoc, hoverLoc, true);
+        StarMap::Dijkstra0(vec, this, currentLoc, hoverLoc);
 
         fuelReq = 0;
 

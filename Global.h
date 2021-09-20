@@ -16,7 +16,6 @@
 #include "System_Extend.h"
 #include "Blueprint_Extend.h"
 #include "Room_Extend.h"
-#include "CustomDamage.h"
 #include <random>
 
 //#include "LuaState.h"

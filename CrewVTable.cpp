@@ -2,6 +2,8 @@
 #pragma GCC optimize ("O1")
 #include "CustomCrew.h"
 
+int requiresFullControl = 0;
+
 static bool __attribute__((fastcall)) CrewMember_GetControllable(CrewMember *_this)
 {
     bool req = _this->iShipId == 0 && !_this->bDead && !_this->bMindControlled;
@@ -14,6 +16,10 @@ static bool __attribute__((fastcall)) CrewMember_GetControllable(CrewMember *_th
     auto def = CustomCrewManager::GetInstance()->GetDefinition(_this->species);
     bool ret = false;
     ex->CalculateStat(CrewStat::CONTROLLABLE, def, &ret);
+    if (!ret && !requiresFullControl)
+    {
+        ret = def->selectable;
+    }
     return ret && req;
 }
 
@@ -128,7 +134,7 @@ static bool __attribute__((fastcall)) CrewMember_ProvidesPower(CrewMember *_this
 {
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
 
-    return custom->GetDefinition(_this->species).providesPower;
+    return custom->GetDefinition(_this->species)->providesPower;
 }
 
 static float __attribute__((fastcall)) CrewMember_FireRepairMultiplier(CrewMember *_this)
@@ -190,9 +196,10 @@ static void __attribute__((fastcall)) CrewMember_ResetPower(CrewMember *_this)
     auto ex = CM_EX(_this);
 
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
-    auto def = ex->GetPowerDef();
+    auto def = custom->GetDefinition(_this->species);
+    auto powerDef = ex->GetPowerDef();
 
-    auto jumpCooldown = def->jumpCooldown;
+    auto jumpCooldown = powerDef->jumpCooldown;
 
     if (jumpCooldown == ActivatedPowerDefinition::JUMP_COOLDOWN_FULL)
     {
@@ -203,8 +210,7 @@ static void __attribute__((fastcall)) CrewMember_ResetPower(CrewMember *_this)
         ex->powerCooldown.first = 0;
     }
 
-    ex->powerCharges.first = std::min(ex->powerCharges.second, ex->powerCharges.first + def->chargesPerJump);
-
+    ex->powerCharges.first = std::min(ex->powerCharges.second, ex->powerCharges.first + (int)ex->CalculateStat(CrewStat::POWER_CHARGES_PER_JUMP, def));
 }
 
 static void __attribute__((fastcall)) CrewMember_ActivatePower(CrewMember *_this)
@@ -267,7 +273,7 @@ static bool __attribute__((fastcall)) CrewAnimation_CustomDeath(CrewAnimation *_
 {
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
     if (!custom->IsRace(_this->race)) return false;
-    return custom->GetDefinition(_this->race).hasCustomDeathAnimation;
+    return custom->GetDefinition(_this->race)->hasCustomDeathAnimation;
 }
 
 void SetupVTable(CrewAnimation *anim)

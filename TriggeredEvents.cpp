@@ -13,6 +13,8 @@ TriggeredEventGui *TriggeredEventGui::instance = new TriggeredEventGui();
 bool locationUpdated = false;
 std::vector<std::pair<std::string,int>> eventQueue = std::vector<std::pair<std::string,int>>();
 
+int TriggeredEvent::playerCloneCount = 0;
+
 void CustomEventsParser::ParseCustomTriggeredEventNode(rapidxml::xml_node<char> *node, TriggeredEventDefinition *def)
 {
     if (node->first_attribute("event"))
@@ -193,6 +195,206 @@ void CustomEventsParser::ParseCustomTriggeredEventNode(rapidxml::xml_node<char> 
 
     for (auto child = node->first_node(); child; child = child->next_sibling())
     {
+        if (strcmp(child->name(), "time") == 0)
+        {
+            if (child->first_attribute("amount"))
+            {
+                def->triggerMinTime = boost::lexical_cast<float>(child->first_attribute("amount")->value());
+                def->triggerMaxTime = boost::lexical_cast<float>(child->first_attribute("amount")->value());
+            }
+            if (child->first_attribute("min"))
+            {
+                def->triggerMinTime = boost::lexical_cast<float>(child->first_attribute("min")->value());
+            }
+            if (child->first_attribute("max"))
+            {
+                def->triggerMaxTime = boost::lexical_cast<float>(child->first_attribute("max")->value());
+            }
+        }
+        if (strcmp(child->name(), "jumps") == 0)
+        {
+            if (child->first_attribute("amount"))
+            {
+                def->triggerMinJumps = boost::lexical_cast<int>(child->first_attribute("amount")->value());
+                def->triggerMaxJumps = boost::lexical_cast<int>(child->first_attribute("amount")->value());
+            }
+            if (child->first_attribute("min"))
+            {
+                def->triggerMinJumps = boost::lexical_cast<int>(child->first_attribute("min")->value());
+            }
+            if (child->first_attribute("max"))
+            {
+                def->triggerMaxJumps = boost::lexical_cast<int>(child->first_attribute("max")->value());
+            }
+        }
+        if (strcmp(child->name(), "playerHull") == 0)
+        {
+            if (child->first_attribute("amount"))
+            {
+                def->minPlayerHull = boost::lexical_cast<int>(child->first_attribute("amount")->value());
+                def->maxPlayerHull = boost::lexical_cast<int>(child->first_attribute("amount")->value());
+            }
+            if (child->first_attribute("min"))
+            {
+                def->minPlayerHull = boost::lexical_cast<int>(child->first_attribute("min")->value());
+            }
+            if (child->first_attribute("max"))
+            {
+                def->maxPlayerHull = boost::lexical_cast<int>(child->first_attribute("max")->value());
+            }
+        }
+        if (strcmp(child->name(), "enemyHull") == 0)
+        {
+            if (child->first_attribute("amount"))
+            {
+                def->minEnemyHull = boost::lexical_cast<int>(child->first_attribute("amount")->value());
+                def->maxEnemyHull = boost::lexical_cast<int>(child->first_attribute("amount")->value());
+            }
+            if (child->first_attribute("min"))
+            {
+                def->minEnemyHull = boost::lexical_cast<int>(child->first_attribute("min")->value());
+            }
+            if (child->first_attribute("max"))
+            {
+                def->maxEnemyHull = boost::lexical_cast<int>(child->first_attribute("max")->value());
+            }
+            if (child->first_attribute("scaling"))
+            {
+                def->enemyHullScaling = boost::lexical_cast<float>(child->first_attribute("scaling")->value());
+            }
+        }
+        if (strcmp(child->name(), "playerDamage") == 0)
+        {
+            if (child->first_attribute("amount"))
+            {
+                def->minPlayerDamage = boost::lexical_cast<int>(child->first_attribute("amount")->value());
+                def->maxPlayerDamage = boost::lexical_cast<int>(child->first_attribute("amount")->value());
+            }
+            if (child->first_attribute("min"))
+            {
+                def->minPlayerDamage = boost::lexical_cast<int>(child->first_attribute("min")->value());
+            }
+            if (child->first_attribute("max"))
+            {
+                def->maxPlayerDamage = boost::lexical_cast<int>(child->first_attribute("max")->value());
+            }
+            if (child->first_attribute("countRepairs"))
+            {
+                def->playerCountRepairs = EventsParser::ParseBoolean(child->first_attribute("countRepairs")->value());
+            }
+        }
+        if (strcmp(child->name(), "enemyDamage") == 0)
+        {
+            if (child->first_attribute("amount"))
+            {
+                def->minEnemyDamage = boost::lexical_cast<int>(child->first_attribute("amount")->value());
+                def->maxEnemyDamage = boost::lexical_cast<int>(child->first_attribute("amount")->value());
+            }
+            if (child->first_attribute("min"))
+            {
+                def->minEnemyDamage = boost::lexical_cast<int>(child->first_attribute("min")->value());
+            }
+            if (child->first_attribute("max"))
+            {
+                def->maxEnemyDamage = boost::lexical_cast<int>(child->first_attribute("max")->value());
+            }
+            if (child->first_attribute("scaling"))
+            {
+                def->enemyDamageScaling = boost::lexical_cast<float>(child->first_attribute("scaling")->value());
+            }
+            if (child->first_attribute("countRepairs"))
+            {
+                def->enemyCountRepairs = EventsParser::ParseBoolean(child->first_attribute("countRepairs")->value());
+            }
+        }
+        if (strcmp(child->name(), "playerCrew") == 0)
+        {
+            if (child->first_attribute("amount"))
+            {
+                def->minPlayerCrew = boost::lexical_cast<int>(child->first_attribute("amount")->value());
+                def->maxPlayerCrew = boost::lexical_cast<int>(child->first_attribute("amount")->value());
+            }
+            if (child->first_attribute("min"))
+            {
+                def->minPlayerCrew = boost::lexical_cast<int>(child->first_attribute("min")->value());
+            }
+            if (child->first_attribute("max"))
+            {
+                def->maxPlayerCrew = boost::lexical_cast<int>(child->first_attribute("max")->value());
+            }
+            if (child->first_attribute("includeClonebay"))
+            {
+                def->playerCrewCountClonebay = EventsParser::ParseBoolean(child->first_attribute("includeClonebay")->value());
+            }
+        }
+        if (strcmp(child->name(), "enemyCrew") == 0)
+        {
+            if (child->first_attribute("amount"))
+            {
+                def->minEnemyCrew = boost::lexical_cast<int>(child->first_attribute("amount")->value());
+                def->maxEnemyCrew = boost::lexical_cast<int>(child->first_attribute("amount")->value());
+            }
+            if (child->first_attribute("min"))
+            {
+                def->minEnemyCrew = boost::lexical_cast<int>(child->first_attribute("min")->value());
+            }
+            if (child->first_attribute("max"))
+            {
+                def->maxEnemyCrew = boost::lexical_cast<int>(child->first_attribute("max")->value());
+            }
+            if (child->first_attribute("includeClonebay"))
+            {
+                def->enemyCrewCountClonebay = EventsParser::ParseBoolean(child->first_attribute("includeClonebay")->value());
+            }
+        }
+        if (strcmp(child->name(), "playerDeaths") == 0)
+        {
+            if (child->first_attribute("amount"))
+            {
+                def->minPlayerDeaths = boost::lexical_cast<int>(child->first_attribute("amount")->value());
+                def->maxPlayerDeaths = boost::lexical_cast<int>(child->first_attribute("amount")->value());
+            }
+            if (child->first_attribute("min"))
+            {
+                def->minPlayerDeaths = boost::lexical_cast<int>(child->first_attribute("min")->value());
+            }
+            if (child->first_attribute("max"))
+            {
+                def->maxPlayerDeaths = boost::lexical_cast<int>(child->first_attribute("max")->value());
+            }
+            if (child->first_attribute("countNewCrew"))
+            {
+                def->playerCountNewCrew = EventsParser::ParseBoolean(child->first_attribute("countNewCrew")->value());
+            }
+            if (child->first_attribute("includeClonebay"))
+            {
+                def->playerDeathsCountClonebay = EventsParser::ParseBoolean(child->first_attribute("includeClonebay")->value());
+            }
+        }
+        if (strcmp(child->name(), "enemyDeaths") == 0)
+        {
+            if (child->first_attribute("amount"))
+            {
+                def->minEnemyDeaths = boost::lexical_cast<int>(child->first_attribute("amount")->value());
+                def->maxEnemyDeaths = boost::lexical_cast<int>(child->first_attribute("amount")->value());
+            }
+            if (child->first_attribute("min"))
+            {
+                def->minEnemyDeaths = boost::lexical_cast<int>(child->first_attribute("min")->value());
+            }
+            if (child->first_attribute("max"))
+            {
+                def->maxEnemyDeaths = boost::lexical_cast<int>(child->first_attribute("max")->value());
+            }
+            if (child->first_attribute("countNewCrew"))
+            {
+                def->enemyCountNewCrew = EventsParser::ParseBoolean(child->first_attribute("countNewCrew")->value());
+            }
+            if (child->first_attribute("includeClonebay"))
+            {
+                def->enemyDeathsCountClonebay = EventsParser::ParseBoolean(child->first_attribute("includeClonebay")->value());
+            }
+        }
         if (strcmp(child->name(), "triggeredEventBox") == 0)
         {
             def->box = new TriggeredEventBoxDefinition();
@@ -612,6 +814,12 @@ void TriggeredEvent::DestroyEvent(const std::string& name)
 
 void TriggeredEvent::UpdateAll()
 {
+    playerCloneCount = 0;
+    for (auto& crew : G_->GetCrewFactory()->crewMembers)
+    {
+        if (crew->iShipId == 0 && crew->CountForVictory() && crew->bOutOfGame && crew->clone_ready) playerCloneCount++;
+    }
+
     for (auto it=eventList.begin(); it!=eventList.end(); )
     {
         if (it->second.def->thisFight)
@@ -740,21 +948,6 @@ void TriggeredEvent::Reset()
             triggerPlayerHull = std::max(triggerPlayerHull, def->minPlayerHull);
         }
     }
-    if (def->minPlayerDamage > -1)
-    {
-        ShipManager* ship = G_->GetShipManager(0);
-        if (ship != nullptr)
-        {
-            if (def->maxPlayerDamage > def->minPlayerDamage)
-            {
-                triggerPlayerHull = std::max(triggerPlayerHull, ship->ship.hullIntegrity.first - def->minPlayerDamage + random32()%(def->maxPlayerDamage-def->minPlayerDamage+1));
-            }
-            else
-            {
-                triggerPlayerHull = std::max(triggerPlayerHull, ship->ship.hullIntegrity.first - def->minPlayerDamage);
-            }
-        }
-    }
 
     triggerEnemyHull = -1;
     if (def->minEnemyHull > -1)
@@ -769,15 +962,35 @@ void TriggeredEvent::Reset()
             triggerEnemyHull = std::max(triggerEnemyHull, def->minEnemyHull + enemyHullScaling);
         }
     }
+
+    triggerPlayerDamage = -1;
+    if (def->minPlayerDamage > -1)
+    {
+        ShipManager* ship = G_->GetShipManager(0);
+        if (ship != nullptr)
+        {
+            currentPlayerHull = ship->ship.hullIntegrity.first;
+            if (def->maxPlayerDamage > def->minPlayerDamage)
+            {
+                triggerPlayerDamage = def->minPlayerDamage + random32()%(def->maxPlayerDamage-def->minPlayerDamage+1);
+            }
+            else
+            {
+                triggerPlayerDamage = def->minPlayerDamage;
+            }
+        }
+    }
+    triggerEnemyDamage = -1;
     if (def->minEnemyDamage > -1)
     {
         ShipManager* ship = G_->GetShipManager(1);
         if (ship != nullptr)
         {
+            currentEnemyHull = ship->ship.hullIntegrity.first;
             int enemyDamageScaling = G_->GetWorld()->starMap.worldLevel * def->enemyDamageScaling;
             if (def->maxEnemyDamage > def->minEnemyDamage)
             {
-                triggerEnemyHull = std::max(triggerEnemyHull, ship->ship.hullIntegrity.first - def->minEnemyDamage + random32()%(def->maxEnemyDamage-def->minEnemyDamage+1) - enemyDamageScaling);
+                triggerEnemyDamage = std::max(triggerEnemyHull, ship->ship.hullIntegrity.first - def->minEnemyDamage + random32()%(def->maxEnemyDamage-def->minEnemyDamage+1) - enemyDamageScaling);
             }
             else
             {
@@ -798,17 +1011,6 @@ void TriggeredEvent::Reset()
             triggerPlayerCrew = std::max(triggerPlayerCrew, def->minPlayerCrew);
         }
     }
-    if (def->minPlayerDeaths > -1)
-    {
-        if (def->maxPlayerDeaths > def->minPlayerDeaths)
-        {
-            triggerPlayerCrew = std::max(triggerPlayerCrew, G_->GetCrewFactory()->playerCrew - def->minPlayerDeaths + random32()%(def->maxPlayerDeaths-def->minPlayerDeaths+1));
-        }
-        else
-        {
-            triggerPlayerCrew = std::max(triggerPlayerCrew, G_->GetCrewFactory()->playerCrew - def->minPlayerDeaths);
-        }
-    }
 
     triggerEnemyCrew = -1;
     if (def->minEnemyCrew > -1)
@@ -822,15 +1024,32 @@ void TriggeredEvent::Reset()
             triggerEnemyCrew = std::max(triggerEnemyCrew, def->minEnemyCrew);
         }
     }
-    if (def->minEnemyDeaths > -1)
+
+    triggerPlayerDeaths = -1;
+    if (def->minPlayerDeaths > -1)
     {
-        if (def->maxEnemyDeaths > def->minEnemyDeaths)
+        currentPlayerCrew = GetPlayerCrew(def->playerDeathsCountClonebay);
+        if (def->maxPlayerDeaths > def->minPlayerDeaths)
         {
-            triggerEnemyCrew = std::max(triggerEnemyCrew, G_->GetCrewFactory()->enemyCrew - def->minEnemyDeaths + random32()%(def->maxEnemyDeaths-def->minEnemyDeaths+1));
+            triggerPlayerDeaths = def->minPlayerDeaths + random32()%(def->maxPlayerDeaths-def->minPlayerDeaths+1);
         }
         else
         {
-            triggerEnemyCrew = std::max(triggerEnemyCrew, G_->GetCrewFactory()->enemyCrew - def->minEnemyDeaths);
+            triggerPlayerDeaths = def->minPlayerDeaths;
+        }
+    }
+
+    triggerEnemyDeaths = -1;
+    if (def->minEnemyDeaths > -1)
+    {
+        currentEnemyCrew = GetEnemyCrew(def->enemyDeathsCountClonebay);
+        if (def->maxEnemyDeaths > def->minEnemyDeaths)
+        {
+            triggerEnemyCrew = def->minEnemyDeaths + random32()%(def->maxEnemyDeaths-def->minEnemyDeaths+1);
+        }
+        else
+        {
+            triggerEnemyCrew = def->minEnemyDeaths;
         }
     }
 }
@@ -852,7 +1071,6 @@ void TriggeredEvent::Update()
         if (warning != nullptr)
         {
             if (remainingTime < warningTime) warning->Start();
-            warning->OnLoop();
         }
 
         if (triggerTimer->Done())
@@ -885,14 +1103,74 @@ void TriggeredEvent::Update()
         }
     }
 
-    if (triggerPlayerCrew >= 0 && G_->GetCrewFactory()->playerCrew <= triggerPlayerCrew)
+    if (triggerPlayerCrew >= 0 && GetPlayerCrew(def->playerCrewCountClonebay) <= triggerPlayerCrew)
     {
         triggered = true;
     }
 
-    if (triggerEnemyCrew >= 0 && G_->GetCrewFactory()->enemyCrew <= triggerEnemyCrew)
+    if (triggerEnemyCrew >= 0 && GetEnemyCrew(def->enemyCrewCountClonebay) <= triggerEnemyCrew)
     {
         triggered = true;
+    }
+
+    if (triggerPlayerDamage >= 0)
+    {
+        ship = G_->GetShipManager(0);
+        if (ship != nullptr)
+        {
+            int hull = ship->ship.hullIntegrity.first;
+            int change = currentPlayerHull - hull;
+            if (change<0 && !def->playerCountRepairs) change=0;
+            currentPlayerHull = hull;
+            triggerPlayerDamage -= change;
+            if (triggerPlayerDamage <= 0)
+            {
+                triggered = true;
+            }
+        }
+    }
+
+    if (triggerEnemyDamage >= 0)
+    {
+        ship = G_->GetShipManager(1);
+        if (ship != nullptr)
+        {
+            int hull = ship->ship.hullIntegrity.first;
+            int change = currentEnemyHull - hull;
+            if (change<0 && !def->enemyCountRepairs) change=0;
+            currentEnemyHull = hull;
+            triggerEnemyDamage -= change;
+            if (triggerEnemyDamage <= 0)
+            {
+                triggered = true;
+            }
+        }
+    }
+
+    if (triggerPlayerDeaths >= 0)
+    {
+        int crew = GetPlayerCrew(def->playerDeathsCountClonebay);
+        int change = currentPlayerCrew - crew;
+        if (change<0 && !def->playerCountNewCrew) change=0;
+        currentPlayerCrew = crew;
+        triggerPlayerDeaths -= change;
+        if (triggerPlayerDeaths <= 0)
+        {
+            triggered = true;
+        }
+    }
+
+    if (triggerEnemyDeaths >= 0)
+    {
+        int crew = GetEnemyCrew(def->enemyDeathsCountClonebay);
+        int change = currentEnemyCrew - crew;
+        if (change<0 && !def->enemyCountNewCrew) change=0;
+        currentEnemyCrew = crew;
+        triggerEnemyDeaths -= change;
+        if (triggerEnemyDeaths <= 0)
+        {
+            triggered = true;
+        }
     }
 }
 
@@ -900,6 +1178,7 @@ void TriggeredEvent::OnRender()
 {
     if (warning != nullptr)
     {
+        warning->OnLoop();
         warning->OnRender();
     }
 }
@@ -956,6 +1235,16 @@ void TriggeredEvent::Save(int file)
     FileHelper::writeInt(file, triggerEnemyHull);
     FileHelper::writeInt(file, triggerPlayerCrew);
     FileHelper::writeInt(file, triggerEnemyCrew);
+    FileHelper::writeInt(file, triggerPlayerDamage);
+    FileHelper::writeInt(file, triggerEnemyDamage);
+    FileHelper::writeInt(file, triggerPlayerDeaths);
+    FileHelper::writeInt(file, triggerEnemyDeaths);
+
+    FileHelper::writeInt(file, currentPlayerHull);
+    FileHelper::writeInt(file, currentEnemyHull);
+    FileHelper::writeInt(file, currentPlayerCrew);
+    FileHelper::writeInt(file, currentEnemyCrew);
+
     FileHelper::writeInt(file, triggered);
 }
 
@@ -980,6 +1269,16 @@ void TriggeredEvent::Load(int file)
     triggerEnemyHull = FileHelper::readInteger(file);
     triggerPlayerCrew = FileHelper::readInteger(file);
     triggerEnemyCrew = FileHelper::readInteger(file);
+    triggerPlayerDamage = FileHelper::readInteger(file);
+    triggerEnemyDamage = FileHelper::readInteger(file);
+    triggerPlayerDeaths = FileHelper::readInteger(file);
+    triggerEnemyDeaths = FileHelper::readInteger(file);
+
+    currentPlayerHull = FileHelper::readInteger(file);
+    currentEnemyHull = FileHelper::readInteger(file);
+    currentPlayerCrew = FileHelper::readInteger(file);
+    currentEnemyCrew = FileHelper::readInteger(file);
+
     triggered = FileHelper::readInteger(file);
 }
 
@@ -987,20 +1286,43 @@ HOOK_METHOD(WorldManager, CreateNewGame, () -> void)
 {
     TriggeredEvent::eventList.clear();
     TriggeredEventGui::GetInstance()->reset = true;
+
+    eventQueue.clear();
+
     super();
 }
 
 HOOK_METHOD_PRIORITY(StarMap, LoadGame, 100, (int file) -> Location*)
 {
     auto ret = super(file);
+
     TriggeredEvent::LoadAll(file);
+
+    int eventQueueSize = FileHelper::readInteger(file);
+
+    for (int i=0; i<eventQueueSize; ++i)
+    {
+        std::pair<std::string,int> event;
+        event.first = FileHelper::readString(file);
+        event.second = FileHelper::readInteger(file);
+        eventQueue.push_back(event);
+    }
+
     return ret;
 }
 
 HOOK_METHOD_PRIORITY(StarMap, SaveGame, 100, (int file) -> void)
 {
     super(file);
+
     TriggeredEvent::SaveAll(file);
+
+    FileHelper::writeInt(file, eventQueue.size());
+    for (auto& event : eventQueue)
+    {
+        FileHelper::writeString(file, event.first);
+        FileHelper::writeInt(file, event.second);
+    }
 }
 
 HOOK_METHOD(WorldManager, OnLoop, () -> void)

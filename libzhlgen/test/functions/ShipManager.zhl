@@ -119,7 +119,7 @@ bool ShipManager::SystemFunctions(ShipManager *this<ecx>, int systemId);
 "5589e557565383e4f083ec108b450883f8050f84????????83f80d74??8b791c8b511889f829d0":
 bool ShipManager::CanFitSystem(ShipManager *this<ecx>, int systemId);
 "5589e557565383e4f083ec108b791c8b511889f829d0c1f80285c074??894c240c31db31f6eb??":
-bool ShipManager::CanFitSubsystem(ShipManager *this<ecx>, int systemId);
+cleanup bool ShipManager::CanFitSubsystem(ShipManager *this<ecx>, int systemId);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b018b378b57048b40403d????????75??0fb681d804000038d0":
 int ShipManager::DamageHull(ShipManager *this<ecx>, int dmg, bool force);
 "578d7c240883e4f0ff77fc5589f889e557565383ec6c8b308b58048b4018897db089cf":
@@ -132,6 +132,10 @@ CrewMember* ShipManager::FindCrew(ShipManager *this<ecx>, const CrewBlueprint *b
 bool ShipManager::GetDodged(ShipManager *this<ecx>);
 "578d7c240883e4f0ff77fc5589e55756538d995c08000081ec8c0000008b8188040000894db4c745a007000000895d9485c00f842a030000908db42600000000":
 void ShipManager::PrepareSuperBarrage(ShipManager *this<ecx>);
+"57b9????????8d7c240883e4f0ff77fc5589e55756538d45ac31db83ec6cc745ac00000000c745b000000000890424c744240400000000c745b400000000":
+bool ShipManager::RestoreCrewPositions(ShipManager *this<ecx>);
+"5589e557565383e4f083ec108b79688b4164c744240c0000000089fa29c2c1fa0285d274??31db894c2408eb??8d760089fa83c301":
+CrewMember* ShipManager::GetCrewmember(ShipManager *this<ecx>, int slot, bool present);
 
 struct ShipManager depends (PowerManager, ShieldPower)
 {{

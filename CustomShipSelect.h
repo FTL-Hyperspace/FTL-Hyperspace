@@ -296,6 +296,9 @@ public:
     std::vector<std::string> customShipOrder = std::vector<std::string>();
     bool hideFirstPage;
 
+    std::vector<std::pair<Point, std::string>> customAnimDefs = std::vector<std::pair<Point, std::string>>();
+    std::vector<std::pair<Point, Animation*>> customAnims = std::vector<std::pair<Point, Animation*>>();
+
 private:
     ShipSelect* shipSelect;
     Button* leftButton;

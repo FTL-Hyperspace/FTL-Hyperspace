@@ -6,6 +6,7 @@
 
 struct CrewDefinition;
 struct ActivatedPowerDefinition;
+struct ActivatedPowerRequirements;
 
 enum class CrewStat : unsigned int;
 struct StatBoost;
@@ -98,6 +99,7 @@ public:
     void TemporaryPowerFinished();
     Damage* GetPowerDamage();
     PowerReadyState PowerReady();
+    PowerReadyState PowerReq(const ActivatedPowerRequirements *req);
 
     unsigned int powerChange;
     unsigned int powerDefIdx = 0;
@@ -111,6 +113,9 @@ public:
     bool isIonDrone = false;
     bool isAbilityDrone = false;
 
+    bool noSlot = false;
+    bool noClone = false;
+
     float prevStun = 0.f; // for use in stun resistance checking
 
     std::vector<StatBoost> outgoingStatBoosts = std::vector<StatBoost>();
@@ -123,12 +128,12 @@ public:
 
     float extraMedbay = 0.f;
 
-    std::string originalRace;
+    std::string originalRace; // for color layers
     std::string transformRace = "";
 
     void Initialize(CrewBlueprint& bp, int shipId, bool enemy, CrewAnimation *animation, bool isTransform = false);
     bool TransformRace(const std::string& newRace);
-
+    static void TransformColors(CrewBlueprint& bp, CrewBlueprint *newBlueprint);
 
     ~CrewMember_Extend()
     {
@@ -138,7 +143,7 @@ public:
     std::pair<float,int> statCache[numStats] = {};
 
     bool BoostCheck(const StatBoost& statBoost);
-    float CalculateStat(CrewStat stat, const CrewDefinition& def, bool* boolValue=nullptr);
+    float CalculateStat(CrewStat stat, const CrewDefinition* def, bool* boolValue=nullptr);
 };
 
 CrewMember_Extend* Get_CrewMember_Extend(CrewMember* c);

@@ -13,7 +13,7 @@ void CrewEquipBox::OnTextInput(CrewEquipBox *this<ecx>, SDLKey key);
 ".578d7c240883e4f0ff77fc5589e55756538d997002000083ec1c89d98b37e8????????84c074??893424":
 void CrewEquipBox::OnTextEvent(CrewEquipBox *this<ecx>, CEvent::TextEvent event);
 "578d7c240883e4f0ff77fc5589e557565383ec6c8b716085f60f84????????80b96c0200000089cb74??80bbcc0000000074??":
-void CrewEquipBox::MouseClick(CrewEquipBox *this<ecx>, int mX, int mY);
+void CrewEquipBox::MouseClick(CrewEquipBox *this<ecx>);
 "80b96e0200000075??c38db6000000005581c1????????c641fe0089e583e4f0":
 void CrewEquipBox::CloseRename(CrewEquipBox *this<ecx>);
 

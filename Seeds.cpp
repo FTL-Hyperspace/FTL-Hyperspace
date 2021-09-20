@@ -7,7 +7,10 @@
 #include <iostream>
 #include <fstream>
 
-
+int GenerateLocationSeed(int a, int b)
+{
+    return ((a + b) * (a + b + 1)) / 2 + b;
+}
 
 TextInput* SeedInputBox::seedInput;
 Pointf SeedInputBox::drawLocation;

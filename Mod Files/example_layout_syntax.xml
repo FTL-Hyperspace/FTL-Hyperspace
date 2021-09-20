@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FTL>
+<!-- Vanilla tags not included for brevity -->
+
+<!--
+Custom Thruster animations
+Displayed when engines are functional. x/y is offset from top left of base image to top left of thruster anim. rotate="true" to autorotate player thruster animation to enemy orientation.
+-->
+<thrusters>
+	<thruster x="0" y="0" rotate="false"/>                    <!-- form for default animation -->
+	<thruster x="0" y="0" rotate="false">anim_name</thruster> <!-- form for custom animation; anim must exist in animations.xml -->
+</thrusters>
+
+</FTL>

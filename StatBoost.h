@@ -48,7 +48,10 @@ enum class CrewStat : unsigned int
     ACTIVATE_WHEN_READY,
     DEFAULT_SKILL_LEVEL,
     POWER_RECHARGE_MULTIPLIER,
-    HACK_DOORS
+    POWER_MAX_CHARGES,
+    POWER_CHARGES_PER_JUMP,
+    HACK_DOORS,
+    NO_CLONE
 };
 
 static const std::array<std::string, numStats> crewStats =
@@ -95,7 +98,10 @@ static const std::array<std::string, numStats> crewStats =
     "activateWhenReady",
     "defaultSkillLevel",
     "powerRechargeMultiplier",
-    "hackDoors"
+    "powerCharges",
+    "chargesPerJump",
+    "hackDoors",
+    "noClone"
 };
 
 struct StatBoostDefinition
@@ -219,7 +225,7 @@ struct StatBoostDefinition
 
 struct StatBoost
 {
-    StatBoostDefinition def;
+    StatBoostDefinition* def;
 
     int iStacks = 1;
 
@@ -230,7 +236,11 @@ struct StatBoost
 
     int sourceShipId;
 
-    StatBoost(StatBoostDefinition definition) : def{definition}
+    StatBoost(StatBoostDefinition& definition) : def{&definition}
+    {
+    }
+
+    StatBoost(StatBoostDefinition* definition) : def{definition}
     {
     }
 };
@@ -261,6 +271,7 @@ private:
     ShipManager* playerShip;
     ShipManager* enemyShip;
     std::vector<CrewMember*> checkingCrewList;
+    std::unordered_map<CrewMember*,std::unordered_map<int,int>> recursiveStackCount;
 
     int nextStackId = 0;
     std::unordered_map<std::string, int> stackIdMap;
@@ -278,8 +289,8 @@ private:
         return nextStackId;
     }
 
-    void CreateAugmentBoost(StatBoostDefinition& def, int shipId, int nStacks);
-    void CreateCrewBoost(StatBoostDefinition& def, CrewMember* otherCrew, int nStacks);
+    void CreateAugmentBoost(StatBoostDefinition* def, int shipId, int nStacks);
+    void CreateCrewBoost(StatBoostDefinition* def, CrewMember* otherCrew, int nStacks);
     void CreateCrewBoost(StatBoost statBoost, CrewMember* otherCrew);
     void CreateRecursiveBoosts(StatBoost& statBoost, int nStacks);
 };

@@ -35,6 +35,14 @@ HOOK_STATIC(BlueprintManager, ProcessWeaponBlueprint, (WeaponBlueprint* bp, Blue
         {
             weaponDef.customDamage.accuracyMod = boost::lexical_cast<int>(val);
         }
+        if (name == "noSysDamage")
+        {
+            weaponDef.customDamage.noSysDamage = EventsParser::ParseBoolean(val);
+        }
+        if (name == "noPersDamage")
+        {
+            weaponDef.customDamage.noPersDamage = EventsParser::ParseBoolean(val);
+        }
     }
 
     CustomWeaponManager::instance->AddWeaponDefinition(weaponDef);
@@ -135,9 +143,9 @@ HOOK_METHOD(WeaponControl, LinkShip, (ShipManager *ship) -> void)
     }
 }
 
-HOOK_METHOD(WeaponControl, OnRender, () -> void)
+HOOK_METHOD(WeaponControl, OnRender, (bool unk) -> void)
 {
-    super();
+    super(unk);
 
     if (this->shipManager->myBlueprint.weaponSlots <= 2 && this->shipManager->myBlueprint.weaponSlots > 0 && this->shipManager->HasSystem(3))
     {

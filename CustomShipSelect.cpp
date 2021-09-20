@@ -99,6 +99,26 @@ void CustomShipSelect::ParseShipsNode(rapidxml::xml_node<char> *node)
                 }
             }
 
+            if (name == "hangarAnims")
+            {
+                for (auto animChild = child->first_node(); animChild; animChild = animChild->next_sibling())
+                {
+                    if (strcmp(animChild->name(), "anim") == 0)
+                    {
+                        Point pos = Point();
+                        if (animChild->first_attribute("x"))
+                        {
+                            pos.x = boost::lexical_cast<int>(animChild->first_attribute("x")->value());
+                        }
+                        if (animChild->first_attribute("y"))
+                        {
+                            pos.y = boost::lexical_cast<int>(animChild->first_attribute("y")->value());
+                        }
+                        customAnimDefs.push_back(std::pair<Point, std::string>(pos, animChild->value()));
+                    }
+                }
+            }
+
             if (name == "customShip")
             {
                 std::string shipName;
@@ -303,6 +323,18 @@ void CustomShipSelect::OnInit(ShipSelect* shipSelect_)
         }
 
         customShipOrder.insert(customShipOrder.end(), toAdd.begin(), toAdd.end());
+
+        for (auto i : customAnimDefs)
+        {
+            auto newAnim = new Animation();
+
+            AnimationControl::GetAnimation(*newAnim, G_->GetAnimationControl(), i.second);
+            newAnim->SetCurrentFrame(0);
+            newAnim->tracker.SetLoop(true, 0);
+            newAnim->Start(true);
+
+            customAnims.push_back(std::pair<Point, Animation*>(i.first, newAnim));
+        }
     }
 
     maxShipPage = std::ceil(customShipOrder.size() / 10.f);
@@ -1280,6 +1312,11 @@ HOOK_METHOD(ShipBuilder, OnLoop, () -> void)
     {
         startButton.SetActive(Settings::GetDlcEnabled() || (currentShipId != 9 && currentType != 2));
     }
+
+    for (auto i : CustomShipSelect::GetInstance()->customAnims)
+    {
+        i.second->Update();
+    }
 }
 
 static GL_Texture* seedBox;
@@ -1357,6 +1394,17 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
     }
 
     CSurface::GL_SetColor(1.f, 1.f, 1.f, 1.f);
+
+    for (auto i : CustomShipSelect::GetInstance()->customAnims)
+    {
+        CSurface::GL_PushMatrix();
+        CSurface::GL_Translate(i.first.x, i.first.y);
+
+        i.second->OnRender(1.f, COLOR_WHITE, false);
+
+        CSurface::GL_PopMatrix();
+    }
+
     CSurface::GL_PushMatrix();
 
     if (!Settings::GetDlcEnabled() && (currentShipId == 9 || currentType == 2) && isVanillaShip)
