@@ -769,14 +769,14 @@ HOOK_METHOD(Ship, OnInit, (ShipBlueprint& bp) -> void)
                     }
                     if (thrusters[i].empty())
                     {
-                        pos.x -= 22;
+                        if (thrusterRot[i]) pos.x -= 22;
                         extraEngineAnim[iShipId].emplace_back(std::make_pair(Animation("effects/thrusters_on.png",4,0.5f,pos,88,70,0,-1),thrusterRot[i]));
                     }
                     else
                     {
                         Animation anim;
                         AnimationControl::GetAnimation(anim, G_->GetAnimationControl(), thrusters[i]);
-                        pos.x -= anim.info.frameWidth * anim.fScale;
+                        if (thrusterRot[i]) pos.x -= anim.info.frameWidth * anim.fScale;
                         anim.position = pos;
                         extraEngineAnim[iShipId].push_back({anim,thrusterRot[i]});
                     }
