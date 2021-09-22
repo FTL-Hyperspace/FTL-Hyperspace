@@ -833,7 +833,7 @@ HOOK_METHOD(CombatControl, RenderShipStatus, (Pointf pos, GL_Color color) -> voi
         CSurface::GL_PushMatrix();
         CSurface::GL_Translate(pos.x, pos.y, 0.0);
 
-        bool isHacked = currentTarget->shipManager->IsSystemHacked(0);
+        bool isHacked = currentTarget->shipManager->IsSystemHacked(0) > 1;
 
         for (int i=5; i<enemyShield.second; ++i)
         {

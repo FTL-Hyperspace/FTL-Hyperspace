@@ -30165,10 +30165,10 @@ namespace _func842
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("ShipManager::IsSystemHacked", typeid(bool (ShipManager::*)(int )), "5383ec048b54240c83fa1174??8b99c804000031c0833c93ff75??83c4045bc20400891424e8????????83ec04", argdata, 2, 1, &func);
+	static FunctionDefinition funcObj("ShipManager::IsSystemHacked", typeid(int (ShipManager::*)(int )), "5383ec048b54240c83fa1174??8b99c804000031c0833c93ff75??83c4045bc20400891424e8????????83ec04", argdata, 2, 1, &func);
 }
 
-__declspec(naked) bool ShipManager::IsSystemHacked(int systemId)
+__declspec(naked) int ShipManager::IsSystemHacked(int systemId)
 {
 	__asm__
 	(

@@ -4062,7 +4062,7 @@ struct ShipManager : ShipObject
 	LIBZHL_API void destructor2();
 	LIBZHL_API void ImportShip(int file);
 	LIBZHL_API void CheckVision();
-	LIBZHL_API bool IsSystemHacked(int systemId);
+	LIBZHL_API int IsSystemHacked(int systemId);
 	LIBZHL_API CrewMember *GetSelectedCrewPoint(int x, int y, bool intruder);
 	LIBZHL_API void RenderWeapons();
 	LIBZHL_API void ClearStatusSystem(int system);

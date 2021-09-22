@@ -248,7 +248,7 @@ HOOK_METHOD(ShipManager, CheckVision, () -> void)
         if (sensorRoom != -1)
         {
             ShipSystem *sensors = vSystemList[sensorRoom];
-            canSee = sensors->GetEffectivePower() > 0 && !IsSystemHacked(7);
+            canSee = sensors->GetEffectivePower() > 0 && !(sensors->iHackEffect > 1);
         }
     }
     else if (current_target != nullptr)
@@ -258,7 +258,7 @@ HOOK_METHOD(ShipManager, CheckVision, () -> void)
         if (sensorRoom != -1)
         {
             ShipSystem *sensors = current_target->vSystemList[sensorRoom];
-            canSee = sensors->GetEffectivePower() > 1 || IsSystemHacked(7);
+            canSee = sensors->GetEffectivePower() > 1 && !(sensors->iHackEffect > 1);
         }
     }
 
