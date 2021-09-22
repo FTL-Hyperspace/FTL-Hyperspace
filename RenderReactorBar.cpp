@@ -9,7 +9,7 @@ HOOK_METHOD(SystemControl, RenderPowerBar, () -> void)
     int powerBarCount = availablePower + playerPowerManager->batteryPower.second - playerPowerManager->batteryPower.first;
     int maxPower = playerPowerManager->currentPower.second + playerPowerManager->batteryPower.second;
     int unusedPower = powerBarCount - (maxPower - (reactorLevel + playerPowerManager->batteryPower.second));
-    int displayLevel = (reactorLevel + playerPowerManager->batteryPower.second > 29) ? 27 : 29;
+    int displayLevel = (maxPower > 29) ? 27 : 29;
 
     float greyOpacity = 0.5;
     int batteryEffPower = playerPowerManager->batteryPower.second - playerPowerManager->batteryPower.first;
@@ -82,6 +82,7 @@ HOOK_METHOD(SystemControl, RenderPowerBar, () -> void)
                 sysBoxLocY = currentSysBox->location.y;
                 CSurface::GL_Translate(sysBoxLocX, sysBoxLocY, 0);
 
+                //generic wires
                 if(currentSysBox->HasButton()) {
                     currentSys = sysBoxes[startsAtTwo]->pSystem;
                     if(sysBoxes.size() <= startsAtTwo || currentSys->GetNeedsPower()) {
@@ -95,6 +96,7 @@ HOOK_METHOD(SystemControl, RenderPowerBar, () -> void)
                     currentSys = sysBoxes[startsAtTwo - 2]->pSystem;
                     sysID = currentSys->GetId();
 
+                    //drone system wires
                     if(sysID == 3) {
                         if(numWeaponSlots == 2) droneSysWireImage = drone2;
                         else if(numWeaponSlots == 3) droneSysWireImage = drone3;
@@ -134,7 +136,8 @@ HOOK_METHOD(SystemControl, RenderPowerBar, () -> void)
         powerCounter = 0;
         while(1) {
             while(1) {
-                if(powerCounter < batteryEffPower) {
+                //battery bar boxes
+                if(powerCounter < batteryEffPower){
                     powerBarColour = COLOR_GREEN;
                     //if(colourBlindOn) powerBarColour = COLOR_CB_WHITE; //placeholder for when the colourblind setting is hooked
                     if(flashBatteryPower.running) {
@@ -144,7 +147,7 @@ HOOK_METHOD(SystemControl, RenderPowerBar, () -> void)
                     CSurface::GL_RenderPrimitiveWithColor(powerBars->tiny[powerCounter], powerBarColour);
                     CSurface::GL_RenderPrimitiveWithColor(powerBars->empty[powerCounter], borderColour);
                     powerCounter++;
-                    if(maxPower == powerCounter) {
+                    if(maxPower == powerCounter){
                         sysPowerH = 9 * maxPower;
                         goto doubleWhileEnd;
                     } else if(powerCounter == displayLevel) {
@@ -154,6 +157,7 @@ HOOK_METHOD(SystemControl, RenderPowerBar, () -> void)
                     continue;
                 }
 
+                //blue bar boxes (nebula)
                 if(powerCounter < std::min((reactorLevel + playerPowerManager->batteryPower.second), displayLevel)) break;
                 CSurface::GL_RenderPrimitiveWithColor(powerBars->damaged[powerCounter], blueColour);
                 powerCounter++;
@@ -166,6 +170,7 @@ HOOK_METHOD(SystemControl, RenderPowerBar, () -> void)
                 }
             }//inner while(1) end
 
+            //power bar boxes
             if(unusedPower > powerCounter) {
                 if(bPowerWarningRunning) {
                     CSurface::GL_RenderPrimitive(powerBars->normal[powerCounter]);
@@ -185,6 +190,7 @@ HOOK_METHOD(SystemControl, RenderPowerBar, () -> void)
                 continue;
             }
 
+            //empty bar boxes
             CSurface::GL_RenderPrimitive(powerBars->empty[powerCounter]);
             powerCounter++;
             if(maxPower == powerCounter) {
@@ -200,7 +206,7 @@ HOOK_METHOD(SystemControl, RenderPowerBar, () -> void)
 doubleWhileEnd:
     CSurface::GL_PopMatrix();
 
-    if(reactorLevel + playerPowerManager->batteryPower.second > 29){
+    if(maxPower > 29){
         std::stringstream reactorStream;
         if(unusedPower > 27) {
             CSurface::GL_SetColor(COLOR_GREEN);

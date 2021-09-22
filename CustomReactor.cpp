@@ -78,9 +78,9 @@ HOOK_METHOD(ReactorButton, OnRender, ()->void)
 
     PowerManager* playerPowerMngr = PowerManager::GetPowerManager(0);
     int currentScrap = ship->currentScrap;
-    int reactorLevel = playerPowerMngr->GetMaxPower();
+    int reactorLevel = playerPowerMngr->currentPower.second;
     int tempLevel = tempUpgrade + reactorLevel;
-    int displayReactorLevel = playerPowerMngr->GetMaxPower();
+    int displayReactorLevel = playerPowerMngr->currentPower.second;
     int displayTempUpgrade = tempUpgrade;
     int coloumn = floor(tempLevel / 5) + 1;
     int overCol = 0;
@@ -89,9 +89,11 @@ HOOK_METHOD(ReactorButton, OnRender, ()->void)
     GL_Texture* reactorImage = G_->GetResources()->GetImageId("upgradeUI/equipment/equipment_reactor_on.png");
     GL_Texture* reactorImageSel = G_->GetResources()->GetImageId("upgradeUI/equipment/equipment_reactor_select2.png");
     GL_Texture* activeImage = bHover ? reactorImageSel : reactorImage;
+    int baseX = 640, baseY = 412;
 
-    G_->GetResources()->RenderImage(activeImage, 610, 412, 0, COLOR_WHITE, 1.f, false);
+    G_->GetResources()->RenderImage(activeImage, baseX, baseY, 0, COLOR_WHITE, 1.f, false);
 
+    //adjusting levels for rendering
     if(tempLevel >= 25){
         overCol = ceil((tempLevel - 25) / 5) + 1;
         if(tempLevel == maxLevel) overCol--;
@@ -109,6 +111,7 @@ HOOK_METHOD(ReactorButton, OnRender, ()->void)
         displayMaxLevel -= 5;
     }
 
+    //reactor upgrade boxes rendering
     GL_Color currentColour = bHover ? hoverColour : dirtyWhite;
     for(int col = 0; col < 5; col++){
         for(int row = 0; row < 5; row++){
@@ -119,7 +122,7 @@ HOOK_METHOD(ReactorButton, OnRender, ()->void)
             else if (currentBar <= displayTempLevel) colour = COLOR_YELLOW;
             else if((tempLevel > (maxLevel - 4)) && (currentBar > displayMaxLevel)) colour = blankColour;
             else colour = emptyColour;
-            CSurface::GL_DrawRect(640 + col * 44, 486 - row * 13, 32, -8, colour);
+            CSurface::GL_DrawRect(baseX + 30 + col * 44, baseY + 74 - row * 13, 32, -8, colour);
         }
 
         int currentCost;
@@ -129,25 +132,28 @@ HOOK_METHOD(ReactorButton, OnRender, ()->void)
             currentCost = reactorCosts[0] + (col + overCol) * increment;
         }
 
-        std::string price = boost::lexical_cast<std::string>(currentCost);
+        //prices over the coloumns
+        std::string price = std::to_string(currentCost);
         CSurface::GL_SetColor(currentColour);
-        freetype::easy_printRightAlign(5, 657 + col * 44, 414, price);
+        freetype::easy_printRightAlign(5, baseX + 47 + col * 44, baseY + 2, price);
     }
 
+    //"# power bars" text
     std::string reactorText = G_->GetTextLibrary()->GetText("upgrade_reactor_power");
-    boost::algorithm::replace_all(reactorText, "\\1", boost::lexical_cast<std::string>(tempLevel));
+    boost::algorithm::replace_all(reactorText, "\\1", std::to_string(tempLevel));
     CSurface::GL_SetColor(currentColour);
-    freetype::easy_printRightAlign(14, 791, 494, reactorText);
+    freetype::easy_printRightAlign(14, baseX + 181, baseY + 82, reactorText);
 
+    //current price
     int currentCost;
     if(reactorCosts[coloumn] >= 0){
         currentCost = reactorCosts[coloumn];
     } else {
         currentCost = reactorCosts[0] + (coloumn - 1) * increment;
     }
-    std::string currentPrice = boost::lexical_cast<std::string>(currentCost);
+    std::string currentPrice = std::to_string(currentCost);
     CSurface::GL_SetColor(currentColour);
-    if(tempLevel == maxLevel) freetype::easy_print(14, 845, 496, "--");
-    else if (currentCost >= 100) freetype::easy_printAutoShrink(14, 840, 494, 39, false, currentPrice);
-    else freetype::easy_print(14, 845, 494, currentPrice);
+    if(tempLevel == maxLevel) freetype::easy_print(14, baseX + 235, baseY + 84, "--");
+    else if (currentCost >= 100) freetype::easy_printAutoShrink(14, baseX + 230, baseY + 82, 39, false, currentPrice);
+    else freetype::easy_print(14, baseX + 235, baseY + 82, currentPrice);
 }
