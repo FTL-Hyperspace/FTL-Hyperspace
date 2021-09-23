@@ -776,8 +776,8 @@ public:
 
     LocationEvent* GetEvent(WorldManager *world, EventLoadList *eventList, int seed);
     LocationEvent* GetEvent(WorldManager *world, std::string eventName, int seed);
-    void LoadEvent(WorldManager *world, EventLoadList *eventList, int seed);
-    void LoadEvent(WorldManager *world, std::string eventName, int seed);
+    void LoadEvent(WorldManager *world, EventLoadList *eventList, int seed, CustomEvent *parentEvent = nullptr);
+    void LoadEvent(WorldManager *world, std::string eventName, int seed, CustomEvent *parentEvent = nullptr);
 
     std::vector<std::string> eventFiles;
     CustomEvent *defaultVictory = new CustomEvent();
