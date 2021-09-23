@@ -2950,7 +2950,7 @@ LocationEvent* CustomEventsParser::GetEvent(WorldManager *world, EventLoadList *
     LocationEvent* ret = candidateEvents[random32()%candidateEvents.size()];
     for (LocationEvent* event : candidateEvents)
     {
-        if (event != ret) delete event;
+        if (event != ret) event->ClearEvent(false);
     }
 
     return ret;
