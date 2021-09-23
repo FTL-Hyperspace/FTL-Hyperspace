@@ -2921,7 +2921,9 @@ LocationEvent* CustomEventsParser::GetEvent(WorldManager *world, EventLoadList *
 
         if (!event.req.empty())
         {
+            advancedCheckEquipment = true;
             int result = player->HasEquipment(event.req);
+            advancedCheckEquipment = false;
             if (result < event.lvl || result > event.max_lvl) continue;
             if (event.max_group != -1) used_groups.insert(event.max_group);
         }
