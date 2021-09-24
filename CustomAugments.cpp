@@ -684,7 +684,8 @@ HOOK_METHOD(Shields, OnLoop, () -> void)
     int customSuper = CustomAugmentManager::GetSuperShieldValue(_shipObj.iShipId);
     if (customSuper > 0)
     {
-        shields.power.super.second = customSuper;
+        shields.power.super.second = std::max(customSuper, std::min(shields.power.super.second, 5));
+
         if (noSuper) shields.power.super.first = customSuper;
     }
 }
