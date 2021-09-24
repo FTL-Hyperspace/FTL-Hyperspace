@@ -6,7 +6,7 @@
 #include <boost/lexical_cast.hpp>
 
 static bool importingShip = false;
-static bool revisitingShip = false;
+bool revisitingShip = false;
 
 HOOK_METHOD(WorldManager, CreateShip, (ShipEvent* shipEvent, bool boss) -> CompleteShip*)
 {

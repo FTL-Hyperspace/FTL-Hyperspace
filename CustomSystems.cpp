@@ -1,6 +1,7 @@
 #include "CustomSystems.h"
 #include "TemporalSystem.h"
 #include "CustomShipSelect.h"
+#include "CustomShips.h"
 
 void ParseSystemsNode(rapidxml::xml_node<char>* node)
 {
@@ -83,7 +84,8 @@ HOOK_METHOD(ShipManager, CreateSystems, () -> int)
         systemKey.push_back(-1);
     }
 
-    auto realBp = G_->GetBlueprints()->GetShipBlueprint(myBlueprint.blueprintName, -1);
+    ShipBlueprint *realBp = nullptr;
+    if (!revisitingShip) realBp = G_->GetBlueprints()->GetShipBlueprint(myBlueprint.blueprintName, -1);
 
     int ret = 0;
 

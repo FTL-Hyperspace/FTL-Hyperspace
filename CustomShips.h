@@ -3,3 +3,5 @@
 // TODO: Put customShip stuff here, not in CustomShipSelect
 
 extern bool g_enemyPreigniterFix;
+
+extern bool revisitingShip;
