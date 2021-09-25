@@ -89,8 +89,6 @@ HOOK_METHOD(ShipManager, CreateSystems, () -> int)
 
     int ret = 0;
 
-    int ret = 0;
-
     if (realBp)
     {
         for (auto i : realBp->systems)
