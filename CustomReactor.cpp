@@ -156,3 +156,16 @@ HOOK_METHOD(ReactorButton, OnRender, ()->void)
     else if (currentCost >= 100) freetype::easy_printAutoShrink(14, baseX + 230, baseY + 82, 39, false, currentPrice);
     else freetype::easy_print(14, baseX + 235, baseY + 82, currentPrice);
 }
+
+HOOK_METHOD(ShipManager, CanUpgrade, (int systemId, int amount) -> int)
+{
+    if (systemId == 17)
+    {
+        auto customSel = CustomShipSelect::GetInstance();
+        auto def = customSel->GetDefinition(myBlueprint.blueprintName);
+        int maxLevel = def.maxReactorLevel;
+        auto reactor = PowerManager::GetPowerManager(iShipId);
+        return std::min(amount, maxLevel - reactor->currentPower.second);
+    }
+    return super(systemId, amount);
+}

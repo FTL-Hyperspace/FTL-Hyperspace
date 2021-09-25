@@ -4098,6 +4098,7 @@ struct ShipManager : ShipObject
 	LIBZHL_API void PrepareSuperBarrage();
 	LIBZHL_API bool RestoreCrewPositions();
 	LIBZHL_API CrewMember *GetCrewmember(int slot, bool present);
+	LIBZHL_API int CanUpgrade(int systemId, int amount);
 	
 	Targetable _targetable;
 	Collideable _collideable;
