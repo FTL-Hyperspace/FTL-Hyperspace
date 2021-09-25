@@ -3470,6 +3470,7 @@ HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEve
                 G_->GetScoreKeeper()->SetVictory(true);
                 commandGui->gameover = true;
                 commandGui->Victory();
+                G_->GetScoreKeeper()->Save(true);
 
                 replaceGameOverText = "";
             }
@@ -4152,6 +4153,7 @@ HOOK_METHOD(WorldManager, OnLoop, () -> void)
                 G_->GetScoreKeeper()->SetVictory(true);
                 commandGui->gameover = true;
                 commandGui->Victory();
+                G_->GetScoreKeeper()->Save(true);
                 replaceGameOverText = "";
             }
         }
