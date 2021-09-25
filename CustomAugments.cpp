@@ -684,7 +684,8 @@ HOOK_METHOD(Shields, OnLoop, () -> void)
     int customSuper = CustomAugmentManager::GetSuperShieldValue(_shipObj.iShipId);
     if (customSuper > 0)
     {
-        shields.power.super.second = customSuper;
+        shields.power.super.second = std::max(customSuper, std::min(shields.power.super.second, 5));
+
         if (noSuper) shields.power.super.first = customSuper;
     }
 }
@@ -833,7 +834,7 @@ HOOK_METHOD(CombatControl, RenderShipStatus, (Pointf pos, GL_Color color) -> voi
         CSurface::GL_PushMatrix();
         CSurface::GL_Translate(pos.x, pos.y, 0.0);
 
-        bool isHacked = currentTarget->shipManager->IsSystemHacked(0);
+        bool isHacked = currentTarget->shipManager->IsSystemHacked(0) > 1;
 
         for (int i=5; i<enemyShield.second; ++i)
         {

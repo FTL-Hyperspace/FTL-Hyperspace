@@ -1704,6 +1704,18 @@ HOOK_STATIC(EventsParser, ProcessShipEvent, (ShipTemplate &shipEvent, EventsPars
 
 static bool g_checkCargo = false;
 
+void SetCheckCargo(CustomEvent *event)
+{
+    if (event)
+    {
+        g_checkCargo = event->checkCargo;
+    }
+    else
+    {
+        g_checkCargo = CustomOptionsManager::GetInstance()->defaults.checkCargo;
+    }
+}
+
 HOOK_METHOD(ShipObject, HasEquipment, (const std::string& equipment) -> int)
 {
     int ret = super(equipment);
@@ -1804,14 +1816,7 @@ HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
 {
     auto customEvents = CustomEventsParser::GetInstance();
 
-    if (customEvents->GetCustomEvent(event->eventName))
-    {
-        g_checkCargo = customEvents->GetCustomEvent(event->eventName)->checkCargo;
-    }
-    else
-    {
-        g_checkCargo = CustomOptionsManager::GetInstance()->defaults.checkCargo;
-    }
+    SetCheckCargo(customEvents->GetCustomEvent(event->eventName));
 
     if (!event->stuff.removeItem.empty())
     {
@@ -1837,11 +1842,11 @@ HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEve
     auto customEvents = CustomEventsParser::GetInstance();
     auto customEvent = customEvents->GetCustomEvent(event->eventName);
 
+    SetCheckCargo(customEvent);
+
     if (customEvent)
     {
-        g_checkCargo = customEvents->GetCustomEvent(event->eventName)->checkCargo;
-
-        for (auto i : customEvents->GetCustomEvent(event->eventName)->hiddenAugs)
+        for (auto i : customEvent->hiddenAugs)
         {
             auto augList = G_->GetShipInfo()->augList;
 
@@ -2950,7 +2955,7 @@ LocationEvent* CustomEventsParser::GetEvent(WorldManager *world, EventLoadList *
     LocationEvent* ret = candidateEvents[random32()%candidateEvents.size()];
     for (LocationEvent* event : candidateEvents)
     {
-        if (event != ret) delete event;
+        if (event != ret) event->ClearEvent(false);
     }
 
     return ret;
@@ -2975,15 +2980,29 @@ LocationEvent* CustomEventsParser::GetEvent(WorldManager *world, std::string eve
     return G_->GetEventGenerator()->GetBaseEvent(eventName, world->starMap.currentSector->level, true, seed);
 }
 
-void CustomEventsParser::LoadEvent(WorldManager *world, EventLoadList *eventList, int seed)
+void CustomEventsParser::LoadEvent(WorldManager *world, EventLoadList *eventList, int seed, CustomEvent *parentEvent)
 {
+    SetCheckCargo(parentEvent);
+    advancedCheckEquipment = true;
+
     LocationEvent *event = GetEvent(world, eventList, seed);
+
+    g_checkCargo = false;
+    advancedCheckEquipment = false;
+
     if (event) world->UpdateLocation(event);
 }
 
-void CustomEventsParser::LoadEvent(WorldManager *world, std::string eventName, int seed)
+void CustomEventsParser::LoadEvent(WorldManager *world, std::string eventName, int seed, CustomEvent *parentEvent)
 {
+    SetCheckCargo(parentEvent);
+    advancedCheckEquipment = true;
+
     LocationEvent *event = GetEvent(world, eventName, seed);
+
+    g_checkCargo = false;
+    advancedCheckEquipment = false;
+
     if (event) world->UpdateLocation(event);
 }
 
@@ -3033,11 +3052,14 @@ HOOK_METHOD(WorldManager, CreateLocation, (Location *location) -> void)
         bool revisitSeeded = CustomEventsParser::GetInstance()->defaultRevisitSeeded;
 
         auto loc = location->event;
+        CustomEvent *customEvent = nullptr;
+
         if (loc)
         {
             if (loc->ship.present && loc->ship.hostile) return; // left behind an enemy ship
 
-            CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(loc->eventName);
+            customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(loc->eventName);
+
             if (customEvent && !customEvent->eventRevisit.empty())
             {
                 revisitEvent = customEvent->eventRevisit;
@@ -3045,12 +3067,12 @@ HOOK_METHOD(WorldManager, CreateLocation, (Location *location) -> void)
             }
         }
 
-        CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(loc->eventName);
         if (!revisitEvent.empty())
         {
             int seed = revisitSeeded ? (int)(location->loc.x + location->loc.y) ^ (starMap.currentSectorSeed*location->visited + location->visited) : -1;
-            CustomEventsParser::GetInstance()->LoadEvent(this, revisitEvent, seed);
+            CustomEventsParser::GetInstance()->LoadEvent(this, revisitEvent, seed, customEvent);
         }
+
         return;
     }
 
@@ -3066,13 +3088,13 @@ HOOK_METHOD(WorldManager, CreateLocation, (Location *location) -> void)
         if (customEvent->eventLoadList != nullptr)
         {
             int seed = customEvent->eventLoadList->seeded ? (int)(location->loc.x + location->loc.y) ^ starMap.currentSectorSeed : -1;
-            CustomEventsParser::GetInstance()->LoadEvent(this, customEvent->eventLoadList, seed);
+            CustomEventsParser::GetInstance()->LoadEvent(this, customEvent->eventLoadList, seed, customEvent);
         }
 
         if (!customEvent->eventLoad.empty())
         {
             int seed = customEvent->eventLoadSeeded ? (int)(location->loc.x + location->loc.y) ^ starMap.currentSectorSeed : -1;
-            CustomEventsParser::GetInstance()->LoadEvent(this, customEvent->eventLoad, seed);
+            CustomEventsParser::GetInstance()->LoadEvent(this, customEvent->eventLoad, seed, customEvent);
         }
 
         if (!customEvent->secretSectorWarp.empty())
@@ -3136,13 +3158,13 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
         if (customEvent->eventLoadList != nullptr)
         {
             int seed = customEvent->eventLoadList->seeded ? (int)(starMap.currentLoc->loc.x + starMap.currentLoc->loc.y) ^ starMap.currentSectorSeed : -1;
-            CustomEventsParser::GetInstance()->LoadEvent(this, customEvent->eventLoadList, seed);
+            CustomEventsParser::GetInstance()->LoadEvent(this, customEvent->eventLoadList, seed, customEvent);
         }
 
         if (!customEvent->eventLoad.empty())
         {
             int seed = customEvent->eventLoadSeeded ? (int)(starMap.currentLoc->loc.x + starMap.currentLoc->loc.y) ^ starMap.currentSectorSeed : -1;
-            CustomEventsParser::GetInstance()->LoadEvent(this, customEvent->eventLoad, seed);
+            CustomEventsParser::GetInstance()->LoadEvent(this, customEvent->eventLoad, seed, customEvent);
         }
 
         if (customEvent->restartEvent)
@@ -3452,6 +3474,7 @@ HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEve
                 G_->GetScoreKeeper()->SetVictory(true);
                 commandGui->gameover = true;
                 commandGui->Victory();
+                G_->GetScoreKeeper()->Save(true);
 
                 replaceGameOverText = "";
             }
@@ -4134,6 +4157,7 @@ HOOK_METHOD(WorldManager, OnLoop, () -> void)
                 G_->GetScoreKeeper()->SetVictory(true);
                 commandGui->gameover = true;
                 commandGui->Victory();
+                G_->GetScoreKeeper()->Save(true);
                 replaceGameOverText = "";
             }
         }

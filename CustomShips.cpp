@@ -6,7 +6,7 @@
 #include <boost/lexical_cast.hpp>
 
 static bool importingShip = false;
-static bool revisitingShip = false;
+bool revisitingShip = false;
 
 HOOK_METHOD(WorldManager, CreateShip, (ShipEvent* shipEvent, bool boss) -> CompleteShip*)
 {
@@ -248,7 +248,7 @@ HOOK_METHOD(ShipManager, CheckVision, () -> void)
         if (sensorRoom != -1)
         {
             ShipSystem *sensors = vSystemList[sensorRoom];
-            canSee = sensors->GetEffectivePower() > 0 && !IsSystemHacked(7);
+            canSee = sensors->GetEffectivePower() > 0 && !(sensors->iHackEffect > 1);
         }
     }
     else if (current_target != nullptr)
@@ -258,7 +258,7 @@ HOOK_METHOD(ShipManager, CheckVision, () -> void)
         if (sensorRoom != -1)
         {
             ShipSystem *sensors = current_target->vSystemList[sensorRoom];
-            canSee = sensors->GetEffectivePower() > 1 || IsSystemHacked(7);
+            canSee = sensors->GetEffectivePower() > 1 && !(sensors->iHackEffect > 1);
         }
     }
 
@@ -769,14 +769,14 @@ HOOK_METHOD(Ship, OnInit, (ShipBlueprint& bp) -> void)
                     }
                     if (thrusters[i].empty())
                     {
-                        pos.x -= 22;
+                        if (thrusterRot[i]) pos.x -= 22;
                         extraEngineAnim[iShipId].emplace_back(std::make_pair(Animation("effects/thrusters_on.png",4,0.5f,pos,88,70,0,-1),thrusterRot[i]));
                     }
                     else
                     {
                         Animation anim;
                         AnimationControl::GetAnimation(anim, G_->GetAnimationControl(), thrusters[i]);
-                        pos.x -= anim.info.frameWidth * anim.fScale;
+                        if (thrusterRot[i]) pos.x -= anim.info.frameWidth * anim.fScale;
                         anim.position = pos;
                         extraEngineAnim[iShipId].push_back({anim,thrusterRot[i]});
                     }

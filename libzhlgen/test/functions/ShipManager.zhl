@@ -87,7 +87,7 @@ void ShipManager::ImportShip(ShipManager *this<ecx>, int file);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec5c8b81c8040000c645b7008b701c83feff74??":
 void ShipManager::CheckVision(ShipManager *this<ecx>);
 "5383ec048b54240c83fa1174??8b99c804000031c0833c93ff75??83c4045bc20400891424e8????????83ec04":
-bool ShipManager::IsSystemHacked(ShipManager *this<ecx>, int systemId);
+int ShipManager::IsSystemHacked(ShipManager *this<ecx>, int systemId);
 "578d7c240883e4f0ff77fc5589e557565383ec4c8b078b51648945d48b47048945d00fb64708":
 CrewMember* ShipManager::GetSelectedCrewPoint(ShipManager *this<ecx>, int x, int y, bool intruder);
 "578d7c240883e4f0ff77fc5589e5578db994000000565389ce89f983ec5ce8????????8945c08b86c8040000":
