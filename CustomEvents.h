@@ -550,6 +550,8 @@ struct CustomEvent
     bool goToFlagshipBase = false;
     bool goToFlagshipFleet = false;
     bool noASBPlanet = false;
+    bool repairAllSystems = false;
+    bool killEnemyBoarders = false;
 
     EventFleet leftFleet;
     EventFleet rightFleet;
