@@ -278,7 +278,7 @@ void CustomShipSelect::ParseShipsNode(rapidxml::xml_node<char> *node)
                     {
                         if(shipNode->first_attribute("maxLevel")) def.maxReactorLevel = boost::lexical_cast<int>(shipNode->first_attribute("maxLevel")->value());
                         if(def.maxReactorLevel < 0) def.maxReactorLevel = 0;
-                        if(def.maxReactorLevel > 25) def.reactorPrices.resize(ceil(def.maxReactorLevel / 5), -1);
+                        if(def.maxReactorLevel > 25) def.reactorPrices.resize(ceil(def.maxReactorLevel / 5 + 1), -1);
                         for (auto reactorNode = shipNode->first_node(); reactorNode; reactorNode = reactorNode->next_sibling())
                         {
                             std::string reactName = reactorNode->name();

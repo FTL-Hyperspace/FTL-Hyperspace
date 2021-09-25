@@ -85,7 +85,7 @@ HOOK_METHOD(ReactorButton, OnRender, ()->void)
     int coloumn = floor(tempLevel / 5) + 1;
     int overCol = 0;
     GL_Color COLOR_GREEN(100.f/255, 255.f/255, 100.f/255, 1.f), dirtyWhite(235.f/255, 245.f/255, 229.f/255, 1.f), hoverColour(245.f/255, 238.f/255, 163.f/255, 1.f),
-    emptyColour(105.f/255, 98.f/255, 56.f/255, 1.f), blankColour(54.f/255, 45.f/255, 45.f/255, 1.f), blankHoverColour(122.f/255, 100.f/255, 100.f/255, 1.f);
+    emptyColour(105.f/255, 98.f/255, 56.f/255, 1.f);
     GL_Texture* reactorImage = G_->GetResources()->GetImageId("upgradeUI/equipment/equipment_reactor_on.png");
     GL_Texture* reactorImageSel = G_->GetResources()->GetImageId("upgradeUI/equipment/equipment_reactor_select2.png");
     GL_Texture* activeImage = bHover ? reactorImageSel : reactorImage;
@@ -96,7 +96,7 @@ HOOK_METHOD(ReactorButton, OnRender, ()->void)
     //adjusting levels for rendering
     if(tempLevel >= 25){
         overCol = ceil((tempLevel - 25) / 5) + 1;
-        if(tempLevel == maxLevel) overCol--;
+        if(tempLevel == maxLevel && (maxLevel % 5 == 0)) overCol--;
         if(displayReactorLevel < (overCol * 5)){
             displayTempUpgrade = displayTempUpgrade - (overCol * 5 - displayReactorLevel);
             displayReactorLevel = 0;
@@ -117,10 +117,9 @@ HOOK_METHOD(ReactorButton, OnRender, ()->void)
         for(int row = 0; row < 5; row++){
             int currentBar = col * 5 + row + 1;
             GL_Color colour;
-            if(bHover) blankColour = blankHoverColour;
             if(currentBar <= displayReactorLevel) colour = COLOR_GREEN;
             else if (currentBar <= displayTempLevel) colour = COLOR_YELLOW;
-            else if((tempLevel > (maxLevel - 4)) && (currentBar > displayMaxLevel)) colour = blankColour;
+            else if((tempLevel > (maxLevel - 4)) && (currentBar > displayMaxLevel)) continue;
             else colour = emptyColour;
             CSurface::GL_DrawRect(baseX + 30 + col * 44, baseY + 74 - row * 13, 32, -8, colour);
         }
