@@ -1079,6 +1079,16 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
             }
             customEvent->enemyDamage.push_back(eventDamage);
         }
+        if (nodeName == "repairAllSystems")
+        {
+            isDefault = false;
+            customEvent->repairAllSystems = true;
+        }
+        if (nodeName == "killEnemyBoarders")
+        {
+            isDefault = false;
+            customEvent->killEnemyBoarders = true;
+        }
         if (nodeName == "superDrones")
         {
             isDefault = false;
@@ -2763,6 +2773,33 @@ void CustomCreateLocation(WorldManager* world, LocationEvent* event, CustomEvent
     for (EventDamage& eventDamage: customEvent->enemyDamage)
     {
         EventDamageEnemy(eventDamage);
+    }
+
+    if (customEvent->repairAllSystems)
+    {
+        ShipManager* shipManager = G_->GetShipManager(0);
+        if (shipManager != nullptr)
+        {
+            for (auto sys : shipManager->vSystemList)
+            {
+                sys->AddDamage(-sys->healthState.second);
+            }
+        }
+    }
+
+    if (customEvent->killEnemyBoarders)
+    {
+        ShipManager* shipManager = G_->GetShipManager(0);
+        if (shipManager != nullptr)
+        {
+            for (auto crew : shipManager->vCrewList)
+            {
+                if (crew->iShipId != 0)
+                {
+                    crew->health.first = 0;
+                }
+            }
+        }
     }
 
     if (customEvent->instantEscape)
