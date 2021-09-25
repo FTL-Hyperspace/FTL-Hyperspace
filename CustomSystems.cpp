@@ -106,6 +106,35 @@ HOOK_METHOD(ShipManager, CreateSystems, () -> int)
     return ret;
 }
 
+HOOK_STATIC(ShipManager, SaveToBlueprint, (ShipBlueprint &bp, ShipManager *ship, bool unk) -> ShipBlueprint*)
+{
+    ShipBlueprint *ret = super(bp, ship, unk);
+    if (ship->systemKey[SYS_ARTILLERY] != -1) // Fix for saving multiple artillery blueprint
+    {
+        int numArtillery = ship->artillerySystems.size();
+        for (auto i : bp.systems)
+        {
+            if (i == SYS_ARTILLERY)
+            {
+                numArtillery--;
+            }
+        }
+        if (numArtillery > 0)
+        {
+            for (int i=0; i<numArtillery; ++i)
+            {
+                bp.systems.push_back(SYS_ARTILLERY);
+            }
+            if (unk)
+            {
+                ship->myBlueprint.systems = bp.systems;
+            }
+            return &bp;
+        }
+    }
+    return ret;
+}
+
 HOOK_METHOD(SystemControl, CreateSystemBoxes, () -> void)
 {
     (*Global::droneWeaponPosition).first = Point(0, 0);

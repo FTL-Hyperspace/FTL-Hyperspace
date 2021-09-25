@@ -136,6 +136,8 @@ void ShipManager::PrepareSuperBarrage(ShipManager *this<ecx>);
 bool ShipManager::RestoreCrewPositions(ShipManager *this<ecx>);
 "5589e557565383e4f083ec108b79688b4164c744240c0000000089fa29c2c1fa0285d274??31db894c2408eb??8d760089fa83c301":
 CrewMember* ShipManager::GetCrewmember(ShipManager *this<ecx>, int slot, bool present);
+"578d7c240883e4f0ff77fc5589e557565389cb83c10483ec6c8b078b7704":
+static ShipBlueprint* ShipManager::SaveToBlueprint(ShipBlueprint &bp<ecx>, ShipManager *ship, bool unk);
 
 struct ShipManager depends (PowerManager, ShieldPower)
 {{

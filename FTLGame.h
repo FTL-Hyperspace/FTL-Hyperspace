@@ -4087,6 +4087,7 @@ struct ShipManager : ShipObject
 	LIBZHL_API void PrepareSuperBarrage();
 	LIBZHL_API bool RestoreCrewPositions();
 	LIBZHL_API CrewMember *GetCrewmember(int slot, bool present);
+	LIBZHL_API static ShipBlueprint *__stdcall SaveToBlueprint(ShipBlueprint &bp, ShipManager *ship, bool unk);
 	
 	Targetable _targetable;
 	Collideable _collideable;
