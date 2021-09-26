@@ -116,7 +116,7 @@ void Global::Initialize()
     __tutorialManager = (TutorialManager*)(__baseAddress + __tutorialOffset);
     __eventGenerator = (EventGenerator*)(__baseAddress + __eventGenOffset);
     __eventsParser = (EventsParser*)(__baseAddress + __eventsParseOffset);
-    __eventSystem = (EventSystem*)(__baseAddress + __eventSystem);
+    __eventSystem = (EventSystem*)(__baseAddress + __eventSystemOffset);
     __animations = (AnimationControl*)(__baseAddress + __animationsOffset);
     __achievementTracker = (AchievementTracker*)(__baseAddress + __achievementOffset);
     __scoreKeeper = (ScoreKeeper*)(__baseAddress + __scoreKeeperOffset);
