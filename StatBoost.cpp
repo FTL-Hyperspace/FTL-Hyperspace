@@ -786,6 +786,26 @@ bool CrewMember_Extend::BoostCheck(const StatBoost& statBoost)
     return false;
 }
 
+int CrewMember_Extend::CalculateMaxHealth(const CrewDefinition* def)
+{
+    int maxHealth = CalculateStat(CrewStat::MAX_HEALTH, def);
+    int actualMaxHealth = maxHealth + orig->healthBoost;
+    if (actualMaxHealth != orig->health.second)
+    {
+        if (orig->health.second > 0)
+        {
+            orig->health.first = actualMaxHealth * (orig->health.first / orig->health.second);
+        }
+        else
+        {
+            orig->health.first = actualMaxHealth;
+        }
+        orig->health.second = actualMaxHealth;
+    }
+
+    return maxHealth;
+}
+
 float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def, bool* boolValue)
 {
 //    using std::chrono::steady_clock;
@@ -1229,18 +1249,6 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
             }
         }
     }
-    if (stat == CrewStat::MAX_HEALTH)
-    {
-        if (orig->health.second > 0)
-        {
-            orig->health.first *= (int)finalStat / orig->health.second;
-        }
-        else
-        {
-            orig->health.first = finalStat;
-        }
-    }
-
     if (isBool)
     {
         statCache[(unsigned int)stat].first = *boolValue;

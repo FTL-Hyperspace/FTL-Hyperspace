@@ -310,12 +310,12 @@ static int __attribute__((fastcall)) CrewDrone_GetMaxHealth(CrewDrone *_this)
     if (_this->_drone.blueprint->name == "BOARDER_ION" && custom->IsRace("boarder_ion"))
     {
         auto def = custom->GetDefinition("boarder_ion");
-        return CM_EX(_this)->CalculateStat(CrewStat::MAX_HEALTH, def);
+        return CM_EX(_this)->CalculateMaxHealth(def);
     }
     if (custom->IsRace(_this->species))
     {
         auto def = custom->GetDefinition(_this->species);
-        return CM_EX(_this)->CalculateStat(CrewStat::MAX_HEALTH, def);
+        return CM_EX(_this)->CalculateMaxHealth(def);
     }
 
     if (_this->_drone.blueprint->typeName == "BOARDER")

@@ -97,8 +97,7 @@ static int __attribute__((fastcall)) CrewMember_GetMaxHealth(CrewMember *_this)
 {
     auto ex = CM_EX(_this);
     auto def = CustomCrewManager::GetInstance()->GetDefinition(_this->species);
-    _this->health.second = ex->CalculateStat(CrewStat::MAX_HEALTH, def);
-    return _this->health.second;
+    return ex->CalculateMaxHealth(def);
 }
 
 static float __attribute__((fastcall)) CrewMember_GetMoveSpeedMultiplier(CrewMember *_this)

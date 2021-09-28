@@ -2140,6 +2140,24 @@ HOOK_METHOD_PRIORITY(CrewMember, DirectModifyHealth, 1000, (float healthMod) -> 
 
 	return ret;
 }
+HOOK_METHOD(CrewMember, SetHealthBoost, (int _healthBoost) -> void)
+{
+    int delta = _healthBoost - healthBoost;
+    if (delta != 0)
+    {
+        health.second += delta;
+        if (delta > 0)
+        {
+            health.first += delta;
+        }
+        else
+        {
+            health.first = std::min(health.first, health.second);
+        }
+        healthBoost = _healthBoost;
+    }
+    GetMaxHealth();
+}
 HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
 {
     super();
