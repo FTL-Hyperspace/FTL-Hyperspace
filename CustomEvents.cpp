@@ -2118,6 +2118,13 @@ HOOK_METHOD(StarMap, AddQuest, (const std::string& questEvent, bool force) -> bo
         for (auto i : locations)
         {
             i->nebula = i->nebula || i->fleetChanging || i->dangerZone;
+            if (!i->nebula) // check fleet arc
+            {
+                int dangerMove = 0;
+                if (dangerZone.x < 60) dangerMove = GetNextDangerMove();
+                Pointf nextDangerZone = Pointf(dangerZone.x + dangerMove, dangerZone.y);
+                i->nebula = i->loc.RelativeDistance(nextDangerZone) < 588289.f;
+            }
         }
     }
 
