@@ -89,7 +89,7 @@ HOOK_METHOD(ReactorButton, OnRender, ()->void)
     GL_Texture* reactorImage = G_->GetResources()->GetImageId("upgradeUI/equipment/equipment_reactor_on.png");
     GL_Texture* reactorImageSel = G_->GetResources()->GetImageId("upgradeUI/equipment/equipment_reactor_select2.png");
     GL_Texture* activeImage = bHover ? reactorImageSel : reactorImage;
-    int baseX = 640, baseY = 412;
+    int baseX = position.x, baseY = position.y;
 
     G_->GetResources()->RenderImage(activeImage, baseX, baseY, 0, COLOR_WHITE, 1.f, false);
 
