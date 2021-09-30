@@ -23,102 +23,98 @@ void ShipManager_Extend::Initialize(bool restarting)
     auto customSel = CustomShipSelect::GetInstance();
 
     isNewShip = customSel->IsCustomShip(orig->myBlueprint.blueprintName);
-    hasCustomDef = customSel->HasCustomDef(orig->myBlueprint.blueprintName);
 
-    if (hasCustomDef)
+    auto def = customSel->GetDefinition(orig->myBlueprint.blueprintName);
+    if (!importingShip)
     {
-        auto def = customSel->GetDefinition(orig->myBlueprint.blueprintName);
-        if (!importingShip)
+        for (auto i : def.hiddenAugs)
         {
-            for (auto i : def.hiddenAugs)
-            {
-                G_->GetShipInfo(orig->iShipId)->augList["HIDDEN " + i.first] = i.second;
-            }
-            CustomAugmentManager::GetInstance()->UpdateAugments(orig->iShipId);
+            G_->GetShipInfo(orig->iShipId)->augList["HIDDEN " + i.first] = i.second;
         }
+        CustomAugmentManager::GetInstance()->UpdateAugments(orig->iShipId);
+    }
 
-        for (auto i : def.roomDefs)
+    for (auto i : def.roomDefs)
+    {
+        if (i.first < orig->ship.vRoomList.size())
         {
-            if (i.first < orig->ship.vRoomList.size())
-            {
-                auto rex = RM_EX(orig->ship.vRoomList[i.first]);
+            auto rex = RM_EX(orig->ship.vRoomList[i.first]);
 
-                for (auto def : i.second->roomAnims)
+            for (auto def : i.second->roomAnims)
+            {
+                Animation *anim = G_->GetAnimationControl()->GetAnimation(def.animName);
+                RoomAnim roomAnim = RoomAnim();
+
+                roomAnim.anim = anim;
+                roomAnim.renderLayer = def.renderLayer;
+
+                anim->Start(true);
+                anim->tracker.SetLoop(true, 0.f);
+
+                rex->roomAnims.push_back(roomAnim);
+
+            }
+
+            rex->sensorBlind = i.second->sensorBlind;
+            rex->sysDamageResistChance = i.second->sysDamageResistChance;
+            rex->ionDamageResistChance = i.second->ionDamageResistChance;
+        }
+    }
+
+    for (auto i : def.shipIcons)
+    {
+        auto iconDef = ShipIconManager::instance->GetShipIconDefinition(i);
+        if (iconDef)
+        {
+            ShipIcon* icon = new ShipIcon();
+
+            icon->OnInit(iconDef->name, iconDef->tooltip, icons.size());
+            icons.push_back(icon);
+        }
+    }
+
+    if (!restarting && !revisitingShip)
+    {
+        for (auto i : def.crewList)
+        {
+            auto species = i.species;
+
+            if (i.isList)
+            {
+                auto bpList = std::vector<std::string>();
+                BlueprintManager::GetBlueprintList(bpList, G_->GetBlueprints(), i.species);
+
+                if (!bpList.empty())
                 {
-                    Animation *anim = G_->GetAnimationControl()->GetAnimation(def.animName);
-                    RoomAnim roomAnim = RoomAnim();
-
-                    roomAnim.anim = anim;
-                    roomAnim.renderLayer = def.renderLayer;
-
-                    anim->Start(true);
-                    anim->tracker.SetLoop(true, 0.f);
-
-                    rex->roomAnims.push_back(roomAnim);
-
+                    species = bpList[rand() % bpList.size()];
                 }
-
-                rex->sensorBlind = i.second->sensorBlind;
-                rex->sysDamageResistChance = i.second->sysDamageResistChance;
-                rex->ionDamageResistChance = i.second->ionDamageResistChance;
-            }
-        }
-
-        for (auto i : def.shipIcons)
-        {
-            auto iconDef = ShipIconManager::instance->GetShipIconDefinition(i);
-            if (iconDef)
-            {
-                ShipIcon* icon = new ShipIcon();
-
-                icon->OnInit(iconDef->name, iconDef->tooltip, icons.size());
-                icons.push_back(icon);
-            }
-        }
-
-        if (!restarting && !revisitingShip)
-        {
-            for (auto i : def.crewList)
-            {
-                auto species = i.species;
-
-                if (i.isList)
+                else
                 {
-                    auto bpList = std::vector<std::string>();
-                    BlueprintManager::GetBlueprintList(bpList, G_->GetBlueprints(), i.species);
-
-                    if (!bpList.empty())
-                    {
-                        species = bpList[rand() % bpList.size()];
-                    }
-                    else
-                    {
-                        species = "human";
-                    }
+                    species = "human";
                 }
-
-                orig->AddCrewMemberFromString(i.name, i.species, false, i.roomId, false, random32() % 2);
-
-                orig->bAutomated = false;
             }
-        }
 
-        if (restarting)
+            orig->AddCrewMemberFromString(i.name, i.species, false, i.roomId, false, random32() % 2);
+
+            orig->bAutomated = false;
+        }
+    }
+
+    if (restarting)
+    {
+        if (def.startingScrap != -1)
         {
-            if (def.startingScrap != -1)
-            {
-                orig->currentScrap = def.startingScrap;
-            }
-            if (def.startingFuel != -1)
-            {
-                orig->fuel_count = def.startingFuel;
-            }
+            orig->currentScrap = def.startingScrap;
         }
-
-        if (def.forceAutomated.enabled)
+        if (def.startingFuel != -1)
         {
-            orig->bAutomated = def.forceAutomated.value;
+            orig->fuel_count = def.startingFuel;
         }
+    }
+
+    if (def.forceAutomated.enabled)
+    {
+        orig->bAutomated = def.forceAutomated.value;
     }
 }
 
@@ -126,20 +122,16 @@ HOOK_METHOD(ShipManager, ResetScrapLevel, () -> void)
 {
     super();
     auto customSel = CustomShipSelect::GetInstance();
-    if (customSel->HasCustomDef(myBlueprint.blueprintName))
+
+    auto def = customSel->GetDefinition(myBlueprint.blueprintName);
+    if (def.startingScrap != -1)
     {
-
-        auto def = customSel->GetDefinition(myBlueprint.blueprintName);
-        if (def.startingScrap != -1)
-        {
-            currentScrap = def.startingScrap;
-        }
-        if (def.startingFuel != -1)
-        {
-            fuel_count = def.startingFuel;
-        }
+        currentScrap = def.startingScrap;
     }
-
+    if (def.startingFuel != -1)
+    {
+        fuel_count = def.startingFuel;
+    }
 }
 
 HOOK_METHOD(ShipManager, ImportShip, (int fileHelper) -> void)
@@ -190,12 +182,7 @@ HOOK_METHOD(ShipManager, IsCrewFull, () -> bool)
 
     auto custom = CustomShipSelect::GetInstance();
     int crewCount = G_->GetCrewFactory()->GetCrewCount(iShipId);
-    int crewLimit = custom->GetDefaultDefinition().crewLimit;
-
-    if (custom->HasCustomDef(myBlueprint.blueprintName))
-    {
-        crewLimit = custom->GetDefinition(myBlueprint.blueprintName).crewLimit;
-    }
+    int crewLimit = custom->GetDefinition(myBlueprint.blueprintName).crewLimit;
 
     if (crewLimit > crewCount)
     {
@@ -211,12 +198,7 @@ HOOK_METHOD(ShipManager, IsCrewOverFull, () -> bool)
 
     auto custom = CustomShipSelect::GetInstance();
     int crewCount = G_->GetCrewFactory()->GetCrewCount(iShipId);
-    int crewLimit = custom->GetDefaultDefinition().crewLimit;
-
-    if (custom->HasCustomDef(myBlueprint.blueprintName))
-    {
-        crewLimit = custom->GetDefinition(myBlueprint.blueprintName).crewLimit;
-    }
+    int crewLimit = custom->GetDefinition(myBlueprint.blueprintName).crewLimit;
 
     return crewLimit < crewCount;
 }
@@ -557,7 +539,7 @@ HOOK_METHOD(CommandGui, OnLoop, () -> void)
     super();
     auto custom = CustomShipSelect::GetInstance();
 
-    if (shipComplete && shipComplete->shipManager->current_target && custom->HasCustomDef(shipComplete->shipManager->current_target->myBlueprint.blueprintName) && custom->GetDefinition(shipComplete->shipManager->current_target->myBlueprint.blueprintName).noJump)
+    if (shipComplete && shipComplete->shipManager->current_target && custom->GetDefinition(shipComplete->shipManager->current_target->myBlueprint.blueprintName).noJump)
     {
         ftlButton.bActive = false;
     }
@@ -593,7 +575,7 @@ HOOK_METHOD(ShipManager, DamageSystem, (int roomId, DamageParameter dmgParam) ->
 HOOK_METHOD(ShipAI, SetStalemate, (bool stalemate) -> void)
 {
     auto custom = CustomShipSelect::GetInstance();
-    if (custom->HasCustomDef(ship->myBlueprint.blueprintName) && custom->GetDefinition(ship->myBlueprint.blueprintName).noFuelStalemate)
+    if (custom->GetDefinition(ship->myBlueprint.blueprintName).noFuelStalemate)
     {
         return super(!(target->GetSystem(6)->GetPowerCap() && target->GetSystem(1)->GetPowerCap()) && ship->CountCrew(true) == 0);
     }
@@ -610,26 +592,19 @@ HOOK_STATIC(ShipGenerator, CreateShip, (const std::string& name, int sector, Shi
     int totalHealth = bp->health + sector - ((*Global::difficulty == 0) ? 1 : 0);
 
     auto custom = CustomShipSelect::GetInstance();
-    if (custom->HasCustomDef(bp->blueprintName))
+    auto def = custom->GetDefinition(bp->blueprintName);
+
+    if (def.hpCap != -1)
     {
-        auto def = custom->GetDefinition(bp->blueprintName);
-
-        if (def.hpCap != -1)
+        if (totalHealth > def.hpCap)
         {
-            if (totalHealth > def.hpCap)
-            {
-                totalHealth = def.hpCap;
-            }
-        }
-
-        if (def.forceAutomated.enabled)
-        {
-            ret->bAutomated = def.forceAutomated.value;
+            totalHealth = def.hpCap;
         }
     }
-    else if (totalHealth > 20)
+
+    if (def.forceAutomated.enabled)
     {
-        totalHealth = 20;
+        ret->bAutomated = def.forceAutomated.value;
     }
 
     ret->ship.hullIntegrity.second = totalHealth;
