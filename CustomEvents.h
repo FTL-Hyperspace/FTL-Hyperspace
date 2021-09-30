@@ -866,5 +866,6 @@ public:
     }
 };
 
+void EventDamageEnemy(EventDamage eventDamage);
 void GoToFlagship(bool atBase, bool allFleet);
 void RecallBoarders(int direction);
