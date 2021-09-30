@@ -1021,7 +1021,7 @@ HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
         float highestValue = 0.f;
         for (auto const& x: *potentialAugs)
         {
-            if (augList->count(x.first) && x.second->Functional(0))
+            if (augList->count(x.first) && x.second->modifyChoiceTextScrap && x.second->Functional(0))
             {
                 augValue += x.second->value * augList->at(x.first);
 
