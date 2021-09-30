@@ -371,6 +371,12 @@
 		<Unit filename="CustomWeapons.h">
 			<Option virtualFolder="Core/Weapons/" />
 		</Unit>
+		<Unit filename="CustomizedSystems.cpp">
+			<Option virtualFolder="Core/Systems/" />
+		</Unit>
+		<Unit filename="CustomizedSystems.h">
+			<Option virtualFolder="Core/Systems/" />
+		</Unit>
 		<Unit filename="Debugging.cpp">
 			<Option virtualFolder="Content/Misc/" />
 		</Unit>
