@@ -295,8 +295,8 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
                     customEvent = it->second;
                     ParseCustomShipEvent(eventNode, customEvent);
                 }
-			}
-		}
+            }
+        }
 
         if (strcmp(eventNode->name(), "quest") == 0)
         {
@@ -774,6 +774,24 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
                 customEvent->replaceSector.targetSector = child->first_attribute("name")->value();
             }
             customEvent->replaceSector.sectorList = child->value();
+        }
+
+        if (nodeName == "recallBoarders")
+        {
+            isDefault = false;
+            customEvent->recallBoarders = true;
+
+            if (child->first_attribute("ship"))
+            {
+                auto stringValue = child->first_attribute("ship")->value();
+
+                if (strcmp(stringValue, "enemy") == 0) {
+                    customEvent->recallBoardersShip = 1;
+                }
+                else if (strcmp(stringValue, "player") == 0) {
+                    customEvent->recallBoardersShip = -1;
+                }
+            }
         }
 
         if (nodeName == "resetFtl")
@@ -2743,6 +2761,42 @@ void EventDamageEnemy(EventDamage eventDamage)
     }
 }
 
+void RecallBoarders(int direction)
+{
+    int targetRoom;
+
+    CompleteShip *playerShip = G_->GetWorld()->playerShip;
+    if (playerShip == nullptr) return;
+
+    CompleteShip *enemyShip = G_->GetWorld()->playerShip->enemyShip;
+    if (enemyShip == nullptr) return;
+
+    if (direction >= 0) { // player's boarders from enemy ship
+        targetRoom = playerShip->shipManager->GetSystemRoom(6);
+
+        for (auto i : enemyShip->shipManager->vCrewList)
+        {
+            if (i->iShipId == 0 && !i->IsDrone())
+            {
+                i->EmptySlot();
+                playerShip->AddCrewMember2(i,targetRoom);
+            }
+        }
+    }
+    if (direction <= 0) { // enemy boarders from player ship
+        targetRoom = enemyShip->shipManager->GetSystemRoom(6);
+
+        for (auto i : playerShip->shipManager->vCrewList)
+        {
+            if (i->iShipId == 1 && !i->IsDrone())
+            {
+                i->EmptySlot();
+                enemyShip->AddCrewMember2(i,targetRoom);
+            }
+        }
+    }
+}
+
 void CustomCreateLocation(WorldManager* world, LocationEvent* event, CustomEvent* customEvent)
 {
     for (auto& alias : customEvent->eventAlias)
@@ -2770,6 +2824,10 @@ void CustomCreateLocation(WorldManager* world, LocationEvent* event, CustomEvent
         delete image;
 
         world->starMap.currentLoc->spaceImage = customEvent->changeBackground;
+    }
+
+    if (customEvent->recallBoarders) {
+        RecallBoarders(customEvent->recallBoardersShip);
     }
 
     if (!customEvent->enemyDamage.empty() && event->damage.empty())
@@ -3223,7 +3281,6 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
 
 HOOK_METHOD(WorldManager, CreateShip, (ShipEvent* shipEvent, bool boss) -> CompleteShip*)
 {
-
     auto ret = super(shipEvent, boss);
 
     bossDefeated = false;
