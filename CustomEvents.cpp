@@ -3552,6 +3552,12 @@ HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEve
 
     blockScrapCollected = false;
 
+    Location *location = starMap.currentLoc;
+    if (location->visited > 1 && !location->boss && !location->dangerZone)
+    {
+        if (location->event == event) return ret;
+    }
+
     if (customEvent)
     {
         if (customEvent->gameOver.enabled)
