@@ -1,5 +1,6 @@
 #include "EnemyShipIcons.h"
 #include "CustomShipSelect.h"
+#include "CustomAugments.h"
 #include <boost/lexical_cast.hpp>
 
 ShipIconManager* ShipIconManager::instance = new ShipIconManager();
@@ -53,22 +54,22 @@ void ShipIcon::OnInit(const std::string& texture, const std::string& tip, int id
     index = idx;
 }
 
-void ShipIcon::OnRender(GL_Color color, bool boss)
+void ShipIcon::OnRender(GL_Color color, bool boss, int idx)
 {
     auto pos = boss ? ShipIconManager::instance->bossBoxPos : ShipIconManager::instance->normalBoxPos;
 
-    G_->GetResources()->RenderImage(box, pos.x, pos.y - ((box->height_) * (index + 1)), 0, color, 1.f, false);
-    G_->GetResources()->RenderImage(icon, pos.x + box->width_ / 2 - icon->width_ / 2 + 1, pos.y - ((box->height_) * (index + 1)) + box->height_ / 2 - icon->height_ / 2, 0, COLOR_WHITE, 1.f, false);
+    G_->GetResources()->RenderImage(box, pos.x, pos.y - ((box->height_) * (index + idx + 1)), 0, color, 1.f, false);
+    G_->GetResources()->RenderImage(icon, pos.x + box->width_ / 2 - icon->width_ / 2 + 1, pos.y - ((box->height_) * (index + idx + + 1)) + box->height_ / 2 - icon->height_ / 2, 0, COLOR_WHITE, 1.f, false);
 }
 
-void ShipIcon::MouseMove(int x, int y, bool boss)
+void ShipIcon::MouseMove(int x, int y, bool boss, int idx)
 {
     auto pos = boss ? ShipIconManager::instance->bossBoxPos : ShipIconManager::instance->normalBoxPos;
 
     if (x > pos.x && x < pos.x + box->width_)
     {
-        if (y > pos.y - ((box->height_) * (index + 1)) &&
-            y < pos.y - ((box->height_) * (index)))
+        if (y > pos.y - ((box->height_) * (index + idx + 1)) &&
+            y < pos.y - ((box->height_) * (index + idx)))
         {
             G_->GetMouseControl()->SetTooltip(tooltip);
             G_->GetMouseControl()->InstantTooltip();
@@ -95,6 +96,11 @@ HOOK_METHOD(CombatControl, RenderTarget, () -> void)
     {
         i->OnRender(renderColor, boss_visual);
     }
+
+    for (auto i : CustomAugmentManager::GetInstance()->GetAugIconList(currentTarget->iShipId))
+    {
+        i->OnRender(renderColor, boss_visual, iconList.size());
+    }
 }
 
 HOOK_METHOD(CommandGui, MouseMove, (int x, int y) -> void)
@@ -108,6 +114,11 @@ HOOK_METHOD(CommandGui, MouseMove, (int x, int y) -> void)
         for (auto i : iconList)
         {
             i->MouseMove(x, y, combatControl.boss_visual);
+        }
+
+        for (auto i : CustomAugmentManager::GetInstance()->GetAugIconList(combatControl.currentTarget->iShipId))
+        {
+            i->MouseMove(x, y, combatControl.boss_visual, iconList.size());
         }
     }
 }

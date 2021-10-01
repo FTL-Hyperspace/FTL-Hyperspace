@@ -776,6 +776,8 @@ Syntax ->
 		</statBoosts>
 		
 		<locked/>
+		
+		<icon ship="player/enemy">icon_name</icon> (dynamically adds additional shipIcons to a ship that possesses this augment; ship parameter makes icon show for player/enemy only) (currently only available for enemy)
     </aug>
 </augments>
 -->
