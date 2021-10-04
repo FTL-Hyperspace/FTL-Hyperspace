@@ -4,6 +4,7 @@
 #include <map>
 #include "rapidxml.hpp"
 #include "StatBoost.h"
+#include "EnemyShipIcons.h"
 
 struct AugmentSuperShield
 {
@@ -34,6 +35,9 @@ struct AugmentDefinition
     AugmentSuperShield superShield;
     bool locked = false;
     std::vector<StatBoostDefinition> statBoosts = std::vector<StatBoostDefinition>();
+
+    std::string icon;
+    int iconShipId = -1;
 };
 
 
@@ -66,6 +70,10 @@ public:
     static std::map<std::string, int> CheckHiddenAugments(const std::map<std::string, int>& augList);
     static std::vector<std::string> RemoveHiddenAugments(const std::vector<std::string>& augList);
     std::unordered_map<std::string, int>* GetShipAugments(int iShipId);
+    std::vector<ShipIcon*>& GetAugIconList(int iShipId)
+    {
+        return augIconList[iShipId];
+    }
 
     void UpdateAugments(int iShipId);
 
@@ -83,5 +91,6 @@ private:
     static CustomAugmentManager instance;
     std::unordered_map<std::string, int> augListWithHidden[2];
     std::vector<std::string> augListNoHidden[2];
+    std::vector<ShipIcon*> augIconList[2];
 };
 

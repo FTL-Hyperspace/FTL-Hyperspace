@@ -30,12 +30,7 @@ void CustomCrewManifest::OnInit(CrewManifest *manifest, ShipManager *ship)
 
 
     auto custom = CustomShipSelect::GetInstance();
-    crewLimit = custom->GetDefaultDefinition().crewLimit;
-
-    if (custom->HasCustomDef(ship->myBlueprint.blueprintName))
-    {
-        crewLimit = custom->GetDefinition(ship->myBlueprint.blueprintName).crewLimit;
-    }
+    crewLimit = custom->GetDefinition(ship->myBlueprint.blueprintName).crewLimit;
 
     for (auto& page : crewEquipBoxes)
     {

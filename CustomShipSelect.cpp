@@ -18,8 +18,6 @@ void CustomShipSelect::ParseShipsNode(rapidxml::xml_node<char> *node)
     // parse <ships> node in hyperspace.xml
     try
     {
-        shipDefs["default"] = CustomShipDefinition();
-
         if (node->first_attribute("hideFirstShipPage"))
         {
             hideFirstPage = EventsParser::ParseBoolean(node->first_attribute("hideFirstShipPage")->value());
@@ -121,21 +119,20 @@ void CustomShipSelect::ParseShipsNode(rapidxml::xml_node<char> *node)
 
             if (name == "customShip")
             {
+                def = CustomShipDefinition(GetDefaultDefinition());
+
                 std::string shipName;
                 if (!child->first_attribute("name"))
                 {
-                    shipName = "default";
+                    shipName = "";
                 }
                 else
                 {
                     shipName = child->first_attribute("name")->value();
-                }
-
-                def = CustomShipDefinition(GetDefaultDefinition());
-
-                if (shipDefs.find(shipName) != shipDefs.end())
-                {
-                    def = shipDefs[shipName];
+                    if (shipDefs.find(shipName) != shipDefs.end())
+                    {
+                        def = shipDefs[shipName];
+                    }
                 }
 
                 for (auto shipNode = child->first_node(); shipNode; shipNode = shipNode->next_sibling())
@@ -294,7 +291,14 @@ void CustomShipSelect::ParseShipsNode(rapidxml::xml_node<char> *node)
 
                 }
 
-                shipDefs[shipName] = def;
+                if (!shipName.empty())
+                {
+                    shipDefs[shipName] = def;
+                }
+                else
+                {
+                    defaultShipDef = def;
+                }
             }
 
         }

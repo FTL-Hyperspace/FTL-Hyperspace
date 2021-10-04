@@ -6381,6 +6381,8 @@ struct EventSystem
 	LIBZHL_API void AddEvent(int id);
 	LIBZHL_API bool PollEvent(int id);
 	
+	std::vector<int> lastEvents;
+	std::vector<int> newEvents;
 };
 
 struct PackageModuleInfo

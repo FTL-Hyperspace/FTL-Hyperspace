@@ -1,7 +1,9 @@
 #include "CustomAugments.h"
 #include "CustomOptions.h"
+#include "EnemyShipIcons.h"
 #include "Global.h"
 #include "freetype.h"
+#include "ShipManager_Extend.h"
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
 
@@ -135,6 +137,24 @@ void CustomAugmentManager::ParseCustomAugmentNode(rapidxml::xml_node<char>* node
                             }
                         }
                     }
+
+                    if (functionNodeName == "icon")
+                    {
+                        augDef->icon = functionNode->value();
+
+                        if (functionNode->first_attribute("ship"))
+                        {
+                            std::string ship = functionNode->first_attribute("ship")->value();
+                            if (ship == "player")
+                            {
+                                augDef->iconShipId = 0;
+                            }
+                            if (ship == "enemy")
+                            {
+                                augDef->iconShipId = 1;
+                            }
+                        }
+                    }
                 }
 
                 augDefs[augName] = augDef;
@@ -227,6 +247,35 @@ void CustomAugmentManager::UpdateAugments(int iShipId)
         {
             hiddenList[i.first] = i.second;
             notHiddenList.push_back(i.first);
+        }
+    }
+
+    std::vector<ShipIcon*>& iconList = augIconList[iShipId];
+    for (auto i : iconList)
+    {
+        delete i;
+    }
+    iconList.clear();
+
+    for (auto i : hiddenList)
+    {
+        if (i.second > 0)
+        {
+            if (IsAugment(i.first))
+            {
+                auto augDef = GetAugmentDefinition(i.first);
+                if (!augDef->icon.empty() && (augDef->iconShipId == -1 || augDef->iconShipId == iShipId))
+                {
+                    auto iconDef = ShipIconManager::instance->GetShipIconDefinition(augDef->icon);
+                    if (iconDef)
+                    {
+                        ShipIcon* icon = new ShipIcon();
+
+                        icon->OnInit(iconDef->name, iconDef->tooltip, iconList.size());
+                        iconList.push_back(icon);
+                    }
+                }
+            }
         }
     }
 }
@@ -1021,7 +1070,7 @@ HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
         float highestValue = 0.f;
         for (auto const& x: *potentialAugs)
         {
-            if (augList->count(x.first) && x.second->Functional(0))
+            if (augList->count(x.first) && x.second->modifyChoiceTextScrap && x.second->Functional(0))
             {
                 augValue += x.second->value * augList->at(x.first);
 

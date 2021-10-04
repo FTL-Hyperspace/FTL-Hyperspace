@@ -5887,3 +5887,8 @@ struct SystemControl__PowerBars
   GL_Primitive *damaged[30];
 };
 
+struct EventSystem
+{
+	std__vector_3int lastEvents;
+	std__vector_3int newEvents;
+};

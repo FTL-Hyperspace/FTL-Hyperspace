@@ -415,12 +415,7 @@ HOOK_METHOD(ShipManager, CanFitSystem, (int systemId) -> bool)
     }
 
     auto custom = CustomShipSelect::GetInstance();
-    int sysLimit = custom->GetDefaultDefinition().systemLimit;
-
-    if (custom->HasCustomDef(myBlueprint.blueprintName))
-    {
-        sysLimit = custom->GetDefinition(myBlueprint.blueprintName).systemLimit;
-    }
+    int sysLimit = custom->GetDefinition(myBlueprint.blueprintName).systemLimit;
 
     return count < sysLimit;
 }
@@ -438,12 +433,7 @@ HOOK_METHOD(ShipManager, CanFitSubsystem, (int systemId) -> bool)
     }
 
     auto custom = CustomShipSelect::GetInstance();
-    int sysLimit = custom->GetDefaultDefinition().subsystemLimit;
-
-    if (custom->HasCustomDef(myBlueprint.blueprintName))
-    {
-        sysLimit = custom->GetDefinition(myBlueprint.blueprintName).subsystemLimit;
-    }
+    int sysLimit = custom->GetDefinition(myBlueprint.blueprintName).subsystemLimit;
 
     return count < sysLimit;
 }

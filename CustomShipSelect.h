@@ -256,12 +256,17 @@ public:
 
     CustomShipDefinition& GetDefinition(const std::string& name)
     {
-        return this->shipDefs[name];
+        auto it = shipDefs.find(name);
+        if (it != shipDefs.end())
+        {
+            return it->second;
+        }
+        return this->defaultShipDef;
     }
 
     CustomShipDefinition& GetDefaultDefinition()
     {
-        return this->shipDefs["default"];
+        return this->defaultShipDef;
     }
 
     int GetRandomShipIndex();
@@ -307,7 +312,9 @@ private:
     std::vector<ShipButton*> oldShipButtons;
     std::vector<ShipButtonList*> shipButtons = std::vector<ShipButtonList*>();
     std::vector<ShipButtonDefinition> shipButtonDefs = std::vector<ShipButtonDefinition> ();
-    std::map<std::string, CustomShipDefinition> shipDefs = std::map<std::string, CustomShipDefinition>();
+    std::unordered_map<std::string, CustomShipDefinition> shipDefs = std::unordered_map<std::string, CustomShipDefinition>();
+
+    CustomShipDefinition defaultShipDef = CustomShipDefinition();
 
     int shipPage = 0;
     int maxShipPage;
