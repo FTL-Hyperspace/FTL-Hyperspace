@@ -128,6 +128,11 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
 
         return true;
     }
+    if(cmdName == "RICH")
+    {
+        commandGui->shipComplete->shipManager->ModifyScrapCount(9999999 , false);
+        return true;
+    }
 
 
     return false;
@@ -197,6 +202,8 @@ HOOK_METHOD(CommandGui, RunCommand, (std::string& command) -> void)
     if (!CommandConsole::GetInstance()->RunCommand(this, command))
     {
         super(command);
+        if(command == "GOD")
+            PowerManager::GetPowerManager(0)->currentPower.second = CustomShipSelect::GetInstance()->GetDefinition(shipComplete->shipManager->myBlueprint.blueprintName).maxReactorLevel;
     }
 }
 

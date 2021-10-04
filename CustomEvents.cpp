@@ -1889,6 +1889,10 @@ HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEve
             CustomAugmentManager::GetInstance()->UpdateAugments(0);
         }
     }
+    else
+    {
+        g_checkCargo = CustomOptionsManager::GetInstance()->defaults.checkCargo;
+    }
 
 
     auto ret = super(event);

@@ -271,6 +271,24 @@ void CustomShipSelect::ParseShipsNode(rapidxml::xml_node<char> *node)
                     {
                         def.subsystemLimit = boost::lexical_cast<int>(val);
                     }
+                    if (name == "customReactor")
+                    {
+                        if(shipNode->first_attribute("maxLevel")) def.maxReactorLevel = boost::lexical_cast<int>(shipNode->first_attribute("maxLevel")->value());
+                        if(def.maxReactorLevel < 0) def.maxReactorLevel = 0;
+                        if(def.maxReactorLevel > 25) def.reactorPrices.resize(ceil(def.maxReactorLevel / 5 + 1), -1);
+                        for (auto reactorNode = shipNode->first_node(); reactorNode; reactorNode = reactorNode->next_sibling())
+                        {
+                            std::string reactName = reactorNode->name();
+
+                            if(reactName == "baseCost") def.reactorPrices[0] = boost::lexical_cast<int>(reactorNode->value());
+                            if(reactName == "increment") def.reactorPriceIncrement = boost::lexical_cast<int>(reactorNode->value());
+                            if(reactName == "overrideCost") {
+                                int coloumn = boost::lexical_cast<int>(reactorNode->first_attribute("coloumn")->value());
+                                def.reactorPrices[coloumn] = boost::lexical_cast<int>(reactorNode->value());
+                            }
+                        }
+                    }
+
                 }
 
                 if (!shipName.empty())
@@ -1545,12 +1563,21 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
 
     introScreen.OnRender();
 
+    Button* reactorInfoButton = new Button();
+    reactorInfoButton->OnInit("customizeUI/reactor_info_button", 145, 426);
+    reactorInfoButton->bActive = true;
+    reactorInfoButton->SetLocation(Point(145, 426));
+
     if (!shipSelect.bOpen && CustomOptionsManager::GetInstance()->showReactor.currentValue)
     {
+        reactorInfoButton->OnRender();
+        auto def = CustomShipSelect::GetInstance()->GetDefinition(currentShip->myBlueprint.blueprintName);
         //show reactor
-        CSurface::GL_SetColor(GL_Color(100.0/255, 1, 100.0/255, 1));
         //was at 310/450
-        freetype::easy_print(52, 371, 380, "Reactor: " + std::to_string(PowerManager::GetPowerManager(0)->currentPower.second));
+        CSurface::GL_SetColor(GL_Color(100.0/255, 1, 100.0/255, 1));
+        freetype::easy_print(52, 151, 430, "Starting power: " + std::to_string(PowerManager::GetPowerManager(0)->currentPower.second));
+        CSurface::GL_SetColor(GL_Color(100.0/255, 1, 100.0/255, 1));
+        freetype::easy_print(52, 151, 450, "Maximum power: " + std::to_string(def.maxReactorLevel));
     }
 }
 

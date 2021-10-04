@@ -221,6 +221,13 @@ roomAnim render layers:
 3 - draws above crew - can see when room has no vision, but not when you can't actually see the room outline
 4 - draws above everything
 
+<customReactor> goes inside <customShip>, contains the tags that let you set the prices for upgrading the reactor
+maxLevel attribute sets the maximum level you can upgrade to
+<baseCost> defines the cost of the first 5 levels
+<increment> sets how much more expensive each coloumn gets
+<overrideCost> sets the price of an individual coloumn specified in the attribute, every other coloumn will follow default scaling
+
+
 <empty> in shipOrder means that the slot that the ship would take up is empty instead
 
 Unlocks:
@@ -288,6 +295,12 @@ Syntax ->
 		<crewLimit>6</crewLimit>
 		<startingScrap>0</startingScrap>
 		<startingFuel>0</startingFuel>
+		<customReactor maxLevel="30">
+			<baseCost>20</baseCost>
+			<increment>10</increment>
+			<overrideCost coloumn="1">40</overrideCost>
+			<overrideCost coloumn="3">45</overrideCost>
+		</customReactor>
 	</customShip>
 	
 	<customShip name="ENEMY_SHIP">

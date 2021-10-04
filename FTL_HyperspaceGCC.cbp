@@ -308,6 +308,12 @@
 		<Unit filename="CustomOptions.h">
 			<Option virtualFolder="Core/Options/" />
 		</Unit>
+		<Unit filename="CustomReactor.cpp">
+			<Option virtualFolder="Core/Systems/" />
+		</Unit>
+		<Unit filename="CustomReactor.h">
+			<Option virtualFolder="Core/Systems/" />
+		</Unit>
 		<Unit filename="CustomRewards.cpp">
 			<Option virtualFolder="Core/Events/" />
 		</Unit>
@@ -463,6 +469,12 @@
 		</Unit>
 		<Unit filename="RedesignedTooltips.h">
 			<Option virtualFolder="Core/Equipment/" />
+		</Unit>
+		<Unit filename="RenderReactorBar.cpp">
+			<Option virtualFolder="Core/CommandGui/" />
+		</Unit>
+		<Unit filename="RenderReactorBar.h">
+			<Option virtualFolder="Core/CommandGui/" />
 		</Unit>
 		<Unit filename="Renderer.cpp">
 			<Option virtualFolder="Core/CApp/" />

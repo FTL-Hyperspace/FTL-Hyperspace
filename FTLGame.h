@@ -3957,6 +3957,17 @@ struct PowerManager;
 
 struct PowerManager
 {
+	int GetAvailablePower()
+	{
+		return currentPower.second - currentPower.first;
+	}
+	
+	int GetMaxPower()
+	{
+		int ret = currentPower.second - (iTempPowerLoss + iHacked);
+		return ret > iTempPowerCap ? iTempPowerCap : ret;
+	}
+
 	LIBZHL_API static PowerManager *__stdcall GetPowerManager(int iShipId);
 	
 	std::pair<int, int> currentPower;
@@ -4087,6 +4098,7 @@ struct ShipManager : ShipObject
 	LIBZHL_API void PrepareSuperBarrage();
 	LIBZHL_API bool RestoreCrewPositions();
 	LIBZHL_API CrewMember *GetCrewmember(int slot, bool present);
+	LIBZHL_API int CanUpgrade(int systemId, int amount);
 	LIBZHL_API static ShipBlueprint *__stdcall SaveToBlueprint(ShipBlueprint &bp, ShipManager *ship, bool unk);
 	
 	Targetable _targetable;
@@ -5252,6 +5264,9 @@ struct ReactorButton;
 struct ReactorButton : Button
 {
 	LIBZHL_API void Accept();
+	LIBZHL_API void OnClick();
+	LIBZHL_API void OnRightClick();
+	LIBZHL_API void OnRender();
 	
 	int tempUpgrade;
 	ShipManager *ship;
@@ -6364,6 +6379,7 @@ struct EventSystem;
 struct EventSystem
 {
 	LIBZHL_API void AddEvent(int id);
+	LIBZHL_API bool PollEvent(int id);
 	
 	std::vector<int> lastEvents;
 	std::vector<int> newEvents;
