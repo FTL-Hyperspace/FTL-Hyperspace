@@ -4348,10 +4348,17 @@ struct KeyboardInputEvent
 	char is_repeat;
 };
 
-struct EventGenerator;
-struct LocationEvent;
+struct EventText
+{
+	TextString text;
+	std::string planet;
+	std::string back;
+};
 
+struct EventGenerator;
 struct EventTemplate;
+
+struct LocationEvent;
 
 struct Sector;
 
@@ -5506,10 +5513,6 @@ struct GL_ColorTexVertex
 	float a;
 };
 
-struct MedbaySystem
-{
-};
-
 struct BatterySystem : ShipSystem
 {
 	bool bTurnedOn;
@@ -5517,12 +5520,24 @@ struct BatterySystem : ShipSystem
 	std::string soundeffect;
 };
 
-struct GL_TexVertex
+struct MedbaySystem
 {
-	float x;
-	float y;
-	float u;
-	float v;
+};
+
+struct GL_Line
+{
+	GL_Line(float x1, float y1, float x2, float y2)
+	{
+		start = Pointf(x1, y1);
+		end = Pointf(x2, y2);
+	}
+	
+	GL_Line(Pointf _start, Pointf _end) : start(_start), end(_end)
+	{
+	}		
+
+	Pointf start;
+	Pointf end;
 };
 
 struct ProjectileFactory : ShipObject
@@ -5580,22 +5595,6 @@ struct ProjectileFactory : ShipObject
 	bool isArtillery;
 };
 
-struct GL_Line
-{
-	GL_Line(float x1, float y1, float x2, float y2)
-	{
-		start = Pointf(x1, y1);
-		end = Pointf(x2, y2);
-	}
-	
-	GL_Line(Pointf _start, Pointf _end) : start(_start), end(_end)
-	{
-	}		
-
-	Pointf start;
-	Pointf end;
-};
-
 struct Scroller
 {
 	GL_Texture *imageId;
@@ -5611,6 +5610,12 @@ struct Scroller
 struct InputEventUnion
 {
 	char eventData[20];
+};
+
+struct MemoryInputEvent
+{
+	int64_t used_bytes;
+	int64_t free_bytes;
 };
 
 struct DroneSystem : ShipSystem
@@ -6088,14 +6093,31 @@ struct WarningWithLines : WarningMessage
 	int bottomTextLimit;
 };
 
-struct MemoryInputEvent
+struct GL_TexVertex
 {
-	int64_t used_bytes;
-	int64_t free_bytes;
+	float x;
+	float y;
+	float u;
+	float v;
 };
 
 struct EngineSystem
 {
+};
+
+struct MindSystem : ShipSystem
+{
+	LIBZHL_API void SetArmed(int armed);
+	
+	std::pair<float, float> controlTimer;
+	bool bCanUse;
+	int iArmed;
+	std::vector<CrewMember*> controlledCrew;
+	bool bSuperShields;
+	bool bBlocked;
+	int iQueuedTarget;
+	int iQueuedShip;
+	std::vector<CrewMember*> queuedCrew;
 };
 
 struct HackingDrone;
@@ -6118,21 +6140,6 @@ struct HackingDrone : SpaceDrone
 	int prefRoom;
 };
 
-struct MindSystem : ShipSystem
-{
-	LIBZHL_API void SetArmed(int armed);
-	
-	std::pair<float, float> controlTimer;
-	bool bCanUse;
-	int iArmed;
-	std::vector<CrewMember*> controlledCrew;
-	bool bSuperShields;
-	bool bBlocked;
-	int iQueuedTarget;
-	int iQueuedShip;
-	std::vector<CrewMember*> queuedCrew;
-};
-
 struct ShipGenerator
 {
 	LIBZHL_API static ShipManager *__stdcall CreateShip(const std::string &name, int sector, ShipEvent &event);
@@ -6140,6 +6147,10 @@ struct ShipGenerator
 };
 
 struct CrystalAnimation
+{
+};
+
+struct SlugAnimation
 {
 };
 
@@ -6162,10 +6173,6 @@ struct CloneBox : CooldownSystemBox
 	GL_Texture *boxSolo;
 	GL_Texture *boxFill;
 	WarningMessage *dyingCrewWarning;
-};
-
-struct SlugAnimation
-{
 };
 
 struct EngiAnimation
@@ -6229,6 +6236,10 @@ struct EngiAlien
 {
 };
 
+struct EnergyAnimation
+{
+};
+
 struct Missile;
 
 struct Missile : Projectile
@@ -6264,10 +6275,6 @@ struct Asteroid : Projectile
 {
 	GL_Texture *imageId;
 	float angle;
-};
-
-struct EnergyAnimation
-{
 };
 
 struct CrystalAlien : CrewMember
@@ -6362,6 +6369,31 @@ struct freetype
 	LIBZHL_API static double __stdcall easy_printCenter(int fontData, float x, float y, const std::string &text);
 	LIBZHL_API static int __stdcall easy_printAutoShrink(int fontData, float x, float y, int width, char unk, const std::string &text);
 	
+};
+
+struct EventsParser;
+struct ResourcesTemplate;
+struct RandomAmount;
+struct ShipTemplate;
+
+struct EventsParser
+{
+	static bool ParseBoolean(const std::string& str)
+	{
+		return str == "true" || str == "TRUE" || str == "True";
+	}
+
+	LIBZHL_API RandomAmount *PullMinMax(rapidxml::xml_node<char> *node, const std::string &name);
+	LIBZHL_API static void __stdcall ProcessEvent(std::string &strRef, EventsParser *eventsParser, rapidxml::xml_node<char> *node, const std::string &eventName);
+	LIBZHL_API static void __stdcall ProcessShipEvent(ShipTemplate &shipEvent, EventsParser *eventsParser, rapidxml::xml_node<char> *node);
+	LIBZHL_API ResourcesTemplate *ProcessModifyItem(ResourcesTemplate &resources, rapidxml::xml_node<char> *node, const std::string &unk);
+	LIBZHL_API void AddAllEvents();
+	LIBZHL_API void AddEvents(EventGenerator &generator, char *file, const std::string &fileName);
+	LIBZHL_API static void __stdcall ProcessEventList(std::vector<std::string> &vecRef, EventsParser *eventsParser, rapidxml::xml_node<char> *node, const std::string &listName);
+	
+	std::unordered_map<std::string, EventTemplate*> eventTemplates;
+	std::vector<EventTemplate*> trashList;
+	std::unordered_map<std::string, ShipEvent> shipTemplates;
 };
 
 struct ArtillerySystem : ShipSystem
@@ -6491,31 +6523,6 @@ struct CSurface
 	LIBZHL_API static GL_Primitive *__stdcall GL_CreateMultiLinePrimitive(std::vector<GL_Line> &vec, GL_Color color, float thickness);
 	LIBZHL_API static GL_Primitive *__stdcall GL_CreateMultiRectPrimitive(std::vector<Globals::Rect> &vec, GL_Color color);
 	
-};
-
-struct EventsParser;
-struct ResourcesTemplate;
-struct RandomAmount;
-struct ShipTemplate;
-
-struct EventsParser
-{
-	static bool ParseBoolean(const std::string& str)
-	{
-		return str == "true" || str == "TRUE" || str == "True";
-	}
-
-	LIBZHL_API RandomAmount *PullMinMax(rapidxml::xml_node<char> *node, const std::string &name);
-	LIBZHL_API static void __stdcall ProcessEvent(std::string &strRef, EventsParser *eventsParser, rapidxml::xml_node<char> *node, const std::string &eventName);
-	LIBZHL_API static void __stdcall ProcessShipEvent(ShipTemplate &shipEvent, EventsParser *eventsParser, rapidxml::xml_node<char> *node);
-	LIBZHL_API ResourcesTemplate *ProcessModifyItem(ResourcesTemplate &resources, rapidxml::xml_node<char> *node, const std::string &unk);
-	LIBZHL_API void AddAllEvents();
-	LIBZHL_API void AddEvents(EventGenerator &generator, char *file, const std::string &fileName);
-	LIBZHL_API static void __stdcall ProcessEventList(std::vector<std::string> &vecRef, EventsParser *eventsParser, rapidxml::xml_node<char> *node, const std::string &listName);
-	
-	std::unordered_map<std::string, EventTemplate*> eventTemplates;
-	std::vector<EventTemplate*> trashList;
-	std::unordered_map<std::string, ShipEvent> shipTemplates;
 };
 
 struct Settings
