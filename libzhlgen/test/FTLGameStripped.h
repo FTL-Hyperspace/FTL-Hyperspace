@@ -5159,7 +5159,27 @@ struct EventSystem;
 struct SoundControl;
 
 /* 273 */
-struct EventGenerator;
+struct EventGenerator
+{
+  std__vector_11std__string baseEvents;
+  std__unordered_map_31std__string___SectorDescription sectors;
+  std__unordered_map_39std__string___std__vector_11std__string baseSectors;
+  std__unordered_map_39std__string___std__vector_11std__string eventLists;
+  std__unordered_map_29std__string___EventTemplateZ1 events;
+  std__unordered_map_29std__string___EventTemplateZ1 usedEvents;
+  std__unordered_map_36std__string___std__vector_9EventText textLists;
+  std__unordered_map_36std__string___std__vector_9EventText usedTextLists;
+  std__unordered_map_39std__string___std__vector_11std__string shipTemplateLists;
+  std__unordered_map_23std__string___ShipEvent shipTemplates;
+  std__unordered_map_39std__string___std__vector_11std__string imageLists;
+  std__vector_15LocationEventZ1 trashList;
+  std__unordered_map_27std__string___ResourceEvent resourcesCollected;
+  std__unordered_map_17std__string___int eventTypesCreated;
+  int shipsCreated;
+  bool shiplessEvent;
+  bool creatingShipEvent;
+  int forceRandomIndex;
+};
 
 /* 629 */
 struct std__unordered_map_29std__string___EventTemplateZ1
@@ -5892,3 +5912,44 @@ struct EventSystem
 	std__vector_3int lastEvents;
 	std__vector_3int newEvents;
 };
+
+struct std__unordered_map_31std__string___SectorDescription
+{
+    char unk[0x1C];
+}
+
+struct std__unordered_map_39std__string___std__vector_11std__string
+{
+    char unk[0x1C];
+}
+
+struct std__vector_9EventText
+{
+    EventText* _start;
+    EventText* _finish;
+    EventText* _end;
+}
+
+struct std__unordered_map_36std__string___std__vector_9EventText
+{
+    char unk[0x1C];
+}
+
+struct std__vector_15LocationEventZ1
+{
+    LocationEvent** _start;
+    LocationEvent** _finish;
+    LocationEvent** _end;
+}
+
+struct std__unordered_map_26std_string___ResourceEvent
+{
+    char unk[0x1C];
+}
+
+struct std__unordered_map_17std__string___int
+{
+    char unk[0x1C];
+}
+
+

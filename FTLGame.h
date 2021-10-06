@@ -4348,9 +4348,10 @@ struct KeyboardInputEvent
 	char is_repeat;
 };
 
+struct EventGenerator;
 struct LocationEvent;
 
-struct EventGenerator;
+struct EventTemplate;
 
 struct Sector;
 
@@ -4390,6 +4391,24 @@ struct EventGenerator
 	LIBZHL_API static void __stdcall GetImageFromList(std::string &ret, EventGenerator *eventGenerator, const std::string &listName);
 	LIBZHL_API static SectorDescription *__stdcall GetSectorDescription(SectorDescription *desc, EventGenerator *eventGenerator, const std::string &type, int level);
 	
+	std::vector<std::string> baseEvents;
+	std::unordered_map<std::string, SectorDescription> sectors;
+	std::unordered_map<std::string, std::vector<std::string>> baseSectors;
+	std::unordered_map<std::string, std::vector<std::string>> eventLists;
+	std::unordered_map<std::string, EventTemplate*> events;
+	std::unordered_map<std::string, EventTemplate*> usedEvents;
+	std::unordered_map<std::string, std::vector<EventText>> textLists;
+	std::unordered_map<std::string, std::vector<EventText>> usedTextLists;
+	std::unordered_map<std::string, std::vector<std::string>> shipTemplateLists;
+	std::unordered_map<std::string, ShipEvent> shipTemplates;
+	std::unordered_map<std::string, std::vector<std::string>> imageLists;
+	std::vector<LocationEvent*> trashList;
+	std::unordered_map<std::string, ResourceEvent> resourcesCollected;
+	std::unordered_map<std::string, int> eventTypesCreated;
+	int shipsCreated;
+	bool shiplessEvent;
+	bool creatingShipEvent;
+	int forceRandomIndex;
 };
 
 struct LaserBlast;
@@ -6476,7 +6495,6 @@ struct CSurface
 
 struct EventsParser;
 struct ResourcesTemplate;
-struct EventTemplate;
 struct RandomAmount;
 struct ShipTemplate;
 
