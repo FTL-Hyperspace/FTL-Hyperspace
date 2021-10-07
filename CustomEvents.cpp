@@ -132,65 +132,18 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
 
             if (!sectorName.empty())
             {
-                CustomSector *sec = new CustomSector();
+                CustomSector *sec = GetCustomSectorPreload(sectorName);
+
+                if (sec == nullptr)
+                {
+                    sec = new CustomSector();
+                }
 
                 sec->sectorName = sectorName;
 
-                for (auto sectorNode = eventNode->first_node(); sectorNode; sectorNode = sectorNode->next_sibling())
-                {
-                    if (strcmp(sectorNode->name(), "exitBeacon") == 0)
-                    {
-                        SectorExit exit = SectorExit();
+                ParseCustomSector(eventNode, sec);
 
-                        if (sectorNode->first_attribute("event"))
-                        {
-                            exit.event = sectorNode->first_attribute("event")->value();
-                        }
-                        if (sectorNode->first_attribute("rebelEvent"))
-                        {
-                            exit.rebelEvent = sectorNode->first_attribute("rebelEvent")->value();
-                        }
-                        if (sectorNode->first_attribute("nebulaEvent"))
-                        {
-                            exit.nebulaEvent = sectorNode->first_attribute("nebulaEvent")->value();
-                        }
-
-                        sec->exitBeacons = exit;
-                    }
-
-                    if (strcmp(sectorNode->name(), "rebelBeacon") == 0)
-                    {
-                        SectorFleet fleet = SectorFleet();
-
-                        if (sectorNode->first_attribute("event"))
-                        {
-                            fleet.event = sectorNode->first_attribute("event")->value();
-                        }
-                        if (sectorNode->first_attribute("nebulaEvent"))
-                        {
-                            fleet.nebulaEvent = sectorNode->first_attribute("nebulaEvent")->value();
-                        }
-
-                        sec->fleetBeacons = fleet;
-                    }
-
-                    if (strcmp(sectorNode->name(), "removeFirstBeaconNebula") == 0)
-                    {
-                        sec->removeFirstBeaconNebula = true;
-                    }
-
-                    if (strcmp(sectorNode->name(), "noExit") == 0)
-                    {
-                        sec->noExit = true;
-                    }
-
-                    if (strcmp(sectorNode->name(), "nebulaSector") == 0)
-                    {
-                        sec->nebulaSector = EventsParser::ParseBoolean(sectorNode->value());
-                    }
-
-                    customSectors.push_back(sec);
-                }
+                customSectorsPreload[sectorName] = sec;
             }
         }
 
@@ -526,6 +479,78 @@ void CustomEventsParser::PostProcessCustomEvents()
             }
         }
         def.second->loadBeacon = "";
+    }
+}
+
+bool CustomEventsParser::ParseCustomSector(rapidxml::xml_node<char> *node, CustomSector *sector, bool parsingVanilla)
+{
+    bool isDefault = true;
+
+    for (auto sectorNode = node->first_node(); sectorNode; sectorNode = sectorNode->next_sibling())
+    {
+        if (strcmp(sectorNode->name(), "exitBeacon") == 0)
+        {
+            isDefault = false;
+
+            SectorExit exit = SectorExit();
+
+            if (sectorNode->first_attribute("event"))
+            {
+                exit.event = sectorNode->first_attribute("event")->value();
+            }
+            if (sectorNode->first_attribute("rebelEvent"))
+            {
+                exit.rebelEvent = sectorNode->first_attribute("rebelEvent")->value();
+            }
+            if (sectorNode->first_attribute("nebulaEvent"))
+            {
+                exit.nebulaEvent = sectorNode->first_attribute("nebulaEvent")->value();
+            }
+
+            sector->exitBeacons = exit;
+        }
+
+        if (strcmp(sectorNode->name(), "rebelBeacon") == 0)
+        {
+            isDefault = false;
+
+            SectorFleet fleet = SectorFleet();
+
+            if (sectorNode->first_attribute("event"))
+            {
+                fleet.event = sectorNode->first_attribute("event")->value();
+            }
+            if (sectorNode->first_attribute("nebulaEvent"))
+            {
+                fleet.nebulaEvent = sectorNode->first_attribute("nebulaEvent")->value();
+            }
+
+            sector->fleetBeacons = fleet;
+        }
+
+        if (strcmp(sectorNode->name(), "removeFirstBeaconNebula") == 0)
+        {
+            isDefault = false;
+            sector->removeFirstBeaconNebula = true;
+        }
+
+        if (strcmp(sectorNode->name(), "noExit") == 0)
+        {
+            isDefault = false;
+            sector->noExit = true;
+        }
+
+        if (strcmp(sectorNode->name(), "nebulaSector") == 0)
+        {
+            isDefault = false;
+            sector->nebulaSector = EventsParser::ParseBoolean(sectorNode->value());
+        }
+
+        if (strcmp(sectorNode->name(), "maxSector") == 0)
+        {
+            isDefault = false;
+            sector->maxSector = boost::lexical_cast<int>(sectorNode->value());
+        }
     }
 }
 
@@ -1625,12 +1650,23 @@ CustomQuest *CustomEventsParser::GetCustomQuest(const std::string& event)
 
 CustomSector *CustomEventsParser::GetCustomSector(const std::string& sectorName)
 {
-    for (auto i : customSectors)
+    auto it = customSectors.find(sectorName);
+
+    if (it != customSectors.end())
     {
-        if (i->sectorName == sectorName)
-        {
-            return i;
-        }
+        return it->second;
+    }
+
+    return nullptr;
+}
+
+CustomSector *CustomEventsParser::GetCustomSectorPreload(const std::string& sectorName)
+{
+    auto it = customSectorsPreload.find(sectorName);
+
+    if (it != customSectorsPreload.end())
+    {
+        return it->second;
     }
 
     return nullptr;
@@ -1646,6 +1682,39 @@ CustomReq *CustomEventsParser::GetCustomReq(const std::string& blueprint)
     }
 
     return nullptr;
+}
+
+void CustomEventsParser::ParseVanillaBaseNode(rapidxml::xml_node<char> *node)
+{
+    if (strcmp(node->name(), "sectorDescription") == 0)
+    {
+        if (node->first_attribute("name"))
+        {
+            std::string sectorName = node->first_attribute("name")->value();
+
+            CustomSector *sec = GetCustomSector(sectorName);
+            CustomSector *secPreload = GetCustomSectorPreload(sectorName);
+
+            if (sec == nullptr)
+            {
+                sec = new CustomSector;
+            }
+            if (secPreload == nullptr)
+            {
+                *sec = CustomSector();
+            }
+            else
+            {
+                *sec = *secPreload;
+            }
+
+            sec->sectorName = sectorName;
+
+            ParseCustomSector(node, sec, true);
+
+            customSectors[sectorName] = sec;
+        }
+    }
 }
 
 void CustomEventsParser::ParseVanillaEventNode(rapidxml::xml_node<char> *node, const std::string &eventName, const std::string &baseEventName)
@@ -1702,6 +1771,12 @@ void CustomEventsParser::ParseVanillaShipEventNode(rapidxml::xml_node<char> *nod
         *customEvent = CustomShipEvent(); // Reset the customEvent
         ParseCustomShipEvent(node, customEvent);
     }
+}
+
+HOOK_METHOD(EventsParser, ProcessBaseNode, (rapidxml::xml_node<char>* node, EventGenerator& generator) -> void)
+{
+    super(node, generator);
+    CustomEventsParser::GetInstance()->ParseVanillaBaseNode(node);
 }
 
 HOOK_STATIC(EventsParser, ProcessEvent, (std::string &strRef, EventsParser *eventsParser, rapidxml::xml_node<char> *node, const std::string &eventName) -> void)

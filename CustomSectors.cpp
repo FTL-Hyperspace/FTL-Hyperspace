@@ -207,3 +207,67 @@ void ReplaceSector(Sector *sector, std::string sectorList, bool isLoading)
         replacedSectors[highestLevel].push_back(ReplacedSector({sectorList, sector->level, sector->location.y}));
     }
 }
+
+HOOK_STATIC_PRIORITY(EventGenerator, GetSectorDescription, 9999, (SectorDescription* ret, EventGenerator* _this, const std::string& type, int level) -> SectorDescription*)
+{
+    ret = new(ret) SectorDescription();
+
+    auto sectorListIt = _this->baseSectors.find(type);
+    if (sectorListIt == _this->baseSectors.end())
+    {
+        hs_log_file("INVALID SECTOR TYPE! %s\n", type.c_str());
+        return ret;
+    }
+
+    std::vector<std::string>* pSectorList = &sectorListIt->second;
+
+    if (Settings::GetDlcEnabled())
+    {
+        sectorListIt = _this->baseSectors.find("OVERRIDE_" + type);
+        if (sectorListIt != _this->baseSectors.end())
+        {
+            pSectorList = &sectorListIt->second;
+        }
+    }
+
+    std::vector<std::string> sectorList = std::vector<std::string>();
+    for (auto& sectorName : *pSectorList)
+    {
+        SectorDescription& sectorDesc = _this->sectors[sectorName];
+        if (level < sectorDesc.minSector || sectorDesc.used)
+        {
+            continue;
+        }
+
+        CustomSector *custom = CustomEventsParser::GetInstance()->GetCustomSector(sectorName);
+        if (custom)
+        {
+            if (custom->maxSector != -1 && level > custom->maxSector)
+            {
+                continue;
+            }
+        }
+
+        sectorList.push_back(sectorName);
+    }
+
+    std::string selectedSectorName = sectorList[random32() % sectorList.size()];
+
+    SectorDescription& sectorDesc = _this->sectors[selectedSectorName];
+    if (sectorDesc.unique) sectorDesc.used = true;
+
+    *ret = sectorDesc;
+
+    int nameIndex = random32() % ret->names.size();
+
+    ret->name = ret->names[nameIndex];
+    ret->shortName = ret->shortNames[nameIndex];
+
+    if (sectorDesc.names.size() > 1)
+    {
+        sectorDesc.names.erase(sectorDesc.names.begin() + nameIndex);
+        sectorDesc.shortNames.erase(sectorDesc.shortNames.begin() + nameIndex);
+    }
+
+    return ret;
+}

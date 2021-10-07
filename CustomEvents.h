@@ -620,6 +620,7 @@ struct CustomSector
     bool removeFirstBeaconNebula = false;
     bool noExit = false;
     ToggleValue<bool> nebulaSector;
+    int maxSector = -1;
 };
 
 struct BossShipDefinition
@@ -732,8 +733,10 @@ public:
     void ReadCustomEventFiles();
     void ParseCustomEventNode(rapidxml::xml_node<char> *node);
     void PostProcessCustomEvents();
+    void ParseVanillaBaseNode(rapidxml::xml_node<char> *node);
     void ParseVanillaEventNode(rapidxml::xml_node<char> *node, const std::string &eventName, const std::string &baseEventName);
     void ParseVanillaShipEventNode(rapidxml::xml_node<char> *node, const std::string &eventName);
+    bool ParseCustomSector(rapidxml::xml_node<char> *node, CustomSector *sector, bool parsingVanilla = false);
     bool ParseCustomEvent(rapidxml::xml_node<char> *node, CustomEvent *event, bool parsingVanilla = false);
     bool ParseCustomShipEvent(rapidxml::xml_node<char> *node, CustomShipEvent *event);
     bool ParseCustomQuestNode(rapidxml::xml_node<char> *node, CustomQuest *quest);
@@ -764,6 +767,7 @@ public:
     CustomShipEvent *GetCustomShipEvent(const std::string& event);
     CustomQuest *GetCustomQuest(const std::string& event);
     CustomSector *GetCustomSector(const std::string& sectorName);
+    CustomSector *GetCustomSectorPreload(const std::string& sectorName);
     CustomReq *GetCustomReq(const std::string& blueprint);
 
     static std::string GetBaseEventName(const std::string& event)
@@ -790,7 +794,8 @@ public:
     bool defaultRevisitSeeded = true;
 
 private:
-    std::vector<CustomSector*> customSectors;
+    std::unordered_map<std::string, CustomSector*> customSectors;
+    std::unordered_map<std::string, CustomSector*> customSectorsPreload;
     std::unordered_map<std::string, CustomEvent*> customEvents;
     std::unordered_map<std::string, CustomEvent*> customRecursiveEvents;
     std::unordered_map<std::string, std::vector<CustomEvent*>> vCustomEvents;
