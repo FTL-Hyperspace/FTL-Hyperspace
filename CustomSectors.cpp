@@ -10,6 +10,8 @@ static bool sectorColorOverride = false;
 
 void CustomSectorManager::ParseCustomSectorMapNode(rapidxml::xml_node<char> *node)
 {
+    generators.clear();
+
     for (auto child = node->first_node(); child; child = child->next_sibling())
     {
         if (strcmp(child->name(), "sectorList") == 0)

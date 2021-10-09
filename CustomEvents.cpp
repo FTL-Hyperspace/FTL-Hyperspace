@@ -1721,6 +1721,11 @@ void CustomEventsParser::ParseVanillaBaseNode(rapidxml::xml_node<char> *node)
             customSectors[sectorName] = sec;
         }
     }
+    else if (strcmp(node->name(), "sectorMap") == 0)
+    {
+        auto customSectorParser = CustomSectorManager::GetInstance();
+        customSectorParser->ParseCustomSectorMapNode(node);
+    }
 }
 
 void CustomEventsParser::ParseVanillaEventNode(rapidxml::xml_node<char> *node, const std::string &eventName, const std::string &baseEventName)
