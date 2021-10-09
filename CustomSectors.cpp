@@ -1,6 +1,42 @@
 #include "CustomSectors.h"
 
+#include <boost/lexical_cast.hpp>
+
+CustomSectorManager *CustomSectorManager::instance = new CustomSectorManager();
+
 std::unordered_map<int,std::vector<ReplacedSector>> replacedSectors = std::unordered_map<int,std::vector<ReplacedSector>>();
+
+static bool sectorColorOverride = false;
+
+void CustomSectorManager::ParseCustomSectorMapNode(rapidxml::xml_node<char> *node)
+{
+    for (auto child = node->first_node(); child; child = child->next_sibling())
+    {
+        if (strcmp(child->name(), "sectorList") == 0)
+        {
+            CustomSectorGeneratorList sectorLists = CustomSectorGeneratorList();
+            if (child->first_attribute("maxSector"))
+            {
+                sectorLists.maxSector = boost::lexical_cast<int>(child->first_attribute("maxSector")->value());
+            }
+            for (auto child2 = child->first_node(); child2; child2 = child2->next_sibling())
+            {
+                std::string sectorList = child2->name();
+                int chance = 1;
+                if (child2->first_attribute("chance"))
+                {
+                    chance = boost::lexical_cast<int>(child2->first_attribute("chance")->value());
+                }
+                sectorLists.totalChance += chance;
+                sectorLists.sectorTypes.push_back({chance, sectorList});
+            }
+            if (sectorLists.totalChance > 0)
+            {
+                generators.push_back(sectorLists);
+            }
+        }
+    }
+}
 
 HOOK_METHOD(StarMap, NewGame, (bool unk) -> Location*)
 {
@@ -49,9 +85,62 @@ HOOK_METHOD(StarMap, SaveGame, (int file) -> void)
     return super(file);
 }
 
+bool CustomSectorManager::SectorIsType(const std::string &name, const std::string &type)
+{
+    EventGenerator *_this = G_->GetEventGenerator();
+
+    auto sectorListIt = _this->baseSectors.find(type);
+    if (sectorListIt == _this->baseSectors.end())
+    {
+        return false;
+    }
+
+    std::vector<std::string>* pSectorList = &sectorListIt->second;
+
+    if (Settings::GetDlcEnabled())
+    {
+        sectorListIt = _this->baseSectors.find("OVERRIDE_" + type);
+        if (sectorListIt != _this->baseSectors.end())
+        {
+            pSectorList = &sectorListIt->second;
+        }
+    }
+
+    for (auto& sectorName : *pSectorList)
+    {
+        if (sectorName == name) return true;
+    }
+
+    return false;
+}
+
 HOOK_METHOD(StarMap, AddSectorColumn, () -> void)
 {
     super();
+
+    if (sectorColorOverride)
+    {
+        sectorColorOverride = false;
+        for (Sector* sec : lastSectors)
+        {
+            if (CustomSectorManager::SectorIsType(sec->description.type, "CIVILIAN"))
+            {
+                sec->type = 0;
+                continue;
+            }
+            if (CustomSectorManager::SectorIsType(sec->description.type, "HOSTILE"))
+            {
+                sec->type = 1;
+                continue;
+            }
+            if (CustomSectorManager::SectorIsType(sec->description.type, "NEBULA"))
+            {
+                sec->type = 2;
+                continue;
+            }
+            sec->type = 4;
+        }
+    }
 
     if (bInfiniteMode)
     {
@@ -124,27 +213,9 @@ void ReplaceSector(SectorReplace &def)
 
     Sector *targetSector = sectors[random32()%sectors.size()];
 
-    std::string sectorList = def.sectorList;
-    if (sectorList == "ALL")
-    {
-        int rng = random32()%10;
-        if (rng < 4)
-        {
-            sectorList = "CIVILIAN";
-        }
-        else if (rng < 8)
-        {
-            sectorList = "HOSTILE";
-        }
-        else
-        {
-            sectorList = "NEBULA";
-        }
-    }
-
     if (SeedInputBox::seedsEnabled) Global::questSeed = random32();
 
-    ReplaceSector(targetSector, sectorList, false);
+    ReplaceSector(targetSector, def.sectorList, false);
 }
 
 void ReplaceSector(Sector *sector, std::string sectorList, bool isLoading)
@@ -173,9 +244,31 @@ void ReplaceSector(Sector *sector, std::string sectorList, bool isLoading)
         }
     }
 
-    if (sectorList == "CIVILIAN" || sectorList == "HOSTILE" || sectorList == "NEBULA" || sectorList == "UNKNOWN")
+    if (sectorList == "ALL")
     {
-        EventGenerator::GetSectorDescription(&sector->description, G_->GetEventGenerator(), sectorList, sector->level);
+        sectorList = CustomSectorManager::GetInstance()->GetSectorType(sector->level);
+
+        if (sectorList.empty())
+        {
+            int rng = random32()%10;
+            if (rng < 4)
+            {
+                sectorList = "CIVILIAN";
+            }
+            else if (rng < 8)
+            {
+                sectorList = "HOSTILE";
+            }
+            else
+            {
+                sectorList = "NEBULA";
+            }
+        }
+        EventGenerator_GetSectorDescriptionCustom(&sector->description, G_->GetEventGenerator(), sectorList, sector->level);
+    }
+    else if (sectorList == "CIVILIAN" || sectorList == "HOSTILE" || sectorList == "NEBULA" || sectorList == "UNKNOWN")
+    {
+        EventGenerator_GetSectorDescriptionCustom(&sector->description, G_->GetEventGenerator(), sectorList, sector->level);
     }
     else
     {
@@ -208,7 +301,7 @@ void ReplaceSector(Sector *sector, std::string sectorList, bool isLoading)
     }
 }
 
-HOOK_STATIC_PRIORITY(EventGenerator, GetSectorDescription, 9999, (SectorDescription* ret, EventGenerator* _this, const std::string& type, int level) -> SectorDescription*)
+SectorDescription* EventGenerator_GetSectorDescriptionCustom(SectorDescription* ret, EventGenerator* _this, const std::string& type, int level)
 {
     ret = new(ret) SectorDescription();
 
@@ -251,6 +344,14 @@ HOOK_STATIC_PRIORITY(EventGenerator, GetSectorDescription, 9999, (SectorDescript
         sectorList.push_back(sectorName);
     }
 
+    if (sectorList.size() == 0)
+    {
+        SectorDescription *desc = _this->GetSpecificSector("STANDARD_SPACE");
+        *ret = *desc;
+        delete desc;
+        return ret;
+    }
+
     std::string selectedSectorName = sectorList[random32() % sectorList.size()];
 
     SectorDescription& sectorDesc = _this->sectors[selectedSectorName];
@@ -270,4 +371,16 @@ HOOK_STATIC_PRIORITY(EventGenerator, GetSectorDescription, 9999, (SectorDescript
     }
 
     return ret;
+}
+
+HOOK_STATIC_PRIORITY(EventGenerator, GetSectorDescription, 9999, (SectorDescription* ret, EventGenerator* _this, const std::string& type, int level) -> SectorDescription*)
+{
+    std::string newType = CustomSectorManager::GetInstance()->GetSectorType(level);
+    if (!newType.empty())
+    {
+        sectorColorOverride = true;
+        return EventGenerator_GetSectorDescriptionCustom(ret, _this, newType, level);
+    }
+
+    return EventGenerator_GetSectorDescriptionCustom(ret, _this, type, level);
 }

@@ -8,6 +8,7 @@
 #include "CustomCrew.h"
 #include "CustomEvents.h"
 #include "CustomRewards.h"
+#include "CustomSectors.h"
 #include "EventTooltip.h"
 #include "CooldownNumbers.h"
 #include "CustomAugments.h"
@@ -271,6 +272,12 @@ void Global::InitializeResources(ResourceControl *resources)
             {
                 auto customRewardsManager = CustomRewardsManager::GetInstance();
                 customRewardsManager->ParseRewardsNode(node);
+            }
+
+            if (strcmp(node->name(), "sectorMap") == 0)
+            {
+                auto customSectorParser = CustomSectorManager::GetInstance();
+                customSectorParser->ParseCustomSectorMapNode(node);
             }
 
             if (strcmp(node->name(), "events") == 0)

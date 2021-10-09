@@ -486,6 +486,12 @@ bool CustomEventsParser::ParseCustomSector(rapidxml::xml_node<char> *node, Custo
 {
     bool isDefault = true;
 
+    if (node->first_attribute("maxSector"))
+    {
+        isDefault = false;
+        sector->maxSector = boost::lexical_cast<int>(node->first_attribute("maxSector")->value());
+    }
+
     for (auto sectorNode = node->first_node(); sectorNode; sectorNode = sectorNode->next_sibling())
     {
         if (strcmp(sectorNode->name(), "exitBeacon") == 0)
