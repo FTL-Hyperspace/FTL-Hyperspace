@@ -1239,6 +1239,44 @@ Example:
 	-->
 </rewards>
 
+<!-- Custom Sector Map
+
+Can be used to customize the generation of the sector map.
+
+Each sectorList determines the distribution of sectors up to a given sector number.
+Each entry in a sectorList is a sectorType in sector_data.xml. The chance is the relative probability of rolling from that list (default chance = 1).
+Chance must be an integer; they can sum to any number you'd like.
+sectorLists must be in ascending sector order. They do not affect sector 1 or the final sector.
+
+When using custom sectorLists you still need to list all sectors under the default CIVILIAN/HOSTILE/NEBULA lists as those are used to color the sectors on the map.
+
+sectorMap can also go in sector_data.xml.
+
+Example:
+
+<sectorMap>
+	<sectorList maxSector="m">
+		<LIST_NAME_1 chance="x"/>
+		<LIST_NAME_2 chance="y"/>
+	</sectorList>
+	<sectorList maxSector="n">
+		<LIST_NAME_3 chance="z"/>
+		<LIST_NAME_4 chance="w"/>
+	</sectorList>
+</sectorMap>
+
+-->
+
+<!-- Vanilla equivalent:
+<sectorMap>
+	<sectorList>
+		<CIVILIAN chance="4"/>
+		<HOSTILE chance="4"/>
+		<NEBULA chance="2"/>
+	</sectorList>
+</sectorMap>
+-->
+
 <!-- Custom Event Characteristics
 
 Now you can include Hyperspace tags inside vanilla <event> and <ship> tags inside the events.xml files! This avoids the need to maintain event parameters in two separate places (vanilla + hyperspace).
