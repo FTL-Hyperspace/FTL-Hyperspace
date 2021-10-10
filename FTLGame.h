@@ -5256,6 +5256,11 @@ struct Equipment : FocusWindow
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void MouseClick(int mX, int mY);
 	LIBZHL_API void MouseUp(int mX, int mY);
+	LIBZHL_API void AddWeapon(WeaponBlueprint *bp, bool unk1, bool unk2);
+	LIBZHL_API void AddDrone(DroneBlueprint *bp, bool unk1, bool unk2);
+	LIBZHL_API void AddAugment(AugmentBlueprint *bp, bool unk1, bool unk2);
+	LIBZHL_API void AddToCargo(std::string &name);
+	LIBZHL_API static std::vector<std::string> *__stdcall GetCargoHold(std::vector<std::string> *items, Equipment *_this);
 	
 	GL_Texture *box;
 	GL_Texture *storeBox;
