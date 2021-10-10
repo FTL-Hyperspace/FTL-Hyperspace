@@ -4055,6 +4055,8 @@ struct ShipManager : ShipObject
 	LIBZHL_API void PrepareSuperDrones();
 	LIBZHL_API void JumpLeave();
 	LIBZHL_API void ModifyScrapCount(int scrap, bool income);
+	LIBZHL_API void ModifyMissileCount(int missiles);
+	LIBZHL_API void ModifyDroneCount(int drones);
 	LIBZHL_API bool DoSensorsProvide(int vision);
 	LIBZHL_API bool IsCrewFull();
 	LIBZHL_API bool IsCrewOverFull();

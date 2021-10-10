@@ -131,6 +131,18 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
     if(cmdName == "RICH")
     {
         commandGui->shipComplete->shipManager->ModifyScrapCount(9999999 , false);
+        commandGui->shipComplete->shipManager->ModifyMissileCount(800);
+        commandGui->shipComplete->shipManager->fuel_count += 800;
+        commandGui->shipComplete->shipManager->ModifyDroneCount(800);
+        return true;
+    }
+    if(cmdName == "POOR")
+    {
+        commandGui->shipComplete->shipManager->ModifyScrapCount(-9999999 , false);
+        commandGui->shipComplete->shipManager->ModifyMissileCount(-800);
+        commandGui->shipComplete->shipManager->fuel_count -= 800;
+        if (commandGui->shipComplete->shipManager->fuel_count < 0) commandGui->shipComplete->shipManager->fuel_count = 0;
+        commandGui->shipComplete->shipManager->ModifyDroneCount(-800);
         return true;
     }
 
