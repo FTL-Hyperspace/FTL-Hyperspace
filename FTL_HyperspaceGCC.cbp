@@ -281,6 +281,9 @@
 		<Unit filename="CustomEquipment.cpp">
 			<Option virtualFolder="Core/Equipment/" />
 		</Unit>
+		<Unit filename="CustomEquipment.h">
+			<Option virtualFolder="Core/Equipment/" />
+		</Unit>
 		<Unit filename="CustomEvents.cpp">
 			<Option virtualFolder="Core/Events/" />
 		</Unit>
@@ -388,6 +391,9 @@
 		</Unit>
 		<Unit filename="EnemyShipIcons.h">
 			<Option virtualFolder="Core/Ship/" />
+		</Unit>
+		<Unit filename="EquipmentVTable.cpp">
+			<Option virtualFolder="Core/Equipment/" />
 		</Unit>
 		<Unit filename="ErosionEffect.cpp">
 			<Option virtualFolder="Core/Weapons/" />

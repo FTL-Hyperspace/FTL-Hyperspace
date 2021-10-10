@@ -3578,6 +3578,39 @@ struct LIBZHL_INTERFACE EquipmentBox
 	{
 		return !item.pWeapon && !item.pDrone && (!item.augment || item.augment->name.empty()) && !item.pCrew;
 	}
+	
+	bool IsWeapon()
+	{
+		return item.pWeapon;
+	}
+	
+	bool IsDrone()
+	{
+		return item.pDrone;
+	}
+	
+	bool IsAugment()
+	{
+		return item.augment && !item.augment->name.empty();
+	}
+	
+	bool IsCrew()
+	{
+		return item.pCrew;
+	}
+	
+	bool CanSwap(EquipmentBox *other)
+	{
+		if (IsWeapon() && !other->CanHoldWeapon()) return false;
+		if (IsDrone() && !other->CanHoldDrone()) return false;
+		if (IsAugment() && !other->CanHoldAugment()) return false;
+		if (IsCrew() && !other->CanHoldCrew()) return false;
+		if (other->IsWeapon() && !CanHoldWeapon()) return false;
+		if (other->IsDrone() && !CanHoldDrone()) return false;
+		if (other->IsAugment() && !CanHoldAugment()) return false;
+		if (other->IsCrew() && !CanHoldCrew()) return false;
+		return true;
+	}
 
 	LIBZHL_API virtual ~EquipmentBox();
 	LIBZHL_API virtual void SetPosition(Point pos);
@@ -3595,14 +3628,14 @@ struct LIBZHL_INTERFACE EquipmentBox
 	LIBZHL_API virtual bool CanHoldDrone();
 	virtual char CanHoldAugment() LIBZHL_PLACEHOLDER
 	virtual void CheckContents() LIBZHL_PLACEHOLDER
-	virtual int GetType(bool unk) LIBZHL_PLACEHOLDER
+	LIBZHL_API virtual int GetType(bool unk);
 	virtual char IsCargoBox() LIBZHL_PLACEHOLDER
 	virtual char CanHoldCrew() LIBZHL_PLACEHOLDER
 	virtual char CanDoJob() LIBZHL_PLACEHOLDER
 	LIBZHL_API void constructor(Point pos, int slot);
 	LIBZHL_API Blueprint *GetBlueprint();
 	LIBZHL_API void SetBlueprint(InfoBox *infoBox, bool detailedBox);
-	LIBZHL_API virtual int GetType();
+	LIBZHL_API virtual void RenderIcon();
 	LIBZHL_API int GetItemValue();
 	
 	GL_Primitive *blocked_overlay;
@@ -5256,6 +5289,12 @@ struct Equipment : FocusWindow
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void MouseClick(int mX, int mY);
 	LIBZHL_API void MouseUp(int mX, int mY);
+	LIBZHL_API void AddWeapon(WeaponBlueprint *bp, bool unk1, bool unk2);
+	LIBZHL_API void AddDrone(DroneBlueprint *bp, bool unk1, bool unk2);
+	LIBZHL_API void AddAugment(AugmentBlueprint *bp, bool unk1, bool unk2);
+	LIBZHL_API void AddToCargo(std::string &name);
+	LIBZHL_API void Open();
+	LIBZHL_API static std::vector<std::string> *__stdcall GetCargoHold(std::vector<std::string> *items, Equipment *_this);
 	
 	GL_Texture *box;
 	GL_Texture *storeBox;

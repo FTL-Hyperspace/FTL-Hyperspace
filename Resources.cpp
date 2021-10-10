@@ -24,6 +24,7 @@
 #include "AlternateOxygenRendering.h"
 #include "CustomColors.h"
 #include "CustomShips.h"
+#include "CustomEquipment.h"
 
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string/replace.hpp>
@@ -226,6 +227,12 @@ void Global::InitializeResources(ResourceControl *resources)
             {
                 auto enabled = node->first_attribute("enabled")->value();
                 g_infiniteMode = EventsParser::ParseBoolean(enabled);
+            }
+
+            if (strcmp(node->name(), "cargoAugments") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                g_cargoAugments = EventsParser::ParseBoolean(enabled);
             }
 
             if (strcmp(node->name(), "transformColorMode") == 0)

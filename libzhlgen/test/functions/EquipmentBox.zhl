@@ -13,14 +13,15 @@ virtual bool EquipmentBox::CanHoldWeapon(EquipmentBox *this<ecx>);
 ".8b416085c08b416474??85c0":
 virtual bool EquipmentBox::CanHoldDrone(EquipmentBox *this<ecx>);
 ".8b51608b44240485d274??3c01":
-virtual int EquipmentBox::GetType(EquipmentBox *this<ecx>);
+virtual int EquipmentBox::GetType(EquipmentBox *this<ecx>, bool unk);
 ".578d7c240883e4f0ff77fc5589e557565389cb83ec5c8b37e8????????660fefc0c74424080000000089f7":
 virtual void EquipmentBox::OnRender(EquipmentBox *this<ecx>, bool isEmpty);
 ".578d7c240883e4f0ff77fc5589e55756538db560ffffff89cb81ec????????8b07":
 virtual void EquipmentBox::UpdateBoxImage(EquipmentBox *this<ecx>, bool unk);
 ".578d7c240883e4f0ff77fc5589e557565389cb81ec????????8b4160":
 virtual void EquipmentBox::RenderLabels(EquipmentBox *this<ecx>, bool unk);
-
+"578d7c240883e4f0ff77fc5589e55783ec248b416085c0741b8b481c8b01c704240000803fff500883ec04":
+virtual void EquipmentBox::RenderIcon(EquipmentBox *this<ecx>);
 "538b415031db8b54240839c27e??03415839c27d??8b41543944240c7e??":
 virtual int EquipmentBox::MouseMove(EquipmentBox *this<ecx>, int x, int y);
 ".8b4424048941608b4424088941648b44240c8941688b442410":
@@ -37,5 +38,38 @@ struct EquipmentBox depends (AugmentBlueprint)
 	bool IsEmpty()
 	{
 		return !item.pWeapon && !item.pDrone && (!item.augment || item.augment->name.empty()) && !item.pCrew;
+	}
+	
+	bool IsWeapon()
+	{
+		return item.pWeapon;
+	}
+	
+	bool IsDrone()
+	{
+		return item.pDrone;
+	}
+	
+	bool IsAugment()
+	{
+		return item.augment && !item.augment->name.empty();
+	}
+	
+	bool IsCrew()
+	{
+		return item.pCrew;
+	}
+	
+	bool CanSwap(EquipmentBox *other)
+	{
+		if (IsWeapon() && !other->CanHoldWeapon()) return false;
+		if (IsDrone() && !other->CanHoldDrone()) return false;
+		if (IsAugment() && !other->CanHoldAugment()) return false;
+		if (IsCrew() && !other->CanHoldCrew()) return false;
+		if (other->IsWeapon() && !CanHoldWeapon()) return false;
+		if (other->IsDrone() && !CanHoldDrone()) return false;
+		if (other->IsAugment() && !CanHoldAugment()) return false;
+		if (other->IsCrew() && !CanHoldCrew()) return false;
+		return true;
 	}
 }};
