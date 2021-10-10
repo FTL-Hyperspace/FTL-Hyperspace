@@ -353,6 +353,9 @@
 		<Unit filename="CustomStoreBox.cpp">
 			<Option virtualFolder="Core/Store/" />
 		</Unit>
+		<Unit filename="CustomSuperShield.cpp">
+			<Option virtualFolder="Core/Augments/" />
+		</Unit>
 		<Unit filename="CustomSystems.cpp">
 			<Option virtualFolder="Core/Systems/" />
 		</Unit>
