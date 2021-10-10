@@ -1078,36 +1078,97 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
         {
             if (statBoost.def->stat == stat)
             {
+                // Calculate power scaling
+                int numPower = 0;
+                float sysPowerScaling = statBoost.def->powerScalingNoSys;
+                bool systemExists = false;
+
+                int statBoostSourceShipId = 0;
+                if (statBoost.def->boostSource == StatBoostDefinition::BoostSource::AUGMENT)
+                {
+                    statBoostSourceShipId = statBoost.sourceShipId;
+                }
+                else if (statBoost.def->boostSource == StatBoostDefinition::BoostSource::CREW)
+                {
+                    statBoostSourceShipId = statBoost.crewSource->iShipId;
+                }
+
+                for (auto system : statBoost.def->systemPowerScaling)
+                {
+                    if (system == 16)
+                    {
+                        systemExists = true;
+                        numPower += PowerManager::GetPowerManager(statBoostSourceShipId)->currentPower.second;
+                    }
+                    else if (system == 17)
+                    {
+                        systemExists = true;
+                        numPower += PowerManager::GetPowerManager(statBoostSourceShipId)->currentPower.first;
+                    }
+                    else
+                    {
+                        ShipManager* shipManager = G_->GetShipManager(statBoostSourceShipId);
+                        if (shipManager != nullptr)
+                        {
+                            if (shipManager->GetSystemRoom(system) != -1)
+                            {
+                                if (shipManager->GetSystem(system)->iHackEffect >= 2)
+                                {
+                                    sysPowerScaling = statBoost.def->powerScalingHackedSys;
+                                    systemExists = false;
+                                    break;
+                                }
+                                else
+                                {
+                                    systemExists = true;
+                                    numPower += shipManager->GetSystem(system)->GetEffectivePower();
+                                }
+                            }
+                        }
+                    }
+                }
+                if (systemExists)
+                {
+                    sysPowerScaling = statBoost.def->powerScaling.at(numPower < statBoost.def->powerScaling.size() ? numPower : statBoost.def->powerScaling.size()-1);
+                }
+
+                // Apply effect
                 if (isBool)
                 {
-                    if (statBoost.def->boostType == StatBoostDefinition::BoostType::SET)
+                    if (sysPowerScaling)
                     {
-                        *boolValue = statBoost.def->value;
-                    }
-                    else if (statBoost.def->boostType == StatBoostDefinition::BoostType::FLIP)
-                    {
-                        *boolValue = !*boolValue;
+                        if (statBoost.def->boostType == StatBoostDefinition::BoostType::SET)
+                        {
+                            *boolValue = statBoost.def->value;
+                        }
+                        else if (statBoost.def->boostType == StatBoostDefinition::BoostType::FLIP)
+                        {
+                            *boolValue = !*boolValue;
+                        }
                     }
                 }
                 else if (isEffect)
                 {
                     if (stat == CrewStat::POWER_EFFECT)
                     {
-                        if (statBoost.def->boostType == StatBoostDefinition::BoostType::MULT)
+                        if (sysPowerScaling)
                         {
+                            if (statBoost.def->boostType == StatBoostDefinition::BoostType::MULT)
+                            {
 
-                        }
-                        else if (statBoost.def->boostType == StatBoostDefinition::BoostType::FLAT)
-                        {
+                            }
+                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::FLAT)
+                            {
 
-                        }
-                        else if (statBoost.def->boostType == StatBoostDefinition::BoostType::SET)
-                        {
-                            powerChange = statBoost.def->powerChange;
-                        }
-                        else if (statBoost.def->boostType == StatBoostDefinition::BoostType::SET_VALUE)
-                        {
+                            }
+                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::SET)
+                            {
+                                powerChange = statBoost.def->powerChange;
+                            }
+                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::SET_VALUE)
+                            {
 
+                            }
                         }
                     }
                     else if (stat == CrewStat::DEATH_EFFECT)
@@ -1117,19 +1178,19 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
                             if (statBoost.def->deathEffectChange)
                             {
                                 hasDeathExplosion = true;
-                                explosionShipFriendlyFire &= statBoost.def->explosionShipFriendlyFire;
-                                deathEffectChange.iDamage *= statBoost.def->deathEffectChange->iDamage;
-                                deathEffectChange.iShieldPiercing *= statBoost.def->deathEffectChange->iShieldPiercing;
-                                deathEffectChange.fireChance *= statBoost.def->deathEffectChange->fireChance;
-                                deathEffectChange.breachChance *= statBoost.def->deathEffectChange->breachChance;
-                                deathEffectChange.stunChance *= statBoost.def->deathEffectChange->stunChance;
-                                deathEffectChange.iIonDamage *= statBoost.def->deathEffectChange->iIonDamage;
-                                deathEffectChange.iSystemDamage *= statBoost.def->deathEffectChange->iSystemDamage;
-                                deathEffectChange.iPersDamage *= statBoost.def->deathEffectChange->iPersDamage;
-                                deathEffectChange.bHullBuster &= statBoost.def->deathEffectChange->bHullBuster;
-                                deathEffectChange.bLockdown &= statBoost.def->deathEffectChange->bLockdown;
-                                deathEffectChange.bFriendlyFire &= statBoost.def->deathEffectChange->bFriendlyFire;
-                                deathEffectChange.iStun *= statBoost.def->deathEffectChange->iStun;
+                                explosionShipFriendlyFire &= statBoost.def->explosionShipFriendlyFire || !sysPowerScaling;
+                                deathEffectChange.iDamage *= 1.f + (statBoost.def->deathEffectChange->iDamage - 1.f) * sysPowerScaling;
+                                deathEffectChange.iShieldPiercing *= 1.f + (statBoost.def->deathEffectChange->iShieldPiercing - 1.f) * sysPowerScaling;
+                                deathEffectChange.fireChance *= 1.f + (statBoost.def->deathEffectChange->fireChance - 1.f) * sysPowerScaling;
+                                deathEffectChange.breachChance *= 1.f + (statBoost.def->deathEffectChange->breachChance - 1.f) * sysPowerScaling;
+                                deathEffectChange.stunChance *= 1.f + (statBoost.def->deathEffectChange->stunChance - 1.f) * sysPowerScaling;
+                                deathEffectChange.iIonDamage *= 1.f + (statBoost.def->deathEffectChange->iIonDamage - 1.f) * sysPowerScaling;
+                                deathEffectChange.iSystemDamage *= 1.f + (statBoost.def->deathEffectChange->iSystemDamage - 1.f) * sysPowerScaling;
+                                deathEffectChange.iPersDamage *= 1.f + (statBoost.def->deathEffectChange->iPersDamage - 1.f) * sysPowerScaling;
+                                deathEffectChange.bHullBuster &= statBoost.def->deathEffectChange->bHullBuster || !sysPowerScaling;
+                                deathEffectChange.bLockdown &= statBoost.def->deathEffectChange->bLockdown || !sysPowerScaling;
+                                deathEffectChange.bFriendlyFire &= statBoost.def->deathEffectChange->bFriendlyFire || !sysPowerScaling;
+                                deathEffectChange.iStun *= 1.f + (statBoost.def->deathEffectChange->iStun - 1.f) * sysPowerScaling;
                             }
                         }
                         else if (statBoost.def->boostType == StatBoostDefinition::BoostType::FLAT)
@@ -1137,32 +1198,35 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
                             if (statBoost.def->deathEffectChange)
                             {
                                 hasDeathExplosion = true;
-                                explosionShipFriendlyFire |= statBoost.def->explosionShipFriendlyFire;
-                                deathEffectChange.iDamage += statBoost.def->deathEffectChange->iDamage;
-                                deathEffectChange.iShieldPiercing += statBoost.def->deathEffectChange->iShieldPiercing;
-                                deathEffectChange.fireChance += statBoost.def->deathEffectChange->fireChance;
-                                deathEffectChange.breachChance += statBoost.def->deathEffectChange->breachChance;
-                                deathEffectChange.stunChance += statBoost.def->deathEffectChange->stunChance;
-                                deathEffectChange.iIonDamage += statBoost.def->deathEffectChange->iIonDamage;
-                                deathEffectChange.iSystemDamage += statBoost.def->deathEffectChange->iSystemDamage;
-                                deathEffectChange.iPersDamage += statBoost.def->deathEffectChange->iPersDamage;
-                                deathEffectChange.bHullBuster |= statBoost.def->deathEffectChange->bHullBuster;
-                                deathEffectChange.bLockdown |= statBoost.def->deathEffectChange->bLockdown;
-                                deathEffectChange.bFriendlyFire |= statBoost.def->deathEffectChange->bFriendlyFire;
-                                deathEffectChange.iStun += statBoost.def->deathEffectChange->iStun;
+                                explosionShipFriendlyFire |= statBoost.def->explosionShipFriendlyFire && sysPowerScaling;
+                                deathEffectChange.iDamage += statBoost.def->deathEffectChange->iDamage * sysPowerScaling;
+                                deathEffectChange.iShieldPiercing += statBoost.def->deathEffectChange->iShieldPiercing * sysPowerScaling;
+                                deathEffectChange.fireChance += statBoost.def->deathEffectChange->fireChance * sysPowerScaling;
+                                deathEffectChange.breachChance += statBoost.def->deathEffectChange->breachChance * sysPowerScaling;
+                                deathEffectChange.stunChance += statBoost.def->deathEffectChange->stunChance * sysPowerScaling;
+                                deathEffectChange.iIonDamage += statBoost.def->deathEffectChange->iIonDamage * sysPowerScaling;
+                                deathEffectChange.iSystemDamage += statBoost.def->deathEffectChange->iSystemDamage * sysPowerScaling;
+                                deathEffectChange.iPersDamage += statBoost.def->deathEffectChange->iPersDamage * sysPowerScaling;
+                                deathEffectChange.bHullBuster |= statBoost.def->deathEffectChange->bHullBuster && sysPowerScaling;
+                                deathEffectChange.bLockdown |= statBoost.def->deathEffectChange->bLockdown && sysPowerScaling;
+                                deathEffectChange.bFriendlyFire |= statBoost.def->deathEffectChange->bFriendlyFire && sysPowerScaling;
+                                deathEffectChange.iStun += statBoost.def->deathEffectChange->iStun * sysPowerScaling;
                             }
                         }
                         else if (statBoost.def->boostType == StatBoostDefinition::BoostType::SET)
                         {
-                            if (statBoost.def->deathEffectChange)
+                            if (sysPowerScaling)
                             {
-                                hasDeathExplosion = true;
-                                explosionShipFriendlyFire = statBoost.def->explosionShipFriendlyFire;
-                                deathEffectChange = *statBoost.def->deathEffectChange;
-                            }
-                            else
-                            {
-                                hasDeathExplosion = false;
+                                if (statBoost.def->deathEffectChange)
+                                {
+                                    hasDeathExplosion = true;
+                                    explosionShipFriendlyFire = statBoost.def->explosionShipFriendlyFire;
+                                    deathEffectChange = *statBoost.def->deathEffectChange;
+                                }
+                                else
+                                {
+                                    hasDeathExplosion = false;
+                                }
                             }
                         }
                         else if (statBoost.def->boostType == StatBoostDefinition::BoostType::SET_VALUE)
@@ -1173,59 +1237,6 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
                 }
                 else
                 {
-                    int numPower = 0;
-                    float sysPowerScaling = statBoost.def->powerScalingNoSys;
-                    bool systemExists = false;
-
-                    int statBoostSourceShipId = 0;
-                    if (statBoost.def->boostSource == StatBoostDefinition::BoostSource::AUGMENT)
-                    {
-                        statBoostSourceShipId = statBoost.sourceShipId;
-                    }
-                    else if (statBoost.def->boostSource == StatBoostDefinition::BoostSource::CREW)
-                    {
-                        statBoostSourceShipId = statBoost.crewSource->iShipId;
-                    }
-
-                    for (auto system : statBoost.def->systemPowerScaling)
-                    {
-                        if (system == 16)
-                        {
-                            systemExists = true;
-                            numPower += PowerManager::GetPowerManager(statBoostSourceShipId)->currentPower.second;
-                        }
-                        else if (system == 17)
-                        {
-                            systemExists = true;
-                            numPower += PowerManager::GetPowerManager(statBoostSourceShipId)->currentPower.first;
-                        }
-                        else
-                        {
-                            ShipManager* shipManager = G_->GetShipManager(statBoostSourceShipId);
-                            if (shipManager != nullptr)
-                            {
-                                if (shipManager->GetSystemRoom(system) != -1)
-                                {
-                                    if (shipManager->GetSystem(system)->iHackEffect >= 2)
-                                    {
-                                        sysPowerScaling = statBoost.def->powerScalingHackedSys;
-                                        systemExists = false;
-                                        break;
-                                    }
-                                    else
-                                    {
-                                        systemExists = true;
-                                        numPower += shipManager->GetSystem(system)->GetEffectivePower();
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    if (systemExists)
-                    {
-                        sysPowerScaling = statBoost.def->powerScaling.at(numPower < statBoost.def->powerScaling.size() ? numPower : statBoost.def->powerScaling.size()-1);
-                    }
-
                     if (statBoost.def->boostType == StatBoostDefinition::BoostType::MULT)
                     {
                         if (!statBoost.def->powerScaling.empty())
