@@ -4100,6 +4100,7 @@ struct ShipManager : ShipObject
 	LIBZHL_API CrewMember *GetCrewmember(int slot, bool present);
 	LIBZHL_API int CanUpgrade(int systemId, int amount);
 	LIBZHL_API static ShipBlueprint *__stdcall SaveToBlueprint(ShipBlueprint &bp, ShipManager *ship, bool unk);
+	LIBZHL_API void CheckCrystalAugment(Pointf pos);
 	
 	Targetable _targetable;
 	Collideable _collideable;

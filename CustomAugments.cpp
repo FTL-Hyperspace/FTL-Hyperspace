@@ -122,6 +122,37 @@ void CustomAugmentManager::ParseCustomAugmentNode(rapidxml::xml_node<char>* node
                             }
                         }
                     }
+                    if (functionNodeName == "crystalShard")
+                    {
+                        AugmentCrystalShard shard = AugmentCrystalShard();
+
+                        if (functionNode->first_attribute("weapon"))
+                        {
+                            shard.weapon = functionNode->first_attribute("weapon")->value();
+                        }
+                        if (functionNode->first_attribute("value"))
+                        {
+                            shard.chance = boost::lexical_cast<float>(functionNode->first_attribute("value")->value());
+                        }
+                        if (functionNode->first_attribute("chance"))
+                        {
+                            shard.chance = boost::lexical_cast<float>(functionNode->first_attribute("chance")->value());
+                        }
+                        if (functionNode->first_attribute("stackable"))
+                        {
+                            std::string stackMode = functionNode->first_attribute("stackable")->value();
+                            if (stackMode == "independent")
+                            {
+                                shard.stacking = 2;
+                            }
+                            else
+                            {
+                                shard.stacking = EventsParser::ParseBoolean(stackMode) ? 1 : 0;
+                            }
+                        }
+
+                        augDef->crystalShard.push_back(shard);
+                    }
                     if (functionNodeName == "locked")
                     {
                         augDef->locked = true;

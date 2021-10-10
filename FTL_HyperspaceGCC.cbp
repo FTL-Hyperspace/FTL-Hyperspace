@@ -266,6 +266,12 @@
 		<Unit filename="CustomCrewManifest.h">
 			<Option virtualFolder="Core/Crew/" />
 		</Unit>
+		<Unit filename="CustomCrystalShard.cpp">
+			<Option virtualFolder="Core/Augments/" />
+		</Unit>
+		<Unit filename="CustomCrystalShard.h">
+			<Option virtualFolder="Core/Augments/" />
+		</Unit>
 		<Unit filename="CustomDamage.cpp">
 			<Option virtualFolder="Core/Weapons/" />
 		</Unit>

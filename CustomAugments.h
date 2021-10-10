@@ -16,6 +16,13 @@ struct AugmentSuperShield
     GL_Color shieldColor = GL_Color(0.392156862f,1.f,0.392156862f,1.f);
 };
 
+struct AugmentCrystalShard
+{
+    std::string weapon = "";
+    float chance = 0.f;
+    int stacking = 0;
+};
+
 struct AugmentFunction
 {
     float value;
@@ -33,6 +40,7 @@ struct AugmentDefinition
     std::string name;
     std::unordered_map<std::string, AugmentFunction> functions = std::unordered_map<std::string, AugmentFunction>();
     AugmentSuperShield superShield;
+    std::vector<AugmentCrystalShard> crystalShard;
     bool locked = false;
     std::vector<StatBoostDefinition> statBoosts = std::vector<StatBoostDefinition>();
 

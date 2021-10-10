@@ -140,6 +140,8 @@ CrewMember* ShipManager::GetCrewmember(ShipManager *this<ecx>, int slot, bool pr
 int ShipManager::CanUpgrade(ShipManager *this<ecx>, int systemId, int amount);
 "578d7c240883e4f0ff77fc5589e557565389cb83c10483ec6c8b078b7704":
 static ShipBlueprint* ShipManager::SaveToBlueprint(ShipBlueprint &bp<ecx>, ShipManager *ship, bool unk);
+"578d7c240883e4f0ff77fc5589e55756538d5dd089ce83ec7c8b078b570489d9":
+void ShipManager::CheckCrystalAugment(ShipManager *this<ecx>, Pointf pos);
 
 struct ShipManager depends (PowerManager, ShieldPower)
 {{
