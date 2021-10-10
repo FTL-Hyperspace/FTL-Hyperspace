@@ -132,7 +132,6 @@ HOOK_STATIC(Shields, CollisionReal, (CollisionResponse &_ret, Shields *shields, 
     if (CustomAugmentManager::GetInstance()->superShieldCustomRender[shields->_shipObj.iShipId] && !shields->damMessages.empty())
     {
         DamageMessage* damMessage = shields->damMessages.back();
-        hs_log_file("Damage Message rgb = %.12f %.12f %.12f\n", damMessage->color.r, damMessage->color.g, damMessage->color.b);
         if (damMessage->color.r == 0.156862750649f && damMessage->color.g == 0.941176474094f && damMessage->color.b == 0.156862750649f) // r=40 g=240 b=40
         {
             damMessage->color = CustomAugmentManager::GetInstance()->superShieldColor[shields->_shipObj.iShipId];
