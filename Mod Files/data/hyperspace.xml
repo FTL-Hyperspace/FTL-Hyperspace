@@ -135,6 +135,12 @@ Does not include repair arm.
 
 <enemyPreigniterFix enabled="false"/>
 
+<!--  Changes crystal shards to count as player projectiles rather than neutral projectiles (so they don't get targeted by friendly defense drones, etc.)
+Default is true.
+-->
+
+<crystalShardFix enabled="true"/>
+
 
 <!--  Alternate color scheme for O2 levels
 The gradient tag is optional and allows specifying a custom gradient (the default alternate is included here).

@@ -10,3 +10,8 @@ LaserBlast::LaserBlast(Pointf _position, int _ownerId, int _targetId, Pointf _ta
     this->spinAngle = 0;
     this->spinSpeed = 0;
 }
+
+HOOK_METHOD(Projectile, ForceRenderLayer, () -> int)
+{
+    return damage.crystalShard ? 1 : -1;
+}

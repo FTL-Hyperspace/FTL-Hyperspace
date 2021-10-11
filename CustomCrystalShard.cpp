@@ -4,6 +4,8 @@
 #include <math.h>
 #include <algorithm>
 
+bool g_crystalShardFix = true;
+
 void ShipManager_CheckCustomCrystalAugment(ShipManager* _this, std::string weapon, float chance, Pointf pos)
 {
     if (random32()%100 < chance*100.f)
@@ -35,7 +37,7 @@ void ShipManager_CheckCustomCrystalAugment(ShipManager* _this, std::string weapo
                     projectile->Initialize(*bp);
 
                     projectile->damage.crystalShard = true;
-                    projectile->ownerId = -1;
+                    if (!g_crystalShardFix) projectile->ownerId = -1;
 
                     _this->superBarrage.push_back(projectile);
                 }
@@ -49,7 +51,7 @@ void ShipManager_CheckCustomCrystalAugment(ShipManager* _this, std::string weapo
                     projectile->Initialize(*bp);
 
                     projectile->damage.crystalShard = true;
-                    projectile->ownerId = -1;
+                    if (!g_crystalShardFix) projectile->ownerId = -1;
 
                     _this->superBarrage.push_back(projectile);
                 }
@@ -74,7 +76,7 @@ void ShipManager_CheckCustomCrystalAugment(ShipManager* _this, std::string weapo
                     projectile->sub_end.y = pos.y + 2000.f*sin(theta);
 
                     projectile->damage.crystalShard = true;
-                    projectile->ownerId = -1;
+                    if (!g_crystalShardFix) projectile->ownerId = -1;
 
                     projectile->Initialize(*bp);
 
@@ -100,7 +102,7 @@ void ShipManager_CheckCustomCrystalAugment(ShipManager* _this, std::string weapo
                     projectile->flight_animation.tracker.loop = false;
 
                     projectile->damage.crystalShard = true;
-                    projectile->ownerId = -1;
+                    if (!g_crystalShardFix) projectile->ownerId = -1;
 
                     _this->superBarrage.push_back(projectile);
                 }
@@ -151,7 +153,7 @@ void ShipManager_CheckCustomCrystalAugment(ShipManager* _this, std::string weapo
                         }
 
                         projectile->damage.crystalShard = true;
-                        projectile->ownerId = -1;
+                        if (!g_crystalShardFix) projectile->ownerId = -1;
 
                         _this->superBarrage.push_back(projectile);
                     }
@@ -169,7 +171,19 @@ void ShipManager_CheckCustomCrystalAugment(ShipManager* _this, std::string weapo
 
 HOOK_METHOD(ShipManager, CheckCrystalAugment, (Pointf pos) -> void)
 {
-    super(pos);
+    if (g_crystalShardFix)
+    {
+        int n = superBarrage.size();
+        super(pos);
+        if (superBarrage.size() > n)
+        {
+            superBarrage.back()->ownerId = iShipId;
+        }
+    }
+    else
+    {
+        super(pos);
+    }
 
     if (current_target == nullptr) return;
 
