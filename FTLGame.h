@@ -4364,7 +4364,75 @@ struct EventText
 struct EventGenerator;
 struct EventTemplate;
 
+struct StatusEffect;
+
+struct StatusEffect
+{
+	LIBZHL_API static StatusEffect *__stdcall GetNebulaEffect();
+	
+	int type;
+	int system;
+	int amount;
+	int target;
+};
+
+struct ChoiceReq
+{
+	std::string object;
+	int min_level;
+	int max_level;
+	int max_group;
+	bool blue;
+};
+
 struct LocationEvent;
+
+struct EventDamage
+{
+	int system;
+	int amount;
+	int effect;
+};
+
+struct LocationEvent
+{
+	struct Choice
+	{
+		LocationEvent *event;
+		TextString text;
+		ChoiceReq requirement;
+		bool hiddenReward;
+	};
+	
+	LIBZHL_API void ClearEvent(bool force);
+	
+	TextString text;
+	ShipEvent ship;
+	ResourceEvent stuff;
+	int environment;
+	int environmentTarget;
+	bool store;
+	int fleetPosition;
+	bool beacon;
+	bool reveal_map;
+	bool distressBeacon;
+	bool repair;
+	int modifyPursuit;
+	Store *pStore;
+	std::vector<EventDamage> damage;
+	std::string quest;
+	std::vector<StatusEffect> statusEffects;
+	std::vector<std_pair_std_string_std_string> nameDefinitions;
+	std::string spaceImage;
+	std::string planetImage;
+	std::string eventName;
+	ResourceEvent reward;
+	BoardingEvent boarders;
+	std::vector<Choice> choices;
+	int unlockShip;
+	TextString unlockShipText;
+	bool secretSector;
+};
 
 struct Sector;
 
@@ -4396,6 +4464,28 @@ struct EventGenerator
 		GetImageFromList(ret, this, listName);
 		
 		return ret;
+	}
+	
+	void ClearUsedEvent(const std::string& name)
+	{
+		auto it = usedEvents.find(name);
+		if (it != usedEvents.end())
+		{
+			events[name] = it->second;
+			usedEvents.erase(it);
+		}
+	}
+	
+	void ClearUsedEvent(LocationEvent *locEvent)
+	{
+		if (locEvent)
+		{
+			ClearUsedEvent(locEvent->eventName);
+			for (auto& choice : locEvent->choices)
+			{
+				ClearUsedEvent(choice.event);
+			}
+		}
 	}
 
 	LIBZHL_API LocationEvent *GetBaseEvent(const std::string &name, int worldLevel, char ignoreUnique, int seed);
@@ -4549,13 +4639,6 @@ struct SettingValues
 	bool beamTutorial;
 };
 
-struct EventDamage
-{
-	int system;
-	int amount;
-	int effect;
-};
-
 struct AugmentStoreBox;
 
 struct AugmentStoreBox : StoreBox
@@ -4575,29 +4658,8 @@ struct AugmentStoreBox : StoreBox
 	AugmentBlueprint *blueprint;
 };
 
-struct StatusEffect;
-
-struct StatusEffect
-{
-	LIBZHL_API static StatusEffect *__stdcall GetNebulaEffect();
-	
-	int type;
-	int system;
-	int amount;
-	int target;
-};
-
 struct RockAlien
 {
-};
-
-struct ChoiceReq
-{
-	std::string object;
-	int min_level;
-	int max_level;
-	int max_group;
-	bool blue;
 };
 
 struct ShipTemplate
@@ -4799,46 +4861,6 @@ struct DefenseDrone : SpaceDrone
 	CachedImage gun_image_on;
 	CachedImage engine_image;
 	int currentTargetType;
-};
-
-struct LocationEvent
-{
-	struct Choice
-	{
-		LocationEvent *event;
-		TextString text;
-		ChoiceReq requirement;
-		bool hiddenReward;
-	};
-	
-	LIBZHL_API void ClearEvent(bool force);
-	
-	TextString text;
-	ShipEvent ship;
-	ResourceEvent stuff;
-	int environment;
-	int environmentTarget;
-	bool store;
-	int fleetPosition;
-	bool beacon;
-	bool reveal_map;
-	bool distressBeacon;
-	bool repair;
-	int modifyPursuit;
-	Store *pStore;
-	std::vector<EventDamage> damage;
-	std::string quest;
-	std::vector<StatusEffect> statusEffects;
-	std::vector<std_pair_std_string_std_string> nameDefinitions;
-	std::string spaceImage;
-	std::string planetImage;
-	std::string eventName;
-	ResourceEvent reward;
-	BoardingEvent boarders;
-	std::vector<Choice> choices;
-	int unlockShip;
-	TextString unlockShipText;
-	bool secretSector;
 };
 
 struct FileHelper

@@ -2036,13 +2036,15 @@ HOOK_METHOD(StarMap, constructor, () -> void)
 static std::map<Location*, bool[2]> locValues = std::map<Location*, bool[2]>();
 static bool questActuallyEnoughTime = false;
 static bool questNextSectorPopped = false;
-static int overrideWorldLevel = -1;
+static int questOverrideWorldLevel = -1;
+static LocationEvent *lastQuestEvent = nullptr; // used to recycle generated event rather than generating it multiple times
 
 HOOK_METHOD(StarMap, AddQuest, (const std::string& questEvent, bool force) -> bool)
 {
     int savedSeed = 0;
     int nextQuestSeed = Global::questSeed;
-    overrideWorldLevel = worldLevel;
+    questOverrideWorldLevel = worldLevel;
+    lastQuestEvent = nullptr;
     int numAddedQuests = addedQuests.size();
     int numDelayedQuests = delayedQuests.size();
 
@@ -2175,8 +2177,8 @@ HOOK_METHOD(StarMap, AddQuest, (const std::string& questEvent, bool force) -> bo
         if (SeedInputBox::seedsEnabled && !Global::delayedQuestIndex) nextQuestSeed = random32();
     }
 
-    worldLevel = overrideWorldLevel;
-    overrideWorldLevel = -1;
+    worldLevel = questOverrideWorldLevel;
+    questOverrideWorldLevel = -1;
 
     // Reset restricted beacons.
     for (auto i : locValues)
@@ -2234,9 +2236,12 @@ HOOK_METHOD(StarMap, AddQuest, (const std::string& questEvent, bool force) -> bo
 
 HOOK_METHOD(EventGenerator, GetBaseEvent, (const std::string& name, int worldLevel, char ignoreUnique, int seed) -> LocationEvent*)
 {
-    if (overrideWorldLevel > -1)
+    if (questOverrideWorldLevel > -1)
     {
-        return super(name, overrideWorldLevel, ignoreUnique, seed);
+        if (lastQuestEvent) return lastQuestEvent;
+        LocationEvent *ret = super(name, questOverrideWorldLevel, ignoreUnique, seed);
+        lastQuestEvent = ret;
+        return ret;
     }
 
     return super(name, worldLevel, ignoreUnique, seed);
@@ -3041,6 +3046,7 @@ LocationEvent* CustomEventsParser::GetEvent(WorldManager *world, EventLoadList *
         }
         else
         {
+            G_->GetEventGenerator()->ClearUsedEvent(locEvent);
             locEvent->ClearEvent(false);
             //delete locEvent;
         }
@@ -3057,7 +3063,11 @@ LocationEvent* CustomEventsParser::GetEvent(WorldManager *world, EventLoadList *
     LocationEvent* ret = candidateEvents[random32()%candidateEvents.size()];
     for (LocationEvent* event : candidateEvents)
     {
-        if (event != ret) event->ClearEvent(false);
+        if (event != ret)
+        {
+            G_->GetEventGenerator()->ClearUsedEvent(event);
+            event->ClearEvent(false);
+        }
     }
 
     return ret;
