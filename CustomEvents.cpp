@@ -2839,6 +2839,22 @@ void CustomCreateLocation(WorldManager* world, LocationEvent* event, CustomEvent
         RecallBoarders(customEvent->recallBoardersShip);
     }
 
+    if (!customEvent->playSound.empty())
+    {
+        G_->GetSoundControl()->PlaySoundMix(customEvent->playSound, -1.f, false);
+    }
+
+    if (customEvent->resetMusic)
+    {
+        G_->GetSoundControl()->StartPlaylist(world->starMap.currentSector->description.musicTracks);
+    }
+
+    if (!customEvent->playMusic.empty())
+    {
+        std::vector<std::string> track = {customEvent->playMusic};
+        G_->GetSoundControl()->StartPlaylist(track);
+    }
+
     if (!customEvent->enemyDamage.empty() && event->damage.empty())
     {
         G_->GetSoundControl()->PlaySoundMix("eventDamage", -1, false);
@@ -3610,22 +3626,6 @@ HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEve
 
                 replaceGameOverText = "";
             }
-        }
-
-        if (!customEvent->playSound.empty())
-        {
-            G_->GetSoundControl()->PlaySoundMix(customEvent->playSound, -1.f, false);
-        }
-
-        if (customEvent->resetMusic)
-        {
-            G_->GetSoundControl()->StartPlaylist(starMap.currentSector->description.musicTracks);
-        }
-
-        if (!customEvent->playMusic.empty())
-        {
-            std::vector<std::string> track = {customEvent->playMusic};
-            G_->GetSoundControl()->StartPlaylist(track);
         }
 
         if (customEvent->jumpEventClear)
