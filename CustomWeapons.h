@@ -31,6 +31,8 @@ struct CustomWeaponDefinition
     int freeMissileChance;
     std::string descriptionOverride;
     bool hideEventTooltip = false;
+    bool simultaneousFire = false;
+    float fireTime = 0.f;
 
     CustomDamage customDamage;
 };
@@ -39,6 +41,7 @@ class CustomWeaponManager
 {
 public:
     static CustomWeaponManager* instance;
+    static CustomWeaponDefinition* currentWeapon;
 
     void AddWeaponDefinition(CustomWeaponDefinition& weaponDef)
     {

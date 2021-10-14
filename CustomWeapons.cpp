@@ -6,6 +6,7 @@
 #include <iomanip>
 
 CustomWeaponManager *CustomWeaponManager::instance = new CustomWeaponManager();
+CustomWeaponDefinition *CustomWeaponManager::currentWeapon = nullptr;
 
 HOOK_STATIC(BlueprintManager, ProcessWeaponBlueprint, (WeaponBlueprint* bp, BlueprintManager *bpM, rapidxml::xml_node<char>* node) -> WeaponBlueprint*)
 {
@@ -14,7 +15,7 @@ HOOK_STATIC(BlueprintManager, ProcessWeaponBlueprint, (WeaponBlueprint* bp, Blue
     auto weaponDef = CustomWeaponDefinition();
     weaponDef.name = node->first_attribute("name")->value();
 
-    for (auto child = node->first_node(); child = child->next_sibling(); child)
+    for (auto child = node->first_node(); child; child = child->next_sibling())
     {
         std::string name = child->name();
         std::string val = child->value();
@@ -42,6 +43,14 @@ HOOK_STATIC(BlueprintManager, ProcessWeaponBlueprint, (WeaponBlueprint* bp, Blue
         if (name == "noPersDamage")
         {
             weaponDef.customDamage.noPersDamage = EventsParser::ParseBoolean(val);
+        }
+        if (name == "simultaneousFire")
+        {
+            weaponDef.simultaneousFire = EventsParser::ParseBoolean(val);
+        }
+        if (name == "fireTime")
+        {
+            weaponDef.fireTime = boost::lexical_cast<float>(val);
         }
     }
 
@@ -248,3 +257,120 @@ HOOK_METHOD(WeaponControl, KeyDown, (SDLKey key) -> bool)
     return ret;
 }
 
+static ProjectileFactory *simultaneousFireWeapon = nullptr;
+HOOK_METHOD(ProjectileFactory, GetProjectile, () -> Projectile*)
+{
+    bool fireShot = weaponVisual.bFireShot;
+    Projectile* ret = super();
+
+    if (!queuedProjectiles.empty())
+    {
+        if (fireShot && CustomWeaponManager::instance->GetWeaponDefinition(blueprint->name)->simultaneousFire)
+        {
+            simultaneousFireWeapon = this;
+        }
+
+        if (blueprint->type == 4 && !blueprint->miniProjectiles.empty())
+        {
+            if (!fireShot && ret == nullptr)
+            {
+                if (queuedProjectiles.size() % blueprint->miniProjectiles.size() != 0)
+                {
+                    ret = queuedProjectiles.back();
+                    queuedProjectiles.pop_back();
+                    return ret;
+                }
+                else if (simultaneousFireWeapon == this)
+                {
+                    ret = queuedProjectiles.back();
+                    queuedProjectiles.pop_back();
+                }
+            }
+
+            if (ret != nullptr)
+            {
+                // Offset fix for charge flak
+                int i = (queuedProjectiles.size() / blueprint->miniProjectiles.size()) * blueprint->miniProjectiles.size();
+                if (i < queuedProjectiles.size())
+                {
+                    for (int j=i+1; j<queuedProjectiles.size(); ++j)
+                    {
+                        queuedProjectiles[j]->position = queuedProjectiles[i]->position;
+                        queuedProjectiles[j]->last_position = queuedProjectiles[i]->last_position;
+                    }
+                    ret->position = queuedProjectiles[i]->position;
+                    ret->last_position = queuedProjectiles[i]->last_position;
+                }
+            }
+        }
+        else
+        {
+            if (simultaneousFireWeapon == this && !fireShot && ret == nullptr)
+            {
+                ret = queuedProjectiles.back();
+                queuedProjectiles.pop_back();
+            }
+        }
+    }
+    else
+    {
+        if (simultaneousFireWeapon == this) simultaneousFireWeapon = nullptr;
+    }
+
+    return ret;
+}
+
+HOOK_METHOD(WeaponAnimation, StartFire, () -> bool)
+{
+    bool ret = super();
+
+    if (ret && iChargeLevels > 1 && CustomWeaponManager::currentWeapon && CustomWeaponManager::currentWeapon->simultaneousFire)
+    {
+        int chargeLength = (anim.info.numFrames - iChargedFrame) / iChargeLevels;
+        anim.SetCurrentFrame(iChargedFrame + chargeLength * boostLevel);
+    }
+}
+
+HOOK_METHOD(ProjectileFactory, constructor, (const WeaponBlueprint* bp, int shipId) -> void)
+{
+    super(bp, shipId);
+
+    if (bp->type != 2)
+    {
+        auto def = CustomWeaponManager::instance->GetWeaponDefinition(blueprint->name);
+        if (def->fireTime)
+        {
+            weaponVisual.SetFireTime(def->fireTime);
+        }
+    }
+}
+
+// Fix for weapon animations with many frames.
+HOOK_METHOD(WeaponAnimation, Update, () -> void)
+{
+    if (bFiring)
+    {
+        auto cFPS = G_->GetCFPS();
+        float speedFactor = cFPS->SpeedFactor;
+        float speed = speedFactor * 0.0625f * anim.info.numFrames/anim.tracker.time; // frame length * anim FPS
+        if (speed > 1.f)
+        {
+            speed = std::ceil(speed);
+            int iSpeed = speed;
+            cFPS->SpeedFactor = speedFactor / speed;
+            for (int i=1; i<iSpeed; ++i)
+            {
+                super();
+            }
+            cFPS->SpeedFactor = speedFactor;
+        }
+        else
+        {
+            super();
+        }
+    }
+    else
+    {
+        super();
+    }
+}

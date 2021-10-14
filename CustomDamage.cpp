@@ -65,13 +65,15 @@ HOOK_METHOD_PRIORITY(ShipManager, DamageCrew, -100, (CrewMember *crew, DamagePar
 HOOK_METHOD(ProjectileFactory, Update, () -> void)
 {
     // This only works if every weapon has a definition, if that changes then replace with the commented code below.
-    CustomDamageManager::currentWeaponDmg = &CustomWeaponManager::instance->GetWeaponDefinition(blueprint->name)->customDamage;
+    CustomWeaponManager::currentWeapon = CustomWeaponManager::instance->GetWeaponDefinition(blueprint->name);
+    CustomDamageManager::currentWeaponDmg = &CustomWeaponManager::currentWeapon->customDamage;
 
     //auto def = CustomWeaponManager::instance->GetWeaponDefinition(blueprint->name)
     //if (def) CustomDamageManager::currentWeaponDmg = &def->customDamage;
 
     super();
 
+    CustomWeaponManager::currentWeapon = nullptr;
     CustomDamageManager::currentWeaponDmg = nullptr;
 }
 

@@ -3467,6 +3467,10 @@ struct WeaponMount
 
 struct WeaponAnimation
 {
+	LIBZHL_API bool StartFire();
+	LIBZHL_API void SetFireTime(float time);
+	LIBZHL_API void Update();
+	
 	Animation anim;
 	bool bFireShot;
 	bool bFiring;
@@ -5590,6 +5594,7 @@ struct ProjectileFactory : ShipObject
 	LIBZHL_API void OnRender(float alpha, bool forceVisual);
 	LIBZHL_API int NumTargetsRequired();
 	LIBZHL_API void Update();
+	LIBZHL_API Projectile *GetProjectile();
 	
 	std::pair<float, float> cooldown;
 	std::pair<float, float> subCooldown;
@@ -7046,6 +7051,7 @@ struct SuperShieldDrone
 struct CloakingSystem : ShipSystem
 {
 	LIBZHL_API void OnLoop();
+	LIBZHL_API void FiredWeapon();
 	
 	bool bTurnedOn;
 	TimerHelper timer;
