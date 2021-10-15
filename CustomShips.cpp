@@ -7,6 +7,7 @@
 
 static bool importingShip = false;
 bool revisitingShip = false;
+bool bNoJump = false;
 
 HOOK_METHOD(WorldManager, CreateShip, (ShipEvent* shipEvent, bool boss) -> CompleteShip*)
 {
@@ -542,6 +543,31 @@ HOOK_METHOD(CommandGui, OnLoop, () -> void)
     if (shipComplete && shipComplete->shipManager->current_target && custom->GetDefinition(shipComplete->shipManager->current_target->myBlueprint.blueprintName).noJump)
     {
         ftlButton.bActive = false;
+        ftlButton.bOutOfFuel = true;
+        bNoJump = true;
+    }
+    else
+    {
+        bNoJump = false;
+    }
+}
+
+HOOK_METHOD(FTLButton, OnRender, () -> void)
+{
+    if (bNoJump)
+    {
+        float jump_timer = ship->jump_timer.first;
+        ship->jump_timer.first = ship->jump_timer.second;
+        super();
+        ship->jump_timer.first = jump_timer;
+        if (bHoverRaw)
+        {
+            G_->GetMouseControl()->SetTooltip(G_->GetTextLibrary()->GetText("tooltip_jump_noJump"));
+        }
+    }
+    else
+    {
+        super();
     }
 }
 

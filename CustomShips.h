@@ -5,3 +5,5 @@
 extern bool g_enemyPreigniterFix;
 
 extern bool revisitingShip;
+
+extern bool bNoJump;
