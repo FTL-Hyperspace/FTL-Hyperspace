@@ -1421,6 +1421,15 @@ void CrewMember_Extend::ActivateTemporaryPower()
         canPhaseThroughDoors = powerDef->tempPower.canPhaseThroughDoors.value;
     }
 
+    outgoingAbilityStatBoosts.clear();
+    for (StatBoostDefinition& statBoostDef : powerDef->tempPower.statBoosts)
+    {
+        StatBoost statBoost = StatBoost(statBoostDef);
+
+        statBoost.crewSource = orig;
+        outgoingAbilityStatBoosts.push_back(statBoost);
+    }
+
     StatBoostManager::GetInstance()->statCacheFrame++; // resets stat cache in case game is paused
 }
 
