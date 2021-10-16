@@ -21,7 +21,7 @@
 					<Add option="-Wall" />
 					<Add option="-m32" />
 					<Add option="-g" />
-					<Add option="-masm=intel -std=c++11 -g" />
+					<Add option="-msse -msse2 -mfpmath=sse -masm=intel -std=c++11 -g" />
 					<Add option="-DBUILD_DLL" />
 					<Add option="-DDEBUG" />
 					<Add directory="rapidxml" />
@@ -90,7 +90,7 @@
 				<Compiler>
 					<Add option="-Wall" />
 					<Add option="-m32" />
-					<Add option="-masm=intel -std=c++11" />
+					<Add option="-msse -msse2 -mfpmath=sse -masm=intel -std=c++11" />
 					<Add option="-DBUILD_DLL" />
 					<Add directory="rapidxml" />
 					<Add directory="C:/boost/include/boost-1_70" />

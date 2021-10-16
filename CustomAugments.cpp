@@ -713,7 +713,7 @@ HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
     {
         if (commandGui->choiceBox.rewards.scrap > 0)
         {
-            commandGui->choiceBox.rewards.scrap = commandGui->choiceBox.rewards.scrap + commandGui->choiceBox.rewards.scrap * augValue;
+            commandGui->choiceBox.rewards.scrap = ((float)commandGui->choiceBox.rewards.scrap) + ((float)commandGui->choiceBox.rewards.scrap) * augValue;
         }
         for (auto& choice : commandGui->choiceBox.choices)
         {
