@@ -498,9 +498,6 @@ struct BoardingGoal
 	int damageType;
 };
 
-struct BeamWeapon;
-struct WeaponAnimation;
-
 struct GL_Color
 {
 	GL_Color(float rr, float gg, float bb, float aa) : r(rr), g(gg), b(bb), a(aa)
@@ -694,16 +691,6 @@ struct Animation
 	GL_Primitive *mirroredPrimitive;
 };
 
-struct CollisionResponse
-{
-	int collision_type;
-	Pointf point;
-	int damage;
-	int superDamage;
-};
-
-struct Targetable;
-
 struct Targetable
 {
 	void *vptr;
@@ -786,6 +773,20 @@ struct Projectile : Collideable
 	GL_Color color;
 };
 
+struct BeamWeapon;
+struct WeaponAnimation;
+
+struct CollisionResponse
+{
+	int collision_type;
+	Pointf point;
+	int damage;
+	int superDamage;
+};
+
+struct Targetable;
+struct Collideable;
+
 struct BeamWeapon : Projectile
 {
 	BeamWeapon(Pointf _position, int _ownerId, int _targetId, Pointf _target, Pointf _target2, int _length, Targetable *_targetable)
@@ -794,6 +795,7 @@ struct BeamWeapon : Projectile
 	}
 
 	LIBZHL_API void constructor(Pointf _position, int _ownerId, int _targetId, Pointf _target, Pointf _target2, int _length, Targetable *_targetable);
+	LIBZHL_API void CollisionCheck(Collideable *other);
 	
 	Pointf sub_end;
 	Pointf sub_start;
@@ -4519,7 +4521,6 @@ struct EventGenerator
 };
 
 struct BombProjectile;
-struct Collideable;
 
 struct BombProjectile : Projectile
 {
@@ -5467,6 +5468,8 @@ struct DroneEquipBox : EquipmentBox
 {
 };
 
+struct PDSFire;
+
 struct LaserBlast;
 
 struct LaserBlast : Projectile
@@ -5483,6 +5486,8 @@ struct LaserBlast : Projectile
 
 struct PDSFire : LaserBlast
 {
+	LIBZHL_API void CollisionCheck(Collideable *other);
+	
 	Pointf startPoint;
 	bool passedTarget;
 	float currentScale;

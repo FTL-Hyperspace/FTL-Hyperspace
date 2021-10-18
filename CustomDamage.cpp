@@ -109,7 +109,27 @@ HOOK_METHOD(Projectile, CollisionCheck, (Collideable *other) -> void)
     CustomDamageManager::currentWeaponDmg = nullptr;
 }
 
+HOOK_METHOD(BeamWeapon, CollisionCheck, (Collideable *other) -> void)
+{
+    CustomDamageManager::currentWeaponDmg = &PR_EX(this)->customDamage;
+    CustomDamageManager::currentWeaponDmg->sourceShipId = ownerId;
+
+    super(other);
+
+    CustomDamageManager::currentWeaponDmg = nullptr;
+}
+
 HOOK_METHOD(BombProjectile, CollisionCheck, (Collideable *other) -> void)
+{
+    CustomDamageManager::currentWeaponDmg = &PR_EX(this)->customDamage;
+    CustomDamageManager::currentWeaponDmg->sourceShipId = ownerId;
+
+    super(other);
+
+    CustomDamageManager::currentWeaponDmg = nullptr;
+}
+
+HOOK_METHOD(PDSFire, CollisionCheck, (Collideable *other) -> void)
 {
     CustomDamageManager::currentWeaponDmg = &PR_EX(this)->customDamage;
     CustomDamageManager::currentWeaponDmg->sourceShipId = ownerId;
