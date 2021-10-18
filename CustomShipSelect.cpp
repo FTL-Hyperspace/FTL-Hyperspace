@@ -1336,6 +1336,8 @@ HOOK_METHOD(MenuScreen, constructor, () -> void)
     unlocksDisabledPrimitive = CSurface::GL_CreateImagePrimitive(unlocksDisabledTexture, 1106.f - unlocksDisabledTexture->width_ / 2, 104, unlocksDisabledTexture->width_, unlocksDisabledTexture->height_, 0.f, COLOR_WHITE);
 }
 
+static Button* reactorInfoButton = nullptr;
+
 HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
 {
     bool isVanillaShip = currentShipId < 100;
@@ -1563,10 +1565,13 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
 
     introScreen.OnRender();
 
-    Button* reactorInfoButton = new Button();
-    reactorInfoButton->OnInit("customizeUI/reactor_info_button", 145, 426);
-    reactorInfoButton->bActive = true;
-    reactorInfoButton->SetLocation(Point(145, 426));
+    if (!reactorInfoButton)
+    {
+        reactorInfoButton = new Button();
+        reactorInfoButton->OnInit("customizeUI/reactor_info_button", 145, 426);
+        reactorInfoButton->bActive = true;
+        reactorInfoButton->SetLocation(Point(145, 426));
+    }
 
     if (!shipSelect.bOpen && CustomOptionsManager::GetInstance()->showReactor.currentValue)
     {
