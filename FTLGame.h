@@ -4518,7 +4518,8 @@ struct EventGenerator
 	int forceRandomIndex;
 };
 
-struct LaserBlast;
+struct BombProjectile;
+struct Collideable;
 
 struct BombProjectile : Projectile
 {
@@ -4528,6 +4529,7 @@ struct BombProjectile : Projectile
 	}
 
 	LIBZHL_API void constructor(Pointf _position, int _ownerId, int _targetId, Pointf _target);
+	LIBZHL_API void CollisionCheck(Collideable *other);
 	
 	bool bMissed;
 	DamageMessage *missMessage;
@@ -5464,6 +5466,8 @@ struct CommandGui
 struct DroneEquipBox : EquipmentBox
 {
 };
+
+struct LaserBlast;
 
 struct LaserBlast : Projectile
 {

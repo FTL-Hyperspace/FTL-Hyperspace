@@ -54,9 +54,19 @@ HOOK_METHOD_PRIORITY(ShipManager, DamageSystem, -100, (int roomId, DamageParamet
 
 HOOK_METHOD_PRIORITY(ShipManager, DamageCrew, -100, (CrewMember *crew, DamageParameter dmgParameter) -> char)
 {
-    if (CustomDamageManager::currentWeaponDmg != nullptr && CustomDamageManager::currentWeaponDmg->noPersDamage)
+    if (CustomDamageManager::currentWeaponDmg != nullptr)
     {
-        dmgParameter.iPersDamage -= dmgParameter.iDamage;
+        if (CustomDamageManager::currentWeaponDmg->noPersDamage)
+        {
+            dmgParameter.iPersDamage -= dmgParameter.iDamage;
+        }
+
+        for (auto statBoostDef : CustomDamageManager::currentWeaponDmg->statBoosts)
+        {
+            StatBoost statBoost(statBoostDef);
+            statBoost.sourceShipId = dmgParameter.ownerId;
+            StatBoostManager::GetInstance()->CreateTimedAugmentBoost(statBoost, crew);
+        }
     }
 
     return super(crew, dmgParameter);
@@ -90,6 +100,16 @@ HOOK_METHOD(Projectile, Initialize, (WeaponBlueprint& bp) -> void)
 }
 
 HOOK_METHOD(Projectile, CollisionCheck, (Collideable *other) -> void)
+{
+    CustomDamageManager::currentWeaponDmg = &PR_EX(this)->customDamage;
+    CustomDamageManager::currentWeaponDmg->sourceShipId = ownerId;
+
+    super(other);
+
+    CustomDamageManager::currentWeaponDmg = nullptr;
+}
+
+HOOK_METHOD(BombProjectile, CollisionCheck, (Collideable *other) -> void)
 {
     CustomDamageManager::currentWeaponDmg = &PR_EX(this)->customDamage;
     CustomDamageManager::currentWeaponDmg->sourceShipId = ownerId;

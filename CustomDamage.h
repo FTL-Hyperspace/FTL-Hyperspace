@@ -1,5 +1,8 @@
 #pragma once
-#include "FTLGame.h"
+#include "StatBoost.h"
+#include "Global.h"
+
+struct StatBoostDefinition;
 
 struct ErosionEffect
 {
@@ -19,6 +22,8 @@ struct CustomDamage
 
     bool noSysDamage = false;
     bool noPersDamage = false;
+
+    std::vector<StatBoostDefinition*> statBoosts;
 
     int erosionChance = 0;
     ErosionEffect erosionEffect;

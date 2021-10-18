@@ -73,10 +73,10 @@ std::vector<CrewMember*> CrewSpawn::SpawnCrew(CrewSpawn& crewSpawn, ShipManager 
 
         for (auto statBoostDef : crewSpawn.statBoosts)
         {
-            StatBoost statBoost = StatBoost(statBoostDef);
-
+            StatBoost statBoost(statBoostDef);
             statBoost.crewSource = crew;
-            CM_EX(crew)->outgoingStatBoosts.push_back(statBoost);
+            statBoost.sourceShipId = crew->iShipId;
+            StatBoostManager::GetInstance()->CreateTimedAugmentBoost(statBoost, crew);
         }
 
         crewList.push_back(crew);

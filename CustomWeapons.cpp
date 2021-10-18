@@ -1,6 +1,7 @@
 #include "CustomWeapons.h"
 #include "CustomOptions.h"
 #include "CustomDamage.h"
+#include "StatBoost.h"
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
 #include <iomanip>
@@ -51,6 +52,16 @@ HOOK_STATIC(BlueprintManager, ProcessWeaponBlueprint, (WeaponBlueprint* bp, Blue
         if (name == "fireTime")
         {
             weaponDef.fireTime = boost::lexical_cast<float>(val);
+        }
+        if (name == "statBoosts")
+        {
+            for (auto statBoostNode = child->first_node(); statBoostNode; statBoostNode = statBoostNode->next_sibling())
+            {
+                if (strcmp(statBoostNode->name(), "statBoost") == 0)
+                {
+                    weaponDef.customDamage.statBoosts.push_back(StatBoostManager::GetInstance()->ParseStatBoostNode(statBoostNode, StatBoostDefinition::BoostSource::AUGMENT));
+                }
+            }
         }
     }
 

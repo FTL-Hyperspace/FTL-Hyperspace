@@ -260,6 +260,9 @@
 		<Unit filename="CustomCrew.h">
 			<Option virtualFolder="Core/Crew/" />
 		</Unit>
+		<Unit filename="CustomCrewCommon.h">
+			<Option virtualFolder="Core/Crew/" />
+		</Unit>
 		<Unit filename="CustomCrewManifest.cpp">
 			<Option virtualFolder="Core/Crew/" />
 		</Unit>

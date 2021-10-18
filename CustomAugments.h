@@ -42,7 +42,7 @@ struct AugmentDefinition
     AugmentSuperShield superShield;
     std::vector<AugmentCrystalShard> crystalShard;
     bool locked = false;
-    std::vector<StatBoostDefinition> statBoosts = std::vector<StatBoostDefinition>();
+    std::vector<StatBoostDefinition*> statBoosts = std::vector<StatBoostDefinition*>();
 
     std::string icon;
     int iconShipId = -1;
