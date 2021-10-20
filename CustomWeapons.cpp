@@ -63,6 +63,18 @@ HOOK_STATIC(BlueprintManager, ProcessWeaponBlueprint, (WeaponBlueprint* bp, Blue
                 }
             }
         }
+        if (name == "crewSpawnChance")
+        {
+            weaponDef.customDamage.crewSpawnChance = boost::lexical_cast<int>(val);
+        }
+        if (name == "spawnCrew")
+        {
+            CrewSpawn newSpawn = CrewSpawn::ParseCrewSpawn(child, false);
+            if (!newSpawn.race.empty())
+            {
+                weaponDef.customDamage.crewSpawns.push_back(newSpawn);
+            }
+        }
     }
 
     CustomWeaponManager::instance->AddWeaponDefinition(weaponDef);

@@ -1,4 +1,5 @@
 #pragma once
+#include "CrewSpawn.h"
 #include "FTLGame.h"
 #include "StatBoost.h"
 #include "Constants.h"

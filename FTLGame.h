@@ -4058,7 +4058,8 @@ struct ShipManager : ShipObject
 	LIBZHL_API int GetOxygenPercentage();
 	LIBZHL_API char DamageCrew(CrewMember *crew, DamageParameter dmg);
 	LIBZHL_API void RemoveItem(const std::string &name);
-	LIBZHL_API char DamageArea(Pointf location, DamageParameter dmg, char forceHit);
+	LIBZHL_API bool DamageArea(Pointf location, DamageParameter dmg, bool forceHit);
+	LIBZHL_API bool DamageBeam(Pointf location1, Pointf location2, DamageParameter dmg);
 	LIBZHL_API static CrewBlueprint *__stdcall SelectRandomCrew(CrewBlueprint &bp, ShipManager *ship, int seed, const std::string &unk);
 	LIBZHL_API void ClearStatusAll();
 	LIBZHL_API void PrepareSuperDrones();

@@ -8,26 +8,59 @@ CustomDamage* CustomDamageManager::currentWeaponDmg = nullptr;
 
 HOOK_METHOD(ShipManager, DamageArea, (Pointf location, DamageParameter dmgParam, bool forceHit) -> bool)
 {
-    Damage* dmg = (Damage*)&dmgParam;
+    //Damage* dmg = (Damage*)&dmgParam;
+    bool ret = super(location, dmgParam, forceHit);
 
-    auto custom = CustomDamageManager::currentWeaponDmg;
-
-    /*
-    if (custom && custom->sourceShipId != -1)
+    if (ret)
     {
-        int rng = random32() % 10;
+        auto custom = CustomDamageManager::currentWeaponDmg;
 
-        if (rng < custom->crewSpawnChance)
+        if (custom && custom->sourceShipId != -1)
         {
-            for (auto i : custom->crewSpawns)
+            int rng = random32() % 10;
+
+            if (rng < custom->crewSpawnChance)
             {
-                CrewSpawn::SpawnCrew(*i, this, custom->sourceShipId != iShipId, location);
+                for (auto& i : custom->crewSpawns)
+                {
+                    CrewSpawn::SpawnCrew(i, this, custom->sourceShipId != iShipId, location);
+                }
             }
         }
     }
-    */
 
-    return super(location, dmgParam, forceHit);
+    return ret;
+}
+
+HOOK_METHOD(ShipManager, DamageBeam, (Pointf location1, Pointf location2, DamageParameter dmgParam) -> bool)
+{
+    //Damage* dmg = (Damage*)&dmgParam;
+    bool ret = super(location1, location2, dmgParam);
+
+    auto custom = CustomDamageManager::currentWeaponDmg;
+
+    if (custom && custom->sourceShipId != -1 && custom->crewSpawnChance > 0)
+    {
+        Point grid1 = ShipGraph::TranslateToGrid(location1.x, location1.y);
+        Point grid2 = ShipGraph::TranslateToGrid(location2.x, location2.y);
+
+        if (grid1 != grid2)
+        {
+            int rng = random32() % 10;
+
+            if (rng < custom->crewSpawnChance)
+            {
+                Pointf spawnLoc = {grid1.x * 35.0 + 17.5, grid1.y * 35.0 + 17.5};
+
+                for (auto& i : custom->crewSpawns)
+                {
+                    CrewSpawn::SpawnCrew(i, this, custom->sourceShipId != iShipId, spawnLoc, true);
+                }
+            }
+        }
+    }
+
+    return ret;
 }
 
 HOOK_METHOD(ShipManager, GetDodgeFactor, () -> int)

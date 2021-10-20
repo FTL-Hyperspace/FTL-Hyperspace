@@ -1,4 +1,5 @@
 #pragma once
+#include "CrewSpawn.h"
 #include "StatBoost.h"
 #include "Global.h"
 
@@ -28,15 +29,12 @@ struct CustomDamage
     int erosionChance = 0;
     ErosionEffect erosionEffect;
 
-    //int crewSpawnChance = 0;
-    //std::vector<CrewSpawn*> crewSpawns; // if I try to include CrewSpawn.h it says that some other random thing is not declared??
+    int crewSpawnChance = 0;
+    std::vector<CrewSpawn> crewSpawns;
 
     ~CustomDamage()
     {
-        //for (auto i : crewSpawns)
-        //{
-        //    delete i;
-        //}
+
     }
 };
 

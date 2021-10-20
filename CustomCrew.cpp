@@ -750,7 +750,7 @@ void CustomCrewManager::ParseAbilityEffect(rapidxml::xml_node<char>* stat, Activ
         }
         if (effectName == "spawnCrew")
         {
-            CrewSpawn newSpawn = CrewSpawn::ParseCrewSpawn(effectNode);
+            CrewSpawn newSpawn = CrewSpawn::ParseCrewSpawn(effectNode, true);
             if (!newSpawn.race.empty())
             {
                 def.crewSpawns.push_back(newSpawn);
@@ -1576,7 +1576,7 @@ void CrewMember_Extend::ActivatePower()
         TransformRace(powerDef->transformRace);
     }
 
-    for (auto i : powerDef->crewSpawns)
+    for (auto& i : powerDef->crewSpawns)
     {
         if (ship)
         {

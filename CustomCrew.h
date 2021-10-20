@@ -1,9 +1,9 @@
 #pragma once
+#include "CustomCrewCommon.h"
 #include "Global.h"
 #include "ToggleValue.h"
-#include "CustomDamage.h"
 #include "CrewSpawn.h"
-#include "CustomCrewCommon.h"
+#include "CustomDamage.h"
 #include <unordered_map>
 
 enum TransformColorMode
