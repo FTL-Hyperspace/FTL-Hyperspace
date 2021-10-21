@@ -57,6 +57,8 @@
 	<accuracyMod>0</accuracyMod>                     Changes weapon accuracy. This is equivalent to subtracting accuracyMod from the enemy's evasion for this weapon when performing the evasion check.
 	<noSysDamage>false</noSysDamage>                 If true, then normal damage does not inflict corresponding system damage, only actual <sysDamage> will.
 	<noPersDamage>false</noPersDamage>               If true, then normal damage does not inflict corresponding crew damage, only actual <persDamage> will.
+	<simultaneousFire>false</simultaneousFire>       If true, all shots/charges will fire at once, rather than sequentially.
+	<fireTime>0.0</false>                            Overrides the firing animation speed. Default is 1.0 for bombs and charge weapons, and 0.25 for other weapons. Does not apply to beams.
 </weaponBlueprint>
 -->
 

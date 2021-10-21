@@ -1,8 +1,8 @@
+#include "StatBoost.h"
 #include "CustomCrew.h"
 #include "CustomOptions.h"
 #include "Resources.h"
 #include "freetype.h"
-#include "StatBoost.h"
 #include "TemporalSystem.h"
 #include "CustomDamage.h"
 
@@ -59,24 +59,24 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                 crew.repairSounds.push_back("repair");
 
                 crew.skillsDef = SkillsDefinition();
-                crew.explosionDef = Damage();
+                crew.explosionDef = ExplosionDefinition();
 
-                crew.explosionDef.iDamage = 0;
-                crew.explosionDef.iShieldPiercing = 0;
-                crew.explosionDef.fireChance = 0;
-                crew.explosionDef.breachChance = 0;
-                crew.explosionDef.stunChance = 0;
-                crew.explosionDef.iIonDamage = 0;
-                crew.explosionDef.iSystemDamage = 0;
-                crew.explosionDef.iPersDamage = 0;
-                crew.explosionDef.bHullBuster = false;
-                crew.explosionDef.ownerId = -1;
-                crew.explosionDef.selfId = -1;
-                crew.explosionDef.bLockdown = false;
-                crew.explosionDef.crystalShard = false;
-                crew.explosionDef.bFriendlyFire = false;
-                crew.explosionDef.iStun = 0;
-                crew.explosionShipFriendlyFire = false;
+                crew.explosionDef.damage.iDamage = 0;
+                crew.explosionDef.damage.iShieldPiercing = 0;
+                crew.explosionDef.damage.fireChance = 0;
+                crew.explosionDef.damage.breachChance = 0;
+                crew.explosionDef.damage.stunChance = 0;
+                crew.explosionDef.damage.iIonDamage = 0;
+                crew.explosionDef.damage.iSystemDamage = 0;
+                crew.explosionDef.damage.iPersDamage = 0;
+                crew.explosionDef.damage.bHullBuster = false;
+                crew.explosionDef.damage.ownerId = -1;
+                crew.explosionDef.damage.selfId = -1;
+                crew.explosionDef.damage.bLockdown = false;
+                crew.explosionDef.damage.crystalShard = false;
+                crew.explosionDef.damage.bFriendlyFire = false;
+                crew.explosionDef.damage.iStun = 0;
+                crew.explosionDef.shipFriendlyFire = false;
 
                 if (child->first_attribute("drone"))
                 {
@@ -440,7 +440,7 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                         if (str == "deathEffect")
                         {
                             crew.hasDeathExplosion = true;
-                            ParseDeathEffect(stat, &crew.explosionShipFriendlyFire, &crew.explosionDef);
+                            ParseDeathEffect(stat, &crew.explosionDef);
                         }
                         if (str == "powerEffect")
                         {
@@ -475,9 +475,9 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
 
 }
 
-void CustomCrewManager::ParseDeathEffect(rapidxml::xml_node<char>* stat, bool* friendlyFire, Damage* explosionDef)
+void CustomCrewManager::ParseDeathEffect(rapidxml::xml_node<char>* stat, ExplosionDefinition* explosionDef)
 {
-    Damage def;
+    ExplosionDefinition def;
     if (explosionDef != nullptr)
     {
         def = *explosionDef;
@@ -488,52 +488,62 @@ void CustomCrewManager::ParseDeathEffect(rapidxml::xml_node<char>* stat, bool* f
 
         if (effectName == "damage")
         {
-            def.iDamage = boost::lexical_cast<int>(effectNode->value());
+            def.damage.iDamage = boost::lexical_cast<int>(effectNode->value());
         }
         if (effectName == "fireChance")
         {
-            def.fireChance = boost::lexical_cast<int>(effectNode->value());
+            def.damage.fireChance = boost::lexical_cast<int>(effectNode->value());
         }
         if (effectName == "breachChance")
         {
-            def.breachChance = boost::lexical_cast<int>(effectNode->value());
+            def.damage.breachChance = boost::lexical_cast<int>(effectNode->value());
         }
         if (effectName == "ion")
         {
-            def.iIonDamage = boost::lexical_cast<int>(effectNode->value());
+            def.damage.iIonDamage = boost::lexical_cast<int>(effectNode->value());
         }
         if (effectName == "sysDamage")
         {
-            def.iSystemDamage = boost::lexical_cast<int>(effectNode->value());
+            def.damage.iSystemDamage = boost::lexical_cast<int>(effectNode->value());
         }
         if (effectName == "persDamage")
         {
-            def.iPersDamage = boost::lexical_cast<int>(effectNode->value());
+            def.damage.iPersDamage = boost::lexical_cast<int>(effectNode->value());
         }
         if (effectName == "hullBust")
         {
-            def.bHullBuster = EventsParser::ParseBoolean(effectNode->value());
+            def.damage.bHullBuster = EventsParser::ParseBoolean(effectNode->value());
         }
         if (effectName == "lockdown")
         {
-            def.bLockdown = EventsParser::ParseBoolean(effectNode->value());
+            def.damage.bLockdown = EventsParser::ParseBoolean(effectNode->value());
         }
         if (effectName == "friendlyFire")
         {
-            def.bFriendlyFire = EventsParser::ParseBoolean(effectNode->value());
+            def.damage.bFriendlyFire = EventsParser::ParseBoolean(effectNode->value());
         }
         if (effectName == "stun")
         {
-            def.iStun = boost::lexical_cast<int>(effectNode->value());
+            def.damage.iStun = boost::lexical_cast<int>(effectNode->value());
         }
         if (effectName == "shipFriendlyFire")
         {
-            *friendlyFire = EventsParser::ParseBoolean(effectNode->value());
+            def.shipFriendlyFire = EventsParser::ParseBoolean(effectNode->value());
+        }
+        if (effectName == "statBoosts")
+        {
+            for (auto statBoostNode = effectNode->first_node(); statBoostNode; statBoostNode = statBoostNode->next_sibling())
+            {
+                if (strcmp(statBoostNode->name(), "statBoost") == 0)
+                {
+                    def.statBoosts.push_back(StatBoostManager::GetInstance()->ParseStatBoostNode(statBoostNode, StatBoostDefinition::BoostSource::CREW));
+                }
+            }
         }
     }
     if (!explosionDef)
     {
-        explosionDef = new Damage();
+        explosionDef = new ExplosionDefinition();
     }
     *explosionDef = def;
 }
@@ -740,10 +750,20 @@ void CustomCrewManager::ParseAbilityEffect(rapidxml::xml_node<char>* stat, Activ
         }
         if (effectName == "spawnCrew")
         {
-            CrewSpawn newSpawn = CrewSpawn::ParseCrewSpawn(effectNode);
+            CrewSpawn newSpawn = CrewSpawn::ParseCrewSpawn(effectNode, true);
             if (!newSpawn.race.empty())
             {
                 def.crewSpawns.push_back(newSpawn);
+            }
+        }
+        if (effectName == "statBoosts")
+        {
+            for (auto statBoostNode = effectNode->first_node(); statBoostNode; statBoostNode = statBoostNode->next_sibling())
+            {
+                if (strcmp(statBoostNode->name(), "statBoost") == 0)
+                {
+                    def.statBoosts.push_back(StatBoostManager::GetInstance()->ParseStatBoostNode(statBoostNode, StatBoostDefinition::BoostSource::CREW));
+                }
             }
         }
         if (effectName == "temporaryEffect")
@@ -1421,6 +1441,15 @@ void CrewMember_Extend::ActivateTemporaryPower()
         canPhaseThroughDoors = powerDef->tempPower.canPhaseThroughDoors.value;
     }
 
+    outgoingAbilityStatBoosts.clear();
+    for (StatBoostDefinition* statBoostDef : powerDef->tempPower.statBoosts)
+    {
+        StatBoost statBoost = StatBoost(statBoostDef);
+
+        statBoost.crewSource = orig;
+        outgoingAbilityStatBoosts.push_back(statBoost);
+    }
+
     StatBoostManager::GetInstance()->statCacheFrame++; // resets stat cache in case game is paused
 }
 
@@ -1547,11 +1576,32 @@ void CrewMember_Extend::ActivatePower()
         TransformRace(powerDef->transformRace);
     }
 
-    for (auto i : powerDef->crewSpawns)
+    for (auto& i : powerDef->crewSpawns)
     {
         if (ship)
         {
             CrewSpawn::SpawnCrew(i, ship, ship->iShipId != orig->iShipId, aex->effectWorldPos);
+        }
+    }
+
+    if (!powerDef->statBoosts.empty())
+    {
+        for (auto i=0; i<2; ++i)
+        {
+            ShipManager *crewShip = G_->GetShipManager(i);
+            if (crewShip)
+            {
+                for (auto otherCrew : crewShip->vCrewList)
+                {
+                    for (auto statBoostDef : powerDef->statBoosts)
+                    {
+                        StatBoost statBoost(statBoostDef);
+                        statBoost.crewSource = orig;
+                        statBoost.sourceShipId = orig->iShipId;
+                        StatBoostManager::GetInstance()->CreateTimedAugmentBoost(statBoost, otherCrew);
+                    }
+                }
+            }
         }
     }
 }
@@ -1945,7 +1995,7 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
         canPhaseThroughDoors = def->canPhaseThroughDoors;
 
         outgoingStatBoosts.clear();
-        for (StatBoostDefinition& statBoostDef : def->passiveStatBoosts)
+        for (StatBoostDefinition* statBoostDef : def->passiveStatBoosts)
         {
             StatBoost statBoost = StatBoost(statBoostDef);
 
@@ -1953,7 +2003,7 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
             outgoingStatBoosts.push_back(statBoost);
         }
         outgoingAbilityStatBoosts.clear();
-        for (StatBoostDefinition& statBoostDef : powerDef->tempPower.statBoosts)
+        for (StatBoostDefinition* statBoostDef : powerDef->tempPower.statBoosts)
         {
             StatBoost statBoost = StatBoost(statBoostDef);
 
@@ -2301,6 +2351,8 @@ HOOK_METHOD(CrewMember, SaveState, (int file) -> void)
     FileHelper::writeFloat(file, health.first);
     FileHelper::writeFloat(file, health.second);
 
+    FileHelper::writeInt(file, ex->noSlot);
+
     FileHelper::writeFloat(file, ex->powerCooldown.first);
     FileHelper::writeFloat(file, ex->powerCooldown.second);
     FileHelper::writeFloat(file, ex->temporaryPowerDuration.first);
@@ -2311,6 +2363,26 @@ HOOK_METHOD(CrewMember, SaveState, (int file) -> void)
     FileHelper::writeInt(file, ex->powerDefIdx);
     FileHelper::writeString(file, ex->transformRace);
     FileHelper::writeString(file, ex->originalRace);
+
+    // Timed augment stat boosts
+    std::vector<StatBoost*> timedStatBoostsSerial;
+    for (auto& vStatBoost : ex->timedStatBoosts)
+    {
+        for (auto& statBoost : vStatBoost.second)
+        {
+            timedStatBoostsSerial.push_back(&statBoost);
+        }
+    }
+
+    FileHelper::writeInt(file, timedStatBoostsSerial.size());
+    for (auto statBoost : timedStatBoostsSerial)
+    {
+        FileHelper::writeInt(file, statBoost->def->realBoostId);
+        FileHelper::writeInt(file, statBoost->iStacks);
+        FileHelper::writeInt(file, statBoost->sourceShipId);
+        FileHelper::writeFloat(file, statBoost->timerHelper.currGoal);
+        FileHelper::writeFloat(file, statBoost->timerHelper.currTime);
+    }
 
     super(file);
 
@@ -2326,6 +2398,8 @@ HOOK_METHOD(CrewMember, LoadState, (int file) -> void)
     customHealth.first = FileHelper::readFloat(file);
     customHealth.second = FileHelper::readFloat(file);
 
+    ex->noSlot = FileHelper::readInteger(file);
+
     ex->powerCooldown.first = FileHelper::readFloat(file);
     ex->powerCooldown.second = FileHelper::readFloat(file);
     ex->temporaryPowerDuration.first = FileHelper::readFloat(file);
@@ -2337,6 +2411,23 @@ HOOK_METHOD(CrewMember, LoadState, (int file) -> void)
     ex->transformRace = FileHelper::readString(file);
     ex->originalRace = FileHelper::readString(file);
 
+    // Timed augment stat boosts
+    int timedStatBoostsSize = FileHelper::readInteger(file);
+
+    for (int i=0; i<timedStatBoostsSize; ++i)
+    {
+        StatBoost statBoost(StatBoostDefinition::statBoostDefs.at(FileHelper::readInteger(file)));
+        statBoost.iStacks = FileHelper::readInteger(file);
+        statBoost.sourceShipId = FileHelper::readInteger(file);
+        statBoost.timerHelper.Start(FileHelper::readFloat(file));
+        statBoost.timerHelper.currTime = FileHelper::readFloat(file);
+
+        auto& vStatBoosts = ex->timedStatBoosts[statBoost.def->stat];
+
+        vStatBoosts.push_back(statBoost);
+    }
+
+    // Transformed color choices
     if (species != ex->originalRace)
     {
         auto bpM = G_->GetBlueprints();
@@ -2361,6 +2452,7 @@ HOOK_METHOD(CrewMember, LoadState, (int file) -> void)
         }
     }
 
+    // Set up saved power definition
     if (ex->powerDefIdx >= ActivatedPowerDefinition::powerDefs.size()) ex->powerDefIdx = 0; // bounds check
 
     auto powerDef = ex->GetPowerDef();
@@ -3262,7 +3354,8 @@ HOOK_STATIC(CrewMember, GetRoomDamage, (Damage *damage, CrewMember *crew) -> Dam
 
                 if (ex->hasDeathExplosion)
                 {
-                    Damage *customDamage = &ex->deathEffectChange;
+                    ExplosionDefinition *explosionDef = &ex->deathEffectChange;
+                    Damage *customDamage = &explosionDef->damage;
 
                     damage->iDamage = customDamage->iDamage;
                     damage->fireChance = customDamage->fireChance;
@@ -3278,9 +3371,30 @@ HOOK_STATIC(CrewMember, GetRoomDamage, (Damage *damage, CrewMember *crew) -> Dam
                     damage->crystalShard = customDamage->crystalShard;
                     damage->bFriendlyFire = customDamage->bFriendlyFire;
                     damage->iStun = customDamage->iStun;
-                    shipFriendlyFire = ex->explosionShipFriendlyFire;
+                    shipFriendlyFire = explosionDef->shipFriendlyFire;
 
                     ret = damage;
+
+                    if (!explosionDef->statBoosts.empty())
+                    {
+                        for (auto i=0; i<2; ++i)
+                        {
+                            ShipManager *crewShip = G_->GetShipManager(i);
+                            if (crewShip)
+                            {
+                                for (auto otherCrew : crewShip->vCrewList)
+                                {
+                                    for (auto statBoostDef : explosionDef->statBoosts)
+                                    {
+                                        StatBoost statBoost(statBoostDef);
+                                        statBoost.crewSource = crew;
+                                        statBoost.sourceShipId = crew->iShipId;
+                                        StatBoostManager::GetInstance()->CreateTimedAugmentBoost(statBoost, otherCrew);
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }

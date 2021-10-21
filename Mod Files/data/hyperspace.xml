@@ -135,6 +135,12 @@ Does not include repair arm.
 
 <enemyPreigniterFix enabled="false"/>
 
+<!--  Changes crystal shards to count as player projectiles rather than neutral projectiles (so they don't get targeted by friendly defense drones, etc.)
+Default is true.
+-->
+
+<crystalShardFix enabled="true"/>
+
 
 <!--  Alternate color scheme for O2 levels
 The gradient tag is optional and allows specifying a custom gradient (the default alternate is included here).
@@ -760,6 +766,11 @@ warning attribute being false removes red warning text
 sys attribute means that a functional system is required for the augment to be effective.
 modifyChoiceTextScrap is only used for SCRAP_COLLECTOR; it causes the scrap amounts shown in event dialogues to account for the augment. It does not affect the "scrap collected" in the stats or the player's score.
 
+<crystalShard> emulates crystal vengeance but allows you to set your own blueprint. stackable can either be "false", "true", or "independent".
+Independent means to roll for a proc independently for each stack of the augment. Otherwise the chance of a proc is accumulated for each unique weapon blueprint.
+You can use a blueprint list as well to roll a random weapon effect.
+Number of projectiles per proc is based on the shot count of the weapon blueprint (doesn't work for beams).
+
 <superShield> lets you specify a custom super shield value instead of the default 5. Generally should be used along with <function name="ENERGY_SHIELD"/> so it still counts for blue options, etc.
 You can also specify a custom shield image and tint. Custom images are useful for colors that don't work well on the standard blue shield, such as yellow, red, pink, and white.
 Using <shieldImage> is equivalent to using both <playerImage> and <enemyImage>.
@@ -774,6 +785,8 @@ Syntax ->
 		<function name="HACKING_STUN" useForReqs="false" warning="false"/>
 		<function name="SCRAP_COLLECTOR" value="-0.1" modifyChoiceTextScrap="true"/>
 		<function name="DEFENSE_SCRAMBLER" sys="hacking"/>
+		
+		<crystalShard weapon="CRYSTAL_1" value="0.1" stackable="false"/> (can be repeated for multiple crystalShard functions on the same augment)
 		
 		<superShield>
 			<value>5</value> (gives custom supershield value; when multiple augments are present the highest value is used)

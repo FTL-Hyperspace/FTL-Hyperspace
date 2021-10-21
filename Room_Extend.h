@@ -1,6 +1,8 @@
 #pragma once
-#include "FTLGame.h"
+#include "Global.h"
 #include "CustomDamage.h"
+
+struct ErosionEffect;
 
 struct RoomAnim
 {

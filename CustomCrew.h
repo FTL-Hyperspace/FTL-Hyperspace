@@ -1,8 +1,9 @@
 #pragma once
+#include "CustomCrewCommon.h"
 #include "Global.h"
 #include "ToggleValue.h"
-#include "CustomDamage.h"
 #include "CrewSpawn.h"
+#include "CustomDamage.h"
 #include <unordered_map>
 
 enum TransformColorMode
@@ -140,7 +141,7 @@ struct TemporaryPowerDefinition
     ToggleValue<float> powerRechargeMultiplier;
     ToggleValue<bool> noClone;
 
-    std::vector<StatBoostDefinition> statBoosts;
+    std::vector<StatBoostDefinition*> statBoosts;
 
     bool invulnerable;
     int animFrame = -1;
@@ -259,6 +260,8 @@ struct ActivatedPowerDefinition
 
     std::vector<CrewSpawn> crewSpawns;
 
+    std::vector<StatBoostDefinition*> statBoosts;
+
     TemporaryPowerDefinition tempPower;
 };
 
@@ -321,8 +324,7 @@ struct CrewDefinition
     bool noSlot = false;
     bool noClone = false;
 
-    Damage explosionDef;
-    bool explosionShipFriendlyFire = false;
+    ExplosionDefinition explosionDef;
 
     //ActivatedPowerDefinition powerDef;
     unsigned int powerDefIdx = 0;
@@ -331,7 +333,7 @@ struct CrewDefinition
         return &ActivatedPowerDefinition::powerDefs[powerDefIdx];
     }
 
-    std::vector<StatBoostDefinition> passiveStatBoosts;
+    std::vector<StatBoostDefinition*> passiveStatBoosts;
 
     std::vector<std::string> nameRace;
     std::vector<std::string> transformName;
@@ -353,7 +355,7 @@ public:
 
 
     void AddCrewDefinition(CrewDefinition crew);
-    void ParseDeathEffect(rapidxml::xml_node<char>* stat, bool* friendlyFire, Damage* explosionDef);
+    void ParseDeathEffect(rapidxml::xml_node<char>* stat, ExplosionDefinition* explosionDef);
     void ParseAbilityEffect(rapidxml::xml_node<char>* stat, ActivatedPowerDefinition* powerDef);
     void ParsePowerRequirementsNode(rapidxml::xml_node<char> *node, ActivatedPowerRequirements *def);
     void ParseCrewNode(rapidxml::xml_node<char> *node);

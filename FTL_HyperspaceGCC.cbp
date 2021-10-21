@@ -21,7 +21,7 @@
 					<Add option="-Wall" />
 					<Add option="-m32" />
 					<Add option="-g" />
-					<Add option="-masm=intel -std=c++11 -g" />
+					<Add option="-msse -msse2 -mfpmath=sse -masm=intel -std=c++11 -g" />
 					<Add option="-DBUILD_DLL" />
 					<Add option="-DDEBUG" />
 					<Add directory="rapidxml" />
@@ -90,7 +90,7 @@
 				<Compiler>
 					<Add option="-Wall" />
 					<Add option="-m32" />
-					<Add option="-masm=intel -std=c++11" />
+					<Add option="-msse -msse2 -mfpmath=sse -masm=intel -std=c++11" />
 					<Add option="-DBUILD_DLL" />
 					<Add directory="rapidxml" />
 					<Add directory="C:/boost/include/boost-1_70" />
@@ -260,11 +260,20 @@
 		<Unit filename="CustomCrew.h">
 			<Option virtualFolder="Core/Crew/" />
 		</Unit>
+		<Unit filename="CustomCrewCommon.h">
+			<Option virtualFolder="Core/Crew/" />
+		</Unit>
 		<Unit filename="CustomCrewManifest.cpp">
 			<Option virtualFolder="Core/Crew/" />
 		</Unit>
 		<Unit filename="CustomCrewManifest.h">
 			<Option virtualFolder="Core/Crew/" />
+		</Unit>
+		<Unit filename="CustomCrystalShard.cpp">
+			<Option virtualFolder="Core/Augments/" />
+		</Unit>
+		<Unit filename="CustomCrystalShard.h">
+			<Option virtualFolder="Core/Augments/" />
 		</Unit>
 		<Unit filename="CustomDamage.cpp">
 			<Option virtualFolder="Core/Weapons/" />
@@ -352,6 +361,9 @@
 		</Unit>
 		<Unit filename="CustomStoreBox.cpp">
 			<Option virtualFolder="Core/Store/" />
+		</Unit>
+		<Unit filename="CustomSuperShield.cpp">
+			<Option virtualFolder="Core/Augments/" />
 		</Unit>
 		<Unit filename="CustomSystems.cpp">
 			<Option virtualFolder="Core/Systems/" />

@@ -1,5 +1,9 @@
 #pragma once
-#include "FTLGame.h"
+#include "CrewSpawn.h"
+#include "StatBoost.h"
+#include "Global.h"
+
+struct StatBoostDefinition;
 
 struct ErosionEffect
 {
@@ -20,18 +24,17 @@ struct CustomDamage
     bool noSysDamage = false;
     bool noPersDamage = false;
 
+    std::vector<StatBoostDefinition*> statBoosts;
+
     int erosionChance = 0;
     ErosionEffect erosionEffect;
 
-    //int crewSpawnChance = 0;
-    //std::vector<CrewSpawn*> crewSpawns; // if I try to include CrewSpawn.h it says that some other random thing is not declared??
+    int crewSpawnChance = 0;
+    std::vector<CrewSpawn> crewSpawns;
 
     ~CustomDamage()
     {
-        //for (auto i : crewSpawns)
-        //{
-        //    delete i;
-        //}
+
     }
 };
 

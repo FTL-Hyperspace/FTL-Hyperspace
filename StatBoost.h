@@ -1,6 +1,8 @@
 #pragma once
 #include "Global.h"
 #include "Constants.h"
+#include "CustomCrew.h"
+#include "CustomCrewCommon.h"
 
 struct ActivatedPowerDefinition;
 
@@ -189,11 +191,10 @@ struct StatBoostDefinition
     std::vector<std::string> systemRoomReqs = std::vector<std::string>();
     std::vector<std::string> systemList = std::vector<std::string>();
 
-    std::vector<StatBoostDefinition> providedStatBoosts = std::vector<StatBoostDefinition>();
+    std::vector<StatBoostDefinition*> providedStatBoosts = std::vector<StatBoostDefinition*>();
 
     unsigned int powerChange = 0;
-    Damage* deathEffectChange;
-    bool explosionShipFriendlyFire;
+    ExplosionDefinition* deathEffectChange;
 
     std::vector<float> powerScaling = std::vector<float>();
     float powerScalingNoSys = 1.0;
@@ -210,16 +211,16 @@ struct StatBoostDefinition
     CrewTarget crewTarget;
     DroneTarget droneTarget = DroneTarget::ALL;
 
-    static uint64_t nextId;
-
     int realBoostId = -1;
     int stackId = 0;
     int maxStacks = 2147483647;
 
+    static std::vector<StatBoostDefinition*> statBoostDefs;
+
     void GiveId()
     {
-        nextId++;
-        realBoostId = nextId;
+        realBoostId = statBoostDefs.size();
+        statBoostDefs.push_back(this);
     }
 };
 
@@ -263,7 +264,7 @@ public:
         return &instance;
     }
 
-    StatBoostDefinition ParseStatBoostNode(rapidxml::xml_node<char>* node, StatBoostDefinition::BoostSource boostSource);
+    StatBoostDefinition* ParseStatBoostNode(rapidxml::xml_node<char>* node, StatBoostDefinition::BoostSource boostSource);
     void CreateTimedAugmentBoost(StatBoost statBoost, CrewMember* crew);
     void OnLoop(WorldManager* world);
 private:
@@ -292,5 +293,5 @@ private:
     void CreateAugmentBoost(StatBoostDefinition* def, int shipId, int nStacks);
     void CreateCrewBoost(StatBoostDefinition* def, CrewMember* otherCrew, int nStacks);
     void CreateCrewBoost(StatBoost statBoost, CrewMember* otherCrew);
-    void CreateRecursiveBoosts(StatBoost& statBoost, int nStacks);
+    void CreateRecursiveBoosts(StatBoost& statBoost, int nStacks, bool noCheck = false);
 };

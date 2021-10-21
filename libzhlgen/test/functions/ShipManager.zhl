@@ -39,7 +39,9 @@ char ShipManager::DamageCrew(ShipManager *this<ecx>, CrewMember *crew, DamagePar
 "578d7c240883e4f0ff77fc5589e55756538d45d889cb83ec5c8b378945d0894dac":
 void ShipManager::RemoveItem(ShipManager *this<ecx>, const std::string& name); 
 "578d7c240883e4f0ff77fc5589e557565389ce81ec????????8b47088b5f3cf30f105704f30f100f8945908b4710f30f118d78fffffff30f119574ffffff":
-char ShipManager::DamageArea(ShipManager *this<ecx>, Pointf location, DamageParameter dmg, char forceHit);
+bool ShipManager::DamageArea(ShipManager *this<ecx>, Pointf location, DamageParameter dmg, bool forceHit);
+"578d7c240883e4f0ff77fc5589e557565381eccc0000008b07807910008b570889459c8b47048945988b470c":
+bool ShipManager::DamageBeam(ShipManager *this<ecx>, Pointf location1, Pointf location2, DamageParameter dmg);
 "578d7c240883e4f0ff77fc5589e557565383ec5c8b47048b7708894da883f8ff":
 static CrewBlueprint* ShipManager::SelectRandomCrew(CrewBlueprint& bp<ecx>, ShipManager *ship, int seed, const std::string& unk);
 "5589e5565331db89ce83e4f083ec108b51188b411c29d0c1f80285c074??66908b0c9a":
@@ -50,6 +52,10 @@ void ShipManager::PrepareSuperDrones(ShipManager *this<ecx>);
 void ShipManager::JumpLeave(ShipManager *this<ecx>);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b378b470485f6":
 void ShipManager::ModifyScrapCount(ShipManager *this<ecx>, int scrap, bool income);
+"578d7c240883e4f0ff77fc5589e55783ec148b81c80400008b1783780cff75300191040800008b7dfc8b810408000085c0b800000000":
+void ShipManager::ModifyMissileCount(ShipManager *this<ecx>, int missiles);
+"578d7c240883e4f0ff77fc5589e55783ec148b81c80400008b17837810ff75300191000800008b7dfc8b8100080000":
+void ShipManager::ModifyDroneCount(ShipManager *this<ecx>, int drones);
 "578d7c240883e4f0ff77fc5589e557565383ec1c8b81c80400008b3f8b701c83feff74??":
 bool ShipManager::DoSensorsProvide(ShipManager *this<ecx>, int vision);
 "5731c08d7c240883e4f0ff77fc5589e5575389cb83ec108b5104b9????????85d20f95c0890424e8????????83ec04837b0401b9????????19d2":
@@ -140,6 +146,8 @@ CrewMember* ShipManager::GetCrewmember(ShipManager *this<ecx>, int slot, bool pr
 int ShipManager::CanUpgrade(ShipManager *this<ecx>, int systemId, int amount);
 "578d7c240883e4f0ff77fc5589e557565389cb83c10483ec6c8b078b7704":
 static ShipBlueprint* ShipManager::SaveToBlueprint(ShipBlueprint &bp<ecx>, ShipManager *ship, bool unk);
+"578d7c240883e4f0ff77fc5589e55756538d5dd089ce83ec7c8b078b570489d9":
+void ShipManager::CheckCrystalAugment(ShipManager *this<ecx>, Pointf pos);
 
 struct ShipManager depends (PowerManager, ShieldPower)
 {{

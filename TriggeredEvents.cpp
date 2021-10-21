@@ -1360,6 +1360,12 @@ HOOK_METHOD(StarMap, UpdateDangerZone, () -> void)
     super();
 }
 
+HOOK_METHOD(StarMap, StartSecretSector, () -> void)
+{
+    TriggeredEvent::JumpAll();
+    super();
+}
+
 std::string TriggeredEventBox::GetTimeTextClock(int t)
 {
     if (t >= 3600)

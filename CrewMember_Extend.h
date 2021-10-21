@@ -1,7 +1,9 @@
 #pragma once
+#include "CrewSpawn.h"
 #include "FTLGame.h"
 #include "StatBoost.h"
 #include "Constants.h"
+#include "CustomCrewCommon.h"
 #include <array>
 
 struct CrewDefinition;
@@ -106,8 +108,7 @@ public:
     ActivatedPowerDefinition* GetPowerDef() const;
     ActivatedPowerDefinition* CalculatePowerDef();
 
-    Damage deathEffectChange;
-    bool explosionShipFriendlyFire;
+    ExplosionDefinition deathEffectChange;
     bool hasDeathExplosion;
 
     bool isIonDrone = false;
