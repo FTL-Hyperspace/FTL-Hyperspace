@@ -1,14 +1,20 @@
 #pragma once
 
+#ifdef _WIN32
 #ifdef LIBZHL_EXPORTS
 #define LIBZHL_API __declspec(dllexport)
 #else
 #define LIBZHL_API __declspec(dllimport)
 #endif
+#else
+// Linux exports all symbols, we don't need to be specific like in Windows.
+// If we want to optimize this library in the future we'd need to change things around to an EXPORTED & NON_EXPORTED definition and set the __attribute___((visibility( thing to explicitly hide some exports on *NIX systems
+// SEE: https://gcc.gnu.org/wiki/Visibility
+# define LIBZHL_API
+#endif
 
 #include <stdlib.h>
 #include <typeinfo>
-#include "palWindowsGeneric.h"
 #include <cstdio>
 
 //=================================================================================================

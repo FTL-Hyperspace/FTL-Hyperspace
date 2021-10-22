@@ -7,6 +7,7 @@
 #include <map>
 #include <string>
 #include <cstdarg>
+#include "PALMemoryProtection.h"
 
 using namespace ZHL;
 
@@ -47,7 +48,7 @@ void ZHL::SetLogPath(const char *logPath)
 static void Log(const char *format, ...)
 {
 	if(!g_logPath) return;
-	if(!g_hookLog) fopen_s(&g_hookLog, g_logPath, "w");
+	if(!g_hookLog) g_hookLog = std::fopen(g_logPath, "w");
 	if(!g_hookLog) return;
 
 
@@ -280,8 +281,8 @@ int FunctionHook_private::Install()
 	unsigned char *ptr;
 	int stackPos;
 	int k;
-	DWORD oldProtect;
-
+	MEMPROT_SAVE_PROT(oldProtect);
+	MEMPROT_PAGESIZE();
 
 	//==================================================
 	// Internal hook
@@ -376,7 +377,7 @@ int FunctionHook_private::Install()
 		P(0xc3);					// ret
 
 	_hSize = ptr - _internalHook;
-	VirtualProtect(_internalHook, _hSize, PAGE_EXECUTE_READWRITE, &oldProtect);
+	MEMPROT_UNPROTECT(_internalHook, _hSize, oldProtect);
 
 	// Install the hook with MologieDetours
 	try
@@ -502,7 +503,7 @@ int FunctionHook_private::Install()
 		P(0xc3);					// ret
 
 	_sSize = ptr - _internalSuper;
-	VirtualProtect(_internalSuper, _sSize, PAGE_EXECUTE_READWRITE, &oldProtect);
+	MEMPROT_UNPROTECT(_internalSuper, _sSize, oldProtect);
 
 	// Set the external reference to internalSuper so it can be used inside the user defined hook
 
