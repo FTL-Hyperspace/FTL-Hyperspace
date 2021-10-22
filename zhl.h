@@ -8,7 +8,7 @@
 
 #include <stdlib.h>
 #include <typeinfo>
-#include <windows.h>
+#include "palWindowsGeneric.h"
 #include <cstdio>
 
 //=================================================================================================

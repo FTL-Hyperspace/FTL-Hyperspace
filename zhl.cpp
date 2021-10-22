@@ -6,10 +6,7 @@
 #include <functional>
 #include <map>
 #include <string>
-
-
-#define WIN32_LEAN_AND_MEAN
-#include <Windows.h>
+#include <cstdarg>
 
 using namespace ZHL;
 

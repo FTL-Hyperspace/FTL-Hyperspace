@@ -1,6 +1,5 @@
 #include "main.h"
 #include <stdio.h>
-#include <Windows.h>
 #include "FTLGame.h"
 #include "Global.h"
 
