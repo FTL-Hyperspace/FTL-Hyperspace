@@ -1,0 +1,2 @@
+"5589e557565381ec1c0300008b4510":
+static cleanup ShipManager* ShipGenerator::CreateShip(const std::string& name, int sector, ShipEvent& event);

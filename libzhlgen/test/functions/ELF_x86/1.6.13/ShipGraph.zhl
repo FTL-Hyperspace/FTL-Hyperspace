@@ -1,0 +1,115 @@
+"575381ec84000000a1????????":
+static cleanup ShipGraph* ShipGraph::GetShipInfo(int shipId);
+"5589e557565383ec4c8b7d0c8b75148b4518":
+cleanup Point ShipGraph::GetSlotRenderPosition(ShipGraph *this, int x, int y, char unk);
+"538b4424088b4c240c8b58188b501c":
+cleanup int ShipGraph::DoorCount(ShipGraph *this, int unk);
+"5557565331db83ec1c8b7424308b7c2434c70600000000":
+cleanup std::vector<Door*>& ShipGraph::GetDoors(ShipGraph *this, int unk);
+"5557bf01000000565383ec2c8b5c24443b5c24488b742440":
+cleanup int ShipGraph::IsRoomConnected(ShipGraph *this, int room1, int room2);
+"5589e557565383ec6c8b45108d5dd8":
+cleanup int ShipGraph::ConnectingDoor(ShipGraph *this, int x1, int y1, int x2, int y2);
+"5531ed57565383ec7c6b84249800000023":
+cleanup int ShipGraph::ConnectedGridSquares(ShipGraph *this, int x1, int y1, int x2, int y2);
+"5531ed57565383ec7c6b84249800000023":
+cleanup int ShipGraph::ConnectedGridSquaresPoint(ShipGraph *this, Point p1, Point p2);
+"5589e557565383ec6c8b45108d5dd8":
+cleanup int ShipGraph::ConnectingDoor(ShipGraph *this, Point p1, Point p2);
+"8b4424048b5424088b008b0490":
+cleanup int ShipGraph::GetNumSlots(ShipGraph *this, int room);
+"5557565331db83ec2c8b4424448b38":
+static int ShipGraph::PopClosestDoor(std::vector<int>& unk, std::vector<float>& unk2);
+"5589e557565381ec8c0000008b45188b750c8b7d14":
+cleanup int ShipGraph::Dijkstra(ShipGraph *this, Point p1, Point p2, int unk);
+"5589e557565383ec5c8b45188b5d0c":
+cleanup int ShipGraph::FindPath(ShipGraph *this, Point p1, Point p2, int unk);
+"83ec048b442408f30f1044240cf30f584034":
+cleanup float ShipGraph::ConvertToWorldAngle(ShipGraph *this, float ang);
+"83ec048b442408f30f1044240cf30f5c4034":
+cleanup float ShipGraph::ConvertToLocalAngle(ShipGraph *this, float ang);
+"5589e5565383ec208b5d0c8b7508":
+cleanup int64_t ShipGraph::ConvertToWorldPosition(ShipGraph *this, Pointf p);
+"5589e5565383ec208b450c807d1800":
+cleanup Pointf ShipGraph::ConvertToLocalPosition(ShipGraph *this, Pointf p, char unk);
+"5589e557565383ec3c8b7d088b4508":
+cleanup int ShipGraph::ComputeCenter(ShipGraph *this);
+"538b54240831c08b4c240c8b5a44":
+cleanup bool ShipGraph::ContainsPoint(ShipGraph *this, int x, int y);
+"555731ff565383ec1c8b7424300fb65c243c":
+cleanup int ShipGraph::GetSelectedRoom(ShipGraph *this, int x, int y, bool unk);
+"8b5424048b42042b02":
+cleanup int ShipGraph::RoomCount(ShipGraph *this);
+"5589e557565383ec1c8b550c8b4508":
+cleanup Globals::Rect *ShipGraph::GetRoomShape(ShipGraph *this, int room);
+"5383ec048b15????????8b4c24108b44240c85c978??8b18":
+cleanup float ShipGraph::GetRoomOxygen(ShipGraph *this, int room);
+"538b4c240cb8010000008b54240885c9":
+cleanup bool ShipGraph::GetRoomBlackedOut(ShipGraph *this, int room);
+"5589e5575631f65389f381ecac0000008b45108b7d0c":
+static cleanup Slot* ShipGraph::GetClosestSlot(Slot *slot, ShipGraph *graph, Point pos, int shipId, bool intruder);
+
+
+struct ShipGraph depends (Point, Pointf, Room) 
+{{
+	Slot* GetClosestSlot(Point pos, int shipId, bool intruder)
+	{
+		Slot* slot = nullptr;
+		ShipGraph::GetClosestSlot(slot, this, pos, shipId, intruder);
+		return slot;
+	}
+	
+	static Point TranslateFromGrid(int xx, int yy)
+	{
+		return Point(xx * 35, yy * 35);
+	}
+	
+	static Point TranslateToGrid(int xx, int yy)
+	{
+		return Point(xx / 35, yy / 35);
+	}
+	
+	Point GetIntoRoom(int roomId, Point pos)
+	{
+		Point ret;
+		if (roomId >= 0 && roomId < this->rooms.size())
+		{
+			auto room = this->rooms[roomId];
+			ret = room->GetIntoRoom(pos);
+		}
+		else
+		{
+			ret = Point(-1, -1);
+		}
+		
+		return ret;
+	}
+	
+	Pointf GetRoomCenter(int roomId) 
+	{
+		auto rooms = this->rooms;
+		float xx = -1;
+		float yy = -1;
+		
+		for (auto const& x: rooms)
+		{
+			if (roomId == x->iRoomId)
+			{
+				auto rect = x->GetRect();
+				
+				xx = rect.x + rect.w / 2;
+				yy = rect.y + rect.h / 2;
+				break;
+			}
+		}
+		
+		return Pointf(xx, yy);
+	}
+	
+	Point GetSlotWorldPosition(int roomId, int slotId)
+	{
+		Globals::Rect rect = rooms[roomId]->rect;
+		return Point(rect.x + 35 * (slotId % (rect.w / 35)) + 17, rect.y + 35 * (slotId / (rect.h / 35)) + 17);
+	}
+	
+}};

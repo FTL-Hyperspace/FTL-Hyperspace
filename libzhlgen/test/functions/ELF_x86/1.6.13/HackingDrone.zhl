@@ -1,0 +1,2 @@
+"5589e55756be050000005383ec7c8b5d08891c24":
+cleanup void HackingDrone::OnLoop(HackingDrone *this);

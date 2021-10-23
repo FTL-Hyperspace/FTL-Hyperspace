@@ -1,0 +1,38 @@
+"565383ec248b5c24308d74241f8d4308c70300000000":
+cleanup void WorldManager::constructor(WorldManager *this);
+"57565383ec108b5c24208d7308893424":
+cleanup int WorldManager::OnInit(WorldManager *this);
+"5557565381ec1c02000080bc243802000000":
+CompleteShip *WorldManager::CreateShip(ShipEvent* shipEvent, bool boss);
+"5589e557565381ec7c0200008b75088b7d0cc686c20e000000":
+cleanup void WorldManager::CreateLocation(WorldManager *this, Location *loc);
+"5589e557565383ec2c8b5d088b83cc0c0000890424":
+cleanup void WorldManager::SaveGame(WorldManager *this);
+"565383ec148b5c24208b7424248b038b48088b01":
+cleanup void WorldManager::CreateChoiceBox(WorldManager *this, LocationEvent* event);
+".565383ec148b5c24208b7424248b038b48088b01":
+cleanup void WorldManager::UpdateLocation(WorldManager *this, LocationEvent* event);
+"5589e557565381ecbc0100008b7d0c8b75088b87dc010000":
+cleanup LocationEvent *WorldManager::ModifyResources(WorldManager *this, LocationEvent *event);
+"5383ec188b4424248b5c24208b54242883f801":
+cleanup void WorldManager::ModifyEnvironment(WorldManager *this, int envFlag, int envTarget);
+"5557565383ec3c8b5c24548b7c2450":
+cleanup void WorldManager::CheckStatusEffects(WorldManager *this, std::vector<StatusEffect>& vec);
+"5589e557565383ec3c8b5d088b750c8b0385c0":
+cleanup void WorldManager::StartGame(WorldManager *this, ShipManager *ship);
+"5383ec188b5c2420891c24e8????????e8????????e8????????":
+cleanup void WorldManager::Restart(WorldManager *this);
+"5589e557565381ec3c0100008b7508c78508ffffff00000000":
+cleanup void WorldManager::LoadGame(WorldManager *this, const std::string& fileName);
+"5589e557565381ecac0000008b7508c744240400000000":
+cleanup void WorldManager::OnLoop(WorldManager *this);
+"57565383ec208b7424308d5c241c8d7c241b8b068b4008":
+cleanup void WorldManager::CreateNewGame(WorldManager *this);
+"5383ec188b5c24208d4308890424":
+cleanup bool WorldManager::HostileEnvironment(WorldManager *this);
+"5557565383ec2c8b7424408b5c24448b068b5008":
+cleanup bool WorldManager::AddBoarders(WorldManager *this, BoardingEvent& boardingEvent);
+"565383ec148b7424248b5c24208b86d4020000":
+cleanup void WorldManager::CreateStore(WorldManager *this, LocationEvent* event);
+"5557565383ec3c8b5c245485db":
+cleanup bool WorldManager::CheckRequirements(WorldManager *this, LocationEvent* event);

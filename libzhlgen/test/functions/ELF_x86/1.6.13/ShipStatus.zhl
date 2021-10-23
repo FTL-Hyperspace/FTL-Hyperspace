@@ -1,0 +1,10 @@
+"5589e557565381ec8c0000008b5d08807d0c00":
+cleanup void ShipStatus::RenderHealth(ShipStatus *this, bool unk);
+"5557565381ec2c0100008bac24400100008d9c2400010000":
+cleanup void ShipStatus::OnInit(ShipStatus *this, Point unk, float unk2);
+"5589e557565381ecfc0100008b7d08807d0c008b470c890424":
+cleanup void ShipStatus::RenderEvadeOxygen(ShipStatus *this, bool unk);
+"5589e557565381ec8c0000008b5d08e8????????c744240800000000":
+cleanup void ShipStatus::OnRender(ShipStatus *this);
+"807c2408008b44240474??":
+cleanup void ShipStatus::RenderShields(ShipStatus *this, bool renderText);

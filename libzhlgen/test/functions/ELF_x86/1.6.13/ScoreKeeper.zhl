@@ -1,0 +1,77 @@
+"5531c057565381ec1c01000083bc243801000002":
+cleanup char ScoreKeeper::GetShipUnlocked(ScoreKeeper *this, int shipId, int shipVariant);
+"5383ec188b4424288b5c2420??????????????89442404":
+static cleanup std::string* ScoreKeeper::GetShipBlueprint(std::string* str, ScoreKeeper* scoreKeeper, int index);
+"5589e557565381ec9c0000008b5d08c744240400000000":
+cleanup void ScoreKeeper::OnInit(ScoreKeeper *this);
+"5589e557565383ec6c8b5d08c70424????????":
+cleanup void ScoreKeeper::Save(ScoreKeeper *this, bool newHighScore);
+"5589e557565381ec0c0200008b5d088b450c":
+cleanup void ScoreKeeper::OnRender(ScoreKeeper *this, bool lastPlaythrough);
+"555756538b5424188b6c24148b4c241c8b5c2420":
+cleanup void ScoreKeeper::UnlockShip(ScoreKeeper *this, int shipType, int shipVariant, bool save, bool hidePopup);
+"8b5424088b44240484d28890e4000000":
+cleanup void ScoreKeeper::SetVictory(ScoreKeeper *this, bool victory);
+"5557565383ec4c8b442460c70000000000":
+cleanup void ScoreKeeper::constructor(ScoreKeeper *this);
+"55575653bb????????83ec3c8b6c2458c744241800000000":
+cleanup int ScoreKeeper::GetShipIdType(ScoreKeeper *this, const std::string& blueprintName);
+"5589e557565381ec8c0000008b4d108b45088b7d0c":
+cleanup void ScoreKeeper::LoadVersionFour(ScoreKeeper *this, int file, int version);
+"5557565383ec3c8b4c24508b442454":
+cleanup void ScoreKeeper::WipeProfile(ScoreKeeper *this, bool permanent);
+"565383ec148b5c242080bb0809000000":
+cleanup void ScoreKeeper::MouseClick(ScoreKeeper *this, int x, int y);
+"5589e557565383ec5c8b5d088d75c8":
+cleanup void ScoreKeeper::SetupTopShip(ScoreKeeper *this, int variant);
+"5557565383ec2c8b6c2440c7442408010000008b85c4080000":
+cleanup void ScoreKeeper::CheckTypes(ScoreKeeper *this);
+"8b5424088b4424048b4c240c837a1000":
+cleanup void ScoreKeeper::AddTopScoreType(ScoreKeeper *this, TopScore& topScore, int type);
+"5557565383ec4c8b5c24688b6c24648b4304":
+cleanup int ScoreKeeper::AddTopScoreList(ScoreKeeper *this, TopScore& score, std::vector<TopScore>& topScoreList);
+"5589e557565381eccc0100008b4510":
+cleanup void ScoreKeeper::RenderTopScores(ScoreKeeper *this, const std::vector<TopScore>& topScoreList, Point position, int newHighScore);
+"56be090000005383ec14":
+cleanup void ScoreKeeper::CycleLeft(ScoreKeeper *this);
+"5631f65383ec148b5c2420908d74??00":
+cleanup void ScoreKeeper::CycleRight(ScoreKeeper *this);
+"5557565381ec9c0000008b9c24b0000000c74424080d000000":
+cleanup void ScoreKeeper::Open(ScoreKeeper *this, bool fromGameOver);
+"565383ec148b5c24208b7424240fb68308090000":
+cleanup bool ScoreKeeper::KeyDown(ScoreKeeper *this, SDLKey key);
+"565383ec24c70424????????8b5c24308b742434":
+cleanup void ScoreKeeper::AddScrapCollected(ScoreKeeper *this, int scrap);
+"55575631f65383ec4c8b442468":
+cleanup void ScoreKeeper::SaveScores(ScoreKeeper *this, int file, std::vector<TopScore>& topScores);
+
+
+struct ScoreKeeper
+{{
+	std::string GetShipBlueprint(int type)
+	{
+		std::string ret = std::string();
+		
+		GetShipBlueprint(&ret, this, type);
+		
+		return ret;
+	}
+	
+	std::pair<int, int> GetShipId(const std::string& blueprintName)
+	{
+		int variant = 0;
+		
+		if (blueprintName.find("_2") != std::string::npos)
+		{
+			variant = 1;
+		}
+		if (blueprintName.find("_3") != std::string::npos)
+		{
+			variant = 2;
+		}
+		
+		int type = GetShipIdType(blueprintName);
+		
+		return std::pair<int, int>(type, variant);
+	}
+}};

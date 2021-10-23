@@ -1,0 +1,10 @@
+"5557565383ec3c8b7c24588d7424208b5c2450":
+cleanup void ItemStoreBox::constructor(ItemStoreBox *this, ShipManager *ship, const std::string& resourceName);
+
+struct ItemStoreBox
+{{
+	ItemStoreBox(ShipManager *_ship, const std::string& _resourceName)
+	{
+		this->constructor(_ship, _resourceName);
+	}
+}};

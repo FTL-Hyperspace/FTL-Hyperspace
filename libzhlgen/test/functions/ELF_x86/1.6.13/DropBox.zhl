@@ -1,0 +1,4 @@
+"5589e557565381ecac0000008b7d08893c24":
+cleanup void DropBox::OnRender(DropBox *this);
+"8b5424048b4a0c89c885c0":
+cleanup int DropBox::GetHeight(DropBox *this);

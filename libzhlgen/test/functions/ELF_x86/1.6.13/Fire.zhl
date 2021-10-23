@@ -1,0 +1,6 @@
+"565383ec148b5c242080bb5c01000000":
+cleanup void Fire::OnLoop(Fire *this);
+".565383ec148b5c24208b7424248b03891c24ff502884c0":
+cleanup void Fire::UpdateDeathTimer(Fire *this, int connectedFires);
+".565383ec148b5c24208b7424248b03891c24ff502884c0":
+cleanup void Fire::UpdateStartTimer(Fire *this, int doorLevel);

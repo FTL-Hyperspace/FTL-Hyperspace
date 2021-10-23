@@ -1,0 +1,10 @@
+"5589e557565381ecdc0000008b451c8b55208d9d54ffffff":
+cleanup void BombProjectile::constructor(LaserBlast *this, Pointf _position, int _ownerId, int _targetId, Pointf _target);
+
+struct BombProjectile
+{{
+	BombProjectile(Pointf _position, int _ownerId, int _targetId, Pointf _target)
+	{
+		this->constructor(_position, _ownerId, _targetId, _target);
+	}
+}};

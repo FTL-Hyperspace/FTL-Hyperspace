@@ -1,0 +1,15 @@
+"5589e557565383ec5c8b450c83c01c89c2":
+static cleanup std::string& TextLibrary::GetText(std::string& strRef, TextLibrary *textLibrary, const std::string& name, const std::string& lang);
+
+
+struct TextLibrary
+{{
+	std::string GetText(const std::string& name)
+	{
+		std::string ret = std::string();
+		
+		TextLibrary::GetText(ret, this, name, currentLanguage);
+		
+		return ret;
+	}
+}};

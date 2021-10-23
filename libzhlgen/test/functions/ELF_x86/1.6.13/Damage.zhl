@@ -1,0 +1,9 @@
+
+
+struct Damage
+{{
+	Damage()
+	{
+	};
+	
+}};

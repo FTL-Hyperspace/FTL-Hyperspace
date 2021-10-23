@@ -1,0 +1,10 @@
+"5557565383ec7c8bbc24900000008d6c24508b842494000000":
+cleanup void TeleportBox::constructor(TeleportBox *this, Point pos, TeleportSystem* sys);
+
+struct TeleportBox
+{{
+	TeleportBox(Point pos, TeleportSystem* sys)
+	{
+		this->constructor(pos, sys);
+	}
+}};

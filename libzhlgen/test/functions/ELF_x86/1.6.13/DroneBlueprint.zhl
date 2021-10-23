@@ -1,0 +1,2 @@
+"83ec1c8b4424208b401c8b10":
+cleanup void DroneBlueprint::RenderIcon(DroneBlueprint *this, float scale);

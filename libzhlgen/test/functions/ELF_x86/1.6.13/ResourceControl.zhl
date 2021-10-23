@@ -1,0 +1,40 @@
+"57565383ec208b5c24308d4310c7430400000000":
+cleanup void ResourceControl::constructor(ResourceControl *this);
+"83ec5c8b4424648b8c248800000085c00f84????????89c285d2f30f1074247cf30f10642478f30f106c2474f30f2a542470":
+cleanup GL_Primitive* ResourceControl::CreateImagePrimitive(ResourceControl *this, GL_Texture *tex, int unk1, int unk2, int unk3, GL_Color color, float alpha, bool mirror);
+"5383ec188b5c24208b442424c7838800000000000000894354c70424b80b0000":
+cleanup void ResourceControl::OnInit(ResourceControl *this, int imageSwappingMode);
+"555731ff565383ec4c8d44241e8b5c246089442408":
+cleanup char* ResourceControl::LoadFile(ResourceControl *this, const std::string& fileName);
+"5589e557565383ec5c8d45d4890424":
+cleanup GL_Texture* ResourceControl::GetImageId(ResourceControl *this, const std::string& dir);
+"83ec5c8b4424648b8c248800000085c00f84????????89c285d2f30f1074247cf30f10542478f30f105c2474f30f2a442470":
+cleanup int ResourceControl::RenderImage(ResourceControl *this, GL_Texture* tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror);
+"5383ec588b4424648b9c2488000000894424048b442460890424e8????????f30f104c2474f30f10442478f30f1054247c85c00f84????????89c285d2f30f2a5c2470":
+cleanup int ResourceControl::RenderImageString(ResourceControl *this, std::string& tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror);
+"5383ec588b4424648b9c2488000000894424048b442460890424e8????????f30f104c2474f30f10442478f30f1054247c85c00f84????????89c285d2f30f2a6c2470":
+cleanup GL_Primitive* ResourceControl::CreateImagePrimitiveString(ResourceControl *this, const std::string& tex, int x, int y, int rotation, GL_Color color, float alpha, bool mirror);
+"5557565383ec4c8b4424648b5c24608b4c24688d50fa83fa02":
+cleanup freetype::font_data &ResourceControl::GetFontData(ResourceControl *this, int fontType, bool unk);
+"5531d257565383ec1c8b4424348b7c24388b7034":
+static cleanup void ResourceControl::GetImageData(ImageDesc& ref, ResourceControl *resources, GL_Texture *tex);
+
+
+struct ResourceControl depends (freetype)
+{{	
+	enum ImageSwappingMode
+	{
+	  SWAP_NONE = 0x0,
+	  SWAP_SHIP_SETS = 0x1,
+	  SWAP_DYNAMIC_SHIPS = 0x2,
+	};
+	
+	ImageDesc GetImageData(GL_Texture *tex)
+	{
+		ImageDesc desc;
+		
+		GetImageData(desc, this, tex);
+		
+		return desc;		
+	}
+}};

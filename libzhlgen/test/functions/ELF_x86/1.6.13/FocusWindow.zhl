@@ -1,0 +1,2 @@
+"8b44240480781000":
+cleanup void FocusWindow::MouseClick(FocusWindow *this, int x, int y);

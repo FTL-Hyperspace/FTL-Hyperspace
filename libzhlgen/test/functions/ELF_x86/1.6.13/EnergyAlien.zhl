@@ -1,0 +1,4 @@
+"5383ec188b5c2420891c24e8????????8b839c000000":
+cleanup void EnergyAlien::OnLoop(EnergyAlien *this);
+"8b5424088b44240480ba3d05000000":
+static cleanup Damage *EnergyAlien::GetRoomDamage(Damage* dmg, EnergyAlien *crew);

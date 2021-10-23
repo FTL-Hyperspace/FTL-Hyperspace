@@ -1,0 +1,14 @@
+"5589e557565381ec1c0100008b4510c7442404????????890424??????????85c0":
+static cleanup Animation* AnimationControl::GetAnimation(Animation& animRef, AnimationControl *animControl, const std::string& animName);
+
+struct AnimationControl depends (Animation)
+{{
+	Animation* GetAnimation(const std::string& animName)
+	{
+		Animation* animRef = new Animation();
+		
+		AnimationControl::GetAnimation(*animRef, this, animName);
+		
+		return animRef;
+	}
+}};

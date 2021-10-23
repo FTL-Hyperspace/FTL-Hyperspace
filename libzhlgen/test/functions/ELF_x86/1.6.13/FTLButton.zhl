@@ -1,0 +1,2 @@
+"5589e557565381ec6c0100008b5d08c744240401000000":
+cleanup void FTLButton::OnRender(FTLButton *this);

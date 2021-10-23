@@ -1,0 +1,18 @@
+"5557565383ec3c8b7424548b5c24508b4604f20f104608":
+cleanup void CEvent::OnEvent(CEvent *this, const InputEvent* event);
+
+struct CEvent
+{{
+	enum TextEvent
+	{
+	  TEXT_CONFIRM = 0x0,
+	  TEXT_CANCEL = 0x1,
+	  TEXT_CLEAR = 0x2,
+	  TEXT_BACKSPACE = 0x3,
+	  TEXT_DELETE = 0x4,
+	  TEXT_LEFT = 0x5,
+	  TEXT_RIGHT = 0x6,
+	  TEXT_HOME = 0x7,
+	  TEXT_END = 0x8,
+	};
+}};

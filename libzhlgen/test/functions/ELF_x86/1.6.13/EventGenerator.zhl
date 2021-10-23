@@ -1,0 +1,30 @@
+"5557565383ec1c8b4424408b5c24308b7424348b7c2438":
+cleanup LocationEvent *EventGenerator::GetBaseEvent(EventGenerator *this, const std::string& name, int worldLevel, char ignoreUnique, int seed);
+"5589e557565381ecdc0100008b45148b5d0c":
+cleanup LocationEvent *EventGenerator::CreateEvent1(EventGenerator *this, const std::string& name, int worldLevel);
+"5589e557565381ecac0000008b75108b450c":
+static cleanup Sector *EventGenerator::GetSpecificSector(SectorDescription *desc, EventGenerator *eventGenerator, const std::string& name);
+"5589e557565383ec3c8b450c8b7d108b5d08":
+static cleanup void EventGenerator::GetImageFromList(std::string& ret, EventGenerator *eventGenerator, const std::string& listName);
+"5589e557565383ec5c8b45088b5d108d7dc4":
+static cleanup SectorDescription *EventGenerator::GetSectorDescription(SectorDescription *desc, EventGenerator *eventGenerator, const std::string& type, int level);
+
+struct EventGenerator depends (SectorDescription, Sector)
+{{
+	SectorDescription *GetSpecificSector(const std::string& name)
+	{
+		SectorDescription *desc = new SectorDescription();
+		EventGenerator::GetSpecificSector(desc, this, name);
+		
+		return desc;
+	}
+	
+	std::string GetImageFromList(const std::string& listName)
+	{
+		std::string ret = std::string();
+		
+		GetImageFromList(ret, this, listName);
+		
+		return ret;
+	}
+}};

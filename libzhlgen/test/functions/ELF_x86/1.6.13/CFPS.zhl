@@ -1,0 +1,4 @@
+"83ec048b4424088b4014890424d9042483c404":
+cleanup float CFPS::GetSpeedFactor(CFPS *this);
+"5383ec188b5c2420f20f1015????????":
+cleanup void CFPS::OnLoop(CFPS *this);

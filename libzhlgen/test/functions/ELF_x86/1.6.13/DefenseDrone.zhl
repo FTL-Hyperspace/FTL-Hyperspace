@@ -1,0 +1,4 @@
+"565383ec148b5c24248b74242085db74??8b4304":
+cleanup bool DefenseDrone::ValidTargetObject(DefenseDrone *this, Targetable *other);
+"5589e5565383ec608b5d0880bbdd01000000":
+cleanup void DefenseDrone::PickTarget(DefenseDrone *this);

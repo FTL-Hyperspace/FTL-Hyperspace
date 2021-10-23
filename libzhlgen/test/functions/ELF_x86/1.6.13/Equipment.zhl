@@ -1,0 +1,8 @@
+"5557565381ec8c0000008bac24a00000008bb5200100008b8d1c010000":
+cleanup void Equipment::OnInit(Equipment *this, ShipManager *ship);
+"55575631f65383ec2c8b5c24408b83140100002b8310010000":
+cleanup void Equipment::OnLoop(Equipment *this);
+"5383ec188b4424288b5c242089442408":
+cleanup void Equipment::MouseClick(Equipment *this, int mX, int mY);
+"565383ec548b5c246080bb3c01000000":
+cleanup void Equipment::MouseUp(Equipment *this, int mX, int mY);

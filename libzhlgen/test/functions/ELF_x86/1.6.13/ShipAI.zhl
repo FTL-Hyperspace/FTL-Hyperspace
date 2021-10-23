@@ -1,0 +1,8 @@
+"565383ec148b5c24208b7424248d4308":
+cleanup void ShipAI::constructor(ShipAI *this, bool unk);
+".8b4424088b54240484c0":
+cleanup void ShipAI::SetStalemate(ShipAI *this, bool stalemate);
+"5589e557565383ec4c8b750c8b5d0889f084c0":
+cleanup void ShipAI::OnLoop(ShipAI *this, bool hostile);
+"565383ec148b7424248b5c24208b4604":
+cleanup double ShipAI::GetTeleportCommand(ShipAI *this);

@@ -1,0 +1,15 @@
+"5756538b4424108b5424148b4c24188b58048b700839da":
+virtual cleanup void GenericButton::SetLocation(GenericButton *this, Point pos);
+"8b5424088b44240484d2885040":
+virtual cleanup void GenericButton::SetActive(GenericButton *this, bool active);
+"5756538b4424108b5424148b5c24188b74241c":
+virtual cleanup void GenericButton::MouseMove(GenericButton *this, int x, int y, bool silent);
+"f3c36690669066906690669066906690":
+static void GenericButton::__DO_NOT_HOOK();
+".f3c36690669066906690669066906690":
+virtual cleanup void GenericButton::OnClick(GenericButton *this);
+".f3c36690669066906690669066906690":
+virtual cleanup void GenericButton::OnRightClick(GenericButton *this);
+".f3c36690669066906690669066906690":
+virtual cleanup void GenericButton::ResetPrimitives(GenericButton *this);
+
