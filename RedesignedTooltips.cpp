@@ -446,6 +446,25 @@ HOOK_STATIC(WeaponBox, GenerateTooltip, (std::string &retStr, WeaponBox *_this) 
 
                 descText += currentText + "\n";
             }
+            if (weaponDef->customDamage.crewSpawnChance > 0)
+            {
+                currentText = tLib->GetText("crew_spawn_chance");
+                boost::algorithm::replace_all(currentText, "\\1", std::to_string(weaponDef->customDamage.crewSpawnChance * 10));
+
+                std::string level = tLib->GetText("chance_low");
+                if (weaponDef->customDamage.crewSpawnChance >= 7)
+                {
+                    level = tLib->GetText("chance_high");
+                }
+                else if (weaponDef->customDamage.crewSpawnChance >= 4)
+                {
+                    level = tLib->GetText("chance_medium");
+                }
+
+                boost::algorithm::replace_all(currentText, "\\2", level);
+
+                descText += currentText + "\n";
+            }
         }
         boost::trim_right(descText);
         retStr.assign(descText);
@@ -884,6 +903,25 @@ HOOK_STATIC(WeaponBlueprint, GetDescription, (std::string* strRef, WeaponBluepri
 
                 descText += currentText + "\n";
             }
+            if (weaponDef->customDamage.crewSpawnChance > 0)
+            {
+                currentText = tLib->GetText("crew_spawn_chance");
+                boost::algorithm::replace_all(currentText, "\\1", std::to_string(weaponDef->customDamage.crewSpawnChance * 10));
+
+                std::string level = tLib->GetText("chance_low");
+                if (weaponDef->customDamage.crewSpawnChance >= 7)
+                {
+                    level = tLib->GetText("chance_high");
+                }
+                else if (weaponDef->customDamage.crewSpawnChance >= 4)
+                {
+                    level = tLib->GetText("chance_medium");
+                }
+
+                boost::algorithm::replace_all(currentText, "\\2", level);
+
+                descText += currentText + "\n";
+            }
         }
         boost::trim_right(descText);
         descText += "\n\n";
@@ -1043,6 +1081,25 @@ HOOK_STATIC(WeaponBlueprint, GetDescription, (std::string* strRef, WeaponBluepri
                 level = tLib->GetText("chance_high");
             }
             else if (bp->damage.stunChance >= 4)
+            {
+                level = tLib->GetText("chance_medium");
+            }
+
+            boost::algorithm::replace_all(currentText, "\\2", level);
+
+            descText += currentText + "\n";
+        }
+        if (weaponDef->customDamage.crewSpawnChance > 0)
+        {
+            currentText = tLib->GetText("crew_spawn_chance");
+            boost::algorithm::replace_all(currentText, "\\1", std::to_string(weaponDef->customDamage.crewSpawnChance * 10));
+
+            std::string level = tLib->GetText("chance_low");
+            if (weaponDef->customDamage.crewSpawnChance >= 7)
+            {
+                level = tLib->GetText("chance_high");
+            }
+            else if (weaponDef->customDamage.crewSpawnChance >= 4)
             {
                 level = tLib->GetText("chance_medium");
             }
@@ -1489,6 +1546,25 @@ HOOK_METHOD(InfoBox, SetBlueprintDrone, (const DroneBlueprint* bp, int status, b
                             else if (droneBp->damage.stunChance >= 4)
                             {
                                 level = tLib->GetText("chance_medium") + " (3 " + tLib->GetText("stun_length");
+                            }
+
+                            boost::algorithm::replace_all(currentText, "\\2", level);
+
+                            newDesc += currentText + "\n";
+                        }
+                        if (weaponDef->customDamage.crewSpawnChance > 0)
+                        {
+                            currentText = tLib->GetText("crew_spawn_chance");
+                            boost::algorithm::replace_all(currentText, "\\1", std::to_string(weaponDef->customDamage.crewSpawnChance * 10));
+
+                            std::string level = tLib->GetText("chance_low");
+                            if (weaponDef->customDamage.crewSpawnChance >= 7)
+                            {
+                                level = tLib->GetText("chance_high");
+                            }
+                            else if (weaponDef->customDamage.crewSpawnChance >= 4)
+                            {
+                                level = tLib->GetText("chance_medium");
                             }
 
                             boost::algorithm::replace_all(currentText, "\\2", level);

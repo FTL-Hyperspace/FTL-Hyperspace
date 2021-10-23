@@ -77,6 +77,7 @@ public:
     bool canPhaseThroughDoors = false;
     bool isHealing = false;
     TimerHelper* passiveHealTimer = nullptr;
+    TimerHelper* deathTimer = nullptr;
     int lastRoom = -1;
     int lastShipId = -1;
     bool exploded = false;
@@ -139,6 +140,7 @@ public:
     ~CrewMember_Extend()
     {
         delete passiveHealTimer;
+        delete deathTimer;
     }
 
     std::pair<float,int> statCache[numStats] = {};

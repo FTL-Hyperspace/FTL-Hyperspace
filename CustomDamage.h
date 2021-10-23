@@ -29,7 +29,7 @@ struct CustomDamage
     int erosionChance = 0;
     ErosionEffect erosionEffect;
 
-    int crewSpawnChance = 0;
+    int crewSpawnChance = -1;
     std::vector<CrewSpawn> crewSpawns;
 
     ~CustomDamage()

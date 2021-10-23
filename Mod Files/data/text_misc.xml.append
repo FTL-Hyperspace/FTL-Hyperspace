@@ -26,6 +26,8 @@
 
 <text name="free_missile_chance">Chance To Not Use Missile: \1%</text>  <!-- \1: chance -->
 
+<text name="crew_spawn_chance">Chance to Spawn Crew: \1%</text>  <!-- \1: chance, \2 is low/medium/high -->
+
 <text name="augment_no_effect">These augmentations will have no effect with this augment installed:</text>
 
 <text name="seed_prompt">Seed</text>

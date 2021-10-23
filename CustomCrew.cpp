@@ -2214,6 +2214,16 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
 
     auto custom = CustomCrewManager::GetInstance();
     CrewMember_Extend* ex = CM_EX(this);
+
+    if (ex->deathTimer)
+    {
+        ex->deathTimer->Update();
+        if (ex->deathTimer->Done())
+        {
+            health.first = 0.f;
+        }
+    }
+
     if (custom->IsRace(species))
     {
         auto def = custom->GetDefinition(species);
@@ -2353,6 +2363,30 @@ HOOK_METHOD(CrewMember, SaveState, (int file) -> void)
 
     FileHelper::writeInt(file, ex->noSlot);
 
+    // Passive Heal
+    if (ex->passiveHealTimer != nullptr)
+    {
+        FileHelper::writeFloat(file, ex->passiveHealTimer->currGoal);
+        FileHelper::writeFloat(file, ex->passiveHealTimer->currTime);
+    }
+    else
+    {
+        FileHelper::writeFloat(file, -1.f);
+        FileHelper::writeFloat(file, -1.f);
+    }
+
+    // Death Timer
+    if (ex->deathTimer != nullptr)
+    {
+        FileHelper::writeFloat(file, ex->deathTimer->currGoal);
+        FileHelper::writeFloat(file, ex->deathTimer->currTime);
+    }
+    else
+    {
+        FileHelper::writeFloat(file, -1.f);
+        FileHelper::writeFloat(file, -1.f);
+    }
+
     FileHelper::writeFloat(file, ex->powerCooldown.first);
     FileHelper::writeFloat(file, ex->powerCooldown.second);
     FileHelper::writeFloat(file, ex->temporaryPowerDuration.first);
@@ -2399,6 +2433,38 @@ HOOK_METHOD(CrewMember, LoadState, (int file) -> void)
     customHealth.second = FileHelper::readFloat(file);
 
     ex->noSlot = FileHelper::readInteger(file);
+
+    // Passive Heal
+    float timerGoal = FileHelper::readFloat(file);
+    if (timerGoal != -1.f)
+    {
+        if (ex->passiveHealTimer == nullptr)
+        {
+            ex->passiveHealTimer = new TimerHelper(false);
+        }
+        ex->passiveHealTimer->Start(timerGoal);
+        ex->passiveHealTimer->currTime = FileHelper::readFloat(file);
+    }
+    else
+    {
+        FileHelper::readFloat(file);
+    }
+
+    // Death Timer
+    timerGoal = FileHelper::readFloat(file);
+    if (timerGoal != -1.f)
+    {
+        if (ex->deathTimer == nullptr)
+        {
+            ex->deathTimer = new TimerHelper(false);
+        }
+        ex->deathTimer->Start(timerGoal);
+        ex->deathTimer->currTime = FileHelper::readFloat(file);
+    }
+    else
+    {
+        FileHelper::readFloat(file);
+    }
 
     ex->powerCooldown.first = FileHelper::readFloat(file);
     ex->powerCooldown.second = FileHelper::readFloat(file);
@@ -4466,6 +4532,8 @@ HOOK_STATIC(CrewMember, GetTooltip, (std::string& strRef, CrewMember* crew) -> s
     auto custom = CustomOptionsManager::GetInstance();
     if (custom->advancedCrewTooltips.currentValue)
     {
+        auto ex = CM_EX(crew);
+
         std::string tooltip = "";
         tooltip += "-" + crew->blueprint.crewNameLong.GetText() + " (" + crew->blueprint.desc.title.GetText() + "):" + '\n';
         int maxHealth = (int)crew->health.second;
@@ -4487,6 +4555,26 @@ HOOK_STATIC(CrewMember, GetTooltip, (std::string& strRef, CrewMember* crew) -> s
             std::stringstream stream;
             stream << std::fixed <<std::setprecision(custom->advancedCrewTooltipRounding.currentAmount) << crew->health.first;
             tooltip += G_->GetTextLibrary()->GetText("advanced_health_tooltip") + ": " + stream.str() + "/" + std::to_string(maxHealth) + " (" + std::to_string((int)(crew->health.first / maxHealth * 100)) + "%)";
+        }
+
+        if (ex->deathTimer)
+        {
+            tooltip += '\n';
+            float timer = ex->deathTimer->currGoal - ex->deathTimer->currTime;
+
+            if (timer > 0.f)
+            {
+                std::string currentText = G_->GetTextLibrary()->GetText("crew_death_time");
+                std::stringstream stream;
+                stream << std::fixed <<std::setprecision(1) << timer;
+                currentText = boost::algorithm::replace_all_copy(currentText, "\\1", stream.str());
+                tooltip += currentText;
+            }
+            else
+            {
+                std::string currentText = G_->GetTextLibrary()->GetText("crew_death_time_expired");
+                tooltip += currentText;
+            }
         }
 
         if (crew->fStunTime != 0)
@@ -4762,15 +4850,21 @@ HOOK_METHOD(CrewMember, CheckSkills, () -> void)
 {
     super();
 
+    auto ex = CM_EX(this);
+    if (ex->deathTimer && ex->deathTimer->Done())
+    {
+        clone_ready = false;
+        return;
+    }
+
     auto custom = CustomCrewManager::GetInstance();
     if (custom->IsRace(species))
     {
-        auto ex = CM_EX(this);
-
         ex->CalculateStat(CrewStat::NO_CLONE, custom->GetDefinition(species), &ex->noClone);
         if (ex->noClone)
         {
             clone_ready = false;
+            return;
         }
     }
 }

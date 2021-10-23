@@ -584,6 +584,7 @@
 		<Unit filename="TemporalSystem.h">
 			<Option virtualFolder="Content/Systems/" />
 		</Unit>
+		<Unit filename="TimerHelper.cpp" />
 		<Unit filename="ToggleValue.h">
 			<Option virtualFolder="Core/" />
 		</Unit>

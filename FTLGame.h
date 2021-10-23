@@ -1967,6 +1967,8 @@ struct TimerHelper;
 struct TimerHelper
 {
 	TimerHelper(bool isLoop=false) : loop(isLoop) { }
+	
+	void Start(float goal); // float overload
 
 	LIBZHL_API void Start(int goal);
 	LIBZHL_API bool Running();

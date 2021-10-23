@@ -17,6 +17,7 @@ struct CrewSpawn
     std::string race = "";
     std::string name = "";
     float healthPercentage = 1.f;
+    float lifetime = -1.f;
     std::vector<StatBoostDefinition*> statBoosts;
     bool noSlot = false;
     int number = 1;

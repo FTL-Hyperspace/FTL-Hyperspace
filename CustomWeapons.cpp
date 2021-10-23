@@ -77,6 +77,12 @@ HOOK_STATIC(BlueprintManager, ProcessWeaponBlueprint, (WeaponBlueprint* bp, Blue
         }
     }
 
+    // Default spawn chance if tag not specified (100% if there are crew spawns, 0% otherwise)
+    if (weaponDef.customDamage.crewSpawnChance == -1)
+    {
+        weaponDef.customDamage.crewSpawnChance = weaponDef.customDamage.crewSpawns.empty() ? 0 : 10;
+    }
+
     CustomWeaponManager::instance->AddWeaponDefinition(weaponDef);
 
     return bp;
