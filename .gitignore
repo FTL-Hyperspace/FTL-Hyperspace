@@ -7,3 +7,6 @@ FTL_HyperspaceGCC.layout
 FTL_HyperspaceGCC.depend
 .save-failed
 
+## Editor stuff
+# KATE
+*.kate-swp
