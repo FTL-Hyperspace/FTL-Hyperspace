@@ -2136,6 +2136,7 @@ struct WeaponSystem : ShipSystem
 {
 	LIBZHL_API void RemoveWeapon(int slot);
 	LIBZHL_API virtual void SetBonusPower(int amount, int permanentPower);
+	LIBZHL_API void OnLoop();
 	
 	Pointf target;
 	std::vector<ProjectileFactory*> weapons;
