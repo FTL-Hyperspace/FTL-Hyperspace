@@ -139,8 +139,8 @@ HOOK_METHOD(SystemControl, RenderPowerBar, () -> void)
                 //battery bar boxes
                 if(powerCounter < batteryEffPower){
                     powerBarColour = powerBarColourOn;
-                    if(!flashBatteryPower.running) {
-                        if((flashTracker.Progress(-1) > 0.5) && !colourBlindOn) powerBarColour = COLOR_WHITE;
+                    if(flashBatteryPower.running && flashTracker.Progress(-1) > 0.5 && !colourBlindOn) {
+                        powerBarColour = COLOR_WHITE;
                     }
 
                     CSurface::GL_RenderPrimitiveWithColor(powerBars->tiny[powerCounter], powerBarColour);
