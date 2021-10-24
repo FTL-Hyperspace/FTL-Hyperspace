@@ -5,6 +5,7 @@
 #include <boost/lexical_cast.hpp>
 
 CustomDamage* CustomDamageManager::currentWeaponDmg = nullptr;
+Projectile* CustomDamageManager::currentProjectile = nullptr;
 
 HOOK_METHOD(ShipManager, DamageArea, (Pointf location, DamageParameter dmgParam, bool forceHit) -> bool)
 {
@@ -50,7 +51,7 @@ HOOK_METHOD(ShipManager, DamageBeam, (Pointf location1, Pointf location2, Damage
 
             if (rng < custom->crewSpawnChance)
             {
-                Pointf spawnLoc = {grid1.x * 35.0 + 17.5, grid1.y * 35.0 + 17.5};
+                Pointf spawnLoc = {grid1.x * 35.f + 17.5f, grid1.y * 35.f + 17.5f};
 
                 for (auto& i : custom->crewSpawns)
                 {
@@ -120,6 +121,22 @@ HOOK_METHOD(ProjectileFactory, Update, () -> void)
     CustomDamageManager::currentWeaponDmg = nullptr;
 }
 
+HOOK_STATIC(ShipManager, CollisionMoving, (CollisionResponse &_ret, ShipManager *ship, Pointf pos1, Pointf pos2, DamageParameter damage, bool unk) -> CollisionResponse*)
+{
+    if (CustomDamageManager::currentWeaponDmg && CustomDamageManager::currentWeaponDmg->ionBeamFix)
+    {
+        BeamWeapon *proj = (BeamWeapon*) CustomDamageManager::currentProjectile; // ionBeamFix should only be used for beams
+        if (proj->bDamageSuperShield)
+        {
+            auto ret = super(_ret, ship, pos1, pos2, damage, unk);
+            return ret;
+        }
+        damage.iIonDamage = 0;
+    }
+    auto ret = super(_ret, ship, pos1, pos2, damage, unk);
+    return ret;
+}
+
 HOOK_METHOD(Projectile, Initialize, (WeaponBlueprint& bp) -> void)
 {
     super(bp);
@@ -136,38 +153,46 @@ HOOK_METHOD(Projectile, CollisionCheck, (Collideable *other) -> void)
 {
     CustomDamageManager::currentWeaponDmg = &PR_EX(this)->customDamage;
     CustomDamageManager::currentWeaponDmg->sourceShipId = ownerId;
+    CustomDamageManager::currentProjectile = this;
 
     super(other);
 
     CustomDamageManager::currentWeaponDmg = nullptr;
+    CustomDamageManager::currentProjectile = nullptr;
 }
 
 HOOK_METHOD(BeamWeapon, CollisionCheck, (Collideable *other) -> void)
 {
     CustomDamageManager::currentWeaponDmg = &PR_EX(this)->customDamage;
     CustomDamageManager::currentWeaponDmg->sourceShipId = ownerId;
+    CustomDamageManager::currentProjectile = this;
 
     super(other);
 
     CustomDamageManager::currentWeaponDmg = nullptr;
+    CustomDamageManager::currentProjectile = nullptr;
 }
 
 HOOK_METHOD(BombProjectile, CollisionCheck, (Collideable *other) -> void)
 {
     CustomDamageManager::currentWeaponDmg = &PR_EX(this)->customDamage;
     CustomDamageManager::currentWeaponDmg->sourceShipId = ownerId;
+    CustomDamageManager::currentProjectile = this;
 
     super(other);
 
     CustomDamageManager::currentWeaponDmg = nullptr;
+    CustomDamageManager::currentProjectile = nullptr;
 }
 
 HOOK_METHOD(PDSFire, CollisionCheck, (Collideable *other) -> void)
 {
     CustomDamageManager::currentWeaponDmg = &PR_EX(this)->customDamage;
     CustomDamageManager::currentWeaponDmg->sourceShipId = ownerId;
+    CustomDamageManager::currentProjectile = this;
 
     super(other);
 
     CustomDamageManager::currentWeaponDmg = nullptr;
+    CustomDamageManager::currentProjectile = nullptr;
 }

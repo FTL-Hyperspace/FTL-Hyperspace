@@ -148,6 +148,8 @@ int ShipManager::CanUpgrade(ShipManager *this<ecx>, int systemId, int amount);
 static ShipBlueprint* ShipManager::SaveToBlueprint(ShipBlueprint &bp<ecx>, ShipManager *ship, bool unk);
 "578d7c240883e4f0ff77fc5589e55756538d5dd089ce83ec7c8b078b570489d9":
 void ShipManager::CheckCrystalAugment(ShipManager *this<ecx>, Pointf pos);
+"578d7c240883e4f0ff77fc5589e557565381ecfc0000008b178b5f488b7710c70100000000898d50ffffff83c104":
+static CollisionResponse* ShipManager::CollisionMoving(CollisionResponse &ret<ecx>, ShipManager *ship, Pointf pos1, Pointf pos2, DamageParameter damage, bool unk);
 
 struct ShipManager depends (PowerManager, ShieldPower)
 {{

@@ -23,6 +23,7 @@ struct CustomDamage
 
     bool noSysDamage = false;
     bool noPersDamage = false;
+    bool ionBeamFix = false;
 
     std::vector<StatBoostDefinition*> statBoosts;
 
@@ -45,4 +46,5 @@ class CustomDamageManager
 {
 public:
     static CustomDamage* currentWeaponDmg;
+    static Projectile* currentProjectile;
 };

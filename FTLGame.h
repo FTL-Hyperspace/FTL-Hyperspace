@@ -3937,6 +3937,8 @@ struct DamageMessage;
 
 struct Shields;
 
+struct CollisionResponse;
+
 struct BatterySystem;
 struct ParticleEmitter;
 
@@ -4116,6 +4118,7 @@ struct ShipManager : ShipObject
 	LIBZHL_API int CanUpgrade(int systemId, int amount);
 	LIBZHL_API static ShipBlueprint *__stdcall SaveToBlueprint(ShipBlueprint &bp, ShipManager *ship, bool unk);
 	LIBZHL_API void CheckCrystalAugment(Pointf pos);
+	LIBZHL_API static CollisionResponse *__stdcall CollisionMoving(CollisionResponse &ret, ShipManager *ship, Pointf pos1, Pointf pos2, DamageParameter damage, bool unk);
 	
 	Targetable _targetable;
 	Collideable _collideable;
@@ -7418,8 +7421,6 @@ struct CrewBox
 	bool hideExtra;
 	std::string sTooltip;
 };
-
-struct CollisionResponse;
 
 struct Shields : ShipSystem
 {

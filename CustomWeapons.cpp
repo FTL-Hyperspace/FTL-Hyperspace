@@ -45,6 +45,10 @@ HOOK_STATIC(BlueprintManager, ProcessWeaponBlueprint, (WeaponBlueprint* bp, Blue
         {
             weaponDef.customDamage.noPersDamage = EventsParser::ParseBoolean(val);
         }
+        if (name == "ionBeamFix" && bp->type == 2) // Ion beam fix only valid for beams
+        {
+            weaponDef.customDamage.ionBeamFix = EventsParser::ParseBoolean(val);
+        }
         if (name == "simultaneousFire")
         {
             weaponDef.simultaneousFire = EventsParser::ParseBoolean(val);
