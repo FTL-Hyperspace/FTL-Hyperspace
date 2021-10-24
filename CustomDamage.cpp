@@ -128,13 +128,11 @@ HOOK_STATIC(ShipManager, CollisionMoving, (CollisionResponse &_ret, ShipManager 
         BeamWeapon *proj = (BeamWeapon*) CustomDamageManager::currentProjectile; // ionBeamFix should only be used for beams
         if (proj->bDamageSuperShield)
         {
-            auto ret = super(_ret, ship, pos1, pos2, damage, unk);
-            return ret;
+            return super(_ret, ship, pos1, pos2, damage, unk);
         }
         damage.iIonDamage = 0;
     }
-    auto ret = super(_ret, ship, pos1, pos2, damage, unk);
-    return ret;
+    return super(_ret, ship, pos1, pos2, damage, unk);
 }
 
 HOOK_METHOD(Projectile, Initialize, (WeaponBlueprint& bp) -> void)
