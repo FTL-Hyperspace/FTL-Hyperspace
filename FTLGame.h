@@ -4198,6 +4198,7 @@ struct SpaceDrone : Drone
 	LIBZHL_API float UpdateAimingAngle(Pointf location, float percentage, float forceDesired);
 	LIBZHL_API void SetDeployed(bool deployed);
 	LIBZHL_API void SetMovementTarget(Targetable *target);
+	LIBZHL_API static CollisionResponse *__stdcall CollisionMoving(CollisionResponse &ret, SpaceDrone *drone, Pointf pos1, Pointf pos2, DamageParameter damage, bool unk);
 	LIBZHL_API Projectile *GetNextProjectile();
 	
 	Targetable _targetable;

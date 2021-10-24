@@ -8,6 +8,8 @@ struct Projectile_Extend
 
     CustomDamage customDamage;
 
+    std::vector<SpaceDrone*> missedDrones;
+
     ~Projectile_Extend()
     {
 
