@@ -48,6 +48,18 @@ HOOK_METHOD(SystemControl, RenderPowerBar, () -> void)
     CSurface::GL_SetStencilMode(STENCIL_SET, 1, 1);
     CSurface::GL_Translate(0, wiresMaskY, 0);
     CSurface::GL_RenderPrimitive(wiresMask);
+    if (maxPower < 4) // fix vanilla bug with mask not covering wires properly at low power
+    {
+        CSurface::GL_Translate(0, -36, 0);
+        CSurface::GL_RenderPrimitive(wiresMask);
+        CSurface::GL_Translate(0, 36, 0);
+    }
+    if (maxPower < 1) // less ugly at 0 reactor
+    {
+        CSurface::GL_Translate(0, 36, 0);
+        CSurface::GL_RenderPrimitive(wiresMask);
+        CSurface::GL_Translate(0, -36, 0);
+    }
 
     int wiresImageY = (maxPower > displayLevel) ? (9 * displayLevel - 1) : (9 * maxPower - 1);
     CSurface::GL_Translate(0, wiresImageY, 0);
