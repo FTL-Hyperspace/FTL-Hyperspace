@@ -473,6 +473,16 @@ HOOK_METHOD(ShipManager, CreateSpaceDrone, (const DroneBlueprint *bp) -> SpaceDr
     return ret;
 }
 
+HOOK_METHOD(SpaceDrone, GetNextProjectile, () -> Projectile*)
+{
+    auto ret = super();
+    if (ret && weaponBlueprint->type == 3) // bomb
+    {
+        ret->flight_animation.tracker.loop = false;
+    }
+    return ret;
+}
+
 
 HOOK_METHOD(CrewDrone, OnLoop, () -> void)
 {
