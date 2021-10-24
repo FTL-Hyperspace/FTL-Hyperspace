@@ -23465,10 +23465,10 @@ namespace _func655
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("Projectile::Initialize", typeid(void (Projectile::*)(WeaponBlueprint &)), "578d7c240883e4f0ff77fc5589e557565331db81ec????????8b07898dbcfeffffc785c8feffff00000000c785ccfeffff00000000c785d0feffff000000008d8824010000", argdata, 2, 5, &func);
+	static FunctionDefinition funcObj("Projectile::Initialize", typeid(void (Projectile::*)(const WeaponBlueprint &)), "578d7c240883e4f0ff77fc5589e557565331db81ec????????8b07898dbcfeffffc785c8feffff00000000c785ccfeffff00000000c785d0feffff000000008d8824010000", argdata, 2, 5, &func);
 }
 
-__declspec(naked) void Projectile::Initialize(WeaponBlueprint &bp)
+__declspec(naked) void Projectile::Initialize(const WeaponBlueprint &bp)
 {
 	__asm__
 	(

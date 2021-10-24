@@ -736,7 +736,7 @@ struct Projectile : Collideable
 	LIBZHL_API void CollisionCheck(Collideable *other);
 	LIBZHL_API void constructor(Pointf position, int ownerId, int targetId, Pointf target);
 	LIBZHL_API void destructor();
-	LIBZHL_API void Initialize(WeaponBlueprint &bp);
+	LIBZHL_API void Initialize(const WeaponBlueprint &bp);
 	LIBZHL_API bool ValidTarget();
 	LIBZHL_API void SetMovingTarget(Targetable *target);
 	LIBZHL_API int ForceRenderLayer();
