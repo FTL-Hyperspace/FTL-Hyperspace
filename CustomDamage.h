@@ -25,6 +25,7 @@ struct CustomDamage
     bool noPersDamage = false;
     bool ionBeamFix = false;
 
+    int statBoostChance = -1;
     std::vector<StatBoostDefinition*> statBoosts;
 
     int erosionChance = 0;

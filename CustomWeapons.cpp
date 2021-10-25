@@ -57,6 +57,10 @@ HOOK_STATIC(BlueprintManager, ProcessWeaponBlueprint, (WeaponBlueprint* bp, Blue
         {
             weaponDef.fireTime = boost::lexical_cast<float>(val);
         }
+        if (name == "statBoostChance")
+        {
+            weaponDef.customDamage.statBoostChance = boost::lexical_cast<int>(val);
+        }
         if (name == "statBoosts")
         {
             for (auto statBoostNode = child->first_node(); statBoostNode; statBoostNode = statBoostNode->next_sibling())
@@ -81,7 +85,11 @@ HOOK_STATIC(BlueprintManager, ProcessWeaponBlueprint, (WeaponBlueprint* bp, Blue
         }
     }
 
-    // Default spawn chance if tag not specified (100% if there are crew spawns, 0% otherwise)
+    // Default chance if tag not specified (100% if tags specified, 0% otherwise)
+    if (weaponDef.customDamage.statBoostChance == -1)
+    {
+        weaponDef.customDamage.statBoostChance = weaponDef.customDamage.statBoosts.empty() ? 0 : 10;
+    }
     if (weaponDef.customDamage.crewSpawnChance == -1)
     {
         weaponDef.customDamage.crewSpawnChance = weaponDef.customDamage.crewSpawns.empty() ? 0 : 10;

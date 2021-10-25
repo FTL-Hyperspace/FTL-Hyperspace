@@ -95,11 +95,16 @@ HOOK_METHOD_PRIORITY(ShipManager, DamageCrew, -100, (CrewMember *crew, DamagePar
             dmgParameter.iPersDamage -= dmgParameter.iDamage;
         }
 
-        for (auto statBoostDef : CustomDamageManager::currentWeaponDmg->statBoosts)
+        int rng = random32() % 10;
+
+        if (rng < CustomDamageManager::currentWeaponDmg->statBoostChance)
         {
-            StatBoost statBoost(statBoostDef);
-            statBoost.sourceShipId = dmgParameter.ownerId;
-            StatBoostManager::GetInstance()->CreateTimedAugmentBoost(statBoost, crew);
+            for (auto statBoostDef : CustomDamageManager::currentWeaponDmg->statBoosts)
+            {
+                StatBoost statBoost(statBoostDef);
+                statBoost.sourceShipId = dmgParameter.ownerId;
+                StatBoostManager::GetInstance()->CreateTimedAugmentBoost(statBoost, crew);
+            }
         }
     }
 
