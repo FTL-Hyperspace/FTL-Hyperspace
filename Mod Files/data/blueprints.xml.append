@@ -18,6 +18,15 @@
     <stackable>false</stackable>
 </augBlueprint>
 
+<augBlueprint name="BOARDER_RECOVERY">
+	<title>Boarder Retro-Thrusters</title>
+	<desc>Non-destroyed boarding drones will be retrieved at the end of combat.</desc>
+	<cost>50</cost>
+	<bp>8</bp>
+	<rarity>0</rarity>
+	<stackable>false</stackable>
+</augBlueprint>
+
 <crewBlueprint name="ghost">
 	<desc>Ghosts of the past crew.</desc>
 	<cost>50</cost>

@@ -71,6 +71,8 @@
 <text name="advanced_health_tooltip">Health</text>
 <text name="weapon_cooldown_negative">Disabled</text>
 <text name="crew_stun_time">Stunned: \1 seconds</text>
+<text name="crew_death_time">Lifetime: \1 seconds</text>
+<text name="crew_death_time_expired">Lifetime: Expired</text>
 
 <!-- Redesigned Tooltips -->
 

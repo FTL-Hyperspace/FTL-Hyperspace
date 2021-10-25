@@ -5679,6 +5679,7 @@ struct DroneSystem : ShipSystem
 	LIBZHL_API void RemoveDrone(int slot);
 	LIBZHL_API void UpdateBonusPower();
 	LIBZHL_API virtual void SetBonusPower(int amount, int permanentPower);
+	LIBZHL_API void OnLoop();
 	
 	std::vector<Drone*> drones;
 	int drone_count;

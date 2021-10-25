@@ -549,6 +549,32 @@ HOOK_METHOD(SpaceDrone, GetNextProjectile, () -> Projectile*)
     return ret;
 }
 
+HOOK_METHOD(DroneSystem, OnLoop, () -> void)
+{
+    if (!loadingGame)
+    {
+        for (Drone* _drone : drones)
+        {
+            if (_drone->type == 4) // check that this is a boarding drone
+            {
+                BoarderPodDrone* drone = (BoarderPodDrone*) _drone;
+                if (drone->movementTarget == nullptr && drone->deployed)
+                {
+                    if (!drone->bDead && (!drone->bDeliveredDrone || !drone->boarderDrone->bDead))
+                    {
+                        if (_shipObj.HasAugmentation("BOARDER_RECOVERY"))
+                        {
+                            drone_count += 1;
+                            drone->SetDeployed(false);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    super();
+}
+
 
 HOOK_METHOD(CrewDrone, OnLoop, () -> void)
 {

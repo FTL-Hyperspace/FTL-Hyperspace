@@ -4,3 +4,5 @@ void DroneSystem::RemoveDrone(DroneSystem *this<ecx>, int slot);
 void DroneSystem::UpdateBonusPower(DroneSystem *this<ecx>);
 ".5589e556538b750889cb83e4f0e8????????39f089d90f4fc6898370010000":
 virtual void DroneSystem::SetBonusPower(DroneSystem *this<ecx>, int amount, int permanentPower);
+"578d7c240883e4f0ff77fc5589e557565389cf83ec5ce8????????89f9e8????????8bb7c00100008b87c4010000":
+void DroneSystem::OnLoop(DroneSystem *this<ecx>);
