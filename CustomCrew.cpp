@@ -14,6 +14,7 @@
 #include <iomanip>
 
 TransformColorMode g_transformColorMode = TransformColorMode::KEEP_INDICES;
+bool g_resistsMindControlStat = true;
 
 static const std::string CREW_SKILLS[6] =
 {
@@ -199,6 +200,10 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                         if (str == "isTelepathic")
                         {
                             crew.isTelepathic = EventsParser::ParseBoolean(val);
+                        }
+                        if (str == "resistsMindControl")
+                        {
+                            crew.resistsMindControl = EventsParser::ParseBoolean(val);
                         }
                         if (str == "isAnaerobic")
                         {
@@ -880,6 +885,10 @@ void CustomCrewManager::ParseAbilityEffect(rapidxml::xml_node<char>* stat, Activ
                 if (tempEffectName == "isTelepathic")
                 {
                     def.tempPower.isTelepathic = EventsParser::ParseBoolean(tempEffectNode->value());
+                }
+                if (tempEffectName == "resistsMindControl")
+                {
+                    def.tempPower.resistsMindControl = EventsParser::ParseBoolean(tempEffectNode->value());
                 }
                 if (tempEffectName == "fireDamageMultiplier")
                 {
@@ -4867,4 +4876,18 @@ HOOK_METHOD(CrewMember, CheckSkills, () -> void)
             return;
         }
     }
+}
+
+HOOK_METHOD(MindSystem, OnLoop, () -> void)
+{
+    isTelepathicMindControl = g_resistsMindControlStat;
+    super();
+    isTelepathicMindControl = false;
+}
+
+HOOK_METHOD(CombatAI, UpdateMindControl, (bool unk) -> void)
+{
+    isTelepathicMindControl = g_resistsMindControlStat;
+    super(unk);
+    isTelepathicMindControl = false;
 }

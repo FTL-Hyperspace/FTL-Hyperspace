@@ -117,6 +117,12 @@ void Global::InitializeResources(ResourceControl *resources)
                 g_crystalShardFix = EventsParser::ParseBoolean(enabled);
             }
 
+            if (strcmp(node->name(), "resistsMindControlStat") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                g_resistsMindControlStat = EventsParser::ParseBoolean(enabled);
+            }
+
             if (strcmp(node->name(), "redesignedWeaponTooltips") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();

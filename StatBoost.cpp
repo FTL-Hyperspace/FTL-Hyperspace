@@ -1030,6 +1030,10 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
             *boolValue = (temporaryPowerActive && GetPowerDef()->tempPower.isTelepathic.enabled) ? GetPowerDef()->tempPower.isTelepathic.value : def->isTelepathic;
             isBool = true;
             break;
+        case CrewStat::RESISTS_MIND_CONTROL:
+            *boolValue = (temporaryPowerActive && GetPowerDef()->tempPower.resistsMindControl.enabled) ? GetPowerDef()->tempPower.resistsMindControl.value : def->resistsMindControl;
+            isBool = true;
+            break;
         case CrewStat::IS_ANAEROBIC:
             *boolValue = (temporaryPowerActive && GetPowerDef()->tempPower.isAnaerobic.enabled) ? GetPowerDef()->tempPower.isAnaerobic.value : def->isAnaerobic;
             isBool = true;

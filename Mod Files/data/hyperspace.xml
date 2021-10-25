@@ -141,6 +141,11 @@ Default is true.
 
 <crystalShardFix enabled="true"/>
 
+<!--  Enables resistsMindControl stat as a separate stat from isTelepathic.
+-->
+
+<resistsMindControlStat enabled="false"/>
+
 
 <!--  Alternate color scheme for O2 levels
 The gradient tag is optional and allows specifying a custom gradient (the default alternate is included here).
@@ -371,6 +376,7 @@ Syntax ->
 		<suffocationModifier>1.0</suffocationModifier>                                   Modifier for damage taken in low oxygen.
 		<bonusPower>0</bonusPower>                                                       Grants bonus power to system (zoltan).
 		<isTelepathic>false</isTelepathic>                                               If true, resists mind control and can see into adjacent rooms (slug).
+		<resistsMindControl>false</resistsMindControl>                                   If true, resists mind control if the stat is enabled globally (slug).
 		<fireDamageMultiplier>1.0</fireDamageMultiplier>                                 Modifier for damage taken in rooms on fire.
 		<stunMultiplier>1.0</stunMultiplier>                                             Modifier for stun duration. Lower value is stunned for a shorter duration.
 		<canPhaseThroughDoors>false</canPhaseThroughDoors>                               If true, ignores doors.
@@ -655,6 +661,7 @@ Syntax ->
 	
 	<race name="slug">
 		<isTelepathic>true</isTelepathic>
+		<resistsMindControl>true</resistsMindControl>
 		<detectsLifeforms>true</detectsLifeforms>
 	</race>
 	

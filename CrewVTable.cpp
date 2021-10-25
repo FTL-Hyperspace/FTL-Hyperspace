@@ -3,6 +3,7 @@
 #include "CustomCrew.h"
 
 int requiresFullControl = 0;
+bool isTelepathicMindControl = false;
 
 static bool __attribute__((fastcall)) CrewMember_GetControllable(CrewMember *_this)
 {
@@ -148,7 +149,14 @@ static bool __attribute__((fastcall)) CrewMember_IsTelepathic(CrewMember *_this)
     auto ex = CM_EX(_this);
     auto def = CustomCrewManager::GetInstance()->GetDefinition(_this->species);
     bool ret = false;
-    ex->CalculateStat(CrewStat::IS_TELEPATHIC, def, &ret);
+    if (isTelepathicMindControl)
+    {
+        ex->CalculateStat(CrewStat::RESISTS_MIND_CONTROL, def, &ret);
+    }
+    else
+    {
+        ex->CalculateStat(CrewStat::IS_TELEPATHIC, def, &ret);
+    }
     return ret;
 }
 

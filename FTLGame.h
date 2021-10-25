@@ -1112,9 +1112,12 @@ struct CrewControl
 
 struct SpaceDrone;
 struct ProjectileFactory;
+struct CombatAI;
 
 struct CombatAI
 {
+	LIBZHL_API void UpdateMindControl(bool unk);
+	
 	ShipManager *target;
 	std::vector<ProjectileFactory*> weapons;
 	std::vector<SpaceDrone*> drones;
@@ -6165,6 +6168,8 @@ struct EngineSystem
 struct MindSystem : ShipSystem
 {
 	LIBZHL_API void SetArmed(int armed);
+	LIBZHL_API void InitiateMindControl();
+	LIBZHL_API void OnLoop();
 	
 	std::pair<float, float> controlTimer;
 	bool bCanUse;

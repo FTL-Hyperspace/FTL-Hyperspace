@@ -13,7 +13,10 @@ enum TransformColorMode
 };
 
 extern TransformColorMode g_transformColorMode;
+extern bool g_resistsMindControlStat;
+
 extern int requiresFullControl;
+extern bool isTelepathicMindControl;
 
 struct StatBoostDefinition;
 struct StatBoost;
@@ -120,6 +123,7 @@ struct TemporaryPowerDefinition
     ToggleValue<bool> canPhaseThroughDoors;
     ToggleValue<float> fireDamageMultiplier;
     ToggleValue<bool> isTelepathic;
+    ToggleValue<bool> resistsMindControl;
     ToggleValue<bool> isAnaerobic;
     ToggleValue<bool> detectsLifeforms;
     ToggleValue<float> damageTakenMultiplier;
@@ -293,6 +297,7 @@ struct CrewDefinition
     float fireRepairMultiplier = 1.2f;
     float suffocationModifier = 1.f;
     bool isTelepathic = false;
+    bool resistsMindControl = false;
     bool isAnaerobic = false;
     float fireDamageMultiplier = 1.f;
     bool canPhaseThroughDoors = false;
