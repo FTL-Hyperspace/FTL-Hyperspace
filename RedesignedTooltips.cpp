@@ -1377,8 +1377,8 @@ HOOK_METHOD(InfoBox, SetBlueprintDrone, (const DroneBlueprint* bp, int status, b
     {
         if (!bp->weaponBlueprint.empty() && (CustomOptionsManager::GetInstance()->redesignedDroneTooltips.currentValue))
         {
-            auto weaponDef = CustomWeaponManager::instance->GetWeaponDefinition(bp->weaponBlueprint);
             auto droneBp = G_->GetBlueprints()->GetWeaponBlueprint(bp->weaponBlueprint);
+            auto weaponDef = CustomWeaponManager::instance->GetWeaponDefinition(droneBp->name);
             auto tLib = G_->GetTextLibrary();
 
             if (CustomOptionsManager::GetInstance()->redesignedWeaponTooltips.currentValue == true)
