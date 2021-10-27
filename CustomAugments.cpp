@@ -1,7 +1,9 @@
 #include "CustomAugments.h"
 #include "CustomOptions.h"
+#include "EnemyShipIcons.h"
 #include "Global.h"
 #include "freetype.h"
+#include "ShipManager_Extend.h"
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
 
@@ -19,7 +21,7 @@ void CustomAugmentManager::ParseCustomAugmentNode(rapidxml::xml_node<char>* node
                 AugmentDefinition* augDef = new AugmentDefinition();
 
                 augDef->name = augName;
-                augDef->functions = std::map<std::string, AugmentFunction>();
+                augDef->functions = std::unordered_map<std::string, AugmentFunction>();
 
                 for (auto functionNode = child->first_node(); functionNode; functionNode = functionNode->next_sibling())
                 {
@@ -62,10 +64,16 @@ void CustomAugmentManager::ParseCustomAugmentNode(rapidxml::xml_node<char>* node
                             }
 
                             augDef->functions[functionName] = func;
+                            augDefsByFunction[functionName][augName] = &(augDef->functions[functionName]);
+                            if (func.useForReqs)
+                            {
+                                augDefsByReq[functionName][augName] = &(augDef->functions[functionName]);
+                            }
                         }
                     }
                     if (functionNodeName == "superShield")
                     {
+                        augDef->superShield.present = true;
                         for (auto child = functionNode->first_node(); child; child = child->next_sibling())
                         {
                             if (strcmp(child->name(), "value") == 0)
@@ -114,6 +122,37 @@ void CustomAugmentManager::ParseCustomAugmentNode(rapidxml::xml_node<char>* node
                             }
                         }
                     }
+                    if (functionNodeName == "crystalShard")
+                    {
+                        AugmentCrystalShard shard = AugmentCrystalShard();
+
+                        if (functionNode->first_attribute("weapon"))
+                        {
+                            shard.weapon = functionNode->first_attribute("weapon")->value();
+                        }
+                        if (functionNode->first_attribute("value"))
+                        {
+                            shard.chance = boost::lexical_cast<float>(functionNode->first_attribute("value")->value());
+                        }
+                        if (functionNode->first_attribute("chance"))
+                        {
+                            shard.chance = boost::lexical_cast<float>(functionNode->first_attribute("chance")->value());
+                        }
+                        if (functionNode->first_attribute("stackable"))
+                        {
+                            std::string stackMode = functionNode->first_attribute("stackable")->value();
+                            if (stackMode == "independent")
+                            {
+                                shard.stacking = 2;
+                            }
+                            else
+                            {
+                                shard.stacking = EventsParser::ParseBoolean(stackMode) ? 1 : 0;
+                            }
+                        }
+
+                        augDef->crystalShard.push_back(shard);
+                    }
                     if (functionNodeName == "locked")
                     {
                         augDef->locked = true;
@@ -129,6 +168,24 @@ void CustomAugmentManager::ParseCustomAugmentNode(rapidxml::xml_node<char>* node
                             }
                         }
                     }
+
+                    if (functionNodeName == "icon")
+                    {
+                        augDef->icon = functionNode->value();
+
+                        if (functionNode->first_attribute("ship"))
+                        {
+                            std::string ship = functionNode->first_attribute("ship")->value();
+                            if (ship == "player")
+                            {
+                                augDef->iconShipId = 0;
+                            }
+                            if (ship == "enemy")
+                            {
+                                augDef->iconShipId = 1;
+                            }
+                        }
+                    }
                 }
 
                 augDefs[augName] = augDef;
@@ -141,92 +198,32 @@ void CustomAugmentManager::ParseCustomAugmentNode(rapidxml::xml_node<char>* node
     }
 }
 
-std::map<std::string, AugmentFunction> CustomAugmentManager::GetPotentialAugments(const std::string& name, int shipId, bool req)
+bool AugmentFunction::Functional(int iShipId)
 {
-    auto ret = std::map<std::string, AugmentFunction>();
-
-
-    for (auto const& i: augDefs)
+    if (sys != -1)
     {
-        if (i.second)
+        ShipManager* shipManager = G_->GetShipManager(iShipId);
+        if (shipManager != nullptr && shipManager->GetSystemRoom(sys) != -1)
         {
-            if (!i.second->functions.empty())
+            ShipSystem* shipSystem = shipManager->GetSystem(sys);
+            if (shipSystem != nullptr && shipSystem->iHackEffect < 2 && shipSystem->GetEffectivePower() > 0)
             {
-                auto val = i.second->functions.find(name);
-
-                if (val != i.second->functions.end())
-                {
-                    if (!req)
-                    {
-                        if (val->second.sys == -1)
-                        {
-                            ret[i.second->name] = val->second;
-                        }
-                        else
-                        {
-                            ShipManager* shipManager = G_->GetShipManager(shipId);
-                            if (shipManager != nullptr && shipManager->GetSystemRoom(val->second.sys) != -1)
-                            {
-                                ShipSystem* sys = shipManager->GetSystem(val->second.sys);
-                                if (sys != nullptr && sys->iHackEffect < 2 && sys->GetEffectivePower() > 0)
-                                {
-                                    ret[i.second->name] = val->second;
-                                }
-                            }
-                        }
-                    }
-                    else if (i.second->functions[name].useForReqs)
-                    {
-                        ret[i.second->name] = val->second;
-                    }
-                }
+                return true;
             }
         }
+        return false;
     }
-
-    return ret;
+    return true;
 }
 
-std::map<std::string, AugmentFunction> CustomAugmentManager::GetPotentialAugments_ScrapText()
+std::unordered_map<std::string, AugmentFunction*>* CustomAugmentManager::GetPotentialAugments(const std::string& name, bool req)
 {
-    auto ret = std::map<std::string, AugmentFunction>();
+    return req ? &augDefsByReq[name] : &augDefsByFunction[name];
+}
 
-
-    for (auto const& i: augDefs)
-    {
-        if (i.second)
-        {
-            if (!i.second->functions.empty())
-            {
-                auto val = i.second->functions.find("SCRAP_COLLECTOR");
-
-                if (val != i.second->functions.end())
-                {
-                    if (val->second.modifyChoiceTextScrap)
-                    {
-                        if (val->second.sys == -1)
-                        {
-                            ret[i.second->name] = val->second;
-                        }
-                        else
-                        {
-                            ShipManager* shipManager = G_->GetShipManager(0);
-                            if (shipManager != nullptr && shipManager->GetSystemRoom(val->second.sys) != -1)
-                            {
-                                ShipSystem* sys = shipManager->GetSystem(val->second.sys);
-                                if (sys != nullptr && sys->iHackEffect < 2 && sys->GetEffectivePower() > 0)
-                                {
-                                    ret[i.second->name] = val->second;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    return ret;
+std::unordered_map<std::string, int>* CustomAugmentManager::GetShipAugments(int iShipId)
+{
+    return &(augListWithHidden[iShipId]);
 }
 
 std::map<std::string, int> CustomAugmentManager::CheckHiddenAugments(const std::map<std::string, int>& augList)
@@ -263,6 +260,57 @@ std::vector<std::string> CustomAugmentManager::RemoveHiddenAugments(const std::v
     return newList;
 }
 
+void CustomAugmentManager::UpdateAugments(int iShipId)
+{
+    std::unordered_map<std::string, int>& hiddenList = augListWithHidden[iShipId];
+    std::vector<std::string>& notHiddenList = augListNoHidden[iShipId];
+
+    hiddenList.clear();
+    notHiddenList.clear();
+
+    for (auto i : G_->GetShipInfo(iShipId)->augList)
+    {
+        if (boost::algorithm::starts_with(i.first, "HIDDEN "))
+        {
+            hiddenList[i.first.substr(7)] = i.second;
+        }
+        else
+        {
+            hiddenList[i.first] = i.second;
+            notHiddenList.push_back(i.first);
+        }
+    }
+
+    std::vector<ShipIcon*>& iconList = augIconList[iShipId];
+    for (auto i : iconList)
+    {
+        delete i;
+    }
+    iconList.clear();
+
+    for (auto i : hiddenList)
+    {
+        if (i.second > 0)
+        {
+            if (IsAugment(i.first))
+            {
+                auto augDef = GetAugmentDefinition(i.first);
+                if (!augDef->icon.empty() && (augDef->iconShipId == -1 || augDef->iconShipId == iShipId))
+                {
+                    auto iconDef = ShipIconManager::instance->GetShipIconDefinition(augDef->icon);
+                    if (iconDef)
+                    {
+                        ShipIcon* icon = new ShipIcon();
+
+                        icon->OnInit(iconDef->name, iconDef->tooltip, iconList.size());
+                        iconList.push_back(icon);
+                    }
+                }
+            }
+        }
+    }
+}
+
 
 //======================
 
@@ -270,24 +318,24 @@ HOOK_METHOD_PRIORITY(ShipObject, HasAugmentation, 2000, (const std::string& name
 {
     CustomAugmentManager* customAug = CustomAugmentManager::GetInstance();
 
-    std::map<std::string, int> augList = CustomAugmentManager::CheckHiddenAugments(G_->GetShipInfo(iShipId)->augList);
+    std::unordered_map<std::string, int> *augList = customAug->GetShipAugments(iShipId);
 
     int augCount = 0;
 
-    if (augList.count(name) > 0)
+    if (augList->count(name) > 0)
     {
-        augCount = augList.at(name);
+        augCount = augList->at(name);
     }
 
-    std::map<std::string, AugmentFunction> potentialAugs = customAug->GetPotentialAugments(name, iShipId);
+    std::unordered_map<std::string, AugmentFunction*> *potentialAugs = customAug->GetPotentialAugments(name);
 
 
 
-    for (auto const& x: potentialAugs)
+    for (auto const& x: *potentialAugs)
     {
-        if (augList.count(x.first))
+        if (augList->count(x.first) && x.second->Functional(iShipId))
         {
-            augCount += augList.at(x.first);
+            augCount += augList->at(x.first);
         }
     }
 
@@ -311,32 +359,30 @@ HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
 
 HOOK_METHOD_PRIORITY(ShipObject, HasEquipment, 2000, (const std::string& name) -> int)
 {
+    CustomAugmentManager* customAug = CustomAugmentManager::GetInstance();
+
     auto ship = G_->GetShipManager(iShipId);
-    std::map<std::string, int> augList = CustomAugmentManager::CheckHiddenAugments(G_->GetShipInfo(iShipId)->augList);
+    std::unordered_map<std::string, int> *augList = customAug->GetShipAugments(iShipId);
 
     int augCount = 0;
-    if (augList.count(name) > 0)
+    if (augList->count(name) > 0)
     {
-        augCount = augList.at(name);
+        augCount = augList->at(name);
     }
 
-    CustomAugmentManager* customAug = CustomAugmentManager::GetInstance();
-    std::map<std::string, AugmentFunction> potentialAugs = customAug->GetPotentialAugments(name, iShipId, useAugmentReq);
+    std::unordered_map<std::string, AugmentFunction*> *potentialAugs = customAug->GetPotentialAugments(name, useAugmentReq);
 
 
 
-    for (auto const& x: potentialAugs)
+    for (auto const& x: *potentialAugs)
     {
-        if (augList.count(x.first))
+        if (augList->count(x.first) && x.second->Functional(iShipId))
         {
-            augCount += augList.at(x.first);
+            augCount += augList->at(x.first);
         }
     }
 
-    if (augCount > 0)
-        return augCount;
-
-    return super(name);
+    return augCount + super(name);
 
 
 }
@@ -347,35 +393,36 @@ HOOK_METHOD_PRIORITY(ShipObject, HasEquipment, 2000, (const std::string& name) -
 
 HOOK_METHOD_PRIORITY(ShipObject, GetAugmentationValue, 1000, (const std::string& name) -> float)
 {
+    CustomAugmentManager* customAug = CustomAugmentManager::GetInstance();
+
     AugmentBlueprint* augBlueprint = G_->GetBlueprints()->GetAugmentBlueprint(name);
 
     auto ship = G_->GetShipManager(iShipId);
-    std::map<std::string, int> augList = CustomAugmentManager::CheckHiddenAugments(G_->GetShipInfo(iShipId)->augList);
+    std::unordered_map<std::string, int> *augList = customAug->GetShipAugments(iShipId);
     int augCount = 0;
 
-    if (augList.count(name) > 0)
+    if (augList->count(name) > 0)
     {
-        augCount = augList.at(name);
+        augCount = augList->at(name);
     }
 
 
     float augValue = augBlueprint->value * augCount;
 
-    CustomAugmentManager* customAug = CustomAugmentManager::GetInstance();
-    std::map<std::string, AugmentFunction> potentialAugs = customAug->GetPotentialAugments(name, iShipId);
+    std::unordered_map<std::string, AugmentFunction*> *potentialAugs = customAug->GetPotentialAugments(name);
 
 
     float highestValue = augValue;
-    for (auto const& x: potentialAugs)
+    for (auto const& x: *potentialAugs)
     {
-        if (augList.count(x.first))
+        if (augList->count(x.first) && x.second->Functional(iShipId))
         {
-            augCount += augList.at(x.first);
-            augValue += x.second.value * augList.at(x.first);
+            augCount += augList->at(x.first);
+            augValue += x.second->value * augList->at(x.first);
 
-            if ((x.second.preferHigher && x.second.value > highestValue) || (!x.second.preferHigher && x.second.value < highestValue))
+            if ((x.second->preferHigher && x.second->value > highestValue) || (!x.second->preferHigher && x.second->value < highestValue))
             {
-                highestValue = x.second.value;
+                highestValue = x.second->value;
             }
         }
     }
@@ -535,6 +582,7 @@ HOOK_METHOD(ShipManager, ImportShip, (int fileHelper) -> void)
     }
 
     G_->GetShipInfo(iShipId)->augList = augList;
+    CustomAugmentManager::GetInstance()->UpdateAugments(iShipId);
 }
 
 HOOK_STATIC(ShipObject, GetAugmentationList, (std::vector<std::string>& vec, ShipObject *shipObj) -> std::vector<std::string>&)
@@ -560,6 +608,12 @@ HOOK_METHOD(ShipObject, GetAugmentationCount, () -> int)
 
     return count;
 }
+HOOK_METHOD(ShipObject, AddAugmentation, (const std::string& name) -> bool)
+{
+    auto ret = super(name);
+    CustomAugmentManager::GetInstance()->UpdateAugments(iShipId);
+    return ret;
+}
 HOOK_METHOD(ShipObject, RemoveAugmentation, (const std::string& name) -> void)
 {
     super(name);
@@ -577,6 +631,8 @@ HOOK_METHOD(ShipObject, RemoveAugmentation, (const std::string& name) -> void)
 
     G_->GetShipInfo(iShipId)->augCount = augCount;
 
+    CustomAugmentManager::GetInstance()->UpdateAugments(iShipId);
+
     /*
     ShipManager* ship = G_->GetShipManager(this);
     if (ship != nullptr)
@@ -585,398 +641,18 @@ HOOK_METHOD(ShipObject, RemoveAugmentation, (const std::string& name) -> void)
     }
     */
 }
-
-// Super Shields
-
-int CustomAugmentManager::GetSuperShieldValue(int shipId)
-{
-    std::map<std::string, int> augList = CustomAugmentManager::CheckHiddenAugments(G_->GetShipInfo(shipId)->augList);
-    CustomAugmentManager* customAug = CustomAugmentManager::GetInstance();
-
-    int superShieldValue = 0;
-    int superShieldAdd = 0;
-    int superShieldRenderValue = -1;
-    bool customRender = false;
-    std::string shieldTexture = "";
-    GL_Color shieldColor = GL_Color(0.0, 0.0, 0.0, 0.0);
-
-    for (auto& aug : augList)
-    {
-        if (customAug->IsAugment(aug.first) && aug.second > 0)
-        {
-            auto superShield = customAug->GetAugmentDefinition(aug.first)->superShield;
-            if (superShield.value > superShieldValue)
-            {
-                superShieldValue = superShield.value;
-            }
-            if (superShield.add > 0)
-            {
-                superShieldAdd += superShield.add * aug.second;
-            }
-            if (superShield.customRender && superShield.value > superShieldRenderValue)
-            {
-                superShieldRenderValue = superShield.value;
-                customRender = true;
-                shieldTexture = superShield.shieldTexture[shipId];
-                shieldColor = superShield.shieldColor;
-            }
-        }
-    }
-
-    customAug->superShieldCustomRender[shipId] = customRender;
-    customAug->superShieldTexture[shipId] = shieldTexture;
-    customAug->superShieldColor[shipId] = shieldColor;
-
-    return superShieldValue + superShieldAdd;
-}
-
-HOOK_METHOD(Shields, AddSuperShield, (Point pos) -> void)
-{
-    auto currentSuper = shields.power.super;
-
-    super(pos);
-
-    int customSuper = CustomAugmentManager::GetSuperShieldValue(_shipObj.iShipId);
-    if (customSuper > 5)
-    {
-        shields.power.super.second = customSuper;
-        shields.power.super.first = std::min(currentSuper.first+1,customSuper);
-    }
-}
-
-HOOK_METHOD(Shields, InstantCharge, () -> void)
+HOOK_METHOD(ShipObject, ClearShipInfo, () -> void)
 {
     super();
-
-    int customSuper = CustomAugmentManager::GetSuperShieldValue(_shipObj.iShipId);
-    if (customSuper > 0)
-    {
-        shields.power.super.second = customSuper;
-        shields.power.super.first = customSuper;
-    }
+    CustomAugmentManager::GetInstance()->UpdateAugments(iShipId);
 }
 
-HOOK_METHOD(Shields, Jump, () -> void)
-{
-    super();
-
-    int customSuper = CustomAugmentManager::GetSuperShieldValue(_shipObj.iShipId);
-    if (customSuper > 0)
-    {
-        shields.power.super.second = customSuper;
-        shields.power.super.first = customSuper;
-    }
-}
-
-HOOK_METHOD(Shields, OnLoop, () -> void)
-{
-    bool noSuper = shields.power.super.second < 1;
-
-    super();
-
-    int customSuper = CustomAugmentManager::GetSuperShieldValue(_shipObj.iShipId);
-    if (customSuper > 0)
-    {
-        shields.power.super.second = customSuper;
-        if (noSuper) shields.power.super.first = customSuper;
-    }
-}
-
-/*
-HOOK_METHOD(Shields, CollisionReal, (float x, float y, Damage damage, bool unk) -> void)
-{
-    super(x, y, damage, unk);
-
-    if (CustomAugmentManager::GetInstance()->superShieldCustomRender[_shipObj.iShipId] && !damMessages.empty())
-    {
-        DamageMessage* damMessage = damMessages.back();
-        if (damMessage->color.r == 0.1568628f && damMessage->color.g == 0.9411765f && damMessage->color.b == 0.1568628f) // r=40 g=240 b=40
-        {
-            damMessage->color = CustomAugmentManager::GetInstance()->superShieldColor[_shipObj.iShipId];
-            damMessage->color.a = 1.0;
-        }
-    }
-}
-*/
-
-int numSuperShieldBars = 0;
-std::vector<GL_Primitive*> superShieldBars = std::vector<GL_Primitive*>();
-
-HOOK_METHOD(ShipStatus, RenderShields, (bool renderText) -> void)
-{
-    if (!ship) return super(renderText);
-
-    auto superShield = ship->GetShieldPower().super;
-
-    if (superShield.first > 0)
-    {
-        if (superShield.second != 5 || CustomAugmentManager::GetInstance()->superShieldCustomRender[0])
-        {
-            float charger = ship->shieldSystem->shields.charger;
-
-            ship->shieldSystem->shields.power.super.first = 0;
-            ship->shieldSystem->shields.charger = 0.0;
-
-            super(renderText);
-
-            ship->shieldSystem->shields.power.super.first = superShield.first;
-            ship->shieldSystem->shields.charger = charger;
-
-            if (superShield.second != numSuperShieldBars)
-            {
-                numSuperShieldBars = superShield.second;
-
-                for (auto bar : superShieldBars)
-                {
-                    CSurface::GL_DestroyPrimitive(bar);
-                }
-
-                superShieldBars.clear();
-                superShieldBars.reserve(superShield.second);
-
-                float x = 33.5;
-                int y = 79;
-                float width = 92;
-                int height = 6;
-
-                float gap = superShield.second > 10 ? 1 : 2;
-                float bar_space = (width+gap) / superShield.second;
-                float bar_width = bar_space - gap;
-
-                for (int i=0; i<superShield.second; ++i)
-                {
-                    int x1 = x;
-                    int x2 = x + bar_width;
-                    GL_Primitive* prim = CSurface::GL_CreateRectPrimitive(x1,y,x2-x1,height,GL_Color(1.0,1.0,1.0,1.0));
-                    superShieldBars.push_back(prim);
-                    x = x + bar_space;
-                }
-            }
-
-            GL_Color color = CustomAugmentManager::GetInstance()->superShieldCustomRender[0] ? CustomAugmentManager::GetInstance()->superShieldColor[0] : GL_Color(0.392156862f, 1.f, 0.392156862f, 1.f);
-            color.a = 1.0;
-
-            for (int i=0; i<superShield.first; ++i)
-            {
-                if (i == superShieldBars.size()) break;
-
-                CSurface::GL_RenderPrimitiveWithColor(superShieldBars[i],color);
-            }
-
-            return;
-        }
-
-        if (superShield.first > 5 && ship->shieldSystem != nullptr)
-        {
-            ship->shieldSystem->shields.power.super.first = 5;
-            super(renderText);
-            ship->shieldSystem->shields.power.super.first = superShield.first;
-            return;
-        }
-    }
-
-    super(renderText);
-}
-
-CachedImage extend_shieldCircleCharged[5];
-CachedImage extend_shieldCircleUncharged[5];
-CachedImage extend_shieldCircleHacked[5];
-CachedImage extend_shieldCircleHackedCharged[5];
-
-HOOK_METHOD(CombatControl, constructor, () -> void)
-{
-    super();
-
-    for (int i=0; i<5; ++i)
-    {
-        extend_shieldCircleCharged[i] = this->shieldCircleCharged[0];
-        extend_shieldCircleCharged[i].x += 23*(5+i);
-
-        extend_shieldCircleUncharged[i] = this->shieldCircleUncharged[0];
-        extend_shieldCircleUncharged[i].x += 23*(5+i);
-
-        extend_shieldCircleHacked[i] = this->shieldCircleHacked[0];
-        extend_shieldCircleHacked[i].x += 23*(5+i);
-
-        extend_shieldCircleHackedCharged[i] = this->shieldCircleHackedCharged[0];
-        extend_shieldCircleHackedCharged[i].x += 23*(5+i);
-    }
-}
-
-HOOK_METHOD(CombatControl, RenderShipStatus, (Pointf pos, GL_Color color) -> void)
-{
-    auto enemyShield = currentTarget->shipManager->GetShieldPower();
-
-    if (enemyShield.second > 5 && currentTarget->shipManager->shieldSystem != nullptr)
-    {
-        if (currentTarget->shipManager->shieldSystem->shields.power.first > 5)
-        {
-            currentTarget->shipManager->shieldSystem->shields.power.first = 5;
-        }
-        if (currentTarget->shipManager->shieldSystem->shields.power.second > 5)
-        {
-            currentTarget->shipManager->shieldSystem->shields.power.second = 5;
-        }
-        currentTarget->shipManager->shieldSystem->shields.power.super.first = 0;
-
-        super(pos, color);
-
-        currentTarget->shipManager->shieldSystem->shields.power = enemyShield;
-
-        CSurface::GL_PushMatrix();
-        CSurface::GL_Translate(pos.x, pos.y, 0.0);
-
-        bool isHacked = currentTarget->shipManager->IsSystemHacked(0);
-
-        for (int i=5; i<enemyShield.second; ++i)
-        {
-            if (i >= 10) break;
-            if (enemyShield.first > i)
-            {
-                if (isHacked)
-                {
-                    extend_shieldCircleHackedCharged[i-5].OnRender(GL_Color(1.0, 1.0, 1.0, 1.0));
-                }
-                else
-                {
-                    extend_shieldCircleCharged[i-5].OnRender(GL_Color(1.0, 1.0, 1.0, 1.0));
-                }
-            }
-            else
-            {
-                if (isHacked)
-                {
-                    extend_shieldCircleHacked[i-5].OnRender(GL_Color(1.0, 1.0, 1.0, 1.0));
-                }
-                else
-                {
-                    extend_shieldCircleUncharged[i-5].OnRender(GL_Color(1.0, 1.0, 1.0, 1.0));
-                }
-            }
-        }
-
-        if (enemyShield.super.first > 0)
-        {
-            GL_Color superColor = GL_Color(100.0/255.0, 255.0/255.0, 100.0/255.0, 1.0);
-
-            if (CustomAugmentManager::GetInstance()->superShieldCustomRender[1])
-            {
-                    superColor = CustomAugmentManager::GetInstance()->superShieldColor[1];
-                    superColor.a = 1.0;
-            }
-
-            int superBar_x = enemyShield.second * 23;
-
-            if (enemyShield.super.second == 5)
-            {
-                superShieldBox5.SetPosition(superBar_x + 13, 35);
-                superShieldBox5.OnRender(GL_Color(1.0, 1.0, 1.0, 1.0));
-            }
-            else if (enemyShield.super.second == 12)
-            {
-                superShieldBox12.SetPosition(superBar_x + 13, 35);
-                superShieldBox12.OnRender(GL_Color(1.0, 1.0, 1.0, 1.0));
-            }
-            else
-            {
-                CSurface::GL_DrawRect(superBar_x + 13.f, 35.f, enemyShield.super.second*10+6, 13.f, GL_Color(0.0, 0.0, 0.0, 0.5));
-                CSurface::GL_DrawRectOutline(superBar_x + 13, 35, enemyShield.super.second*10+6, 13, GL_Color(1.0, 1.0, 1.0, 1.0), 2.f);
-            }
-            CSurface::GL_DrawRect(superBar_x + 16.f, 38.f, enemyShield.super.first*10, 7.f, superColor);
-        }
-
-        CSurface::GL_PopMatrix();
-    }
-    else
-    {
-        super(pos, color);
-
-        if (CustomAugmentManager::GetInstance()->superShieldCustomRender[1])
-        {
-            if (enemyShield.super.first > 0)
-            {
-                GL_Color superColor = CustomAugmentManager::GetInstance()->superShieldColor[1];
-                superColor.a = 1.0;
-
-                CSurface::GL_PushMatrix();
-                CSurface::GL_Translate(pos.x, pos.y, 0.0);
-
-                CSurface::GL_DrawRect(enemyShield.second*23.f + 16.f, 38.f, enemyShield.super.first*10, 7.f, superColor);
-
-                CSurface::GL_PopMatrix();
-            }
-        }
-    }
-}
-
-bool override_GL_RenderPrimitiveWithColor = false;
-Shields* Shields_GL_RenderPrimitiveWithColor = nullptr;
-GL_Primitive* customSuperShieldPrimitives[2] = {nullptr, nullptr};
-
-HOOK_METHOD(Shields, RenderBase, (float alpha, float superShieldOverwrite) -> void)
-{
-    int customSuper = CustomAugmentManager::GetSuperShieldValue(_shipObj.iShipId);
-    if (customSuper > 0)
-    {
-        override_GL_RenderPrimitiveWithColor = true;
-        Shields_GL_RenderPrimitiveWithColor = this;
-    }
-
-    super(alpha, superShieldOverwrite);
-    override_GL_RenderPrimitiveWithColor = false;
-    Shields_GL_RenderPrimitiveWithColor = nullptr;
-}
-
-HOOK_METHOD(CSurface, GL_RenderPrimitiveWithColor, (GL_Primitive *primitive, GL_Color color) -> void)
-{
-    if (!override_GL_RenderPrimitiveWithColor) return super(primitive, color);
-    if (Shields_GL_RenderPrimitiveWithColor != nullptr)
-    {
-        auto& shields = Shields_GL_RenderPrimitiveWithColor;
-        if (color.r < 0.4 && CustomAugmentManager::GetInstance()->superShieldCustomRender[shields->_shipObj.iShipId])
-        {
-            std::string imageId = CustomAugmentManager::GetInstance()->superShieldTexture[shields->_shipObj.iShipId];
-
-            if (imageId.empty())
-            {
-                GL_Color customColor = CustomAugmentManager::GetInstance()->superShieldColor[shields->_shipObj.iShipId];
-                customColor.a *= color.a;
-
-                return super(primitive, customColor);
-            }
-            else
-            {
-                GL_Texture* shieldTex = G_->GetResources()->GetImageId(imageId);
-                GL_Color customColor = CustomAugmentManager::GetInstance()->superShieldColor[shields->_shipObj.iShipId];
-                customColor.a *= color.a;
-
-                float width = shieldTex->width_;
-                float height = shieldTex->height_;
-
-                //GL_Primitive* shieldPrim = GL_CreatePixelImagePrimitive(shieldTex,0.0,0.0,width,height,0.0,GL_Color(1.0,1.0,1.0,1.0),false);
-                GL_Primitive* shieldPrim = GL_CreateImagePrimitive(shieldTex,0.0,0.0,width,height,0.0,GL_Color(1.0,1.0,1.0,1.0));
-
-                GL_DestroyPrimitive(customSuperShieldPrimitives[shields->_shipObj.iShipId]);
-                customSuperShieldPrimitives[shields->_shipObj.iShipId] = shieldPrim;
-
-                GL_PopMatrix();
-
-                GL_PushMatrix();
-                GL_Translate(shields->baseShield.center.x - shields->baseShield.a, shields->baseShield.center.y - shields->baseShield.b, 0.0);
-                GL_Scale((2.0*shields->baseShield.a) / width, (2.0*shields->baseShield.b) / height, 1.0);
-
-                return super(shieldPrim, customColor);
-            }
-        }
-    }
-
-    return super(primitive, color);
-}
 
 HOOK_METHOD(ShipManager, OnLoop, () -> void)
 {
     super();
 
+    // Dynamic defense scrambler
     if (current_target != nullptr)
     {
         bool has_defense = false;
@@ -1000,6 +676,8 @@ HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
 {
     super(event);
 
+    // Modify choice text scrap
+
     float augValue = 0.f;
 
     if (CustomOptionsManager::GetInstance()->showScrapCollectorScrap.currentValue == false)
@@ -1007,19 +685,19 @@ HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
         AugmentBlueprint* augBlueprint = G_->GetBlueprints()->GetAugmentBlueprint("SCRAP_COLLECTOR");
         CustomAugmentManager* customAug = CustomAugmentManager::GetInstance();
 
-        std::map<std::string, int> augList = CustomAugmentManager::CheckHiddenAugments(G_->GetShipInfo(0)->augList);
-        std::map<std::string, AugmentFunction> potentialAugs = customAug->GetPotentialAugments_ScrapText();
+        std::unordered_map<std::string, int> *augList = customAug->GetShipAugments(0);
+        std::unordered_map<std::string, AugmentFunction*> *potentialAugs = customAug->GetPotentialAugments("SCRAP_COLLECTOR");
 
         float highestValue = 0.f;
-        for (auto const& x: potentialAugs)
+        for (auto const& x: *potentialAugs)
         {
-            if (augList.count(x.first))
+            if (augList->count(x.first) && x.second->modifyChoiceTextScrap && x.second->Functional(0))
             {
-                augValue += x.second.value * augList.at(x.first);
+                augValue += x.second->value * augList->at(x.first);
 
-                if ((x.second.preferHigher && x.second.value > highestValue) || (!x.second.preferHigher && x.second.value < highestValue))
+                if ((x.second->preferHigher && x.second->value > highestValue) || (!x.second->preferHigher && x.second->value < highestValue))
                 {
-                    highestValue = x.second.value;
+                    highestValue = x.second->value;
                 }
             }
         }
@@ -1035,7 +713,7 @@ HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
     {
         if (commandGui->choiceBox.rewards.scrap > 0)
         {
-            commandGui->choiceBox.rewards.scrap = commandGui->choiceBox.rewards.scrap + commandGui->choiceBox.rewards.scrap * augValue;
+            commandGui->choiceBox.rewards.scrap = ((float)commandGui->choiceBox.rewards.scrap) + ((float)commandGui->choiceBox.rewards.scrap) * augValue;
         }
         for (auto& choice : commandGui->choiceBox.choices)
         {

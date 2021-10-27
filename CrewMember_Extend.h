@@ -1,7 +1,9 @@
 #pragma once
+#include "CrewSpawn.h"
 #include "FTLGame.h"
 #include "StatBoost.h"
 #include "Constants.h"
+#include "CustomCrewCommon.h"
 #include <array>
 
 struct CrewDefinition;
@@ -75,6 +77,7 @@ public:
     bool canPhaseThroughDoors = false;
     bool isHealing = false;
     TimerHelper* passiveHealTimer = nullptr;
+    TimerHelper* deathTimer = nullptr;
     int lastRoom = -1;
     int lastShipId = -1;
     bool exploded = false;
@@ -106,12 +109,14 @@ public:
     ActivatedPowerDefinition* GetPowerDef() const;
     ActivatedPowerDefinition* CalculatePowerDef();
 
-    Damage deathEffectChange;
-    bool explosionShipFriendlyFire;
+    ExplosionDefinition deathEffectChange;
     bool hasDeathExplosion;
 
     bool isIonDrone = false;
     bool isAbilityDrone = false;
+
+    bool noSlot = false;
+    bool noClone = false;
 
     float prevStun = 0.f; // for use in stun resistance checking
 
@@ -125,22 +130,24 @@ public:
 
     float extraMedbay = 0.f;
 
-    std::string originalRace;
+    std::string originalRace; // for color layers
     std::string transformRace = "";
 
     void Initialize(CrewBlueprint& bp, int shipId, bool enemy, CrewAnimation *animation, bool isTransform = false);
     bool TransformRace(const std::string& newRace);
-
+    static void TransformColors(CrewBlueprint& bp, CrewBlueprint *newBlueprint);
 
     ~CrewMember_Extend()
     {
         delete passiveHealTimer;
+        delete deathTimer;
     }
 
     std::pair<float,int> statCache[numStats] = {};
 
     bool BoostCheck(const StatBoost& statBoost);
-    float CalculateStat(CrewStat stat, const CrewDefinition& def, bool* boolValue=nullptr);
+    int CalculateMaxHealth(const CrewDefinition* def);
+    float CalculateStat(CrewStat stat, const CrewDefinition* def, bool* boolValue=nullptr);
 };
 
 CrewMember_Extend* Get_CrewMember_Extend(CrewMember* c);

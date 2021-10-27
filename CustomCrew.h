@@ -1,7 +1,22 @@
 #pragma once
+#include "CustomCrewCommon.h"
 #include "Global.h"
 #include "ToggleValue.h"
+#include "CrewSpawn.h"
+#include "CustomDamage.h"
 #include <unordered_map>
+
+enum TransformColorMode
+{
+    KEEP_COLORS,
+    KEEP_INDICES
+};
+
+extern TransformColorMode g_transformColorMode;
+extern bool g_resistsMindControlStat;
+
+extern int requiresFullControl;
+extern bool isTelepathicMindControl;
 
 struct StatBoostDefinition;
 struct StatBoost;
@@ -71,12 +86,12 @@ struct SkillsDefinition
 
 struct DroneAI
 {
-    bool hasCustomAI;
-    bool fightAI;
-    bool repairAI;
-    bool manAI;
-    bool batteryAI;
-    bool returnToDroneRoom;
+    bool hasCustomAI = false;
+    bool fightAI = false;
+    bool repairAI = false;
+    bool manAI = false;
+    bool batteryAI = false;
+    bool returnToDroneRoom = false;
 };
 
 struct TemporaryPowerDefinition
@@ -87,6 +102,7 @@ struct TemporaryPowerDefinition
     std::string effectFinishAnim;
     std::string animSheet;
     bool baseVisible = true;
+    bool soundsEnemy = true;
     std::vector<std::string> sounds;
 
     ToggleValue<int> maxHealth;
@@ -107,6 +123,7 @@ struct TemporaryPowerDefinition
     ToggleValue<bool> canPhaseThroughDoors;
     ToggleValue<float> fireDamageMultiplier;
     ToggleValue<bool> isTelepathic;
+    ToggleValue<bool> resistsMindControl;
     ToggleValue<bool> isAnaerobic;
     ToggleValue<bool> detectsLifeforms;
     ToggleValue<float> damageTakenMultiplier;
@@ -126,8 +143,9 @@ struct TemporaryPowerDefinition
     ToggleValue<float> damageEnemiesAmount;
     ToggleValue<bool> hackDoors;
     ToggleValue<float> powerRechargeMultiplier;
+    ToggleValue<bool> noClone;
 
-    std::vector<StatBoostDefinition> statBoosts;
+    std::vector<StatBoostDefinition*> statBoosts;
 
     bool invulnerable;
     int animFrame = -1;
@@ -219,6 +237,7 @@ struct ActivatedPowerDefinition
 
 
     std::vector<std::string> sounds;
+    bool soundsEnemy = true;
 
 
     TextString buttonLabel;
@@ -243,6 +262,10 @@ struct ActivatedPowerDefinition
     bool activateReadyEnemies = false;
     std::string transformRace = "";
 
+    std::vector<CrewSpawn> crewSpawns;
+
+    std::vector<StatBoostDefinition*> statBoosts;
+
     TemporaryPowerDefinition tempPower;
 };
 
@@ -250,6 +273,7 @@ struct CrewDefinition
 {
     std::string race;
     std::vector<std::string> deathSounds;
+    std::vector<std::string> deathSoundsFemale;
     std::vector<std::string> shootingSounds;
     std::vector<std::string> repairSounds;
     int repairSoundFrame = -1;
@@ -260,6 +284,7 @@ struct CrewDefinition
     bool canMan = true;
     bool canSuffocate = true;
     bool controllable = true;
+    bool selectable = false;
     bool canBurn = true;
     int maxHealth = 100;
     float stunMultiplier = 1.f;
@@ -272,6 +297,7 @@ struct CrewDefinition
     float fireRepairMultiplier = 1.2f;
     float suffocationModifier = 1.f;
     bool isTelepathic = false;
+    bool resistsMindControl = false;
     bool isAnaerobic = false;
     float fireDamageMultiplier = 1.f;
     bool canPhaseThroughDoors = false;
@@ -286,6 +312,7 @@ struct CrewDefinition
     bool hasCustomDeathAnimation = false;
     bool hasDeathExplosion = false;
     std::string animBase = "human";
+    std::string animSheet[2] = {"",""};
     float sabotageSpeedMultiplier = 1.f;
     float allDamageTakenMultiplier = 1.f;
     int defaultSkillLevel = 0;
@@ -299,9 +326,10 @@ struct CrewDefinition
     float damageEnemiesAmount = 0.f;
     bool hackDoors = false;
     float powerRechargeMultiplier = 1.f;
+    bool noSlot = false;
+    bool noClone = false;
 
-    Damage explosionDef;
-    bool explosionShipFriendlyFire = false;
+    ExplosionDefinition explosionDef;
 
     //ActivatedPowerDefinition powerDef;
     unsigned int powerDefIdx = 0;
@@ -310,7 +338,7 @@ struct CrewDefinition
         return &ActivatedPowerDefinition::powerDefs[powerDefIdx];
     }
 
-    std::vector<StatBoostDefinition> passiveStatBoosts;
+    std::vector<StatBoostDefinition*> passiveStatBoosts;
 
     std::vector<std::string> nameRace;
     std::vector<std::string> transformName;
@@ -332,7 +360,7 @@ public:
 
 
     void AddCrewDefinition(CrewDefinition crew);
-    void ParseDeathEffect(rapidxml::xml_node<char>* stat, bool* friendlyFire, Damage* explosionDef);
+    void ParseDeathEffect(rapidxml::xml_node<char>* stat, ExplosionDefinition* explosionDef);
     void ParseAbilityEffect(rapidxml::xml_node<char>* stat, ActivatedPowerDefinition* powerDef);
     void ParsePowerRequirementsNode(rapidxml::xml_node<char> *node, ActivatedPowerRequirements *def);
     void ParseCrewNode(rapidxml::xml_node<char> *node);
@@ -341,9 +369,9 @@ public:
     void SetupVTable(CrewMember *crew);
     void SwapVTable(void** vtable, int index, void* swapTo);
 
-    CrewDefinition& GetDefinition(const std::string& name)
+    CrewDefinition* GetDefinition(const std::string& name)
     {
-        return this->blueprintNames[name];
+        return &(this->blueprintNames[name]);
     }
 
     std::vector<std::string> GetBlueprintNames()

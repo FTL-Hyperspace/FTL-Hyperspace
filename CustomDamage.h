@@ -1,5 +1,9 @@
 #pragma once
-#include "FTLGame.h"
+#include "CrewSpawn.h"
+#include "StatBoost.h"
+#include "Global.h"
+
+struct StatBoostDefinition;
 
 struct ErosionEffect
 {
@@ -9,12 +13,31 @@ struct ErosionEffect
     std::string animation = "room_erosion";
 };
 
+struct CrewSpawn;
+
 struct CustomDamage
 {
+    int sourceShipId = -1;
+
     int accuracyMod = 0;
+
+    bool noSysDamage = false;
+    bool noPersDamage = false;
+    bool ionBeamFix = false;
+
+    int statBoostChance = -1;
+    std::vector<StatBoostDefinition*> statBoosts;
 
     int erosionChance = 0;
     ErosionEffect erosionEffect;
+
+    int crewSpawnChance = -1;
+    std::vector<CrewSpawn> crewSpawns;
+
+    ~CustomDamage()
+    {
+
+    }
 };
 
 
@@ -24,4 +47,5 @@ class CustomDamageManager
 {
 public:
     static CustomDamage* currentWeaponDmg;
+    static Projectile* currentProjectile;
 };

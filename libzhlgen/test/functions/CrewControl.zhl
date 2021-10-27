@@ -18,3 +18,5 @@ void CrewControl::ClearCrewBoxes(CrewControl *this<ecx>);
 void CrewControl::SelectPotentialCrew(CrewControl *this<ecx>, CrewMember *crew, bool allowTeleportLeaving);
 "578d7c240883e4f0ff77fc5589e557565389ce81ec????????8b07c78520ffffff6c6f636bc78524ffffff646f776ec7851cffffff08000000c68528ffffff008985bcfeffff8d8520ffffff898518ffffff8d8518ffffff890424":
 void CrewControl::KeyDown(CrewControl *this<ecx>, SDLKey key);
+"578d7c240883e4f0ff77fc5589e557565389ce83ec2c807930000f84a00000008b39":
+void CrewControl::RButton(CrewControl *this<ecx>, int mX, int mY, bool shiftHeld);

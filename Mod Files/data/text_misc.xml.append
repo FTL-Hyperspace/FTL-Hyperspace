@@ -9,7 +9,7 @@
 </mod:findName>
 
 <mod:findName type="text" name="version">
-  <mod:setValue>\1 (Hyperspace 0.7)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 0.8)</mod:setValue>
 </mod:findName>
 
 <mod:findName type="text" name="fire_chance">
@@ -25,6 +25,9 @@
 </mod:findName>
 
 <text name="free_missile_chance">Chance To Not Use Missile: \1%</text>  <!-- \1: chance -->
+
+<text name="crew_statboost_chance">Affliction Chance: \1%</text>  <!-- \1: chance, \2 is low/medium/high -->
+<text name="crew_spawn_chance">Chance to Spawn Crew: \1%</text>  <!-- \1: chance, \2 is low/medium/high -->
 
 <text name="augment_no_effect">These augmentations will have no effect with this augment installed:</text>
 
@@ -69,6 +72,8 @@
 <text name="advanced_health_tooltip">Health</text>
 <text name="weapon_cooldown_negative">Disabled</text>
 <text name="crew_stun_time">Stunned: \1 seconds</text>
+<text name="crew_death_time">Lifetime: \1 seconds</text>
+<text name="crew_death_time_expired">Lifetime: Expired</text>
 
 <!-- Redesigned Tooltips -->
 

@@ -15,7 +15,7 @@ void ProjectileFactory::ForceCoolup(ProjectileFactory *this<ecx>);
 ".5781c1????????8d7c240883e4f0ff77fc5589e5":
 void ProjectileFactory::RenderChargeBar(ProjectileFactory *this<ecx>, float unk);
 "8d4c240483e4f0ff71fc5589e5535183ec108b19c70424????????89d9e8????????83ec0485c075??8d65f8":
-static int ProjectileFactory::StringToWeapon(const std::string& str);
+static cleanup int ProjectileFactory::StringToWeapon(const std::string& str);
 "578d7c240883e4f0ff77fc5589e557565383ec2c8b47048b1f8945e4":
 void ProjectileFactory::Fire(ProjectileFactory *this<ecx>, std::vector<Pointf>& points, int target);
 "8b912c06000031c085d27e??0fb681f600000084c074??8b411c8b911801000039900c0100007e??31c0c3908d74260080b9f50000000075??":
@@ -28,3 +28,5 @@ void ProjectileFactory::OnRender(ProjectileFactory *this<ecx>, float alpha, bool
 int ProjectileFactory::NumTargetsRequired(ProjectileFactory *this<ecx>);
 "578d7c240883e4f0ff77fc5589e557565389cf81ec????????8b912c06000085d20f8e????????0fb681f600000084c08885b4feffff":
 void ProjectileFactory::Update(ProjectileFactory *this<ecx>);
+"578d7c240883e4f0ff77fc5589e557565389cf81c14801000083ec5c":
+Projectile* ProjectileFactory::GetProjectile(ProjectileFactory *this<ecx>);

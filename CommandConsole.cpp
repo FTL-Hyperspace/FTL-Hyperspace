@@ -128,6 +128,23 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
 
         return true;
     }
+    if(cmdName == "RICH")
+    {
+        commandGui->shipComplete->shipManager->ModifyScrapCount(9999999 , false);
+        commandGui->shipComplete->shipManager->ModifyMissileCount(800);
+        commandGui->shipComplete->shipManager->fuel_count += 800;
+        commandGui->shipComplete->shipManager->ModifyDroneCount(800);
+        return true;
+    }
+    if(cmdName == "POOR")
+    {
+        commandGui->shipComplete->shipManager->ModifyScrapCount(-9999999 , false);
+        commandGui->shipComplete->shipManager->ModifyMissileCount(-800);
+        commandGui->shipComplete->shipManager->fuel_count -= 800;
+        if (commandGui->shipComplete->shipManager->fuel_count < 0) commandGui->shipComplete->shipManager->fuel_count = 0;
+        commandGui->shipComplete->shipManager->ModifyDroneCount(-800);
+        return true;
+    }
 
 
     return false;
@@ -197,6 +214,8 @@ HOOK_METHOD(CommandGui, RunCommand, (std::string& command) -> void)
     if (!CommandConsole::GetInstance()->RunCommand(this, command))
     {
         super(command);
+        if(command == "GOD")
+            PowerManager::GetPowerManager(0)->currentPower.second = CustomShipSelect::GetInstance()->GetDefinition(shipComplete->shipManager->myBlueprint.blueprintName).maxReactorLevel;
     }
 }
 

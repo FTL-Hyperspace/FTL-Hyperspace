@@ -1,6 +1,8 @@
 #pragma once
 #include "Global.h"
 #include "Constants.h"
+#include "CustomCrew.h"
+#include "CustomCrewCommon.h"
 
 struct ActivatedPowerDefinition;
 
@@ -37,6 +39,7 @@ enum class CrewStat : unsigned int
     CONTROLLABLE,
     CAN_BURN,
     IS_TELEPATHIC,
+    RESISTS_MIND_CONTROL,
     IS_ANAEROBIC,
     CAN_PHASE_THROUGH_DOORS,
     DETECTS_LIFEFORMS,
@@ -48,7 +51,10 @@ enum class CrewStat : unsigned int
     ACTIVATE_WHEN_READY,
     DEFAULT_SKILL_LEVEL,
     POWER_RECHARGE_MULTIPLIER,
-    HACK_DOORS
+    POWER_MAX_CHARGES,
+    POWER_CHARGES_PER_JUMP,
+    HACK_DOORS,
+    NO_CLONE
 };
 
 static const std::array<std::string, numStats> crewStats =
@@ -84,6 +90,7 @@ static const std::array<std::string, numStats> crewStats =
     "controllable",
     "canBurn",
     "isTelepathic",
+    "resistsMindControl",
     "isAnaerobic",
     "canPhaseThroughDoors",
     "detectsLifeforms",
@@ -95,7 +102,10 @@ static const std::array<std::string, numStats> crewStats =
     "activateWhenReady",
     "defaultSkillLevel",
     "powerRechargeMultiplier",
-    "hackDoors"
+    "powerCharges",
+    "chargesPerJump",
+    "hackDoors",
+    "noClone"
 };
 
 struct StatBoostDefinition
@@ -183,11 +193,10 @@ struct StatBoostDefinition
     std::vector<std::string> systemRoomReqs = std::vector<std::string>();
     std::vector<std::string> systemList = std::vector<std::string>();
 
-    std::vector<StatBoostDefinition> providedStatBoosts = std::vector<StatBoostDefinition>();
+    std::vector<StatBoostDefinition*> providedStatBoosts = std::vector<StatBoostDefinition*>();
 
     unsigned int powerChange = 0;
-    Damage* deathEffectChange;
-    bool explosionShipFriendlyFire;
+    ExplosionDefinition* deathEffectChange;
 
     std::vector<float> powerScaling = std::vector<float>();
     float powerScalingNoSys = 1.0;
@@ -204,22 +213,22 @@ struct StatBoostDefinition
     CrewTarget crewTarget;
     DroneTarget droneTarget = DroneTarget::ALL;
 
-    static uint64_t nextId;
-
     int realBoostId = -1;
     int stackId = 0;
     int maxStacks = 2147483647;
 
+    static std::vector<StatBoostDefinition*> statBoostDefs;
+
     void GiveId()
     {
-        nextId++;
-        realBoostId = nextId;
+        realBoostId = statBoostDefs.size();
+        statBoostDefs.push_back(this);
     }
 };
 
 struct StatBoost
 {
-    StatBoostDefinition def;
+    StatBoostDefinition* def;
 
     int iStacks = 1;
 
@@ -230,7 +239,11 @@ struct StatBoost
 
     int sourceShipId;
 
-    StatBoost(StatBoostDefinition definition) : def{definition}
+    StatBoost(StatBoostDefinition& definition) : def{&definition}
+    {
+    }
+
+    StatBoost(StatBoostDefinition* definition) : def{definition}
     {
     }
 };
@@ -253,7 +266,7 @@ public:
         return &instance;
     }
 
-    StatBoostDefinition ParseStatBoostNode(rapidxml::xml_node<char>* node, StatBoostDefinition::BoostSource boostSource);
+    StatBoostDefinition* ParseStatBoostNode(rapidxml::xml_node<char>* node, StatBoostDefinition::BoostSource boostSource);
     void CreateTimedAugmentBoost(StatBoost statBoost, CrewMember* crew);
     void OnLoop(WorldManager* world);
 private:
@@ -261,6 +274,7 @@ private:
     ShipManager* playerShip;
     ShipManager* enemyShip;
     std::vector<CrewMember*> checkingCrewList;
+    std::unordered_map<CrewMember*,std::unordered_map<int,int>> recursiveStackCount;
 
     int nextStackId = 0;
     std::unordered_map<std::string, int> stackIdMap;
@@ -278,8 +292,8 @@ private:
         return nextStackId;
     }
 
-    void CreateAugmentBoost(StatBoostDefinition& def, int shipId, int nStacks);
-    void CreateCrewBoost(StatBoostDefinition& def, CrewMember* otherCrew, int nStacks);
+    void CreateAugmentBoost(StatBoostDefinition* def, int shipId, int nStacks);
+    void CreateCrewBoost(StatBoostDefinition* def, CrewMember* otherCrew, int nStacks);
     void CreateCrewBoost(StatBoost statBoost, CrewMember* otherCrew);
-    void CreateRecursiveBoosts(StatBoost& statBoost, int nStacks);
+    void CreateRecursiveBoosts(StatBoost& statBoost, int nStacks, bool noCheck = false);
 };

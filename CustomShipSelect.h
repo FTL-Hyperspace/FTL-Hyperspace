@@ -64,6 +64,10 @@ struct CustomShipDefinition
     int systemLimit = 8;
     int subsystemLimit = 4;
 
+    std::vector<int> reactorPrices{15, 30, -1, -1, -1, -1};
+    int reactorPriceIncrement = 5;
+    int maxReactorLevel = 25;
+
     CustomShipDefinition()
     {
 
@@ -252,12 +256,17 @@ public:
 
     CustomShipDefinition& GetDefinition(const std::string& name)
     {
-        return this->shipDefs[name];
+        auto it = shipDefs.find(name);
+        if (it != shipDefs.end())
+        {
+            return it->second;
+        }
+        return this->defaultShipDef;
     }
 
     CustomShipDefinition& GetDefaultDefinition()
     {
-        return this->shipDefs["default"];
+        return this->defaultShipDef;
     }
 
     int GetRandomShipIndex();
@@ -292,6 +301,9 @@ public:
     std::vector<std::string> customShipOrder = std::vector<std::string>();
     bool hideFirstPage;
 
+    std::vector<std::pair<Point, std::string>> customAnimDefs = std::vector<std::pair<Point, std::string>>();
+    std::vector<std::pair<Point, Animation*>> customAnims = std::vector<std::pair<Point, Animation*>>();
+
 private:
     ShipSelect* shipSelect;
     Button* leftButton;
@@ -300,7 +312,9 @@ private:
     std::vector<ShipButton*> oldShipButtons;
     std::vector<ShipButtonList*> shipButtons = std::vector<ShipButtonList*>();
     std::vector<ShipButtonDefinition> shipButtonDefs = std::vector<ShipButtonDefinition> ();
-    std::map<std::string, CustomShipDefinition> shipDefs = std::map<std::string, CustomShipDefinition>();
+    std::unordered_map<std::string, CustomShipDefinition> shipDefs = std::unordered_map<std::string, CustomShipDefinition>();
+
+    CustomShipDefinition defaultShipDef = CustomShipDefinition();
 
     int shipPage = 0;
     int maxShipPage;

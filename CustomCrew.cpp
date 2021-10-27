@@ -1,8 +1,8 @@
+#include "StatBoost.h"
 #include "CustomCrew.h"
 #include "CustomOptions.h"
 #include "Resources.h"
 #include "freetype.h"
-#include "StatBoost.h"
 #include "TemporalSystem.h"
 #include "CustomDamage.h"
 
@@ -13,6 +13,8 @@
 #include <sstream>
 #include <iomanip>
 
+TransformColorMode g_transformColorMode = TransformColorMode::KEEP_INDICES;
+bool g_resistsMindControlStat = true;
 
 static const std::string CREW_SKILLS[6] =
 {
@@ -58,24 +60,24 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                 crew.repairSounds.push_back("repair");
 
                 crew.skillsDef = SkillsDefinition();
-                crew.explosionDef = Damage();
+                crew.explosionDef = ExplosionDefinition();
 
-                crew.explosionDef.iDamage = 0;
-                crew.explosionDef.iShieldPiercing = 0;
-                crew.explosionDef.fireChance = 0;
-                crew.explosionDef.breachChance = 0;
-                crew.explosionDef.stunChance = 0;
-                crew.explosionDef.iIonDamage = 0;
-                crew.explosionDef.iSystemDamage = 0;
-                crew.explosionDef.iPersDamage = 0;
-                crew.explosionDef.bHullBuster = false;
-                crew.explosionDef.ownerId = -1;
-                crew.explosionDef.selfId = -1;
-                crew.explosionDef.bLockdown = false;
-                crew.explosionDef.crystalShard = false;
-                crew.explosionDef.bFriendlyFire = false;
-                crew.explosionDef.iStun = 0;
-                crew.explosionShipFriendlyFire = false;
+                crew.explosionDef.damage.iDamage = 0;
+                crew.explosionDef.damage.iShieldPiercing = 0;
+                crew.explosionDef.damage.fireChance = 0;
+                crew.explosionDef.damage.breachChance = 0;
+                crew.explosionDef.damage.stunChance = 0;
+                crew.explosionDef.damage.iIonDamage = 0;
+                crew.explosionDef.damage.iSystemDamage = 0;
+                crew.explosionDef.damage.iPersDamage = 0;
+                crew.explosionDef.damage.bHullBuster = false;
+                crew.explosionDef.damage.ownerId = -1;
+                crew.explosionDef.damage.selfId = -1;
+                crew.explosionDef.damage.bLockdown = false;
+                crew.explosionDef.damage.crystalShard = false;
+                crew.explosionDef.damage.bFriendlyFire = false;
+                crew.explosionDef.damage.iStun = 0;
+                crew.explosionDef.shipFriendlyFire = false;
 
                 if (child->first_attribute("drone"))
                 {
@@ -130,6 +132,10 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                         if (str == "controllable")
                         {
                             crew.controllable = EventsParser::ParseBoolean(val);
+                        }
+                        if (str == "selectable")
+                        {
+                            crew.selectable = EventsParser::ParseBoolean(val);
                         }
                         if (str == "canRepair")
                         {
@@ -195,6 +201,10 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                         {
                             crew.isTelepathic = EventsParser::ParseBoolean(val);
                         }
+                        if (str == "resistsMindControl")
+                        {
+                            crew.resistsMindControl = EventsParser::ParseBoolean(val);
+                        }
                         if (str == "isAnaerobic")
                         {
                             crew.isAnaerobic = EventsParser::ParseBoolean(val);
@@ -221,11 +231,36 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                         }
                         if (str == "deathSounds")
                         {
+                            bool male = true;
+                            bool female = true;
+                            if (stat->first_attribute("male"))
+                            {
+                                if (EventsParser::ParseBoolean(stat->first_attribute("male")->value()))
+                                {
+                                    female = false;
+                                }
+                                else
+                                {
+                                    male = false;
+                                }
+                            }
+                            if (stat->first_attribute("female"))
+                            {
+                                if (EventsParser::ParseBoolean(stat->first_attribute("female")->value()))
+                                {
+                                    male = false;
+                                }
+                                else
+                                {
+                                    female = false;
+                                }
+                            }
                             for (auto deathSoundNode = stat->first_node(); deathSoundNode; deathSoundNode = deathSoundNode->next_sibling())
                             {
                                 if (strcmp(deathSoundNode->name(), "deathSound") == 0)
                                 {
-                                    crew.deathSounds.push_back(std::string(deathSoundNode->value()));
+                                    if (male) crew.deathSounds.push_back(std::string(deathSoundNode->value()));
+                                    if (female) crew.deathSoundsFemale.push_back(std::string(deathSoundNode->value()));
                                 }
                             }
                         }
@@ -266,6 +301,15 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                         if (str == "animBase")
                         {
                             crew.animBase = val;
+                        }
+                        if (str == "animSheet")
+                        {
+                            crew.animSheet[0] = val;
+                            crew.animSheet[1] = val;
+                        }
+                        if (str == "animSheetFemale")
+                        {
+                            crew.animSheet[0] = val;
                         }
                         if (str == "oxygenChangeSpeed")
                         {
@@ -401,7 +445,7 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                         if (str == "deathEffect")
                         {
                             crew.hasDeathExplosion = true;
-                            ParseDeathEffect(stat, &crew.explosionShipFriendlyFire, &crew.explosionDef);
+                            ParseDeathEffect(stat, &crew.explosionDef);
                         }
                         if (str == "powerEffect")
                         {
@@ -409,6 +453,14 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                             ParseAbilityEffect(stat, &powerDef);
                             powerDef.AssignIndex();
                             crew.powerDefIdx = powerDef.index;
+                        }
+                        if (str == "noSlot")
+                        {
+                            crew.noSlot = EventsParser::ParseBoolean(val);
+                        }
+                        if (str == "noClone")
+                        {
+                            crew.noClone = EventsParser::ParseBoolean(val);
                         }
                     }
                 }
@@ -428,9 +480,9 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
 
 }
 
-void CustomCrewManager::ParseDeathEffect(rapidxml::xml_node<char>* stat, bool* friendlyFire, Damage* explosionDef)
+void CustomCrewManager::ParseDeathEffect(rapidxml::xml_node<char>* stat, ExplosionDefinition* explosionDef)
 {
-    Damage def;
+    ExplosionDefinition def;
     if (explosionDef != nullptr)
     {
         def = *explosionDef;
@@ -441,52 +493,62 @@ void CustomCrewManager::ParseDeathEffect(rapidxml::xml_node<char>* stat, bool* f
 
         if (effectName == "damage")
         {
-            def.iDamage = boost::lexical_cast<int>(effectNode->value());
+            def.damage.iDamage = boost::lexical_cast<int>(effectNode->value());
         }
         if (effectName == "fireChance")
         {
-            def.fireChance = boost::lexical_cast<int>(effectNode->value());
+            def.damage.fireChance = boost::lexical_cast<int>(effectNode->value());
         }
         if (effectName == "breachChance")
         {
-            def.breachChance = boost::lexical_cast<int>(effectNode->value());
+            def.damage.breachChance = boost::lexical_cast<int>(effectNode->value());
         }
         if (effectName == "ion")
         {
-            def.iIonDamage = boost::lexical_cast<int>(effectNode->value());
+            def.damage.iIonDamage = boost::lexical_cast<int>(effectNode->value());
         }
         if (effectName == "sysDamage")
         {
-            def.iSystemDamage = boost::lexical_cast<int>(effectNode->value());
+            def.damage.iSystemDamage = boost::lexical_cast<int>(effectNode->value());
         }
         if (effectName == "persDamage")
         {
-            def.iPersDamage = boost::lexical_cast<int>(effectNode->value());
+            def.damage.iPersDamage = boost::lexical_cast<int>(effectNode->value());
         }
         if (effectName == "hullBust")
         {
-            def.bHullBuster = EventsParser::ParseBoolean(effectNode->value());
+            def.damage.bHullBuster = EventsParser::ParseBoolean(effectNode->value());
         }
         if (effectName == "lockdown")
         {
-            def.bLockdown = EventsParser::ParseBoolean(effectNode->value());
+            def.damage.bLockdown = EventsParser::ParseBoolean(effectNode->value());
         }
         if (effectName == "friendlyFire")
         {
-            def.bFriendlyFire = EventsParser::ParseBoolean(effectNode->value());
+            def.damage.bFriendlyFire = EventsParser::ParseBoolean(effectNode->value());
         }
         if (effectName == "stun")
         {
-            def.iStun = boost::lexical_cast<int>(effectNode->value());
+            def.damage.iStun = boost::lexical_cast<int>(effectNode->value());
         }
         if (effectName == "shipFriendlyFire")
         {
-            *friendlyFire = EventsParser::ParseBoolean(effectNode->value());
+            def.shipFriendlyFire = EventsParser::ParseBoolean(effectNode->value());
+        }
+        if (effectName == "statBoosts")
+        {
+            for (auto statBoostNode = effectNode->first_node(); statBoostNode; statBoostNode = statBoostNode->next_sibling())
+            {
+                if (strcmp(statBoostNode->name(), "statBoost") == 0)
+                {
+                    def.statBoosts.push_back(StatBoostManager::GetInstance()->ParseStatBoostNode(statBoostNode, StatBoostDefinition::BoostSource::CREW));
+                }
+            }
         }
     }
     if (!explosionDef)
     {
-        explosionDef = new Damage();
+        explosionDef = new ExplosionDefinition();
     }
     *explosionDef = def;
 }
@@ -505,6 +567,11 @@ void CustomCrewManager::ParseAbilityEffect(rapidxml::xml_node<char>* stat, Activ
 
         if (effectName == "powerSounds")
         {
+            if (effectNode->first_attribute("enemy"))
+            {
+                def.soundsEnemy = EventsParser::ParseBoolean(effectNode->first_attribute("enemy")->value());
+            }
+
             for (auto soundNode = effectNode->first_node(); soundNode; soundNode = soundNode->next_sibling())
             {
                 if (strcmp(soundNode->name(), "powerSound") == 0)
@@ -686,6 +753,24 @@ void CustomCrewManager::ParseAbilityEffect(rapidxml::xml_node<char>* stat, Activ
         {
             def.transformRace = effectNode->value();
         }
+        if (effectName == "spawnCrew")
+        {
+            CrewSpawn newSpawn = CrewSpawn::ParseCrewSpawn(effectNode, true);
+            if (!newSpawn.race.empty())
+            {
+                def.crewSpawns.push_back(newSpawn);
+            }
+        }
+        if (effectName == "statBoosts")
+        {
+            for (auto statBoostNode = effectNode->first_node(); statBoostNode; statBoostNode = statBoostNode->next_sibling())
+            {
+                if (strcmp(statBoostNode->name(), "statBoost") == 0)
+                {
+                    def.statBoosts.push_back(StatBoostManager::GetInstance()->ParseStatBoostNode(statBoostNode, StatBoostDefinition::BoostSource::CREW));
+                }
+            }
+        }
         if (effectName == "temporaryEffect")
         {
             def.hasTemporaryPower = true;
@@ -704,6 +789,11 @@ void CustomCrewManager::ParseAbilityEffect(rapidxml::xml_node<char>* stat, Activ
                 }
                 if (tempEffectName == "finishSounds")
                 {
+                    if (tempEffectNode->first_attribute("enemy"))
+                    {
+                        def.tempPower.soundsEnemy = EventsParser::ParseBoolean(tempEffectNode->first_attribute("enemy")->value());
+                    }
+
                     for (auto soundNode = tempEffectNode->first_node(); soundNode; soundNode = soundNode->next_sibling())
                     {
                         if (strcmp(soundNode->name(), "finishSound") == 0)
@@ -796,6 +886,10 @@ void CustomCrewManager::ParseAbilityEffect(rapidxml::xml_node<char>* stat, Activ
                 {
                     def.tempPower.isTelepathic = EventsParser::ParseBoolean(tempEffectNode->value());
                 }
+                if (tempEffectName == "resistsMindControl")
+                {
+                    def.tempPower.resistsMindControl = EventsParser::ParseBoolean(tempEffectNode->value());
+                }
                 if (tempEffectName == "fireDamageMultiplier")
                 {
                     def.tempPower.fireDamageMultiplier = boost::lexical_cast<float>(tempEffectNode->value());
@@ -862,6 +956,10 @@ void CustomCrewManager::ParseAbilityEffect(rapidxml::xml_node<char>* stat, Activ
                     {
                         def.tempPower.statBoosts.push_back(StatBoostManager::GetInstance()->ParseStatBoostNode(statBoostNode, StatBoostDefinition::BoostSource::CREW));
                     }
+                }
+                if (tempEffectName == "noClone")
+                {
+                    def.tempPower.noClone = EventsParser::ParseBoolean(tempEffectNode->value());
                 }
             }
         }
@@ -993,7 +1091,7 @@ CrewMember* CustomCrewManager::CreateCrewMember(CrewBlueprint* bp, int shipId, b
     Pointf unk = Pointf(0.f, 0.f);
     CrewAnimation* animation = new CrewAnimation(shipId, race, unk, intruder);
 
-    CrewDefinition def = GetDefinition(race);
+    CrewDefinition* def = GetDefinition(race);
 
     CrewMember *crew;
     crew = new CrewMember(*bp, shipId, intruder, animation);
@@ -1014,20 +1112,24 @@ ActivatedPowerDefinition* CrewMember_Extend::GetPowerDef() const
 
 ActivatedPowerDefinition* CrewMember_Extend::CalculatePowerDef()
 {
+    CrewDefinition* def = CustomCrewManager::GetInstance()->GetDefinition(orig->species);
+
     if (!powerActivated && !temporaryPowerActive)
     {
         auto aex = CMA_EX(orig->crewAnim);
         if (aex->powerDone)
         {
-            CrewDefinition& def = CustomCrewManager::GetInstance()->GetDefinition(orig->species);
             CalculateStat(CrewStat::POWER_EFFECT, def); //powerChange
 
             if (powerChange != powerDefIdx)
             {
+                powerDefIdx = powerChange;
                 auto newDef = &ActivatedPowerDefinition::powerDefs[powerChange];
 
                 if (newDef->hasSpecialPower)
                 {
+                    int newPowerMaxCharges = CalculateStat(CrewStat::POWER_MAX_CHARGES, def);
+
                     if (hasSpecialPower)
                     {
                         powerCooldown.first = (powerCooldown.first/powerCooldown.second) * newDef->cooldown;
@@ -1035,20 +1137,20 @@ ActivatedPowerDefinition* CrewMember_Extend::CalculatePowerDef()
 
                         if (powerCharges.second >= 0)
                         {
-                            powerCharges.first = std::min(powerCharges.first, newDef->powerCharges);
+                            powerCharges.first = std::min(powerCharges.first, newPowerMaxCharges);
                         }
                         else
                         {
-                            powerCharges.first = std::min(newDef->initialCharges, newDef->powerCharges);
+                            powerCharges.first = std::min(newDef->initialCharges, newPowerMaxCharges);
                         }
-                        powerCharges.second = newDef->powerCharges;
+                        powerCharges.second = newPowerMaxCharges;
                     }
                     else
                     {
                         powerCooldown.first = 0.f;
                         powerCooldown.second = newDef->cooldown;
-                        powerCharges.second = newDef->powerCharges;
-                        powerCharges.first = std::min(newDef->initialCharges, newDef->powerCharges);
+                        powerCharges.second = newPowerMaxCharges;
+                        powerCharges.first = std::min(newDef->initialCharges, newPowerMaxCharges);
                     }
                 }
 
@@ -1057,8 +1159,6 @@ ActivatedPowerDefinition* CrewMember_Extend::CalculatePowerDef()
 
                 hasSpecialPower = newDef->hasSpecialPower;
                 hasTemporaryPower = newDef->hasTemporaryPower;
-
-                powerDefIdx = powerChange;
 
                 if (orig->iShipId == 0)
                 {
@@ -1070,6 +1170,14 @@ ActivatedPowerDefinition* CrewMember_Extend::CalculatePowerDef()
             }
         }
     }
+
+    if (hasSpecialPower)
+    {
+        int newPowerMaxCharges = CalculateStat(CrewStat::POWER_MAX_CHARGES, def);
+        powerCharges.first = std::min(powerCharges.first, newPowerMaxCharges);
+        powerCharges.second = newPowerMaxCharges;
+    }
+
     return &ActivatedPowerDefinition::powerDefs[powerDefIdx];
 }
 
@@ -1086,7 +1194,8 @@ PowerReadyState CrewMember_Extend::PowerReq(const ActivatedPowerRequirements *re
     {
         return POWER_NOT_READY_PLAYER_SHIP;
     }
-    if (currentShip && !currentShip->GetSystemInRoom(orig->iRoomId) && req->systemInRoom)
+    // known bug: GetSystemInRoom rarely crashes upon loading a saved run, usually on chargeReq (it crashes trying to dereference a system in vSystemList)
+    if (currentShip && req->systemInRoom && !currentShip->GetSystemInRoom(orig->iRoomId))
     {
         return POWER_NOT_READY_SYSTEM_IN_ROOM;
     }
@@ -1341,6 +1450,15 @@ void CrewMember_Extend::ActivateTemporaryPower()
         canPhaseThroughDoors = powerDef->tempPower.canPhaseThroughDoors.value;
     }
 
+    outgoingAbilityStatBoosts.clear();
+    for (StatBoostDefinition* statBoostDef : powerDef->tempPower.statBoosts)
+    {
+        StatBoost statBoost = StatBoost(statBoostDef);
+
+        statBoost.crewSource = orig;
+        outgoingAbilityStatBoosts.push_back(statBoost);
+    }
+
     StatBoostManager::GetInstance()->statCacheFrame++; // resets stat cache in case game is paused
 }
 
@@ -1354,6 +1472,7 @@ void CrewMember_Extend::PreparePower()
 
     powerShip = orig->currentShipId;
     powerRoom = orig->iRoomId;
+    aex->effectWorldPos = Pointf(orig->x, orig->y);
 
     if (powerDef->animFrame == -1)
     {
@@ -1380,7 +1499,7 @@ void CrewMember_Extend::PreparePower()
         aex->tempEffectAnim->Start(true);
     }
 
-    if (powerDef->sounds.size() > 0)
+    if (powerDef->sounds.size() > 0 && (powerDef->soundsEnemy || orig->iShipId == 0))
     {
         int rng = random32();
 
@@ -1393,7 +1512,6 @@ void CrewMember_Extend::PreparePower()
     {
         aex->effectPos = Pointf(orig->x - std::ceil((float)aex->effectAnim->info.frameWidth / 2), orig->y - std::ceil((float)aex->effectAnim->info.frameHeight / 2) + orig->PositionShift());
     }
-    aex->effectWorldPos = Pointf(orig->x, orig->y);
 }
 
 void CrewMember_Extend::ActivatePower()
@@ -1466,6 +1584,53 @@ void CrewMember_Extend::ActivatePower()
     {
         TransformRace(powerDef->transformRace);
     }
+
+    for (auto& i : powerDef->crewSpawns)
+    {
+        if (ship)
+        {
+            CrewSpawn::SpawnCrew(i, ship, ship->iShipId != orig->iShipId, aex->effectWorldPos);
+        }
+    }
+
+    if (!powerDef->statBoosts.empty())
+    {
+        for (auto i=0; i<2; ++i)
+        {
+            ShipManager *crewShip = G_->GetShipManager(i);
+            if (crewShip)
+            {
+                for (auto otherCrew : crewShip->vCrewList)
+                {
+                    for (auto statBoostDef : powerDef->statBoosts)
+                    {
+                        StatBoost statBoost(statBoostDef);
+                        statBoost.crewSource = orig;
+                        statBoost.sourceShipId = orig->iShipId;
+                        StatBoostManager::GetInstance()->CreateTimedAugmentBoost(statBoost, otherCrew);
+                    }
+                }
+            }
+        }
+    }
+}
+
+void CrewMember_Extend::TransformColors(CrewBlueprint& bp, CrewBlueprint *newBlueprint)
+{
+    int nLayers = std::min(bp.colorLayers.size(), newBlueprint->colorLayers.size());
+    for (int i=0; i<nLayers; i++)
+    {
+        if (newBlueprint->colorLayers[i].size() == bp.colorLayers[i].size())
+        {
+            newBlueprint->colorChoices[i] = bp.colorChoices[i];
+        }
+        else if (newBlueprint->colorChoices[i] == -1)
+        {
+            newBlueprint->colorChoices[i] = random32() % newBlueprint->colorLayers[i].size();
+        }
+    }
+    bp.colorLayers = newBlueprint->colorLayers;
+    bp.colorChoices = newBlueprint->colorChoices;
 }
 
 bool CrewMember_Extend::TransformRace(const std::string& species)
@@ -1488,6 +1653,19 @@ bool CrewMember_Extend::TransformRace(const std::string& species)
         orig->blueprint.type = newBlueprint->type;
         orig->species = newBlueprint->name;
         orig->type = newBlueprint->name;
+
+        if (g_transformColorMode == TransformColorMode::KEEP_INDICES)
+        {
+            originalRace = newBlueprint->name;
+
+            TransformColors(orig->blueprint, newBlueprint);
+
+            orig->crewAnim->layerColors.clear();
+            for (int i=0; i<orig->blueprint.colorLayers.size(); i++)
+            {
+                orig->crewAnim->layerColors.push_back(orig->blueprint.colorLayers[i][orig->blueprint.colorChoices[i]]);
+            }
+        }
 
         delete newBlueprint;
 
@@ -1525,10 +1703,12 @@ bool CrewMember_Extend::TransformRace(const std::string& species)
         StatBoostManager::GetInstance()->statCacheFrame++; // resets stat cache in case game is paused
 
         transformRace = "";
+        return true;
     }
     else
     {
         transformRace = species;
+        return false;
     }
 }
 
@@ -1543,7 +1723,7 @@ void CrewMember_Extend::TemporaryPowerFinished()
 
     temporaryPowerActive = false;
 
-    if (powerDef->tempPower.sounds.size() > 0)
+    if (powerDef->tempPower.sounds.size() > 0  && (powerDef->tempPower.soundsEnemy || orig->iShipId == 0))
     {
         int rng = random32();
 
@@ -1561,7 +1741,7 @@ void CrewMember_Extend::TemporaryPowerFinished()
 
     aex->temporaryPowerActive = false;
 
-    canPhaseThroughDoors = CustomCrewManager::GetInstance()->GetDefinition(orig->species).canPhaseThroughDoors;
+    canPhaseThroughDoors = CustomCrewManager::GetInstance()->GetDefinition(orig->species)->canPhaseThroughDoors;
 
     if (aex->effectFinishAnim != nullptr)
     {
@@ -1646,6 +1826,7 @@ HOOK_METHOD_PRIORITY(CrewMember, constructor, -899, (CrewBlueprint& bp, int ship
     ex->Initialize(bp, shipId, enemy, animation);
 }
 
+static bool g_forceNoSlot = false;
 
 void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, CrewAnimation *animation, bool isTransform)
 {
@@ -1656,7 +1837,7 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
         auto powerDef = CalculatePowerDef();
         auto aex = CMA_EX(orig->crewAnim);
 
-        if (!orig->crewAnim->bDrone || def.animBase == "rock" || def.animBase == "mantis")
+        if (!orig->crewAnim->bDrone || def->animBase == "rock" || def->animBase == "mantis")
         {
             Pointf lastPosition = Pointf(0, 0);
             std::vector<GL_Color> layerColors = std::vector<GL_Color>();
@@ -1686,6 +1867,9 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
                 }
             }
 
+            std::string animSheet = def->animSheet[male?1:0];
+            if (animSheet.empty()) animSheet = bp.name;
+
             Animation* effectAnim = aex->effectAnim;
             Animation* effectFinishAnim = aex->effectFinishAnim;
             Animation* tempEffectAnim = aex->tempEffectAnim;
@@ -1696,25 +1880,25 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
             aex->tempEffectAnim = nullptr;
             aex->tempEffectStrip = nullptr;
 
-            if (def.animBase == "rock")
+            if (def->animBase == "rock")
             {
                 blockAddSoundQueue = true;
-                orig->crewAnim = new RockAnimation(bp.name, shipId, lastPosition, enemy);
+                orig->crewAnim = new RockAnimation(animSheet, shipId, lastPosition, enemy);
                 aex = CMA_EX(orig->crewAnim);
                 aex->crewAnimationType = "rock";
                 blockAddSoundQueue = false;
             }
-            else if (def.animBase == "mantis")
+            else if (def->animBase == "mantis")
             {
                 orig->crewAnim = new MantisAnimation;
-                orig->crewAnim->constructor(shipId, bp.name, lastPosition, enemy);
+                orig->crewAnim->constructor(shipId, animSheet, lastPosition, enemy);
                 aex = CMA_EX(orig->crewAnim);
                 aex->isMantisAnimation = true;
                 aex->crewAnimationType = "mantis";
             }
             else
             {
-                orig->crewAnim = new CrewAnimation(shipId, bp.name, lastPosition, enemy);
+                orig->crewAnim = new CrewAnimation(shipId, animSheet, lastPosition, enemy);
                 aex = CMA_EX(orig->crewAnim);
             }
 
@@ -1729,15 +1913,22 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
             {
                 orig->crewAnim->layerColors = layerColors;
 
-                auto bpM = G_->GetBlueprints();
-                auto it = bpM->crewBlueprints.find(bp.name);
-                if (it != bpM->crewBlueprints.end() && it->second.colorLayers.size() < orig->crewAnim->layerColors.size())
+                if (g_transformColorMode == TransformColorMode::KEEP_COLORS)
                 {
-                    orig->crewAnim->layerColors.resize(it->second.colorLayers.size());
-                }
-                orig->crewAnim->SetupStrips();
+                    auto bpM = G_->GetBlueprints();
+                    auto it = bpM->crewBlueprints.find(bp.name);
+                    if (it != bpM->crewBlueprints.end() && it->second.colorLayers.size() < orig->crewAnim->layerColors.size())
+                    {
+                        orig->crewAnim->layerColors.resize(it->second.colorLayers.size());
+                    }
+                    orig->crewAnim->SetupStrips();
 
-                orig->crewAnim->layerColors = layerColors;
+                    orig->crewAnim->layerColors = layerColors;
+                }
+                else
+                {
+                    orig->crewAnim->SetupStrips();
+                }
             }
 
             if (animation)
@@ -1772,13 +1963,13 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
                 }
             }
 
-            if (def.repairSoundFrame != -1 && def.repairSounds.size() > 0 && !enemy)
+            if (def->repairSoundFrame != -1 && def->repairSounds.size() > 0 && !enemy)
             {
-                for (auto sound : def.repairSounds)
+                for (auto sound : def->repairSounds)
                 {
                     for (int i = 0; i < 4; i++)
                     {
-                        orig->crewAnim->anims[i][2].AddSoundQueue(def.repairSoundFrame, sound);
+                        orig->crewAnim->anims[i][2].AddSoundQueue(def->repairSoundFrame, sound);
                     }
                 }
             }
@@ -1810,10 +2001,10 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
             hasSpecialPower = powerDef->hasSpecialPower;
             hasTemporaryPower = powerDef->hasTemporaryPower;
         }
-        canPhaseThroughDoors = def.canPhaseThroughDoors;
+        canPhaseThroughDoors = def->canPhaseThroughDoors;
 
         outgoingStatBoosts.clear();
-        for (auto statBoostDef : def.passiveStatBoosts)
+        for (StatBoostDefinition* statBoostDef : def->passiveStatBoosts)
         {
             StatBoost statBoost = StatBoost(statBoostDef);
 
@@ -1821,7 +2012,7 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
             outgoingStatBoosts.push_back(statBoost);
         }
         outgoingAbilityStatBoosts.clear();
-        for (auto statBoostDef : powerDef->tempPower.statBoosts)
+        for (StatBoostDefinition* statBoostDef : powerDef->tempPower.statBoosts)
         {
             StatBoost statBoost = StatBoost(statBoostDef);
 
@@ -1830,7 +2021,8 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
         }
 
 
-        auto skillsDef = def.skillsDef;
+        auto skillsDef = def->skillsDef;
+        noSlot = def->noSlot || g_forceNoSlot;
 
         std::string skillOrder[6] = {"piloting", "engines", "shields", "weapons", "repair", "combat"};
 
@@ -1845,6 +2037,8 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
                 orig->blueprint.skillLevel[i].first = ((defaultSkillLevel / 2.f) * orig->blueprint.skillLevel[i].second);
             }
         }
+
+        g_forceNoSlot = false;
     }
 }
 
@@ -1856,7 +2050,7 @@ HOOK_METHOD(CrewBlueprint, RandomSkills, (int worldLevel) -> void)
 
     if (custom->IsRace(name))
     {
-        auto skillsDef = custom->GetDefinition(name).skillsDef;
+        auto skillsDef = custom->GetDefinition(name)->skillsDef;
 
         std::string skillOrder[6] = {"piloting", "engines", "shields", "weapons", "repair", "combat"};
 
@@ -2005,12 +2199,40 @@ HOOK_METHOD_PRIORITY(CrewMember, DirectModifyHealth, 1000, (float healthMod) -> 
 
 	return ret;
 }
+HOOK_METHOD(CrewMember, SetHealthBoost, (int _healthBoost) -> void)
+{
+    int delta = _healthBoost - healthBoost;
+    if (delta != 0)
+    {
+        health.second += delta;
+        if (delta > 0)
+        {
+            health.first += delta;
+        }
+        else
+        {
+            health.first = std::min(health.first, health.second);
+        }
+        healthBoost = _healthBoost;
+    }
+    GetMaxHealth();
+}
 HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
 {
     super();
 
     auto custom = CustomCrewManager::GetInstance();
     CrewMember_Extend* ex = CM_EX(this);
+
+    if (ex->deathTimer)
+    {
+        ex->deathTimer->Update();
+        if (ex->deathTimer->Done())
+        {
+            health.first = 0.f;
+        }
+    }
+
     if (custom->IsRace(species))
     {
         auto def = custom->GetDefinition(species);
@@ -2145,6 +2367,35 @@ HOOK_METHOD(CrewMember, SaveState, (int file) -> void)
 {
     auto ex = CM_EX(this);
 
+    FileHelper::writeFloat(file, health.first);
+    FileHelper::writeFloat(file, health.second);
+
+    FileHelper::writeInt(file, ex->noSlot);
+
+    // Passive Heal
+    if (ex->passiveHealTimer != nullptr)
+    {
+        FileHelper::writeFloat(file, ex->passiveHealTimer->currGoal);
+        FileHelper::writeFloat(file, ex->passiveHealTimer->currTime);
+    }
+    else
+    {
+        FileHelper::writeFloat(file, -1.f);
+        FileHelper::writeFloat(file, -1.f);
+    }
+
+    // Death Timer
+    if (ex->deathTimer != nullptr)
+    {
+        FileHelper::writeFloat(file, ex->deathTimer->currGoal);
+        FileHelper::writeFloat(file, ex->deathTimer->currTime);
+    }
+    else
+    {
+        FileHelper::writeFloat(file, -1.f);
+        FileHelper::writeFloat(file, -1.f);
+    }
+
     FileHelper::writeFloat(file, ex->powerCooldown.first);
     FileHelper::writeFloat(file, ex->powerCooldown.second);
     FileHelper::writeFloat(file, ex->temporaryPowerDuration.first);
@@ -2156,6 +2407,26 @@ HOOK_METHOD(CrewMember, SaveState, (int file) -> void)
     FileHelper::writeString(file, ex->transformRace);
     FileHelper::writeString(file, ex->originalRace);
 
+    // Timed augment stat boosts
+    std::vector<StatBoost*> timedStatBoostsSerial;
+    for (auto& vStatBoost : ex->timedStatBoosts)
+    {
+        for (auto& statBoost : vStatBoost.second)
+        {
+            timedStatBoostsSerial.push_back(&statBoost);
+        }
+    }
+
+    FileHelper::writeInt(file, timedStatBoostsSerial.size());
+    for (auto statBoost : timedStatBoostsSerial)
+    {
+        FileHelper::writeInt(file, statBoost->def->realBoostId);
+        FileHelper::writeInt(file, statBoost->iStacks);
+        FileHelper::writeInt(file, statBoost->sourceShipId);
+        FileHelper::writeFloat(file, statBoost->timerHelper.currGoal);
+        FileHelper::writeFloat(file, statBoost->timerHelper.currTime);
+    }
+
     super(file);
 
 }
@@ -2164,6 +2435,45 @@ HOOK_METHOD(CrewMember, LoadState, (int file) -> void)
 {
     auto ex = CM_EX(this);
     auto aex = CMA_EX(crewAnim);
+
+    std::pair<float,float> customHealth;
+
+    customHealth.first = FileHelper::readFloat(file);
+    customHealth.second = FileHelper::readFloat(file);
+
+    ex->noSlot = FileHelper::readInteger(file);
+
+    // Passive Heal
+    float timerGoal = FileHelper::readFloat(file);
+    if (timerGoal != -1.f)
+    {
+        if (ex->passiveHealTimer == nullptr)
+        {
+            ex->passiveHealTimer = new TimerHelper(false);
+        }
+        ex->passiveHealTimer->Start(timerGoal);
+        ex->passiveHealTimer->currTime = FileHelper::readFloat(file);
+    }
+    else
+    {
+        FileHelper::readFloat(file);
+    }
+
+    // Death Timer
+    timerGoal = FileHelper::readFloat(file);
+    if (timerGoal != -1.f)
+    {
+        if (ex->deathTimer == nullptr)
+        {
+            ex->deathTimer = new TimerHelper(false);
+        }
+        ex->deathTimer->Start(timerGoal);
+        ex->deathTimer->currTime = FileHelper::readFloat(file);
+    }
+    else
+    {
+        FileHelper::readFloat(file);
+    }
 
     ex->powerCooldown.first = FileHelper::readFloat(file);
     ex->powerCooldown.second = FileHelper::readFloat(file);
@@ -2176,27 +2486,48 @@ HOOK_METHOD(CrewMember, LoadState, (int file) -> void)
     ex->transformRace = FileHelper::readString(file);
     ex->originalRace = FileHelper::readString(file);
 
-    auto bpM = G_->GetBlueprints();
-    auto it = bpM->crewBlueprints.find(ex->originalRace);
-    if (it != bpM->crewBlueprints.end())
+    // Timed augment stat boosts
+    int timedStatBoostsSize = FileHelper::readInteger(file);
+
+    for (int i=0; i<timedStatBoostsSize; ++i)
     {
-        blueprint.colorLayers = it->second.colorLayers;
-        blueprint.colorChoices.resize(blueprint.colorLayers.size(), -1);
-        unsigned int n = std::min(blueprint.colorLayers.size(), crewAnim->layerColors.size());
-        unsigned int i;
-        for (i=0; i<n; ++i)
+        StatBoost statBoost(StatBoostDefinition::statBoostDefs.at(FileHelper::readInteger(file)));
+        statBoost.iStacks = FileHelper::readInteger(file);
+        statBoost.sourceShipId = FileHelper::readInteger(file);
+        statBoost.timerHelper.Start(FileHelper::readFloat(file));
+        statBoost.timerHelper.currTime = FileHelper::readFloat(file);
+
+        auto& vStatBoosts = ex->timedStatBoosts[statBoost.def->stat];
+
+        vStatBoosts.push_back(statBoost);
+    }
+
+    // Transformed color choices
+    if (species != ex->originalRace)
+    {
+        auto bpM = G_->GetBlueprints();
+        auto it = bpM->crewBlueprints.find(ex->originalRace);
+        if (it != bpM->crewBlueprints.end())
         {
-            if (blueprint.colorChoices[i] < blueprint.colorLayers[i].size())
+            blueprint.colorLayers = it->second.colorLayers;
+            blueprint.colorChoices.resize(blueprint.colorLayers.size(), -1);
+            unsigned int n = std::min(blueprint.colorLayers.size(), crewAnim->layerColors.size());
+            unsigned int i;
+            for (i=0; i<n; ++i)
             {
-                crewAnim->layerColors[i] = blueprint.colorLayers[i][blueprint.colorChoices[i]];
+                if (blueprint.colorChoices[i] < blueprint.colorLayers[i].size())
+                {
+                    crewAnim->layerColors[i] = blueprint.colorLayers[i][blueprint.colorChoices[i]];
+                }
             }
-        }
-        for (; i<crewAnim->layerColors.size(); ++i)
-        {
-            crewAnim->layerColors[i] = GL_Color(0.0, 0.0, 0.0, 0.0);
+            for (; i<crewAnim->layerColors.size(); ++i)
+            {
+                crewAnim->layerColors[i] = GL_Color(0.0, 0.0, 0.0, 0.0);
+            }
         }
     }
 
+    // Set up saved power definition
     if (ex->powerDefIdx >= ActivatedPowerDefinition::powerDefs.size()) ex->powerDefIdx = 0; // bounds check
 
     auto powerDef = ex->GetPowerDef();
@@ -2213,6 +2544,10 @@ HOOK_METHOD(CrewMember, LoadState, (int file) -> void)
     }
 
     super(file);
+
+    health = customHealth;
+    ex->statCache[(unsigned int)CrewStat::MAX_HEALTH].first = health.second;
+    ex->statCache[(unsigned int)CrewStat::MAX_HEALTH].second = StatBoostManager::statCacheFrame;
 }
 
 HOOK_METHOD_PRIORITY(CrewMember, GetNewGoal, 2000, () -> bool)
@@ -2510,11 +2845,13 @@ HOOK_STATIC(CrewAnimation, GetDeathSound, (std::string& strRef, CrewAnimation *a
     {
         auto def = custom->GetDefinition(anim->race);
 
-        if (def.deathSounds.size() > 0)
+        std::vector<std::string>& deathSounds = anim->bMale ? def->deathSounds : def->deathSoundsFemale;
+
+        if (deathSounds.size() > 0)
         {
             int rng = random32();
 
-            strRef.assign(def.deathSounds[rng % def.deathSounds.size()]);
+            strRef.assign(deathSounds[rng % deathSounds.size()]);
 
             return strRef;
         }
@@ -2533,11 +2870,13 @@ HOOK_STATIC(RockAnimation, GetDeathSound, (std::string& strRef, RockAnimation *a
     {
         auto def = custom->GetDefinition(anim->race);
 
-        if (def.deathSounds.size() > 0)
+        std::vector<std::string>& deathSounds = anim->bMale ? def->deathSounds : def->deathSoundsFemale;
+
+        if (deathSounds.size() > 0)
         {
             int rng = random32();
 
-            strRef.assign(def.deathSounds[rng % def.deathSounds.size()]);
+            strRef.assign(deathSounds[rng % deathSounds.size()]);
 
             return strRef;
         }
@@ -2556,10 +2895,13 @@ HOOK_STATIC(MantisAnimation, GetDeathSound, (std::string& strRef, MantisAnimatio
     {
         auto def = custom->GetDefinition(anim->race);
 
-        if (def.deathSounds.size() > 0)
+        std::vector<std::string>& deathSounds = anim->bMale ? def->deathSounds : def->deathSoundsFemale;
+
+        if (deathSounds.size() > 0)
         {
             int rng = random32();
-            strRef.assign(def.deathSounds[rng % def.deathSounds.size()]);
+
+            strRef.assign(deathSounds[rng % deathSounds.size()]);
 
             return strRef;
         }
@@ -2578,11 +2920,11 @@ HOOK_STATIC(CrewAnimation, GetShootingSound, (std::string& strRef, CrewAnimation
     {
         auto def = custom->GetDefinition(anim->race);
 
-        if (def.shootingSounds.size() > 0)
+        if (def->shootingSounds.size() > 0)
         {
             int rng = random32();
 
-            strRef.assign(def.shootingSounds[rng % def.shootingSounds.size()]);
+            strRef.assign(def->shootingSounds[rng % def->shootingSounds.size()]);
 
             return strRef;
         }
@@ -2601,11 +2943,11 @@ HOOK_STATIC(RockAnimation, GetShootingSound, (std::string& strRef, RockAnimation
     {
         auto def = custom->GetDefinition(anim->race);
 
-        if (def.shootingSounds.size() > 0)
+        if (def->shootingSounds.size() > 0)
         {
             int rng = random32();
 
-            strRef.assign(def.shootingSounds[rng % def.shootingSounds.size()]);
+            strRef.assign(def->shootingSounds[rng % def->shootingSounds.size()]);
 
             return strRef;
         }
@@ -2624,11 +2966,11 @@ HOOK_STATIC(MantisAnimation, GetShootingSound, (std::string& strRef, MantisAnima
     {
         auto def = custom->GetDefinition(anim->race);
 
-        if (def.shootingSounds.size() > 0)
+        if (def->shootingSounds.size() > 0)
         {
             int rng = random32();
 
-            strRef.assign(def.shootingSounds[rng % def.shootingSounds.size()]);
+            strRef.assign(def->shootingSounds[rng % def->shootingSounds.size()]);
 
             return strRef;
         }
@@ -2647,11 +2989,11 @@ HOOK_STATIC(CrewMember, GetUniqueRepairing, (std::string& strRef, CrewMember *cr
     {
         auto def = custom->GetDefinition(crew->species);
 
-        if (def.repairSounds.size() > 0 && def.repairSoundFrame == -1)
+        if (def->repairSounds.size() > 0 && def->repairSoundFrame == -1)
         {
             int rng = random32();
 
-            strRef.assign(def.repairSounds[rng % def.repairSounds.size()]);
+            strRef.assign(def->repairSounds[rng % def->repairSounds.size()]);
 
 
             return strRef;
@@ -2875,14 +3217,14 @@ HOOK_METHOD(ShipManager, OnLoop, () -> void)
                 }
             }
 
-            if (def.changeIfSame)
+            if (def->changeIfSame)
             {
                 int counter = 0;
-                for (auto name : def.transformName)
+                for (auto name : def->transformName)
                 {
                     if (i->blueprint.crewNameLong.GetText() == name) // this is stupid
                     {
-                        std::string newSpecies = def.nameRace.at(counter);
+                        std::string newSpecies = def->nameRace.at(counter);
                         ++counter;
 
                         ex->TransformRace(newSpecies);
@@ -2892,7 +3234,7 @@ HOOK_METHOD(ShipManager, OnLoop, () -> void)
             else
             {
                 bool change = true;
-                for (auto check : def.transformName)
+                for (auto check : def->transformName)
                 {
                     if (i->blueprint.crewNameLong.GetText() != check)
                     {
@@ -2901,7 +3243,7 @@ HOOK_METHOD(ShipManager, OnLoop, () -> void)
                 }
                 if (change)
                 {
-                    std::string newSpecies = def.nameRace.at(0);
+                    std::string newSpecies = def->nameRace.at(0);
 
                     ex->TransformRace(newSpecies);
                 }
@@ -2915,15 +3257,85 @@ HOOK_METHOD(ShipManager, OnLoop, () -> void)
     {
         ShipSystem_Extend* sys_ex = SYS_EX(i);
 
+        /*
         i->iTempPowerLoss = sys_ex->oldPowerLoss + sys_ex->additionalPowerLoss;
-        if (i->iTempPowerLoss >= i->powerState.second)
+        int maxPowerLoss = i->powerState.second - (i->healthState.second - i->healthState.first);
+        if (i->iTempPowerLoss >= maxPowerLoss)
         {
-            i->iTempPowerLoss = i->powerState.second;
+            i->iTempPowerLoss = maxPowerLoss;
         }
+        */
 
         i->CheckMaxPower();
         i->CheckForRepower();
     }
+}
+
+HOOK_METHOD(ShipSystem, GetMaxPower, () -> int)
+{
+    ShipSystem_Extend* sys_ex = SYS_EX(this);
+    iTempPowerLoss = sys_ex->oldPowerLoss + sys_ex->additionalPowerLoss;
+    int maxPowerLoss = powerState.second - (healthState.second - healthState.first);
+    if (iTempPowerLoss > maxPowerLoss) iTempPowerLoss = maxPowerLoss;
+    return super();
+}
+
+HOOK_METHOD(ShipSystem, CheckMaxPower, () -> void)
+{
+    ShipSystem_Extend* sys_ex = SYS_EX(this);
+    iTempPowerLoss = sys_ex->oldPowerLoss + sys_ex->additionalPowerLoss;
+    int maxPowerLoss = powerState.second - (healthState.second - healthState.first);
+    if (iTempPowerLoss > maxPowerLoss) iTempPowerLoss = maxPowerLoss;
+    super();
+}
+
+HOOK_METHOD(ShipSystem, CheckForRepower, () -> void)
+{
+    ShipSystem_Extend* sys_ex = SYS_EX(this);
+    iTempPowerLoss = sys_ex->oldPowerLoss + sys_ex->additionalPowerLoss;
+    int maxPowerLoss = powerState.second - (healthState.second - healthState.first);
+    if (iTempPowerLoss > maxPowerLoss) iTempPowerLoss = maxPowerLoss;
+    super();
+}
+
+HOOK_METHOD(ShipSystem, AddDamage, (int amount) -> void)
+{
+    int newHealth = std::max(0, std::min(healthState.first - amount, healthState.second));
+
+    ShipSystem_Extend* sys_ex = SYS_EX(this);
+    iTempPowerLoss = sys_ex->oldPowerLoss + sys_ex->additionalPowerLoss;
+    int maxPowerLoss = powerState.second - (healthState.second - newHealth);
+    if (iTempPowerLoss > maxPowerLoss) iTempPowerLoss = maxPowerLoss;
+
+    super(amount);
+}
+
+HOOK_METHOD(ShipSystem, DamageOverTime, (float speed) -> bool)
+{
+    auto ret = super(speed);
+    if (ret)
+    {
+        int maxPowerLoss = powerState.second - (healthState.second - healthState.first);
+        if (iTempPowerLoss > maxPowerLoss)
+        {
+            iTempPowerLoss = maxPowerLoss;
+            iBonusPower = 0;
+        }
+    }
+    return ret;
+}
+
+HOOK_METHOD(ShipSystem, PartialRepair, (float speed, bool autoRepair) -> bool)
+{
+    auto ret = super(speed, autoRepair);
+    if (ret)
+    {
+        ShipSystem_Extend* sys_ex = SYS_EX(this);
+        iTempPowerLoss = sys_ex->oldPowerLoss + sys_ex->additionalPowerLoss;
+        int maxPowerLoss = powerState.second - (healthState.second - healthState.first);
+        if (iTempPowerLoss > maxPowerLoss) iTempPowerLoss = maxPowerLoss;
+    }
+    return ret;
 }
 
 
@@ -3017,7 +3429,8 @@ HOOK_STATIC(CrewMember, GetRoomDamage, (Damage *damage, CrewMember *crew) -> Dam
 
                 if (ex->hasDeathExplosion)
                 {
-                    Damage *customDamage = &ex->deathEffectChange;
+                    ExplosionDefinition *explosionDef = &ex->deathEffectChange;
+                    Damage *customDamage = &explosionDef->damage;
 
                     damage->iDamage = customDamage->iDamage;
                     damage->fireChance = customDamage->fireChance;
@@ -3033,9 +3446,30 @@ HOOK_STATIC(CrewMember, GetRoomDamage, (Damage *damage, CrewMember *crew) -> Dam
                     damage->crystalShard = customDamage->crystalShard;
                     damage->bFriendlyFire = customDamage->bFriendlyFire;
                     damage->iStun = customDamage->iStun;
-                    shipFriendlyFire = ex->explosionShipFriendlyFire;
+                    shipFriendlyFire = explosionDef->shipFriendlyFire;
 
                     ret = damage;
+
+                    if (!explosionDef->statBoosts.empty())
+                    {
+                        for (auto i=0; i<2; ++i)
+                        {
+                            ShipManager *crewShip = G_->GetShipManager(i);
+                            if (crewShip)
+                            {
+                                for (auto otherCrew : crewShip->vCrewList)
+                                {
+                                    for (auto statBoostDef : explosionDef->statBoosts)
+                                    {
+                                        StatBoost statBoost(statBoostDef);
+                                        statBoost.crewSource = crew;
+                                        statBoost.sourceShipId = crew->iShipId;
+                                        StatBoostManager::GetInstance()->CreateTimedAugmentBoost(statBoost, otherCrew);
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -3072,7 +3506,7 @@ HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
 
         CrewMember::GetRoomDamage(dmg, i);
 
-        DamageArea(Pointf(i->x, i->y), *((DamageParameter*)dmg), true);
+        if (dmg->ownerId != -1) DamageArea(Pointf(i->x, i->y), *((DamageParameter*)dmg), true);
 
         delete dmg;
 
@@ -3201,7 +3635,6 @@ HOOK_METHOD(CrewBox, constructor, (Point pos, CrewMember *crew, int number) -> v
     if (custom->IsRace(crew->species))
     {
         auto ex = CM_EX(crew);
-        auto crewDef = custom->GetDefinition(crew->species);
         auto powerDef = ex->GetPowerDef();
 
         if (powerDef->hasSpecialPower)
@@ -3560,7 +3993,6 @@ HOOK_METHOD(CrewBox, GetSelected, (int mouseX, int mouseY) -> CrewMember*)
     if (CustomCrewManager::GetInstance()->IsRace(pCrew->species))
     {
         auto ex = CM_EX(pCrew);
-        auto def = CustomCrewManager::GetInstance()->GetDefinition(pCrew->species);
         if (pCrew->HasSpecialPower() && mouseX < powerButton.hitbox.x + powerButton.hitbox.w && mouseX > powerButton.hitbox.x && mouseY < powerButton.hitbox.y + powerButton.hitbox.h && mouseY > powerButton.hitbox.y)
         {
             auto powerDef = ex->GetPowerDef();
@@ -4109,6 +4541,8 @@ HOOK_STATIC(CrewMember, GetTooltip, (std::string& strRef, CrewMember* crew) -> s
     auto custom = CustomOptionsManager::GetInstance();
     if (custom->advancedCrewTooltips.currentValue)
     {
+        auto ex = CM_EX(crew);
+
         std::string tooltip = "";
         tooltip += "-" + crew->blueprint.crewNameLong.GetText() + " (" + crew->blueprint.desc.title.GetText() + "):" + '\n';
         int maxHealth = (int)crew->health.second;
@@ -4132,11 +4566,31 @@ HOOK_STATIC(CrewMember, GetTooltip, (std::string& strRef, CrewMember* crew) -> s
             tooltip += G_->GetTextLibrary()->GetText("advanced_health_tooltip") + ": " + stream.str() + "/" + std::to_string(maxHealth) + " (" + std::to_string((int)(crew->health.first / maxHealth * 100)) + "%)";
         }
 
+        if (ex->deathTimer)
+        {
+            tooltip += '\n';
+            float timer = ex->deathTimer->currGoal - ex->deathTimer->currTime;
+
+            if (timer > 0.f)
+            {
+                std::string currentText = G_->GetTextLibrary()->GetText("crew_death_time");
+                std::stringstream stream;
+                stream << std::fixed <<std::setprecision(1) << timer;
+                currentText = boost::algorithm::replace_all_copy(currentText, "\\1", stream.str());
+                tooltip += currentText;
+            }
+            else
+            {
+                std::string currentText = G_->GetTextLibrary()->GetText("crew_death_time_expired");
+                tooltip += currentText;
+            }
+        }
+
         if (crew->fStunTime != 0)
         {
             tooltip += '\n';
             std::stringstream stream;
-            stream << std::fixed <<std::setprecision(1) << crew->fStunTime * CustomCrewManager::GetInstance()->GetDefinition(crew->species).stunMultiplier;
+            stream << std::fixed <<std::setprecision(1) << crew->fStunTime * CustomCrewManager::GetInstance()->GetDefinition(crew->species)->stunMultiplier;
             std::string currentText = G_->GetTextLibrary()->GetText("crew_stun_time");
             currentText = boost::algorithm::replace_all_copy(currentText, "\\1", stream.str());
             tooltip += currentText;
@@ -4293,6 +4747,24 @@ HOOK_METHOD(Ship, OnLoop, (std::vector<float> &oxygenLevels) -> void)
     super(oxygenLevels);
 }
 
+// GetClosestSlot bug fix for unusual layouts
+HOOK_STATIC(ShipGraph, GetClosestSlot, (Slot *slot, ShipGraph *graph, Point pos, int shipId, bool intruder) -> Slot*)
+{
+    for (Room *room : graph->rooms)
+    {
+        Globals::Rect rect = room->rect;
+        if (pos.x >= rect.x && pos.x <= rect.x + rect.w && pos.y >= rect.y && pos.y <= rect.y + rect.h)
+        {
+            return super(slot, graph, pos, shipId, intruder);
+        }
+    }
+    // default return if not in any room
+    slot->roomId = -1;
+    slot->slotId = -1;
+    slot->worldLocation = {-1,-1};
+    return slot;
+}
+
 HOOK_METHOD(CrewControl, SelectPotentialCrew, (CrewMember *crew, bool allowTeleportLeaving) -> void)
 {
     if (!crew) return;
@@ -4307,7 +4779,6 @@ HOOK_METHOD(CrewControl, SelectPotentialCrew, (CrewMember *crew, bool allowTelep
         }
     }
 }
-
 
 HOOK_METHOD(CrewControl, KeyDown, (SDLKey key) -> void)
 {
@@ -4324,10 +4795,6 @@ HOOK_METHOD(CrewControl, KeyDown, (SDLKey key) -> void)
         }
     }
 }
-
-
-
-
 
 HOOK_METHOD(CrewControl, OnLoop, () -> void)
 {
@@ -4400,7 +4867,6 @@ HOOK_METHOD(CrewControl, OnLoop, () -> void)
         G_->GetMouseControl()->SetDoor(selectedDoor->bOpen ? 2 : ((int)selectedDoor->forcedOpen.running) + 1);
     }
 
-
     std::string tooltip = shipManager->GetTooltip(worldCurrentMouse.x, worldCurrentMouse.y);
 
     if (tooltip.empty())
@@ -4421,6 +4887,7 @@ HOOK_METHOD(CrewControl, OnLoop, () -> void)
     bUpdated = false;
 }
 
+// Show path for mind controlled enemy crew.
 HOOK_METHOD(CrewMember, OnRenderPath, () -> void)
 {
     bool setShipId = false;
@@ -4433,3 +4900,139 @@ HOOK_METHOD(CrewMember, OnRenderPath, () -> void)
 
     if (setShipId) iShipId = 1;
 }
+
+// Selectable/controllable split - doesn't work properly with touchscreen
+HOOK_METHOD(CrewControl, RButton, (int mX, int mY, bool shiftHeld) -> void)
+{
+    requiresFullControl = 1;
+    super(mX, mY, shiftHeld);
+    requiresFullControl = 0;
+}
+
+// Selectable/controllable split for player
+HOOK_METHOD(ShipManager, RestoreCrewPositions, () -> bool)
+{
+    requiresFullControl = 1;
+    bool ret = super();
+    requiresFullControl = 0;
+    return ret;
+}
+
+// Selectable/controllable split; requiresFullControl == 1 when player is ordering
+HOOK_METHOD(ShipManager, CommandCrewMoveRoom, (CrewMember* crew, int room) -> bool)
+{
+    if (requiresFullControl == 1 && !crew->GetControllable())
+    {
+        return false;
+    }
+    return super(crew, room);
+}
+
+// Selectable/controllable split for AI
+HOOK_METHOD_PRIORITY(CrewAI, OnLoop, -100, () -> void)
+{
+    requiresFullControl = -1;
+    super();
+    requiresFullControl = 0;
+}
+
+static std::unordered_map<CrewMember*, std::pair<bool, bool>> g_tempOutOfGame = std::unordered_map<CrewMember*, std::pair<bool, bool>>();
+
+// Don't count noSlot crew towards crew counts
+HOOK_METHOD(CrewMemberFactory, OnLoop, () -> void)
+{
+    for (auto i : crewMembers)
+    {
+        if (CM_EX(i)->noSlot)
+        {
+            g_tempOutOfGame[i] = std::pair<bool, bool>(i->bOutOfGame, i->clone_ready);
+
+            i->bOutOfGame = true;
+            i->clone_ready = false;
+        }
+    }
+
+    super();
+
+    for (auto i : g_tempOutOfGame)
+    {
+        auto c = i.first;
+
+        c->bOutOfGame = i.second.first;
+        c->clone_ready = i.second.second;
+    }
+
+    g_tempOutOfGame.clear();
+}
+
+
+static bool g_inCrewCustomizeBox = false;
+
+HOOK_METHOD(CrewCustomizeBox, CheckContents, () -> void)
+{
+    g_inCrewCustomizeBox = true;
+
+    super();
+    g_inCrewCustomizeBox = false;
+
+}
+
+// Get crewmember in slot; modified for noSlot
+HOOK_METHOD(ShipManager, GetCrewmember, (int slot, bool present) -> CrewMember*)
+{
+    if (vCrewList.empty()) return nullptr;
+
+    int currSlot = 0;
+
+    for (auto crew : vCrewList)
+    {
+        if (crew->iShipId == 1 || crew->IsDrone() || CM_EX(crew)->noSlot) continue;
+
+        if (currSlot == slot) return crew;
+
+        currSlot++;
+    }
+
+    return nullptr;
+}
+
+// No Clone stat
+HOOK_METHOD(CrewMember, CheckSkills, () -> void)
+{
+    super();
+
+    auto ex = CM_EX(this);
+    if (ex->deathTimer && ex->deathTimer->Done())
+    {
+        clone_ready = false;
+        return;
+    }
+
+    auto custom = CustomCrewManager::GetInstance();
+    if (custom->IsRace(species))
+    {
+        ex->CalculateStat(CrewStat::NO_CLONE, custom->GetDefinition(species), &ex->noClone);
+        if (ex->noClone)
+        {
+            clone_ready = false;
+            return;
+        }
+    }
+}
+
+// Mind control resist/telepathy split
+HOOK_METHOD(MindSystem, OnLoop, () -> void)
+{
+    isTelepathicMindControl = g_resistsMindControlStat;
+    super();
+    isTelepathicMindControl = false;
+}
+
+// Mind control resist/telepathy split
+HOOK_METHOD(CombatAI, UpdateMindControl, (bool unk) -> void)
+{
+    isTelepathicMindControl = g_resistsMindControlStat;
+    super(unk);
+    isTelepathicMindControl = false;
+}
+

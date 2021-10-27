@@ -24,6 +24,7 @@
 #include "AlternateOxygenRendering.h"
 #include "CustomColors.h"
 #include "CustomShips.h"
+#include "CustomCrystalShard.h"
 
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string/replace.hpp>
@@ -104,10 +105,22 @@ void Global::InitializeResources(ResourceControl *resources)
                 g_hackingDroneFix = EventsParser::ParseBoolean(enabled);
             }
 
-            if (strcmp(node->name(), "enemyPreigniterFix") == 0)
+            if (strcmp(node->name(), "enemyPreigniterFix") == 0) // enables enemies to have their weapons enabled and preignited
             {
                 auto enabled = node->first_attribute("enabled")->value();
                 g_enemyPreigniterFix = EventsParser::ParseBoolean(enabled);
+            }
+
+            if (strcmp(node->name(), "crystalShardFix") == 0) // fixes crystal shards being targeted by friendly defense drones; default true
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                g_crystalShardFix = EventsParser::ParseBoolean(enabled);
+            }
+
+            if (strcmp(node->name(), "resistsMindControlStat") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                g_resistsMindControlStat = EventsParser::ParseBoolean(enabled);
             }
 
             if (strcmp(node->name(), "redesignedWeaponTooltips") == 0)
@@ -228,6 +241,32 @@ void Global::InitializeResources(ResourceControl *resources)
                 g_infiniteMode = EventsParser::ParseBoolean(enabled);
             }
 
+            if (strcmp(node->name(), "transformColorMode") == 0)
+            {
+                if (strcmp(node->name(), "KEEP_COLORS") == 0)
+                {
+                    g_transformColorMode = TransformColorMode::KEEP_COLORS;
+                }
+                else if (strcmp(node->name(), "KEEP_INDICES") == 0)
+                {
+                    g_transformColorMode = TransformColorMode::KEEP_INDICES;
+                }
+            }
+
+            if (strcmp(node->name(), "defaults") == 0)
+            {
+                for (auto child = node->first_node(); child; child = child->next_sibling())
+                {
+                    if (strcmp(child->name(), "checkCargo") == 0)
+                    {
+                        customOptions->defaults.checkCargo = EventsParser::ParseBoolean(child->value());
+                    }
+                    if (strcmp(child->name(), "beaconType_hideVanillaLabel") == 0)
+                    {
+                        customOptions->defaults.beaconType_hideVanillaLabel = EventsParser::ParseBoolean(child->value());
+                    }
+                }
+            }
 
             if (strcmp(node->name(), "ships") == 0)
             {

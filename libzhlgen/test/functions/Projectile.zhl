@@ -5,4 +5,12 @@ void Projectile::constructor(Projectile *this<ecx>, Pointf position, int ownerId
 ".558d915c02000089e5575653":
 void Projectile::destructor(Projectile *this<ecx>);
 "578d7c240883e4f0ff77fc5589e557565331db81ec????????8b07898dbcfeffffc785c8feffff00000000c785ccfeffff00000000c785d0feffff000000008d8824010000":
-void Projectile::Initialize(Projectile *this<ecx>, WeaponBlueprint& bp);
+void Projectile::Initialize(Projectile *this<ecx>, const WeaponBlueprint& bp);
+
+// Do not call these hooks
+"!0fb6817002000083f001c3":
+bool Projectile::ValidTarget(Projectile *this<ecx>);
+".!c20400":
+void Projectile::SetMovingTarget(Projectile *this<ecx>, Targetable *target);
+".!b8ffffffffc3":
+int Projectile::ForceRenderLayer(Projectile *this<ecx>);

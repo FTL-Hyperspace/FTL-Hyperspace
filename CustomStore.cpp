@@ -1446,7 +1446,7 @@ void StoreComplete::SaveStore(int file)
         FileHelper::writeInt(file, page.sections.size());
         for (auto sec : page.sections)
         {
-            FileHelper::writeInt(file, static_cast<int>(file, sec.category));
+            FileHelper::writeInt(file, static_cast<int>(sec.category));
             FileHelper::writeString(file, sec.customTitle);
             FileHelper::writeInt(file, sec.storeBoxes.size());
 
@@ -1785,13 +1785,17 @@ HOOK_METHOD(Store, CreateStoreBoxes, (int category, Equipment* equip) -> void)
 
         if (!shopper->HasSystem(5) && (!Settings::GetDlcEnabled() || !shopper->HasSystem(13)))
         {
-            if (!Settings::GetDlcEnabled())
+            if (!Settings::GetDlcEnabled() || systemPlacements.find(SYS_CLONEBAY) == systemPlacements.end())
             {
                 guaranteedMedicalId = SYS_MEDBAY;
             }
+            else if (systemPlacements.find(SYS_MEDBAY) == systemPlacements.end())
+            {
+                guaranteedMedicalId = SYS_CLONEBAY;
+            }
             else
             {
-                if (random32() % 1 == 0)
+                if ((random32() & 1) == 0)
                 {
                     guaranteedMedicalId = SYS_MEDBAY;
                 }
@@ -1902,12 +1906,7 @@ HOOK_METHOD(SystemStoreBox, Activate, () -> void)
     bool isSubsystem = ShipSystem::IsSubsystem(itemId);
 
     auto custom = CustomShipSelect::GetInstance();
-    int sysLimit = isSubsystem ? custom->GetDefaultDefinition().subsystemLimit : custom->GetDefaultDefinition().systemLimit;
-
-    if (custom->HasCustomDef(shopper->myBlueprint.blueprintName))
-    {
-        sysLimit = isSubsystem ? custom->GetDefinition(shopper->myBlueprint.blueprintName).subsystemLimit : custom->GetDefinition(shopper->myBlueprint.blueprintName).systemLimit;
-    }
+    int sysLimit = isSubsystem ? custom->GetDefinition(shopper->myBlueprint.blueprintName).subsystemLimit : custom->GetDefinition(shopper->myBlueprint.blueprintName).systemLimit;
 
     if (isSubsystem && sysLimit >= 4) return super(); // Subsystem limit doesn't currently matter if one can have at least 4.
 

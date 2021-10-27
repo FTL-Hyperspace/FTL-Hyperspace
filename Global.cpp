@@ -79,6 +79,11 @@ HOOK_METHOD(CApp, OnInit, () -> int)
 
 ShipManager* Global::GetShipManager(int iShipId)
 {
+    if (G_->GetCApp()->menu.shipBuilder.bOpen)
+    {
+        return iShipId == 1 ? nullptr : G_->GetCApp()->menu.shipBuilder.currentShip;
+    }
+
     CompleteShip *playerShip = G_->GetWorld()->playerShip;
 
     if (playerShip)
@@ -86,7 +91,7 @@ ShipManager* Global::GetShipManager(int iShipId)
         if (iShipId == 1) return playerShip->enemyShip ? playerShip->enemyShip->shipManager : nullptr;
         return playerShip->shipManager;
     }
-    return iShipId == 1 ? nullptr : G_->GetCApp()->menu.shipBuilder.currentShip;
+    return nullptr;
 }
 
 void Global::SetCApp(CApp *cApp)
@@ -111,7 +116,7 @@ void Global::Initialize()
     __tutorialManager = (TutorialManager*)(__baseAddress + __tutorialOffset);
     __eventGenerator = (EventGenerator*)(__baseAddress + __eventGenOffset);
     __eventsParser = (EventsParser*)(__baseAddress + __eventsParseOffset);
-    __eventSystem = (EventSystem*)(__baseAddress + __eventSystem);
+    __eventSystem = (EventSystem*)(__baseAddress + __eventSystemOffset);
     __animations = (AnimationControl*)(__baseAddress + __animationsOffset);
     __achievementTracker = (AchievementTracker*)(__baseAddress + __achievementOffset);
     __scoreKeeper = (ScoreKeeper*)(__baseAddress + __scoreKeeperOffset);

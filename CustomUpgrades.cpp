@@ -287,20 +287,10 @@ HOOK_METHOD(Upgrades, OnInit, (ShipManager *ship) -> void)
 
     box = G_->GetResources()->GetImageId("upgradeUI/Equipment/upgrades_main.png");
 
-    int sysLimit = CustomShipSelect::GetInstance()->GetDefaultDefinition().systemLimit;
+    auto def = CustomShipSelect::GetInstance()->GetDefinition(ship->myBlueprint.blueprintName);
 
-    if (CustomShipSelect::GetInstance()->HasCustomDef(ship->myBlueprint.blueprintName))
-    {
-        sysLimit = CustomShipSelect::GetInstance()->GetDefinition(ship->myBlueprint.blueprintName).systemLimit;
-    }
-
-    int subsystemLimit = CustomShipSelect::GetInstance()->GetDefaultDefinition().subsystemLimit;
-
-    if (CustomShipSelect::GetInstance()->HasCustomDef(ship->myBlueprint.blueprintName))
-    {
-        subsystemLimit = CustomShipSelect::GetInstance()->GetDefinition(ship->myBlueprint.blueprintName).subsystemLimit;
-    }
-
+    int sysLimit = def.systemLimit;
+    int subsystemLimit = def.subsystemLimit;
 
     ClearUpgradeBoxes();
 

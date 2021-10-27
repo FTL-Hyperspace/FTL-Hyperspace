@@ -18,8 +18,6 @@ void CustomShipSelect::ParseShipsNode(rapidxml::xml_node<char> *node)
     // parse <ships> node in hyperspace.xml
     try
     {
-        shipDefs["default"] = CustomShipDefinition();
-
         if (node->first_attribute("hideFirstShipPage"))
         {
             hideFirstPage = EventsParser::ParseBoolean(node->first_attribute("hideFirstShipPage")->value());
@@ -99,23 +97,42 @@ void CustomShipSelect::ParseShipsNode(rapidxml::xml_node<char> *node)
                 }
             }
 
+            if (name == "hangarAnims")
+            {
+                for (auto animChild = child->first_node(); animChild; animChild = animChild->next_sibling())
+                {
+                    if (strcmp(animChild->name(), "anim") == 0)
+                    {
+                        Point pos = Point();
+                        if (animChild->first_attribute("x"))
+                        {
+                            pos.x = boost::lexical_cast<int>(animChild->first_attribute("x")->value());
+                        }
+                        if (animChild->first_attribute("y"))
+                        {
+                            pos.y = boost::lexical_cast<int>(animChild->first_attribute("y")->value());
+                        }
+                        customAnimDefs.push_back(std::pair<Point, std::string>(pos, animChild->value()));
+                    }
+                }
+            }
+
             if (name == "customShip")
             {
+                def = CustomShipDefinition(GetDefaultDefinition());
+
                 std::string shipName;
                 if (!child->first_attribute("name"))
                 {
-                    shipName = "default";
+                    shipName = "";
                 }
                 else
                 {
                     shipName = child->first_attribute("name")->value();
-                }
-
-                def = CustomShipDefinition(GetDefaultDefinition());
-
-                if (shipDefs.find(shipName) != shipDefs.end())
-                {
-                    def = shipDefs[shipName];
+                    if (shipDefs.find(shipName) != shipDefs.end())
+                    {
+                        def = shipDefs[shipName];
+                    }
                 }
 
                 for (auto shipNode = child->first_node(); shipNode; shipNode = shipNode->next_sibling())
@@ -254,9 +271,34 @@ void CustomShipSelect::ParseShipsNode(rapidxml::xml_node<char> *node)
                     {
                         def.subsystemLimit = boost::lexical_cast<int>(val);
                     }
+                    if (name == "customReactor")
+                    {
+                        if(shipNode->first_attribute("maxLevel")) def.maxReactorLevel = boost::lexical_cast<int>(shipNode->first_attribute("maxLevel")->value());
+                        if(def.maxReactorLevel < 0) def.maxReactorLevel = 0;
+                        if(def.maxReactorLevel > 25) def.reactorPrices.resize(ceil(def.maxReactorLevel / 5 + 1), -1);
+                        for (auto reactorNode = shipNode->first_node(); reactorNode; reactorNode = reactorNode->next_sibling())
+                        {
+                            std::string reactName = reactorNode->name();
+
+                            if(reactName == "baseCost") def.reactorPrices[0] = boost::lexical_cast<int>(reactorNode->value());
+                            if(reactName == "increment") def.reactorPriceIncrement = boost::lexical_cast<int>(reactorNode->value());
+                            if(reactName == "overrideCost") {
+                                int coloumn = boost::lexical_cast<int>(reactorNode->first_attribute("coloumn")->value());
+                                def.reactorPrices[coloumn] = boost::lexical_cast<int>(reactorNode->value());
+                            }
+                        }
+                    }
+
                 }
 
-                shipDefs[shipName] = def;
+                if (!shipName.empty())
+                {
+                    shipDefs[shipName] = def;
+                }
+                else
+                {
+                    defaultShipDef = def;
+                }
             }
 
         }
@@ -285,6 +327,18 @@ void CustomShipSelect::OnInit(ShipSelect* shipSelect_)
         }
 
         customShipOrder.insert(customShipOrder.end(), toAdd.begin(), toAdd.end());
+
+        for (auto i : customAnimDefs)
+        {
+            auto newAnim = new Animation();
+
+            AnimationControl::GetAnimation(*newAnim, G_->GetAnimationControl(), i.second);
+            newAnim->SetCurrentFrame(0);
+            newAnim->tracker.SetLoop(true, 0);
+            newAnim->Start(true);
+
+            customAnims.push_back(std::pair<Point, Animation*>(i.first, newAnim));
+        }
     }
 
     maxShipPage = std::ceil(customShipOrder.size() / 10.f);
@@ -1262,6 +1316,11 @@ HOOK_METHOD(ShipBuilder, OnLoop, () -> void)
     {
         startButton.SetActive(Settings::GetDlcEnabled() || (currentShipId != 9 && currentType != 2));
     }
+
+    for (auto i : CustomShipSelect::GetInstance()->customAnims)
+    {
+        i.second->Update();
+    }
 }
 
 static GL_Texture* seedBox;
@@ -1276,6 +1335,8 @@ HOOK_METHOD(MenuScreen, constructor, () -> void)
     auto unlocksDisabledTexture = G_->GetResources()->GetImageId("customizeUI/unlocks_disabled.png");
     unlocksDisabledPrimitive = CSurface::GL_CreateImagePrimitive(unlocksDisabledTexture, 1106.f - unlocksDisabledTexture->width_ / 2, 104, unlocksDisabledTexture->width_, unlocksDisabledTexture->height_, 0.f, COLOR_WHITE);
 }
+
+static Button* reactorInfoButton = nullptr;
 
 HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
 {
@@ -1339,6 +1400,17 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
     }
 
     CSurface::GL_SetColor(1.f, 1.f, 1.f, 1.f);
+
+    for (auto i : CustomShipSelect::GetInstance()->customAnims)
+    {
+        CSurface::GL_PushMatrix();
+        CSurface::GL_Translate(i.first.x, i.first.y);
+
+        i.second->OnRender(1.f, COLOR_WHITE, false);
+
+        CSurface::GL_PopMatrix();
+    }
+
     CSurface::GL_PushMatrix();
 
     if (!Settings::GetDlcEnabled() && (currentShipId == 9 || currentType == 2) && isVanillaShip)
@@ -1493,12 +1565,24 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
 
     introScreen.OnRender();
 
+    if (!reactorInfoButton)
+    {
+        reactorInfoButton = new Button();
+        reactorInfoButton->OnInit("customizeUI/reactor_info_button", 145, 426);
+        reactorInfoButton->bActive = true;
+        reactorInfoButton->SetLocation(Point(145, 426));
+    }
+
     if (!shipSelect.bOpen && CustomOptionsManager::GetInstance()->showReactor.currentValue)
     {
+        reactorInfoButton->OnRender();
+        auto def = CustomShipSelect::GetInstance()->GetDefinition(currentShip->myBlueprint.blueprintName);
         //show reactor
-        CSurface::GL_SetColor(GL_Color(100.0/255, 1, 100.0/255, 1));
         //was at 310/450
-        freetype::easy_print(52, 371, 380, "Reactor: " + std::to_string(PowerManager::GetPowerManager(0)->currentPower.second));
+        CSurface::GL_SetColor(GL_Color(100.0/255, 1, 100.0/255, 1));
+        freetype::easy_print(52, 151, 430, "Starting power: " + std::to_string(PowerManager::GetPowerManager(0)->currentPower.second));
+        CSurface::GL_SetColor(GL_Color(100.0/255, 1, 100.0/255, 1));
+        freetype::easy_print(52, 151, 450, "Maximum power: " + std::to_string(def.maxReactorLevel));
     }
 }
 
