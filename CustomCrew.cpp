@@ -14,7 +14,7 @@
 #include <iomanip>
 
 TransformColorMode g_transformColorMode = TransformColorMode::KEEP_INDICES;
-bool g_resistsMindControlStat = true;
+bool g_resistsMindControlStat = false;
 
 static const std::string CREW_SKILLS[6] =
 {
