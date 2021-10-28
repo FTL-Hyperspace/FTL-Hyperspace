@@ -1189,6 +1189,8 @@ PowerReadyState CrewMember_Extend::PowerReq(const ActivatedPowerRequirements *re
 {
     ShipManager *currentShip = G_->GetShipManager(orig->currentShipId);
     ShipManager *crewShip = G_->GetShipManager(orig->iShipId);
+    int ownerId = orig->GetPowerOwner();
+    ShipManager *ownerShip = G_->GetShipManager(ownerId);
 
     if (!orig->intruder && req->enemyShip)
     {
@@ -1221,9 +1223,9 @@ PowerReadyState CrewMember_Extend::PowerReq(const ActivatedPowerRequirements *re
 
         for (auto i : currentShip->vCrewList)
         {
-            if (i->iRoomId == orig->iRoomId)
+            if (i->iRoomId == orig->iRoomId && i != orig)
             {
-                if (i->iShipId != orig->iShipId)
+                if (i->iShipId != ownerId)
                 {
                     enemyInRoom = true;
                     if (!whiteList)
@@ -1260,7 +1262,7 @@ PowerReadyState CrewMember_Extend::PowerReq(const ActivatedPowerRequirements *re
                         }
                     }
                 }
-                else if (i != orig)
+                else
                 {
                     friendlyInRoom = true;
                     if (!whiteList)
@@ -1333,7 +1335,7 @@ PowerReadyState CrewMember_Extend::PowerReq(const ActivatedPowerRequirements *re
     {
         return POWER_NOT_READY_HAS_CLONEBAY;
     }
-    if (req->aiDisabled && orig->iShipId == 1)
+    if (req->aiDisabled && ownerId == 1)
     {
         return POWER_NOT_READY_AI_DISABLED;
     }
@@ -1351,11 +1353,11 @@ PowerReadyState CrewMember_Extend::PowerReq(const ActivatedPowerRequirements *re
     }
     if (req->requiredSystem != -1)
     {
-        if (!crewShip || !crewShip->HasSystem(req->requiredSystem))
+        if (!ownerShip || !ownerShip->HasSystem(req->requiredSystem))
         {
             return POWER_NOT_READY_SYSTEM;
         }
-        ShipSystem* sys = crewShip->GetSystem(req->requiredSystem);
+        ShipSystem* sys = ownerShip->GetSystem(req->requiredSystem);
         if (sys == nullptr)
         {
             return POWER_NOT_READY_SYSTEM;
