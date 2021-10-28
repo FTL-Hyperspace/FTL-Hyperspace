@@ -10,6 +10,8 @@ void CrewBox::OnLoop(CrewBox *this<ecx>, bool selected);
 void CrewBox::OnRenderSkillLevel(CrewBox *this<ecx>);
 "5589e557565389ce83e4f083ec208b813c010000894c2418890424e8????????8b8640010000890424e8????????8b8644010000890424e8????????8b8648010000890424":
 void CrewBox::destructor(CrewBox *this<ecx>);
+"5589e5530fb6596883e4f084db74130fb6596984db740b8b49208b01ff90c400000089d88b5dfcc9":
+bool CrewBox::MouseClick(CrewBox *this<ecx>);
 
 struct CrewBox
 {{

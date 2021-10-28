@@ -155,25 +155,26 @@ struct TemporaryPowerDefinition
 
 struct ActivatedPowerRequirements
 {
-    bool playerShip;
-    bool enemyShip;
-    bool checkRoomCrew;
-    bool enemyInRoom;
-    bool friendlyInRoom;
+    bool playerShip = false;
+    bool enemyShip = false;
+    bool checkRoomCrew = false;
+    bool enemyInRoom = false;
+    bool friendlyInRoom = false;
+    bool notMindControlled = false;
     std::vector<std::string> whiteList;
     std::vector<std::string> friendlyWhiteList;
     std::vector<std::string> friendlyBlackList;
     std::vector<std::string> enemyWhiteList;
     std::vector<std::string> enemyBlackList;
-    bool systemInRoom;
-    bool systemDamaged;
-    bool hasClonebay;
-    bool aiDisabled;
-    bool outOfCombat;
-    bool inCombat;
-    bool isManning;
+    bool systemInRoom = false;
+    bool systemDamaged = false;
+    bool hasClonebay = false;
+    bool aiDisabled = false;
+    bool outOfCombat = false;
+    bool inCombat = false;
+    bool isManning = false;
     int requiredSystem = -1;
-    bool requiredSystemFunctional;
+    bool requiredSystemFunctional = false;
     ToggleValue<int> minHealth;
     ToggleValue<int> maxHealth;
 };

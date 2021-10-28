@@ -105,6 +105,7 @@ struct VTable_Blueprint;
 struct VTable_CrewAnimation;
 struct VTable_StoreBox;
 struct Shields__ShieldAnimation;
+struct VTable_CrewTarget;
 
 /* 1 */
 struct Globals
@@ -566,7 +567,8 @@ struct Room
 /* 301 */
 struct CrewTarget
 {
-  ShipObject _base;
+  VTable_CrewTarget *_vtable;
+  int iShipId;
 };
 
 /* 179 */
@@ -5960,4 +5962,20 @@ struct EventSystem
 {
 	std__vector_3int lastEvents;
 	std__vector_3int newEvents;
+};
+
+struct VTable_CrewTarget
+{
+  void (__thiscall *Free)(CrewTarget *this);
+  void *(__thiscall *GetPosition)(CrewTarget *this);
+  float (__thiscall *PositionShift)(CrewTarget *this);
+  bool (__thiscall *InsideRoom)(CrewTarget *this, int roomId);
+  bool (__thiscall *ApplyDamage)(CrewTarget *this, float damage);
+  int (__thiscall *GetPriority)(CrewTarget *this);
+  bool (__thiscall *ValidTarget)(CrewTarget *this, int unk);
+  bool (__thiscall *MultiShots)(CrewTarget *this);
+  bool (__thiscall *ExactTarget)(CrewTarget *this);
+  bool (__thiscall *IsCrew)(CrewTarget *this);
+  bool (__thiscall *IsCloned)(CrewTarget *this);
+  bool (__thiscall *IsDrone)(CrewTarget *this);
 };

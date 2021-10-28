@@ -1,5 +1,6 @@
 #pragma GCC push_options
 #pragma GCC optimize ("O1")
+#include "Global.h"
 #include "CustomCrew.h"
 
 int requiresFullControl = 0;
@@ -7,21 +8,26 @@ bool isTelepathicMindControl = false;
 
 static bool __attribute__((fastcall)) CrewMember_GetControllable(CrewMember *_this)
 {
-    bool req = !_this->bDead && ((_this->iShipId == 0 && !_this->bMindControlled) || (_this->iShipId == 1 && _this->bMindControlled));
+    bool ret = !_this->bDead && _this->iShipId == 0 && !_this->bMindControlled;
 
-    if (!req)
+    if (!ret && _this->iShipId == 1 && _this->bMindControlled)
+    {
+        ShipManager *ship = G_->GetShipManager(0);
+        if (ship) ret = ship->HasAugmentation("MIND_ORDER");
+    }
+
+    if (!ret)
     {
         return false;
     }
     auto ex = CM_EX(_this);
     auto def = CustomCrewManager::GetInstance()->GetDefinition(_this->species);
-    bool ret = false;
     ex->CalculateStat(CrewStat::CONTROLLABLE, def, &ret);
     if (!ret && !requiresFullControl)
     {
         ret = def->selectable;
     }
-    return ret && req;
+    return ret;
 }
 
 static bool __attribute__((fastcall)) CrewMember_CanSuffocate(CrewMember *_this)
@@ -220,12 +226,26 @@ static void __attribute__((fastcall)) CrewMember_ResetPower(CrewMember *_this)
     ex->powerCharges.first = std::min(ex->powerCharges.second, ex->powerCharges.first + (int)ex->CalculateStat(CrewStat::POWER_CHARGES_PER_JUMP, def));
 }
 
+// To be used by AI only
 static void __attribute__((fastcall)) CrewMember_ActivatePower(CrewMember *_this)
 {
-    auto ex = CM_EX(_this);
+    if (_this->GetPowerOwner() == 1)
+    {
+        CM_EX(_this)->PreparePower();
+    }
+}
 
-    if (!_this->bMindControlled)
-        ex->PreparePower();
+int CrewMember::GetPowerOwner()
+{
+    if (bMindControlled)
+    {
+        auto *ship = G_->GetShipManager(iShipId ? 0 : 1); // ship using mind control
+        if (ship && ship->HasAugmentation("MIND_ORDER"))
+        {
+            return ship->iShipId;
+        }
+    }
+    return iShipId;
 }
 
 void SetupVTable(CrewMember *crew)

@@ -711,10 +711,11 @@ bool CrewMember_Extend::BoostCheck(const StatBoost& statBoost)
 {
     if (statBoost.def->boostSource == StatBoostDefinition::BoostSource::CREW)
     {
+        int ownerShip = statBoost.crewSource->GetPowerOwner();
         if(
             (statBoost.def->shipTarget == StatBoostDefinition::ShipTarget::PLAYER_SHIP && orig->currentShipId == 0)
-            || (statBoost.def->shipTarget == StatBoostDefinition::ShipTarget::ORIGINAL_SHIP && orig->currentShipId == statBoost.crewSource->iShipId)
-            || (statBoost.def->shipTarget == StatBoostDefinition::ShipTarget::ORIGINAL_OTHER_SHIP && orig->currentShipId != statBoost.crewSource->iShipId)
+            || (statBoost.def->shipTarget == StatBoostDefinition::ShipTarget::ORIGINAL_SHIP && orig->currentShipId == ownerShip)
+            || (statBoost.def->shipTarget == StatBoostDefinition::ShipTarget::ORIGINAL_OTHER_SHIP && orig->currentShipId != ownerShip)
             || (statBoost.def->shipTarget == StatBoostDefinition::ShipTarget::OTHER_ALL && orig->currentShipId != statBoost.crewSource->currentShipId)
             || (statBoost.def->shipTarget == StatBoostDefinition::ShipTarget::ENEMY_SHIP && orig->currentShipId == 1)
             || (statBoost.def->shipTarget == StatBoostDefinition::ShipTarget::CURRENT_ALL && orig->currentShipId == statBoost.crewSource->currentShipId)
@@ -728,8 +729,8 @@ bool CrewMember_Extend::BoostCheck(const StatBoost& statBoost)
                 )
             {
                 if(
-                    (statBoost.crewSource->iShipId == orig->iShipId && statBoost.def->crewTarget == StatBoostDefinition::CrewTarget::ALLIES)
-                    || (statBoost.crewSource->iShipId != orig->iShipId && statBoost.def->crewTarget == StatBoostDefinition::CrewTarget::ENEMIES)
+                    (ownerShip == orig->iShipId && statBoost.def->crewTarget == StatBoostDefinition::CrewTarget::ALLIES)
+                    || (ownerShip != orig->iShipId && statBoost.def->crewTarget == StatBoostDefinition::CrewTarget::ENEMIES)
                     || (statBoost.def->crewTarget == StatBoostDefinition::CrewTarget::ALL)
                     || (statBoost.crewSource == orig && statBoost.def->affectsSelf)
                     || ((statBoost.crewSource->iShipId == orig->iShipId) == (statBoost.crewSource->bMindControlled == orig->bMindControlled) && statBoost.def->crewTarget == StatBoostDefinition::CrewTarget::CURRENT_ALLIES)
@@ -1123,7 +1124,7 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
                 }
                 else if (statBoost.def->boostSource == StatBoostDefinition::BoostSource::CREW)
                 {
-                    statBoostSourceShipId = statBoost.crewSource->iShipId;
+                    statBoostSourceShipId = statBoost.crewSource->GetPowerOwner();
                 }
 
                 for (auto system : statBoost.def->systemPowerScaling)

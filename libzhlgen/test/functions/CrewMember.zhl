@@ -237,5 +237,7 @@ struct CrewMember depends (CrewAnimation, CrewBlueprint, ShipObject)
 	{
 		return (ShipObject*)(this);
 	}
+	
+	int GetPowerOwner();
 
 }};

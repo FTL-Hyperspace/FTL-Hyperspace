@@ -4,6 +4,7 @@ CustomCommandGui CustomCommandGui::instance = CustomCommandGui();
 
 static int lastCrewPage = -1;
 static int lastCrewCount = -1;
+static int lastMindCrewCount = -1;
 
 void CustomCommandGui::OnScrollWheel(float direction)
 {
@@ -112,6 +113,7 @@ HOOK_METHOD(CrewControl, LinkShip, (ShipManager *ship) -> void)
 HOOK_METHOD(CrewControl, UpdateCrewBoxes, () -> void)
 {
     auto crewList = std::vector<CrewMember*>();
+    auto mindCrewList = std::vector<CrewMember*>();
 
     G_->GetCrewFactory()->GetCrewPortraitList(&crewList, 0);
     int currentCrewPage = CustomCommandGui::GetInstance()->currentCrewPage;
@@ -123,7 +125,28 @@ HOOK_METHOD(CrewControl, UpdateCrewBoxes, () -> void)
         CustomCommandGui::GetInstance()->currentCrewPage = CustomCommandGui::GetInstance()->maxPage;
     }
 
-    if (lastCrewPage == currentCrewPage && lastCrewCount == crewList.size() && !(crewList.size() > 0 && crewBoxes.size() == 0))
+    if (shipManager && G_->GetShipManager(0) == shipManager && shipManager->HasAugmentation("MIND_ORDER"))
+    {
+        for (CrewMember* i : shipManager->vCrewList)
+        {
+            if (i->iShipId == 1 && i->bMindControlled)
+            {
+                mindCrewList.push_back(i);
+            }
+        }
+        if (shipManager->current_target)
+        {
+            for (CrewMember* i : shipManager->current_target->vCrewList)
+            {
+                if (i->iShipId == 1 && i->bMindControlled)
+                {
+                    mindCrewList.push_back(i);
+                }
+            }
+        }
+    }
+
+    if (lastCrewPage == currentCrewPage && lastCrewCount == crewList.size() && !(crewList.size() > 0 && crewBoxes.size() == 0) && lastMindCrewCount == mindCrewList.size())
     {
         return;
     }
@@ -133,7 +156,7 @@ HOOK_METHOD(CrewControl, UpdateCrewBoxes, () -> void)
 
     int counter = 0;
     int boxY = 155;
-    for (auto i : crewList)
+    for (CrewMember* i : crewList)
     {
         if (std::floor(counter / 8) == currentCrewPage)
         {
@@ -144,9 +167,18 @@ HOOK_METHOD(CrewControl, UpdateCrewBoxes, () -> void)
         counter++;
     }
 
+    counter = crewBoxes.size();
+
+    for (CrewMember* i : mindCrewList)
+    {
+        crewBoxes.push_back(new CrewBox(Point(10, boxY), i, counter));
+        boxY += 30;
+        counter++;
+    }
 
     lastCrewPage = currentCrewPage;
     lastCrewCount = crewList.size();
+    lastMindCrewCount = mindCrewList.size();
 }
 
 HOOK_METHOD(CommandGui, MouseMove, (int mX, int mY) -> void)
