@@ -3742,79 +3742,136 @@ HOOK_METHOD_PRIORITY(CrewBox, OnRender, 1000, () -> void)
     }
 
     GL_Color boxColor = GL_Color();
+    GL_Color boxOutlineColor;
     if (!crew->bMindControlled)
     {
-        auto selectionState = crew->selectionState;
-        if (selectionState == 2)
+        if (!bSelectable)
         {
-            boxColor.r = 0.921f;
-            boxColor.g = 0.921f;
-            boxColor.b = 0.921f;
-        }
-        else if (selectionState == 1)
-        {
-            boxColor.r = 0.47f;
-            boxColor.g = 1.f;
-            boxColor.b = 0.47f;
-        }
-        else if (flashHealthTracker.running && flashHealthTracker.Progress(-1.f) < 0.5f)
-        {
-            boxColor.r = 1.f;
-            boxColor.g = 0.392f;
-            boxColor.b = 0.392f;
+            boxColor.r = 0.494f;
+            boxColor.g = 0.858f;
+            boxColor.b = 0.882f;
         }
         else
         {
-            boxColor.r = 0.392f;
-            boxColor.g = 0.392f;
-            boxColor.b = 0.392f;
+            auto selectionState = crew->selectionState;
+            if (selectionState == 1)
+            {
+                boxColor.r = 0.47f;
+                boxColor.g = 1.f;
+                boxColor.b = 0.47f;
+            }
+            else if (crew->fStunTime > 0.f)
+            {
+                boxColor.r = 1.f;
+                boxColor.g = 1.f;
+                boxColor.b = 0.392f;
+            }
+            else if (selectionState == 2)
+            {
+                boxColor.r = 0.921f;
+                boxColor.g = 0.921f;
+                boxColor.b = 0.921f;
+            }
+            else if (flashHealthTracker.running && flashHealthTracker.Progress(-1.f) < 0.5f)
+            {
+                boxColor.r = 1.f;
+                boxColor.g = 0.392f;
+                boxColor.b = 0.392f;
+            }
+            else
+            {
+                boxColor.r = 0.392f;
+                boxColor.g = 0.392f;
+                boxColor.b = 0.392f;
+            }
         }
 
-        if (crew->fStunTime > 0.f && crew->selectionState != 1)
-        {
-            boxColor.r = 1.f;
-            boxColor.g = 1.f;
-            boxColor.b = 0.392f;
-        }
+        boxOutlineColor = boxColor;
     }
     else
     {
         if (crew->iShipId == 0)
         {
-            boxColor.r = 1.f;
-            boxColor.g = 0.f;
-            boxColor.b = 1.f;
+            if (!bSelectable)
+            {
+                boxColor.r = 0.494f;
+                boxColor.g = 0.858f;
+                boxColor.b = 0.882f;
+            }
+            else
+            {
+                boxColor.r = 1.f;
+                boxColor.g = 0.f;
+                boxColor.b = 1.f;
+            }
+            boxOutlineColor = boxColor;
         }
         else
         {
-            boxColor.r = 1.f;
-            boxColor.g = 0.f;
-            boxColor.b = 0.2f;
+            if (!bSelectable)
+            {
+                boxColor.r = 1.f;
+                boxColor.g = 0.f;
+                boxColor.b = 0.f;
+                boxOutlineColor.r = 0.494f;
+                boxOutlineColor.g = 0.858f;
+                boxOutlineColor.b = 0.882f;
+            }
+            else
+            {
+                auto selectionState = crew->selectionState;
+                if (selectionState == 1)
+                {
+                    boxColor.r = 1.f;
+                    boxColor.g = 0.47f;
+                    boxColor.b = 0.47f;
+                    boxOutlineColor.r = 0.47f;
+                    boxOutlineColor.g = 1.f;
+                    boxOutlineColor.b = 0.47f;
+                }
+                else if (crew->fStunTime > 0.f)
+                {
+                    boxColor.r = 1.f;
+                    boxColor.g = 0.f;
+                    boxColor.b = 0.f;
+                    boxOutlineColor.r = 1.f;
+                    boxOutlineColor.g = 1.f;
+                    boxOutlineColor.b = 0.392f;
+                }
+                else if (selectionState == 2)
+                {
+                    boxColor.r = 1.f;
+                    boxColor.g = 0.8f;
+                    boxColor.b = 0.8f;
+                    boxOutlineColor.r = 1.f;
+                    boxOutlineColor.g = 0.8f;
+                    boxOutlineColor.b = 0.8f;
+                }
+                else
+                {
+                    boxColor.r = 1.f;
+                    boxColor.g = 0.f;
+                    boxColor.b = 0.f;
+                    boxOutlineColor.r = 0.6f;
+                    boxOutlineColor.g = 0.3f;
+                    boxOutlineColor.b = 0.3f;
+                }
+            }
         }
     }
 
-
-    if (!bSelectable)
-    {
-        boxColor.r = 0.494f;
-        boxColor.g = 0.858f;
-        boxColor.b = 0.882f;
-    }
-
-
     boxColor.a = 0.25f;
+    boxOutlineColor.a = 1.f;
 
     if (!mouseHover)
     {
         CSurface::GL_RenderPrimitiveWithColor(boxBackground, boxColor);
-        boxColor.a = 1.f;
-        CSurface::GL_RenderPrimitiveWithColor(boxOutline, boxColor);
+        CSurface::GL_RenderPrimitiveWithColor(boxOutline, boxOutlineColor);
     }
     else
     {
         CSurface::GL_RenderPrimitiveWithColor(skillBoxBackground, boxColor);
-        boxColor.a = 1.f;
-        CSurface::GL_RenderPrimitiveWithColor(skillBoxOutline, boxColor);
+        CSurface::GL_RenderPrimitiveWithColor(skillBoxOutline, boxOutlineColor);
     }
 
     if (crew->HasSpecialPower())

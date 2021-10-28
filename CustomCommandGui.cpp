@@ -4,7 +4,6 @@ CustomCommandGui CustomCommandGui::instance = CustomCommandGui();
 
 static int lastCrewPage = -1;
 static int lastCrewCount = -1;
-static int lastMindCrewCount = -1;
 
 void CustomCommandGui::OnScrollWheel(float direction)
 {
@@ -113,72 +112,67 @@ HOOK_METHOD(CrewControl, LinkShip, (ShipManager *ship) -> void)
 HOOK_METHOD(CrewControl, UpdateCrewBoxes, () -> void)
 {
     auto crewList = std::vector<CrewMember*>();
-    auto mindCrewList = std::vector<CrewMember*>();
 
     G_->GetCrewFactory()->GetCrewPortraitList(&crewList, 0);
     int currentCrewPage = CustomCommandGui::GetInstance()->currentCrewPage;
 
-    CustomCommandGui::GetInstance()->maxPage = std::floor(std::max((int)crewList.size() - 1, 0) / 8.f);
-
-    if (currentCrewPage > CustomCommandGui::GetInstance()->maxPage)
-    {
-        CustomCommandGui::GetInstance()->currentCrewPage = CustomCommandGui::GetInstance()->maxPage;
-    }
+    bool hasMindCrew = false;
+    int maxCrewBoxes = 8;
 
     if (shipManager && G_->GetShipManager(0) == shipManager && shipManager->HasAugmentation("MIND_ORDER"))
     {
         for (CrewMember* i : shipManager->vCrewList)
         {
-            if (i->iShipId == 1 && i->bMindControlled)
+            if (i->iShipId == 1 && i->bMindControlled && !i->bDead)
             {
-                mindCrewList.push_back(i);
+                crewList.push_back(i);
+                hasMindCrew = true;
             }
         }
         if (shipManager->current_target)
         {
             for (CrewMember* i : shipManager->current_target->vCrewList)
             {
-                if (i->iShipId == 1 && i->bMindControlled)
+                if (i->iShipId == 1 && i->bMindControlled && !i->bDead)
                 {
-                    mindCrewList.push_back(i);
+                    crewList.push_back(i);
+                    hasMindCrew = true;
                 }
             }
         }
     }
 
-    if (lastCrewPage == currentCrewPage && lastCrewCount == crewList.size() && !(crewList.size() > 0 && crewBoxes.size() == 0) && lastMindCrewCount == mindCrewList.size())
+    CustomCommandGui::GetInstance()->maxPage = ((int)crewList.size() - 1) / 8; // always rounds towards 0
+    if (hasMindCrew && crewList.size() <= 9)
+    {
+        CustomCommandGui::GetInstance()->maxPage = 0;
+        maxCrewBoxes = 9;
+    }
+
+    if (currentCrewPage > CustomCommandGui::GetInstance()->maxPage)
+    {
+        CustomCommandGui::GetInstance()->currentCrewPage = CustomCommandGui::GetInstance()->maxPage;
+    }
+
+    if (lastCrewPage == currentCrewPage && lastCrewCount == crewList.size() && !(crewList.size() > 0 && crewBoxes.size() == 0))
     {
         return;
     }
 
-
+    CustomCommandGui::GetInstance()->currentCrewPage = currentCrewPage;
     ClearCrewBoxes();
 
     int counter = 0;
     int boxY = 155;
-    for (CrewMember* i : crewList)
+    for (auto it = crewList.begin() + (8*currentCrewPage); it != crewList.end(); ++it)
     {
-        if (std::floor(counter / 8) == currentCrewPage)
-        {
-            crewBoxes.push_back(new CrewBox(Point(10, boxY), i, counter % 8));
-            boxY += 30;
-        }
-
-        counter++;
-    }
-
-    counter = crewBoxes.size();
-
-    for (CrewMember* i : mindCrewList)
-    {
-        crewBoxes.push_back(new CrewBox(Point(10, boxY), i, counter));
+        crewBoxes.push_back(new CrewBox(Point(10, boxY), *it, counter++));
+        if (counter ==  maxCrewBoxes) break;
         boxY += 30;
-        counter++;
     }
 
     lastCrewPage = currentCrewPage;
     lastCrewCount = crewList.size();
-    lastMindCrewCount = mindCrewList.size();
 }
 
 HOOK_METHOD(CommandGui, MouseMove, (int mX, int mY) -> void)
