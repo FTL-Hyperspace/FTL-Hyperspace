@@ -151,7 +151,7 @@ HOOK_METHOD(CrewControl, UpdateCrewBoxes, () -> void)
 
     if (currentCrewPage > CustomCommandGui::GetInstance()->maxPage)
     {
-        CustomCommandGui::GetInstance()->currentCrewPage = CustomCommandGui::GetInstance()->maxPage;
+        currentCrewPage = CustomCommandGui::GetInstance()->maxPage;
     }
 
     if (lastCrewPage == currentCrewPage && lastCrewCount == crewList.size() && !(crewList.size() > 0 && crewBoxes.size() == 0))
