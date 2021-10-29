@@ -1412,6 +1412,24 @@ HOOK_METHOD(InfoBox, SetBlueprintDrone, (const DroneBlueprint* bp, int status, b
                             boost::trim_right(newDesc);
                             newDesc += "\n\n";
                         }
+                        else if (droneBp->type == 4)
+                        {
+                            if (weaponDef->angularRadius != -1.f)
+                            {
+                                std::stringstream stream;
+                                currentText = tLib->GetText("shot_radius_angular");
+                                stream << std::fixed << std::setprecision(2) << weaponDef->angularRadius;
+                                newDesc += boost::algorithm::replace_all_copy(currentText, "\\1", stream.str()) + "\n";
+                            }
+                            else if (droneBp->radius > 0)
+                            {
+                                currentText = tLib->GetText("shot_radius");
+                                newDesc += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(droneBp->radius)) + "\n";
+                            }
+                            currentText = tLib->GetText("shots");
+                            newDesc += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(droneBp->miniCount)) + "\n";
+                            newDesc += "\n";
+                        }
 
             //            if (droneBp->drone_targetable != 0)
             //            {
@@ -1698,6 +1716,24 @@ HOOK_METHOD(InfoBox, SetBlueprintDrone, (const DroneBlueprint* bp, int status, b
                     currentText = tLib->GetText("defense_drone_orbit_speed");
                     stream << std::fixed << std::setprecision(0) << bp->speed;
                     newDesc += boost::algorithm::replace_all_copy(currentText, "\\1", stream.str());
+                    if (droneBp->type == 4)
+                    {
+                        newDesc += "\n\n";
+                        if (weaponDef->angularRadius != -1.f)
+                        {
+                            stream.str("");
+                            currentText = tLib->GetText("shot_radius_angular");
+                            stream << std::fixed << std::setprecision(2) << weaponDef->angularRadius;
+                            newDesc += boost::algorithm::replace_all_copy(currentText, "\\1", stream.str()) + "\n";
+                        }
+                        else if (droneBp->radius > 0)
+                        {
+                            currentText = tLib->GetText("shot_radius");
+                            newDesc += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(droneBp->radius)) + "\n";
+                        }
+                        currentText = tLib->GetText("shots");
+                        newDesc += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(droneBp->miniCount));
+                    }
                 }
             }
         }

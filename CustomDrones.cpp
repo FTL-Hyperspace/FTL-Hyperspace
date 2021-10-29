@@ -1,5 +1,6 @@
 #include "CustomDrones.h"
 #include "CustomCrew.h"
+#include "CustomWeapons.h"
 #include <boost/lexical_cast.hpp>
 
 CustomDroneManager CustomDroneManager::_instance = CustomDroneManager();
@@ -486,11 +487,22 @@ HOOK_METHOD(SpaceDrone, GetNextProjectile, () -> Projectile*)
             if (ret)
             {
                 Pointf lastTargetLocation = ret->target;
+
+                float radius = CustomWeaponManager::instance->GetWeaponDefinition(weaponBlueprint->name)->angularRadius;
+                if (radius == -1.f)
+                {
+                    radius = weaponBlueprint->radius;
+                }
+                else
+                {
+                    radius = radius * sqrt(lastTargetLocation.RelativeDistance(ret->position)) * 0.01745329f;
+                }
+
                 delete ret;
 
                 for (auto &k : weaponBlueprint->miniProjectiles)
                 {
-                    float r = sqrt(random32()/2147483648.f) * weaponBlueprint->radius;
+                    float r = sqrt(random32()/2147483648.f) * radius;
                     float theta = random32()%360 * 0.01745329f;
                     Pointf ppos = {lastTargetLocation.x + r*cos(theta), lastTargetLocation.y + r*sin(theta)};
                     LaserBlast *projectile = new LaserBlast(currentLocation,currentSpace,currentSpace,ppos);

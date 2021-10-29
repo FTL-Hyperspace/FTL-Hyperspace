@@ -92,6 +92,7 @@
 <text name="redesigned_damage_cap">Chain Damage Cap: \1 damage (\2 chains)</text>
 <text name="redesigned_speed_cap">Chain Cooldown Cap: \1 (\2 chains)</text>
 <text name="shot_radius">Shot Radius: \1</text>
+<text name="shot_radius_angular">Shot Radius: \1 degrees</text>
 <text name="beam_length">Beam Length: \1</text>
 <text name="swipe_speed">Beam Speed: \1</text>
 <text name="redesigned_double_damage">2x hull damage on systemless rooms.</text>

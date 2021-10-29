@@ -57,6 +57,10 @@ HOOK_STATIC(BlueprintManager, ProcessWeaponBlueprint, (WeaponBlueprint* bp, Blue
         {
             weaponDef.fireTime = boost::lexical_cast<float>(val);
         }
+        if (name == "angularRadius") // affects flak drones
+        {
+            weaponDef.angularRadius = boost::lexical_cast<float>(val);
+        }
         if (name == "statBoostChance")
         {
             weaponDef.customDamage.statBoostChance = boost::lexical_cast<int>(val);
