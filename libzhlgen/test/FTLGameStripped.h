@@ -3832,6 +3832,7 @@ struct LocationEvent
   int environment;
   int environmentTarget;
   bool store;
+  bool gap_ex_cleared;
   int fleetPosition;
   bool beacon;
   bool reveal_map;

@@ -2707,6 +2707,19 @@ HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *loc) -> void)
     }
 }
 
+HOOK_METHOD(LocationEvent, constructor, () -> void)
+{
+    super();
+    gap_ex_cleared = false;
+}
+
+HOOK_METHOD(LocationEvent, ClearEvent, (bool force) -> void)
+{
+    super(force);
+    if (fleetPosition == 1 && !force) return;
+    gap_ex_cleared = true;
+}
+
 static std::string jumpEvent = "";
 static bool jumpEventLoop = false;
 
@@ -3174,25 +3187,26 @@ HOOK_METHOD(WorldManager, CreateLocation, (Location *location) -> void)
         location->planetImage = location->event->planetImage;
     }
 
-    if (location->visited > 1 && !location->boss && !location->dangerZone)
+    LocationEvent *loc = location->event;
+
+    if (!loc) return;
+
+    //if (location->visited > 1 && !location->boss && !location->dangerZone)
+    if (!location->boss && loc->gap_ex_cleared)
     {
         std::string revisitEvent = CustomEventsParser::GetInstance()->defaultRevisit;
         bool revisitSeeded = CustomEventsParser::GetInstance()->defaultRevisitSeeded;
 
-        auto loc = location->event;
         CustomEvent *customEvent = nullptr;
 
-        if (loc)
+        if (loc->ship.present && loc->ship.hostile) return; // left behind an enemy ship
+
+        customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(loc->eventName);
+
+        if (customEvent && !customEvent->eventRevisit.empty())
         {
-            if (loc->ship.present && loc->ship.hostile) return; // left behind an enemy ship
-
-            customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(loc->eventName);
-
-            if (customEvent && !customEvent->eventRevisit.empty())
-            {
-                revisitEvent = customEvent->eventRevisit;
-                revisitSeeded = customEvent->eventRevisitSeeded;
-            }
+            revisitEvent = customEvent->eventRevisit;
+            revisitSeeded = customEvent->eventRevisitSeeded;
         }
 
         if (!revisitEvent.empty())
@@ -3203,9 +3217,6 @@ HOOK_METHOD(WorldManager, CreateLocation, (Location *location) -> void)
 
         return;
     }
-
-    auto loc = location->event;
-    if (!loc) return;
 
     CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(loc->eventName);
 
@@ -3253,7 +3264,7 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
 
     super(loc);
 
-    if (customEvent)
+    if (!loc->gap_ex_cleared && customEvent)
     {
         if (customEvent->removeHazards)
         {
@@ -3568,6 +3579,8 @@ HOOK_METHOD(ScoreKeeper, AddScrapCollected, (int scrap) -> void)
 
 HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEvent*)
 {
+    if (event->gap_ex_cleared) return super(event);
+
     CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(event->eventName);
 
     if (customEvent)
@@ -3582,11 +3595,11 @@ HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEve
 
     blockScrapCollected = false;
 
-    Location *location = starMap.currentLoc;
-    if (location->visited > 1 && !location->boss && !location->dangerZone)
-    {
-        if (location->event == event) return ret;
-    }
+    //Location *location = starMap.currentLoc;
+    //if (location->visited > 1 && !location->boss && !location->dangerZone)
+    //{
+    //    if (location->event == event) return ret;
+    //}
 
     if (customEvent)
     {

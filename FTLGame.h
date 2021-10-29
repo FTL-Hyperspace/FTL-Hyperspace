@@ -4452,6 +4452,11 @@ struct EventDamage
 
 struct LocationEvent
 {
+	LocationEvent()
+	{
+		this->constructor();
+	}
+
 	struct Choice
 	{
 		LocationEvent *event;
@@ -4461,6 +4466,7 @@ struct LocationEvent
 	};
 	
 	LIBZHL_API void ClearEvent(bool force);
+	LIBZHL_API void constructor();
 	
 	TextString text;
 	ShipEvent ship;
@@ -4468,6 +4474,7 @@ struct LocationEvent
 	int environment;
 	int environmentTarget;
 	bool store;
+	bool gap_ex_cleared;
 	int fleetPosition;
 	bool beacon;
 	bool reveal_map;
