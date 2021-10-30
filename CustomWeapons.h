@@ -33,6 +33,7 @@ struct CustomWeaponDefinition
     bool hideEventTooltip = false;
     bool simultaneousFire = false;
     float fireTime = 0.f;
+    float angularRadius = -1.f;
 
     CustomDamage customDamage;
 };

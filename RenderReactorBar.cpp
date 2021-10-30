@@ -27,14 +27,14 @@ HOOK_METHOD(SystemControl, RenderPowerBar, () -> void)
     GL_Primitive* droneSysWireImage;
     int powerCounter;
     PowerBars* powerBars;
-    bool colourBlindOn = false;
-    GL_Color COLOR_GREEN(100.f/255, 255.f/255, 100.f/255, 1.f), COLOR_CB_WHITE(243.f/255, 255.f/255, 238.f/255, 1),
+    bool colourBlindOn = G_->GetSettings()->colorblind;
+    static GL_Color COLOR_GREEN(100.f/255, 255.f/255, 100.f/255, 1.f), COLOR_CB_WHITE(243.f/255, 255.f/255, 238.f/255, 1),
     borderColour(230.f/255, 110.f/255, 30.f/255, 1.f), blueColour(40.f/255, 210.f/255, 230.f/255, 1.f);
-    GL_Color powerBarColour = COLOR_GREEN;
+    GL_Color powerBarColourOn = colourBlindOn ? COLOR_CB_WHITE : COLOR_GREEN;
+    GL_Color powerBarColour = powerBarColourOn;
 
 
     if(G_->GetEventSystem()->PollEvent(11)){
-        printf("Successful event poll\n");
         flashBatteryPower.Start(0);
         flashTracker.Start(0);
     }
@@ -48,6 +48,18 @@ HOOK_METHOD(SystemControl, RenderPowerBar, () -> void)
     CSurface::GL_SetStencilMode(STENCIL_SET, 1, 1);
     CSurface::GL_Translate(0, wiresMaskY, 0);
     CSurface::GL_RenderPrimitive(wiresMask);
+    if (maxPower < 4) // fix vanilla bug with mask not covering wires properly at low power
+    {
+        CSurface::GL_Translate(0, -36, 0);
+        CSurface::GL_RenderPrimitive(wiresMask);
+        CSurface::GL_Translate(0, 36, 0);
+    }
+    if (maxPower < 1) // less ugly at 0 reactor
+    {
+        CSurface::GL_Translate(0, 36, 0);
+        CSurface::GL_RenderPrimitive(wiresMask);
+        CSurface::GL_Translate(0, -36, 0);
+    }
 
     int wiresImageY = (maxPower > displayLevel) ? (9 * displayLevel - 1) : (9 * maxPower - 1);
     CSurface::GL_Translate(0, wiresImageY, 0);
@@ -138,10 +150,9 @@ HOOK_METHOD(SystemControl, RenderPowerBar, () -> void)
             while(1) {
                 //battery bar boxes
                 if(powerCounter < batteryEffPower){
-                    powerBarColour = COLOR_GREEN;
-                    //if(colourBlindOn) powerBarColour = COLOR_CB_WHITE; //placeholder for when the colourblind setting is hooked
-                    if(flashBatteryPower.running) {
-                        if((flashTracker.Progress(-1) > 0.5) && !colourBlindOn) powerBarColour = COLOR_WHITE;
+                    powerBarColour = powerBarColourOn;
+                    if(flashBatteryPower.running && flashTracker.Progress(-1) > 0.5 && !colourBlindOn) {
+                        powerBarColour = COLOR_WHITE;
                     }
 
                     CSurface::GL_RenderPrimitiveWithColor(powerBars->tiny[powerCounter], powerBarColour);
@@ -175,8 +186,7 @@ HOOK_METHOD(SystemControl, RenderPowerBar, () -> void)
                 if(bPowerWarningRunning) {
                     CSurface::GL_RenderPrimitive(powerBars->normal[powerCounter]);
                 } else {
-                    powerBarColour = COLOR_GREEN;
-                    //if(colourBlindOn) powerBarColour = COLOR_CB_WHITE; //placeholder for when the colourblind setting is hooked
+                    powerBarColour = powerBarColourOn;
                     CSurface::GL_RenderPrimitiveWithColor(powerBars->normal[powerCounter], powerBarColour);
                 }
                 powerCounter++;

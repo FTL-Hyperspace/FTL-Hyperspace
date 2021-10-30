@@ -24,6 +24,10 @@ CrewSpawn CrewSpawn::ParseCrewSpawn(rapidxml::xml_node<char>* node, bool isCrew)
         {
             crewSpawn.healthPercentage = boost::lexical_cast<float>(spawnNode->value());
         }
+        if (spawnName == "lifetime")
+        {
+            crewSpawn.lifetime = boost::lexical_cast<float>(spawnNode->value());
+        }
         if (spawnName == "statBoosts")
         {
             for (auto statBoostNode = spawnNode->first_node(); statBoostNode; statBoostNode = statBoostNode->next_sibling())
@@ -89,6 +93,15 @@ std::vector<CrewMember*> CrewSpawn::SpawnCrew(CrewSpawn& crewSpawn, ShipManager 
             if (!tile || currentSlot.roomId != crew->currentSlot.roomId || currentSlot.slotId != crew->currentSlot.slotId)
             {
                 crew->MoveToRoom(currentSlot.roomId, currentSlot.slotId, true);
+            }
+
+            crew->health.first = crew->health.second * crewSpawn.healthPercentage;
+
+            if (crewSpawn.lifetime != -1.f)
+            {
+                CrewMember_Extend* ex = CM_EX(crew);
+                ex->deathTimer = new TimerHelper(false);
+                ex->deathTimer->Start(crewSpawn.lifetime);
             }
 
             for (auto statBoostDef : crewSpawn.statBoosts)

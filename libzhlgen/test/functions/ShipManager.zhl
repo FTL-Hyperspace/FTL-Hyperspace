@@ -138,6 +138,8 @@ CrewMember* ShipManager::FindCrew(ShipManager *this<ecx>, const CrewBlueprint *b
 bool ShipManager::GetDodged(ShipManager *this<ecx>);
 "578d7c240883e4f0ff77fc5589e55756538d995c08000081ec8c0000008b8188040000894db4c745a007000000895d9485c00f842a030000908db42600000000":
 void ShipManager::PrepareSuperBarrage(ShipManager *this<ecx>);
+"578d7c240883e4f0ff77fc5589e557565383ec7c8b47048b1f894d8c8945948b4708c70424????????894590e8????????8b53648b436883ec0429d0":
+std::string ShipManager::GetTooltip(ShipManager *this<ecx>, int x, int y);
 "57b9????????8d7c240883e4f0ff77fc5589e55756538d45ac31db83ec6cc745ac00000000c745b000000000890424c744240400000000c745b400000000":
 bool ShipManager::RestoreCrewPositions(ShipManager *this<ecx>);
 "5589e557565383e4f083ec108b79688b4164c744240c0000000089fa29c2c1fa0285d274??31db894c2408eb??8d760089fa83c301":
@@ -148,6 +150,8 @@ int ShipManager::CanUpgrade(ShipManager *this<ecx>, int systemId, int amount);
 static ShipBlueprint* ShipManager::SaveToBlueprint(ShipBlueprint &bp<ecx>, ShipManager *ship, bool unk);
 "578d7c240883e4f0ff77fc5589e55756538d5dd089ce83ec7c8b078b570489d9":
 void ShipManager::CheckCrystalAugment(ShipManager *this<ecx>, Pointf pos);
+"578d7c240883e4f0ff77fc5589e557565381ecfc0000008b178b5f488b7710c70100000000898d50ffffff83c104":
+static CollisionResponse* ShipManager::CollisionMoving(CollisionResponse &ret<ecx>, ShipManager *ship, Pointf pos1, Pointf pos2, DamageParameter damage, bool unk);
 
 struct ShipManager depends (PowerManager, ShieldPower)
 {{

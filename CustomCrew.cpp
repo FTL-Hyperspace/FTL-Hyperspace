@@ -14,6 +14,7 @@
 #include <iomanip>
 
 TransformColorMode g_transformColorMode = TransformColorMode::KEEP_INDICES;
+bool g_resistsMindControlStat = false;
 
 static const std::string CREW_SKILLS[6] =
 {
@@ -199,6 +200,10 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                         if (str == "isTelepathic")
                         {
                             crew.isTelepathic = EventsParser::ParseBoolean(val);
+                        }
+                        if (str == "resistsMindControl")
+                        {
+                            crew.resistsMindControl = EventsParser::ParseBoolean(val);
                         }
                         if (str == "isAnaerobic")
                         {
@@ -881,6 +886,10 @@ void CustomCrewManager::ParseAbilityEffect(rapidxml::xml_node<char>* stat, Activ
                 {
                     def.tempPower.isTelepathic = EventsParser::ParseBoolean(tempEffectNode->value());
                 }
+                if (tempEffectName == "resistsMindControl")
+                {
+                    def.tempPower.resistsMindControl = EventsParser::ParseBoolean(tempEffectNode->value());
+                }
                 if (tempEffectName == "fireDamageMultiplier")
                 {
                     def.tempPower.fireDamageMultiplier = boost::lexical_cast<float>(tempEffectNode->value());
@@ -986,6 +995,10 @@ void CustomCrewManager::ParsePowerRequirementsNode(rapidxml::xml_node<char> *nod
         {
             def->enemyInRoom = true;
             def->checkRoomCrew = true;
+        }
+        if (req == "notMindControlled")
+        {
+            def->notMindControlled = true;
         }
         if (req == "whiteList")
         {
@@ -1176,6 +1189,8 @@ PowerReadyState CrewMember_Extend::PowerReq(const ActivatedPowerRequirements *re
 {
     ShipManager *currentShip = G_->GetShipManager(orig->currentShipId);
     ShipManager *crewShip = G_->GetShipManager(orig->iShipId);
+    int ownerId = orig->GetPowerOwner();
+    ShipManager *ownerShip = G_->GetShipManager(ownerId);
 
     if (!orig->intruder && req->enemyShip)
     {
@@ -1208,9 +1223,9 @@ PowerReadyState CrewMember_Extend::PowerReq(const ActivatedPowerRequirements *re
 
         for (auto i : currentShip->vCrewList)
         {
-            if (i->iRoomId == orig->iRoomId)
+            if (i->iRoomId == orig->iRoomId && i != orig)
             {
-                if (i->iShipId != orig->iShipId)
+                if (i->iShipId != ownerId)
                 {
                     enemyInRoom = true;
                     if (!whiteList)
@@ -1247,7 +1262,7 @@ PowerReadyState CrewMember_Extend::PowerReq(const ActivatedPowerRequirements *re
                         }
                     }
                 }
-                else if (i != orig)
+                else
                 {
                     friendlyInRoom = true;
                     if (!whiteList)
@@ -1320,7 +1335,7 @@ PowerReadyState CrewMember_Extend::PowerReq(const ActivatedPowerRequirements *re
     {
         return POWER_NOT_READY_HAS_CLONEBAY;
     }
-    if (req->aiDisabled && orig->iShipId == 1)
+    if (req->aiDisabled && ownerId == 1)
     {
         return POWER_NOT_READY_AI_DISABLED;
     }
@@ -1338,11 +1353,11 @@ PowerReadyState CrewMember_Extend::PowerReq(const ActivatedPowerRequirements *re
     }
     if (req->requiredSystem != -1)
     {
-        if (!crewShip || !crewShip->HasSystem(req->requiredSystem))
+        if (!ownerShip || !ownerShip->HasSystem(req->requiredSystem))
         {
             return POWER_NOT_READY_SYSTEM;
         }
-        ShipSystem* sys = crewShip->GetSystem(req->requiredSystem);
+        ShipSystem* sys = ownerShip->GetSystem(req->requiredSystem);
         if (sys == nullptr)
         {
             return POWER_NOT_READY_SYSTEM;
@@ -1359,6 +1374,10 @@ PowerReadyState CrewMember_Extend::PowerReq(const ActivatedPowerRequirements *re
     if (req->maxHealth.enabled && orig->health.first > req->maxHealth.value)
     {
         return POWER_NOT_READY_MAX_HEALTH;
+    }
+    if (req->notMindControlled && orig->bMindControlled)
+    {
+        return POWER_NOT_READY_MIND;
     }
 
     return POWER_READY;
@@ -1391,7 +1410,7 @@ PowerReadyState CrewMember_Extend::PowerReady()
         }
     }
 
-    return PowerReq(orig->iShipId == 0 ? &powerDef->playerReq : &powerDef->enemyReq);
+    return PowerReq(orig->GetPowerOwner() == 0 ? &powerDef->playerReq : &powerDef->enemyReq);
 }
 
 Damage* CrewMember_Extend::GetPowerDamage()
@@ -1412,7 +1431,7 @@ Damage* CrewMember_Extend::GetPowerDamage()
     damage->iSystemDamage = newDamage->iSystemDamage;
     damage->iPersDamage = newDamage->iPersDamage;
     damage->bHullBuster = newDamage->bHullBuster;
-    damage->ownerId = orig->iShipId;
+    damage->ownerId = orig->GetPowerOwner();
     damage->selfId = (int)orig;
     damage->bLockdown = false;
     damage->crystalShard = newDamage->crystalShard;
@@ -1461,6 +1480,7 @@ void CrewMember_Extend::PreparePower()
     aex->PreparePower(powerDef);
     aex->powerDone = false;
 
+    int ownerShip = orig->GetPowerOwner();
     powerShip = orig->currentShipId;
     powerRoom = orig->iRoomId;
     aex->effectWorldPos = Pointf(orig->x, orig->y);
@@ -1490,7 +1510,7 @@ void CrewMember_Extend::PreparePower()
         aex->tempEffectAnim->Start(true);
     }
 
-    if (powerDef->sounds.size() > 0 && (powerDef->soundsEnemy || orig->iShipId == 0))
+    if (powerDef->sounds.size() > 0 && (powerDef->soundsEnemy || orig->iShipId == 0 || ownerShip == 0))
     {
         int rng = random32();
 
@@ -1545,13 +1565,15 @@ void CrewMember_Extend::ActivatePower()
         G_->GetCApp()->gui->Victory();
     }
 
+    int ownerShip = orig->GetPowerOwner();
+
     if ((powerDef->crewHealth || powerDef->enemyHealth) && ship)
     {
         for (auto i : ship->vCrewList)
         {
             if (i->iRoomId == powerRoom && i != orig)
             {
-                if (i->iShipId == orig->iShipId)
+                if (i->iShipId == ownerShip)
                 {
                     i->DirectModifyHealth(powerDef->crewHealth);
                 }
@@ -1580,7 +1602,7 @@ void CrewMember_Extend::ActivatePower()
     {
         if (ship)
         {
-            CrewSpawn::SpawnCrew(i, ship, ship->iShipId != orig->iShipId, aex->effectWorldPos);
+            CrewSpawn::SpawnCrew(i, ship, ship->iShipId != ownerShip, aex->effectWorldPos);
         }
     }
 
@@ -1597,7 +1619,7 @@ void CrewMember_Extend::ActivatePower()
                     {
                         StatBoost statBoost(statBoostDef);
                         statBoost.crewSource = orig;
-                        statBoost.sourceShipId = orig->iShipId;
+                        statBoost.sourceShipId = ownerShip;
                         StatBoostManager::GetInstance()->CreateTimedAugmentBoost(statBoost, otherCrew);
                     }
                 }
@@ -2214,6 +2236,16 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
 
     auto custom = CustomCrewManager::GetInstance();
     CrewMember_Extend* ex = CM_EX(this);
+
+    if (ex->deathTimer)
+    {
+        ex->deathTimer->Update();
+        if (ex->deathTimer->Done())
+        {
+            health.first = 0.f;
+        }
+    }
+
     if (custom->IsRace(species))
     {
         auto def = custom->GetDefinition(species);
@@ -2293,11 +2325,25 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
 
                 bool activateWhenReady;
                 ex->CalculateStat(CrewStat::ACTIVATE_WHEN_READY, def, &activateWhenReady);
-                if (activateWhenReady && ex->PowerReady() == POWER_READY)
+                if (activateWhenReady)
                 {
-                    if (iShipId == 1 || !powerDef->activateReadyEnemies)
+                    if (ex->PowerReady() == POWER_READY)
                     {
-                        ex->PreparePower();
+                        if (!powerDef->activateReadyEnemies || (GetPowerOwner() == 1))
+                        {
+                            ex->PreparePower();
+                        }
+                    }
+                }
+                else // vanilla condition but for enemy controlling your crew with MIND_ORDER
+                {
+                    if (iShipId == 0 && crewTarget && CanFight() && !IsDead() && crewTarget->IsCrew() && HasSpecialPower() && ex->PowerReady() == POWER_READY &&
+                        GetPowerOwner() == 1 && health.first > 0.5f*health.second)
+                    {
+                        if (!ship->RoomLocked(iRoomId))
+                        {
+                            ex->PreparePower();
+                        }
                     }
                 }
             }
@@ -2353,6 +2399,30 @@ HOOK_METHOD(CrewMember, SaveState, (int file) -> void)
 
     FileHelper::writeInt(file, ex->noSlot);
 
+    // Passive Heal
+    if (ex->passiveHealTimer != nullptr)
+    {
+        FileHelper::writeFloat(file, ex->passiveHealTimer->currGoal);
+        FileHelper::writeFloat(file, ex->passiveHealTimer->currTime);
+    }
+    else
+    {
+        FileHelper::writeFloat(file, -1.f);
+        FileHelper::writeFloat(file, -1.f);
+    }
+
+    // Death Timer
+    if (ex->deathTimer != nullptr)
+    {
+        FileHelper::writeFloat(file, ex->deathTimer->currGoal);
+        FileHelper::writeFloat(file, ex->deathTimer->currTime);
+    }
+    else
+    {
+        FileHelper::writeFloat(file, -1.f);
+        FileHelper::writeFloat(file, -1.f);
+    }
+
     FileHelper::writeFloat(file, ex->powerCooldown.first);
     FileHelper::writeFloat(file, ex->powerCooldown.second);
     FileHelper::writeFloat(file, ex->temporaryPowerDuration.first);
@@ -2399,6 +2469,38 @@ HOOK_METHOD(CrewMember, LoadState, (int file) -> void)
     customHealth.second = FileHelper::readFloat(file);
 
     ex->noSlot = FileHelper::readInteger(file);
+
+    // Passive Heal
+    float timerGoal = FileHelper::readFloat(file);
+    if (timerGoal != -1.f)
+    {
+        if (ex->passiveHealTimer == nullptr)
+        {
+            ex->passiveHealTimer = new TimerHelper(false);
+        }
+        ex->passiveHealTimer->Start(timerGoal);
+        ex->passiveHealTimer->currTime = FileHelper::readFloat(file);
+    }
+    else
+    {
+        FileHelper::readFloat(file);
+    }
+
+    // Death Timer
+    timerGoal = FileHelper::readFloat(file);
+    if (timerGoal != -1.f)
+    {
+        if (ex->deathTimer == nullptr)
+        {
+            ex->deathTimer = new TimerHelper(false);
+        }
+        ex->deathTimer->Start(timerGoal);
+        ex->deathTimer->currTime = FileHelper::readFloat(file);
+    }
+    else
+    {
+        FileHelper::readFloat(file);
+    }
 
     ex->powerCooldown.first = FileHelper::readFloat(file);
     ex->powerCooldown.second = FileHelper::readFloat(file);
@@ -3365,7 +3467,7 @@ HOOK_STATIC(CrewMember, GetRoomDamage, (Damage *damage, CrewMember *crew) -> Dam
                     damage->iSystemDamage = customDamage->iSystemDamage;
                     damage->iPersDamage = customDamage->iPersDamage;
                     damage->bHullBuster = customDamage->bHullBuster;
-                    damage->ownerId = crew->iShipId;
+                    damage->ownerId = crew->GetPowerOwner();
                     damage->selfId = (int)crew;
                     damage->bLockdown = customDamage->bLockdown;
                     damage->crystalShard = customDamage->crystalShard;
@@ -3437,6 +3539,7 @@ HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
 
         if (custom->IsRace(i->species))
         {
+            int ownerShip = i->GetPowerOwner();
             auto def = custom->GetDefinition(i->species);
 
             auto ex = CM_EX(i);
@@ -3452,7 +3555,7 @@ HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
                 {
                     for (auto crew : vCrewList)
                     {
-                        if (crew->iRoomId == i->iRoomId && crew->iShipId != i->iShipId)
+                        if (crew->iRoomId == i->iRoomId && crew->iShipId != ownerShip)
                         {
                             crew->DirectModifyHealth(-damageEnemies);
                         }
@@ -3466,7 +3569,7 @@ HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
 
                     for (auto crew : vCrewList)
                     {
-                        if (crew->iRoomId == i->iRoomId && crew->iShipId == i->iShipId && crew != i)
+                        if (crew->iRoomId == i->iRoomId && crew->iShipId == ownerShip && crew != i)
                         {
                             if (healCrew > 0.f && crew->health.first != crew->health.second)
                             {
@@ -3639,70 +3742,136 @@ HOOK_METHOD_PRIORITY(CrewBox, OnRender, 1000, () -> void)
     }
 
     GL_Color boxColor = GL_Color();
+    GL_Color boxOutlineColor;
     if (!crew->bMindControlled)
     {
-        auto selectionState = crew->selectionState;
-        if (selectionState == 2)
+        if (!bSelectable)
         {
-            boxColor.r = 0.921f;
-            boxColor.g = 0.921f;
-            boxColor.b = 0.921f;
-        }
-        else if (selectionState == 1)
-        {
-            boxColor.r = 0.47f;
-            boxColor.g = 1.f;
-            boxColor.b = 0.47f;
-        }
-        else if (flashHealthTracker.running && flashHealthTracker.Progress(-1.f) < 0.5f)
-        {
-            boxColor.r = 1.f;
-            boxColor.g = 0.392f;
-            boxColor.b = 0.392f;
+            boxColor.r = 0.494f;
+            boxColor.g = 0.858f;
+            boxColor.b = 0.882f;
         }
         else
         {
-            boxColor.r = 0.392f;
-            boxColor.g = 0.392f;
-            boxColor.b = 0.392f;
+            auto selectionState = crew->selectionState;
+            if (selectionState == 1)
+            {
+                boxColor.r = 0.47f;
+                boxColor.g = 1.f;
+                boxColor.b = 0.47f;
+            }
+            else if (crew->fStunTime > 0.f)
+            {
+                boxColor.r = 1.f;
+                boxColor.g = 1.f;
+                boxColor.b = 0.392f;
+            }
+            else if (selectionState == 2)
+            {
+                boxColor.r = 0.921f;
+                boxColor.g = 0.921f;
+                boxColor.b = 0.921f;
+            }
+            else if (flashHealthTracker.running && flashHealthTracker.Progress(-1.f) < 0.5f)
+            {
+                boxColor.r = 1.f;
+                boxColor.g = 0.392f;
+                boxColor.b = 0.392f;
+            }
+            else
+            {
+                boxColor.r = 0.392f;
+                boxColor.g = 0.392f;
+                boxColor.b = 0.392f;
+            }
         }
 
-        if (crew->fStunTime > 0.f && crew->selectionState != 1)
-        {
-            boxColor.r = 1.f;
-            boxColor.g = 1.f;
-            boxColor.b = 0.392f;
-        }
+        boxOutlineColor = boxColor;
     }
     else
     {
-        boxColor.r = 1.f;
-        boxColor.g = 0.f;
-        boxColor.b = 1.f;
+        if (crew->iShipId == 0)
+        {
+            if (!bSelectable)
+            {
+                boxColor.r = 0.494f;
+                boxColor.g = 0.858f;
+                boxColor.b = 0.882f;
+            }
+            else
+            {
+                boxColor.r = 1.f;
+                boxColor.g = 0.f;
+                boxColor.b = 1.f;
+            }
+            boxOutlineColor = boxColor;
+        }
+        else
+        {
+            if (!bSelectable)
+            {
+                boxColor.r = 1.f;
+                boxColor.g = 0.f;
+                boxColor.b = 0.f;
+                boxOutlineColor.r = 0.494f;
+                boxOutlineColor.g = 0.858f;
+                boxOutlineColor.b = 0.882f;
+            }
+            else
+            {
+                auto selectionState = crew->selectionState;
+                if (selectionState == 1)
+                {
+                    boxColor.r = 1.f;
+                    boxColor.g = 0.47f;
+                    boxColor.b = 0.47f;
+                    boxOutlineColor.r = 0.47f;
+                    boxOutlineColor.g = 1.f;
+                    boxOutlineColor.b = 0.47f;
+                }
+                else if (crew->fStunTime > 0.f)
+                {
+                    boxColor.r = 1.f;
+                    boxColor.g = 0.f;
+                    boxColor.b = 0.f;
+                    boxOutlineColor.r = 1.f;
+                    boxOutlineColor.g = 1.f;
+                    boxOutlineColor.b = 0.392f;
+                }
+                else if (selectionState == 2)
+                {
+                    boxColor.r = 1.f;
+                    boxColor.g = 0.8f;
+                    boxColor.b = 0.8f;
+                    boxOutlineColor.r = 1.f;
+                    boxOutlineColor.g = 0.8f;
+                    boxOutlineColor.b = 0.8f;
+                }
+                else
+                {
+                    boxColor.r = 1.f;
+                    boxColor.g = 0.f;
+                    boxColor.b = 0.f;
+                    boxOutlineColor.r = 0.6f;
+                    boxOutlineColor.g = 0.3f;
+                    boxOutlineColor.b = 0.3f;
+                }
+            }
+        }
     }
-
-
-    if (!bSelectable)
-    {
-        boxColor.r = 0.494f;
-        boxColor.g = 0.858f;
-        boxColor.b = 0.882f;
-    }
-
 
     boxColor.a = 0.25f;
+    boxOutlineColor.a = 1.f;
 
     if (!mouseHover)
     {
         CSurface::GL_RenderPrimitiveWithColor(boxBackground, boxColor);
-        boxColor.a = 1.f;
-        CSurface::GL_RenderPrimitiveWithColor(boxOutline, boxColor);
+        CSurface::GL_RenderPrimitiveWithColor(boxOutline, boxOutlineColor);
     }
     else
     {
         CSurface::GL_RenderPrimitiveWithColor(skillBoxBackground, boxColor);
-        boxColor.a = 1.f;
-        CSurface::GL_RenderPrimitiveWithColor(skillBoxOutline, boxColor);
+        CSurface::GL_RenderPrimitiveWithColor(skillBoxOutline, boxOutlineColor);
     }
 
     if (crew->HasSpecialPower())
@@ -3923,7 +4092,11 @@ HOOK_METHOD(CrewBox, GetSelected, (int mouseX, int mouseY) -> CrewMember*)
             auto powerDef = ex->GetPowerDef();
 
             std::string tooltip = "";
-            if (pCrew->PowerReady())
+            if (!pCrew->GetPowerOwner() == 0)
+            {
+                tooltip = G_->GetTextLibrary()->GetText("power_not_ready_mind_enemy");
+            }
+            else if (pCrew->PowerReady())
             {
                 appendHotkey = true;
                 if (!powerDef->tooltip.data.empty())
@@ -4024,6 +4197,9 @@ HOOK_METHOD(CrewBox, GetSelected, (int mouseX, int mouseY) -> CrewMember*)
                 case POWER_NOT_READY_MAX_HEALTH:
                     tooltipName = "power_not_ready_max_health";
                     replaceValue = boost::lexical_cast<std::string>(powerReq->maxHealth.value);
+                    break;
+                case POWER_NOT_READY_MIND:
+                    tooltipName = "power_not_ready_mind";
                     break;
                 case POWER_NOT_READY_TELEPORTING:
                     tooltipName = "power_not_ready_teleporting";
@@ -4466,6 +4642,8 @@ HOOK_STATIC(CrewMember, GetTooltip, (std::string& strRef, CrewMember* crew) -> s
     auto custom = CustomOptionsManager::GetInstance();
     if (custom->advancedCrewTooltips.currentValue)
     {
+        auto ex = CM_EX(crew);
+
         std::string tooltip = "";
         tooltip += "-" + crew->blueprint.crewNameLong.GetText() + " (" + crew->blueprint.desc.title.GetText() + "):" + '\n';
         int maxHealth = (int)crew->health.second;
@@ -4487,6 +4665,26 @@ HOOK_STATIC(CrewMember, GetTooltip, (std::string& strRef, CrewMember* crew) -> s
             std::stringstream stream;
             stream << std::fixed <<std::setprecision(custom->advancedCrewTooltipRounding.currentAmount) << crew->health.first;
             tooltip += G_->GetTextLibrary()->GetText("advanced_health_tooltip") + ": " + stream.str() + "/" + std::to_string(maxHealth) + " (" + std::to_string((int)(crew->health.first / maxHealth * 100)) + "%)";
+        }
+
+        if (ex->deathTimer)
+        {
+            tooltip += '\n';
+            float timer = ex->deathTimer->currGoal - ex->deathTimer->currTime;
+
+            if (timer > 0.f)
+            {
+                std::string currentText = G_->GetTextLibrary()->GetText("crew_death_time");
+                std::stringstream stream;
+                stream << std::fixed <<std::setprecision(1) << timer;
+                currentText = boost::algorithm::replace_all_copy(currentText, "\\1", stream.str());
+                tooltip += currentText;
+            }
+            else
+            {
+                std::string currentText = G_->GetTextLibrary()->GetText("crew_death_time_expired");
+                tooltip += currentText;
+            }
         }
 
         if (crew->fStunTime != 0)
@@ -4668,6 +4866,180 @@ HOOK_STATIC(ShipGraph, GetClosestSlot, (Slot *slot, ShipGraph *graph, Point pos,
     return slot;
 }
 
+HOOK_METHOD(CrewControl, SelectPotentialCrew, (CrewMember *crew, bool allowTeleportLeaving) -> void)
+{
+    if (!crew) return;
+
+    if (!crew->GetControllable()) return;
+
+    if (allowTeleportLeaving || (crew->crewAnim->status != 6) || crew->crewAnim->anims[0][6].tracker.reverse)
+    {
+        if (std::find(potentialSelectedCrew.begin(), potentialSelectedCrew.end(), crew) == potentialSelectedCrew.end())
+        {
+            potentialSelectedCrew.push_back(crew);
+        }
+    }
+}
+
+// Controllable MC - player using power
+HOOK_METHOD(CrewControl, KeyDown, (SDLKey key) -> void)
+{
+    if (key == Settings::GetHotkey("lockdown"))
+    {
+        for (auto i : selectedCrew)
+        {
+            if (i->PowerReady() && i->GetPowerOwner() == 0)
+            {
+                CM_EX(i)->PreparePower();
+            }
+        }
+    }
+    else
+    {
+        super(key);
+    }
+}
+HOOK_METHOD(CrewBox, MouseClick, () -> bool)
+{
+    if (powerButton.bActive && powerButton.bHover)
+    {
+        if (pCrew->PowerReady() && pCrew->GetPowerOwner() == 0)
+        {
+            CM_EX(pCrew)->PreparePower();
+        }
+        return true;
+    }
+    return false;
+}
+
+HOOK_METHOD(CrewControl, OnLoop, () -> void)
+{
+    crewMessage.Update();
+    if (crewMessage.done)
+    {
+        crewMessage.Stop(false);
+    }
+
+    UpdateCrewBoxes();
+    if (!bUpdated)
+    {
+        mouseDown = false;
+        return;
+    }
+    std::vector<CrewMember*> filteredSelectedCrew = std::vector<CrewMember*>();
+
+    for (auto i : selectedCrew)
+    {
+        if (i->Functional() && !i->IsDead())
+        {
+            filteredSelectedCrew.push_back(i);
+        }
+    }
+
+    selectedCrew = filteredSelectedCrew;
+
+    std::vector<CrewMember*> filteredPotentialSelectedCrew = std::vector<CrewMember*>();
+
+    for (auto i : potentialSelectedCrew)
+    {
+        if (i->Functional() && !i->IsDead())
+        {
+            filteredPotentialSelectedCrew.push_back(i);
+        }
+    }
+
+    potentialSelectedCrew = filteredPotentialSelectedCrew;
+
+    for (auto i : shipManager->vCrewList)
+    {
+        i->selectionState = 0;
+    }
+    if (combatControl->currentTarget)
+    {
+        for (auto i : combatControl->currentTarget->shipManager->vCrewList)
+        {
+            i->selectionState = 0;
+        }
+    }
+
+    for (auto i : potentialSelectedCrew)
+    {
+        i->selectionState = 2;
+    }
+
+    for (auto i : selectedCrew)
+    {
+        i->selectionState = 1;
+    }
+
+    if (!selectedCrew.empty() || !potentialSelectedCrew.empty())
+    {
+        G_->GetMouseControl()->valid = 1;
+        G_->GetMouseControl()->lastValid = 1;
+    }
+
+    if (selectedDoor)
+    {
+        G_->GetMouseControl()->SetDoor(selectedDoor->bOpen ? 2 : ((int)selectedDoor->forcedOpen.running) + 1);
+    }
+
+    std::string tooltip = shipManager->GetTooltip(worldCurrentMouse.x, worldCurrentMouse.y);
+
+    if (tooltip.empty())
+    {
+        tooltip = combatControl->GetCrewTooltip(currentMouse.x, currentMouse.y);
+    }
+
+    if (!tooltip.empty())
+    {
+        G_->GetMouseControl()->SetTooltip(tooltip);
+    }
+
+    for (int i = 0; i < crewBoxes.size(); i++)
+    {
+        crewBoxes[i]->OnLoop(selectedCrewBox == i);
+    }
+
+    bUpdated = false;
+}
+
+// Show path for mind controlled enemy crew.
+HOOK_METHOD(CrewMember, OnRenderPath, () -> void)
+{
+    bool setShipId = false;
+    if (bMindControlled && iShipId == 1)
+    {
+        ShipManager *ship = G_->GetShipManager(0);
+        if (ship && ship->HasAugmentation("MIND_ORDER"))
+        {
+            setShipId = true;
+            iShipId = 0;
+        }
+    }
+    super();
+
+    if (setShipId) iShipId = 1;
+}
+
+// Refresh boxes when the mind control status changes on a crewmember
+HOOK_METHOD(CrewMember, SetMindControl, (bool controlled) -> void)
+{
+    super(controlled);
+    if (iShipId == 1)
+    {
+        ShipManager *playerShip = G_->GetShipManager(0);
+        if (playerShip && playerShip->HasAugmentation("MIND_ORDER"))
+        {
+            if (bMindControlled)
+            {
+                G_->GetCrewFactory()->MoveCrewMemberToEnd(this);
+            }
+            G_->GetCApp()->gui->crewControl.ClearCrewBoxes();
+            G_->GetCApp()->gui->crewControl.UpdateCrewBoxes();
+        }
+    }
+}
+
 // Selectable/controllable split - doesn't work properly with touchscreen
 HOOK_METHOD(CrewControl, RButton, (int mX, int mY, bool shiftHeld) -> void)
 {
@@ -4676,6 +5048,7 @@ HOOK_METHOD(CrewControl, RButton, (int mX, int mY, bool shiftHeld) -> void)
     requiresFullControl = 0;
 }
 
+// Selectable/controllable split for player
 HOOK_METHOD(ShipManager, RestoreCrewPositions, () -> bool)
 {
     requiresFullControl = 1;
@@ -4684,6 +5057,7 @@ HOOK_METHOD(ShipManager, RestoreCrewPositions, () -> bool)
     return ret;
 }
 
+// Selectable/controllable split; requiresFullControl == 1 when player is ordering
 HOOK_METHOD(ShipManager, CommandCrewMoveRoom, (CrewMember* crew, int room) -> bool)
 {
     if (requiresFullControl == 1 && !crew->GetControllable())
@@ -4693,6 +5067,7 @@ HOOK_METHOD(ShipManager, CommandCrewMoveRoom, (CrewMember* crew, int room) -> bo
     return super(crew, room);
 }
 
+// Selectable/controllable split for AI
 HOOK_METHOD_PRIORITY(CrewAI, OnLoop, -100, () -> void)
 {
     requiresFullControl = -1;
@@ -4702,6 +5077,7 @@ HOOK_METHOD_PRIORITY(CrewAI, OnLoop, -100, () -> void)
 
 static std::unordered_map<CrewMember*, std::pair<bool, bool>> g_tempOutOfGame = std::unordered_map<CrewMember*, std::pair<bool, bool>>();
 
+// Don't count noSlot crew towards crew counts
 HOOK_METHOD(CrewMemberFactory, OnLoop, () -> void)
 {
     for (auto i : crewMembers)
@@ -4740,6 +5116,7 @@ HOOK_METHOD(CrewCustomizeBox, CheckContents, () -> void)
 
 }
 
+// Get crewmember in slot; modified for noSlot
 HOOK_METHOD(ShipManager, GetCrewmember, (int slot, bool present) -> CrewMember*)
 {
     if (vCrewList.empty()) return nullptr;
@@ -4758,19 +5135,43 @@ HOOK_METHOD(ShipManager, GetCrewmember, (int slot, bool present) -> CrewMember*)
     return nullptr;
 }
 
+// No Clone stat
 HOOK_METHOD(CrewMember, CheckSkills, () -> void)
 {
     super();
 
+    auto ex = CM_EX(this);
+    if (ex->deathTimer && ex->deathTimer->Done())
+    {
+        clone_ready = false;
+        return;
+    }
+
     auto custom = CustomCrewManager::GetInstance();
     if (custom->IsRace(species))
     {
-        auto ex = CM_EX(this);
-
         ex->CalculateStat(CrewStat::NO_CLONE, custom->GetDefinition(species), &ex->noClone);
         if (ex->noClone)
         {
             clone_ready = false;
+            return;
         }
     }
 }
+
+// Mind control resist/telepathy split
+HOOK_METHOD(MindSystem, OnLoop, () -> void)
+{
+    isTelepathicMindControl = g_resistsMindControlStat;
+    super();
+    isTelepathicMindControl = false;
+}
+
+// Mind control resist/telepathy split
+HOOK_METHOD(CombatAI, UpdateMindControl, (bool unk) -> void)
+{
+    isTelepathicMindControl = g_resistsMindControlStat;
+    super(unk);
+    isTelepathicMindControl = false;
+}
+

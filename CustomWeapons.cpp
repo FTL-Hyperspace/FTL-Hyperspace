@@ -45,6 +45,10 @@ HOOK_STATIC(BlueprintManager, ProcessWeaponBlueprint, (WeaponBlueprint* bp, Blue
         {
             weaponDef.customDamage.noPersDamage = EventsParser::ParseBoolean(val);
         }
+        if (name == "ionBeamFix" && bp->type == 2) // Ion beam fix only valid for beams
+        {
+            weaponDef.customDamage.ionBeamFix = EventsParser::ParseBoolean(val);
+        }
         if (name == "simultaneousFire")
         {
             weaponDef.simultaneousFire = EventsParser::ParseBoolean(val);
@@ -52,6 +56,14 @@ HOOK_STATIC(BlueprintManager, ProcessWeaponBlueprint, (WeaponBlueprint* bp, Blue
         if (name == "fireTime")
         {
             weaponDef.fireTime = boost::lexical_cast<float>(val);
+        }
+        if (name == "angularRadius") // affects flak drones
+        {
+            weaponDef.angularRadius = boost::lexical_cast<float>(val);
+        }
+        if (name == "statBoostChance")
+        {
+            weaponDef.customDamage.statBoostChance = boost::lexical_cast<int>(val);
         }
         if (name == "statBoosts")
         {
@@ -75,6 +87,16 @@ HOOK_STATIC(BlueprintManager, ProcessWeaponBlueprint, (WeaponBlueprint* bp, Blue
                 weaponDef.customDamage.crewSpawns.push_back(newSpawn);
             }
         }
+    }
+
+    // Default chance if tag not specified (100% if tags specified, 0% otherwise)
+    if (weaponDef.customDamage.statBoostChance == -1)
+    {
+        weaponDef.customDamage.statBoostChance = weaponDef.customDamage.statBoosts.empty() ? 0 : 10;
+    }
+    if (weaponDef.customDamage.crewSpawnChance == -1)
+    {
+        weaponDef.customDamage.crewSpawnChance = weaponDef.customDamage.crewSpawns.empty() ? 0 : 10;
     }
 
     CustomWeaponManager::instance->AddWeaponDefinition(weaponDef);

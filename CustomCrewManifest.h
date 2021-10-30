@@ -24,7 +24,9 @@ public:
     void OnTextEvent(CEvent::TextEvent event);
     void Close();
     void MouseClick(int mX, int mY);
+    void MouseUp(int mX, int mY);
     void MouseMove(int mX, int mY);
+    void OnScrollWheel(float direction);
 
     static CustomCrewManifest* GetInstance()
     {
@@ -40,6 +42,8 @@ private:
 
     int currentPage = 0;
     int crewLimit = 8;
+
+    CrewMember *draggingCrewMember = nullptr;
 
     static CustomCrewManifest instance;
 };

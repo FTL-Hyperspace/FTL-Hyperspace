@@ -23,13 +23,15 @@ struct CustomDamage
 
     bool noSysDamage = false;
     bool noPersDamage = false;
+    bool ionBeamFix = false;
 
+    int statBoostChance = -1;
     std::vector<StatBoostDefinition*> statBoosts;
 
     int erosionChance = 0;
     ErosionEffect erosionEffect;
 
-    int crewSpawnChance = 0;
+    int crewSpawnChance = -1;
     std::vector<CrewSpawn> crewSpawns;
 
     ~CustomDamage()
@@ -45,4 +47,5 @@ class CustomDamageManager
 {
 public:
     static CustomDamage* currentWeaponDmg;
+    static Projectile* currentProjectile;
 };

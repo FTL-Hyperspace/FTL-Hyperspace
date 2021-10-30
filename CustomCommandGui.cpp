@@ -66,15 +66,135 @@ void CustomCommandGui::LButtonDown(int mX, int mY, bool shiftHeld)
     }
 }
 
+HOOK_METHOD(CrewControl, RButton, (int mX, int mY, bool shiftHeld) -> void)
+{
+    super(mX, mY, shiftHeld);
+    for (auto box : crewBoxes)
+    {
+        if (mX > box->box.x && mY > box->box.y && mX < box->box.x + box->box.w && mY < box->box.y + box->box.h)
+        {
+            CustomCommandGui::GetInstance()->draggingCrewMember = box->pCrew;
+        }
+    }
+}
+
+HOOK_METHOD(CrewControl, MouseMove, (int mX, int mY, int wX, int wY) -> void)
+{
+    super(mX, mY, wX, wY);
+
+    CrewMember *draggingCrewMember = CustomCommandGui::GetInstance()->draggingCrewMember;
+
+    if (draggingCrewMember != nullptr && !crewBoxes.empty())
+    {
+        int index = (mY-155)/30;
+        int draggingIndex = 9999;
+        if (index < 0) index = 0;
+        if (index >= crewBoxes.size()) index = crewBoxes.size()-1;
+        if (crewBoxes[index]->pCrew == draggingCrewMember) return;
+        G_->GetCrewFactory()->MoveCrewMemberToSpot(draggingCrewMember,crewBoxes[index]->pCrew);
+
+        ClearCrewBoxes();
+        UpdateCrewBoxes();
+    }
+}
+
+void CustomCommandGui::RButtonUp(int mX, int mY, bool shiftHeld)
+{
+    draggingCrewMember = nullptr;
+}
+
+HOOK_METHOD(CApp, OnRButtonUp, (int x, int y) -> void)
+{
+    if (!langChooser.bOpen && !menu.bOpen)
+    {
+        Point pos = Point((int)((x - x_bar)*mouseModifier_x) - modifier_x, (int)((y - y_bar)*mouseModifier_y) - modifier_y);
+        CustomCommandGui::GetInstance()->RButtonUp(pos.x, pos.y, shift_held);
+    }
+}
 
 HOOK_METHOD(CrewBox, OnRender, () -> void)
 {
-    super();
+    if (CustomCommandGui::GetInstance()->draggingCrewMember == pCrew)
+    {
+        MouseControl *mouseControl = G_->GetMouseControl();
+        CSurface::GL_PushMatrix();
+        CSurface::GL_Translate(mouseControl->position.x - box.x - box.w/2, mouseControl->position.y - box.y - box.h/2);
+        mouseHover = false;
+        super();
+        CSurface::GL_PopMatrix();
+    }
+    else
+    {
+        super();
+    }
+}
+
+HOOK_METHOD(CrewBox, RenderIcon, () -> void)
+{
+    if (CustomCommandGui::GetInstance()->draggingCrewMember == pCrew)
+    {
+        MouseControl *mouseControl = G_->GetMouseControl();
+        CSurface::GL_PushMatrix();
+        CSurface::GL_Translate(mouseControl->position.x - box.x - box.w/2, mouseControl->position.y - box.y - box.h/2);
+        mouseHover = false;
+        super();
+        CSurface::GL_PopMatrix();
+    }
+    else
+    {
+        super();
+    }
+}
+
+HOOK_METHOD(CrewBox, RenderLabels, () -> void)
+{
+    if (CustomCommandGui::GetInstance()->draggingCrewMember == pCrew)
+    {
+        MouseControl *mouseControl = G_->GetMouseControl();
+        CSurface::GL_PushMatrix();
+        CSurface::GL_Translate(mouseControl->position.x - box.x - box.w/2, mouseControl->position.y - box.y - box.h/2);
+        mouseHover = false;
+        super();
+        CSurface::GL_PopMatrix();
+    }
+    else
+    {
+        super();
+    }
+}
+
+HOOK_METHOD(CrewBox, RenderCloneDying, () -> void)
+{
+    if (CustomCommandGui::GetInstance()->draggingCrewMember == pCrew)
+    {
+        MouseControl *mouseControl = G_->GetMouseControl();
+        CSurface::GL_PushMatrix();
+        CSurface::GL_Translate(mouseControl->position.x - box.x - box.w/2, mouseControl->position.y - box.y - box.h/2);
+        mouseHover = false;
+        super();
+        CSurface::GL_PopMatrix();
+    }
+    else
+    {
+        super();
+    }
 }
 
 HOOK_METHOD(CrewBox, OnRenderSkillLevel, () -> void)
 {
-    super();
+    if (CustomCommandGui::GetInstance()->draggingCrewMember == pCrew)
+    {
+        MouseControl *mouseControl = G_->GetMouseControl();
+        CSurface::GL_PushMatrix();
+        CSurface::GL_Translate(mouseControl->position.x - box.x - box.w/2, mouseControl->position.y - box.y - box.h/2);
+        mouseHover = false;
+        super();
+        CSurface::GL_PopMatrix();
+    }
+    else
+    {
+        super();
+    }
 }
 
 HOOK_METHOD(CrewControl, OnRender, () -> void)
@@ -111,16 +231,45 @@ HOOK_METHOD(CrewControl, LinkShip, (ShipManager *ship) -> void)
 
 HOOK_METHOD(CrewControl, UpdateCrewBoxes, () -> void)
 {
-    auto crewList = std::vector<CrewMember*>();
+    static std::vector<CrewMember*> crewList = std::vector<CrewMember*>();
 
-    G_->GetCrewFactory()->GetCrewPortraitList(&crewList, 0);
+    crewList.clear();
+
+    CrewMemberFactory *factory = G_->GetCrewFactory();
+
+    bool hasMindOrder = shipManager && G_->GetShipManager(0) == shipManager && shipManager->HasAugmentation("MIND_ORDER");
+    bool hasMindCrew = false;
+
+    for (auto crew : factory->crewMembers)
+    {
+        if (crew->CountForVictory())
+        {
+            if (crew->iShipId == 0)
+            {
+                crewList.push_back(crew);
+            }
+            else if (crew->bMindControlled && hasMindOrder)
+            {
+                crewList.push_back(crew);
+                hasMindCrew = true;
+            }
+        }
+    }
+
     int currentCrewPage = CustomCommandGui::GetInstance()->currentCrewPage;
 
-    CustomCommandGui::GetInstance()->maxPage = std::floor(std::max((int)crewList.size() - 1, 0) / 8.f);
+    int maxCrewBoxes = 8;
+
+    CustomCommandGui::GetInstance()->maxPage = ((int)crewList.size() - 1) / 8; // always rounds towards 0
+    if (hasMindCrew && crewList.size() <= 9)
+    {
+        CustomCommandGui::GetInstance()->maxPage = 0;
+        maxCrewBoxes = 9;
+    }
 
     if (currentCrewPage > CustomCommandGui::GetInstance()->maxPage)
     {
-        CustomCommandGui::GetInstance()->currentCrewPage = CustomCommandGui::GetInstance()->maxPage;
+        currentCrewPage = CustomCommandGui::GetInstance()->maxPage;
     }
 
     if (lastCrewPage == currentCrewPage && lastCrewCount == crewList.size() && !(crewList.size() > 0 && crewBoxes.size() == 0))
@@ -128,22 +277,17 @@ HOOK_METHOD(CrewControl, UpdateCrewBoxes, () -> void)
         return;
     }
 
-
+    CustomCommandGui::GetInstance()->currentCrewPage = currentCrewPage;
     ClearCrewBoxes();
 
     int counter = 0;
     int boxY = 155;
-    for (auto i : crewList)
+    for (auto it = crewList.begin() + (8*currentCrewPage); it != crewList.end(); ++it)
     {
-        if (std::floor(counter / 8) == currentCrewPage)
-        {
-            crewBoxes.push_back(new CrewBox(Point(10, boxY), i, counter % 8));
-            boxY += 30;
-        }
-
-        counter++;
+        crewBoxes.push_back(new CrewBox(Point(10, boxY), *it, counter++));
+        if (counter ==  maxCrewBoxes) break;
+        boxY += 30;
     }
-
 
     lastCrewPage = currentCrewPage;
     lastCrewCount = crewList.size();

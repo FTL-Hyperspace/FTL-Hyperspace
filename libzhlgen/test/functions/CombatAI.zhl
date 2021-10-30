@@ -1,0 +1,2 @@
+"578d7c240883e4f0ff77fc5589e557565383ec4c8b41308b178b703485f6":
+void CombatAI::UpdateMindControl(CombatAI *this<ecx>, bool unk);

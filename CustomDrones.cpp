@@ -1,5 +1,6 @@
 #include "CustomDrones.h"
 #include "CustomCrew.h"
+#include "CustomWeapons.h"
 #include <boost/lexical_cast.hpp>
 
 CustomDroneManager CustomDroneManager::_instance = CustomDroneManager();
@@ -474,6 +475,119 @@ HOOK_METHOD(ShipManager, CreateSpaceDrone, (const DroneBlueprint *bp) -> SpaceDr
 }
 
 
+static std::vector<Projectile*> spaceDroneQueuedProjectiles = std::vector<Projectile*>();
+HOOK_METHOD(SpaceDrone, GetNextProjectile, () -> Projectile*)
+{
+    Projectile* ret;
+    if (weaponBlueprint->type == 4) // flak
+    {
+        if (spaceDroneQueuedProjectiles.empty())
+        {
+            ret = super();
+            if (ret)
+            {
+                Pointf lastTargetLocation = ret->target;
+
+                float radius = CustomWeaponManager::instance->GetWeaponDefinition(weaponBlueprint->name)->angularRadius;
+                if (radius == -1.f)
+                {
+                    radius = weaponBlueprint->radius;
+                }
+                else
+                {
+                    radius = radius * sqrt(lastTargetLocation.RelativeDistance(ret->position)) * 0.01745329f;
+                }
+
+                delete ret;
+
+                for (auto &k : weaponBlueprint->miniProjectiles)
+                {
+                    float r = sqrt(random32()/2147483648.f) * radius;
+                    float theta = random32()%360 * 0.01745329f;
+                    Pointf ppos = {lastTargetLocation.x + r*cos(theta), lastTargetLocation.y + r*sin(theta)};
+                    LaserBlast *projectile = new LaserBlast(currentLocation,currentSpace,currentSpace,ppos);
+                    projectile->heading = -1.0;
+                    projectile->OnInit();
+                    projectile->Initialize(*weaponBlueprint);
+                    projectile->ownerId = iShipId;
+
+                    Animation *anim = G_->GetAnimationControl()->GetAnimation(k.image);
+                    projectile->flight_animation = *anim;
+                    delete anim;
+
+                    if (k.fake)
+                    {
+                        projectile->damage.iDamage = 0;
+                        projectile->damage.iShieldPiercing = 0;
+                        projectile->damage.fireChance = 0;
+                        projectile->damage.breachChance = 0;
+                        projectile->damage.stunChance = 0;
+                        projectile->damage.iIonDamage = 0;
+                        projectile->damage.iSystemDamage = 0;
+                        projectile->damage.iPersDamage = 0;
+                        projectile->damage.bHullBuster = false;
+                        projectile->damage.ownerId = -1;
+                        projectile->damage.selfId = -1;
+                        projectile->damage.bLockdown = false;
+                        projectile->damage.crystalShard = false;
+                        projectile->damage.bFriendlyFire = true;
+                        projectile->damage.iStun = 0;
+                        projectile->death_animation.fScale = 0.25;
+                    }
+                    else
+                    {
+                        projectile->damage.ownerId = iShipId;
+                        projectile->bBroadcastTarget = type == 1 && iShipId == 0;
+                    }
+
+                    spaceDroneQueuedProjectiles.push_back(projectile);
+                }
+            }
+        }
+        if (!spaceDroneQueuedProjectiles.empty())
+        {
+            ret = spaceDroneQueuedProjectiles.back();
+            spaceDroneQueuedProjectiles.pop_back();
+            return ret;
+        }
+        return nullptr;
+    }
+
+    ret = super();
+    if (ret && weaponBlueprint->type == 3) // bomb
+    {
+        ret->flight_animation.tracker.loop = false;
+    }
+    return ret;
+}
+
+HOOK_METHOD(DroneSystem, OnLoop, () -> void)
+{
+    if (!loadingGame)
+    {
+        for (Drone* _drone : drones)
+        {
+            if (_drone->type == 4) // check that this is a boarding drone
+            {
+                BoarderPodDrone* drone = (BoarderPodDrone*) _drone;
+                if (drone->movementTarget == nullptr && drone->deployed)
+                {
+                    if (!drone->bDead && (!drone->bDeliveredDrone || !drone->boarderDrone->bDead))
+                    {
+                        if (_shipObj.HasAugmentation("BOARDER_RECOVERY"))
+                        {
+                            drone_count += 1;
+                            drone->SetDeployed(false);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    super();
+}
+
+
 HOOK_METHOD(CrewDrone, OnLoop, () -> void)
 {
     if (CustomCrewManager::GetInstance()->IsRace(species) && CustomCrewManager::GetInstance()->GetDefinition(species)->droneMoveFromManningSlot)
@@ -595,19 +709,3 @@ HOOK_METHOD(CrewAnimation, OnInit, (const std::string& _race, Pointf position, b
     }
 }
 
-HOOK_METHOD(CrewControl, OnLoop, () -> void)
-{
-    std::vector<CrewMember*> filteredCrew = std::vector<CrewMember*>();
-
-    for (auto i : selectedCrew)
-    {
-        if (i->Functional())
-        {
-            filteredCrew.push_back(i);
-        }
-    }
-
-    selectedCrew = filteredCrew;
-
-    super();
-}

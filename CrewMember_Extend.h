@@ -38,6 +38,7 @@ enum PowerReadyState
     POWER_NOT_READY_MIN_HEALTH,
     POWER_NOT_READY_MAX_HEALTH,
     POWER_NOT_READY_SYSTEM_DAMAGED,
+    POWER_NOT_READY_MIND,
     POWER_NOT_READY_TELEPORTING,
     POWER_NOT_READY_CHARGES
 };
@@ -77,6 +78,7 @@ public:
     bool canPhaseThroughDoors = false;
     bool isHealing = false;
     TimerHelper* passiveHealTimer = nullptr;
+    TimerHelper* deathTimer = nullptr;
     int lastRoom = -1;
     int lastShipId = -1;
     bool exploded = false;
@@ -139,6 +141,7 @@ public:
     ~CrewMember_Extend()
     {
         delete passiveHealTimer;
+        delete deathTimer;
     }
 
     std::pair<float,int> statCache[numStats] = {};

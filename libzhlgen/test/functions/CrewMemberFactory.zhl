@@ -39,5 +39,9 @@ CrewMember* CrewMemberFactory::CreateCrewMember(CrewMemberFactory *this<ecx>, Cr
 
 struct CrewMemberFactory
 {{
-	std::vector<CrewMember*> GetCrewPortraitList
-}}
+	void SwapCrewMembers(CrewMember *_first, CrewMember *_second);
+	void MoveCrewMemberToEnd(CrewMember *crew);
+	void MoveCrewMemberBefore(CrewMember *crew, CrewMember *other);
+	void MoveCrewMemberAfter(CrewMember *crew, CrewMember *other);
+	void MoveCrewMemberToSpot(CrewMember *crew, CrewMember *other);
+}};

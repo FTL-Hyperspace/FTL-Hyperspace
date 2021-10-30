@@ -209,6 +209,9 @@
 		<Unit filename="Credits.cpp">
 			<Option virtualFolder="Core/Credits/" />
 		</Unit>
+		<Unit filename="CrewManifestVTable.cpp">
+			<Option virtualFolder="Core/Crew/" />
+		</Unit>
 		<Unit filename="CrewMember_Extend.cpp">
 			<Option virtualFolder="Core/Crew/" />
 		</Unit>
@@ -589,6 +592,9 @@
 		</Unit>
 		<Unit filename="TemporalSystem.h">
 			<Option virtualFolder="Content/Systems/" />
+		</Unit>
+		<Unit filename="TimerHelper.cpp">
+			<Option virtualFolder="Core/" />
 		</Unit>
 		<Unit filename="ToggleValue.h">
 			<Option virtualFolder="Core/" />
