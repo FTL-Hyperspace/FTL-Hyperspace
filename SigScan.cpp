@@ -1,8 +1,26 @@
 #include "SigScan.h"
 #include <string>
-#include <Windows.h>
-
 #include "hde.h"
+
+#ifdef _WIN32
+    #include <Windows.h>
+#elif defined(__linux__)
+    #include <stdio.h>
+    #include <link.h>
+    #include <stdlib.h>
+    #include <inttypes.h>
+    
+    #ifdef __i386__
+        #define PTR_PRINT_F "0x%08" PRIxPTR
+    #elif defined(__amd64__)
+        #define PTR_PRINT_F "0x%016" PRIxPTR
+        #error "AMD64 Architecture not supported yet."
+    #else
+        #error "Unknown processor architecture not supported."
+    #endif // Architecture
+#else
+    #error "Unsupported OS"
+#endif
 
 unsigned char *SigScan::s_pBase = 0;
 size_t SigScan::s_iBaseLen = 0;
@@ -23,6 +41,7 @@ SigScan::SigScan(const char *sig) : m_pAddress(0)
 		if(s_lastMatches.empty())
 		{
 			// Look for the first function after the last scanned function
+			// TODO: This sig will need a tweak for AMD64 variants
 			sig = ".558bec";
 		}
 		else
@@ -171,12 +190,13 @@ bool SigScan::Scan(Callback callback)
 			}
 			else
 			{
-				hde32s s = {0};
+                // TODO: Need to make a define for this, we have to use HDE64 on 64 bit architectures
+				T_HDE s = {0};
 				int n = 0;
 
 				do
 				{
-					n = hde32_disasm(s_pLastAddress, &s);
+					n = HDE_DISASM(s_pLastAddress, &s);
 					s_pLastAddress += n;
 				} while(n && s.opcode != 0xc2 && s.opcode != 0xc3);
 
@@ -202,7 +222,7 @@ bool SigScan::Scan(Callback callback)
 }
 
 //=====================================================================
-
+#ifdef _WIN32
 void SigScan::Init()
 {
 	HMODULE hModule = GetModuleHandle(NULL);
@@ -220,3 +240,47 @@ void SigScan::Init()
 	s_iBaseLen = pe->OptionalHeader.SizeOfImage;
 	s_pLastAddress = s_pBase;
 }
+#elif defined(__linux__)
+size_t segmentLength = 0;
+uintptr_t programBaseAddress = 0;
+
+static int callback(struct dl_phdr_info *info, size_t size, void *data) {
+    static int once = 0;
+    
+    if(once) return 0;
+    once = 1;
+    
+    printf("ELF Relocation addr: " PTR_PRINT_F "\n", (uintptr_t) info->dlpi_addr);
+    
+    for(int j = 0; j < info->dlpi_phnum; j++) {
+        ElfW(Phdr) t_phdr = info->dlpi_phdr[j];
+        if(t_phdr.p_type == PT_LOAD && t_phdr.p_flags & 0x11 /* executable & read I think */) {
+
+            printf("ELF Loaded at " PTR_PRINT_F ", " PTR_PRINT_F "\n", (uintptr_t) (info->dlpi_addr + t_phdr.p_vaddr), (uintptr_t) t_phdr.p_vaddr);
+
+            programBaseAddress = (uintptr_t) (info->dlpi_addr + t_phdr.p_vaddr);
+            
+            int seg_size = 0;
+            // get segment size
+            while(seg_size < t_phdr.p_filesz) {
+                seg_size += t_phdr.p_align;
+            }
+            segmentLength = seg_size;
+
+            break;
+        }
+    }
+    
+    return 0;
+}
+
+void SigScan::Init()
+{
+    dl_iterate_phdr(callback, NULL);
+
+    s_pBase = (unsigned char *) programBaseAddress;
+    s_iBaseLen = segmentLength;
+	s_pLastAddress = s_pBase;
+}
+#endif
+
