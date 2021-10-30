@@ -3368,8 +3368,18 @@ HOOK_METHOD(WorldManager, CreateShip, (ShipEvent* shipEvent, bool boss) -> Compl
     return ret;
 }
 
-HOOK_STATIC(StarMap, GetLocationText, (std::string& strRef, StarMap *starMap, const Location* loc) -> std::string&)
+HOOK_STATIC(StarMap, GetLocationText, (std::string& strRef, StarMap *starMap, Location* loc) -> std::string&)
 {
+    struct LocLabelValues
+    {
+        bool questLoc;
+        bool beacon;
+        bool repair;
+        Store *pStore;
+        bool store;
+        bool distressBeacon;
+    };
+
     CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(loc->event->eventName);
 
     if (!customEvent) return super(strRef, starMap, loc);
@@ -3380,8 +3390,19 @@ HOOK_STATIC(StarMap, GetLocationText, (std::string& strRef, StarMap *starMap, co
     }
 
     TextString tooltip;
+    bool hideVanillaLabel = true;
 
-    if (loc->visited)
+    if ((!customEvent->beacon->global && !loc->known && !starMap->bMapRevealed) ||
+        (!customEvent->beacon->equipmentReq.empty() && starMap->shipManager->HasEquipment(customEvent->beacon->equipmentReq) <= 0))
+    {
+        if (loc->visited)
+        {
+            return super(strRef, starMap, loc);
+        }
+        tooltip = customEvent->beacon->undiscoveredTooltip;
+        hideVanillaLabel = customEvent->beacon->hideVanillaLabel;
+    }
+    else if (loc->visited)
     {
         tooltip = customEvent->beacon->visitedTooltip;
     }
@@ -3389,14 +3410,42 @@ HOOK_STATIC(StarMap, GetLocationText, (std::string& strRef, StarMap *starMap, co
     {
         tooltip = customEvent->beacon->unvisitedTooltip;
     }
-    if (!customEvent->beacon->global && !loc->known && !starMap->bMapRevealed)
-    {
-        tooltip = customEvent->beacon->undiscoveredTooltip;
-    }
 
     if (tooltip.data.empty())
     {
-        return super(strRef, starMap, loc);
+        if (hideVanillaLabel)
+        {
+            LocLabelValues locValues;
+
+            locValues.questLoc = loc->questLoc;
+            locValues.beacon = loc->beacon;
+            locValues.repair = loc->event->repair;
+            locValues.pStore = loc->event->pStore;
+            locValues.store = loc->event->store;
+            locValues.distressBeacon = loc->event->distressBeacon;
+
+            loc->questLoc = false;
+            loc->beacon = loc->beacon && loc->visited;
+            loc->event->repair = false;
+            loc->event->pStore = loc->visited ? locValues.pStore : nullptr;
+            loc->event->store = false;
+            loc->event->distressBeacon = false;
+
+            auto ret = super(strRef, starMap, loc);
+
+            loc->questLoc = locValues.questLoc;
+            loc->beacon = locValues.beacon;
+            loc->event->repair = locValues.repair;
+            loc->event->pStore = locValues.pStore;
+            loc->event->store = locValues.store;
+            loc->event->distressBeacon = locValues.distressBeacon;
+
+            return ret;
+        }
+        else
+        {
+            return super(strRef, starMap, loc);
+        }
     }
 
     strRef.assign(tooltip.GetText());
