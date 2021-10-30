@@ -122,9 +122,37 @@
 
 <!-- Hotkeys -->
 
+<text name="hotkey_drone4">Drone Slot 4</text>
 <text name="hotkey_speed">Toggle Speedhack</text>
 <text name="hotkey_console">Open Console</text>
 <text name="hotkey_info">Toggle Extra Info</text>
+<text name="hotkey_temporal">Power Temporal Manipulator</text>
+<text name="hotkey_un_temporal">De-Power Temporal Manipulator</text>
+<text name="hotkey_temporal_speed">Temporal Speed Up</text>
+<text name="hotkey_temporal_slow">Temporal Slow Down</text>
+
+<!-- Custom systems -->
+
+<!--
+For: "temporal", "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
+
+\1: speed strength
+\2: speed cooldown
+\3: speed duration
+\4: slow strength
+\5: slow cooldown
+\6: slow duration
+-->
+
+<text name="temporal">\1x/\4x speed for \3/\6 sec</text> 
+<text name="temporal_tooltip">\1x/\4x speed for \3/\6 sec</text>
+
+<text name="temporal_arm_super_shields">Blocked by super shields.</text>
+<text name="temporal_arm_speed">Speed up everything in the room by \1x for \3 seconds.</text>
+<text name="temporal_arm_slow">Slow down everything in the room by \4x for \6 seconds.</text>
+
+<text name="temporal_button_speed">Speed up everything that occurs in a room for a short duration.</text>
+<text name="temporal_button_slow">Slow down everything that occurs in a room for a short duration.</text>
 
 <!-- More Info Button -->
 

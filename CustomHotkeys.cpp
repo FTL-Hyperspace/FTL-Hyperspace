@@ -2,6 +2,7 @@
 
 static std::vector<CustomHotkey> customHotkeys =
 {
+    {"drone4", SDLKey::SDLK_8, 1, 11},
     {"console", SDLKey::SDLK_BACKSLASH, 0, -1},
     {"speed", SDLKey::SDLK_BACKQUOTE, 0, -1},
     {"info", SDLKey::SDLK_RALT, 0, 11},
