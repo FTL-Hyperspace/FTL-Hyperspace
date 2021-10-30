@@ -209,6 +209,9 @@
 		<Unit filename="Credits.cpp">
 			<Option virtualFolder="Core/Credits/" />
 		</Unit>
+		<Unit filename="CrewManifestVTable.cpp">
+			<Option virtualFolder="Core/Crew/" />
+		</Unit>
 		<Unit filename="CrewMember_Extend.cpp">
 			<Option virtualFolder="Core/Crew/" />
 		</Unit>

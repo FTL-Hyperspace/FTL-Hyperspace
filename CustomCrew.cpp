@@ -5025,8 +5025,19 @@ HOOK_METHOD(CrewMember, OnRenderPath, () -> void)
 HOOK_METHOD(CrewMember, SetMindControl, (bool controlled) -> void)
 {
     super(controlled);
-    G_->GetCApp()->gui->crewControl.ClearCrewBoxes();
-    G_->GetCApp()->gui->crewControl.UpdateCrewBoxes();
+    if (iShipId == 1)
+    {
+        ShipManager *playerShip = G_->GetShipManager(0);
+        if (playerShip && playerShip->HasAugmentation("MIND_ORDER"))
+        {
+            if (bMindControlled)
+            {
+                G_->GetCrewFactory()->MoveCrewMemberToEnd(this);
+            }
+            G_->GetCApp()->gui->crewControl.ClearCrewBoxes();
+            G_->GetCApp()->gui->crewControl.UpdateCrewBoxes();
+        }
+    }
 }
 
 // Selectable/controllable split - doesn't work properly with touchscreen

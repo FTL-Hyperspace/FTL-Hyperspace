@@ -1935,6 +1935,12 @@ struct BoarderDrone;
 
 struct CrewMemberFactory
 {
+	void SwapCrewMembers(CrewMember *_first, CrewMember *_second);
+	void MoveCrewMemberToEnd(CrewMember *crew);
+	void MoveCrewMemberBefore(CrewMember *crew, CrewMember *other);
+	void MoveCrewMemberAfter(CrewMember *crew, CrewMember *other);
+	void MoveCrewMemberToSpot(CrewMember *crew, CrewMember *other);
+
 	LIBZHL_API void destructor();
 	LIBZHL_API void Restart();
 	LIBZHL_API int CountCloneReadyCrew();
@@ -2935,6 +2941,7 @@ struct LIBZHL_INTERFACE CrewAnimation
 	LIBZHL_API void SetupStrips();
 	LIBZHL_API void OnUpdate(Pointf position, bool moving, bool fighting, bool repairing, bool dying, bool onFire);
 	LIBZHL_API void destructor();
+	LIBZHL_API void RenderIcon(bool border);
 	
 	int iShipId;
 	std::vector<std::vector<Animation>> anims;
@@ -7500,6 +7507,9 @@ struct CrewBox
 	LIBZHL_API void OnRenderSkillLevel();
 	LIBZHL_API void destructor();
 	LIBZHL_API bool MouseClick();
+	LIBZHL_API void RenderIcon();
+	LIBZHL_API void RenderLabels();
+	LIBZHL_API void RenderCloneDying();
 	
 	Globals::Rect box;
 	Globals::Rect skillBox;
