@@ -681,6 +681,7 @@ HOOK_METHOD(Ship, OnInit, (ShipBlueprint& bp) -> void)
     if (xmltext)
     {
         bool hasThrusters = false;
+        bool syncThrusters = false;
         int nThrusters = 0;
         int nVanillaThrusters = 0;
         std::vector<std::string> thrusters;
@@ -706,6 +707,10 @@ HOOK_METHOD(Ship, OnInit, (ShipBlueprint& bp) -> void)
             if (strcmp(node->name(), "thrusters") == 0)
             {
                 hasThrusters = true;
+                if (node->first_attribute("sync"))
+                {
+                    syncThrusters = EventsParser::ParseBoolean(node->first_attribute("sync")->value());
+                }
                 for (auto child = node->first_node(); child; child = child->next_sibling())
                 {
                     if (strcmp(child->name(), "thruster") == 0)
@@ -754,7 +759,14 @@ HOOK_METHOD(Ship, OnInit, (ShipBlueprint& bp) -> void)
                     if (!thrusters[i].empty()) AnimationControl::GetAnimation(engineAnim[nVanillaThrusters], G_->GetAnimationControl(), thrusters[i]);
                     engineAnim[nVanillaThrusters].position = {thrusterPos[i].x + shipImage.x + graph->shipBox.x, thrusterPos[i].y + shipImage.y + graph->shipBox.y};
                     engineAnim[nVanillaThrusters].tracker.SetLoop(true, 0.f);
-                    engineAnim[nVanillaThrusters].RandomStart();
+                    if (syncThrusters)
+                    {
+                        engineAnim[nVanillaThrusters].Start(true);
+                    }
+                    else
+                    {
+                        engineAnim[nVanillaThrusters].RandomStart();
+                    }
                     nVanillaThrusters++;
                 }
                 else
@@ -782,7 +794,14 @@ HOOK_METHOD(Ship, OnInit, (ShipBlueprint& bp) -> void)
                         extraEngineAnim[iShipId].push_back({anim,thrusterRot[i]});
                     }
                     extraEngineAnim[iShipId][nExtraThrusters].first.tracker.SetLoop(true, 0.f);
-                    extraEngineAnim[iShipId][nExtraThrusters].first.RandomStart();
+                    if (syncThrusters)
+                    {
+                        extraEngineAnim[iShipId][nExtraThrusters].first.Start(true);
+                    }
+                    else
+                    {
+                        extraEngineAnim[iShipId][nExtraThrusters].first.RandomStart();
+                    }
                     nExtraThrusters++;
                 }
             }
