@@ -43,8 +43,8 @@
 </augBlueprint>
 
 <augBlueprint name="MIND_ORDER">
-	<title>MIND_ORDER</title>
-	<desc>Allows direct control of mind controlled enemy crew.</desc>
+	<title>Neural Reins</title>
+	<desc>Allows direct control of mind controlled enemy crew. Also takes ownership of any effects being applied by that crew.</desc>
 	<cost>50</cost>
 	<bp>8</bp>
 	<rarity>0</rarity>
