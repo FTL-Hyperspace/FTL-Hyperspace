@@ -1,3 +1,18 @@
+<animSheet name="temporal_speed" w="175" h="35" fw="35" fh="35">effects/room_temporal_speed.png</animSheet>
+
+<anim name="room_temporal_speed">
+	<sheet>temporal_speed</sheet>
+	<desc length="5" x="0" y="0"/>
+	<time>0.2</time>
+</anim>
+
+<animSheet name="temporal_slow" w="175" h="35" fw="35" fh="35">effects/room_temporal_slow.png</animSheet>
+
+<anim name="room_temporal_slow">
+	<sheet>temporal_slow</sheet>
+	<desc length="5" x="0" y="0"/>
+	<time>0.75</time>
+</anim>
 
 <animSheet name="ghost" w="315" h="455" fw="35" fh="35">people/ghost_base.png</animSheet>
 

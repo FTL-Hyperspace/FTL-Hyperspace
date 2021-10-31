@@ -819,6 +819,47 @@ Syntax ->
 
 </augments>
 
+<!-- Custom Systems -->
+
+<customSystems>
+	<system id="temporal">
+		<speed>
+			<level1>
+				<duration>10</duration>
+				<cooldown>2</cooldown>
+				<strength>2</strength>
+			</level1>
+			<level2>
+				<duration>7</duration>
+				<cooldown>2</cooldown>
+				<strength>4</strength>
+			</level2>
+			<level3>
+				<duration>5</duration>
+				<cooldown>2</cooldown>
+				<strength>8</strength>
+			</level3>
+		</speed>
+		<slow>
+			<level1>
+				<duration>10</duration>
+				<cooldown>2</cooldown>
+				<strength>0.25</strength>
+			</level1>
+			<level2>
+				<duration>17</duration>
+				<cooldown>2</cooldown>
+				<strength>0.12</strength>
+			</level2>
+			<level3>
+				<duration>25</duration>
+				<cooldown>2</cooldown>
+				<strength>0.06</strength>
+			</level3>
+		</slow>
+	</system>
+</customSystems>
+
 <!-- Stat boosts
 
 NOTE:

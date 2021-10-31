@@ -1,3 +1,18 @@
+<systemBlueprint name="temporal">
+	<type>temporal</type>
+	<title id="system_temporal_title"/>
+	<desc id="system_temporal_desc"/>
+	<startPower>1</startPower>
+	<maxPower>3</maxPower>
+	<rarity>1</rarity>
+	<upgradeCost>
+		<level>40</level> <!-- level 2 -->
+		<level>80</level> <!-- level 3 -->
+		<level>120</level> <!-- imaginary level 4 -->
+	</upgradeCost>
+	<cost>0</cost>
+</systemBlueprint>
+
 <augBlueprint name="NANOBOT_DEFENSE_SYSTEM">
     <title>Nanobot Defense System</title>
 	<desc>Boarders take damage over time on your ship.</desc>
@@ -21,6 +36,15 @@
 <augBlueprint name="BOARDER_RECOVERY">
 	<title>Boarder Retro-Thrusters</title>
 	<desc>Non-destroyed boarding drones will be retrieved at the end of combat.</desc>
+	<cost>50</cost>
+	<bp>8</bp>
+	<rarity>0</rarity>
+	<stackable>false</stackable>
+</augBlueprint>
+
+<augBlueprint name="MIND_ORDER">
+	<title>MIND_ORDER</title>
+	<desc>Allows direct control of mind controlled enemy crew.</desc>
 	<cost>50</cost>
 	<bp>8</bp>
 	<rarity>0</rarity>
