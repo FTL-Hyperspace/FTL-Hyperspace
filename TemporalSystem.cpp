@@ -1110,6 +1110,42 @@ HOOK_METHOD(LockdownShard, Update, () -> void)
     g_dilationAmount = 0;
 }
 
+HOOK_METHOD(Door, OnLoop, () -> void)
+{
+    if (lockedDown.running &&
+        ((iRoom1 != -1 && GetRoomDilationAmount(g_shardDilationRooms, iRoom1) != 0) ||
+         (iRoom2 != -1 && GetRoomDilationAmount(g_shardDilationRooms, iRoom2) != 0)))
+    {
+        ShipManager *shipManager = G_->GetShipManager(iShipId);
+        if (shipManager)
+        {
+            float lockTime = 12.f;
+            float speedFactor = 0.0625f * G_->GetCFPS()->GetSpeedFactor();
+            Ship &ship = shipManager->ship;
+            for (auto& shard : ship.lockdowns)
+            {
+                if (shard.lockingRoom == iRoom1 || shard.lockingRoom == iRoom2)
+                {
+                     lockTime = std::min(lockTime, shard.lifeTime + speedFactor * TemporalSystemParser::GetDilationStrength(GetRoomDilationAmount(g_shardDilationRooms, shard.lockingRoom)));
+                }
+            }
+            if (lockTime == 12.f)
+            {
+                lockedDown.Start(lockTime);
+                super(); // lockdown will expire in this call
+            }
+            else
+            {
+                lockedDown.current_time = 0.f; // don't expire in the super call
+                super();
+                lockedDown.current_time = lockTime;
+            }
+            return;
+        }
+    }
+    super();
+}
+
 HOOK_METHOD_PRIORITY(ShipManager, OnLoop, -900,  () -> void)
 {
     for (auto i : ship.vRoomList)

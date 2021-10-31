@@ -7374,6 +7374,7 @@ public:
 	LIBZHL_API void FakeClose();
 	LIBZHL_API bool IsSealed(int shipId);
 	LIBZHL_API void FakeOpen();
+	LIBZHL_API void OnLoop();
 	
 	Selectable _selectable;
 	int iRoom1;
