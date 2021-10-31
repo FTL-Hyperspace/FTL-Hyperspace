@@ -1181,7 +1181,7 @@ HOOK_METHOD(ShipManager, ImportShip, (int file) -> void)
 
     if (hasTemporal)
     {
-        //AddSystem(20);
+        if (!HasSystem(20)) AddSystem(20);
         auto sys = GetSystem(20);
 
         bool canDecrease = sys->DecreasePower(false);
