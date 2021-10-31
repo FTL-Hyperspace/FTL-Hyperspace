@@ -1672,29 +1672,18 @@ HOOK_METHOD(InfoBox, SetBlueprintDrone, (const DroneBlueprint* bp, int status, b
                 {
                     if (bp->targetType == 1)
                     {
-                        if (droneBp->damage.iIonDamage > 0)
-                        {
-                            currentText = tLib->GetText("defense_drone_drone_target_solid");
-                            newDesc += currentText + "\n";
-                        }
-                        else
-                        {
-                            currentText = tLib->GetText("defense_drone_projectile_target_solid");
-                            newDesc += currentText + "\n";
-                        }
+                        currentText = tLib->GetText("defense_drone_projectile_target_solid");
+                        newDesc += currentText + "\n";
                     }
-                    else
+                    else if (bp->targetType == 4)
                     {
-                        if (droneBp->damage.iIonDamage > 0)
-                        {
-                            currentText = tLib->GetText("defense_drone_drone_target_all");
-                            newDesc += currentText + "\n";
-                        }
-                        else
-                        {
-                            currentText = tLib->GetText("defense_drone_projectile_target_all");
-                            newDesc += currentText + "\n";
-                        }
+                        currentText = tLib->GetText("defense_drone_projectile_target_all");
+                        newDesc += currentText + "\n";
+                    }
+                    else if (bp->targetType == 3)
+                    {
+                        currentText = tLib->GetText("defense_drone_drone_target_all");
+                        newDesc += currentText + "\n";
                     }
                     currentText = tLib->GetText("defense_drone_reload_speed");
                     std::stringstream stream;

@@ -140,46 +140,73 @@ HOOK_STATIC(ShipManager, CollisionMoving, (CollisionResponse &_ret, ShipManager 
     return super(_ret, ship, pos1, pos2, damage, unk);
 }
 
-HOOK_STATIC(SpaceDrone, CollisionMoving, (CollisionResponse &_ret, SpaceDrone *drone, Pointf pos1, Pointf pos2, DamageParameter damage, bool unk) -> CollisionResponse*)
+
+//rewrite
+HOOK_STATIC_PRIORITY(SpaceDrone, CollisionMoving, 9999, (CollisionResponse &_ret, SpaceDrone *drone, Pointf pos1, Pointf pos2, DamageParameter damage, bool unk) -> CollisionResponse*)
 {
-    if (CustomDamageManager::currentProjectile)
+    _ret.collision_type = 0;
+    _ret.point = {-2147483648.f, -2147483648.f};
+    _ret.damage = 0;
+    _ret.superDamage = 0;
+
+    if (!drone->bDead && drone->deployed && !drone->explosion.tracker.running && pos2.RelativeDistance(drone->currentLocation) < 100.f)
     {
-        auto ex = PR_EX(CustomDamageManager::currentProjectile);
-        if (!ex->missedDrones.empty())
+        Projectile_Extend *ex = nullptr;
+        if (CustomDamageManager::currentProjectile)
         {
-            for (auto missedDrone : ex->missedDrones)
+            ex = PR_EX(CustomDamageManager::currentProjectile);
+            if (!ex->missedDrones.empty())
             {
-                if (missedDrone == drone)
+                for (auto missedDrone : ex->missedDrones)
                 {
-                    _ret.collision_type = 0;
-                    _ret.point = {-2147483648.f, -2147483648.f};
-                    _ret.damage = 0;
-                    _ret.superDamage = 0;
-                    return &_ret;
+                    if (missedDrone == drone)
+                    {
+                        return &_ret;
+                    }
                 }
             }
         }
-        auto oldMissMessage = drone->message;
-        auto ret = super(_ret, drone, pos1, pos2, damage, unk);
-        if (drone->message != oldMissMessage)
+
+        int dodgeFactor = drone->blueprint->dodge * 10;
+        if (CustomDamageManager::currentWeaponDmg != nullptr)
         {
-            delete oldMissMessage;
-            delete drone->message;
-            drone->message = new DamageMessage(1.0,drone->currentLocation,DamageMessage::MISS);
-            ex->missedDrones.push_back(drone);
+            dodgeFactor -= CustomDamageManager::currentWeaponDmg->accuracyMod;
         }
-        return ret;
+
+        if (random32()%100 < dodgeFactor) // miss
+        {
+            if (drone->powered)
+            {
+                delete drone->message;
+                drone->message = new DamageMessage(1.0,drone->currentLocation,DamageMessage::MISS);
+                if (ex) ex->missedDrones.push_back(drone);
+                return &_ret;
+            }
+            _ret.collision_type = 1;
+            if (damage.iIonDamage > 0)
+            {
+                return &_ret;
+            }
+        }
+        else //hit
+        {
+            _ret.collision_type = 1;
+            if (damage.iIonDamage > 0)
+            {
+                if (drone->powered)
+                {
+                    drone->ionStun = damage.iIonDamage * 5;
+                }
+                return &_ret;
+            }
+        }
+        if (damage.iDamage > 0)
+        {
+            drone->BlowUp(false);
+        }
     }
 
-    auto oldMissMessage = drone->message;
-    auto ret = super(_ret, drone, pos1, pos2, damage, unk);
-    if (drone->message != oldMissMessage)
-    {
-        delete oldMissMessage;
-        delete drone->message;
-        drone->message = new DamageMessage(1.0,drone->currentLocation,DamageMessage::MISS);
-    }
-    return ret;
+    return &_ret;
 }
 
 HOOK_METHOD(Projectile, Initialize, (WeaponBlueprint& bp) -> void)

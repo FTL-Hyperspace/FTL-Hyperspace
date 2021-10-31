@@ -106,6 +106,7 @@ struct VTable_CrewAnimation;
 struct VTable_StoreBox;
 struct Shields__ShieldAnimation;
 struct VTable_CrewTarget;
+struct VTable_Drone;
 
 /* 1 */
 struct Globals
@@ -3591,9 +3592,42 @@ struct CompleteShip
 };
 
 /* 174 */
+struct VTable_Drone
+{
+  void (__thiscall *Free)(Drone *);
+  void (__thiscall *OnInit)(Drone *);
+  void (__thiscall *OnLoop)(Drone *);
+  void (__thiscall *OnDestroy)(Drone *);
+  void (__thiscall *SetPowered)(Drone *, bool _powered);
+  void (__thiscall *SetInstantPowered)(Drone *);
+  bool (__thiscall *GetPowered)(Drone *);
+  void (__thiscall *SetCurrentShip)(Drone *, int shipId);
+  void (__thiscall *SetDeployed)(Drone *, bool _deployed);
+  void (__thiscall *SetDestroyed)(Drone *, bool dead, bool setTimer);
+  void (__thiscall *SetHacked)(Drone *, int level);
+  bool (__thiscall *GetDeployed)(Drone *);
+  bool (__thiscall *NeedsRoom)(Drone *);
+  void (__thiscall *SetSlot)(Drone *, int room, int slot);
+  bool (__thiscall *Destroyed)(Drone *);
+  Point (__thiscall *GetWorldLocation)(Drone *);
+  void (__thiscall *SetWorldLocation)(Drone *, Point point);
+  static Slot *(__stdcall *GetDroneSlot)(Slot *slot, Drone *drone);
+  int (__thiscall *GetDroneHealth)(Drone *);
+  int (__thiscall *GetRequiredPower)(Drone *);
+  void (__thiscall *RenderIcon)(Drone *);
+  static std__string *(__stdcall *GetName)(std__string *str, Drone *drone);
+  bool (__thiscall *CanBeDeployed)(Drone *);
+  bool (__thiscall *RecallOnJump)(Drone *);
+  bool (__thiscall *CanBeRecovered)(Drone *);
+  void (__thiscall *SaveState)(Drone *, int fh);
+  void (__thiscall *LoadState)(Drone *, int fh);
+  void (__thiscall *BlowUp)(Drone *, bool silent);
+  bool (__thiscall *GetStunned)(Drone *);
+};
+
 struct Drone
 {
-  void *vptr;
+  VTable_Drone *_vtable;
   int iShipId;
   int selfId;
   bool powered;
