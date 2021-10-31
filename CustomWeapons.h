@@ -35,6 +35,8 @@ struct CustomWeaponDefinition
     float fireTime = 0.f;
     float angularRadius = -1.f;
 
+    float iconScale = 1.f;
+
     CustomDamage customDamage;
 };
 

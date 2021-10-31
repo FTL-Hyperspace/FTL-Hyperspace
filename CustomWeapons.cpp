@@ -87,6 +87,11 @@ HOOK_STATIC(BlueprintManager, ProcessWeaponBlueprint, (WeaponBlueprint* bp, Blue
                 weaponDef.customDamage.crewSpawns.push_back(newSpawn);
             }
         }
+
+        if (name == "iconScale")
+        {
+            weaponDef.iconScale = boost::lexical_cast<float>(val);
+        }
     }
 
     // Default chance if tag not specified (100% if tags specified, 0% otherwise)
@@ -417,5 +422,22 @@ HOOK_METHOD(WeaponAnimation, Update, () -> void)
     else
     {
         super();
+    }
+}
+
+// Icon Scale
+HOOK_METHOD(WeaponBlueprint, RenderIcon, (float scale) -> void)
+{
+    scale *= CustomWeaponManager::instance->GetWeaponDefinition(name)->iconScale;
+    if (scale != 1.f)
+    {
+        CSurface::GL_PushMatrix();
+        CSurface::GL_Scale(scale,scale,0.f);
+        super(scale);
+        CSurface::GL_PopMatrix();
+    }
+    else
+    {
+        super(scale);
     }
 }

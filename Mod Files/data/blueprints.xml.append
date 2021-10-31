@@ -10,7 +10,7 @@
 		<level>80</level> <!-- level 3 -->
 		<level>120</level> <!-- imaginary level 4 -->
 	</upgradeCost>
-	<cost>0</cost>
+	<cost>80</cost>
 </systemBlueprint>
 
 <augBlueprint name="NANOBOT_DEFENSE_SYSTEM">
@@ -114,6 +114,8 @@
 		</statBoosts>
 		<noSlot>false</noSlot>                       If true, forces the crewmember to not take up a slot. Good for temporary spawns.
 	</spawnCrew>
+	
+	<iconScale>1.0</iconScale>                       Scales the weapon icon in equipment/store/hangar screens.
 </weaponBlueprint>
 -->
 

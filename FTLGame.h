@@ -2341,6 +2341,7 @@ struct WeaponBlueprint : Blueprint
 	LIBZHL_API void constructor();
 	LIBZHL_API void destructor();
 	LIBZHL_API static void __stdcall GetDescription(std::string &strRef, WeaponBlueprint *_this, bool tooltip);
+	LIBZHL_API void RenderIcon(float scale);
 	
 	std::string typeName;
 	Damage damage;
