@@ -37,6 +37,7 @@ HOOK_METHOD(ReactorButton, OnClick, ()-> void)
             tempUpgrade++;
         } else {
             eventSys->AddEvent(6);
+            G_->GetSoundControl()->PlaySoundMix("powerUpFail", -1.f, false);
         }
     }
 }
