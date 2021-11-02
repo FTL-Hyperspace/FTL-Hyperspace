@@ -36,7 +36,7 @@ FILE *Global::logFile = nullptr;
 bool *Global::firstTimeShips = nullptr;
 std::pair<Point, Point> *Global::droneWeaponPosition = nullptr;
 GL_Color *Global::superShieldColor = nullptr;
-//GL_Color Global::defaultSuperShieldColor = GL_Color(255.0, 255.0, 255.0, 1.0);
+GL_Color Global::defaultSuperShieldColor = GL_Color(255.0, 255.0, 255.0, 1.0);
 
 unsigned int Global::questSeed = 0;
 std::vector<unsigned int> Global::delayedQuestSeeds = std::vector<unsigned int>();
@@ -46,8 +46,9 @@ std::vector<unsigned int> Global::lastDelayedQuestSeeds = std::vector<unsigned i
 std::vector<std::vector<GL_Color*>> Global::colorPointers = std::vector<std::vector<GL_Color*>>();
 std::vector<std::vector<uint32_t>> Global::colorOffsets
 {
-    { 0x004C84E0 }, // detailsBarOn
-    { 0x004C84F0 }, // detailsBarOff
+    // TODO: Find out what these offsets are and scan for them... ugh, they might be off by 0804edd0
+    { /*0x0849e9c0*/ 0x08498900 /*- 0x08048000*/ }, // detailsBarOn InfoBox::detailsBarOn _ZN7InfoBox12detailsBarOnE
+    { /*0x0849e9d0*/ 0x08498910 /*- 0x08048000*/ }, // detailsBarOff InfoBox::detailsBarOff _ZN7InfoBox13detailsBarOffE
 };
 
 
@@ -131,8 +132,8 @@ void Global::Initialize()
     droneWeaponPosition = (std::pair<Point, Point>*)((__baseAddress + __droneWeaponPosOffset));
     //fragment_shader_source_callback = (ShaderSourceCallback**)((__baseAddress + __fragmentCallbackOffset));
     superShieldColor = (GL_Color*)((__baseAddress + __superShieldColorOffset));
-    //defaultSuperShieldColor = *superShieldColor;
-    //*superShieldColor = GL_Color(1084.0, 0.0, 310.0, 1.0);
+    defaultSuperShieldColor = *superShieldColor;
+    *superShieldColor = GL_Color(1084.0, 0.0, 310.0, 1.0);
 
     for (auto vec : colorOffsets)
     {
