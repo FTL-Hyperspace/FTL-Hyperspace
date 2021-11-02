@@ -1,5 +1,6 @@
 #include "Global.h"
 
+#ifdef _WIN32
 HOOK_METHOD(CApp, SetupWindow, () -> void)
 {
     std::string argv = std::string(GetCommandLine());
@@ -11,3 +12,4 @@ HOOK_METHOD(CApp, SetupWindow, () -> void)
 
     super();
 }
+#endif
