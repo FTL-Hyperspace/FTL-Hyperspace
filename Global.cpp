@@ -153,8 +153,10 @@ void Global::Initialize()
     logFile = fopen("FTL_HS.log", "w");
 
 
-
+#ifdef _WIN32
+    // TODO: Find out how to set the Window text on Linux
     SetWindowTextA((HWND)GetModuleHandle(NULL), "FTL: Hyperspace");
+#endif
     printf("Hyperspace initialized\n");
 }
 
