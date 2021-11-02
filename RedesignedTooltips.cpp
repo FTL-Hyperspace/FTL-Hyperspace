@@ -1689,6 +1689,7 @@ HOOK_METHOD(InfoBox, SetBlueprintDrone, (const DroneBlueprint* bp, int status, b
                     std::stringstream stream;
                     stream << std::fixed << std::setprecision(0) << bp->cooldown * 1000;
                     newDesc += boost::algorithm::replace_all_copy(currentText, "\\1", stream.str()) + "\n";
+
                     stream.str("");
                     currentText = tLib->GetText("defense_drone_projectile_speed");
                     if (droneBp->speed != 0)
@@ -1701,6 +1702,14 @@ HOOK_METHOD(InfoBox, SetBlueprintDrone, (const DroneBlueprint* bp, int status, b
                         stream << std::fixed << std::setprecision(0) << 60;
                         newDesc += boost::algorithm::replace_all_copy(currentText, "\\1", stream.str()) + "\n";
                     }
+
+                    if ((bp->targetType == 3) &&
+                        weaponDef->customDamage.droneAccuracyMod != 0)
+                    {
+                        currentText = tLib->GetText("accuracy_modifier");
+                        newDesc += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(weaponDef->customDamage.droneAccuracyMod)) + "\n";
+                    }
+
                     stream.str("");
                     currentText = tLib->GetText("defense_drone_orbit_speed");
                     stream << std::fixed << std::setprecision(0) << bp->speed;

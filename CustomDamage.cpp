@@ -170,7 +170,7 @@ HOOK_STATIC_PRIORITY(SpaceDrone, CollisionMoving, 9999, (CollisionResponse &_ret
         int dodgeFactor = drone->blueprint->dodge * 10;
         if (CustomDamageManager::currentWeaponDmg != nullptr)
         {
-            dodgeFactor -= CustomDamageManager::currentWeaponDmg->accuracyMod;
+            dodgeFactor -= CustomDamageManager::currentWeaponDmg->droneAccuracyMod;
         }
 
         if (random32()%100 < dodgeFactor) // miss

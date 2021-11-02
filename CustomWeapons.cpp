@@ -37,6 +37,10 @@ HOOK_STATIC(BlueprintManager, ProcessWeaponBlueprint, (WeaponBlueprint* bp, Blue
         {
             weaponDef.customDamage.accuracyMod = boost::lexical_cast<int>(val);
         }
+        if (name == "droneAccuracyMod")
+        {
+            weaponDef.customDamage.droneAccuracyMod = boost::lexical_cast<int>(val);
+        }
         if (name == "noSysDamage")
         {
             weaponDef.customDamage.noSysDamage = EventsParser::ParseBoolean(val);

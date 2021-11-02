@@ -20,6 +20,7 @@ struct CustomDamage
     int sourceShipId = -1;
 
     int accuracyMod = 0;
+    int droneAccuracyMod = 0;
 
     bool noSysDamage = false;
     bool noPersDamage = false;
