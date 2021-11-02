@@ -10,7 +10,11 @@
     #define LIBZHL_PLACEHOLDER {__NOP();}
 #elif defined(__linux__)
     #define LIBZHL_INTERFACE
-    #define LIBZHL_PLACEHOLDER {((void)0);}
+    #define LIBZHL_PLACEHOLDER {\
+        _Pragma("GCC diagnostic push") \
+        _Pragma("GCC diagnostic ignored \"-Wreturn-type\"") \
+        (void)0; } \
+        _Pragma("GCC diagnostic pop")
     #define __stdcall
 #endif
 
