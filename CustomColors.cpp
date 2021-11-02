@@ -1,5 +1,6 @@
 #include "CustomColors.h"
 #include "Resources.h"
+#include "PALMemoryProtection.h"
 
 GL_Color g_defaultTextButtonColors[4] =
 {
@@ -35,12 +36,14 @@ void SetColorPointerValues(rapidxml::xml_node<char>* node, int index, bool divid
     ParseColorNode(color, node, divide);
     for (auto i : Global::colorPointers[index])
     {
-        DWORD dwOldProtect, dwBkup;
-        VirtualProtect(i, sizeof(GL_Color), PAGE_EXECUTE_READWRITE, &dwOldProtect);
+        MEMPROT_SAVE_PROT(dwOldProtect);
+        MEMPROT_PAGESIZE();
+        
+        MEMPROT_UNPROTECT(i, sizeof(GL_Color), dwOldProtect);
 
         *i = color;
-
-        VirtualProtect(i, sizeof(GL_Color), dwOldProtect, &dwBkup);
+        
+        MEMPROT_REPROTECT(i, sizeof(GL_Color), dwOldProtect);
     }
 }
 

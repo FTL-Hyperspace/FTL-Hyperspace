@@ -1,6 +1,7 @@
 #pragma GCC push_options
 #pragma GCC optimize ("O1")
 #include "CustomCrew.h"
+#include "PALMemoryProtection.h"
 
 int requiresFullControl = 0;
 
@@ -224,8 +225,9 @@ void SetupVTable(CrewMember *crew)
 {
     void** vtable = *(void***)crew;
 
-    DWORD dwOldProtect, dwBkup;
-    VirtualProtect(&vtable[0], sizeof(void*) * 57, PAGE_EXECUTE_READWRITE, &dwOldProtect);
+    MEMPROT_SAVE_PROT(dwOldProtect);
+    MEMPROT_PAGESIZE();
+    MEMPROT_UNPROTECT(&vtable[0], sizeof(void*) * 57, dwOldProtect);
 
     vtable[23] = (void*)&CrewMember_GetControllable;
     vtable[25] = (void*)&CrewMember_CanFight;
@@ -249,7 +251,7 @@ void SetupVTable(CrewMember *crew)
     vtable[52] = (void*)&CrewMember_GetSuffocationModifier;
     vtable[55] = (void*)&CrewMember_IsAnaerobic;
 
-    VirtualProtect(&vtable[0], sizeof(void*) * 57, dwOldProtect, &dwBkup);
+    MEMPROT_REPROTECT(&vtable[0], sizeof(void*) * 57, dwOldProtect);
 }
 
 
@@ -280,12 +282,13 @@ void SetupVTable(CrewAnimation *anim)
 {
     void** vtable = *(void***)anim;
 
-    DWORD dwOldProtect, dwBkup;
-    VirtualProtect(&vtable[0], sizeof(void*) * 12, PAGE_EXECUTE_READWRITE, &dwOldProtect);
+    MEMPROT_SAVE_PROT(dwOldProtect);
+    MEMPROT_PAGESIZE();
+    MEMPROT_UNPROTECT(&vtable[0], sizeof(void*) * 12, dwOldProtect);
 
     vtable[12] = (void*)&CrewAnimation_CustomDeath;
 
-    VirtualProtect(&vtable[0], sizeof(void*) * 12, dwOldProtect, &dwBkup);
+    MEMPROT_REPROTECT(&vtable[0], sizeof(void*) * 12, dwOldProtect);
 }
 
 

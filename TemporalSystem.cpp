@@ -3,6 +3,7 @@
 #include "boost/lexical_cast.hpp"
 #include <sstream>
 #include <iomanip>
+#include "PALMemoryProtection.h"
 
 std::map<int, TemporalSystemParser::TemporalLevel> TemporalSystemParser::levelSpeed = std::map<int, TemporalSystemParser::TemporalLevel>();
 std::map<int, TemporalSystemParser::TemporalLevel> TemporalSystemParser::levelSlow = std::map<int, TemporalSystemParser::TemporalLevel>();
@@ -144,15 +145,16 @@ void SetupVTable(TemporalBox* box)
 {
     void** vtable = *(void***)box;
 
-    DWORD dwOldProtect, dwBkup;
-    VirtualProtect(&vtable[0], sizeof(void*) * g_temporalVTableSize, PAGE_EXECUTE_READWRITE, &dwOldProtect);
+    MEMPROT_SAVE_PROT(dwOldProtect);
+    MEMPROT_PAGESIZE();
+    MEMPROT_UNPROTECT(&vtable[0], sizeof(void*) * g_temporalVTableSize, dwOldProtect);
 
     for (int i = 0; i < g_temporalVTableSize; i++)
     {
         g_temporalVTable[i] = vtable[i];
     }
 
-    VirtualProtect(&vtable[0], sizeof(void*) * g_temporalVTableSize, dwOldProtect, &dwBkup);
+    MEMPROT_REPROTECT(&vtable[0], sizeof(void*) * g_temporalVTableSize, dwOldProtect);
 
     g_temporalVTable[3] = (void*)&TemporalBox_HasButton;
     g_temporalVTable[19] = (void*)&TemporalBox_GetCooldownLevel;

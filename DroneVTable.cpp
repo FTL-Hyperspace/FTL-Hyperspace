@@ -3,6 +3,7 @@
 #include "CustomDrones.h"
 #include "CustomCrew.h"
 #include <algorithm>
+#include "PALMemoryProtection.h"
 
 static bool __attribute__((fastcall)) CrewDrone_GetControllable(CrewDrone *_this)
 {
@@ -508,8 +509,9 @@ void SetupVTable(CrewDrone *crew)
 {
     void** vtable = *(void***)crew;
 
-    DWORD dwOldProtect, dwBkup;
-    VirtualProtect(&vtable[0], sizeof(void*) * 57, PAGE_EXECUTE_READWRITE, &dwOldProtect);
+    MEMPROT_SAVE_PROT(dwOldProtect);
+    MEMPROT_PAGESIZE();
+    MEMPROT_UNPROTECT(&vtable[0], sizeof(void*) * 57, dwOldProtect);
     vtable[23] = (void*)&CrewDrone_GetControllable;
     vtable[25] = (void*)&CrewDrone_CanFight;
     vtable[26] = (void*)&CrewDrone_CanRepair;
@@ -527,7 +529,7 @@ void SetupVTable(CrewDrone *crew)
     vtable[52] = (void*)&CrewDrone_GetSuffocationModifier;
     vtable[53] = (void*)&CrewDrone_BlockRoom;
     vtable[55] = (void*)&CrewDrone_IsAnaerobic;
-    VirtualProtect(&vtable[0], sizeof(void*) * 57, dwOldProtect, &dwBkup);
+    MEMPROT_REPROTECT(&vtable[0], sizeof(void*) * 57, dwOldProtect);
 }
 
 HOOK_METHOD(CrewMemberFactory, CreateRepairDrone, (int shipId, DroneBlueprint* bp) -> RepairDrone*)
