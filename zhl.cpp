@@ -21,14 +21,26 @@ void ZHL::Init()
 
 	if(!Definition::Init())
 	{
+        // TODO: Maybe change this over to SDL_ShowSimpleMessageBox for all systems; however, we'll have to add libsdl to the build & maybe the sdl.dll runtime DLL on Windows
+        // SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Error", FunctionDefinition::GetLastError(), NULL);
+#ifdef _WIN32
 		MessageBox(0, FunctionDefinition::GetLastError(), "Error", MB_ICONERROR);
 		ExitProcess(1);
+#elif defined(__linux__)
+        fprintf(stderr, "Fatal Error %s:", FunctionDefinition::GetLastError());
+        exit(1);
+#endif
 	}
 
 	if(!FunctionHook_private::Init())
 	{
+#ifdef _WIN32
 		MessageBox(0, FunctionHook_private::GetLastError(), "Error", MB_ICONERROR);
 		ExitProcess(1);
+#elif defined(__linux__)
+        fprintf(stderr, "Fatal Error %s:", FunctionHook_private::GetLastError());
+        exit(1);
+#endif
 	}
 
 	initialized = true;

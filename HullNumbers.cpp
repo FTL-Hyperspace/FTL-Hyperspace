@@ -73,11 +73,19 @@ void HullNumbers::ParseHullNumbersNode(rapidxml::xml_node<char>* node)
     }
     catch (boost::bad_lexical_cast const &e)
     {
+#ifdef _WIN32
         MessageBoxA(NULL, "boost::bad_lexical_cast in hyperspace.xml", "Error", MB_ICONERROR);
+#elif defined(__linux__)
+        fprintf(stderr, "Error %s", "boost::bad_lexical_cast in hyperspace.xml");
+#endif
     }
     catch (...)
     {
+#ifdef _WIN32
         MessageBoxA(NULL, "error parsing <hullNumbers> in hyperspace.xml", "Error", MB_ICONERROR);
+#elif defined(__linux__)
+        fprintf(stderr, "Error %s", "error parsing <hullNumbers> in hyperspace.xml");
+#endif
     }
 }
 

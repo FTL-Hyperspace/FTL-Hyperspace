@@ -72,7 +72,11 @@ void CustomBoss::ParseBossNode(rapidxml::xml_node<char> *node)
     }
     catch (std::exception)
     {
+#ifdef _WIN32
         MessageBoxA(GetDesktopWindow(), "Error parsing <boss> in hyperspace.xml", "Error", MB_ICONERROR | MB_SETFOREGROUND);
+#elif defined(__linux__)
+        fprintf(stderr, "Fatal error parsing <boss> in hyperspace.xml\n");
+#endif
     }
 }
 

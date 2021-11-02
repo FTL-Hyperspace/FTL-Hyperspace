@@ -461,7 +461,11 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                 }
                 catch (boost::bad_lexical_cast const &e)
                 {
+#ifdef _WIN32
                     MessageBoxA(GetDesktopWindow(), e.what(), "Error", MB_ICONERROR | MB_SETFOREGROUND);
+#elif defined(__linux__)
+                    fprintf(stderr, "Fatal error %s\n", e.what());
+#endif
                 }
 
                 AddCrewDefinition(crew);
@@ -470,7 +474,11 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
     }
     catch (std::exception)
     {
+#ifdef _WIN32
         MessageBoxA(GetDesktopWindow(), "Error parsing <crew> in hyperspace.xml", "Error", MB_ICONERROR | MB_SETFOREGROUND);
+#elif defined(__linux__)
+        fprintf(stderr, "Fatal error parsing <crew> in hyperspace.xml\n");
+#endif
     }
 
 }

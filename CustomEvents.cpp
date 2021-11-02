@@ -56,17 +56,29 @@ void CustomEventsParser::ReadCustomEventFiles()
         catch (rapidxml::parse_error& e)
         {
             std::string msg = std::string("Failed parsing events_hyperspace.xml\n") + std::string(e.what());
+#ifdef _WIN32
             MessageBoxA(GetDesktopWindow(), msg.c_str(), "Error", MB_ICONERROR | MB_SETFOREGROUND);
+#elif defined(__linux__)
+            fprintf(stderr, "Error %s", msg.c_str());
+#endif
         }
         catch (std::exception &e)
         {
             std::string msg = std::string("Failed parsing events_hyperspace.xml\n") + std::string(e.what());
+#ifdef _WIN32
             MessageBoxA(GetDesktopWindow(), msg.c_str(), "Error", MB_ICONERROR | MB_SETFOREGROUND);
+#elif defined(__linux__)
+            fprintf(stderr, "Error %s", msg.c_str());
+#endif
         }
         catch (const char* e)
         {
             std::string msg = std::string("Failed parsing events_hyperspace.xml\n") + std::string(e);
+#ifdef _WIN32
             MessageBoxA(GetDesktopWindow(), msg.c_str(), "Error", MB_ICONERROR | MB_SETFOREGROUND);
+#elif defined(__linux__)
+            fprintf(stderr, "Error %s", msg.c_str());
+#endif
         }
     }
 
@@ -85,17 +97,29 @@ void CustomEventsParser::ReadCustomEventFiles()
             catch (rapidxml::parse_error& e)
             {
                 std::string msg = std::string("Failed parsing ") + fileName + std::string("\n") + std::string(e.what());
+#ifdef _WIN32
                 MessageBoxA(GetDesktopWindow(), msg.c_str(), "Error", MB_ICONERROR | MB_SETFOREGROUND);
+#elif defined(__linux__)
+                fprintf(stderr, "Error %s", msg.c_str());
+#endif
             }
             catch (std::exception &e)
             {
                 std::string msg = std::string("Failed parsing ") + fileName + std::string("\n") + std::string(e.what());
+#ifdef _WIN32
                 MessageBoxA(GetDesktopWindow(), msg.c_str(), "Error", MB_ICONERROR | MB_SETFOREGROUND);
+#elif defined(__linux__)
+                fprintf(stderr, "Error %s", msg.c_str());
+#endif
             }
             catch (const char* e)
             {
                 std::string msg = std::string("Failed parsing ") + fileName + std::string("\n") + std::string(e);
+#ifdef _WIN32
                 MessageBoxA(GetDesktopWindow(), msg.c_str(), "Error", MB_ICONERROR | MB_SETFOREGROUND);
+#elif defined(__linux__)
+                fprintf(stderr, "Error %s", msg.c_str());
+#endif
             }
         }
     }
@@ -327,7 +351,11 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
             }
             else
             {
+#ifdef _WIN32
                 MessageBoxA(GetDesktopWindow(), "Custom req is missing a name!", "Error", MB_ICONERROR | MB_SETFOREGROUND);
+#elif defined(__linux__)
+                fprintf(stderr, "Error %s", "Custom req is missing a name!");
+#endif
             }
         }
 
@@ -446,7 +474,11 @@ void CustomEventsParser::PostProcessCustomEvents()
                     else
                     {
                         std::string msg = std::string("Failed to load triggeredEventBox ") + loadName;
+#ifdef _WIN32
                         MessageBoxA(GetDesktopWindow(), msg.c_str(), "Error", MB_ICONERROR | MB_SETFOREGROUND);
+#elif defined(__linux__)
+                        fprintf(stderr, "Error %s", msg.c_str());
+#endif
                     }
                 }
                 ParseCustomTriggeredEventBoxNode(node, def.box);
@@ -470,7 +502,11 @@ void CustomEventsParser::PostProcessCustomEvents()
             else
             {
                 std::string msg = std::string("Failed to load timerSounds ") + def.loadTimerSounds;
+#ifdef _WIN32
                 MessageBoxA(GetDesktopWindow(), msg.c_str(), "Error", MB_ICONERROR | MB_SETFOREGROUND);
+#elif defined(__linux__)
+                fprintf(stderr, "Error %s", msg.c_str());
+#endif
             }
         }
         if (def.loadWarning)
@@ -491,7 +527,11 @@ void CustomEventsParser::PostProcessCustomEvents()
                     else
                     {
                         std::string msg = std::string("Failed to load warningMessage ") + loadName;
-                        MessageBoxA(GetDesktopWindow(), msg.c_str(), "Error", MB_ICONERROR | MB_SETFOREGROUND);
+#ifdef _WIN32
+                    MessageBoxA(GetDesktopWindow(), msg.c_str(), "Error", MB_ICONERROR | MB_SETFOREGROUND);
+#elif defined(__linux__)
+                    fprintf(stderr, "Error %s", msg.c_str());
+#endif
                     }
                 }
                 ParseCustomTriggeredEventWarningNode(node, def.warning);
@@ -605,7 +645,11 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
             }
             else
             {
+#ifdef _WIN32
                 MessageBoxA(GetDesktopWindow(), "clearTriggeredEvent is missing a name!", "Error", MB_ICONERROR | MB_SETFOREGROUND);
+#elif defined(__linux__)
+                fprintf(stderr, "Error clearTriggeredEvent is missing a name!");
+#endif
             }
         }
 
@@ -649,7 +693,11 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
             }
             else
             {
+#ifdef _WIN32
                 MessageBoxA(GetDesktopWindow(), "triggeredEventModifier is missing a name!", "Error", MB_ICONERROR | MB_SETFOREGROUND);
+#elif defined(__linux__)
+                fprintf(stderr, "Error triggeredEventModifier is missing a name!");
+#endif
             }
         }
 
@@ -1455,7 +1503,11 @@ void CustomEventsParser::ParseCustomReqNode(rapidxml::xml_node<char> *node, Cust
         }
         else
         {
-            MessageBoxA(GetDesktopWindow(), ("Invalid Custom Req Type found: "+reqtype).c_str(), "Error", MB_ICONERROR | MB_SETFOREGROUND);
+#ifdef _WIN32
+                MessageBoxA(GetDesktopWindow(), ("Invalid Custom Req Type found: "+reqtype).c_str(), "Error", MB_ICONERROR | MB_SETFOREGROUND);
+#elif defined(__linux__)
+                fprintf(stderr, "Error %s", ("Invalid Custom Req Type found: "+reqtype).c_str());
+#endif
         }
     }
     if (node->first_attribute("lvl"))

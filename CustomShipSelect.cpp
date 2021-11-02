@@ -283,7 +283,11 @@ void CustomShipSelect::ParseShipsNode(rapidxml::xml_node<char> *node)
     }
     catch (std::exception)
     {
+#ifdef _WIN32
         MessageBoxA(GetDesktopWindow(), "Error parsing <ships> in hyperspace.xml", "Error", MB_ICONERROR | MB_SETFOREGROUND);
+#elif defined(__linux__)
+        fprintf(stderr, "Fatal error parsing <ships> in hyperspace.xml\n");
+#endif
     }
 }
 

@@ -66,7 +66,11 @@ void CustomDroneManager::ParseDroneNode(rapidxml::xml_node<char> *node)
     }
     catch (std::exception)
     {
+#ifdef _WIN32
         MessageBoxA(GetDesktopWindow(), "Error parsing <drones> in hyperspace.xml", "Error", MB_ICONERROR | MB_SETFOREGROUND);
+#elif defined(__linux__)
+        fprintf(stderr, "Fatal error parsing <drones> in hyperspace.xml\n");
+#endif
     }
 }
 

@@ -143,7 +143,11 @@ void CustomAugmentManager::ParseCustomAugmentNode(rapidxml::xml_node<char>* node
     }
     catch (...)
     {
+#ifdef _WIN32
         MessageBoxA(NULL, "Error parsing <augments> in hyperspace.xml", "Error", MB_ICONERROR);
+#elif defined(__linux__)
+        fprintf(stderr, "Fatal error parsing <augments> in hyperspace.xml\n");
+#endif
     }
 }
 
