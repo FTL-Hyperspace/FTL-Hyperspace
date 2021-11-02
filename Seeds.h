@@ -106,7 +106,7 @@ extern SeededRng secretRng;
 
 static unsigned int nextSeed;
 unsigned int SeededRandom32();
-void SetSeed(UINT);
+void SetSeed(unsigned int);
 
 extern bool loadingMap;
 static bool generatingMap = false;

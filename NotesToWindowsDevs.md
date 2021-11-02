@@ -2,6 +2,8 @@
 ## Things to use different
  
  - `__int8`, `__int16`, `__int32`, `__int64` use C standard types of: `uint8_t`, `uint16_t`, `uint32_t`, `uint64_t` instead
+ - `UINT` use C standard type of `unsigned int` instead
+ - `DWORD` use C standard type of `uint32_t` instead
  - Instead of using `VirtualProtect` directly for memory protection & unprotection, use the macros in `PALMemoryProtection.h` for a cross-platform compatible way.
    - Note you need to always use `MEMPROT_SAVE_PROT` & `MEMPROT_PAGESIZE` although you might get no errors for forgetting one but both are required for proper cross platform use of the other macros.
    

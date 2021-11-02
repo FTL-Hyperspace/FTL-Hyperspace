@@ -46,7 +46,7 @@ int Global::delayedQuestIndex = 0;
 std::vector<unsigned int> Global::lastDelayedQuestSeeds = std::vector<unsigned int>();
 
 std::vector<std::vector<GL_Color*>> Global::colorPointers = std::vector<std::vector<GL_Color*>>();
-std::vector<std::vector<DWORD>> Global::colorOffsets
+std::vector<std::vector<uint32_t>> Global::colorOffsets
 {
     { 0x004C84E0 }, // detailsBarOn
     { 0x004C84F0 }, // detailsBarOff
@@ -102,7 +102,7 @@ void Global::SetCApp(CApp *cApp)
 void Global::Initialize()
 {
     printf("Initializing Hyperspace...\n");
-    __baseAddress = (DWORD)GetModuleHandle(NULL);
+    __baseAddress = (uint32_t)GetModuleHandle(NULL);
 
 
     __resourceControl = (ResourceControl*)(__baseAddress + __resourcesOffset);

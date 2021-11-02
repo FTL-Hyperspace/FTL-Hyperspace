@@ -9,7 +9,7 @@ HOOK_METHOD_PRIORITY(ShipSystem, constructor, 900, (int systemId, int roomId, in
 	auto ex = new ShipSystem_Extend();
 
 
-    DWORD dEx = (DWORD)ex;
+    uint32_t dEx = (uint32_t)ex;
 
 	gap_ex_1[0] = (dEx >> 24) & 0xFF;
 	gap_ex_1[1] = (dEx >> 16) & 0xFF;
@@ -20,7 +20,7 @@ HOOK_METHOD_PRIORITY(ShipSystem, constructor, 900, (int systemId, int roomId, in
 
 ShipSystem_Extend* Get_ShipSystem_Extend(ShipSystem* c)
 {
-    DWORD dEx = 0;
+    uint32_t dEx = 0;
     dEx <<= 8;
     dEx |= c->gap_ex_1[0];
     dEx <<= 8;

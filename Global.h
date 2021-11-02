@@ -57,7 +57,7 @@ public:
 
     void *GetVTable_LaserBlast() { return __vtableLaserBlast; }
 
-    DWORD GetBaseAddress() { return __baseAddress; }
+    uint32_t GetBaseAddress() { return __baseAddress; }
 
     static bool* showBeaconPath;
     static unsigned int currentSeed;
@@ -94,39 +94,39 @@ private:
 
 
 
-    const DWORD __resourcesOffset =        0x004CB680;
-    const DWORD __shipInfoOffset =         0x004C6F80;
-    const DWORD __cFPSOffset =             0x004CB600;
-    const DWORD __blueprintOffset =        0x004CBD60;
-    const DWORD __soundOffset =            0x004CB820;
-    const DWORD __mouseOffset =            0x004C76C0;
-    const DWORD __textOffset =             0x004CB7C0;
-    const DWORD __rngOffset =              0x004CB7A0;
-    const DWORD __crewFactoryOffset =      0x004C6E40;
-    const DWORD __tutorialOffset =         0x004C5340;
-    const DWORD __eventGenOffset =         0x004CB920;
-    const DWORD __eventsParseOffset =      0x004CBB60;
-    const DWORD __beaconPathOffset =       0x004C8CF6;
-    const DWORD __eventSystemOffset =      0x004CB640;
-    const DWORD __randomStateOffset =      0x00428110;
-    const DWORD __showWelcomeOffset =      0x004C8CE9;
-    const DWORD __dlcEnabledOffset =       0x004C8D2D;
-    const DWORD __animationsOffset =       0x004CB0A0;
-    const DWORD __difficultyOffset =       0x004C8CB4;
-    const DWORD __fragmentCallbackOffset = 0x004DC53C;
-    const DWORD __achievementOffset =      0x004C5780;
-    const DWORD __scoreKeeperOffset =      0x004C5980;
-    const DWORD __firstTimeShipsOffset =   0x004C8D30;
-    const DWORD __settingValuesOffset =    0x004C8CA0;
-    const DWORD __droneWeaponPosOffset =   0x004C7400;
+    const uint32_t __resourcesOffset =        0x004CB680;
+    const uint32_t __shipInfoOffset =         0x004C6F80;
+    const uint32_t __cFPSOffset =             0x004CB600;
+    const uint32_t __blueprintOffset =        0x004CBD60;
+    const uint32_t __soundOffset =            0x004CB820;
+    const uint32_t __mouseOffset =            0x004C76C0;
+    const uint32_t __textOffset =             0x004CB7C0;
+    const uint32_t __rngOffset =              0x004CB7A0;
+    const uint32_t __crewFactoryOffset =      0x004C6E40;
+    const uint32_t __tutorialOffset =         0x004C5340;
+    const uint32_t __eventGenOffset =         0x004CB920;
+    const uint32_t __eventsParseOffset =      0x004CBB60;
+    const uint32_t __beaconPathOffset =       0x004C8CF6;
+    const uint32_t __eventSystemOffset =      0x004CB640;
+    const uint32_t __randomStateOffset =      0x00428110;
+    const uint32_t __showWelcomeOffset =      0x004C8CE9;
+    const uint32_t __dlcEnabledOffset =       0x004C8D2D;
+    const uint32_t __animationsOffset =       0x004CB0A0;
+    const uint32_t __difficultyOffset =       0x004C8CB4;
+    const uint32_t __fragmentCallbackOffset = 0x004DC53C;
+    const uint32_t __achievementOffset =      0x004C5780;
+    const uint32_t __scoreKeeperOffset =      0x004C5980;
+    const uint32_t __firstTimeShipsOffset =   0x004C8D30;
+    const uint32_t __settingValuesOffset =    0x004C8CA0;
+    const uint32_t __droneWeaponPosOffset =   0x004C7400;
 
-    const DWORD __superShieldColorOffset = 0x004CC670;
+    const uint32_t __superShieldColorOffset = 0x004CC670;
 
-    const DWORD __vtableLaserBlastOffset = 0x004BB67C;
+    const uint32_t __vtableLaserBlastOffset = 0x004BB67C;
 
-    static std::vector<std::vector<DWORD>> colorOffsets;
+    static std::vector<std::vector<uint32_t>> colorOffsets;
 
-    DWORD __baseAddress = 0;
+    uint32_t __baseAddress = 0;
 
     static ResourceControl *__resourceControl;
     static CApp *__cApp;

@@ -5,22 +5,22 @@
 #define ASM_HOOK void
 #endif
 
-void JMP(BYTE *pAddress, DWORD dwJumpTo, DWORD dwLen);
-void NOP(DWORD instruction, DWORD dwLen);
-void WriteByte(void *pAddress, BYTE val);
+void JMP(uint8_t *pAddress, uint32_t dwJumpTo, uint32_t dwLen);
+void NOP(uint32_t instruction, uint32_t dwLen);
+void WriteByte(void *pAddress, uint8_t val);
 
 
 
 class ASMHook
 {
 public:
-    ASMHook(BYTE* offset, int bytes, ASM_HOOK(*funcTo)(), BYTE* pathOffset = 0);
-    BYTE* _address;
-    BYTE* _address2;
+    ASMHook(uint8_t* offset, int bytes, ASM_HOOK(*funcTo)(), uint8_t* pathOffset = 0);
+    uint8_t* _address;
+    uint8_t* _address2;
     int _size;
 
 private:
-    BYTE* _offset;
+    uint8_t* _offset;
     ASM_HOOK(*_funcTo)();
 };
 

@@ -6,7 +6,7 @@ HOOK_METHOD_PRIORITY(CrewMember, constructor, 900, (CrewBlueprint& blueprint, in
 	super(blueprint, shipId, intruder, animation);
 
 	auto ex = new CrewMember_Extend();
-    DWORD dEx = (DWORD)ex;
+    uint32_t dEx = (uint32_t)ex;
 
 	gap_ex_1[0] = (dEx >> 24) & 0xFF;
 	gap_ex_1[1] = (dEx >> 16) & 0xFF;
@@ -23,7 +23,7 @@ HOOK_METHOD(CrewMember, destructor, () -> void)
 
 CrewMember_Extend* Get_CrewMember_Extend(CrewMember* c)
 {
-    DWORD dEx = 0;
+    uint32_t dEx = 0;
     dEx <<= 8;
     dEx |= c->gap_ex_1[0];
     dEx <<= 8;
@@ -49,7 +49,7 @@ HOOK_METHOD(CrewDrone, constructor, (const std::string& _type, const std::string
 HOOK_METHOD_PRIORITY(CrewAnimation, OnInit, 900, (const std::string& _race, Pointf position, bool enemy) -> void)
 {
 	auto ex = new CrewAnimation_Extend();
-    DWORD dEx = (DWORD)ex;
+    uint32_t dEx = (uint32_t)ex;
 
 	gap_ex_1[0] = (dEx >> 24) & 0xFF;
 	gap_ex_1[1] = (dEx >> 16) & 0xFF;
@@ -73,7 +73,7 @@ HOOK_METHOD(CrewAnimation, destructor, () -> void)
 
 CrewAnimation_Extend* Get_CrewAnimation_Extend(CrewAnimation* c)
 {
-    DWORD dEx = 0;
+    uint32_t dEx = 0;
     dEx <<= 8;
     dEx |= c->gap_ex_1[0];
     dEx <<= 8;
