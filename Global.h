@@ -55,7 +55,7 @@ public:
     SettingValues *GetSettings() { return __settingValues; }
     int GetVersion() { return __version; }
 
-    void *GetVTable_LaserBlast() { return __vtableLaserBlast; }
+    void *GetVTable_LaserBlast() { return VTable_LaserBlast; }
 
     uint32_t GetBaseAddress() { return __baseAddress; }
 
@@ -122,8 +122,6 @@ private:
 
     const uint32_t __superShieldColorOffset = 0x004CC670;
 
-    const uint32_t __vtableLaserBlastOffset = 0x004BB67C;
-
     static std::vector<std::vector<uint32_t>> colorOffsets;
 
     uint32_t __baseAddress = 0;
@@ -145,8 +143,6 @@ private:
     static AchievementTracker *__achievementTracker;
     static ScoreKeeper *__scoreKeeper;
     static SettingValues *__settingValues;
-
-    static void *__vtableLaserBlast;
 
     const int __version = 8;
 
