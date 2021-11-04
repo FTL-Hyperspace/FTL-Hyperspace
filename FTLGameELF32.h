@@ -31,7 +31,7 @@
 #include <unordered_map>
 #include <math.h>
 #include <queue>
-    #include <link.h>
+#include "SigScan.h"
 #undef LoadImage
 
 #ifndef M_PI
@@ -496,7 +496,7 @@ typedef char *ShaderSourceCallback(GraphicsPrimitiveType, int, int, GraphicsText
 
 static void* GetBaseAddress()
 {
-	return dlopen(NULL, RTLD_NOW);
+  return SigScan::GetBaseAddress();
 }
 
 

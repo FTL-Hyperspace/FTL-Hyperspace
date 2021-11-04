@@ -16,7 +16,7 @@ struct GlobalPre
 	#include <unordered_map>
 	#include <math.h>
 	#include <queue>
-    #include <link.h>
+	#include "SigScan.h"
 	#undef LoadImage
 
 	#ifndef M_PI
@@ -335,7 +335,7 @@ struct GlobalConst depends(RandomAmount, CAchievement, Point)
 	
 	static void* GetBaseAddress()
 	{
-		return dlopen(NULL, RTLD_NOW);
+	  return SigScan::GetBaseAddress();
 	}
 }};
 

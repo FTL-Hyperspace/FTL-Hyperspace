@@ -1,6 +1,5 @@
 #include "main.h"
 #include <stdio.h>
-#include "FTLGame.h"
 #include "Global.h"
 
 extern "C" BOOL APIENTRY DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)

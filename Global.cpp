@@ -100,7 +100,7 @@ void Global::SetCApp(CApp *cApp)
 void Global::Initialize()
 {
     printf("Initializing Hyperspace...\n");
-    __baseAddress = (uint32_t)GetModuleHandle(NULL);
+    __baseAddress = (uintptr_t)GetBaseAddress();
 
 
     __resourceControl = (ResourceControl*)(__baseAddress + __resourcesOffset);
