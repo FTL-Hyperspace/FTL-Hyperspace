@@ -1,5 +1,9 @@
 
+#ifdef _WIN32
 #define ASM_HOOK __declspec(naked) void
+#elif defined(__linux__)
+#define ASM_HOOK void
+#endif
 
 void JMP(BYTE *pAddress, DWORD dwJumpTo, DWORD dwLen);
 void NOP(DWORD instruction, DWORD dwLen);
