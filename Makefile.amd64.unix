@@ -15,7 +15,7 @@ INC =
 CFLAGS = 
 RESINC = 
 LIBDIR = 
-LIB = libboost_wserialization-mgw92-mt-x32-1_70.a
+LIB = 
 LDFLAGS = 
 
 INC_DEBUG = $(INC) -Irapidxml -Idiscord/include -I/usr/include/boost
@@ -27,29 +27,29 @@ LIB_DEBUG = $(LIB)-luser32 discord/lib/libdiscord-rpc.a
 LDFLAGS_DEBUG = $(LDFLAGS) -static-libstdc++ -static-libgcc -static -m64
 OBJDIR_DEBUG = obj/Debug
 DEP_DEBUG = 
-OUT_DEBUG = C:/Program\ Files\ \(x86\)/Steam/steamapps/common/FTL\ Faster\ Than\ Light/Hyperspace.so
+OUT_DEBUG = ./bin/Debug/Hyperspace.so
 
-INC_RELEASE = $(INC) -Irapidxml -IC:/boost/include/boost-1_70 -Idiscord/include
-CFLAGS_RELEASE = $(CFLAGS) -Wall -m32 -masm=intel -std=c++11 -DBUILD_DLL
+INC_RELEASE = $(INC) -Irapidxml -I/usr/include/boost -Idiscord/include
+CFLAGS_RELEASE = $(CFLAGS) -Wall -m64 -masm=intel -std=c++11 -DBUILD_DLL
 RESINC_RELEASE = $(RESINC)
 RCFLAGS_RELEASE = $(RCFLAGS)
-LIBDIR_RELEASE = $(LIBDIR) -LC:/boost/lib -Ldiscord/lib
-LIB_RELEASE = $(LIB)-luser32 libdiscord-rpc.a libboost_atomic-mgw92-mt-x32-1_70.a libboost_chrono-mgw92-mt-x32-1_70.a libboost_container-mgw92-mt-x32-1_70.a libboost_context-mgw92-mt-x32-1_70.a libboost_contract-mgw92-mt-x32-1_70.a libboost_coroutine-mgw92-mt-x32-1_70.a libboost_date_time-mgw92-mt-x32-1_70.a libboost_exception-mgw92-mt-x32-1_70.a libboost_filesystem-mgw92-mt-x32-1_70.a libboost_graph-mgw92-mt-x32-1_70.a libboost_iostreams-mgw92-mt-x32-1_70.a libboost_locale-mgw92-mt-x32-1_70.a libboost_log_setup-mgw92-mt-x32-1_70.a libboost_log-mgw92-mt-x32-1_70.a libboost_math_c99f-mgw92-mt-x32-1_70.a libboost_math_c99l-mgw92-mt-x32-1_70.a libboost_math_c99-mgw92-mt-x32-1_70.a libboost_math_tr1f-mgw92-mt-x32-1_70.a libboost_math_tr1l-mgw92-mt-x32-1_70.a libboost_math_tr1-mgw92-mt-x32-1_70.a libboost_numpy38-mgw92-mt-x32-1_70.a libboost_prg_exec_monitor-mgw92-mt-x32-1_70.a libboost_program_options-mgw92-mt-x32-1_70.a libboost_python38-mgw92-mt-x32-1_70.a libboost_random-mgw92-mt-x32-1_70.a libboost_regex-mgw92-mt-x32-1_70.a libboost_serialization-mgw92-mt-x32-1_70.a libboost_stacktrace_basic-mgw92-mt-x32-1_70.a libboost_stacktrace_noop-mgw92-mt-x32-1_70.a libboost_system-mgw92-mt-x32-1_70.a libboost_test_exec_monitor-mgw92-mt-x32-1_70.a libboost_thread-mgw92-mt-x32-1_70.a libboost_timer-mgw92-mt-x32-1_70.a libboost_type_erasure-mgw92-mt-x32-1_70.a libboost_unit_test_framework-mgw92-mt-x32-1_70.a libboost_wave-mgw92-mt-x32-1_70.a libboost_wserialization-mgw92-mt-x32-1_70.a
-LDFLAGS_RELEASE = $(LDFLAGS) -s -static-libstdc++ -static-libgcc -static -m32
+LIBDIR_RELEASE = $(LIBDIR) -L/usr/lib/x86_64-linux-gnu -Ldiscord/lib
+LIB_RELEASE = $(LIB) discord/lib/libdiscord-rpc.a
+LDFLAGS_RELEASE = $(LDFLAGS) -s -static-libstdc++ -static-libgcc -static -m64
 OBJDIR_RELEASE = obj/Release
 DEP_RELEASE = 
-OUT_RELEASE = C:/Program\ Files\ \(x86\)/Steam/steamapps/common/FTL\ Faster\ Than\ Light/Hyperspace.so
+OUT_RELEASE = ./bin/Release/Hyperspace.so
 
-OBJ_DEBUG = $(OBJDIR_DEBUG)/Renderer.o $(OBJDIR_DEBUG)/NeutralTeleporterFix.o $(OBJDIR_DEBUG)/OverclockerSystem.o $(OBJDIR_DEBUG)/ProjectileVTable.o $(OBJDIR_DEBUG)/Projectile_Extend.o $(OBJDIR_DEBUG)/RedesignedTooltips.o $(OBJDIR_DEBUG)/MoreInfoButton.o $(OBJDIR_DEBUG)/Resources.o $(OBJDIR_DEBUG)/ReturnHacks.o $(OBJDIR_DEBUG)/Room_Extend.o $(OBJDIR_DEBUG)/SaveFile.o $(OBJDIR_DEBUG)/Seeds.o $(OBJDIR_DEBUG)/ErosionEffect.o $(OBJDIR_DEBUG)/EventTooltip.o $(OBJDIR_DEBUG)/FTLGame.o $(OBJDIR_DEBUG)/Global.o $(OBJDIR_DEBUG)/HullNumbers.o $(OBJDIR_DEBUG)/Infinite.o $(OBJDIR_DEBUG)/InfiniteTeleport.o $(OBJDIR_DEBUG)/Input.o $(OBJDIR_DEBUG)/MainMenu.o $(OBJDIR_DEBUG)/Misc.o $(OBJDIR_DEBUG)/hde.o $(OBJDIR_DEBUG)/TemporalSystem.o $(OBJDIR_DEBUG)/TriggeredEvents.o $(OBJDIR_DEBUG)/Wormhole.o $(OBJDIR_DEBUG)/freetype.o $(OBJDIR_DEBUG)/main.o $(OBJDIR_DEBUG)/zhl.o $(OBJDIR_DEBUG)/Shaders.o $(OBJDIR_DEBUG)/ShipEditor.o $(OBJDIR_DEBUG)/ShipManager_Extend.o $(OBJDIR_DEBUG)/ShipTypeC.o $(OBJDIR_DEBUG)/ShipUnlocks.o $(OBJDIR_DEBUG)/ShipZoom.o $(OBJDIR_DEBUG)/EnemyShipIcons.o $(OBJDIR_DEBUG)/SigScan.o $(OBJDIR_DEBUG)/StatBoost.o $(OBJDIR_DEBUG)/Store_Extend.o $(OBJDIR_DEBUG)/SystemDescriptionFixes.o $(OBJDIR_DEBUG)/System_Extend.o $(OBJDIR_DEBUG)/CustomBoss.o $(OBJDIR_DEBUG)/CrewMember_Extend.o $(OBJDIR_DEBUG)/CrewNames.o $(OBJDIR_DEBUG)/CrewSpawn.o $(OBJDIR_DEBUG)/CrewVTable.o $(OBJDIR_DEBUG)/CustomAugments.o $(OBJDIR_DEBUG)/Credits.o $(OBJDIR_DEBUG)/CustomColors.o $(OBJDIR_DEBUG)/CustomCommandGui.o $(OBJDIR_DEBUG)/CustomCrew.o $(OBJDIR_DEBUG)/CustomCrewManifest.o $(OBJDIR_DEBUG)/Blueprint_Extend.o $(OBJDIR_DEBUG)/AlternateOxygenRendering.o $(OBJDIR_DEBUG)/ArtilleryBarFix.o $(OBJDIR_DEBUG)/AugmentValues.o $(OBJDIR_DEBUG)/Augments.o $(OBJDIR_DEBUG)/Balance.o $(OBJDIR_DEBUG)/BeamFixes.o $(OBJDIR_DEBUG)/Colors.o $(OBJDIR_DEBUG)/CommandConsole.o $(OBJDIR_DEBUG)/CooldownNumbers.o $(OBJDIR_DEBUG)/CustomShipSelect.o $(OBJDIR_DEBUG)/CustomShips.o $(OBJDIR_DEBUG)/CustomStore.o $(OBJDIR_DEBUG)/CustomStoreBox.o $(OBJDIR_DEBUG)/CustomSystems.o $(OBJDIR_DEBUG)/CustomSectors.o $(OBJDIR_DEBUG)/CustomUpgrades.o $(OBJDIR_DEBUG)/CustomWeapons.o $(OBJDIR_DEBUG)/Debugging.o $(OBJDIR_DEBUG)/DiscordIntegration.o $(OBJDIR_DEBUG)/DroneVTable.o $(OBJDIR_DEBUG)/CustomHotkeys.o $(OBJDIR_DEBUG)/CustomDamage.o $(OBJDIR_DEBUG)/CustomDrones.o $(OBJDIR_DEBUG)/CustomEquipment.o $(OBJDIR_DEBUG)/CustomEvents.o $(OBJDIR_DEBUG)/CustomFleetShips.o $(OBJDIR_DEBUG)/AbilityDrone.o $(OBJDIR_DEBUG)/CustomMap.o $(OBJDIR_DEBUG)/CustomOptions.o $(OBJDIR_DEBUG)/CustomRewards.o $(OBJDIR_DEBUG)/CustomScoreKeeper.o
+OBJ_DEBUG = $(OBJDIR_DEBUG)/NeutralTeleporterFix.o $(OBJDIR_DEBUG)/OverclockerSystem.o $(OBJDIR_DEBUG)/ProjectileVTable.o $(OBJDIR_DEBUG)/Projectile_Extend.o $(OBJDIR_DEBUG)/RedesignedTooltips.o $(OBJDIR_DEBUG)/MoreInfoButton.o $(OBJDIR_DEBUG)/Renderer.o $(OBJDIR_DEBUG)/Resources.o $(OBJDIR_DEBUG)/ReturnHacks.o $(OBJDIR_DEBUG)/Room_Extend.o $(OBJDIR_DEBUG)/SaveFile.o $(OBJDIR_DEBUG)/Seeds.o $(OBJDIR_DEBUG)/HullNumbers.o $(OBJDIR_DEBUG)/FTLGame.o $(OBJDIR_DEBUG)/Global.o $(OBJDIR_DEBUG)/Infinite.o $(OBJDIR_DEBUG)/InfiniteTeleport.o $(OBJDIR_DEBUG)/Input.o $(OBJDIR_DEBUG)/MainMenu.o $(OBJDIR_DEBUG)/Misc.o $(OBJDIR_DEBUG)/TemporalSystem.o $(OBJDIR_DEBUG)/TriggeredEvents.o $(OBJDIR_DEBUG)/Wormhole.o $(OBJDIR_DEBUG)/freetype.o $(OBJDIR_DEBUG)/hde.o $(OBJDIR_DEBUG)/main.o $(OBJDIR_DEBUG)/zhl.o $(OBJDIR_DEBUG)/Shaders.o $(OBJDIR_DEBUG)/ShipEditor.o $(OBJDIR_DEBUG)/ShipManager_Extend.o $(OBJDIR_DEBUG)/ShipTypeC.o $(OBJDIR_DEBUG)/ShipUnlocks.o $(OBJDIR_DEBUG)/ShipZoom.o $(OBJDIR_DEBUG)/EventTooltip.o $(OBJDIR_DEBUG)/SigScan.o $(OBJDIR_DEBUG)/StatBoost.o $(OBJDIR_DEBUG)/Store_Extend.o $(OBJDIR_DEBUG)/SystemDescriptionFixes.o $(OBJDIR_DEBUG)/System_Extend.o $(OBJDIR_DEBUG)/CrewNames.o $(OBJDIR_DEBUG)/CrewSpawn.o $(OBJDIR_DEBUG)/CrewVTable.o $(OBJDIR_DEBUG)/CustomAugments.o $(OBJDIR_DEBUG)/CustomBoss.o $(OBJDIR_DEBUG)/CrewMember_Extend.o $(OBJDIR_DEBUG)/CustomColors.o $(OBJDIR_DEBUG)/CustomCommandGui.o $(OBJDIR_DEBUG)/CustomCrew.o $(OBJDIR_DEBUG)/CustomCrewManifest.o $(OBJDIR_DEBUG)/CustomDamage.o $(OBJDIR_DEBUG)/Blueprint_Extend.o $(OBJDIR_DEBUG)/AlternateOxygenRendering.o $(OBJDIR_DEBUG)/ArtilleryBarFix.o $(OBJDIR_DEBUG)/AugmentValues.o $(OBJDIR_DEBUG)/Augments.o $(OBJDIR_DEBUG)/Balance.o $(OBJDIR_DEBUG)/BeamFixes.o $(OBJDIR_DEBUG)/Colors.o $(OBJDIR_DEBUG)/CommandConsole.o $(OBJDIR_DEBUG)/CooldownNumbers.o $(OBJDIR_DEBUG)/Credits.o $(OBJDIR_DEBUG)/CustomShips.o $(OBJDIR_DEBUG)/CustomStore.o $(OBJDIR_DEBUG)/CustomStoreBox.o $(OBJDIR_DEBUG)/CustomSystems.o $(OBJDIR_DEBUG)/CustomUpgrades.o $(OBJDIR_DEBUG)/CustomShipSelect.o $(OBJDIR_DEBUG)/CustomWeapons.o $(OBJDIR_DEBUG)/Debugging.o $(OBJDIR_DEBUG)/DiscordIntegration.o $(OBJDIR_DEBUG)/DroneVTable.o $(OBJDIR_DEBUG)/EnemyShipIcons.o $(OBJDIR_DEBUG)/ErosionEffect.o $(OBJDIR_DEBUG)/CustomMap.o $(OBJDIR_DEBUG)/CustomDrones.o $(OBJDIR_DEBUG)/CustomEquipment.o $(OBJDIR_DEBUG)/CustomEvents.o $(OBJDIR_DEBUG)/CustomFleetShips.o $(OBJDIR_DEBUG)/CustomHotkeys.o $(OBJDIR_DEBUG)/AbilityDrone.o $(OBJDIR_DEBUG)/CustomOptions.o $(OBJDIR_DEBUG)/CustomRewards.o $(OBJDIR_DEBUG)/CustomScoreKeeper.o $(OBJDIR_DEBUG)/CustomSectors.o
 
-OBJ_RELEASE = $(OBJDIR_RELEASE)/Renderer.o $(OBJDIR_RELEASE)/NeutralTeleporterFix.o $(OBJDIR_RELEASE)/OverclockerSystem.o $(OBJDIR_RELEASE)/ProjectileVTable.o $(OBJDIR_RELEASE)/Projectile_Extend.o $(OBJDIR_RELEASE)/RedesignedTooltips.o $(OBJDIR_RELEASE)/MoreInfoButton.o $(OBJDIR_RELEASE)/Resources.o $(OBJDIR_RELEASE)/ReturnHacks.o $(OBJDIR_RELEASE)/Room_Extend.o $(OBJDIR_RELEASE)/SaveFile.o $(OBJDIR_RELEASE)/Seeds.o $(OBJDIR_RELEASE)/ErosionEffect.o $(OBJDIR_RELEASE)/EventTooltip.o $(OBJDIR_RELEASE)/FTLGame.o $(OBJDIR_RELEASE)/Global.o $(OBJDIR_RELEASE)/HullNumbers.o $(OBJDIR_RELEASE)/Infinite.o $(OBJDIR_RELEASE)/InfiniteTeleport.o $(OBJDIR_RELEASE)/Input.o $(OBJDIR_RELEASE)/MainMenu.o $(OBJDIR_RELEASE)/Misc.o $(OBJDIR_RELEASE)/hde.o $(OBJDIR_RELEASE)/TemporalSystem.o $(OBJDIR_RELEASE)/TriggeredEvents.o $(OBJDIR_RELEASE)/Wormhole.o $(OBJDIR_RELEASE)/freetype.o $(OBJDIR_RELEASE)/main.o $(OBJDIR_RELEASE)/zhl.o $(OBJDIR_RELEASE)/Shaders.o $(OBJDIR_RELEASE)/ShipEditor.o $(OBJDIR_RELEASE)/ShipManager_Extend.o $(OBJDIR_RELEASE)/ShipTypeC.o $(OBJDIR_RELEASE)/ShipUnlocks.o $(OBJDIR_RELEASE)/ShipZoom.o $(OBJDIR_RELEASE)/EnemyShipIcons.o $(OBJDIR_RELEASE)/SigScan.o $(OBJDIR_RELEASE)/StatBoost.o $(OBJDIR_RELEASE)/Store_Extend.o $(OBJDIR_RELEASE)/SystemDescriptionFixes.o $(OBJDIR_RELEASE)/System_Extend.o $(OBJDIR_RELEASE)/CustomBoss.o $(OBJDIR_RELEASE)/CrewMember_Extend.o $(OBJDIR_RELEASE)/CrewNames.o $(OBJDIR_RELEASE)/CrewSpawn.o $(OBJDIR_RELEASE)/CrewVTable.o $(OBJDIR_RELEASE)/CustomAugments.o $(OBJDIR_RELEASE)/Credits.o $(OBJDIR_RELEASE)/CustomColors.o $(OBJDIR_RELEASE)/CustomCommandGui.o $(OBJDIR_RELEASE)/CustomCrew.o $(OBJDIR_RELEASE)/CustomCrewManifest.o $(OBJDIR_RELEASE)/Blueprint_Extend.o $(OBJDIR_RELEASE)/AlternateOxygenRendering.o $(OBJDIR_RELEASE)/ArtilleryBarFix.o $(OBJDIR_RELEASE)/AugmentValues.o $(OBJDIR_RELEASE)/Augments.o $(OBJDIR_RELEASE)/Balance.o $(OBJDIR_RELEASE)/BeamFixes.o $(OBJDIR_RELEASE)/Colors.o $(OBJDIR_RELEASE)/CommandConsole.o $(OBJDIR_RELEASE)/CooldownNumbers.o $(OBJDIR_RELEASE)/CustomShipSelect.o $(OBJDIR_RELEASE)/CustomShips.o $(OBJDIR_RELEASE)/CustomStore.o $(OBJDIR_RELEASE)/CustomStoreBox.o $(OBJDIR_RELEASE)/CustomSystems.o $(OBJDIR_RELEASE)/CustomSectors.o $(OBJDIR_RELEASE)/CustomUpgrades.o $(OBJDIR_RELEASE)/CustomWeapons.o $(OBJDIR_RELEASE)/Debugging.o $(OBJDIR_RELEASE)/DiscordIntegration.o $(OBJDIR_RELEASE)/DroneVTable.o $(OBJDIR_RELEASE)/CustomHotkeys.o $(OBJDIR_RELEASE)/CustomDamage.o $(OBJDIR_RELEASE)/CustomDrones.o $(OBJDIR_RELEASE)/CustomEquipment.o $(OBJDIR_RELEASE)/CustomEvents.o $(OBJDIR_RELEASE)/CustomFleetShips.o $(OBJDIR_RELEASE)/AbilityDrone.o $(OBJDIR_RELEASE)/CustomMap.o $(OBJDIR_RELEASE)/CustomOptions.o $(OBJDIR_RELEASE)/CustomRewards.o $(OBJDIR_RELEASE)/CustomScoreKeeper.o
+OBJ_RELEASE = $(OBJDIR_RELEASE)/NeutralTeleporterFix.o $(OBJDIR_RELEASE)/OverclockerSystem.o $(OBJDIR_RELEASE)/ProjectileVTable.o $(OBJDIR_RELEASE)/Projectile_Extend.o $(OBJDIR_RELEASE)/RedesignedTooltips.o $(OBJDIR_RELEASE)/MoreInfoButton.o $(OBJDIR_RELEASE)/Renderer.o $(OBJDIR_RELEASE)/Resources.o $(OBJDIR_RELEASE)/ReturnHacks.o $(OBJDIR_RELEASE)/Room_Extend.o $(OBJDIR_RELEASE)/SaveFile.o $(OBJDIR_RELEASE)/Seeds.o $(OBJDIR_RELEASE)/HullNumbers.o $(OBJDIR_RELEASE)/FTLGame.o $(OBJDIR_RELEASE)/Global.o $(OBJDIR_RELEASE)/Infinite.o $(OBJDIR_RELEASE)/InfiniteTeleport.o $(OBJDIR_RELEASE)/Input.o $(OBJDIR_RELEASE)/MainMenu.o $(OBJDIR_RELEASE)/Misc.o $(OBJDIR_RELEASE)/TemporalSystem.o $(OBJDIR_RELEASE)/TriggeredEvents.o $(OBJDIR_RELEASE)/Wormhole.o $(OBJDIR_RELEASE)/freetype.o $(OBJDIR_RELEASE)/hde.o $(OBJDIR_RELEASE)/main.o $(OBJDIR_RELEASE)/zhl.o $(OBJDIR_RELEASE)/Shaders.o $(OBJDIR_RELEASE)/ShipEditor.o $(OBJDIR_RELEASE)/ShipManager_Extend.o $(OBJDIR_RELEASE)/ShipTypeC.o $(OBJDIR_RELEASE)/ShipUnlocks.o $(OBJDIR_RELEASE)/ShipZoom.o $(OBJDIR_RELEASE)/EventTooltip.o $(OBJDIR_RELEASE)/SigScan.o $(OBJDIR_RELEASE)/StatBoost.o $(OBJDIR_RELEASE)/Store_Extend.o $(OBJDIR_RELEASE)/SystemDescriptionFixes.o $(OBJDIR_RELEASE)/System_Extend.o $(OBJDIR_RELEASE)/CrewNames.o $(OBJDIR_RELEASE)/CrewSpawn.o $(OBJDIR_RELEASE)/CrewVTable.o $(OBJDIR_RELEASE)/CustomAugments.o $(OBJDIR_RELEASE)/CustomBoss.o $(OBJDIR_RELEASE)/CrewMember_Extend.o $(OBJDIR_RELEASE)/CustomColors.o $(OBJDIR_RELEASE)/CustomCommandGui.o $(OBJDIR_RELEASE)/CustomCrew.o $(OBJDIR_RELEASE)/CustomCrewManifest.o $(OBJDIR_RELEASE)/CustomDamage.o $(OBJDIR_RELEASE)/Blueprint_Extend.o $(OBJDIR_RELEASE)/AlternateOxygenRendering.o $(OBJDIR_RELEASE)/ArtilleryBarFix.o $(OBJDIR_RELEASE)/AugmentValues.o $(OBJDIR_RELEASE)/Augments.o $(OBJDIR_RELEASE)/Balance.o $(OBJDIR_RELEASE)/BeamFixes.o $(OBJDIR_RELEASE)/Colors.o $(OBJDIR_RELEASE)/CommandConsole.o $(OBJDIR_RELEASE)/CooldownNumbers.o $(OBJDIR_RELEASE)/Credits.o $(OBJDIR_RELEASE)/CustomShips.o $(OBJDIR_RELEASE)/CustomStore.o $(OBJDIR_RELEASE)/CustomStoreBox.o $(OBJDIR_RELEASE)/CustomSystems.o $(OBJDIR_RELEASE)/CustomUpgrades.o $(OBJDIR_RELEASE)/CustomShipSelect.o $(OBJDIR_RELEASE)/CustomWeapons.o $(OBJDIR_RELEASE)/Debugging.o $(OBJDIR_RELEASE)/DiscordIntegration.o $(OBJDIR_RELEASE)/DroneVTable.o $(OBJDIR_RELEASE)/EnemyShipIcons.o $(OBJDIR_RELEASE)/ErosionEffect.o $(OBJDIR_RELEASE)/CustomMap.o $(OBJDIR_RELEASE)/CustomDrones.o $(OBJDIR_RELEASE)/CustomEquipment.o $(OBJDIR_RELEASE)/CustomEvents.o $(OBJDIR_RELEASE)/CustomFleetShips.o $(OBJDIR_RELEASE)/CustomHotkeys.o $(OBJDIR_RELEASE)/AbilityDrone.o $(OBJDIR_RELEASE)/CustomOptions.o $(OBJDIR_RELEASE)/CustomRewards.o $(OBJDIR_RELEASE)/CustomScoreKeeper.o $(OBJDIR_RELEASE)/CustomSectors.o
 
 all: debug release
 
 clean: clean_debug clean_release
 
 before_debug: 
-	test -d C:/Program\ Files\ \(x86\)/Steam/steamapps/common/FTL\ Faster\ Than\ Light || mkdir -p C:/Program\ Files\ \(x86\)/Steam/steamapps/common/FTL\ Faster\ Than\ Light
+	test -d ./bin/Debug || mkdir -p ./bin/Debug
 	test -d $(OBJDIR_DEBUG) || mkdir -p $(OBJDIR_DEBUG)
 
 after_debug: 
@@ -58,9 +58,6 @@ debug: before_debug out_debug after_debug
 
 out_debug: before_debug $(OBJ_DEBUG) $(DEP_DEBUG)
 	$(LD) -shared $(LIBDIR_DEBUG) $(OBJ_DEBUG)  -o $(OUT_DEBUG) $(LDFLAGS_DEBUG) $(LIB_DEBUG)
-
-$(OBJDIR_DEBUG)/Renderer.o: Renderer.cpp
-	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c Renderer.cpp -o $(OBJDIR_DEBUG)/Renderer.o
 
 $(OBJDIR_DEBUG)/NeutralTeleporterFix.o: NeutralTeleporterFix.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c NeutralTeleporterFix.cpp -o $(OBJDIR_DEBUG)/NeutralTeleporterFix.o
@@ -80,6 +77,9 @@ $(OBJDIR_DEBUG)/RedesignedTooltips.o: RedesignedTooltips.cpp
 $(OBJDIR_DEBUG)/MoreInfoButton.o: MoreInfoButton.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c MoreInfoButton.cpp -o $(OBJDIR_DEBUG)/MoreInfoButton.o
 
+$(OBJDIR_DEBUG)/Renderer.o: Renderer.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c Renderer.cpp -o $(OBJDIR_DEBUG)/Renderer.o
+
 $(OBJDIR_DEBUG)/Resources.o: Resources.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c Resources.cpp -o $(OBJDIR_DEBUG)/Resources.o
 
@@ -95,20 +95,14 @@ $(OBJDIR_DEBUG)/SaveFile.o: SaveFile.cpp
 $(OBJDIR_DEBUG)/Seeds.o: Seeds.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c Seeds.cpp -o $(OBJDIR_DEBUG)/Seeds.o
 
-$(OBJDIR_DEBUG)/ErosionEffect.o: ErosionEffect.cpp
-	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c ErosionEffect.cpp -o $(OBJDIR_DEBUG)/ErosionEffect.o
-
-$(OBJDIR_DEBUG)/EventTooltip.o: EventTooltip.cpp
-	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c EventTooltip.cpp -o $(OBJDIR_DEBUG)/EventTooltip.o
+$(OBJDIR_DEBUG)/HullNumbers.o: HullNumbers.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c HullNumbers.cpp -o $(OBJDIR_DEBUG)/HullNumbers.o
 
 $(OBJDIR_DEBUG)/FTLGame.o: FTLGame.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c FTLGame.cpp -o $(OBJDIR_DEBUG)/FTLGame.o
 
 $(OBJDIR_DEBUG)/Global.o: Global.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c Global.cpp -o $(OBJDIR_DEBUG)/Global.o
-
-$(OBJDIR_DEBUG)/HullNumbers.o: HullNumbers.cpp
-	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c HullNumbers.cpp -o $(OBJDIR_DEBUG)/HullNumbers.o
 
 $(OBJDIR_DEBUG)/Infinite.o: Infinite.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c Infinite.cpp -o $(OBJDIR_DEBUG)/Infinite.o
@@ -125,9 +119,6 @@ $(OBJDIR_DEBUG)/MainMenu.o: MainMenu.cpp
 $(OBJDIR_DEBUG)/Misc.o: Misc.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c Misc.cpp -o $(OBJDIR_DEBUG)/Misc.o
 
-$(OBJDIR_DEBUG)/hde.o: hde.cpp
-	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c hde.cpp -o $(OBJDIR_DEBUG)/hde.o
-
 $(OBJDIR_DEBUG)/TemporalSystem.o: TemporalSystem.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c TemporalSystem.cpp -o $(OBJDIR_DEBUG)/TemporalSystem.o
 
@@ -139,6 +130,9 @@ $(OBJDIR_DEBUG)/Wormhole.o: Wormhole.cpp
 
 $(OBJDIR_DEBUG)/freetype.o: freetype.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c freetype.cpp -o $(OBJDIR_DEBUG)/freetype.o
+
+$(OBJDIR_DEBUG)/hde.o: hde.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c hde.cpp -o $(OBJDIR_DEBUG)/hde.o
 
 $(OBJDIR_DEBUG)/main.o: main.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c main.cpp -o $(OBJDIR_DEBUG)/main.o
@@ -164,8 +158,8 @@ $(OBJDIR_DEBUG)/ShipUnlocks.o: ShipUnlocks.cpp
 $(OBJDIR_DEBUG)/ShipZoom.o: ShipZoom.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c ShipZoom.cpp -o $(OBJDIR_DEBUG)/ShipZoom.o
 
-$(OBJDIR_DEBUG)/EnemyShipIcons.o: EnemyShipIcons.cpp
-	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c EnemyShipIcons.cpp -o $(OBJDIR_DEBUG)/EnemyShipIcons.o
+$(OBJDIR_DEBUG)/EventTooltip.o: EventTooltip.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c EventTooltip.cpp -o $(OBJDIR_DEBUG)/EventTooltip.o
 
 $(OBJDIR_DEBUG)/SigScan.o: SigScan.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c SigScan.cpp -o $(OBJDIR_DEBUG)/SigScan.o
@@ -182,12 +176,6 @@ $(OBJDIR_DEBUG)/SystemDescriptionFixes.o: SystemDescriptionFixes.cpp
 $(OBJDIR_DEBUG)/System_Extend.o: System_Extend.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c System_Extend.cpp -o $(OBJDIR_DEBUG)/System_Extend.o
 
-$(OBJDIR_DEBUG)/CustomBoss.o: CustomBoss.cpp
-	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c CustomBoss.cpp -o $(OBJDIR_DEBUG)/CustomBoss.o
-
-$(OBJDIR_DEBUG)/CrewMember_Extend.o: CrewMember_Extend.cpp
-	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c CrewMember_Extend.cpp -o $(OBJDIR_DEBUG)/CrewMember_Extend.o
-
 $(OBJDIR_DEBUG)/CrewNames.o: CrewNames.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c CrewNames.cpp -o $(OBJDIR_DEBUG)/CrewNames.o
 
@@ -200,8 +188,11 @@ $(OBJDIR_DEBUG)/CrewVTable.o: CrewVTable.cpp
 $(OBJDIR_DEBUG)/CustomAugments.o: CustomAugments.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c CustomAugments.cpp -o $(OBJDIR_DEBUG)/CustomAugments.o
 
-$(OBJDIR_DEBUG)/Credits.o: Credits.cpp
-	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c Credits.cpp -o $(OBJDIR_DEBUG)/Credits.o
+$(OBJDIR_DEBUG)/CustomBoss.o: CustomBoss.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c CustomBoss.cpp -o $(OBJDIR_DEBUG)/CustomBoss.o
+
+$(OBJDIR_DEBUG)/CrewMember_Extend.o: CrewMember_Extend.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c CrewMember_Extend.cpp -o $(OBJDIR_DEBUG)/CrewMember_Extend.o
 
 $(OBJDIR_DEBUG)/CustomColors.o: CustomColors.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c CustomColors.cpp -o $(OBJDIR_DEBUG)/CustomColors.o
@@ -214,6 +205,9 @@ $(OBJDIR_DEBUG)/CustomCrew.o: CustomCrew.cpp
 
 $(OBJDIR_DEBUG)/CustomCrewManifest.o: CustomCrewManifest.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c CustomCrewManifest.cpp -o $(OBJDIR_DEBUG)/CustomCrewManifest.o
+
+$(OBJDIR_DEBUG)/CustomDamage.o: CustomDamage.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c CustomDamage.cpp -o $(OBJDIR_DEBUG)/CustomDamage.o
 
 $(OBJDIR_DEBUG)/Blueprint_Extend.o: Blueprint_Extend.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c Blueprint_Extend.cpp -o $(OBJDIR_DEBUG)/Blueprint_Extend.o
@@ -245,8 +239,8 @@ $(OBJDIR_DEBUG)/CommandConsole.o: CommandConsole.cpp
 $(OBJDIR_DEBUG)/CooldownNumbers.o: CooldownNumbers.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c CooldownNumbers.cpp -o $(OBJDIR_DEBUG)/CooldownNumbers.o
 
-$(OBJDIR_DEBUG)/CustomShipSelect.o: CustomShipSelect.cpp
-	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c CustomShipSelect.cpp -o $(OBJDIR_DEBUG)/CustomShipSelect.o
+$(OBJDIR_DEBUG)/Credits.o: Credits.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c Credits.cpp -o $(OBJDIR_DEBUG)/Credits.o
 
 $(OBJDIR_DEBUG)/CustomShips.o: CustomShips.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c CustomShips.cpp -o $(OBJDIR_DEBUG)/CustomShips.o
@@ -260,11 +254,11 @@ $(OBJDIR_DEBUG)/CustomStoreBox.o: CustomStoreBox.cpp
 $(OBJDIR_DEBUG)/CustomSystems.o: CustomSystems.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c CustomSystems.cpp -o $(OBJDIR_DEBUG)/CustomSystems.o
 
-$(OBJDIR_DEBUG)/CustomSectors.o: CustomSectors.cpp
-	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c CustomSectors.cpp -o $(OBJDIR_DEBUG)/CustomSectors.o
-
 $(OBJDIR_DEBUG)/CustomUpgrades.o: CustomUpgrades.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c CustomUpgrades.cpp -o $(OBJDIR_DEBUG)/CustomUpgrades.o
+
+$(OBJDIR_DEBUG)/CustomShipSelect.o: CustomShipSelect.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c CustomShipSelect.cpp -o $(OBJDIR_DEBUG)/CustomShipSelect.o
 
 $(OBJDIR_DEBUG)/CustomWeapons.o: CustomWeapons.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c CustomWeapons.cpp -o $(OBJDIR_DEBUG)/CustomWeapons.o
@@ -278,11 +272,14 @@ $(OBJDIR_DEBUG)/DiscordIntegration.o: DiscordIntegration.cpp
 $(OBJDIR_DEBUG)/DroneVTable.o: DroneVTable.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c DroneVTable.cpp -o $(OBJDIR_DEBUG)/DroneVTable.o
 
-$(OBJDIR_DEBUG)/CustomHotkeys.o: CustomHotkeys.cpp
-	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c CustomHotkeys.cpp -o $(OBJDIR_DEBUG)/CustomHotkeys.o
+$(OBJDIR_DEBUG)/EnemyShipIcons.o: EnemyShipIcons.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c EnemyShipIcons.cpp -o $(OBJDIR_DEBUG)/EnemyShipIcons.o
 
-$(OBJDIR_DEBUG)/CustomDamage.o: CustomDamage.cpp
-	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c CustomDamage.cpp -o $(OBJDIR_DEBUG)/CustomDamage.o
+$(OBJDIR_DEBUG)/ErosionEffect.o: ErosionEffect.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c ErosionEffect.cpp -o $(OBJDIR_DEBUG)/ErosionEffect.o
+
+$(OBJDIR_DEBUG)/CustomMap.o: CustomMap.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c CustomMap.cpp -o $(OBJDIR_DEBUG)/CustomMap.o
 
 $(OBJDIR_DEBUG)/CustomDrones.o: CustomDrones.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c CustomDrones.cpp -o $(OBJDIR_DEBUG)/CustomDrones.o
@@ -296,11 +293,11 @@ $(OBJDIR_DEBUG)/CustomEvents.o: CustomEvents.cpp
 $(OBJDIR_DEBUG)/CustomFleetShips.o: CustomFleetShips.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c CustomFleetShips.cpp -o $(OBJDIR_DEBUG)/CustomFleetShips.o
 
+$(OBJDIR_DEBUG)/CustomHotkeys.o: CustomHotkeys.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c CustomHotkeys.cpp -o $(OBJDIR_DEBUG)/CustomHotkeys.o
+
 $(OBJDIR_DEBUG)/AbilityDrone.o: AbilityDrone.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c AbilityDrone.cpp -o $(OBJDIR_DEBUG)/AbilityDrone.o
-
-$(OBJDIR_DEBUG)/CustomMap.o: CustomMap.cpp
-	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c CustomMap.cpp -o $(OBJDIR_DEBUG)/CustomMap.o
 
 $(OBJDIR_DEBUG)/CustomOptions.o: CustomOptions.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c CustomOptions.cpp -o $(OBJDIR_DEBUG)/CustomOptions.o
@@ -311,13 +308,16 @@ $(OBJDIR_DEBUG)/CustomRewards.o: CustomRewards.cpp
 $(OBJDIR_DEBUG)/CustomScoreKeeper.o: CustomScoreKeeper.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c CustomScoreKeeper.cpp -o $(OBJDIR_DEBUG)/CustomScoreKeeper.o
 
+$(OBJDIR_DEBUG)/CustomSectors.o: CustomSectors.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c CustomSectors.cpp -o $(OBJDIR_DEBUG)/CustomSectors.o
+
 clean_debug: 
 	rm -f $(OBJ_DEBUG) $(OUT_DEBUG)
-	rm -rf C:/Program\ Files\ \(x86\)/Steam/steamapps/common/FTL\ Faster\ Than\ Light
+	rm -rf ./bin/Debug
 	rm -rf $(OBJDIR_DEBUG)
 
 before_release: 
-	test -d C:/Program\ Files\ \(x86\)/Steam/steamapps/common/FTL\ Faster\ Than\ Light || mkdir -p C:/Program\ Files\ \(x86\)/Steam/steamapps/common/FTL\ Faster\ Than\ Light
+	test -d ./bin/Release || mkdir -p ./bin/Release
 	test -d $(OBJDIR_RELEASE) || mkdir -p $(OBJDIR_RELEASE)
 
 after_release: 
@@ -326,9 +326,6 @@ release: before_release out_release after_release
 
 out_release: before_release $(OBJ_RELEASE) $(DEP_RELEASE)
 	$(LD) -shared $(LIBDIR_RELEASE) $(OBJ_RELEASE)  -o $(OUT_RELEASE) $(LDFLAGS_RELEASE) $(LIB_RELEASE)
-
-$(OBJDIR_RELEASE)/Renderer.o: Renderer.cpp
-	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c Renderer.cpp -o $(OBJDIR_RELEASE)/Renderer.o
 
 $(OBJDIR_RELEASE)/NeutralTeleporterFix.o: NeutralTeleporterFix.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c NeutralTeleporterFix.cpp -o $(OBJDIR_RELEASE)/NeutralTeleporterFix.o
@@ -348,6 +345,9 @@ $(OBJDIR_RELEASE)/RedesignedTooltips.o: RedesignedTooltips.cpp
 $(OBJDIR_RELEASE)/MoreInfoButton.o: MoreInfoButton.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c MoreInfoButton.cpp -o $(OBJDIR_RELEASE)/MoreInfoButton.o
 
+$(OBJDIR_RELEASE)/Renderer.o: Renderer.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c Renderer.cpp -o $(OBJDIR_RELEASE)/Renderer.o
+
 $(OBJDIR_RELEASE)/Resources.o: Resources.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c Resources.cpp -o $(OBJDIR_RELEASE)/Resources.o
 
@@ -363,20 +363,14 @@ $(OBJDIR_RELEASE)/SaveFile.o: SaveFile.cpp
 $(OBJDIR_RELEASE)/Seeds.o: Seeds.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c Seeds.cpp -o $(OBJDIR_RELEASE)/Seeds.o
 
-$(OBJDIR_RELEASE)/ErosionEffect.o: ErosionEffect.cpp
-	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c ErosionEffect.cpp -o $(OBJDIR_RELEASE)/ErosionEffect.o
-
-$(OBJDIR_RELEASE)/EventTooltip.o: EventTooltip.cpp
-	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c EventTooltip.cpp -o $(OBJDIR_RELEASE)/EventTooltip.o
+$(OBJDIR_RELEASE)/HullNumbers.o: HullNumbers.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c HullNumbers.cpp -o $(OBJDIR_RELEASE)/HullNumbers.o
 
 $(OBJDIR_RELEASE)/FTLGame.o: FTLGame.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c FTLGame.cpp -o $(OBJDIR_RELEASE)/FTLGame.o
 
 $(OBJDIR_RELEASE)/Global.o: Global.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c Global.cpp -o $(OBJDIR_RELEASE)/Global.o
-
-$(OBJDIR_RELEASE)/HullNumbers.o: HullNumbers.cpp
-	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c HullNumbers.cpp -o $(OBJDIR_RELEASE)/HullNumbers.o
 
 $(OBJDIR_RELEASE)/Infinite.o: Infinite.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c Infinite.cpp -o $(OBJDIR_RELEASE)/Infinite.o
@@ -393,9 +387,6 @@ $(OBJDIR_RELEASE)/MainMenu.o: MainMenu.cpp
 $(OBJDIR_RELEASE)/Misc.o: Misc.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c Misc.cpp -o $(OBJDIR_RELEASE)/Misc.o
 
-$(OBJDIR_RELEASE)/hde.o: hde.cpp
-	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c hde.cpp -o $(OBJDIR_RELEASE)/hde.o
-
 $(OBJDIR_RELEASE)/TemporalSystem.o: TemporalSystem.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c TemporalSystem.cpp -o $(OBJDIR_RELEASE)/TemporalSystem.o
 
@@ -407,6 +398,9 @@ $(OBJDIR_RELEASE)/Wormhole.o: Wormhole.cpp
 
 $(OBJDIR_RELEASE)/freetype.o: freetype.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c freetype.cpp -o $(OBJDIR_RELEASE)/freetype.o
+
+$(OBJDIR_RELEASE)/hde.o: hde.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c hde.cpp -o $(OBJDIR_RELEASE)/hde.o
 
 $(OBJDIR_RELEASE)/main.o: main.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c main.cpp -o $(OBJDIR_RELEASE)/main.o
@@ -432,8 +426,8 @@ $(OBJDIR_RELEASE)/ShipUnlocks.o: ShipUnlocks.cpp
 $(OBJDIR_RELEASE)/ShipZoom.o: ShipZoom.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c ShipZoom.cpp -o $(OBJDIR_RELEASE)/ShipZoom.o
 
-$(OBJDIR_RELEASE)/EnemyShipIcons.o: EnemyShipIcons.cpp
-	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c EnemyShipIcons.cpp -o $(OBJDIR_RELEASE)/EnemyShipIcons.o
+$(OBJDIR_RELEASE)/EventTooltip.o: EventTooltip.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c EventTooltip.cpp -o $(OBJDIR_RELEASE)/EventTooltip.o
 
 $(OBJDIR_RELEASE)/SigScan.o: SigScan.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c SigScan.cpp -o $(OBJDIR_RELEASE)/SigScan.o
@@ -450,12 +444,6 @@ $(OBJDIR_RELEASE)/SystemDescriptionFixes.o: SystemDescriptionFixes.cpp
 $(OBJDIR_RELEASE)/System_Extend.o: System_Extend.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c System_Extend.cpp -o $(OBJDIR_RELEASE)/System_Extend.o
 
-$(OBJDIR_RELEASE)/CustomBoss.o: CustomBoss.cpp
-	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c CustomBoss.cpp -o $(OBJDIR_RELEASE)/CustomBoss.o
-
-$(OBJDIR_RELEASE)/CrewMember_Extend.o: CrewMember_Extend.cpp
-	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c CrewMember_Extend.cpp -o $(OBJDIR_RELEASE)/CrewMember_Extend.o
-
 $(OBJDIR_RELEASE)/CrewNames.o: CrewNames.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c CrewNames.cpp -o $(OBJDIR_RELEASE)/CrewNames.o
 
@@ -468,8 +456,11 @@ $(OBJDIR_RELEASE)/CrewVTable.o: CrewVTable.cpp
 $(OBJDIR_RELEASE)/CustomAugments.o: CustomAugments.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c CustomAugments.cpp -o $(OBJDIR_RELEASE)/CustomAugments.o
 
-$(OBJDIR_RELEASE)/Credits.o: Credits.cpp
-	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c Credits.cpp -o $(OBJDIR_RELEASE)/Credits.o
+$(OBJDIR_RELEASE)/CustomBoss.o: CustomBoss.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c CustomBoss.cpp -o $(OBJDIR_RELEASE)/CustomBoss.o
+
+$(OBJDIR_RELEASE)/CrewMember_Extend.o: CrewMember_Extend.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c CrewMember_Extend.cpp -o $(OBJDIR_RELEASE)/CrewMember_Extend.o
 
 $(OBJDIR_RELEASE)/CustomColors.o: CustomColors.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c CustomColors.cpp -o $(OBJDIR_RELEASE)/CustomColors.o
@@ -482,6 +473,9 @@ $(OBJDIR_RELEASE)/CustomCrew.o: CustomCrew.cpp
 
 $(OBJDIR_RELEASE)/CustomCrewManifest.o: CustomCrewManifest.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c CustomCrewManifest.cpp -o $(OBJDIR_RELEASE)/CustomCrewManifest.o
+
+$(OBJDIR_RELEASE)/CustomDamage.o: CustomDamage.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c CustomDamage.cpp -o $(OBJDIR_RELEASE)/CustomDamage.o
 
 $(OBJDIR_RELEASE)/Blueprint_Extend.o: Blueprint_Extend.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c Blueprint_Extend.cpp -o $(OBJDIR_RELEASE)/Blueprint_Extend.o
@@ -513,8 +507,8 @@ $(OBJDIR_RELEASE)/CommandConsole.o: CommandConsole.cpp
 $(OBJDIR_RELEASE)/CooldownNumbers.o: CooldownNumbers.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c CooldownNumbers.cpp -o $(OBJDIR_RELEASE)/CooldownNumbers.o
 
-$(OBJDIR_RELEASE)/CustomShipSelect.o: CustomShipSelect.cpp
-	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c CustomShipSelect.cpp -o $(OBJDIR_RELEASE)/CustomShipSelect.o
+$(OBJDIR_RELEASE)/Credits.o: Credits.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c Credits.cpp -o $(OBJDIR_RELEASE)/Credits.o
 
 $(OBJDIR_RELEASE)/CustomShips.o: CustomShips.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c CustomShips.cpp -o $(OBJDIR_RELEASE)/CustomShips.o
@@ -528,11 +522,11 @@ $(OBJDIR_RELEASE)/CustomStoreBox.o: CustomStoreBox.cpp
 $(OBJDIR_RELEASE)/CustomSystems.o: CustomSystems.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c CustomSystems.cpp -o $(OBJDIR_RELEASE)/CustomSystems.o
 
-$(OBJDIR_RELEASE)/CustomSectors.o: CustomSectors.cpp
-	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c CustomSectors.cpp -o $(OBJDIR_RELEASE)/CustomSectors.o
-
 $(OBJDIR_RELEASE)/CustomUpgrades.o: CustomUpgrades.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c CustomUpgrades.cpp -o $(OBJDIR_RELEASE)/CustomUpgrades.o
+
+$(OBJDIR_RELEASE)/CustomShipSelect.o: CustomShipSelect.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c CustomShipSelect.cpp -o $(OBJDIR_RELEASE)/CustomShipSelect.o
 
 $(OBJDIR_RELEASE)/CustomWeapons.o: CustomWeapons.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c CustomWeapons.cpp -o $(OBJDIR_RELEASE)/CustomWeapons.o
@@ -546,11 +540,14 @@ $(OBJDIR_RELEASE)/DiscordIntegration.o: DiscordIntegration.cpp
 $(OBJDIR_RELEASE)/DroneVTable.o: DroneVTable.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c DroneVTable.cpp -o $(OBJDIR_RELEASE)/DroneVTable.o
 
-$(OBJDIR_RELEASE)/CustomHotkeys.o: CustomHotkeys.cpp
-	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c CustomHotkeys.cpp -o $(OBJDIR_RELEASE)/CustomHotkeys.o
+$(OBJDIR_RELEASE)/EnemyShipIcons.o: EnemyShipIcons.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c EnemyShipIcons.cpp -o $(OBJDIR_RELEASE)/EnemyShipIcons.o
 
-$(OBJDIR_RELEASE)/CustomDamage.o: CustomDamage.cpp
-	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c CustomDamage.cpp -o $(OBJDIR_RELEASE)/CustomDamage.o
+$(OBJDIR_RELEASE)/ErosionEffect.o: ErosionEffect.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c ErosionEffect.cpp -o $(OBJDIR_RELEASE)/ErosionEffect.o
+
+$(OBJDIR_RELEASE)/CustomMap.o: CustomMap.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c CustomMap.cpp -o $(OBJDIR_RELEASE)/CustomMap.o
 
 $(OBJDIR_RELEASE)/CustomDrones.o: CustomDrones.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c CustomDrones.cpp -o $(OBJDIR_RELEASE)/CustomDrones.o
@@ -564,11 +561,11 @@ $(OBJDIR_RELEASE)/CustomEvents.o: CustomEvents.cpp
 $(OBJDIR_RELEASE)/CustomFleetShips.o: CustomFleetShips.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c CustomFleetShips.cpp -o $(OBJDIR_RELEASE)/CustomFleetShips.o
 
+$(OBJDIR_RELEASE)/CustomHotkeys.o: CustomHotkeys.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c CustomHotkeys.cpp -o $(OBJDIR_RELEASE)/CustomHotkeys.o
+
 $(OBJDIR_RELEASE)/AbilityDrone.o: AbilityDrone.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c AbilityDrone.cpp -o $(OBJDIR_RELEASE)/AbilityDrone.o
-
-$(OBJDIR_RELEASE)/CustomMap.o: CustomMap.cpp
-	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c CustomMap.cpp -o $(OBJDIR_RELEASE)/CustomMap.o
 
 $(OBJDIR_RELEASE)/CustomOptions.o: CustomOptions.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c CustomOptions.cpp -o $(OBJDIR_RELEASE)/CustomOptions.o
@@ -579,9 +576,12 @@ $(OBJDIR_RELEASE)/CustomRewards.o: CustomRewards.cpp
 $(OBJDIR_RELEASE)/CustomScoreKeeper.o: CustomScoreKeeper.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c CustomScoreKeeper.cpp -o $(OBJDIR_RELEASE)/CustomScoreKeeper.o
 
+$(OBJDIR_RELEASE)/CustomSectors.o: CustomSectors.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c CustomSectors.cpp -o $(OBJDIR_RELEASE)/CustomSectors.o
+
 clean_release: 
 	rm -f $(OBJ_RELEASE) $(OUT_RELEASE)
-	rm -rf C:/Program\ Files\ \(x86\)/Steam/steamapps/common/FTL\ Faster\ Than\ Light
+	rm -rf ./bin/Release
 	rm -rf $(OBJDIR_RELEASE)
 
 .PHONY: before_debug after_debug clean_debug before_release after_release clean_release

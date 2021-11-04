@@ -450,10 +450,23 @@
 		<Unit filename="EventTooltip.h">
 			<Option virtualFolder="Core/Events/" />
 		</Unit>
+		<Unit filename="FTLGame.cpp">
+			<Option virtualFolder="FTLGame/" />
+		</Unit>
 		<Unit filename="FTLGame.h">
 			<Option virtualFolder="FTLGame/" />
 		</Unit>
+		<Unit filename="FTLGameELF32.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+			<Option virtualFolder="FTLGame/" />
+		</Unit>
+		<Unit filename="FTLGameELF32.h">
+			<Option virtualFolder="FTLGame/" />
+		</Unit>
 		<Unit filename="FTLGameWin32.cpp">
+			<Option compile="0" />
+			<Option link="0" />
 			<Option virtualFolder="FTLGame/" />
 		</Unit>
 		<Unit filename="FTLGameWin32.h">
