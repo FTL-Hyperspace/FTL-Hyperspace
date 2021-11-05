@@ -3443,6 +3443,9 @@ struct ShipEvent;
 
 struct CrewDesc
 {
+	std::string type;
+	float prop;
+	int amount;
 };
 
 struct ShipEvent
@@ -4205,6 +4208,10 @@ struct ShipManager : ShipObject
 	LIBZHL_API static ShipBlueprint *__stdcall SaveToBlueprint(ShipBlueprint &bp, ShipManager *ship, bool unk);
 	LIBZHL_API void CheckCrystalAugment(Pointf pos);
 	LIBZHL_API static CollisionResponse *__stdcall CollisionMoving(CollisionResponse &ret, ShipManager *ship, Pointf pos1, Pointf pos2, DamageParameter damage, bool unk);
+	LIBZHL_API int GetSystemPowerMax(int systemId);
+	LIBZHL_API static std::vector<Drone*> *__stdcall GetDroneList(std::vector<Drone*> &ret, ShipManager *ship);
+	LIBZHL_API int GetDroneCount();
+	LIBZHL_API void InstantPowerShields();
 	
 	Targetable _targetable;
 	Collideable _collideable;
@@ -6305,6 +6312,15 @@ struct EngineSystem
 struct ShipGenerator
 {
 	LIBZHL_API static ShipManager *__stdcall CreateShip(const std::string &name, int sector, ShipEvent &event);
+	LIBZHL_API static std::vector<int> __stdcall GenerateSystemMaxes(const ShipBlueprint &ship, int level);
+	LIBZHL_API static bool __stdcall UpgradeSystem(ShipManager *ship, std::vector<int> &systemMaxes, unsigned int sysId);
+	LIBZHL_API static std::vector<int> __stdcall GetPossibleSystemUpgrades(ShipManager *ship, std::vector<int> &systemMaxes, int scrap, int type);
+	LIBZHL_API static std::vector<int> __stdcall GetPossibleSystemUpgrades0(ShipManager *ship, std::vector<int> &systemMaxes);
+	LIBZHL_API static std::vector<int> __stdcall GetPossibleSystemUpgrades1(ShipManager *ship, std::vector<int> &systemMaxes);
+	LIBZHL_API static std::vector<int> __stdcall GetPossibleSystemUpgrades2(ShipManager *ship, std::vector<int> &systemMaxes);
+	LIBZHL_API static std::vector<WeaponBlueprint*> __stdcall GetPossibleWeaponList(ShipManager *ship, const std::string &weaponList, int scrap, unsigned int flags);
+	LIBZHL_API static std::vector<DroneBlueprint*> __stdcall GetPossibleDroneList(ShipManager *ship, const std::string &droneList, int scrap, unsigned int flags, bool repeat);
+	LIBZHL_API static std::vector<CrewBlueprint> __stdcall GetPossibleCrewList(ShipManager *ship, const std::string &crewList, unsigned int flags);
 	
 };
 
