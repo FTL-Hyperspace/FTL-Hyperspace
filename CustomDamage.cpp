@@ -115,7 +115,7 @@ HOOK_METHOD(ProjectileFactory, Update, () -> void)
 {
     // This only works if every weapon has a definition, if that changes then replace with the commented code below.
     CustomWeaponManager::currentWeapon = CustomWeaponManager::instance->GetWeaponDefinition(blueprint->name);
-    CustomDamageManager::currentWeaponDmg = &CustomWeaponManager::currentWeapon->customDamage;
+    //CustomDamageManager::currentWeaponDmg = &CustomWeaponManager::currentWeapon->customDamage;
 
     //auto def = CustomWeaponManager::instance->GetWeaponDefinition(blueprint->name)
     //if (def) CustomDamageManager::currentWeaponDmg = &def->customDamage;
@@ -123,7 +123,7 @@ HOOK_METHOD(ProjectileFactory, Update, () -> void)
     super();
 
     CustomWeaponManager::currentWeapon = nullptr;
-    CustomDamageManager::currentWeaponDmg = nullptr;
+    //CustomDamageManager::currentWeaponDmg = nullptr;
 }
 
 HOOK_STATIC(ShipManager, CollisionMoving, (CollisionResponse &_ret, ShipManager *ship, Pointf pos1, Pointf pos2, DamageParameter damage, bool unk) -> CollisionResponse*)
@@ -213,11 +213,10 @@ HOOK_METHOD(Projectile, Initialize, (WeaponBlueprint& bp) -> void)
 {
     super(bp);
 
-    auto customDmg = CustomDamageManager::currentWeaponDmg;
-
-    if (customDmg != nullptr)
+    auto customWeapon = CustomWeaponManager::instance->GetWeaponDefinition(bp.name);
+    if (customWeapon)
     {
-        PR_EX(this)->customDamage = *customDmg;
+        PR_EX(this)->customDamage = customWeapon->customDamage;
     }
 }
 
