@@ -24,7 +24,11 @@ HOOK_METHOD(WeaponSystem, OnLoop, () -> void)
         Targetable *target = &ship->current_target->_targetable;
         for (auto i : weapons)
         {
-            i->currentShipTarget = target;
+            if (i->currentShipTarget && i->currentShipTarget != target)
+            {
+                hs_log_file("Weapon had incorrect target %x, changing to ship target %x\n", i->currentShipTarget, target);
+                i->currentShipTarget = target;
+            }
         }
     }
 
