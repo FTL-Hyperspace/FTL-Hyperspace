@@ -344,8 +344,12 @@
 		<Unit filename="CustomSectors.h">
 			<Option virtualFolder="Core/Sectors/" />
 		</Unit>
-		<Unit filename="CustomShipGenerator.cpp" />
-		<Unit filename="CustomShipGenerator.h" />
+		<Unit filename="CustomShipGenerator.cpp">
+			<Option virtualFolder="Core/Ship/" />
+		</Unit>
+		<Unit filename="CustomShipGenerator.h">
+			<Option virtualFolder="Core/Ship/" />
+		</Unit>
 		<Unit filename="CustomShipSelect.cpp">
 			<Option virtualFolder="Core/Ship/" />
 		</Unit>
