@@ -151,6 +151,7 @@ HOOK_METHOD(ShipManager, AddSystem, (int systemId) -> int)
 {
     auto ret = super(systemId);
 
+    // Fixes shield systems being created with damage when >10 bars
     if (systemId == 0 && shieldSystem)
     {
         shieldSystem->healthState.first = shieldSystem->healthState.second;
