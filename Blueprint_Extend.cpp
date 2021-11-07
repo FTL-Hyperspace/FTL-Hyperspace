@@ -44,3 +44,9 @@ HOOK_METHOD(Description, copy_assign_2, (const Description& other) -> Descriptio
     return ret;
 }
 */
+
+HOOK_METHOD(Description, constructor, () -> void)
+{
+    super();
+    baseRarity = 0; // fixes undefined behaviour when modder forgets blueprint rarity
+}
