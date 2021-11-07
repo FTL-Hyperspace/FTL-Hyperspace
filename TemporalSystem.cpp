@@ -107,76 +107,7 @@ int TemporalSystemParser::GetDilationCooldown(int level)
 }
 
 
-const int g_temporalVTableSize = 22;
-static void* g_temporalVTable[g_temporalVTableSize];
-
 static TemporalArmState g_iTemporal = TEMPORAL_ARM_NONE;
-
-
-static int __attribute__((fastcall)) TemporalBox_GetCooldownLevel(TemporalBox *_this)
-{
-    if (_this->temporalSystem->bTurnedOn)
-    {
-        return _this->pSystem->GetEffectivePower();
-    }
-
-    return -1;
-}
-
-static float __attribute__((fastcall)) TemporalBox_GetCooldownFraction(TemporalBox *_this)
-{
-    if (_this->temporalSystem->IsReady() || !_this->temporalSystem->bTurnedOn)
-    {
-        return -1.f;
-    }
-    else
-    {
-        return 1.f - (_this->temporalSystem->timer.currTime / _this->temporalSystem->timer.currGoal);
-    }
-}
-
-static bool __attribute__((fastcall)) TemporalBox_HasButton(TemporalBox *_this)
-{
-    return true;
-}
-
-void SetupVTable(TemporalBox* box)
-{
-    void** vtable = *(void***)box;
-
-    DWORD dwOldProtect, dwBkup;
-    VirtualProtect(&vtable[0], sizeof(void*) * g_temporalVTableSize, PAGE_EXECUTE_READWRITE, &dwOldProtect);
-
-    for (int i = 0; i < g_temporalVTableSize; i++)
-    {
-        g_temporalVTable[i] = vtable[i];
-    }
-
-    VirtualProtect(&vtable[0], sizeof(void*) * g_temporalVTableSize, dwOldProtect, &dwBkup);
-
-    g_temporalVTable[3] = (void*)&TemporalBox_HasButton;
-    g_temporalVTable[19] = (void*)&TemporalBox_GetCooldownLevel;
-    g_temporalVTable[20] = (void*)&TemporalBox_GetCooldownFraction;
-
-    *((void**)box)= &g_temporalVTable;
-}
-
-
-TemporalBox::TemporalBox(Point pos, ShipSystem *sys, ShipManager *ship)
-{
-    temporalSystem = SYS_EX(sys)->temporalSystem;
-    CooldownSystemBox::constructor(pos, sys, false);
-    shipManager = ship;
-
-    slowDownButton = new Button();
-    slowDownButton->OnInit("systemUI/button_temporal_slow", 9, 35);
-    speedUpButton = new Button();
-    speedUpButton->OnInit("systemUI/button_temporal_speed", 9, 9);
-
-    buttonOffset = Point(location.x + 34, location.y - 39);
-
-    box = G_->GetResources()->GetImageId("systemUI/button_temporal_base.png");
-}
 
 void TemporalBox::RenderBox(bool ignoreStatus)
 {
@@ -296,10 +227,18 @@ void TemporalSystem_Wrapper::StartTimeDilation(int shipId, int roomId, bool spee
 
                     timer.Start(TemporalSystemParser::GetDilationDuration(GetRealDilation()));
 
-                    RM_EX(room)->timeDilation = GetRealDilation();
                     currentRoom = room;
-
                     currentShipId = shipId;
+
+                    auto rm_ex = RM_EX(room);
+                    if (rm_ex->timeDilation != 0 && (speedUp ? (rm_ex->timeDilation < 0) : (rm_ex->timeDilation > 0)))
+                    {
+                        StopTimeDilation(); // temporal counter
+                    }
+                    else
+                    {
+                        rm_ex->timeDilation = GetRealDilation();
+                    }
                 }
             }
         }
@@ -311,7 +250,14 @@ void TemporalSystem_Wrapper::StopTimeDilation()
     if (bTurnedOn)
     {
         if (currentRoom)
-            RM_EX(currentRoom)->timeDilation = 0;
+        {
+            auto rm_ex = RM_EX(currentRoom);
+            if (rm_ex->timeDilationSource == this)
+            {
+                rm_ex->timeDilationSource = nullptr;
+                rm_ex->timeDilation = 0;
+            }
+        }
 
         orig->AddLock(TemporalSystemParser::GetDilationCooldown(GetRealDilation()));
         bTurnedOn = false;
@@ -339,9 +285,17 @@ void TemporalSystem_Wrapper::OnLoop()
         timer.SetMaxTime(TemporalSystemParser::GetDilationDuration(GetRealDilation()));
         timer.Update();
 
-        if (currentRoom != nullptr && G_->GetShipManager(currentShipId) == nullptr) // not sure if this works
+        if (currentRoom != nullptr && G_->GetShipManager(currentShipId) == nullptr)
         {
-            RM_EX(currentRoom)->timeDilation = GetRealDilation();
+            auto rm_ex = RM_EX(currentRoom);
+            if (rm_ex->timeDilationSource != this)
+            {
+                StopTimeDilation(); // cancel if overwritten
+            }
+            else
+            {
+                rm_ex->timeDilation = GetRealDilation();
+            }
         }
 
         if (timer.Done())
@@ -387,48 +341,6 @@ HOOK_METHOD(ShipManager, JumpLeave, () -> void)
     }
 }
 
-HOOK_METHOD(CooldownSystemBox, constructor, (Point pos, ShipSystem *sys, bool roundDown) -> void)
-{
-    super(pos, sys, roundDown);
-
-    if (sys->iSystemType == 20)
-    {
-        SetupVTable((TemporalBox*)this);
-    }
-}
-
-HOOK_METHOD(SystemBox, MouseMove, (int x, int y) -> void)
-{
-    super(x, y);
-
-    if (pSystem->iSystemType == 20)
-    {
-        ((TemporalBox*)this)->NewMouseMove(x, y);
-    }
-}
-
-HOOK_METHOD(SystemBox, MouseClick, (bool unk) -> bool)
-{
-    bool ret = super(unk);
-
-    if (pSystem->iSystemType == 20)
-    {
-        ((TemporalBox*)this)->LeftMouseClick(unk);
-    }
-
-    return ret;
-}
-
-HOOK_METHOD(SystemBox, KeyDown, (SDLKey key, bool shift) -> void)
-{
-    if (pSystem->iSystemType == 20)
-    {
-        ((TemporalBox*)this)->OnKeyDown(key, shift);
-    }
-
-    super(key, shift);
-}
-
 HOOK_METHOD(ShipSystem, OnLoop, () -> void)
 {
     super();
@@ -436,16 +348,6 @@ HOOK_METHOD(ShipSystem, OnLoop, () -> void)
     {
         SYS_EX(this)->temporalSystem->OnLoop();
     }
-}
-
-HOOK_METHOD(CooldownSystemBox, OnRender, (bool ignoreStatus) -> void)
-{
-    if (pSystem->iSystemType == 20)
-    {
-        ((TemporalBox*)this)->RenderBox(ignoreStatus);
-    }
-
-    super(ignoreStatus);
 }
 
 HOOK_METHOD(ShipSystem, constructor, (int systemId, int roomId, int shipId, int startingPower) -> void)
@@ -752,6 +654,76 @@ HOOK_METHOD(MouseControl, OnRender, () -> void)
     }
 
     super();
+}
+
+// AI
+
+void TemporalSystem_Wrapper::AISelectTarget(CombatAI *ai)
+{
+    struct TemporalAI
+    {
+        int roomId;
+        int shipId;
+        bool speedUp;
+    };
+
+    struct TemporalTargetList
+    {
+        std::vector<TemporalAI> targets = {};
+        int priority = 0;
+
+        void AddTarget(int roomId, int shipId, bool speedUp, int newPriority)
+        {
+            if (newPriority > priority)
+            {
+                priority = newPriority;
+                targets.clear();
+            }
+            targets.push_back({roomId, shipId, speedUp});
+        }
+
+        TemporalAI& Select()
+        {
+            return targets[random32()%targets.size()];
+        }
+    };
+
+    TemporalTargetList targetList;
+
+    for (auto room : ai->self->ship.vRoomList)
+    {
+        targetList.AddTarget(room->iRoomId, ai->self->iShipId, false, 0);
+        targetList.AddTarget(room->iRoomId, ai->self->iShipId, false, 1);
+    }
+
+    if (ai->target)
+    {
+        for (auto room : ai->target->ship.vRoomList)
+        {
+            targetList.AddTarget(room->iRoomId, ai->target->iShipId, false, 0);
+            targetList.AddTarget(room->iRoomId, ai->target->iShipId, false, 1);
+        }
+    }
+
+    TemporalAI selectedAction = targetList.Select();
+
+    queuedRoomId = selectedAction.roomId;
+    queuedShipId = selectedAction.shipId;
+    queuedSpeedUp = selectedAction.speedUp;
+}
+
+HOOK_METHOD(CombatAI, OnLoop, () -> void)
+{
+    super();
+    if (self->HasSystem(20))
+    {
+        auto sys = self->GetSystem(20);
+        auto temporal = SYS_EX(sys)->temporalSystem;
+        if (temporal->IsReady())
+        {
+            temporal->AISelectTarget(this);
+        }
+    }
 }
 
 // Level Tooltip
