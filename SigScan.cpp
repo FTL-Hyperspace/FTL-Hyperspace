@@ -26,7 +26,7 @@ unsigned char *SigScan::s_pBase = 0;
 size_t SigScan::s_iBaseLen = 0;
 unsigned char *SigScan::s_pLastStartAddress = 0;
 unsigned char *SigScan::s_pLastAddress = 0;
-std::list<SigScan::Match> SigScan::s_lastMatches;
+//std::list<SigScan::Match> SigScan::s_lastMatches;
 
 //=====================================================================
 
@@ -38,7 +38,7 @@ SigScan::SigScan(const char *sig) : m_pAddress(0)
 	// Default signature if nothing was specified
 	if(!sig || !sig[0])
 	{
-		if(s_lastMatches.empty())
+		if(s_lastMatches().empty())
 		{
 			// Look for the first function after the last scanned function
 			// TODO: This sig will need a tweak for AMD64 variants
@@ -47,8 +47,8 @@ SigScan::SigScan(const char *sig) : m_pAddress(0)
 		else
 		{
 			// Get remaining matches from the last scan
-			s_lastMatches.pop_front();
-			m_matches = s_lastMatches;
+			s_lastMatches().pop_front();
+			m_matches = s_lastMatches();
 			m_iLength = 0;
 			m_sig = NULL;
 			m_mask = NULL;
@@ -210,7 +210,7 @@ bool SigScan::Scan(Callback callback)
 			for(auto it = m_matches.begin() ; it != m_matches.end() ; ++it)
 				it->address = m_pAddress + it->begin;
 
-			s_lastMatches = m_matches;
+			s_lastMatches() = m_matches;
 
 			if(callback) callback(this);
 			return true;
