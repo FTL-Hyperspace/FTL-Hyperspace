@@ -1118,6 +1118,7 @@ struct CombatAI;
 struct CombatAI
 {
 	LIBZHL_API void UpdateMindControl(bool unk);
+	LIBZHL_API void OnLoop();
 	
 	ShipManager *target;
 	std::vector<ProjectileFactory*> weapons;
@@ -2269,10 +2270,7 @@ struct ShipBlueprint;
 
 struct ShipBlueprint : Blueprint
 {
-	~ShipBlueprint()
-	{
-		this->destructor();
-	}
+	
 
 	struct SystemTemplate
 	{

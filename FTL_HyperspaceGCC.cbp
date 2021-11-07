@@ -587,6 +587,7 @@
 		<Unit filename="Systems.h">
 			<Option virtualFolder="Core/Systems/" />
 		</Unit>
+		<Unit filename="TemporalBoxVTable.cpp" />
 		<Unit filename="TemporalSystem.cpp">
 			<Option virtualFolder="Content/Systems/" />
 		</Unit>

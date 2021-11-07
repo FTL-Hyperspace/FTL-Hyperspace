@@ -25,6 +25,7 @@
 #include "CustomColors.h"
 #include "CustomShips.h"
 #include "CustomCrystalShard.h"
+#include "CustomShipGenerator.h"
 
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string/replace.hpp>
@@ -272,6 +273,12 @@ void Global::InitializeResources(ResourceControl *resources)
             {
                 auto customShipManager = CustomShipSelect::GetInstance();
                 customShipManager->ParseShipsNode(node);
+            }
+
+            if (strcmp(node->name(), "shipGenerators") == 0)
+            {
+                CustomShipGenerator::Init();
+                CustomShipGenerator::ParseGeneratorNode(node);
             }
 
             if (strcmp(node->name(), "crew") == 0)

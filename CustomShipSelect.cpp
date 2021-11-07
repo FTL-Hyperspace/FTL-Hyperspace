@@ -288,6 +288,10 @@ void CustomShipSelect::ParseShipsNode(rapidxml::xml_node<char> *node)
                             }
                         }
                     }
+                    if (name == "shipGenerator")
+                    {
+                        def.shipGenerator = val;
+                    }
 
                 }
 

@@ -1,9 +1,211 @@
 #include "CustomShipGenerator.h"
 #include "CustomShipSelect.h"
 
+#include <boost/lexical_cast.hpp>
+
 bool CustomShipGenerator::enabled = false;
 std::unordered_map<std::string,CustomShipGenerator> CustomShipGenerator::customShipGenerators = std::unordered_map<std::string,CustomShipGenerator>();
 CustomShipGenerator *CustomShipGenerator::defaultShipGenerator = nullptr;
+
+std::array<CustomShipGenerator::SystemLevelScaling,3> CustomShipGenerator::defaultSystemLevelScaling = std::array<CustomShipGenerator::SystemLevelScaling,3>();
+
+void CustomShipGenerator::Init()
+{
+    if (!enabled)
+    {
+        defaultSystemLevelScaling[0].enabled = true;
+        defaultSystemLevelScaling[0].randomScaling.reserve(2);
+        defaultSystemLevelScaling[0].randomScaling.push_back({-1,0});
+        defaultSystemLevelScaling[0].randomScaling.push_back({0,1});
+
+        defaultSystemLevelScaling[1].enabled = true;
+        defaultSystemLevelScaling[1].randomScaling.reserve(3);
+        defaultSystemLevelScaling[1].randomScaling.push_back({-1,0});
+        defaultSystemLevelScaling[1].randomScaling.push_back({0,1});
+        defaultSystemLevelScaling[1].randomScaling.push_back({2,2});
+
+        defaultSystemLevelScaling[2].enabled = true;
+        defaultSystemLevelScaling[2].randomScaling.reserve(3);
+        defaultSystemLevelScaling[2].randomScaling.push_back({-1,0});
+        defaultSystemLevelScaling[2].randomScaling.push_back({0,1});
+        defaultSystemLevelScaling[2].randomScaling.push_back({2,2});
+
+        enabled = true;
+    }
+}
+
+void CustomShipGenerator::ParseGeneratorNode(rapidxml::xml_node<char> *node)
+{
+    try
+    {
+        for (auto genNode = node->first_node(); genNode; genNode = genNode->next_sibling())
+        {
+            std::string nodeName = genNode->name();
+
+            if (nodeName == "shipGenerator")
+            {
+                CustomShipGenerator *generator = nullptr;
+
+                if (genNode->first_attribute("name"))
+                {
+                    std::string name = genNode->first_attribute("name")->value();
+                    if (defaultShipGenerator == nullptr)
+                    {
+                        customShipGenerators[name] = CustomShipGenerator();
+                    }
+                    else
+                    {
+                        customShipGenerators[name] = *defaultShipGenerator;
+                    }
+                    generator = &customShipGenerators[name];
+                }
+                else
+                {
+                    delete defaultShipGenerator;
+                    defaultShipGenerator = new CustomShipGenerator();
+                    generator = defaultShipGenerator;
+                }
+
+                for (auto child = genNode->first_node(); child; child = child->next_sibling())
+                {
+                    std::string name = child->name();
+                    std::string val = child->value();
+
+                    if (name == "difficultyMod")
+                    {
+                        int level = 1;
+                        if (child->first_attribute("difficulty"))
+                        {
+                            level = boost::lexical_cast<int>(child->first_attribute("difficulty")->value());
+                        }
+                        if (level != -1)
+                        {
+                            generator->difficultyMod.at(level) = boost::lexical_cast<float>(val);
+                        }
+                    }
+
+                    if (name == "sectorScaling")
+                    {
+                        int level = 1;
+                        if (child->first_attribute("difficulty"))
+                        {
+                            level = boost::lexical_cast<int>(child->first_attribute("difficulty")->value());
+                        }
+                        if (level != -1)
+                        {
+                            SectorScaling &sectorScaling = generator->defaultSectorScaling.at(level);
+                            sectorScaling.Parse(child);
+                        }
+                    }
+
+                    if (name == "systemLevelScaling")
+                    {
+                        int level = 1;
+                        int sysId = -1;
+                        if (child->first_attribute("difficulty"))
+                        {
+                            level = boost::lexical_cast<int>(child->first_attribute("difficulty")->value());
+                        }
+                        if (child->first_attribute("system"))
+                        {
+                            sysId = ShipSystem::NameToSystemId(child->first_attribute("system")->value());
+                        }
+                        if (level != -1)
+                        {
+                            SystemLevelScaling &systemLevelScaling = generator->systemLevelScaling[sysId].at(level);
+                            systemLevelScaling = *generator->GetSystemLevelScaling(level, sysId);
+                            systemLevelScaling.Parse(child, level);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    catch (std::exception)
+    {
+        MessageBoxA(GetDesktopWindow(), "Error parsing <shipGenerators> in hyperspace.xml", "Error", MB_ICONERROR | MB_SETFOREGROUND);
+    }
+}
+
+void CustomShipGenerator::SectorScaling::Parse(rapidxml::xml_node<char> *node)
+{
+    enabled = true;
+
+    float minSector = 0.f;
+    float maxSector = NAN;
+
+    for (auto child = node->first_node(); child; child = child->next_sibling())
+    {
+        std::string name = child->name();
+        std::string val = child->value();
+
+        if (name == "minValue")
+        {
+            minValue = boost::lexical_cast<float>(val);
+        }
+        if (name == "maxValue")
+        {
+            maxValue = boost::lexical_cast<float>(val);
+        }
+        if (name == "minSector")
+        {
+            minSector = boost::lexical_cast<float>(val);
+        }
+        if (name == "maxSector")
+        {
+             maxSector = boost::lexical_cast<float>(val);
+        }
+    }
+
+    if (isnan(maxSector))
+    {
+        maxSector = minSector + 8.f;
+    }
+
+    sectorValue = 1.f/(maxSector-minSector);
+    baseValue = -minSector*sectorValue;
+}
+
+void CustomShipGenerator::SystemLevelScaling::Parse(rapidxml::xml_node<char> *node, int difficulty)
+{
+    enabled = true;
+
+    bool newRandomScaling = false;
+
+    for (auto child = node->first_node(); child; child = child->next_sibling())
+    {
+        std::string name = child->name();
+        std::string val = child->value();
+
+        if (name == "sectorScaling")
+        {
+            sectorScaling.Parse(child);
+        }
+        if (name == "randomScaling")
+        {
+            if (!newRandomScaling)
+            {
+                randomScaling.clear();
+                newRandomScaling = true;
+            }
+
+            if (val.empty()) continue;
+
+            int level = -1;
+            int value = value = boost::lexical_cast<int>(val);;
+            if (child->first_attribute("sector"))
+            {
+                level = boost::lexical_cast<int>(child->first_attribute("sector")->value());
+            }
+            randomScaling.push_back({level,value});
+        }
+    }
+
+    if (randomScaling.empty())
+    {
+        randomScaling = defaultSystemLevelScaling[difficulty].randomScaling;
+    }
+}
 
 CustomShipGenerator *CustomShipGenerator::GetShipGenerator(const std::string &name)
 {
@@ -12,6 +214,12 @@ CustomShipGenerator *CustomShipGenerator::GetShipGenerator(const std::string &na
     {
         return &it->second;
     }
+    hs_log_file("WARNING: No ship generator named '%s' found; using the default.\n", name.c_str());
+    return defaultShipGenerator;
+}
+
+CustomShipGenerator *CustomShipGenerator::GetShipGenerator()
+{
     return defaultShipGenerator;
 }
 
@@ -20,11 +228,9 @@ ShipManager *CustomShipGenerator::CreateShip(const ShipBlueprint *shipBlueprint,
     CustomShipSelect *customShipSelect = CustomShipSelect::GetInstance();
     CustomShipDefinition *customShip = &customShipSelect->GetDefinition(shipBlueprint->blueprintName);
 
-    sector = sector - (*G_->difficulty == 0);
-	int level = sector;
-	if (sector <= -1) sector = 0;
+	int level = sector + difficultyMod[*G_->difficulty];
 
-	ShipBlueprint bp = *shipBlueprint;
+	ShipBlueprint bp(*shipBlueprint);
 
     RemoveAugments(bp, level);
     SetMaximumHull(bp, level, customShip);
@@ -34,7 +240,7 @@ ShipManager *CustomShipGenerator::CreateShip(const ShipBlueprint *shipBlueprint,
     std::vector<CrewDesc> crewOverride = event.crewOverride;
     int crewCount = InitShip(ship, bp, level, event, crewOverride, customShip);
 
-    std::vector<int> systemMaxes = ShipGenerator::GenerateSystemMaxes(bp,level);
+    std::vector<int> systemMaxes = GenerateSystemMaxes(bp,level);
     std::vector<int> budget = GenerateShipBudget(level);
 
     AddSystems(ship, level, systemMaxes, budget);
@@ -117,7 +323,7 @@ int CustomShipGenerator::InitShip(ShipManager *ship, ShipBlueprint &bp, int leve
 		bp.defaultCrew.clear();
 		if (bp.originalCrewCount > 0)
 		{
-			crewCount = std::max(0.f, std::min(level*0.125f, 1.f)) * (bp.maxCrew - bp.originalCrewCount) + bp.originalCrewCount;
+			crewCount = GetDefaultSectorScaling()->GetValue(level) * (bp.maxCrew - bp.originalCrewCount) + bp.originalCrewCount;
             ship->OnInit(&bp, 0);
 			ship->bAutomated = false;
 			if (crewOverride.empty())
@@ -128,6 +334,33 @@ int CustomShipGenerator::InitShip(ShipManager *ship, ShipBlueprint &bp, int leve
 	}
 
 	return crewCount;
+}
+
+std::vector<int> CustomShipGenerator::GenerateSystemMaxes(ShipBlueprint &bp, int level)
+{
+    std::vector<int> systemMaxes = std::vector<int>();
+    systemMaxes.reserve(21);
+    systemMaxes.resize(21, 0);
+
+    for (auto sysInfo : bp.systemInfo)
+    {
+        int sysId = sysInfo.first;
+        ShipBlueprint::SystemTemplate &sysTemplate = sysInfo.second;
+
+        int minPower = sysTemplate.powerLevel;
+        int maxPower = sysTemplate.maxPower;
+
+        SystemLevelScaling *systemScaling = GetSystemLevelScaling(*G_->difficulty, sysId);
+        SectorScaling *sectorScaling = GetSectorScaling(&systemScaling->sectorScaling);
+
+        int bonus = systemScaling->GetRandomScalingValue(level);
+
+        int power = random32()%(bonus+1) + sectorScaling->GetValue(level) * (maxPower - minPower) + minPower;
+        power = std::max(minPower, std::min(power, maxPower));
+        systemMaxes[sysId] = power;
+    }
+
+    return systemMaxes;
 }
 
 std::vector<int> CustomShipGenerator::GenerateShipBudget(int level)
@@ -142,22 +375,24 @@ std::vector<int> CustomShipGenerator::GenerateShipBudget(int level)
 void CustomShipGenerator::AddSystems(ShipManager *ship, int level, std::vector<int> &systemMaxes, std::vector<int> &budget)
 {
     level = std::max(0,level);
-    for (unsigned int sysId=0; sysId<16; ++sysId) // must be unsigned
+    for (unsigned int sysId=0; sysId<systemMaxes.size(); ++sysId) // must be unsigned
 	{
+	    if (sysId-16 < 4) continue;
+
 		int sysChance;
 		switch(*G_->difficulty)
 		{
 			case 0:
-				sysChance = level + 1;
+				sysChance = 10*(level + 1);
 				break;
 			case 2:
-				sysChance = level + 3;
+				sysChance = 10*(level + 3);
 				break;
 			default:
-				sysChance = level + 2;
+				sysChance = 10*(level + 2);
 				break;
 		}
-		if (!ship->HasSystem(sysId) && systemMaxes[sysId] > 0 && random32()%10 < sysChance)
+		if (!ship->HasSystem(sysId) && systemMaxes[sysId] > 0 && random32()%100 < sysChance)
 		{
 			ShipGenerator::UpgradeSystem(ship, systemMaxes, sysId);
 			if (sysId-3 < 2 || sysId == 9)
@@ -184,8 +419,7 @@ void CustomShipGenerator::UpgradeSystems(ShipManager *ship, std::vector<int> &sy
     // Phase 1 upgrades, uses budget_1 for weapons/drones/teleporter/artillery
 	while (budget[1] > 0)
 	{
-		//std::vector<int> possibleUpgrades = GetPossibleSystemUpgrades(ship, systemMaxes, scrap, 2);
-		std::vector<int> possibleUpgrades = ShipGenerator::GetPossibleSystemUpgrades2(ship, systemMaxes);
+		std::vector<int> possibleUpgrades = GetPossibleSystemUpgrades(ship, systemMaxes, 2);
 		if (possibleUpgrades.empty()) break;
 		ShipGenerator::UpgradeSystem(ship, systemMaxes, possibleUpgrades[random32()%possibleUpgrades.size()]);
 		budget[1] -= 1;
@@ -195,8 +429,7 @@ void CustomShipGenerator::UpgradeSystems(ShipManager *ship, std::vector<int> &sy
 	// Phase 2 upgrades, uses budget_2 for shields/engines/cloaking
 	while (budget[2] > 0)
 	{
-		//std::vector<int> possibleUpgrades = GetPossibleSystemUpgrades(ship, systemMaxes, scrap, 1);
-		std::vector<int> possibleUpgrades = ShipGenerator::GetPossibleSystemUpgrades1(ship, systemMaxes);
+		std::vector<int> possibleUpgrades = GetPossibleSystemUpgrades(ship, systemMaxes, 1);
 		if (possibleUpgrades.empty()) break;
 		ShipGenerator::UpgradeSystem(ship, systemMaxes, possibleUpgrades[random32()%possibleUpgrades.size()]);
 		budget[2] -= 1;
@@ -206,12 +439,53 @@ void CustomShipGenerator::UpgradeSystems(ShipManager *ship, std::vector<int> &sy
 	// Phase 3 upgrades uses any remaining budget for any systems
 	while (budget[0] > 0)
 	{
-		//std::vector<int> possibleUpgrades = GetPossibleSystemUpgrades(ship, systemMaxes, scrap, 0);
-		std::vector<int> possibleUpgrades = ShipGenerator::GetPossibleSystemUpgrades0(ship, systemMaxes);
+		std::vector<int> possibleUpgrades = GetPossibleSystemUpgrades(ship, systemMaxes, 0);
 		if (possibleUpgrades.empty()) break;
 		ShipGenerator::UpgradeSystem(ship, systemMaxes, possibleUpgrades[random32()%possibleUpgrades.size()]);
 		budget[0] -= 1;
 	}
+}
+
+std::vector<int> CustomShipGenerator::GetPossibleSystemUpgrades(ShipManager *ship, std::vector<int> &systemMaxes, int type)
+{
+    std::vector<int> possibleUpgrades;
+
+    for (unsigned int sysId=0; sysId<systemMaxes.size(); ++sysId)
+	{
+	    if (sysId-16 < 4) continue;
+
+		if (type == 1)
+		{
+			if (!(sysId == 10 || sysId < 2)) continue; // shields, engines, cloaking
+		}
+		else if (type == 2)
+		{
+			if (!(sysId-3 < 2 || sysId == 9 || sysId == 11)) continue; // weapons, drones, teleporter, artillery
+		}
+
+		std::string sysName = ShipSystem::SystemIdToName(sysId);
+		//SystemBlueprint *bp = G_->GetBlueprints()->GetSystemBlueprint(sysName);
+		if (sysId == 11 && !ship->artillerySystems.empty())
+		{
+			for (ShipSystem *sys : ship->artillerySystems)
+			{
+				if (sys != nullptr && sys->powerState.second < systemMaxes[sysId])
+				{
+					possibleUpgrades.push_back(sysId);
+				}
+			}
+		}
+		else
+		{
+			ShipSystem *sys = ship->GetSystem(sysId);
+			if (sys != nullptr && sys->powerState.second < systemMaxes[sysId])
+			{
+				possibleUpgrades.push_back(sysId);
+			}
+		}
+	}
+
+    return possibleUpgrades;
 }
 
 void CustomShipGenerator::AddOverrideWeapons(ShipManager *ship, ShipEvent& event)
@@ -359,6 +633,42 @@ void CustomShipGenerator::AddCrew(ShipManager *ship, std::vector<CrewDesc> &crew
 	}
 }
 
+CustomShipGenerator::SectorScaling *CustomShipGenerator::GetDefaultSectorScaling()
+{
+    auto ret = &defaultSectorScaling[*G_->difficulty];
+    if (ret->enabled)
+        return ret;
+    else
+        return &defaultSectorScaling[1];
+}
+
+CustomShipGenerator::SectorScaling *CustomShipGenerator::GetSectorScaling(CustomShipGenerator::SectorScaling *selectedScaling)
+{
+    return (selectedScaling && selectedScaling->enabled) ? selectedScaling : GetDefaultSectorScaling();
+}
+
+CustomShipGenerator::SystemLevelScaling *CustomShipGenerator::GetSystemLevelScaling(int difficulty, int sysId)
+{
+    auto it = systemLevelScaling.find(sysId);
+    if (it != systemLevelScaling.end())
+    {
+        auto ret = &(it->second[difficulty]);
+        if (ret->enabled)
+            return ret;
+        ret = &(it->second[1]);
+        if (ret->enabled)
+            return ret;
+    }
+    if (sysId == -1)
+    {
+        return &defaultSystemLevelScaling[difficulty];
+    }
+    else
+    {
+        return GetSystemLevelScaling(difficulty, -1);
+    }
+}
+
 HOOK_STATIC_PRIORITY(ShipGenerator, CreateShip, -100, (const std::string& name, int sector, ShipEvent& event) -> ShipManager*)
 {
     if (!CustomShipGenerator::enabled) return super(name, sector, event);
@@ -366,7 +676,15 @@ HOOK_STATIC_PRIORITY(ShipGenerator, CreateShip, -100, (const std::string& name, 
     if (event.shipSeed != 0) srandom32(event.shipSeed);
     ShipBlueprint *bp = G_->GetBlueprints()->GetShipBlueprint(name, sector);
 
-    CustomShipGenerator *generator = CustomShipGenerator::GetShipGenerator(bp->blueprintName);
+    CustomShipGenerator *generator = CustomShipGenerator::GetShipGenerator();
+
+    CustomShipSelect *customShipSelect = CustomShipSelect::GetInstance();
+    CustomShipDefinition *customShip = &customShipSelect->GetDefinition(bp->blueprintName);
+    if (customShip && !customShip->shipGenerator.empty())
+    {
+        generator = CustomShipGenerator::GetShipGenerator(customShip->shipGenerator);
+    }
+
     if (generator != nullptr)
     {
         return generator->CreateShip(bp, sector, event);
