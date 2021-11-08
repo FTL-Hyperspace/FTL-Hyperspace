@@ -233,10 +233,13 @@ void TemporalSystem_Wrapper::StartTimeDilation(int shipId, int roomId, bool spee
                     auto rm_ex = RM_EX(room);
                     if (rm_ex->timeDilation != 0 && (speedUp ? (rm_ex->timeDilation < 0) : (rm_ex->timeDilation > 0)))
                     {
+                        rm_ex->timeDilationSource = nullptr;
+                        rm_ex->timeDilation = 0;
                         StopTimeDilation(); // temporal counter
                     }
                     else
                     {
+                        rm_ex->timeDilationSource = this;
                         rm_ex->timeDilation = GetRealDilation();
                     }
                 }
@@ -285,7 +288,7 @@ void TemporalSystem_Wrapper::OnLoop()
         timer.SetMaxTime(TemporalSystemParser::GetDilationDuration(GetRealDilation()));
         timer.Update();
 
-        if (currentRoom != nullptr && G_->GetShipManager(currentShipId) == nullptr)
+        if (currentRoom != nullptr && G_->GetShipManager(currentShipId) != nullptr)
         {
             auto rm_ex = RM_EX(currentRoom);
             if (rm_ex->timeDilationSource != this)
@@ -332,31 +335,14 @@ HOOK_METHOD(ShipManager, JumpLeave, () -> void)
 {
     super();
 
-    if (HasSystem(20))
+    for (auto room : ship.vRoomList)
     {
-        GetSystem(20)->StopHacking();
-        SYS_EX(GetSystem(20))->temporalSystem->StopTimeDilation();
-        GetSystem(20)->LockSystem(0);
-
-    }
-}
-
-HOOK_METHOD(ShipSystem, OnLoop, () -> void)
-{
-    super();
-    if (iSystemType == 20)
-    {
-        SYS_EX(this)->temporalSystem->OnLoop();
-    }
-}
-
-HOOK_METHOD(ShipSystem, constructor, (int systemId, int roomId, int shipId, int startingPower) -> void)
-{
-	super(systemId, roomId, shipId, startingPower);
-
-	if (systemId == 20)
-    {
-        SYS_EX(this)->temporalSystem = new TemporalSystem_Wrapper(this);
+        auto ex = RM_EX(room);
+        if (ex->timeDilationSource)
+        {
+            ex->timeDilation = 0;
+            ex->timeDilationSource = nullptr;
+        }
     }
 }
 
@@ -667,19 +653,41 @@ void TemporalSystem_Wrapper::AISelectTarget(CombatAI *ai)
         bool speedUp;
     };
 
+    struct RoomCounts
+    {
+        int crew = 0;
+        int intruders = 0;
+        int effectiveCrew = 0;
+        int effectiveIntruders = 0;
+        int mindCrew = 0;
+        int mindIntruders = 0;
+        int repairing = 0;
+        int sabotaging = 0;
+        int crewFighting = 0;
+        int intrudersFighting = 0;
+        int hurtCrew = 0;
+    };
+
     struct TemporalTargetList
     {
         std::vector<TemporalAI> targets = {};
         int priority = 0;
 
-        void AddTarget(int roomId, int shipId, bool speedUp, int newPriority)
+        void AddTarget(Room* room, int roomId, int shipId, bool speedUp, int newPriority)
         {
+            if (newPriority < priority) return;
+            if (speedUp ? (RM_EX(room)->timeDilation > 0) : (RM_EX(room)->timeDilation < 0)) return;
             if (newPriority > priority)
             {
                 priority = newPriority;
                 targets.clear();
             }
             targets.push_back({roomId, shipId, speedUp});
+        }
+
+        bool empty()
+        {
+            return targets.empty();
         }
 
         TemporalAI& Select()
@@ -690,26 +698,274 @@ void TemporalSystem_Wrapper::AISelectTarget(CombatAI *ai)
 
     TemporalTargetList targetList;
 
-    for (auto room : ai->self->ship.vRoomList)
+    std::vector<RoomCounts> roomCounts;
+
     {
-        targetList.AddTarget(room->iRoomId, ai->self->iShipId, false, 0);
-        targetList.AddTarget(room->iRoomId, ai->self->iShipId, false, 1);
+        roomCounts.reserve(ai->self->ship.vRoomList.size());
+        roomCounts.resize(ai->self->ship.vRoomList.size());
+
+        for (auto crew : ai->self->vCrewList)
+        {
+            if (!crew->IsDead() && !crew->OutOfGame() && crew->Functional() && crew->iRoomId >= 0 && crew->crewAnim->status != 6)
+            {
+                if (crew->intruder)
+                {
+                    roomCounts[crew->iRoomId].intruders += 1;
+                    if (crew->bMindControlled) roomCounts[crew->iRoomId].mindIntruders += 1;
+                    if (crew->bFighting || crew->Sabotaging()) roomCounts[crew->iRoomId].intrudersFighting += 1;
+                    if (crew->fStunTime <= 0.f) roomCounts[crew->iRoomId].effectiveIntruders += 1;
+                    if (crew->Sabotaging()) roomCounts[crew->iRoomId].sabotaging += 1;
+                }
+                else
+                {
+                    roomCounts[crew->iRoomId].crew += 1;
+                    if (crew->bMindControlled) roomCounts[crew->iRoomId].mindCrew += 1;
+                    if (crew->bFighting) roomCounts[crew->iRoomId].crewFighting += 1;
+                    if (crew->fStunTime <= 0.f) roomCounts[crew->iRoomId].effectiveCrew += 1;
+                    if (crew->Repairing()) roomCounts[crew->iRoomId].repairing += 1;
+                    if (crew->health.second - crew->health.first >= 10.f) roomCounts[crew->iRoomId].hurtCrew += 1;
+                }
+            }
+        }
+
+        bool blastDoors = false;
+        auto doors = ai->self->GetSystem(SYS_DOORS);
+        if (doors && doors->GetEffectivePower() >= 2)
+        {
+            blastDoors = true;
+        }
+
+        for (auto room : ai->self->ship.vRoomList)
+        {
+            //targetList.AddTarget(room->iRoomId, ai->self->iShipId, false, 0);
+            //targetList.AddTarget(room->iRoomId, ai->self->iShipId, true, 0);
+
+            int fireCount = ai->self->GetFireCount(room->iRoomId);
+
+            auto sys = ai->self->GetSystemInRoom(room->iRoomId);
+            if (sys != nullptr)
+            {
+                if (sys->iSystemType == SYS_MEDBAY)
+                {
+                    if (fireCount < roomCounts[room->iRoomId].repairing) // don't speed up burning room
+                    {
+                        if (sys->Functioning() && sys->iHackEffect < 2 && roomCounts[room->iRoomId].hurtCrew > 0 && roomCounts[room->iRoomId].crew * sys->GetEffectivePower() > roomCounts[room->iRoomId].intruders)
+                        {
+                            targetList.AddTarget(room, room->iRoomId, ai->self->iShipId, true, 2); // speed up healing
+                            continue;
+                        }
+                    }
+                    if (sys->iHackEffect > 1 && roomCounts[room->iRoomId].crew > 0 && roomCounts[room->iRoomId].intrudersFighting > 0)
+                    {
+                        targetList.AddTarget(room, room->iRoomId, ai->self->iShipId, false, 2); // slow down medbay hack death if there are also intruders
+                        continue;
+                    }
+                }
+                else if (sys->iSystemType == SYS_CLONEBAY)
+                {
+                    if (fireCount < roomCounts[room->iRoomId].repairing) // don't speed up burning room
+                    {
+                        // cloning crew and not overwhelmed
+                        if (sys->Functioning() && sys->iHackEffect < 2 && G_->GetCrewFactory()->CountCloneReadyCrew(ai->self->iShipId == 0) > 0 && roomCounts[room->iRoomId].effectiveCrew >= roomCounts[room->iRoomId].effectiveIntruders)
+                        {
+                            targetList.AddTarget(room, room->iRoomId, ai->self->iShipId, true, 2); // speed up cloning
+                            continue;
+                        }
+                    }
+                }
+
+                if (roomCounts[room->iRoomId].intrudersFighting > roomCounts[room->iRoomId].effectiveCrew)
+                {
+                    targetList.AddTarget(room, room->iRoomId, ai->self->iShipId, true, 2); // slow down intruders
+                }
+                else if (roomCounts[room->iRoomId].repairing && roomCounts[room->iRoomId].repairing > fireCount)
+                {
+                    targetList.AddTarget(room, room->iRoomId, ai->self->iShipId, true, // speed up repairs, higher priority with damage/fire than breach
+                                         (sys->bOnFire || sys->healthState.first < sys->healthState.second) ? 2 : 1);
+                }
+                else if (fireCount > 1 && fireCount > roomCounts[room->iRoomId].repairing && !sys->CompletelyDestroyed())
+                {
+                    targetList.AddTarget(room, room->iRoomId, ai->self->iShipId, false, 2); // slow down fire damage
+                }
+                else if (targetList.priority > 1)
+                {
+                    continue;
+                }
+                else if (roomCounts[room->iRoomId].mindIntruders > 0)
+                {
+                    targetList.AddTarget(room, room->iRoomId, ai->self->iShipId, false, 1); // slow down mind controlled crew
+                }
+                else if (ai->self->bAutomated && sys->fRepairOverTime > 0.f && !sys->bBreached && !sys->bOnFire)
+                {
+                    targetList.AddTarget(room, room->iRoomId, ai->self->iShipId, true, 1); // speed up autorepair
+                }
+            }
+            else if (blastDoors) // empty room
+            {
+                if (roomCounts[room->iRoomId].intrudersFighting - roomCounts[room->iRoomId].mindIntruders >= 2)
+                {
+                    targetList.AddTarget(room, room->iRoomId, ai->self->iShipId, false, 1); // slow down enemy crew in empty room
+                }
+            }
+        }
     }
 
     if (ai->target)
     {
-        for (auto room : ai->target->ship.vRoomList)
+        if (ai->target->GetShieldPower().super.first <= 0 || ai->self->HasAugmentation("ZOLTAN_BYPASS"))
         {
-            targetList.AddTarget(room->iRoomId, ai->target->iShipId, false, 0);
-            targetList.AddTarget(room->iRoomId, ai->target->iShipId, false, 1);
+            roomCounts.clear();
+            roomCounts.reserve(ai->target->ship.vRoomList.size());
+            roomCounts.resize(ai->target->ship.vRoomList.size());
+
+            for (auto crew : ai->target->vCrewList)
+            {
+                if (!crew->IsDead() && !crew->OutOfGame() && crew->Functional() && crew->iRoomId >= 0 && crew->crewAnim->status != 6)
+                {
+                    if (crew->intruder)
+                    {
+                        roomCounts[crew->iRoomId].intruders += 1;
+                        if (crew->bMindControlled) roomCounts[crew->iRoomId].mindIntruders += 1;
+                        if (crew->bFighting || crew->Sabotaging()) roomCounts[crew->iRoomId].intrudersFighting += 1;
+                        if (crew->fStunTime <= 0.f) roomCounts[crew->iRoomId].effectiveIntruders += 1;
+                        if (crew->Sabotaging()) roomCounts[crew->iRoomId].sabotaging += 1;
+                    }
+                    else
+                    {
+                        roomCounts[crew->iRoomId].crew += 1;
+                        if (crew->bMindControlled) roomCounts[crew->iRoomId].mindCrew += 1;
+                        if (crew->bFighting) roomCounts[crew->iRoomId].crewFighting += 1;
+                        if (crew->fStunTime <= 0.f) roomCounts[crew->iRoomId].effectiveCrew += 1;
+                        if (crew->Repairing()) roomCounts[crew->iRoomId].repairing += 1;
+                    }
+                }
+            }
+
+            bool blastDoors = false;
+            auto doors = ai->target->GetSystem(SYS_DOORS);
+            if (doors && doors->GetEffectivePower() >= 2)
+            {
+                blastDoors = true;
+            }
+
+            for (auto room : ai->target->ship.vRoomList)
+            {
+                //targetList.AddTarget(room->iRoomId, ai->target->iShipId, false, 0);
+                //targetList.AddTarget(room->iRoomId, ai->target->iShipId, true, 0);
+
+                int fireCount = ai->target->GetFireCount(room->iRoomId);
+
+                auto sys = ai->target->GetSystemInRoom(room->iRoomId);
+                if (sys != nullptr)
+                {
+                    if (sys->iSystemType == SYS_MEDBAY)
+                    {
+                        if (fireCount < roomCounts[room->iRoomId].effectiveCrew) // don't slow down burning room
+                        {
+                            if (sys->Functioning() && sys->iHackEffect < 2 && roomCounts[room->iRoomId].hurtCrew > 0 && roomCounts[room->iRoomId].crew * sys->GetEffectivePower() > roomCounts[room->iRoomId].intruders)
+                            {
+                                targetList.AddTarget(room, room->iRoomId, ai->target->iShipId, false, 2); // slow down healing
+                                continue;
+                            }
+                        }
+                        if (sys->iHackEffect > 1 && roomCounts[room->iRoomId].crew > 0)
+                        {
+                            targetList.AddTarget(room, room->iRoomId, ai->target->iShipId, true,
+                                                 (roomCounts[room->iRoomId].intrudersFighting > 0 || roomCounts[room->iRoomId].crew > 1) ? 2 : 1); // speed up medbay hack death
+                            continue;
+                        }
+                    }
+                    else if (sys->iSystemType == SYS_CLONEBAY)
+                    {
+                        if (G_->GetCrewFactory()->CountCloneReadyCrew(ai->target->iShipId == 0) > 0) // cloning crew
+                        {
+                            if (fireCount < roomCounts[room->iRoomId].crew) // don't slow down burning room
+                            {
+                                // system functional; not overwhelmed
+                                if (sys->Functioning() && sys->iHackEffect < 2 && roomCounts[room->iRoomId].effectiveCrew >= roomCounts[room->iRoomId].effectiveIntruders)
+                                {
+                                    targetList.AddTarget(room, room->iRoomId, ai->target->iShipId, false, 2); // slow down cloning
+                                    continue;
+                                }
+                                else if (!ai->target->HasAugmentation("BACKUP_DNA"))
+                                {
+                                    // system broken or ioned, not about to be repaired or unlocked
+                                    if (!sys->Functioning() &&
+                                        ((sys->CompletelyDestroyed() && (roomCounts[room->iRoomId].intruders > 0 || sys->bOnFire || sys->bBreached || sys->fRepairOverTime < 50.f)) ||
+                                         (sys->iLockCount>1 || sys->iLockCount==1 && sys->lockTimer.currTime < 2.5f)))
+                                    {
+                                        targetList.AddTarget(room, room->iRoomId, ai->target->iShipId, true, 2); // speed up clonebay death
+                                        continue;
+                                    }
+                                    else if (sys->iHackEffect > 1 && ai->self->hackingSystem != nullptr &&
+                                             ai->self->hackingSystem->effectTimer.second - ai->self->hackingSystem->effectTimer.first > 2.5f)
+                                    {
+                                        targetList.AddTarget(room, room->iRoomId, ai->target->iShipId, true, 2); // speed up clonebay death
+                                        continue;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if (roomCounts[room->iRoomId].intrudersFighting > roomCounts[room->iRoomId].effectiveCrew &&
+                        (sys->iSystemType != SYS_MEDBAY || roomCounts[room->iRoomId].crew == 0 || sys->iHackEffect > 1 ||
+                         (sys->CompletelyDestroyed() && (roomCounts[room->iRoomId].intruders > 0 || sys->bOnFire || sys->bBreached || sys->fRepairOverTime < 50.f)) ||
+                         (sys->iLockCount>1 || sys->iLockCount==1 && sys->lockTimer.currTime < 2.5f)))
+                    {
+                        // extra conditions to prevent medbay power bait; don't speed up enemy medbays unless they're disabled or empty
+                        targetList.AddTarget(room, room->iRoomId, ai->target->iShipId, true, 2); // speed up intruders
+                    }
+                    else if (roomCounts[room->iRoomId].repairing && roomCounts[room->iRoomId].repairing > fireCount)
+                    {
+                        targetList.AddTarget(room, room->iRoomId, ai->target->iShipId, false, // slow down repairs, higher priority with damage/fire than breach
+                                             (sys->bOnFire || sys->healthState.first < sys->healthState.second) ? 2 : 1);
+                    }
+                    else if (room->lastO2 > 10.f && (fireCount > 2 ||
+                                                     (fireCount > roomCounts[room->iRoomId].effectiveCrew) ||
+                                                     (fireCount > 0 && roomCounts[room->iRoomId].intruders > 0))
+                             && !sys->CompletelyDestroyed())
+                    {
+                        if (fireCount > 2 || (fireCount == 2 && roomCounts[room->iRoomId].effectiveCrew == 0) || (fireCount == 1 && roomCounts[room->iRoomId].intruders > 0))
+                        {
+                            targetList.AddTarget(room, room->iRoomId, ai->target->iShipId, true, 2); // speed up fires, 3+ fires or 2+ fires unattended or fire + boarders; o2 must be present
+                        }
+                        else
+                        {
+                            targetList.AddTarget(room, room->iRoomId, ai->target->iShipId, true, 1); // one fewer fire = less priority
+                        }
+                    }
+                    else if (targetList.priority > 1)
+                    {
+                        continue;
+                    }
+                    else if (roomCounts[room->iRoomId].mindIntruders > 0 && roomCounts[room->iRoomId].intrudersFighting > 0)
+                    {
+                        targetList.AddTarget(room, room->iRoomId, ai->target->iShipId, true, 1); // speed up mind controlled crew; must be someone fighting
+                    }
+                    else if (ai->target->bAutomated && sys->fRepairOverTime > 0.f && !sys->bBreached && !sys->bOnFire)
+                    {
+                        targetList.AddTarget(room, room->iRoomId, ai->target->iShipId, false, 1); // slow down autorepair
+                    }
+                }
+                else if (blastDoors) // empty room
+                {
+                    if (roomCounts[room->iRoomId].intrudersFighting - roomCounts[room->iRoomId].mindIntruders >= 2)
+                    {
+                        targetList.AddTarget(room, room->iRoomId, ai->target->iShipId, true, 1); // speed up boarders in room
+                    }
+                }
+            }
         }
     }
 
-    TemporalAI selectedAction = targetList.Select();
+    if (!targetList.empty())
+    {
+        TemporalAI selectedAction = targetList.Select();
 
-    queuedRoomId = selectedAction.roomId;
-    queuedShipId = selectedAction.shipId;
-    queuedSpeedUp = selectedAction.speedUp;
+        queuedRoomId = selectedAction.roomId;
+        queuedShipId = selectedAction.shipId;
+        queuedSpeedUp = selectedAction.speedUp;
+    }
 }
 
 HOOK_METHOD(CombatAI, OnLoop, () -> void)
@@ -1290,13 +1546,17 @@ HOOK_METHOD(ShipManager, ImportBattleState, (int file) -> void)
         {
             if (shipId == iShipId)
             {
-                RM_EX(ship.vRoomList[roomId])->timeDilation = sys->isSpeeding ? strength : -strength;
+                auto rm_ex = RM_EX(ship.vRoomList[roomId]);
+                rm_ex->timeDilation = sys->isSpeeding ? strength : -strength;
                 sys->currentRoom = ship.vRoomList[roomId];
+                rm_ex->timeDilationSource = sys;
             }
             else if (current_target)
             {
-                RM_EX(current_target->ship.vRoomList[roomId])->timeDilation = sys->isSpeeding ? strength : -strength;;
+                auto rm_ex = RM_EX(current_target->ship.vRoomList[roomId]);
+                rm_ex->timeDilation = sys->isSpeeding ? strength : -strength;;
                 sys->currentRoom = current_target->ship.vRoomList[roomId];
+                rm_ex->timeDilationSource = sys;
             }
         }
     }

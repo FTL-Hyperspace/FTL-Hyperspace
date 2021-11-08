@@ -3,7 +3,7 @@ void CrewMemberFactory::destructor(CrewMemberFactory *this<ecx>);
 ".5589e557565389cb83e4f0":
 void CrewMemberFactory::Restart(CrewMemberFactory *this<ecx>);
 ".5589e557565383e4f0":
-int CrewMemberFactory::CountCloneReadyCrew(CrewMemberFactory *this<ecx>);
+int CrewMemberFactory::CountCloneReadyCrew(CrewMemberFactory *this<ecx>, bool player);
 ".8b01":
 int CrewMemberFactory::GetPlayerCrewCount(CrewMemberFactory *this<ecx>);
 ".8b4108":

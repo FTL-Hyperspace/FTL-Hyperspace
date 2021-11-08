@@ -3,7 +3,7 @@
 #include "Global.h"
 #include "CustomCrewManifest.h"
 
-static void __attribute__((fastcall)) CrewManifest_MouseUp(CrewManifest *_this, int mX, int mY)
+static void __attribute__((fastcall)) CrewManifest_MouseUp(CrewManifest *_this, int _edx, int mX, int mY)
 {
     CustomCrewManifest::GetInstance()->MouseUp(mX, mY);
 }

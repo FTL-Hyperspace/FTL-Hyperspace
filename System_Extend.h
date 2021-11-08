@@ -78,6 +78,10 @@ public:
 
     TemporalSystem_Wrapper *temporalSystem = nullptr;
 
+    ~ShipSystem_Extend()
+    {
+        delete temporalSystem;
+    }
 private:
 };
 

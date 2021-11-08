@@ -587,11 +587,16 @@
 		<Unit filename="Systems.h">
 			<Option virtualFolder="Core/Systems/" />
 		</Unit>
-		<Unit filename="TemporalBoxVTable.cpp" />
+		<Unit filename="TemporalBoxVTable.cpp">
+			<Option virtualFolder="Content/Systems/" />
+		</Unit>
 		<Unit filename="TemporalSystem.cpp">
 			<Option virtualFolder="Content/Systems/" />
 		</Unit>
 		<Unit filename="TemporalSystem.h">
+			<Option virtualFolder="Content/Systems/" />
+		</Unit>
+		<Unit filename="TemporalSystemVTable.cpp">
 			<Option virtualFolder="Content/Systems/" />
 		</Unit>
 		<Unit filename="TimerHelper.cpp">

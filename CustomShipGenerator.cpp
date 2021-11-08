@@ -356,7 +356,7 @@ std::vector<int> CustomShipGenerator::GenerateSystemMaxes(ShipBlueprint &bp, int
         int bonus = systemScaling->GetRandomScalingValue(level);
 
         int power = random32()%(bonus+1) + sectorScaling->GetValue(level) * (maxPower - minPower) + minPower;
-        power = std::max(minPower, std::min(power, maxPower));
+        power = std::min(maxPower, std::max(power, minPower));
         systemMaxes[sysId] = power;
     }
 

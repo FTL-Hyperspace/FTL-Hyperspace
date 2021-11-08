@@ -1997,7 +1997,7 @@ struct CrewMemberFactory
 
 	LIBZHL_API void destructor();
 	LIBZHL_API void Restart();
-	LIBZHL_API int CountCloneReadyCrew();
+	LIBZHL_API int CountCloneReadyCrew(bool player);
 	LIBZHL_API int GetPlayerCrewCount();
 	LIBZHL_API int GetEnemyCloneCount();
 	LIBZHL_API int GetCrewCount(bool enemy);
@@ -2131,6 +2131,7 @@ struct LIBZHL_INTERFACE ShipSystem
 	LIBZHL_API bool IncreasePower(int amount, bool force);
 	LIBZHL_API bool DecreasePower(bool force);
 	LIBZHL_API void RenderPowerBoxes(int x, int y, int width, int height, int gap, int heightMod, bool flash);
+	LIBZHL_API void destructor();
 	
 	int selectedState;
 	ShipObject _shipObj;
@@ -4211,6 +4212,8 @@ struct ShipManager : ShipObject
 	LIBZHL_API static std::vector<Drone*> *__stdcall GetDroneList(std::vector<Drone*> &ret, ShipManager *ship);
 	LIBZHL_API int GetDroneCount();
 	LIBZHL_API void InstantPowerShields();
+	LIBZHL_API void SetDestroyed();
+	LIBZHL_API int GetFireCount(int roomId);
 	
 	Targetable _targetable;
 	Collideable _collideable;

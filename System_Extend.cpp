@@ -18,6 +18,12 @@ HOOK_METHOD_PRIORITY(ShipSystem, constructor, 900, (int systemId, int roomId, in
 	ex->orig = this;
 }
 
+HOOK_METHOD_PRIORITY(ShipSystem, destructor, 900, () -> void)
+{
+	delete SYS_EX(this);
+    super();
+}
+
 ShipSystem_Extend* Get_ShipSystem_Extend(ShipSystem* c)
 {
     DWORD dEx = 0;
