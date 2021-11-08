@@ -665,6 +665,7 @@
 			<Option virtualFolder="ZHL/" />
 		</Unit>
 		<Unit filename="main.cpp">
+			<Option weight="100" />
 			<Option virtualFolder="Core/" />
 		</Unit>
 		<Unit filename="main.h">
