@@ -4,3 +4,4 @@
 <text name="tooltip_jump_noJump">The enemy ship has disabled your FTL drive. There is no escape; you must defeat the enemy ship if you want to survive!</text>
 
 <text name="tooltip_temporal">Temporal Manipulator: Changes the rate of time in one room.</text>
+<text name="tooltip_temporal_enemy">Temporal Manipulator: The enemy can use this to change the rate of time in one room.</text>

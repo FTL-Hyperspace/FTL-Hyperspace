@@ -153,7 +153,7 @@ void CustomShipGenerator::SectorScaling::Parse(rapidxml::xml_node<char> *node)
         }
         if (name == "maxSector")
         {
-             maxSector = boost::lexical_cast<float>(val);
+            maxSector = boost::lexical_cast<float>(val);
         }
     }
 
@@ -162,8 +162,8 @@ void CustomShipGenerator::SectorScaling::Parse(rapidxml::xml_node<char> *node)
         maxSector = minSector + 8.f;
     }
 
-    sectorValue = 1.f/(maxSector-minSector);
-    baseValue = -minSector*sectorValue;
+    sectorValue = (maxValue-minValue)/(maxSector-minSector);
+    baseValue = minValue-minSector*sectorValue;
 }
 
 void CustomShipGenerator::SystemLevelScaling::Parse(rapidxml::xml_node<char> *node, int difficulty)
