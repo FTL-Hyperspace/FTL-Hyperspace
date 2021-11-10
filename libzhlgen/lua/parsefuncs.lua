@@ -1,6 +1,8 @@
-local inputPath, funcPath, outputCPP, outputH = ...
+local inputPath, funcPath, outputCPP, outputH, mode = ...
 local cparser = require("cparser")
 local lfs = require("lfs")
+
+local isPOSIX = mode == 'POSIX'
 
 local useNaked = true
 
@@ -403,7 +405,7 @@ for k,fd in pairs(tfiles) do
             local stackPos = 8
             for k, arg in ipairs(func.args) do
                 arg.size = sizeof_aligned(arg) / 4
-                if k == 1 and arg.name == "this" then
+                if k == 1 and arg.name == "this" and not isPOSIX then
                     -- this: ecx
                     assert(arg.size == 1)
                 else
@@ -764,7 +766,10 @@ local function writeFunctionWrappers(funcs, out)
 #ifdef _WIN32
     #define FUNC_NAKED __declspec(naked)
 #elif defined(__linux__)
-    #define FUNC_NAKED
+    #if __GNUC__ < 8
+        #error "GCC version too old, must be at least version 8"
+    #endif
+    #define FUNC_NAKED __attribute__((naked))
 #endif
 
 using namespace ZHL;
@@ -815,7 +820,7 @@ using namespace ZHL;
 			if func.varparent then classname = func.varparent:cname() end
 			
 			local flags = 0
-			if func.thiscall then flags = flags + 1 end
+			if func.thiscall and not isPOSIX then flags = flags + 1 end
 			if func.cleanup then flags = flags + 2 end
 			if func.void then flags = flags + 4 end
 			if func.longlong then flags = flags + 8 end
@@ -895,7 +900,7 @@ using namespace ZHL;
 				for k = #func.args, 1, -1 do
 					local arg = func.args[k]
 					if not arg.reg then
-						if k == 1 and func.thiscall then
+						if k == 1 and func.thiscall and not isPOSIX then
 							assert(arg.size == 1)
 							out("\n\t\t\"push ecx\\n\\t\"\t\t\t// %s", arg.name)
 							sizePushed = sizePushed + 4

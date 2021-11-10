@@ -1,16 +1,23 @@
 #pragma once
 
 #ifdef _WIN32
-#ifdef LIBZHL_EXPORTS
-#define LIBZHL_API __declspec(dllexport)
+    #define FUNC_NAKED __declspec(naked)
+    #ifdef LIBZHL_EXPORTS
+        #define LIBZHL_API __declspec(dllexport)
+    #else
+        #define LIBZHL_API __declspec(dllimport)
+    #endif
+#elif defined(__linux__)
+    // Linux exports all symbols, we don't need to be specific like in Windows.
+    // If we want to optimize this library in the future we'd need to change things around to an EXPORTED & NON_EXPORTED definition and set the __attribute___((visibility( thing to explicitly hide some exports on *NIX systems
+    // SEE: https://gcc.gnu.org/wiki/Visibility
+    #define LIBZHL_API
+    #if __GNUC__ < 8
+        #error "GCC version too old, must be at least version 8 to support naked functions"
+    #endif
+    #define FUNC_NAKED __attribute__((naked))
 #else
-#define LIBZHL_API __declspec(dllimport)
-#endif
-#else
-// Linux exports all symbols, we don't need to be specific like in Windows.
-// If we want to optimize this library in the future we'd need to change things around to an EXPORTED & NON_EXPORTED definition and set the __attribute___((visibility( thing to explicitly hide some exports on *NIX systems
-// SEE: https://gcc.gnu.org/wiki/Visibility
-# define LIBZHL_API
+    #error "Unsupported OS"
 #endif
 
 #include <stdlib.h>
@@ -48,7 +55,7 @@ public:
 		}; \
 		static FunctionHook hookObj = FunctionHook(#_classname "::" #_name, typeid(auto (_classname::*) _type), &wrapper::hook, &internalSuper, _priority); \
 	} } \
-	auto __declspec(naked) Hook_##_id :: wrapper::super _type {__asm__ ("jmp %0" :: "m"(internalSuper)); } \
+	auto FUNC_NAKED Hook_##_id :: wrapper::super _type {__asm__ ("jmp %0" :: "m"(internalSuper)); } \
 	auto Hook_##_id ::wrapper::hook _type
 
 #define _DEFINE_METHOD_HOOK0(_id, _classname, _name, _priority, _type) _DEFINE_METHOD_HOOK1(_id, _classname, _name, _priority, _type)
@@ -67,7 +74,7 @@ public:
 		}; \
 		static FunctionHook hookObj(#_classname "::" #_name, typeid(auto (*) _type), &wrapper::hook, &internalSuper, _priority); \
 	} } \
-	auto __declspec(naked) Hook_##_id :: wrapper::super _type {__asm__ ("jmp %0" :: "m"(internalSuper)); } \
+	auto FUNC_NAKED Hook_##_id :: wrapper::super _type {__asm__ ("jmp %0" :: "m"(internalSuper)); } \
 	auto Hook_##_id ::wrapper::hook _type
 
 #define _DEFINE_STATIC_HOOK0(_id, _classname, _name, _priority, _type) _DEFINE_STATIC_HOOK1(_id, _classname, _name, _priority, _type)
@@ -85,7 +92,7 @@ public:
 		\
 		static FunctionHook hookObj(#_name, typeid(auto (*) _type), &hook, &internalSuper, _priority); \
 	} } \
-	auto __declspec(naked) __stdcall Hook_##_id ::super _type {__asm__ ("jmp %0" :: "m"(internalSuper)); } \
+	auto FUNC_NAKED __stdcall Hook_##_id ::super _type {__asm__ ("jmp %0" :: "m"(internalSuper)); } \
 	auto __stdcall Hook_##_id ::hook _type
 
 #define _DEFINE_GLOBAL_HOOK0(_id, _name, _priority, _type) _DEFINE_GLOBAL_HOOK1(_id, _name, _priority, _type)
