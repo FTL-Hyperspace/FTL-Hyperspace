@@ -1118,6 +1118,7 @@ struct CombatAI;
 struct CombatAI
 {
 	LIBZHL_API void UpdateMindControl(bool unk);
+	LIBZHL_API void OnLoop();
 	
 	ShipManager *target;
 	std::vector<ProjectileFactory*> weapons;
@@ -1369,6 +1370,7 @@ struct Description
 		this->destructor();
 	}
 
+	LIBZHL_API void constructor();
 	LIBZHL_API Description &copy_assign_1(Description &&other);
 	LIBZHL_API Description &copy_assign_2(const Description &other);
 	LIBZHL_API void destructor();
@@ -1995,7 +1997,7 @@ struct CrewMemberFactory
 
 	LIBZHL_API void destructor();
 	LIBZHL_API void Restart();
-	LIBZHL_API int CountCloneReadyCrew();
+	LIBZHL_API int CountCloneReadyCrew(bool player);
 	LIBZHL_API int GetPlayerCrewCount();
 	LIBZHL_API int GetEnemyCloneCount();
 	LIBZHL_API int GetCrewCount(bool enemy);
@@ -2129,6 +2131,7 @@ struct LIBZHL_INTERFACE ShipSystem
 	LIBZHL_API bool IncreasePower(int amount, bool force);
 	LIBZHL_API bool DecreasePower(bool force);
 	LIBZHL_API void RenderPowerBoxes(int x, int y, int width, int height, int gap, int heightMod, bool flash);
+	LIBZHL_API void destructor();
 	
 	int selectedState;
 	ShipObject _shipObj;
@@ -2269,10 +2272,7 @@ struct ShipBlueprint;
 
 struct ShipBlueprint : Blueprint
 {
-	~ShipBlueprint()
-	{
-		this->destructor();
-	}
+	
 
 	struct SystemTemplate
 	{
@@ -3443,6 +3443,9 @@ struct ShipEvent;
 
 struct CrewDesc
 {
+	std::string type;
+	float prop;
+	int amount;
 };
 
 struct ShipEvent
@@ -4205,6 +4208,12 @@ struct ShipManager : ShipObject
 	LIBZHL_API static ShipBlueprint *__stdcall SaveToBlueprint(ShipBlueprint &bp, ShipManager *ship, bool unk);
 	LIBZHL_API void CheckCrystalAugment(Pointf pos);
 	LIBZHL_API static CollisionResponse *__stdcall CollisionMoving(CollisionResponse &ret, ShipManager *ship, Pointf pos1, Pointf pos2, DamageParameter damage, bool unk);
+	LIBZHL_API int GetSystemPowerMax(int systemId);
+	LIBZHL_API static std::vector<Drone*> *__stdcall GetDroneList(std::vector<Drone*> &ret, ShipManager *ship);
+	LIBZHL_API int GetDroneCount();
+	LIBZHL_API void InstantPowerShields();
+	LIBZHL_API void SetDestroyed();
+	LIBZHL_API int GetFireCount(int roomId);
 	
 	Targetable _targetable;
 	Collideable _collideable;
@@ -6305,6 +6314,15 @@ struct EngineSystem
 struct ShipGenerator
 {
 	LIBZHL_API static ShipManager *__stdcall CreateShip(const std::string &name, int sector, ShipEvent &event);
+	LIBZHL_API static std::vector<int> __stdcall GenerateSystemMaxes(const ShipBlueprint &ship, int level);
+	LIBZHL_API static bool __stdcall UpgradeSystem(ShipManager *ship, std::vector<int> &systemMaxes, unsigned int sysId);
+	LIBZHL_API static std::vector<int> __stdcall GetPossibleSystemUpgrades(ShipManager *ship, std::vector<int> &systemMaxes, int scrap, int type);
+	LIBZHL_API static std::vector<int> __stdcall GetPossibleSystemUpgrades0(ShipManager *ship, std::vector<int> &systemMaxes);
+	LIBZHL_API static std::vector<int> __stdcall GetPossibleSystemUpgrades1(ShipManager *ship, std::vector<int> &systemMaxes);
+	LIBZHL_API static std::vector<int> __stdcall GetPossibleSystemUpgrades2(ShipManager *ship, std::vector<int> &systemMaxes);
+	LIBZHL_API static std::vector<WeaponBlueprint*> __stdcall GetPossibleWeaponList(ShipManager *ship, const std::string &weaponList, int scrap, unsigned int flags);
+	LIBZHL_API static std::vector<DroneBlueprint*> __stdcall GetPossibleDroneList(ShipManager *ship, const std::string &droneList, int scrap, unsigned int flags, bool repeat);
+	LIBZHL_API static std::vector<CrewBlueprint> __stdcall GetPossibleCrewList(ShipManager *ship, const std::string &crewList, unsigned int flags);
 	
 };
 

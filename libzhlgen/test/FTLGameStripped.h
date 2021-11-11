@@ -2649,6 +2649,13 @@ struct ShipBlueprint
 /* 604 */
 struct CrewDesc;
 
+struct CrewDesc
+{
+	std::string type;
+	float prop;
+	int amount;
+};
+
 /* 603 */
 struct std__vector_8CrewDesc
 {

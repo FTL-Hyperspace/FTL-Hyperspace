@@ -319,6 +319,7 @@ Syntax ->
 		<hpCap>30</hpCap>
 		<noFuelStalemate/>
 		<autoShipForce>false</autoShipForce>
+		<shipGenerator>shipGeneratorName</shipGenerator>
 	</customShip>
 	...
 </ships>
@@ -1299,6 +1300,87 @@ Example:
 	</reward>
 	-->
 </rewards>
+
+<!-- Custom Ship Generators (WIP)
+
+You can customize the algorithm used to generate enemy ships. This can be customized for different difficulty levels to affect how enemy ships generate.
+Custom ship generator is required in order to recognize new systems added by Hyperspace.
+
+Difficulty levels are 0 for Easy, 1 for Normal, and 2 for Hard. Sector values are the internal ones, which are 1 less than the displayed sector number.
+
+Most tags which take a difficulty attribute default to Normal if none is specified.
+As well, If you specify values for Normal, then Easy/Hard automatically inherit from Normal unless you explicitly specify values for Easy/Hard.
+Finally, many tags will inherit values from a previous similar tag. For example, <systemLevelScaling system="shields" difficulty="0"> will first try to inherit from <systemLevelScaling system="shields" difficulty="1">,
+then from <systemLevelScaling difficulty="0">, then from <systemLevelScaling difficulty="1">, then from the vanilla default. However, a tag can only inherit from tags which are above it, not below, so order matters.
+
+<difficultyMod> is a global modifier which effectively advances/delays the enemy level. A positive value advances the enemy strength while a negative value delays it.
+
+<sectorScaling> adjusts how quickly enemy ships scale overall, and is used for both crew count, as well as by default for systems.
+minValue and maxValue are the lowest and highest scaling values to use. A value of 0 corresponds to the base amount while a value of 1 corresponds to the max amount for crew/systems.
+minSector and maxSector are the sectors which correspond to minValue and maxValue. Ships will scale linearly between these sectors.
+
+<systemLevelScaling> adjusts the scaling for systems, and applies to all systems unless the system attribute is included.
+When generating an enemy ship, a maximum level is rolled for each system. The base value for this maximum is scaled between the starting power and the maximum power, then rounded down.
+Then an additional random number is rolled and added on top. If the maximum value exceeds the blueprint maximum, it is reduced to the blueprint maximum.
+<randomScaling> controls this additional roll. The random number rolled will be between 0 and the value specified in <randomScaling>, inclusive.
+Multiple <randomScaling> tags can be included. Each subsequent tag should have a sector attribute to specify which sector it becomes effective in. These sectors must be in ascending order.
+The first randomScaling tag should not have a sector attribute; if one is included then it will be ignored.
+
+Note that it is not guaranteed that enemy ships will have their systems upgraded to the maximum value rolled for <systemLevelScaling>, as each ship gets a limited budget with which to upgrade.
+
+Example:
+<shipGenerators>
+	<shipGenerator>
+		<difficultyMod difficulty="0">-1</difficultyMod>
+		
+		<sectorScaling difficulty="x">
+			<minValue>0.0</minValue>
+			<maxValue>1.0</maxValue>
+			<minSector>0</minSector>
+			<maxSector>8</maxSector>
+		</sectorScaling>
+		
+		<systemLevelScaling system="shields" difficulty="x">
+			<sectorScaling>
+				<minValue>0.0</minValue>
+				<maxValue>1.0</maxValue>
+				<minSector>0</minSector>
+				<maxSector>8</maxSector>
+			</sectorScaling>
+			<randomScaling>0</randomScaling>
+			<randomScaling sector="0">1</randomScaling>
+			<randomScaling sector="2">2</randomScaling>
+		</systemLevelScaling>
+	</shipGenerator>
+</shipGenerators>
+
+-->
+
+<!-- Vanilla-equivalent ship generation
+<shipGenerators>
+	<shipGenerator>
+		<difficultyMod difficulty="0">-1</difficultyMod>
+		
+		<sectorScaling>
+			<minValue>0.0</minValue>
+			<maxValue>1.0</maxValue>
+			<minSector>0</minSector>
+			<maxSector>8</maxSector>
+		</sectorScaling>
+		
+		<systemLevelScaling difficulty="0">
+			<randomScaling>0</randomScaling>
+			<randomScaling sector="0">1</randomScaling>
+		</systemLevelScaling>
+		
+		<systemLevelScaling difficulty="1">
+			<randomScaling>0</randomScaling>
+			<randomScaling sector="0">1</randomScaling>
+			<randomScaling sector="2">2</randomScaling>
+		</systemLevelScaling>
+	</shipGenerator>
+</shipGenerators>
+-->
 
 <!-- Custom Event Characteristics
 

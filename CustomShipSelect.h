@@ -68,6 +68,8 @@ struct CustomShipDefinition
     int reactorPriceIncrement = 5;
     int maxReactorLevel = 25;
 
+    std::string shipGenerator = "";
+
     CustomShipDefinition()
     {
 

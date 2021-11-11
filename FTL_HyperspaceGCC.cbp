@@ -344,6 +344,12 @@
 		<Unit filename="CustomSectors.h">
 			<Option virtualFolder="Core/Sectors/" />
 		</Unit>
+		<Unit filename="CustomShipGenerator.cpp">
+			<Option virtualFolder="Core/Ship/" />
+		</Unit>
+		<Unit filename="CustomShipGenerator.h">
+			<Option virtualFolder="Core/Ship/" />
+		</Unit>
 		<Unit filename="CustomShipSelect.cpp">
 			<Option virtualFolder="Core/Ship/" />
 		</Unit>
@@ -581,10 +587,16 @@
 		<Unit filename="Systems.h">
 			<Option virtualFolder="Core/Systems/" />
 		</Unit>
+		<Unit filename="TemporalBoxVTable.cpp">
+			<Option virtualFolder="Content/Systems/" />
+		</Unit>
 		<Unit filename="TemporalSystem.cpp">
 			<Option virtualFolder="Content/Systems/" />
 		</Unit>
 		<Unit filename="TemporalSystem.h">
+			<Option virtualFolder="Content/Systems/" />
+		</Unit>
+		<Unit filename="TemporalSystemVTable.cpp">
 			<Option virtualFolder="Content/Systems/" />
 		</Unit>
 		<Unit filename="TimerHelper.cpp">

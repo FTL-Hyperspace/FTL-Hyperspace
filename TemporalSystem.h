@@ -34,6 +34,7 @@ public:
     TemporalSystem_Wrapper *temporalSystem;
 
     TemporalBox(Point pos, ShipSystem *sys, ShipManager *ship);
+    ~TemporalBox();
 
     void RenderBox(bool ignoreStatus);
     void NewMouseMove(int x, int y);
