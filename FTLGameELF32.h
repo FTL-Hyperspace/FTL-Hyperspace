@@ -3342,9 +3342,6 @@ struct MainMenu
 	Button optionsButton;
 	Button creditsButton;
 	Button quitButton;
-	bool itbButtonActive;
-	Button itbButton;
-	Animation *itbAnim;
 	std::vector<Button*> buttons;
 	int finalChoice;
 	ShipBuilder shipBuilder;
@@ -3354,14 +3351,12 @@ struct MainMenu
 	ConfirmWindow confirmNewGame;
 	ChoiceBox changelog;
 	bool bCreditScreen;
-	char _unk[4];
 	CreditScreen credits;
 	bool bChangedLogin;
 	std::vector<CrewMember*> testCrew;
 	bool bChangedScreen;
-	std::string error;
 	char gap34A4[3];
-	char _unk2;
+	std::string error;
 };
 
 struct WorldManager;
@@ -3432,9 +3427,8 @@ struct CApp : CEvent
 	bool nativeFullScreenError;
 	bool fbStretchError;
 	char __NULL[2];
-	char lastLanguage[24];
+	std::string lastLanguage;
 	char inputFocus;
-	char useDirect3D;
 };
 
 struct CFPS;
@@ -3828,7 +3822,6 @@ struct CrewControl
 	int activeTouch;
 	char selectingCrew;
 	char selectingCrewOnPlayerShip;
-	int _unk;
 	double selectingCrewStartTime;
 	bool doorControlMode;
 	bool doorControlOpen;
@@ -3842,7 +3835,6 @@ struct CrewControl
 	GL_Primitive *saveStationsBase;
 	GL_Primitive *returnStationsBase;
 	int stationsLastY;
-	int _unk2;
 };
 
 struct CrewEquipBox;
@@ -3952,6 +3944,7 @@ struct TextButton0 : GenericButton
 	int font;
 	int lineHeight;
 	int textYOffset;
+	bool autoShrink;
 };
 
 struct FTLButton : TextButton0

@@ -1466,7 +1466,7 @@ struct CreditScreen
   int touchesDown;
   double touchDownTime;
   float skipMessageTimer;
-  char gap5C[3];
+  char gap5C[3]; // This is writing some crap outside of the CreditScreen struct! Could be dangerous
   char _unk;
 };
 
@@ -1493,9 +1493,6 @@ struct MainMenu
   Button optionsButton;
   Button creditsButton;
   Button quitButton;
-  bool itbButtonActive;
-  Button itbButton;
-  Animation *itbAnim;
   std__vector_8ButtonZ1 buttons;
   int finalChoice;
   ShipBuilder shipBuilder;
@@ -1505,14 +1502,12 @@ struct MainMenu
   ConfirmWindow confirmNewGame;
   ChoiceBox changelog;
   bool bCreditScreen;
-  char _unk[4];
   CreditScreen credits;
   bool bChangedLogin;
   std__vector_12CrewMemberZ1 testCrew;
   bool bChangedScreen;
-  std__string error;
   char gap34A4[3];
-  char _unk2;
+  std__string error;
 };
 
 /* 150 */
@@ -1552,9 +1547,8 @@ struct CApp
   bool nativeFullScreenError;
   bool fbStretchError;
   char __NULL[2];
-  char lastLanguage[24];
+  std__string lastLanguage;
   char inputFocus;
-  char useDirect3D;
 };
 
 /* 475 */
@@ -1656,7 +1650,6 @@ struct CrewControl
   int activeTouch;
   char selectingCrew;
   char selectingCrewOnPlayerShip;
-  int _unk;
   double selectingCrewStartTime;
   bool doorControlMode;
   bool doorControlOpen;
@@ -1670,7 +1663,6 @@ struct CrewControl
   GL_Primitive *saveStationsBase;
   GL_Primitive *returnStationsBase;
   int stationsLastY;
-  int _unk2;
 };
 
 /* 549 */
@@ -1885,6 +1877,7 @@ struct TextButton0
   int font;
   int lineHeight;
   int textYOffset;
+  bool autoShrink;
 };
 
 /* 236 */
