@@ -2503,6 +2503,7 @@ struct BlueprintManager
 	LIBZHL_API static void __stdcall GetCrewName(std::string &strRef, BlueprintManager *bpM, bool *isMale_ret);
 	LIBZHL_API static void __stdcall GetRandomWeapon(std::vector<WeaponBlueprint*> &vec, BlueprintManager *bpM, int count, bool demo_lock);
 	LIBZHL_API static void __stdcall GetRandomDrone(std::vector<DroneBlueprint*> &vec, BlueprintManager *bpM, int count, bool demo_lock);
+	LIBZHL_API static ShipBlueprint *__stdcall ProcessShipBlueprint(ShipBlueprint *bp, BlueprintManager *bpM, rapidxml::xml_node<char> *node);
 	
 	int rarityTotal;
 	std::map<std::string, ShipBlueprint> shipBlueprints;
@@ -7308,6 +7309,7 @@ struct ResourceControl
 	LIBZHL_API GL_Primitive *CreateImagePrimitiveString(const std::string &tex, int x, int y, int rotation, GL_Color color, float alpha, bool mirror);
 	LIBZHL_API freetype::font_data &GetFontData(int fontType, bool unk);
 	LIBZHL_API static void __stdcall GetImageData(ImageDesc &ref, ResourceControl *resources, GL_Texture *tex);
+	LIBZHL_API bool PreloadResources(bool unk);
 	
 	std::unordered_map<std::string, GL_Texture*> images;
 	std::unordered_map<int, freetype::font_data> fonts;

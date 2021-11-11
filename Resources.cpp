@@ -40,6 +40,16 @@ GL_Color& ParseColorNode(GL_Color& colorRef, rapidxml::xml_node<char>* node, boo
     return colorRef;
 }
 
+HOOK_METHOD(ResourceControl, PreloadResources, (bool unk) -> bool)
+{
+    bool ret = super(unk);
+    if (ret && G_)
+    {
+        G_->PreInitializeResources(this);
+    }
+    return ret;
+}
+
 HOOK_METHOD(AchievementTracker, LoadAchievementDescriptions, () -> void)
 {
     if (G_ && !G_->AreResourcesInitialized())
@@ -52,6 +62,55 @@ HOOK_METHOD(AchievementTracker, LoadAchievementDescriptions, () -> void)
 
 
 // hyperspace.xml parsing
+void Global::PreInitializeResources(ResourceControl *resources)
+{
+    char *hyperspacetext = resources->LoadFile("data/hyperspace.xml");
+
+    try
+    {
+        if (!hyperspacetext)
+        {
+            __resourcesInitialized = true; // skip main pass
+            throw "hyperspace.xml not found";
+        }
+
+        rapidxml::xml_document<> doc;
+        doc.parse<0>(hyperspacetext);
+
+        auto parentNode = doc.first_node("FTL");
+        if (!parentNode)
+        {
+            __resourcesInitialized = true; // skip main pass
+            throw "No parent node found in hyperspace.xml";
+        }
+
+        for (auto node = parentNode->first_node(); node; node = node->next_sibling())
+        {
+            if (strcmp(node->name(), "ships") == 0)
+            {
+                auto customShipManager = CustomShipSelect::GetInstance();
+                customShipManager->EarlyParseShipsNode(node);
+            }
+        }
+
+        doc.clear();
+    }
+    catch (rapidxml::parse_error& e)
+    {
+        std::string msg = std::string("Failed parsing hyperspace.xml\n") + std::string(e.what());
+        MessageBoxA(GetDesktopWindow(), msg.c_str(), "Error", MB_ICONERROR | MB_SETFOREGROUND);
+    }
+    catch (std::exception &e)
+    {
+        std::string msg = std::string("Failed parsing hyperspace.xml\n") + std::string(e.what());
+        MessageBoxA(GetDesktopWindow(), msg.c_str(), "Error", MB_ICONERROR | MB_SETFOREGROUND);
+    }
+    catch (const char* e)
+    {
+        MessageBoxA(GetDesktopWindow(), e, "Error", MB_ICONERROR | MB_SETFOREGROUND);
+    }
+}
+
 void Global::InitializeResources(ResourceControl *resources)
 {
     __resourcesInitialized = true;

@@ -47,7 +47,7 @@ struct CrewPlacementDefinition
 
 struct CustomShipDefinition
 {
-    std::string name;
+    std::string name = "";
     std::map<std::string, int> hiddenAugs = std::map<std::string, int>();
     std::vector<CrewPlacementDefinition> crewList = std::vector<CrewPlacementDefinition>();
     bool noJump = false;
@@ -152,7 +152,10 @@ public:
     int CycleShipNext(int currentShipId, int currentType);
     int CycleShipPrevious(int currentShipId, int currentType);
 
+    void EarlyParseShipsNode(rapidxml::xml_node<char> *node);
     void ParseShipsNode(rapidxml::xml_node<char> *node);
+    void ParseVanillaShipNode(rapidxml::xml_node<char> *node);
+    bool ParseCustomShipNode(rapidxml::xml_node<char> *node, CustomShipDefinition &def);
     int CountUnlockedShips(int variant);
 
 
