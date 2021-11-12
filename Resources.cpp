@@ -320,6 +320,7 @@ void Global::InitializeResources(ResourceControl *resources)
             {
                 ParseSystemsNode(node);
             }
+            #ifdef _WIN32
             if (strcmp(node->name(), "discord") == 0)
             {
                 auto enabled = EventsParser::ParseBoolean(node->first_attribute("enabled")->value());
@@ -349,6 +350,7 @@ void Global::InitializeResources(ResourceControl *resources)
                     DiscordHandler::GetInstance()->SetLargeImageText(details);
                 }
             }
+            #endif // _WIN32
             if (strcmp(node->name(), "saveFile") == 0)
             {
                 SaveFileHandler::instance->ParseSaveFileNode(node);
