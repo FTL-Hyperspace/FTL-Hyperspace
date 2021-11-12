@@ -11,7 +11,28 @@
 CustomShipSelect CustomShipSelect::instance = CustomShipSelect();
 
 
+void CustomShipSelect::EarlyParseShipsNode(rapidxml::xml_node<char> *node)
+{
+    // parse <ships> node in hyperspace.xml
+    try
+    {
+        for (auto child = node->first_node(); child; child = child->next_sibling())
+        {
+            std::string name = child->name();
 
+            if (name == "customShip" && !child->first_attribute("name"))
+            {
+                CustomShipDefinition &def = GetDefaultDefinition();
+
+                ParseCustomShipNode(child, def);
+            }
+        }
+    }
+    catch (std::exception)
+    {
+        MessageBoxA(GetDesktopWindow(), "Error parsing <ships> in hyperspace.xml", "Error", MB_ICONERROR | MB_SETFOREGROUND);
+    }
+}
 
 void CustomShipSelect::ParseShipsNode(rapidxml::xml_node<char> *node)
 {
@@ -25,7 +46,6 @@ void CustomShipSelect::ParseShipsNode(rapidxml::xml_node<char> *node)
 
         for (auto child = node->first_node(); child; child = child->next_sibling())
         {
-            CustomShipDefinition def;
             std::string name = child->name();
 
 
@@ -36,8 +56,6 @@ void CustomShipSelect::ParseShipsNode(rapidxml::xml_node<char> *node)
 
             if (name == "ship")
             {
-                def = CustomShipDefinition(GetDefaultDefinition());
-
                 if (child->first_attribute("name"))
                 {
                     std::string shipName = std::string(child->first_attribute("name")->value());
@@ -69,8 +87,6 @@ void CustomShipSelect::ParseShipsNode(rapidxml::xml_node<char> *node)
                     {
                         shipButtonDefs.push_back(buttonDef);
                     }
-
-                    shipDefs[shipName] = def;
 
                     for (auto shipChild = child->first_node(); shipChild; shipChild = shipChild->next_sibling())
                     {
@@ -117,200 +133,240 @@ void CustomShipSelect::ParseShipsNode(rapidxml::xml_node<char> *node)
                 }
             }
 
-            if (name == "customShip")
+            if (name == "customShip" && child->first_attribute("name"))
             {
-                def = CustomShipDefinition(GetDefaultDefinition());
+                std::string shipName = child->first_attribute("name")->value();
+                bool exists = shipDefs.find(shipName) != shipDefs.end();
 
-                std::string shipName;
-                if (!child->first_attribute("name"))
+                CustomShipDefinition &def = shipDefs[shipName];
+                if (child->first_attribute("load"))
                 {
-                    shipName = "";
-                }
-                else
-                {
-                    shipName = child->first_attribute("name")->value();
-                    if (shipDefs.find(shipName) != shipDefs.end())
+                    std::string loadName = child->first_attribute("load")->value();
+                    if (shipDefs.find(loadName) != shipDefs.end())
                     {
-                        def = shipDefs[shipName];
+                        def = CustomShipDefinition(shipDefs[loadName]);
                     }
                 }
-
-                for (auto shipNode = child->first_node(); shipNode; shipNode = shipNode->next_sibling())
+                else if (!exists)
                 {
-                    std::string name = std::string(shipNode->name());
-                    std::string val = std::string(shipNode->value());
-
-                    if (name == "hiddenAug")
-                    {
-                        if (def.hiddenAugs.find(val) == def.hiddenAugs.end())
-                        {
-                            def.hiddenAugs[val] = 1;
-                        }
-                        else
-                        {
-                            def.hiddenAugs[val]++;
-                        }
-                    }
-                    if (name == "crewLimit")
-                    {
-                        def.crewLimit = boost::lexical_cast<int>(val);
-                    }
-                    if (name == "shipIcons")
-                    {
-                        for (auto iconNode = shipNode->first_node(); iconNode; iconNode = iconNode->next_sibling())
-                        {
-                            std::string iconName = iconNode->name();
-
-                            if (iconName == "shipIcon")
-                            {
-                                def.shipIcons.push_back(iconNode->value());
-                            }
-                        }
-                    }
-                    if (name == "rooms")
-                    {
-                        for (auto roomNode = shipNode->first_node(); roomNode; roomNode = roomNode->next_sibling())
-                        {
-                            if (strcmp(roomNode->name(), "room") == 0 && roomNode->first_attribute("id"))
-                            {
-                                RoomDefinition* roomDef = new RoomDefinition();
-
-                                int roomId = boost::lexical_cast<int>(roomNode->first_attribute("id")->value());
-
-                                for (auto roomDefNode = roomNode->first_node(); roomDefNode; roomDefNode = roomDefNode->next_sibling())
-                                {
-                                    std::string roomName = roomDefNode->name();
-                                    std::string roomValue = roomDefNode->value();
-
-                                    if (roomName == "roomAnim")
-                                    {
-                                        auto def = RoomAnimDef();
-
-                                        def.animName = roomValue;
-
-                                        if (roomDefNode->first_attribute("renderLayer"))
-                                        {
-                                            def.renderLayer = boost::lexical_cast<int>(roomDefNode->first_attribute("renderLayer")->value());
-                                        }
-
-                                        roomDef->roomAnims.push_back(def);
-                                    }
-                                    if (roomName == "sensorBlind")
-                                    {
-                                        roomDef->sensorBlind = EventsParser::ParseBoolean(roomValue);
-                                    }
-                                    if (roomName == "sysDamageResistChance")
-                                    {
-                                        roomDef->sysDamageResistChance = boost::lexical_cast<float>(roomValue);
-                                    }
-                                    if (roomName == "ionDamageResistChance")
-                                    {
-                                        roomDef->ionDamageResistChance = boost::lexical_cast<float>(roomValue);
-                                    }
-                                }
-
-                                def.roomDefs[roomId] = roomDef;
-                            }
-                        }
-                    }
-                    if (name == "crew")
-                    {
-                        for (auto crewNode = shipNode->first_node(); crewNode; crewNode = crewNode->next_sibling())
-                        {
-                            int roomId = 0;
-                            std::string crewName = "";
-                            auto crewDef = CrewPlacementDefinition();
-
-                            crewDef.species = crewNode->name();
-
-                            if (crewNode->first_attribute("room"))
-                            {
-                                crewDef.roomId = boost::lexical_cast<int>(crewNode->first_attribute("room")->value());
-                            }
-                            if (crewNode->first_attribute("name"))
-                            {
-                                crewDef.name = crewNode->first_attribute("name")->value();
-                            }
-                            if (crewNode->first_attribute("list"))
-                            {
-                                crewDef.isList = EventsParser::ParseBoolean(crewNode->first_attribute("list")->value());
-                            }
-
-                            def.crewList.push_back(crewDef);
-                        }
-                    }
-                    if (name == "noJump")
-                    {
-                        def.noJump = true;
-                    }
-                    if (name == "noFuelStalemate")
-                    {
-                        def.noFuelStalemate = true;
-                    }
-                    if (name == "hpCap")
-                    {
-                        def.hpCap = boost::lexical_cast<int>(val);
-                    }
-                    if (name == "startingFuel")
-                    {
-                        def.startingFuel = boost::lexical_cast<int>(val);
-                    }
-                    if (name == "startingScrap")
-                    {
-                        def.startingScrap = boost::lexical_cast<int>(val);
-                    }
-                    if (name == "autoShipForce")
-                    {
-                        def.forceAutomated = EventsParser::ParseBoolean(val);
-                    }
-                    if (name == "systemLimit")
-                    {
-                        def.systemLimit = boost::lexical_cast<int>(val);
-                    }
-                    if (name == "subsystemLimit")
-                    {
-                        def.subsystemLimit = boost::lexical_cast<int>(val);
-                    }
-                    if (name == "customReactor")
-                    {
-                        if(shipNode->first_attribute("maxLevel")) def.maxReactorLevel = boost::lexical_cast<int>(shipNode->first_attribute("maxLevel")->value());
-                        if(def.maxReactorLevel < 0) def.maxReactorLevel = 0;
-                        if(def.maxReactorLevel > 25) def.reactorPrices.resize(ceil(def.maxReactorLevel / 5 + 1), -1);
-                        for (auto reactorNode = shipNode->first_node(); reactorNode; reactorNode = reactorNode->next_sibling())
-                        {
-                            std::string reactName = reactorNode->name();
-
-                            if(reactName == "baseCost") def.reactorPrices[0] = boost::lexical_cast<int>(reactorNode->value());
-                            if(reactName == "increment") def.reactorPriceIncrement = boost::lexical_cast<int>(reactorNode->value());
-                            if(reactName == "overrideCost") {
-                                int coloumn = boost::lexical_cast<int>(reactorNode->first_attribute("coloumn")->value());
-                                def.reactorPrices[coloumn] = boost::lexical_cast<int>(reactorNode->value());
-                            }
-                        }
-                    }
-                    if (name == "shipGenerator")
-                    {
-                        def.shipGenerator = val;
-                    }
-
+                    def = CustomShipDefinition(GetDefaultDefinition());
                 }
 
-                if (!shipName.empty())
-                {
-                    shipDefs[shipName] = def;
-                }
-                else
-                {
-                    defaultShipDef = def;
-                }
+                def.name = shipName;
+
+                ParseCustomShipNode(child, def);
             }
-
         }
     }
     catch (std::exception)
     {
         MessageBoxA(GetDesktopWindow(), "Error parsing <ships> in hyperspace.xml", "Error", MB_ICONERROR | MB_SETFOREGROUND);
     }
+}
+
+HOOK_METHOD(BlueprintManager, ProcessShipBlueprint, (ShipBlueprint* bp, BlueprintManager *bpM, rapidxml::xml_node<char>* node) -> ShipBlueprint*)
+{
+    auto ret = super(bp, bpM, node);
+
+    CustomShipSelect::GetInstance()->ParseVanillaShipNode(node);
+
+    return ret;
+}
+
+void CustomShipSelect::ParseVanillaShipNode(rapidxml::xml_node<char> *node)
+{
+    std::string shipName = node->first_attribute("name")->value();
+
+    CustomShipDefinition &def = shipDefs[shipName];
+    def = CustomShipDefinition(GetDefaultDefinition());
+
+    bool isCustom = ParseCustomShipNode(node, def);
+
+    if (!isCustom) shipDefs.erase(shipName);
+}
+
+bool CustomShipSelect::ParseCustomShipNode(rapidxml::xml_node<char> *node, CustomShipDefinition &def)
+{
+    bool isCustom = false;
+
+    for (auto shipNode = node->first_node(); shipNode; shipNode = shipNode->next_sibling())
+    {
+        std::string name = std::string(shipNode->name());
+        std::string val = std::string(shipNode->value());
+
+        if (name == "hiddenAug")
+        {
+            isCustom = true;
+            if (def.hiddenAugs.find(val) == def.hiddenAugs.end())
+            {
+                def.hiddenAugs[val] = 1;
+            }
+            else
+            {
+                def.hiddenAugs[val]++;
+            }
+        }
+        if (name == "crewLimit")
+        {
+            isCustom = true;
+            def.crewLimit = boost::lexical_cast<int>(val);
+        }
+        if (name == "shipIcons")
+        {
+            isCustom = true;
+            for (auto iconNode = shipNode->first_node(); iconNode; iconNode = iconNode->next_sibling())
+            {
+                std::string iconName = iconNode->name();
+
+                if (iconName == "shipIcon")
+                {
+                    def.shipIcons.push_back(iconNode->value());
+                }
+            }
+        }
+        if (name == "rooms")
+        {
+            isCustom = true;
+            for (auto roomNode = shipNode->first_node(); roomNode; roomNode = roomNode->next_sibling())
+            {
+                if (strcmp(roomNode->name(), "room") == 0 && roomNode->first_attribute("id"))
+                {
+                    RoomDefinition* roomDef = new RoomDefinition();
+
+                    int roomId = boost::lexical_cast<int>(roomNode->first_attribute("id")->value());
+
+                    for (auto roomDefNode = roomNode->first_node(); roomDefNode; roomDefNode = roomDefNode->next_sibling())
+                    {
+                        std::string roomName = roomDefNode->name();
+                        std::string roomValue = roomDefNode->value();
+
+                        if (roomName == "roomAnim")
+                        {
+                            auto def = RoomAnimDef();
+
+                            def.animName = roomValue;
+
+                            if (roomDefNode->first_attribute("renderLayer"))
+                            {
+                                def.renderLayer = boost::lexical_cast<int>(roomDefNode->first_attribute("renderLayer")->value());
+                            }
+
+                            roomDef->roomAnims.push_back(def);
+                        }
+                        if (roomName == "sensorBlind")
+                        {
+                            roomDef->sensorBlind = EventsParser::ParseBoolean(roomValue);
+                        }
+                        if (roomName == "sysDamageResistChance")
+                        {
+                            roomDef->sysDamageResistChance = boost::lexical_cast<float>(roomValue);
+                        }
+                        if (roomName == "ionDamageResistChance")
+                        {
+                            roomDef->ionDamageResistChance = boost::lexical_cast<float>(roomValue);
+                        }
+                    }
+
+                    def.roomDefs[roomId] = roomDef;
+                }
+            }
+        }
+        if (name == "crew")
+        {
+            isCustom = true;
+            for (auto crewNode = shipNode->first_node(); crewNode; crewNode = crewNode->next_sibling())
+            {
+                int roomId = 0;
+                std::string crewName = "";
+                auto crewDef = CrewPlacementDefinition();
+
+                crewDef.species = crewNode->name();
+
+                if (crewNode->first_attribute("room"))
+                {
+                    crewDef.roomId = boost::lexical_cast<int>(crewNode->first_attribute("room")->value());
+                }
+                if (crewNode->first_attribute("name"))
+                {
+                    crewDef.name = crewNode->first_attribute("name")->value();
+                }
+                if (crewNode->first_attribute("list"))
+                {
+                    crewDef.isList = EventsParser::ParseBoolean(crewNode->first_attribute("list")->value());
+                }
+
+                def.crewList.push_back(crewDef);
+            }
+        }
+        if (name == "noJump")
+        {
+            isCustom = true;
+            def.noJump = true;
+        }
+        if (name == "noFuelStalemate")
+        {
+            isCustom = true;
+            def.noFuelStalemate = true;
+        }
+        if (name == "hpCap")
+        {
+            isCustom = true;
+            def.hpCap = boost::lexical_cast<int>(val);
+        }
+        if (name == "startingFuel")
+        {
+            isCustom = true;
+            def.startingFuel = boost::lexical_cast<int>(val);
+        }
+        if (name == "startingScrap")
+        {
+            isCustom = true;
+            def.startingScrap = boost::lexical_cast<int>(val);
+        }
+        if (name == "autoShipForce")
+        {
+            isCustom = true;
+            def.forceAutomated = EventsParser::ParseBoolean(val);
+        }
+        if (name == "systemLimit")
+        {
+            isCustom = true;
+            def.systemLimit = boost::lexical_cast<int>(val);
+        }
+        if (name == "subsystemLimit")
+        {
+            isCustom = true;
+            def.subsystemLimit = boost::lexical_cast<int>(val);
+        }
+        if (name == "customReactor")
+        {
+            isCustom = true;
+            if(shipNode->first_attribute("maxLevel")) def.maxReactorLevel = boost::lexical_cast<int>(shipNode->first_attribute("maxLevel")->value());
+            if(def.maxReactorLevel < 0) def.maxReactorLevel = 0;
+            if(def.maxReactorLevel > 25) def.reactorPrices.resize(ceil(def.maxReactorLevel / 5 + 1), -1);
+            for (auto reactorNode = shipNode->first_node(); reactorNode; reactorNode = reactorNode->next_sibling())
+            {
+                std::string reactName = reactorNode->name();
+
+                if(reactName == "baseCost") def.reactorPrices[0] = boost::lexical_cast<int>(reactorNode->value());
+                if(reactName == "increment") def.reactorPriceIncrement = boost::lexical_cast<int>(reactorNode->value());
+                if(reactName == "overrideCost") {
+                    int coloumn = 0;
+                    if (reactorNode->first_attribute("coloumn")) coloumn = boost::lexical_cast<int>(reactorNode->first_attribute("coloumn")->value());
+                    if (reactorNode->first_attribute("column")) coloumn = boost::lexical_cast<int>(reactorNode->first_attribute("column")->value());
+                    def.reactorPrices[coloumn] = boost::lexical_cast<int>(reactorNode->value());
+                }
+            }
+        }
+        if (name == "shipGenerator")
+        {
+            isCustom = true;
+            def.shipGenerator = val;
+        }
+
+    }
+
+    return isCustom;
 }
 
 void CustomShipSelect::OnInit(ShipSelect* shipSelect_)
