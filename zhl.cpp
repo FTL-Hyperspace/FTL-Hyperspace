@@ -9,6 +9,16 @@
 #include <cstdarg>
 #include "PALMemoryProtection.h"
 
+#ifdef _WIN32
+    #define OUR_OWN_FUNCTIONS_CALLEE_DOES_CLEANUP 1
+#elif defined(__linux__)
+    #define OUR_OWN_FUNCTIONS_CALLEE_DOES_CLEANUP 0
+    #define USE_STACK_ALIGNMENT
+    #define STACK_ALIGNMENT_SIZE 0x10
+#else
+    #define "Unknown OS"
+#endif
+
 using namespace ZHL;
 
 static const char *g_logPath = NULL;
@@ -292,6 +302,10 @@ int FunctionHook_private::Install()
 	int argc = def->GetArgCount();
 	unsigned char *ptr;
 	int stackPos;
+#ifdef USE_STACK_ALIGNMENT
+	unsigned int stackAlignPosition;
+	unsigned int stackAlignOffset;
+#endif // USE_STACK_ALIGNMENT
 	int k;
 	MEMPROT_SAVE_PROT(oldProtect);
 	MEMPROT_PAGESIZE();
@@ -302,13 +316,11 @@ int FunctionHook_private::Install()
 	// defined hook
 	ptr = _internalHook;
 
-
-
-
 	// Prologue
 	P(0x55);					// push ebp
 	P(0x89); P(0xe5);			// mov ebp, esp
 
+	// Not sure yet if this is different on 64-bit, I think it is because of push EBP + CALL so maybe?
 	// Compute stack size
 	stackPos = 8;
 	for(int i=0 ; i<argc ; ++i)
@@ -316,6 +328,24 @@ int FunctionHook_private::Install()
 		if(argd[i].r < 0)
 			stackPos += 4 * argd[i].s;
 	}
+
+	#ifdef USE_STACK_ALIGNMENT
+        stackAlignPosition = stackPos;
+        /* We need to account for everything pushed onto the stack so we can compute the proper 16-byte alignment per System V ABI specification */
+        if(def->IsVoid() || !def->IsLongLong())
+            stackAlignPosition += 4;
+        if(def->IsVoid())
+            stackAlignPosition += 4;
+        stackAlignPosition += 4 * 4; // Because of the regular ECX/EBX/ESI/EDI registers we always push (or their R equivalents for 64-bit),
+
+        // Modulo to get amount of padding we need to add to ensure the correct alignment
+        stackAlignOffset = (STACK_ALIGNMENT_SIZE - (stackAlignPosition % STACK_ALIGNMENT_SIZE)) % STACK_ALIGNMENT_SIZE;
+        
+        // Reserve some extra space to ensure proper stack alignment
+        if(stackAlignOffset != 0) {
+            P(0x83); P(0xec); P(stackAlignOffset); // sub esp, N8
+        }
+	#endif // USE_STACK_ALIGNMENT
 
 	// Push general purpose registers
 	if(def->IsVoid() || !def->IsLongLong())
@@ -328,6 +358,7 @@ int FunctionHook_private::Install()
 	P(0x57);	// push edi
 
 	// Copy arguments to their appropriate location
+	int sizePushed = 0;
 	k = stackPos;
 	for(int i=argc-1 ; i>=0 ; --i)
 	{
@@ -352,6 +383,7 @@ int FunctionHook_private::Install()
 			if(argd[i].r >= 0)
 			{
 				P(0x50 + argd[i].r);							// push XXX
+				sizePushed += 4;
 			}
 			else
 			{
@@ -359,6 +391,7 @@ int FunctionHook_private::Install()
 				{
 					k -= 4;
 					P(0xff); P(0x75); P(k);						// push [ebp+8+4*X]
+					sizePushed += 4;
 				}
 			}
 		}
@@ -367,6 +400,12 @@ int FunctionHook_private::Install()
 
 	// Call the hook
 	P(0xE8); PL((unsigned int)_hook - (unsigned int)ptr - 4);	// call _hook
+
+#if OUR_OWN_FUNCTIONS_CALLEE_DOES_CLEANUP == 0
+    // If our hook function requires caller cleanup, increment the stack pointer here. This will only be true on non-Windows platforms where our hook will be generated as __cdecl
+    if(sizePushed < 128)	{ P(0x83); P(0xc4); P(sizePushed); }	// add esp, N8
+    else					{ P(0x81); P(0xc4); PL(sizePushed); }	// add esp, N32
+#endif // OUR_OWN_FUNCTIONS_CALLEE_DOES_CLEANUP
 
 	// Restore all saved registers
 	P(0x5f);	// pop edi
@@ -413,6 +452,33 @@ int FunctionHook_private::Install()
 	P(0x55);					// push ebp
 	P(0x89); P(0xe5);			// mov ebp, esp
 
+	// TODO: I think this needs to change for 64-bit
+	// Compute stack size
+	stackPos = 8;
+	for(int i=0 ; i<argc ; ++i)
+	{
+		if(!def->IsThiscall() || i != 0)
+			stackPos += 4 * argd[i].s;
+	}
+
+	#ifdef USE_STACK_ALIGNMENT
+        stackAlignPosition = stackPos;
+        /* We need to account for everything pushed onto the stack so we can compute the proper 16-byte alignment per System V ABI specification */
+        if(def->IsVoid() || !def->IsLongLong())
+            stackAlignPosition += 4;
+        if(def->IsVoid())
+            stackAlignPosition += 4;
+        stackAlignPosition += 4 * 4; // Because of the regular ECX/EBX/ESI/EDI registers we always push (or their R equivalents for 64-bit),
+
+        // Modulo to get amount of padding we need to add to ensure the correct alignment
+        stackAlignOffset = (STACK_ALIGNMENT_SIZE - (stackAlignPosition % STACK_ALIGNMENT_SIZE)) % STACK_ALIGNMENT_SIZE;
+        
+        // Reserve some extra space to ensure proper stack alignment
+        if(stackAlignOffset != 0) {
+            P(0x83); P(0xec); P(stackAlignOffset); // sub esp, N8
+        }
+	#endif // USE_STACK_ALIGNMENT
+
 	// Push general purpose registers
 	if(def->IsVoid() || !def->IsLongLong())
 		P(0x52);	// push edx
@@ -424,15 +490,8 @@ int FunctionHook_private::Install()
 	P(0x57);	// push edi
 
 	// Copy arguments to their appropriate location
-	stackPos = 8;
-	for(int i=0 ; i<argc ; ++i)
-	{
-		if(!def->IsThiscall() || i != 0)
-			stackPos += 4 * argd[i].s;
-	}
-
 	// Stack arguments first
-	int sizePushed = 0;
+    sizePushed = 0;
 	k = stackPos;
 	for(int i=argc-1 ; i>=0 ; --i)
 	{
@@ -507,7 +566,8 @@ int FunctionHook_private::Install()
 	// Epilogue
 	P(0x89); P(0xec);				// mov esp, ebp
 	P(0x5d);						// pop ebp
-	if(stackPos > 8)
+
+	if(stackPos > 8 && OUR_OWN_FUNCTIONS_CALLEE_DOES_CLEANUP)
 	{
 		P(0xc2); PS(stackPos - 8);	// ret 4*N
 	}
@@ -520,7 +580,6 @@ int FunctionHook_private::Install()
 	// Set the external reference to internalSuper so it can be used inside the user defined hook
 
 	*_outInternalSuper = _internalSuper;
-
 
 	Log("Successfully hooked function %s\n", _name);
 	Log("%s\ninternalHook:\n", _name);

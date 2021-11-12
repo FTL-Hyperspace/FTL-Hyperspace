@@ -45,7 +45,11 @@ public:
 
 	virtual int Load();
 
+#ifdef _WIN32
 	bool IsThiscall() const {return (_flags & 1) != 0;}
+#else
+    bool IsThiscall() const {return false;}
+#endif // _WIN32
 	bool NeedsCallerCleanup() const {return (_flags & 2) != 0;}
 	bool IsVoid() const {return (_flags & 4) != 0;}
 	bool IsLongLong() const {return (_flags & 8) != 0;}

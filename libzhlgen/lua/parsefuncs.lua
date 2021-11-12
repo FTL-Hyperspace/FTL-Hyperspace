@@ -4,6 +4,9 @@ local lfs = require("lfs")
 
 local isPOSIX = mode == 'POSIX'
 
+local useStackAlignment = isPOSIX -- Aligns the stack before CALL instruction (as required by System V ABI specification)
+local stackAlignmentSize = 0x10
+
 local useNaked = true
 
 local function makeset(t)
@@ -887,6 +890,25 @@ using namespace ZHL;
 					out("\n\t\t\"mov ebp, esp\\n\\t\"")
 				end
 				
+				local stackAlignPushSize = func.stacksize + 8 -- size of CALL + plus the push EBP above
+                
+				if func.void or not func.longlong then
+					stackAlignPushSize = stackAlignPushSize + 4 -- Because of push edx/rdx
+				end
+				if func.void then
+					stackAlignPushSize = stackAlignPushSize + 4 -- Because of push eax/rax
+				end
+				
+				stackAlignPushSize = stackAlignPushSize + (4*4) -- Because of the push ECX/EBX/ESI/EDI (or their R equivalents on 64-bit) that we always push below
+				
+				-- We do this after the push ebp & move ebp, esp but before the other pushes so we don't have to worry about resetting the stack correctly afterwards (as all our arguments & pops are directly next to each other without a gap until we've already reset the saved esp stack pointer and would no longer care [ebp][gap][other registers & arguments]call[registers & arguments pop/remove][reset stack][pop ebp])
+				if useStackAlignment then
+					local stackAlignOffset = (stackAlignmentSize - (stackAlignPushSize % stackAlignmentSize)) % stackAlignmentSize
+					if(stackAlignOffset ~= 0) then
+						out("\n\t\t\"sub esp, %d\\n\\t\"", stackAlignOffset)
+					end
+				end
+				
 				-- save all registers
 				if func.void or not func.longlong then out("\n\t\t\"push edx\\n\\t\"") end
 				if func.void then out("\n\t\t\"push eax\\n\\t\"") end
@@ -949,7 +971,7 @@ using namespace ZHL;
 				if useNaked then
 					out("\n\t\t\"mov esp, ebp\\n\\t\"")
 					out("\n\t\t\"pop ebp\\n\\t\"")
-					if func.stacksize > 0 then
+					if func.stacksize > 0 and not isPOSIX then
 						out("\n\t\t\"ret %d\\n\\t\"", func.stacksize)
 					else
 						out("\n\t\t\"ret\\n\\t\"")

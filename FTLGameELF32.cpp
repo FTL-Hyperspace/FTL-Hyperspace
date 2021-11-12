@@ -25,6 +25,7 @@ FUNC_NAKED void AchievementTracker::LoadAchievementDescriptions()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -45,7 +46,7 @@ FUNC_NAKED void AchievementTracker::LoadAchievementDescriptions()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -62,6 +63,7 @@ FUNC_NAKED void *AchievementTracker::GetShipAchievements(void *unk, AchievementT
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -82,7 +84,7 @@ FUNC_NAKED void *AchievementTracker::GetShipAchievements(void *unk, AchievementT
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -122,7 +124,7 @@ FUNC_NAKED void AchievementTracker::SetAchievement(const std::string &achievemen
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -139,6 +141,7 @@ FUNC_NAKED void AchievementTracker::UnlockShip(int shipId, int shipType)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -161,7 +164,7 @@ FUNC_NAKED void AchievementTracker::UnlockShip(int shipId, int shipType)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -178,6 +181,7 @@ FUNC_NAKED void AchievementTracker::SetSectorEight()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -198,7 +202,7 @@ FUNC_NAKED void AchievementTracker::SetSectorEight()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -215,6 +219,7 @@ FUNC_NAKED int AchievementTracker::GetShipMarker(const std::string &baseName, co
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -235,7 +240,7 @@ FUNC_NAKED int AchievementTracker::GetShipMarker(const std::string &baseName, co
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -252,6 +257,7 @@ FUNC_NAKED void AchievementTracker::SetFlag(const std::string &flagName)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -273,7 +279,7 @@ FUNC_NAKED void AchievementTracker::SetFlag(const std::string &flagName)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -290,6 +296,7 @@ FUNC_NAKED bool AchievementTracker::GetFlag(const std::string &flagName)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -309,7 +316,7 @@ FUNC_NAKED bool AchievementTracker::GetFlag(const std::string &flagName)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -326,6 +333,7 @@ FUNC_NAKED void AchievementTracker::SaveProfile(int file)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -347,7 +355,7 @@ FUNC_NAKED void AchievementTracker::SaveProfile(int file)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -364,6 +372,7 @@ FUNC_NAKED void AchievementTracker::LoadProfile(int file, int version)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -386,7 +395,7 @@ FUNC_NAKED void AchievementTracker::LoadProfile(int file, int version)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -403,6 +412,7 @@ FUNC_NAKED void AchievementTracker::SetVictoryAchievement()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -423,7 +433,7 @@ FUNC_NAKED void AchievementTracker::SetVictoryAchievement()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -440,6 +450,7 @@ FUNC_NAKED void Animation::constructor(const std::string &_image, int _length, f
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -469,7 +480,7 @@ FUNC_NAKED void Animation::constructor(const std::string &_image, int _length, f
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 40\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -486,6 +497,7 @@ FUNC_NAKED void Animation::OnRender(float opacity, GL_Color color, bool mirror)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -512,7 +524,7 @@ FUNC_NAKED void Animation::OnRender(float opacity, GL_Color color, bool mirror)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 28\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -529,6 +541,7 @@ FUNC_NAKED void Animation::Update()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -549,7 +562,7 @@ FUNC_NAKED void Animation::Update()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -566,6 +579,7 @@ FUNC_NAKED void Animation::SetCurrentFrame(int frame)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -587,7 +601,7 @@ FUNC_NAKED void Animation::SetCurrentFrame(int frame)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -604,6 +618,7 @@ FUNC_NAKED void Animation::Start(bool reset)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -625,7 +640,7 @@ FUNC_NAKED void Animation::Start(bool reset)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -642,6 +657,7 @@ FUNC_NAKED void Animation::AddSoundQueue(int unk, const std::string &sound)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -664,7 +680,7 @@ FUNC_NAKED void Animation::AddSoundQueue(int unk, const std::string &sound)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -681,6 +697,7 @@ FUNC_NAKED void Animation::SetAnimationId(GL_Texture *tex)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -702,7 +719,7 @@ FUNC_NAKED void Animation::SetAnimationId(GL_Texture *tex)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -719,6 +736,7 @@ FUNC_NAKED void Animation::destructor()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -739,7 +757,7 @@ FUNC_NAKED void Animation::destructor()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -756,6 +774,7 @@ FUNC_NAKED void Animation::StartReverse(bool reset)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -777,7 +796,7 @@ FUNC_NAKED void Animation::StartReverse(bool reset)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -794,6 +813,7 @@ FUNC_NAKED void Animation::SetProgress(float progress)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -815,7 +835,7 @@ FUNC_NAKED void Animation::SetProgress(float progress)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -850,7 +870,7 @@ FUNC_NAKED int Animation::RandomStart()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -867,6 +887,7 @@ FUNC_NAKED Animation *AnimationControl::GetAnimation(Animation &animRef, Animati
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -887,7 +908,7 @@ FUNC_NAKED Animation *AnimationControl::GetAnimation(Animation &animRef, Animati
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -904,6 +925,7 @@ FUNC_NAKED void AnimationTracker::Update()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -924,7 +946,7 @@ FUNC_NAKED void AnimationTracker::Update()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -941,6 +963,7 @@ FUNC_NAKED void AnimationTracker::SetLoop(bool loop, float loopDelay)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -963,7 +986,7 @@ FUNC_NAKED void AnimationTracker::SetLoop(bool loop, float loopDelay)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -980,6 +1003,7 @@ FUNC_NAKED void AnimationTracker::Stop(bool resetTime)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -1001,7 +1025,7 @@ FUNC_NAKED void AnimationTracker::Stop(bool resetTime)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -1018,6 +1042,7 @@ FUNC_NAKED void AnimationTracker::Start(float time)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -1039,7 +1064,7 @@ FUNC_NAKED void AnimationTracker::Start(float time)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -1056,6 +1081,7 @@ FUNC_NAKED void AnimationTracker::StartReverse(float time)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -1077,7 +1103,7 @@ FUNC_NAKED void AnimationTracker::StartReverse(float time)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -1094,6 +1120,7 @@ FUNC_NAKED float AnimationTracker::Progress(float speed)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -1113,7 +1140,7 @@ FUNC_NAKED float AnimationTracker::Progress(float speed)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -1130,6 +1157,7 @@ FUNC_NAKED void AnimationTracker::SetProgress(float time)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -1151,7 +1179,7 @@ FUNC_NAKED void AnimationTracker::SetProgress(float time)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -1168,6 +1196,7 @@ FUNC_NAKED float AnimationTracker::GetAlphaLevel(bool reverse)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -1187,7 +1216,7 @@ FUNC_NAKED float AnimationTracker::GetAlphaLevel(bool reverse)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -1222,7 +1251,7 @@ FUNC_NAKED bool ArmamentControl::Dragging()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -1239,6 +1268,7 @@ FUNC_NAKED void ArmamentControl::SetPosition(int x, int y)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -1261,7 +1291,7 @@ FUNC_NAKED void ArmamentControl::SetPosition(int x, int y)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -1278,6 +1308,7 @@ FUNC_NAKED bool ArmamentControl::KeyDown(SDLKey key)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -1297,7 +1328,7 @@ FUNC_NAKED bool ArmamentControl::KeyDown(SDLKey key)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -1337,7 +1368,7 @@ FUNC_NAKED void ArtilleryBox::constructor(Point pos, ArtillerySystem *sys)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -1354,6 +1385,7 @@ FUNC_NAKED void ArtilleryBox::OnRender(bool ignoreStatus)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -1375,7 +1407,7 @@ FUNC_NAKED void ArtilleryBox::OnRender(bool ignoreStatus)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -1392,6 +1424,7 @@ FUNC_NAKED void ArtillerySystem::OnLoop()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -1412,7 +1445,7 @@ FUNC_NAKED void ArtillerySystem::OnLoop()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -1429,6 +1462,7 @@ FUNC_NAKED void AsteroidGenerator::constructor()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -1449,7 +1483,7 @@ FUNC_NAKED void AsteroidGenerator::constructor()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -1466,6 +1500,7 @@ FUNC_NAKED float AsteroidGenerator::Initialize(int numberOfShips, int shieldCoun
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -1487,7 +1522,7 @@ FUNC_NAKED float AsteroidGenerator::Initialize(int numberOfShips, int shieldCoun
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -1504,6 +1539,7 @@ FUNC_NAKED void AsteroidGenerator::SetNumShips(int ships)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -1525,7 +1561,7 @@ FUNC_NAKED void AsteroidGenerator::SetNumShips(int ships)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -1560,7 +1596,7 @@ FUNC_NAKED Projectile *AsteroidGenerator::GetNextAsteroid()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -1577,6 +1613,7 @@ FUNC_NAKED void AsteroidGenerator::OnLoop()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -1597,7 +1634,7 @@ FUNC_NAKED void AsteroidGenerator::OnLoop()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -1632,7 +1669,7 @@ FUNC_NAKED float AsteroidGenerator::GetNextState()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -1649,6 +1686,7 @@ FUNC_NAKED void AsteroidGenerator::UpdateState()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -1669,7 +1707,7 @@ FUNC_NAKED void AsteroidGenerator::UpdateState()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -1686,6 +1724,7 @@ FUNC_NAKED bool AsteroidGenerator::SaveAsteroids(void *file)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -1705,7 +1744,7 @@ FUNC_NAKED bool AsteroidGenerator::SaveAsteroids(void *file)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -1722,6 +1761,7 @@ FUNC_NAKED void AsteroidGenerator::LoadAsteroids(void *file)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -1743,7 +1783,7 @@ FUNC_NAKED void AsteroidGenerator::LoadAsteroids(void *file)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -1760,6 +1800,7 @@ FUNC_NAKED void AugmentEquipBox::RenderIcon()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -1780,7 +1821,7 @@ FUNC_NAKED void AugmentEquipBox::RenderIcon()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -1797,6 +1838,7 @@ FUNC_NAKED void AugmentEquipBox::CheckContents()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -1817,7 +1859,7 @@ FUNC_NAKED void AugmentEquipBox::CheckContents()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -1834,6 +1876,7 @@ FUNC_NAKED void AugmentEquipBox::RemoveItem()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -1854,7 +1897,7 @@ FUNC_NAKED void AugmentEquipBox::RemoveItem()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -1871,6 +1914,7 @@ FUNC_NAKED void AugmentStoreBox::constructor(ShipManager *ship, const AugmentBlu
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -1893,7 +1937,7 @@ FUNC_NAKED void AugmentStoreBox::constructor(ShipManager *ship, const AugmentBlu
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -1933,7 +1977,7 @@ FUNC_NAKED void BatteryBox::constructor(Point pos, BatterySystem *sys)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -1950,6 +1994,7 @@ FUNC_NAKED void BeamWeapon::constructor(Pointf _position, int _ownerId, int _tar
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -1980,7 +2025,7 @@ FUNC_NAKED void BeamWeapon::constructor(Pointf _position, int _ownerId, int _tar
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 44\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -1997,6 +2042,7 @@ FUNC_NAKED void Blueprint::destructor()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -2017,7 +2063,7 @@ FUNC_NAKED void Blueprint::destructor()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -2034,6 +2080,7 @@ FUNC_NAKED std::string *Blueprint::GetNameShort(std::string &ret, Blueprint *bp)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -2053,7 +2100,7 @@ FUNC_NAKED std::string *Blueprint::GetNameShort(std::string &ret, Blueprint *bp)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -2070,6 +2117,7 @@ FUNC_NAKED std::vector<std::string> &BlueprintManager::GetBlueprintList(std::vec
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -2090,7 +2138,7 @@ FUNC_NAKED std::vector<std::string> &BlueprintManager::GetBlueprintList(std::vec
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -2107,6 +2155,7 @@ FUNC_NAKED ShipBlueprint *BlueprintManager::GetShipBlueprint(const std::string &
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -2127,7 +2176,7 @@ FUNC_NAKED ShipBlueprint *BlueprintManager::GetShipBlueprint(const std::string &
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -2144,6 +2193,7 @@ FUNC_NAKED DroneBlueprint *BlueprintManager::GetDroneBlueprint(const std::string
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -2163,7 +2213,7 @@ FUNC_NAKED DroneBlueprint *BlueprintManager::GetDroneBlueprint(const std::string
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -2180,6 +2230,7 @@ FUNC_NAKED float BlueprintManager::GetAugmentValue(const std::string &name)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -2199,7 +2250,7 @@ FUNC_NAKED float BlueprintManager::GetAugmentValue(const std::string &name)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -2216,6 +2267,7 @@ FUNC_NAKED ItemBlueprint *BlueprintManager::GetItemBlueprint(const std::string &
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -2235,7 +2287,7 @@ FUNC_NAKED ItemBlueprint *BlueprintManager::GetItemBlueprint(const std::string &
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -2252,6 +2304,7 @@ FUNC_NAKED AugmentBlueprint *BlueprintManager::GetAugmentBlueprint(const std::st
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -2271,7 +2324,7 @@ FUNC_NAKED AugmentBlueprint *BlueprintManager::GetAugmentBlueprint(const std::st
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -2288,6 +2341,7 @@ FUNC_NAKED WeaponBlueprint *BlueprintManager::ProcessWeaponBlueprint(WeaponBluep
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -2308,7 +2362,7 @@ FUNC_NAKED WeaponBlueprint *BlueprintManager::ProcessWeaponBlueprint(WeaponBluep
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -2325,6 +2379,7 @@ FUNC_NAKED Description *BlueprintManager::ProcessDescription(Description *desc, 
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -2345,7 +2400,7 @@ FUNC_NAKED Description *BlueprintManager::ProcessDescription(Description *desc, 
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -2362,6 +2417,7 @@ FUNC_NAKED EffectsBlueprint *BlueprintManager::ProcessEffectsBlueprint(EffectsBl
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -2382,7 +2438,7 @@ FUNC_NAKED EffectsBlueprint *BlueprintManager::ProcessEffectsBlueprint(EffectsBl
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -2399,6 +2455,7 @@ FUNC_NAKED CrewBlueprint *BlueprintManager::GetCrewBlueprint(CrewBlueprint *bp, 
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -2419,7 +2476,7 @@ FUNC_NAKED CrewBlueprint *BlueprintManager::GetCrewBlueprint(CrewBlueprint *bp, 
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -2436,6 +2493,7 @@ FUNC_NAKED WeaponBlueprint *BlueprintManager::GetWeaponBlueprint(const std::stri
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -2455,7 +2513,7 @@ FUNC_NAKED WeaponBlueprint *BlueprintManager::GetWeaponBlueprint(const std::stri
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -2495,7 +2553,7 @@ FUNC_NAKED void BlueprintManager::GetRandomAugment(std::vector<AugmentBlueprint*
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -2512,6 +2570,7 @@ FUNC_NAKED SystemBlueprint *BlueprintManager::GetSystemBlueprint(const std::stri
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -2531,7 +2590,7 @@ FUNC_NAKED SystemBlueprint *BlueprintManager::GetSystemBlueprint(const std::stri
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -2548,6 +2607,7 @@ FUNC_NAKED void BlueprintManager::GetUnusedCrewName(std::string &strRef, Bluepri
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -2570,7 +2630,7 @@ FUNC_NAKED void BlueprintManager::GetUnusedCrewName(std::string &strRef, Bluepri
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -2587,6 +2647,7 @@ FUNC_NAKED void BlueprintManager::GetCrewName(std::string &strRef, BlueprintMana
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -2609,7 +2670,7 @@ FUNC_NAKED void BlueprintManager::GetCrewName(std::string &strRef, BlueprintMana
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -2649,7 +2710,7 @@ FUNC_NAKED void BlueprintManager::GetRandomWeapon(std::vector<WeaponBlueprint*> 
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -2689,7 +2750,7 @@ FUNC_NAKED void BlueprintManager::GetRandomDrone(std::vector<DroneBlueprint*> &v
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -2729,7 +2790,7 @@ FUNC_NAKED void BoarderPodDrone::constructor(int _iShipId, int _selfId, const Dr
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -2746,6 +2807,7 @@ FUNC_NAKED void BoarderPodDrone::SetMovementTarget(Targetable *target)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -2767,7 +2829,7 @@ FUNC_NAKED void BoarderPodDrone::SetMovementTarget(Targetable *target)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -2784,6 +2846,7 @@ FUNC_NAKED void BombProjectile::constructor(Pointf _position, int _ownerId, int 
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -2810,7 +2873,7 @@ FUNC_NAKED void BombProjectile::constructor(Pointf _position, int _ownerId, int 
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 28\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -2827,6 +2890,7 @@ FUNC_NAKED void BossShip::Restart()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -2847,7 +2911,7 @@ FUNC_NAKED void BossShip::Restart()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -2882,7 +2946,7 @@ FUNC_NAKED bool BossShip::IncomingFire()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -2899,6 +2963,7 @@ FUNC_NAKED void BossShip::constructor(SpaceManager *space)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -2920,7 +2985,7 @@ FUNC_NAKED void BossShip::constructor(SpaceManager *space)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -2955,7 +3020,7 @@ FUNC_NAKED int BossShip::ClearLocation()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -2990,7 +3055,7 @@ FUNC_NAKED char BossShip::Defeated()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -3025,7 +3090,7 @@ FUNC_NAKED int BossShip::GetSubEvent()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -3042,6 +3107,7 @@ FUNC_NAKED void BossShip::StartStage()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -3062,7 +3128,7 @@ FUNC_NAKED void BossShip::StartStage()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -3079,6 +3145,7 @@ FUNC_NAKED void BossShip::SaveBoss(void *file)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -3100,7 +3167,7 @@ FUNC_NAKED void BossShip::SaveBoss(void *file)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -3135,7 +3202,7 @@ FUNC_NAKED LocationEvent *BossShip::GetEvent()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -3152,6 +3219,7 @@ FUNC_NAKED int BossShip::LoadBoss(void *file)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -3171,7 +3239,7 @@ FUNC_NAKED int BossShip::LoadBoss(void *file)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -3188,6 +3256,7 @@ FUNC_NAKED void BossShip::OnLoop()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -3208,7 +3277,7 @@ FUNC_NAKED void BossShip::OnLoop()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -3225,6 +3294,7 @@ FUNC_NAKED void Button::SetLocation(const Point pos)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -3247,7 +3317,7 @@ FUNC_NAKED void Button::SetLocation(const Point pos)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -3287,7 +3357,7 @@ FUNC_NAKED void Button::OnInit(const std::string &img, int x, int y)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -3304,6 +3374,7 @@ FUNC_NAKED void Button::constructor()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -3324,7 +3395,7 @@ FUNC_NAKED void Button::constructor()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -3341,6 +3412,7 @@ FUNC_NAKED void Button::OnRender()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -3361,7 +3433,7 @@ FUNC_NAKED void Button::OnRender()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -3378,6 +3450,7 @@ FUNC_NAKED void Button::SetInactiveImage(GL_Texture *texture)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -3399,7 +3472,7 @@ FUNC_NAKED void Button::SetInactiveImage(GL_Texture *texture)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -3416,6 +3489,7 @@ FUNC_NAKED void Button::SetActiveImage(GL_Texture *texture)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -3437,7 +3511,7 @@ FUNC_NAKED void Button::SetActiveImage(GL_Texture *texture)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -3454,6 +3528,7 @@ FUNC_NAKED void Button::SetImageBase(const std::string &imageBase)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -3475,7 +3550,7 @@ FUNC_NAKED void Button::SetImageBase(const std::string &imageBase)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -3492,6 +3567,7 @@ FUNC_NAKED void CAchievement::OnRender(Point pos, int selected, bool unk)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -3516,7 +3592,7 @@ FUNC_NAKED void CAchievement::OnRender(Point pos, int selected, bool unk)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 20\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -3533,6 +3609,7 @@ FUNC_NAKED void CAchievement::constructor()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -3553,7 +3630,7 @@ FUNC_NAKED void CAchievement::constructor()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -3588,7 +3665,7 @@ FUNC_NAKED int CApp::OnRequestExit()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -3623,7 +3700,7 @@ FUNC_NAKED int CApp::OnExit()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -3640,6 +3717,7 @@ FUNC_NAKED void CApp::OnMButtonDown(int x, int y)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -3662,7 +3740,7 @@ FUNC_NAKED void CApp::OnMButtonDown(int x, int y)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -3679,6 +3757,7 @@ FUNC_NAKED void CApp::OnTextInput(int unk)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -3700,7 +3779,7 @@ FUNC_NAKED void CApp::OnTextInput(int unk)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -3717,6 +3796,7 @@ FUNC_NAKED void CApp::OnTextEvent(CEvent::TextEvent textEvent)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -3738,7 +3818,7 @@ FUNC_NAKED void CApp::OnTextEvent(CEvent::TextEvent textEvent)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -3773,7 +3853,7 @@ FUNC_NAKED int CApp::OnInputFocus()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -3808,7 +3888,7 @@ FUNC_NAKED int CApp::OnInputBlur()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -3825,6 +3905,7 @@ FUNC_NAKED void CApp::OnRButtonUp(int x, int y)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -3847,7 +3928,7 @@ FUNC_NAKED void CApp::OnRButtonUp(int x, int y)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -3864,6 +3945,7 @@ FUNC_NAKED void CApp::OnRButtonDown(int x, int y)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -3886,7 +3968,7 @@ FUNC_NAKED void CApp::OnRButtonDown(int x, int y)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -3903,6 +3985,7 @@ FUNC_NAKED void CApp::OnLButtonUp(int x, int y)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -3925,7 +4008,7 @@ FUNC_NAKED void CApp::OnLButtonUp(int x, int y)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -3942,6 +4025,7 @@ FUNC_NAKED void CApp::OnLButtonDown(int x, int y)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -3964,7 +4048,7 @@ FUNC_NAKED void CApp::OnLButtonDown(int x, int y)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -3981,6 +4065,7 @@ FUNC_NAKED int CApp::OnMouseMove(int x, int y, int xdiff, int ydiff, bool holdin
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -4006,7 +4091,7 @@ FUNC_NAKED int CApp::OnMouseMove(int x, int y, int xdiff, int ydiff, bool holdin
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 32\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -4023,6 +4108,7 @@ FUNC_NAKED void CApp::OnKeyUp(SDLKey key)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -4044,7 +4130,7 @@ FUNC_NAKED void CApp::OnKeyUp(SDLKey key)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -4061,6 +4147,7 @@ FUNC_NAKED void CApp::OnLanguageChange()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -4081,7 +4168,7 @@ FUNC_NAKED void CApp::OnLanguageChange()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -4098,6 +4185,7 @@ FUNC_NAKED void CApp::OnKeyDown(SDLKey key)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -4119,7 +4207,7 @@ FUNC_NAKED void CApp::OnKeyDown(SDLKey key)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -4136,6 +4224,7 @@ FUNC_NAKED void CApp::constructor()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -4156,7 +4245,7 @@ FUNC_NAKED void CApp::constructor()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -4173,6 +4262,7 @@ FUNC_NAKED void CApp::ParseArgs(int unk, const char **args)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -4195,7 +4285,7 @@ FUNC_NAKED void CApp::ParseArgs(int unk, const char **args)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -4212,6 +4302,7 @@ FUNC_NAKED void CApp::OnLoop()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -4232,7 +4323,7 @@ FUNC_NAKED void CApp::OnLoop()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -4267,7 +4358,7 @@ FUNC_NAKED int CApp::SetupWindow()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -4284,6 +4375,7 @@ FUNC_NAKED void CApp::OnCleanup()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -4304,7 +4396,7 @@ FUNC_NAKED void CApp::OnCleanup()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -4321,6 +4413,7 @@ FUNC_NAKED void CApp::GenInputEvents()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -4341,7 +4434,7 @@ FUNC_NAKED void CApp::GenInputEvents()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -4358,6 +4451,7 @@ FUNC_NAKED void CApp::OnSuspend()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -4378,7 +4472,7 @@ FUNC_NAKED void CApp::OnSuspend()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -4395,6 +4489,7 @@ FUNC_NAKED void CApp::OnResume()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -4415,7 +4510,7 @@ FUNC_NAKED void CApp::OnResume()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -4432,6 +4527,7 @@ FUNC_NAKED Pointf CApp::TranslateMouse(int x, int y)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -4453,7 +4549,7 @@ FUNC_NAKED Pointf CApp::TranslateMouse(int x, int y)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -4470,6 +4566,7 @@ FUNC_NAKED void CApp::UpdateFullScreen()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -4490,7 +4587,7 @@ FUNC_NAKED void CApp::UpdateFullScreen()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -4525,7 +4622,7 @@ FUNC_NAKED int CApp::UpdateWindowSettings()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -4542,6 +4639,7 @@ FUNC_NAKED void CApp::OnRender()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -4562,7 +4660,7 @@ FUNC_NAKED void CApp::OnRender()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -4597,7 +4695,7 @@ FUNC_NAKED int CApp::OnInit()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -4632,7 +4730,7 @@ FUNC_NAKED int CApp::OnExecute()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -4649,6 +4747,7 @@ FUNC_NAKED void CApp::OnEvent(const InputEvent *inputEvent)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -4670,7 +4769,7 @@ FUNC_NAKED void CApp::OnEvent(const InputEvent *inputEvent)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -4687,6 +4786,7 @@ FUNC_NAKED void CEvent::OnEvent(const InputEvent *event)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -4708,7 +4808,7 @@ FUNC_NAKED void CEvent::OnEvent(const InputEvent *event)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -4743,7 +4843,7 @@ FUNC_NAKED float CFPS::GetSpeedFactor()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -4760,6 +4860,7 @@ FUNC_NAKED void CFPS::OnLoop()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -4780,7 +4881,7 @@ FUNC_NAKED void CFPS::OnLoop()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -4797,6 +4898,7 @@ FUNC_NAKED int CSurface::GL_SetColor(GL_Color color)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -4818,7 +4920,7 @@ FUNC_NAKED int CSurface::GL_SetColor(GL_Color color)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -4835,6 +4937,7 @@ FUNC_NAKED int CSurface::GL_SetColor(float r, float g, float b, float a)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -4856,7 +4959,7 @@ FUNC_NAKED int CSurface::GL_SetColor(float r, float g, float b, float a)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -4873,6 +4976,7 @@ FUNC_NAKED GL_Color &CSurface::GL_GetColor()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -4930,7 +5034,7 @@ FUNC_NAKED void CSurface::GL_SetColorTint(GL_Color color)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -4970,7 +5074,7 @@ FUNC_NAKED void CSurface::GL_SetColorTint(float r, float g, float b, float a)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -4987,6 +5091,7 @@ FUNC_NAKED bool CSurface::IsFrameBufferSupported()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -5165,6 +5270,7 @@ FUNC_NAKED int CSurface::SetViewPort(int left, int bottom, int h, int w)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -5186,7 +5292,7 @@ FUNC_NAKED int CSurface::SetViewPort(int left, int bottom, int h, int w)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -5239,6 +5345,7 @@ FUNC_NAKED void CSurface::GL_SetStencilMode(GL_StencilMode stencilMode, int ref,
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -5261,7 +5368,7 @@ FUNC_NAKED void CSurface::GL_SetStencilMode(GL_StencilMode stencilMode, int ref,
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -5314,6 +5421,7 @@ FUNC_NAKED int CSurface::GL_OrthoProjection(float mx1, float mx2, float mx3, flo
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -5337,7 +5445,7 @@ FUNC_NAKED int CSurface::GL_OrthoProjection(float mx1, float mx2, float mx3, flo
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 24\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -5354,6 +5462,7 @@ FUNC_NAKED int CSurface::GL_LoadIdentity()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -5388,6 +5497,7 @@ FUNC_NAKED int CSurface::GL_PushMatrix()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -5422,6 +5532,7 @@ FUNC_NAKED int CSurface::GL_PopMatrix()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -5479,7 +5590,7 @@ FUNC_NAKED void CSurface::GL_Rotate2(float angle, float x, float y, float z)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -5519,7 +5630,7 @@ FUNC_NAKED void CSurface::GL_Rotate(float angle, float x, float y, float z)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -5536,6 +5647,7 @@ FUNC_NAKED void CSurface::GL_Scale(float x, float y, float z)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -5558,7 +5670,7 @@ FUNC_NAKED void CSurface::GL_Scale(float x, float y, float z)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -5575,6 +5687,7 @@ FUNC_NAKED bool CSurface::GL_Translate(float x, float y, float z)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -5595,7 +5708,7 @@ FUNC_NAKED bool CSurface::GL_Translate(float x, float y, float z)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -5666,7 +5779,7 @@ FUNC_NAKED GL_Color &CSurface::GetColorTint(GL_Color *ref)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -5683,6 +5796,7 @@ FUNC_NAKED bool CSurface::GL_EnableBlend()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -5717,6 +5831,7 @@ FUNC_NAKED bool CSurface::GL_DisableBlend()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -5751,6 +5866,7 @@ FUNC_NAKED bool CSurface::GL_ForceAntialias()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -5811,7 +5927,7 @@ FUNC_NAKED bool CSurface::GL_DrawLine(float x1, float y1, float x2, float y2, fl
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 36\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -5828,6 +5944,7 @@ FUNC_NAKED bool CSurface::GL_DrawTriangle(Point vertex1, Point vertex2, Point ve
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -5855,7 +5972,7 @@ FUNC_NAKED bool CSurface::GL_DrawTriangle(Point vertex1, Point vertex2, Point ve
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 40\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -5872,6 +5989,7 @@ FUNC_NAKED bool CSurface::GL_DrawRect(float x1, float y1, float x2, float y2, GL
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -5897,7 +6015,7 @@ FUNC_NAKED bool CSurface::GL_DrawRect(float x1, float y1, float x2, float y2, GL
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 32\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -5940,7 +6058,7 @@ FUNC_NAKED bool CSurface::GL_DrawRectOutline(int x1, int y1, int x2, int y2, GL_
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 36\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -5957,6 +6075,7 @@ FUNC_NAKED bool CSurface::GL_BlitImage(GL_Texture *tex, float x, float y, float 
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -5985,7 +6104,7 @@ FUNC_NAKED bool CSurface::GL_BlitImage(GL_Texture *tex, float x, float y, float 
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 44\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -6002,6 +6121,7 @@ FUNC_NAKED bool CSurface::GL_BlitPixelImage(GL_Texture *tex, float x, float y, f
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -6030,7 +6150,7 @@ FUNC_NAKED bool CSurface::GL_BlitPixelImage(GL_Texture *tex, float x, float y, f
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 44\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -6047,6 +6167,7 @@ FUNC_NAKED bool CSurface::GL_BlitImagePartial(GL_Texture *tex, float x, float y,
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -6079,7 +6200,7 @@ FUNC_NAKED bool CSurface::GL_BlitImagePartial(GL_Texture *tex, float x, float y,
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 60\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -6096,6 +6217,7 @@ FUNC_NAKED bool CSurface::GL_BlitPixelImageWide(GL_Texture *tex, float x, float 
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -6124,7 +6246,7 @@ FUNC_NAKED bool CSurface::GL_BlitPixelImageWide(GL_Texture *tex, float x, float 
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 44\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -6141,6 +6263,7 @@ FUNC_NAKED void CSurface::GL_BlitMultiImage(GL_Texture *tex, const std::vector<G
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -6163,7 +6286,7 @@ FUNC_NAKED void CSurface::GL_BlitMultiImage(GL_Texture *tex, const std::vector<G
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -6180,6 +6303,7 @@ FUNC_NAKED void CSurface::GL_BlitMultiColorImage(GL_Texture *tex, const std::vec
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -6202,7 +6326,7 @@ FUNC_NAKED void CSurface::GL_BlitMultiColorImage(GL_Texture *tex, const std::vec
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -6219,6 +6343,7 @@ FUNC_NAKED void CSurface::GL_RenderPrimitive(GL_Primitive *primitive)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -6239,7 +6364,7 @@ FUNC_NAKED void CSurface::GL_RenderPrimitive(GL_Primitive *primitive)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -6256,6 +6381,7 @@ FUNC_NAKED void CSurface::GL_RenderPrimitiveWithAlpha(GL_Primitive *primitive, f
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -6277,7 +6403,7 @@ FUNC_NAKED void CSurface::GL_RenderPrimitiveWithAlpha(GL_Primitive *primitive, f
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -6294,6 +6420,7 @@ FUNC_NAKED void CSurface::GL_RenderPrimitiveWithColor(GL_Primitive *primitive, G
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -6318,7 +6445,7 @@ FUNC_NAKED void CSurface::GL_RenderPrimitiveWithColor(GL_Primitive *primitive, G
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 20\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -6335,6 +6462,7 @@ FUNC_NAKED void CSurface::GL_DestroyPrimitive(GL_Primitive *primitive)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -6355,7 +6483,7 @@ FUNC_NAKED void CSurface::GL_DestroyPrimitive(GL_Primitive *primitive)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -6372,6 +6500,7 @@ FUNC_NAKED GL_Primitive *CSurface::GL_CreateRectPrimitive(float x, float y, floa
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -6397,7 +6526,7 @@ FUNC_NAKED GL_Primitive *CSurface::GL_CreateRectPrimitive(float x, float y, floa
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 32\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -6436,7 +6565,7 @@ FUNC_NAKED GL_Primitive *CSurface::GL_CreateMultiRectPrimitive(std::vector<Globa
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 20\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -6453,6 +6582,7 @@ FUNC_NAKED GL_Primitive *CSurface::GL_CreateMultiLinePrimitive(std::vector<GL_Li
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -6476,7 +6606,7 @@ FUNC_NAKED GL_Primitive *CSurface::GL_CreateMultiLinePrimitive(std::vector<GL_Li
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 24\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -6493,6 +6623,7 @@ FUNC_NAKED GL_Primitive *CSurface::GL_CreateMultiImagePrimitive(GL_Texture *tex,
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -6516,7 +6647,7 @@ FUNC_NAKED GL_Primitive *CSurface::GL_CreateMultiImagePrimitive(GL_Texture *tex,
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 24\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -6569,6 +6700,7 @@ FUNC_NAKED void CSurface::AddTexVertices(std::vector<GL_TexVertex> *vec, float x
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -6597,7 +6729,7 @@ FUNC_NAKED void CSurface::AddTexVertices(std::vector<GL_TexVertex> *vec, float x
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 36\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -6614,6 +6746,7 @@ FUNC_NAKED GL_Primitive *CSurface::GL_CreateImagePrimitive(GL_Texture *tex, floa
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -6641,7 +6774,7 @@ FUNC_NAKED GL_Primitive *CSurface::GL_CreateImagePrimitive(GL_Texture *tex, floa
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 40\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -6658,6 +6791,7 @@ FUNC_NAKED void CachedImage::destructor()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -6678,7 +6812,7 @@ FUNC_NAKED void CachedImage::destructor()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -6695,6 +6829,7 @@ FUNC_NAKED void CachedImage::SetImagePath(const std::string &imagePath)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -6716,7 +6851,7 @@ FUNC_NAKED void CachedImage::SetImagePath(const std::string &imagePath)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -6733,6 +6868,7 @@ FUNC_NAKED void CachedImage::SetPosition(int x, int y)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -6755,7 +6891,7 @@ FUNC_NAKED void CachedImage::SetPosition(int x, int y)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -6795,7 +6931,7 @@ FUNC_NAKED void CachedImage::constructor1(const std::string &path, int x, int y)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -6812,6 +6948,7 @@ FUNC_NAKED void CachedPrimitive::OnRender(const GL_Color &color)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -6833,7 +6970,7 @@ FUNC_NAKED void CachedPrimitive::OnRender(const GL_Color &color)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -6850,6 +6987,7 @@ FUNC_NAKED void ChoiceBox::OnRender()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -6870,7 +7008,7 @@ FUNC_NAKED void ChoiceBox::OnRender()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -6887,6 +7025,7 @@ FUNC_NAKED void ChoiceBox::MouseMove(int x, int y)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -6909,7 +7048,7 @@ FUNC_NAKED void ChoiceBox::MouseMove(int x, int y)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -6949,7 +7088,7 @@ FUNC_NAKED void CloakingBox::constructor(Point pos, CloakingSystem *sys)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -6966,6 +7105,7 @@ FUNC_NAKED void CloakingSystem::OnLoop()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -6986,7 +7126,7 @@ FUNC_NAKED void CloakingSystem::OnLoop()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -7026,7 +7166,7 @@ FUNC_NAKED void CloneBox::constructor(Point pos, CloneSystem *sys)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -7043,6 +7183,7 @@ FUNC_NAKED void CloneSystem::OnLoop()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -7063,7 +7204,7 @@ FUNC_NAKED void CloneSystem::OnLoop()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -7080,6 +7221,7 @@ FUNC_NAKED void CombatControl::RenderTarget()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -7100,7 +7242,7 @@ FUNC_NAKED void CombatControl::RenderTarget()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -7135,7 +7277,7 @@ FUNC_NAKED ShipManager *CombatControl::GetCurrentTarget()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -7170,7 +7312,7 @@ FUNC_NAKED char CombatControl::CurrentTargetIsBoss()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -7205,7 +7347,7 @@ FUNC_NAKED char CombatControl::CanTargetSelf()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -7222,6 +7364,7 @@ FUNC_NAKED void CombatControl::OnRenderCombat()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -7242,7 +7385,7 @@ FUNC_NAKED void CombatControl::OnRenderCombat()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -7259,6 +7402,7 @@ FUNC_NAKED void CombatControl::AddEnemyShip(CompleteShip *ship)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -7280,7 +7424,7 @@ FUNC_NAKED void CombatControl::AddEnemyShip(CompleteShip *ship)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -7297,6 +7441,7 @@ FUNC_NAKED void CombatControl::UpdateAiming()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -7317,7 +7462,7 @@ FUNC_NAKED void CombatControl::UpdateAiming()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -7352,7 +7497,7 @@ FUNC_NAKED bool CombatControl::UpdateTarget()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -7369,6 +7514,7 @@ FUNC_NAKED void CombatControl::DrawHostileBox(GL_Color color, int stencilBit)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -7394,7 +7540,7 @@ FUNC_NAKED void CombatControl::DrawHostileBox(GL_Color color, int stencilBit)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 24\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -7411,6 +7557,7 @@ FUNC_NAKED void CombatControl::OnInit(Point pos)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -7433,7 +7580,7 @@ FUNC_NAKED void CombatControl::OnInit(Point pos)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -7450,6 +7597,7 @@ FUNC_NAKED void CombatControl::OnLoop()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -7470,7 +7618,7 @@ FUNC_NAKED void CombatControl::OnLoop()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -7487,6 +7635,7 @@ FUNC_NAKED void CombatControl::SetMouseCursor()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -7507,7 +7656,7 @@ FUNC_NAKED void CombatControl::SetMouseCursor()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -7524,6 +7673,7 @@ FUNC_NAKED void CombatControl::DisarmAll()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -7544,7 +7694,7 @@ FUNC_NAKED void CombatControl::DisarmAll()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -7579,7 +7729,7 @@ FUNC_NAKED bool CombatControl::SelectTarget()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -7596,6 +7746,7 @@ FUNC_NAKED bool CombatControl::MouseRClick(int x, int y)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -7616,7 +7767,7 @@ FUNC_NAKED bool CombatControl::MouseRClick(int x, int y)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -7651,7 +7802,7 @@ FUNC_NAKED bool CombatControl::WeaponsArmed()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -7668,6 +7819,7 @@ FUNC_NAKED void CombatControl::KeyDown(SDLKey key)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -7689,7 +7841,7 @@ FUNC_NAKED void CombatControl::KeyDown(SDLKey key)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -7706,6 +7858,7 @@ FUNC_NAKED void CombatControl::DisarmTeleporter()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -7726,7 +7879,7 @@ FUNC_NAKED void CombatControl::DisarmTeleporter()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -7743,6 +7896,7 @@ FUNC_NAKED void CombatControl::constructor()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -7763,7 +7917,7 @@ FUNC_NAKED void CombatControl::constructor()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -7780,6 +7934,7 @@ FUNC_NAKED void CombatControl::RenderSelfAiming()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -7800,7 +7955,7 @@ FUNC_NAKED void CombatControl::RenderSelfAiming()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -7817,6 +7972,7 @@ FUNC_NAKED void CombatControl::RenderShipStatus(Pointf pos, GL_Color color)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -7843,7 +7999,7 @@ FUNC_NAKED void CombatControl::RenderShipStatus(Pointf pos, GL_Color color)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 28\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -7883,7 +8039,7 @@ FUNC_NAKED void CombatDrone::constructor(int iShipId, int selfId, const DroneBlu
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -7900,6 +8056,7 @@ FUNC_NAKED void CombatDrone::SetWeaponTarget(Targetable *target)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -7921,7 +8078,7 @@ FUNC_NAKED void CombatDrone::SetWeaponTarget(Targetable *target)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -7938,6 +8095,7 @@ FUNC_NAKED void CommandGui::RunCommand(std::string &command)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -7959,7 +8117,7 @@ FUNC_NAKED void CommandGui::RunCommand(std::string &command)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -7976,6 +8134,7 @@ FUNC_NAKED Store *CommandGui::CreateNewStore(int sectorNumber)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -7995,7 +8154,7 @@ FUNC_NAKED Store *CommandGui::CreateNewStore(int sectorNumber)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -8012,6 +8171,7 @@ FUNC_NAKED void *CommandGui::GetWorldCoordinates(Point point, bool fromTarget)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -8033,7 +8193,7 @@ FUNC_NAKED void *CommandGui::GetWorldCoordinates(Point point, bool fromTarget)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -8050,6 +8210,7 @@ FUNC_NAKED void CommandGui::KeyDown(SDLKey key, bool shiftHeld)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -8072,7 +8233,7 @@ FUNC_NAKED void CommandGui::KeyDown(SDLKey key, bool shiftHeld)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -8089,6 +8250,7 @@ FUNC_NAKED void CommandGui::RenderStatic()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -8109,7 +8271,7 @@ FUNC_NAKED void CommandGui::RenderStatic()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -8126,6 +8288,7 @@ FUNC_NAKED void CommandGui::constructor()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -8146,7 +8309,7 @@ FUNC_NAKED void CommandGui::constructor()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -8163,6 +8326,7 @@ FUNC_NAKED void CommandGui::AddEnemyShip(CompleteShip *ship)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -8184,7 +8348,7 @@ FUNC_NAKED void CommandGui::AddEnemyShip(CompleteShip *ship)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -8201,6 +8365,7 @@ FUNC_NAKED void CommandGui::Victory()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -8221,7 +8386,7 @@ FUNC_NAKED void CommandGui::Victory()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -8238,6 +8403,7 @@ FUNC_NAKED void CommandGui::OnInit()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -8258,7 +8424,7 @@ FUNC_NAKED void CommandGui::OnInit()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -8275,6 +8441,7 @@ FUNC_NAKED void CommandGui::MouseMove(int mX, int mY)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -8297,7 +8464,7 @@ FUNC_NAKED void CommandGui::MouseMove(int mX, int mY)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -8337,7 +8504,7 @@ FUNC_NAKED void CommandGui::LButtonDown(int mX, int mY, bool shiftHeld)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -8354,6 +8521,7 @@ FUNC_NAKED void CommandGui::OnLoop()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -8374,7 +8542,7 @@ FUNC_NAKED void CommandGui::OnLoop()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -8391,6 +8559,7 @@ FUNC_NAKED void CommandGui::CheckGameover()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -8411,7 +8580,7 @@ FUNC_NAKED void CommandGui::CheckGameover()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -8446,7 +8615,7 @@ FUNC_NAKED bool CommandGui::IsGameOver()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -8490,7 +8659,7 @@ FUNC_NAKED void CommandGui::NewLocation(const std::string &mainText, std::vector
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 32\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -8577,6 +8746,7 @@ FUNC_NAKED void CompleteShip::PauseLoop()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -8597,7 +8767,7 @@ FUNC_NAKED void CompleteShip::PauseLoop()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -8614,6 +8784,7 @@ FUNC_NAKED void CompleteShip::Restart()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -8634,7 +8805,7 @@ FUNC_NAKED void CompleteShip::Restart()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -8674,7 +8845,7 @@ FUNC_NAKED void CompleteShip::constructor(SpaceManager *space, bool unk, int unk
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -8691,6 +8862,7 @@ FUNC_NAKED void CompleteShip::SetShip(ShipManager *ship)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -8712,7 +8884,7 @@ FUNC_NAKED void CompleteShip::SetShip(ShipManager *ship)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -8729,6 +8901,7 @@ FUNC_NAKED void CompleteShip::OnInit(const ShipBlueprint *blueprint, int unk)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -8751,7 +8924,7 @@ FUNC_NAKED void CompleteShip::OnInit(const ShipBlueprint *blueprint, int unk)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -8791,7 +8964,7 @@ FUNC_NAKED void CompleteShip::AddBoarders(int amount, const std::string &race, b
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -8808,6 +8981,7 @@ FUNC_NAKED CrewMember *CompleteShip::AddCrewMember(const CrewBlueprint *blueprin
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -8828,7 +9002,7 @@ FUNC_NAKED CrewMember *CompleteShip::AddCrewMember(const CrewBlueprint *blueprin
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -8845,6 +9019,7 @@ FUNC_NAKED CrewMember *CompleteShip::AddCrewMember1(const std::string &race, con
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -8866,7 +9041,7 @@ FUNC_NAKED CrewMember *CompleteShip::AddCrewMember1(const std::string &race, con
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -8883,6 +9058,7 @@ FUNC_NAKED Drone *CompleteShip::AddDrone(const DroneBlueprint *blueprint, int un
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -8903,7 +9079,7 @@ FUNC_NAKED Drone *CompleteShip::AddDrone(const DroneBlueprint *blueprint, int un
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -8920,6 +9096,7 @@ FUNC_NAKED CrewMember *CompleteShip::AddCrewMember2(CrewMember *member, int unk)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -8940,7 +9117,7 @@ FUNC_NAKED CrewMember *CompleteShip::AddCrewMember2(CrewMember *member, int unk)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -8957,6 +9134,7 @@ FUNC_NAKED char CompleteShip::SaveState(int unk)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -8976,7 +9154,7 @@ FUNC_NAKED char CompleteShip::SaveState(int unk)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -8993,6 +9171,7 @@ FUNC_NAKED void CompleteShip::LoadState(int unk)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -9014,7 +9193,7 @@ FUNC_NAKED void CompleteShip::LoadState(int unk)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -9031,6 +9210,7 @@ FUNC_NAKED void CompleteShip::InitiateTeleport(int targetRoom, int command)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -9053,7 +9233,7 @@ FUNC_NAKED void CompleteShip::InitiateTeleport(int targetRoom, int command)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -9070,6 +9250,7 @@ FUNC_NAKED void CompleteShip::OnLoop()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -9090,7 +9271,7 @@ FUNC_NAKED void CompleteShip::OnLoop()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -9107,6 +9288,7 @@ FUNC_NAKED void CompleteShip::GetTeleportingParty()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -9127,7 +9309,7 @@ FUNC_NAKED void CompleteShip::GetTeleportingParty()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -9162,7 +9344,7 @@ FUNC_NAKED CrewMember *CompleteShip::KillRandomCrew()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -9179,6 +9361,7 @@ FUNC_NAKED int CompleteShip::CountCrew(bool boarders)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -9198,7 +9381,7 @@ FUNC_NAKED int CompleteShip::CountCrew(bool boarders)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -9233,7 +9416,7 @@ FUNC_NAKED CrewMember **CompleteShip::Jump()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -9250,6 +9433,7 @@ FUNC_NAKED void CompleteShip::SetEnemyShip(CompleteShip *other)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -9271,7 +9455,7 @@ FUNC_NAKED void CompleteShip::SetEnemyShip(CompleteShip *other)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -9306,7 +9490,7 @@ FUNC_NAKED bool CompleteShip::DeadCrew()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -9346,7 +9530,7 @@ FUNC_NAKED void CompleteShip::TeleportCrew(ShipManager *other, int room, bool co
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -9363,6 +9547,7 @@ FUNC_NAKED void CompleteShip::OnRender()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -9383,7 +9568,7 @@ FUNC_NAKED void CompleteShip::OnRender()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -9400,6 +9585,7 @@ FUNC_NAKED void CompleteShip::OnRenderSpace()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -9420,7 +9606,7 @@ FUNC_NAKED void CompleteShip::OnRenderSpace()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -9437,6 +9623,7 @@ FUNC_NAKED void CompleteShip::OnRenderShip(bool unk1, bool unk2)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -9459,7 +9646,7 @@ FUNC_NAKED void CompleteShip::OnRenderShip(bool unk1, bool unk2)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -9476,6 +9663,7 @@ FUNC_NAKED void ConfirmWindow::SetText(const TextString &text_, int minWidth, bo
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -9501,7 +9689,7 @@ FUNC_NAKED void ConfirmWindow::SetText(const TextString &text_, int minWidth, bo
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 24\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -9518,6 +9706,7 @@ FUNC_NAKED void ConfirmWindow::OnRender()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -9538,7 +9727,7 @@ FUNC_NAKED void ConfirmWindow::OnRender()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -9555,6 +9744,7 @@ FUNC_NAKED void ConfirmWindow::SetPosition(Point pos)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -9577,7 +9767,7 @@ FUNC_NAKED void ConfirmWindow::SetPosition(Point pos)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -9594,6 +9784,7 @@ FUNC_NAKED void ConfirmWindow::Open()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -9614,7 +9805,7 @@ FUNC_NAKED void ConfirmWindow::Open()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -9631,6 +9822,7 @@ FUNC_NAKED void ConfirmWindow::MouseClick(int mX, int mY)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -9653,7 +9845,7 @@ FUNC_NAKED void ConfirmWindow::MouseClick(int mX, int mY)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -9670,6 +9862,7 @@ FUNC_NAKED void ConfirmWindow::MouseMove(int mX, int mY)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -9692,7 +9885,7 @@ FUNC_NAKED void ConfirmWindow::MouseMove(int mX, int mY)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -9709,6 +9902,7 @@ FUNC_NAKED void ConfirmWindow::constructor()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -9729,7 +9923,7 @@ FUNC_NAKED void ConfirmWindow::constructor()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -9746,6 +9940,7 @@ FUNC_NAKED void ConfirmWindow::Close()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -9766,7 +9961,7 @@ FUNC_NAKED void ConfirmWindow::Close()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -9783,6 +9978,7 @@ FUNC_NAKED void ControlButton::OnRender()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -9803,7 +9999,7 @@ FUNC_NAKED void ControlButton::OnRender()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -9820,6 +10016,7 @@ FUNC_NAKED void ControlsScreen::OnInit()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -9840,7 +10037,7 @@ FUNC_NAKED void ControlsScreen::OnInit()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -9857,6 +10054,7 @@ FUNC_NAKED void ControlsScreen::OnLoop()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -9877,7 +10075,7 @@ FUNC_NAKED void ControlsScreen::OnLoop()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -9894,6 +10092,7 @@ FUNC_NAKED void ControlsScreen::OnRender()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -9914,7 +10113,7 @@ FUNC_NAKED void ControlsScreen::OnRender()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -9931,6 +10130,7 @@ FUNC_NAKED void CooldownSystemBox::constructor(Point pos, ShipSystem *sys, bool 
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -9955,7 +10155,7 @@ FUNC_NAKED void CooldownSystemBox::constructor(Point pos, ShipSystem *sys, bool 
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 20\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -9972,6 +10172,7 @@ FUNC_NAKED void CooldownSystemBox::OnRender(bool ignoreStatus)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -9993,7 +10194,7 @@ FUNC_NAKED void CooldownSystemBox::OnRender(bool ignoreStatus)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -10010,6 +10211,7 @@ FUNC_NAKED void CreditScreen::OnRender()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -10030,7 +10232,7 @@ FUNC_NAKED void CreditScreen::OnRender()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -10047,6 +10249,7 @@ FUNC_NAKED void CreditScreen::constructor()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -10067,7 +10270,7 @@ FUNC_NAKED void CreditScreen::constructor()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -10084,6 +10287,7 @@ FUNC_NAKED void CreditScreen::Start(const std::string &shipName, const std::vect
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -10106,7 +10310,7 @@ FUNC_NAKED void CreditScreen::Start(const std::string &shipName, const std::vect
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -10141,7 +10345,7 @@ FUNC_NAKED bool CreditScreen::Done()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -10158,6 +10362,7 @@ FUNC_NAKED void CrewAI::UpdateDrones()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -10178,7 +10383,7 @@ FUNC_NAKED void CrewAI::UpdateDrones()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -10195,6 +10400,7 @@ FUNC_NAKED void CrewAI::AssignCrewmembers()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -10215,7 +10421,7 @@ FUNC_NAKED void CrewAI::AssignCrewmembers()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -10254,7 +10460,7 @@ FUNC_NAKED int CrewAI::PrioritizeTask(CrewTask task, int crewId)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 20\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -10271,6 +10477,7 @@ FUNC_NAKED void CrewAI::UpdateIntruders()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -10291,7 +10498,7 @@ FUNC_NAKED void CrewAI::UpdateIntruders()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -10308,6 +10515,7 @@ FUNC_NAKED int CrewAI::PrioritizeIntruderRoom(CrewMember *crew, int roomId, int 
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -10329,7 +10537,7 @@ FUNC_NAKED int CrewAI::PrioritizeIntruderRoom(CrewMember *crew, int roomId, int 
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -10346,6 +10554,7 @@ FUNC_NAKED void CrewAI::UpdateCrewMember(int crewId)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -10367,7 +10576,7 @@ FUNC_NAKED void CrewAI::UpdateCrewMember(int crewId)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -10384,6 +10593,7 @@ FUNC_NAKED void CrewAI::CheckForHealing()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -10404,7 +10614,7 @@ FUNC_NAKED void CrewAI::CheckForHealing()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -10421,6 +10631,7 @@ FUNC_NAKED void CrewAI::OnLoop()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -10441,7 +10652,7 @@ FUNC_NAKED void CrewAI::OnLoop()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -10458,6 +10669,7 @@ FUNC_NAKED void CrewAI::CheckForProblems()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -10478,7 +10690,7 @@ FUNC_NAKED void CrewAI::CheckForProblems()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -10495,6 +10707,7 @@ FUNC_NAKED void CrewAnimation::constructor(int shipId, const std::string &race, 
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -10520,7 +10733,7 @@ FUNC_NAKED void CrewAnimation::constructor(int shipId, const std::string &race, 
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 24\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -10537,6 +10750,7 @@ FUNC_NAKED std::string &CrewAnimation::GetDeathSound(std::string &strRef, CrewAn
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -10556,7 +10770,7 @@ FUNC_NAKED std::string &CrewAnimation::GetDeathSound(std::string &strRef, CrewAn
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -10643,6 +10857,7 @@ FUNC_NAKED std::string &CrewAnimation::GetShootingSound(std::string &strRef, Cre
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -10662,7 +10877,7 @@ FUNC_NAKED std::string &CrewAnimation::GetShootingSound(std::string &strRef, Cre
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -10702,7 +10917,7 @@ FUNC_NAKED void CrewAnimation::OnRender(float scale, int selectedState, bool out
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -10719,6 +10934,7 @@ FUNC_NAKED void CrewAnimation::OnRenderProps()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -10739,7 +10955,7 @@ FUNC_NAKED void CrewAnimation::OnRenderProps()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -10756,6 +10972,7 @@ FUNC_NAKED void CrewAnimation::OnInit(const std::string &name, Pointf position, 
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -10780,7 +10997,7 @@ FUNC_NAKED void CrewAnimation::OnInit(const std::string &name, Pointf position, 
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 20\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -10797,6 +11014,7 @@ FUNC_NAKED void CrewAnimation::SetupStrips()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -10817,7 +11035,7 @@ FUNC_NAKED void CrewAnimation::SetupStrips()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -10861,7 +11079,7 @@ FUNC_NAKED void CrewAnimation::OnUpdate(Pointf position, bool moving, bool fight
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 32\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -10878,6 +11096,7 @@ FUNC_NAKED void CrewAnimation::destructor()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -10898,7 +11117,7 @@ FUNC_NAKED void CrewAnimation::destructor()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -10933,7 +11152,7 @@ FUNC_NAKED bool CrewAnimation::FireShot()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -10968,7 +11187,7 @@ FUNC_NAKED int CrewAnimation::GetFiringFrame()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -10985,6 +11204,7 @@ FUNC_NAKED void CrewBlueprint::RandomSkills(int worldLevel)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -11006,7 +11226,7 @@ FUNC_NAKED void CrewBlueprint::RandomSkills(int worldLevel)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -11023,6 +11243,7 @@ FUNC_NAKED void CrewBlueprint::RenderSkill(int x, int y, int length, int height,
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -11048,7 +11269,7 @@ FUNC_NAKED void CrewBlueprint::RenderSkill(int x, int y, int length, int height,
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 24\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -11065,6 +11286,7 @@ FUNC_NAKED void CrewBlueprint::RenderIcon(float opacity)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -11086,7 +11308,7 @@ FUNC_NAKED void CrewBlueprint::RenderIcon(float opacity)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -11103,6 +11325,7 @@ FUNC_NAKED void CrewBlueprint::destructor()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -11123,7 +11346,7 @@ FUNC_NAKED void CrewBlueprint::destructor()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -11140,6 +11363,7 @@ FUNC_NAKED std::string *CrewBlueprint::GetNameShort(std::string &ret, CrewBluepr
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -11159,7 +11383,7 @@ FUNC_NAKED std::string *CrewBlueprint::GetNameShort(std::string &ret, CrewBluepr
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -11176,6 +11400,7 @@ FUNC_NAKED void CrewBox::constructor(Point pos, CrewMember *crew, int number)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -11200,7 +11425,7 @@ FUNC_NAKED void CrewBox::constructor(Point pos, CrewMember *crew, int number)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 20\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -11217,6 +11442,7 @@ FUNC_NAKED void CrewBox::OnRender()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -11237,7 +11463,7 @@ FUNC_NAKED void CrewBox::OnRender()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -11254,6 +11480,7 @@ FUNC_NAKED CrewMember *CrewBox::GetSelected(int mouseX, int mouseY)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -11274,7 +11501,7 @@ FUNC_NAKED CrewMember *CrewBox::GetSelected(int mouseX, int mouseY)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -11291,6 +11518,7 @@ FUNC_NAKED void CrewBox::OnLoop(bool selected)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -11312,7 +11540,7 @@ FUNC_NAKED void CrewBox::OnLoop(bool selected)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -11329,6 +11557,7 @@ FUNC_NAKED void CrewBox::OnRenderSkillLevel()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -11349,7 +11578,7 @@ FUNC_NAKED void CrewBox::OnRenderSkillLevel()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -11366,6 +11595,7 @@ FUNC_NAKED void CrewBox::destructor()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -11386,7 +11616,7 @@ FUNC_NAKED void CrewBox::destructor()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -11403,6 +11633,7 @@ FUNC_NAKED void CrewControl::OnRender()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -11423,7 +11654,7 @@ FUNC_NAKED void CrewControl::OnRender()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -11440,6 +11671,7 @@ FUNC_NAKED void CrewControl::OnLoop()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -11460,7 +11692,7 @@ FUNC_NAKED void CrewControl::OnLoop()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -11477,6 +11709,7 @@ FUNC_NAKED void CrewControl::UpdateCrewBoxes()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -11497,7 +11730,7 @@ FUNC_NAKED void CrewControl::UpdateCrewBoxes()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -11514,6 +11747,7 @@ FUNC_NAKED void CrewControl::LinkShip(ShipManager *ship)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -11535,7 +11769,7 @@ FUNC_NAKED void CrewControl::LinkShip(ShipManager *ship)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -11552,6 +11786,7 @@ FUNC_NAKED void CrewControl::MouseMove(int mX, int mY, int wX, int wY)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -11576,7 +11811,7 @@ FUNC_NAKED void CrewControl::MouseMove(int mX, int mY, int wX, int wY)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 20\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -11593,6 +11828,7 @@ FUNC_NAKED void CrewControl::LButton(int mX, int mY, int wX, int wY, bool shiftH
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -11618,7 +11854,7 @@ FUNC_NAKED void CrewControl::LButton(int mX, int mY, int wX, int wY, bool shiftH
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 24\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -11657,7 +11893,7 @@ FUNC_NAKED void CrewControl::ClearDeadCrew(std::vector<CrewMember*> crew)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -11674,6 +11910,7 @@ FUNC_NAKED void CrewControl::ClearCrewBoxes()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -11694,7 +11931,7 @@ FUNC_NAKED void CrewControl::ClearCrewBoxes()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -11711,6 +11948,7 @@ FUNC_NAKED void CrewControl::SelectPotentialCrew(CrewMember *crew, bool allowTel
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -11733,7 +11971,7 @@ FUNC_NAKED void CrewControl::SelectPotentialCrew(CrewMember *crew, bool allowTel
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -11773,7 +12011,7 @@ FUNC_NAKED void CrewControl::RButton(int mX, int mY, bool shiftHeld)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -11790,6 +12028,7 @@ FUNC_NAKED void CrewCustomizeBox::CheckContents()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -11810,7 +12049,7 @@ FUNC_NAKED void CrewCustomizeBox::CheckContents()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -11827,6 +12066,7 @@ FUNC_NAKED void CrewDrone::constructor(const std::string &type, const std::strin
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -11852,7 +12092,7 @@ FUNC_NAKED void CrewDrone::constructor(const std::string &type, const std::strin
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 24\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -11869,6 +12109,7 @@ FUNC_NAKED void CrewDrone::OnLoop()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -11889,7 +12130,7 @@ FUNC_NAKED void CrewDrone::OnLoop()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -11924,7 +12165,7 @@ FUNC_NAKED bool CrewDrone::ProvidesVision()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -11941,6 +12182,7 @@ FUNC_NAKED void CrewDrone::SetCurrentShip(int shipId)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -11962,7 +12204,7 @@ FUNC_NAKED void CrewDrone::SetCurrentShip(int shipId)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -12014,6 +12256,7 @@ FUNC_NAKED void CrewDrone::destructor()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -12034,7 +12277,7 @@ FUNC_NAKED void CrewDrone::destructor()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -12051,6 +12294,7 @@ FUNC_NAKED void CrewEquipBox::RemoveItem()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -12071,7 +12315,7 @@ FUNC_NAKED void CrewEquipBox::RemoveItem()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -12088,6 +12332,7 @@ FUNC_NAKED void CrewEquipBox::constructor(Point pos, ShipManager *ship, int slot
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -12112,7 +12357,7 @@ FUNC_NAKED void CrewEquipBox::constructor(Point pos, ShipManager *ship, int slot
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 20\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -12147,7 +12392,7 @@ FUNC_NAKED bool CrewEquipBox::GetConfirmDelete()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -12164,6 +12409,7 @@ FUNC_NAKED void CrewEquipBox::RenderLabels(bool dragging, bool isNew)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -12186,7 +12432,7 @@ FUNC_NAKED void CrewEquipBox::RenderLabels(bool dragging, bool isNew)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -12203,6 +12449,7 @@ FUNC_NAKED void CrewEquipBox::OnRender(bool unk)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -12224,7 +12471,7 @@ FUNC_NAKED void CrewEquipBox::OnRender(bool unk)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -12241,6 +12488,7 @@ FUNC_NAKED void CrewEquipBox::OnTextInput(SDLKey key)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -12262,7 +12510,7 @@ FUNC_NAKED void CrewEquipBox::OnTextInput(SDLKey key)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -12279,6 +12527,7 @@ FUNC_NAKED void CrewEquipBox::OnTextEvent(CEvent::TextEvent event)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -12300,7 +12549,7 @@ FUNC_NAKED void CrewEquipBox::OnTextEvent(CEvent::TextEvent event)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -12317,6 +12566,7 @@ FUNC_NAKED void CrewEquipBox::MouseClick()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -12337,7 +12587,7 @@ FUNC_NAKED void CrewEquipBox::MouseClick()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -12354,6 +12604,7 @@ FUNC_NAKED void CrewEquipBox::CloseRename()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -12374,7 +12625,7 @@ FUNC_NAKED void CrewEquipBox::CloseRename()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -12391,6 +12642,7 @@ FUNC_NAKED void CrewManifest::OnInit(ShipManager *ship)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -12412,7 +12664,7 @@ FUNC_NAKED void CrewManifest::OnInit(ShipManager *ship)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -12429,6 +12681,7 @@ FUNC_NAKED void CrewManifest::OnRender()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -12449,7 +12702,7 @@ FUNC_NAKED void CrewManifest::OnRender()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -12466,6 +12719,7 @@ FUNC_NAKED void CrewManifest::Update()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -12486,7 +12740,7 @@ FUNC_NAKED void CrewManifest::Update()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -12503,6 +12757,7 @@ FUNC_NAKED void CrewManifest::constructor()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -12523,7 +12778,7 @@ FUNC_NAKED void CrewManifest::constructor()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -12540,6 +12795,7 @@ FUNC_NAKED void CrewManifest::OnKeyDown(SDLKey key)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -12561,7 +12817,7 @@ FUNC_NAKED void CrewManifest::OnKeyDown(SDLKey key)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -12578,6 +12834,7 @@ FUNC_NAKED void CrewManifest::OnKeyUp(SDLKey key)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -12599,7 +12856,7 @@ FUNC_NAKED void CrewManifest::OnKeyUp(SDLKey key)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -12616,6 +12873,7 @@ FUNC_NAKED void CrewManifest::OnTextInput(SDLKey key)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -12637,7 +12895,7 @@ FUNC_NAKED void CrewManifest::OnTextInput(SDLKey key)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -12654,6 +12912,7 @@ FUNC_NAKED void CrewManifest::OnTextEvent(CEvent::TextEvent event)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -12675,7 +12934,7 @@ FUNC_NAKED void CrewManifest::OnTextEvent(CEvent::TextEvent event)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -12692,6 +12951,7 @@ FUNC_NAKED void CrewManifest::Close()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -12712,7 +12972,7 @@ FUNC_NAKED void CrewManifest::Close()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -12729,6 +12989,7 @@ FUNC_NAKED void CrewManifest::MouseClick(int mX, int mY)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -12751,7 +13012,7 @@ FUNC_NAKED void CrewManifest::MouseClick(int mX, int mY)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -12768,6 +13029,7 @@ FUNC_NAKED void CrewManifest::MouseMove(int mX, int mY)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -12790,7 +13052,7 @@ FUNC_NAKED void CrewManifest::MouseMove(int mX, int mY)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -12807,6 +13069,7 @@ FUNC_NAKED void CrewMember::OnRender(bool outlineOnly)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -12828,7 +13091,7 @@ FUNC_NAKED void CrewMember::OnRender(bool outlineOnly)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -12845,6 +13108,7 @@ FUNC_NAKED Damage *CrewMember::GetRoomDamage(Damage *dmg, CrewMember *crew)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -12864,7 +13128,7 @@ FUNC_NAKED Damage *CrewMember::GetRoomDamage(Damage *dmg, CrewMember *crew)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -12881,6 +13145,7 @@ FUNC_NAKED void CrewMember::StartRepair(Repairable *toRepair)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -12902,7 +13167,7 @@ FUNC_NAKED void CrewMember::StartRepair(Repairable *toRepair)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -12919,6 +13184,7 @@ FUNC_NAKED void CrewMember::UpdateRepair()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -12939,7 +13205,7 @@ FUNC_NAKED void CrewMember::UpdateRepair()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -12956,6 +13222,7 @@ FUNC_NAKED void CrewMember::UpdateMovement()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -12976,7 +13243,7 @@ FUNC_NAKED void CrewMember::UpdateMovement()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -12993,6 +13260,7 @@ FUNC_NAKED void CrewMember::OnLoop()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -13013,7 +13281,7 @@ FUNC_NAKED void CrewMember::OnLoop()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -13030,6 +13298,7 @@ FUNC_NAKED std::string &CrewMember::GetTooltip(std::string &strRef, CrewMember *
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -13049,7 +13318,7 @@ FUNC_NAKED std::string &CrewMember::GetTooltip(std::string &strRef, CrewMember *
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -13066,6 +13335,7 @@ FUNC_NAKED void CrewMember::SetSex(bool male)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -13087,7 +13357,7 @@ FUNC_NAKED void CrewMember::SetSex(bool male)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -13104,6 +13374,7 @@ FUNC_NAKED void CrewMember::CycleColorLayer(int unk)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -13125,7 +13396,7 @@ FUNC_NAKED void CrewMember::CycleColorLayer(int unk)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -13142,6 +13413,7 @@ FUNC_NAKED void CrewMember::constructor(CrewBlueprint &blueprint, int shipId, bo
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -13166,7 +13438,7 @@ FUNC_NAKED void CrewMember::constructor(CrewBlueprint &blueprint, int shipId, bo
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 20\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -13201,7 +13473,7 @@ FUNC_NAKED bool CrewMember::Functional()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -13236,7 +13508,7 @@ FUNC_NAKED bool CrewMember::CountForVictory()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -13271,7 +13543,7 @@ FUNC_NAKED bool CrewMember::CanSabotage()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -13306,7 +13578,7 @@ FUNC_NAKED bool CrewMember::CanMan()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -13341,7 +13613,7 @@ FUNC_NAKED bool CrewMember::CanRepair()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -13376,7 +13648,7 @@ FUNC_NAKED bool CrewMember::GetControllable()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -13393,6 +13665,7 @@ FUNC_NAKED bool CrewMember::ShipDamage(float damage)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -13412,7 +13685,7 @@ FUNC_NAKED bool CrewMember::ShipDamage(float damage)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -13447,7 +13720,7 @@ FUNC_NAKED bool CrewMember::CanHeal()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -13464,6 +13737,7 @@ FUNC_NAKED void CrewMember::Jump()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -13484,7 +13758,7 @@ FUNC_NAKED void CrewMember::Jump()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -13501,6 +13775,7 @@ FUNC_NAKED void CrewMember::SetOutOfGame()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -13521,7 +13796,7 @@ FUNC_NAKED void CrewMember::SetOutOfGame()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -13556,7 +13831,7 @@ FUNC_NAKED float CrewMember::PositionShift()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -13573,6 +13848,7 @@ FUNC_NAKED void CrewMember::SaveState(int fileHelper)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -13594,7 +13870,7 @@ FUNC_NAKED void CrewMember::SaveState(int fileHelper)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -13629,7 +13905,7 @@ FUNC_NAKED bool CrewMember::CanTeleport()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -13646,6 +13922,7 @@ FUNC_NAKED void CrewMember::destructor()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -13666,7 +13943,7 @@ FUNC_NAKED void CrewMember::destructor()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -13683,6 +13960,7 @@ FUNC_NAKED void CrewMember::Cleanup()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -13703,7 +13981,7 @@ FUNC_NAKED void CrewMember::Cleanup()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -13720,6 +13998,7 @@ FUNC_NAKED void CrewMember::LoadState(int fileHelper)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -13741,7 +14020,7 @@ FUNC_NAKED void CrewMember::LoadState(int fileHelper)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -13758,6 +14037,7 @@ FUNC_NAKED void CrewMember::SetCurrentSystem(ShipSystem *sys)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -13779,7 +14059,7 @@ FUNC_NAKED void CrewMember::SetCurrentSystem(ShipSystem *sys)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -13814,7 +14094,7 @@ FUNC_NAKED bool CrewMember::IsManningArtillery()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -13831,6 +14111,7 @@ FUNC_NAKED void CrewMember::IncreaseSkill(int skillId)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -13852,7 +14133,7 @@ FUNC_NAKED void CrewMember::IncreaseSkill(int skillId)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -13869,6 +14150,7 @@ FUNC_NAKED void CrewMember::CheckSkills()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -13889,7 +14171,7 @@ FUNC_NAKED void CrewMember::CheckSkills()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -13906,6 +14188,7 @@ FUNC_NAKED void CrewMember::MasterSkill(int skillId)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -13927,7 +14210,7 @@ FUNC_NAKED void CrewMember::MasterSkill(int skillId)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -13962,7 +14245,7 @@ FUNC_NAKED int CrewMember::GetSkillFromSystem(int systemId)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -13979,6 +14262,7 @@ FUNC_NAKED void CrewMember::SetResisted(bool resisted)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -14000,7 +14284,7 @@ FUNC_NAKED void CrewMember::SetResisted(bool resisted)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -14035,7 +14319,7 @@ FUNC_NAKED bool CrewMember::GetResisted()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -14052,6 +14336,7 @@ FUNC_NAKED void CrewMember::SetSkillProgress(int skillId, int skillLevel)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -14074,7 +14359,7 @@ FUNC_NAKED void CrewMember::SetSkillProgress(int skillId, int skillLevel)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -14091,6 +14376,7 @@ FUNC_NAKED int CrewMember::GetSkillLevel(int skillId)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -14110,7 +14396,7 @@ FUNC_NAKED int CrewMember::GetSkillLevel(int skillId)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -14127,6 +14413,7 @@ FUNC_NAKED std::pair<int, int> CrewMember::GetSkillProgress(int skillId)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -14146,7 +14433,7 @@ FUNC_NAKED std::pair<int, int> CrewMember::GetSkillProgress(int skillId)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -14163,6 +14450,7 @@ FUNC_NAKED void CrewMember::GetSkillModifier(int skillId)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -14184,7 +14472,7 @@ FUNC_NAKED void CrewMember::GetSkillModifier(int skillId)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -14219,7 +14507,7 @@ FUNC_NAKED bool CrewMember::BadAtCombat()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -14236,6 +14524,7 @@ FUNC_NAKED void CrewMember::EmptySlot()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -14256,7 +14545,7 @@ FUNC_NAKED void CrewMember::EmptySlot()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -14291,7 +14580,7 @@ FUNC_NAKED bool CrewMember::NeedsSlot()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -14308,6 +14597,7 @@ FUNC_NAKED bool CrewMember::DirectModifyHealth(float health)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -14327,7 +14617,7 @@ FUNC_NAKED bool CrewMember::DirectModifyHealth(float health)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -14344,6 +14634,7 @@ FUNC_NAKED void CrewMember::ModifyHealth(float health)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -14365,7 +14656,7 @@ FUNC_NAKED void CrewMember::ModifyHealth(float health)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -14382,6 +14673,7 @@ FUNC_NAKED bool CrewMember::ApplyDamage(float damage)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -14401,7 +14693,7 @@ FUNC_NAKED bool CrewMember::ApplyDamage(float damage)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -14436,7 +14728,7 @@ FUNC_NAKED bool CrewMember::RepairingSystem()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -14471,7 +14763,7 @@ FUNC_NAKED bool CrewMember::Sabotaging()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -14506,7 +14798,7 @@ FUNC_NAKED bool CrewMember::RepairingFire()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -14541,7 +14833,7 @@ FUNC_NAKED void *CrewMember::SelectSabotageTarget()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -14558,6 +14850,7 @@ FUNC_NAKED void CrewMember::SavePosition()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -14578,7 +14871,7 @@ FUNC_NAKED void CrewMember::SavePosition()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -14595,6 +14888,7 @@ FUNC_NAKED void CrewMember::ClearPosition()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -14615,7 +14909,7 @@ FUNC_NAKED void CrewMember::ClearPosition()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -14632,6 +14926,7 @@ FUNC_NAKED void CrewMember::GetSavedPosition(Slot *ret, CrewMember *crew)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -14653,7 +14948,7 @@ FUNC_NAKED void CrewMember::GetSavedPosition(Slot *ret, CrewMember *crew)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -14670,6 +14965,7 @@ FUNC_NAKED void CrewMember::SetSavePosition(Slot position)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -14694,7 +14990,7 @@ FUNC_NAKED void CrewMember::SetSavePosition(Slot position)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 20\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -14711,6 +15007,7 @@ FUNC_NAKED void CrewMember::StopRepairing()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -14731,7 +15028,7 @@ FUNC_NAKED void CrewMember::StopRepairing()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -14766,7 +15063,7 @@ FUNC_NAKED bool CrewMember::Repairing()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -14783,6 +15080,7 @@ FUNC_NAKED void CrewMember::SetFrozen(bool frozen)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -14804,7 +15102,7 @@ FUNC_NAKED void CrewMember::SetFrozen(bool frozen)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -14821,6 +15119,7 @@ FUNC_NAKED void CrewMember::SetFrozenLocation(bool frozenLocation)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -14842,7 +15141,7 @@ FUNC_NAKED void CrewMember::SetFrozenLocation(bool frozenLocation)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -14882,7 +15181,7 @@ FUNC_NAKED void CrewMember::SetCrewTask(CrewTask task)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -14922,7 +15221,7 @@ FUNC_NAKED void CrewMember::SetTask(CrewTask task)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -14939,6 +15238,7 @@ FUNC_NAKED Slot *CrewMember::FindSlot(int unk1, int roomId, bool unk2)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -14960,7 +15260,7 @@ FUNC_NAKED Slot *CrewMember::FindSlot(int unk1, int roomId, bool unk2)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -14977,6 +15277,7 @@ FUNC_NAKED bool CrewMember::CheckRoomPath(int roomId)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -14996,7 +15297,7 @@ FUNC_NAKED bool CrewMember::CheckRoomPath(int roomId)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -15031,7 +15332,7 @@ FUNC_NAKED bool CrewMember::NeedsIntruderSlot()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -15048,6 +15349,7 @@ FUNC_NAKED void CrewMember::SetPosition(Point pos)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -15070,7 +15372,7 @@ FUNC_NAKED void CrewMember::SetPosition(Point pos)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -15087,6 +15389,7 @@ FUNC_NAKED void CrewMember::ClearTask()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -15107,7 +15410,7 @@ FUNC_NAKED void CrewMember::ClearTask()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -15124,6 +15427,7 @@ FUNC_NAKED void CrewMember::ClearPath()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -15144,7 +15448,7 @@ FUNC_NAKED void CrewMember::ClearPath()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -15161,6 +15465,7 @@ FUNC_NAKED void CrewMember::SetRoom(int roomId)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -15182,7 +15487,7 @@ FUNC_NAKED void CrewMember::SetRoom(int roomId)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -15217,7 +15522,7 @@ FUNC_NAKED bool CrewMember::IsBusy()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -15252,7 +15557,7 @@ FUNC_NAKED bool CrewMember::OnInit()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -15287,7 +15592,7 @@ FUNC_NAKED void *CrewMember::GetFinalGoal()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -15322,7 +15627,7 @@ FUNC_NAKED void *CrewMember::GetNextGoal()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -15339,6 +15644,7 @@ FUNC_NAKED void CrewMember::CloseDoorBehind(Door *door)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -15360,7 +15666,7 @@ FUNC_NAKED void CrewMember::CloseDoorBehind(Door *door)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -15395,7 +15701,7 @@ FUNC_NAKED float CrewMember::GetMoveSpeed()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -15412,6 +15718,7 @@ FUNC_NAKED void CrewMember::Restart()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -15432,7 +15739,7 @@ FUNC_NAKED void CrewMember::Restart()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -15449,6 +15756,7 @@ FUNC_NAKED void CrewMember::SetDamageBoost(float damageBoost)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -15470,7 +15778,7 @@ FUNC_NAKED void CrewMember::SetDamageBoost(float damageBoost)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -15487,6 +15795,7 @@ FUNC_NAKED void CrewMember::SetHealthBoost(int healthBoost)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -15508,7 +15817,7 @@ FUNC_NAKED void CrewMember::SetHealthBoost(int healthBoost)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -15525,6 +15834,7 @@ FUNC_NAKED void CrewMember::InitializeSkills()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -15545,7 +15855,7 @@ FUNC_NAKED void CrewMember::InitializeSkills()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -15562,6 +15872,7 @@ FUNC_NAKED void CrewMember::SetCloneReady(bool cloneReady)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -15583,7 +15894,7 @@ FUNC_NAKED void CrewMember::SetCloneReady(bool cloneReady)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -15600,6 +15911,7 @@ FUNC_NAKED void CrewMember::Kill()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -15620,7 +15932,7 @@ FUNC_NAKED void CrewMember::Kill()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -15655,7 +15967,7 @@ FUNC_NAKED bool CrewMember::NeedFrozenLocation()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -15672,6 +15984,7 @@ FUNC_NAKED void CrewMember::CheckForTeleport()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -15692,7 +16005,7 @@ FUNC_NAKED void CrewMember::CheckForTeleport()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -15709,6 +16022,7 @@ FUNC_NAKED void CrewMember::SetCurrentShip(int shipId)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -15730,7 +16044,7 @@ FUNC_NAKED void CrewMember::SetCurrentShip(int shipId)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -15747,6 +16061,7 @@ FUNC_NAKED void CrewMember::CheckFighting()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -15767,7 +16082,7 @@ FUNC_NAKED void CrewMember::CheckFighting()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -15784,6 +16099,7 @@ FUNC_NAKED void CrewMember::SetDeathNumber(int deathNum)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -15805,7 +16121,7 @@ FUNC_NAKED void CrewMember::SetDeathNumber(int deathNum)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -15822,6 +16138,7 @@ FUNC_NAKED void CrewMember::ForceMindControl(bool force)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -15843,7 +16160,7 @@ FUNC_NAKED void CrewMember::ForceMindControl(bool force)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -15860,6 +16177,7 @@ FUNC_NAKED void CrewMember::RenderSkillUpAnimation(Point pos)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -15882,7 +16200,7 @@ FUNC_NAKED void CrewMember::RenderSkillUpAnimation(Point pos)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -15899,6 +16217,7 @@ FUNC_NAKED void CrewMember::Clone()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -15919,7 +16238,7 @@ FUNC_NAKED void CrewMember::Clone()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -15936,6 +16255,7 @@ FUNC_NAKED void CrewMember::UpdateHealth()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -15956,7 +16276,7 @@ FUNC_NAKED void CrewMember::UpdateHealth()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -15973,6 +16293,7 @@ FUNC_NAKED void CrewMember::OnRenderPath()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -15993,7 +16314,7 @@ FUNC_NAKED void CrewMember::OnRenderPath()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -16028,7 +16349,7 @@ FUNC_NAKED bool CrewMember::SetPath()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -16045,6 +16366,7 @@ FUNC_NAKED void CrewMember::SetRoomPath(int roomId, int slotId)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -16067,7 +16389,7 @@ FUNC_NAKED void CrewMember::SetRoomPath(int roomId, int slotId)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -16102,7 +16424,7 @@ FUNC_NAKED void *CrewMember::GetLocation()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -16137,7 +16459,7 @@ FUNC_NAKED bool CrewMember::AtGoal()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -16172,7 +16494,7 @@ FUNC_NAKED bool CrewMember::AtFinalGoal()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -16189,6 +16511,7 @@ FUNC_NAKED void CrewMember::OnRenderHealth()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -16209,7 +16532,7 @@ FUNC_NAKED void CrewMember::OnRenderHealth()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -16244,7 +16567,7 @@ FUNC_NAKED int CrewMember::GetIntegerHealth()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -16279,7 +16602,7 @@ FUNC_NAKED int CrewMember::GetRepairingId()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -16318,7 +16641,7 @@ FUNC_NAKED bool CrewMember::WithinRect(int x, int y, int w, int h)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 20\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -16335,6 +16658,7 @@ FUNC_NAKED std::string &CrewMember::GetLongName(std::string &str, CrewMember *cr
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -16354,7 +16678,7 @@ FUNC_NAKED std::string &CrewMember::GetLongName(std::string &str, CrewMember *cr
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -16371,6 +16695,7 @@ FUNC_NAKED void CrewMember::SetName(TextString name, bool force)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -16401,7 +16726,7 @@ FUNC_NAKED void CrewMember::SetName(TextString name, bool force)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 44\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -16418,6 +16743,7 @@ FUNC_NAKED std::string &CrewMember::GetName(std::string &str, CrewMember *crew)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -16437,7 +16763,7 @@ FUNC_NAKED std::string &CrewMember::GetName(std::string &str, CrewMember *crew)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -16454,6 +16780,7 @@ FUNC_NAKED void CrewMember::SetCurrentTarget(CrewTarget *target, bool unk)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -16476,7 +16803,7 @@ FUNC_NAKED void CrewMember::SetCurrentTarget(CrewTarget *target, bool unk)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -16511,7 +16838,7 @@ FUNC_NAKED char CrewMember::GetNewGoal()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -16528,6 +16855,7 @@ FUNC_NAKED bool CrewMember::MoveToRoom(int roomId, int slotId, bool forceMove)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -16549,7 +16877,7 @@ FUNC_NAKED bool CrewMember::MoveToRoom(int roomId, int slotId, bool forceMove)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -16566,6 +16894,7 @@ FUNC_NAKED void CrewMember::SetMindControl(bool controlled)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -16587,7 +16916,7 @@ FUNC_NAKED void CrewMember::SetMindControl(bool controlled)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -16622,7 +16951,7 @@ FUNC_NAKED bool CrewMember::RestorePosition()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -16639,6 +16968,7 @@ FUNC_NAKED bool CrewMember::ContainsPoint(int x, int y)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -16659,7 +16989,7 @@ FUNC_NAKED bool CrewMember::ContainsPoint(int x, int y)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -16676,6 +17006,7 @@ FUNC_NAKED void CrewMember::SetMedbay(float health)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -16697,7 +17028,7 @@ FUNC_NAKED void CrewMember::SetMedbay(float health)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -16714,6 +17045,7 @@ FUNC_NAKED void CrewMember::StartTeleport()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -16734,7 +17066,7 @@ FUNC_NAKED void CrewMember::StartTeleport()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -16751,6 +17083,7 @@ FUNC_NAKED void CrewMember::StartTeleportArrive()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -16771,7 +17104,7 @@ FUNC_NAKED void CrewMember::StartTeleportArrive()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -16788,6 +17121,7 @@ FUNC_NAKED bool CrewMember::InsideRoom(int roomId)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -16807,7 +17141,7 @@ FUNC_NAKED bool CrewMember::InsideRoom(int roomId)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -16824,6 +17158,7 @@ FUNC_NAKED std::string &CrewMember::GetUniqueRepairing(std::string &strRef, Crew
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -16843,7 +17178,7 @@ FUNC_NAKED std::string &CrewMember::GetUniqueRepairing(std::string &strRef, Crew
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -16860,6 +17195,7 @@ FUNC_NAKED void CrewMemberFactory::destructor()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -16880,7 +17216,7 @@ FUNC_NAKED void CrewMemberFactory::destructor()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -16897,6 +17233,7 @@ FUNC_NAKED void CrewMemberFactory::Restart()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -16917,7 +17254,7 @@ FUNC_NAKED void CrewMemberFactory::Restart()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -16952,7 +17289,7 @@ FUNC_NAKED int CrewMemberFactory::CountCloneReadyCrew()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -16969,6 +17306,7 @@ FUNC_NAKED void CrewMemberFactory::GetCrewPortraitList(std::vector<CrewMember*> 
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -16991,7 +17329,7 @@ FUNC_NAKED void CrewMemberFactory::GetCrewPortraitList(std::vector<CrewMember*> 
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -17031,7 +17369,7 @@ FUNC_NAKED void CrewMemberFactory::GetCrewList(std::vector<CrewMember*> *vec, in
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -17066,7 +17404,7 @@ FUNC_NAKED int CrewMemberFactory::GetPlayerCrewCount()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -17101,7 +17439,7 @@ FUNC_NAKED int CrewMemberFactory::GetEnemyCloneCount()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -17118,6 +17456,7 @@ FUNC_NAKED int CrewMemberFactory::GetCrewCount(bool enemy)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -17137,7 +17476,7 @@ FUNC_NAKED int CrewMemberFactory::GetCrewCount(bool enemy)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -17172,7 +17511,7 @@ FUNC_NAKED int CrewMemberFactory::GetEnemyCrewCount()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -17207,7 +17546,7 @@ FUNC_NAKED bool CrewMemberFactory::IsRace(const std::string &species)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -17224,6 +17563,7 @@ FUNC_NAKED BoarderDrone *CrewMemberFactory::CreateBoarderDrone(int shipId, const
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -17244,7 +17584,7 @@ FUNC_NAKED BoarderDrone *CrewMemberFactory::CreateBoarderDrone(int shipId, const
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -17261,6 +17601,7 @@ FUNC_NAKED BattleDrone *CrewMemberFactory::CreateBattleDrone(int shipId, const D
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -17281,7 +17622,7 @@ FUNC_NAKED BattleDrone *CrewMemberFactory::CreateBattleDrone(int shipId, const D
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -17298,6 +17639,7 @@ FUNC_NAKED void CrewMemberFactory::GetCloneReadyList(std::vector<CrewMember*> &v
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -17320,7 +17662,7 @@ FUNC_NAKED void CrewMemberFactory::GetCloneReadyList(std::vector<CrewMember*> &v
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -17337,6 +17679,7 @@ FUNC_NAKED RepairDrone *CrewMemberFactory::CreateRepairDrone(int shipId, const D
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -17357,7 +17700,7 @@ FUNC_NAKED RepairDrone *CrewMemberFactory::CreateRepairDrone(int shipId, const D
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -17374,6 +17717,7 @@ FUNC_NAKED std::pair<std::string, bool> &CrewMemberFactory::GetRandomFriendlyNam
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -17393,7 +17737,7 @@ FUNC_NAKED std::pair<std::string, bool> &CrewMemberFactory::GetRandomFriendlyNam
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -17410,6 +17754,7 @@ FUNC_NAKED std::vector<std::string> *CrewMemberFactory::GetCrewNames(std::vector
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -17429,7 +17774,7 @@ FUNC_NAKED std::vector<std::string> *CrewMemberFactory::GetCrewNames(std::vector
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -17446,6 +17791,7 @@ FUNC_NAKED void CrewMemberFactory::OnLoop()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -17466,7 +17812,7 @@ FUNC_NAKED void CrewMemberFactory::OnLoop()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -17483,6 +17829,7 @@ FUNC_NAKED void CrewMemberFactory::RemoveExcessCrew()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -17503,7 +17850,7 @@ FUNC_NAKED void CrewMemberFactory::RemoveExcessCrew()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -17520,6 +17867,7 @@ FUNC_NAKED CrewMember *CrewMemberFactory::CreateCrewMember(CrewBlueprint *bp, in
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -17541,7 +17889,7 @@ FUNC_NAKED CrewMember *CrewMemberFactory::CreateCrewMember(CrewBlueprint *bp, in
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -17558,6 +17906,7 @@ FUNC_NAKED void CrewStoreBox::Purchase()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -17578,7 +17927,7 @@ FUNC_NAKED void CrewStoreBox::Purchase()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -17618,7 +17967,7 @@ FUNC_NAKED void CrewStoreBox::constructor(ShipManager *ship, int worldLevel, con
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -17635,6 +17984,7 @@ FUNC_NAKED void DamageMessage::constructor(float length, Pointf pos, DamageMessa
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -17659,7 +18009,7 @@ FUNC_NAKED void DamageMessage::constructor(float length, Pointf pos, DamageMessa
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 20\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -17676,6 +18026,7 @@ FUNC_NAKED void DamageMessage::constructor2(float length, int amount, Pointf pos
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -17701,7 +18052,7 @@ FUNC_NAKED void DamageMessage::constructor2(float length, int amount, Pointf pos
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 24\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -17718,6 +18069,7 @@ FUNC_NAKED bool DefenseDrone::ValidTargetObject(Targetable *other)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -17737,7 +18089,7 @@ FUNC_NAKED bool DefenseDrone::ValidTargetObject(Targetable *other)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -17754,6 +18106,7 @@ FUNC_NAKED void DefenseDrone::PickTarget()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -17774,7 +18127,7 @@ FUNC_NAKED void DefenseDrone::PickTarget()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -17791,6 +18144,7 @@ FUNC_NAKED Description &Description::copy_assign_1(Description &&other)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -17810,7 +18164,7 @@ FUNC_NAKED Description &Description::copy_assign_1(Description &&other)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -17827,6 +18181,7 @@ FUNC_NAKED Description &Description::copy_assign_2(const Description &other)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -17846,7 +18201,7 @@ FUNC_NAKED Description &Description::copy_assign_2(const Description &other)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -17863,6 +18218,7 @@ FUNC_NAKED void Description::destructor()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -17883,7 +18239,7 @@ FUNC_NAKED void Description::destructor()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -17900,6 +18256,7 @@ FUNC_NAKED void Door::FakeClose()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -17920,7 +18277,7 @@ FUNC_NAKED void Door::FakeClose()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -17937,6 +18294,7 @@ FUNC_NAKED bool Door::IsSealed(int shipId)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -17956,7 +18314,7 @@ FUNC_NAKED bool Door::IsSealed(int shipId)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -17973,6 +18331,7 @@ FUNC_NAKED void Door::FakeOpen()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -17993,7 +18352,7 @@ FUNC_NAKED void Door::FakeOpen()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -18010,6 +18369,7 @@ FUNC_NAKED void DoorBox::constructor(Point pos, ShipSystem *sys, ShipManager *sh
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -18034,7 +18394,7 @@ FUNC_NAKED void DoorBox::constructor(Point pos, ShipSystem *sys, ShipManager *sh
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 20\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -18051,6 +18411,7 @@ FUNC_NAKED void DroneBlueprint::RenderIcon(float scale)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -18072,7 +18433,7 @@ FUNC_NAKED void DroneBlueprint::RenderIcon(float scale)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -18112,7 +18473,7 @@ FUNC_NAKED void DroneStoreBox::constructor(ShipManager *ship, Equipment *equip, 
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -18129,6 +18490,7 @@ FUNC_NAKED void DroneSystem::RemoveDrone(int slot)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -18150,7 +18512,7 @@ FUNC_NAKED void DroneSystem::RemoveDrone(int slot)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -18167,6 +18529,7 @@ FUNC_NAKED void DroneSystem::UpdateBonusPower()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -18187,7 +18550,7 @@ FUNC_NAKED void DroneSystem::UpdateBonusPower()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -18204,6 +18567,7 @@ FUNC_NAKED void DroneSystem::SetBonusPower(int amount, int permanentPower)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -18226,7 +18590,7 @@ FUNC_NAKED void DroneSystem::SetBonusPower(int amount, int permanentPower)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -18243,6 +18607,7 @@ FUNC_NAKED void DropBox::OnRender()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -18263,7 +18628,7 @@ FUNC_NAKED void DropBox::OnRender()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -18298,7 +18663,7 @@ FUNC_NAKED int DropBox::GetHeight()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -18315,6 +18680,7 @@ FUNC_NAKED void EnergyAlien::OnLoop()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -18335,7 +18701,7 @@ FUNC_NAKED void EnergyAlien::OnLoop()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -18352,6 +18718,7 @@ FUNC_NAKED Damage *EnergyAlien::GetRoomDamage(Damage *dmg, EnergyAlien *crew)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -18371,7 +18738,7 @@ FUNC_NAKED Damage *EnergyAlien::GetRoomDamage(Damage *dmg, EnergyAlien *crew)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -18388,6 +18755,7 @@ FUNC_NAKED void Equipment::OnInit(ShipManager *ship)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -18409,7 +18777,7 @@ FUNC_NAKED void Equipment::OnInit(ShipManager *ship)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -18426,6 +18794,7 @@ FUNC_NAKED void Equipment::OnLoop()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -18446,7 +18815,7 @@ FUNC_NAKED void Equipment::OnLoop()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -18463,6 +18832,7 @@ FUNC_NAKED void Equipment::MouseClick(int mX, int mY)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -18485,7 +18855,7 @@ FUNC_NAKED void Equipment::MouseClick(int mX, int mY)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -18502,6 +18872,7 @@ FUNC_NAKED void Equipment::MouseUp(int mX, int mY)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -18524,7 +18895,7 @@ FUNC_NAKED void Equipment::MouseUp(int mX, int mY)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -18541,6 +18912,7 @@ FUNC_NAKED void EquipmentBox::SetPosition(Point pos)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -18563,7 +18935,7 @@ FUNC_NAKED void EquipmentBox::SetPosition(Point pos)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -18580,6 +18952,7 @@ FUNC_NAKED int EquipmentBox::MouseMove(int x, int y)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -18600,7 +18973,7 @@ FUNC_NAKED int EquipmentBox::MouseMove(int x, int y)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -18617,6 +18990,7 @@ FUNC_NAKED void EquipmentBox::Restart()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -18637,7 +19011,7 @@ FUNC_NAKED void EquipmentBox::Restart()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -18654,6 +19028,7 @@ FUNC_NAKED void EquipmentBox::AddItem(EquipmentBoxItem item)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -18678,7 +19053,7 @@ FUNC_NAKED void EquipmentBox::AddItem(EquipmentBoxItem item)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 20\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -18713,7 +19088,7 @@ FUNC_NAKED bool EquipmentBox::CanHoldWeapon()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -18748,7 +19123,7 @@ FUNC_NAKED bool EquipmentBox::CanHoldDrone()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -18783,7 +19158,7 @@ FUNC_NAKED int EquipmentBox::GetType()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -18800,6 +19175,7 @@ FUNC_NAKED void EquipmentBox::OnRender(bool isEmpty)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -18821,7 +19197,7 @@ FUNC_NAKED void EquipmentBox::OnRender(bool isEmpty)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -18838,6 +19214,7 @@ FUNC_NAKED EquipmentBox::~EquipmentBox()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -18858,7 +19235,7 @@ FUNC_NAKED EquipmentBox::~EquipmentBox()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -18875,6 +19252,7 @@ FUNC_NAKED void EquipmentBox::UpdateBoxImage(bool unk)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -18896,7 +19274,7 @@ FUNC_NAKED void EquipmentBox::UpdateBoxImage(bool unk)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -18913,6 +19291,7 @@ FUNC_NAKED void EquipmentBox::RenderLabels(bool unk)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -18934,7 +19313,7 @@ FUNC_NAKED void EquipmentBox::RenderLabels(bool unk)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -18974,7 +19353,7 @@ FUNC_NAKED void EquipmentBox::constructor(Point pos, int slot)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -19009,7 +19388,7 @@ FUNC_NAKED int EquipmentBox::GetItemValue()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -19026,6 +19405,7 @@ FUNC_NAKED void EquipmentBox::SetBlueprint(InfoBox *infoBox, bool detailedBox)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -19048,7 +19428,7 @@ FUNC_NAKED void EquipmentBox::SetBlueprint(InfoBox *infoBox, bool detailedBox)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -19083,7 +19463,7 @@ FUNC_NAKED Blueprint *EquipmentBox::GetBlueprint()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -19122,7 +19502,7 @@ FUNC_NAKED LocationEvent *EventGenerator::GetBaseEvent(const std::string &name, 
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 20\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -19139,6 +19519,7 @@ FUNC_NAKED LocationEvent *EventGenerator::CreateEvent1(const std::string &name, 
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -19159,7 +19540,7 @@ FUNC_NAKED LocationEvent *EventGenerator::CreateEvent1(const std::string &name, 
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -19176,6 +19557,7 @@ FUNC_NAKED Sector *EventGenerator::GetSpecificSector(SectorDescription *desc, Ev
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -19196,7 +19578,7 @@ FUNC_NAKED Sector *EventGenerator::GetSpecificSector(SectorDescription *desc, Ev
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -19213,6 +19595,7 @@ FUNC_NAKED void EventGenerator::GetImageFromList(std::string &ret, EventGenerato
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -19235,7 +19618,7 @@ FUNC_NAKED void EventGenerator::GetImageFromList(std::string &ret, EventGenerato
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -19252,6 +19635,7 @@ FUNC_NAKED SectorDescription *EventGenerator::GetSectorDescription(SectorDescrip
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -19273,7 +19657,7 @@ FUNC_NAKED SectorDescription *EventGenerator::GetSectorDescription(SectorDescrip
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -19290,6 +19674,7 @@ FUNC_NAKED void EventSystem::AddEvent(int id)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -19311,7 +19696,7 @@ FUNC_NAKED void EventSystem::AddEvent(int id)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -19328,6 +19713,7 @@ FUNC_NAKED RandomAmount *EventsParser::PullMinMax(rapidxml::xml_node<char> *node
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -19348,7 +19734,7 @@ FUNC_NAKED RandomAmount *EventsParser::PullMinMax(rapidxml::xml_node<char> *node
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -19388,7 +19774,7 @@ FUNC_NAKED void EventsParser::ProcessEvent(std::string &strRef, EventsParser *ev
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -19405,6 +19791,7 @@ FUNC_NAKED void EventsParser::ProcessShipEvent(ShipTemplate &shipEvent, EventsPa
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -19427,7 +19814,7 @@ FUNC_NAKED void EventsParser::ProcessShipEvent(ShipTemplate &shipEvent, EventsPa
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -19444,6 +19831,7 @@ FUNC_NAKED ResourcesTemplate *EventsParser::ProcessModifyItem(ResourcesTemplate 
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -19465,7 +19853,7 @@ FUNC_NAKED ResourcesTemplate *EventsParser::ProcessModifyItem(ResourcesTemplate 
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -19482,6 +19870,7 @@ FUNC_NAKED void EventsParser::AddAllEvents()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -19502,7 +19891,7 @@ FUNC_NAKED void EventsParser::AddAllEvents()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -19542,7 +19931,7 @@ FUNC_NAKED void EventsParser::AddEvents(EventGenerator &generator, char *file, c
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -19582,7 +19971,7 @@ FUNC_NAKED void EventsParser::ProcessEventList(std::vector<std::string> &vecRef,
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -19599,6 +19988,7 @@ FUNC_NAKED void ExplosionAnimation::OnInit(rapidxml::xml_node<char> *node, const
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -19623,7 +20013,7 @@ FUNC_NAKED void ExplosionAnimation::OnInit(rapidxml::xml_node<char> *node, const
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 20\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -19640,6 +20030,7 @@ FUNC_NAKED void FTLButton::OnRender()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -19660,7 +20051,7 @@ FUNC_NAKED void FTLButton::OnRender()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -19677,6 +20068,7 @@ FUNC_NAKED void FileHelper::deleteFile(const std::string &fileName)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -19697,7 +20089,7 @@ FUNC_NAKED void FileHelper::deleteFile(const std::string &fileName)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -19732,7 +20124,7 @@ FUNC_NAKED std::string &FileHelper::getResourceFile(const std::string &str)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -19767,7 +20159,7 @@ FUNC_NAKED std::string &FileHelper::getUserFolder(std::string &str)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -19802,7 +20194,7 @@ FUNC_NAKED std::string &FileHelper::getSaveFile(std::string &str)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -19873,7 +20265,7 @@ FUNC_NAKED bool FileHelper::fileExists(const std::string &fileName)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -19890,6 +20282,7 @@ FUNC_NAKED void FileHelper::renameFile(const std::string &fileName, const std::s
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -19911,7 +20304,7 @@ FUNC_NAKED void FileHelper::renameFile(const std::string &fileName, const std::s
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -19946,7 +20339,7 @@ FUNC_NAKED int FileHelper::createBinaryFile(const std::string &fileName)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -19963,6 +20356,7 @@ FUNC_NAKED bool FileHelper::saveFileExists()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -19997,6 +20391,7 @@ FUNC_NAKED int FileHelper::readSaveFile()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -20031,6 +20426,7 @@ FUNC_NAKED int FileHelper::readStatsFile()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -20065,6 +20461,7 @@ FUNC_NAKED int FileHelper::createSaveFile()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -20099,6 +20496,7 @@ FUNC_NAKED int FileHelper::createStatsFile()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -20223,7 +20621,7 @@ FUNC_NAKED int FileHelper::getPosition(int file)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -20258,7 +20656,7 @@ FUNC_NAKED int FileHelper::readBinaryFile(const std::string &fileName)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -20275,6 +20673,7 @@ FUNC_NAKED bool FileHelper::writeFloat(int file, float data)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -20294,7 +20693,7 @@ FUNC_NAKED bool FileHelper::writeFloat(int file, float data)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -20311,6 +20710,7 @@ FUNC_NAKED bool FileHelper::writeInt(int file, int data)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -20330,7 +20730,7 @@ FUNC_NAKED bool FileHelper::writeInt(int file, int data)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -20347,6 +20747,7 @@ FUNC_NAKED bool FileHelper::writeData(int file, void *data, int len)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -20367,7 +20768,7 @@ FUNC_NAKED bool FileHelper::writeData(int file, void *data, int len)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -20384,6 +20785,7 @@ FUNC_NAKED bool FileHelper::writeString(int file, const std::string &data)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -20403,7 +20805,7 @@ FUNC_NAKED bool FileHelper::writeString(int file, const std::string &data)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -20420,6 +20822,7 @@ FUNC_NAKED void FileHelper::closeBinaryFile(int file)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -20440,7 +20843,7 @@ FUNC_NAKED void FileHelper::closeBinaryFile(int file)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -20457,6 +20860,7 @@ FUNC_NAKED std::string &FileHelper::readString(const std::string &str, int file)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -20476,7 +20880,7 @@ FUNC_NAKED std::string &FileHelper::readString(const std::string &str, int file)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -20511,7 +20915,7 @@ FUNC_NAKED float FileHelper::readFloat(int file)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -20546,7 +20950,7 @@ FUNC_NAKED int FileHelper::readInteger(int file)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -20563,6 +20967,7 @@ FUNC_NAKED bool FileHelper::seekPosition(int file, int pos)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -20582,7 +20987,7 @@ FUNC_NAKED bool FileHelper::seekPosition(int file, int pos)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -20599,6 +21004,7 @@ FUNC_NAKED char *FileHelper::readBuffer(int file, int len, bool unk)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -20619,7 +21025,7 @@ FUNC_NAKED char *FileHelper::readBuffer(int file, int len, bool unk)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -20636,6 +21042,7 @@ FUNC_NAKED void FileHelper::readData(int file, void *data, int len)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -20658,7 +21065,7 @@ FUNC_NAKED void FileHelper::readData(int file, void *data, int len)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -20675,6 +21082,7 @@ FUNC_NAKED void Fire::OnLoop()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -20695,7 +21103,7 @@ FUNC_NAKED void Fire::OnLoop()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -20712,6 +21120,7 @@ FUNC_NAKED void Fire::UpdateDeathTimer(int connectedFires)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -20733,7 +21142,7 @@ FUNC_NAKED void Fire::UpdateDeathTimer(int connectedFires)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -20750,6 +21159,7 @@ FUNC_NAKED void Fire::UpdateStartTimer(int doorLevel)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -20771,7 +21181,7 @@ FUNC_NAKED void Fire::UpdateStartTimer(int doorLevel)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -20788,6 +21198,7 @@ FUNC_NAKED void FocusWindow::MouseClick(int x, int y)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -20810,7 +21221,7 @@ FUNC_NAKED void FocusWindow::MouseClick(int x, int y)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -20827,6 +21238,7 @@ FUNC_NAKED void GameOver::OpenText(const std::string &text)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -20848,7 +21260,7 @@ FUNC_NAKED void GameOver::OpenText(const std::string &text)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -20865,6 +21277,7 @@ FUNC_NAKED void GameOver::OnRender()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -20885,7 +21298,7 @@ FUNC_NAKED void GameOver::OnRender()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -20902,6 +21315,7 @@ FUNC_NAKED void GameOver::OnLoop()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -20922,7 +21336,7 @@ FUNC_NAKED void GameOver::OnLoop()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -20939,6 +21353,7 @@ FUNC_NAKED void GenericButton::SetLocation(Point pos)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -20961,7 +21376,7 @@ FUNC_NAKED void GenericButton::SetLocation(Point pos)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -20978,6 +21393,7 @@ FUNC_NAKED void GenericButton::SetActive(bool active)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -20999,7 +21415,7 @@ FUNC_NAKED void GenericButton::SetActive(bool active)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -21039,7 +21455,7 @@ FUNC_NAKED void GenericButton::MouseMove(int x, int y, bool silent)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -21091,6 +21507,7 @@ FUNC_NAKED void GenericButton::OnClick()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -21111,7 +21528,7 @@ FUNC_NAKED void GenericButton::OnClick()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -21128,6 +21545,7 @@ FUNC_NAKED void GenericButton::OnRightClick()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -21148,7 +21566,7 @@ FUNC_NAKED void GenericButton::OnRightClick()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -21165,6 +21583,7 @@ FUNC_NAKED void GenericButton::ResetPrimitives()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -21185,7 +21604,7 @@ FUNC_NAKED void GenericButton::ResetPrimitives()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -21202,6 +21621,7 @@ FUNC_NAKED float __stdcall font_text_width(freetype::font_data &fontData, const 
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -21222,7 +21642,7 @@ FUNC_NAKED float __stdcall font_text_width(freetype::font_data &fontData, const 
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -21239,6 +21659,7 @@ FUNC_NAKED int __stdcall random32()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -21272,6 +21693,7 @@ FUNC_NAKED void __stdcall srandom32(unsigned int seed)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -21292,7 +21714,7 @@ FUNC_NAKED void __stdcall srandom32(unsigned int seed)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -21309,6 +21731,7 @@ FUNC_NAKED float __stdcall getSkillBonus(int skill, int level)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -21328,7 +21751,7 @@ FUNC_NAKED float __stdcall getSkillBonus(int skill, int level)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -21345,6 +21768,7 @@ FUNC_NAKED void __stdcall GenerateReward(ResourceEvent &ref, RewardDesc &reward,
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -21367,7 +21791,7 @@ FUNC_NAKED void __stdcall GenerateReward(ResourceEvent &ref, RewardDesc &reward,
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -21407,7 +21831,7 @@ FUNC_NAKED void __stdcall GetValue(ResourceEvent &ref, const std::string &type, 
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -21446,7 +21870,7 @@ FUNC_NAKED float Globals::AimAhead(Pointf delta, Pointf vr, float muzzleV)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 20\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -21463,6 +21887,7 @@ FUNC_NAKED int Globals::GetNextSpaceId()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -21496,6 +21921,7 @@ FUNC_NAKED void HackBox::constructor(Point pos, HackingSystem *sys, ShipManager 
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -21520,7 +21946,7 @@ FUNC_NAKED void HackBox::constructor(Point pos, HackingSystem *sys, ShipManager 
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 20\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -21537,6 +21963,7 @@ FUNC_NAKED void HackingDrone::OnLoop()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -21557,7 +21984,7 @@ FUNC_NAKED void HackingDrone::OnLoop()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -21574,6 +22001,7 @@ FUNC_NAKED void HackingSystem::BlowHackingDrone()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -21594,7 +22022,7 @@ FUNC_NAKED void HackingSystem::BlowHackingDrone()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -21611,6 +22039,7 @@ FUNC_NAKED void HackingSystem::OnLoop()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -21631,7 +22060,7 @@ FUNC_NAKED void HackingSystem::OnLoop()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -21648,6 +22077,7 @@ FUNC_NAKED void InfoBox::OnRender()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -21668,7 +22098,7 @@ FUNC_NAKED void InfoBox::OnRender()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -21703,7 +22133,7 @@ FUNC_NAKED int InfoBox::Clear()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -21742,7 +22172,7 @@ FUNC_NAKED int InfoBox::SetDescription(Description *desc, int width, int height,
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 20\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -21759,6 +22189,7 @@ FUNC_NAKED void InfoBox::SetText(const std::string &title, const std::string &te
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -21784,7 +22215,7 @@ FUNC_NAKED void InfoBox::SetText(const std::string &title, const std::string &te
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 24\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -21801,6 +22232,7 @@ FUNC_NAKED void InfoBox::SetBlueprintWeapon(const WeaponBlueprint *bp, int statu
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -21825,7 +22257,7 @@ FUNC_NAKED void InfoBox::SetBlueprintWeapon(const WeaponBlueprint *bp, int statu
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 20\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -21842,6 +22274,7 @@ FUNC_NAKED void InfoBox::SetBlueprintDrone(const DroneBlueprint *bp, int status,
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -21866,7 +22299,7 @@ FUNC_NAKED void InfoBox::SetBlueprintDrone(const DroneBlueprint *bp, int status,
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 20\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -21883,6 +22316,7 @@ FUNC_NAKED void InfoBox::SetBlueprint(const ItemBlueprint *bp)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -21904,7 +22338,7 @@ FUNC_NAKED void InfoBox::SetBlueprint(const ItemBlueprint *bp)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -21944,7 +22378,7 @@ FUNC_NAKED void InfoBox::SetBlueprintCrew(const CrewBlueprint *bp, int yShift, b
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -21961,6 +22395,7 @@ FUNC_NAKED void InfoBox::SetBlueprintAugment(const AugmentBlueprint *bp)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -21982,7 +22417,7 @@ FUNC_NAKED void InfoBox::SetBlueprintAugment(const AugmentBlueprint *bp)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -22017,7 +22452,7 @@ FUNC_NAKED bool InfoBox::IsEmpty()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -22052,7 +22487,7 @@ FUNC_NAKED int InfoBox::CalcBoxHeight()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -22069,6 +22504,7 @@ FUNC_NAKED void InfoBox::constructor()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -22089,7 +22525,7 @@ FUNC_NAKED void InfoBox::constructor()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -22106,6 +22542,7 @@ FUNC_NAKED void InfoBox::SetSystemId(int systemId, int maxPower, int currentLeve
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -22132,7 +22569,7 @@ FUNC_NAKED void InfoBox::SetSystemId(int systemId, int maxPower, int currentLeve
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 28\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -22149,6 +22586,7 @@ FUNC_NAKED void InfoBox::SetSystem(ShipSystem *system, int upgrade, int yShift, 
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -22173,7 +22611,7 @@ FUNC_NAKED void InfoBox::SetSystem(ShipSystem *system, int upgrade, int yShift, 
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 20\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -22190,6 +22628,7 @@ FUNC_NAKED void InputBox::TextEvent(CEvent::TextEvent event)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -22211,7 +22650,7 @@ FUNC_NAKED void InputBox::TextEvent(CEvent::TextEvent event)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -22228,6 +22667,7 @@ FUNC_NAKED void InputBox::StartInput()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -22248,7 +22688,7 @@ FUNC_NAKED void InputBox::StartInput()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -22265,6 +22705,7 @@ FUNC_NAKED Damage *IonDrone::GetRoomDamage(Damage *dmg, IonDrone *crew)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -22284,7 +22725,7 @@ FUNC_NAKED Damage *IonDrone::GetRoomDamage(Damage *dmg, IonDrone *crew)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -22301,6 +22742,7 @@ FUNC_NAKED void ItemStoreBox::constructor(ShipManager *ship, const std::string &
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -22323,7 +22765,7 @@ FUNC_NAKED void ItemStoreBox::constructor(ShipManager *ship, const std::string &
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -22340,6 +22782,7 @@ FUNC_NAKED void LaserBlast::OnUpdate()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -22360,7 +22803,7 @@ FUNC_NAKED void LaserBlast::OnUpdate()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -22377,6 +22820,7 @@ FUNC_NAKED void LaserBlast::OnInit()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -22397,7 +22841,7 @@ FUNC_NAKED void LaserBlast::OnInit()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -22428,6 +22872,7 @@ FUNC_NAKED void LocationEvent::ClearEvent(bool force)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -22449,7 +22894,7 @@ FUNC_NAKED void LocationEvent::ClearEvent(bool force)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -22466,6 +22911,7 @@ FUNC_NAKED void LockdownShard::Update()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -22486,7 +22932,7 @@ FUNC_NAKED void LockdownShard::Update()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -22503,6 +22949,7 @@ FUNC_NAKED void MainMenu::OnRender()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -22523,7 +22970,7 @@ FUNC_NAKED void MainMenu::OnRender()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -22540,6 +22987,7 @@ FUNC_NAKED void MainMenu::Open()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -22560,7 +23008,7 @@ FUNC_NAKED void MainMenu::Open()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -22577,6 +23025,7 @@ FUNC_NAKED void MainMenu::MouseMove(int x, int y)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -22599,7 +23048,7 @@ FUNC_NAKED void MainMenu::MouseMove(int x, int y)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -22616,6 +23065,7 @@ FUNC_NAKED void MainMenu::OnLoop()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -22636,7 +23086,7 @@ FUNC_NAKED void MainMenu::OnLoop()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -22653,6 +23103,7 @@ FUNC_NAKED void MainMenu::MouseClick(int x, int y)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -22675,7 +23126,7 @@ FUNC_NAKED void MainMenu::MouseClick(int x, int y)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -22692,6 +23143,7 @@ FUNC_NAKED void MainMenu::constructor()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -22712,7 +23164,7 @@ FUNC_NAKED void MainMenu::constructor()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -22764,6 +23216,7 @@ FUNC_NAKED std::string &MantisAnimation::GetShootingSound(std::string &strRef, M
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -22783,7 +23236,7 @@ FUNC_NAKED std::string &MantisAnimation::GetShootingSound(std::string &strRef, M
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -22835,6 +23288,7 @@ FUNC_NAKED std::string &MantisAnimation::GetDeathSound(std::string &strRef, Mant
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -22854,7 +23308,7 @@ FUNC_NAKED std::string &MantisAnimation::GetDeathSound(std::string &strRef, Mant
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -22924,7 +23378,7 @@ FUNC_NAKED bool MantisAnimation::FireShot()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -22941,6 +23395,7 @@ FUNC_NAKED void MenuScreen::OnRender()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -22961,7 +23416,7 @@ FUNC_NAKED void MenuScreen::OnRender()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -22978,6 +23433,7 @@ FUNC_NAKED void MenuScreen::constructor()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -22998,7 +23454,7 @@ FUNC_NAKED void MenuScreen::constructor()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -23038,7 +23494,7 @@ FUNC_NAKED void MindBox::constructor(Point pos, MindSystem *sys)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -23055,6 +23511,7 @@ FUNC_NAKED void MindSystem::SetArmed(int armed)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -23076,7 +23533,7 @@ FUNC_NAKED void MindSystem::SetArmed(int armed)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -23120,7 +23577,7 @@ FUNC_NAKED void Missile::constructor(Pointf _position, int _ownerId, int _target
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 32\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -23137,6 +23594,7 @@ FUNC_NAKED std::string &MouseControl::SetTooltip(const std::string &tooltip)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -23156,7 +23614,7 @@ FUNC_NAKED std::string &MouseControl::SetTooltip(const std::string &tooltip)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -23173,6 +23631,7 @@ FUNC_NAKED Point MouseControl::MeasureTooltip(int unk)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -23193,7 +23652,7 @@ FUNC_NAKED Point MouseControl::MeasureTooltip(int unk)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -23210,6 +23669,7 @@ FUNC_NAKED void MouseControl::QueueStaticTooltip(Point pos)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -23232,7 +23692,7 @@ FUNC_NAKED void MouseControl::QueueStaticTooltip(Point pos)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -23249,6 +23709,7 @@ FUNC_NAKED void MouseControl::OnLoop()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -23269,7 +23730,7 @@ FUNC_NAKED void MouseControl::OnLoop()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -23286,6 +23747,7 @@ FUNC_NAKED void MouseControl::InstantTooltip()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -23306,7 +23768,7 @@ FUNC_NAKED void MouseControl::InstantTooltip()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -23323,6 +23785,7 @@ FUNC_NAKED void MouseControl::OnRender()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -23343,7 +23806,7 @@ FUNC_NAKED void MouseControl::OnRender()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -23360,6 +23823,7 @@ FUNC_NAKED void MouseControl::SetDoor(int state)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -23381,7 +23845,7 @@ FUNC_NAKED void MouseControl::SetDoor(int state)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -23398,6 +23862,7 @@ FUNC_NAKED void OptionsScreen::OnInit()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -23418,7 +23883,7 @@ FUNC_NAKED void OptionsScreen::OnInit()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -23505,6 +23970,7 @@ FUNC_NAKED void OptionsScreen::OnLoop()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -23525,7 +23991,7 @@ FUNC_NAKED void OptionsScreen::OnLoop()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -23565,7 +24031,7 @@ FUNC_NAKED void OxygenSystem::UpdateBreach(int roomId, int hasBreach, bool unk3)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -23582,6 +24048,7 @@ FUNC_NAKED void OxygenSystem::UpdateAirlock(int roomId, int unk)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -23604,7 +24071,7 @@ FUNC_NAKED void OxygenSystem::UpdateAirlock(int roomId, int unk)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -23621,6 +24088,7 @@ FUNC_NAKED void OxygenSystem::EmptyOxygen(int roomId)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -23642,7 +24110,7 @@ FUNC_NAKED void OxygenSystem::EmptyOxygen(int roomId)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -23659,6 +24127,7 @@ FUNC_NAKED void OxygenSystem::ModifyRoomOxygen(int roomId, float value)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -23681,7 +24150,7 @@ FUNC_NAKED void OxygenSystem::ModifyRoomOxygen(int roomId, float value)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -23721,7 +24190,7 @@ FUNC_NAKED void OxygenSystem::ComputeAirLoss(int roomId, float value, bool unk)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -23756,7 +24225,7 @@ FUNC_NAKED float OxygenSystem::GetRefillSpeed()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -23773,6 +24242,7 @@ FUNC_NAKED void OxygenSystem::constructor(int numRooms, int roomId, int shipId, 
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -23797,7 +24267,7 @@ FUNC_NAKED void OxygenSystem::constructor(int numRooms, int roomId, int shipId, 
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 20\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -23814,6 +24284,7 @@ FUNC_NAKED int Point::RelativeDistance(Point other)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -23834,7 +24305,7 @@ FUNC_NAKED int Point::RelativeDistance(Point other)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -23851,6 +24322,7 @@ FUNC_NAKED int Point::Distance(Point other)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -23871,7 +24343,7 @@ FUNC_NAKED int Point::Distance(Point other)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -23888,6 +24360,7 @@ FUNC_NAKED void Pointf::constructor(float x, float y)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -23910,7 +24383,7 @@ FUNC_NAKED void Pointf::constructor(float x, float y)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -23927,6 +24400,7 @@ FUNC_NAKED float Pointf::RelativeDistance(Pointf other)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -23947,7 +24421,7 @@ FUNC_NAKED float Pointf::RelativeDistance(Pointf other)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -23982,7 +24456,7 @@ FUNC_NAKED PowerManager *PowerManager::GetPowerManager(int iShipId)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -23999,6 +24473,7 @@ FUNC_NAKED void Projectile::CollisionCheck(Collideable *other)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -24020,7 +24495,7 @@ FUNC_NAKED void Projectile::CollisionCheck(Collideable *other)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -24037,6 +24512,7 @@ FUNC_NAKED void Projectile::constructor(Pointf position, int ownerId, int target
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -24063,7 +24539,7 @@ FUNC_NAKED void Projectile::constructor(Pointf position, int ownerId, int target
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 28\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -24080,6 +24556,7 @@ FUNC_NAKED void Projectile::destructor()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -24100,7 +24577,7 @@ FUNC_NAKED void Projectile::destructor()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -24117,6 +24594,7 @@ FUNC_NAKED void Projectile::Initialize(WeaponBlueprint &bp)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -24138,7 +24616,7 @@ FUNC_NAKED void Projectile::Initialize(WeaponBlueprint &bp)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -24155,6 +24633,7 @@ FUNC_NAKED void ProjectileFactory::constructor(const WeaponBlueprint *bp, int sh
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -24177,7 +24656,7 @@ FUNC_NAKED void ProjectileFactory::constructor(const WeaponBlueprint *bp, int sh
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -24212,7 +24691,7 @@ FUNC_NAKED int ProjectileFactory::SelectChargeGoal()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -24247,7 +24726,7 @@ FUNC_NAKED bool ProjectileFactory::IsChargedGoal()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -24264,6 +24743,7 @@ FUNC_NAKED void ProjectileFactory::SetHacked(int hacked)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -24285,7 +24765,7 @@ FUNC_NAKED void ProjectileFactory::SetHacked(int hacked)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -24302,6 +24782,7 @@ FUNC_NAKED void ProjectileFactory::SetCurrentShip(Targetable *ship)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -24323,7 +24804,7 @@ FUNC_NAKED void ProjectileFactory::SetCurrentShip(Targetable *ship)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -24340,6 +24821,7 @@ FUNC_NAKED void ProjectileFactory::SetCooldownModifier(float mod)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -24361,7 +24843,7 @@ FUNC_NAKED void ProjectileFactory::SetCooldownModifier(float mod)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -24378,6 +24860,7 @@ FUNC_NAKED void ProjectileFactory::ForceCoolup()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -24398,7 +24881,7 @@ FUNC_NAKED void ProjectileFactory::ForceCoolup()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -24415,6 +24898,7 @@ FUNC_NAKED void ProjectileFactory::RenderChargeBar(float unk)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -24436,7 +24920,7 @@ FUNC_NAKED void ProjectileFactory::RenderChargeBar(float unk)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -24471,7 +24955,7 @@ FUNC_NAKED int ProjectileFactory::StringToWeapon(const std::string &str)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -24488,6 +24972,7 @@ FUNC_NAKED void ProjectileFactory::Fire(std::vector<Pointf> &points, int target)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -24510,7 +24995,7 @@ FUNC_NAKED void ProjectileFactory::Fire(std::vector<Pointf> &points, int target)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -24545,7 +25030,7 @@ FUNC_NAKED char ProjectileFactory::FireNextShot()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -24580,7 +25065,7 @@ FUNC_NAKED int ProjectileFactory::SpendMissiles()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -24597,6 +25082,7 @@ FUNC_NAKED void ProjectileFactory::OnRender(float alpha, bool forceVisual)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -24619,7 +25105,7 @@ FUNC_NAKED void ProjectileFactory::OnRender(float alpha, bool forceVisual)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -24654,7 +25140,7 @@ FUNC_NAKED int ProjectileFactory::NumTargetsRequired()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -24671,6 +25157,7 @@ FUNC_NAKED void ProjectileFactory::Update()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -24691,7 +25178,7 @@ FUNC_NAKED void ProjectileFactory::Update()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -24708,6 +25195,7 @@ FUNC_NAKED void ReactorButton::Accept()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -24728,7 +25216,7 @@ FUNC_NAKED void ReactorButton::Accept()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -24768,7 +25256,7 @@ FUNC_NAKED void RepairStoreBox::constructor(ShipManager *ship, bool repairAll, i
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -24785,6 +25273,7 @@ FUNC_NAKED void ResourceControl::constructor()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -24805,7 +25294,7 @@ FUNC_NAKED void ResourceControl::constructor()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -24822,6 +25311,7 @@ FUNC_NAKED GL_Primitive *ResourceControl::CreateImagePrimitive(GL_Texture *tex, 
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -24850,7 +25340,7 @@ FUNC_NAKED GL_Primitive *ResourceControl::CreateImagePrimitive(GL_Texture *tex, 
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 44\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -24867,6 +25357,7 @@ FUNC_NAKED void ResourceControl::OnInit(int imageSwappingMode)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -24888,7 +25379,7 @@ FUNC_NAKED void ResourceControl::OnInit(int imageSwappingMode)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -24905,6 +25396,7 @@ FUNC_NAKED char *ResourceControl::LoadFile(const std::string &fileName)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -24924,7 +25416,7 @@ FUNC_NAKED char *ResourceControl::LoadFile(const std::string &fileName)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -24941,6 +25433,7 @@ FUNC_NAKED GL_Texture *ResourceControl::GetImageId(const std::string &dir)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -24960,7 +25453,7 @@ FUNC_NAKED GL_Texture *ResourceControl::GetImageId(const std::string &dir)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -24977,6 +25470,7 @@ FUNC_NAKED int ResourceControl::RenderImage(GL_Texture *tex, int x, int y, int r
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -25005,7 +25499,7 @@ FUNC_NAKED int ResourceControl::RenderImage(GL_Texture *tex, int x, int y, int r
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 44\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -25022,6 +25516,7 @@ FUNC_NAKED int ResourceControl::RenderImageString(std::string &tex, int x, int y
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -25050,7 +25545,7 @@ FUNC_NAKED int ResourceControl::RenderImageString(std::string &tex, int x, int y
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 44\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -25067,6 +25562,7 @@ FUNC_NAKED GL_Primitive *ResourceControl::CreateImagePrimitiveString(const std::
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -25095,7 +25591,7 @@ FUNC_NAKED GL_Primitive *ResourceControl::CreateImagePrimitiveString(const std::
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 44\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -25112,6 +25608,7 @@ FUNC_NAKED freetype::font_data &ResourceControl::GetFontData(int fontType, bool 
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -25132,7 +25629,7 @@ FUNC_NAKED freetype::font_data &ResourceControl::GetFontData(int fontType, bool 
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -25149,6 +25646,7 @@ FUNC_NAKED void ResourceControl::GetImageData(ImageDesc &ref, ResourceControl *r
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -25171,7 +25669,7 @@ FUNC_NAKED void ResourceControl::GetImageData(ImageDesc &ref, ResourceControl *r
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -25188,6 +25686,7 @@ FUNC_NAKED void RockAnimation::constructor(const std::string &subRace, int iShip
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -25213,7 +25712,7 @@ FUNC_NAKED void RockAnimation::constructor(const std::string &subRace, int iShip
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 24\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -25265,6 +25764,7 @@ FUNC_NAKED std::string &RockAnimation::GetShootingSound(std::string &strRef, Roc
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -25284,7 +25784,7 @@ FUNC_NAKED std::string &RockAnimation::GetShootingSound(std::string &strRef, Roc
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -25371,6 +25871,7 @@ FUNC_NAKED std::string &RockAnimation::GetDeathSound(std::string &strRef, RockAn
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -25390,7 +25891,7 @@ FUNC_NAKED std::string &RockAnimation::GetDeathSound(std::string &strRef, RockAn
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -25407,6 +25908,7 @@ FUNC_NAKED int Room::GetEmptySlots(bool intruder)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -25426,7 +25928,7 @@ FUNC_NAKED int Room::GetEmptySlots(bool intruder)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -25443,6 +25945,7 @@ FUNC_NAKED void Room::constructor(int iShipId, int x, int y, int w, int h, int r
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -25469,7 +25972,7 @@ FUNC_NAKED void Room::constructor(int iShipId, int x, int y, int w, int h, int r
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 28\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -25486,6 +25989,7 @@ FUNC_NAKED void Room::OnRenderFloor(float alpha, bool experimental)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -25508,7 +26012,7 @@ FUNC_NAKED void Room::OnRenderFloor(float alpha, bool experimental)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -25525,6 +26029,7 @@ FUNC_NAKED void Room::OnRenderWalls(float alpha)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -25546,7 +26051,7 @@ FUNC_NAKED void Room::OnRenderWalls(float alpha)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -25563,6 +26068,7 @@ FUNC_NAKED void Room::destructor()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -25583,7 +26089,7 @@ FUNC_NAKED void Room::destructor()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -25600,6 +26106,7 @@ FUNC_NAKED char ScoreKeeper::GetShipUnlocked(int shipId, int shipVariant)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -25620,7 +26127,7 @@ FUNC_NAKED char ScoreKeeper::GetShipUnlocked(int shipId, int shipVariant)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -25637,6 +26144,7 @@ FUNC_NAKED std::string *ScoreKeeper::GetShipBlueprint(std::string *str, ScoreKee
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -25657,7 +26165,7 @@ FUNC_NAKED std::string *ScoreKeeper::GetShipBlueprint(std::string *str, ScoreKee
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -25674,6 +26182,7 @@ FUNC_NAKED void ScoreKeeper::OnInit()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -25694,7 +26203,7 @@ FUNC_NAKED void ScoreKeeper::OnInit()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -25711,6 +26220,7 @@ FUNC_NAKED void ScoreKeeper::Save(bool newHighScore)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -25732,7 +26242,7 @@ FUNC_NAKED void ScoreKeeper::Save(bool newHighScore)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -25749,6 +26259,7 @@ FUNC_NAKED void ScoreKeeper::OnRender(bool lastPlaythrough)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -25770,7 +26281,7 @@ FUNC_NAKED void ScoreKeeper::OnRender(bool lastPlaythrough)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -25787,6 +26298,7 @@ FUNC_NAKED void ScoreKeeper::UnlockShip(int shipType, int shipVariant, bool save
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -25811,7 +26323,7 @@ FUNC_NAKED void ScoreKeeper::UnlockShip(int shipType, int shipVariant, bool save
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 20\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -25828,6 +26340,7 @@ FUNC_NAKED void ScoreKeeper::SetVictory(bool victory)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -25849,7 +26362,7 @@ FUNC_NAKED void ScoreKeeper::SetVictory(bool victory)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -25866,6 +26379,7 @@ FUNC_NAKED void ScoreKeeper::constructor()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -25886,7 +26400,7 @@ FUNC_NAKED void ScoreKeeper::constructor()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -25903,6 +26417,7 @@ FUNC_NAKED int ScoreKeeper::GetShipIdType(const std::string &blueprintName)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -25922,7 +26437,7 @@ FUNC_NAKED int ScoreKeeper::GetShipIdType(const std::string &blueprintName)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -25939,6 +26454,7 @@ FUNC_NAKED void ScoreKeeper::LoadVersionFour(int file, int version)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -25961,7 +26477,7 @@ FUNC_NAKED void ScoreKeeper::LoadVersionFour(int file, int version)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -25978,6 +26494,7 @@ FUNC_NAKED void ScoreKeeper::WipeProfile(bool permanent)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -25999,7 +26516,7 @@ FUNC_NAKED void ScoreKeeper::WipeProfile(bool permanent)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -26016,6 +26533,7 @@ FUNC_NAKED void ScoreKeeper::MouseClick(int x, int y)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -26038,7 +26556,7 @@ FUNC_NAKED void ScoreKeeper::MouseClick(int x, int y)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -26055,6 +26573,7 @@ FUNC_NAKED void ScoreKeeper::SetupTopShip(int variant)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -26076,7 +26595,7 @@ FUNC_NAKED void ScoreKeeper::SetupTopShip(int variant)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -26093,6 +26612,7 @@ FUNC_NAKED void ScoreKeeper::CheckTypes()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -26113,7 +26633,7 @@ FUNC_NAKED void ScoreKeeper::CheckTypes()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -26130,6 +26650,7 @@ FUNC_NAKED void ScoreKeeper::AddTopScoreType(TopScore &topScore, int type)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -26152,7 +26673,7 @@ FUNC_NAKED void ScoreKeeper::AddTopScoreType(TopScore &topScore, int type)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -26169,6 +26690,7 @@ FUNC_NAKED int ScoreKeeper::AddTopScoreList(TopScore &score, std::vector<TopScor
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -26189,7 +26711,7 @@ FUNC_NAKED int ScoreKeeper::AddTopScoreList(TopScore &score, std::vector<TopScor
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -26206,6 +26728,7 @@ FUNC_NAKED void ScoreKeeper::RenderTopScores(const std::vector<TopScore> &topSco
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -26230,7 +26753,7 @@ FUNC_NAKED void ScoreKeeper::RenderTopScores(const std::vector<TopScore> &topSco
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 20\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -26247,6 +26770,7 @@ FUNC_NAKED void ScoreKeeper::CycleLeft()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -26267,7 +26791,7 @@ FUNC_NAKED void ScoreKeeper::CycleLeft()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -26284,6 +26808,7 @@ FUNC_NAKED void ScoreKeeper::CycleRight()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -26304,7 +26829,7 @@ FUNC_NAKED void ScoreKeeper::CycleRight()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -26321,6 +26846,7 @@ FUNC_NAKED void ScoreKeeper::Open(bool fromGameOver)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -26342,7 +26868,7 @@ FUNC_NAKED void ScoreKeeper::Open(bool fromGameOver)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -26359,6 +26885,7 @@ FUNC_NAKED bool ScoreKeeper::KeyDown(SDLKey key)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -26378,7 +26905,7 @@ FUNC_NAKED bool ScoreKeeper::KeyDown(SDLKey key)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -26395,6 +26922,7 @@ FUNC_NAKED void ScoreKeeper::AddScrapCollected(int scrap)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -26416,7 +26944,7 @@ FUNC_NAKED void ScoreKeeper::AddScrapCollected(int scrap)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -26433,6 +26961,7 @@ FUNC_NAKED void ScoreKeeper::SaveScores(int file, std::vector<TopScore> &topScor
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -26455,7 +26984,7 @@ FUNC_NAKED void ScoreKeeper::SaveScores(int file, std::vector<TopScore> &topScor
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -26472,6 +27001,7 @@ FUNC_NAKED char Settings::GetCommandConsole()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -26505,6 +27035,7 @@ FUNC_NAKED bool Settings::GetDlcEnabled()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -26538,6 +27069,7 @@ FUNC_NAKED std::string &Settings::GetHotkeyName(std::string &strRef, const std::
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -26557,7 +27089,7 @@ FUNC_NAKED std::string &Settings::GetHotkeyName(std::string &strRef, const std::
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -26592,7 +27124,7 @@ FUNC_NAKED SDLKey Settings::GetHotkey(const std::string &hotkeyName)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -26609,6 +27141,7 @@ FUNC_NAKED void Settings::SetHotkey(const std::string &hotkeyName, SDLKey key)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -26630,7 +27163,7 @@ FUNC_NAKED void Settings::SetHotkey(const std::string &hotkeyName, SDLKey key)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -26755,6 +27288,7 @@ FUNC_NAKED CollisionResponse *Shields::CollisionReal(CollisionResponse &ret, Shi
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -26790,7 +27324,7 @@ FUNC_NAKED CollisionResponse *Shields::CollisionReal(CollisionResponse &ret, Shi
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 72\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -26807,6 +27341,7 @@ FUNC_NAKED void Shields::constructor(int roomId, int shipId, int startingPower, 
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -26831,7 +27366,7 @@ FUNC_NAKED void Shields::constructor(int roomId, int shipId, int startingPower, 
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 20\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -26848,6 +27383,7 @@ FUNC_NAKED void Shields::SetBaseEllipse(Globals::Ellipse ellipse)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -26872,7 +27408,7 @@ FUNC_NAKED void Shields::SetBaseEllipse(Globals::Ellipse ellipse)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 20\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -26889,6 +27425,7 @@ FUNC_NAKED void Shields::InstantCharge()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -26909,7 +27446,7 @@ FUNC_NAKED void Shields::InstantCharge()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -26926,6 +27463,7 @@ FUNC_NAKED void Shields::Jump()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -26946,7 +27484,7 @@ FUNC_NAKED void Shields::Jump()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -26963,6 +27501,7 @@ FUNC_NAKED void Shields::OnLoop()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -26983,7 +27522,7 @@ FUNC_NAKED void Shields::OnLoop()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -27000,6 +27539,7 @@ FUNC_NAKED void Shields::AddSuperShield(Point pos)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -27022,7 +27562,7 @@ FUNC_NAKED void Shields::AddSuperShield(Point pos)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -27039,6 +27579,7 @@ FUNC_NAKED void Shields::RenderBase(float alpha, float superShieldOverwrite)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -27061,7 +27602,7 @@ FUNC_NAKED void Shields::RenderBase(float alpha, float superShieldOverwrite)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -27078,6 +27619,7 @@ FUNC_NAKED int Ship::GetSelectedRoomId(int x, int y, bool unk)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -27099,7 +27641,7 @@ FUNC_NAKED int Ship::GetSelectedRoomId(int x, int y, bool unk)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -27139,7 +27681,7 @@ FUNC_NAKED void Ship::LockdownRoom(int roomId, Pointf pos)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -27156,6 +27698,7 @@ FUNC_NAKED bool Ship::RoomLocked(int roomId)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -27175,7 +27718,7 @@ FUNC_NAKED bool Ship::RoomLocked(int roomId)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -27192,6 +27735,7 @@ FUNC_NAKED bool Ship::FullRoom(int roomId, bool intruder)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -27212,7 +27756,7 @@ FUNC_NAKED bool Ship::FullRoom(int roomId, bool intruder)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -27229,6 +27773,7 @@ FUNC_NAKED int Ship::EmptySlots(int roomId)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -27248,7 +27793,7 @@ FUNC_NAKED int Ship::EmptySlots(int roomId)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -27265,6 +27810,7 @@ FUNC_NAKED int Ship::GetAvailableRoomSlot(int roomId, bool intruder)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -27285,7 +27831,7 @@ FUNC_NAKED int Ship::GetAvailableRoomSlot(int roomId, bool intruder)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -27302,6 +27848,7 @@ FUNC_NAKED void Ship::OnRenderBreaches()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -27322,7 +27869,7 @@ FUNC_NAKED void Ship::OnRenderBreaches()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -27339,6 +27886,7 @@ FUNC_NAKED void Ship::OnRenderWalls(bool forceView, bool doorControlMode)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -27361,7 +27909,7 @@ FUNC_NAKED void Ship::OnRenderWalls(bool forceView, bool doorControlMode)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -27378,6 +27926,7 @@ FUNC_NAKED void Ship::OnInit(ShipBlueprint &bp)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -27399,7 +27948,7 @@ FUNC_NAKED void Ship::OnInit(ShipBlueprint &bp)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -27416,6 +27965,7 @@ FUNC_NAKED void Ship::OnRenderSparks()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -27436,7 +27986,7 @@ FUNC_NAKED void Ship::OnRenderSparks()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -27453,6 +28003,7 @@ FUNC_NAKED void Ship::SetRoomBlackout(int roomId, bool blackout)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -27475,7 +28026,7 @@ FUNC_NAKED void Ship::SetRoomBlackout(int roomId, bool blackout)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -27492,6 +28043,7 @@ FUNC_NAKED void Ship::OnRenderBase(bool unk)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -27513,7 +28065,7 @@ FUNC_NAKED void Ship::OnRenderBase(bool unk)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -27530,6 +28082,7 @@ FUNC_NAKED void Ship::OnRenderFloor(bool unk)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -27551,7 +28104,7 @@ FUNC_NAKED void Ship::OnRenderFloor(bool unk)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -27568,6 +28121,7 @@ FUNC_NAKED void Ship::OnRenderJump(float progress)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -27589,7 +28143,7 @@ FUNC_NAKED void Ship::OnRenderJump(float progress)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -27606,6 +28160,7 @@ FUNC_NAKED void Ship::GetBaseEllipse(Globals::Ellipse &ret, Ship *_this)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -27627,7 +28182,7 @@ FUNC_NAKED void Ship::GetBaseEllipse(Globals::Ellipse &ret, Ship *_this)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -27644,6 +28199,7 @@ FUNC_NAKED void Ship::SetSelectedRoom(int roomId)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -27665,7 +28221,7 @@ FUNC_NAKED void Ship::SetSelectedRoom(int roomId)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -27682,6 +28238,7 @@ FUNC_NAKED void Ship::OnLoop(std::vector<float> &oxygenLevels)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -27703,7 +28260,7 @@ FUNC_NAKED void Ship::OnLoop(std::vector<float> &oxygenLevels)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -27720,6 +28277,7 @@ FUNC_NAKED void Ship::BreachRandomHull(int roomId)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -27741,7 +28299,7 @@ FUNC_NAKED void Ship::BreachRandomHull(int roomId)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -27758,6 +28316,7 @@ FUNC_NAKED void ShipAI::constructor(bool unk)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -27779,7 +28338,7 @@ FUNC_NAKED void ShipAI::constructor(bool unk)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -27796,6 +28355,7 @@ FUNC_NAKED void ShipAI::SetStalemate(bool stalemate)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -27817,7 +28377,7 @@ FUNC_NAKED void ShipAI::SetStalemate(bool stalemate)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -27834,6 +28394,7 @@ FUNC_NAKED void ShipAI::OnLoop(bool hostile)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -27855,7 +28416,7 @@ FUNC_NAKED void ShipAI::OnLoop(bool hostile)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -27872,6 +28433,7 @@ FUNC_NAKED double ShipAI::GetTeleportCommand()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
 		"push esi\n\t"
@@ -27888,7 +28450,7 @@ FUNC_NAKED double ShipAI::GetTeleportCommand()
 		"pop ecx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -27905,6 +28467,7 @@ FUNC_NAKED void ShipBlueprint::destructor()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -27925,7 +28488,7 @@ FUNC_NAKED void ShipBlueprint::destructor()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -27960,7 +28523,7 @@ FUNC_NAKED void *ShipBuilder::CheckTypes()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -27977,6 +28540,7 @@ FUNC_NAKED void ShipBuilder::MouseClick(int x, int y)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -27999,7 +28563,7 @@ FUNC_NAKED void ShipBuilder::MouseClick(int x, int y)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -28016,6 +28580,7 @@ FUNC_NAKED void ShipBuilder::SwitchShip(int shipType, int shipVariant)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -28038,7 +28603,7 @@ FUNC_NAKED void ShipBuilder::SwitchShip(int shipType, int shipVariant)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -28055,6 +28620,7 @@ FUNC_NAKED void ShipBuilder::CreateEquipmentBoxes()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -28075,7 +28641,7 @@ FUNC_NAKED void ShipBuilder::CreateEquipmentBoxes()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -28092,6 +28658,7 @@ FUNC_NAKED void ShipBuilder::CreateSystemBoxes()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -28112,7 +28679,7 @@ FUNC_NAKED void ShipBuilder::CreateSystemBoxes()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -28129,6 +28696,7 @@ FUNC_NAKED void ShipBuilder::SetupShipAchievements()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -28149,7 +28717,7 @@ FUNC_NAKED void ShipBuilder::SetupShipAchievements()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -28166,6 +28734,7 @@ FUNC_NAKED void ShipBuilder::ClearShipAchievements()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -28186,7 +28755,7 @@ FUNC_NAKED void ShipBuilder::ClearShipAchievements()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -28203,6 +28772,7 @@ FUNC_NAKED int ShipBuilder::SwapType(int variant)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -28222,7 +28792,7 @@ FUNC_NAKED int ShipBuilder::SwapType(int variant)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -28239,6 +28809,7 @@ FUNC_NAKED void ShipBuilder::CycleShipNext()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -28259,7 +28830,7 @@ FUNC_NAKED void ShipBuilder::CycleShipNext()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -28276,6 +28847,7 @@ FUNC_NAKED void ShipBuilder::CycleShipPrevious()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -28296,7 +28868,7 @@ FUNC_NAKED void ShipBuilder::CycleShipPrevious()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -28313,6 +28885,7 @@ FUNC_NAKED void ShipBuilder::Open()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -28333,7 +28906,7 @@ FUNC_NAKED void ShipBuilder::Open()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -28350,6 +28923,7 @@ FUNC_NAKED void ShipBuilder::OnRender()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -28370,7 +28944,7 @@ FUNC_NAKED void ShipBuilder::OnRender()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -28387,6 +28961,7 @@ FUNC_NAKED void ShipBuilder::OnLoop()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -28407,7 +28982,7 @@ FUNC_NAKED void ShipBuilder::OnLoop()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -28424,6 +28999,7 @@ FUNC_NAKED void ShipBuilder::constructor()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -28444,7 +29020,7 @@ FUNC_NAKED void ShipBuilder::constructor()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -28461,6 +29037,7 @@ FUNC_NAKED void ShipBuilder::MouseMove(int x, int y)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -28483,7 +29060,7 @@ FUNC_NAKED void ShipBuilder::MouseMove(int x, int y)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -28500,6 +29077,7 @@ FUNC_NAKED void ShipBuilder::OnKeyDown(SDLKey key)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -28521,7 +29099,7 @@ FUNC_NAKED void ShipBuilder::OnKeyDown(SDLKey key)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -28538,6 +29116,7 @@ FUNC_NAKED void ShipButton::constructor(int shipType, int shipVariant)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -28560,7 +29139,7 @@ FUNC_NAKED void ShipButton::constructor(int shipType, int shipVariant)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -28600,7 +29179,7 @@ FUNC_NAKED void ShipButton::OnInit(const std::string &imgName, Point pos)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -28617,6 +29196,7 @@ FUNC_NAKED bool ShipButton::MouseMove(int x, int y)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -28637,7 +29217,7 @@ FUNC_NAKED bool ShipButton::MouseMove(int x, int y)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -28654,6 +29234,7 @@ FUNC_NAKED void ShipButton::OnRender()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -28674,7 +29255,7 @@ FUNC_NAKED void ShipButton::OnRender()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -28691,6 +29272,7 @@ FUNC_NAKED void ShipEvent::constructor(const ShipEvent &event)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -28712,7 +29294,7 @@ FUNC_NAKED void ShipEvent::constructor(const ShipEvent &event)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -28729,6 +29311,7 @@ FUNC_NAKED ShipManager *ShipGenerator::CreateShip(const std::string &name, int s
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -28749,7 +29332,7 @@ FUNC_NAKED ShipManager *ShipGenerator::CreateShip(const std::string &name, int s
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -28784,7 +29367,7 @@ FUNC_NAKED ShipGraph *ShipGraph::GetShipInfo(int shipId)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -28823,7 +29406,7 @@ FUNC_NAKED Point ShipGraph::GetSlotRenderPosition(int x, int y, char unk)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 20\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -28840,6 +29423,7 @@ FUNC_NAKED int ShipGraph::DoorCount(int unk)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -28859,7 +29443,7 @@ FUNC_NAKED int ShipGraph::DoorCount(int unk)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -28876,6 +29460,7 @@ FUNC_NAKED std::vector<Door*> &ShipGraph::GetDoors(int unk)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -28895,7 +29480,7 @@ FUNC_NAKED std::vector<Door*> &ShipGraph::GetDoors(int unk)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -28912,6 +29497,7 @@ FUNC_NAKED int ShipGraph::IsRoomConnected(int room1, int room2)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -28932,7 +29518,7 @@ FUNC_NAKED int ShipGraph::IsRoomConnected(int room1, int room2)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -28971,7 +29557,7 @@ FUNC_NAKED int ShipGraph::ConnectingDoor(int x1, int y1, int x2, int y2)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 20\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -29010,7 +29596,7 @@ FUNC_NAKED int ShipGraph::ConnectedGridSquares(int x1, int y1, int x2, int y2)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 20\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -29049,7 +29635,7 @@ FUNC_NAKED int ShipGraph::ConnectedGridSquaresPoint(Point p1, Point p2)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 20\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -29088,7 +29674,7 @@ FUNC_NAKED int ShipGraph::ConnectingDoor(Point p1, Point p2)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 20\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -29105,6 +29691,7 @@ FUNC_NAKED int ShipGraph::GetNumSlots(int room)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -29124,7 +29711,7 @@ FUNC_NAKED int ShipGraph::GetNumSlots(int room)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -29141,6 +29728,7 @@ FUNC_NAKED int ShipGraph::PopClosestDoor(std::vector<int> &unk, std::vector<floa
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -29159,7 +29747,7 @@ FUNC_NAKED int ShipGraph::PopClosestDoor(std::vector<int> &unk, std::vector<floa
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -29176,6 +29764,7 @@ FUNC_NAKED int ShipGraph::Dijkstra(Point p1, Point p2, int unk)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -29199,7 +29788,7 @@ FUNC_NAKED int ShipGraph::Dijkstra(Point p1, Point p2, int unk)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 24\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -29216,6 +29805,7 @@ FUNC_NAKED int ShipGraph::FindPath(Point p1, Point p2, int unk)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -29239,7 +29829,7 @@ FUNC_NAKED int ShipGraph::FindPath(Point p1, Point p2, int unk)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 24\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -29256,6 +29846,7 @@ FUNC_NAKED float ShipGraph::ConvertToWorldAngle(float ang)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -29275,7 +29866,7 @@ FUNC_NAKED float ShipGraph::ConvertToWorldAngle(float ang)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -29292,6 +29883,7 @@ FUNC_NAKED float ShipGraph::ConvertToLocalAngle(float ang)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -29311,7 +29903,7 @@ FUNC_NAKED float ShipGraph::ConvertToLocalAngle(float ang)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -29328,6 +29920,7 @@ FUNC_NAKED int64_t ShipGraph::ConvertToWorldPosition(Pointf p)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
 		"push esi\n\t"
@@ -29346,7 +29939,7 @@ FUNC_NAKED int64_t ShipGraph::ConvertToWorldPosition(Pointf p)
 		"pop ecx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -29385,7 +29978,7 @@ FUNC_NAKED Pointf ShipGraph::ConvertToLocalPosition(Pointf p, char unk)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 20\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -29420,7 +30013,7 @@ FUNC_NAKED int ShipGraph::ComputeCenter()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -29437,6 +30030,7 @@ FUNC_NAKED bool ShipGraph::ContainsPoint(int x, int y)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -29457,7 +30051,7 @@ FUNC_NAKED bool ShipGraph::ContainsPoint(int x, int y)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -29474,6 +30068,7 @@ FUNC_NAKED int ShipGraph::GetSelectedRoom(int x, int y, bool unk)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -29495,7 +30090,7 @@ FUNC_NAKED int ShipGraph::GetSelectedRoom(int x, int y, bool unk)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -29530,7 +30125,7 @@ FUNC_NAKED int ShipGraph::RoomCount()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -29547,6 +30142,7 @@ FUNC_NAKED Globals::Rect *ShipGraph::GetRoomShape(int room)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -29566,7 +30162,7 @@ FUNC_NAKED Globals::Rect *ShipGraph::GetRoomShape(int room)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -29583,6 +30179,7 @@ FUNC_NAKED float ShipGraph::GetRoomOxygen(int room)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -29602,7 +30199,7 @@ FUNC_NAKED float ShipGraph::GetRoomOxygen(int room)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -29619,6 +30216,7 @@ FUNC_NAKED bool ShipGraph::GetRoomBlackedOut(int room)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -29638,7 +30236,7 @@ FUNC_NAKED bool ShipGraph::GetRoomBlackedOut(int room)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -29655,6 +30253,7 @@ FUNC_NAKED Slot *ShipGraph::GetClosestSlot(Slot *slot, ShipGraph *graph, Point p
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -29678,7 +30277,7 @@ FUNC_NAKED Slot *ShipGraph::GetClosestSlot(Slot *slot, ShipGraph *graph, Point p
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 24\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -29695,6 +30294,7 @@ FUNC_NAKED char ShipInfo::AddAugmentation(const std::string &augment)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -29714,7 +30314,7 @@ FUNC_NAKED char ShipInfo::AddAugmentation(const std::string &augment)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -29731,6 +30331,7 @@ FUNC_NAKED bool ShipInfo::HasAugmentation(const std::string &augment)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -29750,7 +30351,7 @@ FUNC_NAKED bool ShipInfo::HasAugmentation(const std::string &augment)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -29767,6 +30368,7 @@ FUNC_NAKED float ShipInfo::GetAugmentationValue(const std::string &augment)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -29786,7 +30388,7 @@ FUNC_NAKED float ShipInfo::GetAugmentationValue(const std::string &augment)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -29803,6 +30405,7 @@ FUNC_NAKED int ShipManager::constructor(int shipId)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -29822,7 +30425,7 @@ FUNC_NAKED int ShipManager::constructor(int shipId)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -29839,6 +30442,7 @@ FUNC_NAKED void ShipManager::AddInitialCrew(std::vector<CrewBlueprint> &blueprin
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -29860,7 +30464,7 @@ FUNC_NAKED void ShipManager::AddInitialCrew(std::vector<CrewBlueprint> &blueprin
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -29895,7 +30499,7 @@ FUNC_NAKED int ShipManager::GetDodgeFactor()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -29912,6 +30516,7 @@ FUNC_NAKED void ShipManager::OnRender(char showInterior, char doorControlMode)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -29934,7 +30539,7 @@ FUNC_NAKED void ShipManager::OnRender(char showInterior, char doorControlMode)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -29951,6 +30556,7 @@ FUNC_NAKED int ShipManager::CountCrew(char boarders)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -29970,7 +30576,7 @@ FUNC_NAKED int ShipManager::CountCrew(char boarders)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -30010,7 +30616,7 @@ FUNC_NAKED void ShipManager::TeleportCrew(std::vector<CrewMember*> &crewList, Sh
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -30027,6 +30633,7 @@ FUNC_NAKED int ShipManager::OnInit(ShipBlueprint *bp, int shipLevel)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -30047,7 +30654,7 @@ FUNC_NAKED int ShipManager::OnInit(ShipBlueprint *bp, int shipLevel)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -30064,6 +30671,7 @@ FUNC_NAKED char ShipManager::HasSystem(int systemId)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -30083,7 +30691,7 @@ FUNC_NAKED char ShipManager::HasSystem(int systemId)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -30100,6 +30708,7 @@ FUNC_NAKED ShipSystem *ShipManager::GetSystemInRoom(int roomId)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -30119,7 +30728,7 @@ FUNC_NAKED ShipSystem *ShipManager::GetSystemInRoom(int roomId)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -30136,6 +30745,7 @@ FUNC_NAKED void ShipManager::OnLoop()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -30156,7 +30766,7 @@ FUNC_NAKED void ShipManager::OnLoop()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -30208,6 +30818,7 @@ FUNC_NAKED void ShipManager::SetSystemPowerLoss(int systemId, int powerLoss)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -30230,7 +30841,7 @@ FUNC_NAKED void ShipManager::SetSystemPowerLoss(int systemId, int powerLoss)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -30265,7 +30876,7 @@ FUNC_NAKED int ShipManager::CreateSystems()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -30282,6 +30893,7 @@ FUNC_NAKED int ShipManager::AddSystem(int systemId)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -30301,7 +30913,7 @@ FUNC_NAKED int ShipManager::AddSystem(int systemId)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -30318,6 +30930,7 @@ FUNC_NAKED void ShipManager::UpdateCrewMembers()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -30338,7 +30951,7 @@ FUNC_NAKED void ShipManager::UpdateCrewMembers()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -30355,6 +30968,7 @@ FUNC_NAKED void ShipManager::UpdateEnvironment()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -30375,7 +30989,7 @@ FUNC_NAKED void ShipManager::UpdateEnvironment()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -30392,6 +31006,7 @@ FUNC_NAKED CrewMember *ShipManager::AddCrewMemberFromBlueprint(CrewBlueprint *bp
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -30415,7 +31030,7 @@ FUNC_NAKED CrewMember *ShipManager::AddCrewMemberFromBlueprint(CrewBlueprint *bp
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 24\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -30432,6 +31047,7 @@ FUNC_NAKED CrewMember *ShipManager::AddCrewMemberFromString(const std::string &n
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -30456,7 +31072,7 @@ FUNC_NAKED CrewMember *ShipManager::AddCrewMemberFromString(const std::string &n
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 28\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -30491,7 +31107,7 @@ FUNC_NAKED int ShipManager::GetOxygenPercentage()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -30508,6 +31124,7 @@ FUNC_NAKED char ShipManager::DamageCrew(CrewMember *crew, DamageParameter dmg)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -30540,7 +31157,7 @@ FUNC_NAKED char ShipManager::DamageCrew(CrewMember *crew, DamageParameter dmg)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 60\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -30557,6 +31174,7 @@ FUNC_NAKED void ShipManager::RemoveItem(const std::string &name)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -30578,7 +31196,7 @@ FUNC_NAKED void ShipManager::RemoveItem(const std::string &name)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -30629,7 +31247,7 @@ FUNC_NAKED char ShipManager::DamageArea(Pointf location, DamageParameter dmg, ch
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 68\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -30646,6 +31264,7 @@ FUNC_NAKED CrewBlueprint *ShipManager::SelectRandomCrew(CrewBlueprint &bp, ShipM
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -30667,7 +31286,7 @@ FUNC_NAKED CrewBlueprint *ShipManager::SelectRandomCrew(CrewBlueprint &bp, ShipM
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -30684,6 +31303,7 @@ FUNC_NAKED void ShipManager::ClearStatusAll()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -30704,7 +31324,7 @@ FUNC_NAKED void ShipManager::ClearStatusAll()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -30721,6 +31341,7 @@ FUNC_NAKED void ShipManager::PrepareSuperDrones()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -30741,7 +31362,7 @@ FUNC_NAKED void ShipManager::PrepareSuperDrones()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -30758,6 +31379,7 @@ FUNC_NAKED void ShipManager::JumpLeave()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -30778,7 +31400,7 @@ FUNC_NAKED void ShipManager::JumpLeave()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -30795,6 +31417,7 @@ FUNC_NAKED void ShipManager::ModifyScrapCount(int scrap, bool income)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -30817,7 +31440,7 @@ FUNC_NAKED void ShipManager::ModifyScrapCount(int scrap, bool income)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -30834,6 +31457,7 @@ FUNC_NAKED bool ShipManager::DoSensorsProvide(int vision)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -30853,7 +31477,7 @@ FUNC_NAKED bool ShipManager::DoSensorsProvide(int vision)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -30888,7 +31512,7 @@ FUNC_NAKED bool ShipManager::IsCrewFull()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -30923,7 +31547,7 @@ FUNC_NAKED bool ShipManager::IsCrewOverFull()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -30940,6 +31564,7 @@ FUNC_NAKED CrewDrone *ShipManager::CreateCrewDrone(const DroneBlueprint *bp)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -30959,7 +31584,7 @@ FUNC_NAKED CrewDrone *ShipManager::CreateCrewDrone(const DroneBlueprint *bp)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -30976,6 +31601,7 @@ FUNC_NAKED SpaceDrone *ShipManager::CreateSpaceDrone(const DroneBlueprint *bp)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -30995,7 +31621,7 @@ FUNC_NAKED SpaceDrone *ShipManager::CreateSpaceDrone(const DroneBlueprint *bp)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -31012,6 +31638,7 @@ FUNC_NAKED bool ShipManager::CommandCrewMoveRoom(CrewMember *crew, int roomId)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -31032,7 +31659,7 @@ FUNC_NAKED bool ShipManager::CommandCrewMoveRoom(CrewMember *crew, int roomId)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -31049,6 +31676,7 @@ FUNC_NAKED int ShipManager::GetSystemRoom(int sysId)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -31068,7 +31696,7 @@ FUNC_NAKED int ShipManager::GetSystemRoom(int sysId)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -31085,6 +31713,7 @@ FUNC_NAKED std::vector<ProjectileFactory*> &ShipManager::GetWeaponList(std::vect
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -31104,7 +31733,7 @@ FUNC_NAKED std::vector<ProjectileFactory*> &ShipManager::GetWeaponList(std::vect
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -31121,6 +31750,7 @@ FUNC_NAKED Drone *ShipManager::AddDrone(const DroneBlueprint *bp, int slot)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -31141,7 +31771,7 @@ FUNC_NAKED Drone *ShipManager::AddDrone(const DroneBlueprint *bp, int slot)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -31158,6 +31788,7 @@ FUNC_NAKED void ShipManager::Restart()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -31178,7 +31809,7 @@ FUNC_NAKED void ShipManager::Restart()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -31195,6 +31826,7 @@ FUNC_NAKED int ShipManager::GetSystemPower(int systemId)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -31214,7 +31846,7 @@ FUNC_NAKED int ShipManager::GetSystemPower(int systemId)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -31231,6 +31863,7 @@ FUNC_NAKED int ShipManager::CountCrewShipId(int roomId, int shipId)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -31251,7 +31884,7 @@ FUNC_NAKED int ShipManager::CountCrewShipId(int roomId, int shipId)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -31268,6 +31901,7 @@ FUNC_NAKED ShipSystem *ShipManager::GetSystem(int systemId)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -31287,7 +31921,7 @@ FUNC_NAKED ShipSystem *ShipManager::GetSystem(int systemId)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -31304,6 +31938,7 @@ FUNC_NAKED void ShipManager::ExportShip(int file)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -31325,7 +31960,7 @@ FUNC_NAKED void ShipManager::ExportShip(int file)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -31342,6 +31977,7 @@ FUNC_NAKED void ShipManager::destructor()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -31362,7 +31998,7 @@ FUNC_NAKED void ShipManager::destructor()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -31379,6 +32015,7 @@ FUNC_NAKED void ShipManager::destructor2()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -31399,7 +32036,7 @@ FUNC_NAKED void ShipManager::destructor2()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -31416,6 +32053,7 @@ FUNC_NAKED void ShipManager::ImportShip(int file)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -31437,7 +32075,7 @@ FUNC_NAKED void ShipManager::ImportShip(int file)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -31454,6 +32092,7 @@ FUNC_NAKED void ShipManager::CheckVision()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -31474,7 +32113,7 @@ FUNC_NAKED void ShipManager::CheckVision()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -31491,6 +32130,7 @@ FUNC_NAKED bool ShipManager::IsSystemHacked(int systemId)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -31510,7 +32150,7 @@ FUNC_NAKED bool ShipManager::IsSystemHacked(int systemId)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -31527,6 +32167,7 @@ FUNC_NAKED CrewMember *ShipManager::GetSelectedCrewPoint(int x, int y, bool intr
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -31548,7 +32189,7 @@ FUNC_NAKED CrewMember *ShipManager::GetSelectedCrewPoint(int x, int y, bool intr
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -31565,6 +32206,7 @@ FUNC_NAKED void ShipManager::RenderWeapons()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -31585,7 +32227,7 @@ FUNC_NAKED void ShipManager::RenderWeapons()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -31602,6 +32244,7 @@ FUNC_NAKED void ShipManager::ClearStatusSystem(int system)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -31623,7 +32266,7 @@ FUNC_NAKED void ShipManager::ClearStatusSystem(int system)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -31640,6 +32283,7 @@ FUNC_NAKED void ShipManager::ResetScrapLevel()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -31660,7 +32304,7 @@ FUNC_NAKED void ShipManager::ResetScrapLevel()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -31677,6 +32321,7 @@ FUNC_NAKED void ShipManager::JumpArrive()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -31697,7 +32342,7 @@ FUNC_NAKED void ShipManager::JumpArrive()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -31714,6 +32359,7 @@ FUNC_NAKED void ShipManager::CheckSpreadDamage()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -31734,7 +32380,7 @@ FUNC_NAKED void ShipManager::CheckSpreadDamage()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -31751,6 +32397,7 @@ FUNC_NAKED bool ShipManager::ForceDecreaseSystemPower(int sys)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -31770,7 +32417,7 @@ FUNC_NAKED bool ShipManager::ForceDecreaseSystemPower(int sys)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -31787,6 +32434,7 @@ FUNC_NAKED void ShipManager::GetShieldPower(ShieldPower &power, ShipManager *shi
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -31808,7 +32456,7 @@ FUNC_NAKED void ShipManager::GetShieldPower(ShieldPower &power, ShipManager *shi
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -31825,6 +32473,7 @@ FUNC_NAKED int ShipManager::AddWeapon(const WeaponBlueprint *bp, int slot)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -31845,7 +32494,7 @@ FUNC_NAKED int ShipManager::AddWeapon(const WeaponBlueprint *bp, int slot)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -31862,6 +32511,7 @@ FUNC_NAKED void ShipManager::AddEquipmentFromList(std::vector<std::string> equip
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -31886,7 +32536,7 @@ FUNC_NAKED void ShipManager::AddEquipmentFromList(std::vector<std::string> equip
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 20\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -31903,6 +32553,7 @@ FUNC_NAKED void ShipManager::RenderChargeBars()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -31923,7 +32574,7 @@ FUNC_NAKED void ShipManager::RenderChargeBars()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -31940,6 +32591,7 @@ FUNC_NAKED void ShipManager::ExportBattleState(int file)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -31961,7 +32613,7 @@ FUNC_NAKED void ShipManager::ExportBattleState(int file)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -31978,6 +32630,7 @@ FUNC_NAKED void ShipManager::ImportBattleState(int file)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -31999,7 +32652,7 @@ FUNC_NAKED void ShipManager::ImportBattleState(int file)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -32016,6 +32669,7 @@ FUNC_NAKED bool ShipManager::SystemFunctions(int systemId)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -32035,7 +32689,7 @@ FUNC_NAKED bool ShipManager::SystemFunctions(int systemId)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -32052,6 +32706,7 @@ FUNC_NAKED bool ShipManager::CanFitSystem(int systemId)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -32071,7 +32726,7 @@ FUNC_NAKED bool ShipManager::CanFitSystem(int systemId)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -32088,6 +32743,7 @@ FUNC_NAKED bool ShipManager::CanFitSubsystem(int systemId)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -32107,7 +32763,7 @@ FUNC_NAKED bool ShipManager::CanFitSubsystem(int systemId)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -32124,6 +32780,7 @@ FUNC_NAKED int ShipManager::DamageHull(int dmg, bool force)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -32144,7 +32801,7 @@ FUNC_NAKED int ShipManager::DamageHull(int dmg, bool force)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -32161,6 +32818,7 @@ FUNC_NAKED void ShipManager::DamageSystem(int systemId, DamageParameter damage)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -32195,7 +32853,7 @@ FUNC_NAKED void ShipManager::DamageSystem(int systemId, DamageParameter damage)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 60\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -32212,6 +32870,7 @@ FUNC_NAKED void ShipManager::StartFire(int roomId)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -32233,7 +32892,7 @@ FUNC_NAKED void ShipManager::StartFire(int roomId)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -32250,6 +32909,7 @@ FUNC_NAKED CrewMember *ShipManager::FindCrew(const CrewBlueprint *bp)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -32269,7 +32929,7 @@ FUNC_NAKED CrewMember *ShipManager::FindCrew(const CrewBlueprint *bp)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -32304,7 +32964,7 @@ FUNC_NAKED bool ShipManager::GetDodged()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -32321,6 +32981,7 @@ FUNC_NAKED void ShipManager::PrepareSuperBarrage()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -32341,7 +33002,7 @@ FUNC_NAKED void ShipManager::PrepareSuperBarrage()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -32376,7 +33037,7 @@ FUNC_NAKED bool ShipManager::RestoreCrewPositions()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -32393,6 +33054,7 @@ FUNC_NAKED CrewMember *ShipManager::GetCrewmember(int slot, bool present)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -32413,7 +33075,7 @@ FUNC_NAKED CrewMember *ShipManager::GetCrewmember(int slot, bool present)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -32430,6 +33092,7 @@ FUNC_NAKED int ShipObject::HasAugmentation(const std::string &augment)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -32449,7 +33112,7 @@ FUNC_NAKED int ShipObject::HasAugmentation(const std::string &augment)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -32466,6 +33129,7 @@ FUNC_NAKED float ShipObject::GetAugmentationValue(const std::string &augment)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -32485,7 +33149,7 @@ FUNC_NAKED float ShipObject::GetAugmentationValue(const std::string &augment)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -32502,6 +33166,7 @@ FUNC_NAKED void ShipObject::RemoveAugmentation(const std::string &augment)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -32523,7 +33188,7 @@ FUNC_NAKED void ShipObject::RemoveAugmentation(const std::string &augment)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -32540,6 +33205,7 @@ FUNC_NAKED int ShipObject::HasEquipment(const std::string &equip)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -32559,7 +33225,7 @@ FUNC_NAKED int ShipObject::HasEquipment(const std::string &equip)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -32576,6 +33242,7 @@ FUNC_NAKED std::map<std::string, int> &ShipObject::GetAugmentationList(std::vect
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -32595,7 +33262,7 @@ FUNC_NAKED std::map<std::string, int> &ShipObject::GetAugmentationList(std::vect
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -32612,6 +33279,7 @@ FUNC_NAKED bool ShipObject::AddAugmentation(const std::string &augment)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -32631,7 +33299,7 @@ FUNC_NAKED bool ShipObject::AddAugmentation(const std::string &augment)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -32666,7 +33334,7 @@ FUNC_NAKED int ShipObject::GetAugmentationCount()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -32683,6 +33351,7 @@ FUNC_NAKED void ShipObject::ClearShipInfo()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -32703,7 +33372,7 @@ FUNC_NAKED void ShipObject::ClearShipInfo()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -32720,6 +33389,7 @@ FUNC_NAKED void ShipSelect::SelectShip(int shipType)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -32741,7 +33411,7 @@ FUNC_NAKED void ShipSelect::SelectShip(int shipType)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -32758,6 +33428,7 @@ FUNC_NAKED void ShipSelect::constructor()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -32778,7 +33449,7 @@ FUNC_NAKED void ShipSelect::constructor()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -32813,7 +33484,7 @@ FUNC_NAKED int ShipSelect::ClearShipButtons()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -32830,6 +33501,7 @@ FUNC_NAKED void ShipSelect::MouseMove(int x, int y)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -32852,7 +33524,7 @@ FUNC_NAKED void ShipSelect::MouseMove(int x, int y)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -32869,6 +33541,7 @@ FUNC_NAKED void ShipSelect::OnLoop()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -32889,7 +33562,7 @@ FUNC_NAKED void ShipSelect::OnLoop()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -32906,6 +33579,7 @@ FUNC_NAKED int ShipSelect::KeyDown(SDLKey key)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -32925,7 +33599,7 @@ FUNC_NAKED int ShipSelect::KeyDown(SDLKey key)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -32942,6 +33616,7 @@ FUNC_NAKED void ShipSelect::MouseClick()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -32962,7 +33637,7 @@ FUNC_NAKED void ShipSelect::MouseClick()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -32979,6 +33654,7 @@ FUNC_NAKED void ShipSelect::PreSelectShip(int shipType)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -33000,7 +33676,7 @@ FUNC_NAKED void ShipSelect::PreSelectShip(int shipType)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -33017,6 +33693,7 @@ FUNC_NAKED void ShipSelect::Close()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -33037,7 +33714,7 @@ FUNC_NAKED void ShipSelect::Close()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -33072,7 +33749,7 @@ FUNC_NAKED int ShipSelect::GetSelectedShip()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -33089,6 +33766,7 @@ FUNC_NAKED void ShipSelect::Open(int currentId, int currentType)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -33111,7 +33789,7 @@ FUNC_NAKED void ShipSelect::Open(int currentId, int currentType)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -33128,6 +33806,7 @@ FUNC_NAKED void ShipSelect::OnRender()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -33148,7 +33827,7 @@ FUNC_NAKED void ShipSelect::OnRender()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -33165,6 +33844,7 @@ FUNC_NAKED void ShipStatus::RenderHealth(bool unk)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -33186,7 +33866,7 @@ FUNC_NAKED void ShipStatus::RenderHealth(bool unk)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -33226,7 +33906,7 @@ FUNC_NAKED void ShipStatus::OnInit(Point unk, float unk2)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -33243,6 +33923,7 @@ FUNC_NAKED void ShipStatus::RenderEvadeOxygen(bool unk)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -33264,7 +33945,7 @@ FUNC_NAKED void ShipStatus::RenderEvadeOxygen(bool unk)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -33281,6 +33962,7 @@ FUNC_NAKED void ShipStatus::OnRender()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -33301,7 +33983,7 @@ FUNC_NAKED void ShipStatus::OnRender()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -33318,6 +34000,7 @@ FUNC_NAKED void ShipStatus::RenderShields(bool renderText)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -33339,7 +34022,7 @@ FUNC_NAKED void ShipStatus::RenderShields(bool renderText)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -33356,6 +34039,7 @@ FUNC_NAKED bool ShipSystem::DamageOverTime(float unk)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -33375,7 +34059,7 @@ FUNC_NAKED bool ShipSystem::DamageOverTime(float unk)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -33392,6 +34076,7 @@ FUNC_NAKED void ShipSystem::CheckForRepower()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -33412,7 +34097,7 @@ FUNC_NAKED void ShipSystem::CheckForRepower()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -33447,7 +34132,7 @@ FUNC_NAKED int ShipSystem::NameToSystemId(const std::string &name)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -33482,7 +34167,7 @@ FUNC_NAKED int ShipSystem::IsMannedBoost()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -33499,6 +34184,7 @@ FUNC_NAKED std::string &ShipSystem::SystemIdToName(std::string &strRef, int syst
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -33518,7 +34204,7 @@ FUNC_NAKED std::string &ShipSystem::SystemIdToName(std::string &strRef, int syst
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -33535,6 +34221,7 @@ FUNC_NAKED void ShipSystem::OnLoop()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -33555,7 +34242,7 @@ FUNC_NAKED void ShipSystem::OnLoop()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -33572,6 +34259,7 @@ FUNC_NAKED bool ShipSystem::Ioned(int num)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -33591,7 +34279,7 @@ FUNC_NAKED bool ShipSystem::Ioned(int num)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -33608,6 +34296,7 @@ FUNC_NAKED int ShipSystem::SetPowerLoss(int power)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -33627,7 +34316,7 @@ FUNC_NAKED int ShipSystem::SetPowerLoss(int power)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -33644,6 +34333,7 @@ FUNC_NAKED void ShipSystem::constructor(int systemId, int roomId, int shipId, in
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -33668,7 +34358,7 @@ FUNC_NAKED void ShipSystem::constructor(int systemId, int roomId, int shipId, in
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 20\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -33703,7 +34393,7 @@ FUNC_NAKED int ShipSystem::GetPowerCap()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -33720,6 +34410,7 @@ FUNC_NAKED void ShipSystem::SetPowerCap(int cap)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -33741,7 +34432,7 @@ FUNC_NAKED void ShipSystem::SetPowerCap(int cap)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -33758,6 +34449,7 @@ FUNC_NAKED void ShipSystem::LockSystem(int lock)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -33779,7 +34471,7 @@ FUNC_NAKED void ShipSystem::LockSystem(int lock)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -33796,6 +34488,7 @@ FUNC_NAKED bool ShipSystem::ForceDecreasePower(int powerLoss)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -33815,7 +34508,7 @@ FUNC_NAKED bool ShipSystem::ForceDecreasePower(int powerLoss)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -33850,7 +34543,7 @@ FUNC_NAKED int ShipSystem::GetEffectivePower()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -33885,7 +34578,7 @@ FUNC_NAKED int ShipSystem::GetMaxPower()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -33902,6 +34595,7 @@ FUNC_NAKED void ShipSystem::SetBonusPower(int amount, int permanentPower)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -33924,7 +34618,7 @@ FUNC_NAKED void ShipSystem::SetBonusPower(int amount, int permanentPower)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -33941,6 +34635,7 @@ FUNC_NAKED void ShipSystem::CheckMaxPower()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -33961,7 +34656,7 @@ FUNC_NAKED void ShipSystem::CheckMaxPower()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -33978,6 +34673,7 @@ FUNC_NAKED bool ShipSystem::PartialDamage(float amount)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -33997,7 +34693,7 @@ FUNC_NAKED bool ShipSystem::PartialDamage(float amount)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -34032,7 +34728,7 @@ FUNC_NAKED bool ShipSystem::IsSubsystem(int systemType)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -34049,6 +34745,7 @@ FUNC_NAKED void ShipSystem::ClearStatus()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -34069,7 +34766,7 @@ FUNC_NAKED void ShipSystem::ClearStatus()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -34109,7 +34806,7 @@ FUNC_NAKED void ShipSystem::GetLevelDescription(std::string &retStr, int systemI
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -34126,6 +34823,7 @@ FUNC_NAKED void ShipSystem::AddLock(int lock)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -34147,7 +34845,7 @@ FUNC_NAKED void ShipSystem::AddLock(int lock)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -34182,7 +34880,7 @@ FUNC_NAKED bool ShipSystem::GetLocked()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -34199,6 +34897,7 @@ FUNC_NAKED void ShipSystem::StopHacking()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -34219,7 +34918,7 @@ FUNC_NAKED void ShipSystem::StopHacking()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -34236,6 +34935,7 @@ FUNC_NAKED void ShipSystem::SaveState(int file)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -34257,7 +34957,7 @@ FUNC_NAKED void ShipSystem::SaveState(int file)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -34274,6 +34974,7 @@ FUNC_NAKED void ShipSystem::LoadState(int file)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -34295,7 +34996,7 @@ FUNC_NAKED void ShipSystem::LoadState(int file)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -34312,6 +35013,7 @@ FUNC_NAKED bool ShipSystem::UpgradeSystem(int amount)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -34331,7 +35033,7 @@ FUNC_NAKED bool ShipSystem::UpgradeSystem(int amount)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -34348,6 +35050,7 @@ FUNC_NAKED bool ShipSystem::IncreasePower(int amount, bool force)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -34368,7 +35071,7 @@ FUNC_NAKED bool ShipSystem::IncreasePower(int amount, bool force)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -34385,6 +35088,7 @@ FUNC_NAKED bool ShipSystem::DecreasePower(bool force)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -34404,7 +35108,7 @@ FUNC_NAKED bool ShipSystem::DecreasePower(bool force)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -34421,6 +35125,7 @@ FUNC_NAKED bool ShipSystem::PartialRepair(float speed, bool autoRepair)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -34441,7 +35146,7 @@ FUNC_NAKED bool ShipSystem::PartialRepair(float speed, bool autoRepair)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -34485,7 +35190,7 @@ FUNC_NAKED void ShipSystem::RenderPowerBoxes(int x, int y, int width, int height
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 32\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -34502,6 +35207,7 @@ FUNC_NAKED void ShipSystem::AddDamage(int amount)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -34523,7 +35229,7 @@ FUNC_NAKED void ShipSystem::AddDamage(int amount)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -34540,6 +35246,7 @@ FUNC_NAKED int SoundControl::PlaySoundMix(const std::string &soundName, float vo
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -34561,7 +35268,7 @@ FUNC_NAKED int SoundControl::PlaySoundMix(const std::string &soundName, float vo
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -34578,6 +35285,7 @@ FUNC_NAKED void SoundControl::StopPlaylist(int fadeOut)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -34599,7 +35307,7 @@ FUNC_NAKED void SoundControl::StopPlaylist(int fadeOut)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -34616,6 +35324,7 @@ FUNC_NAKED void SoundControl::StartPlaylist(std::vector<std::string> &playlist)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -34637,7 +35346,7 @@ FUNC_NAKED void SoundControl::StartPlaylist(std::vector<std::string> &playlist)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -34676,7 +35385,7 @@ FUNC_NAKED float SpaceDrone::UpdateAimingAngle(Pointf location, float percentage
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 20\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -34693,6 +35402,7 @@ FUNC_NAKED void SpaceDrone::SetDeployed(bool deployed)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -34714,7 +35424,7 @@ FUNC_NAKED void SpaceDrone::SetDeployed(bool deployed)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -34731,6 +35441,7 @@ FUNC_NAKED void SpaceDrone::SetMovementTarget(Targetable *target)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -34752,7 +35463,7 @@ FUNC_NAKED void SpaceDrone::SetMovementTarget(Targetable *target)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -34769,6 +35480,7 @@ FUNC_NAKED void SpaceManager::constructor()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -34789,7 +35501,7 @@ FUNC_NAKED void SpaceManager::constructor()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -34824,7 +35536,7 @@ FUNC_NAKED int SpaceManager::GetScreenShake()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -34841,6 +35553,7 @@ FUNC_NAKED void SpaceManager::SaveSpace(int fileHelper)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -34862,7 +35575,7 @@ FUNC_NAKED void SpaceManager::SaveSpace(int fileHelper)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -34879,6 +35592,7 @@ FUNC_NAKED void SpaceManager::SwitchBeacon()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -34899,7 +35613,7 @@ FUNC_NAKED void SpaceManager::SwitchBeacon()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -34916,6 +35630,7 @@ FUNC_NAKED void SpaceManager::SwitchPlanet(ImageDesc *ret, SpaceManager *space, 
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -34938,7 +35653,7 @@ FUNC_NAKED void SpaceManager::SwitchPlanet(ImageDesc *ret, SpaceManager *space, 
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -34955,6 +35670,7 @@ FUNC_NAKED void SpaceManager::UpdatePlanetImage()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -34975,7 +35691,7 @@ FUNC_NAKED void SpaceManager::UpdatePlanetImage()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -34992,6 +35708,7 @@ FUNC_NAKED void SpaceManager::SwitchImages(ImageDesc planet, ImageDesc unk1, Ima
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -35033,7 +35750,7 @@ FUNC_NAKED void SpaceManager::SwitchImages(ImageDesc planet, ImageDesc unk1, Ima
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 88\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -35050,6 +35767,7 @@ FUNC_NAKED void SpaceManager::SwitchBackground(ImageDesc *ret, SpaceManager *spa
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -35072,7 +35790,7 @@ FUNC_NAKED void SpaceManager::SwitchBackground(ImageDesc *ret, SpaceManager *spa
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -35089,6 +35807,7 @@ FUNC_NAKED void SpaceManager::StartAsteroids(int shieldCount, bool unk)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -35111,7 +35830,7 @@ FUNC_NAKED void SpaceManager::StartAsteroids(int shieldCount, bool unk)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -35128,6 +35847,7 @@ FUNC_NAKED void SpaceManager::SetPlanetaryDefense(char state, int target)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -35150,7 +35870,7 @@ FUNC_NAKED void SpaceManager::SetPlanetaryDefense(char state, int target)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -35167,6 +35887,7 @@ FUNC_NAKED void SpaceManager::SetPulsarLevel(bool pulsarLevel)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -35188,7 +35909,7 @@ FUNC_NAKED void SpaceManager::SetPulsarLevel(bool pulsarLevel)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -35223,7 +35944,7 @@ FUNC_NAKED bool SpaceManager::DangerousEnvironment()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -35263,7 +35984,7 @@ FUNC_NAKED void SpaceManager::MouseMove(int x, int y, int unk)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -35280,6 +36001,7 @@ FUNC_NAKED SpaceDrone *SpaceManager::GetSelectedDrone(int x, int y, int unk)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -35301,7 +36023,7 @@ FUNC_NAKED SpaceDrone *SpaceManager::GetSelectedDrone(int x, int y, int unk)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -35336,7 +36058,7 @@ FUNC_NAKED float SpaceManager::GetFlashOpacity()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -35371,7 +36093,7 @@ FUNC_NAKED GL_Color *SpaceManager::GetColorTint()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -35388,6 +36110,7 @@ FUNC_NAKED void SpaceManager::OnRenderBackground()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -35408,7 +36131,7 @@ FUNC_NAKED void SpaceManager::OnRenderBackground()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -35425,6 +36148,7 @@ FUNC_NAKED void SpaceManager::OnRenderFleet()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -35445,7 +36169,7 @@ FUNC_NAKED void SpaceManager::OnRenderFleet()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -35462,6 +36186,7 @@ FUNC_NAKED void SpaceManager::OnRenderForeground()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -35482,7 +36207,7 @@ FUNC_NAKED void SpaceManager::OnRenderForeground()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -35499,6 +36224,7 @@ FUNC_NAKED void SpaceManager::SetDangerZone(int fleetType)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -35520,7 +36246,7 @@ FUNC_NAKED void SpaceManager::SetDangerZone(int fleetType)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -35537,6 +36263,7 @@ FUNC_NAKED void SpaceManager::OnRenderAsteroids(int fieldLayers, float unk2)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -35559,7 +36286,7 @@ FUNC_NAKED void SpaceManager::OnRenderAsteroids(int fieldLayers, float unk2)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -35576,6 +36303,7 @@ FUNC_NAKED void SpaceManager::OnRenderProjectiles(int unk1, int unk2)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -35598,7 +36326,7 @@ FUNC_NAKED void SpaceManager::OnRenderProjectiles(int unk1, int unk2)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -35615,6 +36343,7 @@ FUNC_NAKED void SpaceManager::OnInit()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -35635,7 +36364,7 @@ FUNC_NAKED void SpaceManager::OnInit()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -35652,6 +36381,7 @@ FUNC_NAKED void SpaceManager::Restart()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -35672,7 +36402,7 @@ FUNC_NAKED void SpaceManager::Restart()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -35689,6 +36419,7 @@ FUNC_NAKED void SpaceManager::ClearEnvironment()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -35709,7 +36440,7 @@ FUNC_NAKED void SpaceManager::ClearEnvironment()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -35726,6 +36457,7 @@ FUNC_NAKED void SpaceManager::Clear()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -35746,7 +36478,7 @@ FUNC_NAKED void SpaceManager::Clear()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -35763,6 +36495,7 @@ FUNC_NAKED void SpaceManager::ClearProjectiles()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -35783,7 +36516,7 @@ FUNC_NAKED void SpaceManager::ClearProjectiles()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -35800,6 +36533,7 @@ FUNC_NAKED void SpaceManager::UpdateProjectile(Projectile *proj)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -35821,7 +36555,7 @@ FUNC_NAKED void SpaceManager::UpdateProjectile(Projectile *proj)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -35838,6 +36572,7 @@ FUNC_NAKED void SpaceManager::TransferProjectile(Projectile *proj)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -35859,7 +36594,7 @@ FUNC_NAKED void SpaceManager::TransferProjectile(Projectile *proj)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -35876,6 +36611,7 @@ FUNC_NAKED void SpaceManager::AddShip(ShipManager *ship)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -35897,7 +36633,7 @@ FUNC_NAKED void SpaceManager::AddShip(ShipManager *ship)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -35914,6 +36650,7 @@ FUNC_NAKED void SpaceManager::AddProjectile(Projectile *proj)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -35935,7 +36672,7 @@ FUNC_NAKED void SpaceManager::AddProjectile(Projectile *proj)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -35952,6 +36689,7 @@ FUNC_NAKED void SpaceManager::LoadSpace(int fileHelper)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -35973,7 +36711,7 @@ FUNC_NAKED void SpaceManager::LoadSpace(int fileHelper)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -35990,6 +36728,7 @@ FUNC_NAKED void SpaceManager::UpdatePDS()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -36010,7 +36749,7 @@ FUNC_NAKED void SpaceManager::UpdatePDS()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -36027,6 +36766,7 @@ FUNC_NAKED void SpaceManager::OnLoopNebulas()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -36047,7 +36787,7 @@ FUNC_NAKED void SpaceManager::OnLoopNebulas()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -36064,6 +36804,7 @@ FUNC_NAKED void SpaceManager::OnLoop()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -36084,7 +36825,7 @@ FUNC_NAKED void SpaceManager::OnLoop()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -36101,6 +36842,7 @@ FUNC_NAKED void SpaceManager::SetNebula(bool state)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -36122,7 +36864,7 @@ FUNC_NAKED void SpaceManager::SetNebula(bool state)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -36139,6 +36881,7 @@ FUNC_NAKED void SpaceManager::SetStorm(bool state)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -36160,7 +36903,7 @@ FUNC_NAKED void SpaceManager::SetStorm(bool state)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -36177,6 +36920,7 @@ FUNC_NAKED void SpaceManager::SetFireLevel(bool state)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -36198,7 +36942,7 @@ FUNC_NAKED void SpaceManager::SetFireLevel(bool state)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -36215,6 +36959,7 @@ FUNC_NAKED void StarMap::SetPosition(Point unk0)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -36237,7 +36982,7 @@ FUNC_NAKED void StarMap::SetPosition(Point unk0)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -36254,6 +36999,7 @@ FUNC_NAKED void StarMap::KeyDown(int unk0)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -36275,7 +37021,7 @@ FUNC_NAKED void StarMap::KeyDown(int unk0)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -36310,7 +37056,7 @@ FUNC_NAKED int StarMap::GetNextDangerMove()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -36327,6 +37073,7 @@ FUNC_NAKED void StarMap::Open()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -36347,7 +37094,7 @@ FUNC_NAKED void StarMap::Open()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -36364,6 +37111,7 @@ FUNC_NAKED void StarMap::Close()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -36384,7 +37132,7 @@ FUNC_NAKED void StarMap::Close()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -36401,6 +37149,7 @@ FUNC_NAKED void StarMap::SetOpen(bool unk0)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -36422,7 +37171,7 @@ FUNC_NAKED void StarMap::SetOpen(bool unk0)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -36439,6 +37188,7 @@ FUNC_NAKED void StarMap::InitMapTitle()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -36459,7 +37209,7 @@ FUNC_NAKED void StarMap::InitMapTitle()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -36476,6 +37226,7 @@ FUNC_NAKED void StarMap::InitNoFuelText()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -36496,7 +37247,7 @@ FUNC_NAKED void StarMap::InitNoFuelText()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -36513,6 +37264,7 @@ FUNC_NAKED void StarMap::InitBossMessageBox()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -36533,7 +37285,7 @@ FUNC_NAKED void StarMap::InitBossMessageBox()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -36550,6 +37302,7 @@ FUNC_NAKED void StarMap::OnLanguageChange()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -36570,7 +37323,7 @@ FUNC_NAKED void StarMap::OnLanguageChange()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -36605,7 +37358,7 @@ FUNC_NAKED int StarMap::GetRandomSectorChoice()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -36622,6 +37375,7 @@ FUNC_NAKED void StarMap::NeighboringSector(int unk0)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -36643,7 +37397,7 @@ FUNC_NAKED void StarMap::NeighboringSector(int unk0)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -36683,7 +37437,7 @@ FUNC_NAKED void StarMap::GetSelectedSector(int unk0, int unk1, int unk2)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -36700,6 +37454,7 @@ FUNC_NAKED void StarMap::StartSecretSector()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -36720,7 +37475,7 @@ FUNC_NAKED void StarMap::StartSecretSector()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -36737,6 +37492,7 @@ FUNC_NAKED void StarMap::ReachSector(Sector *unk0)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -36758,7 +37514,7 @@ FUNC_NAKED void StarMap::ReachSector(Sector *unk0)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -36775,6 +37531,7 @@ FUNC_NAKED void StarMap::UpdateSectorMap(Sector *unk0)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -36796,7 +37553,7 @@ FUNC_NAKED void StarMap::UpdateSectorMap(Sector *unk0)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -36813,6 +37570,7 @@ FUNC_NAKED void StarMap::SaveGame(int file)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -36834,7 +37592,7 @@ FUNC_NAKED void StarMap::SaveGame(int file)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -36851,6 +37609,7 @@ FUNC_NAKED void StarMap::InitStatistics()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -36871,7 +37630,7 @@ FUNC_NAKED void StarMap::InitStatistics()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -36888,6 +37647,7 @@ FUNC_NAKED void StarMap::PrintStatistics()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -36908,7 +37668,7 @@ FUNC_NAKED void StarMap::PrintStatistics()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -36925,6 +37685,7 @@ FUNC_NAKED void StarMap::AnalyzeMap()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -36945,7 +37706,7 @@ FUNC_NAKED void StarMap::AnalyzeMap()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -36962,6 +37723,7 @@ FUNC_NAKED void StarMap::ModifyPursuit(int unk0)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -36983,7 +37745,7 @@ FUNC_NAKED void StarMap::ModifyPursuit(int unk0)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -37000,6 +37762,7 @@ FUNC_NAKED void StarMap::AtBeacon()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -37020,7 +37783,7 @@ FUNC_NAKED void StarMap::AtBeacon()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -37037,6 +37800,7 @@ FUNC_NAKED void StarMap::GetWaitLocation()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -37057,7 +37821,7 @@ FUNC_NAKED void StarMap::GetWaitLocation()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -37074,6 +37838,7 @@ FUNC_NAKED void StarMap::StartBeacon()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -37094,7 +37859,7 @@ FUNC_NAKED void StarMap::StartBeacon()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -37111,6 +37876,7 @@ FUNC_NAKED void StarMap::LocationsConnected(Location *unk0, Location *unk1)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -37133,7 +37899,7 @@ FUNC_NAKED void StarMap::LocationsConnected(Location *unk0, Location *unk1)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -37150,6 +37916,7 @@ FUNC_NAKED void StarMap::PointToGrid(float unk0, float unk1)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -37172,7 +37939,7 @@ FUNC_NAKED void StarMap::PointToGrid(float unk0, float unk1)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -37189,6 +37956,7 @@ FUNC_NAKED void StarMap::TravelToLocation(Location *unk0)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -37210,7 +37978,7 @@ FUNC_NAKED void StarMap::TravelToLocation(Location *unk0)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -37227,6 +37995,7 @@ FUNC_NAKED void StarMap::ForceExitBeacon()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -37247,7 +38016,7 @@ FUNC_NAKED void StarMap::ForceExitBeacon()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -37264,6 +38033,7 @@ FUNC_NAKED void StarMap::OnRenderFogEffect()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -37284,7 +38054,7 @@ FUNC_NAKED void StarMap::OnRenderFogEffect()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -37301,6 +38071,7 @@ FUNC_NAKED void StarMap::LocationHasBoss(Location *unk0)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -37322,7 +38093,7 @@ FUNC_NAKED void StarMap::LocationHasBoss(Location *unk0)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -37339,6 +38110,7 @@ FUNC_NAKED void StarMap::LocationHasStore(Location *unk0)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -37360,7 +38132,7 @@ FUNC_NAKED void StarMap::LocationHasStore(Location *unk0)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -37377,6 +38149,7 @@ FUNC_NAKED void StarMap::LocationHasShip(Location *unk0)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -37398,7 +38171,7 @@ FUNC_NAKED void StarMap::LocationHasShip(Location *unk0)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -37415,6 +38188,7 @@ FUNC_NAKED void StarMap::AdvanceWorldLevel()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -37435,7 +38209,7 @@ FUNC_NAKED void StarMap::AdvanceWorldLevel()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -37452,6 +38226,7 @@ FUNC_NAKED void StarMap::ReverseBossPath()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -37472,7 +38247,7 @@ FUNC_NAKED void StarMap::ReverseBossPath()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -37489,6 +38264,7 @@ FUNC_NAKED void StarMap::ForceBossJump()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -37509,7 +38285,7 @@ FUNC_NAKED void StarMap::ForceBossJump()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -37526,6 +38302,7 @@ FUNC_NAKED void StarMap::ClearBoss()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -37546,7 +38323,7 @@ FUNC_NAKED void StarMap::ClearBoss()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -37563,6 +38340,7 @@ FUNC_NAKED void StarMap::SetBossStage(int stage)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -37584,7 +38362,7 @@ FUNC_NAKED void StarMap::SetBossStage(int stage)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -37601,6 +38379,7 @@ FUNC_NAKED void StarMap::CheckGameOver()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -37621,7 +38400,7 @@ FUNC_NAKED void StarMap::CheckGameOver()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -37638,6 +38417,7 @@ FUNC_NAKED void StarMap::RenderLabels()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -37658,7 +38438,7 @@ FUNC_NAKED void StarMap::RenderLabels()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -37675,6 +38455,7 @@ FUNC_NAKED void StarMap::DeleteMap()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -37695,7 +38476,7 @@ FUNC_NAKED void StarMap::DeleteMap()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -37712,6 +38493,7 @@ FUNC_NAKED void StarMap::MouseClick(int unk0, int unk1)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -37734,7 +38516,7 @@ FUNC_NAKED void StarMap::MouseClick(int unk0, int unk1)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -37751,6 +38533,7 @@ FUNC_NAKED void StarMap::AddSectorColumn()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -37771,7 +38554,7 @@ FUNC_NAKED void StarMap::AddSectorColumn()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -37788,6 +38571,7 @@ FUNC_NAKED void StarMap::PushSectorColumn()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -37808,7 +38592,7 @@ FUNC_NAKED void StarMap::PushSectorColumn()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -37825,6 +38609,7 @@ FUNC_NAKED void StarMap::SelectNewSector(int unk0)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -37846,7 +38631,7 @@ FUNC_NAKED void StarMap::SelectNewSector(int unk0)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -37863,6 +38648,7 @@ FUNC_NAKED void StarMap::GenerateSectorMap()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -37883,7 +38669,7 @@ FUNC_NAKED void StarMap::GenerateSectorMap()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -37900,6 +38686,7 @@ FUNC_NAKED void StarMap::constructor()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -37920,7 +38707,7 @@ FUNC_NAKED void StarMap::constructor()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -37937,6 +38724,7 @@ FUNC_NAKED void StarMap::RenderSectorName(Sector *unk0, GL_Color unk1)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -37962,7 +38750,7 @@ FUNC_NAKED void StarMap::RenderSectorName(Sector *unk0, GL_Color unk1)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 24\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -37979,6 +38767,7 @@ FUNC_NAKED void StarMap::UpdateDangerZone()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -37999,7 +38788,7 @@ FUNC_NAKED void StarMap::UpdateDangerZone()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -38034,7 +38823,7 @@ FUNC_NAKED Location *StarMap::GetNewLocation()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -38051,6 +38840,7 @@ FUNC_NAKED void StarMap::OnLoop()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -38071,7 +38861,7 @@ FUNC_NAKED void StarMap::OnLoop()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -38088,6 +38878,7 @@ FUNC_NAKED void StarMap::GenerateEvents(bool tutorial)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -38109,7 +38900,7 @@ FUNC_NAKED void StarMap::GenerateEvents(bool tutorial)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -38126,6 +38917,7 @@ FUNC_NAKED void StarMap::AddConnections(Location *unk0)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -38147,7 +38939,7 @@ FUNC_NAKED void StarMap::AddConnections(Location *unk0)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -38164,6 +38956,7 @@ FUNC_NAKED void StarMap::MapConnected()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -38184,7 +38977,7 @@ FUNC_NAKED void StarMap::MapConnected()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -38201,6 +38994,7 @@ FUNC_NAKED void StarMap::ConnectLocations(Point unk0, Point unk1)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -38225,7 +39019,7 @@ FUNC_NAKED void StarMap::ConnectLocations(Point unk0, Point unk1)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 20\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -38242,6 +39036,7 @@ FUNC_NAKED void StarMap::PopulateGrid(Point unk0)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -38264,7 +39059,7 @@ FUNC_NAKED void StarMap::PopulateGrid(Point unk0)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -38281,6 +39076,7 @@ FUNC_NAKED Location *StarMap::PopClosestLoc(std::vector<Location*> &vec, std::ma
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -38301,7 +39097,7 @@ FUNC_NAKED Location *StarMap::PopClosestLoc(std::vector<Location*> &vec, std::ma
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -38341,7 +39137,7 @@ FUNC_NAKED void StarMap::Dijkstra0(std::vector<Location*> &ref, StarMap *starMap
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -38358,6 +39154,7 @@ FUNC_NAKED bool StarMap::AddQuest(const std::string &questEvent, bool force)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -38378,7 +39175,7 @@ FUNC_NAKED bool StarMap::AddQuest(const std::string &questEvent, bool force)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -38395,6 +39192,7 @@ FUNC_NAKED Location *StarMap::GenerateMap(bool tutorial, bool seed)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -38415,7 +39213,7 @@ FUNC_NAKED Location *StarMap::GenerateMap(bool tutorial, bool seed)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -38432,6 +39230,7 @@ FUNC_NAKED Location *StarMap::NewGame(bool unk0)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -38451,7 +39250,7 @@ FUNC_NAKED Location *StarMap::NewGame(bool unk0)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -38468,6 +39267,7 @@ FUNC_NAKED void StarMap::Dijkstra1(std::vector<Location*> &ref, StarMap *starMap
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -38492,7 +39292,7 @@ FUNC_NAKED void StarMap::Dijkstra1(std::vector<Location*> &ref, StarMap *starMap
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 20\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -38509,6 +39309,7 @@ FUNC_NAKED void StarMap::MouseMove(int x, int y)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -38531,7 +39332,7 @@ FUNC_NAKED void StarMap::MouseMove(int x, int y)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -38548,6 +39349,7 @@ FUNC_NAKED void StarMap::OnTouch(TouchAction unk0, int unk1, int unk2, int unk3,
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -38574,7 +39376,7 @@ FUNC_NAKED void StarMap::OnTouch(TouchAction unk0, int unk1, int unk2, int unk3,
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 28\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -38591,6 +39393,7 @@ FUNC_NAKED Location *StarMap::LoadGame(int fileHelper)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -38610,7 +39413,7 @@ FUNC_NAKED Location *StarMap::LoadGame(int fileHelper)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -38650,7 +39453,7 @@ FUNC_NAKED void StarMap::RenderLeftInsetButton(float unk0, float unk1, bool unk2
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -38667,6 +39470,7 @@ FUNC_NAKED void StarMap::RenderDistressButtons()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -38687,7 +39491,7 @@ FUNC_NAKED void StarMap::RenderDistressButtons()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -38704,6 +39508,7 @@ FUNC_NAKED void StarMap::OnRender()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -38724,7 +39529,7 @@ FUNC_NAKED void StarMap::OnRender()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -38764,7 +39569,7 @@ FUNC_NAKED void StarMap::DrawConnection(const Pointf &pos1, const Pointf &pos2, 
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -38781,6 +39586,7 @@ FUNC_NAKED void StarMap::TurnIntoFleetLocation(Location *loc)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -38802,7 +39608,7 @@ FUNC_NAKED void StarMap::TurnIntoFleetLocation(Location *loc)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -38819,6 +39625,7 @@ FUNC_NAKED std::string &StarMap::GetLocationText(std::string &strRef, StarMap *s
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -38839,7 +39646,7 @@ FUNC_NAKED std::string &StarMap::GetLocationText(std::string &strRef, StarMap *s
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -38856,6 +39663,7 @@ FUNC_NAKED void StarMap::SetupNoFuel(int seed, const std::string &forceEscape)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -38878,7 +39686,7 @@ FUNC_NAKED void StarMap::SetupNoFuel(int seed, const std::string &forceEscape)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -38895,6 +39703,7 @@ FUNC_NAKED void StarMap::GenerateNebulas(const std::vector<std::string> &names)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -38916,7 +39725,7 @@ FUNC_NAKED void StarMap::GenerateNebulas(const std::vector<std::string> &names)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -38933,6 +39742,7 @@ FUNC_NAKED void StarMap::UpdateBoss()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -38953,7 +39763,7 @@ FUNC_NAKED void StarMap::UpdateBoss()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -38970,6 +39780,7 @@ FUNC_NAKED StatusEffect *StatusEffect::GetNebulaEffect()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -39027,7 +39838,7 @@ FUNC_NAKED void Store::OnInit(ShipManager *shopper, Equipment *equip, int worldL
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -39044,6 +39855,7 @@ FUNC_NAKED void Store::CreateStoreBoxes(int type, Equipment *equip)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -39066,7 +39878,7 @@ FUNC_NAKED void Store::CreateStoreBoxes(int type, Equipment *equip)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -39083,6 +39895,7 @@ FUNC_NAKED void Store::KeyDown(SDLKey key)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -39104,7 +39917,7 @@ FUNC_NAKED void Store::KeyDown(SDLKey key)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -39121,6 +39934,7 @@ FUNC_NAKED void Store::OnLoop()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -39141,7 +39955,7 @@ FUNC_NAKED void Store::OnLoop()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -39158,6 +39972,7 @@ FUNC_NAKED void Store::Close()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -39178,7 +39993,7 @@ FUNC_NAKED void Store::Close()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -39195,6 +40010,7 @@ FUNC_NAKED void Store::MouseMove(int x, int y)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -39217,7 +40033,7 @@ FUNC_NAKED void Store::MouseMove(int x, int y)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -39234,6 +40050,7 @@ FUNC_NAKED void Store::constructor()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -39254,7 +40071,7 @@ FUNC_NAKED void Store::constructor()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -39271,6 +40088,7 @@ FUNC_NAKED void Store::SaveStore(int file)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -39292,7 +40110,7 @@ FUNC_NAKED void Store::SaveStore(int file)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -39309,6 +40127,7 @@ FUNC_NAKED void Store::RelinkShip(ShipManager *ship, Equipment *equip)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -39331,7 +40150,7 @@ FUNC_NAKED void Store::RelinkShip(ShipManager *ship, Equipment *equip)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -39366,7 +40185,7 @@ FUNC_NAKED bool Store::HasType()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -39383,6 +40202,7 @@ FUNC_NAKED void Store::Clear()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -39403,7 +40223,7 @@ FUNC_NAKED void Store::Clear()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -39443,7 +40263,7 @@ FUNC_NAKED void Store::InitHeading(int index, Point pos)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -39460,6 +40280,7 @@ FUNC_NAKED void Store::DrawBuySellTabText()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -39480,7 +40301,7 @@ FUNC_NAKED void Store::DrawBuySellTabText()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -39497,6 +40318,7 @@ FUNC_NAKED void Store::MouseClick(int x, int y)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -39519,7 +40341,7 @@ FUNC_NAKED void Store::MouseClick(int x, int y)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -39536,6 +40358,7 @@ FUNC_NAKED void Store::OnRender()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -39556,7 +40379,7 @@ FUNC_NAKED void Store::OnRender()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -39573,6 +40396,7 @@ FUNC_NAKED void Store::SetPositions()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -39593,7 +40417,7 @@ FUNC_NAKED void Store::SetPositions()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -39610,6 +40434,7 @@ FUNC_NAKED void Store::LoadStore(int file, int worldLevel)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -39632,7 +40457,7 @@ FUNC_NAKED void Store::LoadStore(int file, int worldLevel)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -39649,6 +40474,7 @@ FUNC_NAKED void Store::SetPosition(Point pos)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -39671,7 +40497,7 @@ FUNC_NAKED void Store::SetPosition(Point pos)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -39688,6 +40514,7 @@ FUNC_NAKED void Store::destructor()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -39708,7 +40535,7 @@ FUNC_NAKED void Store::destructor()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -39725,6 +40552,7 @@ FUNC_NAKED void StoreBox::MouseClick(int x, int y)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -39747,7 +40575,7 @@ FUNC_NAKED void StoreBox::MouseClick(int x, int y)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -39764,6 +40592,7 @@ FUNC_NAKED void StoreBox::Activate()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -39784,7 +40613,7 @@ FUNC_NAKED void StoreBox::Activate()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -39801,6 +40630,7 @@ FUNC_NAKED void StoreBox::InitBlueprint(Blueprint *bp)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -39822,7 +40652,7 @@ FUNC_NAKED void StoreBox::InitBlueprint(Blueprint *bp)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -39862,7 +40692,7 @@ FUNC_NAKED void StoreBox::constructor(const std::string &buttonImage, ShipManage
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -39879,6 +40709,7 @@ FUNC_NAKED void StoreBox::SetPosition(Point pos)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -39901,7 +40732,7 @@ FUNC_NAKED void StoreBox::SetPosition(Point pos)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -39918,6 +40749,7 @@ FUNC_NAKED void StoreBox::OnRender()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -39938,7 +40770,7 @@ FUNC_NAKED void StoreBox::OnRender()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -39955,6 +40787,7 @@ FUNC_NAKED void StoreBox::OnLoop()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -39975,7 +40808,7 @@ FUNC_NAKED void StoreBox::OnLoop()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -39992,6 +40825,7 @@ FUNC_NAKED void StoreBox::Purchase()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -40012,7 +40846,7 @@ FUNC_NAKED void StoreBox::Purchase()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -40029,6 +40863,7 @@ FUNC_NAKED void SystemBox::OnRender(bool ignoreStatus)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -40050,7 +40885,7 @@ FUNC_NAKED void SystemBox::OnRender(bool ignoreStatus)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -40067,6 +40902,7 @@ FUNC_NAKED void SystemBox::constructor(Point pos, ShipSystem *sys, bool playerUI
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -40091,7 +40927,7 @@ FUNC_NAKED void SystemBox::constructor(Point pos, ShipSystem *sys, bool playerUI
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 20\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -40108,6 +40944,7 @@ FUNC_NAKED void SystemBox::MouseMove(int x, int y)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -40130,7 +40967,7 @@ FUNC_NAKED void SystemBox::MouseMove(int x, int y)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -40147,6 +40984,7 @@ FUNC_NAKED bool SystemBox::MouseClick(bool shift)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -40166,7 +41004,7 @@ FUNC_NAKED bool SystemBox::MouseClick(bool shift)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -40183,6 +41021,7 @@ FUNC_NAKED void SystemBox::KeyDown(SDLKey key, bool shift)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -40205,7 +41044,7 @@ FUNC_NAKED void SystemBox::KeyDown(SDLKey key, bool shift)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -40222,6 +41061,7 @@ FUNC_NAKED void SystemControl::CreateSystemBoxes()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -40242,7 +41082,7 @@ FUNC_NAKED void SystemControl::CreateSystemBoxes()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -40259,6 +41099,7 @@ FUNC_NAKED SystemBox *SystemControl::GetSystemBox(int systemId)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -40278,7 +41119,7 @@ FUNC_NAKED SystemBox *SystemControl::GetSystemBox(int systemId)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -40295,6 +41136,7 @@ FUNC_NAKED void SystemControl::RenderPowerBar()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -40315,7 +41157,7 @@ FUNC_NAKED void SystemControl::RenderPowerBar()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -40332,6 +41174,7 @@ FUNC_NAKED SystemControl::PowerBars *SystemControl::GetPowerBars(int width, int 
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -40353,7 +41196,7 @@ FUNC_NAKED SystemControl::PowerBars *SystemControl::GetPowerBars(int width, int 
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -40370,6 +41213,7 @@ FUNC_NAKED void SystemCustomBox::constructor(Point pos, ShipSystem *sys, ShipMan
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -40394,7 +41238,7 @@ FUNC_NAKED void SystemCustomBox::constructor(Point pos, ShipSystem *sys, ShipMan
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 20\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -40411,6 +41255,7 @@ FUNC_NAKED void SystemStoreBox::SetExtraData(int droneChoice)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -40432,7 +41277,7 @@ FUNC_NAKED void SystemStoreBox::SetExtraData(int droneChoice)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -40472,7 +41317,7 @@ FUNC_NAKED void SystemStoreBox::constructor(ShipManager *shopper, Equipment *equ
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -40507,7 +41352,7 @@ FUNC_NAKED bool SystemStoreBox::CanHold()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -40524,6 +41369,7 @@ FUNC_NAKED void SystemStoreBox::MouseMove(int mX, int mY)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -40546,7 +41392,7 @@ FUNC_NAKED void SystemStoreBox::MouseMove(int mX, int mY)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -40563,6 +41409,7 @@ FUNC_NAKED void SystemStoreBox::Activate()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -40583,7 +41430,7 @@ FUNC_NAKED void SystemStoreBox::Activate()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -40600,6 +41447,7 @@ FUNC_NAKED void SystemStoreBox::Purchase()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -40620,7 +41468,7 @@ FUNC_NAKED void SystemStoreBox::Purchase()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -40637,6 +41485,7 @@ FUNC_NAKED void TabbedWindow::Close()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -40657,7 +41506,7 @@ FUNC_NAKED void TabbedWindow::Close()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -40697,7 +41546,7 @@ FUNC_NAKED void TeleportBox::constructor(Point pos, TeleportSystem *sys)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -40714,6 +41563,7 @@ FUNC_NAKED void TeleportSystem::SetHackingLevel(int hackingLevel)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -40735,7 +41585,7 @@ FUNC_NAKED void TeleportSystem::SetHackingLevel(int hackingLevel)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -40752,6 +41602,7 @@ FUNC_NAKED void TeleportSystem::OnRenderFloor()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -40772,7 +41623,7 @@ FUNC_NAKED void TeleportSystem::OnRenderFloor()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -40789,6 +41640,7 @@ FUNC_NAKED void TeleportSystem::constructor(int systemId, int roomId, int shipId
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -40813,7 +41665,7 @@ FUNC_NAKED void TeleportSystem::constructor(int systemId, int roomId, int shipId
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 20\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -40848,7 +41700,7 @@ FUNC_NAKED float TeleportSystem::GetChargedPercent()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -40883,7 +41735,7 @@ FUNC_NAKED bool TeleportSystem::Charged()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -40900,6 +41752,7 @@ FUNC_NAKED void TeleportSystem::ClearCrewLocations()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -40920,7 +41773,7 @@ FUNC_NAKED void TeleportSystem::ClearCrewLocations()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -40937,6 +41790,7 @@ FUNC_NAKED void TeleportSystem::UpdateCrewLocation(int unk)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -40958,7 +41812,7 @@ FUNC_NAKED void TeleportSystem::UpdateCrewLocation(int unk)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -40975,6 +41829,7 @@ FUNC_NAKED void TeleportSystem::SetArmed(int armed)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -40996,7 +41851,7 @@ FUNC_NAKED void TeleportSystem::SetArmed(int armed)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -41013,6 +41868,7 @@ FUNC_NAKED void TeleportSystem::ForceReady()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -41033,7 +41889,7 @@ FUNC_NAKED void TeleportSystem::ForceReady()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -41068,7 +41924,7 @@ FUNC_NAKED bool TeleportSystem::CanSend()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -41103,7 +41959,7 @@ FUNC_NAKED bool TeleportSystem::CanReceive()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -41120,6 +41976,7 @@ FUNC_NAKED void TeleportSystem::InitiateTeleport()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -41140,7 +41997,7 @@ FUNC_NAKED void TeleportSystem::InitiateTeleport()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -41157,6 +42014,7 @@ FUNC_NAKED void TeleportSystem::OnLoop()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -41177,7 +42035,7 @@ FUNC_NAKED void TeleportSystem::OnLoop()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -41194,6 +42052,7 @@ FUNC_NAKED void TeleportSystem::Jump()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -41214,7 +42073,7 @@ FUNC_NAKED void TeleportSystem::Jump()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -41231,6 +42090,7 @@ FUNC_NAKED void TextButton::ResetPrimitives()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -41251,7 +42111,7 @@ FUNC_NAKED void TextButton::ResetPrimitives()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -41286,7 +42146,7 @@ FUNC_NAKED int TextButton::GetIdealButtonWidth()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -41330,7 +42190,7 @@ FUNC_NAKED void TextButton::OnInit(int x, int y, int w, int h, int cornerInset, 
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 32\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -41347,6 +42207,7 @@ FUNC_NAKED void TextButton::OnRender()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -41367,7 +42228,7 @@ FUNC_NAKED void TextButton::OnRender()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -41384,6 +42245,7 @@ FUNC_NAKED void TextButton::destructor()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -41404,7 +42266,7 @@ FUNC_NAKED void TextButton::destructor()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -41421,6 +42283,7 @@ FUNC_NAKED int64_t TextButton::GetSizeX()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
 		"push esi\n\t"
@@ -41437,7 +42300,7 @@ FUNC_NAKED int64_t TextButton::GetSizeX()
 		"pop ecx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -41454,6 +42317,7 @@ FUNC_NAKED void TextButton::OnInitRect(Globals::Rect &rect, int cornerInset, Tex
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -41478,7 +42342,7 @@ FUNC_NAKED void TextButton::OnInitRect(Globals::Rect &rect, int cornerInset, Tex
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 20\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -41495,6 +42359,7 @@ FUNC_NAKED void TextButton::SetBaseImage(const std::string &name, Point pos, int
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -41519,7 +42384,7 @@ FUNC_NAKED void TextButton::SetBaseImage(const std::string &name, Point pos, int
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 20\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -41536,6 +42401,7 @@ FUNC_NAKED void TextButton::SetAutoWidth(bool autoWidth, bool autoRightAlign, in
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -41560,7 +42426,7 @@ FUNC_NAKED void TextButton::SetAutoWidth(bool autoWidth, bool autoRightAlign, in
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 20\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -41577,6 +42443,7 @@ FUNC_NAKED void TextButton::constructor()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -41597,7 +42464,7 @@ FUNC_NAKED void TextButton::constructor()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -41614,6 +42481,7 @@ FUNC_NAKED void TextButton::SetInactiveColor(GL_Color color)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -41638,7 +42506,7 @@ FUNC_NAKED void TextButton::SetInactiveColor(GL_Color color)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 20\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -41655,6 +42523,7 @@ FUNC_NAKED void TextButton::SetActiveColor(GL_Color color)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -41679,7 +42548,7 @@ FUNC_NAKED void TextButton::SetActiveColor(GL_Color color)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 20\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -41696,6 +42565,7 @@ FUNC_NAKED void TextButton::SetSelectedColor(GL_Color color)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -41720,7 +42590,7 @@ FUNC_NAKED void TextButton::SetSelectedColor(GL_Color color)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 20\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -41737,6 +42607,7 @@ FUNC_NAKED void TextButton::SetTextColor(GL_Color color)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -41761,7 +42632,7 @@ FUNC_NAKED void TextButton::SetTextColor(GL_Color color)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 20\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -41778,6 +42649,7 @@ FUNC_NAKED void TextButton::InitPrimitives()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -41798,7 +42670,7 @@ FUNC_NAKED void TextButton::InitPrimitives()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -41838,7 +42710,7 @@ FUNC_NAKED void TextInput::constructor(int maxChars, TextInput::AllowedCharType 
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -41878,7 +42750,7 @@ FUNC_NAKED void TextInput::OnRender(int font, Point pos)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -41895,6 +42767,7 @@ FUNC_NAKED void TextInput::OnLoop()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -41915,7 +42788,7 @@ FUNC_NAKED void TextInput::OnLoop()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -41932,6 +42805,7 @@ FUNC_NAKED void TextInput::OnTextEvent(CEvent::TextEvent event)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -41953,7 +42827,7 @@ FUNC_NAKED void TextInput::OnTextEvent(CEvent::TextEvent event)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -41988,7 +42862,7 @@ FUNC_NAKED bool TextInput::GetActive()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -42005,6 +42879,7 @@ FUNC_NAKED std::string &TextInput::GetText(std::string &strRef, TextInput *textI
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -42024,7 +42899,7 @@ FUNC_NAKED std::string &TextInput::GetText(std::string &strRef, TextInput *textI
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -42041,6 +42916,7 @@ FUNC_NAKED void TextInput::Start()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -42061,7 +42937,7 @@ FUNC_NAKED void TextInput::Start()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -42078,6 +42954,7 @@ FUNC_NAKED void TextInput::Stop()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -42098,7 +42975,7 @@ FUNC_NAKED void TextInput::Stop()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -42115,6 +42992,7 @@ FUNC_NAKED int TextInput::SetText(const std::string &text)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -42134,7 +43012,7 @@ FUNC_NAKED int TextInput::SetText(const std::string &text)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -42151,6 +43029,7 @@ FUNC_NAKED void TextInput::OnTextInput(int asciiChar)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -42172,7 +43051,7 @@ FUNC_NAKED void TextInput::OnTextInput(int asciiChar)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -42189,6 +43068,7 @@ FUNC_NAKED std::string &TextLibrary::GetText(std::string &strRef, TextLibrary *t
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -42210,7 +43090,7 @@ FUNC_NAKED std::string &TextLibrary::GetText(std::string &strRef, TextLibrary *t
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -42227,6 +43107,7 @@ FUNC_NAKED std::string &TextString::GetText(std::string &ref, TextString *textSt
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -42246,7 +43127,7 @@ FUNC_NAKED std::string &TextString::GetText(std::string &ref, TextString *textSt
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -42263,6 +43144,7 @@ FUNC_NAKED void TimerHelper::Start(int goal)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -42284,7 +43166,7 @@ FUNC_NAKED void TimerHelper::Start(int goal)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -42319,7 +43201,7 @@ FUNC_NAKED bool TimerHelper::Running()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -42336,6 +43218,7 @@ FUNC_NAKED void TimerHelper::ResetMinMax(int min, int max)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -42358,7 +43241,7 @@ FUNC_NAKED void TimerHelper::ResetMinMax(int min, int max)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -42375,6 +43258,7 @@ FUNC_NAKED void TimerHelper::SetMaxTime(float max)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -42396,7 +43280,7 @@ FUNC_NAKED void TimerHelper::SetMaxTime(float max)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -42413,6 +43297,7 @@ FUNC_NAKED void TimerHelper::Stop()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -42433,7 +43318,7 @@ FUNC_NAKED void TimerHelper::Stop()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -42450,6 +43335,7 @@ FUNC_NAKED void TimerHelper::Update()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -42470,7 +43356,7 @@ FUNC_NAKED void TimerHelper::Update()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -42505,7 +43391,7 @@ FUNC_NAKED bool TimerHelper::Done()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -42522,6 +43408,7 @@ FUNC_NAKED void TutorialManager::constructor()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -42542,7 +43429,7 @@ FUNC_NAKED void TutorialManager::constructor()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -42577,7 +43464,7 @@ FUNC_NAKED bool TutorialManager::Running()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -42621,7 +43508,7 @@ FUNC_NAKED void TutorialManager::OnInit(ShipManager *ship, CommandGui *gui, Crew
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 32\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -42638,6 +43525,7 @@ FUNC_NAKED void UnlockArrow::constructor(Point pos, int unk1, int unk2)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -42662,7 +43550,7 @@ FUNC_NAKED void UnlockArrow::constructor(Point pos, int unk1, int unk2)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 20\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -42679,6 +43567,7 @@ FUNC_NAKED bool UnlockArrow::MouseMove(int x, int y)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -42699,7 +43588,7 @@ FUNC_NAKED bool UnlockArrow::MouseMove(int x, int y)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -42716,6 +43605,7 @@ FUNC_NAKED void UnlockArrow::OnRender()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -42736,7 +43626,7 @@ FUNC_NAKED void UnlockArrow::OnRender()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -42776,7 +43666,7 @@ FUNC_NAKED void UpgradeBox::constructorEmpty(Point pos, bool subsystem)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -42793,6 +43683,7 @@ FUNC_NAKED void UpgradeBox::constructorSystem(ShipManager *ship, ShipSystem *sys
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -42818,7 +43709,7 @@ FUNC_NAKED void UpgradeBox::constructorSystem(ShipManager *ship, ShipSystem *sys
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 24\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -42835,6 +43726,7 @@ FUNC_NAKED void UpgradeBox::destructor()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -42855,7 +43747,7 @@ FUNC_NAKED void UpgradeBox::destructor()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -42872,6 +43764,7 @@ FUNC_NAKED void UpgradeBox::OnRender()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -42892,7 +43785,7 @@ FUNC_NAKED void UpgradeBox::OnRender()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -42909,6 +43802,7 @@ FUNC_NAKED void UpgradeBox::MouseMove(int mX, int mY)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -42931,7 +43825,7 @@ FUNC_NAKED void UpgradeBox::MouseMove(int mX, int mY)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -42948,6 +43842,7 @@ FUNC_NAKED void UpgradeBox::MouseClick(int mX, int mY)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -42970,7 +43865,7 @@ FUNC_NAKED void UpgradeBox::MouseClick(int mX, int mY)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -42987,6 +43882,7 @@ FUNC_NAKED void UpgradeBox::MouseRightClick(int mX, int mY)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -43009,7 +43905,7 @@ FUNC_NAKED void UpgradeBox::MouseRightClick(int mX, int mY)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -43026,6 +43922,7 @@ FUNC_NAKED void UpgradeBox::Undo()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -43046,7 +43943,7 @@ FUNC_NAKED void UpgradeBox::Undo()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -43063,6 +43960,7 @@ FUNC_NAKED void UpgradeBox::Accept()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -43083,7 +43981,7 @@ FUNC_NAKED void UpgradeBox::Accept()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -43100,6 +43998,7 @@ FUNC_NAKED void Upgrades::OnInit(ShipManager *ship)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -43121,7 +44020,7 @@ FUNC_NAKED void Upgrades::OnInit(ShipManager *ship)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -43138,6 +44037,7 @@ FUNC_NAKED void Upgrades::ClearUpgradeBoxes()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -43158,7 +44058,7 @@ FUNC_NAKED void Upgrades::ClearUpgradeBoxes()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -43175,6 +44075,7 @@ FUNC_NAKED void Upgrades::MouseMove(int mX, int mY)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -43197,7 +44098,7 @@ FUNC_NAKED void Upgrades::MouseMove(int mX, int mY)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -43214,6 +44115,7 @@ FUNC_NAKED void Upgrades::OnLoop()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -43234,7 +44136,7 @@ FUNC_NAKED void Upgrades::OnLoop()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -43251,6 +44153,7 @@ FUNC_NAKED void Upgrades::MouseClick(int mX, int mY)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -43273,7 +44176,7 @@ FUNC_NAKED void Upgrades::MouseClick(int mX, int mY)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -43290,6 +44193,7 @@ FUNC_NAKED void Upgrades::MouseRightClick(int mX, int mY)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -43312,7 +44216,7 @@ FUNC_NAKED void Upgrades::MouseRightClick(int mX, int mY)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -43329,6 +44233,7 @@ FUNC_NAKED void Upgrades::Close()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -43349,7 +44254,7 @@ FUNC_NAKED void Upgrades::Close()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -43366,6 +44271,7 @@ FUNC_NAKED void Upgrades::OnRender()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -43386,7 +44292,7 @@ FUNC_NAKED void Upgrades::OnRender()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -43403,6 +44309,7 @@ FUNC_NAKED void Upgrades::ConfirmUpgrades()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -43423,7 +44330,7 @@ FUNC_NAKED void Upgrades::ConfirmUpgrades()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -43440,6 +44347,7 @@ FUNC_NAKED void WarningMessage::Start()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -43460,7 +44368,7 @@ FUNC_NAKED void WarningMessage::Start()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -43477,6 +44385,7 @@ FUNC_NAKED void WarningMessage::OnRender()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -43497,7 +44406,7 @@ FUNC_NAKED void WarningMessage::OnRender()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -43514,6 +44423,7 @@ FUNC_NAKED void WarningMessage::RenderWithAlpha(float alpha)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -43535,7 +44445,7 @@ FUNC_NAKED void WarningMessage::RenderWithAlpha(float alpha)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -43552,6 +44462,7 @@ FUNC_NAKED void WarningMessage::constructor()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -43572,7 +44483,7 @@ FUNC_NAKED void WarningMessage::constructor()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -43589,6 +44500,7 @@ FUNC_NAKED void WarningMessage::InitImage(const std::string &imageName, Point po
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -43614,7 +44526,7 @@ FUNC_NAKED void WarningMessage::InitImage(const std::string &imageName, Point po
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 24\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -43631,6 +44543,7 @@ FUNC_NAKED void WarningMessage::InitText(const TextString &text, Point position,
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -43661,7 +44574,7 @@ FUNC_NAKED void WarningMessage::InitText(const TextString &text, Point position,
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 44\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -43678,6 +44591,7 @@ FUNC_NAKED void WarningMessage::OnLoop()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -43698,7 +44612,7 @@ FUNC_NAKED void WarningMessage::OnLoop()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -43715,6 +44629,7 @@ FUNC_NAKED void WarningMessage::SetImage(const std::string &imageName)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -43736,7 +44651,7 @@ FUNC_NAKED void WarningMessage::SetImage(const std::string &imageName)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -43753,6 +44668,7 @@ FUNC_NAKED void WarningMessage::SetText(const TextString &text)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -43774,7 +44690,7 @@ FUNC_NAKED void WarningMessage::SetText(const TextString &text)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -43791,6 +44707,7 @@ FUNC_NAKED void WarningMessage::SetText(const TextString &text, GL_Color textCol
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -43816,7 +44733,7 @@ FUNC_NAKED void WarningMessage::SetText(const TextString &text, GL_Color textCol
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 24\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -43833,6 +44750,7 @@ FUNC_NAKED void WarningMessage::SetPosition(Point position)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -43855,7 +44773,7 @@ FUNC_NAKED void WarningMessage::SetPosition(Point position)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -43872,6 +44790,7 @@ FUNC_NAKED void WarningMessage::SetLoop(bool loop)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -43893,7 +44812,7 @@ FUNC_NAKED void WarningMessage::SetLoop(bool loop)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -43910,6 +44829,7 @@ FUNC_NAKED void WarningMessage::SetSound(const std::string &sound)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -43931,7 +44851,7 @@ FUNC_NAKED void WarningMessage::SetSound(const std::string &sound)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -44053,6 +44973,7 @@ FUNC_NAKED void WeaponBlueprint::constructor()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -44073,7 +44994,7 @@ FUNC_NAKED void WeaponBlueprint::constructor()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -44090,6 +45011,7 @@ FUNC_NAKED void WeaponBlueprint::destructor()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -44110,7 +45032,7 @@ FUNC_NAKED void WeaponBlueprint::destructor()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -44127,6 +45049,7 @@ FUNC_NAKED void WeaponBlueprint::GetDescription(std::string &strRef, WeaponBluep
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -44149,7 +45072,7 @@ FUNC_NAKED void WeaponBlueprint::GetDescription(std::string &strRef, WeaponBluep
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -44166,6 +45089,7 @@ FUNC_NAKED void WeaponBox::RenderBox(bool dragging, bool flashPowerBox)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -44188,7 +45112,7 @@ FUNC_NAKED void WeaponBox::RenderBox(bool dragging, bool flashPowerBox)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -44205,6 +45129,7 @@ FUNC_NAKED void WeaponBox::GenerateTooltip(std::string &retStr, WeaponBox *_this
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -44226,7 +45151,7 @@ FUNC_NAKED void WeaponBox::GenerateTooltip(std::string &retStr, WeaponBox *_this
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -44266,7 +45191,7 @@ FUNC_NAKED void WeaponControl::Fire(std::vector<Pointf> &points, int target, boo
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -44283,6 +45208,7 @@ FUNC_NAKED void WeaponControl::OnRender(bool unk)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -44304,7 +45230,7 @@ FUNC_NAKED void WeaponControl::OnRender(bool unk)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -44321,6 +45247,7 @@ FUNC_NAKED bool WeaponControl::LButton(int x, int y, bool holdingShift)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -44342,7 +45269,7 @@ FUNC_NAKED bool WeaponControl::LButton(int x, int y, bool holdingShift)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -44359,6 +45286,7 @@ FUNC_NAKED void WeaponControl::MouseMove(int x, int y)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -44381,7 +45309,7 @@ FUNC_NAKED void WeaponControl::MouseMove(int x, int y)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -44398,6 +45326,7 @@ FUNC_NAKED void WeaponControl::LinkShip(ShipManager *ship)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -44419,7 +45348,7 @@ FUNC_NAKED void WeaponControl::LinkShip(ShipManager *ship)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -44436,6 +45365,7 @@ FUNC_NAKED void WeaponControl::constructor()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -44456,7 +45386,7 @@ FUNC_NAKED void WeaponControl::constructor()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -44473,6 +45403,7 @@ FUNC_NAKED void WeaponControl::SetAutofiring(bool on, bool simple)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -44495,7 +45426,7 @@ FUNC_NAKED void WeaponControl::SetAutofiring(bool on, bool simple)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -44512,6 +45443,7 @@ FUNC_NAKED bool WeaponControl::KeyDown(SDLKey key)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -44531,7 +45463,7 @@ FUNC_NAKED bool WeaponControl::KeyDown(SDLKey key)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -44606,7 +45538,7 @@ FUNC_NAKED void WeaponStoreBox::constructor(ShipManager *ship, Equipment *equip,
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -44623,6 +45555,7 @@ FUNC_NAKED void WeaponSystem::RemoveWeapon(int slot)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -44644,7 +45577,7 @@ FUNC_NAKED void WeaponSystem::RemoveWeapon(int slot)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -44661,6 +45594,7 @@ FUNC_NAKED void WeaponSystem::SetBonusPower(int amount, int permanentPower)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -44683,7 +45617,7 @@ FUNC_NAKED void WeaponSystem::SetBonusPower(int amount, int permanentPower)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -44700,6 +45634,7 @@ FUNC_NAKED void WeaponSystemBox::constructor(Point pos, ShipSystem *sys, WeaponC
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -44724,7 +45659,7 @@ FUNC_NAKED void WeaponSystemBox::constructor(Point pos, ShipSystem *sys, WeaponC
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 20\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -44741,6 +45676,7 @@ FUNC_NAKED void WindowFrame::Draw(int x, int y)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -44763,7 +45699,7 @@ FUNC_NAKED void WindowFrame::Draw(int x, int y)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -44780,6 +45716,7 @@ FUNC_NAKED void WindowFrame::DrawMask(int unk)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -44801,7 +45738,7 @@ FUNC_NAKED void WindowFrame::DrawMask(int unk)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -44818,6 +45755,7 @@ FUNC_NAKED void WindowFrame::constructor(int x, int y, int w, int h)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -44842,7 +45780,7 @@ FUNC_NAKED void WindowFrame::constructor(int x, int y, int w, int h)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 20\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -44859,6 +45797,7 @@ FUNC_NAKED void WindowFrame::destructor()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -44879,7 +45818,7 @@ FUNC_NAKED void WindowFrame::destructor()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -44896,6 +45835,7 @@ FUNC_NAKED void WorldManager::constructor()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -44916,7 +45856,7 @@ FUNC_NAKED void WorldManager::constructor()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -44951,7 +45891,7 @@ FUNC_NAKED int WorldManager::OnInit()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -44968,6 +45908,7 @@ FUNC_NAKED CompleteShip *WorldManager::CreateShip(ShipEvent *shipEvent, bool bos
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -44986,7 +45927,7 @@ FUNC_NAKED CompleteShip *WorldManager::CreateShip(ShipEvent *shipEvent, bool bos
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -45003,6 +45944,7 @@ FUNC_NAKED void WorldManager::CreateLocation(Location *loc)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -45024,7 +45966,7 @@ FUNC_NAKED void WorldManager::CreateLocation(Location *loc)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -45041,6 +45983,7 @@ FUNC_NAKED void WorldManager::SaveGame()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -45061,7 +46004,7 @@ FUNC_NAKED void WorldManager::SaveGame()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -45078,6 +46021,7 @@ FUNC_NAKED void WorldManager::CreateChoiceBox(LocationEvent *event)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -45099,7 +46043,7 @@ FUNC_NAKED void WorldManager::CreateChoiceBox(LocationEvent *event)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -45116,6 +46060,7 @@ FUNC_NAKED void WorldManager::UpdateLocation(LocationEvent *event)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -45137,7 +46082,7 @@ FUNC_NAKED void WorldManager::UpdateLocation(LocationEvent *event)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -45154,6 +46099,7 @@ FUNC_NAKED LocationEvent *WorldManager::ModifyResources(LocationEvent *event)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -45173,7 +46119,7 @@ FUNC_NAKED LocationEvent *WorldManager::ModifyResources(LocationEvent *event)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -45190,6 +46136,7 @@ FUNC_NAKED void WorldManager::ModifyEnvironment(int envFlag, int envTarget)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -45212,7 +46159,7 @@ FUNC_NAKED void WorldManager::ModifyEnvironment(int envFlag, int envTarget)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -45229,6 +46176,7 @@ FUNC_NAKED void WorldManager::CheckStatusEffects(std::vector<StatusEffect> &vec)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -45250,7 +46198,7 @@ FUNC_NAKED void WorldManager::CheckStatusEffects(std::vector<StatusEffect> &vec)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -45267,6 +46215,7 @@ FUNC_NAKED void WorldManager::StartGame(ShipManager *ship)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -45288,7 +46237,7 @@ FUNC_NAKED void WorldManager::StartGame(ShipManager *ship)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -45305,6 +46254,7 @@ FUNC_NAKED void WorldManager::Restart()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -45325,7 +46275,7 @@ FUNC_NAKED void WorldManager::Restart()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -45342,6 +46292,7 @@ FUNC_NAKED void WorldManager::LoadGame(const std::string &fileName)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -45363,7 +46314,7 @@ FUNC_NAKED void WorldManager::LoadGame(const std::string &fileName)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -45380,6 +46331,7 @@ FUNC_NAKED void WorldManager::OnLoop()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -45400,7 +46352,7 @@ FUNC_NAKED void WorldManager::OnLoop()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -45417,6 +46369,7 @@ FUNC_NAKED void WorldManager::CreateNewGame()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -45437,7 +46390,7 @@ FUNC_NAKED void WorldManager::CreateNewGame()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -45472,7 +46425,7 @@ FUNC_NAKED bool WorldManager::HostileEnvironment()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -45489,6 +46442,7 @@ FUNC_NAKED bool WorldManager::AddBoarders(BoardingEvent &boardingEvent)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -45508,7 +46462,7 @@ FUNC_NAKED bool WorldManager::AddBoarders(BoardingEvent &boardingEvent)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -45525,6 +46479,7 @@ FUNC_NAKED void WorldManager::CreateStore(LocationEvent *event)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
@@ -45546,7 +46501,7 @@ FUNC_NAKED void WorldManager::CreateStore(LocationEvent *event)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -45563,6 +46518,7 @@ FUNC_NAKED bool WorldManager::CheckRequirements(LocationEvent *event)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -45582,7 +46538,7 @@ FUNC_NAKED bool WorldManager::CheckRequirements(LocationEvent *event)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -45599,6 +46555,7 @@ FUNC_NAKED double freetype::easy_measurePrintLines(int fontData, float x, float 
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
 		"push esi\n\t"
@@ -45619,7 +46576,7 @@ FUNC_NAKED double freetype::easy_measurePrintLines(int fontData, float x, float 
 		"pop ecx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 20\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -45636,6 +46593,7 @@ FUNC_NAKED int freetype::easy_measureWidth(int fontData, const std::string &text
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -45655,7 +46613,7 @@ FUNC_NAKED int freetype::easy_measureWidth(int fontData, const std::string &text
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -45672,6 +46630,7 @@ FUNC_NAKED int freetype::easy_print(int fontData, float x, float y, const std::s
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -45693,7 +46652,7 @@ FUNC_NAKED int freetype::easy_print(int fontData, float x, float y, const std::s
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -45710,6 +46669,7 @@ FUNC_NAKED int freetype::easy_printRightAlign(int fontData, float x, float y, co
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -45731,7 +46691,7 @@ FUNC_NAKED int freetype::easy_printRightAlign(int fontData, float x, float y, co
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -45770,7 +46730,7 @@ FUNC_NAKED int freetype::easy_printNewlinesCentered(int fontData, float x, float
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 20\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -45809,7 +46769,7 @@ FUNC_NAKED int freetype::easy_printAutoNewlines(int fontData, float x, float y, 
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 20\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -45826,6 +46786,7 @@ FUNC_NAKED double freetype::easy_printCenter(int fontData, float x, float y, con
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 8\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
 		"push esi\n\t"
@@ -45845,7 +46806,7 @@ FUNC_NAKED double freetype::easy_printCenter(int fontData, float x, float y, con
 		"pop ecx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret\n\t"
 	);
 }
 
@@ -45862,6 +46823,7 @@ FUNC_NAKED int freetype::easy_printAutoShrink(int fontData, float x, float y, in
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
@@ -45885,7 +46847,7 @@ FUNC_NAKED int freetype::easy_printAutoShrink(int fontData, float x, float y, in
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 24\n\t"
+		"ret\n\t"
 	);
 }
 
