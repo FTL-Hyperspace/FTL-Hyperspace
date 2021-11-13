@@ -107,6 +107,8 @@ struct VTable_StoreBox;
 struct Shields__ShieldAnimation;
 struct VTable_CrewTarget;
 struct VTable_Drone;
+struct VTable_SpaceDrone;
+struct VTable_Targetable;
 
 /* 1 */
 struct Globals
@@ -2748,9 +2750,29 @@ struct VTable_GenericButton
 };
 
 /* 305 */
+struct VTable_Targetable
+{
+  void (__thiscall *Free)(Targetable *);
+  Pointf (__thiscall *GetWorldCenterPoint)(Targetable *);
+  Pointf (__thiscall *GetRandomTargettingPoint)(Targetable *, bool unk);
+  std__vector_6Pointf (__thiscall *GetAllTargettingPoints)(Targetable *);
+  Globals__Ellipse (__thiscall *GetShieldShape)(Targetable *);
+  ShieldPower (__thiscall *GetShieldPower)(Targetable *);
+  int (__thiscall *GetSpaceId)(Targetable *);
+  Pointf (__thiscall *GetSpeed)(Targetable *);
+  int (__thiscall *GetOwnerId)(Targetable *);
+  int (__thiscall *GetSelfId)(Targetable *);
+  bool (__thiscall *IsCloaked)(Targetable *);
+  void (__thiscall *DamageTarget)(Targetable *, Pointf pos, DamageParameter damage);
+  bool (__thiscall *GetIsDying)(Targetable *);
+  bool (__thiscall *GetIsJumping)(Targetable *);
+  bool (__thiscall *ValidTarget)(Targetable *);
+  Globals__Rect (__thiscall *GetShape)(Targetable *);
+};
+
 struct Targetable
 {
-  void *vptr;
+  VTable_Targetable *_vtable;
   int type;
   bool hostile;
   bool targeted;
@@ -3651,8 +3673,40 @@ struct Drone
 };
 
 /* 160 */
+struct VTable_SpaceDrone
+{
+  void (__thiscall *PickDestination)(SpaceDrone *);
+  void (__thiscall *PickTarget)(SpaceDrone *);
+  bool (__thiscall *HasTarget)(SpaceDrone *);
+  bool (__thiscall *ValidTarget)(SpaceDrone *);
+  float (__thiscall *GetWeaponCooldown)(SpaceDrone *);
+  void (__thiscall *RandomizeStartingPosition)(SpaceDrone *);
+  bool (__thiscall *HideUnderOwner)(SpaceDrone *);
+  Projectile* (__thiscall *GetNextProjectile)(SpaceDrone *);
+  void (__thiscall *SetMovementTarget)(SpaceDrone *, Targetable &target);
+  void (__thiscall *SetWeaponTarget)(SpaceDrone *, Targetable &target);
+  bool (__thiscall *ValidTargetObject)(SpaceDrone *, Targetable &target);
+  void (__thiscall *OnRender)(SpaceDrone *, int space);
+  void (__thiscall *RenderDrone)(SpaceDrone *);
+  static std__string *(__stdcall *GetTooltip)(std__string *str, SpaceDrone *drone);
+  Pointf (__thiscall *GetWorldCenterPoint)(SpaceDrone *);
+  void (__thiscall *SetCurrentLocation)(SpaceDrone *, Pointf pos);
+  void (__thiscall *MouseMove)(SpaceDrone *, int mX, int mY);
+  Pointf (__thiscall *GetRandomTargettingPoint)(SpaceDrone *, bool unk);
+  static Globals__Ellipse *(__stdcall *GetShieldShape)(Globals__Ellipse *ret, SpaceDrone *drone);
+  int (__thiscall *GetSpaceId)(SpaceDrone *);
+  Pointf (__thiscall *GetSpeed)(SpaceDrone *);
+  int (__thiscall *GetOwnerId)(SpaceDrone *);
+  int (__thiscall *GetSelfId)(SpaceDrone *);
+  static CollisionResponse *(__stdcall *CollisionMoving)(CollisionResponse *ret, SpaceDrone *drone, Pointf pos1, Pointf pos2, DamageParameter damage, bool unk);
+  bool (__thiscall *DamageBeam)(SpaceDrone *, Pointf pos1, Pointf pos2, DamageParameter damage);
+  void (__thiscall *DamageArea)(SpaceDrone *, Pointf pos, DamageParameter damage, bool unk);
+  BoarderDrone *(__thiscall *GetBoardingDrone)(SpaceDrone *);
+};
+
 struct SpaceDrone
 {
+  VTable_SpaceDrone *_vtable;
   Drone _base;
   Targetable _targetable;
   Collideable _collideable;

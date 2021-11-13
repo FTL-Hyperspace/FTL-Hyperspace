@@ -177,6 +177,50 @@ void Global::InitializeResources(ResourceControl *resources)
                 g_crystalShardFix = EventsParser::ParseBoolean(enabled);
             }
 
+            if (strcmp(node->name(), "defenseDroneFix") == 0) // fixes defense drone blind spot by making the visible area resize with the ship
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                g_defenseDroneFix = EventsParser::ParseBoolean(enabled);
+                if (g_defenseDroneFix)
+                {
+                    for (auto child = node->first_node(); child; child = child->next_sibling())
+                    {
+                        if (strcmp(child->name(), "boxRange") == 0)
+                        {
+                            if (child->value())
+                            {
+                                g_defenseDroneFix_BoxRange[0] = boost::lexical_cast<float>(child->value());
+                                g_defenseDroneFix_BoxRange[1] = g_defenseDroneFix_BoxRange[0];
+                            }
+                            if (child->first_attribute("player"))
+                            {
+                                g_defenseDroneFix_BoxRange[0] = boost::lexical_cast<float>(child->first_attribute("player")->value());
+                            }
+                            if (child->first_attribute("enemy"))
+                            {
+                                g_defenseDroneFix_BoxRange[1] = boost::lexical_cast<float>(child->first_attribute("enemy")->value());
+                            }
+                        }
+                        if (strcmp(child->name(), "ellipseRange") == 0)
+                        {
+                            if (child->value())
+                            {
+                                g_defenseDroneFix_EllipseRange[0] = boost::lexical_cast<float>(child->value());
+                                g_defenseDroneFix_EllipseRange[1] = g_defenseDroneFix_EllipseRange[0];
+                            }
+                            if (child->first_attribute("player"))
+                            {
+                                g_defenseDroneFix_EllipseRange[0] = boost::lexical_cast<float>(child->first_attribute("player")->value());
+                            }
+                            if (child->first_attribute("enemy"))
+                            {
+                                g_defenseDroneFix_EllipseRange[1] = boost::lexical_cast<float>(child->first_attribute("enemy")->value());
+                            }
+                        }
+                    }
+                }
+            }
+
             if (strcmp(node->name(), "resistsMindControlStat") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();

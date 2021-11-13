@@ -2,6 +2,11 @@
 #include "CustomCrew.h"
 #include "CustomWeapons.h"
 #include <boost/lexical_cast.hpp>
+#include <cmath>
+
+bool g_DefenseDroneFix = false;
+float g_DefenseDroneFix_BoxRange[2] = {150.f, 150.f};
+float g_DefenseDroneFix_EllipseRange[2] = {50.f, 50.f};
 
 CustomDroneManager CustomDroneManager::_instance = CustomDroneManager();
 
@@ -447,8 +452,8 @@ HOOK_METHOD(ShipManager, CreateSpaceDrone, (const DroneBlueprint *bp) -> SpaceDr
             {
                 // combat
 
-                ((CombatDrone*)ret)->SetMovementTarget(&current_target->_targetable);
-                ((CombatDrone*)ret)->SetWeaponTarget(&current_target->_targetable);
+                ((CombatDrone*)ret)->SetMovementTarget(current_target->_targetable);
+                ((CombatDrone*)ret)->SetWeaponTarget(current_target->_targetable);
 
             }
             else if (ret->type == 4)
@@ -457,7 +462,7 @@ HOOK_METHOD(ShipManager, CreateSpaceDrone, (const DroneBlueprint *bp) -> SpaceDr
 
                 BoarderPodDrone *drone = ((BoarderPodDrone*)ret);
 
-                drone->SetMovementTarget(&current_target->_targetable);
+                drone->SetMovementTarget(current_target->_targetable);
 
                 if (drone->boarderDrone)
                 {
@@ -585,6 +590,166 @@ HOOK_METHOD(DroneSystem, OnLoop, () -> void)
         }
     }
     super();
+}
+
+HOOK_METHOD(DefenseDrone, PickTarget, () -> void)
+{
+    if (!g_defenseDroneFix) return super();
+
+    if (!bDisrupted || !powered)
+    {
+        if (HasTarget())
+        {
+            Pointf relPos = {targetLocation.x - currentLocation.x, targetLocation.y - currentLocation.y};
+            float speedFactor = G_->GetCFPS()->GetSpeedFactor();
+            float aimAhead = Globals::AimAhead(relPos, targetSpeed, ((weaponBlueprint->speed > 0.f) ? weaponBlueprint->speed : 60.f) * speedFactor);
+            if (aimAhead > 0.f)
+            {
+                targetLocation = {aimAhead*targetSpeed.x + targetLocation.x, aimAhead*targetSpeed.y + targetLocation.y};
+            }
+            if (*(int*)(&targetLocation.x) == 0xff7fffff || *(int*)(&targetLocation.y) == 0xff7fffff)
+            {
+                desiredAimingAngle = aimingAngle;
+            }
+            else
+            {
+                relPos = Pointf(targetLocation.x - currentLocation.x, targetLocation.y - currentLocation.y);
+                desiredAimingAngle = atan2f(relPos.y, relPos.x) * 180.f / 3.141593f;
+                if (desiredAimingAngle < 0.f) desiredAimingAngle += 360.f;
+
+                float swivelSpeed;
+                float swivelDirection;
+                bool bSwivelDir;
+
+                if ((aimingAngle <= desiredAimingAngle || (aimingAngle - desiredAimingAngle) >= 180.f) && (desiredAimingAngle <= aimingAngle || (desiredAimingAngle - aimingAngle) >= 180.f))
+                {
+                    swivelSpeed = 30.f;
+                    swivelDirection = 1.f;
+                    bSwivelDir = true;
+                }
+                else
+                {
+                    swivelSpeed = -30.f;
+                    swivelDirection = -1.f;
+                    bSwivelDir = false;
+                }
+
+                aimingAngle += swivelSpeed * speedFactor;
+                if (aimingAngle < 0.f) aimingAngle += 360.f;
+                if (aimingAngle > 360.f) aimingAngle -= 360.f;
+
+                if ((desiredAimingAngle < aimingAngle &&  bSwivelDir && aimingAngle - desiredAimingAngle < 180.f) ||
+                    (aimingAngle < desiredAimingAngle && !bSwivelDir && desiredAimingAngle - aimingAngle < 180.f))
+                {
+                    aimingAngle = desiredAimingAngle;
+                }
+
+                if (aimingAngle == desiredAimingAngle)
+                {
+                    float x0;
+                    float x1;
+                    float y0;
+                    float y1;
+
+                    if (weaponTarget && weaponTarget->type == 3) // combat drone
+                    {
+                        x0 = -10000.f;
+                        x1 = 10000.f;
+                        y0 = -10000.f;
+                        y1 = 10000.f;
+                    }
+                    else
+                    {
+                        ShipGraph *graph = ShipGraph::GetShipInfo(currentSpace);
+                        if (graph)
+                        {
+                            x0 = graph->shipBox.x - g_defenseDroneFix_BoxRange[iShipId];
+                            y0 = graph->shipBox.y - g_defenseDroneFix_BoxRange[iShipId];
+                            x1 = graph->shipBox.x + graph->shipBox.w + g_defenseDroneFix_BoxRange[iShipId];
+                            y1 = graph->shipBox.y + graph->shipBox.h + g_defenseDroneFix_BoxRange[iShipId];
+                        }
+                        else
+                        {
+                            x0 = -150.f;
+                            x1 = 450.f;
+                            y0 = -150.f;
+                            y1 = 450.f;
+                        }
+                    }
+
+                    if (targetLocation.x > x0 && targetLocation.y > y0 && targetLocation.x < x1 && targetLocation.y < y1)
+                    {
+                        shotAtTargetId = currentTargetId;
+                        return;
+                    }
+
+                    if (movementTarget)
+                    {
+                        Globals::Ellipse shield = movementTarget->GetShieldShape();
+                        shield.a += g_defenseDroneFix_EllipseRange[iShipId];
+                        shield.b += g_defenseDroneFix_EllipseRange[iShipId];
+
+                        float relX = targetLocation.x - shield.center.x;
+                        float relY = targetLocation.y - shield.center.y;
+
+                        if ((relX*relX)/(shield.a*shield.a) + (relY*relY)/(shield.b*shield.b) < 1.f) // shoot anything near the ellipse
+                        {
+                            shotAtTargetId = currentTargetId;
+                            return;
+                        }
+                    }
+                }
+            }
+            *(int*)(&targetLocation.x) = 0xff7fffff;
+            *(int*)(&targetLocation.x) = 0xff7fffff;
+            return;
+        }
+    }
+    else
+    {
+        if (desiredAimingAngle == aimingAngle || desiredAimingAngle < 0.f)
+        {
+            desiredAimingAngle = random32() % 360;
+            if (*(int*)(&targetLocation.x) == 0xff7fffff || *(int*)(&targetLocation.y) == 0xff7fffff || desiredAimingAngle >= 0.f)
+            {
+                float speedFactor = G_->GetCFPS()->GetSpeedFactor();
+
+                if (desiredAimingAngle <= 0.f)
+                {
+                    Pointf relPos = Pointf(targetLocation.x - currentLocation.x, targetLocation.y - currentLocation.y);
+                    desiredAimingAngle = atan2f(relPos.y, relPos.x) * 180.f / 3.141593f;
+                    if (desiredAimingAngle < 0.f) desiredAimingAngle += 360.f;
+                }
+
+                float swivelSpeed;
+                float swivelDirection;
+                bool bSwivelDir;
+
+                if ((aimingAngle <= desiredAimingAngle || (aimingAngle - desiredAimingAngle) >= 180.f) && (desiredAimingAngle <= aimingAngle || (desiredAimingAngle - aimingAngle) >= 180.f))
+                {
+                    swivelSpeed = 30.f;
+                    swivelDirection = 1.f;
+                    bSwivelDir = true;
+                }
+                else
+                {
+                    swivelSpeed = -30.f;
+                    swivelDirection = -1.f;
+                    bSwivelDir = false;
+                }
+
+                aimingAngle += swivelSpeed * speedFactor;
+                if (aimingAngle < 0.f) aimingAngle += 360.f;
+                if (aimingAngle > 360.f) aimingAngle -= 360.f;
+
+                if ((desiredAimingAngle < aimingAngle &&  bSwivelDir && aimingAngle - desiredAimingAngle < 180.f) ||
+                    (aimingAngle < desiredAimingAngle && !bSwivelDir && desiredAimingAngle - aimingAngle < 180.f))
+                {
+                    aimingAngle = desiredAimingAngle;
+                }
+            }
+        }
+    }
 }
 
 

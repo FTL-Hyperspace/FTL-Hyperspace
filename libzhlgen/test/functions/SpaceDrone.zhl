@@ -1,12 +1,10 @@
 "578d7c240883e4f0ff77fc5589e557565383ec3c8b178b7704f30f1089400100000f2e0d????????":
 float SpaceDrone::UpdateAimingAngle(SpaceDrone *this<ecx>, Pointf location, float percentage, float forceDesired);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b018b378b5030":
-void SpaceDrone::SetDeployed(SpaceDrone *this<ecx>, bool deployed);
+virtual void SpaceDrone::SetDeployed(SpaceDrone *this<ecx>, bool deployed);
 "5589e556538b750883e4f085f674??8b0689cb89f1ff501c89434c8b0689f1ff501c894348":
-void SpaceDrone::SetMovementTarget(SpaceDrone *this<ecx>, Targetable *target);
+virtual void SpaceDrone::SetMovementTarget(SpaceDrone *this<ecx>, Targetable &target);
 "578d7c240883e4f0ff77fc5589e557565389cb83c10483ec3c8b378b4728c741fc00000000c7442404000000cfc70424000000cf8945e0":
 static CollisionResponse* SpaceDrone::CollisionMoving(CollisionResponse &ret<ecx>, SpaceDrone *drone, Pointf pos1, Pointf pos2, DamageParameter damage, bool unk);
-
-// Should be virtual; don't call this when the virtual call is needed.
 "578d7c240883e4f0ff77fc5589e557565389cb81ec8c0000008b01ff507c8b0389d9ff908000000084c0":
-Projectile* SpaceDrone::GetNextProjectile(SpaceDrone *this<ecx>);
+virtual Projectile* SpaceDrone::GetNextProjectile(SpaceDrone *this<ecx>);

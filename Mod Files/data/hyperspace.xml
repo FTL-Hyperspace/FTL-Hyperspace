@@ -141,6 +141,15 @@ Default is true.
 
 <crystalShardFix enabled="true"/>
 
+<!-- Fixes the defense drone blind spot by adjusting the firing range to be based on the layout of the ship and the shield ellipse size, rather than a fixed region.
+When the fix is enabled, the range will be unlimited against enemy combat drones.
+-->
+
+<defenseDroneFix enabled="true">
+	<boxRange>150</boxRange> <!-- default range around a bounding box that fits the ship's room layout, can set separate values for player/enemy using player and enemy attributes -->
+	<ellipseRange>50</ellipseRange> <!-- default range around the shield ellipse, can set separate values for player/enemy using player and enemy attributes -->
+</defenseDroneFix>
+
 <!--  Enables resistsMindControl stat as a separate stat from isTelepathic.
 -->
 

@@ -281,12 +281,10 @@ HOOK_METHOD(ShipManager, PrepareSuperDrones, () -> void)
         }
     }
 
-    for (auto i : superDrones)
+    for (auto drone : superDrones)
     {
-        CombatDrone *drone = (CombatDrone*)i;
-
-        drone->SetMovementTarget(&current_target->_targetable);
-        drone->SetWeaponTarget(&current_target->_targetable);
+        drone->SetMovementTarget(current_target->_targetable);
+        drone->SetWeaponTarget(current_target->_targetable);
         drone->lifespan = 2;
         drone->powered = true;
         drone->SetDeployed(true);
