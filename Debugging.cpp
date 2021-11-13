@@ -26,6 +26,8 @@ void copy_log(const char *oldName, const char *newName)
     }
 }
 
+#ifdef _WIN32
+// Not Available in Linux version, or at least the crash handler is different and hasn't been figured out yet.
 HOOK_STATIC(DebugHelper, CrashCatcher, (void *exception_pointers) -> int)
 {
     int ret = super(exception_pointers);
@@ -45,6 +47,7 @@ HOOK_STATIC(DebugHelper, CrashCatcher, (void *exception_pointers) -> int)
 
     return ret;
 }
+#endif // _WIN32
 
 HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
 {
