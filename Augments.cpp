@@ -64,6 +64,7 @@ HOOK_METHOD(ShipManager, JumpLeave, () -> void)
     if (HasAugmentation("FTL_JUMPER_GOOD") && fuelReq > 1)
     {
         fuel_count = oldFuelCount - fuelReq;
+        fuelReq = 0;
     }
 }
 
