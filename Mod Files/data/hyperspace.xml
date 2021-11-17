@@ -1310,6 +1310,44 @@ Example:
 	-->
 </rewards>
 
+<!-- Custom Sector Map
+
+Can be used to customize the generation of the sector map.
+
+Each sectorList determines the distribution of sectors up to a given sector number.
+Each entry in a sectorList is a sectorType in sector_data.xml. The chance is the relative probability of rolling from that list (default chance = 1).
+Chance must be an integer; they can sum to any number you'd like.
+sectorLists must be in ascending sector order. They do not affect sector 1 or the final sector.
+
+When using custom sectorLists you still need to list all sectors under the default CIVILIAN/HOSTILE/NEBULA lists as those are used to color the sectors on the map.
+
+sectorMap can also go in sector_data.xml.
+
+Example:
+
+<sectorMap>
+	<sectorList maxSector="m">
+		<LIST_NAME_1 chance="x"/>
+		<LIST_NAME_2 chance="y"/>
+	</sectorList>
+	<sectorList maxSector="n">
+		<LIST_NAME_3 chance="z"/>
+		<LIST_NAME_4 chance="w"/>
+	</sectorList>
+</sectorMap>
+
+-->
+
+<!-- Vanilla equivalent:
+<sectorMap>
+	<sectorList>
+		<CIVILIAN chance="4"/>
+		<HOSTILE chance="4"/>
+		<NEBULA chance="2"/>
+	</sectorList>
+</sectorMap>
+-->
+
 <!-- Custom Ship Generators (WIP)
 
 You can customize the algorithm used to generate enemy ships. This can be customized for different difficulty levels to affect how enemy ships generate.
