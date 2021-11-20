@@ -651,12 +651,6 @@
 		<Unit filename="detours.h">
 			<Option virtualFolder="ZHL/" />
 		</Unit>
-		<Unit filename="freetype.cpp">
-			<Option virtualFolder="Core/" />
-		</Unit>
-		<Unit filename="freetype.h">
-			<Option virtualFolder="Core/" />
-		</Unit>
 		<Unit filename="hde.cpp">
 			<Option virtualFolder="ZHL/" />
 		</Unit>

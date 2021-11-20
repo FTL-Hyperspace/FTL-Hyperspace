@@ -90,13 +90,13 @@ HOOK_METHOD(CompleteShip, InitiateTeleport, (int targetRoom, int command) -> voi
 }
 
 /*
-HOOK_STATIC(ShipManager, TeleportCrew, (std::vector<CrewMember*>& leavingCrewList, ShipManager *ship, int roomId, bool intruders) -> void)
+HOOK_METHOD(ShipManager, TeleportCrew, (int roomId, bool intruders) -> std::vector<CrewMember*>)
 {
-    leavingCrewList = std::vector<CrewMember*>();
+    std::vector<CrewMember*> leavingCrewList = std::vector<CrewMember*>();
 
     int counter = 0;
 
-    for (auto i : ship->vCrewList)
+    for (auto i : this->vCrewList)
     {
         if (roomId != i->iRoomId)
         {
@@ -112,7 +112,7 @@ HOOK_STATIC(ShipManager, TeleportCrew, (std::vector<CrewMember*>& leavingCrewLis
 
             if (counter >= 4)
             {
-                return;
+                return leavingCrewList;
             }
         }
     }

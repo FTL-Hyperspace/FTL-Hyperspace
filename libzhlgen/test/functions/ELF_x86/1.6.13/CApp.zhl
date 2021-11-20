@@ -45,7 +45,7 @@ cleanup void CApp::OnSuspend(CApp *this);
 "5383ec188b5c242080??????????0075??807b100074??83c4185b":
 cleanup void CApp::OnResume(CApp *this);
 "565383ec148b5424248b4c24288b44242c8b742420":
-cleanup Pointf CApp::TranslateMouse(CApp *this, int x, int y);
+cleanup Point CApp::TranslateMouse(CApp *this, int x, int y);
 "803d????????0074??c38db600000000575653":
 cleanup void CApp::UpdateFullScreen(CApp *this);
 "56538b44240c????????????00":

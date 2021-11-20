@@ -9,7 +9,7 @@ cleanup void WeaponBlueprint::constructor(WeaponBlueprint *this);
 ".5557565383ec2c8b7c24408d74241f":
 cleanup void WeaponBlueprint::destructor(WeaponBlueprint *this);
 "5589e557565381ecac0000008b4510898564ffffff":
-static cleanup void WeaponBlueprint::GetDescription(std::string& strRef, WeaponBlueprint *_this, bool tooltip);
+cleanup std::string WeaponBlueprint::GetDescription(WeaponBlueprint *this, bool tooltip);
 
 
 struct WeaponBlueprint

@@ -45,7 +45,7 @@ void CApp::OnSuspend(CApp *this<ecx>);
 "!.80b9bc3400000075??8079100074??c35589e55389cb8b4908":
 void CApp::OnResume(CApp *this<ecx>);
 ".57660fefc08d7c240883e4f0ff77fc5589e55783ec248b072b8110350000":
-Pointf CApp::TranslateMouse(CApp *this<ecx>, int x, int y);
+Point CApp::TranslateMouse(CApp *this<ecx>, int x, int y);
 ".803d??????????74??c38db6000000005589e5575653":
 void CApp::UpdateFullScreen(CApp *this<ecx>);
 ".80b90c35000000c781ec34000000000000c781f034000000000000c7811035000000000000":

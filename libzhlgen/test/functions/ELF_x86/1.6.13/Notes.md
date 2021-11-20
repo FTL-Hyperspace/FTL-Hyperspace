@@ -9,6 +9,39 @@ virtual void GenericButton::OnClick(GenericButton *this<ecx>);
 Was dropped as it's just a no-op in the ELF binaries and cannot be hooked with the current ZHL.
 (must be mocked out in our code to prevent uses of it or to non-op uses of it)
 
+#### Other
+`CompleteShip` has a `vptr` that is not visible in the windows version (at least in the stripped struct)
+
+### Compatibility
+Currently functions declared static that are not really static and instead were done to manually access the first hidden parameter need to be redefined.
+ZHL/parseFuncs has also been modified to fix what appears to have been a bug preventing this other pattern from working for global calls (anything but ZHL hooks and anytime you wanted to call a base FTL function globally)
+
+Patterns like
+```c++
+static void EventsParser::ProcessEvent(std::string& strRef<ecx>, EventsParser *notNamedThis, rapidxml::xml_node<char>* node, const std::string& eventName);
+```
+Must become
+```c++
+std::string EventsParser::ProcessEvent<ecx>(EventsParser *this, rapidxml::xml_node<char>* node, const std::string& eventName);
+```
+On Windows 32-bit `cleanup` is not required for `__thiscall` functions but the first argument is always on `ecx` (lookup Win32's calling conventions)
+On Linux 32-bit they also need `cleanup` and must drop the `<ecx>` section since this is passed on the stack (see System V i386 ABI specs for full calling conventions)
+On Linux 64-bit it'll require `cleanup` and must name the registers, most likely `rdi` if it's the first one (see System V AMD64 ABI specs for full calling conventions)
+
+The calling pattern changes from:
+```c++
+std::string someStupidPointer;
+EventsParser::ProcessEvent(someStupidPointer, G_->GetEventsParser(), child, eventName);
+```
+To a simpler
+```c++
+std::string someStupidPointer = G_->GetEventsParser()->ProcessEvent(child, eventName);
+```
+
+***The static hacky stuff will is unsupported now you must call member methods via this style.***
+
+Currently there is still something special for 64-bit wide structs that don't pass by memory and instead return on `EDX:EAX` when called from FTLGame.cpp, a.k.a. the "freetype_hack" implementation, this will have to be studied more to see if we can get the lua code to be smart enough to detect a 64-bit wide struct and not try to pass it by memory but still record it as a struct for C++ or something
+
 ##### Unknowns
 ```c++
 void CrewMember::Cleanup(CrewMember *this<ecx>); // Appeared to have a bad match in the Win32 version also maybe should be removed entirely?
@@ -28,6 +61,18 @@ On Linux this is just mocked to always return 1 and is too short to match with Z
 
 
 #### Potential issues
+```c++
+TextButton::GetSize()
+```
+Is potentially an issue, the Windows version has some hack because of the `EDX`:`EAX` return of an actual `Point` struct but the Linux version is pass-by-memory and doesn't do the `EDX`:`EAX` style so it doesn't need the weird hack to retrieve the value. However, the windows version also supplies a custom implementation in the ZHL struct that returns an integer and it isn't clear why it's not a Point or Point* being returned. Even weirder, where it's used in CustomScoreKeeper it's not clear how it utilizes the X & Y values,  it might accidentally be the X value both times. (We might need to make the Windows one properly return a `Point`)
+
+
+```c++
+std::pair<int, int> CrewMember::GetSkillProgress(int skillId);
+```
+Looks like a pass-by-memory style in the Linux executable but libzhl is not picking it up as such (because the struct is exactly 64-bits wide and ZHL is assuming it's EDX:EAX when it appears not to be) It's unclear if we need to somehow force it to pass the struct pointer. On Windows it's not clear if it's an EDX:EAX, certainly seems like EDX is clobbered but maybe not.
+
+
 ```c++
 virtual void CompleteShip::PauseLoop(CompleteShip *this<ecx>);
 ```
@@ -56,6 +101,7 @@ static cleanup int FileHelper::getPosition(int file);
 ```
 getPosition is a single instruction method on Linux (it's much more complicated in Win32) and just references a global variable FileHelper::iFilePosition however, that global variable is surrounded by tons of just plain 0's and might be incredibly difficult to target.
 This function might require re-implementation or tweaking to ZHL to allow matching a single instruction function in special cases?
+TODO: Nevermind go match a different use of `[FileHelper::iFilePosition]` and I should be able to match it as a global variable.
 ```x86asm
                              **************************************************************
                              * FileHelper::getPosition(int)                               *
@@ -247,7 +293,8 @@ Note that we treat GetNextSpaceId as signed but it appears to be unsigned.
 
 win32/ZHL decl
 ```c++
-GL_Primitive* ResourceControl::CreateImagePrimitive(ResourceControl *this<ecx>, GL_Texture *tex, int unk1, int unk2, int unk3, GL_Color color, float alpha, bool mirror);
+GL_Primitive* ResourceControlFUNC_NAKED void EventsParser::ProcessEvent(std::string &strRef, EventsParser *eventsParser, rapidxml::xml_node<char> *node, const std::string &eventName)
+FUNC_NAKED std::string &EventsParser::ProcessEvent(EventsParser *eventsParser, rapidxml::xml_node<char> *node, const std::string &eventName)::CreateImagePrimitive(ResourceControl *this<ecx>, GL_Texture *tex, int unk1, int unk2, int unk3, GL_Color color, float alpha, bool mirror);
 ```
 Linux Raw Dissassembly
 ```c++

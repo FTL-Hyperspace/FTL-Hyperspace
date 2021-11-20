@@ -559,18 +559,13 @@ std::vector<StoreBox*> StoreComplete::CreateCustomStoreBoxes(const StoreCategory
                     species = potentialList[random32() % potentialList.size()];
                 }
 
-                auto bp = G_->GetBlueprints()->GetCrewBlueprint(species);
+                CrewBlueprint bp = G_->GetBlueprints()->GetCrewBlueprint(species);
 
-                if (bp)
-                {
-                    box = new CrewStoreBox(ship, orig->worldLevel, species);
+                box = new CrewStoreBox(ship, orig->worldLevel, species);
 
-                    box->desc.cost = GetItemPricing(i.price, bp->desc.cost, orig->worldLevel);
+                box->desc.cost = GetItemPricing(i.price, bp.desc.cost, orig->worldLevel);
 
-                    vec.push_back(box);
-
-                    delete bp;
-                }
+                vec.push_back(box);
             }
         }
     }

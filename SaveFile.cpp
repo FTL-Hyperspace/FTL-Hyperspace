@@ -1,5 +1,4 @@
 #include "SaveFile.h"
-#include "freetype.h"
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
@@ -39,8 +38,7 @@ void SaveFileHandler::ParseSaveFileNode(rapidxml::xml_node<char>* node)
 
 void SaveFileHandler::CreateTransferFile()
 {
-    std::string userFolder;
-    FileHelper::getUserFolder(userFolder);
+    std::string userFolder = FileHelper::getUserFolder();
 
     int f = FileHelper::createBinaryFile(userFolder + SaveFileHandler::instance->savePrefix + "_not_selected_transfer");
     FileHelper::closeBinaryFile(f);
@@ -48,32 +46,28 @@ void SaveFileHandler::CreateTransferFile()
 
 void SaveFileHandler::DeleteTransferFile()
 {
-    std::string userFolder;
-    FileHelper::getUserFolder(userFolder);
+    std::string userFolder = FileHelper::getUserFolder();
 
     FileHelper::deleteFile(userFolder + SaveFileHandler::instance->savePrefix + "_not_selected_transfer");
 }
 
 bool SaveFileHandler::TransferFileExists()
 {
-    std::string userFolder;
-    FileHelper::getUserFolder(userFolder);
+    std::string userFolder = FileHelper::getUserFolder();
 
     return FileHelper::fileExists(userFolder + SaveFileHandler::instance->savePrefix + "_not_selected_transfer");
 }
 
 HOOK_METHOD(ScoreKeeper, Save, (bool saveScore) -> void)
 {
-    std::string versionFileName;
-    FileHelper::getUserFolder(versionFileName);
+    std::string versionFileName = FileHelper::getUserFolder();
 
     versionFileName.append(SaveFileHandler::instance->savePrefix + "_version.sav");
     int versionFile = FileHelper::createBinaryFile(versionFileName);
     FileHelper::writeInt(versionFile, SaveFileHandler::version);
     FileHelper::closeBinaryFile(versionFile);
 
-    std::string userFolder;
-    FileHelper::getUserFolder(userFolder);
+    std::string userFolder = FileHelper::getUserFolder();
 
     if (FileHelper::fileExists(userFolder + SaveFileHandler::instance->savePrefix + "_prof.sav"))
     {
@@ -150,8 +144,7 @@ HOOK_METHOD(ScoreKeeper, Save, (bool saveScore) -> void)
             bSavedScore = true;
         }
 
-        std::string userFolder;
-        FileHelper::getUserFolder(userFolder);
+        std::string userFolder = FileHelper::getUserFolder();
 
         std::string newSave = userFolder + SaveFileHandler::instance->savePrefix + "_prof.new.sav";
         std::string oldSave = userFolder + SaveFileHandler::instance->savePrefix + "_prof.sav";
@@ -220,8 +213,7 @@ HOOK_METHOD(ScoreKeeper, Save, (bool saveScore) -> void)
 
 HOOK_METHOD(ScoreKeeper, OnInit, () -> void)
 {
-    std::string userFolder;
-    FileHelper::getUserFolder(userFolder);
+    std::string userFolder = FileHelper::getUserFolder();
 
     std::string newFile = userFolder;
     newFile.append(SaveFileHandler::instance->savePrefix + "_prof.sav");
@@ -253,9 +245,7 @@ HOOK_METHOD(ScoreKeeper, OnInit, () -> void)
 
     super();
 
-    std::string newSave;
-
-    FileHelper::getUserFolder(newSave);
+    std::string newSave = FileHelper::getUserFolder();
     newSave.append(SaveFileHandler::instance->savePrefix + "_prof.sav");
 
     if (FileHelper::fileExists(newSave))
@@ -313,13 +303,13 @@ HOOK_STATIC(FileHelper, createBinaryFile, (const std::string& fileName) -> int)
 }
 
 
-HOOK_STATIC(FileHelper, getSaveFile, (std::string& str) -> std::string&)
+HOOK_STATIC(FileHelper, getSaveFile, () -> std::string)
 {
-    auto ret = super(str);
+    std::string str = super();
 
     str.replace(str.size()-12, str.size(), SaveFileHandler::instance->savePrefix + "_continue.sav");
 
-    return ret;
+    return str;
 }
 
 static ConfirmWindow* confirmWipeSave;
@@ -339,7 +329,7 @@ HOOK_METHOD(MainMenu, Open, () -> void)
     super();
     /*
     std::string text = G_->GetTextLibrary()->GetText("transfer_save_dialog");
-    auto printLines = freetype_hack::easy_measurePrintLines(52, 0, 0, 400, text);
+    auto printLines = freetype::easy_measurePrintLines(52, 0, 0, 400, text);
 
     welcomeDialogHeight = printLines.y + 10.f;
 

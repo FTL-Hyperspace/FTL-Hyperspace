@@ -15,9 +15,9 @@ int CrewMemberFactory::GetEnemyCrewCount(CrewMemberFactory *this<ecx>);
 ".8d4c240483e4f0ff71fc5589e5":
 static cleanup bool CrewMemberFactory::IsRace(const std::string& species);
 ".578d7c240883e4f0ff77fc5589e5":
-std::pair<std::string, bool>& CrewMemberFactory::GetRandomFriendlyName(CrewMemberFactory *this<ecx>, const std::string& unk);
+std::pair<std::string, bool> CrewMemberFactory::GetRandomFriendlyName<ecx>(CrewMemberFactory *this, const std::string& race);
 ".578d7c240883e4f0ff77fc5589e55756":
-static std::vector<std::string>* CrewMemberFactory::GetCrewNames(std::vector<std::string> &vec<ecx>, CrewMemberFactory *factory);
+std::vector<std::string> CrewMemberFactory::GetCrewNames<ecx>(CrewMemberFactory *this);
 ".578d7c240883e4f0ff77fc5589e55756":
 RepairDrone* CrewMemberFactory::CreateRepairDrone(CrewMemberFactory *this<ecx>, int shipId, const DroneBlueprint* bp);
 ".578d7c240883e4f0ff77fc5589f889e55756":

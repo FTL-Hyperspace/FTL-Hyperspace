@@ -9,7 +9,7 @@ cleanup void TextInput::OnTextEvent(TextInput *this, CEvent::TextEvent event);
 ".8b4424040fb64024":
 cleanup bool TextInput::GetActive(TextInput *this);
 ".5589e55383ec148b5d088b450c":
-static cleanup std::string& TextInput::GetText(std::string& strRef, TextInput *textInput);
+cleanup std::string TextInput::GetText(TextInput *this);
 ".5589e5565383ec208b5d088b43082b4304":
 cleanup void TextInput::Start(TextInput *this);
 ".!8b442404c6402400":

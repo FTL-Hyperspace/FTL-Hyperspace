@@ -27,9 +27,9 @@ cleanup void CrewMemberFactory::GetCloneReadyList(CrewMemberFactory *this, std::
 "5557565383ec4c8d4424308904248d5c2438c744240800000000":
 cleanup RepairDrone* CrewMemberFactory::CreateRepairDrone(CrewMemberFactory *this, int shipId, const DroneBlueprint* bp);
 "5589e557565383ec4c8b750c??????00000000":
-cleanup std::pair<std::string, bool>& CrewMemberFactory::GetRandomFriendlyName(CrewMemberFactory *this, const std::string& unk);
+cleanup std::pair<std::string, bool> CrewMemberFactory::GetRandomFriendlyName(CrewMemberFactory *this, const std::string& race);
 "5589e557565331db83ec3c8b750c8b45088b4e10":
-static cleanup std::vector<std::string>* CrewMemberFactory::GetCrewNames(std::vector<std::string> &vec, CrewMemberFactory *factory);
+cleanup std::vector<std::string> CrewMemberFactory::GetCrewNames(CrewMemberFactory *this);
 "5589e557565381ecbc0000008b4508??????00000000":
 cleanup void CrewMemberFactory::OnLoop(CrewMemberFactory *this);
 "5557565331db83ec1c8b7424308b460c8b5610":

@@ -29,8 +29,8 @@ HOOK_METHOD(CrewMember, OnRender, (bool unk) -> void)
     {
         auto graph = ShipGraph::GetShipInfo(this->currentShipId);
 
-        int64_t point = graph->ConvertToWorldPosition(Pointf(this->x, this->y));
-        Pointf* pointptr = (Pointf*)&point;
+        Pointf point = graph->ConvertToWorldPosition(Pointf(this->x, this->y));
+        Pointf* pointptr = &point;
 
         CSurface::GL_SetColor(1.f, 1.f, 0.f, 1.f);
 

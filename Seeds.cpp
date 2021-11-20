@@ -68,8 +68,7 @@ HOOK_METHOD(ShipBuilder, Open, () -> void)
 	nextSeed = 0;
 	SeedInputBox::firstClick = true;
 
-	std::string txt;
-    TextLibrary::GetText(txt, G_->GetTextLibrary(), SeedInputBox::seedsEnabled ? "seed_prompt" : "seed_prompt_disabled", G_->GetTextLibrary()->currentLanguage);
+	std::string txt = G_->GetTextLibrary()->GetText(SeedInputBox::seedsEnabled ? "seed_prompt" : "seed_prompt_disabled", G_->GetTextLibrary()->currentLanguage);
     SeedInputBox::prompt = txt;
 
     SeedInputBox::seedInput->SetText("");
@@ -88,8 +87,7 @@ HOOK_METHOD(CApp, OnTextInput, (int charCode) -> void)
 			if (charCode >= '0' && charCode <= '9')
 				SeedInputBox::seedInput->OnTextInput(charCode);
 
-            std::string txt;
-            TextInput::GetText(txt, SeedInputBox::seedInput);
+            std::string txt = SeedInputBox::seedInput->GetText();
 
             if (!txt.empty() && boost::lexical_cast<int64_t>(txt) > 4294967295)
             {
@@ -207,8 +205,7 @@ HOOK_METHOD(StarMap, NewGame, (bool unk) -> Location*)
 {
     if (!SeedInputBox::seedsEnabled) return super(unk);
 
-	std::string str = std::string();
-	TextInput::GetText(str, SeedInputBox::seedInput);
+	std::string str = SeedInputBox::seedInput->GetText();
 	if (str == "" || unk)
 	{
 	    int seed = SeededRandom32();

@@ -9,7 +9,7 @@ void TextInput::OnTextEvent(TextInput *this<ecx>, CEvent::TextEvent event);
 ".0fb64138c3":
 bool TextInput::GetActive(TextInput *this<ecx>);
 "578d7c240883e4f0ff77fc5589e5575389cb83ec108b07c7442408ffffffffc744240400000000890424":
-static std::string& TextInput::GetText(std::string& strRef<ecx>, TextInput *textInput);
+std::string TextInput::GetText<ecx>(TextInput *this);
 ".578d7c240883e4f0ff77fc5589e5575383ec408b411c":
 void TextInput::Start(TextInput *this<ecx>);
 ".55c641380089e583e4f0e8????????":

@@ -1,6 +1,5 @@
 #include "CustomCrewManifest.h"
 #include "CustomShipSelect.h"
-#include "freetype.h"
 #include "CustomCrew.h"
 #include <algorithm>
 #include <boost/lexical_cast.hpp>

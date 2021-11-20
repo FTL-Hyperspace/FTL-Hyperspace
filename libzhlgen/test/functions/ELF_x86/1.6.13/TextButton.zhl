@@ -9,7 +9,7 @@ cleanup void TextButton::OnRender(TextButton *this);
 "565383ec248b5c24308b4348":
 cleanup void TextButton::destructor(TextButton *this);
 "5557565383ec2c8b5c24448b74244080bbb400000000":
-cleanup int64_t TextButton::GetSizeX(TextButton *this);
+cleanup Point TextButton::GetSize(TextButton *this);
 "5557565383ec4c8b7424648b5c24608b7c246c":
 cleanup void TextButton::OnInitRect(TextButton *this, Globals::Rect& rect, int cornerInset, TextString& buttonLabel, int font);
 "5557565383ec1c8b4424348b5c24308b742438":
@@ -32,11 +32,4 @@ cleanup void TextButton::InitPrimitives(TextButton *this);
 
 struct TextButton
 {{
-public:
-	int GetSize()
-	{
-		int64_t ret = GetSizeX();
-		int* ptr = (int*)&ret;
-		return *ptr;
-	}
 }};

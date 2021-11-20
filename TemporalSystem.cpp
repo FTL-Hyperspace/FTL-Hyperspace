@@ -758,9 +758,9 @@ HOOK_METHOD(MouseControl, OnRender, () -> void)
 
 // Level Tooltip
 
-HOOK_STATIC(ShipSystem, GetLevelDescription, (void* unk, std::string &retStr, int systemId, int level, bool tooltip) -> void)
+HOOK_STATIC(ShipSystem, GetLevelDescription, (int systemId, int level, bool tooltip) -> std::string)
 {
-    super(unk, retStr, systemId, level, tooltip);
+    std::string ret = super(systemId, level, tooltip);
 
     if (systemId == 20 && level != -1)
     {
@@ -771,8 +771,9 @@ HOOK_STATIC(ShipSystem, GetLevelDescription, (void* unk, std::string &retStr, in
         ReplaceTemporalText(replStr, realLevel);
         boost::algorithm::replace_all(replStr, "\\n", "\n");
 
-        retStr.assign(replStr);
+        ret.assign(replStr);
     }
+    return ret;
 }
 
 // Animation
@@ -792,11 +793,9 @@ HOOK_METHOD(Ship, OnRenderWalls, (bool forceView, bool doorControlMode) -> void)
             {
                 if (!ex->speedUpAnim)
                 {
-                    auto newAnim = new Animation();
+                    Animation newAnim = G_->GetAnimationControl()->GetAnimation("room_temporal_speed");
 
-                    AnimationControl::GetAnimation(*newAnim, G_->GetAnimationControl(), "room_temporal_speed");
-
-                    ex->speedUpAnim = newAnim;
+                    ex->speedUpAnim = &newAnim;
                     ex->speedUpAnim->SetCurrentFrame(0);
                     ex->speedUpAnim->tracker.SetLoop(true, 0);
                     ex->speedUpAnim->Start(true);
@@ -808,9 +807,9 @@ HOOK_METHOD(Ship, OnRenderWalls, (bool forceView, bool doorControlMode) -> void)
             {
                 if (!ex->slowDownAnim)
                 {
-                    ex->slowDownAnim = new Animation();
-                    AnimationControl::GetAnimation(*ex->slowDownAnim, G_->GetAnimationControl(), "room_temporal_slow");
+                    Animation newAnim = G_->GetAnimationControl()->GetAnimation("room_temporal_slow");
 
+                    ex->slowDownAnim = &newAnim;
                     ex->slowDownAnim->SetCurrentFrame(0);
                     ex->slowDownAnim->tracker.SetLoop(true, 0);
                     ex->slowDownAnim->Start(true);

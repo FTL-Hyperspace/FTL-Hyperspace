@@ -45,14 +45,14 @@ void ShipManager_Extend::Initialize(bool restarting)
 
                 for (auto def : i.second->roomAnims)
                 {
-                    Animation *anim = G_->GetAnimationControl()->GetAnimation(def.animName);
+                    Animation anim = G_->GetAnimationControl()->GetAnimation(def.animName);
                     RoomAnim roomAnim = RoomAnim();
 
-                    roomAnim.anim = anim;
+                    roomAnim.anim = &anim;
                     roomAnim.renderLayer = def.renderLayer;
 
-                    anim->Start(true);
-                    anim->tracker.SetLoop(true, 0.f);
+                    anim.Start(true);
+                    anim.tracker.SetLoop(true, 0.f);
 
                     rex->roomAnims.push_back(roomAnim);
 
@@ -84,8 +84,7 @@ void ShipManager_Extend::Initialize(bool restarting)
 
                 if (i.isList)
                 {
-                    auto bpList = std::vector<std::string>();
-                    BlueprintManager::GetBlueprintList(bpList, G_->GetBlueprints(), i.species);
+                    std::vector<std::string> bpList = G_->GetBlueprints()->GetBlueprintList(i.species);
 
                     if (!bpList.empty())
                     {
@@ -750,7 +749,7 @@ HOOK_METHOD(Ship, OnInit, (ShipBlueprint& bp) -> void)
             {
                 if (!thrusterRot[i] && nVanillaThrusters<2)
                 {
-                    if (!thrusters[i].empty()) AnimationControl::GetAnimation(engineAnim[nVanillaThrusters], G_->GetAnimationControl(), thrusters[i]);
+                    if (!thrusters[i].empty()) engineAnim[nVanillaThrusters] = G_->GetAnimationControl()->GetAnimation(thrusters[i]);
                     engineAnim[nVanillaThrusters].position = {thrusterPos[i].x + shipImage.x + graph->shipBox.x, thrusterPos[i].y + shipImage.y + graph->shipBox.y};
                     engineAnim[nVanillaThrusters].tracker.SetLoop(true, 0.f);
                     engineAnim[nVanillaThrusters].RandomStart();
@@ -774,8 +773,7 @@ HOOK_METHOD(Ship, OnInit, (ShipBlueprint& bp) -> void)
                     }
                     else
                     {
-                        Animation anim;
-                        AnimationControl::GetAnimation(anim, G_->GetAnimationControl(), thrusters[i]);
+                        Animation anim = G_->GetAnimationControl()->GetAnimation(thrusters[i]);
                         pos.x -= anim.info.frameWidth * anim.fScale;
                         anim.position = pos;
                         extraEngineAnim[iShipId].push_back({anim,thrusterRot[i]});
@@ -788,7 +786,7 @@ HOOK_METHOD(Ship, OnInit, (ShipBlueprint& bp) -> void)
 
             for (int i=nVanillaThrusters; i<2; ++i)
             {
-                AnimationControl::GetAnimation(engineAnim[i], G_->GetAnimationControl(), ""); // results in empty anim
+                engineAnim[i] = G_->GetAnimationControl()->GetAnimation(""); // results in empty anim
             }
 
             //extraEngineAnim[iShipId].shrink_to_fit();

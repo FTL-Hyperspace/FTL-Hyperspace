@@ -7,9 +7,9 @@
 
 CustomWeaponManager *CustomWeaponManager::instance = new CustomWeaponManager();
 
-HOOK_STATIC(BlueprintManager, ProcessWeaponBlueprint, (WeaponBlueprint* bp, BlueprintManager *bpM, rapidxml::xml_node<char>* node) -> WeaponBlueprint*)
+HOOK_METHOD(BlueprintManager, ProcessWeaponBlueprint, (rapidxml::xml_node<char>* node) -> WeaponBlueprint)
 {
-    super(bp, bpM, node);
+    WeaponBlueprint ret = super(node);
 
     auto weaponDef = CustomWeaponDefinition();
     weaponDef.name = node->first_attribute("name")->value();
@@ -47,7 +47,7 @@ HOOK_STATIC(BlueprintManager, ProcessWeaponBlueprint, (WeaponBlueprint* bp, Blue
 
     CustomWeaponManager::instance->AddWeaponDefinition(weaponDef);
 
-    return bp;
+    return ret;
 }
 
 HOOK_METHOD(ShipManager, OnRender, (bool showInterior, bool doorControlMode) -> void)

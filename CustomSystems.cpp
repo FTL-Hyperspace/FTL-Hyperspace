@@ -35,15 +35,15 @@ HOOK_STATIC(ShipSystem, NameToSystemId, (std::string& name) -> int)
     return super(name);
 }
 
-HOOK_STATIC(ShipSystem, SystemIdToName, (std::string& strRef, int systemId) -> std::string&)
+HOOK_STATIC(ShipSystem, SystemIdToName, (int systemId) -> std::string)
 {
-    super(strRef, systemId);
+    std::string ret = super(systemId);
     if (systemId == 20)
     {
-        strRef.assign("temporal");
+        ret.assign("temporal");
     }
 
-    return strRef;
+    return ret;
 }
 
 
@@ -485,12 +485,11 @@ HOOK_METHOD(ShipSystem, SetPowerLoss, (int powerLoss) -> int)
 */
 
 /*
-HOOK_STATIC(ShipSystem, GetLevelDescription, (void* unk, std::string& retStr, int systemId, int level, bool tooltip) -> void)
+HOOK_STATIC(ShipSystem, GetLevelDescription, (int systemId, int level, bool tooltip) -> std::string)
 {
-    super(unk, retStr, systemId, level, tooltip);
+    std::string ret = super(systemId, level, tooltip);
 
-    std::string name = "";
-    SystemIdToName(name, systemId);
+    std::string name = SystemIdToName(systemId);
     auto tLib = G_->GetTextLibrary();
     if (tooltip)
     {
@@ -503,13 +502,14 @@ HOOK_STATIC(ShipSystem, GetLevelDescription, (void* unk, std::string& retStr, in
         {
             name += "_" + std::to_string(level) + "_tooltip";
         }
-        retStr.assign(tLib->GetText(name));
+        ret.assign(tLib->GetText(name));
     }
     else
     {
         name += "_" + std::to_string(level);
-        retStr.assign(tLib->GetText(name));
+        ret.assign(tLib->GetText(name));
     }
+    return ret;
 }
 */
 

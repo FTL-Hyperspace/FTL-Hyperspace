@@ -1,5 +1,4 @@
 #include "Global.h"
-#include "freetype.h"
 #include "CustomEvents.h"
 #include "CustomOptions.h"
 #include <unordered_set>
@@ -20,7 +19,7 @@ HOOK_METHOD(StarMap, OnRender, () -> void)
             float unk3;
             for (unk3 = 200; ; unk3 += 10)
             {
-                pos = freetype_hack::easy_measurePrintLines(52, 0, 0, unk3 + 12, txt);
+                pos = freetype::easy_measurePrintLines(52, 0, 0, unk3 + 12, txt);
                 if (pos.y <= 50.f)
                     break;
             }

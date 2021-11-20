@@ -7,7 +7,7 @@ static cleanup int ShipSystem::NameToSystemId(const std::string& name);
 "8b5424048b423485c0":
 cleanup int ShipSystem::IsMannedBoost(ShipSystem *this);
 "5383ec288b4424348b5c243083f811":
-static cleanup std::string& ShipSystem::SystemIdToName(std::string& strRef, int systemId);
+static cleanup std::string ShipSystem::SystemIdToName(int systemId);
 "565383ec148b7424208b8614010000":
 cleanup void ShipSystem::OnLoop(ShipSystem *this);
 "555756538b5424148b8214010000":
@@ -39,7 +39,7 @@ static cleanup bool ShipSystem::IsSubsystem(int systemType);
 "8b44240483b80801000007":
 cleanup void ShipSystem::ClearStatus(ShipSystem *this);
 "5589e557565381ec3c0100008b450c8b7510":
-static cleanup void ShipSystem::GetLevelDescription(std::string& retStr, int systemId, int level, bool tooltip);
+static cleanup std::string ShipSystem::GetLevelDescription(int systemId, int level, bool tooltip);
 "538b5424088b4c240c8b8214010000":
 cleanup void ShipSystem::AddLock(ShipSystem *this, int lock);
 "8b4424048b901401000083faff":
@@ -67,13 +67,6 @@ cleanup void ShipSystem::AddDamage(ShipSystem *this, int amount);
 struct ShipSystem
 {{
 	ShipSystem() { }
-	
-	static std::string SystemIdToName(int id)
-	{
-		std::string ret;
-		SystemIdToName(ret, id);
-		return ret;
-	}
 	
 	ShipSystem(int systemId, int roomId, int shipId, int startingPower)
 	{

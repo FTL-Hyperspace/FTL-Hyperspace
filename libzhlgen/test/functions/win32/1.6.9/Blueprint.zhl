@@ -1,20 +1,4 @@
 "558d91a800000089e55389cb83e4f083ec108b81a0000000c701????????39d074??890424e8????????8b83840000008d938c00000039d074??890424":
 void Blueprint::destructor(Blueprint *this<ecx>);
 ".578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b17807a500075??83c238":
-static std::string* Blueprint::GetNameShort(std::string& ret<ecx>, Blueprint* bp);
-
-struct Blueprint
-{{
-	
-	std::string GetNameShort()
-	{
-		// so hacky
-		
-		std::string ret;
-		
-		GetNameShort(ret, this);
-	
-		
-		return ret;
-	}
-}};
+std::string Blueprint::GetNameShort<ecx>(Blueprint* this);

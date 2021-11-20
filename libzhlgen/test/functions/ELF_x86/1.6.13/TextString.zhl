@@ -1,5 +1,5 @@
 "5589e55383ec148b450c8b5d0880780400":
-static cleanup std::string& TextString::GetText(std::string& ref, TextString *textString);
+cleanup std::string TextString::GetText(TextString *this);
 
 
 struct TextString depends (TextLibrary)
@@ -7,14 +7,5 @@ struct TextString depends (TextLibrary)
 	TextString()
 	{
 		isLiteral = true;
-	}
-
-	std::string GetText()
-	{
-		std::string ret = std::string();
-		
-		TextString::GetText(ret, this);
-		
-		return ret;
 	}
 }};

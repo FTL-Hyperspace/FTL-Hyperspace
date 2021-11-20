@@ -1,13 +1,13 @@
 "5557565383ec4c8b4424748b4c2460":
 cleanup void CrewAnimation::constructor(CrewAnimation *this, int shipId, const std::string& race, Pointf unk, bool hostile);
 "5589e557565381ec0c0100008b450c80b87409000000":
-static cleanup std::string& CrewAnimation::GetDeathSound(std::string& strRef, CrewAnimation *anim);
+cleanup std::string CrewAnimation::GetDeathSound(CrewAnimation *this);
 "5557565381ec0c010000803d????????00":
 void DO_NOT_HOOK_MANTISANIMATIONSHOOTINGSOUND();
 ".5557565381ec0c010000803d????????00":
 void DO_NOT_HOOK_ROCKANIMATIONSHOOTINGSOUND();
 ".5557565381ec0c010000803d????????00":
-static cleanup std::string& CrewAnimation::GetShootingSound(std::string& strRef, CrewAnimation *anim);
+cleanup std::string CrewAnimation::GetShootingSound(CrewAnimation *this);
 "565383ec648b5c24708b74247c8b430485c0":
 cleanup void CrewAnimation::OnRender(CrewAnimation *this, float scale, int selectedState, bool outlineOnly);
 "5631f65383ec348b5c2440":

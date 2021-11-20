@@ -1,11 +1,11 @@
 "5383ec188b5c2420c7442404000000008b03890424e8????????85c074??":
 static cleanup void FileHelper::deleteFile(const std::string& fileName);
 "565383ec248b5c24308d74241ce8????????":
-static cleanup std::string& FileHelper::getResourceFile(const std::string& str);
+static cleanup std::string FileHelper::getResourceFile();
 "5383ec288b5c2430e8????????":
-static cleanup std::string& FileHelper::getUserFolder(std::string& str);
+static cleanup std::string FileHelper::getUserFolder();
 "57565383ec208b5c24308d74241ce8????????":
-static cleanup std::string& FileHelper::getSaveFile(std::string& str);
+static cleanup std::string FileHelper::getSaveFile();
 "565383ec34c605????????018d5c241f":
 static cleanup void FileHelper::initFileHelper();
 "83ec1c8b442420c7442404000000008b00":
@@ -43,7 +43,7 @@ static cleanup bool FileHelper::writeString(int file, const std::string& data);
 "5383ec188b4424203dfffeff7f":
 static cleanup void FileHelper::closeBinaryFile(int file);
 "5557565383ec3c8b5c24548d6c2420":
-static cleanup std::string& FileHelper::readString(const std::string& str, int file);
+static cleanup std::string FileHelper::readString(int file);
 ".5557565383ec3c8b5c24508d7c242081fbfffeff7f":
 static cleanup float FileHelper::readFloat(int file);
 ".5557565383ec3c8b5c24508d7c242081fbfffeff7f":
@@ -51,20 +51,17 @@ static cleanup int FileHelper::readInteger(int file);
 "83ec1c8b442424c74424080000000089442404a3????????":
 static cleanup bool FileHelper::seekPosition(int file, int pos);
 "5557565383ec2c8b6c24488b5c24448b742440":
-static cleanup char* FileHelper::readBuffer(int file, int len, bool unk);
+static cleanup char* FileHelper::readBuffer(int file, int len, bool nullTerminate);
 "5557565383ec1c8b5c24308b7c24348b74243881fb????????":
 static cleanup void FileHelper::readData(int file, void* data, int len);
 
 
 struct FileHelper
 {{
-	static std::string readString(int file)
+	static int fileLength(int file)
 	{
-		std::string data = std::string();
-		
-		readString(data, file);
-		
-		return data;
+        // TODO: Implement
+        return 1;
 	}
 	
 	static int fileLength(int fd)

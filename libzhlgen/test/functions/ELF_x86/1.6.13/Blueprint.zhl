@@ -1,20 +1,4 @@
 "565383ec248b5c24308b433cc703????????8d50f481fa????????75??8b43348d50f481fa????????0f85????????8b43188d50f481fa????????":
 cleanup void Blueprint::destructor(Blueprint *this);
 "5589e55383ec148b450c8b5d0880781400":
-static cleanup std::string* Blueprint::GetNameShort(std::string& ret, Blueprint* bp);
-
-struct Blueprint
-{{
-	
-	std::string GetNameShort()
-	{
-		// so hacky
-		
-		std::string ret;
-		
-		GetNameShort(ret, this);
-	
-		
-		return ret;
-	}
-}};
+cleanup std::string Blueprint::GetNameShort(Blueprint* this);

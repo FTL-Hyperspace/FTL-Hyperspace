@@ -5,13 +5,14 @@ static void RockAnimation::__DO_NOT_HOOK();
 ".5f5d8d67f85fc20400908d742600e8????????89c1e9????????8d7426000f1040080f114308":
 static void RockAnimation::__DO_NOT_HOOK2();
 ".578d7c240883e4f0ff77fc5589e557565389cb83ec3c803d??????????0f84????????":
-static std::string& RockAnimation::GetShootingSound(std::string& strRef<ecx>, RockAnimation *anim);
+std::string RockAnimation::GetShootingSound<ecx>(RockAnimation *this);
 "578d41088d7c240883e4f0ff77fc5589e5575389cb83ec108901":
 static void RockAnimation::__DO_NOT_HOOK3();
 ".578d41088d7c240883e4f0ff77fc5589e5575389cb83ec108901":
 static void RockAnimation::__DO_NOT_HOOK4();
 ".578d41088d7c240883e4f0ff77fc5589e5575389cb83ec108901":
-static std::string& RockAnimation::GetDeathSound(std::string& strRef<ecx>, RockAnimation *anim);
+std::string RockAnimation::GetDeathSound<ecx>(RockAnimation *this);
+
 
 struct RockAnimation depends (Pointf)
 {{

@@ -1,7 +1,7 @@
 "5731c08d7c240883e4f0ff77fc5589e557565381ec????????8b5f048b37":
 char ScoreKeeper::GetShipUnlocked(ScoreKeeper *this<ecx>, int shipId, int shipVariant);
 "578d7c240883e4f0ff77fc5589e557565389ce83ec2c8b4704":
-static std::string* ScoreKeeper::GetShipBlueprint(std::string* str<ecx>, ScoreKeeper* scoreKeeper, int index);
+std::string ScoreKeeper::GetShipBlueprint<ecx>(ScoreKeeper *this, int index);
 "578d7c240883e4f0ff77fc5589e557565389cb8d75cc8d7dd481ec????????c70424????????e8????????8d45bc":
 void ScoreKeeper::OnInit(ScoreKeeper *this<ecx>);
 "578d7c240883e4f0ff77fc5589e557565389cbb9????????81ec????????8b37e8????????84c00f85????????8b15????????f30f1005????????":
@@ -45,17 +45,9 @@ void ScoreKeeper::AddScrapCollected(ScoreKeeper *this<ecx>, int scrap);
 "578d7c240883e4f0ff77fc5589f889e557565383ec7c8b40048b3f8b1889458c":
 void ScoreKeeper::SaveScores(ScoreKeeper *this<ecx>, int file, std::vector<TopScore>& topScores);
 
+
 struct ScoreKeeper
 {{
-	std::string GetShipBlueprint(int type)
-	{
-		std::string ret = std::string();
-		
-		GetShipBlueprint(&ret, this, type);
-		
-		return ret;
-	}
-	
 	std::pair<int, int> GetShipId(const std::string& blueprintName)
 	{
 		int variant = 0;

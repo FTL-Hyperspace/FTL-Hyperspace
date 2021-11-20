@@ -3178,8 +3178,8 @@ struct VTable_Blueprint
 {
   void (__thiscall *Free)(Blueprint *this);
   void (__thiscall *RenderIcon)(Blueprint *this, float unk);
-  std__string *(__stdcall *GetNameLongFake)(std__string *retstr, Blueprint *bp);
-  std__string *(__stdcall *GetNameShortFake)(std__string *retstr, Blueprint *bp);
+  std__string (__stdcall *GetNameLong)(Blueprint *this);
+  std__string (__stdcall *GetNameShort)(Blueprint *this);
   int (__thiscall *GetType)(Blueprint *this);
 };
 
@@ -4288,7 +4288,7 @@ struct WeaponBlueprint__MiniProjectile
 struct VTable_CrewMember
 {
   void (__thiscall *Free)(CrewMember *this);
-  void *(__thiscall *GetPosition)(CrewMember *this);
+  Point (__thiscall *GetPosition)(CrewMember *this);
   float (__thiscall *PositionShift)(CrewMember *this);
   bool (__thiscall *InsideRoom)(CrewMember *this, int roomId);
   bool (__thiscall *ApplyDamage)(CrewMember *this, float damage);
@@ -4324,13 +4324,13 @@ struct VTable_CrewMember
   bool (__thiscall *PermanentDeath)(CrewMember *this);
   bool (__thiscall *ShipDamage)(CrewMember *this, float damage);
   bool (__thiscall *FireFightingSoundEffect)(CrewMember *this);
-  std__string *(__thiscall *GetUniqueRepairing)(std__string *str);
+  std__string (__thiscall *GetUniqueRepairing)(CrewMember *this);
   bool (__thiscall *ProvidesVision)(CrewMember *this);
   float (__thiscall *GetMoveSpeedMultiplier)(CrewMember *this);
   float (__thiscall *GetRepairSpeed)(CrewMember *this);
   float (__thiscall *GetDamageMultiplier)(CrewMember *this);
   bool (__thiscall *ProvidesPower)(CrewMember *this);
-  std__string *(__thiscall *GetSpecies)(CrewMember *this, std__string *str);
+  std__string (__thiscall *GetSpecies)(CrewMember *this);
   float (__thiscall *GetFireRepairMultiplier)(CrewMember *this);
   bool (__thiscall *IsTelepathic)(CrewMember *this);
   std__pair_13float___float (__thiscall *GetPowerCooldown)(CrewMember *this);
@@ -4340,7 +4340,7 @@ struct VTable_CrewMember
   void (__thiscall *ResetPower)(CrewMember *this);
   float (__thiscall *GetSuffocationMultiplier)(CrewMember *this);
   int (__thiscall *BlockRoom)(CrewMember *this);
-  Damage *(__stdcall *GetRoomDamage)(Damage *dmg, CrewMember *crew);
+  Damage (__stdcall *GetRoomDamage)(CrewMember *this);
   bool (__thiscall *IsAnaerobic)(CrewMember *this);
   void (__thiscall *UpdateRepair)(CrewMember *this);
   bool (__thiscall *CanStim)(CrewMember *this);
@@ -4554,8 +4554,8 @@ struct VTable_CrewAnimation
   void (__thiscall *UpdateShooting)(CrewAnimation *this);
   bool (__thiscall *FireShot)(CrewAnimation *this);
   int (__thiscall *GetFiringFrame)(CrewAnimation *this);
-  std__string *(__stdcall *GetShootingSound)(std__string *str, CrewAnimation *anim);
-  std__string *(__stdcall *GetDeathSound)(std__string *str, CrewAnimation *anim);
+  std__string (__stdcall *GetShootingSound)(CrewAnimation *this);
+  std__string (__stdcall *GetDeathSound)(CrewAnimation *this);
   void (__thiscall *Restart)(CrewAnimation *this);
   bool (__thiscall *CustomDeath)(CrewAnimation *this);
 };

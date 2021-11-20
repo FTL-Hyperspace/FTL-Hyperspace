@@ -1,6 +1,5 @@
 #include "CustomAugments.h"
 #include "CustomEvents.h"
-#include "freetype.h"
 #include "Resources.h"
 #include "Seeds.h"
 #include "ShipUnlocks.h"
@@ -1528,7 +1527,7 @@ void CustomEventsParser::ParseCustomReqNode(rapidxml::xml_node<char> *node, Cust
     }
     if (node->first_attribute("load"))
     {
-        BlueprintManager::GetBlueprintList(req->blueprints, G_->GetBlueprints(), node->first_attribute("load")->value());
+        req->blueprints = G_->GetBlueprints()->GetBlueprintList(node->first_attribute("load")->value());
     }
     for (auto child = node->first_node(); child; child = child->next_sibling())
     {
@@ -1598,8 +1597,7 @@ void CustomEventsParser::ParseCustomEventLoadList(rapidxml::xml_node<char> *node
 
             if (event.event.empty())
             {
-                std::string newEventName;
-                EventsParser::ProcessEvent(newEventName, G_->GetEventsParser(), child, eventName);
+                std::string newEventName = G_->GetEventsParser()->ProcessEvent(child, eventName);
                 event.event = newEventName;
             }
 
@@ -1728,28 +1726,31 @@ void CustomEventsParser::ParseVanillaShipEventNode(rapidxml::xml_node<char> *nod
     }
 }
 
-HOOK_STATIC(EventsParser, ProcessEvent, (std::string &strRef, EventsParser *eventsParser, rapidxml::xml_node<char> *node, const std::string &eventName) -> void)
+HOOK_METHOD(EventsParser, ProcessEvent, (rapidxml::xml_node<char> *node, const std::string &eventName) -> std::string)
 {
-    super(strRef, eventsParser, node, eventName);
+    std::string strRef = super(node, eventName);
     if (!node->first_attribute("load"))
     {
         CustomEventsParser::GetInstance()->ParseVanillaEventNode(node, strRef, eventName);
     }
+    return strRef;
 }
 
-HOOK_STATIC(EventsParser, ProcessEventList, (std::vector<std::string> &vecRef, EventsParser *eventsParser, rapidxml::xml_node<char> *node, const std::string &listName) -> void)
+HOOK_METHOD(EventsParser, ProcessEventList, (rapidxml::xml_node<char> *node, const std::string &listName) -> std::vector<std::string>)
 {
-    super(vecRef, eventsParser, node, listName);
+    std::vector<std::string> vecRef = super(node, listName);
     CustomEventsParser::GetInstance()->ParseVanillaEventNode(node, listName, listName);
+    return vecRef;
 }
 
-HOOK_STATIC(EventsParser, ProcessShipEvent, (ShipTemplate &shipEvent, EventsParser *eventsParser, rapidxml::xml_node<char> *node) -> void)
+HOOK_METHOD(EventsParser, ProcessShipEvent, (rapidxml::xml_node<char> *node) -> ShipTemplate)
 {
-    super(shipEvent, eventsParser, node);
+    ShipTemplate shipEvent = super(node);
     if (node->first_attribute("name"))
     {
         CustomEventsParser::GetInstance()->ParseVanillaShipEventNode(node, shipEvent.shipEventName);
     }
+    return shipEvent;
 }
 
 //=====================================================================================
@@ -1765,8 +1766,7 @@ HOOK_METHOD(ShipObject, HasEquipment, (const std::string& equipment) -> int)
         Equipment equip = G_->GetWorld()->commandGui->equipScreen;
         auto boxes = equip.vEquipmentBoxes;
 
-        auto blueprintList = std::vector<std::string>();
-        BlueprintManager::GetBlueprintList(blueprintList, G_->GetBlueprints(), equipment);
+        std::vector<std::string> blueprintList = G_->GetBlueprints()->GetBlueprintList(equipment);
 
         for (auto const& box: boxes)
         {
@@ -1813,24 +1813,21 @@ HOOK_METHOD_PRIORITY(ShipObject, HasEquipment, -100, (const std::string& equipme
         if (boost::algorithm::starts_with(equipment, "ANY "))
         {
             std::string child = equipment.substr(4);
-            auto blueprintList = std::vector<std::string>();
-            BlueprintManager::GetBlueprintList(blueprintList, G_->GetBlueprints(), child);
+            std::vector<std::string> blueprintList = G_->GetBlueprints()->GetBlueprintList(child);
             if (!blueprintList.size()) blueprintList.push_back(child);
             return CustomReq::HasEquipment_Any(*(ShipObject*)this, blueprintList);
         }
         if (boost::algorithm::starts_with(equipment, "ALL "))
         {
             std::string child = equipment.substr(4);
-            auto blueprintList = std::vector<std::string>();
-            BlueprintManager::GetBlueprintList(blueprintList, G_->GetBlueprints(), child);
+            std::vector<std::string> blueprintList = G_->GetBlueprints()->GetBlueprintList(child);
             if (!blueprintList.size()) blueprintList.push_back(child);
             return CustomReq::HasEquipment_All(*(ShipObject*)this, blueprintList);
         }
         if (boost::algorithm::starts_with(equipment, "SUM "))
         {
             std::string child = equipment.substr(4);
-            auto blueprintList = std::vector<std::string>();
-            BlueprintManager::GetBlueprintList(blueprintList, G_->GetBlueprints(), child);
+            std::vector<std::string> blueprintList = G_->GetBlueprints()->GetBlueprintList(child);
             if (!blueprintList.size()) blueprintList.push_back(child);
             return CustomReq::HasEquipment_Sum(*(ShipObject*)this, blueprintList);
         }
@@ -2294,7 +2291,7 @@ HOOK_METHOD(StarMap, RenderLabels, () -> void)
 
                     text = customEvent->beacon->beaconText.GetText();
 
-                    Pointf printLines = freetype_hack::easy_measurePrintLines(51, 0, 0, 999, text);
+                    Pointf printLines = freetype::easy_measurePrintLines(51, 0, 0, 999, text);
                     float x = i->loc.x - 1.f;
                     float y = i->loc.y - 33.f;
 
@@ -2685,27 +2682,24 @@ HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *loc) -> void)
         {
             if (lastSelectedCrewSeed == -1) lastSelectedCrewSeed = random32();
 
-            CrewBlueprint crewBlue;
-            ShipManager::SelectRandomCrew(crewBlue, playerShip->shipManager, lastSelectedCrewSeed, customEvent->transformRace.first);
+            CrewBlueprint crewBlue = playerShip->shipManager->SelectRandomCrew(lastSelectedCrewSeed, customEvent->transformRace.first);
 
-            CrewBlueprint* newBlueprint = G_->GetBlueprints()->GetCrewBlueprint(customEvent->transformRace.second);
+            CrewBlueprint newBlueprint = G_->GetBlueprints()->GetCrewBlueprint(customEvent->transformRace.second);
 
-            crewBlue.powers = newBlueprint->powers;
-            crewBlue.name = newBlueprint->name;
-            crewBlue.desc = newBlueprint->desc;
-            crewBlue.type = newBlueprint->type;
+            crewBlue.powers = newBlueprint.powers;
+            crewBlue.name = newBlueprint.name;
+            crewBlue.desc = newBlueprint.desc;
+            crewBlue.type = newBlueprint.type;
 
             if (g_transformColorMode == TransformColorMode::KEEP_INDICES)
             {
-                CrewMember_Extend::TransformColors(crewBlue, newBlueprint);
+                CrewMember_Extend::TransformColors(crewBlue, &newBlueprint);
             }
             else
             {
-                if (newBlueprint->colorLayers.size() < crewBlue.colorLayers.size()) crewBlue.colorLayers.resize(newBlueprint->colorLayers.size());
-                if (newBlueprint->colorChoices.size() < crewBlue.colorChoices.size()) crewBlue.colorChoices.resize(newBlueprint->colorChoices.size());
+                if (newBlueprint.colorLayers.size() < crewBlue.colorLayers.size()) crewBlue.colorLayers.resize(newBlueprint.colorLayers.size());
+                if (newBlueprint.colorChoices.size() < crewBlue.colorChoices.size()) crewBlue.colorChoices.resize(newBlueprint.colorChoices.size());
             }
-
-            delete newBlueprint;
 
             commandGui->choiceBox.rewards.crew = 1;
             commandGui->choiceBox.rewards.crewType = crewBlue.name;
@@ -2797,11 +2791,7 @@ void CustomCreateLocation(WorldManager* world, LocationEvent* event, CustomEvent
 
     if (!customEvent->changeBackground.empty())
     {
-        ImageDesc* image;
-
-        image = world->space.SwitchBackground(customEvent->changeBackground);
-        world->starMap.currentLoc->space = *image;
-        delete image;
+        world->starMap.currentLoc->space = world->space.SwitchBackground(customEvent->changeBackground);
 
         world->starMap.currentLoc->spaceImage = customEvent->changeBackground;
     }
@@ -3065,15 +3055,9 @@ HOOK_METHOD(WorldManager, CreateLocation, (Location *location) -> void)
     // Load correct federation base background if the boss got there first
     if (needsBackground && location->boss && location->beacon && location->event != nullptr)
     {
-        ImageDesc* image;
+        location->space = space.SwitchBackground(location->event->spaceImage);
 
-        image = space.SwitchBackground(location->event->spaceImage);
-        location->space = *image;
-        delete image;
-
-        image = space.SwitchPlanet(location->event->planetImage);
-        location->planet = *image;
-        delete image;
+        location->planet = space.SwitchPlanet(location->event->planetImage);
 
         location->spaceImage = location->event->spaceImage;
         location->planetImage = location->event->planetImage;
@@ -3260,15 +3244,15 @@ HOOK_METHOD(WorldManager, CreateShip, (ShipEvent* shipEvent, bool boss) -> Compl
     return ret;
 }
 
-HOOK_STATIC(StarMap, GetLocationText, (std::string& strRef, StarMap *starMap, const Location* loc) -> std::string&)
+HOOK_METHOD(StarMap, GetLocationText, (const Location* loc) -> std::string)
 {
     CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(loc->event->eventName);
 
-    if (!customEvent) return super(strRef, starMap, loc);
+    if (!customEvent) return super(loc);
 
-    if (loc->fleetChanging || loc == starMap->currentLoc || !customEvent->beacon)
+    if (loc->fleetChanging || loc == this->currentLoc || !customEvent->beacon)
     {
-        return super(strRef, starMap, loc);
+        return super(loc);
     }
 
     TextString tooltip;
@@ -3281,67 +3265,70 @@ HOOK_STATIC(StarMap, GetLocationText, (std::string& strRef, StarMap *starMap, co
     {
         tooltip = customEvent->beacon->unvisitedTooltip;
     }
-    if (!customEvent->beacon->global && !loc->known && !starMap->bMapRevealed)
+    if (!customEvent->beacon->global && !loc->known && !this->bMapRevealed)
     {
         tooltip = customEvent->beacon->undiscoveredTooltip;
     }
 
     if (tooltip.data.empty())
     {
-        return super(strRef, starMap, loc);
+        return super(loc);
     }
 
-    strRef.assign(tooltip.GetText());
+    std::string retStr = tooltip.GetText();
 
     auto lib = G_->GetTextLibrary();
 
     if (loc->nebula)
     {
-        if (starMap->bNebulaMap)
+        if (this->bNebulaMap)
         {
-            strRef += " \n" + lib->GetText("map_nebula_fleet_loc");
+            retStr += " \n" + lib->GetText("map_nebula_fleet_loc");
         }
         else
         {
-            strRef += " \n" + lib->GetText("map_nebula_loc");
+            retStr += " \n" + lib->GetText("map_nebula_loc");
         }
     }
 
-    if (!starMap->bMapRevealed && (!loc->known || !starMap->shipManager->HasAugmentation("ADV_SCANNERS")))
-        return strRef;
+    if (!this->bMapRevealed && (!loc->known || !this->shipManager->HasAugmentation("ADV_SCANNERS")))
+        return retStr;
 
     int env = loc->event->environment;
 
+    // TODO: Switch anyone, or maybe at least some elses?
     if (env == 1)
     {
-        strRef += " \n" + lib->GetText("map_asteroid_loc");
+        retStr += " \n" + lib->GetText("map_asteroid_loc");
     }
     if (env == 2)
     {
-        strRef += " \n" + lib->GetText("map_sun_loc");
+        retStr += " \n" + lib->GetText("map_sun_loc");
     }
     if (env == 4)
     {
-        strRef += " \n" + lib->GetText("map_ion_loc");
+        retStr += " \n" + lib->GetText("map_ion_loc");
     }
     if (env == 5)
     {
-        strRef += " \n" + lib->GetText("map_pulsar_loc");
+        retStr += " \n" + lib->GetText("map_pulsar_loc");
     }
+
     if (env != 6 || loc->boss)
     {
-        return strRef;
+        return retStr;
     }
+
     if (loc->dangerZone)
     {
-        strRef += " \n" + lib->GetText("map_pds_fleet");
+        retStr += " \n" + lib->GetText("map_pds_fleet");
     }
     else
     {
-        strRef += " \n" + lib->GetText("map_pds_loc");
+        retStr += " \n" + lib->GetText("map_pds_loc");
     }
 
-    return strRef;
+    return retStr;
 }
 
 HOOK_METHOD(StarMap, GenerateNebulas, (std::vector<std::string>& names) -> void)
@@ -3561,13 +3548,11 @@ HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEve
         {
             if (lastSelectedCrewSeed == -1) lastSelectedCrewSeed = random32();
 
-            CrewBlueprint crewBlue;
-            ShipManager::SelectRandomCrew(crewBlue, playerShip->shipManager, lastSelectedCrewSeed, customEvent->transformRace.first);
+            CrewBlueprint crewBlue = playerShip->shipManager->SelectRandomCrew(lastSelectedCrewSeed, customEvent->transformRace.first);
 
             // Select the race now for consistent seeding with the event box generation.
-            CrewBlueprint* newBlueprint = G_->GetBlueprints()->GetCrewBlueprint(customEvent->transformRace.second);
-            std::string newSpecies = newBlueprint->name;
-            delete newBlueprint;
+            CrewBlueprint newBlueprint = G_->GetBlueprints()->GetCrewBlueprint(customEvent->transformRace.second);
+            std::string newSpecies = newBlueprint.name;
 
             CrewMember* crew = playerShip->shipManager->FindCrew(&crewBlue);
             if (crew != nullptr)
@@ -3601,11 +3586,11 @@ HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEve
     return ret;
 }
 
-HOOK_STATIC(TextLibrary, GetText, (std::string& str, TextLibrary *lib, const std::string& name, const std::string& lang) -> std::string&)
+HOOK_METHOD(TextLibrary, GetText, (const std::string& name, const std::string& lang) -> std::string)
 {
-    if (!shouldReplaceCreditsText || replaceGameOverCreditsText.empty() || name != "credit_victory") return super(str, lib, name, lang);
+    if (!shouldReplaceCreditsText || replaceGameOverCreditsText.empty() || name != "credit_victory") return super(name, lang);
 
-    return super(str, lib, replaceGameOverCreditsText, lang);
+    return super(replaceGameOverCreditsText, lang);
 }
 
 HOOK_METHOD(ResourceControl, GetImageId, (const std::string& name) -> GL_Texture*)
@@ -3950,28 +3935,25 @@ HOOK_METHOD(StarMap, TurnIntoFleetLocation, (Location *loc) -> void)
     super(loc);
 }
 
-HOOK_STATIC_PRIORITY(ShipManager, SelectRandomCrew, 100, (CrewBlueprint &bp, ShipManager *ship, int seed, const std::string &unk) -> CrewBlueprint*)
+HOOK_METHOD_PRIORITY(ShipManager, SelectRandomCrew, 100, (int seed, std::string &racePref) -> CrewBlueprint)
 {
-    std::string species = unk;
-    super(bp, ship, seed, species); // species is not const?!
+    std::string species = racePref;
+    CrewBlueprint bp = super(seed, species); // species is not const?!
 
-    species = unk;
+    species = racePref;
 
-    auto blueprintList = std::vector<std::string>();
-    auto blueprintList2 = std::vector<std::string>();
-
-    BlueprintManager::GetBlueprintList(blueprintList, G_->GetBlueprints(), species);
+    std::vector<std::string> blueprintList = G_->GetBlueprints()->GetBlueprintList(species);
 
     for (int i=0; i<blueprintList.size(); ++i)
     {
-        BlueprintManager::GetBlueprintList(blueprintList2, G_->GetBlueprints(), blueprintList[i]);
+        std::vector<std::string> blueprintList2 = G_->GetBlueprints()->GetBlueprintList(blueprintList[i]);
         for (auto j : blueprintList2)
         {
             blueprintList.push_back(j);
         }
     }
 
-    if (!blueprintList.size()) return &bp;
+    if (!blueprintList.size()) return bp;
 
     if (seed != -1) srandom32(seed);
 
@@ -3999,21 +3981,17 @@ HOOK_STATIC_PRIORITY(ShipManager, SelectRandomCrew, 100, (CrewBlueprint &bp, Shi
         bp = eligibleCrewList[((unsigned int)random32()) % eligibleCrewList.size()]->blueprint;
     }
 
-    return &bp;
+    return bp;
 }
 
-HOOK_STATIC(ShipManager, SelectRandomCrew, (CrewBlueprint &bp, ShipManager *ship, int seed, const std::string &unk) -> CrewBlueprint*)
+HOOK_METHOD(ShipManager, SelectRandomCrew, (int seed, std::string &racePref) -> CrewBlueprint)
 {
-    if (ship->CountCrew(false) == 0 && ship->bAutomated)
+    if (this->CountCrew(false) == 0 && this->bAutomated)
     {
         CrewMember* crew;
-        crew = ship->AddCrewMemberFromString(G_->GetTextLibrary()->GetText("autoship_dismissed_crew_name"), "human", false, 0, false, false);
-        super(bp, ship, seed, unk);
+        crew = this->AddCrewMemberFromString(G_->GetTextLibrary()->GetText("autoship_dismissed_crew_name"), "human", false, 0, false, false);
     }
-    else
-    {
-        super(bp, ship, seed, unk);
-    }
+    return super(seed, racePref);
 }
 
 HOOK_METHOD_PRIORITY(ShipManager, FindCrew, 9999, (const CrewBlueprint* bp) -> CrewMember*)

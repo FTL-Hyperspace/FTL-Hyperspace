@@ -1,6 +1,5 @@
 #include "CustomScoreKeeper.h"
 #include "CustomShipSelect.h"
-#include "freetype.h"
 #include "ShipUnlocks.h"
 #include "SaveFile.h"
 #include <boost/lexical_cast.hpp>
@@ -424,10 +423,10 @@ HOOK_METHOD(ScoreKeeper, OnRender, (bool lastPlaythrough) -> void)
     int font = 64;
     int yBase = 0;
 
-    while (freetype_hack::easy_measurePrintLines(64, 0, 0, 999, topScoresText).x > 254.f
-        || freetype_hack::easy_measurePrintLines(64, 0, 0, 999, shipBestText).x > 218.f
-        || freetype_hack::easy_measurePrintLines(64, 0, 0, 999, statsText).x > 134.f
-        || freetype_hack::easy_measurePrintLines(64, 0, 0, 999, achievementsText).x > 324.f)
+    while (freetype::easy_measurePrintLines(64, 0, 0, 999, topScoresText).x > 254.f
+        || freetype::easy_measurePrintLines(64, 0, 0, 999, shipBestText).x > 218.f
+        || freetype::easy_measurePrintLines(64, 0, 0, 999, statsText).x > 134.f
+        || freetype::easy_measurePrintLines(64, 0, 0, 999, achievementsText).x > 324.f)
     {
         yBase += 4;
         font -= 1;
@@ -438,7 +437,7 @@ HOOK_METHOD(ScoreKeeper, OnRender, (bool lastPlaythrough) -> void)
         }
     }
 
-    if (freetype_hack::easy_measurePrintLines(font, 0, 0, 999, statsText).x > 134.f)
+    if (freetype::easy_measurePrintLines(font, 0, 0, 999, statsText).x > 134.f)
     {
         yBase += 3;
     }
@@ -459,9 +458,9 @@ HOOK_METHOD(ScoreKeeper, OnRender, (bool lastPlaythrough) -> void)
     Point pos3 = Point(700, 150);
     Point pos4 = Point(705, 100);
 
-    leftButton.SetLocation(Point(shipListCenter.x - listButton.GetSize() / 2 - 37, shipListCenter.y));
-    listButton.SetLocation(Point(shipListCenter.x - listButton.GetSize() / 2 - 37 + leftButton.imageSize.x + 5, shipListCenter.y));
-    rightButton.SetLocation(Point(shipListCenter.x - listButton.GetSize() / 2 - 37 + leftButton.imageSize.x + 5 + listButton.GetSize() + 5, shipListCenter.y));
+    leftButton.SetLocation(Point(shipListCenter.x - listButton.GetSize().x / 2 - 37, shipListCenter.y));
+    listButton.SetLocation(Point(shipListCenter.x - listButton.GetSize().x / 2 - 37 + leftButton.imageSize.x + 5, shipListCenter.y));
+    rightButton.SetLocation(Point(shipListCenter.x - listButton.GetSize().x / 2 - 37 + leftButton.imageSize.x + 5 + listButton.GetSize().x + 5, shipListCenter.y));
 
     if (!activatedLeft)
     {
@@ -573,22 +572,17 @@ HOOK_METHOD(ScoreKeeper, OnRender, (bool lastPlaythrough) -> void)
 
             if (!i.name.empty())
             {
-                Pointf endPos = freetype_hack::easy_printCenter(13, pos3.x + 365, statsYPos, i.name);
+                Pointf endPos = freetype::easy_printCenter(13, pos3.x + 365, statsYPos, i.name);
 
                 CSurface::GL_SetColor(COLOR_WHITE);
-                auto crewBp = G_->GetBlueprints()->GetCrewBlueprint(i.species);
+                CrewBlueprint crewBp = G_->GetBlueprints()->GetCrewBlueprint(i.species);
 
-                if (crewBp)
-                {
-                    crewBp->male = i.male;
-                    CSurface::GL_PushMatrix();
-                    CSurface::GL_Translate(endPos.x - 30.f, statsYPos + 8, 0);
+                crewBp.male = i.male;
+                CSurface::GL_PushMatrix();
+                CSurface::GL_Translate(endPos.x - 30.f, statsYPos + 8, 0);
 
-                    crewBp->RenderIcon(1.f);
-                    CSurface::GL_PopMatrix();
-                }
-
-                delete crewBp;
+                crewBp.RenderIcon(1.f);
+                CSurface::GL_PopMatrix();
 
             }
 

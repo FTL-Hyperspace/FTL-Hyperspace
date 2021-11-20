@@ -43,7 +43,7 @@ cleanup void ShipManager::RemoveItem(ShipManager *this, const std::string& name)
 "5589e557565381eccc0000008b45148b5d08":
 cleanup char ShipManager::DamageArea(ShipManager *this, Pointf location, DamageParameter dmg, char forceHit);
 "5589e557565383ec6c8b45108b7d14":
-static cleanup CrewBlueprint* ShipManager::SelectRandomCrew(CrewBlueprint& bp, ShipManager *ship, int seed, const std::string& unk);
+cleanup CrewBlueprint ShipManager::SelectRandomCrew(ShipManager *this, int seed, const std::string& racePref);
 "565331db83ec148b7424208b56188b461c29d0c1f80285c074??8db6000000008b049a83c301":
 cleanup void ShipManager::ClearStatusAll(ShipManager *this);
 "5557565383ec7c8bbc24900000008b87ec050000":

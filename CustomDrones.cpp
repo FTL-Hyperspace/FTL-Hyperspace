@@ -103,19 +103,17 @@ HOOK_METHOD(DroneBlueprint, RenderIcon, (float scale) -> void)
     if ((type == 2 || type == 3 || type == 4) && customDrone)
     {
         CSurface::GL_PushMatrix();
-        auto walkDown = G_->GetAnimationControl()->GetAnimation(customDrone->crewBlueprint + "_walk_down");
+        Animation walkDown = G_->GetAnimationControl()->GetAnimation(customDrone->crewBlueprint + "_walk_down");
         auto base = G_->GetResources()->GetImageId("people/" + customDrone->crewBlueprint + "_base.png");
         auto layer = G_->GetResources()->GetImageId("people/" + customDrone->crewBlueprint + "_layer1.png");
 
-        CSurface::GL_Translate(std::floor(std::floor((-scale * walkDown->info.frameWidth)) / 2.f) + 1, std::floor(std::floor((-scale * walkDown->info.frameHeight)) / 2.f) + 1);
+        CSurface::GL_Translate(std::floor(std::floor((-scale * walkDown.info.frameWidth)) / 2.f) + 1, std::floor(std::floor((-scale * walkDown.info.frameHeight)) / 2.f) + 1);
 
-        walkDown->SetCurrentFrame(0);
-        walkDown->SetAnimationId(base);
-        walkDown->OnRender(1.f, COLOR_WHITE, false);
-        walkDown->SetAnimationId(layer);
-        walkDown->OnRender(1.f, GL_Color(128.f / 255.f, 255.f / 255.f, 141.f / 255.f, 1.f), false);
-
-        delete walkDown;
+        walkDown.SetCurrentFrame(0);
+        walkDown.SetAnimationId(base);
+        walkDown.OnRender(1.f, COLOR_WHITE, false);
+        walkDown.SetAnimationId(layer);
+        walkDown.OnRender(1.f, GL_Color(128.f / 255.f, 255.f / 255.f, 141.f / 255.f, 1.f), false);
 
         CSurface::GL_PopMatrix();
         return;
@@ -538,7 +536,7 @@ HOOK_METHOD(BoarderPodDrone, constructor, (int _iShipId, int _selfId, const Dron
 
         baseSheet = G_->GetResources()->GetImageId("people/" + race + "_base.png");
         colorSheet = G_->GetResources()->GetImageId("people/" + race + "_layer1.png");
-        droneImage = *G_->GetAnimationControl()->GetAnimation(race + "_fly");
+        droneImage = G_->GetAnimationControl()->GetAnimation(race + "_fly");
     }
 }
 

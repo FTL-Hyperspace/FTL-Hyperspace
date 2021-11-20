@@ -47,12 +47,13 @@ public:
 
 #ifdef _WIN32
 	bool IsThiscall() const {return (_flags & 1) != 0;}
-#else
+#else // TODO: Might be able to remove this if the lua parser never generates the flag 1 for Linux calls
     bool IsThiscall() const {return false;}
 #endif // _WIN32
 	bool NeedsCallerCleanup() const {return (_flags & 2) != 0;}
 	bool IsVoid() const {return (_flags & 4) != 0;}
 	bool IsLongLong() const {return (_flags & 8) != 0;}
+	bool isMemPassedStructPointer() const { return (_flags & 16) != 0;}
 
 	const short *GetArgData() const {return _argdata;}
 	int GetArgCount() const {return _nArgs;}

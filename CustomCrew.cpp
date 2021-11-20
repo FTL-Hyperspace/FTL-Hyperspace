@@ -1,7 +1,6 @@
 #include "CustomCrew.h"
 #include "CustomOptions.h"
 #include "Resources.h"
-#include "freetype.h"
 #include "StatBoost.h"
 #include "TemporalSystem.h"
 #include "CustomDamage.h"
@@ -984,7 +983,8 @@ void CustomCrewManager::ParsePowerRequirementsNode(rapidxml::xml_node<char> *nod
             }
             if (reqNode->first_attribute("load"))
             {
-                BlueprintManager::GetBlueprintList(*whiteList, G_->GetBlueprints(), reqNode->first_attribute("load")->value());
+                std::vector<std::string> bpList = G_->GetBlueprints()->GetBlueprintList(reqNode->first_attribute("load")->value());
+                whiteList = &bpList;
             }
             for (auto crewChild = reqNode->first_node(); crewChild; crewChild = crewChild->next_sibling())
             {
@@ -1003,8 +1003,8 @@ void CustomCrewManager::ParsePowerRequirementsNode(rapidxml::xml_node<char> *nod
             }
             if (reqNode->first_attribute("load"))
             {
-                if (friendlyList) BlueprintManager::GetBlueprintList(def->friendlyBlackList, G_->GetBlueprints(), reqNode->first_attribute("load")->value());
-                if (enemyList) BlueprintManager::GetBlueprintList(def->enemyBlackList, G_->GetBlueprints(), reqNode->first_attribute("load")->value());
+                if (friendlyList) def->friendlyBlackList = G_->GetBlueprints()->GetBlueprintList(reqNode->first_attribute("load")->value());
+                if (enemyList) def->enemyBlackList = G_->GetBlueprints()->GetBlueprintList(reqNode->first_attribute("load")->value());
             }
             for (auto crewChild = reqNode->first_node(); crewChild; crewChild = crewChild->next_sibling())
             {
@@ -1596,18 +1596,18 @@ bool CrewMember_Extend::TransformRace(const std::string& species)
 
         auto newBlueprint = G_->GetBlueprints()->GetCrewBlueprint(species);
 
-        orig->blueprint.powers = newBlueprint->powers;
-        orig->blueprint.name = newBlueprint->name;
-        orig->blueprint.desc = newBlueprint->desc;
-        orig->blueprint.type = newBlueprint->type;
-        orig->species = newBlueprint->name;
-        orig->type = newBlueprint->name;
+        orig->blueprint.powers = newBlueprint.powers;
+        orig->blueprint.name = newBlueprint.name;
+        orig->blueprint.desc = newBlueprint.desc;
+        orig->blueprint.type = newBlueprint.type;
+        orig->species = newBlueprint.name;
+        orig->type = newBlueprint.name;
 
         if (g_transformColorMode == TransformColorMode::KEEP_INDICES)
         {
-            originalRace = newBlueprint->name;
+            originalRace = newBlueprint.name;
 
-            TransformColors(orig->blueprint, newBlueprint);
+            TransformColors(orig->blueprint, &newBlueprint);
 
             orig->crewAnim->layerColors.clear();
             for (int i=0; i<orig->blueprint.colorLayers.size(); i++)
@@ -1615,8 +1615,6 @@ bool CrewMember_Extend::TransformRace(const std::string& species)
                 orig->crewAnim->layerColors.push_back(orig->blueprint.colorLayers[i][orig->blueprint.colorChoices[i]]);
             }
         }
-
-        delete newBlueprint;
 
         it = equipList.find(orig->type);
         if (it != equipList.end())
@@ -1714,18 +1712,18 @@ void CrewAnimation_Extend::PreparePower(ActivatedPowerDefinition* def)
 
     if (!def->effectAnim.empty())
     {
-        effectAnim = new Animation();
-        AnimationControl::GetAnimation(*effectAnim, G_->GetAnimationControl(), def->effectAnim);
+        Animation newAnim = G_->GetAnimationControl()->GetAnimation(def->effectAnim);
+        effectAnim = &newAnim;
     }
     if (!def->tempPower.effectFinishAnim.empty())
     {
-        effectFinishAnim = new Animation();
-        AnimationControl::GetAnimation(*effectFinishAnim, G_->GetAnimationControl(), def->tempPower.effectFinishAnim);
+        Animation newAnim = G_->GetAnimationControl()->GetAnimation(def->tempPower.effectFinishAnim);
+        effectFinishAnim = &newAnim;
     }
     if (!def->tempPower.effectAnim.empty())
     {
-        tempEffectAnim = new Animation();
-        AnimationControl::GetAnimation(*tempEffectAnim, G_->GetAnimationControl(), def->tempPower.effectAnim);
+        Animation newAnim = G_->GetAnimationControl()->GetAnimation(def->tempPower.effectAnim);
+        tempEffectAnim = &newAnim;
     }
     if (!def->tempPower.animSheet.empty())
     {
@@ -2593,16 +2591,16 @@ HOOK_METHOD_PRIORITY(CrewMember, GetNewGoal, 2000, () -> bool)
     return result;
 }
 
-HOOK_STATIC(BlueprintManager, GetCrewBlueprint, (CrewBlueprint *bp, BlueprintManager *bpM, const std::string &name) -> CrewBlueprint*)
+HOOK_METHOD(BlueprintManager, GetCrewBlueprint, (const std::string &name) -> CrewBlueprint)
 {
-    std::vector<std::string> blueprintList = bpM->GetBlueprintList(name);
+    std::vector<std::string> blueprintList = this->GetBlueprintList(name);
     if (blueprintList.empty())
     {
-        return super(bp, bpM, name);
+        return super(name);
     }
     else
     {
-        return GetCrewBlueprint(bp, bpM, blueprintList[random32()%blueprintList.size()]);
+        return super(blueprintList[random32()%blueprintList.size()]);
     }
 }
 
@@ -2658,173 +2656,173 @@ HOOK_STATIC(CrewMemberFactory, IsRace, (std::string& race) -> bool)
     return super(race);
 }
 
-HOOK_STATIC(CrewAnimation, GetDeathSound, (std::string& strRef, CrewAnimation *anim) -> std::string&)
+HOOK_METHOD(CrewAnimation, GetDeathSound, () -> std::string)
 {
     auto custom = CustomCrewManager::GetInstance();
 
-    std::string& ret = super(strRef, anim);
+    std::string ret = super();
 
-    if (custom->IsRace(anim->race))
+    if (custom->IsRace(this->race))
     {
-        auto def = custom->GetDefinition(anim->race);
+        auto def = custom->GetDefinition(this->race);
 
-        std::vector<std::string>& deathSounds = anim->bMale ? def->deathSounds : def->deathSoundsFemale;
+        std::vector<std::string>& deathSounds = this->bMale ? def->deathSounds : def->deathSoundsFemale;
 
         if (deathSounds.size() > 0)
         {
             int rng = random32();
 
-            strRef.assign(deathSounds[rng % deathSounds.size()]);
+            ret.assign(deathSounds[rng % deathSounds.size()]);
 
-            return strRef;
+            return ret;
         }
     }
 
     return ret;
 }
 
-HOOK_STATIC(RockAnimation, GetDeathSound, (std::string& strRef, RockAnimation *anim) -> std::string&)
+HOOK_METHOD(RockAnimation, GetDeathSound, () -> std::string)
 {
     auto custom = CustomCrewManager::GetInstance();
 
-    std::string& ret = super(strRef, anim);
+    std::string ret = super();
 
-    if (custom->IsRace(anim->race))
+    if (custom->IsRace(this->race))
     {
-        auto def = custom->GetDefinition(anim->race);
+        auto def = custom->GetDefinition(this->race);
 
-        std::vector<std::string>& deathSounds = anim->bMale ? def->deathSounds : def->deathSoundsFemale;
+        std::vector<std::string>& deathSounds = this->bMale ? def->deathSounds : def->deathSoundsFemale;
 
         if (deathSounds.size() > 0)
         {
             int rng = random32();
 
-            strRef.assign(deathSounds[rng % deathSounds.size()]);
+            ret.assign(deathSounds[rng % deathSounds.size()]);
 
-            return strRef;
+            return ret;
         }
     }
 
     return ret;
 }
 
-HOOK_STATIC(MantisAnimation, GetDeathSound, (std::string& strRef, MantisAnimation *anim) -> std::string&)
+HOOK_METHOD(MantisAnimation, GetDeathSound, () -> std::string)
 {
     auto custom = CustomCrewManager::GetInstance();
 
-    std::string& ret = super(strRef, anim);
+    std::string ret = super();
 
-    if (custom->IsRace(anim->race))
+    if (custom->IsRace(this->race))
     {
-        auto def = custom->GetDefinition(anim->race);
+        auto def = custom->GetDefinition(this->race);
 
-        std::vector<std::string>& deathSounds = anim->bMale ? def->deathSounds : def->deathSoundsFemale;
+        std::vector<std::string>& deathSounds = this->bMale ? def->deathSounds : def->deathSoundsFemale;
 
         if (deathSounds.size() > 0)
         {
             int rng = random32();
 
-            strRef.assign(deathSounds[rng % deathSounds.size()]);
+            ret.assign(deathSounds[rng % deathSounds.size()]);
 
-            return strRef;
+            return ret;
         }
     }
 
     return ret;
 }
 
-HOOK_STATIC(CrewAnimation, GetShootingSound, (std::string& strRef, CrewAnimation *anim) -> std::string&)
+HOOK_METHOD(CrewAnimation, GetShootingSound, () -> std::string)
 {
     auto custom = CustomCrewManager::GetInstance();
 
-    std::string& ret = super(strRef, anim);
+    std::string ret = super();
 
-    if (custom->IsRace(anim->race))
+    if (custom->IsRace(this->race))
     {
-        auto def = custom->GetDefinition(anim->race);
+        auto def = custom->GetDefinition(this->race);
 
         if (def->shootingSounds.size() > 0)
         {
             int rng = random32();
 
-            strRef.assign(def->shootingSounds[rng % def->shootingSounds.size()]);
+            ret.assign(def->shootingSounds[rng % def->shootingSounds.size()]);
 
-            return strRef;
+            return ret;
         }
     }
 
     return ret;
 }
 
-HOOK_STATIC(RockAnimation, GetShootingSound, (std::string& strRef, RockAnimation *anim) -> std::string&)
+HOOK_METHOD(RockAnimation, GetShootingSound, () -> std::string)
 {
     auto custom = CustomCrewManager::GetInstance();
 
-    std::string& ret = super(strRef, anim);
+    std::string ret = super();
 
-    if (custom->IsRace(anim->race))
+    if (custom->IsRace(this->race))
     {
-        auto def = custom->GetDefinition(anim->race);
+        auto def = custom->GetDefinition(this->race);
 
         if (def->shootingSounds.size() > 0)
         {
             int rng = random32();
 
-            strRef.assign(def->shootingSounds[rng % def->shootingSounds.size()]);
+            ret.assign(def->shootingSounds[rng % def->shootingSounds.size()]);
 
-            return strRef;
+            return ret;
         }
     }
 
     return ret;
 }
 
-HOOK_STATIC(MantisAnimation, GetShootingSound, (std::string& strRef, MantisAnimation *anim) -> std::string&)
+HOOK_METHOD(MantisAnimation, GetShootingSound, () -> std::string)
 {
     auto custom = CustomCrewManager::GetInstance();
 
-    std::string& ret = super(strRef, anim);
+    std::string ret = super();
 
-    if (custom->IsRace(anim->race))
+    if (custom->IsRace(this->race))
     {
-        auto def = custom->GetDefinition(anim->race);
+        auto def = custom->GetDefinition(this->race);
 
         if (def->shootingSounds.size() > 0)
         {
             int rng = random32();
 
-            strRef.assign(def->shootingSounds[rng % def->shootingSounds.size()]);
+            ret.assign(def->shootingSounds[rng % def->shootingSounds.size()]);
 
-            return strRef;
+            return ret;
         }
     }
 
     return ret;
 }
 
-HOOK_STATIC(CrewMember, GetUniqueRepairing, (std::string& strRef, CrewMember *crew) -> std::string&)
+HOOK_METHOD(CrewMember, GetUniqueRepairing, () -> std::string)
 {
     auto custom = CustomCrewManager::GetInstance();
 
-    std::string& ret = super(strRef, crew);
+    std::string ret = super();
 
-    if (custom->IsRace(crew->species))
+    if (custom->IsRace(this->species))
     {
-        auto def = custom->GetDefinition(crew->species);
+        auto def = custom->GetDefinition(this->species);
 
         if (def->repairSounds.size() > 0 && def->repairSoundFrame == -1)
         {
             int rng = random32();
 
-            strRef.assign(def->repairSounds[rng % def->repairSounds.size()]);
+            ret.assign(def->repairSounds[rng % def->repairSounds.size()]);
 
 
-            return strRef;
+            return ret;
         }
         else
         {
-            strRef.assign("");
-            return strRef;
+            ret.assign("");
+            return ret;
         }
     }
 
@@ -3222,70 +3220,72 @@ HOOK_METHOD(CrewMember, OnLoop, () -> void)
 static bool shipFriendlyFire = true;
 static bool blockDamageArea = false;
 
-HOOK_STATIC(IonDrone, GetRoomDamage, (Damage *damage, IonDrone* crew) -> Damage*)
-{    if (blockDamageArea) return damage;
-    return super(damage, crew);
-}
-HOOK_STATIC(EnergyAlien, GetRoomDamage, (Damage *damage, EnergyAlien* crew) -> Damage*)
+// We can't return just Damage (since it's a hidden parameter) like we could in the static variant, so reverse the logic and only return ANYTHING if we should, otherwise let the functions fall through and the stack will be unmodified.
+HOOK_METHOD(IonDrone, GetRoomDamage, () -> Damage)
 {
-    if (blockDamageArea) return damage;
-    return super(damage, crew);
+    if (!blockDamageArea)
+        return super();
+}
+HOOK_METHOD(EnergyAlien, GetRoomDamage, () -> Damage)
+{
+    if (!blockDamageArea)
+        return super();
 }
 
-HOOK_STATIC(CrewMember, GetRoomDamage, (Damage *damage, CrewMember *crew) -> Damage*)
+HOOK_METHOD(CrewMember, GetRoomDamage, () -> Damage)
 {
-    Damage *ret = super(damage, crew);
+    Damage ret = super();
 
     auto custom = CustomCrewManager::GetInstance();
     if (!blockDamageArea)
     {
-        if (custom->IsRace(crew->species))
+        if (custom->IsRace(this->species))
         {
-            auto ex = CM_EX(crew);
+            auto ex = CM_EX(this);
 
             if (ex->triggerExplosion && !ex->exploded)
             {
                 ex->exploded = true;
 
-                auto def = custom->GetDefinition(crew->species);
+                auto def = custom->GetDefinition(this->species);
                 ex->CalculateStat(CrewStat::DEATH_EFFECT, def);
 
                 if (ex->hasDeathExplosion)
                 {
                     Damage *customDamage = &ex->deathEffectChange;
 
-                    damage->iDamage = customDamage->iDamage;
-                    damage->fireChance = customDamage->fireChance;
-                    damage->breachChance = customDamage->breachChance;
-                    damage->stunChance = customDamage->stunChance;
-                    damage->iIonDamage = customDamage->iIonDamage;
-                    damage->iSystemDamage = customDamage->iSystemDamage;
-                    damage->iPersDamage = customDamage->iPersDamage;
-                    damage->bHullBuster = customDamage->bHullBuster;
-                    damage->ownerId = crew->iShipId;
-                    damage->selfId = (int)crew;
-                    damage->bLockdown = customDamage->bLockdown;
-                    damage->crystalShard = customDamage->crystalShard;
-                    damage->bFriendlyFire = customDamage->bFriendlyFire;
-                    damage->iStun = customDamage->iStun;
+                    ret.iDamage = customDamage->iDamage;
+                    ret.fireChance = customDamage->fireChance;
+                    ret.breachChance = customDamage->breachChance;
+                    ret.stunChance = customDamage->stunChance;
+                    ret.iIonDamage = customDamage->iIonDamage;
+                    ret.iSystemDamage = customDamage->iSystemDamage;
+                    ret.iPersDamage = customDamage->iPersDamage;
+                    ret.bHullBuster = customDamage->bHullBuster;
+                    ret.ownerId = this->iShipId;
+                    ret.selfId = (int)this;
+                    ret.bLockdown = customDamage->bLockdown;
+                    ret.crystalShard = customDamage->crystalShard;
+                    ret.bFriendlyFire = customDamage->bFriendlyFire;
+                    ret.iStun = customDamage->iStun;
                     shipFriendlyFire = ex->explosionShipFriendlyFire;
-
-                    ret = damage;
                 }
             }
         }
         else
         {
-            if (crew->species == "energy")
+            // WARNING: Potential bug during migration to non-static methods!
+            if (this->species == "energy")
             {
-                ret = EnergyAlien::GetRoomDamage(damage, (EnergyAlien*)crew);
+                ret = ((EnergyAlien*) this)->GetRoomDamage(); // TODO: Problematic, TODO: Should this just be super, but we already ran super?
             }
         }
 
 
-        if (CM_EX(crew)->isIonDrone)
+        // WARNING: Potential bug during migration to non-static methods!
+        if (CM_EX(this)->isIonDrone)
         {
-            ret = IonDrone::GetRoomDamage(damage, (IonDrone*)crew);
+            ret = ((IonDrone*) this)->GetRoomDamage(); // TODO: Problematic, TODO: Should this just be super, but we already ran super?
         }
     }
 
@@ -3303,9 +3303,8 @@ HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
 
     for (auto i : vCrewList)
     {
-        Damage* dmg = new Damage;
-
-        CrewMember::GetRoomDamage(dmg, i);
+        Damage dmgI = i->GetRoomDamage();
+        Damage *dmg = &dmgI;
 
         if (dmg->ownerId != -1) DamageArea(Pointf(i->x, i->y), *((DamageParameter*)dmg), true);
 
@@ -4265,18 +4264,21 @@ HOOK_METHOD(CrewAI, PrioritizeTask, (CrewTask task, int crewId) -> int)
     return super(task, crewId);
 }
 
-HOOK_STATIC(CrewMember, GetSavedPosition, (Slot *ret, CrewMember *crew) -> void)
+HOOK_METHOD(CrewMember, GetSavedPosition, () -> Slot)
 {
-    if (!crew->GetControllable())
-    {
-        ret->roomId = crew->finalGoal.roomId;
-        ret->slotId = crew->finalGoal.slotId;
-        ret->worldLocation = crew->finalGoal.worldLocation;
+    // WARNING: Logic change, potential bug introduced during transition from static to member.
+    Slot ret = super();
 
-        return;
+    if (!this->GetControllable())
+    {
+        ret.roomId = this->finalGoal.roomId;
+        ret.slotId = this->finalGoal.slotId;
+        ret.worldLocation = this->finalGoal.worldLocation;
+
+        return ret;
     }
 
-    return super(ret, crew);
+    return ret;
 }
 
 HOOK_METHOD(ShipManager, GetSelectedCrewPoint, (int mX, int mY, bool intruder) -> CrewMember*)
@@ -4336,58 +4338,58 @@ HOOK_METHOD(CrewControl, MouseMove, (int mX, int mY, int wX, int wY) -> void)
     selectedCrew.erase(std::remove_if(selectedCrew.begin(), selectedCrew.end(), [](CrewMember* crew) { return !crew->GetControllable(); }), selectedCrew.end());
 }
 
-HOOK_STATIC(CrewMember, GetTooltip, (std::string& strRef, CrewMember* crew) -> std::string&)
+HOOK_METHOD(CrewMember, GetTooltip, () -> std::string)
 {
-    super(strRef, crew);
+    std::string ret = super();
     auto custom = CustomOptionsManager::GetInstance();
     if (custom->advancedCrewTooltips.currentValue)
     {
         std::string tooltip = "";
-        tooltip += "-" + crew->blueprint.crewNameLong.GetText() + " (" + crew->blueprint.desc.title.GetText() + "):" + '\n';
-        int maxHealth = (int)crew->health.second;
-        if (crew->health.first == 0)
+        tooltip += "-" + this->blueprint.crewNameLong.GetText() + " (" + this->blueprint.desc.title.GetText() + "):" + '\n';
+        int maxHealth = (int)this->health.second;
+        if (this->health.first == 0)
         {
             tooltip += G_->GetTextLibrary()->GetText("advanced_health_tooltip") + ": " + G_->GetTextLibrary()->GetText("death_tooltip");
         }
-        else if (crew->health.first == crew->health.second)
+        else if (this->health.first == this->health.second)
         {
             std::stringstream stream;
             tooltip += G_->GetTextLibrary()->GetText("advanced_health_tooltip") + ": " + std::to_string(maxHealth) + "/" + std::to_string(maxHealth) + " (100%)";
         }
         else if (custom->advancedCrewTooltipRounding.currentAmount == 0)
         {
-            tooltip += G_->GetTextLibrary()->GetText("advanced_health_tooltip") + ": " + std::to_string((int)crew->health.first) + "/" + std::to_string(maxHealth) + " (" + std::to_string((int)(crew->health.first / maxHealth * 100)) + "%)";
+            tooltip += G_->GetTextLibrary()->GetText("advanced_health_tooltip") + ": " + std::to_string((int)this->health.first) + "/" + std::to_string(maxHealth) + " (" + std::to_string((int)(this->health.first / maxHealth * 100)) + "%)";
         }
         else
         {
             std::stringstream stream;
-            stream << std::fixed <<std::setprecision(custom->advancedCrewTooltipRounding.currentAmount) << crew->health.first;
-            tooltip += G_->GetTextLibrary()->GetText("advanced_health_tooltip") + ": " + stream.str() + "/" + std::to_string(maxHealth) + " (" + std::to_string((int)(crew->health.first / maxHealth * 100)) + "%)";
+            stream << std::fixed <<std::setprecision(custom->advancedCrewTooltipRounding.currentAmount) << this->health.first;
+            tooltip += G_->GetTextLibrary()->GetText("advanced_health_tooltip") + ": " + stream.str() + "/" + std::to_string(maxHealth) + " (" + std::to_string((int)(this->health.first / maxHealth * 100)) + "%)";
         }
 
-        if (crew->fStunTime != 0)
+        if (this->fStunTime != 0)
         {
             tooltip += '\n';
             std::stringstream stream;
-            stream << std::fixed <<std::setprecision(1) << crew->fStunTime * CustomCrewManager::GetInstance()->GetDefinition(crew->species)->stunMultiplier;
+            stream << std::fixed <<std::setprecision(1) << this->fStunTime * CustomCrewManager::GetInstance()->GetDefinition(this->species)->stunMultiplier;
             std::string currentText = G_->GetTextLibrary()->GetText("crew_stun_time");
             currentText = boost::algorithm::replace_all_copy(currentText, "\\1", stream.str());
             tooltip += currentText;
         }
 
-        if (custom->showEnemyPowers.currentValue && crew->iShipId == 1)
+        if (custom->showEnemyPowers.currentValue && this->iShipId == 1)
         {
             tooltip += '\n';
-            for (auto j : crew->blueprint.powers)
+            for (auto j : this->blueprint.powers)
             {
                 tooltip += "*" + j.GetText() + '\n';
             }
             boost::trim_right(tooltip);
         }
-        else if (custom->showAllyPowers.currentValue && crew->iShipId == 0)
+        else if (custom->showAllyPowers.currentValue && this->iShipId == 0)
         {
             tooltip += '\n';
-            for (auto j : crew->blueprint.powers)
+            for (auto j : this->blueprint.powers)
             {
                 tooltip += "*" + j.GetText() + '\n';
             }
@@ -4395,17 +4397,17 @@ HOOK_STATIC(CrewMember, GetTooltip, (std::string& strRef, CrewMember* crew) -> s
         }
         tooltip += '\n';
 
-//        if (crew->bMindControlled)
+//        if (this->bMindControlled)
 //        {
 //            tooltip += G_->GetTextLibrary()->GetText("mind_controlled_tooltip");
 //        }
         boost::trim_right(tooltip);
-        strRef.assign(tooltip);
-        return strRef;
+        ret.assign(tooltip);
+        return ret;
     }
     else
     {
-        return super(strRef, crew);
+        return ret;
     }
 }
 
@@ -4527,20 +4529,22 @@ HOOK_METHOD(Ship, OnLoop, (std::vector<float> &oxygenLevels) -> void)
 }
 
 // GetClosestSlot bug fix for unusual layouts
-HOOK_STATIC(ShipGraph, GetClosestSlot, (Slot *slot, ShipGraph *graph, Point pos, int shipId, bool intruder) -> Slot*)
+HOOK_METHOD(ShipGraph, GetClosestSlot, (Point pos, int shipId, bool intruder) -> Slot)
 {
-    for (Room *room : graph->rooms)
+    for (Room *room : this->rooms)
     {
         Globals::Rect rect = room->rect;
         if (pos.x >= rect.x && pos.x <= rect.x + rect.w && pos.y >= rect.y && pos.y <= rect.y + rect.h)
         {
-            return super(slot, graph, pos, shipId, intruder);
+            return super(pos, shipId, intruder);
         }
     }
     // default return if not in any room
-    slot->roomId = -1;
-    slot->slotId = -1;
-    slot->worldLocation = {-1,-1};
+    // TODO: Might have to call super first, not sure if compiler will be smart enough to handle this with the implicit value thing?
+    Slot slot = Slot();
+    slot.roomId = -1;
+    slot.slotId = -1;
+    slot.worldLocation = {-1,-1};
     return slot;
 }
 

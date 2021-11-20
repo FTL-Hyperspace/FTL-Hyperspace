@@ -239,8 +239,7 @@ HOOK_METHOD(BossShip, LoadBoss, (int fh) -> void)
     for (int i = 0; i < crewCountsSize; i++)
     {
         auto crewDef = std::pair<std::string, int>();
-        crewDef.first = std::string();
-        FileHelper::readString(crewDef.first, fh);
+        crewDef.first = FileHelper::readString(fh);
         crewDef.second = FileHelper::readInteger(fh);
     }
 
@@ -421,9 +420,8 @@ HOOK_METHOD(ShipManager, PrepareSuperBarrage, () -> void)
                         projectile->entryAngle = entryAngle;
                         projectile->Initialize(*bp);
 
-                        Animation *anim = G_->GetAnimationControl()->GetAnimation(k.image);
-                        projectile->flight_animation = *anim;
-                        delete anim;
+                        Animation anim = G_->GetAnimationControl()->GetAnimation(k.image);
+                        projectile->flight_animation = anim;
 
                         if (k.fake)
                         {

@@ -1,6 +1,5 @@
 #include "CustomShipSelect.h"
 #include "CustomOptions.h"
-#include "freetype.h"
 #include "Seeds.h"
 #include "ShipUnlocks.h"
 #include "EnemyShipIcons.h"
@@ -312,14 +311,12 @@ void CustomShipSelect::OnInit(ShipSelect* shipSelect_)
 
         for (auto i : customAnimDefs)
         {
-            auto newAnim = new Animation();
+            Animation newAnim = G_->GetAnimationControl()->GetAnimation(i.second);
+            newAnim.SetCurrentFrame(0);
+            newAnim.tracker.SetLoop(true, 0);
+            newAnim.Start(true);
 
-            AnimationControl::GetAnimation(*newAnim, G_->GetAnimationControl(), i.second);
-            newAnim->SetCurrentFrame(0);
-            newAnim->tracker.SetLoop(true, 0);
-            newAnim->Start(true);
-
-            customAnims.push_back(std::pair<Point, Animation*>(i.first, newAnim));
+            customAnims.push_back(std::pair<Point, Animation*>(i.first, &newAnim));
         }
     }
 
@@ -1032,18 +1029,18 @@ int CustomShipSelect::CountUnlockedShips(int variant=-1)
 
 //==========================
 
-HOOK_STATIC(ScoreKeeper, GetShipBlueprint, (std::string* str, ScoreKeeper* scoreKeeper, int index) -> std::string*)
+HOOK_METHOD(ScoreKeeper, GetShipBlueprint, (int index) -> std::string)
 {
-    std::string* ret;
+    std::string ret;
     if (index >= 100)
-        ret = super(str, scoreKeeper, 0);
+        ret = super(0);
     else
-        ret = super(str, scoreKeeper, index);
+        ret = super(index);
 
     if (index >= 100)
     {
         auto customSel = CustomShipSelect::GetInstance();
-        str->assign(customSel->GetShipBlueprint(index));
+        ret.assign(customSel->GetShipBlueprint(index));
     }
 
 
@@ -1155,9 +1152,10 @@ HOOK_METHOD(ShipBuilder, SwitchShip, (int shipType, int shipVariant) -> void)
     return super(shipType, shipVariant);
 }
 
-HOOK_STATIC(AchievementTracker, GetShipAchievements, (void* unk, AchievementTracker *tracker, std::string& id) -> void*)
+// TODO: Why??? There's no implemenation here
+HOOK_METHOD(AchievementTracker, GetShipAchievements, (std::string& ship) -> std::vector<CAchievement*>)
 {
-    return super(unk, tracker, id);
+    return super(ship);
 }
 
 HOOK_METHOD(ShipBuilder, MouseClick, (int x, int y) -> void)
@@ -1478,16 +1476,16 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
     Point shipNamePos = Point(273, 7);
     nameInput.OnRender(24, shipNamePos);
 
-    // FIXED WTIH freetype_hack
+    // FIXED WTIH freetype_hack (fixed with new use that no longer needs freetype_hack but I don't see y being used anyways)
 
     // This doesn't work because of easy_measurePrintLines returning a Pointf
     // Need a way to get the y value of the returned Pointf
     // The Pointf is returned split into eax and edx
 
-    // FIXED WITH freetype_hack
+    // FIXED WITH freetype_hack (fixed with new use that no longer needs freetype_hack but I don't see y being used anyways)
     if (bRenaming)
     {
-        Pointf ret = freetype_hack::easy_measurePrintLines(12, 0, 0, 999, lib->GetText("rename"));
+        Pointf ret = freetype::easy_measurePrintLines(12, 0, 0, 999, lib->GetText("rename"));
         float x = 6.f;
         float x2 = 227.f - ret.x / 2;
         if (x2 > 5)
@@ -1522,9 +1520,7 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
 	{
 		SeedInputBox::seedInput->OnRender(0, Point((int)SeedInputBox::drawLocation.x+2+(SeedInputBox::width/2), (int)SeedInputBox::drawLocation.y+5));
 
-		std::string inputSeed;
-
-		TextInput::GetText(inputSeed, SeedInputBox::seedInput);
+		std::string inputSeed = SeedInputBox::seedInput->GetText();
 
 		if (inputSeed != "")
         {

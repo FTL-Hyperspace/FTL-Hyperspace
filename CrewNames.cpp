@@ -12,11 +12,12 @@ HOOK_GLOBAL_PRIORITY(random32, -900, () -> unsigned int)
     return super();
 }
 
-HOOK_STATIC(BlueprintManager, GetUnusedCrewName, (std::string& ref, BlueprintManager* bpM, bool* isMale_ret) -> void)
+HOOK_METHOD(BlueprintManager, GetUnusedCrewName, (bool* isMale_ret) -> std::string)
 {
     crewNameRng = std::mt19937(random32());
 
     inGetUnusedCrewName = true;
-    super(ref, bpM, isMale_ret);
+    std::string ret = super(isMale_ret);
     inGetUnusedCrewName = false;
+    return ret;
 }

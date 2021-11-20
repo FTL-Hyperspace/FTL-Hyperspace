@@ -375,8 +375,7 @@ HOOK_METHOD(ScoreKeeper, OnInit, () -> void)
 {
     CustomShipUnlocks::instance->loadVersion = 0;
 
-    std::string versionFileName;
-    FileHelper::getUserFolder(versionFileName);
+    std::string versionFileName = FileHelper::getUserFolder();
     versionFileName.append(SaveFileHandler::instance->savePrefix + "_version.sav");
 
     if (FileHelper::fileExists(versionFileName))

@@ -1,5 +1,4 @@
 #include "ShipEditor.h"
-#include "freetype.h"
 
 ShipEditor ShipEditor::instance = ShipEditor();
 
@@ -135,7 +134,7 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, -1000, () -> void)
         {
             std::string txt;
             TextLibrary::GetText(txt, lib, "rename", lib->currentLanguage);
-            Pointf ret = freetype_hack::easy_measurePrintLines(12, 0, 0, 999, txt);
+            Pointf ret = freetype::easy_measurePrintLines(12, 0, 0, 999, txt);
             float x = 6.f;
             float x2 = 227.f - ret.x / 2;
             if (x2 > 5)

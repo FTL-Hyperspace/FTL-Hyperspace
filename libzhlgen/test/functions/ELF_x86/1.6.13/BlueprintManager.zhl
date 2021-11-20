@@ -1,5 +1,5 @@
 "5589e557565383ec5c8b5d10e8????????84c08b450c":
-static cleanup std::vector<std::string>& BlueprintManager::GetBlueprintList(std::vector<std::string>& vec, BlueprintManager *bpM, const std::string& str);
+cleanup std::vector<std::string> BlueprintManager::GetBlueprintList(BlueprintManager *this, const std::string& name);
 "5589e557565383ec6c8b7d0c8d45d88b75088904248b5d10897c2404":
 cleanup ShipBlueprint* BlueprintManager::GetShipBlueprint(BlueprintManager *this, const std::string& name, int sector);
 ".5589e557565383ec4c8d7dd78d75d8897c2408":
@@ -11,88 +11,29 @@ cleanup ItemBlueprint* BlueprintManager::GetItemBlueprint(BlueprintManager *this
 ".5589e557565383ec4c8d7dd78d75d8897c2408":
 cleanup AugmentBlueprint* BlueprintManager::GetAugmentBlueprint(BlueprintManager *this, const std::string& name);
 "5589e557565381ec8c0000008b45088b75108d7db0890424":
-static cleanup WeaponBlueprint* BlueprintManager::ProcessWeaponBlueprint(WeaponBlueprint* bp, BlueprintManager *bpM, rapidxml::xml_node<char>* node);
+cleanup WeaponBlueprint BlueprintManager::ProcessWeaponBlueprint(BlueprintManager *this, rapidxml::xml_node<char>* node);
 "5589e557565383ec6c8b7d088d5de0895c2408":
-static cleanup Description* BlueprintManager::ProcessDescription(Description *desc, BlueprintManager *bpM, rapidxml::xml_node<char>* node);
+cleanup Description BlueprintManager::ProcessDescription(BlueprintManager *this, rapidxml::xml_node<char>* node);
 "55660fefc089e557565383ec3c8b45088d5ddc":
-static cleanup EffectsBlueprint* BlueprintManager::ProcessEffectsBlueprint(EffectsBlueprint *bp, BlueprintManager *bpM, rapidxml::xml_node<char>* node);
+cleanup EffectsBlueprint BlueprintManager::ProcessEffectsBlueprint(BlueprintManager *this, rapidxml::xml_node<char>* node);
 "5589e557565383ec5c8b5d088b7510":
-static cleanup CrewBlueprint* BlueprintManager::GetCrewBlueprint(CrewBlueprint* bp, BlueprintManager *bpM, const std::string& name);
+cleanup CrewBlueprint BlueprintManager::GetCrewBlueprint(BlueprintManager *this, const std::string& name);
 "5589e557565383ec7c8b5d088b750c":
 cleanup WeaponBlueprint* BlueprintManager::GetWeaponBlueprint(BlueprintManager *this, const std::string& name);
 "5589e55383ec240fb655148b450c8b5d08895424108b551089442404891c248954240c8d504c":
-static cleanup void BlueprintManager::GetRandomAugment(std::vector<AugmentBlueprint*>& vec, BlueprintManager* bpM, int count, bool demo_lock);
+cleanup std::vector<AugmentBlueprint*> BlueprintManager::GetRandomAugment(BlueprintManager *this, int count, bool demo_lock);
 "5589e557565383ec5c8b55088b45088bbae4000000":
 cleanup SystemBlueprint* BlueprintManager::GetSystemBlueprint(BlueprintManager *this, const std::string& name);
 "5589e557565383ec3c8b4508c745c415000000":
-static cleanup void BlueprintManager::GetUnusedCrewName(std::string& strRef, BlueprintManager* bpM, bool* isMale_ret);
+cleanup std::string BlueprintManager::GetUnusedCrewName(BlueprintManager *this, bool* isMale_ret);
 "5557565383ec4c8b5c2464c7442404????????":
-static cleanup void BlueprintManager::GetCrewName(std::string& strRef, BlueprintManager* bpM, bool* isMale_ret);
+cleanup std::string BlueprintManager::GetCrewName(BlueprintManager *this, bool* isMale_ret);
 "5589e55383ec240fb655148b450c8b5d08895424108b551089442404891c248954240c8d501c":
-static cleanup void BlueprintManager::GetRandomWeapon(std::vector<WeaponBlueprint*>& vec, BlueprintManager* bpM, int count, bool demo_lock);
+cleanup std::vector<WeaponBlueprint*> BlueprintManager::GetRandomWeapon(BlueprintManager *this, int count, bool demo_lock);
 "5589e55383ec240fb655148b450c8b5d08895424108b551089442404891c248954240c8d5034":
-static cleanup void BlueprintManager::GetRandomDrone(std::vector<DroneBlueprint*>& vec, BlueprintManager* bpM, int count, bool demo_lock);
+cleanup std::vector<DroneBlueprint*> BlueprintManager::GetRandomDrone(BlueprintManager *this, int count, bool demo_lock);
+
 
 struct BlueprintManager
 {{
-	Description* ProcessDescription(rapidxml::xml_node<char>* node)
-	{
-		Description* desc = new Description;
-		
-		return ProcessDescription(desc, this, node);
-	}
-	
-	EffectsBlueprint* ProcessEffectsBlueprint(rapidxml::xml_node<char>* node)
-	{
-		EffectsBlueprint* effects = new EffectsBlueprint;
-		
-		return ProcessEffectsBlueprint(effects, this, node);
-	}
-	
-	CrewBlueprint* GetCrewBlueprint(const std::string& name)
-	{
-		CrewBlueprint* bp = new CrewBlueprint;
-		
-		return GetCrewBlueprint(bp, this, name);
-	}
-	
-	std::vector<std::string> GetBlueprintList(const std::string& name)
-	{
-		std::vector<std::string> bpList = std::vector<std::string>();
-		
-		GetBlueprintList(bpList, this, name);
-		
-		return bpList;
-	}
-	
-	
-	std::vector<AugmentBlueprint*> GetRandomAugment(int count, bool demo_lock)
-	{
-		std::vector<AugmentBlueprint*> bps;
-		
-		GetRandomAugment(bps, this, count, demo_lock);
-		
-		return bps;
-	}
-	std::vector<WeaponBlueprint*> GetRandomWeapon(int count, bool demo_lock)
-	{
-		std::vector<WeaponBlueprint*> bps;
-		
-		GetRandomWeapon(bps, this, count, demo_lock);
-		
-		return bps;
-	}
-	
-	std::vector<DroneBlueprint*> GetRandomDrone(int count, bool demo_lock)
-	{
-		std::vector<DroneBlueprint*> bps;
-		
-		GetRandomDrone(bps, this, count, demo_lock);
-		
-		return bps;
-	}
-	
-	
-	
-	
 }};

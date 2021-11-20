@@ -1,7 +1,6 @@
 #include "CustomAugments.h"
 #include "CustomOptions.h"
 #include "Global.h"
-#include "freetype.h"
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
 
@@ -509,9 +508,9 @@ HOOK_METHOD(ShipManager, ImportShip, (int fileHelper) -> void)
     CustomAugmentManager::GetInstance()->UpdateAugments(iShipId);
 }
 
-HOOK_STATIC(ShipObject, GetAugmentationList, (std::vector<std::string>& vec, ShipObject *shipObj) -> std::vector<std::string>&)
+HOOK_METHOD(ShipObject, GetAugmentationList, () -> std::vector<std::string>)
 {
-    super(vec, shipObj);
+    std::vector<std::string> vec = super();
 
     vec = CustomAugmentManager::RemoveHiddenAugments(vec);
 

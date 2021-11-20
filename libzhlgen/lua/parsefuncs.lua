@@ -3,8 +3,13 @@ local cparser = require("cparser")
 local lfs = require("lfs")
 
 local isPOSIX = mode == 'POSIX'
+-- TODO: add a switch between MSVC & non-MSVC? FTL is not MSVC even on Windows but there are some functions here that differ for MSVC implementations.
+-- Probably also need to add a flag to the functions, or to ZHL's code or something if we're MSVC (but not always Win32) as that struct argument order is flipped.
+local isSysVi386ABI = isPOSIX -- Note: in the future we need to differentate between Sys V i386 and Sys V x86_64 ABI specs & Windows 32 (we don't support Windows 64)
+-- TODO: Maybe do an "ABIMode" parameter and have "Win32" "SysVi386" "SysVAMD64" or something?
+-- TODO: Maybe also add a "Compiler" parameter and have "gcc" "msvc" "mingwgcc" or something?
 
-local useStackAlignment = isPOSIX -- Aligns the stack before CALL instruction (as required by System V ABI specification)
+local useStackAlignment = isSysVi386ABI -- Aligns the stack before CALL instruction (as required by System V ABI specification)
 local stackAlignmentSize = 0x10
 
 local useNaked = true
@@ -391,14 +396,21 @@ for k,fd in pairs(tfiles) do
             end
             
             -- Check if this function returns a struct
+            -- TODO: Determine size of struct and handle the special EDX:EAX case of 8-byte wide structs on Win32 ABI & Sys V i386 ABI
             if sizeof(func) > 4 and func.class ~= "double" and func.class ~= "__int64" and func.class ~= "uint64_t" and func.class ~= "int64_t" then
                 -- if it does, insert a pointer to that struct as the first argument (second if first one is "this")
                 local i = 1
-                while func.args[i] and func.args[i].hidden do i = i + 1 end
+--                if not isSysVi386ABI then -- TODO: Put this behind a check for MSVC not a check for Linux
+                    -- NOTE: This is CORRECT for MSVC but incorrect for GCC on Windows (and of course for Linux too)!
+--                while func.args[i] and func.args[i].hidden do i = i + 1 end
+--                end
                 
                 local a = cparser.ParseDefinition(string.format("%s *implicit_output;", func:cname()))
                 a.reg = func.reg
                 a.hidden = true
+                if isSysVi386ABI then
+                    func.memPassedPointer = true
+                end
                 table.insert(func.args, i, a)
             elseif sizeof(func) == 8 then
                 func.longlong = true
@@ -827,6 +839,7 @@ using namespace ZHL;
 			if func.cleanup then flags = flags + 2 end
 			if func.void then flags = flags + 4 end
 			if func.longlong then flags = flags + 8 end
+            if func.memPassedPointer then flags = flags + 16 end
 			
 			local funcptr
 			if func.static or isGlobal then
@@ -956,6 +969,9 @@ using namespace ZHL;
 
 				-- if the function requires caller cleanup, increment the stack pointer here
 				if func.cleanup then
+                    if func.memPassedPointer then
+                        sizePushed = sizePushed - 4
+                    end
 					out("\n\t\t\"add esp, %d\\n\\t\"", sizePushed)
 				end
 				
@@ -973,6 +989,8 @@ using namespace ZHL;
 					out("\n\t\t\"pop ebp\\n\\t\"")
 					if func.stacksize > 0 and not isPOSIX then
 						out("\n\t\t\"ret %d\\n\\t\"", func.stacksize)
+                    elseif func.memPassedPointer then -- TODO: May have to limit to SysVi386 ABI not sure if this is valid for Windows or SysVAMD64 ABI yet.
+                        out("\n\t\t\"ret %d\\n\\t\"", 4)
 					else
 						out("\n\t\t\"ret\\n\\t\"")
 					end

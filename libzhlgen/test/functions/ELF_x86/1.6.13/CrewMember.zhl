@@ -1,7 +1,7 @@
 "565383ec348b5c24408b74244480bbac01000000":
 cleanup void CrewMember::OnRender(CrewMember *this, bool outlineOnly);
 "8b442404c70000000000c7400400000000c7400800000000c7400c00000000c7401000000000c7401400000000c7401800000000c7401c00000000":
-static cleanup Damage *CrewMember::GetRoomDamage(Damage* dmg, CrewMember *crew);
+cleanup Damage CrewMember::GetRoomDamage(CrewMember *this);
 "5589e557565383ec3c8b5d08f30f1015????????":
 cleanup void CrewMember::StartRepair(CrewMember *this, Repairable* toRepair);
 "5589e557565383ec6c8b5d088b4368f30f2a8b90000000f30f104308":
@@ -11,7 +11,7 @@ cleanup void CrewMember::UpdateMovement(CrewMember *this);
 "5589e557565381ec8c0000008b5d0880bbac01000000":
 cleanup void CrewMember::OnLoop(CrewMember *this);
 "5589e557565381ec8c0000008b45088d5dd8895c2408":
-static cleanup std::string& CrewMember::GetTooltip(std::string& strRef, CrewMember *crew);
+cleanup std::string CrewMember::GetTooltip(CrewMember *this);
 "565383ec148b5c24208b7424248b839c000000":
 cleanup void CrewMember::SetSex(CrewMember *this, bool male);
 "5557565383ec4c8b442460????????00000000????????00000000":
@@ -99,7 +99,7 @@ cleanup void CrewMember::SavePosition(CrewMember *this);
 "8b442404c780f4040000ffffffffc780f0040000ffffffff":
 cleanup void CrewMember::ClearPosition(CrewMember *this);
 "8b5424088b4424048b8af00400008908":
-static cleanup void CrewMember::GetSavedPosition(Slot *ret, CrewMember *crew);
+cleanup Slot CrewMember::GetSavedPosition(CrewMember *this);
 "8b4424048b5424088990f00400008b54240c":
 cleanup void CrewMember::SetSavePosition(CrewMember *this, Slot position);
 "5383ec188b5c24208b436885c074??8b03":
@@ -191,11 +191,11 @@ cleanup int CrewMember::GetRepairingId(CrewMember *this);
 "538b4424148b5c24088b54240c8b4c2418":
 cleanup bool CrewMember::WithinRect(CrewMember *this, int x, int y, int w, int h);
 "5589e55383ec148b450c8b5d0880b81002000000":
-static cleanup std::string& CrewMember::GetLongName(std::string& str, CrewMember *crew);
+cleanup std::string CrewMember::GetLongName(CrewMember *this);
 "5589e557565383ec3c8b5d088b750c8b7d108d830c020000":
 cleanup void CrewMember::SetName(CrewMember *this, TextString name, bool force);
 "5589e55383ec148b450c8b5d0880b80802000000":
-static cleanup std::string& CrewMember::GetName(std::string& str, CrewMember *crew);
+cleanup std::string CrewMember::GetName(CrewMember *this);
 "57565383ec108b5c24208b7424248b7c24288b03":
 cleanup void CrewMember::SetCurrentTarget(CrewMember *this, CrewTarget *target, bool unk);
 "5589e557565383ec5c8b7d088b4764":
@@ -217,7 +217,7 @@ cleanup void CrewMember::StartTeleportArrive(CrewMember *this);
 "8b4424048b5424083950780f94??":
 cleanup bool CrewMember::InsideRoom(CrewMember *this, int roomId);
 ".5383ec288b5c24308d44241f89442408":
-static cleanup std::string& CrewMember::GetUniqueRepairing(std::string& strRef, CrewMember *crew);
+cleanup std::string CrewMember::GetUniqueRepairing(CrewMember *this);
 
 struct CrewMember depends (CrewAnimation, CrewBlueprint, ShipObject)
 {{

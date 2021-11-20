@@ -397,6 +397,9 @@ int FunctionHook_private::Install()
 		}
 	}
 
+	if(def->isMemPassedStructPointer())
+        sizePushed -= 4;
+
 
 	// Call the hook
 	P(0xE8); PL((unsigned int)_hook - (unsigned int)ptr - 4);	// call _hook
@@ -423,6 +426,10 @@ int FunctionHook_private::Install()
 	if(stackPos > 8 && !def->NeedsCallerCleanup())
 	{
 		P(0xc2); PS(stackPos - 8);	// ret 4*N
+	}
+	else if(def->isMemPassedStructPointer()) // TODO: Might need to limit this only to Sys V i386 ABI and not Windows also?
+	{
+        P(0xc2); PS(4);
 	}
 	else
 		P(0xc3);					// ret
@@ -542,6 +549,9 @@ int FunctionHook_private::Install()
 			k += 4 * argd[i].s;
 		}
 	}
+	
+	if(def->isMemPassedStructPointer())
+        sizePushed -= 4;
 
 	// Call the original function
 	P(0xE8); PL((unsigned int)original - (unsigned int)ptr - 4);	// call original
@@ -570,6 +580,10 @@ int FunctionHook_private::Install()
 	if(stackPos > 8 && OUR_OWN_FUNCTIONS_CALLEE_DOES_CLEANUP)
 	{
 		P(0xc2); PS(stackPos - 8);	// ret 4*N
+	}
+	else if(def->isMemPassedStructPointer()) // TODO: Might need to limit this only to Sys V i386 ABI and not Windows also?
+	{
+        P(0xc2); PS(4);
 	}
 	else
 		P(0xc3);					// ret

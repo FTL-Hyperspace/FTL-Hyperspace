@@ -27,7 +27,7 @@ void CompleteShip::InitiateTeleport(CompleteShip *this<ecx>, int targetRoom, int
 ".578d7c240883e4f0ff77fc5589e557565389cf31db83ec2c8b4908e8????????":
 virtual void CompleteShip::OnLoop(CompleteShip *this<ecx>);
 ".5589e557565389cb83e4f083ec208b7d088bb7280100008b872401000039c60f84????????":
-void CompleteShip::GetTeleportingParty(CompleteShip *this<ecx>);
+std::vector<CrewMember*> CompleteShip::GetTeleportingParty<ecx>(CompleteShip *this);
 ".558b490889e583e4f0e8????????c9":
 CrewMember *CompleteShip::KillRandomCrew(CompleteShip *this<ecx>);
 ".578d7c240883e4f0ff77fc5589e55783ec140fb6078b4908890424e8????????8b7dfc":
@@ -39,7 +39,7 @@ void CompleteShip::SetEnemyShip(CompleteShip *this<ecx>, CompleteShip *other);
 ".578d7c240883e4f0ff77fc5589e557565389cb83ec1c0fb64114b9????????":
 bool CompleteShip::DeadCrew(CompleteShip *this<ecx>);
 ".578d7c240883e4f0ff77fc5589e557":
-void CompleteShip::TeleportCrew(CompleteShip *this<ecx>, ShipManager *other, int room, bool comingBack);
+std::vector<CrewMember*> CompleteShip::TeleportCrew<ecx>(CompleteShip *this, int roomId, bool intruders);
 ".578d7c240883e4f0ff77fc5589e5575389cb83ec108b43048b490c":
 void CompleteShip::OnRender(CompleteShip *this<ecx>);
 ".578d7c240883e4f0ff77fc5589e55783ec14":

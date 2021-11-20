@@ -137,7 +137,7 @@ cleanup void StarMap::DrawConnection(StarMap *this, const Pointf& pos1, const Po
 "5589e557565383ec5c8b5d0c8b4320":
 cleanup void StarMap::TurnIntoFleetLocation(StarMap *this, Location *loc);
 "5589e557565383ec3c8b45088b5d0c":
-static cleanup std::string& StarMap::GetLocationText(std::string& strRef, StarMap *starMap, const Location* loc);
+cleanup std::string StarMap::GetLocationText(StarMap *this, const Location* loc);
 "5589e557565381ec9c0000008b7d08837d0cff":
 cleanup void StarMap::SetupNoFuel(StarMap *this, int seed, const std::string& forceEscape);
 "5589e557565381ecbc0000008b450c8b5004":

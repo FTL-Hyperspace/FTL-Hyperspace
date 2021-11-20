@@ -1,37 +1,37 @@
 "575381ec84000000a1????????":
 static cleanup ShipGraph* ShipGraph::GetShipInfo(int shipId);
 "5589e557565383ec4c8b7d0c8b75148b4518":
-cleanup Point ShipGraph::GetSlotRenderPosition(ShipGraph *this, int x, int y, char unk);
+cleanup Point ShipGraph::GetSlotRenderPosition(ShipGraph *this, int slotId, int roomId, bool intruder);
 "538b4424088b4c240c8b58188b501c":
-cleanup int ShipGraph::DoorCount(ShipGraph *this, int unk);
+cleanup int ShipGraph::DoorCount(ShipGraph *this, int roomId);
 "5557565331db83ec1c8b7424308b7c2434c70600000000":
-cleanup std::vector<Door*>& ShipGraph::GetDoors(ShipGraph *this, int unk);
+cleanup std::vector<Door*> ShipGraph::GetDoors(ShipGraph *this, int roomId);
 "5557bf01000000565383ec2c8b5c24443b5c24488b742440":
 cleanup int ShipGraph::IsRoomConnected(ShipGraph *this, int room1, int room2);
 "5589e557565383ec6c8b45108d5dd8":
-cleanup int ShipGraph::ConnectingDoor(ShipGraph *this, int x1, int y1, int x2, int y2);
+cleanup Door* ShipGraph::ConnectingDoor(ShipGraph *this, int x1, int y1, int x2, int y2);
 "5531ed57565383ec7c6b84249800000023":
 cleanup int ShipGraph::ConnectedGridSquares(ShipGraph *this, int x1, int y1, int x2, int y2);
 "5531ed57565383ec7c6b84249800000023":
 cleanup int ShipGraph::ConnectedGridSquaresPoint(ShipGraph *this, Point p1, Point p2);
 "5589e557565383ec6c8b45108d5dd8":
-cleanup int ShipGraph::ConnectingDoor(ShipGraph *this, Point p1, Point p2);
+cleanup Door* ShipGraph::ConnectingDoor(ShipGraph *this, Point p1, Point p2);
 "8b4424048b5424088b008b0490":
 cleanup int ShipGraph::GetNumSlots(ShipGraph *this, int room);
 "5557565331db83ec2c8b4424448b38":
-static int ShipGraph::PopClosestDoor(std::vector<int>& unk, std::vector<float>& unk2);
+cleanup int ShipGraph::PopClosestDoor(ShipGraph *this, std::vector<int>& doors, std::vector<float>& distances);
 "5589e557565381ec8c0000008b45188b750c8b7d14":
-cleanup int ShipGraph::Dijkstra(ShipGraph *this, Point p1, Point p2, int unk);
+cleanup Path ShipGraph::Dijkstra(ShipGraph *this, Point start, Point goal, int shipId);
 "5589e557565383ec5c8b45188b5d0c":
-cleanup int ShipGraph::FindPath(ShipGraph *this, Point p1, Point p2, int unk);
+cleanup Path ShipGraph::FindPath(ShipGraph *this, Point p1, Point p2, int shipId);
 "83ec048b442408f30f1044240cf30f584034":
 cleanup float ShipGraph::ConvertToWorldAngle(ShipGraph *this, float ang);
 "83ec048b442408f30f1044240cf30f5c4034":
 cleanup float ShipGraph::ConvertToLocalAngle(ShipGraph *this, float ang);
 "5589e5565383ec208b5d0c8b7508":
-cleanup int64_t ShipGraph::ConvertToWorldPosition(ShipGraph *this, Pointf p);
+cleanup Pointf ShipGraph::ConvertToWorldPosition(ShipGraph *this, Pointf local);
 "5589e5565383ec208b450c807d1800":
-cleanup Pointf ShipGraph::ConvertToLocalPosition(ShipGraph *this, Pointf p, char unk);
+cleanup Pointf ShipGraph::ConvertToLocalPosition(ShipGraph *this, Pointf world, bool past);
 "5589e557565383ec3c8b7d088b4508":
 cleanup int ShipGraph::ComputeCenter(ShipGraph *this);
 "538b54240831c08b4c240c8b5a44":
@@ -41,34 +41,30 @@ cleanup int ShipGraph::GetSelectedRoom(ShipGraph *this, int x, int y, bool unk);
 "8b5424048b42042b02":
 cleanup int ShipGraph::RoomCount(ShipGraph *this);
 "5589e557565383ec1c8b550c8b4508":
-cleanup Globals::Rect *ShipGraph::GetRoomShape(ShipGraph *this, int room);
+cleanup Globals::Rect ShipGraph::GetRoomShape(ShipGraph *this, int room);
 "5383ec048b15????????8b4c24108b44240c85c978??8b18":
 cleanup float ShipGraph::GetRoomOxygen(ShipGraph *this, int room);
 "538b4c240cb8010000008b54240885c9":
 cleanup bool ShipGraph::GetRoomBlackedOut(ShipGraph *this, int room);
 "5589e5575631f65389f381ecac0000008b45108b7d0c":
-static cleanup Slot* ShipGraph::GetClosestSlot(Slot *slot, ShipGraph *graph, Point pos, int shipId, bool intruder);
+cleanup Slot ShipGraph::GetClosestSlot(ShipGraph *this, Point pos, int shipId, bool intruder);
 
 
 struct ShipGraph depends (Point, Pointf, Room) 
 {{
-	Slot* GetClosestSlot(Point pos, int shipId, bool intruder)
-	{
-		Slot* slot = nullptr;
-		ShipGraph::GetClosestSlot(slot, this, pos, shipId, intruder);
-		return slot;
-	}
-	
+    // TODO: This looks like it was re-implemented because they were unsure at the time how to hook it, we can totally hook it now like we do for GetSlotRenderPosition
 	static Point TranslateFromGrid(int xx, int yy)
 	{
 		return Point(xx * 35, yy * 35);
 	}
 	
+	// TODO: This looks like it was re-implemented because they were unsure at the time how to hook it, we can totally hook it now like we do for GetSlotRenderPosition
 	static Point TranslateToGrid(int xx, int yy)
 	{
 		return Point(xx / 35, yy / 35);
 	}
 	
+	// TODO: This looks like it was re-implemented because they were unsure at the time how to hook it, we can totally hook it now like we do for GetSlotRenderPosition
 	Point GetIntoRoom(int roomId, Point pos)
 	{
 		Point ret;
@@ -85,6 +81,7 @@ struct ShipGraph depends (Point, Pointf, Room)
 		return ret;
 	}
 	
+	// TODO: This looks like it was re-implemented because they were unsure at the time how to hook it, we can totally hook it now like we do for GetSlotRenderPosition
 	Pointf GetRoomCenter(int roomId) 
 	{
 		auto rooms = this->rooms;
@@ -106,6 +103,7 @@ struct ShipGraph depends (Point, Pointf, Room)
 		return Pointf(xx, yy);
 	}
 	
+	// TODO: This looks like it was re-implemented because they were unsure at the time how to hook it, we can totally hook it now like we do for GetSlotRenderPosition
 	Point GetSlotWorldPosition(int roomId, int slotId)
 	{
 		Globals::Rect rect = rooms[roomId]->rect;

@@ -1,5 +1,4 @@
 #include "Global.h"
-#include "freetype.h"
 
 HOOK_METHOD(InfoBox, SetBlueprintWeapon, (const WeaponBlueprint* bp, int status, bool hasWeaponSystem, int yShift) -> void)
 {
@@ -16,8 +15,8 @@ HOOK_METHOD(InfoBox, SetBlueprintWeapon, (const WeaponBlueprint* bp, int status,
 {
     super(bp, status, hasWeaponSystem, yShift);
 
-    Pointf titleSize = freetype_hack::easy_measurePrintLines(16, 0, 0, descBoxSize.x, desc.title.GetText());
-    Pointf descSize = freetype_hack::easy_measurePrintLines(10, 0, 0, descBoxSize.x, desc.description.GetText());
+    Pointf titleSize = freetype::easy_measurePrintLines(16, 0, 0, descBoxSize.x, desc.title.GetText());
+    Pointf descSize = freetype::easy_measurePrintLines(10, 0, 0, descBoxSize.x, desc.description.GetText());
 
     Pointf boxSize = titleSize + descSize + Pointf(0, 28.f);
     boxSize.y = std::max(boxSize.y, 252.f);

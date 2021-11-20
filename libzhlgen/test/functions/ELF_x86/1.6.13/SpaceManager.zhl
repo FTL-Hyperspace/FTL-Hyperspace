@@ -5,15 +5,15 @@ cleanup int SpaceManager::GetScreenShake(SpaceManager *this);
 "57565383ec108b7424208b7c24240fb68674020000":
 cleanup void SpaceManager::SaveSpace(SpaceManager *this, int fileHelper);
 "8b5424088b4424048b8ad4020000":
-cleanup void SpaceManager::SwitchBeacon(SpaceManager *this);
+cleanup ImageDesc SpaceManager::SwitchBeacon(SpaceManager *this);
 "5589e557565381ec8c0000008b4510c7442404????????":
-static cleanup void SpaceManager::SwitchPlanet(ImageDesc *ret, SpaceManager *space, const std::string& name);
+cleanup ImageDesc SpaceManager::SwitchPlanet(SpaceManager *this, const std::string& name);
 "565383ec548b5c24608b83bc000000":
 cleanup void SpaceManager::UpdatePlanetImage(SpaceManager *this);
 "565383ec548b5c24608b5424688b842480000000":
 cleanup void SpaceManager::SwitchImages(SpaceManager *this, ImageDesc planet, ImageDesc unk1, ImageDesc unk2);
 "5589e557565383ec3c8b450c8b7d08":
-static cleanup void SpaceManager::SwitchBackground(ImageDesc *ret, SpaceManager *space, const std::string& name);
+cleanup ImageDesc SpaceManager::SwitchBackground(SpaceManager *this, const std::string& name);
 "5383ec280fb64424388d5c241c":
 cleanup void SpaceManager::StartAsteroids(SpaceManager *this, int shieldCount, bool unk);
 "5589e557565381ec9c0000008b5d088b4510":
@@ -29,7 +29,7 @@ cleanup SpaceDrone* SpaceManager::GetSelectedDrone(SpaceManager *this, int x, in
 "5383ec18a1????????8b542420":
 cleanup float SpaceManager::GetFlashOpacity(SpaceManager *this);
 "8b5424088b4424040f2805????????80ba4c03000000":
-cleanup GL_Color* SpaceManager::GetColorTint(SpaceManager *this);
+cleanup GL_Color SpaceManager::GetColorTint(SpaceManager *this);
 "565383ec448b7424500f2805????????":
 cleanup void SpaceManager::OnRenderBackground(SpaceManager *this);
 "57565383ec508b7c2460":
@@ -78,18 +78,4 @@ cleanup void SpaceManager::SetFireLevel(SpaceManager *this, bool state);
 
 struct SpaceManager
 {{
-	ImageDesc* SwitchBackground(const std::string& name)
-	{
-		ImageDesc* ret = new ImageDesc;
-		SwitchBackground(ret, this, name);
-		
-		return ret;
-	}
-	ImageDesc* SwitchPlanet(const std::string& name)
-	{
-		ImageDesc* ret = new ImageDesc;
-		SwitchPlanet(ret, this, name);
-		
-		return ret;
-	}
 }};

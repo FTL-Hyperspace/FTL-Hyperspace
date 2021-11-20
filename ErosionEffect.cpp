@@ -90,9 +90,8 @@ HOOK_METHOD(Ship, OnRenderBreaches, () -> void)
         {
             if (!ex->erosionAnim)
             {
-                ex->erosionAnim = new Animation();
-
-                AnimationControl::GetAnimation(*ex->erosionAnim, G_->GetAnimationControl(), ex->currentErosion->animation);
+                Animation newAnim = G_->GetAnimationControl()->GetAnimation(ex->currentErosion->animation);
+                ex->erosionAnim = &newAnim;
 
                 ex->erosionAnim->SetCurrentFrame(0);
                 ex->erosionAnim->tracker.SetLoop(true, 0);

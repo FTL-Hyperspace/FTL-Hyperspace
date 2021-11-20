@@ -1,11 +1,11 @@
 "8d4c240483e4f031c0ff71fc5589e5575653518d75d883ec588b39668945d8":
 static cleanup void FileHelper::deleteFile(const std::string& fileName);
 ".8d4c240483e4f0ff71fc5589e557565351":
-static cleanup std::string& FileHelper::getResourceFile(const std::string& str);
+static cleanup std::string FileHelper::getResourceFile();
 ".8d4c240483e4f0ff71fc5589e5575653":
-static cleanup std::string& FileHelper::getUserFolder(std::string& str);
+static cleanup std::string FileHelper::getUserFolder();
 ".8d4c240483e4f0ff71fc5589e557565351":
-static cleanup std::string& FileHelper::getSaveFile(std::string& str);
+static cleanup std::string FileHelper::getSaveFile();
 ".8d4c240483e4f0ff71fc5589e5575653":
 static cleanup void FileHelper::initFileHelper();
 ".8d4c240483e4f0ff71fc5589e55183ec14":
@@ -31,7 +31,7 @@ static cleanup int FileHelper::readBinaryFile(const std::string& fileName);
 ".8d4c240483e4f0ff71fc5589e5535183ec10":
 static cleanup void FileHelper::closeBinaryFile(int file);
 ".8d4c240483e4f0ff71fc5589e55756535183ec48":
-static cleanup std::string& FileHelper::readString(const std::string& str, int file);
+static cleanup std::string FileHelper::readString(int file);
 ".8d4c240483e4f0ff71fc5589e557565351":
 static cleanup float FileHelper::readFloat(int file);
 ".8d4c240483e4f0ff71fc5589e55756535183ec48":
@@ -39,7 +39,7 @@ static cleanup int FileHelper::readInteger(int file);
 ".8d4c240483e4f0ff71fc5589e5535183ec10":
 static cleanup bool FileHelper::seekPosition(int file, int pos);
 ".8d4c240483e4f0ff71fc5589e55756":
-static cleanup char* FileHelper::readBuffer(int file, int len, bool unk);
+static cleanup char* FileHelper::readBuffer(int file, int len, bool nullTerminate);
 ".8d4c240483e4f0ff71fc5589e557565351":
 static cleanup void FileHelper::readData(int file, void* data, int len);
 ".8d4c240483e4f0ff71fc5589e5575653":
@@ -57,14 +57,7 @@ static cleanup bool FileHelper::writeString(int file, const std::string& data);
 "8d4c240483e4f0ff71fc5589e556535183ec3c803d??????????8b41048b198945e075??":
 static cleanup bool FileHelper::writeInt(int file, int data);
 
+
 struct FileHelper
 {{
-	static std::string readString(int file)
-	{
-		std::string data = std::string();
-		
-		readString(data, file);
-		
-		return data;
-	}
 }};

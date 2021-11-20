@@ -31,7 +31,7 @@ cleanup void CompleteShip::InitiateTeleport(CompleteShip *this, int targetRoom, 
 "5589e557565331db83ec3c8b45088b4008":
 virtual cleanup void CompleteShip::OnLoop(CompleteShip *this);
 "5557565383ec1c8b7424348b5c24308b8628010000":
-cleanup void CompleteShip::GetTeleportingParty(CompleteShip *this);
+cleanup std::vector<CrewMember*> CompleteShip::GetTeleportingParty(CompleteShip *this);
 "!.8b4424048b400889442404e9????????":
 cleanup CrewMember *CompleteShip::KillRandomCrew(CompleteShip *this);
 "!0fb6442408894424088b4424048b400889442404e9????????":
@@ -43,7 +43,7 @@ cleanup void CompleteShip::SetEnemyShip(CompleteShip *this, CompleteShip *other)
 "565383ec148b5c24200fb64314":
 cleanup bool CompleteShip::DeadCrew(CompleteShip *this);
 "5589e55383ec140fb645148b5d08":
-cleanup void CompleteShip::TeleportCrew(CompleteShip *this, ShipManager *other, int room, bool comingBack);
+cleanup std::vector<CrewMember*> CompleteShip::TeleportCrew(CompleteShip *this, int roomId, bool intruders);
 "5383ec188b5c2420c7442408020000008b4304":
 cleanup void CompleteShip::OnRender(CompleteShip *this);
 "83ec1c8b442420c74424080000803fc744240403000000":

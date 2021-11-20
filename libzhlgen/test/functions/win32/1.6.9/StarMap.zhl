@@ -137,7 +137,7 @@ void StarMap::DrawConnection(StarMap *this<ecx>, const Pointf& pos1, const Point
 "578d7c240883e4f0ff77fc5589e557565383ec4c8b1f8b4320c6431c01c6839c00000000":
 void StarMap::TurnIntoFleetLocation(StarMap *this<ecx>, Location *loc);
 "578d41088d7c240883e4f0ff77fc5589e557565389ce83ec7c8b1f8d7dd08901":
-static std::string& StarMap::GetLocationText(std::string& strRef<ecx>, StarMap *starMap, const Location* loc);
+std::string StarMap::GetLocationText<ecx>(StarMap *this, const Location* loc);
 "578d7c240883e4f0ff77fc5589e557565389cb81ec????????833fff8b77040f84????????8b81ac090000c68543ffffff00803d??????????c683c8090000018983ac090000":
 void StarMap::SetupNoFuel(StarMap *this<ecx>, int seed, const std::string& forceEscape);
 "578d7c240883e4f0ff77fc5589e557565381ec????????8b0789c78945888b40048b17":

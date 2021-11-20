@@ -9,7 +9,7 @@ virtual bool CrewMember::CanHeal(CrewMember *this<ecx>);
 ".578d7c240883e4f0ff77fc5589e5575383ec3080b9fc010000008b3f74??8d65f85b5f5d8d67f8":
 void CrewMember::OnRender(CrewMember *this<ecx>, bool outlineOnly);
 "89c8c701????????c7410400000000c7410800000000c7410c00000000c7411000000000c7411400000000c7411800000000c7411c00000000c6412000":
-static Damage *CrewMember::GetRoomDamage(Damage* dmg<ecx>, CrewMember *crew);
+Damage CrewMember::GetRoomDamage<ecx>(CrewMember *this);
 
 "578d7c240883e4f0ff77fc5589f889e557565389cf81ec????????8b308b5808":
 void CrewMember::constructor(CrewMember *this<ecx>, CrewBlueprint& blueprint, int shipId, bool intruder, CrewAnimation *animation);
@@ -80,7 +80,7 @@ void CrewMember::SavePosition(CrewMember *this<ecx>);
 ".c781fc060000ffffffffc781f8060000ffffffff":
 void CrewMember::ClearPosition(CrewMember *this<ecx>);
 ".8b54240489c88b8af806000089088b8afc060000894804":
-static void CrewMember::GetSavedPosition(Slot *ret<ecx>, CrewMember *crew);
+Slot CrewMember::GetSavedPosition<ecx>(CrewMember *this);
 ".8b4424048981f80600008b4424088981fc060000":
 void CrewMember::SetSavePosition(CrewMember *this<ecx>, Slot position);
 ".8b416885c074??8b015589e5":
@@ -166,11 +166,11 @@ int CrewMember::GetRepairingId(CrewMember *this<ecx>);
 ".538b4424108b5c24088b54241485c078??85d278??":
 bool CrewMember::WithinRect(CrewMember *this<ecx>, int x, int y, int w, int h);
 ".578d7c240883e4f0ff77fc5589e557":
-static std::string& CrewMember::GetLongName(std::string& str<ecx>, CrewMember *crew);
+std::string CrewMember::GetLongName<ecx>(CrewMember *this);
 ".578d7c240883e4f0ff77fc5589e55756":
 void CrewMember::SetName(CrewMember *this<ecx>, TextString name, bool force);
 ".578d7c240883e4f0ff77fc5589e5575389cb83ec10":
-static std::string& CrewMember::GetName(std::string& str<ecx>, CrewMember *crew);
+std::string CrewMember::GetName<ecx>(CrewMember *this);
 ".5589e55756538b0189cb8b75088b7d0c83e4f08b40643d????????75??":
 void CrewMember::SetCurrentTarget(CrewMember *this<ecx>, CrewTarget *target, bool unk);
 ".578d7c240883e4f0ff77fc5589e557565383ec1c":
@@ -212,11 +212,11 @@ bool CrewMember::ShipDamage(CrewMember *this<ecx>, float damage);
 "8b410485c074??31c0c38db6000000008b015589e55389cb8b808800000083e4f0":
 bool CrewMember::GetControllable(CrewMember *this<ecx>);
 ".8d510889c8c7410872657061c7410406000000c6410e008911ba????????6689510c":
-static std::string& CrewMember::GetUniqueRepairing(std::string& strRef<ecx>, CrewMember *crew);
+std::string CrewMember::GetUniqueRepairing<ecx>(CrewMember *this);
 "8b4424048981a40100008b4424088981a80100008b44240c8981ac010000":
 void CrewMember::SetTask(CrewMember *this<ecx>, CrewTask task);
 "578d7c240883e4f0ff77fc5589e557565381ec????????8b1f898d18ffffffc70424????????e8????????83ec0480bbe4020000008d45d0":
-static std::string& CrewMember::GetTooltip(std::string& strRef<ecx>, CrewMember *crew);
+std::string CrewMember::GetTooltip<ecx>(CrewMember *this);
 "8b015589e55389cb8b808800000083e4f03d????????75??0fb681fc01000084c075??8b939c000000":
 bool CrewMember::CountForVictory(CrewMember *this<ecx>);
 

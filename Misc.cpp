@@ -68,24 +68,26 @@ HOOK_METHOD(WarningMessage, OnRender, () -> void)
 
 // Bugfix for switching to the same background
 
-HOOK_STATIC(SpaceManager, SwitchBackground, (ImageDesc* ret, SpaceManager *space, const std::string& backgroundList) -> void)
+HOOK_METHOD(SpaceManager, SwitchBackground, (const std::string& backgroundList) -> ImageDesc)
 {
+    ImageDesc ret = ImageDesc();
     auto img = G_->GetEventGenerator()->GetImageFromList(backgroundList);
     auto tex = G_->GetResources()->GetImageId(img);
 
     if (!tex)
     {
-        return;
+        return ret;
     }
 
 
-    ret->tex = tex;
-    ret->resId = tex->id_;
-    ret->x = 0;
-    ret->y = 0;
-    ret->w = tex->width_;
-    ret->h = tex->height_;
-    ret->rot = 0;
+    ret.tex = tex;
+    ret.resId = tex->id_;
+    ret.x = 0;
+    ret.y = 0;
+    ret.w = tex->width_;
+    ret.h = tex->height_;
+    ret.rot = 0;
 
-    space->currentBack = tex;
+    this->currentBack = tex;
+    return ret;
 }

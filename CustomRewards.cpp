@@ -456,17 +456,17 @@ std::string CustomRewardType::GetReward(ResourceEvent &resourceEvent, int level,
     // Add items
     if (weapon)
     {
-        auto bps = blueprintManager->GetRandomWeapon(1, true);
+        std::vector<WeaponBlueprint*> bps = blueprintManager->GetRandomWeapon(1, true);
         resourceEvent.weapon = bps[0];
     }
     if (drone)
     {
-        auto bps = blueprintManager->GetRandomDrone(1, true);
+        std::vector<DroneBlueprint*> bps = blueprintManager->GetRandomDrone(1, true);
         resourceEvent.drone = bps[0];
     }
     if (augment)
     {
-        auto bps = blueprintManager->GetRandomAugment(1, true);
+        std::vector<AugmentBlueprint*> bps = blueprintManager->GetRandomAugment(1, true);
         resourceEvent.augment = bps[0];
     }
 

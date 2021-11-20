@@ -1,14 +1,2 @@
 "578d7c240883e4f0ff77fc5589e557565381ec????????8b07898dacfeffff8985b0feffff8b4704c70424????????":
-static Animation* AnimationControl::GetAnimation(Animation& animRef<ecx>, AnimationControl *animControl, const std::string& animName);
-
-struct AnimationControl depends (Animation)
-{{
-	Animation* GetAnimation(const std::string& animName)
-	{
-		Animation* animRef = new Animation();
-		
-		AnimationControl::GetAnimation(*animRef, this, animName);
-		
-		return animRef;
-	}
-}};
+Animation AnimationControl::GetAnimation<ecx>(AnimationControl *this, const std::string& animName);

@@ -51,10 +51,10 @@ namespace _func1
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("AchievementTracker::GetShipAchievements", typeid(void *(*)(void *, AchievementTracker *, const std::string &)), "578d7c240883e4f0ff77fc5589f889e557565383ec5c8b40048b3f894db4c744240802000000c744240400000000", argdata, 3, 0, &func);
+	static FunctionDefinition funcObj("AchievementTracker::GetShipAchievements", typeid(std::vector<CAchievement*> (AchievementTracker::*)(const std::string &)), "578d7c240883e4f0ff77fc5589f889e557565383ec5c8b40048b3f894db4c744240802000000c744240400000000", argdata, 3, 1, &func);
 }
 
-FUNC_NAKED void *AchievementTracker::GetShipAchievements(void *unk, AchievementTracker *tracker, const std::string &name)
+FUNC_NAKED std::vector<CAchievement*> AchievementTracker::GetShipAchievements(const std::string &ship)
 {
 	__asm__
 	(
@@ -65,9 +65,8 @@ FUNC_NAKED void *AchievementTracker::GetShipAchievements(void *unk, AchievementT
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+16]\n\t"		// name
-		"push [ebp+12]\n\t"		// tracker
-		"mov ecx, [ebp+8]\n\t"	// unk
+		"push [ebp+16]\n\t"		// ship
+		"push [ebp+12]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1::func));
 	__asm__
@@ -815,10 +814,10 @@ namespace _func22
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("AnimationControl::GetAnimation", typeid(Animation *(*)(Animation &, AnimationControl *, const std::string &)), "578d7c240883e4f0ff77fc5589e557565381ec????????8b07898dacfeffff8985b0feffff8b4704c70424????????", argdata, 3, 0, &func);
+	static FunctionDefinition funcObj("AnimationControl::GetAnimation", typeid(Animation (AnimationControl::*)(const std::string &)), "578d7c240883e4f0ff77fc5589e557565381ec????????8b07898dacfeffff8985b0feffff8b4704c70424????????", argdata, 3, 1, &func);
 }
 
-FUNC_NAKED Animation *AnimationControl::GetAnimation(Animation &animRef, AnimationControl *animControl, const std::string &animName)
+FUNC_NAKED Animation AnimationControl::GetAnimation(const std::string &animName)
 {
 	__asm__
 	(
@@ -830,8 +829,7 @@ FUNC_NAKED Animation *AnimationControl::GetAnimation(Animation &animRef, Animati
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+16]\n\t"		// animName
-		"push [ebp+12]\n\t"		// animControl
-		"mov ecx, [ebp+8]\n\t"	// animRef
+		"push [ebp+12]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func22::func));
 	__asm__
@@ -1921,10 +1919,10 @@ namespace _func53
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("Blueprint::GetNameShort", typeid(std::string *(*)(std::string &, Blueprint *)), ".578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b17807a500075??83c238", argdata, 2, 0, &func);
+	static FunctionDefinition funcObj("Blueprint::GetNameShort", typeid(std::string (Blueprint::*)()), ".578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b17807a500075??83c238", argdata, 2, 1, &func);
 }
 
-FUNC_NAKED std::string *Blueprint::GetNameShort(std::string &ret, Blueprint *bp)
+FUNC_NAKED std::string Blueprint::GetNameShort()
 {
 	__asm__
 	(
@@ -1935,8 +1933,7 @@ FUNC_NAKED std::string *Blueprint::GetNameShort(std::string &ret, Blueprint *bp)
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+12]\n\t"		// bp
-		"mov ecx, [ebp+8]\n\t"	// ret
+		"push [ebp+12]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func53::func));
 	__asm__
@@ -1956,10 +1953,10 @@ namespace _func54
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("BlueprintManager::GetBlueprintList", typeid(std::vector<std::string> &(*)(std::vector<std::string> &, BlueprintManager *, const std::string &)), "578d7c240883e4f0ff77fc5589f889e557565389cb83ec4c8b3f8b40048945c0e8????????84c08d87f4000000", argdata, 3, 0, &func);
+	static FunctionDefinition funcObj("BlueprintManager::GetBlueprintList", typeid(std::vector<std::string> (BlueprintManager::*)(const std::string &)), "578d7c240883e4f0ff77fc5589f889e557565389cb83ec4c8b3f8b40048945c0e8????????84c08d87f4000000", argdata, 3, 1, &func);
 }
 
-FUNC_NAKED std::vector<std::string> &BlueprintManager::GetBlueprintList(std::vector<std::string> &vec, BlueprintManager *bpM, const std::string &str)
+FUNC_NAKED std::vector<std::string> BlueprintManager::GetBlueprintList(const std::string &name)
 {
 	__asm__
 	(
@@ -1970,9 +1967,8 @@ FUNC_NAKED std::vector<std::string> &BlueprintManager::GetBlueprintList(std::vec
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+16]\n\t"		// str
-		"push [ebp+12]\n\t"		// bpM
-		"mov ecx, [ebp+8]\n\t"	// vec
+		"push [ebp+16]\n\t"		// name
+		"push [ebp+12]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func54::func));
 	__asm__
@@ -2163,10 +2159,10 @@ namespace _func60
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("BlueprintManager::ProcessWeaponBlueprint", typeid(WeaponBlueprint *(*)(WeaponBlueprint *, BlueprintManager *, rapidxml::xml_node<char> *)), "578d7c240883e4f0ff77fc5589f889e557565389cf81ec????????8b18899d14ffffff8b5804e8????????8b8514ffffff8d8d4cffffff8b7318895c2404890424e8????????8d954cffffff83ec088d4f1c", argdata, 3, 0, &func);
+	static FunctionDefinition funcObj("BlueprintManager::ProcessWeaponBlueprint", typeid(WeaponBlueprint (BlueprintManager::*)(rapidxml::xml_node<char> *)), "578d7c240883e4f0ff77fc5589f889e557565389cf81ec????????8b18899d14ffffff8b5804e8????????8b8514ffffff8d8d4cffffff8b7318895c2404890424e8????????8d954cffffff83ec088d4f1c", argdata, 3, 1, &func);
 }
 
-FUNC_NAKED WeaponBlueprint *BlueprintManager::ProcessWeaponBlueprint(WeaponBlueprint *bp, BlueprintManager *bpM, rapidxml::xml_node<char> *node)
+FUNC_NAKED WeaponBlueprint BlueprintManager::ProcessWeaponBlueprint(rapidxml::xml_node<char> *node)
 {
 	__asm__
 	(
@@ -2178,8 +2174,7 @@ FUNC_NAKED WeaponBlueprint *BlueprintManager::ProcessWeaponBlueprint(WeaponBluep
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+16]\n\t"		// node
-		"push [ebp+12]\n\t"		// bpM
-		"mov ecx, [ebp+8]\n\t"	// bp
+		"push [ebp+12]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func60::func));
 	__asm__
@@ -2199,10 +2194,10 @@ namespace _func61
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("BlueprintManager::ProcessDescription", typeid(Description *(*)(Description *, BlueprintManager *, rapidxml::xml_node<char> *)), "578d7c240883e4f0ff77fc5589e557565383ec7c8b5f04894d94e8????????8b5b1885db0f84????????8d75cce9????????895c2404893424e8????????", argdata, 3, 0, &func);
+	static FunctionDefinition funcObj("BlueprintManager::ProcessDescription", typeid(Description (BlueprintManager::*)(rapidxml::xml_node<char> *)), "578d7c240883e4f0ff77fc5589e557565383ec7c8b5f04894d94e8????????8b5b1885db0f84????????8d75cce9????????895c2404893424e8????????", argdata, 3, 1, &func);
 }
 
-FUNC_NAKED Description *BlueprintManager::ProcessDescription(Description *desc, BlueprintManager *bpM, rapidxml::xml_node<char> *node)
+FUNC_NAKED Description BlueprintManager::ProcessDescription(rapidxml::xml_node<char> *node)
 {
 	__asm__
 	(
@@ -2214,8 +2209,7 @@ FUNC_NAKED Description *BlueprintManager::ProcessDescription(Description *desc, 
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+16]\n\t"		// node
-		"push [ebp+12]\n\t"		// bpM
-		"mov ecx, [ebp+8]\n\t"	// desc
+		"push [ebp+12]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func61::func));
 	__asm__
@@ -2235,10 +2229,10 @@ namespace _func62
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("BlueprintManager::ProcessEffectsBlueprint", typeid(EffectsBlueprint *(*)(EffectsBlueprint *, BlueprintManager *, rapidxml::xml_node<char> *)), "57660fefc08d7c240883e4f0ff77fc5589f889e557565389cf83ec5c8b308b58040f11018d41300f1141100f114120", argdata, 3, 0, &func);
+	static FunctionDefinition funcObj("BlueprintManager::ProcessEffectsBlueprint", typeid(EffectsBlueprint (BlueprintManager::*)(rapidxml::xml_node<char> *)), "57660fefc08d7c240883e4f0ff77fc5589f889e557565389cf83ec5c8b308b58040f11018d41300f1141100f114120", argdata, 3, 1, &func);
 }
 
-FUNC_NAKED EffectsBlueprint *BlueprintManager::ProcessEffectsBlueprint(EffectsBlueprint *bp, BlueprintManager *bpM, rapidxml::xml_node<char> *node)
+FUNC_NAKED EffectsBlueprint BlueprintManager::ProcessEffectsBlueprint(rapidxml::xml_node<char> *node)
 {
 	__asm__
 	(
@@ -2250,8 +2244,7 @@ FUNC_NAKED EffectsBlueprint *BlueprintManager::ProcessEffectsBlueprint(EffectsBl
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+16]\n\t"		// node
-		"push [ebp+12]\n\t"		// bpM
-		"mov ecx, [ebp+8]\n\t"	// bp
+		"push [ebp+12]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func62::func));
 	__asm__
@@ -2271,10 +2264,10 @@ namespace _func63
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("BlueprintManager::GetCrewBlueprint", typeid(CrewBlueprint *(*)(CrewBlueprint *, BlueprintManager *, const std::string &)), "578d7c240883e4f0ff77fc5589f889e557565389cb83ec6c8b3f8b7004e8????????8d47648d5768", argdata, 3, 0, &func);
+	static FunctionDefinition funcObj("BlueprintManager::GetCrewBlueprint", typeid(CrewBlueprint (BlueprintManager::*)(const std::string &)), "578d7c240883e4f0ff77fc5589f889e557565389cb83ec6c8b3f8b7004e8????????8d47648d5768", argdata, 3, 1, &func);
 }
 
-FUNC_NAKED CrewBlueprint *BlueprintManager::GetCrewBlueprint(CrewBlueprint *bp, BlueprintManager *bpM, const std::string &name)
+FUNC_NAKED CrewBlueprint BlueprintManager::GetCrewBlueprint(const std::string &name)
 {
 	__asm__
 	(
@@ -2286,8 +2279,7 @@ FUNC_NAKED CrewBlueprint *BlueprintManager::GetCrewBlueprint(CrewBlueprint *bp, 
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+16]\n\t"		// name
-		"push [ebp+12]\n\t"		// bpM
-		"mov ecx, [ebp+8]\n\t"	// bp
+		"push [ebp+12]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func63::func));
 	__asm__
@@ -2341,25 +2333,23 @@ namespace _func65
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("BlueprintManager::GetRandomAugment", typeid(void (*)(std::vector<AugmentBlueprint*> &, BlueprintManager *, int , bool )), "578d7c240883e4f0ff77fc5589e5575389cb83ec108b078b57040fb64f08895424088d504c", argdata, 4, 4, &func);
+	static FunctionDefinition funcObj("BlueprintManager::GetRandomAugment", typeid(std::vector<AugmentBlueprint*> (BlueprintManager::*)(int , bool )), "578d7c240883e4f0ff77fc5589e5575389cb83ec108b078b57040fb64f08895424088d504c", argdata, 4, 1, &func);
 }
 
-FUNC_NAKED void BlueprintManager::GetRandomAugment(std::vector<AugmentBlueprint*> &vec, BlueprintManager *bpM, int count, bool demo_lock)
+FUNC_NAKED std::vector<AugmentBlueprint*> BlueprintManager::GetRandomAugment(int count, bool demo_lock)
 {
 	__asm__
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
 		"push edx\n\t"
-		"push eax\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+20]\n\t"		// demo_lock
 		"push [ebp+16]\n\t"		// count
-		"push [ebp+12]\n\t"		// bpM
-		"mov ecx, [ebp+8]\n\t"	// vec
+		"push [ebp+12]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func65::func));
 	__asm__
@@ -2368,7 +2358,6 @@ FUNC_NAKED void BlueprintManager::GetRandomAugment(std::vector<AugmentBlueprint*
 		"pop esi\n\t"
 		"pop ebx\n\t"
 		"pop ecx\n\t"
-		"pop eax\n\t"
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
@@ -2414,24 +2403,22 @@ namespace _func67
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("BlueprintManager::GetUnusedCrewName", typeid(void (*)(std::string &, BlueprintManager *, bool *)), "578d7c240883e4f0ff77fc5589e557565383ec5c8b07894db4c7410400000000c6410800c745a815000000", argdata, 3, 4, &func);
+	static FunctionDefinition funcObj("BlueprintManager::GetUnusedCrewName", typeid(std::string (BlueprintManager::*)(bool *)), "578d7c240883e4f0ff77fc5589e557565383ec5c8b07894db4c7410400000000c6410800c745a815000000", argdata, 3, 1, &func);
 }
 
-FUNC_NAKED void BlueprintManager::GetUnusedCrewName(std::string &strRef, BlueprintManager *bpM, bool *isMale_ret)
+FUNC_NAKED std::string BlueprintManager::GetUnusedCrewName(bool *isMale_ret)
 {
 	__asm__
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
 		"push edx\n\t"
-		"push eax\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+16]\n\t"		// isMale_ret
-		"push [ebp+12]\n\t"		// bpM
-		"mov ecx, [ebp+8]\n\t"	// strRef
+		"push [ebp+12]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func67::func));
 	__asm__
@@ -2440,7 +2427,6 @@ FUNC_NAKED void BlueprintManager::GetUnusedCrewName(std::string &strRef, Bluepri
 		"pop esi\n\t"
 		"pop ebx\n\t"
 		"pop ecx\n\t"
-		"pop eax\n\t"
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
@@ -2452,24 +2438,22 @@ namespace _func68
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("BlueprintManager::GetCrewName", typeid(void (*)(std::string &, BlueprintManager *, bool *)), "578d7c240883e4f0ff77fc5589e557565389ce8d5dd083ec4c8b178b47048b0d????????8945c08d427c8955bc8945c4", argdata, 3, 4, &func);
+	static FunctionDefinition funcObj("BlueprintManager::GetCrewName", typeid(std::string (BlueprintManager::*)(bool *)), "578d7c240883e4f0ff77fc5589e557565389ce8d5dd083ec4c8b178b47048b0d????????8945c08d427c8955bc8945c4", argdata, 3, 1, &func);
 }
 
-FUNC_NAKED void BlueprintManager::GetCrewName(std::string &strRef, BlueprintManager *bpM, bool *isMale_ret)
+FUNC_NAKED std::string BlueprintManager::GetCrewName(bool *isMale_ret)
 {
 	__asm__
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
 		"push edx\n\t"
-		"push eax\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+16]\n\t"		// isMale_ret
-		"push [ebp+12]\n\t"		// bpM
-		"mov ecx, [ebp+8]\n\t"	// strRef
+		"push [ebp+12]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func68::func));
 	__asm__
@@ -2478,7 +2462,6 @@ FUNC_NAKED void BlueprintManager::GetCrewName(std::string &strRef, BlueprintMana
 		"pop esi\n\t"
 		"pop ebx\n\t"
 		"pop ecx\n\t"
-		"pop eax\n\t"
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
@@ -2490,25 +2473,23 @@ namespace _func69
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("BlueprintManager::GetRandomWeapon", typeid(void (*)(std::vector<WeaponBlueprint*> &, BlueprintManager *, int , bool )), "578d7c240883e4f0ff77fc5589e5575389cb83ec108b078b57040fb64f08895424088d501c890424894c240c8954240489d9e8????????", argdata, 4, 4, &func);
+	static FunctionDefinition funcObj("BlueprintManager::GetRandomWeapon", typeid(std::vector<WeaponBlueprint*> (BlueprintManager::*)(int , bool )), "578d7c240883e4f0ff77fc5589e5575389cb83ec108b078b57040fb64f08895424088d501c890424894c240c8954240489d9e8????????", argdata, 4, 1, &func);
 }
 
-FUNC_NAKED void BlueprintManager::GetRandomWeapon(std::vector<WeaponBlueprint*> &vec, BlueprintManager *bpM, int count, bool demo_lock)
+FUNC_NAKED std::vector<WeaponBlueprint*> BlueprintManager::GetRandomWeapon(int count, bool demo_lock)
 {
 	__asm__
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
 		"push edx\n\t"
-		"push eax\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+20]\n\t"		// demo_lock
 		"push [ebp+16]\n\t"		// count
-		"push [ebp+12]\n\t"		// bpM
-		"mov ecx, [ebp+8]\n\t"	// vec
+		"push [ebp+12]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func69::func));
 	__asm__
@@ -2517,7 +2498,6 @@ FUNC_NAKED void BlueprintManager::GetRandomWeapon(std::vector<WeaponBlueprint*> 
 		"pop esi\n\t"
 		"pop ebx\n\t"
 		"pop ecx\n\t"
-		"pop eax\n\t"
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
@@ -2529,25 +2509,23 @@ namespace _func70
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("BlueprintManager::GetRandomDrone", typeid(void (*)(std::vector<DroneBlueprint*> &, BlueprintManager *, int , bool )), "578d7c240883e4f0ff77fc5589e5575389cb83ec108b078b57040fb64f08895424088d5034890424894c240c", argdata, 4, 4, &func);
+	static FunctionDefinition funcObj("BlueprintManager::GetRandomDrone", typeid(std::vector<DroneBlueprint*> (BlueprintManager::*)(int , bool )), "578d7c240883e4f0ff77fc5589e5575389cb83ec108b078b57040fb64f08895424088d5034890424894c240c", argdata, 4, 1, &func);
 }
 
-FUNC_NAKED void BlueprintManager::GetRandomDrone(std::vector<DroneBlueprint*> &vec, BlueprintManager *bpM, int count, bool demo_lock)
+FUNC_NAKED std::vector<DroneBlueprint*> BlueprintManager::GetRandomDrone(int count, bool demo_lock)
 {
 	__asm__
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
 		"push edx\n\t"
-		"push eax\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+20]\n\t"		// demo_lock
 		"push [ebp+16]\n\t"		// count
-		"push [ebp+12]\n\t"		// bpM
-		"mov ecx, [ebp+8]\n\t"	// vec
+		"push [ebp+12]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func70::func));
 	__asm__
@@ -2556,7 +2534,6 @@ FUNC_NAKED void BlueprintManager::GetRandomDrone(std::vector<DroneBlueprint*> &v
 		"pop esi\n\t"
 		"pop ebx\n\t"
 		"pop ecx\n\t"
-		"pop eax\n\t"
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
@@ -4201,11 +4178,11 @@ FUNC_NAKED void CApp::OnResume()
 namespace _func117
 {
 	static void *func = 0;
-	static short argdata[] = {0x101, 0x1ff, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("CApp::TranslateMouse", typeid(Pointf (CApp::*)(int , int )), ".57660fefc08d7c240883e4f0ff77fc5589e55783ec248b072b8110350000", argdata, 4, 1, &func);
+	static short argdata[] = {0x1ff, 0x101, 0x1ff, 0x1ff};
+	static FunctionDefinition funcObj("CApp::TranslateMouse", typeid(Point (CApp::*)(int , int )), ".57660fefc08d7c240883e4f0ff77fc5589e55783ec248b072b8110350000", argdata, 4, 1, &func);
 }
 
-FUNC_NAKED Pointf CApp::TranslateMouse(int x, int y)
+FUNC_NAKED Point CApp::TranslateMouse(int x, int y)
 {
 	__asm__
 	(
@@ -4216,9 +4193,10 @@ FUNC_NAKED Pointf CApp::TranslateMouse(int x, int y)
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+16]\n\t"		// y
-		"push [ebp+12]\n\t"		// x
-		"push [ebp+8]\n\t"		// implicit_output
+		"push [ebp+20]\n\t"		// y
+		"push [ebp+16]\n\t"		// x
+		"push ecx\n\t"			// implicit_output
+		"mov ecx, [ebp+12]\n\t"	// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func117::func));
 	__asm__
@@ -4230,7 +4208,7 @@ FUNC_NAKED Pointf CApp::TranslateMouse(int x, int y)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret 16\n\t"
 	);
 }
 
@@ -4546,11 +4524,11 @@ FUNC_NAKED void CFPS::OnLoop()
 namespace _func127
 {
 	static void *func = 0;
-	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("CSurface::GL_GetColor", typeid(GL_Color &(*)()), "8b4424048b15????????89108b15????????8950048b15????????8950088b15????????89500cc3908db42600000000a1????????3b05????????74??83e810a3????????f3c390908db426000000008b15????????8b0d????????55", argdata, 0, 2, &func);
+	static short argdata[] = {0x1ff};
+	static FunctionDefinition funcObj("CSurface::GL_GetColor", typeid(GL_Color (*)()), "8b4424048b15????????89108b15????????8950048b15????????8950088b15????????89500cc3908db42600000000a1????????3b05????????74??83e810a3????????f3c390908db426000000008b15????????8b0d????????55", argdata, 1, 2, &func);
 }
 
-FUNC_NAKED GL_Color &CSurface::GL_GetColor()
+FUNC_NAKED GL_Color CSurface::GL_GetColor()
 {
 	__asm__
 	(
@@ -4561,11 +4539,12 @@ FUNC_NAKED GL_Color &CSurface::GL_GetColor()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+		"push [ebp+8]\n\t"		// implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func127::func));
 	__asm__
 	(
-		"add esp, 0\n\t"
+		"add esp, 4\n\t"
 		"pop edi\n\t"
 		"pop esi\n\t"
 		"pop ebx\n\t"
@@ -4573,7 +4552,7 @@ FUNC_NAKED GL_Color &CSurface::GL_GetColor()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret\n\t"
+		"ret 4\n\t"
 	);
 }
 
@@ -5398,10 +5377,10 @@ namespace _func150
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff};
-	static FunctionDefinition funcObj("CSurface::GetColorTint", typeid(GL_Color &(*)(GL_Color *)), ".8b15????????8b0d????????5539d189e58b450874??29ca83e2f08d5411f0", argdata, 1, 2, &func);
+	static FunctionDefinition funcObj("CSurface::GetColorTint", typeid(GL_Color (*)()), ".8b15????????8b0d????????5539d189e58b450874??29ca83e2f08d5411f0", argdata, 1, 2, &func);
 }
 
-FUNC_NAKED GL_Color &CSurface::GetColorTint(GL_Color *ref)
+FUNC_NAKED GL_Color CSurface::GetColorTint()
 {
 	__asm__
 	(
@@ -5412,7 +5391,7 @@ FUNC_NAKED GL_Color &CSurface::GetColorTint(GL_Color *ref)
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+8]\n\t"		// ref
+		"push [ebp+8]\n\t"		// implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func150::func));
 	__asm__
@@ -8660,22 +8639,22 @@ FUNC_NAKED void CompleteShip::OnLoop()
 namespace _func238
 {
 	static void *func = 0;
-	static short argdata[] = {0x101};
-	static FunctionDefinition funcObj("CompleteShip::GetTeleportingParty", typeid(void (CompleteShip::*)()), ".5589e557565389cb83e4f083ec208b7d088bb7280100008b872401000039c60f84????????", argdata, 1, 5, &func);
+	static short argdata[] = {0x101, 0x1ff};
+	static FunctionDefinition funcObj("CompleteShip::GetTeleportingParty", typeid(std::vector<CrewMember*> (CompleteShip::*)()), ".5589e557565389cb83e4f083ec208b7d088bb7280100008b872401000039c60f84????????", argdata, 2, 1, &func);
 }
 
-FUNC_NAKED void CompleteShip::GetTeleportingParty()
+FUNC_NAKED std::vector<CrewMember*> CompleteShip::GetTeleportingParty()
 {
 	__asm__
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
 		"push edx\n\t"
-		"push eax\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+		"push [ebp+12]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func238::func));
 	__asm__
@@ -8684,11 +8663,10 @@ FUNC_NAKED void CompleteShip::GetTeleportingParty()
 		"pop esi\n\t"
 		"pop ebx\n\t"
 		"pop ecx\n\t"
-		"pop eax\n\t"
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret\n\t"
+		"ret 8\n\t"
 	);
 }
 
@@ -8865,24 +8843,23 @@ namespace _func244
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("CompleteShip::TeleportCrew", typeid(void (CompleteShip::*)(ShipManager *, int , bool )), ".578d7c240883e4f0ff77fc5589e557", argdata, 4, 5, &func);
+	static FunctionDefinition funcObj("CompleteShip::TeleportCrew", typeid(std::vector<CrewMember*> (CompleteShip::*)(int , bool )), ".578d7c240883e4f0ff77fc5589e557", argdata, 4, 1, &func);
 }
 
-FUNC_NAKED void CompleteShip::TeleportCrew(ShipManager *other, int room, bool comingBack)
+FUNC_NAKED std::vector<CrewMember*> CompleteShip::TeleportCrew(int roomId, bool intruders)
 {
 	__asm__
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
 		"push edx\n\t"
-		"push eax\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+16]\n\t"		// comingBack
-		"push [ebp+12]\n\t"		// room
-		"push [ebp+8]\n\t"		// other
+		"push [ebp+20]\n\t"		// intruders
+		"push [ebp+16]\n\t"		// roomId
+		"push [ebp+12]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func244::func));
 	__asm__
@@ -8891,11 +8868,10 @@ FUNC_NAKED void CompleteShip::TeleportCrew(ShipManager *other, int room, bool co
 		"pop esi\n\t"
 		"pop ebx\n\t"
 		"pop ecx\n\t"
-		"pop eax\n\t"
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret 16\n\t"
 	);
 }
 
@@ -10015,10 +9991,10 @@ namespace _func276
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("CrewAnimation::GetDeathSound", typeid(std::string &(*)(std::string &, CrewAnimation *)), "578d7c240883e4f0ff77fc5589e5575389cb83ec308b0780b8c40900000074??803d??????????0f85????????", argdata, 2, 0, &func);
+	static FunctionDefinition funcObj("CrewAnimation::GetDeathSound", typeid(std::string (CrewAnimation::*)()), "578d7c240883e4f0ff77fc5589e5575389cb83ec308b0780b8c40900000074??803d??????????0f85????????", argdata, 2, 1, &func);
 }
 
-FUNC_NAKED std::string &CrewAnimation::GetDeathSound(std::string &strRef, CrewAnimation *anim)
+FUNC_NAKED std::string CrewAnimation::GetDeathSound()
 {
 	__asm__
 	(
@@ -10029,8 +10005,7 @@ FUNC_NAKED std::string &CrewAnimation::GetDeathSound(std::string &strRef, CrewAn
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+12]\n\t"		// anim
-		"mov ecx, [ebp+8]\n\t"	// strRef
+		"push [ebp+12]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func276::func));
 	__asm__
@@ -10050,10 +10025,10 @@ namespace _func277
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("CrewAnimation::GetShootingSound", typeid(std::string &(*)(std::string &, CrewAnimation *)), "578d7c240883e4f0ff77fc5589e557565389cb83ec3c803d??????????0f84????????e8????????89c189c8ba????????8d75d0f7ea", argdata, 2, 0, &func);
+	static FunctionDefinition funcObj("CrewAnimation::GetShootingSound", typeid(std::string (CrewAnimation::*)()), "578d7c240883e4f0ff77fc5589e557565389cb83ec3c803d??????????0f84????????e8????????89c189c8ba????????8d75d0f7ea", argdata, 2, 1, &func);
 }
 
-FUNC_NAKED std::string &CrewAnimation::GetShootingSound(std::string &strRef, CrewAnimation *anim)
+FUNC_NAKED std::string CrewAnimation::GetShootingSound()
 {
 	__asm__
 	(
@@ -10064,8 +10039,7 @@ FUNC_NAKED std::string &CrewAnimation::GetShootingSound(std::string &strRef, Cre
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+12]\n\t"		// anim
-		"mov ecx, [ebp+8]\n\t"	// strRef
+		"push [ebp+12]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func277::func));
 	__asm__
@@ -10522,10 +10496,10 @@ namespace _func290
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("CrewBlueprint::GetNameShort", typeid(std::string *(*)(std::string &, CrewBlueprint *)), "578d7c240883e4f0ff77fc5589e557565389ce83ec4c8b1f80bbd4000000008dbbbc000000", argdata, 2, 0, &func);
+	static FunctionDefinition funcObj("CrewBlueprint::GetNameShort", typeid(std::string (CrewBlueprint::*)()), "578d7c240883e4f0ff77fc5589e557565389ce83ec4c8b1f80bbd4000000008dbbbc000000", argdata, 2, 1, &func);
 }
 
-FUNC_NAKED std::string *CrewBlueprint::GetNameShort(std::string &ret, CrewBlueprint *bp)
+FUNC_NAKED std::string CrewBlueprint::GetNameShort()
 {
 	__asm__
 	(
@@ -10536,8 +10510,7 @@ FUNC_NAKED std::string *CrewBlueprint::GetNameShort(std::string &ret, CrewBluepr
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+12]\n\t"		// bp
-		"mov ecx, [ebp+8]\n\t"	// ret
+		"push [ebp+12]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func290::func));
 	__asm__
@@ -12239,10 +12212,10 @@ namespace _func338
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("CrewMember::GetRoomDamage", typeid(Damage *(*)(Damage *, CrewMember *)), "89c8c701????????c7410400000000c7410800000000c7410c00000000c7411000000000c7411400000000c7411800000000c7411c00000000c6412000", argdata, 2, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::GetRoomDamage", typeid(Damage (CrewMember::*)()), "89c8c701????????c7410400000000c7410800000000c7410c00000000c7411000000000c7411400000000c7411800000000c7411c00000000c6412000", argdata, 2, 1, &func);
 }
 
-FUNC_NAKED Damage *CrewMember::GetRoomDamage(Damage *dmg, CrewMember *crew)
+FUNC_NAKED Damage CrewMember::GetRoomDamage()
 {
 	__asm__
 	(
@@ -12253,8 +12226,7 @@ FUNC_NAKED Damage *CrewMember::GetRoomDamage(Damage *dmg, CrewMember *crew)
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+12]\n\t"		// crew
-		"mov ecx, [ebp+8]\n\t"	// dmg
+		"push [ebp+12]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func338::func));
 	__asm__
@@ -13452,23 +13424,21 @@ namespace _func373
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("CrewMember::GetSavedPosition", typeid(void (*)(Slot *, CrewMember *)), ".8b54240489c88b8af806000089088b8afc060000894804", argdata, 2, 4, &func);
+	static FunctionDefinition funcObj("CrewMember::GetSavedPosition", typeid(Slot (CrewMember::*)()), ".8b54240489c88b8af806000089088b8afc060000894804", argdata, 2, 1, &func);
 }
 
-FUNC_NAKED void CrewMember::GetSavedPosition(Slot *ret, CrewMember *crew)
+FUNC_NAKED Slot CrewMember::GetSavedPosition()
 {
 	__asm__
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
 		"push edx\n\t"
-		"push eax\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+12]\n\t"		// crew
-		"mov ecx, [ebp+8]\n\t"	// ret
+		"push [ebp+12]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func373::func));
 	__asm__
@@ -13477,7 +13447,6 @@ FUNC_NAKED void CrewMember::GetSavedPosition(Slot *ret, CrewMember *crew)
 		"pop esi\n\t"
 		"pop ebx\n\t"
 		"pop ecx\n\t"
-		"pop eax\n\t"
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
@@ -14958,10 +14927,10 @@ namespace _func416
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("CrewMember::GetLongName", typeid(std::string &(*)(std::string &, CrewMember *)), ".578d7c240883e4f0ff77fc5589e557", argdata, 2, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::GetLongName", typeid(std::string (CrewMember::*)()), ".578d7c240883e4f0ff77fc5589e557", argdata, 2, 1, &func);
 }
 
-FUNC_NAKED std::string &CrewMember::GetLongName(std::string &str, CrewMember *crew)
+FUNC_NAKED std::string CrewMember::GetLongName()
 {
 	__asm__
 	(
@@ -14972,8 +14941,7 @@ FUNC_NAKED std::string &CrewMember::GetLongName(std::string &str, CrewMember *cr
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+12]\n\t"		// crew
-		"mov ecx, [ebp+8]\n\t"	// str
+		"push [ebp+12]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func416::func));
 	__asm__
@@ -15038,10 +15006,10 @@ namespace _func418
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("CrewMember::GetName", typeid(std::string &(*)(std::string &, CrewMember *)), ".578d7c240883e4f0ff77fc5589e5575389cb83ec10", argdata, 2, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::GetName", typeid(std::string (CrewMember::*)()), ".578d7c240883e4f0ff77fc5589e5575389cb83ec10", argdata, 2, 1, &func);
 }
 
-FUNC_NAKED std::string &CrewMember::GetName(std::string &str, CrewMember *crew)
+FUNC_NAKED std::string CrewMember::GetName()
 {
 	__asm__
 	(
@@ -15052,8 +15020,7 @@ FUNC_NAKED std::string &CrewMember::GetName(std::string &str, CrewMember *crew)
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+12]\n\t"		// crew
-		"mov ecx, [ebp+8]\n\t"	// str
+		"push [ebp+12]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func418::func));
 	__asm__
@@ -15771,10 +15738,10 @@ namespace _func439
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("CrewMember::GetUniqueRepairing", typeid(std::string &(*)(std::string &, CrewMember *)), ".8d510889c8c7410872657061c7410406000000c6410e008911ba????????6689510c", argdata, 2, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::GetUniqueRepairing", typeid(std::string (CrewMember::*)()), ".8d510889c8c7410872657061c7410406000000c6410e008911ba????????6689510c", argdata, 2, 1, &func);
 }
 
-FUNC_NAKED std::string &CrewMember::GetUniqueRepairing(std::string &strRef, CrewMember *crew)
+FUNC_NAKED std::string CrewMember::GetUniqueRepairing()
 {
 	__asm__
 	(
@@ -15785,8 +15752,7 @@ FUNC_NAKED std::string &CrewMember::GetUniqueRepairing(std::string &strRef, Crew
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+12]\n\t"		// crew
-		"mov ecx, [ebp+8]\n\t"	// strRef
+		"push [ebp+12]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func439::func));
 	__asm__
@@ -15844,10 +15810,10 @@ namespace _func441
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("CrewMember::GetTooltip", typeid(std::string &(*)(std::string &, CrewMember *)), "578d7c240883e4f0ff77fc5589e557565381ec????????8b1f898d18ffffffc70424????????e8????????83ec0480bbe4020000008d45d0", argdata, 2, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::GetTooltip", typeid(std::string (CrewMember::*)()), "578d7c240883e4f0ff77fc5589e557565381ec????????8b1f898d18ffffffc70424????????e8????????83ec0480bbe4020000008d45d0", argdata, 2, 1, &func);
 }
 
-FUNC_NAKED std::string &CrewMember::GetTooltip(std::string &strRef, CrewMember *crew)
+FUNC_NAKED std::string CrewMember::GetTooltip()
 {
 	__asm__
 	(
@@ -15858,8 +15824,7 @@ FUNC_NAKED std::string &CrewMember::GetTooltip(std::string &strRef, CrewMember *
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+12]\n\t"		// crew
-		"mov ecx, [ebp+8]\n\t"	// strRef
+		"push [ebp+12]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func441::func));
 	__asm__
@@ -16182,11 +16147,11 @@ FUNC_NAKED bool CrewMemberFactory::IsRace(const std::string &species)
 namespace _func451
 {
 	static void *func = 0;
-	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("CrewMemberFactory::GetRandomFriendlyName", typeid(std::pair<std::string, bool> &(CrewMemberFactory::*)(const std::string &)), ".578d7c240883e4f0ff77fc5589e5", argdata, 2, 1, &func);
+	static short argdata[] = {0x1ff, 0x1ff};
+	static FunctionDefinition funcObj("CrewMemberFactory::GetRandomFriendlyName", typeid(std::pair<std::string, bool> (CrewMemberFactory::*)(const std::string &)), ".578d7c240883e4f0ff77fc5589e5", argdata, 2, 1, &func);
 }
 
-FUNC_NAKED std::pair<std::string, bool> &CrewMemberFactory::GetRandomFriendlyName(const std::string &unk)
+FUNC_NAKED std::pair<std::string, bool> CrewMemberFactory::GetRandomFriendlyName(const std::string &race)
 {
 	__asm__
 	(
@@ -16197,7 +16162,8 @@ FUNC_NAKED std::pair<std::string, bool> &CrewMemberFactory::GetRandomFriendlyNam
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+8]\n\t"		// unk
+		"push [ebp+8]\n\t"		// race
+		"push ecx\n\t"			// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func451::func));
 	__asm__
@@ -16217,10 +16183,10 @@ namespace _func452
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("CrewMemberFactory::GetCrewNames", typeid(std::vector<std::string> *(*)(std::vector<std::string> &, CrewMemberFactory *)), ".578d7c240883e4f0ff77fc5589e55756", argdata, 2, 0, &func);
+	static FunctionDefinition funcObj("CrewMemberFactory::GetCrewNames", typeid(std::vector<std::string> (CrewMemberFactory::*)()), ".578d7c240883e4f0ff77fc5589e55756", argdata, 2, 1, &func);
 }
 
-FUNC_NAKED std::vector<std::string> *CrewMemberFactory::GetCrewNames(std::vector<std::string> &vec, CrewMemberFactory *factory)
+FUNC_NAKED std::vector<std::string> CrewMemberFactory::GetCrewNames()
 {
 	__asm__
 	(
@@ -16231,8 +16197,7 @@ FUNC_NAKED std::vector<std::string> *CrewMemberFactory::GetCrewNames(std::vector
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+12]\n\t"		// factory
-		"mov ecx, [ebp+8]\n\t"	// vec
+		"push [ebp+12]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func452::func));
 	__asm__
@@ -17361,10 +17326,10 @@ namespace _func484
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("EnergyAlien::GetRoomDamage", typeid(Damage *(*)(Damage *, EnergyAlien *)), "8b54240489c880ba590700000074??80ba5a0700000074??c700????????c7400400000000c7400800000000c7400c00000000c7401000000000c7401400000000c7401800000000c7401c00000000c6402000c74024ffffffffc74028ffffffffc6402c00c6402d00", argdata, 2, 0, &func);
+	static FunctionDefinition funcObj("EnergyAlien::GetRoomDamage", typeid(Damage (EnergyAlien::*)()), "8b54240489c880ba590700000074??80ba5a0700000074??c700????????c7400400000000c7400800000000c7400c00000000c7401000000000c7401400000000c7401800000000c7401c00000000c6402000c74024ffffffffc74028ffffffffc6402c00c6402d00", argdata, 2, 1, &func);
 }
 
-FUNC_NAKED Damage *EnergyAlien::GetRoomDamage(Damage *dmg, EnergyAlien *crew)
+FUNC_NAKED Damage EnergyAlien::GetRoomDamage()
 {
 	__asm__
 	(
@@ -17375,8 +17340,7 @@ FUNC_NAKED Damage *EnergyAlien::GetRoomDamage(Damage *dmg, EnergyAlien *crew)
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+12]\n\t"		// crew
-		"mov ecx, [ebp+8]\n\t"	// dmg
+		"push [ebp+12]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func484::func));
 	__asm__
@@ -18288,11 +18252,11 @@ FUNC_NAKED void EventSystem::AddEvent(int id)
 namespace _func510
 {
 	static void *func = 0;
-	static short argdata[] = {0x101, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("EventsParser::PullMinMax", typeid(RandomAmount *(EventsParser::*)(rapidxml::xml_node<char> *, const std::string &)), "578d7c240883e4f0ff77fc5589e557565389cb8d4da083ec7c8b47088b7704c70424????????894594e8????????", argdata, 3, 1, &func);
+	static short argdata[] = {0x101, 0x1ff, 0x1ff, 0x1ff};
+	static FunctionDefinition funcObj("EventsParser::PullMinMax", typeid(RandomAmount (EventsParser::*)(rapidxml::xml_node<char> *, const std::string &)), "578d7c240883e4f0ff77fc5589e557565389cb8d4da083ec7c8b47088b7704c70424????????894594e8????????", argdata, 4, 1, &func);
 }
 
-FUNC_NAKED RandomAmount *EventsParser::PullMinMax(rapidxml::xml_node<char> *node, const std::string &name)
+FUNC_NAKED RandomAmount EventsParser::PullMinMax(rapidxml::xml_node<char> *node, const std::string &name)
 {
 	__asm__
 	(
@@ -18303,8 +18267,9 @@ FUNC_NAKED RandomAmount *EventsParser::PullMinMax(rapidxml::xml_node<char> *node
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+12]\n\t"		// name
-		"push [ebp+8]\n\t"		// node
+		"push [ebp+20]\n\t"		// name
+		"push [ebp+16]\n\t"		// node
+		"push [ebp+12]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func510::func));
 	__asm__
@@ -18316,7 +18281,7 @@ FUNC_NAKED RandomAmount *EventsParser::PullMinMax(rapidxml::xml_node<char> *node
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret 16\n\t"
 	);
 }
 
@@ -18324,25 +18289,23 @@ namespace _func511
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("EventsParser::ProcessEvent", typeid(void (*)(std::string &, EventsParser *, rapidxml::xml_node<char> *, const std::string &)), "578d7c240883e4f0ff77fc5589e557565389ce81ec????????8b07898d2cfeffff8b5f08898528feffff8b4704c70424????????89c1898524feffffe8????????83ec0485c074??", argdata, 4, 4, &func);
+	static FunctionDefinition funcObj("EventsParser::ProcessEvent", typeid(std::string (EventsParser::*)(rapidxml::xml_node<char> *, const std::string &)), "578d7c240883e4f0ff77fc5589e557565389ce81ec????????8b07898d2cfeffff8b5f08898528feffff8b4704c70424????????89c1898524feffffe8????????83ec0485c074??", argdata, 4, 1, &func);
 }
 
-FUNC_NAKED void EventsParser::ProcessEvent(std::string &strRef, EventsParser *eventsParser, rapidxml::xml_node<char> *node, const std::string &eventName)
+FUNC_NAKED std::string EventsParser::ProcessEvent(rapidxml::xml_node<char> *node, const std::string &eventName)
 {
 	__asm__
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
 		"push edx\n\t"
-		"push eax\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+20]\n\t"		// eventName
 		"push [ebp+16]\n\t"		// node
-		"push [ebp+12]\n\t"		// eventsParser
-		"mov ecx, [ebp+8]\n\t"	// strRef
+		"push [ebp+12]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func511::func));
 	__asm__
@@ -18351,7 +18314,6 @@ FUNC_NAKED void EventsParser::ProcessEvent(std::string &strRef, EventsParser *ev
 		"pop esi\n\t"
 		"pop ebx\n\t"
 		"pop ecx\n\t"
-		"pop eax\n\t"
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
@@ -18363,24 +18325,22 @@ namespace _func512
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("EventsParser::ProcessShipEvent", typeid(void (*)(ShipTemplate &, EventsParser *, rapidxml::xml_node<char> *)), "578d7c240883e4f0ff77fc5589e557565381ec????????8b078b7704c70424????????89cf898d50fbffff898540fbffffe8????????8d8dbcfbffff83ec04c6471800", argdata, 3, 4, &func);
+	static FunctionDefinition funcObj("EventsParser::ProcessShipEvent", typeid(ShipTemplate (EventsParser::*)(rapidxml::xml_node<char> *)), "578d7c240883e4f0ff77fc5589e557565381ec????????8b078b7704c70424????????89cf898d50fbffff898540fbffffe8????????8d8dbcfbffff83ec04c6471800", argdata, 3, 1, &func);
 }
 
-FUNC_NAKED void EventsParser::ProcessShipEvent(ShipTemplate &shipEvent, EventsParser *eventsParser, rapidxml::xml_node<char> *node)
+FUNC_NAKED ShipTemplate EventsParser::ProcessShipEvent(rapidxml::xml_node<char> *node)
 {
 	__asm__
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
 		"push edx\n\t"
-		"push eax\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+16]\n\t"		// node
-		"push [ebp+12]\n\t"		// eventsParser
-		"mov ecx, [ebp+8]\n\t"	// shipEvent
+		"push [ebp+12]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func512::func));
 	__asm__
@@ -18389,7 +18349,6 @@ FUNC_NAKED void EventsParser::ProcessShipEvent(ShipTemplate &shipEvent, EventsPa
 		"pop esi\n\t"
 		"pop ebx\n\t"
 		"pop ecx\n\t"
-		"pop eax\n\t"
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
@@ -18400,11 +18359,11 @@ FUNC_NAKED void EventsParser::ProcessShipEvent(ShipTemplate &shipEvent, EventsPa
 namespace _func513
 {
 	static void *func = 0;
-	static short argdata[] = {0x101, 0x1ff, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("EventsParser::ProcessModifyItem", typeid(ResourcesTemplate *(EventsParser::*)(ResourcesTemplate &, rapidxml::xml_node<char> *, const std::string &)), "578d7c240883e4f0ff77fc5589f889e55756538d55d889cf83ec6c8b308b58048955d08975a48b70088b400c", argdata, 4, 1, &func);
+	static short argdata[] = {0x101, 0x1ff, 0x1ff, 0x1ff, 0x1ff};
+	static FunctionDefinition funcObj("EventsParser::ProcessModifyItem", typeid(ResourcesTemplate (EventsParser::*)(ResourcesTemplate &, rapidxml::xml_node<char> *, const std::string &)), "578d7c240883e4f0ff77fc5589f889e55756538d55d889cf83ec6c8b308b58048955d08975a48b70088b400c", argdata, 5, 1, &func);
 }
 
-FUNC_NAKED ResourcesTemplate *EventsParser::ProcessModifyItem(ResourcesTemplate &resources, rapidxml::xml_node<char> *node, const std::string &unk)
+FUNC_NAKED ResourcesTemplate EventsParser::ProcessModifyItem(ResourcesTemplate &resources, rapidxml::xml_node<char> *node, const std::string &unk)
 {
 	__asm__
 	(
@@ -18415,9 +18374,10 @@ FUNC_NAKED ResourcesTemplate *EventsParser::ProcessModifyItem(ResourcesTemplate 
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+16]\n\t"		// unk
-		"push [ebp+12]\n\t"		// node
-		"push [ebp+8]\n\t"		// resources
+		"push [ebp+24]\n\t"		// unk
+		"push [ebp+20]\n\t"		// node
+		"push [ebp+16]\n\t"		// resources
+		"push [ebp+12]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func513::func));
 	__asm__
@@ -18429,7 +18389,7 @@ FUNC_NAKED ResourcesTemplate *EventsParser::ProcessModifyItem(ResourcesTemplate 
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret 20\n\t"
 	);
 }
 
@@ -18510,25 +18470,23 @@ namespace _func516
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("EventsParser::ProcessEventList", typeid(void (*)(std::vector<std::string> &, EventsParser *, rapidxml::xml_node<char> *, const std::string &)), "5789c88d7c240883e4f0ff77fc5589e557565383ec5c8b1f894db08b4f04c700????????c7400400000000c7400800000000", argdata, 4, 4, &func);
+	static FunctionDefinition funcObj("EventsParser::ProcessEventList", typeid(std::vector<std::string> (EventsParser::*)(rapidxml::xml_node<char> *, const std::string &)), "5789c88d7c240883e4f0ff77fc5589e557565383ec5c8b1f894db08b4f04c700????????c7400400000000c7400800000000", argdata, 4, 1, &func);
 }
 
-FUNC_NAKED void EventsParser::ProcessEventList(std::vector<std::string> &vecRef, EventsParser *eventsParser, rapidxml::xml_node<char> *node, const std::string &listName)
+FUNC_NAKED std::vector<std::string> EventsParser::ProcessEventList(rapidxml::xml_node<char> *node, const std::string &listName)
 {
 	__asm__
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
 		"push edx\n\t"
-		"push eax\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+20]\n\t"		// listName
 		"push [ebp+16]\n\t"		// node
-		"push [ebp+12]\n\t"		// eventsParser
-		"mov ecx, [ebp+8]\n\t"	// vecRef
+		"push [ebp+12]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func516::func));
 	__asm__
@@ -18537,7 +18495,6 @@ FUNC_NAKED void EventsParser::ProcessEventList(std::vector<std::string> &vecRef,
 		"pop esi\n\t"
 		"pop ebx\n\t"
 		"pop ecx\n\t"
-		"pop eax\n\t"
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
@@ -18660,10 +18617,10 @@ namespace _func520
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff};
-	static FunctionDefinition funcObj("FileHelper::getResourceFile", typeid(std::string &(*)(const std::string &)), ".8d4c240483e4f0ff71fc5589e557565351", argdata, 1, 2, &func);
+	static FunctionDefinition funcObj("FileHelper::getResourceFile", typeid(std::string (*)()), ".8d4c240483e4f0ff71fc5589e557565351", argdata, 1, 2, &func);
 }
 
-FUNC_NAKED std::string &FileHelper::getResourceFile(const std::string &str)
+FUNC_NAKED std::string FileHelper::getResourceFile()
 {
 	__asm__
 	(
@@ -18674,7 +18631,7 @@ FUNC_NAKED std::string &FileHelper::getResourceFile(const std::string &str)
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+8]\n\t"		// str
+		"push [ebp+8]\n\t"		// implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func520::func));
 	__asm__
@@ -18695,10 +18652,10 @@ namespace _func521
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff};
-	static FunctionDefinition funcObj("FileHelper::getUserFolder", typeid(std::string &(*)(std::string &)), ".8d4c240483e4f0ff71fc5589e5575653", argdata, 1, 2, &func);
+	static FunctionDefinition funcObj("FileHelper::getUserFolder", typeid(std::string (*)()), ".8d4c240483e4f0ff71fc5589e5575653", argdata, 1, 2, &func);
 }
 
-FUNC_NAKED std::string &FileHelper::getUserFolder(std::string &str)
+FUNC_NAKED std::string FileHelper::getUserFolder()
 {
 	__asm__
 	(
@@ -18709,7 +18666,7 @@ FUNC_NAKED std::string &FileHelper::getUserFolder(std::string &str)
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+8]\n\t"		// str
+		"push [ebp+8]\n\t"		// implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func521::func));
 	__asm__
@@ -18730,10 +18687,10 @@ namespace _func522
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff};
-	static FunctionDefinition funcObj("FileHelper::getSaveFile", typeid(std::string &(*)(std::string &)), ".8d4c240483e4f0ff71fc5589e557565351", argdata, 1, 2, &func);
+	static FunctionDefinition funcObj("FileHelper::getSaveFile", typeid(std::string (*)()), ".8d4c240483e4f0ff71fc5589e557565351", argdata, 1, 2, &func);
 }
 
-FUNC_NAKED std::string &FileHelper::getSaveFile(std::string &str)
+FUNC_NAKED std::string FileHelper::getSaveFile()
 {
 	__asm__
 	(
@@ -18744,7 +18701,7 @@ FUNC_NAKED std::string &FileHelper::getSaveFile(std::string &str)
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+8]\n\t"		// str
+		"push [ebp+8]\n\t"		// implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func522::func));
 	__asm__
@@ -19191,10 +19148,10 @@ namespace _func535
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("FileHelper::readString", typeid(std::string &(*)(const std::string &, int )), ".8d4c240483e4f0ff71fc5589e55756535183ec48", argdata, 2, 2, &func);
+	static FunctionDefinition funcObj("FileHelper::readString", typeid(std::string (*)(int )), ".8d4c240483e4f0ff71fc5589e55756535183ec48", argdata, 2, 2, &func);
 }
 
-FUNC_NAKED std::string &FileHelper::readString(const std::string &str, int file)
+FUNC_NAKED std::string FileHelper::readString(int file)
 {
 	__asm__
 	(
@@ -19206,7 +19163,7 @@ FUNC_NAKED std::string &FileHelper::readString(const std::string &str, int file)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// file
-		"push [ebp+8]\n\t"		// str
+		"push [ebp+8]\n\t"		// implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func535::func));
 	__asm__
@@ -19336,7 +19293,7 @@ namespace _func539
 	static FunctionDefinition funcObj("FileHelper::readBuffer", typeid(char *(*)(int , int , bool )), ".8d4c240483e4f0ff71fc5589e55756", argdata, 3, 2, &func);
 }
 
-FUNC_NAKED char *FileHelper::readBuffer(int file, int len, bool unk)
+FUNC_NAKED char *FileHelper::readBuffer(int file, int len, bool nullTerminate)
 {
 	__asm__
 	(
@@ -19347,7 +19304,7 @@ FUNC_NAKED char *FileHelper::readBuffer(int file, int len, bool unk)
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+16]\n\t"		// unk
+		"push [ebp+16]\n\t"		// nullTerminate
 		"push [ebp+12]\n\t"		// len
 		"push [ebp+8]\n\t"		// file
 	);
@@ -21145,10 +21102,10 @@ namespace _func589
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("IonDrone::GetRoomDamage", typeid(Damage *(*)(Damage *, IonDrone *)), "5589e556538b7508c701????????89cbc7410400000000c741080000000083e4f0c7410c00000000c7411000000000c7411400000000c7411800000000c7411c00000000c6412000c74124ffffffffc74128ffffffffc6412c00c6412d00c6412e01", argdata, 2, 0, &func);
+	static FunctionDefinition funcObj("IonDrone::GetRoomDamage", typeid(Damage (IonDrone::*)()), "5589e556538b7508c701????????89cbc7410400000000c741080000000083e4f0c7410c00000000c7411000000000c7411400000000c7411800000000c7411c00000000c6412000c74124ffffffffc74128ffffffffc6412c00c6412d00c6412e01", argdata, 2, 1, &func);
 }
 
-FUNC_NAKED Damage *IonDrone::GetRoomDamage(Damage *dmg, IonDrone *crew)
+FUNC_NAKED Damage IonDrone::GetRoomDamage()
 {
 	__asm__
 	(
@@ -21159,8 +21116,7 @@ FUNC_NAKED Damage *IonDrone::GetRoomDamage(Damage *dmg, IonDrone *crew)
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+12]\n\t"		// crew
-		"mov ecx, [ebp+8]\n\t"	// dmg
+		"push [ebp+12]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func589::func));
 	__asm__
@@ -21621,10 +21577,10 @@ namespace _func604
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("MantisAnimation::GetShootingSound", typeid(std::string &(*)(std::string &, MantisAnimation *)), ".578d7c240883e4f0ff77fc5589e557565389cb83ec3c803d??????????0f84????????e8????????89c189c8ba????????", argdata, 2, 0, &func);
+	static FunctionDefinition funcObj("MantisAnimation::GetShootingSound", typeid(std::string (MantisAnimation::*)()), ".578d7c240883e4f0ff77fc5589e557565389cb83ec3c803d??????????0f84????????e8????????89c189c8ba????????", argdata, 2, 1, &func);
 }
 
-FUNC_NAKED std::string &MantisAnimation::GetShootingSound(std::string &strRef, MantisAnimation *anim)
+FUNC_NAKED std::string MantisAnimation::GetShootingSound()
 {
 	__asm__
 	(
@@ -21635,8 +21591,7 @@ FUNC_NAKED std::string &MantisAnimation::GetShootingSound(std::string &strRef, M
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+12]\n\t"		// anim
-		"mov ecx, [ebp+8]\n\t"	// strRef
+		"push [ebp+12]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func604::func));
 	__asm__
@@ -21691,10 +21646,10 @@ namespace _func606
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("MantisAnimation::GetDeathSound", typeid(std::string &(*)(std::string &, MantisAnimation *)), ".578d41088d7c240883e4f0ff77fc5589e5575389cb83ec108901", argdata, 2, 0, &func);
+	static FunctionDefinition funcObj("MantisAnimation::GetDeathSound", typeid(std::string (MantisAnimation::*)()), ".578d41088d7c240883e4f0ff77fc5589e5575389cb83ec108901", argdata, 2, 1, &func);
 }
 
-FUNC_NAKED std::string &MantisAnimation::GetDeathSound(std::string &strRef, MantisAnimation *anim)
+FUNC_NAKED std::string MantisAnimation::GetDeathSound()
 {
 	__asm__
 	(
@@ -21705,8 +21660,7 @@ FUNC_NAKED std::string &MantisAnimation::GetDeathSound(std::string &strRef, Mant
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+12]\n\t"		// anim
-		"mov ecx, [ebp+8]\n\t"	// strRef
+		"push [ebp+12]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func606::func));
 	__asm__
@@ -21978,7 +21932,7 @@ FUNC_NAKED std::string &MouseControl::SetTooltip(const std::string &tooltip)
 namespace _func614
 {
 	static void *func = 0;
-	static short argdata[] = {0x101, 0x1ff, 0x1ff};
+	static short argdata[] = {0x1ff, 0x101, 0x1ff};
 	static FunctionDefinition funcObj("MouseControl::MeasureTooltip", typeid(Point (MouseControl::*)(int )), "578d7c240883e4f0ff77fc5589e557565389cb8d4dd883ec4c8b37", argdata, 3, 1, &func);
 }
 
@@ -21993,8 +21947,9 @@ FUNC_NAKED Point MouseControl::MeasureTooltip(int unk)
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+12]\n\t"		// unk
-		"push [ebp+8]\n\t"		// implicit_output
+		"push [ebp+16]\n\t"		// unk
+		"push ecx\n\t"			// implicit_output
+		"mov ecx, [ebp+12]\n\t"	// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func614::func));
 	__asm__
@@ -22006,7 +21961,7 @@ FUNC_NAKED Point MouseControl::MeasureTooltip(int unk)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret 12\n\t"
 	);
 }
 
@@ -23937,10 +23892,10 @@ namespace _func668
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("RockAnimation::GetShootingSound", typeid(std::string &(*)(std::string &, RockAnimation *)), ".578d7c240883e4f0ff77fc5589e557565389cb83ec3c803d??????????0f84????????", argdata, 2, 0, &func);
+	static FunctionDefinition funcObj("RockAnimation::GetShootingSound", typeid(std::string (RockAnimation::*)()), ".578d7c240883e4f0ff77fc5589e557565389cb83ec3c803d??????????0f84????????", argdata, 2, 1, &func);
 }
 
-FUNC_NAKED std::string &RockAnimation::GetShootingSound(std::string &strRef, RockAnimation *anim)
+FUNC_NAKED std::string RockAnimation::GetShootingSound()
 {
 	__asm__
 	(
@@ -23951,8 +23906,7 @@ FUNC_NAKED std::string &RockAnimation::GetShootingSound(std::string &strRef, Roc
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+12]\n\t"		// anim
-		"mov ecx, [ebp+8]\n\t"	// strRef
+		"push [ebp+12]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func668::func));
 	__asm__
@@ -24042,10 +23996,10 @@ namespace _func671
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("RockAnimation::GetDeathSound", typeid(std::string &(*)(std::string &, RockAnimation *)), ".578d41088d7c240883e4f0ff77fc5589e5575389cb83ec108901", argdata, 2, 0, &func);
+	static FunctionDefinition funcObj("RockAnimation::GetDeathSound", typeid(std::string (RockAnimation::*)()), ".578d41088d7c240883e4f0ff77fc5589e5575389cb83ec108901", argdata, 2, 1, &func);
 }
 
-FUNC_NAKED std::string &RockAnimation::GetDeathSound(std::string &strRef, RockAnimation *anim)
+FUNC_NAKED std::string RockAnimation::GetDeathSound()
 {
 	__asm__
 	(
@@ -24056,8 +24010,7 @@ FUNC_NAKED std::string &RockAnimation::GetDeathSound(std::string &strRef, RockAn
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+12]\n\t"		// anim
-		"mov ecx, [ebp+8]\n\t"	// strRef
+		"push [ebp+12]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func671::func));
 	__asm__
@@ -24330,10 +24283,10 @@ namespace _func679
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("ScoreKeeper::GetShipBlueprint", typeid(std::string *(*)(std::string *, ScoreKeeper *, int )), "578d7c240883e4f0ff77fc5589e557565389ce83ec2c8b4704", argdata, 3, 0, &func);
+	static FunctionDefinition funcObj("ScoreKeeper::GetShipBlueprint", typeid(std::string (ScoreKeeper::*)(int )), "578d7c240883e4f0ff77fc5589e557565389ce83ec2c8b4704", argdata, 3, 1, &func);
 }
 
-FUNC_NAKED std::string *ScoreKeeper::GetShipBlueprint(std::string *str, ScoreKeeper *scoreKeeper, int index)
+FUNC_NAKED std::string ScoreKeeper::GetShipBlueprint(int index)
 {
 	__asm__
 	(
@@ -24345,8 +24298,7 @@ FUNC_NAKED std::string *ScoreKeeper::GetShipBlueprint(std::string *str, ScoreKee
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+16]\n\t"		// index
-		"push [ebp+12]\n\t"		// scoreKeeper
-		"mov ecx, [ebp+8]\n\t"	// str
+		"push [ebp+12]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func679::func));
 	__asm__
@@ -27348,26 +27300,23 @@ FUNC_NAKED ShipGraph *ShipGraph::GetShipInfo(int shipId)
 namespace _func763
 {
 	static void *func = 0;
-	static short argdata[] = {0x1ff, 0x1ff, 0x1ff, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("ShipGraph::GetSlotRenderPosition", typeid(Point (ShipGraph::*)(int , int , char )), "578d7c240883e4f0ff77fc5589f889e557565389cf83ec4c8b188b70048b40088945c08b01", argdata, 5, 1, &func);
+	static short argdata[] = {0x101, 0x1ff, 0x1ff, 0x1ff};
+	static FunctionDefinition funcObj("ShipGraph::GetSlotRenderPosition_DO_NOT_USE_DIRECTLY", typeid(__int64 (ShipGraph::*)(int , int , bool )), "578d7c240883e4f0ff77fc5589f889e557565389cf83ec4c8b188b70048b40088945c08b01", argdata, 4, 9, &func);
 }
 
-FUNC_NAKED Point ShipGraph::GetSlotRenderPosition(int x, int y, char unk)
+FUNC_NAKED __int64 ShipGraph::GetSlotRenderPosition_DO_NOT_USE_DIRECTLY(int slotId, int roomId, bool intruder)
 {
 	__asm__
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
-		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+20]\n\t"		// unk
-		"push [ebp+16]\n\t"		// y
-		"push [ebp+12]\n\t"		// x
-		"push [ebp+8]\n\t"		// implicit_output
-		"mov ecX, ecx\n\t	// this\n\t"
+		"push [ebp+16]\n\t"		// intruder
+		"push [ebp+12]\n\t"		// roomId
+		"push [ebp+8]\n\t"		// slotId
 	);
 	__asm__("call %0\n\t" :: "m"(_func763::func));
 	__asm__
@@ -27376,10 +27325,9 @@ FUNC_NAKED Point ShipGraph::GetSlotRenderPosition(int x, int y, char unk)
 		"pop esi\n\t"
 		"pop ebx\n\t"
 		"pop ecx\n\t"
-		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret 12\n\t"
 	);
 }
 
@@ -27390,7 +27338,7 @@ namespace _func764
 	static FunctionDefinition funcObj("ShipGraph::DoorCount", typeid(int (ShipGraph::*)(int )), ".538b411c8b59188b54240829d8c1f80239c27d??85d278??8b04935bc20400", argdata, 2, 1, &func);
 }
 
-FUNC_NAKED int ShipGraph::DoorCount(int unk)
+FUNC_NAKED int ShipGraph::DoorCount(int roomId)
 {
 	__asm__
 	(
@@ -27401,7 +27349,7 @@ FUNC_NAKED int ShipGraph::DoorCount(int unk)
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+8]\n\t"		// unk
+		"push [ebp+8]\n\t"		// roomId
 	);
 	__asm__("call %0\n\t" :: "m"(_func764::func));
 	__asm__
@@ -27420,11 +27368,11 @@ FUNC_NAKED int ShipGraph::DoorCount(int unk)
 namespace _func765
 {
 	static void *func = 0;
-	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("ShipGraph::GetDoors", typeid(std::vector<Door*> &(ShipGraph::*)(int )), ".578d7c240883e4f0ff77fc5589e557565383ec3c8b37c701????????c7410400000000", argdata, 2, 1, &func);
+	static short argdata[] = {0x101, 0x1ff, 0x1ff};
+	static FunctionDefinition funcObj("ShipGraph::GetDoors", typeid(std::vector<Door*> (ShipGraph::*)(int )), ".578d7c240883e4f0ff77fc5589e557565383ec3c8b37c701????????c7410400000000", argdata, 3, 1, &func);
 }
 
-FUNC_NAKED std::vector<Door*> &ShipGraph::GetDoors(int unk)
+FUNC_NAKED std::vector<Door*> ShipGraph::GetDoors(int roomId)
 {
 	__asm__
 	(
@@ -27435,7 +27383,8 @@ FUNC_NAKED std::vector<Door*> &ShipGraph::GetDoors(int unk)
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+8]\n\t"		// unk
+		"push [ebp+16]\n\t"		// roomId
+		"push [ebp+12]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func765::func));
 	__asm__
@@ -27447,7 +27396,7 @@ FUNC_NAKED std::vector<Door*> &ShipGraph::GetDoors(int unk)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret 12\n\t"
 	);
 }
 
@@ -27490,10 +27439,10 @@ namespace _func767
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("ShipGraph::ConnectingDoor", typeid(int (ShipGraph::*)(int , int , int , int )), ".578d7c240883e4f0ff77fc5589f889e557565389cb8d4de083ec5c8b378b7f048b50088b400c", argdata, 5, 1, &func);
+	static FunctionDefinition funcObj("ShipGraph::ConnectingDoor", typeid(Door *(ShipGraph::*)(int , int , int , int )), ".578d7c240883e4f0ff77fc5589f889e557565389cb8d4de083ec5c8b378b7f048b50088b400c", argdata, 5, 1, &func);
 }
 
-FUNC_NAKED int ShipGraph::ConnectingDoor(int x1, int y1, int x2, int y2)
+FUNC_NAKED Door *ShipGraph::ConnectingDoor(int x1, int y1, int x2, int y2)
 {
 	__asm__
 	(
@@ -27601,10 +27550,10 @@ namespace _func770
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x2ff, 0x2ff};
-	static FunctionDefinition funcObj("ShipGraph::ConnectingDoor", typeid(int (ShipGraph::*)(Point , Point )), ".578d7c240883e4f0ff77fc5589e5575383ec108b5f088b078b57048b7f0c895c2408890424", argdata, 3, 1, &func);
+	static FunctionDefinition funcObj("ShipGraph::ConnectingDoor", typeid(Door *(ShipGraph::*)(Point , Point )), ".578d7c240883e4f0ff77fc5589e5575383ec108b5f088b078b57048b7f0c895c2408890424", argdata, 3, 1, &func);
 }
 
-FUNC_NAKED int ShipGraph::ConnectingDoor(Point p1, Point p2)
+FUNC_NAKED Door *ShipGraph::ConnectingDoor(Point p1, Point p2)
 {
 	__asm__
 	(
@@ -27671,11 +27620,11 @@ FUNC_NAKED int ShipGraph::GetNumSlots(int room)
 namespace _func772
 {
 	static void *func = 0;
-	static short argdata[] = {0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("ShipGraph::PopClosestDoor", typeid(int (*)(std::vector<int> &, std::vector<float> &)), ".5589e557565383e4f083ec208b45088b388b450c8b0f8b0089442418f30f2c14888b45088b400489442410", argdata, 2, 0, &func);
+	static short argdata[] = {0x101, 0x1ff, 0x1ff};
+	static FunctionDefinition funcObj("ShipGraph::PopClosestDoor", typeid(int (ShipGraph::*)(std::vector<int> &, std::vector<float> &)), ".5589e557565383e4f083ec208b45088b388b450c8b0f8b0089442418f30f2c14888b45088b400489442410", argdata, 3, 1, &func);
 }
 
-FUNC_NAKED int ShipGraph::PopClosestDoor(std::vector<int> &unk, std::vector<float> &unk2)
+FUNC_NAKED int ShipGraph::PopClosestDoor(std::vector<int> &doors, std::vector<float> &distances)
 {
 	__asm__
 	(
@@ -27686,8 +27635,8 @@ FUNC_NAKED int ShipGraph::PopClosestDoor(std::vector<int> &unk, std::vector<floa
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+12]\n\t"		// unk2
-		"push [ebp+8]\n\t"		// unk
+		"push [ebp+12]\n\t"		// distances
+		"push [ebp+8]\n\t"		// doors
 	);
 	__asm__("call %0\n\t" :: "m"(_func772::func));
 	__asm__
@@ -27706,11 +27655,11 @@ FUNC_NAKED int ShipGraph::PopClosestDoor(std::vector<int> &unk, std::vector<floa
 namespace _func773
 {
 	static void *func = 0;
-	static short argdata[] = {0x101, 0x2ff, 0x2ff, 0x1ff};
-	static FunctionDefinition funcObj("ShipGraph::Dijkstra", typeid(int (ShipGraph::*)(Point , Point , int )), ".578d7c240883e4f0ff77fc5589f889e557565381ec????????89bd70ffffff8b3f898d74ffffff8b5804", argdata, 4, 1, &func);
+	static short argdata[] = {0x101, 0x1ff, 0x2ff, 0x2ff, 0x1ff};
+	static FunctionDefinition funcObj("ShipGraph::Dijkstra", typeid(Path (ShipGraph::*)(Point , Point , int )), ".578d7c240883e4f0ff77fc5589f889e557565381ec????????89bd70ffffff8b3f898d74ffffff8b5804", argdata, 5, 1, &func);
 }
 
-FUNC_NAKED int ShipGraph::Dijkstra(Point p1, Point p2, int unk)
+FUNC_NAKED Path ShipGraph::Dijkstra(Point start, Point goal, int shipId)
 {
 	__asm__
 	(
@@ -27721,11 +27670,12 @@ FUNC_NAKED int ShipGraph::Dijkstra(Point p1, Point p2, int unk)
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+24]\n\t"		// unk
-		"push [ebp+20]\n\t"		// p2
-		"push [ebp+16]\n\t"		// p2
-		"push [ebp+12]\n\t"		// p1
-		"push [ebp+8]\n\t"		// p1
+		"push [ebp+32]\n\t"		// shipId
+		"push [ebp+28]\n\t"		// goal
+		"push [ebp+24]\n\t"		// goal
+		"push [ebp+20]\n\t"		// start
+		"push [ebp+16]\n\t"		// start
+		"push [ebp+12]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func773::func));
 	__asm__
@@ -27737,18 +27687,18 @@ FUNC_NAKED int ShipGraph::Dijkstra(Point p1, Point p2, int unk)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 20\n\t"
+		"ret 28\n\t"
 	);
 }
 
 namespace _func774
 {
 	static void *func = 0;
-	static short argdata[] = {0x101, 0x2ff, 0x2ff, 0x1ff};
-	static FunctionDefinition funcObj("ShipGraph::FindPath", typeid(int (ShipGraph::*)(Point , Point , int )), ".578d7c240883e4f0ff77fc5589f889e557565383ec6c8b500c", argdata, 4, 1, &func);
+	static short argdata[] = {0x101, 0x1ff, 0x2ff, 0x2ff, 0x1ff};
+	static FunctionDefinition funcObj("ShipGraph::FindPath", typeid(Path (ShipGraph::*)(Point , Point , int )), ".578d7c240883e4f0ff77fc5589f889e557565383ec6c8b500c", argdata, 5, 1, &func);
 }
 
-FUNC_NAKED int ShipGraph::FindPath(Point p1, Point p2, int unk)
+FUNC_NAKED Path ShipGraph::FindPath(Point p1, Point p2, int shipId)
 {
 	__asm__
 	(
@@ -27759,11 +27709,12 @@ FUNC_NAKED int ShipGraph::FindPath(Point p1, Point p2, int unk)
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+24]\n\t"		// unk
-		"push [ebp+20]\n\t"		// p2
-		"push [ebp+16]\n\t"		// p2
-		"push [ebp+12]\n\t"		// p1
-		"push [ebp+8]\n\t"		// p1
+		"push [ebp+32]\n\t"		// shipId
+		"push [ebp+28]\n\t"		// p2
+		"push [ebp+24]\n\t"		// p2
+		"push [ebp+20]\n\t"		// p1
+		"push [ebp+16]\n\t"		// p1
+		"push [ebp+12]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func774::func));
 	__asm__
@@ -27775,7 +27726,7 @@ FUNC_NAKED int ShipGraph::FindPath(Point p1, Point p2, int unk)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 20\n\t"
+		"ret 28\n\t"
 	);
 }
 
@@ -27851,10 +27802,10 @@ namespace _func777
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x2ff};
-	static FunctionDefinition funcObj("ShipGraph::ConvertToWorldPosition", typeid(int64_t (ShipGraph::*)(Pointf )), ".57660feff6660fefff8d7c240883e4f0ff77fc5589e5575389cb83ec20f30f2a7124f30f2a7928660f7ef2660f7ef8", argdata, 2, 9, &func);
+	static FunctionDefinition funcObj("ShipGraph::ConvertToWorldPosition_DO_NOT_USE_DIRECTLY", typeid(__int64 (ShipGraph::*)(Pointf )), ".57660feff6660fefff8d7c240883e4f0ff77fc5589e5575389cb83ec20f30f2a7124f30f2a7928660f7ef2660f7ef8", argdata, 2, 9, &func);
 }
 
-FUNC_NAKED int64_t ShipGraph::ConvertToWorldPosition(Pointf p)
+FUNC_NAKED __int64 ShipGraph::ConvertToWorldPosition_DO_NOT_USE_DIRECTLY(Pointf local)
 {
 	__asm__
 	(
@@ -27864,8 +27815,8 @@ FUNC_NAKED int64_t ShipGraph::ConvertToWorldPosition(Pointf p)
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+12]\n\t"		// p
-		"push [ebp+8]\n\t"		// p
+		"push [ebp+12]\n\t"		// local
+		"push [ebp+8]\n\t"		// local
 	);
 	__asm__("call %0\n\t" :: "m"(_func777::func));
 	__asm__
@@ -27883,25 +27834,23 @@ FUNC_NAKED int64_t ShipGraph::ConvertToWorldPosition(Pointf p)
 namespace _func778
 {
 	static void *func = 0;
-	static short argdata[] = {0x101, 0x1ff, 0x2ff, 0x1ff};
-	static FunctionDefinition funcObj("ShipGraph::ConvertToLocalPosition", typeid(Pointf (ShipGraph::*)(Pointf , char )), ".578d7c240883e4f0ff77fc5589e55783ec14807f0800f30f10692cf30f105930f30f10613474??", argdata, 4, 1, &func);
+	static short argdata[] = {0x101, 0x2ff, 0x1ff};
+	static FunctionDefinition funcObj("ShipGraph::ConvertToLocalPosition_DO_NOT_USE_DIRECTLY", typeid(__int64 (ShipGraph::*)(Pointf , bool )), ".578d7c240883e4f0ff77fc5589e55783ec14807f0800f30f10692cf30f105930f30f10613474??", argdata, 3, 9, &func);
 }
 
-FUNC_NAKED Pointf ShipGraph::ConvertToLocalPosition(Pointf p, char unk)
+FUNC_NAKED __int64 ShipGraph::ConvertToLocalPosition_DO_NOT_USE_DIRECTLY(Pointf world, bool past)
 {
 	__asm__
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
-		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+20]\n\t"		// unk
-		"push [ebp+16]\n\t"		// p
-		"push [ebp+12]\n\t"		// p
-		"push [ebp+8]\n\t"		// implicit_output
+		"push [ebp+16]\n\t"		// past
+		"push [ebp+12]\n\t"		// world
+		"push [ebp+8]\n\t"		// world
 	);
 	__asm__("call %0\n\t" :: "m"(_func778::func));
 	__asm__
@@ -27910,10 +27859,9 @@ FUNC_NAKED Pointf ShipGraph::ConvertToLocalPosition(Pointf p, char unk)
 		"pop esi\n\t"
 		"pop ebx\n\t"
 		"pop ecx\n\t"
-		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret 12\n\t"
 	);
 }
 
@@ -28057,11 +28005,11 @@ FUNC_NAKED int ShipGraph::RoomCount()
 namespace _func783
 {
 	static void *func = 0;
-	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("ShipGraph::GetRoomShape", typeid(Globals::Rect *(ShipGraph::*)(int )), ".5789c88d7c240883e4f0ff77fc5589e557565383ec2c8b178b7f04", argdata, 2, 1, &func);
+	static short argdata[] = {0x101, 0x1ff, 0x1ff};
+	static FunctionDefinition funcObj("ShipGraph::GetRoomShape", typeid(Globals::Rect (ShipGraph::*)(int )), ".5789c88d7c240883e4f0ff77fc5589e557565383ec2c8b178b7f04", argdata, 3, 1, &func);
 }
 
-FUNC_NAKED Globals::Rect *ShipGraph::GetRoomShape(int room)
+FUNC_NAKED Globals::Rect ShipGraph::GetRoomShape(int room)
 {
 	__asm__
 	(
@@ -28072,7 +28020,8 @@ FUNC_NAKED Globals::Rect *ShipGraph::GetRoomShape(int room)
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+8]\n\t"		// room
+		"push [ebp+16]\n\t"		// room
+		"push [ebp+12]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func783::func));
 	__asm__
@@ -28084,7 +28033,7 @@ FUNC_NAKED Globals::Rect *ShipGraph::GetRoomShape(int room)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret 12\n\t"
 	);
 }
 
@@ -28160,10 +28109,10 @@ namespace _func786
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x2ff, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("ShipGraph::GetClosestSlot", typeid(Slot *(*)(Slot *, ShipGraph *, Point , int , bool )), "578d7c240883e4f0ff77fc5589e557565381ec????????8b078b7704898d6cffffff8b10894588", argdata, 5, 0, &func);
+	static FunctionDefinition funcObj("ShipGraph::GetClosestSlot", typeid(Slot (ShipGraph::*)(Point , int , bool )), "578d7c240883e4f0ff77fc5589e557565381ec????????8b078b7704898d6cffffff8b10894588", argdata, 5, 1, &func);
 }
 
-FUNC_NAKED Slot *ShipGraph::GetClosestSlot(Slot *slot, ShipGraph *graph, Point pos, int shipId, bool intruder)
+FUNC_NAKED Slot ShipGraph::GetClosestSlot(Point pos, int shipId, bool intruder)
 {
 	__asm__
 	(
@@ -28178,8 +28127,7 @@ FUNC_NAKED Slot *ShipGraph::GetClosestSlot(Slot *slot, ShipGraph *graph, Point p
 		"push [ebp+24]\n\t"		// shipId
 		"push [ebp+20]\n\t"		// pos
 		"push [ebp+16]\n\t"		// pos
-		"push [ebp+12]\n\t"		// graph
-		"mov ecx, [ebp+8]\n\t"	// slot
+		"push [ebp+12]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func786::func));
 	__asm__
@@ -29068,10 +29016,10 @@ namespace _func811
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("ShipManager::SelectRandomCrew", typeid(CrewBlueprint *(*)(CrewBlueprint &, ShipManager *, int , const std::string &)), "578d7c240883e4f0ff77fc5589e557565383ec5c8b47048b7708894da883f8ff", argdata, 4, 0, &func);
+	static FunctionDefinition funcObj("ShipManager::SelectRandomCrew", typeid(CrewBlueprint (ShipManager::*)(int , const std::string &)), "578d7c240883e4f0ff77fc5589e557565383ec5c8b47048b7708894da883f8ff", argdata, 4, 1, &func);
 }
 
-FUNC_NAKED CrewBlueprint *ShipManager::SelectRandomCrew(CrewBlueprint &bp, ShipManager *ship, int seed, const std::string &unk)
+FUNC_NAKED CrewBlueprint ShipManager::SelectRandomCrew(int seed, const std::string &racePref)
 {
 	__asm__
 	(
@@ -29082,10 +29030,9 @@ FUNC_NAKED CrewBlueprint *ShipManager::SelectRandomCrew(CrewBlueprint &bp, ShipM
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+20]\n\t"		// unk
+		"push [ebp+20]\n\t"		// racePref
 		"push [ebp+16]\n\t"		// seed
-		"push [ebp+12]\n\t"		// ship
-		"mov ecx, [ebp+8]\n\t"	// bp
+		"push [ebp+12]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func811::func));
 	__asm__
@@ -30898,10 +30845,10 @@ namespace _func863
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("ShipObject::GetAugmentationList", typeid(std::map<std::string, int> &(*)(std::vector<std::string> &, ShipObject *)), "578d7c240883e4f0ff77fc5589f889e557565389cf83ec4c8b008b400485c0", argdata, 2, 0, &func);
+	static FunctionDefinition funcObj("ShipObject::GetAugmentationList", typeid(std::vector<std::string> (ShipObject::*)()), "578d7c240883e4f0ff77fc5589f889e557565389cf83ec4c8b008b400485c0", argdata, 2, 1, &func);
 }
 
-FUNC_NAKED std::map<std::string, int> &ShipObject::GetAugmentationList(std::vector<std::string> &vec, ShipObject *shipObj)
+FUNC_NAKED std::vector<std::string> ShipObject::GetAugmentationList()
 {
 	__asm__
 	(
@@ -30912,8 +30859,7 @@ FUNC_NAKED std::map<std::string, int> &ShipObject::GetAugmentationList(std::vect
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+12]\n\t"		// shipObj
-		"mov ecx, [ebp+8]\n\t"	// vec
+		"push [ebp+12]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func863::func));
 	__asm__
@@ -31810,10 +31756,10 @@ namespace _func889
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("ShipSystem::SystemIdToName", typeid(std::string &(*)(std::string &, int )), "8d4c240483e4f0ff71fc5589e5535183ec108b41048b1983f8110f87????????ff2485????????89f68dbc2700000000c70424????????89d9e8????????83ec048d65f8", argdata, 2, 2, &func);
+	static FunctionDefinition funcObj("ShipSystem::SystemIdToName", typeid(std::string (*)(int )), "8d4c240483e4f0ff71fc5589e5535183ec108b41048b1983f8110f87????????ff2485????????89f68dbc2700000000c70424????????89d9e8????????83ec048d65f8", argdata, 2, 2, &func);
 }
 
-FUNC_NAKED std::string &ShipSystem::SystemIdToName(std::string &strRef, int systemId)
+FUNC_NAKED std::string ShipSystem::SystemIdToName(int systemId)
 {
 	__asm__
 	(
@@ -31825,7 +31771,7 @@ FUNC_NAKED std::string &ShipSystem::SystemIdToName(std::string &strRef, int syst
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// systemId
-		"push [ebp+8]\n\t"		// strRef
+		"push [ebp+8]\n\t"		// implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func889::func));
 	__asm__
@@ -32403,27 +32349,25 @@ FUNC_NAKED void ShipSystem::ClearStatus()
 namespace _func906
 {
 	static void *func = 0;
-	static short argdata[] = {0x106, 0x1ff, 0x1ff, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("ShipSystem::GetLevelDescription", typeid(void (*)(void *, std::string &, int , int , bool )), "8d4c240483e4f0ff71fc5589e55756535181ec????????8b41048b398b59088b510c83f80f0f87????????85db", argdata, 5, 6, &func);
+	static short argdata[] = {0x1ff, 0x1ff, 0x1ff, 0x1ff};
+	static FunctionDefinition funcObj("ShipSystem::GetLevelDescription", typeid(std::string (*)(int , int , bool )), "8d4c240483e4f0ff71fc5589e55756535181ec????????8b41048b398b59088b510c83f80f0f87????????85db", argdata, 4, 2, &func);
 }
 
-FUNC_NAKED void ShipSystem::GetLevelDescription(void *unk, std::string &retStr, int systemId, int level, bool tooltip)
+FUNC_NAKED std::string ShipSystem::GetLevelDescription(int systemId, int level, bool tooltip)
 {
 	__asm__
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
 		"push edx\n\t"
-		"push eax\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+24]\n\t"		// tooltip
-		"push [ebp+20]\n\t"		// level
-		"push [ebp+16]\n\t"		// systemId
-		"push [ebp+12]\n\t"		// retStr
-		"mov esi, [ebp+8]\n\t"	// unk
+		"push [ebp+20]\n\t"		// tooltip
+		"push [ebp+16]\n\t"		// level
+		"push [ebp+12]\n\t"		// systemId
+		"push [ebp+8]\n\t"		// implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func906::func));
 	__asm__
@@ -32433,11 +32377,10 @@ FUNC_NAKED void ShipSystem::GetLevelDescription(void *unk, std::string &retStr, 
 		"pop esi\n\t"
 		"pop ebx\n\t"
 		"pop ecx\n\t"
-		"pop eax\n\t"
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 20\n\t"
+		"ret 16\n\t"
 	);
 }
 
@@ -33157,22 +33100,22 @@ FUNC_NAKED void SpaceManager::SaveSpace(int fileHelper)
 namespace _func927
 {
 	static void *func = 0;
-	static short argdata[] = {0x101};
-	static FunctionDefinition funcObj("SpaceManager::SwitchBeacon", typeid(void (SpaceManager::*)()), ".8b54240489c88b8ae802000089088b8aec0200008948048b8af00200008948088b8af4020000", argdata, 1, 5, &func);
+	static short argdata[] = {0x101, 0x1ff};
+	static FunctionDefinition funcObj("SpaceManager::SwitchBeacon", typeid(ImageDesc (SpaceManager::*)()), ".8b54240489c88b8ae802000089088b8aec0200008948048b8af00200008948088b8af4020000", argdata, 2, 1, &func);
 }
 
-FUNC_NAKED void SpaceManager::SwitchBeacon()
+FUNC_NAKED ImageDesc SpaceManager::SwitchBeacon()
 {
 	__asm__
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
 		"push edx\n\t"
-		"push eax\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+		"push [ebp+12]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func927::func));
 	__asm__
@@ -33181,11 +33124,10 @@ FUNC_NAKED void SpaceManager::SwitchBeacon()
 		"pop esi\n\t"
 		"pop ebx\n\t"
 		"pop ecx\n\t"
-		"pop eax\n\t"
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret\n\t"
+		"ret 8\n\t"
 	);
 }
 
@@ -33193,24 +33135,22 @@ namespace _func928
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("SpaceManager::SwitchPlanet", typeid(void (*)(ImageDesc *, SpaceManager *, const std::string &)), ".578d7c240883e4f0ff77fc5589e5575653", argdata, 3, 4, &func);
+	static FunctionDefinition funcObj("SpaceManager::SwitchPlanet", typeid(ImageDesc (SpaceManager::*)(const std::string &)), ".578d7c240883e4f0ff77fc5589e5575653", argdata, 3, 1, &func);
 }
 
-FUNC_NAKED void SpaceManager::SwitchPlanet(ImageDesc *ret, SpaceManager *space, const std::string &name)
+FUNC_NAKED ImageDesc SpaceManager::SwitchPlanet(const std::string &name)
 {
 	__asm__
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
 		"push edx\n\t"
-		"push eax\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+16]\n\t"		// name
-		"push [ebp+12]\n\t"		// space
-		"mov ecx, [ebp+8]\n\t"	// ret
+		"push [ebp+12]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func928::func));
 	__asm__
@@ -33219,7 +33159,6 @@ FUNC_NAKED void SpaceManager::SwitchPlanet(ImageDesc *ret, SpaceManager *space, 
 		"pop esi\n\t"
 		"pop ebx\n\t"
 		"pop ecx\n\t"
-		"pop eax\n\t"
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
@@ -33322,24 +33261,22 @@ namespace _func931
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("SpaceManager::SwitchBackground", typeid(void (*)(ImageDesc *, SpaceManager *, const std::string &)), ".578d7c240883e4f0", argdata, 3, 4, &func);
+	static FunctionDefinition funcObj("SpaceManager::SwitchBackground", typeid(ImageDesc (SpaceManager::*)(const std::string &)), ".578d7c240883e4f0", argdata, 3, 1, &func);
 }
 
-FUNC_NAKED void SpaceManager::SwitchBackground(ImageDesc *ret, SpaceManager *space, const std::string &name)
+FUNC_NAKED ImageDesc SpaceManager::SwitchBackground(const std::string &name)
 {
 	__asm__
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
 		"push edx\n\t"
-		"push eax\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+16]\n\t"		// name
-		"push [ebp+12]\n\t"		// space
-		"mov ecx, [ebp+8]\n\t"	// ret
+		"push [ebp+12]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func931::func));
 	__asm__
@@ -33348,7 +33285,6 @@ FUNC_NAKED void SpaceManager::SwitchBackground(ImageDesc *ret, SpaceManager *spa
 		"pop esi\n\t"
 		"pop ebx\n\t"
 		"pop ecx\n\t"
-		"pop eax\n\t"
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
@@ -33609,11 +33545,11 @@ FUNC_NAKED float SpaceManager::GetFlashOpacity()
 namespace _func939
 {
 	static void *func = 0;
-	static short argdata[] = {0x101};
-	static FunctionDefinition funcObj("SpaceManager::GetColorTint", typeid(GL_Color *(SpaceManager::*)()), ".5589c80f2805????????89e58b55080f110180ba600300000075??f30f100d????????", argdata, 1, 1, &func);
+	static short argdata[] = {0x101, 0x1ff};
+	static FunctionDefinition funcObj("SpaceManager::GetColorTint", typeid(GL_Color (SpaceManager::*)()), ".5589c80f2805????????89e58b55080f110180ba600300000075??f30f100d????????", argdata, 2, 1, &func);
 }
 
-FUNC_NAKED GL_Color *SpaceManager::GetColorTint()
+FUNC_NAKED GL_Color SpaceManager::GetColorTint()
 {
 	__asm__
 	(
@@ -33624,6 +33560,7 @@ FUNC_NAKED GL_Color *SpaceManager::GetColorTint()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+		"push [ebp+12]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func939::func));
 	__asm__
@@ -33635,7 +33572,7 @@ FUNC_NAKED GL_Color *SpaceManager::GetColorTint()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret\n\t"
+		"ret 8\n\t"
 	);
 }
 
@@ -36894,10 +36831,10 @@ namespace _func1031
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("StarMap::GetLocationText", typeid(std::string &(*)(std::string &, StarMap *, const Location *)), "578d41088d7c240883e4f0ff77fc5589e557565389ce83ec7c8b1f8d7dd08901", argdata, 3, 0, &func);
+	static FunctionDefinition funcObj("StarMap::GetLocationText", typeid(std::string (StarMap::*)(const Location *)), "578d41088d7c240883e4f0ff77fc5589e557565389ce83ec7c8b1f8d7dd08901", argdata, 3, 1, &func);
 }
 
-FUNC_NAKED std::string &StarMap::GetLocationText(std::string &strRef, StarMap *starMap, const Location *loc)
+FUNC_NAKED std::string StarMap::GetLocationText(const Location *loc)
 {
 	__asm__
 	(
@@ -36909,8 +36846,7 @@ FUNC_NAKED std::string &StarMap::GetLocationText(std::string &strRef, StarMap *s
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+16]\n\t"		// loc
-		"push [ebp+12]\n\t"		// starMap
-		"mov ecx, [ebp+8]\n\t"	// strRef
+		"push [ebp+12]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1031::func));
 	__asm__
@@ -39433,10 +39369,10 @@ namespace _func1102
 {
 	static void *func = 0;
 	static short argdata[] = {0x101};
-	static FunctionDefinition funcObj("TextButton::GetSizeX", typeid(int64_t (TextButton::*)()), "578d7c240883e4f0ff77fc5589e557565389cb83ec5c80b9b40000000075??8b83a80000008b93ac000000", argdata, 1, 9, &func);
+	static FunctionDefinition funcObj("TextButton::GetSize_DO_NOT_USE_DIRECTLY", typeid(__int64 (TextButton::*)()), "578d7c240883e4f0ff77fc5589e557565389cb83ec5c80b9b40000000075??8b83a80000008b93ac000000", argdata, 1, 9, &func);
 }
 
-FUNC_NAKED int64_t TextButton::GetSizeX()
+FUNC_NAKED __int64 TextButton::GetSize_DO_NOT_USE_DIRECTLY()
 {
 	__asm__
 	(
@@ -39952,10 +39888,10 @@ namespace _func1116
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("TextInput::GetText", typeid(std::string &(*)(std::string &, TextInput *)), "578d7c240883e4f0ff77fc5589e5575389cb83ec108b07c7442408ffffffffc744240400000000890424", argdata, 2, 0, &func);
+	static FunctionDefinition funcObj("TextInput::GetText", typeid(std::string (TextInput::*)()), "578d7c240883e4f0ff77fc5589e5575389cb83ec108b07c7442408ffffffffc744240400000000890424", argdata, 2, 1, &func);
 }
 
-FUNC_NAKED std::string &TextInput::GetText(std::string &strRef, TextInput *textInput)
+FUNC_NAKED std::string TextInput::GetText()
 {
 	__asm__
 	(
@@ -39966,8 +39902,7 @@ FUNC_NAKED std::string &TextInput::GetText(std::string &strRef, TextInput *textI
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+12]\n\t"		// textInput
-		"mov ecx, [ebp+8]\n\t"	// strRef
+		"push [ebp+12]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1116::func));
 	__asm__
@@ -40127,10 +40062,10 @@ namespace _func1121
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("TextLibrary::GetText", typeid(std::string &(*)(std::string &, TextLibrary *, const std::string &, const std::string &)), "578d7c240883e4f0ff77fc5589e557565383ec4c8b07894dc889c18945bc8b47048b59208d511c", argdata, 4, 0, &func);
+	static FunctionDefinition funcObj("TextLibrary::GetText", typeid(std::string (TextLibrary::*)(const std::string &, const std::string &)), "578d7c240883e4f0ff77fc5589e557565383ec4c8b07894dc889c18945bc8b47048b59208d511c", argdata, 4, 1, &func);
 }
 
-FUNC_NAKED std::string &TextLibrary::GetText(std::string &strRef, TextLibrary *textLibrary, const std::string &name, const std::string &lang)
+FUNC_NAKED std::string TextLibrary::GetText(const std::string &name, const std::string &lang)
 {
 	__asm__
 	(
@@ -40143,8 +40078,7 @@ FUNC_NAKED std::string &TextLibrary::GetText(std::string &strRef, TextLibrary *t
 		"push edi\n\t"
 		"push [ebp+20]\n\t"		// lang
 		"push [ebp+16]\n\t"		// name
-		"push [ebp+12]\n\t"		// textLibrary
-		"mov ecx, [ebp+8]\n\t"	// strRef
+		"push [ebp+12]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1121::func));
 	__asm__
@@ -40164,10 +40098,10 @@ namespace _func1122
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("TextString::GetText", typeid(std::string &(*)(std::string &, TextString *)), "578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b17807a1800", argdata, 2, 0, &func);
+	static FunctionDefinition funcObj("TextString::GetText", typeid(std::string (TextString::*)()), "578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b17807a1800", argdata, 2, 1, &func);
 }
 
-FUNC_NAKED std::string &TextString::GetText(std::string &ref, TextString *textString)
+FUNC_NAKED std::string TextString::GetText()
 {
 	__asm__
 	(
@@ -40178,8 +40112,7 @@ FUNC_NAKED std::string &TextString::GetText(std::string &ref, TextString *textSt
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+12]\n\t"		// textString
-		"mov ecx, [ebp+8]\n\t"	// ref
+		"push [ebp+12]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1122::func));
 	__asm__
@@ -41937,24 +41870,22 @@ namespace _func1171
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("WeaponBlueprint::GetDescription", typeid(void (*)(std::string &, WeaponBlueprint *, bool )), "578d7c240883e4f0ff77fc5589f889e557565381ec????????8b40048b3f898da8feffff89c6", argdata, 3, 4, &func);
+	static FunctionDefinition funcObj("WeaponBlueprint::GetDescription", typeid(std::string (WeaponBlueprint::*)(bool )), "578d7c240883e4f0ff77fc5589f889e557565381ec????????8b40048b3f898da8feffff89c6", argdata, 3, 1, &func);
 }
 
-FUNC_NAKED void WeaponBlueprint::GetDescription(std::string &strRef, WeaponBlueprint *_this, bool tooltip)
+FUNC_NAKED std::string WeaponBlueprint::GetDescription(bool tooltip)
 {
 	__asm__
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
 		"push edx\n\t"
-		"push eax\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+16]\n\t"		// tooltip
-		"push [ebp+12]\n\t"		// _this
-		"mov ecx, [ebp+8]\n\t"	// strRef
+		"push [ebp+12]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1171::func));
 	__asm__
@@ -41963,7 +41894,6 @@ FUNC_NAKED void WeaponBlueprint::GetDescription(std::string &strRef, WeaponBluep
 		"pop esi\n\t"
 		"pop ebx\n\t"
 		"pop ecx\n\t"
-		"pop eax\n\t"
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
@@ -43337,10 +43267,10 @@ namespace _func1210
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff, 0x1ff, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("freetype::easy_measurePrintLines", typeid(double (*)(int , float , float , int , const std::string &)), "8d4c240483e4f0ff71fc5589e5575653518d75d883ec488b018975d08945c08b410c8945bc8b41108b38", argdata, 5, 10, &func);
+	static FunctionDefinition funcObj("freetype::easy_measurePrintLines_DO_NOT_USE_DIRECTLY", typeid(uint64_t (*)(int , float , float , int , const std::string &)), "8d4c240483e4f0ff71fc5589e5575653518d75d883ec488b018975d08945c08b410c8945bc8b41108b38", argdata, 5, 10, &func);
 }
 
-FUNC_NAKED double freetype::easy_measurePrintLines(int fontData, float x, float y, int width, const std::string &text)
+FUNC_NAKED uint64_t freetype::easy_measurePrintLines_DO_NOT_USE_DIRECTLY(int fontSize, float x, float y, int line_length, const std::string &text)
 {
 	__asm__
 	(
@@ -43351,10 +43281,10 @@ FUNC_NAKED double freetype::easy_measurePrintLines(int fontData, float x, float 
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+24]\n\t"		// text
-		"push [ebp+20]\n\t"		// width
+		"push [ebp+20]\n\t"		// line_length
 		"push [ebp+16]\n\t"		// y
 		"push [ebp+12]\n\t"		// x
-		"push [ebp+8]\n\t"		// fontData
+		"push [ebp+8]\n\t"		// fontSize
 	);
 	__asm__("call %0\n\t" :: "m"(_func1210::func));
 	__asm__
@@ -43377,7 +43307,7 @@ namespace _func1211
 	static FunctionDefinition funcObj("freetype::easy_measureWidth", typeid(int (*)(int , const std::string &)), ".8d4c240483e4f0ff71fc5589e5575653518d75d883ec488b018975d08945c48b4104", argdata, 2, 2, &func);
 }
 
-FUNC_NAKED int freetype::easy_measureWidth(int fontData, const std::string &text)
+FUNC_NAKED int freetype::easy_measureWidth(int fontSize, const std::string &text)
 {
 	__asm__
 	(
@@ -43389,7 +43319,7 @@ FUNC_NAKED int freetype::easy_measureWidth(int fontData, const std::string &text
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// text
-		"push [ebp+8]\n\t"		// fontData
+		"push [ebp+8]\n\t"		// fontSize
 	);
 	__asm__("call %0\n\t" :: "m"(_func1211::func));
 	__asm__
@@ -43410,16 +43340,15 @@ namespace _func1212
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("freetype::easy_print", typeid(int (*)(int , float , float , const std::string &)), "8d4c240483e4f0ff71fc5589e5575653518d7dd883ec588b01897dd0", argdata, 4, 2, &func);
+	static FunctionDefinition funcObj("freetype::easy_print_DO_NOT_USE_DIRECTLY", typeid(uint64_t (*)(int , float , float , const std::string &)), "8d4c240483e4f0ff71fc5589e5575653518d7dd883ec588b01897dd0", argdata, 4, 10, &func);
 }
 
-FUNC_NAKED int freetype::easy_print(int fontData, float x, float y, const std::string &text)
+FUNC_NAKED uint64_t freetype::easy_print_DO_NOT_USE_DIRECTLY(int fontSize, float x, float y, const std::string &text)
 {
 	__asm__
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
-		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
 		"push esi\n\t"
@@ -43427,7 +43356,7 @@ FUNC_NAKED int freetype::easy_print(int fontData, float x, float y, const std::s
 		"push [ebp+20]\n\t"		// text
 		"push [ebp+16]\n\t"		// y
 		"push [ebp+12]\n\t"		// x
-		"push [ebp+8]\n\t"		// fontData
+		"push [ebp+8]\n\t"		// fontSize
 	);
 	__asm__("call %0\n\t" :: "m"(_func1212::func));
 	__asm__
@@ -43437,7 +43366,6 @@ FUNC_NAKED int freetype::easy_print(int fontData, float x, float y, const std::s
 		"pop esi\n\t"
 		"pop ebx\n\t"
 		"pop ecx\n\t"
-		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
 		"ret 16\n\t"
@@ -43448,16 +43376,15 @@ namespace _func1213
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("freetype::easy_printRightAlign", typeid(int (*)(int , float , float , const std::string &)), ".8d4c240483e4f0ff71fc5589e5575653518d7dd883ec588b01897dd0f30f104104f30f1049088945c08b410c", argdata, 4, 2, &func);
+	static FunctionDefinition funcObj("freetype::easy_printRightAlign_DO_NOT_USE_DIRECTLY", typeid(uint64_t (*)(int , float , float , const std::string &)), ".8d4c240483e4f0ff71fc5589e5575653518d7dd883ec588b01897dd0f30f104104f30f1049088945c08b410c", argdata, 4, 10, &func);
 }
 
-FUNC_NAKED int freetype::easy_printRightAlign(int fontData, float x, float y, const std::string &text)
+FUNC_NAKED uint64_t freetype::easy_printRightAlign_DO_NOT_USE_DIRECTLY(int fontSize, float x, float y, const std::string &text)
 {
 	__asm__
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
-		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
 		"push esi\n\t"
@@ -43465,7 +43392,7 @@ FUNC_NAKED int freetype::easy_printRightAlign(int fontData, float x, float y, co
 		"push [ebp+20]\n\t"		// text
 		"push [ebp+16]\n\t"		// y
 		"push [ebp+12]\n\t"		// x
-		"push [ebp+8]\n\t"		// fontData
+		"push [ebp+8]\n\t"		// fontSize
 	);
 	__asm__("call %0\n\t" :: "m"(_func1213::func));
 	__asm__
@@ -43475,7 +43402,6 @@ FUNC_NAKED int freetype::easy_printRightAlign(int fontData, float x, float y, co
 		"pop esi\n\t"
 		"pop ebx\n\t"
 		"pop ecx\n\t"
-		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
 		"ret 16\n\t"
@@ -43486,25 +43412,24 @@ namespace _func1214
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff, 0x1ff, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("freetype::easy_printNewlinesCentered", typeid(int (*)(int , float , float , int , const std::string &)), ".8d4c240483e4f0ff71fc5589e557565351", argdata, 5, 2, &func);
+	static FunctionDefinition funcObj("freetype::easy_printNewlinesCentered_DO_NOT_USE_DIRECTLY", typeid(uint64_t (*)(int , float , float , int , const std::string &)), ".8d4c240483e4f0ff71fc5589e557565351", argdata, 5, 10, &func);
 }
 
-FUNC_NAKED int freetype::easy_printNewlinesCentered(int fontData, float x, float y, int width, const std::string &text)
+FUNC_NAKED uint64_t freetype::easy_printNewlinesCentered_DO_NOT_USE_DIRECTLY(int fontSize, float x, float y, int line_length, const std::string &text)
 {
 	__asm__
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
-		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+24]\n\t"		// text
-		"push [ebp+20]\n\t"		// width
+		"push [ebp+20]\n\t"		// line_length
 		"push [ebp+16]\n\t"		// y
 		"push [ebp+12]\n\t"		// x
-		"push [ebp+8]\n\t"		// fontData
+		"push [ebp+8]\n\t"		// fontSize
 	);
 	__asm__("call %0\n\t" :: "m"(_func1214::func));
 	__asm__
@@ -43514,7 +43439,6 @@ FUNC_NAKED int freetype::easy_printNewlinesCentered(int fontData, float x, float
 		"pop esi\n\t"
 		"pop ebx\n\t"
 		"pop ecx\n\t"
-		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
 		"ret 20\n\t"
@@ -43525,25 +43449,24 @@ namespace _func1215
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff, 0x1ff, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("freetype::easy_printAutoNewlines", typeid(int (*)(int , float , float , int , const std::string &)), ".8d4c240483e4f0ff71fc5589e5575653518d75d883ec68", argdata, 5, 2, &func);
+	static FunctionDefinition funcObj("freetype::easy_printAutoNewlines_DO_NOT_USE_DIRECTLY", typeid(uint64_t (*)(int , float , float , int , const std::string &)), ".8d4c240483e4f0ff71fc5589e5575653518d75d883ec68", argdata, 5, 10, &func);
 }
 
-FUNC_NAKED int freetype::easy_printAutoNewlines(int fontData, float x, float y, int width, const std::string &text)
+FUNC_NAKED uint64_t freetype::easy_printAutoNewlines_DO_NOT_USE_DIRECTLY(int fontSize, float x, float y, int line_length, const std::string &text)
 {
 	__asm__
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
-		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+24]\n\t"		// text
-		"push [ebp+20]\n\t"		// width
+		"push [ebp+20]\n\t"		// line_length
 		"push [ebp+16]\n\t"		// y
 		"push [ebp+12]\n\t"		// x
-		"push [ebp+8]\n\t"		// fontData
+		"push [ebp+8]\n\t"		// fontSize
 	);
 	__asm__("call %0\n\t" :: "m"(_func1215::func));
 	__asm__
@@ -43553,7 +43476,6 @@ FUNC_NAKED int freetype::easy_printAutoNewlines(int fontData, float x, float y, 
 		"pop esi\n\t"
 		"pop ebx\n\t"
 		"pop ecx\n\t"
-		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
 		"ret 20\n\t"
@@ -43564,10 +43486,10 @@ namespace _func1216
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("freetype::easy_printCenter", typeid(double (*)(int , float , float , const std::string &)), ".8d4c240483e4f0ff71fc5589e5575653518d7dd883ec588b01", argdata, 4, 10, &func);
+	static FunctionDefinition funcObj("freetype::easy_printCenter_DO_NOT_USE_DIRECTLY", typeid(uint64_t (*)(int , float , float , const std::string &)), ".8d4c240483e4f0ff71fc5589e5575653518d7dd883ec588b01", argdata, 4, 10, &func);
 }
 
-FUNC_NAKED double freetype::easy_printCenter(int fontData, float x, float y, const std::string &text)
+FUNC_NAKED uint64_t freetype::easy_printCenter_DO_NOT_USE_DIRECTLY(int fontSize, float x, float y, const std::string &text)
 {
 	__asm__
 	(
@@ -43580,7 +43502,7 @@ FUNC_NAKED double freetype::easy_printCenter(int fontData, float x, float y, con
 		"push [ebp+20]\n\t"		// text
 		"push [ebp+16]\n\t"		// y
 		"push [ebp+12]\n\t"		// x
-		"push [ebp+8]\n\t"		// fontData
+		"push [ebp+8]\n\t"		// fontSize
 	);
 	__asm__("call %0\n\t" :: "m"(_func1216::func));
 	__asm__
@@ -43600,26 +43522,27 @@ namespace _func1217
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff, 0x1ff, 0x1ff, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("freetype::easy_printAutoShrink", typeid(int (*)(int , float , float , int , char , const std::string &)), ".8d4c240483e4f0ff71fc5589e55756535181ec????????8b5110", argdata, 6, 2, &func);
+	static FunctionDefinition funcObj("freetype::easy_printAutoShrink", typeid(void (*)(int , float , float , int , bool , const std::string &)), ".8d4c240483e4f0ff71fc5589e55756535181ec????????8b5110", argdata, 6, 6, &func);
 }
 
-FUNC_NAKED int freetype::easy_printAutoShrink(int fontData, float x, float y, int width, char unk, const std::string &text)
+FUNC_NAKED void freetype::easy_printAutoShrink(int fontId, float x, float y, int maxWidth, bool centered, const std::string &text)
 {
 	__asm__
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
 		"push edx\n\t"
+		"push eax\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+28]\n\t"		// text
-		"push [ebp+24]\n\t"		// unk
-		"push [ebp+20]\n\t"		// width
+		"push [ebp+24]\n\t"		// centered
+		"push [ebp+20]\n\t"		// maxWidth
 		"push [ebp+16]\n\t"		// y
 		"push [ebp+12]\n\t"		// x
-		"push [ebp+8]\n\t"		// fontData
+		"push [ebp+8]\n\t"		// fontId
 	);
 	__asm__("call %0\n\t" :: "m"(_func1217::func));
 	__asm__
@@ -43629,6 +43552,7 @@ FUNC_NAKED int freetype::easy_printAutoShrink(int fontData, float x, float y, in
 		"pop esi\n\t"
 		"pop ebx\n\t"
 		"pop ecx\n\t"
+		"pop eax\n\t"
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
