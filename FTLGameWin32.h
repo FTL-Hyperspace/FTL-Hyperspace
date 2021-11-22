@@ -167,7 +167,7 @@ struct CAchievement
 		this->constructor();
 	}
 
-	LIBZHL_API void OnRender(Point pos, int selected, bool unk);
+	LIBZHL_API void OnRender(Point pos, int selected, bool showNew);
 	LIBZHL_API void constructor();
 	
 	std::string name_id;
@@ -683,7 +683,7 @@ struct Animation
 		this->constructor(_image, _length, _time, _position, _imageWidth, _imageHeight, _stripStartX, _numFrames);
 	}
 
-	LIBZHL_API void AddSoundQueue(int unk, const std::string &sound);
+	LIBZHL_API void AddSoundQueue(int frame, const std::string &sound);
 	LIBZHL_API void OnRender(float opacity, GL_Color color, bool mirror);
 	LIBZHL_API int RandomStart();
 	LIBZHL_API void SetAnimationId(GL_Texture *tex);
@@ -1347,7 +1347,7 @@ struct AsteroidGenerator
 {
 	LIBZHL_API Projectile *GetNextAsteroid();
 	LIBZHL_API float GetNextState();
-	LIBZHL_API float Initialize(int numberOfShips, int shieldCount, bool unk);
+	LIBZHL_API float Initialize(int numberOfShips, int shieldCount, bool defense);
 	LIBZHL_API void LoadAsteroids(void *file);
 	LIBZHL_API void OnLoop();
 	LIBZHL_API bool SaveAsteroids(void *file);
@@ -3260,8 +3260,8 @@ struct CApp : CEvent
 	LIBZHL_API void OnResume();
 	LIBZHL_API void OnSuspend();
 	LIBZHL_API void OnTextEvent(CEvent::TextEvent textEvent);
-	LIBZHL_API void OnTextInput(int unk);
-	LIBZHL_API void ParseArgs(int unk, const char **args);
+	LIBZHL_API void OnTextInput(int ch);
+	LIBZHL_API void ParseArgs(int argc, const char **argv);
 	LIBZHL_API int SetupWindow();
 	LIBZHL_API Point TranslateMouse(int x, int y);
 	LIBZHL_API void UpdateFullScreen();
@@ -3388,8 +3388,8 @@ struct CSurface
 	LIBZHL_API static void __stdcall FinishFrame();
 	LIBZHL_API static bool __stdcall GL_BlitImage(GL_Texture *tex, float x, float y, float x2, float y2, float rotation, GL_Color color, bool mirror);
 	LIBZHL_API static bool __stdcall GL_BlitImagePartial(GL_Texture *tex, float x, float y, float size_x, float size_y, float start_x, float end_x, float start_y, float end_y, float alpha, GL_Color color, bool mirror);
-	LIBZHL_API static void __stdcall GL_BlitMultiColorImage(GL_Texture *tex, const std::vector<GL_ColorTexVertex> &texVertices, bool unk);
-	LIBZHL_API static void __stdcall GL_BlitMultiImage(GL_Texture *tex, const std::vector<GL_TexVertex> &texVertices, bool unk);
+	LIBZHL_API static void __stdcall GL_BlitMultiColorImage(GL_Texture *tex, const std::vector<GL_ColorTexVertex> &texVertices, bool antialias);
+	LIBZHL_API static void __stdcall GL_BlitMultiImage(GL_Texture *tex, const std::vector<GL_TexVertex> &texVertices, bool antialias);
 	LIBZHL_API static bool __stdcall GL_BlitPixelImage(GL_Texture *tex, float x, float y, float x2, float y2, float rotation, GL_Color color, bool mirror);
 	LIBZHL_API static bool __stdcall GL_BlitPixelImageWide(GL_Texture *tex, float x, float y, int x2, int y2, float opacity, GL_Color color, bool mirror);
 	LIBZHL_API static void __stdcall GL_ClearAll();

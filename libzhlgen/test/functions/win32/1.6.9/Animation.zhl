@@ -9,7 +9,7 @@ void Animation::SetCurrentFrame(Animation *this<ecx>, int frame);
 "578d7c240883e4f0ff77fc5589e5575389cb83ec20803f000f85????????660fefd2f30f10492cc6413200":
 void Animation::Start(Animation *this<ecx>, bool reset);
 "578d7c240883e4f0ff77fc5589e557565383ec3c8b178b770485d278??8b99880000008b818c00000029d8c1f802":
-void Animation::AddSoundQueue(Animation *this<ecx>, int unk, const std::string& sound);
+void Animation::AddSoundQueue(Animation *this<ecx>, int frame, const std::string& sound);
 "8b442404390174??89c2890185d274??8b500489510889c285d274??8b400889410c":
 void Animation::SetAnimationId(Animation *this<ecx>, GL_Texture *tex);
 "558d91a400000089e557565383e4f083ec208b819c000000894c241839d074??890424e8????????8b4424188bb08c00000089f38974241c8bb088000000":

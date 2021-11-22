@@ -1,7 +1,7 @@
 "5589e557565389cb83e4f083ec20c70424????????e8????????8d500cc70424????????89c789542414e8????????8d880002000089470cc703????????c7430800000000c7430c00000000":
 void AsteroidGenerator::constructor(AsteroidGenerator *this<ecx>);
 ".5589e55389cb8b550c8b451083e4f089918c00000089d1c1e91f01cad1fa":
-float AsteroidGenerator::Initialize(AsteroidGenerator *this<ecx>, int numberOfShips, int shieldCount, bool unk);
+float AsteroidGenerator::Initialize(AsteroidGenerator *this<ecx>, int numberOfShips, int shieldCount, bool defense);
 ".8b442404894170":
 void AsteroidGenerator::SetNumShips(AsteroidGenerator *this<ecx>, int ships);
 ".8b41083b41180f84????????578d7c240883e4f0ff77fc5589e557":

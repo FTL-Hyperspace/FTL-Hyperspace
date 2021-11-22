@@ -1,7 +1,7 @@
 "5557565383ec1cc70424200000008b5c2430e8????????89c78d400c89c1894424048d471039c1":
 cleanup void AsteroidGenerator::constructor(AsteroidGenerator *this);
 ".5383ec188b4424288b5c24208b54242c89c1c1e91f89838c00000001c8d1f883f801":
-cleanup float AsteroidGenerator::Initialize(AsteroidGenerator *this, int numberOfShips, int shieldCount, bool unk);
+cleanup float AsteroidGenerator::Initialize(AsteroidGenerator *this, int numberOfShips, int shieldCount, bool defense);
 ".8b5424088b442404895070":
 cleanup void AsteroidGenerator::SetNumShips(AsteroidGenerator *this, int ships);
 ".5557565381ecbc0100008b9c24d00100008b43083943180f84????????8b08":

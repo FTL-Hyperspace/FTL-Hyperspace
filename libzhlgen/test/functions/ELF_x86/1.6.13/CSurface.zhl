@@ -69,9 +69,9 @@ static cleanup bool CSurface::GL_BlitImagePartial(GL_Texture *tex, float x, floa
 "5557565381ec8c0000008bbc24a00000008b9c24ac000000":
 static cleanup bool CSurface::GL_BlitPixelImageWide(GL_Texture *tex, float x, float y, int x2, int y2, float opacity, GL_Color color, bool mirror);
 "5557565383ec4c8b15????????8b4424688b5c24608b7c246489442418":
-static cleanup void CSurface::GL_BlitMultiImage(GL_Texture *tex, const std::vector<GL_TexVertex>& texVertices, bool unk);
+static cleanup void CSurface::GL_BlitMultiImage(GL_Texture *tex, const std::vector<GL_TexVertex>& texVertices, bool antialias);
 "5557565383ec4c8b15????????8b4424688b5c24608b7c246489442420a1????????":
-static cleanup void CSurface::GL_BlitMultiColorImage(GL_Texture *tex, const std::vector<GL_ColorTexVertex>& texVertices, bool unk);
+static cleanup void CSurface::GL_BlitMultiColorImage(GL_Texture *tex, const std::vector<GL_ColorTexVertex>& texVertices, bool antialias);
 "5383ec288b5c243085db0f84????????8b15????????a1????????39c20f84????????29c283e2f08d4410f0f30f10400c":
 static cleanup void CSurface::GL_RenderPrimitive(GL_Primitive *primitive);
 "5383ec288b5c243085db0f84????????8b15????????a1????????39c20f84????????29c283e2f08d4410f0f30f10500c":

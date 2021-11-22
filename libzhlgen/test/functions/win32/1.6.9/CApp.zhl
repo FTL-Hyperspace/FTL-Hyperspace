@@ -9,7 +9,7 @@ void CApp::OnMButtonDown(CApp *this<ecx>, int x, int y);
 ".578d7c240883e4f0ff77fc55":
 void CApp::OnTextEvent(CApp *this<ecx>, CEvent::TextEvent textEvent);
 ".578d7c240883e4f0ff77fc5589e55783ec1480b9bc34000000":
-void CApp::OnTextInput(CApp *this<ecx>, int unk);
+void CApp::OnTextInput(CApp *this<ecx>, int ch);
 ".578d7c240883e4f0ff77fc5589e5575389cb83ec108b490885c974??8b430c":
 int CApp::OnRequestExit(CApp *this<ecx>);
 ".57660fefc08d7c240883e4f0ff77fc5589e557565389cb83ec2c8b072b81103500008b5704":
@@ -31,7 +31,7 @@ void CApp::OnKeyDown(CApp *this<ecx>, SDLKey key);
 ".5589e55389cb83e4f0e8":
 void CApp::constructor(CApp *this<ecx>);
 ".555789cd565383ec04c68541350000008b5424188b4c241c83fa017e??":
-void CApp::ParseArgs(CApp *this<ecx>, int unk, const char** args);
+void CApp::ParseArgs(CApp *this<ecx>, int argc, const char** argv);
 ".578d7c240883e4f0ff77fc5589e557565389cbb9????????83ec4ce8????????":
 void CApp::OnLoop(CApp *this<ecx>);
 ".5589e55389cb83e4f0":

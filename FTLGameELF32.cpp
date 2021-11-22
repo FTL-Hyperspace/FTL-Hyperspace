@@ -651,7 +651,7 @@ namespace _func16
 	static FunctionDefinition funcObj("Animation::AddSoundQueue", typeid(void (Animation::*)(int , const std::string &)), "565383ec148b5424248b4424208b74242885d278??8b48608b406429c8c1f802", argdata, 3, 6, &func);
 }
 
-FUNC_NAKED void Animation::AddSoundQueue(int unk, const std::string &sound)
+FUNC_NAKED void Animation::AddSoundQueue(int frame, const std::string &sound)
 {
 	__asm__
 	(
@@ -665,7 +665,7 @@ FUNC_NAKED void Animation::AddSoundQueue(int unk, const std::string &sound)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+16]\n\t"		// sound
-		"push [ebp+12]\n\t"		// unk
+		"push [ebp+12]\n\t"		// frame
 		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func16::func));
@@ -1494,7 +1494,7 @@ namespace _func38
 	static FunctionDefinition funcObj("AsteroidGenerator::Initialize", typeid(float (AsteroidGenerator::*)(int , int , bool )), ".5383ec188b4424288b5c24208b54242c89c1c1e91f89838c00000001c8d1f883f801", argdata, 4, 2, &func);
 }
 
-FUNC_NAKED float AsteroidGenerator::Initialize(int numberOfShips, int shieldCount, bool unk)
+FUNC_NAKED float AsteroidGenerator::Initialize(int numberOfShips, int shieldCount, bool defense)
 {
 	__asm__
 	(
@@ -1506,7 +1506,7 @@ FUNC_NAKED float AsteroidGenerator::Initialize(int numberOfShips, int shieldCoun
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+20]\n\t"		// unk
+		"push [ebp+20]\n\t"		// defense
 		"push [ebp+16]\n\t"		// shieldCount
 		"push [ebp+12]\n\t"		// numberOfShips
 		"push [ebp+8]\n\t"		// this
@@ -3554,7 +3554,7 @@ namespace _func92
 	static FunctionDefinition funcObj("CAchievement::OnRender", typeid(void (CAchievement::*)(Point , int , bool )), "5589e557565381ec9c0000008b45188b7d108b750c8b5d0889458c", argdata, 4, 6, &func);
 }
 
-FUNC_NAKED void CAchievement::OnRender(Point pos, int selected, bool unk)
+FUNC_NAKED void CAchievement::OnRender(Point pos, int selected, bool showNew)
 {
 	__asm__
 	(
@@ -3567,7 +3567,7 @@ FUNC_NAKED void CAchievement::OnRender(Point pos, int selected, bool unk)
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+24]\n\t"		// unk
+		"push [ebp+24]\n\t"		// showNew
 		"push [ebp+20]\n\t"		// selected
 		"push [ebp+16]\n\t"		// pos
 		"push [ebp+12]\n\t"		// pos
@@ -3744,7 +3744,7 @@ namespace _func97
 	static FunctionDefinition funcObj("CApp::OnTextInput", typeid(void (CApp::*)(int )), ".8b4424048b542408????????????0075??80781000", argdata, 2, 6, &func);
 }
 
-FUNC_NAKED void CApp::OnTextInput(int unk)
+FUNC_NAKED void CApp::OnTextInput(int ch)
 {
 	__asm__
 	(
@@ -3757,7 +3757,7 @@ FUNC_NAKED void CApp::OnTextInput(int unk)
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+12]\n\t"		// unk
+		"push [ebp+12]\n\t"		// ch
 		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func97::func));
@@ -4249,7 +4249,7 @@ namespace _func110
 	static FunctionDefinition funcObj("CApp::ParseArgs", typeid(void (CApp::*)(int , const char **)), ".f3c38db426000000008dbc2700000000", argdata, 3, 6, &func);
 }
 
-FUNC_NAKED void CApp::ParseArgs(int unk, const char **args)
+FUNC_NAKED void CApp::ParseArgs(int argc, const char **argv)
 {
 	__asm__
 	(
@@ -4262,8 +4262,8 @@ FUNC_NAKED void CApp::ParseArgs(int unk, const char **args)
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+16]\n\t"		// args
-		"push [ebp+12]\n\t"		// unk
+		"push [ebp+16]\n\t"		// argv
+		"push [ebp+12]\n\t"		// argc
 		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func110::func));
@@ -6250,7 +6250,7 @@ namespace _func162
 	static FunctionDefinition funcObj("CSurface::GL_BlitMultiImage", typeid(void (*)(GL_Texture *, const std::vector<GL_TexVertex> &, bool )), "5557565383ec4c8b15????????8b4424688b5c24608b7c246489442418", argdata, 3, 6, &func);
 }
 
-FUNC_NAKED void CSurface::GL_BlitMultiImage(GL_Texture *tex, const std::vector<GL_TexVertex> &texVertices, bool unk)
+FUNC_NAKED void CSurface::GL_BlitMultiImage(GL_Texture *tex, const std::vector<GL_TexVertex> &texVertices, bool antialias)
 {
 	__asm__
 	(
@@ -6263,7 +6263,7 @@ FUNC_NAKED void CSurface::GL_BlitMultiImage(GL_Texture *tex, const std::vector<G
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+16]\n\t"		// unk
+		"push [ebp+16]\n\t"		// antialias
 		"push [ebp+12]\n\t"		// texVertices
 		"push [ebp+8]\n\t"		// tex
 	);
@@ -6290,7 +6290,7 @@ namespace _func163
 	static FunctionDefinition funcObj("CSurface::GL_BlitMultiColorImage", typeid(void (*)(GL_Texture *, const std::vector<GL_ColorTexVertex> &, bool )), "5557565383ec4c8b15????????8b4424688b5c24608b7c246489442420a1????????", argdata, 3, 6, &func);
 }
 
-FUNC_NAKED void CSurface::GL_BlitMultiColorImage(GL_Texture *tex, const std::vector<GL_ColorTexVertex> &texVertices, bool unk)
+FUNC_NAKED void CSurface::GL_BlitMultiColorImage(GL_Texture *tex, const std::vector<GL_ColorTexVertex> &texVertices, bool antialias)
 {
 	__asm__
 	(
@@ -6303,7 +6303,7 @@ FUNC_NAKED void CSurface::GL_BlitMultiColorImage(GL_Texture *tex, const std::vec
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+16]\n\t"		// unk
+		"push [ebp+16]\n\t"		// antialias
 		"push [ebp+12]\n\t"		// texVertices
 		"push [ebp+8]\n\t"		// tex
 	);

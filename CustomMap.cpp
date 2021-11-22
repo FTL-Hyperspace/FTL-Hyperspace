@@ -224,7 +224,7 @@ static std::vector<std::unordered_set<Location*>> g_locConnections;
 static bool g_useNonColorVertices = false;
 
 
-HOOK_STATIC(CSurface, GL_BlitMultiColorImage, (GL_Texture *tex, const std::vector<GL_ColorTexVertex>& texVertices, bool unk) -> void)
+HOOK_STATIC(CSurface, GL_BlitMultiColorImage, (GL_Texture *tex, const std::vector<GL_ColorTexVertex>& texVertices, bool antialias) -> void)
 {
     if (g_useNonColorVertices)
     {
@@ -241,12 +241,12 @@ HOOK_STATIC(CSurface, GL_BlitMultiColorImage, (GL_Texture *tex, const std::vecto
             newVec.push_back(newVertex);
         }
 
-        CSurface::GL_BlitMultiImage(tex, newVec, unk);
+        CSurface::GL_BlitMultiImage(tex, newVec, antialias);
 
         return;
     }
 
-    super(tex, texVertices, unk);
+    super(tex, texVertices, antialias);
 }
 
 HOOK_METHOD(StarMap, DrawConnection, (const Pointf& pos1, const Pointf& pos2, const GL_Color& color) -> void)

@@ -9,7 +9,7 @@ cleanup void Animation::SetCurrentFrame(Animation *this, int frame);
 "5383ec28807c2434008b5c24300f85????????f30f10432c0f57c9c6433200c6433001c6433100f30f5e43240f2ec1":
 cleanup void Animation::Start(Animation *this, bool reset);
 "565383ec148b5424248b4424208b74242885d278??8b48608b406429c8c1f802":
-cleanup void Animation::AddSoundQueue(Animation *this, int unk, const std::string& sound);
+cleanup void Animation::AddSoundQueue(Animation *this, int frame, const std::string& sound);
 "8b4424048b542408391074??89d185c9891074??8b4a0489480889d185c974??8b520889500c":
 cleanup void Animation::SetAnimationId(Animation *this, GL_Texture *tex);
 "5557565383ec2c8d44241f894424048b4424408b40748944240883e80c890424e8????????8b4424408b4c24408b40648b69608944240839e8":
