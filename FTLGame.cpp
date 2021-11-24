@@ -27848,7 +27848,7 @@ namespace _func777
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x2ff};
-	static FunctionDefinition funcObj("ShipGraph::ConvertToWorldPosition", typeid(int64_t (ShipGraph::*)(Pointf )), ".57660feff6660fefff8d7c240883e4f0ff77fc5589e5575389cb83ec20f30f2a7124f30f2a7928660f7ef2660f7ef8", argdata, 2, 1, &func);
+	static FunctionDefinition funcObj("ShipGraph::ConvertToWorldPosition", typeid(int64_t (ShipGraph::*)(Pointf )), ".57660feff6660fefff8d7c240883e4f0ff77fc5589e5575389cb83ec20f30f2a7124f30f2a7928660f7ef2660f7ef8", argdata, 2, 9, &func);
 }
 
 FUNC_NAKED int64_t ShipGraph::ConvertToWorldPosition(Pointf p)
@@ -27857,7 +27857,6 @@ FUNC_NAKED int64_t ShipGraph::ConvertToWorldPosition(Pointf p)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
-		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
 		"push esi\n\t"
@@ -27872,7 +27871,6 @@ FUNC_NAKED int64_t ShipGraph::ConvertToWorldPosition(Pointf p)
 		"pop esi\n\t"
 		"pop ebx\n\t"
 		"pop ecx\n\t"
-		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
 		"ret 8\n\t"
@@ -39432,7 +39430,7 @@ namespace _func1102
 {
 	static void *func = 0;
 	static short argdata[] = {0x101};
-	static FunctionDefinition funcObj("TextButton::GetSizeX", typeid(int64_t (TextButton::*)()), "578d7c240883e4f0ff77fc5589e557565389cb83ec5c80b9b40000000075??8b83a80000008b93ac000000", argdata, 1, 1, &func);
+	static FunctionDefinition funcObj("TextButton::GetSizeX", typeid(int64_t (TextButton::*)()), "578d7c240883e4f0ff77fc5589e557565389cb83ec5c80b9b40000000075??8b83a80000008b93ac000000", argdata, 1, 9, &func);
 }
 
 FUNC_NAKED int64_t TextButton::GetSizeX()
@@ -39441,7 +39439,6 @@ FUNC_NAKED int64_t TextButton::GetSizeX()
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
-		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
 		"push esi\n\t"
@@ -39454,7 +39451,6 @@ FUNC_NAKED int64_t TextButton::GetSizeX()
 		"pop esi\n\t"
 		"pop ebx\n\t"
 		"pop ecx\n\t"
-		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
 		"ret\n\t"

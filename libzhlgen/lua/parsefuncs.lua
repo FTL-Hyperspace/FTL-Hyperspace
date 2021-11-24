@@ -97,11 +97,11 @@ local function sizeof(t)
 			for _,f in pairs(sdef.fields) do
 				size = size + sizeof(f)
 			end
-		elseif t.class == "__int64" or t.class == "double" then
+		elseif t.class == "__int64" or t.class == "double" or t.class == 'uint64_t' or t.class == 'int64_t' then
 			size = 8
-		elseif t.class == "__int16" or t.class == "short" then
+		elseif t.class == "__int16" or t.class == "short" or t.class == 'uint16_t' or t.class == 'int16_t'  then
 			size = 2
-		elseif t.class == "__int8" or t.class == "char" then
+		elseif t.class == "__int8" or t.class == "char" or t.class == 'uint8_t' or t.class == 'int8_t'  then
 			size = 1
 		elseif t.parent and t.parent.class == "std" then
 			if t.class == "string" then
@@ -386,7 +386,7 @@ for k,fd in pairs(tfiles) do
             end
             
             -- Check if this function returns a struct
-            if sizeof(func) > 4 and func.class ~= "double" and func.class ~= "__int64" then
+            if sizeof(func) > 4 and func.class ~= "double" and func.class ~= "__int64" and func.class ~= "uint64_t" and func.class ~= "int64_t" then
                 -- if it does, insert a pointer to that struct as the first argument (second if first one is "this")
                 local i = 1
                 while func.args[i] and func.args[i].hidden do i = i + 1 end
