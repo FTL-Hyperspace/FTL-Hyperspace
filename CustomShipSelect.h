@@ -9,15 +9,21 @@
 struct ShipButtonDefinition
 {
     std::string name;
-    bool typeB;
-    bool typeC;
+    int8_t typeA = 1;
+    int8_t typeB = 0;
+    int8_t typeC = 0;
 
     bool secretCruiser = false;
     bool noAppend = false;
 
     bool VariantExists(int variant)
     {
-        return variant == 0 || (variant == 1 && typeB) || (variant == 2 && typeC);
+        return (variant == 0 && typeA) || (variant == 1 && typeB) || (variant == 2 && typeC);
+    }
+
+    bool VariantNeedsDlc(int variant)
+    {
+        return (variant == 0 && typeA == 2) || (variant == 1 && typeB == 2) || (variant == 2 && typeC == 2);
     }
 };
 
@@ -278,7 +284,7 @@ public:
 
     int ShipCount(int type=0)
     {
-        if (type == 0) return shipButtonDefs.size();
+        if (type == 0) return std::count_if(shipButtonDefs.begin(), shipButtonDefs.end(), [](ShipButtonDefinition i) { return i.typeA; } );
         if (type == 1) return std::count_if(shipButtonDefs.begin(), shipButtonDefs.end(), [](ShipButtonDefinition i) { return i.typeB; } );
         if (type == 2) return std::count_if(shipButtonDefs.begin(), shipButtonDefs.end(), [](ShipButtonDefinition i) { return i.typeC; } );
     }

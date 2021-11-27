@@ -60,19 +60,41 @@ void CustomShipSelect::ParseShipsNode(rapidxml::xml_node<char> *node)
                 {
                     std::string shipName = std::string(child->first_attribute("name")->value());
 
-                    bool typeB = false;
-                    bool typeC = false;
-
                     ShipButtonDefinition buttonDef = ShipButtonDefinition();
                     buttonDef.name = shipName;
 
+                    if (child->first_attribute("a"))
+                    {
+                        if (strcmp(child->first_attribute("a")->value(), "dlc") == 0)
+                        {
+                            buttonDef.typeA = 2;
+                        }
+                        else
+                        {
+                            buttonDef.typeA = EventsParser::ParseBoolean(child->first_attribute("a")->value()) ? 1 : 0;
+                        }
+                    }
                     if (child->first_attribute("b"))
                     {
-                        buttonDef.typeB = EventsParser::ParseBoolean(child->first_attribute("b")->value());
+                        if (strcmp(child->first_attribute("b")->value(), "dlc") == 0)
+                        {
+                            buttonDef.typeB = 2;
+                        }
+                        else
+                        {
+                            buttonDef.typeB = EventsParser::ParseBoolean(child->first_attribute("b")->value()) ? 1 : 0;
+                        }
                     }
                     if (child->first_attribute("c"))
                     {
-                        buttonDef.typeC = EventsParser::ParseBoolean(child->first_attribute("c")->value());
+                        if (strcmp(child->first_attribute("c")->value(), "dlc") == 0)
+                        {
+                            buttonDef.typeC = 2;
+                        }
+                        else
+                        {
+                            buttonDef.typeC = EventsParser::ParseBoolean(child->first_attribute("c")->value()) ? 1 : 0;
+                        }
                     }
                     if (child->first_attribute("secret"))
                     {
@@ -426,12 +448,20 @@ void CustomShipSelect::OnInit(ShipSelect* shipSelect_)
             // create and initialize ShipButtons for each of the blueprints
             int curPage = i / 10;
 
-            ShipButton* aButton = new ShipButton(100 + shipId, 0);
+            ShipButton* aButton;
             ShipButton* bButton;
             ShipButton* cButton;
 
             int onPage = i % 10;
 
+
+            aButton = new ShipButton(100 + shipId, 0);
+
+            if (!x.typeA)
+            {
+                aButton->bNoExist = true;
+                aButton->bActive = false;
+            }
 
             bButton = new ShipButton(100 + shipId, 1);
 
@@ -478,10 +508,13 @@ void CustomShipSelect::OnInit(ShipSelect* shipSelect_)
 
             //if (!x.hasAchievements)
 
-            if (CustomShipUnlocks::instance->CustomShipHasUnlock(x.name))
+            if (x.typeA)
             {
-                aButton->bShipLocked = !CustomShipUnlocks::instance->GetCustomShipUnlocked(x.name);
-                aButton->bLayoutLocked = aButton->bShipLocked;
+                if (CustomShipUnlocks::instance->CustomShipHasUnlock(x.name))
+                {
+                    aButton->bShipLocked = !CustomShipUnlocks::instance->GetCustomShipUnlocked(x.name);
+                    aButton->bLayoutLocked = aButton->bShipLocked;
+                }
             }
             if (x.typeB)
             {
@@ -910,7 +943,7 @@ void CustomShipSelect::SwitchShip(ShipBuilder *builder, int type, int variant, b
 
         builder->ClearShipAchievements();
 
-        if (!CustomShipUnlocks::instance->GetCustomShipUnlocked(def.name))
+        if (!def.typeA || !CustomShipUnlocks::instance->GetCustomShipUnlocked(def.name))
         {
             builder->typeA.bActive = false;
             builder->typeA.bRenderOff = true;
@@ -1363,6 +1396,8 @@ HOOK_METHOD(ShipBuilder, OnLoop, () -> void)
     {
         auto customSel = CustomShipSelect::GetInstance();
 
+        ShipButtonDefinition *def = &customSel->GetShipButtonDefinition(currentShipId-100);
+
         bool buttonsActive = false;
 
         buttonsActive = customSel->CountUnlockedShips(currentType) > 1;
@@ -1370,7 +1405,7 @@ HOOK_METHOD(ShipBuilder, OnLoop, () -> void)
         leftButton.SetActive(buttonsActive);
         rightButton.SetActive(buttonsActive);
         randomButton.SetActive(customSel->CountUnlockedShips(-1) > 1);
-        startButton.SetActive(true);
+        startButton.SetActive(Settings::GetDlcEnabled() || !def->VariantNeedsDlc(currentType));
     }
     else
     {
@@ -1473,7 +1508,22 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
 
     CSurface::GL_PushMatrix();
 
-    if (!Settings::GetDlcEnabled() && (currentShipId == 9 || currentType == 2) && isVanillaShip)
+    bool dlcLocked = !Settings::GetDlcEnabled();
+    if (dlcLocked)
+    {
+        if (isVanillaShip)
+        {
+            dlcLocked = currentShipId == 9 || currentType == 2;
+        }
+        else
+        {
+            auto customSel = CustomShipSelect::GetInstance();
+            ShipButtonDefinition *def = &customSel->GetShipButtonDefinition(currentShipId-100);
+            dlcLocked = def->VariantNeedsDlc(currentType);
+        }
+    }
+
+    if (dlcLocked)
     {
         CSurface::GL_SetColorTint(COLOR_TINT);
     }
@@ -1484,7 +1534,7 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
     CSurface::GL_PopMatrix();
     CSurface::GL_RenderPrimitive(startButtonBox);
 
-    if (!Settings::GetDlcEnabled() && (currentShipId == 9 || currentType == 2) && isVanillaShip)
+    if (dlcLocked)
     {
         CSurface::GL_RemoveColorTint();
         CSurface::GL_RenderPrimitive(enableAdvancedPrimitive);
