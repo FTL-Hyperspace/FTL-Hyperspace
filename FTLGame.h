@@ -2545,6 +2545,7 @@ struct BlueprintManager
 	LIBZHL_API static void __stdcall GetRandomWeapon(std::vector<WeaponBlueprint*> &vec, BlueprintManager *bpM, int count, bool demo_lock);
 	LIBZHL_API static void __stdcall GetRandomDrone(std::vector<DroneBlueprint*> &vec, BlueprintManager *bpM, int count, bool demo_lock);
 	LIBZHL_API static ShipBlueprint *__stdcall ProcessShipBlueprint(ShipBlueprint *bp, BlueprintManager *bpM, rapidxml::xml_node<char> *node);
+	LIBZHL_API static DroneBlueprint *__stdcall ProcessDroneBlueprint(DroneBlueprint *bp, BlueprintManager *bpM, rapidxml::xml_node<char> *node);
 	
 	int rarityTotal;
 	std::map<std::string, ShipBlueprint> shipBlueprints;
@@ -5046,6 +5047,7 @@ struct DefenseDrone;
 struct DefenseDrone : SpaceDrone
 {
 	LIBZHL_API bool ValidTargetObject(Targetable &target);
+	LIBZHL_API void SetWeaponTarget(Targetable &target);
 	LIBZHL_API void PickTarget();
 	
 	int currentTargetId;

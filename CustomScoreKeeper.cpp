@@ -209,7 +209,7 @@ HOOK_METHOD(ScoreKeeper, CheckTypes, () -> void)
 
         ShipButtonDefinition def = customSel->GetShipButtonDefinition(selectedShip - 100);
 
-        if (!CustomShipUnlocks::instance->GetCustomShipUnlocked(def.name))
+        if (!def.typeA || !CustomShipUnlocks::instance->GetCustomShipUnlocked(def.name))
         {
             typeA.bActive = false;
             typeA.bRenderOff = true;

@@ -1670,21 +1670,30 @@ HOOK_METHOD(InfoBox, SetBlueprintDrone, (const DroneBlueprint* bp, int status, b
                 }
                 else
                 {
-                    if (bp->targetType == 1)
+                    switch (bp->targetType)
                     {
+                    case 1:
                         currentText = tLib->GetText("defense_drone_projectile_target_solid");
-                        newDesc += currentText + "\n";
-                    }
-                    else if (bp->targetType == 4)
-                    {
-                        currentText = tLib->GetText("defense_drone_projectile_target_all");
-                        newDesc += currentText + "\n";
-                    }
-                    else if (bp->targetType == 3)
-                    {
+                        break;
+                    case 2:
+                        currentText = tLib->GetText("defense_drone_projectile_target_asteroid");
+                        break;
+                    case 3:
                         currentText = tLib->GetText("defense_drone_drone_target_all");
-                        newDesc += currentText + "\n";
+                        break;
+                    case 4:
+                        currentText = tLib->GetText("defense_drone_projectile_target_all");
+                        break;
+                    case 5:
+                        currentText = tLib->GetText("defense_drone_drone_target_solid_projectiles");
+                        break;
+                    case 6:
+                        currentText = tLib->GetText("defense_drone_drone_target_all_projectiles");
+                        break;
+                    default:
+                        currentText = tLib->GetText("defense_drone_projectile_target_unknown");
                     }
+                    newDesc += currentText + "\n";
                     currentText = tLib->GetText("defense_drone_reload_speed");
                     std::stringstream stream;
                     stream << std::fixed << std::setprecision(0) << bp->cooldown * 1000;

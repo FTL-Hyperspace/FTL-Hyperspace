@@ -76,7 +76,40 @@ void CustomDroneManager::ParseDroneNode(rapidxml::xml_node<char> *node)
     }
 }
 
+HOOK_STATIC(BlueprintManager, ProcessDroneBlueprint, (DroneBlueprint* bp, BlueprintManager *bpM, rapidxml::xml_node<char>* node) -> DroneBlueprint*)
+{
+    auto ret = super(bp, bpM, node);
 
+    try
+    {
+        for (auto child = node->first_node(); child; child = child->next_sibling())
+        {
+            if (strcmp(child->name(), "target") == 0)
+            {
+                if (strcmp(child->value(), "ASTEROIDS") == 0)
+                {
+                    bp->targetType = 2;
+                }
+                else if (strcmp(child->value(), "SOLID") == 0)
+                {
+                    bp->targetType = 5;
+                }
+                else if (strcmp(child->value(), "ALL") == 0)
+                {
+                    bp->targetType = 6;
+                }
+            }
+        }
+
+        return bp;
+    }
+    catch (std::exception)
+    {
+        MessageBoxA(GetDesktopWindow(), "Error parsing <droneBlueprint>", "Error", MB_ICONERROR | MB_SETFOREGROUND);
+    }
+
+    return ret;
+}
 
 //====================================================
 
@@ -750,6 +783,82 @@ HOOK_METHOD(DefenseDrone, PickTarget, () -> void)
             }
         }
     }
+}
+
+/*
+Defense drone types:
+1 - MISSILES (vanilla)
+2 - ASTEROIDS
+3 - DRONES (vanilla)
+4 - LASERS (vanilla)
+5 - SOLID
+6 - ALL
+
+Target types:
+0 - Ship
+1 - Missile
+2 - Asteroid
+3 - Drone
+4 - Laser
+5 - ???
+6 - Hacking/boarding drone
+*/
+
+HOOK_METHOD(DefenseDrone, ValidTargetObject, (Targetable &target) -> bool)
+{
+    if (((Targetable*)(&target)) == nullptr) return false; // target should really be a pointer but libzhlgen is forcing my hand here
+
+    switch (blueprint->targetType)
+    {
+    case 2:
+        if (target.type != 2) return false;
+        break;
+    case 5:
+        if (target.type == 4) return false;
+    case 6:
+        if (target.type == 0 || target.type == 5) return false;
+        break;
+    default:
+        return super(target);
+    }
+
+    return (powered && target.GetOwnerId() != iShipId && target.ValidTarget() && currentSpace == target.GetSpaceId());
+}
+
+HOOK_METHOD(DefenseDrone, SetWeaponTarget, (Targetable &target) -> void)
+{
+    if (!ValidTargetObject(target)) return;
+
+    int targetId = target.GetSelfId();
+
+    if (targetId == shotAtTargetId && blueprint->targetType != 3 && target.type != 3) return; // don't shoot at the same target twice, except for anti-drone
+
+    if (currentTargetType == 1)
+    {
+        if (target.type != 1) return; // don't switch from missile to non-missile
+    }
+    else if (currentTargetType == 2)
+    {
+        if (((unsigned int)target.type) - 1U > 1) return; // don't switch from asteroid to non-asteroid/missile
+    }
+
+    if (targetId != currentTargetId)
+    {
+        if (aimingAngle > 180.f)
+        {
+            aimingAngle -= 360.f;
+        }
+        else if (aimingAngle < -180.f)
+        {
+            aimingAngle += 360.f;
+        }
+    }
+
+    weaponTarget = nullptr; // this is from vanilla
+    targetLocation = target.GetWorldCenterPoint();
+    targetSpeed = target.GetSpeed();
+    currentTargetId = targetId;
+    currentTargetType = target.type;
 }
 
 

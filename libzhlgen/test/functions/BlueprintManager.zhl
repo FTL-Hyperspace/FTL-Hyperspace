@@ -34,6 +34,8 @@ static void BlueprintManager::GetRandomWeapon(std::vector<WeaponBlueprint*>& vec
 static void BlueprintManager::GetRandomDrone(std::vector<DroneBlueprint*>& vec<ecx>, BlueprintManager* bpM, int count, bool demo_lock);
 "578d7c240883e4f0ff77fc5589e557565381ec0c0100008b47048b1f898d1cffffff89cf89c6898518ffffff":
 static ShipBlueprint* BlueprintManager::ProcessShipBlueprint(ShipBlueprint* bp<ecx>, BlueprintManager *bpM, rapidxml::xml_node<char>* node);
+"578d7c240883e4f0ff77fc5589e557565389ce81ecec0000008b07898d24ffffff89851cffffff8b470489c7898518ffffff":
+static DroneBlueprint* BlueprintManager::ProcessDroneBlueprint(DroneBlueprint* bp<ecx>, BlueprintManager *bpM, rapidxml::xml_node<char>* node);
 
 struct BlueprintManager
 {{
