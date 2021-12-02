@@ -12,7 +12,7 @@ LD = g++
 WINDRES = windres
 
 INC = 
-CFLAGS = -D_GLIBCXX_USE_CXX11_ABI=0 -fno-ipa-stack-alignment
+CFLAGS = -D_GLIBCXX_USE_CXX11_ABI=0 -fabi-version=7 -fabi-compat-version=2 -fno-ipa-stack-alignment
 RESINC = 
 LIBDIR = 
 LIB = 

@@ -161,6 +161,8 @@
 					<Add option="-m32" />
 					<Add option="-g" />
 					<Add option="-fno-ipa-stack-alignment" />
+					<Add option="-fabi-version=7" />
+					<Add option="-fabi-compat-version=2" />
 					<Add option="-D_GLIBCXX_USE_CXX11_ABI=0" />
 					<Add option="-DBUILD_DLL" />
 					<Add option="-DDEBUG" />
@@ -190,6 +192,8 @@
 					<Add option="-masm=intel" />
 					<Add option="-m32" />
 					<Add option="-fno-ipa-stack-alignment" />
+					<Add option="-fabi-version=7" />
+					<Add option="-fabi-compat-version=2" />
 					<Add option="-D_GLIBCXX_USE_CXX11_ABI=0" />
 					<Add option="-DBUILD_DLL" />
 					<Add directory="rapidxml" />
