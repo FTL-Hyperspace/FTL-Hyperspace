@@ -46,22 +46,22 @@ public:
 
 //=================================================================================================
 
-#define _DEFINE_METHOD_HOOK1(_id, _classname, _name, _priority, _type) \
+#define _DEFINE_METHOD_HOOK1(_id, _classname, _name, _priority, ...) \
 	namespace { namespace Hook_##_id { \
 		static void *internalSuper = NULL; \
 		struct wrapper : public _classname { \
-			auto hook _type ; \
-			auto super _type ; \
+			auto hook __VA_ARGS__ ; \
+			auto super __VA_ARGS__ ; \
 		}; \
-		static FunctionHook hookObj = FunctionHook(#_classname "::" #_name, typeid(auto (_classname::*) _type), &wrapper::hook, &internalSuper, _priority); \
+		static FunctionHook hookObj = FunctionHook(#_classname "::" #_name, typeid(auto (_classname::*) __VA_ARGS__), &wrapper::hook, &internalSuper, _priority); \
 	} } \
-	auto FUNC_NAKED Hook_##_id :: wrapper::super _type {__asm__ ("jmp %0" :: "m"(internalSuper)); } \
-	auto Hook_##_id ::wrapper::hook _type
+	auto FUNC_NAKED Hook_##_id :: wrapper::super __VA_ARGS__ {__asm__ ("jmp %0" :: "m"(internalSuper)); } \
+	auto Hook_##_id ::wrapper::hook __VA_ARGS__
 
-#define _DEFINE_METHOD_HOOK0(_id, _classname, _name, _priority, _type) _DEFINE_METHOD_HOOK1(_id, _classname, _name, _priority, _type)
+#define _DEFINE_METHOD_HOOK0(_id, _classname, _name, _priority, ...) _DEFINE_METHOD_HOOK1(_id, _classname, _name, _priority, __VA_ARGS__)
 
-#define HOOK_METHOD(_classname, _name, _type) _DEFINE_METHOD_HOOK0(__LINE__, _classname, _name, 0, _type)
-#define HOOK_METHOD_PRIORITY(_classname, _name, _priority, _type) _DEFINE_METHOD_HOOK0(__LINE__, _classname, _name, _priority, _type)
+#define HOOK_METHOD(_classname, _name, ...) _DEFINE_METHOD_HOOK0(__LINE__, _classname, _name, 0, __VA_ARGS__)
+#define HOOK_METHOD_PRIORITY(_classname, _name, _priority, ...) _DEFINE_METHOD_HOOK0(__LINE__, _classname, _name, _priority, __VA_ARGS__)
 
 //=================================================================================================
 
