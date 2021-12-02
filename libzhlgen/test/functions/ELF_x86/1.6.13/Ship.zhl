@@ -27,13 +27,14 @@ cleanup void Ship::OnRenderFloor(Ship *this, bool unk);
 "5557565383ec5c8b5c24708b4304890424":
 cleanup void Ship::OnRenderJump(Ship *this, float progress);
 "565383ec248b7424348b5c24308b86a4010000":
-static cleanup void Ship::GetBaseEllipse(Globals::Ellipse& ret, Ship *_this);
+cleanup Globals::Ellipse Ship::GetBaseEllipse(Ship *this);
 "57565331db83ec108b7c24208b7424248b57088b470c":
 cleanup void Ship::SetSelectedRoom(Ship *this, int roomId);
 "5589e557565381ec8c0000008b45088b5d0c8db0d4020000":
 cleanup void Ship::OnLoop(Ship *this, std::vector<float>& oxygenLevels);
 "5557565383ec5c8b7c24708b742474c7442440????????":
 cleanup void Ship::BreachRandomHull(Ship *this, int roomId);
+
 
 struct Ship depends (ShipGraph, Globals::Ellipse) {{
 	Pointf GetRoomCenter(int room)
@@ -51,10 +52,4 @@ struct Ship depends (ShipGraph, Globals::Ellipse) {{
 	  DOOR_ANIMATING = 0x4,
 	};
 
-	Globals::Ellipse GetBaseEllipse()
-	{
-		Globals::Ellipse ellipse;
-		GetBaseEllipse(ellipse, this);
-		return ellipse; 
-	}
 }};

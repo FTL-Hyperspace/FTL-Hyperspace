@@ -73,9 +73,7 @@ HOOK_METHOD(StarMap, MouseMove, (int x, int y) -> void)
 
     if (shipManager->HasAugmentation("FTL_JUMPER_GOOD"))
     {
-        std::vector<Location*> vec = std::vector<Location*>();
-
-        StarMap::Dijkstra0(vec, this, currentLoc, hoverLoc);
+        std::vector<Location*> vec = StarMap::Dijkstra(currentLoc, hoverLoc, false);
 
         fuelReq = 0;
 

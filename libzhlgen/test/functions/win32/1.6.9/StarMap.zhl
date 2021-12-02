@@ -110,8 +110,6 @@ void StarMap::ConnectLocations(StarMap *this<ecx>, Point unk0, Point unk1);
 void StarMap::PopulateGrid(StarMap *this<ecx>, Point unk0);
 ".578d7c240883e4f0ff77fc5589e557565383ec4c8b07":
 Location *StarMap::PopClosestLoc(StarMap *this<ecx>, std::vector<Location*>& vec, std::map<Location*, int>& map);
-".578d7c240883e4f0ff77fc5589e55756538d45a431f681ec????????89bd70ffffff":
-static void StarMap::Dijkstra0(std::vector<Location*>& ref<ecx>, StarMap *starMap, Location * start, Location * finish);
 ".578d7c240883e4f0ff77fc5589f889e557565389cf83ec5c8b100fb64004":
 bool StarMap::AddQuest(StarMap *this<ecx>, const std::string& questEvent, bool force);
 ".578d7c240883e4f0ff77fc5589e557565381ec????????":
@@ -119,7 +117,7 @@ Location* StarMap::GenerateMap(StarMap *this<ecx>, bool tutorial, bool seed);
 ".578d7c240883e4f0ff77fc5589e557565389ce83":
 Location* StarMap::NewGame(StarMap *this<ecx>, bool unk0);
 ".578d7c240883e4f0ff77fc5589f889e557565381":
-static void StarMap::Dijkstra1(std::vector<Location*>& ref<ecx>, StarMap *starMap, Location * start, Location * finish, bool include_unknown);
+std::vector<Location*> StarMap::Dijkstra<ecx>(StarMap *this, Location * start, Location * finish, bool include_unknown);
 ".578d7c240883e4f0ff77fc5589e557565381ec8c":
 void StarMap::MouseMove(StarMap *this<ecx>, int x, int y);
 ".578d7c240883e4f0ff77fc5589e557565389ce81":
@@ -144,6 +142,7 @@ void StarMap::SetupNoFuel(StarMap *this<ecx>, int seed, const std::string& force
 void StarMap::GenerateNebulas(StarMap *this<ecx>, const std::vector<std::string>& names);
 "578d7c240883e4f0ff77fc5589e557565389ce83ec3c8b81680800008b91740800008b3c82":
 void StarMap::UpdateBoss(StarMap *this<ecx>);
+
 
 struct StarMap
 {{

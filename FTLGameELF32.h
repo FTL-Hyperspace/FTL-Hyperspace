@@ -2588,7 +2588,7 @@ struct ShipAI;
 
 struct ShipAI
 {
-	LIBZHL_API double GetTeleportCommand();
+	LIBZHL_API std::pair<int, int> GetTeleportCommand();
 	LIBZHL_API void OnLoop(bool hostile);
 	LIBZHL_API void SetStalemate(bool stalemate);
 	LIBZHL_API void constructor(bool unk);
@@ -5012,28 +5012,12 @@ struct Sector
 
 struct EventGenerator
 {
-	SectorDescription *GetSpecificSector(const std::string& name)
-	{
-		SectorDescription *desc = new SectorDescription();
-		EventGenerator::GetSpecificSector(desc, this, name);
-		
-		return desc;
-	}
-	
-	std::string GetImageFromList(const std::string& listName)
-	{
-		std::string ret = std::string();
-		
-		GetImageFromList(ret, this, listName);
-		
-		return ret;
-	}
 
 	LIBZHL_API LocationEvent *CreateEvent1(const std::string &name, int worldLevel);
 	LIBZHL_API LocationEvent *GetBaseEvent(const std::string &name, int worldLevel, char ignoreUnique, int seed);
-	LIBZHL_API static void __stdcall GetImageFromList(std::string &ret, EventGenerator *eventGenerator, const std::string &listName);
-	LIBZHL_API static SectorDescription *__stdcall GetSectorDescription(SectorDescription *desc, EventGenerator *eventGenerator, const std::string &type, int level);
-	LIBZHL_API static Sector *__stdcall GetSpecificSector(SectorDescription *desc, EventGenerator *eventGenerator, const std::string &name);
+	LIBZHL_API std::string GetImageFromList(const std::string &listName);
+	LIBZHL_API SectorDescription GetSectorDescription(const std::string &type, int level);
+	LIBZHL_API SectorDescription GetSpecificSector(const std::string &name);
 	
 };
 
@@ -5980,6 +5964,7 @@ struct ScoreKeeper
 {
 	std::pair<int, int> GetShipId(const std::string& blueprintName)
 	{
+		// TODO: Maybe this should be a hook?
 		int variant = 0;
 		
 		if (blueprintName.find("_2") != std::string::npos)
@@ -5991,8 +5976,7 @@ struct ScoreKeeper
 			variant = 2;
 		}
 		
-		Point typeRet = GetShipId_DO_NOT_USE_DIRECTLY(blueprintName);
-		std::pair<int, int> typePair = *((std::pair<int, int>*) &typeRet);
+		std::pair<int, int> typePair = GetShipId_DO_NOT_USE_DIRECTLY(blueprintName);
 		
 		return std::pair<int, int>(typePair.first, variant);
 	}
@@ -6004,7 +5988,7 @@ struct ScoreKeeper
 	LIBZHL_API void CycleLeft();
 	LIBZHL_API void CycleRight();
 	LIBZHL_API std::string GetShipBlueprint(int index);
-	LIBZHL_API Point GetShipId_DO_NOT_USE_DIRECTLY(const std::string &blueprintName);
+	LIBZHL_API std::pair<int, int> GetShipId_DO_NOT_USE_DIRECTLY(const std::string &blueprintName);
 	LIBZHL_API char GetShipUnlocked(int shipId, int shipVariant);
 	LIBZHL_API bool KeyDown(SDLKey key);
 	LIBZHL_API void LoadVersionFour(int file, int version);
@@ -6121,7 +6105,7 @@ struct Settings
 	LIBZHL_API static char __stdcall GetCommandConsole();
 	LIBZHL_API static bool __stdcall GetDlcEnabled();
 	LIBZHL_API static SDLKey __stdcall GetHotkey(const std::string &hotkeyName);
-	LIBZHL_API static std::string &__stdcall GetHotkeyName(std::string &strRef, const std::string &name);
+	LIBZHL_API static std::string __stdcall GetHotkeyName(const std::string &name);
 	LIBZHL_API static void __stdcall LoadSettings();
 	LIBZHL_API static void __stdcall ResetHotkeys();
 	LIBZHL_API static void __stdcall SaveSettings();
@@ -6135,8 +6119,6 @@ struct ShieldPower
 	int second;
 	std::pair<int, int> super;
 };
-
-struct CollisionResponse;
 
 struct Shields;
 
@@ -6169,7 +6151,7 @@ struct Shields : ShipSystem
 	};
 	
 	LIBZHL_API void AddSuperShield(Point pos);
-	LIBZHL_API static CollisionResponse *__stdcall CollisionReal(CollisionResponse &ret, Shields *shields, Pointf pos, DamageParameter damage, bool unk);
+	LIBZHL_API CollisionResponse CollisionReal(Pointf pos, Damage damage, bool force);
 	LIBZHL_API void InstantCharge();
 	LIBZHL_API void Jump();
 	LIBZHL_API void OnLoop();
@@ -6223,12 +6205,6 @@ struct Ship : ShipObject
 	  DOOR_ANIMATING = 0x4,
 	};
 
-	Globals::Ellipse GetBaseEllipse()
-	{
-		Globals::Ellipse ellipse;
-		GetBaseEllipse(ellipse, this);
-		return ellipse; 
-	}
 
 	struct DoorState
 	{
@@ -6241,7 +6217,7 @@ struct Ship : ShipObject
 	LIBZHL_API int EmptySlots(int roomId);
 	LIBZHL_API bool FullRoom(int roomId, bool intruder);
 	LIBZHL_API int GetAvailableRoomSlot(int roomId, bool intruder);
-	LIBZHL_API static void __stdcall GetBaseEllipse(Globals::Ellipse &ret, Ship *_this);
+	LIBZHL_API Globals::Ellipse GetBaseEllipse();
 	LIBZHL_API int GetSelectedRoomId(int x, int y, bool unk);
 	LIBZHL_API void LockdownRoom(int roomId, Pointf pos);
 	LIBZHL_API void OnInit(ShipBlueprint &bp);
@@ -6366,13 +6342,6 @@ struct ShipManager : ShipObject
 		return ship.GetRoomCenter(roomId);
 	}
 	
-	std::vector<ProjectileFactory*> GetWeaponList()
-	{
-		std::vector<ProjectileFactory*> vec = std::vector<ProjectileFactory*>();
-		ShipManager::GetWeaponList(vec, this);
-		return vec;
-	}
-	
 	~ShipManager()
 	{
 		this->destructor2();
@@ -6384,14 +6353,6 @@ struct ShipManager : ShipObject
 		
 		return std::pair<int, int>(powerMan->currentPower.second, powerMan->currentPower.second - powerMan->currentPower.first);
 	}
-	
-	ShieldPower GetShieldPower()
-	{
-		ShieldPower shieldPower;
-		GetShieldPower(shieldPower, this);
-		return shieldPower;
-	}
-	
 
 
 	LIBZHL_API CrewMember *AddCrewMemberFromBlueprint(CrewBlueprint *bp, int slot, bool init, int roomId, bool intruder);
@@ -6428,12 +6389,12 @@ struct ShipManager : ShipObject
 	LIBZHL_API bool GetDodged();
 	LIBZHL_API int GetOxygenPercentage();
 	LIBZHL_API CrewMember *GetSelectedCrewPoint(int x, int y, bool intruder);
-	LIBZHL_API static void __stdcall GetShieldPower(ShieldPower &power, ShipManager *ship);
+	LIBZHL_API ShieldPower GetShieldPower();
 	LIBZHL_API ShipSystem *GetSystem(int systemId);
 	LIBZHL_API ShipSystem *GetSystemInRoom(int roomId);
 	LIBZHL_API int GetSystemPower(int systemId);
 	LIBZHL_API int GetSystemRoom(int sysId);
-	LIBZHL_API static std::vector<ProjectileFactory*> &__stdcall GetWeaponList(std::vector<ProjectileFactory*> &wepList, ShipManager *ship);
+	LIBZHL_API std::vector<ProjectileFactory*> GetWeaponList();
 	LIBZHL_API char HasSystem(int systemId);
 	LIBZHL_API void ImportBattleState(int file);
 	LIBZHL_API void ImportShip(int file);
@@ -6458,7 +6419,7 @@ struct ShipManager : ShipObject
 	LIBZHL_API void SetSystemPowerLoss(int systemId, int powerLoss);
 	LIBZHL_API void StartFire(int roomId);
 	LIBZHL_API bool SystemFunctions(int systemId);
-	LIBZHL_API static void __stdcall TeleportCrew(std::vector<CrewMember*> &crewList, ShipManager *ship, int roomId, bool intruders);
+	LIBZHL_API std::vector<CrewMember*> TeleportCrew(int roomId, bool intruders);
 	LIBZHL_API void UpdateCrewMembers();
 	LIBZHL_API void UpdateEnvironment();
 	LIBZHL_API int constructor(int shipId);
@@ -6705,8 +6666,7 @@ struct StarMap : FocusWindow
 	LIBZHL_API void Close();
 	LIBZHL_API void ConnectLocations(Point unk0, Point unk1);
 	LIBZHL_API void DeleteMap();
-	LIBZHL_API static void __stdcall Dijkstra0(std::vector<Location*> &ref, StarMap *starMap, Location *start, Location *finish);
-	LIBZHL_API static void __stdcall Dijkstra1(std::vector<Location*> &ref, StarMap *starMap, Location *start, Location *finish, bool include_unknown);
+	LIBZHL_API std::vector<Location*> Dijkstra(Location *start, Location *finish, bool include_unknown);
 	LIBZHL_API void DrawConnection(const Pointf &pos1, const Pointf &pos2, const GL_Color *color);
 	LIBZHL_API void ForceBossJump();
 	LIBZHL_API void ForceExitBeacon();
@@ -7122,14 +7082,8 @@ struct WeaponBox;
 
 struct WeaponBox : ArmamentBox
 {
-	std::string GenerateTooltip()
-	{
-		std::string ret;
-		GenerateTooltip(ret, this);
-		return ret;
-	}
 
-	LIBZHL_API static void __stdcall GenerateTooltip(std::string &retStr, WeaponBox *_this);
+	LIBZHL_API std::string GenerateTooltip();
 	LIBZHL_API void RenderBox(bool dragging, bool flashPowerBox);
 	
 	ProjectileFactory *pWeapon;

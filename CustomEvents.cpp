@@ -3376,7 +3376,7 @@ HOOK_METHOD(StarMap, StartSecretSector, () -> void)
         bSecretSector = true;
         Sector *newSector = new Sector();
 
-        newSector->description = *G_->GetEventGenerator()->GetSpecificSector(customEvent->secretSectorWarp);
+        newSector->description = G_->GetEventGenerator()->GetSpecificSector(customEvent->secretSectorWarp);
 
         currentSector = newSector;
     }
@@ -3419,7 +3419,7 @@ HOOK_METHOD(StarMap, GenerateMap, (bool tutorial, bool seed) -> LocationEvent*)
     {
         Sector *newSector = new Sector();
 
-        newSector->description = *G_->GetEventGenerator()->GetSpecificSector(sectorChange);
+        newSector->description = G_->GetEventGenerator()->GetSpecificSector(sectorChange);
 
         currentSector = newSector;
     }
@@ -3879,7 +3879,6 @@ HOOK_METHOD(StarMap, TurnIntoFleetLocation, (Location *loc) -> void)
             int closestDistance = 9999;
 
             auto allowedDestinations = std::vector<Location*>();
-            auto path = std::vector<Location*>();
 
             for (auto i : locations)
             {
@@ -3891,8 +3890,7 @@ HOOK_METHOD(StarMap, TurnIntoFleetLocation, (Location *loc) -> void)
                     {
                         if (requireClosest)
                         {
-                            path.clear();
-                            Dijkstra0(path, this, loc, i);
+                            std::vector<Location*> path = Dijkstra(loc, i, false);
                             if (path.size() < closestDistance)
                             {
                                 allowedDestinations.clear();

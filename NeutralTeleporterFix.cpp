@@ -1,6 +1,6 @@
 #include "Global.h"
 
-HOOK_METHOD(ShipAI, GetTeleportCommand, () -> double)
+HOOK_METHOD(ShipAI, GetTeleportCommand, () -> std::pair<int, int>)
 {
     if (ship)
     {
@@ -8,7 +8,7 @@ HOOK_METHOD(ShipAI, GetTeleportCommand, () -> double)
         {
             auto oldTarget = target;
             target = nullptr;
-            double ret = super();
+            std::pair<int, int> ret = super();
             target = oldTarget;
             return ret;
         }

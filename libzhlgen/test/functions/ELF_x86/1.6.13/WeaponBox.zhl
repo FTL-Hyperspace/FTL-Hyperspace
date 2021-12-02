@@ -1,15 +1,9 @@
 "5589e557565381ec2c0200000fb64510":
 cleanup void WeaponBox::RenderBox(WeaponBox *this, bool dragging, bool flashPowerBox);
 "5589e557565383ec2c8b750c8b5d088b06":
-static cleanup void WeaponBox::GenerateTooltip(std::string& retStr, WeaponBox *_this);
+cleanup std::string WeaponBox::GenerateTooltip(WeaponBox *this);
 
 
 struct WeaponBox
 {{
-	std::string GenerateTooltip()
-	{
-		std::string ret;
-		GenerateTooltip(ret, this);
-		return ret;
-	}
 }};

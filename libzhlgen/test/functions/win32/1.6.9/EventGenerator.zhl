@@ -3,28 +3,13 @@ LocationEvent *EventGenerator::GetBaseEvent(EventGenerator *this<ecx>, const std
 "578d7c240883e4f0ff77fc5589e557565381ec????????8b5f048b37898dc4fcffff899dbcfcffff8b5f088d7944899dacfcffff89342489f9e8????????83ec04":
 LocationEvent *EventGenerator::CreateEvent1(EventGenerator *this<ecx>, const std::string& name, int worldLevel);
 "578d7c240883e4f0ff77fc5589e557565389ce81ec????????8b078b7f04c744240807690fc789c389851cffffff83c00c":
-static Sector *EventGenerator::GetSpecificSector(SectorDescription *desc<ecx>, EventGenerator *eventGenerator, const std::string& name);
+SectorDescription EventGenerator::GetSpecificSector<ecx>(EventGenerator *this, const std::string& name);
 "578d7c240883e4f0ff77fc5589e557565389ce83ec2c8b1f8b7f0481c3????????893c2489d9":
-static void EventGenerator::GetImageFromList(std::string& ret<ecx>, EventGenerator *eventGenerator, const std::string& listName);
+std::string EventGenerator::GetImageFromList<ecx>(EventGenerator *this, const std::string& listName);
 "5789c883c0488d7c240883e4f0ff77fc5589e557565389ce81ec8c0000008b57088b1f894140894d9cc70100000000c74104000000008955a089ca":
-static SectorDescription *EventGenerator::GetSectorDescription(SectorDescription *desc<ecx>, EventGenerator *eventGenerator, const std::string& type, int level);
+SectorDescription EventGenerator::GetSectorDescription<ecx>(EventGenerator *this, const std::string& type, int level);
+
 
 struct EventGenerator depends (SectorDescription, Sector)
 {{
-	SectorDescription *GetSpecificSector(const std::string& name)
-	{
-		SectorDescription *desc = new SectorDescription();
-		EventGenerator::GetSpecificSector(desc, this, name);
-		
-		return desc;
-	}
-	
-	std::string GetImageFromList(const std::string& listName)
-	{
-		std::string ret = std::string();
-		
-		GetImageFromList(ret, this, listName);
-		
-		return ret;
-	}
 }};

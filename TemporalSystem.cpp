@@ -210,8 +210,7 @@ void TemporalBox::NewMouseMove(int x, int y)
         if (speedUpButton->bActive && speedUpButton->bHover)
         {
             // tooltip
-            std::string hotkey;
-            Settings::GetHotkeyName(hotkey, "temporal_speed");
+            std::string hotkey = Settings::GetHotkeyName("temporal_speed");
             std::string tooltip = G_->GetTextLibrary()->GetText("temporal_button_speed");
             boost::algorithm::replace_all(tooltip, "\\1", hotkey);
             boost::algorithm::replace_all(tooltip, "\\n", "\n");
@@ -221,8 +220,7 @@ void TemporalBox::NewMouseMove(int x, int y)
         if (slowDownButton->bActive && slowDownButton->bHover)
         {
             // tooltip
-            std::string hotkey;
-            Settings::GetHotkeyName(hotkey, "temporal_slow");
+            std::string hotkey = Settings::GetHotkeyName("temporal_slow");
             std::string tooltip = G_->GetTextLibrary()->GetText("temporal_button_slow");
             boost::algorithm::replace_all(tooltip, "\\1", hotkey);
             boost::algorithm::replace_all(tooltip, "\\n", "\n");

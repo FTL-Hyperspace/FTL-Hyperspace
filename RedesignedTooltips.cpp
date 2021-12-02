@@ -8,14 +8,14 @@
 #include <iomanip>
 #include <boost/algorithm/string/predicate.hpp>
 
-HOOK_STATIC(WeaponBox, GenerateTooltip, (std::string &retStr, WeaponBox *_this) -> void)
+HOOK_METHOD(WeaponBox, GenerateTooltip, () -> std::string)
 {
-    super(retStr, _this);
+    std::string ret = super();
 
     auto tLib = G_->GetTextLibrary();
     std::string descText = "";
     std::string currentText = "";
-    auto bp = _this->pWeapon->blueprint;
+    auto bp = this->pWeapon->blueprint;
 
     auto weaponDef = CustomWeaponManager::instance->GetWeaponDefinition(bp->name);
 
@@ -447,8 +447,10 @@ HOOK_STATIC(WeaponBox, GenerateTooltip, (std::string &retStr, WeaponBox *_this) 
             }
         }
         boost::trim_right(descText);
-        retStr.assign(descText);
+        ret.assign(descText);
     }
+    
+    return ret;
 }
 
 HOOK_METHOD(WeaponBlueprint, GetDescription, (bool tooltip) -> std::string)

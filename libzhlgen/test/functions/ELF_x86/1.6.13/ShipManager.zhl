@@ -9,7 +9,7 @@ cleanup void ShipManager::OnRender(ShipManager *this, char showInterior, char do
 "5557565383ec1c8b7c24300fb6442434":
 cleanup int ShipManager::CountCrew(ShipManager *this, char boarders);
 "5557565331db83ec1c0fb644243c":
-static cleanup void ShipManager::TeleportCrew(std::vector<CrewMember*>& crewList, ShipManager *ship, int roomId, bool intruders);
+cleanup std::vector<CrewMember*> ShipManager::TeleportCrew(ShipManager *this, int roomId, bool intruders);
 "5589e557565383ec6c8b7d088b450c8b7510":
 cleanup int ShipManager::OnInit(ShipManager *this, ShipBlueprint *bp, int shipLevel);
 "8b44240883f81174??8b5424048b9200040000":
@@ -67,7 +67,7 @@ cleanup bool ShipManager::CommandCrewMoveRoom(ShipManager *this, CrewMember *cre
 "8b4424088b54240483f8ff74??8b8a000400008b048183f8ff74??8b52188b048285c074??8b1089442404":
 cleanup int ShipManager::GetSystemRoom(ShipManager *this, int sysId);
 "5557565383ec1c8b4424348b5c24308b9000040000837a0cff":
-static cleanup std::vector<ProjectileFactory*>& ShipManager::GetWeaponList(std::vector<ProjectileFactory*> &wepList, ShipManager *ship);
+cleanup std::vector<ProjectileFactory*> ShipManager::GetWeaponList(ShipManager *this);
 "57565383ec208b5c24308b7c24348b8300040000":
 cleanup Drone* ShipManager::AddDrone(ShipManager *this, const DroneBlueprint *bp, int slot);
 "5557565383ec2c8b6c24408b450485c0":
@@ -105,7 +105,7 @@ cleanup void ShipManager::CheckSpreadDamage(ShipManager *this);
 "8b4424088b54240483f8ff74??8b8a000400008b048183f8ff74??8b52188b048285c074??8b10c744240801000000894424048b8284000000":
 cleanup bool ShipManager::ForceDecreaseSystemPower(ShipManager *this, int sys);
 "8b5424088b4424048b524485d2":
-static cleanup void ShipManager::GetShieldPower(ShieldPower &power, ShipManager *ship);
+cleanup ShieldPower ShipManager::GetShieldPower(ShipManager *this);
 "538b4424088b9000040000837a0cff":
 cleanup int ShipManager::AddWeapon(ShipManager *this, const WeaponBlueprint* bp, int slot);
 "5557565331db83ec3c8b4424548d74242c":
@@ -139,6 +139,7 @@ cleanup bool ShipManager::RestoreCrewPositions(ShipManager *this);
 "555731ff565331db83ec1c8b7424308b4e688b4664":
 cleanup CrewMember* ShipManager::GetCrewmember(ShipManager *this, int slot, bool present);
 
+
 struct ShipManager depends (PowerManager, ShieldPower)
 {{
 	ShipManager(int shipId) 
@@ -159,13 +160,6 @@ struct ShipManager depends (PowerManager, ShieldPower)
 		return ship.GetRoomCenter(roomId);
 	}
 	
-	std::vector<ProjectileFactory*> GetWeaponList()
-	{
-		std::vector<ProjectileFactory*> vec = std::vector<ProjectileFactory*>();
-		ShipManager::GetWeaponList(vec, this);
-		return vec;
-	}
-	
 	~ShipManager()
 	{
 		this->destructor2();
@@ -177,13 +171,5 @@ struct ShipManager depends (PowerManager, ShieldPower)
 		
 		return std::pair<int, int>(powerMan->currentPower.second, powerMan->currentPower.second - powerMan->currentPower.first);
 	}
-	
-	ShieldPower GetShieldPower()
-	{
-		ShieldPower shieldPower;
-		GetShieldPower(shieldPower, this);
-		return shieldPower;
-	}
-	
 
 }};

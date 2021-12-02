@@ -175,13 +175,11 @@ void ReplaceSector(Sector *sector, std::string sectorList, bool isLoading)
 
     if (sectorList == "CIVILIAN" || sectorList == "HOSTILE" || sectorList == "NEBULA" || sectorList == "UNKNOWN")
     {
-        EventGenerator::GetSectorDescription(&sector->description, G_->GetEventGenerator(), sectorList, sector->level);
+        sector->description = G_->GetEventGenerator()->GetSectorDescription(sectorList, sector->level);
     }
     else
     {
-        SectorDescription *desc = G_->GetEventGenerator()->GetSpecificSector(sectorList);
-        sector->description = *desc;
-        delete desc;
+        sector->description = G_->GetEventGenerator()->GetSpecificSector(sectorList);
     }
 
     if (sectorList == "CIVILIAN")

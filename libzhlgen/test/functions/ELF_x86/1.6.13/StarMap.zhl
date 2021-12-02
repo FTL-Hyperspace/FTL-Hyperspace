@@ -110,8 +110,6 @@ cleanup void StarMap::ConnectLocations(StarMap *this, Point unk0, Point unk1);
 cleanup void StarMap::PopulateGrid(StarMap *this, Point unk0);
 "5589e557565383ec5c8b750c8b46048b3e":
 cleanup Location *StarMap::PopClosestLoc(StarMap *this, std::vector<Location*>& vec, std::map<Location*, int>& map);
-"5589e5575631f65381ecec000000":
-static cleanup void StarMap::Dijkstra0(std::vector<Location*>& ref, StarMap *starMap, Location * start, Location * finish);
 "5557565383ec6c0fb68424880000008bb42480000000":
 cleanup bool StarMap::AddQuest(StarMap *this, const std::string& questEvent, bool force);
 "5589e557565381ecfc0000008b5d0c807d1000":
@@ -119,7 +117,7 @@ cleanup Location* StarMap::GenerateMap(StarMap *this, bool tutorial, bool seed);
 "5589e557565383ec6c8b7d088b450c8b8f64060000":
 cleanup Location* StarMap::NewGame(StarMap *this, bool unk0);
 "5589e557565381ecdc0000008b45088b7518":
-static cleanup void StarMap::Dijkstra1(std::vector<Location*>& ref, StarMap *starMap, Location * start, Location * finish, bool include_unknown);
+cleanup std::vector<Location*> StarMap::Dijkstra(StarMap *this, Location * start, Location * finish, bool include_unknown);
 "5589e557565381ec8c0000008b45088b5d0c8b7510":
 cleanup void StarMap::MouseMove(StarMap *this, int x, int y);
 "5589e557565381ec8c0000008b750880be6006000000":

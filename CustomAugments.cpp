@@ -693,9 +693,9 @@ HOOK_METHOD(Shields, OnLoop, () -> void)
 }
 
 /*
-HOOK_METHOD(Shields, CollisionReal, (float x, float y, Damage damage, bool unk) -> void)
+HOOK_METHOD(Shields, CollisionReal, (float x, float y, Damage damage, bool force) -> CollisionReal)
 {
-    super(x, y, damage, unk);
+    CollisionReal ret = super(x, y, damage, force);
 
     if (CustomAugmentManager::GetInstance()->superShieldCustomRender[_shipObj.iShipId] && !damMessages.empty())
     {
@@ -706,6 +706,8 @@ HOOK_METHOD(Shields, CollisionReal, (float x, float y, Damage damage, bool unk) 
             damMessage->color.a = 1.0;
         }
     }
+    
+    return ret;
 }
 */
 

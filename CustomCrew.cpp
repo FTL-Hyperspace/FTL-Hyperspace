@@ -3934,8 +3934,7 @@ HOOK_METHOD(CrewBox, GetSelected, (int mouseX, int mouseY) -> CrewMember*)
             {
                 auto ex = CM_EX(pCrew);
                 std::string tooltip = G_->GetTextLibrary()->GetText("hotkey");
-                std::string replaceWith;
-                Settings::GetHotkeyName(replaceWith, "lockdown");
+                std::string replaceWith = Settings::GetHotkeyName("lockdown");
                 boost::algorithm::replace_all(tooltip, "\\1", replaceWith);
                 sTooltip = sTooltip + "\n" + tooltip;
             }

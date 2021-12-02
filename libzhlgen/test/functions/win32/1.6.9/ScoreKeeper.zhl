@@ -61,7 +61,7 @@ struct ScoreKeeper
 			variant = 2;
 		}
 		
-		int type = GetShipIdType(blueprintName);
+		int type = GetShipIdType(blueprintName); // TODO: This might be able to be changed like the Linux version to properly returning a std::pair and then maybe this whole thing could also just be a hook?
 		
 		return std::pair<int, int>(type, variant);
 	}

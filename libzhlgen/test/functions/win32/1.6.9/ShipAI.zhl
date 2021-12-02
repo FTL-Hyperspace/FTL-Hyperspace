@@ -5,4 +5,4 @@ void ShipAI::SetStalemate(ShipAI *this<ecx>, bool stalemate);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b3789f084c08b010f84????????8bb8cc000000":
 void ShipAI::OnLoop(ShipAI *this<ecx>, bool hostile);
 "8b410485c00f84????????8b0185c00f84????????578d7c240883e4f0ff77fc5589e5575389cb89c1":
-double ShipAI::GetTeleportCommand(ShipAI *this<ecx>);
+std::pair<int, int> ShipAI::GetTeleportCommand(ShipAI *this<ecx>);
