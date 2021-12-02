@@ -17,6 +17,7 @@ struct GlobalPre
 	#include <math.h>
 	#include <queue>
 	#include "SigScan.h"
+	#include <unistd.h>
 	#undef LoadImage
 
 	#ifndef M_PI
