@@ -1718,6 +1718,9 @@ struct LIBZHL_INTERFACE CrewAnimation
 		this->constructor(_shipId, _race, _unk, _hostile);
 	}
 
+	bool _HS_CustomDeath();
+
+
 	virtual ~CrewAnimation() {}
 	LIBZHL_API virtual void OnRender(float scale, int selectedState, bool outlineOnly);
 	LIBZHL_API virtual void OnRenderProps();
@@ -1856,6 +1859,28 @@ struct LIBZHL_INTERFACE CrewMember
 		return (ShipObject*)(this);
 	}
 
+    bool _HS_GetControllable();
+	bool _HS_CanSuffocate();
+	bool _HS_CanFight();
+	bool _HS_CanRepair();
+	bool _HS_CanSabotage();
+	bool _HS_CanMan();
+	bool _HS_CanBurn();
+	int _HS_GetMaxHealth();
+	float _HS_GetMoveSpeedMultiplier();
+	float _HS_GetRepairSpeed();
+	float _HS_GetDamageMultiplier();
+	bool _HS_ProvidesPower();
+	float _HS_FireRepairMultiplier();
+	bool _HS_IsTelepathic();
+	float _HS_GetSuffocationModifier();
+	bool _HS_IsAnaerobic();
+	bool _HS_HasSpecialPower();
+	std::pair<float, float> _HS_GetPowerCooldown();
+	bool _HS_PowerReady();
+	void _HS_ResetPower();
+	void _HS_ActivatePower();
+	
 
 	virtual ~CrewMember() {}
 	virtual Point GetPosition() LIBZHL_PLACEHOLDER
@@ -2119,6 +2144,25 @@ struct CrewDrone : CrewMember
 	{
 		this->constructor(type, name, shipId, blueprint, anim);
 	}
+
+	bool _HS_GetControllable();
+	bool _HS_CanFight();
+	bool _HS_CanRepair();
+	bool _HS_CanSabotage();
+	bool _HS_CanMan();
+	bool _HS_CanSuffocate();
+	bool _HS_CanBurn();
+	float _HS_GetMoveSpeedMultiplier();
+	float _HS_GetRepairSpeed();
+	int _HS_GetMaxHealth();
+	float _HS_GetDamageMultiplier();
+	bool _HS_ProvidesPower();
+	float _HS_GetFireRepairMultiplier();
+	bool _HS_IsTelepathic();
+	float _HS_GetSuffocationModifier();
+	bool _HS_IsAnaerobic();
+	int _HS_BlockRoom();
+
 
 	LIBZHL_API virtual void OnLoop();
 	LIBZHL_API virtual bool ProvidesVision();

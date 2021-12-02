@@ -21,6 +21,7 @@ bool CrewAnimation::FireShot(CrewAnimation *this<ecx>);
 "8b413483f8ff74??8b513c89d183e1fd83f90174??83fa0274??83f8010f94c00fb6c083c001c389f68dbc270000000083f8020f94c0":
 int CrewAnimation::GetFiringFrame(CrewAnimation *this<ecx>);
 
+
 struct CrewAnimation
 {{
 	CrewAnimation()
@@ -31,4 +32,7 @@ struct CrewAnimation
 	{
 		this->constructor(_shipId, _race, _unk, _hostile);
 	}
+
+	bool _HS_CustomDeath();
+
 }};

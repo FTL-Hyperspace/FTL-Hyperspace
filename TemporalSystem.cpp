@@ -114,29 +114,29 @@ static void* g_temporalVTable[g_temporalVTableSize];
 static TemporalArmState g_iTemporal = TEMPORAL_ARM_NONE;
 
 
-static int __attribute__((fastcall)) TemporalBox_GetCooldownLevel(TemporalBox *_this)
+int TemporalBox::_HS_GetCooldownLevel()
 {
-    if (_this->temporalSystem->bTurnedOn)
+    if (this->temporalSystem->bTurnedOn)
     {
-        return _this->pSystem->GetEffectivePower();
+        return this->pSystem->GetEffectivePower();
     }
 
     return -1;
 }
 
-static float __attribute__((fastcall)) TemporalBox_GetCooldownFraction(TemporalBox *_this)
+float TemporalBox::_HS_GetCooldownFraction()
 {
-    if (_this->temporalSystem->IsReady() || !_this->temporalSystem->bTurnedOn)
+    if (this->temporalSystem->IsReady() || !this->temporalSystem->bTurnedOn)
     {
         return -1.f;
     }
     else
     {
-        return 1.f - (_this->temporalSystem->timer.currTime / _this->temporalSystem->timer.currGoal);
+        return 1.f - (this->temporalSystem->timer.currTime / this->temporalSystem->timer.currGoal);
     }
 }
 
-static bool __attribute__((fastcall)) TemporalBox_HasButton(TemporalBox *_this)
+bool TemporalBox::_HS_HasButton()
 {
     return true;
 }
@@ -156,9 +156,9 @@ void SetupVTable(TemporalBox* box)
 
     MEMPROT_REPROTECT(&vtable[0], sizeof(void*) * g_temporalVTableSize, dwOldProtect);
 
-    g_temporalVTable[3] = (void*)&TemporalBox_HasButton;
-    g_temporalVTable[19] = (void*)&TemporalBox_GetCooldownLevel;
-    g_temporalVTable[20] = (void*)&TemporalBox_GetCooldownFraction;
+    g_temporalVTable[3] = (void*)&TemporalBox::_HS_HasButton;
+    g_temporalVTable[19] = (void*)&TemporalBox::_HS_GetCooldownLevel;
+    g_temporalVTable[20] = (void*)&TemporalBox::_HS_GetCooldownFraction;
 
     *((void**)box)= &g_temporalVTable;
 }

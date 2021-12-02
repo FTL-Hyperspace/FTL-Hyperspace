@@ -25,6 +25,7 @@ cleanup bool CrewAnimation::FireShot(CrewAnimation *this);
 "8b5424048b423483f8ff":
 cleanup int CrewAnimation::GetFiringFrame(CrewAnimation *this);
 
+
 struct CrewAnimation
 {{
 	CrewAnimation()
@@ -35,4 +36,7 @@ struct CrewAnimation
 	{
 		this->constructor(_shipId, _race, _unk, _hostile);
 	}
+
+	bool _HS_CustomDeath();
+
 }};
