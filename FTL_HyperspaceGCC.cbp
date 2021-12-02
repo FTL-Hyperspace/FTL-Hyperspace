@@ -169,9 +169,6 @@
 					<Add directory="/usr/include/boost" />
 				</Compiler>
 				<Linker>
-					<Add option="-static-libstdc++" />
-					<Add option="-static-libgcc" />
-					<Add option="-static" />
 					<Add option="-m32" />
 					<Add library="discord/lib/libdiscord-rpc.a" />
 					<Add directory="discord/lib" />
@@ -201,9 +198,6 @@
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
-					<Add option="-static-libstdc++" />
-					<Add option="-static-libgcc" />
-					<Add option="-static" />
 					<Add option="-m32" />
 					<Add library="discord/lib/libdiscord-rpc.a" />
 					<Add directory="discord/lib" />
