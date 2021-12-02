@@ -120,6 +120,8 @@ local function sizeof(t)
 				size = 16
 			elseif t.class == "set" then
 				size = 16
+			elseif t.class == "pair" then
+				size = 8
 			end
 		elseif t.class == "SmartPointer" then
 			size = 8
@@ -397,7 +399,14 @@ for k,fd in pairs(tfiles) do
             
             -- Check if this function returns a struct
             -- TODO: Determine size of struct and handle the special EDX:EAX case of 8-byte wide structs on Win32 ABI & Sys V i386 ABI
-            if sizeof(func) > 4 and func.class ~= "double" and func.class ~= "__int64" and func.class ~= "uint64_t" and func.class ~= "int64_t" then
+            local isImplicitType = true
+            if func.class == "double" or func.class == "__int64" or func.class == "uint64_t" or func.class == "int64_t" then
+                isImplicitType = false
+            elseif func.class == "pair" and not isSysVi386ABI then
+                isImplicitType = false
+            end
+                
+            if sizeof(func) > 4 and isImplicitType then
                 -- if it does, insert a pointer to that struct as the first argument (second if first one is "this")
                 local i = 1
 --                if not isSysVi386ABI then -- TODO: Put this behind a check for MSVC not a check for Linux

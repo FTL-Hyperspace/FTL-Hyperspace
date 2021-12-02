@@ -12947,7 +12947,7 @@ namespace _func359
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("CrewMember::GetSkillProgress", typeid(std::pair<int, int> (CrewMember::*)(int )), ".558b811403000089e58b55085d8d14d08b02", argdata, 2, 1, &func);
+	static FunctionDefinition funcObj("CrewMember::GetSkillProgress", typeid(std::pair<int, int> (CrewMember::*)(int )), ".558b811403000089e58b55085d8d14d08b02", argdata, 2, 9, &func);
 }
 
 FUNC_NAKED std::pair<int, int> CrewMember::GetSkillProgress(int skillId)
@@ -12956,7 +12956,6 @@ FUNC_NAKED std::pair<int, int> CrewMember::GetSkillProgress(int skillId)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
-		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
 		"push esi\n\t"
@@ -12970,7 +12969,6 @@ FUNC_NAKED std::pair<int, int> CrewMember::GetSkillProgress(int skillId)
 		"pop esi\n\t"
 		"pop ebx\n\t"
 		"pop ecx\n\t"
-		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
 		"ret 4\n\t"
@@ -16148,7 +16146,7 @@ namespace _func451
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("CrewMemberFactory::GetRandomFriendlyName", typeid(std::pair<std::string, bool> (CrewMemberFactory::*)(const std::string &)), ".578d7c240883e4f0ff77fc5589e5", argdata, 2, 1, &func);
+	static FunctionDefinition funcObj("CrewMemberFactory::GetRandomFriendlyName", typeid(std::pair<std::string, bool> (CrewMemberFactory::*)(const std::string &)), ".578d7c240883e4f0ff77fc5589e5", argdata, 2, 9, &func);
 }
 
 FUNC_NAKED std::pair<std::string, bool> CrewMemberFactory::GetRandomFriendlyName(const std::string &race)
@@ -16157,7 +16155,6 @@ FUNC_NAKED std::pair<std::string, bool> CrewMemberFactory::GetRandomFriendlyName
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
-		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
 		"push esi\n\t"
@@ -16172,7 +16169,6 @@ FUNC_NAKED std::pair<std::string, bool> CrewMemberFactory::GetRandomFriendlyName
 		"pop esi\n\t"
 		"pop ebx\n\t"
 		"pop ecx\n\t"
-		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
 		"ret 4\n\t"

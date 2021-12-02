@@ -14394,8 +14394,8 @@ FUNC_NAKED int CrewMember::GetSkillLevel(int skillId)
 namespace _func374
 {
 	static void *func = 0;
-	static short argdata[] = {0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("CrewMember::GetSkillProgress", typeid(std::pair<int, int> (CrewMember::*)(int )), "8b5424088b4c240c8b4424048b9224020000", argdata, 2, 2, &func);
+	static short argdata[] = {0x1ff, 0x1ff, 0x1ff};
+	static FunctionDefinition funcObj("CrewMember::GetSkillProgress", typeid(std::pair<int, int> (CrewMember::*)(int )), "8b5424088b4c240c8b4424048b9224020000", argdata, 3, 18, &func);
 }
 
 FUNC_NAKED std::pair<int, int> CrewMember::GetSkillProgress(int skillId)
@@ -14404,14 +14404,15 @@ FUNC_NAKED std::pair<int, int> CrewMember::GetSkillProgress(int skillId)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
-		"sub esp, 12\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+12]\n\t"		// skillId
-		"push [ebp+8]\n\t"		// this
+		"push [ebp+16]\n\t"		// skillId
+		"push [ebp+12]\n\t"		// this
+		"push [ebp+8]\n\t"		// implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func374::func));
 	__asm__
@@ -14424,7 +14425,7 @@ FUNC_NAKED std::pair<int, int> CrewMember::GetSkillProgress(int skillId)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret\n\t"
+		"ret 4\n\t"
 	);
 }
 
@@ -17696,8 +17697,8 @@ FUNC_NAKED RepairDrone *CrewMemberFactory::CreateRepairDrone(int shipId, const D
 namespace _func462
 {
 	static void *func = 0;
-	static short argdata[] = {0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("CrewMemberFactory::GetRandomFriendlyName", typeid(std::pair<std::string, bool> (CrewMemberFactory::*)(const std::string &)), "5589e557565383ec4c8b750c??????00000000", argdata, 2, 2, &func);
+	static short argdata[] = {0x1ff, 0x1ff, 0x1ff};
+	static FunctionDefinition funcObj("CrewMemberFactory::GetRandomFriendlyName", typeid(std::pair<std::string, bool> (CrewMemberFactory::*)(const std::string &)), "5589e557565383ec4c8b750c??????00000000", argdata, 3, 18, &func);
 }
 
 FUNC_NAKED std::pair<std::string, bool> CrewMemberFactory::GetRandomFriendlyName(const std::string &race)
@@ -17706,14 +17707,15 @@ FUNC_NAKED std::pair<std::string, bool> CrewMemberFactory::GetRandomFriendlyName
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
-		"sub esp, 12\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+12]\n\t"		// race
-		"push [ebp+8]\n\t"		// this
+		"push [ebp+16]\n\t"		// race
+		"push [ebp+12]\n\t"		// this
+		"push [ebp+8]\n\t"		// implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func462::func));
 	__asm__
@@ -17726,7 +17728,7 @@ FUNC_NAKED std::pair<std::string, bool> CrewMemberFactory::GetRandomFriendlyName
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret\n\t"
+		"ret 4\n\t"
 	);
 }
 
