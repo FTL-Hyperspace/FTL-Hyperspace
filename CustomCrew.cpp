@@ -3308,8 +3308,6 @@ HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
 
         if (dmg->ownerId != -1) DamageArea(Pointf(i->x, i->y), *((DamageParameter*)dmg), true);
 
-        delete dmg;
-
         if (custom->IsRace(i->species))
         {
             auto def = custom->GetDefinition(i->species);
