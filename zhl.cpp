@@ -581,7 +581,7 @@ int FunctionHook_private::Install()
 	{
 		P(0xc2); PS(stackPos - 8);	// ret 4*N
 	}
-	else if(def->isMemPassedStructPointer()) // TODO: Might need to limit this only to Sys V i386 ABI and not Windows also?
+	else if(def->isMemPassedStructPointer()) // TODO: Might need to limit this only to Sys V i386 ABI and not Windows also? (but then again, the OUR_OWN_FUNCTIONS_CALLEE_DOES_CLEANUP thing might already take care of this for Windows)
 	{
         P(0xc2); PS(4);
 	}

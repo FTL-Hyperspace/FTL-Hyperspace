@@ -1457,6 +1457,7 @@ struct OptionsScreen
 struct CreditScreen
 {
   float scroll;
+  //float scrollSpeed; // This exists on Linux
   std__string shipName;
   std__string crewString;
   float pausing;
@@ -1466,8 +1467,8 @@ struct CreditScreen
   int touchesDown;
   double touchDownTime;
   float skipMessageTimer;
-  char gap5C[3]; // This is writing some crap outside of the CreditScreen struct! Could be dangerous
-  char _unk;
+  char gap5C[3]; // This is writing some crap outside of the CreditScreen struct! Could be dangerous, this doesn't exist on Linux?
+  char _unk; // This doesn't exist
 };
 
 /* 474 */
