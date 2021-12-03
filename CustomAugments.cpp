@@ -939,7 +939,7 @@ HOOK_METHOD(Shields, RenderBase, (float alpha, float superShieldOverwrite) -> vo
     Shields_GL_RenderPrimitiveWithColor = nullptr;
 }
 
-HOOK_METHOD(CSurface, GL_RenderPrimitiveWithColor, (GL_Primitive *primitive, GL_Color color) -> void)
+HOOK_STATIC(CSurface, GL_RenderPrimitiveWithColor, (GL_Primitive *primitive, GL_Color color) -> void)
 {
     if (!override_GL_RenderPrimitiveWithColor) return super(primitive, color);
     if (Shields_GL_RenderPrimitiveWithColor != nullptr)
