@@ -420,8 +420,7 @@ HOOK_METHOD(ShipManager, PrepareSuperBarrage, () -> void)
                         projectile->entryAngle = entryAngle;
                         projectile->Initialize(*bp);
 
-                        Animation anim = G_->GetAnimationControl()->GetAnimation(k.image);
-                        projectile->flight_animation = anim;
+                        projectile->flight_animation = G_->GetAnimationControl()->GetAnimation(k.image);
 
                         if (k.fake)
                         {

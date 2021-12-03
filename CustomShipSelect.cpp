@@ -311,12 +311,12 @@ void CustomShipSelect::OnInit(ShipSelect* shipSelect_)
 
         for (auto i : customAnimDefs)
         {
-            Animation newAnim = G_->GetAnimationControl()->GetAnimation(i.second);
-            newAnim.SetCurrentFrame(0);
-            newAnim.tracker.SetLoop(true, 0);
-            newAnim.Start(true);
+            Animation* newAnim = new Animation(G_->GetAnimationControl()->GetAnimation(i.second));
+            newAnim->SetCurrentFrame(0);
+            newAnim->tracker.SetLoop(true, 0);
+            newAnim->Start(true);
 
-            customAnims.push_back(std::pair<Point, Animation*>(i.first, &newAnim));
+            customAnims.push_back(std::pair<Point, Animation*>(i.first, newAnim));
         }
     }
 

@@ -45,14 +45,14 @@ void ShipManager_Extend::Initialize(bool restarting)
 
                 for (auto def : i.second->roomAnims)
                 {
-                    Animation anim = G_->GetAnimationControl()->GetAnimation(def.animName);
+                    Animation *anim = new Animation(G_->GetAnimationControl()->GetAnimation(def.animName));
                     RoomAnim roomAnim = RoomAnim();
 
-                    roomAnim.anim = &anim;
+                    roomAnim.anim = anim;
                     roomAnim.renderLayer = def.renderLayer;
 
-                    anim.Start(true);
-                    anim.tracker.SetLoop(true, 0.f);
+                    anim->Start(true);
+                    anim->tracker.SetLoop(true, 0.f);
 
                     rex->roomAnims.push_back(roomAnim);
 

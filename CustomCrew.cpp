@@ -983,8 +983,7 @@ void CustomCrewManager::ParsePowerRequirementsNode(rapidxml::xml_node<char> *nod
             }
             if (reqNode->first_attribute("load"))
             {
-                std::vector<std::string> bpList = G_->GetBlueprints()->GetBlueprintList(reqNode->first_attribute("load")->value());
-                whiteList = &bpList;
+                whiteList = new std::vector<std::string>(G_->GetBlueprints()->GetBlueprintList(reqNode->first_attribute("load")->value()));
             }
             for (auto crewChild = reqNode->first_node(); crewChild; crewChild = crewChild->next_sibling())
             {
@@ -1712,18 +1711,15 @@ void CrewAnimation_Extend::PreparePower(ActivatedPowerDefinition* def)
 
     if (!def->effectAnim.empty())
     {
-        Animation newAnim = G_->GetAnimationControl()->GetAnimation(def->effectAnim);
-        effectAnim = &newAnim;
+        effectAnim = new Animation(G_->GetAnimationControl()->GetAnimation(def->effectAnim));
     }
     if (!def->tempPower.effectFinishAnim.empty())
     {
-        Animation newAnim = G_->GetAnimationControl()->GetAnimation(def->tempPower.effectFinishAnim);
-        effectFinishAnim = &newAnim;
+        effectFinishAnim = new Animation(G_->GetAnimationControl()->GetAnimation(def->tempPower.effectFinishAnim));
     }
     if (!def->tempPower.effectAnim.empty())
     {
-        Animation newAnim = G_->GetAnimationControl()->GetAnimation(def->tempPower.effectAnim);
-        tempEffectAnim = &newAnim;
+        tempEffectAnim = new Animation(G_->GetAnimationControl()->GetAnimation(def->tempPower.effectAnim));
     }
     if (!def->tempPower.animSheet.empty())
     {

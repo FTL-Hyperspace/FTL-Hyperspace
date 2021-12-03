@@ -791,9 +791,7 @@ HOOK_METHOD(Ship, OnRenderWalls, (bool forceView, bool doorControlMode) -> void)
             {
                 if (!ex->speedUpAnim)
                 {
-                    Animation newAnim = G_->GetAnimationControl()->GetAnimation("room_temporal_speed");
-
-                    ex->speedUpAnim = &newAnim;
+                    ex->speedUpAnim = new Animation(G_->GetAnimationControl()->GetAnimation("room_temporal_speed"));
                     ex->speedUpAnim->SetCurrentFrame(0);
                     ex->speedUpAnim->tracker.SetLoop(true, 0);
                     ex->speedUpAnim->Start(true);
@@ -805,9 +803,7 @@ HOOK_METHOD(Ship, OnRenderWalls, (bool forceView, bool doorControlMode) -> void)
             {
                 if (!ex->slowDownAnim)
                 {
-                    Animation newAnim = G_->GetAnimationControl()->GetAnimation("room_temporal_slow");
-
-                    ex->slowDownAnim = &newAnim;
+                    ex->slowDownAnim = new Animation(G_->GetAnimationControl()->GetAnimation("room_temporal_slow"));
                     ex->slowDownAnim->SetCurrentFrame(0);
                     ex->slowDownAnim->tracker.SetLoop(true, 0);
                     ex->slowDownAnim->Start(true);

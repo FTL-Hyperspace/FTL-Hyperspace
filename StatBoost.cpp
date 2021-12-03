@@ -1294,11 +1294,11 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
                 auto it = animKeep.find(statBoost.def->realBoostId);
                 if (it == animKeep.end())
                 {
-                    Animation anim = G_->GetAnimationControl()->GetAnimation(statBoost.def->boostAnim);
-                    aex->boostAnim[statBoost.def->realBoostId] = &anim;
-                    anim.SetCurrentFrame(0);
-                    anim.tracker.SetLoop(true, 0);
-                    anim.Start(true);
+                    Animation *anim = new Animation(G_->GetAnimationControl()->GetAnimation(statBoost.def->boostAnim));
+                    aex->boostAnim[statBoost.def->realBoostId] = anim;
+                    anim->SetCurrentFrame(0);
+                    anim->tracker.SetLoop(true, 0);
+                    anim->Start(true);
                 }
                 else
                 {
@@ -1318,11 +1318,11 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
                         auto it = animKeep.find(statBoost.def->realBoostId);
                         if (it == animKeep.end())
                         {
-                            Animation anim = G_->GetAnimationControl()->GetAnimation(statBoost.def->boostAnim);
-                            aex->boostAnim[statBoost.def->realBoostId] = &anim;
-                            anim.SetCurrentFrame(0);
-                            anim.tracker.SetLoop(true, 0);
-                            anim.Start(true);
+                            Animation *anim = new Animation(G_->GetAnimationControl()->GetAnimation(statBoost.def->boostAnim));
+                            aex->boostAnim[statBoost.def->realBoostId] = anim;
+                            anim->SetCurrentFrame(0);
+                            anim->tracker.SetLoop(true, 0);
+                            anim->Start(true);
                         }
                         else
                         {
