@@ -232,9 +232,9 @@ HOOK_METHOD(ShipBuilder, Open, () -> void)
     advancedOnButton.SetInactiveColor(g_defaultTextButtonColors[2]);
 }
 
-HOOK_METHOD(ShipSelect, Open, () -> void)
+HOOK_METHOD(ShipSelect, Open, (int currentLayout, int currentType) -> void)
 {
-    super();
+    super(currentLayout, currentType);
 
     typeA.SetInactiveColor(g_defaultTextButtonColors[2]);
     typeB.SetInactiveColor(g_defaultTextButtonColors[2]);
