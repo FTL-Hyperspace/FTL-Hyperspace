@@ -27,6 +27,7 @@
 #include "CustomShips.h"
 #include "CustomCrystalShard.h"
 #include "CustomShipGenerator.h"
+#include "ShipUnlocks.h"
 
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string/replace.hpp>
@@ -371,6 +372,12 @@ void Global::InitializeResources(ResourceControl *resources)
                         customOptions->defaults.beaconType_hideVanillaLabel = EventsParser::ParseBoolean(child->value());
                     }
                 }
+            }
+
+            if (strcmp(node->name(), "victories") == 0)
+            {
+                auto customUnlocks = CustomShipUnlocks::instance;
+                customUnlocks->ParseVictoryAchievements(node);
             }
 
             if (strcmp(node->name(), "ships") == 0)

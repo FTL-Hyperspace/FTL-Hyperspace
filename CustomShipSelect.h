@@ -15,6 +15,8 @@ struct ShipButtonDefinition
 
     bool secretCruiser = false;
     bool noAppend = false;
+    bool splitUnlockQuestAchievement = false;
+    bool splitVictoryAchievement = false;
 
     bool VariantExists(int variant)
     {
@@ -133,6 +135,19 @@ public:
     CustomShipSelect()
     {
 
+    }
+
+    static std::string GetVariantName(const std::string& name, int variant = 0)
+    {
+        switch (variant)
+        {
+        case 1:
+            return name + "_2";
+        case 2:
+            return name + "_3";
+        default:
+            return name;
+        }
     }
 
     void OnInit(ShipSelect*);
@@ -289,7 +304,7 @@ public:
         if (type == 2) return std::count_if(shipButtonDefs.begin(), shipButtonDefs.end(), [](ShipButtonDefinition i) { return i.typeC; } );
     }
 
-    bool IsCustomShip(std::string& id)
+    bool IsCustomShip(const std::string& id)
     {
         return std::count_if(shipButtonDefs.begin(), shipButtonDefs.end(), [id](ShipButtonDefinition i) { return id == i.name || (id.size() > 3 && id.substr(0, id.size() - 2) == i.name); }) > 0;
     }

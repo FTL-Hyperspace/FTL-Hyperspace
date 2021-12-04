@@ -20,3 +20,9 @@ void AchievementTracker::SaveProfile(AchievementTracker *this<ecx>, int file);
 void AchievementTracker::LoadProfile(AchievementTracker *this<ecx>, int file, int version);
 "578d7c240883e4f0ff77fc5589e55756538d7dc089ce83ec6c8b516c8b5970897db889d001d874??":
 void AchievementTracker::SetVictoryAchievement(AchievementTracker *this<ecx>);
+"578d7c240883e4f0ff77fc5589e557565381ecfc0400008b511c8b4118898d1cfbffffc7852cfbffff00000000":
+void AchievementTracker::OnLanguageChange(AchievementTracker *this<ecx>);
+"578d7c240883e4f0ff77fc5589e557565381eccc0100008b0780783c00898548feffff":
+void AchievementTracker::SetTooltip(AchievementTracker *this<ecx>, CAchievement *ach);
+"578d41248d7c240883e4f0ff77fc5589e557565389cf83ec2c8b712c8945e485f6":
+void AchievementTracker::ResetFlags(AchievementTracker *this<ecx>);

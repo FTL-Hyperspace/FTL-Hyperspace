@@ -443,48 +443,27 @@ void CustomShipSelect::OnInit(ShipSelect* shipSelect_)
             if (shipId == -1)
                 continue;
 
-            ShipButtonDefinition x = shipButtonDefs[shipId];
+            ShipButtonDefinition &x = shipButtonDefs[shipId];
 
             // create and initialize ShipButtons for each of the blueprints
             int curPage = i / 10;
 
-            ShipButton* aButton;
-            ShipButton* bButton;
-            ShipButton* cButton;
+            ShipButton* buttons[3];
 
             int onPage = i % 10;
 
-
-            aButton = new ShipButton(100 + shipId, 0);
-
-            if (!x.typeA)
+            for (int variant = 0; variant < 3; ++variant)
             {
-                aButton->bNoExist = true;
-                aButton->bActive = false;
+                buttons[variant] = new ShipButton(100 + shipId, variant);
+
+                if (!x.VariantExists(variant))
+                {
+                    buttons[variant]->bNoExist = true;
+                    buttons[variant]->bActive = false;
+                }
             }
 
-            bButton = new ShipButton(100 + shipId, 1);
-
-            if (!x.typeB)
-            {
-                bButton->bNoExist = true;
-                bButton->bActive = false;
-            }
-
-            cButton = new ShipButton(100 + shipId, 2);
-
-            if (!x.typeC)
-            {
-                cButton->bNoExist = true;
-                cButton->bActive = false;
-            }
-
-            //aButton->bShipLocked = true;
-            //aButton->bLayoutLocked = true;
-
-
-
-            ShipButtonList* buttonList = new ShipButtonList(curPage, 100 + shipId, aButton, bButton, cButton);
+            ShipButtonList* buttonList = new ShipButtonList(curPage, 100 + shipId, buttons[0], buttons[1], buttons[2]);
             shipButtons.push_back(buttonList);
 
 
@@ -506,55 +485,57 @@ void CustomShipSelect::OnInit(ShipSelect* shipSelect_)
                 pos = Point(136 + 205 * 3 + 225, 161 + 177);
             }
 
-            //if (!x.hasAchievements)
+            //int oldY = pos.y;
 
-            if (x.typeA)
+            for (int variant = 0; variant < 3; ++variant)
             {
-                if (CustomShipUnlocks::instance->CustomShipHasUnlock(x.name))
+                if (x.VariantExists(variant))
                 {
-                    aButton->bShipLocked = !CustomShipUnlocks::instance->GetCustomShipUnlocked(x.name);
-                    aButton->bLayoutLocked = aButton->bShipLocked;
+                    std::string finalName = GetVariantName(x.name, variant);
+
+                    buttons[variant]->achievements.resize(5, nullptr);
+
+                    if (CustomShipUnlocks::instance->CustomShipHasUnlock(finalName))
+                    {
+                        buttons[variant]->bShipLocked = !CustomShipUnlocks::instance->GetCustomShipUnlocked(finalName);
+                        buttons[variant]->bLayoutLocked = buttons[variant]->bShipLocked;
+                    }
+
+                    if (x.splitVictoryAchievement)
+                    {
+                        buttons[variant]->achievements[3] = CustomShipUnlocks::instance->GetVictoryAchievement(finalName);
+                    }
+                    else
+                    {
+                        buttons[variant]->achievements[3] = CustomShipUnlocks::instance->GetVictoryAchievement(x.name);
+                    }
+
+                    if (x.splitUnlockQuestAchievement)
+                    {
+                        if (CustomShipUnlocks::instance->CustomShipHasUnlockQuest(finalName))
+                        {
+                            buttons[variant]->achievements[4] = CustomShipUnlocks::instance->GetQuestAchievement(finalName);
+                        }
+                    }
+                    else
+                    {
+                        if (CustomShipUnlocks::instance->CustomShipHasUnlockQuestAnyLayout(x.name))
+                        {
+                            buttons[variant]->achievements[4] = CustomShipUnlocks::instance->GetQuestAchievement(x.name);
+                        }
+                    }
+
+                    while (!buttons[variant]->achievements.empty() && buttons[variant]->achievements.back() == nullptr) buttons[variant]->achievements.pop_back();
+                    buttons[variant]->achievements.shrink_to_fit();
                 }
+
+//                if (!(buttons[variant]->bNoExist || buttons[variant]->bShipLocked))
+//                    pos.y = oldY + 20;
+//                else
+//                    pos.y = oldY;
+
+                buttons[variant]->OnInit("customizeUI/ship_list_button", pos);
             }
-            if (x.typeB)
-            {
-                if (CustomShipUnlocks::instance->CustomShipHasUnlock(x.name + "_2"))
-                {
-                    bButton->bShipLocked = !CustomShipUnlocks::instance->GetCustomShipUnlocked(x.name + "_2");
-                    bButton->bLayoutLocked = bButton->bShipLocked;
-                }
-            }
-            if (x.typeC)
-            {
-                if (CustomShipUnlocks::instance->CustomShipHasUnlock(x.name + "_3"))
-                {
-                    cButton->bShipLocked = !CustomShipUnlocks::instance->GetCustomShipUnlocked(x.name + "_3");
-                    cButton->bLayoutLocked = cButton->bShipLocked;
-                }
-            }
-
-
-
-            int oldY = pos.y;
-
-            if (!aButton->bShipLocked)
-                pos.y = oldY + 20;
-
-            aButton->OnInit("customizeUI/ship_list_button", pos);
-
-            if (!(bButton->bNoExist || bButton->bShipLocked))
-                pos.y = oldY + 20;
-            else
-                pos.y = oldY;
-
-            bButton->OnInit("customizeUI/ship_list_button", pos);
-
-            if (!(cButton->bNoExist || cButton->bShipLocked))
-                pos.y = oldY + 20;
-            else
-                pos.y = oldY;
-
-            cButton->OnInit("customizeUI/ship_list_button", pos);
         }
     }
     else
@@ -568,10 +549,13 @@ void CustomShipSelect::OnInit(ShipSelect* shipSelect_)
             ShipButton *bButton = x->GetButton(1);
             ShipButton *cButton = x->GetButton(2);
 
-            if (CustomShipUnlocks::instance->CustomShipHasUnlock(shipName))
+            if (!aButton->bNoExist)
             {
-                aButton->bShipLocked = !CustomShipUnlocks::instance->GetCustomShipUnlocked(shipName);
-                aButton->bLayoutLocked = aButton->bShipLocked;
+                if (CustomShipUnlocks::instance->CustomShipHasUnlock(shipName))
+                {
+                    aButton->bShipLocked = !CustomShipUnlocks::instance->GetCustomShipUnlocked(shipName);
+                    aButton->bLayoutLocked = aButton->bShipLocked;
+                }
             }
             if (!bButton->bNoExist)
             {
@@ -1195,11 +1179,49 @@ HOOK_METHOD(ShipButton, OnRender, () -> void)
         }
         else
         {
-            Button::OnRender();
             GL_Color white = GL_Color(1.f, 1.f, 1.f, 1.f);
+
+            Point pos = {position.x, position.y+107};
+            std::string buttonLower = (bActive && bHover && bSelected) ? "customizeUI/ship_list_button_lower_selected.png" : "customizeUI/ship_list_button_lower_on.png";
+            G_->GetResources()->RenderImageString(buttonLower, pos.x, pos.y, 0, white, 1.f, false);
+            pos.y += 16;
+            pos.x += 6;
+            for (int i=0; i<achievements.size(); ++i)
+            {
+                if (achievements[i]) achievements[i]->OnRender(pos, (iSelectedAch == i) ? 2 : 3, false);
+                pos.x += 37;
+            }
+
+            Button::OnRender();
             G_->GetResources()->RenderImage(iShipImage, position.x, position.y, 0, white, 1.f, false);
         }
     }
+}
+
+HOOK_METHOD_PRIORITY(ShipButton, MouseMove, 9999, (int x, int y) -> void)
+{
+    iSelectedAch = -1;
+    if (!bShipLocked)
+    {
+        int b_y = position.y;
+        int b_x = position.x + 6;
+        if (y > b_y + 123 && y < b_y + 155)
+        {
+            for (int i=0; i<achievements.size(); ++i, b_x+=37)
+            {
+                if (x > b_x && x < b_x + 32)
+                {
+                    if (achievements[i])
+                    {
+                        G_->GetAchievementTracker()->SetTooltip(achievements[i]);
+                        iSelectedAch = i;
+                    }
+                    break;
+                }
+            }
+        }
+    }
+    GenericButton::MouseMove(x, y, false);
 }
 
 HOOK_METHOD(ShipSelect, MouseClick, () -> void)
@@ -1458,11 +1480,26 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
     CSurface::GL_RenderPrimitive(baseImage);
 
     CSurface::GL_EnableBlend();
+
+    for (auto i : CustomShipSelect::GetInstance()->customAnims)
+    {
+        CSurface::GL_PushMatrix();
+        CSurface::GL_Translate(i.first.x, i.first.y);
+
+        i.second->OnRender(1.f, COLOR_WHITE, false);
+
+        CSurface::GL_PopMatrix();
+    }
+
     CSurface::GL_RenderPrimitive(shipEquipBox);
     CSurface::GL_RenderPrimitive(shipSelectBox);
     if (isVanillaShip)
     {
         CSurface::GL_RenderPrimitive(shipAchBox);
+    }
+    else
+    {
+        CSurface::GL_RenderPrimitive(shipAchBox); //for now
     }
 
     if (!Global::forceDlc)
@@ -1488,6 +1525,10 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
     {
         freetype::easy_printCenter(13, 124, 374, lib->GetText("hangar_achievements_title"));
     }
+    else
+    {
+        freetype::easy_printCenter(13, 124, 374, lib->GetText("hangar_achievements_title")); // for now
+    }
 
     if (!Global::forceDlc)
     {
@@ -1495,16 +1536,6 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
     }
 
     CSurface::GL_SetColor(1.f, 1.f, 1.f, 1.f);
-
-    for (auto i : CustomShipSelect::GetInstance()->customAnims)
-    {
-        CSurface::GL_PushMatrix();
-        CSurface::GL_Translate(i.first.x, i.first.y);
-
-        i.second->OnRender(1.f, COLOR_WHITE, false);
-
-        CSurface::GL_PopMatrix();
-    }
 
     CSurface::GL_PushMatrix();
 
@@ -1647,6 +1678,49 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
             counter++;
         }
     }
+    else
+    {
+        auto customSel = CustomShipSelect::GetInstance();
+        ShipButtonDefinition *shipButtonDef = &customSel->GetShipButtonDefinition(currentShipId-100);
+
+        std::string finalName = customSel->GetVariantName(shipButtonDef->name, currentType);
+
+        CAchievement *ach = nullptr;
+        if (shipButtonDef->splitVictoryAchievement)
+        {
+            ach = CustomShipUnlocks::instance->GetVictoryAchievement(finalName);
+        }
+        else
+        {
+            ach = CustomShipUnlocks::instance->GetVictoryAchievement(shipButtonDef->name);
+        }
+
+        if (ach)
+        {
+            ach->OnRender(Point(244, 438), selectedAch == -2 ? 2 : 3, 1);
+        }
+
+        ach = nullptr;
+        if (shipButtonDef->splitUnlockQuestAchievement)
+        {
+            if (CustomShipUnlocks::instance->CustomShipHasUnlockQuest(finalName))
+            {
+                ach = CustomShipUnlocks::instance->GetQuestAchievement(finalName);
+            }
+        }
+        else
+        {
+            if (CustomShipUnlocks::instance->CustomShipHasUnlockQuestAnyLayout(shipButtonDef->name))
+            {
+                ach = CustomShipUnlocks::instance->GetQuestAchievement(shipButtonDef->name);
+            }
+        }
+
+        if (ach)
+        {
+            ach->OnRender(Point(244, 404), selectedAch == -3 ? 2 : 3, 1);
+        }
+    }
 
     if (SeedInputBox::seedInput)
 	{
@@ -1693,6 +1767,66 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
         freetype::easy_print(52, 151, 430, "Starting power: " + std::to_string(PowerManager::GetPowerManager(0)->currentPower.second));
         CSurface::GL_SetColor(GL_Color(100.0/255, 1, 100.0/255, 1));
         freetype::easy_print(52, 151, 450, "Maximum power: " + std::to_string(def.maxReactorLevel));
+    }
+}
+
+HOOK_METHOD(ShipBuilder, MouseMove, (int x, int y) -> void)
+{
+    super(x,y);
+    if (currentShipId >= 100)
+    {
+        auto customSel = CustomShipSelect::GetInstance();
+        ShipButtonDefinition *shipButtonDef = &customSel->GetShipButtonDefinition(currentShipId-100);
+
+        std::string finalName = customSel->GetVariantName(shipButtonDef->name, currentType);
+
+        if (x > 244 && x < 276)
+        {
+            if (y > 404 && y < 436)
+            {
+                CAchievement *ach = nullptr;
+
+                if (shipButtonDef->splitUnlockQuestAchievement)
+                {
+                    if (CustomShipUnlocks::instance->CustomShipHasUnlockQuest(finalName))
+                    {
+                        ach = CustomShipUnlocks::instance->GetQuestAchievement(finalName);
+                    }
+                }
+                else
+                {
+                    if (CustomShipUnlocks::instance->CustomShipHasUnlockQuestAnyLayout(shipButtonDef->name))
+                    {
+                        ach = CustomShipUnlocks::instance->GetQuestAchievement(shipButtonDef->name);
+                    }
+                }
+
+                if (ach)
+                {
+                    G_->GetAchievementTracker()->SetTooltip(ach);
+                    selectedAch = -3;
+                }
+            }
+            else if (y > 438 && y < 470)
+            {
+                CAchievement *ach = nullptr;
+
+                if (shipButtonDef->splitVictoryAchievement)
+                {
+                    ach = CustomShipUnlocks::instance->GetVictoryAchievement(finalName);
+                }
+                else
+                {
+                    ach = CustomShipUnlocks::instance->GetVictoryAchievement(shipButtonDef->name);
+                }
+
+                if (ach)
+                {
+                    G_->GetAchievementTracker()->SetTooltip(ach);
+                    selectedAch = -2;
+                }
+            }
+        }
     }
 }
 

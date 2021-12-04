@@ -1,5 +1,7 @@
 "578d7c240883e4f0ff77fc5589e557565389ce83ec2c8b3f8b5f0485db":
 std::string& MouseControl::SetTooltip(MouseControl *this<ecx>, const std::string& tooltip);
+"578d7c240883e4f0ff77fc5589e55783ec148b91300100008b0785d2751181c12c010000890424":
+void MouseControl::SetTooltipTitle(MouseControl *this<ecx>, const std::string& tooltip);
 "578d7c240883e4f0ff77fc5589e557565389cb8d4dd883ec4c8b37":
 Point MouseControl::MeasureTooltip(MouseControl *this<ecx>, int unk);
 ".5589e58b45088b550c5d898164010000":

@@ -183,6 +183,7 @@ struct CAchievement
 	std::string name_id;
 	std::pair<int, int> progress;
 	bool unlocked;
+	int8_t gap_ex_custom;
 	TextString name;
 	TextString description;
 	TextString header;
@@ -4155,6 +4156,9 @@ struct AchievementTracker
 	LIBZHL_API void SaveProfile(int file);
 	LIBZHL_API void LoadProfile(int file, int version);
 	LIBZHL_API void SetVictoryAchievement();
+	LIBZHL_API void OnLanguageChange();
+	LIBZHL_API void SetTooltip(CAchievement *ach);
+	LIBZHL_API void ResetFlags();
 	
 	std::vector<CAchievement*> recentlyUnlocked;
 	std::vector<std::vector<CAchievement*>> shipUnlocks;
@@ -6724,6 +6728,7 @@ struct CSurface
 	LIBZHL_API static void __stdcall GL_RenderPrimitiveWithColor(GL_Primitive *primitive, GL_Color color);
 	LIBZHL_API static void __stdcall GL_DestroyPrimitive(GL_Primitive *primitive);
 	LIBZHL_API static GL_Primitive *__stdcall GL_CreateRectPrimitive(float x, float y, float w, float h, GL_Color color);
+	LIBZHL_API static GL_Primitive *__stdcall GL_CreateRectOutlinePrimitive(int x, int y, int w, int h, GL_Color color, float lineWidth);
 	LIBZHL_API static void __stdcall AddTexVertices(std::vector<GL_TexVertex> *vec, float x1, float y1, float u1, float v1, float x2, float y2, float u2, float v2);
 	LIBZHL_API static GL_Primitive *__stdcall GL_CreateMultiImagePrimitive(GL_Texture *tex, std::vector<GL_TexVertex> *vec, GL_Color color);
 	LIBZHL_API static void __stdcall GL_PushStencilMode();
@@ -6917,6 +6922,7 @@ struct MouseControl;
 struct MouseControl
 {
 	LIBZHL_API std::string &SetTooltip(const std::string &tooltip);
+	LIBZHL_API void SetTooltipTitle(const std::string &tooltip);
 	LIBZHL_API Point MeasureTooltip(int unk);
 	LIBZHL_API void QueueStaticTooltip(Point pos);
 	LIBZHL_API void OnLoop();
