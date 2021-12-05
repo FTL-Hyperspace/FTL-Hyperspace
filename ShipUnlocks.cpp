@@ -342,17 +342,17 @@ HOOK_METHOD(AchievementTracker, ResetFlags, () -> void)
 
 void CustomShipUnlocks::ResetFlags()
 {
-    for (auto i : customShipQuestAchievements)
+    for (auto& i : customShipQuestAchievements)
     {
         i.second->newAchievement = false;
     }
-    for (auto i : customShipVictoryAchievements)
+    for (auto& i : customShipVictoryAchievements)
     {
         i.second->newAchievement = false;
     }
-    for (auto i : customVictories)
+    for (auto& i : customVictories)
     {
-        for (auto j : i.second.achievements)
+        for (auto& j : i.second.achievements)
         {
             j.second->newAchievement = false;
         }
@@ -368,15 +368,15 @@ void CustomShipUnlocks::WipeProfile()
     shipVictories.clear();
     customShipVictories.clear();
 
-    for (auto i : customShipQuestAchievements) delete i.second;
+    for (auto& i : customShipQuestAchievements) delete i.second;
     customShipQuestAchievements.clear();
 
-    for (auto i : customShipVictoryAchievements) delete i.second;
+    for (auto& i : customShipVictoryAchievements) delete i.second;
     customShipVictoryAchievements.clear();
 
-    for (auto i : customVictories)
+    for (auto& i : customVictories)
     {
-        for (auto j : i.second.achievements)
+        for (auto& j : i.second.achievements)
         {
             delete j.second;
         }

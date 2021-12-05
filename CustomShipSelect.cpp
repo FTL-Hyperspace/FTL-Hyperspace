@@ -1527,7 +1527,7 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
     }
     else
     {
-        freetype::easy_printCenter(13, 124, 374, lib->GetText("hangar_achievements_title")); // for now
+        freetype::easy_printCenter(13, 124, 374, lib->GetText("hangar_achievements_title_custom"));
     }
 
     if (!Global::forceDlc)
@@ -1720,6 +1720,34 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
         {
             ach->OnRender(Point(244, 404), selectedAch == -3 ? 2 : 3, 1);
         }
+
+        std::vector<std::string> victoryTypes;
+        for (std::string &i : CustomShipUnlocks::instance->customVictoryTypes)
+        {
+            if (!CustomShipUnlocks::instance->customVictories[i].secret || (CustomShipUnlocks::instance->customShipVictories.count(i) && !CustomShipUnlocks::instance->customShipVictories[i].empty()))
+            {
+                victoryTypes.push_back(i);
+            }
+        }
+
+        int max_a = victoryTypes.size()%6;
+        int max_b = victoryTypes.size()/6;
+        for (int i=0; i<victoryTypes.size(); ++i)
+        {
+            if (shipButtonDef->splitVictoryAchievement)
+            {
+                ach = CustomShipUnlocks::instance->customVictories[victoryTypes[i]].GetVictoryAchievement(finalName);
+            }
+            else
+            {
+                ach = CustomShipUnlocks::instance->customVictories[victoryTypes[i]].GetVictoryAchievement(shipButtonDef->name);
+            }
+
+            int a = i%6;
+            int b = i/6;
+
+            ach->OnRender(Point(124 - 17*(b==max_b ? max_a : 6) + 34*a, 437 - 17*((victoryTypes.size()+5)/6) + 34*b), selectedAch == i ? 2 : 3, 1);
+        }
     }
 
     if (SeedInputBox::seedInput)
@@ -1824,6 +1852,43 @@ HOOK_METHOD(ShipBuilder, MouseMove, (int x, int y) -> void)
                 {
                     G_->GetAchievementTracker()->SetTooltip(ach);
                     selectedAch = -2;
+                }
+            }
+        }
+        else
+        {
+            std::vector<std::string> victoryTypes;
+            for (std::string &i : CustomShipUnlocks::instance->customVictoryTypes)
+            {
+                if (!CustomShipUnlocks::instance->customVictories[i].secret || (CustomShipUnlocks::instance->customShipVictories.count(i) && !CustomShipUnlocks::instance->customShipVictories[i].empty()))
+                {
+                    victoryTypes.push_back(i);
+                }
+            }
+
+            int max_a = victoryTypes.size()%6;
+            int max_b = victoryTypes.size()/6;
+            for (int i=0; i<victoryTypes.size(); ++i)
+            {
+                CAchievement *ach;
+                if (shipButtonDef->splitVictoryAchievement)
+                {
+                    ach = CustomShipUnlocks::instance->customVictories[victoryTypes[i]].GetVictoryAchievement(finalName);
+                }
+                else
+                {
+                    ach = CustomShipUnlocks::instance->customVictories[victoryTypes[i]].GetVictoryAchievement(shipButtonDef->name);
+                }
+
+                int a = i%6;
+                int b = i/6;
+
+                Point pos(124 - 17*(b==max_b ? max_a : 6) + 34*a, 437 - 17*((victoryTypes.size()+5)/6) + 34*b);
+
+                if (x > pos.x && x < pos.x+32 && y > pos.y && y < pos.y+32)
+                {
+                    G_->GetAchievementTracker()->SetTooltip(ach);
+                    selectedAch = i;
                 }
             }
         }
