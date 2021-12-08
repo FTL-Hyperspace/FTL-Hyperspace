@@ -33984,8 +33984,8 @@ FUNC_NAKED void ShipStatus::OnRender()
 namespace _func889
 {
 	static void *func = 0;
-	static short argdata[] = {0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("ShipStatus::RenderShields", typeid(void (ShipStatus::*)(bool )), "807c2408008b44240474??", argdata, 2, 6, &func);
+	static short argdata[] = {0x100, 0x1ff};
+	static FunctionDefinition funcObj("ShipStatus::RenderShields", typeid(void (ShipStatus::*)(bool )), "5589e55789c7565383ec5c", argdata, 2, 6, &func);
 }
 
 FUNC_NAKED void ShipStatus::RenderShields(bool renderText)
@@ -34001,13 +34001,13 @@ FUNC_NAKED void ShipStatus::RenderShields(bool renderText)
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+12]\n\t"		// renderText
-		"push [ebp+8]\n\t"		// this
+		"mov eax, [ebp+8]\n\t"	// this
+		"mov dl, [ebp+12]\n\t"	// renderText
 	);
 	__asm__("call %0\n\t" :: "m"(_func889::func));
 	__asm__
 	(
-		"add esp, 8\n\t"
+		"add esp, 0\n\t"
 		"pop edi\n\t"
 		"pop esi\n\t"
 		"pop ebx\n\t"
