@@ -106,13 +106,12 @@ void HullNumbers::PrintAlignment(int font, int x, int y, std::string str, std::s
 }
 
 
-HOOK_METHOD(ShipStatus, RenderHealth, (bool unk) -> void)
+HOOK_METHOD(ShipStatus, RenderShields, (bool renderText) -> void)
 {
-
-    super(unk);
+    super(renderText);
 
     HullNumbers *manager = HullNumbers::GetInstance();
-    if (unk == false && manager && manager->enabled)
+    if (manager && manager->enabled)
     {
         char buffer[64];
         sprintf(buffer, "%d", this->ship->ship.hullIntegrity.first);
