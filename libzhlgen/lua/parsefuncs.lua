@@ -944,7 +944,7 @@ using namespace ZHL;
 				for k = #func.args, 1, -1 do
 					local arg = func.args[k]
 					if not arg.reg then
-						if k == 1 and func.thiscall and not isPOSIX then
+						if k == 1 and func.thiscall and not isSysVi386ABI then
 							assert(arg.size == 1)
 							out("\n\t\t\"push ecx\\n\\t\"\t\t\t// %s", arg.name)
 							sizePushed = sizePushed + 4
@@ -961,7 +961,7 @@ using namespace ZHL;
 				for k, arg in ipairs(func.args) do
 					if arg.reg then
 						assert(arg.size == 1)
-						if k == 1 and func.thiscall then
+						if k == 1 and func.thiscall and not isSysVi386ABI then
 							if arg.reg ~= "ecx" then out("\n\t\t\"mov %s, ecx\\n\\t\t// %s\\n\\t\"", arg.reg, arg.name) end
 						else
 							out("\n\t\t\"mov %s, [ebp+%d]\\n\\t\"\t// %s", arg.reg, arg.pos, arg.name)
