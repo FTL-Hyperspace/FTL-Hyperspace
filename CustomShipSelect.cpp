@@ -1372,7 +1372,7 @@ HOOK_METHOD(ShipButton, OnRender, () -> void)
             GL_Color white = GL_Color(1.f, 1.f, 1.f, 1.f);
 
             Point pos = {position.x, position.y+107};
-            std::string buttonLower = (bActive && bHover && bSelected) ? "customizeUI/ship_list_button_lower_selected.png" : "customizeUI/ship_list_button_lower_on.png";
+            std::string buttonLower = ((bActive && bHover) || bSelected) ? "customizeUI/ship_list_button_lower_select2.png" : "customizeUI/ship_list_button_lower_on.png";
             G_->GetResources()->RenderImageString(buttonLower, pos.x, pos.y, 0, white, 1.f, false);
             pos.y += 16;
             pos.x += 6;
