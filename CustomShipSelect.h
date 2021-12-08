@@ -326,6 +326,11 @@ public:
         return &instance;
     }
 
+    void AddShipVictoryFilter(const std::string &s)
+    {
+        shipVictoryFilters.push_back(s);
+    }
+
     std::vector<std::string> customShipOrder = std::vector<std::string>();
     bool hideFirstPage;
 
@@ -354,7 +359,6 @@ private:
 
     int selectedVictoryFilter = -1;
     std::vector<std::string> shipVictoryFilters;
-
 
     static CustomShipSelect instance;
 

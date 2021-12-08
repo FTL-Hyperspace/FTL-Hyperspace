@@ -160,6 +160,10 @@ void CustomShipUnlocks::ParseVictoryAchievements(rapidxml::xml_node<char> *node)
             {
                 vAch.secret = true;
             }
+            if (name == "filter")
+            {
+                CustomShipSelect::GetInstance()->AddShipVictoryFilter(vName);
+            }
         }
 
         customVictories[vName] = vAch;
