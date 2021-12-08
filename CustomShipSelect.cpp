@@ -741,7 +741,7 @@ void CustomShipSelect::OnRender(bool renderSelect)
         {
             std::string imagePath = "customizeUI/box_shipach2.png";
             G_->GetResources()->RenderImageString(imagePath, 515, 525, 0, GL_Color(1.f,1.f,1.f,1.f), 1.f, false);
-            freetype::easy_printCenter(13, 640, 544, G_->GetTextLibrary()->GetText("hangar_achievements_title_custom"));
+            freetype::easy_printCenter(13, 640, 544, G_->GetTextLibrary()->GetText("hangar_achievements_title_filter"));
 
             int max_a = victoryTypes.size()%6;
             int max_b = victoryTypes.size()/6;
