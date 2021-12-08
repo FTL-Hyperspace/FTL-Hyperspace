@@ -179,6 +179,8 @@ public:
     bool ParseCustomShipNode(rapidxml::xml_node<char> *node, CustomShipDefinition &def);
     int CountUnlockedShips(int variant);
 
+    void UpdateFilteredAchievements();
+
 
     bool IsOpen()
     {
@@ -349,6 +351,9 @@ private:
     int lastSelectedShip = -1;
 
     bool open;
+
+    int selectedVictoryFilter = -1;
+    std::vector<std::string> shipVictoryFilters;
 
 
     static CustomShipSelect instance;

@@ -7,6 +7,7 @@
 #include "Resources.h"
 #include <algorithm>
 #include <boost/lexical_cast.hpp>
+#include <boost/algorithm/string.hpp>
 
 CustomShipSelect CustomShipSelect::instance = CustomShipSelect();
 
@@ -598,7 +599,74 @@ void CustomShipSelect::OnInit(ShipSelect* shipSelect_)
     shipSelect = shipSelect_;
     oldShipButtons = shipSelect->shipButtons;
 
+    UpdateFilteredAchievements();
+
     initialized = true;
+}
+
+void CustomShipSelect::UpdateFilteredAchievements()
+{
+    CustomShipUnlocks *customUnlocks = CustomShipUnlocks::instance;
+
+    std::vector<std::string> victoryTypes;
+    for (std::string &i : shipVictoryFilters)
+    {
+        if (!customUnlocks->customVictories[i].secret || (customUnlocks->customShipVictories.count(i) && !customUnlocks->customShipVictories[i].empty()))
+        {
+            victoryTypes.push_back(i);
+        }
+    }
+    if (victoryTypes.size() > 3) victoryTypes.resize(3);
+
+    for (auto x : shipButtons)
+    {
+        std::string shipName = GetShipBlueprint(x->GetId());
+
+        int shipId = GetShipButtonIdFromName(shipName);
+
+        if (shipId == -1)
+            continue;
+
+        ShipButtonDefinition &buttonDef = shipButtonDefs[shipId];
+
+        for (auto variant=0; variant<3; ++variant)
+        {
+            ShipButton *button = x->GetButton(variant);
+
+            if (!button->bNoExist)
+            {
+                std::string finalName = GetVariantName(shipName, variant);
+
+                for (auto i=0; i<3; ++i)
+                {
+                    CAchievement *ach = nullptr;
+
+                    if (i < victoryTypes.size())
+                    {
+                        CustomVictoryAchievement &victoryAch = CustomShipUnlocks::instance->customVictories[victoryTypes[i]];
+
+                        if (buttonDef.splitVictoryAchievement)
+                        {
+                            ach = victoryAch.GetVictoryAchievement(finalName);
+                        }
+                        else
+                        {
+                            ach = victoryAch.GetVictoryAchievement(shipName);
+                        }
+                    }
+
+                    if (button->achievements.size() > i)
+                    {
+                        button->achievements[i] = ach;
+                    }
+                    else
+                    {
+                        button->achievements.push_back(ach);
+                    }
+                }
+            }
+        }
+    }
 }
 
 void CustomShipSelect::OnRender(bool renderSelect)
@@ -647,7 +715,49 @@ void CustomShipSelect::OnRender(bool renderSelect)
         freetype::easy_printRightAlign(63, 1097, 118, text);
     }
 
+    if (selectedShip == -1)
+    {
+        CustomShipUnlocks *customUnlocks = CustomShipUnlocks::instance;
 
+        std::string imagePath = "customizeUI/box_shipach2.png";
+        G_->GetResources()->RenderImageString(imagePath, 515, 525, 0, GL_Color(1.f,1.f,1.f,1.f), 1.f, false);
+        freetype::easy_printCenter(13, 640, 544, G_->GetTextLibrary()->GetText("hangar_achievements_title_custom"));
+
+        std::vector<std::string> victoryTypes;
+        for (std::string &i : customUnlocks->customVictoryTypes)
+        {
+            if (!customUnlocks->customVictories[i].secret || (customUnlocks->customShipVictories.count(i) && !customUnlocks->customShipVictories[i].empty()))
+            {
+                victoryTypes.push_back(i);
+            }
+        }
+
+        int max_a = victoryTypes.size()%6;
+        int max_b = victoryTypes.size()/6;
+        for (int i=0; i<victoryTypes.size(); ++i)
+        {
+            int a = i%6;
+            int b = i/6;
+
+            Point pos = Point(640 - 17*(b==max_b ? max_a : 6) + 34*a, 607 - 17*((victoryTypes.size()+5)/6) + 34*b);
+
+            if (std::find(shipVictoryFilters.begin(), shipVictoryFilters.end(), victoryTypes[i]) != shipVictoryFilters.end())
+            {
+                imagePath = "achievements/"+customUnlocks->customVictories[victoryTypes[i]].icon+"_on.png";
+            }
+            else
+            {
+                imagePath = "achievements/"+customUnlocks->customVictories[victoryTypes[i]].icon+"_off.png";
+            }
+
+            G_->GetResources()->RenderImageString(imagePath, pos.x, pos.y, 0, GL_Color(1.f,1.f,1.f,1.f), 1.f, false);
+
+            if (i == selectedVictoryFilter)
+            {
+                CSurface::GL_DrawRectOutline(pos.x, pos.y, 32, 32, GL_Color(255.f/255.f,230.f/255.f,94.f/255.f,1.f), 2);
+            }
+        }
+    }
 
     shipSelect->infoBox.OnRender();
 
@@ -709,6 +819,50 @@ void CustomShipSelect::MouseClick()
                 SwitchPage(shipPage + 1);
             }
         }
+    }
+
+    if (selectedShip == -1 && selectedVictoryFilter != -1)
+    {
+        CustomShipUnlocks *customUnlocks = CustomShipUnlocks::instance;
+
+        std::vector<std::string> victoryTypes;
+        std::vector<std::string> enabledVictoryFilters;
+        for (std::string &i : customUnlocks->customVictoryTypes)
+        {
+            if (!customUnlocks->customVictories[i].secret || (customUnlocks->customShipVictories.count(i) && !customUnlocks->customShipVictories[i].empty()))
+            {
+                victoryTypes.push_back(i);
+            }
+        }
+        for (std::string &i : shipVictoryFilters)
+        {
+            if (!customUnlocks->customVictories[i].secret || (customUnlocks->customShipVictories.count(i) && !customUnlocks->customShipVictories[i].empty()))
+            {
+                enabledVictoryFilters.push_back(i);
+            }
+        }
+
+        std::string clickedVictoryFilter = victoryTypes[selectedVictoryFilter];
+
+        auto it = std::find(enabledVictoryFilters.begin(), enabledVictoryFilters.end(), clickedVictoryFilter);
+
+        if (it != enabledVictoryFilters.end())
+        {
+            enabledVictoryFilters.erase(it);
+            G_->GetSoundControl()->PlaySoundMix("powerDownSystem", -1.f, false);
+        }
+        else
+        {
+            if (enabledVictoryFilters.size() >= 3)
+            {
+                enabledVictoryFilters.erase(enabledVictoryFilters.begin());
+            }
+            enabledVictoryFilters.push_back(clickedVictoryFilter);
+            G_->GetSoundControl()->PlaySoundMix("powerUpSystem", -1.f, false);
+        }
+
+        shipVictoryFilters = enabledVictoryFilters;
+        UpdateFilteredAchievements();
     }
 }
 
@@ -872,6 +1026,42 @@ void CustomShipSelect::MouseMove(int x, int y)
     shipSelect->typeA.MouseMove(x, y, false);
     shipSelect->typeB.MouseMove(x, y, false);
     shipSelect->typeC.MouseMove(x, y, false);
+
+    if (selectedShip == -1)
+    {
+        CustomShipUnlocks *customUnlocks = CustomShipUnlocks::instance;
+
+        selectedVictoryFilter = -1;
+        std::vector<std::string> victoryTypes;
+        for (std::string &i : customUnlocks->customVictoryTypes)
+        {
+            if (!customUnlocks->customVictories[i].secret || (customUnlocks->customShipVictories.count(i) && !customUnlocks->customShipVictories[i].empty()))
+            {
+                victoryTypes.push_back(i);
+            }
+        }
+
+        int max_a = victoryTypes.size()%6;
+        int max_b = victoryTypes.size()/6;
+        for (int i=0; i<victoryTypes.size(); ++i)
+        {
+            int a = i%6;
+            int b = i/6;
+
+            Point pos(640 - 17*(b==max_b ? max_a : 6) + 34*a, 607 - 17*((victoryTypes.size()+5)/6) + 34*b);
+
+            if (x > pos.x && x < pos.x+32 && y > pos.y && y < pos.y+32)
+            {
+                std::string name = customUnlocks->customVictories[victoryTypes[i]].name.GetText();
+                boost::algorithm::replace_all(name, "\\1", "");
+                boost::algorithm::trim(name);
+
+                G_->GetMouseControl()->SetTooltip(name);
+                G_->GetMouseControl()->InstantTooltip();
+                selectedVictoryFilter = i;
+            }
+        }
+    }
 }
 
 std::string CustomShipSelect::GetShipBlueprint(int shipId)
