@@ -106,6 +106,15 @@ void CustomShipSelect::ParseShipsNode(rapidxml::xml_node<char> *node)
                         buttonDef.noAppend = EventsParser::ParseBoolean(child->first_attribute("noAppend")->value());
                     }
 
+                    if (child->first_attribute("splitUnlockQuestAchievement"))
+                    {
+                        buttonDef.splitUnlockQuestAchievement = EventsParser::ParseBoolean(child->first_attribute("splitUnlockQuestAchievement")->value());
+                    }
+                    if (child->first_attribute("splitVictoryAchievement"))
+                    {
+                        buttonDef.splitVictoryAchievement = EventsParser::ParseBoolean(child->first_attribute("splitVictoryAchievement")->value());
+                    }
+
                     if (G_->GetScoreKeeper()->GetShipId(shipName).first == -1)
                     {
                         shipButtonDefs.push_back(buttonDef);
