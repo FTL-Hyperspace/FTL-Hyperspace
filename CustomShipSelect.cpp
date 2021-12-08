@@ -728,10 +728,6 @@ void CustomShipSelect::OnRender(bool renderSelect)
     {
         CustomShipUnlocks *customUnlocks = CustomShipUnlocks::instance;
 
-        std::string imagePath = "customizeUI/box_shipach2.png";
-        G_->GetResources()->RenderImageString(imagePath, 515, 525, 0, GL_Color(1.f,1.f,1.f,1.f), 1.f, false);
-        freetype::easy_printCenter(13, 640, 544, G_->GetTextLibrary()->GetText("hangar_achievements_title_custom"));
-
         std::vector<std::string> victoryTypes;
         for (std::string &i : customUnlocks->customVictoryTypes)
         {
@@ -741,29 +737,36 @@ void CustomShipSelect::OnRender(bool renderSelect)
             }
         }
 
-        int max_a = victoryTypes.size()%6;
-        int max_b = victoryTypes.size()/6;
-        for (int i=0; i<victoryTypes.size(); ++i)
+        if (!victoryTypes.empty())
         {
-            int a = i%6;
-            int b = i/6;
+            std::string imagePath = "customizeUI/box_shipach2.png";
+            G_->GetResources()->RenderImageString(imagePath, 515, 525, 0, GL_Color(1.f,1.f,1.f,1.f), 1.f, false);
+            freetype::easy_printCenter(13, 640, 544, G_->GetTextLibrary()->GetText("hangar_achievements_title_custom"));
 
-            Point pos = Point(640 - 17*(b==max_b ? max_a : 6) + 34*a, 607 - 17*((victoryTypes.size()+5)/6) + 34*b);
-
-            if (std::find(shipVictoryFilters.begin(), shipVictoryFilters.end(), victoryTypes[i]) != shipVictoryFilters.end())
+            int max_a = victoryTypes.size()%6;
+            int max_b = victoryTypes.size()/6;
+            for (int i=0; i<victoryTypes.size(); ++i)
             {
-                imagePath = "achievements/"+customUnlocks->customVictories[victoryTypes[i]].icon+"_on.png";
-            }
-            else
-            {
-                imagePath = "achievements/"+customUnlocks->customVictories[victoryTypes[i]].icon+"_off.png";
-            }
+                int a = i%6;
+                int b = i/6;
 
-            G_->GetResources()->RenderImageString(imagePath, pos.x, pos.y, 0, GL_Color(1.f,1.f,1.f,1.f), 1.f, false);
+                Point pos = Point(640 - 17*(b==max_b ? max_a : 6) + 34*a, 607 - 17*((victoryTypes.size()+5)/6) + 34*b);
 
-            if (i == selectedVictoryFilter)
-            {
-                CSurface::GL_DrawRectOutline(pos.x, pos.y, 32, 32, GL_Color(255.f/255.f,230.f/255.f,94.f/255.f,1.f), 2);
+                if (std::find(shipVictoryFilters.begin(), shipVictoryFilters.end(), victoryTypes[i]) != shipVictoryFilters.end())
+                {
+                    imagePath = "achievements/"+customUnlocks->customVictories[victoryTypes[i]].icon+"_on.png";
+                }
+                else
+                {
+                    imagePath = "achievements/"+customUnlocks->customVictories[victoryTypes[i]].icon+"_off.png";
+                }
+
+                G_->GetResources()->RenderImageString(imagePath, pos.x, pos.y, 0, GL_Color(1.f,1.f,1.f,1.f), 1.f, false);
+
+                if (i == selectedVictoryFilter)
+                {
+                    CSurface::GL_DrawRectOutline(pos.x, pos.y, 32, 32, GL_Color(255.f/255.f,230.f/255.f,94.f/255.f,1.f), 2);
+                }
             }
         }
     }
