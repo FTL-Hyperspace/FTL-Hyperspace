@@ -106,8 +106,8 @@ HOOK_METHOD(ShipManager, CreateSystems, () -> int)
 
 HOOK_METHOD(SystemControl, CreateSystemBoxes, () -> void)
 {
-    (*Global::droneWeaponPosition).first = Point(0, 0);
-    (*Global::droneWeaponPosition).second = Point(0, 0);
+    *Global::weaponPosition = Point(0, 0);
+    *Global::dronePosition = Point(0, 0);
 
     for (auto i : sysBoxes)
     {
@@ -208,7 +208,7 @@ HOOK_METHOD(SystemControl, CreateSystemBoxes, () -> void)
 
     if (shipManager->HasSystem(3))
     {
-        (*Global::droneWeaponPosition).second = Point(position.x + xPos + 36, position.y + 269);
+        *Global::weaponPosition = Point(position.x + xPos + 36, position.y + 269);
         auto box = new WeaponSystemBox(Point(xPos + 36, 269), shipManager->GetSystem(3), &combatControl->weapControl);
 
         sysBoxes.push_back(box);
@@ -228,7 +228,7 @@ HOOK_METHOD(SystemControl, CreateSystemBoxes, () -> void)
     }
     if (shipManager->HasSystem(4))
     {
-        (*Global::droneWeaponPosition).first = Point(position.x + xPos + 36, position.y + 269);
+        *Global::dronePosition = Point(position.x + xPos + 36, position.y + 269);
         auto box = new SystemBox(Point(xPos + 36, 269), shipManager->GetSystem(4), true);
 
         sysBoxes.push_back(box);

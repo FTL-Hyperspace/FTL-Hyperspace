@@ -34,7 +34,8 @@ bool Global::isCustomSeed = false;
 unsigned int Global::sectorMapSeed = -1;
 FILE *Global::logFile = nullptr;
 bool *Global::firstTimeShips = nullptr;
-std::pair<Point, Point> *Global::droneWeaponPosition = nullptr;
+Point *Global::dronePosition = nullptr;
+Point *Global::weaponPosition = nullptr;
 GL_Color *Global::superShieldColor = nullptr;
 GL_Color Global::defaultSuperShieldColor = GL_Color(255.0, 255.0, 255.0, 1.0);
 
@@ -129,7 +130,8 @@ void Global::Initialize()
     difficulty = (int*)((__baseAddress + __difficultyOffset));
     firstTimeShips = (bool*)((__baseAddress + __firstTimeShipsOffset));
     *firstTimeShips = false;
-    droneWeaponPosition = (std::pair<Point, Point>*)((__baseAddress + __droneWeaponPosOffset));
+    dronePosition = (Point*)((__baseAddress + __dronePosOffset));
+    weaponPosition = (Point*)((__baseAddress + __weaponPosOffset));
     //fragment_shader_source_callback = (ShaderSourceCallback**)((__baseAddress + __fragmentCallbackOffset));
     superShieldColor = (GL_Color*)((__baseAddress + __superShieldColorOffset));
     defaultSuperShieldColor = *superShieldColor;

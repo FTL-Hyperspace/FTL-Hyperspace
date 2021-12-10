@@ -69,7 +69,8 @@ public:
     static bool forceDlc;
     static FILE* logFile;
     static bool* firstTimeShips;
-    static std::pair<Point, Point>* droneWeaponPosition;
+    static Point* dronePosition;
+    static Point* weaponPosition;
     static GL_Color* superShieldColor;
     static GL_Color defaultSuperShieldColor;
 
@@ -121,7 +122,8 @@ private:
     const uint32_t __scoreKeeperOffset =      /*0x08499a60*/ 0x084939a0 /*- 0x08048000*/; // 0x08499a60 _ZN11ScoreKeeper6KeeperE ScoreKeeper::Keeper
     const uint32_t __firstTimeShipsOffset =   /*0x084a37dc*/ 0x0849d71c /*- 0x08048000*/; // 0x084a37dc // Probably in Settings::settings  // WHY is this defined, can just use __settingValuesOffset & struct to get the value
     const uint32_t __settingValuesOffset =    /*0x084a3760*/ 0x0849d6a0 /*- 0x08048000*/; // 0x084a3760  // Settings::settings // WHY is this defined, can just use __settingValuesOffset & struct to get the value
-    const uint32_t __droneWeaponPosOffset =   /*0x084a0780*/ 0x0849a6c0 /*- 0x08048000*/; // 0x084a0780 _ZN13SystemControl14drone_positionE SystemControl::drone_position
+    const uint32_t __dronePosOffset =   /*0x084a0780*/ 0x0849a6c0 /*- 0x08048000*/; // 0x084a0780 _ZN13SystemControl14drone_positionE SystemControl::drone_position
+    const uint32_t __weaponPosOffset =   /*Need to Identify in Steam version*/ 0x0849a6d0; // SystemControl::weapon_position
 
     const uint32_t __superShieldColorOffset = /*0x084a7080*/ 0x084a0fc0 /*- 0x08048000*/; // 0x084a7080 _ZL11COLOR_GREEN COLOR_GREEN (referenced in _ZN7Shields10RenderBaseEff Shields::RenderBase, it is referenced at 0x082a33b4)
 
