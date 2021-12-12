@@ -74,7 +74,13 @@ struct GL_Color;
 
 struct CachedPrimitive
 {
+	~CachedPrimitive()
+	{
+		this->destructor();
+	}
+
 	LIBZHL_API void OnRender(const GL_Color &color);
+	LIBZHL_API void destructor();
 	
 	void *vptr;
 	GL_Primitive *primitive;
@@ -84,11 +90,6 @@ struct CachedImage;
 
 struct CachedImage : CachedPrimitive
 {
-	~CachedImage()
-	{
-		this->destructor();
-	}
-
 	enum Centered
 	{
 	  CENTERED = 0x0,
@@ -103,11 +104,26 @@ struct CachedImage : CachedPrimitive
 	{
 		
 	}
+	
+	CachedImage(CachedImage &other)
+	{
+		constructor_copy(other);
+	}
+	
+	CachedImage& operator=(CachedImage &other)
+	{
+		constructor_copy(other);
+		return *this;
+	}
 
 	LIBZHL_API void destructor();
 	LIBZHL_API void SetImagePath(const std::string &imagePath);
 	LIBZHL_API void constructor1(const std::string &path, int x, int y);
+	LIBZHL_API void constructor_copy(const CachedImage &other);
 	LIBZHL_API void SetPosition(int x, int y);
+	LIBZHL_API void SetRotation(float _rotation);
+	LIBZHL_API void SetMirrored(bool _mirrored);
+	LIBZHL_API void CreatePrimitive();
 	
 	std::string imageName;
 	GL_Texture *texture;
