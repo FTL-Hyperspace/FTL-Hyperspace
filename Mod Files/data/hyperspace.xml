@@ -287,7 +287,7 @@ maxLevel attribute sets the maximum level you can upgrade to
 Unlocks:
 variant attribute is what variant you want the unlock method for (a, b or c)
 
-type is the unlock method (0 is beat flagship, 1 is reach sector, 2 is any victory, 3 is other ship unlocks, 4 is for event unlocks)
+type is the unlock method (0 is beat flagship, 1 is reach sector, 2 is any victory, 3 is other ship unlocks, 4 is for event unlocks, 5 is for other ship victories)
 shipReq is the ship that you have to do it with to unlock it
 value is only used for reach sector currently which defines which sector the player has to reach
 silent tag defines whether or not it will show up in the top right and plays the sound
@@ -344,6 +344,24 @@ Syntax ->
             <type>1</type>
             <shipReq>PLAYER_SHIP_CUSTOM_2</shipReq>
             <value>5</value>
+			<silent/>
+        </unlock>
+		<unlock variant="b">
+            <type>3</type>
+            <otherUnlocks>
+				<ship>PLAYER_SHIP_FOO</ship>
+				<ship>PLAYER_SHIP_BAR</ship>
+				<ship>PLAYER_SHIP_BAZ</ship>
+			</otherUnlocks>
+			<silent/>
+        </unlock>
+		<unlock variant="c">
+            <type>5</type>
+            <victories>
+				<victory>PLAYER_SHIP_FOO</victory>                      (any type of victory)
+				<victory type="flagship">PLAYER_SHIP_BAR</victory>      (specifically a flagship kill)
+				<victory type="secretending">PLAYER_SHIP_BAZ</victory>  (specifically a custom victory of achievement type "secretending")
+			</victories>
 			<silent/>
         </unlock>
     </ship>
