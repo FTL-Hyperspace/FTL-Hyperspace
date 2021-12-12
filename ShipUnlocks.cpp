@@ -72,6 +72,23 @@ void CustomShipUnlocks::ParseUnlockNode(rapidxml::xml_node<char> *node, const st
                 }
             }
         }
+        if (name == "victories")
+        {
+            for (auto unlockChild = child->first_node(); unlockChild; unlockChild = unlockChild->next_sibling())
+            {
+                if (strcmp(unlockChild->name(), "victory") == 0)
+                {
+                    if (unlockChild->first_attribute("type"))
+                    {
+                        shipUnlock.otherRequiredShips.push_back(std::string(unlockChild->value()) + " " + std::string(unlockChild->first_attribute("type")->value()));
+                    }
+                    else
+                    {
+                        shipUnlock.otherRequiredShips.push_back(unlockChild->value());
+                    }
+                }
+            }
+        }
     }
 
 
@@ -543,6 +560,48 @@ void CustomShipUnlocks::CheckMultiUnlocks()
     }
 }
 
+void CustomShipUnlocks::CheckMultiVictoryUnlocks()
+{
+    for (auto i : customShipUnlocks)
+    {
+        for (auto unlock : i.second)
+        {
+            if (unlock.type == ShipUnlock::UnlockType::VICTORY_CUSTOM)
+            {
+                bool shouldUnlock = true;
+
+                for (auto shipCheck : unlock.otherRequiredShips)
+                {
+                    std::vector<std::string> s = std::vector<std::string>();
+                    boost::split(s, shipCheck, boost::is_any_of(" "));
+
+                    if (s.size() >= 2)
+                    {
+                        if (CheckCustomShipVictory(s[0], s[1]) == -1)
+                        {
+                            shouldUnlock = false;
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        if (CheckCustomShipVictory(shipCheck) == -1)
+                        {
+                            shouldUnlock = false;
+                            break;
+                        }
+                    }
+                }
+
+                if (shouldUnlock)
+                {
+                    UnlockShip(i.first, unlock.silent, false);
+                }
+            }
+        }
+    }
+}
+
 void CustomShipUnlocks::CheckSectorUnlocks(const std::string& currentShip, int sector)
 {
     for (auto i : customShipUnlocks)
@@ -770,6 +829,7 @@ HOOK_METHOD(ScoreKeeper, LoadVersionFour, (int file, int version) -> void)
     loadingFile = false;
 
     CustomShipUnlocks::instance->CheckMultiUnlocks();
+    CustomShipUnlocks::instance->CheckMultiVictoryUnlocks();
 }
 
 // Unlock Quest Achievements
@@ -987,6 +1047,7 @@ void CustomShipUnlocks::SetVictoryAchievement(const std::string &ship)
 
             G_->GetAchievementTracker()->recentlyUnlocked.push_back(ach);
         }
+        CheckMultiVictoryUnlocks();
     }
 }
 
@@ -997,72 +1058,74 @@ void CustomShipUnlocks::SetVictoryAchievement(const std::string &ship, const std
     {
         customShipVictories[type][ship] = *Global::difficulty;
 
-        if (customVictories.find(type) == customVictories.end()) return;
-
-        int shipId = customSel->GetShipButtonIdFromName(ship);
-
-        if (shipId != -1)
+        if (customVictories.find(type) != customVictories.end())
         {
-            ShipButtonDefinition &buttonDef = customSel->GetShipButtonDefinition(shipId);
-            CAchievement* ach;
+            int shipId = customSel->GetShipButtonIdFromName(ship);
 
-            if (buttonDef.splitVictoryAchievement)
+            if (shipId != -1)
             {
-                ach = customVictories[type].GetVictoryAchievement(ship);
-                ach->unlocked = true;
-                ach->newAchievement = true;
+                ShipButtonDefinition &buttonDef = customSel->GetShipButtonDefinition(shipId);
+                CAchievement* ach;
 
-                ach->difficulty = *Global::difficulty;
+                if (buttonDef.splitVictoryAchievement)
+                {
+                    ach = customVictories[type].GetVictoryAchievement(ship);
+                    ach->unlocked = true;
+                    ach->newAchievement = true;
+
+                    ach->difficulty = *Global::difficulty;
+                }
+                else
+                {
+                    ach = customVictories[type].GetVictoryAchievement(buttonDef.name);
+                    ach->unlocked = true;
+                    ach->newAchievement = true;
+
+                    int layout = 0;
+                    if (ship == buttonDef.name + "_2")
+                    {
+                        layout = 1;
+                    }
+                    else if (ship == buttonDef.name + "_3")
+                    {
+                        layout = 2;
+                    }
+
+                    ach->shipDifficulties[layout] = *Global::difficulty;
+                    if (!(ach->gap_ex_custom&1))
+                    {
+                        ach->difficulty = *Global::difficulty;
+                    }
+                }
+
+                if (!customVictories[type].quiet) G_->GetAchievementTracker()->recentlyUnlocked.push_back(ach);
             }
             else
             {
-                ach = customVictories[type].GetVictoryAchievement(buttonDef.name);
+                std::string baseName = ship;
+
+                int layout = 0;
+                if (boost::algorithm::ends_with(baseName, "_2"))
+                {
+                    layout = 1;
+                    baseName.resize(baseName.size()-2);
+                }
+                else if (boost::algorithm::ends_with(baseName, "_3"))
+                {
+                    layout = 2;
+                    baseName.resize(baseName.size()-2);
+                }
+
+                CAchievement* ach = customVictories[type].GetVictoryAchievement(baseName);
                 ach->unlocked = true;
                 ach->newAchievement = true;
 
-                int layout = 0;
-                if (ship == buttonDef.name + "_2")
-                {
-                    layout = 1;
-                }
-                else if (ship == buttonDef.name + "_3")
-                {
-                    layout = 2;
-                }
-
                 ach->shipDifficulties[layout] = *Global::difficulty;
-                if (!(ach->gap_ex_custom&1))
-                {
-                    ach->difficulty = *Global::difficulty;
-                }
-            }
 
-            if (!customVictories[type].quiet) G_->GetAchievementTracker()->recentlyUnlocked.push_back(ach);
+                if (!customVictories[type].quiet) G_->GetAchievementTracker()->recentlyUnlocked.push_back(ach);
+            }
         }
-        else
-        {
-            std::string baseName = ship;
-
-            int layout = 0;
-            if (boost::algorithm::ends_with(baseName, "_2"))
-            {
-                layout = 1;
-                baseName.resize(baseName.size()-2);
-            }
-            else if (boost::algorithm::ends_with(baseName, "_3"))
-            {
-                layout = 2;
-                baseName.resize(baseName.size()-2);
-            }
-
-            CAchievement* ach = customVictories[type].GetVictoryAchievement(baseName);
-            ach->unlocked = true;
-            ach->newAchievement = true;
-
-            ach->shipDifficulties[layout] = *Global::difficulty;
-
-            if (!customVictories[type].quiet) G_->GetAchievementTracker()->recentlyUnlocked.push_back(ach);
-        }
+        CheckMultiVictoryUnlocks();
     }
 }
 

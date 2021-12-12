@@ -10,7 +10,8 @@ struct ShipUnlock
         REACH_SECTOR,
         VICTORY_ANY,
         UNLOCK_OTHER,
-        EVENT
+        EVENT,
+        VICTORY_CUSTOM
     };
 
     std::string unlocksShip;
@@ -58,6 +59,7 @@ public:
     bool ValidUnlock(const ShipUnlock& unlock, const std::string& currentShip, ShipUnlock::UnlockType type);
     void CheckSectorUnlocks(const std::string& currentShip, int sector);
     void CheckMultiUnlocks();
+    void CheckMultiVictoryUnlocks();
     void CheckBasicUnlock(const std::string& currentShip, ShipUnlock::UnlockType type);
     bool CheckVanillaUnlocks(const ShipUnlock& unlock, const std::string& currentShip);
     void UnlockAllShips();
