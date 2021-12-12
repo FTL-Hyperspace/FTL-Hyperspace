@@ -356,6 +356,11 @@ HOOK_METHOD(AchievementTracker, LoadProfile, (int file, int version) -> void)
         CustomShipUnlocks::instance->LoadCurrent(file);
         CustomScoreKeeper::instance->LoadShipScores(file);
     }
+    else if (CustomShipUnlocks::instance->loadVersion == 1)
+    {
+        CustomShipUnlocks::instance->LoadVersionOne(file);
+        CustomScoreKeeper::instance->LoadShipScores(file);
+    }
 }
 
 HOOK_METHOD(AchievementTracker, SaveProfile, (int file) -> void)

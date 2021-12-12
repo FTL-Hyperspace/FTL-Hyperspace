@@ -172,6 +172,8 @@ void CustomShipUnlocks::ParseVictoryAchievements(rapidxml::xml_node<char> *node)
 
 void CustomShipUnlocks::LoadVersionOne(int file)
 {
+    // customUnlockedShips
+
     int customShipsLen = FileHelper::readInteger(file);
 
     for (int i = 0; i < customShipsLen; i++)
@@ -180,8 +182,60 @@ void CustomShipUnlocks::LoadVersionOne(int file)
     }
 }
 
+void CustomShipUnlocks::LoadVersionTwo(int file)
+{
+    // customUnlockedShips
+
+    int customShipsLen = FileHelper::readInteger(file);
+
+    for (int i = 0; i < customShipsLen; i++)
+    {
+        customUnlockedShips.push_back(FileHelper::readString(file));
+    }
+
+    // customUnlockQuestShips
+
+    customShipsLen = FileHelper::readInteger(file);
+
+    for (int i = 0; i < customShipsLen; i++)
+    {
+        std::string k = FileHelper::readString(file);
+        int v = FileHelper::readInteger(file);
+        if (v != -1) customUnlockQuestShips[k] = v;
+    }
+
+    // shipVictories
+
+    customShipsLen = FileHelper::readInteger(file);
+
+    for (int i = 0; i < customShipsLen; i++)
+    {
+        std::string k = FileHelper::readString(file);
+        int v = FileHelper::readInteger(file);
+        if (v != -1) shipVictories[k] = v;
+    }
+
+    // customShipVictories
+
+    customShipsLen = FileHelper::readInteger(file);
+
+    for (int i = 0; i < customShipsLen; i++)
+    {
+        std::string vicName = FileHelper::readString(file);
+        int length2 = FileHelper::readInteger(file);
+        for (int j = 0; j < length2; j++)
+        {
+            std::string k = FileHelper::readString(file);
+            int v = FileHelper::readInteger(file);
+            if (v != -1) customShipVictories[vicName][k] = v;
+        }
+    }
+}
+
 void CustomShipUnlocks::Save(int file)
 {
+    // customUnlockedShips
+
     int customShipsLen = customUnlockedShips.size();
 
     FileHelper::writeInt(file, customShipsLen);
@@ -189,6 +243,45 @@ void CustomShipUnlocks::Save(int file)
     for (auto i : customUnlockedShips)
     {
         FileHelper::writeString(file, i);
+    }
+
+    // customUnlockQuestShips
+
+    customShipsLen = customUnlockQuestShips.size();
+
+    FileHelper::writeInt(file, customShipsLen);
+
+    for (auto i : customUnlockQuestShips)
+    {
+        FileHelper::writeString(file, i.first);
+        FileHelper::writeInt(file, i.second);
+    }
+
+    // shipVictories
+
+    customShipsLen = shipVictories.size();
+
+    FileHelper::writeInt(file, customShipsLen);
+
+    for (auto i : shipVictories)
+    {
+        FileHelper::writeString(file, i.first);
+        FileHelper::writeInt(file, i.second);
+    }
+
+    // customShipVictories
+
+    FileHelper::writeInt(file, customShipVictories.size());
+
+    for (auto& i : customShipVictories)
+    {
+        FileHelper::writeString(file, i.first);
+        FileHelper::writeInt(file, i.second.size());
+        for (auto j : i.second)
+        {
+            FileHelper::writeString(file, j.first);
+            FileHelper::writeInt(file, j.second);
+        }
     }
 }
 

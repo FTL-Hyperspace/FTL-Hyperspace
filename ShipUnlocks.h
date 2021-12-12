@@ -52,6 +52,7 @@ public:
     void OnLanguageChange();
     void Save(int file);
     void LoadVersionOne(int file);
+    void LoadVersionTwo(int file);
     void UnlockShip(const std::string& shipBlueprint, bool silent, bool checkMultiUnlocks=true, bool isEvent=false);
     void CreateUnlockAchievements();
     bool ValidUnlock(const ShipUnlock& unlock, const std::string& currentShip, ShipUnlock::UnlockType type);
@@ -63,7 +64,7 @@ public:
 
     void LoadCurrent(int file)
     {
-        LoadVersionOne(file);
+        LoadVersionTwo(file);
     }
 
     bool GetCustomShipUnlocked(const std::string& name, int variant = 0)
