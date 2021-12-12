@@ -363,28 +363,32 @@ void CustomShipUnlocks::ResetFlags()
     }
 }
 
+void CustomShipUnlocks::LockAchievement(CAchievement *ach)
+{
+    ach->unlocked = false;
+    ach->newAchievement = false;
+    ach->difficulty = -1;
+    ach->shipDifficulties[0] = -1;
+    ach->shipDifficulties[1] = -1;
+    ach->shipDifficulties[2] = -1;
+}
+
 void CustomShipUnlocks::WipeProfile()
 {
-    G_->GetAchievementTracker()->recentlyUnlocked.clear();
-
     customUnlockedShips.clear();
     customUnlockQuestShips.clear();
     shipVictories.clear();
     customShipVictories.clear();
 
-    for (auto& i : customShipQuestAchievements) delete i.second;
-    customShipQuestAchievements.clear();
-
-    for (auto& i : customShipVictoryAchievements) delete i.second;
-    customShipVictoryAchievements.clear();
+    for (auto i : customShipQuestAchievements) LockAchievement(i.second);
+    for (auto i : customShipVictoryAchievements) LockAchievement(i.second);
 
     for (auto& i : customVictories)
     {
         for (auto& j : i.second.achievements)
         {
-            delete j.second;
+            LockAchievement(j.second);
         }
-        i.second.achievements.clear();
     }
 }
 

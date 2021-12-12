@@ -115,17 +115,154 @@ void CustomShipSelect::ParseShipsNode(rapidxml::xml_node<char> *node)
                         buttonDef.splitVictoryAchievement = EventsParser::ParseBoolean(child->first_attribute("splitVictoryAchievement")->value());
                     }
 
-                    if (G_->GetScoreKeeper()->GetShipId(shipName).first == -1)
-                    {
-                        shipButtonDefs.push_back(buttonDef);
-                    }
-
                     for (auto shipChild = child->first_node(); shipChild; shipChild = shipChild->next_sibling())
                     {
                         if (strcmp(shipChild->name(), "unlock") == 0)
                         {
                             CustomShipUnlocks::instance->ParseUnlockNode(shipChild, shipName);
                         }
+                        if (strcmp(shipChild->name(), "arrow") == 0)
+                        {
+                            CustomUnlockArrow arrow = CustomUnlockArrow();
+                            arrow.tooltip.data = "";
+                            arrow.tooltip.isLiteral = true;
+
+                            std::string image = "";
+                            std::string lockedImage = "";
+                            std::string direction = "";
+                            std::string imageDirection = "";
+                            Point pos = {0,0};
+                            float rotation = 0.f;
+                            bool mirror = false;
+
+                            arrow.ship = shipName;
+                            arrow.targetShip = shipChild->value();
+
+                            if (shipChild->first_attribute("variant"))
+                            {
+                                std::string variantStr = shipChild->first_attribute("variant")->value();
+
+                                if (variantStr == "b")
+                                {
+                                    arrow.variant = 1;
+                                }
+                                if (variantStr == "c")
+                                {
+                                    arrow.variant = 2;
+                                }
+                            }
+                            if (shipChild->first_attribute("tooltip"))
+                            {
+                                arrow.tooltip.data = shipChild->first_attribute("tooltip")->value();
+                                arrow.tooltip.isLiteral = false;
+                            }
+                            if (shipChild->first_attribute("tooltipText"))
+                            {
+                                arrow.tooltip.data = shipChild->first_attribute("tooltipText")->value();
+                                arrow.tooltip.isLiteral = true;
+                            }
+
+                            if (shipChild->first_attribute("x"))
+                            {
+                                pos.x = boost::lexical_cast<int>(shipChild->first_attribute("x")->value());
+                            }
+                            if (shipChild->first_attribute("y"))
+                            {
+                                pos.y = boost::lexical_cast<int>(shipChild->first_attribute("y")->value());
+                            }
+                            if (shipChild->first_attribute("image"))
+                            {
+                                image = shipChild->first_attribute("image")->value();
+                            }
+                            if (shipChild->first_attribute("lockedImage"))
+                            {
+                                lockedImage = shipChild->first_attribute("lockedImage")->value();
+                            }
+                            if (shipChild->first_attribute("direction"))
+                            {
+                                direction = shipChild->first_attribute("direction")->value();
+                                imageDirection = direction;
+                            }
+                            if (shipChild->first_attribute("mirrorX") && EventsParser::ParseBoolean(shipChild->first_attribute("mirrorX")->value()))
+                            {
+                                mirror = !mirror;
+                                if (imageDirection == "left")
+                                {
+                                    imageDirection = "right";
+                                }
+                                else if (imageDirection == "right")
+                                {
+                                    imageDirection = "left";
+                                }
+                            }
+                            if (shipChild->first_attribute("mirrorY") && EventsParser::ParseBoolean(shipChild->first_attribute("mirrorY")->value()))
+                            {
+                                mirror = !mirror;
+                                rotation = 180.f;
+                                if (imageDirection == "up")
+                                {
+                                    imageDirection = "down";
+                                }
+                                else if (imageDirection == "down")
+                                {
+                                    imageDirection = "up";
+                                }
+                            }
+
+                            if (image.empty()) image = "arrow_v_" + imageDirection + ".png";
+                            if (lockedImage.empty()) lockedImage = "arrow_lock_" + imageDirection + ".png";
+
+                            arrow.image_on = new CachedImage("customizeUI/" + image, pos.x, pos.y);
+                            arrow.image_on->CreatePrimitive();
+                            if (direction == "right")
+                            {
+                                arrow.image_on->SetPosition(pos.x + 191, pos.y + (161-arrow.image_on->texture->height_)/2);
+                            }
+                            else if (direction == "down")
+                            {
+                                arrow.image_on->SetPosition(pos.x + (191-arrow.image_on->texture->width_)/2, pos.y + 161);
+                            }
+                            else if (direction == "left")
+                            {
+                                arrow.image_on->SetPosition(pos.x - arrow.image_on->texture->width_, pos.y + (161-arrow.image_on->texture->height_)/2);
+                            }
+                            else if (direction == "up")
+                            {
+                                arrow.image_on->SetPosition(pos.x + (191-arrow.image_on->texture->width_)/2, pos.y - arrow.image_on->texture->height_);
+                            }
+
+                            arrow.image_on->SetRotation(rotation);
+                            arrow.image_on->SetMirrored(mirror);
+
+                            arrow.image_off = new CachedImage("customizeUI/" + lockedImage, pos.x, pos.y);
+                            arrow.image_off->CreatePrimitive();
+                            if (direction == "right")
+                            {
+                                arrow.image_off->SetPosition(pos.x + 191, pos.y + (121-arrow.image_off->texture->height_)/2);
+                            }
+                            else if (direction == "down")
+                            {
+                                arrow.image_off->SetPosition(pos.x + (191-arrow.image_off->texture->width_)/2, pos.y + 121);
+                            }
+                            else if (direction == "left")
+                            {
+                                arrow.image_off->SetPosition(pos.x - arrow.image_off->texture->width_, pos.y + (121-arrow.image_off->texture->height_)/2);
+                            }
+                            else if (direction == "up")
+                            {
+                                arrow.image_off->SetPosition(pos.x + (191-arrow.image_off->texture->width_)/2, pos.y - arrow.image_off->texture->height_);
+                            }
+
+                            arrow.image_off->SetRotation(rotation);
+                            arrow.image_off->SetMirrored(mirror);
+
+                            buttonDef.unlockArrows.push_back(arrow);
+                        }
+                    }
+
+                    if (G_->GetScoreKeeper()->GetShipId(shipName).first == -1)
+                    {
+                        shipButtonDefs.push_back(buttonDef);
                     }
                 }
             }
@@ -565,6 +702,16 @@ void CustomShipSelect::OnInit(ShipSelect* shipSelect_)
                 {
                     aButton->bShipLocked = !CustomShipUnlocks::instance->GetCustomShipUnlocked(shipName);
                     aButton->bLayoutLocked = aButton->bShipLocked;
+                    if (aButton->bShipLocked && aButton->hitbox.h > 140)
+                    {
+                        aButton->hitbox.h -= 40;
+                        aButton->SetLocation({aButton->position.x, aButton->position.y + 20});
+                    }
+                    else if (!aButton->bShipLocked && aButton->hitbox.h < 140)
+                    {
+                        aButton->hitbox.h += 40;
+                        aButton->SetLocation({aButton->position.x, aButton->position.y - 20});
+                    }
                 }
             }
             if (!bButton->bNoExist)
@@ -573,6 +720,16 @@ void CustomShipSelect::OnInit(ShipSelect* shipSelect_)
                 {
                     bButton->bShipLocked = !CustomShipUnlocks::instance->GetCustomShipUnlocked(shipName + "_2");
                     bButton->bLayoutLocked = bButton->bShipLocked;
+                    if (bButton->bShipLocked && bButton->hitbox.h > 140)
+                    {
+                        bButton->hitbox.h -= 40;
+                        bButton->SetLocation({bButton->position.x, bButton->position.y + 20});
+                    }
+                    else if (!bButton->bShipLocked && bButton->hitbox.h < 140)
+                    {
+                        bButton->hitbox.h += 40;
+                        bButton->SetLocation({bButton->position.x, bButton->position.y - 20});
+                    }
                 }
             }
             if (!cButton->bNoExist)
@@ -581,6 +738,16 @@ void CustomShipSelect::OnInit(ShipSelect* shipSelect_)
                 {
                     cButton->bShipLocked = !CustomShipUnlocks::instance->GetCustomShipUnlocked(shipName + "_3");
                     cButton->bLayoutLocked = cButton->bShipLocked;
+                    if (cButton->bShipLocked && cButton->hitbox.h > 140)
+                    {
+                        cButton->hitbox.h -= 40;
+                        cButton->SetLocation({cButton->position.x, cButton->position.y + 20});
+                    }
+                    else if (!cButton->bShipLocked && cButton->hitbox.h < 140)
+                    {
+                        cButton->hitbox.h += 40;
+                        cButton->SetLocation({cButton->position.x, cButton->position.y - 20});
+                    }
                 }
             }
         }
@@ -698,6 +865,41 @@ void CustomShipSelect::OnRender(bool renderSelect)
                     button->OnRender();
             }
         }
+        if (shipPage > 0)
+        {
+            for (auto const &x: shipButtons)
+            {
+                if (x->GetPage() == shipPage - 1)
+                {
+                    ShipButton* button = x->GetButton(shipSelect->currentType);
+
+                    if (button)
+                    {
+                        ShipButtonDefinition* def = &GetShipButtonDefinition(x->GetIndex());
+                        if (def && def->VariantExists(shipSelect->currentType))
+                        {
+                            for (CustomUnlockArrow &arrow : def->unlockArrows)
+                            {
+                                if (arrow.variant == shipSelect->currentType)
+                                {
+                                    if (!CustomShipUnlocks::instance->GetCustomShipUnlocked(GetVariantName(arrow.targetShip)))
+                                    {
+                                        if (button->bShipLocked)
+                                        {
+                                            arrow.OnRender(button->position.x, button->position.y, false);
+                                        }
+                                        else
+                                        {
+                                            arrow.OnRender(button->position.x, button->position.y, true);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
     else
     {
@@ -724,7 +926,7 @@ void CustomShipSelect::OnRender(bool renderSelect)
         freetype::easy_printRightAlign(63, 1097, 118, text);
     }
 
-    if (selectedShip == -1)
+    if (shipSelect->infoBox.desc.title.data.empty())
     {
         CustomShipUnlocks *customUnlocks = CustomShipUnlocks::instance;
 
@@ -833,7 +1035,7 @@ void CustomShipSelect::MouseClick()
         }
     }
 
-    if (selectedShip == -1 && selectedVictoryFilter != -1)
+    if (shipSelect->infoBox.desc.title.data.empty() && selectedVictoryFilter != -1)
     {
         CustomShipUnlocks *customUnlocks = CustomShipUnlocks::instance;
 
@@ -937,6 +1139,53 @@ bool CustomShipSelect::ShouldRenderButtonLower()
     return shipPage == 0;
 }
 
+void CustomUnlockArrow::MouseMove(int x, int y, bool enabled)
+{
+    CachedImage *image = enabled ? image_on : image_off;
+
+    if (x > image->x && x < image->x + image->texture->width_ && y > image->y && y < image->y + image->texture->height_)
+    {
+        std::string shipName = CustomShipSelect::GetVariantName(ship);
+        std::string targetShipName = CustomShipSelect::GetVariantName(targetShip);
+
+        ShipBlueprint *bp1 = G_->GetBlueprints()->GetShipBlueprint(shipName, -1);
+        std::string str1 = bp1->shipClass.GetText();
+        ShipBlueprint *bp2 = G_->GetBlueprints()->GetShipBlueprint(targetShipName, -1);
+        std::string str2 = bp2->shipClass.GetText();
+
+        int id1 = CustomShipSelect::GetInstance()->GetShipButtonIdFromName(ship);
+        if (id1 != -1)
+        {
+            ShipButtonDefinition &def = CustomShipSelect::GetInstance()->GetShipButtonDefinition(id1);
+            if (def.secretCruiser && !CustomShipUnlocks::instance->GetCustomShipUnlocked(shipName))
+            {
+                str1 = G_->GetTextLibrary()->GetText("unidentified");
+            }
+        }
+
+        int id2 = CustomShipSelect::GetInstance()->GetShipButtonIdFromName(targetShip);
+        if (id2 != -1)
+        {
+            ShipButtonDefinition &def = CustomShipSelect::GetInstance()->GetShipButtonDefinition(id2);
+            if (def.secretCruiser && !CustomShipUnlocks::instance->GetCustomShipUnlocked(targetShipName))
+            {
+                str2 = G_->GetTextLibrary()->GetText("unidentified");
+            }
+        }
+
+        std::string str = tooltip.GetText();
+
+        if (!str.empty())
+        {
+            str = boost::algorithm::replace_all_copy(str, "\\1", str1);
+            str = boost::algorithm::replace_all_copy(str, "\\2", str2);
+
+            G_->GetMouseControl()->SetTooltip(str);
+            G_->GetMouseControl()->InstantTooltip();
+        }
+    }
+}
+
 void CustomShipSelect::MouseMove(int x, int y)
 {
     if (shipSelect->tutorial.bOpen)
@@ -966,6 +1215,42 @@ void CustomShipSelect::MouseMove(int x, int y)
                     {
                         selectedShip = i->GetIndex();
                         lastSelectedShip = selectedShip;
+                    }
+                }
+            }
+        }
+    }
+
+    if (shipPage > 0)
+    {
+        for (auto const &buttons: shipButtons)
+        {
+            if (buttons->GetPage() == shipPage - 1)
+            {
+                ShipButton* button = buttons->GetButton(shipSelect->currentType);
+
+                if (button)
+                {
+                    ShipButtonDefinition* def = &GetShipButtonDefinition(buttons->GetIndex());
+                    if (def && def->VariantExists(shipSelect->currentType))
+                    {
+                        for (CustomUnlockArrow &arrow : def->unlockArrows)
+                        {
+                            if (arrow.variant == shipSelect->currentType)
+                            {
+                                if (!CustomShipUnlocks::instance->GetCustomShipUnlocked(GetVariantName(arrow.targetShip)))
+                                {
+                                    if (button->bShipLocked)
+                                    {
+                                        arrow.MouseMove(x - button->position.x, y - button->position.y, false);
+                                    }
+                                    else
+                                    {
+                                        arrow.MouseMove(x - button->position.x, y - button->position.y, true);
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -1039,7 +1324,7 @@ void CustomShipSelect::MouseMove(int x, int y)
     shipSelect->typeB.MouseMove(x, y, false);
     shipSelect->typeC.MouseMove(x, y, false);
 
-    if (selectedShip == -1)
+    if (shipSelect->infoBox.desc.title.data.empty())
     {
         CustomShipUnlocks *customUnlocks = CustomShipUnlocks::instance;
 

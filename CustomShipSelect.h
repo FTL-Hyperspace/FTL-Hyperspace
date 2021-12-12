@@ -5,6 +5,32 @@
 #include <algorithm>
 #include <boost/algorithm/string/predicate.hpp>
 
+struct CustomUnlockArrow
+{
+    std::string ship = "";
+    std::string targetShip = "";
+    int variant = 0;
+    TextString tooltip;
+    CachedImage *image_on = nullptr;
+    CachedImage *image_off = nullptr;
+
+    void OnRender(int x, int y, bool enabled)
+    {
+        CSurface::GL_PushMatrix();
+        CSurface::GL_Translate(x, y, 0.f);
+        if (enabled)
+        {
+            image_on->OnRender(GL_Color(1.f,1.f,1.f,1.f));
+        }
+        else
+        {
+            image_off->OnRender(GL_Color(1.f,1.f,1.f,1.f));
+        }
+        CSurface::GL_PopMatrix();
+    }
+
+    void MouseMove(int x, int y, bool enabled);
+};
 
 struct ShipButtonDefinition
 {
@@ -17,6 +43,8 @@ struct ShipButtonDefinition
     bool noAppend = false;
     bool splitUnlockQuestAchievement = false;
     bool splitVictoryAchievement = false;
+
+    std::vector<CustomUnlockArrow> unlockArrows;
 
     bool VariantExists(int variant)
     {

@@ -36,14 +36,6 @@ struct CustomVictoryAchievement
     CAchievement *GetVictoryAchievement(std::string shipName);
     CAchievement *SetupVictoryAchievement(std::string shipName);
     void SetupVictoryAchievementText(CAchievement* ach);
-
-    ~CustomVictoryAchievement()
-    {
-        for (auto it : achievements)
-        {
-            delete it.second;
-        }
-    }
 };
 
 class CustomShipUnlocks
@@ -51,6 +43,8 @@ class CustomShipUnlocks
 public:
     GL_Primitive *smallOutline = nullptr;
     GL_Primitive *smallOverlay = nullptr;
+
+    static void LockAchievement(CAchievement *ach);
 
     void ParseUnlockNode(rapidxml::xml_node<char> *node, const std::string& shipName);
     void ParseVictoryAchievements(rapidxml::xml_node<char> *node);
