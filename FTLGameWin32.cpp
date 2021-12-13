@@ -10964,8 +10964,8 @@ FUNC_NAKED void CrewControl::LButton(int mX, int mY, int wX, int wY, bool shiftH
 namespace _func303
 {
 	static void *func = 0;
-	static short argdata[] = {0x4ff};
-	static FunctionDefinition funcObj("CrewControl::ClearDeadCrew", typeid(void (*)(std::vector<CrewMember*> )), "5589e557565383e4f083ec208b45088b50048b3089d029f0c1f80285c00f84????????31db", argdata, 1, 4, &func);
+	static short argdata[] = {0x101, 0x4ff};
+	static FunctionDefinition funcObj("CrewControl::ClearDeadCrew", typeid(void (CrewControl::*)(std::vector<CrewMember*> )), "5589e557565383e4f083ec208b45088b50048b3089d029f0c1f80285c00f84????????31db", argdata, 2, 5, &func);
 }
 
 FUNC_NAKED void CrewControl::ClearDeadCrew(std::vector<CrewMember*> crew)

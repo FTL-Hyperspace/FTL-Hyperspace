@@ -11852,8 +11852,8 @@ FUNC_NAKED void CrewControl::LButton(int mX, int mY, int wX, int wY, bool shiftH
 namespace _func307
 {
 	static void *func = 0;
-	static short argdata[] = {0x4ff};
-	static FunctionDefinition funcObj("CrewControl::ClearDeadCrew", typeid(void (*)(std::vector<CrewMember*> )), "5557565331db83ec1c8b7424348b56048b0e", argdata, 1, 4, &func);
+	static short argdata[] = {0x1ff, 0x4ff};
+	static FunctionDefinition funcObj("CrewControl::ClearDeadCrew", typeid(void (CrewControl::*)(std::vector<CrewMember*> )), "5557565331db83ec1c8b7424348b56048b0e", argdata, 2, 6, &func);
 }
 
 FUNC_NAKED void CrewControl::ClearDeadCrew(std::vector<CrewMember*> crew)
@@ -11862,20 +11862,23 @@ FUNC_NAKED void CrewControl::ClearDeadCrew(std::vector<CrewMember*> crew)
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
+		"sub esp, 12\n\t"
 		"push edx\n\t"
 		"push eax\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+		"push [ebp+24]\n\t"		// crew
 		"push [ebp+20]\n\t"		// crew
 		"push [ebp+16]\n\t"		// crew
 		"push [ebp+12]\n\t"		// crew
-		"push [ebp+8]\n\t"		// crew
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func307::func));
 	__asm__
 	(
+		"add esp, 20\n\t"
 		"pop edi\n\t"
 		"pop esi\n\t"
 		"pop ebx\n\t"

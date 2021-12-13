@@ -3696,7 +3696,7 @@ struct CrewControl;
 struct CrewControl
 {
 	LIBZHL_API void ClearCrewBoxes();
-	LIBZHL_API static void __stdcall ClearDeadCrew(std::vector<CrewMember*> crew);
+	LIBZHL_API void ClearDeadCrew(std::vector<CrewMember*> crew);
 	LIBZHL_API void LButton(int mX, int mY, int wX, int wY, bool shiftHeld);
 	LIBZHL_API void LinkShip(ShipManager *ship);
 	LIBZHL_API void MouseMove(int mX, int mY, int wX, int wY);
