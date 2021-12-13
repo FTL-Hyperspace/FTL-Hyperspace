@@ -45845,7 +45845,7 @@ namespace _func1196
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("WorldManager::CreateShip", typeid(CompleteShip *(WorldManager::*)(ShipEvent *, bool )), "5557565381ec1c02000080bc243802000000", argdata, 2, 0, &func);
+	static FunctionDefinition funcObj("WorldManager::CreateShip", typeid(CompleteShip *(WorldManager::*)(ShipEvent *, bool )), "5557565381ec1c02000080bc243802000000", argdata, 2, 2, &func);
 }
 
 FUNC_NAKED CompleteShip *WorldManager::CreateShip(ShipEvent *shipEvent, bool boss)
@@ -45866,6 +45866,7 @@ FUNC_NAKED CompleteShip *WorldManager::CreateShip(ShipEvent *shipEvent, bool bos
 	__asm__("call %0\n\t" :: "m"(_func1196::func));
 	__asm__
 	(
+		"add esp, 8\n\t"
 		"pop edi\n\t"
 		"pop esi\n\t"
 		"pop ebx\n\t"
