@@ -6220,7 +6220,7 @@ struct Ship : ShipObject
 	LIBZHL_API Globals::Ellipse GetBaseEllipse();
 	LIBZHL_API int GetSelectedRoomId(int x, int y, bool unk);
 	LIBZHL_API void LockdownRoom(int roomId, Pointf pos);
-	LIBZHL_API void OnInit(ShipBlueprint &bp);
+	LIBZHL_API void OnInit(ShipBlueprint *bp);
 	LIBZHL_API void OnLoop(std::vector<float> &oxygenLevels);
 	LIBZHL_API void OnRenderBase(bool unk);
 	LIBZHL_API void OnRenderBreaches();

@@ -412,7 +412,7 @@ HOOK_METHOD(Ship, OnRenderFloor, (bool experimental) -> void)
 }
 
 
-HOOK_METHOD(Ship, OnInit, (ShipBlueprint& bp) -> void)
+HOOK_METHOD(Ship, OnInit, (ShipBlueprint* bp) -> void)
 {
     super(bp);
 
@@ -671,11 +671,11 @@ HOOK_METHOD(WorldManager, CreateShip, (ShipEvent* shipEvent, bool boss) -> Compl
 
 static std::vector<std::pair<Animation,bool>> extraEngineAnim[2];
 
-HOOK_METHOD(Ship, OnInit, (ShipBlueprint& bp) -> void)
+HOOK_METHOD(Ship, OnInit, (ShipBlueprint* bp) -> void)
 {
     super(bp);
 
-    char *xmltext = G_->GetResources()->LoadFile("data/" + bp.imgFile + ".xml");
+    char *xmltext = G_->GetResources()->LoadFile("data/" + bp->imgFile + ".xml");
     if (xmltext)
     {
         bool hasThrusters = false;

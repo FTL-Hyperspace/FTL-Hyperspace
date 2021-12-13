@@ -27904,10 +27904,10 @@ namespace _func730
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("Ship::OnInit", typeid(void (Ship::*)(ShipBlueprint &)), "5589e557565381ecfc0101008b45088b5d0c", argdata, 2, 6, &func);
+	static FunctionDefinition funcObj("Ship::OnInit", typeid(void (Ship::*)(ShipBlueprint *)), "5589e557565381ecfc0101008b45088b5d0c", argdata, 2, 6, &func);
 }
 
-FUNC_NAKED void Ship::OnInit(ShipBlueprint &bp)
+FUNC_NAKED void Ship::OnInit(ShipBlueprint *bp)
 {
 	__asm__
 	(

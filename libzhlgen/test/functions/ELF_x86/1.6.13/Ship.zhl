@@ -15,7 +15,7 @@ cleanup void Ship::OnRenderBreaches(Ship *this);
 "555731ff565383ec4c8b5c24600fb6442464":
 cleanup void Ship::OnRenderWalls(Ship *this, bool forceView, bool doorControlMode);
 "5589e557565381ecfc0101008b45088b5d0c":
-cleanup void Ship::OnInit(Ship *this, ShipBlueprint& bp);
+cleanup void Ship::OnInit(Ship *this, ShipBlueprint* bp);
 "565331db83ec148b7424208b56088b460c29d0c1f80285c074??8db6000000008b049a83c301890424e8????????8b56088b460c29d0c1f80239c372??83c4145b5ec3908db6000000008dbf00000000565331db83ec14":
 cleanup void Ship::OnRenderSparks(Ship *this);
 "0fb644240c8b542408894424088b4424048b40088b049089442404e9????????538b4424088b5c240c":
