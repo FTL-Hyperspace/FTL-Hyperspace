@@ -347,11 +347,7 @@ Syntax ->
 		<crewLimit>12</crewLimit>
 	</customShip>
 	
-	<ship name="PLAYER_SHIP_CUSTOM" b="true" c="true">
-		<secret>false</secret>
-		<noAppend>false</noAppend>
-		<splitUnlockQuestAchievement>false</splitUnlockQuestAchievement>
-		<splitVictoryAchievement>false</splitVictoryAchievement>
+	<ship name="PLAYER_SHIP_CUSTOM" b="true" c="true" secret="false" noAppend="false" splitUnlockQuestAchievement="false" splitVictoryAchievement="false">
 		<unlock variant="a">
             <type>1</type>
             <shipReq>PLAYER_SHIP_CUSTOM_2</shipReq>
