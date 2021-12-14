@@ -303,12 +303,13 @@ If noAppend is true, the ship won't be automatically appended to the back of the
 
 Unlock arrows:
 
-Adds an arrow to the page to show which ship this ship unlocks. Put the ID of the target ship WITHOUT the variant suffix.
- variant - The variant to associate the arrow with. Source and target ship must be the same variant.
+Adds an arrow to the page to show which ship this ship unlocks. Put the ID of the target ship WITH the variant suffix.
+ variant - The variant to associate the arrow with. Source and target ship must be the same variant. If "all" or omitted then the arrow appears on every page (but the target ship is always the specific variant).
  tooltip - Text ID to use for hover tooltip.
  tooltipText - Literal text to use for hover tooltip.
  image - full image name of arrow asset. Uses default victory arrow asset in corresponding direction if omitted.
  lockedImage - full image name of arrow asset when source ship is locked. Uses default locked arrow asset in corresponding direction if omitted.
+ unlockedImage - full image name of arrow asset when target ship is unlocked. NO default; if unspecified then no arrow is rendered when the target ship is unlocked.
  direction - direction which the arrow points, used to place the image relative to the button. Omit for default 0,0 offset.
  x and y - offset coordinates for arrow after applying the automatic offset from the direction attribute.
  mirrorX and mirrorY - mirrors the arrow asset over the X and Y axes respectively.

@@ -129,6 +129,7 @@ void CustomShipSelect::ParseShipsNode(rapidxml::xml_node<char> *node)
 
                             std::string image = "";
                             std::string lockedImage = "";
+                            std::string unlockedImage = "";
                             std::string direction = "";
                             std::string imageDirection = "";
                             Point pos = {0,0};
@@ -142,13 +143,21 @@ void CustomShipSelect::ParseShipsNode(rapidxml::xml_node<char> *node)
                             {
                                 std::string variantStr = shipChild->first_attribute("variant")->value();
 
-                                if (variantStr == "b")
+                                if (variantStr == "a")
+                                {
+                                    arrow.variant = 0;
+                                }
+                                else if (variantStr == "b")
                                 {
                                     arrow.variant = 1;
                                 }
-                                if (variantStr == "c")
+                                else if (variantStr == "c")
                                 {
                                     arrow.variant = 2;
+                                }
+                                else if (variantStr == "all")
+                                {
+                                    arrow.variant = -1;
                                 }
                             }
                             if (shipChild->first_attribute("tooltip"))
@@ -177,6 +186,10 @@ void CustomShipSelect::ParseShipsNode(rapidxml::xml_node<char> *node)
                             if (shipChild->first_attribute("lockedImage"))
                             {
                                 lockedImage = shipChild->first_attribute("lockedImage")->value();
+                            }
+                            if (shipChild->first_attribute("unlockedImage"))
+                            {
+                                unlockedImage = shipChild->first_attribute("unlockedImage")->value();
                             }
                             if (shipChild->first_attribute("direction"))
                             {
@@ -212,49 +225,74 @@ void CustomShipSelect::ParseShipsNode(rapidxml::xml_node<char> *node)
                             if (image.empty()) image = "arrow_v_" + imageDirection + ".png";
                             if (lockedImage.empty()) lockedImage = "arrow_lock_" + imageDirection + ".png";
 
-                            arrow.image_on = new CachedImage("customizeUI/" + image, pos.x, pos.y);
-                            arrow.image_on->CreatePrimitive();
+                            arrow.image[0] = new CachedImage("customizeUI/" + lockedImage, pos.x, pos.y);
+                            arrow.image[0]->CreatePrimitive();
                             if (direction == "right")
                             {
-                                arrow.image_on->SetPosition(pos.x + 191, pos.y + (161-arrow.image_on->texture->height_)/2);
+                                arrow.image[0]->SetPosition(pos.x + 191, pos.y + (121-arrow.image[0]->texture->height_)/2);
                             }
                             else if (direction == "down")
                             {
-                                arrow.image_on->SetPosition(pos.x + (191-arrow.image_on->texture->width_)/2, pos.y + 161);
+                                arrow.image[0]->SetPosition(pos.x + (191-arrow.image[0]->texture->width_)/2, pos.y + 121);
                             }
                             else if (direction == "left")
                             {
-                                arrow.image_on->SetPosition(pos.x - arrow.image_on->texture->width_, pos.y + (161-arrow.image_on->texture->height_)/2);
+                                arrow.image[0]->SetPosition(pos.x - arrow.image[0]->texture->width_, pos.y + (121-arrow.image[0]->texture->height_)/2);
                             }
                             else if (direction == "up")
                             {
-                                arrow.image_on->SetPosition(pos.x + (191-arrow.image_on->texture->width_)/2, pos.y - arrow.image_on->texture->height_);
+                                arrow.image[0]->SetPosition(pos.x + (191-arrow.image[0]->texture->width_)/2, pos.y - arrow.image[0]->texture->height_);
                             }
 
-                            arrow.image_on->SetRotation(rotation);
-                            arrow.image_on->SetMirrored(mirror);
+                            arrow.image[0]->SetRotation(rotation);
+                            arrow.image[0]->SetMirrored(mirror);
 
-                            arrow.image_off = new CachedImage("customizeUI/" + lockedImage, pos.x, pos.y);
-                            arrow.image_off->CreatePrimitive();
+                            arrow.image[1] = new CachedImage("customizeUI/" + image, pos.x, pos.y);
+                            arrow.image[1]->CreatePrimitive();
                             if (direction == "right")
                             {
-                                arrow.image_off->SetPosition(pos.x + 191, pos.y + (121-arrow.image_off->texture->height_)/2);
+                                arrow.image[1]->SetPosition(pos.x + 191, pos.y + (161-arrow.image[1]->texture->height_)/2);
                             }
                             else if (direction == "down")
                             {
-                                arrow.image_off->SetPosition(pos.x + (191-arrow.image_off->texture->width_)/2, pos.y + 121);
+                                arrow.image[1]->SetPosition(pos.x + (191-arrow.image[1]->texture->width_)/2, pos.y + 161);
                             }
                             else if (direction == "left")
                             {
-                                arrow.image_off->SetPosition(pos.x - arrow.image_off->texture->width_, pos.y + (121-arrow.image_off->texture->height_)/2);
+                                arrow.image[1]->SetPosition(pos.x - arrow.image[1]->texture->width_, pos.y + (161-arrow.image[1]->texture->height_)/2);
                             }
                             else if (direction == "up")
                             {
-                                arrow.image_off->SetPosition(pos.x + (191-arrow.image_off->texture->width_)/2, pos.y - arrow.image_off->texture->height_);
+                                arrow.image[1]->SetPosition(pos.x + (191-arrow.image[1]->texture->width_)/2, pos.y - arrow.image[1]->texture->height_);
                             }
 
-                            arrow.image_off->SetRotation(rotation);
-                            arrow.image_off->SetMirrored(mirror);
+                            arrow.image[1]->SetRotation(rotation);
+                            arrow.image[1]->SetMirrored(mirror);
+
+                            if (!unlockedImage.empty())
+                            {
+                                arrow.image[2] = new CachedImage("customizeUI/" + unlockedImage, pos.x, pos.y);
+                                arrow.image[2]->CreatePrimitive();
+                                if (direction == "right")
+                                {
+                                    arrow.image[2]->SetPosition(pos.x + 191, pos.y + (161-arrow.image[2]->texture->height_)/2);
+                                }
+                                else if (direction == "down")
+                                {
+                                    arrow.image[2]->SetPosition(pos.x + (191-arrow.image[2]->texture->width_)/2, pos.y + 161);
+                                }
+                                else if (direction == "left")
+                                {
+                                    arrow.image[2]->SetPosition(pos.x - arrow.image[2]->texture->width_, pos.y + (161-arrow.image[2]->texture->height_)/2);
+                                }
+                                else if (direction == "up")
+                                {
+                                    arrow.image[2]->SetPosition(pos.x + (191-arrow.image[2]->texture->width_)/2, pos.y - arrow.image[2]->texture->height_);
+                                }
+
+                                arrow.image[2]->SetRotation(rotation);
+                                arrow.image[2]->SetMirrored(mirror);
+                            }
 
                             buttonDef.unlockArrows.push_back(arrow);
                         }
@@ -880,18 +918,22 @@ void CustomShipSelect::OnRender(bool renderSelect)
                         {
                             for (CustomUnlockArrow &arrow : def->unlockArrows)
                             {
-                                if (arrow.variant == shipSelect->currentType)
+                                if (arrow.variant == shipSelect->currentType || arrow.variant == -1)
                                 {
-                                    if (!CustomShipUnlocks::instance->GetCustomShipUnlocked(GetVariantName(arrow.targetShip)))
+                                    if (!CustomShipUnlocks::instance->GetCustomShipUnlocked(arrow.targetShip))
                                     {
                                         if (button->bShipLocked)
                                         {
-                                            arrow.OnRender(button->position.x, button->position.y, false);
+                                            arrow.OnRender(button->position.x, button->position.y, 0);
                                         }
                                         else
                                         {
-                                            arrow.OnRender(button->position.x, button->position.y, true);
+                                            arrow.OnRender(button->position.x, button->position.y, 1);
                                         }
+                                    }
+                                    else if (arrow.image[2] != nullptr)
+                                    {
+                                        arrow.OnRender(button->position.x, button->position.y, 2);
                                     }
                                 }
                             }
@@ -1139,11 +1181,9 @@ bool CustomShipSelect::ShouldRenderButtonLower()
     return shipPage == 0;
 }
 
-void CustomUnlockArrow::MouseMove(int x, int y, bool enabled)
+void CustomUnlockArrow::MouseMove(int x, int y, int enabled)
 {
-    CachedImage *image = enabled ? image_on : image_off;
-
-    if (x > image->x && x < image->x + image->texture->width_ && y > image->y && y < image->y + image->texture->height_)
+    if (x > image[enabled]->x && x < image[enabled]->x + image[enabled]->texture->width_ && y > image[enabled]->y && y < image[enabled]->y + image[enabled]->texture->height_)
     {
         std::string shipName = CustomShipSelect::GetVariantName(ship);
         std::string targetShipName = CustomShipSelect::GetVariantName(targetShip);
@@ -1236,18 +1276,22 @@ void CustomShipSelect::MouseMove(int x, int y)
                     {
                         for (CustomUnlockArrow &arrow : def->unlockArrows)
                         {
-                            if (arrow.variant == shipSelect->currentType)
+                            if (arrow.variant == shipSelect->currentType || arrow.variant == -1)
                             {
-                                if (!CustomShipUnlocks::instance->GetCustomShipUnlocked(GetVariantName(arrow.targetShip)))
+                                if (!CustomShipUnlocks::instance->GetCustomShipUnlocked(arrow.targetShip))
                                 {
                                     if (button->bShipLocked)
                                     {
-                                        arrow.MouseMove(x - button->position.x, y - button->position.y, false);
+                                        arrow.MouseMove(x - button->position.x, y - button->position.y, 0);
                                     }
                                     else
                                     {
-                                        arrow.MouseMove(x - button->position.x, y - button->position.y, true);
+                                        arrow.MouseMove(x - button->position.x, y - button->position.y, 1);
                                     }
+                                }
+                                else if (arrow.image[2] != nullptr)
+                                {
+                                    arrow.MouseMove(x - button->position.x, y - button->position.y, 2);
                                 }
                             }
                         }

@@ -9,27 +9,19 @@ struct CustomUnlockArrow
 {
     std::string ship = "";
     std::string targetShip = "";
-    int variant = 0;
+    int variant = -1;
     TextString tooltip;
-    CachedImage *image_on = nullptr;
-    CachedImage *image_off = nullptr;
+    CachedImage *image[3] = {nullptr, nullptr, nullptr};
 
-    void OnRender(int x, int y, bool enabled)
+    void OnRender(int x, int y, int enabled)
     {
         CSurface::GL_PushMatrix();
         CSurface::GL_Translate(x, y, 0.f);
-        if (enabled)
-        {
-            image_on->OnRender(GL_Color(1.f,1.f,1.f,1.f));
-        }
-        else
-        {
-            image_off->OnRender(GL_Color(1.f,1.f,1.f,1.f));
-        }
+        image[enabled]->OnRender(GL_Color(1.f,1.f,1.f,1.f));
         CSurface::GL_PopMatrix();
     }
 
-    void MouseMove(int x, int y, bool enabled);
+    void MouseMove(int x, int y, int enabled);
 };
 
 struct ShipButtonDefinition
