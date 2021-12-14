@@ -167,6 +167,7 @@ void CustomShipUnlocks::ParseVictoryAchievements(rapidxml::xml_node<char> *node)
             }
             if (name == "color")
             {
+                vAch.color.a = 1.f;
                 ParseColorNode(vAch.color, child, true);
             }
             if (name == "quiet")
@@ -1371,6 +1372,10 @@ HOOK_METHOD(CAchievement, OnRender, (Point pos, int selected, bool unk) -> void)
                         if (shipDifficulties[i] == -1)
                         {
                             dotOff.OnRender(GL_Color(1.f, 1.f, 1.f, 1.f));
+                        }
+                        else if (victoryAch.color.a == -1.f)
+                        {
+                            dotOn.OnRender(GL_Color(1.f, 1.f, 1.f, 1.f));
                         }
                         else
                         {

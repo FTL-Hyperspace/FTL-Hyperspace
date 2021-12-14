@@ -28,7 +28,7 @@ struct CustomVictoryAchievement
     TextString name;
     TextString description;
     std::string icon = "S_V";
-    GL_Color color = {235.f/255.f, 245.f/255.f, 229.f/255.f, 1.f};
+    GL_Color color = {235.f/255.f, 245.f/255.f, 229.f/255.f, -1.f};
     bool quiet = false;
     bool secret = false;
 
