@@ -12,3 +12,6 @@ void MouseControl::InstantTooltip(MouseControl *this<ecx>);
 void MouseControl::OnRender(MouseControl *this<ecx>);
 "578d7c240883e4f0ff77fc5589e557565389ce83ec1c8b1f83fb0174??":
 void MouseControl::SetDoor(MouseControl *this<ecx>, int state);
+
+"!e8????????e8????????b9(???????\?)":
+MouseControl* Global_MouseControl_Mouse;

@@ -33,6 +33,9 @@ cleanup std::vector<WeaponBlueprint*> BlueprintManager::GetRandomWeapon(Blueprin
 "5589e55383ec240fb655148b450c8b5d08895424108b551089442404891c248954240c8d5034":
 cleanup std::vector<DroneBlueprint*> BlueprintManager::GetRandomDrone(BlueprintManager *this, int count, bool demo_lock);
 
+"!c7442408ffffffff895c2404c70424(???????\?)e8????????c74424080000000089342489442404":
+BlueprintManager* Global_BlueprintManager_Blueprints;
+
 
 struct BlueprintManager
 {{

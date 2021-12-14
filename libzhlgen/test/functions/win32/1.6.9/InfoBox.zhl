@@ -29,6 +29,10 @@ void InfoBox::SetSystemId(InfoBox *this<ecx>, int systemId, int maxPower, int cu
 "578d7c240883e4f0ff77fc5589e557565389cb83ec5c8b378b47048b57088b7f0c85f68945c40f84????????":
 void InfoBox::SetSystem(InfoBox *this<ecx>, ShipSystem *system, int upgrade, int yShift, int forceSystemWidth);
 
+"!83ec083bb514fdffffba(???????\?)b8(???????\?)":
+GL_Color Global_InfoBox_detailsBarOn;
+GL_Color Global_InfoBox_detailsBarOff;
+
 
 struct InfoBox 
 {{

@@ -15,6 +15,10 @@ void Shields::AddSuperShield(Shields *this<ecx>, Point pos);
 "578d7c240883e4f0ff77fc5589e557565389cb81ec????????8b81ec010000f30f103ff30f117dc485c0f30f105f040f85????????8b410c":
 void Shields::RenderBase(Shields *this<ecx>, float alpha, float superShieldOverwrite);
 
+"!f30f1015(???????\?)f30f5ee6":
+GL_Color Global_COLOR_GREEN;
+
+
 struct Shields
 {{
 	Shields(int roomId, int shipId, int startingPower, const std::string& shieldFile)

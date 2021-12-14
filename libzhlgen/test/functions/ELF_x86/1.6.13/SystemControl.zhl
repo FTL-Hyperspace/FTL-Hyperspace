@@ -6,3 +6,7 @@ cleanup SystemBox* SystemControl::GetSystemBox(SystemControl *this, int systemId
 cleanup void SystemControl::RenderPowerBar(SystemControl *this);
 "5557565381ec9c0000008b8424b00000008b9c24b40000008b9424bc000000":
 static cleanup SystemControl::PowerBars* SystemControl::GetPowerBars(int width, int height, int gap, bool useShieldGap);
+
+"!a3(???????\?)8915????????e8????????8b5424448b4424408b4b0c8915????????8b5308a3(???????\?)":
+Point* Global_SystemControl_weapon_position;
+Point* Global_SystemControl_drone_position;

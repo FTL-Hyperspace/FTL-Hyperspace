@@ -14,3 +14,6 @@ static cleanup void Settings::SaveSettings();
 static cleanup void Settings::ResetHotkeys();
 "5589e557565381ec9c01000065a114000000":
 static cleanup void Settings::LoadSettings();
+
+"!89c557565383ec2cc744241c(???????\?)":
+SettingValues* Global_Settings_Settings;

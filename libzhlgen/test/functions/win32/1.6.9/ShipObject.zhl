@@ -16,3 +16,6 @@ static void ShipObject::__DO_NOT_HOOK();
 int ShipObject::GetAugmentationCount(ShipObject *this<ecx>);
 "578d7c240883e4f0ff77fc5589e557565331db83ec2c8b410485c00f94c36bdb34":
 void ShipObject::ClearShipInfo(ShipObject *this<ecx>);
+
+"!6bc0340305(???????\?)8b4030c3":
+ShipInfo** Global_ShipObject_ShipInfoList;

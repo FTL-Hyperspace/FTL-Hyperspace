@@ -33,6 +33,9 @@ std::vector<WeaponBlueprint*> BlueprintManager::GetRandomWeapon<ecx>(BlueprintMa
 "578d7c240883e4f0ff77fc5589e5575389cb83ec108b078b57040fb64f08895424088d5034890424894c240c":
 std::vector<DroneBlueprint*> BlueprintManager::GetRandomDrone<ecx>(BlueprintManager* this, int count, bool demo_lock);
 
+"!8b85c0feffff83ec04b9(???????\?)83b83401000003":
+BlueprintManager* Global_BlueprintManager_Blueprints;
+
 
 struct BlueprintManager
 {{

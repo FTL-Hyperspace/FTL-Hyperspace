@@ -20,3 +20,6 @@ void AchievementTracker::SaveProfile(AchievementTracker *this<ecx>, int file);
 void AchievementTracker::LoadProfile(AchievementTracker *this<ecx>, int file, int version);
 "578d7c240883e4f0ff77fc5589e55756538d7dc089ce83ec6c8b516c8b5970897db889d001d874??":
 void AchievementTracker::SetVictoryAchievement(AchievementTracker *this<ecx>);
+
+"!b9(???????\?)e8????????c744240c00000000":
+AchievementTracker* Global_AchievementTracker_Tracker;

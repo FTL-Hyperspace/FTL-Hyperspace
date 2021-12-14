@@ -4,3 +4,6 @@ int SoundControl::PlaySoundMix(SoundControl *this<ecx>, const std::string& sound
 void SoundControl::StopPlaylist(SoundControl *this<ecx>, int fadeOut);
 "578d7c240883e4f0ff77fc5589e557565383ec5c8039008b078945b0":
 void SoundControl::StartPlaylist(SoundControl *this<ecx>, std::vector<std::string> &playlist);
+
+"!8b4b08e8????????0fb6c0b9(???????\?)890424e8????????b9":
+SoundControl* Global_SoundControl_Sounds;

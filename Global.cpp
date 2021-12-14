@@ -4,27 +4,10 @@
 
 Global *Global::instance = new Global();
 
-ResourceControl* Global::__resourceControl = nullptr;
 CApp* Global::__cApp = nullptr;
-ShipInfo** Global::__enemyShipInfo = nullptr;
-CFPS* Global::__cFPS = nullptr;
-BlueprintManager *Global::__blueprints = nullptr;
-SoundControl *Global::__soundControl = nullptr;
-MouseControl *Global::__mouseControl = nullptr;
-TextLibrary *Global::__textLibrary = nullptr;
-CrewMemberFactory *Global::__crewFactory = nullptr;
-TutorialManager *Global::__tutorialManager = nullptr;
-EventGenerator *Global::__eventGenerator = nullptr;
-EventsParser *Global::__eventsParser = nullptr;
-EventSystem *Global::__eventSystem = nullptr;
-AnimationControl *Global::__animations = nullptr;
-AchievementTracker *Global::__achievementTracker = nullptr;
-ScoreKeeper *Global::__scoreKeeper = nullptr;
-SettingValues *Global::__settingValues = nullptr;
 
 bool *Global::showBeaconPath = nullptr;
 unsigned int Global::currentSeed = 0;
-int64_t *Global::randomState = nullptr;
 std::mt19937 Global::seededRng;
 bool *Global::showWelcome = nullptr;
 bool *Global::dlcEnabled = nullptr;
@@ -45,13 +28,6 @@ int Global::delayedQuestIndex = 0;
 std::vector<unsigned int> Global::lastDelayedQuestSeeds = std::vector<unsigned int>();
 
 std::vector<std::vector<GL_Color*>> Global::colorPointers = std::vector<std::vector<GL_Color*>>();
-std::vector<std::vector<uint32_t>> Global::colorOffsets
-{
-    // TODO: Find out what these offsets are and scan for them... ugh, they might be off by 0804edd0
-    { /*0x0849e9c0*/ 0x08498900 /*- 0x08048000*/ }, // detailsBarOn InfoBox::detailsBarOn _ZN7InfoBox12detailsBarOnE
-    { /*0x0849e9d0*/ 0x08498910 /*- 0x08048000*/ }, // detailsBarOff InfoBox::detailsBarOff _ZN7InfoBox13detailsBarOffE
-};
-
 
 unsigned int Global::bossFleetSeed = 0;
 
@@ -105,48 +81,30 @@ void Global::Initialize()
     __baseAddress = (uintptr_t)GetBaseAddress();
 
 
-    __resourceControl = (ResourceControl*)(__baseAddress + __resourcesOffset);
-    __cFPS = (CFPS*)(__baseAddress + __cFPSOffset);
-    __enemyShipInfo = (ShipInfo**)(__baseAddress + __shipInfoOffset);
-    __blueprints = (BlueprintManager*)(__baseAddress + __blueprintOffset);
-    __soundControl = (SoundControl*)(__baseAddress + __soundOffset);
-    __mouseControl = (MouseControl*)(__baseAddress + __mouseOffset);
-    __textLibrary = (TextLibrary*)(__baseAddress + __textOffset);
-    __crewFactory = (CrewMemberFactory*)(__baseAddress + __crewFactoryOffset);
-    __tutorialManager = (TutorialManager*)(__baseAddress + __tutorialOffset);
-    __eventGenerator = (EventGenerator*)(__baseAddress + __eventGenOffset);
-    __eventsParser = (EventsParser*)(__baseAddress + __eventsParseOffset);
-    __eventSystem = (EventSystem*)(__baseAddress + __eventSystemOffset);
-    __animations = (AnimationControl*)(__baseAddress + __animationsOffset);
-    __achievementTracker = (AchievementTracker*)(__baseAddress + __achievementOffset);
-    __scoreKeeper = (ScoreKeeper*)(__baseAddress + __scoreKeeperOffset);
-    __settingValues = (SettingValues*)(__baseAddress + __settingValuesOffset);
     seededRng = std::mt19937(std::chrono::system_clock::now().time_since_epoch().count());
     currentSeed = 0;
 
-    showWelcome = (bool*)((__baseAddress + __showWelcomeOffset));
-    showBeaconPath = (bool*)((__baseAddress + __beaconPathOffset));
-    dlcEnabled = (bool*)((__baseAddress + __dlcEnabledOffset));
-    difficulty = (int*)((__baseAddress + __difficultyOffset));
-    firstTimeShips = (bool*)((__baseAddress + __firstTimeShipsOffset));
+    showWelcome = &Global_Settings_Settings->bShowChangelog;
+    showBeaconPath = &Global_Settings_Settings->showPaths;
+    dlcEnabled = &Global_Settings_Settings->bDlcEnabled;
+    difficulty = &Global_Settings_Settings->difficulty;
+    firstTimeShips = (bool*) (void*) &Global_Settings_Settings->openedList; // Note this address is an int, not a bool
     *firstTimeShips = false;
-    dronePosition = (Point*)((__baseAddress + __dronePosOffset));
-    weaponPosition = (Point*)((__baseAddress + __weaponPosOffset));
-    //fragment_shader_source_callback = (ShaderSourceCallback**)((__baseAddress + __fragmentCallbackOffset));
-    superShieldColor = (GL_Color*)((__baseAddress + __superShieldColorOffset));
+    dronePosition = Global_SystemControl_drone_position;
+    weaponPosition = Global_SystemControl_weapon_position;
+    superShieldColor = &Global_COLOR_GREEN;
     defaultSuperShieldColor = *superShieldColor;
     *superShieldColor = GL_Color(1084.0, 0.0, 310.0, 1.0);
-
-    for (auto vec : colorOffsets)
+    
     {
-        std::vector<GL_Color*> newVec = std::vector<GL_Color*>();
-
-        for (auto offset : vec)
-        {
-            newVec.push_back((GL_Color*)(__baseAddress + offset));
-        }
-
-        colorPointers.push_back(newVec);
+        std::vector<GL_Color*> colorVec = std::vector<GL_Color*>();
+        colorVec.push_back(&Global_InfoBox_detailsBarOn);
+        colorPointers.push_back(colorVec);
+    }
+    {
+        std::vector<GL_Color*> colorVec = std::vector<GL_Color*>();
+        colorVec.push_back(&Global_InfoBox_detailsBarOff);
+        colorPointers.push_back(colorVec);
     }
 
     logFile = fopen("FTL_HS.log", "w");

@@ -1,2 +1,5 @@
 "538b54240885d278??8b590c8b411029d8c1f80239c27d??830493015b":
 void EventSystem::AddEvent(EventSystem *this<ecx>, int id);
+
+"!c704240c000000b9(???????\?)e8????????31c0":
+EventSystem* Global_EventSystem_EventManager;

@@ -7229,7 +7229,28 @@ LIBZHL_API float __stdcall getSkillBonus(int skill, int level);
 LIBZHL_API int __stdcall random32();
 LIBZHL_API void __stdcall srandom32(unsigned int seed);
 
+extern LIBZHL_API AchievementTracker *Global_AchievementTracker_Tracker;
+extern LIBZHL_API AnimationControl *Global_AnimationControl_Animations;
+extern LIBZHL_API BlueprintManager *Global_BlueprintManager_Blueprints;
+extern LIBZHL_API CFPS *Global_CFPS_FPSControl;
+extern LIBZHL_API CrewMemberFactory *Global_CrewMemberFactory_Factory;
+extern LIBZHL_API EventGenerator *Global_EventGenerator_Generator;
+extern LIBZHL_API EventSystem *Global_EventSystem_EventManager;
+extern LIBZHL_API EventsParser *Global_EventsParser_Parser;
+extern LIBZHL_API TextLibrary *Global_Globals_Library;
+extern LIBZHL_API GL_Color Global_InfoBox_detailsBarOn;
+extern LIBZHL_API GL_Color Global_InfoBox_detailsBarOff;
 extern LIBZHL_API void **VTable_LaserBlast;
 extern LIBZHL_API void **VTable_Targetable_LaserBlast;
+extern LIBZHL_API MouseControl *Global_MouseControl_Mouse;
+extern LIBZHL_API ResourceControl *Global_ResourceControl_GlobalResources;
+extern LIBZHL_API ScoreKeeper *Global_ScoreKeeper_Keeper;
+extern LIBZHL_API SettingValues *Global_Settings_Settings;
+extern LIBZHL_API GL_Color Global_COLOR_GREEN;
+extern LIBZHL_API ShipInfo **Global_ShipObject_ShipInfoList;
+extern LIBZHL_API SoundControl *Global_SoundControl_Sounds;
+extern LIBZHL_API Point *Global_SystemControl_weapon_position;
+extern LIBZHL_API Point *Global_SystemControl_drone_position;
+extern LIBZHL_API TutorialManager *Global_TutorialManager_Tutorial;
 
 

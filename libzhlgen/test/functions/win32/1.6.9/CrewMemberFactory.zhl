@@ -37,6 +37,10 @@ void CrewMemberFactory::RemoveExcessCrew(CrewMemberFactory *this<ecx>);
 ".578d7c240883e4f0ff77fc5589e557":
 CrewMember* CrewMemberFactory::CreateCrewMember(CrewMemberFactory *this<ecx>, CrewBlueprint* bp, int shipId, bool intruder);
 
+"!b9(???????\?)e8????????29c6":
+CrewMemberFactory* Global_CrewMemberFactory_Factory;
+
+
 struct CrewMemberFactory
 {{
 	std::vector<CrewMember*> GetCrewPortraitList

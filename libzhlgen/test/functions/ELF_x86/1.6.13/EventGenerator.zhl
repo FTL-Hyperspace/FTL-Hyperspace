@@ -9,6 +9,9 @@ cleanup std::string EventGenerator::GetImageFromList(EventGenerator *this, const
 "5589e557565383ec5c8b45088b5d108d7dc4":
 cleanup SectorDescription EventGenerator::GetSectorDescription(EventGenerator *this, const std::string& type, int level);
 
+"!c74424080000000089742404c70424(???????\?)e8????????8b54242c8d4af4":
+EventGenerator* Global_EventGenerator_Generator;
+
 
 struct EventGenerator depends (SectorDescription, Sector)
 {{

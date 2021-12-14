@@ -14,3 +14,6 @@ cleanup bool ShipObject::AddAugmentation(ShipObject *this, const std::string& au
 cleanup int ShipObject::GetAugmentationCount(ShipObject *this);
 "5331db83ec188b4424208b400485c0":
 cleanup void ShipObject::ClearShipInfo(ShipObject *this);
+
+"!6bc0340305(???????\?)8b4030c3":
+ShipInfo** Global_ShipObject_ShipInfoList;
