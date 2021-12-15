@@ -5,6 +5,7 @@
 #include "freetype.h"
 #include "TemporalSystem.h"
 #include "CustomDamage.h"
+#include "ShipUnlocks.h"
 
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
@@ -1561,6 +1562,8 @@ void CrewMember_Extend::ActivatePower()
         G_->GetSoundControl()->PlaySoundMix("victory", -1.f, false);
 
         G_->GetScoreKeeper()->SetVictory(true);
+        CustomShipUnlocks::instance->setCustomVictoryType = "";
+        G_->GetAchievementTracker()->SetVictoryAchievement();
         G_->GetCApp()->gui->gameover = true;
         G_->GetCApp()->gui->Victory();
     }

@@ -4355,6 +4355,7 @@ struct CAchievement
   std__string name_id;
   std__pair_9int___int progress;
   bool unlocked;
+  int8_t gap_ex_custom;
   TextString name;
   TextString description;
   TextString header;

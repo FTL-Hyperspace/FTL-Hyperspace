@@ -172,6 +172,11 @@ For: "temporal", "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
 
 Key: \1</text> <!-- \1 is more info hotkey -->
 
+<!-- Achievements/hangar stuff -->
+
+<text name="hangar_achievements_title_custom">Ship Victories</text>  <!-- Shown above the ship achievement list -->
+<text name="hangar_achievements_title_filter">Filter Victory Types</text>  <!-- Shown above the ship achievement list -->
+
 <!-- Discord Integration -->
 
 <text name="discord_main_menu">In main menu</text>

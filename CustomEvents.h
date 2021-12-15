@@ -41,6 +41,7 @@ struct EventGameOver
     std::string creditsBackground = "";
     std::string creditsMusic = "";
     std::string sound = "";
+    std::string ach = "";
 };
 
 struct CustomQuest

@@ -116,7 +116,7 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
 
         if (CustomShipUnlocks::instance->CustomShipHasUnlock(shipName))
         {
-            CustomShipUnlocks::instance->UnlockShip(shipName, false, true);
+            CustomShipUnlocks::instance->UnlockShip(shipName, false, true, false);
         }
         return true;
     }

@@ -973,6 +973,10 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
             {
                 customEvent->gameOver.sound = child->first_attribute("sound")->value();
             }
+            if (child->first_attribute("ach"))
+            {
+                customEvent->gameOver.ach = child->first_attribute("ach")->value();
+            }
         }
         if (nodeName == "lose")
         {
@@ -2719,7 +2723,7 @@ HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *loc) -> void)
         {
             if (customEvent->unlockShipReq.empty() || G_->GetAchievementTracker()->currentShip == customEvent->unlockShipReq)
             {
-                CustomShipUnlocks::instance->UnlockShip(customEvent->unlockShip, customEvent->unlockShipSilent);
+                CustomShipUnlocks::instance->UnlockShip(customEvent->unlockShip, customEvent->unlockShipSilent, true, true);
             }
         }
 
@@ -3753,6 +3757,8 @@ HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEve
                 replaceCreditsMusic = customEvent->gameOver.creditsMusic;
 
                 G_->GetScoreKeeper()->SetVictory(true);
+                CustomShipUnlocks::instance->setCustomVictoryType = customEvent->gameOver.ach;
+                G_->GetAchievementTracker()->SetVictoryAchievement();
                 commandGui->gameover = true;
                 commandGui->Victory();
                 G_->GetScoreKeeper()->Save(true);
@@ -4397,6 +4403,7 @@ HOOK_METHOD(CompleteShip, DeadCrew, () -> bool)
                     replaceGameOverCreditsText = customEvent->finalBoss.creditsText;
                     replaceCreditsMusic = customEvent->finalBoss.creditsMusic;
                     replaceCreditsBackground = G_->GetEventGenerator()->GetImageFromList(customEvent->finalBoss.creditsBackground);
+                    CustomShipUnlocks::instance->setCustomVictoryType = customEvent->finalBoss.ach;
                 }
             }
         }
@@ -4420,6 +4427,7 @@ HOOK_METHOD(WorldManager, OnLoop, () -> void)
             {
                 G_->GetSoundControl()->StopPlaylist(100);
                 G_->GetScoreKeeper()->SetVictory(true);
+                G_->GetAchievementTracker()->SetVictoryAchievement();
                 commandGui->gameover = true;
                 commandGui->Victory();
                 G_->GetScoreKeeper()->Save(true);
@@ -4459,6 +4467,7 @@ HOOK_METHOD(WorldManager, OnLoop, () -> void)
                 replaceGameOverCreditsText = customEvent->finalBoss.creditsText;
                 replaceCreditsMusic = customEvent->finalBoss.creditsMusic;
                 replaceCreditsBackground = G_->GetEventGenerator()->GetImageFromList(customEvent->finalBoss.creditsBackground);
+                CustomShipUnlocks::instance->setCustomVictoryType = customEvent->finalBoss.ach;
             }
 
             commandGui->alreadyWon = true;

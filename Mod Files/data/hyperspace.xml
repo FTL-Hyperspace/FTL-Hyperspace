@@ -228,6 +228,40 @@ SHIP_CUSTOM    Unlocks a customs ship (permanently)    Usage: SHIP_CUSTOM <ship_
 
 <console enabled="true"/> 
 
+<!-- Custom Victory Achievements
+
+Allows for tracking of different types of victories for mods which use custom victory conditions. Custom victory achievements will be generated for all player ships.
+These achievements will be displayed for custom ships (where the ship achievements would normally be).
+On the ship select screen, a new filter window will be created for the player to select up to three different victory achievements to display while browsing ships.
+
+If this feature is used, a "flagship" victory type will automatically be created unless noFlagship="true". The default definition can be overwritten with your own.
+Other victory types are granted using the "ach" attribute on a <win> or <finalBoss> tag.
+
+For each victory achievement, you can give a name and description (\1 = ship class name, e.g. "Kestrel Cruiser").
+Icon is the 32x32 icon to use, switching between achievements/icon_on.png and achievements/icon_off.png depending on if the achievement is unlocked.
+Color is the RGB color to use for the layout pips on the achievement.
+If <quiet/> is included, no achievement popup will appear when the victory achievement is unlocked.
+If <secret/> is included, the achievement will not show up in the hangar unless you have completed it with at least one ship.
+If <filter/> is included, the achievement will be enabled by default in the filters for showing ship victory achievements on the ship select screen.
+
+<victories noFlagship="true">
+	<flagship>
+		<name>\1 Flagship Victory</name>
+		<description id="victory_ach">Defeat the Flagship with any layout of the \1</description>
+		<icon>S_V</icon>
+		<quiet/>
+		<filter/>
+	</flagship>
+	<secret>
+		<name>\1 Secret Ending</name>
+		<description>Obtain the secret ending with any layout of the \1</description>
+		<color r="255" g="0" b="0"/>
+		<secret/>
+	</secret>
+</victories>
+
+-->
+
 <!-- Infinite Ships
 
 You can make a customShip with no name (or name "default") to set default values for all ships
@@ -253,7 +287,7 @@ maxLevel attribute sets the maximum level you can upgrade to
 Unlocks:
 variant attribute is what variant you want the unlock method for (a, b or c)
 
-type is the unlock method (0 is beat flagship, 1 is reach sector, 2 is any victory, 3 is other ship unlocks, 4 is for event unlocks)
+type is the unlock method (0 is beat flagship, 1 is reach sector, 2 is any victory, 3 is other ship unlocks, 4 is for event unlocks, 5 is for other ship victories)
 shipReq is the ship that you have to do it with to unlock it
 value is only used for reach sector currently which defines which sector the player has to reach
 silent tag defines whether or not it will show up in the top right and plays the sound
@@ -264,6 +298,30 @@ so for the engi ship, the layoutFile is mup_engi_b, so the icon would be img/ach
 
 you can also put multiple unlock methods which will let the player do ANY of them to unlock the ship
 putting the secret attribute on the ship tag will make the ship show up as "Unidentified Cruiser" when hovering over it in the ship selection screen
+
+If noAppend is true, the ship won't be automatically appended to the back of the ship pages; it will only appear if explicitly added using the <shipOrder>
+
+Unlock arrows:
+
+Adds an arrow to the page to show which ship this ship unlocks. Put the ID of the target ship WITH the variant suffix.
+ variant - The variant to associate the arrow with. Source and target ship must be the same variant. If "all" or omitted then the arrow appears on every page (but the target ship is always the specific variant).
+ tooltip - Text ID to use for hover tooltip.
+ tooltipText - Literal text to use for hover tooltip.
+ image - full image name of arrow asset. Uses default victory arrow asset in corresponding direction if omitted.
+ lockedImage - full image name of arrow asset when source ship is locked. Uses default locked arrow asset in corresponding direction if omitted.
+ unlockedImage - full image name of arrow asset when target ship is unlocked. NO default; if unspecified then no arrow is rendered when the target ship is unlocked.
+ direction - direction which the arrow points, used to place the image relative to the button. Omit for default 0,0 offset.
+ x and y - offset coordinates for arrow after applying the automatic offset from the direction attribute.
+ mirrorX and mirrorY - mirrors the arrow asset over the X and Y axes respectively.
+
+Victory/Quest achievements:
+
+A victory achievement will automatically be generated for all non-vanilla ships. A quest achievement will also be generated if the ship has unlock method 4.
+Victory achievements will be granted upon any victory with the ship.
+Quest achievements will be granted upon unlocking the ship via event (or if the ship would have been unlocked had it not already been unlocked).
+
+By default, all layouts of a given ship are treated as the same ship and share achievements, with completion recorded per-layout, like for vanilla victory achievements.
+splitUnlockQuestAchievement and splitVictoryAchievement will cause the quest and victory achievements respectively to be split so that each layout is treated as a distinct ship.
 
 Syntax -> 
 
@@ -290,11 +348,30 @@ Syntax ->
 		<crewLimit>12</crewLimit>
 	</customShip>
 	
-	<ship name="PLAYER_SHIP_CUSTOM" b="true" c="true">
+	<ship name="PLAYER_SHIP_CUSTOM" b="true" c="true" secret="false" noAppend="false" splitUnlockQuestAchievement="false" splitVictoryAchievement="false">
 		<unlock variant="a">
             <type>1</type>
             <shipReq>PLAYER_SHIP_CUSTOM_2</shipReq>
             <value>5</value>
+			<silent/>
+        </unlock>
+		<arrow variant="a" direction="right" image="arrow_5_right.png" tooltip="ship_unlock_sector5">PLAYER_SHIP_UNLOCKME</arrow>
+		<unlock variant="b">
+            <type>3</type>
+            <otherUnlocks>
+				<ship>PLAYER_SHIP_FOO</ship>
+				<ship>PLAYER_SHIP_BAR</ship>
+				<ship>PLAYER_SHIP_BAZ</ship>
+			</otherUnlocks>
+			<silent/>
+        </unlock>
+		<unlock variant="c">
+            <type>5</type>
+            <victories>
+				<victory>PLAYER_SHIP_FOO</victory>                      (any type of victory)
+				<victory type="flagship">PLAYER_SHIP_BAR</victory>      (specifically a flagship kill)
+				<victory type="secretending">PLAYER_SHIP_BAZ</victory>  (specifically a custom victory of achievement type "secretending")
+			</victories>
 			<silent/>
         </unlock>
     </ship>
@@ -1638,7 +1715,7 @@ Syntax ->
 		                                                                                          and give it a name.
 		<superShields player="false" amount="12" add="0"/>                                      Regenerates supershield to given amount (full if not given), then adds the given additional amount (if not full).
 		<win text="_text_" creditsText="_id_" creditsBackground="_id_" sound="victory"          Immediately ends the run as a victory. The victory text, credits text, and credits background may be specified.
-		     music="title"/>
+		     music="title" ach="victory_type"/>                                                   Specifying an achievement grants the corresponding achievement from <victories>.
 		<lose text="_text_" sound=""/>                                                          Immediately ends the run as a defeat. The game over text shall be specified.
 		<unlockShip silent="false" shipReq="REQ_SHIP_ID">PLAYER_SHIP_ID</unlockShip>            Unlocks the ship PLAYER_SHIP_ID. If silent is true, the unlock is silent. If shipReq is specified, the unlock only occurs if
 		                                                                                          the player is currently playing as that ship. Use alias unlockCustomShip in events.xml files.
@@ -1656,7 +1733,7 @@ Syntax ->
 		<invincible/>                                                                           Activate emergency FTL upon destruction similar to Flagship phases 1 and 2. No effect on gameplay.
 		<deadCrewAuto/>                                                                         When you kill the crew, the ship will become automated instead of neutral. The deadCrew event will still be loaded.
 		<finalBoss text="_text_" creditsText="_id_" creditsBackground="_id_" sound="victory"    When you defeat this ship, you win the game. Credits show ONLY for mutual destruction; otherwise use <win> for credits.
-		           music="title" musicDelay="-1"/>                                                e.g. you can put <win> in the ship's <destroyed>. The sound attribute changes the tune that plays when you defeat the ship.
+		           music="title" musicDelay="-1" ach="victory_type"/>                             e.g. you can put <win> in the ship's <destroyed>. The sound attribute changes the tune that plays when you defeat the ship.
 		                                                                                          musicDelay will automatically restart the current sector's music if set to a positive value.
 		<miniBoss sound="victory" musicDelay="-1"/>                                             Similar to <finalBoss> but does not set a victory flag. Uses long death animation + sound (optional).
 	</shipEvent>

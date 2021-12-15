@@ -5,6 +5,24 @@
 #include <algorithm>
 #include <boost/algorithm/string/predicate.hpp>
 
+struct CustomUnlockArrow
+{
+    std::string ship = "";
+    std::string targetShip = "";
+    int variant = -1;
+    TextString tooltip;
+    CachedImage *image[3] = {nullptr, nullptr, nullptr};
+
+    void OnRender(int x, int y, int enabled)
+    {
+        CSurface::GL_PushMatrix();
+        CSurface::GL_Translate(x, y, 0.f);
+        image[enabled]->OnRender(GL_Color(1.f,1.f,1.f,1.f));
+        CSurface::GL_PopMatrix();
+    }
+
+    void MouseMove(int x, int y, int enabled);
+};
 
 struct ShipButtonDefinition
 {
@@ -15,6 +33,10 @@ struct ShipButtonDefinition
 
     bool secretCruiser = false;
     bool noAppend = false;
+    bool splitUnlockQuestAchievement = false;
+    bool splitVictoryAchievement = false;
+
+    std::vector<CustomUnlockArrow> unlockArrows;
 
     bool VariantExists(int variant)
     {
@@ -135,6 +157,19 @@ public:
 
     }
 
+    static std::string GetVariantName(const std::string& name, int variant = 0)
+    {
+        switch (variant)
+        {
+        case 1:
+            return name + "_2";
+        case 2:
+            return name + "_3";
+        default:
+            return name;
+        }
+    }
+
     void OnInit(ShipSelect*);
     void OnRender(bool renderSelect=false);
     void MouseMove(int x, int y);
@@ -163,6 +198,8 @@ public:
     void ParseVanillaShipNode(rapidxml::xml_node<char> *node);
     bool ParseCustomShipNode(rapidxml::xml_node<char> *node, CustomShipDefinition &def);
     int CountUnlockedShips(int variant);
+
+    void UpdateFilteredAchievements();
 
 
     bool IsOpen()
@@ -289,7 +326,7 @@ public:
         if (type == 2) return std::count_if(shipButtonDefs.begin(), shipButtonDefs.end(), [](ShipButtonDefinition i) { return i.typeC; } );
     }
 
-    bool IsCustomShip(std::string& id)
+    bool IsCustomShip(const std::string& id)
     {
         return std::count_if(shipButtonDefs.begin(), shipButtonDefs.end(), [id](ShipButtonDefinition i) { return id == i.name || (id.size() > 3 && id.substr(0, id.size() - 2) == i.name); }) > 0;
     }
@@ -307,6 +344,11 @@ public:
     static CustomShipSelect* GetInstance()
     {
         return &instance;
+    }
+
+    void AddShipVictoryFilter(const std::string &s)
+    {
+        shipVictoryFilters.push_back(s);
     }
 
     std::vector<std::string> customShipOrder = std::vector<std::string>();
@@ -335,6 +377,8 @@ private:
 
     bool open;
 
+    int selectedVictoryFilter = -1;
+    std::vector<std::string> shipVictoryFilters;
 
     static CustomShipSelect instance;
 
