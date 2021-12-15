@@ -1,5 +1,6 @@
 #include "CustomAugments.h"
 #include "Global.h"
+#include <cmath>
 
 // Super Shields
 
@@ -353,66 +354,188 @@ HOOK_METHOD(CombatControl, RenderShipStatus, (Pointf pos, GL_Color color) -> voi
     }
 }
 
-bool override_GL_RenderPrimitiveWithColor = false;
-Shields* Shields_GL_RenderPrimitiveWithColor = nullptr;
 GL_Primitive* customSuperShieldPrimitives[2] = {nullptr, nullptr};
 
-HOOK_METHOD(Shields, RenderBase, (float alpha, float superShieldOverwrite) -> void)
+HOOK_METHOD_PRIORITY(Shields, RenderBase, 9999, (float alpha, float superShieldOverwrite) -> void)
 {
-    int customSuper = CustomAugmentManager::GetSuperShieldValue(_shipObj.iShipId);
-    if (customSuper > 0)
+    if (((shields.power.first != 0 || _shipObj.iShipId == 0) && shields.power.second != 0) || shields.power.super.first != 0)
     {
-        override_GL_RenderPrimitiveWithColor = true;
-        Shields_GL_RenderPrimitiveWithColor = this;
-    }
-
-    super(alpha, superShieldOverwrite);
-    override_GL_RenderPrimitiveWithColor = false;
-    Shields_GL_RenderPrimitiveWithColor = nullptr;
-}
-
-HOOK_STATIC(CSurface, GL_RenderPrimitiveWithColor, (GL_Primitive *primitive, GL_Color color) -> void)
-{
-    if (!override_GL_RenderPrimitiveWithColor) return super(primitive, color);
-    if (Shields_GL_RenderPrimitiveWithColor != nullptr)
-    {
-        auto& shields = Shields_GL_RenderPrimitiveWithColor;
-        if (color.r < 0.4 && CustomAugmentManager::GetInstance()->superShieldCustomRender[shields->_shipObj.iShipId])
+        if (shieldImage == nullptr)
         {
-            std::string imageId = CustomAugmentManager::GetInstance()->superShieldTexture[shields->_shipObj.iShipId];
-
-            if (imageId.empty())
+            shieldImage = G_->GetResources()->GetImageId(shieldImageName);
+            if (shieldImage)
             {
-                GL_Color customColor = CustomAugmentManager::GetInstance()->superShieldColor[shields->_shipObj.iShipId];
-                customColor.a *= color.a;
+                shieldPrimitive = CSurface::GL_CreatePixelImagePrimitive(shieldImage, 0.f, 0.f, shieldImage->width_, shieldImage->height_, 0.f, {1.f,1.f,1.f,1.f}, false);
+            }
+        }
 
-                return super(primitive, customColor);
+        float width_;
+        float height_;
+        float scale_x;
+        float scale_y;
+
+//        if (_shipObj.iShipId == 0)
+//        {
+//            if (shieldImage)
+//            {
+//                width_ = shieldImage->width_;
+//                height_ = shieldImage->height_;
+//            }
+//            else
+//            {
+//                width_ = 1.f;
+//                height_ = 1.f;
+//            }
+//            scale_x = 1.f;
+//            scale_y = 1.f;
+//        }
+//        else
+        {
+            width_ = baseShield.a * 2;
+            height_ = baseShield.b * 2;
+
+            if (shieldImage)
+            {
+                scale_x = width_ / shieldImage->width_;
+                scale_y = height_ / shieldImage->height_;
             }
             else
             {
-                GL_Texture* shieldTex = G_->GetResources()->GetImageId(imageId);
-                GL_Color customColor = CustomAugmentManager::GetInstance()->superShieldColor[shields->_shipObj.iShipId];
-                customColor.a *= color.a;
-
-                float width = shieldTex->width_;
-                float height = shieldTex->height_;
-
-                //GL_Primitive* shieldPrim = GL_CreatePixelImagePrimitive(shieldTex,0.0,0.0,width,height,0.0,GL_Color(1.0,1.0,1.0,1.0),false);
-                GL_Primitive* shieldPrim = GL_CreateImagePrimitive(shieldTex,0.0,0.0,width,height,0.0,GL_Color(1.0,1.0,1.0,1.0));
-
-                GL_DestroyPrimitive(customSuperShieldPrimitives[shields->_shipObj.iShipId]);
-                customSuperShieldPrimitives[shields->_shipObj.iShipId] = shieldPrim;
-
-                GL_PopMatrix();
-
-                GL_PushMatrix();
-                GL_Translate(shields->baseShield.center.x - shields->baseShield.a, shields->baseShield.center.y - shields->baseShield.b, 0.0);
-                GL_Scale((2.0*shields->baseShield.a) / width, (2.0*shields->baseShield.b) / height, 1.0);
-
-                return super(shieldPrim, customColor);
+                scale_x = width_;
+                scale_y = height_;
             }
         }
+
+        CSurface::GL_PushMatrix();
+        CSurface::GL_Translate(baseShield.center.x - 0.5f * width_, baseShield.center.y - 0.5f * height_, 0.f);
+        CSurface::GL_Scale(scale_x, scale_y, 1.f);
+
+        float shieldsUpProgress = shieldsUp.Progress(-1.f);
+        if (shieldsUpProgress < 1.f)
+        {
+            CSurface::GL_PushMatrix();
+            CSurface::GL_Translate(0.5f * width_, 0.5f * height_, 0.f);
+            CSurface::GL_Scale(shieldsUpProgress, shieldsUpProgress, 1.f);
+            CSurface::GL_Translate(-0.5f * width_, -0.5f * height_, 0.f);
+        }
+
+        GL_Color shieldColor;
+
+        if (bBarrierMode)
+        {
+            shieldColor.r = 255.f / 255.f;
+            shieldColor.g = 176.f / 255.f;
+            shieldColor.b = 224.f / 255.f;
+        }
+        else
+        {
+            shieldColor.r = 1.f;
+            shieldColor.g = 1.f;
+            shieldColor.b = 1.f;
+        }
+
+        shieldColor.a = _shipObj.iShipId == 0 ? 3.5f : 4.f;
+
+        if (shields.power.second != 0)
+        {
+            shieldColor.a = shields.power.first / shieldColor.a * alpha;
+            if (shieldColor.a <= 0.f)
+            {
+                shieldColor.a = 0.f;
+            }
+            else
+            {
+                shieldColor.a = shieldColor.a * 0.6f + alpha * 0.4f;
+            }
+
+            CSurface::GL_RenderPrimitiveWithColor(shieldPrimitive, shieldColor);
+        }
+
+        if (shieldsUpProgress < 1.f)
+        {
+            CSurface::GL_PopMatrix();
+        }
+
+        int superShield = shields.power.super.first;
+        if (!superShieldUp.running && superShield < 0)
+        {
+            superShield = 0;
+        }
+
+        if (superShield > 0 || superShieldOverwrite > -1.f)
+        {
+            int superMax = std::max(shields.power.super.second, 5);
+            shieldColor.a = ((float)superShield / (float)superMax) * alpha;
+            if (shields.power.first == 0)
+            {
+                shieldColor.a = shieldColor.a * 0.6f + alpha * 0.4f;
+            }
+            if (superShieldOverwrite > -1.f) shieldColor.a = superShieldOverwrite;
+
+            // Custom super shield color
+            if (CustomAugmentManager::GetSuperShieldValue(_shipObj.iShipId) > 0 && CustomAugmentManager::GetInstance()->superShieldCustomRender[_shipObj.iShipId])
+            {
+                GL_Color customColor = CustomAugmentManager::GetInstance()->superShieldColor[_shipObj.iShipId];
+                customColor.a *= shieldColor.a;
+
+                std::string imageId = CustomAugmentManager::GetInstance()->superShieldTexture[_shipObj.iShipId];
+
+                if (imageId.empty()) // No custom image; use standard
+                {
+                    CSurface::GL_RenderPrimitiveWithColor(shieldPrimitive, customColor);
+                }
+                else // Custom image specified; use custom
+                {
+                    GL_Texture* shieldTex = G_->GetResources()->GetImageId(imageId);
+
+                    width_ = baseShield.a * 2;
+                    height_ = baseShield.b * 2;
+                    scale_x = width_ / shieldTex->width_;
+                    scale_y = height_ / shieldTex->height_;
+
+                    GL_Primitive* shieldPrim = CSurface::GL_CreatePixelImagePrimitive(shieldTex, 0.f, 0.f, shieldTex->width_, shieldTex->height_, 0.f, {1.f,1.f,1.f,1.f}, false);
+
+                    CSurface::GL_DestroyPrimitive(customSuperShieldPrimitives[_shipObj.iShipId]);
+                    customSuperShieldPrimitives[_shipObj.iShipId] = shieldPrim;
+
+                    CSurface::GL_PopMatrix();
+
+                    CSurface::GL_PushMatrix();
+                    CSurface::GL_Translate(baseShield.center.x - 0.5f * width_, baseShield.center.y - 0.5f * height_, 0.f);
+                    CSurface::GL_Scale(scale_x, scale_y, 1.f);
+
+                    CSurface::GL_RenderPrimitiveWithColor(shieldPrim, customColor);
+                }
+            }
+            else // Vanilla super shield render
+            {
+                shieldColor.r = 100.f / 255.f;
+                shieldColor.g = 255.f / 255.f;
+                shieldColor.b = 100.f / 255.f;
+                CSurface::GL_RenderPrimitiveWithColor(shieldPrimitive, shieldColor);
+            }
+        }
+
+        CSurface::GL_PopMatrix();
     }
 
-    return super(primitive, color);
+    if (!shields_shutdown)
+    {
+        for (ShieldAnimation &hit : shieldHits)
+        {
+            Pointf pos = Pointf(hit.location.x - baseShield.center.x, hit.location.y - baseShield.center.y);
+
+//            float angle = pos.x / baseShield.a;
+//            if (angle > 1.f) angle = 1.f;
+//            else if (angle < -1.f) angle = -1.f;
+//
+//            angle = acosf(angle) * 180.f / 3.141592654;
+//
+//            if (pos.y < 0.f) angle = -angle;
+
+            float angle = atan2f(pos.y/(ellipseRatio*baseShield.a), pos.x/baseShield.a) * 180.f / 3.141592654;
+
+            CSurface::GL_DrawShield(baseShield.center.x, baseShield.center.y, baseShield.a, ellipseRatio*baseShield.a, angle - hit.end_size, hit.end_size + angle, {1.f,1.f,1.f,1.f}, hit.current_thickness);
+        }
+    }
 }
