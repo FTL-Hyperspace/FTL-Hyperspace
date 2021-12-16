@@ -39846,22 +39846,22 @@ FUNC_NAKED void StarMap::UpdateBoss()
 namespace _func1056
 {
 	static void *func = 0;
-	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("StatusEffect::GetNebulaEffect", typeid(StatusEffect *(*)()), "5383ec18803d????????008b5c242074??660f6f05????????660f7f05????????a1????????c70302000000", argdata, 0, 2, &func);
+	static short argdata[] = {0x1ff};
+	static FunctionDefinition funcObj("StatusEffect::GetNebulaEffect", typeid(StatusEffect (*)()), "5383ec18803d????????008b5c242074??660f6f05????????660f7f05????????a1????????c70302000000", argdata, 1, 18, &func);
 }
 
-FUNC_NAKED StatusEffect *StatusEffect::GetNebulaEffect()
+FUNC_NAKED StatusEffect StatusEffect::GetNebulaEffect()
 {
 	__asm__
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
-		"sub esp, 4\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+		"push [ebp+8]\n\t"		// implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func1056::func));
 	__asm__
@@ -39874,7 +39874,7 @@ FUNC_NAKED StatusEffect *StatusEffect::GetNebulaEffect()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret\n\t"
+		"ret 4\n\t"
 	);
 }
 
