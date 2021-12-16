@@ -3197,7 +3197,6 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
 
 HOOK_METHOD(WorldManager, CreateShip, (ShipEvent* shipEvent, bool boss) -> CompleteShip*)
 {
-
     auto ret = super(shipEvent, boss);
 
     bossDefeated = false;

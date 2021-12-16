@@ -45994,8 +45994,8 @@ FUNC_NAKED int WorldManager::OnInit()
 namespace _func1217
 {
 	static void *func = 0;
-	static short argdata[] = {0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("WorldManager::CreateShip", typeid(CompleteShip *(WorldManager::*)(ShipEvent *, bool )), "5557565381ec1c02000080bc243802000000", argdata, 2, 2, &func);
+	static short argdata[] = {0x1ff, 0x1ff, 0x1ff};
+	static FunctionDefinition funcObj("WorldManager::CreateShip", typeid(CompleteShip *(WorldManager::*)(ShipEvent *, bool )), "5557565381ec1c02000080bc243802000000", argdata, 3, 2, &func);
 }
 
 FUNC_NAKED CompleteShip *WorldManager::CreateShip(ShipEvent *shipEvent, bool boss)
@@ -46004,19 +46004,20 @@ FUNC_NAKED CompleteShip *WorldManager::CreateShip(ShipEvent *shipEvent, bool bos
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
-		"sub esp, 12\n\t"
+		"sub esp, 8\n\t"
 		"push edx\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+12]\n\t"		// boss
-		"push [ebp+8]\n\t"		// shipEvent
+		"push [ebp+16]\n\t"		// boss
+		"push [ebp+12]\n\t"		// shipEvent
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1217::func));
 	__asm__
 	(
-		"add esp, 8\n\t"
+		"add esp, 12\n\t"
 		"pop edi\n\t"
 		"pop esi\n\t"
 		"pop ebx\n\t"

@@ -7174,7 +7174,7 @@ struct WorldManager
 	LIBZHL_API void CreateChoiceBox(LocationEvent *event);
 	LIBZHL_API void CreateLocation(Location *loc);
 	LIBZHL_API void CreateNewGame();
-	LIBZHL_API CompleteShip *__stdcall CreateShip(ShipEvent *shipEvent, bool boss);
+	LIBZHL_API CompleteShip *CreateShip(ShipEvent *shipEvent, bool boss);
 	LIBZHL_API void CreateStore(LocationEvent *event);
 	LIBZHL_API bool HostileEnvironment();
 	LIBZHL_API void LoadGame(const std::string &fileName);
