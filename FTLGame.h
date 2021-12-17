@@ -14,7 +14,7 @@
     #error "Unsupported OS"
 #endif
 
-#ifdef DEBUG
+#ifdef TRACE
     #define LOG_HOOK(message) printf(message);
 #else
     #define LOG_HOOK(message)
