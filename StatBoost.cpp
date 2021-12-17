@@ -707,6 +707,13 @@ HOOK_METHOD(CrewMember, constructor, (CrewBlueprint& bp, int shipId, bool intrud
     }
 }
 
+HOOK_METHOD(CrewMember, Restart, () -> void)
+{
+    // Occurs when a crewmember is cloned or when a crew drone is deployed/redeployed
+    CM_EX(this)->timedStatBoosts.clear();
+    super();
+}
+
 bool CrewMember_Extend::BoostCheck(const StatBoost& statBoost)
 {
     if (statBoost.def->boostSource == StatBoostDefinition::BoostSource::CREW)
