@@ -2332,6 +2332,10 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
 HOOK_METHOD(ShipBuilder, MouseMove, (int x, int y) -> void)
 {
     super(x,y);
+
+    if (introScreen.bOpen) return;
+    if (shipSelect.bOpen) return;
+
     if (currentShipId >= 100)
     {
         auto customSel = CustomShipSelect::GetInstance();
