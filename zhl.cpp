@@ -305,6 +305,7 @@ int FunctionHook_private::Install()
 #ifdef USE_STACK_ALIGNMENT
 	unsigned int stackAlignPosition;
 	unsigned int stackAlignOffset;
+	unsigned int registersUsedSize;
 #endif // USE_STACK_ALIGNMENT
 	int k;
 	MEMPROT_SAVE_PROT(oldProtect);
@@ -322,15 +323,22 @@ int FunctionHook_private::Install()
 
 	// Not sure yet if this is different on 64-bit, I think it is because of push EBP + CALL so maybe?
 	// Compute stack size
+	#ifdef USE_STACK_ALIGNMENT
+	registersUsedSize = 0;
+	#endif // USE_STACK_ALIGNMENT
 	stackPos = 8;
 	for(int i=0 ; i<argc ; ++i)
 	{
 		if(argd[i].r < 0)
 			stackPos += 4 * argd[i].s;
+        #ifdef USE_STACK_ALIGNMENT
+        else
+            registersUsedSize += 4; // Must also include arguments that come in on registers that we push to the stack for proper alignment computation
+        #endif // USE_STACK_ALIGNMENT
 	}
 
 	#ifdef USE_STACK_ALIGNMENT
-        stackAlignPosition = stackPos;
+        stackAlignPosition = stackPos + registersUsedSize;
         /* We need to account for everything pushed onto the stack so we can compute the proper 16-byte alignment per System V ABI specification */
         if(def->IsVoid() || !def->IsLongLong())
             stackAlignPosition += 4;
@@ -464,15 +472,23 @@ int FunctionHook_private::Install()
 
 	// TODO: I think this needs to change for 64-bit
 	// Compute stack size
+	#ifdef USE_STACK_ALIGNMENT
+	registersUsedSize = 0;
+	#endif // USE_STACK_ALIGNMENT
 	stackPos = 8;
 	for(int i=0 ; i<argc ; ++i)
 	{
 		if(!def->IsThiscall() || i != 0)
 			stackPos += 4 * argd[i].s;
+
+        #ifdef USE_STACK_ALIGNMENT
+        if(argd[i].r >= 0)
+            registersUsedSize += 4;
+        #endif // USE_STACK_ALIGNMENT
 	}
 
 	#ifdef USE_STACK_ALIGNMENT
-        stackAlignPosition = stackPos;
+        stackAlignPosition = stackPos - registersUsedSize; // Need to ignore arguments currently on the stack that are destined for register storage as they will not be pushed back to the stack.
         /* We need to account for everything pushed onto the stack so we can compute the proper 16-byte alignment per System V ABI specification */
         if(def->IsVoid() || !def->IsLongLong())
             stackAlignPosition += 4;
