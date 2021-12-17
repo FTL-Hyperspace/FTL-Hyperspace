@@ -8,6 +8,9 @@ You need `gcc` and all the basic C dev stuff
 TODO: Put some better info here :P
 `sudo apt-get install build-essential gcc-multilib g++-multilib`
 
+You need `libsdl2-dev`
+`sudo apt-get install libsdl2-dev`
+
 Not sure if we can use a lesser library.
 
 ## Building ZHL files
