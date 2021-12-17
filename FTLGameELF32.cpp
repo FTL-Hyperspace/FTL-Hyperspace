@@ -34112,7 +34112,7 @@ FUNC_NAKED void ShipStatus::OnRender()
 namespace _func906
 {
 	static void *func = 0;
-	static short argdata[] = {0x100, 0x1ff};
+	static short argdata[] = {0x100, 0x102};
 	static FunctionDefinition funcObj("ShipStatus::RenderShields", typeid(void (ShipStatus::*)(bool )), "5589e55789c7565383ec5c", argdata, 2, 6, &func);
 }
 
@@ -34130,7 +34130,7 @@ FUNC_NAKED void ShipStatus::RenderShields(bool renderText)
 		"push esi\n\t"
 		"push edi\n\t"
 		"mov eax, [ebp+8]\n\t"	// this
-		"mov dl, [ebp+12]\n\t"	// renderText
+		"mov edx, [ebp+12]\n\t"	// renderText
 	);
 	__asm__("call %0\n\t" :: "m"(_func906::func));
 	__asm__
