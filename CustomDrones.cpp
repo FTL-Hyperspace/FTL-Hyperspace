@@ -137,10 +137,23 @@ HOOK_METHOD(DroneBlueprint, RenderIcon, (float scale) -> void)
     CustomDroneDefinition *customDrone = CustomDroneManager::GetInstance()->GetDefinition(name);
     if ((type == 2 || type == 3 || type == 4) && customDrone)
     {
+        std::string race = customDrone->crewBlueprint;
+
+        CustomCrewManager* customCrew = CustomCrewManager::GetInstance();
+
+        if (customCrew->IsRace(race))
+        {
+            auto def = customCrew->GetDefinition(race);
+            if (!def->animSheet[1].empty())
+            {
+                race = def->animSheet[1];
+            }
+        }
+
         CSurface::GL_PushMatrix();
-        auto walkDown = G_->GetAnimationControl()->GetAnimation(customDrone->crewBlueprint + "_walk_down");
-        auto base = G_->GetResources()->GetImageId("people/" + customDrone->crewBlueprint + "_base.png");
-        auto layer = G_->GetResources()->GetImageId("people/" + customDrone->crewBlueprint + "_layer1.png");
+        auto walkDown = G_->GetAnimationControl()->GetAnimation(race + "_walk_down");
+        auto base = G_->GetResources()->GetImageId("people/" + race + "_base.png");
+        auto layer = G_->GetResources()->GetImageId("people/" + race + "_layer1.png");
 
         CSurface::GL_Translate(std::floor(std::floor((-scale * walkDown->info.frameWidth)) / 2.f) + 1, std::floor(std::floor((-scale * walkDown->info.frameHeight)) / 2.f) + 1);
 
@@ -941,6 +954,17 @@ HOOK_METHOD(BoarderPodDrone, constructor, (int _iShipId, int _selfId, const Dron
     if (customDrone->GetDefinition(_bp.name))
     {
         std::string race = customDrone->GetDefinition(_bp.name)->crewBlueprint;
+
+        CustomCrewManager* customCrew = CustomCrewManager::GetInstance();
+
+        if (customCrew->IsRace(race))
+        {
+            auto def = customCrew->GetDefinition(race);
+            if (!def->animSheet[1].empty())
+            {
+                race = def->animSheet[1];
+            }
+        }
 
         baseSheet = G_->GetResources()->GetImageId("people/" + race + "_base.png");
         colorSheet = G_->GetResources()->GetImageId("people/" + race + "_layer1.png");

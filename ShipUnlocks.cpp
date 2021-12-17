@@ -165,6 +165,36 @@ void CustomShipUnlocks::ParseVictoryAchievements(rapidxml::xml_node<char> *node)
             {
                 vAch.icon = value;
             }
+            if (name == "secretName")
+            {
+                if (child->first_attribute("id"))
+                {
+                    vAch.secretName.data = child->first_attribute("id")->value();
+                    vAch.secretName.isLiteral = false;
+                }
+                if (!value.empty())
+                {
+                    vAch.secretName.data = value;
+                    vAch.secretName.isLiteral = true;
+                }
+            }
+            if (name == "secretDescription")
+            {
+                if (child->first_attribute("id"))
+                {
+                    vAch.secretDescription.data = child->first_attribute("id")->value();
+                    vAch.secretDescription.isLiteral = false;
+                }
+                if (!value.empty())
+                {
+                    vAch.secretDescription.data = value;
+                    vAch.secretDescription.isLiteral = true;
+                }
+            }
+            if (name == "secretIcon")
+            {
+                vAch.secretIcon = value;
+            }
             if (name == "color")
             {
                 vAch.color.a = 1.f;
@@ -1125,6 +1155,12 @@ void CustomShipUnlocks::SetVictoryAchievement(const std::string &ship, const std
 
                 if (!customVictories[type].quiet) G_->GetAchievementTracker()->recentlyUnlocked.push_back(ach);
             }
+
+            for (auto& i : customVictories[type].achievements)
+            {
+                customVictories[type].SetupVictoryAchievementText(i.second);
+                customVictories[type].SetupVictoryAchievementIcon(i.second);
+            }
         }
         CheckMultiVictoryUnlocks();
     }
@@ -1159,9 +1195,7 @@ CAchievement* CustomVictoryAchievement::SetupVictoryAchievement(std::string ship
     ach->shipDifficulties[1] = -1;
     ach->shipDifficulties[2] = -1;
     ach->dimension = 32;
-    ach->icon.SetImagePath("achievements/"+icon+"_on.png");
-    ach->miniIcon.SetImagePath("achievements/"+icon+"_on.png");
-    ach->miniIconLocked.SetImagePath("achievements/"+icon+"_off.png");
+    SetupVictoryAchievementIcon(ach);
     ach->outline = CustomShipUnlocks::instance->smallOutline;
     ach->mini_outline = CustomShipUnlocks::instance->smallOutline;
     ach->lockOverlay = CustomShipUnlocks::instance->smallOverlay;
@@ -1211,13 +1245,52 @@ void CustomVictoryAchievement::SetupVictoryAchievementText(CAchievement* ach)
 {
     ShipBlueprint* bp = G_->GetBlueprints()->GetShipBlueprint(ach->ship, -1);
 
-    ach->name.data = name.GetText();
+    bool secretLocked = SecretLocked();
+
+    if (secretLocked && !secretName.data.empty())
+    {
+        ach->name.data = secretName.GetText();
+    }
+    else
+    {
+        ach->name.data = name.GetText();
+    }
     boost::algorithm::replace_all(ach->name.data, "\\1", bp->shipClass.GetText());
     ach->name.isLiteral = true;
 
-    ach->description.data = description.GetText();
+    if (secretLocked && !secretDescription.data.empty())
+    {
+        ach->description.data = secretDescription.GetText();
+    }
+    else
+    {
+        ach->description.data = description.GetText();
+    }
     boost::algorithm::replace_all(ach->description.data, "\\1", bp->shipClass.GetText());
     ach->description.isLiteral = true;
+}
+
+void CustomVictoryAchievement::SetupVictoryAchievementIcon(CAchievement* ach)
+{
+    bool secretLocked = SecretLocked();
+
+    if (secretLocked && !secretIcon.empty())
+    {
+        ach->icon.SetImagePath("achievements/"+secretIcon+"_on.png");
+        ach->miniIcon.SetImagePath("achievements/"+secretIcon+"_on.png");
+        ach->miniIconLocked.SetImagePath("achievements/"+secretIcon+"_off.png");
+    }
+    else
+    {
+        ach->icon.SetImagePath("achievements/"+icon+"_on.png");
+        ach->miniIcon.SetImagePath("achievements/"+icon+"_on.png");
+        ach->miniIconLocked.SetImagePath("achievements/"+icon+"_off.png");
+    }
+}
+
+bool CustomVictoryAchievement::SecretLocked()
+{
+    return CustomShipUnlocks::instance->customShipVictories.count(victoryName) == 0 || !CustomShipUnlocks::instance->customShipVictories[victoryName].empty();
 }
 
 // Custom achievement rendering
@@ -1281,7 +1354,7 @@ HOOK_METHOD(CAchievement, OnRender, (Point pos, int selected, bool unk) -> void)
 
             CSurface::GL_Translate(xPos, 24.f, 0.f);
 
-            if ((gap_ex_custom & ~1) == 2)
+            if ((gap_ex_custom & ~1) == 2) // quest achievement
             {
                 for (int i=0; i<numPips; ++i)
                 {
@@ -1299,7 +1372,7 @@ HOOK_METHOD(CAchievement, OnRender, (Point pos, int selected, bool unk) -> void)
                     CSurface::GL_Translate(10.f, 0.f, 0.f);
                 }
             }
-            else if ((gap_ex_custom & ~1) == 4)
+            else if ((gap_ex_custom & ~1) == 4) // victory achievement
             {
                 auto customSel = CustomShipSelect::GetInstance();
                 int shipId = customSel->GetShipButtonIdFromName(ship);
@@ -1335,7 +1408,7 @@ HOOK_METHOD(CAchievement, OnRender, (Point pos, int selected, bool unk) -> void)
                     CSurface::GL_Translate(10.f, 0.f, 0.f);
                 }
             }
-            else if ((gap_ex_custom & ~1) == 6)
+            else if ((gap_ex_custom & ~1) == 6) // specific victory achievement
             {
                 std::vector<std::string> strs;
                 boost::split(strs, name_id, boost::is_any_of(" "));

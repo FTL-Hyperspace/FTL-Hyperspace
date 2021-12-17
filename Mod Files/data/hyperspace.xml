@@ -252,6 +252,13 @@ If <filter/> is included, the achievement will be enabled by default in the filt
 		<quiet/>
 		<filter/>
 	</flagship>
+	<peace>
+		<name>\1 Peace Ending</name>
+		<description>Obtain the peace ending with any layout of the \1</description>
+		<secretName>\1 ????? Ending</secretName>
+		<secretDescription id="victory_ach">Obtain the ????? ending with any layout of the \1</secretDescription>
+		<secretIcon>S_Secret</secretIcon>
+	</peace>
 	<secret>
 		<name>\1 Secret Ending</name>
 		<description>Obtain the secret ending with any layout of the \1</description>

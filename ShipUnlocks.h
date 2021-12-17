@@ -28,6 +28,9 @@ struct CustomVictoryAchievement
     TextString name;
     TextString description;
     std::string icon = "S_V";
+    TextString secretName;
+    TextString secretDescription;
+    std::string secretIcon = "";
     GL_Color color = {235.f/255.f, 245.f/255.f, 229.f/255.f, -1.f};
     bool quiet = false;
     bool secret = false;
@@ -37,6 +40,9 @@ struct CustomVictoryAchievement
     CAchievement *GetVictoryAchievement(std::string shipName);
     CAchievement *SetupVictoryAchievement(std::string shipName);
     void SetupVictoryAchievementText(CAchievement* ach);
+    void SetupVictoryAchievementIcon(CAchievement* ach);
+
+    bool SecretLocked();
 };
 
 class CustomShipUnlocks
