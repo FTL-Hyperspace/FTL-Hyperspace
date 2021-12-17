@@ -874,6 +874,37 @@ HOOK_METHOD(DefenseDrone, SetWeaponTarget, (Targetable &target) -> void)
     currentTargetType = target.type;
 }
 
+HOOK_STATIC(DefenseDrone, GetTooltip, (std::string& __return_storage_ptr__, DefenseDrone* _this) -> std::string&)
+{
+    std::string tooltipText;
+
+    switch (_this->blueprint->targetType)
+    {
+    case 2:
+        tooltipText = "defense_asteroid_";
+        break;
+    case 5:
+        tooltipText = "defense_solid_";
+        break;
+    case 6:
+        tooltipText = "defense_all_";
+        break;
+    default:
+        return super(__return_storage_ptr__, _this);
+    }
+
+    if (_this->iShipId == 0)
+    {
+        tooltipText = tooltipText + "friendly";
+    }
+    else
+    {
+        tooltipText = tooltipText + "enemy";
+    }
+
+    return TextLibrary::GetText(__return_storage_ptr__, G_->GetTextLibrary(), tooltipText, G_->GetTextLibrary()->currentLanguage);
+}
+
 
 HOOK_METHOD(CrewDrone, OnLoop, () -> void)
 {

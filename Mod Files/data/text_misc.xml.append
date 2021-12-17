@@ -126,6 +126,17 @@
 <text name="teleporter_instant">No cooldown</text>
 <text name="clonebay_instant_fullheal">Instant clone + Full heal on jump</text>
 
+<!-- Tooltips when hovering over deployed drones -->
+
+<text name="defense_asteroid_friendly">Your Defense Drone:\nShoots down asteroids. Will function until destroyed or until you jump away.</text>
+<text name="defense_asteroid_enemy">Defense Drone:\nShoots down asteroids. Can be shut down by damaging the enemy ship's drone system.</text>
+
+<text name="defense_solid_friendly">Your Defense Drone:\nShoots down missiles, asteroids, and combat drones. Will function until destroyed or until you jump away.</text>
+<text name="defense_solid_enemy">Defense Drone:\nShoots down missiles, asteroids, and combat drones. Can be shut down by damaging the enemy ship's drone system.</text>
+
+<text name="defense_all_friendly">Your Defense Drone:\nShoots down all projectiles and drones. Will function until destroyed or until you jump away.</text>
+<text name="defense_all_enemy">Defense Drone:\nShoots down all projectiles and drones. Can be shut down by damaging the enemy ship's drone system.</text>
+
 <!-- Hotkeys -->
 
 <text name="hotkey_drone4">Drone Slot 4</text>

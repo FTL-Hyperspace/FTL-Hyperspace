@@ -5069,6 +5069,7 @@ struct DefenseDrone : SpaceDrone
 	LIBZHL_API bool ValidTargetObject(Targetable &target);
 	LIBZHL_API void SetWeaponTarget(Targetable &target);
 	LIBZHL_API void PickTarget();
+	LIBZHL_API static std::string &__stdcall GetTooltip(std::string &__return_storage_ptr__, DefenseDrone *_this);
 	
 	int currentTargetId;
 	int shotAtTargetId;
