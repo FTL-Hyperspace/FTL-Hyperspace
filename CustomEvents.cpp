@@ -2986,7 +2986,7 @@ LocationEvent* CustomEventsParser::GetEvent(WorldManager *world, EventLoadList *
         }
 
         LocationEvent* locEvent = GetEvent(world, event.event, seed);
-        if (locEvent && world->CheckRequirements(locEvent))
+        if (locEvent && world->CheckRequirements(locEvent, false))
         {
             if (eventList->useFirst) return locEvent;
             candidateEvents.push_back(locEvent);

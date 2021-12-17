@@ -29,11 +29,11 @@ virtual void CompleteShip::OnLoop(CompleteShip *this<ecx>);
 ".5589e557565389cb83e4f083ec208b7d088bb7280100008b872401000039c60f84????????":
 std::vector<CrewMember*> CompleteShip::GetTeleportingParty<ecx>(CompleteShip *this);
 ".558b490889e583e4f0e8????????c9":
-CrewMember *CompleteShip::KillRandomCrew(CompleteShip *this<ecx>);
+void CompleteShip::KillRandomCrew(CompleteShip *this<ecx>);
 ".578d7c240883e4f0ff77fc5589e55783ec140fb6078b4908890424e8????????8b7dfc":
 int CompleteShip::CountCrew(CompleteShip *this<ecx>, bool boarders);
 ".8b811801000089811c0100008b8124010000898128010000":
-CrewMember** CompleteShip::Jump(CompleteShip *this<ecx>);
+void CompleteShip::Jump(CompleteShip *this<ecx>);
 ".5783c1188d7c240883e4f0ff77fc5589e55783ec14":
 void CompleteShip::SetEnemyShip(CompleteShip *this<ecx>, CompleteShip *other);
 ".578d7c240883e4f0ff77fc5589e557565389cb83ec1c0fb64114b9????????":

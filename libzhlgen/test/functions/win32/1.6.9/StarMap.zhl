@@ -49,7 +49,7 @@ void StarMap::StartBeacon(StarMap *this<ecx>);
 ".538b4424088b5c240c8b48088b500c29cac1fa02":
 void StarMap::LocationsConnected(StarMap *this<ecx>, Location * unk0, Location * unk1);
 ".578d7c240883e4f0ff77fc5589e5578d4df083ec":
-void StarMap::PointToGrid(StarMap *this<ecx>, float unk0, float unk1);
+Point StarMap::PointToGrid(StarMap *this<ecx>, float x, float y);
 ".538b44240880787c008941507404c6407c008b58":
 void StarMap::TravelToLocation(StarMap *this<ecx>, Location * unk0);
 ".8b4150c6401401c3908db42600000000f3c38db4":

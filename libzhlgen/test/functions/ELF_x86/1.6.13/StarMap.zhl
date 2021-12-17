@@ -47,9 +47,9 @@ cleanup void StarMap::GetWaitLocation(StarMap *this);
 "5631c0538b54240c8b8a18040000":
 cleanup void StarMap::StartBeacon(StarMap *this);
 "538b44240c8b5c24108b48088b500c":
-cleanup void StarMap::LocationsConnected(StarMap *this, Location * unk0, Location * unk1);
+cleanup bool StarMap::LocationsConnected(StarMap *this, Location * unk0, Location * unk1);
 "5383ec18f30f1005????????f30f104c242c":
-cleanup void StarMap::PointToGrid(StarMap *this, float unk0, float unk1);
+cleanup Point StarMap::PointToGrid(StarMap *this, float x, float y);
 "538b44240c8b54240880787c00":
 cleanup void StarMap::TravelToLocation(StarMap *this, Location * unk0);
 "8b4424048b4050c6401401":

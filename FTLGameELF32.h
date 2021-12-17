@@ -2642,8 +2642,8 @@ struct LIBZHL_INTERFACE CompleteShip
 	LIBZHL_API bool DeadCrew();
 	LIBZHL_API std::vector<CrewMember*> GetTeleportingParty();
 	LIBZHL_API void InitiateTeleport(int targetRoom, int command);
-	LIBZHL_API CrewMember **Jump();
-	LIBZHL_API CrewMember *KillRandomCrew();
+	LIBZHL_API void Jump();
+	LIBZHL_API void KillRandomCrew();
 	LIBZHL_API void LoadState(int unk);
 	LIBZHL_API void OnInit(const ShipBlueprint *blueprint, int unk);
 	LIBZHL_API void OnRender();
@@ -6687,7 +6687,7 @@ struct StarMap : FocusWindow
 	LIBZHL_API void LocationHasBoss(Location *unk0);
 	LIBZHL_API void LocationHasShip(Location *unk0);
 	LIBZHL_API void LocationHasStore(Location *unk0);
-	LIBZHL_API void LocationsConnected(Location *unk0, Location *unk1);
+	LIBZHL_API bool LocationsConnected(Location *unk0, Location *unk1);
 	LIBZHL_API void MapConnected();
 	LIBZHL_API void ModifyPursuit(int unk0);
 	LIBZHL_API void MouseClick(int unk0, int unk1);
@@ -6700,7 +6700,7 @@ struct StarMap : FocusWindow
 	LIBZHL_API void OnRenderFogEffect();
 	LIBZHL_API void OnTouch(TouchAction unk0, int unk1, int unk2, int unk3, int unk4, int unk5);
 	LIBZHL_API void Open();
-	LIBZHL_API void PointToGrid(float unk0, float unk1);
+	LIBZHL_API Point PointToGrid(float x, float y);
 	LIBZHL_API Location *PopClosestLoc(std::vector<Location*> &vec, std::map<Location*, int> &map);
 	LIBZHL_API void PopulateGrid(Point unk0);
 	LIBZHL_API void PrintStatistics();
@@ -7167,7 +7167,7 @@ struct BoardingEvent;
 struct WorldManager
 {
 	LIBZHL_API bool AddBoarders(BoardingEvent &boardingEvent);
-	LIBZHL_API bool CheckRequirements(LocationEvent *event);
+	LIBZHL_API bool CheckRequirements(LocationEvent *event, bool hidden);
 	LIBZHL_API void CheckStatusEffects(std::vector<StatusEffect> &vec);
 	LIBZHL_API void CreateChoiceBox(LocationEvent *event);
 	LIBZHL_API void CreateLocation(Location *loc);

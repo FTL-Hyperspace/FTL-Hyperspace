@@ -33,11 +33,11 @@ virtual cleanup void CompleteShip::OnLoop(CompleteShip *this);
 "5557565383ec1c8b7424348b5c24308b8628010000":
 cleanup std::vector<CrewMember*> CompleteShip::GetTeleportingParty(CompleteShip *this);
 "!.8b4424048b400889442404e9????????":
-cleanup CrewMember *CompleteShip::KillRandomCrew(CompleteShip *this);
+cleanup void CompleteShip::KillRandomCrew(CompleteShip *this);
 "!0fb6442408894424088b4424048b400889442404e9????????":
 cleanup int CompleteShip::CountCrew(CompleteShip *this, bool boarders);
 "8b4424048b901801000089901c010000":
-cleanup CrewMember** CompleteShip::Jump(CompleteShip *this);
+cleanup void CompleteShip::Jump(CompleteShip *this);
 "!8b4424088b54240485c0894210":
 cleanup void CompleteShip::SetEnemyShip(CompleteShip *this, CompleteShip *other);
 "565383ec148b5c24200fb64314":

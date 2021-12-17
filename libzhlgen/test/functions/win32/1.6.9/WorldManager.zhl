@@ -35,4 +35,4 @@ bool WorldManager::AddBoarders(WorldManager *this<ecx>, BoardingEvent& boardingE
 "578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b378b961c06000085d274??0fb683451200008b89e40d0000891424":
 void WorldManager::CreateStore(WorldManager *this<ecx>, LocationEvent* event);
 "578d7c240883e4f0ff77fc5589e557565383ec4c8b1f85db0f84120100000fb693d405000084d20f85030100008b834c04000085c00f880a010000":
-bool WorldManager::CheckRequirements(WorldManager *this<ecx>, LocationEvent* event);
+bool WorldManager::CheckRequirements(WorldManager *this<ecx>, LocationEvent* event, bool hidden);

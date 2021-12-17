@@ -8702,16 +8702,17 @@ namespace _func243
 {
 	static void *func = 0;
 	static short argdata[] = {0x101};
-	static FunctionDefinition funcObj("CompleteShip::KillRandomCrew", typeid(CrewMember *(CompleteShip::*)()), ".558b490889e583e4f0e8????????c9", argdata, 1, 1, &func);
+	static FunctionDefinition funcObj("CompleteShip::KillRandomCrew", typeid(void (CompleteShip::*)()), ".558b490889e583e4f0e8????????c9", argdata, 1, 5, &func);
 }
 
-FUNC_NAKED CrewMember *CompleteShip::KillRandomCrew()
+FUNC_NAKED void CompleteShip::KillRandomCrew()
 {
 	__asm__
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
 		"push edx\n\t"
+		"push eax\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
 		"push esi\n\t"
@@ -8724,6 +8725,7 @@ FUNC_NAKED CrewMember *CompleteShip::KillRandomCrew()
 		"pop esi\n\t"
 		"pop ebx\n\t"
 		"pop ecx\n\t"
+		"pop eax\n\t"
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
@@ -8769,16 +8771,17 @@ namespace _func245
 {
 	static void *func = 0;
 	static short argdata[] = {0x101};
-	static FunctionDefinition funcObj("CompleteShip::Jump", typeid(CrewMember **(CompleteShip::*)()), ".8b811801000089811c0100008b8124010000898128010000", argdata, 1, 1, &func);
+	static FunctionDefinition funcObj("CompleteShip::Jump", typeid(void (CompleteShip::*)()), ".8b811801000089811c0100008b8124010000898128010000", argdata, 1, 5, &func);
 }
 
-FUNC_NAKED CrewMember **CompleteShip::Jump()
+FUNC_NAKED void CompleteShip::Jump()
 {
 	__asm__
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
 		"push edx\n\t"
+		"push eax\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
 		"push esi\n\t"
@@ -8791,6 +8794,7 @@ FUNC_NAKED CrewMember **CompleteShip::Jump()
 		"pop esi\n\t"
 		"pop ebx\n\t"
 		"pop ecx\n\t"
+		"pop eax\n\t"
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
@@ -35352,24 +35356,25 @@ FUNC_NAKED void StarMap::LocationsConnected(Location *unk0, Location *unk1)
 namespace _func1005
 {
 	static void *func = 0;
-	static short argdata[] = {0x101, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("StarMap::PointToGrid", typeid(void (StarMap::*)(float , float )), ".578d7c240883e4f0ff77fc5589e5578d4df083ec", argdata, 3, 5, &func);
+	static short argdata[] = {0x1ff, 0x101, 0x1ff, 0x1ff};
+	static FunctionDefinition funcObj("StarMap::PointToGrid", typeid(Point (StarMap::*)(float , float )), ".578d7c240883e4f0ff77fc5589e5578d4df083ec", argdata, 4, 1, &func);
 }
 
-FUNC_NAKED void StarMap::PointToGrid(float unk0, float unk1)
+FUNC_NAKED Point StarMap::PointToGrid(float x, float y)
 {
 	__asm__
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
 		"push edx\n\t"
-		"push eax\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+12]\n\t"		// unk1
-		"push [ebp+8]\n\t"		// unk0
+		"push [ebp+20]\n\t"		// y
+		"push [ebp+16]\n\t"		// x
+		"push ecx\n\t"			// implicit_output
+		"mov ecx, [ebp+12]\n\t"	// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1005::func));
 	__asm__
@@ -35378,11 +35383,10 @@ FUNC_NAKED void StarMap::PointToGrid(float unk0, float unk1)
 		"pop esi\n\t"
 		"pop ebx\n\t"
 		"pop ecx\n\t"
-		"pop eax\n\t"
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret 16\n\t"
 	);
 }
 
@@ -43313,11 +43317,11 @@ FUNC_NAKED void WorldManager::CreateStore(LocationEvent *event)
 namespace _func1229
 {
 	static void *func = 0;
-	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("WorldManager::CheckRequirements", typeid(bool (WorldManager::*)(LocationEvent *)), "578d7c240883e4f0ff77fc5589e557565383ec4c8b1f85db0f84120100000fb693d405000084d20f85030100008b834c04000085c00f880a010000", argdata, 2, 1, &func);
+	static short argdata[] = {0x101, 0x1ff, 0x1ff};
+	static FunctionDefinition funcObj("WorldManager::CheckRequirements", typeid(bool (WorldManager::*)(LocationEvent *, bool )), "578d7c240883e4f0ff77fc5589e557565383ec4c8b1f85db0f84120100000fb693d405000084d20f85030100008b834c04000085c00f880a010000", argdata, 3, 1, &func);
 }
 
-FUNC_NAKED bool WorldManager::CheckRequirements(LocationEvent *event)
+FUNC_NAKED bool WorldManager::CheckRequirements(LocationEvent *event, bool hidden)
 {
 	__asm__
 	(
@@ -43328,6 +43332,7 @@ FUNC_NAKED bool WorldManager::CheckRequirements(LocationEvent *event)
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+		"push [ebp+12]\n\t"		// hidden
 		"push [ebp+8]\n\t"		// event
 	);
 	__asm__("call %0\n\t" :: "m"(_func1229::func));
@@ -43340,7 +43345,7 @@ FUNC_NAKED bool WorldManager::CheckRequirements(LocationEvent *event)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret 8\n\t"
 	);
 }
 
