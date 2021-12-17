@@ -405,9 +405,12 @@ int FunctionHook_private::Install()
 	P(0xE8); PL((unsigned int)_hook - (unsigned int)ptr - 4);	// call _hook
 
 #if OUR_OWN_FUNCTIONS_CALLEE_DOES_CLEANUP == 0
-    // If our hook function requires caller cleanup, increment the stack pointer here. This will only be true on non-Windows platforms where our hook will be generated as __cdecl
-    if(sizePushed < 128)	{ P(0x83); P(0xc4); P(sizePushed); }	// add esp, N8
-    else					{ P(0x81); P(0xc4); PL(sizePushed); }	// add esp, N32
+    if(sizePushed != 0)
+    {
+        // If our hook function requires caller cleanup, increment the stack pointer here. This will only be true on non-Windows platforms where our hook will be generated as __cdecl
+        if(sizePushed < 128)	{ P(0x83); P(0xc4); P(sizePushed); }	// add esp, N8
+        else					{ P(0x81); P(0xc4); PL(sizePushed); }	// add esp, N32
+    }
 #endif // OUR_OWN_FUNCTIONS_CALLEE_DOES_CLEANUP
 
 	// Restore all saved registers
@@ -557,7 +560,7 @@ int FunctionHook_private::Install()
 	P(0xE8); PL((unsigned int)original - (unsigned int)ptr - 4);	// call original
 
 	// If the function requires caller cleanup, increment the stack pointer here
-	if(def->NeedsCallerCleanup())
+	if(def->NeedsCallerCleanup() && sizePushed != 0)
 	{
 		if(sizePushed < 128)	{ P(0x83); P(0xc4); P(sizePushed); }	// add esp, N8
 		else					{ P(0x81); P(0xc4); PL(sizePushed); }	// add esp, N32
