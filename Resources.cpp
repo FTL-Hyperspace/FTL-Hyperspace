@@ -40,6 +40,7 @@ GL_Color& ParseColorNode(GL_Color& colorRef, rapidxml::xml_node<char>* node, boo
 
 HOOK_METHOD(AchievementTracker, LoadAchievementDescriptions, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> AchievementTracker::LoadAchievementDescriptions -> Begin (Resources.cpp)\n")
     if (G_ && !G_->AreResourcesInitialized())
     {
         G_->InitializeResources(G_->GetResources());

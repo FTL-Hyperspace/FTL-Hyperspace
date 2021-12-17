@@ -193,36 +193,42 @@ void SetTextButtonDefaultColors(TextButton *btn, bool force=false)
 
 HOOK_METHOD(TextButton, InitPrimitives, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> TextButton::InitPrimitives -> Begin (CustomColors.cpp)\n")
     SetTextButtonDefaultColors(this);
     super();
 }
 
 HOOK_METHOD(TextButton, SetInactiveColor, (GL_Color color) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> TextButton::SetInactiveColor -> Begin (CustomColors.cpp)\n")
     SetTextButtonDefaultColors(this);
     super(color);
 }
 
 HOOK_METHOD(TextButton, SetActiveColor, (GL_Color color) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> TextButton::SetActiveColor -> Begin (CustomColors.cpp)\n")
     SetTextButtonDefaultColors(this);
     super(color);
 }
 
 HOOK_METHOD(TextButton, SetSelectedColor, (GL_Color color) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> TextButton::SetSelectedColor -> Begin (CustomColors.cpp)\n")
     SetTextButtonDefaultColors(this);
     super(color);
 }
 
 HOOK_METHOD(TextButton, SetTextColor, (GL_Color color) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> TextButton::SetTextColor -> Begin (CustomColors.cpp)\n")
     SetTextButtonDefaultColors(this);
     super(color);
 }
 
 HOOK_METHOD(ShipBuilder, Open, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipBuilder::Open -> Begin (CustomColors.cpp)\n")
     super();
 
     easyButton.SetInactiveColor(g_defaultTextButtonColors[2]);
@@ -234,6 +240,7 @@ HOOK_METHOD(ShipBuilder, Open, () -> void)
 
 HOOK_METHOD(ShipSelect, Open, (int currentLayout, int currentType) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipSelect::Open -> Begin (CustomColors.cpp)\n")
     super(currentLayout, currentType);
 
     typeA.SetInactiveColor(g_defaultTextButtonColors[2]);
@@ -244,6 +251,7 @@ HOOK_METHOD(ShipSelect, Open, (int currentLayout, int currentType) -> void)
 
 HOOK_METHOD(WeaponControl, SetAutofiring, (bool on, bool simple) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> WeaponControl::SetAutofiring -> Begin (CustomColors.cpp)\n")
     super(on, simple);
 
     if (on)
@@ -266,6 +274,7 @@ static bool g_ftlNoFuel = false;
 
 HOOK_METHOD(TextButton, OnRender, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> TextButton::OnRender -> Begin (CustomColors.cpp)\n")
     if (g_isFTLButton)
     {
         if (!g_ftlButtonDown)
@@ -300,6 +309,7 @@ HOOK_METHOD(TextButton, OnRender, () -> void)
 
 HOOK_METHOD(FTLButton, OnRender, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> FTLButton::OnRender -> Begin (CustomColors.cpp)\n")
     g_isFTLButton = true;
     g_ftlNoFuel = bOutOfFuel;
     g_ftlButtonDown = !ship->SystemFunctions(SYS_PILOT) || ship->IsSystemHacked(SYS_PILOT) || !ship->SystemFunctions(SYS_ENGINES) || ship->IsSystemHacked(SYS_ENGINES);

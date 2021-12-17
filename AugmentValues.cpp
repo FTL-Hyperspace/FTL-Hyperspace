@@ -4,6 +4,7 @@
 
 HOOK_METHOD_PRIORITY(ProjectileFactory, SpendMissiles, 1000, () -> int)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ProjectileFactory::SpendMissiles -> Begin (AugmentValues.cpp)\n")
     int ret = iSpendMissile;
 
     if (iSpendMissile > 0)

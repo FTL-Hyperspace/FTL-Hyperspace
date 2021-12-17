@@ -8,6 +8,7 @@ CustomDamage* CustomDamageManager::currentWeaponDmg = nullptr;
 
 HOOK_METHOD(ShipManager, DamageArea, (Pointf location, DamageParameter dmgParam, bool forceHit) -> bool)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::DamageArea -> Begin (CustomDamage.cpp)\n")
     Damage* dmg = (Damage*)&dmgParam;
 
     auto custom = CustomDamageManager::currentWeaponDmg;
@@ -32,6 +33,7 @@ HOOK_METHOD(ShipManager, DamageArea, (Pointf location, DamageParameter dmgParam,
 
 HOOK_METHOD(ShipManager, GetDodgeFactor, () -> int)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::GetDodgeFactor -> Begin (CustomDamage.cpp)\n")
     int ret = super();
 
     if (CustomDamageManager::currentWeaponDmg != nullptr)
@@ -44,6 +46,7 @@ HOOK_METHOD(ShipManager, GetDodgeFactor, () -> int)
 
 HOOK_METHOD_PRIORITY(ShipManager, DamageSystem, -100, (int roomId, DamageParameter dmgParam) -> void)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::DamageSystem -> Begin (CustomDamage.cpp)\n")
     if (CustomDamageManager::currentWeaponDmg != nullptr && CustomDamageManager::currentWeaponDmg->noSysDamage)
     {
         dmgParam.iSystemDamage -= dmgParam.iDamage;
@@ -54,6 +57,7 @@ HOOK_METHOD_PRIORITY(ShipManager, DamageSystem, -100, (int roomId, DamageParamet
 
 HOOK_METHOD_PRIORITY(ShipManager, DamageCrew, -100, (CrewMember *crew, DamageParameter dmgParameter) -> char)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::DamageCrew -> Begin (CustomDamage.cpp)\n")
     if (CustomDamageManager::currentWeaponDmg != nullptr && CustomDamageManager::currentWeaponDmg->noPersDamage)
     {
         dmgParameter.iPersDamage -= dmgParameter.iDamage;
@@ -64,6 +68,7 @@ HOOK_METHOD_PRIORITY(ShipManager, DamageCrew, -100, (CrewMember *crew, DamagePar
 
 HOOK_METHOD(ProjectileFactory, Update, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ProjectileFactory::Update -> Begin (CustomDamage.cpp)\n")
     // This only works if every weapon has a definition, if that changes then replace with the commented code below.
     CustomDamageManager::currentWeaponDmg = &CustomWeaponManager::instance->GetWeaponDefinition(blueprint->name)->customDamage;
 
@@ -77,6 +82,7 @@ HOOK_METHOD(ProjectileFactory, Update, () -> void)
 
 HOOK_METHOD(Projectile, Initialize, (WeaponBlueprint& bp) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Projectile::Initialize -> Begin (CustomDamage.cpp)\n")
     super(bp);
 
     auto customDmg = CustomDamageManager::currentWeaponDmg;
@@ -89,6 +95,7 @@ HOOK_METHOD(Projectile, Initialize, (WeaponBlueprint& bp) -> void)
 
 HOOK_METHOD(Projectile, CollisionCheck, (Collideable *other) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Projectile::CollisionCheck -> Begin (CustomDamage.cpp)\n")
     CustomDamageManager::currentWeaponDmg = &PR_EX(this)->customDamage;
     CustomDamageManager::currentWeaponDmg->sourceShipId = ownerId;
 

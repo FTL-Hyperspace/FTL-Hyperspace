@@ -8,12 +8,14 @@ static GL_Texture *wormholeTexture;
 /*
 HOOK_METHOD(StarMap, constructor, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> StarMap::constructor -> Begin (Wormhole.cpp)\n")
     super();
     wormholeTexture = G_->GetResources()->GetImageId("hyperspace/map/map_icon_wormhole.png");
 }
 
 HOOK_METHOD(StarMap, GenerateMap, (bool unk1, bool seed) -> Location*)
 {
+    LOG_HOOK("HOOK_METHOD -> StarMap::GenerateMap -> Begin (Wormhole.cpp)\n")
     auto ret = super(unk1, seed);
 
     if (currentSector->level > 0)
@@ -43,6 +45,7 @@ HOOK_METHOD(StarMap, GenerateMap, (bool unk1, bool seed) -> Location*)
 
 HOOK_METHOD(StarMap, OnRender, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> StarMap::OnRender -> Begin (Wormhole.cpp)\n")
     super();
 
     //endButton.bActive = false;

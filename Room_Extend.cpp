@@ -3,6 +3,7 @@
 
 HOOK_METHOD_PRIORITY(Room, constructor, 900, (int shipId, int x, int y, int w, int h, int roomId) -> void)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> Room::constructor -> Begin (Room_Extend.cpp)\n")
 	super(shipId, x, y, w, h, roomId);
 
 	auto ex = new Room_Extend();
@@ -18,6 +19,7 @@ HOOK_METHOD_PRIORITY(Room, constructor, 900, (int shipId, int x, int y, int w, i
 
 HOOK_METHOD(Room, destructor, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Room::destructor -> Begin (Room_Extend.cpp)\n")
     delete RM_EX(this);
 
     return super();

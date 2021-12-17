@@ -27,6 +27,7 @@ void ParseSystemsNode(rapidxml::xml_node<char>* node)
 
 HOOK_STATIC(ShipSystem, NameToSystemId, (std::string& name) -> int)
 {
+    LOG_HOOK("HOOK_STATIC -> ShipSystem::NameToSystemId -> Begin (CustomSystems.cpp)\n")
     if (name == "temporal")
     {
         return 20;
@@ -37,6 +38,7 @@ HOOK_STATIC(ShipSystem, NameToSystemId, (std::string& name) -> int)
 
 HOOK_STATIC(ShipSystem, SystemIdToName, (int systemId) -> std::string)
 {
+    LOG_HOOK("HOOK_STATIC -> ShipSystem::SystemIdToName -> Begin (CustomSystems.cpp)\n")
     std::string ret = super(systemId);
     if (systemId == 20)
     {
@@ -50,6 +52,7 @@ HOOK_STATIC(ShipSystem, SystemIdToName, (int systemId) -> std::string)
 
 HOOK_METHOD(ShipSystem, constructor, (int systemId, int roomId, int shipId, int startingPower) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipSystem::constructor -> Begin (CustomSystems.cpp)\n")
     super(systemId, roomId, shipId, startingPower);
 
     if (systemId == 20)
@@ -63,6 +66,7 @@ HOOK_METHOD(ShipSystem, constructor, (int systemId, int roomId, int shipId, int 
 
 HOOK_METHOD(ShipManager, CreateSystems, () -> int)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::CreateSystems -> Begin (CustomSystems.cpp)\n")
     if (myBlueprint.systemInfo.find(0) != myBlueprint.systemInfo.end())
     {
         auto shieldInfo = myBlueprint.systemInfo[0];
@@ -106,6 +110,7 @@ HOOK_METHOD(ShipManager, CreateSystems, () -> int)
 
 HOOK_METHOD(SystemControl, CreateSystemBoxes, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> SystemControl::CreateSystemBoxes -> Begin (CustomSystems.cpp)\n")
     *Global::weaponPosition = Point(0, 0);
     *Global::dronePosition = Point(0, 0);
 
@@ -278,6 +283,7 @@ HOOK_METHOD(SystemControl, CreateSystemBoxes, () -> void)
 
 HOOK_METHOD(ShipBuilder, CreateSystemBoxes, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipBuilder::CreateSystemBoxes -> Begin (CustomSystems.cpp)\n")
     for (auto i : sysBoxes)
     {
         delete i;
@@ -326,6 +332,7 @@ HOOK_METHOD(ShipBuilder, CreateSystemBoxes, () -> void)
 
 HOOK_METHOD(CombatControl, KeyDown, (SDLKey key) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CombatControl::KeyDown -> Begin (CustomSystems.cpp)\n")
     bool isWeaponKey = weapControl.KeyDown(key);
     if (isWeaponKey || droneControl.KeyDown(key))
     {
@@ -358,6 +365,7 @@ HOOK_METHOD(CombatControl, KeyDown, (SDLKey key) -> void)
 
 HOOK_METHOD(ShipManager, CanFitSystem, (int systemId) -> bool)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::CanFitSystem -> Begin (CustomSystems.cpp)\n")
     if (systemId == SYS_MEDBAY)
     {
         if (systemKey[SYS_CLONEBAY] != -1)
@@ -396,6 +404,7 @@ HOOK_METHOD(ShipManager, CanFitSystem, (int systemId) -> bool)
 
 HOOK_METHOD(ShipManager, CanFitSubsystem, (int systemId) -> bool)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::CanFitSubsystem -> Begin (CustomSystems.cpp)\n")
     int count = 0;
 
     for (auto i : vSystemList)
@@ -420,6 +429,7 @@ HOOK_METHOD(ShipManager, CanFitSubsystem, (int systemId) -> bool)
 /*
 HOOK_METHOD(ShipManager, RenderChargeBars, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::RenderChargeBars -> Begin (CustomSystems.cpp)\n")
 
 }
 */
@@ -427,6 +437,7 @@ HOOK_METHOD(ShipManager, RenderChargeBars, () -> void)
 /*
 HOOK_METHOD(ShipSystem, SetPowerLoss, (int powerLoss) -> int)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipSystem::SetPowerLoss -> Begin (CustomSystems.cpp)\n")
     auto ex = SYS_EX(this);
     iTempPowerLoss = powerLoss + ex->additionalPowerLoss;
 
@@ -487,6 +498,7 @@ HOOK_METHOD(ShipSystem, SetPowerLoss, (int powerLoss) -> int)
 /*
 HOOK_STATIC(ShipSystem, GetLevelDescription, (int systemId, int level, bool tooltip) -> std::string)
 {
+    LOG_HOOK("HOOK_STATIC -> ShipSystem::GetLevelDescription -> Begin (CustomSystems.cpp)\n")
     std::string ret = super(systemId, level, tooltip);
 
     std::string name = SystemIdToName(systemId);
@@ -515,6 +527,7 @@ HOOK_STATIC(ShipSystem, GetLevelDescription, (int systemId, int level, bool tool
 
 HOOK_METHOD(ShipSystem, GetEffectivePower, () -> int)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipSystem::GetEffectivePower -> Begin (CustomSystems.cpp)\n")
     int boostPower = 0;
 
     if (iActiveManned > 0 && bBoostable && healthState.first == healthState.second)
@@ -528,6 +541,7 @@ HOOK_METHOD(ShipSystem, GetEffectivePower, () -> int)
 /*
 HOOK_METHOD(ShipSystem, RenderPowerBoxes, (int x, int y, int width, int height, int gap, int heightMod, bool flash) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipSystem::RenderPowerBoxes -> Begin (CustomSystems.cpp)\n")
     super(x, y, width, height, gap, heightMod, flash);
 
     CSurface::GL_PushMatrix();

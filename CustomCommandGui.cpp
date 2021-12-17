@@ -69,16 +69,19 @@ void CustomCommandGui::LButtonDown(int mX, int mY, bool shiftHeld)
 
 HOOK_METHOD(CrewBox, OnRender, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewBox::OnRender -> Begin (CustomCommandGui.cpp)\n")
     super();
 }
 
 HOOK_METHOD(CrewBox, OnRenderSkillLevel, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewBox::OnRenderSkillLevel -> Begin (CustomCommandGui.cpp)\n")
     super();
 }
 
 HOOK_METHOD(CrewControl, OnRender, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewControl::OnRender -> Begin (CustomCommandGui.cpp)\n")
     super();
 
     auto gui = CustomCommandGui::GetInstance();
@@ -105,12 +108,14 @@ HOOK_METHOD(CrewControl, OnRender, () -> void)
 
 HOOK_METHOD(CrewControl, LinkShip, (ShipManager *ship) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewControl::LinkShip -> Begin (CustomCommandGui.cpp)\n")
     super(ship);
     CustomCommandGui::GetInstance()->currentCrewPage = 0;
 }
 
 HOOK_METHOD(CrewControl, UpdateCrewBoxes, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewControl::UpdateCrewBoxes -> Begin (CustomCommandGui.cpp)\n")
     auto crewList = std::vector<CrewMember*>();
 
     G_->GetCrewFactory()->GetCrewPortraitList(&crewList, 0);
@@ -151,6 +156,7 @@ HOOK_METHOD(CrewControl, UpdateCrewBoxes, () -> void)
 
 HOOK_METHOD(CommandGui, MouseMove, (int mX, int mY) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CommandGui::MouseMove -> Begin (CustomCommandGui.cpp)\n")
     super(mX, mY);
 
     CustomCommandGui::GetInstance()->MouseMove(mX, mY);
@@ -158,6 +164,7 @@ HOOK_METHOD(CommandGui, MouseMove, (int mX, int mY) -> void)
 }
 HOOK_METHOD(CommandGui, LButtonDown, (int mX, int mY, bool shiftHeld) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CommandGui::LButtonDown -> Begin (CustomCommandGui.cpp)\n")
     super(mX, mY, shiftHeld);
 
     CustomCommandGui::GetInstance()->LButtonDown(mX, mY, shiftHeld);
@@ -165,18 +172,21 @@ HOOK_METHOD(CommandGui, LButtonDown, (int mX, int mY, bool shiftHeld) -> void)
 
 HOOK_METHOD(CommandGui, constructor, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CommandGui::constructor -> Begin (CustomCommandGui.cpp)\n")
     super();
     CustomCommandGui::GetInstance()->gui = this;
 }
 
 HOOK_METHOD(CommandGui, OnInit, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CommandGui::OnInit -> Begin (CustomCommandGui.cpp)\n")
     super();
     CustomCommandGui::GetInstance()->OnInit();
 }
 
 HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEvent*)
 {
+    LOG_HOOK("HOOK_METHOD -> WorldManager::ModifyResources -> Begin (CustomCommandGui.cpp)\n")
     LocationEvent *ret = super(event);
 
     commandGui->crewControl.UpdateCrewBoxes();

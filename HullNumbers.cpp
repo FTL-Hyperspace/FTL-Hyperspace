@@ -108,6 +108,7 @@ void HullNumbers::PrintAlignment(int font, int x, int y, std::string str, std::s
 
 HOOK_METHOD(ShipStatus, RenderShields, (bool renderText) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipStatus::RenderShields -> Begin (HullNumbers.cpp)\n")
     super(renderText);
 
     HullNumbers *manager = HullNumbers::GetInstance();
@@ -122,6 +123,7 @@ HOOK_METHOD(ShipStatus, RenderShields, (bool renderText) -> void)
 
 HOOK_METHOD(ResourceControl, GetImageId, (std::string& path) -> GL_Texture*)
 {
+    LOG_HOOK("HOOK_METHOD -> ResourceControl::GetImageId -> Begin (HullNumbers.cpp)\n")
     if (path == "combatUI/box_hostiles2.png" && HullNumbers::GetInstance() && HullNumbers::GetInstance()->enabled)
     {
         path.assign("combatUI/box_hostiles2_numbers.png");
@@ -137,6 +139,7 @@ HOOK_METHOD(ResourceControl, GetImageId, (std::string& path) -> GL_Texture*)
 
 HOOK_METHOD(CombatControl, RenderTarget, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CombatControl::RenderTarget -> Begin (HullNumbers.cpp)\n")
     super();
 
     HullNumbers *manager = HullNumbers::GetInstance();
@@ -176,6 +179,7 @@ HOOK_METHOD(CombatControl, RenderTarget, () -> void)
 
 HOOK_METHOD(ShipStatus, OnInit, (Point unk, float unk2) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipStatus::OnInit -> Begin (HullNumbers.cpp)\n")
     super(unk, unk2);
 
     if (HullNumbers::GetInstance() && HullNumbers::GetInstance()->enabled)

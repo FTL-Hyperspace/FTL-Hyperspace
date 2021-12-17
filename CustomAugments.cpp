@@ -239,6 +239,7 @@ void CustomAugmentManager::UpdateAugments(int iShipId)
 
 HOOK_METHOD_PRIORITY(ShipObject, HasAugmentation, 2000, (const std::string& name) -> int)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipObject::HasAugmentation -> Begin (CustomAugments.cpp)\n")
     CustomAugmentManager* customAug = CustomAugmentManager::GetInstance();
 
     std::unordered_map<std::string, int> *augList = customAug->GetShipAugments(iShipId);
@@ -270,6 +271,7 @@ static bool useAugmentReq = false;
 
 HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> WorldManager::CreateChoiceBox -> Begin (CustomAugments.cpp)\n")
     useAugmentReq = true;
 
     super(event);
@@ -282,6 +284,7 @@ HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
 
 HOOK_METHOD_PRIORITY(ShipObject, HasEquipment, 2000, (const std::string& name) -> int)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipObject::HasEquipment -> Begin (CustomAugments.cpp)\n")
     CustomAugmentManager* customAug = CustomAugmentManager::GetInstance();
 
     auto ship = G_->GetShipManager(iShipId);
@@ -316,6 +319,7 @@ HOOK_METHOD_PRIORITY(ShipObject, HasEquipment, 2000, (const std::string& name) -
 
 HOOK_METHOD_PRIORITY(ShipObject, GetAugmentationValue, 1000, (const std::string& name) -> float)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipObject::GetAugmentationValue -> Begin (CustomAugments.cpp)\n")
     CustomAugmentManager* customAug = CustomAugmentManager::GetInstance();
 
     AugmentBlueprint* augBlueprint = G_->GetBlueprints()->GetAugmentBlueprint(name);
@@ -366,6 +370,7 @@ static GL_Texture* augLockTexture = nullptr;
 
 HOOK_METHOD(Equipment, MouseClick, (int mX, int mY) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Equipment::MouseClick -> Begin (CustomAugments.cpp)\n")
     super(mX, mY);
     CustomAugmentManager* customAug = CustomAugmentManager::GetInstance();
 
@@ -388,6 +393,7 @@ HOOK_METHOD(Equipment, MouseClick, (int mX, int mY) -> void)
 
 HOOK_METHOD(EquipmentBox, OnRender, (bool isEmpty) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> EquipmentBox::OnRender -> Begin (CustomAugments.cpp)\n")
     super(isEmpty);
 
     if (CanHoldAugment())
@@ -410,6 +416,7 @@ HOOK_METHOD(EquipmentBox, OnRender, (bool isEmpty) -> void)
 
 HOOK_METHOD(Equipment, OnLoop, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Equipment::OnLoop -> Begin (CustomAugments.cpp)\n")
     super();
     CustomAugmentManager* customAug = CustomAugmentManager::GetInstance();
 
@@ -458,6 +465,7 @@ static bool exportingShip = false;
 
 HOOK_METHOD(ShipManager, ExportShip, (int fileHelper) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::ExportShip -> Begin (CustomAugments.cpp)\n")
     super(fileHelper);
 
     std::vector<std::string> hiddenList = std::vector<std::string>();
@@ -485,6 +493,7 @@ HOOK_METHOD(ShipManager, ExportShip, (int fileHelper) -> void)
 
 HOOK_METHOD(ShipManager, ImportShip, (int fileHelper) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::ImportShip -> Begin (CustomAugments.cpp)\n")
     super(fileHelper);
 
     int hiddenCount = FileHelper::readInteger(fileHelper);
@@ -510,6 +519,7 @@ HOOK_METHOD(ShipManager, ImportShip, (int fileHelper) -> void)
 
 HOOK_METHOD(ShipObject, GetAugmentationList, () -> std::vector<std::string>)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipObject::GetAugmentationList -> Begin (CustomAugments.cpp)\n")
     std::vector<std::string> vec = super();
 
     vec = CustomAugmentManager::RemoveHiddenAugments(vec);
@@ -519,6 +529,7 @@ HOOK_METHOD(ShipObject, GetAugmentationList, () -> std::vector<std::string>)
 
 HOOK_METHOD(ShipObject, GetAugmentationCount, () -> int)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipObject::GetAugmentationCount -> Begin (CustomAugments.cpp)\n")
     int count = 0;
 
     for (auto i : G_->GetShipInfo(iShipId)->augList)
@@ -533,12 +544,14 @@ HOOK_METHOD(ShipObject, GetAugmentationCount, () -> int)
 }
 HOOK_METHOD(ShipObject, AddAugmentation, (const std::string& name) -> bool)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipObject::AddAugmentation -> Begin (CustomAugments.cpp)\n")
     auto ret = super(name);
     CustomAugmentManager::GetInstance()->UpdateAugments(iShipId);
     return ret;
 }
 HOOK_METHOD(ShipObject, RemoveAugmentation, (const std::string& name) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipObject::RemoveAugmentation -> Begin (CustomAugments.cpp)\n")
     super(name);
 
     int augCount = 0;
@@ -566,6 +579,7 @@ HOOK_METHOD(ShipObject, RemoveAugmentation, (const std::string& name) -> void)
 }
 HOOK_METHOD(ShipObject, ClearShipInfo, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipObject::ClearShipInfo -> Begin (CustomAugments.cpp)\n")
     super();
     CustomAugmentManager::GetInstance()->UpdateAugments(iShipId);
 }
@@ -642,6 +656,7 @@ int CustomAugmentManager::GetSuperShieldValue(int shipId)
 
 HOOK_METHOD(Shields, AddSuperShield, (Point pos) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Shields::AddSuperShield -> Begin (CustomAugments.cpp)\n")
     auto currentSuper = shields.power.super;
 
     super(pos);
@@ -656,6 +671,7 @@ HOOK_METHOD(Shields, AddSuperShield, (Point pos) -> void)
 
 HOOK_METHOD(Shields, InstantCharge, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Shields::InstantCharge -> Begin (CustomAugments.cpp)\n")
     super();
 
     int customSuper = CustomAugmentManager::GetSuperShieldValue(_shipObj.iShipId);
@@ -668,6 +684,7 @@ HOOK_METHOD(Shields, InstantCharge, () -> void)
 
 HOOK_METHOD(Shields, Jump, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Shields::Jump -> Begin (CustomAugments.cpp)\n")
     super();
 
     int customSuper = CustomAugmentManager::GetSuperShieldValue(_shipObj.iShipId);
@@ -680,6 +697,7 @@ HOOK_METHOD(Shields, Jump, () -> void)
 
 HOOK_METHOD(Shields, OnLoop, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Shields::OnLoop -> Begin (CustomAugments.cpp)\n")
     bool noSuper = shields.power.super.second < 1;
 
     super();
@@ -695,6 +713,7 @@ HOOK_METHOD(Shields, OnLoop, () -> void)
 /*
 HOOK_METHOD(Shields, CollisionReal, (float x, float y, Damage damage, bool force) -> CollisionReal)
 {
+    LOG_HOOK("HOOK_METHOD -> Shields::CollisionReal -> Begin (CustomAugments.cpp)\n")
     CollisionReal ret = super(x, y, damage, force);
 
     if (CustomAugmentManager::GetInstance()->superShieldCustomRender[_shipObj.iShipId] && !damMessages.empty())
@@ -716,6 +735,7 @@ std::vector<GL_Primitive*> superShieldBars = std::vector<GL_Primitive*>();
 
 HOOK_METHOD(ShipStatus, RenderShields, (bool renderText) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipStatus::RenderShields -> Begin (CustomAugments.cpp)\n")
     if (!ship) return super(renderText);
 
     auto superShield = ship->GetShieldPower().super;
@@ -797,6 +817,7 @@ CachedImage extend_shieldCircleHackedCharged[5];
 
 HOOK_METHOD(CombatControl, constructor, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CombatControl::constructor -> Begin (CustomAugments.cpp)\n")
     super();
 
     for (int i=0; i<5; ++i)
@@ -817,6 +838,7 @@ HOOK_METHOD(CombatControl, constructor, () -> void)
 
 HOOK_METHOD(CombatControl, RenderShipStatus, (Pointf pos, GL_Color color) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CombatControl::RenderShipStatus -> Begin (CustomAugments.cpp)\n")
     auto enemyShield = currentTarget->shipManager->GetShieldPower();
 
     if (enemyShield.second > 5 && currentTarget->shipManager->shieldSystem != nullptr)
@@ -927,6 +949,7 @@ GL_Primitive* customSuperShieldPrimitives[2] = {nullptr, nullptr};
 
 HOOK_METHOD(Shields, RenderBase, (float alpha, float superShieldOverwrite) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Shields::RenderBase -> Begin (CustomAugments.cpp)\n")
     int customSuper = CustomAugmentManager::GetSuperShieldValue(_shipObj.iShipId);
     if (customSuper > 0)
     {
@@ -941,6 +964,7 @@ HOOK_METHOD(Shields, RenderBase, (float alpha, float superShieldOverwrite) -> vo
 
 HOOK_STATIC(CSurface, GL_RenderPrimitiveWithColor, (GL_Primitive *primitive, GL_Color color) -> void)
 {
+    LOG_HOOK("HOOK_STATIC -> CSurface::GL_RenderPrimitiveWithColor -> Begin (CustomAugments.cpp)\n")
     if (!override_GL_RenderPrimitiveWithColor) return super(primitive, color);
     if (Shields_GL_RenderPrimitiveWithColor != nullptr)
     {
@@ -987,6 +1011,7 @@ HOOK_STATIC(CSurface, GL_RenderPrimitiveWithColor, (GL_Primitive *primitive, GL_
 
 HOOK_METHOD(ShipManager, OnLoop, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::OnLoop -> Begin (CustomAugments.cpp)\n")
     super();
 
     if (current_target != nullptr)
@@ -1010,6 +1035,7 @@ HOOK_METHOD(ShipManager, OnLoop, () -> void)
 
 HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> WorldManager::CreateChoiceBox -> Begin (CustomAugments.cpp)\n")
     super(event);
 
     float augValue = 0.f;

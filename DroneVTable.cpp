@@ -534,6 +534,7 @@ void SetupVTable(CrewDrone *crew)
 
 HOOK_METHOD(CrewMemberFactory, CreateRepairDrone, (int shipId, DroneBlueprint* bp) -> RepairDrone*)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewMemberFactory::CreateRepairDrone -> Begin (DroneVTable.cpp)\n")
     RepairDrone* drone = super(shipId, bp);
 
     SetupVTable(drone);
@@ -545,6 +546,7 @@ HOOK_METHOD(CrewMemberFactory, CreateRepairDrone, (int shipId, DroneBlueprint* b
 
 HOOK_METHOD(CrewMemberFactory, CreateBattleDrone, (int shipId, DroneBlueprint* bp) -> BattleDrone*)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewMemberFactory::CreateBattleDrone -> Begin (DroneVTable.cpp)\n")
     BattleDrone* drone = super(shipId, bp);
 
     SetupVTable(drone);
@@ -554,6 +556,7 @@ HOOK_METHOD(CrewMemberFactory, CreateBattleDrone, (int shipId, DroneBlueprint* b
 
 HOOK_METHOD_PRIORITY(CrewMemberFactory, CreateBoarderDrone, -900, (int shipId, DroneBlueprint* bp) -> BoarderDrone*)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> CrewMemberFactory::CreateBoarderDrone -> Begin (DroneVTable.cpp)\n")
     BoarderDrone* drone = super(shipId, bp);
 
     SetupVTable(drone);

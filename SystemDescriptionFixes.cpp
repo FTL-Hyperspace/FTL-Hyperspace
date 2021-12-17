@@ -15,6 +15,7 @@ static std::string RemoveTrailingZeros(std::string str)
 
 HOOK_STATIC(ShipSystem, GetLevelDescription, (int systemId, int level, bool tooltip) -> std::string)
 {
+    LOG_HOOK("HOOK_STATIC -> ShipSystem::GetLevelDescription -> Begin (SystemDescriptionFixes.cpp)\n")
     std::string ret = super(systemId, level, tooltip);
 
     if (systemId == SYS_MEDBAY)

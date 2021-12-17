@@ -54,6 +54,7 @@ static GL_Texture* splashImageTexture = nullptr;
 
 HOOK_METHOD(MainMenu, Open, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> MainMenu::Open -> Begin (MainMenu.cpp)\n")
 #ifdef _WIN32 // At some point we need to lock this behind a FTL Version as this is 1.6.9 specific (this itbButtonActive doesn't exist in later versions)
     itbButtonActive = false;
 #endif // _WIN32
@@ -89,6 +90,7 @@ HOOK_METHOD(MainMenu, Open, () -> void)
 
 HOOK_METHOD(ResourceControl, RenderImage, (GL_Texture* tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror) -> int)
 {
+    LOG_HOOK("HOOK_METHOD -> ResourceControl::RenderImage -> Begin (MainMenu.cpp)\n")
     if (tex == G_->GetCApp()->menu.glowy)
     {
         if (currentSplashImage)
@@ -121,6 +123,7 @@ HOOK_METHOD(ResourceControl, RenderImage, (GL_Texture* tex, int x, int y, int ro
 
 HOOK_METHOD(ResourceControl, GetImageId, (const std::string& dir) -> GL_Texture*)
 {
+    LOG_HOOK("HOOK_METHOD -> ResourceControl::GetImageId -> Begin (MainMenu.cpp)\n")
     if (CustomMainMenu::GetInstance()->customTitleScreen)
     {
         if (dir == "main_menus/main_base2.png")

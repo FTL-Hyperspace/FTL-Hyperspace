@@ -2,6 +2,7 @@
 
 HOOK_METHOD(ShipManager, DamageArea, (Pointf location, DamageParameter dmgParam, bool forceHit) -> bool)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::DamageArea -> Begin (ErosionEffect.cpp)\n")
     Damage* dmg = (Damage*)&dmgParam;
 
     auto custom = CustomDamageManager::currentWeaponDmg;
@@ -56,6 +57,7 @@ void Room_Extend::StopErosion()
 
 HOOK_METHOD(ShipManager, UpdateEnvironment, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::UpdateEnvironment -> Begin (ErosionEffect.cpp)\n")
     super();
 
     for (auto i : ship.vRoomList)
@@ -82,6 +84,7 @@ HOOK_METHOD(ShipManager, UpdateEnvironment, () -> void)
 
 HOOK_METHOD(Ship, OnRenderBreaches, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Ship::OnRenderBreaches -> Begin (ErosionEffect.cpp)\n")
     for (auto i : vRoomList)
     {
         auto ex = RM_EX(i);

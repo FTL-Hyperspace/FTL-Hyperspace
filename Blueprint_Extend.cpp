@@ -4,6 +4,7 @@
 NOT WORKING
 HOOK_METHOD_PRIORITY(WeaponBlueprint, constructor, 900, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> WeaponBlueprint::constructor -> Begin (Blueprint_Extend.cpp)\n")
 	super();
 
 	auto ex = new Blueprint_Extend();
@@ -34,6 +35,7 @@ Blueprint_Extend* Get_Blueprint_Extend(const Blueprint* c)
 
 HOOK_METHOD(Description, copy_assign_2, (const Description& other) -> Description&)
 {
+    LOG_HOOK("HOOK_METHOD -> Description::copy_assign_2 -> Begin (Blueprint_Extend.cpp)\n")
     auto ret = super(other);
 
     title.gap_ex[0] = other.title.gap_ex[0];

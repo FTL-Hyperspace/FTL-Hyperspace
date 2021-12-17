@@ -9,6 +9,7 @@ unsigned int infiniteSectorMapSeed;
 
 HOOK_METHOD(StarMap, GenerateSectorMap, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> StarMap::GenerateSectorMap -> Begin (Infinite.cpp)\n")
     if (g_infiniteMode)
     {
         this->bInfiniteMode = true;
@@ -33,6 +34,7 @@ HOOK_METHOD(StarMap, GenerateSectorMap, () -> void)
 
 HOOK_METHOD(StarMap, PushSectorColumn, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> StarMap::PushSectorColumn -> Begin (Infinite.cpp)\n")
     srandom32(infiniteSectorMapSeed);
     super();
     infiniteSectorMapSeed = random32();
@@ -40,6 +42,7 @@ HOOK_METHOD(StarMap, PushSectorColumn, () -> void)
 
 HOOK_METHOD(StarMap, LoadGame, (int fh) -> Location*)
 {
+    LOG_HOOK("HOOK_METHOD -> StarMap::LoadGame -> Begin (Infinite.cpp)\n")
     loadWorldLevel = FileHelper::readInteger(fh);
 
     if (g_infiniteMode) loadingInfinite = true;
@@ -53,6 +56,7 @@ HOOK_METHOD(StarMap, LoadGame, (int fh) -> Location*)
 
 HOOK_METHOD(StarMap, SaveGame, (int file) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> StarMap::SaveGame -> Begin (Infinite.cpp)\n")
     FileHelper::writeInt(file, worldLevel);
 
     super(file);
@@ -62,6 +66,7 @@ HOOK_METHOD(StarMap, SaveGame, (int file) -> void)
 
 HOOK_METHOD(ResourceControl, RenderImageString, (std::string& tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror) -> int)
 {
+    LOG_HOOK("HOOK_METHOD -> ResourceControl::RenderImageString -> Begin (Infinite.cpp)\n")
     if (tex == "map/sector_box.png" && g_infiniteMode)
     {
         tex.assign("map/sector_box_infinite.png");
@@ -79,6 +84,7 @@ bool infiniteLeavingSecretSector = false;
 
 HOOK_METHOD(StarMap, MouseClick, (int unk0, int unk1) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> StarMap::MouseClick -> Begin (Infinite.cpp)\n")
     if (!(bInfiniteMode && bSecretSector && !bChoosingNewSector && endButton.bActive && endButton.bHover)) return super(unk0,unk1);
 
     infiniteMapClick = true;
@@ -101,6 +107,7 @@ HOOK_METHOD(StarMap, MouseClick, (int unk0, int unk1) -> void)
 
 HOOK_METHOD(StarMap, OnTouch, (TouchAction unk0, int unk1, int unk2, int unk3, int unk4, int unk5) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> StarMap::OnTouch -> Begin (Infinite.cpp)\n")
     if (!(bInfiniteMode && bSecretSector && !bChoosingNewSector && endButton.bActivated)) return super(unk0, unk1, unk2, unk3, unk4, unk5);
 
     infiniteMapClick = true;
@@ -123,6 +130,7 @@ HOOK_METHOD(StarMap, OnTouch, (TouchAction unk0, int unk1, int unk2, int unk3, i
 
 HOOK_METHOD(StarMap, AdvanceWorldLevel, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> StarMap::AdvanceWorldLevel -> Begin (Infinite.cpp)\n")
     if (infiniteMapClick) infiniteLeavingSecretSector = true;
     if (infiniteSectorEight)
     {
@@ -134,6 +142,7 @@ HOOK_METHOD(StarMap, AdvanceWorldLevel, () -> void)
 
 HOOK_METHOD(StarMap, UpdateSectorMap, (Sector *unk0) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> StarMap::UpdateSectorMap -> Begin (Infinite.cpp)\n")
     if (infiniteLeavingSecretSector)
     {
         infiniteLeavingSecretSector = false;

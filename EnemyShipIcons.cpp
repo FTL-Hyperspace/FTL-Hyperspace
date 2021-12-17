@@ -80,6 +80,7 @@ static GL_Color renderColor;
 
 HOOK_METHOD(CombatControl, DrawHostileBox, (GL_Color color, int stencilBit) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CombatControl::DrawHostileBox -> Begin (EnemyShipIcons.cpp)\n")
     super(color, stencilBit);
 
     renderColor = color;
@@ -87,6 +88,7 @@ HOOK_METHOD(CombatControl, DrawHostileBox, (GL_Color color, int stencilBit) -> v
 
 HOOK_METHOD(CombatControl, RenderTarget, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CombatControl::RenderTarget -> Begin (EnemyShipIcons.cpp)\n")
     super();
 
     auto iconList = SM_EX(currentTarget->shipManager)->icons;
@@ -99,6 +101,7 @@ HOOK_METHOD(CombatControl, RenderTarget, () -> void)
 
 HOOK_METHOD(CommandGui, MouseMove, (int x, int y) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CommandGui::MouseMove -> Begin (EnemyShipIcons.cpp)\n")
     super(x, y);
 
     if (combatControl.currentTarget)

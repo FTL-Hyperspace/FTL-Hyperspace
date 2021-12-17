@@ -9,6 +9,7 @@ CustomWeaponManager *CustomWeaponManager::instance = new CustomWeaponManager();
 
 HOOK_METHOD(BlueprintManager, ProcessWeaponBlueprint, (rapidxml::xml_node<char>* node) -> WeaponBlueprint)
 {
+    LOG_HOOK("HOOK_METHOD -> BlueprintManager::ProcessWeaponBlueprint -> Begin (CustomWeapons.cpp)\n")
     WeaponBlueprint ret = super(node);
 
     auto weaponDef = CustomWeaponDefinition();
@@ -52,6 +53,7 @@ HOOK_METHOD(BlueprintManager, ProcessWeaponBlueprint, (rapidxml::xml_node<char>*
 
 HOOK_METHOD(ShipManager, OnRender, (bool showInterior, bool doorControlMode) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::OnRender -> Begin (CustomWeapons.cpp)\n")
     if (bJumping)
     {
         auto time = jumpAnimation.current_time;
@@ -74,6 +76,7 @@ static bool artillery = false;
 
 HOOK_METHOD(ProjectileFactory, NumTargetsRequired, () -> int)
 {
+    LOG_HOOK("HOOK_METHOD -> ProjectileFactory::NumTargetsRequired -> Begin (CustomWeapons.cpp)\n")
     int ret = super();
 
     if (artillery)
@@ -90,6 +93,7 @@ HOOK_METHOD(ProjectileFactory, NumTargetsRequired, () -> int)
 
 HOOK_METHOD(ArtillerySystem, OnLoop, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ArtillerySystem::OnLoop -> Begin (CustomWeapons.cpp)\n")
     artillery = true;
     super();
     artillery = false;
@@ -97,6 +101,7 @@ HOOK_METHOD(ArtillerySystem, OnLoop, () -> void)
 
 HOOK_METHOD(ProjectileFactory, SpendMissiles, () -> int)
 {
+    LOG_HOOK("HOOK_METHOD -> ProjectileFactory::SpendMissiles -> Begin (CustomWeapons.cpp)\n")
     if (iSpendMissile > 0)
     {
         int randomNum = random32() % 100;
@@ -121,6 +126,7 @@ static Button* smallAutoFireButton;
 
 HOOK_METHOD(WeaponControl, constructor, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> WeaponControl::constructor -> Begin (CustomWeapons.cpp)\n")
     super();
 
     smallAutoFireButton = new Button();
@@ -131,6 +137,7 @@ HOOK_METHOD(WeaponControl, constructor, () -> void)
 
 HOOK_METHOD(WeaponControl, LinkShip, (ShipManager *ship) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> WeaponControl::LinkShip -> Begin (CustomWeapons.cpp)\n")
     super(ship);
 
     if(autoFiring){
@@ -145,6 +152,7 @@ HOOK_METHOD(WeaponControl, LinkShip, (ShipManager *ship) -> void)
 
 HOOK_METHOD(WeaponControl, OnRender, (bool unk) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> WeaponControl::OnRender -> Begin (CustomWeapons.cpp)\n")
     super(unk);
 
     if (this->shipManager->myBlueprint.weaponSlots <= 2 && this->shipManager->myBlueprint.weaponSlots > 0 && this->shipManager->HasSystem(3))
@@ -161,6 +169,7 @@ HOOK_METHOD(WeaponControl, OnRender, (bool unk) -> void)
 
 HOOK_METHOD(WeaponControl, MouseMove, (int x, int y) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> WeaponControl::MouseMove -> Begin (CustomWeapons.cpp)\n")
     super(x, y);
 
     if (this->shipManager->myBlueprint.weaponSlots <= 2 && this->shipManager->myBlueprint.weaponSlots > 0 && this->shipManager->HasSystem(3) && !Dragging())
@@ -193,6 +202,7 @@ HOOK_METHOD(WeaponControl, MouseMove, (int x, int y) -> void)
 
 HOOK_METHOD(WeaponControl, LButton, (int x, int y, bool holdingShift) -> bool)
 {
+    LOG_HOOK("HOOK_METHOD -> WeaponControl::LButton -> Begin (CustomWeapons.cpp)\n")
     bool ret = super(x, y, holdingShift);
 
     if (this->shipManager->myBlueprint.weaponSlots <= 2 && this->shipManager->myBlueprint.weaponSlots > 0 && this->shipManager->HasSystem(3))
@@ -219,6 +229,7 @@ HOOK_METHOD(WeaponControl, LButton, (int x, int y, bool holdingShift) -> bool)
 
 HOOK_METHOD(WeaponControl, KeyDown, (SDLKey key) -> bool)
 {
+    LOG_HOOK("HOOK_METHOD -> WeaponControl::KeyDown -> Begin (CustomWeapons.cpp)\n")
     bool ret = super(key);
 
     if (this->shipManager->myBlueprint.weaponSlots <= 2 && this->shipManager->myBlueprint.weaponSlots > 0 && this->shipManager->HasSystem(3))

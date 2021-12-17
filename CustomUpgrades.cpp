@@ -267,6 +267,7 @@ void AddEmptyUpgradeBox(Upgrades *upgrades, bool isSubsystem, int& systemXPos, i
 
 HOOK_METHOD(Upgrades, OnInit, (ShipManager *ship) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Upgrades::OnInit -> Begin (CustomUpgrades.cpp)\n")
     bFullFocus = true;
     shipManager = ship;
     infoBoxLoc = Point(position.x + 600, position.y);
@@ -350,6 +351,7 @@ HOOK_METHOD(Upgrades, OnInit, (ShipManager *ship) -> void)
 
 HOOK_METHOD(Upgrades, MouseMove, (int mX, int mY) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Upgrades::MouseMove -> Begin (CustomUpgrades.cpp)\n")
     super(mX, mY);
 
     CustomUpgrades::GetInstance()->MouseMove(mX, mY);
@@ -357,6 +359,7 @@ HOOK_METHOD(Upgrades, MouseMove, (int mX, int mY) -> void)
 
 HOOK_METHOD(Upgrades, OnRender, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Upgrades::OnRender -> Begin (CustomUpgrades.cpp)\n")
     super();
 
     CustomUpgrades::GetInstance()->OnRender();
@@ -364,6 +367,7 @@ HOOK_METHOD(Upgrades, OnRender, () -> void)
 
 HOOK_METHOD(Upgrades, OnLoop, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Upgrades::OnLoop -> Begin (CustomUpgrades.cpp)\n")
     super();
 
     CustomUpgrades::GetInstance()->OnLoop();
@@ -371,6 +375,7 @@ HOOK_METHOD(Upgrades, OnLoop, () -> void)
 
 HOOK_METHOD(Upgrades, MouseClick, (int mX, int mY) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Upgrades::MouseClick -> Begin (CustomUpgrades.cpp)\n")
     super(mX, mY);
 
     CustomUpgrades::GetInstance()->MouseClick(mX, mY);
@@ -378,6 +383,7 @@ HOOK_METHOD(Upgrades, MouseClick, (int mX, int mY) -> void)
 
 HOOK_METHOD(Upgrades, MouseRightClick, (int mX, int mY) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Upgrades::MouseRightClick -> Begin (CustomUpgrades.cpp)\n")
     super(mX, mY);
 
     CustomUpgrades::GetInstance()->MouseRightClick(mX, mY);
@@ -385,11 +391,13 @@ HOOK_METHOD(Upgrades, MouseRightClick, (int mX, int mY) -> void)
 
 HOOK_METHOD(Upgrades, Close, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Upgrades::Close -> Begin (CustomUpgrades.cpp)\n")
     CustomUpgrades::GetInstance()->Close();
 }
 
 HOOK_METHOD(Upgrades, ConfirmUpgrades, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Upgrades::ConfirmUpgrades -> Begin (CustomUpgrades.cpp)\n")
     super();
 
     CustomUpgrades::GetInstance()->ConfirmUpgrades();

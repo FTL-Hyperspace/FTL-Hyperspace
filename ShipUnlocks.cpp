@@ -282,6 +282,7 @@ void CustomShipUnlocks::UnlockAllShips()
 
 HOOK_METHOD(AchievementTracker, LoadAchievementDescriptions, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> AchievementTracker::LoadAchievementDescriptions -> Begin (ShipUnlocks.cpp)\n")
     super();
 
     CustomShipUnlocks::instance->CreateUnlockAchievements();
@@ -289,6 +290,7 @@ HOOK_METHOD(AchievementTracker, LoadAchievementDescriptions, () -> void)
 
 HOOK_METHOD(ScoreKeeper, GetShipUnlocked, (int shipId, int shipVariant) -> bool)
 {
+    LOG_HOOK("HOOK_METHOD -> ScoreKeeper::GetShipUnlocked -> Begin (ShipUnlocks.cpp)\n")
     CustomShipSelect* custom = CustomShipSelect::GetInstance();
 
     bool isCustomShip = shipId >= 100;
@@ -340,6 +342,7 @@ HOOK_METHOD(ScoreKeeper, GetShipUnlocked, (int shipId, int shipVariant) -> bool)
 
 HOOK_METHOD(ScoreKeeper, UnlockShip, (int shipId, int shipType, bool save, bool hidePopup) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ScoreKeeper::UnlockShip -> Begin (ShipUnlocks.cpp)\n")
     if (shipId >= 100 || hidePopup) return super(shipId, shipType, save, hidePopup);
 
     auto blueprint = GetShipBlueprint(shipId);
@@ -366,6 +369,7 @@ HOOK_METHOD(ScoreKeeper, UnlockShip, (int shipId, int shipType, bool save, bool 
 
 HOOK_METHOD(ScoreKeeper, WipeProfile, (bool permanent) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ScoreKeeper::WipeProfile -> Begin (ShipUnlocks.cpp)\n")
     CustomShipUnlocks::instance->WipeProfile();
 
     super(permanent);
@@ -373,6 +377,7 @@ HOOK_METHOD(ScoreKeeper, WipeProfile, (bool permanent) -> void)
 
 HOOK_METHOD(ScoreKeeper, OnInit, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ScoreKeeper::OnInit -> Begin (ShipUnlocks.cpp)\n")
     CustomShipUnlocks::instance->loadVersion = 0;
 
     std::string versionFileName = FileHelper::getUserFolder();
@@ -392,6 +397,7 @@ HOOK_METHOD(ScoreKeeper, OnInit, () -> void)
 
 HOOK_METHOD(AchievementTracker, SetAchievement, (const std::string& ach, bool noPopup, bool sendToServer) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> AchievementTracker::SetAchievement -> Begin (ShipUnlocks.cpp)\n")
     if (G_->GetCApp()->menu.shipBuilder.bOpen)
     {
         return;
@@ -402,6 +408,7 @@ HOOK_METHOD(AchievementTracker, SetAchievement, (const std::string& ach, bool no
 
 HOOK_METHOD(AchievementTracker, UnlockShip, (int type, int variant) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> AchievementTracker::UnlockShip -> Begin (ShipUnlocks.cpp)\n")
     auto ach = shipUnlocks[type][variant];
     ach->unlocked = true;
     recentlyUnlocked.push_back(ach);
@@ -409,6 +416,7 @@ HOOK_METHOD(AchievementTracker, UnlockShip, (int type, int variant) -> void)
 
 HOOK_METHOD(StarMap, AdvanceWorldLevel, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> StarMap::AdvanceWorldLevel -> Begin (ShipUnlocks.cpp)\n")
     super();
 
     CustomShipUnlocks::instance->CheckSectorUnlocks(G_->GetAchievementTracker()->currentShip, worldLevel);
@@ -416,6 +424,7 @@ HOOK_METHOD(StarMap, AdvanceWorldLevel, () -> void)
 
 HOOK_METHOD(AchievementTracker, SetVictoryAchievement, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> AchievementTracker::SetVictoryAchievement -> Begin (ShipUnlocks.cpp)\n")
     super();
 
     CustomShipUnlocks::instance->CheckBasicUnlock(currentShip, ShipUnlock::UnlockType::DEFEAT_FLAGSHIP);
@@ -423,6 +432,7 @@ HOOK_METHOD(AchievementTracker, SetVictoryAchievement, () -> void)
 
 HOOK_METHOD(CommandGui, Victory, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CommandGui::Victory -> Begin (ShipUnlocks.cpp)\n")
     super();
 
     CustomShipUnlocks::instance->CheckBasicUnlock(G_->GetAchievementTracker()->currentShip, ShipUnlock::UnlockType::VICTORY_ANY);
@@ -432,6 +442,7 @@ static bool loadingFile = false;
 
 HOOK_METHOD(ScoreKeeper, UnlockShip, (int shipId, int shipType, bool save, bool hidePopup) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ScoreKeeper::UnlockShip -> Begin (ShipUnlocks.cpp)\n")
     if (loadingFile)
     {
         save = false;
@@ -443,6 +454,7 @@ HOOK_METHOD(ScoreKeeper, UnlockShip, (int shipId, int shipType, bool save, bool 
 
 HOOK_METHOD(ScoreKeeper, LoadVersionFour, (int file, int version) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ScoreKeeper::LoadVersionFour -> Begin (ShipUnlocks.cpp)\n")
     loadingFile = true;
     super(file, version);
     loadingFile = false;

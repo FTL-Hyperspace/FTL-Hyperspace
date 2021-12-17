@@ -49,6 +49,7 @@ void hs_log_file(const char *str...)
 
 HOOK_METHOD(CApp, OnInit, () -> int)
 {
+    LOG_HOOK("HOOK_METHOD -> CApp::OnInit -> Begin (Global.cpp)\n")
     G_->SetCApp(this);
     return super();
 }
@@ -119,6 +120,7 @@ void Global::Initialize()
 
 HOOK_METHOD(WorldManager, LoadGame, (const std::string file) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> WorldManager::LoadGame -> Begin (Global.cpp)\n")
     loadingGame = true;
     super(file);
     loadingGame = false;

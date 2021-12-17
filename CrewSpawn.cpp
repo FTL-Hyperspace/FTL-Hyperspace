@@ -41,6 +41,7 @@ static bool g_forceNoSlot = false;
 
 HOOK_METHOD_PRIORITY(CrewMember, constructor, -1000, (CrewBlueprint& bp, int shipId, bool enemy, CrewAnimation *animation) -> void)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> CrewMember::constructor -> Begin (CrewSpawn.cpp)\n")
     super(bp, shipId, enemy, animation);
 
     if (g_forceNoSlot)

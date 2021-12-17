@@ -257,6 +257,7 @@ void SetupVTable(CrewMember *crew)
 
 HOOK_METHOD_PRIORITY(CrewMember, constructor, 500, (CrewBlueprint& bp, int shipId, bool intruder, CrewAnimation* animation) -> void)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> CrewMember::constructor -> Begin (CrewVTable.cpp)\n")
     super(bp, shipId, intruder, animation);
 
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
@@ -294,6 +295,7 @@ void SetupVTable(CrewAnimation *anim)
 
 HOOK_METHOD_PRIORITY(CrewAnimation, constructor, 500, (int shipId, const std::string& race, Pointf unk, bool hostile) -> void)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> CrewAnimation::constructor -> Begin (CrewVTable.cpp)\n")
     super(shipId, race, unk, hostile);
 
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
@@ -305,6 +307,7 @@ HOOK_METHOD_PRIORITY(CrewAnimation, constructor, 500, (int shipId, const std::st
 
 HOOK_METHOD_PRIORITY(RockAnimation, constructor, 500, (const std::string &subRace, int iShipId, Pointf position, bool enemy) -> void)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> RockAnimation::constructor -> Begin (CrewVTable.cpp)\n")
     super(subRace, iShipId, position, enemy);
 
     CustomCrewManager *custom = CustomCrewManager::GetInstance();

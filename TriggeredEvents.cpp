@@ -1284,6 +1284,7 @@ void TriggeredEvent::Load(int file)
 
 HOOK_METHOD(WorldManager, CreateNewGame, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> WorldManager::CreateNewGame -> Begin (TriggeredEvents.cpp)\n")
     TriggeredEvent::eventList.clear();
     TriggeredEventGui::GetInstance()->reset = true;
 
@@ -1294,6 +1295,7 @@ HOOK_METHOD(WorldManager, CreateNewGame, () -> void)
 
 HOOK_METHOD_PRIORITY(StarMap, LoadGame, 100, (int file) -> Location*)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> StarMap::LoadGame -> Begin (TriggeredEvents.cpp)\n")
     auto ret = super(file);
 
     TriggeredEvent::LoadAll(file);
@@ -1313,6 +1315,7 @@ HOOK_METHOD_PRIORITY(StarMap, LoadGame, 100, (int file) -> Location*)
 
 HOOK_METHOD_PRIORITY(StarMap, SaveGame, 100, (int file) -> void)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> StarMap::SaveGame -> Begin (TriggeredEvents.cpp)\n")
     super(file);
 
     TriggeredEvent::SaveAll(file);
@@ -1327,6 +1330,7 @@ HOOK_METHOD_PRIORITY(StarMap, SaveGame, 100, (int file) -> void)
 
 HOOK_METHOD(WorldManager, OnLoop, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> WorldManager::OnLoop -> Begin (TriggeredEvents.cpp)\n")
     locationUpdated = false;
     TriggeredEvent::UpdateAll();
 
@@ -1350,12 +1354,14 @@ HOOK_METHOD(WorldManager, OnLoop, () -> void)
 
 HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> WorldManager::UpdateLocation -> Begin (TriggeredEvents.cpp)\n")
     super(loc);
     locationUpdated = true;
 }
 
 HOOK_METHOD(StarMap, UpdateDangerZone, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> StarMap::UpdateDangerZone -> Begin (TriggeredEvents.cpp)\n")
     TriggeredEvent::JumpAll();
     super();
 }
@@ -1590,6 +1596,7 @@ void TriggeredEventGui::MouseMove(int x, int y)
 
 HOOK_METHOD(ShipStatus, OnRender, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipStatus::OnRender -> Begin (TriggeredEvents.cpp)\n")
     super();
     TriggeredEventGui::GetInstance()->OnRender();
     TriggeredEvent::RenderAll();
@@ -1597,12 +1604,14 @@ HOOK_METHOD(ShipStatus, OnRender, () -> void)
 
 HOOK_METHOD(CombatControl, RenderTarget, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CombatControl::RenderTarget -> Begin (TriggeredEvents.cpp)\n")
     super();
     TriggeredEventGui::GetInstance()->OnRenderCombat(this);
 }
 
 HOOK_METHOD(CommandGui, MouseMove, (int x, int y) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CommandGui::MouseMove -> Begin (TriggeredEvents.cpp)\n")
     super(x, y);
     TriggeredEventGui::GetInstance()->MouseMove(x, y);
 }

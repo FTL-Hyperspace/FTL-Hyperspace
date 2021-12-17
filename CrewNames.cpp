@@ -14,6 +14,7 @@ HOOK_GLOBAL_PRIORITY(random32, -900, () -> unsigned int)
 
 HOOK_METHOD(BlueprintManager, GetUnusedCrewName, (bool* isMale_ret) -> std::string)
 {
+    LOG_HOOK("HOOK_METHOD -> BlueprintManager::GetUnusedCrewName -> Begin (CrewNames.cpp)\n")
     crewNameRng = std::mt19937(random32());
 
     inGetUnusedCrewName = true;

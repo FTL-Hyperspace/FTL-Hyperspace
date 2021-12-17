@@ -6,6 +6,7 @@ static Button* moreInfoButton;
 
 HOOK_METHOD(CommandGui, OnInit, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CommandGui::OnInit -> Begin (MoreInfoButton.cpp)\n")
     super();
 
     moreInfoButton = new Button();
@@ -16,6 +17,7 @@ HOOK_METHOD(CommandGui, OnInit, () -> void)
 
 HOOK_METHOD(ShipStatus, OnRender, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipStatus::OnRender -> Begin (MoreInfoButton.cpp)\n")
     super();
     if (moreInfoButton)
     moreInfoButton->OnRender();
@@ -23,6 +25,7 @@ HOOK_METHOD(ShipStatus, OnRender, () -> void)
 
 HOOK_METHOD(CommandGui, OnLoop, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CommandGui::OnLoop -> Begin (MoreInfoButton.cpp)\n")
     super();
 
     auto custom = CustomOptionsManager::GetInstance();
@@ -69,6 +72,7 @@ HOOK_METHOD(CommandGui, OnLoop, () -> void)
 
 HOOK_METHOD(CommandGui, MouseMove, (int mX, int mY) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CommandGui::MouseMove -> Begin (MoreInfoButton.cpp)\n")
     super(mX, mY);
 
     if (moreInfoButton)
@@ -87,6 +91,7 @@ HOOK_METHOD(CommandGui, MouseMove, (int mX, int mY) -> void)
 
 HOOK_METHOD(CommandGui, LButtonDown, (int mX, int mY, bool shiftHeld) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CommandGui::LButtonDown -> Begin (MoreInfoButton.cpp)\n")
     super(mX, mY, shiftHeld);
 
     if (moreInfoButton && moreInfoButton->bActive && moreInfoButton->bHover)

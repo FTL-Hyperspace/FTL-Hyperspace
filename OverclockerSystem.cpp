@@ -172,6 +172,7 @@ void SetOverclockerArmed(ShipManager *ship, bool armed)
 
 HOOK_METHOD(CooldownSystemBox, constructor, (Point pos, ShipSystem *sys, bool roundDown) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CooldownSystemBox::constructor -> Begin (OverclockerSystem.cpp)\n")
     super(pos, sys, roundDown);
 
     if (sys->iSystemType == 20)
@@ -182,6 +183,7 @@ HOOK_METHOD(CooldownSystemBox, constructor, (Point pos, ShipSystem *sys, bool ro
 
 HOOK_METHOD(SystemBox, MouseMove, (int x, int y) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> SystemBox::MouseMove -> Begin (OverclockerSystem.cpp)\n")
     super(x, y);
 
     if (pSystem->iSystemType == 20)
@@ -192,6 +194,7 @@ HOOK_METHOD(SystemBox, MouseMove, (int x, int y) -> void)
 
 HOOK_METHOD(SystemBox, MouseClick, (bool unk) -> bool)
 {
+    LOG_HOOK("HOOK_METHOD -> SystemBox::MouseClick -> Begin (OverclockerSystem.cpp)\n")
     bool ret = super(unk);
 
     if (pSystem->iSystemType == 20)
@@ -202,6 +205,7 @@ HOOK_METHOD(SystemBox, MouseClick, (bool unk) -> bool)
 
 HOOK_METHOD(ShipSystem, OnLoop, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipSystem::OnLoop -> Begin (OverclockerSystem.cpp)\n")
     super();
     if (iSystemType == 20)
     {
@@ -211,6 +215,7 @@ HOOK_METHOD(ShipSystem, OnLoop, () -> void)
 
 HOOK_METHOD(CooldownSystemBox, OnRender, (bool ignoreStatus) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CooldownSystemBox::OnRender -> Begin (OverclockerSystem.cpp)\n")
     if (pSystem->iSystemType == 20)
     {
         ((OverclockerBox*)this)->RenderBox(ignoreStatus);
@@ -221,6 +226,7 @@ HOOK_METHOD(CooldownSystemBox, OnRender, (bool ignoreStatus) -> void)
 
 HOOK_METHOD(ShipSystem, constructor, (int systemId, int roomId, int shipId, int startingPower) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipSystem::constructor -> Begin (OverclockerSystem.cpp)\n")
 	super(systemId, roomId, shipId, startingPower);
 
 	if (systemId == 20)
@@ -230,6 +236,7 @@ HOOK_METHOD(ShipSystem, constructor, (int systemId, int roomId, int shipId, int 
 }
 HOOK_METHOD(CombatControl, SelectTarget, () -> bool)
 {
+    LOG_HOOK("HOOK_METHOD -> CombatControl::SelectTarget -> Begin (OverclockerSystem.cpp)\n")
     if (GetOverclockerArmed(shipManager) && selectedSelfRoom != -1)
     {
         auto sys = shipManager->GetSystemInRoom(selectedSelfRoom);
@@ -250,6 +257,7 @@ HOOK_METHOD(CombatControl, SelectTarget, () -> bool)
 
 HOOK_METHOD(CombatControl, WeaponsArmed, () -> bool)
 {
+    LOG_HOOK("HOOK_METHOD -> CombatControl::WeaponsArmed -> Begin (OverclockerSystem.cpp)\n")
     bool ret = super();
 
     return ret | GetOverclockerArmed(shipManager);
@@ -257,6 +265,7 @@ HOOK_METHOD(CombatControl, WeaponsArmed, () -> bool)
 
 HOOK_METHOD(CombatControl, UpdateTarget, () -> bool)
 {
+    LOG_HOOK("HOOK_METHOD -> CombatControl::UpdateTarget -> Begin (OverclockerSystem.cpp)\n")
     bool ret = super();
 
     if (GetOverclockerArmed(shipManager))
@@ -284,6 +293,7 @@ HOOK_METHOD(CombatControl, UpdateTarget, () -> bool)
 
 HOOK_METHOD(CombatControl, OnRenderCombat, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CombatControl::OnRenderCombat -> Begin (OverclockerSystem.cpp)\n")
     super();
     if (open && !weapControl.armedWeapon)
     {
@@ -306,6 +316,7 @@ HOOK_METHOD(CombatControl, OnRenderCombat, () -> void)
 
 HOOK_METHOD(CombatControl, DisarmAll, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CombatControl::DisarmAll -> Begin (OverclockerSystem.cpp)\n")
     super();
 
     if (GetOverclockerArmed(shipManager))
@@ -317,6 +328,7 @@ HOOK_METHOD(CombatControl, DisarmAll, () -> void)
 
 HOOK_METHOD(CombatControl, MouseRClick, (int x, int y) -> bool)
 {
+    LOG_HOOK("HOOK_METHOD -> CombatControl::MouseRClick -> Begin (OverclockerSystem.cpp)\n")
     bool overclockerArmed = GetOverclockerArmed(shipManager);
 
     bool ret = super(x, y);
@@ -328,6 +340,7 @@ static bool g_inMouseRender = false;
 
 HOOK_METHOD(ResourceControl, GetImageId, (const std::string& name) -> GL_Texture*)
 {
+    LOG_HOOK("HOOK_METHOD -> ResourceControl::GetImageId -> Begin (OverclockerSystem.cpp)\n")
     if (g_inMouseRender && name == "mouse/mouse_hacking.png" && g_iOverclocking != 0)
     {
         return super("mouse/mouse_overclocking.png");
@@ -338,6 +351,7 @@ HOOK_METHOD(ResourceControl, GetImageId, (const std::string& name) -> GL_Texture
 
 HOOK_METHOD(MouseControl, OnRender, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> MouseControl::OnRender -> Begin (OverclockerSystem.cpp)\n")
     if (g_iOverclocking != 0)
     {
         int oldHacking = iHacking;
@@ -357,6 +371,7 @@ HOOK_METHOD(MouseControl, OnRender, () -> void)
 
 HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::UpdateCrewMembers -> Begin (OverclockerSystem.cpp)\n")
 
     for (auto i : vCrewList)
     {

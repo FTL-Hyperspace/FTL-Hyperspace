@@ -584,6 +584,7 @@ void StatBoostManager::CreateTimedAugmentBoost(StatBoost statBoost, CrewMember* 
 
 HOOK_METHOD(WorldManager, CreateNewGame, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> WorldManager::CreateNewGame -> Begin (StatBoost.cpp)\n")
     StatBoostManager::GetInstance()->statBoosts.clear();
     StatBoostManager::GetInstance()->animBoosts.clear();
     super();
@@ -591,6 +592,7 @@ HOOK_METHOD(WorldManager, CreateNewGame, () -> void)
 
 HOOK_METHOD(WorldManager, LoadGame, (const std::string& fileName) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> WorldManager::LoadGame -> Begin (StatBoost.cpp)\n")
     StatBoostManager::GetInstance()->statBoosts.clear();
     StatBoostManager::GetInstance()->animBoosts.clear();
     super(fileName);
@@ -598,6 +600,7 @@ HOOK_METHOD(WorldManager, LoadGame, (const std::string& fileName) -> void)
 
 HOOK_METHOD(WorldManager, OnLoop, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> WorldManager::OnLoop -> Begin (StatBoost.cpp)\n")
     StatBoostManager::GetInstance()->OnLoop(this);
     super();
 //    using std::chrono::steady_clock;
@@ -615,6 +618,7 @@ HOOK_METHOD(WorldManager, OnLoop, () -> void)
 
 HOOK_METHOD(ShipManager, JumpArrive, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::JumpArrive -> Begin (StatBoost.cpp)\n")
     super();
     CustomAugmentManager* customAug = CustomAugmentManager::GetInstance();
 
@@ -652,6 +656,7 @@ HOOK_METHOD(ShipManager, JumpArrive, () -> void)
 
 HOOK_METHOD(CrewMember, constructor, (CrewBlueprint& bp, int shipId, bool intruder, CrewAnimation* animation) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewMember::constructor -> Begin (StatBoost.cpp)\n")
     super(bp, shipId, intruder, animation);
     CustomAugmentManager* customAug = CustomAugmentManager::GetInstance();
     if (G_->GetShipInfo(shipId) != nullptr)
@@ -1260,6 +1265,7 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
 
 HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> CrewMember::OnLoop -> Begin (StatBoost.cpp)\n")
     super();
     auto custom = CustomCrewManager::GetInstance();
     CrewMember_Extend* ex = CM_EX(this);

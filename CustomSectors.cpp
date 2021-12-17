@@ -4,6 +4,7 @@ std::unordered_map<int,std::vector<ReplacedSector>> replacedSectors = std::unord
 
 HOOK_METHOD(StarMap, NewGame, (bool unk) -> Location*)
 {
+    LOG_HOOK("HOOK_METHOD -> StarMap::NewGame -> Begin (CustomSectors.cpp)\n")
     replacedSectors.clear();
 
     return super(unk);
@@ -11,6 +12,7 @@ HOOK_METHOD(StarMap, NewGame, (bool unk) -> Location*)
 
 HOOK_METHOD(StarMap, LoadGame, (int fh) -> Location*)
 {
+    LOG_HOOK("HOOK_METHOD -> StarMap::LoadGame -> Begin (CustomSectors.cpp)\n")
     replacedSectors.clear();
     int n_i = FileHelper::readInteger(fh);
     for (int i=0; i<n_i; ++i)
@@ -31,6 +33,7 @@ HOOK_METHOD(StarMap, LoadGame, (int fh) -> Location*)
 
 HOOK_METHOD(StarMap, SaveGame, (int file) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> StarMap::SaveGame -> Begin (CustomSectors.cpp)\n")
     FileHelper::writeInt(file, replacedSectors.size());
     {
         for (auto i : replacedSectors)
@@ -51,6 +54,7 @@ HOOK_METHOD(StarMap, SaveGame, (int file) -> void)
 
 HOOK_METHOD(StarMap, AddSectorColumn, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> StarMap::AddSectorColumn -> Begin (CustomSectors.cpp)\n")
     super();
 
     if (bInfiniteMode)
@@ -78,6 +82,7 @@ HOOK_METHOD(StarMap, AddSectorColumn, () -> void)
 
 HOOK_METHOD(StarMap, GenerateSectorMap, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> StarMap::GenerateSectorMap -> Begin (CustomSectors.cpp)\n")
     super();
 
     if (!bInfiniteMode)

@@ -3,6 +3,7 @@
 
 HOOK_METHOD_PRIORITY(ShipManager, constructor, 900, (int iShipId) -> void)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::constructor -> Begin (ShipManager_Extend.cpp)\n")
 
 
 	super(iShipId);
@@ -20,6 +21,7 @@ HOOK_METHOD_PRIORITY(ShipManager, constructor, 900, (int iShipId) -> void)
 
 HOOK_METHOD(ShipManager, destructor, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::destructor -> Begin (ShipManager_Extend.cpp)\n")
     delete SM_EX(this);
 
     return super();

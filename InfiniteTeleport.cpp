@@ -30,6 +30,7 @@ std::vector<CrewMember*> TeleportCrewShip(ShipManager *ship, int roomId, bool in
 
 HOOK_METHOD(CompleteShip, InitiateTeleport, (int targetRoom, int command) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CompleteShip::InitiateTeleport -> Begin (InfiniteTeleport.cpp)\n")
     if (!arrivingParty.empty() || !leavingParty.empty() || command == 0 ||
         enemyShip == nullptr || enemyShip->shipManager == nullptr || enemyShip->shipManager->bJumping ||
         shipManager == nullptr || shipManager->bJumping)
@@ -92,6 +93,7 @@ HOOK_METHOD(CompleteShip, InitiateTeleport, (int targetRoom, int command) -> voi
 /*
 HOOK_METHOD(ShipManager, TeleportCrew, (int roomId, bool intruders) -> std::vector<CrewMember*>)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::TeleportCrew -> Begin (InfiniteTeleport.cpp)\n")
     std::vector<CrewMember*> leavingCrewList = std::vector<CrewMember*>();
 
     int counter = 0;

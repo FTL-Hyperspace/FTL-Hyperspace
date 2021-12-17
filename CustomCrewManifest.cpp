@@ -428,12 +428,14 @@ void CustomCrewManifest::MouseMove(int mX, int mY)
 
 HOOK_METHOD(CrewManifest, OnInit, (ShipManager *ship) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewManifest::OnInit -> Begin (CustomCrewManifest.cpp)\n")
     super(ship);
     CustomCrewManifest::GetInstance()->OnInit(this, ship);
 }
 
 HOOK_METHOD(CrewManifest, OnRender, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewManifest::OnRender -> Begin (CustomCrewManifest.cpp)\n")
     //super();
 
     CustomCrewManifest::GetInstance()->OnRender();
@@ -441,22 +443,26 @@ HOOK_METHOD(CrewManifest, OnRender, () -> void)
 
 HOOK_METHOD(CrewManifest, Update, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewManifest::Update -> Begin (CustomCrewManifest.cpp)\n")
     CustomCrewManifest::GetInstance()->Update();
 }
 
 HOOK_METHOD(CrewManifest, OnTextInput, (SDLKey key) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewManifest::OnTextInput -> Begin (CustomCrewManifest.cpp)\n")
     CustomCrewManifest::GetInstance()->OnTextInput(key);
 }
 
 
 HOOK_METHOD(CrewManifest, OnTextEvent, (CEvent::TextEvent event) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewManifest::OnTextEvent -> Begin (CustomCrewManifest.cpp)\n")
     CustomCrewManifest::GetInstance()->OnTextEvent(event);
 }
 
 HOOK_METHOD(CrewManifest, Close, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewManifest::Close -> Begin (CustomCrewManifest.cpp)\n")
     super();
     CustomCrewManifest::GetInstance()->Close();
 }
@@ -464,11 +470,13 @@ HOOK_METHOD(CrewManifest, Close, () -> void)
 
 HOOK_METHOD(CrewManifest, MouseClick, (int mX, int mY) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewManifest::MouseClick -> Begin (CustomCrewManifest.cpp)\n")
     CustomCrewManifest::GetInstance()->MouseClick(mX, mY);
 }
 
 HOOK_METHOD(CrewManifest, MouseMove, (int mX, int mY) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewManifest::MouseMove -> Begin (CustomCrewManifest.cpp)\n")
     CustomCrewManifest::GetInstance()->MouseMove(mX, mY);
 }
 
@@ -476,6 +484,7 @@ static bool forceNextSlot = false;
 
 HOOK_METHOD(CrewStoreBox, Purchase, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewStoreBox::Purchase -> Begin (CustomCrewManifest.cpp)\n")
     forceNextSlot = true;
     super();
     forceNextSlot = false;
@@ -483,6 +492,7 @@ HOOK_METHOD(CrewStoreBox, Purchase, () -> void)
 
 HOOK_METHOD(ShipManager, AddCrewMemberFromBlueprint, (CrewBlueprint* bp, int slot, bool init, int roomId, bool intruder) -> CrewMember*)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::AddCrewMemberFromBlueprint -> Begin (CustomCrewManifest.cpp)\n")
     if (forceNextSlot)
     {
         slot = -1;

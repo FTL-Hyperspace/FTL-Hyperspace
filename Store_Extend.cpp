@@ -3,6 +3,7 @@
 
 HOOK_METHOD_PRIORITY(Store, constructor, 900, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> Store::constructor -> Begin (Store_Extend.cpp)\n")
 	super();
 
 	auto ex = new Store_Extend();
@@ -18,6 +19,7 @@ HOOK_METHOD_PRIORITY(Store, constructor, 900, () -> void)
 
 HOOK_METHOD(Store, destructor, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Store::destructor -> Begin (Store_Extend.cpp)\n")
     delete STORE_EX(this);
 
     return super();

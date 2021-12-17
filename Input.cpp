@@ -17,6 +17,7 @@ static void OnScrollWheel(float direction)
 
 HOOK_METHOD(CEvent, OnEvent, (const InputEvent* inputEvent) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CEvent::OnEvent -> Begin (Input.cpp)\n")
     if (inputEvent->type == InputEventType::INPUT_EVENT_MOUSE)
     {
         MouseInputEvent *mEvent = (MouseInputEvent*)(&inputEvent->event);

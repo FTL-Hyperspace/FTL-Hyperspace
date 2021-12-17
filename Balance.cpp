@@ -7,6 +7,7 @@ bool g_hackingDroneFix = true;
 
 HOOK_METHOD(HackingSystem, OnLoop, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> HackingSystem::OnLoop -> Begin (Balance.cpp)\n")
     super();
 
     if (g_hackingDroneFix)
@@ -21,6 +22,7 @@ HOOK_METHOD(HackingSystem, OnLoop, () -> void)
 /*
 HOOK_METHOD(DefenseDrone, PickTarget, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> DefenseDrone::PickTarget -> Begin (Balance.cpp)\n")
     if (bDisrupted && powered)
     {
         if (aimingAngle == desiredAimingAngle)

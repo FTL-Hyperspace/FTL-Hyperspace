@@ -30,6 +30,7 @@ void copy_log(const char *oldName, const char *newName)
 // Not Available in Linux version, or at least the crash handler is different and hasn't been figured out yet.
 HOOK_STATIC(DebugHelper, CrashCatcher, (void *exception_pointers) -> int)
 {
+    LOG_HOOK("HOOK_STATIC -> DebugHelper::CrashCatcher -> Begin (Debugging.cpp)\n")
     int ret = super(exception_pointers);
 
     char ftlLogName[256];
@@ -51,6 +52,7 @@ HOOK_STATIC(DebugHelper, CrashCatcher, (void *exception_pointers) -> int)
 
 HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> WorldManager::CreateChoiceBox -> Begin (Debugging.cpp)\n")
     hs_log_file("Creating event: %s\n", event->eventName.c_str());
 
     super(event);
@@ -58,6 +60,7 @@ HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
 
 HOOK_METHOD(WorldManager, CreateShip, (ShipEvent* shipEvent, bool boss) -> CompleteShip*)
 {
+    LOG_HOOK("HOOK_METHOD -> WorldManager::CreateShip -> Begin (Debugging.cpp)\n")
 
     auto ret = super(shipEvent, boss);
 
@@ -74,6 +77,7 @@ static bool generatingEvents = false;
 
 HOOK_METHOD(StarMap, GenerateEvents, (bool unk) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> StarMap::GenerateEvents -> Begin (Debugging.cpp)\n")
     hs_log_file("\n-- Generating Events --\n");
 
     if (!forceSectorChoice.empty())
@@ -94,6 +98,7 @@ HOOK_METHOD(StarMap, GenerateEvents, (bool unk) -> void)
 
 HOOK_METHOD(EventGenerator, GetBaseEvent, (const std::string& name, int worldLevel, char ignoreUnique, int seed) -> LocationEvent*)
 {
+    LOG_HOOK("HOOK_METHOD -> EventGenerator::GetBaseEvent -> Begin (Debugging.cpp)\n")
     if (generatingEvents)
     {
         hs_log_file("Getting Event: %s\n", name.c_str());
@@ -104,6 +109,7 @@ HOOK_METHOD(EventGenerator, GetBaseEvent, (const std::string& name, int worldLev
 
 HOOK_METHOD(StarMap, GenerateNebulas, (std::vector<std::string>& names) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> StarMap::GenerateNebulas -> Begin (Debugging.cpp)\n")
     hs_log_file("Generating nebulas: %s\n", boost::algorithm::join(names, ", ").c_str());
 
     super(names);
@@ -111,6 +117,7 @@ HOOK_METHOD(StarMap, GenerateNebulas, (std::vector<std::string>& names) -> void)
 
 HOOK_METHOD(CApp, OnInit, () -> bool)
 {
+    LOG_HOOK("HOOK_METHOD -> CApp::OnInit -> Begin (Debugging.cpp)\n")
     bool ret = super();
     std::string date = __DATE__;
     std::string time = __TIME__;

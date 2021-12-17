@@ -13,6 +13,7 @@ static std::vector<CustomHotkey> customHotkeys =
 
 HOOK_METHOD(ControlsScreen, OnInit, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ControlsScreen::OnInit -> Begin (CustomHotkeys.cpp)\n")
     for (int i = 0; i < 4; i++)
     {
         buttons[i].clear();
@@ -50,6 +51,7 @@ HOOK_METHOD(ControlsScreen, OnInit, () -> void)
 
 HOOK_STATIC(Settings, ResetHotkeys, () -> void)
 {
+    LOG_HOOK("HOOK_STATIC -> Settings::ResetHotkeys -> Begin (CustomHotkeys.cpp)\n")
     super();
 
     SettingValues* settings = G_->GetSettings();

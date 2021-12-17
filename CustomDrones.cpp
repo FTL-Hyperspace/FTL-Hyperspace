@@ -80,6 +80,7 @@ void CustomDroneManager::ParseDroneNode(rapidxml::xml_node<char> *node)
 
 HOOK_METHOD(CrewMemberFactory, CreateBoarderDrone, (int shipId, DroneBlueprint *bp) -> BoarderDrone*)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewMemberFactory::CreateBoarderDrone -> Begin (CustomDrones.cpp)\n")
     CustomDroneDefinition *customDrone = CustomDroneManager::GetInstance()->GetDefinition(bp->name);
 
     if (customDrone)
@@ -99,6 +100,7 @@ HOOK_METHOD(CrewMemberFactory, CreateBoarderDrone, (int shipId, DroneBlueprint *
 
 HOOK_METHOD(DroneBlueprint, RenderIcon, (float scale) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> DroneBlueprint::RenderIcon -> Begin (CustomDrones.cpp)\n")
     CustomDroneDefinition *customDrone = CustomDroneManager::GetInstance()->GetDefinition(name);
     if ((type == 2 || type == 3 || type == 4) && customDrone)
     {
@@ -124,6 +126,7 @@ HOOK_METHOD(DroneBlueprint, RenderIcon, (float scale) -> void)
 
 HOOK_METHOD(CrewAnimation, OnInit, (const std::string& name, Pointf position, bool enemy) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewAnimation::OnInit -> Begin (CustomDrones.cpp)\n")
     super(name, position, enemy);
 
     CustomDroneDefinition *customDrone = CustomDroneManager::GetInstance()->GetDefinitionByRace(race);
@@ -135,6 +138,7 @@ HOOK_METHOD(CrewAnimation, OnInit, (const std::string& name, Pointf position, bo
 
 HOOK_METHOD(CrewDrone, constructor, (const std::string& droneType, const std::string& name, int shipId, const DroneBlueprint* blueprint, CrewAnimation *anim) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewDrone::constructor -> Begin (CustomDrones.cpp)\n")
     CustomDroneDefinition *customDrone = CustomDroneManager::GetInstance()->GetDefinition(blueprint->name);
 
     if (customDrone)
@@ -161,6 +165,7 @@ static bool blockControllableAI;
 
 HOOK_METHOD(ShipManager, CommandCrewMoveRoom, (CrewMember* crew, int room) -> bool)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::CommandCrewMoveRoom -> Begin (CustomDrones.cpp)\n")
     if (blockControllableAI)
     {
         auto custom = CustomCrewManager::GetInstance();
@@ -172,6 +177,7 @@ HOOK_METHOD(ShipManager, CommandCrewMoveRoom, (CrewMember* crew, int room) -> bo
 
 HOOK_METHOD(CrewMember, SetTask, (CrewTask task) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewMember::SetTask -> Begin (CustomDrones.cpp)\n")
     if (blockControllableAI)
     {
         auto custom = CustomCrewManager::GetInstance();
@@ -183,6 +189,7 @@ HOOK_METHOD(CrewMember, SetTask, (CrewTask task) -> void)
 
 HOOK_METHOD(CrewAI, UpdateDrones, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewAI::UpdateDrones -> Begin (CustomDrones.cpp)\n")
     blockControllableAI = true;
     super();
     blockControllableAI = false;
@@ -416,6 +423,7 @@ HOOK_METHOD(CrewAI, UpdateDrones, () -> void)
 
 HOOK_METHOD(ShipManager, CreateSpaceDrone, (const DroneBlueprint *bp) -> SpaceDrone*)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::CreateSpaceDrone -> Begin (CustomDrones.cpp)\n")
     SpaceDrone* ret = super(bp);
 
     if (ret)
@@ -456,6 +464,7 @@ HOOK_METHOD(ShipManager, CreateSpaceDrone, (const DroneBlueprint *bp) -> SpaceDr
 
 HOOK_METHOD(CrewDrone, OnLoop, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewDrone::OnLoop -> Begin (CustomDrones.cpp)\n")
     if (CustomCrewManager::GetInstance()->IsRace(species) && CustomCrewManager::GetInstance()->GetDefinition(species)->droneMoveFromManningSlot)
     {
         SetFrozen(_drone.deployed && !_drone.powered);
@@ -526,6 +535,7 @@ HOOK_METHOD(CrewDrone, OnLoop, () -> void)
 
 HOOK_METHOD(BoarderPodDrone, constructor, (int _iShipId, int _selfId, const DroneBlueprint& _bp) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> BoarderPodDrone::constructor -> Begin (CustomDrones.cpp)\n")
     super(_iShipId, _selfId, _bp);
 
     CustomDroneManager* customDrone = CustomDroneManager::GetInstance();
@@ -543,6 +553,7 @@ HOOK_METHOD(BoarderPodDrone, constructor, (int _iShipId, int _selfId, const Dron
 
 HOOK_METHOD(CrewDrone, OnLoop, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewDrone::OnLoop -> Begin (CustomDrones.cpp)\n")
     super();
 
     if (CM_EX(this)->isAbilityDrone)
@@ -553,6 +564,7 @@ HOOK_METHOD(CrewDrone, OnLoop, () -> void)
 
 HOOK_METHOD(CrewAnimation, OnRender, (float scale, int selectedState, bool outlineOnly) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewAnimation::OnRender -> Begin (CustomDrones.cpp)\n")
     if (CMA_EX(this)->isAbilityDrone)
     {
         if (((AbilityDroneAnimation*)this)->new_OnRender(scale, selectedState, outlineOnly)) return;
@@ -565,6 +577,7 @@ HOOK_METHOD(CrewAnimation, OnRender, (float scale, int selectedState, bool outli
 
 HOOK_METHOD(CrewAnimation, OnInit, (const std::string& _race, Pointf position, bool enemy) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewAnimation::OnInit -> Begin (CustomDrones.cpp)\n")
     super(_race, position, enemy);
 
     CustomDroneDefinition *customDrone = CustomDroneManager::GetInstance()->GetDefinitionByRace(_race);
@@ -577,6 +590,7 @@ HOOK_METHOD(CrewAnimation, OnInit, (const std::string& _race, Pointf position, b
 
 HOOK_METHOD(CrewControl, OnLoop, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewControl::OnLoop -> Begin (CustomDrones.cpp)\n")
     std::vector<CrewMember*> filteredCrew = std::vector<CrewMember*>();
 
     for (auto i : selectedCrew)

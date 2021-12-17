@@ -145,6 +145,7 @@ void CustomScoreKeeper::WipeProfile()
 
 HOOK_METHOD(ScoreKeeper, CycleLeft, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ScoreKeeper::CycleLeft -> Begin (CustomScoreKeeper.cpp)\n")
     if (selectedShip >= 100)
     {
         auto customSel = CustomShipSelect::GetInstance();
@@ -160,6 +161,7 @@ HOOK_METHOD(ScoreKeeper, CycleLeft, () -> void)
 
 HOOK_METHOD(ScoreKeeper, CycleRight, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ScoreKeeper::CycleRight -> Begin (CustomScoreKeeper.cpp)\n")
     if (selectedShip >= 100)
     {
         auto customSel = CustomShipSelect::GetInstance();
@@ -175,6 +177,7 @@ HOOK_METHOD(ScoreKeeper, CycleRight, () -> void)
 
 HOOK_METHOD(ScoreKeeper, SetupTopShip, (int variant) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ScoreKeeper::SetupTopShip -> Begin (CustomScoreKeeper.cpp)\n")
     if (selectedShip >= 100)
     {
         shipAchievements.clear();
@@ -191,6 +194,7 @@ HOOK_METHOD(ScoreKeeper, SetupTopShip, (int variant) -> void)
 
 HOOK_METHOD(ScoreKeeper, AddTopScoreType, (TopScore& topScore, int type) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ScoreKeeper::AddTopScoreType -> Begin (CustomScoreKeeper.cpp)\n")
     if (CustomShipSelect::GetInstance()->IsCustomShip(topScore.blueprint))
     {
         CustomScoreKeeper::instance->AddTopScore(topScore, type);
@@ -202,6 +206,7 @@ HOOK_METHOD(ScoreKeeper, AddTopScoreType, (TopScore& topScore, int type) -> void
 
 HOOK_METHOD(ScoreKeeper, CheckTypes, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ScoreKeeper::CheckTypes -> Begin (CustomScoreKeeper.cpp)\n")
     if (selectedShip >= 100)
     {
         auto customSel = CustomShipSelect::GetInstance();
@@ -269,6 +274,7 @@ HOOK_METHOD(ScoreKeeper, CheckTypes, () -> void)
 
 HOOK_METHOD(ScoreKeeper, MouseClick, (int x, int y) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ScoreKeeper::MouseClick -> Begin (CustomScoreKeeper.cpp)\n")
     auto customSel = CustomShipSelect::GetInstance();
 
     if (shipSelect.bOpen)
@@ -340,6 +346,7 @@ HOOK_METHOD(ScoreKeeper, MouseClick, (int x, int y) -> void)
 
 HOOK_METHOD(ScoreKeeper, WipeProfile, (bool permanent) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ScoreKeeper::WipeProfile -> Begin (CustomScoreKeeper.cpp)\n")
     CustomScoreKeeper::instance->WipeProfile();
 
     super(permanent);
@@ -348,6 +355,7 @@ HOOK_METHOD(ScoreKeeper, WipeProfile, (bool permanent) -> void)
 
 HOOK_METHOD(AchievementTracker, LoadProfile, (int file, int version) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> AchievementTracker::LoadProfile -> Begin (CustomScoreKeeper.cpp)\n")
     super(file, version);
 
     if (CustomShipUnlocks::instance->loadVersion == SaveFileHandler::version)
@@ -359,6 +367,7 @@ HOOK_METHOD(AchievementTracker, LoadProfile, (int file, int version) -> void)
 
 HOOK_METHOD(AchievementTracker, SaveProfile, (int file) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> AchievementTracker::SaveProfile -> Begin (CustomScoreKeeper.cpp)\n")
     super(file);
 
     CustomShipUnlocks::instance->Save(file);
@@ -367,6 +376,7 @@ HOOK_METHOD(AchievementTracker, SaveProfile, (int file) -> void)
 
 HOOK_METHOD(ScoreKeeper, Open, (bool fromGameOver) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ScoreKeeper::Open -> Begin (CustomScoreKeeper.cpp)\n")
     super(fromGameOver);
 
     if (newestShipType != -1 && fromGameOver)
@@ -400,6 +410,7 @@ HOOK_METHOD(ScoreKeeper, Open, (bool fromGameOver) -> void)
 
 HOOK_METHOD(ScoreKeeper, OnRender, (bool lastPlaythrough) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ScoreKeeper::OnRender -> Begin (CustomScoreKeeper.cpp)\n")
     bool isCustomShip = selectedShip >= 100;
 
     if (shipSelect.bOpen)
@@ -660,6 +671,7 @@ HOOK_METHOD(ScoreKeeper, OnRender, (bool lastPlaythrough) -> void)
 
 HOOK_METHOD(ScoreKeeper, KeyDown, (SDLKey key) -> bool)
 {
+    LOG_HOOK("HOOK_METHOD -> ScoreKeeper::KeyDown -> Begin (CustomScoreKeeper.cpp)\n")
     if (key == SDLKey::SDLK_UP
         || key == SDLKey::SDLK_LEFT
         || key == SDLKey::SDLK_RIGHT

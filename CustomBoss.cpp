@@ -138,6 +138,7 @@ static BossShip* bossShipStartingStage;
 
 HOOK_METHOD(BossShip, StartStage, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> BossShip::StartStage -> Begin (CustomBoss.cpp)\n")
     isStartingStage = true;
     spawnBossCrew = true;
     bossShipStartingStage = this;
@@ -170,6 +171,7 @@ HOOK_METHOD(BossShip, StartStage, () -> void)
 
 HOOK_METHOD(BossShip, OnLoop, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> BossShip::OnLoop -> Begin (CustomBoss.cpp)\n")
     super();
 
 
@@ -191,6 +193,7 @@ HOOK_METHOD(BossShip, OnLoop, () -> void)
 
 HOOK_METHOD_PRIORITY(ShipManager, AddCrewMemberFromString, -100, (const std::string& name, const std::string& race, bool intruder, int roomId, bool init, bool male) -> CrewMember*)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::AddCrewMemberFromString -> Begin (CustomBoss.cpp)\n")
     if (isStartingStage)
     {
         if (spawnBossCrew)
@@ -222,6 +225,7 @@ HOOK_METHOD_PRIORITY(ShipManager, AddCrewMemberFromString, -100, (const std::str
 
 HOOK_METHOD(BossShip, SaveBoss, (int fh) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> BossShip::SaveBoss -> Begin (CustomBoss.cpp)\n")
     FileHelper::writeInt(fh, CustomBoss::instance->currentCrewCounts.size());
     for (auto i : CustomBoss::instance->currentCrewCounts)
     {
@@ -234,6 +238,7 @@ HOOK_METHOD(BossShip, SaveBoss, (int fh) -> void)
 
 HOOK_METHOD(BossShip, LoadBoss, (int fh) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> BossShip::LoadBoss -> Begin (CustomBoss.cpp)\n")
     int crewCountsSize = FileHelper::readInteger(fh);
 
     for (int i = 0; i < crewCountsSize; i++)
@@ -249,6 +254,7 @@ HOOK_METHOD(BossShip, LoadBoss, (int fh) -> void)
 
 HOOK_METHOD(ShipManager, PrepareSuperDrones, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::PrepareSuperDrones -> Begin (CustomBoss.cpp)\n")
     std::array<std::vector<DroneCount>,3> *def = nullptr;
     if (CustomBoss::instance->customSurgeDrones) def = &(CustomBoss::instance->droneSurgeDef);
     if (!droneSurgeOverride.empty())
@@ -299,6 +305,7 @@ HOOK_METHOD(ShipManager, PrepareSuperDrones, () -> void)
 
 HOOK_METHOD(ShipManager, PrepareSuperBarrage, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::PrepareSuperBarrage -> Begin (CustomBoss.cpp)\n")
     std::array<std::vector<BarrageCount>,3> *def = nullptr;
     if (CustomBoss::instance->customBarrage) def = &(CustomBoss::instance->barrageDef);
     if (!barrageOverride.empty())
@@ -462,6 +469,7 @@ HOOK_METHOD(ShipManager, PrepareSuperBarrage, () -> void)
 
 HOOK_METHOD(BossShip, GetEvent, () -> LocationEvent*)
 {
+    LOG_HOOK("HOOK_METHOD -> BossShip::GetEvent -> Begin (CustomBoss.cpp)\n")
     LocationEvent *ret = super();
 
     ret->statusEffects.clear();
@@ -474,6 +482,7 @@ static bool blockSystemBoxRender = false;
 
 HOOK_METHOD(SystemBox, OnRender, (bool ignoreStatus) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> SystemBox::OnRender -> Begin (CustomBoss.cpp)\n")
     if (blockSystemBoxRender)
     {
         return;
@@ -485,6 +494,7 @@ HOOK_METHOD(SystemBox, OnRender, (bool ignoreStatus) -> void)
 
 HOOK_METHOD(CombatControl, RenderTarget, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CombatControl::RenderTarget -> Begin (CustomBoss.cpp)\n")
     if (currentTarget->IsBoss())
     {
         blockSystemBoxRender = true;

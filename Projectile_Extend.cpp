@@ -2,6 +2,7 @@
 
 HOOK_METHOD_PRIORITY(Projectile, constructor, 900, (Pointf position, int ownerId, int targetId, Pointf target) -> void)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> Projectile::constructor -> Begin (Projectile_Extend.cpp)\n")
 	super(position, ownerId, targetId, target);
 
 	auto ex = new Projectile_Extend();
@@ -17,6 +18,7 @@ HOOK_METHOD_PRIORITY(Projectile, constructor, 900, (Pointf position, int ownerId
 
 HOOK_METHOD(Projectile, destructor, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Projectile::destructor -> Begin (Projectile_Extend.cpp)\n")
     delete PR_EX(this);
 
     return super();

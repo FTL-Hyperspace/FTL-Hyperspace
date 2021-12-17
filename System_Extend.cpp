@@ -4,6 +4,7 @@
 
 HOOK_METHOD_PRIORITY(ShipSystem, constructor, 900, (int systemId, int roomId, int shipId, int startingPower) -> void)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipSystem::constructor -> Begin (System_Extend.cpp)\n")
 	super(systemId, roomId, shipId, startingPower);
 
 	auto ex = new ShipSystem_Extend();

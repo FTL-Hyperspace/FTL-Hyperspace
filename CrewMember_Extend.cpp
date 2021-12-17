@@ -3,6 +3,7 @@
 
 HOOK_METHOD_PRIORITY(CrewMember, constructor, 900, (CrewBlueprint& blueprint, int shipId, bool intruder, CrewAnimation *animation) -> void)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> CrewMember::constructor -> Begin (CrewMember_Extend.cpp)\n")
 	super(blueprint, shipId, intruder, animation);
 
 	auto ex = new CrewMember_Extend();
@@ -17,6 +18,7 @@ HOOK_METHOD_PRIORITY(CrewMember, constructor, 900, (CrewBlueprint& blueprint, in
 
 HOOK_METHOD(CrewMember, destructor, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewMember::destructor -> Begin (CrewMember_Extend.cpp)\n")
     delete CM_EX(this);
     super();
 }
@@ -38,6 +40,7 @@ CrewMember_Extend* Get_CrewMember_Extend(CrewMember* c)
 
 HOOK_METHOD(CrewDrone, constructor, (const std::string& _type, const std::string& _name, int _iShipId, const DroneBlueprint* _blueprint, CrewAnimation *_anim) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewDrone::constructor -> Begin (CrewMember_Extend.cpp)\n")
     super(_type, _name, _iShipId, _blueprint, _anim);
 
     if (_blueprint->name == "BOARDER_ION")
@@ -48,6 +51,7 @@ HOOK_METHOD(CrewDrone, constructor, (const std::string& _type, const std::string
 
 HOOK_METHOD_PRIORITY(CrewAnimation, OnInit, 900, (const std::string& _race, Pointf position, bool enemy) -> void)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> CrewAnimation::OnInit -> Begin (CrewMember_Extend.cpp)\n")
 	auto ex = new CrewAnimation_Extend();
     uint32_t dEx = (uint32_t)ex;
 
@@ -67,6 +71,7 @@ HOOK_METHOD_PRIORITY(CrewAnimation, OnInit, 900, (const std::string& _race, Poin
 
 HOOK_METHOD(CrewAnimation, destructor, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewAnimation::destructor -> Begin (CrewMember_Extend.cpp)\n")
     delete CMA_EX(this);
     super();
 }

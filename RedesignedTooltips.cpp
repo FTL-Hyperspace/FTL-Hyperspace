@@ -10,6 +10,7 @@
 
 HOOK_METHOD(WeaponBox, GenerateTooltip, () -> std::string)
 {
+    LOG_HOOK("HOOK_METHOD -> WeaponBox::GenerateTooltip -> Begin (RedesignedTooltips.cpp)\n")
     std::string ret = super();
 
     auto tLib = G_->GetTextLibrary();
@@ -455,6 +456,7 @@ HOOK_METHOD(WeaponBox, GenerateTooltip, () -> std::string)
 
 HOOK_METHOD(WeaponBlueprint, GetDescription, (bool tooltip) -> std::string)
 {
+    LOG_HOOK("HOOK_METHOD -> WeaponBlueprint::GetDescription -> Begin (RedesignedTooltips.cpp)\n")
     if (tooltip || this->name.empty()) return super(tooltip);
     std::string ret = super(tooltip);
 
@@ -1090,6 +1092,7 @@ HOOK_METHOD(WeaponBlueprint, GetDescription, (bool tooltip) -> std::string)
 
 HOOK_METHOD(InfoBox, SetBlueprintAugment, (const AugmentBlueprint* bp) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> InfoBox::SetBlueprintAugment -> Begin (RedesignedTooltips.cpp)\n")
     desc.title.data.assign(bp->desc.title.data);
     desc.title.isLiteral = bp->desc.title.isLiteral;
 
@@ -1179,6 +1182,7 @@ static int windowFrameHeight = 0;
 
 HOOK_METHOD(WindowFrame, constructor, (int x, int y, int w, int h) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> WindowFrame::constructor -> Begin (RedesignedTooltips.cpp)\n")
     if (windowFrameCheck)
     {
         h = windowFrameHeight;
@@ -1190,6 +1194,7 @@ HOOK_METHOD(WindowFrame, constructor, (int x, int y, int w, int h) -> void)
 
 HOOK_METHOD(InfoBox, SetBlueprintCrew, (const CrewBlueprint& bp, int yShift, bool detailedCrew) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> InfoBox::SetBlueprintCrew -> Begin (RedesignedTooltips.cpp)\n")
 //    if (CustomOptionsManager::GetInstance()->redesignedCrewTooltips.currentValue)
 //    {
 //        std::string newDesc = bp.desc.description.data;
@@ -1240,6 +1245,7 @@ HOOK_METHOD(InfoBox, SetBlueprintCrew, (const CrewBlueprint& bp, int yShift, boo
 
 HOOK_METHOD(InfoBox, SetBlueprintDrone, (const DroneBlueprint* bp, int status, bool hasDroneSystem, int yShift) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> InfoBox::SetBlueprintDrone -> Begin (RedesignedTooltips.cpp)\n")
     if (hasDroneSystem && status == 1)
     {
         return super(bp, 2, hasDroneSystem, yShift);
@@ -1250,6 +1256,7 @@ HOOK_METHOD(InfoBox, SetBlueprintDrone, (const DroneBlueprint* bp, int status, b
 
 HOOK_METHOD(InfoBox, SetBlueprintDrone, (const DroneBlueprint* bp, int status, bool hasDroneSystem, int yShift) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> InfoBox::SetBlueprintDrone -> Begin (RedesignedTooltips.cpp)\n")
     std::string newDesc;
     if (bp->desc.description.isLiteral)
     {

@@ -39,6 +39,7 @@ HOOK_GLOBAL(random32, () -> unsigned int)
 */
 HOOK_METHOD_PRIORITY(Store, OnInit, -900, (ShipManager *shopper, Equipment *equip, int worldLevel) -> void)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> Store::OnInit -> Begin (Seeds.cpp)\n")
     if (!SeedInputBox::seedsEnabled) return super(shopper, equip, worldLevel);
 
     Location *storeLoc = G_->GetWorld()->starMap.currentLoc;
@@ -55,6 +56,7 @@ HOOK_METHOD_PRIORITY(Store, OnInit, -900, (ShipManager *shopper, Equipment *equi
 
 HOOK_METHOD(ShipBuilder, constructor, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipBuilder::constructor -> Begin (Seeds.cpp)\n")
 	super();
 	SeedInputBox::seedInput = new TextInput(10, TextInput::AllowedCharType::ALLOW_ANY, "");
 	SeedInputBox::drawLocation = Pointf(1079.f, 71.f);
@@ -64,6 +66,7 @@ HOOK_METHOD(ShipBuilder, constructor, () -> void)
 
 HOOK_METHOD(ShipBuilder, Open, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipBuilder::Open -> Begin (Seeds.cpp)\n")
 	super();
 	nextSeed = 0;
 	SeedInputBox::firstClick = true;
@@ -80,6 +83,7 @@ HOOK_METHOD(ShipBuilder, Open, () -> void)
 
 HOOK_METHOD(CApp, OnTextInput, (int charCode) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CApp::OnTextInput -> Begin (Seeds.cpp)\n")
 	if (SeedInputBox::seedInput)
 	{
 		if (SeedInputBox::seedInput->bActive)
@@ -102,6 +106,7 @@ HOOK_METHOD(CApp, OnTextInput, (int charCode) -> void)
 
 HOOK_METHOD(CApp, OnTextEvent, (CEvent::TextEvent te) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CApp::OnTextEvent -> Begin (Seeds.cpp)\n")
 	if (SeedInputBox::seedInput)
 	{
 		if (SeedInputBox::seedInput->bActive)
@@ -115,6 +120,7 @@ HOOK_METHOD(CApp, OnTextEvent, (CEvent::TextEvent te) -> void)
 
 HOOK_METHOD(ShipBuilder, OnKeyDown, (SDLKey key) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipBuilder::OnKeyDown -> Begin (Seeds.cpp)\n")
     if (SeedInputBox::seedInput && SeedInputBox::seedInput->GetActive())
         return;
 
@@ -123,6 +129,7 @@ HOOK_METHOD(ShipBuilder, OnKeyDown, (SDLKey key) -> void)
 
 HOOK_METHOD(ShipBuilder, OnLoop, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipBuilder::OnLoop -> Begin (Seeds.cpp)\n")
 	super();
 	if (SeedInputBox::seedInput && !bRenaming)
 	{
@@ -134,6 +141,7 @@ HOOK_METHOD(ShipBuilder, OnLoop, () -> void)
 
 HOOK_METHOD(ShipBuilder, MouseMove, (int x, int y) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipBuilder::MouseMove -> Begin (Seeds.cpp)\n")
     if (SeedInputBox::seedInput->GetActive())
         return;
 
@@ -142,6 +150,7 @@ HOOK_METHOD(ShipBuilder, MouseMove, (int x, int y) -> void)
 
 HOOK_METHOD(ShipBuilder, MouseClick, (int x, int y) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipBuilder::MouseClick -> Begin (Seeds.cpp)\n")
     if (!SeedInputBox::seedsEnabled) return super(x, y);
 	if (SeedInputBox::seedInput && !bRenaming)
 	{
@@ -171,6 +180,7 @@ HOOK_METHOD(ShipBuilder, MouseClick, (int x, int y) -> void)
 
 HOOK_METHOD(AchievementTracker, SetAchievement, (const std::string& ach, bool noPopup, bool sendToServer) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> AchievementTracker::SetAchievement -> Begin (Seeds.cpp)\n")
     if (Global::isCustomSeed && G_->GetWorld()->bStartedGame)
     {
         return;
@@ -181,6 +191,7 @@ HOOK_METHOD(AchievementTracker, SetAchievement, (const std::string& ach, bool no
 
 HOOK_METHOD(ScoreKeeper, UnlockShip, (int shipId, int shipType, bool save, bool hidePopup) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ScoreKeeper::UnlockShip -> Begin (Seeds.cpp)\n")
     if (Global::isCustomSeed && G_->GetWorld()->bStartedGame)
     {
         return;
@@ -192,6 +203,7 @@ HOOK_METHOD(ScoreKeeper, UnlockShip, (int shipId, int shipType, bool save, bool 
 
 HOOK_METHOD(StarMap, SaveGame, (int file) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> StarMap::SaveGame -> Begin (Seeds.cpp)\n")
     FileHelper::writeInt(file, Global::currentSeed);
     FileHelper::writeInt(file, Global::isCustomSeed);
     worldRng.Export(file);
@@ -203,6 +215,7 @@ static bool startingNewGame = false;
 
 HOOK_METHOD(StarMap, NewGame, (bool unk) -> Location*)
 {
+    LOG_HOOK("HOOK_METHOD -> StarMap::NewGame -> Begin (Seeds.cpp)\n")
     if (!SeedInputBox::seedsEnabled) return super(unk);
 
 	std::string str = SeedInputBox::seedInput->GetText();
@@ -234,6 +247,7 @@ HOOK_METHOD(StarMap, NewGame, (bool unk) -> Location*)
 
 HOOK_METHOD(StarMap, LoadGame, (int fh) -> Location*)
 {
+    LOG_HOOK("HOOK_METHOD -> StarMap::LoadGame -> Begin (Seeds.cpp)\n")
     loadingMap = true;
 
     Global::currentSeed = FileHelper::readInteger(fh);
@@ -250,6 +264,7 @@ HOOK_METHOD(StarMap, LoadGame, (int fh) -> Location*)
 
 HOOK_METHOD(StarMap, AdvanceWorldLevel, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> StarMap::AdvanceWorldLevel -> Begin (Seeds.cpp)\n")
     super();
     worldRng();
 }
@@ -258,6 +273,7 @@ int eventNumber = 0;
 
 HOOK_METHOD(StarMap, GenerateMap, (bool unk, bool seed) -> Location*)
 {
+    LOG_HOOK("HOOK_METHOD -> StarMap::GenerateMap -> Begin (Seeds.cpp)\n")
     if (!SeedInputBox::seedsEnabled) return super(unk, seed);
 	if (startingNewGame)
 	{
@@ -290,6 +306,7 @@ HOOK_METHOD(StarMap, GenerateMap, (bool unk, bool seed) -> Location*)
 
 HOOK_METHOD_PRIORITY(StarMap, GenerateMap, 1000, (bool unk, bool seed) -> Location*)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> StarMap::GenerateMap -> Begin (Seeds.cpp)\n")
     generatingMap = true;
 
     if (!loadingMap)
@@ -312,6 +329,7 @@ HOOK_METHOD_PRIORITY(StarMap, GenerateMap, 1000, (bool unk, bool seed) -> Locati
 
 HOOK_METHOD(StarMap, GenerateSectorMap, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> StarMap::GenerateSectorMap -> Begin (Seeds.cpp)\n")
     //printf("Generating sector map seed: %d\n", generateSectorMapSeed);
     if (!SeedInputBox::seedsEnabled) return super();
 
@@ -342,6 +360,7 @@ void SetSeed(unsigned int seed)
 
 HOOK_METHOD(StarMap, GetNewLocation, () -> Location*)
 {
+    LOG_HOOK("HOOK_METHOD -> StarMap::GetNewLocation -> Begin (Seeds.cpp)\n")
     if (!readyToTravel || outOfFuel) return super();
 
     auto ret = super();
@@ -359,6 +378,7 @@ HOOK_METHOD(StarMap, GetNewLocation, () -> Location*)
 // New game quest seeds
 HOOK_METHOD_PRIORITY(StarMap, NewGame, 500, (bool unk) -> Location*)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> StarMap::NewGame -> Begin (Seeds.cpp)\n")
     Global::questSeed = 0;
     Global::delayedQuestSeeds.clear();
     Global::lastDelayedQuestSeeds.clear();
@@ -381,6 +401,7 @@ HOOK_METHOD_PRIORITY(StarMap, NewGame, 500, (bool unk) -> Location*)
 // Load quest seeds
 HOOK_METHOD_PRIORITY(StarMap, LoadGame, 500, (int fh) -> Location*)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> StarMap::LoadGame -> Begin (Seeds.cpp)\n")
     Global::questSeed = FileHelper::readInteger(fh);
     Global::delayedQuestSeeds.clear();
     Global::lastDelayedQuestSeeds.clear();
@@ -401,6 +422,7 @@ HOOK_METHOD_PRIORITY(StarMap, LoadGame, 500, (int fh) -> Location*)
 
 HOOK_METHOD(EventGenerator, GetBaseEvent, (const std::string& name, int worldLevel, char ignoreUnique, int seed) -> LocationEvent*)
 {
+    LOG_HOOK("HOOK_METHOD -> EventGenerator::GetBaseEvent -> Begin (Seeds.cpp)\n")
     if (boost::algorithm::starts_with(name, "QUEST ")) //loading a saved quest
     {
         std::string name2 = name.substr(6);
@@ -416,6 +438,7 @@ HOOK_METHOD(EventGenerator, GetBaseEvent, (const std::string& name, int worldLev
 //Save quest seeds
 HOOK_METHOD_PRIORITY(StarMap, SaveGame, 500, (int file) -> void)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> StarMap::SaveGame -> Begin (Seeds.cpp)\n")
     FileHelper::writeInt(file, Global::questSeed);
 
     FileHelper::writeInt(file, Global::delayedQuestSeeds.size());
@@ -431,6 +454,7 @@ HOOK_METHOD_PRIORITY(StarMap, SaveGame, 500, (int file) -> void)
 
 HOOK_METHOD(StarMap, UpdateBoss, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> StarMap::UpdateBoss -> Begin (Seeds.cpp)\n")
     if (!SeedInputBox::seedsEnabled) return super();
 
     int saveSeed = random32();
@@ -442,6 +466,7 @@ HOOK_METHOD(StarMap, UpdateBoss, () -> void)
 
 HOOK_METHOD(StarMap, AdvanceWorldLevel, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> StarMap::AdvanceWorldLevel -> Begin (Seeds.cpp)\n")
     super();
 
     if (SeedInputBox::seedsEnabled && bSecretSector)

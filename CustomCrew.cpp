@@ -1750,6 +1750,7 @@ static bool blockAddSoundQueue = false;
 
 HOOK_METHOD(Animation, AddSoundQueue, (int frame, const std::string& str) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Animation::AddSoundQueue -> Begin (CustomCrew.cpp)\n")
     if (blockAddSoundQueue) return;
 
     super(frame, str);
@@ -1757,6 +1758,7 @@ HOOK_METHOD(Animation, AddSoundQueue, (int frame, const std::string& str) -> voi
 
 HOOK_METHOD_PRIORITY(CrewMember, constructor, -899, (CrewBlueprint& bp, int shipId, bool enemy, CrewAnimation *animation) -> void)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> CrewMember::constructor -> Begin (CustomCrew.cpp)\n")
     for (unsigned int i=0; i<bp.colorLayers.size(); ++i)
     {
         if (bp.colorChoices[i] >= (int) bp.colorLayers[i].size()) bp.colorLayers[i].resize(bp.colorChoices[i]+1, GL_Color(0.0,0.0,0.0,0.0));
@@ -1987,6 +1989,7 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
 
 HOOK_METHOD(CrewBlueprint, RandomSkills, (int worldLevel) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewBlueprint::RandomSkills -> Begin (CustomCrew.cpp)\n")
     auto custom = CustomCrewManager::GetInstance();
     super(worldLevel);
 
@@ -2008,6 +2011,7 @@ HOOK_METHOD(CrewBlueprint, RandomSkills, (int worldLevel) -> void)
 
 HOOK_METHOD_PRIORITY(CrewMember, UpdateHealth, 2000, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> CrewMember::UpdateHealth -> Begin (CustomCrew.cpp)\n")
     if (G_->GetCApp()->menu.shipBuilder.bOpen) return;
 
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
@@ -2114,6 +2118,7 @@ HOOK_METHOD_PRIORITY(CrewMember, UpdateHealth, 2000, () -> void)
 }
 HOOK_METHOD_PRIORITY(CrewMember, DirectModifyHealth, 1000, (float healthMod) -> bool)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> CrewMember::DirectModifyHealth -> Begin (CustomCrew.cpp)\n")
     auto custom = CustomCrewManager::GetInstance();
     CrewMember_Extend* ex = CM_EX(this);
     auto def = custom->GetDefinition(this->species);
@@ -2144,6 +2149,7 @@ HOOK_METHOD_PRIORITY(CrewMember, DirectModifyHealth, 1000, (float healthMod) -> 
 }
 HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> CrewMember::OnLoop -> Begin (CustomCrew.cpp)\n")
     super();
 
     auto custom = CustomCrewManager::GetInstance();
@@ -2280,6 +2286,7 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
 
 HOOK_METHOD(CrewMember, SaveState, (int file) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewMember::SaveState -> Begin (CustomCrew.cpp)\n")
     auto ex = CM_EX(this);
 
     FileHelper::writeFloat(file, health.first);
@@ -2302,6 +2309,7 @@ HOOK_METHOD(CrewMember, SaveState, (int file) -> void)
 
 HOOK_METHOD(CrewMember, LoadState, (int file) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewMember::LoadState -> Begin (CustomCrew.cpp)\n")
     auto ex = CM_EX(this);
     auto aex = CMA_EX(crewAnim);
 
@@ -2369,6 +2377,7 @@ HOOK_METHOD(CrewMember, LoadState, (int file) -> void)
 
 HOOK_METHOD_PRIORITY(CrewMember, GetNewGoal, 2000, () -> bool)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> CrewMember::GetNewGoal -> Begin (CustomCrew.cpp)\n")
     auto ex = CM_EX(this);
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
 
@@ -2589,6 +2598,7 @@ HOOK_METHOD_PRIORITY(CrewMember, GetNewGoal, 2000, () -> bool)
 
 HOOK_METHOD(BlueprintManager, GetCrewBlueprint, (const std::string &name) -> CrewBlueprint)
 {
+    LOG_HOOK("HOOK_METHOD -> BlueprintManager::GetCrewBlueprint -> Begin (CustomCrew.cpp)\n")
     std::vector<std::string> blueprintList = this->GetBlueprintList(name);
     if (blueprintList.empty())
     {
@@ -2602,6 +2612,7 @@ HOOK_METHOD(BlueprintManager, GetCrewBlueprint, (const std::string &name) -> Cre
 
 HOOK_METHOD(ShipManager, AddCrewMemberFromString, (const std::string& name, const std::string& race, bool intruder, int roomId, bool init, bool male) -> CrewMember*)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::AddCrewMemberFromString -> Begin (CustomCrew.cpp)\n")
     std::string actualRace = race;
     std::vector<std::string> blueprintList = G_->GetBlueprints()->GetBlueprintList(actualRace);
 
@@ -2616,6 +2627,7 @@ HOOK_METHOD(ShipManager, AddCrewMemberFromString, (const std::string& name, cons
 
 HOOK_METHOD(CompleteShip, AddCrewMember1, (const std::string &race, const std::string &name, bool hostile) -> CrewMember*)
 {
+    LOG_HOOK("HOOK_METHOD -> CompleteShip::AddCrewMember1 -> Begin (CustomCrew.cpp)\n")
     std::vector<std::string> blueprintList = G_->GetBlueprints()->GetBlueprintList(race);
     if (blueprintList.empty())
     {
@@ -2629,6 +2641,7 @@ HOOK_METHOD(CompleteShip, AddCrewMember1, (const std::string &race, const std::s
 
 HOOK_METHOD(CrewMemberFactory, CreateCrewMember, (CrewBlueprint* bp, int shipId, bool intruder) -> CrewMember*)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewMemberFactory::CreateCrewMember -> Begin (CustomCrew.cpp)\n")
     auto custom = CustomCrewManager::GetInstance();
     CrewMember *newCrew = custom->CreateCrewMember(bp, shipId, shipId == 1);
 
@@ -2645,6 +2658,7 @@ HOOK_METHOD(CrewMemberFactory, CreateCrewMember, (CrewBlueprint* bp, int shipId,
 
 HOOK_STATIC(CrewMemberFactory, IsRace, (std::string& race) -> bool)
 {
+    LOG_HOOK("HOOK_STATIC -> CrewMemberFactory::IsRace -> Begin (CustomCrew.cpp)\n")
     auto custom = CustomCrewManager::GetInstance();
 
     if (custom->IsRace(race))
@@ -2654,6 +2668,7 @@ HOOK_STATIC(CrewMemberFactory, IsRace, (std::string& race) -> bool)
 
 HOOK_METHOD(CrewAnimation, GetDeathSound, () -> std::string)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewAnimation::GetDeathSound -> Begin (CustomCrew.cpp)\n")
     auto custom = CustomCrewManager::GetInstance();
 
     std::string ret = super();
@@ -2679,6 +2694,7 @@ HOOK_METHOD(CrewAnimation, GetDeathSound, () -> std::string)
 
 HOOK_METHOD(RockAnimation, GetDeathSound, () -> std::string)
 {
+    LOG_HOOK("HOOK_METHOD -> RockAnimation::GetDeathSound -> Begin (CustomCrew.cpp)\n")
     auto custom = CustomCrewManager::GetInstance();
 
     std::string ret = super();
@@ -2704,6 +2720,7 @@ HOOK_METHOD(RockAnimation, GetDeathSound, () -> std::string)
 
 HOOK_METHOD(MantisAnimation, GetDeathSound, () -> std::string)
 {
+    LOG_HOOK("HOOK_METHOD -> MantisAnimation::GetDeathSound -> Begin (CustomCrew.cpp)\n")
     auto custom = CustomCrewManager::GetInstance();
 
     std::string ret = super();
@@ -2729,6 +2746,7 @@ HOOK_METHOD(MantisAnimation, GetDeathSound, () -> std::string)
 
 HOOK_METHOD(CrewAnimation, GetShootingSound, () -> std::string)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewAnimation::GetShootingSound -> Begin (CustomCrew.cpp)\n")
     auto custom = CustomCrewManager::GetInstance();
 
     std::string ret = super();
@@ -2752,6 +2770,7 @@ HOOK_METHOD(CrewAnimation, GetShootingSound, () -> std::string)
 
 HOOK_METHOD(RockAnimation, GetShootingSound, () -> std::string)
 {
+    LOG_HOOK("HOOK_METHOD -> RockAnimation::GetShootingSound -> Begin (CustomCrew.cpp)\n")
     auto custom = CustomCrewManager::GetInstance();
 
     std::string ret = super();
@@ -2775,6 +2794,7 @@ HOOK_METHOD(RockAnimation, GetShootingSound, () -> std::string)
 
 HOOK_METHOD(MantisAnimation, GetShootingSound, () -> std::string)
 {
+    LOG_HOOK("HOOK_METHOD -> MantisAnimation::GetShootingSound -> Begin (CustomCrew.cpp)\n")
     auto custom = CustomCrewManager::GetInstance();
 
     std::string ret = super();
@@ -2798,6 +2818,7 @@ HOOK_METHOD(MantisAnimation, GetShootingSound, () -> std::string)
 
 HOOK_METHOD(CrewMember, GetUniqueRepairing, () -> std::string)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewMember::GetUniqueRepairing -> Begin (CustomCrew.cpp)\n")
     auto custom = CustomCrewManager::GetInstance();
 
     std::string ret = super();
@@ -2827,6 +2848,7 @@ HOOK_METHOD(CrewMember, GetUniqueRepairing, () -> std::string)
 
 HOOK_METHOD(OxygenSystem, EmptyOxygen, (int roomId) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> OxygenSystem::EmptyOxygen -> Begin (CustomCrew.cpp)\n")
     if (!G_->GetCApp()->menu.shipBuilder.bOpen)
         return;
 
@@ -2835,6 +2857,7 @@ HOOK_METHOD(OxygenSystem, EmptyOxygen, (int roomId) -> void)
 
 HOOK_METHOD(ShipManager, UpdateEnvironment, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::UpdateEnvironment -> Begin (CustomCrew.cpp)\n")
     if (!G_->GetCApp()->menu.shipBuilder.bOpen && systemKey[2] != -1)
     {
         for (auto const &x: vCrewList)
@@ -2865,6 +2888,7 @@ HOOK_METHOD(ShipManager, UpdateEnvironment, () -> void)
 
 HOOK_METHOD(CrewMember, ApplyDamage, (float damage) -> bool)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewMember::ApplyDamage -> Begin (CustomCrew.cpp)\n")
     auto custom = CustomCrewManager::GetInstance();
 
     if (custom->IsRace(species))
@@ -2884,6 +2908,7 @@ static bool crewDetectLifeforms = false;
 
 HOOK_METHOD(ShipManager, OnRender, (bool unk1, bool unk2) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::OnRender -> Begin (CustomCrew.cpp)\n")
     crewDetectLifeforms = true;
     super(unk1, unk2);
     crewDetectLifeforms = false;
@@ -2891,6 +2916,7 @@ HOOK_METHOD(ShipManager, OnRender, (bool unk1, bool unk2) -> void)
 
 HOOK_METHOD(CombatControl, CanTargetSelf, () -> bool)
 {
+    LOG_HOOK("HOOK_METHOD -> CombatControl::CanTargetSelf -> Begin (CustomCrew.cpp)\n")
     crewDetectLifeforms = true;
     bool ret = super();
     crewDetectLifeforms = false;
@@ -2900,6 +2926,7 @@ HOOK_METHOD(CombatControl, CanTargetSelf, () -> bool)
 
 HOOK_METHOD(CombatControl, UpdateTarget, () -> bool)
 {
+    LOG_HOOK("HOOK_METHOD -> CombatControl::UpdateTarget -> Begin (CustomCrew.cpp)\n")
     crewDetectLifeforms = true;
     return super();
     crewDetectLifeforms = false;
@@ -2907,6 +2934,7 @@ HOOK_METHOD(CombatControl, UpdateTarget, () -> bool)
 
 HOOK_METHOD(ShipObject, HasEquipment, (const std::string& name) -> int)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipObject::HasEquipment -> Begin (CustomCrew.cpp)\n")
     if (name == "slug" && crewDetectLifeforms)
     {
         auto custom = CustomCrewManager::GetInstance();
@@ -2960,6 +2988,7 @@ HOOK_METHOD(ShipObject, HasEquipment, (const std::string& name) -> int)
 
 HOOK_METHOD(ShipSystem, SetPowerLoss, (int powerLoss) -> int)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipSystem::SetPowerLoss -> Begin (CustomCrew.cpp)\n")
     int ret = super(powerLoss);
 
     SYS_EX(this)->oldPowerLoss = powerLoss;
@@ -2971,6 +3000,7 @@ static bool blockClearStatus = false;
 
 HOOK_METHOD(WorldManager, OnLoop, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> WorldManager::OnLoop -> Begin (CustomCrew.cpp)\n")
     super();
 
 
@@ -2984,6 +3014,7 @@ HOOK_METHOD(WorldManager, OnLoop, () -> void)
 
 HOOK_METHOD(ShipManager, ClearStatusSystem, (int sys) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::ClearStatusSystem -> Begin (CustomCrew.cpp)\n")
     if (blockClearStatus) return;
 
     super(sys);
@@ -2991,6 +3022,7 @@ HOOK_METHOD(ShipManager, ClearStatusSystem, (int sys) -> void)
 
 HOOK_METHOD(ShipSystem, ClearStatus, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipSystem::ClearStatus -> Begin (CustomCrew.cpp)\n")
     SYS_EX(this)->oldPowerLoss = 0;
     super();
 
@@ -2999,6 +3031,7 @@ HOOK_METHOD(ShipSystem, ClearStatus, () -> void)
 
 HOOK_METHOD(ShipManager, OnLoop, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::OnLoop -> Begin (CustomCrew.cpp)\n")
     super();
 
     for (auto i : vSystemList)
@@ -3090,6 +3123,7 @@ HOOK_METHOD(ShipManager, OnLoop, () -> void)
 
 HOOK_METHOD(ShipSystem, GetMaxPower, () -> int)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipSystem::GetMaxPower -> Begin (CustomCrew.cpp)\n")
     ShipSystem_Extend* sys_ex = SYS_EX(this);
     iTempPowerLoss = sys_ex->oldPowerLoss + sys_ex->additionalPowerLoss;
     int maxPowerLoss = powerState.second - (healthState.second - healthState.first);
@@ -3099,6 +3133,7 @@ HOOK_METHOD(ShipSystem, GetMaxPower, () -> int)
 
 HOOK_METHOD(ShipSystem, CheckMaxPower, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipSystem::CheckMaxPower -> Begin (CustomCrew.cpp)\n")
     ShipSystem_Extend* sys_ex = SYS_EX(this);
     iTempPowerLoss = sys_ex->oldPowerLoss + sys_ex->additionalPowerLoss;
     int maxPowerLoss = powerState.second - (healthState.second - healthState.first);
@@ -3108,6 +3143,7 @@ HOOK_METHOD(ShipSystem, CheckMaxPower, () -> void)
 
 HOOK_METHOD(ShipSystem, CheckForRepower, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipSystem::CheckForRepower -> Begin (CustomCrew.cpp)\n")
     ShipSystem_Extend* sys_ex = SYS_EX(this);
     iTempPowerLoss = sys_ex->oldPowerLoss + sys_ex->additionalPowerLoss;
     int maxPowerLoss = powerState.second - (healthState.second - healthState.first);
@@ -3117,6 +3153,7 @@ HOOK_METHOD(ShipSystem, CheckForRepower, () -> void)
 
 HOOK_METHOD(ShipSystem, AddDamage, (int amount) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipSystem::AddDamage -> Begin (CustomCrew.cpp)\n")
     int newHealth = std::max(0, std::min(healthState.first - amount, healthState.second));
 
     ShipSystem_Extend* sys_ex = SYS_EX(this);
@@ -3129,6 +3166,7 @@ HOOK_METHOD(ShipSystem, AddDamage, (int amount) -> void)
 
 HOOK_METHOD(ShipSystem, DamageOverTime, (float speed) -> bool)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipSystem::DamageOverTime -> Begin (CustomCrew.cpp)\n")
     auto ret = super(speed);
     if (ret)
     {
@@ -3144,6 +3182,7 @@ HOOK_METHOD(ShipSystem, DamageOverTime, (float speed) -> bool)
 
 HOOK_METHOD(ShipSystem, PartialRepair, (float speed, bool autoRepair) -> bool)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipSystem::PartialRepair -> Begin (CustomCrew.cpp)\n")
     auto ret = super(speed, autoRepair);
     if (ret)
     {
@@ -3158,6 +3197,7 @@ HOOK_METHOD(ShipSystem, PartialRepair, (float speed, bool autoRepair) -> bool)
 
 HOOK_METHOD(CrewMember, OnLoop, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewMember::OnLoop -> Begin (CustomCrew.cpp)\n")
     super();
 
     auto custom = CustomCrewManager::GetInstance();
@@ -3219,17 +3259,20 @@ static bool blockDamageArea = false;
 // We can't return just Damage (since it's a hidden parameter) like we could in the static variant, so reverse the logic and only return ANYTHING if we should, otherwise let the functions fall through and the stack will be unmodified.
 HOOK_METHOD(IonDrone, GetRoomDamage, () -> Damage)
 {
+    LOG_HOOK("HOOK_METHOD -> IonDrone::GetRoomDamage -> Begin (CustomCrew.cpp)\n")
     if (!blockDamageArea)
         return super();
 }
 HOOK_METHOD(EnergyAlien, GetRoomDamage, () -> Damage)
 {
+    LOG_HOOK("HOOK_METHOD -> EnergyAlien::GetRoomDamage -> Begin (CustomCrew.cpp)\n")
     if (!blockDamageArea)
         return super();
 }
 
 HOOK_METHOD(CrewMember, GetRoomDamage, () -> Damage)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewMember::GetRoomDamage -> Begin (CustomCrew.cpp)\n")
     Damage ret = super();
 
     auto custom = CustomCrewManager::GetInstance();
@@ -3290,6 +3333,7 @@ HOOK_METHOD(CrewMember, GetRoomDamage, () -> Damage)
 
 HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::UpdateCrewMembers -> Begin (CustomCrew.cpp)\n")
     blockDamageArea = true;
     super();
     blockDamageArea = false;
@@ -3377,6 +3421,7 @@ HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
 
 HOOK_METHOD(ShipManager, DamageCrew, (CrewMember *crew, DamageParameter dmgParameter) -> char)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::DamageCrew -> Begin (CustomCrew.cpp)\n")
     Damage* dmg = (Damage*)&dmgParameter;
 
     if ((CrewMember*)dmg->selfId == crew)
@@ -3389,6 +3434,7 @@ HOOK_METHOD(ShipManager, DamageCrew, (CrewMember *crew, DamageParameter dmgParam
 
 HOOK_METHOD_PRIORITY(ShipManager, DamageArea, -1000, (Pointf location, DamageParameter damageParameter, bool forceHit) -> bool)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::DamageArea -> Begin (CustomCrew.cpp)\n")
     if (blockDamageArea) return false;
     Damage* dmg = (Damage*)&damageParameter;
 
@@ -3423,6 +3469,7 @@ HOOK_METHOD_PRIORITY(ShipManager, DamageArea, -1000, (Pointf location, DamagePar
 
 HOOK_METHOD(CrewBox, constructor, (Point pos, CrewMember *crew, int number) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewBox::constructor -> Begin (CustomCrew.cpp)\n")
     super(pos, crew, number);
 
     auto custom = CustomCrewManager::GetInstance();
@@ -3491,6 +3538,7 @@ HOOK_METHOD(CrewBox, constructor, (Point pos, CrewMember *crew, int number) -> v
 
 HOOK_METHOD_PRIORITY(CrewBox, OnRender, 1000, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> CrewBox::OnRender -> Begin (CustomCrew.cpp)\n")
     //return super();
     mindControlled.Update();
     stunned.Update();
@@ -3780,6 +3828,7 @@ HOOK_METHOD_PRIORITY(CrewBox, OnRender, 1000, () -> void)
 
 HOOK_METHOD(CrewBox, GetSelected, (int mouseX, int mouseY) -> CrewMember*)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewBox::GetSelected -> Begin (CustomCrew.cpp)\n")
     auto ret = super(mouseX, mouseY);
 
     bool appendHotkey = false;
@@ -3942,6 +3991,7 @@ HOOK_METHOD(CrewBox, GetSelected, (int mouseX, int mouseY) -> CrewMember*)
 
 HOOK_METHOD(CrewMember, OnRender, (bool outlineOnly) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewMember::OnRender -> Begin (CustomCrew.cpp)\n")
     super(outlineOnly);
 
     if (outlineOnly) return;
@@ -3979,6 +4029,7 @@ HOOK_METHOD(CrewMember, OnRender, (bool outlineOnly) -> void)
 
 HOOK_METHOD(CrewMember, OnRenderHealth, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewMember::OnRenderHealth -> Begin (CustomCrew.cpp)\n")
     auto ex = CMA_EX(crewAnim);
 
     if (ex->effectAnim != nullptr && !ex->effectAnim->tracker.done)
@@ -4008,6 +4059,7 @@ HOOK_METHOD(CrewMember, OnRenderHealth, () -> void)
 
 HOOK_METHOD(CrewAnimation, OnRender, (float scale, int selectedState, bool outlineOnly) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewAnimation::OnRender -> Begin (CustomCrew.cpp)\n")
     auto custom = CustomCrewManager::GetInstance();
     auto aex = CMA_EX(this);
 
@@ -4032,6 +4084,7 @@ static bool blockSetBonusPower = false;
 
 HOOK_METHOD(ShipSystem, SetBonusPower, (int amount, int permanentPower) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipSystem::SetBonusPower -> Begin (CustomCrew.cpp)\n")
     if (blockSetBonusPower) return;
 
     super(amount, permanentPower);
@@ -4039,6 +4092,7 @@ HOOK_METHOD(ShipSystem, SetBonusPower, (int amount, int permanentPower) -> void)
 
 HOOK_METHOD(WeaponSystem, SetBonusPower, (int amount, int permanentPower) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> WeaponSystem::SetBonusPower -> Begin (CustomCrew.cpp)\n")
     if (blockSetBonusPower) return;
 
     super(amount, permanentPower);
@@ -4046,6 +4100,7 @@ HOOK_METHOD(WeaponSystem, SetBonusPower, (int amount, int permanentPower) -> voi
 
 HOOK_METHOD(DroneSystem, SetBonusPower, (int amount, int permanentPower) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> DroneSystem::SetBonusPower -> Begin (CustomCrew.cpp)\n")
     if (blockSetBonusPower) return;
 
     super(amount, permanentPower);
@@ -4055,6 +4110,7 @@ HOOK_METHOD(DroneSystem, SetBonusPower, (int amount, int permanentPower) -> void
 
 HOOK_METHOD(ShipManager, OnLoop, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::OnLoop -> Begin (CustomCrew.cpp)\n")
     auto custom = CustomCrewManager::GetInstance();
 
     for (auto i : vSystemList)
@@ -4107,12 +4163,14 @@ static float sabotageMultiplier = 1.f;
 
 HOOK_METHOD(ShipSystem, PartialDamage, (float amount) -> bool)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipSystem::PartialDamage -> Begin (CustomCrew.cpp)\n")
     return super(amount * sabotageMultiplier);
 }
 
 
 HOOK_METHOD(CrewMember, UpdateRepair, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewMember::UpdateRepair -> Begin (CustomCrew.cpp)\n")
     auto custom = CustomCrewManager::GetInstance();
     auto ex = CM_EX(this);
     auto def = custom->GetDefinition(this->species);
@@ -4131,6 +4189,7 @@ static int windowFrameHeight = 0;
 
 HOOK_METHOD(WindowFrame, constructor, (int x, int y, int w, int h) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> WindowFrame::constructor -> Begin (CustomCrew.cpp)\n")
     if (windowFrameCheck)
     {
         h = windowFrameHeight;
@@ -4144,6 +4203,7 @@ bool blockAnimationUpdate = false;
 
 HOOK_METHOD(AnimationTracker, Update, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> AnimationTracker::Update -> Begin (CustomCrew.cpp)\n")
     if (blockAnimationUpdate) return;
 
     super();
@@ -4151,6 +4211,7 @@ HOOK_METHOD(AnimationTracker, Update, () -> void)
 
 HOOK_METHOD(CrewMember, OnRenderHealth, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewMember::OnRenderHealth -> Begin (CustomCrew.cpp)\n")
     bool fullHealth = std::floor(health.first) == std::floor(health.second);
 
     if (fullHealth)
@@ -4171,6 +4232,7 @@ HOOK_METHOD(CrewMember, OnRenderHealth, () -> void)
 
 HOOK_METHOD(CrewAI, PrioritizeIntruderRoom, (CrewMember *crew, int roomId, int target) -> int)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewAI::PrioritizeIntruderRoom -> Begin (CustomCrew.cpp)\n")
     if (!crew->CanSabotage() && !CM_EX(crew)->isIonDrone)
     {
         if (ship->CountCrewShipId(roomId, !crew->iShipId) == 0)
@@ -4184,6 +4246,7 @@ HOOK_METHOD(CrewAI, PrioritizeIntruderRoom, (CrewMember *crew, int roomId, int t
 
 HOOK_METHOD(CrewMember, Clone, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewMember::Clone -> Begin (CustomCrew.cpp)\n")
     bool cloneLoseSkills = false;
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
     auto def = custom->GetDefinition(this->species);
@@ -4209,6 +4272,7 @@ static bool needsIntruderControllable = false;
 
 HOOK_METHOD(CrewMember, NeedsIntruderSlot, () -> bool)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewMember::NeedsIntruderSlot -> Begin (CustomCrew.cpp)\n")
     if (needsIntruderControllable)
     {
         return super() || GetControllable();
@@ -4220,6 +4284,7 @@ HOOK_METHOD(CrewMember, NeedsIntruderSlot, () -> bool)
 
 HOOK_METHOD(CrewAI, OnLoop, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewAI::OnLoop -> Begin (CustomCrew.cpp)\n")
     super();
     if (ship->iShipId == 0)
     {
@@ -4235,6 +4300,7 @@ HOOK_METHOD(CrewAI, OnLoop, () -> void)
 
 HOOK_METHOD(CrewAI, UpdateCrewMember, (int crewId) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewAI::UpdateCrewMember -> Begin (CustomCrew.cpp)\n")
     auto crewMember = crewList[crewId];
 
     if (!crewMember->GetControllable() && !crewMember->bMindControlled && !crewMember->IsDead() && crewMember->iShipId == 0 && !crewMember->IsDrone())
@@ -4249,6 +4315,7 @@ HOOK_METHOD(CrewAI, UpdateCrewMember, (int crewId) -> void)
 
 HOOK_METHOD(CrewAI, PrioritizeTask, (CrewTask task, int crewId) -> int)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewAI::PrioritizeTask -> Begin (CustomCrew.cpp)\n")
     if (task.taskId == 0 && !crewList[crewId]->CanMan())
     {
         return 1001;
@@ -4259,6 +4326,7 @@ HOOK_METHOD(CrewAI, PrioritizeTask, (CrewTask task, int crewId) -> int)
 
 HOOK_METHOD(CrewMember, GetSavedPosition, () -> Slot)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewMember::GetSavedPosition -> Begin (CustomCrew.cpp)\n")
     // WARNING: Logic change, potential bug introduced during transition from static to member.
     Slot ret = super();
 
@@ -4276,6 +4344,7 @@ HOOK_METHOD(CrewMember, GetSavedPosition, () -> Slot)
 
 HOOK_METHOD(ShipManager, GetSelectedCrewPoint, (int mX, int mY, bool intruder) -> CrewMember*)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::GetSelectedCrewPoint -> Begin (CustomCrew.cpp)\n")
     if (vCrewList.empty())
     {
         return nullptr;
@@ -4310,6 +4379,7 @@ HOOK_METHOD(ShipManager, GetSelectedCrewPoint, (int mX, int mY, bool intruder) -
 
 HOOK_METHOD(CrewControl, MouseMove, (int mX, int mY, int wX, int wY) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewControl::MouseMove -> Begin (CustomCrew.cpp)\n")
     super(mX, mY, wX, wY);
 
     if (selectedDoor) return;
@@ -4333,6 +4403,7 @@ HOOK_METHOD(CrewControl, MouseMove, (int mX, int mY, int wX, int wY) -> void)
 
 HOOK_METHOD(CrewMember, GetTooltip, () -> std::string)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewMember::GetTooltip -> Begin (CustomCrew.cpp)\n")
     std::string ret = super();
     auto custom = CustomOptionsManager::GetInstance();
     if (custom->advancedCrewTooltips.currentValue)
@@ -4406,6 +4477,7 @@ HOOK_METHOD(CrewMember, GetTooltip, () -> std::string)
 
 HOOK_METHOD(CrewAnimation, FireShot, () -> bool)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewAnimation::FireShot -> Begin (CustomCrew.cpp)\n")
     if (CMA_EX(this)->isMantisAnimation)
     {
         anims[0][7].SetProgress(anims[direction][status].tracker.Progress(-1.f));
@@ -4443,6 +4515,7 @@ HOOK_METHOD(CrewAnimation, FireShot, () -> bool)
 
 HOOK_METHOD(CrewAnimation, GetFiringFrame, () -> int)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewAnimation::GetFiringFrame -> Begin (CustomCrew.cpp)\n")
     if (CMA_EX(this)->isMantisAnimation)
     {
         return -1;
@@ -4462,6 +4535,7 @@ ShipManager* shipManagerForShip = nullptr;
 
 HOOK_METHOD(ShipManager, OnLoop, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::OnLoop -> Begin (CustomCrew.cpp)\n")
     shipManagerForShip = this;
     super();
     shipManagerForShip = nullptr;
@@ -4469,6 +4543,7 @@ HOOK_METHOD(ShipManager, OnLoop, () -> void)
 
 HOOK_METHOD(Ship, OnLoop, (std::vector<float> &oxygenLevels) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Ship::OnLoop -> Begin (CustomCrew.cpp)\n")
     if (shipManagerForShip != nullptr)
     {
         CustomCrewManager *custom = CustomCrewManager::GetInstance();
@@ -4524,6 +4599,7 @@ HOOK_METHOD(Ship, OnLoop, (std::vector<float> &oxygenLevels) -> void)
 // GetClosestSlot bug fix for unusual layouts
 HOOK_METHOD(ShipGraph, GetClosestSlot, (Point pos, int shipId, bool intruder) -> Slot)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipGraph::GetClosestSlot -> Begin (CustomCrew.cpp)\n")
     for (Room *room : this->rooms)
     {
         Globals::Rect rect = room->rect;
@@ -4544,6 +4620,7 @@ HOOK_METHOD(ShipGraph, GetClosestSlot, (Point pos, int shipId, bool intruder) ->
 // Selectable/controllable split - doesn't work properly with touchscreen
 HOOK_METHOD(CrewControl, RButton, (int mX, int mY, bool shiftHeld) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewControl::RButton -> Begin (CustomCrew.cpp)\n")
     requiresFullControl = 1;
     super(mX, mY, shiftHeld);
     requiresFullControl = 0;
@@ -4551,6 +4628,7 @@ HOOK_METHOD(CrewControl, RButton, (int mX, int mY, bool shiftHeld) -> void)
 
 HOOK_METHOD(ShipManager, RestoreCrewPositions, () -> bool)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::RestoreCrewPositions -> Begin (CustomCrew.cpp)\n")
     requiresFullControl = 1;
     bool ret = super();
     requiresFullControl = 0;
@@ -4559,6 +4637,7 @@ HOOK_METHOD(ShipManager, RestoreCrewPositions, () -> bool)
 
 HOOK_METHOD(ShipManager, CommandCrewMoveRoom, (CrewMember* crew, int room) -> bool)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::CommandCrewMoveRoom -> Begin (CustomCrew.cpp)\n")
     if (requiresFullControl == 1 && !crew->GetControllable())
     {
         return false;
@@ -4568,6 +4647,7 @@ HOOK_METHOD(ShipManager, CommandCrewMoveRoom, (CrewMember* crew, int room) -> bo
 
 HOOK_METHOD_PRIORITY(CrewAI, OnLoop, -100, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> CrewAI::OnLoop -> Begin (CustomCrew.cpp)\n")
     requiresFullControl = -1;
     super();
     requiresFullControl = 0;
@@ -4577,6 +4657,7 @@ static std::unordered_map<CrewMember*, std::pair<bool, bool>> g_tempOutOfGame = 
 
 HOOK_METHOD(CrewMemberFactory, OnLoop, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewMemberFactory::OnLoop -> Begin (CustomCrew.cpp)\n")
     for (auto i : crewMembers)
     {
         if (CM_EX(i)->noSlot)
@@ -4606,6 +4687,7 @@ static bool g_inCrewCustomizeBox = false;
 
 HOOK_METHOD(CrewCustomizeBox, CheckContents, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewCustomizeBox::CheckContents -> Begin (CustomCrew.cpp)\n")
     g_inCrewCustomizeBox = true;
 
     super();
@@ -4615,6 +4697,7 @@ HOOK_METHOD(CrewCustomizeBox, CheckContents, () -> void)
 
 HOOK_METHOD(ShipManager, GetCrewmember, (int slot, bool present) -> CrewMember*)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::GetCrewmember -> Begin (CustomCrew.cpp)\n")
     if (vCrewList.empty()) return nullptr;
 
     int currSlot = 0;
@@ -4633,6 +4716,7 @@ HOOK_METHOD(ShipManager, GetCrewmember, (int slot, bool present) -> CrewMember*)
 
 HOOK_METHOD(CrewMember, CheckSkills, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewMember::CheckSkills -> Begin (CustomCrew.cpp)\n")
     super();
 
     auto custom = CustomCrewManager::GetInstance();

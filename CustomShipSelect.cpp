@@ -1031,6 +1031,7 @@ int CustomShipSelect::CountUnlockedShips(int variant=-1)
 
 HOOK_METHOD(ScoreKeeper, GetShipBlueprint, (int index) -> std::string)
 {
+    LOG_HOOK("HOOK_METHOD -> ScoreKeeper::GetShipBlueprint -> Begin (CustomShipSelect.cpp)\n")
     std::string ret;
     if (index >= 100)
         ret = super(0);
@@ -1049,6 +1050,7 @@ HOOK_METHOD(ScoreKeeper, GetShipBlueprint, (int index) -> std::string)
 
 HOOK_METHOD(UnlockArrow, MouseMove, (int x, int y) -> bool)
 {
+    LOG_HOOK("HOOK_METHOD -> UnlockArrow::MouseMove -> Begin (CustomShipSelect.cpp)\n")
     auto customSel = CustomShipSelect::GetInstance();
 
     if (customSel->ShouldRenderArrow())
@@ -1061,6 +1063,7 @@ HOOK_METHOD(UnlockArrow, MouseMove, (int x, int y) -> bool)
 
 HOOK_METHOD(UnlockArrow, OnRender, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> UnlockArrow::OnRender -> Begin (CustomShipSelect.cpp)\n")
     auto customSel = CustomShipSelect::GetInstance();
 
     if (customSel->ShouldRenderArrow())
@@ -1072,6 +1075,7 @@ HOOK_METHOD(UnlockArrow, OnRender, () -> void)
 
 HOOK_METHOD(ShipButton, OnRender, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipButton::OnRender -> Begin (CustomShipSelect.cpp)\n")
     auto customSel = CustomShipSelect::GetInstance();
     if (customSel->ShouldRenderButton(this))
     {
@@ -1090,6 +1094,7 @@ HOOK_METHOD(ShipButton, OnRender, () -> void)
 
 HOOK_METHOD(ShipSelect, MouseClick, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipSelect::MouseClick -> Begin (CustomShipSelect.cpp)\n")
     super();
 
     auto customSel = CustomShipSelect::GetInstance();
@@ -1098,6 +1103,7 @@ HOOK_METHOD(ShipSelect, MouseClick, () -> void)
 
 HOOK_METHOD(ShipSelect, MouseMove, (int x, int y) -> int)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipSelect::MouseMove -> Begin (CustomShipSelect.cpp)\n")
     auto customSel = CustomShipSelect::GetInstance();
 
     if (customSel->FirstPage())
@@ -1112,6 +1118,7 @@ HOOK_METHOD(ShipSelect, MouseMove, (int x, int y) -> int)
 
 HOOK_METHOD(ShipSelect, Open, (int currentLayout, int currentType) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipSelect::Open -> Begin (CustomShipSelect.cpp)\n")
     super(currentLayout, currentType);
 
     auto customSel = CustomShipSelect::GetInstance();
@@ -1121,6 +1128,7 @@ HOOK_METHOD(ShipSelect, Open, (int currentLayout, int currentType) -> void)
 
 HOOK_METHOD(ShipSelect, OnRender, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipSelect::OnRender -> Begin (CustomShipSelect.cpp)\n")
     auto customSel = CustomShipSelect::GetInstance();
 
     if (customSel->FirstPage())
@@ -1140,6 +1148,7 @@ HOOK_METHOD(ShipSelect, OnRender, () -> void)
 
 HOOK_METHOD(ShipBuilder, SwitchShip, (int shipType, int shipVariant) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipBuilder::SwitchShip -> Begin (CustomShipSelect.cpp)\n")
     if (shipType >= 100)
     {
         auto customSel = CustomShipSelect::GetInstance();
@@ -1155,11 +1164,13 @@ HOOK_METHOD(ShipBuilder, SwitchShip, (int shipType, int shipVariant) -> void)
 // TODO: Why??? There's no implemenation here
 HOOK_METHOD(AchievementTracker, GetShipAchievements, (std::string& ship) -> std::vector<CAchievement*>)
 {
+    LOG_HOOK("HOOK_METHOD -> AchievementTracker::GetShipAchievements -> Begin (CustomShipSelect.cpp)\n")
     return super(ship);
 }
 
 HOOK_METHOD(ShipBuilder, MouseClick, (int x, int y) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipBuilder::MouseClick -> Begin (CustomShipSelect.cpp)\n")
     super(x, y);
 
     auto customSel = CustomShipSelect::GetInstance();
@@ -1175,11 +1186,13 @@ HOOK_METHOD(ShipBuilder, MouseClick, (int x, int y) -> void)
 
 HOOK_METHOD(ShipBuilder, SwapType, (int variant) -> int)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipBuilder::SwapType -> Begin (CustomShipSelect.cpp)\n")
     return super(variant);
 }
 
 HOOK_METHOD(ShipSelect, Close, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipSelect::Close -> Begin (CustomShipSelect.cpp)\n")
     super();
     auto customSel = CustomShipSelect::GetInstance();
     customSel->Close();
@@ -1187,6 +1200,7 @@ HOOK_METHOD(ShipSelect, Close, () -> void)
 
 HOOK_METHOD(ShipBuilder, CycleShipNext, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipBuilder::CycleShipNext -> Begin (CustomShipSelect.cpp)\n")
     auto customSel = CustomShipSelect::GetInstance();
 
     if (currentShipId >= 100)
@@ -1203,6 +1217,7 @@ HOOK_METHOD(ShipBuilder, CycleShipNext, () -> void)
 
 HOOK_METHOD(ShipBuilder, CycleShipPrevious, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipBuilder::CycleShipPrevious -> Begin (CustomShipSelect.cpp)\n")
     auto customSel = CustomShipSelect::GetInstance();
 
     if (currentShipId >= 100)
@@ -1220,6 +1235,7 @@ HOOK_METHOD(ShipBuilder, CycleShipPrevious, () -> void)
 
 HOOK_METHOD(ShipBuilder, MouseClick, (int x, int y) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipBuilder::MouseClick -> Begin (CustomShipSelect.cpp)\n")
     if (randomButton.bActive && randomButton.bHover)
     {
         auto customSel = CustomShipSelect::GetInstance();
@@ -1272,6 +1288,7 @@ HOOK_METHOD(ShipBuilder, MouseClick, (int x, int y) -> void)
 
 HOOK_METHOD(ShipBuilder, OnLoop, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipBuilder::OnLoop -> Begin (CustomShipSelect.cpp)\n")
     if (Global::forceDlc)
     {
         *Global::dlcEnabled = true;
@@ -1309,6 +1326,7 @@ static GL_Primitive* unlocksDisabledPrimitive;
 
 HOOK_METHOD(MenuScreen, constructor, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> MenuScreen::constructor -> Begin (CustomShipSelect.cpp)\n")
     super();
 
     seedBox = G_->GetResources()->GetImageId("optionsUI/info_seed.png");
@@ -1318,6 +1336,7 @@ HOOK_METHOD(MenuScreen, constructor, () -> void)
 
 HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipBuilder::OnRender -> Begin (CustomShipSelect.cpp)\n")
     bool isVanillaShip = currentShipId < 100;
 
     if (Global::forceDlc)
@@ -1553,6 +1572,7 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
 
 HOOK_METHOD(GameOver, OnRender, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> GameOver::OnRender -> Begin (CustomShipSelect.cpp)\n")
     if (bShowStats)
     {
         CSurface::GL_SetColorTint(COLOR_TINT);
@@ -1593,6 +1613,7 @@ HOOK_METHOD(GameOver, OnRender, () -> void)
 
 HOOK_METHOD_PRIORITY(MenuScreen, OnRender, 1000, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> MenuScreen::OnRender -> Begin (CustomShipSelect.cpp)\n")
     if (G_->GetWorld()->playerShip)
     {
         if (!SM_EX(G_->GetWorld()->playerShip->shipManager)->isNewShip)
@@ -1745,6 +1766,7 @@ HOOK_METHOD_PRIORITY(MenuScreen, OnRender, 1000, () -> void)
 
 HOOK_METHOD(ShipBuilder, Open, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipBuilder::Open -> Begin (CustomShipSelect.cpp)\n")
     auto customSel = CustomShipSelect::GetInstance();
 
     super();
@@ -1761,6 +1783,7 @@ HOOK_METHOD(ShipBuilder, Open, () -> void)
 
 HOOK_METHOD(ShipBuilder, OnKeyDown, (SDLKey key) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipBuilder::OnKeyDown -> Begin (CustomShipSelect.cpp)\n")
     if (key == SDLKey::SDLK_UP
         || key == SDLKey::SDLK_LEFT
         || key == SDLKey::SDLK_RIGHT

@@ -1728,6 +1728,7 @@ void CustomEventsParser::ParseVanillaShipEventNode(rapidxml::xml_node<char> *nod
 
 HOOK_METHOD(EventsParser, ProcessEvent, (rapidxml::xml_node<char> *node, const std::string &eventName) -> std::string)
 {
+    LOG_HOOK("HOOK_METHOD -> EventsParser::ProcessEvent -> Begin (CustomEvents.cpp)\n")
     std::string strRef = super(node, eventName);
     if (!node->first_attribute("load"))
     {
@@ -1738,6 +1739,7 @@ HOOK_METHOD(EventsParser, ProcessEvent, (rapidxml::xml_node<char> *node, const s
 
 HOOK_METHOD(EventsParser, ProcessEventList, (rapidxml::xml_node<char> *node, const std::string &listName) -> std::vector<std::string>)
 {
+    LOG_HOOK("HOOK_METHOD -> EventsParser::ProcessEventList -> Begin (CustomEvents.cpp)\n")
     std::vector<std::string> vecRef = super(node, listName);
     CustomEventsParser::GetInstance()->ParseVanillaEventNode(node, listName, listName);
     return vecRef;
@@ -1745,6 +1747,7 @@ HOOK_METHOD(EventsParser, ProcessEventList, (rapidxml::xml_node<char> *node, con
 
 HOOK_METHOD(EventsParser, ProcessShipEvent, (rapidxml::xml_node<char> *node) -> ShipTemplate)
 {
+    LOG_HOOK("HOOK_METHOD -> EventsParser::ProcessShipEvent -> Begin (CustomEvents.cpp)\n")
     ShipTemplate shipEvent = super(node);
     if (node->first_attribute("name"))
     {
@@ -1759,6 +1762,7 @@ static bool g_checkCargo = false;
 
 HOOK_METHOD(ShipObject, HasEquipment, (const std::string& equipment) -> int)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipObject::HasEquipment -> Begin (CustomEvents.cpp)\n")
     int ret = super(equipment);
 
     if (g_checkCargo && ret <= 0)
@@ -1808,6 +1812,7 @@ static bool advancedCheckEquipment = false;
 
 HOOK_METHOD_PRIORITY(ShipObject, HasEquipment, -100, (const std::string& equipment) -> int)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipObject::HasEquipment -> Begin (CustomEvents.cpp)\n")
     if (advancedCheckEquipment)
     {
         if (boost::algorithm::starts_with(equipment, "ANY "))
@@ -1851,6 +1856,7 @@ static std::string removeHiddenAug = "";
 
 HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> WorldManager::CreateChoiceBox -> Begin (CustomEvents.cpp)\n")
     auto customEvents = CustomEventsParser::GetInstance();
 
     if (customEvents->GetCustomEvent(event->eventName))
@@ -1883,6 +1889,7 @@ HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
 // hidden augs, checkCargo
 HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEvent*)
 {
+    LOG_HOOK("HOOK_METHOD -> WorldManager::ModifyResources -> Begin (CustomEvents.cpp)\n")
     auto customEvents = CustomEventsParser::GetInstance();
     auto customEvent = customEvents->GetCustomEvent(event->eventName);
 
@@ -1936,6 +1943,7 @@ HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEve
 
 HOOK_METHOD(ShipManager, RemoveItem, (const std::string& name) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::RemoveItem -> Begin (CustomEvents.cpp)\n")
     bool removedItem = false;
 
     if (HasAugmentation(name) || boost::algorithm::starts_with(name, "HIDDEN "))
@@ -2010,6 +2018,7 @@ HOOK_METHOD(ShipManager, RemoveItem, (const std::string& name) -> void)
 
 HOOK_METHOD(CommandGui, AddEnemyShip, (CompleteShip *ship) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CommandGui::AddEnemyShip -> Begin (CustomEvents.cpp)\n")
     super(ship);
     auto custom = CustomEventsParser::GetInstance();
 
@@ -2024,6 +2033,7 @@ HOOK_METHOD(CommandGui, AddEnemyShip, (CompleteShip *ship) -> void)
 
 HOOK_METHOD(CombatControl, AddEnemyShip, (CompleteShip *ship) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CombatControl::AddEnemyShip -> Begin (CustomEvents.cpp)\n")
     super(ship);
     auto custom = CustomEventsParser::GetInstance();
 
@@ -2043,6 +2053,7 @@ static GL_Texture* boxCustom[3];
 
 HOOK_METHOD(StarMap, constructor, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> StarMap::constructor -> Begin (CustomEvents.cpp)\n")
     super();
     boxCustom[0] = G_->GetResources()->GetImageId("map/map_box_custom_1.png");
     boxCustom[1] = G_->GetResources()->GetImageId("map/map_box_custom_2.png");
@@ -2056,6 +2067,7 @@ static int overrideWorldLevel = -1;
 
 HOOK_METHOD(StarMap, AddQuest, (const std::string& questEvent, bool force) -> bool)
 {
+    LOG_HOOK("HOOK_METHOD -> StarMap::AddQuest -> Begin (CustomEvents.cpp)\n")
     int savedSeed = 0;
     int nextQuestSeed = Global::questSeed;
     overrideWorldLevel = worldLevel;
@@ -2243,6 +2255,7 @@ HOOK_METHOD(StarMap, AddQuest, (const std::string& questEvent, bool force) -> bo
 
 HOOK_METHOD(EventGenerator, GetBaseEvent, (const std::string& name, int worldLevel, char ignoreUnique, int seed) -> LocationEvent*)
 {
+    LOG_HOOK("HOOK_METHOD -> EventGenerator::GetBaseEvent -> Begin (CustomEvents.cpp)\n")
     if (overrideWorldLevel > -1)
     {
         return super(name, overrideWorldLevel, ignoreUnique, seed);
@@ -2253,6 +2266,7 @@ HOOK_METHOD(EventGenerator, GetBaseEvent, (const std::string& name, int worldLev
 
 HOOK_METHOD(StarMap, RenderLabels, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> StarMap::RenderLabels -> Begin (CustomEvents.cpp)\n")
     struct LocLabelValues
     {
         bool questLoc;
@@ -2386,6 +2400,7 @@ static Location* originalExit = nullptr;
 
 HOOK_METHOD(StarMap, GenerateMap, (bool tutorial, bool seed) -> LocationEvent*)
 {
+    LOG_HOOK("HOOK_METHOD -> StarMap::GenerateMap -> Begin (CustomEvents.cpp)\n")
     originalExit = nullptr;
 
     if (!loadingGame)
@@ -2514,6 +2529,7 @@ HOOK_METHOD(StarMap, GenerateMap, (bool tutorial, bool seed) -> LocationEvent*)
 
 HOOK_METHOD_PRIORITY(StarMap, TurnIntoFleetLocation, 9999, (Location *loc) -> void)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> StarMap::TurnIntoFleetLocation -> Begin (CustomEvents.cpp)\n")
     EventGenerator *eventGenerator = G_->GetEventGenerator();
 
     auto locEvent = loc->event;
@@ -2630,6 +2646,7 @@ HOOK_METHOD_PRIORITY(StarMap, TurnIntoFleetLocation, 9999, (Location *loc) -> vo
 
 HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *loc) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> WorldManager::CreateChoiceBox -> Begin (CustomEvents.cpp)\n")
     CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(loc->eventName);
     if (customEvent)
     {
@@ -3031,6 +3048,7 @@ void CustomEventsParser::LoadEvent(WorldManager *world, std::string eventName, i
 
 HOOK_METHOD(WorldManager, CreateLocation, (Location *location) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> WorldManager::CreateLocation -> Begin (CustomEvents.cpp)\n")
     if (!loadingGame)
     {
         for (auto it = eventAliases.begin(); it != eventAliases.end(); )
@@ -3122,6 +3140,7 @@ static bool g_noASBPlanet = false;
 
 HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> WorldManager::UpdateLocation -> Begin (CustomEvents.cpp)\n")
     CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(loc->eventName);
 
     if (!loadingGame)
@@ -3197,6 +3216,7 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
 
 HOOK_METHOD(WorldManager, CreateShip, (ShipEvent* shipEvent, bool boss) -> CompleteShip*)
 {
+    LOG_HOOK("HOOK_METHOD -> WorldManager::CreateShip -> Begin (CustomEvents.cpp)\n")
     auto ret = super(shipEvent, boss);
 
     bossDefeated = false;
@@ -3245,6 +3265,7 @@ HOOK_METHOD(WorldManager, CreateShip, (ShipEvent* shipEvent, bool boss) -> Compl
 
 HOOK_METHOD(StarMap, GetLocationText, (const Location* loc) -> std::string)
 {
+    LOG_HOOK("HOOK_METHOD -> StarMap::GetLocationText -> Begin (CustomEvents.cpp)\n")
     CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(loc->event->eventName);
 
     if (!customEvent) return super(loc);
@@ -3332,6 +3353,7 @@ HOOK_METHOD(StarMap, GetLocationText, (const Location* loc) -> std::string)
 
 HOOK_METHOD(StarMap, GenerateNebulas, (std::vector<std::string>& names) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> StarMap::GenerateNebulas -> Begin (CustomEvents.cpp)\n")
     if (names.size() > locations.size())
     {
         names.resize(locations.size());
@@ -3360,6 +3382,7 @@ HOOK_METHOD(StarMap, GenerateNebulas, (std::vector<std::string>& names) -> void)
 
 HOOK_METHOD(StarMap, StartSecretSector, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> StarMap::StartSecretSector -> Begin (CustomEvents.cpp)\n")
     // Close store window to prevent crashes.
     TabbedWindow& storeScreens = G_->GetWorld()->commandGui->storeScreens;
     if (storeScreens.currentTab >= 0 && storeScreens.currentTab < storeScreens.windows.size() && storeScreens.windows[storeScreens.currentTab])
@@ -3390,12 +3413,14 @@ static std::string sectorChange = "";
 
 HOOK_METHOD(StarMap, SaveGame, (int file) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> StarMap::SaveGame -> Begin (CustomEvents.cpp)\n")
     FileHelper::writeString(file, currentSector->description.type);
     super(file);
 }
 
 HOOK_METHOD(StarMap, LoadGame, (int file) -> Location*)
 {
+    LOG_HOOK("HOOK_METHOD -> StarMap::LoadGame -> Begin (CustomEvents.cpp)\n")
     sectorChange = FileHelper::readString(file);
     Location* ret = super(file);
     sectorChange = "";
@@ -3405,6 +3430,7 @@ HOOK_METHOD(StarMap, LoadGame, (int file) -> Location*)
 
 HOOK_METHOD(StarMap, NewGame, (bool unk) -> Location*)
 {
+    LOG_HOOK("HOOK_METHOD -> StarMap::NewGame -> Begin (CustomEvents.cpp)\n")
     bSecretSector = false;
     pursuitDelay = 0;
     reversedPath = false;
@@ -3414,6 +3440,7 @@ HOOK_METHOD(StarMap, NewGame, (bool unk) -> Location*)
 
 HOOK_METHOD(StarMap, GenerateMap, (bool tutorial, bool seed) -> LocationEvent*)
 {
+    LOG_HOOK("HOOK_METHOD -> StarMap::GenerateMap -> Begin (CustomEvents.cpp)\n")
     if (!sectorChange.empty() && bSecretSector)
     {
         Sector *newSector = new Sector();
@@ -3436,6 +3463,7 @@ std::string replaceCreditsMusic = "";
 
 HOOK_METHOD(GameOver, OpenText, (const std::string& text) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> GameOver::OpenText -> Begin (CustomEvents.cpp)\n")
     if (!replaceGameOverText.empty()) return super(replaceGameOverText);
 
     return super(text);
@@ -3443,6 +3471,7 @@ HOOK_METHOD(GameOver, OpenText, (const std::string& text) -> void)
 
 HOOK_METHOD(CommandGui, OnLoop, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CommandGui::OnLoop -> Begin (CustomEvents.cpp)\n")
     super();
 }
 
@@ -3450,6 +3479,7 @@ static bool blockScrapCollected = false;
 
 HOOK_METHOD(ScoreKeeper, AddScrapCollected, (int scrap) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ScoreKeeper::AddScrapCollected -> Begin (CustomEvents.cpp)\n")
     if (blockScrapCollected) return;
 
     super(scrap);
@@ -3457,6 +3487,7 @@ HOOK_METHOD(ScoreKeeper, AddScrapCollected, (int scrap) -> void)
 
 HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEvent*)
 {
+    LOG_HOOK("HOOK_METHOD -> WorldManager::ModifyResources -> Begin (CustomEvents.cpp)\n")
     CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(event->eventName);
 
     if (customEvent)
@@ -3587,6 +3618,7 @@ HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEve
 
 HOOK_METHOD(TextLibrary, GetText, (const std::string& name, const std::string& lang) -> std::string)
 {
+    LOG_HOOK("HOOK_METHOD -> TextLibrary::GetText -> Begin (CustomEvents.cpp)\n")
     if (!shouldReplaceCreditsText || replaceGameOverCreditsText.empty() || name != "credit_victory") return super(name, lang);
 
     return super(replaceGameOverCreditsText, lang);
@@ -3594,6 +3626,7 @@ HOOK_METHOD(TextLibrary, GetText, (const std::string& name, const std::string& l
 
 HOOK_METHOD(ResourceControl, GetImageId, (const std::string& name) -> GL_Texture*)
 {
+    LOG_HOOK("HOOK_METHOD -> ResourceControl::GetImageId -> Begin (CustomEvents.cpp)\n")
     if (shouldReplaceBackground && !replaceCreditsBackground.empty() && name == "stars/bg_darknebula.png")
     {
         return super(replaceCreditsBackground);
@@ -3604,6 +3637,7 @@ HOOK_METHOD(ResourceControl, GetImageId, (const std::string& name) -> GL_Texture
 
 HOOK_METHOD(CreditScreen, Start, (const std::string& shipName, const std::vector<std::string>& crewNames) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CreditScreen::Start -> Begin (CustomEvents.cpp)\n")
     auto defaultVictory = CustomEventsParser::GetInstance()->defaultVictory;
     if (defaultVictory)
     {
@@ -3622,6 +3656,7 @@ HOOK_METHOD(CreditScreen, Start, (const std::string& shipName, const std::vector
 
 HOOK_METHOD(CreditScreen, Done, () -> bool)
 {
+    LOG_HOOK("HOOK_METHOD -> CreditScreen::Done -> Begin (CustomEvents.cpp)\n")
     bool ret = super();
 
     if (ret)
@@ -3635,6 +3670,7 @@ HOOK_METHOD(CreditScreen, Done, () -> bool)
 
 HOOK_METHOD(CreditScreen, OnRender, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CreditScreen::OnRender -> Begin (CustomEvents.cpp)\n")
     shouldReplaceBackground = true;
     shouldReplaceCreditsText = true;
     super();
@@ -3644,6 +3680,7 @@ HOOK_METHOD(CreditScreen, OnRender, () -> void)
 
 HOOK_METHOD(StarMap, NewGame, (bool unk) -> Location*)
 {
+    LOG_HOOK("HOOK_METHOD -> StarMap::NewGame -> Begin (CustomEvents.cpp)\n")
     bossDefeated = false;
     delete restartMusicTimer;
     restartMusicTimer = nullptr;
@@ -3674,6 +3711,7 @@ HOOK_METHOD(StarMap, NewGame, (bool unk) -> Location*)
 
 HOOK_METHOD(StarMap, LoadGame, (int fh) -> Location*)
 {
+    LOG_HOOK("HOOK_METHOD -> StarMap::LoadGame -> Begin (CustomEvents.cpp)\n")
     bossDefeated = false;
     delete restartMusicTimer;
     restartMusicTimer = nullptr;
@@ -3728,6 +3766,7 @@ HOOK_METHOD(StarMap, LoadGame, (int fh) -> Location*)
 
 HOOK_METHOD(StarMap, SaveGame, (int file) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> StarMap::SaveGame -> Begin (CustomEvents.cpp)\n")
     // jumpEvent
     FileHelper::writeString(file, jumpEvent);
     FileHelper::writeInt(file, jumpEventLoop);
@@ -3779,6 +3818,7 @@ HOOK_METHOD(StarMap, SaveGame, (int file) -> void)
 
 HOOK_METHOD(StarMap, Open, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> StarMap::Open -> Begin (CustomEvents.cpp)\n")
     if (!jumpEvent.empty())
     {
         LocationEvent* event = G_->GetEventGenerator()->GetBaseEvent(jumpEvent, currentSector->level, true, -1);
@@ -3792,6 +3832,7 @@ HOOK_METHOD(StarMap, Open, () -> void)
 
 HOOK_METHOD_PRIORITY(StarMap, Open, 9999, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> StarMap::Open -> Begin (CustomEvents.cpp)\n")
     if (!bOpen)
     {
         closeButton.SetActive(true);
@@ -3826,6 +3867,7 @@ static bool inUpdateBoss = false;
 
 HOOK_METHOD(StarMap, UpdateBoss, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> StarMap::UpdateBoss -> Begin (CustomEvents.cpp)\n")
     inUpdateBoss = true;
 
     bossFleetPrevention.starMap = this;
@@ -3840,6 +3882,7 @@ HOOK_METHOD(StarMap, UpdateBoss, () -> void)
 
 HOOK_METHOD(StarMap, GenerateMap, (bool unk, bool seed) -> Location*)
 {
+    LOG_HOOK("HOOK_METHOD -> StarMap::GenerateMap -> Begin (CustomEvents.cpp)\n")
     auto ret = super(unk, seed);
 
     if (!loadingMap)
@@ -3865,6 +3908,7 @@ HOOK_METHOD(StarMap, GenerateMap, (bool unk, bool seed) -> Location*)
 
 HOOK_METHOD(StarMap, TurnIntoFleetLocation, (Location *loc) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> StarMap::TurnIntoFleetLocation -> Begin (CustomEvents.cpp)\n")
     auto locEvent = loc->event;
     auto customEvents = CustomEventsParser::GetInstance();
     auto customEvent = customEvents->GetCustomEvent(locEvent->eventName);
@@ -3934,6 +3978,7 @@ HOOK_METHOD(StarMap, TurnIntoFleetLocation, (Location *loc) -> void)
 
 HOOK_METHOD_PRIORITY(ShipManager, SelectRandomCrew, 100, (int seed, std::string &racePref) -> CrewBlueprint)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::SelectRandomCrew -> Begin (CustomEvents.cpp)\n")
     std::string species = racePref;
     CrewBlueprint bp = super(seed, species); // species is not const?!
 
@@ -3983,6 +4028,7 @@ HOOK_METHOD_PRIORITY(ShipManager, SelectRandomCrew, 100, (int seed, std::string 
 
 HOOK_METHOD(ShipManager, SelectRandomCrew, (int seed, std::string &racePref) -> CrewBlueprint)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::SelectRandomCrew -> Begin (CustomEvents.cpp)\n")
     if (this->CountCrew(false) == 0 && this->bAutomated)
     {
         CrewMember* crew;
@@ -3993,6 +4039,7 @@ HOOK_METHOD(ShipManager, SelectRandomCrew, (int seed, std::string &racePref) -> 
 
 HOOK_METHOD_PRIORITY(ShipManager, FindCrew, 9999, (const CrewBlueprint* bp) -> CrewMember*)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::FindCrew -> Begin (CustomEvents.cpp)\n")
     std::vector<CrewMember*> crewList = std::vector<CrewMember*>();
     G_->GetCrewFactory()->GetCrewList(&crewList, 0, false);
 
@@ -4017,6 +4064,7 @@ HOOK_METHOD_PRIORITY(ShipManager, FindCrew, 9999, (const CrewBlueprint* bp) -> C
 
 HOOK_METHOD(ShipObject, HasEquipment, (const std::string& name) -> int)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipObject::HasEquipment -> Begin (CustomEvents.cpp)\n")
     if (name == "difficulty")
     {
         return *G_->difficulty;
@@ -4093,6 +4141,7 @@ void GoToFlagship(bool atBase, bool allFleet)
 
 HOOK_METHOD(CompleteShip, DeadCrew, () -> bool)
 {
+    LOG_HOOK("HOOK_METHOD -> CompleteShip::DeadCrew -> Begin (CustomEvents.cpp)\n")
     bool ret = super();
 
     if (ret && !bPlayerShip)
@@ -4146,6 +4195,7 @@ HOOK_METHOD(CompleteShip, DeadCrew, () -> bool)
 
 HOOK_METHOD(WorldManager, OnLoop, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> WorldManager::OnLoop -> Begin (CustomEvents.cpp)\n")
     super();
 
     if (!playerShip) return;
@@ -4207,6 +4257,7 @@ HOOK_METHOD(WorldManager, OnLoop, () -> void)
 
 HOOK_METHOD(CApp, OnLoop, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CApp::OnLoop -> Begin (CustomEvents.cpp)\n")
     super();
     if (restartMusicTimer != nullptr)
     {
@@ -4231,6 +4282,7 @@ HOOK_METHOD(CApp, OnLoop, () -> void)
 
 HOOK_METHOD(SpaceManager, SetPlanetaryDefense, (bool state, int target) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> SpaceManager::SetPlanetaryDefense -> Begin (CustomEvents.cpp)\n")
     bool dangerSet = false;
     if (g_noASBPlanet && !dangerZone)
     {

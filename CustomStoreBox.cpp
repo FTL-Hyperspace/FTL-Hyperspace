@@ -121,5 +121,6 @@ void CustomStoreBox::OnRender()
 
 HOOK_METHOD(SystemStoreBox, CanHold, () -> bool)
 {
+    LOG_HOOK("HOOK_METHOD -> SystemStoreBox::CanHold -> Begin (CustomStoreBox.cpp)\n")
     return super() && !shopper->HasSystem(type);
 }

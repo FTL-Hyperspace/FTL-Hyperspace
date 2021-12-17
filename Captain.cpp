@@ -3,6 +3,7 @@
 /*
 HOOK_METHOD(ShipManager, AddInitialCrew, (std::vector<CrewBlueprint>& blueprints) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::AddInitialCrew -> Begin (Captain.cpp)\n")
     super(blueprints);
 
     if (this->iShipId == 0)
@@ -23,6 +24,7 @@ HOOK_METHOD(ShipManager, AddInitialCrew, (std::vector<CrewBlueprint>& blueprints
 
 HOOK_METHOD(CrewMember, OnRender, (bool unk) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewMember::OnRender -> Begin (Captain.cpp)\n")
     super(unk);
 
     if (CM_EX(this)->isCaptain)
@@ -41,6 +43,7 @@ HOOK_METHOD(CrewMember, OnRender, (bool unk) -> void)
 
 HOOK_METHOD(ShipManager, GetDodgeFactor, () -> int)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::GetDodgeFactor -> Begin (Captain.cpp)\n")
     int ret = super();
 
     for (auto const& x: this->vCrewList)

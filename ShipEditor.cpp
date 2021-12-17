@@ -5,6 +5,7 @@ ShipEditor ShipEditor::instance = ShipEditor();
 /*
 HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, -1000, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipBuilder::OnRender -> Begin (ShipEditor.cpp)\n")
     ShipEditor *editor = ShipEditor::GetInstance();
 
     if (editor->enabled)
@@ -181,6 +182,7 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, -1000, () -> void)
 
 HOOK_METHOD_PRIORITY(ShipBuilder, OnLoop, -1000, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipBuilder::OnLoop -> Begin (ShipEditor.cpp)\n")
     ShipEditor *editor = ShipEditor::GetInstance();
 
     if (editor->enabled)
@@ -195,6 +197,7 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnLoop, -1000, () -> void)
 
 HOOK_METHOD_PRIORITY(ShipBuilder, MouseMove, -1000, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipBuilder::MouseMove -> Begin (ShipEditor.cpp)\n")
     ShipEditor *editor = ShipEditor::GetInstance();
 
     if (editor->enabled)
@@ -209,6 +212,7 @@ HOOK_METHOD_PRIORITY(ShipBuilder, MouseMove, -1000, () -> void)
 
 HOOK_METHOD_PRIORITY(ShipBuilder, MouseClick, -1000, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipBuilder::MouseClick -> Begin (ShipEditor.cpp)\n")
     ShipEditor *editor = ShipEditor::GetInstance();
 
     if (editor->enabled)
@@ -223,6 +227,7 @@ HOOK_METHOD_PRIORITY(ShipBuilder, MouseClick, -1000, () -> void)
 
 HOOK_METHOD(ShipBuilder, SwitchShip, (int shipType, int shipVariant) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipBuilder::SwitchShip -> Begin (ShipEditor.cpp)\n")
     super(shipType, shipVariant);
 
     nameInput.SetText(currentShip->myBlueprint.blueprintName);
