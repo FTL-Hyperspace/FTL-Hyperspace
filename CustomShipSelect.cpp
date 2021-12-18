@@ -825,7 +825,7 @@ void CustomShipSelect::UpdateFilteredAchievements()
     std::vector<std::string> victoryTypes;
     for (std::string &i : shipVictoryFilters)
     {
-        if (!customUnlocks->customVictories[i].secret || (customUnlocks->customShipVictories.count(i) && !customUnlocks->customShipVictories[i].empty()))
+        if (!customUnlocks->customVictories[i].secret || !customUnlocks->customVictories[i].SecretLocked())
         {
             victoryTypes.push_back(i);
         }
@@ -975,7 +975,7 @@ void CustomShipSelect::OnRender(bool renderSelect)
         std::vector<std::string> victoryTypes;
         for (std::string &i : customUnlocks->customVictoryTypes)
         {
-            if (!customUnlocks->customVictories[i].secret || (customUnlocks->customShipVictories.count(i) && !customUnlocks->customShipVictories[i].empty()))
+            if (!customUnlocks->customVictories[i].secret || !customUnlocks->customVictories[i].SecretLocked())
             {
                 victoryTypes.push_back(i);
             }
@@ -996,13 +996,24 @@ void CustomShipSelect::OnRender(bool renderSelect)
 
                 Point pos = Point(640 - 17*(b==max_b ? max_a : 6) + 34*a, 607 - 17*((victoryTypes.size()+5)/6) + 34*b);
 
-                if (std::find(shipVictoryFilters.begin(), shipVictoryFilters.end(), victoryTypes[i]) != shipVictoryFilters.end())
+                imagePath = "achievements/";
+
+                if (customUnlocks->customVictories[victoryTypes[i]].SecretLocked() && !customUnlocks->customVictories[victoryTypes[i]].secretIcon.empty())
                 {
-                    imagePath = "achievements/"+customUnlocks->customVictories[victoryTypes[i]].icon+"_on.png";
+                    imagePath += customUnlocks->customVictories[victoryTypes[i]].secretIcon;
                 }
                 else
                 {
-                    imagePath = "achievements/"+customUnlocks->customVictories[victoryTypes[i]].icon+"_off.png";
+                    imagePath += customUnlocks->customVictories[victoryTypes[i]].icon;
+                }
+
+                if (std::find(shipVictoryFilters.begin(), shipVictoryFilters.end(), victoryTypes[i]) != shipVictoryFilters.end())
+                {
+                    imagePath += "_on.png";
+                }
+                else
+                {
+                    imagePath += "_off.png";
                 }
 
                 G_->GetResources()->RenderImageString(imagePath, pos.x, pos.y, 0, GL_Color(1.f,1.f,1.f,1.f), 1.f, false);
@@ -1085,14 +1096,14 @@ void CustomShipSelect::MouseClick()
         std::vector<std::string> enabledVictoryFilters;
         for (std::string &i : customUnlocks->customVictoryTypes)
         {
-            if (!customUnlocks->customVictories[i].secret || (customUnlocks->customShipVictories.count(i) && !customUnlocks->customShipVictories[i].empty()))
+            if (!customUnlocks->customVictories[i].secret || !customUnlocks->customVictories[i].SecretLocked())
             {
                 victoryTypes.push_back(i);
             }
         }
         for (std::string &i : shipVictoryFilters)
         {
-            if (!customUnlocks->customVictories[i].secret || (customUnlocks->customShipVictories.count(i) && !customUnlocks->customShipVictories[i].empty()))
+            if (!customUnlocks->customVictories[i].secret || !customUnlocks->customVictories[i].SecretLocked())
             {
                 enabledVictoryFilters.push_back(i);
             }
@@ -1376,7 +1387,7 @@ void CustomShipSelect::MouseMove(int x, int y)
         std::vector<std::string> victoryTypes;
         for (std::string &i : customUnlocks->customVictoryTypes)
         {
-            if (!customUnlocks->customVictories[i].secret || (customUnlocks->customShipVictories.count(i) && !customUnlocks->customShipVictories[i].empty()))
+            if (!customUnlocks->customVictories[i].secret || !customUnlocks->customVictories[i].SecretLocked())
             {
                 victoryTypes.push_back(i);
             }
@@ -1393,7 +1404,15 @@ void CustomShipSelect::MouseMove(int x, int y)
 
             if (x > pos.x && x < pos.x+32 && y > pos.y && y < pos.y+32)
             {
-                std::string name = customUnlocks->customVictories[victoryTypes[i]].name.GetText();
+                std::string name;
+                if (customUnlocks->customVictories[victoryTypes[i]].SecretLocked() && !customUnlocks->customVictories[victoryTypes[i]].secretName.data.empty())
+                {
+                    name = customUnlocks->customVictories[victoryTypes[i]].secretName.GetText();
+                }
+                else
+                {
+                    name = customUnlocks->customVictories[victoryTypes[i]].name.GetText();
+                }
                 boost::algorithm::replace_all(name, "\\1", "");
                 boost::algorithm::trim(name);
 
@@ -2255,7 +2274,7 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
         std::vector<std::string> victoryTypes;
         for (std::string &i : CustomShipUnlocks::instance->customVictoryTypes)
         {
-            if (!CustomShipUnlocks::instance->customVictories[i].secret || (CustomShipUnlocks::instance->customShipVictories.count(i) && !CustomShipUnlocks::instance->customShipVictories[i].empty()))
+            if (!CustomShipUnlocks::instance->customVictories[i].secret || !CustomShipUnlocks::instance->customVictories[i].SecretLocked())
             {
                 victoryTypes.push_back(i);
             }
@@ -2395,7 +2414,7 @@ HOOK_METHOD(ShipBuilder, MouseMove, (int x, int y) -> void)
             std::vector<std::string> victoryTypes;
             for (std::string &i : CustomShipUnlocks::instance->customVictoryTypes)
             {
-                if (!CustomShipUnlocks::instance->customVictories[i].secret || (CustomShipUnlocks::instance->customShipVictories.count(i) && !CustomShipUnlocks::instance->customShipVictories[i].empty()))
+                if (!CustomShipUnlocks::instance->customVictories[i].secret || !CustomShipUnlocks::instance->customVictories[i].SecretLocked())
                 {
                     victoryTypes.push_back(i);
                 }

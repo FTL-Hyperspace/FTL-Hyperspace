@@ -1290,7 +1290,7 @@ void CustomVictoryAchievement::SetupVictoryAchievementIcon(CAchievement* ach)
 
 bool CustomVictoryAchievement::SecretLocked()
 {
-    return CustomShipUnlocks::instance->customShipVictories.count(victoryName) == 0 || !CustomShipUnlocks::instance->customShipVictories[victoryName].empty();
+    return CustomShipUnlocks::instance->customShipVictories.count(victoryName) == 0 || CustomShipUnlocks::instance->customShipVictories[victoryName].empty();
 }
 
 // Custom achievement rendering
