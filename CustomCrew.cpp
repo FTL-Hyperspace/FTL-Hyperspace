@@ -2140,7 +2140,13 @@ HOOK_METHOD_PRIORITY(CrewMember, UpdateHealth, 2000, () -> void)
         mod = ex->CalculateStat(CrewStat::HEAL_SPEED_MULTIPLIER, def);
     }
 
-    DirectModifyHealth(G_->GetCFPS()->GetSpeedFactor() * (fMedbay + ex->extraMedbay) * mod * 0.4f);
+    float medbayRate = fMedbay;
+    if (medbayRate > 1.f)
+    {
+        medbayRate = (medbayRate - 1.f) * 1.5f;
+    }
+
+    DirectModifyHealth(G_->GetCFPS()->GetSpeedFactor() * (medbayRate + ex->extraMedbay) * mod * 0.4f);
 
     if (custom->IsRace(species))
     {
