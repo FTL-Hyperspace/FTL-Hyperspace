@@ -1654,6 +1654,7 @@ Syntax ->
 		                                                                                          by layer.
 		<clearCustomFleet/>                                                                     Removes a custom fleet if one is present.
 		<disableScrapScore/>                                                                    Any scrap gained from this event is not added to the player's score.
+		<disableScrapAugments/>                                                                 Any scrap gained from this event is not affected by augments (scrap recovery or repair arm).
 		<checkCargo/>                                                                           Choice requirements will check the ship's cargo in addition to equipment. Can put value of true or false, no value means true.
 		<hiddenAug>AUG_ID</hiddenAug>                                                           Gives the player a hidden augment named AUG_ID. Can be repeated.
 		<removeItem>ITEM_ID</removeItem>                                                        Removes the item with the specified name. Unlike vanilla's <remove> tag, this can be repeated, but it also does not display

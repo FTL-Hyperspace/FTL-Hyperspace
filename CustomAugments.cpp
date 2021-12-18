@@ -4,6 +4,7 @@
 #include "Global.h"
 #include "freetype.h"
 #include "ShipManager_Extend.h"
+#include "CustomEvents.h"
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
 
@@ -713,13 +714,33 @@ HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
     {
         if (commandGui->choiceBox.rewards.scrap > 0)
         {
-            commandGui->choiceBox.rewards.scrap = ((float)commandGui->choiceBox.rewards.scrap) + ((float)commandGui->choiceBox.rewards.scrap) * augValue;
-        }
-        for (auto& choice : commandGui->choiceBox.choices)
-        {
-            if (choice.rewards.scrap > 0)
+            CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(event->eventName);
+            if (!customEvent || !customEvent->disableScrapAugments)
             {
-                choice.rewards.scrap = choice.rewards.scrap + choice.rewards.scrap * augValue;
+                commandGui->choiceBox.rewards.scrap = ((float)commandGui->choiceBox.rewards.scrap) + ((float)commandGui->choiceBox.rewards.scrap) * augValue;
+            }
+        }
+
+        int numChoices = std::min(commandGui->choiceBox.choices.size(), event->choices.size());
+
+        for (int i=0; i<numChoices; ++i)
+        {
+            ChoiceText &choiceText = commandGui->choiceBox.choices[i];
+
+            if (choiceText.rewards.scrap > 0)
+            {
+                LocationEvent *choiceEvent = event->choices[i].event;
+
+                if (choiceEvent)
+                {
+                    CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(choiceEvent->eventName);
+                    if (customEvent && customEvent->disableScrapAugments)
+                    {
+                        continue;
+                    }
+                }
+
+                choiceText.rewards.scrap = choiceText.rewards.scrap + choiceText.rewards.scrap * augValue;
             }
         }
     }

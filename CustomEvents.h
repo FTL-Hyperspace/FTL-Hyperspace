@@ -532,6 +532,7 @@ struct CustomEvent
     std::string renameBeacon = "";
     EventGameOver gameOver = EventGameOver();
     bool disableScrapScore = false;
+    bool disableScrapAugments = false;
     std::string customStore = "";
     std::string jumpEvent = "";
     bool jumpEventLoop = false;

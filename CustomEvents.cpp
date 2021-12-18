@@ -1038,6 +1038,11 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
             isDefault = false;
             customEvent->disableScrapScore = true;
         }
+        if (nodeName == "disableScrapAugments")
+        {
+            isDefault = false;
+            customEvent->disableScrapAugments = true;
+        }
         if (nodeName == "removeItem")
         {
             isDefault = false;
@@ -3710,12 +3715,19 @@ HOOK_METHOD(CommandGui, OnLoop, () -> void)
 }
 
 static bool blockScrapCollected = false;
+static bool blockScrapAugments = false;
 
 HOOK_METHOD(ScoreKeeper, AddScrapCollected, (int scrap) -> void)
 {
     if (blockScrapCollected) return;
 
     super(scrap);
+}
+
+HOOK_METHOD(ShipManager, ModifyScrapCount, (int scrap, bool income) -> void)
+{
+    if (blockScrapAugments) income = false;
+    super(scrap, income);
 }
 
 HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEvent*)
@@ -3730,11 +3742,16 @@ HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEve
         {
             blockScrapCollected = true;
         }
+        if (customEvent->disableScrapAugments)
+        {
+            blockScrapAugments = true;
+        }
     }
 
     LocationEvent *ret = super(event);
 
     blockScrapCollected = false;
+    blockScrapAugments = false;
 
     //Location *location = starMap.currentLoc;
     //if (location->visited > 1 && !location->boss && !location->dangerZone)
