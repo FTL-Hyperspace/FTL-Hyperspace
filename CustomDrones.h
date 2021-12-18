@@ -7,6 +7,8 @@ static bool g_defenseDroneFix;
 static float g_defenseDroneFix_BoxRange[2];
 static float g_defenseDroneFix_EllipseRange[2];
 
+//extern bool g_dronesCanTeleport;
+
 struct CustomDroneDefinition
 {
     std::string name;

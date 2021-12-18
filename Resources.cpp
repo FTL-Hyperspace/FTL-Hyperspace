@@ -229,6 +229,14 @@ void Global::InitializeResources(ResourceControl *resources)
                 g_resistsMindControlStat = EventsParser::ParseBoolean(enabled);
             }
 
+            /*
+            if (strcmp(node->name(), "dronesCanTeleport") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                g_dronesCanTeleport = EventsParser::ParseBoolean(enabled);
+            }
+            */
+
             if (strcmp(node->name(), "redesignedWeaponTooltips") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();

@@ -117,6 +117,7 @@ struct TemporaryPowerDefinition
     ToggleValue<bool> canRepair;
     ToggleValue<bool> canSabotage;
     ToggleValue<bool> canMan;
+    ToggleValue<bool> canTeleport;
     ToggleValue<bool> canSuffocate;
     ToggleValue<bool> canBurn;
     ToggleValue<float> oxygenChangeSpeed;
@@ -283,6 +284,7 @@ struct CrewDefinition
     bool canRepair = true;
     bool canSabotage = true;
     bool canMan = true;
+    bool canTeleport = true;
     bool canSuffocate = true;
     bool controllable = true;
     bool selectable = false;

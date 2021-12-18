@@ -91,6 +91,7 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                     crew.controllable = false;
                     crew.canFight = false;
                     crew.canMan = false;
+                    crew.canTeleport = false;
                     crew.moveSpeedMultiplier = 0.5f;
 
                     if (droneType == "BOARDER")
@@ -149,6 +150,10 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                         if (str == "canMan")
                         {
                             crew.canMan = EventsParser::ParseBoolean(val);
+                        }
+                        if (str == "canTeleport")
+                        {
+                            crew.canTeleport = EventsParser::ParseBoolean(val);
                         }
                         if (str == "canSuffocate")
                         {
@@ -862,6 +867,10 @@ void CustomCrewManager::ParseAbilityEffect(rapidxml::xml_node<char>* stat, Activ
                 if (tempEffectName == "canMan")
                 {
                     def.tempPower.canMan = EventsParser::ParseBoolean(tempEffectNode->value());
+                }
+                if (tempEffectName == "canTeleport")
+                {
+                    def.tempPower.canTeleport = EventsParser::ParseBoolean(tempEffectNode->value());
                 }
                 if (tempEffectName == "canSuffocate")
                 {
@@ -5184,3 +5193,49 @@ HOOK_METHOD(CombatAI, UpdateMindControl, (bool unk) -> void)
     isTelepathicMindControl = false;
 }
 
+// canTeleport
+/*
+HOOK_METHOD(CombatControl, OnLoop, () -> void)
+{
+    super();
+    if (currentTarget && currentTarget->shipManager && shipManager->teleportSystem)
+    {
+        for (CrewMember* crew : currentTarget->shipManager->vCrewList)
+        {
+            if (!crew->IsDead())
+            {
+                CustomCrewManager* custom = CustomCrewManager::GetInstance();
+                if (!crew->IsDrone())
+                {
+                    if (custom->IsRace(crew->species))
+                    {
+                        auto ex = CM_EX(crew);
+                        auto def = CustomCrewManager::GetInstance()->GetDefinition(crew->species);
+                        bool canTeleport;
+                        ex->CalculateStat(CrewStat::CAN_TELEPORT, def, &canTeleport);
+                        if (canTeleport)
+                        {
+                            shipManager->teleportSystem->bCanReceive = true;
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        shipManager->teleportSystem->bCanReceive = true;
+                        return;
+                    }
+                }
+                else if (g_dronesCanTeleport)
+                {
+                    if (crew->CanTeleport())
+                    {
+                        shipManager->teleportSystem->bCanReceive = true;
+                        return;
+                    }
+                }
+            }
+        }
+    }
+    shipManager->teleportSystem->bCanReceive = false;
+}
+*/

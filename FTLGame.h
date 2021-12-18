@@ -4446,6 +4446,8 @@ struct BoarderPodDrone : SpaceDrone
 
 	LIBZHL_API void constructor(int _iShipId, int _selfId, const DroneBlueprint &_bp);
 	LIBZHL_API void SetMovementTarget(Targetable &target);
+	LIBZHL_API bool CanBeDeployed();
+	LIBZHL_API void SetDeployed(bool _deployed);
 	
 	GL_Texture *baseSheet;
 	GL_Texture *colorSheet;
@@ -5928,6 +5930,7 @@ struct DroneSystem : ShipSystem
 	LIBZHL_API void UpdateBonusPower();
 	LIBZHL_API virtual void SetBonusPower(int amount, int permanentPower);
 	LIBZHL_API void OnLoop();
+	LIBZHL_API bool DePowerDrone(Drone *drone, bool unk);
 	
 	std::vector<Drone*> drones;
 	int drone_count;

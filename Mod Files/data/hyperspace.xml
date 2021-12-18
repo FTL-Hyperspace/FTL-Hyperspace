@@ -459,6 +459,7 @@ Syntax ->
 		<canRepair>true</canRepair>                                                      If true, this crewmember can repair systems and breaches and put out fires.
 		<canSabotage>true</canSabotage>                                                  If true, this crewmember can sabotage enemy systems.
 		<canMan>true</canMan>                                                            If true, this crewmember can man systems.
+		<canTeleport>true</canTeleport>                                                  If true, this crewmember can be teleported by the crew teleporter.
 		<canSuffocate>true</canSuffocate>                                                If true, this crewmember will take damage in rooms with low oxygen.
 		<canBurn>true</canBurn>                                                          If true, this crewmember will take damage in rooms with fires.
 		<maxHealth>100</maxHealth>                                                       Crewmember's maximum health.

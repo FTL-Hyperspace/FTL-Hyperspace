@@ -90,6 +90,17 @@ static bool __attribute__((fastcall)) CrewMember_CanMan(CrewMember *_this)
     return ret && req;
 }
 
+static bool __attribute__((fastcall)) CrewMember_CanTeleport(CrewMember *_this)
+{
+    bool ret = _this->CrewMember::CanTeleport(); //vanilla method
+    if (!ret) return ret;
+
+    auto ex = CM_EX(_this);
+    auto def = CustomCrewManager::GetInstance()->GetDefinition(_this->species);
+    ex->CalculateStat(CrewStat::CAN_TELEPORT, def, &ret);
+    return ret;
+}
+
 
 static bool __attribute__((fastcall)) CrewMember_CanBurn(CrewMember *_this)
 {
@@ -260,6 +271,7 @@ void SetupVTable(CrewMember *crew)
     vtable[26] = (void*)&CrewMember_CanRepair;
     vtable[27] = (void*)&CrewMember_CanSabotage;
     vtable[28] = (void*)&CrewMember_CanMan;
+    vtable[29] = (void*)&CrewMember_CanTeleport;
     vtable[31] = (void*)&CrewMember_CanSuffocate;
     vtable[32] = (void*)&CrewMember_CanBurn;
     vtable[33] = (void*)&CrewMember_GetMaxHealth;

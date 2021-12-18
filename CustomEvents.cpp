@@ -2888,7 +2888,8 @@ void RecallBoarders(int direction)
 
         for (auto i : enemyShip->shipManager->vCrewList)
         {
-            if (i->iShipId == 0 && !i->IsDrone())
+            //if (i->iShipId == 0 && !i->IsDrone())
+            if (i->iShipId == 0 && !i->IsDrone() && i->CanTeleport())
             {
                 i->EmptySlot();
                 playerShip->AddCrewMember2(i,targetRoom);
@@ -2900,7 +2901,8 @@ void RecallBoarders(int direction)
 
         for (auto i : playerShip->shipManager->vCrewList)
         {
-            if (i->iShipId == 1 && !i->IsDrone())
+            //if (i->iShipId == 1 && !i->IsDrone())
+            if (i->iShipId == 1 && !i->IsDrone() && i->CanTeleport())
             {
                 i->EmptySlot();
                 enemyShip->AddCrewMember2(i,targetRoom);

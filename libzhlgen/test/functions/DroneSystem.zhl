@@ -6,3 +6,5 @@ void DroneSystem::UpdateBonusPower(DroneSystem *this<ecx>);
 virtual void DroneSystem::SetBonusPower(DroneSystem *this<ecx>, int amount, int permanentPower);
 "578d7c240883e4f0ff77fc5589e557565389cf83ec5ce8????????89f9e8????????8bb7c00100008b87c4010000":
 void DroneSystem::OnLoop(DroneSystem *this<ecx>);
+"578d7c240883e4f0ff77fc5589e557565389cb83ec2c807f04008b37":
+bool DroneSystem::DePowerDrone(DroneSystem *this<ecx>, Drone *drone, bool unk);

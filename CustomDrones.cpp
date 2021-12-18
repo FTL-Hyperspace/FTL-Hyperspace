@@ -8,6 +8,8 @@ bool g_DefenseDroneFix = false;
 float g_DefenseDroneFix_BoxRange[2] = {150.f, 150.f};
 float g_DefenseDroneFix_EllipseRange[2] = {50.f, 50.f};
 
+//bool g_dronesCanTeleport = false;
+
 CustomDroneManager CustomDroneManager::_instance = CustomDroneManager();
 
 void CustomDroneManager::ParseDroneNode(rapidxml::xml_node<char> *node)
@@ -629,6 +631,10 @@ HOOK_METHOD(DroneSystem, OnLoop, () -> void)
                         {
                             drone_count += 1;
                             drone->SetDeployed(false);
+                            if (drone->GetPowered())
+                            {
+                                DePowerDrone(drone, false);
+                            }
                         }
                     }
                 }
@@ -637,6 +643,32 @@ HOOK_METHOD(DroneSystem, OnLoop, () -> void)
     }
     super();
 }
+/*
+HOOK_METHOD(BoarderPodDrone, CanBeDeployed, () -> bool)
+{
+    bool ret = super();
+    if (!ret && !bDead && bDeliveredDrone && boarderDrone->currentShipId == boarderDrone->iShipId)
+    {
+        return true;
+    }
+    return ret;
+}
+
+// Doesn't quite work; drone appears in wrong room
+HOOK_METHOD(BoarderPodDrone, SetDeployed, (bool _deployed) -> void)
+{
+    if (_deployed && boarderDrone && boarderDrone->currentShipId == boarderDrone->iShipId)
+    {
+        CompleteShip *enemyShip = G_->GetWorld()->playerShip->enemyShip;
+        if (enemyShip)
+        {
+            boarderDrone->EmptySlot();
+            enemyShip->AddCrewMember2(boarderDrone,-1);
+        }
+    }
+    super(_deployed);
+}
+*/
 
 HOOK_METHOD(DefenseDrone, PickTarget, () -> void)
 {
