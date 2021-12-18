@@ -990,11 +990,11 @@ void TriggeredEvent::Reset()
             int enemyDamageScaling = G_->GetWorld()->starMap.worldLevel * def->enemyDamageScaling;
             if (def->maxEnemyDamage > def->minEnemyDamage)
             {
-                triggerEnemyDamage = std::max(triggerEnemyHull, ship->ship.hullIntegrity.first - def->minEnemyDamage + random32()%(def->maxEnemyDamage-def->minEnemyDamage+1) - enemyDamageScaling);
+                triggerEnemyDamage = def->minEnemyDamage + random32()%(def->maxEnemyDamage-def->minEnemyDamage+1) + enemyDamageScaling;
             }
             else
             {
-                triggerEnemyHull = std::max(triggerEnemyHull, ship->ship.hullIntegrity.first - def->minEnemyDamage - enemyDamageScaling);
+                triggerEnemyDamage = def->minEnemyDamage + enemyDamageScaling;
             }
         }
     }
@@ -1045,11 +1045,11 @@ void TriggeredEvent::Reset()
         currentEnemyCrew = GetEnemyCrew(def->enemyDeathsCountClonebay);
         if (def->maxEnemyDeaths > def->minEnemyDeaths)
         {
-            triggerEnemyCrew = def->minEnemyDeaths + random32()%(def->maxEnemyDeaths-def->minEnemyDeaths+1);
+            triggerEnemyDeaths = def->minEnemyDeaths + random32()%(def->maxEnemyDeaths-def->minEnemyDeaths+1);
         }
         else
         {
-            triggerEnemyCrew = def->minEnemyDeaths;
+            triggerEnemyDeaths = def->minEnemyDeaths;
         }
     }
 }
