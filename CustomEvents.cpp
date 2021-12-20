@@ -3945,6 +3945,7 @@ HOOK_METHOD(StarMap, NewGame, (bool unk) -> Location*)
     replaceGameOverCreditsText = "";
     replaceCreditsBackground = "";
     replaceCreditsMusic = "";
+    CustomShipUnlocks::instance->setCustomVictoryType = "";
 
     return super(unk);
 }
@@ -3999,6 +4000,7 @@ HOOK_METHOD(StarMap, LoadGame, (int fh) -> Location*)
     replaceGameOverCreditsText = FileHelper::readString(fh);
     replaceCreditsBackground = FileHelper::readString(fh);
     replaceCreditsMusic = FileHelper::readString(fh);
+    CustomShipUnlocks::instance->setCustomVictoryType = FileHelper::readString(fh);
 
     return super(fh);
 }
@@ -4050,6 +4052,7 @@ HOOK_METHOD(StarMap, SaveGame, (int file) -> void)
     FileHelper::writeString(file, replaceGameOverCreditsText);
     FileHelper::writeString(file, replaceCreditsBackground);
     FileHelper::writeString(file, replaceCreditsMusic);
+    FileHelper::writeString(file, CustomShipUnlocks::instance->setCustomVictoryType);
 
     return super(file);
 }
