@@ -4488,9 +4488,6 @@ HOOK_METHOD(WorldManager, OnLoop, () -> void)
                 replaceCreditsBackground = G_->GetEventGenerator()->GetImageFromList(customEvent->finalBoss.creditsBackground);
                 CustomShipUnlocks::instance->setCustomVictoryType = customEvent->finalBoss.ach;
             }
-
-            commandGui->alreadyWon = true;
-            alreadyWonCustom = true;
         }
     }
 }
