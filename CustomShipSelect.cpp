@@ -2330,9 +2330,9 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
     if (!reactorInfoButton)
     {
         reactorInfoButton = new Button();
-        reactorInfoButton->OnInit("customizeUI/reactor_info_button", 145, 426);
+        reactorInfoButton->OnInit("customizeUI/reactor_info_button", 997, 336);
         reactorInfoButton->bActive = true;
-        reactorInfoButton->SetLocation(Point(145, 426));
+        reactorInfoButton->SetLocation(Point(997, 336));
     }
 
     if (!shipSelect.bOpen && CustomOptionsManager::GetInstance()->showReactor.currentValue)
@@ -2342,9 +2342,9 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
         //show reactor
         //was at 310/450
         CSurface::GL_SetColor(GL_Color(100.0/255, 1, 100.0/255, 1));
-        freetype::easy_print(52, 151, 430, "Starting power: " + std::to_string(PowerManager::GetPowerManager(0)->currentPower.second));
+        freetype::easy_print(52, 1003, 340, "Starting power: " + std::to_string(PowerManager::GetPowerManager(0)->currentPower.second));
         CSurface::GL_SetColor(GL_Color(100.0/255, 1, 100.0/255, 1));
-        freetype::easy_print(52, 151, 450, "Maximum power: " + std::to_string(def.maxReactorLevel));
+        freetype::easy_print(52, 1003, 360, "Maximum power: " + std::to_string(def.maxReactorLevel));
     }
 }
 
