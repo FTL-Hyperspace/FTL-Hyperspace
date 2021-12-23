@@ -102,7 +102,7 @@ HOOK_METHOD_PRIORITY(ShipManager, DamageCrew, -100, (CrewMember *crew, DamagePar
             for (auto statBoostDef : CustomDamageManager::currentWeaponDmg->statBoosts)
             {
                 StatBoost statBoost(statBoostDef);
-                statBoost.sourceShipId = dmgParameter.ownerId;
+                statBoost.sourceShipId = CustomDamageManager::currentWeaponDmg->sourceShipId;
                 StatBoostManager::GetInstance()->CreateTimedAugmentBoost(statBoost, crew);
             }
         }
