@@ -571,6 +571,7 @@ Syntax ->
 				<inCombat/>                                                              Hostile enemy ship is present.
 				<outOfCombat/>                                                           No hostile enemy ship is present.
 				<hasClonebay/>
+				<notMindControlled/>                                                     Blocks the ability from being used if the crewmember is mind controlled.
 				<minHealth>10</minHealth>
 				<maxHealth>40</maxHealth>
 				<whiteList enemy="true/false" load="BP_LIST">                            A crewmember on the whitelist must be present to use the ability. If the enemy attribute is provided, only enemies/friendlies are checked.
@@ -610,7 +611,20 @@ Syntax ->
 			<selfHealth>0.0</selfHealth>                                                           Modifies own health by this amount.
 			<transformRace>engi</transformRace>                                                    When the ability is activated, the crewmember will transform into the specified race.
 			<activateWhenReady enemiesOnly="false">false</activateWhenReady>                       Forces the ability to be activated when it is ready. If enemiesOnly is true, only applies for enemy crew.
-			
+			<spawnCrew>                                                                            Spawns new crewmembers upon ability activation. Include as many <spawnCrew> tags as you need.
+				<race>human</race>                                                                 Race to spawn.
+				<name>Summoned Man</name>                                                          Custom name to assign.
+				<number>1</number>                                                                 Number of crew to spawn.
+				<healthPercentage>1.0</healthPercentage>                                           Fraction of max health to spawn with.
+				<lifetime>30</lifetime>                                                            After this amount of time passes, the crewmember will die permanently.
+				<statBoosts>                                                                       Stat boosts (temporary or permanent) to apply to the spawned crewmember. Will check conditions on creation only.
+					...
+				</statBoosts>
+				<noSlot>false</noSlot>                                                             If true, forces the crewmember to not take up a slot. Good for temporary spawns.
+			</spawnCrew>
+			<statBoosts>                                                                           List of timed stat boosts to apply upon ability activation. Boost conditions are used to determine who to apply the boost to.
+				<statBoost name="...">...</statBoost>
+			</statBoosts>
 			<temporaryEffect>                                                                      Creates a temporary effect with the ability, modifying the crewmember's stats. Modified stats replace the original stats.
 				<duration>10</duration>                                                            Duration of the temporary effect.
 				<cooldownColor r="167" g="250" b="255"/>                                           Changes the color of the cooldown bar while the temporary effect is active.
