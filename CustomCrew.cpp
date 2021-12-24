@@ -1531,7 +1531,7 @@ void CrewMember_Extend::PreparePower()
 
     if (aex->effectAnim != nullptr)
     {
-        aex->effectPos = Pointf(orig->x - std::ceil((float)aex->effectAnim->info.frameWidth / 2), orig->y - std::ceil((float)aex->effectAnim->info.frameHeight / 2) + orig->PositionShift());
+        aex->effectPos = Pointf(orig->x - aex->effectAnim->info.frameWidth / 2, orig->y - aex->effectAnim->info.frameHeight / 2 + orig->PositionShift());
     }
 }
 
@@ -2380,7 +2380,7 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
             {
                 ex->powerShip = currentShipId;
                 ex->powerRoom = iRoomId;
-                aex->effectPos = Pointf(x - std::ceil((float)aex->effectAnim->info.frameWidth / 2), y - std::ceil((float)aex->effectAnim->info.frameHeight / 2) + PositionShift());
+                aex->effectPos = Pointf(x - aex->effectAnim->info.frameWidth / 2, y - aex->effectAnim->info.frameHeight / 2 + PositionShift());
                 aex->effectWorldPos = Pointf(x, y);
             }
 
@@ -4283,7 +4283,7 @@ HOOK_METHOD(CrewMember, OnRender, (bool outlineOnly) -> void)
     if (ex->tempEffectAnim != nullptr && !ex->tempEffectAnim->tracker.done && ex->tempEffectAnim->tracker.running)
     {
         CSurface::GL_PushMatrix();
-        CSurface::GL_Translate(-std::ceil((float)ex->tempEffectAnim->info.frameWidth / 2), -std::ceil((float)ex->tempEffectAnim->info.frameHeight / 2));
+        CSurface::GL_Translate(-ex->tempEffectAnim->info.frameWidth / 2, -ex->tempEffectAnim->info.frameHeight / 2);
         CSurface::GL_Translate(0, PositionShift());
         ex->tempEffectAnim->OnRender(1.f, COLOR_WHITE, false);
         CSurface::GL_PopMatrix();
@@ -4295,7 +4295,7 @@ HOOK_METHOD(CrewMember, OnRender, (bool outlineOnly) -> void)
         if (boostAnim.second != nullptr && !boostAnim.second->tracker.done && boostAnim.second->tracker.running)
         {
             CSurface::GL_PushMatrix();
-            CSurface::GL_Translate(-std::ceil((float)boostAnim.second->info.frameWidth / 2), -std::ceil((float)boostAnim.second->info.frameHeight / 2));
+            CSurface::GL_Translate(-boostAnim.second->info.frameWidth / 2, -boostAnim.second->info.frameHeight / 2);
             CSurface::GL_Translate(0, PositionShift());
             boostAnim.second->OnRender(1.f, COLOR_WHITE, false);
             CSurface::GL_PopMatrix();
@@ -4324,7 +4324,7 @@ HOOK_METHOD(CrewMember, OnRenderHealth, () -> void)
     if (ex->effectFinishAnim != nullptr && !ex->effectFinishAnim->tracker.done)
     {
         CSurface::GL_PushMatrix();
-        CSurface::GL_Translate(-std::ceil((float)ex->effectFinishAnim->info.frameWidth / 2), -std::ceil((float)ex->effectFinishAnim->info.frameHeight / 2));
+        CSurface::GL_Translate(-ex->effectFinishAnim->info.frameWidth / 2, -ex->effectFinishAnim->info.frameHeight / 2);
         ex->effectFinishAnim->OnRender(1.f, COLOR_WHITE, false);
         CSurface::GL_PopMatrix();
     }
