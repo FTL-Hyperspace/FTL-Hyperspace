@@ -67,13 +67,22 @@ std::vector<CrewMember*> CrewSpawn::SpawnCrew(CrewSpawn& crewSpawn, ShipManager 
 
     if (room != -1)
     {
-        for (int i = 0; i < crewSpawn.number; i++)
+        int freeSlots = 0;
+
+        for (auto i : ShipGraph::GetShipInfo(ship->iShipId)->rooms)
+        {
+            freeSlots += i->GetEmptySlots(intruder);
+        }
+
+        freeSlots = std::min(freeSlots, crewSpawn.number);
+
+        for (int i = 0; i < freeSlots; i++)
         {
             Slot currentSlot;
+            ShipGraph* graph = ShipGraph::GetShipInfo(ship->iShipId);
 
             if (tile)
             {
-                ShipGraph* graph = ShipGraph::GetShipInfo(ship->iShipId);
                 ShipGraph::GetClosestSlot(&currentSlot, graph, {spawnPos.x, spawnPos.y}, ship->iShipId, intruder);
             }
 
@@ -85,14 +94,28 @@ std::vector<CrewMember*> CrewSpawn::SpawnCrew(CrewSpawn& crewSpawn, ShipManager 
             {
                 currentSlot = crew->currentSlot;
             }
+            crew->iRoomId = room;
             crew->x = spawnPos.x;
             crew->y = spawnPos.y;
+            crew->goal_x = spawnPos.x;
+            crew->goal_y = spawnPos.y;
             crew->crewAnim->lastPosition.x = spawnPos.x;
             crew->crewAnim->lastPosition.y = spawnPos.y;
 
-            if (!tile || currentSlot.roomId != crew->currentSlot.roomId || currentSlot.slotId != crew->currentSlot.slotId)
+            if (currentSlot.roomId != -1)
             {
-                crew->MoveToRoom(currentSlot.roomId, currentSlot.slotId, true);
+                Path testPath;
+                ShipGraph::FindPath(&testPath, graph, {crew->x, crew->y}, graph->GetSlotWorldPosition(currentSlot.roomId, currentSlot.slotId), crew->iShipId);
+
+                if (testPath.distance != -1.f)
+                {
+                    crew->ClearPath();
+                    if (!tile || currentSlot.roomId != crew->currentSlot.roomId || currentSlot.slotId != crew->currentSlot.slotId)
+                    {
+                        crew->MoveToRoom(currentSlot.roomId, currentSlot.slotId, true);
+                        crew->MoveToRoom(currentSlot.roomId, currentSlot.slotId, false);
+                    }
+                }
             }
 
             crew->health.first = crew->health.second * crewSpawn.healthPercentage;

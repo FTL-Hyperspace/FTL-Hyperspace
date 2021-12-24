@@ -30314,11 +30314,11 @@ __declspec(naked) int ShipGraph::Dijkstra(Point p1, Point p2, int unk)
 namespace _func845
 {
 	static void *func = 0;
-	static short argdata[] = {0x101, 0x2ff, 0x2ff, 0x1ff};
-	static FunctionDefinition funcObj("ShipGraph::FindPath", typeid(int (ShipGraph::*)(Point , Point , int )), ".578d7c240883e4f0ff77fc5589f889e557565383ec6c8b500c", argdata, 4, 1, &func);
+	static short argdata[] = {0x101, 0x1ff, 0x2ff, 0x2ff, 0x1ff};
+	static FunctionDefinition funcObj("ShipGraph::FindPath", typeid(Path *(*)(Path *, ShipGraph *, Point , Point , int )), ".578d7c240883e4f0ff77fc5589f889e557565383ec6c8b500c", argdata, 5, 0, &func);
 }
 
-__declspec(naked) int ShipGraph::FindPath(Point p1, Point p2, int unk)
+__declspec(naked) Path *ShipGraph::FindPath(Path *path, ShipGraph *graph, Point p1, Point p2, int shipId)
 {
 	__asm__
 	(
@@ -30329,11 +30329,13 @@ __declspec(naked) int ShipGraph::FindPath(Point p1, Point p2, int unk)
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+24]\n\t"		// unk
-		"push [ebp+20]\n\t"		// p2
-		"push [ebp+16]\n\t"		// p2
-		"push [ebp+12]\n\t"		// p1
-		"push [ebp+8]\n\t"		// p1
+		"push [ebp+32]\n\t"		// shipId
+		"push [ebp+28]\n\t"		// p2
+		"push [ebp+24]\n\t"		// p2
+		"push [ebp+20]\n\t"		// p1
+		"push [ebp+16]\n\t"		// p1
+		"push [ebp+12]\n\t"		// graph
+		"mov ecx, [ebp+8]\n\t"	// path
 	);
 	__asm__("call %0\n\t" :: "m"(_func845::func));
 	__asm__
@@ -30345,7 +30347,7 @@ __declspec(naked) int ShipGraph::FindPath(Point p1, Point p2, int unk)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 20\n\t"
+		"ret 28\n\t"
 	);
 }
 

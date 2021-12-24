@@ -3742,6 +3742,7 @@ struct AugmentEquipBox : EquipmentBox
 	ShipManager *ship;
 };
 
+struct Path;
 struct ShipGraph;
 
 struct ShipGraph
@@ -3819,7 +3820,7 @@ struct ShipGraph
 	LIBZHL_API int GetNumSlots(int room);
 	LIBZHL_API static int __stdcall PopClosestDoor(std::vector<int> &unk, std::vector<float> &unk2);
 	LIBZHL_API int Dijkstra(Point p1, Point p2, int unk);
-	LIBZHL_API int FindPath(Point p1, Point p2, int unk);
+	LIBZHL_API static Path *__stdcall FindPath(Path *path, ShipGraph *graph, Point p1, Point p2, int shipId);
 	LIBZHL_API float ConvertToWorldAngle(float ang);
 	LIBZHL_API float ConvertToLocalAngle(float ang);
 	LIBZHL_API int64_t ConvertToWorldPosition(Pointf p);

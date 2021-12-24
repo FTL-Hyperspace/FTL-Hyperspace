@@ -23,7 +23,7 @@ static int ShipGraph::PopClosestDoor(std::vector<int>& unk, std::vector<float>& 
 ".578d7c240883e4f0ff77fc5589f889e557565381ec????????89bd70ffffff8b3f898d74ffffff8b5804":
 int ShipGraph::Dijkstra(ShipGraph *this<ecx>, Point p1, Point p2, int unk);
 ".578d7c240883e4f0ff77fc5589f889e557565383ec6c8b500c":
-int ShipGraph::FindPath(ShipGraph *this<ecx>, Point p1, Point p2, int unk);
+static Path* ShipGraph::FindPath(Path *path<ecx>, ShipGraph *graph, Point p1, Point p2, int shipId);
 ".83ec04f30f10442408f30f584134f30f110424d9042483c404":
 float ShipGraph::ConvertToWorldAngle(ShipGraph *this<ecx>, float ang);
 ".83ec04f30f10442408f30f5c4134f30f110424d90424":
