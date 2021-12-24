@@ -2341,26 +2341,29 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
                     ex->powerCooldown.first = std::max(0.f, std::min(ex->powerCooldown.second, (float)(G_->GetCFPS()->GetSpeedFactor() * 0.0625 * ex->CalculateStat(CrewStat::POWER_RECHARGE_MULTIPLIER, def)) + ex->powerCooldown.first));
                 }
 
-                bool activateWhenReady;
-                ex->CalculateStat(CrewStat::ACTIVATE_WHEN_READY, def, &activateWhenReady);
-                if (activateWhenReady)
+                if (!IsDead())
                 {
-                    if (ex->PowerReady() == POWER_READY)
+                    bool activateWhenReady;
+                    ex->CalculateStat(CrewStat::ACTIVATE_WHEN_READY, def, &activateWhenReady);
+                    if (activateWhenReady)
                     {
-                        if (!powerDef->activateReadyEnemies || (GetPowerOwner() == 1))
+                        if (ex->PowerReady() == POWER_READY)
                         {
-                            ex->PreparePower();
+                            if (!powerDef->activateReadyEnemies || (GetPowerOwner() == 1))
+                            {
+                                ex->PreparePower();
+                            }
                         }
                     }
-                }
-                else // vanilla condition but for enemy controlling your crew with MIND_ORDER
-                {
-                    if (iShipId == 0 && crewTarget && CanFight() && !IsDead() && crewTarget->IsCrew() && HasSpecialPower() && ex->PowerReady() == POWER_READY &&
-                        GetPowerOwner() == 1 && health.first > 0.5f*health.second)
+                    else // vanilla condition but for enemy controlling your crew with MIND_ORDER
                     {
-                        if (!ship->RoomLocked(iRoomId))
+                        if (iShipId == 0 && crewTarget && CanFight() && crewTarget->IsCrew() && HasSpecialPower() && ex->PowerReady() == POWER_READY &&
+                            GetPowerOwner() == 1 && health.first > 0.5f*health.second)
                         {
-                            ex->PreparePower();
+                            if (!ship->RoomLocked(iRoomId))
+                            {
+                                ex->PreparePower();
+                            }
                         }
                     }
                 }
