@@ -1610,14 +1610,6 @@ void CrewMember_Extend::ActivatePower()
         TransformRace(powerDef->transformRace);
     }
 
-    for (auto& i : powerDef->crewSpawns)
-    {
-        if (ship)
-        {
-            CrewSpawn::SpawnCrew(i, ship, ship->iShipId != ownerShip, aex->effectWorldPos);
-        }
-    }
-
     if (!powerDef->statBoosts.empty())
     {
         for (auto i=0; i<2; ++i)
@@ -1636,6 +1628,14 @@ void CrewMember_Extend::ActivatePower()
                     }
                 }
             }
+        }
+    }
+
+    for (auto& i : powerDef->crewSpawns)
+    {
+        if (ship)
+        {
+            CrewSpawn::SpawnCrew(i, ship, ship->iShipId != ownerShip, aex->effectWorldPos);
         }
     }
 }
