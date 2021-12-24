@@ -744,11 +744,12 @@ HOOK_METHOD(Ship, OnInit, (ShipBlueprint& bp) -> void)
 
         doc.clear();
 
+        extraEngineAnim[iShipId].clear();
+
         if (hasThrusters)
         {
             thrustersImage = nullptr;
             ShipGraph *graph = ShipGraph::GetShipInfo(iShipId);
-            extraEngineAnim[iShipId].clear();
             extraEngineAnim[iShipId].reserve(nThrusters-nVanillaThrusters);
             nVanillaThrusters = 0;
             int nExtraThrusters = 0;
