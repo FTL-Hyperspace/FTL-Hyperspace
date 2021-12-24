@@ -2004,6 +2004,7 @@ HOOK_METHOD(MenuScreen, constructor, () -> void)
 }
 
 static Button* reactorInfoButton = nullptr;
+static Point reactorInfoPos = {335, 380};
 
 HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
 {
@@ -2330,21 +2331,24 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
     if (!reactorInfoButton)
     {
         reactorInfoButton = new Button();
-        reactorInfoButton->OnInit("customizeUI/reactor_info_button", 997, 336);
+        reactorInfoButton->OnInit("customizeUI/box_system", reactorInfoPos.x, reactorInfoPos.y);
         reactorInfoButton->bActive = true;
-        reactorInfoButton->SetLocation(Point(997, 336));
+        reactorInfoButton->SetLocation(Point(reactorInfoPos.x, reactorInfoPos.y));
     }
 
     if (!shipSelect.bOpen && CustomOptionsManager::GetInstance()->showReactor.currentValue)
     {
         reactorInfoButton->OnRender();
+        std::string reactorImagePath = "icons/s_reactor_green1.png";
+        G_->GetResources()->RenderImageString(reactorImagePath, reactorInfoPos.x-13, reactorInfoPos.y+45, 0, {1.f,1.f,1.f,1.f}, 1.f, false);
         auto def = CustomShipSelect::GetInstance()->GetDefinition(currentShip->myBlueprint.blueprintName);
         //show reactor
         //was at 310/450
         CSurface::GL_SetColor(GL_Color(100.0/255, 1, 100.0/255, 1));
-        freetype::easy_print(52, 1003, 340, "Starting power: " + std::to_string(PowerManager::GetPowerManager(0)->currentPower.second));
-        CSurface::GL_SetColor(GL_Color(100.0/255, 1, 100.0/255, 1));
-        freetype::easy_print(52, 1003, 360, "Maximum power: " + std::to_string(def.maxReactorLevel));
+        freetype::easy_printCenter(52, reactorInfoPos.x+18, reactorInfoPos.y+43, std::to_string(PowerManager::GetPowerManager(0)->currentPower.second));
+        //CSurface::GL_SetColor(GL_Color(100.0/255, 1, 100.0/255, 1));
+        freetype::easy_printCenter(52, reactorInfoPos.x+18, reactorInfoPos.y+25, std::to_string(def.maxReactorLevel));
+        freetype::easy_printCenter(52, reactorInfoPos.x+19, reactorInfoPos.y+27, "_");
     }
 }
 
@@ -2445,6 +2449,19 @@ HOOK_METHOD(ShipBuilder, MouseMove, (int x, int y) -> void)
                     selectedAch = i;
                 }
             }
+        }
+    }
+
+    if (reactorInfoButton)
+    {
+        reactorInfoButton->MouseMove(x,y,false);
+        if (reactorInfoButton->bHover)
+        {
+            auto def = CustomShipSelect::GetInstance()->GetDefinition(currentShip->myBlueprint.blueprintName);
+            std::string reactorDescText = G_->GetTextLibrary()->GetText("reactor_desc") + "\n\n" +
+                                          boost::algorithm::replace_all_copy(G_->GetTextLibrary()->GetText("reactor_desc_start"), "\\1", std::to_string(PowerManager::GetPowerManager(0)->currentPower.second)) + "\n" +
+                                          boost::algorithm::replace_all_copy(G_->GetTextLibrary()->GetText("reactor_desc_max"), "\\1", std::to_string(def.maxReactorLevel));
+            infoBox.SetText(G_->GetTextLibrary()->GetText("upgrade_reactor"), reactorDescText, -1, -1, InfoBox::EXPAND_DOWN);
         }
     }
 }

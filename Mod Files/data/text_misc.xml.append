@@ -77,6 +77,11 @@
 <text name="crew_death_time">Lifetime: \1 seconds</text>
 <text name="crew_death_time_expired">Lifetime: Expired</text>
 
+<!-- System info boxes -->
+
+<text name="reactor_desc_start">Starting Power: \1</text>
+<text name="reactor_desc_max">Maximum Power: \1</text>
+
 <!-- Redesigned Tooltips -->
 
 <text name="crew_stun_time">Stunned: \1 seconds</text>
