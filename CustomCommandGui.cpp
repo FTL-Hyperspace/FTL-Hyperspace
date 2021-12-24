@@ -293,6 +293,16 @@ HOOK_METHOD(CrewControl, UpdateCrewBoxes, () -> void)
     lastCrewCount = crewList.size();
 }
 
+HOOK_METHOD(CrewMemberFactory, CreateCrewMember, (CrewBlueprint *bp, int shipId, bool intruder) -> CrewMember*)
+{
+    auto ret = super(bp, shipId, intruder);
+    if (shipId == 0)
+    {
+        G_->GetCApp()->gui->crewControl.ClearCrewBoxes();
+    }
+    return ret;
+}
+
 HOOK_METHOD(CommandGui, MouseMove, (int mX, int mY) -> void)
 {
     super(mX, mY);
