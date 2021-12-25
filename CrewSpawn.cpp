@@ -109,9 +109,9 @@ std::vector<CrewMember*> CrewSpawn::SpawnCrew(CrewSpawn& crewSpawn, ShipManager 
 
                 if (testPath.distance != -1.f)
                 {
+                    crew->ClearPath();
                     if (!tile || currentSlot.roomId != crew->currentSlot.roomId || currentSlot.slotId != crew->currentSlot.slotId)
                     {
-                        crew->ClearPath();
                         crew->MoveToRoom(currentSlot.roomId, currentSlot.slotId, true);
                     }
                 }
