@@ -2315,6 +2315,26 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
         }
 	}
 
+	if (!reactorInfoButton)
+    {
+        reactorInfoButton = new Button();
+        reactorInfoButton->OnInit("customizeUI/box_system", reactorInfoPos.x, reactorInfoPos.y);
+        reactorInfoButton->bActive = true;
+        reactorInfoButton->SetLocation(Point(reactorInfoPos.x, reactorInfoPos.y));
+    }
+
+	if (CustomOptionsManager::GetInstance()->showReactor.currentValue)
+    {
+        reactorInfoButton->OnRender();
+        std::string reactorImagePath = "icons/s_reactor_green1.png";
+        G_->GetResources()->RenderImageString(reactorImagePath, reactorInfoPos.x-13, reactorInfoPos.y+45, 0, {1.f,1.f,1.f,1.f}, 1.f, false);
+        auto def = CustomShipSelect::GetInstance()->GetDefinition(currentShip->myBlueprint.blueprintName);
+        CSurface::GL_SetColor(GL_Color(100.0/255, 1, 100.0/255, 1));
+        freetype::easy_printCenter(52, reactorInfoPos.x+18, reactorInfoPos.y+25, std::to_string(PowerManager::GetPowerManager(0)->currentPower.second));
+        freetype::easy_printCenter(52, reactorInfoPos.x+18, reactorInfoPos.y+43, std::to_string(def.maxReactorLevel));
+        freetype::easy_printCenter(52, reactorInfoPos.x+19, reactorInfoPos.y+27, "_");
+        CSurface::GL_SetColor(COLOR_WHITE);
+    }
 
     CSurface::GL_RemoveColorTint();
     if (shipSelect.bOpen)
@@ -2327,29 +2347,6 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
     }
 
     introScreen.OnRender();
-
-    if (!reactorInfoButton)
-    {
-        reactorInfoButton = new Button();
-        reactorInfoButton->OnInit("customizeUI/box_system", reactorInfoPos.x, reactorInfoPos.y);
-        reactorInfoButton->bActive = true;
-        reactorInfoButton->SetLocation(Point(reactorInfoPos.x, reactorInfoPos.y));
-    }
-
-    if (!shipSelect.bOpen && CustomOptionsManager::GetInstance()->showReactor.currentValue)
-    {
-        reactorInfoButton->OnRender();
-        std::string reactorImagePath = "icons/s_reactor_green1.png";
-        G_->GetResources()->RenderImageString(reactorImagePath, reactorInfoPos.x-13, reactorInfoPos.y+45, 0, {1.f,1.f,1.f,1.f}, 1.f, false);
-        auto def = CustomShipSelect::GetInstance()->GetDefinition(currentShip->myBlueprint.blueprintName);
-        //show reactor
-        //was at 310/450
-        CSurface::GL_SetColor(GL_Color(100.0/255, 1, 100.0/255, 1));
-        freetype::easy_printCenter(52, reactorInfoPos.x+18, reactorInfoPos.y+25, std::to_string(PowerManager::GetPowerManager(0)->currentPower.second));
-        //CSurface::GL_SetColor(GL_Color(100.0/255, 1, 100.0/255, 1));
-        freetype::easy_printCenter(52, reactorInfoPos.x+18, reactorInfoPos.y+43, std::to_string(def.maxReactorLevel));
-        freetype::easy_printCenter(52, reactorInfoPos.x+19, reactorInfoPos.y+27, "_");
-    }
 }
 
 HOOK_METHOD(ShipBuilder, MouseMove, (int x, int y) -> void)
