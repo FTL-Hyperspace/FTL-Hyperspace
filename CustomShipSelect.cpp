@@ -2345,9 +2345,9 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
         //show reactor
         //was at 310/450
         CSurface::GL_SetColor(GL_Color(100.0/255, 1, 100.0/255, 1));
-        freetype::easy_printCenter(52, reactorInfoPos.x+18, reactorInfoPos.y+43, std::to_string(PowerManager::GetPowerManager(0)->currentPower.second));
+        freetype::easy_printCenter(52, reactorInfoPos.x+18, reactorInfoPos.y+25, std::to_string(PowerManager::GetPowerManager(0)->currentPower.second));
         //CSurface::GL_SetColor(GL_Color(100.0/255, 1, 100.0/255, 1));
-        freetype::easy_printCenter(52, reactorInfoPos.x+18, reactorInfoPos.y+25, std::to_string(def.maxReactorLevel));
+        freetype::easy_printCenter(52, reactorInfoPos.x+18, reactorInfoPos.y+43, std::to_string(def.maxReactorLevel));
         freetype::easy_printCenter(52, reactorInfoPos.x+19, reactorInfoPos.y+27, "_");
     }
 }
