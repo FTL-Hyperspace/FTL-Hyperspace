@@ -2021,16 +2021,22 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
         advancedOnButton.hitbox.x = 4000;
     }
 
+    // Tint if shipSelect is open
+
     if (shipSelect.bOpen)
     {
         GL_Color tint(0.25f, 0.25f, 0.25f, 1.f);
         CSurface::GL_SetColorTint(tint);
     }
 
+    // Render background
+
     CSurface::GL_DisableBlend();
     CSurface::GL_RenderPrimitive(baseImage);
 
     CSurface::GL_EnableBlend();
+
+    // Render custom animations
 
     for (auto i : CustomShipSelect::GetInstance()->customAnims)
     {
@@ -2042,8 +2048,57 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
         CSurface::GL_PopMatrix();
     }
 
+    // Render the ship
+
+    CSurface::GL_PushMatrix();
+
+    bool dlcLocked = !Settings::GetDlcEnabled();
+    if (dlcLocked)
+    {
+        if (isVanillaShip)
+        {
+            dlcLocked = currentShipId == 9 || currentType == 2;
+        }
+        else
+        {
+            auto customSel = CustomShipSelect::GetInstance();
+            ShipButtonDefinition *def = &customSel->GetShipButtonDefinition(currentShipId-100);
+            dlcLocked = def->VariantNeedsDlc(currentType);
+        }
+    }
+
+    if (dlcLocked)
+    {
+        CSurface::GL_SetColorTint(COLOR_TINT);
+    }
+
+    CSurface::GL_Translate(currentShip->ship.horizontal_shift + 365.f, currentShip->ship.vertical_shift + 30.f);
+    currentShip->OnRender(true, false);
+
+    CSurface::GL_PopMatrix();
+
+    // Render startButtonBox
+
+    CSurface::GL_RenderPrimitive(startButtonBox);
+
+    // Render AE warning
+
+    if (dlcLocked)
+    {
+        CSurface::GL_RemoveColorTint();
+        CSurface::GL_RenderPrimitive(enableAdvancedPrimitive);
+    }
+
+    // Render shipEquipBox
+
     CSurface::GL_RenderPrimitive(shipEquipBox);
+
+    // Render shipSelectBox
+
     CSurface::GL_RenderPrimitive(shipSelectBox);
+
+    // Render shipAchBox
+
     if (isVanillaShip)
     {
         CSurface::GL_RenderPrimitive(shipAchBox);
@@ -2053,10 +2108,14 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
         CSurface::GL_RenderPrimitive(shipAchBox); //for now
     }
 
+    // Render advancedButtonBox (AE toggle)
+
     if (!Global::forceDlc)
     {
         CSurface::GL_RenderPrimitive(advancedButtonBox);
     }
+
+    // Render texts
 
     CSurface::GL_SetColor(COLOR_BUTTON_TEXT);
 
@@ -2088,40 +2147,7 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
 
     CSurface::GL_SetColor(1.f, 1.f, 1.f, 1.f);
 
-    CSurface::GL_PushMatrix();
-
-    bool dlcLocked = !Settings::GetDlcEnabled();
-    if (dlcLocked)
-    {
-        if (isVanillaShip)
-        {
-            dlcLocked = currentShipId == 9 || currentType == 2;
-        }
-        else
-        {
-            auto customSel = CustomShipSelect::GetInstance();
-            ShipButtonDefinition *def = &customSel->GetShipButtonDefinition(currentShipId-100);
-            dlcLocked = def->VariantNeedsDlc(currentType);
-        }
-    }
-
-    if (dlcLocked)
-    {
-        CSurface::GL_SetColorTint(COLOR_TINT);
-    }
-
-    CSurface::GL_Translate(currentShip->ship.horizontal_shift + 365.f, currentShip->ship.vertical_shift + 30.f);
-    currentShip->OnRender(true, false);
-
-    CSurface::GL_PopMatrix();
-    CSurface::GL_RenderPrimitive(startButtonBox);
-
-    if (dlcLocked)
-    {
-        CSurface::GL_RemoveColorTint();
-        CSurface::GL_RenderPrimitive(enableAdvancedPrimitive);
-    }
-
+    // Render vanilla hangar animations
 
     for (auto &anim: animations)
     {
@@ -2130,7 +2156,11 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
 
     walkingMan.OnRender(1.f, COLOR_WHITE, false);
 
+    // Render ship name box
+
     CSurface::GL_RenderPrimitive(nameBoxPrimitive);
+
+    // Render ship equipment boxes
 
     for (auto &box: vEquipmentBoxes)
     {
@@ -2153,6 +2183,8 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
 
     }
 
+    // Render ship crew boxes
+
     for (auto &box: vCrewBoxes)
     {
         if (box->bCustomizing)
@@ -2162,16 +2194,21 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
         }
     }
 
+    // Render buttons
+
     for (auto &button: buttons)
     {
         button->OnRender();
     }
+
+    // Render system boxes
 
     for (auto &sys: sysBoxes)
     {
         sys->OnRender(true);
     }
 
+    // Render encourageShipList
 
     if (encourageShipList)
     {
