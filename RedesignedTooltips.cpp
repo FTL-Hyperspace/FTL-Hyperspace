@@ -78,6 +78,12 @@ HOOK_STATIC(WeaponBox, GenerateTooltip, (std::string &retStr, WeaponBox *_this) 
                 descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(weaponDef->freeMissileChance)) + "\n";
             }
 
+            if (weaponDef->customDamage.accuracyMod != 0)
+            {
+                currentText = tLib->GetText("accuracy_modifier");
+                descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(weaponDef->customDamage.accuracyMod)) + "\n";
+            }
+
             if (bp->boostPower.count > 0)
             {
                 std::string boostType = "";
