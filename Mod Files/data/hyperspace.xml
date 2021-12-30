@@ -1498,6 +1498,9 @@ Example:
 			<randomScaling sector="2">2</randomScaling>
 		</systemLevelScaling>
 	</shipGenerator>
+	<shipGenerator name="customGenerator">
+		...
+	</shipGenerator>
 </shipGenerators>
 
 -->
