@@ -3476,6 +3476,7 @@ struct HackingDrone;
 struct HackingDrone : SpaceDrone
 {
 	LIBZHL_API void OnLoop();
+	LIBZHL_API void SetMovementTarget(Targetable &target);
 	
 	Pointf startingPosition;
 	GL_Texture *droneImage_on;

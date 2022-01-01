@@ -152,9 +152,19 @@ HOOK_METHOD(ShipManager, AddSystem, (int systemId) -> int)
     auto ret = super(systemId);
 
     // Fixes shield systems being created with damage when >10 bars
-    if (systemId == 0 && shieldSystem)
+    if (systemId == SYS_SHIELDS && shieldSystem)
     {
         shieldSystem->healthState.first = shieldSystem->healthState.second;
+    }
+
+    // Fixes buying hacking at a store with a ship present
+    else if (systemId == SYS_HACKING && hackingSystem)
+    {
+        if (current_target)
+        {
+            hackingSystem->drone.SetMovementTarget(current_target->_targetable);
+            G_->GetWorld()->space.drones.push_back(&hackingSystem->drone);
+        }
     }
 
     return ret;
