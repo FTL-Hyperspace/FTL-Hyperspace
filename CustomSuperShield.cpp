@@ -529,11 +529,11 @@ HOOK_METHOD_PRIORITY(Shields, RenderBase, 9999, (float alpha, float superShieldO
 //            if (angle > 1.f) angle = 1.f;
 //            else if (angle < -1.f) angle = -1.f;
 //
-//            angle = acosf(angle) * 180.f / 3.141592654;
+//            angle = acosf(angle) * 180.f / 3.141592654f;
 //
 //            if (pos.y < 0.f) angle = -angle;
 
-            float angle = atan2f(pos.y/(ellipseRatio*baseShield.a), pos.x/baseShield.a) * 180.f / 3.141592654;
+            float angle = atan2f(pos.y/(ellipseRatio*baseShield.a), pos.x/baseShield.a) * 180.f / 3.141592654f;
 
             CSurface::GL_DrawShield(baseShield.center.x, baseShield.center.y, baseShield.a, ellipseRatio*baseShield.a, angle - hit.end_size, hit.end_size + angle, {1.f,1.f,1.f,1.f}, hit.current_thickness);
         }

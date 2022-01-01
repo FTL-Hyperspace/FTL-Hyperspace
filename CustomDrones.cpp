@@ -692,7 +692,7 @@ HOOK_METHOD(DefenseDrone, PickTarget, () -> void)
             else
             {
                 relPos = Pointf(targetLocation.x - currentLocation.x, targetLocation.y - currentLocation.y);
-                desiredAimingAngle = atan2f(relPos.y, relPos.x) * 180.f / 3.141592654;
+                desiredAimingAngle = atan2f(relPos.y, relPos.x) * 180.f / 3.141592654f;
                 if (desiredAimingAngle < 0.f) desiredAimingAngle += 360.f;
 
                 float swivelSpeed;
@@ -795,7 +795,7 @@ HOOK_METHOD(DefenseDrone, PickTarget, () -> void)
                 if (desiredAimingAngle <= 0.f)
                 {
                     Pointf relPos = Pointf(targetLocation.x - currentLocation.x, targetLocation.y - currentLocation.y);
-                    desiredAimingAngle = atan2f(relPos.y, relPos.x) * 180.f / 3.141592654;
+                    desiredAimingAngle = atan2f(relPos.y, relPos.x) * 180.f / 3.141592654f;
                     if (desiredAimingAngle < 0.f) desiredAimingAngle += 360.f;
                 }
 
