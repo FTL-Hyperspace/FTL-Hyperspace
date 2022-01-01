@@ -84,7 +84,6 @@
 
 <!-- Redesigned Tooltips -->
 
-<text name="crew_stun_time">Stunned: \1 seconds</text>
 <text name="description_stats">Stats:</text>
 <text name="requires_no_power">Requires no power</text>
 <text name="provides_bonus_power">Provides Bonus Power</text>
