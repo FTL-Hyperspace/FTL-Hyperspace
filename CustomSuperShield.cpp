@@ -414,9 +414,9 @@ HOOK_METHOD_PRIORITY(Shields, RenderBase, 9999, (float alpha, float superShieldO
         if (shieldsUpProgress < 1.f)
         {
             CSurface::GL_PushMatrix();
-            CSurface::GL_Translate(0.5f * width_, 0.5f * height_, 0.f);
+            CSurface::GL_Translate(0.5f * shieldImage->width_, 0.5f * shieldImage->height_, 0.f);
             CSurface::GL_Scale(shieldsUpProgress, shieldsUpProgress, 1.f);
-            CSurface::GL_Translate(-0.5f * width_, -0.5f * height_, 0.f);
+            CSurface::GL_Translate(-0.5f * shieldImage->width_, -0.5f * shieldImage->height_, 0.f);
         }
 
         GL_Color shieldColor;
