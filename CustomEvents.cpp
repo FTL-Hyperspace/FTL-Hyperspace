@@ -2097,7 +2097,7 @@ HOOK_METHOD(CommandGui, AddEnemyShip, (CompleteShip *ship) -> void)
 
     if (custom->GetBossShipDefinition(ship->shipManager->myBlueprint.blueprintName))
     {
-        shipPosition.x = 150;
+        shipPosition.x = 150 + shipComplete->shipManager->ship.horizontal_shift;
         ftlButton.bBossFight = true;
         shipStatus.bBossFight = true;
     }
