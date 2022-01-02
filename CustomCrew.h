@@ -18,6 +18,9 @@ extern bool g_resistsMindControlStat;
 extern int requiresFullControl;
 extern bool isTelepathicMindControl;
 
+extern bool shipFriendlyFire;
+extern bool blockDamageArea;
+
 struct StatBoostDefinition;
 struct StatBoost;
 

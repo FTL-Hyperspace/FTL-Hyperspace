@@ -541,6 +541,40 @@ void CustomCrewManager::ParseDeathEffect(rapidxml::xml_node<char>* stat, Explosi
         {
             def.shipFriendlyFire = EventsParser::ParseBoolean(effectNode->value());
         }
+        if (effectName == "transformRace")
+        {
+            def.transformRace = effectNode->value();
+            def.transformRaceHealth = 0.f;
+            def.transformRaceHealthFraction = 1.f;
+            def.transformRaceDeathSound = false;
+
+            if (effectNode->first_attribute("health"))
+            {
+                def.transformRaceHealth = boost::lexical_cast<float>(effectNode->first_attribute("health")->value());
+                def.transformRaceHealthFraction = 0.f;
+            }
+            if (effectNode->first_attribute("healthFraction"))
+            {
+                def.transformRaceHealthFraction = boost::lexical_cast<float>(effectNode->first_attribute("healthFraction")->value());
+            }
+            if (effectNode->first_attribute("deathSound"))
+            {
+                def.transformRaceDeathSound = EventsParser::ParseBoolean(effectNode->first_attribute("deathSound")->value());
+            }
+        }
+        if (effectName == "spawnCrew")
+        {
+            CrewSpawn* newSpawn = new CrewSpawn(CrewSpawn::ParseCrewSpawn(effectNode, true));
+
+            if (!newSpawn->race.empty())
+            {
+                def.crewSpawns.push_back(newSpawn);
+            }
+            else
+            {
+                delete newSpawn;
+            }
+        }
         if (effectName == "statBoosts")
         {
             for (auto statBoostNode = effectNode->first_node(); statBoostNode; statBoostNode = statBoostNode->next_sibling())
@@ -2219,9 +2253,65 @@ HOOK_METHOD_PRIORITY(CrewMember, DirectModifyHealth, 1000, (float healthMod) -> 
                 healthMod *= ex->CalculateStat(CrewStat::ALL_DAMAGE_TAKEN_MULTIPLIER, def);
             }
         }
+
+        if (health.first + healthMod <= 0.f) // will die
+        {
+            ex->CalculateStat(CrewStat::DEATH_EFFECT, def);
+
+            if (ex->hasDeathExplosion)
+            {
+                ExplosionDefinition *explosionDef = &ex->deathEffectChange;
+                if (!explosionDef->transformRace.empty())
+                {
+                    // we explode as part of the transform as the crewmember won't actually die and explode normally
+                    bool oldBlockDamageArea = blockDamageArea;
+                    blockDamageArea = false;
+
+                    ex->triggerExplosion = true;
+                    Damage damage;
+                    CrewMember::GetRoomDamage(&damage, this);
+                    if (damage.ownerId != -1)
+                    {
+                        ShipManager *crewShip = G_->GetShipManager(currentShipId);
+                        if (crewShip)
+                        {
+                            CustomDamage* oldDamage = CustomDamageManager::currentWeaponDmg;
+                            CustomDamageManager::currentWeaponDmg = nullptr; // if triggered by a projectile we don't want that projectile's CustomDamage for this effect
+
+                            crewShip->DamageArea(Pointf(x, y), *((DamageParameter*)&damage), true);
+
+                            CustomDamageManager::currentWeaponDmg = oldDamage;
+                        }
+                    }
+
+                    blockDamageArea = oldBlockDamageArea;
+
+                    if (explosionDef->transformRaceDeathSound)
+                    {
+                        std::string deathSound;
+                        CrewAnimation::GetDeathSound(deathSound, crewAnim);
+                        G_->GetSoundControl()->PlaySoundMix(deathSound, -1.f, false);
+                    }
+                    ex->TransformRace(explosionDef->transformRace);
+
+                    health.first = ex->CalculateStat(CrewStat::MAX_HEALTH, def) * explosionDef->transformRaceHealthFraction + explosionDef->transformRaceHealth;
+                    if (health.first <= 0.f) health.first = 1.0e-9f;
+                    if (health.first > health.second) health.first = health.second;
+
+                    if (ex->passiveHealTimer)
+                    {
+                        ex->isHealing = false;
+                        ex->passiveHealTimer->Start(ex->CalculateStat(CrewStat::PASSIVE_HEAL_DELAY, def));
+                    }
+
+                    return false;
+                }
+            }
+        }
     }
 
     bool ret = super(healthMod);
+
     if (custom->IsRace(species) && healthMod < 0.f && ex->passiveHealTimer)
     {
         ex->isHealing = false;
@@ -3444,8 +3534,8 @@ HOOK_METHOD(CrewMember, OnLoop, () -> void)
     }
 }
 
-static bool shipFriendlyFire = true;
-static bool blockDamageArea = false;
+bool shipFriendlyFire = true;
+bool blockDamageArea = false;
 
 HOOK_STATIC(IonDrone, GetRoomDamage, (Damage *damage, IonDrone* crew) -> Damage*)
 {    if (blockDamageArea) return damage;
@@ -3515,6 +3605,17 @@ HOOK_STATIC(CrewMember, GetRoomDamage, (Damage *damage, CrewMember *crew) -> Dam
                                         StatBoostManager::GetInstance()->CreateTimedAugmentBoost(statBoost, otherCrew);
                                     }
                                 }
+                            }
+                        }
+                    }
+                    if (!explosionDef->crewSpawns.empty())
+                    {
+                        ShipManager *crewShip = G_->GetShipManager(crew->currentShipId);
+                        if (crewShip)
+                        {
+                            for (CrewSpawn* i : explosionDef->crewSpawns)
+                            {
+                                CrewSpawn::SpawnCrew(*i, crewShip, crew->currentShipId != crew->iShipId, Pointf(crew->x, crew->y));
                             }
                         }
                     }

@@ -112,6 +112,7 @@
 		<statBoosts>                                 Stat boosts (temporary or permanent) to apply to the spawned crewmember. Will check conditions on creation only.
 			...
 		</statBoosts>
+		<enemy>false</enemy>                         If true, spawns crew of enemy alignment.
 		<noSlot>false</noSlot>                       If true, forces the crewmember to not take up a slot. Good for temporary spawns.
 	</spawnCrew>
 	

@@ -299,6 +299,10 @@ StatBoostDefinition* StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<cha
                     def->deathEffectChange->damage.bLockdown = true;
                     def->deathEffectChange->damage.bFriendlyFire = true;
                     def->deathEffectChange->damage.iStun = 1;
+
+                    def->deathEffectChange->shipFriendlyFire = true;
+                    def->deathEffectChange->transformRaceDeathSound = true;
+                    def->deathEffectChange->transformRaceHealth = 1.f;
                 }
                 else
                 {
@@ -314,6 +318,11 @@ StatBoostDefinition* StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<cha
                     def->deathEffectChange->damage.bLockdown = false;
                     def->deathEffectChange->damage.bFriendlyFire = false;
                     def->deathEffectChange->damage.iStun = 0;
+
+                    if (def->boostType == StatBoostDefinition::BoostType::FLAT)
+                    {
+                        def->deathEffectChange->transformRaceHealthFraction = 0.f;
+                    }
                 }
 
                 CustomCrewManager::GetInstance()->ParseDeathEffect(child, def->deathEffectChange);
@@ -1236,6 +1245,9 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
                                 deathEffectChange.damage.bLockdown &= statBoost.def->deathEffectChange->damage.bLockdown || !sysPowerScaling;
                                 deathEffectChange.damage.bFriendlyFire &= statBoost.def->deathEffectChange->damage.bFriendlyFire || !sysPowerScaling;
                                 deathEffectChange.damage.iStun *= 1.f + (statBoost.def->deathEffectChange->damage.iStun - 1.f) * sysPowerScaling;
+
+                                deathEffectChange.transformRaceHealth *= 1.f + (statBoost.def->deathEffectChange->transformRaceHealth - 1.f) * sysPowerScaling;
+                                deathEffectChange.transformRaceHealthFraction *= 1.f + (statBoost.def->deathEffectChange->transformRaceHealthFraction - 1.f) * sysPowerScaling;
                             }
                         }
                         else if (statBoost.def->boostType == StatBoostDefinition::BoostType::FLAT)
@@ -1257,11 +1269,27 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
                                 deathEffectChange.damage.bFriendlyFire |= statBoost.def->deathEffectChange->damage.bFriendlyFire && sysPowerScaling;
                                 deathEffectChange.damage.iStun += statBoost.def->deathEffectChange->damage.iStun * sysPowerScaling;
 
+                                deathEffectChange.transformRaceHealth += statBoost.def->deathEffectChange->transformRaceHealth * sysPowerScaling;
+                                deathEffectChange.transformRaceHealthFraction += statBoost.def->deathEffectChange->transformRaceHealthFraction * sysPowerScaling;
+
                                 if (sysPowerScaling)
                                 {
                                     for (auto statBoostDef : statBoost.def->deathEffectChange->statBoosts)
                                     {
                                         deathEffectChange.statBoosts.push_back(statBoostDef);
+                                    }
+
+                                    for (auto crewSpawn : statBoost.def->deathEffectChange->crewSpawns)
+                                    {
+                                        deathEffectChange.crewSpawns.push_back(crewSpawn);
+                                    }
+
+                                    if (!statBoost.def->deathEffectChange->transformRace.empty())
+                                    {
+                                        deathEffectChange.transformRace = statBoost.def->deathEffectChange->transformRace;
+                                        deathEffectChange.transformRaceHealth = statBoost.def->deathEffectChange->transformRaceHealth * sysPowerScaling;
+                                        deathEffectChange.transformRaceHealthFraction = statBoost.def->deathEffectChange->transformRaceHealthFraction * sysPowerScaling;
+                                        deathEffectChange.transformRaceDeathSound = statBoost.def->deathEffectChange->transformRaceDeathSound;
                                     }
                                 }
                             }

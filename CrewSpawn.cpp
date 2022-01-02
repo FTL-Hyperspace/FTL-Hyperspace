@@ -39,6 +39,10 @@ CrewSpawn CrewSpawn::ParseCrewSpawn(rapidxml::xml_node<char>* node, bool isCrew)
         {
             crewSpawn.noSlot = EventsParser::ParseBoolean(spawnNode->value());
         }
+        if (spawnName == "enemy")
+        {
+            crewSpawn.enemy = EventsParser::ParseBoolean(spawnNode->value());
+        }
     }
 
     return crewSpawn;
@@ -67,6 +71,8 @@ std::vector<CrewMember*> CrewSpawn::SpawnCrew(CrewSpawn& crewSpawn, ShipManager 
 
     if (room != -1)
     {
+        if (crewSpawn.enemy) intruder = !intruder;
+
         int freeSlots = 0;
 
         for (auto i : ShipGraph::GetShipInfo(ship->iShipId)->rooms)
