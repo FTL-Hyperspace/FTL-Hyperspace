@@ -2,6 +2,7 @@
 #include "ShipUnlocks.h"
 #include "CustomStore.h"
 #include "CustomOptions.h"
+#include "CustomEvents.h"
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
 
@@ -143,6 +144,28 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
         commandGui->shipComplete->shipManager->fuel_count -= 800;
         if (commandGui->shipComplete->shipManager->fuel_count < 0) commandGui->shipComplete->shipManager->fuel_count = 0;
         commandGui->shipComplete->shipManager->ModifyDroneCount(-800);
+        return true;
+    }
+    if(cmdName == "JUMPEVENT")
+    {
+        if (command.length() > 10)
+        {
+            jumpEvent = boost::trim_copy(command.substr(10));
+        }
+        else
+        {
+            jumpEvent = "";
+        }
+        jumpEventLoop = false;
+        return true;
+    }
+    if(cmdName == "LOADEVENT")
+    {
+        if (command.length() > 10)
+        {
+            std::string eventName = boost::trim_copy(command.substr(10));
+            CustomEventsParser::GetInstance()->LoadEvent(G_->GetWorld(), eventName, -1);
+        }
         return true;
     }
 

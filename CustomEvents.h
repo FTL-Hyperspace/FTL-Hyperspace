@@ -18,6 +18,9 @@ extern std::string replaceCreditsMusic;
 extern std::unordered_map<int, std::string> renamedBeacons;
 extern std::unordered_map<int, std::pair<std::string, int>> regeneratedBeacons;
 
+extern std::string jumpEvent;
+extern bool jumpEventLoop;
+
 struct BeaconType
 {
     std::string eventName;

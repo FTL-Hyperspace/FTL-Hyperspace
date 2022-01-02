@@ -24,6 +24,9 @@ std::unordered_map<int, std::string> renamedBeacons = std::unordered_map<int, st
 
 std::unordered_map<int, std::pair<std::string, int>> regeneratedBeacons = std::unordered_map<int, std::pair<std::string, int>>();
 
+std::string jumpEvent = "";
+bool jumpEventLoop = false;
+
 CustomEvent::CustomEvent()
 {
     checkCargo = CustomOptionsManager::GetInstance()->defaults.checkCargo;
@@ -2814,9 +2817,6 @@ HOOK_METHOD(LocationEvent, ClearEvent, (bool force) -> void)
     if (fleetPosition == 1 && !force) return;
     gap_ex_cleared = true;
 }
-
-static std::string jumpEvent = "";
-static bool jumpEventLoop = false;
 
 void EventDamageEnemy(EventDamage eventDamage)
 {
