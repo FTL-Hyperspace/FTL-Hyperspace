@@ -3361,6 +3361,51 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
 
     super(loc);
 
+    if (loc->ship.present && loc->ship.hostile && !ships.empty())
+    {
+        CompleteShip* enemyShip = ships[0];
+        if (enemyShip->shipManager && enemyShip->shipManager->_targetable.hostile)
+        {
+            if (playerShip->shipManager->current_target != enemyShip->shipManager)
+            {
+                commandGui->combatControl.Clear();
+                commandGui->AddEnemyShip(enemyShip);
+                if (playerShip->shipManager->hackingSystem)
+                {
+                    bool needHackingDrone = true;
+                    for (SpaceDrone* drone : space.drones)
+                    {
+                        if (drone == &playerShip->shipManager->hackingSystem->drone)
+                        {
+                            needHackingDrone = false;
+                            break;
+                        }
+                    }
+                    if (needHackingDrone)
+                    {
+                        space.drones.push_back(&playerShip->shipManager->hackingSystem->drone);
+                    }
+                }
+                if (enemyShip->shipManager->hackingSystem)
+                {
+                    bool needHackingDrone = true;
+                    for (SpaceDrone* drone : space.drones)
+                    {
+                        if (drone == &enemyShip->shipManager->hackingSystem->drone)
+                        {
+                            needHackingDrone = false;
+                            break;
+                        }
+                    }
+                    if (needHackingDrone)
+                    {
+                        space.drones.push_back(&enemyShip->shipManager->hackingSystem->drone);
+                    }
+                }
+            }
+        }
+    }
+
     if (!loc->gap_ex_cleared && customEvent)
     {
         if (customEvent->removeHazards)

@@ -42,3 +42,5 @@ void CombatControl::RenderSelfAiming(CombatControl *this<ecx>);
 void CombatControl::RenderShipStatus(CombatControl *this<ecx>, Pointf pos, GL_Color color);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b178b4f048b77088b825c07000085c074??2bb2680700002bb27807000089742408":
 std::string CombatControl::GetCrewTooltip(CombatControl *this<ecx>, int x, int y);
+"578d7c240883e4f0ff77fc5589e557565389ce83ec1cc7815c07000000000000c78160070000000000008b490485c9":
+void CombatControl::Clear(CombatControl *this<ecx>);

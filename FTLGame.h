@@ -5242,6 +5242,7 @@ struct CombatControl
 	LIBZHL_API void RenderSelfAiming();
 	LIBZHL_API void RenderShipStatus(Pointf pos, GL_Color color);
 	LIBZHL_API std::string GetCrewTooltip(int x, int y);
+	LIBZHL_API void Clear();
 	
 	CommandGui *gui;
 	ShipManager *shipManager;
