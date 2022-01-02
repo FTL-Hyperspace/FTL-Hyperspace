@@ -2,6 +2,7 @@
 #pragma GCC optimize ("O1")
 #include "Global.h"
 #include "CustomCrew.h"
+#include "CustomAugments.h"
 
 int requiresFullControl = 0;
 bool isTelepathicMindControl = false;
@@ -250,8 +251,9 @@ int CrewMember::GetPowerOwner()
 {
     if (bMindControlled)
     {
-        auto *ship = G_->GetShipManager(iShipId ? 0 : 1); // ship using mind control
-        if (ship && ship->HasAugmentation("MIND_ORDER"))
+        int enemyShipId = iShipId ? 0 : 1;
+        auto *ship = G_->GetShipManager(enemyShipId); // ship using mind control
+        if (ship && HasAugmentationById("MIND_ORDER", enemyShipId))
         {
             return ship->iShipId;
         }

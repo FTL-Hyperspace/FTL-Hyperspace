@@ -102,3 +102,4 @@ private:
     std::vector<ShipIcon*> augIconList[2];
 };
 
+int HasAugmentationById(const std::string& name, int iShipId);

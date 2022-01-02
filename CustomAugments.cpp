@@ -344,6 +344,35 @@ HOOK_METHOD_PRIORITY(ShipObject, HasAugmentation, 2000, (const std::string& name
     return augCount;
 }
 
+int HasAugmentationById(const std::string& name, int iShipId)
+{
+    CustomAugmentManager* customAug = CustomAugmentManager::GetInstance();
+
+    std::unordered_map<std::string, int> *augList = customAug->GetShipAugments(iShipId);
+
+    int augCount = 0;
+
+    if (augList->count(name) > 0)
+    {
+        augCount = augList->at(name);
+    }
+
+    std::unordered_map<std::string, AugmentFunction*> *potentialAugs = customAug->GetPotentialAugments(name);
+
+
+
+    for (auto const& x: *potentialAugs)
+    {
+        if (augList->count(x.first) && x.second->Functional(iShipId))
+        {
+            augCount += augList->at(x.first);
+        }
+    }
+
+
+    return augCount;
+}
+
 static bool useAugmentReq = false;
 
 HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
