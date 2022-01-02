@@ -2254,7 +2254,7 @@ HOOK_METHOD_PRIORITY(CrewMember, DirectModifyHealth, 1000, (float healthMod) -> 
             }
         }
 
-        if (health.first + healthMod <= 0.f) // will die
+        if (health.first > 0.f && health.first + healthMod <= 0.f) // will die
         {
             ex->CalculateStat(CrewStat::DEATH_EFFECT, def);
 
@@ -2263,6 +2263,8 @@ HOOK_METHOD_PRIORITY(CrewMember, DirectModifyHealth, 1000, (float healthMod) -> 
                 ExplosionDefinition *explosionDef = &ex->deathEffectChange;
                 if (!explosionDef->transformRace.empty())
                 {
+                    health.first = 0.f; // prevent any damage from the following effects from applying, avoids infinite loops etc.
+
                     // we explode as part of the transform as the crewmember won't actually die and explode normally
                     bool oldBlockDamageArea = blockDamageArea;
                     blockDamageArea = false;
