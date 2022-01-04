@@ -10,7 +10,7 @@
 //#include <iostream>
 
 std::vector<StatBoostDefinition*> StatBoostDefinition::statBoostDefs = std::vector<StatBoostDefinition*>();
-int StatBoostManager::statCacheFrame = 1;
+unsigned int StatBoostManager::statCacheFrame = 1;
 
 StatBoostManager StatBoostManager::instance = StatBoostManager();
 

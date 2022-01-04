@@ -253,7 +253,7 @@ struct StatBoost
 class StatBoostManager
 {
 public:
-    static int statCacheFrame;
+    static unsigned int statCacheFrame;
 
     std::unordered_map<CrewStat, std::vector<StatBoost>> statBoosts;
     std::vector<StatBoost> animBoosts;
