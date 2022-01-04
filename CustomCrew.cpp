@@ -2295,15 +2295,17 @@ HOOK_METHOD_PRIORITY(CrewMember, DirectModifyHealth, 1000, (float healthMod) -> 
                         G_->GetSoundControl()->PlaySoundMix(deathSound, -1.f, false);
                     }
                     ex->TransformRace(explosionDef->transformRace);
+                    StatBoostManager::GetInstance()->statCacheFrame++; // resets stat cache for the death transform
+                    auto newDef = custom->GetDefinition(explosionDef->transformRace); // use the new race for subsequent stat checks
 
-                    health.first = ex->CalculateStat(CrewStat::MAX_HEALTH, def) * explosionDef->transformRaceHealthFraction + explosionDef->transformRaceHealth;
+                    health.first = ex->CalculateStat(CrewStat::MAX_HEALTH, newDef) * explosionDef->transformRaceHealthFraction + explosionDef->transformRaceHealth;
                     if (health.first <= 0.f) health.first = 1.0e-9f;
                     if (health.first > health.second) health.first = health.second;
 
                     if (ex->passiveHealTimer)
                     {
                         ex->isHealing = false;
-                        ex->passiveHealTimer->Start(ex->CalculateStat(CrewStat::PASSIVE_HEAL_DELAY, def));
+                        ex->passiveHealTimer->Start(ex->CalculateStat(CrewStat::PASSIVE_HEAL_DELAY, newDef));
                     }
 
                     return false;
