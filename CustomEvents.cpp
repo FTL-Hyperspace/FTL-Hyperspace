@@ -2314,7 +2314,7 @@ HOOK_METHOD(StarMap, AddQuest, (const std::string& questEvent, bool force) -> bo
     // Override formatting for addedQuests vector to save the quest's seed.
     if (ret && addedQuests.size() > numAddedQuests)
     {
-        addedQuests[numAddedQuests].first = "QUEST " + std::to_string(Global::questSeed) + " " + addedQuests[numAddedQuests].first;
+        addedQuests[numAddedQuests].first = "QUEST\t" + std::to_string(Global::questSeed) + "\t" + addedQuests[numAddedQuests].first;
     }
 
     // If the quest is delayed to the next sector, save the quest's seed.
@@ -2569,7 +2569,7 @@ HOOK_METHOD(StarMap, GenerateMap, (bool tutorial, bool seed) -> LocationEvent*)
             if (customEvent && customEvent->eventLoadList && customEvent->eventLoadList->onGenerate)
             {
                 int seed = customEvent->eventLoadList->seeded ? (int)(loc->loc.x + loc->loc.y) ^ currentSectorSeed : -1;
-                auto newEvent = custom->GetEvent(G_->GetWorld(), customEvent->eventLoadList, seed);
+                LocationEvent* newEvent = custom->GetEvent(G_->GetWorld(), customEvent->eventLoadList, seed);
                 if (newEvent)
                 {
                     //delete loc->event;
@@ -2584,9 +2584,18 @@ HOOK_METHOD(StarMap, GenerateMap, (bool tutorial, bool seed) -> LocationEvent*)
     {
         for (auto i : regeneratedBeacons)
         {
-            if (i.first < locations.size() && !locations[i.first]->questLoc && !locations[i.first]->dangerZone) // currently don't operate on dives/quests
+            LocationEvent* newEvent = G_->GetEventGenerator()->GetBaseEvent(i.second.first, worldLevel, false, i.second.second);
+
+            if (newEvent)
             {
-                locations[i.first]->event = G_->GetEventGenerator()->GetBaseEvent(i.second.first, worldLevel, true, i.second.second);
+                if (i.first < locations.size() && !locations[i.first]->questLoc && !locations[i.first]->dangerZone) // don't place the event if a dive/quest has already been placed here
+                {
+                    locations[i.first]->event = newEvent;
+                }
+                else
+                {
+                    newEvent->ClearEvent(false);
+                }
             }
         }
     }
@@ -3165,16 +3174,18 @@ LocationEvent* CustomEventsParser::GetEvent(WorldManager *world, EventLoadList *
         }
 
         LocationEvent* locEvent = GetEvent(world, event.event, seed);
-        if (locEvent && world->CheckRequirements(locEvent))
+        if (locEvent)
         {
-            if (eventList->useFirst) return locEvent;
-            candidateEvents.push_back(locEvent);
-        }
-        else
-        {
-            G_->GetEventGenerator()->ClearUsedEvent(locEvent);
-            locEvent->ClearEvent(false);
-            //delete locEvent;
+            if (world->CheckRequirements(locEvent))
+            {
+                if (eventList->useFirst) return locEvent;
+                candidateEvents.push_back(locEvent);
+            }
+            else
+            {
+                G_->GetEventGenerator()->ClearUsedEvent(locEvent);
+                locEvent->ClearEvent(false);
+            }
         }
     }
 
@@ -3215,7 +3226,7 @@ LocationEvent* CustomEventsParser::GetEvent(WorldManager *world, std::string eve
     {
         return GetEvent(world, it->second, seed);
     }
-    return G_->GetEventGenerator()->GetBaseEvent(eventName, world->starMap.currentSector->level, true, seed);
+    return G_->GetEventGenerator()->GetBaseEvent(eventName, world->starMap.currentSector->level, false, seed);
 }
 
 void CustomEventsParser::LoadEvent(WorldManager *world, EventLoadList *eventList, int seed, CustomEvent *parentEvent)
@@ -3698,6 +3709,39 @@ HOOK_METHOD(StarMap, StartSecretSector, () -> void)
     }
 }
 
+// boss is the last thing saved/loaded so we do stuff after for it to be at the end
+
+HOOK_METHOD(BossShip, LoadBoss, (int fh) -> void)
+{
+    super(fh);
+
+    EventGenerator* eventGenerator = G_->GetEventGenerator();
+
+    int n = FileHelper::readInteger(fh);
+    for (int i=0; i<n; ++i)
+    {
+        std::string eventName = FileHelper::readString(fh);
+        auto it = eventGenerator->events.find(eventName);
+        if (it != eventGenerator->events.end())
+        {
+            eventGenerator->usedEvents[it->first] = it->second;
+            eventGenerator->events.erase(it);
+        }
+    }
+}
+
+HOOK_METHOD(BossShip, SaveBoss, (int fh) -> void)
+{
+    super(fh);
+
+    EventGenerator* eventGenerator = G_->GetEventGenerator();
+
+    FileHelper::writeInt(fh, eventGenerator->usedEvents.size());
+    for (auto i : eventGenerator->usedEvents)
+    {
+        FileHelper::writeString(fh, i.first);
+    }
+}
 
 static std::string sectorChange = "";
 
@@ -4106,7 +4150,7 @@ HOOK_METHOD(StarMap, Open, () -> void)
 {
     if (!jumpEvent.empty())
     {
-        LocationEvent* event = G_->GetEventGenerator()->GetBaseEvent(jumpEvent, currentSector->level, true, -1);
+        LocationEvent* event = G_->GetEventGenerator()->GetBaseEvent(jumpEvent, currentSector->level, false, -1);
         if (!jumpEventLoop) jumpEvent = "";
         G_->GetWorld()->UpdateLocation(event);
         return;
@@ -4240,7 +4284,7 @@ HOOK_METHOD(StarMap, TurnIntoFleetLocation, (Location *loc) -> void)
 
                 auto dest = allowedDestinations[random32()%allowedDestinations.size()];
                 unsigned int seed = random32();
-                dest->event = G_->GetEventGenerator()->GetBaseEvent(locEvent->eventName, worldLevel, true, seed);
+                dest->event = G_->GetEventGenerator()->GetBaseEvent(locEvent->eventName, worldLevel, false, seed);
                 dest->questLoc = true;
                 dest->visited = 0;
 
@@ -4251,7 +4295,7 @@ HOOK_METHOD(StarMap, TurnIntoFleetLocation, (Location *loc) -> void)
                 }
 
                 auto destIt = std::find(locations.begin(), locations.end(), dest);
-                addedQuests.push_back({"QUEST " + std::to_string(seed) + " " + locEvent->eventName, std::distance(locations.begin(), destIt)});
+                addedQuests.push_back({"QUEST\t" + std::to_string(seed) + "\t" + locEvent->eventName, std::distance(locations.begin(), destIt)});
             }
         }
     }

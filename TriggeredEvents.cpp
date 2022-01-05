@@ -900,7 +900,7 @@ void TriggeredEvent::TriggerCheck()
                 it->second.Reset();
             }
 
-            G_->GetWorld()->UpdateLocation(G_->GetEventGenerator()->GetBaseEvent(eventName, level, true, seed));
+            G_->GetWorld()->UpdateLocation(G_->GetEventGenerator()->GetBaseEvent(eventName, level, false, seed));
             break;
         }
     }
@@ -1338,7 +1338,7 @@ HOOK_METHOD(WorldManager, OnLoop, () -> void)
         int seed = eventQueue.back().second;
         int level = G_->GetWorld()->starMap.currentSector->level;
 
-        G_->GetWorld()->UpdateLocation(G_->GetEventGenerator()->GetBaseEvent(eventName, level, true, seed));
+        G_->GetWorld()->UpdateLocation(G_->GetEventGenerator()->GetBaseEvent(eventName, level, false, seed));
         locationUpdated = true;
 
         eventQueue.pop_back();
