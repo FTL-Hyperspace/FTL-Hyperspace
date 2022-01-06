@@ -10,3 +10,6 @@ FTL_HyperspaceGCC.depend
 ## Editor stuff
 # KATE
 *.kate-swp
+
+# KDE Dolphin
+*.directory
