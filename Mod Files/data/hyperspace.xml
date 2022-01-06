@@ -1591,11 +1591,11 @@ The "loops" attribute also has "minLoops" and "maxLoops" for a random number of 
 
 Syntax -> 
 <events>
-	<bossShip yOffset="120">BOSS_BLUEPRINT</bossShip>  Use the boss box for BOSS_BLUEPRINT. yOffset can be used to override the default boss offset.
+	<bossShip yOffset="120">BOSS_BLUEPRINT</bossShip>                       Use the boss box for BOSS_BLUEPRINT. yOffset can be used to override the default boss offset.
 	
-	<eventFile>filename</eventFile>                    Parses events_filename.xml for events using the vanilla parser.
+	<eventFile>filename</eventFile>                                         Parses events_filename.xml for events using the vanilla parser.
 	
-	<revisitEvent seeded="true">NOTHING</revisitEvent> Automatically loads this event by default when revisiting any beacon. Does not affect dive beacons.
+	<revisitEvent seeded="true" ignoreUnique="false">NOTHING</revisitEvent> Automatically loads this event by default when revisiting any beacon. Does not affect dive beacons.
 	
 	<sector name="SECTOR_ID">                                                              Custom sector specification.
         <exitBeacon event="EVENT_NAME" rebelEvent="EVENT_NAME" nebulaEvent="EVENT_NAME"/>  Changes the default exit beacon event. nebulaEvent is used for nebula exits; rebelEvent is used if the rebels overtake the exit.
@@ -1659,7 +1659,7 @@ Syntax ->
 	</beaconType>
 	
 	<loadEventList name="LIST_NAME" seeded="true" first="false" default="DEF_EVENT"             Events that loadEvent LIST_NAME will load a random event from this list. seeded = "false" overrides loadEvent seeded.
-	               generate="false">                                                              If first = "true", then load the first candidate instead of a random one. If default is specified, then load it if there are no
+	               generate="false" ignoreUnique="false">                                         If first = "true", then load the first candidate instead of a random one. If default is specified, then load it if there are no
 		<event name="EVENT_NAME" req="EQUIP_NAME"/>                                               valid candidates. Both the req and the event's resource requirements must be met (unless that event specifies steal="true").
 		<event name="EVENT_NAME_2" req="REQ_NAME" lvl="1" max_lvl="999" max_group="0"/>           max_group works differently here than vanilla; it will always keep the first event whose req is satisfied and discard the rest.
 	</loadEventList>                                                                              If generate="true" and this is a root-level event, then the event is selected upon sector generation rather than on visit.
@@ -1694,11 +1694,11 @@ Syntax ->
 		<quest event="EVENT_NAME">                                                              Same syntax as the default custom quest. Event-specific parameters override the defaults. If event attribute is specified,
 			...                                                                                   then it is applied to that event. Otherwise, it is applied to this event (CUSTOM_EVENT). In events.xml files it should
 		</quest>                                                                                  only be used with the event attribute.
-		<loadEvent seeded="true">EVENT_NAME</loadEvent>                                         Loads EVENT_NAME on the fly (rather than preloading like in vanilla). If seeded is true, event is seeded by sector/beacon.
+		<loadEvent seeded="true" ignoreUnique="false">EVENT_NAME</loadEvent>                    Loads EVENT_NAME on the fly (rather than preloading like in vanilla). If seeded is true, event is seeded by sector/beacon.
 		<loadEventList ...>                                                                     See <loadEventList> above for syntax. Do not include a "name" attribute in this case.
 			...                                                                                   To use a named loadEventList, simply loadEvent it.
 		</loadEventList>
-		<revisitEvent seeded="true">NOTHING</revisitEvent>                                      Automatically loads this event by default when revisiting this beacon. Does not affect dive beacons.
+		<revisitEvent seeded="true" ignoreUnique="false">NOTHING</revisitEvent>                 Automatically loads this event by default when revisiting this beacon. Does not affect dive beacons.
 		<eventAlias name="ALIAS_NAME" jumpClear="false" once="false">EVENT_NAME</eventAlias>    Sets an alias. Any loadEvent or loadEventList action on ALIAS_NAME will load EVENT_NAME instead. Omit EVENT_NAME to clear.
 		                                                                                          Does not affect vanilla event loading. Set jumpClear to true to auto-clear on jump; set once to auto-clear on use.
 		<restartEvent/>                                                                         Loads the original beacon event. This load does not process Hyperspace tags that normally get processed on event load.

@@ -158,6 +158,10 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
             {
                 defaultRevisitSeeded = EventsParser::ParseBoolean(eventNode->first_attribute("seeded")->value());
             }
+            if (eventNode->first_attribute("ignoreUnique"))
+            {
+                defaultRevisitIgnoreUnique = EventsParser::ParseBoolean(eventNode->first_attribute("ignoreUnique")->value());
+            }
         }
 
         if (strcmp(eventNode->name(), "event") == 0)
@@ -732,6 +736,10 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
             {
                 customEvent->eventLoadSeeded = EventsParser::ParseBoolean(child->first_attribute("seeded")->value());
             }
+            if (child->first_attribute("ignoreUnique"))
+            {
+                customEvent->eventLoadIgnoreUnique = EventsParser::ParseBoolean(child->first_attribute("ignoreUnique")->value());
+            }
         }
 
         if (nodeName == "revisitEvent")
@@ -742,6 +750,10 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
             if (child->first_attribute("seeded"))
             {
                 customEvent->eventRevisitSeeded = EventsParser::ParseBoolean(child->first_attribute("seeded")->value());
+            }
+            if (child->first_attribute("ignoreUnique"))
+            {
+                customEvent->eventRevisitIgnoreUnique = EventsParser::ParseBoolean(child->first_attribute("ignoreUnique")->value());
             }
         }
 
@@ -1581,6 +1593,10 @@ void CustomEventsParser::ParseCustomEventLoadList(rapidxml::xml_node<char> *node
     if (node->first_attribute("generate"))
     {
         eventList->onGenerate = EventsParser::ParseBoolean(node->first_attribute("generate")->value());
+    }
+    if (node->first_attribute("ignoreUnique"))
+    {
+        eventList->ignoreUnique = EventsParser::ParseBoolean(node->first_attribute("ignoreUnique")->value());
     }
     for (auto child = node->first_node(); child; child = child->next_sibling())
     {
@@ -3173,7 +3189,7 @@ LocationEvent* CustomEventsParser::GetEvent(WorldManager *world, EventLoadList *
             if (event.max_group != -1) used_groups.insert(event.max_group);
         }
 
-        LocationEvent* locEvent = GetEvent(world, event.event, seed);
+        LocationEvent* locEvent = GetEvent(world, event.event, eventList->ignoreUnique, seed);
         if (locEvent)
         {
             if (world->CheckRequirements(locEvent))
@@ -3192,7 +3208,7 @@ LocationEvent* CustomEventsParser::GetEvent(WorldManager *world, EventLoadList *
     if (candidateEvents.empty())
     {
         if (eventList->defaultEvent.empty()) return nullptr;
-        return GetEvent(world, eventList->defaultEvent, seed);
+        return GetEvent(world, eventList->defaultEvent, eventList->ignoreUnique, seed);
     }
     if (candidateEvents.size() == 1) return candidateEvents[0];
 
@@ -3210,7 +3226,7 @@ LocationEvent* CustomEventsParser::GetEvent(WorldManager *world, EventLoadList *
     return ret;
 }
 
-LocationEvent* CustomEventsParser::GetEvent(WorldManager *world, std::string eventName, int seed)
+LocationEvent* CustomEventsParser::GetEvent(WorldManager *world, std::string eventName, bool ignoreUnique, int seed)
 {
     auto it_alias = eventAliases.find(eventName);
     if (it_alias != eventAliases.end())
@@ -3226,7 +3242,7 @@ LocationEvent* CustomEventsParser::GetEvent(WorldManager *world, std::string eve
     {
         return GetEvent(world, it->second, seed);
     }
-    return G_->GetEventGenerator()->GetBaseEvent(eventName, world->starMap.currentSector->level, false, seed);
+    return G_->GetEventGenerator()->GetBaseEvent(eventName, world->starMap.currentSector->level, ignoreUnique, seed);
 }
 
 void CustomEventsParser::LoadEvent(WorldManager *world, EventLoadList *eventList, int seed, CustomEvent *parentEvent)
@@ -3242,12 +3258,12 @@ void CustomEventsParser::LoadEvent(WorldManager *world, EventLoadList *eventList
     if (event) world->UpdateLocation(event);
 }
 
-void CustomEventsParser::LoadEvent(WorldManager *world, std::string eventName, int seed, CustomEvent *parentEvent)
+void CustomEventsParser::LoadEvent(WorldManager *world, std::string eventName, bool ignoreUnique, int seed, CustomEvent *parentEvent)
 {
     SetCheckCargo(parentEvent);
     advancedCheckEquipment = true;
 
-    LocationEvent *event = GetEvent(world, eventName, seed);
+    LocationEvent *event = GetEvent(world, eventName, ignoreUnique, seed);
 
     g_checkCargo = false;
     advancedCheckEquipment = false;
@@ -3304,6 +3320,7 @@ HOOK_METHOD(WorldManager, CreateLocation, (Location *location) -> void)
     {
         std::string revisitEvent = CustomEventsParser::GetInstance()->defaultRevisit;
         bool revisitSeeded = CustomEventsParser::GetInstance()->defaultRevisitSeeded;
+        bool revisitIgnoreUnique = CustomEventsParser::GetInstance()->defaultRevisitIgnoreUnique;
 
         CustomEvent *customEvent = nullptr;
 
@@ -3315,12 +3332,13 @@ HOOK_METHOD(WorldManager, CreateLocation, (Location *location) -> void)
         {
             revisitEvent = customEvent->eventRevisit;
             revisitSeeded = customEvent->eventRevisitSeeded;
+            revisitIgnoreUnique = customEvent->eventRevisitIgnoreUnique;
         }
 
         if (!revisitEvent.empty())
         {
             int seed = revisitSeeded ? (int)(location->loc.x + location->loc.y) ^ (starMap.currentSectorSeed*location->visited + location->visited) : -1;
-            CustomEventsParser::GetInstance()->LoadEvent(this, revisitEvent, seed, customEvent);
+            CustomEventsParser::GetInstance()->LoadEvent(this, revisitEvent, revisitIgnoreUnique, seed, customEvent);
         }
 
         return;
@@ -3341,7 +3359,7 @@ HOOK_METHOD(WorldManager, CreateLocation, (Location *location) -> void)
         if (!customEvent->eventLoad.empty())
         {
             int seed = customEvent->eventLoadSeeded ? (int)(location->loc.x + location->loc.y) ^ starMap.currentSectorSeed : -1;
-            CustomEventsParser::GetInstance()->LoadEvent(this, customEvent->eventLoad, seed, customEvent);
+            CustomEventsParser::GetInstance()->LoadEvent(this, customEvent->eventLoad, customEvent->eventLoadIgnoreUnique, seed, customEvent);
         }
 
         if (!customEvent->secretSectorWarp.empty())
@@ -3456,7 +3474,7 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
         if (!customEvent->eventLoad.empty())
         {
             int seed = customEvent->eventLoadSeeded ? (int)(starMap.currentLoc->loc.x + starMap.currentLoc->loc.y) ^ starMap.currentSectorSeed : -1;
-            CustomEventsParser::GetInstance()->LoadEvent(this, customEvent->eventLoad, seed, customEvent);
+            CustomEventsParser::GetInstance()->LoadEvent(this, customEvent->eventLoad, customEvent->eventLoadIgnoreUnique, seed, customEvent);
         }
 
         if (customEvent->restartEvent)

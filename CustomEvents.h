@@ -484,6 +484,7 @@ struct EventLoadList
     bool seeded = true;
     bool useFirst = false;
     bool onGenerate = false;
+    bool ignoreUnique = false;
     std::string defaultEvent = "";
 };
 
@@ -527,9 +528,11 @@ struct CustomEvent
     int recallBoardersShip = 0;
     std::string eventLoad = "";
     bool eventLoadSeeded = true;
+    bool eventLoadIgnoreUnique = false;
     EventLoadList *eventLoadList = nullptr;
     std::string eventRevisit = "";
     bool eventRevisitSeeded = true;
+    bool eventRevisitIgnoreUnique = false;
     std::vector<std::pair<std::string, EventAlias>> eventAlias;
     bool restartEvent = false;
     std::string renameBeacon = "";
@@ -788,15 +791,16 @@ public:
     }
 
     LocationEvent* GetEvent(WorldManager *world, EventLoadList *eventList, int seed);
-    LocationEvent* GetEvent(WorldManager *world, std::string eventName, int seed);
+    LocationEvent* GetEvent(WorldManager *world, std::string eventName, bool ignoreUnique, int seed);
     void LoadEvent(WorldManager *world, EventLoadList *eventList, int seed, CustomEvent *parentEvent = nullptr);
-    void LoadEvent(WorldManager *world, std::string eventName, int seed, CustomEvent *parentEvent = nullptr);
+    void LoadEvent(WorldManager *world, std::string eventName, bool ignoreUnique, int seed, CustomEvent *parentEvent = nullptr);
 
     std::vector<std::string> eventFiles;
     CustomEvent *defaultVictory = new CustomEvent();
     CustomQuest *defaultQuest = new CustomQuest();
     std::string defaultRevisit = "";
     bool defaultRevisitSeeded = true;
+    bool defaultRevisitIgnoreUnique = false;
 
 private:
     std::unordered_map<std::string, CustomSector*> customSectors;

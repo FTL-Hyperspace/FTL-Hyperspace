@@ -164,7 +164,7 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
         if (command.length() > 10)
         {
             std::string eventName = boost::trim_copy(command.substr(10));
-            CustomEventsParser::GetInstance()->LoadEvent(G_->GetWorld(), eventName, -1);
+            CustomEventsParser::GetInstance()->LoadEvent(G_->GetWorld(), eventName, false, -1);
         }
         return true;
     }
