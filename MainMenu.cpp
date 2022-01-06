@@ -54,7 +54,9 @@ static GL_Texture* splashImageTexture = nullptr;
 
 HOOK_METHOD(MainMenu, Open, () -> void)
 {
+#ifdef _WIN32 // At some point we need to lock this behind a FTL Version as this is 1.6.9 specific (this itbButtonActive doesn't exist in later versions)
     itbButtonActive = false;
+#endif // _WIN32
 
     if (CustomMainMenu::GetInstance()->splashImages.size() > 0)
     {
@@ -84,7 +86,6 @@ HOOK_METHOD(MainMenu, Open, () -> void)
 
     super();
 }
-
 
 HOOK_METHOD(ResourceControl, RenderImage, (GL_Texture* tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror) -> int)
 {
