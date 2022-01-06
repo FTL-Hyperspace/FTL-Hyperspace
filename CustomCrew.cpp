@@ -4817,7 +4817,7 @@ HOOK_STATIC(CrewMember, GetTooltip, (std::string& strRef, CrewMember* crew) -> s
         {
             tooltip += '\n';
             std::stringstream stream;
-            stream << std::fixed <<std::setprecision(1) << crew->fStunTime * CustomCrewManager::GetInstance()->GetDefinition(crew->species)->stunMultiplier;
+            stream << std::fixed <<std::setprecision(1) << crew->fStunTime * ex->CalculateStat(CrewStat::STUN_MULTIPLIER, CustomCrewManager::GetInstance()->GetDefinition(crew->species));
             std::string currentText = G_->GetTextLibrary()->GetText("crew_stun_time");
             currentText = boost::algorithm::replace_all_copy(currentText, "\\1", stream.str());
             tooltip += currentText;
