@@ -1862,7 +1862,7 @@ HOOK_METHOD(ShipObject, HasEquipment, (const std::string& equipment) -> int)
 {
     int ret = super(equipment);
 
-    if (g_checkCargo && ret <= 0)
+    if (g_checkCargo)
     {
         Equipment equip = G_->GetWorld()->commandGui->equipScreen;
         auto boxes = equip.vEquipmentBoxes;
@@ -1887,7 +1887,8 @@ HOOK_METHOD(ShipObject, HasEquipment, (const std::string& equipment) -> int)
                         {
                             if (cargoItem->name == x)
                             {
-                                return 1;
+                                ret++;
+                                break;
                             }
                         }
                     }
@@ -1895,7 +1896,7 @@ HOOK_METHOD(ShipObject, HasEquipment, (const std::string& equipment) -> int)
                     {
                         if (cargoItem->name == equipment)
                         {
-                            return 1;
+                            ret++;
                         }
                     }
                 }
