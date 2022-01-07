@@ -212,7 +212,11 @@ HOOK_METHOD(ShipManager, IsCrewOverFull, () -> bool)
     int crewCount = G_->GetCrewFactory()->GetCrewCount(iShipId);
     int crewLimit = custom->GetDefinition(myBlueprint.blueprintName).crewLimit;
 
-    return crewLimit < crewCount;
+    if (crewLimit >= crewCount) return false;
+
+    CommandGui *commandGui = G_->GetWorld()->commandGui;
+
+    return !(commandGui->upgradeScreen.bOpen || commandGui->equipScreen.bOpen);
 }
 
 HOOK_METHOD(Room, constructor, (int iShipId, int x, int y, int w, int h, int roomId) -> void)
