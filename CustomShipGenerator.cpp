@@ -296,15 +296,10 @@ void CustomShipGenerator::RemoveAugments(ShipBlueprint &bp, int level)
 
 void CustomShipGenerator::SetMaximumHull(ShipBlueprint &bp, int level, CustomShipDefinition *customShip)
 {
-    int maxHealth = 20;
-
-    if (customShip && customShip->hpCap != -1)
-    {
-        maxHealth = customShip->hpCap;
-    }
+    int maxHealth = customShip ? customShip->hpCap : 20;
 
     bp.health += level;
-	if (bp.health > maxHealth) bp.health = maxHealth;
+	if (maxHealth != -1 && bp.health > maxHealth) bp.health = maxHealth;
 }
 
 int CustomShipGenerator::InitShip(ShipManager *ship, ShipBlueprint &bp, int level, ShipEvent& event, std::vector<CrewDesc> &crewOverride, CustomShipDefinition *customShip)
