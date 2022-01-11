@@ -172,13 +172,13 @@
 					<Add option="-D_GLIBCXX_USE_CXX11_ABI=0" />
 					<Add option="-DBUILD_DLL" />
 					<Add option="-DDEBUG" />
+					<Add option="-DSKIPDISCORD" />
 					<Add directory="rapidxml" />
 					<Add directory="discord/include" />
 					<Add directory="/usr/include/boost" />
 				</Compiler>
 				<Linker>
 					<Add option="-m32" />
-					<Add library="discord/lib/libdiscord-rpc.a" />
 					<Add directory="discord/lib" />
 					<Add directory="/usr/lib/i386-linux-gnu" />
 				</Linker>
@@ -206,6 +206,7 @@
 					<Add option="-mfpmath=sse" />
 					<Add option="-D_GLIBCXX_USE_CXX11_ABI=0" />
 					<Add option="-DBUILD_DLL" />
+					<Add option="-DSKIPDISCORD" />
 					<Add directory="rapidxml" />
 					<Add directory="discord/include" />
 					<Add directory="/usr/include/boost" />
@@ -213,7 +214,6 @@
 				<Linker>
 					<Add option="-s" />
 					<Add option="-m32" />
-					<Add library="discord/lib/libdiscord-rpc.a" />
 					<Add directory="discord/lib" />
 					<Add directory="/usr/lib/i386-linux-gnu" />
 				</Linker>
@@ -234,25 +234,23 @@
 					<Add option="-masm=intel" />
 					<Add option="-m32" />
 					<Add option="-g" />
-					<Add option="-fno-ipa-stack-alignment" />
-					<Add option="-fabi-version=7" />
-					<Add option="-fabi-compat-version=2" />
 					<Add option="-msse" />
 					<Add option="-msse2" />
 					<Add option="-mfpmath=sse" />
-					<Add option="-D_GLIBCXX_USE_CXX11_ABI=0" />
 					<Add option="-DBUILD_DLL" />
 					<Add option="-DDEBUG" />
+					<Add option="-DSKIPDISCORD" />
 					<Add directory="rapidxml" />
 					<Add directory="discord/include" />
-					<Add directory="/usr/include/boost" />
-					<Add directory="/usr/share/mingw-w64" />
+					<Add directory="/usr/projects/ftl-hyperspace/boost_1_78_0" />
 				</Compiler>
 				<Linker>
+					<Add option="-static-libstdc++" />
+					<Add option="-static-libgcc" />
+					<Add option="-static" />
 					<Add option="-m32" />
 					<Add library="discord/lib/libdiscord-rpc.a" />
 					<Add directory="discord/lib" />
-					<Add directory="/usr/lib/i386-linux-gnu" />
 				</Linker>
 			</Target>
 		</Build>

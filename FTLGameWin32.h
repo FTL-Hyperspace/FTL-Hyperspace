@@ -19,6 +19,7 @@
 #endif
 
 
+#include <windows.h>
 #include "zhl.h"
 #include "rapidxml.hpp"
 #include <string>

@@ -3,7 +3,7 @@
 #include "hde.h"
 
 #ifdef _WIN32
-    #include <Windows.h>
+    #include <windows.h>
 #elif defined(__linux__)
     #include <stdio.h>
     #include <link.h>

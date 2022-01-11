@@ -1,4 +1,4 @@
-#ifdef _WIN32
+#ifndef SKIPDISCORD
 
 #include "DiscordIntegration.h"
 #include <ctime>
@@ -292,4 +292,4 @@ HOOK_METHOD(CApp, OnExit, () -> void)
     super();
 }
 
-#endif // _WIN32
+#endif // WIN32

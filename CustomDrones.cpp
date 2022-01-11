@@ -3,6 +3,7 @@
 #include "CustomWeapons.h"
 #include <boost/lexical_cast.hpp>
 #include <cmath>
+#include <cfloat>
 
 bool g_DefenseDroneFix = false;
 float g_DefenseDroneFix_BoxRange[2] = {150.f, 150.f};
