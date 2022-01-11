@@ -378,10 +378,10 @@ void CustomShipSelect::ParseShipsNode(rapidxml::xml_node<char> *node)
     }
 }
 
-HOOK_METHOD(BlueprintManager, ProcessShipBlueprint, (ShipBlueprint* bp, BlueprintManager *bpM, rapidxml::xml_node<char>* node) -> ShipBlueprint*)
+HOOK_METHOD(BlueprintManager, ProcessShipBlueprint, (rapidxml::xml_node<char>* node) -> ShipBlueprint)
 {
     LOG_HOOK("HOOK_METHOD -> BlueprintManager::ProcessShipBlueprint -> Begin (CustomShipSelect.cpp)\n")
-    auto ret = super(bp, bpM, node);
+    auto ret = super(node);
 
     CustomShipSelect::GetInstance()->ParseVanillaShipNode(node);
 
