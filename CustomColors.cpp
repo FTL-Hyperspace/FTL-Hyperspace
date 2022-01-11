@@ -312,7 +312,7 @@ HOOK_METHOD(FTLButton, OnRender, () -> void)
     LOG_HOOK("HOOK_METHOD -> FTLButton::OnRender -> Begin (CustomColors.cpp)\n")
     g_isFTLButton = true;
     g_ftlNoFuel = bOutOfFuel;
-    g_ftlButtonDown = !ship->SystemFunctions(SYS_PILOT) || ship->IsSystemHacked(SYS_PILOT) || !ship->SystemFunctions(SYS_ENGINES) || ship->IsSystemHacked(SYS_ENGINES);
+    g_ftlButtonDown = !ship->SystemFunctions(SYS_PILOT) || ship->IsSystemHacked(SYS_PILOT) > 1 || !ship->SystemFunctions(SYS_ENGINES) || ship->IsSystemHacked(SYS_ENGINES) > 1;
 
     super();
 

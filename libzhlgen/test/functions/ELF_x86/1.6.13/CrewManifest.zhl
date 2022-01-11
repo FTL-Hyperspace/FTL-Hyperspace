@@ -20,3 +20,9 @@ cleanup void CrewManifest::Close(CrewManifest *this);
 cleanup void CrewManifest::MouseClick(CrewManifest *this, int mX, int mY);
 "5557565383ec2c8b5c24408b7424448b7c24488d437c":
 cleanup void CrewManifest::MouseMove(CrewManifest *this, int mX, int mY);
+
+
+struct CrewManifest
+{{
+	void _HS_MouseUp(int mX, int mY);
+}};

@@ -62,6 +62,8 @@ cleanup bool ShipSystem::PartialRepair(ShipSystem *this, float speed, bool autoR
 cleanup void ShipSystem::RenderPowerBoxes(ShipSystem *this, int x, int y, int width, int height, int gap, int heightMod, bool flash);
 "56538b44240c8b88f00000008b90ec000000":
 cleanup void ShipSystem::AddDamage(ShipSystem *this, int amount);
+"57bf05000000565383ec208b7424308b464c89f3":
+cleanup void ShipSystem::destructor(ShipSystem *this);
 
 
 struct ShipSystem

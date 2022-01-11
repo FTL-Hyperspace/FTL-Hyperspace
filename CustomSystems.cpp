@@ -1,6 +1,7 @@
 #include "CustomSystems.h"
 #include "TemporalSystem.h"
 #include "CustomShipSelect.h"
+#include "CustomShips.h"
 
 void ParseSystemsNode(rapidxml::xml_node<char>* node)
 {
@@ -87,7 +88,8 @@ HOOK_METHOD(ShipManager, CreateSystems, () -> int)
         systemKey.push_back(-1);
     }
 
-    auto realBp = G_->GetBlueprints()->GetShipBlueprint(myBlueprint.blueprintName, -1);
+    ShipBlueprint *realBp = nullptr;
+    if (!revisitingShip) realBp = G_->GetBlueprints()->GetShipBlueprint(myBlueprint.blueprintName, -1);
 
     int ret = 0;
 
@@ -103,6 +105,36 @@ HOOK_METHOD(ShipManager, CreateSystems, () -> int)
         for (auto i : myBlueprint.systems)
         {
             ret += AddSystem(i);
+        }
+    }
+    return ret;
+}
+
+HOOK_METHOD(ShipManager, SaveToBlueprint, (bool unk) -> ShipBlueprint)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::SaveToBlueprint -> Begin (CustomSystems.cpp)\n")
+    ShipBlueprint ret = super(unk);
+    if (this->systemKey[SYS_ARTILLERY] != -1) // Fix for saving multiple artillery blueprint
+    {
+        int numArtillery = this->artillerySystems.size();
+        for (auto i : ret.systems)
+        {
+            if (i == SYS_ARTILLERY)
+            {
+                numArtillery--;
+            }
+        }
+        if (numArtillery > 0)
+        {
+            for (int i=0; i<numArtillery; ++i)
+            {
+                ret.systems.push_back(SYS_ARTILLERY);
+            }
+            if (unk)
+            {
+                this->myBlueprint.systems = ret.systems;
+            }
+            return ret;
         }
     }
     return ret;
@@ -392,12 +424,7 @@ HOOK_METHOD(ShipManager, CanFitSystem, (int systemId) -> bool)
     }
 
     auto custom = CustomShipSelect::GetInstance();
-    int sysLimit = custom->GetDefaultDefinition().systemLimit;
-
-    if (custom->HasCustomDef(myBlueprint.blueprintName))
-    {
-        sysLimit = custom->GetDefinition(myBlueprint.blueprintName).systemLimit;
-    }
+    int sysLimit = custom->GetDefinition(myBlueprint.blueprintName).systemLimit;
 
     return count < sysLimit;
 }
@@ -416,12 +443,7 @@ HOOK_METHOD(ShipManager, CanFitSubsystem, (int systemId) -> bool)
     }
 
     auto custom = CustomShipSelect::GetInstance();
-    int sysLimit = custom->GetDefaultDefinition().subsystemLimit;
-
-    if (custom->HasCustomDef(myBlueprint.blueprintName))
-    {
-        sysLimit = custom->GetDefinition(myBlueprint.blueprintName).subsystemLimit;
-    }
+    int sysLimit = custom->GetDefinition(myBlueprint.blueprintName).subsystemLimit;
 
     return count < sysLimit;
 }

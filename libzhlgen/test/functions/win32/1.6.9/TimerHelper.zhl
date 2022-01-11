@@ -17,4 +17,6 @@ bool TimerHelper::Done(TimerHelper *this<ecx>);
 struct TimerHelper
 {{
 	TimerHelper(bool isLoop=false) : loop(isLoop) { }
+	
+	void Start(float goal); // float overload
 }};

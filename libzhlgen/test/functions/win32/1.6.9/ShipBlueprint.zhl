@@ -3,8 +3,5 @@ void ShipBlueprint::destructor(ShipBlueprint *this<ecx>);
 
 struct ShipBlueprint
 {{
-	~ShipBlueprint()
-	{
-		this->destructor();
-	}
+	
 }};

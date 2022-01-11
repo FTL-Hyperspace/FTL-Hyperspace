@@ -10,6 +10,15 @@ cleanup void CrewBox::OnLoop(CrewBox *this, bool selected);
 cleanup void CrewBox::OnRenderSkillLevel(CrewBox *this);
 "5557565383ec2c8b7424408b8628010000890424":
 cleanup void CrewBox::destructor(CrewBox *this);
+"83ec1c8b5424200fb64268":
+cleanup bool CrewBox::MouseClick(CrewBox *this);
+"565383ec348b5c24408b4320":
+cleanup void CrewBox::RenderIcon(CrewBox *this);
+"5589e557565383ec5c8b75088d5dd4":
+cleanup void CrewBox::RenderLabels(CrewBox *this);
+"83ec3c8b44244080b80801000000":
+cleanup void CrewBox::RenderCloneDying(CrewBox *this);
+
 
 struct CrewBox
 {{

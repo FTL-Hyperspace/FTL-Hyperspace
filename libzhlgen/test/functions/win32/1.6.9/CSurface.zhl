@@ -82,9 +82,12 @@ static cleanup void CSurface::GL_RenderPrimitiveWithColor(GL_Primitive *primitiv
 static cleanup void CSurface::GL_DestroyPrimitive(GL_Primitive *primitive);
 ".5589e55383e4f083ec50f30f10450cc70424????????f30f11442434f30f1144243cf30f584514f30f104d08f30f105510f30f58d1":
 static cleanup GL_Primitive* CSurface::GL_CreateRectPrimitive(float x, float y, float w, float h, GL_Color color);
-
+"55660fefdb660fefc089e553660fefd2660fefed83e4f081ecb0000000f30f2a5d08f30f2a450cf30f2a6d14f30f2a5510f30f104d28f30f115c2430f30f114424340f28e0":
+static cleanup GL_Primitive* CSurface::GL_CreateRectOutlinePrimitive(int x, int y, int w, int h, GL_Color color, float lineWidth);
 "8d4c240483e4f0ff71fc5589e55756535183ec388b39f30f105104f30f1059088b17":
 static cleanup void CSurface::AddTexVertices(std::vector<GL_TexVertex>* vec, float x1, float y1, float u1, float v1, float x2, float y2, float u2, float v2);
+"8d4c240483e4f0ff71fc5589e55756535181ec880000008b41148b31f30f1071088b5104f30f10510c8b59100f28eaf30f1155880f28fe89459cf30f106128":
+static cleanup bool CSurface::GL_DrawShield(int x, int y, float a1, float b1, int angle1, int angle2, GL_Color color, float thickness);
 
 "8d4c240483e4f0ff71fc5589e55756535183ec588b71048b198b4604":
 static cleanup GL_Primitive* CSurface::GL_CreateMultiImagePrimitive(GL_Texture* tex, std::vector<GL_TexVertex>* vec, GL_Color color);
@@ -93,6 +96,8 @@ static cleanup void CSurface::GL_PushStencilMode();
 
 "8d4c240483e4f0ff71fc5589e556535183ec5c8b31f30f105118f30f1035????????0f2ed6f30f10690cf30f106110f30f116dc0f30f1165c4":
 static cleanup GL_Primitive* CSurface::GL_CreateImagePrimitive(GL_Texture *tex, float x, float y, float size_x, float size_y, float rotate, GL_Color color);
+"8d4c240483e4f0ff71fc5589e556535183ec5c8b318b4128f30f106118f30f1015????????0f2ee2":
+static cleanup GL_Primitive* CSurface::GL_CreatePixelImagePrimitive(GL_Texture *tex, float x, float y, float size_x, float size_y, float rotate, GL_Color color, bool unk);
 
 "5589e557565383e4f083ec508b45108b15????????8b5d088b7d0c89442430a1????????39d00f84????????29d083e0f08d4402f0f30f1018f30f106804f30f106008f30f10500c8b47042b07":
 static cleanup void CSurface::GL_BlitMultiColorImage(GL_Texture *tex, const std::vector<GL_ColorTexVertex>& texVertices, bool antialias);

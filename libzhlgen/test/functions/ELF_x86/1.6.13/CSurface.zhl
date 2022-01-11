@@ -82,6 +82,8 @@ static cleanup void CSurface::GL_RenderPrimitiveWithColor(GL_Primitive *primitiv
 static cleanup void CSurface::GL_DestroyPrimitive(GL_Primitive *primitive);
 "5383ec58f30f10442460f30f104c2464f30f10542468f30f10642478":
 static cleanup GL_Primitive* CSurface::GL_CreateRectPrimitive(float x, float y, float w, float h, GL_Color color);
+"5381ecb8000000f30f2a9424c0000000":
+static cleanup GL_Primitive* CSurface::GL_CreateRectOutlinePrimitive(int x, int y, int w, int h, GL_Color color, float lineWidth);
 "55b8ffffffff57565383ec4c8b7c24608b77042b37":
 static cleanup GL_Primitive* CSurface::GL_CreateMultiRectPrimitive(std::vector<Globals::Rect>& vec, GL_Color color);
 "5557565383ec4c8b6c2460f30f105424748b7d04":
@@ -98,8 +100,12 @@ static cleanup GL_Primitive* CSurface::GL_CreateImagePartialPrimitive(GL_Texture
 
 "565383ec248b742430f30f10442434f30f104c2438f30f105c2444":
 static cleanup void CSurface::AddTexVertices(std::vector<GL_TexVertex>* vec, float x1, float y1, float u1, float v1, float x2, float y2, float u2, float v2);
+"5557565383ec7c8b15????????f30f10b42498000000":
+static cleanup bool CSurface::GL_DrawShield(int x, int y, float a1, float b1, int angle1, int angle2, GL_Color color, float thickness);
 "565383ec54f30f10442478":
 static cleanup GL_Primitive* CSurface::GL_CreateImagePrimitive(GL_Texture *tex, float x, float y, float size_x, float size_y, float rotate, GL_Color color);
+"565383ec54f30f104c2478":
+static cleanup GL_Primitive* CSurface::GL_CreatePixelImagePrimitive(GL_Texture *tex, float x, float y, float size_x, float size_y, float rotate, GL_Color color, bool unk);
 
 /* Could cause OpenGL issues
 "5631c05383ec148b7424208b5c24248b542428":

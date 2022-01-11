@@ -46,3 +46,10 @@ HOOK_METHOD(Description, copy_assign_2, (const Description& other) -> Descriptio
     return ret;
 }
 */
+
+HOOK_METHOD(Description, constructor, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> Description::constructor -> Begin (Blueprint_Extend.cpp)\n")
+    super();
+    baseRarity = 0; // fixes undefined behaviour when modder forgets blueprint rarity
+}

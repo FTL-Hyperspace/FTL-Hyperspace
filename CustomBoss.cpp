@@ -75,7 +75,7 @@ void CustomBoss::ParseBossNode(rapidxml::xml_node<char> *node)
 #ifdef _WIN32
         MessageBoxA(GetDesktopWindow(), "Error parsing <boss> in hyperspace.xml", "Error", MB_ICONERROR | MB_SETFOREGROUND);
 #elif defined(__linux__)
-        fprintf(stderr, "Fatal error parsing <boss> in hyperspace.xml\n");
+        fprintf(stderr, "Error parsing <boss> in hyperspace.xml\n");
 #endif
     }
 }
@@ -290,12 +290,10 @@ HOOK_METHOD(ShipManager, PrepareSuperDrones, () -> void)
         }
     }
 
-    for (auto i : superDrones)
+    for (auto drone : superDrones)
     {
-        CombatDrone *drone = (CombatDrone*)i;
-
-        drone->SetMovementTarget(&current_target->_targetable);
-        drone->SetWeaponTarget(&current_target->_targetable);
+        drone->SetMovementTarget(current_target->_targetable);
+        drone->SetWeaponTarget(current_target->_targetable);
         drone->lifespan = 2;
         drone->powered = true;
         drone->SetDeployed(true);

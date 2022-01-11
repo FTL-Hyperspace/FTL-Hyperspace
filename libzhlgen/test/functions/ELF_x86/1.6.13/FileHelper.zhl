@@ -58,12 +58,6 @@ static cleanup void FileHelper::readData(int file, void* data, int len);
 
 struct FileHelper
 {{
-	static int fileLength(int file)
-	{
-        // TODO: Implement
-        return 1;
-	}
-	
 	static int fileLength(int fd)
 	{
         FILE* fp = fdopen(dup(fd), "r"); // Duplicate file descriptor & then open the stream so that we can fclose correctly later on

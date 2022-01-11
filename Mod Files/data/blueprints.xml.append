@@ -1,3 +1,18 @@
+<systemBlueprint name="temporal">
+	<type>temporal</type>
+	<title id="system_temporal_title"/>
+	<desc id="system_temporal_desc"/>
+	<startPower>1</startPower>
+	<maxPower>3</maxPower>
+	<rarity>1</rarity>
+	<upgradeCost>
+		<level>40</level> <!-- level 2 -->
+		<level>80</level> <!-- level 3 -->
+		<level>120</level> <!-- imaginary level 4 -->
+	</upgradeCost>
+	<cost>80</cost>
+</systemBlueprint>
+
 <augBlueprint name="NANOBOT_DEFENSE_SYSTEM">
     <title>Nanobot Defense System</title>
 	<desc>Boarders take damage over time on your ship.</desc>
@@ -16,6 +31,24 @@
     <rarity>0</rarity>
     <value>0</value>
     <stackable>false</stackable>
+</augBlueprint>
+
+<augBlueprint name="BOARDER_RECOVERY">
+	<title>Boarder Retro-Thrusters</title>
+	<desc>Non-destroyed boarding drones will be retrieved at the end of combat.</desc>
+	<cost>50</cost>
+	<bp>8</bp>
+	<rarity>0</rarity>
+	<stackable>false</stackable>
+</augBlueprint>
+
+<augBlueprint name="MIND_ORDER">
+	<title>Neural Reins</title>
+	<desc>Allows direct control of mind controlled enemy crew. Also takes ownership of any effects being applied by that crew.</desc>
+	<cost>50</cost>
+	<bp>8</bp>
+	<rarity>0</rarity>
+	<stackable>false</stackable>
 </augBlueprint>
 
 <crewBlueprint name="ghost">
@@ -57,6 +90,33 @@
 	<accuracyMod>0</accuracyMod>                     Changes weapon accuracy. This is equivalent to subtracting accuracyMod from the enemy's evasion for this weapon when performing the evasion check.
 	<noSysDamage>false</noSysDamage>                 If true, then normal damage does not inflict corresponding system damage, only actual <sysDamage> will.
 	<noPersDamage>false</noPersDamage>               If true, then normal damage does not inflict corresponding crew damage, only actual <persDamage> will.
+	<ionBeamFix>false</ionBeamFix>                   If true, prevents ion beams from inflicting ion damage to shields on every frame (instead it will be similar to beams hitting zoltan shields).
+	<simultaneousFire>false</simultaneousFire>       If true, all shots/charges will fire at once, rather than sequentially.
+	<fireTime>0.0</false>                            Overrides the firing animation speed. Default is 1.0 for bombs and charge weapons, and 0.25 for other weapons. Does not apply to beams.
+	
+	<statBoostChance>0</statBoostChance>             Chance to apply stat boosts as listed below.
+	<statBoosts>                                     Same as statBoosts for crew/augment/etc. - list of all stat boosts to apply.
+		<statBoost>                                  Conditions for stat boost are checked on application. Once applied, the effect is continuous. Use a nested self statboost if you want to check conditions continuously.
+			<duration>10</duration>                  Duration in seconds. If this tag is not included, the stat boost is permanent.
+			...
+		</statBoost>
+	</statBoosts>
+	
+	<crewSpawnChance>0</crewSpawnChance>             Chance to spawn the crew listed below.
+	<spawnCrew>                                      Include as many <spawnCrew> tags as you need.
+		<race>human</race>                           Race to spawn.
+		<name>Gun-Born</name>                        Custom name to assign.
+		<number>1</number>                           Number of crew to spawn.
+		<healthPercentage>1.0</healthPercentage>     Fraction of max health to spawn with.
+		<lifetime>30</lifetime>                      After this amount of time passes, the crewmember will die permanently.
+		<statBoosts>                                 Stat boosts (temporary or permanent) to apply to the spawned crewmember. Will check conditions on creation only.
+			...
+		</statBoosts>
+		<enemy>false</enemy>                         If true, spawns crew of enemy alignment.
+		<noSlot>false</noSlot>                       If true, forces the crewmember to not take up a slot. Good for temporary spawns.
+	</spawnCrew>
+	
+	<iconScale>1.0</iconScale>                       Scales the weapon icon in equipment/store/hangar screens.
 </weaponBlueprint>
 -->
 

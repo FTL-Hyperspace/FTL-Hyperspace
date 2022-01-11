@@ -40,3 +40,7 @@ cleanup void CombatControl::constructor(CombatControl *this);
 cleanup void CombatControl::RenderSelfAiming(CombatControl *this);
 "5589e557565381ec9c0000008b5d0c8b75108b7d08":
 cleanup void CombatControl::RenderShipStatus(CombatControl *this, Pointf pos, GL_Color color);
+"5589e55383ec248b550c8b5d08":
+cleanup std::string CombatControl::GetCrewTooltip(CombatControl *this, int x, int y);
+"565383ec148b7424208b4604":
+cleanup void CombatControl::Clear(CombatControl *this);

@@ -4,6 +4,7 @@
 #include <map>
 #include "rapidxml.hpp"
 #include "StatBoost.h"
+#include "EnemyShipIcons.h"
 
 struct AugmentSuperShield
 {
@@ -13,6 +14,13 @@ struct AugmentSuperShield
     bool present = false;
     std::string shieldTexture[2] = {"", ""};
     GL_Color shieldColor = GL_Color(0.392156862f,1.f,0.392156862f,1.f);
+};
+
+struct AugmentCrystalShard
+{
+    std::string weapon = "";
+    float chance = 0.f;
+    int stacking = 0;
 };
 
 struct AugmentFunction
@@ -32,8 +40,12 @@ struct AugmentDefinition
     std::string name;
     std::unordered_map<std::string, AugmentFunction> functions = std::unordered_map<std::string, AugmentFunction>();
     AugmentSuperShield superShield;
+    std::vector<AugmentCrystalShard> crystalShard;
     bool locked = false;
-    std::vector<StatBoostDefinition> statBoosts = std::vector<StatBoostDefinition>();
+    std::vector<StatBoostDefinition*> statBoosts = std::vector<StatBoostDefinition*>();
+
+    std::string icon;
+    int iconShipId = -1;
 };
 
 
@@ -66,6 +78,10 @@ public:
     static std::map<std::string, int> CheckHiddenAugments(const std::map<std::string, int>& augList);
     static std::vector<std::string> RemoveHiddenAugments(const std::vector<std::string>& augList);
     std::unordered_map<std::string, int>* GetShipAugments(int iShipId);
+    std::vector<ShipIcon*>& GetAugIconList(int iShipId)
+    {
+        return augIconList[iShipId];
+    }
 
     void UpdateAugments(int iShipId);
 
@@ -83,5 +99,7 @@ private:
     static CustomAugmentManager instance;
     std::unordered_map<std::string, int> augListWithHidden[2];
     std::vector<std::string> augListNoHidden[2];
+    std::vector<ShipIcon*> augIconList[2];
 };
 
+int HasAugmentationById(const std::string& name, int iShipId);

@@ -17,4 +17,6 @@ cleanup bool TimerHelper::Done(TimerHelper *this);
 struct TimerHelper
 {{
 	TimerHelper(bool isLoop=false) : loop(isLoop) { }
+	
+	void Start(float goal); // float overload
 }};

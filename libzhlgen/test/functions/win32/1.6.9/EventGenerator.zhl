@@ -13,6 +13,29 @@ SectorDescription EventGenerator::GetSectorDescription<ecx>(EventGenerator *this
 EventGenerator* Global_EventGenerator_Generator;
 
 
-struct EventGenerator depends (SectorDescription, Sector)
+struct EventGenerator depends (SectorDescription, Sector, LocationEvent)
 {{
+    SectorDescription GetSectorDescriptionCustom(const std::string& type, int level);
+
+	void ClearUsedEvent(const std::string& name)
+	{
+		auto it = usedEvents.find(name);
+		if (it != usedEvents.end())
+		{
+			events[name] = it->second;
+			usedEvents.erase(it);
+		}
+	}
+	
+	void ClearUsedEvent(LocationEvent *locEvent)
+	{
+		if (locEvent)
+		{
+			ClearUsedEvent(locEvent->eventName);
+			for (auto& choice : locEvent->choices)
+			{
+				ClearUsedEvent(choice.event);
+			}
+		}
+	}
 }};

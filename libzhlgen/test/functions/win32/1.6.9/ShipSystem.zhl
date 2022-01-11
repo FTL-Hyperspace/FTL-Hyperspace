@@ -64,6 +64,8 @@ bool ShipSystem::PartialRepair(ShipSystem *this<ecx>, float speed, bool autoRepa
 void ShipSystem::RenderPowerBoxes(ShipSystem *this<ecx>, int x, int y, int width, int height, int gap, int heightMod, bool flash);
 "568b8100010000532b44240c8b99040100008b715439d80f4fc331d285c00f48c229c389810001000089f029d88b991c0100002b812001000083fb07":
 void ShipSystem::AddDamage(ShipSystem *this<ecx>, int amount);
+"5589e557565389ce8d5e6883e4f083ec308b4160c701????????c74108????????894c2420890424":
+void ShipSystem::destructor(ShipSystem *this<ecx>);
 
 struct ShipSystem
 {{

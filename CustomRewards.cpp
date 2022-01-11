@@ -86,7 +86,7 @@ void CustomRewardsManager::ParseRewardsNode(rapidxml::xml_node<char> *node)
 #ifdef _WIN32
         MessageBoxA(GetDesktopWindow(), "Error parsing <rewards> in hyperspace.xml", "Error", MB_ICONERROR | MB_SETFOREGROUND);
 #elif defined(__linux__)
-        fprintf(stderr, "Fatal error parsing <rewards> in hyperspace.xml\n");
+        fprintf(stderr, "Error parsing <rewards> in hyperspace.xml\n");
 #endif
     }
 

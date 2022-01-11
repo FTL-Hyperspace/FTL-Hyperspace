@@ -19,6 +19,13 @@ HOOK_METHOD_PRIORITY(ShipSystem, constructor, 900, (int systemId, int roomId, in
 	ex->orig = this;
 }
 
+HOOK_METHOD_PRIORITY(ShipSystem, destructor, 900, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipSystem::destructor -> Begin (System_Extend.cpp)\n")
+	delete SYS_EX(this);
+    super();
+}
+
 ShipSystem_Extend* Get_ShipSystem_Extend(ShipSystem* c)
 {
     uint32_t dEx = 0;

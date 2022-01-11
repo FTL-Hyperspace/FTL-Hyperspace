@@ -20,6 +20,13 @@ cleanup void AchievementTracker::SaveProfile(AchievementTracker *this, int file)
 cleanup void AchievementTracker::LoadProfile(AchievementTracker *this, int file, int version);
 "57565383ec308b7424408d5c2420891c248d7e6c897c2404":
 cleanup void AchievementTracker::SetVictoryAchievement(AchievementTracker *this);
+"5589e557565381ec9c0000008b75088b45088b4e1c8b4018":
+cleanup void AchievementTracker::OnLanguageChange(AchievementTracker *this);
+"5589e557565381ecbc0000008b450c80781400":
+cleanup void AchievementTracker::SetTooltip(AchievementTracker *this, CAchievement *ach);
+"565383ec148b7424208b462c894424048d4624890424":
+cleanup void AchievementTracker::ResetFlags(AchievementTracker *this);
+
 
 "!e8????????89742404c70424(???????\?)e8????????8b44242c8d50f4":
 AchievementTracker* Global_AchievementTracker_Tracker;

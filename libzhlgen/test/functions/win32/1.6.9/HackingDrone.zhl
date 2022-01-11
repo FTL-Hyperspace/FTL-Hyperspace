@@ -1,2 +1,4 @@
 "578d7c240883e4f0ff77fc5589e557565389cb83ec6ce8????????":
 void HackingDrone::OnLoop(HackingDrone *this<ecx>);
+"578d7c240883e4f0ff77fc5589e557565383ec2c8b3785f60f84????????89cb89b150010000c6815c03000000c6815d030000008d897c030000c7042400000000":
+void HackingDrone::SetMovementTarget(HackingDrone *this<ecx>, Targetable &target);

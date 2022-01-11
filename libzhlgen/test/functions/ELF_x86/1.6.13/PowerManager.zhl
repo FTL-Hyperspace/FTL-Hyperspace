@@ -1,2 +1,17 @@
 "565383ec448b15????????8b1d????????8b742450":
 static cleanup PowerManager* PowerManager::GetPowerManager(int iShipId);
+
+
+struct PowerManager
+{{
+	int GetAvailablePower()
+	{
+		return currentPower.second - currentPower.first;
+	}
+	
+	int GetMaxPower()
+	{
+		int ret = currentPower.second - (iTempPowerLoss + iHacked);
+		return ret > iTempPowerCap ? iTempPowerCap : ret;
+	}
+}};

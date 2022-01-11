@@ -5,4 +5,9 @@ cleanup void Projectile::constructor(Projectile *this, Pointf position, int owne
 ".5557565383ec2c8b442440c700????????c74004????????c780c0010000????????8b80b4010000":
 cleanup void Projectile::destructor(Projectile *this);
 "5589e557565381ecdc0000008b450cc78538ffffff00000000":
-cleanup void Projectile::Initialize(Projectile *this, WeaponBlueprint& bp);
+cleanup void Projectile::Initialize(Projectile *this, const WeaponBlueprint& bp);
+
+"8b4424048b5424088950388b54240c89503c8b542410895040":
+static void Projectile::__DO_NOT_HOOK();
+".!b8ffffffffc3":
+int Projectile::ForceRenderLayer(Projectile *this);

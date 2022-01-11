@@ -32,6 +32,10 @@ cleanup std::string BlueprintManager::GetCrewName(BlueprintManager *this, bool* 
 cleanup std::vector<WeaponBlueprint*> BlueprintManager::GetRandomWeapon(BlueprintManager *this, int count, bool demo_lock);
 "5589e55383ec240fb655148b450c8b5d08895424108b551089442404891c248954240c8d5034":
 cleanup std::vector<DroneBlueprint*> BlueprintManager::GetRandomDrone(BlueprintManager *this, int count, bool demo_lock);
+"5589e557565381ecbc0000008b75088d7da8":
+cleanup ShipBlueprint BlueprintManager::ProcessShipBlueprint(BlueprintManager* this, rapidxml::xml_node<char>* node);
+"5589e557565383ec7c8b45088d5da8":
+cleanup DroneBlueprint BlueprintManager::ProcessDroneBlueprint(BlueprintManager* this, rapidxml::xml_node<char>* node);
 
 "!c7442408ffffffff895c2404c70424(???????\?)e8????????c74424080000000089342489442404":
 BlueprintManager* Global_BlueprintManager_Blueprints;
@@ -40,3 +44,4 @@ BlueprintManager* Global_BlueprintManager_Blueprints;
 struct BlueprintManager
 {{
 }};
+

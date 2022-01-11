@@ -18,6 +18,8 @@ GL_Primitive* ResourceControl::CreateImagePrimitiveString(ResourceControl *this<
 freetype::font_data &ResourceControl::GetFontData(ResourceControl *this<ecx>, int fontType, bool unk);
 "5731d28d7c240883e4f0ff77fc5589f889e557565389ce83ec2c8b0f897dd8":
 ImageDesc ResourceControl::GetImageData<ecx>(ResourceControl *this, GL_Texture *tex);
+"578d7c240883e4f0ff77fc5589e557565389ce81ec1c0200000fb6078885effdffffe8????????8b86cc000000":
+bool ResourceControl::PreloadResources(ResourceControl *this<ecx>, bool unk);
 
 "!8b45b8890424e8????????b9(???????\?)":
 ResourceControl* Global_ResourceControl_GlobalResources;

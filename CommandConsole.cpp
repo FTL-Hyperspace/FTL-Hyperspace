@@ -2,6 +2,7 @@
 #include "ShipUnlocks.h"
 #include "CustomStore.h"
 #include "CustomOptions.h"
+#include "CustomEvents.h"
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
 
@@ -116,7 +117,7 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
 
         if (CustomShipUnlocks::instance->CustomShipHasUnlock(shipName))
         {
-            CustomShipUnlocks::instance->UnlockShip(shipName, false, true);
+            CustomShipUnlocks::instance->UnlockShip(shipName, false, true, false);
         }
         return true;
     }
@@ -126,6 +127,45 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
 
         CustomShipUnlocks::instance->RemoveShipUnlock(shipName);
 
+        return true;
+    }
+    if(cmdName == "RICH")
+    {
+        commandGui->shipComplete->shipManager->ModifyScrapCount(9999999 , false);
+        commandGui->shipComplete->shipManager->ModifyMissileCount(800);
+        commandGui->shipComplete->shipManager->fuel_count += 800;
+        commandGui->shipComplete->shipManager->ModifyDroneCount(800);
+        return true;
+    }
+    if(cmdName == "POOR")
+    {
+        commandGui->shipComplete->shipManager->ModifyScrapCount(-9999999 , false);
+        commandGui->shipComplete->shipManager->ModifyMissileCount(-800);
+        commandGui->shipComplete->shipManager->fuel_count -= 800;
+        if (commandGui->shipComplete->shipManager->fuel_count < 0) commandGui->shipComplete->shipManager->fuel_count = 0;
+        commandGui->shipComplete->shipManager->ModifyDroneCount(-800);
+        return true;
+    }
+    if(cmdName == "JUMPEVENT")
+    {
+        if (command.length() > 10)
+        {
+            jumpEvent = boost::trim_copy(command.substr(10));
+        }
+        else
+        {
+            jumpEvent = "";
+        }
+        jumpEventLoop = false;
+        return true;
+    }
+    if(cmdName == "LOADEVENT")
+    {
+        if (command.length() > 10)
+        {
+            std::string eventName = boost::trim_copy(command.substr(10));
+            CustomEventsParser::GetInstance()->LoadEvent(G_->GetWorld(), eventName, false, -1);
+        }
         return true;
     }
 
@@ -200,6 +240,8 @@ HOOK_METHOD(CommandGui, RunCommand, (std::string& command) -> void)
     if (!CommandConsole::GetInstance()->RunCommand(this, command))
     {
         super(command);
+        if(command == "GOD")
+            PowerManager::GetPowerManager(0)->currentPower.second = CustomShipSelect::GetInstance()->GetDefinition(shipComplete->shipManager->myBlueprint.blueprintName).maxReactorLevel;
     }
 }
 

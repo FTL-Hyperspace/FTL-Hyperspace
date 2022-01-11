@@ -1,7 +1,9 @@
 #pragma once
+#include "CrewSpawn.h"
 #include "FTLGame.h"
 #include "StatBoost.h"
 #include "Constants.h"
+#include "CustomCrewCommon.h"
 #include <array>
 
 struct CrewDefinition;
@@ -36,6 +38,7 @@ enum PowerReadyState
     POWER_NOT_READY_MIN_HEALTH,
     POWER_NOT_READY_MAX_HEALTH,
     POWER_NOT_READY_SYSTEM_DAMAGED,
+    POWER_NOT_READY_MIND,
     POWER_NOT_READY_TELEPORTING,
     POWER_NOT_READY_CHARGES
 };
@@ -75,6 +78,7 @@ public:
     bool canPhaseThroughDoors = false;
     bool isHealing = false;
     TimerHelper* passiveHealTimer = nullptr;
+    TimerHelper* deathTimer = nullptr;
     int lastRoom = -1;
     int lastShipId = -1;
     bool exploded = false;
@@ -106,8 +110,7 @@ public:
     ActivatedPowerDefinition* GetPowerDef() const;
     ActivatedPowerDefinition* CalculatePowerDef();
 
-    Damage deathEffectChange;
-    bool explosionShipFriendlyFire;
+    ExplosionDefinition deathEffectChange;
     bool hasDeathExplosion;
 
     bool isIonDrone = false;
@@ -138,11 +141,13 @@ public:
     ~CrewMember_Extend()
     {
         delete passiveHealTimer;
+        delete deathTimer;
     }
 
     std::pair<float,int> statCache[numStats] = {};
 
     bool BoostCheck(const StatBoost& statBoost);
+    int CalculateMaxHealth(const CrewDefinition* def);
     float CalculateStat(CrewStat stat, const CrewDefinition* def, bool* boolValue=nullptr);
 };
 

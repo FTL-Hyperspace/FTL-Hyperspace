@@ -15,13 +15,13 @@ struct ShipIcon
 
     ~ShipIcon()
     {
-        delete icon;
-        delete box;
+        //delete icon;
+        //delete box;
     }
 
     void OnInit(const std::string& texture, const std::string& tip, int index);
-    void OnRender(GL_Color color, bool boss);
-    void MouseMove(int x, int y, bool boss);
+    void OnRender(GL_Color color, bool boss, int idx=0);
+    void MouseMove(int x, int y, bool boss, int idx=0);
 };
 
 struct ShipManager_Extend
@@ -39,6 +39,10 @@ struct ShipManager_Extend
 
     ~ShipManager_Extend()
     {
+        for (auto i : icons)
+        {
+            delete i;
+        }
     }
 
     //CrewMember *captain;

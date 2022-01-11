@@ -28,3 +28,5 @@ cleanup void ProjectileFactory::OnRender(ProjectileFactory *this, float alpha, b
 cleanup int ProjectileFactory::NumTargetsRequired(ProjectileFactory *this);
 "5589e557565381ec7c0100008b7d088b8fb004000085c9":
 cleanup void ProjectileFactory::Update(ProjectileFactory *this);
+"5589e557565383ec4c8b75088d86f8000000890424":
+cleanup Projectile* ProjectileFactory::GetProjectile(ProjectileFactory *this);

@@ -12,6 +12,8 @@ cleanup void EventsParser::AddAllEvents(EventsParser *this);
 cleanup void EventsParser::AddEvents(EventsParser *this, EventGenerator& generator, char* file, const std::string& fileName);
 "55ba????????89e557565383ec2c8b4508c70000000000c7400400000000c74008000000008b451083c018e8????????85c089c60f84????????8db6000000008b4514":
 cleanup std::vector<std::string> EventsParser::ProcessEventList(EventsParser *this, rapidxml::xml_node<char>* node, const std::string& listName);
+"5589e557bf????????565381ecdc0000008b450c":
+cleanup void EventsParser::ProcessBaseNode(EventsParser *this, rapidxml::xml_node<char>* node, EventGenerator& generator);
 
 "!c70424(???????\?)89442408898554ffffff":
 EventsParser* Global_EventsParser_Parser;

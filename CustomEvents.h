@@ -18,6 +18,9 @@ extern std::string replaceCreditsMusic;
 extern std::unordered_map<int, std::string> renamedBeacons;
 extern std::unordered_map<int, std::pair<std::string, int>> regeneratedBeacons;
 
+extern std::string jumpEvent;
+extern bool jumpEventLoop;
+
 struct BeaconType
 {
     std::string eventName;
@@ -41,6 +44,7 @@ struct EventGameOver
     std::string creditsBackground = "";
     std::string creditsMusic = "";
     std::string sound = "";
+    std::string ach = "";
 };
 
 struct CustomQuest
@@ -480,6 +484,7 @@ struct EventLoadList
     bool seeded = true;
     bool useFirst = false;
     bool onGenerate = false;
+    bool ignoreUnique = false;
     std::string defaultEvent = "";
 };
 
@@ -519,16 +524,21 @@ struct CustomEvent
     bool removeHazards = false;
     bool removeNebula = false;
     std::string secretSectorWarp = "";
+    bool recallBoarders = false;
+    int recallBoardersShip = 0;
     std::string eventLoad = "";
     bool eventLoadSeeded = true;
+    bool eventLoadIgnoreUnique = false;
     EventLoadList *eventLoadList = nullptr;
     std::string eventRevisit = "";
     bool eventRevisitSeeded = true;
+    bool eventRevisitIgnoreUnique = false;
     std::vector<std::pair<std::string, EventAlias>> eventAlias;
     bool restartEvent = false;
     std::string renameBeacon = "";
     EventGameOver gameOver = EventGameOver();
     bool disableScrapScore = false;
+    bool disableScrapAugments = false;
     std::string customStore = "";
     std::string jumpEvent = "";
     bool jumpEventLoop = false;
@@ -550,6 +560,8 @@ struct CustomEvent
     bool goToFlagshipBase = false;
     bool goToFlagshipFleet = false;
     bool noASBPlanet = false;
+    bool repairAllSystems = false;
+    bool killEnemyBoarders = false;
 
     EventFleet leftFleet;
     EventFleet rightFleet;
@@ -616,6 +628,7 @@ struct CustomSector
     bool removeFirstBeaconNebula = false;
     bool noExit = false;
     ToggleValue<bool> nebulaSector;
+    int maxSector = -1;
 };
 
 struct BossShipDefinition
@@ -728,8 +741,10 @@ public:
     void ReadCustomEventFiles();
     void ParseCustomEventNode(rapidxml::xml_node<char> *node);
     void PostProcessCustomEvents();
+    void ParseVanillaBaseNode(rapidxml::xml_node<char> *node);
     void ParseVanillaEventNode(rapidxml::xml_node<char> *node, const std::string &eventName, const std::string &baseEventName);
     void ParseVanillaShipEventNode(rapidxml::xml_node<char> *node, const std::string &eventName);
+    bool ParseCustomSector(rapidxml::xml_node<char> *node, CustomSector *sector, bool parsingVanilla = false);
     bool ParseCustomEvent(rapidxml::xml_node<char> *node, CustomEvent *event, bool parsingVanilla = false);
     bool ParseCustomShipEvent(rapidxml::xml_node<char> *node, CustomShipEvent *event);
     bool ParseCustomQuestNode(rapidxml::xml_node<char> *node, CustomQuest *quest);
@@ -760,6 +775,7 @@ public:
     CustomShipEvent *GetCustomShipEvent(const std::string& event);
     CustomQuest *GetCustomQuest(const std::string& event);
     CustomSector *GetCustomSector(const std::string& sectorName);
+    CustomSector *GetCustomSectorPreload(const std::string& sectorName);
     CustomReq *GetCustomReq(const std::string& blueprint);
 
     static std::string GetBaseEventName(const std::string& event)
@@ -775,18 +791,20 @@ public:
     }
 
     LocationEvent* GetEvent(WorldManager *world, EventLoadList *eventList, int seed);
-    LocationEvent* GetEvent(WorldManager *world, std::string eventName, int seed);
-    void LoadEvent(WorldManager *world, EventLoadList *eventList, int seed);
-    void LoadEvent(WorldManager *world, std::string eventName, int seed);
+    LocationEvent* GetEvent(WorldManager *world, std::string eventName, bool ignoreUnique, int seed);
+    void LoadEvent(WorldManager *world, EventLoadList *eventList, int seed, CustomEvent *parentEvent = nullptr);
+    void LoadEvent(WorldManager *world, std::string eventName, bool ignoreUnique, int seed, CustomEvent *parentEvent = nullptr);
 
     std::vector<std::string> eventFiles;
     CustomEvent *defaultVictory = new CustomEvent();
     CustomQuest *defaultQuest = new CustomQuest();
     std::string defaultRevisit = "";
     bool defaultRevisitSeeded = true;
+    bool defaultRevisitIgnoreUnique = false;
 
 private:
-    std::vector<CustomSector*> customSectors;
+    std::unordered_map<std::string, CustomSector*> customSectors;
+    std::unordered_map<std::string, CustomSector*> customSectorsPreload;
     std::unordered_map<std::string, CustomEvent*> customEvents;
     std::unordered_map<std::string, CustomEvent*> customRecursiveEvents;
     std::unordered_map<std::string, std::vector<CustomEvent*>> vCustomEvents;
@@ -862,4 +880,6 @@ public:
     }
 };
 
+void EventDamageEnemy(EventDamage eventDamage);
 void GoToFlagship(bool atBase, bool allFleet);
+void RecallBoarders(int direction);

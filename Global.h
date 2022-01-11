@@ -25,6 +25,7 @@ class Global
 public:
     static Global *GetInstance() { return instance; }
 
+    void PreInitializeResources(ResourceControl *resources);
     void InitializeResources(ResourceControl *resources);
     bool AreResourcesInitialized() { return __resourcesInitialized; }
     void Initialize();

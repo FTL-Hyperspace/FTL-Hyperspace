@@ -4,16 +4,19 @@ void CachedImage::destructor(CachedImage *this<ecx>);
 void CachedImage::SetImagePath(CachedImage *this<ecx>, const std::string& imagePath);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec3c8b47048b0f8b5708c7430400000000c703????????8945d4":
 void CachedImage::constructor1(CachedImage *this<ecx>, const std::string& path, int x, int y);
+"578d41108d7c240883e4f0ff77fc5589e557565389cb83ec3c8b37c7410400000000":
+void CachedImage::constructor_copy(CachedImage *this<ecx>, const CachedImage &other);
 "5589e557565383e4f083ec108b75083971248b7d0c74??8b410489cb890424":
 void CachedImage::SetPosition(CachedImage *this<ecx>, int x, int y);
+"5589e55383e4f083ec20f30f1045080f2e41447a0b75098b5dfcc9":
+void CachedImage::SetRotation(CachedImage *this<ecx>, float _rotation);
+"5589e5565383e4f083ec108b750889f038414874198b410489cb890424":
+void CachedImage::SetMirrored(CachedImage *this<ecx>, bool _mirrored);
+"578d7c240883e4f0ff77fc5589e557565389cb83ec7c8b712085f6":
+void CachedImage::CreatePrimitive(CachedImage *this<ecx>);
 
 struct CachedImage
 {{
-	~CachedImage()
-	{
-		this->destructor();
-	}
-
 	enum Centered
 	{
 	  CENTERED = 0x0,
@@ -27,5 +30,16 @@ struct CachedImage
 	CachedImage()
 	{
 		
+	}
+	
+	CachedImage(CachedImage &other)
+	{
+		constructor_copy(other);
+	}
+	
+	CachedImage& operator=(CachedImage &other)
+	{
+		constructor_copy(other);
+		return *this;
 	}
 }};

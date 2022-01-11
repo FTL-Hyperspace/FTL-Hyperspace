@@ -900,7 +900,7 @@ void TriggeredEvent::TriggerCheck()
                 it->second.Reset();
             }
 
-            G_->GetWorld()->UpdateLocation(G_->GetEventGenerator()->GetBaseEvent(eventName, level, true, seed));
+            G_->GetWorld()->UpdateLocation(G_->GetEventGenerator()->GetBaseEvent(eventName, level, false, seed));
             break;
         }
     }
@@ -990,11 +990,11 @@ void TriggeredEvent::Reset()
             int enemyDamageScaling = G_->GetWorld()->starMap.worldLevel * def->enemyDamageScaling;
             if (def->maxEnemyDamage > def->minEnemyDamage)
             {
-                triggerEnemyDamage = std::max(triggerEnemyHull, ship->ship.hullIntegrity.first - def->minEnemyDamage + random32()%(def->maxEnemyDamage-def->minEnemyDamage+1) - enemyDamageScaling);
+                triggerEnemyDamage = def->minEnemyDamage + random32()%(def->maxEnemyDamage-def->minEnemyDamage+1) + enemyDamageScaling;
             }
             else
             {
-                triggerEnemyHull = std::max(triggerEnemyHull, ship->ship.hullIntegrity.first - def->minEnemyDamage - enemyDamageScaling);
+                triggerEnemyDamage = def->minEnemyDamage + enemyDamageScaling;
             }
         }
     }
@@ -1045,11 +1045,11 @@ void TriggeredEvent::Reset()
         currentEnemyCrew = GetEnemyCrew(def->enemyDeathsCountClonebay);
         if (def->maxEnemyDeaths > def->minEnemyDeaths)
         {
-            triggerEnemyCrew = def->minEnemyDeaths + random32()%(def->maxEnemyDeaths-def->minEnemyDeaths+1);
+            triggerEnemyDeaths = def->minEnemyDeaths + random32()%(def->maxEnemyDeaths-def->minEnemyDeaths+1);
         }
         else
         {
-            triggerEnemyCrew = def->minEnemyDeaths;
+            triggerEnemyDeaths = def->minEnemyDeaths;
         }
     }
 }
@@ -1342,7 +1342,7 @@ HOOK_METHOD(WorldManager, OnLoop, () -> void)
         int seed = eventQueue.back().second;
         int level = G_->GetWorld()->starMap.currentSector->level;
 
-        G_->GetWorld()->UpdateLocation(G_->GetEventGenerator()->GetBaseEvent(eventName, level, true, seed));
+        G_->GetWorld()->UpdateLocation(G_->GetEventGenerator()->GetBaseEvent(eventName, level, false, seed));
         locationUpdated = true;
 
         eventQueue.pop_back();
@@ -1362,6 +1362,13 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
 HOOK_METHOD(StarMap, UpdateDangerZone, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> StarMap::UpdateDangerZone -> Begin (TriggeredEvents.cpp)\n")
+    TriggeredEvent::JumpAll();
+    super();
+}
+
+HOOK_METHOD(StarMap, StartSecretSector, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> StarMap::StartSecretSector -> Begin (TriggeredEvents.cpp)\n")
     TriggeredEvent::JumpAll();
     super();
 }

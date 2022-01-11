@@ -213,6 +213,36 @@ bool CrewDrone::_HS_CanMan()
     return false;
 }
 
+/*
+bool CrewDrone::_HS_CanTeleport()
+{
+    bool ret = this->CrewMember::CanTeleport(); // vanilla CanTeleport
+    if (!ret) return false;
+
+    CustomCrewManager *custom = CustomCrewManager::GetInstance();
+
+    if (this->_drone.blueprint->name == "BOARDER_ION" && custom->IsRace("boarder_ion"))
+    {
+        auto ex = CM_EX(this);
+        auto def = custom->GetDefinition("boarder_ion");
+        ret = false;
+        ex->CalculateStat(CrewStat::CAN_TELEPORT, def, &ret);
+        return ret;
+    }
+
+    if (custom->IsRace(this->species))
+    {
+        auto ex = CM_EX(this);
+        auto def = custom->GetDefinition(this->species);
+        ret = false;
+        ex->CalculateStat(CrewStat::CAN_TELEPORT, def, &ret);
+        return ret;
+    }
+
+    return false;
+}
+*/
+
 bool CrewDrone::_HS_CanSuffocate()
 {
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
@@ -311,12 +341,12 @@ int CrewDrone::_HS_GetMaxHealth()
     if (this->_drone.blueprint->name == "BOARDER_ION" && custom->IsRace("boarder_ion"))
     {
         auto def = custom->GetDefinition("boarder_ion");
-        return CM_EX(this)->CalculateStat(CrewStat::MAX_HEALTH, def);
+        return CM_EX(this)->CalculateMaxHealth(def);
     }
     if (custom->IsRace(this->species))
     {
         auto def = custom->GetDefinition(this->species);
-        return CM_EX(this)->CalculateStat(CrewStat::MAX_HEALTH, def);
+        return CM_EX(this)->CalculateMaxHealth(def);
     }
 
     if (this->_drone.blueprint->typeName == "BOARDER")
@@ -517,6 +547,7 @@ void SetupVTable(CrewDrone *crew)
     vtable[26] = (void*)&CrewDrone::_HS_CanRepair;
     vtable[27] = (void*)&CrewDrone::_HS_CanSabotage;
     vtable[28] = (void*)&CrewDrone::_HS_CanMan;
+    //if (g_dronesCanTeleport) vtable[29] = (void*)&CrewDrone::_HS_CanTeleport;
     vtable[31] = (void*)&CrewDrone::_HS_CanSuffocate;
     vtable[32] = (void*)&CrewDrone::_HS_CanBurn;
     vtable[33] = (void*)&CrewDrone::_HS_GetMaxHealth;

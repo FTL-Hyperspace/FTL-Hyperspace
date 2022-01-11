@@ -6,6 +6,8 @@ void WeaponBlueprint::constructor(WeaponBlueprint *this<ecx>);
 void WeaponBlueprint::destructor(WeaponBlueprint *this<ecx>);
 "578d7c240883e4f0ff77fc5589f889e557565381ec????????8b40048b3f898da8feffff89c6":
 std::string WeaponBlueprint::GetDescription<ecx>(WeaponBlueprint *this, bool tooltip);
+"5781c16c0100008d7c240883e4f0ff77fc5589e55783ec14890c24b9????????e8????????8b7dfc83ec04c98d67f85fc20400":
+void WeaponBlueprint::RenderIcon(WeaponBlueprint *this<ecx>, float scale);
 
 
 struct WeaponBlueprint

@@ -6,14 +6,17 @@ cleanup void CachedImage::SetImagePath(CachedImage *this, const std::string& ima
 cleanup void CachedImage::SetPosition(CachedImage *this, int x, int y);
 "5383ec188b5c24208b442424c7430400000000c703????????89442404":
 cleanup void CachedImage::constructor1(CachedImage *this, const std::string& path, int x, int y);
+"565383ec148b7424248b5c24208d4608":
+cleanup void CachedImage::constructor_copy(CachedImage *this, const CachedImage &other);
+"5383ec188b5c2420f30f104424240f2e4330":
+cleanup void CachedImage::SetRotation(CachedImage *this, float _rotation);
+"565383ec148b5c24208b74242489f0":
+cleanup void CachedImage::SetMirrored(CachedImage *this, bool _mirrored);
+"565383ec748b9c24800000008b430c":
+cleanup void CachedImage::CreatePrimitive(CachedImage *this);
 
 struct CachedImage
 {{
-	~CachedImage()
-	{
-		this->destructor();
-	}
-
 	enum Centered
 	{
 	  CENTERED = 0x0,
@@ -28,4 +31,16 @@ struct CachedImage
 	{
 		
 	}
+	
+	CachedImage(CachedImage &other)
+	{
+		constructor_copy(other);
+	}
+	
+	CachedImage& operator=(CachedImage &other)
+	{
+		constructor_copy(other);
+		return *this;
+	}
 }};
+

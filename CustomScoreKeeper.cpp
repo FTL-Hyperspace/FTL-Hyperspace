@@ -213,7 +213,7 @@ HOOK_METHOD(ScoreKeeper, CheckTypes, () -> void)
 
         ShipButtonDefinition def = customSel->GetShipButtonDefinition(selectedShip - 100);
 
-        if (!CustomShipUnlocks::instance->GetCustomShipUnlocked(def.name))
+        if (!def.typeA || !CustomShipUnlocks::instance->GetCustomShipUnlocked(def.name))
         {
             typeA.bActive = false;
             typeA.bRenderOff = true;
@@ -361,6 +361,11 @@ HOOK_METHOD(AchievementTracker, LoadProfile, (int file, int version) -> void)
     if (CustomShipUnlocks::instance->loadVersion == SaveFileHandler::version)
     {
         CustomShipUnlocks::instance->LoadCurrent(file);
+        CustomScoreKeeper::instance->LoadShipScores(file);
+    }
+    else if (CustomShipUnlocks::instance->loadVersion == 1)
+    {
+        CustomShipUnlocks::instance->LoadVersionOne(file);
         CustomScoreKeeper::instance->LoadShipScores(file);
     }
 }

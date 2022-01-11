@@ -8,6 +8,7 @@
 #include "CustomCrew.h"
 #include "CustomEvents.h"
 #include "CustomRewards.h"
+#include "CustomSectors.h"
 #include "EventTooltip.h"
 #include "CooldownNumbers.h"
 #include "CustomAugments.h"
@@ -24,6 +25,9 @@
 #include "AlternateOxygenRendering.h"
 #include "CustomColors.h"
 #include "CustomShips.h"
+#include "CustomCrystalShard.h"
+#include "CustomShipGenerator.h"
+#include "ShipUnlocks.h"
 
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string/replace.hpp>
@@ -36,6 +40,17 @@ GL_Color& ParseColorNode(GL_Color& colorRef, rapidxml::xml_node<char>* node, boo
     if (node->first_attribute("a")) { colorRef.a = boost::lexical_cast<float>(node->first_attribute("a")->value()); }
 
     return colorRef;
+}
+
+HOOK_METHOD(ResourceControl, PreloadResources, (bool unk) -> bool)
+{
+    LOG_HOOK("HOOK_METHOD -> ResourceControl::PreloadResources -> Begin (Resources.cpp)\n")
+    bool ret = super(unk);
+    if (ret && G_)
+    {
+        G_->PreInitializeResources(this);
+    }
+    return ret;
 }
 
 HOOK_METHOD(AchievementTracker, LoadAchievementDescriptions, () -> void)
@@ -51,6 +66,67 @@ HOOK_METHOD(AchievementTracker, LoadAchievementDescriptions, () -> void)
 
 
 // hyperspace.xml parsing
+void Global::PreInitializeResources(ResourceControl *resources)
+{
+    char *hyperspacetext = resources->LoadFile("data/hyperspace.xml");
+
+    try
+    {
+        if (!hyperspacetext)
+        {
+            __resourcesInitialized = true; // skip main pass
+            throw "hyperspace.xml not found";
+        }
+
+        rapidxml::xml_document<> doc;
+        doc.parse<0>(hyperspacetext);
+
+        auto parentNode = doc.first_node("FTL");
+        if (!parentNode)
+        {
+            __resourcesInitialized = true; // skip main pass
+            throw "No parent node found in hyperspace.xml";
+        }
+
+        for (auto node = parentNode->first_node(); node; node = node->next_sibling())
+        {
+            if (strcmp(node->name(), "ships") == 0)
+            {
+                auto customShipManager = CustomShipSelect::GetInstance();
+                customShipManager->EarlyParseShipsNode(node);
+            }
+        }
+
+        doc.clear();
+    }
+    catch (rapidxml::parse_error& e)
+    {
+        std::string msg = std::string("Failed parsing hyperspace.xml\n") + std::string(e.what());
+#ifdef _WIN32
+        MessageBoxA(GetDesktopWindow(), msg.c_str(), "Error", MB_ICONERROR | MB_SETFOREGROUND);
+#elif defined(__linux__)
+        fprintf(stderr, "Error %s", msg.c_str());
+#endif
+    }
+    catch (std::exception &e)
+    {
+        std::string msg = std::string("Failed parsing hyperspace.xml\n") + std::string(e.what());
+#ifdef _WIN32
+        MessageBoxA(GetDesktopWindow(), msg.c_str(), "Error", MB_ICONERROR | MB_SETFOREGROUND);
+#elif defined(__linux__)
+        fprintf(stderr, "Error %s", msg.c_str());
+#endif
+    }
+    catch (const char* e)
+    {
+#ifdef _WIN32
+        MessageBoxA(GetDesktopWindow(), e, "Error", MB_ICONERROR | MB_SETFOREGROUND);
+#elif defined(__linux__)
+        fprintf(stderr, "Error %s", e);
+#endif
+    }
+}
+
 void Global::InitializeResources(ResourceControl *resources)
 {
     __resourcesInitialized = true;
@@ -105,11 +181,75 @@ void Global::InitializeResources(ResourceControl *resources)
                 g_hackingDroneFix = EventsParser::ParseBoolean(enabled);
             }
 
-            if (strcmp(node->name(), "enemyPreigniterFix") == 0)
+            if (strcmp(node->name(), "enemyPreigniterFix") == 0) // enables enemies to have their weapons enabled and preignited
             {
                 auto enabled = node->first_attribute("enabled")->value();
                 g_enemyPreigniterFix = EventsParser::ParseBoolean(enabled);
             }
+
+            if (strcmp(node->name(), "crystalShardFix") == 0) // fixes crystal shards being targeted by friendly defense drones; default true
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                g_crystalShardFix = EventsParser::ParseBoolean(enabled);
+            }
+
+            if (strcmp(node->name(), "defenseDroneFix") == 0) // fixes defense drone blind spot by making the visible area resize with the ship
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                g_defenseDroneFix = EventsParser::ParseBoolean(enabled);
+                if (g_defenseDroneFix)
+                {
+                    for (auto child = node->first_node(); child; child = child->next_sibling())
+                    {
+                        if (strcmp(child->name(), "boxRange") == 0)
+                        {
+                            if (child->value())
+                            {
+                                g_defenseDroneFix_BoxRange[0] = boost::lexical_cast<float>(child->value());
+                                g_defenseDroneFix_BoxRange[1] = g_defenseDroneFix_BoxRange[0];
+                            }
+                            if (child->first_attribute("player"))
+                            {
+                                g_defenseDroneFix_BoxRange[0] = boost::lexical_cast<float>(child->first_attribute("player")->value());
+                            }
+                            if (child->first_attribute("enemy"))
+                            {
+                                g_defenseDroneFix_BoxRange[1] = boost::lexical_cast<float>(child->first_attribute("enemy")->value());
+                            }
+                        }
+                        if (strcmp(child->name(), "ellipseRange") == 0)
+                        {
+                            if (child->value())
+                            {
+                                g_defenseDroneFix_EllipseRange[0] = boost::lexical_cast<float>(child->value());
+                                g_defenseDroneFix_EllipseRange[1] = g_defenseDroneFix_EllipseRange[0];
+                            }
+                            if (child->first_attribute("player"))
+                            {
+                                g_defenseDroneFix_EllipseRange[0] = boost::lexical_cast<float>(child->first_attribute("player")->value());
+                            }
+                            if (child->first_attribute("enemy"))
+                            {
+                                g_defenseDroneFix_EllipseRange[1] = boost::lexical_cast<float>(child->first_attribute("enemy")->value());
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (strcmp(node->name(), "resistsMindControlStat") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                g_resistsMindControlStat = EventsParser::ParseBoolean(enabled);
+            }
+
+            /*
+            if (strcmp(node->name(), "dronesCanTeleport") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                g_dronesCanTeleport = EventsParser::ParseBoolean(enabled);
+            }
+            */
 
             if (strcmp(node->name(), "redesignedWeaponTooltips") == 0)
             {
@@ -256,10 +396,22 @@ void Global::InitializeResources(ResourceControl *resources)
                 }
             }
 
+            if (strcmp(node->name(), "victories") == 0)
+            {
+                auto customUnlocks = CustomShipUnlocks::instance;
+                customUnlocks->ParseVictoryAchievements(node);
+            }
+
             if (strcmp(node->name(), "ships") == 0)
             {
                 auto customShipManager = CustomShipSelect::GetInstance();
                 customShipManager->ParseShipsNode(node);
+            }
+
+            if (strcmp(node->name(), "shipGenerators") == 0)
+            {
+                CustomShipGenerator::Init();
+                CustomShipGenerator::ParseGeneratorNode(node);
             }
 
             if (strcmp(node->name(), "crew") == 0)
@@ -272,6 +424,12 @@ void Global::InitializeResources(ResourceControl *resources)
             {
                 auto customRewardsManager = CustomRewardsManager::GetInstance();
                 customRewardsManager->ParseRewardsNode(node);
+            }
+
+            if (strcmp(node->name(), "sectorMap") == 0)
+            {
+                auto customSectorParser = CustomSectorManager::GetInstance();
+                customSectorParser->ParseCustomSectorMapNode(node);
             }
 
             if (strcmp(node->name(), "events") == 0)
