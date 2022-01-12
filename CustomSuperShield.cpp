@@ -48,10 +48,14 @@ int CustomAugmentManager::GetSuperShieldValue(int shipId)
                 }
                 else
                 {
-                    auto it = augDef->functions.find("ENERGY_SHIELD");
-                    if (it != augDef->functions.end() && it->second.Functional(shipId))
+                    auto range = augDef->functions.equal_range("ENERGY_SHIELD");
+                    for (auto it = range.first; it != range.second; ++it)
                     {
-                        hasEnergyShield = true;
+                        if (it->second.Functional(shipId))
+                        {
+                            hasEnergyShield = true;
+                            break;
+                        }
                     }
                 }
             }

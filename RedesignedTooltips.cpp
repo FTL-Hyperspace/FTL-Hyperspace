@@ -1258,15 +1258,19 @@ HOOK_METHOD(InfoBox, SetBlueprintAugment, (const AugmentBlueprint* bp) -> void)
 
         BlueprintManager* blueprints = G_->GetBlueprints();
         int counter = 0;
+        std::string lastWarnAugment = "";
         for (auto const &x: customAug->GetAugmentDefinition(bp->name)->functions)
         {
             if (!x.second.warning)
+                continue;
+            if (x.first == lastWarnAugment)
                 continue;
 
             auto bp = blueprints->GetAugmentBlueprint(x.first);
 
             if (((x.second.preferHigher && bp->value <= x.second.value) || (!x.second.preferHigher && bp->value >= x.second.value)) && !bp->stacking)
             {
+                lastWarnAugment = x.first;
                 warn += bp->desc.title.GetText() + "\n";
                 counter++;
             }
