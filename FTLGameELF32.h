@@ -1450,7 +1450,6 @@ struct Description
 		this->destructor();
 	}
 
-	LIBZHL_API void constructor();
 	LIBZHL_API Description &copy_assign_1(Description &&other);
 	LIBZHL_API Description &copy_assign_2(const Description &other);
 	LIBZHL_API void destructor();
