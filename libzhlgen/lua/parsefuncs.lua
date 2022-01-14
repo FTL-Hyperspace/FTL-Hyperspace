@@ -2,14 +2,48 @@ local inputPath, funcPath, outputCPP, outputH, mode = ...
 local cparser = require("cparser")
 local lfs = require("lfs")
 
-local isPOSIX = mode == 'POSIX'
--- TODO: add a switch between MSVC & non-MSVC? FTL is not MSVC even on Windows but there are some functions here that differ for MSVC implementations.
--- Probably also need to add a flag to the functions, or to ZHL's code or something if we're MSVC (but not always Win32) as that struct argument order is flipped.
-local isSysVi386ABI = isPOSIX -- Note: in the future we need to differentate between Sys V i386 and Sys V x86_64 ABI specs & Windows 32 (we don't support Windows 64)
--- TODO: Maybe do an "ABIMode" parameter and have "Win32" "SysVi386" "SysVAMD64" or something?
--- TODO: Maybe also add a "Compiler" parameter and have "gcc" "msvc" "mingwgcc" or something?
+-- Currently supported "HOST" modes
+-- i386-*linux* -- GCC
+-- i386-*mingw* -- Windows GCC
+-- i386-*windows* -- MSVC
+-- Planned:
+-- x86_64-*linux* -- GCC
+-- x86_64-*darwin -- GCC
 
-local useStackAlignment = isSysVi386ABI -- Aligns the stack before CALL instruction (as required by System V ABI specification)
+local arch
+if string.find(mode, "i386") ~= nil then
+    arch = "i386"
+elseif string.find(mode, "x86_64") ~= nil then
+    arch = "x86_64"
+    error("64-bit x86 is not yet supported")
+else
+    error("Unsupported Architecture")
+end
+
+-- local compiler
+local isPOSIX = false
+local useStackAlignment = false -- Aligns the stack before CALL instruction (as required by System V ABI specification)
+local thiscallFirstArgumentECX = false
+local structPointerAfterHiddenArguments = false
+local structsReturnedOnStack = false
+if string.find(mode, "linux") ~= nil then
+    -- compiler = "gcc"
+    useStackAlignment = true
+    structsReturnedOnStack = true
+    isPOSIX = true
+elseif string.find(mode, "windows") ~= nil then
+    thiscallFirstArgumentECX = true
+    structPointerAfterHiddenArguments = true
+    -- compiler = "msvc"
+elseif string.find(mode, "mingw") ~= nil then
+    thiscallFirstArgumentECX = true
+    -- compiler = "gcc"
+elseif string.find(mode, "darwin") ~= nil then
+    error("OSX/iOS Not Supported")
+else
+    error("Unsupported OS")
+end
+
 local stackAlignmentSize = 0x10
 
 local useNaked = true
@@ -402,22 +436,25 @@ for k,fd in pairs(tfiles) do
             local isImplicitType = true
             if func.class == "double" or func.class == "__int64" or func.class == "uint64_t" or func.class == "int64_t" then
                 isImplicitType = false
-            elseif func.class == "pair" and not isSysVi386ABI then
+            elseif func.class == "pair" and not isPOSIX then
                 isImplicitType = false
             end
                 
             if sizeof(func) > 4 and isImplicitType then
-                -- if it does, insert a pointer to that struct as the first argument (second if first one is "this")
+                -- if it does, insert a pointer to that struct as the first argument (second if first one is "this" and using MSVC)
                 local i = 1
---                if not isSysVi386ABI then -- TODO: Put this behind a check for MSVC not a check for Linux
-                    -- NOTE: This is CORRECT for MSVC but incorrect for GCC on Windows (and of course for Linux too)!
---                while func.args[i] and func.args[i].hidden do i = i + 1 end
---                end
+                -- Maybe simplified to just?
+                -- if func.thiscall and compiler == "msvc" then
+                --     i = 2
+                -- end
+                if structPointerAfterHiddenArguments then
+                    while func.args[i] and func.args[i].hidden do i = i + 1 end
+                end
                 
                 local a = cparser.ParseDefinition(string.format("%s *implicit_output;", func:cname()))
                 a.reg = func.reg
                 a.hidden = true
-                if isSysVi386ABI then
+                if structsReturnedOnStack then
                     func.memPassedPointer = true
                 end
                 table.insert(func.args, i, a)
@@ -429,8 +466,7 @@ for k,fd in pairs(tfiles) do
             local stackPos = 8
             for k, arg in ipairs(func.args) do
                 arg.size = sizeof_aligned(arg) / 4
-                if k == 1 and arg.name == "this" and not isPOSIX then
-                    -- this: ecx
+                if k == 1 and func.thiscall and arg.reg == "ecx" and thiscallFirstArgumentECX then
                     assert(arg.size == 1)
                 else
                     arg.pos = stackPos
@@ -944,7 +980,7 @@ using namespace ZHL;
 				for k = #func.args, 1, -1 do
 					local arg = func.args[k]
 					if not arg.reg then
-						if k == 1 and func.thiscall and not isSysVi386ABI then
+						if k == 1 and func.thiscall and not isPOSIX then
 							assert(arg.size == 1)
 							out("\n\t\t\"push ecx\\n\\t\"\t\t\t// %s", arg.name)
 							sizePushed = sizePushed + 4
@@ -961,7 +997,7 @@ using namespace ZHL;
 				for k, arg in ipairs(func.args) do
 					if arg.reg then
 						assert(arg.size == 1)
-						if k == 1 and func.thiscall and not isSysVi386ABI then
+						if k == 1 and func.thiscall and not isPOSIX then
 							if arg.reg ~= "ecx" then out("\n\t\t\"mov %s, ecx\\n\\t\t// %s\\n\\t\"", arg.reg, arg.name) end
 						else
 							out("\n\t\t\"mov %s, [ebp+%d]\\n\\t\"\t// %s", arg.reg, arg.pos, arg.name)

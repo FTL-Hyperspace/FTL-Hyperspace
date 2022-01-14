@@ -65,8 +65,8 @@ FUNC_NAKED std::vector<CAchievement*> AchievementTracker::GetShipAchievements(co
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+16]\n\t"		// ship
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+12]\n\t"		// ship
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1::func));
 	__asm__
@@ -78,7 +78,7 @@ FUNC_NAKED std::vector<CAchievement*> AchievementTracker::GetShipAchievements(co
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret 8\n\t"
 	);
 }
 
@@ -941,8 +941,8 @@ FUNC_NAKED Animation AnimationControl::GetAnimation(const std::string &animName)
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+16]\n\t"		// animName
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+12]\n\t"		// animName
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func26::func));
 	__asm__
@@ -954,7 +954,7 @@ FUNC_NAKED Animation AnimationControl::GetAnimation(const std::string &animName)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret 8\n\t"
 	);
 }
 
@@ -2089,7 +2089,7 @@ FUNC_NAKED std::string Blueprint::GetNameShort()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func59::func));
 	__asm__
@@ -2101,7 +2101,7 @@ FUNC_NAKED std::string Blueprint::GetNameShort()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret 4\n\t"
 	);
 }
 
@@ -2123,8 +2123,8 @@ FUNC_NAKED std::vector<std::string> BlueprintManager::GetBlueprintList(const std
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+16]\n\t"		// name
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+12]\n\t"		// name
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func60::func));
 	__asm__
@@ -2136,7 +2136,7 @@ FUNC_NAKED std::vector<std::string> BlueprintManager::GetBlueprintList(const std
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret 8\n\t"
 	);
 }
 
@@ -2329,8 +2329,8 @@ FUNC_NAKED WeaponBlueprint BlueprintManager::ProcessWeaponBlueprint(rapidxml::xm
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+16]\n\t"		// node
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+12]\n\t"		// node
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func66::func));
 	__asm__
@@ -2342,7 +2342,7 @@ FUNC_NAKED WeaponBlueprint BlueprintManager::ProcessWeaponBlueprint(rapidxml::xm
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret 8\n\t"
 	);
 }
 
@@ -2364,8 +2364,8 @@ FUNC_NAKED Description BlueprintManager::ProcessDescription(rapidxml::xml_node<c
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+16]\n\t"		// node
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+12]\n\t"		// node
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func67::func));
 	__asm__
@@ -2377,7 +2377,7 @@ FUNC_NAKED Description BlueprintManager::ProcessDescription(rapidxml::xml_node<c
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret 8\n\t"
 	);
 }
 
@@ -2399,8 +2399,8 @@ FUNC_NAKED EffectsBlueprint BlueprintManager::ProcessEffectsBlueprint(rapidxml::
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+16]\n\t"		// node
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+12]\n\t"		// node
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func68::func));
 	__asm__
@@ -2412,7 +2412,7 @@ FUNC_NAKED EffectsBlueprint BlueprintManager::ProcessEffectsBlueprint(rapidxml::
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret 8\n\t"
 	);
 }
 
@@ -2434,8 +2434,8 @@ FUNC_NAKED CrewBlueprint BlueprintManager::GetCrewBlueprint(const std::string &n
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+16]\n\t"		// name
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+12]\n\t"		// name
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func69::func));
 	__asm__
@@ -2447,7 +2447,7 @@ FUNC_NAKED CrewBlueprint BlueprintManager::GetCrewBlueprint(const std::string &n
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret 8\n\t"
 	);
 }
 
@@ -2503,9 +2503,9 @@ FUNC_NAKED std::vector<AugmentBlueprint*> BlueprintManager::GetRandomAugment(int
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+20]\n\t"		// demo_lock
-		"push [ebp+16]\n\t"		// count
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+16]\n\t"		// demo_lock
+		"push [ebp+12]\n\t"		// count
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func71::func));
 	__asm__
@@ -2517,7 +2517,7 @@ FUNC_NAKED std::vector<AugmentBlueprint*> BlueprintManager::GetRandomAugment(int
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret 12\n\t"
 	);
 }
 
@@ -2573,8 +2573,8 @@ FUNC_NAKED std::string BlueprintManager::GetUnusedCrewName(bool *isMale_ret)
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+16]\n\t"		// isMale_ret
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+12]\n\t"		// isMale_ret
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func73::func));
 	__asm__
@@ -2586,7 +2586,7 @@ FUNC_NAKED std::string BlueprintManager::GetUnusedCrewName(bool *isMale_ret)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret 8\n\t"
 	);
 }
 
@@ -2608,8 +2608,8 @@ FUNC_NAKED std::string BlueprintManager::GetCrewName(bool *isMale_ret)
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+16]\n\t"		// isMale_ret
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+12]\n\t"		// isMale_ret
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func74::func));
 	__asm__
@@ -2621,7 +2621,7 @@ FUNC_NAKED std::string BlueprintManager::GetCrewName(bool *isMale_ret)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret 8\n\t"
 	);
 }
 
@@ -2643,9 +2643,9 @@ FUNC_NAKED std::vector<WeaponBlueprint*> BlueprintManager::GetRandomWeapon(int c
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+20]\n\t"		// demo_lock
-		"push [ebp+16]\n\t"		// count
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+16]\n\t"		// demo_lock
+		"push [ebp+12]\n\t"		// count
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func75::func));
 	__asm__
@@ -2657,7 +2657,7 @@ FUNC_NAKED std::vector<WeaponBlueprint*> BlueprintManager::GetRandomWeapon(int c
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret 12\n\t"
 	);
 }
 
@@ -2679,9 +2679,9 @@ FUNC_NAKED std::vector<DroneBlueprint*> BlueprintManager::GetRandomDrone(int cou
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+20]\n\t"		// demo_lock
-		"push [ebp+16]\n\t"		// count
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+16]\n\t"		// demo_lock
+		"push [ebp+12]\n\t"		// count
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func76::func));
 	__asm__
@@ -2693,7 +2693,7 @@ FUNC_NAKED std::vector<DroneBlueprint*> BlueprintManager::GetRandomDrone(int cou
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret 12\n\t"
 	);
 }
 
@@ -2715,8 +2715,8 @@ FUNC_NAKED ShipBlueprint BlueprintManager::ProcessShipBlueprint(rapidxml::xml_no
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+16]\n\t"		// node
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+12]\n\t"		// node
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func77::func));
 	__asm__
@@ -2728,7 +2728,7 @@ FUNC_NAKED ShipBlueprint BlueprintManager::ProcessShipBlueprint(rapidxml::xml_no
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret 8\n\t"
 	);
 }
 
@@ -2750,8 +2750,8 @@ FUNC_NAKED DroneBlueprint BlueprintManager::ProcessDroneBlueprint(rapidxml::xml_
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+16]\n\t"		// node
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+12]\n\t"		// node
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func78::func));
 	__asm__
@@ -2763,7 +2763,7 @@ FUNC_NAKED DroneBlueprint BlueprintManager::ProcessDroneBlueprint(rapidxml::xml_
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret 8\n\t"
 	);
 }
 
@@ -8301,9 +8301,9 @@ FUNC_NAKED std::string CombatControl::GetCrewTooltip(int x, int y)
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+20]\n\t"		// y
-		"push [ebp+16]\n\t"		// x
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+16]\n\t"		// y
+		"push [ebp+12]\n\t"		// x
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func231::func));
 	__asm__
@@ -8315,7 +8315,7 @@ FUNC_NAKED std::string CombatControl::GetCrewTooltip(int x, int y)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret 12\n\t"
 	);
 }
 
@@ -9487,7 +9487,7 @@ FUNC_NAKED std::vector<CrewMember*> CompleteShip::GetTeleportingParty()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func264::func));
 	__asm__
@@ -9499,7 +9499,7 @@ FUNC_NAKED std::vector<CrewMember*> CompleteShip::GetTeleportingParty()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret 4\n\t"
 	);
 }
 
@@ -9694,9 +9694,9 @@ FUNC_NAKED std::vector<CrewMember*> CompleteShip::TeleportCrew(int roomId, bool 
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+20]\n\t"		// intruders
-		"push [ebp+16]\n\t"		// roomId
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+16]\n\t"		// intruders
+		"push [ebp+12]\n\t"		// roomId
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func270::func));
 	__asm__
@@ -9708,7 +9708,7 @@ FUNC_NAKED std::vector<CrewMember*> CompleteShip::TeleportCrew(int roomId, bool 
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret 12\n\t"
 	);
 }
 
@@ -10842,7 +10842,7 @@ FUNC_NAKED std::string CrewAnimation::GetDeathSound()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func302::func));
 	__asm__
@@ -10854,7 +10854,7 @@ FUNC_NAKED std::string CrewAnimation::GetDeathSound()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret 4\n\t"
 	);
 }
 
@@ -10876,7 +10876,7 @@ FUNC_NAKED std::string CrewAnimation::GetShootingSound()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func303::func));
 	__asm__
@@ -10888,7 +10888,7 @@ FUNC_NAKED std::string CrewAnimation::GetShootingSound()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret 4\n\t"
 	);
 }
 
@@ -11383,7 +11383,7 @@ FUNC_NAKED std::string CrewBlueprint::GetNameShort()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func317::func));
 	__asm__
@@ -11395,7 +11395,7 @@ FUNC_NAKED std::string CrewBlueprint::GetNameShort()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret 4\n\t"
 	);
 }
 
@@ -13273,7 +13273,7 @@ FUNC_NAKED Damage CrewMember::GetRoomDamage()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func370::func));
 	__asm__
@@ -13285,7 +13285,7 @@ FUNC_NAKED Damage CrewMember::GetRoomDamage()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret 4\n\t"
 	);
 }
 
@@ -14483,7 +14483,7 @@ FUNC_NAKED Slot CrewMember::GetSavedPosition()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func405::func));
 	__asm__
@@ -14495,7 +14495,7 @@ FUNC_NAKED Slot CrewMember::GetSavedPosition()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret 4\n\t"
 	);
 }
 
@@ -15986,7 +15986,7 @@ FUNC_NAKED std::string CrewMember::GetLongName()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func448::func));
 	__asm__
@@ -15998,7 +15998,7 @@ FUNC_NAKED std::string CrewMember::GetLongName()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret 4\n\t"
 	);
 }
 
@@ -16065,7 +16065,7 @@ FUNC_NAKED std::string CrewMember::GetName()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func450::func));
 	__asm__
@@ -16077,7 +16077,7 @@ FUNC_NAKED std::string CrewMember::GetName()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret 4\n\t"
 	);
 }
 
@@ -16797,7 +16797,7 @@ FUNC_NAKED std::string CrewMember::GetUniqueRepairing()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func471::func));
 	__asm__
@@ -16809,7 +16809,7 @@ FUNC_NAKED std::string CrewMember::GetUniqueRepairing()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret 4\n\t"
 	);
 }
 
@@ -16869,7 +16869,7 @@ FUNC_NAKED std::string CrewMember::GetTooltip()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func473::func));
 	__asm__
@@ -16881,7 +16881,7 @@ FUNC_NAKED std::string CrewMember::GetTooltip()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret 4\n\t"
 	);
 }
 
@@ -17207,7 +17207,7 @@ FUNC_NAKED std::pair<std::string, bool> CrewMemberFactory::GetRandomFriendlyName
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+8]\n\t"		// race
+		"push [ebp+12]\n\t"		// race
 		"push ecx\n\t"			// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func483::func));
@@ -17219,7 +17219,7 @@ FUNC_NAKED std::pair<std::string, bool> CrewMemberFactory::GetRandomFriendlyName
 		"pop ecx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 4\n\t"
+		"ret 8\n\t"
 	);
 }
 
@@ -17241,7 +17241,7 @@ FUNC_NAKED std::vector<std::string> CrewMemberFactory::GetCrewNames()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func484::func));
 	__asm__
@@ -17253,7 +17253,7 @@ FUNC_NAKED std::vector<std::string> CrewMemberFactory::GetCrewNames()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret 4\n\t"
 	);
 }
 
@@ -17896,7 +17896,7 @@ FUNC_NAKED std::string DefenseDrone::GetTooltip()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func503::func));
 	__asm__
@@ -17908,7 +17908,7 @@ FUNC_NAKED std::string DefenseDrone::GetTooltip()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret 4\n\t"
 	);
 }
 
@@ -18601,7 +18601,7 @@ FUNC_NAKED Damage EnergyAlien::GetRoomDamage()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func523::func));
 	__asm__
@@ -18613,7 +18613,7 @@ FUNC_NAKED Damage EnergyAlien::GetRoomDamage()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret 4\n\t"
 	);
 }
 
@@ -18930,7 +18930,7 @@ FUNC_NAKED std::vector<std::string> Equipment::GetCargoHold()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func532::func));
 	__asm__
@@ -18942,7 +18942,7 @@ FUNC_NAKED std::vector<std::string> Equipment::GetCargoHold()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret 4\n\t"
 	);
 }
 
@@ -19565,8 +19565,8 @@ FUNC_NAKED SectorDescription EventGenerator::GetSpecificSector(const std::string
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+16]\n\t"		// name
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+12]\n\t"		// name
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func550::func));
 	__asm__
@@ -19578,7 +19578,7 @@ FUNC_NAKED SectorDescription EventGenerator::GetSpecificSector(const std::string
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret 8\n\t"
 	);
 }
 
@@ -19600,8 +19600,8 @@ FUNC_NAKED std::string EventGenerator::GetImageFromList(const std::string &listN
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+16]\n\t"		// listName
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+12]\n\t"		// listName
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func551::func));
 	__asm__
@@ -19613,7 +19613,7 @@ FUNC_NAKED std::string EventGenerator::GetImageFromList(const std::string &listN
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret 8\n\t"
 	);
 }
 
@@ -19635,9 +19635,9 @@ FUNC_NAKED SectorDescription EventGenerator::GetSectorDescription(const std::str
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+20]\n\t"		// level
-		"push [ebp+16]\n\t"		// type
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+16]\n\t"		// level
+		"push [ebp+12]\n\t"		// type
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func552::func));
 	__asm__
@@ -19649,7 +19649,7 @@ FUNC_NAKED SectorDescription EventGenerator::GetSectorDescription(const std::str
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret 12\n\t"
 	);
 }
 
@@ -19755,9 +19755,9 @@ FUNC_NAKED RandomAmount EventsParser::PullMinMax(rapidxml::xml_node<char> *node,
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+20]\n\t"		// name
-		"push [ebp+16]\n\t"		// node
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+16]\n\t"		// name
+		"push [ebp+12]\n\t"		// node
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func557::func));
 	__asm__
@@ -19769,7 +19769,7 @@ FUNC_NAKED RandomAmount EventsParser::PullMinMax(rapidxml::xml_node<char> *node,
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret 12\n\t"
 	);
 }
 
@@ -19791,9 +19791,9 @@ FUNC_NAKED std::string EventsParser::ProcessEvent(rapidxml::xml_node<char> *node
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+20]\n\t"		// eventName
-		"push [ebp+16]\n\t"		// node
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+16]\n\t"		// eventName
+		"push [ebp+12]\n\t"		// node
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func558::func));
 	__asm__
@@ -19805,7 +19805,7 @@ FUNC_NAKED std::string EventsParser::ProcessEvent(rapidxml::xml_node<char> *node
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret 12\n\t"
 	);
 }
 
@@ -19827,8 +19827,8 @@ FUNC_NAKED ShipTemplate EventsParser::ProcessShipEvent(rapidxml::xml_node<char> 
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+16]\n\t"		// node
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+12]\n\t"		// node
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func559::func));
 	__asm__
@@ -19840,7 +19840,7 @@ FUNC_NAKED ShipTemplate EventsParser::ProcessShipEvent(rapidxml::xml_node<char> 
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret 8\n\t"
 	);
 }
 
@@ -19862,10 +19862,10 @@ FUNC_NAKED ResourcesTemplate EventsParser::ProcessModifyItem(ResourcesTemplate &
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+24]\n\t"		// unk
-		"push [ebp+20]\n\t"		// node
-		"push [ebp+16]\n\t"		// resources
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+20]\n\t"		// unk
+		"push [ebp+16]\n\t"		// node
+		"push [ebp+12]\n\t"		// resources
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func560::func));
 	__asm__
@@ -19877,7 +19877,7 @@ FUNC_NAKED ResourcesTemplate EventsParser::ProcessModifyItem(ResourcesTemplate &
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 20\n\t"
+		"ret 16\n\t"
 	);
 }
 
@@ -19972,9 +19972,9 @@ FUNC_NAKED std::vector<std::string> EventsParser::ProcessEventList(rapidxml::xml
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+20]\n\t"		// listName
-		"push [ebp+16]\n\t"		// node
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+16]\n\t"		// listName
+		"push [ebp+12]\n\t"		// node
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func563::func));
 	__asm__
@@ -19986,7 +19986,7 @@ FUNC_NAKED std::vector<std::string> EventsParser::ProcessEventList(rapidxml::xml
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret 12\n\t"
 	);
 }
 
@@ -22705,7 +22705,7 @@ FUNC_NAKED Damage IonDrone::GetRoomDamage()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func642::func));
 	__asm__
@@ -22717,7 +22717,7 @@ FUNC_NAKED Damage IonDrone::GetRoomDamage()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret 4\n\t"
 	);
 }
 
@@ -23215,7 +23215,7 @@ FUNC_NAKED std::string MantisAnimation::GetShootingSound()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func658::func));
 	__asm__
@@ -23227,7 +23227,7 @@ FUNC_NAKED std::string MantisAnimation::GetShootingSound()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret 4\n\t"
 	);
 }
 
@@ -23284,7 +23284,7 @@ FUNC_NAKED std::string MantisAnimation::GetDeathSound()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func660::func));
 	__asm__
@@ -23296,7 +23296,7 @@ FUNC_NAKED std::string MantisAnimation::GetDeathSound()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret 4\n\t"
 	);
 }
 
@@ -25806,8 +25806,8 @@ FUNC_NAKED ImageDesc ResourceControl::GetImageData(GL_Texture *tex)
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+16]\n\t"		// tex
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+12]\n\t"		// tex
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func731::func));
 	__asm__
@@ -25819,7 +25819,7 @@ FUNC_NAKED ImageDesc ResourceControl::GetImageData(GL_Texture *tex)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret 8\n\t"
 	);
 }
 
@@ -25992,7 +25992,7 @@ FUNC_NAKED std::string RockAnimation::GetShootingSound()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func737::func));
 	__asm__
@@ -26004,7 +26004,7 @@ FUNC_NAKED std::string RockAnimation::GetShootingSound()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret 4\n\t"
 	);
 }
 
@@ -26096,7 +26096,7 @@ FUNC_NAKED std::string RockAnimation::GetDeathSound()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func740::func));
 	__asm__
@@ -26108,7 +26108,7 @@ FUNC_NAKED std::string RockAnimation::GetDeathSound()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret 4\n\t"
 	);
 }
 
@@ -26383,8 +26383,8 @@ FUNC_NAKED std::string ScoreKeeper::GetShipBlueprint(int index)
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+16]\n\t"		// index
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+12]\n\t"		// index
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func748::func));
 	__asm__
@@ -26396,7 +26396,7 @@ FUNC_NAKED std::string ScoreKeeper::GetShipBlueprint(int index)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret 8\n\t"
 	);
 }
 
@@ -27471,8 +27471,7 @@ FUNC_NAKED CollisionResponse Shields::CollisionReal(Pointf pos, Damage damage, b
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+84]\n\t"		// force
-		"push [ebp+80]\n\t"		// damage
+		"push [ebp+80]\n\t"		// force
 		"push [ebp+76]\n\t"		// damage
 		"push [ebp+72]\n\t"		// damage
 		"push [ebp+68]\n\t"		// damage
@@ -27487,9 +27486,10 @@ FUNC_NAKED CollisionResponse Shields::CollisionReal(Pointf pos, Damage damage, b
 		"push [ebp+32]\n\t"		// damage
 		"push [ebp+28]\n\t"		// damage
 		"push [ebp+24]\n\t"		// damage
-		"push [ebp+20]\n\t"		// pos
+		"push [ebp+20]\n\t"		// damage
 		"push [ebp+16]\n\t"		// pos
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+12]\n\t"		// pos
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func780::func));
 	__asm__
@@ -27501,7 +27501,7 @@ FUNC_NAKED CollisionResponse Shields::CollisionReal(Pointf pos, Damage damage, b
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 80\n\t"
+		"ret 76\n\t"
 	);
 }
 
@@ -28287,7 +28287,7 @@ FUNC_NAKED Globals::Ellipse Ship::GetBaseEllipse()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func803::func));
 	__asm__
@@ -28299,7 +28299,7 @@ FUNC_NAKED Globals::Ellipse Ship::GetBaseEllipse()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret 4\n\t"
 	);
 }
 
@@ -29835,8 +29835,8 @@ FUNC_NAKED std::vector<Door*> ShipGraph::GetDoors(int roomId)
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+16]\n\t"		// roomId
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+12]\n\t"		// roomId
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func846::func));
 	__asm__
@@ -29848,7 +29848,7 @@ FUNC_NAKED std::vector<Door*> ShipGraph::GetDoors(int roomId)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret 8\n\t"
 	);
 }
 
@@ -30122,12 +30122,12 @@ FUNC_NAKED Path ShipGraph::Dijkstra(Point start, Point goal, int shipId)
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+32]\n\t"		// shipId
-		"push [ebp+28]\n\t"		// goal
+		"push [ebp+28]\n\t"		// shipId
 		"push [ebp+24]\n\t"		// goal
-		"push [ebp+20]\n\t"		// start
+		"push [ebp+20]\n\t"		// goal
 		"push [ebp+16]\n\t"		// start
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+12]\n\t"		// start
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func854::func));
 	__asm__
@@ -30139,7 +30139,7 @@ FUNC_NAKED Path ShipGraph::Dijkstra(Point start, Point goal, int shipId)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 28\n\t"
+		"ret 24\n\t"
 	);
 }
 
@@ -30161,12 +30161,12 @@ FUNC_NAKED Path ShipGraph::FindPath(Point p1, Point p2, int shipId)
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+32]\n\t"		// shipId
-		"push [ebp+28]\n\t"		// p2
+		"push [ebp+28]\n\t"		// shipId
 		"push [ebp+24]\n\t"		// p2
-		"push [ebp+20]\n\t"		// p1
+		"push [ebp+20]\n\t"		// p2
 		"push [ebp+16]\n\t"		// p1
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+12]\n\t"		// p1
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func855::func));
 	__asm__
@@ -30178,7 +30178,7 @@ FUNC_NAKED Path ShipGraph::FindPath(Point p1, Point p2, int shipId)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 28\n\t"
+		"ret 24\n\t"
 	);
 }
 
@@ -30472,8 +30472,8 @@ FUNC_NAKED Globals::Rect ShipGraph::GetRoomShape(int room)
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+16]\n\t"		// room
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+12]\n\t"		// room
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func864::func));
 	__asm__
@@ -30485,7 +30485,7 @@ FUNC_NAKED Globals::Rect ShipGraph::GetRoomShape(int room)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret 8\n\t"
 	);
 }
 
@@ -30575,11 +30575,11 @@ FUNC_NAKED Slot ShipGraph::GetClosestSlot(Point pos, int shipId, bool intruder)
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+28]\n\t"		// intruder
-		"push [ebp+24]\n\t"		// shipId
-		"push [ebp+20]\n\t"		// pos
+		"push [ebp+24]\n\t"		// intruder
+		"push [ebp+20]\n\t"		// shipId
 		"push [ebp+16]\n\t"		// pos
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+12]\n\t"		// pos
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func867::func));
 	__asm__
@@ -30591,7 +30591,7 @@ FUNC_NAKED Slot ShipGraph::GetClosestSlot(Point pos, int shipId, bool intruder)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 24\n\t"
+		"ret 20\n\t"
 	);
 }
 
@@ -30889,9 +30889,9 @@ FUNC_NAKED std::vector<CrewMember*> ShipManager::TeleportCrew(int roomId, bool i
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+20]\n\t"		// intruders
-		"push [ebp+16]\n\t"		// roomId
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+16]\n\t"		// intruders
+		"push [ebp+12]\n\t"		// roomId
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func876::func));
 	__asm__
@@ -30903,7 +30903,7 @@ FUNC_NAKED std::vector<CrewMember*> ShipManager::TeleportCrew(int roomId, bool i
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret 12\n\t"
 	);
 }
 
@@ -31529,9 +31529,9 @@ FUNC_NAKED CrewBlueprint ShipManager::SelectRandomCrew(int seed, const std::stri
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+20]\n\t"		// racePref
-		"push [ebp+16]\n\t"		// seed
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+16]\n\t"		// racePref
+		"push [ebp+12]\n\t"		// seed
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func893::func));
 	__asm__
@@ -31543,7 +31543,7 @@ FUNC_NAKED CrewBlueprint ShipManager::SelectRandomCrew(int seed, const std::stri
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret 12\n\t"
 	);
 }
 
@@ -32016,7 +32016,7 @@ FUNC_NAKED std::vector<ProjectileFactory*> ShipManager::GetWeaponList()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func907::func));
 	__asm__
@@ -32028,7 +32028,7 @@ FUNC_NAKED std::vector<ProjectileFactory*> ShipManager::GetWeaponList()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret 4\n\t"
 	);
 }
 
@@ -32680,7 +32680,7 @@ FUNC_NAKED ShieldPower ShipManager::GetShieldPower()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func926::func));
 	__asm__
@@ -32692,7 +32692,7 @@ FUNC_NAKED ShieldPower ShipManager::GetShieldPower()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret 4\n\t"
 	);
 }
 
@@ -33360,8 +33360,8 @@ FUNC_NAKED ShipBlueprint ShipManager::SaveToBlueprint(bool unk)
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+16]\n\t"		// unk
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+12]\n\t"		// unk
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func945::func));
 	__asm__
@@ -33373,7 +33373,7 @@ FUNC_NAKED ShipBlueprint ShipManager::SaveToBlueprint(bool unk)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret 8\n\t"
 	);
 }
 
@@ -33432,8 +33432,7 @@ FUNC_NAKED CollisionResponse ShipManager::CollisionMoving(Pointf start, Pointf f
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+84]\n\t"		// raytrace
-		"push [ebp+80]\n\t"		// damage
+		"push [ebp+80]\n\t"		// raytrace
 		"push [ebp+76]\n\t"		// damage
 		"push [ebp+72]\n\t"		// damage
 		"push [ebp+68]\n\t"		// damage
@@ -33446,11 +33445,12 @@ FUNC_NAKED CollisionResponse ShipManager::CollisionMoving(Pointf start, Pointf f
 		"push [ebp+40]\n\t"		// damage
 		"push [ebp+36]\n\t"		// damage
 		"push [ebp+32]\n\t"		// damage
-		"push [ebp+28]\n\t"		// finish
+		"push [ebp+28]\n\t"		// damage
 		"push [ebp+24]\n\t"		// finish
-		"push [ebp+20]\n\t"		// start
+		"push [ebp+20]\n\t"		// finish
 		"push [ebp+16]\n\t"		// start
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+12]\n\t"		// start
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func947::func));
 	__asm__
@@ -33462,7 +33462,7 @@ FUNC_NAKED CollisionResponse ShipManager::CollisionMoving(Pointf start, Pointf f
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 80\n\t"
+		"ret 76\n\t"
 	);
 }
 
@@ -33518,7 +33518,7 @@ FUNC_NAKED std::vector<Drone*> ShipManager::GetDroneList()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func949::func));
 	__asm__
@@ -33530,7 +33530,7 @@ FUNC_NAKED std::vector<Drone*> ShipManager::GetDroneList()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret 4\n\t"
 	);
 }
 
@@ -33827,7 +33827,7 @@ FUNC_NAKED std::vector<std::string> ShipObject::GetAugmentationList()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func958::func));
 	__asm__
@@ -33839,7 +33839,7 @@ FUNC_NAKED std::vector<std::string> ShipObject::GetAugmentationList()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret 4\n\t"
 	);
 }
 
@@ -36028,8 +36028,7 @@ FUNC_NAKED CollisionResponse SpaceDrone::CollisionMoving(Pointf start, Pointf fi
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+84]\n\t"		// raytrace
-		"push [ebp+80]\n\t"		// damage
+		"push [ebp+80]\n\t"		// raytrace
 		"push [ebp+76]\n\t"		// damage
 		"push [ebp+72]\n\t"		// damage
 		"push [ebp+68]\n\t"		// damage
@@ -36042,11 +36041,12 @@ FUNC_NAKED CollisionResponse SpaceDrone::CollisionMoving(Pointf start, Pointf fi
 		"push [ebp+40]\n\t"		// damage
 		"push [ebp+36]\n\t"		// damage
 		"push [ebp+32]\n\t"		// damage
-		"push [ebp+28]\n\t"		// finish
+		"push [ebp+28]\n\t"		// damage
 		"push [ebp+24]\n\t"		// finish
-		"push [ebp+20]\n\t"		// start
+		"push [ebp+20]\n\t"		// finish
 		"push [ebp+16]\n\t"		// start
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+12]\n\t"		// start
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1022::func));
 	__asm__
@@ -36058,7 +36058,7 @@ FUNC_NAKED CollisionResponse SpaceDrone::CollisionMoving(Pointf start, Pointf fi
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 80\n\t"
+		"ret 76\n\t"
 	);
 }
 
@@ -36217,7 +36217,7 @@ FUNC_NAKED ImageDesc SpaceManager::SwitchBeacon()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1027::func));
 	__asm__
@@ -36229,7 +36229,7 @@ FUNC_NAKED ImageDesc SpaceManager::SwitchBeacon()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret 4\n\t"
 	);
 }
 
@@ -36251,8 +36251,8 @@ FUNC_NAKED ImageDesc SpaceManager::SwitchPlanet(const std::string &name)
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+16]\n\t"		// name
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+12]\n\t"		// name
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1028::func));
 	__asm__
@@ -36264,7 +36264,7 @@ FUNC_NAKED ImageDesc SpaceManager::SwitchPlanet(const std::string &name)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret 8\n\t"
 	);
 }
 
@@ -36377,8 +36377,8 @@ FUNC_NAKED ImageDesc SpaceManager::SwitchBackground(const std::string &name)
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+16]\n\t"		// name
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+12]\n\t"		// name
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1031::func));
 	__asm__
@@ -36390,7 +36390,7 @@ FUNC_NAKED ImageDesc SpaceManager::SwitchBackground(const std::string &name)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret 8\n\t"
 	);
 }
 
@@ -36662,7 +36662,7 @@ FUNC_NAKED GL_Color SpaceManager::GetColorTint()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1039::func));
 	__asm__
@@ -36674,7 +36674,7 @@ FUNC_NAKED GL_Color SpaceManager::GetColorTint()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret 4\n\t"
 	);
 }
 
@@ -39574,10 +39574,10 @@ FUNC_NAKED std::vector<Location*> StarMap::Dijkstra(Location *start, Location *f
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+24]\n\t"		// include_unknown
-		"push [ebp+20]\n\t"		// finish
-		"push [ebp+16]\n\t"		// start
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+20]\n\t"		// include_unknown
+		"push [ebp+16]\n\t"		// finish
+		"push [ebp+12]\n\t"		// start
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1121::func));
 	__asm__
@@ -39589,7 +39589,7 @@ FUNC_NAKED std::vector<Location*> StarMap::Dijkstra(Location *start, Location *f
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 20\n\t"
+		"ret 16\n\t"
 	);
 }
 
@@ -39905,8 +39905,8 @@ FUNC_NAKED std::string StarMap::GetLocationText(const Location *loc)
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+16]\n\t"		// loc
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+12]\n\t"		// loc
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1130::func));
 	__asm__
@@ -39918,7 +39918,7 @@ FUNC_NAKED std::string StarMap::GetLocationText(const Location *loc)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret 8\n\t"
 	);
 }
 
@@ -42976,7 +42976,7 @@ FUNC_NAKED std::string TextInput::GetText()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1217::func));
 	__asm__
@@ -42988,7 +42988,7 @@ FUNC_NAKED std::string TextInput::GetText()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret 4\n\t"
 	);
 }
 
@@ -43150,9 +43150,9 @@ FUNC_NAKED std::string TextLibrary::GetText(const std::string &name, const std::
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+20]\n\t"		// lang
-		"push [ebp+16]\n\t"		// name
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+16]\n\t"		// lang
+		"push [ebp+12]\n\t"		// name
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1222::func));
 	__asm__
@@ -43164,7 +43164,7 @@ FUNC_NAKED std::string TextLibrary::GetText(const std::string &name, const std::
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret 12\n\t"
 	);
 }
 
@@ -43186,7 +43186,7 @@ FUNC_NAKED std::string TextString::GetText()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1223::func));
 	__asm__
@@ -43198,7 +43198,7 @@ FUNC_NAKED std::string TextString::GetText()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret 4\n\t"
 	);
 }
 
@@ -45069,8 +45069,8 @@ FUNC_NAKED std::string WeaponBlueprint::GetDescription(bool tooltip)
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+16]\n\t"		// tooltip
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+12]\n\t"		// tooltip
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1276::func));
 	__asm__
@@ -45082,7 +45082,7 @@ FUNC_NAKED std::string WeaponBlueprint::GetDescription(bool tooltip)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 12\n\t"
+		"ret 8\n\t"
 	);
 }
 
@@ -45177,7 +45177,7 @@ FUNC_NAKED std::string WeaponBox::GenerateTooltip()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+12]\n\t"		// this
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1279::func));
 	__asm__
@@ -45189,7 +45189,7 @@ FUNC_NAKED std::string WeaponBox::GenerateTooltip()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret 4\n\t"
 	);
 }
 
