@@ -53,6 +53,6 @@ HOOK_METHOD(Description, constructor, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> Description::constructor -> Begin (Blueprint_Extend.cpp)\n")
     super();
-    baseRarity = 0; // fixes undefined behaviour when modder forgets blueprint rarity
+    baseRarity = 0; // fixes undefined behaviour when modder forgets blueprint rarity // TODO: Handle this in XML parsing, either provide a message or add in a default rarity tag if the mod developer forgets it?
 }
 #endif // _WIN32
