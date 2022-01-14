@@ -18,7 +18,7 @@ HOOK_METHOD(ReactorButton, OnClick, ()-> void)
     PowerManager* playerPowerMngr = PowerManager::GetPowerManager(0);
     EventSystem* eventSys = G_->GetEventSystem();
     int currentScrap = ship->currentScrap;
-    int reactorLevel = playerPowerMngr->GetMaxPower();
+    int reactorLevel = playerPowerMngr->currentPower.second;
     int tempLevel = tempUpgrade + reactorLevel;
     int coloumn = floor(tempLevel / 5) + 1;
 
@@ -53,7 +53,7 @@ HOOK_METHOD(ReactorButton, OnRightClick, ()->void)
     PowerManager* playerPowerMngr = PowerManager::GetPowerManager(0);
     EventSystem* eventSys = G_->GetEventSystem();
     int currentScrap = ship->currentScrap;
-    int reactorLevel = playerPowerMngr->GetMaxPower();
+    int reactorLevel = playerPowerMngr->currentPower.second;
     int tempLevel = tempUpgrade + reactorLevel;
     int coloumn = floor((tempLevel - 1) / 5) + 1;
 

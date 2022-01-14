@@ -38,7 +38,7 @@ struct AugmentFunction
 struct AugmentDefinition
 {
     std::string name;
-    std::unordered_map<std::string, AugmentFunction> functions = std::unordered_map<std::string, AugmentFunction>();
+    std::unordered_multimap<std::string, AugmentFunction> functions = std::unordered_multimap<std::string, AugmentFunction>();
     AugmentSuperShield superShield;
     std::vector<AugmentCrystalShard> crystalShard;
     bool locked = false;
@@ -59,7 +59,7 @@ public:
 
     void ParseCustomAugmentNode(rapidxml::xml_node<char>* node);
 
-    std::unordered_map<std::string, AugmentFunction*>* GetPotentialAugments(const std::string& name, bool req=false);
+    std::unordered_multimap<std::string, AugmentFunction*>* GetPotentialAugments(const std::string& name, bool req=false);
 
     AugmentDefinition* GetAugmentDefinition(const std::string& name)
     {
@@ -94,8 +94,8 @@ public:
 
 private:
     std::map<std::string, AugmentDefinition*> augDefs;
-    std::unordered_map<std::string, std::unordered_map<std::string, AugmentFunction*>> augDefsByFunction;
-    std::unordered_map<std::string, std::unordered_map<std::string, AugmentFunction*>> augDefsByReq;
+    std::unordered_map<std::string, std::unordered_multimap<std::string, AugmentFunction*>> augDefsByFunction;
+    std::unordered_map<std::string, std::unordered_multimap<std::string, AugmentFunction*>> augDefsByReq;
     static CustomAugmentManager instance;
     std::unordered_map<std::string, int> augListWithHidden[2];
     std::vector<std::string> augListNoHidden[2];

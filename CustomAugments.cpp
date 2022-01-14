@@ -21,7 +21,7 @@ void CustomAugmentManager::ParseCustomAugmentNode(rapidxml::xml_node<char>* node
                 AugmentDefinition* augDef = new AugmentDefinition();
 
                 augDef->name = augName;
-                augDef->functions = std::unordered_map<std::string, AugmentFunction>();
+                augDef->functions = std::unordered_multimap<std::string, AugmentFunction>();
 
                 for (auto functionNode = child->first_node(); functionNode; functionNode = functionNode->next_sibling())
                 {
@@ -63,11 +63,11 @@ void CustomAugmentManager::ParseCustomAugmentNode(rapidxml::xml_node<char>* node
                                 func.modifyChoiceTextScrap = EventsParser::ParseBoolean(functionNode->first_attribute("modifyChoiceTextScrap")->value());
                             }
 
-                            augDef->functions[functionName] = func;
-                            augDefsByFunction[functionName][augName] = &(augDef->functions[functionName]);
+                            auto it = augDef->functions.emplace(functionName, func);
+                            augDefsByFunction[functionName].emplace(augName, &(it->second));
                             if (func.useForReqs)
                             {
-                                augDefsByReq[functionName][augName] = &(augDef->functions[functionName]);
+                                augDefsByReq[functionName].emplace(augName, &(it->second));
                             }
                         }
                     }
@@ -220,7 +220,7 @@ bool AugmentFunction::Functional(int iShipId)
     return true;
 }
 
-std::unordered_map<std::string, AugmentFunction*>* CustomAugmentManager::GetPotentialAugments(const std::string& name, bool req)
+std::unordered_multimap<std::string, AugmentFunction*>* CustomAugmentManager::GetPotentialAugments(const std::string& name, bool req)
 {
     return req ? &augDefsByReq[name] : &augDefsByFunction[name];
 }
@@ -332,7 +332,7 @@ HOOK_METHOD_PRIORITY(ShipObject, HasAugmentation, 2000, (const std::string& name
         augCount = augList->at(name);
     }
 
-    std::unordered_map<std::string, AugmentFunction*> *potentialAugs = customAug->GetPotentialAugments(name);
+    std::unordered_multimap<std::string, AugmentFunction*> *potentialAugs = customAug->GetPotentialAugments(name);
 
 
 
@@ -361,7 +361,7 @@ int HasAugmentationById(const std::string& name, int iShipId)
         augCount = augList->at(name);
     }
 
-    std::unordered_map<std::string, AugmentFunction*> *potentialAugs = customAug->GetPotentialAugments(name);
+    std::unordered_multimap<std::string, AugmentFunction*> *potentialAugs = customAug->GetPotentialAugments(name);
 
 
 
@@ -406,7 +406,7 @@ HOOK_METHOD_PRIORITY(ShipObject, HasEquipment, 2000, (const std::string& name) -
         augCount = augList->at(name);
     }
 
-    std::unordered_map<std::string, AugmentFunction*> *potentialAugs = customAug->GetPotentialAugments(name, useAugmentReq);
+    std::unordered_multimap<std::string, AugmentFunction*> *potentialAugs = customAug->GetPotentialAugments(name, useAugmentReq);
 
 
 
@@ -446,7 +446,7 @@ HOOK_METHOD_PRIORITY(ShipObject, GetAugmentationValue, 1000, (const std::string&
 
     float augValue = augBlueprint->value * augCount;
 
-    std::unordered_map<std::string, AugmentFunction*> *potentialAugs = customAug->GetPotentialAugments(name);
+    std::unordered_multimap<std::string, AugmentFunction*> *potentialAugs = customAug->GetPotentialAugments(name);
 
 
     float highestValue = augValue;
@@ -735,7 +735,7 @@ HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
         CustomAugmentManager* customAug = CustomAugmentManager::GetInstance();
 
         std::unordered_map<std::string, int> *augList = customAug->GetShipAugments(0);
-        std::unordered_map<std::string, AugmentFunction*> *potentialAugs = customAug->GetPotentialAugments("SCRAP_COLLECTOR");
+        std::unordered_multimap<std::string, AugmentFunction*> *potentialAugs = customAug->GetPotentialAugments("SCRAP_COLLECTOR");
 
         float highestValue = 0.f;
         for (auto const& x: *potentialAugs)
