@@ -378,7 +378,6 @@ SectorDescription EventGenerator::GetSectorDescriptionCustom(const std::string& 
 HOOK_METHOD_PRIORITY(EventGenerator, GetSectorDescription, 9999, (const std::string& type, int level) -> SectorDescription)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> EventGenerator::GetSectorDescription -> Begin (CustomSectors.cpp)\n")
-	SectorDescription ret = SectorDescription();
     std::string newType = CustomSectorManager::GetInstance()->GetSectorType(level);
     if (!newType.empty())
     {
