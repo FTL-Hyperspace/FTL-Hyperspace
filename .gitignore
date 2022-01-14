@@ -1,10 +1,16 @@
+## FTL Game stuff
+/settings.ini
 *.log
-bin/
 crashlogs/
+
+## Build Stuff
+bin/
 obj/
 libzhlproject/
 FTL_HyperspaceGCC.layout
 FTL_HyperspaceGCC.depend
+
+## Other
 .save-failed
 
 ## Editor stuff
