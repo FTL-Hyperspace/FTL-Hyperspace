@@ -8286,7 +8286,7 @@ FUNC_NAKED void CombatControl::RenderShipStatus(Pointf pos, GL_Color color)
 namespace _func231
 {
 	static void *func = 0;
-	static short argdata[] = {0x1ff, 0x101, 0x1ff, 0x1ff};
+	static short argdata[] = {0x101, 0x1ff, 0x1ff, 0x1ff};
 	static FunctionDefinition funcObj("CombatControl::GetCrewTooltip", typeid(std::string (CombatControl::*)(int , int )), "578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b178b4f048b77088b825c07000085c074??2bb2680700002bb27807000089742408", argdata, 4, 1, &func);
 }
 
@@ -8303,8 +8303,7 @@ FUNC_NAKED std::string CombatControl::GetCrewTooltip(int x, int y)
 		"push edi\n\t"
 		"push [ebp+20]\n\t"		// y
 		"push [ebp+16]\n\t"		// x
-		"push ecx\n\t"			// implicit_output
-		"mov ecx, [ebp+12]\n\t"	// this
+		"push [ebp+12]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func231::func));
 	__asm__

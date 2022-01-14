@@ -38756,7 +38756,7 @@ FUNC_NAKED CollisionResponse SpaceDrone::CollisionMoving(Pointf start, Pointf fi
 namespace _func1027
 {
 	static void *func = 0;
-	static short argdata[] = {0x101};
+	static short argdata[] = {0x1ff};
 	static FunctionDefinition funcObj("SpaceDrone::GetNextProjectile", typeid(Projectile *(SpaceDrone::*)()), "5589e557565383ec7c8b5d088b03891c24", argdata, 1, 2, &func);
 }
 
@@ -38771,12 +38771,12 @@ FUNC_NAKED Projectile *SpaceDrone::GetNextProjectile()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"mov ecx, [ebp+8]\n\t"	// this
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1027::func));
 	__asm__
 	(
-		"add esp, 0\n\t"
+		"add esp, 4\n\t"
 		"pop edi\n\t"
 		"pop esi\n\t"
 		"pop ebx\n\t"
