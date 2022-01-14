@@ -33205,7 +33205,7 @@ FUNC_NAKED void ShipManager::PrepareSuperBarrage()
 namespace _func941
 {
 	static void *func = 0;
-	static short argdata[] = {0x1ff, 0x101, 0x1ff, 0x1ff};
+	static short argdata[] = {0x101, 0x1ff, 0x1ff, 0x1ff};
 	static FunctionDefinition funcObj("ShipManager::GetTooltip", typeid(std::string (ShipManager::*)(int , int )), "578d7c240883e4f0ff77fc5589e557565383ec7c8b47048b1f894d8c8945948b4708c70424????????894590e8????????8b53648b436883ec0429d0", argdata, 4, 1, &func);
 }
 
@@ -33220,10 +33220,9 @@ FUNC_NAKED std::string ShipManager::GetTooltip(int x, int y)
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+20]\n\t"		// y
-		"push [ebp+16]\n\t"		// x
-		"push ecx\n\t"			// implicit_output
-		"mov ecx, [ebp+12]\n\t"	// this
+		"push [ebp+16]\n\t"		// y
+		"push [ebp+12]\n\t"		// x
+		"push [ebp+8]\n\t"		// this
 	);
 	__asm__("call %0\n\t" :: "m"(_func941::func));
 	__asm__
@@ -33235,7 +33234,7 @@ FUNC_NAKED std::string ShipManager::GetTooltip(int x, int y)
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 16\n\t"
+		"ret 12\n\t"
 	);
 }
 
