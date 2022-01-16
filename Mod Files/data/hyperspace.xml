@@ -1734,10 +1734,10 @@ Syntax ->
 		<replaceSector name="TARGET_SECTOR">REPL_SECTOR</replaceSector>                         Replaces one instance of TARGET_SECTOR with REPL_SECTOR (either a specific sector or a list: CIVILIAN/HOSTILE/NEBULA/UNKNOWN).
 		                                                                                          If REPL_SECTOR is "RANDOM" or omitted then replace with a random of like color. If REPL_SECTOR is "ALL" replace with any random.
 		<goToFlagship atBase="false" allFleet="false"/>                                         Warps the player to the Flagship if they are in the last stand. If atBase is true, the flagship will be advanced to the base.
+		                                                                                          If allFleet is true, then all beacons in the sector will become controlled by the Rebel fleet.
 		<preventFleet/>                                                                         Prevents the rebel fleet from overtaking this beacon whatsoever.
 		<preventBossFleet forever="false"/>                                                     Prevents this event from being randomly overtaken by the fleet in the last stand. If forever is false, it will be overtaken last.
 		<runFromFleet closest="false"/>                                                         If the fleet/boss overtakes this beacon, move it to a random beacon. If closest is true, prefer a nearby beacon.
-		                                                                                          If allFleet is true, then all beacons in the sector will become controlled by the Rebel fleet.
 		<resetFtl/>                                                                             Resets the player's FTL charge to zero.
 		<instantEscape/>                                                                        Causes the enemy ship to jump away instantly (even if engines are destroyed, etc.).
 		<escape/>                                                                               Trigger's the enemy's normal escape sequence. Does not load the escape event.
