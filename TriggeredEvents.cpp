@@ -10,7 +10,7 @@ std::unordered_map<std::string,std::vector<std::pair<float,std::string>>> Trigge
 
 TriggeredEventGui *TriggeredEventGui::instance = new TriggeredEventGui();
 
-std::vector<std::pair<std::string,int>> eventQueue = std::vector<std::pair<std::string,int>>();
+std::deque<std::pair<std::string,int>> eventQueue = {};
 
 int TriggeredEvent::playerCloneCount = 0;
 
@@ -1295,7 +1295,9 @@ HOOK_METHOD_PRIORITY(StarMap, LoadGame, 100, (int file) -> Location*)
 {
     auto ret = super(file);
 
-    TriggeredEvent::LoadAll(file);
+    TriggeredEvent::LoadAll(file); // also clears
+
+    eventQueue.clear();
 
     int eventQueueSize = FileHelper::readInteger(file);
 
@@ -1328,13 +1330,11 @@ void CheckEventQueue(WorldManager *world)
 {
     while (!eventQueue.empty())
     {
-        std::string eventName = eventQueue.back().first;
-        int seed = eventQueue.back().second;
-        int level = world->starMap.currentSector->level;
+        auto &nextEvent = eventQueue.front();
 
-        world->UpdateLocation(G_->GetEventGenerator()->GetBaseEvent(eventName, level, false, seed));
+        world->UpdateLocation(G_->GetEventGenerator()->GetBaseEvent(nextEvent.first, world->starMap.currentSector->level, false, nextEvent.second));
 
-        eventQueue.pop_back();
+        eventQueue.pop_front();
 
         if (world->commandGui->choiceBox.bOpen) return;
     }

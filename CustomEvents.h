@@ -7,7 +7,8 @@
 #include <boost/format.hpp>
 #include <rapidxml_print.hpp>
 
-extern std::vector<std::pair<std::string,int>> eventQueue;
+extern std::deque<std::pair<std::string,int>> eventQueue;
+
 extern bool alreadyWonCustom;
 extern bool bossDefeated;
 extern TimerHelper *restartMusicTimer;
