@@ -1332,7 +1332,7 @@ void CheckEventQueue(WorldManager *world)
     {
         auto &nextEvent = eventQueue.front();
 
-        world->UpdateLocation(G_->GetEventGenerator()->GetBaseEvent(nextEvent.first, world->starMap.currentSector->level, false, nextEvent.second));
+        CustomEventsParser::GetInstance()->LoadEvent(world, nextEvent.first, false, nextEvent.second);
 
         eventQueue.pop_front();
 
