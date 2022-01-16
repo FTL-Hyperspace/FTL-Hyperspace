@@ -2644,6 +2644,7 @@ HOOK_METHOD_PRIORITY(StarMap, TurnIntoFleetLocation, 9999, (Location *loc) -> vo
     auto locEvent = loc->event;
     loc->dangerZone = true;
     loc->fleetChanging = false;
+    loc->questLoc = false; // Remove quest marker from overtaken beacons
 
     if (locEvent)
     {
