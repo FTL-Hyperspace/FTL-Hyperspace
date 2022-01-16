@@ -1072,6 +1072,11 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
                 customEvent->customStore = storeName;
             }
         }
+        if (nodeName == "removeStore")
+        {
+            isDefault = false;
+            customEvent->removeStore = true;
+        }
         if (nodeName == "customFleet")
         {
             isDefault = false;
@@ -2989,6 +2994,21 @@ void CustomCreateLocation(WorldManager* world, LocationEvent* event, CustomEvent
     {
         std::vector<std::string> track = {customEvent->playMusic};
         G_->GetSoundControl()->StartPlaylist(track);
+    }
+
+    if (customEvent->removeStore)
+    {
+        // Close store window to prevent issues.
+        TabbedWindow& storeScreens = G_->GetWorld()->commandGui->storeScreens;
+        if (storeScreens.currentTab >= 0 && storeScreens.currentTab < storeScreens.windows.size() && storeScreens.windows[storeScreens.currentTab])
+        {
+            storeScreens.Close();
+        }
+        storeScreens.bOpen = false;
+        storeScreens.windows[0] = nullptr;
+
+        world->baseLocationEvent->pStore = nullptr;
+        world->baseLocationEvent->store = false;
     }
 
     if (!customEvent->enemyDamage.empty() && event->damage.empty())

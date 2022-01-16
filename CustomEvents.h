@@ -539,6 +539,7 @@ struct CustomEvent
     EventGameOver gameOver = EventGameOver();
     bool disableScrapScore = false;
     bool disableScrapAugments = false;
+    bool removeStore = false;
     std::string customStore = "";
     std::string jumpEvent = "";
     bool jumpEventLoop = false;
