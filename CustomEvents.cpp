@@ -4664,3 +4664,16 @@ HOOK_METHOD(SpaceManager, SetPlanetaryDefense, (bool state, int target) -> void)
         dangerZone = false;
     }
 }
+
+// Fixes time advancement during events
+
+HOOK_METHOD(WorldManager, CheckStatusEffects, (std::vector<StatusEffect> &effects) -> void)
+{
+    CFPS *cFPS = G_->GetCFPS();
+    float speed = cFPS->SpeedFactor;
+    cFPS->SpeedFactor = 0.f;
+
+    super(effects);
+
+    cFPS->SpeedFactor = speed;
+}
