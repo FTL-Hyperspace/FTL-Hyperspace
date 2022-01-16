@@ -7,7 +7,6 @@
 #include <boost/format.hpp>
 #include <rapidxml_print.hpp>
 
-extern bool locationUpdated;
 extern std::vector<std::pair<std::string,int>> eventQueue;
 extern bool alreadyWonCustom;
 extern bool bossDefeated;

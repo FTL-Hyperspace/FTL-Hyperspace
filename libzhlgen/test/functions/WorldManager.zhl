@@ -26,6 +26,8 @@ void WorldManager::Restart(WorldManager *this<ecx>);
 void WorldManager::LoadGame(WorldManager *this<ecx>, const std::string& fileName);
 "578d7c240883e4f0ff77fc5589e557565389cf81ec????????c70424????????e8????????83ec0484c074??8d65f45b5e5f5d8d67f85f":
 void WorldManager::OnLoop(WorldManager *this<ecx>);
+"578d7c240883e4f0ff77fc5589e557565389ce83ec5c8b098b01ff500c83be3408000001":
+void WorldManager::PauseLoop(WorldManager *this<ecx>);
 "578d7c240883e4f0ff77fc5589e557565389ce8d5dd88d7dd083ec3c8b018b480881c1????????e8????????8b068b5008895dd08b8aa4060000":
 void WorldManager::CreateNewGame(WorldManager *this<ecx>);
 "5589e55389cb83c10883e4f0e8????????84c075??8b038b4808b8????????8b91f007000085d274??":

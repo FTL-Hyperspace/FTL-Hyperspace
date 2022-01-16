@@ -6330,6 +6330,7 @@ struct WorldManager
 	LIBZHL_API void Restart();
 	LIBZHL_API void LoadGame(const std::string &fileName);
 	LIBZHL_API void OnLoop();
+	LIBZHL_API void PauseLoop();
 	LIBZHL_API void CreateNewGame();
 	LIBZHL_API bool HostileEnvironment();
 	LIBZHL_API bool AddBoarders(BoardingEvent &boardingEvent);

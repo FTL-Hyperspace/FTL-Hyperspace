@@ -10,7 +10,6 @@ std::unordered_map<std::string,std::vector<std::pair<float,std::string>>> Trigge
 
 TriggeredEventGui *TriggeredEventGui::instance = new TriggeredEventGui();
 
-bool locationUpdated = false;
 std::vector<std::pair<std::string,int>> eventQueue = std::vector<std::pair<std::string,int>>();
 
 int TriggeredEvent::playerCloneCount = 0;
@@ -901,7 +900,7 @@ void TriggeredEvent::TriggerCheck()
             }
 
             G_->GetWorld()->UpdateLocation(G_->GetEventGenerator()->GetBaseEvent(eventName, level, false, seed));
-            break;
+            if (G_->GetWorld()->commandGui->choiceBox.bOpen) break;
         }
     }
 }
@@ -1325,33 +1324,44 @@ HOOK_METHOD_PRIORITY(StarMap, SaveGame, 100, (int file) -> void)
     }
 }
 
-HOOK_METHOD(WorldManager, OnLoop, () -> void)
+void CheckEventQueue(WorldManager *world)
 {
-    locationUpdated = false;
-    TriggeredEvent::UpdateAll();
-
-    super();
-
-    if (!locationUpdated && !eventQueue.empty())
+    while (!eventQueue.empty())
     {
         std::string eventName = eventQueue.back().first;
         int seed = eventQueue.back().second;
-        int level = G_->GetWorld()->starMap.currentSector->level;
+        int level = world->starMap.currentSector->level;
 
-        G_->GetWorld()->UpdateLocation(G_->GetEventGenerator()->GetBaseEvent(eventName, level, false, seed));
-        locationUpdated = true;
+        world->UpdateLocation(G_->GetEventGenerator()->GetBaseEvent(eventName, level, false, seed));
 
         eventQueue.pop_back();
-        return;
+
+        if (world->commandGui->choiceBox.bOpen) return;
     }
 
-    if (!locationUpdated && (playerShip && !playerShip->shipManager->bJumping)) TriggeredEvent::TriggerCheck();
+    if (world->playerShip && !world->playerShip->shipManager->bJumping) TriggeredEvent::TriggerCheck();
 }
 
-HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
+HOOK_METHOD(WorldManager, OnLoop, () -> void)
 {
-    super(loc);
-    locationUpdated = true;
+    super();
+
+    TriggeredEvent::UpdateAll();
+
+    if (!commandGui->choiceBox.bOpen)
+    {
+        CheckEventQueue(this);
+    }
+}
+
+HOOK_METHOD(WorldManager, PauseLoop, () -> void)
+{
+    super();
+
+    if (!commandGui->choiceBox.bOpen)
+    {
+        CheckEventQueue(this);
+    }
 }
 
 HOOK_METHOD(StarMap, UpdateDangerZone, () -> void)
