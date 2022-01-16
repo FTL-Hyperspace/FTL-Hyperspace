@@ -1701,6 +1701,7 @@ Syntax ->
 		<revisitEvent seeded="true" ignoreUnique="false">NOTHING</revisitEvent>                 Automatically loads this event by default when revisiting this beacon. Does not affect dive beacons.
 		<eventAlias name="ALIAS_NAME" jumpClear="false" once="false">EVENT_NAME</eventAlias>    Sets an alias. Any loadEvent or loadEventList action on ALIAS_NAME will load EVENT_NAME instead. Omit EVENT_NAME to clear.
 		                                                                                          Does not affect vanilla event loading. Set jumpClear to true to auto-clear on jump; set once to auto-clear on use.
+		<queueEvent seeded="true">EVENT_NAME</queueEvent>                                       Queues an event to happen as soon as the current event ends. Can queue multiple events.
 		<restartEvent/>                                                                         Loads the original beacon event. This load does not process Hyperspace tags that normally get processed on event load.
 		<renameBeacon>ALT_EVENT</renameBeacon>                                                  Changes the beacon's event ID to ALT_EVENT, to use its <beaconType>, its <revisitEvent>, etc.
 		<jumpEvent loop="false">EVENT_NAME</jumpEvent>                                          Loads EVENT_NAME when the player clicks the JUMP button (or uses the hotkey). Auto-clears unless loop is true.
