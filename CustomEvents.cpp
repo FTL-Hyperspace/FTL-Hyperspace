@@ -784,6 +784,21 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
             customEvent->eventAlias.push_back(alias);
         }
 
+        if (nodeName == "queueEvent")
+        {
+            isDefault = false;
+
+            EventQueueEvent queueEvent = EventQueueEvent();
+
+            queueEvent.event = child->value();
+            if (child->first_attribute("seeded"))
+            {
+                queueEvent.seeded = EventsParser::ParseBoolean(child->first_attribute("seeded")->value());
+            }
+
+            customEvent->queueEvents.push_back(queueEvent);
+        }
+
         if (nodeName == "restartEvent")
         {
             isDefault = false;
@@ -3372,6 +3387,12 @@ HOOK_METHOD(WorldManager, CreateLocation, (Location *location) -> void)
     {
         CustomCreateLocation(this, loc, customEvent);
 
+        for (auto& queueEvent : customEvent->queueEvents)
+        {
+            int seed = queueEvent.seeded ? (int)(location->loc.x + location->loc.y) ^ starMap.currentSectorSeed : -1;
+            eventQueue.push_back({queueEvent.event, seed});
+        }
+
         if (customEvent->eventLoadList != nullptr)
         {
             int seed = customEvent->eventLoadList->seeded ? (int)(location->loc.x + location->loc.y) ^ starMap.currentSectorSeed : -1;
@@ -3486,6 +3507,12 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
         }
 
         CustomCreateLocation(this, loc, customEvent);
+
+        for (auto& queueEvent : customEvent->queueEvents)
+        {
+            int seed = queueEvent.seeded ? (int)(starMap.currentLoc->loc.x + starMap.currentLoc->loc.y) ^ starMap.currentSectorSeed : -1;
+            eventQueue.push_back({queueEvent.event, seed});
+        }
 
         if (customEvent->eventLoadList != nullptr)
         {

@@ -495,6 +495,12 @@ struct EventAlias
     bool once = false;
 };
 
+struct EventQueueEvent
+{
+    std::string event;
+    bool seeded = true;
+};
+
 struct SectorReplace
 {
     std::string targetSector = "";
@@ -534,6 +540,7 @@ struct CustomEvent
     bool eventRevisitSeeded = true;
     bool eventRevisitIgnoreUnique = false;
     std::vector<std::pair<std::string, EventAlias>> eventAlias;
+    std::vector<EventQueueEvent> queueEvents;
     bool restartEvent = false;
     std::string renameBeacon = "";
     EventGameOver gameOver = EventGameOver();
