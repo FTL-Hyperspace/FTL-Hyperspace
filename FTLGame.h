@@ -6326,6 +6326,7 @@ struct WorldManager
 	LIBZHL_API LocationEvent *ModifyResources(LocationEvent *event);
 	LIBZHL_API void ModifyEnvironment(int envFlag, int envTarget);
 	LIBZHL_API void CheckStatusEffects(std::vector<StatusEffect> &vec);
+	LIBZHL_API void ModifyStatusEffect(StatusEffect effect, ShipManager *target, int targetType);
 	LIBZHL_API void StartGame(ShipManager *ship);
 	LIBZHL_API void Restart();
 	LIBZHL_API void LoadGame(const std::string &fileName);

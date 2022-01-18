@@ -4704,3 +4704,42 @@ HOOK_METHOD(WorldManager, CheckStatusEffects, (std::vector<StatusEffect> &effect
 
     cFPS->SpeedFactor = speed;
 }
+
+// Vanilla method has a bug so let's rewrite it
+HOOK_METHOD_PRIORITY(WorldManager, CheckStatusEffects, 9999, (std::vector<StatusEffect> &effects) -> void)
+{
+    for (StatusEffect &effect : effects)
+    {
+        if (effect.target == 0 || effect.target == 2)
+        {
+            ModifyStatusEffect(effect, playerShip->shipManager, 0);
+        }
+        if (!ships.empty() && (effect.target == 1 || effect.target == 2))
+        {
+            for (CompleteShip *ship : ships)
+            {
+                ModifyStatusEffect(effect, ship->shipManager, 1);
+            }
+        }
+        currentEffects.push_back(effect);
+    }
+
+    // Do OnLoop for all shipManagers to update system powers
+    if (!ships.empty())
+    {
+        for (CompleteShip *ship : ships)
+        {
+            ship->shipManager->OnLoop();
+        }
+    }
+    playerShip->shipManager->OnLoop();
+}
+
+HOOK_METHOD(WorldManager, ModifyStatusEffect, (StatusEffect effect, ShipManager *target, int targetType) -> void)
+{
+    super(effect, target, targetType);
+    if (effect.system == 16 || targetType == effect.target || effect.target == 2) // all systems
+    {
+        super({effect.type, SYS_TEMPORAL, effect.amount, effect.target}, target, targetType);
+    }
+}

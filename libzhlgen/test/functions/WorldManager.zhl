@@ -18,6 +18,8 @@ LocationEvent *WorldManager::ModifyResources(WorldManager *this<ecx>, LocationEv
 void WorldManager::ModifyEnvironment(WorldManager *this<ecx>, int envFlag, int envTarget);
 "5789ca81c2????????8d7c240883e4f0ff77fc5589e5575653":
 void WorldManager::CheckStatusEffects(WorldManager *this<ecx>, std::vector<StatusEffect>& vec);
+"578d7c240883e4f0ff77fc5589f889e557565383ec5c8b70148b500c8b7f1039d6":
+void WorldManager::ModifyStatusEffect(WorldManager *this<ecx>, StatusEffect effect, ShipManager *target, int targetType);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b098b3785c9":
 void WorldManager::StartGame(WorldManager *this<ecx>, ShipManager *ship);
 ".578d7c240883e4f0ff77fc5589e5575389cb83ec10e8????????e8????????":

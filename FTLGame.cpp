@@ -46490,6 +46490,47 @@ __declspec(naked) void WorldManager::CheckStatusEffects(std::vector<StatusEffect
 namespace _func1296
 {
 	static void *func = 0;
+	static short argdata[] = {0x101, 0x4ff, 0x1ff, 0x1ff};
+	static FunctionDefinition funcObj("WorldManager::ModifyStatusEffect", typeid(void (WorldManager::*)(StatusEffect , ShipManager *, int )), "578d7c240883e4f0ff77fc5589f889e557565383ec5c8b70148b500c8b7f1039d6", argdata, 4, 5, &func);
+}
+
+__declspec(naked) void WorldManager::ModifyStatusEffect(StatusEffect effect, ShipManager *target, int targetType)
+{
+	__asm__
+	(
+		"push ebp\n\t"
+		"mov ebp, esp\n\t"
+		"push edx\n\t"
+		"push eax\n\t"
+		"push ecx\n\t"
+		"push ebx\n\t"
+		"push esi\n\t"
+		"push edi\n\t"
+		"push [ebp+28]\n\t"		// targetType
+		"push [ebp+24]\n\t"		// target
+		"push [ebp+20]\n\t"		// effect
+		"push [ebp+16]\n\t"		// effect
+		"push [ebp+12]\n\t"		// effect
+		"push [ebp+8]\n\t"		// effect
+	);
+	__asm__("call %0\n\t" :: "m"(_func1296::func));
+	__asm__
+	(
+		"pop edi\n\t"
+		"pop esi\n\t"
+		"pop ebx\n\t"
+		"pop ecx\n\t"
+		"pop eax\n\t"
+		"pop edx\n\t"
+		"mov esp, ebp\n\t"
+		"pop ebp\n\t"
+		"ret 24\n\t"
+	);
+}
+
+namespace _func1297
+{
+	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
 	static FunctionDefinition funcObj("WorldManager::StartGame", typeid(void (WorldManager::*)(ShipManager *)), "578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b098b3785c9", argdata, 2, 5, &func);
 }
@@ -46508,7 +46549,7 @@ __declspec(naked) void WorldManager::StartGame(ShipManager *ship)
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// ship
 	);
-	__asm__("call %0\n\t" :: "m"(_func1296::func));
+	__asm__("call %0\n\t" :: "m"(_func1297::func));
 	__asm__
 	(
 		"pop edi\n\t"
@@ -46523,7 +46564,7 @@ __declspec(naked) void WorldManager::StartGame(ShipManager *ship)
 	);
 }
 
-namespace _func1297
+namespace _func1298
 {
 	static void *func = 0;
 	static short argdata[] = {0x101};
@@ -46543,7 +46584,7 @@ __declspec(naked) void WorldManager::Restart()
 		"push esi\n\t"
 		"push edi\n\t"
 	);
-	__asm__("call %0\n\t" :: "m"(_func1297::func));
+	__asm__("call %0\n\t" :: "m"(_func1298::func));
 	__asm__
 	(
 		"pop edi\n\t"
@@ -46558,7 +46599,7 @@ __declspec(naked) void WorldManager::Restart()
 	);
 }
 
-namespace _func1298
+namespace _func1299
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
@@ -46579,7 +46620,7 @@ __declspec(naked) void WorldManager::LoadGame(const std::string &fileName)
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// fileName
 	);
-	__asm__("call %0\n\t" :: "m"(_func1298::func));
+	__asm__("call %0\n\t" :: "m"(_func1299::func));
 	__asm__
 	(
 		"pop edi\n\t"
@@ -46594,7 +46635,7 @@ __declspec(naked) void WorldManager::LoadGame(const std::string &fileName)
 	);
 }
 
-namespace _func1299
+namespace _func1300
 {
 	static void *func = 0;
 	static short argdata[] = {0x101};
@@ -46602,41 +46643,6 @@ namespace _func1299
 }
 
 __declspec(naked) void WorldManager::OnLoop()
-{
-	__asm__
-	(
-		"push ebp\n\t"
-		"mov ebp, esp\n\t"
-		"push edx\n\t"
-		"push eax\n\t"
-		"push ecx\n\t"
-		"push ebx\n\t"
-		"push esi\n\t"
-		"push edi\n\t"
-	);
-	__asm__("call %0\n\t" :: "m"(_func1299::func));
-	__asm__
-	(
-		"pop edi\n\t"
-		"pop esi\n\t"
-		"pop ebx\n\t"
-		"pop ecx\n\t"
-		"pop eax\n\t"
-		"pop edx\n\t"
-		"mov esp, ebp\n\t"
-		"pop ebp\n\t"
-		"ret\n\t"
-	);
-}
-
-namespace _func1300
-{
-	static void *func = 0;
-	static short argdata[] = {0x101};
-	static FunctionDefinition funcObj("WorldManager::PauseLoop", typeid(void (WorldManager::*)()), "578d7c240883e4f0ff77fc5589e557565389ce83ec5c8b098b01ff500c83be3408000001", argdata, 1, 5, &func);
-}
-
-__declspec(naked) void WorldManager::PauseLoop()
 {
 	__asm__
 	(
@@ -46668,10 +46674,10 @@ namespace _func1301
 {
 	static void *func = 0;
 	static short argdata[] = {0x101};
-	static FunctionDefinition funcObj("WorldManager::CreateNewGame", typeid(void (WorldManager::*)()), "578d7c240883e4f0ff77fc5589e557565389ce8d5dd88d7dd083ec3c8b018b480881c1????????e8????????8b068b5008895dd08b8aa4060000", argdata, 1, 5, &func);
+	static FunctionDefinition funcObj("WorldManager::PauseLoop", typeid(void (WorldManager::*)()), "578d7c240883e4f0ff77fc5589e557565389ce83ec5c8b098b01ff500c83be3408000001", argdata, 1, 5, &func);
 }
 
-__declspec(naked) void WorldManager::CreateNewGame()
+__declspec(naked) void WorldManager::PauseLoop()
 {
 	__asm__
 	(
@@ -46703,6 +46709,41 @@ namespace _func1302
 {
 	static void *func = 0;
 	static short argdata[] = {0x101};
+	static FunctionDefinition funcObj("WorldManager::CreateNewGame", typeid(void (WorldManager::*)()), "578d7c240883e4f0ff77fc5589e557565389ce8d5dd88d7dd083ec3c8b018b480881c1????????e8????????8b068b5008895dd08b8aa4060000", argdata, 1, 5, &func);
+}
+
+__declspec(naked) void WorldManager::CreateNewGame()
+{
+	__asm__
+	(
+		"push ebp\n\t"
+		"mov ebp, esp\n\t"
+		"push edx\n\t"
+		"push eax\n\t"
+		"push ecx\n\t"
+		"push ebx\n\t"
+		"push esi\n\t"
+		"push edi\n\t"
+	);
+	__asm__("call %0\n\t" :: "m"(_func1302::func));
+	__asm__
+	(
+		"pop edi\n\t"
+		"pop esi\n\t"
+		"pop ebx\n\t"
+		"pop ecx\n\t"
+		"pop eax\n\t"
+		"pop edx\n\t"
+		"mov esp, ebp\n\t"
+		"pop ebp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1303
+{
+	static void *func = 0;
+	static short argdata[] = {0x101};
 	static FunctionDefinition funcObj("WorldManager::HostileEnvironment", typeid(bool (WorldManager::*)()), "5589e55389cb83c10883e4f0e8????????84c075??8b038b4808b8????????8b91f007000085d274??", argdata, 1, 1, &func);
 }
 
@@ -46718,7 +46759,7 @@ __declspec(naked) bool WorldManager::HostileEnvironment()
 		"push esi\n\t"
 		"push edi\n\t"
 	);
-	__asm__("call %0\n\t" :: "m"(_func1302::func));
+	__asm__("call %0\n\t" :: "m"(_func1303::func));
 	__asm__
 	(
 		"pop edi\n\t"
@@ -46732,7 +46773,7 @@ __declspec(naked) bool WorldManager::HostileEnvironment()
 	);
 }
 
-namespace _func1303
+namespace _func1304
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
@@ -46752,7 +46793,7 @@ __declspec(naked) bool WorldManager::AddBoarders(BoardingEvent &boardingEvent)
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// boardingEvent
 	);
-	__asm__("call %0\n\t" :: "m"(_func1303::func));
+	__asm__("call %0\n\t" :: "m"(_func1304::func));
 	__asm__
 	(
 		"pop edi\n\t"
@@ -46766,7 +46807,7 @@ __declspec(naked) bool WorldManager::AddBoarders(BoardingEvent &boardingEvent)
 	);
 }
 
-namespace _func1304
+namespace _func1305
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
@@ -46787,7 +46828,7 @@ __declspec(naked) void WorldManager::CreateStore(LocationEvent *event)
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// event
 	);
-	__asm__("call %0\n\t" :: "m"(_func1304::func));
+	__asm__("call %0\n\t" :: "m"(_func1305::func));
 	__asm__
 	(
 		"pop edi\n\t"
@@ -46802,7 +46843,7 @@ __declspec(naked) void WorldManager::CreateStore(LocationEvent *event)
 	);
 }
 
-namespace _func1305
+namespace _func1306
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
@@ -46822,7 +46863,7 @@ __declspec(naked) bool WorldManager::CheckRequirements(LocationEvent *event)
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// event
 	);
-	__asm__("call %0\n\t" :: "m"(_func1305::func));
+	__asm__("call %0\n\t" :: "m"(_func1306::func));
 	__asm__
 	(
 		"pop edi\n\t"
