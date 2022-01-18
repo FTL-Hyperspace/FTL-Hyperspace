@@ -475,6 +475,7 @@ std::string CustomRewardType::GetReward(ResourceEvent &resourceEvent, int level,
 
 HOOK_GLOBAL(GenerateReward, (ResourceEvent &resourceEvent, RewardDesc &reward, int worldLevel) -> void)
 {
+    LOG_HOOK("HOOK_GLOBAL -> GenerateReward -> Begin (CustomRewards.cpp)\n")
     if (reward.level == -1) return;
 
     auto customRewards = CustomRewardsManager::GetInstance();
@@ -509,6 +510,7 @@ HOOK_GLOBAL(GenerateReward, (ResourceEvent &resourceEvent, RewardDesc &reward, i
 
 HOOK_GLOBAL(GetValue, (ResourceEvent &resourceEvent, const std::string &type, int level, int worldLevel) -> void)
 {
+    LOG_HOOK("HOOK_GLOBAL -> GetValue -> Begin (CustomRewards.cpp)\n")
     CustomRewardsManager* customRewards = CustomRewardsManager::GetInstance();
     if (customRewards == nullptr) return super(resourceEvent, type, level, worldLevel);
 

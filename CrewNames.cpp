@@ -7,6 +7,7 @@ static std::mt19937 crewNameRng;
 
 HOOK_GLOBAL_PRIORITY(random32, -900, () -> unsigned int)
 {
+    LOG_HOOK("HOOK_GLOBAL_PRIORITY -> random32 -> Begin (CrewNames.cpp)\n")
     if (inGetUnusedCrewName) return crewNameRng() >> 1;
 
     return super();

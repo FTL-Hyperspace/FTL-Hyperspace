@@ -27,12 +27,14 @@ bool loadingMap = false;
 /*
 HOOK_GLOBAL(srandom32, (unsigned int seed) -> void)
 {
+    LOG_HOOK("HOOK_GLOBAL -> srandom32 -> Begin (Seeds.cpp)\n")
     if (!SeedInputBox::seedsEnabled) return super(seed);
     srand(seed);
 }
 
 HOOK_GLOBAL(random32, () -> unsigned int)
 {
+    LOG_HOOK("HOOK_GLOBAL -> random32 -> Begin (Seeds.cpp)\n")
     if (!SeedInputBox::seedsEnabled) return super();
 	return rand() << 15 | rand();
 }
