@@ -830,7 +830,7 @@ void TriggeredEvent::UpdateAll()
                 it->second.Update();
             }
 
-            if (enemy == nullptr || !enemy->_targetable.hostile)
+            if ((enemy == nullptr || !enemy->_targetable.hostile) && !G_->GetWorld()->commandGui->choiceBox.bOpen)
             {
                 it = eventList.erase(it);
                 TriggeredEventGui::GetInstance()->reset = true;
