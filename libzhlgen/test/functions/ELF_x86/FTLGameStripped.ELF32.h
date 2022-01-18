@@ -118,19 +118,19 @@ struct Globals
 /* 533 */
 struct std__unordered_map_26std__string___GL_TextureZ1
 {
-  char unk[28];
+  char unk[0x18];
 };
 
 /* 534 */
 struct std__unordered_map_25int___freetype__font_data
 {
-  char unk[28];
+  char unk[0x18];
 };
 
 /* 535 */
 struct std__unordered_map_24GL_TextureZ1___ImageDesc
 {
-  char unk[28];
+  char unk[0x18];
 };
 
 /* 452 */
@@ -167,7 +167,7 @@ struct std__vector_33ResourceControl__DynamicImageInfo
 /* 540 */
 struct std__unordered_map_45std__string___ResourceControl__LogicalTexInfo
 {
-  char unk[28];
+  char unk[0x18];
 };
 
 /* 542 */
@@ -5254,12 +5254,12 @@ struct SoundControl;
 
 struct std__unordered_map_31std__string___SectorDescription
 {
-    char unk[0x1C];
+    char unk[0x18];
 };
 
 struct std__unordered_map_39std__string___std__vector_11std__string
 {
-    char unk[0x1C];
+    char unk[0x18];
 };
 
 struct EventText
@@ -5278,7 +5278,7 @@ struct std__vector_9EventText
 
 struct std__unordered_map_36std__string___std__vector_9EventText
 {
-    char unk[0x1C];
+    char unk[0x18];
 };
 
 struct std__vector_15LocationEventZ1
@@ -5290,12 +5290,12 @@ struct std__vector_15LocationEventZ1
 
 struct std__unordered_map_26std_string___ResourceEvent
 {
-    char unk[0x1C];
+    char unk[0x18];
 };
 
 struct std__unordered_map_17std__string___int
 {
-    char unk[0x1C];
+    char unk[0x18];
 };
 
 
@@ -5325,7 +5325,7 @@ struct EventGenerator
 /* 629 */
 struct std__unordered_map_29std__string___EventTemplateZ1
 {
-  char unk[28];
+  char unk[0x18];
 };
 
 /* 630 */
@@ -5339,7 +5339,7 @@ struct std__vector_15EventTemplateZ1
 /* 631 */
 struct std__unordered_map_23std__string___ShipEvent
 {
-  char unk[28];
+  char unk[0x18];
 };
 
 /* 275 */
