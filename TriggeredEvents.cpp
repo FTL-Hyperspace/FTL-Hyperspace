@@ -825,7 +825,7 @@ void TriggeredEvent::UpdateAll()
         {
             ShipManager* enemy = G_->GetShipManager(1);
 
-            if (enemy != nullptr && !enemy->bDestroyed && !enemy->bJumping)
+            if (enemy != nullptr && enemy->_targetable.hostile && !enemy->bDestroyed && !enemy->bJumping)
             {
                 it->second.Update();
             }
