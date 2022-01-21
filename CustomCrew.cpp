@@ -1267,7 +1267,7 @@ PowerReadyState CrewMember_Extend::PowerReq(const ActivatedPowerRequirements *re
 
         for (auto i : currentShip->vCrewList)
         {
-            if (i->iRoomId == orig->iRoomId && i != orig)
+            if (i->iRoomId == orig->iRoomId && i != orig && !i->bDead)
             {
                 if (i->iShipId != ownerId)
                 {
