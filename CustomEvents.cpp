@@ -564,6 +564,34 @@ bool CustomEventsParser::ParseCustomSector(rapidxml::xml_node<char> *node, Custo
             isDefault = false;
             sector->maxSector = boost::lexical_cast<int>(sectorNode->value());
         }
+        if (strcmp(sectorNode->name(), "priorityEvent") == 0)
+        {
+            isDefault = false;
+
+            sector->priorityEventCounts.emplace_back();
+            auto &event = sector->priorityEventCounts.back();
+
+            if (sectorNode->first_attribute("name"))
+            {
+                event.first.first = sectorNode->first_attribute("name")->value();
+            }
+            if (sectorNode->first_attribute("min"))
+            {
+                event.first.second.min = boost::lexical_cast<int>(sectorNode->first_attribute("min")->value());
+            }
+            if (sectorNode->first_attribute("max"))
+            {
+                event.first.second.max = boost::lexical_cast<int>(sectorNode->first_attribute("max")->value());
+            }
+            if (sectorNode->first_attribute("priority"))
+            {
+                event.second = boost::lexical_cast<int>(sectorNode->first_attribute("priority")->value());
+            }
+            else
+            {
+                event.second = 0;
+            }
+        }
     }
 }
 
@@ -1765,6 +1793,40 @@ void CustomEventsParser::ParseVanillaBaseNode(rapidxml::xml_node<char> *node)
             sec->sectorName = sectorName;
 
             ParseCustomSector(node, sec, true);
+
+            // Transfer to vanilla eventCounts
+
+            EventGenerator *eventGenerator = G_->GetEventGenerator();
+
+            if (!sec->priorityEventCounts.empty())
+            {
+                auto secIt = eventGenerator->sectors.find(sectorName);
+                if (secIt != eventGenerator->sectors.end())
+                {
+                    std::stable_sort(sec->priorityEventCounts.begin(), sec->priorityEventCounts.end(),
+                    [](const std::pair<std_pair_std_string_RandomAmount,int> &a, const std::pair<std_pair_std_string_RandomAmount,int> &b) -> bool
+                    {
+                        return a.second > b.second;
+                    });
+
+                    std::vector<std_pair_std_string_RandomAmount> eventCounts;
+                    eventCounts.reserve(secIt->second.eventCounts.size() + sec->priorityEventCounts.size());
+
+                    auto it = sec->priorityEventCounts.begin();
+                    for (; it->second >= 0; ++it)
+                    {
+                        eventCounts.push_back(it->first);
+                    }
+                    eventCounts.insert(eventCounts.end(), std::make_move_iterator(secIt->second.eventCounts.begin()), std::make_move_iterator(secIt->second.eventCounts.end()));
+                    for (; it != sec->priorityEventCounts.end(); ++it)
+                    {
+                        eventCounts.push_back(it->first);
+                    }
+
+                    secIt->second.eventCounts.swap(eventCounts);
+                }
+                sec->priorityEventCounts.clear();
+            }
 
             customSectors[sectorName] = sec;
         }

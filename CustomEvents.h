@@ -637,6 +637,7 @@ struct CustomSector
     bool noExit = false;
     ToggleValue<bool> nebulaSector;
     int maxSector = -1;
+    std::vector<std::pair<std_pair_std_string_RandomAmount,int>> priorityEventCounts;
 };
 
 struct BossShipDefinition
