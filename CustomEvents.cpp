@@ -2062,7 +2062,7 @@ HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
 }
 
 // hidden augs, checkCargo
-HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEvent*)
+HOOK_METHOD_PRIORITY(WorldManager, ModifyResources, -100, (LocationEvent *event) -> LocationEvent*)
 {
     auto customEvents = CustomEventsParser::GetInstance();
     auto customEvent = customEvents->GetCustomEvent(event->eventName);
@@ -2099,15 +2099,6 @@ HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEve
     if (!removeHiddenAug.empty())
     {
         playerShip->shipManager->RemoveItem(removeHiddenAug);
-    }
-
-
-    if (customEvent)
-    {
-        for (auto i : customEvent->removeItems)
-        {
-            playerShip->shipManager->RemoveItem(i);
-        }
     }
 
     removeHiddenAug = "";
@@ -3979,6 +3970,11 @@ HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEve
 
     if (customEvent)
     {
+        for (auto i : customEvent->removeItems)
+        {
+            playerShip->shipManager->RemoveItem(i);
+        }
+
         if (customEvent->gameOver.enabled)
         {
             if (customEvent->gameOver.victory)

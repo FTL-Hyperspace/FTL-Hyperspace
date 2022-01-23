@@ -329,7 +329,7 @@ HOOK_METHOD(CommandGui, OnInit, () -> void)
     CustomCommandGui::GetInstance()->OnInit();
 }
 
-HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEvent*)
+HOOK_METHOD_PRIORITY(WorldManager, ModifyResources, -500, (LocationEvent *event) -> LocationEvent*)
 {
     LocationEvent *ret = super(event);
 
