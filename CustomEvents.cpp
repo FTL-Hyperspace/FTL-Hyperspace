@@ -27,6 +27,8 @@ std::unordered_map<int, std::pair<std::string, int>> regeneratedBeacons = std::u
 std::string jumpEvent = "";
 bool jumpEventLoop = false;
 
+std::unordered_map<std::string, int> playerVariables = std::unordered_map<std::string, int>();
+
 CustomEvent::CustomEvent()
 {
     checkCargo = CustomOptionsManager::GetInstance()->defaults.checkCargo;
@@ -1106,6 +1108,65 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
             isDefault = false;
             customEvent->removeItems.push_back(child->value());
         }
+        if (nodeName == "variable")
+        {
+            isDefault = false;
+            VariableModifier variable;
+            variable.name = child->first_attribute("name")->value();
+            if (child->first_attribute("op"))
+            {
+                std::string op = std::string(child->first_attribute("op")->value());
+                op = op.substr(0,3);
+                if (op == "set")
+                {
+                    variable.op = VariableModifier::OP::SET;
+                }
+                else if (op == "add")
+                {
+                    variable.op = VariableModifier::OP::ADD;
+                }
+                else if (op == "mul")
+                {
+                    variable.op = VariableModifier::OP::MUL;
+                }
+                else if (op == "div")
+                {
+                    variable.op = VariableModifier::OP::DIV;
+                }
+                else if (op == "min")
+                {
+                    variable.op = VariableModifier::OP::MIN;
+                }
+                else if (op == "max")
+                {
+                    variable.op = VariableModifier::OP::MAX;
+                }
+            }
+            if (child->first_attribute("val"))
+            {
+                variable.minVal = boost::lexical_cast<int>(child->first_attribute("val")->value());
+                variable.maxVal = variable.minVal;
+            }
+            if (child->first_attribute("value"))
+            {
+                variable.minVal = boost::lexical_cast<int>(child->first_attribute("value")->value());
+                variable.maxVal = variable.minVal;
+            }
+            if (child->first_attribute("amount"))
+            {
+                variable.minVal = boost::lexical_cast<int>(child->first_attribute("amount")->value());
+                variable.maxVal = variable.minVal;
+            }
+            if (child->first_attribute("min"))
+            {
+                variable.minVal = boost::lexical_cast<int>(child->first_attribute("min")->value());
+            }
+            if (child->first_attribute("max"))
+            {
+                variable.maxVal = boost::lexical_cast<int>(child->first_attribute("max")->value());
+            }
+            customEvent->variables.push_back(variable);
+        }
         if (nodeName == "customStore" || nodeName == "store")
         {
             std::string storeName = child->value();
@@ -2029,6 +2090,13 @@ HOOK_METHOD_PRIORITY(ShipObject, HasEquipment, -100, (const std::string& equipme
         if (customReq != nullptr)
         {
             return customReq->HasEquipment(*(ShipObject*)this);
+        }
+
+        auto playerVariable = playerVariables.find(equipment);
+
+        if (playerVariable != playerVariables.end())
+        {
+            return playerVariable->second;
         }
     }
 
@@ -3975,6 +4043,53 @@ HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEve
             playerShip->shipManager->RemoveItem(i);
         }
 
+        for (VariableModifier &i : customEvent->variables)
+        {
+            int val;
+            if (i.minVal == i.maxVal)
+            {
+                val = i.minVal;
+            }
+            else
+            {
+                int savedSeed;
+                if (SeedInputBox::seedsEnabled)
+                {
+                    savedSeed = random32();
+                    srandom32(Global::questSeed);
+                }
+
+                val = i.minVal + random32()%(i.maxVal-i.minVal+1);
+
+                if (SeedInputBox::seedsEnabled)
+                {
+                    Global::questSeed = random32();
+                    srandom32(savedSeed);
+                }
+            }
+            switch (i.op)
+            {
+            case VariableModifier::OP::SET:
+                playerVariables[i.name] = val;
+                break;
+            case VariableModifier::OP::ADD:
+                playerVariables[i.name] += val;
+                break;
+            case VariableModifier::OP::MUL:
+                playerVariables[i.name] *= val;
+                break;
+            case VariableModifier::OP::DIV:
+                playerVariables[i.name] /= val;
+                break;
+            case VariableModifier::OP::MIN:
+                playerVariables[i.name] = std::min(playerVariables[i.name], val);
+                break;
+            case VariableModifier::OP::MAX:
+                playerVariables[i.name] = std::max(playerVariables[i.name], val);
+                break;
+            }
+        }
+
         if (customEvent->gameOver.enabled)
         {
             if (customEvent->gameOver.victory)
@@ -4152,6 +4267,9 @@ HOOK_METHOD(StarMap, NewGame, (bool unk) -> Location*)
     // renamedBeacons
     renamedBeacons.clear();
 
+    // playerVariables
+    playerVariables.clear();
+
     // Game Over
     G_->GetWorld()->commandGui->alreadyWon = false;
     alreadyWonCustom = false;
@@ -4207,6 +4325,19 @@ HOOK_METHOD(StarMap, LoadGame, (int fh) -> Location*)
         renamedBeacons[idx] = FileHelper::readString(fh);
     }
 
+    // playerVariables
+    playerVariables.clear();
+    n = FileHelper::readInteger(fh);
+    for (int i=0; i<n; ++i)
+    {
+        std::string varName = FileHelper::readString(fh);
+        int varValue = FileHelper::readInteger(fh);
+        if (varValue != 0)
+        {
+            playerVariables[varName] = varValue;
+        }
+    }
+
     // Game Over
     G_->GetWorld()->commandGui->alreadyWon = FileHelper::readInteger(fh);
     alreadyWonCustom = FileHelper::readInteger(fh);
@@ -4257,6 +4388,14 @@ HOOK_METHOD(StarMap, SaveGame, (int file) -> void)
         {
             FileHelper::writeString(file, i.second);
         }
+    }
+
+    // playerVariables
+    FileHelper::writeInt(file, playerVariables.size());
+    for (auto& i : playerVariables)
+    {
+        FileHelper::writeString(file, i.first);
+        FileHelper::writeInt(file, i.second);
     }
 
     // Game Over
