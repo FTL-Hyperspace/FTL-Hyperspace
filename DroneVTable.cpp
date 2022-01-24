@@ -542,24 +542,78 @@ void SetupVTable(CrewDrone *crew)
     MEMPROT_SAVE_PROT(dwOldProtect);
     MEMPROT_PAGESIZE();
     MEMPROT_UNPROTECT(&vtable[0], sizeof(void*) * 57, dwOldProtect);
-    vtable[23] = (void*)&CrewDrone::_HS_GetControllable;
-    vtable[25] = (void*)&CrewDrone::_HS_CanFight;
-    vtable[26] = (void*)&CrewDrone::_HS_CanRepair;
-    vtable[27] = (void*)&CrewDrone::_HS_CanSabotage;
-    vtable[28] = (void*)&CrewDrone::_HS_CanMan;
-    //if (g_dronesCanTeleport) vtable[29] = (void*)&CrewDrone::_HS_CanTeleport;
-    vtable[31] = (void*)&CrewDrone::_HS_CanSuffocate;
-    vtable[32] = (void*)&CrewDrone::_HS_CanBurn;
-    vtable[33] = (void*)&CrewDrone::_HS_GetMaxHealth;
-    vtable[40] = (void*)&CrewDrone::_HS_GetMoveSpeedMultiplier;
-    vtable[41] = (void*)&CrewDrone::_HS_GetRepairSpeed;
-    vtable[42] = (void*)&CrewDrone::_HS_GetDamageMultiplier;
-    vtable[43] = (void*)&CrewDrone::_HS_ProvidesPower;
-    vtable[45] = (void*)&CrewDrone::_HS_GetFireRepairMultiplier;
-    vtable[46] = (void*)&CrewDrone::_HS_IsTelepathic;
-    vtable[52] = (void*)&CrewDrone::_HS_GetSuffocationModifier;
-    vtable[53] = (void*)&CrewDrone::_HS_BlockRoom;
-    vtable[55] = (void*)&CrewDrone::_HS_IsAnaerobic;
+    {
+        auto fptr = &CrewDrone::_HS_GetControllable;
+        vtable[23] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &CrewDrone::_HS_CanFight;
+        vtable[25] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &CrewDrone::_HS_CanRepair;
+        vtable[26] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &CrewDrone::_HS_CanSabotage;
+        vtable[27] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &CrewDrone::_HS_CanMan;
+        vtable[28] = reinterpret_cast<void *&>(fptr);
+    }
+    //{
+        //auto fptr = &CrewDrone::_HS_CanTeleport;
+        //if (g_dronesCanTeleport) vtable[29] = reinterpret_cast<void *&>(fptr);
+    //}
+    {
+        auto fptr = &CrewDrone::_HS_CanSuffocate;
+        vtable[31] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &CrewDrone::_HS_CanBurn;
+        vtable[32] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &CrewDrone::_HS_GetMaxHealth;
+        vtable[33] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &CrewDrone::_HS_GetMoveSpeedMultiplier;
+        vtable[40] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &CrewDrone::_HS_GetRepairSpeed;
+        vtable[41] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &CrewDrone::_HS_GetDamageMultiplier;
+        vtable[42] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &CrewDrone::_HS_ProvidesPower;
+        vtable[43] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &CrewDrone::_HS_GetFireRepairMultiplier;
+        vtable[45] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &CrewDrone::_HS_IsTelepathic;
+        vtable[46] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &CrewDrone::_HS_GetSuffocationModifier;
+        vtable[52] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &CrewDrone::_HS_BlockRoom;
+        vtable[53] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &CrewDrone::_HS_IsAnaerobic;
+        vtable[55] = reinterpret_cast<void *&>(fptr);
+    }
     MEMPROT_REPROTECT(&vtable[0], sizeof(void*) * 57, dwOldProtect);
 }
 

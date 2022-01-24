@@ -75,13 +75,34 @@ void SetupVTable(TemporalBox* box)
 
     MEMPROT_REPROTECT(&vtable[0], sizeof(void*) * g_temporalBoxVTableSize, dwOldProtect);
 
-    g_temporalBoxVTable[3] = (void*)&TemporalBox::_HS_HasButton;
-    g_temporalBoxVTable[7] = (void*)&TemporalBox::_HS_OnRender;
-    g_temporalBoxVTable[9] = (void*)&TemporalBox::_HS_MouseMove;
-    g_temporalBoxVTable[10] = (void*)&TemporalBox::_HS_MouseClick;
-    g_temporalBoxVTable[18] = (void*)&TemporalBox::_HS_KeyDown;
-    g_temporalBoxVTable[19] = (void*)&TemporalBox::_HS_GetCooldownLevel;
-    g_temporalBoxVTable[20] = (void*)&TemporalBox::_HS_GetCooldownFraction;
+    {
+        auto fptr = &TemporalBox::_HS_HasButton;
+        g_temporalBoxVTable[3] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &TemporalBox::_HS_OnRender;
+        g_temporalBoxVTable[7] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &TemporalBox::_HS_MouseMove;
+        g_temporalBoxVTable[9] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &TemporalBox::_HS_MouseClick;
+        g_temporalBoxVTable[10] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &TemporalBox::_HS_KeyDown;
+        g_temporalBoxVTable[18] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &TemporalBox::_HS_GetCooldownLevel;
+        g_temporalBoxVTable[19] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &TemporalBox::_HS_GetCooldownFraction;
+        g_temporalBoxVTable[20] = reinterpret_cast<void *&>(fptr);
+    }
 
     *((void**)box)= &g_temporalBoxVTable;
 }

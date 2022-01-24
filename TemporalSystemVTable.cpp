@@ -42,9 +42,18 @@ void SetupVTable_TemporalSystem(ShipSystem* sys)
 
     MEMPROT_REPROTECT(&vtable[0], sizeof(void*) * g_temporalVTableSize, dwOldProtect);
 
-    g_temporalVTable[35] = (void*)&TemporalSystem::_HS_Jump;
-    g_temporalVTable[39] = (void*)&TemporalSystem::_HS_OnLoop;
-    g_temporalVTable[44] = (void*)&TemporalSystem::_HS_ShipDestroyed;
+    {
+        auto fptr = &TemporalSystem::_HS_Jump;
+        g_temporalVTable[35] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &TemporalSystem::_HS_OnLoop;
+        g_temporalVTable[39] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &TemporalSystem::_HS_ShipDestroyed;
+        g_temporalVTable[44] = reinterpret_cast<void *&>(fptr);
+    }
 
     *((void**)sys)= &g_temporalVTable;
 }

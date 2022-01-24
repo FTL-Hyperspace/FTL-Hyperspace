@@ -269,28 +269,94 @@ void SetupVTable(CrewMember *crew)
     MEMPROT_PAGESIZE();
     MEMPROT_UNPROTECT(&vtable[0], sizeof(void*) * 57, dwOldProtect);
 
-    vtable[23] = (void*)&CrewMember::_HS_GetControllable;
-    vtable[25] = (void*)&CrewMember::_HS_CanFight;
-    vtable[26] = (void*)&CrewMember::_HS_CanRepair;
-    vtable[27] = (void*)&CrewMember::_HS_CanSabotage;
-    vtable[28] = (void*)&CrewMember::_HS_CanMan;
-    vtable[29] = (void*)&CrewMember::_HS_CanTeleport;
-    vtable[31] = (void*)&CrewMember::_HS_CanSuffocate;
-    vtable[32] = (void*)&CrewMember::_HS_CanBurn;
-    vtable[33] = (void*)&CrewMember::_HS_GetMaxHealth;
-    vtable[40] = (void*)&CrewMember::_HS_GetMoveSpeedMultiplier;
-    vtable[41] = (void*)&CrewMember::_HS_GetRepairSpeed;
-    vtable[42] = (void*)&CrewMember::_HS_GetDamageMultiplier;
-    vtable[43] = (void*)&CrewMember::_HS_ProvidesPower;
-    vtable[45] = (void*)&CrewMember::_HS_FireRepairMultiplier;
-    vtable[46] = (void*)&CrewMember::_HS_IsTelepathic;
-    vtable[47] = (void*)&CrewMember::_HS_GetPowerCooldown;
-    vtable[48] = (void*)&CrewMember::_HS_PowerReady;
-    vtable[49] = (void*)&CrewMember::_HS_ActivatePower;
-    vtable[50] = (void*)&CrewMember::_HS_HasSpecialPower;
-    vtable[51] = (void*)&CrewMember::_HS_ResetPower;
-    vtable[52] = (void*)&CrewMember::_HS_GetSuffocationModifier;
-    vtable[55] = (void*)&CrewMember::_HS_IsAnaerobic;
+    {
+        auto fptr = &CrewMember::_HS_GetControllable;
+        vtable[23] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &CrewMember::_HS_CanFight;
+        vtable[25] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &CrewMember::_HS_CanRepair;
+        vtable[26] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &CrewMember::_HS_CanSabotage;
+        vtable[27] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &CrewMember::_HS_CanMan;
+        vtable[28] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &CrewMember::_HS_CanTeleport;
+        vtable[29] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &CrewMember::_HS_CanSuffocate;
+        vtable[31] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &CrewMember::_HS_CanBurn;
+        vtable[32] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &CrewMember::_HS_GetMaxHealth;
+        vtable[33] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &CrewMember::_HS_GetMoveSpeedMultiplier;
+        vtable[40] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &CrewMember::_HS_GetRepairSpeed;
+        vtable[41] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &CrewMember::_HS_GetDamageMultiplier;
+        vtable[42] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &CrewMember::_HS_ProvidesPower;
+        vtable[43] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &CrewMember::_HS_FireRepairMultiplier;
+        vtable[45] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &CrewMember::_HS_IsTelepathic;
+        vtable[46] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &CrewMember::_HS_GetPowerCooldown;
+        vtable[47] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &CrewMember::_HS_PowerReady;
+        vtable[48] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &CrewMember::_HS_ActivatePower;
+        vtable[49] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &CrewMember::_HS_HasSpecialPower;
+        vtable[50] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &CrewMember::_HS_ResetPower;
+        vtable[51] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &CrewMember::_HS_GetSuffocationModifier;
+        vtable[52] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &CrewMember::_HS_IsAnaerobic;
+        vtable[55] = reinterpret_cast<void *&>(fptr);
+    }
 
     MEMPROT_REPROTECT(&vtable[0], sizeof(void*) * 57, dwOldProtect);
 }
@@ -328,7 +394,10 @@ void SetupVTable(CrewAnimation *anim)
     MEMPROT_PAGESIZE();
     MEMPROT_UNPROTECT(&vtable[0], sizeof(void*) * 12, dwOldProtect);
 
-    vtable[12] = (void*)&CrewAnimation::_HS_CustomDeath;
+    {
+        auto fptr = &CrewAnimation::_HS_CustomDeath;
+        vtable[12] = reinterpret_cast<void *&>(fptr);
+    }
 
     MEMPROT_REPROTECT(&vtable[0], sizeof(void*) * 12, dwOldProtect);
 }

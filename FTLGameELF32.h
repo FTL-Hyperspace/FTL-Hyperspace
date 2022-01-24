@@ -1514,7 +1514,7 @@ struct LIBZHL_INTERFACE EquipmentBox
 		return !item.pWeapon && !item.pDrone && (!item.augment || item.augment->name.empty()) && !item.pCrew;
 	}
 
-	LIBZHL_API virtual ~EquipmentBox();
+	virtual ~EquipmentBox() {}
 	LIBZHL_API virtual void SetPosition(Point pos);
 	LIBZHL_API virtual void OnRender(bool isEmpty);
 	LIBZHL_API virtual void RenderLabels(bool unk);

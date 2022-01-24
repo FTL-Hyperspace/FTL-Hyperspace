@@ -16,7 +16,8 @@ void SetupVTable(CrewManifest *_this)
     MEMPROT_PAGESIZE();
     MEMPROT_UNPROTECT(&vtable[0], sizeof(void*) * 17, dwOldProtect);
 
-    vtable[11] = (void*)&CrewManifest::_HS_MouseUp;
+    auto fptr = &CrewManifest::_HS_MouseUp;
+    vtable[11] = reinterpret_cast<void *&>(fptr);
 
     MEMPROT_REPROTECT(&vtable[0], sizeof(void*) * 17, dwOldProtect);
 }

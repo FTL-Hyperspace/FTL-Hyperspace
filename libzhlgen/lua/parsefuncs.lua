@@ -26,11 +26,13 @@ local useStackAlignment = false -- Aligns the stack before CALL instruction (as 
 local thiscallFirstArgumentECX = false
 local structPointerAfterHiddenArguments = false
 local structsReturnedOnStack = false
+local useIntelASMSyntax = true
 if string.find(mode, "linux") ~= nil then
     -- compiler = "gcc"
     useStackAlignment = true
     structsReturnedOnStack = true
     isPOSIX = true
+	useIntelASMSyntax = false
 elseif string.find(mode, "windows") ~= nil then
     thiscallFirstArgumentECX = true
     structPointerAfterHiddenArguments = true
@@ -826,7 +828,8 @@ local function writeFunctionWrappers(funcs, out)
 #ifdef _WIN32
     #define FUNC_NAKED __declspec(naked)
 #elif defined(__linux__)
-    #if __GNUC__ < 8
+    #if __clang__
+    #elif __GNUC__ < 8
         #error "GCC version too old, must be at least version 8"
     #endif
     #define FUNC_NAKED __attribute__((naked))
@@ -944,8 +947,13 @@ using namespace ZHL;
 				
 				-- prolog
 				if useNaked then
-					out("\n\t\t\"push ebp\\n\\t\"")
-					out("\n\t\t\"mov ebp, esp\\n\\t\"")
+					if useIntelASMSyntax then
+						out("\n\t\t\"push ebp\\n\\t\"")
+						out("\n\t\t\"mov ebp, esp\\n\\t\"")
+					else
+						out("\n\t\t\"pushl %%ebp\\n\\t\"")
+						out("\n\t\t\"movl %%esp, %%ebp\\n\\t\"")
+					end
 				end
 				
 				local stackAlignPushSize = func.stacksize + 8 -- size of CALL + plus the push EBP above
@@ -963,17 +971,30 @@ using namespace ZHL;
 				if useStackAlignment then
 					local stackAlignOffset = (stackAlignmentSize - (stackAlignPushSize % stackAlignmentSize)) % stackAlignmentSize
 					if(stackAlignOffset ~= 0) then
-						out("\n\t\t\"sub esp, %d\\n\\t\"", stackAlignOffset)
+						if useIntelASMSyntax then
+							out("\n\t\t\"sub esp, %d\\n\\t\"", stackAlignOffset)
+						else
+							out("\n\t\t\"subl $%d, %%esp\\n\\t\"", stackAlignOffset)
+						end
 					end
 				end
 				
 				-- save all registers
-				if func.void or not func.longlong then out("\n\t\t\"push edx\\n\\t\"") end
-				if func.void then out("\n\t\t\"push eax\\n\\t\"") end
-				out("\n\t\t\"push ecx\\n\\t\"")
-				out("\n\t\t\"push ebx\\n\\t\"")
-				out("\n\t\t\"push esi\\n\\t\"")
-				out("\n\t\t\"push edi\\n\\t\"")
+				if useIntelASMSyntax then
+					if func.void or not func.longlong then out("\n\t\t\"push edx\\n\\t\"") end
+					if func.void then out("\n\t\t\"push eax\\n\\t\"") end
+					out("\n\t\t\"push ecx\\n\\t\"")
+					out("\n\t\t\"push ebx\\n\\t\"")
+					out("\n\t\t\"push esi\\n\\t\"")
+					out("\n\t\t\"push edi\\n\\t\"")
+				else
+					if func.void or not func.longlong then out("\n\t\t\"pushl %%edx\\n\\t\"") end
+					if func.void then out("\n\t\t\"pushl %%eax\\n\\t\"") end
+					out("\n\t\t\"pushl %%ecx\\n\\t\"")
+					out("\n\t\t\"pushl %%ebx\\n\\t\"")
+					out("\n\t\t\"pushl %%esi\\n\\t\"")
+					out("\n\t\t\"pushl %%edi\\n\\t\"")
+				end
 				
 				-- push all stack based arguments
 				local sizePushed = 0
@@ -982,11 +1003,19 @@ using namespace ZHL;
 					if not arg.reg then
 						if k == 1 and func.thiscall and not isPOSIX then
 							assert(arg.size == 1)
-							out("\n\t\t\"push ecx\\n\\t\"\t\t\t// %s", arg.name)
+							if useIntelASMSyntax then
+								out("\n\t\t\"push ecx\\n\\t\"\t\t\t// %s", arg.name)
+							else
+								out("\n\t\t\"pushl %%ecx\\n\\t\"\t\t\t// %s", arg.name)
+							end
 							sizePushed = sizePushed + 4
 						else
 							for p=4*arg.size-4, 0, -4 do
-								out("\n\t\t\"push [ebp+%d]\\n\\t\"\t\t// %s", arg.pos + p, arg.name)
+								if useIntelASMSyntax then
+									out("\n\t\t\"push [ebp+%d]\\n\\t\"\t\t// %s", arg.pos + p, arg.name)
+								else
+									out("\n\t\t\"pushl %d(%%ebp)\\n\\t\"\t\t// %s", arg.pos + p, arg.name)
+								end
 								sizePushed = sizePushed + 4
 							end
 						end
@@ -998,9 +1027,19 @@ using namespace ZHL;
 					if arg.reg then
 						assert(arg.size == 1)
 						if k == 1 and func.thiscall and not isPOSIX then
-							if arg.reg ~= "ecx" then out("\n\t\t\"mov %s, ecx\\n\\t\t// %s\\n\\t\"", arg.reg, arg.name) end
+							if arg.reg ~= "ecx" then
+								if useIntelASMSyntax then
+									out("\n\t\t\"mov %s, ecx\\n\\t\t// %s\\n\\t\"", arg.reg, arg.name)
+								else
+									out("\n\t\t\"movl %%ecx, %%%s\\n\\t\t// %s\\n\\t\"", arg.reg, arg.name)
+								end
+							end
 						else
-							out("\n\t\t\"mov %s, [ebp+%d]\\n\\t\"\t// %s", arg.reg, arg.pos, arg.name)
+							if useIntelASMSyntax then
+								out("\n\t\t\"mov %s, [ebp+%d]\\n\\t\"\t// %s", arg.reg, arg.pos, arg.name)
+							else
+								out("\n\t\t\"movl %d(%%ebp), %%%s\\n\\t\"\t// %s", arg.pos, arg.reg, arg.name)
+							end
 						end
 					end
 				end
@@ -1008,7 +1047,11 @@ using namespace ZHL;
 				out("\n\t);")
 
 				-- finally call the function
-				out("\n\t__asm__(\"call %%0\\n\\t\" :: \"m\"(_func%d::func));", counter)
+				if useIntelASMSyntax then
+					out("\n\t__asm__(\"call %%0\\n\\t\" :: \"m\"(_func%d::func));", counter)
+				else
+					out("\n\t__asm__(\"call *%%0\\n\\t\" :: \"m\"(_func%d::func));", counter)
+				end
 				
 				out("\n\t__asm__\n\t(")
 
@@ -1017,27 +1060,54 @@ using namespace ZHL;
                     if func.memPassedPointer then
                         sizePushed = sizePushed - 4
                     end
-					out("\n\t\t\"add esp, %d\\n\\t\"", sizePushed)
+					if useIntelASMSyntax then
+						out("\n\t\t\"add esp, %d\\n\\t\"", sizePushed)
+					else
+						out("\n\t\t\"addl $%d, %%esp\\n\\t\"", sizePushed)
+					end
 				end
 				
 				-- restore all registers
-				out("\n\t\t\"pop edi\\n\\t\"")
-				out("\n\t\t\"pop esi\\n\\t\"")
-				out("\n\t\t\"pop ebx\\n\\t\"")
-				out("\n\t\t\"pop ecx\\n\\t\"")
-				if func.void then out("\n\t\t\"pop eax\\n\\t\"") end
-				if func.void or not func.longlong then out("\n\t\t\"pop edx\\n\\t\"") end
+				if useIntelASMSyntax then
+					out("\n\t\t\"pop edi\\n\\t\"")
+					out("\n\t\t\"pop esi\\n\\t\"")
+					out("\n\t\t\"pop ebx\\n\\t\"")
+					out("\n\t\t\"pop ecx\\n\\t\"")
+					if func.void then out("\n\t\t\"pop eax\\n\\t\"") end
+					if func.void or not func.longlong then out("\n\t\t\"pop edx\\n\\t\"") end
+				else
+					out("\n\t\t\"popl %%edi\\n\\t\"")
+					out("\n\t\t\"popl %%esi\\n\\t\"")
+					out("\n\t\t\"popl %%ebx\\n\\t\"")
+					out("\n\t\t\"popl %%ecx\\n\\t\"")
+					if func.void then out("\n\t\t\"popl %%eax\\n\\t\"") end
+					if func.void or not func.longlong then out("\n\t\t\"popl %%edx\\n\\t\"") end
+				end
 				
 				-- epilog
-				if useNaked then
-					out("\n\t\t\"mov esp, ebp\\n\\t\"")
-					out("\n\t\t\"pop ebp\\n\\t\"")
-					if func.stacksize > 0 and not isPOSIX then
-						out("\n\t\t\"ret %d\\n\\t\"", func.stacksize)
-                    elseif func.memPassedPointer then -- TODO: May have to limit to SysVi386 ABI not sure if this is valid for Windows or SysVAMD64 ABI yet.
-                        out("\n\t\t\"ret %d\\n\\t\"", 4)
-					else
-						out("\n\t\t\"ret\\n\\t\"")
+				if useIntelASMSyntax then
+					if useNaked then
+						out("\n\t\t\"mov esp, ebp\\n\\t\"")
+						out("\n\t\t\"pop ebp\\n\\t\"")
+						if func.stacksize > 0 and not isPOSIX then
+							out("\n\t\t\"ret %d\\n\\t\"", func.stacksize)
+						elseif func.memPassedPointer then -- TODO: May have to limit to SysVi386 ABI not sure if this is valid for Windows or SysVAMD64 ABI yet.
+							out("\n\t\t\"ret %d\\n\\t\"", 4)
+						else
+							out("\n\t\t\"ret\\n\\t\"")
+						end
+					end
+				else
+					if useNaked then
+						out("\n\t\t\"movl %%ebp, %%esp\\n\\t\"")
+						out("\n\t\t\"popl %%ebp\\n\\t\"")
+						if func.stacksize > 0 and not isPOSIX then
+							out("\n\t\t\"ret $%d\\n\\t\"", func.stacksize)
+						elseif func.memPassedPointer then -- TODO: May have to limit to SysVi386 ABI not sure if this is valid for Windows or SysVAMD64 ABI yet.
+							out("\n\t\t\"ret $%d\\n\\t\"", 4)
+						else
+							out("\n\t\t\"ret\\n\\t\"")
+						end
 					end
 				end
 				

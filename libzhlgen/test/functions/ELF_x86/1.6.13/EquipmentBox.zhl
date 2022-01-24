@@ -14,8 +14,10 @@ virtual cleanup bool EquipmentBox::CanHoldDrone(EquipmentBox *this);
 virtual cleanup int EquipmentBox::GetType(EquipmentBox *this);
 "57565383ec408b5c24508b742454":
 virtual cleanup void EquipmentBox::OnRender(EquipmentBox *this, bool isEmpty);
+/*
 ".5383ec288b5c24308b431c":
 virtual cleanup void EquipmentBox::Free(EquipmentBox *this);
+*/
 "5557565383ec6c8bb42484000000":
 virtual cleanup void EquipmentBox::UpdateBoxImage(EquipmentBox *this, bool unk);
 "5589e557565383ec5c8b5d088b450c8d7dd8":
