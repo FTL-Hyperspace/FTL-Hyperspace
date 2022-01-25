@@ -528,7 +528,7 @@ void CustomEventsParser::PostProcessCustomEvents()
     }
 }
 
-bool CustomEventsParser::ParseCustomSector(rapidxml::xml_node<char> *node, CustomSector *sector, bool parsingVanilla)
+void CustomEventsParser::ParseCustomSector(rapidxml::xml_node<char> *node, CustomSector *sector, bool parsingVanilla)
 {
     bool isDefault = true;
 
