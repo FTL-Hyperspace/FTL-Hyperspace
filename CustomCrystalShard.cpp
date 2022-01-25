@@ -117,7 +117,7 @@ void ShipManager_CheckCustomCrystalAugment(ShipManager* _this, std::string weapo
                     {
                         float r = sqrt(random32()/2147483648.f) * bp->radius;
                         float theta = random32()%360 * 0.01745329f;
-                        Pointf ppos = {targetPos.x + r*cos(theta), targetPos.y + r*sin(theta)};
+                        Pointf ppos = {static_cast<float>(targetPos.x + r*cos(theta)), static_cast<float>(targetPos.y + r*sin(theta))};
                         LaserBlast *projectile = new LaserBlast(pos,_this->iShipId,targetId,ppos);
                         projectile->heading = heading;
                         projectile->OnInit();
