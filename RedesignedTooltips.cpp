@@ -20,22 +20,22 @@ HOOK_STATIC(WeaponBox, GenerateTooltip, (std::string &retStr, WeaponBox *_this) 
 
     auto weaponDef = CustomWeaponManager::instance->GetWeaponDefinition(bp->name);
 
-    if (!weaponDef->tooltipOverride.data.empty())
+    if (CustomOptionsManager::GetInstance()->redesignedWeaponTooltips.currentValue && !weaponDef->advancedTooltipOverride.data.empty())
+    {
+        std::string newDesc = weaponDef->advancedTooltipOverride.GetText();
+
+        retStr.assign(boost::algorithm::replace_all_copy(newDesc, "\\n", "\n"));
+        return;
+    }
+    else if (!weaponDef->tooltipOverride.data.empty())
     {
         std::string newDesc = weaponDef->tooltipOverride.GetText();
 
         retStr.assign(boost::algorithm::replace_all_copy(newDesc, "\\n", "\n"));
         return;
     }
-    if (CustomOptionsManager::GetInstance()->redesignedWeaponTooltips.currentValue == true)
+    else if (CustomOptionsManager::GetInstance()->redesignedWeaponTooltips.currentValue == true)
     {
-        if (!weaponDef->advancedTooltipOverride.data.empty())
-        {
-            std::string newDesc = weaponDef->advancedTooltipOverride.GetText();
-
-            retStr.assign(boost::algorithm::replace_all_copy(newDesc, "\\n", "\n"));
-            return;
-        }
         if (bp->power > 0)
         {
             currentText = tLib->GetText("required_power");
@@ -521,7 +521,14 @@ HOOK_STATIC(WeaponBlueprint, GetDescription, (std::string* strRef, WeaponBluepri
 
     auto weaponDef = CustomWeaponManager::instance->GetWeaponDefinition(bp->name);
 
-    if (!weaponDef->descriptionOverride.data.empty())
+    if (CustomOptionsManager::GetInstance()->redesignedWeaponTooltips.currentValue && !weaponDef->advancedDescriptionOverride.data.empty())
+    {
+        std::string newDesc = weaponDef->advancedDescriptionOverride.GetText();
+
+        strRef->assign(boost::algorithm::replace_all_copy(newDesc, "\\n", "\n"));
+        return;
+    }
+    else if (!weaponDef->descriptionOverride.data.empty())
     {
         std::string newDesc = weaponDef->descriptionOverride.GetText();
 
@@ -530,14 +537,6 @@ HOOK_STATIC(WeaponBlueprint, GetDescription, (std::string* strRef, WeaponBluepri
     }
     else if (CustomOptionsManager::GetInstance()->redesignedWeaponTooltips.currentValue == true)
     {
-        if (!weaponDef->advancedDescriptionOverride.data.empty())
-        {
-            std::string newDesc = weaponDef->advancedDescriptionOverride.GetText();
-
-            strRef->assign(boost::algorithm::replace_all_copy(newDesc, "\\n", "\n"));
-            return;
-        }
-
         descText += bp->desc.description.GetText() + "\n\n";
         descText += tLib->GetText("description_stats") + "\n";
 
