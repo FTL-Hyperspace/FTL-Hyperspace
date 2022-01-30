@@ -5208,7 +5208,9 @@ HOOK_METHOD(CrewMemberFactory, OnLoop, () -> void)
 {
     for (auto i : crewMembers)
     {
-        if (CM_EX(i)->noSlot)
+        bool noSlot;
+        CM_EX(i)->CalculateStat(CrewStat::NO_SLOT, CustomCrewManager::GetInstance()->GetDefinition(i->species), &noSlot);
+        if (noSlot)
         {
             g_tempOutOfGame[i] = std::pair<bool, bool>(i->bOutOfGame, i->clone_ready);
 
@@ -5251,7 +5253,10 @@ HOOK_METHOD(ShipManager, GetCrewmember, (int slot, bool present) -> CrewMember*)
 
     for (auto crew : vCrewList)
     {
-        if (crew->iShipId == 1 || crew->IsDrone() || CM_EX(crew)->noSlot) continue;
+        if (crew->iShipId == 1 || crew->IsDrone()) continue;
+        bool noSlot;
+        CM_EX(crew)->CalculateStat(CrewStat::NO_SLOT, CustomCrewManager::GetInstance()->GetDefinition(crew->species), &noSlot);
+        if (noSlot) continue;
 
         if (currSlot == slot) return crew;
 

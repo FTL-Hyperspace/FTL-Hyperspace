@@ -393,7 +393,12 @@ void CustomCrewManifest::Update()
 
     G_->GetCrewFactory()->GetCrewList(&crewList, 0, false);
 
-    crewList.erase(std::remove_if(crewList.begin(), crewList.end(), [](CrewMember* crew) { return CM_EX(crew)->noSlot; }), crewList.end());
+    crewList.erase(std::remove_if(crewList.begin(), crewList.end(),[](CrewMember* crew)
+                                  {
+                                      bool noSlot;
+                                      CM_EX(crew)->CalculateStat(CrewStat::NO_SLOT, CustomCrewManager::GetInstance()->GetDefinition(crew->species), &noSlot);
+                                      return noSlot;
+                                  }), crewList.end());
 
     int slot = 0;
 

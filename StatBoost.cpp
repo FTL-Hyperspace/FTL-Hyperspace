@@ -1083,6 +1083,10 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
             *boolValue = (temporaryPowerActive && GetPowerDef()->tempPower.noClone.enabled) ? GetPowerDef()->tempPower.noClone.value : def->noClone;
             isBool = true;
             break;
+        case CrewStat::NO_SLOT:
+            *boolValue = noSlot;
+            isBool = true;
+            break;
         case CrewStat::ACTIVATE_WHEN_READY:
             *boolValue = GetPowerDef()->activateWhenReady;
             isBool = true;
