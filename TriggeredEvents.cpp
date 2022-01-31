@@ -225,6 +225,10 @@ void CustomEventsParser::ParseCustomTriggeredEventNode(rapidxml::xml_node<char> 
             {
                 def->triggerMaxJumps = boost::lexical_cast<int>(child->first_attribute("max")->value());
             }
+            if (child->first_attribute("type"))
+            {
+                def->jumpType = boost::lexical_cast<uint8_t>(child->first_attribute("type")->value());
+            }
         }
         if (strcmp(child->name(), "playerHull") == 0)
         {
@@ -856,11 +860,11 @@ void TriggeredEvent::RenderAll()
     }
 }
 
-void TriggeredEvent::JumpAll()
+void TriggeredEvent::JumpAll(uint8_t jumpType)
 {
     for (auto it=eventList.begin(); it!=eventList.end(); )
     {
-        it->second.Jump();
+        it->second.Jump(jumpType);
         if (it->second.def->clearOnJump)
         {
             it = eventList.erase(it);
@@ -1182,9 +1186,9 @@ void TriggeredEvent::OnRender()
     }
 }
 
-void TriggeredEvent::Jump()
+void TriggeredEvent::Jump(uint8_t jumpType)
 {
-    if (triggerJumps > 0)
+    if (triggerJumps > 0 && def->jumpType == jumpType)
     {
         if (--triggerJumps == 0)
         {
@@ -1366,8 +1370,17 @@ HOOK_METHOD(WorldManager, PauseLoop, () -> void)
 
 HOOK_METHOD(WorldManager, CreateLocation, (Location *location) -> void)
 {
-    if (!loadingGame) TriggeredEvent::JumpAll();
+    if (!loadingGame) TriggeredEvent::JumpAll(0);
     super(location);
+}
+
+HOOK_METHOD(ShipManager, JumpLeave, () -> void)
+{
+    super();
+    if (iShipId == 0)
+    {
+        TriggeredEvent::JumpAll(1);
+    }
 }
 
 std::string TriggeredEventBox::GetTimeTextClock(int t)

@@ -1594,7 +1594,7 @@ The current triggers are elapsed time, jumps taken, damage taken by player or en
 A triggered event can also have a box that can be used to display the remaining time or jumps, and/or sounds for a countdown.
 Due to the numerous trigger attributes, they are not listed in the example syntax for brevity, but instead are listed here:
   time: A time in seconds. The time only counts down while the game is unpaused.
-  jumps: An integer number of jumps. This counts down by 1 every time the player jumps (or waits).
+  jumps: An integer number of jumps. If the "type" attribute is 0, this counts down by 1 every jump cycle (jump or wait). If the "type" attribute is 1, only actual jumps count.
   playerHull: The event triggers when the player's hull reaches this threshold.
   enemyHull: The event triggers when the enemy's hull reaches this threshold.
   playerDamage: Sets a playerHull threshold equal to the player's current hull minus this value.
@@ -1731,7 +1731,7 @@ Syntax ->
 		<triggeredEvent name="TR_ID" event="EVENT_ID" seeded="true" thisFight="false"           Creates a triggered event for the event EVENT_ID. If name attribute is not specified, then name is EVENT_ID. If thisFight is
 		                clearOnJump="false" loops="1" time="60.0" ...>                            true, trigger is cancelled once the fight is over. If clearOnJump is true, trigger is cancelled upon jumping. Full syntax above.
 			<time amount="0.0" min="0.0" max="0.0"/>
-			<jumps amount="0" min="0" max="0"/>
+			<jumps amount="0" min="0" max="0" type="0"/>
 			<playerHull amount="0" min="0" max="0"/>
 			<enemyHull amount="0" min="0" max="0" scaling="0.0"/>
 			<playerDamage amount="0" min="0" max="0" countRepairs="true"/>

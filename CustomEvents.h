@@ -178,6 +178,7 @@ public:
     bool seeded = true;
     bool clearOnJump = false;
     bool thisFight = false;
+    uint8_t jumpType = 0;
     int minLoops = 1;
     int maxLoops = 1;
     float triggerMinTime = -1.f;
@@ -221,7 +222,7 @@ public:
     static void DestroyEvent(const std::string& name);
     static void UpdateAll();
     static void RenderAll();
-    static void JumpAll();
+    static void JumpAll(uint8_t jumpType);
     static void TriggerCheck();
     static void SaveAll(int file);
     static void LoadAll(int file);
@@ -328,7 +329,7 @@ public:
     void Reset();
     void Update();
     void OnRender();
-    void Jump();
+    void Jump(uint8_t jumpType);
     void Save(int file);
     void Load(int file);
 };
