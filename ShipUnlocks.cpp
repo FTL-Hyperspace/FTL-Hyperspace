@@ -1,5 +1,6 @@
 #include "ShipUnlocks.h"
 #include "SaveFile.h"
+#include "CustomAchievements.h"
 #include "CustomScoreKeeper.h"
 #include "SaveFile.h"
 #include "Resources.h"
@@ -343,7 +344,7 @@ void CustomShipUnlocks::UnlockShip(const std::string& ship, bool silent, bool ch
             CAchievement* ach = customShipUnlockAchievements[ship];
             ach->unlocked = true;
 
-            G_->GetAchievementTracker()->recentlyUnlocked.push_back(ach);
+            if (G_->GetSettings()->achPopups) G_->GetAchievementTracker()->recentlyUnlocked.push_back(ach);
         }
 
         customUnlockedShips.push_back(ship);
@@ -395,7 +396,7 @@ void CustomShipUnlocks::UnlockShip(const std::string& ship, bool silent, bool ch
                 }
             }
 
-            if (!silent)
+            if (!silent && G_->GetSettings()->achPopups)
             {
                 G_->GetAchievementTracker()->recentlyUnlocked.push_back(ach);
             }
@@ -483,6 +484,7 @@ HOOK_METHOD(AchievementTracker, ResetFlags, () -> void)
 {
     super();
     CustomShipUnlocks::instance->ResetFlags();
+    CustomAchievementTracker::instance->ResetFlags();
 }
 
 void CustomShipUnlocks::ResetFlags()
@@ -805,7 +807,7 @@ HOOK_METHOD(AchievementTracker, UnlockShip, (int type, int variant) -> void)
 {
     auto ach = shipUnlocks[type][variant];
     ach->unlocked = true;
-    recentlyUnlocked.push_back(ach);
+    if (G_->GetSettings()->achPopups) recentlyUnlocked.push_back(ach);
 }
 
 HOOK_METHOD(StarMap, AdvanceWorldLevel, () -> void)
@@ -1076,7 +1078,7 @@ void CustomShipUnlocks::SetVictoryAchievement(const std::string &ship)
                 }
             }
 
-            G_->GetAchievementTracker()->recentlyUnlocked.push_back(ach);
+            if (G_->GetSettings()->achPopups) G_->GetAchievementTracker()->recentlyUnlocked.push_back(ach);
         }
         CheckMultiVictoryUnlocks();
     }
@@ -1129,7 +1131,7 @@ void CustomShipUnlocks::SetVictoryAchievement(const std::string &ship, const std
                     }
                 }
 
-                if (!customVictories[type].quiet) G_->GetAchievementTracker()->recentlyUnlocked.push_back(ach);
+                if (!customVictories[type].quiet && G_->GetSettings()->achPopups) G_->GetAchievementTracker()->recentlyUnlocked.push_back(ach);
             }
             else
             {
@@ -1153,7 +1155,7 @@ void CustomShipUnlocks::SetVictoryAchievement(const std::string &ship, const std
 
                 ach->shipDifficulties[layout] = *Global::difficulty;
 
-                if (!customVictories[type].quiet) G_->GetAchievementTracker()->recentlyUnlocked.push_back(ach);
+                if (!customVictories[type].quiet && G_->GetSettings()->achPopups) G_->GetAchievementTracker()->recentlyUnlocked.push_back(ach);
             }
 
             for (auto& i : customVictories[type].achievements)

@@ -564,6 +564,8 @@ struct CustomEvent
     bool restartEvent = false;
     std::string renameBeacon = "";
     EventGameOver gameOver = EventGameOver();
+    std::string achievement = "";
+    bool achievementSilent = false;
     bool disableScrapScore = false;
     bool disableScrapAugments = false;
     bool removeStore = false;
@@ -598,6 +600,7 @@ struct CustomEvent
     std::vector<std::string> hiddenAugs = std::vector<std::string>();
     std::vector<std::string> removeItems = std::vector<std::string>();
     std::vector<VariableModifier> variables = std::vector<VariableModifier>();
+    std::vector<VariableModifier> metaVariables = std::vector<VariableModifier>();
     std::string playSound = "";
     std::string playMusic = "";
     bool resetMusic = false;

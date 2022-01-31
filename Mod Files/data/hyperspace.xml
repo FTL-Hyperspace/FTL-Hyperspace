@@ -269,6 +269,25 @@ If <filter/> is included, the achievement will be enabled by default in the filt
 
 -->
 
+<!-- Custom Achievements
+
+General achievements that can be awarded that aren't tied to victories/ship victories.
+
+<achievements>
+	<achievement name="ACH_ID">
+		<name id="text_id">text</name>
+		<description id="text_id">text</name>
+		<header id="text_id">text</name>
+		<secretName id="text_id">text</name>
+		<secretDescription id="text_id">text</name>
+		<icon>image_name</icon> (name of image file in achievements folder, without extension)
+		<lockImage>image_name</lockImage> (name of image file in achievements folder, without extension - default is customizeUI/box_lock_on.png)
+		<variable name="varname" amount="100"/> (name of variable or meta-variable to track, optional)
+	</achievement>
+</achievements>
+
+-->
+
 <!-- Infinite Ships
 
 You can make a customShip with no name (or name "default") to set default values for all ships
@@ -1688,6 +1707,7 @@ Syntax ->
 		                                                                                          augment's id.
 		<variable name="varname" op="set" val="0" min="0" max="0"/>                             Sets or changes a custom variable. Operation can be "set", "add", "mul", "div", "min", or "max".
 		                                                                                          Value can either be a fixed value (using val) or a random value (using min and max).
+		<metaVariable name="varname" op="set" val="0" min="0" max="0"/>                         Same as variable but sets a meta-variable. Meta-variables persist on the profile.
 		<transformRace class="orig_race">new_race</transformRace>                               Transforms a random crewmember to the race new_race. If the class attribute is specified, restricts the random crew selection.
 		<customStore>STORE_ID</customStore>                                                     Use the custom store STORE_ID for this store event.
 		<store>STORE_ID</store>                                                                 Alias for customStore. Allows specifying a custom store in events.xml files using a single tag.
@@ -1758,6 +1778,7 @@ Syntax ->
 		<unlockShip silent="false" shipReq="REQ_SHIP_ID">PLAYER_SHIP_ID</unlockShip>            Unlocks the ship PLAYER_SHIP_ID. If silent is true, the unlock is silent. If shipReq is specified, the unlock only occurs if
 		                                                                                          the player is currently playing as that ship. Use alias unlockCustomShip in events.xml files.
 		<unlockCustomShip>PLAYER_SHIP_ID</unlockCustomShip>                                     Alias for unlockShip - same syntax. This alias must be used in events.xml files.
+		<achievement silent="false">ACH_ID</achievement>                                        Unlocks custom global achievement.
 	</event>
 	
 	<shipEvent name="CUSTOM_SHIP_EVENT">                                                        This is similar to custom events, but for ship events. These effects are triggered as soon as the ship spawns (even if not hostile).

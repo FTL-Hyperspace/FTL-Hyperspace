@@ -9,6 +9,8 @@
 #include "CustomCrew.h"
 #include "CustomSectors.h"
 #include "CustomOptions.h"
+#include "CustomAchievements.h"
+#include "CustomScoreKeeper.h"
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
 
@@ -1051,6 +1053,16 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
                 customEvent->gameOver.sound = child->first_attribute("sound")->value();
             }
         }
+        if (nodeName == "achievement")
+        {
+            isDefault = false;
+            customEvent->achievement = child->value();
+
+            if (child->first_attribute("silent"))
+            {
+                customEvent->achievementSilent = EventsParser::ParseBoolean(child->first_attribute("silent")->value());
+            }
+        }
         if (nodeName == "playSound")
         {
             isDefault = false;
@@ -1166,6 +1178,65 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
                 variable.maxVal = boost::lexical_cast<int>(child->first_attribute("max")->value());
             }
             customEvent->variables.push_back(variable);
+        }
+        if (nodeName == "metaVariable")
+        {
+            isDefault = false;
+            VariableModifier variable;
+            variable.name = child->first_attribute("name")->value();
+            if (child->first_attribute("op"))
+            {
+                std::string op = std::string(child->first_attribute("op")->value());
+                op = op.substr(0,3);
+                if (op == "set")
+                {
+                    variable.op = VariableModifier::OP::SET;
+                }
+                else if (op == "add")
+                {
+                    variable.op = VariableModifier::OP::ADD;
+                }
+                else if (op == "mul")
+                {
+                    variable.op = VariableModifier::OP::MUL;
+                }
+                else if (op == "div")
+                {
+                    variable.op = VariableModifier::OP::DIV;
+                }
+                else if (op == "min")
+                {
+                    variable.op = VariableModifier::OP::MIN;
+                }
+                else if (op == "max")
+                {
+                    variable.op = VariableModifier::OP::MAX;
+                }
+            }
+            if (child->first_attribute("val"))
+            {
+                variable.minVal = boost::lexical_cast<int>(child->first_attribute("val")->value());
+                variable.maxVal = variable.minVal;
+            }
+            if (child->first_attribute("value"))
+            {
+                variable.minVal = boost::lexical_cast<int>(child->first_attribute("value")->value());
+                variable.maxVal = variable.minVal;
+            }
+            if (child->first_attribute("amount"))
+            {
+                variable.minVal = boost::lexical_cast<int>(child->first_attribute("amount")->value());
+                variable.maxVal = variable.minVal;
+            }
+            if (child->first_attribute("min"))
+            {
+                variable.minVal = boost::lexical_cast<int>(child->first_attribute("min")->value());
+            }
+            if (child->first_attribute("max"))
+            {
+                variable.maxVal = boost::lexical_cast<int>(child->first_attribute("max")->value());
+            }
+            customEvent->metaVariables.push_back(variable);
         }
         if (nodeName == "customStore" || nodeName == "store")
         {
@@ -2098,6 +2169,13 @@ HOOK_METHOD_PRIORITY(ShipObject, HasEquipment, -100, (const std::string& equipme
         {
             return playerVariable->second;
         }
+
+        auto metaVariable = metaVariables.find(equipment);
+
+        if (metaVariable != metaVariables.end())
+        {
+            return metaVariable->second;
+        }
     }
 
     return super(equipment);
@@ -2901,6 +2979,11 @@ HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *loc) -> void)
             {
                 CustomShipUnlocks::instance->UnlockShip(customEvent->unlockShip, customEvent->unlockShipSilent, true, true);
             }
+        }
+
+        if (!customEvent->achievement.empty())
+        {
+            CustomAchievementTracker::instance->SetAchievement(customEvent->achievement, customEvent->achievementSilent);
         }
 
         if (customEvent->noQuestText)
@@ -4088,6 +4171,57 @@ HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEve
                 playerVariables[i.name] = std::max(playerVariables[i.name], val);
                 break;
             }
+
+            CustomAchievementTracker::instance->UpdateVariableAchievements(i.name, playerVariables[i.name]);
+        }
+
+        for (VariableModifier &i : customEvent->metaVariables)
+        {
+            int val;
+            if (i.minVal == i.maxVal)
+            {
+                val = i.minVal;
+            }
+            else
+            {
+                int savedSeed;
+                if (SeedInputBox::seedsEnabled)
+                {
+                    savedSeed = random32();
+                    srandom32(Global::questSeed);
+                }
+
+                val = i.minVal + random32()%(i.maxVal-i.minVal+1);
+
+                if (SeedInputBox::seedsEnabled)
+                {
+                    Global::questSeed = random32();
+                    srandom32(savedSeed);
+                }
+            }
+            switch (i.op)
+            {
+            case VariableModifier::OP::SET:
+                metaVariables[i.name] = val;
+                break;
+            case VariableModifier::OP::ADD:
+                metaVariables[i.name] += val;
+                break;
+            case VariableModifier::OP::MUL:
+                metaVariables[i.name] *= val;
+                break;
+            case VariableModifier::OP::DIV:
+                metaVariables[i.name] /= val;
+                break;
+            case VariableModifier::OP::MIN:
+                metaVariables[i.name] = std::min(metaVariables[i.name], val);
+                break;
+            case VariableModifier::OP::MAX:
+                metaVariables[i.name] = std::max(metaVariables[i.name], val);
+                break;
+            }
+
+            CustomAchievementTracker::instance->UpdateVariableAchievements(i.name, metaVariables[i.name]);
         }
 
         if (customEvent->gameOver.enabled)
@@ -4335,6 +4469,7 @@ HOOK_METHOD(StarMap, LoadGame, (int fh) -> Location*)
         if (varValue != 0)
         {
             playerVariables[varName] = varValue;
+            CustomAchievementTracker::instance->UpdateVariableAchievements(varName, varValue);
         }
     }
 
