@@ -1339,7 +1339,7 @@ void CheckEventQueue(WorldManager *world)
         if (world->commandGui->choiceBox.bOpen) return;
     }
 
-    if (world->playerShip && !world->playerShip->shipManager->bJumping) TriggeredEvent::TriggerCheck();
+    if (world->playerShip && !world->playerShip->shipManager->bJumping && !world->starMap.waiting.running) TriggeredEvent::TriggerCheck();
 }
 
 HOOK_METHOD(WorldManager, OnLoop, () -> void)
@@ -1364,16 +1364,10 @@ HOOK_METHOD(WorldManager, PauseLoop, () -> void)
     }
 }
 
-HOOK_METHOD(StarMap, UpdateDangerZone, () -> void)
+HOOK_METHOD(WorldManager, CreateLocation, (Location *location) -> void)
 {
-    TriggeredEvent::JumpAll();
-    super();
-}
-
-HOOK_METHOD(StarMap, StartSecretSector, () -> void)
-{
-    TriggeredEvent::JumpAll();
-    super();
+    if (!loadingGame) TriggeredEvent::JumpAll();
+    super(location);
 }
 
 std::string TriggeredEventBox::GetTimeTextClock(int t)
