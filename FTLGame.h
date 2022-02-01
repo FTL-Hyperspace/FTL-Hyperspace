@@ -1422,12 +1422,7 @@ struct InfoBox;
 struct Description;
 
 struct Description
-{	
-	~Description()
-	{
-		this->destructor();
-	}
-
+{
 	LIBZHL_API void constructor();
 	LIBZHL_API Description &copy_assign_1(Description &&other);
 	LIBZHL_API Description &copy_assign_2(const Description &other);
@@ -1588,11 +1583,6 @@ struct LIBZHL_INTERFACE Blueprint
 
 struct CrewBlueprint : Blueprint
 {
-	~CrewBlueprint()
-	{
-		this->destructor();
-	}
-	
 	std::string GetNameShort()
 	{
 		std::string ret;
