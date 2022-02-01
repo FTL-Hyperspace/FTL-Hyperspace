@@ -19,9 +19,9 @@ HOOK_METHOD(ShipManager, AddWeapon, (const WeaponBlueprint *bp, int slot) -> Pro
 HOOK_METHOD(WeaponSystem, OnLoop, () -> void)
 {
     ShipManager *ship = G_->GetShipManager(_shipObj.iShipId);
-    if (ship && ship->current_target)
+    if (ship)
     {
-        Targetable *target = &ship->current_target->_targetable;
+        Targetable *target = ship->current_target ? &ship->current_target->_targetable : nullptr;
         for (auto i : weapons)
         {
             if (i->currentShipTarget && i->currentShipTarget != target)
