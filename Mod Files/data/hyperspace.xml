@@ -1765,6 +1765,10 @@ Syntax ->
 		<instantEscape/>                                                                        Causes the enemy ship to jump away instantly (even if engines are destroyed, etc.).
 		<escape/>                                                                               Trigger's the enemy's normal escape sequence. Does not load the escape event.
 		<surrender/>                                                                            Trigger's the enemy's normal surrender behaviour. Does not load the surrender event.
+		<loadEscape force="false"/>                                                             Triggers escape (including event), if the enemy was set to escape on hull threshold or if force="true".
+		<loadSurrender force="false"/>                                                          Triggers surrender (including event), if the enemy was set to surrender on hull threshold or if force="true".
+		<disableEscape force="false"/>                                                          Clears the enemy escape trigger. If force="true" then makes the enemy stop escaping if they were already escaping.
+		<disableSurrender force="false"/>                                                       Clears the enemy surrender trigger. If force="true" then also clears any existing surrender flag.
 		<enemyDamage amount="1" system="sys" effect="eff" force="false" damageHull="true"/>     Same syntax as vanilla's <damage> but afflicts the enemy ship. If force="true" then bypasses all system damage resistances.
 		                                                                                          If damageHull="false" then do not inflict hull damage.
 		<superDrones player="false" name="surge_name"/>                                         Triggers drone surge. For custom surge different from flagship add another <surgeDrones> tag in <boss> and give it a name.
