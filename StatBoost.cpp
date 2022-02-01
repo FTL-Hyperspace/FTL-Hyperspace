@@ -169,6 +169,10 @@ StatBoostDefinition* StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<cha
                     def->droneTarget = StatBoostDefinition::DroneTarget::ALL;
                 }
             }
+            if (name == "functionalTarget")
+            {
+                def->functionalTarget = EventsParser::ParseBoolean(val);;
+            }
             if (name == "whiteList")
             {
                 if (child->first_attribute("load"))
@@ -478,8 +482,6 @@ void StatBoostManager::CreateRecursiveBoosts(StatBoost& statBoost, int nStacks, 
     {
         for (auto recursiveCrew : checkingCrewList)
         {
-            if (!recursiveCrew->Functional()) continue;
-
             auto ex = CM_EX(recursiveCrew);
             if (noCheck || ex->BoostCheck(statBoost))
             {
@@ -510,11 +512,11 @@ void StatBoostManager::OnLoop(WorldManager* world)
 
     if (playerShip != nullptr)
     {
-        checkingCrewList.insert(checkingCrewList.end(), playerShip->vCrewList.begin(), playerShip->vCrewList.end());
+        std::copy_if(playerShip->vCrewList.begin(), playerShip->vCrewList.end(), std::back_inserter(checkingCrewList), [](CrewMember *i){return !i->bDead;});
     }
     if (enemyShip != nullptr)
     {
-        checkingCrewList.insert(checkingCrewList.end(), enemyShip->vCrewList.begin(), enemyShip->vCrewList.end());
+        std::copy_if(enemyShip->vCrewList.begin(), enemyShip->vCrewList.end(), std::back_inserter(checkingCrewList), [](CrewMember *i){return !i->bDead;});
     }
 
     // Check augment stat boosts
@@ -544,30 +546,33 @@ void StatBoostManager::OnLoop(WorldManager* world)
 
     for (auto otherCrew : checkingCrewList)
     {
-        if (!otherCrew->Functional()) continue;
+        bool functional = otherCrew->Functional();
 
         auto ex = CM_EX(otherCrew);
 
-        auto currentStatBoosts = std::vector<StatBoost>();
+        if (functional)
+        {
+            auto currentStatBoosts = std::vector<StatBoost>();
 
-        if (ex->temporaryPowerActive)
-        {
-            currentStatBoosts = ex->outgoingAbilityStatBoosts;
-        }
-        else
-        {
-            currentStatBoosts = ex->outgoingStatBoosts;
-        }
+            if (ex->temporaryPowerActive)
+            {
+                currentStatBoosts = ex->outgoingAbilityStatBoosts;
+            }
+            else
+            {
+                currentStatBoosts = ex->outgoingStatBoosts;
+            }
 
-        for (auto& statBoost : currentStatBoosts)
-        {
-            CreateCrewBoost(statBoost, otherCrew);
+            for (auto& statBoost : currentStatBoosts)
+            {
+                CreateCrewBoost(statBoost, otherCrew);
+            }
         }
 
         auto vStatBoosts = ex->timedStatBoosts.find(CrewStat::STAT_BOOST);
         if (vStatBoosts != ex->timedStatBoosts.end())
         {
-            for (auto& statBoost : vStatBoosts->second)
+            for (StatBoost& statBoost : vStatBoosts->second)
             {
                 CreateRecursiveBoosts(statBoost, statBoost.iStacks, true);
             }
@@ -774,7 +779,7 @@ bool CrewMember_Extend::BoostCheck(const StatBoost& statBoost)
                                || (statBoost.def->droneTarget == StatBoostDefinition::DroneTarget::ALL)
                                )
                             {
-                                return true;
+                                return !statBoost.def->functionalTarget || orig->Functional();
                             }
                         }
                     }
@@ -823,7 +828,7 @@ bool CrewMember_Extend::BoostCheck(const StatBoost& statBoost)
                              || (statBoost.def->droneTarget == StatBoostDefinition::DroneTarget::ALL)
                              )
                         {
-                            return true;
+                            return !statBoost.def->functionalTarget || orig->Functional();
                         }
                     }
                 }
@@ -968,16 +973,16 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
             finalStat = (temporaryPowerActive && GetPowerDef()->tempPower.damageTakenMultiplier.enabled) ? GetPowerDef()->tempPower.damageTakenMultiplier.value : def->damageTakenMultiplier;
             break;
         case CrewStat::PASSIVE_HEAL_AMOUNT:
-            finalStat = (temporaryPowerActive && GetPowerDef()->tempPower.passiveHealAmount.enabled) ? GetPowerDef()->tempPower.passiveHealAmount.value : def->passiveHealAmount;
+            finalStat = orig->Functional() ? ((temporaryPowerActive && GetPowerDef()->tempPower.passiveHealAmount.enabled) ? GetPowerDef()->tempPower.passiveHealAmount.value : def->passiveHealAmount) : 0.f;
             break;
         case CrewStat::TRUE_PASSIVE_HEAL_AMOUNT:
-            finalStat = (temporaryPowerActive && GetPowerDef()->tempPower.truePassiveHealAmount.enabled) ? GetPowerDef()->tempPower.truePassiveHealAmount.value : def->truePassiveHealAmount;
+            finalStat = orig->Functional() ? ((temporaryPowerActive && GetPowerDef()->tempPower.truePassiveHealAmount.enabled) ? GetPowerDef()->tempPower.truePassiveHealAmount.value : def->truePassiveHealAmount) : 0.f;
             break;
         case CrewStat::TRUE_HEAL_AMOUNT:
-            finalStat = (temporaryPowerActive && GetPowerDef()->tempPower.trueHealAmount.enabled) ? GetPowerDef()->tempPower.trueHealAmount.value : def->trueHealAmount;
+            finalStat = orig->Functional() ? ((temporaryPowerActive && GetPowerDef()->tempPower.trueHealAmount.enabled) ? GetPowerDef()->tempPower.trueHealAmount.value : def->trueHealAmount) : 0.f;
             break;
         case CrewStat::ACTIVE_HEAL_AMOUNT:
-            finalStat = (temporaryPowerActive && GetPowerDef()->tempPower.healAmount.enabled) ? GetPowerDef()->tempPower.healAmount.value : def->healAmount;
+            finalStat = orig->Functional() ? ((temporaryPowerActive && GetPowerDef()->tempPower.healAmount.enabled) ? GetPowerDef()->tempPower.healAmount.value : def->healAmount) : 0.f;
             break;
         case CrewStat::PASSIVE_HEAL_DELAY:
             finalStat = (temporaryPowerActive && GetPowerDef()->tempPower.passiveHealDelay.enabled) ? GetPowerDef()->tempPower.passiveHealDelay.value : def->passiveHealDelay;

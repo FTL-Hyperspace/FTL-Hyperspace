@@ -216,6 +216,7 @@ struct StatBoostDefinition
     ShipTarget shipTarget;
     CrewTarget crewTarget;
     DroneTarget droneTarget = DroneTarget::ALL;
+    bool functionalTarget = false;
 
     int realBoostId = -1;
     int stackId = 0;

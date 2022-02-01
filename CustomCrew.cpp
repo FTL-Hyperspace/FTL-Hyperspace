@@ -2198,7 +2198,7 @@ HOOK_METHOD_PRIORITY(CrewMember, UpdateHealth, 2000, () -> void)
         float trueHealAmount = ex->CalculateStat(CrewStat::TRUE_HEAL_AMOUNT, def);
         float truePassiveHealAmount = ex->CalculateStat(CrewStat::TRUE_PASSIVE_HEAL_AMOUNT, def);
 
-        if (healAmount != 0.f && Functional())
+        if (healAmount != 0.f)
         {
             if (healAmount > 0.f && health.first != health.second)
             {
@@ -2206,7 +2206,7 @@ HOOK_METHOD_PRIORITY(CrewMember, UpdateHealth, 2000, () -> void)
             }
             DirectModifyHealth(G_->GetCFPS()->GetSpeedFactor() * healAmount * mod * 0.06245f);
         }
-        if (ex->isHealing && passiveHealAmount != 0.f && health.first != health.second && Functional())
+        if (ex->isHealing && passiveHealAmount != 0.f && health.first != health.second)
         {
             if (passiveHealAmount > 0.f && health.first != health.second)
             {
@@ -2214,7 +2214,7 @@ HOOK_METHOD_PRIORITY(CrewMember, UpdateHealth, 2000, () -> void)
             }
             DirectModifyHealth(G_->GetCFPS()->GetSpeedFactor() * passiveHealAmount * mod * 0.06245f);
         }
-        if (trueHealAmount != 0.f && Functional())
+        if (trueHealAmount != 0.f)
         {
             if (trueHealAmount > 0.f && health.first != health.second)
             {
@@ -2222,7 +2222,7 @@ HOOK_METHOD_PRIORITY(CrewMember, UpdateHealth, 2000, () -> void)
             }
             DirectModifyHealth(G_->GetCFPS()->GetSpeedFactor() * trueHealAmount * 0.06245f);
         }
-        if (ex->isHealing && truePassiveHealAmount != 0.f && health.first != health.second && Functional())
+        if (ex->isHealing && truePassiveHealAmount != 0.f && health.first != health.second)
         {
             if (truePassiveHealAmount > 0.f && health.first != health.second)
             {

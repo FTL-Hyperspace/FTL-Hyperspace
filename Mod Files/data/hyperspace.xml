@@ -1012,6 +1012,7 @@ value/amount: use value for true/false stats and amount for numerical ones
 shipTarget: the ship/room that the statBoost affects. For augments, you can use PLAYER_SHIP, ENEMY_SHIP, ORIGINAL_SHIP, ORIGINAL_OTHER_SHIP, or ALL, and for crew you can use the same but also OTHER_ALL, CURRENT_ROOM, and CURRENT_ALL
 crewTarget: determines what crew the boost affects. it can be ALLIES, ENEMIES, ALL, CURRENT_ALLIES, or CURRENT_ENEMIES. CURRENT_ALLIES and CURRENT_ENEMIES factor in mind control.
 droneTarget: determines whether the boost affects drones or not. it can be DRONES, CREW, or ALL (the default)
+functionalTarget: boolean, for drones it determines whether the drone needs to be powered or not. Default is false.
 whiteList/blackList: determines the species that the boost applies to. whiteLists mean that only those species get the boost, and blackLists mean that only those species won't get the boost.
   Can also use load attribute to load a blueprintList.
 affectsSelf: determines if the boost affects the source in addition to its normal targets, defaults to false
@@ -1042,6 +1043,7 @@ Stat boost syntax examples->
 	<systemRoomTarget>ALL/NONE</systemRoomTarget>
 	<crewTarget>ALLIES/ENEMIES/ALL</crewTarget>
 	<droneTarget>CREW/DRONES/ALL</droneTarget>
+	<functionalTarget>false</functionalTarget>
 	<whiteList load="BP_LIST">
 		<race/>
 	</whiteList>
