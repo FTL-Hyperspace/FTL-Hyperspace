@@ -1459,11 +1459,12 @@ void CustomShipSelect::SwitchShip(ShipBuilder *builder, int type, int variant, b
     if (bp)
     {
         ShipManager *ship = new ShipManager(0);
-        ship->OnInit(bp, 0);
 
         builder->currentShip = ship;
         builder->currentShipId = type;
         builder->currentType = variant;
+
+        ship->OnInit(bp, 0);
 
         std::string shipRealName = std::string();
         shipRealName = ship->myBlueprint.name.GetText();
