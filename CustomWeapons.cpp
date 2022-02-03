@@ -203,6 +203,7 @@ HOOK_METHOD(ProjectileFactory, SpendMissiles, () -> int)
         if (randomNum < CustomWeaponManager::instance->GetWeaponDefinition(blueprint->name)->freeMissileChance)
         {
             iSpendMissile = 0;
+            if (iShipId == 0) G_->GetEventSystem()->AddEvent(12);
         }
     }
 
