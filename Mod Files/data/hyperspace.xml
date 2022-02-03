@@ -1730,6 +1730,7 @@ Syntax ->
 		<renameBeacon>ALT_EVENT</renameBeacon>                                                  Changes the beacon's event ID to ALT_EVENT, to use its <beaconType>, its <revisitEvent>, etc.
 		<jumpEvent loop="false">EVENT_NAME</jumpEvent>                                          Loads EVENT_NAME when the player clicks the JUMP button (or uses the hotkey). Auto-clears unless loop is true.
 		<clearJumpEvent/>                                                                       Clears the jumpEvent and allows the player to open the starmap.
+		<deathEvent jumpClear="false" thisFight="false">EVENT_NAME</deathEvent>                 Loads an event when you die. Leave EVENT_NAME blank to clear any existing deathEvent.
 		<triggeredEvent name="TR_ID" event="EVENT_ID" seeded="true" thisFight="false"           Creates a triggered event for the event EVENT_ID. If name attribute is not specified, then name is EVENT_ID. If thisFight is
 		                clearOnJump="false" loops="1" time="60.0" ...>                            true, trigger is cancelled once the fight is over. If clearOnJump is true, trigger is cancelled upon jumping. Full syntax above.
 			<time amount="0.0" min="0.0" max="0.0"/>

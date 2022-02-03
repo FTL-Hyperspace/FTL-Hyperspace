@@ -23,6 +23,17 @@ extern bool jumpEventLoop;
 
 extern std::unordered_map<std::string, int> playerVariables;
 
+struct DeathEvent
+{
+    std::string event = "";
+    bool present = false;
+    bool jumpClear = false;
+    bool thisFight = false;
+};
+
+extern bool deathEventActive;
+extern DeathEvent deathEvent;
+
 struct BeaconType
 {
     std::string eventName;
@@ -574,6 +585,7 @@ struct CustomEvent
     std::string jumpEvent = "";
     bool jumpEventLoop = false;
     bool jumpEventClear = false;
+    DeathEvent deathEvent;
     SectorReplace replaceSector;
     bool resetFtl = false;
     bool instantEscape = false;
@@ -632,6 +644,7 @@ struct CustomShipEvent
     std::string jumpEvent = "";
     bool jumpEventLoop = false;
     bool jumpEventClear = false;
+    DeathEvent deathEvent;
 
     bool invincible = false;
     bool deadCrewAuto = false;

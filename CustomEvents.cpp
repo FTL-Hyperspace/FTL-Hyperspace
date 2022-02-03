@@ -859,6 +859,22 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
             customEvent->jumpEventClear = true;
         }
 
+        if (nodeName == "deathEvent")
+        {
+            isDefault = false;
+            customEvent->deathEvent.event = child->value();
+            customEvent->deathEvent.present = true;
+            if (child->first_attribute("thisFight"))
+            {
+                customEvent->deathEvent.thisFight = EventsParser::ParseBoolean(child->first_attribute("thisFight")->value());
+                customEvent->deathEvent.jumpClear = customEvent->deathEvent.thisFight;
+            }
+            if (child->first_attribute("jumpClear"))
+            {
+                customEvent->deathEvent.jumpClear = EventsParser::ParseBoolean(child->first_attribute("jumpClear")->value());
+            }
+        }
+
         if (nodeName == "replaceSector")
         {
             isDefault = false;
@@ -1492,6 +1508,22 @@ bool CustomEventsParser::ParseCustomShipEvent(rapidxml::xml_node<char> *node, Cu
         {
             isDefault = false;
             customEvent->jumpEventClear = true;
+        }
+
+        if (nodeName == "deathEvent")
+        {
+            isDefault = false;
+            customEvent->deathEvent.event = child->value();
+            customEvent->deathEvent.present = true;
+            if (child->first_attribute("thisFight"))
+            {
+                customEvent->deathEvent.thisFight = EventsParser::ParseBoolean(child->first_attribute("thisFight")->value());
+                customEvent->deathEvent.jumpClear = customEvent->deathEvent.thisFight;
+            }
+            if (child->first_attribute("jumpClear"))
+            {
+                customEvent->deathEvent.jumpClear = EventsParser::ParseBoolean(child->first_attribute("jumpClear")->value());
+            }
         }
 
         if (nodeName == "invincible")
@@ -3527,6 +3559,11 @@ HOOK_METHOD(WorldManager, CreateLocation, (Location *location) -> void)
                 ++it;
             }
         }
+        if (deathEvent.jumpClear)
+        {
+            deathEvent.event = "";
+            deathEvent.jumpClear = false;
+        }
     }
 
     bool needsBackground = location->space.tex == nullptr && location->planet.tex == nullptr;
@@ -3766,6 +3803,12 @@ HOOK_METHOD(WorldManager, CreateShip, (ShipEvent* shipEvent, bool boss) -> Compl
         {
             jumpEvent = customEvent->jumpEvent;
             jumpEventLoop = customEvent->jumpEventLoop;
+        }
+
+        if (customEvent->deathEvent.present)
+        {
+            deathEvent = customEvent->deathEvent;
+            hs_log_file("Set death event to %s\n", deathEvent.event.c_str());
         }
 
         for (auto& triggeredEvent: customEvent->clearTriggeredEvents)
@@ -4276,6 +4319,12 @@ HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEve
             jumpEventLoop = customEvent->jumpEventLoop;
         }
 
+        if (customEvent->deathEvent.present)
+        {
+            deathEvent = customEvent->deathEvent;
+            hs_log_file("Set death event to %s\n", deathEvent.event.c_str());
+        }
+
         if (customEvent->goToFlagship)
         {
             GoToFlagship(customEvent->goToFlagshipBase, customEvent->goToFlagshipFleet);
@@ -4392,6 +4441,9 @@ HOOK_METHOD(StarMap, NewGame, (bool unk) -> Location*)
     jumpEvent = "";
     jumpEventLoop = false;
 
+    // deathEvent
+    deathEvent.event = "";
+
     // eventAlias
     eventAliases.clear();
 
@@ -4425,6 +4477,11 @@ HOOK_METHOD(StarMap, LoadGame, (int fh) -> Location*)
     // jumpEvent
     jumpEvent = FileHelper::readString(fh);
     jumpEventLoop = FileHelper::readInteger(fh);
+
+    // deathEvent
+    deathEvent.event = FileHelper::readString(fh);
+    deathEvent.jumpClear = FileHelper::readInteger(fh);
+    deathEvent.thisFight = FileHelper::readInteger(fh);
 
     // eventAlias
     eventAliases.clear();
@@ -4491,6 +4548,11 @@ HOOK_METHOD(StarMap, SaveGame, (int file) -> void)
     FileHelper::writeString(file, jumpEvent);
     FileHelper::writeInt(file, jumpEventLoop);
 
+    // deathEvent
+    FileHelper::writeString(file, deathEvent.event);
+    FileHelper::writeInt(file, deathEvent.jumpClear);
+    FileHelper::writeInt(file, deathEvent.thisFight);
+
     // eventAlias
     FileHelper::writeInt(file, eventAliases.size());
     for (auto& i : eventAliases)
@@ -4549,9 +4611,9 @@ HOOK_METHOD(StarMap, Open, () -> void)
 {
     if (!jumpEvent.empty())
     {
-        LocationEvent* event = G_->GetEventGenerator()->GetBaseEvent(jumpEvent, currentSector->level, false, -1);
+        std::string eventName = jumpEvent;
         if (!jumpEventLoop) jumpEvent = "";
-        G_->GetWorld()->UpdateLocation(event);
+        CustomEventsParser::GetInstance()->LoadEvent(G_->GetWorld(), eventName, false, -1);
         return;
     }
 
@@ -5073,5 +5135,43 @@ HOOK_METHOD(WorldManager, ModifyStatusEffect, (StatusEffect effect, ShipManager 
     if (effect.system == 16 || targetType == effect.target || effect.target == 2) // all systems
     {
         super({effect.type, SYS_TEMPORAL, effect.amount, effect.target}, target, targetType);
+    }
+}
+
+// Death Event
+
+bool deathEventActive = false;
+DeathEvent deathEvent = DeathEvent();
+
+HOOK_METHOD(WorldManager, UpdateLocation0, (LocationEvent *loc) -> void)
+{
+    if (deathEventActive) return UpdateLocation(loc);
+    return super(loc);
+}
+
+HOOK_METHOD(WorldManager, CreateChoiceBox0, (LocationEvent *event) -> void)
+{
+    if (deathEventActive) return CreateChoiceBox(event);
+    return super(event);
+}
+
+HOOK_METHOD(GameOver, OpenText, (const std::string &text) -> void)
+{
+    hs_log_file("Death Event: %s\n", deathEvent.event.c_str());
+    if (deathEvent.event.empty())
+    {
+        return super(text);
+    }
+
+    if (bVictory)
+    {
+        super(text);
+    }
+    else
+    {
+        deathEventActive = true;
+        std::string eventName = deathEvent.event;
+        deathEvent.event = "";
+        CustomEventsParser::GetInstance()->LoadEvent(G_->GetWorld(), eventName, false, -1);
     }
 }

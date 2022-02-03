@@ -850,6 +850,16 @@ void TriggeredEvent::UpdateAll()
             ++it;
         }
     }
+
+    if (deathEvent.thisFight)
+    {
+        ShipManager* enemy = G_->GetShipManager(1);
+        if ((enemy == nullptr || !enemy->_targetable.hostile) && !G_->GetWorld()->commandGui->choiceBox.bOpen)
+        {
+            deathEvent.event = "";
+            deathEvent.thisFight = false;
+        }
+    }
 }
 
 void TriggeredEvent::RenderAll()

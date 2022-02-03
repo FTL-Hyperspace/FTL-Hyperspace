@@ -6312,7 +6312,9 @@ struct WorldManager
 	LIBZHL_API void CreateLocation(Location *loc);
 	LIBZHL_API void SaveGame();
 	LIBZHL_API void CreateChoiceBox(LocationEvent *event);
+	LIBZHL_API void CreateChoiceBox0(LocationEvent *event);
 	LIBZHL_API void UpdateLocation(LocationEvent *event);
+	LIBZHL_API void UpdateLocation0(LocationEvent *event);
 	LIBZHL_API LocationEvent *ModifyResources(LocationEvent *event);
 	LIBZHL_API void ModifyEnvironment(int envFlag, int envTarget);
 	LIBZHL_API void CheckStatusEffects(std::vector<StatusEffect> &vec);
