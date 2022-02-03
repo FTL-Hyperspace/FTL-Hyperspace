@@ -4463,7 +4463,7 @@ HOOK_METHOD(StarMap, NewGame, (bool unk) -> Location*)
     replaceGameOverCreditsText = "";
     replaceCreditsBackground = "";
     replaceCreditsMusic = "";
-    CustomShipUnlocks::instance->setCustomVictoryType = "";
+    CustomShipUnlocks::instance->setCustomVictoryType = "flagship";
 
     return super(unk);
 }
