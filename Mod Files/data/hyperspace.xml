@@ -153,7 +153,7 @@ When the fix is enabled, the range will be unlimited against enemy combat drones
 <!--  Enables resistsMindControl stat as a separate stat from isTelepathic.
 -->
 
-<resistsMindControlStat enabled="false"/>
+<resistsMindControlStat enabled="true"/>
 
 
 <!--  Alternate color scheme for O2 levels
