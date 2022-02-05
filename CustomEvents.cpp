@@ -2110,11 +2110,13 @@ HOOK_METHOD(ShipObject, HasEquipment, (const std::string& equipment) -> int)
 
     if (g_checkCargo)
     {
-        Equipment equip = G_->GetWorld()->commandGui->equipScreen;
-        auto boxes = equip.vEquipmentBoxes;
-
         auto blueprintList = std::vector<std::string>();
         BlueprintManager::GetBlueprintList(blueprintList, G_->GetBlueprints(), equipment);
+
+        if (ret != 0 && blueprintList.size() > 0) return ret; // list check; if already found then return
+
+        Equipment equip = G_->GetWorld()->commandGui->equipScreen;
+        auto boxes = equip.vEquipmentBoxes;
 
         for (auto const& box: boxes)
         {
@@ -2126,15 +2128,13 @@ HOOK_METHOD(ShipObject, HasEquipment, (const std::string& equipment) -> int)
                 Blueprint* cargoItem = box->GetBlueprint();
                 if (cargoItem)
                 {
-
                     if (blueprintList.size() > 0)
                     {
                         for (auto const& x: blueprintList)
                         {
                             if (cargoItem->name == x)
                             {
-                                ret++;
-                                break;
+                                return 1; // blueprintList check returns 1 if any item is found
                             }
                         }
                     }
