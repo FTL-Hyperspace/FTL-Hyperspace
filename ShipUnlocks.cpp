@@ -821,6 +821,8 @@ HOOK_METHOD(AchievementTracker, SetVictoryAchievement, () -> void)
 {
     super();
 
+    hs_log_file("Victory achieved: %s as %s\n", CustomShipUnlocks::instance->setCustomVictoryType.c_str(), currentShip.c_str());
+
     if (CustomShipUnlocks::instance->setCustomVictoryType == "flagship")
     {
         CustomShipUnlocks::instance->CheckBasicUnlock(currentShip, ShipUnlock::UnlockType::DEFEAT_FLAGSHIP);
@@ -833,6 +835,7 @@ HOOK_METHOD(AchievementTracker, SetVictoryAchievement, () -> void)
     }
 
     CustomShipUnlocks::instance->setCustomVictoryType = "flagship";
+    hs_log_file("Reset custom victory type: %s\n", CustomShipUnlocks::instance->setCustomVictoryType.c_str());
 }
 
 HOOK_METHOD(CommandGui, Victory, () -> void)
@@ -1087,6 +1090,7 @@ void CustomShipUnlocks::SetVictoryAchievement(const std::string &ship)
 void CustomShipUnlocks::SetVictoryAchievement(const std::string &ship, const std::string& type)
 {
     auto customSel = CustomShipSelect::GetInstance();
+    hs_log_file("Victory %s for %s: old %d new %d\n", type.c_str(), ship.c_str(), CheckCustomShipVictory(ship,type), *Global::difficulty);
     if (CheckCustomShipVictory(ship,type) < *Global::difficulty)
     {
         customShipVictories[type][ship] = *Global::difficulty;
@@ -1107,6 +1111,8 @@ void CustomShipUnlocks::SetVictoryAchievement(const std::string &ship, const std
                     ach->newAchievement = true;
 
                     ach->difficulty = *Global::difficulty;
+
+                    hs_log_file("Award victory achievement for %s\n", ship.c_str());
                 }
                 else
                 {
@@ -1123,6 +1129,8 @@ void CustomShipUnlocks::SetVictoryAchievement(const std::string &ship, const std
                     {
                         layout = 2;
                     }
+
+                    hs_log_file("Award victory achievement for %s layout %d\n", buttonDef.name.c_str(), layout);
 
                     ach->shipDifficulties[layout] = *Global::difficulty;
                     if (!(ach->gap_ex_custom&1))
@@ -1148,6 +1156,8 @@ void CustomShipUnlocks::SetVictoryAchievement(const std::string &ship, const std
                     layout = 2;
                     baseName.resize(baseName.size()-2);
                 }
+
+                hs_log_file("Award victory achievement for non-custom ship %s layout %d\n", baseName.c_str(), layout);
 
                 CAchievement* ach = customVictories[type].GetVictoryAchievement(baseName);
                 ach->unlocked = true;

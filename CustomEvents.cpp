@@ -4282,6 +4282,7 @@ HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEve
                 replaceCreditsMusic = customEvent->gameOver.creditsMusic;
 
                 G_->GetScoreKeeper()->SetVictory(true);
+                hs_log_file("Event victory: Set custom victory type to %s\n", customEvent->gameOver.ach.c_str());
                 CustomShipUnlocks::instance->setCustomVictoryType = customEvent->gameOver.ach;
                 G_->GetAchievementTracker()->SetVictoryAchievement();
                 commandGui->gameover = true;
@@ -4463,6 +4464,7 @@ HOOK_METHOD(StarMap, NewGame, (bool unk) -> Location*)
     replaceGameOverCreditsText = "";
     replaceCreditsBackground = "";
     replaceCreditsMusic = "";
+    hs_log_file("New Game: Reset custom victory type to flagship\n");
     CustomShipUnlocks::instance->setCustomVictoryType = "flagship";
 
     return super(unk);
@@ -4538,6 +4540,7 @@ HOOK_METHOD(StarMap, LoadGame, (int fh) -> Location*)
     replaceCreditsBackground = FileHelper::readString(fh);
     replaceCreditsMusic = FileHelper::readString(fh);
     CustomShipUnlocks::instance->setCustomVictoryType = FileHelper::readString(fh);
+    hs_log_file("Load Game: Set custom victory type to %s\n", CustomShipUnlocks::instance->setCustomVictoryType.c_str());
 
     return super(fh);
 }
@@ -4975,6 +4978,7 @@ HOOK_METHOD(CompleteShip, DeadCrew, () -> bool)
                     replaceGameOverCreditsText = customEvent->finalBoss.creditsText;
                     replaceCreditsMusic = customEvent->finalBoss.creditsMusic;
                     replaceCreditsBackground = G_->GetEventGenerator()->GetImageFromList(customEvent->finalBoss.creditsBackground);
+                    hs_log_file("Final Boss crewkilled: Set custom victory type to %s\n", customEvent->finalBoss.ach.c_str());
                     CustomShipUnlocks::instance->setCustomVictoryType = customEvent->finalBoss.ach;
                 }
             }
@@ -5039,6 +5043,7 @@ HOOK_METHOD(WorldManager, OnLoop, () -> void)
                 replaceGameOverCreditsText = customEvent->finalBoss.creditsText;
                 replaceCreditsMusic = customEvent->finalBoss.creditsMusic;
                 replaceCreditsBackground = G_->GetEventGenerator()->GetImageFromList(customEvent->finalBoss.creditsBackground);
+                hs_log_file("Final Boss destroyed: Set custom victory type to %s\n", customEvent->finalBoss.ach.c_str());
                 CustomShipUnlocks::instance->setCustomVictoryType = customEvent->finalBoss.ach;
             }
         }

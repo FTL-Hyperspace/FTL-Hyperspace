@@ -1606,6 +1606,7 @@ void CrewMember_Extend::ActivatePower()
 
         G_->GetScoreKeeper()->SetVictory(true);
         CustomShipUnlocks::instance->setCustomVictoryType = "";
+        hs_log_file("powerDef->win: Set custom victory type to null\n");
         G_->GetAchievementTracker()->SetVictoryAchievement();
         G_->GetCApp()->gui->gameover = true;
         G_->GetCApp()->gui->Victory();
