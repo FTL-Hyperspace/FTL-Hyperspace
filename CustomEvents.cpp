@@ -5157,7 +5157,6 @@ HOOK_METHOD(WorldManager, CreateChoiceBox0, (LocationEvent *event) -> void)
 
 HOOK_METHOD(GameOver, OpenText, (const std::string &text) -> void)
 {
-    hs_log_file("Death Event: %s\n", deathEvent.event.c_str());
     if (deathEvent.event.empty())
     {
         return super(text);
