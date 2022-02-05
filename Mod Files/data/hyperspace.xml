@@ -212,6 +212,7 @@ DRONE          Add a drone blueprint.                  Usage: DRONE <drone_id>  
 FUEL           Add fuel.                               Usage: FUEL <num_to_add>       Example: FUEL 50
 MISSILES       Add missiles.                           Usage: MISSILES <num_to_add>   Example: MISSILES 50
 RICH           Add 80 of each resource and 1999 scrap. Usage: RICH
+POOR           Takes away all of your resources        Usage: POOR
 GOD            Fully upgrade every system and reactor. Usage: GOD
 DELETE         Destroys enemy ship.                    Usage: DELETE
 SYS            Add a system.                           Usage: SYS <system_name>       Example: SYS cloaking
@@ -224,6 +225,10 @@ DELETECREW     Kills everyone on the enemy ship        Usage: DELETECREW
 SPEED          Changes game speed                      Usage: SPEED <speed>           Example: SPEED 3 (any integer from -2 to 3)
 DAMAGESYS      Damages a system                        Usage: DAMAGESYS <system_name> Example: DAMAGESYS medbay
 SHIP_CUSTOM    Unlocks a customs ship (permanently)    Usage: SHIP_CUSTOM <ship_name> Example: SHIP_CUSTOM PLAYER_SHIP_CUSTOM
+JUMPEVENT      Sets a jumpEvent                        Usage: JUMPEVENT <event_id>
+LOADEVENT      Loads an event using LoadEvent          Usage: LOADEVENT <event_id>
+VARIABLE       Set variable and/or print in FTL_HS.log Usage: VARIABLE <var_id> <n>
+METAVARIABLE   As above but for meta-variables         Usage: METAVARIABLE <var_id> <n>
 -->
 
 <console enabled="true"/> 
@@ -1619,12 +1624,13 @@ Syntax ->
 	
 	<revisitEvent seeded="true" ignoreUnique="false">NOTHING</revisitEvent> Automatically loads this event by default when revisiting any beacon. Does not affect dive beacons.
 	
-	<sector name="SECTOR_ID">                                                              Custom sector specification.
+	<sector name="SECTOR_ID" maxSector="999">                                              Custom sector specification. maxSector adds a maximum sector number for sector generation.
         <exitBeacon event="EVENT_NAME" rebelEvent="EVENT_NAME" nebulaEvent="EVENT_NAME"/>  Changes the default exit beacon event. nebulaEvent is used for nebula exits; rebelEvent is used if the rebels overtake the exit.
         <rebelBeacon event="EVENT_NAME" nebulaEvent="EVENT_NAME"/>                         Changes the default rebel fleet events. nebulaEvent is used for nebula fleet events.
         <removeFirstBeaconNebula/>                                                         Removes the nebula from the starting beacon.
         <nebulaSector>false</nebulaSector>                                                 Overrides whether the sector is a nebula sector, affecting the fleet pursuit when the player is in nebula. Useful for secret sectors.
 		<noExit/>                                                                          Removes the exit beacon, preventing normal travel to the next sector. Still creates an exit beacon event where the exit would be.
+		<priorityEvent name="EVENT_LIST" min="0" max="0" priority="0"/>                    Like <event> in sector_data.xml but adds priority for sorting (high to low). >=0 goes above normal events.
     </sector>
 	
 	<quest>                                      Specifies new defaults for quest spawning. This tag also exists for individual events to override the defaults.
@@ -1714,6 +1720,7 @@ Syntax ->
 		<transformRace class="orig_race">new_race</transformRace>                               Transforms a random crewmember to the race new_race. If the class attribute is specified, restricts the random crew selection.
 		<customStore>STORE_ID</customStore>                                                     Use the custom store STORE_ID for this store event.
 		<store>STORE_ID</store>                                                                 Alias for customStore. Allows specifying a custom store in events.xml files using a single tag.
+		<removeStore/>                                                                          Removes the store at the current beacon.
 		<preventQuest/>                                                                         Quest events will be prevented from overwriting this event.
 		<noQuestText/>                                                                          The "added a quest marker" text will not be displayed, to allow for silent quest spawning.
 		<quest event="EVENT_NAME">                                                              Same syntax as the default custom quest. Event-specific parameters override the defaults. If event attribute is specified,
