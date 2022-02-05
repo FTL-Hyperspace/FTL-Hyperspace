@@ -3,6 +3,7 @@
 #include "CustomStore.h"
 #include "CustomOptions.h"
 #include "CustomEvents.h"
+#include "CustomScoreKeeper.h"
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
 
@@ -165,6 +166,52 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
         {
             std::string eventName = boost::trim_copy(command.substr(10));
             CustomEventsParser::GetInstance()->LoadEvent(G_->GetWorld(), eventName, false, -1);
+        }
+        return true;
+    }
+    if(cmdName == "VARIABLE" || cmdName == "VAR")
+    {
+        std::vector<std::string> cmdList = std::vector<std::string>();
+        boost::split(cmdList, cmd, boost::is_any_of(" "), boost::token_compress_on);
+        if (cmdList.size() >= 2)
+        {
+            std::string varName = cmdList[1];
+            if (cmdList.size() >= 3)
+            {
+                try
+                {
+                    int v = boost::lexical_cast<int>(boost::trim_copy(cmdList[2]));
+                    playerVariables[varName] = v;
+                }
+                catch (boost::bad_lexical_cast const &e)
+                {
+                    printf("boost::bad_lexical_cast in RunCommand %s\n", cmdName.c_str());
+                }
+            }
+            hs_log_file("Variable %s = %d\n", varName.c_str(), playerVariables[varName]);
+        }
+        return true;
+    }
+    if(cmdName == "METAVARIABLE" || cmdName == "METAVAR" || cmdName == "MVAR")
+    {
+        std::vector<std::string> cmdList = std::vector<std::string>();
+        boost::split(cmdList, cmd, boost::is_any_of(" "), boost::token_compress_on);
+        if (cmdList.size() >= 2)
+        {
+            std::string varName = cmdList[1];
+            if (cmdList.size() >= 3)
+            {
+                try
+                {
+                    int v = boost::lexical_cast<int>(boost::trim_copy(cmdList[2]));
+                    metaVariables[varName] = v;
+                }
+                catch (boost::bad_lexical_cast const &e)
+                {
+                    printf("boost::bad_lexical_cast in RunCommand %s\n", cmdName.c_str());
+                }
+            }
+            hs_log_file("Metavariable %s = %d\n", varName.c_str(), metaVariables[varName]);
         }
         return true;
     }
