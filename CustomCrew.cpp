@@ -5283,7 +5283,7 @@ HOOK_METHOD(CrewMember, CheckSkills, () -> void)
     super();
 
     auto ex = CM_EX(this);
-    if (ex->deathTimer && ex->deathTimer->Done())
+    if (ex->deathTimer && ex->deathTimer->currTime >= ex->deathTimer->currGoal)
     {
         clone_ready = false;
         return;
