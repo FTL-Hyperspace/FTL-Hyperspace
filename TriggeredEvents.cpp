@@ -227,7 +227,7 @@ void CustomEventsParser::ParseCustomTriggeredEventNode(rapidxml::xml_node<char> 
             }
             if (child->first_attribute("type"))
             {
-                def->jumpType = boost::lexical_cast<uint8_t>(child->first_attribute("type")->value());
+                def->jumpType = boost::lexical_cast<int>(child->first_attribute("type")->value());
             }
         }
         if (strcmp(child->name(), "playerHull") == 0)
