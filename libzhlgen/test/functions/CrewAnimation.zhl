@@ -22,6 +22,9 @@ bool CrewAnimation::FireShot(CrewAnimation *this<ecx>);
 int CrewAnimation::GetFiringFrame(CrewAnimation *this<ecx>);
 "578d7c240883e4f0ff77fc5589e55756538db51cffffff89cb81ec1c010000803f008b41088b00":
 void CrewAnimation::RenderIcon(CrewAnimation *this<ecx>, bool border);
+"578d7c240883e4f0ff77fc5589e557565389ce83c14083ec2ce8????????8b8e900800008b8694080000":
+void CrewAnimation::OnUpdateEffects(CrewAnimation *this<ecx>);
+
 
 struct CrewAnimation
 {{

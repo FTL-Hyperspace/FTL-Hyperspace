@@ -2970,7 +2970,7 @@ struct LIBZHL_INTERFACE CrewAnimation
 	virtual ~CrewAnimation() {}
 	LIBZHL_API virtual void OnRender(float scale, int selectedState, bool outlineOnly);
 	LIBZHL_API virtual void OnRenderProps();
-	virtual void OnUpdateEffects() LIBZHL_PLACEHOLDER
+	LIBZHL_API virtual void OnUpdateEffects();
 	virtual void UpdateFiring() LIBZHL_PLACEHOLDER
 	virtual void UpdateShooting() LIBZHL_PLACEHOLDER
 	LIBZHL_API virtual bool FireShot();
