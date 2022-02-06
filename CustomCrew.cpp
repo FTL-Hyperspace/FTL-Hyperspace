@@ -2637,8 +2637,18 @@ HOOK_METHOD(CrewMember, LoadState, (int file) -> void)
         StatBoost statBoost(StatBoostDefinition::statBoostDefs.at(FileHelper::readInteger(file)));
         statBoost.iStacks = FileHelper::readInteger(file);
         statBoost.sourceShipId = FileHelper::readInteger(file);
-        statBoost.timerHelper.Start(FileHelper::readFloat(file));
-        statBoost.timerHelper.currTime = FileHelper::readFloat(file);
+
+        if (statBoost.def->duration != -1.f)
+        {
+            statBoost.timerHelper.Start(FileHelper::readFloat(file));
+            statBoost.timerHelper.currTime = FileHelper::readFloat(file);
+        }
+        else
+        {
+            statBoost.timerHelper.currGoal = FileHelper::readFloat(file);
+            statBoost.timerHelper.currTime = FileHelper::readFloat(file);
+            statBoost.timerHelper.running = false;
+        }
 
         auto& vStatBoosts = ex->timedStatBoosts[statBoost.def->stat];
 
