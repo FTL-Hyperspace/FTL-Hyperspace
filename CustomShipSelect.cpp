@@ -117,6 +117,15 @@ void CustomShipSelect::ParseShipsNode(rapidxml::xml_node<char> *node)
 
                     for (auto shipChild = child->first_node(); shipChild; shipChild = shipChild->next_sibling())
                     {
+                        if (strcmp(shipChild->name(), "splitUnlockQuestAchievement") == 0)
+                        {
+                            buttonDef.splitUnlockQuestAchievement = EventsParser::ParseBoolean(shipChild->value());
+                        }
+                        if (strcmp(shipChild->name(), "splitVictoryAchievement") == 0)
+                        {
+                            buttonDef.splitVictoryAchievement = EventsParser::ParseBoolean(shipChild->value());
+                        }
+
                         if (strcmp(shipChild->name(), "unlock") == 0)
                         {
                             CustomShipUnlocks::instance->ParseUnlockNode(shipChild, shipName);
