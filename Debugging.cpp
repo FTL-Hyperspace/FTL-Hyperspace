@@ -104,7 +104,7 @@ HOOK_METHOD(EventGenerator, GetBaseEvent, (const std::string& name, int worldLev
         hs_log_file("Getting Event: %s\n", name.c_str());
     }
 
-    super(name, worldLevel, ignoreUnique, seed);
+    return super(name, worldLevel, ignoreUnique, seed);
 }
 
 HOOK_METHOD(StarMap, GenerateNebulas, (std::vector<std::string>& names) -> void)
