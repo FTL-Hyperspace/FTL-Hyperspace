@@ -7,6 +7,22 @@
  - Instead of using `VirtualProtect` directly for memory protection & unprotection, use the macros in `PALMemoryProtection.h` for a cross-platform compatible way.
    - Note you need to always use `MEMPROT_SAVE_PROT` & `MEMPROT_PAGESIZE` although you might get no errors for forgetting one but both are required for proper cross platform use of the other macros.
    
+### Unordered_map and Enum keys
+If using an unordered_map and the key of the map is any Enum type you must also use EnumClassHash in its template for hash matching.
+You will not get errors on Windows but it will cause errors for the Linux compile if you forget this change.
+
+Example
+```c++
+std::unordered_map<CrewStat, std::vector<StatBoost>> statBoosts;
+```
+Must become
+```c++
+#include "EnumClassHash.h"
+// ...
+std::unordered_map<CrewStat, std::vector<StatBoost>, EnumClassHash> statBoosts;
+```
+Because `CrewStat` is an `enum`.
+   
 #### VirtualProtect replacement
 Instead of
 ```c

@@ -515,6 +515,9 @@
 		<Unit filename="EnemyShipIcons.h">
 			<Option virtualFolder="Core/Ship/" />
 		</Unit>
+		<Unit filename="EnumClassHash.h">
+			<Option virtualFolder="PAL/" />
+		</Unit>
 		<Unit filename="ErosionEffect.cpp">
 			<Option virtualFolder="Core/Weapons/" />
 		</Unit>

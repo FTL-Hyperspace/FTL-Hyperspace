@@ -3,6 +3,7 @@
 #include "Constants.h"
 #include "CustomCrew.h"
 #include "CustomCrewCommon.h"
+#include "EnumClassHash.h"
 
 struct ActivatedPowerDefinition;
 
@@ -255,7 +256,7 @@ class StatBoostManager
 public:
     static unsigned int statCacheFrame;
 
-    std::unordered_map<CrewStat, std::vector<StatBoost>> statBoosts;
+    std::unordered_map<CrewStat, std::vector<StatBoost>, EnumClassHash> statBoosts;
     std::vector<StatBoost> animBoosts;
 
     StatBoostManager()

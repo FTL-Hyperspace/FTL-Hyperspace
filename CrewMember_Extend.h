@@ -4,6 +4,7 @@
 #include "StatBoost.h"
 #include "Constants.h"
 #include "CustomCrewCommon.h"
+#include "EnumClassHash.h"
 #include <array>
 
 struct CrewDefinition;
@@ -126,7 +127,7 @@ public:
     std::vector<StatBoost> tempOutgoingStatBoosts = std::vector<StatBoost>();
 //    std::vector<StatBoost> outgoingTimedStatBoosts = std::vector<StatBoost>();
 //    std::vector<StatBoost> outgoingTimedAbilityStatBoosts = std::vector<StatBoost>();
-    std::unordered_map<CrewStat, std::vector<StatBoost>> timedStatBoosts = std::unordered_map<CrewStat, std::vector<StatBoost>>();
+    std::unordered_map<CrewStat, std::vector<StatBoost>, EnumClassHash> timedStatBoosts = std::unordered_map<CrewStat, std::vector<StatBoost>, EnumClassHash>();
 //    std::vector<StatBoost> personalStatBoosts;
 
     float extraMedbay = 0.f;
