@@ -149,7 +149,7 @@ private:
 
     static void *__vtableLaserBlast;
 
-    const int __version = 9;
+    const int __version = 91;
 
 
 };
