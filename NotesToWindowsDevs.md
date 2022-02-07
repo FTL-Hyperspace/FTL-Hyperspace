@@ -23,6 +23,23 @@ std::unordered_map<CrewStat, std::vector<StatBoost>, EnumClassHash> statBoosts;
 ```
 Because `CrewStat` is an `enum`.
    
+### Math.h
+Turns out there's fun bugs between C99, early C++11 and the final implementations in GCC6+
+Because of this some macros in `math.h` that differ from `<cmath>` like `isnan` and `isinf` provide an issue.
+Rather than dealing with this nonsense please use the boost equivalents.
+
+```c++
+#include "math.h"
+// ...
+if(isnan(something))
+```
+Becomes
+```c++
+#include <boost/math/special_functions/fpclassify.hpp>
+// ...
+if(boost::math::isnan(something))
+```
+
 #### VirtualProtect replacement
 Instead of
 ```c

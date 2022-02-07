@@ -1,5 +1,6 @@
 #include "CustomShipGenerator.h"
 #include "CustomShipSelect.h"
+#include <boost/math/special_functions/fpclassify.hpp>
 
 #include <boost/lexical_cast.hpp>
 
@@ -161,7 +162,7 @@ void CustomShipGenerator::SectorScaling::Parse(rapidxml::xml_node<char> *node)
         }
     }
 
-    if (isnan(maxSector))
+    if (boost::math::isnan(maxSector))
     {
         maxSector = minSector + 8.f;
     }
