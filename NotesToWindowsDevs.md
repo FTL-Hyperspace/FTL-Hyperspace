@@ -22,7 +22,7 @@ Must become
 std::unordered_map<CrewStat, std::vector<StatBoost>, EnumClassHash> statBoosts;
 ```
 Because `CrewStat` is an `enum`.
-   
+
 ### Math.h
 Turns out there's fun bugs between C99, early C++11 and the final implementations in GCC6+
 Because of this some macros in `math.h` that differ from `<cmath>` like `isnan` and `isinf` provide an issue.
@@ -38,6 +38,23 @@ Becomes
 #include <boost/math/special_functions/fpclassify.hpp>
 // ...
 if(boost::math::isnan(something))
+```
+
+### C++11 Narrowing
+In GCC C++11 Narrowing is only a warning; however, it is a error in the C++11 spec.
+This is an error to LLVM-Clang following the proper C++11 spec but GCC has it as a warning by default.
+Because of this It has been enabled as an error to the GCC builds (including Windows) by adding `-Werror=narrowing`.
+Please make sure to obey it.
+
+Here's an example of code that throws a narrowing error:
+```c++
+Pointf ppos = {lastTargetLocation.x + r*cos(theta), lastTargetLocation.y + r*sin(theta)};
+```
+LLVM-Clang will throw the error: `error: non-constant-expression cannot be narrowed from type 'double' to 'float' in initializer list [-Wc++11-narrowing]` in this case.
+And it's pretty straightforward, C++ is yelling at you letting you know you might be dropping bits here which could be a precision/narrowing issue.
+If you 100% intend this, you just have to be explicit in your code and cast it with a static cast
+```c++
+Pointf ppos = {static_cast<float>(lastTargetLocation.x + r*cos(theta)), static_cast<float>(lastTargetLocation.y + r*sin(theta))};
 ```
 
 #### VirtualProtect replacement

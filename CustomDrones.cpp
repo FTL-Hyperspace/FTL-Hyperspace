@@ -575,7 +575,7 @@ HOOK_METHOD(SpaceDrone, GetNextProjectile, () -> Projectile*)
                 {
                     float r = sqrt(random32()/2147483648.f) * radius;
                     float theta = random32()%360 * 0.01745329f;
-                    Pointf ppos = {lastTargetLocation.x + r*cos(theta), lastTargetLocation.y + r*sin(theta)};
+                    Pointf ppos = {static_cast<float>(lastTargetLocation.x + r*cos(theta)), static_cast<float>(lastTargetLocation.y + r*sin(theta))};
                     LaserBlast *projectile = new LaserBlast(currentLocation,currentSpace,currentSpace,ppos);
                     projectile->heading = -1.0;
                     projectile->OnInit();
