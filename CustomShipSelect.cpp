@@ -1804,7 +1804,7 @@ HOOK_METHOD(ShipSelect, MouseClick, () -> void)
     customSel->MouseClick();
 }
 
-HOOK_METHOD(ShipSelect, MouseMove, (int x, int y) -> int)
+HOOK_METHOD(ShipSelect, MouseMove, (int x, int y) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ShipSelect::MouseMove -> Begin (CustomShipSelect.cpp)\n")
     auto customSel = CustomShipSelect::GetInstance();
