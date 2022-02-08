@@ -10,8 +10,7 @@ std::unordered_map<std::string,std::vector<std::pair<float,std::string>>> Trigge
 
 TriggeredEventGui *TriggeredEventGui::instance = new TriggeredEventGui();
 
-bool locationUpdated = false;
-std::vector<std::pair<std::string,int>> eventQueue = std::vector<std::pair<std::string,int>>();
+std::deque<std::pair<std::string,int>> eventQueue = {};
 
 int TriggeredEvent::playerCloneCount = 0;
 
@@ -225,6 +224,10 @@ void CustomEventsParser::ParseCustomTriggeredEventNode(rapidxml::xml_node<char> 
             if (child->first_attribute("max"))
             {
                 def->triggerMaxJumps = boost::lexical_cast<int>(child->first_attribute("max")->value());
+            }
+            if (child->first_attribute("type"))
+            {
+                def->jumpType = boost::lexical_cast<int>(child->first_attribute("type")->value());
             }
         }
         if (strcmp(child->name(), "playerHull") == 0)
@@ -826,12 +829,12 @@ void TriggeredEvent::UpdateAll()
         {
             ShipManager* enemy = G_->GetShipManager(1);
 
-            if (enemy != nullptr && !enemy->bDestroyed && !enemy->bJumping)
+            if (enemy != nullptr && enemy->_targetable.hostile && !enemy->bDestroyed && !enemy->bJumping)
             {
                 it->second.Update();
             }
 
-            if (enemy == nullptr || !enemy->_targetable.hostile)
+            if ((enemy == nullptr || !enemy->_targetable.hostile) && !G_->GetWorld()->commandGui->choiceBox.bOpen)
             {
                 it = eventList.erase(it);
                 TriggeredEventGui::GetInstance()->reset = true;
@@ -847,6 +850,16 @@ void TriggeredEvent::UpdateAll()
             ++it;
         }
     }
+
+    if (deathEvent.thisFight)
+    {
+        ShipManager* enemy = G_->GetShipManager(1);
+        if ((enemy == nullptr || !enemy->_targetable.hostile) && !G_->GetWorld()->commandGui->choiceBox.bOpen)
+        {
+            deathEvent.event = "";
+            deathEvent.thisFight = false;
+        }
+    }
 }
 
 void TriggeredEvent::RenderAll()
@@ -857,11 +870,11 @@ void TriggeredEvent::RenderAll()
     }
 }
 
-void TriggeredEvent::JumpAll()
+void TriggeredEvent::JumpAll(uint8_t jumpType)
 {
     for (auto it=eventList.begin(); it!=eventList.end(); )
     {
-        it->second.Jump();
+        it->second.Jump(jumpType);
         if (it->second.def->clearOnJump)
         {
             it = eventList.erase(it);
@@ -900,8 +913,8 @@ void TriggeredEvent::TriggerCheck()
                 it->second.Reset();
             }
 
-            G_->GetWorld()->UpdateLocation(G_->GetEventGenerator()->GetBaseEvent(eventName, level, true, seed));
-            break;
+            G_->GetWorld()->UpdateLocation(G_->GetEventGenerator()->GetBaseEvent(eventName, level, false, seed));
+            if (G_->GetWorld()->commandGui->choiceBox.bOpen) break;
         }
     }
 }
@@ -990,11 +1003,11 @@ void TriggeredEvent::Reset()
             int enemyDamageScaling = G_->GetWorld()->starMap.worldLevel * def->enemyDamageScaling;
             if (def->maxEnemyDamage > def->minEnemyDamage)
             {
-                triggerEnemyDamage = std::max(triggerEnemyHull, ship->ship.hullIntegrity.first - def->minEnemyDamage + random32()%(def->maxEnemyDamage-def->minEnemyDamage+1) - enemyDamageScaling);
+                triggerEnemyDamage = def->minEnemyDamage + random32()%(def->maxEnemyDamage-def->minEnemyDamage+1) + enemyDamageScaling;
             }
             else
             {
-                triggerEnemyHull = std::max(triggerEnemyHull, ship->ship.hullIntegrity.first - def->minEnemyDamage - enemyDamageScaling);
+                triggerEnemyDamage = def->minEnemyDamage + enemyDamageScaling;
             }
         }
     }
@@ -1045,11 +1058,11 @@ void TriggeredEvent::Reset()
         currentEnemyCrew = GetEnemyCrew(def->enemyDeathsCountClonebay);
         if (def->maxEnemyDeaths > def->minEnemyDeaths)
         {
-            triggerEnemyCrew = def->minEnemyDeaths + random32()%(def->maxEnemyDeaths-def->minEnemyDeaths+1);
+            triggerEnemyDeaths = def->minEnemyDeaths + random32()%(def->maxEnemyDeaths-def->minEnemyDeaths+1);
         }
         else
         {
-            triggerEnemyCrew = def->minEnemyDeaths;
+            triggerEnemyDeaths = def->minEnemyDeaths;
         }
     }
 }
@@ -1183,9 +1196,9 @@ void TriggeredEvent::OnRender()
     }
 }
 
-void TriggeredEvent::Jump()
+void TriggeredEvent::Jump(uint8_t jumpType)
 {
-    if (triggerJumps > 0)
+    if (triggerJumps > 0 && def->jumpType == jumpType)
     {
         if (--triggerJumps == 0)
         {
@@ -1296,7 +1309,9 @@ HOOK_METHOD_PRIORITY(StarMap, LoadGame, 100, (int file) -> Location*)
 {
     auto ret = super(file);
 
-    TriggeredEvent::LoadAll(file);
+    TriggeredEvent::LoadAll(file); // also clears
+
+    eventQueue.clear();
 
     int eventQueueSize = FileHelper::readInteger(file);
 
@@ -1325,39 +1340,57 @@ HOOK_METHOD_PRIORITY(StarMap, SaveGame, 100, (int file) -> void)
     }
 }
 
-HOOK_METHOD(WorldManager, OnLoop, () -> void)
+void CheckEventQueue(WorldManager *world)
 {
-    locationUpdated = false;
-    TriggeredEvent::UpdateAll();
-
-    super();
-
-    if (!locationUpdated && !eventQueue.empty())
+    while (!eventQueue.empty())
     {
-        std::string eventName = eventQueue.back().first;
-        int seed = eventQueue.back().second;
-        int level = G_->GetWorld()->starMap.currentSector->level;
+        auto &nextEvent = eventQueue.front();
 
-        G_->GetWorld()->UpdateLocation(G_->GetEventGenerator()->GetBaseEvent(eventName, level, true, seed));
-        locationUpdated = true;
+        CustomEventsParser::GetInstance()->LoadEvent(world, nextEvent.first, false, nextEvent.second);
 
-        eventQueue.pop_back();
-        return;
+        eventQueue.pop_front();
+
+        if (world->commandGui->choiceBox.bOpen) return;
     }
 
-    if (!locationUpdated && (playerShip && !playerShip->shipManager->bJumping)) TriggeredEvent::TriggerCheck();
+    if (world->playerShip && !world->playerShip->shipManager->bJumping && !world->starMap.waiting.running) TriggeredEvent::TriggerCheck();
 }
 
-HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
+HOOK_METHOD(WorldManager, OnLoop, () -> void)
 {
-    super(loc);
-    locationUpdated = true;
-}
-
-HOOK_METHOD(StarMap, UpdateDangerZone, () -> void)
-{
-    TriggeredEvent::JumpAll();
     super();
+
+    TriggeredEvent::UpdateAll();
+
+    if (!commandGui->choiceBox.bOpen)
+    {
+        CheckEventQueue(this);
+    }
+}
+
+HOOK_METHOD(WorldManager, PauseLoop, () -> void)
+{
+    super();
+
+    if (!commandGui->choiceBox.bOpen)
+    {
+        CheckEventQueue(this);
+    }
+}
+
+HOOK_METHOD(WorldManager, CreateLocation, (Location *location) -> void)
+{
+    if (!loadingGame) TriggeredEvent::JumpAll(0);
+    super(location);
+}
+
+HOOK_METHOD(ShipManager, JumpLeave, () -> void)
+{
+    super();
+    if (iShipId == 0)
+    {
+        TriggeredEvent::JumpAll(1);
+    }
 }
 
 std::string TriggeredEventBox::GetTimeTextClock(int t)

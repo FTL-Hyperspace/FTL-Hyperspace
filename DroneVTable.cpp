@@ -212,6 +212,36 @@ static bool __attribute__((fastcall)) CrewDrone_CanMan(CrewDrone *_this)
     return false;
 }
 
+/*
+static bool __attribute__((fastcall)) CrewDrone_CanTeleport(CrewDrone *_this)
+{
+    bool ret = _this->CrewMember::CanTeleport(); // vanilla CanTeleport
+    if (!ret) return false;
+
+    CustomCrewManager *custom = CustomCrewManager::GetInstance();
+
+    if (_this->_drone.blueprint->name == "BOARDER_ION" && custom->IsRace("boarder_ion"))
+    {
+        auto ex = CM_EX(_this);
+        auto def = custom->GetDefinition("boarder_ion");
+        ret = false;
+        ex->CalculateStat(CrewStat::CAN_TELEPORT, def, &ret);
+        return ret;
+    }
+
+    if (custom->IsRace(_this->species))
+    {
+        auto ex = CM_EX(_this);
+        auto def = custom->GetDefinition(_this->species);
+        ret = false;
+        ex->CalculateStat(CrewStat::CAN_TELEPORT, def, &ret);
+        return ret;
+    }
+
+    return false;
+}
+*/
+
 static bool __attribute__((fastcall)) CrewDrone_CanSuffocate(CrewDrone *_this)
 {
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
@@ -310,12 +340,12 @@ static int __attribute__((fastcall)) CrewDrone_GetMaxHealth(CrewDrone *_this)
     if (_this->_drone.blueprint->name == "BOARDER_ION" && custom->IsRace("boarder_ion"))
     {
         auto def = custom->GetDefinition("boarder_ion");
-        return CM_EX(_this)->CalculateStat(CrewStat::MAX_HEALTH, def);
+        return CM_EX(_this)->CalculateMaxHealth(def);
     }
     if (custom->IsRace(_this->species))
     {
         auto def = custom->GetDefinition(_this->species);
-        return CM_EX(_this)->CalculateStat(CrewStat::MAX_HEALTH, def);
+        return CM_EX(_this)->CalculateMaxHealth(def);
     }
 
     if (_this->_drone.blueprint->typeName == "BOARDER")
@@ -515,6 +545,7 @@ void SetupVTable(CrewDrone *crew)
     vtable[26] = (void*)&CrewDrone_CanRepair;
     vtable[27] = (void*)&CrewDrone_CanSabotage;
     vtable[28] = (void*)&CrewDrone_CanMan;
+    //if (g_dronesCanTeleport) vtable[29] = (void*)&CrewDrone_CanTeleport;
     vtable[31] = (void*)&CrewDrone_CanSuffocate;
     vtable[32] = (void*)&CrewDrone_CanBurn;
     vtable[33] = (void*)&CrewDrone_GetMaxHealth;

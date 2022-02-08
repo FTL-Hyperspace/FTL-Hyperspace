@@ -1,6 +1,8 @@
 #pragma once
 #include "Global.h"
 #include "Constants.h"
+#include "CustomCrew.h"
+#include "CustomCrewCommon.h"
 
 struct ActivatedPowerDefinition;
 
@@ -33,10 +35,12 @@ enum class CrewStat : unsigned int
     CAN_REPAIR,
     CAN_SABOTAGE,
     CAN_MAN,
+    CAN_TELEPORT,
     CAN_SUFFOCATE,
     CONTROLLABLE,
     CAN_BURN,
     IS_TELEPATHIC,
+    RESISTS_MIND_CONTROL,
     IS_ANAEROBIC,
     CAN_PHASE_THROUGH_DOORS,
     DETECTS_LIFEFORMS,
@@ -51,7 +55,8 @@ enum class CrewStat : unsigned int
     POWER_MAX_CHARGES,
     POWER_CHARGES_PER_JUMP,
     HACK_DOORS,
-    NO_CLONE
+    NO_CLONE,
+    NO_SLOT
 };
 
 static const std::array<std::string, numStats> crewStats =
@@ -83,10 +88,12 @@ static const std::array<std::string, numStats> crewStats =
     "canRepair",
     "canSabotage",
     "canMan",
+    "canTeleport",
     "canSuffocate",
     "controllable",
     "canBurn",
     "isTelepathic",
+    "resistsMindControl",
     "isAnaerobic",
     "canPhaseThroughDoors",
     "detectsLifeforms",
@@ -101,7 +108,8 @@ static const std::array<std::string, numStats> crewStats =
     "powerCharges",
     "chargesPerJump",
     "hackDoors",
-    "noClone"
+    "noClone",
+    "noSlot"
 };
 
 struct StatBoostDefinition
@@ -189,11 +197,10 @@ struct StatBoostDefinition
     std::vector<std::string> systemRoomReqs = std::vector<std::string>();
     std::vector<std::string> systemList = std::vector<std::string>();
 
-    std::vector<StatBoostDefinition> providedStatBoosts = std::vector<StatBoostDefinition>();
+    std::vector<StatBoostDefinition*> providedStatBoosts = std::vector<StatBoostDefinition*>();
 
     unsigned int powerChange = 0;
-    Damage* deathEffectChange;
-    bool explosionShipFriendlyFire;
+    ExplosionDefinition* deathEffectChange;
 
     std::vector<float> powerScaling = std::vector<float>();
     float powerScalingNoSys = 1.0;
@@ -209,17 +216,18 @@ struct StatBoostDefinition
     ShipTarget shipTarget;
     CrewTarget crewTarget;
     DroneTarget droneTarget = DroneTarget::ALL;
-
-    static uint64_t nextId;
+    bool functionalTarget = false;
 
     int realBoostId = -1;
     int stackId = 0;
     int maxStacks = 2147483647;
 
+    static std::vector<StatBoostDefinition*> statBoostDefs;
+
     void GiveId()
     {
-        nextId++;
-        realBoostId = nextId;
+        realBoostId = statBoostDefs.size();
+        statBoostDefs.push_back(this);
     }
 };
 
@@ -248,7 +256,7 @@ struct StatBoost
 class StatBoostManager
 {
 public:
-    static int statCacheFrame;
+    static unsigned int statCacheFrame;
 
     std::unordered_map<CrewStat, std::vector<StatBoost>> statBoosts;
     std::vector<StatBoost> animBoosts;
@@ -263,7 +271,7 @@ public:
         return &instance;
     }
 
-    StatBoostDefinition ParseStatBoostNode(rapidxml::xml_node<char>* node, StatBoostDefinition::BoostSource boostSource);
+    StatBoostDefinition* ParseStatBoostNode(rapidxml::xml_node<char>* node, StatBoostDefinition::BoostSource boostSource);
     void CreateTimedAugmentBoost(StatBoost statBoost, CrewMember* crew);
     void OnLoop(WorldManager* world);
 private:
@@ -292,5 +300,5 @@ private:
     void CreateAugmentBoost(StatBoostDefinition* def, int shipId, int nStacks);
     void CreateCrewBoost(StatBoostDefinition* def, CrewMember* otherCrew, int nStacks);
     void CreateCrewBoost(StatBoost statBoost, CrewMember* otherCrew);
-    void CreateRecursiveBoosts(StatBoost& statBoost, int nStacks);
+    void CreateRecursiveBoosts(StatBoost& statBoost, int nStacks, bool noCheck = false);
 };

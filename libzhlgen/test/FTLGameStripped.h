@@ -105,6 +105,10 @@ struct VTable_Blueprint;
 struct VTable_CrewAnimation;
 struct VTable_StoreBox;
 struct Shields__ShieldAnimation;
+struct VTable_CrewTarget;
+struct VTable_Drone;
+struct VTable_SpaceDrone;
+struct VTable_Targetable;
 
 /* 1 */
 struct Globals
@@ -566,7 +570,8 @@ struct Room
 /* 301 */
 struct CrewTarget
 {
-  ShipObject _base;
+  VTable_CrewTarget *_vtable;
+  int iShipId;
 };
 
 /* 179 */
@@ -2646,6 +2651,13 @@ struct ShipBlueprint
 /* 604 */
 struct CrewDesc;
 
+struct CrewDesc
+{
+	std::string type;
+	float prop;
+	int amount;
+};
+
 /* 603 */
 struct std__vector_8CrewDesc
 {
@@ -2738,9 +2750,29 @@ struct VTable_GenericButton
 };
 
 /* 305 */
+struct VTable_Targetable
+{
+  void (__thiscall *Free)(Targetable *);
+  Pointf (__thiscall *GetWorldCenterPoint)(Targetable *);
+  Pointf (__thiscall *GetRandomTargettingPoint)(Targetable *, bool unk);
+  std__vector_6Pointf (__thiscall *GetAllTargettingPoints)(Targetable *);
+  Globals__Ellipse (__thiscall *GetShieldShape)(Targetable *);
+  ShieldPower (__thiscall *GetShieldPower)(Targetable *);
+  int (__thiscall *GetSpaceId)(Targetable *);
+  Pointf (__thiscall *GetSpeed)(Targetable *);
+  int (__thiscall *GetOwnerId)(Targetable *);
+  int (__thiscall *GetSelfId)(Targetable *);
+  bool (__thiscall *IsCloaked)(Targetable *);
+  void (__thiscall *DamageTarget)(Targetable *, Pointf pos, DamageParameter damage);
+  bool (__thiscall *GetIsDying)(Targetable *);
+  bool (__thiscall *GetIsJumping)(Targetable *);
+  bool (__thiscall *ValidTarget)(Targetable *);
+  Globals__Rect (__thiscall *GetShape)(Targetable *);
+};
+
 struct Targetable
 {
-  void *vptr;
+  VTable_Targetable *_vtable;
   int type;
   bool hostile;
   bool targeted;
@@ -3589,9 +3621,42 @@ struct CompleteShip
 };
 
 /* 174 */
+struct VTable_Drone
+{
+  void (__thiscall *Free)(Drone *);
+  void (__thiscall *OnInit)(Drone *);
+  void (__thiscall *OnLoop)(Drone *);
+  void (__thiscall *OnDestroy)(Drone *);
+  void (__thiscall *SetPowered)(Drone *, bool _powered);
+  void (__thiscall *SetInstantPowered)(Drone *);
+  bool (__thiscall *GetPowered)(Drone *);
+  void (__thiscall *SetCurrentShip)(Drone *, int shipId);
+  void (__thiscall *SetDeployed)(Drone *, bool _deployed);
+  void (__thiscall *SetDestroyed)(Drone *, bool dead, bool setTimer);
+  void (__thiscall *SetHacked)(Drone *, int level);
+  bool (__thiscall *GetDeployed)(Drone *);
+  bool (__thiscall *NeedsRoom)(Drone *);
+  void (__thiscall *SetSlot)(Drone *, int room, int slot);
+  bool (__thiscall *Destroyed)(Drone *);
+  Point (__thiscall *GetWorldLocation)(Drone *);
+  void (__thiscall *SetWorldLocation)(Drone *, Point point);
+  static Slot *(__stdcall *GetDroneSlot)(Slot *slot, Drone *drone);
+  int (__thiscall *GetDroneHealth)(Drone *);
+  int (__thiscall *GetRequiredPower)(Drone *);
+  void (__thiscall *RenderIcon)(Drone *);
+  static std__string *(__stdcall *GetName)(std__string *str, Drone *drone);
+  bool (__thiscall *CanBeDeployed)(Drone *);
+  bool (__thiscall *RecallOnJump)(Drone *);
+  bool (__thiscall *CanBeRecovered)(Drone *);
+  void (__thiscall *SaveState)(Drone *, int fh);
+  void (__thiscall *LoadState)(Drone *, int fh);
+  void (__thiscall *BlowUp)(Drone *, bool silent);
+  bool (__thiscall *GetStunned)(Drone *);
+};
+
 struct Drone
 {
-  void *vptr;
+  VTable_Drone *_vtable;
   int iShipId;
   int selfId;
   bool powered;
@@ -3608,8 +3673,40 @@ struct Drone
 };
 
 /* 160 */
+struct VTable_SpaceDrone
+{
+  void (__thiscall *PickDestination)(SpaceDrone *);
+  void (__thiscall *PickTarget)(SpaceDrone *);
+  bool (__thiscall *HasTarget)(SpaceDrone *);
+  bool (__thiscall *ValidTarget)(SpaceDrone *);
+  float (__thiscall *GetWeaponCooldown)(SpaceDrone *);
+  void (__thiscall *RandomizeStartingPosition)(SpaceDrone *);
+  bool (__thiscall *HideUnderOwner)(SpaceDrone *);
+  Projectile* (__thiscall *GetNextProjectile)(SpaceDrone *);
+  void (__thiscall *SetMovementTarget)(SpaceDrone *, Targetable &target);
+  void (__thiscall *SetWeaponTarget)(SpaceDrone *, Targetable &target);
+  bool (__thiscall *ValidTargetObject)(SpaceDrone *, Targetable &target);
+  void (__thiscall *OnRender)(SpaceDrone *, int space);
+  void (__thiscall *RenderDrone)(SpaceDrone *);
+  static std__string *(__stdcall *GetTooltip)(std__string *str, SpaceDrone *drone);
+  Pointf (__thiscall *GetWorldCenterPoint)(SpaceDrone *);
+  void (__thiscall *SetCurrentLocation)(SpaceDrone *, Pointf pos);
+  void (__thiscall *MouseMove)(SpaceDrone *, int mX, int mY);
+  Pointf (__thiscall *GetRandomTargettingPoint)(SpaceDrone *, bool unk);
+  static Globals__Ellipse *(__stdcall *GetShieldShape)(Globals__Ellipse *ret, SpaceDrone *drone);
+  int (__thiscall *GetSpaceId)(SpaceDrone *);
+  Pointf (__thiscall *GetSpeed)(SpaceDrone *);
+  int (__thiscall *GetOwnerId)(SpaceDrone *);
+  int (__thiscall *GetSelfId)(SpaceDrone *);
+  static CollisionResponse *(__stdcall *CollisionMoving)(CollisionResponse *ret, SpaceDrone *drone, Pointf pos1, Pointf pos2, DamageParameter damage, bool unk);
+  bool (__thiscall *DamageBeam)(SpaceDrone *, Pointf pos1, Pointf pos2, DamageParameter damage);
+  void (__thiscall *DamageArea)(SpaceDrone *, Pointf pos, DamageParameter damage, bool unk);
+  BoarderDrone *(__thiscall *GetBoardingDrone)(SpaceDrone *);
+};
+
 struct SpaceDrone
 {
+  VTable_SpaceDrone *_vtable;
   Drone _base;
   Targetable _targetable;
   Collideable _collideable;
@@ -3830,6 +3927,7 @@ struct LocationEvent
   int environment;
   int environmentTarget;
   bool store;
+  bool gap_ex_cleared;
   int fleetPosition;
   bool beacon;
   bool reveal_map;
@@ -4257,6 +4355,7 @@ struct CAchievement
   std__string name_id;
   std__pair_9int___int progress;
   bool unlocked;
+  int8_t gap_ex_custom;
   TextString name;
   TextString description;
   TextString header;
@@ -5159,7 +5258,76 @@ struct EventSystem;
 struct SoundControl;
 
 /* 273 */
-struct EventGenerator;
+
+struct std__unordered_map_31std__string___SectorDescription
+{
+    char unk[0x1C];
+};
+
+struct std__unordered_map_39std__string___std__vector_11std__string
+{
+    char unk[0x1C];
+};
+
+struct EventText
+{
+	TextString text;
+	std__string planet;
+	std__string back;
+};
+
+struct std__vector_9EventText
+{
+    EventText* _start;
+    EventText* _finish;
+    EventText* _end;
+};
+
+struct std__unordered_map_36std__string___std__vector_9EventText
+{
+    char unk[0x1C];
+};
+
+struct std__vector_15LocationEventZ1
+{
+    LocationEvent** _start;
+    LocationEvent** _finish;
+    LocationEvent** _end;
+};
+
+struct std__unordered_map_26std_string___ResourceEvent
+{
+    char unk[0x1C];
+};
+
+struct std__unordered_map_17std__string___int
+{
+    char unk[0x1C];
+};
+
+
+struct EventGenerator
+{
+	std__vector_11std__string baseEvents;
+	std__unordered_map_31std__string___SectorDescription sectors;
+	std__unordered_map_39std__string___std__vector_11std__string baseSectors;
+	std__unordered_map_39std__string___std__vector_11std__string eventLists;
+	std__unordered_map_29std__string___EventTemplateZ1 events;
+	std__unordered_map_29std__string___EventTemplateZ1 usedEvents;
+	std__unordered_map_36std__string___std__vector_9EventText textLists;
+	std__unordered_map_36std__string___std__vector_9EventText usedTextLists;
+	std__unordered_map_39std__string___std__vector_11std__string shipTemplateLists;
+	std__unordered_map_23std__string___ShipEvent shipTemplates;
+	std__unordered_map_39std__string___std__vector_11std__string imageLists;
+	std__vector_15LocationEventZ1 trashList;
+	std__unordered_map_27std__string___ResourceEvent resourcesCollected;
+	std__unordered_map_17std__string___int eventTypesCreated;
+	int shipsCreated;
+	bool shiplessEvent;
+	bool creatingShipEvent;
+	int forceRandomIndex;
+};
+
 
 /* 629 */
 struct std__unordered_map_29std__string___EventTemplateZ1
@@ -5887,3 +6055,24 @@ struct SystemControl__PowerBars
   GL_Primitive *damaged[30];
 };
 
+struct EventSystem
+{
+	std__vector_3int lastEvents;
+	std__vector_3int newEvents;
+};
+
+struct VTable_CrewTarget
+{
+  void (__thiscall *Free)(CrewTarget *this);
+  void *(__thiscall *GetPosition)(CrewTarget *this);
+  float (__thiscall *PositionShift)(CrewTarget *this);
+  bool (__thiscall *InsideRoom)(CrewTarget *this, int roomId);
+  bool (__thiscall *ApplyDamage)(CrewTarget *this, float damage);
+  int (__thiscall *GetPriority)(CrewTarget *this);
+  bool (__thiscall *ValidTarget)(CrewTarget *this, int unk);
+  bool (__thiscall *MultiShots)(CrewTarget *this);
+  bool (__thiscall *ExactTarget)(CrewTarget *this);
+  bool (__thiscall *IsCrew)(CrewTarget *this);
+  bool (__thiscall *IsCloned)(CrewTarget *this);
+  bool (__thiscall *IsDrone)(CrewTarget *this);
+};

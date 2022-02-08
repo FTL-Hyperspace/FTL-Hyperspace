@@ -20,7 +20,21 @@ HOOK_STATIC(WeaponBox, GenerateTooltip, (std::string &retStr, WeaponBox *_this) 
 
     auto weaponDef = CustomWeaponManager::instance->GetWeaponDefinition(bp->name);
 
-    if (CustomOptionsManager::GetInstance()->redesignedWeaponTooltips.currentValue == true)
+    if (CustomOptionsManager::GetInstance()->redesignedWeaponTooltips.currentValue && !weaponDef->advancedTooltipOverride.data.empty())
+    {
+        std::string newDesc = weaponDef->advancedTooltipOverride.GetText();
+
+        retStr.assign(boost::algorithm::replace_all_copy(newDesc, "\\n", "\n"));
+        return;
+    }
+    else if (!weaponDef->tooltipOverride.data.empty())
+    {
+        std::string newDesc = weaponDef->tooltipOverride.GetText();
+
+        retStr.assign(boost::algorithm::replace_all_copy(newDesc, "\\n", "\n"));
+        return;
+    }
+    else if (CustomOptionsManager::GetInstance()->redesignedWeaponTooltips.currentValue == true)
     {
         if (bp->power > 0)
         {
@@ -76,6 +90,12 @@ HOOK_STATIC(WeaponBox, GenerateTooltip, (std::string &retStr, WeaponBox *_this) 
             {
                 currentText = tLib->GetText("free_missile_chance");
                 descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(weaponDef->freeMissileChance)) + "\n";
+            }
+
+            if (weaponDef->customDamage.accuracyMod != 0)
+            {
+                currentText = tLib->GetText("accuracy_modifier");
+                descText += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(weaponDef->customDamage.accuracyMod)) + "\n";
             }
 
             if (bp->boostPower.count > 0)
@@ -446,6 +466,44 @@ HOOK_STATIC(WeaponBox, GenerateTooltip, (std::string &retStr, WeaponBox *_this) 
 
                 descText += currentText + "\n";
             }
+            if (weaponDef->customDamage.statBoostChance > 0)
+            {
+                currentText = tLib->GetText("crew_statboost_chance");
+                boost::algorithm::replace_all(currentText, "\\1", std::to_string(weaponDef->customDamage.statBoostChance * 10));
+
+                std::string level = tLib->GetText("chance_low");
+                if (weaponDef->customDamage.statBoostChance >= 7)
+                {
+                    level = tLib->GetText("chance_high");
+                }
+                else if (weaponDef->customDamage.statBoostChance >= 4)
+                {
+                    level = tLib->GetText("chance_medium");
+                }
+
+                boost::algorithm::replace_all(currentText, "\\2", level);
+
+                descText += currentText + "\n";
+            }
+            if (weaponDef->customDamage.crewSpawnChance > 0)
+            {
+                currentText = tLib->GetText("crew_spawn_chance");
+                boost::algorithm::replace_all(currentText, "\\1", std::to_string(weaponDef->customDamage.crewSpawnChance * 10));
+
+                std::string level = tLib->GetText("chance_low");
+                if (weaponDef->customDamage.crewSpawnChance >= 7)
+                {
+                    level = tLib->GetText("chance_high");
+                }
+                else if (weaponDef->customDamage.crewSpawnChance >= 4)
+                {
+                    level = tLib->GetText("chance_medium");
+                }
+
+                boost::algorithm::replace_all(currentText, "\\2", level);
+
+                descText += currentText + "\n";
+            }
         }
         boost::trim_right(descText);
         retStr.assign(descText);
@@ -463,9 +521,16 @@ HOOK_STATIC(WeaponBlueprint, GetDescription, (std::string* strRef, WeaponBluepri
 
     auto weaponDef = CustomWeaponManager::instance->GetWeaponDefinition(bp->name);
 
-    if (!weaponDef->descriptionOverride.empty())
+    if (CustomOptionsManager::GetInstance()->redesignedWeaponTooltips.currentValue && !weaponDef->advancedDescriptionOverride.data.empty())
     {
-        std::string newDesc = weaponDef->descriptionOverride;
+        std::string newDesc = weaponDef->advancedDescriptionOverride.GetText();
+
+        strRef->assign(boost::algorithm::replace_all_copy(newDesc, "\\n", "\n"));
+        return;
+    }
+    else if (!weaponDef->descriptionOverride.data.empty())
+    {
+        std::string newDesc = weaponDef->descriptionOverride.GetText();
 
         strRef->assign(boost::algorithm::replace_all_copy(newDesc, "\\n", "\n"));
         return;
@@ -884,6 +949,44 @@ HOOK_STATIC(WeaponBlueprint, GetDescription, (std::string* strRef, WeaponBluepri
 
                 descText += currentText + "\n";
             }
+            if (weaponDef->customDamage.statBoostChance > 0)
+            {
+                currentText = tLib->GetText("crew_statboost_chance");
+                boost::algorithm::replace_all(currentText, "\\1", std::to_string(weaponDef->customDamage.statBoostChance * 10));
+
+                std::string level = tLib->GetText("chance_low");
+                if (weaponDef->customDamage.statBoostChance >= 7)
+                {
+                    level = tLib->GetText("chance_high");
+                }
+                else if (weaponDef->customDamage.statBoostChance >= 4)
+                {
+                    level = tLib->GetText("chance_medium");
+                }
+
+                boost::algorithm::replace_all(currentText, "\\2", level);
+
+                descText += currentText + "\n";
+            }
+            if (weaponDef->customDamage.crewSpawnChance > 0)
+            {
+                currentText = tLib->GetText("crew_spawn_chance");
+                boost::algorithm::replace_all(currentText, "\\1", std::to_string(weaponDef->customDamage.crewSpawnChance * 10));
+
+                std::string level = tLib->GetText("chance_low");
+                if (weaponDef->customDamage.crewSpawnChance >= 7)
+                {
+                    level = tLib->GetText("chance_high");
+                }
+                else if (weaponDef->customDamage.crewSpawnChance >= 4)
+                {
+                    level = tLib->GetText("chance_medium");
+                }
+
+                boost::algorithm::replace_all(currentText, "\\2", level);
+
+                descText += currentText + "\n";
+            }
         }
         boost::trim_right(descText);
         descText += "\n\n";
@@ -1051,6 +1154,44 @@ HOOK_STATIC(WeaponBlueprint, GetDescription, (std::string* strRef, WeaponBluepri
 
             descText += currentText + "\n";
         }
+        if (weaponDef->customDamage.statBoostChance > 0)
+        {
+            currentText = tLib->GetText("crew_statboost_chance");
+            boost::algorithm::replace_all(currentText, "\\1", std::to_string(weaponDef->customDamage.statBoostChance * 10));
+
+            std::string level = tLib->GetText("chance_low");
+            if (weaponDef->customDamage.statBoostChance >= 7)
+            {
+                level = tLib->GetText("chance_high");
+            }
+            else if (weaponDef->customDamage.statBoostChance >= 4)
+            {
+                level = tLib->GetText("chance_medium");
+            }
+
+            boost::algorithm::replace_all(currentText, "\\2", level);
+
+            descText += currentText + "\n";
+        }
+        if (weaponDef->customDamage.crewSpawnChance > 0)
+        {
+            currentText = tLib->GetText("crew_spawn_chance");
+            boost::algorithm::replace_all(currentText, "\\1", std::to_string(weaponDef->customDamage.crewSpawnChance * 10));
+
+            std::string level = tLib->GetText("chance_low");
+            if (weaponDef->customDamage.crewSpawnChance >= 7)
+            {
+                level = tLib->GetText("chance_high");
+            }
+            else if (weaponDef->customDamage.crewSpawnChance >= 4)
+            {
+                level = tLib->GetText("chance_medium");
+            }
+
+            boost::algorithm::replace_all(currentText, "\\2", level);
+
+            descText += currentText + "\n";
+        }
         int persDamage = bp->damage.iPersDamage;
         if (weaponDef->customDamage.noPersDamage) persDamage -= bp->damage.iDamage;
         if (persDamage != 0)
@@ -1138,15 +1279,19 @@ HOOK_METHOD(InfoBox, SetBlueprintAugment, (const AugmentBlueprint* bp) -> void)
 
         BlueprintManager* blueprints = G_->GetBlueprints();
         int counter = 0;
+        std::string lastWarnAugment = "";
         for (auto const &x: customAug->GetAugmentDefinition(bp->name)->functions)
         {
             if (!x.second.warning)
+                continue;
+            if (x.first == lastWarnAugment)
                 continue;
 
             auto bp = blueprints->GetAugmentBlueprint(x.first);
 
             if (((x.second.preferHigher && bp->value <= x.second.value) || (!x.second.preferHigher && bp->value >= x.second.value)) && !bp->stacking)
             {
+                lastWarnAugment = x.first;
                 warn += bp->desc.title.GetText() + "\n";
                 counter++;
             }
@@ -1263,8 +1408,8 @@ HOOK_METHOD(InfoBox, SetBlueprintDrone, (const DroneBlueprint* bp, int status, b
     {
         if (!bp->weaponBlueprint.empty() && (CustomOptionsManager::GetInstance()->redesignedDroneTooltips.currentValue))
         {
-            auto weaponDef = CustomWeaponManager::instance->GetWeaponDefinition(bp->weaponBlueprint);
             auto droneBp = G_->GetBlueprints()->GetWeaponBlueprint(bp->weaponBlueprint);
+            auto weaponDef = CustomWeaponManager::instance->GetWeaponDefinition(droneBp->name);
             auto tLib = G_->GetTextLibrary();
 
             if (CustomOptionsManager::GetInstance()->redesignedWeaponTooltips.currentValue == true)
@@ -1297,6 +1442,24 @@ HOOK_METHOD(InfoBox, SetBlueprintDrone, (const DroneBlueprint* bp, int status, b
                             // space
                             boost::trim_right(newDesc);
                             newDesc += "\n\n";
+                        }
+                        else if (droneBp->type == 4)
+                        {
+                            if (weaponDef->angularRadius != -1.f)
+                            {
+                                std::stringstream stream;
+                                currentText = tLib->GetText("shot_radius_angular");
+                                stream << std::fixed << std::setprecision(2) << weaponDef->angularRadius;
+                                newDesc += boost::algorithm::replace_all_copy(currentText, "\\1", stream.str()) + "\n";
+                            }
+                            else if (droneBp->radius > 0)
+                            {
+                                currentText = tLib->GetText("shot_radius");
+                                newDesc += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(droneBp->radius)) + "\n";
+                            }
+                            currentText = tLib->GetText("shots");
+                            newDesc += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(droneBp->miniCount)) + "\n";
+                            newDesc += "\n";
                         }
 
             //            if (droneBp->drone_targetable != 0)
@@ -1495,41 +1658,78 @@ HOOK_METHOD(InfoBox, SetBlueprintDrone, (const DroneBlueprint* bp, int status, b
 
                             newDesc += currentText + "\n";
                         }
+                        if (weaponDef->customDamage.statBoostChance > 0)
+                        {
+                            currentText = tLib->GetText("crew_statboost_chance");
+                            boost::algorithm::replace_all(currentText, "\\1", std::to_string(weaponDef->customDamage.statBoostChance * 10));
+
+                            std::string level = tLib->GetText("chance_low");
+                            if (weaponDef->customDamage.statBoostChance >= 7)
+                            {
+                                level = tLib->GetText("chance_high");
+                            }
+                            else if (weaponDef->customDamage.statBoostChance >= 4)
+                            {
+                                level = tLib->GetText("chance_medium");
+                            }
+
+                            boost::algorithm::replace_all(currentText, "\\2", level);
+
+                            newDesc += currentText + "\n";
+                        }
+                        if (weaponDef->customDamage.crewSpawnChance > 0)
+                        {
+                            currentText = tLib->GetText("crew_spawn_chance");
+                            boost::algorithm::replace_all(currentText, "\\1", std::to_string(weaponDef->customDamage.crewSpawnChance * 10));
+
+                            std::string level = tLib->GetText("chance_low");
+                            if (weaponDef->customDamage.crewSpawnChance >= 7)
+                            {
+                                level = tLib->GetText("chance_high");
+                            }
+                            else if (weaponDef->customDamage.crewSpawnChance >= 4)
+                            {
+                                level = tLib->GetText("chance_medium");
+                            }
+
+                            boost::algorithm::replace_all(currentText, "\\2", level);
+
+                            newDesc += currentText + "\n";
+                        }
                     }
                     boost::trim_right(newDesc);
                 }
                 else
                 {
-                    if (bp->targetType == 1)
+                    switch (bp->targetType)
                     {
-                        if (droneBp->damage.iIonDamage > 0)
-                        {
-                            currentText = tLib->GetText("defense_drone_drone_target_solid");
-                            newDesc += currentText + "\n";
-                        }
-                        else
-                        {
-                            currentText = tLib->GetText("defense_drone_projectile_target_solid");
-                            newDesc += currentText + "\n";
-                        }
+                    case 1:
+                        currentText = tLib->GetText("defense_drone_projectile_target_solid");
+                        break;
+                    case 2:
+                        currentText = tLib->GetText("defense_drone_projectile_target_asteroid");
+                        break;
+                    case 3:
+                        currentText = tLib->GetText("defense_drone_drone_target_all");
+                        break;
+                    case 4:
+                        currentText = tLib->GetText("defense_drone_projectile_target_all");
+                        break;
+                    case 5:
+                        currentText = tLib->GetText("defense_drone_drone_target_solid_projectiles");
+                        break;
+                    case 6:
+                        currentText = tLib->GetText("defense_drone_drone_target_all_projectiles");
+                        break;
+                    default:
+                        currentText = tLib->GetText("defense_drone_projectile_target_unknown");
                     }
-                    else
-                    {
-                        if (droneBp->damage.iIonDamage > 0)
-                        {
-                            currentText = tLib->GetText("defense_drone_drone_target_all");
-                            newDesc += currentText + "\n";
-                        }
-                        else
-                        {
-                            currentText = tLib->GetText("defense_drone_projectile_target_all");
-                            newDesc += currentText + "\n";
-                        }
-                    }
+                    newDesc += currentText + "\n";
                     currentText = tLib->GetText("defense_drone_reload_speed");
                     std::stringstream stream;
                     stream << std::fixed << std::setprecision(0) << bp->cooldown * 1000;
                     newDesc += boost::algorithm::replace_all_copy(currentText, "\\1", stream.str()) + "\n";
+
                     stream.str("");
                     currentText = tLib->GetText("defense_drone_projectile_speed");
                     if (droneBp->speed != 0)
@@ -1542,10 +1742,36 @@ HOOK_METHOD(InfoBox, SetBlueprintDrone, (const DroneBlueprint* bp, int status, b
                         stream << std::fixed << std::setprecision(0) << 60;
                         newDesc += boost::algorithm::replace_all_copy(currentText, "\\1", stream.str()) + "\n";
                     }
+
+                    if ((bp->targetType == 3) &&
+                        weaponDef->customDamage.droneAccuracyMod != 0)
+                    {
+                        currentText = tLib->GetText("accuracy_modifier");
+                        newDesc += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(weaponDef->customDamage.droneAccuracyMod)) + "\n";
+                    }
+
                     stream.str("");
                     currentText = tLib->GetText("defense_drone_orbit_speed");
                     stream << std::fixed << std::setprecision(0) << bp->speed;
                     newDesc += boost::algorithm::replace_all_copy(currentText, "\\1", stream.str());
+                    if (droneBp->type == 4)
+                    {
+                        newDesc += "\n\n";
+                        if (weaponDef->angularRadius != -1.f)
+                        {
+                            stream.str("");
+                            currentText = tLib->GetText("shot_radius_angular");
+                            stream << std::fixed << std::setprecision(2) << weaponDef->angularRadius;
+                            newDesc += boost::algorithm::replace_all_copy(currentText, "\\1", stream.str()) + "\n";
+                        }
+                        else if (droneBp->radius > 0)
+                        {
+                            currentText = tLib->GetText("shot_radius");
+                            newDesc += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(droneBp->radius)) + "\n";
+                        }
+                        currentText = tLib->GetText("shots");
+                        newDesc += boost::algorithm::replace_all_copy(currentText, "\\1", std::to_string(droneBp->miniCount));
+                    }
                 }
             }
         }

@@ -28,3 +28,5 @@ void ProjectileFactory::OnRender(ProjectileFactory *this<ecx>, float alpha, bool
 int ProjectileFactory::NumTargetsRequired(ProjectileFactory *this<ecx>);
 "578d7c240883e4f0ff77fc5589e557565389cf81ec????????8b912c06000085d20f8e????????0fb681f600000084c08885b4feffff":
 void ProjectileFactory::Update(ProjectileFactory *this<ecx>);
+"578d7c240883e4f0ff77fc5589e557565389cf81c14801000083ec5c":
+Projectile* ProjectileFactory::GetProjectile(ProjectileFactory *this<ecx>);

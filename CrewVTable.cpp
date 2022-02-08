@@ -1,26 +1,34 @@
 #pragma GCC push_options
 #pragma GCC optimize ("O1")
+#include "Global.h"
 #include "CustomCrew.h"
+#include "CustomAugments.h"
 
 int requiresFullControl = 0;
+bool isTelepathicMindControl = false;
 
 static bool __attribute__((fastcall)) CrewMember_GetControllable(CrewMember *_this)
 {
-    bool req = _this->iShipId == 0 && !_this->bDead && !_this->bMindControlled;
+    bool ret = !_this->bDead && _this->iShipId == 0 && !_this->bMindControlled;
 
-    if (!req)
+    if (!ret && _this->iShipId == 1 && _this->bMindControlled)
+    {
+        ShipManager *ship = G_->GetShipManager(0);
+        if (ship) ret = ship->HasAugmentation("MIND_ORDER");
+    }
+
+    if (!ret)
     {
         return false;
     }
     auto ex = CM_EX(_this);
     auto def = CustomCrewManager::GetInstance()->GetDefinition(_this->species);
-    bool ret = false;
     ex->CalculateStat(CrewStat::CONTROLLABLE, def, &ret);
     if (!ret && !requiresFullControl)
     {
         ret = def->selectable;
     }
-    return ret && req;
+    return ret;
 }
 
 static bool __attribute__((fastcall)) CrewMember_CanSuffocate(CrewMember *_this)
@@ -83,6 +91,17 @@ static bool __attribute__((fastcall)) CrewMember_CanMan(CrewMember *_this)
     return ret && req;
 }
 
+static bool __attribute__((fastcall)) CrewMember_CanTeleport(CrewMember *_this)
+{
+    bool ret = _this->CrewMember::CanTeleport(); //vanilla method
+    if (!ret) return ret;
+
+    auto ex = CM_EX(_this);
+    auto def = CustomCrewManager::GetInstance()->GetDefinition(_this->species);
+    ex->CalculateStat(CrewStat::CAN_TELEPORT, def, &ret);
+    return ret;
+}
+
 
 static bool __attribute__((fastcall)) CrewMember_CanBurn(CrewMember *_this)
 {
@@ -97,8 +116,7 @@ static int __attribute__((fastcall)) CrewMember_GetMaxHealth(CrewMember *_this)
 {
     auto ex = CM_EX(_this);
     auto def = CustomCrewManager::GetInstance()->GetDefinition(_this->species);
-    _this->health.second = ex->CalculateStat(CrewStat::MAX_HEALTH, def);
-    return _this->health.second;
+    return ex->CalculateMaxHealth(def);
 }
 
 static float __attribute__((fastcall)) CrewMember_GetMoveSpeedMultiplier(CrewMember *_this)
@@ -119,14 +137,33 @@ static float __attribute__((fastcall)) CrewMember_GetDamageMultiplier(CrewMember
 {
     auto ex = CM_EX(_this);
     auto def = CustomCrewManager::GetInstance()->GetDefinition(_this->species);
-    float damage = ex->CalculateStat(CrewStat::DAMAGE_MULTIPLIER, def);
-    if (_this->crewAnim->status == 7)
+    return ex->CalculateStat(CrewStat::DAMAGE_MULTIPLIER, def);
+}
+
+CrewMember *currentCrewLoop = nullptr;
+HOOK_METHOD(CrewMember, OnLoop, () -> void)
+{
+    currentCrewLoop = this;
+    super();
+    currentCrewLoop = nullptr;
+}
+
+HOOK_METHOD(CrewAnimation, OnUpdateEffects, () -> void)
+{
+    if (currentCrewLoop)
     {
-        return damage * ex->CalculateStat(CrewStat::RANGED_DAMAGE_MULTIPLIER, def);
+        float oldDamage = fDamageDone;
+        super();
+        if (fDamageDone != oldDamage)
+        {
+            auto ex = CM_EX(currentCrewLoop);
+            auto def = CustomCrewManager::GetInstance()->GetDefinition(currentCrewLoop->species);
+            fDamageDone = fDamageDone * ex->CalculateStat(CrewStat::RANGED_DAMAGE_MULTIPLIER, def);
+        }
     }
     else
     {
-        return damage;
+        super();
     }
 }
 
@@ -149,7 +186,14 @@ static bool __attribute__((fastcall)) CrewMember_IsTelepathic(CrewMember *_this)
     auto ex = CM_EX(_this);
     auto def = CustomCrewManager::GetInstance()->GetDefinition(_this->species);
     bool ret = false;
-    ex->CalculateStat(CrewStat::IS_TELEPATHIC, def, &ret);
+    if (isTelepathicMindControl)
+    {
+        ex->CalculateStat(CrewStat::RESISTS_MIND_CONTROL, def, &ret);
+    }
+    else
+    {
+        ex->CalculateStat(CrewStat::IS_TELEPATHIC, def, &ret);
+    }
     return ret;
 }
 
@@ -213,11 +257,27 @@ static void __attribute__((fastcall)) CrewMember_ResetPower(CrewMember *_this)
     ex->powerCharges.first = std::min(ex->powerCharges.second, ex->powerCharges.first + (int)ex->CalculateStat(CrewStat::POWER_CHARGES_PER_JUMP, def));
 }
 
+// To be used by AI only
 static void __attribute__((fastcall)) CrewMember_ActivatePower(CrewMember *_this)
 {
-    auto ex = CM_EX(_this);
+    if (_this->GetPowerOwner() == 1)
+    {
+        CM_EX(_this)->PreparePower();
+    }
+}
 
-    ex->PreparePower();
+int CrewMember::GetPowerOwner()
+{
+    if (bMindControlled)
+    {
+        int enemyShipId = iShipId ? 0 : 1;
+        auto *ship = G_->GetShipManager(enemyShipId); // ship using mind control
+        if (ship && HasAugmentationById("MIND_ORDER", enemyShipId))
+        {
+            return ship->iShipId;
+        }
+    }
+    return iShipId;
 }
 
 void SetupVTable(CrewMember *crew)
@@ -232,6 +292,7 @@ void SetupVTable(CrewMember *crew)
     vtable[26] = (void*)&CrewMember_CanRepair;
     vtable[27] = (void*)&CrewMember_CanSabotage;
     vtable[28] = (void*)&CrewMember_CanMan;
+    vtable[29] = (void*)&CrewMember_CanTeleport;
     vtable[31] = (void*)&CrewMember_CanSuffocate;
     vtable[32] = (void*)&CrewMember_CanBurn;
     vtable[33] = (void*)&CrewMember_GetMaxHealth;

@@ -27,6 +27,7 @@ class Global
 public:
     static Global *GetInstance() { return instance; }
 
+    void PreInitializeResources(ResourceControl *resources);
     void InitializeResources(ResourceControl *resources);
     bool AreResourcesInitialized() { return __resourcesInitialized; }
     void Initialize();
@@ -148,7 +149,7 @@ private:
 
     static void *__vtableLaserBlast;
 
-    const int __version = 8;
+    const int __version = 91;
 
 
 };

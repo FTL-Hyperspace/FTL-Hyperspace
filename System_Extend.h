@@ -53,10 +53,16 @@ struct TemporalSystem_Wrapper
     void StartTimeDilation(int shipId, int roomId, bool speedUp);
     void StopTimeDilation();
     void OnLoop();
+    void AISelectTarget(CombatAI *ai);
 
     TemporalSystem_Wrapper(ShipSystem *sys) : orig(sys)
     {
-
+        timer.maxTime = 0;
+        timer.minTime = 0;
+        timer.currTime = 0;
+        timer.currGoal = 1;
+        timer.loop = false;
+        timer.running = false;
     }
 };
 
@@ -72,6 +78,10 @@ public:
 
     TemporalSystem_Wrapper *temporalSystem = nullptr;
 
+    ~ShipSystem_Extend()
+    {
+        delete temporalSystem;
+    }
 private:
 };
 

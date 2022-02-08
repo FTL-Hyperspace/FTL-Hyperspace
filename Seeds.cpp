@@ -404,11 +404,11 @@ HOOK_METHOD_PRIORITY(StarMap, LoadGame, 500, (int fh) -> Location*)
 
 HOOK_METHOD(EventGenerator, GetBaseEvent, (const std::string& name, int worldLevel, char ignoreUnique, int seed) -> LocationEvent*)
 {
-    if (boost::algorithm::starts_with(name, "QUEST ")) //loading a saved quest
+    if (boost::algorithm::starts_with(name, "QUEST\t")) //loading a saved quest
     {
         std::string name2 = name.substr(6);
         std::vector<std::string> s = std::vector<std::string>();
-        boost::split(s, name2, boost::is_any_of(" "));
+        boost::split(s, name2, boost::is_any_of("\t"));
         if (SeedInputBox::seedsEnabled) srandom32(std::stoi(s[0]));
         return super(s[1], worldLevel, ignoreUnique, seed);
     }

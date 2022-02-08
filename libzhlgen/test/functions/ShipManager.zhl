@@ -39,7 +39,9 @@ char ShipManager::DamageCrew(ShipManager *this<ecx>, CrewMember *crew, DamagePar
 "578d7c240883e4f0ff77fc5589e55756538d45d889cb83ec5c8b378945d0894dac":
 void ShipManager::RemoveItem(ShipManager *this<ecx>, const std::string& name); 
 "578d7c240883e4f0ff77fc5589e557565389ce81ec????????8b47088b5f3cf30f105704f30f100f8945908b4710f30f118d78fffffff30f119574ffffff":
-char ShipManager::DamageArea(ShipManager *this<ecx>, Pointf location, DamageParameter dmg, char forceHit);
+bool ShipManager::DamageArea(ShipManager *this<ecx>, Pointf location, DamageParameter dmg, bool forceHit);
+"578d7c240883e4f0ff77fc5589e557565381eccc0000008b07807910008b570889459c8b47048945988b470c":
+bool ShipManager::DamageBeam(ShipManager *this<ecx>, Pointf location1, Pointf location2, DamageParameter dmg);
 "578d7c240883e4f0ff77fc5589e557565383ec5c8b47048b7708894da883f8ff":
 static CrewBlueprint* ShipManager::SelectRandomCrew(CrewBlueprint& bp<ecx>, ShipManager *ship, int seed, const std::string& unk);
 "5589e5565331db89ce83e4f083ec108b51188b411c29d0c1f80285c074??66908b0c9a":
@@ -50,6 +52,10 @@ void ShipManager::PrepareSuperDrones(ShipManager *this<ecx>);
 void ShipManager::JumpLeave(ShipManager *this<ecx>);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b378b470485f6":
 void ShipManager::ModifyScrapCount(ShipManager *this<ecx>, int scrap, bool income);
+"578d7c240883e4f0ff77fc5589e55783ec148b81c80400008b1783780cff75300191040800008b7dfc8b810408000085c0b800000000":
+void ShipManager::ModifyMissileCount(ShipManager *this<ecx>, int missiles);
+"578d7c240883e4f0ff77fc5589e55783ec148b81c80400008b17837810ff75300191000800008b7dfc8b8100080000":
+void ShipManager::ModifyDroneCount(ShipManager *this<ecx>, int drones);
 "578d7c240883e4f0ff77fc5589e557565383ec1c8b81c80400008b3f8b701c83feff74??":
 bool ShipManager::DoSensorsProvide(ShipManager *this<ecx>, int vision);
 "5731c08d7c240883e4f0ff77fc5589e5575389cb83ec108b5104b9????????85d20f95c0890424e8????????83ec04837b0401b9????????19d2":
@@ -87,7 +93,7 @@ void ShipManager::ImportShip(ShipManager *this<ecx>, int file);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec5c8b81c8040000c645b7008b701c83feff74??":
 void ShipManager::CheckVision(ShipManager *this<ecx>);
 "5383ec048b54240c83fa1174??8b99c804000031c0833c93ff75??83c4045bc20400891424e8????????83ec04":
-bool ShipManager::IsSystemHacked(ShipManager *this<ecx>, int systemId);
+int ShipManager::IsSystemHacked(ShipManager *this<ecx>, int systemId);
 "578d7c240883e4f0ff77fc5589e557565383ec4c8b078b51648945d48b47048945d00fb64708":
 CrewMember* ShipManager::GetSelectedCrewPoint(ShipManager *this<ecx>, int x, int y, bool intruder);
 "578d7c240883e4f0ff77fc5589e5578db994000000565389ce89f983ec5ce8????????8945c08b86c8040000":
@@ -132,10 +138,32 @@ CrewMember* ShipManager::FindCrew(ShipManager *this<ecx>, const CrewBlueprint *b
 bool ShipManager::GetDodged(ShipManager *this<ecx>);
 "578d7c240883e4f0ff77fc5589e55756538d995c08000081ec8c0000008b8188040000894db4c745a007000000895d9485c00f842a030000908db42600000000":
 void ShipManager::PrepareSuperBarrage(ShipManager *this<ecx>);
+"578d7c240883e4f0ff77fc5589e557565383ec7c8b47048b1f894d8c8945948b4708c70424????????894590e8????????8b53648b436883ec0429d0":
+std::string ShipManager::GetTooltip(ShipManager *this<ecx>, int x, int y);
 "57b9????????8d7c240883e4f0ff77fc5589e55756538d45ac31db83ec6cc745ac00000000c745b000000000890424c744240400000000c745b400000000":
 bool ShipManager::RestoreCrewPositions(ShipManager *this<ecx>);
 "5589e557565383e4f083ec108b79688b4164c744240c0000000089fa29c2c1fa0285d274??31db894c2408eb??8d760089fa83c301":
 CrewMember* ShipManager::GetCrewmember(ShipManager *this<ecx>, int slot, bool present);
+"5589e55383e4f083ec108b550883fa11744e8b81c80400008b1c9031c083fbff750e8b5dfcc9c20800":
+int ShipManager::CanUpgrade(ShipManager *this<ecx>, int systemId, int amount);
+"578d7c240883e4f0ff77fc5589e557565389cb83c10483ec6c8b078b7704":
+static ShipBlueprint* ShipManager::SaveToBlueprint(ShipBlueprint &bp<ecx>, ShipManager *ship, bool unk);
+"578d7c240883e4f0ff77fc5589e55756538d5dd089ce83ec7c8b078b570489d9":
+void ShipManager::CheckCrystalAugment(ShipManager *this<ecx>, Pointf pos);
+"578d7c240883e4f0ff77fc5589e557565381ecfc0000008b178b5f488b7710c70100000000898d50ffffff83c104":
+static CollisionResponse* ShipManager::CollisionMoving(CollisionResponse &ret<ecx>, ShipManager *ship, Pointf pos1, Pointf pos2, DamageParameter damage, bool unk);
+"8b81c80400008b5424048b049083f8ff740e8b51188b04828b4054c20400":
+int ShipManager::GetSystemPowerMax(ShipManager *this<ecx>, int systemId);
+"5589e557565389cb83e4f083ec208b45088b90c8040000837a10ff7523c70100000000c741040000000089d8c74108000000008d65f4":
+static std::vector<Drone*>* ShipManager::GetDroneList(std::vector<Drone*> &ret<ecx>, ShipManager *ship);
+"8b81c8040000837810ff74148b414c8b80cc010000c3":
+int ShipManager::GetDroneCount(ShipManager *this<ecx>);
+"8b81c80400008b0083f8ff7455578d7c240883e4f0ff77fc5589e5575389cb83ec10":
+void ShipManager::InstantPowerShields(ShipManager *this<ecx>);
+"578d7c240883e4f0ff77fc5589e557565331db89ce83ec1c8b51188b411cc681990400000129d0c1f80285c0":
+void ShipManager::SetDestroyed(ShipManager *this<ecx>);
+"5783c1708d7c240883e4f0ff77fc5589e55783ec148b07890424e8????????8b7dfc83ec04c98d67f85fc20400":
+int ShipManager::GetFireCount(ShipManager *this<ecx>, int roomId);
 
 struct ShipManager depends (PowerManager, ShieldPower)
 {{

@@ -1,11 +1,13 @@
 #include "CustomWeapons.h"
 #include "CustomOptions.h"
 #include "CustomDamage.h"
+#include "StatBoost.h"
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
 #include <iomanip>
 
 CustomWeaponManager *CustomWeaponManager::instance = new CustomWeaponManager();
+CustomWeaponDefinition *CustomWeaponManager::currentWeapon = nullptr;
 
 HOOK_STATIC(BlueprintManager, ProcessWeaponBlueprint, (WeaponBlueprint* bp, BlueprintManager *bpM, rapidxml::xml_node<char>* node) -> WeaponBlueprint*)
 {
@@ -14,7 +16,7 @@ HOOK_STATIC(BlueprintManager, ProcessWeaponBlueprint, (WeaponBlueprint* bp, Blue
     auto weaponDef = CustomWeaponDefinition();
     weaponDef.name = node->first_attribute("name")->value();
 
-    for (auto child = node->first_node(); child = child->next_sibling(); child)
+    for (auto child = node->first_node(); child; child = child->next_sibling())
     {
         std::string name = child->name();
         std::string val = child->value();
@@ -25,7 +27,43 @@ HOOK_STATIC(BlueprintManager, ProcessWeaponBlueprint, (WeaponBlueprint* bp, Blue
         }
         if (name == "descriptionOverride")
         {
-            weaponDef.descriptionOverride = val;
+            weaponDef.descriptionOverride.data = val;
+            weaponDef.descriptionOverride.isLiteral = true;
+            if (child->first_attribute("id"))
+            {
+                weaponDef.descriptionOverride.data = child->first_attribute("id")->value();
+                weaponDef.descriptionOverride.isLiteral = false;
+            }
+        }
+        if (name == "advancedDescriptionOverride")
+        {
+            weaponDef.advancedDescriptionOverride.data = val;
+            weaponDef.advancedDescriptionOverride.isLiteral = true;
+            if (child->first_attribute("id"))
+            {
+                weaponDef.advancedDescriptionOverride.data = child->first_attribute("id")->value();
+                weaponDef.advancedDescriptionOverride.isLiteral = false;
+            }
+        }
+        if (name == "tooltipOverride")
+        {
+            weaponDef.tooltipOverride.data = val;
+            weaponDef.tooltipOverride.isLiteral = true;
+            if (child->first_attribute("id"))
+            {
+                weaponDef.tooltipOverride.data = child->first_attribute("id")->value();
+                weaponDef.tooltipOverride.isLiteral = false;
+            }
+        }
+        if (name == "advancedTooltipOverride")
+        {
+            weaponDef.advancedTooltipOverride.data = val;
+            weaponDef.advancedTooltipOverride.isLiteral = true;
+            if (child->first_attribute("id"))
+            {
+                weaponDef.advancedTooltipOverride.data = child->first_attribute("id")->value();
+                weaponDef.advancedTooltipOverride.isLiteral = false;
+            }
         }
         if (name == "hideEventTooltip")
         {
@@ -35,6 +73,10 @@ HOOK_STATIC(BlueprintManager, ProcessWeaponBlueprint, (WeaponBlueprint* bp, Blue
         {
             weaponDef.customDamage.accuracyMod = boost::lexical_cast<int>(val);
         }
+        if (name == "droneAccuracyMod")
+        {
+            weaponDef.customDamage.droneAccuracyMod = boost::lexical_cast<int>(val);
+        }
         if (name == "noSysDamage")
         {
             weaponDef.customDamage.noSysDamage = EventsParser::ParseBoolean(val);
@@ -43,6 +85,63 @@ HOOK_STATIC(BlueprintManager, ProcessWeaponBlueprint, (WeaponBlueprint* bp, Blue
         {
             weaponDef.customDamage.noPersDamage = EventsParser::ParseBoolean(val);
         }
+        if (name == "ionBeamFix" && bp->type == 2) // Ion beam fix only valid for beams
+        {
+            weaponDef.customDamage.ionBeamFix = EventsParser::ParseBoolean(val);
+        }
+        if (name == "simultaneousFire")
+        {
+            weaponDef.simultaneousFire = EventsParser::ParseBoolean(val);
+        }
+        if (name == "fireTime")
+        {
+            weaponDef.fireTime = boost::lexical_cast<float>(val);
+        }
+        if (name == "angularRadius") // affects flak drones
+        {
+            weaponDef.angularRadius = boost::lexical_cast<float>(val);
+        }
+        if (name == "statBoostChance")
+        {
+            weaponDef.customDamage.statBoostChance = boost::lexical_cast<int>(val);
+        }
+        if (name == "statBoosts")
+        {
+            for (auto statBoostNode = child->first_node(); statBoostNode; statBoostNode = statBoostNode->next_sibling())
+            {
+                if (strcmp(statBoostNode->name(), "statBoost") == 0)
+                {
+                    weaponDef.customDamage.statBoosts.push_back(StatBoostManager::GetInstance()->ParseStatBoostNode(statBoostNode, StatBoostDefinition::BoostSource::AUGMENT));
+                }
+            }
+        }
+        if (name == "crewSpawnChance")
+        {
+            weaponDef.customDamage.crewSpawnChance = boost::lexical_cast<int>(val);
+        }
+        if (name == "spawnCrew")
+        {
+            CrewSpawn newSpawn = CrewSpawn::ParseCrewSpawn(child, false);
+            if (!newSpawn.race.empty())
+            {
+                weaponDef.customDamage.crewSpawns.push_back(newSpawn);
+            }
+        }
+
+        if (name == "iconScale")
+        {
+            weaponDef.iconScale = boost::lexical_cast<float>(val);
+        }
+    }
+
+    // Default chance if tag not specified (100% if tags specified, 0% otherwise)
+    if (weaponDef.customDamage.statBoostChance == -1)
+    {
+        weaponDef.customDamage.statBoostChance = weaponDef.customDamage.statBoosts.empty() ? 0 : 10;
+    }
+    if (weaponDef.customDamage.crewSpawnChance == -1)
+    {
+        weaponDef.customDamage.crewSpawnChance = weaponDef.customDamage.crewSpawns.empty() ? 0 : 10;
     }
 
     CustomWeaponManager::instance->AddWeaponDefinition(weaponDef);
@@ -104,6 +203,7 @@ HOOK_METHOD(ProjectileFactory, SpendMissiles, () -> int)
         if (randomNum < CustomWeaponManager::instance->GetWeaponDefinition(blueprint->name)->freeMissileChance)
         {
             iSpendMissile = 0;
+            if (iShipId == 0) G_->GetEventSystem()->AddEvent(12);
         }
     }
 
@@ -248,3 +348,137 @@ HOOK_METHOD(WeaponControl, KeyDown, (SDLKey key) -> bool)
     return ret;
 }
 
+static ProjectileFactory *simultaneousFireWeapon = nullptr;
+HOOK_METHOD(ProjectileFactory, GetProjectile, () -> Projectile*)
+{
+    bool fireShot = weaponVisual.bFireShot;
+    Projectile* ret = super();
+
+    if (!queuedProjectiles.empty())
+    {
+        if (fireShot && CustomWeaponManager::instance->GetWeaponDefinition(blueprint->name)->simultaneousFire)
+        {
+            simultaneousFireWeapon = this;
+        }
+
+        if (blueprint->type == 4 && !blueprint->miniProjectiles.empty())
+        {
+            if (!fireShot && ret == nullptr)
+            {
+                if (queuedProjectiles.size() % blueprint->miniProjectiles.size() != 0)
+                {
+                    ret = queuedProjectiles.back();
+                    queuedProjectiles.pop_back();
+                    return ret;
+                }
+                else if (simultaneousFireWeapon == this)
+                {
+                    ret = queuedProjectiles.back();
+                    queuedProjectiles.pop_back();
+                }
+            }
+
+            if (ret != nullptr)
+            {
+                // Offset fix for charge flak
+                int i = (queuedProjectiles.size() / blueprint->miniProjectiles.size()) * blueprint->miniProjectiles.size();
+                if (i < queuedProjectiles.size())
+                {
+                    for (int j=i+1; j<queuedProjectiles.size(); ++j)
+                    {
+                        queuedProjectiles[j]->position = queuedProjectiles[i]->position;
+                        queuedProjectiles[j]->last_position = queuedProjectiles[i]->last_position;
+                    }
+                    ret->position = queuedProjectiles[i]->position;
+                    ret->last_position = queuedProjectiles[i]->last_position;
+                }
+            }
+        }
+        else
+        {
+            if (simultaneousFireWeapon == this && !fireShot && ret == nullptr)
+            {
+                ret = queuedProjectiles.back();
+                queuedProjectiles.pop_back();
+            }
+        }
+    }
+    else
+    {
+        if (simultaneousFireWeapon == this) simultaneousFireWeapon = nullptr;
+    }
+
+    return ret;
+}
+
+HOOK_METHOD(WeaponAnimation, StartFire, () -> bool)
+{
+    bool ret = super();
+
+    if (ret && iChargeLevels > 1 && CustomWeaponManager::currentWeapon && CustomWeaponManager::currentWeapon->simultaneousFire)
+    {
+        int chargeLength = (anim.info.numFrames - iChargedFrame) / iChargeLevels;
+        anim.SetCurrentFrame(iChargedFrame + chargeLength * boostLevel);
+    }
+}
+
+HOOK_METHOD(ProjectileFactory, constructor, (const WeaponBlueprint* bp, int shipId) -> void)
+{
+    super(bp, shipId);
+
+    if (bp->type != 2)
+    {
+        auto def = CustomWeaponManager::instance->GetWeaponDefinition(blueprint->name);
+        if (def->fireTime)
+        {
+            weaponVisual.SetFireTime(def->fireTime);
+        }
+    }
+}
+
+// Fix for weapon animations with many frames.
+HOOK_METHOD(WeaponAnimation, Update, () -> void)
+{
+    if (bFiring)
+    {
+        auto cFPS = G_->GetCFPS();
+        float speedFactor = cFPS->SpeedFactor;
+        float speed = speedFactor * 0.0625f * anim.info.numFrames/anim.tracker.time; // frame length * anim FPS
+        if (speed > 1.f)
+        {
+            speed = std::ceil(speed);
+            int iSpeed = speed;
+            cFPS->SpeedFactor = speedFactor / speed;
+            for (int i=1; i<iSpeed; ++i)
+            {
+                super();
+            }
+            cFPS->SpeedFactor = speedFactor;
+        }
+        else
+        {
+            super();
+        }
+    }
+    else
+    {
+        super();
+    }
+}
+
+// Icon Scale
+HOOK_METHOD(WeaponBlueprint, RenderIcon, (float scale) -> void)
+{
+    scale *= CustomWeaponManager::instance->GetWeaponDefinition(name)->iconScale;
+    if (scale != 1.f)
+    {
+        CSurface::GL_PushMatrix();
+        CSurface::GL_Scale(scale,scale,0.f);
+        super(scale);
+        CSurface::GL_PopMatrix();
+    }
+    else
+    {
+        super(scale);
+    }
+}

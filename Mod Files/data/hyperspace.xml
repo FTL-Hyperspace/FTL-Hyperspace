@@ -1,6 +1,6 @@
 <FTL>
 
-<version>8</version>
+<version>91</version>
 
 <!-- Hyperspace defaults
 
@@ -135,6 +135,26 @@ Does not include repair arm.
 
 <enemyPreigniterFix enabled="false"/>
 
+<!--  Changes crystal shards to count as player projectiles rather than neutral projectiles (so they don't get targeted by friendly defense drones, etc.)
+Default is true.
+-->
+
+<crystalShardFix enabled="true"/>
+
+<!-- Fixes the defense drone blind spot by adjusting the firing range to be based on the layout of the ship and the shield ellipse size, rather than a fixed region.
+When the fix is enabled, the range will be unlimited against enemy combat drones.
+-->
+
+<defenseDroneFix enabled="true">
+	<boxRange>150</boxRange> <!-- default range around a bounding box that fits the ship's room layout, can set separate values for player/enemy using player and enemy attributes -->
+	<ellipseRange>50</ellipseRange> <!-- default range around the shield ellipse, can set separate values for player/enemy using player and enemy attributes -->
+</defenseDroneFix>
+
+<!--  Enables resistsMindControl stat as a separate stat from isTelepathic.
+-->
+
+<resistsMindControlStat enabled="true"/>
+
 
 <!--  Alternate color scheme for O2 levels
 The gradient tag is optional and allows specifying a custom gradient (the default alternate is included here).
@@ -177,7 +197,7 @@ If the chance attribute is set to 1 or above, every time the main menu is loaded
 
 <seeds enabled="true"/>
 
-<!-- Enables command console in game - press L to use
+<!-- Enables command console in game - press \ to use
 
 
 EVENT          Run an event.                           Usage: EVENT <event_id>        Example: EVENT FREE_AUG
@@ -192,6 +212,7 @@ DRONE          Add a drone blueprint.                  Usage: DRONE <drone_id>  
 FUEL           Add fuel.                               Usage: FUEL <num_to_add>       Example: FUEL 50
 MISSILES       Add missiles.                           Usage: MISSILES <num_to_add>   Example: MISSILES 50
 RICH           Add 80 of each resource and 1999 scrap. Usage: RICH
+POOR           Takes away all of your resources        Usage: POOR
 GOD            Fully upgrade every system and reactor. Usage: GOD
 DELETE         Destroys enemy ship.                    Usage: DELETE
 SYS            Add a system.                           Usage: SYS <system_name>       Example: SYS cloaking
@@ -204,9 +225,73 @@ DELETECREW     Kills everyone on the enemy ship        Usage: DELETECREW
 SPEED          Changes game speed                      Usage: SPEED <speed>           Example: SPEED 3 (any integer from -2 to 3)
 DAMAGESYS      Damages a system                        Usage: DAMAGESYS <system_name> Example: DAMAGESYS medbay
 SHIP_CUSTOM    Unlocks a customs ship (permanently)    Usage: SHIP_CUSTOM <ship_name> Example: SHIP_CUSTOM PLAYER_SHIP_CUSTOM
+JUMPEVENT      Sets a jumpEvent                        Usage: JUMPEVENT <event_id>
+LOADEVENT      Loads an event using LoadEvent          Usage: LOADEVENT <event_id>
+VARIABLE       Set variable and/or print in FTL_HS.log Usage: VARIABLE <var_id> <n>
+METAVARIABLE   As above but for meta-variables         Usage: METAVARIABLE <var_id> <n>
 -->
 
 <console enabled="true"/> 
+
+<!-- Custom Victory Achievements
+
+Allows for tracking of different types of victories for mods which use custom victory conditions. Custom victory achievements will be generated for all player ships.
+These achievements will be displayed for custom ships (where the ship achievements would normally be).
+On the ship select screen, a new filter window will be created for the player to select up to three different victory achievements to display while browsing ships.
+
+If this feature is used, a "flagship" victory type will automatically be created unless noFlagship="true". The default definition can be overwritten with your own.
+Other victory types are granted using the "ach" attribute on a <win> or <finalBoss> tag.
+
+For each victory achievement, you can give a name and description (\1 = ship class name, e.g. "Kestrel Cruiser").
+Icon is the 32x32 icon to use, switching between achievements/icon_on.png and achievements/icon_off.png depending on if the achievement is unlocked.
+Color is the RGB color to use for the layout pips on the achievement.
+If <quiet/> is included, no achievement popup will appear when the victory achievement is unlocked.
+If <secret/> is included, the achievement will not show up in the hangar unless you have completed it with at least one ship.
+If <filter/> is included, the achievement will be enabled by default in the filters for showing ship victory achievements on the ship select screen.
+
+<victories noFlagship="true">
+	<flagship>
+		<name>\1 Flagship Victory</name>
+		<description id="victory_ach">Defeat the Flagship with any layout of the \1</description>
+		<icon>S_V</icon>
+		<quiet/>
+		<filter/>
+	</flagship>
+	<peace>
+		<name>\1 Peace Ending</name>
+		<description>Obtain the peace ending with any layout of the \1</description>
+		<secretName>\1 ????? Ending</secretName>
+		<secretDescription id="victory_ach">Obtain the ????? ending with any layout of the \1</secretDescription>
+		<secretIcon>S_Secret</secretIcon>
+	</peace>
+	<secret>
+		<name>\1 Secret Ending</name>
+		<description>Obtain the secret ending with any layout of the \1</description>
+		<color r="255" g="0" b="0"/>
+		<secret/>
+	</secret>
+</victories>
+
+-->
+
+<!-- Custom Achievements
+
+General achievements that can be awarded that aren't tied to victories/ship victories.
+
+<achievements>
+	<achievement name="ACH_ID">
+		<name id="text_id">text</name>
+		<description id="text_id">text</name>
+		<header id="text_id">text</name>
+		<secretName id="text_id">text</name>
+		<secretDescription id="text_id">text</name>
+		<icon>image_name</icon> (name of image file in achievements folder, without extension)
+		<lockImage>image_name</lockImage> (name of image file in achievements folder, without extension - default is customizeUI/box_lock_on.png)
+		<variable name="varname" amount="100"/> (name of variable or meta-variable to track, optional)
+	</achievement>
+</achievements>
+
+-->
 
 <!-- Infinite Ships
 
@@ -221,12 +306,19 @@ roomAnim render layers:
 3 - draws above crew - can see when room has no vision, but not when you can't actually see the room outline
 4 - draws above everything
 
+<customReactor> goes inside <customShip>, contains the tags that let you set the prices for upgrading the reactor
+maxLevel attribute sets the maximum level you can upgrade to
+<baseCost> defines the cost of the first 5 levels
+<increment> sets how much more expensive each coloumn gets
+<overrideCost> sets the price of an individual coloumn specified in the attribute, every other coloumn will follow default scaling
+
+
 <empty> in shipOrder means that the slot that the ship would take up is empty instead
 
 Unlocks:
 variant attribute is what variant you want the unlock method for (a, b or c)
 
-type is the unlock method (0 is beat flagship, 1 is reach sector, 2 is any victory, 3 is other ship unlocks, 4 is for event unlocks)
+type is the unlock method (0 is beat flagship, 1 is reach sector, 2 is any victory, 3 is other ship unlocks, 4 is for event unlocks, 5 is for other ship victories)
 shipReq is the ship that you have to do it with to unlock it
 value is only used for reach sector currently which defines which sector the player has to reach
 silent tag defines whether or not it will show up in the top right and plays the sound
@@ -237,6 +329,30 @@ so for the engi ship, the layoutFile is mup_engi_b, so the icon would be img/ach
 
 you can also put multiple unlock methods which will let the player do ANY of them to unlock the ship
 putting the secret attribute on the ship tag will make the ship show up as "Unidentified Cruiser" when hovering over it in the ship selection screen
+
+If noAppend is true, the ship won't be automatically appended to the back of the ship pages; it will only appear if explicitly added using the <shipOrder>
+
+Unlock arrows:
+
+Adds an arrow to the page to show which ship this ship unlocks. Put the ID of the target ship WITH the variant suffix.
+ variant - The variant to associate the arrow with. Source and target ship must be the same variant. If "all" or omitted then the arrow appears on every page (but the target ship is always the specific variant).
+ tooltip - Text ID to use for hover tooltip.
+ tooltipText - Literal text to use for hover tooltip.
+ image - full image name of arrow asset. Uses default victory arrow asset in corresponding direction if omitted.
+ lockedImage - full image name of arrow asset when source ship is locked. Uses default locked arrow asset in corresponding direction if omitted.
+ unlockedImage - full image name of arrow asset when target ship is unlocked. NO default; if unspecified then no arrow is rendered when the target ship is unlocked.
+ direction - direction which the arrow points, used to place the image relative to the button. Omit for default 0,0 offset.
+ x and y - offset coordinates for arrow after applying the automatic offset from the direction attribute.
+ mirrorX and mirrorY - mirrors the arrow asset over the X and Y axes respectively.
+
+Victory/Quest achievements:
+
+A victory achievement will automatically be generated for all non-vanilla ships. A quest achievement will also be generated if the ship has unlock method 4.
+Victory achievements will be granted upon any victory with the ship.
+Quest achievements will be granted upon unlocking the ship via event (or if the ship would have been unlocked had it not already been unlocked).
+
+By default, all layouts of a given ship are treated as the same ship and share achievements, with completion recorded per-layout, like for vanilla victory achievements.
+splitUnlockQuestAchievement and splitVictoryAchievement will cause the quest and victory achievements respectively to be split so that each layout is treated as a distinct ship.
 
 Syntax -> 
 
@@ -263,11 +379,30 @@ Syntax ->
 		<crewLimit>12</crewLimit>
 	</customShip>
 	
-	<ship name="PLAYER_SHIP_CUSTOM" b="true" c="true">
+	<ship name="PLAYER_SHIP_CUSTOM" b="true" c="true" secret="false" noAppend="false" splitUnlockQuestAchievement="false" splitVictoryAchievement="false">
 		<unlock variant="a">
             <type>1</type>
             <shipReq>PLAYER_SHIP_CUSTOM_2</shipReq>
             <value>5</value>
+			<silent/>
+        </unlock>
+		<arrow variant="a" direction="right" image="arrow_5_right.png" tooltip="ship_unlock_sector5">PLAYER_SHIP_UNLOCKME</arrow>
+		<unlock variant="b">
+            <type>3</type>
+            <otherUnlocks>
+				<ship>PLAYER_SHIP_FOO</ship>
+				<ship>PLAYER_SHIP_BAR</ship>
+				<ship>PLAYER_SHIP_BAZ</ship>
+			</otherUnlocks>
+			<silent/>
+        </unlock>
+		<unlock variant="c">
+            <type>5</type>
+            <victories>
+				<victory>PLAYER_SHIP_FOO</victory>                      (any type of victory)
+				<victory type="flagship">PLAYER_SHIP_BAR</victory>      (specifically a flagship kill)
+				<victory type="secretending">PLAYER_SHIP_BAZ</victory>  (specifically a custom victory of achievement type "secretending")
+			</victories>
 			<silent/>
         </unlock>
     </ship>
@@ -288,6 +423,12 @@ Syntax ->
 		<crewLimit>6</crewLimit>
 		<startingScrap>0</startingScrap>
 		<startingFuel>0</startingFuel>
+		<customReactor maxLevel="30">
+			<baseCost>20</baseCost>
+			<increment>10</increment>
+			<overrideCost coloumn="1">40</overrideCost>
+			<overrideCost coloumn="3">45</overrideCost>
+		</customReactor>
 	</customShip>
 	
 	<customShip name="ENEMY_SHIP">
@@ -295,6 +436,7 @@ Syntax ->
 		<hpCap>30</hpCap>
 		<noFuelStalemate/>
 		<autoShipForce>false</autoShipForce>
+		<shipGenerator>shipGeneratorName</shipGenerator>
 	</customShip>
 	...
 </ships>
@@ -341,6 +483,7 @@ Syntax ->
 		<canRepair>true</canRepair>                                                      If true, this crewmember can repair systems and breaches and put out fires.
 		<canSabotage>true</canSabotage>                                                  If true, this crewmember can sabotage enemy systems.
 		<canMan>true</canMan>                                                            If true, this crewmember can man systems.
+		<canTeleport>true</canTeleport>                                                  If true, this crewmember can be teleported by the crew teleporter.
 		<canSuffocate>true</canSuffocate>                                                If true, this crewmember will take damage in rooms with low oxygen.
 		<canBurn>true</canBurn>                                                          If true, this crewmember will take damage in rooms with fires.
 		<maxHealth>100</maxHealth>                                                       Crewmember's maximum health.
@@ -352,6 +495,7 @@ Syntax ->
 		<suffocationModifier>1.0</suffocationModifier>                                   Modifier for damage taken in low oxygen.
 		<bonusPower>0</bonusPower>                                                       Grants bonus power to system (zoltan).
 		<isTelepathic>false</isTelepathic>                                               If true, resists mind control and can see into adjacent rooms (slug).
+		<resistsMindControl>false</resistsMindControl>                                   If true, resists mind control if the stat is enabled globally (slug).
 		<fireDamageMultiplier>1.0</fireDamageMultiplier>                                 Modifier for damage taken in rooms on fire.
 		<stunMultiplier>1.0</stunMultiplier>                                             Modifier for stun duration. Lower value is stunned for a shorter duration.
 		<canPhaseThroughDoors>false</canPhaseThroughDoors>                               If true, ignores doors.
@@ -417,6 +561,23 @@ Syntax ->
 			<friendlyFire>false</friendlyFire>                                           If false, then the damage is not applied to friendly crewmembers.
 			<stun>0</stun>
 			<shipFriendlyFire>false</shipFriendlyFire>                                   If false, then the hull/system/ion damage is only applied on the enemy ship.
+			<transformRace health="0" healthFraction="1.0"                               Upon death, instead transform into a different race with the corresponding amount of health.
+			               deathSound="false">race</transformRace>                         deathSound determines whether to play the death sound when the transformation is triggered.
+			<statBoosts>                                                                 List of timed stat boosts to apply upon death. Boost conditions are used to determine who to apply the boost to.
+				<statBoost name="...">...</statBoost>
+			</statBoosts>
+			<spawnCrew>                                                                  Spawns new crewmembers upon ability activation. Include as many <spawnCrew> tags as you need.
+				<race>human</race>                                                       Race to spawn.
+				<name>Summoned Man</name>                                                Custom name to assign.
+				<number>1</number>                                                       Number of crew to spawn.
+				<healthPercentage>1.0</healthPercentage>                                 Fraction of max health to spawn with.
+				<lifetime>30</lifetime>                                                  After this amount of time passes, the crewmember will die permanently.
+				<statBoosts>                                                             Stat boosts (temporary or permanent) to apply to the spawned crewmember. Will check conditions on creation only.
+					...
+				</statBoosts>
+				<enemy>false</enemy>                                                     If true, spawns crew of enemy alignment.
+				<noSlot>false</noSlot>                                                   If true, forces the crewmember to not take up a slot. Good for temporary spawns.
+			</spawnCrew>
 		</deathEffect>
 		<powerEffect>                                                                    Special crew abilities.
 			<cooldown>30</cooldown>                                                      Ability cooldown in seconds. Does not include temporaryEffect duration.
@@ -451,6 +612,7 @@ Syntax ->
 				<inCombat/>                                                              Hostile enemy ship is present.
 				<outOfCombat/>                                                           No hostile enemy ship is present.
 				<hasClonebay/>
+				<notMindControlled/>                                                     Blocks the ability from being used if the crewmember is mind controlled.
 				<minHealth>10</minHealth>
 				<maxHealth>40</maxHealth>
 				<whiteList enemy="true/false" load="BP_LIST">                            A crewmember on the whitelist must be present to use the ability. If the enemy attribute is provided, only enemies/friendlies are checked.
@@ -490,7 +652,12 @@ Syntax ->
 			<selfHealth>0.0</selfHealth>                                                           Modifies own health by this amount.
 			<transformRace>engi</transformRace>                                                    When the ability is activated, the crewmember will transform into the specified race.
 			<activateWhenReady enemiesOnly="false">false</activateWhenReady>                       Forces the ability to be activated when it is ready. If enemiesOnly is true, only applies for enemy crew.
-			
+			<spawnCrew>                                                                            Spawns new crewmembers upon ability activation. Include as many <spawnCrew> tags as you need.
+				...
+			</spawnCrew>
+			<statBoosts>                                                                           List of timed stat boosts to apply upon ability activation. Boost conditions are used to determine who to apply the boost to.
+				<statBoost name="...">...</statBoost>
+			</statBoosts>
 			<temporaryEffect>                                                                      Creates a temporary effect with the ability, modifying the crewmember's stats. Modified stats replace the original stats.
 				<duration>10</duration>                                                            Duration of the temporary effect.
 				<cooldownColor r="167" g="250" b="255"/>                                           Changes the color of the cooldown bar while the temporary effect is active.
@@ -636,6 +803,7 @@ Syntax ->
 	
 	<race name="slug">
 		<isTelepathic>true</isTelepathic>
+		<resistsMindControl>true</resistsMindControl>
 		<detectsLifeforms>true</detectsLifeforms>
 	</race>
 	
@@ -747,6 +915,11 @@ warning attribute being false removes red warning text
 sys attribute means that a functional system is required for the augment to be effective.
 modifyChoiceTextScrap is only used for SCRAP_COLLECTOR; it causes the scrap amounts shown in event dialogues to account for the augment. It does not affect the "scrap collected" in the stats or the player's score.
 
+<crystalShard> emulates crystal vengeance but allows you to set your own blueprint. stackable can either be "false", "true", or "independent".
+Independent means to roll for a proc independently for each stack of the augment. Otherwise the chance of a proc is accumulated for each unique weapon blueprint.
+You can use a blueprint list as well to roll a random weapon effect.
+Number of projectiles per proc is based on the shot count of the weapon blueprint (doesn't work for beams).
+
 <superShield> lets you specify a custom super shield value instead of the default 5. Generally should be used along with <function name="ENERGY_SHIELD"/> so it still counts for blue options, etc.
 You can also specify a custom shield image and tint. Custom images are useful for colors that don't work well on the standard blue shield, such as yellow, red, pink, and white.
 Using <shieldImage> is equivalent to using both <playerImage> and <enemyImage>.
@@ -762,6 +935,8 @@ Syntax ->
 		<function name="SCRAP_COLLECTOR" value="-0.1" modifyChoiceTextScrap="true"/>
 		<function name="DEFENSE_SCRAMBLER" sys="hacking"/>
 		
+		<crystalShard weapon="CRYSTAL_1" value="0.1" stackable="false"/> (can be repeated for multiple crystalShard functions on the same augment)
+		
 		<superShield>
 			<value>5</value> (gives custom supershield value; when multiple augments are present the highest value is used)
 			<add>0</add> (gives custom supershield value that is added to existing custom supershields to allow stacking)
@@ -776,6 +951,8 @@ Syntax ->
 		</statBoosts>
 		
 		<locked/>
+		
+		<icon ship="player/enemy">icon_name</icon> (dynamically adds additional shipIcons to a ship that possesses this augment; ship parameter makes icon show for player/enemy only) (currently only available for enemy)
     </aug>
 </augments>
 -->
@@ -783,6 +960,47 @@ Syntax ->
 <augments>
 
 </augments>
+
+<!-- Custom Systems -->
+
+<customSystems>
+	<system id="temporal">
+		<speed>
+			<level1>
+				<duration>10</duration>
+				<cooldown>2</cooldown>
+				<strength>2</strength>
+			</level1>
+			<level2>
+				<duration>7</duration>
+				<cooldown>2</cooldown>
+				<strength>4</strength>
+			</level2>
+			<level3>
+				<duration>5</duration>
+				<cooldown>2</cooldown>
+				<strength>8</strength>
+			</level3>
+		</speed>
+		<slow>
+			<level1>
+				<duration>10</duration>
+				<cooldown>2</cooldown>
+				<strength>0.25</strength>
+			</level1>
+			<level2>
+				<duration>17</duration>
+				<cooldown>2</cooldown>
+				<strength>0.12</strength>
+			</level2>
+			<level3>
+				<duration>25</duration>
+				<cooldown>2</cooldown>
+				<strength>0.06</strength>
+			</level3>
+		</slow>
+	</system>
+</customSystems>
 
 <!-- Stat boosts
 
@@ -797,8 +1015,10 @@ As the name implies, stat boosts can be used to boost (or just generally modify)
 boostType: what the boost does to the stat; for numerical amounts, it can be FLAT, MULT, or SET, and for true/false values it can be SET or FLIP
 value/amount: use value for true/false stats and amount for numerical ones
 shipTarget: the ship/room that the statBoost affects. For augments, you can use PLAYER_SHIP, ENEMY_SHIP, ORIGINAL_SHIP, ORIGINAL_OTHER_SHIP, or ALL, and for crew you can use the same but also OTHER_ALL, CURRENT_ROOM, and CURRENT_ALL
-crewTarget: determines what crew the boost affects. it can be ALLIES, ENEMIES, ALL, CURRENT_ALLIES, or CURRENT_ENEMIES. CURRENT_ALLIES and CURRENT_ENEMIES factor in mind control.
+crewTarget: determines what crew the boost affects. it can be ALLIES, ENEMIES, ALL, CURRENT_ALLIES, CURRENT_ENEMIES, SELF, or NONE. CURRENT_ALLIES and CURRENT_ENEMIES factor in mind control.
+  SELF is the same as NONE except it automatically sets affectsSelf to true.
 droneTarget: determines whether the boost affects drones or not. it can be DRONES, CREW, or ALL (the default)
+functionalTarget: boolean, for drones it determines whether the drone needs to be powered or not. Default is false.
 whiteList/blackList: determines the species that the boost applies to. whiteLists mean that only those species get the boost, and blackLists mean that only those species won't get the boost.
   Can also use load attribute to load a blueprintList.
 affectsSelf: determines if the boost affects the source in addition to its normal targets, defaults to false
@@ -829,6 +1049,7 @@ Stat boost syntax examples->
 	<systemRoomTarget>ALL/NONE</systemRoomTarget>
 	<crewTarget>ALLIES/ENEMIES/ALL</crewTarget>
 	<droneTarget>CREW/DRONES/ALL</droneTarget>
+	<functionalTarget>false</functionalTarget>
 	<whiteList load="BP_LIST">
 		<race/>
 	</whiteList>
@@ -1224,6 +1445,128 @@ Example:
 	-->
 </rewards>
 
+<!-- Custom Sector Map
+
+Can be used to customize the generation of the sector map.
+
+Each sectorList determines the distribution of sectors up to a given sector number.
+Each entry in a sectorList is a sectorType in sector_data.xml. The chance is the relative probability of rolling from that list (default chance = 1).
+Chance must be an integer; they can sum to any number you'd like.
+sectorLists must be in ascending sector order. They do not affect sector 1 or the final sector.
+
+When using custom sectorLists you still need to list all sectors under the default CIVILIAN/HOSTILE/NEBULA lists as those are used to color the sectors on the map.
+
+sectorMap can also go in sector_data.xml.
+
+Example:
+
+<sectorMap>
+	<sectorList maxSector="m">
+		<LIST_NAME_1 chance="x"/>
+		<LIST_NAME_2 chance="y"/>
+	</sectorList>
+	<sectorList maxSector="n">
+		<LIST_NAME_3 chance="z"/>
+		<LIST_NAME_4 chance="w"/>
+	</sectorList>
+</sectorMap>
+
+-->
+
+<!-- Vanilla equivalent:
+<sectorMap>
+	<sectorList>
+		<CIVILIAN chance="4"/>
+		<HOSTILE chance="4"/>
+		<NEBULA chance="2"/>
+	</sectorList>
+</sectorMap>
+-->
+
+<!-- Custom Ship Generators (WIP)
+
+You can customize the algorithm used to generate enemy ships. This can be customized for different difficulty levels to affect how enemy ships generate.
+Custom ship generator is required in order to recognize new systems added by Hyperspace.
+
+Difficulty levels are 0 for Easy, 1 for Normal, and 2 for Hard. Sector values are the internal ones, which are 1 less than the displayed sector number.
+
+Most tags which take a difficulty attribute default to Normal if none is specified.
+As well, If you specify values for Normal, then Easy/Hard automatically inherit from Normal unless you explicitly specify values for Easy/Hard.
+Finally, many tags will inherit values from a previous similar tag. For example, <systemLevelScaling system="shields" difficulty="0"> will first try to inherit from <systemLevelScaling system="shields" difficulty="1">,
+then from <systemLevelScaling difficulty="0">, then from <systemLevelScaling difficulty="1">, then from the vanilla default. However, a tag can only inherit from tags which are above it, not below, so order matters.
+
+<difficultyMod> is a global modifier which effectively advances/delays the enemy level. A positive value advances the enemy strength while a negative value delays it.
+
+<sectorScaling> adjusts how quickly enemy ships scale overall, and is used for both crew count, as well as by default for systems.
+minValue and maxValue are the lowest and highest scaling values to use. A value of 0 corresponds to the base amount while a value of 1 corresponds to the max amount for crew/systems.
+minSector and maxSector are the sectors which correspond to minValue and maxValue. Ships will scale linearly between these sectors.
+
+<systemLevelScaling> adjusts the scaling for systems, and applies to all systems unless the system attribute is included.
+When generating an enemy ship, a maximum level is rolled for each system. The base value for this maximum is scaled between the starting power and the maximum power, then rounded down.
+Then an additional random number is rolled and added on top. If the maximum value exceeds the blueprint maximum, it is reduced to the blueprint maximum.
+<randomScaling> controls this additional roll. The random number rolled will be between 0 and the value specified in <randomScaling>, inclusive.
+Multiple <randomScaling> tags can be included. Each subsequent tag should have a sector attribute to specify which sector it becomes effective in. These sectors must be in ascending order.
+The first randomScaling tag should not have a sector attribute; if one is included then it will be ignored.
+
+Note that it is not guaranteed that enemy ships will have their systems upgraded to the maximum value rolled for <systemLevelScaling>, as each ship gets a limited budget with which to upgrade.
+
+Example:
+<shipGenerators>
+	<shipGenerator>
+		<difficultyMod difficulty="0">-1</difficultyMod>
+		
+		<sectorScaling difficulty="x">
+			<minValue>0.0</minValue>
+			<maxValue>1.0</maxValue>
+			<minSector>0</minSector>
+			<maxSector>8</maxSector>
+		</sectorScaling>
+		
+		<systemLevelScaling system="shields" difficulty="x">
+			<sectorScaling>
+				<minValue>0.0</minValue>
+				<maxValue>1.0</maxValue>
+				<minSector>0</minSector>
+				<maxSector>8</maxSector>
+			</sectorScaling>
+			<randomScaling>0</randomScaling>
+			<randomScaling sector="0">1</randomScaling>
+			<randomScaling sector="2">2</randomScaling>
+		</systemLevelScaling>
+	</shipGenerator>
+	<shipGenerator name="customGenerator">
+		...
+	</shipGenerator>
+</shipGenerators>
+
+-->
+
+<!-- Vanilla-equivalent ship generation
+<shipGenerators>
+	<shipGenerator>
+		<difficultyMod difficulty="0">-1</difficultyMod>
+		
+		<sectorScaling>
+			<minValue>0.0</minValue>
+			<maxValue>1.0</maxValue>
+			<minSector>0</minSector>
+			<maxSector>8</maxSector>
+		</sectorScaling>
+		
+		<systemLevelScaling difficulty="0">
+			<randomScaling>0</randomScaling>
+			<randomScaling sector="0">1</randomScaling>
+		</systemLevelScaling>
+		
+		<systemLevelScaling difficulty="1">
+			<randomScaling>0</randomScaling>
+			<randomScaling sector="0">1</randomScaling>
+			<randomScaling sector="2">2</randomScaling>
+		</systemLevelScaling>
+	</shipGenerator>
+</shipGenerators>
+-->
+
 <!-- Custom Event Characteristics
 
 Now you can include Hyperspace tags inside vanilla <event> and <ship> tags inside the events.xml files! This avoids the need to maintain event parameters in two separate places (vanilla + hyperspace).
@@ -1259,7 +1602,7 @@ The current triggers are elapsed time, jumps taken, damage taken by player or en
 A triggered event can also have a box that can be used to display the remaining time or jumps, and/or sounds for a countdown.
 Due to the numerous trigger attributes, they are not listed in the example syntax for brevity, but instead are listed here:
   time: A time in seconds. The time only counts down while the game is unpaused.
-  jumps: An integer number of jumps. This counts down by 1 every time the player jumps (or waits).
+  jumps: An integer number of jumps. If the "type" attribute is 0, this counts down by 1 every jump cycle (jump or wait). If the "type" attribute is 1, only actual jumps count.
   playerHull: The event triggers when the player's hull reaches this threshold.
   enemyHull: The event triggers when the enemy's hull reaches this threshold.
   playerDamage: Sets a playerHull threshold equal to the player's current hull minus this value.
@@ -1275,18 +1618,19 @@ The "loops" attribute also has "minLoops" and "maxLoops" for a random number of 
 
 Syntax -> 
 <events>
-	<bossShip yOffset="120">BOSS_BLUEPRINT</bossShip>  Use the boss box for BOSS_BLUEPRINT. yOffset can be used to override the default boss offset.
+	<bossShip yOffset="120">BOSS_BLUEPRINT</bossShip>                       Use the boss box for BOSS_BLUEPRINT. yOffset can be used to override the default boss offset.
 	
-	<eventFile>filename</eventFile>                    Parses events_filename.xml for events using the vanilla parser.
+	<eventFile>filename</eventFile>                                         Parses events_filename.xml for events using the vanilla parser.
 	
-	<revisitEvent seeded="true">NOTHING</revisitEvent> Automatically loads this event by default when revisiting any beacon. Does not affect dive beacons.
+	<revisitEvent seeded="true" ignoreUnique="false">NOTHING</revisitEvent> Automatically loads this event by default when revisiting any beacon. Does not affect dive beacons.
 	
-	<sector name="SECTOR_ID">                                                              Custom sector specification.
+	<sector name="SECTOR_ID" maxSector="999">                                              Custom sector specification. maxSector adds a maximum sector number for sector generation.
         <exitBeacon event="EVENT_NAME" rebelEvent="EVENT_NAME" nebulaEvent="EVENT_NAME"/>  Changes the default exit beacon event. nebulaEvent is used for nebula exits; rebelEvent is used if the rebels overtake the exit.
         <rebelBeacon event="EVENT_NAME" nebulaEvent="EVENT_NAME"/>                         Changes the default rebel fleet events. nebulaEvent is used for nebula fleet events.
         <removeFirstBeaconNebula/>                                                         Removes the nebula from the starting beacon.
         <nebulaSector>false</nebulaSector>                                                 Overrides whether the sector is a nebula sector, affecting the fleet pursuit when the player is in nebula. Useful for secret sectors.
 		<noExit/>                                                                          Removes the exit beacon, preventing normal travel to the next sector. Still creates an exit beacon event where the exit would be.
+		<priorityEvent name="EVENT_LIST" min="0" max="0" priority="0"/>                    Like <event> in sector_data.xml but adds priority for sorting (high to low). >=0 goes above normal events.
     </sector>
 	
 	<quest>                                      Specifies new defaults for quest spawning. This tag also exists for individual events to override the defaults.
@@ -1342,10 +1686,12 @@ Syntax ->
 		<visitedTooltip id="_id_">_text_</visitedTooltip>                                       Custom tooltip for if the beacon has been visited. Can use either text id or literal string.
 	</beaconType>
 	
-	<loadEventList name="LIST_NAME" seeded="true" first="false" default="DEF_EVENT">            Events that loadEvent LIST_NAME will load a random event from this list. seeded = "false" overrides loadEvent seeded.
-		<event name="EVENT_NAME" req="EQUIP_NAME"/>                                               If first = "true", then load the first candidate instead of a random one. If default is specified, then load it if there are no
-		<event name="EVENT_NAME_2" req="REQ_NAME" lvl="1" max_lvl="999" max_group="0"/>           valid candidates. Both the req and the event's resource requirements must be met (unless that event specifies steal="true").
-	</loadEventList>                                                                              max_group works differently here than vanilla; it will always keep the first event whose req is satisfied and discard the rest.
+	<loadEventList name="LIST_NAME" seeded="true" first="false" default="DEF_EVENT"             Events that loadEvent LIST_NAME will load a random event from this list. seeded = "false" overrides loadEvent seeded.
+	               generate="false" ignoreUnique="false">                                         If first = "true", then load the first candidate instead of a random one. If default is specified, then load it if there are no
+		<event name="EVENT_NAME" req="EQUIP_NAME"/>                                               valid candidates. Both the req and the event's resource requirements must be met (unless that event specifies steal="true").
+		<event name="EVENT_NAME_2" req="REQ_NAME" lvl="1" max_lvl="999" max_group="0"/>           max_group works differently here than vanilla; it will always keep the first event whose req is satisfied and discard the rest.
+	</loadEventList>                                                                              If generate="true" and this is a root-level event, then the event is selected upon sector generation rather than on visit.
+	                                                                                              You can also create an event directly inside this tag rather than naming an event.
 	
 	<event name="CUSTOM_EVENT" recursive="true">                                                If recursive is true (default), then the same tags apply to all unnamed child events. Otherwise, it only applies to the
 	                                                                                              top-level event.
@@ -1362,34 +1708,41 @@ Syntax ->
 		                                                                                          by layer.
 		<clearCustomFleet/>                                                                     Removes a custom fleet if one is present.
 		<disableScrapScore/>                                                                    Any scrap gained from this event is not added to the player's score.
+		<disableScrapAugments/>                                                                 Any scrap gained from this event is not affected by augments (scrap recovery or repair arm).
 		<checkCargo/>                                                                           Choice requirements will check the ship's cargo in addition to equipment. Can put value of true or false, no value means true.
 		<hiddenAug>AUG_ID</hiddenAug>                                                           Gives the player a hidden augment named AUG_ID. Can be repeated.
 		<removeItem>ITEM_ID</removeItem>                                                        Removes the item with the specified name. Unlike vanilla's <remove> tag, this can be repeated, but it also does not display
 		                                                                                          a "removed" message. Hidden augments can be removed by giving the name "HIDDEN AUG_ID", replacing AUG_ID with the normal
 		                                                                                          augment's id.
+		<variable name="varname" op="set" val="0" min="0" max="0"/>                             Sets or changes a custom variable. Operation can be "set", "add", "mul", "div", "min", or "max".
+		                                                                                          Value can either be a fixed value (using val) or a random value (using min and max).
+		<metaVariable name="varname" op="set" val="0" min="0" max="0"/>                         Same as variable but sets a meta-variable. Meta-variables persist on the profile.
 		<transformRace class="orig_race">new_race</transformRace>                               Transforms a random crewmember to the race new_race. If the class attribute is specified, restricts the random crew selection.
 		<customStore>STORE_ID</customStore>                                                     Use the custom store STORE_ID for this store event.
 		<store>STORE_ID</store>                                                                 Alias for customStore. Allows specifying a custom store in events.xml files using a single tag.
+		<removeStore/>                                                                          Removes the store at the current beacon.
 		<preventQuest/>                                                                         Quest events will be prevented from overwriting this event.
 		<noQuestText/>                                                                          The "added a quest marker" text will not be displayed, to allow for silent quest spawning.
 		<quest event="EVENT_NAME">                                                              Same syntax as the default custom quest. Event-specific parameters override the defaults. If event attribute is specified,
 			...                                                                                   then it is applied to that event. Otherwise, it is applied to this event (CUSTOM_EVENT). In events.xml files it should
 		</quest>                                                                                  only be used with the event attribute.
-		<loadEvent seeded="true">EVENT_NAME</loadEvent>                                         Loads EVENT_NAME on the fly (rather than preloading like in vanilla). If seeded is true, event is seeded by sector/beacon.
+		<loadEvent seeded="true" ignoreUnique="false">EVENT_NAME</loadEvent>                    Loads EVENT_NAME on the fly (rather than preloading like in vanilla). If seeded is true, event is seeded by sector/beacon.
 		<loadEventList ...>                                                                     See <loadEventList> above for syntax. Do not include a "name" attribute in this case.
 			...                                                                                   To use a named loadEventList, simply loadEvent it.
 		</loadEventList>
-		<revisitEvent seeded="true">NOTHING</revisitEvent>                                      Automatically loads this event by default when revisiting this beacon. Does not affect dive beacons.
+		<revisitEvent seeded="true" ignoreUnique="false">NOTHING</revisitEvent>                 Automatically loads this event by default when revisiting this beacon. Does not affect dive beacons.
 		<eventAlias name="ALIAS_NAME" jumpClear="false" once="false">EVENT_NAME</eventAlias>    Sets an alias. Any loadEvent or loadEventList action on ALIAS_NAME will load EVENT_NAME instead. Omit EVENT_NAME to clear.
 		                                                                                          Does not affect vanilla event loading. Set jumpClear to true to auto-clear on jump; set once to auto-clear on use.
+		<queueEvent seeded="true">EVENT_NAME</queueEvent>                                       Queues an event to happen as soon as the current event ends. Can queue multiple events.
 		<restartEvent/>                                                                         Loads the original beacon event. This load does not process Hyperspace tags that normally get processed on event load.
 		<renameBeacon>ALT_EVENT</renameBeacon>                                                  Changes the beacon's event ID to ALT_EVENT, to use its <beaconType>, its <revisitEvent>, etc.
 		<jumpEvent loop="false">EVENT_NAME</jumpEvent>                                          Loads EVENT_NAME when the player clicks the JUMP button (or uses the hotkey). Auto-clears unless loop is true.
 		<clearJumpEvent/>                                                                       Clears the jumpEvent and allows the player to open the starmap.
+		<deathEvent jumpClear="false" thisFight="false">EVENT_NAME</deathEvent>                 Loads an event when you die. Leave EVENT_NAME blank to clear any existing deathEvent.
 		<triggeredEvent name="TR_ID" event="EVENT_ID" seeded="true" thisFight="false"           Creates a triggered event for the event EVENT_ID. If name attribute is not specified, then name is EVENT_ID. If thisFight is
 		                clearOnJump="false" loops="1" time="60.0" ...>                            true, trigger is cancelled once the fight is over. If clearOnJump is true, trigger is cancelled upon jumping. Full syntax above.
 			<time amount="0.0" min="0.0" max="0.0"/>
-			<jumps amount="0" min="0" max="0"/>
+			<jumps amount="0" min="0" max="0" type="0"/>
 			<playerHull amount="0" min="0" max="0"/>
 			<enemyHull amount="0" min="0" max="0" scaling="0.0"/>
 			<playerDamage amount="0" min="0" max="0" countRepairs="true"/>
@@ -1415,14 +1768,21 @@ Syntax ->
 		<replaceSector name="TARGET_SECTOR">REPL_SECTOR</replaceSector>                         Replaces one instance of TARGET_SECTOR with REPL_SECTOR (either a specific sector or a list: CIVILIAN/HOSTILE/NEBULA/UNKNOWN).
 		                                                                                          If REPL_SECTOR is "RANDOM" or omitted then replace with a random of like color. If REPL_SECTOR is "ALL" replace with any random.
 		<goToFlagship atBase="false" allFleet="false"/>                                         Warps the player to the Flagship if they are in the last stand. If atBase is true, the flagship will be advanced to the base.
+		                                                                                          If allFleet is true, then all beacons in the sector will become controlled by the Rebel fleet.
 		<preventFleet/>                                                                         Prevents the rebel fleet from overtaking this beacon whatsoever.
 		<preventBossFleet forever="false"/>                                                     Prevents this event from being randomly overtaken by the fleet in the last stand. If forever is false, it will be overtaken last.
 		<runFromFleet closest="false"/>                                                         If the fleet/boss overtakes this beacon, move it to a random beacon. If closest is true, prefer a nearby beacon.
-		                                                                                          If allFleet is true, then all beacons in the sector will become controlled by the Rebel fleet.
 		<resetFtl/>                                                                             Resets the player's FTL charge to zero.
 		<instantEscape/>                                                                        Causes the enemy ship to jump away instantly (even if engines are destroyed, etc.).
 		<escape/>                                                                               Trigger's the enemy's normal escape sequence. Does not load the escape event.
 		<surrender/>                                                                            Trigger's the enemy's normal surrender behaviour. Does not load the surrender event.
+		<loadEscape force="false"/>                                                             Triggers escape (including event), if the enemy was set to escape on hull threshold or if force="true".
+		<loadSurrender force="false"/>                                                          Triggers surrender (including event), if the enemy was set to surrender on hull threshold or if force="true".
+		<disableEscape force="false"/>                                                          Clears the enemy escape trigger. If force="true" then makes the enemy stop escaping if they were already escaping.
+		<disableSurrender force="false"/>                                                       Clears the enemy surrender trigger. If force="true" then also clears any existing surrender flag.
+		<recallBoarders ship="both"/>                                                           Moves boarders off of ships. Set ship to "player" or "enemy" to get boarders off of one ship only.
+		<repairAllSystems/>                                                                     Fully repairs all of a player's systems.
+		<killEnemyBoarders/>                                                                    Kills all enemy crew on the player ship.
 		<enemyDamage amount="1" system="sys" effect="eff" force="false" damageHull="true"/>     Same syntax as vanilla's <damage> but afflicts the enemy ship. If force="true" then bypasses all system damage resistances.
 		                                                                                          If damageHull="false" then do not inflict hull damage.
 		<superDrones player="false" name="surge_name"/>                                         Triggers drone surge. For custom surge different from flagship add another <surgeDrones> tag in <boss> and give it a name.
@@ -1431,11 +1791,12 @@ Syntax ->
 		                                                                                          and give it a name.
 		<superShields player="false" amount="12" add="0"/>                                      Regenerates supershield to given amount (full if not given), then adds the given additional amount (if not full).
 		<win text="_text_" creditsText="_id_" creditsBackground="_id_" sound="victory"          Immediately ends the run as a victory. The victory text, credits text, and credits background may be specified.
-		     music="title"/>
+		     music="title" ach="victory_type"/>                                                   Specifying an achievement grants the corresponding achievement from <victories>.
 		<lose text="_text_" sound=""/>                                                          Immediately ends the run as a defeat. The game over text shall be specified.
 		<unlockShip silent="false" shipReq="REQ_SHIP_ID">PLAYER_SHIP_ID</unlockShip>            Unlocks the ship PLAYER_SHIP_ID. If silent is true, the unlock is silent. If shipReq is specified, the unlock only occurs if
 		                                                                                          the player is currently playing as that ship. Use alias unlockCustomShip in events.xml files.
 		<unlockCustomShip>PLAYER_SHIP_ID</unlockCustomShip>                                     Alias for unlockShip - same syntax. This alias must be used in events.xml files.
+		<achievement silent="false">ACH_ID</achievement>                                        Unlocks custom global achievement.
 	</event>
 	
 	<shipEvent name="CUSTOM_SHIP_EVENT">                                                        This is similar to custom events, but for ship events. These effects are triggered as soon as the ship spawns (even if not hostile).
@@ -1449,7 +1810,7 @@ Syntax ->
 		<invincible/>                                                                           Activate emergency FTL upon destruction similar to Flagship phases 1 and 2. No effect on gameplay.
 		<deadCrewAuto/>                                                                         When you kill the crew, the ship will become automated instead of neutral. The deadCrew event will still be loaded.
 		<finalBoss text="_text_" creditsText="_id_" creditsBackground="_id_" sound="victory"    When you defeat this ship, you win the game. Credits show ONLY for mutual destruction; otherwise use <win> for credits.
-		           music="title" musicDelay="-1"/>                                                e.g. you can put <win> in the ship's <destroyed>. The sound attribute changes the tune that plays when you defeat the ship.
+		           music="title" musicDelay="-1" ach="victory_type"/>                             e.g. you can put <win> in the ship's <destroyed>. The sound attribute changes the tune that plays when you defeat the ship.
 		                                                                                          musicDelay will automatically restart the current sector's music if set to a positive value.
 		<miniBoss sound="victory" musicDelay="-1"/>                                             Similar to <finalBoss> but does not set a victory flag. Uses long death animation + sound (optional).
 	</shipEvent>

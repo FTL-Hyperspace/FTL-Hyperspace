@@ -9,6 +9,8 @@
 #include "CustomCrew.h"
 #include "CustomSectors.h"
 #include "CustomOptions.h"
+#include "CustomAchievements.h"
+#include "CustomScoreKeeper.h"
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
 
@@ -23,6 +25,11 @@ std::unordered_map<std::string, EventAlias> eventAliases = std::unordered_map<st
 std::unordered_map<int, std::string> renamedBeacons = std::unordered_map<int, std::string>();
 
 std::unordered_map<int, std::pair<std::string, int>> regeneratedBeacons = std::unordered_map<int, std::pair<std::string, int>>();
+
+std::string jumpEvent = "";
+bool jumpEventLoop = false;
+
+std::unordered_map<std::string, int> playerVariables = std::unordered_map<std::string, int>();
 
 CustomEvent::CustomEvent()
 {
@@ -132,65 +139,18 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
 
             if (!sectorName.empty())
             {
-                CustomSector *sec = new CustomSector();
+                CustomSector *sec = GetCustomSectorPreload(sectorName);
+
+                if (sec == nullptr)
+                {
+                    sec = new CustomSector();
+                }
 
                 sec->sectorName = sectorName;
 
-                for (auto sectorNode = eventNode->first_node(); sectorNode; sectorNode = sectorNode->next_sibling())
-                {
-                    if (strcmp(sectorNode->name(), "exitBeacon") == 0)
-                    {
-                        SectorExit exit = SectorExit();
+                ParseCustomSector(eventNode, sec);
 
-                        if (sectorNode->first_attribute("event"))
-                        {
-                            exit.event = sectorNode->first_attribute("event")->value();
-                        }
-                        if (sectorNode->first_attribute("rebelEvent"))
-                        {
-                            exit.rebelEvent = sectorNode->first_attribute("rebelEvent")->value();
-                        }
-                        if (sectorNode->first_attribute("nebulaEvent"))
-                        {
-                            exit.nebulaEvent = sectorNode->first_attribute("nebulaEvent")->value();
-                        }
-
-                        sec->exitBeacons = exit;
-                    }
-
-                    if (strcmp(sectorNode->name(), "rebelBeacon") == 0)
-                    {
-                        SectorFleet fleet = SectorFleet();
-
-                        if (sectorNode->first_attribute("event"))
-                        {
-                            fleet.event = sectorNode->first_attribute("event")->value();
-                        }
-                        if (sectorNode->first_attribute("nebulaEvent"))
-                        {
-                            fleet.nebulaEvent = sectorNode->first_attribute("nebulaEvent")->value();
-                        }
-
-                        sec->fleetBeacons = fleet;
-                    }
-
-                    if (strcmp(sectorNode->name(), "removeFirstBeaconNebula") == 0)
-                    {
-                        sec->removeFirstBeaconNebula = true;
-                    }
-
-                    if (strcmp(sectorNode->name(), "noExit") == 0)
-                    {
-                        sec->noExit = true;
-                    }
-
-                    if (strcmp(sectorNode->name(), "nebulaSector") == 0)
-                    {
-                        sec->nebulaSector = EventsParser::ParseBoolean(sectorNode->value());
-                    }
-
-                    customSectors.push_back(sec);
-                }
+                customSectorsPreload[sectorName] = sec;
             }
         }
 
@@ -201,6 +161,10 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
             if (eventNode->first_attribute("seeded"))
             {
                 defaultRevisitSeeded = EventsParser::ParseBoolean(eventNode->first_attribute("seeded")->value());
+            }
+            if (eventNode->first_attribute("ignoreUnique"))
+            {
+                defaultRevisitIgnoreUnique = EventsParser::ParseBoolean(eventNode->first_attribute("ignoreUnique")->value());
             }
         }
 
@@ -295,8 +259,8 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
                     customEvent = it->second;
                     ParseCustomShipEvent(eventNode, customEvent);
                 }
-			}
-		}
+            }
+        }
 
         if (strcmp(eventNode->name(), "quest") == 0)
         {
@@ -529,6 +493,112 @@ void CustomEventsParser::PostProcessCustomEvents()
     }
 }
 
+bool CustomEventsParser::ParseCustomSector(rapidxml::xml_node<char> *node, CustomSector *sector, bool parsingVanilla)
+{
+    bool isDefault = true;
+
+    if (node->first_attribute("maxSector"))
+    {
+        isDefault = false;
+        sector->maxSector = boost::lexical_cast<int>(node->first_attribute("maxSector")->value());
+    }
+
+    for (auto sectorNode = node->first_node(); sectorNode; sectorNode = sectorNode->next_sibling())
+    {
+        if (strcmp(sectorNode->name(), "exitBeacon") == 0)
+        {
+            isDefault = false;
+
+            SectorExit exit = SectorExit();
+
+            if (sectorNode->first_attribute("event"))
+            {
+                exit.event = sectorNode->first_attribute("event")->value();
+            }
+            if (sectorNode->first_attribute("rebelEvent"))
+            {
+                exit.rebelEvent = sectorNode->first_attribute("rebelEvent")->value();
+            }
+            if (sectorNode->first_attribute("nebulaEvent"))
+            {
+                exit.nebulaEvent = sectorNode->first_attribute("nebulaEvent")->value();
+            }
+
+            sector->exitBeacons = exit;
+        }
+
+        if (strcmp(sectorNode->name(), "rebelBeacon") == 0)
+        {
+            isDefault = false;
+
+            SectorFleet fleet = SectorFleet();
+
+            if (sectorNode->first_attribute("event"))
+            {
+                fleet.event = sectorNode->first_attribute("event")->value();
+            }
+            if (sectorNode->first_attribute("nebulaEvent"))
+            {
+                fleet.nebulaEvent = sectorNode->first_attribute("nebulaEvent")->value();
+            }
+
+            sector->fleetBeacons = fleet;
+        }
+
+        if (strcmp(sectorNode->name(), "removeFirstBeaconNebula") == 0)
+        {
+            isDefault = false;
+            sector->removeFirstBeaconNebula = true;
+        }
+
+        if (strcmp(sectorNode->name(), "noExit") == 0)
+        {
+            isDefault = false;
+            sector->noExit = true;
+        }
+
+        if (strcmp(sectorNode->name(), "nebulaSector") == 0)
+        {
+            isDefault = false;
+            sector->nebulaSector = EventsParser::ParseBoolean(sectorNode->value());
+        }
+
+        if (strcmp(sectorNode->name(), "maxSector") == 0)
+        {
+            isDefault = false;
+            sector->maxSector = boost::lexical_cast<int>(sectorNode->value());
+        }
+        if (strcmp(sectorNode->name(), "priorityEvent") == 0)
+        {
+            isDefault = false;
+
+            sector->priorityEventCounts.emplace_back();
+            auto &event = sector->priorityEventCounts.back();
+
+            if (sectorNode->first_attribute("name"))
+            {
+                event.first.first = sectorNode->first_attribute("name")->value();
+            }
+            if (sectorNode->first_attribute("min"))
+            {
+                event.first.second.min = boost::lexical_cast<int>(sectorNode->first_attribute("min")->value());
+            }
+            if (sectorNode->first_attribute("max"))
+            {
+                event.first.second.max = boost::lexical_cast<int>(sectorNode->first_attribute("max")->value());
+            }
+            if (sectorNode->first_attribute("priority"))
+            {
+                event.second = boost::lexical_cast<int>(sectorNode->first_attribute("priority")->value());
+            }
+            else
+            {
+                event.second = 0;
+            }
+        }
+    }
+}
+
 bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, CustomEvent *customEvent, bool parsingVanilla)
 {
     bool isDefault = true;
@@ -698,6 +768,10 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
             {
                 customEvent->eventLoadSeeded = EventsParser::ParseBoolean(child->first_attribute("seeded")->value());
             }
+            if (child->first_attribute("ignoreUnique"))
+            {
+                customEvent->eventLoadIgnoreUnique = EventsParser::ParseBoolean(child->first_attribute("ignoreUnique")->value());
+            }
         }
 
         if (nodeName == "revisitEvent")
@@ -708,6 +782,10 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
             if (child->first_attribute("seeded"))
             {
                 customEvent->eventRevisitSeeded = EventsParser::ParseBoolean(child->first_attribute("seeded")->value());
+            }
+            if (child->first_attribute("ignoreUnique"))
+            {
+                customEvent->eventRevisitIgnoreUnique = EventsParser::ParseBoolean(child->first_attribute("ignoreUnique")->value());
             }
         }
 
@@ -738,6 +816,21 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
             customEvent->eventAlias.push_back(alias);
         }
 
+        if (nodeName == "queueEvent")
+        {
+            isDefault = false;
+
+            EventQueueEvent queueEvent = EventQueueEvent();
+
+            queueEvent.event = child->value();
+            if (child->first_attribute("seeded"))
+            {
+                queueEvent.seeded = EventsParser::ParseBoolean(child->first_attribute("seeded")->value());
+            }
+
+            customEvent->queueEvents.push_back(queueEvent);
+        }
+
         if (nodeName == "restartEvent")
         {
             isDefault = false;
@@ -766,6 +859,22 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
             customEvent->jumpEventClear = true;
         }
 
+        if (nodeName == "deathEvent")
+        {
+            isDefault = false;
+            customEvent->deathEvent.event = child->value();
+            customEvent->deathEvent.present = true;
+            if (child->first_attribute("thisFight"))
+            {
+                customEvent->deathEvent.thisFight = EventsParser::ParseBoolean(child->first_attribute("thisFight")->value());
+                customEvent->deathEvent.jumpClear = customEvent->deathEvent.thisFight;
+            }
+            if (child->first_attribute("jumpClear"))
+            {
+                customEvent->deathEvent.jumpClear = EventsParser::ParseBoolean(child->first_attribute("jumpClear")->value());
+            }
+        }
+
         if (nodeName == "replaceSector")
         {
             isDefault = false;
@@ -774,6 +883,24 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
                 customEvent->replaceSector.targetSector = child->first_attribute("name")->value();
             }
             customEvent->replaceSector.sectorList = child->value();
+        }
+
+        if (nodeName == "recallBoarders")
+        {
+            isDefault = false;
+            customEvent->recallBoarders = true;
+
+            if (child->first_attribute("ship"))
+            {
+                auto stringValue = child->first_attribute("ship")->value();
+
+                if (strcmp(stringValue, "enemy") == 0) {
+                    customEvent->recallBoardersShip = 1;
+                }
+                else if (strcmp(stringValue, "player") == 0) {
+                    customEvent->recallBoardersShip = -1;
+                }
+            }
         }
 
         if (nodeName == "resetFtl")
@@ -924,6 +1051,10 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
             {
                 customEvent->gameOver.sound = child->first_attribute("sound")->value();
             }
+            if (child->first_attribute("ach"))
+            {
+                customEvent->gameOver.ach = child->first_attribute("ach")->value();
+            }
         }
         if (nodeName == "lose")
         {
@@ -936,6 +1067,16 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
             if (child->first_attribute("sound"))
             {
                 customEvent->gameOver.sound = child->first_attribute("sound")->value();
+            }
+        }
+        if (nodeName == "achievement")
+        {
+            isDefault = false;
+            customEvent->achievement = child->value();
+
+            if (child->first_attribute("silent"))
+            {
+                customEvent->achievementSilent = EventsParser::ParseBoolean(child->first_attribute("silent")->value());
             }
         }
         if (nodeName == "playSound")
@@ -985,10 +1126,133 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
             isDefault = false;
             customEvent->disableScrapScore = true;
         }
+        if (nodeName == "disableScrapAugments")
+        {
+            isDefault = false;
+            customEvent->disableScrapAugments = true;
+        }
         if (nodeName == "removeItem")
         {
             isDefault = false;
             customEvent->removeItems.push_back(child->value());
+        }
+        if (nodeName == "variable")
+        {
+            isDefault = false;
+            VariableModifier variable;
+            variable.name = child->first_attribute("name")->value();
+            if (child->first_attribute("op"))
+            {
+                std::string op = std::string(child->first_attribute("op")->value());
+                op = op.substr(0,3);
+                if (op == "set")
+                {
+                    variable.op = VariableModifier::OP::SET;
+                }
+                else if (op == "add")
+                {
+                    variable.op = VariableModifier::OP::ADD;
+                }
+                else if (op == "mul")
+                {
+                    variable.op = VariableModifier::OP::MUL;
+                }
+                else if (op == "div")
+                {
+                    variable.op = VariableModifier::OP::DIV;
+                }
+                else if (op == "min")
+                {
+                    variable.op = VariableModifier::OP::MIN;
+                }
+                else if (op == "max")
+                {
+                    variable.op = VariableModifier::OP::MAX;
+                }
+            }
+            if (child->first_attribute("val"))
+            {
+                variable.minVal = boost::lexical_cast<int>(child->first_attribute("val")->value());
+                variable.maxVal = variable.minVal;
+            }
+            if (child->first_attribute("value"))
+            {
+                variable.minVal = boost::lexical_cast<int>(child->first_attribute("value")->value());
+                variable.maxVal = variable.minVal;
+            }
+            if (child->first_attribute("amount"))
+            {
+                variable.minVal = boost::lexical_cast<int>(child->first_attribute("amount")->value());
+                variable.maxVal = variable.minVal;
+            }
+            if (child->first_attribute("min"))
+            {
+                variable.minVal = boost::lexical_cast<int>(child->first_attribute("min")->value());
+            }
+            if (child->first_attribute("max"))
+            {
+                variable.maxVal = boost::lexical_cast<int>(child->first_attribute("max")->value());
+            }
+            customEvent->variables.push_back(variable);
+        }
+        if (nodeName == "metaVariable")
+        {
+            isDefault = false;
+            VariableModifier variable;
+            variable.name = child->first_attribute("name")->value();
+            if (child->first_attribute("op"))
+            {
+                std::string op = std::string(child->first_attribute("op")->value());
+                op = op.substr(0,3);
+                if (op == "set")
+                {
+                    variable.op = VariableModifier::OP::SET;
+                }
+                else if (op == "add")
+                {
+                    variable.op = VariableModifier::OP::ADD;
+                }
+                else if (op == "mul")
+                {
+                    variable.op = VariableModifier::OP::MUL;
+                }
+                else if (op == "div")
+                {
+                    variable.op = VariableModifier::OP::DIV;
+                }
+                else if (op == "min")
+                {
+                    variable.op = VariableModifier::OP::MIN;
+                }
+                else if (op == "max")
+                {
+                    variable.op = VariableModifier::OP::MAX;
+                }
+            }
+            if (child->first_attribute("val"))
+            {
+                variable.minVal = boost::lexical_cast<int>(child->first_attribute("val")->value());
+                variable.maxVal = variable.minVal;
+            }
+            if (child->first_attribute("value"))
+            {
+                variable.minVal = boost::lexical_cast<int>(child->first_attribute("value")->value());
+                variable.maxVal = variable.minVal;
+            }
+            if (child->first_attribute("amount"))
+            {
+                variable.minVal = boost::lexical_cast<int>(child->first_attribute("amount")->value());
+                variable.maxVal = variable.minVal;
+            }
+            if (child->first_attribute("min"))
+            {
+                variable.minVal = boost::lexical_cast<int>(child->first_attribute("min")->value());
+            }
+            if (child->first_attribute("max"))
+            {
+                variable.maxVal = boost::lexical_cast<int>(child->first_attribute("max")->value());
+            }
+            customEvent->metaVariables.push_back(variable);
         }
         if (nodeName == "customStore" || nodeName == "store")
         {
@@ -998,6 +1262,11 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
                 isDefault = false;
                 customEvent->customStore = storeName;
             }
+        }
+        if (nodeName == "removeStore")
+        {
+            isDefault = false;
+            customEvent->removeStore = true;
         }
         if (nodeName == "customFleet")
         {
@@ -1078,6 +1347,16 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
                 eventDamage.effect |= 16;
             }
             customEvent->enemyDamage.push_back(eventDamage);
+        }
+        if (nodeName == "repairAllSystems")
+        {
+            isDefault = false;
+            customEvent->repairAllSystems = true;
+        }
+        if (nodeName == "killEnemyBoarders")
+        {
+            isDefault = false;
+            customEvent->killEnemyBoarders = true;
         }
         if (nodeName == "superDrones")
         {
@@ -1229,6 +1508,22 @@ bool CustomEventsParser::ParseCustomShipEvent(rapidxml::xml_node<char> *node, Cu
         {
             isDefault = false;
             customEvent->jumpEventClear = true;
+        }
+
+        if (nodeName == "deathEvent")
+        {
+            isDefault = false;
+            customEvent->deathEvent.event = child->value();
+            customEvent->deathEvent.present = true;
+            if (child->first_attribute("thisFight"))
+            {
+                customEvent->deathEvent.thisFight = EventsParser::ParseBoolean(child->first_attribute("thisFight")->value());
+                customEvent->deathEvent.jumpClear = customEvent->deathEvent.thisFight;
+            }
+            if (child->first_attribute("jumpClear"))
+            {
+                customEvent->deathEvent.jumpClear = EventsParser::ParseBoolean(child->first_attribute("jumpClear")->value());
+            }
         }
 
         if (nodeName == "invincible")
@@ -1511,6 +1806,10 @@ void CustomEventsParser::ParseCustomEventLoadList(rapidxml::xml_node<char> *node
     {
         eventList->onGenerate = EventsParser::ParseBoolean(node->first_attribute("generate")->value());
     }
+    if (node->first_attribute("ignoreUnique"))
+    {
+        eventList->ignoreUnique = EventsParser::ParseBoolean(node->first_attribute("ignoreUnique")->value());
+    }
     for (auto child = node->first_node(); child; child = child->next_sibling())
     {
         std::string nodeName(child->name());
@@ -1597,12 +1896,23 @@ CustomQuest *CustomEventsParser::GetCustomQuest(const std::string& event)
 
 CustomSector *CustomEventsParser::GetCustomSector(const std::string& sectorName)
 {
-    for (auto i : customSectors)
+    auto it = customSectors.find(sectorName);
+
+    if (it != customSectors.end())
     {
-        if (i->sectorName == sectorName)
-        {
-            return i;
-        }
+        return it->second;
+    }
+
+    return nullptr;
+}
+
+CustomSector *CustomEventsParser::GetCustomSectorPreload(const std::string& sectorName)
+{
+    auto it = customSectorsPreload.find(sectorName);
+
+    if (it != customSectorsPreload.end())
+    {
+        return it->second;
     }
 
     return nullptr;
@@ -1618,6 +1928,78 @@ CustomReq *CustomEventsParser::GetCustomReq(const std::string& blueprint)
     }
 
     return nullptr;
+}
+
+void CustomEventsParser::ParseVanillaBaseNode(rapidxml::xml_node<char> *node)
+{
+    if (strcmp(node->name(), "sectorDescription") == 0)
+    {
+        if (node->first_attribute("name"))
+        {
+            std::string sectorName = node->first_attribute("name")->value();
+
+            CustomSector *sec = GetCustomSector(sectorName);
+            CustomSector *secPreload = GetCustomSectorPreload(sectorName);
+
+            if (sec == nullptr)
+            {
+                sec = new CustomSector;
+            }
+            if (secPreload == nullptr)
+            {
+                *sec = CustomSector();
+            }
+            else
+            {
+                *sec = *secPreload;
+            }
+
+            sec->sectorName = sectorName;
+
+            ParseCustomSector(node, sec, true);
+
+            // Transfer to vanilla eventCounts
+
+            EventGenerator *eventGenerator = G_->GetEventGenerator();
+
+            if (!sec->priorityEventCounts.empty())
+            {
+                auto secIt = eventGenerator->sectors.find(sectorName);
+                if (secIt != eventGenerator->sectors.end())
+                {
+                    std::stable_sort(sec->priorityEventCounts.begin(), sec->priorityEventCounts.end(),
+                    [](const std::pair<std_pair_std_string_RandomAmount,int> &a, const std::pair<std_pair_std_string_RandomAmount,int> &b) -> bool
+                    {
+                        return a.second > b.second;
+                    });
+
+                    std::vector<std_pair_std_string_RandomAmount> eventCounts;
+                    eventCounts.reserve(secIt->second.eventCounts.size() + sec->priorityEventCounts.size());
+
+                    auto it = sec->priorityEventCounts.begin();
+                    for (; it->second >= 0; ++it)
+                    {
+                        eventCounts.push_back(it->first);
+                    }
+                    eventCounts.insert(eventCounts.end(), std::make_move_iterator(secIt->second.eventCounts.begin()), std::make_move_iterator(secIt->second.eventCounts.end()));
+                    for (; it != sec->priorityEventCounts.end(); ++it)
+                    {
+                        eventCounts.push_back(it->first);
+                    }
+
+                    secIt->second.eventCounts.swap(eventCounts);
+                }
+                sec->priorityEventCounts.clear();
+            }
+
+            customSectors[sectorName] = sec;
+        }
+    }
+    else if (strcmp(node->name(), "sectorMap") == 0)
+    {
+        auto customSectorParser = CustomSectorManager::GetInstance();
+        customSectorParser->ParseCustomSectorMapNode(node);
+    }
 }
 
 void CustomEventsParser::ParseVanillaEventNode(rapidxml::xml_node<char> *node, const std::string &eventName, const std::string &baseEventName)
@@ -1676,6 +2058,12 @@ void CustomEventsParser::ParseVanillaShipEventNode(rapidxml::xml_node<char> *nod
     }
 }
 
+HOOK_METHOD(EventsParser, ProcessBaseNode, (rapidxml::xml_node<char>* node, EventGenerator& generator) -> void)
+{
+    super(node, generator);
+    CustomEventsParser::GetInstance()->ParseVanillaBaseNode(node);
+}
+
 HOOK_STATIC(EventsParser, ProcessEvent, (std::string &strRef, EventsParser *eventsParser, rapidxml::xml_node<char> *node, const std::string &eventName) -> void)
 {
     super(strRef, eventsParser, node, eventName);
@@ -1704,17 +2092,31 @@ HOOK_STATIC(EventsParser, ProcessShipEvent, (ShipTemplate &shipEvent, EventsPars
 
 static bool g_checkCargo = false;
 
+void SetCheckCargo(CustomEvent *event)
+{
+    if (event)
+    {
+        g_checkCargo = event->checkCargo;
+    }
+    else
+    {
+        g_checkCargo = CustomOptionsManager::GetInstance()->defaults.checkCargo;
+    }
+}
+
 HOOK_METHOD(ShipObject, HasEquipment, (const std::string& equipment) -> int)
 {
     int ret = super(equipment);
 
-    if (g_checkCargo && ret <= 0)
+    if (g_checkCargo)
     {
-        Equipment equip = G_->GetWorld()->commandGui->equipScreen;
-        auto boxes = equip.vEquipmentBoxes;
-
         auto blueprintList = std::vector<std::string>();
         BlueprintManager::GetBlueprintList(blueprintList, G_->GetBlueprints(), equipment);
+
+        if (ret != 0 && blueprintList.size() > 0) return ret; // list check; if already found then return
+
+        Equipment equip = G_->GetWorld()->commandGui->equipScreen;
+        auto boxes = equip.vEquipmentBoxes;
 
         for (auto const& box: boxes)
         {
@@ -1726,14 +2128,13 @@ HOOK_METHOD(ShipObject, HasEquipment, (const std::string& equipment) -> int)
                 Blueprint* cargoItem = box->GetBlueprint();
                 if (cargoItem)
                 {
-
                     if (blueprintList.size() > 0)
                     {
                         for (auto const& x: blueprintList)
                         {
                             if (cargoItem->name == x)
                             {
-                                return 1;
+                                return 1; // blueprintList check returns 1 if any item is found
                             }
                         }
                     }
@@ -1741,7 +2142,7 @@ HOOK_METHOD(ShipObject, HasEquipment, (const std::string& equipment) -> int)
                     {
                         if (cargoItem->name == equipment)
                         {
-                            return 1;
+                            ret++;
                         }
                     }
                 }
@@ -1793,6 +2194,20 @@ HOOK_METHOD_PRIORITY(ShipObject, HasEquipment, -100, (const std::string& equipme
         {
             return customReq->HasEquipment(*(ShipObject*)this);
         }
+
+        auto playerVariable = playerVariables.find(equipment);
+
+        if (playerVariable != playerVariables.end())
+        {
+            return playerVariable->second;
+        }
+
+        auto metaVariable = metaVariables.find(equipment);
+
+        if (metaVariable != metaVariables.end())
+        {
+            return metaVariable->second;
+        }
     }
 
     return super(equipment);
@@ -1804,14 +2219,7 @@ HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
 {
     auto customEvents = CustomEventsParser::GetInstance();
 
-    if (customEvents->GetCustomEvent(event->eventName))
-    {
-        g_checkCargo = customEvents->GetCustomEvent(event->eventName)->checkCargo;
-    }
-    else
-    {
-        g_checkCargo = CustomOptionsManager::GetInstance()->defaults.checkCargo;
-    }
+    SetCheckCargo(customEvents->GetCustomEvent(event->eventName));
 
     if (!event->stuff.removeItem.empty())
     {
@@ -1832,16 +2240,16 @@ HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
 }
 
 // hidden augs, checkCargo
-HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEvent*)
+HOOK_METHOD_PRIORITY(WorldManager, ModifyResources, -100, (LocationEvent *event) -> LocationEvent*)
 {
     auto customEvents = CustomEventsParser::GetInstance();
     auto customEvent = customEvents->GetCustomEvent(event->eventName);
 
+    SetCheckCargo(customEvent);
+
     if (customEvent)
     {
-        g_checkCargo = customEvents->GetCustomEvent(event->eventName)->checkCargo;
-
-        for (auto i : customEvents->GetCustomEvent(event->eventName)->hiddenAugs)
+        for (auto i : customEvent->hiddenAugs)
         {
             auto augList = G_->GetShipInfo()->augList;
 
@@ -1869,15 +2277,6 @@ HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEve
     if (!removeHiddenAug.empty())
     {
         playerShip->shipManager->RemoveItem(removeHiddenAug);
-    }
-
-
-    if (customEvent)
-    {
-        for (auto i : customEvent->removeItems)
-        {
-            playerShip->shipManager->RemoveItem(i);
-        }
     }
 
     removeHiddenAug = "";
@@ -1966,7 +2365,7 @@ HOOK_METHOD(CommandGui, AddEnemyShip, (CompleteShip *ship) -> void)
 
     if (custom->GetBossShipDefinition(ship->shipManager->myBlueprint.blueprintName))
     {
-        shipPosition.x = 150;
+        shipPosition.x = 150 + shipComplete->shipManager->ship.horizontal_shift;
         ftlButton.bBossFight = true;
         shipStatus.bBossFight = true;
     }
@@ -2003,13 +2402,15 @@ HOOK_METHOD(StarMap, constructor, () -> void)
 static std::map<Location*, bool[2]> locValues = std::map<Location*, bool[2]>();
 static bool questActuallyEnoughTime = false;
 static bool questNextSectorPopped = false;
-static int overrideWorldLevel = -1;
+static int questOverrideWorldLevel = -1;
+static LocationEvent *lastQuestEvent = nullptr; // used to recycle generated event rather than generating it multiple times
 
 HOOK_METHOD(StarMap, AddQuest, (const std::string& questEvent, bool force) -> bool)
 {
     int savedSeed = 0;
     int nextQuestSeed = Global::questSeed;
-    overrideWorldLevel = worldLevel;
+    questOverrideWorldLevel = worldLevel;
+    lastQuestEvent = nullptr;
     int numAddedQuests = addedQuests.size();
     int numDelayedQuests = delayedQuests.size();
 
@@ -2107,6 +2508,13 @@ HOOK_METHOD(StarMap, AddQuest, (const std::string& questEvent, bool force) -> bo
         for (auto i : locations)
         {
             i->nebula = i->nebula || i->fleetChanging || i->dangerZone;
+            if (!i->nebula) // check fleet arc
+            {
+                int dangerMove = 0;
+                if (dangerZone.x < 60) dangerMove = GetNextDangerMove();
+                Pointf nextDangerZone = Pointf(dangerZone.x + dangerMove, dangerZone.y);
+                i->nebula = i->loc.RelativeDistance(nextDangerZone) < 588289.f;
+            }
         }
     }
 
@@ -2135,8 +2543,8 @@ HOOK_METHOD(StarMap, AddQuest, (const std::string& questEvent, bool force) -> bo
         if (SeedInputBox::seedsEnabled && !Global::delayedQuestIndex) nextQuestSeed = random32();
     }
 
-    worldLevel = overrideWorldLevel;
-    overrideWorldLevel = -1;
+    worldLevel = questOverrideWorldLevel;
+    questOverrideWorldLevel = -1;
 
     // Reset restricted beacons.
     for (auto i : locValues)
@@ -2174,7 +2582,7 @@ HOOK_METHOD(StarMap, AddQuest, (const std::string& questEvent, bool force) -> bo
     // Override formatting for addedQuests vector to save the quest's seed.
     if (ret && addedQuests.size() > numAddedQuests)
     {
-        addedQuests[numAddedQuests].first = "QUEST " + std::to_string(Global::questSeed) + " " + addedQuests[numAddedQuests].first;
+        addedQuests[numAddedQuests].first = "QUEST\t" + std::to_string(Global::questSeed) + "\t" + addedQuests[numAddedQuests].first;
     }
 
     // If the quest is delayed to the next sector, save the quest's seed.
@@ -2194,9 +2602,12 @@ HOOK_METHOD(StarMap, AddQuest, (const std::string& questEvent, bool force) -> bo
 
 HOOK_METHOD(EventGenerator, GetBaseEvent, (const std::string& name, int worldLevel, char ignoreUnique, int seed) -> LocationEvent*)
 {
-    if (overrideWorldLevel > -1)
+    if (questOverrideWorldLevel > -1)
     {
-        return super(name, overrideWorldLevel, ignoreUnique, seed);
+        if (lastQuestEvent) return lastQuestEvent;
+        LocationEvent *ret = super(name, questOverrideWorldLevel, ignoreUnique, seed);
+        lastQuestEvent = ret;
+        return ret;
     }
 
     return super(name, worldLevel, ignoreUnique, seed);
@@ -2426,7 +2837,7 @@ HOOK_METHOD(StarMap, GenerateMap, (bool tutorial, bool seed) -> LocationEvent*)
             if (customEvent && customEvent->eventLoadList && customEvent->eventLoadList->onGenerate)
             {
                 int seed = customEvent->eventLoadList->seeded ? (int)(loc->loc.x + loc->loc.y) ^ currentSectorSeed : -1;
-                auto newEvent = custom->GetEvent(G_->GetWorld(), customEvent->eventLoadList, seed);
+                LocationEvent* newEvent = custom->GetEvent(G_->GetWorld(), customEvent->eventLoadList, seed);
                 if (newEvent)
                 {
                     //delete loc->event;
@@ -2441,9 +2852,18 @@ HOOK_METHOD(StarMap, GenerateMap, (bool tutorial, bool seed) -> LocationEvent*)
     {
         for (auto i : regeneratedBeacons)
         {
-            if (i.first < locations.size() && !locations[i.first]->questLoc && !locations[i.first]->dangerZone) // currently don't operate on dives/quests
+            LocationEvent* newEvent = G_->GetEventGenerator()->GetBaseEvent(i.second.first, worldLevel, false, i.second.second);
+
+            if (newEvent)
             {
-                locations[i.first]->event = G_->GetEventGenerator()->GetBaseEvent(i.second.first, worldLevel, true, i.second.second);
+                if (i.first < locations.size() && !locations[i.first]->questLoc && !locations[i.first]->dangerZone) // don't place the event if a dive/quest has already been placed here
+                {
+                    locations[i.first]->event = newEvent;
+                }
+                else
+                {
+                    newEvent->ClearEvent(false);
+                }
             }
         }
     }
@@ -2470,6 +2890,7 @@ HOOK_METHOD_PRIORITY(StarMap, TurnIntoFleetLocation, 9999, (Location *loc) -> vo
     auto locEvent = loc->event;
     loc->dangerZone = true;
     loc->fleetChanging = false;
+    loc->questLoc = false; // Remove quest marker from overtaken beacons
 
     if (locEvent)
     {
@@ -2588,8 +3009,13 @@ HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *loc) -> void)
         {
             if (customEvent->unlockShipReq.empty() || G_->GetAchievementTracker()->currentShip == customEvent->unlockShipReq)
             {
-                CustomShipUnlocks::instance->UnlockShip(customEvent->unlockShip, customEvent->unlockShipSilent);
+                CustomShipUnlocks::instance->UnlockShip(customEvent->unlockShip, customEvent->unlockShipSilent, true, true);
             }
+        }
+
+        if (!customEvent->achievement.empty())
+        {
+            CustomAchievementTracker::instance->SetAchievement(customEvent->achievement, customEvent->achievementSilent);
         }
 
         if (customEvent->noQuestText)
@@ -2662,8 +3088,18 @@ HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *loc) -> void)
     }
 }
 
-static std::string jumpEvent = "";
-static bool jumpEventLoop = false;
+HOOK_METHOD(LocationEvent, constructor, () -> void)
+{
+    super();
+    gap_ex_cleared = false;
+}
+
+HOOK_METHOD(LocationEvent, ClearEvent, (bool force) -> void)
+{
+    super(force);
+    if (fleetPosition == 1 && !force) return;
+    gap_ex_cleared = true;
+}
 
 void EventDamageEnemy(EventDamage eventDamage)
 {
@@ -2725,6 +3161,44 @@ void EventDamageEnemy(EventDamage eventDamage)
     }
 }
 
+void RecallBoarders(int direction)
+{
+    int targetRoom;
+
+    CompleteShip *playerShip = G_->GetWorld()->playerShip;
+    if (playerShip == nullptr) return;
+
+    CompleteShip *enemyShip = G_->GetWorld()->playerShip->enemyShip;
+    if (enemyShip == nullptr) return;
+
+    if (direction >= 0) { // player's boarders from enemy ship
+        targetRoom = playerShip->shipManager->GetSystemRoom(6);
+
+        for (auto i : enemyShip->shipManager->vCrewList)
+        {
+            //if (i->iShipId == 0 && !i->IsDrone())
+            if (i->iShipId == 0 && !i->IsDrone() && i->CanTeleport())
+            {
+                i->EmptySlot();
+                playerShip->AddCrewMember2(i,targetRoom);
+            }
+        }
+    }
+    if (direction <= 0) { // enemy boarders from player ship
+        targetRoom = enemyShip->shipManager->GetSystemRoom(6);
+
+        for (auto i : playerShip->shipManager->vCrewList)
+        {
+            //if (i->iShipId == 1 && !i->IsDrone())
+            if (i->iShipId == 1 && !i->IsDrone() && i->CanTeleport())
+            {
+                i->EmptySlot();
+                enemyShip->AddCrewMember2(i,targetRoom);
+            }
+        }
+    }
+}
+
 void CustomCreateLocation(WorldManager* world, LocationEvent* event, CustomEvent* customEvent)
 {
     for (auto& alias : customEvent->eventAlias)
@@ -2754,6 +3228,41 @@ void CustomCreateLocation(WorldManager* world, LocationEvent* event, CustomEvent
         world->starMap.currentLoc->spaceImage = customEvent->changeBackground;
     }
 
+    if (customEvent->recallBoarders) {
+        RecallBoarders(customEvent->recallBoardersShip);
+    }
+
+    if (!customEvent->playSound.empty())
+    {
+        G_->GetSoundControl()->PlaySoundMix(customEvent->playSound, -1.f, false);
+    }
+
+    if (customEvent->resetMusic)
+    {
+        G_->GetSoundControl()->StartPlaylist(world->starMap.currentSector->description.musicTracks);
+    }
+
+    if (!customEvent->playMusic.empty())
+    {
+        std::vector<std::string> track = {customEvent->playMusic};
+        G_->GetSoundControl()->StartPlaylist(track);
+    }
+
+    if (customEvent->removeStore)
+    {
+        // Close store window to prevent issues.
+        TabbedWindow& storeScreens = G_->GetWorld()->commandGui->storeScreens;
+        if (storeScreens.currentTab >= 0 && storeScreens.currentTab < storeScreens.windows.size() && storeScreens.windows[storeScreens.currentTab])
+        {
+            storeScreens.Close();
+        }
+        storeScreens.bOpen = false;
+        storeScreens.windows[0] = nullptr;
+
+        world->baseLocationEvent->pStore = nullptr;
+        world->baseLocationEvent->store = false;
+    }
+
     if (!customEvent->enemyDamage.empty() && event->damage.empty())
     {
         G_->GetSoundControl()->PlaySoundMix("eventDamage", -1, false);
@@ -2762,6 +3271,33 @@ void CustomCreateLocation(WorldManager* world, LocationEvent* event, CustomEvent
     for (EventDamage& eventDamage: customEvent->enemyDamage)
     {
         EventDamageEnemy(eventDamage);
+    }
+
+    if (customEvent->repairAllSystems)
+    {
+        ShipManager* shipManager = G_->GetShipManager(0);
+        if (shipManager != nullptr)
+        {
+            for (auto sys : shipManager->vSystemList)
+            {
+                sys->AddDamage(-sys->healthState.second);
+            }
+        }
+    }
+
+    if (customEvent->killEnemyBoarders)
+    {
+        ShipManager* shipManager = G_->GetShipManager(0);
+        if (shipManager != nullptr)
+        {
+            for (auto crew : shipManager->vCrewList)
+            {
+                if (crew->iShipId != 0)
+                {
+                    crew->health.first = 0;
+                }
+            }
+        }
     }
 
     if (customEvent->instantEscape)
@@ -2926,23 +3462,26 @@ LocationEvent* CustomEventsParser::GetEvent(WorldManager *world, EventLoadList *
             if (event.max_group != -1) used_groups.insert(event.max_group);
         }
 
-        LocationEvent* locEvent = GetEvent(world, event.event, seed);
-        if (locEvent && world->CheckRequirements(locEvent))
+        LocationEvent* locEvent = GetEvent(world, event.event, eventList->ignoreUnique, seed);
+        if (locEvent)
         {
-            if (eventList->useFirst) return locEvent;
-            candidateEvents.push_back(locEvent);
-        }
-        else
-        {
-            locEvent->ClearEvent(false);
-            //delete locEvent;
+            if (world->CheckRequirements(locEvent))
+            {
+                if (eventList->useFirst) return locEvent;
+                candidateEvents.push_back(locEvent);
+            }
+            else
+            {
+                G_->GetEventGenerator()->ClearUsedEvent(locEvent);
+                locEvent->ClearEvent(false);
+            }
         }
     }
 
     if (candidateEvents.empty())
     {
         if (eventList->defaultEvent.empty()) return nullptr;
-        return GetEvent(world, eventList->defaultEvent, seed);
+        return GetEvent(world, eventList->defaultEvent, eventList->ignoreUnique, seed);
     }
     if (candidateEvents.size() == 1) return candidateEvents[0];
 
@@ -2950,13 +3489,17 @@ LocationEvent* CustomEventsParser::GetEvent(WorldManager *world, EventLoadList *
     LocationEvent* ret = candidateEvents[random32()%candidateEvents.size()];
     for (LocationEvent* event : candidateEvents)
     {
-        if (event != ret) delete event;
+        if (event != ret)
+        {
+            G_->GetEventGenerator()->ClearUsedEvent(event);
+            event->ClearEvent(false);
+        }
     }
 
     return ret;
 }
 
-LocationEvent* CustomEventsParser::GetEvent(WorldManager *world, std::string eventName, int seed)
+LocationEvent* CustomEventsParser::GetEvent(WorldManager *world, std::string eventName, bool ignoreUnique, int seed)
 {
     auto it_alias = eventAliases.find(eventName);
     if (it_alias != eventAliases.end())
@@ -2972,18 +3515,32 @@ LocationEvent* CustomEventsParser::GetEvent(WorldManager *world, std::string eve
     {
         return GetEvent(world, it->second, seed);
     }
-    return G_->GetEventGenerator()->GetBaseEvent(eventName, world->starMap.currentSector->level, true, seed);
+    return G_->GetEventGenerator()->GetBaseEvent(eventName, world->starMap.currentSector->level, ignoreUnique, seed);
 }
 
-void CustomEventsParser::LoadEvent(WorldManager *world, EventLoadList *eventList, int seed)
+void CustomEventsParser::LoadEvent(WorldManager *world, EventLoadList *eventList, int seed, CustomEvent *parentEvent)
 {
+    SetCheckCargo(parentEvent);
+    advancedCheckEquipment = true;
+
     LocationEvent *event = GetEvent(world, eventList, seed);
+
+    g_checkCargo = false;
+    advancedCheckEquipment = false;
+
     if (event) world->UpdateLocation(event);
 }
 
-void CustomEventsParser::LoadEvent(WorldManager *world, std::string eventName, int seed)
+void CustomEventsParser::LoadEvent(WorldManager *world, std::string eventName, bool ignoreUnique, int seed, CustomEvent *parentEvent)
 {
-    LocationEvent *event = GetEvent(world, eventName, seed);
+    SetCheckCargo(parentEvent);
+    advancedCheckEquipment = true;
+
+    LocationEvent *event = GetEvent(world, eventName, ignoreUnique, seed);
+
+    g_checkCargo = false;
+    advancedCheckEquipment = false;
+
     if (event) world->UpdateLocation(event);
 }
 
@@ -3001,6 +3558,11 @@ HOOK_METHOD(WorldManager, CreateLocation, (Location *location) -> void)
             {
                 ++it;
             }
+        }
+        if (deathEvent.jumpClear)
+        {
+            deathEvent.event = "";
+            deathEvent.jumpClear = false;
         }
     }
 
@@ -3027,35 +3589,38 @@ HOOK_METHOD(WorldManager, CreateLocation, (Location *location) -> void)
         location->planetImage = location->event->planetImage;
     }
 
-    if (location->visited > 1 && !location->boss && !location->dangerZone)
+    LocationEvent *loc = location->event;
+
+    if (!loc) return;
+
+    //if (location->visited > 1 && !location->boss && !location->dangerZone)
+    if (!location->boss && loc->gap_ex_cleared)
     {
         std::string revisitEvent = CustomEventsParser::GetInstance()->defaultRevisit;
         bool revisitSeeded = CustomEventsParser::GetInstance()->defaultRevisitSeeded;
+        bool revisitIgnoreUnique = CustomEventsParser::GetInstance()->defaultRevisitIgnoreUnique;
 
-        auto loc = location->event;
-        if (loc)
+        CustomEvent *customEvent = nullptr;
+
+        if (loc->ship.present && loc->ship.hostile) return; // left behind an enemy ship
+
+        customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(loc->eventName);
+
+        if (customEvent && !customEvent->eventRevisit.empty())
         {
-            if (loc->ship.present && loc->ship.hostile) return; // left behind an enemy ship
-
-            CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(loc->eventName);
-            if (customEvent && !customEvent->eventRevisit.empty())
-            {
-                revisitEvent = customEvent->eventRevisit;
-                revisitSeeded = customEvent->eventRevisitSeeded;
-            }
+            revisitEvent = customEvent->eventRevisit;
+            revisitSeeded = customEvent->eventRevisitSeeded;
+            revisitIgnoreUnique = customEvent->eventRevisitIgnoreUnique;
         }
 
-        CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(loc->eventName);
         if (!revisitEvent.empty())
         {
             int seed = revisitSeeded ? (int)(location->loc.x + location->loc.y) ^ (starMap.currentSectorSeed*location->visited + location->visited) : -1;
-            CustomEventsParser::GetInstance()->LoadEvent(this, revisitEvent, seed);
+            CustomEventsParser::GetInstance()->LoadEvent(this, revisitEvent, revisitIgnoreUnique, seed, customEvent);
         }
+
         return;
     }
-
-    auto loc = location->event;
-    if (!loc) return;
 
     CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(loc->eventName);
 
@@ -3063,16 +3628,22 @@ HOOK_METHOD(WorldManager, CreateLocation, (Location *location) -> void)
     {
         CustomCreateLocation(this, loc, customEvent);
 
+        for (auto& queueEvent : customEvent->queueEvents)
+        {
+            int seed = queueEvent.seeded ? (int)(location->loc.x + location->loc.y) ^ starMap.currentSectorSeed : -1;
+            eventQueue.push_back({queueEvent.event, seed});
+        }
+
         if (customEvent->eventLoadList != nullptr)
         {
             int seed = customEvent->eventLoadList->seeded ? (int)(location->loc.x + location->loc.y) ^ starMap.currentSectorSeed : -1;
-            CustomEventsParser::GetInstance()->LoadEvent(this, customEvent->eventLoadList, seed);
+            CustomEventsParser::GetInstance()->LoadEvent(this, customEvent->eventLoadList, seed, customEvent);
         }
 
         if (!customEvent->eventLoad.empty())
         {
             int seed = customEvent->eventLoadSeeded ? (int)(location->loc.x + location->loc.y) ^ starMap.currentSectorSeed : -1;
-            CustomEventsParser::GetInstance()->LoadEvent(this, customEvent->eventLoad, seed);
+            CustomEventsParser::GetInstance()->LoadEvent(this, customEvent->eventLoad, customEvent->eventLoadIgnoreUnique, seed, customEvent);
         }
 
         if (!customEvent->secretSectorWarp.empty())
@@ -3103,7 +3674,52 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
 
     super(loc);
 
-    if (customEvent)
+    if (loc->ship.present && loc->ship.hostile && !ships.empty())
+    {
+        CompleteShip* enemyShip = ships[0];
+        if (enemyShip->shipManager && enemyShip->shipManager->_targetable.hostile)
+        {
+            if (playerShip->shipManager->current_target != enemyShip->shipManager)
+            {
+                commandGui->combatControl.Clear();
+                commandGui->AddEnemyShip(enemyShip);
+                if (playerShip->shipManager->hackingSystem)
+                {
+                    bool needHackingDrone = true;
+                    for (SpaceDrone* drone : space.drones)
+                    {
+                        if (drone == &playerShip->shipManager->hackingSystem->drone)
+                        {
+                            needHackingDrone = false;
+                            break;
+                        }
+                    }
+                    if (needHackingDrone)
+                    {
+                        space.drones.push_back(&playerShip->shipManager->hackingSystem->drone);
+                    }
+                }
+                if (enemyShip->shipManager->hackingSystem)
+                {
+                    bool needHackingDrone = true;
+                    for (SpaceDrone* drone : space.drones)
+                    {
+                        if (drone == &enemyShip->shipManager->hackingSystem->drone)
+                        {
+                            needHackingDrone = false;
+                            break;
+                        }
+                    }
+                    if (needHackingDrone)
+                    {
+                        space.drones.push_back(&enemyShip->shipManager->hackingSystem->drone);
+                    }
+                }
+            }
+        }
+    }
+
+    if (!loc->gap_ex_cleared && customEvent)
     {
         if (customEvent->removeHazards)
         {
@@ -3133,16 +3749,22 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
 
         CustomCreateLocation(this, loc, customEvent);
 
+        for (auto& queueEvent : customEvent->queueEvents)
+        {
+            int seed = queueEvent.seeded ? (int)(starMap.currentLoc->loc.x + starMap.currentLoc->loc.y) ^ starMap.currentSectorSeed : -1;
+            eventQueue.push_back({queueEvent.event, seed});
+        }
+
         if (customEvent->eventLoadList != nullptr)
         {
             int seed = customEvent->eventLoadList->seeded ? (int)(starMap.currentLoc->loc.x + starMap.currentLoc->loc.y) ^ starMap.currentSectorSeed : -1;
-            CustomEventsParser::GetInstance()->LoadEvent(this, customEvent->eventLoadList, seed);
+            CustomEventsParser::GetInstance()->LoadEvent(this, customEvent->eventLoadList, seed, customEvent);
         }
 
         if (!customEvent->eventLoad.empty())
         {
             int seed = customEvent->eventLoadSeeded ? (int)(starMap.currentLoc->loc.x + starMap.currentLoc->loc.y) ^ starMap.currentSectorSeed : -1;
-            CustomEventsParser::GetInstance()->LoadEvent(this, customEvent->eventLoad, seed);
+            CustomEventsParser::GetInstance()->LoadEvent(this, customEvent->eventLoad, customEvent->eventLoadIgnoreUnique, seed, customEvent);
         }
 
         if (customEvent->restartEvent)
@@ -3161,7 +3783,6 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
 
 HOOK_METHOD(WorldManager, CreateShip, (ShipEvent* shipEvent, bool boss) -> CompleteShip*)
 {
-
     auto ret = super(shipEvent, boss);
 
     bossDefeated = false;
@@ -3182,6 +3803,12 @@ HOOK_METHOD(WorldManager, CreateShip, (ShipEvent* shipEvent, bool boss) -> Compl
         {
             jumpEvent = customEvent->jumpEvent;
             jumpEventLoop = customEvent->jumpEventLoop;
+        }
+
+        if (customEvent->deathEvent.present)
+        {
+            deathEvent = customEvent->deathEvent;
+            hs_log_file("Set death event to %s\n", deathEvent.event.c_str());
         }
 
         for (auto& triggeredEvent: customEvent->clearTriggeredEvents)
@@ -3208,8 +3835,18 @@ HOOK_METHOD(WorldManager, CreateShip, (ShipEvent* shipEvent, bool boss) -> Compl
     return ret;
 }
 
-HOOK_STATIC(StarMap, GetLocationText, (std::string& strRef, StarMap *starMap, const Location* loc) -> std::string&)
+HOOK_STATIC(StarMap, GetLocationText, (std::string& strRef, StarMap *starMap, Location* loc) -> std::string&)
 {
+    struct LocLabelValues
+    {
+        bool questLoc;
+        bool beacon;
+        bool repair;
+        Store *pStore;
+        bool store;
+        bool distressBeacon;
+    };
+
     CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(loc->event->eventName);
 
     if (!customEvent) return super(strRef, starMap, loc);
@@ -3220,8 +3857,19 @@ HOOK_STATIC(StarMap, GetLocationText, (std::string& strRef, StarMap *starMap, co
     }
 
     TextString tooltip;
+    bool hideVanillaLabel = true;
 
-    if (loc->visited)
+    if ((!customEvent->beacon->global && !loc->known && !starMap->bMapRevealed) ||
+        (!customEvent->beacon->equipmentReq.empty() && starMap->shipManager->HasEquipment(customEvent->beacon->equipmentReq) <= 0))
+    {
+        if (loc->visited)
+        {
+            return super(strRef, starMap, loc);
+        }
+        tooltip = customEvent->beacon->undiscoveredTooltip;
+        hideVanillaLabel = customEvent->beacon->hideVanillaLabel;
+    }
+    else if (loc->visited)
     {
         tooltip = customEvent->beacon->visitedTooltip;
     }
@@ -3229,14 +3877,42 @@ HOOK_STATIC(StarMap, GetLocationText, (std::string& strRef, StarMap *starMap, co
     {
         tooltip = customEvent->beacon->unvisitedTooltip;
     }
-    if (!customEvent->beacon->global && !loc->known && !starMap->bMapRevealed)
-    {
-        tooltip = customEvent->beacon->undiscoveredTooltip;
-    }
 
     if (tooltip.data.empty())
     {
-        return super(strRef, starMap, loc);
+        if (hideVanillaLabel)
+        {
+            LocLabelValues locValues;
+
+            locValues.questLoc = loc->questLoc;
+            locValues.beacon = loc->beacon;
+            locValues.repair = loc->event->repair;
+            locValues.pStore = loc->event->pStore;
+            locValues.store = loc->event->store;
+            locValues.distressBeacon = loc->event->distressBeacon;
+
+            loc->questLoc = false;
+            loc->beacon = loc->beacon && loc->visited;
+            loc->event->repair = false;
+            loc->event->pStore = loc->visited ? locValues.pStore : nullptr;
+            loc->event->store = false;
+            loc->event->distressBeacon = false;
+
+            auto ret = super(strRef, starMap, loc);
+
+            loc->questLoc = locValues.questLoc;
+            loc->beacon = locValues.beacon;
+            loc->event->repair = locValues.repair;
+            loc->event->pStore = locValues.pStore;
+            loc->event->store = locValues.store;
+            loc->event->distressBeacon = locValues.distressBeacon;
+
+            return ret;
+        }
+        else
+        {
+            return super(strRef, starMap, loc);
+        }
     }
 
     strRef.assign(tooltip.GetText());
@@ -3347,6 +4023,39 @@ HOOK_METHOD(StarMap, StartSecretSector, () -> void)
     }
 }
 
+// boss is the last thing saved/loaded so we do stuff after for it to be at the end
+
+HOOK_METHOD(BossShip, LoadBoss, (int fh) -> void)
+{
+    super(fh);
+
+    EventGenerator* eventGenerator = G_->GetEventGenerator();
+
+    int n = FileHelper::readInteger(fh);
+    for (int i=0; i<n; ++i)
+    {
+        std::string eventName = FileHelper::readString(fh);
+        auto it = eventGenerator->events.find(eventName);
+        if (it != eventGenerator->events.end())
+        {
+            eventGenerator->usedEvents[it->first] = it->second;
+            eventGenerator->events.erase(it);
+        }
+    }
+}
+
+HOOK_METHOD(BossShip, SaveBoss, (int fh) -> void)
+{
+    super(fh);
+
+    EventGenerator* eventGenerator = G_->GetEventGenerator();
+
+    FileHelper::writeInt(fh, eventGenerator->usedEvents.size());
+    for (auto i : eventGenerator->usedEvents)
+    {
+        FileHelper::writeString(fh, i.first);
+    }
+}
 
 static std::string sectorChange = "";
 
@@ -3409,6 +4118,7 @@ HOOK_METHOD(CommandGui, OnLoop, () -> void)
 }
 
 static bool blockScrapCollected = false;
+static bool blockScrapAugments = false;
 
 HOOK_METHOD(ScoreKeeper, AddScrapCollected, (int scrap) -> void)
 {
@@ -3417,8 +4127,16 @@ HOOK_METHOD(ScoreKeeper, AddScrapCollected, (int scrap) -> void)
     super(scrap);
 }
 
+HOOK_METHOD(ShipManager, ModifyScrapCount, (int scrap, bool income) -> void)
+{
+    if (blockScrapAugments) income = false;
+    super(scrap, income);
+}
+
 HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEvent*)
 {
+    if (event->gap_ex_cleared) return super(event);
+
     CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(event->eventName);
 
     if (customEvent)
@@ -3427,14 +4145,128 @@ HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEve
         {
             blockScrapCollected = true;
         }
+        if (customEvent->disableScrapAugments)
+        {
+            blockScrapAugments = true;
+        }
     }
 
     LocationEvent *ret = super(event);
 
     blockScrapCollected = false;
+    blockScrapAugments = false;
+
+    //Location *location = starMap.currentLoc;
+    //if (location->visited > 1 && !location->boss && !location->dangerZone)
+    //{
+    //    if (location->event == event) return ret;
+    //}
 
     if (customEvent)
     {
+        for (auto i : customEvent->removeItems)
+        {
+            playerShip->shipManager->RemoveItem(i);
+        }
+
+        for (VariableModifier &i : customEvent->variables)
+        {
+            int val;
+            if (i.minVal == i.maxVal)
+            {
+                val = i.minVal;
+            }
+            else
+            {
+                int savedSeed;
+                if (SeedInputBox::seedsEnabled)
+                {
+                    savedSeed = random32();
+                    srandom32(Global::questSeed);
+                }
+
+                val = i.minVal + random32()%(i.maxVal-i.minVal+1);
+
+                if (SeedInputBox::seedsEnabled)
+                {
+                    Global::questSeed = random32();
+                    srandom32(savedSeed);
+                }
+            }
+            switch (i.op)
+            {
+            case VariableModifier::OP::SET:
+                playerVariables[i.name] = val;
+                break;
+            case VariableModifier::OP::ADD:
+                playerVariables[i.name] += val;
+                break;
+            case VariableModifier::OP::MUL:
+                playerVariables[i.name] *= val;
+                break;
+            case VariableModifier::OP::DIV:
+                playerVariables[i.name] /= val;
+                break;
+            case VariableModifier::OP::MIN:
+                playerVariables[i.name] = std::min(playerVariables[i.name], val);
+                break;
+            case VariableModifier::OP::MAX:
+                playerVariables[i.name] = std::max(playerVariables[i.name], val);
+                break;
+            }
+
+            CustomAchievementTracker::instance->UpdateVariableAchievements(i.name, playerVariables[i.name]);
+        }
+
+        for (VariableModifier &i : customEvent->metaVariables)
+        {
+            int val;
+            if (i.minVal == i.maxVal)
+            {
+                val = i.minVal;
+            }
+            else
+            {
+                int savedSeed;
+                if (SeedInputBox::seedsEnabled)
+                {
+                    savedSeed = random32();
+                    srandom32(Global::questSeed);
+                }
+
+                val = i.minVal + random32()%(i.maxVal-i.minVal+1);
+
+                if (SeedInputBox::seedsEnabled)
+                {
+                    Global::questSeed = random32();
+                    srandom32(savedSeed);
+                }
+            }
+            switch (i.op)
+            {
+            case VariableModifier::OP::SET:
+                metaVariables[i.name] = val;
+                break;
+            case VariableModifier::OP::ADD:
+                metaVariables[i.name] += val;
+                break;
+            case VariableModifier::OP::MUL:
+                metaVariables[i.name] *= val;
+                break;
+            case VariableModifier::OP::DIV:
+                metaVariables[i.name] /= val;
+                break;
+            case VariableModifier::OP::MIN:
+                metaVariables[i.name] = std::min(metaVariables[i.name], val);
+                break;
+            case VariableModifier::OP::MAX:
+                metaVariables[i.name] = std::max(metaVariables[i.name], val);
+                break;
+            }
+
+            CustomAchievementTracker::instance->UpdateVariableAchievements(i.name, metaVariables[i.name]);
+        }
+
         if (customEvent->gameOver.enabled)
         {
             if (customEvent->gameOver.victory)
@@ -3450,8 +4282,12 @@ HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEve
                 replaceCreditsMusic = customEvent->gameOver.creditsMusic;
 
                 G_->GetScoreKeeper()->SetVictory(true);
+                hs_log_file("Event victory: Set custom victory type to %s\n", customEvent->gameOver.ach.c_str());
+                CustomShipUnlocks::instance->setCustomVictoryType = customEvent->gameOver.ach;
+                G_->GetAchievementTracker()->SetVictoryAchievement();
                 commandGui->gameover = true;
                 commandGui->Victory();
+                G_->GetScoreKeeper()->Save(true);
 
                 replaceGameOverText = "";
             }
@@ -3472,22 +4308,6 @@ HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEve
             }
         }
 
-        if (!customEvent->playSound.empty())
-        {
-            G_->GetSoundControl()->PlaySoundMix(customEvent->playSound, -1.f, false);
-        }
-
-        if (customEvent->resetMusic)
-        {
-            G_->GetSoundControl()->StartPlaylist(starMap.currentSector->description.musicTracks);
-        }
-
-        if (!customEvent->playMusic.empty())
-        {
-            std::vector<std::string> track = {customEvent->playMusic};
-            G_->GetSoundControl()->StartPlaylist(track);
-        }
-
         if (customEvent->jumpEventClear)
         {
             jumpEvent = "";
@@ -3498,6 +4318,12 @@ HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEve
         {
             jumpEvent = customEvent->jumpEvent;
             jumpEventLoop = customEvent->jumpEventLoop;
+        }
+
+        if (customEvent->deathEvent.present)
+        {
+            deathEvent = customEvent->deathEvent;
+            hs_log_file("Set death event to %s\n", deathEvent.event.c_str());
         }
 
         if (customEvent->goToFlagship)
@@ -3616,6 +4442,9 @@ HOOK_METHOD(StarMap, NewGame, (bool unk) -> Location*)
     jumpEvent = "";
     jumpEventLoop = false;
 
+    // deathEvent
+    deathEvent.event = "";
+
     // eventAlias
     eventAliases.clear();
 
@@ -3625,6 +4454,9 @@ HOOK_METHOD(StarMap, NewGame, (bool unk) -> Location*)
     // renamedBeacons
     renamedBeacons.clear();
 
+    // playerVariables
+    playerVariables.clear();
+
     // Game Over
     G_->GetWorld()->commandGui->alreadyWon = false;
     alreadyWonCustom = false;
@@ -3632,6 +4464,8 @@ HOOK_METHOD(StarMap, NewGame, (bool unk) -> Location*)
     replaceGameOverCreditsText = "";
     replaceCreditsBackground = "";
     replaceCreditsMusic = "";
+    hs_log_file("New Game: Reset custom victory type to flagship\n");
+    CustomShipUnlocks::instance->setCustomVictoryType = "flagship";
 
     return super(unk);
 }
@@ -3645,6 +4479,11 @@ HOOK_METHOD(StarMap, LoadGame, (int fh) -> Location*)
     // jumpEvent
     jumpEvent = FileHelper::readString(fh);
     jumpEventLoop = FileHelper::readInteger(fh);
+
+    // deathEvent
+    deathEvent.event = FileHelper::readString(fh);
+    deathEvent.jumpClear = FileHelper::readInteger(fh);
+    deathEvent.thisFight = FileHelper::readInteger(fh);
 
     // eventAlias
     eventAliases.clear();
@@ -3679,6 +4518,20 @@ HOOK_METHOD(StarMap, LoadGame, (int fh) -> Location*)
         renamedBeacons[idx] = FileHelper::readString(fh);
     }
 
+    // playerVariables
+    playerVariables.clear();
+    n = FileHelper::readInteger(fh);
+    for (int i=0; i<n; ++i)
+    {
+        std::string varName = FileHelper::readString(fh);
+        int varValue = FileHelper::readInteger(fh);
+        if (varValue != 0)
+        {
+            playerVariables[varName] = varValue;
+            CustomAchievementTracker::instance->UpdateVariableAchievements(varName, varValue);
+        }
+    }
+
     // Game Over
     G_->GetWorld()->commandGui->alreadyWon = FileHelper::readInteger(fh);
     alreadyWonCustom = FileHelper::readInteger(fh);
@@ -3686,6 +4539,8 @@ HOOK_METHOD(StarMap, LoadGame, (int fh) -> Location*)
     replaceGameOverCreditsText = FileHelper::readString(fh);
     replaceCreditsBackground = FileHelper::readString(fh);
     replaceCreditsMusic = FileHelper::readString(fh);
+    CustomShipUnlocks::instance->setCustomVictoryType = FileHelper::readString(fh);
+    hs_log_file("Load Game: Set custom victory type to %s\n", CustomShipUnlocks::instance->setCustomVictoryType.c_str());
 
     return super(fh);
 }
@@ -3695,6 +4550,11 @@ HOOK_METHOD(StarMap, SaveGame, (int file) -> void)
     // jumpEvent
     FileHelper::writeString(file, jumpEvent);
     FileHelper::writeInt(file, jumpEventLoop);
+
+    // deathEvent
+    FileHelper::writeString(file, deathEvent.event);
+    FileHelper::writeInt(file, deathEvent.jumpClear);
+    FileHelper::writeInt(file, deathEvent.thisFight);
 
     // eventAlias
     FileHelper::writeInt(file, eventAliases.size());
@@ -3730,6 +4590,14 @@ HOOK_METHOD(StarMap, SaveGame, (int file) -> void)
         }
     }
 
+    // playerVariables
+    FileHelper::writeInt(file, playerVariables.size());
+    for (auto& i : playerVariables)
+    {
+        FileHelper::writeString(file, i.first);
+        FileHelper::writeInt(file, i.second);
+    }
+
     // Game Over
     FileHelper::writeInt(file, G_->GetWorld()->commandGui->alreadyWon);
     FileHelper::writeInt(file, alreadyWonCustom);
@@ -3737,6 +4605,7 @@ HOOK_METHOD(StarMap, SaveGame, (int file) -> void)
     FileHelper::writeString(file, replaceGameOverCreditsText);
     FileHelper::writeString(file, replaceCreditsBackground);
     FileHelper::writeString(file, replaceCreditsMusic);
+    FileHelper::writeString(file, CustomShipUnlocks::instance->setCustomVictoryType);
 
     return super(file);
 }
@@ -3745,9 +4614,9 @@ HOOK_METHOD(StarMap, Open, () -> void)
 {
     if (!jumpEvent.empty())
     {
-        LocationEvent* event = G_->GetEventGenerator()->GetBaseEvent(jumpEvent, currentSector->level, true, -1);
+        std::string eventName = jumpEvent;
         if (!jumpEventLoop) jumpEvent = "";
-        G_->GetWorld()->UpdateLocation(event);
+        CustomEventsParser::GetInstance()->LoadEvent(G_->GetWorld(), eventName, false, -1);
         return;
     }
 
@@ -3879,7 +4748,7 @@ HOOK_METHOD(StarMap, TurnIntoFleetLocation, (Location *loc) -> void)
 
                 auto dest = allowedDestinations[random32()%allowedDestinations.size()];
                 unsigned int seed = random32();
-                dest->event = G_->GetEventGenerator()->GetBaseEvent(locEvent->eventName, worldLevel, true, seed);
+                dest->event = G_->GetEventGenerator()->GetBaseEvent(locEvent->eventName, worldLevel, false, seed);
                 dest->questLoc = true;
                 dest->visited = 0;
 
@@ -3890,7 +4759,7 @@ HOOK_METHOD(StarMap, TurnIntoFleetLocation, (Location *loc) -> void)
                 }
 
                 auto destIt = std::find(locations.begin(), locations.end(), dest);
-                addedQuests.push_back({"QUEST " + std::to_string(seed) + " " + locEvent->eventName, std::distance(locations.begin(), destIt)});
+                addedQuests.push_back({"QUEST\t" + std::to_string(seed) + "\t" + locEvent->eventName, std::distance(locations.begin(), destIt)});
             }
         }
     }
@@ -4109,6 +4978,8 @@ HOOK_METHOD(CompleteShip, DeadCrew, () -> bool)
                     replaceGameOverCreditsText = customEvent->finalBoss.creditsText;
                     replaceCreditsMusic = customEvent->finalBoss.creditsMusic;
                     replaceCreditsBackground = G_->GetEventGenerator()->GetImageFromList(customEvent->finalBoss.creditsBackground);
+                    hs_log_file("Final Boss crewkilled: Set custom victory type to %s\n", customEvent->finalBoss.ach.c_str());
+                    CustomShipUnlocks::instance->setCustomVictoryType = customEvent->finalBoss.ach;
                 }
             }
         }
@@ -4132,8 +5003,10 @@ HOOK_METHOD(WorldManager, OnLoop, () -> void)
             {
                 G_->GetSoundControl()->StopPlaylist(100);
                 G_->GetScoreKeeper()->SetVictory(true);
+                G_->GetAchievementTracker()->SetVictoryAchievement();
                 commandGui->gameover = true;
                 commandGui->Victory();
+                G_->GetScoreKeeper()->Save(true);
                 replaceGameOverText = "";
             }
         }
@@ -4170,10 +5043,9 @@ HOOK_METHOD(WorldManager, OnLoop, () -> void)
                 replaceGameOverCreditsText = customEvent->finalBoss.creditsText;
                 replaceCreditsMusic = customEvent->finalBoss.creditsMusic;
                 replaceCreditsBackground = G_->GetEventGenerator()->GetImageFromList(customEvent->finalBoss.creditsBackground);
+                hs_log_file("Final Boss destroyed: Set custom victory type to %s\n", customEvent->finalBoss.ach.c_str());
+                CustomShipUnlocks::instance->setCustomVictoryType = customEvent->finalBoss.ach;
             }
-
-            commandGui->alreadyWon = true;
-            alreadyWonCustom = true;
         }
     }
 }
@@ -4216,5 +5088,94 @@ HOOK_METHOD(SpaceManager, SetPlanetaryDefense, (bool state, int target) -> void)
     if (dangerSet)
     {
         dangerZone = false;
+    }
+}
+
+// Fixes time advancement during events
+
+HOOK_METHOD(WorldManager, CheckStatusEffects, (std::vector<StatusEffect> &effects) -> void)
+{
+    CFPS *cFPS = G_->GetCFPS();
+    float speed = cFPS->SpeedFactor;
+    cFPS->SpeedFactor = 0.f;
+
+    super(effects);
+
+    cFPS->SpeedFactor = speed;
+}
+
+// Vanilla method has a bug so let's rewrite it
+HOOK_METHOD_PRIORITY(WorldManager, CheckStatusEffects, 9999, (std::vector<StatusEffect> &effects) -> void)
+{
+    for (StatusEffect &effect : effects)
+    {
+        if (effect.target == 0 || effect.target == 2)
+        {
+            ModifyStatusEffect(effect, playerShip->shipManager, 0);
+        }
+        if (!ships.empty() && (effect.target == 1 || effect.target == 2))
+        {
+            for (CompleteShip *ship : ships)
+            {
+                ModifyStatusEffect(effect, ship->shipManager, 1);
+            }
+        }
+        currentEffects.push_back(effect);
+    }
+
+    // Do OnLoop for all shipManagers to update system powers
+    if (!ships.empty())
+    {
+        for (CompleteShip *ship : ships)
+        {
+            ship->shipManager->OnLoop();
+        }
+    }
+    playerShip->shipManager->OnLoop();
+}
+
+HOOK_METHOD(WorldManager, ModifyStatusEffect, (StatusEffect effect, ShipManager *target, int targetType) -> void)
+{
+    super(effect, target, targetType);
+    if (effect.system == 16 || targetType == effect.target || effect.target == 2) // all systems
+    {
+        super({effect.type, SYS_TEMPORAL, effect.amount, effect.target}, target, targetType);
+    }
+}
+
+// Death Event
+
+bool deathEventActive = false;
+DeathEvent deathEvent = DeathEvent();
+
+HOOK_METHOD(WorldManager, UpdateLocation0, (LocationEvent *loc) -> void)
+{
+    if (deathEventActive) return UpdateLocation(loc);
+    return super(loc);
+}
+
+HOOK_METHOD(WorldManager, CreateChoiceBox0, (LocationEvent *event) -> void)
+{
+    if (deathEventActive) return CreateChoiceBox(event);
+    return super(event);
+}
+
+HOOK_METHOD(GameOver, OpenText, (const std::string &text) -> void)
+{
+    if (deathEvent.event.empty())
+    {
+        return super(text);
+    }
+
+    if (bVictory)
+    {
+        super(text);
+    }
+    else
+    {
+        deathEventActive = true;
+        std::string eventName = deathEvent.event;
+        deathEvent.event = "";
+        CustomEventsParser::GetInstance()->LoadEvent(G_->GetWorld(), eventName, false, -1);
     }
 }

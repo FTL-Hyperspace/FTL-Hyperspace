@@ -1,6 +1,8 @@
 #pragma once
-#include "FTLGame.h"
+#include "Global.h"
 #include "CustomDamage.h"
+
+struct ErosionEffect;
 
 struct RoomAnim
 {
@@ -19,6 +21,7 @@ struct Room_Extend
     float ionDamageResistChance = 0.f;
 
     int timeDilation = 0;
+    TemporalSystem_Wrapper* timeDilationSource = nullptr;
     Animation* speedUpAnim = nullptr;
     Animation* slowDownAnim = nullptr;
 
