@@ -9,11 +9,11 @@ cleanup void WorldManager::CreateLocation(WorldManager *this, Location *loc);
 "5589e557565383ec2c8b5d088b83cc0c0000890424":
 cleanup void WorldManager::SaveGame(WorldManager *this);
 "5589e55789d7565389c381ec0c020000":
-cleanup void WorldManager::CreateChoiceBox(WorldManager *this, LocationEvent* event);
+cleanup void WorldManager::CreateChoiceBox(WorldManager *this<eax>, LocationEvent* event<edx>);
 "565383ec148b5c24208b7424248b038b48088b01":
 cleanup void WorldManager::CreateChoiceBox0(WorldManager *this, LocationEvent* event);
 "5589e55789d7565381ec1c020000":
-cleanup void WorldManager::UpdateLocation(WorldManager *this, LocationEvent* event);
+cleanup void WorldManager::UpdateLocation(WorldManager *this<eax>, LocationEvent* event<edx>);
 ".565383ec148b5c24208b7424248b038b48088b01":
 cleanup void WorldManager::UpdateLocation0(WorldManager *this, LocationEvent* event);
 "5589e557565381ecbc0100008b7d0c8b75088b87dc010000":

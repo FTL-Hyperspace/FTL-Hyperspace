@@ -49457,7 +49457,7 @@ FUNC_NAKED void WorldManager::SaveGame()
 namespace _func1306
 {
 	static void *func = 0;
-	static short argdata[] = {0x1ff, 0x1ff};
+	static short argdata[] = {0x100, 0x102};
 	static FunctionDefinition funcObj("WorldManager::CreateChoiceBox", typeid(void (WorldManager::*)(LocationEvent *)), "5589e55789d7565389c381ec0c020000", argdata, 2, 6, &func);
 }
 
@@ -49474,13 +49474,13 @@ FUNC_NAKED void WorldManager::CreateChoiceBox(LocationEvent *event)
 		"pushl %ebx\n\t"
 		"pushl %esi\n\t"
 		"pushl %edi\n\t"
-		"pushl 12(%ebp)\n\t"		// event
-		"pushl 8(%ebp)\n\t"		// this
+		"movl 8(%ebp), %eax\n\t"	// this
+		"movl 12(%ebp), %edx\n\t"	// event
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1306::func));
 	__asm__
 	(
-		"addl $8, %esp\n\t"
+		"addl $0, %esp\n\t"
 		"popl %edi\n\t"
 		"popl %esi\n\t"
 		"popl %ebx\n\t"
@@ -49535,7 +49535,7 @@ FUNC_NAKED void WorldManager::CreateChoiceBox0(LocationEvent *event)
 namespace _func1308
 {
 	static void *func = 0;
-	static short argdata[] = {0x1ff, 0x1ff};
+	static short argdata[] = {0x100, 0x102};
 	static FunctionDefinition funcObj("WorldManager::UpdateLocation", typeid(void (WorldManager::*)(LocationEvent *)), "5589e55789d7565381ec1c020000", argdata, 2, 6, &func);
 }
 
@@ -49552,13 +49552,13 @@ FUNC_NAKED void WorldManager::UpdateLocation(LocationEvent *event)
 		"pushl %ebx\n\t"
 		"pushl %esi\n\t"
 		"pushl %edi\n\t"
-		"pushl 12(%ebp)\n\t"		// event
-		"pushl 8(%ebp)\n\t"		// this
+		"movl 8(%ebp), %eax\n\t"	// this
+		"movl 12(%ebp), %edx\n\t"	// event
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1308::func));
 	__asm__
 	(
-		"addl $8, %esp\n\t"
+		"addl $0, %esp\n\t"
 		"popl %edi\n\t"
 		"popl %esi\n\t"
 		"popl %ebx\n\t"
