@@ -19679,7 +19679,7 @@ namespace _func517
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("DroneBlueprint::RenderIcon", typeid(void (DroneBlueprint::*)(float )), "83ec1c8b4424208b401c8b10", argdata, 2, 6, &func);
+	static FunctionDefinition funcObj("DroneBlueprint::RenderIcon", typeid(void (DroneBlueprint::*)(float )), "5589e557565381ecfc0000008b5d08e8", argdata, 2, 6, &func);
 }
 
 FUNC_NAKED void DroneBlueprint::RenderIcon(float scale)
