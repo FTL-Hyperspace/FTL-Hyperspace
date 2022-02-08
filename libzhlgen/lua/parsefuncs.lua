@@ -466,16 +466,22 @@ for k,fd in pairs(tfiles) do
             
             -- Precompute stack positions for all arguments
             local stackPos = 8
+            local pushSize = 0
             for k, arg in ipairs(func.args) do
                 arg.size = sizeof_aligned(arg) / 4
-                if k == 1 and func.thiscall and arg.reg == "ecx" and thiscallFirstArgumentECX then
+                if k == 1 and func.thiscall and arg.reg == "ecx" and thiscallFirstArgumentECX then -- TODO: This will need total reworking for 64-bit since it's more than just ECX as the caller
                     assert(arg.size == 1)
                 else
                     arg.pos = stackPos
-                    stackPos = stackPos + 4 * arg.size
+                    local argMemory = 4 * arg.size
+                    stackPos = stackPos + argMemory
+                    if not arg.reg then
+                        pushSize = pushSize + argMemory
+                    end
                 end
             end
-            func.stacksize = stackPos - 8
+            func.stacksize = stackPos - 8 -- size of the stack for cleanup (the stack size the hook was called with, includes register targeted args if they were passed to this hook on the stack)
+            func.stackCallPushSize = pushSize -- Size of the stack in the CALL to the target function (original size in target, ignores register args)
             
             -- Special behaviour for void functions
             if func.class == "void" and (not func.ptr or #func.ptr == 0) then
@@ -956,7 +962,7 @@ using namespace ZHL;
 					end
 				end
 				
-				local stackAlignPushSize = func.stacksize + 8 -- size of CALL + plus the push EBP above
+				local stackAlignPushSize = func.stackCallPushSize + 8 -- size of CALL + plus the push EBP above
                 
 				if func.void or not func.longlong then
 					stackAlignPushSize = stackAlignPushSize + 4 -- Because of push edx/rdx

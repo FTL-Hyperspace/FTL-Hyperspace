@@ -31687,6 +31687,7 @@ FUNC_NAKED std::vector<int> ShipGenerator::GetPossibleSystemUpgrades0(ShipManage
 	(
 		"pushl %ebp\n\t"
 		"movl %esp, %ebp\n\t"
+		"subl $12, %esp\n\t"
 		"pushl %edx\n\t"
 		"pushl %ecx\n\t"
 		"pushl %ebx\n\t"
@@ -31726,6 +31727,7 @@ FUNC_NAKED std::vector<int> ShipGenerator::GetPossibleSystemUpgrades1(ShipManage
 	(
 		"pushl %ebp\n\t"
 		"movl %esp, %ebp\n\t"
+		"subl $12, %esp\n\t"
 		"pushl %edx\n\t"
 		"pushl %ecx\n\t"
 		"pushl %ebx\n\t"
@@ -31765,6 +31767,7 @@ FUNC_NAKED std::vector<int> ShipGenerator::GetPossibleSystemUpgrades2(ShipManage
 	(
 		"pushl %ebp\n\t"
 		"movl %esp, %ebp\n\t"
+		"subl $12, %esp\n\t"
 		"pushl %edx\n\t"
 		"pushl %ecx\n\t"
 		"pushl %ebx\n\t"
@@ -37150,7 +37153,6 @@ FUNC_NAKED void ShipStatus::RenderShields(bool renderText)
 	(
 		"pushl %ebp\n\t"
 		"movl %esp, %ebp\n\t"
-		"subl $8, %esp\n\t"
 		"pushl %edx\n\t"
 		"pushl %eax\n\t"
 		"pushl %ecx\n\t"
@@ -49467,7 +49469,6 @@ FUNC_NAKED void WorldManager::CreateChoiceBox(LocationEvent *event)
 	(
 		"pushl %ebp\n\t"
 		"movl %esp, %ebp\n\t"
-		"subl $8, %esp\n\t"
 		"pushl %edx\n\t"
 		"pushl %eax\n\t"
 		"pushl %ecx\n\t"
@@ -49545,7 +49546,6 @@ FUNC_NAKED void WorldManager::UpdateLocation(LocationEvent *event)
 	(
 		"pushl %ebp\n\t"
 		"movl %esp, %ebp\n\t"
-		"subl $8, %esp\n\t"
 		"pushl %edx\n\t"
 		"pushl %eax\n\t"
 		"pushl %ecx\n\t"
