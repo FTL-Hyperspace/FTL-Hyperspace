@@ -889,7 +889,7 @@ void TriggeredEvent::JumpAll(uint8_t jumpType)
 
 void TriggeredEvent::TriggerCheck()
 {
-    for (auto it=eventList.begin(); it!=eventList.end(); ++it)
+    for (auto it=eventList.begin(); it!=eventList.end(); )
     {
         if (it->second.triggered)
         {
@@ -904,17 +904,22 @@ void TriggeredEvent::TriggerCheck()
 
             if (--(it->second.loops) <= 0)
             {
-                eventList.erase(it);
+                it = eventList.erase(it);
                 TriggeredEventGui::GetInstance()->reset = true;
             }
             else
             {
                 it->second.triggered = false;
                 it->second.Reset();
+                ++it;
             }
 
             G_->GetWorld()->UpdateLocation(G_->GetEventGenerator()->GetBaseEvent(eventName, level, false, seed));
             if (G_->GetWorld()->commandGui->choiceBox.bOpen) break;
+        }
+        else
+        {
+            ++it;
         }
     }
 }
