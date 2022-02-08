@@ -21,9 +21,9 @@ HOOK_METHOD(WeaponSystem, OnLoop, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> WeaponSystem::OnLoop -> Begin (BeamFixes.cpp)\n")
     ShipManager *ship = G_->GetShipManager(_shipObj.iShipId);
-    if (ship && ship->current_target)
+    if (ship)
     {
-        Targetable *target = &ship->current_target->_targetable;
+        Targetable *target = ship->current_target ? &ship->current_target->_targetable : nullptr;
         for (auto i : weapons)
         {
             if (i->currentShipTarget && i->currentShipTarget != target)

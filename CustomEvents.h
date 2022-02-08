@@ -7,8 +7,8 @@
 #include <boost/format.hpp>
 #include <rapidxml_print.hpp>
 
-extern bool locationUpdated;
-extern std::vector<std::pair<std::string,int>> eventQueue;
+extern std::deque<std::pair<std::string,int>> eventQueue;
+
 extern bool alreadyWonCustom;
 extern bool bossDefeated;
 extern TimerHelper *restartMusicTimer;
@@ -20,6 +20,19 @@ extern std::unordered_map<int, std::pair<std::string, int>> regeneratedBeacons;
 
 extern std::string jumpEvent;
 extern bool jumpEventLoop;
+
+extern std::unordered_map<std::string, int> playerVariables;
+
+struct DeathEvent
+{
+    std::string event = "";
+    bool present = false;
+    bool jumpClear = false;
+    bool thisFight = false;
+};
+
+extern bool deathEventActive;
+extern DeathEvent deathEvent;
 
 struct BeaconType
 {
@@ -176,6 +189,7 @@ public:
     bool seeded = true;
     bool clearOnJump = false;
     bool thisFight = false;
+    uint8_t jumpType = 0;
     int minLoops = 1;
     int maxLoops = 1;
     float triggerMinTime = -1.f;
@@ -219,7 +233,7 @@ public:
     static void DestroyEvent(const std::string& name);
     static void UpdateAll();
     static void RenderAll();
-    static void JumpAll();
+    static void JumpAll(uint8_t jumpType);
     static void TriggerCheck();
     static void SaveAll(int file);
     static void LoadAll(int file);
@@ -326,7 +340,7 @@ public:
     void Reset();
     void Update();
     void OnRender();
-    void Jump();
+    void Jump(uint8_t jumpType);
     void Save(int file);
     void Load(int file);
 };
@@ -495,10 +509,34 @@ struct EventAlias
     bool once = false;
 };
 
+struct EventQueueEvent
+{
+    std::string event;
+    bool seeded = true;
+};
+
 struct SectorReplace
 {
     std::string targetSector = "";
     std::string sectorList = "";
+};
+
+struct VariableModifier
+{
+    enum OP
+    {
+        SET,
+        ADD,
+        MUL,
+        DIV,
+        MIN,
+        MAX
+    };
+
+    std::string name = "";
+    OP op = OP::SET;
+    int minVal = 0;
+    int maxVal = 0;
 };
 
 extern std::unordered_map<std::string, EventAlias> eventAliases;
@@ -534,15 +572,20 @@ struct CustomEvent
     bool eventRevisitSeeded = true;
     bool eventRevisitIgnoreUnique = false;
     std::vector<std::pair<std::string, EventAlias>> eventAlias;
+    std::vector<EventQueueEvent> queueEvents;
     bool restartEvent = false;
     std::string renameBeacon = "";
     EventGameOver gameOver = EventGameOver();
+    std::string achievement = "";
+    bool achievementSilent = false;
     bool disableScrapScore = false;
     bool disableScrapAugments = false;
+    bool removeStore = false;
     std::string customStore = "";
     std::string jumpEvent = "";
     bool jumpEventLoop = false;
     bool jumpEventClear = false;
+    DeathEvent deathEvent;
     SectorReplace replaceSector;
     bool resetFtl = false;
     bool instantEscape = false;
@@ -569,6 +612,8 @@ struct CustomEvent
 
     std::vector<std::string> hiddenAugs = std::vector<std::string>();
     std::vector<std::string> removeItems = std::vector<std::string>();
+    std::vector<VariableModifier> variables = std::vector<VariableModifier>();
+    std::vector<VariableModifier> metaVariables = std::vector<VariableModifier>();
     std::string playSound = "";
     std::string playMusic = "";
     bool resetMusic = false;
@@ -599,6 +644,7 @@ struct CustomShipEvent
     std::string jumpEvent = "";
     bool jumpEventLoop = false;
     bool jumpEventClear = false;
+    DeathEvent deathEvent;
 
     bool invincible = false;
     bool deadCrewAuto = false;
@@ -629,6 +675,7 @@ struct CustomSector
     bool noExit = false;
     ToggleValue<bool> nebulaSector;
     int maxSector = -1;
+    std::vector<std::pair<std_pair_std_string_RandomAmount,int>> priorityEventCounts;
 };
 
 struct BossShipDefinition

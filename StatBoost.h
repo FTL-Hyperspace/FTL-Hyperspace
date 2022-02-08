@@ -56,7 +56,8 @@ enum class CrewStat : unsigned int
     POWER_MAX_CHARGES,
     POWER_CHARGES_PER_JUMP,
     HACK_DOORS,
-    NO_CLONE
+    NO_CLONE,
+    NO_SLOT
 };
 
 static const std::array<std::string, numStats> crewStats =
@@ -108,7 +109,8 @@ static const std::array<std::string, numStats> crewStats =
     "powerCharges",
     "chargesPerJump",
     "hackDoors",
-    "noClone"
+    "noClone",
+    "noSlot"
 };
 
 struct StatBoostDefinition
@@ -215,6 +217,7 @@ struct StatBoostDefinition
     ShipTarget shipTarget;
     CrewTarget crewTarget;
     DroneTarget droneTarget = DroneTarget::ALL;
+    bool functionalTarget = false;
 
     int realBoostId = -1;
     int stackId = 0;

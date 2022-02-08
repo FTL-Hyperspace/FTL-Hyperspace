@@ -1446,12 +1446,7 @@ struct Blueprint;
 struct Description;
 
 struct Description
-{	
-	~Description()
-	{
-		this->destructor();
-	}
-
+{
 	LIBZHL_API void constructor();
 	LIBZHL_API Description &copy_assign_1(Description &&other);
 	LIBZHL_API Description &copy_assign_2(const Description &other);
@@ -1798,7 +1793,7 @@ struct LIBZHL_INTERFACE CrewAnimation
 	virtual ~CrewAnimation() {}
 	LIBZHL_API virtual void OnRender(float scale, int selectedState, bool outlineOnly);
 	LIBZHL_API virtual void OnRenderProps();
-	virtual void OnUpdateEffects() LIBZHL_PLACEHOLDER
+	LIBZHL_API virtual void OnUpdateEffects();
 	virtual void UpdateFiring() LIBZHL_PLACEHOLDER
 	virtual void UpdateShooting() LIBZHL_PLACEHOLDER
 	LIBZHL_API virtual bool FireShot();
@@ -1858,10 +1853,6 @@ struct CrewBlueprint;
 
 struct CrewBlueprint : Blueprint
 {
-	~CrewBlueprint()
-	{
-		this->destructor();
-	}
 
 	LIBZHL_API std::string GetNameShort();
 	LIBZHL_API void RandomSkills(int worldLevel);
@@ -7507,6 +7498,7 @@ struct WorldManager
 	LIBZHL_API bool CheckRequirements(LocationEvent *event, bool hidden);
 	LIBZHL_API void CheckStatusEffects(std::vector<StatusEffect> &vec);
 	LIBZHL_API void CreateChoiceBox(LocationEvent *event);
+	LIBZHL_API void CreateChoiceBox0(LocationEvent *event);
 	LIBZHL_API void CreateLocation(Location *loc);
 	LIBZHL_API void CreateNewGame();
 	LIBZHL_API CompleteShip *__stdcall CreateShip(ShipEvent *shipEvent, bool boss);
@@ -7515,12 +7507,15 @@ struct WorldManager
 	LIBZHL_API void LoadGame(const std::string &fileName);
 	LIBZHL_API void ModifyEnvironment(int envFlag, int envTarget);
 	LIBZHL_API LocationEvent *ModifyResources(LocationEvent *event);
+	LIBZHL_API void ModifyStatusEffect(StatusEffect effect, ShipManager *target, int targetType);
 	LIBZHL_API int OnInit();
 	LIBZHL_API void OnLoop();
+	LIBZHL_API void PauseLoop();
 	LIBZHL_API void Restart();
 	LIBZHL_API void SaveGame();
 	LIBZHL_API void StartGame(ShipManager *ship);
 	LIBZHL_API void UpdateLocation(LocationEvent *event);
+	LIBZHL_API void UpdateLocation0(LocationEvent *event);
 	LIBZHL_API void constructor();
 	
 	CompleteShip *playerShip;

@@ -28,7 +28,43 @@ HOOK_METHOD(BlueprintManager, ProcessWeaponBlueprint, (rapidxml::xml_node<char>*
         }
         if (name == "descriptionOverride")
         {
-            weaponDef.descriptionOverride = val;
+            weaponDef.descriptionOverride.data = val;
+            weaponDef.descriptionOverride.isLiteral = true;
+            if (child->first_attribute("id"))
+            {
+                weaponDef.descriptionOverride.data = child->first_attribute("id")->value();
+                weaponDef.descriptionOverride.isLiteral = false;
+            }
+        }
+        if (name == "advancedDescriptionOverride")
+        {
+            weaponDef.advancedDescriptionOverride.data = val;
+            weaponDef.advancedDescriptionOverride.isLiteral = true;
+            if (child->first_attribute("id"))
+            {
+                weaponDef.advancedDescriptionOverride.data = child->first_attribute("id")->value();
+                weaponDef.advancedDescriptionOverride.isLiteral = false;
+            }
+        }
+        if (name == "tooltipOverride")
+        {
+            weaponDef.tooltipOverride.data = val;
+            weaponDef.tooltipOverride.isLiteral = true;
+            if (child->first_attribute("id"))
+            {
+                weaponDef.tooltipOverride.data = child->first_attribute("id")->value();
+                weaponDef.tooltipOverride.isLiteral = false;
+            }
+        }
+        if (name == "advancedTooltipOverride")
+        {
+            weaponDef.advancedTooltipOverride.data = val;
+            weaponDef.advancedTooltipOverride.isLiteral = true;
+            if (child->first_attribute("id"))
+            {
+                weaponDef.advancedTooltipOverride.data = child->first_attribute("id")->value();
+                weaponDef.advancedTooltipOverride.isLiteral = false;
+            }
         }
         if (name == "hideEventTooltip")
         {
@@ -172,6 +208,7 @@ HOOK_METHOD(ProjectileFactory, SpendMissiles, () -> int)
         if (randomNum < CustomWeaponManager::instance->GetWeaponDefinition(blueprint->name)->freeMissileChance)
         {
             iSpendMissile = 0;
+            if (iShipId == 0) G_->GetEventSystem()->AddEvent(12);
         }
     }
 

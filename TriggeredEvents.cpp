@@ -10,8 +10,7 @@ std::unordered_map<std::string,std::vector<std::pair<float,std::string>>> Trigge
 
 TriggeredEventGui *TriggeredEventGui::instance = new TriggeredEventGui();
 
-bool locationUpdated = false;
-std::vector<std::pair<std::string,int>> eventQueue = std::vector<std::pair<std::string,int>>();
+std::deque<std::pair<std::string,int>> eventQueue = {};
 
 int TriggeredEvent::playerCloneCount = 0;
 
@@ -225,6 +224,10 @@ void CustomEventsParser::ParseCustomTriggeredEventNode(rapidxml::xml_node<char> 
             if (child->first_attribute("max"))
             {
                 def->triggerMaxJumps = boost::lexical_cast<int>(child->first_attribute("max")->value());
+            }
+            if (child->first_attribute("type"))
+            {
+                def->jumpType = boost::lexical_cast<int>(child->first_attribute("type")->value());
             }
         }
         if (strcmp(child->name(), "playerHull") == 0)
@@ -826,12 +829,12 @@ void TriggeredEvent::UpdateAll()
         {
             ShipManager* enemy = G_->GetShipManager(1);
 
-            if (enemy != nullptr && !enemy->bDestroyed && !enemy->bJumping)
+            if (enemy != nullptr && enemy->_targetable.hostile && !enemy->bDestroyed && !enemy->bJumping)
             {
                 it->second.Update();
             }
 
-            if (enemy == nullptr || !enemy->_targetable.hostile)
+            if ((enemy == nullptr || !enemy->_targetable.hostile) && !G_->GetWorld()->commandGui->choiceBox.bOpen)
             {
                 it = eventList.erase(it);
                 TriggeredEventGui::GetInstance()->reset = true;
@@ -847,6 +850,16 @@ void TriggeredEvent::UpdateAll()
             ++it;
         }
     }
+
+    if (deathEvent.thisFight)
+    {
+        ShipManager* enemy = G_->GetShipManager(1);
+        if ((enemy == nullptr || !enemy->_targetable.hostile) && !G_->GetWorld()->commandGui->choiceBox.bOpen)
+        {
+            deathEvent.event = "";
+            deathEvent.thisFight = false;
+        }
+    }
 }
 
 void TriggeredEvent::RenderAll()
@@ -857,11 +870,11 @@ void TriggeredEvent::RenderAll()
     }
 }
 
-void TriggeredEvent::JumpAll()
+void TriggeredEvent::JumpAll(uint8_t jumpType)
 {
     for (auto it=eventList.begin(); it!=eventList.end(); )
     {
-        it->second.Jump();
+        it->second.Jump(jumpType);
         if (it->second.def->clearOnJump)
         {
             it = eventList.erase(it);
@@ -901,7 +914,7 @@ void TriggeredEvent::TriggerCheck()
             }
 
             G_->GetWorld()->UpdateLocation(G_->GetEventGenerator()->GetBaseEvent(eventName, level, false, seed));
-            break;
+            if (G_->GetWorld()->commandGui->choiceBox.bOpen) break;
         }
     }
 }
@@ -1183,9 +1196,9 @@ void TriggeredEvent::OnRender()
     }
 }
 
-void TriggeredEvent::Jump()
+void TriggeredEvent::Jump(uint8_t jumpType)
 {
-    if (triggerJumps > 0)
+    if (triggerJumps > 0 && def->jumpType == jumpType)
     {
         if (--triggerJumps == 0)
         {
@@ -1298,7 +1311,9 @@ HOOK_METHOD_PRIORITY(StarMap, LoadGame, 100, (int file) -> Location*)
     LOG_HOOK("HOOK_METHOD_PRIORITY -> StarMap::LoadGame -> Begin (TriggeredEvents.cpp)\n")
     auto ret = super(file);
 
-    TriggeredEvent::LoadAll(file);
+    TriggeredEvent::LoadAll(file); // also clears
+
+    eventQueue.clear();
 
     int eventQueueSize = FileHelper::readInteger(file);
 
@@ -1328,49 +1343,61 @@ HOOK_METHOD_PRIORITY(StarMap, SaveGame, 100, (int file) -> void)
     }
 }
 
+void CheckEventQueue(WorldManager *world)
+{
+    while (!eventQueue.empty())
+    {
+        auto &nextEvent = eventQueue.front();
+
+        CustomEventsParser::GetInstance()->LoadEvent(world, nextEvent.first, false, nextEvent.second);
+
+        eventQueue.pop_front();
+
+        if (world->commandGui->choiceBox.bOpen) return;
+    }
+
+    if (world->playerShip && !world->playerShip->shipManager->bJumping && !world->starMap.waiting.running) TriggeredEvent::TriggerCheck();
+}
+
 HOOK_METHOD(WorldManager, OnLoop, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> WorldManager::OnLoop -> Begin (TriggeredEvents.cpp)\n")
-    locationUpdated = false;
+    super();
+
     TriggeredEvent::UpdateAll();
 
-    super();
-
-    if (!locationUpdated && !eventQueue.empty())
+    if (!commandGui->choiceBox.bOpen)
     {
-        std::string eventName = eventQueue.back().first;
-        int seed = eventQueue.back().second;
-        int level = G_->GetWorld()->starMap.currentSector->level;
-
-        G_->GetWorld()->UpdateLocation(G_->GetEventGenerator()->GetBaseEvent(eventName, level, false, seed));
-        locationUpdated = true;
-
-        eventQueue.pop_back();
-        return;
+        CheckEventQueue(this);
     }
-
-    if (!locationUpdated && (playerShip && !playerShip->shipManager->bJumping)) TriggeredEvent::TriggerCheck();
 }
 
-HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
+HOOK_METHOD(WorldManager, PauseLoop, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> WorldManager::UpdateLocation -> Begin (TriggeredEvents.cpp)\n")
-    super(loc);
-    locationUpdated = true;
-}
-
-HOOK_METHOD(StarMap, UpdateDangerZone, () -> void)
-{
-    LOG_HOOK("HOOK_METHOD -> StarMap::UpdateDangerZone -> Begin (TriggeredEvents.cpp)\n")
-    TriggeredEvent::JumpAll();
+    LOG_HOOK("HOOK_METHOD -> WorldManager::PauseLoop -> Begin (TriggeredEvents.cpp)\n")
     super();
+
+    if (!commandGui->choiceBox.bOpen)
+    {
+        CheckEventQueue(this);
+    }
 }
 
-HOOK_METHOD(StarMap, StartSecretSector, () -> void)
+HOOK_METHOD(WorldManager, CreateLocation, (Location *location) -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> StarMap::StartSecretSector -> Begin (TriggeredEvents.cpp)\n")
-    TriggeredEvent::JumpAll();
+    LOG_HOOK("HOOK_METHOD -> WorldManager::CreateLocation -> Begin (TriggeredEvents.cpp)\n")
+    if (!loadingGame) TriggeredEvent::JumpAll(0);
+    super(location);
+}
+
+HOOK_METHOD(ShipManager, JumpLeave, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::JumpLeave -> Begin (TriggeredEvents.cpp)\n")
     super();
+    if (iShipId == 0)
+    {
+        TriggeredEvent::JumpAll(1);
+    }
 }
 
 std::string TriggeredEventBox::GetTimeTextClock(int t)

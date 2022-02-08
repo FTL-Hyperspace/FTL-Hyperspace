@@ -1,3 +1,4 @@
+#include "CustomAchievements.h"
 #include "CustomScoreKeeper.h"
 #include "CustomShipSelect.h"
 #include "ShipUnlocks.h"
@@ -5,6 +6,8 @@
 #include <boost/lexical_cast.hpp>
 
 CustomScoreKeeper* CustomScoreKeeper::instance = new CustomScoreKeeper();
+
+std::unordered_map<std::string, int> metaVariables = std::unordered_map<std::string, int>();
 
 void CustomScoreKeeper::AddTopScore(TopScore& topScore, int type = 0)
 {
@@ -135,6 +138,32 @@ void CustomScoreKeeper::SaveShipScores(int file)
             FileHelper::writeInt(file, score.difficulty);
             FileHelper::writeInt(file, score.advancedContent);
         }
+    }
+}
+
+void CustomScoreKeeper::LoadMetaVars(int file)
+{
+    metaVariables.clear();
+    int n = FileHelper::readInteger(file);
+    for (int i=0; i<n; ++i)
+    {
+        std::string varName = FileHelper::readString(file);
+        int varValue = FileHelper::readInteger(file);
+        if (varValue != 0)
+        {
+            metaVariables[varName] = varValue;
+            CustomAchievementTracker::instance->UpdateVariableAchievements(varName, varValue, false);
+        }
+    }
+}
+
+void CustomScoreKeeper::SaveMetaVars(int file)
+{
+    FileHelper::writeInt(file, metaVariables.size());
+    for (auto& i : metaVariables)
+    {
+        FileHelper::writeString(file, i.first);
+        FileHelper::writeInt(file, i.second);
     }
 }
 
@@ -348,6 +377,9 @@ HOOK_METHOD(ScoreKeeper, WipeProfile, (bool permanent) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ScoreKeeper::WipeProfile -> Begin (CustomScoreKeeper.cpp)\n")
     CustomScoreKeeper::instance->WipeProfile();
+    CustomAchievementTracker::instance->WipeProfile();
+
+    metaVariables.clear();
 
     super(permanent);
 }
@@ -360,7 +392,14 @@ HOOK_METHOD(AchievementTracker, LoadProfile, (int file, int version) -> void)
 
     if (CustomShipUnlocks::instance->loadVersion == SaveFileHandler::version)
     {
-        CustomShipUnlocks::instance->LoadCurrent(file);
+        CustomShipUnlocks::instance->LoadCurrent(file); // VersionTwo
+        CustomAchievementTracker::instance->LoadCurrent(file); // VersionThree
+        CustomScoreKeeper::instance->LoadShipScores(file);
+        CustomScoreKeeper::instance->LoadMetaVars(file);
+    }
+    else if (CustomShipUnlocks::instance->loadVersion == 2)
+    {
+        CustomShipUnlocks::instance->LoadVersionTwo(file);
         CustomScoreKeeper::instance->LoadShipScores(file);
     }
     else if (CustomShipUnlocks::instance->loadVersion == 1)
@@ -376,7 +415,9 @@ HOOK_METHOD(AchievementTracker, SaveProfile, (int file) -> void)
     super(file);
 
     CustomShipUnlocks::instance->Save(file);
+    CustomAchievementTracker::instance->Save(file);
     CustomScoreKeeper::instance->SaveShipScores(file);
+    CustomScoreKeeper::instance->SaveMetaVars(file);
 }
 
 HOOK_METHOD(ScoreKeeper, Open, (bool fromGameOver) -> void)

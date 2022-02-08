@@ -26,6 +26,8 @@ cleanup bool CrewAnimation::FireShot(CrewAnimation *this);
 cleanup int CrewAnimation::GetFiringFrame(CrewAnimation *this);
 "57565381ecd00000008b9c24e0000000":
 cleanup void CrewAnimation::RenderIcon(CrewAnimation *this, bool border);
+"5557565383ec5c8b44247083c040890424":
+cleanup void CrewAnimation::OnUpdateEffects(CrewAnimation *this);
 
 
 struct CrewAnimation

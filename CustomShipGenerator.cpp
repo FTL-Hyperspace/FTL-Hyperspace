@@ -501,7 +501,7 @@ void CustomShipGenerator::AddOverrideWeapons(ShipManager *ship, ShipEvent& event
 		weaponOverride.erase(weaponOverride.begin()+idx);
 	}
 	int maxWeaponPower = ship->GetSystemPowerMax(SYS_WEAPONS);
-	while (maxWeaponPower < weaponPower)
+	if (maxWeaponPower < weaponPower)
 	{
 		for (int i=0; i < weaponPower-maxWeaponPower; ++i)
 		{
@@ -537,7 +537,7 @@ void CustomShipGenerator::AddOverrideDrones(ShipManager *ship, ShipEvent& event)
 		droneOverride.erase(droneOverride.begin()+idx);
 	}
 	int maxDronePower = ship->GetSystemPowerMax(SYS_DRONES);
-	while (maxDronePower < dronePower)
+	if (maxDronePower < dronePower)
 	{
 		for (int i=0; i < dronePower-maxDronePower; ++i)
 		{
@@ -842,7 +842,7 @@ HOOK_STATIC_PRIORITY(ShipGenerator, CreateShip, 9999, (const std::string& name, 
 		weaponOverride.erase(weaponOverride.begin()+idx);
 	}
 	int maxWeaponPower = ship->GetSystemPowerMax(SYS_WEAPONS);
-	while (maxWeaponPower < weaponPower)
+	if (maxWeaponPower < weaponPower)
 	{
 		for (int i=0; i < weaponPower-maxWeaponPower; ++i)
 		{
@@ -874,7 +874,7 @@ HOOK_STATIC_PRIORITY(ShipGenerator, CreateShip, 9999, (const std::string& name, 
 		droneOverride.erase(droneOverride.begin()+idx);
 	}
 	int maxDronePower = ship->GetSystemPowerMax(SYS_DRONES);
-	while (maxDronePower < dronePower)
+	if (maxDronePower < dronePower)
 	{
 		for (int i=0; i < dronePower-maxDronePower; ++i)
 		{

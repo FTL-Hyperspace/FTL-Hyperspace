@@ -1274,7 +1274,7 @@ PowerReadyState CrewMember_Extend::PowerReq(const ActivatedPowerRequirements *re
 
         for (auto i : currentShip->vCrewList)
         {
-            if (i->iRoomId == orig->iRoomId && i != orig)
+            if (i->iRoomId == orig->iRoomId && i != orig && !i->bDead)
             {
                 if (i->iShipId != ownerId)
                 {
@@ -1613,6 +1613,7 @@ void CrewMember_Extend::ActivatePower()
 
         G_->GetScoreKeeper()->SetVictory(true);
         CustomShipUnlocks::instance->setCustomVictoryType = "";
+        hs_log_file("powerDef->win: Set custom victory type to null\n");
         G_->GetAchievementTracker()->SetVictoryAchievement();
         G_->GetCApp()->gui->gameover = true;
         G_->GetCApp()->gui->Victory();
@@ -2204,7 +2205,7 @@ HOOK_METHOD_PRIORITY(CrewMember, UpdateHealth, 2000, () -> void)
         float trueHealAmount = ex->CalculateStat(CrewStat::TRUE_HEAL_AMOUNT, def);
         float truePassiveHealAmount = ex->CalculateStat(CrewStat::TRUE_PASSIVE_HEAL_AMOUNT, def);
 
-        if (healAmount != 0.f && Functional())
+        if (healAmount != 0.f)
         {
             if (healAmount > 0.f && health.first != health.second)
             {
@@ -2212,7 +2213,7 @@ HOOK_METHOD_PRIORITY(CrewMember, UpdateHealth, 2000, () -> void)
             }
             DirectModifyHealth(G_->GetCFPS()->GetSpeedFactor() * healAmount * mod * 0.06245f);
         }
-        if (ex->isHealing && passiveHealAmount != 0.f && health.first != health.second && Functional())
+        if (ex->isHealing && passiveHealAmount != 0.f && health.first != health.second)
         {
             if (passiveHealAmount > 0.f && health.first != health.second)
             {
@@ -2220,7 +2221,7 @@ HOOK_METHOD_PRIORITY(CrewMember, UpdateHealth, 2000, () -> void)
             }
             DirectModifyHealth(G_->GetCFPS()->GetSpeedFactor() * passiveHealAmount * mod * 0.06245f);
         }
-        if (trueHealAmount != 0.f && Functional())
+        if (trueHealAmount != 0.f)
         {
             if (trueHealAmount > 0.f && health.first != health.second)
             {
@@ -2228,7 +2229,7 @@ HOOK_METHOD_PRIORITY(CrewMember, UpdateHealth, 2000, () -> void)
             }
             DirectModifyHealth(G_->GetCFPS()->GetSpeedFactor() * trueHealAmount * 0.06245f);
         }
-        if (ex->isHealing && truePassiveHealAmount != 0.f && health.first != health.second && Functional())
+        if (ex->isHealing && truePassiveHealAmount != 0.f && health.first != health.second)
         {
             if (truePassiveHealAmount > 0.f && health.first != health.second)
             {
@@ -2645,8 +2646,18 @@ HOOK_METHOD(CrewMember, LoadState, (int file) -> void)
         StatBoost statBoost(StatBoostDefinition::statBoostDefs.at(FileHelper::readInteger(file)));
         statBoost.iStacks = FileHelper::readInteger(file);
         statBoost.sourceShipId = FileHelper::readInteger(file);
-        statBoost.timerHelper.Start(FileHelper::readFloat(file));
-        statBoost.timerHelper.currTime = FileHelper::readFloat(file);
+
+        if (statBoost.def->duration != -1.f)
+        {
+            statBoost.timerHelper.Start(FileHelper::readFloat(file));
+            statBoost.timerHelper.currTime = FileHelper::readFloat(file);
+        }
+        else
+        {
+            statBoost.timerHelper.currGoal = FileHelper::readFloat(file);
+            statBoost.timerHelper.currTime = FileHelper::readFloat(file);
+            statBoost.timerHelper.running = false;
+        }
 
         auto& vStatBoosts = ex->timedStatBoosts[statBoost.def->stat];
 
@@ -5299,7 +5310,9 @@ HOOK_METHOD(CrewMemberFactory, OnLoop, () -> void)
     LOG_HOOK("HOOK_METHOD -> CrewMemberFactory::OnLoop -> Begin (CustomCrew.cpp)\n")
     for (auto i : crewMembers)
     {
-        if (CM_EX(i)->noSlot)
+        bool noSlot;
+        CM_EX(i)->CalculateStat(CrewStat::NO_SLOT, CustomCrewManager::GetInstance()->GetDefinition(i->species), &noSlot);
+        if (noSlot)
         {
             g_tempOutOfGame[i] = std::pair<bool, bool>(i->bOutOfGame, i->clone_ready);
 
@@ -5344,7 +5357,10 @@ HOOK_METHOD(ShipManager, GetCrewmember, (int slot, bool present) -> CrewMember*)
 
     for (auto crew : vCrewList)
     {
-        if (crew->iShipId == 1 || crew->IsDrone() || CM_EX(crew)->noSlot) continue;
+        if (crew->iShipId == 1 || crew->IsDrone()) continue;
+        bool noSlot;
+        CM_EX(crew)->CalculateStat(CrewStat::NO_SLOT, CustomCrewManager::GetInstance()->GetDefinition(crew->species), &noSlot);
+        if (noSlot) continue;
 
         if (currSlot == slot) return crew;
 
@@ -5361,7 +5377,7 @@ HOOK_METHOD(CrewMember, CheckSkills, () -> void)
     super();
 
     auto ex = CM_EX(this);
-    if (ex->deathTimer && ex->deathTimer->Done())
+    if (ex->deathTimer && ex->deathTimer->currTime >= ex->deathTimer->currGoal)
     {
         clone_ready = false;
         return;

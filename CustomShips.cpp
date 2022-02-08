@@ -911,7 +911,7 @@ HOOK_METHOD(Ship, OnRenderJump, (float progress) -> void)
 
     if (customEngines)
     {
-        float alpha = 1.f - std::min(progress * 0.75f, 1.f);
+        float alpha = 1.f - std::min(progress / 0.75f, 1.f);
 
         if (engineAnim[0].animationStrip) engineAnim[0].OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
         if (engineAnim[1].animationStrip) engineAnim[1].OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);

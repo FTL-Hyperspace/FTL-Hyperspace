@@ -345,9 +345,9 @@ HOOK_METHOD(CommandGui, OnInit, () -> void)
     CustomCommandGui::GetInstance()->OnInit();
 }
 
-HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEvent*)
+HOOK_METHOD_PRIORITY(WorldManager, ModifyResources, -500, (LocationEvent *event) -> LocationEvent*)
 {
-    LOG_HOOK("HOOK_METHOD -> WorldManager::ModifyResources -> Begin (CustomCommandGui.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> WorldManager::ModifyResources -> Begin (CustomCommandGui.cpp)\n")
     LocationEvent *ret = super(event);
 
     commandGui->crewControl.UpdateCrewBoxes();

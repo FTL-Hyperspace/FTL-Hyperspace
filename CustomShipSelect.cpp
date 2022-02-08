@@ -120,6 +120,15 @@ void CustomShipSelect::ParseShipsNode(rapidxml::xml_node<char> *node)
 
                     for (auto shipChild = child->first_node(); shipChild; shipChild = shipChild->next_sibling())
                     {
+                        if (strcmp(shipChild->name(), "splitUnlockQuestAchievement") == 0)
+                        {
+                            buttonDef.splitUnlockQuestAchievement = EventsParser::ParseBoolean(shipChild->value());
+                        }
+                        if (strcmp(shipChild->name(), "splitVictoryAchievement") == 0)
+                        {
+                            buttonDef.splitVictoryAchievement = EventsParser::ParseBoolean(shipChild->value());
+                        }
+
                         if (strcmp(shipChild->name(), "unlock") == 0)
                         {
                             CustomShipUnlocks::instance->ParseUnlockNode(shipChild, shipName);
@@ -1465,11 +1474,12 @@ void CustomShipSelect::SwitchShip(ShipBuilder *builder, int type, int variant, b
     if (bp)
     {
         ShipManager *ship = new ShipManager(0);
-        ship->OnInit(bp, 0);
 
         builder->currentShip = ship;
         builder->currentShipId = type;
         builder->currentType = variant;
+
+        ship->OnInit(bp, 0);
 
         std::string shipRealName = std::string();
         shipRealName = ship->myBlueprint.name.GetText();

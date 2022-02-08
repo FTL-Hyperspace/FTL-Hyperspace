@@ -29,7 +29,10 @@ struct CustomWeaponDefinition
     std::string name;
 
     int freeMissileChance;
-    std::string descriptionOverride;
+    TextString descriptionOverride;
+    TextString advancedDescriptionOverride;
+    TextString tooltipOverride;
+    TextString advancedTooltipOverride;
     bool hideEventTooltip = false;
     bool simultaneousFire = false;
     float fireTime = 0.f;

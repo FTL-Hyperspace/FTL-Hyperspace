@@ -137,14 +137,35 @@ float CrewMember::_HS_GetDamageMultiplier()
 {
     auto ex = CM_EX(this);
     auto def = CustomCrewManager::GetInstance()->GetDefinition(this->species);
-    float damage = ex->CalculateStat(CrewStat::DAMAGE_MULTIPLIER, def);
-    if (this->crewAnim->status == 7)
+    return ex->CalculateStat(CrewStat::DAMAGE_MULTIPLIER, def);
+}
+
+CrewMember *currentCrewLoop = nullptr;
+HOOK_METHOD(CrewMember, OnLoop, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> CrewMember::OnLoop -> Begin (CrewVTable.cpp)\n")
+    currentCrewLoop = this;
+    super();
+    currentCrewLoop = nullptr;
+}
+
+HOOK_METHOD(CrewAnimation, OnUpdateEffects, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> CrewAnimation::OnUpdateEffects -> Begin (CrewVTable.cpp)\n")
+    if (currentCrewLoop)
     {
-        return damage * ex->CalculateStat(CrewStat::RANGED_DAMAGE_MULTIPLIER, def);
+        float oldDamage = fDamageDone;
+        super();
+        if (fDamageDone != oldDamage)
+        {
+            auto ex = CM_EX(currentCrewLoop);
+            auto def = CustomCrewManager::GetInstance()->GetDefinition(currentCrewLoop->species);
+            fDamageDone = fDamageDone * ex->CalculateStat(CrewStat::RANGED_DAMAGE_MULTIPLIER, def);
+        }
     }
     else
     {
-        return damage;
+        super();
     }
 }
 

@@ -6,11 +6,3 @@ Description& Description::copy_assign_1(Description *this<ecx>, Description&& ot
 Description& Description::copy_assign_2(Description *this<ecx>, const Description& other);
 "558d918c00000089e55389cb83e4f083ec108b818400000039d074??890424e8????????8b43688d537039d074??890424e8????????8b43388d534039d0":
 void Description::destructor(Description *this<ecx>);
-
-struct Description
-{{	
-	~Description()
-	{
-		this->destructor();
-	}
-}};

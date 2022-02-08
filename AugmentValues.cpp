@@ -21,7 +21,7 @@ HOOK_METHOD_PRIORITY(ProjectileFactory, SpendMissiles, 1000, () -> int)
             if (rng < chance)
             {
                 ret = 0;
-                G_->GetEventSystem()->AddEvent(12);
+                if (iShipId == 0) G_->GetEventSystem()->AddEvent(12);
             }
         }
     }

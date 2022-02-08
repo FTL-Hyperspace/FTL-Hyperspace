@@ -28,6 +28,7 @@
 #include "CustomCrystalShard.h"
 #include "CustomShipGenerator.h"
 #include "ShipUnlocks.h"
+#include "CustomAchievements.h"
 
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string/replace.hpp>
@@ -400,6 +401,12 @@ void Global::InitializeResources(ResourceControl *resources)
             {
                 auto customUnlocks = CustomShipUnlocks::instance;
                 customUnlocks->ParseVictoryAchievements(node);
+            }
+
+            if (strcmp(node->name(), "achievements") == 0)
+            {
+                auto customAchievements = CustomAchievementTracker::instance;
+                customAchievements->ParseAchievements(node);
             }
 
             if (strcmp(node->name(), "ships") == 0)

@@ -4,11 +4,3 @@ cleanup Description& Description::copy_assign_1(Description *this, Description&&
 cleanup Description& Description::copy_assign_2(Description *this, const Description& other);
 "565383ec248b5c24308b43348d50f4":
 cleanup void Description::destructor(Description *this);
-
-struct Description
-{{	
-	~Description()
-	{
-		this->destructor();
-	}
-}};

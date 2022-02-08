@@ -20,7 +20,21 @@ HOOK_METHOD(WeaponBox, GenerateTooltip, () -> std::string)
 
     auto weaponDef = CustomWeaponManager::instance->GetWeaponDefinition(bp->name);
 
-    if (CustomOptionsManager::GetInstance()->redesignedWeaponTooltips.currentValue == true)
+    if (CustomOptionsManager::GetInstance()->redesignedWeaponTooltips.currentValue && !weaponDef->advancedTooltipOverride.data.empty())
+    {
+        std::string newDesc = weaponDef->advancedTooltipOverride.GetText();
+
+        ret.assign(boost::algorithm::replace_all_copy(newDesc, "\\n", "\n"));
+        return ret;
+    }
+    else if (!weaponDef->tooltipOverride.data.empty())
+    {
+        std::string newDesc = weaponDef->tooltipOverride.GetText();
+
+        ret.assign(boost::algorithm::replace_all_copy(newDesc, "\\n", "\n"));
+        return ret;
+    }
+    else if (CustomOptionsManager::GetInstance()->redesignedWeaponTooltips.currentValue == true)
     {
         if (bp->power > 0)
         {
@@ -510,9 +524,16 @@ HOOK_METHOD(WeaponBlueprint, GetDescription, (bool tooltip) -> std::string)
 
     auto weaponDef = CustomWeaponManager::instance->GetWeaponDefinition(this->name);
 
-    if (!weaponDef->descriptionOverride.empty())
+    if (CustomOptionsManager::GetInstance()->redesignedWeaponTooltips.currentValue && !weaponDef->advancedDescriptionOverride.data.empty())
     {
-        std::string newDesc = weaponDef->descriptionOverride;
+        std::string newDesc = weaponDef->advancedDescriptionOverride.GetText();
+
+        ret.assign(boost::algorithm::replace_all_copy(newDesc, "\\n", "\n"));
+        return ret;
+    }
+    else if (!weaponDef->descriptionOverride.data.empty())
+    {
+        std::string newDesc = weaponDef->descriptionOverride.GetText();
 
         ret.assign(boost::algorithm::replace_all_copy(newDesc, "\\n", "\n"));
         return ret;
