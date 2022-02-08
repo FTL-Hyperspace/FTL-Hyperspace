@@ -615,10 +615,17 @@ int FunctionHook_private::Install()
 	*_outInternalSuper = _internalSuper;
 
 	Log("Successfully hooked function %s\n", _name);
+#ifdef DEBUG
+    Log("InternalHookAddress: %08x\n", (unsigned int)&_internalHook);
+#endif // DEBUG
 	Log("%s\ninternalHook:\n", _name);
+    
 	for(unsigned int i=0 ; i<_hSize ; ++i)
 		Log("%02x ", _internalHook[i]);
 
+#ifdef DEBUG
+    Log("InternalSuperAddress: %08x\n", (unsigned int)&_internalSuper);
+#endif // DEBUG
 	Log("\ninternalSuper:\n", _name);
 
 	for(unsigned int i=0 ; i<_sSize ; ++i)
