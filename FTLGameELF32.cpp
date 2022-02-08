@@ -5386,7 +5386,6 @@ FUNC_NAKED GL_Color CSurface::GL_GetColor()
 	__asm__("call *%0\n\t" :: "m"(_func143::func));
 	__asm__
 	(
-		"addl $0, %esp\n\t"
 		"popl %edi\n\t"
 		"popl %esi\n\t"
 		"popl %ebx\n\t"
@@ -5501,7 +5500,6 @@ FUNC_NAKED bool CSurface::IsFrameBufferSupported()
 	__asm__("call *%0\n\t" :: "m"(_func146::func));
 	__asm__
 	(
-		"addl $0, %esp\n\t"
 		"popl %edi\n\t"
 		"popl %esi\n\t"
 		"popl %ebx\n\t"
@@ -5536,7 +5534,6 @@ FUNC_NAKED void CSurface::StartFrame()
 	__asm__("call *%0\n\t" :: "m"(_func147::func));
 	__asm__
 	(
-		"addl $0, %esp\n\t"
 		"popl %edi\n\t"
 		"popl %esi\n\t"
 		"popl %ebx\n\t"
@@ -5572,7 +5569,6 @@ FUNC_NAKED void CSurface::FinishFrame()
 	__asm__("call *%0\n\t" :: "m"(_func148::func));
 	__asm__
 	(
-		"addl $0, %esp\n\t"
 		"popl %edi\n\t"
 		"popl %esi\n\t"
 		"popl %ebx\n\t"
@@ -5608,7 +5604,6 @@ FUNC_NAKED void CSurface::GL_ClearAll()
 	__asm__("call *%0\n\t" :: "m"(_func149::func));
 	__asm__
 	(
-		"addl $0, %esp\n\t"
 		"popl %edi\n\t"
 		"popl %esi\n\t"
 		"popl %ebx\n\t"
@@ -5644,7 +5639,6 @@ FUNC_NAKED void CSurface::GL_ClearColor()
 	__asm__("call *%0\n\t" :: "m"(_func150::func));
 	__asm__
 	(
-		"addl $0, %esp\n\t"
 		"popl %edi\n\t"
 		"popl %esi\n\t"
 		"popl %ebx\n\t"
@@ -5719,7 +5713,6 @@ FUNC_NAKED void CSurface::GL_PopScissor()
 	__asm__("call *%0\n\t" :: "m"(_func152::func));
 	__asm__
 	(
-		"addl $0, %esp\n\t"
 		"popl %edi\n\t"
 		"popl %esi\n\t"
 		"popl %ebx\n\t"
@@ -5795,7 +5788,6 @@ FUNC_NAKED void CSurface::GL_PopStencilMode()
 	__asm__("call *%0\n\t" :: "m"(_func154::func));
 	__asm__
 	(
-		"addl $0, %esp\n\t"
 		"popl %edi\n\t"
 		"popl %esi\n\t"
 		"popl %ebx\n\t"
@@ -5872,7 +5864,6 @@ FUNC_NAKED int CSurface::GL_LoadIdentity()
 	__asm__("call *%0\n\t" :: "m"(_func156::func));
 	__asm__
 	(
-		"addl $0, %esp\n\t"
 		"popl %edi\n\t"
 		"popl %esi\n\t"
 		"popl %ebx\n\t"
@@ -5907,7 +5898,6 @@ FUNC_NAKED int CSurface::GL_PushMatrix()
 	__asm__("call *%0\n\t" :: "m"(_func157::func));
 	__asm__
 	(
-		"addl $0, %esp\n\t"
 		"popl %edi\n\t"
 		"popl %esi\n\t"
 		"popl %ebx\n\t"
@@ -5942,7 +5932,6 @@ FUNC_NAKED int CSurface::GL_PopMatrix()
 	__asm__("call *%0\n\t" :: "m"(_func158::func));
 	__asm__
 	(
-		"addl $0, %esp\n\t"
 		"popl %edi\n\t"
 		"popl %esi\n\t"
 		"popl %ebx\n\t"
@@ -6135,7 +6124,6 @@ FUNC_NAKED void CSurface::GL_RemoveColorTint()
 	__asm__("call *%0\n\t" :: "m"(_func163::func));
 	__asm__
 	(
-		"addl $0, %esp\n\t"
 		"popl %edi\n\t"
 		"popl %esi\n\t"
 		"popl %ebx\n\t"
@@ -6171,7 +6159,6 @@ FUNC_NAKED GL_Color CSurface::GetColorTint()
 	__asm__("call *%0\n\t" :: "m"(_func164::func));
 	__asm__
 	(
-		"addl $0, %esp\n\t"
 		"popl %edi\n\t"
 		"popl %esi\n\t"
 		"popl %ebx\n\t"
@@ -6206,7 +6193,6 @@ FUNC_NAKED bool CSurface::GL_EnableBlend()
 	__asm__("call *%0\n\t" :: "m"(_func165::func));
 	__asm__
 	(
-		"addl $0, %esp\n\t"
 		"popl %edi\n\t"
 		"popl %esi\n\t"
 		"popl %ebx\n\t"
@@ -6241,7 +6227,6 @@ FUNC_NAKED bool CSurface::GL_DisableBlend()
 	__asm__("call *%0\n\t" :: "m"(_func166::func));
 	__asm__
 	(
-		"addl $0, %esp\n\t"
 		"popl %edi\n\t"
 		"popl %esi\n\t"
 		"popl %ebx\n\t"
@@ -6276,7 +6261,6 @@ FUNC_NAKED bool CSurface::GL_ForceAntialias()
 	__asm__("call *%0\n\t" :: "m"(_func167::func));
 	__asm__
 	(
-		"addl $0, %esp\n\t"
 		"popl %edi\n\t"
 		"popl %esi\n\t"
 		"popl %ebx\n\t"
@@ -7117,7 +7101,6 @@ FUNC_NAKED void CSurface::GL_PushStencilMode()
 	__asm__("call *%0\n\t" :: "m"(_func187::func));
 	__asm__
 	(
-		"addl $0, %esp\n\t"
 		"popl %edi\n\t"
 		"popl %esi\n\t"
 		"popl %ebx\n\t"
@@ -21758,7 +21741,6 @@ FUNC_NAKED std::string FileHelper::getResourceFile()
 	__asm__("call *%0\n\t" :: "m"(_func573::func));
 	__asm__
 	(
-		"addl $0, %esp\n\t"
 		"popl %edi\n\t"
 		"popl %esi\n\t"
 		"popl %ebx\n\t"
@@ -21793,7 +21775,6 @@ FUNC_NAKED std::string FileHelper::getUserFolder()
 	__asm__("call *%0\n\t" :: "m"(_func574::func));
 	__asm__
 	(
-		"addl $0, %esp\n\t"
 		"popl %edi\n\t"
 		"popl %esi\n\t"
 		"popl %ebx\n\t"
@@ -21828,7 +21809,6 @@ FUNC_NAKED std::string FileHelper::getSaveFile()
 	__asm__("call *%0\n\t" :: "m"(_func575::func));
 	__asm__
 	(
-		"addl $0, %esp\n\t"
 		"popl %edi\n\t"
 		"popl %esi\n\t"
 		"popl %ebx\n\t"
@@ -21863,7 +21843,6 @@ FUNC_NAKED void FileHelper::initFileHelper()
 	__asm__("call *%0\n\t" :: "m"(_func576::func));
 	__asm__
 	(
-		"addl $0, %esp\n\t"
 		"popl %edi\n\t"
 		"popl %esi\n\t"
 		"popl %ebx\n\t"
@@ -22008,7 +21987,6 @@ FUNC_NAKED bool FileHelper::saveFileExists()
 	__asm__("call *%0\n\t" :: "m"(_func580::func));
 	__asm__
 	(
-		"addl $0, %esp\n\t"
 		"popl %edi\n\t"
 		"popl %esi\n\t"
 		"popl %ebx\n\t"
@@ -22043,7 +22021,6 @@ FUNC_NAKED int FileHelper::readSaveFile()
 	__asm__("call *%0\n\t" :: "m"(_func581::func));
 	__asm__
 	(
-		"addl $0, %esp\n\t"
 		"popl %edi\n\t"
 		"popl %esi\n\t"
 		"popl %ebx\n\t"
@@ -22078,7 +22055,6 @@ FUNC_NAKED int FileHelper::readStatsFile()
 	__asm__("call *%0\n\t" :: "m"(_func582::func));
 	__asm__
 	(
-		"addl $0, %esp\n\t"
 		"popl %edi\n\t"
 		"popl %esi\n\t"
 		"popl %ebx\n\t"
@@ -22113,7 +22089,6 @@ FUNC_NAKED int FileHelper::createSaveFile()
 	__asm__("call *%0\n\t" :: "m"(_func583::func));
 	__asm__
 	(
-		"addl $0, %esp\n\t"
 		"popl %edi\n\t"
 		"popl %esi\n\t"
 		"popl %ebx\n\t"
@@ -22148,7 +22123,6 @@ FUNC_NAKED int FileHelper::createStatsFile()
 	__asm__("call *%0\n\t" :: "m"(_func584::func));
 	__asm__
 	(
-		"addl $0, %esp\n\t"
 		"popl %edi\n\t"
 		"popl %esi\n\t"
 		"popl %ebx\n\t"
@@ -22183,7 +22157,6 @@ FUNC_NAKED void FileHelper::deleteSaveFile()
 	__asm__("call *%0\n\t" :: "m"(_func585::func));
 	__asm__
 	(
-		"addl $0, %esp\n\t"
 		"popl %edi\n\t"
 		"popl %esi\n\t"
 		"popl %ebx\n\t"
@@ -22219,7 +22192,6 @@ FUNC_NAKED void FileHelper::deleteAllSaveFiles()
 	__asm__("call *%0\n\t" :: "m"(_func586::func));
 	__asm__
 	(
-		"addl $0, %esp\n\t"
 		"popl %edi\n\t"
 		"popl %esi\n\t"
 		"popl %ebx\n\t"
@@ -29396,7 +29368,6 @@ FUNC_NAKED void Settings::SaveSettings()
 	__asm__("call *%0\n\t" :: "m"(_func780::func));
 	__asm__
 	(
-		"addl $0, %esp\n\t"
 		"popl %edi\n\t"
 		"popl %esi\n\t"
 		"popl %ebx\n\t"
@@ -29432,7 +29403,6 @@ FUNC_NAKED void Settings::ResetHotkeys()
 	__asm__("call *%0\n\t" :: "m"(_func781::func));
 	__asm__
 	(
-		"addl $0, %esp\n\t"
 		"popl %edi\n\t"
 		"popl %esi\n\t"
 		"popl %ebx\n\t"
@@ -29468,7 +29438,6 @@ FUNC_NAKED void Settings::LoadSettings()
 	__asm__("call *%0\n\t" :: "m"(_func782::func));
 	__asm__
 	(
-		"addl $0, %esp\n\t"
 		"popl %edi\n\t"
 		"popl %esi\n\t"
 		"popl %ebx\n\t"
@@ -37165,7 +37134,6 @@ FUNC_NAKED void ShipStatus::RenderShields(bool renderText)
 	__asm__("call *%0\n\t" :: "m"(_func984::func));
 	__asm__
 	(
-		"addl $0, %esp\n\t"
 		"popl %edi\n\t"
 		"popl %esi\n\t"
 		"popl %ebx\n\t"
@@ -43027,7 +42995,6 @@ FUNC_NAKED StatusEffect StatusEffect::GetNebulaEffect()
 	__asm__("call *%0\n\t" :: "m"(_func1137::func));
 	__asm__
 	(
-		"addl $0, %esp\n\t"
 		"popl %edi\n\t"
 		"popl %esi\n\t"
 		"popl %ebx\n\t"
@@ -49481,7 +49448,6 @@ FUNC_NAKED void WorldManager::CreateChoiceBox(LocationEvent *event)
 	__asm__("call *%0\n\t" :: "m"(_func1306::func));
 	__asm__
 	(
-		"addl $0, %esp\n\t"
 		"popl %edi\n\t"
 		"popl %esi\n\t"
 		"popl %ebx\n\t"
@@ -49558,7 +49524,6 @@ FUNC_NAKED void WorldManager::UpdateLocation(LocationEvent *event)
 	__asm__("call *%0\n\t" :: "m"(_func1308::func));
 	__asm__
 	(
-		"addl $0, %esp\n\t"
 		"popl %edi\n\t"
 		"popl %esi\n\t"
 		"popl %ebx\n\t"

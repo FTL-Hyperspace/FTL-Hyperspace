@@ -1066,11 +1066,13 @@ using namespace ZHL;
                     if func.memPassedPointer then
                         sizePushed = sizePushed - 4
                     end
-					if useIntelASMSyntax then
-						out("\n\t\t\"add esp, %d\\n\\t\"", sizePushed)
-					else
-						out("\n\t\t\"addl $%d, %%esp\\n\\t\"", sizePushed)
-					end
+                    if sizePushed > 0 then
+                        if useIntelASMSyntax then
+                            out("\n\t\t\"add esp, %d\\n\\t\"", sizePushed)
+                        else
+                            out("\n\t\t\"addl $%d, %%esp\\n\\t\"", sizePushed)
+                        end
+                    end
 				end
 				
 				-- restore all registers

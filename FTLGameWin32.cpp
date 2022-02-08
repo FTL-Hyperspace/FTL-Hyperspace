@@ -5044,7 +5044,6 @@ FUNC_NAKED bool CSurface::IsFrameBufferSupported()
 	__asm__("call %0\n\t" :: "m"(_func144::func));
 	__asm__
 	(
-		"add esp, 0\n\t"
 		"pop edi\n\t"
 		"pop esi\n\t"
 		"pop ebx\n\t"
@@ -5079,7 +5078,6 @@ FUNC_NAKED void CSurface::StartFrame()
 	__asm__("call %0\n\t" :: "m"(_func145::func));
 	__asm__
 	(
-		"add esp, 0\n\t"
 		"pop edi\n\t"
 		"pop esi\n\t"
 		"pop ebx\n\t"
@@ -5115,7 +5113,6 @@ FUNC_NAKED void CSurface::FinishFrame()
 	__asm__("call %0\n\t" :: "m"(_func146::func));
 	__asm__
 	(
-		"add esp, 0\n\t"
 		"pop edi\n\t"
 		"pop esi\n\t"
 		"pop ebx\n\t"
@@ -5151,7 +5148,6 @@ FUNC_NAKED void CSurface::GL_ClearAll()
 	__asm__("call %0\n\t" :: "m"(_func147::func));
 	__asm__
 	(
-		"add esp, 0\n\t"
 		"pop edi\n\t"
 		"pop esi\n\t"
 		"pop ebx\n\t"
@@ -5187,7 +5183,6 @@ FUNC_NAKED void CSurface::GL_ClearColor()
 	__asm__("call %0\n\t" :: "m"(_func148::func));
 	__asm__
 	(
-		"add esp, 0\n\t"
 		"pop edi\n\t"
 		"pop esi\n\t"
 		"pop ebx\n\t"
@@ -5261,7 +5256,6 @@ FUNC_NAKED void CSurface::GL_PopScissor()
 	__asm__("call %0\n\t" :: "m"(_func150::func));
 	__asm__
 	(
-		"add esp, 0\n\t"
 		"pop edi\n\t"
 		"pop esi\n\t"
 		"pop ebx\n\t"
@@ -5336,7 +5330,6 @@ FUNC_NAKED void CSurface::GL_PopStencilMode()
 	__asm__("call %0\n\t" :: "m"(_func152::func));
 	__asm__
 	(
-		"add esp, 0\n\t"
 		"pop edi\n\t"
 		"pop esi\n\t"
 		"pop ebx\n\t"
@@ -5411,7 +5404,6 @@ FUNC_NAKED int CSurface::GL_LoadIdentity()
 	__asm__("call %0\n\t" :: "m"(_func154::func));
 	__asm__
 	(
-		"add esp, 0\n\t"
 		"pop edi\n\t"
 		"pop esi\n\t"
 		"pop ebx\n\t"
@@ -5445,7 +5437,6 @@ FUNC_NAKED int CSurface::GL_PushMatrix()
 	__asm__("call %0\n\t" :: "m"(_func155::func));
 	__asm__
 	(
-		"add esp, 0\n\t"
 		"pop edi\n\t"
 		"pop esi\n\t"
 		"pop ebx\n\t"
@@ -5479,7 +5470,6 @@ FUNC_NAKED int CSurface::GL_PopMatrix()
 	__asm__("call %0\n\t" :: "m"(_func156::func));
 	__asm__
 	(
-		"add esp, 0\n\t"
 		"pop edi\n\t"
 		"pop esi\n\t"
 		"pop ebx\n\t"
@@ -5706,7 +5696,6 @@ FUNC_NAKED void CSurface::GL_RemoveColorTint()
 	__asm__("call %0\n\t" :: "m"(_func162::func));
 	__asm__
 	(
-		"add esp, 0\n\t"
 		"pop edi\n\t"
 		"pop esi\n\t"
 		"pop ebx\n\t"
@@ -5776,7 +5765,6 @@ FUNC_NAKED bool CSurface::GL_EnableBlend()
 	__asm__("call %0\n\t" :: "m"(_func164::func));
 	__asm__
 	(
-		"add esp, 0\n\t"
 		"pop edi\n\t"
 		"pop esi\n\t"
 		"pop ebx\n\t"
@@ -5810,7 +5798,6 @@ FUNC_NAKED bool CSurface::GL_DisableBlend()
 	__asm__("call %0\n\t" :: "m"(_func165::func));
 	__asm__
 	(
-		"add esp, 0\n\t"
 		"pop edi\n\t"
 		"pop esi\n\t"
 		"pop ebx\n\t"
@@ -5844,7 +5831,6 @@ FUNC_NAKED bool CSurface::GL_ForceAntialias()
 	__asm__("call %0\n\t" :: "m"(_func166::func));
 	__asm__
 	(
-		"add esp, 0\n\t"
 		"pop edi\n\t"
 		"pop esi\n\t"
 		"pop ebx\n\t"
@@ -6603,7 +6589,6 @@ FUNC_NAKED void CSurface::GL_PushStencilMode()
 	__asm__("call %0\n\t" :: "m"(_func184::func));
 	__asm__
 	(
-		"add esp, 0\n\t"
 		"pop edi\n\t"
 		"pop esi\n\t"
 		"pop ebx\n\t"
@@ -20309,7 +20294,6 @@ FUNC_NAKED void FileHelper::initFileHelper()
 	__asm__("call %0\n\t" :: "m"(_func573::func));
 	__asm__
 	(
-		"add esp, 0\n\t"
 		"pop edi\n\t"
 		"pop esi\n\t"
 		"pop ebx\n\t"
@@ -20487,7 +20471,6 @@ FUNC_NAKED int FileHelper::createSaveFile()
 	__asm__("call %0\n\t" :: "m"(_func578::func));
 	__asm__
 	(
-		"add esp, 0\n\t"
 		"pop edi\n\t"
 		"pop esi\n\t"
 		"pop ebx\n\t"
@@ -20521,7 +20504,6 @@ FUNC_NAKED int FileHelper::createStatsFile()
 	__asm__("call %0\n\t" :: "m"(_func579::func));
 	__asm__
 	(
-		"add esp, 0\n\t"
 		"pop edi\n\t"
 		"pop esi\n\t"
 		"pop ebx\n\t"
@@ -20556,7 +20538,6 @@ FUNC_NAKED void FileHelper::deleteSaveFile()
 	__asm__("call %0\n\t" :: "m"(_func580::func));
 	__asm__
 	(
-		"add esp, 0\n\t"
 		"pop edi\n\t"
 		"pop esi\n\t"
 		"pop ebx\n\t"
@@ -20592,7 +20573,6 @@ FUNC_NAKED void FileHelper::deleteAllSaveFiles()
 	__asm__("call %0\n\t" :: "m"(_func581::func));
 	__asm__
 	(
-		"add esp, 0\n\t"
 		"pop edi\n\t"
 		"pop esi\n\t"
 		"pop ebx\n\t"
@@ -20989,7 +20969,6 @@ FUNC_NAKED int FileHelper::readSaveFile()
 	__asm__("call %0\n\t" :: "m"(_func592::func));
 	__asm__
 	(
-		"add esp, 0\n\t"
 		"pop edi\n\t"
 		"pop esi\n\t"
 		"pop ebx\n\t"
@@ -21023,7 +21002,6 @@ FUNC_NAKED int FileHelper::readStatsFile()
 	__asm__("call %0\n\t" :: "m"(_func593::func));
 	__asm__
 	(
-		"add esp, 0\n\t"
 		"pop edi\n\t"
 		"pop esi\n\t"
 		"pop ebx\n\t"
@@ -21057,7 +21035,6 @@ FUNC_NAKED bool FileHelper::saveFileExists()
 	__asm__("call %0\n\t" :: "m"(_func594::func));
 	__asm__
 	(
-		"add esp, 0\n\t"
 		"pop edi\n\t"
 		"pop esi\n\t"
 		"pop ebx\n\t"
@@ -27397,7 +27374,6 @@ FUNC_NAKED void Settings::SaveSettings()
 	__asm__("call %0\n\t" :: "m"(_func777::func));
 	__asm__
 	(
-		"add esp, 0\n\t"
 		"pop edi\n\t"
 		"pop esi\n\t"
 		"pop ebx\n\t"
@@ -27433,7 +27409,6 @@ FUNC_NAKED void Settings::ResetHotkeys()
 	__asm__("call %0\n\t" :: "m"(_func778::func));
 	__asm__
 	(
-		"add esp, 0\n\t"
 		"pop edi\n\t"
 		"pop esi\n\t"
 		"pop ebx\n\t"
@@ -27469,7 +27444,6 @@ FUNC_NAKED void Settings::LoadSettings()
 	__asm__("call %0\n\t" :: "m"(_func779::func));
 	__asm__
 	(
-		"add esp, 0\n\t"
 		"pop edi\n\t"
 		"pop esi\n\t"
 		"pop ebx\n\t"
@@ -40087,7 +40061,6 @@ FUNC_NAKED StatusEffect *StatusEffect::GetNebulaEffect()
 	__asm__("call %0\n\t" :: "m"(_func1135::func));
 	__asm__
 	(
-		"add esp, 0\n\t"
 		"pop edi\n\t"
 		"pop esi\n\t"
 		"pop ebx\n\t"
