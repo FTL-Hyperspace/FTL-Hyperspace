@@ -2438,8 +2438,9 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
 
                 if (!IsDead())
                 {
-                    bool activateWhenReady;
-                    ex->CalculateStat(CrewStat::ACTIVATE_WHEN_READY, def, &activateWhenReady);
+                    bool activateWhenReady = false;
+                    // Only check activateWhenReady if not dying
+                    if (crewAnim->status != 3) ex->CalculateStat(CrewStat::ACTIVATE_WHEN_READY, def, &activateWhenReady);
                     if (activateWhenReady)
                     {
                         if (ex->PowerReady() == POWER_READY)
@@ -5067,7 +5068,7 @@ HOOK_METHOD(CrewControl, OnLoop, () -> void)
 
     for (auto i : selectedCrew)
     {
-        if (i->Functional() && !i->IsDead())
+        if (i->Functional() && !i->IsDead() && i->crewAnim->status != 3)
         {
             filteredSelectedCrew.push_back(i);
         }
@@ -5079,7 +5080,7 @@ HOOK_METHOD(CrewControl, OnLoop, () -> void)
 
     for (auto i : potentialSelectedCrew)
     {
-        if (i->Functional() && !i->IsDead())
+        if (i->Functional() && !i->IsDead() && i->crewAnim->status != 3)
         {
             filteredPotentialSelectedCrew.push_back(i);
         }
