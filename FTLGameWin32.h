@@ -96,7 +96,7 @@ struct CachedImage : CachedPrimitive
 		
 	}
 	
-	CachedImage(CachedImage &other)
+	CachedImage(const CachedImage &other)
 	{
 		constructor_copy(other);
 	}
