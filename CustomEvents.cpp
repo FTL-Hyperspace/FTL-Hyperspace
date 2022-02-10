@@ -5191,6 +5191,11 @@ HOOK_METHOD(WorldManager, CheckStatusEffects, (std::vector<StatusEffect> &effect
     cFPS->SpeedFactor = speed;
 }
 
+HOOK_METHOD(ProjectileFactory, Update, () -> void)
+{
+    if (G_->GetCFPS()->SpeedFactor > 0.f) super();
+}
+
 // Vanilla method has a bug so let's rewrite it
 HOOK_METHOD_PRIORITY(WorldManager, CheckStatusEffects, 9999, (std::vector<StatusEffect> &effects) -> void)
 {
