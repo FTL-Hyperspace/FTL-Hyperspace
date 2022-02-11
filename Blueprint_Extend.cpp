@@ -49,6 +49,7 @@ HOOK_METHOD(Description, copy_assign_2, (const Description& other) -> Descriptio
 
 HOOK_METHOD(BlueprintManager, ProcessDescription, (rapidxml::xml_node<char>* node) -> Description)
 {
+    LOG_HOOK("HOOK_METHOD -> BlueprintManager::ProcessDescription -> Begin (Blueprint_Extend.cpp)\n")
     Description ret = super(node);
     ret.baseRarity = ret.rarity; // fixes undefined behaviour when modder forgets blueprint rarity
     return ret;
