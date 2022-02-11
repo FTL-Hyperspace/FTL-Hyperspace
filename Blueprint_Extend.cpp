@@ -47,12 +47,9 @@ HOOK_METHOD(Description, copy_assign_2, (const Description& other) -> Descriptio
 }
 */
 
-#ifdef _WIN32
-// Description::Description is actually inlined in the Linux versions, even worse even more is inlined in the MacOS version.
-HOOK_METHOD(Description, constructor, () -> void)
+HOOK_METHOD(BlueprintManager, ProcessDescription, (rapidxml::xml_node<char>* node) -> Description)
 {
-    LOG_HOOK("HOOK_METHOD -> Description::constructor -> Begin (Blueprint_Extend.cpp)\n")
-    super();
-    baseRarity = 0; // fixes undefined behaviour when modder forgets blueprint rarity // TODO: Handle this in XML parsing, either provide a message or add in a default rarity tag if the mod developer forgets it?
+    Description ret = super(node);
+    ret.baseRarity = ret.rarity; // fixes undefined behaviour when modder forgets blueprint rarity
+    return ret;
 }
-#endif // _WIN32
