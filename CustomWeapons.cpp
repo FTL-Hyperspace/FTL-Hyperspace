@@ -2,6 +2,7 @@
 #include "CustomOptions.h"
 #include "CustomDamage.h"
 #include "StatBoost.h"
+#include "Projectile_Extend.h"
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
 #include <iomanip>
@@ -132,6 +133,20 @@ HOOK_METHOD(BlueprintManager, ProcessWeaponBlueprint, (rapidxml::xml_node<char>*
         if (name == "iconScale")
         {
             weaponDef.iconScale = boost::lexical_cast<float>(val);
+        }
+
+        if (name == "projectiles")
+        {
+            for (auto projectileNode = child->first_node(); projectileNode; projectileNode = projectileNode->next_sibling())
+            {
+                if (strcmp(projectileNode->name(), "projectile") == 0)
+                {
+                    if (projectileNode->first_attribute("blueprint"))
+                    {
+                        weaponDef.miniProjectileOverride[projectileNode->value()] = projectileNode->first_attribute("blueprint")->value();
+                    }
+                }
+            }
         }
     }
 
@@ -496,5 +511,64 @@ HOOK_METHOD(WeaponBlueprint, RenderIcon, (float scale) -> void)
     else
     {
         super(scale);
+    }
+}
+
+// Flak stuff
+HOOK_METHOD_PRIORITY(ProjectileFactory, GetProjectile, -1000, () -> Projectile*)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ProjectileFactory::GetProjectile -> Begin (CustomWeapons.cpp)\n")
+
+    Projectile* ret = super();
+
+    if (ret && blueprint->type == 4 && !blueprint->miniProjectiles.empty())
+    {
+        CustomWeaponManager::ProcessMiniProjectile(ret, blueprint, boostLevel);
+    }
+
+    return ret;
+}
+
+void CustomWeaponManager::ProcessMiniProjectile(Projectile *proj, const WeaponBlueprint *bp, int boostLevel)
+{
+    if (proj->death_animation.fScale == 0.25f) // fake projectile
+    {
+        PR_EX(proj)->customDamage.Clear();
+    }
+    else
+    {
+        auto &miniProjectileOverride = instance->GetWeaponDefinition(bp->name)->miniProjectileOverride;
+        if (!miniProjectileOverride.empty())
+        {
+            auto it = miniProjectileOverride.find(proj->flight_animation.animName);
+            if (it != miniProjectileOverride.end())
+            {
+                WeaponBlueprint *newBp = G_->GetBlueprints()->GetWeaponBlueprint(it->second);
+                proj->Initialize(*newBp);
+                proj->flight_animation = G_->GetAnimationControl()->GetAnimation(it->first);
+
+                // apply new blueprint chain effect
+                if (newBp->boostPower.type == 2 && boostLevel > 0)
+                {
+                    int boostAmount = (boostLevel-1)*newBp->boostPower.amount;
+                    if (proj->damage.iDamage > 0)
+                    {
+                        proj->damage.iDamage += boostAmount;
+                    }
+                    else if (proj->damage.iIonDamage > 0)
+                    {
+                        proj->damage.iIonDamage += boostAmount;
+                    }
+                    else if (proj->damage.iPersDamage > 0)
+                    {
+                        proj->damage.iPersDamage += boostAmount;
+                    }
+                    else
+                    {
+                        proj->damage.iSystemDamage += boostAmount;
+                    }
+                }
+            }
+        }
     }
 }

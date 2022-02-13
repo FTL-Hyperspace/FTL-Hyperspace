@@ -41,6 +41,8 @@ struct CustomWeaponDefinition
     float iconScale = 1.f;
 
     CustomDamage customDamage;
+
+    std::unordered_map<std::string, std::string> miniProjectileOverride;
 };
 
 class CustomWeaponManager
@@ -64,6 +66,8 @@ public:
         return nullptr;
     }
     std::unordered_map<std::string, CustomWeaponDefinition> weaponDefs;
+
+    static void ProcessMiniProjectile(Projectile *proj, const WeaponBlueprint *bp, int boostLevel = 0);
 
 private:
 };

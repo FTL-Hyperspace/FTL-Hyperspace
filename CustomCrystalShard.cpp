@@ -1,5 +1,6 @@
 #include "CustomCrystalShard.h"
 #include "CustomAugments.h"
+#include "CustomWeapons.h"
 #include "Global.h"
 #include <math.h>
 #include <algorithm>
@@ -149,6 +150,8 @@ void ShipManager_CheckCustomCrystalAugment(ShipManager* _this, std::string weapo
                         {
                             projectile->bBroadcastTarget = _this->iShipId == 0;
                         }
+
+                        CustomWeaponManager::ProcessMiniProjectile(projectile, bp);
 
                         projectile->damage.crystalShard = true;
                         if (!g_crystalShardFix) projectile->ownerId = -1;

@@ -39,6 +39,17 @@ struct CustomDamage
     {
 
     }
+
+    void Clear()
+    {
+        statBoostChance = 0;
+        statBoosts.clear();
+
+        erosionChance = 0;
+
+        crewSpawnChance = 0;
+        crewSpawns.clear();
+    }
 };
 
 

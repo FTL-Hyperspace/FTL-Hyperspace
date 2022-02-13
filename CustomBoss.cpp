@@ -1,4 +1,5 @@
 #include "CustomBoss.h"
+#include "CustomWeapons.h"
 #include <boost/lexical_cast.hpp>
 #include <math.h>
 
@@ -450,6 +451,8 @@ HOOK_METHOD(ShipManager, PrepareSuperBarrage, () -> void)
                         {
                             projectile->bBroadcastTarget = iShipId == 0;
                         }
+
+                        CustomWeaponManager::ProcessMiniProjectile(projectile, bp);
 
                         superBarrage.push_back(projectile);
                     }

@@ -609,6 +609,8 @@ HOOK_METHOD(SpaceDrone, GetNextProjectile, () -> Projectile*)
                         projectile->bBroadcastTarget = type == 1 && iShipId == 0;
                     }
 
+                    CustomWeaponManager::ProcessMiniProjectile(projectile, weaponBlueprint);
+
                     spaceDroneQueuedProjectiles.push_back(projectile);
                 }
             }
