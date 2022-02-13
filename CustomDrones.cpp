@@ -605,7 +605,6 @@ HOOK_METHOD(SpaceDrone, GetNextProjectile, () -> Projectile*)
                     }
                     else
                     {
-                        projectile->damage.ownerId = iShipId;
                         projectile->bBroadcastTarget = type == 1 && iShipId == 0;
                     }
 
