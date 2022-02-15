@@ -4129,6 +4129,26 @@ static std::string sectorChange = "";
 HOOK_METHOD(StarMap, SaveGame, (int file) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> StarMap::SaveGame -> Begin (CustomEvents.cpp)\n")
+
+    // Delete saved quests that are no longer there (completed or fleet overtaken)
+    for (auto it = addedQuests.begin(); it != addedQuests.end(); )
+    {
+        if (it->second < 0 || it->second >= locations.size())
+        {
+            it = addedQuests.erase(it);
+            continue;
+        }
+
+        Location *loc = locations[it->second];
+        if (!loc->questLoc || (loc->visited > 0 && loc != currentLoc))
+        {
+            it = addedQuests.erase(it);
+            continue;
+        }
+
+        ++it;
+    }
+
     FileHelper::writeString(file, currentSector->description.type);
     super(file);
 }
