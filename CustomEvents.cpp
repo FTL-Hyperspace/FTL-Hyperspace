@@ -2425,6 +2425,9 @@ HOOK_METHOD(CommandGui, AddEnemyShip, (CompleteShip *ship) -> void)
     if (custom->GetBossShipDefinition(ship->shipManager->myBlueprint.blueprintName))
     {
         shipPosition.x = 150 + shipComplete->shipManager->ship.horizontal_shift;
+        combatControl.playerShipPosition.x = shipPosition.x;
+        space->shipPosition.x = shipPosition.x;
+
         ftlButton.bBossFight = true;
         shipStatus.bBossFight = true;
     }
@@ -5195,6 +5198,30 @@ HOOK_METHOD(SpaceManager, SetPlanetaryDefense, (bool state, int target) -> void)
     {
         dangerZone = false;
     }
+}
+
+HOOK_METHOD(SpaceManager, UpdatePDS, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> SpaceManager::UpdatePDS -> Begin (CustomEvents.cpp)\n")
+
+    Point pdsPoint;
+
+    if (dangerZone)
+    {
+        pdsPoint.x = fleetShip.x + fleetShip.w/2 - shipPosition.x;
+        pdsPoint.y = fleetShip.y + fleetShip.h/2 - shipPosition.y;
+    }
+    else
+    {
+        pdsPoint.x = currentPlanet.x + currentPlanet.w/2 - shipPosition.x;
+        pdsPoint.y = currentPlanet.y + currentPlanet.h/2 - shipPosition.y;
+    }
+
+    // SpaceManager::shipPosition is only used for the ASB so it's safe to modify for this.
+    if (pdsPoint.x > 800) shipPosition.x += (pdsPoint.x-800);
+    if (pdsPoint.y > 800) shipPosition.x += (pdsPoint.x-800);
+
+    super();
 }
 
 // Fixes time advancement during events
