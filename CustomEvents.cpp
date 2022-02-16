@@ -5240,7 +5240,7 @@ HOOK_METHOD(WorldManager, CheckStatusEffects, (std::vector<StatusEffect> &effect
 
 HOOK_METHOD(ProjectileFactory, Update, () -> void)
 {
-    if (G_->GetCFPS()->SpeedFactor > 0.f) super();
+    if (powered || cooldown.first != cooldown.second || G_->GetCFPS()->SpeedFactor > 0.f) super();
 }
 
 // Vanilla method has a bug so let's rewrite it
