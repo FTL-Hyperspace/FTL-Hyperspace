@@ -79,15 +79,17 @@ int CustomAugmentManager::GetSuperShieldValue(int shipId)
 HOOK_METHOD(Shields, AddSuperShield, (Point pos) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> Shields::AddSuperShield -> Begin (CustomSuperShield.cpp)\n")
-    auto currentSuper = shields.power.super;
-
-    super(pos);
 
     int customSuper = CustomAugmentManager::GetSuperShieldValue(_shipObj.iShipId);
-    if (customSuper > 5)
+    if (customSuper < 5) customSuper = 5;
+
+    shields.power.super.first = std::min(shields.power.super.first+1, customSuper);
+    shields.power.super.second = std::max(shields.power.super.second, customSuper);
+
+    if (pos.x != 0x7FFFFFFF)
     {
-        shields.power.super.second = customSuper;
-        shields.power.super.first = std::min(currentSuper.first+1,customSuper);
+        superShieldUp.Start(0.f);
+        superUpLoc = pos;
     }
 }
 
