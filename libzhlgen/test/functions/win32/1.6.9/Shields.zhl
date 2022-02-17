@@ -16,7 +16,7 @@ void Shields::AddSuperShield(Shields *this<ecx>, Point pos);
 void Shields::RenderBase(Shields *this<ecx>, float alpha, float superShieldOverwrite);
 
 "!f30f1015(???????\?)f30f5ee6":
-GL_Color Global_COLOR_GREEN;
+GL_Color *Global_COLOR_GREEN;
 
 
 struct Shields

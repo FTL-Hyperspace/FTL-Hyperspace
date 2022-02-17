@@ -93,18 +93,18 @@ void Global::Initialize()
     *firstTimeShips = false;
     dronePosition = Global_SystemControl_drone_position;
     weaponPosition = Global_SystemControl_weapon_position;
-    superShieldColor = &Global_COLOR_GREEN;
+    superShieldColor = Global_COLOR_GREEN;
     defaultSuperShieldColor = *superShieldColor;
     *superShieldColor = GL_Color(1084.0, 0.0, 310.0, 1.0);
     
     {
         std::vector<GL_Color*> colorVec = std::vector<GL_Color*>();
-        colorVec.push_back(&Global_InfoBox_detailsBarOn);
+        colorVec.push_back(Global_InfoBox_detailsBarOn);
         colorPointers.push_back(colorVec);
     }
     {
         std::vector<GL_Color*> colorVec = std::vector<GL_Color*>();
-        colorVec.push_back(&Global_InfoBox_detailsBarOff);
+        colorVec.push_back(Global_InfoBox_detailsBarOff);
         colorPointers.push_back(colorVec);
     }
 

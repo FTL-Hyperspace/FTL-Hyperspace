@@ -24275,14 +24275,14 @@ FUNC_NAKED void InfoBox::SetSystem(ShipSystem *system, int upgrade, int yShift, 
 	);
 }
 
-GL_Color Global_InfoBox_detailsBarOn;
+GL_Color *Global_InfoBox_detailsBarOn;
 
 namespace _var642
 {
 	static VariableDefinition varObj("Global_InfoBox_detailsBarOn", "!b8(???????\?)89fa84d2ba(???????\?)", &Global_InfoBox_detailsBarOn);
 }
 
-GL_Color Global_InfoBox_detailsBarOff;
+GL_Color *Global_InfoBox_detailsBarOff;
 
 namespace _var643
 {
@@ -29790,7 +29790,7 @@ FUNC_NAKED void Shields::RenderBase(float alpha, float superShieldOverwrite)
 	);
 }
 
-GL_Color Global_COLOR_GREEN;
+GL_Color *Global_COLOR_GREEN;
 
 namespace _var792
 {
