@@ -35,6 +35,19 @@ cleanup void Ship::OnLoop(Ship *this, std::vector<float>& oxygenLevels);
 "5557565383ec5c8b7c24708b742474c7442440????????":
 cleanup void Ship::BreachRandomHull(Ship *this, int roomId);
 
+"!(39d07d0b)c6840d74fefeff01":
+instruction uintptr_t Global__NOP__Ship_OnInit_0; // 8 length
+"!(39d07d03)c60101":
+instruction uintptr_t Global__NOP__Ship_OnInit_1; // 3 length
+"!(89d37d03)c60101":
+instruction uintptr_t Global__NOP__Ship_OnInit_2; // 3 length
+"!(39c27d0b)c6840d70fefeff01":
+instruction uintptr_t Global__NOP__Ship_OnInit_3; // 8 length
+"!(39c27d03)c60101":
+instruction uintptr_t Global__NOP__Ship_OnInit_4; // 3 length
+"!(89c37e03)c60101":
+instruction uintptr_t Global__NOP__Ship_OnInit_5; // 3 length
+
 
 struct Ship depends (ShipGraph, Globals::Ellipse) {{
 	Pointf GetRoomCenter(int room)

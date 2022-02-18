@@ -576,6 +576,9 @@
 		<Unit filename="Input.cpp">
 			<Option virtualFolder="Core/CApp/" />
 		</Unit>
+		<Unit filename="InstructionEnum.h">
+			<Option virtualFolder="PAL/" />
+		</Unit>
 		<Unit filename="MainMenu.cpp">
 			<Option virtualFolder="Content/Misc/" />
 		</Unit>

@@ -1,7 +1,7 @@
+/*
 #include "Global.h"
 #include "ASMHooks.h"
 
-/*
 HOOK_METHOD(ShipBuilder, CheckTypes, () -> void*)
 {
     LOG_HOOK("HOOK_METHOD -> ShipBuilder::CheckTypes -> Begin (ShipTypeC.cpp)\n")

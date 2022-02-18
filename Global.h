@@ -15,6 +15,7 @@
 #include "System_Extend.h"
 #include "Blueprint_Extend.h"
 #include "Room_Extend.h"
+#include "ShipNOOP.h"
 
 //#include "LuaState.h"
 

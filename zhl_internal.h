@@ -68,12 +68,14 @@ private:
 	void *_outVar;
 	const char *_name;
 	const char *_sig;
+	const bool _useValue;
 
 public:
-	VariableDefinition(const char *name, const char *sig, void *outvar) :
+	VariableDefinition(const char *name, const char *sig, void *outvar, bool useValue = true) :
         _name(name),
         _sig(sig),
-        _outVar(outvar)
+        _outVar(outvar),
+        _useValue(useValue)
     {
         Add(_name, this);
     }

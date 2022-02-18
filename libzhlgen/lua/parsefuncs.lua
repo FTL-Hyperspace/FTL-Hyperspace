@@ -1133,6 +1133,14 @@ using namespace ZHL;
 }
 
 ]], counter, func.name, func.sig or "", func.name)
+			elseif func.instruction then
+				out("%s%s;\n\n", func:toString(), func.name)
+				out([[namespace _instruction%d
+{
+	static VariableDefinition varObj("%s", "%s", &%s, false);
+}
+
+]], counter, func.name, func.sig or "", func.name)
 			else
 				out("%s%s;\n\n", func:toString(), func.name)
 				out([[namespace _var%d

@@ -175,7 +175,10 @@ int VariableDefinition::Load()
 	}
 
 	const SigScan::Match &m = sig.GetMatch();
-	memcpy(_outVar, m.address, m.length);
+	if(_useValue)
+        memcpy(_outVar, m.address, m.length);
+    else
+        *(void**)_outVar = (void*)m.address;
 
 	Log("Found value for %s:", _name);
 	for(int i=0 ; i<m.length ; ++i) Log(" %02x", ((unsigned char*)_outVar)[i]);
@@ -183,7 +186,6 @@ int VariableDefinition::Load()
 
 	return 1;
 }
-
 //================================================================================
 // FunctionDefinition
 
