@@ -186,6 +186,44 @@ int VariableDefinition::Load()
 
 	return 1;
 }
+
+//================================================================================
+// NoOpDefinition
+
+
+int NoOpDefinition::Load()
+{
+	SigScan sig(_sig);
+	if(!sig.Scan())
+	{
+		snprintf(g_defLastError, 1024, "Failed to find match for no-op region %s, address could not be found", _name);
+		return 0;
+	}
+
+	if(sig.GetMatchCount() == 0)
+	{
+		snprintf(g_defLastError, 1024, "Failed to find match for no-op region %s, no capture in input signature", _name);
+		return 0;
+	}
+
+	const SigScan::Match &m = sig.GetMatch();
+	
+	uintptr_t ptrToCode = (uintptr_t) m.address;
+    const size_t noopingSize = sizeof(uint8_t) * m.length;
+    MEMPROT_SAVE_PROT(dwOldProtect);
+    MEMPROT_PAGESIZE();
+    MEMPROT_UNPROTECT(ptrToCode, noopingSize, dwOldProtect);
+    for(unsigned int i = 0; i < m.length; i++)
+    {
+        *(uint8_t*)(ptrToCode++) = 0x90;
+    }
+    MEMPROT_REPROTECT(ptrToCode, noopingSize, dwOldProtect);
+
+	Log("Found address for %s: %08x, wrote NOP's for %d bytes\n", _name, (unsigned int) m.address, m.length);
+
+	return 1;
+}
+
 //================================================================================
 // FunctionDefinition
 

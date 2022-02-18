@@ -434,6 +434,24 @@ Shader *g_ShaderOldTV;
 reference int g_viewportW;
 reference int g_viewportH;
 
+// There is also a special functionality if you want to use variable matching to grab the actual memory address of the match in the signature rather than the using the value of the data at the address as the variable.
+// This is useful for the special cases where you have to directly match where a variable is defined (but honestly references to a pointer above are probably easier for that)
+// Or specifically when you need the actual address of the instructions because you need to do some hacky fun stuff like writing CPU instructions directly in the middle of a function.
+// Use with caution.
+// You should be able to use uintptr_t, void*, or maybe even cast directly to a char** /char [] or uint8_t** /uint8_t [] array but those are untested :)
+// Despite the fact it's using the instruction address, the 4-byte matching rule still applies like above since it uses the same matching code and this was a simple addition.
+"!39d089d37d(????????)83c22383c10139df":
+instruction uintptr_t Global__NOP__Ship_OnInit_0;
+
+// Also it can now replace code with NOP statements in a match
+// The no-op mode **can** match matches smaller or larger than 4 bytes (8 hex digits) as it'll simply replace that area with NOP instructions.
+// The match must end on a byte boundary (every group of 2 hex digits, ending in an odd numbered spot is invalid)
+// So this one below replaces c6840d74fefeff01 with NOP's, the match can be anywhere in the signature.
+// Rules like ! . still apply and ! is still highly recommended.
+"!39d07d0b(c6840d74fefeff01)":
+noop void* Global__Ship_OnInit;
+// The void* can be anything, just has to be something there for the parser to match, name also doesn't really matter except for logging purposes as it does not create any variable.
+
 */
 
 "5589e557565383e4f083ec408b4d088b750c85c9":

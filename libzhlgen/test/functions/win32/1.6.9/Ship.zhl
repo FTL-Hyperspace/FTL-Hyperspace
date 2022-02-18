@@ -35,14 +35,14 @@ void Ship::OnLoop(Ship *this<ecx>, std::vector<float>& oxygenLevels);
 "578d7c240883e4f0ff77fc5589e557565383ec5c8b51208b41248b3fc745c400000000c745c800000000c745cc0000000029d0":
 void Ship::BreachRandomHull(Ship *this<ecx>, int roomId);
 
-"!(1ef7ffff)c6841d5afefeff01":
-instruction uintptr_t Global__NOP__Ship_OnInit_0; // 8 length
-"!(89ca7d08)c6841d58fefeff01":
-instruction uintptr_t Global__NOP__Ship_OnInit_1; // 8 length
-"!(89c87ddf)c6841d56fefeff01":
-instruction uintptr_t Global__NOP__Ship_OnInit_2; // 8 length
-"!(89c87d08)c6841d54fefeff01":
-instruction uintptr_t Global__NOP__Ship_OnInit_3; // 8 length
+"!1ef7ffff(c6841d5afefeff01)":
+noop void* Global__NOP__Ship_OnInit_0;
+"!89ca7d08(c6841d58fefeff01)":
+noop void* Global__NOP__Ship_OnInit_1;
+"!89c87ddf(c6841d56fefeff01)":
+noop void* Global__NOP__Ship_OnInit_2;
+"!89c87d08(c6841d54fefeff01)":
+noop void* Global__NOP__Ship_OnInit_3;
 
 
 struct Ship depends (ShipGraph, Globals::Ellipse) {{

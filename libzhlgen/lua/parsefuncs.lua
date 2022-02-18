@@ -1141,6 +1141,13 @@ using namespace ZHL;
 }
 
 ]], counter, func.name, func.sig or "", func.name)
+			elseif func.noop then
+				out([[namespace _noop%d
+{
+	static NoOpDefinition noOpObj("%s", "%s");
+}
+
+]], counter, func.name, func.sig or "", func.name)
 			else
 				out("%s%s;\n\n", func:toString(), func.name)
 				out([[namespace _var%d
@@ -1160,7 +1167,7 @@ end
 
 local function writeGlobalVars(funcs, out)
 	for _,var in ipairs(funcs) do
-		if not var.args then
+		if not var.args and not var.noop then
 			if var.reference then
 				out("\nextern LIBZHL_API %s*__ptr_%s;", var:toString(), var.name)
 				out("\n#define %s (*__ptr_%s)", var.name, var.name)

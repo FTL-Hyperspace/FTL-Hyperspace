@@ -237,6 +237,7 @@ local funcdef = lpeg.P
 		(lpeg.P("static") * sp * lpeg.Cg(lpeg.Cc(true), "static"))^-1 *
 		(lpeg.P("reference") * sp * lpeg.Cg(lpeg.Cc(true), "reference"))^-1 *
 		(lpeg.P("instruction") * sp * lpeg.Cg(lpeg.Cc(true), "instruction"))^-1 *
+		(lpeg.P("noop") * sp * lpeg.Cg(lpeg.Cc(true), "noop"))^-1 *
 		(lpeg.P("cleanup") * sp * lpeg.Cg(lpeg.Cc(true), "cleanup"))^-1 *
 		(lpeg.P("const") * sp * lpeg.Cg(lpeg.Cc(true), "const"))^-1 *
 		(lpeg.P("unsigned") * sp * lpeg.Cg(lpeg.Cc(true), "unsigned"))^-1 *

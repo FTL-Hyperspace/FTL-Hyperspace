@@ -444,6 +444,15 @@ reference int g_viewportH;
 "!39d089d37d(????????)83c22383c10139df":
 instruction uintptr_t Global__NOP__Ship_OnInit_0;
 
+// Also it can now replace code with NOP statements in a match
+// The no-op mode **can** match matches smaller or larger than 4 bytes (8 hex digits) as it'll simply replace that area with NOP instructions.
+// The match must end on a byte boundary (every group of 2 hex digits, ending in an odd numbered spot is invalid)
+// So this one below replaces c6840d74fefeff01 with NOP's, the match can be anywhere in the signature.
+// Rules like ! . still apply and ! is still highly recommended.
+"!39d07d0b(c6840d74fefeff01)":
+noop void* Global__Ship_OnInit;
+// The void* can be anything, just has to be something there for the parser to match, name also doesn't really matter except for logging purposes as it does not create any variable.
+
 */
 
 "5557565383ec4c8b4c24608b6c246485c9":

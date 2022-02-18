@@ -83,4 +83,23 @@ public:
 	virtual int Load();
 };
 
+//=================================================================================================
+
+class NoOpDefinition : public Definition
+{
+private:
+	const char *_name;
+	const char *_sig;
+
+public:
+	NoOpDefinition(const char *name, const char *sig) :
+        _name(name),
+        _sig(sig)
+    {
+        Add(_name, this);
+    }
+
+	virtual int Load();
+};
+
 }

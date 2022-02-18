@@ -107,8 +107,6 @@ void Global::Initialize()
         colorVec.push_back(Global_InfoBox_detailsBarOff);
         colorPointers.push_back(colorVec);
     }
-    
-    Ship__SetupNOOP();
 
     logFile = fopen("FTL_HS.log", "w");
 

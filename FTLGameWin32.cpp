@@ -28421,32 +28421,24 @@ FUNC_NAKED void Ship::BreachRandomHull(int roomId)
 	);
 }
 
-uintptr_t Global__NOP__Ship_OnInit_0;
-
-namespace _instruction808
+namespace _noop808
 {
-	static VariableDefinition varObj("Global__NOP__Ship_OnInit_0", "!(1ef7ffff)c6841d5afefeff01", &Global__NOP__Ship_OnInit_0, false);
+	static NoOpDefinition noOpObj("Global__NOP__Ship_OnInit_0", "!1ef7ffff(c6841d5afefeff01)");
 }
 
-uintptr_t Global__NOP__Ship_OnInit_1;
-
-namespace _instruction809
+namespace _noop809
 {
-	static VariableDefinition varObj("Global__NOP__Ship_OnInit_1", "!(89ca7d08)c6841d58fefeff01", &Global__NOP__Ship_OnInit_1, false);
+	static NoOpDefinition noOpObj("Global__NOP__Ship_OnInit_1", "!89ca7d08(c6841d58fefeff01)");
 }
 
-uintptr_t Global__NOP__Ship_OnInit_2;
-
-namespace _instruction810
+namespace _noop810
 {
-	static VariableDefinition varObj("Global__NOP__Ship_OnInit_2", "!(89c87ddf)c6841d56fefeff01", &Global__NOP__Ship_OnInit_2, false);
+	static NoOpDefinition noOpObj("Global__NOP__Ship_OnInit_2", "!89c87ddf(c6841d56fefeff01)");
 }
 
-uintptr_t Global__NOP__Ship_OnInit_3;
-
-namespace _instruction811
+namespace _noop811
 {
-	static VariableDefinition varObj("Global__NOP__Ship_OnInit_3", "!(89c87d08)c6841d54fefeff01", &Global__NOP__Ship_OnInit_3, false);
+	static NoOpDefinition noOpObj("Global__NOP__Ship_OnInit_3", "!89c87d08(c6841d54fefeff01)");
 }
 
 namespace _func812
