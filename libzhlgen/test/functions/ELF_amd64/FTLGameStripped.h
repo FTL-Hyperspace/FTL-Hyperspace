@@ -118,19 +118,19 @@ struct Globals
 /* 533 */
 struct std__unordered_map_26std__string___GL_TextureZ1
 {
-  char unk[0x18];
+  char unk[0x30];
 };
 
 /* 534 */
 struct std__unordered_map_25int___freetype__font_data
 {
-  char unk[0x18];
+  char unk[0x30];
 };
 
 /* 535 */
 struct std__unordered_map_24GL_TextureZ1___ImageDesc
 {
-  char unk[0x18];
+  char unk[0x30];
 };
 
 /* 452 */
@@ -144,8 +144,8 @@ struct std__pair_9int___int
 struct std__string
 {
   char *string;
-  int length;
-  char unk[16];
+  /* int length; */
+  /* char unk[16]; */
 };
 
 /* 442 */
@@ -167,7 +167,7 @@ struct std__vector_33ResourceControl__DynamicImageInfo
 /* 540 */
 struct std__unordered_map_45std__string___ResourceControl__LogicalTexInfo
 {
-  char unk[0x18];
+  char unk[0x30];
 };
 
 /* 542 */
@@ -534,11 +534,11 @@ struct Room
   Globals__Rect rect;
   int iRoomId;
   bool bBlackedOut;
-  uint8_t gap_ex_1[2];
+  uint8_t gap_ex_1[4];
   std__vector_3int filledSlots;
   std__vector_17std__vector_4bool slots;
   bool bWarningLight;
-  uint8_t gap_ex_2[2];
+  uint8_t gap_ex_2[4];
   AnimationTracker lightTracker;
   int iFireCount;
   std__vector_9Animation fires;
@@ -784,7 +784,7 @@ struct TextString
 {
   std__string data;
   bool isLiteral;
-  uint8_t gap_ex[3];
+  uint8_t gap_ex[4];
 };
 
 /* 519 */
@@ -1118,7 +1118,7 @@ struct FocusWindow
   void *vptr;
   bool bOpen;
   bool bFullFocus;
-  uint8_t gap_ex_fw[2];
+  uint8_t gap_ex_fw[4];
   Point close;
   bool bCloseButtonSelected;
   Point position;
@@ -1512,7 +1512,7 @@ struct MainMenu
   bool bChangedLogin;
   std__vector_12CrewMemberZ1 testCrew;
   bool bChangedScreen;
-  char gap34A4[3];
+  char gap34A4[7];
   std__string error;
 };
 
@@ -2372,7 +2372,7 @@ struct std__vector_10LocationZ1
 /* 588 */
 struct std__map_18Point___LocationZ1
 {
-  char unk[24];
+  char unk[48];
 };
 
 /* 413 */
@@ -2443,7 +2443,7 @@ struct Location
 /* 593 */
 struct std__map_17std__string___int
 {
-  char unk[24];
+  char unk[48];
 };
 
 /* 596 */
@@ -2457,7 +2457,7 @@ struct std__vector_23std_pair_std_string_int
 /* 599 */
 struct std__map_17LocationZ1___bool
 {
-  char unk[24];
+  char unk[48];
 };
 
 /* 276 */
@@ -2590,7 +2590,7 @@ struct StarMap
 /* 498 */
 struct std__map_35int___ShipBlueprint__SystemTemplate
 {
-  char unk[24];
+  char unk[48];
 };
 
 /* 500 */
@@ -2836,7 +2836,7 @@ struct std__vector_7DroneZ1
 /* 505 */
 struct std__map_9int___int
 {
-  char unk[24];
+  char unk[48];
 };
 
 /* 506 */
@@ -2863,7 +2863,7 @@ struct ShipManager
   HackingSystem *hackingSystem;
   bool showNetwork;
   bool addedSystem;
-  uint8_t gap_ex_1[2];
+  uint8_t gap_ex_1[4];
   Shields *shieldSystem;
   WeaponSystem *weaponSystem;
   DroneSystem *droneSystem;
@@ -2887,7 +2887,7 @@ struct ShipManager
   int currentScrap;
   bool bJumping;
   bool bAutomated;
-  uint8_t gap_ex_2[2];
+  uint8_t gap_ex_2[4];
   int shipLevel;
   ShipBlueprint myBlueprint;
   bool lastEngineStatus;
@@ -3354,7 +3354,7 @@ struct CrewMember
   bool bOutOfGame;
   std__string species;
   bool bDead;
-  uint8_t gap_ex_1[2];
+  uint8_t gap_ex_1[4];
   int iOnFire;
   bool bActiveManning;
   ShipSystem *currentSystem;
@@ -3376,7 +3376,7 @@ struct CrewMember
   float fMindDamageBoost;
   float fCloneDying;
   bool bResisted;
-  uint8_t gap_ex_2[2];
+  uint8_t gap_ex_2[4];
   Slot savedPosition;
   float fStunTime;
   CachedImage movementTarget;
@@ -3565,7 +3565,7 @@ struct CombatAI
 /* 553 */
 struct std__map_26std__string___PowerProfile
 {
-  char unk[24];
+  char unk[48];
 };
 
 /* 282 */
@@ -3796,7 +3796,7 @@ struct Store
   int sectionCount;
   int types[4];
   bool bShowPage2;
-  uint8_t gap_ex_2[2];
+  uint8_t gap_ex_2[4];
   StoreBox *confirmBuy;
   int forceSystemInfoWidth;
 };
@@ -3831,13 +3831,13 @@ struct Projectile
   int currentSpace;
   int targetId;
   bool dead;
-  uint8_t gap_ex_1[2];
+  uint8_t gap_ex_1[4];
   Animation death_animation;
   Animation flight_animation;
   Pointf speed;
   bool missed;
   bool hitTarget;
-  uint8_t gap_ex_2[2];
+  uint8_t gap_ex_2[4];
   std__string hitSolidSound;
   std__string hitShieldSound;
   std__string missSound;
@@ -3986,10 +3986,10 @@ struct ShipSystem
   int iSystemType;
   bool bNeedsManned;
   bool bManned;
-  uint8_t gap_ex_1[2];
+  uint8_t gap_ex_1[4];
   int iActiveManned;
   bool bBoostable;
-  uint8_t gap_ex_2[2];
+  uint8_t gap_ex_2[4];
   std__pair_9int___int powerState;
   int iRequiredPower;
   GL_Texture *imageIcon;
@@ -4056,7 +4056,6 @@ struct TeleportSystem
   bool bCanReceive;
   int iArmed;
   std__vector_4bool crewSlots;
-  char unk[8];
   int iPreparedCrew;
   int iNumSlots;
   bool bSuperShields;
@@ -4100,7 +4099,7 @@ struct MindSystem
 /* 704 */
 struct std__map_23std__string___Animation
 {
-  char unk[24];
+  char unk[48];
 };
 
 /* 296 */
@@ -4479,7 +4478,7 @@ struct CrewAnimation
   int moveDirection;
   ParticleEmitter smokeEmitter;
   bool bSharedSpot;
-  uint8_t gap_ex_1[2];
+  uint8_t gap_ex_1[4];
   std__vector_9CrewLaser shots;
   TimerHelper shootTimer;
   TimerHelper punchTimer;
@@ -4496,7 +4495,7 @@ struct CrewAnimation
   int currentShip;
   bool bMale;
   bool colorblind;
-  uint8_t gap_ex_2[2];
+  uint8_t gap_ex_2[4];
   std__vector_8GL_Color layerColors;
   int forcedAnimation;
   int forcedDirection;
@@ -5019,7 +5018,7 @@ struct EnergyAlien
   bool bOutOfGame;
   std__string species;
   bool bDead;
-  uint8_t gap_ex_1[2];
+  uint8_t gap_ex_1[4];
   int iOnFire;
   bool bActiveManning;
   ShipSystem *currentSystem;
@@ -5041,7 +5040,7 @@ struct EnergyAlien
   float fMindDamageBoost;
   float fCloneDying;
   bool bResisted;
-  uint8_t gap_ex_2[2];
+  uint8_t gap_ex_2[4];
   Slot savedPosition;
   float fStunTime;
   CachedImage movementTarget;
@@ -5254,12 +5253,12 @@ struct SoundControl;
 
 struct std__unordered_map_31std__string___SectorDescription
 {
-    char unk[0x18];
+    char unk[0x30];
 };
 
 struct std__unordered_map_39std__string___std__vector_11std__string
 {
-    char unk[0x18];
+    char unk[0x30];
 };
 
 struct EventText
@@ -5278,7 +5277,7 @@ struct std__vector_9EventText
 
 struct std__unordered_map_36std__string___std__vector_9EventText
 {
-    char unk[0x18];
+    char unk[0x30];
 };
 
 struct std__vector_15LocationEventZ1
@@ -5290,12 +5289,12 @@ struct std__vector_15LocationEventZ1
 
 struct std__unordered_map_26std_string___ResourceEvent
 {
-    char unk[0x18];
+    char unk[0x30];
 };
 
 struct std__unordered_map_17std__string___int
 {
-    char unk[0x18];
+    char unk[0x30];
 };
 
 
@@ -5325,7 +5324,7 @@ struct EventGenerator
 /* 629 */
 struct std__unordered_map_29std__string___EventTemplateZ1
 {
-  char unk[0x18];
+  char unk[0x30];
 };
 
 /* 630 */
@@ -5339,7 +5338,7 @@ struct std__vector_15EventTemplateZ1
 /* 631 */
 struct std__unordered_map_23std__string___ShipEvent
 {
-  char unk[0x18];
+  char unk[0x30];
 };
 
 /* 275 */
@@ -5353,67 +5352,67 @@ struct EventsParser
 /* 731 */
 struct std__map_27std__string___ShipBlueprint
 {
-  char unk[24];
+  char unk[48];
 };
 
 /* 732 */
 struct std__map_29std__string___WeaponBlueprint
 {
-  char unk[24];
+  char unk[48];
 };
 
 /* 733 */
 struct std__map_28std__string___DroneBlueprint
 {
-  char unk[24];
+  char unk[48];
 };
 
 /* 734 */
 struct std__map_30std__string___AugmentBlueprint
 {
-  char unk[24];
+  char unk[48];
 };
 
 /* 740 */
 struct std__map_27std__string___CrewBlueprint
 {
-  char unk[24];
+  char unk[48];
 };
 
 /* 735 */
 struct std__map_18std__string___bool
 {
-  char unk[24];
+  char unk[48];
 };
 
 /* 662 */
 struct std__map_25std__string___std__string
 {
-  char unk[24];
+  char unk[48];
 };
 
 /* 742 */
 struct std__map_37std__string___std_map_std_string_bool
 {
-  char unk[24];
+  char unk[48];
 };
 
 /* 737 */
 struct std__map_27std__string___ItemBlueprint
 {
-  char unk[24];
+  char unk[48];
 };
 
 /* 738 */
 struct std__map_29std__string___SystemBlueprint
 {
-  char unk[24];
+  char unk[48];
 };
 
 /* 739 */
 struct std__map_39std__string___std__vector_11std__string
 {
-  char unk[24];
+  char unk[48];
 };
 
 /* 278 */
@@ -5688,7 +5687,7 @@ struct SettingValues
 /* 663 */
 struct std__map_43std__string___std_map_std_string_std_string
 {
-  char unk[24];
+  char unk[48];
 };
 
 /* 392 */
@@ -5865,13 +5864,13 @@ struct GL_TexVertex
 /* 703 */
 struct std__map_28std__string___AnimationSheet
 {
-  char unk[24];
+  char unk[48];
 };
 
 /* 705 */
 struct std__map_29std__string___WeaponAnimation
 {
-  char unk[24];
+  char unk[48];
 };
 
 /* 700 */
@@ -5969,7 +5968,7 @@ struct InputEvent
 /* 736 */
 struct std__map_43std__string___std__map_18std__string___bool
 {
-  char unk[24];
+  char unk[48];
 };
 
 /* 748 */

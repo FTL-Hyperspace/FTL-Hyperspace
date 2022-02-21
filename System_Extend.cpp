@@ -10,8 +10,14 @@ HOOK_METHOD_PRIORITY(ShipSystem, constructor, 900, (int systemId, int roomId, in
 	auto ex = new ShipSystem_Extend();
 
 
-    uint32_t dEx = (uint32_t)ex;
+    uintptr_t dEx = (uintptr_t)ex;
 
+#ifdef __amd64__
+    gap_ex_1[2] = (dEx >> 56) & 0xFF;
+    gap_ex_1[3] = (dEx >> 48) & 0xFF;
+    gap_ex_2[2] = (dEx >> 40) & 0xFF;
+    gap_ex_2[3] = (dEx >> 32) & 0xFF;
+#endif // __amd64__
 	gap_ex_1[0] = (dEx >> 24) & 0xFF;
 	gap_ex_1[1] = (dEx >> 16) & 0xFF;
 	gap_ex_2[0] = (dEx >> 8) & 0xFF;
@@ -28,7 +34,17 @@ HOOK_METHOD_PRIORITY(ShipSystem, destructor, 900, () -> void)
 
 ShipSystem_Extend* Get_ShipSystem_Extend(ShipSystem* c)
 {
-    uint32_t dEx = 0;
+    uintptr_t dEx = 0;
+#ifdef __amd64__
+    dEx <<= 8;
+    dEx |= c->gap_ex_1[2];
+    dEx <<= 8;
+    dEx |= c->gap_ex_1[3];
+    dEx <<= 8;
+    dEx |= c->gap_ex_2[2];
+    dEx <<= 8;
+    dEx |= c->gap_ex_2[3];
+#endif // __amd64__
     dEx <<= 8;
     dEx |= c->gap_ex_1[0];
     dEx <<= 8;
