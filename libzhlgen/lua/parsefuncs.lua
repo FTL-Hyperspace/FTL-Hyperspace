@@ -11,11 +11,12 @@ local lfs = require("lfs")
 -- x86_64-*darwin -- GCC
 
 local arch
+local archPushSize = 4 -- Bytes of default register/stack push size for the CPU architecture
 if string.find(mode, "i386") ~= nil then
     arch = "i386"
 elseif string.find(mode, "x86_64") ~= nil then
     arch = "x86_64"
-    error("64-bit x86 is not yet supported")
+    archPushSize = 8
 else
     error("Unsupported Architecture")
 end
@@ -23,32 +24,50 @@ end
 -- local compiler
 local isPOSIX = false
 local useStackAlignment = false -- Aligns the stack before CALL instruction (as required by System V ABI specification)
+local stackAlignIncludesCALL = false
 local thiscallFirstArgumentECX = false
 local structPointerAfterHiddenArguments = false
 local structsReturnedOnStack = false
 local useIntelASMSyntax = true
+local stackAlignmentSize = 0x10
+local useNaked = true
+local argPattern = {}
 if string.find(mode, "linux") ~= nil then
     -- compiler = "gcc"
     useStackAlignment = true
     structsReturnedOnStack = true
     isPOSIX = true
 	useIntelASMSyntax = false
+    if string.find(mode, "x86_64") ~= nil then
+        stackAlignIncludesCALL = true
+        argPattern = {
+            "rdi",
+            "rsi",
+            "rdx",
+            "rcx",
+            "r8",
+            "r9"
+        }
+    end
 elseif string.find(mode, "windows") ~= nil then
     thiscallFirstArgumentECX = true
     structPointerAfterHiddenArguments = true
+    if string.find(mode, "x86_64") ~= nil then
+        error("64-bit x86 is not yet supported for Windows MSVC")
+    end
     -- compiler = "msvc"
 elseif string.find(mode, "mingw") ~= nil then
     thiscallFirstArgumentECX = true
+    argPattern =  { "ecx" }
+    if string.find(mode, "x86_64") ~= nil then
+        error("64-bit x86 is not yet supported for Windows MinGW")
+    end
     -- compiler = "gcc"
 elseif string.find(mode, "darwin") ~= nil then
     error("OSX/iOS Not Supported")
 else
     error("Unsupported OS")
 end
-
-local stackAlignmentSize = 0x10
-
-local useNaked = true
 
 local function makeset(t)
 	for k,v in ipairs(t) do
@@ -173,7 +192,7 @@ local function sizeof(t)
 end
 
 local function sizeof_aligned(t)
-	return 4 * math.ceil(sizeof(t)/4)
+	return math.ceil(sizeof(t)/4) -- TODO: Might need to be 8 on 64-bit?
 end
 
 ----------------------------------------------------------------------------------
@@ -442,7 +461,7 @@ for k,fd in pairs(tfiles) do
                 isImplicitType = false
             end
                 
-            if sizeof(func) > 4 and isImplicitType then
+            if sizeof(func) > 4 and isImplicitType then -- TODO: Size func size 8 on 64-bit?
                 -- if it does, insert a pointer to that struct as the first argument (second if first one is "this" and using MSVC)
                 local i = 1
                 -- Maybe simplified to just?
@@ -460,26 +479,27 @@ for k,fd in pairs(tfiles) do
                     func.memPassedPointer = true
                 end
                 table.insert(func.args, i, a)
-            elseif sizeof(func) == 8 then
+            elseif sizeof(func) == 8 then -- TODO: Is this size 16 on 64-bit?
                 func.longlong = true
             end
             
             -- Precompute stack positions for all arguments
-            local stackPos = 8
+            local stackPos = 8 -- TODO: Is this size 16 on 64-bit, or is it still just 8 because of the slightly different stack alignment with CALL?
             local pushSize = 0
             for k, arg in ipairs(func.args) do
-                arg.size = sizeof_aligned(arg) / 4
-                if k == 1 and func.thiscall and arg.reg == "ecx" and thiscallFirstArgumentECX then -- TODO: This will need total reworking for 64-bit since it's more than just ECX as the caller
+                arg.size = sizeof_aligned(arg)
+                if k == 1 and func.thiscall and arg.reg == "ecx" and thiscallFirstArgumentECX then -- TODO: This will need total reworking for 64-bit since it's more than just ECX as the caller on Windows
                     assert(arg.size == 1)
                 else
                     arg.pos = stackPos
-                    local argMemory = 4 * arg.size
+                    local argMemory = archPushSize * arg.size
                     stackPos = stackPos + argMemory
                     if not arg.reg then
                         pushSize = pushSize + argMemory
                     end
                 end
             end
+            -- TODO: Is this 16 on 64-bit?
             func.stacksize = stackPos - 8 -- size of the stack for cleanup (the stack size the hook was called with, includes register targeted args if they were passed to this hook on the stack)
             func.stackCallPushSize = pushSize -- Size of the stack in the CALL to the target function (original size in target, ignores register args)
             
@@ -854,6 +874,25 @@ using namespace ZHL;
 		ebp = 5;
 		esi = 6;
 		edi = 7;
+        rax = 0;
+        rcx = 1;
+        rdx = 2;
+        rbx = 3;
+        rsp = 4;
+        rbp = 5;
+        rsi = 6;
+        rdi = 7;
+        r8 = 8;
+        r9 = 9;
+        xmm0 = 10;
+        xmm1 = 11;
+        xmm2 = 12;
+        xmm3 = 13;
+        xmm4 = 14;
+        xmm5 = 15;
+        xmm6 = 16;
+        xmm7 = 17;
+        r10 = 18;
 	}
 
 	-- C++ function implementations
@@ -953,54 +992,98 @@ using namespace ZHL;
 				
 				-- prolog
 				if useNaked then
-					if useIntelASMSyntax then
-						out("\n\t\t\"push ebp\\n\\t\"")
-						out("\n\t\t\"mov ebp, esp\\n\\t\"")
-					else
-						out("\n\t\t\"pushl %%ebp\\n\\t\"")
-						out("\n\t\t\"movl %%esp, %%ebp\\n\\t\"")
-					end
+                    if arch == "i386" then
+                        if useIntelASMSyntax then
+                            out("\n\t\t\"push ebp\\n\\t\"")
+                            out("\n\t\t\"mov ebp, esp\\n\\t\"")
+                        else
+                            out("\n\t\t\"pushl %%ebp\\n\\t\"")
+                            out("\n\t\t\"movl %%esp, %%ebp\\n\\t\"")
+                        end
+                    elseif arch == "x86_64"  then
+                        if useIntelASMSyntax then
+                            out("\n\t\t\"push rbp\\n\\t\"")
+                            out("\n\t\t\"mov rbp, rsp\\n\\t\"")
+                        else
+                            out("\n\t\t\"pushl %%rbp\\n\\t\"")
+                            out("\n\t\t\"movl %%rsp, %%rbp\\n\\t\"")
+                        end
+                    end
 				end
 				
-				local stackAlignPushSize = func.stackCallPushSize + 8 -- size of CALL + plus the push EBP above
+				local stackAlignPushSize = func.stackCallPushSize + 8 -- size of CALL + plus the push EBP above -- TODO: Is this different for x64?
                 
-				if func.void or not func.longlong then
-					stackAlignPushSize = stackAlignPushSize + 4 -- Because of push edx/rdx
-				end
-				if func.void then
-					stackAlignPushSize = stackAlignPushSize + 4 -- Because of push eax/rax
-				end
+                if arch == "i386" then
+                    if func.void or not func.longlong then
+                        stackAlignPushSize = stackAlignPushSize + archPushSize -- Because of push edx
+                    end
+                    if func.void then
+                        stackAlignPushSize = stackAlignPushSize + archPushSize -- Because of push eax
+                    end
+                end
 				
-				stackAlignPushSize = stackAlignPushSize + (4*4) -- Because of the push ECX/EBX/ESI/EDI (or their R equivalents on 64-bit) that we always push below
+
+                if arch == "i386" then
+                    stackAlignPushSize = stackAlignPushSize + (archPushSize*4) -- Because of the push ECX/EBX/ESI/EDI that we always push below
+                elseif arch == "x86_64" then
+                    stackAlignPushSize = stackAlignPushSize + (archPushSize*6) -- This is probably different for Windows x64. Push RBX/RBP/R12/R13/R14/R15 below, other registers are valid to clobber
+                end
 				
 				-- We do this after the push ebp & move ebp, esp but before the other pushes so we don't have to worry about resetting the stack correctly afterwards (as all our arguments & pops are directly next to each other without a gap until we've already reset the saved esp stack pointer and would no longer care [ebp][gap][other registers & arguments]call[registers & arguments pop/remove][reset stack][pop ebp])
 				if useStackAlignment then
 					local stackAlignOffset = (stackAlignmentSize - (stackAlignPushSize % stackAlignmentSize)) % stackAlignmentSize
 					if(stackAlignOffset ~= 0) then
-						if useIntelASMSyntax then
-							out("\n\t\t\"sub esp, %d\\n\\t\"", stackAlignOffset)
-						else
-							out("\n\t\t\"subl $%d, %%esp\\n\\t\"", stackAlignOffset)
-						end
+
+                        if arch == "i386" then
+                            if useIntelASMSyntax then
+                                out("\n\t\t\"sub esp, %d\\n\\t\"", stackAlignOffset)
+                            else
+                                out("\n\t\t\"subl $%d, %%esp\\n\\t\"", stackAlignOffset)
+                            end
+                        elseif arch == "x86_64"  then
+                            if useIntelASMSyntax then
+                                out("\n\t\t\"sub rsp, %d\\n\\t\"", stackAlignOffset)
+                            else
+                                out("\n\t\t\"subl $%d, %%rsp\\n\\t\"", stackAlignOffset)
+                            end
+                        end
 					end
 				end
 				
-				-- save all registers
-				if useIntelASMSyntax then
-					if func.void or not func.longlong then out("\n\t\t\"push edx\\n\\t\"") end
-					if func.void then out("\n\t\t\"push eax\\n\\t\"") end
-					out("\n\t\t\"push ecx\\n\\t\"")
-					out("\n\t\t\"push ebx\\n\\t\"")
-					out("\n\t\t\"push esi\\n\\t\"")
-					out("\n\t\t\"push edi\\n\\t\"")
-				else
-					if func.void or not func.longlong then out("\n\t\t\"pushl %%edx\\n\\t\"") end
-					if func.void then out("\n\t\t\"pushl %%eax\\n\\t\"") end
-					out("\n\t\t\"pushl %%ecx\\n\\t\"")
-					out("\n\t\t\"pushl %%ebx\\n\\t\"")
-					out("\n\t\t\"pushl %%esi\\n\\t\"")
-					out("\n\t\t\"pushl %%edi\\n\\t\"")
-				end
+				-- save all registers that matter for the ABI
+                if arch == "i386" then
+                    if useIntelASMSyntax then
+                        if func.void or not func.longlong then out("\n\t\t\"push edx\\n\\t\"") end
+                        if func.void then out("\n\t\t\"push eax\\n\\t\"") end
+                        out("\n\t\t\"push ecx\\n\\t\"")
+                        out("\n\t\t\"push ebx\\n\\t\"")
+                        out("\n\t\t\"push esi\\n\\t\"")
+                        out("\n\t\t\"push edi\\n\\t\"")
+                    else
+                        if func.void or not func.longlong then out("\n\t\t\"pushl %%edx\\n\\t\"") end
+                        if func.void then out("\n\t\t\"pushl %%eax\\n\\t\"") end
+                        out("\n\t\t\"pushl %%ecx\\n\\t\"")
+                        out("\n\t\t\"pushl %%ebx\\n\\t\"")
+                        out("\n\t\t\"pushl %%esi\\n\\t\"")
+                        out("\n\t\t\"pushl %%edi\\n\\t\"")
+                    end
+                elseif arch == "x86_64" and isPOSIX then
+                    if useIntelASMSyntax then
+                        out("\n\t\t\"push rbx\\n\\t\"")
+                        out("\n\t\t\"push rbp\\n\\t\"")
+                        out("\n\t\t\"push r12\\n\\t\"")
+                        out("\n\t\t\"push r13\\n\\t\"")
+                        out("\n\t\t\"push r14\\n\\t\"")
+                        out("\n\t\t\"push r15\\n\\t\"")
+                    else
+                        out("\n\t\t\"pushl %%rbx\\n\\t\"")
+                        out("\n\t\t\"pushl %%rbp\\n\\t\"")
+                        out("\n\t\t\"pushl %%r12\\n\\t\"")
+                        out("\n\t\t\"pushl %%r13\\n\\t\"")
+                        out("\n\t\t\"pushl %%r14\\n\\t\"")
+                        out("\n\t\t\"pushl %%r15\\n\\t\"")
+                    end
+                end
 				
 				-- push all stack based arguments
 				local sizePushed = 0
@@ -1014,17 +1097,35 @@ using namespace ZHL;
 							else
 								out("\n\t\t\"pushl %%ecx\\n\\t\"\t\t\t// %s", arg.name)
 							end
-							sizePushed = sizePushed + 4
-						else
-							for p=4*arg.size-4, 0, -4 do
-								if useIntelASMSyntax then
-									out("\n\t\t\"push [ebp+%d]\\n\\t\"\t\t// %s", arg.pos + p, arg.name)
-								else
-									out("\n\t\t\"pushl %d(%%ebp)\\n\\t\"\t\t// %s", arg.pos + p, arg.name)
-								end
-								sizePushed = sizePushed + 4
-							end
-						end
+                            sizePushed = sizePushed + archPushSize
+                        elseif k < #argPattern then
+                            -- System V AMD64 ABI calling style supprt (registers passed into this function) but still should would with 32-bit Linux & 32-bit Windows MinGW
+                            -- TODO: Reuse this argPattern logic for Windows 32-bit (to handle the single ECX one) & Windows 64-bit
+                            -- TODO: Might still need a special case for MSVC 32-bit where ECX is actually sometimes #1 instead of #0
+                            -- TODO: Probably need to handle arguments that are floats & doubles coming from XMM registers? Not sure if we have the argument type visible to us at this point.
+                            if useIntelASMSyntax then
+                                out("\n\t\t\"push %s\\n\\t\"\t\t// %s", argPattern[k], arg.name)
+                            else
+                                out("\n\t\t\"pushl %%%s\\n\\t\"\t\t// %s", argPattern[k], arg.name)
+                            end
+                        else
+                            for p=archPushSize*arg.size-archPushSize, 0, -archPushSize do
+                                if arch == "i386" then
+                                    if useIntelASMSyntax then
+                                        out("\n\t\t\"push [ebp+%d]\\n\\t\"\t\t// %s", arg.pos + p, arg.name)
+                                    else
+                                        out("\n\t\t\"pushl %d(%%ebp)\\n\\t\"\t\t// %s", arg.pos + p, arg.name)
+                                    end
+                                elseif arch == "x86_64"  then
+                                    if useIntelASMSyntax then
+                                        out("\n\t\t\"push [rbp+%d]\\n\\t\"\t\t// %s", arg.pos + p, arg.name)
+                                    else
+                                        out("\n\t\t\"pushl %d(%%rbp)\\n\\t\"\t\t// %s", arg.pos + p, arg.name)
+                                    end
+                                end
+                                sizePushed = sizePushed + archPushSize
+                            end
+                        end
 					end
 				end
 				
@@ -1042,12 +1143,25 @@ using namespace ZHL;
                             else
                                 out("\n\t\t\t// %s has %s", arg.reg, arg.name)
 							end
+                        elseif k < #argPattern then
+                            -- System V AMD64 ABI calling style supprt (registers passed into this function) but still should would with 32-bit Linux & 32-bit Windows MinGW
+                            if arg.reg ~= argPattern[k] then -- Check if we would be copying the same register to itself
+                                error("Warning, potential register clobbering detected, not yet supported copy to a register while incoming argument was on a register and was not the same register, " .. argPattern[k] .. "->" .. arg.reg .. " for argument: " .. arg.name .. " for function: " .. func.name)
+                            end
 						else
-							if useIntelASMSyntax then
-								out("\n\t\t\"mov %s, [ebp+%d]\\n\\t\"\t// %s", arg.reg, arg.pos, arg.name)
-							else
-								out("\n\t\t\"movl %d(%%ebp), %%%s\\n\\t\"\t// %s", arg.pos, arg.reg, arg.name)
-							end
+                            if arch == "i386" then
+                                if useIntelASMSyntax then
+                                    out("\n\t\t\"mov %s, [ebp+%d]\\n\\t\"\t// %s", arg.reg, arg.pos, arg.name)
+                                else
+                                    out("\n\t\t\"movl %d(%%ebp), %%%s\\n\\t\"\t// %s", arg.pos, arg.reg, arg.name)
+                                end
+                            elseif arch == "x86_64"  then
+                                if useIntelASMSyntax then
+                                    out("\n\t\t\"mov %s, [rbp+%d]\\n\\t\"\t// %s", arg.reg, arg.pos, arg.name)
+                                else
+                                    out("\n\t\t\"movl %d(%%rbp), %%%s\\n\\t\"\t// %s", arg.pos, arg.reg, arg.name)
+                                end
+                            end
 						end
 					end
 				end
@@ -1066,42 +1180,73 @@ using namespace ZHL;
 				-- if the function requires caller cleanup, increment the stack pointer here
 				if func.cleanup then
                     if func.memPassedPointer then
-                        sizePushed = sizePushed - 4
+                        sizePushed = sizePushed - archPushSize
                     end
                     if sizePushed > 0 then
-                        if useIntelASMSyntax then
-                            out("\n\t\t\"add esp, %d\\n\\t\"", sizePushed)
-                        else
-                            out("\n\t\t\"addl $%d, %%esp\\n\\t\"", sizePushed)
+                        if arch == "i386" then
+                            if useIntelASMSyntax then
+                                out("\n\t\t\"add esp, %d\\n\\t\"", sizePushed)
+                            else
+                                out("\n\t\t\"addl $%d, %%esp\\n\\t\"", sizePushed)
+                            end
+                        elseif arch == "x86_64"  then
+                            if useIntelASMSyntax then
+                                out("\n\t\t\"add rsp, %d\\n\\t\"", sizePushed)
+                            else
+                                out("\n\t\t\"addl $%d, %%rsp\\n\\t\"", sizePushed)
+                            end
                         end
                     end
 				end
 				
 				-- restore all registers
-				if useIntelASMSyntax then
-					out("\n\t\t\"pop edi\\n\\t\"")
-					out("\n\t\t\"pop esi\\n\\t\"")
-					out("\n\t\t\"pop ebx\\n\\t\"")
-					out("\n\t\t\"pop ecx\\n\\t\"")
-					if func.void then out("\n\t\t\"pop eax\\n\\t\"") end
-					if func.void or not func.longlong then out("\n\t\t\"pop edx\\n\\t\"") end
-				else
-					out("\n\t\t\"popl %%edi\\n\\t\"")
-					out("\n\t\t\"popl %%esi\\n\\t\"")
-					out("\n\t\t\"popl %%ebx\\n\\t\"")
-					out("\n\t\t\"popl %%ecx\\n\\t\"")
-					if func.void then out("\n\t\t\"popl %%eax\\n\\t\"") end
-					if func.void or not func.longlong then out("\n\t\t\"popl %%edx\\n\\t\"") end
-				end
+                if arch == "i386" then
+                    if useIntelASMSyntax then
+                        out("\n\t\t\"pop edi\\n\\t\"")
+                        out("\n\t\t\"pop esi\\n\\t\"")
+                        out("\n\t\t\"pop ebx\\n\\t\"")
+                        out("\n\t\t\"pop ecx\\n\\t\"")
+                        if func.void then out("\n\t\t\"pop eax\\n\\t\"") end
+                        if func.void or not func.longlong then out("\n\t\t\"pop edx\\n\\t\"") end
+                    else
+                        out("\n\t\t\"popl %%edi\\n\\t\"")
+                        out("\n\t\t\"popl %%esi\\n\\t\"")
+                        out("\n\t\t\"popl %%ebx\\n\\t\"")
+                        out("\n\t\t\"popl %%ecx\\n\\t\"")
+                        if func.void then out("\n\t\t\"popl %%eax\\n\\t\"") end
+                        if func.void or not func.longlong then out("\n\t\t\"popl %%edx\\n\\t\"") end
+                    end
+                elseif arch == "x86_64"  then
+                    if useIntelASMSyntax then
+                        out("\n\t\t\"pop r15\\n\\t\"")
+                        out("\n\t\t\"pop r14\\n\\t\"")
+                        out("\n\t\t\"pop r13\\n\\t\"")
+                        out("\n\t\t\"pop r12\\n\\t\"")
+                        out("\n\t\t\"pop rbp\\n\\t\"")
+                        out("\n\t\t\"pop rbx\\n\\t\"")
+                    else
+                        out("\n\t\t\"popl %%r15\\n\\t\"")
+                        out("\n\t\t\"popl %%r14\\n\\t\"")
+                        out("\n\t\t\"popl %%r13\\n\\t\"")
+                        out("\n\t\t\"popl %%r12\\n\\t\"")
+                        out("\n\t\t\"popl %%rbp\\n\\t\"")
+                        out("\n\t\t\"popl %%rbx\\n\\t\"")
+                    end
+                end
 				
 				-- epilog
 				if useIntelASMSyntax then
 					if useNaked then
-						out("\n\t\t\"mov esp, ebp\\n\\t\"")
-						out("\n\t\t\"pop ebp\\n\\t\"")
+                        if arch == "i386" then
+                            out("\n\t\t\"mov esp, ebp\\n\\t\"")
+                            out("\n\t\t\"pop ebp\\n\\t\"")
+                        elseif arch == "x86_64"  then
+                            out("\n\t\t\"mov rsp, rbp\\n\\t\"")
+                            out("\n\t\t\"pop rbp\\n\\t\"")
+                        end
 						if func.stacksize > 0 and not isPOSIX then
 							out("\n\t\t\"ret %d\\n\\t\"", func.stacksize)
-						elseif func.memPassedPointer then -- TODO: May have to limit to SysVi386 ABI not sure if this is valid for Windows or SysVAMD64 ABI yet.
+						elseif func.memPassedPointer and arch == "i386" then -- TODO: May have to limit to SysVi386 ABI not sure if this is valid for Windows or SysVAMD64 ABI yet.
 							out("\n\t\t\"ret %d\\n\\t\"", 4)
 						else
 							out("\n\t\t\"ret\\n\\t\"")
@@ -1109,11 +1254,16 @@ using namespace ZHL;
 					end
 				else
 					if useNaked then
-						out("\n\t\t\"movl %%ebp, %%esp\\n\\t\"")
-						out("\n\t\t\"popl %%ebp\\n\\t\"")
+                        if arch == "i386" then
+                            out("\n\t\t\"movl %%ebp, %%esp\\n\\t\"")
+                            out("\n\t\t\"popl %%ebp\\n\\t\"")
+                        elseif arch == "x86_64"  then
+                            out("\n\t\t\"movl %%rbp, %%rsp\\n\\t\"")
+                            out("\n\t\t\"popl %%rbp\\n\\t\"")
+                        end
 						if func.stacksize > 0 and not isPOSIX then
 							out("\n\t\t\"ret $%d\\n\\t\"", func.stacksize)
-						elseif func.memPassedPointer then -- TODO: May have to limit to SysVi386 ABI not sure if this is valid for Windows or SysVAMD64 ABI yet.
+						elseif func.memPassedPointer and arch == "i386" then -- TODO: May have to limit to SysVi386 ABI not sure if this is valid for Windows or SysVAMD64 ABI yet.
 							out("\n\t\t\"ret $%d\\n\\t\"", 4)
 						else
 							out("\n\t\t\"ret\\n\\t\"")
