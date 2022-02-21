@@ -4056,7 +4056,6 @@ struct TeleportSystem
   bool bCanReceive;
   int iArmed;
   std__vector_4bool crewSlots;
-  char unk[8];
   int iPreparedCrew;
   int iNumSlots;
   bool bSuperShields;

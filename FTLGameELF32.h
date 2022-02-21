@@ -7247,7 +7247,6 @@ struct TeleportSystem : ShipSystem
 	bool bCanReceive;
 	int iArmed;
 	std::vector<bool> crewSlots;
-	char unk[8];
 	int iPreparedCrew;
 	int iNumSlots;
 	bool bSuperShields;
