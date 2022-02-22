@@ -1039,6 +1039,8 @@ using namespace ZHL;
 								else
 									out("\n\t\t\"movl %%ecx, %%%s\\n\\t\t// %s\\n\\t\"", arg.reg, arg.name)
 								end
+                            else
+                                out("\n\t\t\t// %s has %s", arg.reg, arg.name)
 							end
 						else
 							if useIntelASMSyntax then

@@ -32,6 +32,7 @@ FUNC_NAKED void AchievementTracker::LoadAchievementDescriptions()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func0::func));
 	__asm__
@@ -68,6 +69,7 @@ FUNC_NAKED std::vector<CAchievement*> AchievementTracker::GetShipAchievements(co
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// ship
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func1::func));
 	__asm__
@@ -105,6 +107,7 @@ FUNC_NAKED void AchievementTracker::SetAchievement(const std::string &achievemen
 		"push [ebp+16]\n\t"		// sendToServer
 		"push [ebp+12]\n\t"		// noPopup
 		"push [ebp+8]\n\t"		// achievement
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func2::func));
 	__asm__
@@ -142,6 +145,7 @@ FUNC_NAKED void AchievementTracker::UnlockShip(int shipId, int shipType)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// shipType
 		"push [ebp+8]\n\t"		// shipId
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func3::func));
 	__asm__
@@ -177,6 +181,7 @@ FUNC_NAKED void AchievementTracker::SetSectorEight()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func4::func));
 	__asm__
@@ -213,6 +218,7 @@ FUNC_NAKED int AchievementTracker::GetShipMarker(const std::string &baseName, co
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// thisName
 		"push [ebp+8]\n\t"		// baseName
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func5::func));
 	__asm__
@@ -248,6 +254,7 @@ FUNC_NAKED void AchievementTracker::SetFlag(const std::string &flagName)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// flagName
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func6::func));
 	__asm__
@@ -283,6 +290,7 @@ FUNC_NAKED bool AchievementTracker::GetFlag(const std::string &flagName)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// flagName
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func7::func));
 	__asm__
@@ -318,6 +326,7 @@ FUNC_NAKED void AchievementTracker::SaveProfile(int file)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// file
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func8::func));
 	__asm__
@@ -355,6 +364,7 @@ FUNC_NAKED void AchievementTracker::LoadProfile(int file, int version)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// version
 		"push [ebp+8]\n\t"		// file
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func9::func));
 	__asm__
@@ -390,6 +400,7 @@ FUNC_NAKED void AchievementTracker::SetVictoryAchievement()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func10::func));
 	__asm__
@@ -425,6 +436,7 @@ FUNC_NAKED void AchievementTracker::OnLanguageChange()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func11::func));
 	__asm__
@@ -461,6 +473,7 @@ FUNC_NAKED void AchievementTracker::SetTooltip(CAchievement *ach)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// ach
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func12::func));
 	__asm__
@@ -496,6 +509,7 @@ FUNC_NAKED void AchievementTracker::ResetFlags()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func13::func));
 	__asm__
@@ -547,6 +561,7 @@ FUNC_NAKED void Animation::constructor(const std::string &_image, int _length, f
 		"push [ebp+16]\n\t"		// _time
 		"push [ebp+12]\n\t"		// _length
 		"push [ebp+8]\n\t"		// _image
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func15::func));
 	__asm__
@@ -588,6 +603,7 @@ FUNC_NAKED void Animation::OnRender(float opacity, GL_Color color, bool mirror)
 		"push [ebp+16]\n\t"		// color
 		"push [ebp+12]\n\t"		// color
 		"push [ebp+8]\n\t"		// opacity
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func16::func));
 	__asm__
@@ -623,6 +639,7 @@ FUNC_NAKED void Animation::Update()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func17::func));
 	__asm__
@@ -659,6 +676,7 @@ FUNC_NAKED void Animation::SetCurrentFrame(int frame)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// frame
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func18::func));
 	__asm__
@@ -695,6 +713,7 @@ FUNC_NAKED void Animation::Start(bool reset)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// reset
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func19::func));
 	__asm__
@@ -732,6 +751,7 @@ FUNC_NAKED void Animation::AddSoundQueue(int frame, const std::string &sound)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// sound
 		"push [ebp+8]\n\t"		// frame
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func20::func));
 	__asm__
@@ -768,6 +788,7 @@ FUNC_NAKED void Animation::SetAnimationId(GL_Texture *tex)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// tex
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func21::func));
 	__asm__
@@ -803,6 +824,7 @@ FUNC_NAKED void Animation::destructor()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func22::func));
 	__asm__
@@ -839,6 +861,7 @@ FUNC_NAKED void Animation::StartReverse(bool reset)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// reset
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func23::func));
 	__asm__
@@ -875,6 +898,7 @@ FUNC_NAKED void Animation::SetProgress(float progress)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// progress
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func24::func));
 	__asm__
@@ -909,6 +933,7 @@ FUNC_NAKED int Animation::RandomStart()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func25::func));
 	__asm__
@@ -944,6 +969,7 @@ FUNC_NAKED Animation AnimationControl::GetAnimation(const std::string &animName)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// animName
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func26::func));
 	__asm__
@@ -985,6 +1011,7 @@ FUNC_NAKED void AnimationTracker::Update()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func28::func));
 	__asm__
@@ -1022,6 +1049,7 @@ FUNC_NAKED void AnimationTracker::SetLoop(bool loop, float loopDelay)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// loopDelay
 		"push [ebp+8]\n\t"		// loop
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func29::func));
 	__asm__
@@ -1058,6 +1086,7 @@ FUNC_NAKED void AnimationTracker::Stop(bool resetTime)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// resetTime
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func30::func));
 	__asm__
@@ -1094,6 +1123,7 @@ FUNC_NAKED void AnimationTracker::Start(float time)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// time
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func31::func));
 	__asm__
@@ -1130,6 +1160,7 @@ FUNC_NAKED void AnimationTracker::StartReverse(float time)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// time
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func32::func));
 	__asm__
@@ -1165,6 +1196,7 @@ FUNC_NAKED float AnimationTracker::Progress(float speed)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// speed
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func33::func));
 	__asm__
@@ -1200,6 +1232,7 @@ FUNC_NAKED void AnimationTracker::SetProgress(float time)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// time
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func34::func));
 	__asm__
@@ -1235,6 +1268,7 @@ FUNC_NAKED float AnimationTracker::GetAlphaLevel(bool reverse)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// reverse
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func35::func));
 	__asm__
@@ -1268,6 +1302,7 @@ FUNC_NAKED bool ArmamentControl::Dragging()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func36::func));
 	__asm__
@@ -1304,6 +1339,7 @@ FUNC_NAKED void ArmamentControl::SetPosition(int x, int y)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// y
 		"push [ebp+8]\n\t"		// x
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func37::func));
 	__asm__
@@ -1339,6 +1375,7 @@ FUNC_NAKED bool ArmamentControl::KeyDown(SDLKey key)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// key
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func38::func));
 	__asm__
@@ -1376,6 +1413,7 @@ FUNC_NAKED void ArtilleryBox::constructor(Point pos, ArtillerySystem *sys)
 		"push [ebp+16]\n\t"		// sys
 		"push [ebp+12]\n\t"		// pos
 		"push [ebp+8]\n\t"		// pos
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func39::func));
 	__asm__
@@ -1412,6 +1450,7 @@ FUNC_NAKED void ArtilleryBox::OnRender(bool ignoreStatus)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// ignoreStatus
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func40::func));
 	__asm__
@@ -1447,6 +1486,7 @@ FUNC_NAKED void ArtillerySystem::OnLoop()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func41::func));
 	__asm__
@@ -1482,6 +1522,7 @@ FUNC_NAKED void AsteroidGenerator::constructor()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func42::func));
 	__asm__
@@ -1519,6 +1560,7 @@ FUNC_NAKED float AsteroidGenerator::Initialize(int numberOfShips, int shieldCoun
 		"push [ebp+16]\n\t"		// defense
 		"push [ebp+12]\n\t"		// shieldCount
 		"push [ebp+8]\n\t"		// numberOfShips
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func43::func));
 	__asm__
@@ -1554,6 +1596,7 @@ FUNC_NAKED void AsteroidGenerator::SetNumShips(int ships)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// ships
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func44::func));
 	__asm__
@@ -1588,6 +1631,7 @@ FUNC_NAKED Projectile *AsteroidGenerator::GetNextAsteroid()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func45::func));
 	__asm__
@@ -1622,6 +1666,7 @@ FUNC_NAKED void AsteroidGenerator::OnLoop()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func46::func));
 	__asm__
@@ -1656,6 +1701,7 @@ FUNC_NAKED float AsteroidGenerator::GetNextState()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func47::func));
 	__asm__
@@ -1690,6 +1736,7 @@ FUNC_NAKED void AsteroidGenerator::UpdateState()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func48::func));
 	__asm__
@@ -1725,6 +1772,7 @@ FUNC_NAKED bool AsteroidGenerator::SaveAsteroids(void *file)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// file
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func49::func));
 	__asm__
@@ -1760,6 +1808,7 @@ FUNC_NAKED void AsteroidGenerator::LoadAsteroids(void *file)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// file
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func50::func));
 	__asm__
@@ -1795,6 +1844,7 @@ FUNC_NAKED void AugmentEquipBox::RenderIcon()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func51::func));
 	__asm__
@@ -1830,6 +1880,7 @@ FUNC_NAKED void AugmentEquipBox::CheckContents()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func52::func));
 	__asm__
@@ -1865,6 +1916,7 @@ FUNC_NAKED void AugmentEquipBox::RemoveItem()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func53::func));
 	__asm__
@@ -1902,6 +1954,7 @@ FUNC_NAKED void AugmentStoreBox::constructor(ShipManager *ship, const AugmentBlu
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// bp
 		"push [ebp+8]\n\t"		// ship
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func54::func));
 	__asm__
@@ -1940,6 +1993,7 @@ FUNC_NAKED void BatteryBox::constructor(Point pos, BatterySystem *sys)
 		"push [ebp+16]\n\t"		// sys
 		"push [ebp+12]\n\t"		// pos
 		"push [ebp+8]\n\t"		// pos
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func55::func));
 	__asm__
@@ -1985,6 +2039,7 @@ FUNC_NAKED void BeamWeapon::constructor(Pointf _position, int _ownerId, int _tar
 		"push [ebp+16]\n\t"		// _ownerId
 		"push [ebp+12]\n\t"		// _position
 		"push [ebp+8]\n\t"		// _position
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func56::func));
 	__asm__
@@ -2021,6 +2076,7 @@ FUNC_NAKED void BeamWeapon::CollisionCheck(Collideable *other)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// other
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func57::func));
 	__asm__
@@ -2056,6 +2112,7 @@ FUNC_NAKED void Blueprint::destructor()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func58::func));
 	__asm__
@@ -2091,6 +2148,7 @@ FUNC_NAKED std::string Blueprint::GetNameShort()
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func59::func));
 	__asm__
@@ -2126,6 +2184,7 @@ FUNC_NAKED std::vector<std::string> BlueprintManager::GetBlueprintList(const std
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// name
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func60::func));
 	__asm__
@@ -2161,6 +2220,7 @@ FUNC_NAKED ShipBlueprint *BlueprintManager::GetShipBlueprint(const std::string &
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// sector
 		"push [ebp+8]\n\t"		// name
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func61::func));
 	__asm__
@@ -2195,6 +2255,7 @@ FUNC_NAKED DroneBlueprint *BlueprintManager::GetDroneBlueprint(const std::string
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// name
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func62::func));
 	__asm__
@@ -2229,6 +2290,7 @@ FUNC_NAKED float BlueprintManager::GetAugmentValue(const std::string &name)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// name
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func63::func));
 	__asm__
@@ -2263,6 +2325,7 @@ FUNC_NAKED AugmentBlueprint *BlueprintManager::GetAugmentBlueprint(const std::st
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// name
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func64::func));
 	__asm__
@@ -2297,6 +2360,7 @@ FUNC_NAKED ItemBlueprint *BlueprintManager::GetItemBlueprint(const std::string &
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// name
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func65::func));
 	__asm__
@@ -2332,6 +2396,7 @@ FUNC_NAKED WeaponBlueprint BlueprintManager::ProcessWeaponBlueprint(rapidxml::xm
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// node
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func66::func));
 	__asm__
@@ -2367,6 +2432,7 @@ FUNC_NAKED Description BlueprintManager::ProcessDescription(rapidxml::xml_node<c
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// node
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func67::func));
 	__asm__
@@ -2402,6 +2468,7 @@ FUNC_NAKED EffectsBlueprint BlueprintManager::ProcessEffectsBlueprint(rapidxml::
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// node
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func68::func));
 	__asm__
@@ -2437,6 +2504,7 @@ FUNC_NAKED CrewBlueprint BlueprintManager::GetCrewBlueprint(const std::string &n
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// name
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func69::func));
 	__asm__
@@ -2471,6 +2539,7 @@ FUNC_NAKED WeaponBlueprint *BlueprintManager::GetWeaponBlueprint(const std::stri
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// name
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func70::func));
 	__asm__
@@ -2507,6 +2576,7 @@ FUNC_NAKED std::vector<AugmentBlueprint*> BlueprintManager::GetRandomAugment(int
 		"push [ebp+16]\n\t"		// demo_lock
 		"push [ebp+12]\n\t"		// count
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func71::func));
 	__asm__
@@ -2541,6 +2611,7 @@ FUNC_NAKED SystemBlueprint *BlueprintManager::GetSystemBlueprint(const std::stri
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// name
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func72::func));
 	__asm__
@@ -2576,6 +2647,7 @@ FUNC_NAKED std::string BlueprintManager::GetUnusedCrewName(bool *isMale_ret)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// isMale_ret
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func73::func));
 	__asm__
@@ -2611,6 +2683,7 @@ FUNC_NAKED std::string BlueprintManager::GetCrewName(bool *isMale_ret)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// isMale_ret
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func74::func));
 	__asm__
@@ -2647,6 +2720,7 @@ FUNC_NAKED std::vector<WeaponBlueprint*> BlueprintManager::GetRandomWeapon(int c
 		"push [ebp+16]\n\t"		// demo_lock
 		"push [ebp+12]\n\t"		// count
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func75::func));
 	__asm__
@@ -2683,6 +2757,7 @@ FUNC_NAKED std::vector<DroneBlueprint*> BlueprintManager::GetRandomDrone(int cou
 		"push [ebp+16]\n\t"		// demo_lock
 		"push [ebp+12]\n\t"		// count
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func76::func));
 	__asm__
@@ -2718,6 +2793,7 @@ FUNC_NAKED ShipBlueprint BlueprintManager::ProcessShipBlueprint(rapidxml::xml_no
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// node
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func77::func));
 	__asm__
@@ -2753,6 +2829,7 @@ FUNC_NAKED DroneBlueprint BlueprintManager::ProcessDroneBlueprint(rapidxml::xml_
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// node
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func78::func));
 	__asm__
@@ -2797,6 +2874,7 @@ FUNC_NAKED void BoarderPodDrone::constructor(int _iShipId, int _selfId, const Dr
 		"push [ebp+16]\n\t"		// _bp
 		"push [ebp+12]\n\t"		// _selfId
 		"push [ebp+8]\n\t"		// _iShipId
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func80::func));
 	__asm__
@@ -2833,6 +2911,7 @@ FUNC_NAKED void BoarderPodDrone::SetMovementTarget(Targetable &target)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// target
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func81::func));
 	__asm__
@@ -2867,6 +2946,7 @@ FUNC_NAKED bool BoarderPodDrone::CanBeDeployed()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func82::func));
 	__asm__
@@ -2902,6 +2982,7 @@ FUNC_NAKED void BoarderPodDrone::SetDeployed(bool _deployed)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// _deployed
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func83::func));
 	__asm__
@@ -2943,6 +3024,7 @@ FUNC_NAKED void BombProjectile::constructor(Pointf _position, int _ownerId, int 
 		"push [ebp+16]\n\t"		// _ownerId
 		"push [ebp+12]\n\t"		// _position
 		"push [ebp+8]\n\t"		// _position
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func84::func));
 	__asm__
@@ -2979,6 +3061,7 @@ FUNC_NAKED void BombProjectile::CollisionCheck(Collideable *other)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// other
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func85::func));
 	__asm__
@@ -3014,6 +3097,7 @@ FUNC_NAKED void BossShip::Restart()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func86::func));
 	__asm__
@@ -3048,6 +3132,7 @@ FUNC_NAKED bool BossShip::IncomingFire()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func87::func));
 	__asm__
@@ -3083,6 +3168,7 @@ FUNC_NAKED void BossShip::constructor(SpaceManager *space)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// space
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func88::func));
 	__asm__
@@ -3119,6 +3205,7 @@ FUNC_NAKED void BossShip::SaveBoss(void *file)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// file
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func89::func));
 	__asm__
@@ -3154,6 +3241,7 @@ FUNC_NAKED int BossShip::LoadBoss(void *file)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// file
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func90::func));
 	__asm__
@@ -3187,6 +3275,7 @@ FUNC_NAKED int BossShip::ClearLocation()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func91::func));
 	__asm__
@@ -3220,6 +3309,7 @@ FUNC_NAKED char BossShip::Defeated()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func92::func));
 	__asm__
@@ -3253,6 +3343,7 @@ FUNC_NAKED int BossShip::GetSubEvent()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func93::func));
 	__asm__
@@ -3287,6 +3378,7 @@ FUNC_NAKED void BossShip::StartStage()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func94::func));
 	__asm__
@@ -3321,6 +3413,7 @@ FUNC_NAKED LocationEvent *BossShip::GetEvent()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func95::func));
 	__asm__
@@ -3355,6 +3448,7 @@ FUNC_NAKED void BossShip::OnLoop()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func96::func));
 	__asm__
@@ -3392,6 +3486,7 @@ FUNC_NAKED void Button::SetLocation(const Point pos)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// pos
 		"push [ebp+8]\n\t"		// pos
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func97::func));
 	__asm__
@@ -3430,6 +3525,7 @@ FUNC_NAKED void Button::OnInit(const std::string &img, int x, int y)
 		"push [ebp+16]\n\t"		// y
 		"push [ebp+12]\n\t"		// x
 		"push [ebp+8]\n\t"		// img
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func98::func));
 	__asm__
@@ -3465,6 +3561,7 @@ FUNC_NAKED void Button::constructor()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func99::func));
 	__asm__
@@ -3500,6 +3597,7 @@ FUNC_NAKED void Button::OnRender()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func100::func));
 	__asm__
@@ -3536,6 +3634,7 @@ FUNC_NAKED void Button::SetInactiveImage(GL_Texture *texture)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// texture
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func101::func));
 	__asm__
@@ -3572,6 +3671,7 @@ FUNC_NAKED void Button::SetActiveImage(GL_Texture *texture)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// texture
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func102::func));
 	__asm__
@@ -3608,6 +3708,7 @@ FUNC_NAKED void Button::SetImageBase(const std::string &imageBase)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// imageBase
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func103::func));
 	__asm__
@@ -3647,6 +3748,7 @@ FUNC_NAKED void CAchievement::OnRender(Point pos, int selected, bool showNew)
 		"push [ebp+16]\n\t"		// selected
 		"push [ebp+12]\n\t"		// pos
 		"push [ebp+8]\n\t"		// pos
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func104::func));
 	__asm__
@@ -3682,6 +3784,7 @@ FUNC_NAKED void CAchievement::constructor()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func105::func));
 	__asm__
@@ -3716,6 +3819,7 @@ FUNC_NAKED int CApp::OnInputFocus()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func106::func));
 	__asm__
@@ -3749,6 +3853,7 @@ FUNC_NAKED int CApp::OnInputBlur()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func107::func));
 	__asm__
@@ -3782,6 +3887,7 @@ FUNC_NAKED int CApp::OnExit()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func108::func));
 	__asm__
@@ -3818,6 +3924,7 @@ FUNC_NAKED void CApp::OnMButtonDown(int x, int y)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// y
 		"push [ebp+8]\n\t"		// x
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func109::func));
 	__asm__
@@ -3854,6 +3961,7 @@ FUNC_NAKED void CApp::OnTextEvent(CEvent::TextEvent textEvent)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// textEvent
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func110::func));
 	__asm__
@@ -3890,6 +3998,7 @@ FUNC_NAKED void CApp::OnTextInput(int ch)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// ch
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func111::func));
 	__asm__
@@ -3924,6 +4033,7 @@ FUNC_NAKED int CApp::OnRequestExit()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func112::func));
 	__asm__
@@ -3964,6 +4074,7 @@ FUNC_NAKED int CApp::OnMouseMove(int x, int y, int xdiff, int ydiff, bool holdin
 		"push [ebp+16]\n\t"		// xdiff
 		"push [ebp+12]\n\t"		// y
 		"push [ebp+8]\n\t"		// x
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func113::func));
 	__asm__
@@ -4000,6 +4111,7 @@ FUNC_NAKED void CApp::OnRButtonUp(int x, int y)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// y
 		"push [ebp+8]\n\t"		// x
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func114::func));
 	__asm__
@@ -4037,6 +4149,7 @@ FUNC_NAKED void CApp::OnLButtonUp(int x, int y)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// y
 		"push [ebp+8]\n\t"		// x
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func115::func));
 	__asm__
@@ -4074,6 +4187,7 @@ FUNC_NAKED void CApp::OnRButtonDown(int x, int y)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// y
 		"push [ebp+8]\n\t"		// x
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func116::func));
 	__asm__
@@ -4111,6 +4225,7 @@ FUNC_NAKED void CApp::OnLButtonDown(int x, int y)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// y
 		"push [ebp+8]\n\t"		// x
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func117::func));
 	__asm__
@@ -4146,6 +4261,7 @@ FUNC_NAKED void CApp::OnLanguageChange()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func118::func));
 	__asm__
@@ -4182,6 +4298,7 @@ FUNC_NAKED void CApp::OnKeyUp(SDLKey key)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// key
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func119::func));
 	__asm__
@@ -4218,6 +4335,7 @@ FUNC_NAKED void CApp::OnKeyDown(SDLKey key)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// key
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func120::func));
 	__asm__
@@ -4253,6 +4371,7 @@ FUNC_NAKED void CApp::constructor()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func121::func));
 	__asm__
@@ -4290,6 +4409,7 @@ FUNC_NAKED void CApp::ParseArgs(int argc, const char **argv)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// argv
 		"push [ebp+8]\n\t"		// argc
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func122::func));
 	__asm__
@@ -4325,6 +4445,7 @@ FUNC_NAKED void CApp::OnLoop()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func123::func));
 	__asm__
@@ -4359,6 +4480,7 @@ FUNC_NAKED int CApp::SetupWindow()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func124::func));
 	__asm__
@@ -4393,6 +4515,7 @@ FUNC_NAKED void CApp::OnCleanup()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func125::func));
 	__asm__
@@ -4428,6 +4551,7 @@ FUNC_NAKED void CApp::GenInputEvents()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func126::func));
 	__asm__
@@ -4463,6 +4587,7 @@ FUNC_NAKED void CApp::OnSuspend()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func127::func));
 	__asm__
@@ -4498,6 +4623,7 @@ FUNC_NAKED void CApp::OnResume()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func128::func));
 	__asm__
@@ -4570,6 +4696,7 @@ FUNC_NAKED void CApp::UpdateFullScreen()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func130::func));
 	__asm__
@@ -4604,6 +4731,7 @@ FUNC_NAKED int CApp::UpdateWindowSettings()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func131::func));
 	__asm__
@@ -4638,6 +4766,7 @@ FUNC_NAKED void CApp::OnRender()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func132::func));
 	__asm__
@@ -4672,6 +4801,7 @@ FUNC_NAKED int CApp::OnInit()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func133::func));
 	__asm__
@@ -4705,6 +4835,7 @@ FUNC_NAKED int CApp::OnExecute()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func134::func));
 	__asm__
@@ -4740,6 +4871,7 @@ FUNC_NAKED void CApp::OnEvent(const InputEvent *inputEvent)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// inputEvent
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func135::func));
 	__asm__
@@ -4776,6 +4908,7 @@ FUNC_NAKED void CEvent::OnEvent(const InputEvent *event)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// event
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func136::func));
 	__asm__
@@ -4810,6 +4943,7 @@ FUNC_NAKED float CFPS::GetSpeedFactor()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func137::func));
 	__asm__
@@ -4844,6 +4978,7 @@ FUNC_NAKED void CFPS::OnLoop()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func138::func));
 	__asm__
@@ -6866,6 +7001,7 @@ FUNC_NAKED void CachedImage::destructor()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func191::func));
 	__asm__
@@ -6902,6 +7038,7 @@ FUNC_NAKED void CachedImage::SetImagePath(const std::string &imagePath)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// imagePath
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func192::func));
 	__asm__
@@ -6940,6 +7077,7 @@ FUNC_NAKED void CachedImage::constructor1(const std::string &path, int x, int y)
 		"push [ebp+16]\n\t"		// y
 		"push [ebp+12]\n\t"		// x
 		"push [ebp+8]\n\t"		// path
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func193::func));
 	__asm__
@@ -6976,6 +7114,7 @@ FUNC_NAKED void CachedImage::constructor_copy(const CachedImage &other)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// other
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func194::func));
 	__asm__
@@ -7013,6 +7152,7 @@ FUNC_NAKED void CachedImage::SetPosition(int x, int y)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// y
 		"push [ebp+8]\n\t"		// x
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func195::func));
 	__asm__
@@ -7049,6 +7189,7 @@ FUNC_NAKED void CachedImage::SetRotation(float _rotation)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// _rotation
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func196::func));
 	__asm__
@@ -7085,6 +7226,7 @@ FUNC_NAKED void CachedImage::SetMirrored(bool _mirrored)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// _mirrored
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func197::func));
 	__asm__
@@ -7120,6 +7262,7 @@ FUNC_NAKED void CachedImage::CreatePrimitive()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func198::func));
 	__asm__
@@ -7156,6 +7299,7 @@ FUNC_NAKED void CachedPrimitive::OnRender(const GL_Color &color)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// color
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func199::func));
 	__asm__
@@ -7191,6 +7335,7 @@ FUNC_NAKED void CachedPrimitive::destructor()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func200::func));
 	__asm__
@@ -7226,6 +7371,7 @@ FUNC_NAKED void ChoiceBox::OnRender()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func201::func));
 	__asm__
@@ -7263,6 +7409,7 @@ FUNC_NAKED void ChoiceBox::MouseMove(int x, int y)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// y
 		"push [ebp+8]\n\t"		// x
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func202::func));
 	__asm__
@@ -7301,6 +7448,7 @@ FUNC_NAKED void CloakingBox::constructor(Point pos, CloakingSystem *sys)
 		"push [ebp+16]\n\t"		// sys
 		"push [ebp+12]\n\t"		// pos
 		"push [ebp+8]\n\t"		// pos
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func203::func));
 	__asm__
@@ -7336,6 +7484,7 @@ FUNC_NAKED void CloakingSystem::OnLoop()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func204::func));
 	__asm__
@@ -7371,6 +7520,7 @@ FUNC_NAKED void CloakingSystem::FiredWeapon()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func205::func));
 	__asm__
@@ -7409,6 +7559,7 @@ FUNC_NAKED void CloneBox::constructor(Point pos, CloneSystem *sys)
 		"push [ebp+16]\n\t"		// sys
 		"push [ebp+12]\n\t"		// pos
 		"push [ebp+8]\n\t"		// pos
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func206::func));
 	__asm__
@@ -7444,6 +7595,7 @@ FUNC_NAKED void CloneSystem::OnLoop()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func207::func));
 	__asm__
@@ -7480,6 +7632,7 @@ FUNC_NAKED void CombatAI::UpdateMindControl(bool unk)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// unk
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func208::func));
 	__asm__
@@ -7515,6 +7668,7 @@ FUNC_NAKED void CombatAI::OnLoop()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func209::func));
 	__asm__
@@ -7550,6 +7704,7 @@ FUNC_NAKED void CombatControl::RenderTarget()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func210::func));
 	__asm__
@@ -7584,6 +7739,7 @@ FUNC_NAKED ShipManager *CombatControl::GetCurrentTarget()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func211::func));
 	__asm__
@@ -7617,6 +7773,7 @@ FUNC_NAKED char CombatControl::CurrentTargetIsBoss()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func212::func));
 	__asm__
@@ -7650,6 +7807,7 @@ FUNC_NAKED char CombatControl::CanTargetSelf()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func213::func));
 	__asm__
@@ -7684,6 +7842,7 @@ FUNC_NAKED void CombatControl::OnRenderCombat()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func214::func));
 	__asm__
@@ -7720,6 +7879,7 @@ FUNC_NAKED void CombatControl::AddEnemyShip(CompleteShip *ship)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// ship
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func215::func));
 	__asm__
@@ -7755,6 +7915,7 @@ FUNC_NAKED void CombatControl::UpdateAiming()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func216::func));
 	__asm__
@@ -7789,6 +7950,7 @@ FUNC_NAKED bool CombatControl::UpdateTarget()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func217::func));
 	__asm__
@@ -7828,6 +7990,7 @@ FUNC_NAKED void CombatControl::DrawHostileBox(GL_Color color, int stencilBit)
 		"push [ebp+16]\n\t"		// color
 		"push [ebp+12]\n\t"		// color
 		"push [ebp+8]\n\t"		// color
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func218::func));
 	__asm__
@@ -7865,6 +8028,7 @@ FUNC_NAKED void CombatControl::OnInit(Point pos)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// pos
 		"push [ebp+8]\n\t"		// pos
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func219::func));
 	__asm__
@@ -7900,6 +8064,7 @@ FUNC_NAKED void CombatControl::OnLoop()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func220::func));
 	__asm__
@@ -7935,6 +8100,7 @@ FUNC_NAKED void CombatControl::SetMouseCursor()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func221::func));
 	__asm__
@@ -7970,6 +8136,7 @@ FUNC_NAKED void CombatControl::DisarmAll()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func222::func));
 	__asm__
@@ -8004,6 +8171,7 @@ FUNC_NAKED bool CombatControl::SelectTarget()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func223::func));
 	__asm__
@@ -8039,6 +8207,7 @@ FUNC_NAKED bool CombatControl::MouseRClick(int x, int y)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// y
 		"push [ebp+8]\n\t"		// x
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func224::func));
 	__asm__
@@ -8072,6 +8241,7 @@ FUNC_NAKED bool CombatControl::WeaponsArmed()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func225::func));
 	__asm__
@@ -8107,6 +8277,7 @@ FUNC_NAKED void CombatControl::KeyDown(SDLKey key)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// key
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func226::func));
 	__asm__
@@ -8142,6 +8313,7 @@ FUNC_NAKED void CombatControl::DisarmTeleporter()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func227::func));
 	__asm__
@@ -8177,6 +8349,7 @@ FUNC_NAKED void CombatControl::constructor()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func228::func));
 	__asm__
@@ -8212,6 +8385,7 @@ FUNC_NAKED void CombatControl::RenderSelfAiming()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func229::func));
 	__asm__
@@ -8253,6 +8427,7 @@ FUNC_NAKED void CombatControl::RenderShipStatus(Pointf pos, GL_Color color)
 		"push [ebp+16]\n\t"		// color
 		"push [ebp+12]\n\t"		// pos
 		"push [ebp+8]\n\t"		// pos
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func230::func));
 	__asm__
@@ -8290,6 +8465,7 @@ FUNC_NAKED std::string CombatControl::GetCrewTooltip(int x, int y)
 		"push [ebp+16]\n\t"		// y
 		"push [ebp+12]\n\t"		// x
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func231::func));
 	__asm__
@@ -8324,6 +8500,7 @@ FUNC_NAKED void CombatControl::Clear()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func232::func));
 	__asm__
@@ -8362,6 +8539,7 @@ FUNC_NAKED void CombatDrone::constructor(int iShipId, int selfId, const DroneBlu
 		"push [ebp+16]\n\t"		// bp
 		"push [ebp+12]\n\t"		// selfId
 		"push [ebp+8]\n\t"		// iShipId
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func233::func));
 	__asm__
@@ -8398,6 +8576,7 @@ FUNC_NAKED void CombatDrone::SetWeaponTarget(Targetable &target)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// target
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func234::func));
 	__asm__
@@ -8434,6 +8613,7 @@ FUNC_NAKED void CommandGui::RunCommand(std::string &command)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// command
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func235::func));
 	__asm__
@@ -8469,6 +8649,7 @@ FUNC_NAKED Store *CommandGui::CreateNewStore(int sectorNumber)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// sectorNumber
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func236::func));
 	__asm__
@@ -8505,6 +8686,7 @@ FUNC_NAKED void *CommandGui::GetWorldCoordinates(Point point, bool fromTarget)
 		"push [ebp+16]\n\t"		// fromTarget
 		"push [ebp+12]\n\t"		// point
 		"push [ebp+8]\n\t"		// point
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func237::func));
 	__asm__
@@ -8541,6 +8723,7 @@ FUNC_NAKED void CommandGui::KeyDown(SDLKey key, bool shiftHeld)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// shiftHeld
 		"push [ebp+8]\n\t"		// key
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func238::func));
 	__asm__
@@ -8576,6 +8759,7 @@ FUNC_NAKED void CommandGui::RenderStatic()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func239::func));
 	__asm__
@@ -8611,6 +8795,7 @@ FUNC_NAKED void CommandGui::constructor()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func240::func));
 	__asm__
@@ -8647,6 +8832,7 @@ FUNC_NAKED void CommandGui::AddEnemyShip(CompleteShip *ship)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// ship
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func241::func));
 	__asm__
@@ -8682,6 +8868,7 @@ FUNC_NAKED void CommandGui::Victory()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func242::func));
 	__asm__
@@ -8717,6 +8904,7 @@ FUNC_NAKED void CommandGui::OnInit()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func243::func));
 	__asm__
@@ -8754,6 +8942,7 @@ FUNC_NAKED void CommandGui::MouseMove(int mX, int mY)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// mY
 		"push [ebp+8]\n\t"		// mX
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func244::func));
 	__asm__
@@ -8792,6 +8981,7 @@ FUNC_NAKED void CommandGui::LButtonDown(int mX, int mY, bool shiftHeld)
 		"push [ebp+16]\n\t"		// shiftHeld
 		"push [ebp+12]\n\t"		// mY
 		"push [ebp+8]\n\t"		// mX
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func245::func));
 	__asm__
@@ -8827,6 +9017,7 @@ FUNC_NAKED void CommandGui::OnLoop()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func246::func));
 	__asm__
@@ -8862,6 +9053,7 @@ FUNC_NAKED void CommandGui::CheckGameover()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func247::func));
 	__asm__
@@ -8896,6 +9088,7 @@ FUNC_NAKED bool CommandGui::IsGameOver()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func248::func));
 	__asm__
@@ -8937,6 +9130,7 @@ FUNC_NAKED void CommandGui::NewLocation(const std::string &mainText, std::vector
 		"push [ebp+16]\n\t"		// choices
 		"push [ebp+12]\n\t"		// choices
 		"push [ebp+8]\n\t"		// mainText
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func249::func));
 	__asm__
@@ -8972,6 +9166,7 @@ FUNC_NAKED void CompleteShip::PauseLoop()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func250::func));
 	__asm__
@@ -9007,6 +9202,7 @@ FUNC_NAKED void CompleteShip::Restart()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func251::func));
 	__asm__
@@ -9045,6 +9241,7 @@ FUNC_NAKED void CompleteShip::constructor(SpaceManager *space, bool unk, int unk
 		"push [ebp+16]\n\t"		// unk2
 		"push [ebp+12]\n\t"		// unk
 		"push [ebp+8]\n\t"		// space
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func252::func));
 	__asm__
@@ -9081,6 +9278,7 @@ FUNC_NAKED void CompleteShip::SetShip(ShipManager *ship)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// ship
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func253::func));
 	__asm__
@@ -9118,6 +9316,7 @@ FUNC_NAKED void CompleteShip::OnInit(const ShipBlueprint *blueprint, int unk)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// unk
 		"push [ebp+8]\n\t"		// blueprint
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func254::func));
 	__asm__
@@ -9156,6 +9355,7 @@ FUNC_NAKED void CompleteShip::AddBoarders(int amount, const std::string &race, b
 		"push [ebp+16]\n\t"		// unk2
 		"push [ebp+12]\n\t"		// race
 		"push [ebp+8]\n\t"		// amount
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func255::func));
 	__asm__
@@ -9192,6 +9392,7 @@ FUNC_NAKED CrewMember *CompleteShip::AddCrewMember(const CrewBlueprint *blueprin
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// hostile
 		"push [ebp+8]\n\t"		// blueprint
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func256::func));
 	__asm__
@@ -9228,6 +9429,7 @@ FUNC_NAKED CrewMember *CompleteShip::AddCrewMember1(const std::string &race, con
 		"push [ebp+16]\n\t"		// hostile
 		"push [ebp+12]\n\t"		// name
 		"push [ebp+8]\n\t"		// race
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func257::func));
 	__asm__
@@ -9263,6 +9465,7 @@ FUNC_NAKED Drone *CompleteShip::AddDrone(const DroneBlueprint *blueprint, int un
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// unk
 		"push [ebp+8]\n\t"		// blueprint
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func258::func));
 	__asm__
@@ -9298,6 +9501,7 @@ FUNC_NAKED CrewMember *CompleteShip::AddCrewMember2(CrewMember *member, int unk)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// unk
 		"push [ebp+8]\n\t"		// member
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func259::func));
 	__asm__
@@ -9332,6 +9536,7 @@ FUNC_NAKED char CompleteShip::SaveState(int unk)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// unk
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func260::func));
 	__asm__
@@ -9367,6 +9572,7 @@ FUNC_NAKED void CompleteShip::LoadState(int unk)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// unk
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func261::func));
 	__asm__
@@ -9404,6 +9610,7 @@ FUNC_NAKED void CompleteShip::InitiateTeleport(int targetRoom, int command)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// command
 		"push [ebp+8]\n\t"		// targetRoom
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func262::func));
 	__asm__
@@ -9439,6 +9646,7 @@ FUNC_NAKED void CompleteShip::OnLoop()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func263::func));
 	__asm__
@@ -9474,6 +9682,7 @@ FUNC_NAKED std::vector<CrewMember*> CompleteShip::GetTeleportingParty()
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func264::func));
 	__asm__
@@ -9508,6 +9717,7 @@ FUNC_NAKED void CompleteShip::KillRandomCrew()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func265::func));
 	__asm__
@@ -9543,6 +9753,7 @@ FUNC_NAKED int CompleteShip::CountCrew(bool boarders)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// boarders
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func266::func));
 	__asm__
@@ -9577,6 +9788,7 @@ FUNC_NAKED void CompleteShip::Jump()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func267::func));
 	__asm__
@@ -9613,6 +9825,7 @@ FUNC_NAKED void CompleteShip::SetEnemyShip(CompleteShip *other)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// other
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func268::func));
 	__asm__
@@ -9647,6 +9860,7 @@ FUNC_NAKED bool CompleteShip::DeadCrew()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func269::func));
 	__asm__
@@ -9683,6 +9897,7 @@ FUNC_NAKED std::vector<CrewMember*> CompleteShip::TeleportCrew(int roomId, bool 
 		"push [ebp+16]\n\t"		// intruders
 		"push [ebp+12]\n\t"		// roomId
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func270::func));
 	__asm__
@@ -9717,6 +9932,7 @@ FUNC_NAKED void CompleteShip::OnRender()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func271::func));
 	__asm__
@@ -9752,6 +9968,7 @@ FUNC_NAKED void CompleteShip::OnRenderSpace()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func272::func));
 	__asm__
@@ -9789,6 +10006,7 @@ FUNC_NAKED void CompleteShip::OnRenderShip(bool unk1, bool unk2)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// unk2
 		"push [ebp+8]\n\t"		// unk1
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func273::func));
 	__asm__
@@ -9829,6 +10047,7 @@ FUNC_NAKED void ConfirmWindow::SetText(const TextString &text_, int minWidth, bo
 		"push [ebp+16]\n\t"		// autoCenter
 		"push [ebp+12]\n\t"		// minWidth
 		"push [ebp+8]\n\t"		// text_
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func274::func));
 	__asm__
@@ -9864,6 +10083,7 @@ FUNC_NAKED void ConfirmWindow::OnRender()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func275::func));
 	__asm__
@@ -9901,6 +10121,7 @@ FUNC_NAKED void ConfirmWindow::SetPosition(Point pos)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// pos
 		"push [ebp+8]\n\t"		// pos
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func276::func));
 	__asm__
@@ -9936,6 +10157,7 @@ FUNC_NAKED void ConfirmWindow::Open()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func277::func));
 	__asm__
@@ -9973,6 +10195,7 @@ FUNC_NAKED void ConfirmWindow::MouseClick(int mX, int mY)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// mY
 		"push [ebp+8]\n\t"		// mX
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func278::func));
 	__asm__
@@ -10010,6 +10233,7 @@ FUNC_NAKED void ConfirmWindow::MouseMove(int mX, int mY)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// mY
 		"push [ebp+8]\n\t"		// mX
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func279::func));
 	__asm__
@@ -10045,6 +10269,7 @@ FUNC_NAKED void ConfirmWindow::constructor()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func280::func));
 	__asm__
@@ -10080,6 +10305,7 @@ FUNC_NAKED void ConfirmWindow::Close()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func281::func));
 	__asm__
@@ -10115,6 +10341,7 @@ FUNC_NAKED void ControlButton::OnRender()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func282::func));
 	__asm__
@@ -10150,6 +10377,7 @@ FUNC_NAKED void ControlsScreen::OnInit()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func283::func));
 	__asm__
@@ -10185,6 +10413,7 @@ FUNC_NAKED void ControlsScreen::OnLoop()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func284::func));
 	__asm__
@@ -10220,6 +10449,7 @@ FUNC_NAKED void ControlsScreen::OnRender()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func285::func));
 	__asm__
@@ -10259,6 +10489,7 @@ FUNC_NAKED void CooldownSystemBox::constructor(Point pos, ShipSystem *sys, bool 
 		"push [ebp+16]\n\t"		// sys
 		"push [ebp+12]\n\t"		// pos
 		"push [ebp+8]\n\t"		// pos
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func286::func));
 	__asm__
@@ -10295,6 +10526,7 @@ FUNC_NAKED void CooldownSystemBox::OnRender(bool ignoreStatus)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// ignoreStatus
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func287::func));
 	__asm__
@@ -10330,6 +10562,7 @@ FUNC_NAKED void CreditScreen::OnRender()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func288::func));
 	__asm__
@@ -10365,6 +10598,7 @@ FUNC_NAKED void CreditScreen::constructor()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func289::func));
 	__asm__
@@ -10402,6 +10636,7 @@ FUNC_NAKED void CreditScreen::Start(const std::string &shipName, const std::vect
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// crewNames
 		"push [ebp+8]\n\t"		// shipName
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func290::func));
 	__asm__
@@ -10436,6 +10671,7 @@ FUNC_NAKED bool CreditScreen::Done()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func291::func));
 	__asm__
@@ -10470,6 +10706,7 @@ FUNC_NAKED void CrewAI::UpdateDrones()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func292::func));
 	__asm__
@@ -10505,6 +10742,7 @@ FUNC_NAKED void CrewAI::AssignCrewmembers()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func293::func));
 	__asm__
@@ -10543,6 +10781,7 @@ FUNC_NAKED int CrewAI::PrioritizeTask(CrewTask task, int crewId)
 		"push [ebp+16]\n\t"		// task
 		"push [ebp+12]\n\t"		// task
 		"push [ebp+8]\n\t"		// task
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func294::func));
 	__asm__
@@ -10577,6 +10816,7 @@ FUNC_NAKED void CrewAI::UpdateIntruders()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func295::func));
 	__asm__
@@ -10614,6 +10854,7 @@ FUNC_NAKED int CrewAI::PrioritizeIntruderRoom(CrewMember *crew, int roomId, int 
 		"push [ebp+16]\n\t"		// target
 		"push [ebp+12]\n\t"		// roomId
 		"push [ebp+8]\n\t"		// crew
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func296::func));
 	__asm__
@@ -10649,6 +10890,7 @@ FUNC_NAKED void CrewAI::UpdateCrewMember(int crewId)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// crewId
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func297::func));
 	__asm__
@@ -10684,6 +10926,7 @@ FUNC_NAKED void CrewAI::CheckForHealing()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func298::func));
 	__asm__
@@ -10719,6 +10962,7 @@ FUNC_NAKED void CrewAI::OnLoop()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func299::func));
 	__asm__
@@ -10754,6 +10998,7 @@ FUNC_NAKED void CrewAI::CheckForProblems()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func300::func));
 	__asm__
@@ -10794,6 +11039,7 @@ FUNC_NAKED void CrewAnimation::constructor(int shipId, const std::string &race, 
 		"push [ebp+16]\n\t"		// unk
 		"push [ebp+12]\n\t"		// race
 		"push [ebp+8]\n\t"		// shipId
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func301::func));
 	__asm__
@@ -10829,6 +11075,7 @@ FUNC_NAKED std::string CrewAnimation::GetDeathSound()
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func302::func));
 	__asm__
@@ -10863,6 +11110,7 @@ FUNC_NAKED std::string CrewAnimation::GetShootingSound()
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func303::func));
 	__asm__
@@ -10900,6 +11148,7 @@ FUNC_NAKED void CrewAnimation::OnRender(float scale, int selectedState, bool out
 		"push [ebp+16]\n\t"		// outlineOnly
 		"push [ebp+12]\n\t"		// selectedState
 		"push [ebp+8]\n\t"		// scale
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func304::func));
 	__asm__
@@ -10935,6 +11184,7 @@ FUNC_NAKED void CrewAnimation::OnRenderProps()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func305::func));
 	__asm__
@@ -10974,6 +11224,7 @@ FUNC_NAKED void CrewAnimation::OnInit(const std::string &name, Pointf position, 
 		"push [ebp+16]\n\t"		// position
 		"push [ebp+12]\n\t"		// position
 		"push [ebp+8]\n\t"		// name
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func306::func));
 	__asm__
@@ -11009,6 +11260,7 @@ FUNC_NAKED void CrewAnimation::SetupStrips()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func307::func));
 	__asm__
@@ -11051,6 +11303,7 @@ FUNC_NAKED void CrewAnimation::OnUpdate(Pointf position, bool moving, bool fight
 		"push [ebp+16]\n\t"		// moving
 		"push [ebp+12]\n\t"		// position
 		"push [ebp+8]\n\t"		// position
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func308::func));
 	__asm__
@@ -11086,6 +11339,7 @@ FUNC_NAKED void CrewAnimation::destructor()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func309::func));
 	__asm__
@@ -11120,6 +11374,7 @@ FUNC_NAKED bool CrewAnimation::FireShot()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func310::func));
 	__asm__
@@ -11153,6 +11408,7 @@ FUNC_NAKED int CrewAnimation::GetFiringFrame()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func311::func));
 	__asm__
@@ -11188,6 +11444,7 @@ FUNC_NAKED void CrewAnimation::RenderIcon(bool border)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// border
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func312::func));
 	__asm__
@@ -11223,6 +11480,7 @@ FUNC_NAKED void CrewAnimation::OnUpdateEffects()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func313::func));
 	__asm__
@@ -11259,6 +11517,7 @@ FUNC_NAKED void CrewBlueprint::RandomSkills(int worldLevel)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// worldLevel
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func314::func));
 	__asm__
@@ -11299,6 +11558,7 @@ FUNC_NAKED void CrewBlueprint::RenderSkill(int x, int y, int length, int height,
 		"push [ebp+16]\n\t"		// length
 		"push [ebp+12]\n\t"		// y
 		"push [ebp+8]\n\t"		// x
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func315::func));
 	__asm__
@@ -11335,6 +11595,7 @@ FUNC_NAKED void CrewBlueprint::RenderIcon(float opacity)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// opacity
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func316::func));
 	__asm__
@@ -11370,6 +11631,7 @@ FUNC_NAKED void CrewBlueprint::destructor()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func317::func));
 	__asm__
@@ -11405,6 +11667,7 @@ FUNC_NAKED std::string CrewBlueprint::GetNameShort()
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func318::func));
 	__asm__
@@ -11443,6 +11706,7 @@ FUNC_NAKED void CrewBox::constructor(Point pos, CrewMember *crew, int number)
 		"push [ebp+16]\n\t"		// crew
 		"push [ebp+12]\n\t"		// pos
 		"push [ebp+8]\n\t"		// pos
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func319::func));
 	__asm__
@@ -11478,6 +11742,7 @@ FUNC_NAKED void CrewBox::OnRender()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func320::func));
 	__asm__
@@ -11514,6 +11779,7 @@ FUNC_NAKED CrewMember *CrewBox::GetSelected(int mouseX, int mouseY)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// mouseY
 		"push [ebp+8]\n\t"		// mouseX
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func321::func));
 	__asm__
@@ -11549,6 +11815,7 @@ FUNC_NAKED void CrewBox::OnLoop(bool selected)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// selected
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func322::func));
 	__asm__
@@ -11584,6 +11851,7 @@ FUNC_NAKED void CrewBox::OnRenderSkillLevel()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func323::func));
 	__asm__
@@ -11619,6 +11887,7 @@ FUNC_NAKED void CrewBox::destructor()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func324::func));
 	__asm__
@@ -11653,6 +11922,7 @@ FUNC_NAKED bool CrewBox::MouseClick()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func325::func));
 	__asm__
@@ -11687,6 +11957,7 @@ FUNC_NAKED void CrewBox::RenderIcon()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func326::func));
 	__asm__
@@ -11722,6 +11993,7 @@ FUNC_NAKED void CrewBox::RenderLabels()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func327::func));
 	__asm__
@@ -11757,6 +12029,7 @@ FUNC_NAKED void CrewBox::RenderCloneDying()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func328::func));
 	__asm__
@@ -11792,6 +12065,7 @@ FUNC_NAKED void CrewControl::OnRender()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func329::func));
 	__asm__
@@ -11827,6 +12101,7 @@ FUNC_NAKED void CrewControl::OnLoop()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func330::func));
 	__asm__
@@ -11862,6 +12137,7 @@ FUNC_NAKED void CrewControl::UpdateCrewBoxes()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func331::func));
 	__asm__
@@ -11898,6 +12174,7 @@ FUNC_NAKED void CrewControl::LinkShip(ShipManager *ship)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// ship
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func332::func));
 	__asm__
@@ -11937,6 +12214,7 @@ FUNC_NAKED void CrewControl::MouseMove(int mX, int mY, int wX, int wY)
 		"push [ebp+16]\n\t"		// wX
 		"push [ebp+12]\n\t"		// mY
 		"push [ebp+8]\n\t"		// mX
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func333::func));
 	__asm__
@@ -11977,6 +12255,7 @@ FUNC_NAKED void CrewControl::LButton(int mX, int mY, int wX, int wY, bool shiftH
 		"push [ebp+16]\n\t"		// wX
 		"push [ebp+12]\n\t"		// mY
 		"push [ebp+8]\n\t"		// mX
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func334::func));
 	__asm__
@@ -12016,6 +12295,7 @@ FUNC_NAKED void CrewControl::ClearDeadCrew(std::vector<CrewMember*> crew)
 		"push [ebp+16]\n\t"		// crew
 		"push [ebp+12]\n\t"		// crew
 		"push [ebp+8]\n\t"		// crew
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func335::func));
 	__asm__
@@ -12051,6 +12331,7 @@ FUNC_NAKED void CrewControl::ClearCrewBoxes()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func336::func));
 	__asm__
@@ -12088,6 +12369,7 @@ FUNC_NAKED void CrewControl::SelectPotentialCrew(CrewMember *crew, bool allowTel
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// allowTeleportLeaving
 		"push [ebp+8]\n\t"		// crew
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func337::func));
 	__asm__
@@ -12124,6 +12406,7 @@ FUNC_NAKED void CrewControl::KeyDown(SDLKey key)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// key
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func338::func));
 	__asm__
@@ -12162,6 +12445,7 @@ FUNC_NAKED void CrewControl::RButton(int mX, int mY, bool shiftHeld)
 		"push [ebp+16]\n\t"		// shiftHeld
 		"push [ebp+12]\n\t"		// mY
 		"push [ebp+8]\n\t"		// mX
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func339::func));
 	__asm__
@@ -12197,6 +12481,7 @@ FUNC_NAKED void CrewCustomizeBox::CheckContents()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func340::func));
 	__asm__
@@ -12237,6 +12522,7 @@ FUNC_NAKED void CrewDrone::constructor(const std::string &type, const std::strin
 		"push [ebp+16]\n\t"		// shipId
 		"push [ebp+12]\n\t"		// name
 		"push [ebp+8]\n\t"		// type
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func341::func));
 	__asm__
@@ -12272,6 +12558,7 @@ FUNC_NAKED void CrewDrone::OnLoop()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func342::func));
 	__asm__
@@ -12306,6 +12593,7 @@ FUNC_NAKED bool CrewDrone::ProvidesVision()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func343::func));
 	__asm__
@@ -12341,6 +12629,7 @@ FUNC_NAKED void CrewDrone::SetCurrentShip(int shipId)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// shipId
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func344::func));
 	__asm__
@@ -12376,6 +12665,7 @@ FUNC_NAKED void CrewDrone::destructor()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func345::func));
 	__asm__
@@ -12411,6 +12701,7 @@ FUNC_NAKED void CrewEquipBox::RemoveItem()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func346::func));
 	__asm__
@@ -12450,6 +12741,7 @@ FUNC_NAKED void CrewEquipBox::constructor(Point pos, ShipManager *ship, int slot
 		"push [ebp+16]\n\t"		// ship
 		"push [ebp+12]\n\t"		// pos
 		"push [ebp+8]\n\t"		// pos
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func347::func));
 	__asm__
@@ -12484,6 +12776,7 @@ FUNC_NAKED bool CrewEquipBox::GetConfirmDelete()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func348::func));
 	__asm__
@@ -12520,6 +12813,7 @@ FUNC_NAKED void CrewEquipBox::RenderLabels(bool dragging, bool isNew)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// isNew
 		"push [ebp+8]\n\t"		// dragging
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func349::func));
 	__asm__
@@ -12556,6 +12850,7 @@ FUNC_NAKED void CrewEquipBox::OnRender(bool unk)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// unk
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func350::func));
 	__asm__
@@ -12592,6 +12887,7 @@ FUNC_NAKED void CrewEquipBox::OnTextInput(SDLKey key)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// key
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func351::func));
 	__asm__
@@ -12628,6 +12924,7 @@ FUNC_NAKED void CrewEquipBox::OnTextEvent(CEvent::TextEvent event)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// event
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func352::func));
 	__asm__
@@ -12663,6 +12960,7 @@ FUNC_NAKED void CrewEquipBox::MouseClick()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func353::func));
 	__asm__
@@ -12698,6 +12996,7 @@ FUNC_NAKED void CrewEquipBox::CloseRename()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func354::func));
 	__asm__
@@ -12734,6 +13033,7 @@ FUNC_NAKED void CrewManifest::OnInit(ShipManager *ship)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// ship
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func355::func));
 	__asm__
@@ -12769,6 +13069,7 @@ FUNC_NAKED void CrewManifest::OnRender()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func356::func));
 	__asm__
@@ -12804,6 +13105,7 @@ FUNC_NAKED void CrewManifest::constructor()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func357::func));
 	__asm__
@@ -12839,6 +13141,7 @@ FUNC_NAKED void CrewManifest::Update()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func358::func));
 	__asm__
@@ -12875,6 +13178,7 @@ FUNC_NAKED void CrewManifest::OnKeyDown(SDLKey key)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// key
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func359::func));
 	__asm__
@@ -12911,6 +13215,7 @@ FUNC_NAKED void CrewManifest::OnKeyUp(SDLKey key)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// key
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func360::func));
 	__asm__
@@ -12947,6 +13252,7 @@ FUNC_NAKED void CrewManifest::OnTextInput(SDLKey key)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// key
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func361::func));
 	__asm__
@@ -12983,6 +13289,7 @@ FUNC_NAKED void CrewManifest::OnTextEvent(CEvent::TextEvent event)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// event
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func362::func));
 	__asm__
@@ -13018,6 +13325,7 @@ FUNC_NAKED void CrewManifest::Close()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func363::func));
 	__asm__
@@ -13055,6 +13363,7 @@ FUNC_NAKED void CrewManifest::MouseClick(int mX, int mY)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// mY
 		"push [ebp+8]\n\t"		// mX
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func364::func));
 	__asm__
@@ -13092,6 +13401,7 @@ FUNC_NAKED void CrewManifest::MouseMove(int mX, int mY)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// mY
 		"push [ebp+8]\n\t"		// mX
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func365::func));
 	__asm__
@@ -13126,6 +13436,7 @@ FUNC_NAKED bool CrewMember::CanSabotage()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func366::func));
 	__asm__
@@ -13159,6 +13470,7 @@ FUNC_NAKED bool CrewMember::CanRepair()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func367::func));
 	__asm__
@@ -13192,6 +13504,7 @@ FUNC_NAKED bool CrewMember::CanMan()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func368::func));
 	__asm__
@@ -13225,6 +13538,7 @@ FUNC_NAKED bool CrewMember::CanHeal()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func369::func));
 	__asm__
@@ -13260,6 +13574,7 @@ FUNC_NAKED void CrewMember::OnRender(bool outlineOnly)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// outlineOnly
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func370::func));
 	__asm__
@@ -13295,6 +13610,7 @@ FUNC_NAKED Damage CrewMember::GetRoomDamage()
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func371::func));
 	__asm__
@@ -13333,6 +13649,7 @@ FUNC_NAKED void CrewMember::constructor(CrewBlueprint &blueprint, int shipId, bo
 		"push [ebp+16]\n\t"		// intruder
 		"push [ebp+12]\n\t"		// shipId
 		"push [ebp+8]\n\t"		// blueprint
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func372::func));
 	__asm__
@@ -13368,6 +13685,7 @@ FUNC_NAKED void CrewMember::Jump()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func373::func));
 	__asm__
@@ -13402,6 +13720,7 @@ FUNC_NAKED bool CrewMember::NeedsIntruderSlot()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func374::func));
 	__asm__
@@ -13436,6 +13755,7 @@ FUNC_NAKED void CrewMember::SetOutOfGame()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func375::func));
 	__asm__
@@ -13470,6 +13790,7 @@ FUNC_NAKED float CrewMember::PositionShift()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func376::func));
 	__asm__
@@ -13505,6 +13826,7 @@ FUNC_NAKED void CrewMember::SaveState(int fileHelper)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// fileHelper
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func377::func));
 	__asm__
@@ -13539,6 +13861,7 @@ FUNC_NAKED bool CrewMember::CanTeleport()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func378::func));
 	__asm__
@@ -13573,6 +13896,7 @@ FUNC_NAKED void CrewMember::destructor()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func379::func));
 	__asm__
@@ -13608,6 +13932,7 @@ FUNC_NAKED void CrewMember::Cleanup()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func380::func));
 	__asm__
@@ -13644,6 +13969,7 @@ FUNC_NAKED void CrewMember::LoadState(int fileHelper)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// fileHelper
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func381::func));
 	__asm__
@@ -13680,6 +14006,7 @@ FUNC_NAKED void CrewMember::SetCurrentSystem(ShipSystem *sys)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// sys
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func382::func));
 	__asm__
@@ -13714,6 +14041,7 @@ FUNC_NAKED bool CrewMember::IsManningArtillery()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func383::func));
 	__asm__
@@ -13749,6 +14077,7 @@ FUNC_NAKED void CrewMember::IncreaseSkill(int skillId)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// skillId
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func384::func));
 	__asm__
@@ -13784,6 +14113,7 @@ FUNC_NAKED void CrewMember::CheckSkills()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func385::func));
 	__asm__
@@ -13820,6 +14150,7 @@ FUNC_NAKED void CrewMember::MasterSkill(int skillId)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// skillId
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func386::func));
 	__asm__
@@ -13891,6 +14222,7 @@ FUNC_NAKED void CrewMember::SetResisted(bool resisted)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// resisted
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func388::func));
 	__asm__
@@ -13925,6 +14257,7 @@ FUNC_NAKED bool CrewMember::GetResisted()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func389::func));
 	__asm__
@@ -13961,6 +14294,7 @@ FUNC_NAKED void CrewMember::SetSkillProgress(int skillId, int skillLevel)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// skillLevel
 		"push [ebp+8]\n\t"		// skillId
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func390::func));
 	__asm__
@@ -13996,6 +14330,7 @@ FUNC_NAKED int CrewMember::GetSkillLevel(int skillId)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// skillId
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func391::func));
 	__asm__
@@ -14029,6 +14364,7 @@ FUNC_NAKED std::pair<int, int> CrewMember::GetSkillProgress(int skillId)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// skillId
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func392::func));
 	__asm__
@@ -14063,6 +14399,7 @@ FUNC_NAKED void CrewMember::GetSkillModifier(int skillId)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// skillId
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func393::func));
 	__asm__
@@ -14097,6 +14434,7 @@ FUNC_NAKED bool CrewMember::BadAtCombat()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func394::func));
 	__asm__
@@ -14131,6 +14469,7 @@ FUNC_NAKED void CrewMember::EmptySlot()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func395::func));
 	__asm__
@@ -14165,6 +14504,7 @@ FUNC_NAKED bool CrewMember::NeedsSlot()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func396::func));
 	__asm__
@@ -14199,6 +14539,7 @@ FUNC_NAKED bool CrewMember::DirectModifyHealth(float health)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// health
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func397::func));
 	__asm__
@@ -14234,6 +14575,7 @@ FUNC_NAKED void CrewMember::ModifyHealth(float health)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// health
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func398::func));
 	__asm__
@@ -14269,6 +14611,7 @@ FUNC_NAKED bool CrewMember::ApplyDamage(float damage)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// damage
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func399::func));
 	__asm__
@@ -14302,6 +14645,7 @@ FUNC_NAKED bool CrewMember::RepairingSystem()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func400::func));
 	__asm__
@@ -14335,6 +14679,7 @@ FUNC_NAKED bool CrewMember::Sabotaging()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func401::func));
 	__asm__
@@ -14368,6 +14713,7 @@ FUNC_NAKED bool CrewMember::RepairingFire()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func402::func));
 	__asm__
@@ -14401,6 +14747,7 @@ FUNC_NAKED void *CrewMember::SelectSabotageTarget()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func403::func));
 	__asm__
@@ -14435,6 +14782,7 @@ FUNC_NAKED void CrewMember::SavePosition()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func404::func));
 	__asm__
@@ -14470,6 +14818,7 @@ FUNC_NAKED void CrewMember::ClearPosition()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func405::func));
 	__asm__
@@ -14505,6 +14854,7 @@ FUNC_NAKED Slot CrewMember::GetSavedPosition()
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func406::func));
 	__asm__
@@ -14543,6 +14893,7 @@ FUNC_NAKED void CrewMember::SetSavePosition(Slot position)
 		"push [ebp+16]\n\t"		// position
 		"push [ebp+12]\n\t"		// position
 		"push [ebp+8]\n\t"		// position
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func407::func));
 	__asm__
@@ -14578,6 +14929,7 @@ FUNC_NAKED void CrewMember::StopRepairing()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func408::func));
 	__asm__
@@ -14612,6 +14964,7 @@ FUNC_NAKED bool CrewMember::Repairing()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func409::func));
 	__asm__
@@ -14647,6 +15000,7 @@ FUNC_NAKED void CrewMember::SetFrozen(bool frozen)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// frozen
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func410::func));
 	__asm__
@@ -14683,6 +15037,7 @@ FUNC_NAKED void CrewMember::SetFrozenLocation(bool frozenLocation)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// frozenLocation
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func411::func));
 	__asm__
@@ -14721,6 +15076,7 @@ FUNC_NAKED void CrewMember::SetCrewTask(CrewTask task)
 		"push [ebp+16]\n\t"		// task
 		"push [ebp+12]\n\t"		// task
 		"push [ebp+8]\n\t"		// task
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func412::func));
 	__asm__
@@ -14758,6 +15114,7 @@ FUNC_NAKED Slot *CrewMember::FindSlot(int unk1, int roomId, bool unk2)
 		"push [ebp+16]\n\t"		// unk2
 		"push [ebp+12]\n\t"		// roomId
 		"push [ebp+8]\n\t"		// unk1
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func413::func));
 	__asm__
@@ -14792,6 +15149,7 @@ FUNC_NAKED bool CrewMember::CheckRoomPath(int roomId)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// roomId
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func414::func));
 	__asm__
@@ -14828,6 +15186,7 @@ FUNC_NAKED void CrewMember::SetPosition(Point pos)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// pos
 		"push [ebp+8]\n\t"		// pos
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func415::func));
 	__asm__
@@ -14863,6 +15222,7 @@ FUNC_NAKED void CrewMember::ClearTask()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func416::func));
 	__asm__
@@ -14898,6 +15258,7 @@ FUNC_NAKED void CrewMember::ClearPath()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func417::func));
 	__asm__
@@ -14934,6 +15295,7 @@ FUNC_NAKED void CrewMember::SetRoom(int roomId)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// roomId
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func418::func));
 	__asm__
@@ -14968,6 +15330,7 @@ FUNC_NAKED bool CrewMember::IsBusy()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func419::func));
 	__asm__
@@ -15001,6 +15364,7 @@ FUNC_NAKED bool CrewMember::OnInit()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func420::func));
 	__asm__
@@ -15034,6 +15398,7 @@ FUNC_NAKED void *CrewMember::GetFinalGoal()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func421::func));
 	__asm__
@@ -15067,6 +15432,7 @@ FUNC_NAKED void *CrewMember::GetNextGoal()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func422::func));
 	__asm__
@@ -15102,6 +15468,7 @@ FUNC_NAKED void CrewMember::CloseDoorBehind(Door *door)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// door
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func423::func));
 	__asm__
@@ -15136,6 +15503,7 @@ FUNC_NAKED float CrewMember::GetMoveSpeed()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func424::func));
 	__asm__
@@ -15170,6 +15538,7 @@ FUNC_NAKED void CrewMember::Restart()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func425::func));
 	__asm__
@@ -15206,6 +15575,7 @@ FUNC_NAKED void CrewMember::SetDamageBoost(float damageBoost)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// damageBoost
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func426::func));
 	__asm__
@@ -15242,6 +15612,7 @@ FUNC_NAKED void CrewMember::SetHealthBoost(int healthBoost)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// healthBoost
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func427::func));
 	__asm__
@@ -15277,6 +15648,7 @@ FUNC_NAKED void CrewMember::InitializeSkills()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func428::func));
 	__asm__
@@ -15313,6 +15685,7 @@ FUNC_NAKED void CrewMember::SetCloneReady(bool cloneReady)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// cloneReady
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func429::func));
 	__asm__
@@ -15348,6 +15721,7 @@ FUNC_NAKED void CrewMember::Kill()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func430::func));
 	__asm__
@@ -15382,6 +15756,7 @@ FUNC_NAKED bool CrewMember::NeedFrozenLocation()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func431::func));
 	__asm__
@@ -15417,6 +15792,7 @@ FUNC_NAKED void CrewMember::SetCurrentShip(int shipId)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// shipId
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func432::func));
 	__asm__
@@ -15452,6 +15828,7 @@ FUNC_NAKED void CrewMember::CheckFighting()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func433::func));
 	__asm__
@@ -15488,6 +15865,7 @@ FUNC_NAKED void CrewMember::SetDeathNumber(int deathNum)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// deathNum
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func434::func));
 	__asm__
@@ -15524,6 +15902,7 @@ FUNC_NAKED void CrewMember::ForceMindControl(bool force)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// force
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func435::func));
 	__asm__
@@ -15561,6 +15940,7 @@ FUNC_NAKED void CrewMember::RenderSkillUpAnimation(Point pos)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// pos
 		"push [ebp+8]\n\t"		// pos
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func436::func));
 	__asm__
@@ -15596,6 +15976,7 @@ FUNC_NAKED void CrewMember::Clone()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func437::func));
 	__asm__
@@ -15631,6 +16012,7 @@ FUNC_NAKED void CrewMember::UpdateHealth()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func438::func));
 	__asm__
@@ -15666,6 +16048,7 @@ FUNC_NAKED void CrewMember::OnRenderPath()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func439::func));
 	__asm__
@@ -15700,6 +16083,7 @@ FUNC_NAKED bool CrewMember::SetPath()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func440::func));
 	__asm__
@@ -15736,6 +16120,7 @@ FUNC_NAKED void CrewMember::SetRoomPath(int roomId, int slotId)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// slotId
 		"push [ebp+8]\n\t"		// roomId
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func441::func));
 	__asm__
@@ -15770,6 +16155,7 @@ FUNC_NAKED void *CrewMember::GetLocation()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func442::func));
 	__asm__
@@ -15803,6 +16189,7 @@ FUNC_NAKED bool CrewMember::AtGoal()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func443::func));
 	__asm__
@@ -15836,6 +16223,7 @@ FUNC_NAKED bool CrewMember::AtFinalGoal()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func444::func));
 	__asm__
@@ -15870,6 +16258,7 @@ FUNC_NAKED void CrewMember::OnRenderHealth()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func445::func));
 	__asm__
@@ -15904,6 +16293,7 @@ FUNC_NAKED int CrewMember::GetIntegerHealth()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func446::func));
 	__asm__
@@ -15937,6 +16327,7 @@ FUNC_NAKED int CrewMember::GetRepairingId()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func447::func));
 	__asm__
@@ -15974,6 +16365,7 @@ FUNC_NAKED bool CrewMember::WithinRect(int x, int y, int w, int h)
 		"push [ebp+16]\n\t"		// w
 		"push [ebp+12]\n\t"		// y
 		"push [ebp+8]\n\t"		// x
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func448::func));
 	__asm__
@@ -16008,6 +16400,7 @@ FUNC_NAKED std::string CrewMember::GetLongName()
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func449::func));
 	__asm__
@@ -16052,6 +16445,7 @@ FUNC_NAKED void CrewMember::SetName(TextString name, bool force)
 		"push [ebp+16]\n\t"		// name
 		"push [ebp+12]\n\t"		// name
 		"push [ebp+8]\n\t"		// name
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func450::func));
 	__asm__
@@ -16087,6 +16481,7 @@ FUNC_NAKED std::string CrewMember::GetName()
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func451::func));
 	__asm__
@@ -16123,6 +16518,7 @@ FUNC_NAKED void CrewMember::SetCurrentTarget(CrewTarget *target, bool unk)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// unk
 		"push [ebp+8]\n\t"		// target
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func452::func));
 	__asm__
@@ -16158,6 +16554,7 @@ FUNC_NAKED void CrewMember::CheckForTeleport()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func453::func));
 	__asm__
@@ -16192,6 +16589,7 @@ FUNC_NAKED char CrewMember::GetNewGoal()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func454::func));
 	__asm__
@@ -16228,6 +16626,7 @@ FUNC_NAKED bool CrewMember::MoveToRoom(int roomId, int slotId, bool forceMove)
 		"push [ebp+16]\n\t"		// forceMove
 		"push [ebp+12]\n\t"		// slotId
 		"push [ebp+8]\n\t"		// roomId
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func455::func));
 	__asm__
@@ -16263,6 +16662,7 @@ FUNC_NAKED void CrewMember::SetMindControl(bool controlled)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// controlled
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func456::func));
 	__asm__
@@ -16297,6 +16697,7 @@ FUNC_NAKED bool CrewMember::RestorePosition()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func457::func));
 	__asm__
@@ -16332,6 +16733,7 @@ FUNC_NAKED bool CrewMember::ContainsPoint(int x, int y)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// y
 		"push [ebp+8]\n\t"		// x
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func458::func));
 	__asm__
@@ -16367,6 +16769,7 @@ FUNC_NAKED void CrewMember::SetMedbay(float health)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// health
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func459::func));
 	__asm__
@@ -16402,6 +16805,7 @@ FUNC_NAKED void CrewMember::StartTeleport()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func460::func));
 	__asm__
@@ -16437,6 +16841,7 @@ FUNC_NAKED void CrewMember::StartTeleportArrive()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func461::func));
 	__asm__
@@ -16473,6 +16878,7 @@ FUNC_NAKED void CrewMember::StartRepair(Repairable *toRepair)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// toRepair
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func462::func));
 	__asm__
@@ -16508,6 +16914,7 @@ FUNC_NAKED void CrewMember::UpdateRepair()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func463::func));
 	__asm__
@@ -16543,6 +16950,7 @@ FUNC_NAKED void CrewMember::UpdateMovement()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func464::func));
 	__asm__
@@ -16578,6 +16986,7 @@ FUNC_NAKED void CrewMember::OnLoop()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func465::func));
 	__asm__
@@ -16614,6 +17023,7 @@ FUNC_NAKED void CrewMember::SetSex(bool male)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// male
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func466::func));
 	__asm__
@@ -16650,6 +17060,7 @@ FUNC_NAKED void CrewMember::CycleColorLayer(int unk)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// unk
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func467::func));
 	__asm__
@@ -16684,6 +17095,7 @@ FUNC_NAKED bool CrewMember::Functional()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func468::func));
 	__asm__
@@ -16718,6 +17130,7 @@ FUNC_NAKED bool CrewMember::InsideRoom(int roomId)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// roomId
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func469::func));
 	__asm__
@@ -16752,6 +17165,7 @@ FUNC_NAKED bool CrewMember::ShipDamage(float damage)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// damage
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func470::func));
 	__asm__
@@ -16785,6 +17199,7 @@ FUNC_NAKED bool CrewMember::GetControllable()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func471::func));
 	__asm__
@@ -16819,6 +17234,7 @@ FUNC_NAKED std::string CrewMember::GetUniqueRepairing()
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func472::func));
 	__asm__
@@ -16856,6 +17272,7 @@ FUNC_NAKED void CrewMember::SetTask(CrewTask task)
 		"push [ebp+16]\n\t"		// task
 		"push [ebp+12]\n\t"		// task
 		"push [ebp+8]\n\t"		// task
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func473::func));
 	__asm__
@@ -16891,6 +17308,7 @@ FUNC_NAKED std::string CrewMember::GetTooltip()
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func474::func));
 	__asm__
@@ -16924,6 +17342,7 @@ FUNC_NAKED bool CrewMember::CountForVictory()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func475::func));
 	__asm__
@@ -16958,6 +17377,7 @@ FUNC_NAKED void CrewMemberFactory::destructor()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func476::func));
 	__asm__
@@ -16993,6 +17413,7 @@ FUNC_NAKED void CrewMemberFactory::Restart()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func477::func));
 	__asm__
@@ -17028,6 +17449,7 @@ FUNC_NAKED int CrewMemberFactory::CountCloneReadyCrew(bool player)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// player
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func478::func));
 	__asm__
@@ -17061,6 +17483,7 @@ FUNC_NAKED int CrewMemberFactory::GetPlayerCrewCount()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func479::func));
 	__asm__
@@ -17094,6 +17517,7 @@ FUNC_NAKED int CrewMemberFactory::GetEnemyCloneCount()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func480::func));
 	__asm__
@@ -17128,6 +17552,7 @@ FUNC_NAKED int CrewMemberFactory::GetCrewCount(bool enemy)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// enemy
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func481::func));
 	__asm__
@@ -17161,6 +17586,7 @@ FUNC_NAKED int CrewMemberFactory::GetEnemyCrewCount()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func482::func));
 	__asm__
@@ -17263,6 +17689,7 @@ FUNC_NAKED std::vector<std::string> CrewMemberFactory::GetCrewNames()
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func485::func));
 	__asm__
@@ -17298,6 +17725,7 @@ FUNC_NAKED RepairDrone *CrewMemberFactory::CreateRepairDrone(int shipId, const D
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// bp
 		"push [ebp+8]\n\t"		// shipId
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func486::func));
 	__asm__
@@ -17334,6 +17762,7 @@ FUNC_NAKED void CrewMemberFactory::GetCrewPortraitList(std::vector<CrewMember*> 
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// teamId
 		"push [ebp+8]\n\t"		// vec
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func487::func));
 	__asm__
@@ -17371,6 +17800,7 @@ FUNC_NAKED void CrewMemberFactory::GetCloneReadyList(std::vector<CrewMember*> &v
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// player
 		"push [ebp+8]\n\t"		// vec
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func488::func));
 	__asm__
@@ -17407,6 +17837,7 @@ FUNC_NAKED BattleDrone *CrewMemberFactory::CreateBattleDrone(int shipId, const D
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// bp
 		"push [ebp+8]\n\t"		// shipId
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func489::func));
 	__asm__
@@ -17444,6 +17875,7 @@ FUNC_NAKED void CrewMemberFactory::GetCrewList(std::vector<CrewMember*> *vec, in
 		"push [ebp+16]\n\t"		// unk2
 		"push [ebp+12]\n\t"		// unk
 		"push [ebp+8]\n\t"		// vec
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func490::func));
 	__asm__
@@ -17480,6 +17912,7 @@ FUNC_NAKED BoarderDrone *CrewMemberFactory::CreateBoarderDrone(int shipId, const
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// bp
 		"push [ebp+8]\n\t"		// shipId
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func491::func));
 	__asm__
@@ -17514,6 +17947,7 @@ FUNC_NAKED void CrewMemberFactory::OnLoop()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func492::func));
 	__asm__
@@ -17549,6 +17983,7 @@ FUNC_NAKED void CrewMemberFactory::RemoveExcessCrew()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func493::func));
 	__asm__
@@ -17586,6 +18021,7 @@ FUNC_NAKED CrewMember *CrewMemberFactory::CreateCrewMember(CrewBlueprint *bp, in
 		"push [ebp+16]\n\t"		// intruder
 		"push [ebp+12]\n\t"		// shipId
 		"push [ebp+8]\n\t"		// bp
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func494::func));
 	__asm__
@@ -17627,6 +18063,7 @@ FUNC_NAKED void CrewStoreBox::Purchase()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func496::func));
 	__asm__
@@ -17665,6 +18102,7 @@ FUNC_NAKED void CrewStoreBox::constructor(ShipManager *ship, int worldLevel, con
 		"push [ebp+16]\n\t"		// type
 		"push [ebp+12]\n\t"		// worldLevel
 		"push [ebp+8]\n\t"		// ship
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func497::func));
 	__asm__
@@ -17704,6 +18142,7 @@ FUNC_NAKED void DamageMessage::constructor(float length, Pointf pos, DamageMessa
 		"push [ebp+16]\n\t"		// pos
 		"push [ebp+12]\n\t"		// pos
 		"push [ebp+8]\n\t"		// length
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func498::func));
 	__asm__
@@ -17744,6 +18183,7 @@ FUNC_NAKED void DamageMessage::constructor2(float length, int amount, Pointf pos
 		"push [ebp+16]\n\t"		// pos
 		"push [ebp+12]\n\t"		// amount
 		"push [ebp+8]\n\t"		// length
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func499::func));
 	__asm__
@@ -17813,6 +18253,7 @@ FUNC_NAKED bool DefenseDrone::ValidTargetObject(Targetable &target)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// target
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func501::func));
 	__asm__
@@ -17848,6 +18289,7 @@ FUNC_NAKED void DefenseDrone::SetWeaponTarget(Targetable &target)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// target
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func502::func));
 	__asm__
@@ -17883,6 +18325,7 @@ FUNC_NAKED void DefenseDrone::PickTarget()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func503::func));
 	__asm__
@@ -17918,6 +18361,7 @@ FUNC_NAKED std::string DefenseDrone::GetTooltip()
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func504::func));
 	__asm__
@@ -17952,6 +18396,7 @@ FUNC_NAKED void Description::constructor()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func505::func));
 	__asm__
@@ -17987,6 +18432,7 @@ FUNC_NAKED Description &Description::copy_assign_1(Description &&other)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// other
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func506::func));
 	__asm__
@@ -18021,6 +18467,7 @@ FUNC_NAKED Description &Description::copy_assign_2(const Description &other)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// other
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func507::func));
 	__asm__
@@ -18055,6 +18502,7 @@ FUNC_NAKED void Description::destructor()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func508::func));
 	__asm__
@@ -18090,6 +18538,7 @@ FUNC_NAKED void Door::FakeClose()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func509::func));
 	__asm__
@@ -18125,6 +18574,7 @@ FUNC_NAKED bool Door::IsSealed(int shipId)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// shipId
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func510::func));
 	__asm__
@@ -18159,6 +18609,7 @@ FUNC_NAKED void Door::FakeOpen()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func511::func));
 	__asm__
@@ -18194,6 +18645,7 @@ FUNC_NAKED void Door::OnLoop()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func512::func));
 	__asm__
@@ -18233,6 +18685,7 @@ FUNC_NAKED void DoorBox::constructor(Point pos, ShipSystem *sys, ShipManager *sh
 		"push [ebp+16]\n\t"		// sys
 		"push [ebp+12]\n\t"		// pos
 		"push [ebp+8]\n\t"		// pos
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func513::func));
 	__asm__
@@ -18269,6 +18722,7 @@ FUNC_NAKED void DroneBlueprint::RenderIcon(float scale)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// scale
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func514::func));
 	__asm__
@@ -18307,6 +18761,7 @@ FUNC_NAKED void DroneStoreBox::constructor(ShipManager *ship, Equipment *equip, 
 		"push [ebp+16]\n\t"		// bp
 		"push [ebp+12]\n\t"		// equip
 		"push [ebp+8]\n\t"		// ship
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func515::func));
 	__asm__
@@ -18343,6 +18798,7 @@ FUNC_NAKED void DroneSystem::RemoveDrone(int slot)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// slot
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func516::func));
 	__asm__
@@ -18378,6 +18834,7 @@ FUNC_NAKED void DroneSystem::UpdateBonusPower()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func517::func));
 	__asm__
@@ -18415,6 +18872,7 @@ FUNC_NAKED void DroneSystem::SetBonusPower(int amount, int permanentPower)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// permanentPower
 		"push [ebp+8]\n\t"		// amount
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func518::func));
 	__asm__
@@ -18450,6 +18908,7 @@ FUNC_NAKED void DroneSystem::OnLoop()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func519::func));
 	__asm__
@@ -18486,6 +18945,7 @@ FUNC_NAKED bool DroneSystem::DePowerDrone(Drone *drone, bool unk)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// unk
 		"push [ebp+8]\n\t"		// drone
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func520::func));
 	__asm__
@@ -18520,6 +18980,7 @@ FUNC_NAKED void DropBox::OnRender()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func521::func));
 	__asm__
@@ -18554,6 +19015,7 @@ FUNC_NAKED int DropBox::GetHeight()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func522::func));
 	__asm__
@@ -18588,6 +19050,7 @@ FUNC_NAKED void EnergyAlien::OnLoop()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func523::func));
 	__asm__
@@ -18623,6 +19086,7 @@ FUNC_NAKED Damage EnergyAlien::GetRoomDamage()
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func524::func));
 	__asm__
@@ -18658,6 +19122,7 @@ FUNC_NAKED void Equipment::OnInit(ShipManager *ship)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// ship
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func525::func));
 	__asm__
@@ -18693,6 +19158,7 @@ FUNC_NAKED void Equipment::OnLoop()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func526::func));
 	__asm__
@@ -18730,6 +19196,7 @@ FUNC_NAKED void Equipment::MouseClick(int mX, int mY)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// mY
 		"push [ebp+8]\n\t"		// mX
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func527::func));
 	__asm__
@@ -18767,6 +19234,7 @@ FUNC_NAKED void Equipment::MouseUp(int mX, int mY)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// mY
 		"push [ebp+8]\n\t"		// mX
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func528::func));
 	__asm__
@@ -18805,6 +19273,7 @@ FUNC_NAKED void Equipment::AddWeapon(WeaponBlueprint *bp, bool unk1, bool unk2)
 		"push [ebp+16]\n\t"		// unk2
 		"push [ebp+12]\n\t"		// unk1
 		"push [ebp+8]\n\t"		// bp
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func529::func));
 	__asm__
@@ -18843,6 +19312,7 @@ FUNC_NAKED void Equipment::AddDrone(DroneBlueprint *bp, bool unk1, bool unk2)
 		"push [ebp+16]\n\t"		// unk2
 		"push [ebp+12]\n\t"		// unk1
 		"push [ebp+8]\n\t"		// bp
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func530::func));
 	__asm__
@@ -18881,6 +19351,7 @@ FUNC_NAKED void Equipment::AddAugment(AugmentBlueprint *bp, bool unk1, bool unk2
 		"push [ebp+16]\n\t"		// unk2
 		"push [ebp+12]\n\t"		// unk1
 		"push [ebp+8]\n\t"		// bp
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func531::func));
 	__asm__
@@ -18917,6 +19388,7 @@ FUNC_NAKED void Equipment::AddToCargo(std::string &name)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// name
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func532::func));
 	__asm__
@@ -18952,6 +19424,7 @@ FUNC_NAKED std::vector<std::string> Equipment::GetCargoHold()
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func533::func));
 	__asm__
@@ -18989,6 +19462,7 @@ FUNC_NAKED void EquipmentBox::constructor(Point pos, int slot)
 		"push [ebp+16]\n\t"		// slot
 		"push [ebp+12]\n\t"		// pos
 		"push [ebp+8]\n\t"		// pos
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func534::func));
 	__asm__
@@ -19023,6 +19497,7 @@ FUNC_NAKED Blueprint *EquipmentBox::GetBlueprint()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func535::func));
 	__asm__
@@ -19059,6 +19534,7 @@ FUNC_NAKED void EquipmentBox::SetBlueprint(InfoBox *infoBox, bool detailedBox)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// detailedBox
 		"push [ebp+8]\n\t"		// infoBox
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func536::func));
 	__asm__
@@ -19094,6 +19570,7 @@ FUNC_NAKED EquipmentBox::~EquipmentBox()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func537::func));
 	__asm__
@@ -19128,6 +19605,7 @@ FUNC_NAKED bool EquipmentBox::CanHoldWeapon()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func538::func));
 	__asm__
@@ -19161,6 +19639,7 @@ FUNC_NAKED bool EquipmentBox::CanHoldDrone()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func539::func));
 	__asm__
@@ -19194,6 +19673,7 @@ FUNC_NAKED int EquipmentBox::GetType()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func540::func));
 	__asm__
@@ -19229,6 +19709,7 @@ FUNC_NAKED void EquipmentBox::OnRender(bool isEmpty)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// isEmpty
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func541::func));
 	__asm__
@@ -19265,6 +19746,7 @@ FUNC_NAKED void EquipmentBox::UpdateBoxImage(bool unk)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// unk
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func542::func));
 	__asm__
@@ -19301,6 +19783,7 @@ FUNC_NAKED void EquipmentBox::RenderLabels(bool unk)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// unk
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func543::func));
 	__asm__
@@ -19337,6 +19820,7 @@ FUNC_NAKED int EquipmentBox::MouseMove(int x, int y)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// y
 		"push [ebp+8]\n\t"		// x
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func544::func));
 	__asm__
@@ -19375,6 +19859,7 @@ FUNC_NAKED void EquipmentBox::AddItem(EquipmentBoxItem item)
 		"push [ebp+16]\n\t"		// item
 		"push [ebp+12]\n\t"		// item
 		"push [ebp+8]\n\t"		// item
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func545::func));
 	__asm__
@@ -19410,6 +19895,7 @@ FUNC_NAKED void EquipmentBox::Restart()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func546::func));
 	__asm__
@@ -19447,6 +19933,7 @@ FUNC_NAKED void EquipmentBox::SetPosition(Point pos)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// pos
 		"push [ebp+8]\n\t"		// pos
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func547::func));
 	__asm__
@@ -19481,6 +19968,7 @@ FUNC_NAKED int EquipmentBox::GetItemValue()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func548::func));
 	__asm__
@@ -19518,6 +20006,7 @@ FUNC_NAKED LocationEvent *EventGenerator::GetBaseEvent(const std::string &name, 
 		"push [ebp+16]\n\t"		// ignoreUnique
 		"push [ebp+12]\n\t"		// worldLevel
 		"push [ebp+8]\n\t"		// name
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func549::func));
 	__asm__
@@ -19553,6 +20042,7 @@ FUNC_NAKED LocationEvent *EventGenerator::CreateEvent1(const std::string &name, 
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// worldLevel
 		"push [ebp+8]\n\t"		// name
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func550::func));
 	__asm__
@@ -19588,6 +20078,7 @@ FUNC_NAKED SectorDescription EventGenerator::GetSpecificSector(const std::string
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// name
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func551::func));
 	__asm__
@@ -19623,6 +20114,7 @@ FUNC_NAKED std::string EventGenerator::GetImageFromList(const std::string &listN
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// listName
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func552::func));
 	__asm__
@@ -19659,6 +20151,7 @@ FUNC_NAKED SectorDescription EventGenerator::GetSectorDescription(const std::str
 		"push [ebp+16]\n\t"		// level
 		"push [ebp+12]\n\t"		// type
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func553::func));
 	__asm__
@@ -19701,6 +20194,7 @@ FUNC_NAKED void EventSystem::AddEvent(int id)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// id
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func555::func));
 	__asm__
@@ -19736,6 +20230,7 @@ FUNC_NAKED bool EventSystem::PollEvent(int id)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// id
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func556::func));
 	__asm__
@@ -19779,6 +20274,7 @@ FUNC_NAKED RandomAmount EventsParser::PullMinMax(rapidxml::xml_node<char> *node,
 		"push [ebp+16]\n\t"		// name
 		"push [ebp+12]\n\t"		// node
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func558::func));
 	__asm__
@@ -19815,6 +20311,7 @@ FUNC_NAKED std::string EventsParser::ProcessEvent(rapidxml::xml_node<char> *node
 		"push [ebp+16]\n\t"		// eventName
 		"push [ebp+12]\n\t"		// node
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func559::func));
 	__asm__
@@ -19850,6 +20347,7 @@ FUNC_NAKED ShipTemplate EventsParser::ProcessShipEvent(rapidxml::xml_node<char> 
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// node
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func560::func));
 	__asm__
@@ -19887,6 +20385,7 @@ FUNC_NAKED ResourcesTemplate EventsParser::ProcessModifyItem(ResourcesTemplate &
 		"push [ebp+16]\n\t"		// node
 		"push [ebp+12]\n\t"		// resources
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func561::func));
 	__asm__
@@ -19921,6 +20420,7 @@ FUNC_NAKED void EventsParser::AddAllEvents()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func562::func));
 	__asm__
@@ -19959,6 +20459,7 @@ FUNC_NAKED void EventsParser::AddEvents(EventGenerator &generator, char *file, c
 		"push [ebp+16]\n\t"		// fileName
 		"push [ebp+12]\n\t"		// file
 		"push [ebp+8]\n\t"		// generator
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func563::func));
 	__asm__
@@ -19996,6 +20497,7 @@ FUNC_NAKED std::vector<std::string> EventsParser::ProcessEventList(rapidxml::xml
 		"push [ebp+16]\n\t"		// listName
 		"push [ebp+12]\n\t"		// node
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func564::func));
 	__asm__
@@ -20032,6 +20534,7 @@ FUNC_NAKED void EventsParser::ProcessBaseNode(rapidxml::xml_node<char> *node, Ev
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// generator
 		"push [ebp+8]\n\t"		// node
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func565::func));
 	__asm__
@@ -20078,6 +20581,7 @@ FUNC_NAKED void ExplosionAnimation::OnInit(rapidxml::xml_node<char> *node, const
 		"push [ebp+16]\n\t"		// glowOffset
 		"push [ebp+12]\n\t"		// name
 		"push [ebp+8]\n\t"		// node
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func567::func));
 	__asm__
@@ -20113,6 +20617,7 @@ FUNC_NAKED void FTLButton::OnRender()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func568::func));
 	__asm__
@@ -21173,6 +21678,7 @@ FUNC_NAKED void Fire::OnLoop()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func598::func));
 	__asm__
@@ -21209,6 +21715,7 @@ FUNC_NAKED void Fire::UpdateStartTimer(int doorLevel)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// doorLevel
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func599::func));
 	__asm__
@@ -21245,6 +21752,7 @@ FUNC_NAKED void Fire::UpdateDeathTimer(int connectedFires)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// connectedFires
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func600::func));
 	__asm__
@@ -21282,6 +21790,7 @@ FUNC_NAKED void FocusWindow::MouseClick(int x, int y)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// y
 		"push [ebp+8]\n\t"		// x
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func601::func));
 	__asm__
@@ -21318,6 +21827,7 @@ FUNC_NAKED void GameOver::OpenText(const std::string &text)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// text
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func602::func));
 	__asm__
@@ -21353,6 +21863,7 @@ FUNC_NAKED void GameOver::OnRender()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func603::func));
 	__asm__
@@ -21388,6 +21899,7 @@ FUNC_NAKED void GameOver::OnLoop()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func604::func));
 	__asm__
@@ -21425,6 +21937,7 @@ FUNC_NAKED void GenericButton::SetLocation(Point pos)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// pos
 		"push [ebp+8]\n\t"		// pos
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func605::func));
 	__asm__
@@ -21461,6 +21974,7 @@ FUNC_NAKED void GenericButton::SetActive(bool active)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// active
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func606::func));
 	__asm__
@@ -21499,6 +22013,7 @@ FUNC_NAKED void GenericButton::MouseMove(int x, int y, bool silent)
 		"push [ebp+16]\n\t"		// silent
 		"push [ebp+12]\n\t"		// y
 		"push [ebp+8]\n\t"		// x
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func607::func));
 	__asm__
@@ -21534,6 +22049,7 @@ FUNC_NAKED void GenericButton::OnRightClick()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func608::func));
 	__asm__
@@ -21569,6 +22085,7 @@ FUNC_NAKED void GenericButton::ResetPrimitives()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func609::func));
 	__asm__
@@ -21604,6 +22121,7 @@ FUNC_NAKED void GenericButton::OnClick()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func610::func));
 	__asm__
@@ -21944,6 +22462,7 @@ FUNC_NAKED void HackBox::constructor(Point pos, HackingSystem *sys, ShipManager 
 		"push [ebp+16]\n\t"		// sys
 		"push [ebp+12]\n\t"		// pos
 		"push [ebp+8]\n\t"		// pos
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func620::func));
 	__asm__
@@ -21979,6 +22498,7 @@ FUNC_NAKED void HackingDrone::OnLoop()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func621::func));
 	__asm__
@@ -22015,6 +22535,7 @@ FUNC_NAKED void HackingDrone::SetMovementTarget(Targetable &target)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// target
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func622::func));
 	__asm__
@@ -22050,6 +22571,7 @@ FUNC_NAKED void HackingSystem::BlowHackingDrone()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func623::func));
 	__asm__
@@ -22085,6 +22607,7 @@ FUNC_NAKED void HackingSystem::OnLoop()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func624::func));
 	__asm__
@@ -22120,6 +22643,7 @@ FUNC_NAKED void InfoBox::OnRender()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func625::func));
 	__asm__
@@ -22154,6 +22678,7 @@ FUNC_NAKED int InfoBox::Clear()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func626::func));
 	__asm__
@@ -22191,6 +22716,7 @@ FUNC_NAKED int InfoBox::SetDescription(Description *desc, int width, int height,
 		"push [ebp+16]\n\t"		// height
 		"push [ebp+12]\n\t"		// width
 		"push [ebp+8]\n\t"		// desc
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func627::func));
 	__asm__
@@ -22230,6 +22756,7 @@ FUNC_NAKED void InfoBox::SetText(const std::string &title, const std::string &te
 		"push [ebp+16]\n\t"		// width
 		"push [ebp+12]\n\t"		// text
 		"push [ebp+8]\n\t"		// title
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func628::func));
 	__asm__
@@ -22269,6 +22796,7 @@ FUNC_NAKED void InfoBox::SetBlueprintWeapon(const WeaponBlueprint *bp, int statu
 		"push [ebp+16]\n\t"		// hasWeaponSystem
 		"push [ebp+12]\n\t"		// status
 		"push [ebp+8]\n\t"		// bp
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func629::func));
 	__asm__
@@ -22308,6 +22836,7 @@ FUNC_NAKED void InfoBox::SetBlueprintDrone(const DroneBlueprint *bp, int status,
 		"push [ebp+16]\n\t"		// hasDroneSystem
 		"push [ebp+12]\n\t"		// status
 		"push [ebp+8]\n\t"		// bp
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func630::func));
 	__asm__
@@ -22344,6 +22873,7 @@ FUNC_NAKED void InfoBox::SetBlueprint(const ItemBlueprint *bp)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// bp
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func631::func));
 	__asm__
@@ -22382,6 +22912,7 @@ FUNC_NAKED void InfoBox::SetBlueprintCrew(const CrewBlueprint *bp, int yShift, b
 		"push [ebp+16]\n\t"		// detailedCrew
 		"push [ebp+12]\n\t"		// yShift
 		"push [ebp+8]\n\t"		// bp
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func632::func));
 	__asm__
@@ -22418,6 +22949,7 @@ FUNC_NAKED void InfoBox::SetBlueprintAugment(const AugmentBlueprint *bp)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// bp
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func633::func));
 	__asm__
@@ -22452,6 +22984,7 @@ FUNC_NAKED int InfoBox::CalcBoxHeight()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func634::func));
 	__asm__
@@ -22485,6 +23018,7 @@ FUNC_NAKED bool InfoBox::IsEmpty()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func635::func));
 	__asm__
@@ -22519,6 +23053,7 @@ FUNC_NAKED void InfoBox::constructor()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func636::func));
 	__asm__
@@ -22560,6 +23095,7 @@ FUNC_NAKED void InfoBox::SetSystemId(int systemId, int maxPower, int currentLeve
 		"push [ebp+16]\n\t"		// currentLevel
 		"push [ebp+12]\n\t"		// maxPower
 		"push [ebp+8]\n\t"		// systemId
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func637::func));
 	__asm__
@@ -22599,6 +23135,7 @@ FUNC_NAKED void InfoBox::SetSystem(ShipSystem *system, int upgrade, int yShift, 
 		"push [ebp+16]\n\t"		// yShift
 		"push [ebp+12]\n\t"		// upgrade
 		"push [ebp+8]\n\t"		// system
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func638::func));
 	__asm__
@@ -22649,6 +23186,7 @@ FUNC_NAKED void InputBox::TextEvent(CEvent::TextEvent event)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// event
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func641::func));
 	__asm__
@@ -22684,6 +23222,7 @@ FUNC_NAKED void InputBox::StartInput()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func642::func));
 	__asm__
@@ -22719,6 +23258,7 @@ FUNC_NAKED Damage IonDrone::GetRoomDamage()
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func643::func));
 	__asm__
@@ -22755,6 +23295,7 @@ FUNC_NAKED void ItemStoreBox::constructor(ShipManager *ship, const std::string &
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// resourceName
 		"push [ebp+8]\n\t"		// ship
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func644::func));
 	__asm__
@@ -22790,6 +23331,7 @@ FUNC_NAKED void LaserBlast::OnUpdate()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func645::func));
 	__asm__
@@ -22825,6 +23367,7 @@ FUNC_NAKED void LaserBlast::OnInit()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func646::func));
 	__asm__
@@ -22875,6 +23418,7 @@ FUNC_NAKED void LocationEvent::ClearEvent(bool force)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// force
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func649::func));
 	__asm__
@@ -22910,6 +23454,7 @@ FUNC_NAKED void LocationEvent::constructor()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func650::func));
 	__asm__
@@ -22945,6 +23490,7 @@ FUNC_NAKED void LockdownShard::Update()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func651::func));
 	__asm__
@@ -22980,6 +23526,7 @@ FUNC_NAKED void MainMenu::OnRender()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func652::func));
 	__asm__
@@ -23015,6 +23562,7 @@ FUNC_NAKED void MainMenu::Open()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func653::func));
 	__asm__
@@ -23050,6 +23598,7 @@ FUNC_NAKED void MainMenu::OnLoop()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func654::func));
 	__asm__
@@ -23085,6 +23634,7 @@ FUNC_NAKED void MainMenu::constructor()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func655::func));
 	__asm__
@@ -23122,6 +23672,7 @@ FUNC_NAKED void MainMenu::MouseClick(int x, int y)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// y
 		"push [ebp+8]\n\t"		// x
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func656::func));
 	__asm__
@@ -23159,6 +23710,7 @@ FUNC_NAKED void MainMenu::MouseMove(int x, int y)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// y
 		"push [ebp+8]\n\t"		// x
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func657::func));
 	__asm__
@@ -23229,6 +23781,7 @@ FUNC_NAKED std::string MantisAnimation::GetShootingSound()
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func659::func));
 	__asm__
@@ -23298,6 +23851,7 @@ FUNC_NAKED std::string MantisAnimation::GetDeathSound()
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func661::func));
 	__asm__
@@ -23331,6 +23885,7 @@ FUNC_NAKED bool MantisAnimation::FireShot()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func662::func));
 	__asm__
@@ -23365,6 +23920,7 @@ FUNC_NAKED void MenuScreen::OnRender()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func663::func));
 	__asm__
@@ -23400,6 +23956,7 @@ FUNC_NAKED void MenuScreen::constructor()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func664::func));
 	__asm__
@@ -23438,6 +23995,7 @@ FUNC_NAKED void MindBox::constructor(Point pos, MindSystem *sys)
 		"push [ebp+16]\n\t"		// sys
 		"push [ebp+12]\n\t"		// pos
 		"push [ebp+8]\n\t"		// pos
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func665::func));
 	__asm__
@@ -23474,6 +24032,7 @@ FUNC_NAKED void MindSystem::SetArmed(int armed)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// armed
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func666::func));
 	__asm__
@@ -23509,6 +24068,7 @@ FUNC_NAKED void MindSystem::InitiateMindControl()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func667::func));
 	__asm__
@@ -23544,6 +24104,7 @@ FUNC_NAKED void MindSystem::OnLoop()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func668::func));
 	__asm__
@@ -23586,6 +24147,7 @@ FUNC_NAKED void Missile::constructor(Pointf _position, int _ownerId, int _target
 		"push [ebp+16]\n\t"		// _ownerId
 		"push [ebp+12]\n\t"		// _position
 		"push [ebp+8]\n\t"		// _position
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func669::func));
 	__asm__
@@ -23621,6 +24183,7 @@ FUNC_NAKED std::string &MouseControl::SetTooltip(const std::string &tooltip)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// tooltip
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func670::func));
 	__asm__
@@ -23656,6 +24219,7 @@ FUNC_NAKED void MouseControl::SetTooltipTitle(const std::string &tooltip)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// tooltip
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func671::func));
 	__asm__
@@ -23729,6 +24293,7 @@ FUNC_NAKED void MouseControl::QueueStaticTooltip(Point pos)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// pos
 		"push [ebp+8]\n\t"		// pos
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func673::func));
 	__asm__
@@ -23764,6 +24329,7 @@ FUNC_NAKED void MouseControl::OnLoop()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func674::func));
 	__asm__
@@ -23799,6 +24365,7 @@ FUNC_NAKED void MouseControl::InstantTooltip()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func675::func));
 	__asm__
@@ -23834,6 +24401,7 @@ FUNC_NAKED void MouseControl::OnRender()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func676::func));
 	__asm__
@@ -23870,6 +24438,7 @@ FUNC_NAKED void MouseControl::SetDoor(int state)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// state
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func677::func));
 	__asm__
@@ -23912,6 +24481,7 @@ FUNC_NAKED void OptionsScreen::OnInit()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func679::func));
 	__asm__
@@ -23947,6 +24517,7 @@ FUNC_NAKED void OptionsScreen::OnLoop()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func680::func));
 	__asm__
@@ -23985,6 +24556,7 @@ FUNC_NAKED void OxygenSystem::UpdateBreach(int roomId, int hasBreach, bool unk3)
 		"push [ebp+16]\n\t"		// unk3
 		"push [ebp+12]\n\t"		// hasBreach
 		"push [ebp+8]\n\t"		// roomId
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func681::func));
 	__asm__
@@ -24022,6 +24594,7 @@ FUNC_NAKED void OxygenSystem::UpdateAirlock(int roomId, int unk)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// unk
 		"push [ebp+8]\n\t"		// roomId
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func682::func));
 	__asm__
@@ -24058,6 +24631,7 @@ FUNC_NAKED void OxygenSystem::EmptyOxygen(int roomId)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// roomId
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func683::func));
 	__asm__
@@ -24095,6 +24669,7 @@ FUNC_NAKED void OxygenSystem::ModifyRoomOxygen(int roomId, float value)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// value
 		"push [ebp+8]\n\t"		// roomId
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func684::func));
 	__asm__
@@ -24133,6 +24708,7 @@ FUNC_NAKED void OxygenSystem::ComputeAirLoss(int roomId, float value, bool unk)
 		"push [ebp+16]\n\t"		// unk
 		"push [ebp+12]\n\t"		// value
 		"push [ebp+8]\n\t"		// roomId
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func685::func));
 	__asm__
@@ -24167,6 +24743,7 @@ FUNC_NAKED float OxygenSystem::GetRefillSpeed()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func686::func));
 	__asm__
@@ -24205,6 +24782,7 @@ FUNC_NAKED void OxygenSystem::constructor(int numRooms, int roomId, int shipId, 
 		"push [ebp+16]\n\t"		// shipId
 		"push [ebp+12]\n\t"		// roomId
 		"push [ebp+8]\n\t"		// numRooms
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func687::func));
 	__asm__
@@ -24241,6 +24819,7 @@ FUNC_NAKED void PDSFire::CollisionCheck(Collideable *other)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// other
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func688::func));
 	__asm__
@@ -24277,6 +24856,7 @@ FUNC_NAKED int Point::RelativeDistance(Point other)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// other
 		"push [ebp+8]\n\t"		// other
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func689::func));
 	__asm__
@@ -24312,6 +24892,7 @@ FUNC_NAKED int Point::Distance(Point other)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// other
 		"push [ebp+8]\n\t"		// other
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func690::func));
 	__asm__
@@ -24348,6 +24929,7 @@ FUNC_NAKED void Pointf::constructor(float x, float y)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// y
 		"push [ebp+8]\n\t"		// x
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func691::func));
 	__asm__
@@ -24384,6 +24966,7 @@ FUNC_NAKED float Pointf::RelativeDistance(Pointf other)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// other
 		"push [ebp+8]\n\t"		// other
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func692::func));
 	__asm__
@@ -24489,6 +25072,7 @@ FUNC_NAKED void Projectile::CollisionCheck(Collideable *other)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// other
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func695::func));
 	__asm__
@@ -24530,6 +25114,7 @@ FUNC_NAKED void Projectile::constructor(Pointf position, int ownerId, int target
 		"push [ebp+16]\n\t"		// ownerId
 		"push [ebp+12]\n\t"		// position
 		"push [ebp+8]\n\t"		// position
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func696::func));
 	__asm__
@@ -24565,6 +25150,7 @@ FUNC_NAKED void Projectile::destructor()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func697::func));
 	__asm__
@@ -24601,6 +25187,7 @@ FUNC_NAKED void Projectile::Initialize(const WeaponBlueprint &bp)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// bp
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func698::func));
 	__asm__
@@ -24635,6 +25222,7 @@ FUNC_NAKED bool Projectile::ValidTarget()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func699::func));
 	__asm__
@@ -24670,6 +25258,7 @@ FUNC_NAKED void Projectile::SetMovingTarget(Targetable *target)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// target
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func700::func));
 	__asm__
@@ -24704,6 +25293,7 @@ FUNC_NAKED int Projectile::ForceRenderLayer()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func701::func));
 	__asm__
@@ -24740,6 +25330,7 @@ FUNC_NAKED void ProjectileFactory::constructor(const WeaponBlueprint *bp, int sh
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// shipId
 		"push [ebp+8]\n\t"		// bp
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func702::func));
 	__asm__
@@ -24774,6 +25365,7 @@ FUNC_NAKED int ProjectileFactory::SelectChargeGoal()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func703::func));
 	__asm__
@@ -24807,6 +25399,7 @@ FUNC_NAKED bool ProjectileFactory::IsChargedGoal()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func704::func));
 	__asm__
@@ -24842,6 +25435,7 @@ FUNC_NAKED void ProjectileFactory::SetHacked(int hacked)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// hacked
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func705::func));
 	__asm__
@@ -24878,6 +25472,7 @@ FUNC_NAKED void ProjectileFactory::SetCurrentShip(Targetable *ship)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// ship
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func706::func));
 	__asm__
@@ -24914,6 +25509,7 @@ FUNC_NAKED void ProjectileFactory::SetCooldownModifier(float mod)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// mod
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func707::func));
 	__asm__
@@ -24949,6 +25545,7 @@ FUNC_NAKED void ProjectileFactory::ForceCoolup()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func708::func));
 	__asm__
@@ -24985,6 +25582,7 @@ FUNC_NAKED void ProjectileFactory::RenderChargeBar(float unk)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// unk
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func709::func));
 	__asm__
@@ -25057,6 +25655,7 @@ FUNC_NAKED void ProjectileFactory::Fire(std::vector<Pointf> &points, int target)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// target
 		"push [ebp+8]\n\t"		// points
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func711::func));
 	__asm__
@@ -25091,6 +25690,7 @@ FUNC_NAKED char ProjectileFactory::FireNextShot()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func712::func));
 	__asm__
@@ -25124,6 +25724,7 @@ FUNC_NAKED int ProjectileFactory::SpendMissiles()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func713::func));
 	__asm__
@@ -25160,6 +25761,7 @@ FUNC_NAKED void ProjectileFactory::OnRender(float alpha, bool forceVisual)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// forceVisual
 		"push [ebp+8]\n\t"		// alpha
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func714::func));
 	__asm__
@@ -25194,6 +25796,7 @@ FUNC_NAKED int ProjectileFactory::NumTargetsRequired()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func715::func));
 	__asm__
@@ -25228,6 +25831,7 @@ FUNC_NAKED void ProjectileFactory::Update()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func716::func));
 	__asm__
@@ -25262,6 +25866,7 @@ FUNC_NAKED Projectile *ProjectileFactory::GetProjectile()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func717::func));
 	__asm__
@@ -25296,6 +25901,7 @@ FUNC_NAKED void ReactorButton::Accept()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func718::func));
 	__asm__
@@ -25331,6 +25937,7 @@ FUNC_NAKED void ReactorButton::OnClick()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func719::func));
 	__asm__
@@ -25366,6 +25973,7 @@ FUNC_NAKED void ReactorButton::OnRightClick()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func720::func));
 	__asm__
@@ -25401,6 +26009,7 @@ FUNC_NAKED void ReactorButton::OnRender()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func721::func));
 	__asm__
@@ -25439,6 +26048,7 @@ FUNC_NAKED void RepairStoreBox::constructor(ShipManager *ship, bool repairAll, i
 		"push [ebp+16]\n\t"		// price
 		"push [ebp+12]\n\t"		// repairAll
 		"push [ebp+8]\n\t"		// ship
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func722::func));
 	__asm__
@@ -25474,6 +26084,7 @@ FUNC_NAKED void ResourceControl::constructor()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func723::func));
 	__asm__
@@ -25518,6 +26129,7 @@ FUNC_NAKED GL_Primitive *ResourceControl::CreateImagePrimitive(GL_Texture *tex, 
 		"push [ebp+16]\n\t"		// unk2
 		"push [ebp+12]\n\t"		// unk1
 		"push [ebp+8]\n\t"		// tex
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func724::func));
 	__asm__
@@ -25553,6 +26165,7 @@ FUNC_NAKED void ResourceControl::OnInit(int imageSwappingMode)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// imageSwappingMode
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func725::func));
 	__asm__
@@ -25588,6 +26201,7 @@ FUNC_NAKED char *ResourceControl::LoadFile(const std::string &fileName)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// fileName
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func726::func));
 	__asm__
@@ -25622,6 +26236,7 @@ FUNC_NAKED GL_Texture *ResourceControl::GetImageId(const std::string &dir)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// dir
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func727::func));
 	__asm__
@@ -25665,6 +26280,7 @@ FUNC_NAKED int ResourceControl::RenderImage(GL_Texture *tex, int x, int y, int r
 		"push [ebp+16]\n\t"		// y
 		"push [ebp+12]\n\t"		// x
 		"push [ebp+8]\n\t"		// tex
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func728::func));
 	__asm__
@@ -25708,6 +26324,7 @@ FUNC_NAKED int ResourceControl::RenderImageString(std::string &tex, int x, int y
 		"push [ebp+16]\n\t"		// y
 		"push [ebp+12]\n\t"		// x
 		"push [ebp+8]\n\t"		// tex
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func729::func));
 	__asm__
@@ -25751,6 +26368,7 @@ FUNC_NAKED GL_Primitive *ResourceControl::CreateImagePrimitiveString(const std::
 		"push [ebp+16]\n\t"		// y
 		"push [ebp+12]\n\t"		// x
 		"push [ebp+8]\n\t"		// tex
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func730::func));
 	__asm__
@@ -25786,6 +26404,7 @@ FUNC_NAKED freetype::font_data &ResourceControl::GetFontData(int fontType, bool 
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// unk
 		"push [ebp+8]\n\t"		// fontType
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func731::func));
 	__asm__
@@ -25821,6 +26440,7 @@ FUNC_NAKED ImageDesc ResourceControl::GetImageData(GL_Texture *tex)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// tex
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func732::func));
 	__asm__
@@ -25855,6 +26475,7 @@ FUNC_NAKED bool ResourceControl::PreloadResources(bool unk)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// unk
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func733::func));
 	__asm__
@@ -25901,6 +26522,7 @@ FUNC_NAKED void RockAnimation::constructor(const std::string &subRace, int iShip
 		"push [ebp+16]\n\t"		// position
 		"push [ebp+12]\n\t"		// iShipId
 		"push [ebp+8]\n\t"		// subRace
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func735::func));
 	__asm__
@@ -26006,6 +26628,7 @@ FUNC_NAKED std::string RockAnimation::GetShootingSound()
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func738::func));
 	__asm__
@@ -26110,6 +26733,7 @@ FUNC_NAKED std::string RockAnimation::GetDeathSound()
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func741::func));
 	__asm__
@@ -26144,6 +26768,7 @@ FUNC_NAKED int Room::GetEmptySlots(bool intruder)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// intruder
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func742::func));
 	__asm__
@@ -26184,6 +26809,7 @@ FUNC_NAKED void Room::constructor(int iShipId, int x, int y, int w, int h, int r
 		"push [ebp+16]\n\t"		// y
 		"push [ebp+12]\n\t"		// x
 		"push [ebp+8]\n\t"		// iShipId
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func743::func));
 	__asm__
@@ -26221,6 +26847,7 @@ FUNC_NAKED void Room::OnRenderFloor(float alpha, bool experimental)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// experimental
 		"push [ebp+8]\n\t"		// alpha
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func744::func));
 	__asm__
@@ -26257,6 +26884,7 @@ FUNC_NAKED void Room::OnRenderWalls(float alpha)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// alpha
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func745::func));
 	__asm__
@@ -26327,6 +26955,7 @@ FUNC_NAKED void Room::destructor()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func747::func));
 	__asm__
@@ -26363,6 +26992,7 @@ FUNC_NAKED char ScoreKeeper::GetShipUnlocked(int shipId, int shipVariant)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// shipVariant
 		"push [ebp+8]\n\t"		// shipId
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func748::func));
 	__asm__
@@ -26398,6 +27028,7 @@ FUNC_NAKED std::string ScoreKeeper::GetShipBlueprint(int index)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// index
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func749::func));
 	__asm__
@@ -26432,6 +27063,7 @@ FUNC_NAKED void ScoreKeeper::OnInit()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func750::func));
 	__asm__
@@ -26468,6 +27100,7 @@ FUNC_NAKED void ScoreKeeper::Save(bool newHighScore)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// newHighScore
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func751::func));
 	__asm__
@@ -26504,6 +27137,7 @@ FUNC_NAKED void ScoreKeeper::OnRender(bool lastPlaythrough)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// lastPlaythrough
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func752::func));
 	__asm__
@@ -26543,6 +27177,7 @@ FUNC_NAKED void ScoreKeeper::UnlockShip(int shipType, int shipVariant, bool save
 		"push [ebp+16]\n\t"		// save
 		"push [ebp+12]\n\t"		// shipVariant
 		"push [ebp+8]\n\t"		// shipType
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func753::func));
 	__asm__
@@ -26579,6 +27214,7 @@ FUNC_NAKED void ScoreKeeper::SetVictory(bool victory)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// victory
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func754::func));
 	__asm__
@@ -26614,6 +27250,7 @@ FUNC_NAKED void ScoreKeeper::constructor()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func755::func));
 	__asm__
@@ -26649,6 +27286,7 @@ FUNC_NAKED int ScoreKeeper::GetShipIdType(const std::string &blueprintName)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// blueprintName
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func756::func));
 	__asm__
@@ -26685,6 +27323,7 @@ FUNC_NAKED void ScoreKeeper::LoadVersionFour(int file, int version)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// version
 		"push [ebp+8]\n\t"		// file
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func757::func));
 	__asm__
@@ -26721,6 +27360,7 @@ FUNC_NAKED void ScoreKeeper::WipeProfile(bool permanent)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// permanent
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func758::func));
 	__asm__
@@ -26758,6 +27398,7 @@ FUNC_NAKED void ScoreKeeper::MouseClick(int x, int y)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// y
 		"push [ebp+8]\n\t"		// x
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func759::func));
 	__asm__
@@ -26794,6 +27435,7 @@ FUNC_NAKED void ScoreKeeper::SetupTopShip(int variant)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// variant
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func760::func));
 	__asm__
@@ -26829,6 +27471,7 @@ FUNC_NAKED void ScoreKeeper::CheckTypes()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func761::func));
 	__asm__
@@ -26866,6 +27509,7 @@ FUNC_NAKED void ScoreKeeper::AddTopScoreType(TopScore &topScore, int type)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// type
 		"push [ebp+8]\n\t"		// topScore
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func762::func));
 	__asm__
@@ -26902,6 +27546,7 @@ FUNC_NAKED int ScoreKeeper::AddTopScoreList(TopScore &score, std::vector<TopScor
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// topScoreList
 		"push [ebp+8]\n\t"		// score
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func763::func));
 	__asm__
@@ -26940,6 +27585,7 @@ FUNC_NAKED void ScoreKeeper::RenderTopScores(const std::vector<TopScore> &topSco
 		"push [ebp+16]\n\t"		// position
 		"push [ebp+12]\n\t"		// position
 		"push [ebp+8]\n\t"		// topScoreList
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func764::func));
 	__asm__
@@ -26975,6 +27621,7 @@ FUNC_NAKED void ScoreKeeper::CycleLeft()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func765::func));
 	__asm__
@@ -27010,6 +27657,7 @@ FUNC_NAKED void ScoreKeeper::CycleRight()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func766::func));
 	__asm__
@@ -27046,6 +27694,7 @@ FUNC_NAKED void ScoreKeeper::Open(bool fromGameOver)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// fromGameOver
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func767::func));
 	__asm__
@@ -27081,6 +27730,7 @@ FUNC_NAKED bool ScoreKeeper::KeyDown(SDLKey key)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// key
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func768::func));
 	__asm__
@@ -27116,6 +27766,7 @@ FUNC_NAKED void ScoreKeeper::AddScrapCollected(int scrap)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// scrap
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func769::func));
 	__asm__
@@ -27153,6 +27804,7 @@ FUNC_NAKED void ScoreKeeper::SaveScores(int file, std::vector<TopScore> &topScor
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// topScores
 		"push [ebp+8]\n\t"		// file
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func770::func));
 	__asm__
@@ -27500,6 +28152,7 @@ FUNC_NAKED CollisionResponse Shields::CollisionReal(Pointf pos, Damage damage, b
 		"push [ebp+16]\n\t"		// pos
 		"push [ebp+12]\n\t"		// pos
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func781::func));
 	__asm__
@@ -27538,6 +28191,7 @@ FUNC_NAKED void Shields::constructor(int roomId, int shipId, int startingPower, 
 		"push [ebp+16]\n\t"		// startingPower
 		"push [ebp+12]\n\t"		// shipId
 		"push [ebp+8]\n\t"		// roomId
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func782::func));
 	__asm__
@@ -27577,6 +28231,7 @@ FUNC_NAKED void Shields::SetBaseEllipse(Globals::Ellipse ellipse)
 		"push [ebp+16]\n\t"		// ellipse
 		"push [ebp+12]\n\t"		// ellipse
 		"push [ebp+8]\n\t"		// ellipse
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func783::func));
 	__asm__
@@ -27612,6 +28267,7 @@ FUNC_NAKED void Shields::InstantCharge()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func784::func));
 	__asm__
@@ -27647,6 +28303,7 @@ FUNC_NAKED void Shields::Jump()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func785::func));
 	__asm__
@@ -27682,6 +28339,7 @@ FUNC_NAKED void Shields::OnLoop()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func786::func));
 	__asm__
@@ -27719,6 +28377,7 @@ FUNC_NAKED void Shields::AddSuperShield(Point pos)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// pos
 		"push [ebp+8]\n\t"		// pos
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func787::func));
 	__asm__
@@ -27756,6 +28415,7 @@ FUNC_NAKED void Shields::RenderBase(float alpha, float superShieldOverwrite)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// superShieldOverwrite
 		"push [ebp+8]\n\t"		// alpha
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func788::func));
 	__asm__
@@ -27800,6 +28460,7 @@ FUNC_NAKED int Ship::GetSelectedRoomId(int x, int y, bool unk)
 		"push [ebp+16]\n\t"		// unk
 		"push [ebp+12]\n\t"		// y
 		"push [ebp+8]\n\t"		// x
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func790::func));
 	__asm__
@@ -27837,6 +28498,7 @@ FUNC_NAKED void Ship::LockdownRoom(int roomId, Pointf pos)
 		"push [ebp+16]\n\t"		// pos
 		"push [ebp+12]\n\t"		// pos
 		"push [ebp+8]\n\t"		// roomId
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func791::func));
 	__asm__
@@ -27872,6 +28534,7 @@ FUNC_NAKED bool Ship::RoomLocked(int roomId)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// roomId
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func792::func));
 	__asm__
@@ -27907,6 +28570,7 @@ FUNC_NAKED bool Ship::FullRoom(int roomId, bool intruder)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// intruder
 		"push [ebp+8]\n\t"		// roomId
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func793::func));
 	__asm__
@@ -27941,6 +28605,7 @@ FUNC_NAKED int Ship::EmptySlots(int roomId)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// roomId
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func794::func));
 	__asm__
@@ -27976,6 +28641,7 @@ FUNC_NAKED int Ship::GetAvailableRoomSlot(int roomId, bool intruder)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// intruder
 		"push [ebp+8]\n\t"		// roomId
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func795::func));
 	__asm__
@@ -28010,6 +28676,7 @@ FUNC_NAKED void Ship::OnRenderBreaches()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func796::func));
 	__asm__
@@ -28047,6 +28714,7 @@ FUNC_NAKED void Ship::OnRenderWalls(bool forceView, bool doorControlMode)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// doorControlMode
 		"push [ebp+8]\n\t"		// forceView
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func797::func));
 	__asm__
@@ -28083,6 +28751,7 @@ FUNC_NAKED void Ship::OnInit(ShipBlueprint &bp)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// bp
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func798::func));
 	__asm__
@@ -28118,6 +28787,7 @@ FUNC_NAKED void Ship::OnRenderSparks()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func799::func));
 	__asm__
@@ -28155,6 +28825,7 @@ FUNC_NAKED void Ship::SetRoomBlackout(int roomId, bool blackout)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// blackout
 		"push [ebp+8]\n\t"		// roomId
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func800::func));
 	__asm__
@@ -28191,6 +28862,7 @@ FUNC_NAKED void Ship::OnRenderBase(bool unk)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// unk
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func801::func));
 	__asm__
@@ -28227,6 +28899,7 @@ FUNC_NAKED void Ship::OnRenderFloor(bool unk)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// unk
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func802::func));
 	__asm__
@@ -28263,6 +28936,7 @@ FUNC_NAKED void Ship::OnRenderJump(float progress)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// progress
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func803::func));
 	__asm__
@@ -28298,6 +28972,7 @@ FUNC_NAKED Globals::Ellipse Ship::GetBaseEllipse()
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func804::func));
 	__asm__
@@ -28333,6 +29008,7 @@ FUNC_NAKED void Ship::SetSelectedRoom(int roomId)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// roomId
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func805::func));
 	__asm__
@@ -28369,6 +29045,7 @@ FUNC_NAKED void Ship::OnLoop(std::vector<float> &oxygenLevels)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// oxygenLevels
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func806::func));
 	__asm__
@@ -28405,6 +29082,7 @@ FUNC_NAKED void Ship::BreachRandomHull(int roomId)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// roomId
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func807::func));
 	__asm__
@@ -28461,6 +29139,7 @@ FUNC_NAKED void ShipAI::constructor(bool unk)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// unk
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func812::func));
 	__asm__
@@ -28497,6 +29176,7 @@ FUNC_NAKED void ShipAI::SetStalemate(bool stalemate)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// stalemate
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func813::func));
 	__asm__
@@ -28533,6 +29213,7 @@ FUNC_NAKED void ShipAI::OnLoop(bool hostile)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// hostile
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func814::func));
 	__asm__
@@ -28566,6 +29247,7 @@ FUNC_NAKED std::pair<int, int> ShipAI::GetTeleportCommand()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func815::func));
 	__asm__
@@ -28599,6 +29281,7 @@ FUNC_NAKED void ShipBlueprint::destructor()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func816::func));
 	__asm__
@@ -28633,6 +29316,7 @@ FUNC_NAKED void *ShipBuilder::CheckTypes()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func817::func));
 	__asm__
@@ -28669,6 +29353,7 @@ FUNC_NAKED void ShipBuilder::MouseClick(int x, int y)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// y
 		"push [ebp+8]\n\t"		// x
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func818::func));
 	__asm__
@@ -28706,6 +29391,7 @@ FUNC_NAKED void ShipBuilder::SwitchShip(int shipType, int shipVariant)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// shipVariant
 		"push [ebp+8]\n\t"		// shipType
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func819::func));
 	__asm__
@@ -28741,6 +29427,7 @@ FUNC_NAKED void ShipBuilder::CreateEquipmentBoxes()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func820::func));
 	__asm__
@@ -28776,6 +29463,7 @@ FUNC_NAKED void ShipBuilder::CreateSystemBoxes()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func821::func));
 	__asm__
@@ -28811,6 +29499,7 @@ FUNC_NAKED void ShipBuilder::SetupShipAchievements()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func822::func));
 	__asm__
@@ -28846,6 +29535,7 @@ FUNC_NAKED void ShipBuilder::ClearShipAchievements()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func823::func));
 	__asm__
@@ -28881,6 +29571,7 @@ FUNC_NAKED int ShipBuilder::SwapType(int variant)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// variant
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func824::func));
 	__asm__
@@ -28915,6 +29606,7 @@ FUNC_NAKED void ShipBuilder::CycleShipNext()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func825::func));
 	__asm__
@@ -28950,6 +29642,7 @@ FUNC_NAKED void ShipBuilder::CycleShipPrevious()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func826::func));
 	__asm__
@@ -28985,6 +29678,7 @@ FUNC_NAKED void ShipBuilder::Open()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func827::func));
 	__asm__
@@ -29020,6 +29714,7 @@ FUNC_NAKED void ShipBuilder::OnRender()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func828::func));
 	__asm__
@@ -29055,6 +29750,7 @@ FUNC_NAKED void ShipBuilder::OnLoop()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func829::func));
 	__asm__
@@ -29090,6 +29786,7 @@ FUNC_NAKED void ShipBuilder::constructor()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func830::func));
 	__asm__
@@ -29127,6 +29824,7 @@ FUNC_NAKED void ShipBuilder::MouseMove(int x, int y)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// y
 		"push [ebp+8]\n\t"		// x
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func831::func));
 	__asm__
@@ -29163,6 +29861,7 @@ FUNC_NAKED void ShipBuilder::OnKeyDown(SDLKey key)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// key
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func832::func));
 	__asm__
@@ -29200,6 +29899,7 @@ FUNC_NAKED void ShipButton::constructor(int shipType, int shipVariant)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// shipVariant
 		"push [ebp+8]\n\t"		// shipType
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func833::func));
 	__asm__
@@ -29238,6 +29938,7 @@ FUNC_NAKED void ShipButton::OnInit(const std::string &imgName, Point pos)
 		"push [ebp+16]\n\t"		// pos
 		"push [ebp+12]\n\t"		// pos
 		"push [ebp+8]\n\t"		// imgName
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func834::func));
 	__asm__
@@ -29274,6 +29975,7 @@ FUNC_NAKED bool ShipButton::MouseMove(int x, int y)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// y
 		"push [ebp+8]\n\t"		// x
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func835::func));
 	__asm__
@@ -29308,6 +30010,7 @@ FUNC_NAKED void ShipButton::OnRender()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func836::func));
 	__asm__
@@ -29344,6 +30047,7 @@ FUNC_NAKED void ShipEvent::constructor(const ShipEvent &event)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// event
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func837::func));
 	__asm__
@@ -29799,6 +30503,7 @@ FUNC_NAKED __int64 ShipGraph::GetSlotRenderPosition_DO_NOT_USE_DIRECTLY(int slot
 		"push [ebp+16]\n\t"		// intruder
 		"push [ebp+12]\n\t"		// roomId
 		"push [ebp+8]\n\t"		// slotId
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func849::func));
 	__asm__
@@ -29832,6 +30537,7 @@ FUNC_NAKED int ShipGraph::DoorCount(int roomId)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// roomId
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func850::func));
 	__asm__
@@ -29867,6 +30573,7 @@ FUNC_NAKED std::vector<Door*> ShipGraph::GetDoors(int roomId)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// roomId
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func851::func));
 	__asm__
@@ -29902,6 +30609,7 @@ FUNC_NAKED int ShipGraph::IsRoomConnected(int room1, int room2)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// room2
 		"push [ebp+8]\n\t"		// room1
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func852::func));
 	__asm__
@@ -29939,6 +30647,7 @@ FUNC_NAKED Door *ShipGraph::ConnectingDoor(int x1, int y1, int x2, int y2)
 		"push [ebp+16]\n\t"		// x2
 		"push [ebp+12]\n\t"		// y1
 		"push [ebp+8]\n\t"		// x1
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func853::func));
 	__asm__
@@ -29976,6 +30685,7 @@ FUNC_NAKED int ShipGraph::ConnectedGridSquares(int x1, int y1, int x2, int y2)
 		"push [ebp+16]\n\t"		// x2
 		"push [ebp+12]\n\t"		// y1
 		"push [ebp+8]\n\t"		// x1
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func854::func));
 	__asm__
@@ -30013,6 +30723,7 @@ FUNC_NAKED int ShipGraph::ConnectedGridSquaresPoint(Point p1, Point p2)
 		"push [ebp+16]\n\t"		// p2
 		"push [ebp+12]\n\t"		// p1
 		"push [ebp+8]\n\t"		// p1
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func855::func));
 	__asm__
@@ -30050,6 +30761,7 @@ FUNC_NAKED Door *ShipGraph::ConnectingDoor(Point p1, Point p2)
 		"push [ebp+16]\n\t"		// p2
 		"push [ebp+12]\n\t"		// p1
 		"push [ebp+8]\n\t"		// p1
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func856::func));
 	__asm__
@@ -30084,6 +30796,7 @@ FUNC_NAKED int ShipGraph::GetNumSlots(int room)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// room
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func857::func));
 	__asm__
@@ -30119,6 +30832,7 @@ FUNC_NAKED int ShipGraph::PopClosestDoor(std::vector<int> &doors, std::vector<fl
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// distances
 		"push [ebp+8]\n\t"		// doors
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func858::func));
 	__asm__
@@ -30158,6 +30872,7 @@ FUNC_NAKED Path ShipGraph::Dijkstra(Point start, Point goal, int shipId)
 		"push [ebp+16]\n\t"		// start
 		"push [ebp+12]\n\t"		// start
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func859::func));
 	__asm__
@@ -30197,6 +30912,7 @@ FUNC_NAKED Path ShipGraph::FindPath(Point p1, Point p2, int shipId)
 		"push [ebp+16]\n\t"		// p1
 		"push [ebp+12]\n\t"		// p1
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func860::func));
 	__asm__
@@ -30231,6 +30947,7 @@ FUNC_NAKED float ShipGraph::ConvertToWorldAngle(float ang)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// ang
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func861::func));
 	__asm__
@@ -30265,6 +30982,7 @@ FUNC_NAKED float ShipGraph::ConvertToLocalAngle(float ang)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// ang
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func862::func));
 	__asm__
@@ -30299,6 +31017,7 @@ FUNC_NAKED __int64 ShipGraph::ConvertToWorldPosition_DO_NOT_USE_DIRECTLY(Pointf 
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// local
 		"push [ebp+8]\n\t"		// local
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func863::func));
 	__asm__
@@ -30333,6 +31052,7 @@ FUNC_NAKED __int64 ShipGraph::ConvertToLocalPosition_DO_NOT_USE_DIRECTLY(Pointf 
 		"push [ebp+16]\n\t"		// past
 		"push [ebp+12]\n\t"		// world
 		"push [ebp+8]\n\t"		// world
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func864::func));
 	__asm__
@@ -30365,6 +31085,7 @@ FUNC_NAKED int ShipGraph::ComputeCenter()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func865::func));
 	__asm__
@@ -30400,6 +31121,7 @@ FUNC_NAKED bool ShipGraph::ContainsPoint(int x, int y)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// y
 		"push [ebp+8]\n\t"		// x
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func866::func));
 	__asm__
@@ -30436,6 +31158,7 @@ FUNC_NAKED int ShipGraph::GetSelectedRoom(int x, int y, bool unk)
 		"push [ebp+16]\n\t"		// unk
 		"push [ebp+12]\n\t"		// y
 		"push [ebp+8]\n\t"		// x
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func867::func));
 	__asm__
@@ -30469,6 +31192,7 @@ FUNC_NAKED int ShipGraph::RoomCount()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func868::func));
 	__asm__
@@ -30504,6 +31228,7 @@ FUNC_NAKED Globals::Rect ShipGraph::GetRoomShape(int room)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// room
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func869::func));
 	__asm__
@@ -30538,6 +31263,7 @@ FUNC_NAKED float ShipGraph::GetRoomOxygen(int room)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// room
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func870::func));
 	__asm__
@@ -30572,6 +31298,7 @@ FUNC_NAKED bool ShipGraph::GetRoomBlackedOut(int room)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// room
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func871::func));
 	__asm__
@@ -30610,6 +31337,7 @@ FUNC_NAKED Slot ShipGraph::GetClosestSlot(Point pos, int shipId, bool intruder)
 		"push [ebp+16]\n\t"		// pos
 		"push [ebp+12]\n\t"		// pos
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func872::func));
 	__asm__
@@ -30644,6 +31372,7 @@ FUNC_NAKED char ShipInfo::AddAugmentation(const std::string &augment)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// augment
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func873::func));
 	__asm__
@@ -30678,6 +31407,7 @@ FUNC_NAKED bool ShipInfo::HasAugmentation(const std::string &augment)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// augment
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func874::func));
 	__asm__
@@ -30712,6 +31442,7 @@ FUNC_NAKED float ShipInfo::GetAugmentationValue(const std::string &augment)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// augment
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func875::func));
 	__asm__
@@ -30746,6 +31477,7 @@ FUNC_NAKED int ShipManager::constructor(int shipId)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// shipId
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func876::func));
 	__asm__
@@ -30781,6 +31513,7 @@ FUNC_NAKED void ShipManager::AddInitialCrew(std::vector<CrewBlueprint> &blueprin
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// blueprints
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func877::func));
 	__asm__
@@ -30815,6 +31548,7 @@ FUNC_NAKED int ShipManager::GetDodgeFactor()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func878::func));
 	__asm__
@@ -30851,6 +31585,7 @@ FUNC_NAKED void ShipManager::OnRender(char showInterior, char doorControlMode)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// doorControlMode
 		"push [ebp+8]\n\t"		// showInterior
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func879::func));
 	__asm__
@@ -30886,6 +31621,7 @@ FUNC_NAKED int ShipManager::CountCrew(char boarders)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// boarders
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func880::func));
 	__asm__
@@ -30922,6 +31658,7 @@ FUNC_NAKED std::vector<CrewMember*> ShipManager::TeleportCrew(int roomId, bool i
 		"push [ebp+16]\n\t"		// intruders
 		"push [ebp+12]\n\t"		// roomId
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func881::func));
 	__asm__
@@ -30957,6 +31694,7 @@ FUNC_NAKED int ShipManager::OnInit(ShipBlueprint *bp, int shipLevel)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// shipLevel
 		"push [ebp+8]\n\t"		// bp
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func882::func));
 	__asm__
@@ -30991,6 +31729,7 @@ FUNC_NAKED char ShipManager::HasSystem(int systemId)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// systemId
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func883::func));
 	__asm__
@@ -31025,6 +31764,7 @@ FUNC_NAKED ShipSystem *ShipManager::GetSystemInRoom(int roomId)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// roomId
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func884::func));
 	__asm__
@@ -31059,6 +31799,7 @@ FUNC_NAKED void ShipManager::OnLoop()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func885::func));
 	__asm__
@@ -31096,6 +31837,7 @@ FUNC_NAKED void ShipManager::SetSystemPowerLoss(int systemId, int powerLoss)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// powerLoss
 		"push [ebp+8]\n\t"		// systemId
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func886::func));
 	__asm__
@@ -31130,6 +31872,7 @@ FUNC_NAKED int ShipManager::CreateSystems()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func887::func));
 	__asm__
@@ -31164,6 +31907,7 @@ FUNC_NAKED int ShipManager::AddSystem(int systemId)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// systemId
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func888::func));
 	__asm__
@@ -31198,6 +31942,7 @@ FUNC_NAKED void ShipManager::UpdateCrewMembers()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func889::func));
 	__asm__
@@ -31233,6 +31978,7 @@ FUNC_NAKED void ShipManager::UpdateEnvironment()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func890::func));
 	__asm__
@@ -31272,6 +32018,7 @@ FUNC_NAKED CrewMember *ShipManager::AddCrewMemberFromBlueprint(CrewBlueprint *bp
 		"push [ebp+16]\n\t"		// init
 		"push [ebp+12]\n\t"		// slot
 		"push [ebp+8]\n\t"		// bp
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func891::func));
 	__asm__
@@ -31311,6 +32058,7 @@ FUNC_NAKED CrewMember *ShipManager::AddCrewMemberFromString(const std::string &n
 		"push [ebp+16]\n\t"		// intruder
 		"push [ebp+12]\n\t"		// race
 		"push [ebp+8]\n\t"		// name
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func892::func));
 	__asm__
@@ -31344,6 +32092,7 @@ FUNC_NAKED int ShipManager::GetOxygenPercentage()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func893::func));
 	__asm__
@@ -31391,6 +32140,7 @@ FUNC_NAKED char ShipManager::DamageCrew(CrewMember *crew, DamageParameter dmg)
 		"push [ebp+16]\n\t"		// dmg
 		"push [ebp+12]\n\t"		// dmg
 		"push [ebp+8]\n\t"		// crew
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func894::func));
 	__asm__
@@ -31426,6 +32176,7 @@ FUNC_NAKED void ShipManager::RemoveItem(const std::string &name)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// name
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func895::func));
 	__asm__
@@ -31476,6 +32227,7 @@ FUNC_NAKED bool ShipManager::DamageArea(Pointf location, DamageParameter dmg, bo
 		"push [ebp+16]\n\t"		// dmg
 		"push [ebp+12]\n\t"		// location
 		"push [ebp+8]\n\t"		// location
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func896::func));
 	__asm__
@@ -31526,6 +32278,7 @@ FUNC_NAKED bool ShipManager::DamageBeam(Pointf location1, Pointf location2, Dama
 		"push [ebp+16]\n\t"		// location2
 		"push [ebp+12]\n\t"		// location1
 		"push [ebp+8]\n\t"		// location1
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func897::func));
 	__asm__
@@ -31562,6 +32315,7 @@ FUNC_NAKED CrewBlueprint ShipManager::SelectRandomCrew(int seed, const std::stri
 		"push [ebp+16]\n\t"		// racePref
 		"push [ebp+12]\n\t"		// seed
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func898::func));
 	__asm__
@@ -31596,6 +32350,7 @@ FUNC_NAKED void ShipManager::ClearStatusAll()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func899::func));
 	__asm__
@@ -31631,6 +32386,7 @@ FUNC_NAKED void ShipManager::PrepareSuperDrones()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func900::func));
 	__asm__
@@ -31666,6 +32422,7 @@ FUNC_NAKED void ShipManager::JumpLeave()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func901::func));
 	__asm__
@@ -31703,6 +32460,7 @@ FUNC_NAKED void ShipManager::ModifyScrapCount(int scrap, bool income)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// income
 		"push [ebp+8]\n\t"		// scrap
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func902::func));
 	__asm__
@@ -31739,6 +32497,7 @@ FUNC_NAKED void ShipManager::ModifyMissileCount(int missiles)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// missiles
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func903::func));
 	__asm__
@@ -31775,6 +32534,7 @@ FUNC_NAKED void ShipManager::ModifyDroneCount(int drones)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// drones
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func904::func));
 	__asm__
@@ -31810,6 +32570,7 @@ FUNC_NAKED bool ShipManager::DoSensorsProvide(int vision)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// vision
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func905::func));
 	__asm__
@@ -31843,6 +32604,7 @@ FUNC_NAKED bool ShipManager::IsCrewFull()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func906::func));
 	__asm__
@@ -31876,6 +32638,7 @@ FUNC_NAKED bool ShipManager::IsCrewOverFull()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func907::func));
 	__asm__
@@ -31910,6 +32673,7 @@ FUNC_NAKED CrewDrone *ShipManager::CreateCrewDrone(const DroneBlueprint *bp)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// bp
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func908::func));
 	__asm__
@@ -31944,6 +32708,7 @@ FUNC_NAKED SpaceDrone *ShipManager::CreateSpaceDrone(const DroneBlueprint *bp)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// bp
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func909::func));
 	__asm__
@@ -31979,6 +32744,7 @@ FUNC_NAKED bool ShipManager::CommandCrewMoveRoom(CrewMember *crew, int roomId)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// roomId
 		"push [ebp+8]\n\t"		// crew
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func910::func));
 	__asm__
@@ -32013,6 +32779,7 @@ FUNC_NAKED int ShipManager::GetSystemRoom(int sysId)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// sysId
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func911::func));
 	__asm__
@@ -32047,6 +32814,7 @@ FUNC_NAKED std::vector<ProjectileFactory*> ShipManager::GetWeaponList()
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func912::func));
 	__asm__
@@ -32082,6 +32850,7 @@ FUNC_NAKED Drone *ShipManager::AddDrone(const DroneBlueprint *bp, int slot)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// slot
 		"push [ebp+8]\n\t"		// bp
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func913::func));
 	__asm__
@@ -32116,6 +32885,7 @@ FUNC_NAKED void ShipManager::Restart()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func914::func));
 	__asm__
@@ -32151,6 +32921,7 @@ FUNC_NAKED int ShipManager::GetSystemPower(int systemId)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// systemId
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func915::func));
 	__asm__
@@ -32186,6 +32957,7 @@ FUNC_NAKED int ShipManager::CountCrewShipId(int roomId, int shipId)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// shipId
 		"push [ebp+8]\n\t"		// roomId
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func916::func));
 	__asm__
@@ -32220,6 +32992,7 @@ FUNC_NAKED ShipSystem *ShipManager::GetSystem(int systemId)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// systemId
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func917::func));
 	__asm__
@@ -32255,6 +33028,7 @@ FUNC_NAKED void ShipManager::ExportShip(int file)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// file
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func918::func));
 	__asm__
@@ -32290,6 +33064,7 @@ FUNC_NAKED void ShipManager::destructor()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func919::func));
 	__asm__
@@ -32325,6 +33100,7 @@ FUNC_NAKED void ShipManager::destructor2()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func920::func));
 	__asm__
@@ -32361,6 +33137,7 @@ FUNC_NAKED void ShipManager::ImportShip(int file)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// file
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func921::func));
 	__asm__
@@ -32396,6 +33173,7 @@ FUNC_NAKED void ShipManager::CheckVision()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func922::func));
 	__asm__
@@ -32431,6 +33209,7 @@ FUNC_NAKED int ShipManager::IsSystemHacked(int systemId)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// systemId
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func923::func));
 	__asm__
@@ -32467,6 +33246,7 @@ FUNC_NAKED CrewMember *ShipManager::GetSelectedCrewPoint(int x, int y, bool intr
 		"push [ebp+16]\n\t"		// intruder
 		"push [ebp+12]\n\t"		// y
 		"push [ebp+8]\n\t"		// x
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func924::func));
 	__asm__
@@ -32501,6 +33281,7 @@ FUNC_NAKED void ShipManager::RenderWeapons()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func925::func));
 	__asm__
@@ -32537,6 +33318,7 @@ FUNC_NAKED void ShipManager::ClearStatusSystem(int system)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// system
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func926::func));
 	__asm__
@@ -32572,6 +33354,7 @@ FUNC_NAKED void ShipManager::ResetScrapLevel()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func927::func));
 	__asm__
@@ -32607,6 +33390,7 @@ FUNC_NAKED void ShipManager::JumpArrive()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func928::func));
 	__asm__
@@ -32642,6 +33426,7 @@ FUNC_NAKED void ShipManager::CheckSpreadDamage()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func929::func));
 	__asm__
@@ -32677,6 +33462,7 @@ FUNC_NAKED bool ShipManager::ForceDecreaseSystemPower(int sys)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// sys
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func930::func));
 	__asm__
@@ -32711,6 +33497,7 @@ FUNC_NAKED ShieldPower ShipManager::GetShieldPower()
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func931::func));
 	__asm__
@@ -32746,6 +33533,7 @@ FUNC_NAKED int ShipManager::AddWeapon(const WeaponBlueprint *bp, int slot)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// slot
 		"push [ebp+8]\n\t"		// bp
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func932::func));
 	__asm__
@@ -32784,6 +33572,7 @@ FUNC_NAKED void ShipManager::AddEquipmentFromList(std::vector<std::string> equip
 		"push [ebp+16]\n\t"		// equipmentList
 		"push [ebp+12]\n\t"		// equipmentList
 		"push [ebp+8]\n\t"		// equipmentList
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func933::func));
 	__asm__
@@ -32819,6 +33608,7 @@ FUNC_NAKED void ShipManager::RenderChargeBars()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func934::func));
 	__asm__
@@ -32855,6 +33645,7 @@ FUNC_NAKED void ShipManager::ExportBattleState(int file)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// file
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func935::func));
 	__asm__
@@ -32891,6 +33682,7 @@ FUNC_NAKED void ShipManager::ImportBattleState(int file)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// file
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func936::func));
 	__asm__
@@ -32926,6 +33718,7 @@ FUNC_NAKED bool ShipManager::SystemFunctions(int systemId)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// systemId
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func937::func));
 	__asm__
@@ -32960,6 +33753,7 @@ FUNC_NAKED bool ShipManager::CanFitSystem(int systemId)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// systemId
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func938::func));
 	__asm__
@@ -32994,6 +33788,7 @@ FUNC_NAKED bool ShipManager::CanFitSubsystem(int systemId)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// systemId
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func939::func));
 	__asm__
@@ -33030,6 +33825,7 @@ FUNC_NAKED int ShipManager::DamageHull(int dmg, bool force)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// force
 		"push [ebp+8]\n\t"		// dmg
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func940::func));
 	__asm__
@@ -33078,6 +33874,7 @@ FUNC_NAKED void ShipManager::DamageSystem(int systemId, DamageParameter damage)
 		"push [ebp+16]\n\t"		// damage
 		"push [ebp+12]\n\t"		// damage
 		"push [ebp+8]\n\t"		// systemId
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func941::func));
 	__asm__
@@ -33114,6 +33911,7 @@ FUNC_NAKED void ShipManager::StartFire(int roomId)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// roomId
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func942::func));
 	__asm__
@@ -33149,6 +33947,7 @@ FUNC_NAKED CrewMember *ShipManager::FindCrew(const CrewBlueprint *bp)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// bp
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func943::func));
 	__asm__
@@ -33182,6 +33981,7 @@ FUNC_NAKED bool ShipManager::GetDodged()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func944::func));
 	__asm__
@@ -33216,6 +34016,7 @@ FUNC_NAKED void ShipManager::PrepareSuperBarrage()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func945::func));
 	__asm__
@@ -33253,6 +34054,7 @@ FUNC_NAKED std::string ShipManager::GetTooltip(int x, int y)
 		"push [ebp+16]\n\t"		// y
 		"push [ebp+12]\n\t"		// x
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func946::func));
 	__asm__
@@ -33286,6 +34088,7 @@ FUNC_NAKED bool ShipManager::RestoreCrewPositions()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func947::func));
 	__asm__
@@ -33321,6 +34124,7 @@ FUNC_NAKED CrewMember *ShipManager::GetCrewmember(int slot, bool present)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// present
 		"push [ebp+8]\n\t"		// slot
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func948::func));
 	__asm__
@@ -33356,6 +34160,7 @@ FUNC_NAKED int ShipManager::CanUpgrade(int systemId, int amount)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// amount
 		"push [ebp+8]\n\t"		// systemId
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func949::func));
 	__asm__
@@ -33391,6 +34196,7 @@ FUNC_NAKED ShipBlueprint ShipManager::SaveToBlueprint(bool unk)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// unk
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func950::func));
 	__asm__
@@ -33427,6 +34233,7 @@ FUNC_NAKED void ShipManager::CheckCrystalAugment(Pointf pos)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// pos
 		"push [ebp+8]\n\t"		// pos
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func951::func));
 	__asm__
@@ -33480,6 +34287,7 @@ FUNC_NAKED CollisionResponse ShipManager::CollisionMoving(Pointf start, Pointf f
 		"push [ebp+16]\n\t"		// start
 		"push [ebp+12]\n\t"		// start
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func952::func));
 	__asm__
@@ -33514,6 +34322,7 @@ FUNC_NAKED int ShipManager::GetSystemPowerMax(int systemId)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// systemId
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func953::func));
 	__asm__
@@ -33548,6 +34357,7 @@ FUNC_NAKED std::vector<Drone*> ShipManager::GetDroneList()
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func954::func));
 	__asm__
@@ -33581,6 +34391,7 @@ FUNC_NAKED int ShipManager::GetDroneCount()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func955::func));
 	__asm__
@@ -33615,6 +34426,7 @@ FUNC_NAKED void ShipManager::InstantPowerShields()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func956::func));
 	__asm__
@@ -33650,6 +34462,7 @@ FUNC_NAKED void ShipManager::SetDestroyed()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func957::func));
 	__asm__
@@ -33685,6 +34498,7 @@ FUNC_NAKED int ShipManager::GetFireCount(int roomId)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// roomId
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func958::func));
 	__asm__
@@ -33719,6 +34533,7 @@ FUNC_NAKED int ShipObject::HasAugmentation(const std::string &augment)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// augment
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func959::func));
 	__asm__
@@ -33753,6 +34568,7 @@ FUNC_NAKED float ShipObject::GetAugmentationValue(const std::string &augment)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// augment
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func960::func));
 	__asm__
@@ -33788,6 +34604,7 @@ FUNC_NAKED void ShipObject::RemoveAugmentation(const std::string &augment)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// augment
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func961::func));
 	__asm__
@@ -33823,6 +34640,7 @@ FUNC_NAKED int ShipObject::HasEquipment(const std::string &equip)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// equip
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func962::func));
 	__asm__
@@ -33857,6 +34675,7 @@ FUNC_NAKED std::vector<std::string> ShipObject::GetAugmentationList()
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func963::func));
 	__asm__
@@ -33891,6 +34710,7 @@ FUNC_NAKED bool ShipObject::AddAugmentation(const std::string &augment)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// augment
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func964::func));
 	__asm__
@@ -33959,6 +34779,7 @@ FUNC_NAKED int ShipObject::GetAugmentationCount()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func966::func));
 	__asm__
@@ -33993,6 +34814,7 @@ FUNC_NAKED void ShipObject::ClearShipInfo()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func967::func));
 	__asm__
@@ -34036,6 +34858,7 @@ FUNC_NAKED void ShipSelect::SelectShip(int shipType)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// shipType
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func969::func));
 	__asm__
@@ -34071,6 +34894,7 @@ FUNC_NAKED void ShipSelect::constructor()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func970::func));
 	__asm__
@@ -34105,6 +34929,7 @@ FUNC_NAKED int ShipSelect::ClearShipButtons()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func971::func));
 	__asm__
@@ -34141,6 +34966,7 @@ FUNC_NAKED void ShipSelect::MouseMove(int x, int y)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// y
 		"push [ebp+8]\n\t"		// x
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func972::func));
 	__asm__
@@ -34176,6 +35002,7 @@ FUNC_NAKED void ShipSelect::OnLoop()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func973::func));
 	__asm__
@@ -34211,6 +35038,7 @@ FUNC_NAKED int ShipSelect::KeyDown(SDLKey key)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// key
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func974::func));
 	__asm__
@@ -34245,6 +35073,7 @@ FUNC_NAKED void ShipSelect::MouseClick()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func975::func));
 	__asm__
@@ -34281,6 +35110,7 @@ FUNC_NAKED void ShipSelect::PreSelectShip(int shipType)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// shipType
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func976::func));
 	__asm__
@@ -34316,6 +35146,7 @@ FUNC_NAKED void ShipSelect::Close()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func977::func));
 	__asm__
@@ -34350,6 +35181,7 @@ FUNC_NAKED int ShipSelect::GetSelectedShip()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func978::func));
 	__asm__
@@ -34386,6 +35218,7 @@ FUNC_NAKED void ShipSelect::Open(int currentId, int currentType)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// currentType
 		"push [ebp+8]\n\t"		// currentId
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func979::func));
 	__asm__
@@ -34421,6 +35254,7 @@ FUNC_NAKED void ShipSelect::OnRender()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func980::func));
 	__asm__
@@ -34457,6 +35291,7 @@ FUNC_NAKED void ShipStatus::RenderHealth(bool unk)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// unk
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func981::func));
 	__asm__
@@ -34495,6 +35330,7 @@ FUNC_NAKED void ShipStatus::OnInit(Point unk, float unk2)
 		"push [ebp+16]\n\t"		// unk2
 		"push [ebp+12]\n\t"		// unk
 		"push [ebp+8]\n\t"		// unk
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func982::func));
 	__asm__
@@ -34531,6 +35367,7 @@ FUNC_NAKED void ShipStatus::RenderEvadeOxygen(bool unk)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// unk
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func983::func));
 	__asm__
@@ -34566,6 +35403,7 @@ FUNC_NAKED void ShipStatus::OnRender()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func984::func));
 	__asm__
@@ -34602,6 +35440,7 @@ FUNC_NAKED void ShipStatus::RenderShields(bool renderText)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// renderText
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func985::func));
 	__asm__
@@ -34638,6 +35477,7 @@ FUNC_NAKED bool ShipSystem::DamageOverTime(float unk)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// unk
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func986::func));
 	__asm__
@@ -34672,6 +35512,7 @@ FUNC_NAKED void ShipSystem::CheckForRepower()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func987::func));
 	__asm__
@@ -34741,6 +35582,7 @@ FUNC_NAKED int ShipSystem::IsMannedBoost()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func989::func));
 	__asm__
@@ -34811,6 +35653,7 @@ FUNC_NAKED void ShipSystem::OnLoop()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func991::func));
 	__asm__
@@ -34846,6 +35689,7 @@ FUNC_NAKED bool ShipSystem::Ioned(int num)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// num
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func992::func));
 	__asm__
@@ -34880,6 +35724,7 @@ FUNC_NAKED int ShipSystem::SetPowerLoss(int power)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// power
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func993::func));
 	__asm__
@@ -34918,6 +35763,7 @@ FUNC_NAKED void ShipSystem::constructor(int systemId, int roomId, int shipId, in
 		"push [ebp+16]\n\t"		// shipId
 		"push [ebp+12]\n\t"		// roomId
 		"push [ebp+8]\n\t"		// systemId
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func994::func));
 	__asm__
@@ -34952,6 +35798,7 @@ FUNC_NAKED int ShipSystem::GetPowerCap()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func995::func));
 	__asm__
@@ -34987,6 +35834,7 @@ FUNC_NAKED void ShipSystem::SetPowerCap(int cap)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// cap
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func996::func));
 	__asm__
@@ -35023,6 +35871,7 @@ FUNC_NAKED void ShipSystem::LockSystem(int lock)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// lock
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func997::func));
 	__asm__
@@ -35058,6 +35907,7 @@ FUNC_NAKED bool ShipSystem::ForceDecreasePower(int powerLoss)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// powerLoss
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func998::func));
 	__asm__
@@ -35091,6 +35941,7 @@ FUNC_NAKED int ShipSystem::GetEffectivePower()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func999::func));
 	__asm__
@@ -35124,6 +35975,7 @@ FUNC_NAKED int ShipSystem::GetMaxPower()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1000::func));
 	__asm__
@@ -35160,6 +36012,7 @@ FUNC_NAKED void ShipSystem::SetBonusPower(int amount, int permanentPower)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// permanentPower
 		"push [ebp+8]\n\t"		// amount
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1001::func));
 	__asm__
@@ -35195,6 +36048,7 @@ FUNC_NAKED void ShipSystem::CheckMaxPower()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1002::func));
 	__asm__
@@ -35230,6 +36084,7 @@ FUNC_NAKED void ShipSystem::__DO_NOT_HOOK()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1003::func));
 	__asm__
@@ -35265,6 +36120,7 @@ FUNC_NAKED bool ShipSystem::PartialDamage(float amount)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// amount
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1004::func));
 	__asm__
@@ -35334,6 +36190,7 @@ FUNC_NAKED void ShipSystem::ClearStatus()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1006::func));
 	__asm__
@@ -35406,6 +36263,7 @@ FUNC_NAKED bool ShipSystem::GetLocked()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1008::func));
 	__asm__
@@ -35441,6 +36299,7 @@ FUNC_NAKED void ShipSystem::AddLock(int lock)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// lock
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1009::func));
 	__asm__
@@ -35476,6 +36335,7 @@ FUNC_NAKED void ShipSystem::StopHacking()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1010::func));
 	__asm__
@@ -35512,6 +36372,7 @@ FUNC_NAKED void ShipSystem::SaveState(int file)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// file
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1011::func));
 	__asm__
@@ -35548,6 +36409,7 @@ FUNC_NAKED void ShipSystem::LoadState(int file)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// file
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1012::func));
 	__asm__
@@ -35583,6 +36445,7 @@ FUNC_NAKED bool ShipSystem::UpgradeSystem(int amount)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// amount
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1013::func));
 	__asm__
@@ -35618,6 +36481,7 @@ FUNC_NAKED bool ShipSystem::IncreasePower(int amount, bool force)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// force
 		"push [ebp+8]\n\t"		// amount
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1014::func));
 	__asm__
@@ -35652,6 +36516,7 @@ FUNC_NAKED bool ShipSystem::DecreasePower(bool force)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// force
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1015::func));
 	__asm__
@@ -35687,6 +36552,7 @@ FUNC_NAKED bool ShipSystem::PartialRepair(float speed, bool autoRepair)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// autoRepair
 		"push [ebp+8]\n\t"		// speed
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1016::func));
 	__asm__
@@ -35728,6 +36594,7 @@ FUNC_NAKED void ShipSystem::RenderPowerBoxes(int x, int y, int width, int height
 		"push [ebp+16]\n\t"		// width
 		"push [ebp+12]\n\t"		// y
 		"push [ebp+8]\n\t"		// x
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1017::func));
 	__asm__
@@ -35764,6 +36631,7 @@ FUNC_NAKED void ShipSystem::AddDamage(int amount)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// amount
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1018::func));
 	__asm__
@@ -35799,6 +36667,7 @@ FUNC_NAKED void ShipSystem::destructor()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1019::func));
 	__asm__
@@ -35836,6 +36705,7 @@ FUNC_NAKED int SoundControl::PlaySoundMix(const std::string &soundName, float vo
 		"push [ebp+16]\n\t"		// loop
 		"push [ebp+12]\n\t"		// volume
 		"push [ebp+8]\n\t"		// soundName
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1020::func));
 	__asm__
@@ -35871,6 +36741,7 @@ FUNC_NAKED void SoundControl::StopPlaylist(int fadeOut)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// fadeOut
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1021::func));
 	__asm__
@@ -35907,6 +36778,7 @@ FUNC_NAKED void SoundControl::StartPlaylist(std::vector<std::string> &playlist)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// playlist
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1022::func));
 	__asm__
@@ -35952,6 +36824,7 @@ FUNC_NAKED float SpaceDrone::UpdateAimingAngle(Pointf location, float percentage
 		"push [ebp+16]\n\t"		// percentage
 		"push [ebp+12]\n\t"		// location
 		"push [ebp+8]\n\t"		// location
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1024::func));
 	__asm__
@@ -35987,6 +36860,7 @@ FUNC_NAKED void SpaceDrone::SetDeployed(bool deployed)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// deployed
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1025::func));
 	__asm__
@@ -36023,6 +36897,7 @@ FUNC_NAKED void SpaceDrone::SetMovementTarget(Targetable &target)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// target
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1026::func));
 	__asm__
@@ -36076,6 +36951,7 @@ FUNC_NAKED CollisionResponse SpaceDrone::CollisionMoving(Pointf start, Pointf fi
 		"push [ebp+16]\n\t"		// start
 		"push [ebp+12]\n\t"		// start
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func1027::func));
 	__asm__
@@ -36109,6 +36985,7 @@ FUNC_NAKED Projectile *SpaceDrone::GetNextProjectile()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1028::func));
 	__asm__
@@ -36143,6 +37020,7 @@ FUNC_NAKED void SpaceManager::constructor()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1029::func));
 	__asm__
@@ -36177,6 +37055,7 @@ FUNC_NAKED int SpaceManager::GetScreenShake()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1030::func));
 	__asm__
@@ -36212,6 +37091,7 @@ FUNC_NAKED void SpaceManager::SaveSpace(int fileHelper)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// fileHelper
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1031::func));
 	__asm__
@@ -36247,6 +37127,7 @@ FUNC_NAKED ImageDesc SpaceManager::SwitchBeacon()
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func1032::func));
 	__asm__
@@ -36282,6 +37163,7 @@ FUNC_NAKED ImageDesc SpaceManager::SwitchPlanet(const std::string &name)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// name
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func1033::func));
 	__asm__
@@ -36316,6 +37198,7 @@ FUNC_NAKED void SpaceManager::UpdatePlanetImage()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1034::func));
 	__asm__
@@ -36372,6 +37255,7 @@ FUNC_NAKED void SpaceManager::SwitchImages(ImageDesc planet, ImageDesc unk1, Ima
 		"push [ebp+16]\n\t"		// planet
 		"push [ebp+12]\n\t"		// planet
 		"push [ebp+8]\n\t"		// planet
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1035::func));
 	__asm__
@@ -36408,6 +37292,7 @@ FUNC_NAKED ImageDesc SpaceManager::SwitchBackground(const std::string &name)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// name
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func1036::func));
 	__asm__
@@ -36444,6 +37329,7 @@ FUNC_NAKED void SpaceManager::StartAsteroids(int shieldCount, bool unk)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// unk
 		"push [ebp+8]\n\t"		// shieldCount
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1037::func));
 	__asm__
@@ -36481,6 +37367,7 @@ FUNC_NAKED void SpaceManager::SetPlanetaryDefense(char state, int target)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// target
 		"push [ebp+8]\n\t"		// state
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1038::func));
 	__asm__
@@ -36517,6 +37404,7 @@ FUNC_NAKED void SpaceManager::SetPulsarLevel(bool pulsarLevel)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// pulsarLevel
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1039::func));
 	__asm__
@@ -36551,6 +37439,7 @@ FUNC_NAKED bool SpaceManager::DangerousEnvironment()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1040::func));
 	__asm__
@@ -36588,6 +37477,7 @@ FUNC_NAKED void SpaceManager::MouseMove(int x, int y, int unk)
 		"push [ebp+16]\n\t"		// unk
 		"push [ebp+12]\n\t"		// y
 		"push [ebp+8]\n\t"		// x
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1041::func));
 	__asm__
@@ -36625,6 +37515,7 @@ FUNC_NAKED SpaceDrone *SpaceManager::GetSelectedDrone(int x, int y, int unk)
 		"push [ebp+16]\n\t"		// unk
 		"push [ebp+12]\n\t"		// y
 		"push [ebp+8]\n\t"		// x
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1042::func));
 	__asm__
@@ -36658,6 +37549,7 @@ FUNC_NAKED float SpaceManager::GetFlashOpacity()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1043::func));
 	__asm__
@@ -36692,6 +37584,7 @@ FUNC_NAKED GL_Color SpaceManager::GetColorTint()
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func1044::func));
 	__asm__
@@ -36726,6 +37619,7 @@ FUNC_NAKED void SpaceManager::OnRenderBackground()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1045::func));
 	__asm__
@@ -36761,6 +37655,7 @@ FUNC_NAKED void SpaceManager::OnRenderFleet()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1046::func));
 	__asm__
@@ -36796,6 +37691,7 @@ FUNC_NAKED void SpaceManager::OnRenderForeground()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1047::func));
 	__asm__
@@ -36832,6 +37728,7 @@ FUNC_NAKED void SpaceManager::SetDangerZone(int fleetType)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// fleetType
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1048::func));
 	__asm__
@@ -36869,6 +37766,7 @@ FUNC_NAKED void SpaceManager::OnRenderAsteroids(int fieldLayers, float unk2)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// unk2
 		"push [ebp+8]\n\t"		// fieldLayers
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1049::func));
 	__asm__
@@ -36906,6 +37804,7 @@ FUNC_NAKED void SpaceManager::OnRenderProjectiles(int unk1, int unk2)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// unk2
 		"push [ebp+8]\n\t"		// unk1
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1050::func));
 	__asm__
@@ -36941,6 +37840,7 @@ FUNC_NAKED void SpaceManager::OnInit()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1051::func));
 	__asm__
@@ -36976,6 +37876,7 @@ FUNC_NAKED void SpaceManager::Restart()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1052::func));
 	__asm__
@@ -37011,6 +37912,7 @@ FUNC_NAKED void SpaceManager::ClearEnvironment()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1053::func));
 	__asm__
@@ -37046,6 +37948,7 @@ FUNC_NAKED void SpaceManager::Clear()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1054::func));
 	__asm__
@@ -37081,6 +37984,7 @@ FUNC_NAKED void SpaceManager::ClearProjectiles()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1055::func));
 	__asm__
@@ -37117,6 +38021,7 @@ FUNC_NAKED void SpaceManager::UpdateProjectile(Projectile *proj)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// proj
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1056::func));
 	__asm__
@@ -37153,6 +38058,7 @@ FUNC_NAKED void SpaceManager::TransferProjectile(Projectile *proj)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// proj
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1057::func));
 	__asm__
@@ -37189,6 +38095,7 @@ FUNC_NAKED void SpaceManager::AddShip(ShipManager *ship)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// ship
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1058::func));
 	__asm__
@@ -37225,6 +38132,7 @@ FUNC_NAKED void SpaceManager::AddProjectile(Projectile *proj)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// proj
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1059::func));
 	__asm__
@@ -37261,6 +38169,7 @@ FUNC_NAKED void SpaceManager::LoadSpace(int fileHelper)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// fileHelper
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1060::func));
 	__asm__
@@ -37296,6 +38205,7 @@ FUNC_NAKED void SpaceManager::UpdatePDS()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1061::func));
 	__asm__
@@ -37331,6 +38241,7 @@ FUNC_NAKED void SpaceManager::OnLoopNebulas()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1062::func));
 	__asm__
@@ -37366,6 +38277,7 @@ FUNC_NAKED void SpaceManager::OnLoop()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1063::func));
 	__asm__
@@ -37402,6 +38314,7 @@ FUNC_NAKED void SpaceManager::SetNebula(bool state)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// state
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1064::func));
 	__asm__
@@ -37438,6 +38351,7 @@ FUNC_NAKED void SpaceManager::SetStorm(bool state)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// state
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1065::func));
 	__asm__
@@ -37474,6 +38388,7 @@ FUNC_NAKED void SpaceManager::SetFireLevel(bool state)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// state
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1066::func));
 	__asm__
@@ -37511,6 +38426,7 @@ FUNC_NAKED void StarMap::SetPosition(Point unk0)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// unk0
 		"push [ebp+8]\n\t"		// unk0
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1067::func));
 	__asm__
@@ -37547,6 +38463,7 @@ FUNC_NAKED void StarMap::KeyDown(int unk0)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// unk0
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1068::func));
 	__asm__
@@ -37581,6 +38498,7 @@ FUNC_NAKED int StarMap::GetNextDangerMove()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1069::func));
 	__asm__
@@ -37615,6 +38533,7 @@ FUNC_NAKED void StarMap::Open()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1070::func));
 	__asm__
@@ -37650,6 +38569,7 @@ FUNC_NAKED void StarMap::Close()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1071::func));
 	__asm__
@@ -37686,6 +38606,7 @@ FUNC_NAKED void StarMap::SetOpen(bool unk0)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// unk0
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1072::func));
 	__asm__
@@ -37721,6 +38642,7 @@ FUNC_NAKED void StarMap::InitMapTitle()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1073::func));
 	__asm__
@@ -37756,6 +38678,7 @@ FUNC_NAKED void StarMap::InitNoFuelText()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1074::func));
 	__asm__
@@ -37791,6 +38714,7 @@ FUNC_NAKED void StarMap::InitBossMessageBox()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1075::func));
 	__asm__
@@ -37826,6 +38750,7 @@ FUNC_NAKED void StarMap::OnLanguageChange()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1076::func));
 	__asm__
@@ -37860,6 +38785,7 @@ FUNC_NAKED int StarMap::GetRandomSectorChoice()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1077::func));
 	__asm__
@@ -37895,6 +38821,7 @@ FUNC_NAKED void StarMap::NeighboringSector(int unk0)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// unk0
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1078::func));
 	__asm__
@@ -37933,6 +38860,7 @@ FUNC_NAKED void StarMap::GetSelectedSector(int unk0, int unk1, int unk2)
 		"push [ebp+16]\n\t"		// unk2
 		"push [ebp+12]\n\t"		// unk1
 		"push [ebp+8]\n\t"		// unk0
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1079::func));
 	__asm__
@@ -37968,6 +38896,7 @@ FUNC_NAKED void StarMap::StartSecretSector()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1080::func));
 	__asm__
@@ -38004,6 +38933,7 @@ FUNC_NAKED void StarMap::ReachSector(Sector *unk0)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// unk0
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1081::func));
 	__asm__
@@ -38040,6 +38970,7 @@ FUNC_NAKED void StarMap::UpdateSectorMap(Sector *unk0)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// unk0
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1082::func));
 	__asm__
@@ -38076,6 +39007,7 @@ FUNC_NAKED void StarMap::SaveGame(int file)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// file
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1083::func));
 	__asm__
@@ -38111,6 +39043,7 @@ FUNC_NAKED void StarMap::InitStatistics()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1084::func));
 	__asm__
@@ -38146,6 +39079,7 @@ FUNC_NAKED void StarMap::PrintStatistics()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1085::func));
 	__asm__
@@ -38181,6 +39115,7 @@ FUNC_NAKED void StarMap::AnalyzeMap()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1086::func));
 	__asm__
@@ -38217,6 +39152,7 @@ FUNC_NAKED void StarMap::ModifyPursuit(int unk0)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// unk0
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1087::func));
 	__asm__
@@ -38252,6 +39188,7 @@ FUNC_NAKED void StarMap::AtBeacon()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1088::func));
 	__asm__
@@ -38287,6 +39224,7 @@ FUNC_NAKED void StarMap::GetWaitLocation()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1089::func));
 	__asm__
@@ -38322,6 +39260,7 @@ FUNC_NAKED void StarMap::StartBeacon()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1090::func));
 	__asm__
@@ -38359,6 +39298,7 @@ FUNC_NAKED void StarMap::LocationsConnected(Location *unk0, Location *unk1)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// unk1
 		"push [ebp+8]\n\t"		// unk0
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1091::func));
 	__asm__
@@ -38432,6 +39372,7 @@ FUNC_NAKED void StarMap::TravelToLocation(Location *unk0)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// unk0
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1093::func));
 	__asm__
@@ -38467,6 +39408,7 @@ FUNC_NAKED void StarMap::ForceExitBeacon()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1094::func));
 	__asm__
@@ -38502,6 +39444,7 @@ FUNC_NAKED void StarMap::OnRenderFogEffect()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1095::func));
 	__asm__
@@ -38538,6 +39481,7 @@ FUNC_NAKED void StarMap::LocationHasBoss(Location *unk0)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// unk0
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1096::func));
 	__asm__
@@ -38574,6 +39518,7 @@ FUNC_NAKED void StarMap::LocationHasStore(Location *unk0)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// unk0
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1097::func));
 	__asm__
@@ -38610,6 +39555,7 @@ FUNC_NAKED void StarMap::LocationHasShip(Location *unk0)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// unk0
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1098::func));
 	__asm__
@@ -38645,6 +39591,7 @@ FUNC_NAKED void StarMap::AdvanceWorldLevel()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1099::func));
 	__asm__
@@ -38680,6 +39627,7 @@ FUNC_NAKED void StarMap::ReverseBossPath()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1100::func));
 	__asm__
@@ -38715,6 +39663,7 @@ FUNC_NAKED void StarMap::ForceBossJump()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1101::func));
 	__asm__
@@ -38750,6 +39699,7 @@ FUNC_NAKED void StarMap::ClearBoss()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1102::func));
 	__asm__
@@ -38786,6 +39736,7 @@ FUNC_NAKED void StarMap::SetBossStage(int stage)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// stage
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1103::func));
 	__asm__
@@ -38821,6 +39772,7 @@ FUNC_NAKED void StarMap::CheckGameOver()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1104::func));
 	__asm__
@@ -38856,6 +39808,7 @@ FUNC_NAKED void StarMap::RenderLabels()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1105::func));
 	__asm__
@@ -38891,6 +39844,7 @@ FUNC_NAKED void StarMap::DeleteMap()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1106::func));
 	__asm__
@@ -38928,6 +39882,7 @@ FUNC_NAKED void StarMap::MouseClick(int unk0, int unk1)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// unk1
 		"push [ebp+8]\n\t"		// unk0
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1107::func));
 	__asm__
@@ -38963,6 +39918,7 @@ FUNC_NAKED void StarMap::AddSectorColumn()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1108::func));
 	__asm__
@@ -38998,6 +39954,7 @@ FUNC_NAKED void StarMap::PushSectorColumn()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1109::func));
 	__asm__
@@ -39034,6 +39991,7 @@ FUNC_NAKED void StarMap::SelectNewSector(int unk0)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// unk0
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1110::func));
 	__asm__
@@ -39069,6 +40027,7 @@ FUNC_NAKED void StarMap::GenerateSectorMap()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1111::func));
 	__asm__
@@ -39104,6 +40063,7 @@ FUNC_NAKED void StarMap::constructor()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1112::func));
 	__asm__
@@ -39144,6 +40104,7 @@ FUNC_NAKED void StarMap::RenderSectorName(Sector *unk0, GL_Color unk1)
 		"push [ebp+16]\n\t"		// unk1
 		"push [ebp+12]\n\t"		// unk1
 		"push [ebp+8]\n\t"		// unk0
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1113::func));
 	__asm__
@@ -39179,6 +40140,7 @@ FUNC_NAKED void StarMap::UpdateDangerZone()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1114::func));
 	__asm__
@@ -39213,6 +40175,7 @@ FUNC_NAKED Location *StarMap::GetNewLocation()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1115::func));
 	__asm__
@@ -39247,6 +40210,7 @@ FUNC_NAKED void StarMap::OnLoop()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1116::func));
 	__asm__
@@ -39283,6 +40247,7 @@ FUNC_NAKED void StarMap::GenerateEvents(bool tutorial)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// tutorial
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1117::func));
 	__asm__
@@ -39319,6 +40284,7 @@ FUNC_NAKED void StarMap::AddConnections(Location *unk0)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// unk0
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1118::func));
 	__asm__
@@ -39354,6 +40320,7 @@ FUNC_NAKED void StarMap::MapConnected()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1119::func));
 	__asm__
@@ -39393,6 +40360,7 @@ FUNC_NAKED void StarMap::ConnectLocations(Point unk0, Point unk1)
 		"push [ebp+16]\n\t"		// unk1
 		"push [ebp+12]\n\t"		// unk0
 		"push [ebp+8]\n\t"		// unk0
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1120::func));
 	__asm__
@@ -39430,6 +40398,7 @@ FUNC_NAKED void StarMap::PopulateGrid(Point unk0)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// unk0
 		"push [ebp+8]\n\t"		// unk0
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1121::func));
 	__asm__
@@ -39466,6 +40435,7 @@ FUNC_NAKED Location *StarMap::PopClosestLoc(std::vector<Location*> &vec, std::ma
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// map
 		"push [ebp+8]\n\t"		// vec
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1122::func));
 	__asm__
@@ -39501,6 +40471,7 @@ FUNC_NAKED bool StarMap::AddQuest(const std::string &questEvent, bool force)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// force
 		"push [ebp+8]\n\t"		// questEvent
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1123::func));
 	__asm__
@@ -39536,6 +40507,7 @@ FUNC_NAKED Location *StarMap::GenerateMap(bool tutorial, bool seed)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// seed
 		"push [ebp+8]\n\t"		// tutorial
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1124::func));
 	__asm__
@@ -39570,6 +40542,7 @@ FUNC_NAKED Location *StarMap::NewGame(bool unk0)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// unk0
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1125::func));
 	__asm__
@@ -39607,6 +40580,7 @@ FUNC_NAKED std::vector<Location*> StarMap::Dijkstra(Location *start, Location *f
 		"push [ebp+16]\n\t"		// finish
 		"push [ebp+12]\n\t"		// start
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func1126::func));
 	__asm__
@@ -39643,6 +40617,7 @@ FUNC_NAKED void StarMap::MouseMove(int x, int y)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// y
 		"push [ebp+8]\n\t"		// x
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1127::func));
 	__asm__
@@ -39684,6 +40659,7 @@ FUNC_NAKED void StarMap::OnTouch(TouchAction unk0, int unk1, int unk2, int unk3,
 		"push [ebp+16]\n\t"		// unk2
 		"push [ebp+12]\n\t"		// unk1
 		"push [ebp+8]\n\t"		// unk0
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1128::func));
 	__asm__
@@ -39719,6 +40695,7 @@ FUNC_NAKED Location *StarMap::LoadGame(int fileHelper)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// fileHelper
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1129::func));
 	__asm__
@@ -39756,6 +40733,7 @@ FUNC_NAKED void StarMap::RenderLeftInsetButton(float unk0, float unk1, bool unk2
 		"push [ebp+16]\n\t"		// unk2
 		"push [ebp+12]\n\t"		// unk1
 		"push [ebp+8]\n\t"		// unk0
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1130::func));
 	__asm__
@@ -39791,6 +40769,7 @@ FUNC_NAKED void StarMap::RenderDistressButtons()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1131::func));
 	__asm__
@@ -39826,6 +40805,7 @@ FUNC_NAKED void StarMap::OnRender()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1132::func));
 	__asm__
@@ -39864,6 +40844,7 @@ FUNC_NAKED void StarMap::DrawConnection(const Pointf &pos1, const Pointf &pos2, 
 		"push [ebp+16]\n\t"		// color
 		"push [ebp+12]\n\t"		// pos2
 		"push [ebp+8]\n\t"		// pos1
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1133::func));
 	__asm__
@@ -39900,6 +40881,7 @@ FUNC_NAKED void StarMap::TurnIntoFleetLocation(Location *loc)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// loc
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1134::func));
 	__asm__
@@ -39936,6 +40918,7 @@ FUNC_NAKED std::string StarMap::GetLocationText(const Location *loc)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// loc
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func1135::func));
 	__asm__
@@ -39972,6 +40955,7 @@ FUNC_NAKED void StarMap::SetupNoFuel(int seed, const std::string &forceEscape)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// forceEscape
 		"push [ebp+8]\n\t"		// seed
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1136::func));
 	__asm__
@@ -40008,6 +40992,7 @@ FUNC_NAKED void StarMap::GenerateNebulas(const std::vector<std::string> &names)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// names
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1137::func));
 	__asm__
@@ -40043,6 +41028,7 @@ FUNC_NAKED void StarMap::UpdateBoss()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1138::func));
 	__asm__
@@ -40114,6 +41100,7 @@ FUNC_NAKED void Store::OnInit(ShipManager *shopper, Equipment *equip, int worldL
 		"push [ebp+16]\n\t"		// worldLevel
 		"push [ebp+12]\n\t"		// equip
 		"push [ebp+8]\n\t"		// shopper
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1140::func));
 	__asm__
@@ -40151,6 +41138,7 @@ FUNC_NAKED void Store::CreateStoreBoxes(int type, Equipment *equip)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// equip
 		"push [ebp+8]\n\t"		// type
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1141::func));
 	__asm__
@@ -40187,6 +41175,7 @@ FUNC_NAKED void Store::KeyDown(SDLKey key)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// key
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1142::func));
 	__asm__
@@ -40222,6 +41211,7 @@ FUNC_NAKED void Store::OnLoop()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1143::func));
 	__asm__
@@ -40257,6 +41247,7 @@ FUNC_NAKED void Store::Close()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1144::func));
 	__asm__
@@ -40294,6 +41285,7 @@ FUNC_NAKED void Store::MouseMove(int x, int y)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// y
 		"push [ebp+8]\n\t"		// x
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1145::func));
 	__asm__
@@ -40329,6 +41321,7 @@ FUNC_NAKED void Store::constructor()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1146::func));
 	__asm__
@@ -40365,6 +41358,7 @@ FUNC_NAKED void Store::SaveStore(int file)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// file
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1147::func));
 	__asm__
@@ -40402,6 +41396,7 @@ FUNC_NAKED void Store::RelinkShip(ShipManager *ship, Equipment *equip)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// equip
 		"push [ebp+8]\n\t"		// ship
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1148::func));
 	__asm__
@@ -40436,6 +41431,7 @@ FUNC_NAKED bool Store::HasType()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1149::func));
 	__asm__
@@ -40470,6 +41466,7 @@ FUNC_NAKED void Store::Clear()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1150::func));
 	__asm__
@@ -40508,6 +41505,7 @@ FUNC_NAKED void Store::InitHeading(int index, Point pos)
 		"push [ebp+16]\n\t"		// pos
 		"push [ebp+12]\n\t"		// pos
 		"push [ebp+8]\n\t"		// index
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1151::func));
 	__asm__
@@ -40543,6 +41541,7 @@ FUNC_NAKED void Store::DrawBuySellTabText()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1152::func));
 	__asm__
@@ -40580,6 +41579,7 @@ FUNC_NAKED void Store::MouseClick(int x, int y)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// y
 		"push [ebp+8]\n\t"		// x
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1153::func));
 	__asm__
@@ -40615,6 +41615,7 @@ FUNC_NAKED void Store::OnRender()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1154::func));
 	__asm__
@@ -40650,6 +41651,7 @@ FUNC_NAKED void Store::SetPositions()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1155::func));
 	__asm__
@@ -40687,6 +41689,7 @@ FUNC_NAKED void Store::LoadStore(int file, int worldLevel)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// worldLevel
 		"push [ebp+8]\n\t"		// file
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1156::func));
 	__asm__
@@ -40724,6 +41727,7 @@ FUNC_NAKED void Store::SetPosition(Point pos)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// pos
 		"push [ebp+8]\n\t"		// pos
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1157::func));
 	__asm__
@@ -40759,6 +41763,7 @@ FUNC_NAKED void Store::destructor()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1158::func));
 	__asm__
@@ -40796,6 +41801,7 @@ FUNC_NAKED void StoreBox::MouseClick(int x, int y)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// y
 		"push [ebp+8]\n\t"		// x
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1159::func));
 	__asm__
@@ -40831,6 +41837,7 @@ FUNC_NAKED void StoreBox::Activate()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1160::func));
 	__asm__
@@ -40867,6 +41874,7 @@ FUNC_NAKED void StoreBox::InitBlueprint(Blueprint *bp)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// bp
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1161::func));
 	__asm__
@@ -40905,6 +41913,7 @@ FUNC_NAKED void StoreBox::constructor(const std::string &buttonImage, ShipManage
 		"push [ebp+16]\n\t"		// equip
 		"push [ebp+12]\n\t"		// shopper
 		"push [ebp+8]\n\t"		// buttonImage
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1162::func));
 	__asm__
@@ -40940,6 +41949,7 @@ FUNC_NAKED void StoreBox::OnLoop()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1163::func));
 	__asm__
@@ -40977,6 +41987,7 @@ FUNC_NAKED void StoreBox::SetPosition(Point pos)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// pos
 		"push [ebp+8]\n\t"		// pos
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1164::func));
 	__asm__
@@ -41012,6 +42023,7 @@ FUNC_NAKED void StoreBox::OnRender()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1165::func));
 	__asm__
@@ -41047,6 +42059,7 @@ FUNC_NAKED void StoreBox::Purchase()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1166::func));
 	__asm__
@@ -41083,6 +42096,7 @@ FUNC_NAKED void SystemBox::OnRender(bool ignoreStatus)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// ignoreStatus
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1167::func));
 	__asm__
@@ -41122,6 +42136,7 @@ FUNC_NAKED void SystemBox::constructor(Point pos, ShipSystem *sys, bool playerUI
 		"push [ebp+16]\n\t"		// sys
 		"push [ebp+12]\n\t"		// pos
 		"push [ebp+8]\n\t"		// pos
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1168::func));
 	__asm__
@@ -41159,6 +42174,7 @@ FUNC_NAKED void SystemBox::MouseMove(int x, int y)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// y
 		"push [ebp+8]\n\t"		// x
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1169::func));
 	__asm__
@@ -41194,6 +42210,7 @@ FUNC_NAKED bool SystemBox::MouseClick(bool shift)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// shift
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1170::func));
 	__asm__
@@ -41230,6 +42247,7 @@ FUNC_NAKED void SystemBox::KeyDown(SDLKey key, bool shift)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// shift
 		"push [ebp+8]\n\t"		// key
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1171::func));
 	__asm__
@@ -41265,6 +42283,7 @@ FUNC_NAKED void SystemControl::CreateSystemBoxes()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1172::func));
 	__asm__
@@ -41300,6 +42319,7 @@ FUNC_NAKED SystemBox *SystemControl::GetSystemBox(int systemId)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// systemId
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1173::func));
 	__asm__
@@ -41334,6 +42354,7 @@ FUNC_NAKED void SystemControl::RenderPowerBar()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1174::func));
 	__asm__
@@ -41425,6 +42446,7 @@ FUNC_NAKED void SystemCustomBox::constructor(Point pos, ShipSystem *sys, ShipMan
 		"push [ebp+16]\n\t"		// sys
 		"push [ebp+12]\n\t"		// pos
 		"push [ebp+8]\n\t"		// pos
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1178::func));
 	__asm__
@@ -41461,6 +42483,7 @@ FUNC_NAKED void SystemStoreBox::SetExtraData(int droneChoice)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// droneChoice
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1179::func));
 	__asm__
@@ -41499,6 +42522,7 @@ FUNC_NAKED void SystemStoreBox::constructor(ShipManager *shopper, Equipment *equ
 		"push [ebp+16]\n\t"		// sys
 		"push [ebp+12]\n\t"		// equip
 		"push [ebp+8]\n\t"		// shopper
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1180::func));
 	__asm__
@@ -41533,6 +42557,7 @@ FUNC_NAKED bool SystemStoreBox::CanHold()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1181::func));
 	__asm__
@@ -41569,6 +42594,7 @@ FUNC_NAKED void SystemStoreBox::MouseMove(int mX, int mY)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// mY
 		"push [ebp+8]\n\t"		// mX
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1182::func));
 	__asm__
@@ -41604,6 +42630,7 @@ FUNC_NAKED void SystemStoreBox::Activate()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1183::func));
 	__asm__
@@ -41639,6 +42666,7 @@ FUNC_NAKED void SystemStoreBox::Purchase()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1184::func));
 	__asm__
@@ -41674,6 +42702,7 @@ FUNC_NAKED void TabbedWindow::Close()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1185::func));
 	__asm__
@@ -41712,6 +42741,7 @@ FUNC_NAKED void TeleportBox::constructor(Point pos, TeleportSystem *sys)
 		"push [ebp+16]\n\t"		// sys
 		"push [ebp+12]\n\t"		// pos
 		"push [ebp+8]\n\t"		// pos
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1186::func));
 	__asm__
@@ -41748,6 +42778,7 @@ FUNC_NAKED void TeleportSystem::SetHackingLevel(int hackingLevel)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// hackingLevel
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1187::func));
 	__asm__
@@ -41783,6 +42814,7 @@ FUNC_NAKED void TeleportSystem::OnRenderFloor()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1188::func));
 	__asm__
@@ -41822,6 +42854,7 @@ FUNC_NAKED void TeleportSystem::constructor(int systemId, int roomId, int shipId
 		"push [ebp+16]\n\t"		// shipId
 		"push [ebp+12]\n\t"		// roomId
 		"push [ebp+8]\n\t"		// systemId
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1189::func));
 	__asm__
@@ -41856,6 +42889,7 @@ FUNC_NAKED float TeleportSystem::GetChargedPercent()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1190::func));
 	__asm__
@@ -41889,6 +42923,7 @@ FUNC_NAKED bool TeleportSystem::Charged()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1191::func));
 	__asm__
@@ -41923,6 +42958,7 @@ FUNC_NAKED void TeleportSystem::ClearCrewLocations()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1192::func));
 	__asm__
@@ -41959,6 +42995,7 @@ FUNC_NAKED void TeleportSystem::UpdateCrewLocation(int unk)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// unk
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1193::func));
 	__asm__
@@ -41995,6 +43032,7 @@ FUNC_NAKED void TeleportSystem::SetArmed(int armed)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// armed
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1194::func));
 	__asm__
@@ -42030,6 +43068,7 @@ FUNC_NAKED void TeleportSystem::ForceReady()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1195::func));
 	__asm__
@@ -42064,6 +43103,7 @@ FUNC_NAKED bool TeleportSystem::CanSend()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1196::func));
 	__asm__
@@ -42097,6 +43137,7 @@ FUNC_NAKED bool TeleportSystem::CanReceive()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1197::func));
 	__asm__
@@ -42131,6 +43172,7 @@ FUNC_NAKED void TeleportSystem::InitiateTeleport()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1198::func));
 	__asm__
@@ -42166,6 +43208,7 @@ FUNC_NAKED void TeleportSystem::OnLoop()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1199::func));
 	__asm__
@@ -42201,6 +43244,7 @@ FUNC_NAKED void TeleportSystem::Jump()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1200::func));
 	__asm__
@@ -42236,6 +43280,7 @@ FUNC_NAKED void TextButton::ResetPrimitives()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1201::func));
 	__asm__
@@ -42270,6 +43315,7 @@ FUNC_NAKED int TextButton::GetIdealButtonWidth()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1202::func));
 	__asm__
@@ -42339,6 +43385,7 @@ FUNC_NAKED void TextButton::constructor()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1204::func));
 	__asm__
@@ -42381,6 +43428,7 @@ FUNC_NAKED void TextButton::OnInit(int x, int y, int w, int h, int cornerInset, 
 		"push [ebp+16]\n\t"		// w
 		"push [ebp+12]\n\t"		// y
 		"push [ebp+8]\n\t"		// x
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1205::func));
 	__asm__
@@ -42416,6 +43464,7 @@ FUNC_NAKED void TextButton::OnRender()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1206::func));
 	__asm__
@@ -42451,6 +43500,7 @@ FUNC_NAKED void TextButton::destructor()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1207::func));
 	__asm__
@@ -42484,6 +43534,7 @@ FUNC_NAKED __int64 TextButton::GetSize_DO_NOT_USE_DIRECTLY()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1208::func));
 	__asm__
@@ -42521,6 +43572,7 @@ FUNC_NAKED void TextButton::OnInitRect(Globals::Rect &rect, int cornerInset, Tex
 		"push [ebp+16]\n\t"		// buttonLabel
 		"push [ebp+12]\n\t"		// cornerInset
 		"push [ebp+8]\n\t"		// rect
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1209::func));
 	__asm__
@@ -42560,6 +43612,7 @@ FUNC_NAKED void TextButton::SetBaseImage(const std::string &name, Point pos, int
 		"push [ebp+16]\n\t"		// pos
 		"push [ebp+12]\n\t"		// pos
 		"push [ebp+8]\n\t"		// name
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1210::func));
 	__asm__
@@ -42599,6 +43652,7 @@ FUNC_NAKED void TextButton::SetAutoWidth(bool autoWidth, bool autoRightAlign, in
 		"push [ebp+16]\n\t"		// margin
 		"push [ebp+12]\n\t"		// autoRightAlign
 		"push [ebp+8]\n\t"		// autoWidth
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1211::func));
 	__asm__
@@ -42638,6 +43692,7 @@ FUNC_NAKED void TextButton::SetInactiveColor(GL_Color color)
 		"push [ebp+16]\n\t"		// color
 		"push [ebp+12]\n\t"		// color
 		"push [ebp+8]\n\t"		// color
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1212::func));
 	__asm__
@@ -42677,6 +43732,7 @@ FUNC_NAKED void TextButton::SetActiveColor(GL_Color color)
 		"push [ebp+16]\n\t"		// color
 		"push [ebp+12]\n\t"		// color
 		"push [ebp+8]\n\t"		// color
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1213::func));
 	__asm__
@@ -42716,6 +43772,7 @@ FUNC_NAKED void TextButton::SetSelectedColor(GL_Color color)
 		"push [ebp+16]\n\t"		// color
 		"push [ebp+12]\n\t"		// color
 		"push [ebp+8]\n\t"		// color
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1214::func));
 	__asm__
@@ -42755,6 +43812,7 @@ FUNC_NAKED void TextButton::SetTextColor(GL_Color color)
 		"push [ebp+16]\n\t"		// color
 		"push [ebp+12]\n\t"		// color
 		"push [ebp+8]\n\t"		// color
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1215::func));
 	__asm__
@@ -42790,6 +43848,7 @@ FUNC_NAKED void TextButton::InitPrimitives()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1216::func));
 	__asm__
@@ -42828,6 +43887,7 @@ FUNC_NAKED void TextInput::constructor(int maxChars, TextInput::AllowedCharType 
 		"push [ebp+16]\n\t"		// prompt
 		"push [ebp+12]\n\t"		// allowedCharType
 		"push [ebp+8]\n\t"		// maxChars
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1217::func));
 	__asm__
@@ -42866,6 +43926,7 @@ FUNC_NAKED void TextInput::OnRender(int font, Point pos)
 		"push [ebp+16]\n\t"		// pos
 		"push [ebp+12]\n\t"		// pos
 		"push [ebp+8]\n\t"		// font
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1218::func));
 	__asm__
@@ -42901,6 +43962,7 @@ FUNC_NAKED void TextInput::OnLoop()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1219::func));
 	__asm__
@@ -42937,6 +43999,7 @@ FUNC_NAKED void TextInput::OnTextEvent(CEvent::TextEvent event)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// event
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1220::func));
 	__asm__
@@ -42971,6 +44034,7 @@ FUNC_NAKED bool TextInput::GetActive()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1221::func));
 	__asm__
@@ -43005,6 +44069,7 @@ FUNC_NAKED std::string TextInput::GetText()
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func1222::func));
 	__asm__
@@ -43039,6 +44104,7 @@ FUNC_NAKED void TextInput::Start()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1223::func));
 	__asm__
@@ -43074,6 +44140,7 @@ FUNC_NAKED void TextInput::Stop()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1224::func));
 	__asm__
@@ -43109,6 +44176,7 @@ FUNC_NAKED int TextInput::SetText(const std::string &text)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// text
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1225::func));
 	__asm__
@@ -43144,6 +44212,7 @@ FUNC_NAKED void TextInput::OnTextInput(int asciiChar)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// asciiChar
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1226::func));
 	__asm__
@@ -43181,6 +44250,7 @@ FUNC_NAKED std::string TextLibrary::GetText(const std::string &name, const std::
 		"push [ebp+16]\n\t"		// lang
 		"push [ebp+12]\n\t"		// name
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func1227::func));
 	__asm__
@@ -43215,6 +44285,7 @@ FUNC_NAKED std::string TextString::GetText()
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func1228::func));
 	__asm__
@@ -43250,6 +44321,7 @@ FUNC_NAKED void TimerHelper::Start(int goal)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// goal
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1229::func));
 	__asm__
@@ -43284,6 +44356,7 @@ FUNC_NAKED bool TimerHelper::Running()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1230::func));
 	__asm__
@@ -43320,6 +44393,7 @@ FUNC_NAKED void TimerHelper::ResetMinMax(int min, int max)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// max
 		"push [ebp+8]\n\t"		// min
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1231::func));
 	__asm__
@@ -43356,6 +44430,7 @@ FUNC_NAKED void TimerHelper::SetMaxTime(float max)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// max
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1232::func));
 	__asm__
@@ -43391,6 +44466,7 @@ FUNC_NAKED void TimerHelper::Stop()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1233::func));
 	__asm__
@@ -43426,6 +44502,7 @@ FUNC_NAKED void TimerHelper::Update()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1234::func));
 	__asm__
@@ -43460,6 +44537,7 @@ FUNC_NAKED bool TimerHelper::Done()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1235::func));
 	__asm__
@@ -43495,6 +44573,7 @@ FUNC_NAKED void TopScore::copy_constructor(const TopScore &other)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// other
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1236::func));
 	__asm__
@@ -43530,6 +44609,7 @@ FUNC_NAKED void TutorialManager::constructor()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1237::func));
 	__asm__
@@ -43564,6 +44644,7 @@ FUNC_NAKED bool TutorialManager::Running()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1238::func));
 	__asm__
@@ -43605,6 +44686,7 @@ FUNC_NAKED void TutorialManager::OnInit(ShipManager *ship, CommandGui *gui, Crew
 		"push [ebp+16]\n\t"		// crewControl
 		"push [ebp+12]\n\t"		// gui
 		"push [ebp+8]\n\t"		// ship
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1239::func));
 	__asm__
@@ -43651,6 +44733,7 @@ FUNC_NAKED void UnlockArrow::constructor(Point pos, int unk1, int unk2)
 		"push [ebp+16]\n\t"		// unk1
 		"push [ebp+12]\n\t"		// pos
 		"push [ebp+8]\n\t"		// pos
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1241::func));
 	__asm__
@@ -43687,6 +44770,7 @@ FUNC_NAKED bool UnlockArrow::MouseMove(int x, int y)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// y
 		"push [ebp+8]\n\t"		// x
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1242::func));
 	__asm__
@@ -43721,6 +44805,7 @@ FUNC_NAKED void UnlockArrow::OnRender()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1243::func));
 	__asm__
@@ -43759,6 +44844,7 @@ FUNC_NAKED void UpgradeBox::constructorEmpty(Point pos, bool subsystem)
 		"push [ebp+16]\n\t"		// subsystem
 		"push [ebp+12]\n\t"		// pos
 		"push [ebp+8]\n\t"		// pos
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1244::func));
 	__asm__
@@ -43799,6 +44885,7 @@ FUNC_NAKED void UpgradeBox::constructorSystem(ShipManager *ship, ShipSystem *sys
 		"push [ebp+16]\n\t"		// pos
 		"push [ebp+12]\n\t"		// sys
 		"push [ebp+8]\n\t"		// ship
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1245::func));
 	__asm__
@@ -43834,6 +44921,7 @@ FUNC_NAKED void UpgradeBox::destructor()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1246::func));
 	__asm__
@@ -43869,6 +44957,7 @@ FUNC_NAKED void UpgradeBox::OnRender()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1247::func));
 	__asm__
@@ -43906,6 +44995,7 @@ FUNC_NAKED void UpgradeBox::MouseMove(int mX, int mY)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// mY
 		"push [ebp+8]\n\t"		// mX
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1248::func));
 	__asm__
@@ -43943,6 +45033,7 @@ FUNC_NAKED void UpgradeBox::MouseClick(int mX, int mY)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// mY
 		"push [ebp+8]\n\t"		// mX
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1249::func));
 	__asm__
@@ -43980,6 +45071,7 @@ FUNC_NAKED void UpgradeBox::MouseRightClick(int mX, int mY)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// mY
 		"push [ebp+8]\n\t"		// mX
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1250::func));
 	__asm__
@@ -44015,6 +45107,7 @@ FUNC_NAKED void UpgradeBox::Undo()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1251::func));
 	__asm__
@@ -44050,6 +45143,7 @@ FUNC_NAKED void UpgradeBox::Accept()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1252::func));
 	__asm__
@@ -44086,6 +45180,7 @@ FUNC_NAKED void Upgrades::OnInit(ShipManager *ship)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// ship
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1253::func));
 	__asm__
@@ -44121,6 +45216,7 @@ FUNC_NAKED void Upgrades::ClearUpgradeBoxes()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1254::func));
 	__asm__
@@ -44158,6 +45254,7 @@ FUNC_NAKED void Upgrades::MouseMove(int mX, int mY)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// mY
 		"push [ebp+8]\n\t"		// mX
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1255::func));
 	__asm__
@@ -44193,6 +45290,7 @@ FUNC_NAKED void Upgrades::OnLoop()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1256::func));
 	__asm__
@@ -44230,6 +45328,7 @@ FUNC_NAKED void Upgrades::MouseClick(int mX, int mY)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// mY
 		"push [ebp+8]\n\t"		// mX
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1257::func));
 	__asm__
@@ -44267,6 +45366,7 @@ FUNC_NAKED void Upgrades::MouseRightClick(int mX, int mY)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// mY
 		"push [ebp+8]\n\t"		// mX
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1258::func));
 	__asm__
@@ -44302,6 +45402,7 @@ FUNC_NAKED void Upgrades::OnRender()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1259::func));
 	__asm__
@@ -44337,6 +45438,7 @@ FUNC_NAKED void Upgrades::Close()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1260::func));
 	__asm__
@@ -44372,6 +45474,7 @@ FUNC_NAKED void Upgrades::ConfirmUpgrades()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1261::func));
 	__asm__
@@ -44407,6 +45510,7 @@ FUNC_NAKED void WarningMessage::Start()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1262::func));
 	__asm__
@@ -44442,6 +45546,7 @@ FUNC_NAKED void WarningMessage::OnRender()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1263::func));
 	__asm__
@@ -44478,6 +45583,7 @@ FUNC_NAKED void WarningMessage::RenderWithAlpha(float alpha)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// alpha
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1264::func));
 	__asm__
@@ -44513,6 +45619,7 @@ FUNC_NAKED void WarningMessage::constructor()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1265::func));
 	__asm__
@@ -44553,6 +45660,7 @@ FUNC_NAKED void WarningMessage::InitImage(const std::string &imageName, Point po
 		"push [ebp+16]\n\t"		// position
 		"push [ebp+12]\n\t"		// position
 		"push [ebp+8]\n\t"		// imageName
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1266::func));
 	__asm__
@@ -44598,6 +45706,7 @@ FUNC_NAKED void WarningMessage::InitText(const TextString &text, Point position,
 		"push [ebp+16]\n\t"		// position
 		"push [ebp+12]\n\t"		// position
 		"push [ebp+8]\n\t"		// text
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1267::func));
 	__asm__
@@ -44633,6 +45742,7 @@ FUNC_NAKED void WarningMessage::OnLoop()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1268::func));
 	__asm__
@@ -44669,6 +45779,7 @@ FUNC_NAKED void WarningMessage::SetImage(const std::string &imageName)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// imageName
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1269::func));
 	__asm__
@@ -44705,6 +45816,7 @@ FUNC_NAKED void WarningMessage::SetText(const TextString &text)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// text
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1270::func));
 	__asm__
@@ -44745,6 +45857,7 @@ FUNC_NAKED void WarningMessage::SetText(const TextString &text, GL_Color textCol
 		"push [ebp+16]\n\t"		// textColor
 		"push [ebp+12]\n\t"		// textColor
 		"push [ebp+8]\n\t"		// text
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1271::func));
 	__asm__
@@ -44782,6 +45895,7 @@ FUNC_NAKED void WarningMessage::SetPosition(Point position)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// position
 		"push [ebp+8]\n\t"		// position
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1272::func));
 	__asm__
@@ -44818,6 +45932,7 @@ FUNC_NAKED void WarningMessage::SetLoop(bool loop)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// loop
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1273::func));
 	__asm__
@@ -44854,6 +45969,7 @@ FUNC_NAKED void WarningMessage::SetSound(const std::string &sound)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// sound
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1274::func));
 	__asm__
@@ -44888,6 +46004,7 @@ FUNC_NAKED bool WeaponAnimation::StartFire()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1275::func));
 	__asm__
@@ -44923,6 +46040,7 @@ FUNC_NAKED void WeaponAnimation::SetFireTime(float time)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// time
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1276::func));
 	__asm__
@@ -44958,6 +46076,7 @@ FUNC_NAKED void WeaponAnimation::Update()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1277::func));
 	__asm__
@@ -45028,6 +46147,7 @@ FUNC_NAKED void WeaponBlueprint::constructor()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1279::func));
 	__asm__
@@ -45063,6 +46183,7 @@ FUNC_NAKED void WeaponBlueprint::destructor()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1280::func));
 	__asm__
@@ -45099,6 +46220,7 @@ FUNC_NAKED std::string WeaponBlueprint::GetDescription(bool tooltip)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// tooltip
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func1281::func));
 	__asm__
@@ -45134,6 +46256,7 @@ FUNC_NAKED void WeaponBlueprint::RenderIcon(float scale)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// scale
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1282::func));
 	__asm__
@@ -45171,6 +46294,7 @@ FUNC_NAKED void WeaponBox::RenderBox(bool dragging, bool flashPowerBox)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// flashPowerBox
 		"push [ebp+8]\n\t"		// dragging
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1283::func));
 	__asm__
@@ -45206,6 +46330,7 @@ FUNC_NAKED std::string WeaponBox::GenerateTooltip()
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// this
+			// ecx has implicit_output
 	);
 	__asm__("call %0\n\t" :: "m"(_func1284::func));
 	__asm__
@@ -45243,6 +46368,7 @@ FUNC_NAKED void WeaponControl::Fire(std::vector<Pointf> &points, int target, boo
 		"push [ebp+16]\n\t"		// autoFire
 		"push [ebp+12]\n\t"		// target
 		"push [ebp+8]\n\t"		// points
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1285::func));
 	__asm__
@@ -45279,6 +46405,7 @@ FUNC_NAKED void WeaponControl::OnRender(bool unk)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// unk
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1286::func));
 	__asm__
@@ -45316,6 +46443,7 @@ FUNC_NAKED bool WeaponControl::LButton(int x, int y, bool holdingShift)
 		"push [ebp+16]\n\t"		// holdingShift
 		"push [ebp+12]\n\t"		// y
 		"push [ebp+8]\n\t"		// x
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1287::func));
 	__asm__
@@ -45352,6 +46480,7 @@ FUNC_NAKED void WeaponControl::MouseMove(int x, int y)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// y
 		"push [ebp+8]\n\t"		// x
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1288::func));
 	__asm__
@@ -45388,6 +46517,7 @@ FUNC_NAKED void WeaponControl::LinkShip(ShipManager *ship)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// ship
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1289::func));
 	__asm__
@@ -45423,6 +46553,7 @@ FUNC_NAKED void WeaponControl::constructor()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1290::func));
 	__asm__
@@ -45460,6 +46591,7 @@ FUNC_NAKED void WeaponControl::SetAutofiring(bool on, bool simple)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// simple
 		"push [ebp+8]\n\t"		// on
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1291::func));
 	__asm__
@@ -45495,6 +46627,7 @@ FUNC_NAKED bool WeaponControl::KeyDown(SDLKey key)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// key
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1292::func));
 	__asm__
@@ -45567,6 +46700,7 @@ FUNC_NAKED void WeaponStoreBox::constructor(ShipManager *ship, Equipment *equip,
 		"push [ebp+16]\n\t"		// weaponBp
 		"push [ebp+12]\n\t"		// equip
 		"push [ebp+8]\n\t"		// ship
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1294::func));
 	__asm__
@@ -45603,6 +46737,7 @@ FUNC_NAKED void WeaponSystem::RemoveWeapon(int slot)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// slot
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1295::func));
 	__asm__
@@ -45640,6 +46775,7 @@ FUNC_NAKED void WeaponSystem::SetBonusPower(int amount, int permanentPower)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// permanentPower
 		"push [ebp+8]\n\t"		// amount
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1296::func));
 	__asm__
@@ -45675,6 +46811,7 @@ FUNC_NAKED void WeaponSystem::OnLoop()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1297::func));
 	__asm__
@@ -45714,6 +46851,7 @@ FUNC_NAKED void WeaponSystemBox::constructor(Point pos, ShipSystem *sys, WeaponC
 		"push [ebp+16]\n\t"		// sys
 		"push [ebp+12]\n\t"		// pos
 		"push [ebp+8]\n\t"		// pos
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1298::func));
 	__asm__
@@ -45751,6 +46889,7 @@ FUNC_NAKED void WindowFrame::Draw(int x, int y)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// y
 		"push [ebp+8]\n\t"		// x
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1299::func));
 	__asm__
@@ -45787,6 +46926,7 @@ FUNC_NAKED void WindowFrame::DrawMask(int unk)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// unk
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1300::func));
 	__asm__
@@ -45826,6 +46966,7 @@ FUNC_NAKED void WindowFrame::constructor(int x, int y, int w, int h)
 		"push [ebp+16]\n\t"		// w
 		"push [ebp+12]\n\t"		// y
 		"push [ebp+8]\n\t"		// x
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1301::func));
 	__asm__
@@ -45861,6 +47002,7 @@ FUNC_NAKED void WindowFrame::destructor()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1302::func));
 	__asm__
@@ -45896,6 +47038,7 @@ FUNC_NAKED void WorldManager::constructor()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1303::func));
 	__asm__
@@ -45930,6 +47073,7 @@ FUNC_NAKED int WorldManager::OnInit()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1304::func));
 	__asm__
@@ -46000,6 +47144,7 @@ FUNC_NAKED void WorldManager::CreateLocation(Location *loc)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// loc
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1306::func));
 	__asm__
@@ -46035,6 +47180,7 @@ FUNC_NAKED void WorldManager::SaveGame()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1307::func));
 	__asm__
@@ -46071,6 +47217,7 @@ FUNC_NAKED void WorldManager::CreateChoiceBox(LocationEvent *event)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// event
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1308::func));
 	__asm__
@@ -46107,6 +47254,7 @@ FUNC_NAKED void WorldManager::CreateChoiceBox0(LocationEvent *event)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// event
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1309::func));
 	__asm__
@@ -46143,6 +47291,7 @@ FUNC_NAKED void WorldManager::UpdateLocation(LocationEvent *event)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// event
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1310::func));
 	__asm__
@@ -46179,6 +47328,7 @@ FUNC_NAKED void WorldManager::UpdateLocation0(LocationEvent *event)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// event
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1311::func));
 	__asm__
@@ -46214,6 +47364,7 @@ FUNC_NAKED LocationEvent *WorldManager::ModifyResources(LocationEvent *event)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// event
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1312::func));
 	__asm__
@@ -46250,6 +47401,7 @@ FUNC_NAKED void WorldManager::ModifyEnvironment(int envFlag, int envTarget)
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// envTarget
 		"push [ebp+8]\n\t"		// envFlag
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1313::func));
 	__asm__
@@ -46286,6 +47438,7 @@ FUNC_NAKED void WorldManager::CheckStatusEffects(std::vector<StatusEffect> &vec)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// vec
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1314::func));
 	__asm__
@@ -46327,6 +47480,7 @@ FUNC_NAKED void WorldManager::ModifyStatusEffect(StatusEffect effect, ShipManage
 		"push [ebp+16]\n\t"		// effect
 		"push [ebp+12]\n\t"		// effect
 		"push [ebp+8]\n\t"		// effect
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1315::func));
 	__asm__
@@ -46363,6 +47517,7 @@ FUNC_NAKED void WorldManager::StartGame(ShipManager *ship)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// ship
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1316::func));
 	__asm__
@@ -46398,6 +47553,7 @@ FUNC_NAKED void WorldManager::Restart()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1317::func));
 	__asm__
@@ -46434,6 +47590,7 @@ FUNC_NAKED void WorldManager::LoadGame(const std::string &fileName)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// fileName
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1318::func));
 	__asm__
@@ -46469,6 +47626,7 @@ FUNC_NAKED void WorldManager::OnLoop()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1319::func));
 	__asm__
@@ -46504,6 +47662,7 @@ FUNC_NAKED void WorldManager::PauseLoop()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1320::func));
 	__asm__
@@ -46539,6 +47698,7 @@ FUNC_NAKED void WorldManager::CreateNewGame()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1321::func));
 	__asm__
@@ -46573,6 +47733,7 @@ FUNC_NAKED bool WorldManager::HostileEnvironment()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1322::func));
 	__asm__
@@ -46607,6 +47768,7 @@ FUNC_NAKED bool WorldManager::AddBoarders(BoardingEvent &boardingEvent)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// boardingEvent
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1323::func));
 	__asm__
@@ -46642,6 +47804,7 @@ FUNC_NAKED void WorldManager::CreateStore(LocationEvent *event)
 		"push esi\n\t"
 		"push edi\n\t"
 		"push [ebp+8]\n\t"		// event
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1324::func));
 	__asm__
@@ -46678,6 +47841,7 @@ FUNC_NAKED bool WorldManager::CheckRequirements(LocationEvent *event, bool hidde
 		"push edi\n\t"
 		"push [ebp+12]\n\t"		// hidden
 		"push [ebp+8]\n\t"		// event
+			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1325::func));
 	__asm__
