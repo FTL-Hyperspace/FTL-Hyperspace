@@ -32,6 +32,8 @@ local useIntelASMSyntax = true
 local stackAlignmentSize = 0x10
 local useNaked = true
 local argPattern = {}
+local argPatternSSE = {}
+local floatsPassedInSSERegisters = false
 if string.find(mode, "linux") ~= nil then
     -- compiler = "gcc"
     useStackAlignment = true
@@ -40,6 +42,7 @@ if string.find(mode, "linux") ~= nil then
 	useIntelASMSyntax = false
     if string.find(mode, "x86_64") ~= nil then
         stackAlignIncludesCALL = true
+        -- NOTE: Linux syscall uses r10 instead of rcx
         argPattern = {
             "rdi",
             "rsi",
@@ -48,6 +51,17 @@ if string.find(mode, "linux") ~= nil then
             "r8",
             "r9"
         }
+        argPatternSSE = {
+            "xmm0",
+            "xmm1",
+            "xmm2",
+            "xmm3",
+            "xmm4",
+            "xmm5",
+            "xmm6",
+            "xmm7"
+        }
+        floatsPassedInSSERegisters = true
     end
 elseif string.find(mode, "windows") ~= nil then
     thiscallFirstArgumentECX = true
@@ -58,7 +72,7 @@ elseif string.find(mode, "windows") ~= nil then
     -- compiler = "msvc"
 elseif string.find(mode, "mingw") ~= nil then
     thiscallFirstArgumentECX = true
-    argPattern =  { "ecx" }
+    -- argPattern =  { "ecx" }
     if string.find(mode, "x86_64") ~= nil then
         error("64-bit x86 is not yet supported for Windows MinGW")
     end
@@ -156,7 +170,7 @@ local function sizeof(t)
 			if sdef.inherits then
 				size = sizeof(structs[sdef.inherits:cname()])
 			elseif sdef.vtable then
-				size = size + 4
+				size = size + 4 -- TODO: Is 4 correct on 64-bit?
 			end
 			
 			for _,f in pairs(sdef.fields) do
@@ -170,11 +184,11 @@ local function sizeof(t)
 			size = 1
 		elseif t.parent and t.parent.class == "std" then
 			if t.class == "string" then
-				size = 28
+				size = 28 -- TODO: This needs to be set by compiler type & version/era of libstdc++ as std::string has historically changed sizes
 			elseif t.class == "vector" then
-				size = 16
+				size = 16 -- TODO: Bigger on x64?
 			elseif t.class == "set" then
-				size = 16
+				size = 16 -- TODO: Bigger on x64?
 			elseif t.class == "pair" then
 				size = 8
 			end
@@ -192,7 +206,7 @@ local function sizeof(t)
 end
 
 local function sizeof_aligned(t)
-	return math.ceil(sizeof(t)/4) -- TODO: Might need to be 8 on 64-bit?
+	return math.ceil(sizeof(t)/archPushSize)
 end
 
 ----------------------------------------------------------------------------------
@@ -486,10 +500,26 @@ for k,fd in pairs(tfiles) do
             -- Precompute stack positions for all arguments
             local stackPos = 8 -- TODO: Is this size 16 on 64-bit, or is it still just 8 because of the slightly different stack alignment with CALL?
             local pushSize = 0
+            local flt_i = 1
+            local int_i = 1
             for k, arg in ipairs(func.args) do
                 arg.size = sizeof_aligned(arg)
                 if k == 1 and func.thiscall and arg.reg == "ecx" and thiscallFirstArgumentECX then -- TODO: This will need total reworking for 64-bit since it's more than just ECX as the caller on Windows
                     assert(arg.size == 1)
+                elseif arg.reg and floatsPassedInSSERegisters and (arg.class == "float" or arg.class == "double") and flt_i <= #argPatternSSE then
+                    if arg.reg ~= argPatternSSE[flt_i] then
+                        local classname
+                        if func.varparent then classname = func.varparent:cname() end
+                        print("Warning! potential SSE register clobbering detected, not yet supported copy to a register while incoming argument was on a register and was not the same register, " .. argPatternSSE[flt_i] .. "->" .. arg.reg .. " for argument: " .. arg.name .. " for function: " .. classname .. "::" .. func.name)
+                    end
+                    flt_i = flt_i + 1
+                elseif arg.reg and int_i <= #argPattern then
+                    if arg.reg ~= argPattern[int_i] then -- Check if we would be copying the same register to itself
+                        local classname
+                        if func.varparent then classname = func.varparent:cname() end
+                        print("Warning! potential register clobbering detected, not yet supported copy to a register while incoming argument was on a register and was not the same register, " .. argPattern[int_i] .. "->" .. arg.reg .. " for argument: " .. arg.name .. " for function: " .. classname .. "::" .. func.name)
+                    end
+                    int_i = int_i + 1
                 else
                     arg.pos = stackPos
                     local argMemory = archPushSize * arg.size
@@ -499,6 +529,7 @@ for k,fd in pairs(tfiles) do
                     end
                 end
             end
+            
             -- TODO: Is this 16 on 64-bit?
             func.stacksize = stackPos - 8 -- size of the stack for cleanup (the stack size the hook was called with, includes register targeted args if they were passed to this hook on the stack)
             func.stackCallPushSize = pushSize -- Size of the stack in the CALL to the target function (original size in target, ignores register args)
@@ -1050,6 +1081,7 @@ using namespace ZHL;
 					end
 				end
 				
+                -- TODO: Change this to a list of "volatile" & "non-volatile" registers and we must only push & pop the non-volatiles. This might make it more generic, aside from the void & longlong 32-bit crap.
 				-- save all registers that matter for the ABI
                 if arch == "i386" then
                     if useIntelASMSyntax then
@@ -1068,6 +1100,8 @@ using namespace ZHL;
                         out("\n\t\t\"pushl %%edi\\n\\t\"")
                     end
                 elseif arch == "x86_64" and isPOSIX then
+                    -- System V AMD64 ABI
+                    -- Note the Microsoft x64 uses RBX, RBP, RDI, RSI, RSP, R12, R13, R14, R15
                     if useIntelASMSyntax then
                         out("\n\t\t\"push rbx\\n\\t\"")
                         out("\n\t\t\"push rbp\\n\\t\"")
@@ -1087,6 +1121,8 @@ using namespace ZHL;
 				
 				-- push all stack based arguments
 				local sizePushed = 0
+                -- print(inspect(func))
+                -- TODO: If we reserve stack space & use mov instead of push we can generate the assembly in the same forward-order as the register arguments and not have to have this separate block that operates backwards, this could probably simplify this logic.
 				for k = #func.args, 1, -1 do
 					local arg = func.args[k]
 					if not arg.reg then
@@ -1098,16 +1134,6 @@ using namespace ZHL;
 								out("\n\t\t\"pushl %%ecx\\n\\t\"\t\t\t// %s", arg.name)
 							end
                             sizePushed = sizePushed + archPushSize
-                        elseif k < #argPattern then
-                            -- System V AMD64 ABI calling style supprt (registers passed into this function) but still should would with 32-bit Linux & 32-bit Windows MinGW
-                            -- TODO: Reuse this argPattern logic for Windows 32-bit (to handle the single ECX one) & Windows 64-bit
-                            -- TODO: Might still need a special case for MSVC 32-bit where ECX is actually sometimes #1 instead of #0
-                            -- TODO: Probably need to handle arguments that are floats & doubles coming from XMM registers? Not sure if we have the argument type visible to us at this point.
-                            if useIntelASMSyntax then
-                                out("\n\t\t\"push %s\\n\\t\"\t\t// %s", argPattern[k], arg.name)
-                            else
-                                out("\n\t\t\"pushl %%%s\\n\\t\"\t\t// %s", argPattern[k], arg.name)
-                            end
                         else
                             for p=archPushSize*arg.size-archPushSize, 0, -archPushSize do
                                 if arch == "i386" then
@@ -1130,6 +1156,9 @@ using namespace ZHL;
 				end
 				
 				-- then move all register based arguments to their respective registers
+                -- TODO: Does any of this actually matterin amd64? Since our function should mirror the actual arguments anyways the compiler should choose the exact same registers.
+                local int_i = 1
+                local flt_i = 1
 				for k, arg in ipairs(func.args) do
 					if arg.reg then
 						assert(arg.size == 1)
@@ -1143,11 +1172,22 @@ using namespace ZHL;
                             else
                                 out("\n\t\t\t// %s has %s", arg.reg, arg.name)
 							end
-                        elseif k < #argPattern then
-                            -- System V AMD64 ABI calling style supprt (registers passed into this function) but still should would with 32-bit Linux & 32-bit Windows MinGW
-                            if arg.reg ~= argPattern[k] then -- Check if we would be copying the same register to itself
-                                error("Warning, potential register clobbering detected, not yet supported copy to a register while incoming argument was on a register and was not the same register, " .. argPattern[k] .. "->" .. arg.reg .. " for argument: " .. arg.name .. " for function: " .. func.name)
+                        elseif floatsPassedInSSERegisters and (arg.class == "float" or arg.class == "double") and flt_i <= #argPatternSSE then
+                            if arg.reg ~= argPatternSSE[flt_i] then
+                                local classname
+                                if func.varparent then classname = func.varparent:cname() end
+                                print("Warning! potential SSE register clobbering detected, not yet supported copy to a register while incoming argument was on a register and was not the same register, " .. argPatternSSE[flt_i] .. "->" .. arg.reg .. " for argument: " .. arg.name .. " for function: " .. classname .. "::" .. func.name)
                             end
+                            flt_i = flt_i + 1
+                            out("\n\t\t\t// %s has %s", arg.reg, arg.name)
+                        elseif int_i <= #argPattern then
+                            if arg.reg ~= argPattern[int_i] then -- Check if we would be copying the same register to itself
+                                local classname
+                                if func.varparent then classname = func.varparent:cname() end
+                                print("Warning! potential register clobbering detected, not yet supported copy to a register while incoming argument was on a register and was not the same register, " .. argPattern[int_i] .. "->" .. arg.reg .. " for argument: " .. arg.name .. " for function: " .. classname .. "::" .. func.name)
+                            end
+                            int_i = int_i + 1
+                            out("\n\t\t\t// %s has %s", arg.reg, arg.name)
 						else
                             if arch == "i386" then
                                 if useIntelASMSyntax then
@@ -1202,6 +1242,7 @@ using namespace ZHL;
 				-- restore all registers
                 if arch == "i386" then
                     if useIntelASMSyntax then
+                        -- TODO: ALl these pops could be simplified with a function to generate them & accepting in the register names, plus then having a "epilogue" function
                         out("\n\t\t\"pop edi\\n\\t\"")
                         out("\n\t\t\"pop esi\\n\\t\"")
                         out("\n\t\t\"pop ebx\\n\\t\"")
