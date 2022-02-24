@@ -7197,8 +7197,8 @@ FUNC_NAKED float Pointf::RelativeDistance(Pointf other)
 namespace _func195
 {
 	static void *func = 0;
-	static short argdata[] = {0x1ff, 0x107};
-	static FunctionDefinition funcObj("Pointf::Normalize", typeid(Pointf (Pointf::*)()), "4883ec28f30f100ff30f104704", argdata, 2, 18, &func);
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("Pointf::Normalize", typeid(Pointf (Pointf::*)()), "4883ec28f30f100ff30f104704", argdata, 1, 10, &func);
 }
 
 FUNC_NAKED Pointf Pointf::Normalize()
@@ -7207,13 +7207,13 @@ FUNC_NAKED Pointf Pointf::Normalize()
 	(
 		"pushl %rbp\n\t"
 		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
 		"pushl %rbx\n\t"
 		"pushl %rbp\n\t"
 		"pushl %r12\n\t"
 		"pushl %r13\n\t"
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
-		"pushl 8(%rbp)\n\t"		// implicit_output
 			// rdi has this
 	);
 	__asm__("call *%0\n\t" :: "m"(_func195::func));
@@ -7612,8 +7612,8 @@ FUNC_NAKED void TextButton::destructor()
 namespace _func206
 {
 	static void *func = 0;
-	static short argdata[] = {0x1ff, 0x107};
-	static FunctionDefinition funcObj("TextButton::GetSize", typeid(Point (TextButton::*)()), "4155415455534889fb4883ec1880bfd000000000751a", argdata, 2, 18, &func);
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("TextButton::GetSize", typeid(Point (TextButton::*)()), "4155415455534889fb4883ec1880bfd000000000751a", argdata, 1, 10, &func);
 }
 
 FUNC_NAKED Point TextButton::GetSize()
@@ -7622,13 +7622,13 @@ FUNC_NAKED Point TextButton::GetSize()
 	(
 		"pushl %rbp\n\t"
 		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
 		"pushl %rbx\n\t"
 		"pushl %rbp\n\t"
 		"pushl %r12\n\t"
 		"pushl %r13\n\t"
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
-		"pushl 8(%rbp)\n\t"		// implicit_output
 			// rdi has this
 	);
 	__asm__("call *%0\n\t" :: "m"(_func206::func));

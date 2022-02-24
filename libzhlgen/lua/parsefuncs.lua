@@ -475,7 +475,7 @@ for k,fd in pairs(tfiles) do
                 isImplicitType = false
             end
                 
-            if sizeof(func) > 4 and isImplicitType then -- TODO: Size func size 8 on 64-bit?
+            if sizeof(func) > archPushSize and isImplicitType then -- TODO: Size func size 8 on 64-bit?
                 -- if it does, insert a pointer to that struct as the first argument (second if first one is "this" and using MSVC)
                 local i = 1
                 -- Maybe simplified to just?
