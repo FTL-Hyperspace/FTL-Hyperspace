@@ -1,0 +1,6 @@
+"530fb687c10000004889fb84c0":
+cleanup bool WeaponAnimation::StartFire(WeaponAnimation *this<rdi>);
+"8b470889c22b97c8000000":
+cleanup void WeaponAnimation::SetFireTime(WeaponAnimation *this<rdi>, float time<xmm0>);
+"415455534889fb4883ec1080bfc100000000":
+cleanup void WeaponAnimation::Update(WeaponAnimation *this<rdi>);

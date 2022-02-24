@@ -1,0 +1,8 @@
+"415641554154554889fd534883ec60":
+cleanup void CreditScreen::OnRender(CreditScreen *this<rdi>);
+"48c74708????????48c74710????????c747180000000048c7472800000000":
+cleanup void CreditScreen::constructor(CreditScreen *this<rdi>);
+"4157415641554154554889d5534889fb4881ecd8010000":
+cleanup void CreditScreen::Start(CreditScreen *this<rdi>, const std::string& shipName<rsi>, const std::vector<std::string>& crewNames<rdx>);
+"488b4730482b472848baabaaaaaaaaaaaaaa":
+cleanup bool CreditScreen::Done(CreditScreen *this<rdi>);

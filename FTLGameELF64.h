@@ -358,6 +358,8 @@ struct Point
 	int y;
 };
 
+struct WeaponAnimation;
+
 struct WeaponMount
 {
 	Point position;
@@ -369,6 +371,10 @@ struct WeaponMount
 
 struct WeaponAnimation
 {
+	LIBZHL_API void SetFireTime(float time);
+	LIBZHL_API bool StartFire();
+	LIBZHL_API void Update();
+	
 	Animation anim;
 	bool bFireShot;
 	bool bFiring;
@@ -532,8 +538,33 @@ struct TapBoxFrame
 	Globals::Rect hitBox;
 };
 
+struct TextLibrary;
+
+struct TextLibrary
+{
+	std::string GetText(const std::string& name)
+	{
+		return TextLibrary::GetText(name, currentLanguage);
+	}
+
+	LIBZHL_API std::string GetText(const std::string &name, const std::string &lang);
+	
+	std::map<std::string, std::string> dictionary;
+	std::map<std::string, std_map_std_string_std_string> languageDictionaries;
+	std::string currentLanguage;
+};
+
+struct TextString;
+
 struct TextString
 {
+	TextString()
+	{
+		isLiteral = true;
+	}
+
+	LIBZHL_API std::string GetText();
+	
 	std::string data;
 	bool isLiteral;
 	uint8_t gap_ex[4];
@@ -1473,8 +1504,6 @@ struct CollisionResponse
 	int superDamage;
 };
 
-struct WeaponAnimation;
-
 struct BeamWeapon : Projectile
 {
 	BeamWeapon(Pointf _position, int _ownerId, int _targetId, Pointf _target, Pointf _target2, int _length, Targetable *_targetable, float _heading = 0.0f)
@@ -1877,8 +1906,15 @@ struct PowerProfile
 {
 };
 
+struct ShipAI;
+
 struct ShipAI
 {
+	LIBZHL_API std::pair<int, int> GetTeleportCommand();
+	LIBZHL_API void OnLoop(bool hostile);
+	LIBZHL_API void SetStalemate(bool stalemate);
+	LIBZHL_API void constructor(bool unk);
+	
 	ShipManager *ship;
 	ShipManager *target;
 	CrewAI crewAI;
@@ -2155,8 +2191,15 @@ struct ConfirmWindow : FocusWindow
 	bool result;
 };
 
+struct CreditScreen;
+
 struct CreditScreen
 {
+	LIBZHL_API bool Done();
+	LIBZHL_API void OnRender();
+	LIBZHL_API void Start(const std::string &shipName, const std::vector<std::string> &crewNames);
+	LIBZHL_API void constructor();
+	
 	float scroll;
 	std::string shipName;
 	std::string crewString;
@@ -2287,8 +2330,14 @@ struct ShipAchievementInfo
 
 struct ShipButton;
 
+struct UnlockArrow;
+
 struct UnlockArrow
 {
+	LIBZHL_API bool MouseMove(int x, int y);
+	LIBZHL_API void OnRender();
+	LIBZHL_API void constructor(Point pos, int unk1, int unk2);
+	
 	int direction;
 	int status;
 	Globals::Rect shape;
@@ -2923,10 +2972,17 @@ struct MenuScreen : FocusWindow
 	InfoBox info;
 };
 
+struct ShipStatus;
 struct WarningWithLines;
 
 struct ShipStatus
 {
+	LIBZHL_API void OnInit(Point unk, float unk2);
+	LIBZHL_API void OnRender();
+	LIBZHL_API void RenderEvadeOxygen(bool unk);
+	LIBZHL_API void RenderHealth(bool unk);
+	LIBZHL_API void RenderShields(bool renderText);
+	
 	Point location;
 	float size;
 	ShipManager *ship;
@@ -3036,8 +3092,12 @@ struct SystemControl
 	AnimationTracker flashTracker;
 };
 
+struct TabbedWindow;
+
 struct TabbedWindow : FocusWindow
 {
+	LIBZHL_API void Close();
+	
 	std::vector<Button*> buttons;
 	std::vector<FocusWindow*> windows;
 	std::vector<std::string> names;
@@ -3050,8 +3110,15 @@ struct TabbedWindow : FocusWindow
 	bool bWindowLock;
 };
 
+struct ReactorButton;
+
 struct ReactorButton : Button
 {
+	LIBZHL_API void Accept();
+	LIBZHL_API void OnClick();
+	LIBZHL_API void OnRender();
+	LIBZHL_API void OnRightClick();
+	
 	int tempUpgrade;
 	ShipManager *ship;
 	bool selected;
@@ -3425,8 +3492,15 @@ struct DebugHelper
 {
 };
 
+struct DefenseDrone;
+
 struct DefenseDrone : SpaceDrone
 {
+	LIBZHL_API std::string GetTooltip();
+	LIBZHL_API void PickTarget();
+	LIBZHL_API void SetWeaponTarget(Targetable &target);
+	LIBZHL_API bool ValidTargetObject(Targetable &target);
+	
 	int currentTargetId;
 	int shotAtTargetId;
 	float currentSpeed;
@@ -3450,8 +3524,63 @@ struct Selectable
 	int selectedState;
 };
 
+struct Room;
+
+struct ShipGraph
+{
+	std::vector<Room*> rooms;
+	std::vector<Door*> doors;
+	std::vector<int> doorCounts;
+	Point center;
+	Pointf worldPosition;
+	float worldHeading;
+	Pointf lastWorldPosition;
+	float lastWorldHeading;
+	Globals::Rect shipBox;
+	std::string shipName;
+};
+
 struct Door : CrewTarget
 {
+public:
+	Point GetCenterPoint()
+	{
+		Point ret = Point(this->x, this->y);
+		return ret;
+	}
+	Point GetEntryWay(int room)
+	{
+		Point pos1 = Point(this->x, this->y);
+		Point pos2;
+
+		if (this->bVertical)
+		{
+			pos2 = Point(pos1.x + 17, pos1.y);
+			pos1 = Point(this->x - 17, pos1.y);
+		}
+		else
+		{
+			pos2 = Point(this->x, pos1.y + 17);
+			pos1 = Point(this->x, this->y - 18);
+		}
+
+		auto shipInfo = ShipGraph::GetShipInfo(this->iShipId);
+
+		if (room == shipInfo->GetSelectedRoom(pos2.x, pos2.y, false))
+		{
+			return pos2;
+		}
+		else
+		{
+			return pos1;
+		}
+	}
+
+	LIBZHL_API void FakeClose();
+	LIBZHL_API void FakeOpen();
+	LIBZHL_API bool IsSealed(int shipId);
+	LIBZHL_API void OnLoop();
+	
 	Selectable _selectable;
 	int iRoom1;
 	int iRoom2;
@@ -3528,6 +3657,12 @@ struct DroneStoreBox : StoreBox
 
 struct DroneSystem : ShipSystem
 {
+	LIBZHL_API bool DePowerDrone(Drone *drone, bool unk);
+	LIBZHL_API void OnLoop();
+	LIBZHL_API void RemoveDrone(int slot);
+	LIBZHL_API virtual void SetBonusPower(int amount, int permanentPower);
+	LIBZHL_API void UpdateBonusPower();
+	
 	std::vector<Drone*> drones;
 	int drone_count;
 	int drone_start;
@@ -4808,8 +4943,6 @@ struct Shields : ShipSystem
 
 struct OuterHull;
 
-struct Room;
-
 struct Ship : ShipObject
 {
 	struct DoorState
@@ -4871,22 +5004,14 @@ struct ShipGenerator
 {
 };
 
-struct ShipGraph
-{
-	std::vector<Room*> rooms;
-	std::vector<Door*> doors;
-	std::vector<int> doorCounts;
-	Point center;
-	Pointf worldPosition;
-	float worldHeading;
-	Pointf lastWorldPosition;
-	float lastWorldHeading;
-	Globals::Rect shipBox;
-	std::string shipName;
-};
+struct ShipInfo;
 
 struct ShipInfo
 {
+	LIBZHL_API char AddAugmentation(const std::string &augment);
+	LIBZHL_API float GetAugmentationValue(const std::string &augment);
+	LIBZHL_API bool HasAugmentation(const std::string &augment);
+	
 	std::map<std::string, int> augList;
 	std::map<std::string, int> equipList;
 	int augCount;
@@ -5230,6 +5355,13 @@ struct SuperShieldDrone
 
 struct SystemCustomBox : SystemBox
 {
+	SystemCustomBox(Point pos, ShipSystem *sys, ShipManager *ship)
+	{
+		this->constructor(pos, sys, ship);
+	}
+
+	LIBZHL_API void constructor(Point pos, ShipSystem *sys, ShipManager *ship);
+	
 	ShipManager *shipManager;
 	Button button;
 };
@@ -5244,8 +5376,17 @@ struct SystemStoreBox : StoreBox
 	int droneChoice;
 };
 
+struct TeleportBox;
+
 struct TeleportBox : SystemBox
 {
+	TeleportBox(Point pos, TeleportSystem* sys)
+	{
+		this->constructor(pos, sys);
+	}
+
+	LIBZHL_API void constructor(Point pos, TeleportSystem *sys);
+	
 	GL_Texture *box;
 	Button teleportLeave;
 	Button teleportArrive;
@@ -5269,13 +5410,6 @@ struct TeleportSystem : ShipSystem
 struct TextInputEvent
 {
 	int32_t ch;
-};
-
-struct TextLibrary
-{
-	std::map<std::string, std::string> dictionary;
-	std::map<std::string, std_map_std_string_std_string> languageDictionaries;
-	std::string currentLanguage;
 };
 
 struct ToggleButton
@@ -5325,8 +5459,14 @@ struct WarningWithLines : WarningMessage
 	int bottomTextLimit;
 };
 
+struct WeaponBox;
+
 struct WeaponBox : ArmamentBox
 {
+
+	LIBZHL_API std::string GenerateTooltip();
+	LIBZHL_API void RenderBox(bool dragging, bool flashPowerBox);
+	
 	ProjectileFactory *pWeapon;
 	bool armed;
 	bool armedForAutofire;
@@ -5369,6 +5509,10 @@ struct WeaponStoreBox : StoreBox
 
 struct WeaponSystem : ShipSystem
 {
+	LIBZHL_API void OnLoop();
+	LIBZHL_API void RemoveWeapon(int slot);
+	LIBZHL_API virtual void SetBonusPower(int amount, int permanentPower);
+	
 	Pointf target;
 	std::vector<ProjectileFactory*> weapons;
 	std::vector<ProjectileFactory*> weaponsTrashList;
@@ -5384,9 +5528,17 @@ struct WeaponSystem : ShipSystem
 };
 
 struct WeaponControl;
+struct WeaponSystemBox;
 
 struct WeaponSystemBox : SystemBox
 {
+	WeaponSystemBox(Point pos, ShipSystem* sys, WeaponControl *weapCtrl)
+	{
+		this->constructor(pos, sys, weapCtrl);
+	}
+
+	LIBZHL_API void constructor(Point pos, ShipSystem *sys, WeaponControl *weapCtrl);
+	
 	WeaponControl *weapControl;
 	TextButton autofireButton;
 	Point buttonOffset;

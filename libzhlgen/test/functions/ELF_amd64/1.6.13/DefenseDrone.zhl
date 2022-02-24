@@ -1,0 +1,8 @@
+"4885f60f84b7000000":
+cleanup bool DefenseDrone::ValidTargetObject(DefenseDrone *this<rdi>, Targetable &target<rsi>);
+"55534889fb4883ec4880bf5d02000000":
+cleanup void DefenseDrone::PickTarget(DefenseDrone *this<rdi>);
+"4154554889fd53488b074889f3":
+cleanup void DefenseDrone::SetWeaponTarget(DefenseDrone *this<rdi>, Targetable &target<rsi>);
+"554889f5be????????534889fb4883ec38488d542420":
+cleanup std::string DefenseDrone::GetTooltip<rdi>(DefenseDrone *this<rsi>);
