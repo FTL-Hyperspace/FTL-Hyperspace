@@ -161,13 +161,13 @@ void CustomCrewManifest::OnInit(CrewManifest *manifest, ShipManager *ship)
     if (!leftButton)
     {
         leftButton = new Button();
-        leftButton->OnInit(buttonImg, crewManifest->position.x + 515, crewManifest->position.y + 54);
+        leftButton->OnInit(buttonImg, Point(crewManifest->position.x + 515, crewManifest->position.y + 54));
     }
 
     if (!rightButton)
     {
         rightButton = new Button();
-        rightButton->OnInit(buttonImg, crewManifest->position.x + 550, crewManifest->position.y + 54);
+        rightButton->OnInit(buttonImg, Point(crewManifest->position.x + 550, crewManifest->position.y + 54));
 
         rightButton->bMirror = true;
     }

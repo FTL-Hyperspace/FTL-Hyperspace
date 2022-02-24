@@ -62,7 +62,7 @@ OverclockerBox::OverclockerBox(Point pos, ShipSystem *sys, ShipManager *ship)
     shipManager = ship;
 
     overclockButton = new Button();
-    overclockButton->OnInit("systemUI/button_overclocker_start", 9, 35);
+    overclockButton->OnInit("systemUI/button_overclocker_start", Point(9, 35));
 
     buttonOffset = Point(location.x + 34, location.y - 39);
 

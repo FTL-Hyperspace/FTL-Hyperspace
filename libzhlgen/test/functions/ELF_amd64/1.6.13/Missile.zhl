@@ -1,0 +1,11 @@
+"41574989ff4156415541545589f55389d34881ecf8000000f30f11542404":
+cleanup void Missile::constructor(Missile *this<rdi>, Pointf _position<rsi>, int _ownerId<rdx>, int _targetId<rcx>, Pointf _target<r8>, float _heading<xmm0>);
+
+
+struct Missile
+{{
+	Missile(Pointf _position, int _ownerId, int _targetId, Pointf _target, float _heading)
+	{
+		this->constructor(_position, _ownerId, _targetId, _target, _heading);
+	}
+}};

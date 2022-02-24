@@ -355,7 +355,7 @@ HOOK_METHOD(MainMenu, Open, () -> void)
     rect.y = std::floor((720 - welcomeDialogHeight) / 2 + welcomeDialogHeight);
     rect.w = 170;
     rect.h = 32;
-    welcomeDialogButton->OnInit(0, 0, 100, 80, 4, &welcomeDialogButtonText, 63);
+    welcomeDialogButton->OnInit(Point(0, 0), Point(100, 80), 4, &welcomeDialogButtonText, 63);
     */
 
 

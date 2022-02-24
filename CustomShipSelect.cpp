@@ -811,10 +811,10 @@ void CustomShipSelect::OnInit(ShipSelect* shipSelect_)
 
     std::string buttonImg("customizeUI/button_ship_arrow");
     leftButton = new Button();
-    leftButton->OnInit(buttonImg, 1100, 119);
+    leftButton->OnInit(buttonImg, Point(1100, 119));
 
     rightButton = new Button();
-    rightButton->OnInit(buttonImg, 1135, 119);
+    rightButton->OnInit(buttonImg, Point(1135, 119));
 
     rightButton->bMirror = true;
 
@@ -2390,7 +2390,7 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
 	if (!reactorInfoButton)
     {
         reactorInfoButton = new Button();
-        reactorInfoButton->OnInit("customizeUI/box_system", reactorInfoPos.x, reactorInfoPos.y);
+        reactorInfoButton->OnInit("customizeUI/box_system", Point(reactorInfoPos.x, reactorInfoPos.y));
         reactorInfoButton->bActive = true;
         reactorInfoButton->SetLocation(Point(reactorInfoPos.x, reactorInfoPos.y));
     }

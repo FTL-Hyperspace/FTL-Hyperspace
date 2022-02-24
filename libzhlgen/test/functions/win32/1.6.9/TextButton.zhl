@@ -7,7 +7,7 @@ static void TextButton::__DO_NOT_HOOK();
 ".578d7c240883e4f0ff77fc5589e557565389cb8d49048d7324":
 void TextButton::constructor(TextButton *this<ecx>);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec3c8b4f0c8b078b57148b7704894dd08b4f108945c88b4708":
-void TextButton::OnInit(TextButton *this<ecx>, int x, int y, int w, int h, int cornerInset, TextString* buttonLabel, int font);
+void TextButton::OnInit(TextButton *this<ecx>, Point pos, Point size, int cornerInset, TextString* buttonLabel, int font);
 "578d7c240883e4f0ff77fc5589e557565389cf81ec????????80b9b4000000000f85????????8b474885c0":
 void TextButton::OnRender(TextButton *this<ecx>);
 "5589e55389cb81c3????????83e4f083ec108b4148c701????????890424e8????????8b4380890424e8????????8b4384890424e8????????8b4394890424":

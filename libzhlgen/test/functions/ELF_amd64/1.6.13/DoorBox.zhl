@@ -1,0 +1,11 @@
+"41554989cdb901000000415455534889fb488dab700200004c8da3000300004883ec48":
+cleanup void DoorBox::constructor(DoorBox *this<rdi>, Point pos<rsi>, ShipSystem* sys<rdx>, ShipManager* ship<rcx>);
+
+
+struct DoorBox
+{{
+	DoorBox(Point pos, ShipSystem* sys, ShipManager *ship)
+	{
+		this->constructor(pos, sys, ship);
+	}
+}};

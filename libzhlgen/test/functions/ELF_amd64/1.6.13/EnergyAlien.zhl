@@ -1,0 +1,4 @@
+"534889fbe8????????488b83c000000083786003":
+cleanup void EnergyAlien::OnLoop(EnergyAlien *this<rdi>);
+"80be41070000004889f8":
+cleanup Damage EnergyAlien::GetRoomDamage<rdi>(EnergyAlien *this<rsi>);

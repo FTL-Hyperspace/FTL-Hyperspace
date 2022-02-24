@@ -1,0 +1,2 @@
+"807f1400750af3c3":
+cleanup void FocusWindow::MouseClick(FocusWindow *this<rdi>, int x<rsi>, int y<rdx>);

@@ -1,0 +1,4 @@
+"4155415455534889fbbf????????488dabe00800004883ec68":
+cleanup void OptionsScreen::OnInit(OptionsScreen *this<rdi>);
+"41574156415549bdb76ddbb66ddbb66d4154554889fd":
+cleanup void OptionsScreen::OnLoop(OptionsScreen *this<rdi>);

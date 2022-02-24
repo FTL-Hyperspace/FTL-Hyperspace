@@ -245,7 +245,7 @@ HOOK_METHOD(WeaponControl, constructor, () -> void)
     super();
 
     smallAutoFireButton = new Button();
-    smallAutoFireButton->OnInit("button_small_autofireOn", 0, 0);
+    smallAutoFireButton->OnInit("button_small_autofireOn", Point(0, 0));
     smallAutoFireButton->hitbox.w = 28;
     smallAutoFireButton->hitbox.h = 28;
 }

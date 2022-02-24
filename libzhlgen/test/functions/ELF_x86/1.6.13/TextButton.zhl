@@ -3,7 +3,7 @@ cleanup void TextButton::ResetPrimitives(TextButton *this);
 "5589e5565383ec408b5d0880bbc800000000":
 cleanup int TextButton::GetIdealButtonWidth(TextButton *this);
 "5589e557565383ec6c8b450c8b5d088b7520":
-cleanup void TextButton::OnInit(TextButton *this, int x, int y, int w, int h, int cornerInset, TextString* buttonLabel, int font);
+cleanup void TextButton::OnInit(TextButton *this, Point pos, Point size, int cornerInset, TextString* buttonLabel, int font);
 "5589e557565383ec6c8b5d0880bbb400000000":
 cleanup void TextButton::OnRender(TextButton *this);
 "565383ec248b5c24308b4348":

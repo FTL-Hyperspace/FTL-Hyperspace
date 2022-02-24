@@ -1,0 +1,2 @@
+"4157be0100000041564155415455534889fb4881ecf8000000488bbf10010000":
+cleanup void FTLButton::OnRender(FTLButton *this<rdi>);

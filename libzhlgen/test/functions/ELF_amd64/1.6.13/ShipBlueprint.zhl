@@ -1,0 +1,8 @@
+"4154554889fd534883ec10488b874002000048c707":
+cleanup void ShipBlueprint::destructor(ShipBlueprint *this<rdi>);
+
+
+struct ShipBlueprint
+{{
+
+}};

@@ -22,7 +22,7 @@ else
 end
 
 -- local compiler
-local isPOSIX = false
+local isPOSIX = false -- TODO: Still use this, but should probably clean this up into just a check for SystemVi386ABI & SystemVAMD64ABI as it's kinda a mess where it's used right now
 local useStackAlignment = false -- Aligns the stack before CALL instruction (as required by System V ABI specification)
 local stackAlignIncludesCALL = false
 local thiscallFirstArgumentECX = false
@@ -39,7 +39,7 @@ if string.find(mode, "linux") ~= nil then
     useStackAlignment = true
     structsReturnedOnStack = true
     isPOSIX = true
-	useIntelASMSyntax = false
+	useIntelASMSyntax = false -- LLVM/Clang only supports AT&T Syntax, GCC supports both, so use AT&T Syntax instead of Intel
     if string.find(mode, "x86_64") ~= nil then
         stackAlignIncludesCALL = true
         -- NOTE: Linux syscall uses r10 instead of rcx
@@ -1102,6 +1102,7 @@ using namespace ZHL;
                 elseif arch == "x86_64" and isPOSIX then
                     -- System V AMD64 ABI
                     -- Note the Microsoft x64 uses RBX, RBP, RDI, RSI, RSP, R12, R13, R14, R15
+                    -- TODO: It might not be neccessary to push/pop all these registers if our assembly doesn't actually make use of any as each function should actually keep these clean under the System V AMD64 ABI specifications
                     if useIntelASMSyntax then
                         out("\n\t\t\"push rbx\\n\\t\"")
                         out("\n\t\t\"push rbp\\n\\t\"")

@@ -886,7 +886,7 @@ struct ArmamentControl
 {
 	LIBZHL_API bool Dragging();
 	LIBZHL_API bool KeyDown(SDLKey key);
-	LIBZHL_API void SetPosition(int x, int y);
+	LIBZHL_API void SetPosition(Point loc);
 	
 	void *vptr;
 	int systemId;
@@ -1417,7 +1417,7 @@ struct AsteroidGenerator;
 struct AsteroidGenerator
 {
 	LIBZHL_API Projectile *GetNextAsteroid();
-	LIBZHL_API float GetNextState();
+	LIBZHL_API void GetNextState();
 	LIBZHL_API float Initialize(int numberOfShips, int shieldCount, bool defense);
 	LIBZHL_API void LoadAsteroids(void *file);
 	LIBZHL_API void OnLoop();
@@ -1608,7 +1608,7 @@ struct Button : GenericButton
 		this->constructor();
 	}
 
-	LIBZHL_API void OnInit(const std::string &img, int x, int y);
+	LIBZHL_API void OnInit(const std::string &img, Point pos);
 	LIBZHL_API void OnRender();
 	LIBZHL_API void SetActiveImage(GL_Texture *texture);
 	LIBZHL_API void SetImageBase(const std::string &imageBase);
@@ -2292,13 +2292,13 @@ struct CollisionResponse
 
 struct BeamWeapon : Projectile
 {
-	BeamWeapon(Pointf _position, int _ownerId, int _targetId, Pointf _target, Pointf _target2, int _length, Targetable *_targetable)
+	BeamWeapon(Pointf _position, int _ownerId, int _targetId, Pointf _target, Pointf _target2, int _length, Targetable *_targetable, float _heading = 0.0f)
 	{
-		this->constructor(_position, _ownerId, _targetId, _target, _target2, _length, _targetable);
+		this->constructor(_position, _ownerId, _targetId, _target, _target2, _length, _targetable, _heading);
 	}
 
 	LIBZHL_API void CollisionCheck(Collideable *other);
-	LIBZHL_API void constructor(Pointf _position, int _ownerId, int _targetId, Pointf _target, Pointf _target2, int _length, Targetable *_targetable);
+	LIBZHL_API void constructor(Pointf _position, int _ownerId, int _targetId, Pointf _target, Pointf _target2, int _length, Targetable *_targetable, float heading);
 	
 	Pointf sub_end;
 	Pointf sub_start;
@@ -2646,7 +2646,6 @@ struct BoardingEvent
 };
 
 struct BombProjectile;
-struct LaserBlast;
 
 struct BombProjectile : Projectile
 {
@@ -2808,15 +2807,15 @@ struct LocationEvent;
 
 struct BossShip : CompleteShip
 {
-	LIBZHL_API int ClearLocation();
-	LIBZHL_API char Defeated();
+	LIBZHL_API void ClearLocation();
+	LIBZHL_API bool Defeated();
 	LIBZHL_API LocationEvent *GetEvent();
-	LIBZHL_API int GetSubEvent();
+	LIBZHL_API LocationEvent *GetSubEvent();
 	LIBZHL_API bool IncomingFire();
-	LIBZHL_API int LoadBoss(void *file);
+	LIBZHL_API void LoadBoss(int file);
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void Restart();
-	LIBZHL_API void SaveBoss(void *file);
+	LIBZHL_API void SaveBoss(int file);
 	LIBZHL_API void StartStage();
 	LIBZHL_API void constructor(SpaceManager *space);
 	
@@ -2952,7 +2951,7 @@ struct TextButton : GenericButton
 	LIBZHL_API int GetIdealButtonWidth();
 	LIBZHL_API Point GetSize();
 	LIBZHL_API void InitPrimitives();
-	LIBZHL_API void OnInit(int x, int y, int w, int h, int cornerInset, TextString *buttonLabel, int font);
+	LIBZHL_API void OnInit(Point pos, Point size, int cornerInset, TextString *buttonLabel, int font);
 	LIBZHL_API void OnInitRect(Globals::Rect &rect, int cornerInset, TextString &buttonLabel, int font);
 	LIBZHL_API void OnRender();
 	LIBZHL_API void ResetPrimitives();
@@ -5710,6 +5709,8 @@ struct KeyboardInputEvent
 	unsigned int modifiers;
 	char is_repeat;
 };
+
+struct LaserBlast;
 
 struct LaserBlast : Projectile
 {

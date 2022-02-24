@@ -1,0 +1,2 @@
+"554889f5534889fb4889f74883ec58488b06":
+cleanup void PDSFire::CollisionCheck(PDSFire *this<rdi>, Collideable *other<rsi>);

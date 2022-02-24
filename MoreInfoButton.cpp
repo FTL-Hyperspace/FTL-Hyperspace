@@ -10,7 +10,7 @@ HOOK_METHOD(CommandGui, OnInit, () -> void)
     super();
 
     moreInfoButton = new Button();
-    moreInfoButton->OnInit("statusUI/moreInfoButtonOff", 1207, 656);
+    moreInfoButton->OnInit("statusUI/moreInfoButtonOff", Point(1207, 656));
     moreInfoButton->bActive = true;
     moreInfoButton->SetLocation(Point(1207, 656));
 }

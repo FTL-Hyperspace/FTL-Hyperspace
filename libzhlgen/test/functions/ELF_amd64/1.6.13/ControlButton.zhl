@@ -1,0 +1,2 @@
+"415455534889fb4883ec608b4730":
+cleanup void ControlButton::OnRender(ControlButton *this<rdi>);

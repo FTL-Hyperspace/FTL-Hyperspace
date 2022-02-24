@@ -1,0 +1,11 @@
+"5531c94889d5534889fb4883ec58":
+cleanup void BatteryBox::constructor(BatteryBox *this<rdi>, Point pos<rsi>, BatterySystem* sys<rdx>);
+
+
+struct BatteryBox
+{{
+	BatteryBox(Point pos, BatterySystem* sys)
+	{
+		this->constructor(pos, sys);
+	}
+}};

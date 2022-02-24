@@ -1321,11 +1321,11 @@ FUNC_NAKED bool ArmamentControl::Dragging()
 namespace _func37
 {
 	static void *func = 0;
-	static short argdata[] = {0x101, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("ArmamentControl::SetPosition", typeid(void (ArmamentControl::*)(int , int )), "5589e5565383e4f083ec108b450839411c8b550c74??89411c89512031db8b51408b414489ce", argdata, 3, 5, &func);
+	static short argdata[] = {0x101, 0x2ff};
+	static FunctionDefinition funcObj("ArmamentControl::SetPosition", typeid(void (ArmamentControl::*)(Point )), "5589e5565383e4f083ec108b450839411c8b550c74??89411c89512031db8b51408b414489ce", argdata, 2, 5, &func);
 }
 
-FUNC_NAKED void ArmamentControl::SetPosition(int x, int y)
+FUNC_NAKED void ArmamentControl::SetPosition(Point loc)
 {
 	__asm__
 	(
@@ -1337,8 +1337,8 @@ FUNC_NAKED void ArmamentControl::SetPosition(int x, int y)
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+12]\n\t"		// y
-		"push [ebp+8]\n\t"		// x
+		"push [ebp+12]\n\t"		// loc
+		"push [ebp+8]\n\t"		// loc
 			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func37::func));
@@ -1687,16 +1687,17 @@ namespace _func47
 {
 	static void *func = 0;
 	static short argdata[] = {0x101};
-	static FunctionDefinition funcObj("AsteroidGenerator::GetNextState", typeid(float (AsteroidGenerator::*)()), ".5589e5538b417489cb83e4f085c075??803d??????????", argdata, 1, 1, &func);
+	static FunctionDefinition funcObj("AsteroidGenerator::GetNextState", typeid(void (AsteroidGenerator::*)()), ".5589e5538b417489cb83e4f085c075??803d??????????", argdata, 1, 5, &func);
 }
 
-FUNC_NAKED float AsteroidGenerator::GetNextState()
+FUNC_NAKED void AsteroidGenerator::GetNextState()
 {
 	__asm__
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
 		"push edx\n\t"
+		"push eax\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
 		"push esi\n\t"
@@ -1710,6 +1711,7 @@ FUNC_NAKED float AsteroidGenerator::GetNextState()
 		"pop esi\n\t"
 		"pop ebx\n\t"
 		"pop ecx\n\t"
+		"pop eax\n\t"
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
@@ -2013,11 +2015,11 @@ FUNC_NAKED void BatteryBox::constructor(Point pos, BatterySystem *sys)
 namespace _func56
 {
 	static void *func = 0;
-	static short argdata[] = {0x101, 0x2ff, 0x1ff, 0x1ff, 0x2ff, 0x2ff, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("BeamWeapon::constructor", typeid(void (BeamWeapon::*)(Pointf , int , int , Pointf , Pointf , int , Targetable *)), "578d7c240883e4f0ff77fc5589e557565389cb83ec5c8b57048b4f148b078b770cf30f105728894dd48955e4f30f1155dc", argdata, 8, 5, &func);
+	static short argdata[] = {0x101, 0x2ff, 0x1ff, 0x1ff, 0x2ff, 0x2ff, 0x1ff, 0x1ff, 0x1ff};
+	static FunctionDefinition funcObj("BeamWeapon::constructor", typeid(void (BeamWeapon::*)(Pointf , int , int , Pointf , Pointf , int , Targetable *, float )), "578d7c240883e4f0ff77fc5589e557565389cb83ec5c8b57048b4f148b078b770cf30f105728894dd48955e4f30f1155dc", argdata, 9, 5, &func);
 }
 
-FUNC_NAKED void BeamWeapon::constructor(Pointf _position, int _ownerId, int _targetId, Pointf _target, Pointf _target2, int _length, Targetable *_targetable)
+FUNC_NAKED void BeamWeapon::constructor(Pointf _position, int _ownerId, int _targetId, Pointf _target, Pointf _target2, int _length, Targetable *_targetable, float heading)
 {
 	__asm__
 	(
@@ -2029,6 +2031,7 @@ FUNC_NAKED void BeamWeapon::constructor(Pointf _position, int _ownerId, int _tar
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+		"push [ebp+48]\n\t"		// heading
 		"push [ebp+44]\n\t"		// _targetable
 		"push [ebp+40]\n\t"		// _length
 		"push [ebp+36]\n\t"		// _target2
@@ -2052,7 +2055,7 @@ FUNC_NAKED void BeamWeapon::constructor(Pointf _position, int _ownerId, int _tar
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 40\n\t"
+		"ret 44\n\t"
 	);
 }
 
@@ -3189,10 +3192,10 @@ namespace _func89
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("BossShip::SaveBoss", typeid(void (BossShip::*)(void *)), ".5589e557565389cf83e4f083ec108b5d088b8134010000891c2489442404", argdata, 2, 5, &func);
+	static FunctionDefinition funcObj("BossShip::SaveBoss", typeid(void (BossShip::*)(int )), ".5589e557565389cf83e4f083ec108b5d088b8134010000891c2489442404", argdata, 2, 5, &func);
 }
 
-FUNC_NAKED void BossShip::SaveBoss(void *file)
+FUNC_NAKED void BossShip::SaveBoss(int file)
 {
 	__asm__
 	(
@@ -3226,16 +3229,17 @@ namespace _func90
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("BossShip::LoadBoss", typeid(int (BossShip::*)(void *)), ".578d7c240883e4f0ff77fc5589e557565389ce83ec3c8b07890424", argdata, 2, 1, &func);
+	static FunctionDefinition funcObj("BossShip::LoadBoss", typeid(void (BossShip::*)(int )), ".578d7c240883e4f0ff77fc5589e557565389ce83ec3c8b07890424", argdata, 2, 5, &func);
 }
 
-FUNC_NAKED int BossShip::LoadBoss(void *file)
+FUNC_NAKED void BossShip::LoadBoss(int file)
 {
 	__asm__
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
 		"push edx\n\t"
+		"push eax\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
 		"push esi\n\t"
@@ -3250,6 +3254,7 @@ FUNC_NAKED int BossShip::LoadBoss(void *file)
 		"pop esi\n\t"
 		"pop ebx\n\t"
 		"pop ecx\n\t"
+		"pop eax\n\t"
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
@@ -3261,16 +3266,17 @@ namespace _func91
 {
 	static void *func = 0;
 	static short argdata[] = {0x101};
-	static FunctionDefinition funcObj("BossShip::ClearLocation", typeid(int (BossShip::*)()), ".89c88b490885c974??5589e55389c38b01", argdata, 1, 1, &func);
+	static FunctionDefinition funcObj("BossShip::ClearLocation", typeid(void (BossShip::*)()), ".89c88b490885c974??5589e55389c38b01", argdata, 1, 5, &func);
 }
 
-FUNC_NAKED int BossShip::ClearLocation()
+FUNC_NAKED void BossShip::ClearLocation()
 {
 	__asm__
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
 		"push edx\n\t"
+		"push eax\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
 		"push esi\n\t"
@@ -3284,6 +3290,7 @@ FUNC_NAKED int BossShip::ClearLocation()
 		"pop esi\n\t"
 		"pop ebx\n\t"
 		"pop ecx\n\t"
+		"pop eax\n\t"
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
@@ -3295,10 +3302,10 @@ namespace _func92
 {
 	static void *func = 0;
 	static short argdata[] = {0x101};
-	static FunctionDefinition funcObj("BossShip::Defeated", typeid(char (BossShip::*)()), ".83b9340100000374??31c0c38d7426008b490880b99904000000", argdata, 1, 1, &func);
+	static FunctionDefinition funcObj("BossShip::Defeated", typeid(bool (BossShip::*)()), ".83b9340100000374??31c0c38d7426008b490880b99904000000", argdata, 1, 1, &func);
 }
 
-FUNC_NAKED char BossShip::Defeated()
+FUNC_NAKED bool BossShip::Defeated()
 {
 	__asm__
 	(
@@ -3329,10 +3336,10 @@ namespace _func93
 {
 	static void *func = 0;
 	static short argdata[] = {0x101};
-	static FunctionDefinition funcObj("BossShip::GetSubEvent", typeid(int (BossShip::*)()), ".578d7c240883e4f0ff77fc5589e557565389cb83ec4c", argdata, 1, 1, &func);
+	static FunctionDefinition funcObj("BossShip::GetSubEvent", typeid(LocationEvent *(BossShip::*)()), ".578d7c240883e4f0ff77fc5589e557565389cb83ec4c", argdata, 1, 1, &func);
 }
 
-FUNC_NAKED int BossShip::GetSubEvent()
+FUNC_NAKED LocationEvent *BossShip::GetSubEvent()
 {
 	__asm__
 	(
@@ -3506,11 +3513,11 @@ FUNC_NAKED void Button::SetLocation(const Point pos)
 namespace _func98
 {
 	static void *func = 0;
-	static short argdata[] = {0x101, 0x1ff, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("Button::OnInit", typeid(void (Button::*)(const std::string &, int , int )), "578d7c240883e4f0ff77fc5589e55756538d55a881ec????????8b47048b1f894d948955a08945908b47088b3b", argdata, 4, 5, &func);
+	static short argdata[] = {0x101, 0x1ff, 0x2ff};
+	static FunctionDefinition funcObj("Button::OnInit", typeid(void (Button::*)(const std::string &, Point )), "578d7c240883e4f0ff77fc5589e55756538d55a881ec????????8b47048b1f894d948955a08945908b47088b3b", argdata, 3, 5, &func);
 }
 
-FUNC_NAKED void Button::OnInit(const std::string &img, int x, int y)
+FUNC_NAKED void Button::OnInit(const std::string &img, Point pos)
 {
 	__asm__
 	(
@@ -3522,8 +3529,8 @@ FUNC_NAKED void Button::OnInit(const std::string &img, int x, int y)
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-		"push [ebp+16]\n\t"		// y
-		"push [ebp+12]\n\t"		// x
+		"push [ebp+16]\n\t"		// pos
+		"push [ebp+12]\n\t"		// pos
 		"push [ebp+8]\n\t"		// img
 			// ecx has this
 	);
@@ -43405,11 +43412,11 @@ FUNC_NAKED void TextButton::constructor()
 namespace _func1205
 {
 	static void *func = 0;
-	static short argdata[] = {0x101, 0x1ff, 0x1ff, 0x1ff, 0x1ff, 0x1ff, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("TextButton::OnInit", typeid(void (TextButton::*)(int , int , int , int , int , TextString *, int )), "578d7c240883e4f0ff77fc5589e557565389cb83ec3c8b4f0c8b078b57148b7704894dd08b4f108945c88b4708", argdata, 8, 5, &func);
+	static short argdata[] = {0x101, 0x2ff, 0x2ff, 0x1ff, 0x1ff, 0x1ff};
+	static FunctionDefinition funcObj("TextButton::OnInit", typeid(void (TextButton::*)(Point , Point , int , TextString *, int )), "578d7c240883e4f0ff77fc5589e557565389cb83ec3c8b4f0c8b078b57148b7704894dd08b4f108945c88b4708", argdata, 6, 5, &func);
 }
 
-FUNC_NAKED void TextButton::OnInit(int x, int y, int w, int h, int cornerInset, TextString *buttonLabel, int font)
+FUNC_NAKED void TextButton::OnInit(Point pos, Point size, int cornerInset, TextString *buttonLabel, int font)
 {
 	__asm__
 	(
@@ -43424,10 +43431,10 @@ FUNC_NAKED void TextButton::OnInit(int x, int y, int w, int h, int cornerInset, 
 		"push [ebp+32]\n\t"		// font
 		"push [ebp+28]\n\t"		// buttonLabel
 		"push [ebp+24]\n\t"		// cornerInset
-		"push [ebp+20]\n\t"		// h
-		"push [ebp+16]\n\t"		// w
-		"push [ebp+12]\n\t"		// y
-		"push [ebp+8]\n\t"		// x
+		"push [ebp+20]\n\t"		// size
+		"push [ebp+16]\n\t"		// size
+		"push [ebp+12]\n\t"		// pos
+		"push [ebp+8]\n\t"		// pos
 			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1205::func));

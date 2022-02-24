@@ -9,7 +9,7 @@ Projectile* AsteroidGenerator::GetNextAsteroid(AsteroidGenerator *this<ecx>);
 ".80b9880000000075??c38db600000000578d7c240883e4f0":
 void AsteroidGenerator::OnLoop(AsteroidGenerator *this<ecx>);
 ".5589e5538b417489cb83e4f085c075??803d??????????":
-float AsteroidGenerator::GetNextState(AsteroidGenerator *this<ecx>);
+void AsteroidGenerator::GetNextState(AsteroidGenerator *this<ecx>);
 ".5589e55389cbb9????????83e4f083ec10e8????????d95c240c":
 void AsteroidGenerator::UpdateState(AsteroidGenerator *this<ecx>);
 ".5589e5565389ce83e4f083ec108b5d08":

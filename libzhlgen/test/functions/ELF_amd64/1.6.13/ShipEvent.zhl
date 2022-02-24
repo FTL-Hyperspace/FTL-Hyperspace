@@ -1,0 +1,2 @@
+"415641554989f5488d760841544989fc488d7f08":
+cleanup void ShipEvent::constructor(ShipEvent *this<rdi>, const ShipEvent& event<rsi>);

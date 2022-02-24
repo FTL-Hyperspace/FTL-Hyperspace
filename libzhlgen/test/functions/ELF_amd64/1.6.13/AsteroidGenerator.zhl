@@ -1,0 +1,18 @@
+"415741564155415455534889fbbf40000000":
+cleanup void AsteroidGenerator::constructor(AsteroidGenerator *this<rdi>);
+".89d0538997b4000000":
+cleanup float AsteroidGenerator::Initialize(AsteroidGenerator *this<rdi>, int numberOfShips<rsi>, int shieldCount<rdx>, bool defense<rcx>);
+".89b798000000":
+cleanup void AsteroidGenerator::SetNumShips(AsteroidGenerator *this<rdi>, int ships<rsi>);
+".415741564155415455534889fb4881ec38030000":
+cleanup Projectile* AsteroidGenerator::GetNextAsteroid(AsteroidGenerator *this<rdi>);
+".415741564155415455534889fb4883ec18":
+cleanup void AsteroidGenerator::OnLoop(AsteroidGenerator *this<rdi>);
+".538b879c000000":
+cleanup void AsteroidGenerator::GetNextState(AsteroidGenerator *this<rdi>);
+".534889fbbf????????e8????????":
+cleanup void AsteroidGenerator::UpdateState(AsteroidGenerator *this<rdi>);
+".554889fd5389f34883ec08":
+cleanup bool AsteroidGenerator::SaveAsteroids(AsteroidGenerator *this<rdi>, void* file<rsi>);
+".5589f5534889fb89f74883ec08":
+cleanup void AsteroidGenerator::LoadAsteroids(AsteroidGenerator *this<rdi>, void* file<rsi>);

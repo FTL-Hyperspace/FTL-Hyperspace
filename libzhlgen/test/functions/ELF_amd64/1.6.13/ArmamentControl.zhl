@@ -1,0 +1,6 @@
+"5383bfb0000000ff":
+cleanup bool ArmamentControl::Dragging(ArmamentControl *this<rdi>);
+"55534889fb4883ec08397738":
+cleanup void ArmamentControl::SetPosition(ArmamentControl *this<rdi>, Point loc<rsi>);
+"415431c94989fc5589f553":
+cleanup bool ArmamentControl::KeyDown(ArmamentControl *this<rdi>, SDLKey key<rsi>);
