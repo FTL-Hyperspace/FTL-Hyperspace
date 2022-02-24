@@ -2075,7 +2075,7 @@ struct LIBZHL_INTERFACE CrewMember
 	LIBZHL_API void SetHealthBoost(int healthBoost);
 	LIBZHL_API void SetMedbay(float health);
 	LIBZHL_API void SetMindControl(bool controlled);
-	LIBZHL_API void SetName(TextString name, bool force);
+	LIBZHL_API void SetName(TextString *name, bool force);
 	LIBZHL_API bool SetPath();
 	LIBZHL_API void SetPosition(Point pos);
 	LIBZHL_API void SetResisted(bool resisted);
@@ -3839,7 +3839,7 @@ struct CrewControl;
 struct CrewControl
 {
 	LIBZHL_API void ClearCrewBoxes();
-	LIBZHL_API void ClearDeadCrew(std::vector<CrewMember*> crew);
+	LIBZHL_API void ClearDeadCrew(std::vector<CrewMember*> *crew);
 	LIBZHL_API void KeyDown(SDLKey key);
 	LIBZHL_API void LButton(int mX, int mY, int wX, int wY, bool shiftHeld);
 	LIBZHL_API void LinkShip(ShipManager *ship);
@@ -4307,7 +4307,7 @@ struct CommandGui
 	LIBZHL_API void KeyDown(SDLKey key, bool shiftHeld);
 	LIBZHL_API void LButtonDown(int mX, int mY, bool shiftHeld);
 	LIBZHL_API void MouseMove(int mX, int mY);
-	LIBZHL_API void NewLocation(const std::string &mainText, std::vector<ChoiceText> choices, ResourceEvent &resources, bool testingEvents);
+	LIBZHL_API void NewLocation(const std::string &mainText, std::vector<ChoiceText> *choices, ResourceEvent &resources, bool testingEvents);
 	LIBZHL_API void OnInit();
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void RenderStatic();
@@ -6607,7 +6607,7 @@ struct ShipManager : ShipObject
 	LIBZHL_API CrewMember *AddCrewMemberFromBlueprint(CrewBlueprint *bp, int slot, bool init, int roomId, bool intruder);
 	LIBZHL_API CrewMember *AddCrewMemberFromString(const std::string &name, const std::string &race, char intruder, int roomId, char init, char male);
 	LIBZHL_API Drone *AddDrone(const DroneBlueprint *bp, int slot);
-	LIBZHL_API void AddEquipmentFromList(std::vector<std::string> equipmentList);
+	LIBZHL_API void AddEquipmentFromList(std::vector<std::string> *equipmentList);
 	LIBZHL_API void AddInitialCrew(std::vector<CrewBlueprint> &blueprints);
 	LIBZHL_API int AddSystem(int systemId);
 	LIBZHL_API int AddWeapon(const WeaponBlueprint *bp, int slot);

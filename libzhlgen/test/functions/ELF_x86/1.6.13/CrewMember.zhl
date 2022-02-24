@@ -193,7 +193,7 @@ cleanup bool CrewMember::WithinRect(CrewMember *this, int x, int y, int w, int h
 "5589e55383ec148b450c8b5d0880b81002000000":
 cleanup std::string CrewMember::GetLongName(CrewMember *this);
 "5589e557565383ec3c8b5d088b750c8b7d108d830c020000":
-cleanup void CrewMember::SetName(CrewMember *this, TextString name, bool force);
+cleanup void CrewMember::SetName(CrewMember *this, TextString *name, bool force);
 "5589e55383ec148b450c8b5d0880b80802000000":
 cleanup std::string CrewMember::GetName(CrewMember *this);
 "57565383ec108b5c24208b7424248b7c24288b03":

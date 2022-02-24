@@ -24,23 +24,49 @@ end
 -- local compiler
 local isPOSIX = false -- TODO: Still use this, but should probably clean this up into just a check for SystemVi386ABI & SystemVAMD64ABI as it's kinda a mess where it's used right now
 local useStackAlignment = false -- Aligns the stack before CALL instruction (as required by System V ABI specification)
-local stackAlignIncludesCALL = false
-local thiscallFirstArgumentECX = false
-local structPointerAfterHiddenArguments = false
-local structsReturnedOnStack = false
-local useIntelASMSyntax = true
+local stackAlignIncludesCALL = false -- Change the stack alignment math so that the return address of the CALL is included in the stack computation (System V AMD64 ABI) instead of before CALL (System V i386 ABI)
+local thiscallFirstArgumentECX = false -- Microsoft specific __thiscall, first argument is passed by ECX all others are stack. This does not affect MSVC vs GCC's order of the this argument.
+local structPointerAfterHiddenArguments = false -- This affects order of a memory-passed struct pointer after hidden arguments like `this`, MSVC puts it after other hidden arguments, GCC puts it always as the first argument.
+local memPassedStructsPoppedByCallee = false -- Do functions who are not normally callee cleanup for some stupid reason decide to cleanup one argument when passing a struct via memory... System V i386 ABI does this for some historical bizzare reason.
+local useIntelASMSyntax = true -- True for Intel ASM, False for AT&T style. MSVC requires Intel, GCC can use either, Clang requires AT&T.
 local stackAlignmentSize = 0x10
 local useNaked = true
 local argPattern = {}
 local argPatternSSE = {}
-local floatsPassedInSSERegisters = false
+local floatsPassedInSSERegisters = false -- Probably only affects 64-bit ABIs, but checks for passing floats into XMM registers. This doesn't add support for old x87 FPU registers.
+local compiler_passSmallStructsInTwoRegisters = true -- Should small structs be passed in EDX:EAX (or RDX:RAX) or only returned by memory pointer
+-- TODO: Maybe read stdNamespaceSizes and some of these other compiler/libstdc++ configuration settings from a separate config file? Or maybe from the IDA stripped header file under different names?
+local stdNamespaceSizes = {
+	[ "string" ] = 28,
+	[ "vector" ] = 16,
+	[ "set" ] = 16,
+	[ "pair" ] = 8
+}
 if string.find(mode, "linux") ~= nil then
     -- compiler = "gcc"
     useStackAlignment = true
-    structsReturnedOnStack = true
     isPOSIX = true
 	useIntelASMSyntax = false -- LLVM/Clang only supports AT&T Syntax, GCC supports both, so use AT&T Syntax instead of Intel
-    if string.find(mode, "x86_64") ~= nil then
+	if arch == "i386" then
+		memPassedStructsPoppedByCallee = true
+		compiler_passSmallStructsInTwoRegisters = false -- Pass all structs by memory even if they fit in EDX:EAX
+		-- Note this stdNamespaceSizes is setup for GCC 4.8.5's libstdc++, these sizes might be different in newer versions, string most certainly is different.
+		stdNamespaceSizes = {
+			[ "string" ] = 28,
+			[ "vector" ] = 12,
+			[ "set" ] = 24, -- Unknown if correct
+			[ "pair" ] = 8,
+			[ "map" ] = 24
+		}
+	elseif arch == "x86_64" then
+		-- Note this stdNamespaceSizes is setup for GCC 4.8.5's libstdc++, these sizes might be different in newer versions, string most certainly is different.
+		stdNamespaceSizes = {
+			[ "string" ] = 28,
+			[ "vector" ] = 24,
+			[ "set" ] = 48, -- Unknown if correct
+			[ "pair" ] = 8,
+			[ "map" ] = 48
+		}
         stackAlignIncludesCALL = true
         -- NOTE: Linux syscall uses r10 instead of rcx
         argPattern = {
@@ -66,14 +92,29 @@ if string.find(mode, "linux") ~= nil then
 elseif string.find(mode, "windows") ~= nil then
     thiscallFirstArgumentECX = true
     structPointerAfterHiddenArguments = true
-    if string.find(mode, "x86_64") ~= nil then
+	if arch == "i386" then
+		stdNamespaceSizes = {
+			[ "string" ] = 28,
+			[ "vector" ] = 16,
+			[ "set" ] = 16,
+			[ "pair" ] = 8
+		}
+	elseif arch == "x86_64" then
         error("64-bit x86 is not yet supported for Windows MSVC")
     end
     -- compiler = "msvc"
 elseif string.find(mode, "mingw") ~= nil then
     thiscallFirstArgumentECX = true
     -- argPattern =  { "ecx" }
-    if string.find(mode, "x86_64") ~= nil then
+	if arch == "i386" then
+		stdNamespaceSizes = {
+			[ "string" ] = 24,
+			[ "vector" ] = 12,
+			[ "set" ] = 24, -- Unknown if correct
+			[ "pair" ] = 8,
+			[ "map" ] = 24
+		}
+	elseif arch == "x86_64" then
         error("64-bit x86 is not yet supported for Windows MinGW")
     end
     -- compiler = "gcc"
@@ -183,14 +224,11 @@ local function sizeof(t)
 		elseif t.class == "__int8" or t.class == "char" or t.class == 'uint8_t' or t.class == 'int8_t'  then
 			size = 1
 		elseif t.parent and t.parent.class == "std" then
-			if t.class == "string" then
-				size = 28 -- TODO: This needs to be set by compiler type & version/era of libstdc++ as std::string has historically changed sizes
-			elseif t.class == "vector" then
-				size = 16 -- TODO: Bigger on x64?
-			elseif t.class == "set" then
-				size = 16 -- TODO: Bigger on x64?
-			elseif t.class == "pair" then
-				size = 8
+			local stdStructSize = stdNamespaceSizes[t.class]
+			if not stdStructSize then
+				print("Warning, unknown size for std::" .. t.class)
+			else
+				size = stdNamespaceSizes[t.class]
 			end
 		elseif t.class == "SmartPointer" then
 			size = 8
@@ -467,7 +505,6 @@ for k,fd in pairs(tfiles) do
             end
             
             -- Check if this function returns a struct
-            -- TODO: Determine size of struct and handle the special EDX:EAX case of 8-byte wide structs on Win32 ABI & Sys V i386 ABI
             local isImplicitType = true
             if func.class == "double" or func.class == "__int64" or func.class == "uint64_t" or func.class == "int64_t" then
                 isImplicitType = false
@@ -475,7 +512,14 @@ for k,fd in pairs(tfiles) do
                 isImplicitType = false
             end
                 
-            if sizeof(func) > archPushSize and isImplicitType then -- TODO: Size func size 8 on 64-bit?
+			local structMaxRegisterPassSize
+			if compiler_passSmallStructsInTwoRegisters then
+				structMaxRegisterPassSize = archPushSize * 2
+			else
+				structMaxRegisterPassSize = archPushSize
+			end
+
+            if sizeof(func) > structMaxRegisterPassSize and isImplicitType then -- TODO: Size func size 8 on 64-bit?
                 -- if it does, insert a pointer to that struct as the first argument (second if first one is "this" and using MSVC)
                 local i = 1
                 -- Maybe simplified to just?
@@ -489,7 +533,7 @@ for k,fd in pairs(tfiles) do
                 local a = cparser.ParseDefinition(string.format("%s *implicit_output;", func:cname()))
                 a.reg = func.reg
                 a.hidden = true
-                if structsReturnedOnStack then
+                if memPassedStructsPoppedByCallee then
                     func.memPassedPointer = true
                 end
                 table.insert(func.args, i, a)

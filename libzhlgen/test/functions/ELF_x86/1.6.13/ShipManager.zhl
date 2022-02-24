@@ -115,7 +115,7 @@ cleanup ShieldPower ShipManager::GetShieldPower(ShipManager *this);
 "538b4424088b9000040000837a0cff":
 cleanup int ShipManager::AddWeapon(ShipManager *this, const WeaponBlueprint* bp, int slot);
 "5557565331db83ec3c8b4424548d74242c":
-cleanup void ShipManager::AddEquipmentFromList(ShipManager *this, std::vector<std::string> equipmentList);
+cleanup void ShipManager::AddEquipmentFromList(ShipManager *this, std::vector<std::string> *equipmentList);
 "5589e557565383ec4c8b5d088b730485f6":
 cleanup void ShipManager::RenderChargeBars(ShipManager *this);
 "5557565383ec2c8b7c24408b7424448b8700040000":

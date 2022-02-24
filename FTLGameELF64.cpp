@@ -54,7 +54,7 @@ namespace _func1
 {
 	static void *func = 0;
 	static short argdata[] = {0x107, 0x106, 0x102};
-	static FunctionDefinition funcObj("AchievementTracker::GetShipAchievements", typeid(std::vector<CAchievement*> (AchievementTracker::*)(const std::string &)), "4157b90200000041564989d631d241554989fd", argdata, 3, 18, &func);
+	static FunctionDefinition funcObj("AchievementTracker::GetShipAchievements", typeid(std::vector<CAchievement*> (AchievementTracker::*)(const std::string &)), "4157b90200000041564989d631d241554989fd", argdata, 3, 2, &func);
 }
 
 FUNC_NAKED std::vector<CAchievement*> AchievementTracker::GetShipAchievements(const std::string &ship)
@@ -1021,7 +1021,7 @@ namespace _func27
 {
 	static void *func = 0;
 	static short argdata[] = {0x107, 0x106, 0x102};
-	static FunctionDefinition funcObj("AnimationControl::GetAnimation", typeid(Animation (AnimationControl::*)(const std::string &)), "415741564155415455534883ec6848897c2408", argdata, 3, 18, &func);
+	static FunctionDefinition funcObj("AnimationControl::GetAnimation", typeid(Animation (AnimationControl::*)(const std::string &)), "415741564155415455534883ec6848897c2408", argdata, 3, 2, &func);
 }
 
 FUNC_NAKED Animation AnimationControl::GetAnimation(const std::string &animName)
@@ -2247,7 +2247,7 @@ namespace _func60
 {
 	static void *func = 0;
 	static short argdata[] = {0x107, 0x106};
-	static FunctionDefinition funcObj("Blueprint::GetNameShort", typeid(std::string (Blueprint::*)()), "53807e2800", argdata, 2, 18, &func);
+	static FunctionDefinition funcObj("Blueprint::GetNameShort", typeid(std::string (Blueprint::*)()), "53807e2800", argdata, 2, 2, &func);
 }
 
 FUNC_NAKED std::string Blueprint::GetNameShort()
@@ -2285,7 +2285,7 @@ namespace _func61
 {
 	static void *func = 0;
 	static short argdata[] = {0x107, 0x106, 0x102};
-	static FunctionDefinition funcObj("BlueprintManager::GetBlueprintList", typeid(std::vector<std::string> (BlueprintManager::*)(const std::string &)), "4157415641554989f54d8dbde8010000", argdata, 3, 18, &func);
+	static FunctionDefinition funcObj("BlueprintManager::GetBlueprintList", typeid(std::vector<std::string> (BlueprintManager::*)(const std::string &)), "4157415641554989f54d8dbde8010000", argdata, 3, 2, &func);
 }
 
 FUNC_NAKED std::vector<std::string> BlueprintManager::GetBlueprintList(const std::string &name)
@@ -2553,7 +2553,7 @@ namespace _func68
 {
 	static void *func = 0;
 	static short argdata[] = {0x107, 0x106, 0x102};
-	static FunctionDefinition funcObj("BlueprintManager::ProcessWeaponBlueprint", typeid(WeaponBlueprint (BlueprintManager::*)(rapidxml::xml_node<char> *)), "41574156415541544989f4554889d5534889fb4881ecb8000000", argdata, 3, 18, &func);
+	static FunctionDefinition funcObj("BlueprintManager::ProcessWeaponBlueprint", typeid(WeaponBlueprint (BlueprintManager::*)(rapidxml::xml_node<char> *)), "41574156415541544989f4554889d5534889fb4881ecb8000000", argdata, 3, 2, &func);
 }
 
 FUNC_NAKED WeaponBlueprint BlueprintManager::ProcessWeaponBlueprint(rapidxml::xml_node<char> *node)
@@ -2592,7 +2592,7 @@ namespace _func69
 {
 	static void *func = 0;
 	static short argdata[] = {0x107, 0x106, 0x102};
-	static FunctionDefinition funcObj("BlueprintManager::ProcessDescription", typeid(Description (BlueprintManager::*)(rapidxml::xml_node<char> *)), "4157be????????415641554154554889fd4c8d6d10", argdata, 3, 18, &func);
+	static FunctionDefinition funcObj("BlueprintManager::ProcessDescription", typeid(Description (BlueprintManager::*)(rapidxml::xml_node<char> *)), "4157be????????415641554154554889fd4c8d6d10", argdata, 3, 2, &func);
 }
 
 FUNC_NAKED Description BlueprintManager::ProcessDescription(rapidxml::xml_node<char> *node)
@@ -2631,7 +2631,7 @@ namespace _func70
 {
 	static void *func = 0;
 	static short argdata[] = {0x107, 0x106, 0x102};
-	static FunctionDefinition funcObj("BlueprintManager::ProcessEffectsBlueprint", typeid(EffectsBlueprint (BlueprintManager::*)(rapidxml::xml_node<char> *)), "4157415641554989f5be", argdata, 3, 18, &func);
+	static FunctionDefinition funcObj("BlueprintManager::ProcessEffectsBlueprint", typeid(EffectsBlueprint (BlueprintManager::*)(rapidxml::xml_node<char> *)), "4157415641554989f5be", argdata, 3, 2, &func);
 }
 
 FUNC_NAKED EffectsBlueprint BlueprintManager::ProcessEffectsBlueprint(rapidxml::xml_node<char> *node)
@@ -2670,7 +2670,7 @@ namespace _func71
 {
 	static void *func = 0;
 	static short argdata[] = {0x107, 0x106, 0x102};
-	static FunctionDefinition funcObj("BlueprintManager::GetCrewBlueprint", typeid(CrewBlueprint (BlueprintManager::*)(const std::string &)), "41574156415541544989f44d8dac24c8000000", argdata, 3, 18, &func);
+	static FunctionDefinition funcObj("BlueprintManager::GetCrewBlueprint", typeid(CrewBlueprint (BlueprintManager::*)(const std::string &)), "41574156415541544989f44d8dac24c8000000", argdata, 3, 2, &func);
 }
 
 FUNC_NAKED CrewBlueprint BlueprintManager::GetCrewBlueprint(const std::string &name)
@@ -2709,7 +2709,7 @@ namespace _func72
 {
 	static void *func = 0;
 	static short argdata[] = {0x107, 0x106, 0x102, 0x101};
-	static FunctionDefinition funcObj("BlueprintManager::GetRandomAugment", typeid(std::vector<AugmentBlueprint*> (BlueprintManager::*)(int , bool )), "488d869800000053", argdata, 4, 18, &func);
+	static FunctionDefinition funcObj("BlueprintManager::GetRandomAugment", typeid(std::vector<AugmentBlueprint*> (BlueprintManager::*)(int , bool )), "488d869800000053", argdata, 4, 2, &func);
 }
 
 FUNC_NAKED std::vector<AugmentBlueprint*> BlueprintManager::GetRandomAugment(int count, bool demo_lock)
@@ -2787,7 +2787,7 @@ namespace _func74
 {
 	static void *func = 0;
 	static short argdata[] = {0x107, 0x106, 0x102};
-	static FunctionDefinition funcObj("BlueprintManager::GetUnusedCrewName", typeid(std::string (BlueprintManager::*)(bool *)), "415741564155415455534883ec5848c707", argdata, 3, 18, &func);
+	static FunctionDefinition funcObj("BlueprintManager::GetUnusedCrewName", typeid(std::string (BlueprintManager::*)(bool *)), "415741564155415455534883ec5848c707", argdata, 3, 2, &func);
 }
 
 FUNC_NAKED std::string BlueprintManager::GetUnusedCrewName(bool *isMale_ret)
@@ -2826,7 +2826,7 @@ namespace _func75
 {
 	static void *func = 0;
 	static short argdata[] = {0x107, 0x106, 0x102};
-	static FunctionDefinition funcObj("BlueprintManager::GetCrewName", typeid(std::string (BlueprintManager::*)(bool *)), "415741564c8db6f800000041554989d541544989fc55534889f3", argdata, 3, 18, &func);
+	static FunctionDefinition funcObj("BlueprintManager::GetCrewName", typeid(std::string (BlueprintManager::*)(bool *)), "415741564c8db6f800000041554989d541544989fc55534889f3", argdata, 3, 2, &func);
 }
 
 FUNC_NAKED std::string BlueprintManager::GetCrewName(bool *isMale_ret)
@@ -2865,7 +2865,7 @@ namespace _func76
 {
 	static void *func = 0;
 	static short argdata[] = {0x107, 0x106, 0x102, 0x101};
-	static FunctionDefinition funcObj("BlueprintManager::GetRandomWeapon", typeid(std::vector<WeaponBlueprint*> (BlueprintManager::*)(int , bool )), "488d463853440fb6c1", argdata, 4, 18, &func);
+	static FunctionDefinition funcObj("BlueprintManager::GetRandomWeapon", typeid(std::vector<WeaponBlueprint*> (BlueprintManager::*)(int , bool )), "488d463853440fb6c1", argdata, 4, 2, &func);
 }
 
 FUNC_NAKED std::vector<WeaponBlueprint*> BlueprintManager::GetRandomWeapon(int count, bool demo_lock)
@@ -2905,7 +2905,7 @@ namespace _func77
 {
 	static void *func = 0;
 	static short argdata[] = {0x107, 0x106, 0x102, 0x101};
-	static FunctionDefinition funcObj("BlueprintManager::GetRandomDrone", typeid(std::vector<DroneBlueprint*> (BlueprintManager::*)(int , bool )), "488d466853440fb6c1", argdata, 4, 18, &func);
+	static FunctionDefinition funcObj("BlueprintManager::GetRandomDrone", typeid(std::vector<DroneBlueprint*> (BlueprintManager::*)(int , bool )), "488d466853440fb6c1", argdata, 4, 2, &func);
 }
 
 FUNC_NAKED std::vector<DroneBlueprint*> BlueprintManager::GetRandomDrone(int count, bool demo_lock)
@@ -2945,7 +2945,7 @@ namespace _func78
 {
 	static void *func = 0;
 	static short argdata[] = {0x107, 0x106, 0x102};
-	static FunctionDefinition funcObj("BlueprintManager::ProcessShipBlueprint", typeid(ShipBlueprint (BlueprintManager::*)(rapidxml::xml_node<char> *)), "415741564989d641554989f5415455534889fb4881ecc8000000", argdata, 3, 18, &func);
+	static FunctionDefinition funcObj("BlueprintManager::ProcessShipBlueprint", typeid(ShipBlueprint (BlueprintManager::*)(rapidxml::xml_node<char> *)), "415741564989d641554989f5415455534889fb4881ecc8000000", argdata, 3, 2, &func);
 }
 
 FUNC_NAKED ShipBlueprint BlueprintManager::ProcessShipBlueprint(rapidxml::xml_node<char> *node)
@@ -2984,7 +2984,7 @@ namespace _func79
 {
 	static void *func = 0;
 	static short argdata[] = {0x107, 0x106, 0x102};
-	static FunctionDefinition funcObj("BlueprintManager::ProcessDroneBlueprint", typeid(DroneBlueprint (BlueprintManager::*)(rapidxml::xml_node<char> *)), "415741564989f641554989d54154554889fd534881ec98000000", argdata, 3, 18, &func);
+	static FunctionDefinition funcObj("BlueprintManager::ProcessDroneBlueprint", typeid(DroneBlueprint (BlueprintManager::*)(rapidxml::xml_node<char> *)), "415741564989f641554989d54154554889fd534881ec98000000", argdata, 3, 2, &func);
 }
 
 FUNC_NAKED DroneBlueprint BlueprintManager::ProcessDroneBlueprint(rapidxml::xml_node<char> *node)
@@ -5581,7 +5581,7 @@ namespace _func149
 {
 	static void *func = 0;
 	static short argdata[] = {0x107, 0x106};
-	static FunctionDefinition funcObj("EnergyAlien::GetRoomDamage", typeid(Damage (EnergyAlien::*)()), "80be41070000004889f8", argdata, 2, 18, &func);
+	static FunctionDefinition funcObj("EnergyAlien::GetRoomDamage", typeid(Damage (EnergyAlien::*)()), "80be41070000004889f8", argdata, 2, 2, &func);
 }
 
 FUNC_NAKED Damage EnergyAlien::GetRoomDamage()
@@ -6389,7 +6389,7 @@ namespace _func172
 {
 	static void *func = 0;
 	static short argdata[] = {0x107, 0x106};
-	static FunctionDefinition funcObj("IonDrone::GetRoomDamage", typeid(Damage (IonDrone::*)()), "554889f5534889fb4883ec08c70700000000", argdata, 2, 18, &func);
+	static FunctionDefinition funcObj("IonDrone::GetRoomDamage", typeid(Damage (IonDrone::*)()), "554889f5534889fb4883ec08c70700000000", argdata, 2, 2, &func);
 }
 
 FUNC_NAKED Damage IonDrone::GetRoomDamage()
@@ -7386,8 +7386,8 @@ FUNC_NAKED void ShipEvent::constructor(const ShipEvent &event)
 namespace _func200
 {
 	static void *func = 0;
-	static short argdata[] = {0x1ff};
-	static FunctionDefinition funcObj("StatusEffect::GetNebulaEffect", typeid(StatusEffect (*)()), "4883ec08803d????????007433660f6f05????????48b8020000000700000048ba0000000002000000", argdata, 1, 18, &func);
+	static const short *argdata = NULL;
+	static FunctionDefinition funcObj("StatusEffect::GetNebulaEffect", typeid(StatusEffect (*)()), "4883ec08803d????????007433660f6f05????????48b8020000000700000048ba0000000002000000", argdata, 0, 10, &func);
 }
 
 FUNC_NAKED StatusEffect StatusEffect::GetNebulaEffect()
@@ -7396,13 +7396,13 @@ FUNC_NAKED StatusEffect StatusEffect::GetNebulaEffect()
 	(
 		"pushl %rbp\n\t"
 		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
 		"pushl %rbx\n\t"
 		"pushl %rbp\n\t"
 		"pushl %r12\n\t"
 		"pushl %r13\n\t"
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
-		"pushl 8(%rbp)\n\t"		// implicit_output
 	);
 	__asm__("call *%0\n\t" :: "m"(_func200::func));
 	__asm__

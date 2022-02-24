@@ -27,4 +27,4 @@ cleanup void CommandGui::CheckGameover(CommandGui *this);
 "5383ec18803d????????008b5c242075??????????????85c0":
 cleanup bool CommandGui::IsGameOver(CommandGui *this);
 "5557565381ec7c0100008bbc24980100008b8424a0010000":
-cleanup void CommandGui::NewLocation(CommandGui *this, const std::string& mainText, std::vector<ChoiceText> choices, ResourceEvent& resources, bool testingEvents);
+cleanup void CommandGui::NewLocation(CommandGui *this, const std::string& mainText, std::vector<ChoiceText> *choices, ResourceEvent& resources, bool testingEvents);

@@ -9533,27 +9533,25 @@ FUNC_NAKED bool CommandGui::IsGameOver()
 namespace _func250
 {
 	static void *func = 0;
-	static short argdata[] = {0x1ff, 0x1ff, 0x4ff, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("CommandGui::NewLocation", typeid(void (CommandGui::*)(const std::string &, std::vector<ChoiceText> , ResourceEvent &, bool )), "5557565381ec7c0100008bbc24980100008b8424a0010000", argdata, 5, 6, &func);
+	static short argdata[] = {0x1ff, 0x1ff, 0x1ff, 0x1ff, 0x1ff};
+	static FunctionDefinition funcObj("CommandGui::NewLocation", typeid(void (CommandGui::*)(const std::string &, std::vector<ChoiceText> *, ResourceEvent &, bool )), "5557565381ec7c0100008bbc24980100008b8424a0010000", argdata, 5, 6, &func);
 }
 
-FUNC_NAKED void CommandGui::NewLocation(const std::string &mainText, std::vector<ChoiceText> choices, ResourceEvent &resources, bool testingEvents)
+FUNC_NAKED void CommandGui::NewLocation(const std::string &mainText, std::vector<ChoiceText> *choices, ResourceEvent &resources, bool testingEvents)
 {
 	__asm__
 	(
 		"pushl %ebp\n\t"
 		"movl %esp, %ebp\n\t"
+		"subl $12, %esp\n\t"
 		"pushl %edx\n\t"
 		"pushl %eax\n\t"
 		"pushl %ecx\n\t"
 		"pushl %ebx\n\t"
 		"pushl %esi\n\t"
 		"pushl %edi\n\t"
-		"pushl 36(%ebp)\n\t"		// testingEvents
-		"pushl 32(%ebp)\n\t"		// resources
-		"pushl 28(%ebp)\n\t"		// choices
-		"pushl 24(%ebp)\n\t"		// choices
-		"pushl 20(%ebp)\n\t"		// choices
+		"pushl 24(%ebp)\n\t"		// testingEvents
+		"pushl 20(%ebp)\n\t"		// resources
 		"pushl 16(%ebp)\n\t"		// choices
 		"pushl 12(%ebp)\n\t"		// mainText
 		"pushl 8(%ebp)\n\t"		// this
@@ -9561,7 +9559,7 @@ FUNC_NAKED void CommandGui::NewLocation(const std::string &mainText, std::vector
 	__asm__("call *%0\n\t" :: "m"(_func250::func));
 	__asm__
 	(
-		"addl $32, %esp\n\t"
+		"addl $20, %esp\n\t"
 		"popl %edi\n\t"
 		"popl %esi\n\t"
 		"popl %ebx\n\t"
@@ -13002,33 +13000,30 @@ FUNC_NAKED void CrewControl::LButton(int mX, int mY, int wX, int wY, bool shiftH
 namespace _func340
 {
 	static void *func = 0;
-	static short argdata[] = {0x1ff, 0x4ff};
-	static FunctionDefinition funcObj("CrewControl::ClearDeadCrew", typeid(void (CrewControl::*)(std::vector<CrewMember*> )), "5557565331db83ec1c8b7424348b56048b0e", argdata, 2, 6, &func);
+	static short argdata[] = {0x1ff, 0x1ff};
+	static FunctionDefinition funcObj("CrewControl::ClearDeadCrew", typeid(void (CrewControl::*)(std::vector<CrewMember*> *)), "5557565331db83ec1c8b7424348b56048b0e", argdata, 2, 6, &func);
 }
 
-FUNC_NAKED void CrewControl::ClearDeadCrew(std::vector<CrewMember*> crew)
+FUNC_NAKED void CrewControl::ClearDeadCrew(std::vector<CrewMember*> *crew)
 {
 	__asm__
 	(
 		"pushl %ebp\n\t"
 		"movl %esp, %ebp\n\t"
-		"subl $12, %esp\n\t"
+		"subl $8, %esp\n\t"
 		"pushl %edx\n\t"
 		"pushl %eax\n\t"
 		"pushl %ecx\n\t"
 		"pushl %ebx\n\t"
 		"pushl %esi\n\t"
 		"pushl %edi\n\t"
-		"pushl 24(%ebp)\n\t"		// crew
-		"pushl 20(%ebp)\n\t"		// crew
-		"pushl 16(%ebp)\n\t"		// crew
 		"pushl 12(%ebp)\n\t"		// crew
 		"pushl 8(%ebp)\n\t"		// this
 	);
 	__asm__("call *%0\n\t" :: "m"(_func340::func));
 	__asm__
 	(
-		"addl $20, %esp\n\t"
+		"addl $8, %esp\n\t"
 		"popl %edi\n\t"
 		"popl %esi\n\t"
 		"popl %ebx\n\t"
@@ -17867,11 +17862,11 @@ FUNC_NAKED std::string CrewMember::GetLongName()
 namespace _func469
 {
 	static void *func = 0;
-	static short argdata[] = {0x1ff, 0x9ff, 0x1ff};
-	static FunctionDefinition funcObj("CrewMember::SetName", typeid(void (CrewMember::*)(TextString , bool )), "5589e557565383ec3c8b5d088b750c8b7d108d830c020000", argdata, 3, 6, &func);
+	static short argdata[] = {0x1ff, 0x1ff, 0x1ff};
+	static FunctionDefinition funcObj("CrewMember::SetName", typeid(void (CrewMember::*)(TextString *, bool )), "5589e557565383ec3c8b5d088b750c8b7d108d830c020000", argdata, 3, 6, &func);
 }
 
-FUNC_NAKED void CrewMember::SetName(TextString name, bool force)
+FUNC_NAKED void CrewMember::SetName(TextString *name, bool force)
 {
 	__asm__
 	(
@@ -17884,22 +17879,14 @@ FUNC_NAKED void CrewMember::SetName(TextString name, bool force)
 		"pushl %ebx\n\t"
 		"pushl %esi\n\t"
 		"pushl %edi\n\t"
-		"pushl 48(%ebp)\n\t"		// force
-		"pushl 44(%ebp)\n\t"		// name
-		"pushl 40(%ebp)\n\t"		// name
-		"pushl 36(%ebp)\n\t"		// name
-		"pushl 32(%ebp)\n\t"		// name
-		"pushl 28(%ebp)\n\t"		// name
-		"pushl 24(%ebp)\n\t"		// name
-		"pushl 20(%ebp)\n\t"		// name
-		"pushl 16(%ebp)\n\t"		// name
+		"pushl 16(%ebp)\n\t"		// force
 		"pushl 12(%ebp)\n\t"		// name
 		"pushl 8(%ebp)\n\t"		// this
 	);
 	__asm__("call *%0\n\t" :: "m"(_func469::func));
 	__asm__
 	(
-		"addl $44, %esp\n\t"
+		"addl $12, %esp\n\t"
 		"popl %edi\n\t"
 		"popl %esi\n\t"
 		"popl %ebx\n\t"
@@ -35222,33 +35209,30 @@ FUNC_NAKED int ShipManager::AddWeapon(const WeaponBlueprint *bp, int slot)
 namespace _func939
 {
 	static void *func = 0;
-	static short argdata[] = {0x1ff, 0x4ff};
-	static FunctionDefinition funcObj("ShipManager::AddEquipmentFromList", typeid(void (ShipManager::*)(std::vector<std::string> )), "5557565331db83ec3c8b4424548d74242c", argdata, 2, 6, &func);
+	static short argdata[] = {0x1ff, 0x1ff};
+	static FunctionDefinition funcObj("ShipManager::AddEquipmentFromList", typeid(void (ShipManager::*)(std::vector<std::string> *)), "5557565331db83ec3c8b4424548d74242c", argdata, 2, 6, &func);
 }
 
-FUNC_NAKED void ShipManager::AddEquipmentFromList(std::vector<std::string> equipmentList)
+FUNC_NAKED void ShipManager::AddEquipmentFromList(std::vector<std::string> *equipmentList)
 {
 	__asm__
 	(
 		"pushl %ebp\n\t"
 		"movl %esp, %ebp\n\t"
-		"subl $12, %esp\n\t"
+		"subl $8, %esp\n\t"
 		"pushl %edx\n\t"
 		"pushl %eax\n\t"
 		"pushl %ecx\n\t"
 		"pushl %ebx\n\t"
 		"pushl %esi\n\t"
 		"pushl %edi\n\t"
-		"pushl 24(%ebp)\n\t"		// equipmentList
-		"pushl 20(%ebp)\n\t"		// equipmentList
-		"pushl 16(%ebp)\n\t"		// equipmentList
 		"pushl 12(%ebp)\n\t"		// equipmentList
 		"pushl 8(%ebp)\n\t"		// this
 	);
 	__asm__("call *%0\n\t" :: "m"(_func939::func));
 	__asm__
 	(
-		"addl $20, %esp\n\t"
+		"addl $8, %esp\n\t"
 		"popl %edi\n\t"
 		"popl %esi\n\t"
 		"popl %ebx\n\t"
