@@ -493,7 +493,7 @@ for k,fd in pairs(tfiles) do
                     func.memPassedPointer = true
                 end
                 table.insert(func.args, i, a)
-            elseif sizeof(func) == 8 then -- TODO: Is this size 16 on 64-bit?
+            elseif sizeof(func) == archPushSize * 2 then
                 func.longlong = true
             end
             
