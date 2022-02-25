@@ -2121,7 +2121,7 @@ HOOK_METHOD(EventsParser, ProcessEvent, (rapidxml::xml_node<char> *node, const s
     std::string strRef = super(node, eventName);
     if (!node->first_attribute("load"))
     {
-        CustomEventsParser::GetInstance()->ParseVanillaEventNode(node, strRef, eventName);
+        CustomEventsParser::GetInstance()->ParseVanillaEventNode(node, strRef, strRef.substr(0, strRef.find(" ")));
     }
     return strRef;
 }
