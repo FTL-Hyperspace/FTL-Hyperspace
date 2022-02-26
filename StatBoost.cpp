@@ -340,6 +340,10 @@ StatBoostDefinition* StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<cha
             }
         }
     }
+    else
+    {
+        throw sprintf("Unrecognized stat boost stat name: %s", node->first_attribute("name")->value());
+    }
     return def;
 }
 
