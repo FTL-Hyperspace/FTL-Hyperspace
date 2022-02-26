@@ -1693,12 +1693,54 @@ Syntax ->
 	</loadEventList>                                                                              If generate="true" and this is a root-level event, then the event is selected upon sector generation rather than on visit.
 	                                                                                              You can also create an event directly inside this tag rather than naming an event.
 	
+	<backgroundObject name="OBJECT_NAME">
+		<layer z="0">background/foreground/asteroids/player/playerfront/front</layer>           Either space layer, planet/fleet layer, asteroids background layer, or with the player ship.
+		                                                                                          The "player" and "playerfront" are positioned relative to the player ship's origin.
+		                                                                                          The "playerfront" and "front" render in front of the player ship; others render behind.
+		                                                                                          The "z" attribute is used to order objects within a layer (high z in front).
+		<spawnArea x="0" y="0" w="0" h="0"/>                                                    Defines a rectangle within where the object will randomly be placed.
+		<anim play="true" loop="true" random="false">animName</anim>                            Animation. The "play" attribute determines whether ALL animations play while this one is visible.
+		                                                                                          The "loop" and "random" attributes determine whether this animation loops and starts on a random frame.
+		<hoverAnim ...>animName</hoverAnim>                                                     Animation to show when the player's cursor is hovering over the object. Same attributes as anim.
+        <inactiveAnim hide="false" ...>animName</inactiveAnim>                                  Animation to show when interaction is disabled. Same attributes as anim. Set hide="true" to simply hide the normal anim instead.
+		<tooltip id="_id_">_text_</tooltip>                                                     Tooltip to show when hovering over the object.
+		<inactiveTooltip id="_id_">_text_</inactiveTooltip>                                     Tooltip to show when hovering over the object, when interaction is disabled.
+		<req lvl="1" max_lvl="2147483647">reqName</req>                                         Disables and enables the object dynamically based on player equipment. Separate from <active>.
+		<active>true</active>                                                                   Whether the object should be active when created.
+		<jumpClear>false</jumpClear>                                                            If true, the object is destroyed when the player leaves the current location.
+		<disableCombat>false</disableCombat>                                                    If true, interaction is disabled when the player is in danger.
+		<clickAction>                                                                           Action to perform when the player clicks on this object.
+			<event>EVENT_NAME</event>                                                           Name of an event to queue.
+			<activate/>                                                                         If the object was inactive, it becomes active.
+			<deactivate/>                                                                       If the object was active, it becomes inactive.
+			<toggle/>                                                                           Toggles the object's active status.
+			<destroy/>                                                                          Destroys this object.
+			<transform chance="1">OBJECT_NAME</transform>                                       This object transforms into a different definition. Can be repeated. chance controls the probability of selecting this object.
+			                                                                                      When transforming, the position and active/inactive status are preserved; everything else is reinitialized.
+			<noTransform chance="1"/>                                                           Adds a probability for the object to not transform, to accompany <transform>.
+			<spawnObject x="0" y="0" w="0" h="0" load="OBJECT_NAME" ...>...</spawnObject>       Spawns another object within a rectangle relative to this object's position. Can use load attribute or a full object definition.
+			                                                                                      Repeat for as many objects as you want to spawn.
+		</clickAction>
+		<animAction>                                                                            Action to perform when the animation from <anim> ends.
+			...
+		</animAction>
+		<timerAction time="0.0" minTime="0.0" maxTime="0.0" loop="false"                        Action to perform on a timer. Use either fixed time or random minTime/maxTime. If loop="true" the timer will loop.
+			requireActive="true/false" requireHover="true/false" triggerActiveOnly="false">       requireActive and requireHover are optional attributes which freeze the timer if the condition is not met.
+			...                                                                                   triggerActiveOnly does not freeze the timer but requires the object to be active to trigger the action.
+		</timerAction>                                                                            No limit on how many timer actions you can include.
+	</backgroundObject>
+	
 	<event name="CUSTOM_EVENT" recursive="true">                                                If recursive is true (default), then the same tags apply to all unnamed child events. Otherwise, it only applies to the
 	                                                                                              top-level event.
 		<beaconType load="BEACON_NAME" ...>                                                     Specifies custom beacon label type for this event. If the load attribute is specified, then loads the beacon label specified
 			...                                                                                   by the attribute. Otherwise, include the full specification as previously outlined for beaconType.
 		</beaconType>
 		<changeBackground>BACK_ID</changeBackground>                                            Changes the event background to the specified background.
+		<backgroundObject load="OBJECT_NAME" ...>                                               Same syntax as <backgroundObject> above, except name is optional. Repeatable.
+			...                                                                                   Alternatively, use the load attribute to load a previously named background object.
+		</backgroundObject>
+		<clearBackgroundObject name="OBJECT_NAME"/>                                             Clears all objects of a given definition name. If no name specified, clears everything. Repeatable.
+		<transformBackgroundObject name="OBJECT_NAME">NEW_NAME</transformBackgroundObject>      Transforms all background objects from the definition OBJECT_NAME to the definition NEW_NAME. Repeatable.
 		<playSound>sound_id</playSound>                                                         Plays a sound.
 		<playMusic>music_id</playMusic>                                                         Plays a music track. Leave blank to reset and play the current sector's playlist.
 		<removeHazards/>                                                                        Removes all hazards (asteroids, pulsar, ASB, sun, and plasma storm). Nebula status is preserved.

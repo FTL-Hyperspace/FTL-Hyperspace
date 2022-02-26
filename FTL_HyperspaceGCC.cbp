@@ -347,6 +347,12 @@
 		<Unit filename="CustomAugments.h">
 			<Option virtualFolder="Core/Augments/" />
 		</Unit>
+		<Unit filename="CustomBackgroundObject.cpp">
+			<Option virtualFolder="Core/Events/" />
+		</Unit>
+		<Unit filename="CustomBackgroundObject.h">
+			<Option virtualFolder="Core/Events/" />
+		</Unit>
 		<Unit filename="CustomBoss.cpp">
 			<Option virtualFolder="Core/Boss/" />
 		</Unit>

@@ -1,11 +1,19 @@
 #pragma once
 #include "Global.h"
 #include "ToggleValue.h"
+#include "CustomBackgroundObject.h"
 #include <algorithm>
 #include <memory>
 #include <unordered_set>
+#include <bitset>
 #include <boost/format.hpp>
 #include <rapidxml_print.hpp>
+
+extern std::bitset<8> advancedCheckEquipment;
+// bit 0: WorldManager::CreateChoiceBox
+// bit 1: StarMap::RenderLabels
+// bit 2: LoadEvent
+// bit 3: CustomBackgroundObject::OnLoop
 
 extern std::deque<std::pair<std::string,int>> eventQueue;
 
@@ -610,6 +618,10 @@ struct CustomEvent
     EventFleet rightFleet;
     bool clearCustomFleet = false;
 
+    std::vector<CustomBackgroundObjectDefinition*> backgroundObjects;
+    std::vector<std::string> clearBackgroundObjects;
+    std::vector<std::pair<std::string,std::string>> transformBackgroundObjects;
+
     std::vector<std::string> hiddenAugs = std::vector<std::string>();
     std::vector<std::string> removeItems = std::vector<std::string>();
     std::vector<VariableModifier> variables = std::vector<VariableModifier>();
@@ -784,7 +796,7 @@ public:
 
     }
 
-    void ParseCustomEventNodeFiles(rapidxml::xml_node<char> *node);
+    void EarlyParseCustomEventNode(rapidxml::xml_node<char> *node);
     void ReadCustomEventFiles();
     void ParseCustomEventNode(rapidxml::xml_node<char> *node);
     void PostProcessCustomEvents();

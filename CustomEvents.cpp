@@ -10,8 +10,11 @@
 #include "CustomOptions.h"
 #include "CustomAchievements.h"
 #include "CustomScoreKeeper.h"
+#include "CustomBackgroundObject.h"
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
+
+std::bitset<8> advancedCheckEquipment{0x00};
 
 CustomEventsParser *CustomEventsParser::instance = new CustomEventsParser();
 bool alreadyWonCustom = false;
@@ -35,7 +38,7 @@ CustomEvent::CustomEvent()
     checkCargo = CustomOptionsManager::GetInstance()->defaults.checkCargo;
 }
 
-void CustomEventsParser::ParseCustomEventNodeFiles(rapidxml::xml_node<char> *node)
+void CustomEventsParser::EarlyParseCustomEventNode(rapidxml::xml_node<char> *node)
 {
     for (auto eventNode = node->first_node(); eventNode; eventNode = eventNode->next_sibling())
     {
@@ -44,6 +47,75 @@ void CustomEventsParser::ParseCustomEventNodeFiles(rapidxml::xml_node<char> *nod
             if (eventNode->value())
             {
                 eventFiles.push_back(std::string(eventNode->value()));
+            }
+        }
+
+        if (strcmp(eventNode->name(), "loadEventList") == 0)
+        {
+
+            EventLoadList *eventLoadList = new EventLoadList();
+            std::string loadEventListName = "";
+            if (eventNode->first_attribute("name"))
+            {
+                loadEventListName = eventNode->first_attribute("name")->value();
+            }
+            ParseCustomEventLoadList(eventNode, eventLoadList, loadEventListName);
+            if (!loadEventListName.empty())
+            {
+                customEventLoadLists[loadEventListName] = eventLoadList;
+            }
+        }
+
+        if (strcmp(eventNode->name(), "triggeredEventBox") == 0)
+        {
+            TriggeredEventBoxDefinition boxDef;
+            ParseCustomTriggeredEventBoxNode(eventNode, &boxDef);
+            if (eventNode->first_attribute("name"))
+            {
+                TriggeredEventGui::GetInstance()->boxDefs[eventNode->first_attribute("name")->value()] = boxDef;
+            }
+        }
+
+        if (strcmp(eventNode->name(), "timerSounds") == 0)
+        {
+            std::vector<std::pair<float,std::string>> timerSounds;
+            ParseCustomTriggeredEventSounds(eventNode, &timerSounds);
+            if (eventNode->first_attribute("name"))
+            {
+                TriggeredEventDefinition::timerSoundDefs[eventNode->first_attribute("name")->value()] = timerSounds;
+            }
+        }
+
+        if (strcmp(eventNode->name(), "warningMessage") == 0)
+        {
+            TriggeredEventWarningDefinition warningDef;
+            ParseCustomTriggeredEventWarningNode(eventNode, &warningDef);
+            if (eventNode->first_attribute("name"))
+            {
+                TriggeredEventGui::GetInstance()->warningDefs[eventNode->first_attribute("name")->value()] = warningDef;
+            }
+        }
+
+        if (strcmp(eventNode->name(), "beaconType") == 0)
+        {
+            if (eventNode->first_attribute("name"))
+            {
+                std::string beaconName = std::string(eventNode->first_attribute("name")->value());
+
+                BeaconType *beaconType = new BeaconType();
+                beaconType->eventName = beaconName;
+
+                ParseCustomBeaconType(eventNode, beaconType);
+
+                customBeacons[beaconName] = beaconType;
+            }
+        }
+
+        if (strcmp(eventNode->name(), "backgroundObject") == 0)
+        {
+            if (eventNode->first_attribute("name"))
+            {
+                CustomBackgroundObjectManager::instance->ParseCustomBackgroundObject(eventNode);
             }
         }
     }
@@ -322,52 +394,6 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
             }
         }
 
-        if (strcmp(eventNode->name(), "loadEventList") == 0)
-        {
-
-            EventLoadList *eventLoadList = new EventLoadList();
-            std::string loadEventListName = "";
-            if (eventNode->first_attribute("name"))
-            {
-                loadEventListName = eventNode->first_attribute("name")->value();
-            }
-            ParseCustomEventLoadList(eventNode, eventLoadList, loadEventListName);
-            if (!loadEventListName.empty())
-            {
-                customEventLoadLists[loadEventListName] = eventLoadList;
-            }
-        }
-
-        if (strcmp(eventNode->name(), "triggeredEventBox") == 0)
-        {
-            TriggeredEventBoxDefinition boxDef;
-            ParseCustomTriggeredEventBoxNode(eventNode, &boxDef);
-            if (eventNode->first_attribute("name"))
-            {
-                TriggeredEventGui::GetInstance()->boxDefs[eventNode->first_attribute("name")->value()] = boxDef;
-            }
-        }
-
-        if (strcmp(eventNode->name(), "timerSounds") == 0)
-        {
-            std::vector<std::pair<float,std::string>> timerSounds;
-            ParseCustomTriggeredEventSounds(eventNode, &timerSounds);
-            if (eventNode->first_attribute("name"))
-            {
-                TriggeredEventDefinition::timerSoundDefs[eventNode->first_attribute("name")->value()] = timerSounds;
-            }
-        }
-
-        if (strcmp(eventNode->name(), "warningMessage") == 0)
-        {
-            TriggeredEventWarningDefinition warningDef;
-            ParseCustomTriggeredEventWarningNode(eventNode, &warningDef);
-            if (eventNode->first_attribute("name"))
-            {
-                TriggeredEventGui::GetInstance()->warningDefs[eventNode->first_attribute("name")->value()] = warningDef;
-            }
-        }
-
         if (strcmp(eventNode->name(), "combatTimerPosition") == 0)
         {
             for (auto child = eventNode->first_node(); child; child = child->next_sibling())
@@ -395,21 +421,6 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
                         TriggeredEventGui::GetInstance()->bossBoxPos.y = boost::lexical_cast<int>(child->first_attribute("y")->value());
                     }
                 }
-            }
-        }
-
-        if (strcmp(eventNode->name(), "beaconType") == 0)
-        {
-            if (eventNode->first_attribute("name"))
-            {
-                std::string beaconName = std::string(eventNode->first_attribute("name")->value());
-
-                BeaconType *beaconType = new BeaconType();
-                beaconType->eventName = beaconName;
-
-                ParseCustomBeaconType(eventNode, beaconType);
-
-                customBeacons[beaconName] = beaconType;
             }
         }
     }
@@ -1148,6 +1159,28 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
         {
             isDefault = false;
             customEvent->changeBackground = child->value();
+        }
+        if (nodeName == "backgroundObject")
+        {
+            isDefault = false;
+            customEvent->backgroundObjects.push_back(CustomBackgroundObjectManager::instance->ParseCustomBackgroundObject(child));
+        }
+        if (nodeName == "clearBackgroundObject")
+        {
+            isDefault = false;
+            if (child->first_attribute("name"))
+            {
+                customEvent->clearBackgroundObjects.push_back(child->first_attribute("name")->value());
+            }
+            else
+            {
+                customEvent->clearBackgroundObjects.push_back("");
+            }
+        }
+        if (nodeName == "transformBackgroundObject")
+        {
+            isDefault = false;
+            customEvent->transformBackgroundObjects.push_back(std::make_pair<std::string,std::string>(child->first_attribute("name")->value(), child->value()));
         }
         if (nodeName == "unlockCustomShip" || (!parsingVanilla && nodeName == "unlockShip"))
         {
@@ -2210,12 +2243,10 @@ HOOK_METHOD(ShipObject, HasEquipment, (const std::string& equipment) -> int)
     return ret;
 }
 
-static bool advancedCheckEquipment = false;
-
 HOOK_METHOD_PRIORITY(ShipObject, HasEquipment, -100, (const std::string& equipment) -> int)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipObject::HasEquipment -> Begin (CustomEvents.cpp)\n")
-    if (advancedCheckEquipment)
+    if (advancedCheckEquipment.any())
     {
         if (boost::algorithm::starts_with(equipment, "ANY "))
         {
@@ -2286,11 +2317,11 @@ HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
         }
     }
 
-    advancedCheckEquipment = true;
+    advancedCheckEquipment[0] = true;
 
     super(event);
 
-    advancedCheckEquipment = false;
+    advancedCheckEquipment[0] = false;
 
     g_checkCargo = false;
 }
@@ -2697,7 +2728,7 @@ HOOK_METHOD(StarMap, RenderLabels, () -> void)
     CSurface::GL_Translate(position.x, position.y, 0.f);
     CSurface::GL_Translate(translation.x, translation.y, 0.f);
 
-    advancedCheckEquipment = true;
+    advancedCheckEquipment[1] = true;
 
     if (!outOfFuel)
     {
@@ -2780,7 +2811,7 @@ HOOK_METHOD(StarMap, RenderLabels, () -> void)
 
     CSurface::GL_PopMatrix();
 
-    advancedCheckEquipment = false;
+    advancedCheckEquipment[1] = false;
 
     super();
 
@@ -2822,6 +2853,7 @@ HOOK_METHOD(StarMap, GenerateMap, (bool tutorial, bool seed) -> LocationEvent*)
     {
         regeneratedBeacons.clear();
         renamedBeacons.clear();
+        CustomBackgroundObjectManager::instance->backgroundObjects.clear();
     }
 
     auto ret = super(tutorial, seed);
@@ -3293,6 +3325,30 @@ void CustomCreateLocation(WorldManager* world, LocationEvent* event, CustomEvent
         world->starMap.currentLoc->spaceImage = customEvent->changeBackground;
     }
 
+    if (!customEvent->clearBackgroundObjects.empty())
+    {
+        for (std::string &def : customEvent->clearBackgroundObjects)
+        {
+            CustomBackgroundObjectManager::instance->ClearObjects(def);
+        }
+    }
+
+    if (!customEvent->transformBackgroundObjects.empty())
+    {
+        for (auto &def : customEvent->transformBackgroundObjects)
+        {
+            CustomBackgroundObjectManager::instance->TransformObjects(def.first, def.second);
+        }
+    }
+
+    if (!customEvent->backgroundObjects.empty())
+    {
+        for (CustomBackgroundObjectDefinition *def : customEvent->backgroundObjects)
+        {
+            CustomBackgroundObjectManager::instance->CreateObject(def);
+        }
+    }
+
     if (customEvent->recallBoarders) {
         RecallBoarders(customEvent->recallBoardersShip);
     }
@@ -3586,12 +3642,12 @@ LocationEvent* CustomEventsParser::GetEvent(WorldManager *world, std::string eve
 void CustomEventsParser::LoadEvent(WorldManager *world, EventLoadList *eventList, int seed, CustomEvent *parentEvent)
 {
     SetCheckCargo(parentEvent);
-    advancedCheckEquipment = true;
+    advancedCheckEquipment[2] = true;
 
     LocationEvent *event = GetEvent(world, eventList, seed);
 
     g_checkCargo = false;
-    advancedCheckEquipment = false;
+    advancedCheckEquipment[2] = false;
 
     if (event) world->UpdateLocation(event);
 }
@@ -3599,12 +3655,12 @@ void CustomEventsParser::LoadEvent(WorldManager *world, EventLoadList *eventList
 void CustomEventsParser::LoadEvent(WorldManager *world, std::string eventName, bool ignoreUnique, int seed, CustomEvent *parentEvent)
 {
     SetCheckCargo(parentEvent);
-    advancedCheckEquipment = true;
+    advancedCheckEquipment[2] = true;
 
     LocationEvent *event = GetEvent(world, eventName, ignoreUnique, seed);
 
     g_checkCargo = false;
-    advancedCheckEquipment = false;
+    advancedCheckEquipment[2] = false;
 
     if (event) world->UpdateLocation(event);
 }
@@ -4557,6 +4613,9 @@ HOOK_METHOD(StarMap, NewGame, (bool unk) -> Location*)
     // renamedBeacons
     renamedBeacons.clear();
 
+    // backgroundObjects;
+    CustomBackgroundObjectManager::instance->backgroundObjects.clear();
+
     // playerVariables
     playerVariables.clear();
 
@@ -4620,6 +4679,21 @@ HOOK_METHOD(StarMap, LoadGame, (int fh) -> Location*)
     {
         int idx = FileHelper::readInteger(fh);
         renamedBeacons[idx] = FileHelper::readString(fh);
+    }
+
+    // backgroundObjects
+    CustomBackgroundObjectManager::instance->backgroundObjects.clear();
+    n = FileHelper::readInteger(fh);
+    for (int i=0; i<n; ++i)
+    {
+        int idx = FileHelper::readInteger(fh);
+        std::vector<CustomBackgroundObject> &vec = CustomBackgroundObjectManager::instance->backgroundObjects[idx];
+        int backgroundObjects_size = FileHelper::readInteger(fh);
+        for (int j=0; j<backgroundObjects_size; ++j)
+        {
+            vec.emplace_back();
+            vec.back().Load(fh);
+        }
     }
 
     // playerVariables
@@ -4692,6 +4766,18 @@ HOOK_METHOD(StarMap, SaveGame, (int file) -> void)
         else
         {
             FileHelper::writeString(file, i.second);
+        }
+    }
+
+    // backgroundObjects
+    FileHelper::writeInt(file, CustomBackgroundObjectManager::instance->backgroundObjects.size());
+    for (auto& i : CustomBackgroundObjectManager::instance->backgroundObjects)
+    {
+        FileHelper::writeInt(file, i.first);
+        FileHelper::writeInt(file, i.second.size());
+        for (auto& j : i.second)
+        {
+            j.Save(file);
         }
     }
 

@@ -3755,6 +3755,8 @@ struct CombatControl
 	LIBZHL_API std::string GetCrewTooltip(int x, int y);
 	LIBZHL_API ShipManager *GetCurrentTarget();
 	LIBZHL_API void KeyDown(SDLKey key);
+	LIBZHL_API void MouseClick(int mX, int mY, bool shift);
+	LIBZHL_API bool MouseMove(int mX, int mY);
 	LIBZHL_API bool MouseRClick(int x, int y);
 	LIBZHL_API void OnInit(Point pos);
 	LIBZHL_API void OnLoop();
@@ -4320,6 +4322,7 @@ struct CommandGui
 	LIBZHL_API void NewLocation(const std::string &mainText, std::vector<ChoiceText> choices, ResourceEvent &resources, bool testingEvents);
 	LIBZHL_API void OnInit();
 	LIBZHL_API void OnLoop();
+	LIBZHL_API void RenderPlayerShip(Point &shipCenter, float jumpScale);
 	LIBZHL_API void RenderStatic();
 	LIBZHL_API void RunCommand(std::string &command);
 	LIBZHL_API void Victory();
@@ -7496,6 +7499,7 @@ struct WorldManager
 	LIBZHL_API bool AddBoarders(BoardingEvent &boardingEvent);
 	LIBZHL_API bool CheckRequirements(LocationEvent *event, bool hidden);
 	LIBZHL_API void CheckStatusEffects(std::vector<StatusEffect> &vec);
+	LIBZHL_API void ClearLocation();
 	LIBZHL_API void CreateChoiceBox(LocationEvent *event);
 	LIBZHL_API void CreateChoiceBox0(LocationEvent *event);
 	LIBZHL_API void CreateLocation(Location *loc);
