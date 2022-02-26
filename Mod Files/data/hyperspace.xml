@@ -1702,7 +1702,7 @@ Syntax ->
 		<anim play="true" loop="true" random="false">animName</anim>                            Animation. The "play" attribute determines whether ALL animations play while this one is visible.
 		                                                                                          The "loop" and "random" attributes determine whether this animation loops and starts on a random frame.
 		<hoverAnim ...>animName</hoverAnim>                                                     Animation to show when the player's cursor is hovering over the object. Same attributes as anim.
-        <inactiveAnim hide="false" ...>animName</inactiveAnim>                                  Animation to show when interaction is disabled. Same attributes as anim. Set hide="true" to simply hide the normal anim instead.
+		<inactiveAnim hide="false" ...>animName</inactiveAnim>                                  Animation to show when interaction is disabled. Same attributes as anim. Set hide="true" to simply hide the normal anim instead.
 		<tooltip id="_id_">_text_</tooltip>                                                     Tooltip to show when hovering over the object.
 		<inactiveTooltip id="_id_">_text_</inactiveTooltip>                                     Tooltip to show when hovering over the object, when interaction is disabled.
 		<req lvl="1" max_lvl="2147483647">reqName</req>                                         Disables and enables the object dynamically based on player equipment. Separate from <active>.
