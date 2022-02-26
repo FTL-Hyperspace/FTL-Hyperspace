@@ -1699,6 +1699,8 @@ Syntax ->
 		                                                                                          The "playerfront" and "front" render in front of the player ship; others render behind.
 		                                                                                          The "z" attribute is used to order objects within a layer (high z in front).
 		<spawnArea x="0" y="0" w="0" h="0"/>                                                    Defines a rectangle within where the object will randomly be placed.
+		<hitbox x="0" y="0" w="0" h="0"/>                                                       Defined the dimensions of the hitbox for interacting with the object. By default, the hitbox is centered on the object.
+		                                                                                          The x/y attributes are optional and are used to offset from the default centered position.
 		<anim play="true" loop="true" random="false">animName</anim>                            Animation. The "play" attribute determines whether ALL animations play while this one is visible.
 		                                                                                          The "loop" and "random" attributes determine whether this animation loops and starts on a random frame.
 		<hoverAnim ...>animName</hoverAnim>                                                     Animation to show when the player's cursor is hovering over the object. Same attributes as anim.

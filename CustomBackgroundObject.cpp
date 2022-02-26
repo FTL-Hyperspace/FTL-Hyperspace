@@ -77,6 +77,25 @@ CustomBackgroundObjectDefinition* CustomBackgroundObjectManager::ParseCustomBack
                 def->spawnArea.h = boost::lexical_cast<int>(child->first_attribute("h")->value());
             }
         }
+        else if (strcmp(child->name(), "hitbox") == 0)
+        {
+            if (child->first_attribute("x"))
+            {
+                def->hitbox.x = boost::lexical_cast<int>(child->first_attribute("x")->value());
+            }
+            if (child->first_attribute("y"))
+            {
+                def->hitbox.y = boost::lexical_cast<int>(child->first_attribute("y")->value());
+            }
+            if (child->first_attribute("w"))
+            {
+                def->hitbox.w = boost::lexical_cast<int>(child->first_attribute("w")->value());
+            }
+            if (child->first_attribute("h"))
+            {
+                def->hitbox.h = boost::lexical_cast<int>(child->first_attribute("h")->value());
+            }
+        }
         else if (strcmp(child->name(), "anim") == 0)
         {
             def->anim.anim = child->value();
