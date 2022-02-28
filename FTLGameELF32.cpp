@@ -3350,7 +3350,7 @@ namespace _func89
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("BossShip::constructor", typeid(void (BossShip::*)(SpaceManager *)), ".5383ec188b5c24208b442424c744240c01000000", argdata, 2, 6, &func);
+	static FunctionDefinition funcObj("BossShip::constructor", typeid(void (BossShip::*)(SpaceManager *)), ".!5383ec188b5c24208b442424c744240c01000000", argdata, 2, 6, &func);
 }
 
 FUNC_NAKED void BossShip::constructor(SpaceManager *space)
