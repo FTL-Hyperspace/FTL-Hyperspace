@@ -709,8 +709,19 @@ struct CachedRectOutline : CachedPrimitive
 	int thickness;
 };
 
+struct ShipObject;
+
 struct ShipObject
 {
+	LIBZHL_API bool AddAugmentation(const std::string &augment);
+	LIBZHL_API void ClearShipInfo();
+	LIBZHL_API int GetAugmentationCount();
+	LIBZHL_API std::vector<std::string> GetAugmentationList();
+	LIBZHL_API float GetAugmentationValue(const std::string &augment);
+	LIBZHL_API int HasAugmentation(const std::string &augment);
+	LIBZHL_API int HasEquipment(const std::string &equip);
+	LIBZHL_API void RemoveAugmentation(const std::string &augment);
+	
 	void *vptr;
 	int iShipId;
 };
@@ -6113,6 +6124,7 @@ extern LIBZHL_API EventSystem *Global_EventSystem_EventManager;
 extern LIBZHL_API TextLibrary *Global_Globals_Library;
 extern LIBZHL_API void **VTable_LaserBlast;
 extern LIBZHL_API void **VTable_Targetable_LaserBlast;
+extern LIBZHL_API ShipInfo **Global_ShipObject_ShipInfoList;
 extern LIBZHL_API SoundControl *Global_SoundControl_Sounds;
 extern LIBZHL_API Point *Global_SystemControl_weapon_position;
 extern LIBZHL_API Point *Global_SystemControl_drone_position;
