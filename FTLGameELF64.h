@@ -4437,8 +4437,25 @@ struct EventTemplate
 	bool secretSector;
 };
 
+struct EventGenerator;
+struct EventsParser;
+
 struct EventsParser
 {
+	static bool ParseBoolean(const std::string& str)
+	{
+		return str == "true" || str == "TRUE" || str == "True";
+	}
+
+	LIBZHL_API void AddAllEvents();
+	LIBZHL_API void AddEvents(EventGenerator &generator, char *file, const std::string &fileName);
+	LIBZHL_API void ProcessBaseNode(rapidxml::xml_node<char> *node, EventGenerator &generator);
+	LIBZHL_API std::string ProcessEvent(rapidxml::xml_node<char> *node, const std::string &eventName);
+	LIBZHL_API std::vector<std::string> ProcessEventList(rapidxml::xml_node<char> *node, const std::string &listName);
+	LIBZHL_API ResourcesTemplate ProcessModifyItem(ResourcesTemplate &resources, rapidxml::xml_node<char> *node, const std::string &unk);
+	LIBZHL_API ShipTemplate ProcessShipEvent(rapidxml::xml_node<char> *node);
+	LIBZHL_API RandomAmount PullMinMax(rapidxml::xml_node<char> *node, const std::string &name);
+	
 	std::unordered_map<std::string, EventTemplate*> eventTemplates;
 	std::vector<EventTemplate*> trashList;
 	std::unordered_map<std::string, ShipEvent> shipTemplates;
@@ -6221,6 +6238,7 @@ extern LIBZHL_API AnimationControl *Global_AnimationControl_Animations;
 extern LIBZHL_API BlueprintManager *Global_BlueprintManager_Blueprints;
 extern LIBZHL_API CFPS *Global_CFPS_FPSControl;
 extern LIBZHL_API EventSystem *Global_EventSystem_EventManager;
+extern LIBZHL_API EventsParser *Global_EventsParser_Parser;
 extern LIBZHL_API TextLibrary *Global_Globals_Library;
 extern LIBZHL_API void **VTable_LaserBlast;
 extern LIBZHL_API void **VTable_Targetable_LaserBlast;
