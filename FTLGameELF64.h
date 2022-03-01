@@ -2498,6 +2498,7 @@ struct ShipAchievementInfo
 };
 
 struct ShipButton;
+struct ShipSelect;
 
 struct UnlockArrow;
 
@@ -2514,6 +2515,19 @@ struct UnlockArrow
 
 struct ShipSelect
 {
+	LIBZHL_API void ClearShipButtons();
+	LIBZHL_API void Close();
+	LIBZHL_API int GetSelectedShip();
+	LIBZHL_API int KeyDown(SDLKey key);
+	LIBZHL_API void MouseClick();
+	LIBZHL_API void MouseMove(int x, int y);
+	LIBZHL_API void OnLoop();
+	LIBZHL_API void OnRender();
+	LIBZHL_API void Open(int currentId, int currentType);
+	LIBZHL_API void PreSelectShip(int shipType);
+	LIBZHL_API void SelectShip(int shipType);
+	LIBZHL_API void constructor();
+	
 	Point position;
 	Point titlePos;
 	std::vector<GL_Primitive*> shipListBase;

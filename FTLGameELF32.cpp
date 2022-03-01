@@ -36467,7 +36467,7 @@ namespace _func972
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("ShipSelect::SelectShip", typeid(void (ShipSelect::*)(int )), "5383ec188b5424248b5c242085d2", argdata, 2, 6, &func);
+	static FunctionDefinition funcObj("ShipSelect::SelectShip", typeid(void (ShipSelect::*)(int )), "5589e557565389c381ec8c010000", argdata, 2, 6, &func);
 }
 
 FUNC_NAKED void ShipSelect::SelectShip(int shipType)
@@ -36544,16 +36544,18 @@ namespace _func974
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff};
-	static FunctionDefinition funcObj("ShipSelect::ClearShipButtons", typeid(int (ShipSelect::*)()), "565383ec148b7424208b4e208b561c89c829d083f8037e??31db8db600000000", argdata, 1, 2, &func);
+	static FunctionDefinition funcObj("ShipSelect::ClearShipButtons", typeid(void (ShipSelect::*)()), "565383ec148b7424208b4e208b561c89c829d083f8037e??31db8db600000000", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED int ShipSelect::ClearShipButtons()
+FUNC_NAKED void ShipSelect::ClearShipButtons()
 {
 	__asm__
 	(
 		"pushl %ebp\n\t"
 		"movl %esp, %ebp\n\t"
+		"subl $12, %esp\n\t"
 		"pushl %edx\n\t"
+		"pushl %eax\n\t"
 		"pushl %ecx\n\t"
 		"pushl %ebx\n\t"
 		"pushl %esi\n\t"
@@ -36568,6 +36570,7 @@ FUNC_NAKED int ShipSelect::ClearShipButtons()
 		"popl %esi\n\t"
 		"popl %ebx\n\t"
 		"popl %ecx\n\t"
+		"popl %eax\n\t"
 		"popl %edx\n\t"
 		"movl %ebp, %esp\n\t"
 		"popl %ebp\n\t"

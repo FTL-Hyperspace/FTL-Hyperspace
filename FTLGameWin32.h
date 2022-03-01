@@ -3205,7 +3205,7 @@ struct UnlockArrow
 
 struct ShipSelect
 {
-	LIBZHL_API int ClearShipButtons();
+	LIBZHL_API void ClearShipButtons();
 	LIBZHL_API void Close();
 	LIBZHL_API int GetSelectedShip();
 	LIBZHL_API int KeyDown(SDLKey key);

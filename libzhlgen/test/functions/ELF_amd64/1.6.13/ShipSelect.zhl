@@ -1,0 +1,24 @@
+"53ba6e0000004889fbbe700000004883ec10":
+cleanup void ShipSelect::constructor(ShipSelect *this<rdi>);
+".554889fd534883ec08488b4f30488b57284889c84829d048c1f80385c0":
+cleanup void ShipSelect::ClearShipButtons(ShipSelect *this<rdi>);
+".415741564155415455534889fb4881ec0801000080bf5005000000":
+cleanup void ShipSelect::OnLoop(ShipSelect *this<rdi>);
+"!.4881c748050000":
+cleanup int ShipSelect::KeyDown(ShipSelect *this<rdi>, SDLKey key<rsi>);
+"!.5380bf50050000004889fb":
+cleanup void ShipSelect::MouseClick(ShipSelect *this<rdi>);
+"!.c64758004881c748050000":
+cleanup void ShipSelect::Close(ShipSelect *this<rdi>);
+"!.8b475cc3":
+cleanup int ShipSelect::GetSelectedShip(ShipSelect *this<rdi>);
+".415789f241564989fe4155415455534881eca8020000":
+cleanup void ShipSelect::SelectShip(ShipSelect *this<rdi>, int shipType<rsi>);
+"!.85f6534889fb":
+cleanup void ShipSelect::PreSelectShip(ShipSelect *this<rdi>, int shipType<rsi>);
+".41574189f74156415541544189d4554889fd534881ec18010000":
+cleanup void ShipSelect::MouseMove(ShipSelect *this<rdi>, int x<rsi>, int y<rdx>);
+".41574989ff41564155415455534881ecc8010000":
+cleanup void ShipSelect::Open(ShipSelect *this<rdi>, int currentId<rsi>, int currentType<rdx>);
+".41564155415455534889fb4883ec5080bf5005000000":
+cleanup void ShipSelect::OnRender(ShipSelect *this<rdi>);

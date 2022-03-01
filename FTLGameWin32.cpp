@@ -34871,16 +34871,17 @@ namespace _func970
 {
 	static void *func = 0;
 	static short argdata[] = {0x101};
-	static FunctionDefinition funcObj("ShipSelect::ClearShipButtons", typeid(int (ShipSelect::*)()), ".5589e55756538b792089ce8b511c83e4f089f829d083f8037e??31db", argdata, 1, 1, &func);
+	static FunctionDefinition funcObj("ShipSelect::ClearShipButtons", typeid(void (ShipSelect::*)()), ".5589e55756538b792089ce8b511c83e4f089f829d083f8037e??31db", argdata, 1, 5, &func);
 }
 
-FUNC_NAKED int ShipSelect::ClearShipButtons()
+FUNC_NAKED void ShipSelect::ClearShipButtons()
 {
 	__asm__
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
 		"push edx\n\t"
+		"push eax\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
 		"push esi\n\t"
@@ -34894,6 +34895,7 @@ FUNC_NAKED int ShipSelect::ClearShipButtons()
 		"pop esi\n\t"
 		"pop ebx\n\t"
 		"pop ecx\n\t"
+		"pop eax\n\t"
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
