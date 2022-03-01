@@ -1,9 +1,9 @@
 "578d7c240883e4f0ff77fc5589e5575389cb83ec1080b9f734000000":
-int CApp::OnInputFocus(CApp *this<ecx>);
+void CApp::OnInputFocus(CApp *this<ecx>);
 ".5789c88d7c240883e4f0ff77fc5589e5575383ec10c681f7340000008b4908803d??????????":
-int CApp::OnInputBlur(CApp *this<ecx>);
+void CApp::OnInputBlur(CApp *this<ecx>);
 ".578d7c240883e4f0ff77fc5589e5575389cb83ec10e8????????c70424????????":
-int CApp::OnExit(CApp *this<ecx>);
+void CApp::OnExit(CApp *this<ecx>);
 ".80b9bc3400000074??c208008d74260080791000":
 void CApp::OnMButtonDown(CApp *this<ecx>, int x, int y);
 ".578d7c240883e4f0ff77fc55":
@@ -11,9 +11,9 @@ void CApp::OnTextEvent(CApp *this<ecx>, CEvent::TextEvent textEvent);
 ".578d7c240883e4f0ff77fc5589e55783ec1480b9bc34000000":
 void CApp::OnTextInput(CApp *this<ecx>, int ch);
 ".578d7c240883e4f0ff77fc5589e5575389cb83ec108b490885c974??8b430c":
-int CApp::OnRequestExit(CApp *this<ecx>);
+void CApp::OnRequestExit(CApp *this<ecx>);
 ".57660fefc08d7c240883e4f0ff77fc5589e557565389cb83ec2c8b072b81103500008b5704":
-int CApp::OnMouseMove(CApp *this<ecx>, int x, int y, int xdiff, int ydiff, bool holdingLMB, bool holdingRMB, bool holdingMMB);
+void CApp::OnMouseMove(CApp *this<ecx>, int x, int y, int xdiff, int ydiff, bool holdingLMB, bool holdingRMB, bool holdingMMB);
 ".57660fefc08d7c240883e4f0ff77fc5589e5575389cb83ec208b072b81103500008b5704":
 void CApp::OnRButtonUp(CApp *this<ecx>, int x, int y);
 ".57660fefc08d7c240883e4f0ff77fc5589e557":
@@ -49,12 +49,10 @@ Point CApp::TranslateMouse(CApp *this<ecx>, int x, int y);
 ".803d??????????74??c38db6000000005589e5575653":
 void CApp::UpdateFullScreen(CApp *this<ecx>);
 ".80b90c35000000c781ec34000000000000c781f034000000000000c7811035000000000000":
-int CApp::UpdateWindowSettings(CApp *this<ecx>);
+void CApp::UpdateWindowSettings(CApp *this<ecx>);
 ".578d7c240883e4f0ff77fc5589e55756":
 void CApp::OnRender(CApp *this<ecx>);
 ".578d7c240883e4f0ff77fc5589e557":
 int CApp::OnInit(CApp *this<ecx>);
 ".578d7c240883e4f0ff77fc5589e557565389cfb9????????81ec????????c70424????????e8????????89f9":
 int CApp::OnExecute(CApp *this<ecx>);
-".578d7c240883e4f0ff77fc5589e55783ec148b07890424e8????????":
-void CApp::OnEvent(CApp *this<ecx>, const InputEvent* inputEvent);

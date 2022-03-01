@@ -1,0 +1,12 @@
+"41570f57c04156415541544c8d673855534889fb4c8dbbe80100004c8db378020000488dab08030000":
+cleanup void MainMenu::constructor(MainMenu *this<rdi>);
+".415741564155415455534889fb4881ecf8040000":
+cleanup void MainMenu::OnRender(MainMenu *this<rdi>);
+".415741564155415455534889fb488dbfa02200004881ec08020000":
+cleanup bool MainMenu::Open(MainMenu *this<rdi>);
+".4155415455534889fb4883ec3880bf3837000000":
+cleanup void MainMenu::MouseMove(MainMenu *this<rdi>, int x<rsi>, int y<rdx>);
+".415741564155415455534889fb4881ec38020000":
+cleanup void MainMenu::OnLoop(MainMenu *this<rdi>);
+".534889fb4883ec5080bf3837000000":
+cleanup void MainMenu::MouseClick(MainMenu *this<rdi>, int x<rsi>, int y<rdx>);

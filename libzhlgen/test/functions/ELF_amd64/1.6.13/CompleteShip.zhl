@@ -1,0 +1,48 @@
+"!488b7f10e9????????90660f1f44000053":
+virtual cleanup void CompleteShip::PauseLoop(CompleteShip *this<rdi>);
+".534889fb488b7f10":
+virtual cleanup void CompleteShip::Restart(CompleteShip *this<rdi>);
+".534889fb48897718":
+cleanup void CompleteShip::constructor(CompleteShip *this<rdi>, SpaceManager *space<rsi>, bool unk<rdx>, int unk2<rcx>);
+".8b96ac08000048897710":
+cleanup void CompleteShip::SetShip(CompleteShip *this<rdi>, ShipManager *ship<rsi>);
+".41554189d541544989f455534889fbbf580a0000":
+cleanup void CompleteShip::OnInit(CompleteShip *this<rdi>, const ShipBlueprint* blueprint<rsi>, int unk<rdx>);
+".415741564189ce415541544189f4be02000000554889fd534881ec88000000":
+cleanup void CompleteShip::AddBoarders(CompleteShip *this<rdi>, int amount<rsi>, const std::string& race<rdx>, bool unk2<rcx>);
+".415741564989f6415541544189d455488dae88000000534881ec38010000":
+cleanup CrewMember *CompleteShip::AddCrewMember(CompleteShip *this<rdi>, const CrewBlueprint* blueprint<rsi>, bool hostile<rdx>);
+".41574889f04989ff415641554189cd415455534889d34883ec58":
+cleanup CrewMember *CompleteShip::AddCrewMember1(CompleteShip *this<rdi>, const std::string& race<rsi>, const std::string& name<rdx>, bool hostile<rcx>);
+"!.488b7f10e9????????90660f1f4400004154":
+cleanup Drone *CompleteShip::AddDrone(CompleteShip *this<rdi>, const DroneBlueprint *blueprint<rsi>, int unk<rdx>);
+".41544885f655534889f3":
+cleanup CrewMember *CompleteShip::AddCrewMember2(CompleteShip *this<rdi>, CrewMember *member<rsi>, int unk<rdx>);
+"!.89f08bb71002000089c7":
+cleanup void CompleteShip::SaveState(CompleteShip *this<rdi>, int unk<rsi>);
+".534889fb89f74883ec20":
+cleanup void CompleteShip::LoadState(CompleteShip *this<rdi>, int unk<rsi>);
+".415455534889fb4883ec40488b87e0010000":
+cleanup void CompleteShip::InitiateTeleport(CompleteShip *this<rdi>, int targetRoom<rsi>, int command<rdx>);
+".4157415641554989fd415455498d6d305331db4883ec18488b7f10":
+virtual cleanup void CompleteShip::OnLoop(CompleteShip *this<rdi>);
+".4154554889f553488b86000200004889fb":
+cleanup std::vector<CrewMember*> CompleteShip::GetTeleportingParty<rdi>(CompleteShip *this<rsi>);
+"!.488b7f10e9????????90660f1f440000488b7f10":
+cleanup void CompleteShip::KillRandomCrew(CompleteShip *this<rdi>);
+"!.488b7f10400fb6f6":
+cleanup int CompleteShip::CountCrew(CompleteShip *this<rdi>, bool boarders<rsi>);
+".488b87e0010000488987e8010000":
+cleanup void CompleteShip::Jump(CompleteShip *this<rdi>);
+"!.4885f648897720":
+cleanup void CompleteShip::SetEnemyShip(CompleteShip *this<rdi>, CompleteShip *other<rsi>);
+".55534889fb4883ec080fb67728":
+cleanup bool CompleteShip::DeadCrew(CompleteShip *this<rdi>);
+".53488b76104889fb0fb6c9":
+cleanup std::vector<CrewMember*> CompleteShip::TeleportCrew<rdi>(CompleteShip *this<rsi>, int roomId<rdx>, bool intruders<rcx>);
+"!.534889fb8b7708488b7f18ba02000000":
+cleanup void CompleteShip::OnRender(CompleteShip *this<rdi>);
+"!.488b7f18f30f1005????????be03000000":
+cleanup void CompleteShip::OnRenderSpace(CompleteShip *this<rdi>);
+"!.41544189d4ba020000005589f5534889fb8b7708488b7f18":
+cleanup void CompleteShip::OnRenderShip(CompleteShip *this<rdi>, bool unk1<rsi>, bool unk2<rdx>);

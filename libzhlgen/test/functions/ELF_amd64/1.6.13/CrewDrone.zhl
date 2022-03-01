@@ -1,13 +1,13 @@
-"5589e557565381ecdc0000008b450c8b4d08":
-cleanup void CrewDrone::constructor(CrewDrone *this, const std::string& type, const std::string& name, int shipId, const DroneBlueprint* blueprint, CrewAnimation *anim);
-"5589e557565383ec4c8b5d088db340050000":
-virtual cleanup void CrewDrone::OnLoop(CrewDrone *this);
-"8b4424048b500485d2":
-virtual cleanup bool CrewDrone::ProvidesVision(CrewDrone *this);
-"8b5424048b442408898238010000":
-cleanup void CrewDrone::SetCurrentShip(CrewDrone *this, int shipId);
-"5557565383ec2c8b442440c700????????c78040050000????????8b80800600008d50f481fa????????0f853f030000":
-cleanup void CrewDrone::destructor(CrewDrone *this);
+"41564155415455488daf48070000534889fb4889ef":
+virtual cleanup void CrewDrone::OnLoop(CrewDrone *this<rdi>);
+".41574989d7415641554189cd41544d89c4554c89cd534889fb4881ec58010000":
+cleanup void CrewDrone::constructor(CrewDrone *this<rdi>, const std::string& type<rsi>, const std::string& name<rdx>, int shipId<rcx>, const DroneBlueprint* blueprint<r8>, CrewAnimation *anim<r9>);
+".8b57084889f885d2":
+virtual cleanup bool CrewDrone::ProvidesVision(CrewDrone *this<rdi>);
+".415641554154554889fd534883ec10488b87e808000048c707????????48c78748070000????????488d78e84881ff????????0f8526030000":
+cleanup void CrewDrone::destructor(CrewDrone *this<rdi>);
+".488b87c000000089b78c010000":
+cleanup void CrewDrone::SetCurrentShip(CrewDrone *this<rdi>, int shipId<rsi>);
 
 
 struct CrewDrone

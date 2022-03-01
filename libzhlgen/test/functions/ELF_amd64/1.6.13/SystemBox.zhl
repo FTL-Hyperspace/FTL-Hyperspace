@@ -1,0 +1,21 @@
+"4157b8010000004156415541545589f5534889fb4883ec58":
+cleanup void SystemBox::OnRender(SystemBox *this<rdi>, bool ignoreStatus<rsi>);
+".41544189f4554889fd5331db4883ec20":
+cleanup bool SystemBox::MouseClick(SystemBox *this<rdi>, bool shift<rsi>);
+".4157415641be01000000415541544189cc55534889fb":
+cleanup void SystemBox::constructor(SystemBox *this<rdi>, Point pos<rsi>, ShipSystem *sys<rdx>, bool playerUI<rcx>);
+".415541544189d45589f5534889fb4883ec38":
+cleanup void SystemBox::KeyDown(SystemBox *this<rdi>, SDLKey key<rsi>, bool shift<rdx>);
+".5589f5534889fb4883ec388b87ac010000":
+cleanup void SystemBox::MouseMove(SystemBox *this<rdi>, int x<rsi>, int y<rdx>);
+
+
+struct SystemBox
+{{
+	SystemBox() { }
+	
+	SystemBox(Point pos, ShipSystem *sys, bool playerUI)
+	{
+		this->constructor(pos, sys, playerUI);
+	}
+}};

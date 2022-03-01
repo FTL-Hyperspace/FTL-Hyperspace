@@ -3,7 +3,7 @@ cleanup void CommandGui::RunCommand(CommandGui *this, std::string& command);
 "5557565383ec2cc70424a40400008b5c2440":
 cleanup Store* CommandGui::CreateNewStore(CommandGui *this, int sectorNumber);
 "5589e557565383ec3c8b5d188d55d8":
-cleanup void* CommandGui::GetWorldCoordinates(CommandGui *this, Point point, bool fromTarget);
+cleanup Point CommandGui::GetWorldCoordinates(CommandGui *this, Point point, bool fromTarget);
 "5589e557565383ec4c8b5d088b4510":
 cleanup void CommandGui::KeyDown(CommandGui *this, SDLKey key, bool shiftHeld);
 "5589e557565383ec7c8b5d08803d????????00":

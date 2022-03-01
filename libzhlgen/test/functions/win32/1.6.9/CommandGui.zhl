@@ -3,7 +3,7 @@ void CommandGui::RunCommand(CommandGui *this<ecx>, std::string& command);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b178dbbdc380000c70424????????":
 Store* CommandGui::CreateNewStore(CommandGui *this<ecx>, int sectorNumber);
 "578d7c240883e4f0ff77fc5589e557565389cb8d4dd883ec3c8b078b77048b7f088945d4e8????????":
-void* CommandGui::GetWorldCoordinates(CommandGui *this<ecx>, Point point, bool fromTarget);
+Point CommandGui::GetWorldCoordinates(CommandGui *this<ecx>, Point point, bool fromTarget);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec5c80b984420000008b47048b378945b4":
 void CommandGui::KeyDown(CommandGui *this<ecx>, SDLKey key, bool shiftHeld);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec6c803d??????????0f85????????8b83081700008b4808c70424????????81c1????????e8????????":

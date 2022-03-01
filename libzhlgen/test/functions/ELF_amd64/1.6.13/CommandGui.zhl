@@ -1,0 +1,30 @@
+"4157415641554989fd415455534883ec78488b8770190000":
+cleanup void CommandGui::Victory(CommandGui *this<rdi>);
+".415455534889fb4883ec50":
+cleanup void CommandGui::CheckGameover(CommandGui *this<rdi>);
+".803d????????00756753":
+cleanup bool CommandGui::IsGameOver(CommandGui *this<rdi>);
+".415455488daf90040000534889fb4889ef4881eca0000000":
+cleanup void CommandGui::OnInit(CommandGui *this<rdi>);
+".4154554889f5534889fb488dbf880500004883ec30":
+cleanup void CommandGui::AddEnemyShip(CommandGui *this<rdi>, CompleteShip *ship<rsi>);
+".41544189d4554889fd534889f34883ec204889e7":
+cleanup Point CommandGui::GetWorldCoordinates(CommandGui *this<rdi>, Point point<rsi>, bool fromTarget<rdx>);
+".415741564155415455534889d34881ec58020000":
+cleanup void CommandGui::NewLocation(CommandGui *this<rdi>, const std::string& mainText<rsi>, std::vector<ChoiceText> *choices<rdx>, ResourceEvent& resources<rcx>, bool testingEvents<r8>);
+".4157415641554989fd41544989f45531ed5331db4883ec58488b06":
+cleanup void CommandGui::RunCommand(CommandGui *this<rdi>, std::string& command<rsi>);
+".41554189f5415455534889fbbf580600004c8da3003c0000":
+cleanup Store* CommandGui::CreateNewStore(CommandGui *this<rdi>, int sectorNumber<rsi>);
+".415541545589f5534889fb4883ec3880bf8045000000":
+cleanup void CommandGui::KeyDown(CommandGui *this<rdi>, SDLKey key<rsi>, bool shiftHeld<rdx>);
+".41564155415455534889fb4883ec40":
+cleanup void CommandGui::RenderStatic(CommandGui *this<rdi>);
+".415541544189d45589f5534889fb4883ec2880bf8045000000":
+cleanup void CommandGui::LButtonDown(CommandGui *this<rdi>, int mX<rsi>, int mY<rdx>, bool shiftHeld<rcx>);
+".41544189d45589f5534889fb4883ec5080bf8045000000":
+cleanup void CommandGui::MouseMove(CommandGui *this<rdi>, int mX<rsi>, int mY<rdx>);
+".41564155415455534889fb4883ec2080bf8045000000":
+cleanup void CommandGui::OnLoop(CommandGui *this<rdi>);
+".41574156415541545548c7c5ffffffff534889fb":
+cleanup void CommandGui::constructor(CommandGui *this<rdi>);

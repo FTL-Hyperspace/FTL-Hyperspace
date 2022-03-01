@@ -1,0 +1,27 @@
+"534889fb488bbf800000004885ff":
+cleanup void CrewEquipBox::RemoveItem(CrewEquipBox *this<rdi>);
+".0fb68730030000c6873003000000":
+cleanup bool CrewEquipBox::GetConfirmDelete(CrewEquipBox *this<rdi>);
+".80bfba020000007507":
+cleanup void CrewEquipBox::CloseRename(CrewEquipBox *this<rdi>);
+".4154554889fd534883ec60488b47704885c0":
+cleanup void CrewEquipBox::RenderLabels(CrewEquipBox *this<rdi>, bool dragging<rsi>, bool isNew<rdx>);
+".55534889fb4883ec3848837f7000":
+cleanup void CrewEquipBox::MouseClick(CrewEquipBox *this<rdi>);
+".5589f553488d9fc00200004883ec084889df":
+cleanup void CrewEquipBox::OnTextInput(CrewEquipBox *this<rdi>, SDLKey key<rsi>);
+".5589f553488d9fc00200004883ec084889df":
+cleanup void CrewEquipBox::OnTextEvent(CrewEquipBox *this<rdi>, CEvent::TextEvent event<rsi>);
+".415741564189ce41554989d5ba4300000041544989f449c1fc20":
+cleanup void CrewEquipBox::constructor(CrewEquipBox *this<rdi>, Point pos<rsi>, ShipManager *ship<rdx>, int slot<rcx>);
+".415541545589f5534889fb":
+cleanup void CrewEquipBox::OnRender(CrewEquipBox *this<rdi>, bool unk<rsi>);
+
+
+struct CrewEquipBox depends (TextInput)
+{{
+	CrewEquipBox(Point pos_, ShipManager *ship_, int slot_)
+	{
+		this->constructor(pos_, ship_, slot_);
+	}
+}};

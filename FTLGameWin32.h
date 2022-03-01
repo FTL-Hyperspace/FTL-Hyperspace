@@ -2783,7 +2783,7 @@ struct LIBZHL_INTERFACE CompleteShip
 	LIBZHL_API void OnRender();
 	LIBZHL_API void OnRenderShip(bool unk1, bool unk2);
 	LIBZHL_API void OnRenderSpace();
-	LIBZHL_API char SaveState(int unk);
+	LIBZHL_API void SaveState(int unk);
 	LIBZHL_API void SetEnemyShip(CompleteShip *other);
 	LIBZHL_API void SetShip(ShipManager *ship);
 	LIBZHL_API std::vector<CrewMember*> TeleportCrew(int roomId, bool intruders);
@@ -3379,7 +3379,7 @@ struct MainMenu
 	LIBZHL_API void MouseMove(int x, int y);
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void OnRender();
-	LIBZHL_API void Open();
+	LIBZHL_API bool Open();
 	LIBZHL_API void constructor();
 	
 	bool bOpen;
@@ -3422,12 +3422,11 @@ struct CApp : CEvent
 {
 	LIBZHL_API void GenInputEvents();
 	LIBZHL_API void OnCleanup();
-	LIBZHL_API void OnEvent(const InputEvent *inputEvent);
 	LIBZHL_API int OnExecute();
-	LIBZHL_API int OnExit();
+	LIBZHL_API void OnExit();
 	LIBZHL_API int OnInit();
-	LIBZHL_API int OnInputBlur();
-	LIBZHL_API int OnInputFocus();
+	LIBZHL_API void OnInputBlur();
+	LIBZHL_API void OnInputFocus();
 	LIBZHL_API void OnKeyDown(SDLKey key);
 	LIBZHL_API void OnKeyUp(SDLKey key);
 	LIBZHL_API void OnLButtonDown(int x, int y);
@@ -3435,11 +3434,11 @@ struct CApp : CEvent
 	LIBZHL_API void OnLanguageChange();
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void OnMButtonDown(int x, int y);
-	LIBZHL_API int OnMouseMove(int x, int y, int xdiff, int ydiff, bool holdingLMB, bool holdingRMB, bool holdingMMB);
+	LIBZHL_API void OnMouseMove(int x, int y, int xdiff, int ydiff, bool holdingLMB, bool holdingRMB, bool holdingMMB);
 	LIBZHL_API void OnRButtonDown(int x, int y);
 	LIBZHL_API void OnRButtonUp(int x, int y);
 	LIBZHL_API void OnRender();
-	LIBZHL_API int OnRequestExit();
+	LIBZHL_API void OnRequestExit();
 	LIBZHL_API void OnResume();
 	LIBZHL_API void OnSuspend();
 	LIBZHL_API void OnTextEvent(CEvent::TextEvent textEvent);
@@ -3448,7 +3447,7 @@ struct CApp : CEvent
 	LIBZHL_API int SetupWindow();
 	LIBZHL_API Point TranslateMouse(int x, int y);
 	LIBZHL_API void UpdateFullScreen();
-	LIBZHL_API int UpdateWindowSettings();
+	LIBZHL_API void UpdateWindowSettings();
 	LIBZHL_API void constructor();
 	
 	bool Running;
@@ -4312,7 +4311,7 @@ struct CommandGui
 	LIBZHL_API void AddEnemyShip(CompleteShip *ship);
 	LIBZHL_API void CheckGameover();
 	LIBZHL_API Store *CreateNewStore(int sectorNumber);
-	LIBZHL_API void *GetWorldCoordinates(Point point, bool fromTarget);
+	LIBZHL_API Point GetWorldCoordinates(Point point, bool fromTarget);
 	LIBZHL_API bool IsGameOver();
 	LIBZHL_API void KeyDown(SDLKey key, bool shiftHeld);
 	LIBZHL_API void LButtonDown(int mX, int mY, bool shiftHeld);
@@ -6579,7 +6578,7 @@ struct ShipButton : Button
 		this->constructor(x, y);
 	}
 
-	LIBZHL_API bool MouseMove(int x, int y);
+	LIBZHL_API void MouseMove(int x, int y);
 	LIBZHL_API void OnInit(const std::string &imgName, Point pos);
 	LIBZHL_API void OnRender();
 	LIBZHL_API void constructor(int shipType, int shipVariant);

@@ -23,7 +23,7 @@ cleanup Drone *CompleteShip::AddDrone(CompleteShip *this, const DroneBlueprint *
 "57565383ec108b5c24248b7424208b7c242885db":
 cleanup CrewMember *CompleteShip::AddCrewMember2(CompleteShip *this, CrewMember *member, int unk);
 "!8b5424048b4424088b92300100008944240489542408e9????????":
-cleanup char CompleteShip::SaveState(CompleteShip *this, int unk);
+cleanup void CompleteShip::SaveState(CompleteShip *this, int unk);
 "5589e5565383ec208b450c8b5d088d75ec":
 cleanup void CompleteShip::LoadState(CompleteShip *this, int unk);
 "5589e557565383ec3c8b5d088b8318010000":
