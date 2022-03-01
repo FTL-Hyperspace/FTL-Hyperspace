@@ -25309,17 +25309,18 @@ namespace _func672
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("MouseControl::SetTooltip", typeid(std::string &(MouseControl::*)(const std::string &)), "57565383ec108b7c24248b7424208b07", argdata, 2, 2, &func);
+	static FunctionDefinition funcObj("MouseControl::SetTooltip", typeid(void (MouseControl::*)(const std::string &)), "57565383ec108b7c24248b7424208b07", argdata, 2, 6, &func);
 }
 
-FUNC_NAKED std::string &MouseControl::SetTooltip(const std::string &tooltip)
+FUNC_NAKED void MouseControl::SetTooltip(const std::string &tooltip)
 {
 	__asm__
 	(
 		"pushl %ebp\n\t"
 		"movl %esp, %ebp\n\t"
-		"subl $12, %esp\n\t"
+		"subl $8, %esp\n\t"
 		"pushl %edx\n\t"
+		"pushl %eax\n\t"
 		"pushl %ecx\n\t"
 		"pushl %ebx\n\t"
 		"pushl %esi\n\t"
@@ -25335,6 +25336,7 @@ FUNC_NAKED std::string &MouseControl::SetTooltip(const std::string &tooltip)
 		"popl %esi\n\t"
 		"popl %ebx\n\t"
 		"popl %ecx\n\t"
+		"popl %eax\n\t"
 		"popl %edx\n\t"
 		"movl %ebp, %esp\n\t"
 		"popl %ebp\n\t"
@@ -29396,11 +29398,11 @@ namespace _var781
 namespace _func782
 {
 	static void *func = 0;
-	static short argdata[] = {0x1ff, 0x1ff, 0x2ff, 0xfff, 0x1ff};
-	static FunctionDefinition funcObj("Shields::CollisionReal", typeid(CollisionResponse (Shields::*)(Pointf , Damage , bool )), "5557565381ec9c0000008b8424c00000008bac24b0000000", argdata, 5, 18, &func);
+	static short argdata[] = {0x1ff, 0x1ff, 0x1ff, 0x1ff, 0xfff, 0x1ff};
+	static FunctionDefinition funcObj("Shields::CollisionReal", typeid(CollisionResponse (Shields::*)(float , float , Damage , bool )), "5557565381ec9c0000008b8424c00000008bac24b0000000", argdata, 6, 18, &func);
 }
 
-FUNC_NAKED CollisionResponse Shields::CollisionReal(Pointf pos, Damage damage, bool force)
+FUNC_NAKED CollisionResponse Shields::CollisionReal(float x, float y, Damage damage, bool force)
 {
 	__asm__
 	(
@@ -29428,8 +29430,8 @@ FUNC_NAKED CollisionResponse Shields::CollisionReal(Pointf pos, Damage damage, b
 		"pushl 32(%ebp)\n\t"		// damage
 		"pushl 28(%ebp)\n\t"		// damage
 		"pushl 24(%ebp)\n\t"		// damage
-		"pushl 20(%ebp)\n\t"		// pos
-		"pushl 16(%ebp)\n\t"		// pos
+		"pushl 20(%ebp)\n\t"		// y
+		"pushl 16(%ebp)\n\t"		// x
 		"pushl 12(%ebp)\n\t"		// this
 		"pushl 8(%ebp)\n\t"		// implicit_output
 	);

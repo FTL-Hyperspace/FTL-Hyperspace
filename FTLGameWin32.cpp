@@ -24131,16 +24131,17 @@ namespace _func669
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("MouseControl::SetTooltip", typeid(std::string &(MouseControl::*)(const std::string &)), "578d7c240883e4f0ff77fc5589e557565389ce83ec2c8b3f8b5f0485db", argdata, 2, 1, &func);
+	static FunctionDefinition funcObj("MouseControl::SetTooltip", typeid(void (MouseControl::*)(const std::string &)), "578d7c240883e4f0ff77fc5589e557565389ce83ec2c8b3f8b5f0485db", argdata, 2, 5, &func);
 }
 
-FUNC_NAKED std::string &MouseControl::SetTooltip(const std::string &tooltip)
+FUNC_NAKED void MouseControl::SetTooltip(const std::string &tooltip)
 {
 	__asm__
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
 		"push edx\n\t"
+		"push eax\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
 		"push esi\n\t"
@@ -24155,6 +24156,7 @@ FUNC_NAKED std::string &MouseControl::SetTooltip(const std::string &tooltip)
 		"pop esi\n\t"
 		"pop ebx\n\t"
 		"pop ecx\n\t"
+		"pop eax\n\t"
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
@@ -28075,11 +28077,11 @@ namespace _var779
 namespace _func780
 {
 	static void *func = 0;
-	static short argdata[] = {0x101, 0x1ff, 0x2ff, 0xfff, 0x1ff};
-	static FunctionDefinition funcObj("Shields::CollisionReal", typeid(CollisionResponse (Shields::*)(Pointf , Damage , bool )), "578d7c240883e4f0ff77fc5589e557565389ce83c10481ec????????8b47408b1ff30f105f04c741fc00000000f30f105708", argdata, 5, 1, &func);
+	static short argdata[] = {0x101, 0x1ff, 0x1ff, 0x1ff, 0xfff, 0x1ff};
+	static FunctionDefinition funcObj("Shields::CollisionReal", typeid(CollisionResponse (Shields::*)(float , float , Damage , bool )), "578d7c240883e4f0ff77fc5589e557565389ce83c10481ec????????8b47408b1ff30f105f04c741fc00000000f30f105708", argdata, 6, 1, &func);
 }
 
-FUNC_NAKED CollisionResponse Shields::CollisionReal(Pointf pos, Damage damage, bool force)
+FUNC_NAKED CollisionResponse Shields::CollisionReal(float x, float y, Damage damage, bool force)
 {
 	__asm__
 	(
@@ -28106,8 +28108,8 @@ FUNC_NAKED CollisionResponse Shields::CollisionReal(Pointf pos, Damage damage, b
 		"push [ebp+28]\n\t"		// damage
 		"push [ebp+24]\n\t"		// damage
 		"push [ebp+20]\n\t"		// damage
-		"push [ebp+16]\n\t"		// pos
-		"push [ebp+12]\n\t"		// pos
+		"push [ebp+16]\n\t"		// y
+		"push [ebp+12]\n\t"		// x
 		"push [ebp+8]\n\t"		// this
 			// ecx has implicit_output
 	);

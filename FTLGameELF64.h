@@ -3639,18 +3639,37 @@ struct ParticleEmitter
 
 struct LIBZHL_INTERFACE CrewAnimation
 {
+	CrewAnimation()
+	{
+	}
+
+	CrewAnimation(int _shipId, const std::string& _race, Pointf _unk, char _hostile)
+	{
+		this->constructor(_shipId, _race, _unk, _hostile);
+	}
+
+	bool _HS_CustomDeath();
+
+
 	virtual ~CrewAnimation() {}
-	virtual void OnRender(float unk1, int unk2, bool unk3) LIBZHL_PLACEHOLDER
-	virtual void OnRenderProps() LIBZHL_PLACEHOLDER
-	virtual void OnUpdateEffects() LIBZHL_PLACEHOLDER
+	LIBZHL_API virtual void OnRender(float scale, int selectedState, bool outlineOnly);
+	LIBZHL_API virtual void OnRenderProps();
+	LIBZHL_API virtual void OnUpdateEffects();
 	virtual void UpdateFiring() LIBZHL_PLACEHOLDER
 	virtual void UpdateShooting() LIBZHL_PLACEHOLDER
-	virtual bool FireShot() LIBZHL_PLACEHOLDER
-	virtual int GetFiringFrame() LIBZHL_PLACEHOLDER
-	virtual std::string GetShootingSound() LIBZHL_PLACEHOLDER
-	virtual std::string GetDeathSound() LIBZHL_PLACEHOLDER
+	LIBZHL_API virtual bool FireShot();
+	LIBZHL_API virtual int GetFiringFrame();
+	LIBZHL_API virtual std::string GetShootingSound();
+	LIBZHL_API virtual std::string GetDeathSound();
 	virtual void Restart() LIBZHL_PLACEHOLDER
 	virtual bool CustomDeath() LIBZHL_PLACEHOLDER
+	LIBZHL_API void OnInit(const std::string &name, Pointf position, bool enemy);
+	LIBZHL_API void OnUpdate(Pointf position, bool moving, bool fighting, bool repairing, bool dying, bool onFire);
+	LIBZHL_API void RenderIcon(bool border);
+	LIBZHL_API void SetupStrips();
+	LIBZHL_API void constructor(int shipId, const std::string &race, Pointf unk, bool hostile);
+	LIBZHL_API void destructor();
+	
 	int iShipId;
 	std::vector<std::vector<Animation>> anims;
 	GL_Texture *baseStrip;
@@ -4800,8 +4819,19 @@ struct MantisAlien
 {
 };
 
+struct MantisAnimation;
+
 struct MantisAnimation : CrewAnimation
 {
+
+
+	LIBZHL_API bool FireShot();
+	LIBZHL_API std::string GetDeathSound();
+	LIBZHL_API std::string GetShootingSound();
+	LIBZHL_API static void __stdcall __DO_NOT_HOOK_1();
+	LIBZHL_API static void __stdcall __DO_NOT_HOOK_2();
+	LIBZHL_API static void __stdcall __DO_NOT_HOOK_3();
+	
 };
 
 struct MedbaySystem
@@ -4866,8 +4896,19 @@ struct Moddable
 {
 };
 
+struct MouseControl;
+
 struct MouseControl
 {
+	LIBZHL_API void InstantTooltip();
+	LIBZHL_API Point MeasureTooltip(int unk);
+	LIBZHL_API void OnLoop();
+	LIBZHL_API void OnRender();
+	LIBZHL_API void QueueStaticTooltip(Point pos);
+	LIBZHL_API void SetDoor(int state);
+	LIBZHL_API void SetTooltip(const std::string &tooltip);
+	LIBZHL_API void SetTooltipTitle(const std::string &tooltip);
+	
 	Point position;
 	Point lastPosition;
 	int aiming_required;
@@ -5057,6 +5098,7 @@ struct ResourceManager;
 
 struct freetype
 {
+
 	struct font_data
 	{
 		float h;
@@ -5065,6 +5107,15 @@ struct freetype
 		float baseline;
 		float lineHeight;
 	};
+	
+	LIBZHL_API static Pointf __stdcall easy_measurePrintLines(int fontSize, float x, float y, int line_length, const std::string &text);
+	LIBZHL_API static int __stdcall easy_measureWidth(int fontSize, const std::string &text);
+	LIBZHL_API static Pointf __stdcall easy_print(int fontSize, float x, float y, const std::string &text);
+	LIBZHL_API static Pointf __stdcall easy_printAutoNewlines(int fontSize, float x, float y, int line_length, const std::string &text);
+	LIBZHL_API static void __stdcall easy_printAutoShrink(int fontId, float x, float y, int maxWidth, bool centered, const std::string &text);
+	LIBZHL_API static Pointf __stdcall easy_printCenter(int fontSize, float x, float y, const std::string &text);
+	LIBZHL_API static Pointf __stdcall easy_printNewlinesCentered(int fontSize, float x, float y, int line_length, const std::string &text);
+	LIBZHL_API static Pointf __stdcall easy_printRightAlign(int fontSize, float x, float y, const std::string &text);
 	
 };
 
@@ -5120,8 +5171,22 @@ struct RockAlien
 {
 };
 
+struct RockAnimation;
+
 struct RockAnimation : CrewAnimation
 {
+    RockAnimation(const std::string& subRace, int shipId, Pointf position, bool enemy) : CrewAnimation(shipId, subRace, position, enemy)
+	{
+		this->constructor(subRace, shipId, position, enemy);
+	}
+
+	LIBZHL_API std::string GetDeathSound();
+	LIBZHL_API std::string GetShootingSound();
+	LIBZHL_API static void __stdcall __DO_NOT_HOOK_1();
+	LIBZHL_API static void __stdcall __DO_NOT_HOOK_2();
+	LIBZHL_API static void __stdcall __DO_NOT_HOOK_3();
+	LIBZHL_API void constructor(const std::string &subRace, int iShipId, Pointf position, bool enemy);
+	
 };
 
 struct Room : Selectable
@@ -5348,10 +5413,26 @@ struct SettingValues
 
 struct Settings
 {
+	LIBZHL_API static char __stdcall GetCommandConsole();
+	LIBZHL_API static bool __stdcall GetDlcEnabled();
+	LIBZHL_API static SDLKey __stdcall GetHotkey(const std::string &hotkeyName);
+	LIBZHL_API static std::string __stdcall GetHotkeyName(const std::string &name);
+	LIBZHL_API static void __stdcall LoadSettings();
+	LIBZHL_API static void __stdcall ResetHotkeys();
+	LIBZHL_API static void __stdcall SaveSettings();
+	LIBZHL_API static void __stdcall SetHotkey(const std::string &hotkeyName, SDLKey key);
+	
 };
+
+struct Shields;
 
 struct Shields : ShipSystem
 {
+	Shields(int roomId, int shipId, int startingPower, const std::string& shieldFile)
+	{
+		this->constructor(roomId, shipId, startingPower, shieldFile);
+	}
+
 	struct Shield
 	{
 		float charger;
@@ -5372,6 +5453,15 @@ struct Shields : ShipSystem
 		int ownerId;
 		int damage;
 	};
+	
+	LIBZHL_API void AddSuperShield(Point pos);
+	LIBZHL_API CollisionResponse CollisionReal(float x, float y, Damage damage, bool force);
+	LIBZHL_API void InstantCharge();
+	LIBZHL_API void Jump();
+	LIBZHL_API void OnLoop();
+	LIBZHL_API void RenderBase(float alpha, float superShieldOverwrite);
+	LIBZHL_API void SetBaseEllipse(Globals::Ellipse ellipse);
+	LIBZHL_API void constructor(int roomId, int shipId, int startingPower, const std::string &shieldFile);
 	
 	float ellipseRatio;
 	Point center;
@@ -5500,7 +5590,6 @@ struct ShipInfo
 struct EngineSystem;
 struct MedbaySystem;
 struct ParticleEmitter;
-struct Shields;
 
 struct Spreader_Fire : ShipObject
 {
@@ -6135,6 +6224,9 @@ extern LIBZHL_API EventSystem *Global_EventSystem_EventManager;
 extern LIBZHL_API TextLibrary *Global_Globals_Library;
 extern LIBZHL_API void **VTable_LaserBlast;
 extern LIBZHL_API void **VTable_Targetable_LaserBlast;
+extern LIBZHL_API MouseControl *Global_MouseControl_Mouse;
+extern LIBZHL_API SettingValues *Global_Settings_Settings;
+extern LIBZHL_API GL_Color *Global_COLOR_GREEN;
 extern LIBZHL_API ShipInfo **Global_ShipObject_ShipInfoList;
 extern LIBZHL_API SoundControl *Global_SoundControl_Sounds;
 extern LIBZHL_API Point *Global_SystemControl_weapon_position;

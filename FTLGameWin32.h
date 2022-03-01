@@ -5877,7 +5877,7 @@ struct MouseControl
 	LIBZHL_API void OnRender();
 	LIBZHL_API void QueueStaticTooltip(Point pos);
 	LIBZHL_API void SetDoor(int state);
-	LIBZHL_API std::string &SetTooltip(const std::string &tooltip);
+	LIBZHL_API void SetTooltip(const std::string &tooltip);
 	LIBZHL_API void SetTooltipTitle(const std::string &tooltip);
 	
 	Point position;
@@ -6453,7 +6453,7 @@ struct Shields : ShipSystem
 	};
 	
 	LIBZHL_API void AddSuperShield(Point pos);
-	LIBZHL_API CollisionResponse CollisionReal(Pointf pos, Damage damage, bool force);
+	LIBZHL_API CollisionResponse CollisionReal(float x, float y, Damage damage, bool force);
 	LIBZHL_API void InstantCharge();
 	LIBZHL_API void Jump();
 	LIBZHL_API void OnLoop();
