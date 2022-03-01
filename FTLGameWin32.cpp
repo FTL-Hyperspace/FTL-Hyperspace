@@ -19990,11 +19990,11 @@ FUNC_NAKED LocationEvent *EventGenerator::GetBaseEvent(const std::string &name, 
 namespace _func549
 {
 	static void *func = 0;
-	static short argdata[] = {0x101, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("EventGenerator::CreateEvent1", typeid(LocationEvent *(EventGenerator::*)(const std::string &, int )), "578d7c240883e4f0ff77fc5589e557565381ec????????8b5f048b37898dc4fcffff899dbcfcffff8b5f088d7944899dacfcffff89342489f9e8????????83ec04", argdata, 3, 1, &func);
+	static short argdata[] = {0x101, 0x1ff, 0x1ff, 0x1ff};
+	static FunctionDefinition funcObj("EventGenerator::CreateEvent", typeid(LocationEvent *(EventGenerator::*)(const std::string &, int , bool )), "578d7c240883e4f0ff77fc5589e557565381ec????????8b5f048b37898dc4fcffff899dbcfcffff8b5f088d7944899dacfcffff89342489f9e8????????83ec04", argdata, 4, 1, &func);
 }
 
-FUNC_NAKED LocationEvent *EventGenerator::CreateEvent1(const std::string &name, int worldLevel)
+FUNC_NAKED LocationEvent *EventGenerator::CreateEvent(const std::string &name, int worldLevel, bool ignoreUnique)
 {
 	__asm__
 	(
@@ -20005,6 +20005,7 @@ FUNC_NAKED LocationEvent *EventGenerator::CreateEvent1(const std::string &name, 
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+		"push [ebp+16]\n\t"		// ignoreUnique
 		"push [ebp+12]\n\t"		// worldLevel
 		"push [ebp+8]\n\t"		// name
 			// ecx has this
@@ -20019,7 +20020,7 @@ FUNC_NAKED LocationEvent *EventGenerator::CreateEvent1(const std::string &name, 
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret 8\n\t"
+		"ret 12\n\t"
 	);
 }
 

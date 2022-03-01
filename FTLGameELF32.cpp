@@ -20980,22 +20980,23 @@ FUNC_NAKED LocationEvent *EventGenerator::GetBaseEvent(const std::string &name, 
 namespace _func551
 {
 	static void *func = 0;
-	static short argdata[] = {0x1ff, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("EventGenerator::CreateEvent1", typeid(LocationEvent *(EventGenerator::*)(const std::string &, int )), "5589e557565381ecdc0100008b45148b5d0c", argdata, 3, 2, &func);
+	static short argdata[] = {0x1ff, 0x1ff, 0x1ff, 0x1ff};
+	static FunctionDefinition funcObj("EventGenerator::CreateEvent", typeid(LocationEvent *(EventGenerator::*)(const std::string &, int , bool )), "5589e557565381ecdc0100008b45148b5d0c", argdata, 4, 2, &func);
 }
 
-FUNC_NAKED LocationEvent *EventGenerator::CreateEvent1(const std::string &name, int worldLevel)
+FUNC_NAKED LocationEvent *EventGenerator::CreateEvent(const std::string &name, int worldLevel, bool ignoreUnique)
 {
 	__asm__
 	(
 		"pushl %ebp\n\t"
 		"movl %esp, %ebp\n\t"
-		"subl $8, %esp\n\t"
+		"subl $4, %esp\n\t"
 		"pushl %edx\n\t"
 		"pushl %ecx\n\t"
 		"pushl %ebx\n\t"
 		"pushl %esi\n\t"
 		"pushl %edi\n\t"
+		"pushl 20(%ebp)\n\t"		// ignoreUnique
 		"pushl 16(%ebp)\n\t"		// worldLevel
 		"pushl 12(%ebp)\n\t"		// name
 		"pushl 8(%ebp)\n\t"		// this
@@ -21003,7 +21004,7 @@ FUNC_NAKED LocationEvent *EventGenerator::CreateEvent1(const std::string &name, 
 	__asm__("call *%0\n\t" :: "m"(_func551::func));
 	__asm__
 	(
-		"addl $12, %esp\n\t"
+		"addl $16, %esp\n\t"
 		"popl %edi\n\t"
 		"popl %esi\n\t"
 		"popl %ebx\n\t"

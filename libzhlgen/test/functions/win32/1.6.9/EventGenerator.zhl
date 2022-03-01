@@ -1,7 +1,7 @@
 "578d7c240883e4f0ff77fc5589e557565383ec4c8b4704894dc48b1f8945bc8b47088945c08b470c83f8ff74??803d??????????8904240f85????????e8????????8b7dc48d4f60c6876c01000001c6876d01000000891c24":
 LocationEvent *EventGenerator::GetBaseEvent(EventGenerator *this<ecx>, const std::string& name, int worldLevel, char ignoreUnique, int seed);
 "578d7c240883e4f0ff77fc5589e557565381ec????????8b5f048b37898dc4fcffff899dbcfcffff8b5f088d7944899dacfcffff89342489f9e8????????83ec04":
-LocationEvent *EventGenerator::CreateEvent1(EventGenerator *this<ecx>, const std::string& name, int worldLevel);
+LocationEvent *EventGenerator::CreateEvent(EventGenerator *this<ecx>, const std::string& name, int worldLevel, bool ignoreUnique);
 "578d7c240883e4f0ff77fc5589e557565389ce81ec????????8b078b7f04c744240807690fc789c389851cffffff83c00c":
 SectorDescription EventGenerator::GetSpecificSector<ecx>(EventGenerator *this, const std::string& name);
 "578d7c240883e4f0ff77fc5589e557565389ce83ec2c8b1f8b7f0481c3????????893c2489d9":

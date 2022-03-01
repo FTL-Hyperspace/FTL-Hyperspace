@@ -4266,6 +4266,7 @@ struct EventDamage
 	int effect;
 };
 
+struct EventGenerator;
 struct EventTemplate;
 
 struct EventText
@@ -4273,22 +4274,6 @@ struct EventText
 	TextString text;
 	std::string planet;
 	std::string back;
-};
-
-struct SectorDescription
-{
-	std::vector<std_pair_std_string_RandomAmount> eventCounts;
-	std::vector<std_pair_std_string_int> rarities;
-	bool unique;
-	std::vector<TextString> names;
-	std::vector<TextString> shortNames;
-	std::vector<std::string> musicTracks;
-	std::string type;
-	TextString name;
-	TextString shortName;
-	int minSector;
-	bool used;
-	std::string firstEvent;
 };
 
 struct ShipEvent;
@@ -4320,8 +4305,124 @@ struct ShipEvent
 	int shipSeed;
 };
 
+struct StatusEffect
+{
+	LIBZHL_API static StatusEffect __stdcall GetNebulaEffect();
+	
+	int type;
+	int system;
+	int amount;
+	int target;
+};
+
+struct LocationEvent
+{
+	LocationEvent()
+	{
+		this->constructor();
+	}
+
+	struct Choice
+	{
+		LocationEvent *event;
+		TextString text;
+		ChoiceReq requirement;
+		bool hiddenReward;
+	};
+	
+	LIBZHL_API void ClearEvent(bool force);
+	LIBZHL_API void constructor();
+	
+	TextString text;
+	ShipEvent ship;
+	ResourceEvent stuff;
+	int environment;
+	int environmentTarget;
+	bool store;
+	bool gap_ex_cleared;
+	int fleetPosition;
+	bool beacon;
+	bool reveal_map;
+	bool distressBeacon;
+	bool repair;
+	int modifyPursuit;
+	Store *pStore;
+	std::vector<EventDamage> damage;
+	std::string quest;
+	std::vector<StatusEffect> statusEffects;
+	std::vector<std_pair_std_string_std_string> nameDefinitions;
+	std::string spaceImage;
+	std::string planetImage;
+	std::string eventName;
+	ResourceEvent reward;
+	BoardingEvent boarders;
+	std::vector<Choice> choices;
+	int unlockShip;
+	TextString unlockShipText;
+	bool secretSector;
+};
+
+struct Sector;
+
+struct SectorDescription
+{
+	std::vector<std_pair_std_string_RandomAmount> eventCounts;
+	std::vector<std_pair_std_string_int> rarities;
+	bool unique;
+	std::vector<TextString> names;
+	std::vector<TextString> shortNames;
+	std::vector<std::string> musicTracks;
+	std::string type;
+	TextString name;
+	TextString shortName;
+	int minSector;
+	bool used;
+	std::string firstEvent;
+};
+
+struct Sector
+{
+	int type;
+	bool visited;
+	bool reachable;
+	std::vector<Sector*> neighbors;
+	Point location;
+	int level;
+	SectorDescription description;
+};
+
 struct EventGenerator
 {
+    SectorDescription GetSectorDescriptionCustom(const std::string& type, int level);
+
+	void ClearUsedEvent(const std::string& name)
+	{
+		auto it = usedEvents.find(name);
+		if (it != usedEvents.end())
+		{
+			events[name] = it->second;
+			usedEvents.erase(it);
+		}
+	}
+	
+	void ClearUsedEvent(LocationEvent *locEvent)
+	{
+		if (locEvent)
+		{
+			ClearUsedEvent(locEvent->eventName);
+			for (auto& choice : locEvent->choices)
+			{
+				ClearUsedEvent(choice.event);
+			}
+		}
+	}
+
+	LIBZHL_API LocationEvent *CreateEvent(const std::string &name, int worldLevel, bool ignoreUnique);
+	LIBZHL_API LocationEvent *GetBaseEvent(const std::string &name, int worldLevel, char ignoreUnique, int seed);
+	LIBZHL_API std::string GetImageFromList(const std::string &listName);
+	LIBZHL_API SectorDescription GetSectorDescription(const std::string &type, int level);
+	LIBZHL_API SectorDescription GetSpecificSector(const std::string &name);
+	
 	std::vector<std::string> baseEvents;
 	std::unordered_map<std::string, SectorDescription> sectors;
 	std::unordered_map<std::string, std::vector<std::string>> baseSectors;
@@ -4388,16 +4489,6 @@ struct ShipTemplate
 	bool hostile;
 };
 
-struct StatusEffect
-{
-	LIBZHL_API static StatusEffect __stdcall GetNebulaEffect();
-	
-	int type;
-	int system;
-	int amount;
-	int target;
-};
-
 struct EventTemplate
 {
 	struct ChoiceTemplate
@@ -4437,7 +4528,6 @@ struct EventTemplate
 	bool secretSector;
 };
 
-struct EventGenerator;
 struct EventsParser;
 
 struct EventsParser
@@ -4766,53 +4856,6 @@ struct Location
 	bool fleetChanging;
 	std::string planetImage;
 	std::string spaceImage;
-};
-
-struct LocationEvent
-{
-	LocationEvent()
-	{
-		this->constructor();
-	}
-
-	struct Choice
-	{
-		LocationEvent *event;
-		TextString text;
-		ChoiceReq requirement;
-		bool hiddenReward;
-	};
-	
-	LIBZHL_API void ClearEvent(bool force);
-	LIBZHL_API void constructor();
-	
-	TextString text;
-	ShipEvent ship;
-	ResourceEvent stuff;
-	int environment;
-	int environmentTarget;
-	bool store;
-	bool gap_ex_cleared;
-	int fleetPosition;
-	bool beacon;
-	bool reveal_map;
-	bool distressBeacon;
-	bool repair;
-	int modifyPursuit;
-	Store *pStore;
-	std::vector<EventDamage> damage;
-	std::string quest;
-	std::vector<StatusEffect> statusEffects;
-	std::vector<std_pair_std_string_std_string> nameDefinitions;
-	std::string spaceImage;
-	std::string planetImage;
-	std::string eventName;
-	ResourceEvent reward;
-	BoardingEvent boarders;
-	std::vector<Choice> choices;
-	int unlockShip;
-	TextString unlockShipText;
-	bool secretSector;
 };
 
 struct LockdownShard;
@@ -5377,19 +5420,6 @@ struct Scroller
 	float fSpeed;
 	float current_x;
 	bool bInitialized;
-};
-
-struct Sector;
-
-struct Sector
-{
-	int type;
-	bool visited;
-	bool reachable;
-	std::vector<Sector*> neighbors;
-	Point location;
-	int level;
-	SectorDescription description;
 };
 
 struct SettingValues
@@ -6237,6 +6267,7 @@ extern LIBZHL_API AchievementTracker *Global_AchievementTracker_Tracker;
 extern LIBZHL_API AnimationControl *Global_AnimationControl_Animations;
 extern LIBZHL_API BlueprintManager *Global_BlueprintManager_Blueprints;
 extern LIBZHL_API CFPS *Global_CFPS_FPSControl;
+extern LIBZHL_API EventGenerator *Global_EventGenerator_Generator;
 extern LIBZHL_API EventSystem *Global_EventSystem_EventManager;
 extern LIBZHL_API EventsParser *Global_EventsParser_Parser;
 extern LIBZHL_API TextLibrary *Global_Globals_Library;
