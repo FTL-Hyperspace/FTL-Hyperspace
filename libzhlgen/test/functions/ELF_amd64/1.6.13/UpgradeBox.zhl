@@ -1,0 +1,41 @@
+"415741564989fe4155415455534881ecd801000080bf5901000000":
+cleanup void UpgradeBox::OnRender(UpgradeBox *this<rdi>);
+".48833f007412":
+cleanup void UpgradeBox::MouseMove(UpgradeBox *this<rdi>, int mX<rsi>, int mY<rdx>);
+".534889fb4883ec20488b074885c0":
+cleanup void UpgradeBox::MouseClick(UpgradeBox *this<rdi>, int mX<rsi>, int mY<rdx>);
+".534889fb4883ec20488b074885c0":
+cleanup void UpgradeBox::MouseRightClick(UpgradeBox *this<rdi>, int mX<rsi>, int mY<rdx>);
+".538b47204889fb85c0":
+cleanup void UpgradeBox::Undo(UpgradeBox *this<rdi>);
+".534889fb4883ec20488b3f4885ff":
+cleanup void UpgradeBox::Accept(UpgradeBox *this<rdi>);
+".41554189d541544989f449c1fc20554889f5534889fb488d7f384883ec38":
+cleanup void UpgradeBox::constructorEmpty(UpgradeBox *this<rdi>, Point pos<rsi>, bool subsystem<rdx>);
+".41574589c741564c8d773841554989cd41544989d455488dafc8000000534889fb4883ec38":
+cleanup void UpgradeBox::constructorSystem(UpgradeBox *this<rdi>, ShipManager *ship<rsi>, ShipSystem *sys<rdx>, Point pos<rcx>, bool subsystem<r8>);
+".534889fb4883ec10488bbf60010000":
+cleanup void UpgradeBox::destructor(UpgradeBox *this<rdi>);
+
+
+struct UpgradeBox
+{{
+	UpgradeBox()
+	{
+	}
+	
+	UpgradeBox(Point pos, bool subsystem)
+	{
+		this->constructorEmpty(pos, subsystem);
+	}
+	
+	UpgradeBox(ShipManager *ship, ShipSystem *sys, Point pos, bool subsystem)
+	{
+		this->constructorSystem(ship, sys, pos, subsystem);
+	}
+	
+	~UpgradeBox()
+	{
+		this->destructor();
+	}
+}};

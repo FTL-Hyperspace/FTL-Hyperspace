@@ -26349,7 +26349,7 @@ namespace _func700
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff, 0x2ff, 0x1ff, 0x1ff, 0x2ff};
-	static FunctionDefinition funcObj("Projectile::constructor", typeid(void (Projectile::*)(Pointf , int , int , Pointf )), "5589e557565381ecec0000008b7d088b450c", argdata, 5, 6, &func);
+	static FunctionDefinition funcObj("Projectile::constructor", typeid(void (Projectile::*)(Pointf , int , int , Pointf )), ".5589e557565381ecec0000008b7d088b450c", argdata, 5, 6, &func);
 }
 
 FUNC_NAKED void Projectile::constructor(Pointf position, int ownerId, int targetId, Pointf target)
@@ -26392,46 +26392,8 @@ FUNC_NAKED void Projectile::constructor(Pointf position, int ownerId, int target
 namespace _func701
 {
 	static void *func = 0;
-	static short argdata[] = {0x1ff};
-	static FunctionDefinition funcObj("Projectile::destructor", typeid(void (Projectile::*)()), ".5557565383ec2c8b442440c700????????c74004????????c780c0010000????????8b80b4010000", argdata, 1, 6, &func);
-}
-
-FUNC_NAKED void Projectile::destructor()
-{
-	__asm__
-	(
-		"pushl %ebp\n\t"
-		"movl %esp, %ebp\n\t"
-		"subl $12, %esp\n\t"
-		"pushl %edx\n\t"
-		"pushl %eax\n\t"
-		"pushl %ecx\n\t"
-		"pushl %ebx\n\t"
-		"pushl %esi\n\t"
-		"pushl %edi\n\t"
-		"pushl 8(%ebp)\n\t"		// this
-	);
-	__asm__("call *%0\n\t" :: "m"(_func701::func));
-	__asm__
-	(
-		"addl $4, %esp\n\t"
-		"popl %edi\n\t"
-		"popl %esi\n\t"
-		"popl %ebx\n\t"
-		"popl %ecx\n\t"
-		"popl %eax\n\t"
-		"popl %edx\n\t"
-		"movl %ebp, %esp\n\t"
-		"popl %ebp\n\t"
-		"ret\n\t"
-	);
-}
-
-namespace _func702
-{
-	static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("Projectile::Initialize", typeid(void (Projectile::*)(const WeaponBlueprint &)), "5589e557565381ecdc0000008b450cc78538ffffff00000000", argdata, 2, 6, &func);
+	static FunctionDefinition funcObj("Projectile::Initialize", typeid(void (Projectile::*)(const WeaponBlueprint &)), ".5589e557565381ecdc0000008b450cc78538ffffff00000000", argdata, 2, 6, &func);
 }
 
 FUNC_NAKED void Projectile::Initialize(const WeaponBlueprint &bp)
@@ -26450,10 +26412,48 @@ FUNC_NAKED void Projectile::Initialize(const WeaponBlueprint &bp)
 		"pushl 12(%ebp)\n\t"		// bp
 		"pushl 8(%ebp)\n\t"		// this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func702::func));
+	__asm__("call *%0\n\t" :: "m"(_func701::func));
 	__asm__
 	(
 		"addl $8, %esp\n\t"
+		"popl %edi\n\t"
+		"popl %esi\n\t"
+		"popl %ebx\n\t"
+		"popl %ecx\n\t"
+		"popl %eax\n\t"
+		"popl %edx\n\t"
+		"movl %ebp, %esp\n\t"
+		"popl %ebp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func702
+{
+	static void *func = 0;
+	static short argdata[] = {0x1ff};
+	static FunctionDefinition funcObj("Projectile::destructor", typeid(void (Projectile::*)()), ".5557565383ec2c8b7424408b86b4010000", argdata, 1, 6, &func);
+}
+
+FUNC_NAKED void Projectile::destructor()
+{
+	__asm__
+	(
+		"pushl %ebp\n\t"
+		"movl %esp, %ebp\n\t"
+		"subl $12, %esp\n\t"
+		"pushl %edx\n\t"
+		"pushl %eax\n\t"
+		"pushl %ecx\n\t"
+		"pushl %ebx\n\t"
+		"pushl %esi\n\t"
+		"pushl %edi\n\t"
+		"pushl 8(%ebp)\n\t"		// this
+	);
+	__asm__("call *%0\n\t" :: "m"(_func702::func));
+	__asm__
+	(
+		"addl $4, %esp\n\t"
 		"popl %edi\n\t"
 		"popl %esi\n\t"
 		"popl %ebx\n\t"

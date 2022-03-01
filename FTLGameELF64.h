@@ -889,6 +889,8 @@ struct Damage
 	int iStun;
 };
 
+struct Projectile;
+
 struct DamageParameter
 {
 	int iDamage;
@@ -938,6 +940,12 @@ struct LIBZHL_INTERFACE Targetable
 
 struct Projectile : Collideable
 {
+	LIBZHL_API void CollisionCheck(Collideable *other);
+	LIBZHL_API int ForceRenderLayer();
+	LIBZHL_API void Initialize(const WeaponBlueprint &bp);
+	LIBZHL_API void constructor(Pointf position, int ownerId, int targetId, Pointf target);
+	LIBZHL_API void destructor();
+	
 	Targetable _targetable;
 	Pointf position;
 	Pointf last_position;
@@ -977,7 +985,6 @@ struct Asteroid : Projectile
 };
 
 struct AsteroidGenerator;
-struct Projectile;
 
 struct RandomAmount
 {
@@ -1133,16 +1140,17 @@ struct LIBZHL_INTERFACE GenericButton
 {
 	virtual ~GenericButton() {}
 	virtual void Reset() LIBZHL_PLACEHOLDER
-	virtual void SetLocation(Point pos) LIBZHL_PLACEHOLDER
+	LIBZHL_API virtual void SetLocation(Point pos);
 	virtual void SetHitBox(Globals::Rect rect) LIBZHL_PLACEHOLDER
-	virtual void SetActive(bool active) LIBZHL_PLACEHOLDER
+	LIBZHL_API virtual void SetActive(bool active);
 	virtual void OnLoop() LIBZHL_PLACEHOLDER
 	virtual void OnRender() LIBZHL_PLACEHOLDER
-	virtual bool MouseMove(int x, int y, bool silent) LIBZHL_PLACEHOLDER
-	virtual void OnClick() LIBZHL_PLACEHOLDER
-	virtual void OnRightClick() LIBZHL_PLACEHOLDER
+	LIBZHL_API virtual void MouseMove(int x, int y, bool silent);
+	LIBZHL_API virtual void OnClick();
+	LIBZHL_API virtual void OnRightClick();
 	virtual void OnTouch() LIBZHL_PLACEHOLDER
-	virtual void ResetPrimitives() LIBZHL_PLACEHOLDER
+	LIBZHL_API virtual void ResetPrimitives();
+	
 	Point position;
 	Globals::Rect hitbox;
 	bool allowAnyTouch;
@@ -1745,6 +1753,11 @@ struct SystemBlueprint : Blueprint
 
 struct WeaponBlueprint : Blueprint
 {
+	WeaponBlueprint()
+	{
+		this->constructor();
+	}
+
 	struct BoostPower
 	{
 		int type;
@@ -1757,6 +1770,11 @@ struct WeaponBlueprint : Blueprint
 		std::string image;
 		bool fake;
 	};
+	
+	LIBZHL_API std::string GetDescription(bool tooltip);
+	LIBZHL_API void RenderIcon(float scale);
+	LIBZHL_API void constructor();
+	LIBZHL_API void destructor();
 	
 	std::string typeName;
 	Damage damage;
@@ -2861,8 +2879,19 @@ struct HandAnimation
 	float pause;
 };
 
+struct WeaponControl;
+
 struct WeaponControl : ArmamentControl
 {
+	LIBZHL_API void Fire(std::vector<Pointf> &points, int target, bool autoFire);
+	LIBZHL_API bool KeyDown(SDLKey key);
+	LIBZHL_API bool LButton(int x, int y, bool holdingShift);
+	LIBZHL_API void LinkShip(ShipManager *ship);
+	LIBZHL_API void MouseMove(int x, int y);
+	LIBZHL_API void OnRender(bool unk);
+	LIBZHL_API void SetAutofiring(bool on, bool simple);
+	LIBZHL_API void constructor();
+	
 	Targetable *currentTarget;
 	ProjectileFactory *armedWeapon;
 	bool autoFiring;
@@ -3340,6 +3369,8 @@ struct SpaceStatus
 struct StarMap;
 struct Store;
 
+struct SystemControl;
+
 struct SystemControl
 {
 	struct PowerBars
@@ -3349,6 +3380,11 @@ struct SystemControl
 		GL_Primitive *empty[30];
 		GL_Primitive *damaged[30];
 	};
+	
+	LIBZHL_API void CreateSystemBoxes();
+	LIBZHL_API static SystemControl::PowerBars *__stdcall GetPowerBars(int width, int height, int gap, bool useShieldGap);
+	LIBZHL_API SystemBox *GetSystemBox(int systemId);
+	LIBZHL_API void RenderPowerBar();
 	
 	ShipManager *shipManager;
 	CombatControl *combatControl;
@@ -3407,9 +3443,20 @@ struct ReactorButton : Button
 };
 
 struct UpgradeBox;
+struct Upgrades;
 
 struct Upgrades : FocusWindow
 {
+	LIBZHL_API void ClearUpgradeBoxes();
+	LIBZHL_API void Close();
+	LIBZHL_API void ConfirmUpgrades();
+	LIBZHL_API void MouseClick(int mX, int mY);
+	LIBZHL_API void MouseMove(int mX, int mY);
+	LIBZHL_API void MouseRightClick(int mX, int mY);
+	LIBZHL_API void OnInit(ShipManager *ship);
+	LIBZHL_API void OnLoop();
+	LIBZHL_API void OnRender();
+	
 	GL_Texture *box;
 	std::vector<UpgradeBox*> vUpgradeBoxes;
 	ShipManager *shipManager;
@@ -5515,8 +5562,14 @@ struct SlugAnimation
 {
 };
 
+struct SoundControl;
+
 struct SoundControl
 {
+	LIBZHL_API int PlaySoundMix(const std::string &soundName, float volume, char loop);
+	LIBZHL_API void StartPlaylist(std::vector<std::string> &playlist);
+	LIBZHL_API void StopPlaylist(int fadeOut);
+	
 };
 
 struct SpaceManager
@@ -5855,12 +5908,47 @@ struct TouchTooltip
 {
 };
 
+struct TutorialManager;
+
 struct TutorialManager
 {
+	LIBZHL_API void OnInit(ShipManager *ship, CommandGui *gui, CrewControl *crewControl, Upgrades *upgradesScreen, CombatControl *combatControl, SystemControl *sysControl, TabbedWindow *unk);
+	LIBZHL_API bool Running();
+	LIBZHL_API void constructor();
+	
 };
 
 struct UpgradeBox
 {
+	UpgradeBox()
+	{
+	}
+	
+	UpgradeBox(Point pos, bool subsystem)
+	{
+		this->constructorEmpty(pos, subsystem);
+	}
+	
+	UpgradeBox(ShipManager *ship, ShipSystem *sys, Point pos, bool subsystem)
+	{
+		this->constructorSystem(ship, sys, pos, subsystem);
+	}
+	
+	~UpgradeBox()
+	{
+		this->destructor();
+	}
+
+	LIBZHL_API void Accept();
+	LIBZHL_API void MouseClick(int mX, int mY);
+	LIBZHL_API void MouseMove(int mX, int mY);
+	LIBZHL_API void MouseRightClick(int mX, int mY);
+	LIBZHL_API void OnRender();
+	LIBZHL_API void Undo();
+	LIBZHL_API void constructorEmpty(Point pos, bool subsystem);
+	LIBZHL_API void constructorSystem(ShipManager *ship, ShipSystem *sys, Point pos, bool subsystem);
+	LIBZHL_API void destructor();
+	
 	ShipSystem *system;
 	ShipManager *ship;
 	const SystemBlueprint *blueprint;
@@ -5953,7 +6041,6 @@ struct WeaponSystem : ShipSystem
 	std::vector<bool> repowerList;
 };
 
-struct WeaponControl;
 struct WeaponSystemBox;
 
 struct WeaponSystemBox : SystemBox
@@ -6012,3 +6099,7 @@ extern LIBZHL_API EventSystem *Global_EventSystem_EventManager;
 extern LIBZHL_API TextLibrary *Global_Globals_Library;
 extern LIBZHL_API void **VTable_LaserBlast;
 extern LIBZHL_API void **VTable_Targetable_LaserBlast;
+extern LIBZHL_API SoundControl *Global_SoundControl_Sounds;
+extern LIBZHL_API Point *Global_SystemControl_weapon_position;
+extern LIBZHL_API Point *Global_SystemControl_drone_position;
+extern LIBZHL_API TutorialManager *Global_TutorialManager_Tutorial;

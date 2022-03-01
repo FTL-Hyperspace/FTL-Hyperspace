@@ -1,0 +1,18 @@
+"!41554989fd41544189d45589f55331db4883ec08":
+cleanup void Upgrades::MouseMove(Upgrades *this<rdi>, int mX<rsi>, int mY<rdx>);
+".415431c94989fc5531ed534883ec20":
+cleanup void Upgrades::MouseRightClick(Upgrades *this<rdi>, int mX<rsi>, int mY<rdx>);
+".41554154554889fd534883ec28807f0800":
+cleanup void Upgrades::Close(Upgrades *this<rdi>);
+".4155415455534889fb4883ec68807f0800":
+cleanup void Upgrades::OnLoop(Upgrades *this<rdi>);
+".415531c941bd????????41544989fc5531ed534883ec28":
+cleanup void Upgrades::ConfirmUpgrades(Upgrades *this<rdi>);
+".41554189d541544189f4554889fd5331db4883ec28":
+cleanup void Upgrades::MouseClick(Upgrades *this<rdi>, int mX<rsi>, int mY<rdx>);
+".41544989fc55534883ec10488b4f30488b57284889c84829d048c1f80385c0":
+cleanup void Upgrades::ClearUpgradeBoxes(Upgrades *this<rdi>);
+".41574989ff41564155415455534881ecb8000000":
+cleanup void Upgrades::OnInit(Upgrades *this<rdi>, ShipManager *ship<rsi>);
+".415455534889fb4883ec50488b7f20":
+cleanup void Upgrades::OnRender(Upgrades *this<rdi>);
