@@ -6068,6 +6068,21 @@ struct TeleportBox : SystemBox
 
 struct TeleportSystem : ShipSystem
 {
+	LIBZHL_API bool CanReceive();
+	LIBZHL_API bool CanSend();
+	LIBZHL_API bool Charged();
+	LIBZHL_API void ClearCrewLocations();
+	LIBZHL_API void ForceReady();
+	LIBZHL_API float GetChargedPercent();
+	LIBZHL_API void InitiateTeleport();
+	LIBZHL_API void Jump();
+	LIBZHL_API void OnLoop();
+	LIBZHL_API void OnRenderFloor();
+	LIBZHL_API void SetArmed(int armed);
+	LIBZHL_API void SetHackingLevel(int hackingLevel);
+	LIBZHL_API void UpdateCrewLocation(int unk);
+	LIBZHL_API void constructor(int systemId, int roomId, int shipId, int startingPower);
+	
 	float chargeLevel;
 	bool bCanSend;
 	bool bCanReceive;
