@@ -5221,6 +5221,23 @@ struct PowerManager
 
 struct ProjectileFactory : ShipObject
 {
+	LIBZHL_API void Fire(std::vector<Pointf> &points, int target);
+	LIBZHL_API bool FireNextShot();
+	LIBZHL_API void ForceCoolup();
+	LIBZHL_API Projectile *GetProjectile();
+	LIBZHL_API bool IsChargedGoal();
+	LIBZHL_API int NumTargetsRequired();
+	LIBZHL_API void OnRender(float alpha, bool forceVisual);
+	LIBZHL_API void RenderChargeBar(float unk);
+	LIBZHL_API void SelectChargeGoal();
+	LIBZHL_API void SetCooldownModifier(float mod);
+	LIBZHL_API void SetCurrentShip(Targetable *ship);
+	LIBZHL_API void SetHacked(int hacked);
+	LIBZHL_API int SpendMissiles();
+	LIBZHL_API static int __stdcall StringToWeapon(const std::string &str);
+	LIBZHL_API void Update();
+	LIBZHL_API void constructor(const WeaponBlueprint *bp, int shipId);
+	
 	std::pair<float, float> cooldown;
 	std::pair<float, float> subCooldown;
 	float baseCooldown;
