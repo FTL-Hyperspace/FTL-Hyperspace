@@ -2755,6 +2755,8 @@ struct ShipAchievementInfo
 	int dimension;
 };
 
+struct ShipBuilder;
+
 struct ShipButton;
 struct ShipSelect;
 
@@ -2851,6 +2853,23 @@ struct TextInput
 
 struct ShipBuilder
 {
+	LIBZHL_API void CheckTypes();
+	LIBZHL_API void ClearShipAchievements();
+	LIBZHL_API void CreateEquipmentBoxes();
+	LIBZHL_API void CreateSystemBoxes();
+	LIBZHL_API void CycleShipNext();
+	LIBZHL_API void CycleShipPrevious();
+	LIBZHL_API void MouseClick(int x, int y);
+	LIBZHL_API void MouseMove(int x, int y);
+	LIBZHL_API void OnKeyDown(SDLKey key);
+	LIBZHL_API void OnLoop();
+	LIBZHL_API void OnRender();
+	LIBZHL_API void Open();
+	LIBZHL_API void SetupShipAchievements();
+	LIBZHL_API void SwapType(int variant);
+	LIBZHL_API void SwitchShip(int shipType, int shipVariant);
+	LIBZHL_API void constructor();
+	
 	ShipManager *currentShip;
 	GL_Primitive *nameBoxPrimitive;
 	GL_Primitive *enableAdvancedPrimitive;

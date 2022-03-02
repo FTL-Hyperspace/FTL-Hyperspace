@@ -3282,7 +3282,7 @@ struct TextInput
 
 struct ShipBuilder
 {
-	LIBZHL_API void *CheckTypes();
+	LIBZHL_API void CheckTypes();
 	LIBZHL_API void ClearShipAchievements();
 	LIBZHL_API void CreateEquipmentBoxes();
 	LIBZHL_API void CreateSystemBoxes();
@@ -3295,7 +3295,7 @@ struct ShipBuilder
 	LIBZHL_API void OnRender();
 	LIBZHL_API void Open();
 	LIBZHL_API void SetupShipAchievements();
-	LIBZHL_API int SwapType(int variant);
+	LIBZHL_API void SwapType(int variant);
 	LIBZHL_API void SwitchShip(int shipType, int shipVariant);
 	LIBZHL_API void constructor();
 	

@@ -1,5 +1,5 @@
 "578d7c240883e4f0ff77fc5589e557565389cb8db32c0a000083ec3cc7442404010000008b8124110000b9????????890424e8????????83ec0884c00f85????????c70424????????89f1e8????????c6834a0a000000":
-void *ShipBuilder::CheckTypes(ShipBuilder *this<ecx>);
+void ShipBuilder::CheckTypes(ShipBuilder *this<ecx>);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec4c80b9bc190000008b07":
 void ShipBuilder::MouseClick(ShipBuilder *this<ecx>, int x, int y);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b178b7f0489b9001c0000":
@@ -13,7 +13,7 @@ void ShipBuilder::SetupShipAchievements(ShipBuilder *this<ecx>);
 "8b816c1c0000c781781c0000ffffffff8981701c0000c390908db426000000005589e5575653":
 void ShipBuilder::ClearShipAchievements(ShipBuilder *this<ecx>);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b098b3785c9":
-int ShipBuilder::SwapType(ShipBuilder *this<ecx>, int variant);
+void ShipBuilder::SwapType(ShipBuilder *this<ecx>, int variant);
 "578d7c240883e4f0ff77fc5589e557565389ce83ec2c8b0985c974??":
 void ShipBuilder::CycleShipNext(ShipBuilder *this<ecx>);
 ".578d7c240883e4f0ff77fc5589e557565389ce83ec2c8b0985c974??":
