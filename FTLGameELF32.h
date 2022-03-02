@@ -1984,7 +1984,7 @@ struct LIBZHL_INTERFACE CrewMember
 	virtual int GetMaxHealth() LIBZHL_PLACEHOLDER
 	virtual bool IsDead() LIBZHL_PLACEHOLDER
 	virtual bool PermanentDeath() LIBZHL_PLACEHOLDER
-	LIBZHL_API virtual bool ShipDamage(float damage);
+	virtual bool ShipDamage(float damage) LIBZHL_PLACEHOLDER
 	virtual bool FireFightingSoundEffect() LIBZHL_PLACEHOLDER
 	LIBZHL_API virtual std::string GetUniqueRepairing();
 	virtual bool ProvidesVision() LIBZHL_PLACEHOLDER
@@ -2023,29 +2023,29 @@ struct LIBZHL_INTERFACE CrewMember
 	LIBZHL_API void CycleColorLayer(int unk);
 	LIBZHL_API bool DirectModifyHealth(float health);
 	LIBZHL_API void EmptySlot();
-	LIBZHL_API Slot *FindSlot(int unk1, int roomId, bool unk2);
+	LIBZHL_API Slot FindSlot(int unk1, int roomId, bool unk2);
 	LIBZHL_API void ForceMindControl(bool force);
-	LIBZHL_API void *GetFinalGoal();
+	LIBZHL_API Point GetFinalGoal();
 	LIBZHL_API int GetIntegerHealth();
-	LIBZHL_API void *GetLocation();
+	LIBZHL_API Point GetLocation();
 	LIBZHL_API std::string GetLongName();
 	LIBZHL_API float GetMoveSpeed();
 	LIBZHL_API std::string GetName();
-	LIBZHL_API char GetNewGoal();
-	LIBZHL_API void *GetNextGoal();
+	LIBZHL_API bool GetNewGoal();
+	LIBZHL_API Point GetNextGoal();
 	LIBZHL_API int GetRepairingId();
 	LIBZHL_API bool GetResisted();
 	LIBZHL_API Slot GetSavedPosition();
 	LIBZHL_API static int __stdcall GetSkillFromSystem(int systemId);
 	LIBZHL_API int GetSkillLevel(int skillId);
-	LIBZHL_API void GetSkillModifier(int skillId);
+	LIBZHL_API float GetSkillModifier(int skillId);
 	LIBZHL_API std::pair<int, int> GetSkillProgress(int skillId);
 	LIBZHL_API std::string GetTooltip();
 	LIBZHL_API void IncreaseSkill(int skillId);
 	LIBZHL_API void InitializeSkills();
 	LIBZHL_API bool IsBusy();
 	LIBZHL_API bool IsManningArtillery();
-	LIBZHL_API void Kill();
+	LIBZHL_API void Kill(bool noClone);
 	LIBZHL_API void MasterSkill(int skillId);
 	LIBZHL_API void ModifyHealth(float health);
 	LIBZHL_API bool MoveToRoom(int roomId, int slotId, bool forceMove);
@@ -2062,9 +2062,8 @@ struct LIBZHL_INTERFACE CrewMember
 	LIBZHL_API bool RestorePosition();
 	LIBZHL_API bool Sabotaging();
 	LIBZHL_API void SavePosition();
-	LIBZHL_API void *SelectSabotageTarget();
+	LIBZHL_API Pointf SelectSabotageTarget();
 	LIBZHL_API void SetCloneReady(bool cloneReady);
-	LIBZHL_API void SetCrewTask(CrewTask task);
 	LIBZHL_API void SetCurrentShip(int shipId);
 	LIBZHL_API void SetCurrentSystem(ShipSystem *sys);
 	LIBZHL_API void SetCurrentTarget(CrewTarget *target, bool unk);
@@ -2076,11 +2075,11 @@ struct LIBZHL_INTERFACE CrewMember
 	LIBZHL_API void SetMedbay(float health);
 	LIBZHL_API void SetMindControl(bool controlled);
 	LIBZHL_API void SetName(TextString *name, bool force);
-	LIBZHL_API bool SetPath();
+	LIBZHL_API bool SetPath(Path *path);
 	LIBZHL_API void SetPosition(Point pos);
 	LIBZHL_API void SetResisted(bool resisted);
 	LIBZHL_API void SetRoom(int roomId);
-	LIBZHL_API void SetRoomPath(int roomId, int slotId);
+	LIBZHL_API void SetRoomPath(int slotId, int roomId);
 	LIBZHL_API void SetSavePosition(Slot position);
 	LIBZHL_API void SetSex(bool male);
 	LIBZHL_API void SetSkillProgress(int skillId, int skillLevel);
