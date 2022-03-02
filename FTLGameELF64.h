@@ -570,8 +570,29 @@ struct TextString
 	uint8_t gap_ex[4];
 };
 
+struct WarningMessage;
+
 struct WarningMessage
 {
+	WarningMessage()
+	{
+		this->constructor();
+	}
+
+	LIBZHL_API void InitImage(const std::string &imageName, Point position, float time, bool flash);
+	LIBZHL_API void InitText(const TextString &text, Point position, float time, GL_Color textColor, bool centerText, bool flash);
+	LIBZHL_API void OnLoop();
+	LIBZHL_API void OnRender();
+	LIBZHL_API void RenderWithAlpha(float alpha);
+	LIBZHL_API void SetImage(const std::string &imageName);
+	LIBZHL_API void SetLoop(bool loop);
+	LIBZHL_API void SetPosition(Point position);
+	LIBZHL_API void SetSound(const std::string &sound);
+	LIBZHL_API void SetText(const TextString &text);
+	LIBZHL_API void SetText(const TextString &text, GL_Color textColor);
+	LIBZHL_API void Start();
+	LIBZHL_API void constructor();
+	
 	void *vptr;
 	AnimationTracker tracker;
 	Point position;
@@ -3155,8 +3176,6 @@ struct CloakingSystem : ShipSystem
 
 struct CloneBox;
 struct CloneSystem;
-
-struct WarningMessage;
 
 struct CloneBox : CooldownSystemBox
 {
