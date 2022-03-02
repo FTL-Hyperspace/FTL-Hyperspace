@@ -5153,6 +5153,7 @@ struct RepairStoreBox : StoreBox
 };
 
 struct PackageModuleInfo;
+struct ResourceControl;
 
 struct ResourceManager;
 
@@ -5180,7 +5181,14 @@ struct freetype
 };
 
 struct ResourceControl
-{
+{	
+	enum ImageSwappingMode
+	{
+	  SWAP_NONE = 0x0,
+	  SWAP_SHIP_SETS = 0x1,
+	  SWAP_DYNAMIC_SHIPS = 0x2,
+	};
+
 	struct DynamicImageInfo
 	{
 		std::string name;
@@ -5195,6 +5203,18 @@ struct ResourceControl
 		int w;
 		int h;
 	};
+	
+	LIBZHL_API GL_Primitive *CreateImagePrimitive(GL_Texture *tex, int unk1, int unk2, int unk3, GL_Color color, float alpha, bool mirror);
+	LIBZHL_API GL_Primitive *CreateImagePrimitiveString(const std::string &tex, int x, int y, int rotation, GL_Color color, float alpha, bool mirror);
+	LIBZHL_API freetype::font_data &GetFontData(int fontType, bool unk);
+	LIBZHL_API ImageDesc GetImageData(GL_Texture *tex);
+	LIBZHL_API GL_Texture *GetImageId(const std::string &dir);
+	LIBZHL_API char *LoadFile(const std::string &fileName);
+	LIBZHL_API void OnInit(int imageSwappingMode);
+	LIBZHL_API bool PreloadResources(bool unk);
+	LIBZHL_API int RenderImage(GL_Texture *tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror);
+	LIBZHL_API int RenderImageString(std::string &tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror);
+	LIBZHL_API void constructor();
 	
 	std::unordered_map<std::string, GL_Texture*> images;
 	std::unordered_map<int, freetype::font_data> fonts;
@@ -6274,6 +6294,7 @@ extern LIBZHL_API TextLibrary *Global_Globals_Library;
 extern LIBZHL_API void **VTable_LaserBlast;
 extern LIBZHL_API void **VTable_Targetable_LaserBlast;
 extern LIBZHL_API MouseControl *Global_MouseControl_Mouse;
+extern LIBZHL_API ResourceControl *Global_ResourceControl_GlobalResources;
 extern LIBZHL_API SettingValues *Global_Settings_Settings;
 extern LIBZHL_API GL_Color *Global_COLOR_GREEN;
 extern LIBZHL_API ShipInfo **Global_ShipObject_ShipInfoList;
