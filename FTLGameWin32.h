@@ -1518,7 +1518,7 @@ struct LIBZHL_INTERFACE EquipmentBox
 	LIBZHL_API virtual void RenderLabels(bool unk);
 	virtual void RenderIcon(bool empty) LIBZHL_PLACEHOLDER
 	virtual void SetShipManager(ShipManager *ship) LIBZHL_PLACEHOLDER
-	LIBZHL_API virtual int MouseMove(int x, int y);
+	LIBZHL_API virtual void MouseMove(int x, int y);
 	virtual void OnTouch() LIBZHL_PLACEHOLDER
 	LIBZHL_API virtual void UpdateBoxImage(bool unk);
 	LIBZHL_API virtual void Restart();

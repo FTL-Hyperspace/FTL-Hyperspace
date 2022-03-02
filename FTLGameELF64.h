@@ -1088,30 +1088,43 @@ struct EquipmentBoxItem
 	const AugmentBlueprint *augment;
 };
 
+struct InfoBox;
+
 struct WeaponSystem;
 
 struct LIBZHL_INTERFACE EquipmentBox
 {
-	virtual ~EquipmentBox() {}
-	virtual void SetPosition(Point pos) LIBZHL_PLACEHOLDER
-	virtual void OnRender(bool empty) LIBZHL_PLACEHOLDER
-	virtual void RenderLabels(bool empty) LIBZHL_PLACEHOLDER
+	bool IsEmpty()
+	{
+		return !item.pWeapon && !item.pDrone && (!item.augment || item.augment->name.empty()) && !item.pCrew;
+	}
+
+	LIBZHL_API virtual ~EquipmentBox();
+	LIBZHL_API virtual void SetPosition(Point pos);
+	LIBZHL_API virtual void OnRender(bool isEmpty);
+	LIBZHL_API virtual void RenderLabels(bool unk);
 	virtual void RenderIcon(bool empty) LIBZHL_PLACEHOLDER
 	virtual void SetShipManager(ShipManager *ship) LIBZHL_PLACEHOLDER
-	virtual void MouseMove(int x, int y) LIBZHL_PLACEHOLDER
+	LIBZHL_API virtual void MouseMove(int x, int y);
 	virtual void OnTouch() LIBZHL_PLACEHOLDER
-	virtual void UpdateBoxImage(bool unk) LIBZHL_PLACEHOLDER
-	virtual void Restart() LIBZHL_PLACEHOLDER
-	virtual void AddItem(EquipmentBoxItem item) LIBZHL_PLACEHOLDER
+	LIBZHL_API virtual void UpdateBoxImage(bool unk);
+	LIBZHL_API virtual void Restart();
+	LIBZHL_API virtual void AddItem(EquipmentBoxItem item);
 	virtual void RemoveItem() LIBZHL_PLACEHOLDER
-	virtual char CanHoldWeapon() LIBZHL_PLACEHOLDER
-	virtual char CanHoldDrone() LIBZHL_PLACEHOLDER
+	LIBZHL_API virtual bool CanHoldWeapon();
+	LIBZHL_API virtual bool CanHoldDrone();
 	virtual char CanHoldAugment() LIBZHL_PLACEHOLDER
 	virtual void CheckContents() LIBZHL_PLACEHOLDER
 	virtual int GetType(bool unk) LIBZHL_PLACEHOLDER
 	virtual char IsCargoBox() LIBZHL_PLACEHOLDER
 	virtual char CanHoldCrew() LIBZHL_PLACEHOLDER
 	virtual char CanDoJob() LIBZHL_PLACEHOLDER
+	LIBZHL_API Blueprint *GetBlueprint();
+	LIBZHL_API int GetItemValue();
+	LIBZHL_API virtual int GetType();
+	LIBZHL_API void SetBlueprint(InfoBox *infoBox, bool detailedBox);
+	LIBZHL_API void constructor(Point pos, int slot);
+	
 	GL_Primitive *blocked_overlay;
 	GL_Color overlayColor;
 	std::string imageName;
@@ -1199,7 +1212,6 @@ struct Button : GenericButton
 };
 
 struct Equipment;
-struct InfoBox;
 
 struct StoreBox;
 
