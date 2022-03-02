@@ -2723,10 +2723,40 @@ struct OptionsScreen : ChoiceBox
 
 struct CrewCustomizeBox;
 
+struct ItemBlueprint;
+
 struct SystemBlueprint;
 
 struct InfoBox
 {
+	InfoBox()
+	{
+		this->constructor();
+	}
+
+	enum ExpandDir
+	{
+	  EXPAND_UP = -1,
+	  EXPAND_NONE = 0,
+	  EXPAND_DOWN = 1,
+	};
+
+
+	LIBZHL_API int CalcBoxHeight();
+	LIBZHL_API void Clear();
+	LIBZHL_API bool IsEmpty();
+	LIBZHL_API void OnRender();
+	LIBZHL_API void SetBlueprint(const ItemBlueprint *bp);
+	LIBZHL_API void SetBlueprintAugment(const AugmentBlueprint *bp);
+	LIBZHL_API void SetBlueprintCrew(const CrewBlueprint *bp, int yShift, bool detailedCrew);
+	LIBZHL_API void SetBlueprintDrone(const DroneBlueprint *bp, int status, bool hasDroneSystem, int yShift);
+	LIBZHL_API void SetBlueprintWeapon(const WeaponBlueprint *bp, int status, bool hasWeaponSystem, int yShift);
+	LIBZHL_API void SetDescription(Description *desc, int width, int height, InfoBox::ExpandDir dir);
+	LIBZHL_API void SetSystem(ShipSystem *system, int upgrade, int yShift, int forceSystemWidth);
+	LIBZHL_API void SetSystemId(int systemId, int maxPower, int currentLevel, int upgrade, int yShift, int forceSystemWidth);
+	LIBZHL_API void SetText(const std::string &title, const std::string &text, int width, int height, InfoBox::ExpandDir dir);
+	LIBZHL_API void constructor();
+	
 	Point location;
 	const SystemBlueprint *blueprint;
 	Description desc;
@@ -4939,7 +4969,6 @@ struct IonDroneAnimation : CrewAnimation
 	bool damagedDoor;
 };
 
-struct ItemBlueprint;
 struct ItemStoreBox;
 
 struct ItemStoreBox : StoreBox
@@ -6472,6 +6501,8 @@ extern LIBZHL_API EventGenerator *Global_EventGenerator_Generator;
 extern LIBZHL_API EventSystem *Global_EventSystem_EventManager;
 extern LIBZHL_API EventsParser *Global_EventsParser_Parser;
 extern LIBZHL_API TextLibrary *Global_Globals_Library;
+extern LIBZHL_API GL_Color *Global_InfoBox_detailsBarOff;
+extern LIBZHL_API GL_Color *Global_InfoBox_detailsBarOn;
 extern LIBZHL_API void **VTable_LaserBlast;
 extern LIBZHL_API void **VTable_Targetable_LaserBlast;
 extern LIBZHL_API MouseControl *Global_MouseControl_Mouse;

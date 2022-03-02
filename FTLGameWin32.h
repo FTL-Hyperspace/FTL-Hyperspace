@@ -3142,7 +3142,7 @@ struct InfoBox
 
 
 	LIBZHL_API int CalcBoxHeight();
-	LIBZHL_API int Clear();
+	LIBZHL_API void Clear();
 	LIBZHL_API bool IsEmpty();
 	LIBZHL_API void OnRender();
 	LIBZHL_API void SetBlueprint(const ItemBlueprint *bp);
@@ -3150,7 +3150,7 @@ struct InfoBox
 	LIBZHL_API void SetBlueprintCrew(const CrewBlueprint *bp, int yShift, bool detailedCrew);
 	LIBZHL_API void SetBlueprintDrone(const DroneBlueprint *bp, int status, bool hasDroneSystem, int yShift);
 	LIBZHL_API void SetBlueprintWeapon(const WeaponBlueprint *bp, int status, bool hasWeaponSystem, int yShift);
-	LIBZHL_API int SetDescription(Description *desc, int width, int height, InfoBox::ExpandDir dir);
+	LIBZHL_API void SetDescription(Description *desc, int width, int height, InfoBox::ExpandDir dir);
 	LIBZHL_API void SetSystem(ShipSystem *system, int upgrade, int yShift, int forceSystemWidth);
 	LIBZHL_API void SetSystemId(int systemId, int maxPower, int currentLevel, int upgrade, int yShift, int forceSystemWidth);
 	LIBZHL_API void SetText(const std::string &title, const std::string &text, int width, int height, InfoBox::ExpandDir dir);

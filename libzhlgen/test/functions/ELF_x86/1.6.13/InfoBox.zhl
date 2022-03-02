@@ -1,9 +1,9 @@
 "5589e557565381ecbc0100008b7d088b078b7764":
 cleanup void InfoBox::OnRender(InfoBox *this);
 "57565383ec208b5c24308d7424188d7c2417":
-cleanup int InfoBox::Clear(InfoBox *this);
+cleanup void InfoBox::Clear(InfoBox *this);
 "5557565383ec2c8b5c24408b7424448b7c24488b6c244c":
-cleanup int InfoBox::SetDescription(InfoBox *this, Description *desc, int width, int height, InfoBox::ExpandDir dir); 
+cleanup void InfoBox::SetDescription(InfoBox *this, Description *desc, int width, int height, InfoBox::ExpandDir dir); 
 "5557565383ec7c8d7c24378b9c24900000008d7424388bac24a0000000":
 cleanup void InfoBox::SetText(InfoBox *this, const std::string& title, const std::string& text, int width, int height, InfoBox::ExpandDir dir); 
 "5589e557565383ec4c8b7d0c8d75d8":
