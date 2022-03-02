@@ -41048,17 +41048,16 @@ namespace _func1139
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("Store::KeyDown", typeid(void (Store::*)(SDLKey )), "578d7c240883e4f0ff77fc5589e55783ec1483b964060000028b077e??83f83189cf", argdata, 2, 5, &func);
+	static FunctionDefinition funcObj("Store::KeyDown", typeid(bool (Store::*)(SDLKey )), "578d7c240883e4f0ff77fc5589e55783ec1483b964060000028b077e??83f83189cf", argdata, 2, 1, &func);
 }
 
-FUNC_NAKED void Store::KeyDown(SDLKey key)
+FUNC_NAKED bool Store::KeyDown(SDLKey key)
 {
 	__asm__
 	(
 		"push ebp\n\t"
 		"mov ebp, esp\n\t"
 		"push edx\n\t"
-		"push eax\n\t"
 		"push ecx\n\t"
 		"push ebx\n\t"
 		"push esi\n\t"
@@ -41073,7 +41072,6 @@ FUNC_NAKED void Store::KeyDown(SDLKey key)
 		"pop esi\n\t"
 		"pop ebx\n\t"
 		"pop ecx\n\t"
-		"pop eax\n\t"
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
@@ -41305,11 +41303,11 @@ FUNC_NAKED void Store::RelinkShip(ShipManager *ship, Equipment *equip)
 namespace _func1146
 {
 	static void *func = 0;
-	static short argdata[] = {0x101};
-	static FunctionDefinition funcObj("Store::HasType", typeid(bool (Store::*)()), "8b4424043b816806000074??3b816c06000074??3b817006000074??3981740600000f94c0c20400908db42600000000b8????????", argdata, 1, 1, &func);
+	static short argdata[] = {0x101, 0x1ff};
+	static FunctionDefinition funcObj("Store::HasType", typeid(bool (Store::*)(int )), "8b4424043b816806000074??3b816c06000074??3b817006000074??3981740600000f94c0c20400908db42600000000b8????????", argdata, 2, 1, &func);
 }
 
-FUNC_NAKED bool Store::HasType()
+FUNC_NAKED bool Store::HasType(int type)
 {
 	__asm__
 	(
@@ -41320,6 +41318,7 @@ FUNC_NAKED bool Store::HasType()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
+		"push [ebp+8]\n\t"		// type
 			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1146::func));
@@ -41332,7 +41331,7 @@ FUNC_NAKED bool Store::HasType()
 		"pop edx\n\t"
 		"mov esp, ebp\n\t"
 		"pop ebp\n\t"
-		"ret\n\t"
+		"ret 4\n\t"
 	);
 }
 
@@ -41414,8 +41413,8 @@ FUNC_NAKED void Store::InitHeading(int index, Point pos)
 namespace _func1149
 {
 	static void *func = 0;
-	static short argdata[] = {0x101};
-	static FunctionDefinition funcObj("Store::DrawBuySellTabText", typeid(void (Store::*)()), "8d4c240483e4f0ff71fc5589e5575653518d45d08d75a08d5dd881ec????????c745d873746f72c745dc655f746189442404", argdata, 1, 5, &func);
+	static const short *argdata = NULL;
+	static FunctionDefinition funcObj("Store::DrawBuySellTabText", typeid(void (*)()), "8d4c240483e4f0ff71fc5589e5575653518d45d08d75a08d5dd881ec????????c745d873746f72c745dc655f746189442404", argdata, 0, 4, &func);
 }
 
 FUNC_NAKED void Store::DrawBuySellTabText()
@@ -41430,7 +41429,6 @@ FUNC_NAKED void Store::DrawBuySellTabText()
 		"push ebx\n\t"
 		"push esi\n\t"
 		"push edi\n\t"
-			// ecx has this
 	);
 	__asm__("call %0\n\t" :: "m"(_func1149::func));
 	__asm__

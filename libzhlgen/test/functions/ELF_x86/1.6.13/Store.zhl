@@ -3,7 +3,7 @@ cleanup void Store::OnInit(Store *this, ShipManager *shopper, Equipment *equip, 
 "5589e557565383ec7c8b750c8b7d08":
 cleanup void Store::CreateStoreBoxes(Store *this, int type, Equipment *equip);
 "5383ec188b5c24208b542424":
-cleanup void Store::KeyDown(Store *this, SDLKey key);
+cleanup bool Store::KeyDown(Store *this, SDLKey key);
 "565331db83ec148b7424208b9660030000":
 cleanup void Store::OnLoop(Store *this);
 "5383ec188b5c24208b839c040000":
@@ -17,13 +17,13 @@ cleanup void Store::SaveStore(Store *this, int file);
 "5557565331db83ec1c8b6c24308b7424348b7c24388b9560030000":
 cleanup void Store::RelinkShip(Store *this, ShipManager *ship, Equipment *equip);
 "8b5424048b442408398288040000":
-cleanup bool Store::HasType(Store *this);
+cleanup bool Store::HasType(Store *this, int type);
 "565383ec148b7424208b8e64030000":
 cleanup void Store::Clear(Store *this);
 "5557565383ec4c8d5c24388b742460":
 cleanup void Store::InitHeading(Store *this, int index, Point pos);
 "5589e557565383ec4c8d45db8d5de4":
-cleanup void Store::DrawBuySellTabText(Store *this);
+static cleanup void Store::DrawBuySellTabText();
 "5589e557565383ec4c8b45108b5d0889442408":
 cleanup void Store::MouseClick(Store *this, int x, int y);
 "5589e557565381ec8c0100008b5d08":

@@ -6207,6 +6207,31 @@ struct StarMap : FocusWindow
 
 struct Store : FocusWindow
 {
+	Store()
+	{
+		this->constructor();
+	}
+
+	LIBZHL_API void Clear();
+	LIBZHL_API void Close();
+	LIBZHL_API void CreateStoreBoxes(int type, Equipment *equip);
+	LIBZHL_API static void __stdcall DrawBuySellTabText();
+	LIBZHL_API bool HasType(int type);
+	LIBZHL_API void InitHeading(int index, Point pos);
+	LIBZHL_API bool KeyDown(SDLKey key);
+	LIBZHL_API void LoadStore(int file, int worldLevel);
+	LIBZHL_API void MouseClick(int x, int y);
+	LIBZHL_API void MouseMove(int x, int y);
+	LIBZHL_API void OnInit(ShipManager *shopper, Equipment *equip, int worldLevel);
+	LIBZHL_API void OnLoop();
+	LIBZHL_API void OnRender();
+	LIBZHL_API void RelinkShip(ShipManager *ship, Equipment *equip);
+	LIBZHL_API void SaveStore(int file);
+	LIBZHL_API void SetPosition(Point pos);
+	LIBZHL_API void SetPositions();
+	LIBZHL_API void constructor();
+	LIBZHL_API void destructor();
+	
 	GL_Texture *box;
 	TextString headingTitle[4];
 	Button page1;

@@ -43047,18 +43047,17 @@ namespace _func1143
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("Store::KeyDown", typeid(void (Store::*)(SDLKey )), "5383ec188b5c24208b542424", argdata, 2, 6, &func);
+	static FunctionDefinition funcObj("Store::KeyDown", typeid(bool (Store::*)(SDLKey )), "5383ec188b5c24208b542424", argdata, 2, 2, &func);
 }
 
-FUNC_NAKED void Store::KeyDown(SDLKey key)
+FUNC_NAKED bool Store::KeyDown(SDLKey key)
 {
 	__asm__
 	(
 		"pushl %ebp\n\t"
 		"movl %esp, %ebp\n\t"
-		"subl $8, %esp\n\t"
+		"subl $12, %esp\n\t"
 		"pushl %edx\n\t"
-		"pushl %eax\n\t"
 		"pushl %ecx\n\t"
 		"pushl %ebx\n\t"
 		"pushl %esi\n\t"
@@ -43074,7 +43073,6 @@ FUNC_NAKED void Store::KeyDown(SDLKey key)
 		"popl %esi\n\t"
 		"popl %ebx\n\t"
 		"popl %ecx\n\t"
-		"popl %eax\n\t"
 		"popl %edx\n\t"
 		"movl %ebp, %esp\n\t"
 		"popl %ebp\n\t"
@@ -43318,27 +43316,29 @@ FUNC_NAKED void Store::RelinkShip(ShipManager *ship, Equipment *equip)
 namespace _func1150
 {
 	static void *func = 0;
-	static short argdata[] = {0x1ff};
-	static FunctionDefinition funcObj("Store::HasType", typeid(bool (Store::*)()), "8b5424048b442408398288040000", argdata, 1, 2, &func);
+	static short argdata[] = {0x1ff, 0x1ff};
+	static FunctionDefinition funcObj("Store::HasType", typeid(bool (Store::*)(int )), "8b5424048b442408398288040000", argdata, 2, 2, &func);
 }
 
-FUNC_NAKED bool Store::HasType()
+FUNC_NAKED bool Store::HasType(int type)
 {
 	__asm__
 	(
 		"pushl %ebp\n\t"
 		"movl %esp, %ebp\n\t"
+		"subl $12, %esp\n\t"
 		"pushl %edx\n\t"
 		"pushl %ecx\n\t"
 		"pushl %ebx\n\t"
 		"pushl %esi\n\t"
 		"pushl %edi\n\t"
+		"pushl 12(%ebp)\n\t"		// type
 		"pushl 8(%ebp)\n\t"		// this
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1150::func));
 	__asm__
 	(
-		"addl $4, %esp\n\t"
+		"addl $8, %esp\n\t"
 		"popl %edi\n\t"
 		"popl %esi\n\t"
 		"popl %ebx\n\t"
@@ -43431,8 +43431,8 @@ FUNC_NAKED void Store::InitHeading(int index, Point pos)
 namespace _func1153
 {
 	static void *func = 0;
-	static short argdata[] = {0x1ff};
-	static FunctionDefinition funcObj("Store::DrawBuySellTabText", typeid(void (Store::*)()), "5589e557565383ec4c8d45db8d5de4", argdata, 1, 6, &func);
+	static const short *argdata = NULL;
+	static FunctionDefinition funcObj("Store::DrawBuySellTabText", typeid(void (*)()), "5589e557565383ec4c8d45db8d5de4", argdata, 0, 6, &func);
 }
 
 FUNC_NAKED void Store::DrawBuySellTabText()
@@ -43441,19 +43441,16 @@ FUNC_NAKED void Store::DrawBuySellTabText()
 	(
 		"pushl %ebp\n\t"
 		"movl %esp, %ebp\n\t"
-		"subl $12, %esp\n\t"
 		"pushl %edx\n\t"
 		"pushl %eax\n\t"
 		"pushl %ecx\n\t"
 		"pushl %ebx\n\t"
 		"pushl %esi\n\t"
 		"pushl %edi\n\t"
-		"pushl 8(%ebp)\n\t"		// this
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1153::func));
 	__asm__
 	(
-		"addl $4, %esp\n\t"
 		"popl %edi\n\t"
 		"popl %esi\n\t"
 		"popl %ebx\n\t"

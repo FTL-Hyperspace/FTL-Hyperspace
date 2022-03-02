@@ -7122,10 +7122,10 @@ struct Store : FocusWindow
 	LIBZHL_API void Clear();
 	LIBZHL_API void Close();
 	LIBZHL_API void CreateStoreBoxes(int type, Equipment *equip);
-	LIBZHL_API void DrawBuySellTabText();
-	LIBZHL_API bool HasType();
+	LIBZHL_API static void __stdcall DrawBuySellTabText();
+	LIBZHL_API bool HasType(int type);
 	LIBZHL_API void InitHeading(int index, Point pos);
-	LIBZHL_API void KeyDown(SDLKey key);
+	LIBZHL_API bool KeyDown(SDLKey key);
 	LIBZHL_API void LoadStore(int file, int worldLevel);
 	LIBZHL_API void MouseClick(int x, int y);
 	LIBZHL_API void MouseMove(int x, int y);
