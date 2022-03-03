@@ -4022,8 +4022,38 @@ struct CrewDesc
 	int amount;
 };
 
+struct BattleDrone;
+struct CrewMemberFactory;
+struct RepairDrone;
+
 struct CrewMemberFactory
 {
+	void SwapCrewMembers(CrewMember *_first, CrewMember *_second);
+	void MoveCrewMemberToEnd(CrewMember *crew);
+	void MoveCrewMemberBefore(CrewMember *crew, CrewMember *other);
+	void MoveCrewMemberAfter(CrewMember *crew, CrewMember *other);
+	void MoveCrewMemberToSpot(CrewMember *crew, CrewMember *other);
+
+	LIBZHL_API int CountCloneReadyCrew(bool player);
+	LIBZHL_API BattleDrone *CreateBattleDrone(int shipId, const DroneBlueprint *bp);
+	LIBZHL_API BoarderDrone *CreateBoarderDrone(int shipId, const DroneBlueprint *bp);
+	LIBZHL_API CrewMember *CreateCrewMember(CrewBlueprint *bp, int shipId, bool intruder);
+	LIBZHL_API RepairDrone *CreateRepairDrone(int shipId, const DroneBlueprint *bp);
+	LIBZHL_API void GetCloneReadyList(std::vector<CrewMember*> &vec, bool player);
+	LIBZHL_API int GetCrewCount(bool enemy);
+	LIBZHL_API void GetCrewList(std::vector<CrewMember*> *vec, int unk, bool unk2);
+	LIBZHL_API std::vector<std::string> GetCrewNames();
+	LIBZHL_API void GetCrewPortraitList(std::vector<CrewMember*> *vec, int teamId);
+	LIBZHL_API int GetEnemyCloneCount();
+	LIBZHL_API int GetEnemyCrewCount();
+	LIBZHL_API int GetPlayerCrewCount();
+	LIBZHL_API std::pair<std::string, bool> GetRandomFriendlyName(const std::string &race);
+	LIBZHL_API static bool __stdcall IsRace(const std::string &species);
+	LIBZHL_API void OnLoop();
+	LIBZHL_API void RemoveExcessCrew();
+	LIBZHL_API void Restart();
+	LIBZHL_API void destructor();
+	
 	int playerCrew;
 	int enemyCrew;
 	int enemyCloneCount;
@@ -6553,6 +6583,7 @@ extern LIBZHL_API AchievementTracker *Global_AchievementTracker_Tracker;
 extern LIBZHL_API AnimationControl *Global_AnimationControl_Animations;
 extern LIBZHL_API BlueprintManager *Global_BlueprintManager_Blueprints;
 extern LIBZHL_API CFPS *Global_CFPS_FPSControl;
+extern LIBZHL_API CrewMemberFactory *Global_CrewMemberFactory_Factory;
 extern LIBZHL_API EventGenerator *Global_EventGenerator_Generator;
 extern LIBZHL_API EventSystem *Global_EventSystem_EventManager;
 extern LIBZHL_API EventsParser *Global_EventsParser_Parser;
