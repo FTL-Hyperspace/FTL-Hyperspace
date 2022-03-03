@@ -1,5 +1,5 @@
 "5531c057565381ec1c01000083bc243801000002":
-cleanup char ScoreKeeper::GetShipUnlocked(ScoreKeeper *this, int shipId, int shipVariant);
+cleanup bool ScoreKeeper::GetShipUnlocked(ScoreKeeper *this, int shipId, int shipVariant);
 "5383ec188b4424288b5c2420??????????????89442404":
 cleanup std::string ScoreKeeper::GetShipBlueprint(ScoreKeeper *this, int index);
 "5589e557565381ec9c0000008b5d08c744240400000000":
@@ -8,7 +8,7 @@ cleanup void ScoreKeeper::OnInit(ScoreKeeper *this);
 cleanup void ScoreKeeper::Save(ScoreKeeper *this, bool newHighScore);
 "5589e557565381ec0c0200008b5d088b450c":
 cleanup void ScoreKeeper::OnRender(ScoreKeeper *this, bool lastPlaythrough);
-"555756538b5424188b6c24148b4c241c8b5c2420":
+"555789cf5689c65389d383ec3c85d2":
 cleanup void ScoreKeeper::UnlockShip(ScoreKeeper *this, int shipType, int shipVariant, bool save, bool hidePopup);
 "8b5424088b44240484d28890e4000000":
 cleanup void ScoreKeeper::SetVictory(ScoreKeeper *this, bool victory);
@@ -26,7 +26,7 @@ cleanup void ScoreKeeper::MouseClick(ScoreKeeper *this, int x, int y);
 cleanup void ScoreKeeper::SetupTopShip(ScoreKeeper *this, int variant);
 "5557565383ec2c8b6c2440c7442408010000008b85c4080000":
 cleanup void ScoreKeeper::CheckTypes(ScoreKeeper *this);
-"8b5424088b4424048b4c240c837a1000":
+"5589e55789c7565389d381ec9c000000":
 cleanup void ScoreKeeper::AddTopScoreType(ScoreKeeper *this, TopScore& topScore, int type);
 "5557565383ec4c8b5c24688b6c24648b4304":
 cleanup int ScoreKeeper::AddTopScoreList(ScoreKeeper *this, TopScore& score, std::vector<TopScore>& topScoreList);

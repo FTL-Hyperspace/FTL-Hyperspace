@@ -26863,10 +26863,10 @@ namespace _func745
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("ScoreKeeper::GetShipUnlocked", typeid(char (ScoreKeeper::*)(int , int )), "5731c08d7c240883e4f0ff77fc5589e557565381ec????????8b5f048b37", argdata, 3, 1, &func);
+	static FunctionDefinition funcObj("ScoreKeeper::GetShipUnlocked", typeid(bool (ScoreKeeper::*)(int , int )), "5731c08d7c240883e4f0ff77fc5589e557565381ec????????8b5f048b37", argdata, 3, 1, &func);
 }
 
-FUNC_NAKED char ScoreKeeper::GetShipUnlocked(int shipId, int shipVariant)
+FUNC_NAKED bool ScoreKeeper::GetShipUnlocked(int shipId, int shipVariant)
 {
 	__asm__
 	(

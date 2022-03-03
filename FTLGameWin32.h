@@ -6297,7 +6297,7 @@ struct ScoreKeeper
 	LIBZHL_API void CycleRight();
 	LIBZHL_API std::string GetShipBlueprint(int index);
 	LIBZHL_API int GetShipIdType(const std::string &blueprintName);
-	LIBZHL_API char GetShipUnlocked(int shipId, int shipVariant);
+	LIBZHL_API bool GetShipUnlocked(int shipId, int shipVariant);
 	LIBZHL_API bool KeyDown(SDLKey key);
 	LIBZHL_API void LoadVersionFour(int file, int version);
 	LIBZHL_API void MouseClick(int x, int y);

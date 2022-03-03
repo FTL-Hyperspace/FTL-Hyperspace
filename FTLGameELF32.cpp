@@ -28187,10 +28187,10 @@ namespace _func748
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("ScoreKeeper::GetShipUnlocked", typeid(char (ScoreKeeper::*)(int , int )), "5531c057565381ec1c01000083bc243801000002", argdata, 3, 2, &func);
+	static FunctionDefinition funcObj("ScoreKeeper::GetShipUnlocked", typeid(bool (ScoreKeeper::*)(int , int )), "5531c057565381ec1c01000083bc243801000002", argdata, 3, 2, &func);
 }
 
-FUNC_NAKED char ScoreKeeper::GetShipUnlocked(int shipId, int shipVariant)
+FUNC_NAKED bool ScoreKeeper::GetShipUnlocked(int shipId, int shipVariant)
 {
 	__asm__
 	(
@@ -28379,7 +28379,7 @@ namespace _func753
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff, 0x1ff, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("ScoreKeeper::UnlockShip", typeid(void (ScoreKeeper::*)(int , int , bool , bool )), "555756538b5424188b6c24148b4c241c8b5c2420", argdata, 5, 6, &func);
+	static FunctionDefinition funcObj("ScoreKeeper::UnlockShip", typeid(void (ScoreKeeper::*)(int , int , bool , bool )), "555789cf5689c65389d383ec3c85d2", argdata, 5, 6, &func);
 }
 
 FUNC_NAKED void ScoreKeeper::UnlockShip(int shipType, int shipVariant, bool save, bool hidePopup)
@@ -28732,7 +28732,7 @@ namespace _func762
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("ScoreKeeper::AddTopScoreType", typeid(void (ScoreKeeper::*)(TopScore &, int )), "8b5424088b4424048b4c240c837a1000", argdata, 3, 6, &func);
+	static FunctionDefinition funcObj("ScoreKeeper::AddTopScoreType", typeid(void (ScoreKeeper::*)(TopScore &, int )), "5589e55789c7565389d381ec9c000000", argdata, 3, 6, &func);
 }
 
 FUNC_NAKED void ScoreKeeper::AddTopScoreType(TopScore &topScore, int type)

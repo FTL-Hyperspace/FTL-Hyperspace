@@ -5607,6 +5607,8 @@ struct Room : Selectable
 	Animation roomTapped;
 };
 
+struct ScoreKeeper;
+
 struct StatTracker
 {
 	int max;
@@ -5639,6 +5641,49 @@ struct TopScore
 
 struct ScoreKeeper
 {
+	std::pair<int, int> GetShipId(const std::string& blueprintName)
+	{
+		// TODO: Maybe this should be a hook?
+		int variant = 0;
+		
+		if (blueprintName.find("_2") != std::string::npos)
+		{
+			variant = 1;
+		}
+		if (blueprintName.find("_3") != std::string::npos)
+		{
+			variant = 2;
+		}
+		
+		std::pair<int, int> typePair = GetShipId_DO_NOT_USE_DIRECTLY(blueprintName);
+		
+		return std::pair<int, int>(typePair.first, variant);
+	}
+
+	LIBZHL_API void AddScrapCollected(int scrap);
+	LIBZHL_API int AddTopScoreList(TopScore &score, std::vector<TopScore> &topScoreList);
+	LIBZHL_API void AddTopScoreType(TopScore &topScore, int type);
+	LIBZHL_API void CheckTypes();
+	LIBZHL_API void CycleLeft();
+	LIBZHL_API void CycleRight();
+	LIBZHL_API std::string GetShipBlueprint(int index);
+	LIBZHL_API std::pair<int, int> GetShipId_DO_NOT_USE_DIRECTLY(const std::string &blueprintName);
+	LIBZHL_API bool GetShipUnlocked(int shipId, int shipVariant);
+	LIBZHL_API bool KeyDown(SDLKey key);
+	LIBZHL_API void LoadVersionFour(int file, int version);
+	LIBZHL_API void MouseClick(int x, int y);
+	LIBZHL_API void OnInit();
+	LIBZHL_API void OnRender(bool lastPlaythrough);
+	LIBZHL_API void Open(bool fromGameOver);
+	LIBZHL_API void RenderTopScores(const std::vector<TopScore> &topScoreList, Point position, int newHighScore);
+	LIBZHL_API void Save(bool newHighScore);
+	LIBZHL_API void SaveScores(int file, std::vector<TopScore> &topScores);
+	LIBZHL_API void SetVictory(bool victory);
+	LIBZHL_API void SetupTopShip(int variant);
+	LIBZHL_API void UnlockShip(int shipType, int shipVariant, bool save, bool hidePopup);
+	LIBZHL_API void WipeProfile(bool permanent);
+	LIBZHL_API void constructor();
+	
 	StatTracker stats[4];
 	CrewStatTracker crewStats[5];
 	int gamesPlayed;
@@ -6594,6 +6639,7 @@ extern LIBZHL_API void **VTable_LaserBlast;
 extern LIBZHL_API void **VTable_Targetable_LaserBlast;
 extern LIBZHL_API MouseControl *Global_MouseControl_Mouse;
 extern LIBZHL_API ResourceControl *Global_ResourceControl_GlobalResources;
+extern LIBZHL_API ScoreKeeper *Global_ScoreKeeper_Keeper;
 extern LIBZHL_API SettingValues *Global_Settings_Settings;
 extern LIBZHL_API GL_Color *Global_COLOR_GREEN;
 extern LIBZHL_API ShipInfo **Global_ShipObject_ShipInfoList;
