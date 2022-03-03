@@ -1723,7 +1723,7 @@ bool CrewMember_Extend::TransformRace(const std::string& species)
 
         if (g_transformColorMode == TransformColorMode::KEEP_INDICES)
         {
-            originalRace = newBlueprint.name;
+            originalColorRace = newBlueprint.name;
 
             TransformColors(orig->blueprint, &newBlueprint);
 
@@ -1886,7 +1886,7 @@ HOOK_METHOD_PRIORITY(CrewMember, constructor, -899, (CrewBlueprint& bp, int ship
     super(bp, shipId, enemy, animation);
 
     CrewMember_Extend* ex = CM_EX(this);
-    if (ex->originalRace.empty()) ex->originalRace = species;
+    if (ex->originalColorRace.empty()) ex->originalColorRace = species;
     ex->Initialize(bp, shipId, enemy, animation);
 }
 
@@ -2557,7 +2557,7 @@ HOOK_METHOD(CrewMember, SaveState, (int file) -> void)
     FileHelper::writeInt(file, ex->temporaryPowerActive);
     FileHelper::writeInt(file, ex->powerDefIdx);
     FileHelper::writeString(file, ex->transformRace);
-    FileHelper::writeString(file, ex->originalRace);
+    FileHelper::writeString(file, ex->originalColorRace);
 
     // Timed augment stat boosts
     std::vector<StatBoost*> timedStatBoostsSerial;
@@ -2637,7 +2637,7 @@ HOOK_METHOD(CrewMember, LoadState, (int file) -> void)
     ex->temporaryPowerActive = FileHelper::readInteger(file);
     ex->powerDefIdx = FileHelper::readInteger(file);
     ex->transformRace = FileHelper::readString(file);
-    ex->originalRace = FileHelper::readString(file);
+    ex->originalColorRace = FileHelper::readString(file);
 
     // Timed augment stat boosts
     int timedStatBoostsSize = FileHelper::readInteger(file);
@@ -2666,10 +2666,10 @@ HOOK_METHOD(CrewMember, LoadState, (int file) -> void)
     }
 
     // Transformed color choices
-    if (species != ex->originalRace)
+    if (species != ex->originalColorRace)
     {
         auto bpM = G_->GetBlueprints();
-        auto it = bpM->crewBlueprints.find(ex->originalRace);
+        auto it = bpM->crewBlueprints.find(ex->originalColorRace);
         if (it != bpM->crewBlueprints.end())
         {
             blueprint.colorLayers = it->second.colorLayers;
