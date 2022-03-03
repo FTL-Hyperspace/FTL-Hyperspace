@@ -31992,10 +31992,10 @@ namespace _func854
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("ShipGraph::IsRoomConnected", typeid(int (ShipGraph::*)(int , int )), "5557bf01000000565383ec2c8b5c24443b5c24488b742440", argdata, 3, 2, &func);
+	static FunctionDefinition funcObj("ShipGraph::IsRoomConnected", typeid(bool (ShipGraph::*)(int , int )), "5557bf01000000565383ec2c8b5c24443b5c24488b742440", argdata, 3, 2, &func);
 }
 
-FUNC_NAKED int ShipGraph::IsRoomConnected(int room1, int room2)
+FUNC_NAKED bool ShipGraph::IsRoomConnected(int room1, int room2)
 {
 	__asm__
 	(
@@ -32497,16 +32497,18 @@ namespace _func867
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff};
-	static FunctionDefinition funcObj("ShipGraph::ComputeCenter", typeid(int (ShipGraph::*)()), "5589e557565383ec3c8b7d088b4508", argdata, 1, 2, &func);
+	static FunctionDefinition funcObj("ShipGraph::ComputeCenter", typeid(void (ShipGraph::*)()), "5589e557565383ec3c8b7d088b4508", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED int ShipGraph::ComputeCenter()
+FUNC_NAKED void ShipGraph::ComputeCenter()
 {
 	__asm__
 	(
 		"pushl %ebp\n\t"
 		"movl %esp, %ebp\n\t"
+		"subl $12, %esp\n\t"
 		"pushl %edx\n\t"
+		"pushl %eax\n\t"
 		"pushl %ecx\n\t"
 		"pushl %ebx\n\t"
 		"pushl %esi\n\t"
@@ -32521,6 +32523,7 @@ FUNC_NAKED int ShipGraph::ComputeCenter()
 		"popl %esi\n\t"
 		"popl %ebx\n\t"
 		"popl %ecx\n\t"
+		"popl %eax\n\t"
 		"popl %edx\n\t"
 		"movl %ebp, %esp\n\t"
 		"popl %ebp\n\t"

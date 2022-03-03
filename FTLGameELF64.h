@@ -4190,9 +4190,28 @@ struct Selectable
 };
 
 struct Room;
+struct ShipGraph;
 
 struct ShipGraph
 {
+	LIBZHL_API void ComputeCenter();
+	LIBZHL_API int ConnectedGridSquares(int x1, int y1, int x2, int y2);
+	LIBZHL_API int ConnectedGridSquaresPoint(Point p1, Point p2);
+	LIBZHL_API Door *ConnectingDoor(Point p1, Point p2);
+	LIBZHL_API Door *ConnectingDoor(int x1, int y1, int x2, int y2);
+	LIBZHL_API bool ContainsPoint(int x, int y);
+	LIBZHL_API float ConvertToLocalAngle(float ang);
+	LIBZHL_API Pointf ConvertToLocalPosition(Pointf world, bool past);
+	LIBZHL_API float ConvertToWorldAngle(float ang);
+	LIBZHL_API Pointf ConvertToWorldPosition(Pointf local);
+	LIBZHL_API int DoorCount(int roomId);
+	LIBZHL_API int GetNumSlots(int room);
+	LIBZHL_API Globals::Rect GetRoomShape(int room);
+	LIBZHL_API int GetSelectedRoom(int x, int y, bool unk);
+	LIBZHL_API Point GetSlotRenderPosition(int slotId, int roomId, bool intruder);
+	LIBZHL_API int PopClosestDoor(std::vector<int> &doors, std::vector<float> &distances);
+	LIBZHL_API int RoomCount();
+	
 	std::vector<Room*> rooms;
 	std::vector<Door*> doors;
 	std::vector<int> doorCounts;

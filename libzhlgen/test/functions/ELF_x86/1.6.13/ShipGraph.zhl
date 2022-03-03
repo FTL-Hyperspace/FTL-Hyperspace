@@ -7,7 +7,7 @@ cleanup int ShipGraph::DoorCount(ShipGraph *this, int roomId);
 "5557565331db83ec1c8b7424308b7c2434c70600000000":
 cleanup std::vector<Door*> ShipGraph::GetDoors(ShipGraph *this, int roomId);
 "5557bf01000000565383ec2c8b5c24443b5c24488b742440":
-cleanup int ShipGraph::IsRoomConnected(ShipGraph *this, int room1, int room2);
+cleanup bool ShipGraph::IsRoomConnected(ShipGraph *this, int room1, int room2);
 "5589e557565383ec6c8b45108d5dd8":
 cleanup Door* ShipGraph::ConnectingDoor(ShipGraph *this, int x1, int y1, int x2, int y2);
 "5531ed57565383ec7c6b84249800000023":
@@ -33,7 +33,7 @@ cleanup Pointf ShipGraph::ConvertToWorldPosition(ShipGraph *this, Pointf local);
 "5589e5565383ec208b450c807d1800":
 cleanup Pointf ShipGraph::ConvertToLocalPosition(ShipGraph *this, Pointf world, bool past);
 "5589e557565383ec3c8b7d088b4508":
-cleanup int ShipGraph::ComputeCenter(ShipGraph *this);
+cleanup void ShipGraph::ComputeCenter(ShipGraph *this);
 "538b54240831c08b4c240c8b5a44":
 cleanup bool ShipGraph::ContainsPoint(ShipGraph *this, int x, int y);
 "555731ff565383ec1c8b7424300fb65c243c":
