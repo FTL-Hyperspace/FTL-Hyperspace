@@ -1120,7 +1120,7 @@ struct LIBZHL_INTERFACE EquipmentBox
 		return !item.pWeapon && !item.pDrone && (!item.augment || item.augment->name.empty()) && !item.pCrew;
 	}
 
-	LIBZHL_API virtual ~EquipmentBox();
+	virtual ~EquipmentBox() {}
 	LIBZHL_API virtual void SetPosition(Point pos);
 	LIBZHL_API virtual void OnRender(bool isEmpty);
 	LIBZHL_API virtual void RenderLabels(bool unk);
@@ -1145,6 +1145,7 @@ struct LIBZHL_INTERFACE EquipmentBox
 	LIBZHL_API virtual int GetType();
 	LIBZHL_API void SetBlueprint(InfoBox *infoBox, bool detailedBox);
 	LIBZHL_API void constructor(Point pos, int slot);
+	LIBZHL_API virtual void destructor();
 	
 	GL_Primitive *blocked_overlay;
 	GL_Color overlayColor;

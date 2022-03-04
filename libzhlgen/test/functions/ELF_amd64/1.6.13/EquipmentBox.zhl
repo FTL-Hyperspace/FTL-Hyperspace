@@ -15,7 +15,7 @@ virtual cleanup int EquipmentBox::GetType(EquipmentBox *this<rdi>);
 "!.41545589f54189ec534889fb4883ec30":
 virtual cleanup void EquipmentBox::OnRender(EquipmentBox *this<rdi>, bool isEmpty<rsi>);
 ".534889fb4883ec1048c707????????488b7f28e8????????488b7b30e8????????488b7b38e8????????488b7b40e8????????488b7b08e8????????488b4320488d78e84881ff????????750e":
-virtual cleanup void EquipmentBox::Free(EquipmentBox *this<rdi>);
+virtual cleanup void EquipmentBox::destructor(EquipmentBox *this<rdi>);
 ".41545589f5":
 virtual cleanup void EquipmentBox::UpdateBoxImage(EquipmentBox *this<rdi>, bool unk<rsi>);
 ".5589f5":

@@ -19439,10 +19439,10 @@ namespace _func534
 {
 	static void *func = 0;
 	static short argdata[] = {0x101};
-	static FunctionDefinition funcObj("EquipmentBox::Free", typeid(void (EquipmentBox::*)()), "5589e55389cb83e4f083ec108b4130c701????????890424e8????????8b4334890424", argdata, 1, 5, &func);
+	static FunctionDefinition funcObj("EquipmentBox::destructor", typeid(void (EquipmentBox::*)()), "5589e55389cb83e4f083ec108b4130c701????????890424e8????????8b4334890424", argdata, 1, 5, &func);
 }
 
-FUNC_NAKED EquipmentBox::~EquipmentBox()
+FUNC_NAKED void EquipmentBox::destructor()
 {
 	__asm__
 	(

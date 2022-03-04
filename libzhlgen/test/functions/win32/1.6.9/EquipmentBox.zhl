@@ -7,7 +7,7 @@ void EquipmentBox::SetBlueprint(EquipmentBox *this<ecx>, InfoBox *infoBox, bool 
 
 
 "5589e55389cb83e4f083ec108b4130c701????????890424e8????????8b4334890424":
-virtual void EquipmentBox::Free(EquipmentBox *this<ecx>);
+virtual void EquipmentBox::destructor(EquipmentBox *this<ecx>);
 ".8b416085c074??85c00f95c0":
 virtual bool EquipmentBox::CanHoldWeapon(EquipmentBox *this<ecx>);
 ".8b416085c08b416474??85c0":
