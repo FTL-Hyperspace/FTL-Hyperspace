@@ -448,6 +448,7 @@ HOOK_METHOD(WeaponAnimation, StartFire, () -> bool)
         int chargeLength = (anim.info.numFrames - iChargedFrame) / iChargeLevels;
         anim.SetCurrentFrame(iChargedFrame + chargeLength * boostLevel);
     }
+    return ret;
 }
 
 HOOK_METHOD(ProjectileFactory, constructor, (const WeaponBlueprint* bp, int shipId) -> void)
