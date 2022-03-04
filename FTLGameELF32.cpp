@@ -28378,7 +28378,7 @@ FUNC_NAKED void ScoreKeeper::OnRender(bool lastPlaythrough)
 namespace _func753
 {
 	static void *func = 0;
-	static short argdata[] = {0x1ff, 0x1ff, 0x1ff, 0x1ff, 0x1ff};
+	static short argdata[] = {0x100, 0x102, 0x101, 0x1ff, 0x1ff};
 	static FunctionDefinition funcObj("ScoreKeeper::UnlockShip", typeid(void (ScoreKeeper::*)(int , int , bool , bool )), "555789cf5689c65389d383ec3c85d2", argdata, 5, 6, &func);
 }
 
@@ -28388,7 +28388,7 @@ FUNC_NAKED void ScoreKeeper::UnlockShip(int shipType, int shipVariant, bool save
 	(
 		"pushl %ebp\n\t"
 		"movl %esp, %ebp\n\t"
-		"subl $12, %esp\n\t"
+		"subl $8, %esp\n\t"
 		"pushl %edx\n\t"
 		"pushl %eax\n\t"
 		"pushl %ecx\n\t"
@@ -28397,14 +28397,14 @@ FUNC_NAKED void ScoreKeeper::UnlockShip(int shipType, int shipVariant, bool save
 		"pushl %edi\n\t"
 		"pushl 24(%ebp)\n\t"		// hidePopup
 		"pushl 20(%ebp)\n\t"		// save
-		"pushl 16(%ebp)\n\t"		// shipVariant
-		"pushl 12(%ebp)\n\t"		// shipType
-		"pushl 8(%ebp)\n\t"		// this
+		"movl 8(%ebp), %eax\n\t"	// this
+		"movl 12(%ebp), %edx\n\t"	// shipType
+		"movl 16(%ebp), %ecx\n\t"	// shipVariant
 	);
 	__asm__("call *%0\n\t" :: "m"(_func753::func));
 	__asm__
 	(
-		"addl $20, %esp\n\t"
+		"addl $8, %esp\n\t"
 		"popl %edi\n\t"
 		"popl %esi\n\t"
 		"popl %ebx\n\t"
