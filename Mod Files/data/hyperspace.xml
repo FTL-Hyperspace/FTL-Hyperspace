@@ -1736,6 +1736,24 @@ Syntax ->
 		</timerAction>                                                                            No limit on how many timer actions you can include.
 	</backgroundObject>
 	
+	<eventButton name="BUTTON_NAME">
+		<event load="EVENT_NAME"/>                                                              Name of an event to queue when clicked. Either load an event or define an event.
+		<image border="12">img_path</image>                                                     Path to button asset without extension. For text buttons this is the background.
+		<text id="_id_" border="3">_text_</text>                                                For a text button, text or text id. Omit for an image-only button.
+		<location>0</location>                                                                  Location ID: 0 = below upgrades, 1/2/3/4 = right of FTL/upgrades/store/options button
+		<tooltip id="_id_">_text_</text>                                                        Hover tooltip when active.
+		<inactiveTooltip id="_id_">_text_</text>                                                Hover tooltip when inactive.
+		<color r="235" g="245" b="229"/>                                                        Color for text button when active.
+		<activeColor r="235" g="245" b="229"/>                                                  Color for text button when active.
+		<inactiveColor r="164" g="171" b="160"/>                                                Color for text button when inactive.
+		<selectedColor r="255" g="230" b="94"/>                                                 Color for text button when selected.
+		<textColor r="25" g="49" b="51"/>                                                       Color for text inside text button.
+		<jumpClear>false</jumpClear>                                                            Remove this button when the player leaves the current location.
+		<once>false</once>                                                                      Remove this button after the player clicks on it.
+		<noDanger>false</noDanger>                                                              Deactivate this button when the player is in danger (same as upgrade button).
+		<hideInactive>false</hideInactive>                                                      Hide this button when inactive (similar to store button).
+	</eventButton>
+	
 	<event name="CUSTOM_EVENT" recursive="true">                                                If recursive is true (default), then the same tags apply to all unnamed child events. Otherwise, it only applies to the
 	                                                                                              top-level event.
 		<beaconType load="BEACON_NAME" ...>                                                     Specifies custom beacon label type for this event. If the load attribute is specified, then loads the beacon label specified
@@ -1747,6 +1765,10 @@ Syntax ->
 		</backgroundObject>
 		<clearBackgroundObject name="OBJECT_NAME"/>                                             Clears all objects of a given definition name. If no name specified, clears everything. Repeatable.
 		<transformBackgroundObject name="OBJECT_NAME">NEW_NAME</transformBackgroundObject>      Transforms all background objects from the definition OBJECT_NAME to the definition NEW_NAME. Repeatable.
+		<eventButton load="BUTTON_NAME" ...>                                                    Same syntax as <backgroundObject> above, except name is optional. Repeatable.
+			...                                                                                   Alternatively, use the load attribute to load a previously named event button.
+		</eventButton>
+		<clearEventButton name="BUTTON_NAME"/>                                                  Clears all event buttons of a given definition name. If no name specified, clears everything. Repeatable.
 		<playSound>sound_id</playSound>                                                         Plays a sound.
 		<playMusic>music_id</playMusic>                                                         Plays a music track. Leave blank to reset and play the current sector's playlist.
 		<removeHazards/>                                                                        Removes all hazards (asteroids, pulsar, ASB, sun, and plasma storm). Nebula status is preserved.

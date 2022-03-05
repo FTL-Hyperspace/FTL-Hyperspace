@@ -2945,6 +2945,10 @@ struct ConfirmWindow;
 struct TextButton : GenericButton
 {
 public:
+	TextButton()
+	{
+		this->constructor();
+	}
 	Point GetSize()
 	{
 		__int64 ret = GetSize_DO_NOT_USE_DIRECTLY();
@@ -2964,6 +2968,7 @@ public:
 	LIBZHL_API void SetInactiveColor(GL_Color color);
 	LIBZHL_API void SetSelectedColor(GL_Color color);
 	LIBZHL_API void SetTextColor(GL_Color color);
+	LIBZHL_API void UpdateAutoWidth();
 	LIBZHL_API static void __stdcall __DO_NOT_HOOK();
 	LIBZHL_API void constructor();
 	LIBZHL_API void destructor();
@@ -4015,6 +4020,7 @@ struct TextButton0 : GenericButton
 
 struct FTLButton : TextButton0
 {
+	LIBZHL_API void MouseMove(int mX, int mY, bool silent);
 	LIBZHL_API void OnRender();
 	
 	bool autoShrinkText;
@@ -4130,6 +4136,7 @@ struct WarningWithLines;
 struct ShipStatus
 {
 	LIBZHL_API void OnInit(Point unk, float unk2);
+	LIBZHL_API void OnLoop();
 	LIBZHL_API void OnRender();
 	LIBZHL_API void RenderEvadeOxygen(bool unk);
 	LIBZHL_API void RenderHealth(bool unk);

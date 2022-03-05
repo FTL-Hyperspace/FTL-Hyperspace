@@ -20,6 +20,8 @@ void TextButton::OnInitRect(TextButton *this<ecx>, Globals::Rect& rect, int corn
 void TextButton::SetBaseImage(TextButton *this<ecx>, const std::string& name, Point pos, int autoWidthMin);
 "8b5424048b4424108891b40000008b54240885c08891c00000008b54240c8991b80000007e??8981bc000000":
 void TextButton::SetAutoWidth(TextButton *this<ecx>, bool autoWidth, bool autoRightAlign, int margin, int min);
+".80b9b400000000":
+void TextButton::UpdateAutoWidth(TextButton *this<ecx>);
 "5589e557565389cb83e4f083ec10807964000f85????????f30f1005????????c6416401f30f100d????????c781840000000000803ff30f1015????????f30f5ec8c781940000000000803f":
 void TextButton::SetInactiveColor(TextButton *this<ecx>, GL_Color color);
 ".5589e557565389cb83e4f083ec10807964000f85????????f30f1005????????c6416401f30f100d????????c741740000803ff30f1015????????":
@@ -34,6 +36,10 @@ void TextButton::InitPrimitives(TextButton *this<ecx>);
 struct TextButton
 {{
 public:
+	TextButton()
+	{
+		this->constructor();
+	}
 	Point GetSize()
 	{
 		__int64 ret = GetSize_DO_NOT_USE_DIRECTLY();

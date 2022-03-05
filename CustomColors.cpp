@@ -38,11 +38,11 @@ void SetColorPointerValues(rapidxml::xml_node<char>* node, int index, bool divid
     {
         MEMPROT_SAVE_PROT(dwOldProtect);
         MEMPROT_PAGESIZE();
-        
+
         MEMPROT_UNPROTECT(i, sizeof(GL_Color), dwOldProtect);
 
         *i = color;
-        
+
         MEMPROT_REPROTECT(i, sizeof(GL_Color), dwOldProtect);
     }
 }
@@ -307,9 +307,9 @@ HOOK_METHOD(TextButton, OnRender, () -> void)
     super();
 }
 
-HOOK_METHOD(FTLButton, OnRender, () -> void)
+HOOK_METHOD_PRIORITY(FTLButton, OnRender, 5000, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> FTLButton::OnRender -> Begin (CustomColors.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> FTLButton::OnRender -> Begin (CustomColors.cpp)\n")
     g_isFTLButton = true;
     g_ftlNoFuel = bOutOfFuel;
     g_ftlButtonDown = !ship->SystemFunctions(SYS_PILOT) || ship->IsSystemHacked(SYS_PILOT) > 1 || !ship->SystemFunctions(SYS_ENGINES) || ship->IsSystemHacked(SYS_ENGINES) > 1;

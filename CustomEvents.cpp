@@ -11,6 +11,7 @@
 #include "CustomAchievements.h"
 #include "CustomScoreKeeper.h"
 #include "CustomBackgroundObject.h"
+#include "EventButtons.h"
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
 
@@ -116,6 +117,14 @@ void CustomEventsParser::EarlyParseCustomEventNode(rapidxml::xml_node<char> *nod
             if (eventNode->first_attribute("name"))
             {
                 CustomBackgroundObjectManager::instance->ParseCustomBackgroundObject(eventNode);
+            }
+        }
+
+        if (strcmp(eventNode->name(), "eventButton") == 0)
+        {
+            if (eventNode->first_attribute("name"))
+            {
+                EventButtonManager::instance->ParseEventButton(eventNode);
             }
         }
     }
@@ -1124,6 +1133,23 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
         {
             isDefault = false;
             customEvent->transformBackgroundObjects.push_back(std::make_pair<std::string,std::string>(child->first_attribute("name")->value(), child->value()));
+        }
+        if (nodeName == "eventButton")
+        {
+            isDefault = false;
+            customEvent->eventButtons.push_back(EventButtonManager::instance->ParseEventButton(child));
+        }
+        if (nodeName == "clearEventButton")
+        {
+            isDefault = false;
+            if (child->first_attribute("name"))
+            {
+                customEvent->clearEventButtons.push_back(child->first_attribute("name")->value());
+            }
+            else
+            {
+                customEvent->clearEventButtons.push_back("");
+            }
         }
         if (nodeName == "unlockCustomShip" || (!parsingVanilla && nodeName == "unlockShip"))
         {
@@ -3288,6 +3314,23 @@ void CustomCreateLocation(WorldManager* world, LocationEvent* event, CustomEvent
         }
     }
 
+    if (!customEvent->clearEventButtons.empty())
+    {
+        for (std::string &def : customEvent->clearEventButtons)
+        {
+            EventButtonManager::instance->ClearButtons(def);
+        }
+    }
+
+    if (!customEvent->eventButtons.empty())
+    {
+        for (EventButtonDefinition *def : customEvent->eventButtons)
+        {
+            EventButtonManager::instance->CreateButton(def);
+        }
+        EventButtonManager::instance->Sort();
+    }
+
     if (customEvent->recallBoarders) {
         RecallBoarders(customEvent->recallBoardersShip);
     }
@@ -4439,6 +4482,7 @@ HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEve
             if (crew != nullptr)
             {
                 auto ex = CM_EX(crew);
+                ex->originalRace = newSpecies;
                 ex->TransformRace(newSpecies);
             }
         }
@@ -4555,6 +4599,9 @@ HOOK_METHOD(StarMap, NewGame, (bool unk) -> Location*)
     // backgroundObjects;
     CustomBackgroundObjectManager::instance->backgroundObjects.clear();
 
+    // eventButtons
+    EventButtonManager::instance->buttons.clear();
+
     // playerVariables
     playerVariables.clear();
 
@@ -4634,6 +4681,9 @@ HOOK_METHOD(StarMap, LoadGame, (int fh) -> Location*)
             vec.back().Load(fh);
         }
     }
+
+    // eventButtons
+    EventButtonManager::instance->Load(fh);
 
     // playerVariables
     playerVariables.clear();
@@ -4719,6 +4769,9 @@ HOOK_METHOD(StarMap, SaveGame, (int file) -> void)
             j.Save(file);
         }
     }
+
+    // eventButtons
+    EventButtonManager::instance->Save(file);
 
     // playerVariables
     FileHelper::writeInt(file, playerVariables.size());

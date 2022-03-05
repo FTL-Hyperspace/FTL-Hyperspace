@@ -2,6 +2,7 @@
 #include "Global.h"
 #include "ToggleValue.h"
 #include "CustomBackgroundObject.h"
+#include "EventButtons.h"
 #include <algorithm>
 #include <memory>
 #include <unordered_set>
@@ -621,6 +622,9 @@ struct CustomEvent
     std::vector<CustomBackgroundObjectDefinition*> backgroundObjects;
     std::vector<std::string> clearBackgroundObjects;
     std::vector<std::pair<std::string,std::string>> transformBackgroundObjects;
+
+    std::vector<EventButtonDefinition*> eventButtons;
+    std::vector<std::string> clearEventButtons;
 
     std::vector<std::string> hiddenAugs = std::vector<std::string>();
     std::vector<std::string> removeItems = std::vector<std::string>();

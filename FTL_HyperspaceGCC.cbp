@@ -530,6 +530,12 @@
 		<Unit filename="ErosionEffect.cpp">
 			<Option virtualFolder="Core/Weapons/" />
 		</Unit>
+		<Unit filename="EventButtons.cpp">
+			<Option virtualFolder="Core/Events/" />
+		</Unit>
+		<Unit filename="EventButtons.h">
+			<Option virtualFolder="Core/Events/" />
+		</Unit>
 		<Unit filename="EventTooltip.cpp">
 			<Option virtualFolder="Core/Events/" />
 		</Unit>

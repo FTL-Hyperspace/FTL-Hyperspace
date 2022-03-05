@@ -109,6 +109,11 @@ void Global::PreInitializeResources(ResourceControl *resources)
                 }
             }
 
+            if (strcmp(node->name(), "colors") == 0)
+            {
+                ParseCustomColorsNode(node);
+            }
+
             if (strcmp(node->name(), "ships") == 0)
             {
                 auto customShipManager = CustomShipSelect::GetInstance();
@@ -479,10 +484,6 @@ void Global::InitializeResources(ResourceControl *resources)
                 {
                     SeedInputBox::seedsEnabled = EventsParser::ParseBoolean(node->first_attribute("enabled")->value());
                 }
-            }
-            if (strcmp(node->name(), "colors") == 0)
-            {
-                ParseCustomColorsNode(node);
             }
             if (strcmp(node->name(), "customSystems") == 0)
             {
