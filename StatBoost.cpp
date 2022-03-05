@@ -60,6 +60,14 @@ StatBoostDefinition* StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<cha
             {
                 def->value = EventsParser::ParseBoolean(val);
             }
+            if (name == "race" && def->stat == CrewStat::TRANSFORM_RACE)
+            {
+                def->stringValue = val;
+            }
+            if (name == "permanent" && def->stat == CrewStat::TRANSFORM_RACE)
+            {
+                def->value = EventsParser::ParseBoolean(val);
+            }
             if (name == "duration")
             {
                 def->duration = boost::lexical_cast<float>(val);
@@ -1115,6 +1123,10 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
             powerChange = def->powerDefIdx;
             isEffect = true;
             break;
+        case CrewStat::TRANSFORM_RACE:
+            transformRace = originalRace;
+            isEffect = true;
+            break;
     }
 
     std::sort(personalStatBoosts.begin(), personalStatBoosts.end(),
@@ -1331,6 +1343,32 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
                         else if (statBoost.def->boostType == StatBoostDefinition::BoostType::SET_VALUE)
                         {
 
+                        }
+                    }
+                    else if (stat == CrewStat::TRANSFORM_RACE)
+                    {
+                        if (sysPowerScaling)
+                        {
+                            if (statBoost.def->boostType == StatBoostDefinition::BoostType::MULT)
+                            {
+
+                            }
+                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::FLAT)
+                            {
+
+                            }
+                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::SET)
+                            {
+                                transformRace = statBoost.def->stringValue;
+                                if (statBoost.def->value)
+                                {
+                                    originalRace = transformRace;
+                                }
+                            }
+                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::SET_VALUE)
+                            {
+
+                            }
                         }
                     }
                 }

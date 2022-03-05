@@ -47,9 +47,6 @@ enum class CrewStat : unsigned int
     DETECTS_LIFEFORMS,
     CLONE_LOSE_SKILLS,
     POWER_DRAIN_FRIENDLY,
-    STAT_BOOST,
-    DEATH_EFFECT,
-    POWER_EFFECT,
     ACTIVATE_WHEN_READY,
     DEFAULT_SKILL_LEVEL,
     POWER_RECHARGE_MULTIPLIER,
@@ -57,7 +54,12 @@ enum class CrewStat : unsigned int
     POWER_CHARGES_PER_JUMP,
     HACK_DOORS,
     NO_CLONE,
-    NO_SLOT
+    NO_SLOT,
+    // non-cached stats
+    STAT_BOOST,
+    DEATH_EFFECT,
+    POWER_EFFECT,
+    TRANSFORM_RACE
 };
 
 static const std::array<std::string, numStats> crewStats =
@@ -100,9 +102,6 @@ static const std::array<std::string, numStats> crewStats =
     "detectsLifeforms",
     "cloneLoseSkills",
     "powerDrainFriendly",
-    "statBoost",
-    "deathEffect",
-    "powerEffect",
     "activateWhenReady",
     "defaultSkillLevel",
     "powerRechargeMultiplier",
@@ -110,7 +109,12 @@ static const std::array<std::string, numStats> crewStats =
     "chargesPerJump",
     "hackDoors",
     "noClone",
-    "noSlot"
+    "noSlot",
+    // non-cached stats
+    "statBoost",
+    "deathEffect",
+    "powerEffect",
+    "transformRace"
 };
 
 struct StatBoostDefinition
@@ -185,6 +189,7 @@ struct StatBoostDefinition
     CrewStat stat;
     float amount;
     bool value;
+    std::string stringValue = "";
     bool isBool = false;
     int priority = -1;
     float duration = -1;

@@ -1644,6 +1644,7 @@ void CrewMember_Extend::ActivatePower()
 
     if (!powerDef->transformRace.empty())
     {
+        originalRace = powerDef->transformRace;
         TransformRace(powerDef->transformRace);
     }
 
@@ -1872,6 +1873,7 @@ HOOK_METHOD_PRIORITY(CrewMember, constructor, -899, (CrewBlueprint& bp, int ship
 
     CrewMember_Extend* ex = CM_EX(this);
     if (ex->originalColorRace.empty()) ex->originalColorRace = species;
+    if (ex->originalRace.empty()) ex->originalRace = species;
     ex->Initialize(bp, shipId, enemy, animation);
 }
 
@@ -2330,6 +2332,7 @@ HOOK_METHOD_PRIORITY(CrewMember, DirectModifyHealth, 1000, (float healthMod) -> 
                         std::string deathSound = crewAnim->GetDeathSound();
                         G_->GetSoundControl()->PlaySoundMix(deathSound, -1.f, false);
                     }
+                    ex->originalRace = explosionDef->transformRace;
                     ex->TransformRace(explosionDef->transformRace);
                     StatBoostManager::GetInstance()->statCacheFrame++; // resets stat cache for the death transform
                     auto newDef = custom->GetDefinition(explosionDef->transformRace); // use the new race for subsequent stat checks
@@ -2587,6 +2590,7 @@ HOOK_METHOD(CrewMember, SaveState, (int file) -> void)
     FileHelper::writeInt(file, ex->temporaryPowerActive);
     FileHelper::writeInt(file, ex->powerDefIdx);
     FileHelper::writeString(file, ex->originalColorRace);
+    FileHelper::writeString(file, ex->originalRace);
 
     // Timed augment stat boosts
     std::vector<StatBoost*> timedStatBoostsSerial;
@@ -2666,6 +2670,7 @@ HOOK_METHOD(CrewMember, LoadState, (int file) -> void)
     ex->temporaryPowerActive = FileHelper::readInteger(file);
     ex->powerDefIdx = FileHelper::readInteger(file);
     ex->originalColorRace = FileHelper::readString(file);
+    ex->originalRace = FileHelper::readString(file);
 
     // Timed augment stat boosts
     int timedStatBoostsSize = FileHelper::readInteger(file);
@@ -3443,6 +3448,7 @@ HOOK_METHOD(ShipManager, OnLoop, () -> void)
                         std::string newSpecies = def->nameRace.at(counter);
                         ++counter;
 
+                        ex->originalRace = newSpecies;
                         ex->TransformRace(newSpecies);
                     }
                 }
@@ -3461,12 +3467,13 @@ HOOK_METHOD(ShipManager, OnLoop, () -> void)
                 {
                     std::string newSpecies = def->nameRace.at(0);
 
+                    ex->originalRace = newSpecies;
                     ex->TransformRace(newSpecies);
                 }
             }
 
-            // TransformRace stat boost stuff to go here
-            //if (!ex->transformRace.empty()) ex->TransformRace(ex->transformRace);
+            ex->CalculateStat(CrewStat::TRANSFORM_RACE, def);
+            if (ex->transformRace != i->species) ex->TransformRace(ex->transformRace);
         }
     }
 

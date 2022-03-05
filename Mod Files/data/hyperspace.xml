@@ -1014,6 +1014,8 @@ As the name implies, stat boosts can be used to boost (or just generally modify)
 
 boostType: what the boost does to the stat; for numerical amounts, it can be FLAT, MULT, or SET, and for true/false values it can be SET or FLIP
 value/amount: use value for true/false stats and amount for numerical ones
+race: for transformRace, name of race to transform to
+permanent: for transformRace, whether the transformation should be permanent
 shipTarget: the ship/room that the statBoost affects. For augments, you can use PLAYER_SHIP, ENEMY_SHIP, ORIGINAL_SHIP, ORIGINAL_OTHER_SHIP, or ALL, and for crew you can use the same but also OTHER_ALL, CURRENT_ROOM, and CURRENT_ALL
 crewTarget: determines what crew the boost affects. it can be ALLIES, ENEMIES, ALL, CURRENT_ALLIES, CURRENT_ENEMIES, SELF, or NONE. CURRENT_ALLIES and CURRENT_ENEMIES factor in mind control.
   SELF is the same as NONE except it automatically sets affectsSelf to true.
@@ -1042,6 +1044,8 @@ Stat boost syntax examples->
 	<boostType>MULT/FLAT/SET/FLIP</boostType>
 	<amount>1.0</amount>
 	<value>TRUE/FALSE</value>
+	<race>human</race>
+	<permanent>TRUE/FALSE</permanent>
 	<shipTarget>ALL</shipTarget>
 	<systemList>
 		<sysName/>
