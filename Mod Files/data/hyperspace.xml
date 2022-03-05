@@ -1712,7 +1712,7 @@ Syntax ->
 		<jumpClear>false</jumpClear>                                                            If true, the object is destroyed when the player leaves the current location.
 		<disableCombat>false</disableCombat>                                                    If true, interaction is disabled when the player is in danger.
 		<clickAction>                                                                           Action to perform when the player clicks on this object.
-			<event>EVENT_NAME</event>                                                           Name of an event to queue.
+			<event load="EVENT_NAME"/>                                                          Name of an event to queue. Either load an event or define an event.
 			<activate/>                                                                         If the object was inactive, it becomes active.
 			<deactivate/>                                                                       If the object was active, it becomes inactive.
 			<toggle/>                                                                           Toggles the object's active status.
