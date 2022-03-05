@@ -133,29 +133,15 @@ void Global::PreInitializeResources(ResourceControl *resources)
     }
     catch (rapidxml::parse_error& e)
     {
-        std::string msg = std::string("Failed parsing hyperspace.xml\n") + std::string(e.what());
-#ifdef _WIN32
-        MessageBoxA(GetDesktopWindow(), msg.c_str(), "Error", MB_ICONERROR | MB_SETFOREGROUND);
-#elif defined(__linux__)
-        fprintf(stderr, "Error %s", msg.c_str());
-#endif
+        ErrorMessage(std::string("Failed parsing hyperspace.xml\n") + std::string(e.what()));
     }
     catch (std::exception &e)
     {
-        std::string msg = std::string("Failed parsing hyperspace.xml\n") + std::string(e.what());
-#ifdef _WIN32
-        MessageBoxA(GetDesktopWindow(), msg.c_str(), "Error", MB_ICONERROR | MB_SETFOREGROUND);
-#elif defined(__linux__)
-        fprintf(stderr, "Error %s", msg.c_str());
-#endif
+        ErrorMessage(std::string("Failed parsing hyperspace.xml\n") + std::string(e.what()));
     }
     catch (const char* e)
     {
-#ifdef _WIN32
-        MessageBoxA(GetDesktopWindow(), e, "Error", MB_ICONERROR | MB_SETFOREGROUND);
-#elif defined(__linux__)
-        fprintf(stderr, "Error %s", e);
-#endif
+        ErrorMessage(e);
     }
 }
 
@@ -555,29 +541,19 @@ void Global::InitializeResources(ResourceControl *resources)
     }
     catch (rapidxml::parse_error& e)
     {
-        std::string msg = std::string("Failed parsing hyperspace.xml\n") + std::string(e.what());
-#ifdef _WIN32
-        MessageBoxA(GetDesktopWindow(), msg.c_str(), "Error", MB_ICONERROR | MB_SETFOREGROUND);
-#elif defined(__linux__)
-        fprintf(stderr, "Error %s", msg.c_str());
-#endif
+        ErrorMessage(std::string("Error parsing hyperspace.xml\n") + std::string(e.what()));
     }
     catch (std::exception &e)
     {
-        std::string msg = std::string("Failed parsing hyperspace.xml\n") + std::string(e.what());
-#ifdef _WIN32
-        MessageBoxA(GetDesktopWindow(), msg.c_str(), "Error", MB_ICONERROR | MB_SETFOREGROUND);
-#elif defined(__linux__)
-        fprintf(stderr, "Error %s", msg.c_str());
-#endif
+        ErrorMessage(std::string("Error parsing hyperspace.xml\n") + std::string(e.what()));
     }
     catch (const char* e)
     {
-#ifdef _WIN32
-        MessageBoxA(GetDesktopWindow(), e, "Error", MB_ICONERROR | MB_SETFOREGROUND);
-#elif defined(__linux__)
-        fprintf(stderr, "Error %s", e);
-#endif
+        ErrorMessage(std::string("Error parsing hyperspace.xml\n") + std::string(e));
+    }
+    catch (...)
+    {
+        ErrorMessage("Error parsing hyperspace.xml\n");
     }
 
     //G_->lua = new LuaState;

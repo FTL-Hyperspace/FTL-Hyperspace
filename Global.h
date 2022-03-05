@@ -99,5 +99,7 @@ private:
 };
 
 void hs_log_file(const char *str...);
+void ErrorMessage(const std::string &msg);
+void ErrorMessage(const char *msg);
 
 #define G_ (Global::GetInstance())

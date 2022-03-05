@@ -471,26 +471,29 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                 }
                 catch (boost::bad_lexical_cast const &e)
                 {
-#ifdef _WIN32
-                    MessageBoxA(GetDesktopWindow(), e.what(), "Error", MB_ICONERROR | MB_SETFOREGROUND);
-#elif defined(__linux__)
-                    fprintf(stderr, "Error %s\n", e.what());
-#endif
+                    ErrorMessage(std::string("Error parsing <crew> in hyperspace.xml\n") + std::string(e.what()));
                 }
 
                 AddCrewDefinition(crew);
             }
         }
     }
-    catch (std::exception)
+    catch (rapidxml::parse_error& e)
     {
-#ifdef _WIN32
-        MessageBoxA(GetDesktopWindow(), "Error parsing <crew> in hyperspace.xml", "Error", MB_ICONERROR | MB_SETFOREGROUND);
-#elif defined(__linux__)
-        fprintf(stderr, "Error parsing <crew> in hyperspace.xml\n");
-#endif
+        ErrorMessage(std::string("Error parsing <crew> in hyperspace.xml\n") + std::string(e.what()));
     }
-
+    catch (std::exception &e)
+    {
+        ErrorMessage(std::string("Error parsing <crew> in hyperspace.xml\n") + std::string(e.what()));
+    }
+    catch (const char* e)
+    {
+        ErrorMessage(std::string("Error parsing <crew> in hyperspace.xml\n") + std::string(e));
+    }
+    catch (...)
+    {
+        ErrorMessage("Error parsing <crew> in hyperspace.xml\n");
+    }
 }
 
 void CustomCrewManager::ParseDeathEffect(rapidxml::xml_node<char>* stat, ExplosionDefinition* explosionDef)
