@@ -82,6 +82,8 @@ struct CustomBackgroundObjectDefinition
     int z = 0;
     Globals::Rect spawnArea = {0,0,0,0};
     Globals::Rect hitbox = {0,0,-1,-1};
+    bool centerAnim = false;
+    bool centerHitbox = false;
     AnimationDef anim;
     AnimationDef hoverAnim;
     AnimationDef inactiveAnim;

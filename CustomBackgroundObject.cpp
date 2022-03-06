@@ -76,6 +76,10 @@ CustomBackgroundObjectDefinition* CustomBackgroundObjectManager::ParseCustomBack
             {
                 def->spawnArea.h = boost::lexical_cast<int>(child->first_attribute("h")->value());
             }
+            if (child->first_attribute("center"))
+            {
+                def->centerAnim = EventsParser::ParseBoolean(child->first_attribute("center")->value());
+            }
         }
         else if (strcmp(child->name(), "hitbox") == 0)
         {
@@ -94,6 +98,10 @@ CustomBackgroundObjectDefinition* CustomBackgroundObjectManager::ParseCustomBack
             if (child->first_attribute("h"))
             {
                 def->hitbox.h = boost::lexical_cast<int>(child->first_attribute("h")->value());
+            }
+            if (child->first_attribute("center"))
+            {
+                def->centerHitbox = EventsParser::ParseBoolean(child->first_attribute("center")->value());
             }
         }
         else if (strcmp(child->name(), "anim") == 0)
@@ -501,7 +509,7 @@ void CustomBackgroundObject::Transform(CustomBackgroundObjectDefinition *_def)
 void CustomBackgroundObject::OnInit()
 {
     anim = G_->GetAnimationControl()->GetAnimation(def->anim.anim);
-    anim.position = Pointf(position.x - anim.info.frameWidth / 2, position.y - anim.info.frameHeight / 2);
+    anim.position = def->centerAnim ? Pointf(position.x - anim.info.frameWidth / 2, position.y - anim.info.frameHeight / 2) : Pointf(position.x, position.y);
     anim.tracker.loop = def->anim.loop;
     if (def->anim.random)
     {
@@ -513,16 +521,22 @@ void CustomBackgroundObject::OnInit()
     }
 
     hitbox.w = def->hitbox.w == -1 ? anim.info.frameWidth : def->hitbox.w;
-    hitbox.x = position.x + def->hitbox.x - hitbox.w/2;
     hitbox.h = def->hitbox.h == -1 ? anim.info.frameHeight : def->hitbox.h;
-    hitbox.y = position.y + def->hitbox.y - hitbox.h/2;
+
+    hitbox.x = anim.position.x + def->hitbox.x;
+    hitbox.y = anim.position.y + def->hitbox.y;
+    if (def->centerHitbox) // align center of hitbox to center of anim
+    {
+        hitbox.x += (anim.info.frameWidth - hitbox.w)/2;
+        hitbox.y += (anim.info.frameHeight - hitbox.h)/2;
+    }
 
     hasHoverAnim = !def->hoverAnim.anim.empty();
 
     if (hasHoverAnim)
     {
         hoverAnim = G_->GetAnimationControl()->GetAnimation(def->hoverAnim.anim);
-        hoverAnim.position = Pointf(position.x - hoverAnim.info.frameWidth / 2, position.y - hoverAnim.info.frameHeight / 2);
+        hoverAnim.position = def->centerAnim ? Pointf(position.x - hoverAnim.info.frameWidth / 2, position.y - hoverAnim.info.frameHeight / 2) : Pointf(position.x, position.y);
         hoverAnim.tracker.loop = def->hoverAnim.loop;
         if (def->hoverAnim.random)
         {
@@ -539,7 +553,7 @@ void CustomBackgroundObject::OnInit()
     if (hasInactiveAnim)
     {
         inactiveAnim = G_->GetAnimationControl()->GetAnimation(def->inactiveAnim.anim);
-        inactiveAnim.position = Pointf(position.x - inactiveAnim.info.frameWidth / 2, position.y - inactiveAnim.info.frameHeight / 2);
+        inactiveAnim.position = def->centerAnim ? Pointf(position.x - inactiveAnim.info.frameWidth / 2, position.y - inactiveAnim.info.frameHeight / 2) : Pointf(position.x, position.y);
         inactiveAnim.tracker.loop = def->inactiveAnim.loop;
         if (def->inactiveAnim.random)
         {
