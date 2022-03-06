@@ -93,7 +93,7 @@ private:
 
     static CApp *__cApp;
 
-    const int __version = 91;
+    const int __version = 92;
 
 
 };
