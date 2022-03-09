@@ -10,8 +10,8 @@ HOOK_METHOD(ReactorButton, OnClick, ()-> void)
 {
     LOG_HOOK("HOOK_METHOD -> ReactorButton::OnClick -> Begin (CustomReactor.cpp)\n")
     auto customSel = CustomShipSelect::GetInstance();
-    auto def = customSel->GetDefinition(ship->myBlueprint.blueprintName);
-    std::vector<int> reactorCosts = def.reactorPrices;
+    const CustomShipDefinition &def = customSel->GetDefinition(ship->myBlueprint.blueprintName);
+    const std::vector<int> &reactorCosts = def.reactorPrices;
     int increment = def.reactorPriceIncrement;
     int maxLevel = def.maxReactorLevel;
 
@@ -46,8 +46,8 @@ HOOK_METHOD(ReactorButton, OnRightClick, ()->void)
 {
     LOG_HOOK("HOOK_METHOD -> ReactorButton::OnRightClick -> Begin (CustomReactor.cpp)\n")
     auto customSel = CustomShipSelect::GetInstance();
-    auto def = customSel->GetDefinition(ship->myBlueprint.blueprintName);
-    std::vector<int> reactorCosts = def.reactorPrices;
+    const CustomShipDefinition &def = customSel->GetDefinition(ship->myBlueprint.blueprintName);
+    const std::vector<int> &reactorCosts = def.reactorPrices;
     int increment = def.reactorPriceIncrement;
 
     PowerManager* playerPowerMngr = PowerManager::GetPowerManager(0);
@@ -75,8 +75,8 @@ HOOK_METHOD(ReactorButton, OnRightClick, ()->void)
 HOOK_METHOD(ReactorButton, OnRender, ()->void)
 {
     LOG_HOOK("HOOK_METHOD -> ReactorButton::OnRender -> Begin (CustomReactor.cpp)\n")
-    auto def = CustomShipSelect::GetInstance()->GetDefinition(ship->myBlueprint.blueprintName);
-    std::vector<int> reactorCosts = def.reactorPrices;
+    const CustomShipDefinition &def = CustomShipSelect::GetInstance()->GetDefinition(ship->myBlueprint.blueprintName);
+    const std::vector<int> &reactorCosts = def.reactorPrices;
     int increment = def.reactorPriceIncrement;
     int maxLevel = def.maxReactorLevel;
 
@@ -181,7 +181,7 @@ HOOK_METHOD(ShipManager, CanUpgrade, (int systemId, int amount) -> int)
     if (systemId == 17)
     {
         auto customSel = CustomShipSelect::GetInstance();
-        auto def = customSel->GetDefinition(myBlueprint.blueprintName);
+        const CustomShipDefinition &def = customSel->GetDefinition(myBlueprint.blueprintName);
         int maxLevel = def.maxReactorLevel;
         auto reactor = PowerManager::GetPowerManager(iShipId);
         return std::min(amount, maxLevel - reactor->currentPower.second);
