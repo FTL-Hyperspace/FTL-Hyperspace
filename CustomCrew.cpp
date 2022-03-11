@@ -5031,6 +5031,11 @@ CrewAnimation_Extend::~CrewAnimation_Extend()
 {
     if (effectAnim) effectAnim->destructor();
     if (tempEffectAnim) tempEffectAnim->destructor();
+    if (effectFinishAnim) effectFinishAnim->destructor();
+    for (auto &it : boostAnim)
+    {
+        it.second->destructor();
+    }
 }
 
 // Hack door ability
