@@ -398,6 +398,20 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
                 }
             }
         }
+
+        if (strcmp(eventNode->name(), "variable") == 0)
+        {
+            VariableModifier variable;
+            variable.ParseVariableModifierNode(eventNode);
+            initialPlayerVars.push_back(variable);
+        }
+
+        if (strcmp(eventNode->name(), "metaVariable") == 0)
+        {
+            VariableModifier variable;
+            variable.ParseVariableModifierNode(eventNode);
+            initialMetaVars.push_back(variable);
+        }
     }
 }
 
@@ -1185,123 +1199,12 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
             isDefault = false;
             customEvent->removeItems.push_back(child->value());
         }
-        if (nodeName == "variable")
+        if (nodeName == "variable" || nodeName == "metaVariable" || nodeName == "tempVariable")
         {
             isDefault = false;
             VariableModifier variable;
-            variable.name = child->first_attribute("name")->value();
-            if (child->first_attribute("op"))
-            {
-                std::string op = std::string(child->first_attribute("op")->value());
-                op = op.substr(0,3);
-                if (op == "set")
-                {
-                    variable.op = VariableModifier::OP::SET;
-                }
-                else if (op == "add")
-                {
-                    variable.op = VariableModifier::OP::ADD;
-                }
-                else if (op == "mul")
-                {
-                    variable.op = VariableModifier::OP::MUL;
-                }
-                else if (op == "div")
-                {
-                    variable.op = VariableModifier::OP::DIV;
-                }
-                else if (op == "min")
-                {
-                    variable.op = VariableModifier::OP::MIN;
-                }
-                else if (op == "max")
-                {
-                    variable.op = VariableModifier::OP::MAX;
-                }
-            }
-            if (child->first_attribute("val"))
-            {
-                variable.minVal = boost::lexical_cast<int>(child->first_attribute("val")->value());
-                variable.maxVal = variable.minVal;
-            }
-            if (child->first_attribute("value"))
-            {
-                variable.minVal = boost::lexical_cast<int>(child->first_attribute("value")->value());
-                variable.maxVal = variable.minVal;
-            }
-            if (child->first_attribute("amount"))
-            {
-                variable.minVal = boost::lexical_cast<int>(child->first_attribute("amount")->value());
-                variable.maxVal = variable.minVal;
-            }
-            if (child->first_attribute("min"))
-            {
-                variable.minVal = boost::lexical_cast<int>(child->first_attribute("min")->value());
-            }
-            if (child->first_attribute("max"))
-            {
-                variable.maxVal = boost::lexical_cast<int>(child->first_attribute("max")->value());
-            }
+            variable.ParseVariableModifierNode(child);
             customEvent->variables.push_back(variable);
-        }
-        if (nodeName == "metaVariable")
-        {
-            isDefault = false;
-            VariableModifier variable;
-            variable.name = child->first_attribute("name")->value();
-            if (child->first_attribute("op"))
-            {
-                std::string op = std::string(child->first_attribute("op")->value());
-                op = op.substr(0,3);
-                if (op == "set")
-                {
-                    variable.op = VariableModifier::OP::SET;
-                }
-                else if (op == "add")
-                {
-                    variable.op = VariableModifier::OP::ADD;
-                }
-                else if (op == "mul")
-                {
-                    variable.op = VariableModifier::OP::MUL;
-                }
-                else if (op == "div")
-                {
-                    variable.op = VariableModifier::OP::DIV;
-                }
-                else if (op == "min")
-                {
-                    variable.op = VariableModifier::OP::MIN;
-                }
-                else if (op == "max")
-                {
-                    variable.op = VariableModifier::OP::MAX;
-                }
-            }
-            if (child->first_attribute("val"))
-            {
-                variable.minVal = boost::lexical_cast<int>(child->first_attribute("val")->value());
-                variable.maxVal = variable.minVal;
-            }
-            if (child->first_attribute("value"))
-            {
-                variable.minVal = boost::lexical_cast<int>(child->first_attribute("value")->value());
-                variable.maxVal = variable.minVal;
-            }
-            if (child->first_attribute("amount"))
-            {
-                variable.minVal = boost::lexical_cast<int>(child->first_attribute("amount")->value());
-                variable.maxVal = variable.minVal;
-            }
-            if (child->first_attribute("min"))
-            {
-                variable.minVal = boost::lexical_cast<int>(child->first_attribute("min")->value());
-            }
-            if (child->first_attribute("max"))
-            {
-                variable.maxVal = boost::lexical_cast<int>(child->first_attribute("max")->value());
-            }
-            customEvent->metaVariables.push_back(variable);
         }
         if (nodeName == "customStore" || nodeName == "store")
         {
@@ -1900,6 +1803,82 @@ void CustomEventsParser::ParseCustomEventLoadList(rapidxml::xml_node<char> *node
 
             eventList->events.push_back(event);
         }
+    }
+}
+
+void VariableModifier::ParseVariableModifierNode(rapidxml::xml_node<char> *node)
+{
+    if (strcmp(node->name(), "variable") == 0)
+    {
+        vType = VarType::VAR;
+    }
+    else if (strcmp(node->name(), "metaVariable") == 0)
+    {
+        vType = VarType::METAVAR;
+    }
+    else if (strcmp(node->name(), "tempVariable") == 0)
+    {
+        vType = VarType::TEMP;
+    }
+
+    name = node->first_attribute("name")->value();
+    if (node->first_attribute("op"))
+    {
+        std::string opName = std::string(node->first_attribute("op")->value());
+        opName = opName.substr(0,3);
+        if (opName == "set")
+        {
+            op = VariableModifier::OP::SET;
+        }
+        else if (opName == "add")
+        {
+            op = VariableModifier::OP::ADD;
+        }
+        else if (opName == "mul")
+        {
+            op = VariableModifier::OP::MUL;
+        }
+        else if (opName == "div")
+        {
+            op = VariableModifier::OP::DIV;
+        }
+        else if (opName == "min")
+        {
+            op = VariableModifier::OP::MIN;
+        }
+        else if (opName == "max")
+        {
+            op = VariableModifier::OP::MAX;
+        }
+    }
+    if (node->first_attribute("var"))
+    {
+        var = node->first_attribute("var")->value();
+        minVal = 1;
+        maxVal = 1;
+    }
+    if (node->first_attribute("val"))
+    {
+        minVal = boost::lexical_cast<int>(node->first_attribute("val")->value());
+        maxVal = minVal;
+    }
+    if (node->first_attribute("value"))
+    {
+        minVal = boost::lexical_cast<int>(node->first_attribute("value")->value());
+        maxVal = minVal;
+    }
+    if (node->first_attribute("amount"))
+    {
+        minVal = boost::lexical_cast<int>(node->first_attribute("amount")->value());
+        maxVal = minVal;
+    }
+    if (node->first_attribute("min"))
+    {
+        minVal = boost::lexical_cast<int>(node->first_attribute("min")->value());
+    }
+    if (node->first_attribute("max"))
+    {
+        maxVal = boost::lexical_cast<int>(node->first_attribute("max")->value());
     }
 }
 
@@ -4306,102 +4285,9 @@ HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEve
             playerShip->shipManager->RemoveItem(i);
         }
 
-        for (VariableModifier &i : customEvent->variables)
+        if (!customEvent->variables.empty())
         {
-            int val;
-            if (i.minVal == i.maxVal)
-            {
-                val = i.minVal;
-            }
-            else
-            {
-                int savedSeed;
-                if (SeedInputBox::seedsEnabled)
-                {
-                    savedSeed = random32();
-                    srandom32(Global::questSeed);
-                }
-
-                val = i.minVal + random32()%(i.maxVal-i.minVal+1);
-
-                if (SeedInputBox::seedsEnabled)
-                {
-                    Global::questSeed = random32();
-                    srandom32(savedSeed);
-                }
-            }
-            switch (i.op)
-            {
-            case VariableModifier::OP::SET:
-                playerVariables[i.name] = val;
-                break;
-            case VariableModifier::OP::ADD:
-                playerVariables[i.name] += val;
-                break;
-            case VariableModifier::OP::MUL:
-                playerVariables[i.name] *= val;
-                break;
-            case VariableModifier::OP::DIV:
-                playerVariables[i.name] /= val;
-                break;
-            case VariableModifier::OP::MIN:
-                playerVariables[i.name] = std::min(playerVariables[i.name], val);
-                break;
-            case VariableModifier::OP::MAX:
-                playerVariables[i.name] = std::max(playerVariables[i.name], val);
-                break;
-            }
-
-            CustomAchievementTracker::instance->UpdateVariableAchievements(i.name, playerVariables[i.name]);
-        }
-
-        for (VariableModifier &i : customEvent->metaVariables)
-        {
-            int val;
-            if (i.minVal == i.maxVal)
-            {
-                val = i.minVal;
-            }
-            else
-            {
-                int savedSeed;
-                if (SeedInputBox::seedsEnabled)
-                {
-                    savedSeed = random32();
-                    srandom32(Global::questSeed);
-                }
-
-                val = i.minVal + random32()%(i.maxVal-i.minVal+1);
-
-                if (SeedInputBox::seedsEnabled)
-                {
-                    Global::questSeed = random32();
-                    srandom32(savedSeed);
-                }
-            }
-            switch (i.op)
-            {
-            case VariableModifier::OP::SET:
-                metaVariables[i.name] = val;
-                break;
-            case VariableModifier::OP::ADD:
-                metaVariables[i.name] += val;
-                break;
-            case VariableModifier::OP::MUL:
-                metaVariables[i.name] *= val;
-                break;
-            case VariableModifier::OP::DIV:
-                metaVariables[i.name] /= val;
-                break;
-            case VariableModifier::OP::MIN:
-                metaVariables[i.name] = std::min(metaVariables[i.name], val);
-                break;
-            case VariableModifier::OP::MAX:
-                metaVariables[i.name] = std::max(metaVariables[i.name], val);
-                break;
-            }
-
-            CustomAchievementTracker::instance->UpdateVariableAchievements(i.name, metaVariables[i.name]);
+            VariableModifier::ApplyVariables(customEvent->variables, playerShip->shipManager);
         }
 
         if (customEvent->gameOver.enabled)
@@ -4604,6 +4490,7 @@ HOOK_METHOD(StarMap, NewGame, (bool unk) -> Location*)
 
     // playerVariables
     playerVariables.clear();
+    VariableModifier::ApplyVariables(CustomEventsParser::GetInstance()->initialPlayerVars, G_->GetWorld()->playerShip->shipManager);
 
     // Game Over
     G_->GetWorld()->commandGui->alreadyWon = false;
@@ -5400,5 +5287,107 @@ HOOK_METHOD(GameOver, OpenText, (const std::string &text) -> void)
         std::string eventName = deathEvent.event;
         deathEvent.event = "";
         CustomEventsParser::GetInstance()->LoadEvent(G_->GetWorld(), eventName, false, -1);
+    }
+}
+
+// Variable Stuff
+
+void VariableModifier::ApplyVariables(std::vector<VariableModifier> &variables, ShipManager *ship)
+{
+    std::unordered_map<std::string, int> tempVariables;
+    for (VariableModifier &i : variables)
+    {
+        int val;
+
+        if (i.minVal == i.maxVal)
+        {
+            val = i.minVal;
+        }
+        else
+        {
+            int savedSeed;
+            if (SeedInputBox::seedsEnabled)
+            {
+                savedSeed = random32();
+                srandom32(Global::questSeed);
+            }
+
+            val = i.minVal + random32()%(i.maxVal-i.minVal+1);
+
+            if (SeedInputBox::seedsEnabled)
+            {
+                Global::questSeed = random32();
+                srandom32(savedSeed);
+            }
+        }
+
+        if (!i.var.empty())
+        {
+            auto it = tempVariables.find(i.var);
+            if (it != tempVariables.end())
+            {
+                val *= it->second;
+            }
+            else if (ship)
+            {
+                advancedCheckEquipment[4] = true;
+                val *= ship->HasEquipment(i.var);
+                advancedCheckEquipment[4] = false;
+            }
+            else
+            {
+                it = playerVariables.find(i.var);
+                if (it != playerVariables.end())
+                {
+                    val *= it->second;
+                }
+                else
+                {
+                    it = metaVariables.find(i.var);
+                    if (it != metaVariables.end())
+                    {
+                        val *= it->second;
+                    }
+                }
+            }
+        }
+
+        std::unordered_map<std::string, int> *varList;
+        switch(i.vType)
+        {
+        case VarType::VAR:
+            varList = &playerVariables;
+            break;
+        case VarType::METAVAR:
+            varList = &metaVariables;
+            break;
+        default:
+            varList = &tempVariables;
+            break;
+        }
+
+        switch (i.op)
+        {
+        case OP::SET:
+            (*varList)[i.name] = val;
+            break;
+        case OP::ADD:
+            (*varList)[i.name] += val;
+            break;
+        case OP::MUL:
+            (*varList)[i.name] *= val;
+            break;
+        case OP::DIV:
+            (*varList)[i.name] /= val;
+            break;
+        case OP::MIN:
+            (*varList)[i.name] = std::min((*varList)[i.name], val);
+            break;
+        case OP::MAX:
+            (*varList)[i.name] = std::max((*varList)[i.name], val);
+            break;
+        }
+
+        CustomAchievementTracker::instance->UpdateVariableAchievements(i.name, (*varList)[i.name]);
     }
 }

@@ -15,6 +15,7 @@ extern std::bitset<8> advancedCheckEquipment;
 // bit 1: StarMap::RenderLabels
 // bit 2: LoadEvent
 // bit 3: CustomBackgroundObject::OnLoop
+// bit 4: VariableModifier::ApplyVariables
 
 extern std::deque<std::pair<std::string,int>> eventQueue;
 
@@ -532,7 +533,14 @@ struct SectorReplace
 
 struct VariableModifier
 {
-    enum OP
+    enum class VarType
+    {
+        VAR,
+        METAVAR,
+        TEMP
+    };
+
+    enum class OP
     {
         SET,
         ADD,
@@ -542,10 +550,15 @@ struct VariableModifier
         MAX
     };
 
+    VarType vType = VarType::VAR;
     std::string name = "";
     OP op = OP::SET;
     int minVal = 0;
     int maxVal = 0;
+    std::string var = "";
+
+    void ParseVariableModifierNode(rapidxml::xml_node<char> *node);
+    static void ApplyVariables(std::vector<VariableModifier> &variables, ShipManager *ship);
 };
 
 extern std::unordered_map<std::string, EventAlias> eventAliases;
@@ -629,7 +642,6 @@ struct CustomEvent
     std::vector<std::string> hiddenAugs = std::vector<std::string>();
     std::vector<std::string> removeItems = std::vector<std::string>();
     std::vector<VariableModifier> variables = std::vector<VariableModifier>();
-    std::vector<VariableModifier> metaVariables = std::vector<VariableModifier>();
     std::string playSound = "";
     std::string playMusic = "";
     bool resetMusic = false;
@@ -864,6 +876,9 @@ public:
     std::string defaultRevisit = "";
     bool defaultRevisitSeeded = true;
     bool defaultRevisitIgnoreUnique = false;
+
+    std::vector<VariableModifier> initialPlayerVars = std::vector<VariableModifier>();
+    std::vector<VariableModifier> initialMetaVars = std::vector<VariableModifier>();
 
 private:
     std::unordered_map<std::string, CustomSector*> customSectors;

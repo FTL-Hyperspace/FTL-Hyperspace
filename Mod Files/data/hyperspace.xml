@@ -1628,6 +1628,9 @@ Syntax ->
 	
 	<revisitEvent seeded="true" ignoreUnique="false">NOTHING</revisitEvent> Automatically loads this event by default when revisiting any beacon. Does not affect dive beacons.
 	
+	<variable name="varname" op="set" val="0" min="0" max="0" var="_var_req_"/>            See <variable> below for details. Applied at the start of the run.
+	<metaVariable name="varname" op="set" val="0" min="0" max="0" var="_var_req_"/>        See <metaVariable> below for details. Applied to a new profile (or existing profile with uninitialized variable).
+	
 	<sector name="SECTOR_ID" maxSector="999">                                              Custom sector specification. maxSector adds a maximum sector number for sector generation.
         <exitBeacon event="EVENT_NAME" rebelEvent="EVENT_NAME" nebulaEvent="EVENT_NAME"/>  Changes the default exit beacon event. nebulaEvent is used for nebula exits; rebelEvent is used if the rebels overtake the exit.
         <rebelBeacon event="EVENT_NAME" nebulaEvent="EVENT_NAME"/>                         Changes the default rebel fleet events. nebulaEvent is used for nebula fleet events.
@@ -1784,9 +1787,12 @@ Syntax ->
 		<removeItem>ITEM_ID</removeItem>                                                        Removes the item with the specified name. Unlike vanilla's <remove> tag, this can be repeated, but it also does not display
 		                                                                                          a "removed" message. Hidden augments can be removed by giving the name "HIDDEN AUG_ID", replacing AUG_ID with the normal
 		                                                                                          augment's id.
-		<variable name="varname" op="set" val="0" min="0" max="0"/>                             Sets or changes a custom variable. Operation can be "set", "add", "mul", "div", "min", or "max".
+		<variable name="varname" op="set" val="0" min="0" max="0" var="_var_req_"/>             Sets or changes a custom variable. Operation can be "set", "add", "mul", "div", "min", or "max".
 		                                                                                          Value can either be a fixed value (using val) or a random value (using min and max).
-		<metaVariable name="varname" op="set" val="0" min="0" max="0"/>                         Same as variable but sets a meta-variable. Meta-variables persist on the profile.
+		                                                                                          The "var" attribute lets you apply a variable or equipment req to another variable, instead of a constant.
+		                                                                                          If "var" and "val" (or min/max) are both given, then they are multiplied together.
+		<metaVariable name="varname" op="set" val="0" min="0" max="0" var="_var_req_"/>         Same as variable but sets a meta-variable. Meta-variables persist on the profile.
+		<tempVariable name="varname" op="set" val="0" min="0" max="0" var="_var_req_"/>         Same as variable but temporary (only lasts for this event). Used for intermediate calculations.
 		<transformRace class="orig_race">new_race</transformRace>                               Transforms a random crewmember to the race new_race. If the class attribute is specified, restricts the random crew selection.
 		<customStore>STORE_ID</customStore>                                                     Use the custom store STORE_ID for this store event.
 		<store>STORE_ID</store>                                                                 Alias for customStore. Allows specifying a custom store in events.xml files using a single tag.

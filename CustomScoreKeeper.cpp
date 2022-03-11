@@ -3,6 +3,7 @@
 #include "CustomShipSelect.h"
 #include "ShipUnlocks.h"
 #include "SaveFile.h"
+#include "CustomEvents.h"
 #include <boost/lexical_cast.hpp>
 
 CustomScoreKeeper* CustomScoreKeeper::instance = new CustomScoreKeeper();
@@ -149,7 +150,7 @@ void CustomScoreKeeper::LoadMetaVars(int file)
     {
         std::string varName = FileHelper::readString(file);
         int varValue = FileHelper::readInteger(file);
-        if (varValue != 0)
+        if (varValue != 0 || metaVariables.count(varName))
         {
             metaVariables[varName] = varValue;
             CustomAchievementTracker::instance->UpdateVariableAchievements(varName, varValue, false);
@@ -380,6 +381,7 @@ HOOK_METHOD(ScoreKeeper, WipeProfile, (bool permanent) -> void)
     CustomAchievementTracker::instance->WipeProfile();
 
     metaVariables.clear();
+    VariableModifier::ApplyVariables(CustomEventsParser::GetInstance()->initialMetaVars, nullptr);
 
     super(permanent);
 }
