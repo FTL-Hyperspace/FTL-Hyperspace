@@ -2752,6 +2752,10 @@ HOOK_METHOD(ShipBuilder, Open, () -> void)
     LOG_HOOK("HOOK_METHOD -> ShipBuilder::Open -> Begin (CustomShipSelect.cpp)\n")
     auto customSel = CustomShipSelect::GetInstance();
 
+    StatBoostManager::GetInstance()->statBoosts.clear();
+    StatBoostManager::GetInstance()->animBoosts.clear();
+    StatBoostManager::GetInstance()->statCacheFrame++;
+
     super();
 
     customSel->OnInit(&shipSelect);

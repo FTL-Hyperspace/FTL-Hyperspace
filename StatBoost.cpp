@@ -667,6 +667,35 @@ HOOK_METHOD(WorldManager, OnLoop, () -> void)
 //    std::cout << "World manager time: " << ms_double.count();
 }
 
+HOOK_METHOD(ShipBuilder, OnLoop, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipBuilder::OnLoop -> Begin (StatBoost.cpp)\n")
+    StatBoostManager::GetInstance()->statBoosts.clear();
+    StatBoostManager::GetInstance()->animBoosts.clear();
+    StatBoostManager::GetInstance()->statCacheFrame++;
+    super();
+//    using std::chrono::steady_clock;
+//    using std::chrono::duration_cast;
+//    using std::chrono::duration;
+//    using std::chrono::milliseconds;
+//    auto t1 = steady_clock::now();
+
+
+
+//    auto t2 = steady_clock::now();
+//    duration<double, std::nano> ms_double = t2 - t1;
+//    std::cout << "World manager time: " << ms_double.count();
+}
+
+HOOK_METHOD(WorldManager, Restart, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> WorldManager::Restart -> Begin (StatBoost.cpp)\n")
+    StatBoostManager::GetInstance()->statBoosts.clear();
+    StatBoostManager::GetInstance()->animBoosts.clear();
+    StatBoostManager::GetInstance()->statCacheFrame++;
+    super();
+}
+
 HOOK_METHOD(ShipManager, JumpArrive, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::JumpArrive -> Begin (StatBoost.cpp)\n")
