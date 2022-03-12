@@ -28,21 +28,28 @@ extern std::string replaceCreditsMusic;
 extern std::unordered_map<int, std::string> renamedBeacons;
 extern std::unordered_map<int, std::pair<std::string, int>> regeneratedBeacons;
 
-extern std::string jumpEvent;
-extern bool jumpEventLoop;
-
 extern std::unordered_map<std::string, int> playerVariables;
+
+struct JumpEvent
+{
+    std::string event = "";
+    std::string label = "";
+    bool loop = false;
+    int priority = 0;
+};
+extern std::vector<JumpEvent> jumpEventQueue;
+
 
 struct DeathEvent
 {
     std::string event = "";
-    bool present = false;
+    std::string label = "";
     bool jumpClear = false;
     bool thisFight = false;
+    int priority = 0;
 };
-
+extern std::deque<DeathEvent> deathEventQueue;
 extern bool deathEventActive;
-extern DeathEvent deathEvent;
 
 struct BeaconType
 {
@@ -604,10 +611,10 @@ struct CustomEvent
     bool disableScrapAugments = false;
     bool removeStore = false;
     std::string customStore = "";
-    std::string jumpEvent = "";
-    bool jumpEventLoop = false;
-    bool jumpEventClear = false;
-    DeathEvent deathEvent;
+    std::vector<JumpEvent> jumpEvents;
+    std::vector<std::string> clearJumpEvents;
+    std::vector<DeathEvent> deathEvents;
+    std::vector<std::string> clearDeathEvents;
     SectorReplace replaceSector;
     bool resetFtl = false;
     bool instantEscape = false;
@@ -669,10 +676,10 @@ struct CustomShipEvent
     std::vector<unsigned int> triggeredEvents;
     std::vector<std::string> clearTriggeredEvents;
     std::vector<TriggeredEventModifier> triggeredEventModifiers;
-    std::string jumpEvent = "";
-    bool jumpEventLoop = false;
-    bool jumpEventClear = false;
-    DeathEvent deathEvent;
+    std::vector<JumpEvent> jumpEvents;
+    std::vector<std::string> clearJumpEvents;
+    std::vector<DeathEvent> deathEvents;
+    std::vector<std::string> clearDeathEvents;
 
     bool invincible = false;
     bool deadCrewAuto = false;

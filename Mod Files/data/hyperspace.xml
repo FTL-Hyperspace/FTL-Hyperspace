@@ -225,7 +225,6 @@ DELETECREW     Kills everyone on the enemy ship        Usage: DELETECREW
 SPEED          Changes game speed                      Usage: SPEED <speed>           Example: SPEED 3 (any integer from -2 to 3)
 DAMAGESYS      Damages a system                        Usage: DAMAGESYS <system_name> Example: DAMAGESYS medbay
 SHIP_CUSTOM    Unlocks a customs ship (permanently)    Usage: SHIP_CUSTOM <ship_name> Example: SHIP_CUSTOM PLAYER_SHIP_CUSTOM
-JUMPEVENT      Sets a jumpEvent                        Usage: JUMPEVENT <event_id>
 LOADEVENT      Loads an event using LoadEvent          Usage: LOADEVENT <event_id>
 VARIABLE       Set variable and/or print in FTL_HS.log Usage: VARIABLE <var_id> <n>
 METAVARIABLE   As above but for meta-variables         Usage: METAVARIABLE <var_id> <n>
@@ -1812,9 +1811,12 @@ Syntax ->
 		<queueEvent seeded="true">EVENT_NAME</queueEvent>                                       Queues an event to happen as soon as the current event ends. Can queue multiple events.
 		<restartEvent/>                                                                         Loads the original beacon event. This load does not process Hyperspace tags that normally get processed on event load.
 		<renameBeacon>ALT_EVENT</renameBeacon>                                                  Changes the beacon's event ID to ALT_EVENT, to use its <beaconType>, its <revisitEvent>, etc.
-		<jumpEvent loop="false">EVENT_NAME</jumpEvent>                                          Loads EVENT_NAME when the player clicks the JUMP button (or uses the hotkey). Auto-clears unless loop is true.
-		<clearJumpEvent/>                                                                       Clears the jumpEvent and allows the player to open the starmap.
-		<deathEvent jumpClear="false" thisFight="false">EVENT_NAME</deathEvent>                 Loads an event when you die. Leave EVENT_NAME blank to clear any existing deathEvent.
+		<jumpEvent name="LABEL" loop="false" priority="0">EVENT_NAME</jumpEvent>                Loads EVENT_NAME when the player clicks the JUMP button (or uses the hotkey). Auto-clears unless loop is true.
+		                                                                                          Label is optional and defaults to being the same as the event name.
+		<clearJumpEvent name="LABEL"/>                                                          Clears the jumpEvent (either a given label, or all if not given) and allows the player to open the starmap.
+		<deathEvent name="LABEL" jumpClear="false" thisFight="false"                            Loads an event when you die. Label is optional and defaults to being the same as the event name.
+		            priority="0">EVENT_NAME</deathEvent>
+		<clearDeathEvent name="LABEL"/>                                                         Clears the deathEvent (either a given label, or all if not given).
 		<triggeredEvent name="TR_ID" event="EVENT_ID" seeded="true" thisFight="false"           Creates a triggered event for the event EVENT_ID. If name attribute is not specified, then name is EVENT_ID. If thisFight is
 		                clearOnJump="false" loops="1" time="60.0" ...>                            true, trigger is cancelled once the fight is over. If clearOnJump is true, trigger is cancelled upon jumping. Full syntax above.
 			<time amount="0.0" min="0.0" max="0.0"/>
@@ -1879,6 +1881,8 @@ Syntax ->
 	                                                                                              They also trigger upon revisit.
 		<jumpEvent .../>                                                                        The syntax for these are the same as in an event.
 		<clearJumpEvent .../>
+		<deathEvent .../>
+		<clearDeathEvent .../>
 		<triggeredEvent .../>
 		<clearTriggeredEvent .../>
 		<triggeredEventModifier .../>
@@ -2018,7 +2022,7 @@ Syntax ->
 	</event>
 	
 	<event name="JUMPEVENT_CLEAR">
-		<jumpEvent/>
+		<clearJumpEvent/>
 	</event>
 	
 	<event name="HACKER_SABOTAGE_FTL">

@@ -147,6 +147,7 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
         commandGui->shipComplete->shipManager->ModifyDroneCount(-800);
         return true;
     }
+    /*
     if(cmdName == "JUMPEVENT")
     {
         if (command.length() > 10)
@@ -160,6 +161,7 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
         jumpEventLoop = false;
         return true;
     }
+    */
     if(cmdName == "LOADEVENT")
     {
         if (command.length() > 10)

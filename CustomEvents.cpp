@@ -29,8 +29,8 @@ std::unordered_map<int, std::string> renamedBeacons = std::unordered_map<int, st
 
 std::unordered_map<int, std::pair<std::string, int>> regeneratedBeacons = std::unordered_map<int, std::pair<std::string, int>>();
 
-std::string jumpEvent = "";
-bool jumpEventLoop = false;
+std::vector<JumpEvent> jumpEventQueue;
+std::deque<DeathEvent> deathEventQueue;
 
 std::unordered_map<std::string, int> playerVariables = std::unordered_map<std::string, int>();
 
@@ -870,32 +870,81 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
         if (nodeName == "jumpEvent")
         {
             isDefault = false;
-            customEvent->jumpEvent = child->value();
+
+            JumpEvent jumpEvent;
+            jumpEvent.event = child->value();
+            jumpEvent.label = jumpEvent.event;
+
+            if (child->first_attribute("name"))
+            {
+                jumpEvent.label = child->first_attribute("name")->value();
+            }
             if (child->first_attribute("loop"))
             {
-                customEvent->jumpEventLoop = EventsParser::ParseBoolean(child->first_attribute("loop")->value());
+                jumpEvent.loop = EventsParser::ParseBoolean(child->first_attribute("loop")->value());
             }
+            if (child->first_attribute("priority"))
+            {
+                jumpEvent.priority = boost::lexical_cast<int>(child->first_attribute("priority")->value());
+            }
+
+            customEvent->jumpEvents.push_back(jumpEvent);
         }
 
         if (nodeName == "clearJumpEvent")
         {
             isDefault = false;
-            customEvent->jumpEventClear = true;
+
+            if (child->first_attribute("name"))
+            {
+                customEvent->clearJumpEvents.push_back(child->first_attribute("name")->value());
+            }
+            else
+            {
+                customEvent->clearJumpEvents.push_back("");
+            }
         }
 
         if (nodeName == "deathEvent")
         {
             isDefault = false;
-            customEvent->deathEvent.event = child->value();
-            customEvent->deathEvent.present = true;
+
+            DeathEvent deathEvent;
+            deathEvent.event = child->value();
+            deathEvent.label = deathEvent.event;
+
+            if (child->first_attribute("name"))
+            {
+                deathEvent.label = child->first_attribute("name")->value();
+            }
             if (child->first_attribute("thisFight"))
             {
-                customEvent->deathEvent.thisFight = EventsParser::ParseBoolean(child->first_attribute("thisFight")->value());
-                customEvent->deathEvent.jumpClear = customEvent->deathEvent.thisFight;
+                deathEvent.thisFight = EventsParser::ParseBoolean(child->first_attribute("thisFight")->value());
+                deathEvent.jumpClear = deathEvent.thisFight;
             }
             if (child->first_attribute("jumpClear"))
             {
-                customEvent->deathEvent.jumpClear = EventsParser::ParseBoolean(child->first_attribute("jumpClear")->value());
+                deathEvent.jumpClear = EventsParser::ParseBoolean(child->first_attribute("jumpClear")->value());
+            }
+            if (child->first_attribute("priority"))
+            {
+                deathEvent.priority = boost::lexical_cast<int>(child->first_attribute("priority")->value());
+            }
+
+            customEvent->deathEvents.push_back(deathEvent);
+        }
+
+        if (nodeName == "clearDeathEvent")
+        {
+            isDefault = false;
+
+            if (child->first_attribute("name"))
+            {
+                customEvent->clearDeathEvents.push_back(child->first_attribute("name")->value());
+            }
+            else
+            {
+                customEvent->clearDeathEvents.push_back("");
             }
         }
 
@@ -1449,32 +1498,81 @@ bool CustomEventsParser::ParseCustomShipEvent(rapidxml::xml_node<char> *node, Cu
         if (nodeName == "jumpEvent")
         {
             isDefault = false;
-            customEvent->jumpEvent = child->value();
+
+            JumpEvent jumpEvent;
+            jumpEvent.event = child->value();
+            jumpEvent.label = jumpEvent.event;
+
+            if (child->first_attribute("name"))
+            {
+                jumpEvent.label = child->first_attribute("name")->value();
+            }
             if (child->first_attribute("loop"))
             {
-                customEvent->jumpEventLoop = EventsParser::ParseBoolean(child->first_attribute("loop")->value());
+                jumpEvent.loop = EventsParser::ParseBoolean(child->first_attribute("loop")->value());
             }
+            if (child->first_attribute("priority"))
+            {
+                jumpEvent.priority = boost::lexical_cast<int>(child->first_attribute("priority")->value());
+            }
+
+            customEvent->jumpEvents.push_back(jumpEvent);
         }
 
         if (nodeName == "clearJumpEvent")
         {
             isDefault = false;
-            customEvent->jumpEventClear = true;
+
+            if (child->first_attribute("name"))
+            {
+                customEvent->clearJumpEvents.push_back(child->first_attribute("name")->value());
+            }
+            else
+            {
+                customEvent->clearJumpEvents.push_back("");
+            }
         }
 
         if (nodeName == "deathEvent")
         {
             isDefault = false;
-            customEvent->deathEvent.event = child->value();
-            customEvent->deathEvent.present = true;
+
+            DeathEvent deathEvent;
+            deathEvent.event = child->value();
+            deathEvent.label = deathEvent.event;
+
+            if (child->first_attribute("name"))
+            {
+                deathEvent.label = child->first_attribute("name")->value();
+            }
             if (child->first_attribute("thisFight"))
             {
-                customEvent->deathEvent.thisFight = EventsParser::ParseBoolean(child->first_attribute("thisFight")->value());
-                customEvent->deathEvent.jumpClear = customEvent->deathEvent.thisFight;
+                deathEvent.thisFight = EventsParser::ParseBoolean(child->first_attribute("thisFight")->value());
+                deathEvent.jumpClear = deathEvent.thisFight;
             }
             if (child->first_attribute("jumpClear"))
             {
-                customEvent->deathEvent.jumpClear = EventsParser::ParseBoolean(child->first_attribute("jumpClear")->value());
+                deathEvent.jumpClear = EventsParser::ParseBoolean(child->first_attribute("jumpClear")->value());
+            }
+            if (child->first_attribute("priority"))
+            {
+                deathEvent.priority = boost::lexical_cast<int>(child->first_attribute("priority")->value());
+            }
+
+            customEvent->deathEvents.push_back(deathEvent);
+        }
+
+        if (nodeName == "clearDeathEvent")
+        {
+            isDefault = false;
+
+            if (child->first_attribute("name"))
+            {
+                customEvent->clearDeathEvents.push_back(child->first_attribute("name")->value());
+            }
+            else
+            {
+                customEvent->clearDeathEvents.push_back("");
             }
         }
 
@@ -3643,11 +3741,9 @@ HOOK_METHOD(WorldManager, CreateLocation, (Location *location) -> void)
                 ++it;
             }
         }
-        if (deathEvent.jumpClear)
-        {
-            deathEvent.event = "";
-            deathEvent.jumpClear = false;
-        }
+        deathEventQueue.erase(std::remove_if(deathEventQueue.begin(), deathEventQueue.end(),
+                              [](DeathEvent& obj) { return obj.jumpClear; }),
+                              deathEventQueue.end());
     }
 
     bool needsBackground = location->space.tex == nullptr && location->planet.tex == nullptr;
@@ -3873,22 +3969,71 @@ HOOK_METHOD(WorldManager, CreateShip, (ShipEvent* shipEvent, bool boss) -> Compl
 
     if (customEvent)
     {
-        if (customEvent->jumpEventClear)
+        if (!customEvent->clearJumpEvents.empty())
         {
-            jumpEvent = "";
-            jumpEventLoop = false;
+            for (std::string &name : customEvent->clearJumpEvents)
+            {
+                if (!name.empty())
+                {
+                    jumpEventQueue.erase(std::remove_if(jumpEventQueue.begin(), jumpEventQueue.end(),
+                                         [&name](JumpEvent& obj) { return obj.label == name; }),
+                                         jumpEventQueue.end());
+                }
+                else
+                {
+                    jumpEventQueue.clear();
+                }
+            }
         }
 
-        if (!customEvent->jumpEvent.empty())
+        if (!customEvent->jumpEvents.empty())
         {
-            jumpEvent = customEvent->jumpEvent;
-            jumpEventLoop = customEvent->jumpEventLoop;
+            for (JumpEvent &jumpEvent : customEvent->jumpEvents)
+            {
+                jumpEventQueue.push_back(jumpEvent);
+            }
+            std::stable_sort(jumpEventQueue.begin(), jumpEventQueue.end(),
+            [](const JumpEvent &a, const JumpEvent &b) -> bool
+            {
+                return a.priority > b.priority;
+            });
         }
 
-        if (customEvent->deathEvent.present)
+        if (!customEvent->clearDeathEvents.empty())
         {
-            deathEvent = customEvent->deathEvent;
-            hs_log_file("Set death event to %s\n", deathEvent.event.c_str());
+            for (std::string &name : customEvent->clearDeathEvents)
+            {
+                if (!name.empty())
+                {
+                    deathEventQueue.erase(std::remove_if(deathEventQueue.begin(), deathEventQueue.end(),
+                                          [&name](DeathEvent& obj) { return obj.label == name; }),
+                                          deathEventQueue.end());
+                }
+                else
+                {
+                    deathEventQueue.clear();
+                }
+            }
+        }
+
+        if (!customEvent->deathEvents.empty())
+        {
+            for (DeathEvent &deathEvent : customEvent->deathEvents)
+            {
+                if (deathEvent.event.empty() && deathEvent.label.empty())
+                {
+                    deathEventQueue.clear(); // backwards compatibility
+                }
+                else
+                {
+                    deathEventQueue.push_back(deathEvent);
+                }
+            }
+            std::stable_sort(deathEventQueue.begin(), deathEventQueue.end(),
+            [](const DeathEvent &a, const DeathEvent &b) -> bool
+            {
+                return a.priority > b.priority;
+            });
         }
 
         for (auto& triggeredEvent: customEvent->clearTriggeredEvents)
@@ -4332,22 +4477,64 @@ HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEve
             }
         }
 
-        if (customEvent->jumpEventClear)
+        if (!customEvent->clearJumpEvents.empty())
         {
-            jumpEvent = "";
-            jumpEventLoop = false;
+            for (std::string &name : customEvent->clearJumpEvents)
+            {
+                if (!name.empty())
+                {
+                    jumpEventQueue.erase(std::remove_if(jumpEventQueue.begin(), jumpEventQueue.end(),
+                                         [&name](JumpEvent& obj) { return obj.label == name; }),
+                                         jumpEventQueue.end());
+                }
+                else
+                {
+                    jumpEventQueue.clear();
+                }
+            }
         }
 
-        if (!customEvent->jumpEvent.empty())
+        if (!customEvent->jumpEvents.empty())
         {
-            jumpEvent = customEvent->jumpEvent;
-            jumpEventLoop = customEvent->jumpEventLoop;
+            for (JumpEvent &jumpEvent : customEvent->jumpEvents)
+            {
+                jumpEventQueue.push_back(jumpEvent);
+            }
+            std::stable_sort(jumpEventQueue.begin(), jumpEventQueue.end(),
+            [](const JumpEvent &a, const JumpEvent &b) -> bool
+            {
+                return a.priority > b.priority;
+            });
         }
 
-        if (customEvent->deathEvent.present)
+        if (!customEvent->clearDeathEvents.empty())
         {
-            deathEvent = customEvent->deathEvent;
-            hs_log_file("Set death event to %s\n", deathEvent.event.c_str());
+            for (std::string &name : customEvent->clearDeathEvents)
+            {
+                if (!name.empty())
+                {
+                    deathEventQueue.erase(std::remove_if(deathEventQueue.begin(), deathEventQueue.end(),
+                                          [&name](DeathEvent& obj) { return obj.label == name; }),
+                                          deathEventQueue.end());
+                }
+                else
+                {
+                    deathEventQueue.clear();
+                }
+            }
+        }
+
+        if (!customEvent->deathEvents.empty())
+        {
+            for (DeathEvent &deathEvent : customEvent->deathEvents)
+            {
+                deathEventQueue.push_back(deathEvent);
+            }
+            std::stable_sort(deathEventQueue.begin(), deathEventQueue.end(),
+            [](const DeathEvent &a, const DeathEvent &b) -> bool
+            {
+                return a.priority > b.priority;
+            });
         }
 
         if (customEvent->goToFlagship)
@@ -4468,11 +4655,10 @@ HOOK_METHOD(StarMap, NewGame, (bool unk) -> Location*)
     restartMusicTimer = nullptr;
 
     // jumpEvent
-    jumpEvent = "";
-    jumpEventLoop = false;
+    jumpEventQueue.clear();
 
     // deathEvent
-    deathEvent.event = "";
+    deathEventQueue.clear();
 
     // eventAlias
     eventAliases.clear();
@@ -4514,17 +4700,33 @@ HOOK_METHOD(StarMap, LoadGame, (int fh) -> Location*)
     restartMusicTimer = nullptr;
 
     // jumpEvent
-    jumpEvent = FileHelper::readString(fh);
-    jumpEventLoop = FileHelper::readInteger(fh);
+    int n = FileHelper::readInteger(fh);
+    for (int i=0; i<n; ++i)
+    {
+        jumpEventQueue.emplace_back();
+        JumpEvent &jumpEvent = jumpEventQueue.back();
+        jumpEvent.event = FileHelper::readString(fh);
+        jumpEvent.label = FileHelper::readString(fh);
+        jumpEvent.loop = FileHelper::readInteger(fh);
+        jumpEvent.priority = FileHelper::readInteger(fh);
+    }
 
     // deathEvent
-    deathEvent.event = FileHelper::readString(fh);
-    deathEvent.jumpClear = FileHelper::readInteger(fh);
-    deathEvent.thisFight = FileHelper::readInteger(fh);
+    n = FileHelper::readInteger(fh);
+    for (int i=0; i<n; ++i)
+    {
+        deathEventQueue.emplace_back();
+        DeathEvent &deathEvent = deathEventQueue.back();
+        deathEvent.event = FileHelper::readString(fh);
+        deathEvent.label = FileHelper::readString(fh);
+        deathEvent.jumpClear = FileHelper::readInteger(fh);
+        deathEvent.thisFight = FileHelper::readInteger(fh);
+        deathEvent.priority = FileHelper::readInteger(fh);
+    }
 
     // eventAlias
     eventAliases.clear();
-    int n = FileHelper::readInteger(fh);
+    n = FileHelper::readInteger(fh);
     for (int i=0; i<n; ++i)
     {
         std::string alias_name = FileHelper::readString(fh);
@@ -4604,13 +4806,25 @@ HOOK_METHOD(StarMap, SaveGame, (int file) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> StarMap::SaveGame -> Begin (CustomEvents.cpp)\n")
     // jumpEvent
-    FileHelper::writeString(file, jumpEvent);
-    FileHelper::writeInt(file, jumpEventLoop);
+    FileHelper::writeInt(file, jumpEventQueue.size());
+    for (JumpEvent &jumpEvent : jumpEventQueue)
+    {
+        FileHelper::writeString(file, jumpEvent.event);
+        FileHelper::writeString(file, jumpEvent.label);
+        FileHelper::writeInt(file, jumpEvent.loop);
+        FileHelper::writeInt(file, jumpEvent.priority);
+    }
 
     // deathEvent
-    FileHelper::writeString(file, deathEvent.event);
-    FileHelper::writeInt(file, deathEvent.jumpClear);
-    FileHelper::writeInt(file, deathEvent.thisFight);
+    FileHelper::writeInt(file, deathEventQueue.size());
+    for (DeathEvent &deathEvent : deathEventQueue)
+    {
+        FileHelper::writeString(file, deathEvent.event);
+        FileHelper::writeString(file, deathEvent.label);
+        FileHelper::writeInt(file, deathEvent.jumpClear);
+        FileHelper::writeInt(file, deathEvent.thisFight);
+        FileHelper::writeInt(file, deathEvent.priority);
+    }
 
     // eventAlias
     FileHelper::writeInt(file, eventAliases.size());
@@ -4684,12 +4898,23 @@ HOOK_METHOD(StarMap, SaveGame, (int file) -> void)
 HOOK_METHOD(StarMap, Open, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> StarMap::Open -> Begin (CustomEvents.cpp)\n")
-    if (!jumpEvent.empty())
+
+    WorldManager *world = G_->GetWorld();
+
+    auto it = jumpEventQueue.begin();
+    while (it != jumpEventQueue.end())
     {
-        std::string eventName = jumpEvent;
-        if (!jumpEventLoop) jumpEvent = "";
-        CustomEventsParser::GetInstance()->LoadEvent(G_->GetWorld(), eventName, false, -1);
-        return;
+        CustomEventsParser::GetInstance()->LoadEvent(world, it->event, false, -1);
+        if (it->loop)
+        {
+            ++it;
+        }
+        else
+        {
+            it = jumpEventQueue.erase(it);
+        }
+
+        if (world->commandGui->choiceBox.bOpen) return;
     }
 
     super();
@@ -5254,7 +5479,6 @@ HOOK_METHOD(WorldManager, ModifyStatusEffect, (StatusEffect effect, ShipManager 
 // Death Event
 
 bool deathEventActive = false;
-DeathEvent deathEvent = DeathEvent();
 
 HOOK_METHOD(WorldManager, UpdateLocation0, (LocationEvent *loc) -> void)
 {
@@ -5273,22 +5497,16 @@ HOOK_METHOD(WorldManager, CreateChoiceBox0, (LocationEvent *event) -> void)
 HOOK_METHOD(GameOver, OpenText, (const std::string &text) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> GameOver::OpenText -> Begin (CustomEvents.cpp)\n")
-    if (deathEvent.event.empty())
-    {
-        return super(text);
-    }
 
-    if (bVictory)
-    {
-        super(text);
-    }
-    else
-    {
-        deathEventActive = true;
-        std::string eventName = deathEvent.event;
-        deathEvent.event = "";
-        CustomEventsParser::GetInstance()->LoadEvent(G_->GetWorld(), eventName, false, -1);
-    }
+    if (deathEventQueue.empty()) return super(text);
+
+    if (bVictory) return super(text);
+
+    deathEventActive = true;
+
+    DeathEvent &deathEvent = deathEventQueue.front();
+    CustomEventsParser::GetInstance()->LoadEvent(G_->GetWorld(), deathEvent.event, false, -1);
+    deathEventQueue.pop_front();
 }
 
 // Variable Stuff
