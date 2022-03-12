@@ -5704,8 +5704,17 @@ struct IonDrone : BoarderDrone
 	int lastRoom;
 };
 
+struct IonDroneAnimation;
+
 struct IonDroneAnimation : CrewAnimation
 {
+	IonDroneAnimation(int _shipId, Pointf _position, bool _hostile)
+	{
+		this->constructor(_shipId, _position, _hostile);
+	}
+
+	LIBZHL_API void constructor(int iShipId, Pointf position, bool enemy);
+	
 	Animation ionExplosion;
 	Animation ionAnimation;
 	Animation doorAnimations[4];
@@ -6067,8 +6076,10 @@ struct ProjectileFactory : ShipObject
 	bool isArtillery;
 };
 
-struct RepairAnimation
+struct RepairAnimation : CrewAnimation
 {
+	RepairAnimation(int _shipId, const std::string& _race, Pointf _unk, bool _hostile);
+
 };
 
 struct RepairDrone : CrewDrone
@@ -7580,6 +7591,7 @@ extern LIBZHL_API GL_Color *Global_InfoBox_detailsBarOff;
 extern LIBZHL_API void **VTable_LaserBlast;
 extern LIBZHL_API void **VTable_Targetable_LaserBlast;
 extern LIBZHL_API MouseControl *Global_MouseControl_Mouse;
+extern LIBZHL_API void **VTable_RepairAnimation;
 extern LIBZHL_API ResourceControl *Global_ResourceControl_GlobalResources;
 extern LIBZHL_API ScoreKeeper *Global_ScoreKeeper_Keeper;
 extern LIBZHL_API SettingValues *Global_Settings_Settings;

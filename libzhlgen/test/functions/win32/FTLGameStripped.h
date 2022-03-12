@@ -5571,7 +5571,10 @@ struct MantisAnimation
 };
 
 /* 328 */
-struct RepairAnimation;
+struct RepairAnimation
+{
+	CrewAnimation _base;
+};
 
 /* 331 */
 struct IonDroneAnimation

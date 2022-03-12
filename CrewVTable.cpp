@@ -1,6 +1,7 @@
+#include "Global.h"
+
 #pragma GCC push_options
 #pragma GCC optimize ("O1")
-#include "Global.h"
 #include "CustomCrew.h"
 #include "PALMemoryProtection.h"
 #include "CustomAugments.h"
@@ -447,6 +448,13 @@ HOOK_METHOD_PRIORITY(RockAnimation, constructor, 500, (const std::string &subRac
     {
         SetupVTable(this);
     }
+}
+
+RepairAnimation::RepairAnimation(int shipId, const std::string& race, Pointf position, bool enemy)
+{
+    this->constructor(shipId, race, position, enemy);
+    *(void**)this = VTable_RepairAnimation;
+    this->uniqueBool1 = true;
 }
 
 #pragma GCC pop_options

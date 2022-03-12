@@ -110,12 +110,14 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                     {
                         crew.canSabotage = true;
                         crew.maxHealth = 125;
+                        crew.animBase = "boarder_ion";
                     }
                     if (droneType == "REPAIR")
                     {
                         crew.canRepair = true;
                         crew.maxHealth = 25;
                         crew.repairSpeed = 2.f;
+                        crew.animBase = "repair";
                     }
                 }
 
@@ -1888,191 +1890,209 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
         auto powerDef = CalculatePowerDef();
         auto aex = CMA_EX(orig->crewAnim);
 
-        if (!orig->crewAnim->bDrone || def->animBase == "rock" || def->animBase == "mantis")
+        Pointf lastPosition = Pointf(0, 0);
+        std::vector<GL_Color> layerColors = std::vector<GL_Color>();
+        std::vector<GL_Texture*> layerStrips = std::vector<GL_Texture*>();
+        bool male = false;
+        bool uniqueBoolShoot = false;
+        bool uniqueBoolFire = false;
+        bool uniqueBoolSparked = true;
+
+        bool replaceLayers = false;
+
+        if (animation)
         {
-            Pointf lastPosition = Pointf(0, 0);
-            std::vector<GL_Color> layerColors = std::vector<GL_Color>();
-            std::vector<GL_Texture*> layerStrips = std::vector<GL_Texture*>();
-            bool male = false;
-            bool uniqueBoolShoot = false;
-            bool uniqueBoolFire = false;
+            layerColors = animation->layerColors;
+            layerStrips = animation->layerStrips;
+            male = animation->bMale;
+            replaceLayers = true;
+            lastPosition = animation->lastPosition;
 
-            bool replaceLayers = false;
-
-            if (animation)
+            if (aex->crewAnimationType == "rock")
             {
-                layerColors = animation->layerColors;
-                layerStrips = animation->layerStrips;
-                male = animation->bMale;
-                replaceLayers = true;
-                lastPosition = animation->lastPosition;
-
-                if (aex->crewAnimationType == "rock")
-                {
-                    uniqueBoolFire = animation->uniqueBool1;
-                    uniqueBoolShoot = animation->uniqueBool2;
-                }
-                else if (aex->crewAnimationType == "mantis")
-                {
-                    uniqueBoolShoot = animation->uniqueBool1;
-                }
+                uniqueBoolFire = animation->uniqueBool1;
+                uniqueBoolShoot = animation->uniqueBool2;
             }
-
-            std::string animSheet = def->animSheet[male?1:0];
-            if (animSheet.empty()) animSheet = bp.name;
-
-            Animation* effectAnim = aex->effectAnim;
-            Animation* effectFinishAnim = aex->effectFinishAnim;
-            Animation* tempEffectAnim = aex->tempEffectAnim;
-            GL_Texture* tempEffectStrip = aex->tempEffectStrip;
-
-            aex->effectAnim = nullptr;
-            aex->effectFinishAnim = nullptr;
-            aex->tempEffectAnim = nullptr;
-            aex->tempEffectStrip = nullptr;
-
-            if (def->animBase == "rock")
+            else if (aex->crewAnimationType == "mantis")
             {
-                blockAddSoundQueue = true;
-                orig->crewAnim = new RockAnimation(animSheet, shipId, lastPosition, enemy);
-                aex = CMA_EX(orig->crewAnim);
-                aex->crewAnimationType = "rock";
-                blockAddSoundQueue = false;
+                uniqueBoolShoot = animation->uniqueBool1;
             }
-            else if (def->animBase == "mantis")
+            else if (aex->crewAnimationType == "repair")
             {
-                orig->crewAnim = new MantisAnimation;
-                orig->crewAnim->constructor(shipId, animSheet, lastPosition, enemy);
-                aex = CMA_EX(orig->crewAnim);
-                aex->isMantisAnimation = true;
-                aex->crewAnimationType = "mantis";
+                uniqueBoolSparked = animation->uniqueBool1;
+            }
+        }
+
+        std::string animSheet = def->animSheet[male?1:0];
+        if (animSheet.empty()) animSheet = bp.name;
+
+        Animation* effectAnim = aex->effectAnim;
+        Animation* effectFinishAnim = aex->effectFinishAnim;
+        Animation* tempEffectAnim = aex->tempEffectAnim;
+        GL_Texture* tempEffectStrip = aex->tempEffectStrip;
+
+        aex->effectAnim = nullptr;
+        aex->effectFinishAnim = nullptr;
+        aex->tempEffectAnim = nullptr;
+        aex->tempEffectStrip = nullptr;
+
+        if (def->animBase == "rock")
+        {
+            blockAddSoundQueue = true;
+            orig->crewAnim = new RockAnimation(animSheet, shipId, lastPosition, enemy);
+            aex = CMA_EX(orig->crewAnim);
+            aex->crewAnimationType = "rock";
+            blockAddSoundQueue = false;
+        }
+        else if (def->animBase == "mantis")
+        {
+            orig->crewAnim = new MantisAnimation;
+            orig->crewAnim->constructor(shipId, animSheet, lastPosition, enemy);
+            aex = CMA_EX(orig->crewAnim);
+            aex->isMantisAnimation = true;
+            aex->crewAnimationType = "mantis";
+        }
+        else if (def->animBase == "repair")
+        {
+            orig->crewAnim = new RepairAnimation(shipId, animSheet, lastPosition, enemy);
+            aex = CMA_EX(orig->crewAnim);
+            aex->crewAnimationType = "repair";
+        }
+        else if (def->animBase == "boarder_ion")
+        {
+            orig->crewAnim = new IonDroneAnimation(shipId, lastPosition, enemy);
+            aex = CMA_EX(orig->crewAnim);
+            aex->crewAnimationType = "boarder_ion";
+        }
+        else
+        {
+            orig->crewAnim = new CrewAnimation(shipId, animSheet, lastPosition, enemy);
+            aex = CMA_EX(orig->crewAnim);
+        }
+
+        aex->effectAnim = effectAnim;
+        aex->effectFinishAnim = effectFinishAnim;
+        aex->tempEffectAnim = tempEffectAnim;
+        aex->tempEffectStrip = tempEffectStrip;
+
+        orig->crewAnim->bMale = male;
+
+        if (replaceLayers && !orig->crewAnim->bDrone)
+        {
+            orig->crewAnim->layerColors = layerColors;
+
+            if (g_transformColorMode == TransformColorMode::KEEP_COLORS)
+            {
+                auto bpM = G_->GetBlueprints();
+                auto it = bpM->crewBlueprints.find(bp.name);
+                if (it != bpM->crewBlueprints.end() && it->second.colorLayers.size() < orig->crewAnim->layerColors.size())
+                {
+                    orig->crewAnim->layerColors.resize(it->second.colorLayers.size());
+                }
+                orig->crewAnim->SetupStrips();
+
+                orig->crewAnim->layerColors = layerColors;
             }
             else
             {
-                orig->crewAnim = new CrewAnimation(shipId, animSheet, lastPosition, enemy);
-                aex = CMA_EX(orig->crewAnim);
+                orig->crewAnim->SetupStrips();
+            }
+        }
+
+        if (animation)
+        {
+            orig->crewAnim->direction = animation->direction;
+            orig->crewAnim->sub_direction = animation->sub_direction;
+            orig->crewAnim->status = animation->status;
+            orig->crewAnim->moveDirection = animation->moveDirection;
+            orig->crewAnim->shots = animation->shots;
+            orig->crewAnim->shootTimer = animation->shootTimer;
+            orig->crewAnim->punchTimer = animation->punchTimer;
+            orig->crewAnim->target = animation->target;
+            orig->crewAnim->fDamageDone = animation->fDamageDone;
+            orig->crewAnim->bFrozen = animation->bFrozen;
+            orig->crewAnim->bTyping = animation->bTyping;
+            orig->crewAnim->currentShip = animation->currentShip;
+            orig->crewAnim->forcedAnimation = animation->forcedAnimation;
+            orig->crewAnim->forcedDirection = animation->forcedDirection;
+            orig->crewAnim->bStunned = animation->bStunned;
+            orig->crewAnim->bDoorTarget = animation->bDoorTarget;
+
+            //orig->crewAnim->anims.at(animation->direction).at(animation->status).SetProgress(animation->anims.at(animation->direction).at(animation->status).tracker.Progress(-1.f));
+
+            if (aex->crewAnimationType == "rock")
+            {
+                orig->crewAnim->uniqueBool1 = uniqueBoolFire;
+                orig->crewAnim->uniqueBool2 = uniqueBoolShoot;
+            }
+            else if (aex->crewAnimationType == "mantis")
+            {
+                orig->crewAnim->uniqueBool1 = uniqueBoolShoot;
+            }
+            else if (aex->crewAnimationType == "repair")
+            {
+                orig->crewAnim->uniqueBool1 = uniqueBoolSparked;
             }
 
-            aex->effectAnim = effectAnim;
-            aex->effectFinishAnim = effectFinishAnim;
-            aex->tempEffectAnim = tempEffectAnim;
-            aex->tempEffectStrip = tempEffectStrip;
-
-            orig->crewAnim->bMale = male;
-
-            if (replaceLayers && !orig->crewAnim->bDrone)
+            int numDirections = std::min(animation->anims.size(), orig->crewAnim->anims.size());
+            for (int i=0; i<numDirections; ++i)
             {
-                orig->crewAnim->layerColors = layerColors;
-
-                if (g_transformColorMode == TransformColorMode::KEEP_COLORS)
+                int numStatus = std::min(animation->anims[i].size(), orig->crewAnim->anims[i].size());
+                for (int j=0; j<numStatus; ++j)
                 {
-                    auto bpM = G_->GetBlueprints();
-                    auto it = bpM->crewBlueprints.find(bp.name);
-                    if (it != bpM->crewBlueprints.end() && it->second.colorLayers.size() < orig->crewAnim->layerColors.size())
+                    Animation &anim1 = animation->anims[i][j];
+                    Animation &anim2 = orig->crewAnim->anims[i][j];
+                    float animProgress = anim1.tracker.time != 0.f ? anim1.tracker.current_time/anim1.tracker.time : 0.f;
+
+                    anim2.tracker.current_time = anim2.tracker.time * animProgress;
+                    anim2.tracker.currentDelay = anim2.tracker.loopDelay * (anim1.tracker.loopDelay != 0.f ? anim1.tracker.currentDelay/anim1.tracker.loopDelay : 1.f);
+                    anim2.tracker.loop = anim1.tracker.loop;
+                    anim2.tracker.running = anim1.tracker.running;
+                    anim2.tracker.reverse = anim1.tracker.reverse;
+                    anim2.tracker.done = anim1.tracker.done;
+                    anim2.tracker.running = anim1.tracker.running;
+
+                    anim2.fadeOut = anim2.startFadeOut * (anim1.startFadeOut != 0.f ? anim1.fadeOut/anim1.startFadeOut : 1.f);
+
+                    if (anim2.randomizeFrames)
                     {
-                        orig->crewAnim->layerColors.resize(it->second.colorLayers.size());
-                    }
-                    orig->crewAnim->SetupStrips();
-
-                    orig->crewAnim->layerColors = layerColors;
-                }
-                else
-                {
-                    orig->crewAnim->SetupStrips();
-                }
-            }
-
-            if (animation)
-            {
-                orig->crewAnim->direction = animation->direction;
-                orig->crewAnim->sub_direction = animation->sub_direction;
-                orig->crewAnim->status = animation->status;
-                orig->crewAnim->moveDirection = animation->moveDirection;
-                orig->crewAnim->shots = animation->shots;
-                orig->crewAnim->shootTimer = animation->shootTimer;
-                orig->crewAnim->punchTimer = animation->punchTimer;
-                orig->crewAnim->target = animation->target;
-                orig->crewAnim->fDamageDone = animation->fDamageDone;
-                orig->crewAnim->bFrozen = animation->bFrozen;
-                orig->crewAnim->bTyping = animation->bTyping;
-                orig->crewAnim->currentShip = animation->currentShip;
-                orig->crewAnim->forcedAnimation = animation->forcedAnimation;
-                orig->crewAnim->forcedDirection = animation->forcedDirection;
-                orig->crewAnim->bStunned = animation->bStunned;
-                orig->crewAnim->bDoorTarget = animation->bDoorTarget;
-
-                //orig->crewAnim->anims.at(animation->direction).at(animation->status).SetProgress(animation->anims.at(animation->direction).at(animation->status).tracker.Progress(-1.f));
-
-                if (aex->crewAnimationType == "rock")
-                {
-                    orig->crewAnim->uniqueBool1 = uniqueBoolFire;
-                    orig->crewAnim->uniqueBool2 = uniqueBoolShoot;
-                }
-                else if (aex->crewAnimationType == "mantis")
-                {
-                    orig->crewAnim->uniqueBool1 = uniqueBoolShoot;
-                }
-
-                int numDirections = std::min(animation->anims.size(), orig->crewAnim->anims.size());
-                for (int i=0; i<numDirections; ++i)
-                {
-                    int numStatus = std::min(animation->anims[i].size(), orig->crewAnim->anims[i].size());
-                    for (int j=0; j<numStatus; ++j)
-                    {
-                        Animation &anim1 = animation->anims[i][j];
-                        Animation &anim2 = orig->crewAnim->anims[i][j];
-                        float animProgress = anim1.tracker.time != 0.f ? anim1.tracker.current_time/anim1.tracker.time : 0.f;
-
-                        anim2.tracker.current_time = anim2.tracker.time * animProgress;
-                        anim2.tracker.currentDelay = anim2.tracker.loopDelay * (anim1.tracker.loopDelay != 0.f ? anim1.tracker.currentDelay/anim1.tracker.loopDelay : 1.f);
-                        anim2.tracker.loop = anim1.tracker.loop;
-                        anim2.tracker.running = anim1.tracker.running;
-                        anim2.tracker.reverse = anim1.tracker.reverse;
-                        anim2.tracker.done = anim1.tracker.done;
-                        anim2.tracker.running = anim1.tracker.running;
-
-                        anim2.fadeOut = anim2.startFadeOut * (anim1.startFadeOut != 0.f ? anim1.fadeOut/anim1.startFadeOut : 1.f);
-
-                        if (anim2.randomizeFrames)
+                        if (anim2.info.numFrames != 0)
                         {
-                            if (anim2.info.numFrames != 0)
-                            {
-                                anim2.currentFrame = anim1.currentFrame % anim2.info.numFrames;
-                            }
+                            anim2.currentFrame = anim1.currentFrame % anim2.info.numFrames;
+                        }
+                    }
+                    else
+                    {
+                        if (animProgress >= 1.f)
+                        {
+                            anim2.currentFrame = anim2.info.numFrames;
+                        }
+                        else if (animProgress < 0.f)
+                        {
+                            anim2.currentFrame = 0;
                         }
                         else
                         {
-                            if (animProgress >= 1.f)
-                            {
-                                anim2.currentFrame = anim2.info.numFrames;
-                            }
-                            else if (animProgress < 0.f)
-                            {
-                                anim2.currentFrame = 0;
-                            }
-                            else
-                            {
-                                anim2.currentFrame = animProgress * anim2.info.numFrames;
-                            }
+                            anim2.currentFrame = animProgress * anim2.info.numFrames;
                         }
                     }
                 }
             }
+        }
 
-            if (def->repairSoundFrame != -1 && def->repairSounds.size() > 0 && !enemy)
+        if (def->repairSoundFrame != -1 && def->repairSounds.size() > 0 && !enemy)
+        {
+            for (auto sound : def->repairSounds)
             {
-                for (auto sound : def->repairSounds)
+                for (int i = 0; i < 4; i++)
                 {
-                    for (int i = 0; i < 4; i++)
-                    {
-                        orig->crewAnim->anims[i][2].AddSoundQueue(def->repairSoundFrame, sound);
-                    }
+                    orig->crewAnim->anims[i][2].AddSoundQueue(def->repairSoundFrame, sound);
                 }
             }
-
-            delete animation;
-            animation = orig->crewAnim;
         }
+
+        delete animation;
+        animation = orig->crewAnim;
 
         float passiveHealAmount = CalculateStat(CrewStat::PASSIVE_HEAL_AMOUNT, def);
         float truePassiveHealAmount = CalculateStat(CrewStat::TRUE_PASSIVE_HEAL_AMOUNT, def);
