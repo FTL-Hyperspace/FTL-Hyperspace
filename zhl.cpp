@@ -662,6 +662,7 @@ int FunctionHook_private::Install()
     
 	for(unsigned int i=0 ; i<_hSize ; ++i)
 		Log("%02x ", _internalHook[i]);
+    Log("\n");
 
 #ifdef DEBUG
     Log("InternalSuperAddress: %08x\n", (unsigned int)&_internalSuper);
@@ -670,6 +671,7 @@ int FunctionHook_private::Install()
 
 	for(unsigned int i=0 ; i<_sSize ; ++i)
 		Log("%02x ", _internalSuper[i]);
+    Log("\n");
 
 
 	return 1;
