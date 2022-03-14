@@ -10,4 +10,4 @@ cleanup void Projectile::destructor(Projectile *this);
 "8b4424048b5424088950388b54240c89503c8b542410895040":
 static void Projectile::__DO_NOT_HOOK();
 ".!b8ffffffffc3":
-int Projectile::ForceRenderLayer(Projectile *this);
+cleanup int Projectile::ForceRenderLayer(Projectile *this);

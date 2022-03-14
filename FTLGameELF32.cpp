@@ -26486,7 +26486,7 @@ namespace _func703
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff};
-	static FunctionDefinition funcObj("Projectile::ForceRenderLayer", typeid(int (Projectile::*)()), ".!b8ffffffffc3", argdata, 1, 0, &func);
+	static FunctionDefinition funcObj("Projectile::ForceRenderLayer", typeid(int (Projectile::*)()), ".!b8ffffffffc3", argdata, 1, 2, &func);
 }
 
 FUNC_NAKED int Projectile::ForceRenderLayer()
@@ -26505,6 +26505,7 @@ FUNC_NAKED int Projectile::ForceRenderLayer()
 	__asm__("call *%0\n\t" :: "m"(_func703::func));
 	__asm__
 	(
+		"addl $4, %esp\n\t"
 		"popl %edi\n\t"
 		"popl %esi\n\t"
 		"popl %ebx\n\t"
