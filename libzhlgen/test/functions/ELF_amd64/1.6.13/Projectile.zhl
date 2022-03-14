@@ -1,5 +1,5 @@
 ".!b8ffffffffc3662e0f1f840000000000f3c3662e0f1f8400000000000f1f40004889b7f0020000":
-int Projectile::ForceRenderLayer(Projectile *this<rdi>);
+cleanup int Projectile::ForceRenderLayer(Projectile *this<rdi>);
 ".4154554889f5534889fb4883ec60448b673c488b064889f7":
 cleanup void Projectile::CollisionCheck(Projectile *this<rdi>, Collideable *other<rsi>);
 ".4157415641554154554889fd534881ecf8000000":
