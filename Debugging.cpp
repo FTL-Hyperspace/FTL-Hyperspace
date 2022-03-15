@@ -1,6 +1,9 @@
 #include "Global.h"
 #include <time.h>
 #include <boost/algorithm/string.hpp>
+#include <boost/format.hpp>
+#define BUILD_IDENTIFIER_HASH "unknown_build"
+#include "Version.autogen.hpp"
 
 // Code for creation of FTL_HS.log and crashlogs
 
@@ -124,4 +127,12 @@ HOOK_METHOD(CApp, OnInit, () -> bool)
 
     hs_log_file(("Hyperspace compiled: " + date + " " + time).c_str());
     return ret;
+}
+
+HOOK_METHOD(MouseControl, OnRender, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> MouseControl::OnRender -> Begin (Debugging.cpp)\n")
+    std::string identifier = BUILD_IDENTIFIER_HASH;
+    freetype::easy_printRightAlign(51, 1280.f, 0.f, boost::str(boost::format("HS-%d %s") % G_->GetVersion() % identifier).c_str());
+    super();
 }

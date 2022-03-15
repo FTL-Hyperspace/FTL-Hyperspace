@@ -9,6 +9,7 @@ obj/
 libzhlproject/
 FTL_HyperspaceGCC.layout
 FTL_HyperspaceGCC.depend
+*.autogen.hpp
 
 ## Other
 .save-failed
@@ -19,3 +20,4 @@ FTL_HyperspaceGCC.depend
 
 # KDE Dolphin
 *.directory
+
