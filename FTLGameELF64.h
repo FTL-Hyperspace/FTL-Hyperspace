@@ -19,6 +19,492 @@
 #endif
 
 
+#include "zhl.h"
+#include "rapidxml.hpp"
+#include <string>
+#include <vector>
+#include <set>
+#include <map>
+#include <functional>
+#include <deque>
+#include <stdarg.h>
+#include <unordered_map>
+#include <math.h>
+#include <queue>
+#include "SigScan.h"
+#include <unistd.h>
+#undef LoadImage
+
+#ifndef M_PI
+	#define M_PI 3.14159265358979323846
+#endif
+
+struct CAchievement;
+struct RandomAmount;
+struct Point;
+
+typedef std::pair<int, int> std_pair_int_int;
+typedef std::pair<float, float> std_pair_float_float;
+typedef std::pair<std::string, int> std_pair_std_string_int;
+typedef std::pair<std::string, RandomAmount> std_pair_std_string_RandomAmount;
+typedef std::pair<std::string, std::string> std_pair_std_string_std_string;
+typedef std::pair<CAchievement*, Point> std_pair_CAchievement_ptr_Point;
+typedef std::map<std::string, std::string> std_map_std_string_std_string;
+typedef std::map<std::string, int> std_map_std_string_int;
+typedef std::map<std::string, bool> std_map_std_string_bool;
+
+
+
+
+struct CAchievement;
+
+struct CachedImage;
+
+struct CachedPrimitive;
+struct GL_Color;
+struct GL_Primitive;
+
+struct CachedPrimitive
+{
+	~CachedPrimitive()
+	{
+		this->destructor();
+	}
+
+	LIBZHL_API void OnRender(const GL_Color &color);
+	LIBZHL_API void destructor();
+	
+	void *vptr;
+	GL_Primitive *primitive;
+};
+
+struct GL_Texture;
+
+struct CachedImage : CachedPrimitive
+{
+	enum Centered
+	{
+	  CENTERED = 0x0,
+	};
+	
+	CachedImage(const std::string& path, int x, int y)
+	{
+		constructor1(path, x, y);
+	}
+	
+	CachedImage()
+	{
+		
+	}
+	
+	CachedImage(const CachedImage &other)
+	{
+		constructor_copy(other);
+	}
+	
+	CachedImage& operator=(CachedImage &other)
+	{
+		constructor_copy(other);
+		return *this;
+	}
+
+	LIBZHL_API void CreatePrimitive();
+	LIBZHL_API void SetImagePath(const std::string &imagePath);
+	LIBZHL_API void SetMirrored(bool _mirrored);
+	LIBZHL_API void SetPosition(int x, int y);
+	LIBZHL_API void SetRotation(float _rotation);
+	LIBZHL_API void constructor1(const std::string &path, int x, int y);
+	LIBZHL_API void constructor_copy(const CachedImage &other);
+	LIBZHL_API void destructor();
+	
+	std::string imageName;
+	GL_Texture *texture;
+	int x;
+	int y;
+	float wScale;
+	float hScale;
+	float x_start;
+	float y_start;
+	float x_size;
+	float y_size;
+	float rotation;
+	bool mirrored;
+};
+
+struct Point
+{
+	Point(int xx, int yy) : x(xx), y(yy)  { }
+	Point() { }
+	
+	friend bool operator==(const Point &a, const Point &b) {return a.x==b.x && a.y==b.y;}
+	friend bool operator!=(const Point &a, const Point &b) {return a.x!=b.x || a.y!=b.y;}
+
+	LIBZHL_API int Distance(Point other);
+	LIBZHL_API int RelativeDistance(Point other);
+	
+	int x;
+	int y;
+};
+
+struct TextLibrary;
+
+struct TextLibrary
+{
+	std::string GetText(const std::string& name)
+	{
+		return TextLibrary::GetText(name, currentLanguage);
+	}
+
+	LIBZHL_API std::string GetText(const std::string &name, const std::string &lang);
+	
+	std::map<std::string, std::string> dictionary;
+	std::map<std::string, std_map_std_string_std_string> languageDictionaries;
+	std::string currentLanguage;
+};
+
+struct TextString;
+
+struct TextString
+{
+	TextString()
+	{
+		isLiteral = true;
+	}
+
+	LIBZHL_API std::string GetText();
+	
+	std::string data;
+	bool isLiteral;
+	uint8_t gap_ex[4];
+};
+
+struct CAchievement
+{
+	CAchievement()
+	{
+		this->constructor();
+	}
+
+	LIBZHL_API void OnRender(Point pos, int selected, bool showNew);
+	LIBZHL_API void constructor();
+	
+	std::string name_id;
+	std::pair<int, int> progress;
+	bool unlocked;
+	int8_t gap_ex_custom;
+	TextString name;
+	TextString description;
+	TextString header;
+	bool newAchievement;
+	bool multiDifficulty;
+	int difficulty;
+	std::string ship;
+	int shipDifficulties[3];
+	int dimension;
+	CachedImage icon;
+	CachedImage miniIcon;
+	CachedImage miniIconLocked;
+	CachedImage lockImage;
+	CachedImage dotOn;
+	CachedImage dotOff;
+	GL_Primitive *outline;
+	GL_Primitive *mini_outline;
+	GL_Primitive *lockOverlay;
+};
+
+struct RandomAmount
+{
+	int min;
+	int max;
+	float chanceNone;
+};
+	
+enum TouchAction
+{
+  TOUCH_DOWN = 0x1,
+  TOUCH_MOVE = 0x2,
+  TOUCH_UP = 0x3,
+  TOUCH_CANCEL = 0x4,
+};
+
+enum InputEventType
+{
+  INPUT_EVENT_JOYSTICK = 0x1,
+  INPUT_EVENT_KEYBOARD = 0x2,
+  INPUT_EVENT_MEMORY = 0x3,
+  INPUT_EVENT_MOUSE = 0x4,
+  INPUT_EVENT_TEXT = 0x5,
+  INPUT_EVENT_TOUCH = 0x6,
+};
+
+enum InputEventDetail
+{
+  INPUT_JOYSTICK_CONNECTED = 0x1,
+  INPUT_JOYSTICK_DISCONNECTED = 0x2,
+  INPUT_JOYSTICK_BUTTON_DOWN = 0x3,
+  INPUT_JOYSTICK_BUTTON_UP = 0x4,
+  INPUT_JOYSTICK_DPAD_CHANGE = 0x5,
+  INPUT_JOYSTICK_STICK_CHANGE = 0x6,
+  INPUT_KEYBOARD_KEY_DOWN = 0x7,
+  INPUT_KEYBOARD_KEY_UP = 0x8,
+  INPUT_KEYBOARD_SYSTEM_KEY_DOWN = 0x9,
+  INPUT_KEYBOARD_SYSTEM_KEY_UP = 0xA,
+  INPUT_MEMORY_LOW = 0xB,
+  INPUT_MOUSE_MOVE = 0xC,
+  INPUT_MOUSE_LMB_DOWN = 0xD,
+  INPUT_MOUSE_LMB_UP = 0xE,
+  INPUT_MOUSE_MMB_DOWN = 0xF,    // TODO: Move this into an abstraction layer and import the file?
+  INPUT_MOUSE_MMB_UP = 0x10,
+  INPUT_MOUSE_RMB_DOWN = 0x11,
+  INPUT_MOUSE_RMB_UP = 0x12,
+  INPUT_MOUSE_SCROLL_H = 0x13,
+  INPUT_MOUSE_SCROLL_V = 0x14,
+  INPUT_TEXT_INPUT = 0x15,
+  INPUT_TEXT_DONE = 0x16,
+  INPUT_TEXT_CANCELLED = 0x17,
+  INPUT_TEXT_CLEAR = 0x18,
+  INPUT_TEXT_BACKSPACE = 0x19,
+  INPUT_TEXT_DELETE = 0x1A,
+  INPUT_TEXT_CURSOR_LEFT = 0x1B,
+  INPUT_TEXT_CURSOR_RIGHT = 0x1C,
+  INPUT_TEXT_CURSOR_HOME = 0x1D,
+  INPUT_TEXT_CURSOR_END = 0x1E,
+  INPUT_TOUCH_DOWN = 0x1F,
+  INPUT_TOUCH_MOVE = 0x20,
+  INPUT_TOUCH_UP = 0x21,
+  INPUT_TOUCH_CANCEL = 0x22,
+};
+
+enum DeleteType
+{
+  BUFFER = 0x1,
+  FRAMEBUFFER = 0x2,
+  PROGRAM = 0x3,
+  PROGRAM_PIPELINE = 0x4,
+  RENDERBUFFER = 0x5,
+  SHADER = 0x6,
+  TEXTURE = 0x7,
+  VERTEX_ARRAY = 0x8,
+};
+
+enum FontAlignment
+{
+  FONT_ALIGN_LEFT = 0x0,
+  FONT_ALIGN_CENTER = 0x1,
+  FONT_ALIGN_RIGHT = 0x2,
+};
+
+enum FramebufferColorType
+{
+  FBCOLOR_RGB8 = 0x1,
+  FBCOLOR_RGBA8 = 0x2,
+};
+
+enum GL_StencilMode
+{
+  STENCIL_IGNORE = 0x0,
+  STENCIL_SET = 0x1,
+  STENCIL_USE = 0x2,
+};
+
+enum ResourceType
+{
+  RES_UNUSED = 0x0,
+  RES_UNKNOWN = 0x1,
+  RES_DATA = 0x2,
+  RES_TEXTURE = 0x3,
+  RES_FONT = 0x4,
+  RES_SOUND = 0x5,
+  RES_FILE = 0x6,
+};
+
+
+enum SDLKey
+{
+  SDLK_UNKNOWN = 0x0,
+  SDLK_0 = 0x30,
+  SDLK_1 = 0x31,
+  SDLK_2 = 0x32,
+  SDLK_3 = 0x33,
+  SDLK_4 = 0x34,
+  SDLK_5 = 0x35,
+  SDLK_6 = 0x36,
+  SDLK_7 = 0x37,
+  SDLK_8 = 0x38,
+  SDLK_9 = 0x39,
+  SDLK_AT = 0x40,
+  SDLK_AMPERSAND = 0x26,
+  SDLK_ASTERISK = 0x2A,
+  SDLK_BACKQUOTE = 0x60,
+  SDLK_BACKSLASH = 0x5C,
+  SDLK_BACKSPACE = 0x8,
+  SDLK_BREAK = 0x13E,
+  SDLK_CAPSLOCK = 0x12D,
+  SDLK_CARET = 0x5E,
+  SDLK_CLEAR = 0xC,
+  SDLK_COLON = 0x3A,
+  SDLK_COMMA = 0x2C,
+  SDLK_COMPOSE = 0x13A,
+  SDLK_DELETE = 0x7F,
+  SDLK_DOLLAR = 0x24,
+  SDLK_DOWN = 0x112,
+  SDLK_END = 0x117,
+  SDLK_EQUALS = 0x3D,
+  SDLK_ESCAPE = 0x1B,
+  SDLK_EURO = 0x141,
+  SDLK_EXCLAIM = 0x21,
+  SDLK_F1 = 0x11A,
+  SDLK_F10 = 0x123,
+  SDLK_F11 = 0x124,
+  SDLK_F12 = 0x125,
+  SDLK_F13 = 0x126,
+  SDLK_F14 = 0x127,
+  SDLK_F15 = 0x128,
+  SDLK_F2 = 0x11B,
+  SDLK_F3 = 0x11C,
+  SDLK_F4 = 0x11D,
+  SDLK_F5 = 0x11E,
+  SDLK_F6 = 0x11F,
+  SDLK_F7 = 0x120,
+  SDLK_F8 = 0x121,
+  SDLK_F9 = 0x122,
+  SDLK_GREATER = 0x3E,
+  SDLK_HASH = 0x24,
+  SDLK_HELP = 0x13B,
+  SDLK_HOME = 0x116,
+  SDLK_INSERT = 0x115,
+  SDLK_KP0 = 0x100,
+  SDLK_KP1 = 0x101,
+  SDLK_KP2 = 0x102,
+  SDLK_KP3 = 0x103,
+  SDLK_KP4 = 0x104,
+  SDLK_KP5 = 0x105,
+  SDLK_KP6 = 0x106,
+  SDLK_KP7 = 0x107,
+  SDLK_KP8 = 0x108,
+  SDLK_KP9 = 0x109,
+  SDLK_KP_PERIOD = 0x10A,
+  SDLK_KP_DIVIDE = 0x10B,
+  SDLK_KP_MULTIPLY = 0x10C,
+  SDLK_KP_MINUS = 0x10D,
+  SDLK_KP_PLUS = 0x10E,
+  SDLK_KP_ENTER = 0x10F,
+  SDLK_KP_EQUALS = 0x110,
+  SDLK_LALT = 0x134,
+  SDLK_LCTRL = 0x132,
+  SDLK_LEFT = 0x114,
+  SDLK_LEFTBRACKET = 0x5B,
+  SDLK_LEFTPAREN = 0x28,
+  SDLK_LESS = 0x3C,
+  SDLK_LMETA = 0x136,
+  SDLK_LSHIFT = 0x130,
+  SDLK_LSUPER = 0x137,
+  SDLK_MENU = 0x13F,
+  SDLK_MINUS = 0x2D,
+  SDLK_MODE = 0x139,
+  SDLK_NUMLOCK = 0x12C,
+  SDLK_PAGEDOWN = 0x119,
+  SDLK_PAGEUP = 0x118,
+  SDLK_PAUSE = 0x13,
+  SDLK_PERIOD = 0x2E,
+  SDLK_PLUS = 0x2B,
+  SDLK_POWER = 0x140,
+  SDLK_PRINTSCREEN = 0x13C,
+  SDLK_QUESTION = 0x3F,
+  SDLK_QUOTEDBL = 0x22,
+  SDLK_QUOTE = 0x27,
+  SDLK_RALT = 0x133,
+  SDLK_RCTRL = 0x131,
+  SDLK_RETURN = 0xD,
+  SDLK_RIGHT = 0x113,
+  SDLK_RIGHTBRACKET = 0x5D,
+  SDLK_RIGHTPAREN = 0x29,
+  SDLK_RMETA = 0x135,
+  SDLK_RSHIFT = 0x12F,
+  SDLK_RSUPER = 0x138,
+  SDLK_SCROLLOCK = 0x12E,
+  SDLK_SEMICOLON = 0x3B,
+  SDLK_SLASH = 0x2F,
+  SDLK_SPACE = 0x20,
+  SDLK_SYSREQ = 0x13D,
+  SDLK_TAB = 0x9,
+  SDLK_UNDERSCORE = 0x5F,
+  SDLK_UNDO = 0x142,
+  SDLK_UP = 0x111,
+  SDLK_a = 0x61,
+  SDLK_b = 0x62,
+  SDLK_c = 0x63,
+  SDLK_d = 0x64,
+  SDLK_e = 0x65,
+  SDLK_f = 0x66,
+  SDLK_g = 0x67,
+  SDLK_h = 0x68,
+  SDLK_i = 0x69,
+  SDLK_j = 0x6A,
+  SDLK_k = 0x6B,
+  SDLK_l = 0x6C,
+  SDLK_m = 0x6D,
+  SDLK_n = 0x6E,
+  SDLK_o = 0x6F,
+  SDLK_p = 0x70,
+  SDLK_q = 0x71,
+  SDLK_r = 0x72,
+  SDLK_s = 0x73,
+  SDLK_t = 0x74,
+  SDLK_u = 0x75,
+  SDLK_v = 0x76,
+  SDLK_w = 0x77,
+  SDLK_x = 0x78,
+  SDLK_y = 0x79,
+  SDLK_z = 0x7A,
+  SDLK_LAST = 0x143,
+};
+
+enum ShaderType
+{
+  SHADER_TYPE_VERTEX = 0x0,
+  SHADER_TYPE_FRAGMENT = 0x1,
+};
+
+enum GraphicsPrimitiveType
+{
+  GRAPHICS_PRIMITIVE_POINTS = 0x1,
+  GRAPHICS_PRIMITIVE_LINES = 0x2,
+  GRAPHICS_PRIMITIVE_LINE_STRIP = 0x3,
+  GRAPHICS_PRIMITIVE_TRIANGLES = 0x4,
+  GRAPHICS_PRIMITIVE_TRIANGLE_STRIP = 0x5,
+  GRAPHICS_PRIMITIVE_QUADS = 0x6,
+  GRAPHICS_PRIMITIVE_QUAD_STRIP = 0x7,
+};
+
+enum GraphicsTextureColorType
+{
+  GRAPHICS_TEXCOLOR_NONE = 0x0,
+  GRAPHICS_TEXCOLOR_RGBA = 0x1,
+  GRAPHICS_TEXCOLOR_A = 0x2,
+  GRAPHICS_TEXCOLOR_L = 0x3,
+};
+
+enum GraphicsComparisonType
+{
+  GRAPHICS_COMPARISON_FALSE = 0x0,
+  GRAPHICS_COMPARISON_TRUE = 0x1,
+  GRAPHICS_COMPARISON_EQUAL = 0x2,
+  GRAPHICS_COMPARISON_NOT_EQUAL = 0x3,
+  GRAPHICS_COMPARISON_LESS = 0x4,
+  GRAPHICS_COMPARISON_LESS_EQUAL = 0x5,
+  GRAPHICS_COMPARISON_GREATER_EQUAL = 0x6,
+  GRAPHICS_COMPARISON_GREATER = 0x7,
+};
+
+typedef char *ShaderSourceCallback(GraphicsPrimitiveType, int, int, GraphicsTextureColorType, int, int, int, int, int, GraphicsComparisonType);
+
+static void* GetBaseAddress()
+{
+  return SigScan::GetBaseAddress();
+}
+
+
 struct AchievementTracker;
 
 struct AnimationTracker;
@@ -49,9 +535,6 @@ struct LIBZHL_INTERFACE AnimationTracker
 	float loopDelay;
 	float currentDelay;
 };
-
-struct CAchievement;
-struct GL_Primitive;
 
 struct AchievementTracker
 {
@@ -180,8 +663,6 @@ struct GL_Color
 	float a;
 };
 
-struct GL_Texture;
-
 struct Pointf
 {
 	Pointf() : x(0.f), y(0.f) {}
@@ -271,91 +752,6 @@ struct AnimationSheet
 	int frameHeight;
 	int frameWidth;
 	GL_Texture *imageId;
-};
-
-struct CachedImage;
-
-struct CachedPrimitive;
-struct GL_Color;
-
-struct CachedPrimitive
-{
-	~CachedPrimitive()
-	{
-		this->destructor();
-	}
-
-	LIBZHL_API void OnRender(const GL_Color &color);
-	LIBZHL_API void destructor();
-	
-	void *vptr;
-	GL_Primitive *primitive;
-};
-
-struct CachedImage : CachedPrimitive
-{
-	enum Centered
-	{
-	  CENTERED = 0x0,
-	};
-	
-	CachedImage(const std::string& path, int x, int y)
-	{
-		constructor1(path, x, y);
-	}
-	
-	CachedImage()
-	{
-		
-	}
-	
-	CachedImage(const CachedImage &other)
-	{
-		constructor_copy(other);
-	}
-	
-	CachedImage& operator=(CachedImage &other)
-	{
-		constructor_copy(other);
-		return *this;
-	}
-
-	LIBZHL_API void CreatePrimitive();
-	LIBZHL_API void SetImagePath(const std::string &imagePath);
-	LIBZHL_API void SetMirrored(bool _mirrored);
-	LIBZHL_API void SetPosition(int x, int y);
-	LIBZHL_API void SetRotation(float _rotation);
-	LIBZHL_API void constructor1(const std::string &path, int x, int y);
-	LIBZHL_API void constructor_copy(const CachedImage &other);
-	LIBZHL_API void destructor();
-	
-	std::string imageName;
-	GL_Texture *texture;
-	int x;
-	int y;
-	float wScale;
-	float hScale;
-	float x_start;
-	float y_start;
-	float x_size;
-	float y_size;
-	float rotation;
-	bool mirrored;
-};
-
-struct Point
-{
-	Point(int xx, int yy) : x(xx), y(yy)  { }
-	Point() { }
-	
-	friend bool operator==(const Point &a, const Point &b) {return a.x==b.x && a.y==b.y;}
-	friend bool operator!=(const Point &a, const Point &b) {return a.x!=b.x || a.y!=b.y;}
-
-	LIBZHL_API int Distance(Point other);
-	LIBZHL_API int RelativeDistance(Point other);
-	
-	int x;
-	int y;
 };
 
 struct WeaponAnimation;
@@ -536,38 +932,6 @@ struct TapBoxFrame
 	std::vector<int> buttonHeights;
 	std::vector<GL_Primitive*> primitives;
 	Globals::Rect hitBox;
-};
-
-struct TextLibrary;
-
-struct TextLibrary
-{
-	std::string GetText(const std::string& name)
-	{
-		return TextLibrary::GetText(name, currentLanguage);
-	}
-
-	LIBZHL_API std::string GetText(const std::string &name, const std::string &lang);
-	
-	std::map<std::string, std::string> dictionary;
-	std::map<std::string, std_map_std_string_std_string> languageDictionaries;
-	std::string currentLanguage;
-};
-
-struct TextString;
-
-struct TextString
-{
-	TextString()
-	{
-		isLiteral = true;
-	}
-
-	LIBZHL_API std::string GetText();
-	
-	std::string data;
-	bool isLiteral;
-	uint8_t gap_ex[4];
 };
 
 struct WarningMessage;
@@ -1017,13 +1381,6 @@ struct Asteroid : Projectile
 };
 
 struct AsteroidGenerator;
-
-struct RandomAmount
-{
-	int min;
-	int max;
-	float chanceNone;
-};
 
 struct AsteroidGenerator
 {
@@ -2429,40 +2786,6 @@ struct BossShip : CompleteShip
 	std::vector<int> crewCounts;
 	bool bDeathBegan;
 	int nextStage;
-};
-
-struct CAchievement
-{
-	CAchievement()
-	{
-		this->constructor();
-	}
-
-	LIBZHL_API void OnRender(Point pos, int selected, bool showNew);
-	LIBZHL_API void constructor();
-	
-	std::string name_id;
-	std::pair<int, int> progress;
-	bool unlocked;
-	int8_t gap_ex_custom;
-	TextString name;
-	TextString description;
-	TextString header;
-	bool newAchievement;
-	bool multiDifficulty;
-	int difficulty;
-	std::string ship;
-	int shipDifficulties[3];
-	int dimension;
-	CachedImage icon;
-	CachedImage miniIcon;
-	CachedImage miniIconLocked;
-	CachedImage lockImage;
-	CachedImage dotOn;
-	CachedImage dotOff;
-	GL_Primitive *outline;
-	GL_Primitive *mini_outline;
-	GL_Primitive *lockOverlay;
 };
 
 struct CApp;
@@ -6754,6 +7077,15 @@ struct WorldManager
 	std::vector<LocationEvent::Choice> originalChoiceList;
 };
 
+struct RewardDesc;
+
+LIBZHL_API void __stdcall GenerateReward(ResourceEvent &ref, RewardDesc &reward, int worldLevel);
+LIBZHL_API void __stdcall GetValue(ResourceEvent &ref, const std::string &type, int level, int worldLevel);
+LIBZHL_API float __stdcall font_text_width(freetype::font_data &fontData, const char *str, float size);
+LIBZHL_API float __stdcall getSkillBonus(int skill, int level);
+LIBZHL_API int __stdcall random32();
+LIBZHL_API void __stdcall srandom32(unsigned int seed);
+
 extern LIBZHL_API AchievementTracker *Global_AchievementTracker_Tracker;
 extern LIBZHL_API AnimationControl *Global_AnimationControl_Animations;
 extern LIBZHL_API BlueprintManager *Global_BlueprintManager_Blueprints;
@@ -6777,3 +7109,5 @@ extern LIBZHL_API SoundControl *Global_SoundControl_Sounds;
 extern LIBZHL_API Point *Global_SystemControl_weapon_position;
 extern LIBZHL_API Point *Global_SystemControl_drone_position;
 extern LIBZHL_API TutorialManager *Global_TutorialManager_Tutorial;
+
+
