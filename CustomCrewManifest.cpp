@@ -242,7 +242,7 @@ void CustomCrewManifest::OnRender()
     CSurface::GL_PushMatrix();
     if (crewManifest->confirmingDelete >= 0)
     {
-        CSurface::GL_SetColorTint(0.25f, 0.25f, 0.25f, 1.0f);
+        CSurface::GL_SetColorTint(GL_Color(0.25f, 0.25f, 0.25f, 1.0f));
     }
 
 
@@ -309,7 +309,7 @@ void CustomCrewManifest::OnRender()
 
         if (crewManifest->confirmingDelete == slot)
         {
-            CSurface::GL_SetColorTint(0.25f, 0.25f, 0.25f, 1.f);
+            CSurface::GL_SetColorTint(GL_Color(0.25f, 0.25f, 0.25f, 1.f));
         }
         slot++;
     }
@@ -354,7 +354,7 @@ void CustomCrewManifest::OnRender()
 
         if (crewManifest->confirmingDelete == crewLimit)
         {
-            CSurface::GL_SetColorTint(0.25f, 0.25f, 0.25f, 1.f);
+            CSurface::GL_SetColorTint(GL_Color(0.25f, 0.25f, 0.25f, 1.f));
         }
     }
 

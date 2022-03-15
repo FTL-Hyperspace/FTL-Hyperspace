@@ -52,7 +52,7 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, -1000, () -> void)
 
 
 
-        CSurface::GL_SetColor(1.f, 1.f, 1.f, 1.f);
+        CSurface::GL_SetColor(GL_Color(1.f, 1.f, 1.f, 1.f));
         CSurface::GL_PushMatrix();
 
         CSurface::GL_Translate(currentShip->ship.horizontal_shift + 365.f, currentShip->ship.vertical_shift + 30.f);

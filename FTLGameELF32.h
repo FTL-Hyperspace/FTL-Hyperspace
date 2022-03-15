@@ -3582,7 +3582,7 @@ struct CSurface
 	LIBZHL_API static bool __stdcall GL_DrawShield(int x, int y, float a1, float b1, int angle1, int angle2, GL_Color color, float thickness);
 	LIBZHL_API static bool __stdcall GL_DrawTriangle(Point vertex1, Point vertex2, Point vertex3, GL_Color color);
 	LIBZHL_API static bool __stdcall GL_EnableBlend();
-	LIBZHL_API static bool __stdcall GL_ForceAntialias();
+	LIBZHL_API static void __stdcall GL_ForceAntialias(bool on);
 	LIBZHL_API static GL_Color __stdcall GL_GetColor();
 	LIBZHL_API static int __stdcall GL_LoadIdentity();
 	LIBZHL_API static int __stdcall GL_OrthoProjection(float mx1, float mx2, float mx3, float mx4, float mx5, float mx6);
@@ -3598,9 +3598,7 @@ struct CSurface
 	LIBZHL_API static void __stdcall GL_Rotate(float angle, float x, float y, float z = 1.f);
 	LIBZHL_API static void __stdcall GL_Rotate2(float angle, float x, float y, float z = 1.f);
 	LIBZHL_API static void __stdcall GL_Scale(float x, float y, float z);
-	LIBZHL_API static int __stdcall GL_SetColor(float r, float g, float b, float a);
 	LIBZHL_API static int __stdcall GL_SetColor(GL_Color color);
-	LIBZHL_API static void __stdcall GL_SetColorTint(float r, float g, float b, float a);
 	LIBZHL_API static void __stdcall GL_SetColorTint(GL_Color color);
 	LIBZHL_API static void __stdcall GL_SetStencilMode(GL_StencilMode stencilMode, int ref, int mask);
 	LIBZHL_API static bool __stdcall GL_Translate(float x, float y, float z = 0.f);

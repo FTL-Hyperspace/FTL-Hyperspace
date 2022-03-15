@@ -173,7 +173,7 @@ HOOK_METHOD(ShipManager, OnRender, (bool showInterior, bool doorControlMode) -> 
         auto time = jumpAnimation.current_time;
         if (time >= 1.0)
         {
-            CSurface::GL_SetColorTint(255.f, 255.f, 255.f, 1.f - ((time - 1.f) * 2.f));
+            CSurface::GL_SetColorTint(GL_Color(255.f, 255.f, 255.f, 1.f - ((time - 1.f) * 2.f)));
             RenderWeapons();
             CSurface::GL_RemoveColorTint();
         }

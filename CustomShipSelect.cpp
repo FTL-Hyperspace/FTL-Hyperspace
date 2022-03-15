@@ -2182,7 +2182,7 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
         freetype::easy_printCenter(13, 1109, 400, lib->GetText("hangar_advanced_title"));
     }
 
-    CSurface::GL_SetColor(1.f, 1.f, 1.f, 1.f);
+    CSurface::GL_SetColor(GL_Color(1.f, 1.f, 1.f, 1.f));
 
     // Render vanilla hangar animations
 

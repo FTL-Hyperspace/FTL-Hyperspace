@@ -1,13 +1,9 @@
 "83ec2c8b442430f30f10442430":
 static cleanup int CSurface::GL_SetColor(GL_Color color);
-"83ec2c8b442430f30f10442430":
-static cleanup int CSurface::GL_SetColor(float r, float g, float b, float a);
 ".8b4424048b15????????8910":
 static cleanup GL_Color CSurface::GL_GetColor();
 "83ec1ca1????????3b05????????74??85c0":
 static cleanup void CSurface::GL_SetColorTint(GL_Color color);
-"83ec1ca1????????3b05????????74??85c0":
-static cleanup void CSurface::GL_SetColorTint(float r, float g, float b, float a);
 "83ec0ce8????????85c0??????83c40c":
 static cleanup bool CSurface::IsFrameBufferSupported();
 "83ec0ce8????????83c40c":
@@ -51,7 +47,7 @@ static cleanup bool CSurface::GL_EnableBlend();
 "83ec1cc744240800000000c744240401000000c7042401000000e8????????83c41c":
 static cleanup bool CSurface::GL_DisableBlend();
 "8b442404a2????????":
-static cleanup bool CSurface::GL_ForceAntialias();
+static cleanup void CSurface::GL_ForceAntialias(bool on);
 "81ecbc0000008b15????????a1????????f30f109c24d4000000f30f109424d8000000f30f108c24dc000000":
 static cleanup bool CSurface::GL_DrawLine(float x1, float y1, float x2, float y2, float lineWidth, GL_Color color);
 "5557565381ec8c0000008b15????????8b8424b00000008bbc24a00000008bac24a40000008b9c24a8000000":
