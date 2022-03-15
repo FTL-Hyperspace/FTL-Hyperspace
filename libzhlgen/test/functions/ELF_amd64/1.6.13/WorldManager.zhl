@@ -1,0 +1,46 @@
+"534889fb488d7f104883ec10":
+cleanup void WorldManager::constructor(WorldManager *this<rdi>);
+".415455488d6f10534889fb4889ef":
+cleanup int WorldManager::OnInit(WorldManager *this<rdi>);
+".554889f5534889fb4883ec08488bb6d0040000":
+cleanup void WorldManager::CreateStore(WorldManager *this<rdi>, LocationEvent* event<rsi>);
+".415455534889f34883ec204885f6":
+cleanup bool WorldManager::CheckRequirements(WorldManager *this<rdi>, LocationEvent* event<rsi>, bool hidden<rdx>);
+".4154554889fd534883ec20488b07488b5010":
+cleanup bool WorldManager::AddBoarders(WorldManager *this<rdi>, BoardingEvent& boardingEvent<rsi>);
+".534889fb488d7f10":
+cleanup bool WorldManager::HostileEnvironment(WorldManager *this<rdi>);
+".83fe01534889fb":
+cleanup void WorldManager::ModifyEnvironment(WorldManager *this<rdi>, int envFlag<rsi>, int envTarget<rdx>);
+".41554889d04989fd48c1f82041544989cc4889f148c1f920":
+cleanup void WorldManager::ModifyStatusEffect(WorldManager *this<rdi>, StatusEffect effect, ShipManager *target<rcx>, int targetType<r8>); /* StatusEffect is in RSI:RDX */
+".41574989f7488db65803000041564d8db78803000041554154554889fd534881ecd8020000":
+cleanup LocationEvent* WorldManager::ModifyResources(WorldManager *this<rdi>, LocationEvent *event<rsi>);
+"!.415741564989fe41554531ed41544c8da7001500005531ed534889f34883ec08":
+cleanup void WorldManager::CheckStatusEffects(WorldManager *this<rdi>, std::vector<StatusEffect>& vec<rsi>);
+".4157488d87501500004989ff41564889c741554154554889f5534889c34881ec08030000":
+cleanup void WorldManager::CreateChoiceBox(WorldManager *this<rdi>, LocationEvent* event<rsi>);
+".554889f5534889fb4883ec08488b07488b7810488b17":
+cleanup void WorldManager::CreateChoiceBox0(WorldManager *this<rdi>, LocationEvent* event<rsi>);
+".4156415541544989fc55534881ec60030000":
+cleanup CompleteShip* WorldManager::CreateShip(WorldManager *this<rdi>, ShipEvent* shipEvent<rsi>, bool boss<rdx>);
+".41574156415541544989f455534889fb4881ecf8030000":
+cleanup void WorldManager::CreateLocation(WorldManager *this<rdi>, Location *loc<rsi>);
+".4157415641554154554889fd534889f34881ec88030000":
+cleanup void WorldManager::UpdateLocation(WorldManager *this<rdi>, LocationEvent* event<rsi>);
+".554889f5534889fb4883ec08488b07488b7810488b17":
+cleanup void WorldManager::UpdateLocation0(WorldManager *this<rdi>, LocationEvent* event<rsi>);
+".415741564155415455534889fb4881ece8010000":
+cleanup void WorldManager::LoadGame(WorldManager *this<rdi>, const std::string& fileName<rsi>);
+".415455534889fb4883ec20488bbfb8110000":
+cleanup void WorldManager::SaveGame(WorldManager *this<rdi>);
+".554889fd5331db4883ec28488b07488b78104881c718010000":
+cleanup void WorldManager::CreateNewGame(WorldManager *this<rdi>);
+".4154554889f5534889fb4883ec20":
+cleanup void WorldManager::StartGame(WorldManager *this<rdi>, ShipManager *ship<rsi>);
+"!.534889fbe8????????e8????????e8":
+cleanup void WorldManager::Restart(WorldManager *this<rdi>);
+".415731f64989ff41564155415455534881ecf8000000":
+cleanup void WorldManager::OnLoop(WorldManager *this<rdi>);
+".41554154554889fd534883ec28488b3f":
+cleanup void WorldManager::PauseLoop(WorldManager *this<rdi>);

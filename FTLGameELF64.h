@@ -7046,8 +7046,34 @@ struct WeaponSystemBox : SystemBox
 	bool autofireTipWasOpen;
 };
 
+struct BoardingEvent;
+
 struct WorldManager
 {
+	LIBZHL_API bool AddBoarders(BoardingEvent &boardingEvent);
+	LIBZHL_API bool CheckRequirements(LocationEvent *event, bool hidden);
+	LIBZHL_API void CheckStatusEffects(std::vector<StatusEffect> &vec);
+	LIBZHL_API void CreateChoiceBox(LocationEvent *event);
+	LIBZHL_API void CreateChoiceBox0(LocationEvent *event);
+	LIBZHL_API void CreateLocation(Location *loc);
+	LIBZHL_API void CreateNewGame();
+	LIBZHL_API CompleteShip *CreateShip(ShipEvent *shipEvent, bool boss);
+	LIBZHL_API void CreateStore(LocationEvent *event);
+	LIBZHL_API bool HostileEnvironment();
+	LIBZHL_API void LoadGame(const std::string &fileName);
+	LIBZHL_API void ModifyEnvironment(int envFlag, int envTarget);
+	LIBZHL_API LocationEvent *ModifyResources(LocationEvent *event);
+	LIBZHL_API void ModifyStatusEffect(StatusEffect effect, ShipManager *target, int targetType);
+	LIBZHL_API int OnInit();
+	LIBZHL_API void OnLoop();
+	LIBZHL_API void PauseLoop();
+	LIBZHL_API void Restart();
+	LIBZHL_API void SaveGame();
+	LIBZHL_API void StartGame(ShipManager *ship);
+	LIBZHL_API void UpdateLocation(LocationEvent *event);
+	LIBZHL_API void UpdateLocation0(LocationEvent *event);
+	LIBZHL_API void constructor();
+	
 	CompleteShip *playerShip;
 	BossShip *bossShip;
 	SpaceManager space;
