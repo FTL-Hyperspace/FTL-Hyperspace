@@ -1,0 +1,67 @@
+"534889fb4883ec20f30f108fc4020000":
+cleanup Globals::Ellipse Ship::GetBaseEllipse(Ship *this<rdi>); /* TODO: Ellipse is actually returned on RAX:XMM0 or maybe it's RDX:XMM0 */
+".4c8b8778040000488b8f8004000048b835c2724f232cf7344c29c148c1f903":
+cleanup bool Ship::RoomLocked(Ship *this<rdi>, int roomId<rsi>);
+".41564155415455534889fb4883ec208b7f08":
+cleanup void Ship::OnRenderJump(Ship *this<rdi>, float progress<xmm0>);
+".41554189f5415455534889fb4883ec288b7f08":
+cleanup void Ship::OnRenderBase(Ship *this<rdi>, bool unk<rsi>);
+".5589f5534889fb4883ec1880bf7004000000":
+cleanup void Ship::OnRenderFloor(Ship *this<rdi>, bool unk<rsi>);
+".5531c94889fd5331db4883ec08488b5710488b47184829d048c1f8034885c07429":
+cleanup void Ship::OnRenderSparks(Ship *this<rdi>);
+".41544531e45531ed53488b57404889fb":
+cleanup void Ship::OnRenderBreaches(Ship *this<rdi>);
+"!.41544189cc5589d5538b7f08":
+cleanup int Ship::GetSelectedRoomId(Ship *this<rdi>, int x<rsi>, int y<rdx>, bool unk<rcx>);
+".415431c94189f4554889fd53488b5710":
+cleanup void Ship::SetSelectedRoom(Ship *this<rdi>, int roomId<rsi>);
+"!.4863c60fb6f2":
+cleanup void Ship::SetRoomBlackout(Ship *this<rdi>, int roomId<rsi>, bool blackout<rdx>);
+"!.4863c60fb6f2":
+cleanup int Ship::GetAvailableRoomSlot(Ship *this<rdi>, int roomId<rsi>, bool intruder<rdx>);
+".41544863f64c8d24f500000000554889fd":
+cleanup int Ship::EmptySlots(Ship *this<rdi>, int roomId<rsi>);
+".488b4f10488b47184829c848c1f80339c6":
+cleanup bool Ship::FullRoom(Ship *this<rdi>, int roomId<rsi>, bool intruder<rdx>);
+".41574531ff41564c8db7500400004155440fb6ee41544189d45531ed534889fb4883ec18":
+cleanup void Ship::OnRenderWalls(Ship *this<rdi>, bool forceView<rsi>, bool doorControlMode<rdx>);
+".415741564989fe41554154554889f553488d9f500400004883ec68":
+cleanup void Ship::OnLoop(Ship *this<rdi>, std::vector<float>& oxygenLevels<rsi>);
+".4156415541544989fc554863ee534883ec40":
+cleanup void Ship::BreachRandomHull(Ship *this<rdi>, int roomId<rsi>);
+".41574989ff4156415541545589f5534881ec38010000":
+cleanup void Ship::LockdownRoom(Ship *this<rdi>, int roomId<rsi>, Pointf pos<xmm0>);
+"!.41574989ff41564155415455534889f34881ec28030100":
+cleanup void Ship::OnInit(Ship *this<rdi>, ShipBlueprint* bp<rsi>);
+"!.39c27d0b(c6840cb000000001)":
+noop void* Global__NOP__Ship_OnInit_0;
+"!.39c27d03(c60101)":
+noop void* Global__NOP__Ship_OnInit_1;
+"!.89c67d03(c60101)":
+noop void* Global__NOP__Ship_OnInit_2;
+"!.39c17d0b(c684149000000001)":
+noop void* Global__NOP__Ship_OnInit_3;
+"!.39c17d03(c60201)":
+noop void* Global__NOP__Ship_OnInit_4;
+"!.89c67e03(c60201)":
+noop void* Global__NOP__Ship_OnInit_5;
+
+
+struct Ship depends (ShipGraph, Globals::Ellipse) {{
+	Pointf GetRoomCenter(int room)
+	{
+		auto graph = ShipGraph::GetShipInfo(this->iShipId);
+		return graph->GetRoomCenter(room);
+	}
+	
+	enum DoorStateType
+	{
+	  DOOR_CLOSED = 0x0,
+	  DOOR_OPEN = 0x1,
+	  DOOR_OPEN_FORCED = 0x2,
+	  DOOR_HIT = 0x3,
+	  DOOR_ANIMATING = 0x4,
+	};
+
+}};

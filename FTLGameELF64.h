@@ -6348,12 +6348,47 @@ struct OuterHull;
 
 struct Ship : ShipObject
 {
+	Pointf GetRoomCenter(int room)
+	{
+		auto graph = ShipGraph::GetShipInfo(this->iShipId);
+		return graph->GetRoomCenter(room);
+	}
+	
+	enum DoorStateType
+	{
+	  DOOR_CLOSED = 0x0,
+	  DOOR_OPEN = 0x1,
+	  DOOR_OPEN_FORCED = 0x2,
+	  DOOR_HIT = 0x3,
+	  DOOR_ANIMATING = 0x4,
+	};
+
+
 	struct DoorState
 	{
 		DoorStateType state;
 		bool hacked;
 		int level;
 	};
+	
+	LIBZHL_API void BreachRandomHull(int roomId);
+	LIBZHL_API int EmptySlots(int roomId);
+	LIBZHL_API bool FullRoom(int roomId, bool intruder);
+	LIBZHL_API int GetAvailableRoomSlot(int roomId, bool intruder);
+	LIBZHL_API Globals::Ellipse GetBaseEllipse();
+	LIBZHL_API int GetSelectedRoomId(int x, int y, bool unk);
+	LIBZHL_API void LockdownRoom(int roomId, Pointf pos);
+	LIBZHL_API void OnInit(ShipBlueprint *bp);
+	LIBZHL_API void OnLoop(std::vector<float> &oxygenLevels);
+	LIBZHL_API void OnRenderBase(bool unk);
+	LIBZHL_API void OnRenderBreaches();
+	LIBZHL_API void OnRenderFloor(bool unk);
+	LIBZHL_API void OnRenderJump(float progress);
+	LIBZHL_API void OnRenderSparks();
+	LIBZHL_API void OnRenderWalls(bool forceView, bool doorControlMode);
+	LIBZHL_API bool RoomLocked(int roomId);
+	LIBZHL_API void SetRoomBlackout(int roomId, bool blackout);
+	LIBZHL_API void SetSelectedRoom(int roomId);
 	
 	std::vector<Room*> vRoomList;
 	std::vector<Door*> vDoorList;
