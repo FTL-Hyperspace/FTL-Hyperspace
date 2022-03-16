@@ -6456,6 +6456,122 @@ struct TeleportSystem;
 
 struct ShipManager : ShipObject
 {
+	ShipManager(int shipId) 
+	{
+		this->constructor(shipId);
+	}
+	
+	Pointf GetRandomRoomCenter()
+	{
+		auto rng = rand();
+		auto graph = ShipGraph::GetShipInfo(this->iShipId);
+		auto rooms = graph->rooms.size();
+		return this->ship.GetRoomCenter(rng % rooms);
+	}
+	
+	Pointf GetRoomCenter(int roomId)
+	{
+		return ship.GetRoomCenter(roomId);
+	}
+	
+	~ShipManager()
+	{
+		this->destructor2();
+	}
+	
+	std::pair<int, int> GetAvailablePower()
+	{
+		PowerManager *powerMan = PowerManager::GetPowerManager(iShipId);
+		
+		return std::pair<int, int>(powerMan->currentPower.second, powerMan->currentPower.second - powerMan->currentPower.first);
+	}
+
+
+	LIBZHL_API CrewMember *AddCrewMemberFromBlueprint(CrewBlueprint *bp, int slot, bool init, int roomId, bool intruder);
+	LIBZHL_API CrewMember *AddCrewMemberFromString(const std::string &name, const std::string &race, char intruder, int roomId, char init, char male);
+	LIBZHL_API Drone *AddDrone(const DroneBlueprint *bp, int slot);
+	LIBZHL_API void AddEquipmentFromList(std::vector<std::string> *equipmentList);
+	LIBZHL_API void AddInitialCrew(std::vector<CrewBlueprint> &blueprints);
+	LIBZHL_API int AddSystem(int systemId);
+	LIBZHL_API int AddWeapon(const WeaponBlueprint *bp, int slot);
+	LIBZHL_API bool CanFitSubsystem(int systemId);
+	LIBZHL_API bool CanFitSystem(int systemId);
+	LIBZHL_API int CanUpgrade(int systemId, int amount);
+	LIBZHL_API void CheckCrystalAugment(Pointf pos);
+	LIBZHL_API void CheckSpreadDamage();
+	LIBZHL_API void CheckVision();
+	LIBZHL_API void ClearStatusAll();
+	LIBZHL_API void ClearStatusSystem(int system);
+	LIBZHL_API CollisionResponse CollisionMoving(Pointf start, Pointf finish, DamageParameter damage, bool raytrace);
+	LIBZHL_API bool CommandCrewMoveRoom(CrewMember *crew, int roomId);
+	LIBZHL_API int CountCrew(char boarders);
+	LIBZHL_API int CountCrewShipId(int roomId, int shipId);
+	LIBZHL_API CrewDrone *CreateCrewDrone(const DroneBlueprint *bp);
+	LIBZHL_API SpaceDrone *CreateSpaceDrone(const DroneBlueprint *bp);
+	LIBZHL_API int CreateSystems();
+	LIBZHL_API static void __stdcall DO_NOT_HOOK();
+	LIBZHL_API bool DamageArea(Pointf location, DamageParameter dmg, char forceHit);
+	LIBZHL_API bool DamageBeam(Pointf location1, Pointf location2, DamageParameter dmg);
+	LIBZHL_API char DamageCrew(CrewMember *crew, DamageParameter dmg);
+	LIBZHL_API int DamageHull(int dmg, bool force);
+	LIBZHL_API void DamageSystem(int systemId, DamageParameter damage);
+	LIBZHL_API bool DoSensorsProvide(int vision);
+	LIBZHL_API void ExportBattleState(int file);
+	LIBZHL_API void ExportShip(int file);
+	LIBZHL_API CrewMember *FindCrew(const CrewBlueprint *bp);
+	LIBZHL_API bool ForceDecreaseSystemPower(int sys);
+	LIBZHL_API CrewMember *GetCrewmember(int slot, bool present);
+	LIBZHL_API int GetDodgeFactor();
+	LIBZHL_API bool GetDodged();
+	LIBZHL_API int GetDroneCount();
+	LIBZHL_API std::vector<Drone*> GetDroneList();
+	LIBZHL_API int GetFireCount(int roomId);
+	LIBZHL_API int GetOxygenPercentage();
+	LIBZHL_API CrewMember *GetSelectedCrewPoint(int x, int y, bool intruder);
+	LIBZHL_API ShieldPower GetShieldPower();
+	LIBZHL_API ShipSystem *GetSystem(int systemId);
+	LIBZHL_API ShipSystem *GetSystemInRoom(int roomId);
+	LIBZHL_API int GetSystemPower(int systemId);
+	LIBZHL_API int GetSystemPowerMax(int systemId);
+	LIBZHL_API int GetSystemRoom(int sysId);
+	LIBZHL_API std::string GetTooltip(int x, int y);
+	LIBZHL_API std::vector<ProjectileFactory*> GetWeaponList();
+	LIBZHL_API char HasSystem(int systemId);
+	LIBZHL_API void ImportBattleState(int file);
+	LIBZHL_API void ImportShip(int file);
+	LIBZHL_API void InstantPowerShields();
+	LIBZHL_API bool IsCrewFull();
+	LIBZHL_API bool IsCrewOverFull();
+	LIBZHL_API int IsSystemHacked(int systemId);
+	LIBZHL_API void JumpArrive();
+	LIBZHL_API void JumpLeave();
+	LIBZHL_API void ModifyDroneCount(int drones);
+	LIBZHL_API void ModifyMissileCount(int missiles);
+	LIBZHL_API void ModifyScrapCount(int scrap, bool income);
+	LIBZHL_API int OnInit(ShipBlueprint *bp, int shipLevel);
+	LIBZHL_API void OnLoop();
+	LIBZHL_API void OnRender(char showInterior, char doorControlMode);
+	LIBZHL_API void PrepareSuperBarrage();
+	LIBZHL_API void PrepareSuperDrones();
+	LIBZHL_API void RemoveItem(const std::string &name);
+	LIBZHL_API void RenderChargeBars();
+	LIBZHL_API void RenderWeapons();
+	LIBZHL_API void ResetScrapLevel();
+	LIBZHL_API void Restart();
+	LIBZHL_API bool RestoreCrewPositions();
+	LIBZHL_API ShipBlueprint SaveToBlueprint(bool unk);
+	LIBZHL_API CrewBlueprint SelectRandomCrew(int seed, const std::string &racePref);
+	LIBZHL_API void SetDestroyed();
+	LIBZHL_API void SetSystemPowerLoss(int systemId, int powerLoss);
+	LIBZHL_API void StartFire(int roomId);
+	LIBZHL_API bool SystemFunctions(int systemId);
+	LIBZHL_API std::vector<CrewMember*> TeleportCrew(int roomId, bool intruders);
+	LIBZHL_API void UpdateCrewMembers();
+	LIBZHL_API void UpdateEnvironment();
+	LIBZHL_API int constructor(int shipId);
+	LIBZHL_API void destructor();
+	LIBZHL_API void destructor2();
+	
 	Targetable _targetable;
 	Collideable _collideable;
 	std::vector<ShipSystem*> vSystemList;

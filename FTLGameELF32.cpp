@@ -33176,7 +33176,7 @@ namespace _func885
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff};
-	static FunctionDefinition funcObj("ShipManager::OnLoop", typeid(void (ShipManager::*)()), "83ec2c8b44243080b8d103000000", argdata, 1, 6, &func);
+	static FunctionDefinition funcObj("ShipManager::OnLoop", typeid(void (ShipManager::*)()), "5589e5575689c65381ec1c010000", argdata, 1, 6, &func);
 }
 
 FUNC_NAKED void ShipManager::OnLoop()
