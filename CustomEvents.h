@@ -657,6 +657,9 @@ struct CustomEvent
     std::vector<EventDamage> enemyDamage = std::vector<EventDamage>();
 
     std::pair<std::string,std::string> transformRace = std::pair<std::string,std::string>("","");
+    bool allowNoSlot = false;
+    bool blockNoSlot = false;
+    bool choiceRequiresCrew = false;
 
     int superDrones = -1;
     std::string superDronesName = "";

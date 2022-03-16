@@ -11,6 +11,7 @@ This way mods that frequently use a particular value can just make it the defaul
 <defaults>
 	<beaconType_hideVanillaLabel>true</beaconType_hideVanillaLabel>
 	<checkCargo>false</checkCargo>
+	<choiceRequiresCrew>false</choiceRequiresCrew>
 </defaults>
 
 <!-- Custom save file:
@@ -1793,6 +1794,9 @@ Syntax ->
 		<metaVariable name="varname" op="set" val="0" min="0" max="0" var="_var_req_"/>         Same as variable but sets a meta-variable. Meta-variables persist on the profile.
 		<tempVariable name="varname" op="set" val="0" min="0" max="0" var="_var_req_"/>         Same as variable but temporary (only lasts for this event). Used for intermediate calculations.
 		<transformRace class="orig_race">new_race</transformRace>                               Transforms a random crewmember to the race new_race. If the class attribute is specified, restricts the random crew selection.
+		<allowNoSlot/>                                                                          Allows crew-removal or transform event to pick noSlot crew (default is not allowed unless no other choice).
+		<blockNoSlot/>                                                                          Blocks crew-removal or transform event from picking noSlot crew entirely.
+		<choiceRequiresCrew/>                                                                   If this event removes or transforms crew, an eligible crew is required or the choice will be greyed out.
 		<customStore>STORE_ID</customStore>                                                     Use the custom store STORE_ID for this store event.
 		<store>STORE_ID</store>                                                                 Alias for customStore. Allows specifying a custom store in events.xml files using a single tag.
 		<removeStore/>                                                                          Removes the store at the current beacon.

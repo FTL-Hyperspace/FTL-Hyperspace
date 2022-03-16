@@ -102,6 +102,10 @@ void Global::PreInitializeResources(ResourceControl *resources)
                     {
                         customOptions->defaults.checkCargo = EventsParser::ParseBoolean(child->value());
                     }
+                    if (strcmp(child->name(), "choiceRequiresCrew") == 0)
+                    {
+                        customOptions->defaults.choiceRequiresCrew = EventsParser::ParseBoolean(child->value());
+                    }
                     if (strcmp(child->name(), "beaconType_hideVanillaLabel") == 0)
                     {
                         customOptions->defaults.beaconType_hideVanillaLabel = EventsParser::ParseBoolean(child->value());

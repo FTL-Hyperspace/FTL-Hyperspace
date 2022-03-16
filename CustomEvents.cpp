@@ -37,6 +37,7 @@ std::unordered_map<std::string, int> playerVariables = std::unordered_map<std::s
 CustomEvent::CustomEvent()
 {
     checkCargo = CustomOptionsManager::GetInstance()->defaults.checkCargo;
+    choiceRequiresCrew = CustomOptionsManager::GetInstance()->defaults.choiceRequiresCrew;
 }
 
 void CustomEventsParser::EarlyParseCustomEventNode(rapidxml::xml_node<char> *node)
@@ -1052,6 +1053,24 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
             {
                 customEvent->goToFlagshipFleet = EventsParser::ParseBoolean(child->first_attribute("allFleet")->value());
             }
+        }
+
+        if (nodeName == "allowNoSlot")
+        {
+            isDefault = false;
+            customEvent->allowNoSlot = true;
+        }
+
+        if (nodeName == "blockNoSlot")
+        {
+            isDefault = false;
+            customEvent->blockNoSlot = true;
+        }
+
+        if (nodeName == "choiceRequiresCrew")
+        {
+            isDefault = false;
+            customEvent->choiceRequiresCrew = true;
         }
 
         if (nodeName == "transformRace")
@@ -2369,7 +2388,7 @@ HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
 }
 
 // hidden augs, checkCargo
-HOOK_METHOD_PRIORITY(WorldManager, ModifyResources, -100, (LocationEvent *event) -> LocationEvent*)
+HOOK_METHOD_PRIORITY(WorldManager, ModifyResources, -200, (LocationEvent *event) -> LocationEvent*)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> WorldManager::ModifyResources -> Begin (CustomEvents.cpp)\n")
     auto customEvents = CustomEventsParser::GetInstance();
@@ -5066,15 +5085,182 @@ HOOK_METHOD(StarMap, TurnIntoFleetLocation, (Location *loc) -> void)
     super(loc);
 }
 
-HOOK_METHOD_PRIORITY(ShipManager, SelectRandomCrew, 100, (int seed, std::string &racePref) -> CrewBlueprint)
+// Crew Removal Functions
+
+static bool selectRandomCrew_allowNoSlot = false;
+static bool selectRandomCrew_blockNoSlot = false;
+
+HOOK_METHOD_PRIORITY(WorldManager, CreateLocation, -100, (Location *location) -> void)
 {
-    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::SelectRandomCrew -> Begin (CustomEvents.cpp)\n")
-    std::string species = racePref;
-    CrewBlueprint bp = super(seed, species); // species is not const?!
+    LocationEvent *event = location->event;
 
-    species = racePref;
+    if (event)
+    {
+        CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(event->eventName);
 
-    std::vector<std::string> blueprintList = G_->GetBlueprints()->GetBlueprintList(species);
+        if (customEvent)
+        {
+            selectRandomCrew_allowNoSlot = customEvent->allowNoSlot;
+            selectRandomCrew_blockNoSlot = customEvent->blockNoSlot;
+        }
+    }
+
+    super(location);
+
+    selectRandomCrew_allowNoSlot = false;
+    selectRandomCrew_blockNoSlot = false;
+}
+
+HOOK_METHOD_PRIORITY(WorldManager, UpdateLocation, -100, (LocationEvent *event) -> void)
+{
+    CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(event->eventName);
+
+    if (customEvent)
+    {
+        selectRandomCrew_allowNoSlot = customEvent->allowNoSlot;
+        selectRandomCrew_blockNoSlot = customEvent->blockNoSlot;
+    }
+
+    super(event);
+
+    selectRandomCrew_allowNoSlot = false;
+    selectRandomCrew_blockNoSlot = false;
+}
+
+HOOK_METHOD_PRIORITY(WorldManager, ModifyResources, -100, (LocationEvent *event) -> LocationEvent*)
+{
+    CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(event->eventName);
+
+    bool old_allowNoSlot = selectRandomCrew_allowNoSlot;
+    bool old_blockNoSlot = selectRandomCrew_blockNoSlot;
+
+    if (customEvent)
+    {
+        selectRandomCrew_allowNoSlot = customEvent->allowNoSlot;
+        selectRandomCrew_blockNoSlot = customEvent->blockNoSlot;
+    }
+
+    LocationEvent *ret = super(event);
+
+    old_allowNoSlot = false;
+    old_blockNoSlot = false;
+
+    return ret;
+}
+
+std::vector<CrewMember*> HS_GetEligibleCrewList(int iShipId, bool includeNoSlot)
+{
+    std::vector<CrewMember*> eligibleCrewList = std::vector<CrewMember*>();
+    std::vector<CrewMember*> crewList = std::vector<CrewMember*>();
+    G_->GetCrewFactory()->GetCrewList(&crewList, iShipId, false);
+
+    if (includeNoSlot) return crewList;
+
+    for (CrewMember* crew: crewList)
+    {
+        if (!includeNoSlot)
+        {
+            CrewMember_Extend *ex = CM_EX(crew);
+            bool noSlot = ex->noSlot;
+            CustomCrewManager *customCrew = CustomCrewManager::GetInstance();
+
+            if (customCrew->IsRace(crew->species))
+            {
+                const CrewDefinition *def = customCrew->GetDefinition(crew->species);
+                ex->CalculateStat(CrewStat::NO_SLOT, def, &noSlot);
+            }
+
+            if (noSlot)
+            {
+                continue;
+            }
+        }
+
+        eligibleCrewList.push_back(crew);
+    }
+
+    return eligibleCrewList;
+}
+
+std::vector<CrewMember*> HS_GetEligibleCrewList(int iShipId, std::string &racePref, bool includeNoSlot)
+{
+    if (racePref == "random") return HS_GetEligibleCrewList(iShipId, includeNoSlot);
+
+    std::vector<CrewMember*> eligibleCrewList = std::vector<CrewMember*>();
+    std::vector<CrewMember*> crewList = std::vector<CrewMember*>();
+    G_->GetCrewFactory()->GetCrewList(&crewList, iShipId, false);
+
+    for (CrewMember* crew: crewList)
+    {
+        if (crew->species == racePref)
+        {
+            if (!includeNoSlot)
+            {
+                CrewMember_Extend *ex = CM_EX(crew);
+                bool noSlot = ex->noSlot;
+                CustomCrewManager *customCrew = CustomCrewManager::GetInstance();
+
+                if (customCrew->IsRace(crew->species))
+                {
+                    const CrewDefinition *def = customCrew->GetDefinition(crew->species);
+                    ex->CalculateStat(CrewStat::NO_SLOT, def, &noSlot);
+                }
+
+                if (noSlot)
+                {
+                    continue;
+                }
+            }
+
+            eligibleCrewList.push_back(crew);
+        }
+    }
+
+    return eligibleCrewList;
+}
+
+std::vector<CrewMember*> HS_GetEligibleCrewList(int iShipId, const std::vector<std::string> &blueprintList, bool includeNoSlot)
+{
+    std::vector<CrewMember*> eligibleCrewList = std::vector<CrewMember*>();
+    std::vector<CrewMember*> crewList = std::vector<CrewMember*>();
+    G_->GetCrewFactory()->GetCrewList(&crewList, iShipId, false);
+
+    for (CrewMember* crew: crewList)
+    {
+        for (const std::string &i : blueprintList)
+        {
+            if (crew->species == i)
+            {
+                if (!includeNoSlot)
+                {
+                    CrewMember_Extend *ex = CM_EX(crew);
+                    bool noSlot = ex->noSlot;
+                    CustomCrewManager *customCrew = CustomCrewManager::GetInstance();
+
+                    if (customCrew->IsRace(crew->species))
+                    {
+                        const CrewDefinition *def = customCrew->GetDefinition(crew->species);
+                        ex->CalculateStat(CrewStat::NO_SLOT, def, &noSlot);
+                    }
+
+                    if (noSlot)
+                    {
+                        break;
+                    }
+                }
+
+                eligibleCrewList.push_back(crew);
+                break;
+            }
+        }
+    }
+
+    return eligibleCrewList;
+}
+
+std::vector<std::string> HS_GetRecursiveBlueprintList(std::string &bp)
+{
+    std::vector<std::string> blueprintList = G_->GetBlueprints()->GetBlueprintList(bp);
 
     for (int i=0; i<blueprintList.size(); ++i)
     {
@@ -5085,31 +5271,89 @@ HOOK_METHOD_PRIORITY(ShipManager, SelectRandomCrew, 100, (int seed, std::string 
         }
     }
 
-    if (!blueprintList.size()) return bp;
+    return blueprintList;
+}
 
-    if (seed != -1) srandom32(seed);
+std::vector<CrewMember*> HS_GetRandomCrewList(int iShipId, std::string &racePref, bool randomRaceAllowed, bool noSlotAllowed, bool noSlotForbidden)
+{
+    noSlotForbidden |= noSlotAllowed;
 
-    auto eligibleCrewList = std::vector<CrewMember*>();
-    auto crewList = std::vector<CrewMember*>();
-    G_->GetCrewFactory()->GetCrewList(&crewList, 0, false);
+    std::vector<std::string> blueprintList = HS_GetRecursiveBlueprintList(racePref);
 
-    for (auto crew: crewList)
+    std::vector<CrewMember*> eligibleCrewList;
+    if (!blueprintList.empty())
     {
-        if (!crew->IsDrone())
+        // List race
+        eligibleCrewList = HS_GetEligibleCrewList(0, blueprintList, noSlotAllowed);
+        if (eligibleCrewList.empty() && !noSlotForbidden) eligibleCrewList = HS_GetEligibleCrewList(0, blueprintList, true);
+    }
+    else if (!racePref.empty())
+    {
+        // Fixed race
+        eligibleCrewList = HS_GetEligibleCrewList(0, racePref, noSlotAllowed);
+        if (eligibleCrewList.empty() && !noSlotForbidden) eligibleCrewList = HS_GetEligibleCrewList(0, racePref, true);
+    }
+    else
+    {
+        randomRaceAllowed = true;
+    }
+    if (eligibleCrewList.empty() && randomRaceAllowed)
+    {
+        // No race
+        eligibleCrewList = HS_GetEligibleCrewList(0, noSlotAllowed);
+        if (eligibleCrewList.empty() && !noSlotForbidden) eligibleCrewList = HS_GetEligibleCrewList(0, true);
+    }
+
+    return eligibleCrewList;
+}
+
+HOOK_METHOD(WorldManager, CheckRequirements, (LocationEvent *event, bool hidden) -> bool)
+{
+    bool ret = super(event, hidden);
+
+    if (ret && event)
+    {
+        CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(event->eventName);
+
+        if (customEvent)
         {
-            for (auto i : blueprintList)
+            if (customEvent->choiceRequiresCrew)
             {
-                if (crew->species == i)
+                if (event->stuff.crew < 0)
                 {
-                    eligibleCrewList.push_back(crew);
-                    break;
+                    std::vector<CrewMember*> eligibleCrewList = HS_GetRandomCrewList(0, event->stuff.crewType, false, customEvent->allowNoSlot, customEvent->blockNoSlot);
+                    if (eligibleCrewList.empty()) return false;
+                }
+                if (!customEvent->transformRace.second.empty())
+                {
+                    std::vector<CrewMember*> eligibleCrewList = HS_GetRandomCrewList(0, customEvent->transformRace.first, false, customEvent->allowNoSlot, customEvent->blockNoSlot);
+                    if (eligibleCrewList.empty()) return false;
                 }
             }
         }
+        else if (event->stuff.crew < 0 && CustomOptionsManager::GetInstance()->defaults.choiceRequiresCrew)
+        {
+            std::vector<CrewMember*> eligibleCrewList = HS_GetRandomCrewList(0, event->stuff.crewType, false, false, false);
+            if (eligibleCrewList.empty()) return false;
+        }
     }
 
-    if (eligibleCrewList.size())
+    return ret;
+}
+
+HOOK_METHOD_PRIORITY(ShipManager, SelectRandomCrew, 100, (int seed, std::string &racePref) -> CrewBlueprint)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::SelectRandomCrew -> Begin (CustomEvents.cpp)\n")
+    std::string species = racePref;
+    CrewBlueprint bp = super(seed, species); // species is not const?!
+
+    species = racePref;
+
+    std::vector<CrewMember*> eligibleCrewList = HS_GetRandomCrewList(0, racePref, true, selectRandomCrew_allowNoSlot, selectRandomCrew_blockNoSlot);
+
+    if (!eligibleCrewList.empty())
     {
+        if (seed != -1) srandom32(seed);
         bp = eligibleCrewList[((unsigned int)random32()) % eligibleCrewList.size()]->blueprint;
     }
 
@@ -5151,6 +5395,8 @@ HOOK_METHOD_PRIORITY(ShipManager, FindCrew, 9999, (const CrewBlueprint* bp) -> C
 
     return nullptr;
 }
+
+//
 
 HOOK_METHOD(ShipObject, HasEquipment, (const std::string& name) -> int)
 {
