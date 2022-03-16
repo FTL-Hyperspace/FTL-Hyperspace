@@ -6520,11 +6520,51 @@ struct SoundControl
 
 struct SpaceManager
 {
+
 	struct FleetShip
 	{
 		GL_Texture *image;
 		Point location;
 	};
+	
+	LIBZHL_API void AddProjectile(Projectile *proj);
+	LIBZHL_API void AddShip(ShipManager *ship);
+	LIBZHL_API void Clear();
+	LIBZHL_API void ClearEnvironment();
+	LIBZHL_API void ClearProjectiles();
+	LIBZHL_API bool DangerousEnvironment();
+	LIBZHL_API GL_Color GetColorTint();
+	LIBZHL_API float GetFlashOpacity();
+	LIBZHL_API int GetScreenShake();
+	LIBZHL_API SpaceDrone *GetSelectedDrone(int x, int y, int unk);
+	LIBZHL_API void LoadSpace(int fileHelper);
+	LIBZHL_API void MouseMove(int x, int y, int unk);
+	LIBZHL_API void OnInit();
+	LIBZHL_API void OnLoop();
+	LIBZHL_API void OnLoopNebulas();
+	LIBZHL_API void OnRenderAsteroids(int fieldLayers, float unk2);
+	LIBZHL_API void OnRenderBackground();
+	LIBZHL_API void OnRenderFleet();
+	LIBZHL_API void OnRenderForeground();
+	LIBZHL_API void OnRenderProjectiles(int unk1, int unk2);
+	LIBZHL_API void Restart();
+	LIBZHL_API void SaveSpace(int fileHelper);
+	LIBZHL_API void SetDangerZone(int fleetType);
+	LIBZHL_API void SetFireLevel(bool state);
+	LIBZHL_API void SetNebula(bool state);
+	LIBZHL_API void SetPlanetaryDefense(char state, int target);
+	LIBZHL_API void SetPulsarLevel(bool pulsarLevel);
+	LIBZHL_API void SetStorm(bool state);
+	LIBZHL_API void StartAsteroids(int shieldCount, bool unk);
+	LIBZHL_API ImageDesc SwitchBackground(const std::string &name);
+	LIBZHL_API ImageDesc SwitchBeacon();
+	LIBZHL_API void SwitchImages(ImageDesc planet, ImageDesc unk1, ImageDesc unk2);
+	LIBZHL_API ImageDesc SwitchPlanet(const std::string &name);
+	LIBZHL_API void TransferProjectile(Projectile *proj);
+	LIBZHL_API void UpdatePDS();
+	LIBZHL_API void UpdatePlanetImage();
+	LIBZHL_API void UpdateProjectile(Projectile *proj);
+	LIBZHL_API void constructor();
 	
 	std::vector<Projectile*> projectiles;
 	AsteroidGenerator asteroidGenerator;
