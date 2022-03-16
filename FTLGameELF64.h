@@ -1139,6 +1139,13 @@ struct WeaponBlueprint;
 
 struct LIBZHL_INTERFACE ShipSystem
 {
+	ShipSystem() { }
+	
+	ShipSystem(int systemId, int roomId, int shipId, int startingPower)
+	{
+		this->constructor(systemId, roomId, shipId, startingPower);
+	}
+
 	virtual ~ShipSystem() {}
 	virtual void SetSelected(int selectedState) LIBZHL_PLACEHOLDER
 	virtual int GetSelected() LIBZHL_PLACEHOLDER
@@ -1146,8 +1153,8 @@ struct LIBZHL_INTERFACE ShipSystem
 	virtual std::string *GetName() LIBZHL_PLACEHOLDER
 	virtual void SetName(std::string &name) LIBZHL_PLACEHOLDER
 	virtual void Repair() LIBZHL_PLACEHOLDER
-	virtual bool PartialRepair(float amount, bool unk) LIBZHL_PLACEHOLDER
-	virtual bool PartialDamage(float damage) LIBZHL_PLACEHOLDER
+	LIBZHL_API virtual bool PartialRepair(float speed, bool autoRepair);
+	LIBZHL_API virtual bool PartialDamage(float amount);
 	virtual bool NeedsRepairing() LIBZHL_PLACEHOLDER
 	virtual bool Functioning() LIBZHL_PLACEHOLDER
 	virtual bool CanBeSabotaged() LIBZHL_PLACEHOLDER
@@ -1168,21 +1175,47 @@ struct LIBZHL_INTERFACE ShipSystem
 	virtual void RemoveBatteryPower() LIBZHL_PLACEHOLDER
 	virtual WeaponBlueprint *GetWeaponInfo() LIBZHL_PLACEHOLDER
 	virtual std::string *GetOverrideTooltip() LIBZHL_PLACEHOLDER
-	virtual void CheckMaxPower() LIBZHL_PLACEHOLDER
-	virtual void SetBonusPower(int unk1, int unk2) LIBZHL_PLACEHOLDER
-	virtual void AddDamage(int damage) LIBZHL_PLACEHOLDER
-	virtual bool ForceDecreasePower(int power) LIBZHL_PLACEHOLDER
+	LIBZHL_API virtual void CheckMaxPower();
+	LIBZHL_API virtual void SetBonusPower(int amount, int permanentPower);
+	LIBZHL_API virtual void AddDamage(int amount);
+	LIBZHL_API virtual bool ForceDecreasePower(int powerLoss);
 	virtual bool ForceIncreasePower(int power) LIBZHL_PLACEHOLDER
-	virtual void StopHacking() LIBZHL_PLACEHOLDER
+	LIBZHL_API virtual void StopHacking();
 	virtual void OnRender() LIBZHL_PLACEHOLDER
 	virtual void OnRenderFloor() LIBZHL_PLACEHOLDER
 	virtual void OnRenderEffects() LIBZHL_PLACEHOLDER
-	virtual void OnLoop() LIBZHL_PLACEHOLDER
+	LIBZHL_API virtual void OnLoop();
 	virtual bool GetNeedsPower() LIBZHL_PLACEHOLDER
 	virtual void Restart() LIBZHL_PLACEHOLDER
 	virtual bool Clickable() LIBZHL_PLACEHOLDER
 	virtual bool Powered() LIBZHL_PLACEHOLDER
 	virtual void ShipDestroyed() LIBZHL_PLACEHOLDER
+	LIBZHL_API void AddLock(int lock);
+	LIBZHL_API void CheckForRepower();
+	LIBZHL_API void ClearStatus();
+	LIBZHL_API bool DamageOverTime(float unk);
+	LIBZHL_API bool DecreasePower(bool force);
+	LIBZHL_API int GetEffectivePower();
+	LIBZHL_API static std::string __stdcall GetLevelDescription(int systemId, int level, bool tooltip);
+	LIBZHL_API bool GetLocked();
+	LIBZHL_API int GetMaxPower();
+	LIBZHL_API int GetPowerCap();
+	LIBZHL_API bool IncreasePower(int amount, bool force);
+	LIBZHL_API bool Ioned(int num);
+	LIBZHL_API int IsMannedBoost();
+	LIBZHL_API static bool __stdcall IsSubsystem(int systemType);
+	LIBZHL_API void LoadState(int file);
+	LIBZHL_API void LockSystem(int lock);
+	LIBZHL_API static int __stdcall NameToSystemId(const std::string &name);
+	LIBZHL_API void RenderPowerBoxes(int x, int y, int width, int height, int gap, int heightMod, bool flash);
+	LIBZHL_API void SaveState(int file);
+	LIBZHL_API void SetPowerCap(int cap);
+	LIBZHL_API int SetPowerLoss(int power);
+	LIBZHL_API static std::string __stdcall SystemIdToName(int systemId);
+	LIBZHL_API bool UpgradeSystem(int amount);
+	LIBZHL_API void constructor(int systemId, int roomId, int shipId, int startingPower);
+	LIBZHL_API void destructor();
+	
 	int selectedState;
 	ShipObject _shipObj;
 	float fDamage;
