@@ -35244,11 +35244,11 @@ FUNC_NAKED void SpaceManager::SetStorm(bool state)
 namespace _func939
 {
 	static void *func = 0;
-	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("StatusEffect::GetNebulaEffect", typeid(StatusEffect (*)()), "4883ec08803d????????007433660f6f05????????48b8020000000700000048ba0000000002000000", argdata, 0, 10, &func);
+	static short argdata[] = {0x107, 0x106};
+	static FunctionDefinition funcObj("StarMap::SetPosition", typeid(void (StarMap::*)(Point )), "4889b7a0000000", argdata, 2, 6, &func);
 }
 
-FUNC_NAKED StatusEffect StatusEffect::GetNebulaEffect()
+FUNC_NAKED void StarMap::SetPosition(Point unk0)
 {
 	__asm__
 	(
@@ -35261,6 +35261,8 @@ FUNC_NAKED StatusEffect StatusEffect::GetNebulaEffect()
 		"pushl %r13\n\t"
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
+			// rdi has this
+			// rsi has unk0
 	);
 	__asm__("call *%0\n\t" :: "m"(_func939::func));
 	__asm__
@@ -35281,10 +35283,10 @@ namespace _func940
 {
 	static void *func = 0;
 	static short argdata[] = {0x107, 0x106};
-	static FunctionDefinition funcObj("Store::KeyDown", typeid(bool (Store::*)(SDLKey )), "5383bf2c060000024889fb", argdata, 2, 2, &func);
+	static FunctionDefinition funcObj("StarMap::SetOpen", typeid(void (StarMap::*)(bool )), "!.4084f6488b07", argdata, 2, 6, &func);
 }
 
-FUNC_NAKED bool Store::KeyDown(SDLKey key)
+FUNC_NAKED void StarMap::SetOpen(bool unk0)
 {
 	__asm__
 	(
@@ -35298,7 +35300,7 @@ FUNC_NAKED bool Store::KeyDown(SDLKey key)
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has key
+			// rsi has unk0
 	);
 	__asm__("call *%0\n\t" :: "m"(_func940::func));
 	__asm__
@@ -35319,10 +35321,10 @@ namespace _func941
 {
 	static void *func = 0;
 	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("Store::OnLoop", typeid(void (Store::*)()), ".5531c94889fd5331db4883ec08488b9778040000", argdata, 1, 6, &func);
+	static FunctionDefinition funcObj("StarMap::GetNextDangerMove", typeid(int (StarMap::*)()), ".8b8f0805000085c9", argdata, 1, 2, &func);
 }
 
-FUNC_NAKED void Store::OnLoop()
+FUNC_NAKED int StarMap::GetNextDangerMove()
 {
 	__asm__
 	(
@@ -35355,11 +35357,11 @@ FUNC_NAKED void Store::OnLoop()
 namespace _func942
 {
 	static void *func = 0;
-	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("Store::Close", typeid(void (Store::*)()), "!.534889fbc6470800488bbf48060000", argdata, 1, 6, &func);
+	static short argdata[] = {0x107, 0x106};
+	static FunctionDefinition funcObj("StarMap::KeyDown", typeid(void (StarMap::*)(int )), ".80bfb808000000", argdata, 2, 6, &func);
 }
 
-FUNC_NAKED void Store::Close()
+FUNC_NAKED void StarMap::KeyDown(int unk0)
 {
 	__asm__
 	(
@@ -35373,6 +35375,7 @@ FUNC_NAKED void Store::Close()
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
+			// rsi has unk0
 	);
 	__asm__("call *%0\n\t" :: "m"(_func942::func));
 	__asm__
@@ -35393,10 +35396,10 @@ namespace _func943
 {
 	static void *func = 0;
 	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("Store::constructor", typeid(void (Store::*)()), ".415455534889fb488d6b284c8d63684883ec10", argdata, 1, 6, &func);
+	static FunctionDefinition funcObj("StarMap::Close", typeid(void (StarMap::*)()), ".534889fb4883ec2080bf3c08000000", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void Store::constructor()
+FUNC_NAKED void StarMap::Close()
 {
 	__asm__
 	(
@@ -35429,11 +35432,11 @@ FUNC_NAKED void Store::constructor()
 namespace _func944
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106};
-	static FunctionDefinition funcObj("Store::SaveStore", typeid(void (Store::*)(int )), ".41574156415541545589f5534889fb4883ec18", argdata, 2, 6, &func);
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("StarMap::Open", typeid(void (StarMap::*)()), ".53807f08004889fb", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void Store::SaveStore(int file)
+FUNC_NAKED void StarMap::Open()
 {
 	__asm__
 	(
@@ -35447,7 +35450,6 @@ FUNC_NAKED void Store::SaveStore(int file)
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has file
 	);
 	__asm__("call *%0\n\t" :: "m"(_func944::func));
 	__asm__
@@ -35467,11 +35469,11 @@ FUNC_NAKED void Store::SaveStore(int file)
 namespace _func945
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106, 0x102};
-	static FunctionDefinition funcObj("Store::RelinkShip", typeid(void (Store::*)(ShipManager *, Equipment *)), ".41554989fd4531c041544989d4554889f55331db4883ec08", argdata, 3, 6, &func);
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("StarMap::InitMapTitle", typeid(void (StarMap::*)()), ".41554154554889fd534883ec68488bbf38050000", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void Store::RelinkShip(ShipManager *ship, Equipment *equip)
+FUNC_NAKED void StarMap::InitMapTitle()
 {
 	__asm__
 	(
@@ -35485,8 +35487,6 @@ FUNC_NAKED void Store::RelinkShip(ShipManager *ship, Equipment *equip)
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has ship
-			// rdx has equip
 	);
 	__asm__("call *%0\n\t" :: "m"(_func945::func));
 	__asm__
@@ -35506,11 +35506,11 @@ FUNC_NAKED void Store::RelinkShip(ShipManager *ship, Equipment *equip)
 namespace _func946
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106};
-	static FunctionDefinition funcObj("Store::HasType", typeid(bool (Store::*)(int )), ".39b730060000", argdata, 2, 2, &func);
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("StarMap::InitNoFuelText", typeid(void (StarMap::*)()), ".41554989fd415455534883ec38488bbf80050000", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED bool Store::HasType(int type)
+FUNC_NAKED void StarMap::InitNoFuelText()
 {
 	__asm__
 	(
@@ -35524,7 +35524,6 @@ FUNC_NAKED bool Store::HasType(int type)
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has type
 	);
 	__asm__("call *%0\n\t" :: "m"(_func946::func));
 	__asm__
@@ -35545,10 +35544,10 @@ namespace _func947
 {
 	static void *func = 0;
 	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("Store::Clear", typeid(void (Store::*)()), ".554889fd534883ec08488bb780040000", argdata, 1, 6, &func);
+	static FunctionDefinition funcObj("StarMap::InitBossMessageBox", typeid(void (StarMap::*)()), ".55534889fb4883ec38488baf78070000", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void Store::Clear()
+FUNC_NAKED void StarMap::InitBossMessageBox()
 {
 	__asm__
 	(
@@ -35581,11 +35580,11 @@ FUNC_NAKED void Store::Clear()
 namespace _func948
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106, 0x102};
-	static FunctionDefinition funcObj("Store::InitHeading", typeid(void (Store::*)(int , Point )), ".554863ee", argdata, 3, 6, &func);
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("StarMap::OnLanguageChange", typeid(void (StarMap::*)()), "!.534889fbe8????????4889dfe8", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void Store::InitHeading(int index, Point pos)
+FUNC_NAKED void StarMap::OnLanguageChange()
 {
 	__asm__
 	(
@@ -35599,8 +35598,6 @@ FUNC_NAKED void Store::InitHeading(int index, Point pos)
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has index
-			// rdx has pos
 	);
 	__asm__("call *%0\n\t" :: "m"(_func948::func));
 	__asm__
@@ -35620,11 +35617,11 @@ FUNC_NAKED void Store::InitHeading(int index, Point pos)
 namespace _func949
 {
 	static void *func = 0;
-	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("Store::DrawBuySellTabText", typeid(void (*)()), ".55be????????534883ec58488d54241f488d7c2440", argdata, 0, 6, &func);
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("StarMap::GetRandomSectorChoice", typeid(int (StarMap::*)()), ".4883ec08803d????????00753b", argdata, 1, 2, &func);
 }
 
-FUNC_NAKED void Store::DrawBuySellTabText()
+FUNC_NAKED int StarMap::GetRandomSectorChoice()
 {
 	__asm__
 	(
@@ -35637,6 +35634,7 @@ FUNC_NAKED void Store::DrawBuySellTabText()
 		"pushl %r13\n\t"
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
+			// rdi has this
 	);
 	__asm__("call *%0\n\t" :: "m"(_func949::func));
 	__asm__
@@ -35656,11 +35654,11 @@ FUNC_NAKED void Store::DrawBuySellTabText()
 namespace _func950
 {
 	static void *func = 0;
-	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("Store::SetPositions", typeid(void (Store::*)()), ".4157ba2a000000bec60000004156415541545531ed534889fb4883ec78", argdata, 1, 6, &func);
+	static short argdata[] = {0x107, 0x106};
+	static FunctionDefinition funcObj("StarMap::NeighboringSector", typeid(void (StarMap::*)(int )), ".31c085f67867", argdata, 2, 6, &func);
 }
 
-FUNC_NAKED void Store::SetPositions()
+FUNC_NAKED void StarMap::NeighboringSector(int unk0)
 {
 	__asm__
 	(
@@ -35674,6 +35672,7 @@ FUNC_NAKED void Store::SetPositions()
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
+			// rsi has unk0
 	);
 	__asm__("call *%0\n\t" :: "m"(_func950::func));
 	__asm__
@@ -35693,11 +35692,11 @@ FUNC_NAKED void Store::SetPositions()
 namespace _func951
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106, 0x102};
-	static FunctionDefinition funcObj("Store::LoadStore", typeid(void (Store::*)(int , int )), ".4157415641554189f5415455534889fb4883ec68", argdata, 3, 6, &func);
+	static short argdata[] = {0x107, 0x106, 0x102, 0x101};
+	static FunctionDefinition funcObj("StarMap::GetSelectedSector", typeid(void (StarMap::*)(int , int , int )), ".41554989fd415441bcffffffff5589cd534883ec18", argdata, 4, 6, &func);
 }
 
-FUNC_NAKED void Store::LoadStore(int file, int worldLevel)
+FUNC_NAKED void StarMap::GetSelectedSector(int unk0, int unk1, int unk2)
 {
 	__asm__
 	(
@@ -35711,8 +35710,9 @@ FUNC_NAKED void Store::LoadStore(int file, int worldLevel)
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has file
-			// rdx has worldLevel
+			// rsi has unk0
+			// rdx has unk1
+			// rcx has unk2
 	);
 	__asm__("call *%0\n\t" :: "m"(_func951::func));
 	__asm__
@@ -35732,11 +35732,11 @@ FUNC_NAKED void Store::LoadStore(int file, int worldLevel)
 namespace _func952
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106};
-	static FunctionDefinition funcObj("Store::SetPosition", typeid(void (Store::*)(Point )), "!.534889fb", argdata, 2, 6, &func);
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("StarMap::StartSecretSector", typeid(void (StarMap::*)()), ".4883ec28488b87b0080000c687b908000001", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void Store::SetPosition(Point pos)
+FUNC_NAKED void StarMap::StartSecretSector()
 {
 	__asm__
 	(
@@ -35750,7 +35750,6 @@ FUNC_NAKED void Store::SetPosition(Point pos)
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has pos
 	);
 	__asm__("call *%0\n\t" :: "m"(_func952::func));
 	__asm__
@@ -35770,11 +35769,11 @@ FUNC_NAKED void Store::SetPosition(Point pos)
 namespace _func953
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106, 0x102};
-	static FunctionDefinition funcObj("Store::CreateStoreBoxes", typeid(void (Store::*)(int , Equipment *)), ".4157415641554189f541544989fc55534881ec88000000", argdata, 3, 6, &func);
+	static short argdata[] = {0x107, 0x106};
+	static FunctionDefinition funcObj("StarMap::ReachSector", typeid(void (StarMap::*)(Sector *)), ".41574989ff41564155415455534883ec58488b7e10", argdata, 2, 6, &func);
 }
 
-FUNC_NAKED void Store::CreateStoreBoxes(int type, Equipment *equip)
+FUNC_NAKED void StarMap::ReachSector(Sector *unk0)
 {
 	__asm__
 	(
@@ -35788,8 +35787,7 @@ FUNC_NAKED void Store::CreateStoreBoxes(int type, Equipment *equip)
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has type
-			// rdx has equip
+			// rsi has unk0
 	);
 	__asm__("call *%0\n\t" :: "m"(_func953::func));
 	__asm__
@@ -35809,11 +35807,11 @@ FUNC_NAKED void Store::CreateStoreBoxes(int type, Equipment *equip)
 namespace _func954
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106, 0x102, 0x101};
-	static FunctionDefinition funcObj("Store::OnInit", typeid(void (Store::*)(ShipManager *, Equipment *, int )), "!.415641554989d541544189cc554889f553", argdata, 4, 6, &func);
+	static short argdata[] = {0x107, 0x106};
+	static FunctionDefinition funcObj("StarMap::UpdateSectorMap", typeid(void (StarMap::*)(Sector *)), "!.4885f6743b", argdata, 2, 6, &func);
 }
 
-FUNC_NAKED void Store::OnInit(ShipManager *shopper, Equipment *equip, int worldLevel)
+FUNC_NAKED void StarMap::UpdateSectorMap(Sector *unk0)
 {
 	__asm__
 	(
@@ -35827,9 +35825,7 @@ FUNC_NAKED void Store::OnInit(ShipManager *shopper, Equipment *equip, int worldL
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has shopper
-			// rdx has equip
-			// rcx has worldLevel
+			// rsi has unk0
 	);
 	__asm__("call *%0\n\t" :: "m"(_func954::func));
 	__asm__
@@ -35849,11 +35845,11 @@ FUNC_NAKED void Store::OnInit(ShipManager *shopper, Equipment *equip, int worldL
 namespace _func955
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106, 0x102};
-	static FunctionDefinition funcObj("Store::MouseMove", typeid(void (Store::*)(int , int )), ".415741564189d641554189f5415455534889fb4883ec78", argdata, 3, 6, &func);
+	static short argdata[] = {0x107, 0x106};
+	static FunctionDefinition funcObj("StarMap::SaveGame", typeid(void (StarMap::*)(int )), ".415731d24156415541545589f5534889fb4883ec48", argdata, 2, 6, &func);
 }
 
-FUNC_NAKED void Store::MouseMove(int x, int y)
+FUNC_NAKED void StarMap::SaveGame(int file)
 {
 	__asm__
 	(
@@ -35867,8 +35863,7 @@ FUNC_NAKED void Store::MouseMove(int x, int y)
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has x
-			// rdx has y
+			// rsi has file
 	);
 	__asm__("call *%0\n\t" :: "m"(_func955::func));
 	__asm__
@@ -35888,11 +35883,11 @@ FUNC_NAKED void Store::MouseMove(int x, int y)
 namespace _func956
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106, 0x102};
-	static FunctionDefinition funcObj("Store::MouseClick", typeid(void (Store::*)(int , int )), ".41564189d641554189f5415455534889fb4883ec40", argdata, 3, 6, &func);
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("StarMap::InitStatistics", typeid(void (StarMap::*)()), "!.f3c366666666662e0f1f840000000000", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void Store::MouseClick(int x, int y)
+FUNC_NAKED void StarMap::InitStatistics()
 {
 	__asm__
 	(
@@ -35906,8 +35901,6 @@ FUNC_NAKED void Store::MouseClick(int x, int y)
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has x
-			// rdx has y
 	);
 	__asm__("call *%0\n\t" :: "m"(_func956::func));
 	__asm__
@@ -35928,10 +35921,10 @@ namespace _func957
 {
 	static void *func = 0;
 	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("Store::OnRender", typeid(void (Store::*)()), ".415741564989fe4155415455534881ecd8010000", argdata, 1, 6, &func);
+	static FunctionDefinition funcObj("StarMap::PrintStatistics", typeid(void (StarMap::*)()), "!.f3c366666666662e0f1f840000000000", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void Store::OnRender()
+FUNC_NAKED void StarMap::PrintStatistics()
 {
 	__asm__
 	(
@@ -35965,10 +35958,10 @@ namespace _func958
 {
 	static void *func = 0;
 	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("Store::destructor", typeid(void (Store::*)()), ".415531c94154554889fd5331db4883ec18", argdata, 1, 6, &func);
+	static FunctionDefinition funcObj("StarMap::AnalyzeMap", typeid(void (StarMap::*)()), "!.f3c366666666662e0f1f840000000000", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void Store::destructor()
+FUNC_NAKED void StarMap::AnalyzeMap()
 {
 	__asm__
 	(
@@ -36001,11 +35994,11 @@ FUNC_NAKED void Store::destructor()
 namespace _func959
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106, 0x102};
-	static FunctionDefinition funcObj("StoreBox::MouseClick", typeid(void (StoreBox::*)(int , int )), "807f60007412807f6100740c", argdata, 3, 6, &func);
+	static short argdata[] = {0x107, 0x106};
+	static FunctionDefinition funcObj("StarMap::ModifyPursuit", typeid(void (StarMap::*)(int )), ".01b708050000", argdata, 2, 6, &func);
 }
 
-FUNC_NAKED void StoreBox::MouseClick(int x, int y)
+FUNC_NAKED void StarMap::ModifyPursuit(int unk0)
 {
 	__asm__
 	(
@@ -36019,8 +36012,7 @@ FUNC_NAKED void StoreBox::MouseClick(int x, int y)
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has x
-			// rdx has y
+			// rsi has unk0
 	);
 	__asm__("call *%0\n\t" :: "m"(_func959::func));
 	__asm__
@@ -36041,10 +36033,10 @@ namespace _func960
 {
 	static void *func = 0;
 	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("StoreBox::Activate", typeid(void (StoreBox::*)()), ".4883ec28488b8718010000", argdata, 1, 6, &func);
+	static FunctionDefinition funcObj("StarMap::AtBeacon", typeid(void (StarMap::*)()), ".488b87880000000fb64020", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void StoreBox::Activate()
+FUNC_NAKED void StarMap::AtBeacon()
 {
 	__asm__
 	(
@@ -36077,11 +36069,11 @@ FUNC_NAKED void StoreBox::Activate()
 namespace _func961
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106};
-	static FunctionDefinition funcObj("StoreBox::SetPosition", typeid(void (StoreBox::*)(Point )), ".554889f248c1fa2053488d5f184883ec18", argdata, 2, 6, &func);
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("StarMap::GetWaitLocation", typeid(void (StarMap::*)()), ".80bfc0000000007427", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void StoreBox::SetPosition(Point pos)
+FUNC_NAKED void StarMap::GetWaitLocation()
 {
 	__asm__
 	(
@@ -36095,7 +36087,6 @@ FUNC_NAKED void StoreBox::SetPosition(Point pos)
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has pos
 	);
 	__asm__("call *%0\n\t" :: "m"(_func961::func));
 	__asm__
@@ -36115,11 +36106,11 @@ FUNC_NAKED void StoreBox::SetPosition(Point pos)
 namespace _func962
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106};
-	static FunctionDefinition funcObj("StoreBox::InitBlueprint", typeid(void (StoreBox::*)(Blueprint *)), ".554889f5488d7610534889fb488dbfb0000000", argdata, 2, 6, &func);
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("StarMap::StartBeacon", typeid(void (StarMap::*)()), ".8b970005000031c085d2", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void StoreBox::InitBlueprint(Blueprint *bp)
+FUNC_NAKED void StarMap::StartBeacon()
 {
 	__asm__
 	(
@@ -36133,7 +36124,6 @@ FUNC_NAKED void StoreBox::InitBlueprint(Blueprint *bp)
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has bp
 	);
 	__asm__("call *%0\n\t" :: "m"(_func962::func));
 	__asm__
@@ -36153,11 +36143,11 @@ FUNC_NAKED void StoreBox::InitBlueprint(Blueprint *bp)
 namespace _func963
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106, 0x102, 0x101};
-	static FunctionDefinition funcObj("StoreBox::constructor", typeid(void (StoreBox::*)(const std::string &, ShipManager *, Equipment *)), ".41574989d7415641554989f5415455534889fb", argdata, 4, 6, &func);
+	static short argdata[] = {0x107, 0x106, 0x102};
+	static FunctionDefinition funcObj("StarMap::LocationsConnected", typeid(bool (StarMap::*)(Location *, Location *)), ".488b7e08488b76104829fe48c1fe034885f6", argdata, 3, 2, &func);
 }
 
-FUNC_NAKED void StoreBox::constructor(const std::string &buttonImage, ShipManager *shopper, Equipment *equip)
+FUNC_NAKED bool StarMap::LocationsConnected(Location *unk0, Location *unk1)
 {
 	__asm__
 	(
@@ -36171,9 +36161,8 @@ FUNC_NAKED void StoreBox::constructor(const std::string &buttonImage, ShipManage
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has buttonImage
-			// rdx has shopper
-			// rcx has equip
+			// rsi has unk0
+			// rdx has unk1
 	);
 	__asm__("call *%0\n\t" :: "m"(_func963::func));
 	__asm__
@@ -36193,11 +36182,11 @@ FUNC_NAKED void StoreBox::constructor(const std::string &buttonImage, ShipManage
 namespace _func964
 {
 	static void *func = 0;
-	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("StoreBox::OnLoop", typeid(void (StoreBox::*)()), "!.538b871001000031f64889fb85c0", argdata, 1, 6, &func);
+	static short argdata[] = {0x107, 0x10a, 0x10b};
+	static FunctionDefinition funcObj("StarMap::PointToGrid", typeid(Point (StarMap::*)(float , float )), ".4883ec280f28d90f28e0488d7c2410", argdata, 3, 2, &func);
 }
 
-FUNC_NAKED void StoreBox::OnLoop()
+FUNC_NAKED Point StarMap::PointToGrid(float x, float y)
 {
 	__asm__
 	(
@@ -36211,6 +36200,8 @@ FUNC_NAKED void StoreBox::OnLoop()
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
+			// xmm0 has x
+			// xmm1 has y
 	);
 	__asm__("call *%0\n\t" :: "m"(_func964::func));
 	__asm__
@@ -36230,11 +36221,11 @@ FUNC_NAKED void StoreBox::OnLoop()
 namespace _func965
 {
 	static void *func = 0;
-	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("StoreBox::Purchase", typeid(void (StoreBox::*)()), ".534889fbbe", argdata, 1, 6, &func);
+	static short argdata[] = {0x107, 0x106};
+	static FunctionDefinition funcObj("StarMap::TravelToLocation", typeid(void (StarMap::*)(Location *)), ".80bea0000000004889b788000000", argdata, 2, 6, &func);
 }
 
-FUNC_NAKED void StoreBox::Purchase()
+FUNC_NAKED void StarMap::TravelToLocation(Location *unk0)
 {
 	__asm__
 	(
@@ -36248,6 +36239,7 @@ FUNC_NAKED void StoreBox::Purchase()
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
+			// rsi has unk0
 	);
 	__asm__("call *%0\n\t" :: "m"(_func965::func));
 	__asm__
@@ -36268,10 +36260,10 @@ namespace _func966
 {
 	static void *func = 0;
 	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("StoreBox::OnRender", typeid(void (StoreBox::*)()), ".415741564155415455534889fb488d7f184881ecc8040000", argdata, 1, 6, &func);
+	static FunctionDefinition funcObj("StarMap::ForceExitBeacon", typeid(void (StarMap::*)()), ".488b8788000000c6402001", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void StoreBox::OnRender()
+FUNC_NAKED void StarMap::ForceExitBeacon()
 {
 	__asm__
 	(
@@ -36304,11 +36296,11 @@ FUNC_NAKED void StoreBox::OnRender()
 namespace _func967
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106};
-	static FunctionDefinition funcObj("SystemBox::OnRender", typeid(void (SystemBox::*)(bool )), "4157b8010000004156415541545589f5534889fb4883ec58", argdata, 2, 6, &func);
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("StarMap::OnRenderFogEffect", typeid(void (StarMap::*)()), "!.f3c366666666662e0f1f840000000000", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void SystemBox::OnRender(bool ignoreStatus)
+FUNC_NAKED void StarMap::OnRenderFogEffect()
 {
 	__asm__
 	(
@@ -36322,7 +36314,6 @@ FUNC_NAKED void SystemBox::OnRender(bool ignoreStatus)
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has ignoreStatus
 	);
 	__asm__("call *%0\n\t" :: "m"(_func967::func));
 	__asm__
@@ -36343,10 +36334,10 @@ namespace _func968
 {
 	static void *func = 0;
 	static short argdata[] = {0x107, 0x106};
-	static FunctionDefinition funcObj("SystemBox::MouseClick", typeid(bool (SystemBox::*)(bool )), ".41544189f4554889fd5331db4883ec20", argdata, 2, 2, &func);
+	static FunctionDefinition funcObj("StarMap::LocationHasBoss", typeid(void (StarMap::*)(Location *)), ".48638fa00a0000488b97b00a0000", argdata, 2, 6, &func);
 }
 
-FUNC_NAKED bool SystemBox::MouseClick(bool shift)
+FUNC_NAKED void StarMap::LocationHasBoss(Location *unk0)
 {
 	__asm__
 	(
@@ -36360,7 +36351,7 @@ FUNC_NAKED bool SystemBox::MouseClick(bool shift)
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has shift
+			// rsi has unk0
 	);
 	__asm__("call *%0\n\t" :: "m"(_func968::func));
 	__asm__
@@ -36380,11 +36371,11 @@ FUNC_NAKED bool SystemBox::MouseClick(bool shift)
 namespace _func969
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106, 0x102, 0x101};
-	static FunctionDefinition funcObj("SystemBox::constructor", typeid(void (SystemBox::*)(Point , ShipSystem *, bool )), ".4157415641be01000000415541544189cc55534889fb", argdata, 4, 6, &func);
+	static short argdata[] = {0x107, 0x106};
+	static FunctionDefinition funcObj("StarMap::LocationHasStore", typeid(void (StarMap::*)(Location *)), ".488b46304885c0", argdata, 2, 6, &func);
 }
 
-FUNC_NAKED void SystemBox::constructor(Point pos, ShipSystem *sys, bool playerUI)
+FUNC_NAKED void StarMap::LocationHasStore(Location *unk0)
 {
 	__asm__
 	(
@@ -36398,9 +36389,7 @@ FUNC_NAKED void SystemBox::constructor(Point pos, ShipSystem *sys, bool playerUI
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has pos
-			// rdx has sys
-			// rcx has playerUI
+			// rsi has unk0
 	);
 	__asm__("call *%0\n\t" :: "m"(_func969::func));
 	__asm__
@@ -36420,11 +36409,11 @@ FUNC_NAKED void SystemBox::constructor(Point pos, ShipSystem *sys, bool playerUI
 namespace _func970
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106, 0x102};
-	static FunctionDefinition funcObj("SystemBox::KeyDown", typeid(void (SystemBox::*)(SDLKey , bool )), ".415541544189d45589f5534889fb4883ec38", argdata, 3, 6, &func);
+	static short argdata[] = {0x107, 0x106};
+	static FunctionDefinition funcObj("StarMap::LocationHasShip", typeid(void (StarMap::*)(Location *)), ".488b46304885c0", argdata, 2, 6, &func);
 }
 
-FUNC_NAKED void SystemBox::KeyDown(SDLKey key, bool shift)
+FUNC_NAKED void StarMap::LocationHasShip(Location *unk0)
 {
 	__asm__
 	(
@@ -36438,8 +36427,7 @@ FUNC_NAKED void SystemBox::KeyDown(SDLKey key, bool shift)
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has key
-			// rdx has shift
+			// rsi has unk0
 	);
 	__asm__("call *%0\n\t" :: "m"(_func970::func));
 	__asm__
@@ -36459,11 +36447,11 @@ FUNC_NAKED void SystemBox::KeyDown(SDLKey key, bool shift)
 namespace _func971
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106, 0x102};
-	static FunctionDefinition funcObj("SystemBox::MouseMove", typeid(void (SystemBox::*)(int , int )), ".5589f5534889fb4883ec388b87ac010000", argdata, 3, 6, &func);
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("StarMap::AdvanceWorldLevel", typeid(void (StarMap::*)()), ".55534889fb4883ec488b8700050000", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void SystemBox::MouseMove(int x, int y)
+FUNC_NAKED void StarMap::AdvanceWorldLevel()
 {
 	__asm__
 	(
@@ -36477,8 +36465,6 @@ FUNC_NAKED void SystemBox::MouseMove(int x, int y)
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has x
-			// rdx has y
 	);
 	__asm__("call *%0\n\t" :: "m"(_func971::func));
 	__asm__
@@ -36498,11 +36484,11 @@ FUNC_NAKED void SystemBox::MouseMove(int x, int y)
 namespace _func972
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106};
-	static FunctionDefinition funcObj("SystemControl::GetSystemBox", typeid(SystemBox *(SystemControl::*)(int )), "415531d24989fd41545589f55331db4883ec08488b4f10488b47184829c848c1f8034885c07522eb57", argdata, 2, 2, &func);
+	static short argdata[] = {0x107, 0x106, 0x102};
+	static FunctionDefinition funcObj("StarMap::GetLocationText", typeid(std::string (StarMap::*)(const Location *)), ".41554154554889fd534889f3", argdata, 3, 2, &func);
 }
 
-FUNC_NAKED SystemBox *SystemControl::GetSystemBox(int systemId)
+FUNC_NAKED std::string StarMap::GetLocationText(const Location *loc)
 {
 	__asm__
 	(
@@ -36515,8 +36501,9 @@ FUNC_NAKED SystemBox *SystemControl::GetSystemBox(int systemId)
 		"pushl %r13\n\t"
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
-			// rdi has this
-			// rsi has systemId
+			// rdi has implicit_output
+			// rsi has this
+			// rdx has loc
 	);
 	__asm__("call *%0\n\t" :: "m"(_func972::func));
 	__asm__
@@ -36536,11 +36523,11 @@ FUNC_NAKED SystemBox *SystemControl::GetSystemBox(int systemId)
 namespace _func973
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106, 0x102, 0x101};
-	static FunctionDefinition funcObj("SystemControl::GetPowerBars", typeid(SystemControl::PowerBars *(*)(int , int , int , bool )), ".41574189f24189d34189cf415641554c63ee41545589fd534863df4989d84889d84881ec88000000", argdata, 4, 2, &func);
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("StarMap::ReverseBossPath", typeid(void (StarMap::*)()), ".488b8fb80a0000488b87b00a0000", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED SystemControl::PowerBars *SystemControl::GetPowerBars(int width, int height, int gap, bool useShieldGap)
+FUNC_NAKED void StarMap::ReverseBossPath()
 {
 	__asm__
 	(
@@ -36553,10 +36540,7 @@ FUNC_NAKED SystemControl::PowerBars *SystemControl::GetPowerBars(int width, int 
 		"pushl %r13\n\t"
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
-			// rdi has width
-			// rsi has height
-			// rdx has gap
-			// rcx has useShieldGap
+			// rdi has this
 	);
 	__asm__("call *%0\n\t" :: "m"(_func973::func));
 	__asm__
@@ -36577,10 +36561,10 @@ namespace _func974
 {
 	static void *func = 0;
 	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("SystemControl::RenderPowerBar", typeid(void (SystemControl::*)()), ".415741564989fe4155415455534883ec28488b3f", argdata, 1, 6, &func);
+	static FunctionDefinition funcObj("StarMap::ForceBossJump", typeid(void (StarMap::*)()), ".80bfa80a000000c687a90a000001", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void SystemControl::RenderPowerBar()
+FUNC_NAKED void StarMap::ForceBossJump()
 {
 	__asm__
 	(
@@ -36614,10 +36598,10 @@ namespace _func975
 {
 	static void *func = 0;
 	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("SystemControl::CreateSystemBoxes", typeid(void (SystemControl::*)()), ".415731d231f641564155415455534889fb4883ec58488d7c2430", argdata, 1, 6, &func);
+	static FunctionDefinition funcObj("StarMap::ClearBoss", typeid(void (StarMap::*)()), ".41544989fc5531ed53488b572831db488b4730c687c80a000000", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void SystemControl::CreateSystemBoxes()
+FUNC_NAKED void StarMap::ClearBoss()
 {
 	__asm__
 	(
@@ -36647,28 +36631,14 @@ FUNC_NAKED void SystemControl::CreateSystemBoxes()
 	);
 }
 
-Point *Global_SystemControl_weapon_position;
-
-namespace _var976
-{
-	static VariableDefinition varObj("Global_SystemControl_weapon_position", "!488b442430488d7c243031d231f6488905(???????\?)e8????????488b442430488b7318488b5310488905(???????\?)", &Global_SystemControl_weapon_position);
-}
-
-Point *Global_SystemControl_drone_position;
-
-namespace _var977
-{
-	static VariableDefinition varObj("Global_SystemControl_drone_position", "", &Global_SystemControl_drone_position);
-}
-
-namespace _func978
+namespace _func976
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106, 0x102, 0x101};
-	static FunctionDefinition funcObj("SystemCustomBox::constructor", typeid(void (SystemCustomBox::*)(Point , ShipSystem *, ShipManager *)), "41544989cc31c9554889f5534889fb4883ec40", argdata, 4, 6, &func);
+	static short argdata[] = {0x107, 0x106};
+	static FunctionDefinition funcObj("StarMap::SetBossStage", typeid(void (StarMap::*)(int )), ".89b7500c0000", argdata, 2, 6, &func);
 }
 
-FUNC_NAKED void SystemCustomBox::constructor(Point pos, ShipSystem *sys, ShipManager *ship)
+FUNC_NAKED void StarMap::SetBossStage(int stage)
 {
 	__asm__
 	(
@@ -36682,9 +36652,81 @@ FUNC_NAKED void SystemCustomBox::constructor(Point pos, ShipSystem *sys, ShipMan
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has pos
-			// rdx has sys
-			// rcx has ship
+			// rsi has stage
+	);
+	__asm__("call *%0\n\t" :: "m"(_func976::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func977
+{
+	static void *func = 0;
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("StarMap::CheckGameOver", typeid(void (StarMap::*)()), ".31c083bfa40a000004", argdata, 1, 6, &func);
+}
+
+FUNC_NAKED void StarMap::CheckGameOver()
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+	);
+	__asm__("call *%0\n\t" :: "m"(_func977::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func978
+{
+	static void *func = 0;
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("StarMap::RenderLabels", typeid(void (StarMap::*)()), ".415741564155415455534889fb4881ec98000000", argdata, 1, 6, &func);
+}
+
+FUNC_NAKED void StarMap::RenderLabels()
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
 	);
 	__asm__("call *%0\n\t" :: "m"(_func978::func));
 	__asm__
@@ -36705,10 +36747,10 @@ namespace _func979
 {
 	static void *func = 0;
 	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("SystemStoreBox::CanHold", typeid(bool (SystemStoreBox::*)()), "534883bf18010000004889fb", argdata, 1, 2, &func);
+	static FunctionDefinition funcObj("StarMap::DeleteMap", typeid(void (StarMap::*)()), ".41554154554889fd534883ec184c8baf380c0000", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED bool SystemStoreBox::CanHold()
+FUNC_NAKED void StarMap::DeleteMap()
 {
 	__asm__
 	(
@@ -36741,11 +36783,11 @@ FUNC_NAKED bool SystemStoreBox::CanHold()
 namespace _func980
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106};
-	static FunctionDefinition funcObj("SystemStoreBox::SetExtraData", typeid(void (SystemStoreBox::*)(int )), ".55534889fb4883ec38837f0804", argdata, 2, 6, &func);
+	static short argdata[] = {0x107, 0x106, 0x102};
+	static FunctionDefinition funcObj("StarMap::MouseClick", typeid(void (StarMap::*)(int , int )), ".55534889fb4883ec2880bfc006000000", argdata, 3, 6, &func);
 }
 
-FUNC_NAKED void SystemStoreBox::SetExtraData(int droneChoice)
+FUNC_NAKED void StarMap::MouseClick(int unk0, int unk1)
 {
 	__asm__
 	(
@@ -36759,7 +36801,8 @@ FUNC_NAKED void SystemStoreBox::SetExtraData(int droneChoice)
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has droneChoice
+			// rsi has unk0
+			// rdx has unk1
 	);
 	__asm__("call *%0\n\t" :: "m"(_func980::func));
 	__asm__
@@ -36780,10 +36823,10 @@ namespace _func981
 {
 	static void *func = 0;
 	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("SystemStoreBox::Activate", typeid(void (SystemStoreBox::*)()), ".534889fb4883ec20488bbf180100008b83e0000000", argdata, 1, 6, &func);
+	static FunctionDefinition funcObj("StarMap::AddSectorColumn", typeid(void (StarMap::*)()), ".415741564155415455bd56555555534889fb4881ec48010000", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void SystemStoreBox::Activate()
+FUNC_NAKED void StarMap::AddSectorColumn()
 {
 	__asm__
 	(
@@ -36816,11 +36859,11 @@ FUNC_NAKED void SystemStoreBox::Activate()
 namespace _func982
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106, 0x102, 0x101};
-	static FunctionDefinition funcObj("SystemStoreBox::constructor", typeid(void (SystemStoreBox::*)(ShipManager *, Equipment *, int )), ".41568d41fa41554989d541544989f45589cd534889fb4883ec5083f802", argdata, 4, 6, &func);
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("StarMap::PushSectorColumn", typeid(void (StarMap::*)()), "!.41544989fc31d25531ed53", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void SystemStoreBox::constructor(ShipManager *shopper, Equipment *equip, int sys)
+FUNC_NAKED void StarMap::PushSectorColumn()
 {
 	__asm__
 	(
@@ -36834,9 +36877,6 @@ FUNC_NAKED void SystemStoreBox::constructor(ShipManager *shopper, Equipment *equ
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has shopper
-			// rdx has equip
-			// rcx has sys
 	);
 	__asm__("call *%0\n\t" :: "m"(_func982::func));
 	__asm__
@@ -36856,11 +36896,11 @@ FUNC_NAKED void SystemStoreBox::constructor(ShipManager *shopper, Equipment *equ
 namespace _func983
 {
 	static void *func = 0;
-	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("SystemStoreBox::Purchase", typeid(void (SystemStoreBox::*)()), ".534889fb4883ec30e8????????8b7308", argdata, 1, 6, &func);
+	static short argdata[] = {0x107, 0x106};
+	static FunctionDefinition funcObj("StarMap::SelectNewSector", typeid(void (StarMap::*)(int )), "!.534c8b87900800004889fb488b8f980800004c29c148c1f903", argdata, 2, 6, &func);
 }
 
-FUNC_NAKED void SystemStoreBox::Purchase()
+FUNC_NAKED void StarMap::SelectNewSector(int unk0)
 {
 	__asm__
 	(
@@ -36874,6 +36914,7 @@ FUNC_NAKED void SystemStoreBox::Purchase()
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
+			// rsi has unk0
 	);
 	__asm__("call *%0\n\t" :: "m"(_func983::func));
 	__asm__
@@ -36893,11 +36934,11 @@ FUNC_NAKED void SystemStoreBox::Purchase()
 namespace _func984
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106, 0x102};
-	static FunctionDefinition funcObj("SystemStoreBox::MouseMove", typeid(void (SystemStoreBox::*)(int , int )), ".41544189d45589f5534889fb4883ec308b8710010000", argdata, 3, 6, &func);
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("StarMap::GenerateSectorMap", typeid(void (StarMap::*)()), ".415741564155415455534889fb4881ec18010000488bb798080000", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void SystemStoreBox::MouseMove(int mX, int mY)
+FUNC_NAKED void StarMap::GenerateSectorMap()
 {
 	__asm__
 	(
@@ -36911,8 +36952,6 @@ FUNC_NAKED void SystemStoreBox::MouseMove(int mX, int mY)
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has mX
-			// rdx has mY
 	);
 	__asm__("call *%0\n\t" :: "m"(_func984::func));
 	__asm__
@@ -36932,11 +36971,11 @@ FUNC_NAKED void SystemStoreBox::MouseMove(int mX, int mY)
 namespace _func985
 {
 	static void *func = 0;
-	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("TabbedWindow::Close", typeid(void (TabbedWindow::*)()), "538b57684889fb488b4738", argdata, 1, 6, &func);
+	static short argdata[] = {0x107, 0x106, 0x102, 0x101};
+	static FunctionDefinition funcObj("StarMap::DrawConnection", typeid(void (StarMap::*)(const Pointf &, const Pointf &, const GL_Color *)), ".4157415641554989d541544989f4554889fd4889d7534889cb4881ec98000000", argdata, 4, 6, &func);
 }
 
-FUNC_NAKED void TabbedWindow::Close()
+FUNC_NAKED void StarMap::DrawConnection(const Pointf &pos1, const Pointf &pos2, const GL_Color *color)
 {
 	__asm__
 	(
@@ -36950,6 +36989,9 @@ FUNC_NAKED void TabbedWindow::Close()
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
+			// rsi has pos1
+			// rdx has pos2
+			// rcx has color
 	);
 	__asm__("call *%0\n\t" :: "m"(_func985::func));
 	__asm__
@@ -36970,10 +37012,10 @@ namespace _func986
 {
 	static void *func = 0;
 	static short argdata[] = {0x107, 0x106, 0x102};
-	static FunctionDefinition funcObj("TeleportBox::constructor", typeid(void (TeleportBox::*)(Point , TeleportSystem *)), "4155b9010000004989d5415455534889fb4c8da370020000488dab000300004883ec58", argdata, 3, 6, &func);
+	static FunctionDefinition funcObj("StarMap::SetupNoFuel", typeid(void (StarMap::*)(int , const std::string &)), ".415741564989fe41554154554889d5534881ecb8000000", argdata, 3, 6, &func);
 }
 
-FUNC_NAKED void TeleportBox::constructor(Point pos, TeleportSystem *sys)
+FUNC_NAKED void StarMap::SetupNoFuel(int seed, const std::string &forceEscape)
 {
 	__asm__
 	(
@@ -36987,8 +37029,8 @@ FUNC_NAKED void TeleportBox::constructor(Point pos, TeleportSystem *sys)
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has pos
-			// rdx has sys
+			// rsi has seed
+			// rdx has forceEscape
 	);
 	__asm__("call *%0\n\t" :: "m"(_func986::func));
 	__asm__
@@ -37008,11 +37050,11 @@ FUNC_NAKED void TeleportBox::constructor(Point pos, TeleportSystem *sys)
 namespace _func987
 {
 	static void *func = 0;
-	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("TeleportSystem::Jump", typeid(void (TeleportSystem::*)()), "534889fbe8????????c78344020000000000005b", argdata, 1, 6, &func);
+	static short argdata[] = {0x107, 0x106};
+	static FunctionDefinition funcObj("StarMap::TurnIntoFleetLocation", typeid(void (StarMap::*)(Location *)), ".41554154554889fd534889f34883ec38488b7e30", argdata, 2, 6, &func);
 }
 
-FUNC_NAKED void TeleportSystem::Jump()
+FUNC_NAKED void StarMap::TurnIntoFleetLocation(Location *loc)
 {
 	__asm__
 	(
@@ -37026,6 +37068,7 @@ FUNC_NAKED void TeleportSystem::Jump()
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
+			// rsi has loc
 	);
 	__asm__("call *%0\n\t" :: "m"(_func987::func));
 	__asm__
@@ -37045,11 +37088,11 @@ FUNC_NAKED void TeleportSystem::Jump()
 namespace _func988
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106};
-	static FunctionDefinition funcObj("TeleportSystem::SetHackingLevel", typeid(void (TeleportSystem::*)(int )), ".5589f5534889fb4883ec0883fe017e09", argdata, 2, 6, &func);
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("StarMap::UpdateBoss", typeid(void (StarMap::*)()), ".554889fd534883ec288b87a00a0000", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void TeleportSystem::SetHackingLevel(int hackingLevel)
+FUNC_NAKED void StarMap::UpdateBoss()
 {
 	__asm__
 	(
@@ -37063,7 +37106,6 @@ FUNC_NAKED void TeleportSystem::SetHackingLevel(int hackingLevel)
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has hackingLevel
 	);
 	__asm__("call *%0\n\t" :: "m"(_func988::func));
 	__asm__
@@ -37084,10 +37126,10 @@ namespace _func989
 {
 	static void *func = 0;
 	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("TeleportSystem::OnRenderFloor", typeid(void (TeleportSystem::*)()), ".415741564155415455534889fb4883ec38", argdata, 1, 6, &func);
+	static FunctionDefinition funcObj("StarMap::UpdateDangerZone", typeid(void (StarMap::*)()), ".415455534889fb4883ec4080bf3c08000000", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void TeleportSystem::OnRenderFloor()
+FUNC_NAKED void StarMap::UpdateDangerZone()
 {
 	__asm__
 	(
@@ -37120,11 +37162,11 @@ FUNC_NAKED void TeleportSystem::OnRenderFloor()
 namespace _func990
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106, 0x102, 0x101, 0x108};
-	static FunctionDefinition funcObj("TeleportSystem::constructor", typeid(void (TeleportSystem::*)(int , int , int , int )), ".5589d5534889fb4883ec08", argdata, 5, 6, &func);
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("StarMap::GetNewLocation", typeid(Location *(StarMap::*)()), ".5331c080bfc0000000004889fb", argdata, 1, 2, &func);
 }
 
-FUNC_NAKED void TeleportSystem::constructor(int systemId, int roomId, int shipId, int startingPower)
+FUNC_NAKED Location *StarMap::GetNewLocation()
 {
 	__asm__
 	(
@@ -37138,10 +37180,6 @@ FUNC_NAKED void TeleportSystem::constructor(int systemId, int roomId, int shipId
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has systemId
-			// rdx has roomId
-			// rcx has shipId
-			// r8 has startingPower
 	);
 	__asm__("call *%0\n\t" :: "m"(_func990::func));
 	__asm__
@@ -37162,10 +37200,10 @@ namespace _func991
 {
 	static void *func = 0;
 	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("TeleportSystem::GetChargedPercent", typeid(float (TeleportSystem::*)()), ".f30f108744020000", argdata, 1, 2, &func);
+	static FunctionDefinition funcObj("StarMap::OnLoop", typeid(void (StarMap::*)()), ".41564155415455534889fb4883ec20807f0800", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED float TeleportSystem::GetChargedPercent()
+FUNC_NAKED void StarMap::OnLoop()
 {
 	__asm__
 	(
@@ -37198,11 +37236,11 @@ FUNC_NAKED float TeleportSystem::GetChargedPercent()
 namespace _func992
 {
 	static void *func = 0;
-	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("TeleportSystem::Charged", typeid(bool (TeleportSystem::*)()), ".534889fb", argdata, 1, 2, &func);
+	static short argdata[] = {0x107, 0x106};
+	static FunctionDefinition funcObj("StarMap::GenerateNebulas", typeid(void (StarMap::*)(const std::vector<std::string> &)), ".41574156415541544989f455534881ecb8000000", argdata, 2, 6, &func);
 }
 
-FUNC_NAKED bool TeleportSystem::Charged()
+FUNC_NAKED void StarMap::GenerateNebulas(const std::vector<std::string> &names)
 {
 	__asm__
 	(
@@ -37216,6 +37254,7 @@ FUNC_NAKED bool TeleportSystem::Charged()
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
+			// rsi has names
 	);
 	__asm__("call *%0\n\t" :: "m"(_func992::func));
 	__asm__
@@ -37235,11 +37274,11 @@ FUNC_NAKED bool TeleportSystem::Charged()
 namespace _func993
 {
 	static void *func = 0;
-	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("TeleportSystem::ClearCrewLocations", typeid(void (TeleportSystem::*)()), ".41564155415455534c63a77c0200004889fb", argdata, 1, 6, &func);
+	static short argdata[] = {0x107, 0x106};
+	static FunctionDefinition funcObj("StarMap::GenerateEvents", typeid(void (StarMap::*)(bool )), ".4157415641554989fd41545589f55348bbabaaaaaaaaaaaaaa4881ec58010000", argdata, 2, 6, &func);
 }
 
-FUNC_NAKED void TeleportSystem::ClearCrewLocations()
+FUNC_NAKED void StarMap::GenerateEvents(bool tutorial)
 {
 	__asm__
 	(
@@ -37253,6 +37292,7 @@ FUNC_NAKED void TeleportSystem::ClearCrewLocations()
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
+			// rsi has tutorial
 	);
 	__asm__("call *%0\n\t" :: "m"(_func993::func));
 	__asm__
@@ -37273,10 +37313,10 @@ namespace _func994
 {
 	static void *func = 0;
 	static short argdata[] = {0x107, 0x106};
-	static FunctionDefinition funcObj("TeleportSystem::UpdateCrewLocation", typeid(void (TeleportSystem::*)(int )), ".488b97500200004863c689f148c1e806488d14c2b801000000", argdata, 2, 6, &func);
+	static FunctionDefinition funcObj("StarMap::AddConnections", typeid(void (StarMap::*)(Location *)), ".415641554989fd41544c8da7800c0000554889f5534c89e34883ec10", argdata, 2, 6, &func);
 }
 
-FUNC_NAKED void TeleportSystem::UpdateCrewLocation(int unk)
+FUNC_NAKED void StarMap::AddConnections(Location *unk0)
 {
 	__asm__
 	(
@@ -37290,7 +37330,7 @@ FUNC_NAKED void TeleportSystem::UpdateCrewLocation(int unk)
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has unk
+			// rsi has unk0
 	);
 	__asm__("call *%0\n\t" :: "m"(_func994::func));
 	__asm__
@@ -37310,11 +37350,11 @@ FUNC_NAKED void TeleportSystem::UpdateCrewLocation(int unk)
 namespace _func995
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106};
-	static FunctionDefinition funcObj("TeleportSystem::SetArmed", typeid(void (TeleportSystem::*)(int )), ".534889fb4883ec3083fe01", argdata, 2, 6, &func);
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("StarMap::MapConnected", typeid(void (StarMap::*)()), ".53488bb7880c00004889fb488dbf780c0000", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void TeleportSystem::SetArmed(int armed)
+FUNC_NAKED void StarMap::MapConnected()
 {
 	__asm__
 	(
@@ -37328,7 +37368,6 @@ FUNC_NAKED void TeleportSystem::SetArmed(int armed)
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has armed
 	);
 	__asm__("call *%0\n\t" :: "m"(_func995::func));
 	__asm__
@@ -37348,11 +37387,11 @@ FUNC_NAKED void TeleportSystem::SetArmed(int armed)
 namespace _func996
 {
 	static void *func = 0;
-	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("TeleportSystem::ForceReady", typeid(void (TeleportSystem::*)()), "!.c787440200000000c84231f6", argdata, 1, 6, &func);
+	static short argdata[] = {0x107, 0x106, 0x102};
+	static FunctionDefinition funcObj("StarMap::ConnectLocations", typeid(void (StarMap::*)(Point , Point )), ".415741564155415455488d6f4853488d5f404883ec38", argdata, 3, 6, &func);
 }
 
-FUNC_NAKED void TeleportSystem::ForceReady()
+FUNC_NAKED void StarMap::ConnectLocations(Point unk0, Point unk1)
 {
 	__asm__
 	(
@@ -37366,6 +37405,8 @@ FUNC_NAKED void TeleportSystem::ForceReady()
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
+			// rsi has unk0
+			// rdx has unk1
 	);
 	__asm__("call *%0\n\t" :: "m"(_func996::func));
 	__asm__
@@ -37385,11 +37426,11 @@ FUNC_NAKED void TeleportSystem::ForceReady()
 namespace _func997
 {
 	static void *func = 0;
-	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("TeleportSystem::CanSend", typeid(bool (TeleportSystem::*)()), ".534889fb4883ec308b4f1885c9", argdata, 1, 2, &func);
+	static short argdata[] = {0x107, 0x106};
+	static FunctionDefinition funcObj("StarMap::PopulateGrid", typeid(void (StarMap::*)(Point )), ".415541544989fc5553488d5f404883ec38", argdata, 2, 6, &func);
 }
 
-FUNC_NAKED bool TeleportSystem::CanSend()
+FUNC_NAKED void StarMap::PopulateGrid(Point unk0)
 {
 	__asm__
 	(
@@ -37403,6 +37444,7 @@ FUNC_NAKED bool TeleportSystem::CanSend()
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
+			// rsi has unk0
 	);
 	__asm__("call *%0\n\t" :: "m"(_func997::func));
 	__asm__
@@ -37422,11 +37464,11 @@ FUNC_NAKED bool TeleportSystem::CanSend()
 namespace _func998
 {
 	static void *func = 0;
-	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("TeleportSystem::CanReceive", typeid(bool (TeleportSystem::*)()), ".5589f5534889fb4883ec0880bf4902000000", argdata, 1, 2, &func);
+	static short argdata[] = {0x107, 0x106, 0x102};
+	static FunctionDefinition funcObj("StarMap::PopClosestLoc", typeid(Location *(StarMap::*)(std::vector<Location*> &, std::map<Location*, int> &)), ".4157415641554989f541544989d455534883ec28488b4e08", argdata, 3, 2, &func);
 }
 
-FUNC_NAKED bool TeleportSystem::CanReceive()
+FUNC_NAKED Location *StarMap::PopClosestLoc(std::vector<Location*> &vec, std::map<Location*, int> &map)
 {
 	__asm__
 	(
@@ -37440,6 +37482,8 @@ FUNC_NAKED bool TeleportSystem::CanReceive()
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
+			// rsi has vec
+			// rdx has map
 	);
 	__asm__("call *%0\n\t" :: "m"(_func998::func));
 	__asm__
@@ -37459,11 +37503,11 @@ FUNC_NAKED bool TeleportSystem::CanReceive()
 namespace _func999
 {
 	static void *func = 0;
-	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("TeleportSystem::OnLoop", typeid(void (TeleportSystem::*)()), ".534889fb4883ec30", argdata, 1, 6, &func);
+	static short argdata[] = {0x107, 0x106, 0x102};
+	static FunctionDefinition funcObj("StarMap::AddQuest", typeid(bool (StarMap::*)(const std::string &, bool )), ".415731c941b8ffffffff415641554989fd4154554889f5534883ec78", argdata, 3, 2, &func);
 }
 
-FUNC_NAKED void TeleportSystem::OnLoop()
+FUNC_NAKED bool StarMap::AddQuest(const std::string &questEvent, bool force)
 {
 	__asm__
 	(
@@ -37477,6 +37521,8 @@ FUNC_NAKED void TeleportSystem::OnLoop()
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
+			// rsi has questEvent
+			// rdx has force
 	);
 	__asm__("call *%0\n\t" :: "m"(_func999::func));
 	__asm__
@@ -37496,11 +37542,11 @@ FUNC_NAKED void TeleportSystem::OnLoop()
 namespace _func1000
 {
 	static void *func = 0;
-	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("TeleportSystem::InitiateTeleport", typeid(void (TeleportSystem::*)()), ".534889fb4883ec20", argdata, 1, 6, &func);
+	static short argdata[] = {0x107, 0x106, 0x102};
+	static FunctionDefinition funcObj("StarMap::GenerateMap", typeid(Location *(StarMap::*)(bool , bool )), ".41574156415541544189f455534889fb4881ec38010000", argdata, 3, 2, &func);
 }
 
-FUNC_NAKED void TeleportSystem::InitiateTeleport()
+FUNC_NAKED Location *StarMap::GenerateMap(bool tutorial, bool seed)
 {
 	__asm__
 	(
@@ -37514,6 +37560,8 @@ FUNC_NAKED void TeleportSystem::InitiateTeleport()
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
+			// rsi has tutorial
+			// rdx has seed
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1000::func));
 	__asm__
@@ -37533,11 +37581,11 @@ FUNC_NAKED void TeleportSystem::InitiateTeleport()
 namespace _func1001
 {
 	static void *func = 0;
-	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("TextButton::ResetPrimitives", typeid(void (TextButton::*)()), "554889fd5331db4883ec08488b7c1d50", argdata, 1, 6, &func);
+	static short argdata[] = {0x107, 0x106};
+	static FunctionDefinition funcObj("StarMap::NewGame", typeid(Location *(StarMap::*)(bool )), ".415741564989fe41554189f5415455534883ec78", argdata, 2, 2, &func);
 }
 
-FUNC_NAKED void TextButton::ResetPrimitives()
+FUNC_NAKED Location *StarMap::NewGame(bool unk0)
 {
 	__asm__
 	(
@@ -37551,6 +37599,7 @@ FUNC_NAKED void TextButton::ResetPrimitives()
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
+			// rsi has unk0
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1001::func));
 	__asm__
@@ -37570,11 +37619,11 @@ FUNC_NAKED void TextButton::ResetPrimitives()
 namespace _func1002
 {
 	static void *func = 0;
-	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("TextButton::GetIdealButtonWidth", typeid(int (TextButton::*)()), "55534889fb4883ec3880bfe800000000", argdata, 1, 2, &func);
+	static short argdata[] = {0x107, 0x106, 0x102, 0x101, 0x108};
+	static FunctionDefinition funcObj("StarMap::Dijkstra", typeid(std::vector<Location*> (StarMap::*)(Location *, Location *, bool )), ".415741564155415455534881ecf8000000", argdata, 5, 2, &func);
 }
 
-FUNC_NAKED int TextButton::GetIdealButtonWidth()
+FUNC_NAKED std::vector<Location*> StarMap::Dijkstra(Location *start, Location *finish, bool include_unknown)
 {
 	__asm__
 	(
@@ -37587,7 +37636,11 @@ FUNC_NAKED int TextButton::GetIdealButtonWidth()
 		"pushl %r13\n\t"
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
-			// rdi has this
+			// rdi has implicit_output
+			// rsi has this
+			// rdx has start
+			// rcx has finish
+			// r8 has include_unknown
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1002::func));
 	__asm__
@@ -37607,33 +37660,34 @@ FUNC_NAKED int TextButton::GetIdealButtonWidth()
 namespace _func1003
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106, 0x102, 0x101, 0x108, 0x109};
-	static FunctionDefinition funcObj("TextButton::OnInit", typeid(void (TextButton::*)(Point , Point , int , TextString *, int )), "415741564d89c641554989d541544989f44c89c6554489cd534889fb488dbfe0000000", argdata, 6, 6, &func);
+	static short argdata[] = {0x107, 0x106, 0x102, 0x101, 0x108, 0x109, 0x1ff};
+	static FunctionDefinition funcObj("StarMap::OnTouch", typeid(void (StarMap::*)(TouchAction , int , int , int , int , int )), ".41574989ff41564189ce41554589cd41544589c45589d55389f34881ec98000000", argdata, 7, 6, &func);
 }
 
-FUNC_NAKED void TextButton::OnInit(Point pos, Point size, int cornerInset, TextString *buttonLabel, int font)
+FUNC_NAKED void StarMap::OnTouch(TouchAction unk0, int unk1, int unk2, int unk3, int unk4, int unk5)
 {
 	__asm__
 	(
 		"pushl %rbp\n\t"
 		"movl %rsp, %rbp\n\t"
-		"subl $8, %rsp\n\t"
 		"pushl %rbx\n\t"
 		"pushl %rbp\n\t"
 		"pushl %r12\n\t"
 		"pushl %r13\n\t"
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
+		"pushl 8(%rbp)\n\t"		// unk5
 			// rdi has this
-			// rsi has pos
-			// rdx has size
-			// rcx has cornerInset
-			// r8 has buttonLabel
-			// r9 has font
+			// rsi has unk0
+			// rdx has unk1
+			// rcx has unk2
+			// r8 has unk3
+			// r9 has unk4
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1003::func));
 	__asm__
 	(
+		"addl $8, %rsp\n\t"
 		"popl %r15\n\t"
 		"popl %r14\n\t"
 		"popl %r13\n\t"
@@ -37649,11 +37703,11 @@ FUNC_NAKED void TextButton::OnInit(Point pos, Point size, int cornerInset, TextS
 namespace _func1004
 {
 	static void *func = 0;
-	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("TextButton::OnRender", typeid(void (TextButton::*)()), "4157415641554989fd415455534883ec5880bfd000000000", argdata, 1, 6, &func);
+	static short argdata[] = {0x107, 0x106, 0x102};
+	static FunctionDefinition funcObj("StarMap::MouseMove", typeid(void (StarMap::*)(int , int )), ".415741564989fe41554189d541544189f455534881ec88000000", argdata, 3, 6, &func);
 }
 
-FUNC_NAKED void TextButton::OnRender()
+FUNC_NAKED void StarMap::MouseMove(int x, int y)
 {
 	__asm__
 	(
@@ -37667,6 +37721,8 @@ FUNC_NAKED void TextButton::OnRender()
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
+			// rsi has x
+			// rdx has y
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1004::func));
 	__asm__
@@ -37686,11 +37742,11 @@ FUNC_NAKED void TextButton::OnRender()
 namespace _func1005
 {
 	static void *func = 0;
-	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("TextButton::destructor", typeid(void (TextButton::*)()), "534889fb4883ec1048c707????????488b7f50", argdata, 1, 6, &func);
+	static short argdata[] = {0x107, 0x106, 0x2ff};
+	static FunctionDefinition funcObj("StarMap::RenderSectorName", typeid(void (StarMap::*)(Sector *, GL_Color )), ".4157415641554989f541544989fc55534881ecf8010000", argdata, 3, 6, &func);
 }
 
-FUNC_NAKED void TextButton::destructor()
+FUNC_NAKED void StarMap::RenderSectorName(Sector *unk0, GL_Color unk1)
 {
 	__asm__
 	(
@@ -37703,11 +37759,15 @@ FUNC_NAKED void TextButton::destructor()
 		"pushl %r13\n\t"
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
+		"pushl 16(%rbp)\n\t"		// unk1
+		"pushl 8(%rbp)\n\t"		// unk1
 			// rdi has this
+			// rsi has unk0
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1005::func));
 	__asm__
 	(
+		"addl $16, %rsp\n\t"
 		"popl %r15\n\t"
 		"popl %r14\n\t"
 		"popl %r13\n\t"
@@ -37724,10 +37784,10 @@ namespace _func1006
 {
 	static void *func = 0;
 	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("TextButton::GetSize", typeid(Point (TextButton::*)()), "4155415455534889fb4883ec1880bfd000000000751a", argdata, 1, 2, &func);
+	static FunctionDefinition funcObj("StarMap::constructor", typeid(void (StarMap::*)()), ".41574989ff41564d8db7d80100004155", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED Point TextButton::GetSize()
+FUNC_NAKED void StarMap::constructor()
 {
 	__asm__
 	(
@@ -37760,11 +37820,11 @@ FUNC_NAKED Point TextButton::GetSize()
 namespace _func1007
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106, 0x102, 0x101, 0x108};
-	static FunctionDefinition funcObj("TextButton::OnInitRect", typeid(void (TextButton::*)(Globals::Rect &, int , TextString &, int )), "41574156415541544989cc554889f5534889fb4883ec488954240c", argdata, 5, 6, &func);
+	static short argdata[] = {0x107, 0x106};
+	static FunctionDefinition funcObj("StarMap::LoadGame", typeid(Location *(StarMap::*)(int )), ".415741564189f64155415455534889fb89f74881ecf8030000", argdata, 2, 2, &func);
 }
 
-FUNC_NAKED void TextButton::OnInitRect(Globals::Rect &rect, int cornerInset, TextString &buttonLabel, int font)
+FUNC_NAKED Location *StarMap::LoadGame(int fileHelper)
 {
 	__asm__
 	(
@@ -37778,10 +37838,7 @@ FUNC_NAKED void TextButton::OnInitRect(Globals::Rect &rect, int cornerInset, Tex
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has rect
-			// rdx has cornerInset
-			// rcx has buttonLabel
-			// r8 has font
+			// rsi has fileHelper
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1007::func));
 	__asm__
@@ -37801,11 +37858,11 @@ FUNC_NAKED void TextButton::OnInitRect(Globals::Rect &rect, int cornerInset, Tex
 namespace _func1008
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106, 0x102, 0x101};
-	static FunctionDefinition funcObj("TextButton::SetBaseImage", typeid(void (TextButton::*)(const std::string &, Point , int )), "4154488b065553488378e800", argdata, 4, 6, &func);
+	static short argdata[] = {0x107, 0x10a, 0x10b, 0x106};
+	static FunctionDefinition funcObj("StarMap::RenderLeftInsetButton", typeid(void (StarMap::*)(float , float , bool )), ".41544189f455534889fb4883ec50", argdata, 4, 6, &func);
 }
 
-FUNC_NAKED void TextButton::SetBaseImage(const std::string &name, Point pos, int autoWidthMin)
+FUNC_NAKED void StarMap::RenderLeftInsetButton(float unk0, float unk1, bool unk2)
 {
 	__asm__
 	(
@@ -37819,9 +37876,9 @@ FUNC_NAKED void TextButton::SetBaseImage(const std::string &name, Point pos, int
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has name
-			// rdx has pos
-			// rcx has autoWidthMin
+			// xmm0 has unk0
+			// xmm1 has unk1
+			// rsi has unk2
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1008::func));
 	__asm__
@@ -37841,11 +37898,11 @@ FUNC_NAKED void TextButton::SetBaseImage(const std::string &name, Point pos, int
 namespace _func1009
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106, 0x102, 0x101, 0x108};
-	static FunctionDefinition funcObj("TextButton::SetAutoWidth", typeid(void (TextButton::*)(bool , bool , int , int )), "4585c04088b7d0000000", argdata, 5, 6, &func);
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("StarMap::RenderDistressButtons", typeid(void (StarMap::*)()), ".4156be????????41554154554889fd", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void TextButton::SetAutoWidth(bool autoWidth, bool autoRightAlign, int margin, int min)
+FUNC_NAKED void StarMap::RenderDistressButtons()
 {
 	__asm__
 	(
@@ -37859,10 +37916,6 @@ FUNC_NAKED void TextButton::SetAutoWidth(bool autoWidth, bool autoRightAlign, in
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has autoWidth
-			// rdx has autoRightAlign
-			// rcx has margin
-			// r8 has min
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1009::func));
 	__asm__
@@ -37883,10 +37936,10 @@ namespace _func1010
 {
 	static void *func = 0;
 	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("TextButton::constructor", typeid(void (TextButton::*)()), "55534889fb488d7f08488d6b284883ec28", argdata, 1, 6, &func);
+	static FunctionDefinition funcObj("StarMap::OnRender", typeid(void (StarMap::*)()), ".415741564155415455534889fb4881ec78010000", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void TextButton::constructor()
+FUNC_NAKED void StarMap::OnRender()
 {
 	__asm__
 	(
@@ -37919,11 +37972,11 @@ FUNC_NAKED void TextButton::constructor()
 namespace _func1011
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x2ff};
-	static FunctionDefinition funcObj("TextButton::SetInactiveColor", typeid(void (TextButton::*)(GL_Color )), ".!80bf8000000000660fd64c24f0", argdata, 2, 6, &func);
+	static const short *argdata = NULL;
+	static FunctionDefinition funcObj("StatusEffect::GetNebulaEffect", typeid(StatusEffect (*)()), "4883ec08803d????????007433660f6f05????????48b8020000000700000048ba0000000002000000", argdata, 0, 10, &func);
 }
 
-FUNC_NAKED void TextButton::SetInactiveColor(GL_Color color)
+FUNC_NAKED StatusEffect StatusEffect::GetNebulaEffect()
 {
 	__asm__
 	(
@@ -37936,14 +37989,10 @@ FUNC_NAKED void TextButton::SetInactiveColor(GL_Color color)
 		"pushl %r13\n\t"
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
-		"pushl 16(%rbp)\n\t"		// color
-		"pushl 8(%rbp)\n\t"		// color
-			// rdi has this
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1011::func));
 	__asm__
 	(
-		"addl $16, %rsp\n\t"
 		"popl %r15\n\t"
 		"popl %r14\n\t"
 		"popl %r13\n\t"
@@ -37959,11 +38008,11 @@ FUNC_NAKED void TextButton::SetInactiveColor(GL_Color color)
 namespace _func1012
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x2ff};
-	static FunctionDefinition funcObj("TextButton::SetActiveColor", typeid(void (TextButton::*)(GL_Color )), ".!80bf8000000000660fd64c24f0", argdata, 2, 6, &func);
+	static short argdata[] = {0x107, 0x106};
+	static FunctionDefinition funcObj("Store::KeyDown", typeid(bool (Store::*)(SDLKey )), "5383bf2c060000024889fb", argdata, 2, 2, &func);
 }
 
-FUNC_NAKED void TextButton::SetActiveColor(GL_Color color)
+FUNC_NAKED bool Store::KeyDown(SDLKey key)
 {
 	__asm__
 	(
@@ -37976,14 +38025,12 @@ FUNC_NAKED void TextButton::SetActiveColor(GL_Color color)
 		"pushl %r13\n\t"
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
-		"pushl 16(%rbp)\n\t"		// color
-		"pushl 8(%rbp)\n\t"		// color
 			// rdi has this
+			// rsi has key
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1012::func));
 	__asm__
 	(
-		"addl $16, %rsp\n\t"
 		"popl %r15\n\t"
 		"popl %r14\n\t"
 		"popl %r13\n\t"
@@ -37999,11 +38046,11 @@ FUNC_NAKED void TextButton::SetActiveColor(GL_Color color)
 namespace _func1013
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x2ff};
-	static FunctionDefinition funcObj("TextButton::SetSelectedColor", typeid(void (TextButton::*)(GL_Color )), ".!80bf8000000000660fd64c24f0", argdata, 2, 6, &func);
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("Store::OnLoop", typeid(void (Store::*)()), ".5531c94889fd5331db4883ec08488b9778040000", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void TextButton::SetSelectedColor(GL_Color color)
+FUNC_NAKED void Store::OnLoop()
 {
 	__asm__
 	(
@@ -38016,14 +38063,11 @@ FUNC_NAKED void TextButton::SetSelectedColor(GL_Color color)
 		"pushl %r13\n\t"
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
-		"pushl 16(%rbp)\n\t"		// color
-		"pushl 8(%rbp)\n\t"		// color
 			// rdi has this
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1013::func));
 	__asm__
 	(
-		"addl $16, %rsp\n\t"
 		"popl %r15\n\t"
 		"popl %r14\n\t"
 		"popl %r13\n\t"
@@ -38039,11 +38083,11 @@ FUNC_NAKED void TextButton::SetSelectedColor(GL_Color color)
 namespace _func1014
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x2ff};
-	static FunctionDefinition funcObj("TextButton::SetTextColor", typeid(void (TextButton::*)(GL_Color )), ".80bf8000000000660fd64c24f8", argdata, 2, 6, &func);
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("Store::Close", typeid(void (Store::*)()), "!.534889fbc6470800488bbf48060000", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void TextButton::SetTextColor(GL_Color color)
+FUNC_NAKED void Store::Close()
 {
 	__asm__
 	(
@@ -38056,14 +38100,11 @@ FUNC_NAKED void TextButton::SetTextColor(GL_Color color)
 		"pushl %r13\n\t"
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
-		"pushl 16(%rbp)\n\t"		// color
-		"pushl 8(%rbp)\n\t"		// color
 			// rdi has this
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1014::func));
 	__asm__
 	(
-		"addl $16, %rsp\n\t"
 		"popl %r15\n\t"
 		"popl %r14\n\t"
 		"popl %r13\n\t"
@@ -38080,10 +38121,10 @@ namespace _func1015
 {
 	static void *func = 0;
 	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("TextButton::InitPrimitives", typeid(void (TextButton::*)()), "415741564989fe4155415455534881ecb800000080bf8000000000", argdata, 1, 6, &func);
+	static FunctionDefinition funcObj("Store::constructor", typeid(void (Store::*)()), ".415455534889fb488d6b284c8d63684883ec10", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void TextButton::InitPrimitives()
+FUNC_NAKED void Store::constructor()
 {
 	__asm__
 	(
@@ -38116,11 +38157,11 @@ FUNC_NAKED void TextButton::InitPrimitives()
 namespace _func1016
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106, 0x102, 0x101};
-	static FunctionDefinition funcObj("TextInput::constructor", typeid(void (TextInput::*)(int , TextInput::AllowedCharType , const std::string &)), "!41544189d45589f54889ce534889fb", argdata, 4, 6, &func);
+	static short argdata[] = {0x107, 0x106};
+	static FunctionDefinition funcObj("Store::SaveStore", typeid(void (Store::*)(int )), ".41574156415541545589f5534889fb4883ec18", argdata, 2, 6, &func);
 }
 
-FUNC_NAKED void TextInput::constructor(int maxChars, TextInput::AllowedCharType allowedCharType, const std::string &prompt)
+FUNC_NAKED void Store::SaveStore(int file)
 {
 	__asm__
 	(
@@ -38134,9 +38175,7 @@ FUNC_NAKED void TextInput::constructor(int maxChars, TextInput::AllowedCharType 
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has maxChars
-			// rdx has allowedCharType
-			// rcx has prompt
+			// rsi has file
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1016::func));
 	__asm__
@@ -38157,10 +38196,10 @@ namespace _func1017
 {
 	static void *func = 0;
 	static short argdata[] = {0x107, 0x106, 0x102};
-	static FunctionDefinition funcObj("TextInput::OnRender", typeid(void (TextInput::*)(int , Point )), ".4156b9ffffffff41554189f54889fe41544989d431d255534889fb4883ec70", argdata, 3, 6, &func);
+	static FunctionDefinition funcObj("Store::RelinkShip", typeid(void (Store::*)(ShipManager *, Equipment *)), ".41554989fd4531c041544989d4554889f55331db4883ec08", argdata, 3, 6, &func);
 }
 
-FUNC_NAKED void TextInput::OnRender(int font, Point pos)
+FUNC_NAKED void Store::RelinkShip(ShipManager *ship, Equipment *equip)
 {
 	__asm__
 	(
@@ -38174,8 +38213,8 @@ FUNC_NAKED void TextInput::OnRender(int font, Point pos)
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has font
-			// rdx has pos
+			// rsi has ship
+			// rdx has equip
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1017::func));
 	__asm__
@@ -38195,11 +38234,11 @@ FUNC_NAKED void TextInput::OnRender(int font, Point pos)
 namespace _func1018
 {
 	static void *func = 0;
-	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("TextInput::OnLoop", typeid(void (TextInput::*)()), ".!538b473839473c", argdata, 1, 6, &func);
+	static short argdata[] = {0x107, 0x106};
+	static FunctionDefinition funcObj("Store::HasType", typeid(bool (Store::*)(int )), ".39b730060000", argdata, 2, 2, &func);
 }
 
-FUNC_NAKED void TextInput::OnLoop()
+FUNC_NAKED bool Store::HasType(int type)
 {
 	__asm__
 	(
@@ -38213,6 +38252,7 @@ FUNC_NAKED void TextInput::OnLoop()
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
+			// rsi has type
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1018::func));
 	__asm__
@@ -38232,11 +38272,11 @@ FUNC_NAKED void TextInput::OnLoop()
 namespace _func1019
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106};
-	static FunctionDefinition funcObj("TextInput::OnTextEvent", typeid(void (TextInput::*)(CEvent::TextEvent )), ".53807f40004889fb", argdata, 2, 6, &func);
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("Store::Clear", typeid(void (Store::*)()), ".554889fd534883ec08488bb780040000", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void TextInput::OnTextEvent(CEvent::TextEvent event)
+FUNC_NAKED void Store::Clear()
 {
 	__asm__
 	(
@@ -38250,7 +38290,6 @@ FUNC_NAKED void TextInput::OnTextEvent(CEvent::TextEvent event)
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has event
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1019::func));
 	__asm__
@@ -38270,11 +38309,11 @@ FUNC_NAKED void TextInput::OnTextEvent(CEvent::TextEvent event)
 namespace _func1020
 {
 	static void *func = 0;
-	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("TextInput::GetActive", typeid(bool (TextInput::*)()), ".!0fb64740c3", argdata, 1, 2, &func);
+	static short argdata[] = {0x107, 0x106, 0x102};
+	static FunctionDefinition funcObj("Store::InitHeading", typeid(void (Store::*)(int , Point )), ".554863ee", argdata, 3, 6, &func);
 }
 
-FUNC_NAKED bool TextInput::GetActive()
+FUNC_NAKED void Store::InitHeading(int index, Point pos)
 {
 	__asm__
 	(
@@ -38288,6 +38327,8 @@ FUNC_NAKED bool TextInput::GetActive()
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
+			// rsi has index
+			// rdx has pos
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1020::func));
 	__asm__
@@ -38307,11 +38348,11 @@ FUNC_NAKED bool TextInput::GetActive()
 namespace _func1021
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106};
-	static FunctionDefinition funcObj("TextInput::GetText", typeid(std::string (TextInput::*)()), ".53b9ffffffff4889fb31d2", argdata, 2, 2, &func);
+	static const short *argdata = NULL;
+	static FunctionDefinition funcObj("Store::DrawBuySellTabText", typeid(void (*)()), ".55be????????534883ec58488d54241f488d7c2440", argdata, 0, 6, &func);
 }
 
-FUNC_NAKED std::string TextInput::GetText()
+FUNC_NAKED void Store::DrawBuySellTabText()
 {
 	__asm__
 	(
@@ -38324,8 +38365,6 @@ FUNC_NAKED std::string TextInput::GetText()
 		"pushl %r13\n\t"
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
-			// rdi has implicit_output
-			// rsi has this
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1021::func));
 	__asm__
@@ -38346,10 +38385,10 @@ namespace _func1022
 {
 	static void *func = 0;
 	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("TextInput::Start", typeid(void (TextInput::*)()), ".534883ec30488b4710482b4708", argdata, 1, 6, &func);
+	static FunctionDefinition funcObj("Store::SetPositions", typeid(void (Store::*)()), ".4157ba2a000000bec60000004156415541545531ed534889fb4883ec78", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void TextInput::Start()
+FUNC_NAKED void Store::SetPositions()
 {
 	__asm__
 	(
@@ -38382,11 +38421,11 @@ FUNC_NAKED void TextInput::Start()
 namespace _func1023
 {
 	static void *func = 0;
-	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("TextInput::Stop", typeid(void (TextInput::*)()), ".!c6474000", argdata, 1, 6, &func);
+	static short argdata[] = {0x107, 0x106, 0x102};
+	static FunctionDefinition funcObj("Store::LoadStore", typeid(void (Store::*)(int , int )), ".4157415641554189f5415455534889fb4883ec68", argdata, 3, 6, &func);
 }
 
-FUNC_NAKED void TextInput::Stop()
+FUNC_NAKED void Store::LoadStore(int file, int worldLevel)
 {
 	__asm__
 	(
@@ -38400,6 +38439,8 @@ FUNC_NAKED void TextInput::Stop()
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
+			// rsi has file
+			// rdx has worldLevel
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1023::func));
 	__asm__
@@ -38420,10 +38461,10 @@ namespace _func1024
 {
 	static void *func = 0;
 	static short argdata[] = {0x107, 0x106};
-	static FunctionDefinition funcObj("TextInput::SetText", typeid(int (TextInput::*)(const std::string &)), ".55488d6f08534889fb4883ec28", argdata, 2, 2, &func);
+	static FunctionDefinition funcObj("Store::SetPosition", typeid(void (Store::*)(Point )), "!.534889fb", argdata, 2, 6, &func);
 }
 
-FUNC_NAKED int TextInput::SetText(const std::string &text)
+FUNC_NAKED void Store::SetPosition(Point pos)
 {
 	__asm__
 	(
@@ -38437,7 +38478,7 @@ FUNC_NAKED int TextInput::SetText(const std::string &text)
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has text
+			// rsi has pos
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1024::func));
 	__asm__
@@ -38457,11 +38498,11 @@ FUNC_NAKED int TextInput::SetText(const std::string &text)
 namespace _func1025
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106};
-	static FunctionDefinition funcObj("TextInput::OnTextInput", typeid(void (TextInput::*)(int )), ".41564155415455534889fb4883ec30807f4000", argdata, 2, 6, &func);
+	static short argdata[] = {0x107, 0x106, 0x102};
+	static FunctionDefinition funcObj("Store::CreateStoreBoxes", typeid(void (Store::*)(int , Equipment *)), ".4157415641554189f541544989fc55534881ec88000000", argdata, 3, 6, &func);
 }
 
-FUNC_NAKED void TextInput::OnTextInput(int asciiChar)
+FUNC_NAKED void Store::CreateStoreBoxes(int type, Equipment *equip)
 {
 	__asm__
 	(
@@ -38475,7 +38516,8 @@ FUNC_NAKED void TextInput::OnTextInput(int asciiChar)
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has asciiChar
+			// rsi has type
+			// rdx has equip
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1025::func));
 	__asm__
@@ -38496,10 +38538,10 @@ namespace _func1026
 {
 	static void *func = 0;
 	static short argdata[] = {0x107, 0x106, 0x102, 0x101};
-	static FunctionDefinition funcObj("TextLibrary::GetText", typeid(std::string (TextLibrary::*)(const std::string &, const std::string &)), "41574156415541544989fc5553488d5e384883ec48", argdata, 4, 2, &func);
+	static FunctionDefinition funcObj("Store::OnInit", typeid(void (Store::*)(ShipManager *, Equipment *, int )), "!.415641554989d541544189cc554889f553", argdata, 4, 6, &func);
 }
 
-FUNC_NAKED std::string TextLibrary::GetText(const std::string &name, const std::string &lang)
+FUNC_NAKED void Store::OnInit(ShipManager *shopper, Equipment *equip, int worldLevel)
 {
 	__asm__
 	(
@@ -38512,10 +38554,10 @@ FUNC_NAKED std::string TextLibrary::GetText(const std::string &name, const std::
 		"pushl %r13\n\t"
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
-			// rdi has implicit_output
-			// rsi has this
-			// rdx has name
-			// rcx has lang
+			// rdi has this
+			// rsi has shopper
+			// rdx has equip
+			// rcx has worldLevel
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1026::func));
 	__asm__
@@ -38535,11 +38577,11 @@ FUNC_NAKED std::string TextLibrary::GetText(const std::string &name, const std::
 namespace _func1027
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106};
-	static FunctionDefinition funcObj("TextString::GetText", typeid(std::string (TextString::*)()), "53807e08004889fb", argdata, 2, 2, &func);
+	static short argdata[] = {0x107, 0x106, 0x102};
+	static FunctionDefinition funcObj("Store::MouseMove", typeid(void (Store::*)(int , int )), ".415741564189d641554189f5415455534889fb4883ec78", argdata, 3, 6, &func);
 }
 
-FUNC_NAKED std::string TextString::GetText()
+FUNC_NAKED void Store::MouseMove(int x, int y)
 {
 	__asm__
 	(
@@ -38552,8 +38594,9 @@ FUNC_NAKED std::string TextString::GetText()
 		"pushl %r13\n\t"
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
-			// rdi has implicit_output
-			// rsi has this
+			// rdi has this
+			// rsi has x
+			// rdx has y
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1027::func));
 	__asm__
@@ -38573,11 +38616,11 @@ FUNC_NAKED std::string TextString::GetText()
 namespace _func1028
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106};
-	static FunctionDefinition funcObj("TimerHelper::Start", typeid(void (TimerHelper::*)(int )), "83feffc6471101c7470800000000", argdata, 2, 6, &func);
+	static short argdata[] = {0x107, 0x106, 0x102};
+	static FunctionDefinition funcObj("Store::MouseClick", typeid(void (Store::*)(int , int )), ".41564189d641554189f5415455534889fb4883ec40", argdata, 3, 6, &func);
 }
 
-FUNC_NAKED void TimerHelper::Start(int goal)
+FUNC_NAKED void Store::MouseClick(int x, int y)
 {
 	__asm__
 	(
@@ -38591,7 +38634,8 @@ FUNC_NAKED void TimerHelper::Start(int goal)
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has goal
+			// rsi has x
+			// rdx has y
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1028::func));
 	__asm__
@@ -38612,10 +38656,10 @@ namespace _func1029
 {
 	static void *func = 0;
 	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("TimerHelper::Running", typeid(bool (TimerHelper::*)()), "!.0fb64711c3", argdata, 1, 2, &func);
+	static FunctionDefinition funcObj("Store::OnRender", typeid(void (Store::*)()), ".415741564989fe4155415455534881ecd8010000", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED bool TimerHelper::Running()
+FUNC_NAKED void Store::OnRender()
 {
 	__asm__
 	(
@@ -38648,11 +38692,11 @@ FUNC_NAKED bool TimerHelper::Running()
 namespace _func1030
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106, 0x102};
-	static FunctionDefinition funcObj("TimerHelper::ResetMinMax", typeid(void (TimerHelper::*)(int , int )), ".8917897704", argdata, 3, 6, &func);
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("Store::destructor", typeid(void (Store::*)()), ".415531c94154554889fd5331db4883ec18", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void TimerHelper::ResetMinMax(int min, int max)
+FUNC_NAKED void Store::destructor()
 {
 	__asm__
 	(
@@ -38666,8 +38710,6 @@ FUNC_NAKED void TimerHelper::ResetMinMax(int min, int max)
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has min
-			// rdx has max
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1030::func));
 	__asm__
@@ -38687,11 +38729,11 @@ FUNC_NAKED void TimerHelper::ResetMinMax(int min, int max)
 namespace _func1031
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x10a};
-	static FunctionDefinition funcObj("TimerHelper::SetMaxTime", typeid(void (TimerHelper::*)(float )), ".f30f104f08f30f5e4f0c", argdata, 2, 6, &func);
+	static short argdata[] = {0x107, 0x106, 0x102};
+	static FunctionDefinition funcObj("StoreBox::MouseClick", typeid(void (StoreBox::*)(int , int )), "807f60007412807f6100740c", argdata, 3, 6, &func);
 }
 
-FUNC_NAKED void TimerHelper::SetMaxTime(float max)
+FUNC_NAKED void StoreBox::MouseClick(int x, int y)
 {
 	__asm__
 	(
@@ -38705,7 +38747,8 @@ FUNC_NAKED void TimerHelper::SetMaxTime(float max)
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// xmm0 has max
+			// rsi has x
+			// rdx has y
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1031::func));
 	__asm__
@@ -38726,10 +38769,10 @@ namespace _func1032
 {
 	static void *func = 0;
 	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("TimerHelper::Stop", typeid(void (TimerHelper::*)()), "!.c6471100c3", argdata, 1, 6, &func);
+	static FunctionDefinition funcObj("StoreBox::Activate", typeid(void (StoreBox::*)()), ".4883ec28488b8718010000", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void TimerHelper::Stop()
+FUNC_NAKED void StoreBox::Activate()
 {
 	__asm__
 	(
@@ -38762,11 +38805,11 @@ FUNC_NAKED void TimerHelper::Stop()
 namespace _func1033
 {
 	static void *func = 0;
-	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("TimerHelper::Update", typeid(void (TimerHelper::*)()), ".53807f11004889fb", argdata, 1, 6, &func);
+	static short argdata[] = {0x107, 0x106};
+	static FunctionDefinition funcObj("StoreBox::SetPosition", typeid(void (StoreBox::*)(Point )), ".554889f248c1fa2053488d5f184883ec18", argdata, 2, 6, &func);
 }
 
-FUNC_NAKED void TimerHelper::Update()
+FUNC_NAKED void StoreBox::SetPosition(Point pos)
 {
 	__asm__
 	(
@@ -38780,6 +38823,7 @@ FUNC_NAKED void TimerHelper::Update()
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
+			// rsi has pos
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1033::func));
 	__asm__
@@ -38799,11 +38843,11 @@ FUNC_NAKED void TimerHelper::Update()
 namespace _func1034
 {
 	static void *func = 0;
-	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("TimerHelper::Done", typeid(bool (TimerHelper::*)()), ".0fb6471184c0", argdata, 1, 2, &func);
+	static short argdata[] = {0x107, 0x106};
+	static FunctionDefinition funcObj("StoreBox::InitBlueprint", typeid(void (StoreBox::*)(Blueprint *)), ".554889f5488d7610534889fb488dbfb0000000", argdata, 2, 6, &func);
 }
 
-FUNC_NAKED bool TimerHelper::Done()
+FUNC_NAKED void StoreBox::InitBlueprint(Blueprint *bp)
 {
 	__asm__
 	(
@@ -38817,6 +38861,7 @@ FUNC_NAKED bool TimerHelper::Done()
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
+			// rsi has bp
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1034::func));
 	__asm__
@@ -38836,11 +38881,11 @@ FUNC_NAKED bool TimerHelper::Done()
 namespace _func1035
 {
 	static void *func = 0;
-	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("TutorialManager::constructor", typeid(void (TutorialManager::*)()), "534889fb488d7f084883ec10c647f800", argdata, 1, 6, &func);
+	static short argdata[] = {0x107, 0x106, 0x102, 0x101};
+	static FunctionDefinition funcObj("StoreBox::constructor", typeid(void (StoreBox::*)(const std::string &, ShipManager *, Equipment *)), ".41574989d7415641554989f5415455534889fb", argdata, 4, 6, &func);
 }
 
-FUNC_NAKED void TutorialManager::constructor()
+FUNC_NAKED void StoreBox::constructor(const std::string &buttonImage, ShipManager *shopper, Equipment *equip)
 {
 	__asm__
 	(
@@ -38854,6 +38899,9 @@ FUNC_NAKED void TutorialManager::constructor()
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
+			// rsi has buttonImage
+			// rdx has shopper
+			// rcx has equip
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1035::func));
 	__asm__
@@ -38874,10 +38922,10 @@ namespace _func1036
 {
 	static void *func = 0;
 	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("TutorialManager::Running", typeid(bool (TutorialManager::*)()), "!.0fb607c3", argdata, 1, 2, &func);
+	static FunctionDefinition funcObj("StoreBox::OnLoop", typeid(void (StoreBox::*)()), "!.538b871001000031f64889fb85c0", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED bool TutorialManager::Running()
+FUNC_NAKED void StoreBox::OnLoop()
 {
 	__asm__
 	(
@@ -38910,11 +38958,11 @@ FUNC_NAKED bool TutorialManager::Running()
 namespace _func1037
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106, 0x102, 0x101, 0x108, 0x109, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("TutorialManager::OnInit", typeid(void (TutorialManager::*)(ShipManager *, CommandGui *, CrewControl *, Upgrades *, CombatControl *, SystemControl *, TabbedWindow *)), ".415455534889fb4883ec404889b790010000", argdata, 8, 6, &func);
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("StoreBox::Purchase", typeid(void (StoreBox::*)()), ".534889fbbe", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void TutorialManager::OnInit(ShipManager *ship, CommandGui *gui, CrewControl *crewControl, Upgrades *upgradesScreen, CombatControl *combatControl, SystemControl *sysControl, TabbedWindow *unk)
+FUNC_NAKED void StoreBox::Purchase()
 {
 	__asm__
 	(
@@ -38927,19 +38975,11 @@ FUNC_NAKED void TutorialManager::OnInit(ShipManager *ship, CommandGui *gui, Crew
 		"pushl %r13\n\t"
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
-		"pushl 16(%rbp)\n\t"		// unk
-		"pushl 8(%rbp)\n\t"		// sysControl
 			// rdi has this
-			// rsi has ship
-			// rdx has gui
-			// rcx has crewControl
-			// r8 has upgradesScreen
-			// r9 has combatControl
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1037::func));
 	__asm__
 	(
-		"addl $16, %rsp\n\t"
 		"popl %r15\n\t"
 		"popl %r14\n\t"
 		"popl %r13\n\t"
@@ -38952,21 +38992,14 @@ FUNC_NAKED void TutorialManager::OnInit(ShipManager *ship, CommandGui *gui, Crew
 	);
 }
 
-TutorialManager *Global_TutorialManager_Tutorial;
-
-namespace _var1038
-{
-	static VariableDefinition varObj("Global_TutorialManager_Tutorial", "!498b07488b7810488b07ff908000000084c00f84????????bf(???????\?)", &Global_TutorialManager_Tutorial);
-}
-
-namespace _func1039
+namespace _func1038
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106, 0x102, 0x101};
-	static FunctionDefinition funcObj("UnlockArrow::constructor", typeid(void (UnlockArrow::*)(Point , int , int )), "554889f5534889fb4883ec28803d????????00", argdata, 4, 6, &func);
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("StoreBox::OnRender", typeid(void (StoreBox::*)()), ".415741564155415455534889fb488d7f184881ecc8040000", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void UnlockArrow::constructor(Point pos, int unk1, int unk2)
+FUNC_NAKED void StoreBox::OnRender()
 {
 	__asm__
 	(
@@ -38980,9 +39013,44 @@ FUNC_NAKED void UnlockArrow::constructor(Point pos, int unk1, int unk2)
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has pos
-			// rdx has unk1
-			// rcx has unk2
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1038::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1039
+{
+	static void *func = 0;
+	static short argdata[] = {0x107, 0x106};
+	static FunctionDefinition funcObj("SystemBox::OnRender", typeid(void (SystemBox::*)(bool )), "4157b8010000004156415541545589f5534889fb4883ec58", argdata, 2, 6, &func);
+}
+
+FUNC_NAKED void SystemBox::OnRender(bool ignoreStatus)
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+			// rsi has ignoreStatus
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1039::func));
 	__asm__
@@ -39002,11 +39070,11 @@ FUNC_NAKED void UnlockArrow::constructor(Point pos, int unk1, int unk2)
 namespace _func1040
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106, 0x102};
-	static FunctionDefinition funcObj("UnlockArrow::MouseMove", typeid(bool (UnlockArrow::*)(int , int )), ".837f0403", argdata, 3, 2, &func);
+	static short argdata[] = {0x107, 0x106};
+	static FunctionDefinition funcObj("SystemBox::MouseClick", typeid(bool (SystemBox::*)(bool )), ".41544189f4554889fd5331db4883ec20", argdata, 2, 2, &func);
 }
 
-FUNC_NAKED bool UnlockArrow::MouseMove(int x, int y)
+FUNC_NAKED bool SystemBox::MouseClick(bool shift)
 {
 	__asm__
 	(
@@ -39020,8 +39088,7 @@ FUNC_NAKED bool UnlockArrow::MouseMove(int x, int y)
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has x
-			// rdx has y
+			// rsi has shift
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1040::func));
 	__asm__
@@ -39041,11 +39108,11 @@ FUNC_NAKED bool UnlockArrow::MouseMove(int x, int y)
 namespace _func1041
 {
 	static void *func = 0;
-	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("UnlockArrow::OnRender", typeid(void (UnlockArrow::*)()), ".534889fb4883ec308b0785c0", argdata, 1, 6, &func);
+	static short argdata[] = {0x107, 0x106, 0x102, 0x101};
+	static FunctionDefinition funcObj("SystemBox::constructor", typeid(void (SystemBox::*)(Point , ShipSystem *, bool )), ".4157415641be01000000415541544189cc55534889fb", argdata, 4, 6, &func);
 }
 
-FUNC_NAKED void UnlockArrow::OnRender()
+FUNC_NAKED void SystemBox::constructor(Point pos, ShipSystem *sys, bool playerUI)
 {
 	__asm__
 	(
@@ -39059,6 +39126,9 @@ FUNC_NAKED void UnlockArrow::OnRender()
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
+			// rsi has pos
+			// rdx has sys
+			// rcx has playerUI
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1041::func));
 	__asm__
@@ -39078,11 +39148,11 @@ FUNC_NAKED void UnlockArrow::OnRender()
 namespace _func1042
 {
 	static void *func = 0;
-	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("UpgradeBox::OnRender", typeid(void (UpgradeBox::*)()), "415741564989fe4155415455534881ecd801000080bf5901000000", argdata, 1, 6, &func);
+	static short argdata[] = {0x107, 0x106, 0x102};
+	static FunctionDefinition funcObj("SystemBox::KeyDown", typeid(void (SystemBox::*)(SDLKey , bool )), ".415541544189d45589f5534889fb4883ec38", argdata, 3, 6, &func);
 }
 
-FUNC_NAKED void UpgradeBox::OnRender()
+FUNC_NAKED void SystemBox::KeyDown(SDLKey key, bool shift)
 {
 	__asm__
 	(
@@ -39096,6 +39166,8 @@ FUNC_NAKED void UpgradeBox::OnRender()
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
+			// rsi has key
+			// rdx has shift
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1042::func));
 	__asm__
@@ -39116,10 +39188,10 @@ namespace _func1043
 {
 	static void *func = 0;
 	static short argdata[] = {0x107, 0x106, 0x102};
-	static FunctionDefinition funcObj("UpgradeBox::MouseMove", typeid(void (UpgradeBox::*)(int , int )), ".48833f007412", argdata, 3, 6, &func);
+	static FunctionDefinition funcObj("SystemBox::MouseMove", typeid(void (SystemBox::*)(int , int )), ".5589f5534889fb4883ec388b87ac010000", argdata, 3, 6, &func);
 }
 
-FUNC_NAKED void UpgradeBox::MouseMove(int mX, int mY)
+FUNC_NAKED void SystemBox::MouseMove(int x, int y)
 {
 	__asm__
 	(
@@ -39133,8 +39205,8 @@ FUNC_NAKED void UpgradeBox::MouseMove(int mX, int mY)
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has mX
-			// rdx has mY
+			// rsi has x
+			// rdx has y
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1043::func));
 	__asm__
@@ -39154,11 +39226,11 @@ FUNC_NAKED void UpgradeBox::MouseMove(int mX, int mY)
 namespace _func1044
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106, 0x102};
-	static FunctionDefinition funcObj("UpgradeBox::MouseClick", typeid(void (UpgradeBox::*)(int , int )), ".534889fb4883ec20488b074885c0", argdata, 3, 6, &func);
+	static short argdata[] = {0x107, 0x106};
+	static FunctionDefinition funcObj("SystemControl::GetSystemBox", typeid(SystemBox *(SystemControl::*)(int )), "415531d24989fd41545589f55331db4883ec08488b4f10488b47184829c848c1f8034885c07522eb57", argdata, 2, 2, &func);
 }
 
-FUNC_NAKED void UpgradeBox::MouseClick(int mX, int mY)
+FUNC_NAKED SystemBox *SystemControl::GetSystemBox(int systemId)
 {
 	__asm__
 	(
@@ -39172,8 +39244,7 @@ FUNC_NAKED void UpgradeBox::MouseClick(int mX, int mY)
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has mX
-			// rdx has mY
+			// rsi has systemId
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1044::func));
 	__asm__
@@ -39193,11 +39264,11 @@ FUNC_NAKED void UpgradeBox::MouseClick(int mX, int mY)
 namespace _func1045
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106, 0x102};
-	static FunctionDefinition funcObj("UpgradeBox::MouseRightClick", typeid(void (UpgradeBox::*)(int , int )), ".534889fb4883ec20488b074885c0", argdata, 3, 6, &func);
+	static short argdata[] = {0x107, 0x106, 0x102, 0x101};
+	static FunctionDefinition funcObj("SystemControl::GetPowerBars", typeid(SystemControl::PowerBars *(*)(int , int , int , bool )), ".41574189f24189d34189cf415641554c63ee41545589fd534863df4989d84889d84881ec88000000", argdata, 4, 2, &func);
 }
 
-FUNC_NAKED void UpgradeBox::MouseRightClick(int mX, int mY)
+FUNC_NAKED SystemControl::PowerBars *SystemControl::GetPowerBars(int width, int height, int gap, bool useShieldGap)
 {
 	__asm__
 	(
@@ -39210,9 +39281,10 @@ FUNC_NAKED void UpgradeBox::MouseRightClick(int mX, int mY)
 		"pushl %r13\n\t"
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
-			// rdi has this
-			// rsi has mX
-			// rdx has mY
+			// rdi has width
+			// rsi has height
+			// rdx has gap
+			// rcx has useShieldGap
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1045::func));
 	__asm__
@@ -39233,10 +39305,10 @@ namespace _func1046
 {
 	static void *func = 0;
 	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("UpgradeBox::Undo", typeid(void (UpgradeBox::*)()), ".538b47204889fb85c0", argdata, 1, 6, &func);
+	static FunctionDefinition funcObj("SystemControl::RenderPowerBar", typeid(void (SystemControl::*)()), ".415741564989fe4155415455534883ec28488b3f", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void UpgradeBox::Undo()
+FUNC_NAKED void SystemControl::RenderPowerBar()
 {
 	__asm__
 	(
@@ -39270,10 +39342,10 @@ namespace _func1047
 {
 	static void *func = 0;
 	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("UpgradeBox::Accept", typeid(void (UpgradeBox::*)()), ".534889fb4883ec20488b3f4885ff", argdata, 1, 6, &func);
+	static FunctionDefinition funcObj("SystemControl::CreateSystemBoxes", typeid(void (SystemControl::*)()), ".415731d231f641564155415455534889fb4883ec58488d7c2430", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void UpgradeBox::Accept()
+FUNC_NAKED void SystemControl::CreateSystemBoxes()
 {
 	__asm__
 	(
@@ -39303,14 +39375,28 @@ FUNC_NAKED void UpgradeBox::Accept()
 	);
 }
 
-namespace _func1048
+Point *Global_SystemControl_weapon_position;
+
+namespace _var1048
 {
-	static void *func = 0;
-	static short argdata[] = {0x107, 0x106, 0x102};
-	static FunctionDefinition funcObj("UpgradeBox::constructorEmpty", typeid(void (UpgradeBox::*)(Point , bool )), ".41554189d541544989f449c1fc20554889f5534889fb488d7f384883ec38", argdata, 3, 6, &func);
+	static VariableDefinition varObj("Global_SystemControl_weapon_position", "!488b442430488d7c243031d231f6488905(???????\?)e8????????488b442430488b7318488b5310488905(???????\?)", &Global_SystemControl_weapon_position);
 }
 
-FUNC_NAKED void UpgradeBox::constructorEmpty(Point pos, bool subsystem)
+Point *Global_SystemControl_drone_position;
+
+namespace _var1049
+{
+	static VariableDefinition varObj("Global_SystemControl_drone_position", "", &Global_SystemControl_drone_position);
+}
+
+namespace _func1050
+{
+	static void *func = 0;
+	static short argdata[] = {0x107, 0x106, 0x102, 0x101};
+	static FunctionDefinition funcObj("SystemCustomBox::constructor", typeid(void (SystemCustomBox::*)(Point , ShipSystem *, ShipManager *)), "41544989cc31c9554889f5534889fb4883ec40", argdata, 4, 6, &func);
+}
+
+FUNC_NAKED void SystemCustomBox::constructor(Point pos, ShipSystem *sys, ShipManager *ship)
 {
 	__asm__
 	(
@@ -39325,85 +39411,8 @@ FUNC_NAKED void UpgradeBox::constructorEmpty(Point pos, bool subsystem)
 		"pushl %r15\n\t"
 			// rdi has this
 			// rsi has pos
-			// rdx has subsystem
-	);
-	__asm__("call *%0\n\t" :: "m"(_func1048::func));
-	__asm__
-	(
-		"popl %r15\n\t"
-		"popl %r14\n\t"
-		"popl %r13\n\t"
-		"popl %r12\n\t"
-		"popl %rbp\n\t"
-		"popl %rbx\n\t"
-		"movl %rbp, %rsp\n\t"
-		"popl %rbp\n\t"
-		"ret\n\t"
-	);
-}
-
-namespace _func1049
-{
-	static void *func = 0;
-	static short argdata[] = {0x107, 0x106, 0x102, 0x101, 0x108};
-	static FunctionDefinition funcObj("UpgradeBox::constructorSystem", typeid(void (UpgradeBox::*)(ShipManager *, ShipSystem *, Point , bool )), ".41574589c741564c8d773841554989cd41544989d455488dafc8000000534889fb4883ec38", argdata, 5, 6, &func);
-}
-
-FUNC_NAKED void UpgradeBox::constructorSystem(ShipManager *ship, ShipSystem *sys, Point pos, bool subsystem)
-{
-	__asm__
-	(
-		"pushl %rbp\n\t"
-		"movl %rsp, %rbp\n\t"
-		"subl $8, %rsp\n\t"
-		"pushl %rbx\n\t"
-		"pushl %rbp\n\t"
-		"pushl %r12\n\t"
-		"pushl %r13\n\t"
-		"pushl %r14\n\t"
-		"pushl %r15\n\t"
-			// rdi has this
-			// rsi has ship
 			// rdx has sys
-			// rcx has pos
-			// r8 has subsystem
-	);
-	__asm__("call *%0\n\t" :: "m"(_func1049::func));
-	__asm__
-	(
-		"popl %r15\n\t"
-		"popl %r14\n\t"
-		"popl %r13\n\t"
-		"popl %r12\n\t"
-		"popl %rbp\n\t"
-		"popl %rbx\n\t"
-		"movl %rbp, %rsp\n\t"
-		"popl %rbp\n\t"
-		"ret\n\t"
-	);
-}
-
-namespace _func1050
-{
-	static void *func = 0;
-	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("UpgradeBox::destructor", typeid(void (UpgradeBox::*)()), ".534889fb4883ec10488bbf60010000", argdata, 1, 6, &func);
-}
-
-FUNC_NAKED void UpgradeBox::destructor()
-{
-	__asm__
-	(
-		"pushl %rbp\n\t"
-		"movl %rsp, %rbp\n\t"
-		"subl $8, %rsp\n\t"
-		"pushl %rbx\n\t"
-		"pushl %rbp\n\t"
-		"pushl %r12\n\t"
-		"pushl %r13\n\t"
-		"pushl %r14\n\t"
-		"pushl %r15\n\t"
-			// rdi has this
+			// rcx has ship
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1050::func));
 	__asm__
@@ -39423,11 +39432,11 @@ FUNC_NAKED void UpgradeBox::destructor()
 namespace _func1051
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106, 0x102};
-	static FunctionDefinition funcObj("Upgrades::MouseMove", typeid(void (Upgrades::*)(int , int )), "!41554989fd41544189d45589f55331db4883ec08", argdata, 3, 6, &func);
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("SystemStoreBox::CanHold", typeid(bool (SystemStoreBox::*)()), "534883bf18010000004889fb", argdata, 1, 2, &func);
 }
 
-FUNC_NAKED void Upgrades::MouseMove(int mX, int mY)
+FUNC_NAKED bool SystemStoreBox::CanHold()
 {
 	__asm__
 	(
@@ -39441,8 +39450,6 @@ FUNC_NAKED void Upgrades::MouseMove(int mX, int mY)
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has mX
-			// rdx has mY
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1051::func));
 	__asm__
@@ -39462,11 +39469,11 @@ FUNC_NAKED void Upgrades::MouseMove(int mX, int mY)
 namespace _func1052
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106, 0x102};
-	static FunctionDefinition funcObj("Upgrades::MouseRightClick", typeid(void (Upgrades::*)(int , int )), ".415431c94989fc5531ed534883ec20", argdata, 3, 6, &func);
+	static short argdata[] = {0x107, 0x106};
+	static FunctionDefinition funcObj("SystemStoreBox::SetExtraData", typeid(void (SystemStoreBox::*)(int )), ".55534889fb4883ec38837f0804", argdata, 2, 6, &func);
 }
 
-FUNC_NAKED void Upgrades::MouseRightClick(int mX, int mY)
+FUNC_NAKED void SystemStoreBox::SetExtraData(int droneChoice)
 {
 	__asm__
 	(
@@ -39480,8 +39487,7 @@ FUNC_NAKED void Upgrades::MouseRightClick(int mX, int mY)
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has mX
-			// rdx has mY
+			// rsi has droneChoice
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1052::func));
 	__asm__
@@ -39502,10 +39508,10 @@ namespace _func1053
 {
 	static void *func = 0;
 	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("Upgrades::Close", typeid(void (Upgrades::*)()), ".41554154554889fd534883ec28807f0800", argdata, 1, 6, &func);
+	static FunctionDefinition funcObj("SystemStoreBox::Activate", typeid(void (SystemStoreBox::*)()), ".534889fb4883ec20488bbf180100008b83e0000000", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void Upgrades::Close()
+FUNC_NAKED void SystemStoreBox::Activate()
 {
 	__asm__
 	(
@@ -39538,11 +39544,11 @@ FUNC_NAKED void Upgrades::Close()
 namespace _func1054
 {
 	static void *func = 0;
-	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("Upgrades::OnLoop", typeid(void (Upgrades::*)()), ".4155415455534889fb4883ec68807f0800", argdata, 1, 6, &func);
+	static short argdata[] = {0x107, 0x106, 0x102, 0x101};
+	static FunctionDefinition funcObj("SystemStoreBox::constructor", typeid(void (SystemStoreBox::*)(ShipManager *, Equipment *, int )), ".41568d41fa41554989d541544989f45589cd534889fb4883ec5083f802", argdata, 4, 6, &func);
 }
 
-FUNC_NAKED void Upgrades::OnLoop()
+FUNC_NAKED void SystemStoreBox::constructor(ShipManager *shopper, Equipment *equip, int sys)
 {
 	__asm__
 	(
@@ -39556,6 +39562,9 @@ FUNC_NAKED void Upgrades::OnLoop()
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
+			// rsi has shopper
+			// rdx has equip
+			// rcx has sys
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1054::func));
 	__asm__
@@ -39576,10 +39585,10 @@ namespace _func1055
 {
 	static void *func = 0;
 	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("Upgrades::ConfirmUpgrades", typeid(void (Upgrades::*)()), ".415531c941bd????????41544989fc5531ed534883ec28", argdata, 1, 6, &func);
+	static FunctionDefinition funcObj("SystemStoreBox::Purchase", typeid(void (SystemStoreBox::*)()), ".534889fb4883ec30e8????????8b7308", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void Upgrades::ConfirmUpgrades()
+FUNC_NAKED void SystemStoreBox::Purchase()
 {
 	__asm__
 	(
@@ -39613,10 +39622,10 @@ namespace _func1056
 {
 	static void *func = 0;
 	static short argdata[] = {0x107, 0x106, 0x102};
-	static FunctionDefinition funcObj("Upgrades::MouseClick", typeid(void (Upgrades::*)(int , int )), ".41554189d541544189f4554889fd5331db4883ec28", argdata, 3, 6, &func);
+	static FunctionDefinition funcObj("SystemStoreBox::MouseMove", typeid(void (SystemStoreBox::*)(int , int )), ".41544189d45589f5534889fb4883ec308b8710010000", argdata, 3, 6, &func);
 }
 
-FUNC_NAKED void Upgrades::MouseClick(int mX, int mY)
+FUNC_NAKED void SystemStoreBox::MouseMove(int mX, int mY)
 {
 	__asm__
 	(
@@ -39652,10 +39661,10 @@ namespace _func1057
 {
 	static void *func = 0;
 	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("Upgrades::ClearUpgradeBoxes", typeid(void (Upgrades::*)()), ".41544989fc55534883ec10488b4f30488b57284889c84829d048c1f80385c0", argdata, 1, 6, &func);
+	static FunctionDefinition funcObj("TabbedWindow::Close", typeid(void (TabbedWindow::*)()), "538b57684889fb488b4738", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void Upgrades::ClearUpgradeBoxes()
+FUNC_NAKED void TabbedWindow::Close()
 {
 	__asm__
 	(
@@ -39688,11 +39697,11 @@ FUNC_NAKED void Upgrades::ClearUpgradeBoxes()
 namespace _func1058
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106};
-	static FunctionDefinition funcObj("Upgrades::OnInit", typeid(void (Upgrades::*)(ShipManager *)), ".41574989ff41564155415455534881ecb8000000", argdata, 2, 6, &func);
+	static short argdata[] = {0x107, 0x106, 0x102};
+	static FunctionDefinition funcObj("TeleportBox::constructor", typeid(void (TeleportBox::*)(Point , TeleportSystem *)), "4155b9010000004989d5415455534889fb4c8da370020000488dab000300004883ec58", argdata, 3, 6, &func);
 }
 
-FUNC_NAKED void Upgrades::OnInit(ShipManager *ship)
+FUNC_NAKED void TeleportBox::constructor(Point pos, TeleportSystem *sys)
 {
 	__asm__
 	(
@@ -39706,7 +39715,8 @@ FUNC_NAKED void Upgrades::OnInit(ShipManager *ship)
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has ship
+			// rsi has pos
+			// rdx has sys
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1058::func));
 	__asm__
@@ -39727,10 +39737,10 @@ namespace _func1059
 {
 	static void *func = 0;
 	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("Upgrades::OnRender", typeid(void (Upgrades::*)()), ".415455534889fb4883ec50488b7f20", argdata, 1, 6, &func);
+	static FunctionDefinition funcObj("TeleportSystem::Jump", typeid(void (TeleportSystem::*)()), "534889fbe8????????c78344020000000000005b", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void Upgrades::OnRender()
+FUNC_NAKED void TeleportSystem::Jump()
 {
 	__asm__
 	(
@@ -39763,11 +39773,11 @@ FUNC_NAKED void Upgrades::OnRender()
 namespace _func1060
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x10a};
-	static FunctionDefinition funcObj("WarningMessage::RenderWithAlpha", typeid(void (WarningMessage::*)(float )), "41570f28f041564155415455534889fb4883ec48", argdata, 2, 6, &func);
+	static short argdata[] = {0x107, 0x106};
+	static FunctionDefinition funcObj("TeleportSystem::SetHackingLevel", typeid(void (TeleportSystem::*)(int )), ".5589f5534889fb4883ec0883fe017e09", argdata, 2, 6, &func);
 }
 
-FUNC_NAKED void WarningMessage::RenderWithAlpha(float alpha)
+FUNC_NAKED void TeleportSystem::SetHackingLevel(int hackingLevel)
 {
 	__asm__
 	(
@@ -39781,7 +39791,7 @@ FUNC_NAKED void WarningMessage::RenderWithAlpha(float alpha)
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// xmm0 has alpha
+			// rsi has hackingLevel
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1060::func));
 	__asm__
@@ -39802,10 +39812,10 @@ namespace _func1061
 {
 	static void *func = 0;
 	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("WarningMessage::constructor", typeid(void (WarningMessage::*)()), ".0f57c0534889fb488d7f2831d24883ec20", argdata, 1, 6, &func);
+	static FunctionDefinition funcObj("TeleportSystem::OnRenderFloor", typeid(void (TeleportSystem::*)()), ".415741564155415455534889fb4883ec38", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void WarningMessage::constructor()
+FUNC_NAKED void TeleportSystem::OnRenderFloor()
 {
 	__asm__
 	(
@@ -39838,11 +39848,11 @@ FUNC_NAKED void WarningMessage::constructor()
 namespace _func1062
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106, 0x102, 0x10a, 0x101};
-	static FunctionDefinition funcObj("WarningMessage::InitImage", typeid(void (WarningMessage::*)(const std::string &, Point , float , bool )), ".41564189ce415541544989f4554889d5534889fb488dbfa80000004c8d6b604883ec10", argdata, 5, 6, &func);
+	static short argdata[] = {0x107, 0x106, 0x102, 0x101, 0x108};
+	static FunctionDefinition funcObj("TeleportSystem::constructor", typeid(void (TeleportSystem::*)(int , int , int , int )), ".5589d5534889fb4883ec08", argdata, 5, 6, &func);
 }
 
-FUNC_NAKED void WarningMessage::InitImage(const std::string &imageName, Point position, float time, bool flash)
+FUNC_NAKED void TeleportSystem::constructor(int systemId, int roomId, int shipId, int startingPower)
 {
 	__asm__
 	(
@@ -39856,10 +39866,10 @@ FUNC_NAKED void WarningMessage::InitImage(const std::string &imageName, Point po
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has imageName
-			// rdx has position
-			// xmm0 has time
-			// rcx has flash
+			// rsi has systemId
+			// rdx has roomId
+			// rcx has shipId
+			// r8 has startingPower
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1062::func));
 	__asm__
@@ -39879,11 +39889,11 @@ FUNC_NAKED void WarningMessage::InitImage(const std::string &imageName, Point po
 namespace _func1063
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106, 0x102, 0x10a, 0x2ff, 0x101, 0x108};
-	static FunctionDefinition funcObj("WarningMessage::InitText", typeid(void (WarningMessage::*)(const TextString &, Point , float , GL_Color , bool , bool )), ".41574589c741564189ce41554154554889f5534889fb488d7f384883ec28", argdata, 7, 6, &func);
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("TeleportSystem::GetChargedPercent", typeid(float (TeleportSystem::*)()), ".f30f108744020000", argdata, 1, 2, &func);
 }
 
-FUNC_NAKED void WarningMessage::InitText(const TextString &text, Point position, float time, GL_Color textColor, bool centerText, bool flash)
+FUNC_NAKED float TeleportSystem::GetChargedPercent()
 {
 	__asm__
 	(
@@ -39896,19 +39906,11 @@ FUNC_NAKED void WarningMessage::InitText(const TextString &text, Point position,
 		"pushl %r13\n\t"
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
-		"pushl 16(%rbp)\n\t"		// textColor
-		"pushl 8(%rbp)\n\t"		// textColor
 			// rdi has this
-			// rsi has text
-			// rdx has position
-			// xmm0 has time
-			// rcx has centerText
-			// r8 has flash
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1063::func));
 	__asm__
 	(
-		"addl $16, %rsp\n\t"
 		"popl %r15\n\t"
 		"popl %r14\n\t"
 		"popl %r13\n\t"
@@ -39925,10 +39927,10 @@ namespace _func1064
 {
 	static void *func = 0;
 	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("WarningMessage::OnLoop", typeid(void (WarningMessage::*)()), ".55488d6f08534889fb4889ef4883ec08", argdata, 1, 6, &func);
+	static FunctionDefinition funcObj("TeleportSystem::Charged", typeid(bool (TeleportSystem::*)()), ".534889fb", argdata, 1, 2, &func);
 }
 
-FUNC_NAKED void WarningMessage::OnLoop()
+FUNC_NAKED bool TeleportSystem::Charged()
 {
 	__asm__
 	(
@@ -39962,10 +39964,10 @@ namespace _func1065
 {
 	static void *func = 0;
 	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("WarningMessage::OnRender", typeid(void (WarningMessage::*)()), ".53807f1e004889fb", argdata, 1, 6, &func);
+	static FunctionDefinition funcObj("TeleportSystem::ClearCrewLocations", typeid(void (TeleportSystem::*)()), ".41564155415455534c63a77c0200004889fb", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void WarningMessage::OnRender()
+FUNC_NAKED void TeleportSystem::ClearCrewLocations()
 {
 	__asm__
 	(
@@ -39999,10 +40001,10 @@ namespace _func1066
 {
 	static void *func = 0;
 	static short argdata[] = {0x107, 0x106};
-	static FunctionDefinition funcObj("WarningMessage::SetImage", typeid(void (WarningMessage::*)(const std::string &)), ".4155415455534889fb4883ec08807f3000", argdata, 2, 6, &func);
+	static FunctionDefinition funcObj("TeleportSystem::UpdateCrewLocation", typeid(void (TeleportSystem::*)(int )), ".488b97500200004863c689f148c1e806488d14c2b801000000", argdata, 2, 6, &func);
 }
 
-FUNC_NAKED void WarningMessage::SetImage(const std::string &imageName)
+FUNC_NAKED void TeleportSystem::UpdateCrewLocation(int unk)
 {
 	__asm__
 	(
@@ -40016,7 +40018,7 @@ FUNC_NAKED void WarningMessage::SetImage(const std::string &imageName)
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has imageName
+			// rsi has unk
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1066::func));
 	__asm__
@@ -40037,10 +40039,10 @@ namespace _func1067
 {
 	static void *func = 0;
 	static short argdata[] = {0x107, 0x106};
-	static FunctionDefinition funcObj("WarningMessage::SetText", typeid(void (WarningMessage::*)(const TextString &)), ".4155415455534889fb4883ec08807f3000", argdata, 2, 6, &func);
+	static FunctionDefinition funcObj("TeleportSystem::SetArmed", typeid(void (TeleportSystem::*)(int )), ".534889fb4883ec3083fe01", argdata, 2, 6, &func);
 }
 
-FUNC_NAKED void WarningMessage::SetText(const TextString &text)
+FUNC_NAKED void TeleportSystem::SetArmed(int armed)
 {
 	__asm__
 	(
@@ -40054,7 +40056,7 @@ FUNC_NAKED void WarningMessage::SetText(const TextString &text)
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has text
+			// rsi has armed
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1067::func));
 	__asm__
@@ -40074,11 +40076,11 @@ FUNC_NAKED void WarningMessage::SetText(const TextString &text)
 namespace _func1068
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106, 0x2ff};
-	static FunctionDefinition funcObj("WarningMessage::SetText", typeid(void (WarningMessage::*)(const TextString &, GL_Color )), ".415741564155415455534889fb4883ec18807f3000", argdata, 3, 6, &func);
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("TeleportSystem::ForceReady", typeid(void (TeleportSystem::*)()), "!.c787440200000000c84231f6", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void WarningMessage::SetText(const TextString &text, GL_Color textColor)
+FUNC_NAKED void TeleportSystem::ForceReady()
 {
 	__asm__
 	(
@@ -40091,15 +40093,11 @@ FUNC_NAKED void WarningMessage::SetText(const TextString &text, GL_Color textCol
 		"pushl %r13\n\t"
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
-		"pushl 16(%rbp)\n\t"		// textColor
-		"pushl 8(%rbp)\n\t"		// textColor
 			// rdi has this
-			// rsi has text
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1068::func));
 	__asm__
 	(
-		"addl $16, %rsp\n\t"
 		"popl %r15\n\t"
 		"popl %r14\n\t"
 		"popl %r13\n\t"
@@ -40115,11 +40113,11 @@ FUNC_NAKED void WarningMessage::SetText(const TextString &text, GL_Color textCol
 namespace _func1069
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106};
-	static FunctionDefinition funcObj("WarningMessage::SetPosition", typeid(void (WarningMessage::*)(Point )), ".807f300048897728", argdata, 2, 6, &func);
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("TeleportSystem::CanSend", typeid(bool (TeleportSystem::*)()), ".534889fb4883ec308b4f1885c9", argdata, 1, 2, &func);
 }
 
-FUNC_NAKED void WarningMessage::SetPosition(Point position)
+FUNC_NAKED bool TeleportSystem::CanSend()
 {
 	__asm__
 	(
@@ -40133,7 +40131,6 @@ FUNC_NAKED void WarningMessage::SetPosition(Point position)
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has position
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1069::func));
 	__asm__
@@ -40153,11 +40150,11 @@ FUNC_NAKED void WarningMessage::SetPosition(Point position)
 namespace _func1070
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106};
-	static FunctionDefinition funcObj("WarningMessage::SetLoop", typeid(void (WarningMessage::*)(bool )), "!.0f57c0400fb6f64883c708", argdata, 2, 6, &func);
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("TeleportSystem::CanReceive", typeid(bool (TeleportSystem::*)()), ".5589f5534889fb4883ec0880bf4902000000", argdata, 1, 2, &func);
 }
 
-FUNC_NAKED void WarningMessage::SetLoop(bool loop)
+FUNC_NAKED bool TeleportSystem::CanReceive()
 {
 	__asm__
 	(
@@ -40171,7 +40168,6 @@ FUNC_NAKED void WarningMessage::SetLoop(bool loop)
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has loop
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1070::func));
 	__asm__
@@ -40191,11 +40187,11 @@ FUNC_NAKED void WarningMessage::SetLoop(bool loop)
 namespace _func1071
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106};
-	static FunctionDefinition funcObj("WarningMessage::SetSound", typeid(void (WarningMessage::*)(const std::string &)), "!.4881c7b8000000", argdata, 2, 6, &func);
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("TeleportSystem::OnLoop", typeid(void (TeleportSystem::*)()), ".534889fb4883ec30", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void WarningMessage::SetSound(const std::string &sound)
+FUNC_NAKED void TeleportSystem::OnLoop()
 {
 	__asm__
 	(
@@ -40209,7 +40205,6 @@ FUNC_NAKED void WarningMessage::SetSound(const std::string &sound)
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has sound
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1071::func));
 	__asm__
@@ -40230,10 +40225,10 @@ namespace _func1072
 {
 	static void *func = 0;
 	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("WarningMessage::Start", typeid(void (WarningMessage::*)()), ".53807f1c004889fb", argdata, 1, 6, &func);
+	static FunctionDefinition funcObj("TeleportSystem::InitiateTeleport", typeid(void (TeleportSystem::*)()), ".534889fb4883ec20", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void WarningMessage::Start()
+FUNC_NAKED void TeleportSystem::InitiateTeleport()
 {
 	__asm__
 	(
@@ -40267,10 +40262,10 @@ namespace _func1073
 {
 	static void *func = 0;
 	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("WeaponAnimation::StartFire", typeid(bool (WeaponAnimation::*)()), "530fb687c10000004889fb84c0", argdata, 1, 2, &func);
+	static FunctionDefinition funcObj("TextButton::ResetPrimitives", typeid(void (TextButton::*)()), "554889fd5331db4883ec08488b7c1d50", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED bool WeaponAnimation::StartFire()
+FUNC_NAKED void TextButton::ResetPrimitives()
 {
 	__asm__
 	(
@@ -40303,11 +40298,11 @@ FUNC_NAKED bool WeaponAnimation::StartFire()
 namespace _func1074
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x10a};
-	static FunctionDefinition funcObj("WeaponAnimation::SetFireTime", typeid(void (WeaponAnimation::*)(float )), "8b470889c22b97c8000000", argdata, 2, 6, &func);
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("TextButton::GetIdealButtonWidth", typeid(int (TextButton::*)()), "55534889fb4883ec3880bfe800000000", argdata, 1, 2, &func);
 }
 
-FUNC_NAKED void WeaponAnimation::SetFireTime(float time)
+FUNC_NAKED int TextButton::GetIdealButtonWidth()
 {
 	__asm__
 	(
@@ -40321,7 +40316,6 @@ FUNC_NAKED void WeaponAnimation::SetFireTime(float time)
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// xmm0 has time
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1074::func));
 	__asm__
@@ -40341,11 +40335,11 @@ FUNC_NAKED void WeaponAnimation::SetFireTime(float time)
 namespace _func1075
 {
 	static void *func = 0;
-	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("WeaponAnimation::Update", typeid(void (WeaponAnimation::*)()), "415455534889fb4883ec1080bfc100000000", argdata, 1, 6, &func);
+	static short argdata[] = {0x107, 0x106, 0x102, 0x101, 0x108, 0x109};
+	static FunctionDefinition funcObj("TextButton::OnInit", typeid(void (TextButton::*)(Point , Point , int , TextString *, int )), "415741564d89c641554989d541544989f44c89c6554489cd534889fb488dbfe0000000", argdata, 6, 6, &func);
 }
 
-FUNC_NAKED void WeaponAnimation::Update()
+FUNC_NAKED void TextButton::OnInit(Point pos, Point size, int cornerInset, TextString *buttonLabel, int font)
 {
 	__asm__
 	(
@@ -40359,6 +40353,11 @@ FUNC_NAKED void WeaponAnimation::Update()
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
+			// rsi has pos
+			// rdx has size
+			// rcx has cornerInset
+			// r8 has buttonLabel
+			// r9 has font
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1075::func));
 	__asm__
@@ -40378,11 +40377,11 @@ FUNC_NAKED void WeaponAnimation::Update()
 namespace _func1076
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x10a};
-	static FunctionDefinition funcObj("WeaponBlueprint::RenderIcon", typeid(void (WeaponBlueprint::*)(float )), "!488db738010000", argdata, 2, 6, &func);
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("TextButton::OnRender", typeid(void (TextButton::*)()), "4157415641554989fd415455534883ec5880bfd000000000", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void WeaponBlueprint::RenderIcon(float scale)
+FUNC_NAKED void TextButton::OnRender()
 {
 	__asm__
 	(
@@ -40396,7 +40395,6 @@ FUNC_NAKED void WeaponBlueprint::RenderIcon(float scale)
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// xmm0 has scale
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1076::func));
 	__asm__
@@ -40416,11 +40414,11 @@ FUNC_NAKED void WeaponBlueprint::RenderIcon(float scale)
 namespace _func1077
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106, 0x102};
-	static FunctionDefinition funcObj("WeaponBlueprint::GetDescription", typeid(std::string (WeaponBlueprint::*)(bool )), ".4157415641554989fd4154554889f5534881ec08010000", argdata, 3, 2, &func);
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("TextButton::destructor", typeid(void (TextButton::*)()), "534889fb4883ec1048c707????????488b7f50", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED std::string WeaponBlueprint::GetDescription(bool tooltip)
+FUNC_NAKED void TextButton::destructor()
 {
 	__asm__
 	(
@@ -40433,9 +40431,7 @@ FUNC_NAKED std::string WeaponBlueprint::GetDescription(bool tooltip)
 		"pushl %r13\n\t"
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
-			// rdi has implicit_output
-			// rsi has this
-			// rdx has tooltip
+			// rdi has this
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1077::func));
 	__asm__
@@ -40456,10 +40452,10 @@ namespace _func1078
 {
 	static void *func = 0;
 	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("WeaponBlueprint::constructor", typeid(void (WeaponBlueprint::*)()), ".534889fb488d7f08be????????4883ec20", argdata, 1, 6, &func);
+	static FunctionDefinition funcObj("TextButton::GetSize", typeid(Point (TextButton::*)()), "4155415455534889fb4883ec1880bfd000000000751a", argdata, 1, 2, &func);
 }
 
-FUNC_NAKED void WeaponBlueprint::constructor()
+FUNC_NAKED Point TextButton::GetSize()
 {
 	__asm__
 	(
@@ -40492,11 +40488,11 @@ FUNC_NAKED void WeaponBlueprint::constructor()
 namespace _func1079
 {
 	static void *func = 0;
-	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("WeaponBlueprint::destructor", typeid(void (WeaponBlueprint::*)()), ".4154554889fd534883ec10488b8788010000", argdata, 1, 6, &func);
+	static short argdata[] = {0x107, 0x106, 0x102, 0x101, 0x108};
+	static FunctionDefinition funcObj("TextButton::OnInitRect", typeid(void (TextButton::*)(Globals::Rect &, int , TextString &, int )), "41574156415541544989cc554889f5534889fb4883ec488954240c", argdata, 5, 6, &func);
 }
 
-FUNC_NAKED void WeaponBlueprint::destructor()
+FUNC_NAKED void TextButton::OnInitRect(Globals::Rect &rect, int cornerInset, TextString &buttonLabel, int font)
 {
 	__asm__
 	(
@@ -40510,6 +40506,10 @@ FUNC_NAKED void WeaponBlueprint::destructor()
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
+			// rsi has rect
+			// rdx has cornerInset
+			// rcx has buttonLabel
+			// r8 has font
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1079::func));
 	__asm__
@@ -40529,11 +40529,11 @@ FUNC_NAKED void WeaponBlueprint::destructor()
 namespace _func1080
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106, 0x102};
-	static FunctionDefinition funcObj("WeaponBox::RenderBox", typeid(void (WeaponBox::*)(bool , bool )), "41570fb6d2400fb6f641564155415455534889fb4881ec68030000", argdata, 3, 6, &func);
+	static short argdata[] = {0x107, 0x106, 0x102, 0x101};
+	static FunctionDefinition funcObj("TextButton::SetBaseImage", typeid(void (TextButton::*)(const std::string &, Point , int )), "4154488b065553488378e800", argdata, 4, 6, &func);
 }
 
-FUNC_NAKED void WeaponBox::RenderBox(bool dragging, bool flashPowerBox)
+FUNC_NAKED void TextButton::SetBaseImage(const std::string &name, Point pos, int autoWidthMin)
 {
 	__asm__
 	(
@@ -40547,8 +40547,9 @@ FUNC_NAKED void WeaponBox::RenderBox(bool dragging, bool flashPowerBox)
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has dragging
-			// rdx has flashPowerBox
+			// rsi has name
+			// rdx has pos
+			// rcx has autoWidthMin
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1080::func));
 	__asm__
@@ -40568,29 +40569,32 @@ FUNC_NAKED void WeaponBox::RenderBox(bool dragging, bool flashPowerBox)
 namespace _func1081
 {
 	static void *func = 0;
-	static short argdata[] = {0x1ff, 0x107};
-	static FunctionDefinition funcObj("WeaponBox::GenerateTooltip", typeid(std::string (WeaponBox::*)()), "554889f5534889fb4889f74883ec38488b06", argdata, 2, 2, &func);
+	static short argdata[] = {0x107, 0x106, 0x102, 0x101, 0x108};
+	static FunctionDefinition funcObj("TextButton::SetAutoWidth", typeid(void (TextButton::*)(bool , bool , int , int )), "4585c04088b7d0000000", argdata, 5, 6, &func);
 }
 
-FUNC_NAKED std::string WeaponBox::GenerateTooltip()
+FUNC_NAKED void TextButton::SetAutoWidth(bool autoWidth, bool autoRightAlign, int margin, int min)
 {
 	__asm__
 	(
 		"pushl %rbp\n\t"
 		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
 		"pushl %rbx\n\t"
 		"pushl %rbp\n\t"
 		"pushl %r12\n\t"
 		"pushl %r13\n\t"
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
-		"pushl 8(%rbp)\n\t"		// implicit_output
 			// rdi has this
+			// rsi has autoWidth
+			// rdx has autoRightAlign
+			// rcx has margin
+			// r8 has min
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1081::func));
 	__asm__
 	(
-		"addl $8, %rsp\n\t"
 		"popl %r15\n\t"
 		"popl %r14\n\t"
 		"popl %r13\n\t"
@@ -40607,10 +40611,10 @@ namespace _func1082
 {
 	static void *func = 0;
 	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("WeaponControl::constructor", typeid(void (WeaponControl::*)()), "4157be03000000415641554989fd415455498dad3802000053498d9d180300004881ec58030000", argdata, 1, 6, &func);
+	static FunctionDefinition funcObj("TextButton::constructor", typeid(void (TextButton::*)()), "55534889fb488d7f08488d6b284883ec28", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void WeaponControl::constructor()
+FUNC_NAKED void TextButton::constructor()
 {
 	__asm__
 	(
@@ -40643,11 +40647,11 @@ FUNC_NAKED void WeaponControl::constructor()
 namespace _func1083
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106, 0x102};
-	static FunctionDefinition funcObj("WeaponControl::SetAutofiring", typeid(void (WeaponControl::*)(bool , bool )), ".41554189d54154554889fd534883ec484084f64088b7e0000000", argdata, 3, 6, &func);
+	static short argdata[] = {0x107, 0x2ff};
+	static FunctionDefinition funcObj("TextButton::SetInactiveColor", typeid(void (TextButton::*)(GL_Color )), ".!80bf8000000000660fd64c24f0", argdata, 2, 6, &func);
 }
 
-FUNC_NAKED void WeaponControl::SetAutofiring(bool on, bool simple)
+FUNC_NAKED void TextButton::SetInactiveColor(GL_Color color)
 {
 	__asm__
 	(
@@ -40660,13 +40664,14 @@ FUNC_NAKED void WeaponControl::SetAutofiring(bool on, bool simple)
 		"pushl %r13\n\t"
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
+		"pushl 16(%rbp)\n\t"		// color
+		"pushl 8(%rbp)\n\t"		// color
 			// rdi has this
-			// rsi has on
-			// rdx has simple
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1083::func));
 	__asm__
 	(
+		"addl $16, %rsp\n\t"
 		"popl %r15\n\t"
 		"popl %r14\n\t"
 		"popl %r13\n\t"
@@ -40682,11 +40687,11 @@ FUNC_NAKED void WeaponControl::SetAutofiring(bool on, bool simple)
 namespace _func1084
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106, 0x102, 0x101};
-	static FunctionDefinition funcObj("WeaponControl::Fire", typeid(void (WeaponControl::*)(std::vector<Pointf> &, int , bool )), ".4155415455534889fb4883ec28488bbfd80000004885ff", argdata, 4, 6, &func);
+	static short argdata[] = {0x107, 0x2ff};
+	static FunctionDefinition funcObj("TextButton::SetActiveColor", typeid(void (TextButton::*)(GL_Color )), ".!80bf8000000000660fd64c24f0", argdata, 2, 6, &func);
 }
 
-FUNC_NAKED void WeaponControl::Fire(std::vector<Pointf> &points, int target, bool autoFire)
+FUNC_NAKED void TextButton::SetActiveColor(GL_Color color)
 {
 	__asm__
 	(
@@ -40699,14 +40704,14 @@ FUNC_NAKED void WeaponControl::Fire(std::vector<Pointf> &points, int target, boo
 		"pushl %r13\n\t"
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
+		"pushl 16(%rbp)\n\t"		// color
+		"pushl 8(%rbp)\n\t"		// color
 			// rdi has this
-			// rsi has points
-			// rdx has target
-			// rcx has autoFire
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1084::func));
 	__asm__
 	(
+		"addl $16, %rsp\n\t"
 		"popl %r15\n\t"
 		"popl %r14\n\t"
 		"popl %r13\n\t"
@@ -40722,11 +40727,11 @@ FUNC_NAKED void WeaponControl::Fire(std::vector<Pointf> &points, int target, boo
 namespace _func1085
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106};
-	static FunctionDefinition funcObj("WeaponControl::OnRender", typeid(void (WeaponControl::*)(bool )), ".41545589f5be03000000534889fb4883ec10488b7f18", argdata, 2, 6, &func);
+	static short argdata[] = {0x107, 0x2ff};
+	static FunctionDefinition funcObj("TextButton::SetSelectedColor", typeid(void (TextButton::*)(GL_Color )), ".!80bf8000000000660fd64c24f0", argdata, 2, 6, &func);
 }
 
-FUNC_NAKED void WeaponControl::OnRender(bool unk)
+FUNC_NAKED void TextButton::SetSelectedColor(GL_Color color)
 {
 	__asm__
 	(
@@ -40739,12 +40744,14 @@ FUNC_NAKED void WeaponControl::OnRender(bool unk)
 		"pushl %r13\n\t"
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
+		"pushl 16(%rbp)\n\t"		// color
+		"pushl 8(%rbp)\n\t"		// color
 			// rdi has this
-			// rsi has unk
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1085::func));
 	__asm__
 	(
+		"addl $16, %rsp\n\t"
 		"popl %r15\n\t"
 		"popl %r14\n\t"
 		"popl %r13\n\t"
@@ -40760,11 +40767,11 @@ FUNC_NAKED void WeaponControl::OnRender(bool unk)
 namespace _func1086
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106, 0x102, 0x101};
-	static FunctionDefinition funcObj("WeaponControl::LButton", typeid(bool (WeaponControl::*)(int , int , bool )), ".80bf30010000007427530fb69f3101000084db", argdata, 4, 2, &func);
+	static short argdata[] = {0x107, 0x2ff};
+	static FunctionDefinition funcObj("TextButton::SetTextColor", typeid(void (TextButton::*)(GL_Color )), ".80bf8000000000660fd64c24f8", argdata, 2, 6, &func);
 }
 
-FUNC_NAKED bool WeaponControl::LButton(int x, int y, bool holdingShift)
+FUNC_NAKED void TextButton::SetTextColor(GL_Color color)
 {
 	__asm__
 	(
@@ -40777,14 +40784,14 @@ FUNC_NAKED bool WeaponControl::LButton(int x, int y, bool holdingShift)
 		"pushl %r13\n\t"
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
+		"pushl 16(%rbp)\n\t"		// color
+		"pushl 8(%rbp)\n\t"		// color
 			// rdi has this
-			// rsi has x
-			// rdx has y
-			// rcx has holdingShift
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1086::func));
 	__asm__
 	(
+		"addl $16, %rsp\n\t"
 		"popl %r15\n\t"
 		"popl %r14\n\t"
 		"popl %r13\n\t"
@@ -40800,11 +40807,11 @@ FUNC_NAKED bool WeaponControl::LButton(int x, int y, bool holdingShift)
 namespace _func1087
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106, 0x102};
-	static FunctionDefinition funcObj("WeaponControl::MouseMove", typeid(void (WeaponControl::*)(int , int )), ".41544189d45589f5534889fb", argdata, 3, 6, &func);
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("TextButton::InitPrimitives", typeid(void (TextButton::*)()), "415741564989fe4155415455534881ecb800000080bf8000000000", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void WeaponControl::MouseMove(int x, int y)
+FUNC_NAKED void TextButton::InitPrimitives()
 {
 	__asm__
 	(
@@ -40818,8 +40825,6 @@ FUNC_NAKED void WeaponControl::MouseMove(int x, int y)
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has x
-			// rdx has y
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1087::func));
 	__asm__
@@ -40839,11 +40844,11 @@ FUNC_NAKED void WeaponControl::MouseMove(int x, int y)
 namespace _func1088
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106};
-	static FunctionDefinition funcObj("WeaponControl::KeyDown", typeid(bool (WeaponControl::*)(SDLKey )), ".4155415441bc010000005589f5534889fb4883ec28", argdata, 2, 2, &func);
+	static short argdata[] = {0x107, 0x106, 0x102, 0x101};
+	static FunctionDefinition funcObj("TextInput::constructor", typeid(void (TextInput::*)(int , TextInput::AllowedCharType , const std::string &)), "!41544189d45589f54889ce534889fb", argdata, 4, 6, &func);
 }
 
-FUNC_NAKED bool WeaponControl::KeyDown(SDLKey key)
+FUNC_NAKED void TextInput::constructor(int maxChars, TextInput::AllowedCharType allowedCharType, const std::string &prompt)
 {
 	__asm__
 	(
@@ -40857,7 +40862,9 @@ FUNC_NAKED bool WeaponControl::KeyDown(SDLKey key)
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has key
+			// rsi has maxChars
+			// rdx has allowedCharType
+			// rcx has prompt
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1088::func));
 	__asm__
@@ -40877,11 +40884,11 @@ FUNC_NAKED bool WeaponControl::KeyDown(SDLKey key)
 namespace _func1089
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106};
-	static FunctionDefinition funcObj("WeaponControl::LinkShip", typeid(void (WeaponControl::*)(ShipManager *)), ".55534889fb4883ec28", argdata, 2, 6, &func);
+	static short argdata[] = {0x107, 0x106, 0x102};
+	static FunctionDefinition funcObj("TextInput::OnRender", typeid(void (TextInput::*)(int , Point )), ".4156b9ffffffff41554189f54889fe41544989d431d255534889fb4883ec70", argdata, 3, 6, &func);
 }
 
-FUNC_NAKED void WeaponControl::LinkShip(ShipManager *ship)
+FUNC_NAKED void TextInput::OnRender(int font, Point pos)
 {
 	__asm__
 	(
@@ -40895,7 +40902,8 @@ FUNC_NAKED void WeaponControl::LinkShip(ShipManager *ship)
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has ship
+			// rsi has font
+			// rdx has pos
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1089::func));
 	__asm__
@@ -40915,11 +40923,11 @@ FUNC_NAKED void WeaponControl::LinkShip(ShipManager *ship)
 namespace _func1090
 {
 	static void *func = 0;
-	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("WeaponStoreBox::__DO_NOT_HOOK", typeid(void (*)()), "41554989d541544989f4be", argdata, 0, 4, &func);
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("TextInput::OnLoop", typeid(void (TextInput::*)()), ".!538b473839473c", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void WeaponStoreBox::__DO_NOT_HOOK()
+FUNC_NAKED void TextInput::OnLoop()
 {
 	__asm__
 	(
@@ -40932,6 +40940,7 @@ FUNC_NAKED void WeaponStoreBox::__DO_NOT_HOOK()
 		"pushl %r13\n\t"
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
+			// rdi has this
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1090::func));
 	__asm__
@@ -40951,11 +40960,11 @@ FUNC_NAKED void WeaponStoreBox::__DO_NOT_HOOK()
 namespace _func1091
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106, 0x102, 0x101};
-	static FunctionDefinition funcObj("WeaponStoreBox::constructor", typeid(void (WeaponStoreBox::*)(ShipManager *, Equipment *, const WeaponBlueprint *)), ".41554989d541544989f4be", argdata, 4, 6, &func);
+	static short argdata[] = {0x107, 0x106};
+	static FunctionDefinition funcObj("TextInput::OnTextEvent", typeid(void (TextInput::*)(CEvent::TextEvent )), ".53807f40004889fb", argdata, 2, 6, &func);
 }
 
-FUNC_NAKED void WeaponStoreBox::constructor(ShipManager *ship, Equipment *equip, const WeaponBlueprint *weaponBp)
+FUNC_NAKED void TextInput::OnTextEvent(CEvent::TextEvent event)
 {
 	__asm__
 	(
@@ -40969,9 +40978,7 @@ FUNC_NAKED void WeaponStoreBox::constructor(ShipManager *ship, Equipment *equip,
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has ship
-			// rdx has equip
-			// rcx has weaponBp
+			// rsi has event
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1091::func));
 	__asm__
@@ -40991,11 +40998,11 @@ FUNC_NAKED void WeaponStoreBox::constructor(ShipManager *ship, Equipment *equip,
 namespace _func1092
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106};
-	static FunctionDefinition funcObj("WeaponSystem::RemoveWeapon", typeid(void (WeaponSystem::*)(int )), "31c085f60f88d800000041564155415455534889fb4883ec20", argdata, 2, 6, &func);
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("TextInput::GetActive", typeid(bool (TextInput::*)()), ".!0fb64740c3", argdata, 1, 2, &func);
 }
 
-FUNC_NAKED void WeaponSystem::RemoveWeapon(int slot)
+FUNC_NAKED bool TextInput::GetActive()
 {
 	__asm__
 	(
@@ -41009,7 +41016,6 @@ FUNC_NAKED void WeaponSystem::RemoveWeapon(int slot)
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has slot
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1092::func));
 	__asm__
@@ -41029,11 +41035,11 @@ FUNC_NAKED void WeaponSystem::RemoveWeapon(int slot)
 namespace _func1093
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106, 0x102};
-	static FunctionDefinition funcObj("WeaponSystem::SetBonusPower", typeid(void (WeaponSystem::*)(int , int )), ".5589f5534889fb4883ec08e8????????39e8", argdata, 3, 6, &func);
+	static short argdata[] = {0x107, 0x106};
+	static FunctionDefinition funcObj("TextInput::GetText", typeid(std::string (TextInput::*)()), ".53b9ffffffff4889fb31d2", argdata, 2, 2, &func);
 }
 
-FUNC_NAKED void WeaponSystem::SetBonusPower(int amount, int permanentPower)
+FUNC_NAKED std::string TextInput::GetText()
 {
 	__asm__
 	(
@@ -41046,9 +41052,8 @@ FUNC_NAKED void WeaponSystem::SetBonusPower(int amount, int permanentPower)
 		"pushl %r13\n\t"
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
-			// rdi has this
-			// rsi has amount
-			// rdx has permanentPower
+			// rdi has implicit_output
+			// rsi has this
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1093::func));
 	__asm__
@@ -41069,10 +41074,10 @@ namespace _func1094
 {
 	static void *func = 0;
 	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("WeaponSystem::OnLoop", typeid(void (WeaponSystem::*)()), ".415741564155415455534889fb4883ec38e8????????488b9350020000", argdata, 1, 6, &func);
+	static FunctionDefinition funcObj("TextInput::Start", typeid(void (TextInput::*)()), ".534883ec30488b4710482b4708", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void WeaponSystem::OnLoop()
+FUNC_NAKED void TextInput::Start()
 {
 	__asm__
 	(
@@ -41105,11 +41110,11 @@ FUNC_NAKED void WeaponSystem::OnLoop()
 namespace _func1095
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106, 0x102, 0x101};
-	static FunctionDefinition funcObj("WeaponSystemBox::constructor", typeid(void (WeaponSystemBox::*)(Point , ShipSystem *, WeaponControl *)), "554889cdb901000000534889fb4883ec08e8????????488dbb70020000", argdata, 4, 6, &func);
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("TextInput::Stop", typeid(void (TextInput::*)()), ".!c6474000", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void WeaponSystemBox::constructor(Point pos, ShipSystem *sys, WeaponControl *weapCtrl)
+FUNC_NAKED void TextInput::Stop()
 {
 	__asm__
 	(
@@ -41123,9 +41128,6 @@ FUNC_NAKED void WeaponSystemBox::constructor(Point pos, ShipSystem *sys, WeaponC
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has pos
-			// rdx has sys
-			// rcx has weapCtrl
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1095::func));
 	__asm__
@@ -41145,11 +41147,11 @@ FUNC_NAKED void WeaponSystemBox::constructor(Point pos, ShipSystem *sys, WeaponC
 namespace _func1096
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106, 0x102, 0x101, 0x108};
-	static FunctionDefinition funcObj("WindowFrame::constructor", typeid(void (WindowFrame::*)(int , int , int , int )), "41574156415541545589d55389f34881ecc8000000", argdata, 5, 6, &func);
+	static short argdata[] = {0x107, 0x106};
+	static FunctionDefinition funcObj("TextInput::SetText", typeid(int (TextInput::*)(const std::string &)), ".55488d6f08534889fb4883ec28", argdata, 2, 2, &func);
 }
 
-FUNC_NAKED void WindowFrame::constructor(int x, int y, int w, int h)
+FUNC_NAKED int TextInput::SetText(const std::string &text)
 {
 	__asm__
 	(
@@ -41163,10 +41165,7 @@ FUNC_NAKED void WindowFrame::constructor(int x, int y, int w, int h)
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has x
-			// rdx has y
-			// rcx has w
-			// r8 has h
+			// rsi has text
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1096::func));
 	__asm__
@@ -41186,11 +41185,11 @@ FUNC_NAKED void WindowFrame::constructor(int x, int y, int w, int h)
 namespace _func1097
 {
 	static void *func = 0;
-	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("WindowFrame::destructor", typeid(void (WindowFrame::*)()), "!.534889fb488b7f10", argdata, 1, 6, &func);
+	static short argdata[] = {0x107, 0x106};
+	static FunctionDefinition funcObj("TextInput::OnTextInput", typeid(void (TextInput::*)(int )), ".41564155415455534889fb4883ec30807f4000", argdata, 2, 6, &func);
 }
 
-FUNC_NAKED void WindowFrame::destructor()
+FUNC_NAKED void TextInput::OnTextInput(int asciiChar)
 {
 	__asm__
 	(
@@ -41204,6 +41203,7 @@ FUNC_NAKED void WindowFrame::destructor()
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
+			// rsi has asciiChar
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1097::func));
 	__asm__
@@ -41223,11 +41223,11 @@ FUNC_NAKED void WindowFrame::destructor()
 namespace _func1098
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106, 0x102};
-	static FunctionDefinition funcObj("WindowFrame::Draw", typeid(void (WindowFrame::*)(int , int )), ".41544189d45589f5534889fb", argdata, 3, 6, &func);
+	static short argdata[] = {0x107, 0x106, 0x102, 0x101};
+	static FunctionDefinition funcObj("TextLibrary::GetText", typeid(std::string (TextLibrary::*)(const std::string &, const std::string &)), "41574156415541544989fc5553488d5e384883ec48", argdata, 4, 2, &func);
 }
 
-FUNC_NAKED void WindowFrame::Draw(int x, int y)
+FUNC_NAKED std::string TextLibrary::GetText(const std::string &name, const std::string &lang)
 {
 	__asm__
 	(
@@ -41240,9 +41240,10 @@ FUNC_NAKED void WindowFrame::Draw(int x, int y)
 		"pushl %r13\n\t"
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
-			// rdi has this
-			// rsi has x
-			// rdx has y
+			// rdi has implicit_output
+			// rsi has this
+			// rdx has name
+			// rcx has lang
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1098::func));
 	__asm__
@@ -41263,10 +41264,10 @@ namespace _func1099
 {
 	static void *func = 0;
 	static short argdata[] = {0x107, 0x106};
-	static FunctionDefinition funcObj("WindowFrame::DrawMask", typeid(void (WindowFrame::*)(int )), ".5389f24889fbbf01000000", argdata, 2, 6, &func);
+	static FunctionDefinition funcObj("TextString::GetText", typeid(std::string (TextString::*)()), "53807e08004889fb", argdata, 2, 2, &func);
 }
 
-FUNC_NAKED void WindowFrame::DrawMask(int unk)
+FUNC_NAKED std::string TextString::GetText()
 {
 	__asm__
 	(
@@ -41279,8 +41280,8 @@ FUNC_NAKED void WindowFrame::DrawMask(int unk)
 		"pushl %r13\n\t"
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
-			// rdi has this
-			// rsi has unk
+			// rdi has implicit_output
+			// rsi has this
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1099::func));
 	__asm__
@@ -41300,11 +41301,11 @@ FUNC_NAKED void WindowFrame::DrawMask(int unk)
 namespace _func1100
 {
 	static void *func = 0;
-	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("WorldManager::constructor", typeid(void (WorldManager::*)()), "534889fb488d7f104883ec10", argdata, 1, 6, &func);
+	static short argdata[] = {0x107, 0x106};
+	static FunctionDefinition funcObj("TimerHelper::Start", typeid(void (TimerHelper::*)(int )), "83feffc6471101c7470800000000", argdata, 2, 6, &func);
 }
 
-FUNC_NAKED void WorldManager::constructor()
+FUNC_NAKED void TimerHelper::Start(int goal)
 {
 	__asm__
 	(
@@ -41318,6 +41319,7 @@ FUNC_NAKED void WorldManager::constructor()
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
+			// rsi has goal
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1100::func));
 	__asm__
@@ -41338,10 +41340,10 @@ namespace _func1101
 {
 	static void *func = 0;
 	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("WorldManager::OnInit", typeid(int (WorldManager::*)()), ".415455488d6f10534889fb4889ef", argdata, 1, 2, &func);
+	static FunctionDefinition funcObj("TimerHelper::Running", typeid(bool (TimerHelper::*)()), "!.0fb64711c3", argdata, 1, 2, &func);
 }
 
-FUNC_NAKED int WorldManager::OnInit()
+FUNC_NAKED bool TimerHelper::Running()
 {
 	__asm__
 	(
@@ -41374,11 +41376,11 @@ FUNC_NAKED int WorldManager::OnInit()
 namespace _func1102
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106};
-	static FunctionDefinition funcObj("WorldManager::CreateStore", typeid(void (WorldManager::*)(LocationEvent *)), ".554889f5534889fb4883ec08488bb6d0040000", argdata, 2, 6, &func);
+	static short argdata[] = {0x107, 0x106, 0x102};
+	static FunctionDefinition funcObj("TimerHelper::ResetMinMax", typeid(void (TimerHelper::*)(int , int )), ".8917897704", argdata, 3, 6, &func);
 }
 
-FUNC_NAKED void WorldManager::CreateStore(LocationEvent *event)
+FUNC_NAKED void TimerHelper::ResetMinMax(int min, int max)
 {
 	__asm__
 	(
@@ -41392,7 +41394,8 @@ FUNC_NAKED void WorldManager::CreateStore(LocationEvent *event)
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has event
+			// rsi has min
+			// rdx has max
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1102::func));
 	__asm__
@@ -41412,11 +41415,11 @@ FUNC_NAKED void WorldManager::CreateStore(LocationEvent *event)
 namespace _func1103
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106, 0x102};
-	static FunctionDefinition funcObj("WorldManager::CheckRequirements", typeid(bool (WorldManager::*)(LocationEvent *, bool )), ".415455534889f34883ec204885f6", argdata, 3, 2, &func);
+	static short argdata[] = {0x107, 0x10a};
+	static FunctionDefinition funcObj("TimerHelper::SetMaxTime", typeid(void (TimerHelper::*)(float )), ".f30f104f08f30f5e4f0c", argdata, 2, 6, &func);
 }
 
-FUNC_NAKED bool WorldManager::CheckRequirements(LocationEvent *event, bool hidden)
+FUNC_NAKED void TimerHelper::SetMaxTime(float max)
 {
 	__asm__
 	(
@@ -41430,8 +41433,7 @@ FUNC_NAKED bool WorldManager::CheckRequirements(LocationEvent *event, bool hidde
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has event
-			// rdx has hidden
+			// xmm0 has max
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1103::func));
 	__asm__
@@ -41451,11 +41453,11 @@ FUNC_NAKED bool WorldManager::CheckRequirements(LocationEvent *event, bool hidde
 namespace _func1104
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106};
-	static FunctionDefinition funcObj("WorldManager::AddBoarders", typeid(bool (WorldManager::*)(BoardingEvent &)), ".4154554889fd534883ec20488b07488b5010", argdata, 2, 2, &func);
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("TimerHelper::Stop", typeid(void (TimerHelper::*)()), "!.c6471100c3", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED bool WorldManager::AddBoarders(BoardingEvent &boardingEvent)
+FUNC_NAKED void TimerHelper::Stop()
 {
 	__asm__
 	(
@@ -41469,7 +41471,6 @@ FUNC_NAKED bool WorldManager::AddBoarders(BoardingEvent &boardingEvent)
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has boardingEvent
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1104::func));
 	__asm__
@@ -41490,10 +41491,10 @@ namespace _func1105
 {
 	static void *func = 0;
 	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("WorldManager::HostileEnvironment", typeid(bool (WorldManager::*)()), ".534889fb488d7f10", argdata, 1, 2, &func);
+	static FunctionDefinition funcObj("TimerHelper::Update", typeid(void (TimerHelper::*)()), ".53807f11004889fb", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED bool WorldManager::HostileEnvironment()
+FUNC_NAKED void TimerHelper::Update()
 {
 	__asm__
 	(
@@ -41526,11 +41527,11 @@ FUNC_NAKED bool WorldManager::HostileEnvironment()
 namespace _func1106
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106, 0x102};
-	static FunctionDefinition funcObj("WorldManager::ModifyEnvironment", typeid(void (WorldManager::*)(int , int )), ".83fe01534889fb", argdata, 3, 6, &func);
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("TimerHelper::Done", typeid(bool (TimerHelper::*)()), ".0fb6471184c0", argdata, 1, 2, &func);
 }
 
-FUNC_NAKED void WorldManager::ModifyEnvironment(int envFlag, int envTarget)
+FUNC_NAKED bool TimerHelper::Done()
 {
 	__asm__
 	(
@@ -41544,8 +41545,6 @@ FUNC_NAKED void WorldManager::ModifyEnvironment(int envFlag, int envTarget)
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has envFlag
-			// rdx has envTarget
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1106::func));
 	__asm__
@@ -41565,11 +41564,11 @@ FUNC_NAKED void WorldManager::ModifyEnvironment(int envFlag, int envTarget)
 namespace _func1107
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x2ff, 0x101, 0x108};
-	static FunctionDefinition funcObj("WorldManager::ModifyStatusEffect", typeid(void (WorldManager::*)(StatusEffect , ShipManager *, int )), ".41554889d04989fd48c1f82041544989cc4889f148c1f920", argdata, 4, 6, &func);
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("TutorialManager::constructor", typeid(void (TutorialManager::*)()), "534889fb488d7f084883ec10c647f800", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void WorldManager::ModifyStatusEffect(StatusEffect effect, ShipManager *target, int targetType)
+FUNC_NAKED void TutorialManager::constructor()
 {
 	__asm__
 	(
@@ -41582,16 +41581,11 @@ FUNC_NAKED void WorldManager::ModifyStatusEffect(StatusEffect effect, ShipManage
 		"pushl %r13\n\t"
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
-		"pushl 16(%rbp)\n\t"		// effect
-		"pushl 8(%rbp)\n\t"		// effect
 			// rdi has this
-			// rcx has target
-			// r8 has targetType
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1107::func));
 	__asm__
 	(
-		"addl $16, %rsp\n\t"
 		"popl %r15\n\t"
 		"popl %r14\n\t"
 		"popl %r13\n\t"
@@ -41607,11 +41601,11 @@ FUNC_NAKED void WorldManager::ModifyStatusEffect(StatusEffect effect, ShipManage
 namespace _func1108
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106};
-	static FunctionDefinition funcObj("WorldManager::ModifyResources", typeid(LocationEvent *(WorldManager::*)(LocationEvent *)), ".41574989f7488db65803000041564d8db78803000041554154554889fd534881ecd8020000", argdata, 2, 2, &func);
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("TutorialManager::Running", typeid(bool (TutorialManager::*)()), "!.0fb607c3", argdata, 1, 2, &func);
 }
 
-FUNC_NAKED LocationEvent *WorldManager::ModifyResources(LocationEvent *event)
+FUNC_NAKED bool TutorialManager::Running()
 {
 	__asm__
 	(
@@ -41625,7 +41619,6 @@ FUNC_NAKED LocationEvent *WorldManager::ModifyResources(LocationEvent *event)
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has event
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1108::func));
 	__asm__
@@ -41645,11 +41638,11 @@ FUNC_NAKED LocationEvent *WorldManager::ModifyResources(LocationEvent *event)
 namespace _func1109
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106};
-	static FunctionDefinition funcObj("WorldManager::CheckStatusEffects", typeid(void (WorldManager::*)(std::vector<StatusEffect> &)), "!.415741564989fe41554531ed41544c8da7001500005531ed534889f34883ec08", argdata, 2, 6, &func);
+	static short argdata[] = {0x107, 0x106, 0x102, 0x101, 0x108, 0x109, 0x1ff, 0x1ff};
+	static FunctionDefinition funcObj("TutorialManager::OnInit", typeid(void (TutorialManager::*)(ShipManager *, CommandGui *, CrewControl *, Upgrades *, CombatControl *, SystemControl *, TabbedWindow *)), ".415455534889fb4883ec404889b790010000", argdata, 8, 6, &func);
 }
 
-FUNC_NAKED void WorldManager::CheckStatusEffects(std::vector<StatusEffect> &vec)
+FUNC_NAKED void TutorialManager::OnInit(ShipManager *ship, CommandGui *gui, CrewControl *crewControl, Upgrades *upgradesScreen, CombatControl *combatControl, SystemControl *sysControl, TabbedWindow *unk)
 {
 	__asm__
 	(
@@ -41662,12 +41655,19 @@ FUNC_NAKED void WorldManager::CheckStatusEffects(std::vector<StatusEffect> &vec)
 		"pushl %r13\n\t"
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
+		"pushl 16(%rbp)\n\t"		// unk
+		"pushl 8(%rbp)\n\t"		// sysControl
 			// rdi has this
-			// rsi has vec
+			// rsi has ship
+			// rdx has gui
+			// rcx has crewControl
+			// r8 has upgradesScreen
+			// r9 has combatControl
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1109::func));
 	__asm__
 	(
+		"addl $16, %rsp\n\t"
 		"popl %r15\n\t"
 		"popl %r14\n\t"
 		"popl %r13\n\t"
@@ -41680,52 +41680,21 @@ FUNC_NAKED void WorldManager::CheckStatusEffects(std::vector<StatusEffect> &vec)
 	);
 }
 
-namespace _func1110
-{
-	static void *func = 0;
-	static short argdata[] = {0x107, 0x106};
-	static FunctionDefinition funcObj("WorldManager::CreateChoiceBox", typeid(void (WorldManager::*)(LocationEvent *)), ".4157488d87501500004989ff41564889c741554154554889f5534889c34881ec08030000", argdata, 2, 6, &func);
-}
+TutorialManager *Global_TutorialManager_Tutorial;
 
-FUNC_NAKED void WorldManager::CreateChoiceBox(LocationEvent *event)
+namespace _var1110
 {
-	__asm__
-	(
-		"pushl %rbp\n\t"
-		"movl %rsp, %rbp\n\t"
-		"subl $8, %rsp\n\t"
-		"pushl %rbx\n\t"
-		"pushl %rbp\n\t"
-		"pushl %r12\n\t"
-		"pushl %r13\n\t"
-		"pushl %r14\n\t"
-		"pushl %r15\n\t"
-			// rdi has this
-			// rsi has event
-	);
-	__asm__("call *%0\n\t" :: "m"(_func1110::func));
-	__asm__
-	(
-		"popl %r15\n\t"
-		"popl %r14\n\t"
-		"popl %r13\n\t"
-		"popl %r12\n\t"
-		"popl %rbp\n\t"
-		"popl %rbx\n\t"
-		"movl %rbp, %rsp\n\t"
-		"popl %rbp\n\t"
-		"ret\n\t"
-	);
+	static VariableDefinition varObj("Global_TutorialManager_Tutorial", "!498b07488b7810488b07ff908000000084c00f84????????bf(???????\?)", &Global_TutorialManager_Tutorial);
 }
 
 namespace _func1111
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106};
-	static FunctionDefinition funcObj("WorldManager::CreateChoiceBox0", typeid(void (WorldManager::*)(LocationEvent *)), ".554889f5534889fb4883ec08488b07488b7810488b17", argdata, 2, 6, &func);
+	static short argdata[] = {0x107, 0x106, 0x102, 0x101};
+	static FunctionDefinition funcObj("UnlockArrow::constructor", typeid(void (UnlockArrow::*)(Point , int , int )), "554889f5534889fb4883ec28803d????????00", argdata, 4, 6, &func);
 }
 
-FUNC_NAKED void WorldManager::CreateChoiceBox0(LocationEvent *event)
+FUNC_NAKED void UnlockArrow::constructor(Point pos, int unk1, int unk2)
 {
 	__asm__
 	(
@@ -41739,7 +41708,9 @@ FUNC_NAKED void WorldManager::CreateChoiceBox0(LocationEvent *event)
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has event
+			// rsi has pos
+			// rdx has unk1
+			// rcx has unk2
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1111::func));
 	__asm__
@@ -41760,10 +41731,10 @@ namespace _func1112
 {
 	static void *func = 0;
 	static short argdata[] = {0x107, 0x106, 0x102};
-	static FunctionDefinition funcObj("WorldManager::CreateShip", typeid(CompleteShip *(WorldManager::*)(ShipEvent *, bool )), ".4156415541544989fc55534881ec60030000", argdata, 3, 2, &func);
+	static FunctionDefinition funcObj("UnlockArrow::MouseMove", typeid(bool (UnlockArrow::*)(int , int )), ".837f0403", argdata, 3, 2, &func);
 }
 
-FUNC_NAKED CompleteShip *WorldManager::CreateShip(ShipEvent *shipEvent, bool boss)
+FUNC_NAKED bool UnlockArrow::MouseMove(int x, int y)
 {
 	__asm__
 	(
@@ -41777,8 +41748,8 @@ FUNC_NAKED CompleteShip *WorldManager::CreateShip(ShipEvent *shipEvent, bool bos
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has shipEvent
-			// rdx has boss
+			// rsi has x
+			// rdx has y
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1112::func));
 	__asm__
@@ -41798,11 +41769,11 @@ FUNC_NAKED CompleteShip *WorldManager::CreateShip(ShipEvent *shipEvent, bool bos
 namespace _func1113
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106};
-	static FunctionDefinition funcObj("WorldManager::CreateLocation", typeid(void (WorldManager::*)(Location *)), ".41574156415541544989f455534889fb4881ecf8030000", argdata, 2, 6, &func);
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("UnlockArrow::OnRender", typeid(void (UnlockArrow::*)()), ".534889fb4883ec308b0785c0", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void WorldManager::CreateLocation(Location *loc)
+FUNC_NAKED void UnlockArrow::OnRender()
 {
 	__asm__
 	(
@@ -41816,7 +41787,6 @@ FUNC_NAKED void WorldManager::CreateLocation(Location *loc)
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has loc
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1113::func));
 	__asm__
@@ -41836,11 +41806,11 @@ FUNC_NAKED void WorldManager::CreateLocation(Location *loc)
 namespace _func1114
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106};
-	static FunctionDefinition funcObj("WorldManager::UpdateLocation", typeid(void (WorldManager::*)(LocationEvent *)), ".4157415641554154554889fd534889f34881ec88030000", argdata, 2, 6, &func);
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("UpgradeBox::OnRender", typeid(void (UpgradeBox::*)()), "415741564989fe4155415455534881ecd801000080bf5901000000", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void WorldManager::UpdateLocation(LocationEvent *event)
+FUNC_NAKED void UpgradeBox::OnRender()
 {
 	__asm__
 	(
@@ -41854,7 +41824,6 @@ FUNC_NAKED void WorldManager::UpdateLocation(LocationEvent *event)
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has event
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1114::func));
 	__asm__
@@ -41874,11 +41843,11 @@ FUNC_NAKED void WorldManager::UpdateLocation(LocationEvent *event)
 namespace _func1115
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106};
-	static FunctionDefinition funcObj("WorldManager::UpdateLocation0", typeid(void (WorldManager::*)(LocationEvent *)), ".554889f5534889fb4883ec08488b07488b7810488b17", argdata, 2, 6, &func);
+	static short argdata[] = {0x107, 0x106, 0x102};
+	static FunctionDefinition funcObj("UpgradeBox::MouseMove", typeid(void (UpgradeBox::*)(int , int )), ".48833f007412", argdata, 3, 6, &func);
 }
 
-FUNC_NAKED void WorldManager::UpdateLocation0(LocationEvent *event)
+FUNC_NAKED void UpgradeBox::MouseMove(int mX, int mY)
 {
 	__asm__
 	(
@@ -41892,7 +41861,8 @@ FUNC_NAKED void WorldManager::UpdateLocation0(LocationEvent *event)
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has event
+			// rsi has mX
+			// rdx has mY
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1115::func));
 	__asm__
@@ -41912,11 +41882,11 @@ FUNC_NAKED void WorldManager::UpdateLocation0(LocationEvent *event)
 namespace _func1116
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106};
-	static FunctionDefinition funcObj("WorldManager::LoadGame", typeid(void (WorldManager::*)(const std::string &)), ".415741564155415455534889fb4881ece8010000", argdata, 2, 6, &func);
+	static short argdata[] = {0x107, 0x106, 0x102};
+	static FunctionDefinition funcObj("UpgradeBox::MouseClick", typeid(void (UpgradeBox::*)(int , int )), ".534889fb4883ec20488b074885c0", argdata, 3, 6, &func);
 }
 
-FUNC_NAKED void WorldManager::LoadGame(const std::string &fileName)
+FUNC_NAKED void UpgradeBox::MouseClick(int mX, int mY)
 {
 	__asm__
 	(
@@ -41930,7 +41900,8 @@ FUNC_NAKED void WorldManager::LoadGame(const std::string &fileName)
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has fileName
+			// rsi has mX
+			// rdx has mY
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1116::func));
 	__asm__
@@ -41950,11 +41921,11 @@ FUNC_NAKED void WorldManager::LoadGame(const std::string &fileName)
 namespace _func1117
 {
 	static void *func = 0;
-	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("WorldManager::SaveGame", typeid(void (WorldManager::*)()), ".415455534889fb4883ec20488bbfb8110000", argdata, 1, 6, &func);
+	static short argdata[] = {0x107, 0x106, 0x102};
+	static FunctionDefinition funcObj("UpgradeBox::MouseRightClick", typeid(void (UpgradeBox::*)(int , int )), ".534889fb4883ec20488b074885c0", argdata, 3, 6, &func);
 }
 
-FUNC_NAKED void WorldManager::SaveGame()
+FUNC_NAKED void UpgradeBox::MouseRightClick(int mX, int mY)
 {
 	__asm__
 	(
@@ -41968,6 +41939,8 @@ FUNC_NAKED void WorldManager::SaveGame()
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
+			// rsi has mX
+			// rdx has mY
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1117::func));
 	__asm__
@@ -41988,10 +41961,10 @@ namespace _func1118
 {
 	static void *func = 0;
 	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("WorldManager::CreateNewGame", typeid(void (WorldManager::*)()), ".554889fd5331db4883ec28488b07488b78104881c718010000", argdata, 1, 6, &func);
+	static FunctionDefinition funcObj("UpgradeBox::Undo", typeid(void (UpgradeBox::*)()), ".538b47204889fb85c0", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void WorldManager::CreateNewGame()
+FUNC_NAKED void UpgradeBox::Undo()
 {
 	__asm__
 	(
@@ -42024,11 +41997,11 @@ FUNC_NAKED void WorldManager::CreateNewGame()
 namespace _func1119
 {
 	static void *func = 0;
-	static short argdata[] = {0x107, 0x106};
-	static FunctionDefinition funcObj("WorldManager::StartGame", typeid(void (WorldManager::*)(ShipManager *)), ".4154554889f5534889fb4883ec20", argdata, 2, 6, &func);
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("UpgradeBox::Accept", typeid(void (UpgradeBox::*)()), ".534889fb4883ec20488b3f4885ff", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void WorldManager::StartGame(ShipManager *ship)
+FUNC_NAKED void UpgradeBox::Accept()
 {
 	__asm__
 	(
@@ -42042,7 +42015,6 @@ FUNC_NAKED void WorldManager::StartGame(ShipManager *ship)
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
-			// rsi has ship
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1119::func));
 	__asm__
@@ -42062,11 +42034,11 @@ FUNC_NAKED void WorldManager::StartGame(ShipManager *ship)
 namespace _func1120
 {
 	static void *func = 0;
-	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("WorldManager::Restart", typeid(void (WorldManager::*)()), "!.534889fbe8????????e8????????e8", argdata, 1, 6, &func);
+	static short argdata[] = {0x107, 0x106, 0x102};
+	static FunctionDefinition funcObj("UpgradeBox::constructorEmpty", typeid(void (UpgradeBox::*)(Point , bool )), ".41554189d541544989f449c1fc20554889f5534889fb488d7f384883ec38", argdata, 3, 6, &func);
 }
 
-FUNC_NAKED void WorldManager::Restart()
+FUNC_NAKED void UpgradeBox::constructorEmpty(Point pos, bool subsystem)
 {
 	__asm__
 	(
@@ -42080,6 +42052,8 @@ FUNC_NAKED void WorldManager::Restart()
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
+			// rsi has pos
+			// rdx has subsystem
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1120::func));
 	__asm__
@@ -42099,11 +42073,11 @@ FUNC_NAKED void WorldManager::Restart()
 namespace _func1121
 {
 	static void *func = 0;
-	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("WorldManager::OnLoop", typeid(void (WorldManager::*)()), ".415731f64989ff41564155415455534881ecf8000000", argdata, 1, 6, &func);
+	static short argdata[] = {0x107, 0x106, 0x102, 0x101, 0x108};
+	static FunctionDefinition funcObj("UpgradeBox::constructorSystem", typeid(void (UpgradeBox::*)(ShipManager *, ShipSystem *, Point , bool )), ".41574589c741564c8d773841554989cd41544989d455488dafc8000000534889fb4883ec38", argdata, 5, 6, &func);
 }
 
-FUNC_NAKED void WorldManager::OnLoop()
+FUNC_NAKED void UpgradeBox::constructorSystem(ShipManager *ship, ShipSystem *sys, Point pos, bool subsystem)
 {
 	__asm__
 	(
@@ -42117,6 +42091,10 @@ FUNC_NAKED void WorldManager::OnLoop()
 		"pushl %r14\n\t"
 		"pushl %r15\n\t"
 			// rdi has this
+			// rsi has ship
+			// rdx has sys
+			// rcx has pos
+			// r8 has subsystem
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1121::func));
 	__asm__
@@ -42137,10 +42115,10 @@ namespace _func1122
 {
 	static void *func = 0;
 	static short argdata[] = {0x107};
-	static FunctionDefinition funcObj("WorldManager::PauseLoop", typeid(void (WorldManager::*)()), ".41554154554889fd534883ec28488b3f", argdata, 1, 6, &func);
+	static FunctionDefinition funcObj("UpgradeBox::destructor", typeid(void (UpgradeBox::*)()), ".534889fb4883ec10488bbf60010000", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void WorldManager::PauseLoop()
+FUNC_NAKED void UpgradeBox::destructor()
 {
 	__asm__
 	(
@@ -42173,6 +42151,2756 @@ FUNC_NAKED void WorldManager::PauseLoop()
 namespace _func1123
 {
 	static void *func = 0;
+	static short argdata[] = {0x107, 0x106, 0x102};
+	static FunctionDefinition funcObj("Upgrades::MouseMove", typeid(void (Upgrades::*)(int , int )), "!41554989fd41544189d45589f55331db4883ec08", argdata, 3, 6, &func);
+}
+
+FUNC_NAKED void Upgrades::MouseMove(int mX, int mY)
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+			// rsi has mX
+			// rdx has mY
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1123::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1124
+{
+	static void *func = 0;
+	static short argdata[] = {0x107, 0x106, 0x102};
+	static FunctionDefinition funcObj("Upgrades::MouseRightClick", typeid(void (Upgrades::*)(int , int )), ".415431c94989fc5531ed534883ec20", argdata, 3, 6, &func);
+}
+
+FUNC_NAKED void Upgrades::MouseRightClick(int mX, int mY)
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+			// rsi has mX
+			// rdx has mY
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1124::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1125
+{
+	static void *func = 0;
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("Upgrades::Close", typeid(void (Upgrades::*)()), ".41554154554889fd534883ec28807f0800", argdata, 1, 6, &func);
+}
+
+FUNC_NAKED void Upgrades::Close()
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1125::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1126
+{
+	static void *func = 0;
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("Upgrades::OnLoop", typeid(void (Upgrades::*)()), ".4155415455534889fb4883ec68807f0800", argdata, 1, 6, &func);
+}
+
+FUNC_NAKED void Upgrades::OnLoop()
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1126::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1127
+{
+	static void *func = 0;
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("Upgrades::ConfirmUpgrades", typeid(void (Upgrades::*)()), ".415531c941bd????????41544989fc5531ed534883ec28", argdata, 1, 6, &func);
+}
+
+FUNC_NAKED void Upgrades::ConfirmUpgrades()
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1127::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1128
+{
+	static void *func = 0;
+	static short argdata[] = {0x107, 0x106, 0x102};
+	static FunctionDefinition funcObj("Upgrades::MouseClick", typeid(void (Upgrades::*)(int , int )), ".41554189d541544189f4554889fd5331db4883ec28", argdata, 3, 6, &func);
+}
+
+FUNC_NAKED void Upgrades::MouseClick(int mX, int mY)
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+			// rsi has mX
+			// rdx has mY
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1128::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1129
+{
+	static void *func = 0;
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("Upgrades::ClearUpgradeBoxes", typeid(void (Upgrades::*)()), ".41544989fc55534883ec10488b4f30488b57284889c84829d048c1f80385c0", argdata, 1, 6, &func);
+}
+
+FUNC_NAKED void Upgrades::ClearUpgradeBoxes()
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1129::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1130
+{
+	static void *func = 0;
+	static short argdata[] = {0x107, 0x106};
+	static FunctionDefinition funcObj("Upgrades::OnInit", typeid(void (Upgrades::*)(ShipManager *)), ".41574989ff41564155415455534881ecb8000000", argdata, 2, 6, &func);
+}
+
+FUNC_NAKED void Upgrades::OnInit(ShipManager *ship)
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+			// rsi has ship
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1130::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1131
+{
+	static void *func = 0;
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("Upgrades::OnRender", typeid(void (Upgrades::*)()), ".415455534889fb4883ec50488b7f20", argdata, 1, 6, &func);
+}
+
+FUNC_NAKED void Upgrades::OnRender()
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1131::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1132
+{
+	static void *func = 0;
+	static short argdata[] = {0x107, 0x10a};
+	static FunctionDefinition funcObj("WarningMessage::RenderWithAlpha", typeid(void (WarningMessage::*)(float )), "41570f28f041564155415455534889fb4883ec48", argdata, 2, 6, &func);
+}
+
+FUNC_NAKED void WarningMessage::RenderWithAlpha(float alpha)
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+			// xmm0 has alpha
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1132::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1133
+{
+	static void *func = 0;
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("WarningMessage::constructor", typeid(void (WarningMessage::*)()), ".0f57c0534889fb488d7f2831d24883ec20", argdata, 1, 6, &func);
+}
+
+FUNC_NAKED void WarningMessage::constructor()
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1133::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1134
+{
+	static void *func = 0;
+	static short argdata[] = {0x107, 0x106, 0x102, 0x10a, 0x101};
+	static FunctionDefinition funcObj("WarningMessage::InitImage", typeid(void (WarningMessage::*)(const std::string &, Point , float , bool )), ".41564189ce415541544989f4554889d5534889fb488dbfa80000004c8d6b604883ec10", argdata, 5, 6, &func);
+}
+
+FUNC_NAKED void WarningMessage::InitImage(const std::string &imageName, Point position, float time, bool flash)
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+			// rsi has imageName
+			// rdx has position
+			// xmm0 has time
+			// rcx has flash
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1134::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1135
+{
+	static void *func = 0;
+	static short argdata[] = {0x107, 0x106, 0x102, 0x10a, 0x2ff, 0x101, 0x108};
+	static FunctionDefinition funcObj("WarningMessage::InitText", typeid(void (WarningMessage::*)(const TextString &, Point , float , GL_Color , bool , bool )), ".41574589c741564189ce41554154554889f5534889fb488d7f384883ec28", argdata, 7, 6, &func);
+}
+
+FUNC_NAKED void WarningMessage::InitText(const TextString &text, Point position, float time, GL_Color textColor, bool centerText, bool flash)
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+		"pushl 16(%rbp)\n\t"		// textColor
+		"pushl 8(%rbp)\n\t"		// textColor
+			// rdi has this
+			// rsi has text
+			// rdx has position
+			// xmm0 has time
+			// rcx has centerText
+			// r8 has flash
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1135::func));
+	__asm__
+	(
+		"addl $16, %rsp\n\t"
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1136
+{
+	static void *func = 0;
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("WarningMessage::OnLoop", typeid(void (WarningMessage::*)()), ".55488d6f08534889fb4889ef4883ec08", argdata, 1, 6, &func);
+}
+
+FUNC_NAKED void WarningMessage::OnLoop()
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1136::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1137
+{
+	static void *func = 0;
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("WarningMessage::OnRender", typeid(void (WarningMessage::*)()), ".53807f1e004889fb", argdata, 1, 6, &func);
+}
+
+FUNC_NAKED void WarningMessage::OnRender()
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1137::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1138
+{
+	static void *func = 0;
+	static short argdata[] = {0x107, 0x106};
+	static FunctionDefinition funcObj("WarningMessage::SetImage", typeid(void (WarningMessage::*)(const std::string &)), ".4155415455534889fb4883ec08807f3000", argdata, 2, 6, &func);
+}
+
+FUNC_NAKED void WarningMessage::SetImage(const std::string &imageName)
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+			// rsi has imageName
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1138::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1139
+{
+	static void *func = 0;
+	static short argdata[] = {0x107, 0x106};
+	static FunctionDefinition funcObj("WarningMessage::SetText", typeid(void (WarningMessage::*)(const TextString &)), ".4155415455534889fb4883ec08807f3000", argdata, 2, 6, &func);
+}
+
+FUNC_NAKED void WarningMessage::SetText(const TextString &text)
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+			// rsi has text
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1139::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1140
+{
+	static void *func = 0;
+	static short argdata[] = {0x107, 0x106, 0x2ff};
+	static FunctionDefinition funcObj("WarningMessage::SetText", typeid(void (WarningMessage::*)(const TextString &, GL_Color )), ".415741564155415455534889fb4883ec18807f3000", argdata, 3, 6, &func);
+}
+
+FUNC_NAKED void WarningMessage::SetText(const TextString &text, GL_Color textColor)
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+		"pushl 16(%rbp)\n\t"		// textColor
+		"pushl 8(%rbp)\n\t"		// textColor
+			// rdi has this
+			// rsi has text
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1140::func));
+	__asm__
+	(
+		"addl $16, %rsp\n\t"
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1141
+{
+	static void *func = 0;
+	static short argdata[] = {0x107, 0x106};
+	static FunctionDefinition funcObj("WarningMessage::SetPosition", typeid(void (WarningMessage::*)(Point )), ".807f300048897728", argdata, 2, 6, &func);
+}
+
+FUNC_NAKED void WarningMessage::SetPosition(Point position)
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+			// rsi has position
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1141::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1142
+{
+	static void *func = 0;
+	static short argdata[] = {0x107, 0x106};
+	static FunctionDefinition funcObj("WarningMessage::SetLoop", typeid(void (WarningMessage::*)(bool )), "!.0f57c0400fb6f64883c708", argdata, 2, 6, &func);
+}
+
+FUNC_NAKED void WarningMessage::SetLoop(bool loop)
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+			// rsi has loop
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1142::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1143
+{
+	static void *func = 0;
+	static short argdata[] = {0x107, 0x106};
+	static FunctionDefinition funcObj("WarningMessage::SetSound", typeid(void (WarningMessage::*)(const std::string &)), "!.4881c7b8000000", argdata, 2, 6, &func);
+}
+
+FUNC_NAKED void WarningMessage::SetSound(const std::string &sound)
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+			// rsi has sound
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1143::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1144
+{
+	static void *func = 0;
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("WarningMessage::Start", typeid(void (WarningMessage::*)()), ".53807f1c004889fb", argdata, 1, 6, &func);
+}
+
+FUNC_NAKED void WarningMessage::Start()
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1144::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1145
+{
+	static void *func = 0;
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("WeaponAnimation::StartFire", typeid(bool (WeaponAnimation::*)()), "530fb687c10000004889fb84c0", argdata, 1, 2, &func);
+}
+
+FUNC_NAKED bool WeaponAnimation::StartFire()
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1145::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1146
+{
+	static void *func = 0;
+	static short argdata[] = {0x107, 0x10a};
+	static FunctionDefinition funcObj("WeaponAnimation::SetFireTime", typeid(void (WeaponAnimation::*)(float )), "8b470889c22b97c8000000", argdata, 2, 6, &func);
+}
+
+FUNC_NAKED void WeaponAnimation::SetFireTime(float time)
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+			// xmm0 has time
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1146::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1147
+{
+	static void *func = 0;
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("WeaponAnimation::Update", typeid(void (WeaponAnimation::*)()), "415455534889fb4883ec1080bfc100000000", argdata, 1, 6, &func);
+}
+
+FUNC_NAKED void WeaponAnimation::Update()
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1147::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1148
+{
+	static void *func = 0;
+	static short argdata[] = {0x107, 0x10a};
+	static FunctionDefinition funcObj("WeaponBlueprint::RenderIcon", typeid(void (WeaponBlueprint::*)(float )), "!488db738010000", argdata, 2, 6, &func);
+}
+
+FUNC_NAKED void WeaponBlueprint::RenderIcon(float scale)
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+			// xmm0 has scale
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1148::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1149
+{
+	static void *func = 0;
+	static short argdata[] = {0x107, 0x106, 0x102};
+	static FunctionDefinition funcObj("WeaponBlueprint::GetDescription", typeid(std::string (WeaponBlueprint::*)(bool )), ".4157415641554989fd4154554889f5534881ec08010000", argdata, 3, 2, &func);
+}
+
+FUNC_NAKED std::string WeaponBlueprint::GetDescription(bool tooltip)
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has implicit_output
+			// rsi has this
+			// rdx has tooltip
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1149::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1150
+{
+	static void *func = 0;
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("WeaponBlueprint::constructor", typeid(void (WeaponBlueprint::*)()), ".534889fb488d7f08be????????4883ec20", argdata, 1, 6, &func);
+}
+
+FUNC_NAKED void WeaponBlueprint::constructor()
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1150::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1151
+{
+	static void *func = 0;
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("WeaponBlueprint::destructor", typeid(void (WeaponBlueprint::*)()), ".4154554889fd534883ec10488b8788010000", argdata, 1, 6, &func);
+}
+
+FUNC_NAKED void WeaponBlueprint::destructor()
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1151::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1152
+{
+	static void *func = 0;
+	static short argdata[] = {0x107, 0x106, 0x102};
+	static FunctionDefinition funcObj("WeaponBox::RenderBox", typeid(void (WeaponBox::*)(bool , bool )), "41570fb6d2400fb6f641564155415455534889fb4881ec68030000", argdata, 3, 6, &func);
+}
+
+FUNC_NAKED void WeaponBox::RenderBox(bool dragging, bool flashPowerBox)
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+			// rsi has dragging
+			// rdx has flashPowerBox
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1152::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1153
+{
+	static void *func = 0;
+	static short argdata[] = {0x1ff, 0x107};
+	static FunctionDefinition funcObj("WeaponBox::GenerateTooltip", typeid(std::string (WeaponBox::*)()), "554889f5534889fb4889f74883ec38488b06", argdata, 2, 2, &func);
+}
+
+FUNC_NAKED std::string WeaponBox::GenerateTooltip()
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+		"pushl 8(%rbp)\n\t"		// implicit_output
+			// rdi has this
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1153::func));
+	__asm__
+	(
+		"addl $8, %rsp\n\t"
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1154
+{
+	static void *func = 0;
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("WeaponControl::constructor", typeid(void (WeaponControl::*)()), "4157be03000000415641554989fd415455498dad3802000053498d9d180300004881ec58030000", argdata, 1, 6, &func);
+}
+
+FUNC_NAKED void WeaponControl::constructor()
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1154::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1155
+{
+	static void *func = 0;
+	static short argdata[] = {0x107, 0x106, 0x102};
+	static FunctionDefinition funcObj("WeaponControl::SetAutofiring", typeid(void (WeaponControl::*)(bool , bool )), ".41554189d54154554889fd534883ec484084f64088b7e0000000", argdata, 3, 6, &func);
+}
+
+FUNC_NAKED void WeaponControl::SetAutofiring(bool on, bool simple)
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+			// rsi has on
+			// rdx has simple
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1155::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1156
+{
+	static void *func = 0;
+	static short argdata[] = {0x107, 0x106, 0x102, 0x101};
+	static FunctionDefinition funcObj("WeaponControl::Fire", typeid(void (WeaponControl::*)(std::vector<Pointf> &, int , bool )), ".4155415455534889fb4883ec28488bbfd80000004885ff", argdata, 4, 6, &func);
+}
+
+FUNC_NAKED void WeaponControl::Fire(std::vector<Pointf> &points, int target, bool autoFire)
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+			// rsi has points
+			// rdx has target
+			// rcx has autoFire
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1156::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1157
+{
+	static void *func = 0;
+	static short argdata[] = {0x107, 0x106};
+	static FunctionDefinition funcObj("WeaponControl::OnRender", typeid(void (WeaponControl::*)(bool )), ".41545589f5be03000000534889fb4883ec10488b7f18", argdata, 2, 6, &func);
+}
+
+FUNC_NAKED void WeaponControl::OnRender(bool unk)
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+			// rsi has unk
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1157::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1158
+{
+	static void *func = 0;
+	static short argdata[] = {0x107, 0x106, 0x102, 0x101};
+	static FunctionDefinition funcObj("WeaponControl::LButton", typeid(bool (WeaponControl::*)(int , int , bool )), ".80bf30010000007427530fb69f3101000084db", argdata, 4, 2, &func);
+}
+
+FUNC_NAKED bool WeaponControl::LButton(int x, int y, bool holdingShift)
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+			// rsi has x
+			// rdx has y
+			// rcx has holdingShift
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1158::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1159
+{
+	static void *func = 0;
+	static short argdata[] = {0x107, 0x106, 0x102};
+	static FunctionDefinition funcObj("WeaponControl::MouseMove", typeid(void (WeaponControl::*)(int , int )), ".41544189d45589f5534889fb", argdata, 3, 6, &func);
+}
+
+FUNC_NAKED void WeaponControl::MouseMove(int x, int y)
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+			// rsi has x
+			// rdx has y
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1159::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1160
+{
+	static void *func = 0;
+	static short argdata[] = {0x107, 0x106};
+	static FunctionDefinition funcObj("WeaponControl::KeyDown", typeid(bool (WeaponControl::*)(SDLKey )), ".4155415441bc010000005589f5534889fb4883ec28", argdata, 2, 2, &func);
+}
+
+FUNC_NAKED bool WeaponControl::KeyDown(SDLKey key)
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+			// rsi has key
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1160::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1161
+{
+	static void *func = 0;
+	static short argdata[] = {0x107, 0x106};
+	static FunctionDefinition funcObj("WeaponControl::LinkShip", typeid(void (WeaponControl::*)(ShipManager *)), ".55534889fb4883ec28", argdata, 2, 6, &func);
+}
+
+FUNC_NAKED void WeaponControl::LinkShip(ShipManager *ship)
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+			// rsi has ship
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1161::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1162
+{
+	static void *func = 0;
+	static const short *argdata = NULL;
+	static FunctionDefinition funcObj("WeaponStoreBox::__DO_NOT_HOOK", typeid(void (*)()), "41554989d541544989f4be", argdata, 0, 4, &func);
+}
+
+FUNC_NAKED void WeaponStoreBox::__DO_NOT_HOOK()
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1162::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1163
+{
+	static void *func = 0;
+	static short argdata[] = {0x107, 0x106, 0x102, 0x101};
+	static FunctionDefinition funcObj("WeaponStoreBox::constructor", typeid(void (WeaponStoreBox::*)(ShipManager *, Equipment *, const WeaponBlueprint *)), ".41554989d541544989f4be", argdata, 4, 6, &func);
+}
+
+FUNC_NAKED void WeaponStoreBox::constructor(ShipManager *ship, Equipment *equip, const WeaponBlueprint *weaponBp)
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+			// rsi has ship
+			// rdx has equip
+			// rcx has weaponBp
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1163::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1164
+{
+	static void *func = 0;
+	static short argdata[] = {0x107, 0x106};
+	static FunctionDefinition funcObj("WeaponSystem::RemoveWeapon", typeid(void (WeaponSystem::*)(int )), "31c085f60f88d800000041564155415455534889fb4883ec20", argdata, 2, 6, &func);
+}
+
+FUNC_NAKED void WeaponSystem::RemoveWeapon(int slot)
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+			// rsi has slot
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1164::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1165
+{
+	static void *func = 0;
+	static short argdata[] = {0x107, 0x106, 0x102};
+	static FunctionDefinition funcObj("WeaponSystem::SetBonusPower", typeid(void (WeaponSystem::*)(int , int )), ".5589f5534889fb4883ec08e8????????39e8", argdata, 3, 6, &func);
+}
+
+FUNC_NAKED void WeaponSystem::SetBonusPower(int amount, int permanentPower)
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+			// rsi has amount
+			// rdx has permanentPower
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1165::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1166
+{
+	static void *func = 0;
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("WeaponSystem::OnLoop", typeid(void (WeaponSystem::*)()), ".415741564155415455534889fb4883ec38e8????????488b9350020000", argdata, 1, 6, &func);
+}
+
+FUNC_NAKED void WeaponSystem::OnLoop()
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1166::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1167
+{
+	static void *func = 0;
+	static short argdata[] = {0x107, 0x106, 0x102, 0x101};
+	static FunctionDefinition funcObj("WeaponSystemBox::constructor", typeid(void (WeaponSystemBox::*)(Point , ShipSystem *, WeaponControl *)), "554889cdb901000000534889fb4883ec08e8????????488dbb70020000", argdata, 4, 6, &func);
+}
+
+FUNC_NAKED void WeaponSystemBox::constructor(Point pos, ShipSystem *sys, WeaponControl *weapCtrl)
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+			// rsi has pos
+			// rdx has sys
+			// rcx has weapCtrl
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1167::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1168
+{
+	static void *func = 0;
+	static short argdata[] = {0x107, 0x106, 0x102, 0x101, 0x108};
+	static FunctionDefinition funcObj("WindowFrame::constructor", typeid(void (WindowFrame::*)(int , int , int , int )), "41574156415541545589d55389f34881ecc8000000", argdata, 5, 6, &func);
+}
+
+FUNC_NAKED void WindowFrame::constructor(int x, int y, int w, int h)
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+			// rsi has x
+			// rdx has y
+			// rcx has w
+			// r8 has h
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1168::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1169
+{
+	static void *func = 0;
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("WindowFrame::destructor", typeid(void (WindowFrame::*)()), "!.534889fb488b7f10", argdata, 1, 6, &func);
+}
+
+FUNC_NAKED void WindowFrame::destructor()
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1169::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1170
+{
+	static void *func = 0;
+	static short argdata[] = {0x107, 0x106, 0x102};
+	static FunctionDefinition funcObj("WindowFrame::Draw", typeid(void (WindowFrame::*)(int , int )), ".41544189d45589f5534889fb", argdata, 3, 6, &func);
+}
+
+FUNC_NAKED void WindowFrame::Draw(int x, int y)
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+			// rsi has x
+			// rdx has y
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1170::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1171
+{
+	static void *func = 0;
+	static short argdata[] = {0x107, 0x106};
+	static FunctionDefinition funcObj("WindowFrame::DrawMask", typeid(void (WindowFrame::*)(int )), ".5389f24889fbbf01000000", argdata, 2, 6, &func);
+}
+
+FUNC_NAKED void WindowFrame::DrawMask(int unk)
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+			// rsi has unk
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1171::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1172
+{
+	static void *func = 0;
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("WorldManager::constructor", typeid(void (WorldManager::*)()), "534889fb488d7f104883ec10", argdata, 1, 6, &func);
+}
+
+FUNC_NAKED void WorldManager::constructor()
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1172::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1173
+{
+	static void *func = 0;
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("WorldManager::OnInit", typeid(int (WorldManager::*)()), ".415455488d6f10534889fb4889ef", argdata, 1, 2, &func);
+}
+
+FUNC_NAKED int WorldManager::OnInit()
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1173::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1174
+{
+	static void *func = 0;
+	static short argdata[] = {0x107, 0x106};
+	static FunctionDefinition funcObj("WorldManager::CreateStore", typeid(void (WorldManager::*)(LocationEvent *)), ".554889f5534889fb4883ec08488bb6d0040000", argdata, 2, 6, &func);
+}
+
+FUNC_NAKED void WorldManager::CreateStore(LocationEvent *event)
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+			// rsi has event
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1174::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1175
+{
+	static void *func = 0;
+	static short argdata[] = {0x107, 0x106, 0x102};
+	static FunctionDefinition funcObj("WorldManager::CheckRequirements", typeid(bool (WorldManager::*)(LocationEvent *, bool )), ".415455534889f34883ec204885f6", argdata, 3, 2, &func);
+}
+
+FUNC_NAKED bool WorldManager::CheckRequirements(LocationEvent *event, bool hidden)
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+			// rsi has event
+			// rdx has hidden
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1175::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1176
+{
+	static void *func = 0;
+	static short argdata[] = {0x107, 0x106};
+	static FunctionDefinition funcObj("WorldManager::AddBoarders", typeid(bool (WorldManager::*)(BoardingEvent &)), ".4154554889fd534883ec20488b07488b5010", argdata, 2, 2, &func);
+}
+
+FUNC_NAKED bool WorldManager::AddBoarders(BoardingEvent &boardingEvent)
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+			// rsi has boardingEvent
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1176::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1177
+{
+	static void *func = 0;
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("WorldManager::HostileEnvironment", typeid(bool (WorldManager::*)()), ".534889fb488d7f10", argdata, 1, 2, &func);
+}
+
+FUNC_NAKED bool WorldManager::HostileEnvironment()
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1177::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1178
+{
+	static void *func = 0;
+	static short argdata[] = {0x107, 0x106, 0x102};
+	static FunctionDefinition funcObj("WorldManager::ModifyEnvironment", typeid(void (WorldManager::*)(int , int )), ".83fe01534889fb", argdata, 3, 6, &func);
+}
+
+FUNC_NAKED void WorldManager::ModifyEnvironment(int envFlag, int envTarget)
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+			// rsi has envFlag
+			// rdx has envTarget
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1178::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1179
+{
+	static void *func = 0;
+	static short argdata[] = {0x107, 0x2ff, 0x101, 0x108};
+	static FunctionDefinition funcObj("WorldManager::ModifyStatusEffect", typeid(void (WorldManager::*)(StatusEffect , ShipManager *, int )), ".41554889d04989fd48c1f82041544989cc4889f148c1f920", argdata, 4, 6, &func);
+}
+
+FUNC_NAKED void WorldManager::ModifyStatusEffect(StatusEffect effect, ShipManager *target, int targetType)
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+		"pushl 16(%rbp)\n\t"		// effect
+		"pushl 8(%rbp)\n\t"		// effect
+			// rdi has this
+			// rcx has target
+			// r8 has targetType
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1179::func));
+	__asm__
+	(
+		"addl $16, %rsp\n\t"
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1180
+{
+	static void *func = 0;
+	static short argdata[] = {0x107, 0x106};
+	static FunctionDefinition funcObj("WorldManager::ModifyResources", typeid(LocationEvent *(WorldManager::*)(LocationEvent *)), ".41574989f7488db65803000041564d8db78803000041554154554889fd534881ecd8020000", argdata, 2, 2, &func);
+}
+
+FUNC_NAKED LocationEvent *WorldManager::ModifyResources(LocationEvent *event)
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+			// rsi has event
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1180::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1181
+{
+	static void *func = 0;
+	static short argdata[] = {0x107, 0x106};
+	static FunctionDefinition funcObj("WorldManager::CheckStatusEffects", typeid(void (WorldManager::*)(std::vector<StatusEffect> &)), "!.415741564989fe41554531ed41544c8da7001500005531ed534889f34883ec08", argdata, 2, 6, &func);
+}
+
+FUNC_NAKED void WorldManager::CheckStatusEffects(std::vector<StatusEffect> &vec)
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+			// rsi has vec
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1181::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1182
+{
+	static void *func = 0;
+	static short argdata[] = {0x107, 0x106};
+	static FunctionDefinition funcObj("WorldManager::CreateChoiceBox", typeid(void (WorldManager::*)(LocationEvent *)), ".4157488d87501500004989ff41564889c741554154554889f5534889c34881ec08030000", argdata, 2, 6, &func);
+}
+
+FUNC_NAKED void WorldManager::CreateChoiceBox(LocationEvent *event)
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+			// rsi has event
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1182::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1183
+{
+	static void *func = 0;
+	static short argdata[] = {0x107, 0x106};
+	static FunctionDefinition funcObj("WorldManager::CreateChoiceBox0", typeid(void (WorldManager::*)(LocationEvent *)), ".554889f5534889fb4883ec08488b07488b7810488b17", argdata, 2, 6, &func);
+}
+
+FUNC_NAKED void WorldManager::CreateChoiceBox0(LocationEvent *event)
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+			// rsi has event
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1183::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1184
+{
+	static void *func = 0;
+	static short argdata[] = {0x107, 0x106, 0x102};
+	static FunctionDefinition funcObj("WorldManager::CreateShip", typeid(CompleteShip *(WorldManager::*)(ShipEvent *, bool )), ".4156415541544989fc55534881ec60030000", argdata, 3, 2, &func);
+}
+
+FUNC_NAKED CompleteShip *WorldManager::CreateShip(ShipEvent *shipEvent, bool boss)
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+			// rsi has shipEvent
+			// rdx has boss
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1184::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1185
+{
+	static void *func = 0;
+	static short argdata[] = {0x107, 0x106};
+	static FunctionDefinition funcObj("WorldManager::CreateLocation", typeid(void (WorldManager::*)(Location *)), ".41574156415541544989f455534889fb4881ecf8030000", argdata, 2, 6, &func);
+}
+
+FUNC_NAKED void WorldManager::CreateLocation(Location *loc)
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+			// rsi has loc
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1185::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1186
+{
+	static void *func = 0;
+	static short argdata[] = {0x107, 0x106};
+	static FunctionDefinition funcObj("WorldManager::UpdateLocation", typeid(void (WorldManager::*)(LocationEvent *)), ".4157415641554154554889fd534889f34881ec88030000", argdata, 2, 6, &func);
+}
+
+FUNC_NAKED void WorldManager::UpdateLocation(LocationEvent *event)
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+			// rsi has event
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1186::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1187
+{
+	static void *func = 0;
+	static short argdata[] = {0x107, 0x106};
+	static FunctionDefinition funcObj("WorldManager::UpdateLocation0", typeid(void (WorldManager::*)(LocationEvent *)), ".554889f5534889fb4883ec08488b07488b7810488b17", argdata, 2, 6, &func);
+}
+
+FUNC_NAKED void WorldManager::UpdateLocation0(LocationEvent *event)
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+			// rsi has event
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1187::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1188
+{
+	static void *func = 0;
+	static short argdata[] = {0x107, 0x106};
+	static FunctionDefinition funcObj("WorldManager::LoadGame", typeid(void (WorldManager::*)(const std::string &)), ".415741564155415455534889fb4881ece8010000", argdata, 2, 6, &func);
+}
+
+FUNC_NAKED void WorldManager::LoadGame(const std::string &fileName)
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+			// rsi has fileName
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1188::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1189
+{
+	static void *func = 0;
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("WorldManager::SaveGame", typeid(void (WorldManager::*)()), ".415455534889fb4883ec20488bbfb8110000", argdata, 1, 6, &func);
+}
+
+FUNC_NAKED void WorldManager::SaveGame()
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1189::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1190
+{
+	static void *func = 0;
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("WorldManager::CreateNewGame", typeid(void (WorldManager::*)()), ".554889fd5331db4883ec28488b07488b78104881c718010000", argdata, 1, 6, &func);
+}
+
+FUNC_NAKED void WorldManager::CreateNewGame()
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1190::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1191
+{
+	static void *func = 0;
+	static short argdata[] = {0x107, 0x106};
+	static FunctionDefinition funcObj("WorldManager::StartGame", typeid(void (WorldManager::*)(ShipManager *)), ".4154554889f5534889fb4883ec20", argdata, 2, 6, &func);
+}
+
+FUNC_NAKED void WorldManager::StartGame(ShipManager *ship)
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+			// rsi has ship
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1191::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1192
+{
+	static void *func = 0;
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("WorldManager::Restart", typeid(void (WorldManager::*)()), "!.534889fbe8????????e8????????e8", argdata, 1, 6, &func);
+}
+
+FUNC_NAKED void WorldManager::Restart()
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1192::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1193
+{
+	static void *func = 0;
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("WorldManager::OnLoop", typeid(void (WorldManager::*)()), ".415731f64989ff41564155415455534881ecf8000000", argdata, 1, 6, &func);
+}
+
+FUNC_NAKED void WorldManager::OnLoop()
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1193::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1194
+{
+	static void *func = 0;
+	static short argdata[] = {0x107};
+	static FunctionDefinition funcObj("WorldManager::PauseLoop", typeid(void (WorldManager::*)()), ".41554154554889fd534883ec28488b3f", argdata, 1, 6, &func);
+}
+
+FUNC_NAKED void WorldManager::PauseLoop()
+{
+	__asm__
+	(
+		"pushl %rbp\n\t"
+		"movl %rsp, %rbp\n\t"
+		"subl $8, %rsp\n\t"
+		"pushl %rbx\n\t"
+		"pushl %rbp\n\t"
+		"pushl %r12\n\t"
+		"pushl %r13\n\t"
+		"pushl %r14\n\t"
+		"pushl %r15\n\t"
+			// rdi has this
+	);
+	__asm__("call *%0\n\t" :: "m"(_func1194::func));
+	__asm__
+	(
+		"popl %r15\n\t"
+		"popl %r14\n\t"
+		"popl %r13\n\t"
+		"popl %r12\n\t"
+		"popl %rbp\n\t"
+		"popl %rbx\n\t"
+		"movl %rbp, %rsp\n\t"
+		"popl %rbp\n\t"
+		"ret\n\t"
+	);
+}
+
+namespace _func1195
+{
+	static void *func = 0;
 	static short argdata[] = {0x107, 0x10a, 0x10b, 0x106, 0x102};
 	static FunctionDefinition funcObj("freetype::easy_measurePrintLines", typeid(Pointf (*)(int , float , float , int , const std::string &)), "554889d089fd5389f34883ec38", argdata, 5, 2, &func);
 }
@@ -42196,7 +44924,7 @@ FUNC_NAKED Pointf freetype::easy_measurePrintLines(int fontSize, float x, float 
 			// rsi has line_length
 			// rdx has text
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1123::func));
+	__asm__("call *%0\n\t" :: "m"(_func1195::func));
 	__asm__
 	(
 		"popl %r15\n\t"
@@ -42211,7 +44939,7 @@ FUNC_NAKED Pointf freetype::easy_measurePrintLines(int fontSize, float x, float 
 	);
 }
 
-namespace _func1124
+namespace _func1196
 {
 	static void *func = 0;
 	static short argdata[] = {0x107, 0x106};
@@ -42234,7 +44962,7 @@ FUNC_NAKED int freetype::easy_measureWidth(int fontSize, const std::string &text
 			// rdi has fontSize
 			// rsi has text
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1124::func));
+	__asm__("call *%0\n\t" :: "m"(_func1196::func));
 	__asm__
 	(
 		"popl %r15\n\t"
@@ -42249,7 +44977,7 @@ FUNC_NAKED int freetype::easy_measureWidth(int fontSize, const std::string &text
 	);
 }
 
-namespace _func1125
+namespace _func1197
 {
 	static void *func = 0;
 	static short argdata[] = {0x107, 0x10a, 0x10b, 0x106};
@@ -42274,7 +45002,7 @@ FUNC_NAKED Pointf freetype::easy_print(int fontSize, float x, float y, const std
 			// xmm1 has y
 			// rsi has text
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1125::func));
+	__asm__("call *%0\n\t" :: "m"(_func1197::func));
 	__asm__
 	(
 		"popl %r15\n\t"
@@ -42289,7 +45017,7 @@ FUNC_NAKED Pointf freetype::easy_print(int fontSize, float x, float y, const std
 	);
 }
 
-namespace _func1126
+namespace _func1198
 {
 	static void *func = 0;
 	static short argdata[] = {0x107, 0x10a, 0x10b, 0x106};
@@ -42314,7 +45042,7 @@ FUNC_NAKED Pointf freetype::easy_printRightAlign(int fontSize, float x, float y,
 			// xmm1 has y
 			// rsi has text
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1126::func));
+	__asm__("call *%0\n\t" :: "m"(_func1198::func));
 	__asm__
 	(
 		"popl %r15\n\t"
@@ -42329,7 +45057,7 @@ FUNC_NAKED Pointf freetype::easy_printRightAlign(int fontSize, float x, float y,
 	);
 }
 
-namespace _func1127
+namespace _func1199
 {
 	static void *func = 0;
 	static short argdata[] = {0x107, 0x10a, 0x10b, 0x106, 0x102};
@@ -42355,7 +45083,7 @@ FUNC_NAKED Pointf freetype::easy_printNewlinesCentered(int fontSize, float x, fl
 			// rsi has line_length
 			// rdx has text
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1127::func));
+	__asm__("call *%0\n\t" :: "m"(_func1199::func));
 	__asm__
 	(
 		"popl %r15\n\t"
@@ -42370,7 +45098,7 @@ FUNC_NAKED Pointf freetype::easy_printNewlinesCentered(int fontSize, float x, fl
 	);
 }
 
-namespace _func1128
+namespace _func1200
 {
 	static void *func = 0;
 	static short argdata[] = {0x107, 0x10a, 0x10b, 0x106, 0x102};
@@ -42396,7 +45124,7 @@ FUNC_NAKED Pointf freetype::easy_printAutoNewlines(int fontSize, float x, float 
 			// rsi has line_length
 			// rdx has text
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1128::func));
+	__asm__("call *%0\n\t" :: "m"(_func1200::func));
 	__asm__
 	(
 		"popl %r15\n\t"
@@ -42411,7 +45139,7 @@ FUNC_NAKED Pointf freetype::easy_printAutoNewlines(int fontSize, float x, float 
 	);
 }
 
-namespace _func1129
+namespace _func1201
 {
 	static void *func = 0;
 	static short argdata[] = {0x107, 0x10a, 0x10b, 0x106};
@@ -42436,7 +45164,7 @@ FUNC_NAKED Pointf freetype::easy_printCenter(int fontSize, float x, float y, con
 			// xmm1 has y
 			// rsi has text
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1129::func));
+	__asm__("call *%0\n\t" :: "m"(_func1201::func));
 	__asm__
 	(
 		"popl %r15\n\t"
@@ -42451,7 +45179,7 @@ FUNC_NAKED Pointf freetype::easy_printCenter(int fontSize, float x, float y, con
 	);
 }
 
-namespace _func1130
+namespace _func1202
 {
 	static void *func = 0;
 	static short argdata[] = {0x107, 0x10a, 0x10b, 0x106, 0x102, 0x101};
@@ -42478,7 +45206,7 @@ FUNC_NAKED void freetype::easy_printAutoShrink(int fontId, float x, float y, int
 			// rdx has centered
 			// rcx has text
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1130::func));
+	__asm__("call *%0\n\t" :: "m"(_func1202::func));
 	__asm__
 	(
 		"popl %r15\n\t"

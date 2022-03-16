@@ -42590,7 +42590,7 @@ namespace _func1131
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff};
-	static FunctionDefinition funcObj("StarMap::OnRender", typeid(void (StarMap::*)()), "8b4424048078040074??e9????????", argdata, 1, 6, &func);
+	static FunctionDefinition funcObj("StarMap::OnRender", typeid(void (StarMap::*)()), "5589e55789c7565381ec7c01000080b88406000000", argdata, 1, 6, &func);
 }
 
 FUNC_NAKED void StarMap::OnRender()
@@ -42824,7 +42824,7 @@ namespace _func1137
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff};
-	static FunctionDefinition funcObj("StarMap::UpdateBoss", typeid(void (StarMap::*)()), "8b44240480b8cc07000000", argdata, 1, 6, &func);
+	static FunctionDefinition funcObj("StarMap::UpdateBoss", typeid(void (StarMap::*)()), "5557565389c383ec2c8b80b40700008b93c0070000", argdata, 1, 6, &func);
 }
 
 FUNC_NAKED void StarMap::UpdateBoss()
