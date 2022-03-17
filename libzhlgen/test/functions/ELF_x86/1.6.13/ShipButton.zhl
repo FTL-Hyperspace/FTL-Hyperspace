@@ -3,7 +3,7 @@ cleanup void ShipButton::constructor(ShipButton *this, int shipType, int shipVar
 "5383ec188b5c24208b5424288b44242c807b7000":
 cleanup void ShipButton::OnInit(ShipButton *this, const std::string& imgName, Point pos);
 "5557565383ec2c8b5c24408b742444807b7000":
-cleanup bool ShipButton::MouseMove(ShipButton *this, int x, int y);
+cleanup void ShipButton::MouseMove(ShipButton *this, int x, int y);
 "5589e557565383ec7c8b5d08807b7000":
 cleanup void ShipButton::OnRender(ShipButton *this);
 

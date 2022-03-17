@@ -1,0 +1,35 @@
+"41574989f7be????????":
+cleanup void Animation::constructor(Animation *this<rdi>, const std::string& _image<rsi>, int _length<rdx>, float _time<xmm0>, Pointf _position<rcx>, int _imageWidth<r8>, int _imageHeight<r9>, int _stripStartX, int _numFrames);
+"4156415541544189f455534889fb4883ec30":
+cleanup void Animation::OnRender(Animation *this<rdi>, float opacity<xmm0>, GL_Color color, bool mirror<rsi>);
+"41564155415455534889fb4883ec30807f3c00":
+cleanup void Animation::Update(Animation *this<rdi>);
+"8b4708897424fc8d50ff":
+cleanup void Animation::SetCurrentFrame(Animation *this<rdi>, int frame<rsi>);
+"534889fb4883ec104084f60f85":
+cleanup void Animation::Start(Animation *this<rdi>, bool reset<rsi>);
+"85f6784e488b4f78":
+cleanup void Animation::AddSoundQueue(Animation *this<rdi>, int frame<rsi>, const std::string& sound<rdx>);
+"48393774354889f0":
+cleanup void Animation::SetAnimationId(Animation *this<rdi>, GL_Texture *tex<rsi>);
+"4157415641554989fd415455534883ec18488b8798000000":
+cleanup void Animation::destructor(Animation *this<rdi>);
+"534889fb4883ec104084f67573":
+cleanup void Animation::StartReverse(Animation *this<rdi>, bool reset<rsi>);
+"f30f105730807f3c00":
+cleanup void Animation::SetProgress(Animation *this<rdi>, float progress<xmm0>);
+"803d????????00534889fb7543":
+cleanup int Animation::RandomStart(Animation *this<rdi>);
+
+
+struct Animation 
+{{
+	Animation()
+	{
+	}
+
+	Animation(const std::string& _image, int _length, float _time, Pointf _position, int _imageWidth, int _imageHeight, int _stripStartX, int _numFrames)
+	{
+		this->constructor(_image, _length, _time, _position, _imageWidth, _imageHeight, _stripStartX, _numFrames);
+	}
+}};

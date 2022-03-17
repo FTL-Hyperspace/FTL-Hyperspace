@@ -1,0 +1,23 @@
+"41574156415541545589d55389f34881ecc8000000":
+cleanup void WindowFrame::constructor(WindowFrame *this<rdi>, int x<rsi>, int y<rdx>, int w<rcx>, int h<r8>);
+"!.534889fb488b7f10":
+cleanup void WindowFrame::destructor(WindowFrame *this<rdi>);
+".41544189d45589f5534889fb":
+cleanup void WindowFrame::Draw(WindowFrame *this<rdi>, int x<rsi>, int y<rdx>);
+".5389f24889fbbf01000000":
+cleanup void WindowFrame::DrawMask(WindowFrame *this<rdi>, int unk<rsi>);
+
+
+struct WindowFrame
+{{
+	WindowFrame(int _x, int _y, int _w, int _h) 
+	{
+		this->constructor(_x, _y, _w, _h);
+	}
+	
+	~WindowFrame()
+	{
+		this->destructor();
+	}
+
+}};

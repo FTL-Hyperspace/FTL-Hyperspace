@@ -1,0 +1,18 @@
+"41574156415541544989f45589d5534889fb4883ec18":
+cleanup int CrewAI::PrioritizeIntruderRoom(CrewAI *this<rdi>, CrewMember *crew<rsi>, int roomId<rdx>, int target<rcx>);
+".4156415541544531e45531ed534889fb4883ec20":
+cleanup void CrewAI::CheckForHealing(CrewAI *this<rdi>);
+".415641554989fd41544189d4554863e95389f34883ec10":
+cleanup int CrewAI::PrioritizeTask(CrewAI *this<rdi>, CrewTask task, int crewId<rsi>);
+".415631d241554531ed415449bcabaaaaaaaaaaaaaa5553":
+cleanup void CrewAI::AssignCrewmembers(CrewAI *this<rdi>);
+".41574863f641564155415455534889fb4883ec38":
+cleanup void CrewAI::UpdateCrewMember(CrewAI *this<rdi>, int crewId<rsi>);
+".415641554154554889fd534883ec10488b4730488b57284839d0":
+cleanup void CrewAI::UpdateIntruders(CrewAI *this<rdi>);
+".41574989ff41564d89fe4155415455534881ec88000000488b07":
+cleanup void CrewAI::CheckForProblems(CrewAI *this<rdi>);
+".415741564531f6415541545531ed534889fb4881eca8000000488b5710":
+cleanup void CrewAI::UpdateDrones(CrewAI *this<rdi>);
+".415741564155415455534889fb4883ec48488b37":
+cleanup void CrewAI::OnLoop(CrewAI *this<rdi>);

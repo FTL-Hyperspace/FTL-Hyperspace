@@ -1,0 +1,18 @@
+"534889fbe8????????4863831802000083f8ff":
+cleanup void Equipment::MouseClick(Equipment *this<rdi>, int mX<rsi>, int mY<rdx>);
+".41554531ed41545531ed534889fb4883ec08":
+cleanup void Equipment::OnLoop(Equipment *this<rdi>);
+".534889fb4883ec7080bf2402000000":
+cleanup void Equipment::MouseUp(Equipment *this<rdi>, int mX<rsi>, int mY);
+".41554154554889f5534889fb4883ec4884c9":
+cleanup void Equipment::AddDrone(Equipment *this<rdi>, DroneBlueprint *bp<rsi>, bool unk1<rdx>, bool unk2<rcx>);
+".4154554889f5488d7608534889fb4883ec60":
+cleanup void Equipment::AddAugment(Equipment *this<rdi>, AugmentBlueprint *bp<rsi>, bool unk1<rdx>, bool unk2<rcx>);
+".41554989fd41544989f455534883ec08":
+cleanup std::vector<std::string> Equipment::GetCargoHold<rdi>(Equipment *this<rsi>);
+".415641554989f541545589cd534889fb4883ec5084c9":
+cleanup void Equipment::AddWeapon(Equipment *this<rdi>, WeaponBlueprint *bp<rsi>, bool unk1<rdx>, bool unk2<rcx>);
+".554889fd534889f34883ec38488d7c2420":
+cleanup void Equipment::AddToCargo(Equipment *this<rdi>, std::string &name<rsi>);
+".4157415641554154554889f5534889fb4881ec98000000":
+cleanup void Equipment::OnInit(Equipment *this<rdi>, ShipManager *ship<rsi>);

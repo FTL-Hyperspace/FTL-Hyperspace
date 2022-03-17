@@ -1,7 +1,7 @@
 "5383ec188b5c24208b430885c074??8b530c":
-cleanup int CApp::OnRequestExit(CApp *this);
+cleanup void CApp::OnRequestExit(CApp *this);
 "83ec1ce8????????c744240400000000c70424????????":
-cleanup int CApp::OnExit(CApp *this);
+cleanup void CApp::OnExit(CApp *this);
 "8b442404????????????0075??80781000":
 cleanup void CApp::OnMButtonDown(CApp *this, int x, int y);
 ".8b4424048b542408????????????0075??80781000":
@@ -9,9 +9,9 @@ cleanup void CApp::OnTextInput(CApp *this, int ch);
 ".8b4424048b542408????????????0075??80781000":
 cleanup void CApp::OnTextEvent(CApp *this, CEvent::TextEvent textEvent);
 "5383ec188b5c2420????????????0075??803d????????00":
-cleanup int CApp::OnInputFocus(CApp *this);
+cleanup void CApp::OnInputFocus(CApp *this);
 "5383ec188b5c2420803d????????008b4308":
-cleanup int CApp::OnInputBlur(CApp *this);
+cleanup void CApp::OnInputBlur(CApp *this);
 ".5383ec288b5c24308b4424348b542438":
 cleanup void CApp::OnRButtonUp(CApp *this, int x, int y);
 ".5383ec288b5c24308b4424348b542438":
@@ -21,7 +21,7 @@ cleanup void CApp::OnLButtonUp(CApp *this, int x, int y);
 ".5383ec288b5c24308b4424348b542438":
 cleanup void CApp::OnLButtonDown(CApp *this, int x, int y);
 "57565383ec208b5c24308b4424348b542438":
-cleanup int CApp::OnMouseMove(CApp *this, int x, int y, int xdiff, int ydiff, bool holdingLMB, bool holdingRMB, bool holdingMMB);
+cleanup void CApp::OnMouseMove(CApp *this, int x, int y, int xdiff, int ydiff, bool holdingLMB, bool holdingRMB, bool holdingMMB);
 "57565383ec208b5c243485db":
 cleanup void CApp::OnKeyUp(CApp *this, SDLKey key);
 "5589e557565383ec2c8b75088d5de4":
@@ -49,12 +49,10 @@ cleanup Point CApp::TranslateMouse(CApp *this, int x, int y);
 "803d????????0074??c38db600000000575653":
 cleanup void CApp::UpdateFullScreen(CApp *this);
 "56538b44240c????????????00":
-cleanup int CApp::UpdateWindowSettings(CApp *this);
+cleanup void CApp::UpdateWindowSettings(CApp *this);
 "5589e557565383ec3c8b5d08891c24":
 cleanup void CApp::OnRender(CApp *this);
 "5589e557565383ec4c8b5d08c7042400000000":
 cleanup int CApp::OnInit(CApp *this);
 "5589e557565381ecfc0100008b5d08":
 cleanup int CApp::OnExecute(CApp *this);
-"5557565383ec3c8b7424548b5c24508b4604f20f104608":
-cleanup void CApp::OnEvent(CApp *this, const InputEvent* inputEvent);

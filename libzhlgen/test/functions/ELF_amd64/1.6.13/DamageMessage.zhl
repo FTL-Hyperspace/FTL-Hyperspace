@@ -1,0 +1,25 @@
+"534889fb4883ec5085f648c707":
+cleanup void DamageMessage::constructor(DamageMessage *this<rdi>, float length<xmm0>, Pointf pos<rsi>, DamageMessage::MessageType type<rdx>);
+"415741564155415455534889fb4881ec3803000084d2":
+cleanup void DamageMessage::constructor2(DamageMessage *this<rdi>, float length<xmm0>, int amount<rsi>, Pointf pos<rdx>, bool unk<rcx>);
+
+
+struct DamageMessage 
+{{
+
+	enum MessageType
+	{
+	  MISS = 0x0,
+	  RESIST = 0x1,
+	};
+
+	DamageMessage(float length, Pointf pos, MessageType type)
+	{
+		constructor(length, pos, type);
+	}
+	
+	DamageMessage(float length, int amount, Pointf pos, bool unk)
+	{
+		constructor2(length, amount, pos, unk);
+	}
+}};

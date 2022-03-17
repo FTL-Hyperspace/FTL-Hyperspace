@@ -113,7 +113,7 @@ ShieldPower ShipManager::GetShieldPower<ecx>(ShipManager *this);
 "5731c08d7c240883e4f0ff77fc5589e5575383ec108b91c80400008b1f8b7f04837a0cff74??8b4948":
 int ShipManager::AddWeapon(ShipManager *this<ecx>, const WeaponBlueprint* bp, int slot);
 "578d7c240883e4f0ff77fc5589e557565383ec4c8b3f8b178b470429d0c1f80369c0????????85c00f84????????":
-void ShipManager::AddEquipmentFromList(ShipManager *this<ecx>, std::vector<std::string> equipmentList);
+void ShipManager::AddEquipmentFromList(ShipManager *this<ecx>, std::vector<std::string> *equipmentList);
 "8b410485c075??c3908db4260000000080b9b00400000075??80b9990400000074??f3c38b915408000085d2":
 void ShipManager::RenderChargeBars(ShipManager *this<ecx>);
 "578d7c240883e4f0ff77fc5589f889e557565389cf83ec3c8b188b81c8040000837810ff0f84????????8b414c":

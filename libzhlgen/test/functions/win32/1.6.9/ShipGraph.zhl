@@ -7,7 +7,7 @@ int ShipGraph::DoorCount(ShipGraph *this<ecx>, int roomId);
 ".578d7c240883e4f0ff77fc5589e557565383ec3c8b37c701????????c7410400000000":
 std::vector<Door*> ShipGraph::GetDoors<ecx>(ShipGraph *this, int roomId);
 ".578d7c240883e4f0ff77fc5589e557565383ec2c8b1f8b7704bf????????":
-int ShipGraph::IsRoomConnected(ShipGraph *this<ecx>, int room1, int room2);
+bool ShipGraph::IsRoomConnected(ShipGraph *this<ecx>, int room1, int room2);
 ".578d7c240883e4f0ff77fc5589f889e557565389cb8d4de083ec5c8b378b7f048b50088b400c":
 Door* ShipGraph::ConnectingDoor(ShipGraph *this<ecx>, int x1, int y1, int x2, int y2);
 ".578d7c240883e4f0ff77fc5589e557565389ce8d4de083ec6c8b078b5f0889c28945a88b47048b7f0c":
@@ -33,7 +33,7 @@ __int64 ShipGraph::ConvertToWorldPosition_DO_NOT_USE_DIRECTLY(ShipGraph *this<ec
 ".578d7c240883e4f0ff77fc5589e55783ec14807f0800f30f10692cf30f105930f30f10613474??":
 __int64 ShipGraph::ConvertToLocalPosition_DO_NOT_USE_DIRECTLY(ShipGraph *this<ecx>, Pointf world, bool past);
 ".578d7c240883e4f0ff77fc5589e557565383ec4c8b79048b01":
-int ShipGraph::ComputeCenter(ShipGraph *this<ecx>);
+void ShipGraph::ComputeCenter(ShipGraph *this<ecx>);
 ".538b514431c08b5c240839da7f??03514c39d37f??":
 bool ShipGraph::ContainsPoint(ShipGraph *this<ecx>, int x, int y);
 ".578d7c240883e4f0ff77fc5589e557565389fb89ce83ec2c8b43040fb6530831db":

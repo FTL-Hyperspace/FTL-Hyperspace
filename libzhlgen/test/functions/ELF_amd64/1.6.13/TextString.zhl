@@ -1,0 +1,11 @@
+"53807e08004889fb":
+cleanup std::string TextString::GetText<rdi>(TextString *this<rsi>);
+
+
+struct TextString depends (TextLibrary)
+{{
+	TextString()
+	{
+		isLiteral = true;
+	}
+}};

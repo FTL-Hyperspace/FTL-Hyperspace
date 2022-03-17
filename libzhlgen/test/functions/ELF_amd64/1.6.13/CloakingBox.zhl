@@ -1,0 +1,11 @@
+"415431c9554889d5534889fb4883ec50":
+cleanup void CloakingBox::constructor(CloakingBox *this<rdi>, Point pos<rsi>, CloakingSystem* sys<rdx>);
+
+
+struct CloakingBox
+{{
+	CloakingBox(Point pos, CloakingSystem* sys)
+	{
+		this->constructor(pos, sys);
+	}
+}};

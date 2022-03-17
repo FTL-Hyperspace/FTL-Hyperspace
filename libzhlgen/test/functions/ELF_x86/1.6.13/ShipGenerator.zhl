@@ -7,11 +7,11 @@ static cleanup bool ShipGenerator::UpgradeSystem(ShipManager *ship, std::vector<
 "5589e557565383ec4c8b45088b7d10c745b800000000":
 static cleanup std::vector<int> ShipGenerator::GetPossibleSystemUpgrades(ShipManager *ship, std::vector<int> &systemMaxes, int scrap, int type);
 "5589e55789cf565383ec5c8945acc70000000000c7400400000000c7400800000000":
+static cleanup std::vector<int> ShipGenerator::GetPossibleSystemUpgrades2<eax>(ShipManager *ship<edx>, std::vector<int> &systemMaxes<ecx>, int scrap, int type);
+".5589e55789cf565383ec5c8945acc70000000000c7400400000000c7400800000000":
 static cleanup std::vector<int> ShipGenerator::GetPossibleSystemUpgrades0<eax>(ShipManager *ship<edx>, std::vector<int> &systemMaxes<ecx>, int scrap, int type);
 ".5589e55789cf565383ec5c8945acc70000000000c7400400000000c7400800000000":
 static cleanup std::vector<int> ShipGenerator::GetPossibleSystemUpgrades1<eax>(ShipManager *ship<edx>, std::vector<int> &systemMaxes<ecx>, int scrap, int type);
-".5589e55789cf565383ec5c8945acc70000000000c7400400000000c7400800000000":
-static cleanup std::vector<int> ShipGenerator::GetPossibleSystemUpgrades2<eax>(ShipManager *ship<edx>, std::vector<int> &systemMaxes<ecx>, int scrap, int type);
 "5589e557565383ec5c8b450c890424":
 static cleanup std::vector<WeaponBlueprint*> ShipGenerator::GetPossibleWeaponList(ShipManager *ship, const std::string &weaponList, int scrap, unsigned int flags);
 "5589e557565383ec7c8b451c89459c8845a48b450c890424":

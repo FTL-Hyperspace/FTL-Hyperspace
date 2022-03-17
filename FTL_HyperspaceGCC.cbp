@@ -78,6 +78,9 @@
 					<Add directory="C:/boost/lib" />
 					<Add directory="discord/lib" />
 				</Linker>
+				<ExtraCommands>
+					<Add before="generateVersion.bat" />
+				</ExtraCommands>
 			</Target>
 			<Target title="Release-win-32">
 				<Option platforms="Windows;" />
@@ -148,6 +151,9 @@
 					<Add directory="C:/boost/lib" />
 					<Add directory="discord/lib" />
 				</Linker>
+				<ExtraCommands>
+					<Add before="generateVersion.bat" />
+				</ExtraCommands>
 			</Target>
 			<Target title="Debug-linux-x86">
 				<Option platforms="Unix;" />
@@ -182,6 +188,10 @@
 					<Add directory="discord/lib" />
 					<Add directory="/usr/lib/i386-linux-gnu" />
 				</Linker>
+				<ExtraCommands>
+					<Add before="chmod +x ./generateVersion.sh" />
+					<Add before="./generateVersion.sh" />
+				</ExtraCommands>
 			</Target>
 			<Target title="Release-linux-x86">
 				<Option platforms="Unix;" />
@@ -213,6 +223,10 @@
 					<Add directory="discord/lib" />
 					<Add directory="/usr/lib/i386-linux-gnu" />
 				</Linker>
+				<ExtraCommands>
+					<Add before="chmod +x ./generateVersion.sh" />
+					<Add before="./generateVersion.sh" />
+				</ExtraCommands>
 			</Target>
 			<Target title="Debug-win-32-crosscompile">
 				<Option platforms="Windows;Unix;" />
@@ -249,6 +263,10 @@
 					<Add library="discord/lib/libdiscord-rpc.a" />
 					<Add directory="discord/lib" />
 				</Linker>
+				<ExtraCommands>
+					<Add before="chmod +x ./generateVersion.sh" />
+					<Add before="./generateVersion.sh" />
+				</ExtraCommands>
 			</Target>
 		</Build>
 		<Unit filename="AbilityDrone.cpp">

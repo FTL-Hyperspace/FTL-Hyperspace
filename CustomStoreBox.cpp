@@ -93,11 +93,11 @@ void CustomStoreBox::OnRender()
 
     if (orig->button.bActive && orig->button.bHover || orig->button.bSelected)
     {
-        CSurface::GL_SetColor(0.9608f, 0.9333f, 0.6392f, 1.f);
+        CSurface::GL_SetColor(GL_Color(0.9608f, 0.9333f, 0.6392f, 1.f));
     }
     else
     {
-        CSurface::GL_SetColor(0.9216f, 0.9608f, 0.8980f, 1.f);
+        CSurface::GL_SetColor(GL_Color(0.9216f, 0.9608f, 0.8980f, 1.f));
     }
 
     if (orig->itemBox > 0)

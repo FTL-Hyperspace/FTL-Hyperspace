@@ -161,13 +161,13 @@ void CustomCrewManifest::OnInit(CrewManifest *manifest, ShipManager *ship)
     if (!leftButton)
     {
         leftButton = new Button();
-        leftButton->OnInit(buttonImg, crewManifest->position.x + 515, crewManifest->position.y + 54);
+        leftButton->OnInit(buttonImg, Point(crewManifest->position.x + 515, crewManifest->position.y + 54));
     }
 
     if (!rightButton)
     {
         rightButton = new Button();
-        rightButton->OnInit(buttonImg, crewManifest->position.x + 550, crewManifest->position.y + 54);
+        rightButton->OnInit(buttonImg, Point(crewManifest->position.x + 550, crewManifest->position.y + 54));
 
         rightButton->bMirror = true;
     }
@@ -242,7 +242,7 @@ void CustomCrewManifest::OnRender()
     CSurface::GL_PushMatrix();
     if (crewManifest->confirmingDelete >= 0)
     {
-        CSurface::GL_SetColorTint(0.25f, 0.25f, 0.25f, 1.0f);
+        CSurface::GL_SetColorTint(GL_Color(0.25f, 0.25f, 0.25f, 1.0f));
     }
 
 
@@ -309,7 +309,7 @@ void CustomCrewManifest::OnRender()
 
         if (crewManifest->confirmingDelete == slot)
         {
-            CSurface::GL_SetColorTint(0.25f, 0.25f, 0.25f, 1.f);
+            CSurface::GL_SetColorTint(GL_Color(0.25f, 0.25f, 0.25f, 1.f));
         }
         slot++;
     }
@@ -354,7 +354,7 @@ void CustomCrewManifest::OnRender()
 
         if (crewManifest->confirmingDelete == crewLimit)
         {
-            CSurface::GL_SetColorTint(0.25f, 0.25f, 0.25f, 1.f);
+            CSurface::GL_SetColorTint(GL_Color(0.25f, 0.25f, 0.25f, 1.f));
         }
     }
 

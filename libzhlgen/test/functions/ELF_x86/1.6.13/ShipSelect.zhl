@@ -1,9 +1,9 @@
-"5383ec188b5424248b5c242085d2":
-cleanup void ShipSelect::SelectShip(ShipSelect *this, int shipType);
+"5589e557565389c381ec8c010000":
+cleanup void ShipSelect::SelectShip(ShipSelect *this<eax>, int shipType<edx>);
 "565383ec248b5c24308d74241fc74424086e000000":
 cleanup void ShipSelect::constructor(ShipSelect *this);
 "565383ec148b7424208b4e208b561c89c829d083f8037e??31db8db600000000":
-cleanup int ShipSelect::ClearShipButtons(ShipSelect *this);
+cleanup void ShipSelect::ClearShipButtons(ShipSelect *this);
 "5589e557565381ecac0000008b450880b84404000000":
 cleanup void ShipSelect::MouseMove(ShipSelect *this, int x, int y);
 "5589e557565381ecac0000008b5d0880bb4404000000":

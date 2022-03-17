@@ -13,10 +13,10 @@ void CustomUpgrades::OnInit(Upgrades *upgrades, ShipManager *ship)
 
     std::string buttonImg("upgradeUI/buttons_system_arrow");
     leftButton = new Button();
-    leftButton->OnInit(buttonImg, upgrades->position.x + 18, upgrades->position.y + 182);
+    leftButton->OnInit(buttonImg, Point(upgrades->position.x + 18, upgrades->position.y + 182));
 
     rightButton = new Button();
-    rightButton->OnInit(buttonImg, upgrades->position.x + 572, upgrades->position.y + 182);
+    rightButton->OnInit(buttonImg, Point(upgrades->position.x + 572, upgrades->position.y + 182));
 
     rightButton->bMirror = true;
 
@@ -277,11 +277,11 @@ HOOK_METHOD(Upgrades, OnInit, (ShipManager *ship) -> void)
     buttonLabel.isLiteral = false;
     buttonLabel.data = "button_undo";
 
-    undoButton.OnInit(position.x + 33, position.y + 471, 97, 32, 4, &buttonLabel, 63);
+    undoButton.OnInit(Point(position.x + 33, position.y + 471), Point(97, 32), 4, &buttonLabel, 63);
     undoButton.SetBaseImage("upgradeUI/buttons_undo_base.png", Point(-23, -7), 97);
     undoButton.SetAutoWidth(true, false, 3, 0);
 
-    reactorButton.OnInit("upgradeUI/Equipment/equipment_reactor", position.x + 305, position.y + 327);
+    reactorButton.OnInit("upgradeUI/Equipment/equipment_reactor", Point(position.x + 305, position.y + 327));
     reactorButton.allowAnyTouch = true;
     reactorButton.touchSelectable = true;
     reactorButton.ship = ship;

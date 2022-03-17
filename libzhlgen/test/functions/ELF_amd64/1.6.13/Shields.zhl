@@ -1,0 +1,28 @@
+"534889fb4883ec30e8????????f30f100d":
+cleanup void Shields::Jump(Shields *this<rdi>);
+".41564155415455534889fb4c8d6b104883ec30":
+cleanup void Shields::OnLoop(Shields *this<rdi>);
+".4154554c89c54189c889d189f231f6534889fb4883ec40":
+cleanup void Shields::constructor(Shields *this<rdi>, int roomId<rsi>, int shipId<rdx>, int startingPower<rcx>, const std::string& shieldFile<r8>);
+".55ba050000004889f5534889fb4883ec08":
+cleanup void Shields::AddSuperShield(Shields *this<rdi>, Point pos<rsi>);
+".660fd64424f8488b4424f84889b750020000":
+cleanup void Shields::SetBaseEllipse(Shields *this<rdi>, Globals::Ellipse ellipse);
+".55534889fb488dabd00200004883ec38":
+cleanup void Shields::InstantCharge(Shields *this<rdi>);
+".41550f28f9415455534889fb4883ec68":
+cleanup void Shields::RenderBase(Shields *this<rdi>, float alpha<xmm0>, float superShieldOverwrite<xmm1>);
+".415741564189d641554989f5415455534889fb488d7f04":
+cleanup CollisionResponse Shields::CollisionReal<rdi>(Shields *this<rsi>, float x<xmm0>, float y<xmm1>, Damage damage, bool force<rdx>);
+
+"!f30fc2cf01488bbbf8020000f30f101d(???????\?)f30f5edd":
+GL_Color *Global_COLOR_GREEN;
+
+
+struct Shields
+{{
+	Shields(int roomId, int shipId, int startingPower, const std::string& shieldFile)
+	{
+		this->constructor(roomId, shipId, startingPower, shieldFile);
+	}
+}};

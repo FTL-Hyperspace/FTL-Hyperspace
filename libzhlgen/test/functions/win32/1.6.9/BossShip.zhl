@@ -5,15 +5,15 @@ bool BossShip::IncomingFire(BossShip *this<ecx>);
 ".578d7c240883e4f0ff77fc5589e5575389cb83ec108b0783c318c744240801000000c744240400000000":
 void BossShip::constructor(BossShip *this<ecx>, SpaceManager *space);
 ".5589e557565389cf83e4f083ec108b5d088b8134010000891c2489442404":
-void BossShip::SaveBoss(BossShip *this<ecx>, void *file);
+void BossShip::SaveBoss(BossShip *this<ecx>, int file);
 ".578d7c240883e4f0ff77fc5589e557565389ce83ec3c8b07890424":
-int BossShip::LoadBoss(BossShip *this<ecx>, void *file);
+void BossShip::LoadBoss(BossShip *this<ecx>, int file);
 ".89c88b490885c974??5589e55389c38b01":
-int BossShip::ClearLocation(BossShip *this<ecx>);
+void BossShip::ClearLocation(BossShip *this<ecx>);
 ".83b9340100000374??31c0c38d7426008b490880b99904000000":
-char BossShip::Defeated(BossShip *this<ecx>);
+bool BossShip::Defeated(BossShip *this<ecx>);
 ".578d7c240883e4f0ff77fc5589e557565389cb83ec4c":
-int BossShip::GetSubEvent(BossShip *this<ecx>);
+LocationEvent* BossShip::GetSubEvent(BossShip *this<ecx>);
 ".578d7c240883e4f0ff77fc5589e557565389ce8dbd20ffffff":
 void BossShip::StartStage(BossShip *this<ecx>);
 ".578d7c240883e4f0ff77fc5589e557565389cb":

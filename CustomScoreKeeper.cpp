@@ -503,7 +503,7 @@ HOOK_METHOD(ScoreKeeper, OnRender, (bool lastPlaythrough) -> void)
 
     int yPos = yBase + 46;
 
-    CSurface::GL_SetColor(25.f / 255.f, 49.f / 255.f, 51.f / 255.f, 1.f);
+    CSurface::GL_SetColor(GL_Color(25.f / 255.f, 49.f / 255.f, 51.f / 255.f, 1.f));
 
     freetype::easy_printCenter(font, 188, yPos, topScoresText);
     freetype::easy_printCenter(font, 477, yPos, shipBestText);

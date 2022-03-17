@@ -1,0 +1,22 @@
+"c7871402000000000000c7874c02000001000000":
+cleanup void BossShip::Restart(BossShip *this<rdi>);
+".f30f108724020000":
+cleanup bool BossShip::IncomingFire(BossShip *this<rdi>);
+".53b9010000004889fb31d24883c330":
+cleanup void BossShip::constructor(BossShip *this<rdi>, SpaceManager *space<rsi>);
+".534889fb488b7f104885ff740e":
+cleanup void BossShip::ClearLocation(BossShip *this<rdi>);
+".31c083bf1402000003":
+cleanup bool BossShip::Defeated(BossShip *this<rdi>);
+".415455534889fb4883ec30":
+cleanup LocationEvent* BossShip::GetSubEvent(BossShip *this<rdi>);
+".415741564155415455534889fb488d7f304881ecd8010000":
+cleanup void BossShip::StartStage(BossShip *this<rdi>);
+".41544189f4554889fd538bb714020000":
+cleanup void BossShip::SaveBoss(BossShip *this<rdi>, int file<rsi>);
+".4883ec48488db74c020000":
+cleanup LocationEvent* BossShip::GetEvent(BossShip *this<rdi>);
+".4156415541544189f455534889fb89f74883ec10":
+cleanup void BossShip::LoadBoss(BossShip *this<rdi>, int file<rsi>);
+".4155415455534889fb4883ec28c687d401000001":
+cleanup void BossShip::OnLoop(BossShip *this<rdi>);

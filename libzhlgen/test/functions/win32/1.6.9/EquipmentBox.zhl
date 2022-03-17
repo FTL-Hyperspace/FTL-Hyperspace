@@ -7,7 +7,7 @@ void EquipmentBox::SetBlueprint(EquipmentBox *this<ecx>, InfoBox *infoBox, bool 
 
 
 "5589e55389cb83e4f083ec108b4130c701????????890424e8????????8b4334890424":
-virtual void EquipmentBox::Free(EquipmentBox *this<ecx>);
+virtual void EquipmentBox::destructor(EquipmentBox *this<ecx>);
 ".8b416085c074??85c00f95c0":
 virtual bool EquipmentBox::CanHoldWeapon(EquipmentBox *this<ecx>);
 ".8b416085c08b416474??85c0":
@@ -22,7 +22,7 @@ virtual void EquipmentBox::UpdateBoxImage(EquipmentBox *this<ecx>, bool unk);
 virtual void EquipmentBox::RenderLabels(EquipmentBox *this<ecx>, bool unk);
 
 "538b415031db8b54240839c27e??03415839c27d??8b41543944240c7e??":
-virtual int EquipmentBox::MouseMove(EquipmentBox *this<ecx>, int x, int y);
+virtual void EquipmentBox::MouseMove(EquipmentBox *this<ecx>, int x, int y);
 ".8b4424048941608b4424088941648b44240c8941688b442410":
 virtual void EquipmentBox::AddItem(EquipmentBox *this<ecx>, EquipmentBoxItem item);
 ".660fefc05589e50f1141605d":

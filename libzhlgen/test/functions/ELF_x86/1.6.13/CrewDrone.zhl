@@ -6,9 +6,7 @@ virtual cleanup void CrewDrone::OnLoop(CrewDrone *this);
 virtual cleanup bool CrewDrone::ProvidesVision(CrewDrone *this);
 "8b5424048b442408898238010000":
 cleanup void CrewDrone::SetCurrentShip(CrewDrone *this, int shipId);
-"5589e55383ec148b450c8b5d088b401c80781400":
-void DO_NOT_HOOK_DRONEGETNAME();
-".5557565383ec2c8b442440c700????????":
+"5557565383ec2c8b442440c700????????c78040050000????????8b80800600008d50f481fa????????0f853f030000":
 cleanup void CrewDrone::destructor(CrewDrone *this);
 
 

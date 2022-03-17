@@ -228,7 +228,7 @@ HOOK_METHOD(CrewDrone, constructor, (const std::string& droneType, const std::st
             textName.data = customDrone->tooltipName;
             textName.isLiteral = true;
 
-            SetName(textName, true);
+            SetName(&textName, true);
         }
     }
     else

@@ -1,5 +1,5 @@
 "5557565381ec9c0000008b8424c00000008bac24b0000000":
-cleanup CollisionResponse Shields::CollisionReal(Shields *this, Pointf pos, Damage damage, bool force);
+cleanup CollisionResponse Shields::CollisionReal(Shields *this, float x, float y, Damage damage, bool force);
 "57565383ec508b44246c8b5c2460c744240400000000":
 cleanup void Shields::constructor(Shields *this, int roomId, int shipId, int startingPower, const std::string& shieldFile);
 "8b4c2404f30f10442410f30f104c2414":

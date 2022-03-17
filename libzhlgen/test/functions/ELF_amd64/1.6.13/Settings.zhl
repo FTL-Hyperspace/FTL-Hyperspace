@@ -1,0 +1,19 @@
+"31c0803d????????007505c30f1f40004883ec08":
+static bool Settings::GetDlcEnabled();
+".415741564155415455534883ec58488d6c2440":
+static cleanup std::string Settings::GetHotkeyName<rdi>(const std::string& name<rsi>);
+".415741564155415455534883ec2848897c2418":
+static cleanup SDLKey Settings::GetHotkey(const std::string& hotkeyName<rdi>);
+".415741564155415455534883ec5848897c2420":
+static cleanup void Settings::SetHotkey(const std::string& hotkeyName<rdi>, SDLKey key<rsi>);
+".415741564155415455534881ecc8010000":
+static cleanup void Settings::SaveSettings();
+"!.0fb605????????c3":
+static char Settings::GetCommandConsole();
+".415641be????????4155415441bc????????55534883ec30":
+static cleanup void Settings::ResetHotkeys();
+".415741564155415455534881ec58020000":
+static cleanup void Settings::LoadSettings();
+
+"!4155415441bc(???????\?)55534883ec30":
+SettingValues* Global_Settings_Settings;

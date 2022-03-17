@@ -173,7 +173,7 @@ HOOK_METHOD(ShipManager, OnRender, (bool showInterior, bool doorControlMode) -> 
         auto time = jumpAnimation.current_time;
         if (time >= 1.0)
         {
-            CSurface::GL_SetColorTint(255.f, 255.f, 255.f, 1.f - ((time - 1.f) * 2.f));
+            CSurface::GL_SetColorTint(GL_Color(255.f, 255.f, 255.f, 1.f - ((time - 1.f) * 2.f)));
             RenderWeapons();
             CSurface::GL_RemoveColorTint();
         }
@@ -245,7 +245,7 @@ HOOK_METHOD(WeaponControl, constructor, () -> void)
     super();
 
     smallAutoFireButton = new Button();
-    smallAutoFireButton->OnInit("button_small_autofireOn", 0, 0);
+    smallAutoFireButton->OnInit("button_small_autofireOn", Point(0, 0));
     smallAutoFireButton->hitbox.w = 28;
     smallAutoFireButton->hitbox.h = 28;
 }
@@ -448,6 +448,7 @@ HOOK_METHOD(WeaponAnimation, StartFire, () -> bool)
         int chargeLength = (anim.info.numFrames - iChargedFrame) / iChargeLevels;
         anim.SetCurrentFrame(iChargedFrame + chargeLength * boostLevel);
     }
+    return ret;
 }
 
 HOOK_METHOD(ProjectileFactory, constructor, (const WeaponBlueprint* bp, int shipId) -> void)

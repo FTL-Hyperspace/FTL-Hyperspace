@@ -841,10 +841,10 @@ void StoreComplete::OnInit(const StoreDefinition& def, ShipManager *ship, Equipm
 
     std::string buttonImg("storeUI/button_store_arrow");
     leftButton = new Button();
-    leftButton->OnInit(buttonImg, orig->position.x + 451, orig->position.y + 12);
+    leftButton->OnInit(buttonImg, Point(orig->position.x + 451, orig->position.y + 12));
 
     rightButton = new Button();
-    rightButton->OnInit(buttonImg, orig->position.x + 547, orig->position.y + 12);
+    rightButton->OnInit(buttonImg, Point(orig->position.x + 547, orig->position.y + 12));
 
     rightButton->bMirror = true;
 
@@ -892,13 +892,13 @@ void StoreComplete::SetPositions()
     {
         std::string buttonImg("storeUI/button_store_arrow");
         leftButton = new Button();
-        leftButton->OnInit(buttonImg, orig->position.x + 451, orig->position.y + 12);
+        leftButton->OnInit(buttonImg, Point(orig->position.x + 451, orig->position.y + 12));
     }
     if (!rightButton)
     {
         std::string buttonImg("storeUI/button_store_arrow");
         rightButton = new Button();
-        rightButton->OnInit(buttonImg, orig->position.x + 547, orig->position.y + 12);
+        rightButton->OnInit(buttonImg, Point(orig->position.x + 547, orig->position.y + 12));
         rightButton->bMirror = true;
     }
 

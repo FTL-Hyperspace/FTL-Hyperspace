@@ -1,0 +1,6 @@
+"83fe01534889fb740f":
+cleanup void MindSystem::SetArmed(MindSystem *this<rdi>, int armed<rsi>);
+"415741564155415455534889fb4883ec48488bb780020000":
+cleanup void MindSystem::InitiateMindControl(MindSystem *this<rdi>);
+"415455534889fb4883ec20e8????????488b8380020000":
+cleanup void MindSystem::OnLoop(MindSystem *this<rdi>);

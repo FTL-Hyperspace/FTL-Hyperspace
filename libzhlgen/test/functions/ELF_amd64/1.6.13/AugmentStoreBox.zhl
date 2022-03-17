@@ -1,0 +1,16 @@
+"41544989f4be????????554889d5534889fb":
+cleanup void AugmentStoreBox::constructor(AugmentStoreBox *this<rdi>, ShipManager *ship<rsi>, const AugmentBlueprint* bp<rdx>);
+
+
+struct AugmentStoreBox
+{{
+	AugmentStoreBox(ShipManager *_ship, const AugmentBlueprint* _bp)
+	{
+		this->constructor(_ship, _bp);
+	}
+	
+	AugmentStoreBox()
+	{
+		StoreBox::constructor("storeUI/store_weapons", nullptr, nullptr);
+	}
+}};

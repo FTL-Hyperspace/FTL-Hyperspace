@@ -1,0 +1,6 @@
+"534889fbe8????????8b435c8b5358":
+cleanup void AugmentEquipBox::RenderIcon(AugmentEquipBox *this<rdi>);
+"41544989fc55534883ec40488bb7a8000000":
+cleanup void AugmentEquipBox::CheckContents(AugmentEquipBox *this<rdi>);
+"534889fb4883ec204883bfa800000000743d":
+cleanup void AugmentEquipBox::RemoveItem(AugmentEquipBox *this<rdi>);

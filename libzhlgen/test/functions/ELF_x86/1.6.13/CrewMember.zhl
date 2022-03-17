@@ -30,8 +30,6 @@ virtual cleanup bool CrewMember::CanMan(CrewMember *this);
 virtual cleanup bool CrewMember::CanRepair(CrewMember *this);
 "5331c083ec188b5c24208b530485d2":
 cleanup bool CrewMember::GetControllable(CrewMember *this);
-"560f57c95383ec348b5c2440f30f10542444f30f105b28":
-cleanup bool CrewMember::ShipDamage(CrewMember *this, float damage);
 "5383ec188b5c2420f30f1043280f2e432c":
 virtual cleanup bool CrewMember::CanHeal(CrewMember *this);
 "8b4424048b908803000083420c018b108b82cc000000":
@@ -44,7 +42,7 @@ cleanup float CrewMember::PositionShift(CrewMember *this);
 cleanup void CrewMember::SaveState(CrewMember *this, int fileHelper);
 "5383ec188b5c24208b839c000000":
 cleanup bool CrewMember::CanTeleport(CrewMember *this);
-"5383ec188b5c2420891c24e8????????895c242083c4185be9????????9066905631c0":
+"5557565383ec2c8b7c24408b879c000000":
 cleanup void CrewMember::destructor(CrewMember *this);
 ".5383ec188b5c2420891c24":
 cleanup void CrewMember::Cleanup(CrewMember *this);
@@ -73,7 +71,7 @@ cleanup int CrewMember::GetSkillLevel(CrewMember *this, int skillId);
 "8b5424088b4c240c8b4424048b9224020000":
 cleanup std::pair<int, int> CrewMember::GetSkillProgress(CrewMember *this, int skillId);
 "538b44240cba010000008b4c240883f805":
-cleanup void CrewMember::GetSkillModifier(CrewMember *this, int skillId);
+cleanup float CrewMember::GetSkillModifier(CrewMember *this, int skillId);
 "5383ec188b5c24208b03891c24ff90a8000000":
 cleanup bool CrewMember::BadAtCombat(CrewMember *this);
 "5383ec288b5c24308b8388000000":
@@ -93,7 +91,7 @@ cleanup bool CrewMember::Sabotaging(CrewMember *this);
 "8b54240431c08b4a6885c9":
 cleanup bool CrewMember::RepairingFire(CrewMember *this);
 "5589e557565383ec2c8b750c8b5d088b4668":
-cleanup void* CrewMember::SelectSabotageTarget(CrewMember *this);
+cleanup Pointf CrewMember::SelectSabotageTarget(CrewMember *this);
 "8b4424048b90880000008990f0040000":
 cleanup void CrewMember::SavePosition(CrewMember *this);
 "8b442404c780f4040000ffffffffc780f0040000ffffffff":
@@ -111,11 +109,9 @@ cleanup void CrewMember::SetFrozen(CrewMember *this, bool frozen);
 "8b4424088b542404888279010000":
 cleanup void CrewMember::SetFrozenLocation(CrewMember *this, bool frozenLocation);
 "8b4424048b54240889907c010000":
-cleanup void CrewMember::SetCrewTask(CrewMember *this, CrewTask task);
-"8b4424048b54240889907c010000":
 cleanup void CrewMember::SetTask(CrewMember *this, CrewTask task);
 "5589e557565383ec3c8b45188b7d0c8b5d088b7510":
-cleanup Slot* CrewMember::FindSlot(CrewMember *this, int unk1, int roomId, bool unk2);
+cleanup Slot CrewMember::FindSlot(CrewMember *this, int unk1, int roomId, bool unk2);
 "5589e557565383ec6c8b750c8b5d088d45b8":
 cleanup bool CrewMember::CheckRoomPath(CrewMember *this, int roomId);
 ".8b44240480b8ad03000000":
@@ -133,9 +129,9 @@ cleanup bool CrewMember::IsBusy(CrewMember *this);
 "8b442404c740201e000000c7406400000000c680ac01000000":
 cleanup bool CrewMember::OnInit(CrewMember *this);
 "83ec1c8b542424f30f1005????????":
-cleanup void* CrewMember::GetFinalGoal(CrewMember *this);
+cleanup Point CrewMember::GetFinalGoal(CrewMember *this);
 "57565383ec108b7424248b5c2420f30f10461c":
-cleanup void* CrewMember::GetNextGoal(CrewMember *this);
+cleanup Point CrewMember::GetNextGoal(CrewMember *this);
 "8b5424088b442404895064":
 cleanup void CrewMember::CloseDoorBehind(CrewMember *this, Door *door);
 "5557565383ec4c8b5c24608d7424308d7c242e":
@@ -151,7 +147,7 @@ cleanup void CrewMember::InitializeSkills(CrewMember *this);
 "565383ec248b5c24308b44243480bbac01000000":
 cleanup void CrewMember::SetCloneReady(CrewMember *this, bool cloneReady);
 "565383ec248b5c24308b7424348b4368":
-cleanup void CrewMember::Kill(CrewMember *this);
+cleanup void CrewMember::Kill(CrewMember *this, bool noClone);
 "8b54240431c080ba7801000000":
 cleanup bool CrewMember::NeedFrozenLocation(CrewMember *this);
 "565383ec148b5c24208bb39c000000":
@@ -173,11 +169,11 @@ cleanup void CrewMember::UpdateHealth(CrewMember *this);
 "5383ec288b5c24308b4b0485c9":
 cleanup void CrewMember::OnRenderPath(CrewMember *this);
 "5557565383ec3c8b742454f30f1005????????":
-cleanup bool CrewMember::SetPath(CrewMember *this);
+cleanup bool CrewMember::SetPath(CrewMember *this, Path *path);
 "5589e557565383ec5c8b5d088b750c8b7d108b838c010000":
-cleanup void CrewMember::SetRoomPath(CrewMember *this, int roomId, int slotId);
+cleanup void CrewMember::SetRoomPath(CrewMember *this, int slotId, int roomId);
 "57565383ec108b7424248b5c2420f30f10460c":
-cleanup void* CrewMember::GetLocation(CrewMember *this);
+cleanup Point CrewMember::GetLocation(CrewMember *this);
 "8b442404f30f1015????????f30f100d????????f30f105818":
 cleanup bool CrewMember::AtGoal(CrewMember *this);
 ".8b442404f30f1015????????f30f2a8890000000f30f104008":
@@ -193,13 +189,13 @@ cleanup bool CrewMember::WithinRect(CrewMember *this, int x, int y, int w, int h
 "5589e55383ec148b450c8b5d0880b81002000000":
 cleanup std::string CrewMember::GetLongName(CrewMember *this);
 "5589e557565383ec3c8b5d088b750c8b7d108d830c020000":
-cleanup void CrewMember::SetName(CrewMember *this, TextString name, bool force);
+cleanup void CrewMember::SetName(CrewMember *this, TextString *name, bool force);
 "5589e55383ec148b450c8b5d0880b80802000000":
 cleanup std::string CrewMember::GetName(CrewMember *this);
 "57565383ec108b5c24208b7424248b7c24288b03":
 cleanup void CrewMember::SetCurrentTarget(CrewMember *this, CrewTarget *target, bool unk);
 "5589e557565383ec5c8b7d088b4764":
-cleanup char CrewMember::GetNewGoal(CrewMember *this);
+cleanup bool CrewMember::GetNewGoal(CrewMember *this);
 "5589e557565383ec7c8b5d088b7514f30f108300050000":
 cleanup bool CrewMember::MoveToRoom(CrewMember *this, int roomId, int slotId, bool forceMove);
 "5589e5565383ec308b5d088b750c":

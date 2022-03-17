@@ -22,10 +22,10 @@ void CustomCommandGui::OnScrollWheel(float direction)
 void CustomCommandGui::OnInit()
 {
     crewDownButton = new Button();
-    crewDownButton->OnInit("statusUI/button_crew_down", 39, 140);
+    crewDownButton->OnInit("statusUI/button_crew_down", Point(39, 140));
 
     crewUpButton = new Button();
-    crewUpButton->OnInit("statusUI/button_crew_up", 55, 140);
+    crewUpButton->OnInit("statusUI/button_crew_up", Point(55, 140));
 }
 
 void CustomCommandGui::MouseMove(int mX, int mY)

@@ -1,0 +1,25 @@
+"53807f14004889fb":
+cleanup void AnimationTracker::Update(AnimationTracker *this<rdi>);
+"4088770c":
+cleanup void AnimationTracker::SetLoop(AnimationTracker *this<rdi>, bool loop<rsi>, float loopDelay<xmm0>);
+"4084f6c6471400":
+cleanup void AnimationTracker::Stop(AnimationTracker *this<rdi>, bool resetTime<rsi>);
+"c6471600c6471401f30f114710":
+cleanup void AnimationTracker::Start(AnimationTracker *this<rdi>, float time<xmm0>);
+"0f57c9c6471600":
+cleanup void AnimationTracker::StartReverse(AnimationTracker *this<rdi>, float time<xmm0>);
+"807f14000f57c9":
+cleanup float AnimationTracker::Progress(AnimationTracker *this<rdi>, float speed<xmm0>);
+"f30f594708":
+cleanup void AnimationTracker::SetProgress(AnimationTracker *this<rdi>, float time<xmm0>);
+"f30f100d????????f30f1015????????f30f594f08":
+cleanup float AnimationTracker::GetAlphaLevel(AnimationTracker *this<rdi>, bool reverse<rsi>);
+
+
+struct AnimationTracker 
+{{
+	AnimationTracker()
+	{
+	
+	}
+}};

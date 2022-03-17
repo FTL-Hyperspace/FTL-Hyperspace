@@ -3,7 +3,7 @@ cleanup void CommandGui::RunCommand(CommandGui *this, std::string& command);
 "5557565383ec2cc70424a40400008b5c2440":
 cleanup Store* CommandGui::CreateNewStore(CommandGui *this, int sectorNumber);
 "5589e557565383ec3c8b5d188d55d8":
-cleanup void* CommandGui::GetWorldCoordinates(CommandGui *this, Point point, bool fromTarget);
+cleanup Point CommandGui::GetWorldCoordinates(CommandGui *this, Point point, bool fromTarget);
 "5589e557565383ec4c8b5d088b4510":
 cleanup void CommandGui::KeyDown(CommandGui *this, SDLKey key, bool shiftHeld);
 "5589e557565383ec7c8b5d08803d????????00":
@@ -27,4 +27,6 @@ cleanup void CommandGui::CheckGameover(CommandGui *this);
 "5383ec18803d????????008b5c242075??????????????85c0":
 cleanup bool CommandGui::IsGameOver(CommandGui *this);
 "5557565381ec7c0100008bbc24980100008b8424a0010000":
-cleanup void CommandGui::NewLocation(CommandGui *this, const std::string& mainText, std::vector<ChoiceText> choices, ResourceEvent& resources, bool testingEvents);
+cleanup void CommandGui::NewLocation(CommandGui *this, const std::string& mainText, std::vector<ChoiceText> *choices, ResourceEvent& resources, bool testingEvents);
+"565383ec248b7424348d4424108904248b5c2430":
+cleanup void CommandGui::RenderPlayerShip(CommandGui *this, Point &shipCenter, float jumpScale);

@@ -1,0 +1,11 @@
+"41574156415541544189d45589f5be":
+cleanup void IonDroneAnimation::constructor(IonDroneAnimation *this<rdi>, int iShipId<rsi>, Pointf position<xmm0>, bool enemy<rdx>);
+
+
+struct IonDroneAnimation
+{{
+	IonDroneAnimation(int _shipId, Pointf _position, bool _hostile)
+	{
+		this->constructor(_shipId, _position, _hostile);
+	}
+}};

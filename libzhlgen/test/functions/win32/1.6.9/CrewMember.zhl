@@ -54,7 +54,7 @@ int CrewMember::GetSkillLevel(CrewMember *this<ecx>, int skillId);
 ".558b811403000089e58b55085d8d14d08b02":
 std::pair<int, int> CrewMember::GetSkillProgress(CrewMember *this<ecx>, int skillId);
 ".55b8????????89e55383e4f083ec10":
-void CrewMember::GetSkillModifier(CrewMember *this<ecx>, int skillId);
+float CrewMember::GetSkillModifier(CrewMember *this<ecx>, int skillId);
 ".5589e55389cb83e4f083ec108b01":
 bool CrewMember::BadAtCombat(CrewMember *this<ecx>);
 ".8b818800000085c00f88????????578d7c240883e4f0":
@@ -74,7 +74,7 @@ bool CrewMember::Sabotaging(CrewMember *this<ecx>);
 ".8b516831c085d274??8b9100020000":
 bool CrewMember::RepairingFire(CrewMember *this<ecx>);
 ".578d7c240883e4f0ff77fc5589e5":
-void* CrewMember::SelectSabotageTarget(CrewMember *this<ecx>);
+Pointf CrewMember::SelectSabotageTarget(CrewMember *this<ecx>);
 ".8b81880000008981f80600008b818c0000008981fc0600008b8190000000898100070000":
 void CrewMember::SavePosition(CrewMember *this<ecx>);
 ".c781fc060000ffffffffc781f8060000ffffffff":
@@ -92,9 +92,9 @@ void CrewMember::SetFrozen(CrewMember *this<ecx>, bool frozen);
 ".8b4424048881a1010000":
 void CrewMember::SetFrozenLocation(CrewMember *this<ecx>, bool frozenLocation);
 ".8b4424048981a40100008b4424088981a8010000":
-void CrewMember::SetCrewTask(CrewMember *this<ecx>, CrewTask task);
+void CrewMember::SetTask(CrewMember *this<ecx>, CrewTask task);
 ".578d7c240883e4f0ff77fc5589f889e557":
-Slot* CrewMember::FindSlot(CrewMember *this<ecx>, int unk1, int roomId, bool unk2);
+Slot CrewMember::FindSlot<ecx>(CrewMember *this, int unk1, int roomId, bool unk2);
 ".578d7c240883e4f0ff77fc5589e55756":
 bool CrewMember::CheckRoomPath(CrewMember *this<ecx>, int roomId);
 ".57660fefc9660fefc08d7c240883e4f0ff77fc5589e5":
@@ -110,9 +110,9 @@ bool CrewMember::IsBusy(CrewMember *this<ecx>);
 ".c741201e000000c7416400000000b8????????":
 bool CrewMember::OnInit(CrewMember *this<ecx>);
 ".f30f1005????????0f2e41547a??74??8b414c8b5150":
-void* CrewMember::GetFinalGoal(CrewMember *this<ecx>);
+Point CrewMember::GetFinalGoal(CrewMember *this<ecx>);
 ".578d7c240883e4f0ff77fc5589e55753":
-void* CrewMember::GetNextGoal(CrewMember *this<ecx>);
+Point CrewMember::GetNextGoal(CrewMember *this<ecx>);
 ".8b442404894164":
 void CrewMember::CloseDoorBehind(CrewMember *this<ecx>, Door *door);
 ".578d7c240883e4f0ff77fc5589e55756":
@@ -128,7 +128,7 @@ void CrewMember::InitializeSkills(CrewMember *this<ecx>);
 ".578d7c240883e4f0ff77fc5589e557":
 void CrewMember::SetCloneReady(CrewMember *this<ecx>, bool cloneReady);
 ".578d7c240883e4f0ff77fc5589e557":
-void CrewMember::Kill(CrewMember *this<ecx>);
+void CrewMember::Kill(CrewMember *this<ecx>, bool noClone);
 ".0fb681a00100005589e584c074??660fefc9":
 bool CrewMember::NeedFrozenLocation(CrewMember *this<ecx>);
 ".8b4424048b919c000000898160010000":
@@ -148,11 +148,11 @@ void CrewMember::UpdateHealth(CrewMember *this<ecx>);
 ".8b410485c00f85????????660fefc9f30f104108f30f1015????????":
 void CrewMember::OnRenderPath(CrewMember *this<ecx>);
 ".578d7c240883e4f0ff77fc5589e557565389cb":
-bool CrewMember::SetPath(CrewMember *this<ecx>);
+bool CrewMember::SetPath(CrewMember *this<ecx>, Path *path);
 ".578d7c240883e4f0ff77fc5589e55756":
-void CrewMember::SetRoomPath(CrewMember *this<ecx>, int roomId, int slotId);
+void CrewMember::SetRoomPath(CrewMember *this<ecx>, int slotId, int roomId);
 ".578d7c240883e4f0ff77fc5589e5575389cb83ec30":
-void* CrewMember::GetLocation(CrewMember *this<ecx>);
+Point CrewMember::GetLocation(CrewMember *this<ecx>);
 ".f30f104918f30f101d????????f30f10410855f30f5cc1f30f1015????????":
 bool CrewMember::AtGoal(CrewMember *this<ecx>);
 ".660fefc9f30f1015????????f30f10410831c055f30f2a899000000089e5":
@@ -168,7 +168,7 @@ bool CrewMember::WithinRect(CrewMember *this<ecx>, int x, int y, int w, int h);
 ".578d7c240883e4f0ff77fc5589e557":
 std::string CrewMember::GetLongName<ecx>(CrewMember *this);
 ".578d7c240883e4f0ff77fc5589e55756":
-void CrewMember::SetName(CrewMember *this<ecx>, TextString name, bool force);
+void CrewMember::SetName(CrewMember *this<ecx>, TextString *name, bool force);
 ".578d7c240883e4f0ff77fc5589e5575389cb83ec10":
 std::string CrewMember::GetName<ecx>(CrewMember *this);
 ".5589e55756538b0189cb8b75088b7d0c83e4f08b40643d????????75??":
@@ -176,7 +176,7 @@ void CrewMember::SetCurrentTarget(CrewMember *this<ecx>, CrewTarget *target, boo
 ".578d7c240883e4f0ff77fc5589e557565383ec1c":
 void CrewMember::CheckForTeleport(CrewMember *this<ecx>);
 ".578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b496485c974??e8????????f30f1005????????":
-char CrewMember::GetNewGoal(CrewMember *this<ecx>);
+bool CrewMember::GetNewGoal(CrewMember *this<ecx>);
 ".578d7c240883e4f0ff77fc5589e55756":
 bool CrewMember::MoveToRoom(CrewMember *this<ecx>, int roomId, int slotId, bool forceMove);
 ".578d7c240883e4f0ff77fc5589e55753":
@@ -207,14 +207,10 @@ void CrewMember::CycleColorLayer(CrewMember *this<ecx>, int unk);
 bool CrewMember::Functional(CrewMember *this<ecx>);
 ".8b4424043941780f94c0":
 bool CrewMember::InsideRoom(CrewMember *this<ecx>, int roomId);
-".578d7c240883e4f0ff77fc5589e55783ec14f30f1007f30f110424e8????????8b7dfc83ec04":
-bool CrewMember::ShipDamage(CrewMember *this<ecx>, float damage);
 "8b410485c074??31c0c38db6000000008b015589e55389cb8b808800000083e4f0":
 bool CrewMember::GetControllable(CrewMember *this<ecx>);
 ".8d510889c8c7410872657061c7410406000000c6410e008911ba????????6689510c":
 std::string CrewMember::GetUniqueRepairing<ecx>(CrewMember *this);
-"8b4424048981a40100008b4424088981a80100008b44240c8981ac010000":
-void CrewMember::SetTask(CrewMember *this<ecx>, CrewTask task);
 "578d7c240883e4f0ff77fc5589e557565381ec????????8b1f898d18ffffffc70424????????e8????????83ec0480bbe4020000008d45d0":
 std::string CrewMember::GetTooltip<ecx>(CrewMember *this);
 "8b015589e55389cb8b808800000083e4f03d????????75??0fb681fc01000084c075??8b939c000000":

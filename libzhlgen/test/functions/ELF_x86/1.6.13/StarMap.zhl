@@ -128,8 +128,8 @@ cleanup Location* StarMap::LoadGame(StarMap *this, int fileHelper);
 cleanup void StarMap::RenderLeftInsetButton(StarMap *this, float unk0, float unk1, bool unk2);
 "5589e557565381eccc0000008b5d088d45b7":
 cleanup void StarMap::RenderDistressButtons(StarMap *this);
-"8b4424048078040074??e9????????":
-cleanup void StarMap::OnRender(StarMap *this);
+"5589e55789c7565381ec7c01000080b88406000000":
+cleanup void StarMap::OnRender(StarMap *this<eax>);
 "5589e557565381ec9c0000008b450c8b5d148b50048b00":
 cleanup void StarMap::DrawConnection(StarMap *this, const Pointf& pos1, const Pointf& pos2, const GL_Color* color);
 "5589e557565383ec5c8b5d0c8b4320":
@@ -140,8 +140,8 @@ cleanup std::string StarMap::GetLocationText(StarMap *this, const Location* loc)
 cleanup void StarMap::SetupNoFuel(StarMap *this, int seed, const std::string& forceEscape);
 "5589e557565381ecbc0000008b450c8b5004":
 cleanup void StarMap::GenerateNebulas(StarMap *this, const std::vector<std::string>& names);
-"8b44240480b8cc07000000":
-cleanup void StarMap::UpdateBoss(StarMap *this);
+"5557565389c383ec2c8b80b40700008b93c0070000":
+cleanup void StarMap::UpdateBoss(StarMap *this<eax>);
 
 
 struct StarMap

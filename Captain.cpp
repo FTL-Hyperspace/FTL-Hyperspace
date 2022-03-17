@@ -34,7 +34,7 @@ HOOK_METHOD(CrewMember, OnRender, (bool unk) -> void)
         Pointf point = graph->ConvertToWorldPosition(Pointf(this->x, this->y));
         Pointf* pointptr = &point;
 
-        CSurface::GL_SetColor(1.f, 1.f, 0.f, 1.f);
+        CSurface::GL_SetColor(GL_Color(1.f, 1.f, 0.f, 1.f));
 
         std::string str("C");
         freetype::easy_printCenter(0, this->x, this->y - 30.f, str);

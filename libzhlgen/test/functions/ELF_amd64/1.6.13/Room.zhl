@@ -1,0 +1,50 @@
+"41574156415541544989fc55534883ec5848c707":
+cleanup void Room::destructor(Room *this<rdi>);
+".41574989ff41564589ce4155415455534489c3410fafde4881ec78010000":
+cleanup void Room::constructor(Room *this<rdi>, int iShipId<rsi>, int x<rdx>, int y<rcx>, int w<r8>, int h<r9>, int roomId);
+".400fb6f6488b4750488d14b6488d14d0488b4210482b028b4a188b520848c1f80348c1e0064801c84829d0":
+cleanup int Room::GetEmptySlots(Room *this<rdi>, bool intruder<rsi>);
+".4883ec28f30f100d????????f30f5c8fb8000000488bbfc0000000":
+cleanup void Room::OnRenderFloor(Room *this<rdi>, float alpha<xmm0>, bool experimental<rsi>);
+".534889fb4883ec10807f6800":
+cleanup void Room::OnRenderWalls(Room *this<rdi>, float alpha<xmm0>);
+
+
+struct Room depends (Globals, Point) {{
+	Point GetIntoRoom(Point pos)
+	{
+		int posX = pos.x;
+		int posY = pos.y;
+		
+		int rectY = this->rect.y;
+		int rectH = this->rect.h;
+		
+		int rectX = this->rect.x;
+		int rectW = this->rect.w;
+		
+		//printf("%d %d %d %d %d %d\n", posX, posY, rectX, rectW, rectY, rectH);
+		
+		if (rectY + rectH - posY > 15 && posY - rectY > 15)
+		{
+			if (rectW + rectX - posX > 15 && posX - rectX > 15)
+			{
+				return Point(-1, -1);
+			}
+		}
+		
+		
+		
+		
+		Point center = Point(rectX + rectW / 2, rectY + rectH / 2);
+		
+		Point toGrid = Point((posX + 2 * (center.x > posX) - 1) / 35, (posY + 2 * (center.y > posY) - 1) / 35);
+		Point fromGrid = Point(toGrid.x * 35, toGrid.y * 35);
+		
+		return Point(fromGrid.x + 17, fromGrid.y + 17);
+	}
+
+	Globals::Rect GetRect() 
+	{
+		return this->rect;
+	}
+}};

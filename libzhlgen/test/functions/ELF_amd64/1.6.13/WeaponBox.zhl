@@ -1,0 +1,9 @@
+"41570fb6d2400fb6f641564155415455534889fb4881ec68030000":
+cleanup void WeaponBox::RenderBox(WeaponBox *this<rdi>, bool dragging<rsi>, bool flashPowerBox<rdx>);
+"554889f5534889fb4889f74883ec38488b06":
+cleanup std::string WeaponBox::GenerateTooltip(WeaponBox *this<rdi>);
+
+
+struct WeaponBox
+{{
+}};

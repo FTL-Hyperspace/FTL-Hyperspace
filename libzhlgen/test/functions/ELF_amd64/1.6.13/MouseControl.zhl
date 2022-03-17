@@ -1,0 +1,19 @@
+"5380bf0c010000004889fb":
+cleanup void MouseControl::OnLoop(MouseControl *this<rdi>);
+"!.c6872001000001c3":
+cleanup void MouseControl::InstantTooltip(MouseControl *this<rdi>);
+".41550f57c941544189f40f28c155534889fb4883ec48":
+cleanup Point MouseControl::MeasureTooltip(MouseControl *this<rdi>, int unk<rsi>);
+"!.4889b740010000c3":
+cleanup void MouseControl::QueueStaticTooltip(MouseControl *this<rdi>, Point pos<rsi>);
+".41574989ff41564155415455534881ecc801000080bf0d01000000":
+cleanup void MouseControl::OnRender(MouseControl *this<rdi>);
+".41544989f4554889fd53488b06488b58e84885db":
+cleanup void MouseControl::SetTooltip(MouseControl *this<rdi>, const std::string& tooltip<rsi>);
+".488b8728010000488378e800":
+cleanup void MouseControl::SetTooltipTitle(MouseControl *this<rdi>, const std::string& tooltip<rsi>);
+".554889fd5389f34883ec0883fe01":
+cleanup void MouseControl::SetDoor(MouseControl *this<rdi>, int state<rsi>);
+
+"!0f85570400008b85a401000083f8ff740abf(???????\?)":
+MouseControl* Global_MouseControl_Mouse;

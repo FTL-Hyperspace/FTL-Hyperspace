@@ -8,3 +8,5 @@ cleanup void ShipStatus::RenderEvadeOxygen(ShipStatus *this, bool unk);
 cleanup void ShipStatus::OnRender(ShipStatus *this);
 "5589e55789c7565383ec5c":
 cleanup void ShipStatus::RenderShields(ShipStatus *this<eax>, bool renderText<edx>);
+"5557565331db83ec3c8b7424508b96100100008b861401000029d0c1f802":
+cleanup void ShipStatus::OnLoop(ShipStatus *this);

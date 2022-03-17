@@ -1,0 +1,2 @@
+"538b57684889fb488b4738":
+cleanup void TabbedWindow::Close(TabbedWindow *this<rdi>);

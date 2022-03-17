@@ -1,0 +1,12 @@
+"8b57084889f08b4f0c48c1f82039d6":
+virtual cleanup void GenericButton::SetLocation(GenericButton *this<rdi>, Point pos<rsi>);
+".4084f640887748":
+virtual cleanup void GenericButton::SetActive(GenericButton *this<rdi>, bool active<rsi>);
+".8b4710440fb6474939c6":
+virtual cleanup void GenericButton::MouseMove(GenericButton *this<rdi>, int x<rsi>, int y<rdx>, bool silent<rcx>);
+"!.f3c3662e0f1f8400000000000f1f4000f3c3662e0f1f8400000000000f1f4000f3c3662e0f1f8400000000000f1f400053":
+virtual cleanup void GenericButton::OnClick(GenericButton *this<rdi>);
+"!.f3c3662e0f1f8400000000000f1f4000f3c3662e0f1f8400000000000f1f400053":
+virtual cleanup void GenericButton::OnRightClick(GenericButton *this<rdi>);
+"!.f3c3662e0f1f8400000000000f1f400053":
+virtual cleanup void GenericButton::ResetPrimitives(GenericButton *this<rdi>);

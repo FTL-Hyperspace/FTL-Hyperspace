@@ -136,10 +136,10 @@ HOOK_METHOD(Shields, OnLoop, () -> void)
 }
 
 /*
-HOOK_METHOD(Shields, CollisionReal, (Pointf pos, DamageParameter damage, bool force) -> CollisionResponse)
+HOOK_METHOD(Shields, CollisionReal, (float x, float y, DamageParameter damage, bool force) -> CollisionResponse)
 {
     LOG_HOOK("HOOK_METHOD -> Shields::CollisionReal -> Begin (CustomSuperShield.cpp)\n")
-    CollisionResponse ret = super(pos, damage, force);
+    CollisionResponse ret = super(x, y, damage, force);
 
     if (CustomAugmentManager::GetInstance()->superShieldCustomRender[this->_shipObj.iShipId] && !this->damMessages.empty())
     {
