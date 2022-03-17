@@ -365,6 +365,12 @@
 		<Unit filename="CustomAugments.h">
 			<Option virtualFolder="Core/Augments/" />
 		</Unit>
+		<Unit filename="CustomBackgroundObject.cpp">
+			<Option virtualFolder="Core/Events/" />
+		</Unit>
+		<Unit filename="CustomBackgroundObject.h">
+			<Option virtualFolder="Core/Events/" />
+		</Unit>
 		<Unit filename="CustomBoss.cpp">
 			<Option virtualFolder="Core/Boss/" />
 		</Unit>
@@ -541,6 +547,12 @@
 		</Unit>
 		<Unit filename="ErosionEffect.cpp">
 			<Option virtualFolder="Core/Weapons/" />
+		</Unit>
+		<Unit filename="EventButtons.cpp">
+			<Option virtualFolder="Core/Events/" />
+		</Unit>
+		<Unit filename="EventButtons.h">
+			<Option virtualFolder="Core/Events/" />
 		</Unit>
 		<Unit filename="EventTooltip.cpp">
 			<Option virtualFolder="Core/Events/" />

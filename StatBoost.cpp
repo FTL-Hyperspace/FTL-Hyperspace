@@ -60,6 +60,14 @@ StatBoostDefinition* StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<cha
             {
                 def->value = EventsParser::ParseBoolean(val);
             }
+            if (name == "race" && def->stat == CrewStat::TRANSFORM_RACE)
+            {
+                def->stringValue = val;
+            }
+            if (name == "permanent" && def->stat == CrewStat::TRANSFORM_RACE)
+            {
+                def->value = EventsParser::ParseBoolean(val);
+            }
             if (name == "duration")
             {
                 def->duration = boost::lexical_cast<float>(val);
@@ -339,6 +347,10 @@ StatBoostDefinition* StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<cha
                 def->powerChange = powerDef.index;
             }
         }
+    }
+    else
+    {
+        throw std::invalid_argument(std::string("Unrecognized stat boost stat name: ") + node->first_attribute("name")->value());
     }
     return def;
 }
@@ -653,6 +665,35 @@ HOOK_METHOD(WorldManager, OnLoop, () -> void)
 //    auto t2 = steady_clock::now();
 //    duration<double, std::nano> ms_double = t2 - t1;
 //    std::cout << "World manager time: " << ms_double.count();
+}
+
+HOOK_METHOD(ShipBuilder, OnLoop, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipBuilder::OnLoop -> Begin (StatBoost.cpp)\n")
+    StatBoostManager::GetInstance()->statBoosts.clear();
+    StatBoostManager::GetInstance()->animBoosts.clear();
+    StatBoostManager::GetInstance()->statCacheFrame++;
+    super();
+//    using std::chrono::steady_clock;
+//    using std::chrono::duration_cast;
+//    using std::chrono::duration;
+//    using std::chrono::milliseconds;
+//    auto t1 = steady_clock::now();
+
+
+
+//    auto t2 = steady_clock::now();
+//    duration<double, std::nano> ms_double = t2 - t1;
+//    std::cout << "World manager time: " << ms_double.count();
+}
+
+HOOK_METHOD(WorldManager, Restart, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> WorldManager::Restart -> Begin (StatBoost.cpp)\n")
+    StatBoostManager::GetInstance()->statBoosts.clear();
+    StatBoostManager::GetInstance()->animBoosts.clear();
+    StatBoostManager::GetInstance()->statCacheFrame++;
+    super();
 }
 
 HOOK_METHOD(ShipManager, JumpArrive, () -> void)
@@ -1111,6 +1152,10 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
             powerChange = def->powerDefIdx;
             isEffect = true;
             break;
+        case CrewStat::TRANSFORM_RACE:
+            transformRace = originalRace;
+            isEffect = true;
+            break;
     }
 
     std::sort(personalStatBoosts.begin(), personalStatBoosts.end(),
@@ -1327,6 +1372,32 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
                         else if (statBoost.def->boostType == StatBoostDefinition::BoostType::SET_VALUE)
                         {
 
+                        }
+                    }
+                    else if (stat == CrewStat::TRANSFORM_RACE)
+                    {
+                        if (sysPowerScaling)
+                        {
+                            if (statBoost.def->boostType == StatBoostDefinition::BoostType::MULT)
+                            {
+
+                            }
+                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::FLAT)
+                            {
+
+                            }
+                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::SET)
+                            {
+                                transformRace = statBoost.def->stringValue;
+                                if (statBoost.def->value)
+                                {
+                                    originalRace = transformRace;
+                                }
+                            }
+                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::SET_VALUE)
+                            {
+
+                            }
                         }
                     }
                 }

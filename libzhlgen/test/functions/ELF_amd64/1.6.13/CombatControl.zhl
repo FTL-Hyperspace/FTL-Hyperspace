@@ -44,3 +44,7 @@ cleanup void CombatControl::RenderShipStatus(CombatControl *this<rdi>, Pointf po
 cleanup std::string CombatControl::GetCrewTooltip<rdi>(CombatControl *this<rsi>, int x<rdx>, int y<rcx>);
 "554889fd534883ec0848c787c007000000000000":
 cleanup void CombatControl::Clear(CombatControl *this<rdi>);
+"f30f2ac641554189f541544189d455534889fb4883ec08":
+cleanup bool CombatControl::MouseMove(CombatControl *this<rdi>, int mX<rsi>, int mY<rdx>);
+"415431c94189d45589f553c687e80e0000014889fb":
+cleanup void CombatControl::MouseClick(CombatControl *this<rdi>, int mX<rsi>, int mY<rdx>, bool shift<rcx>);

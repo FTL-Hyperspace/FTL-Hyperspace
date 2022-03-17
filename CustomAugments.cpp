@@ -192,13 +192,21 @@ void CustomAugmentManager::ParseCustomAugmentNode(rapidxml::xml_node<char>* node
             }
         }
     }
+    catch (rapidxml::parse_error& e)
+    {
+        ErrorMessage(std::string("Error parsing <augments> in hyperspace.xml\n") + std::string(e.what()));
+    }
+    catch (std::exception &e)
+    {
+        ErrorMessage(std::string("Error parsing <augments> in hyperspace.xml\n") + std::string(e.what()));
+    }
+    catch (const char* e)
+    {
+        ErrorMessage(std::string("Error parsing <augments> in hyperspace.xml\n") + std::string(e));
+    }
     catch (...)
     {
-#ifdef _WIN32
-        MessageBoxA(NULL, "Error parsing <augments> in hyperspace.xml", "Error", MB_ICONERROR);
-#elif defined(__linux__)
-        fprintf(stderr, "Error parsing <augments> in hyperspace.xml\n");
-#endif
+        ErrorMessage("Error parsing <augments> in hyperspace.xml\n");
     }
 }
 

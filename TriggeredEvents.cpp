@@ -851,13 +851,14 @@ void TriggeredEvent::UpdateAll()
         }
     }
 
-    if (deathEvent.thisFight)
+    if (!deathEventQueue.empty())
     {
         ShipManager* enemy = G_->GetShipManager(1);
         if ((enemy == nullptr || !enemy->_targetable.hostile) && !G_->GetWorld()->commandGui->choiceBox.bOpen)
         {
-            deathEvent.event = "";
-            deathEvent.thisFight = false;
+            deathEventQueue.erase(std::remove_if(deathEventQueue.begin(), deathEventQueue.end(),
+                                  [](DeathEvent& obj) { return obj.thisFight; }),
+                                  deathEventQueue.end());
         }
     }
 }

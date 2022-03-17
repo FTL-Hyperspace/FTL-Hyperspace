@@ -30,6 +30,8 @@ cleanup void WorldManager::CreateLocation(WorldManager *this<rdi>, Location *loc
 cleanup void WorldManager::UpdateLocation(WorldManager *this<rdi>, LocationEvent* event<rsi>);
 ".554889f5534889fb4883ec08488b07488b7810488b17":
 cleanup void WorldManager::UpdateLocation0(WorldManager *this<rdi>, LocationEvent* event<rsi>);
+".415741564155415455534889fb488d7f104881ec68020000":
+cleanup void WorldManager::ClearLocation(WorldManager *this<rdi>);
 ".415741564155415455534889fb4881ece8010000":
 cleanup void WorldManager::LoadGame(WorldManager *this<rdi>, const std::string& fileName<rsi>);
 ".415455534889fb4883ec20488bbfb8110000":

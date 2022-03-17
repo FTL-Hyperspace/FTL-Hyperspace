@@ -47,6 +47,25 @@ void hs_log_file(const char *str...)
     va_end(va);
 }
 
+void ErrorMessage(const std::string &msg)
+{
+    #ifdef _WIN32
+        MessageBoxA(NULL, msg.c_str(), "Error", MB_ICONERROR);
+    #elif defined(__linux__)
+        fprintf(stderr, msg.c_str());
+    #endif
+}
+
+void ErrorMessage(const char *msg)
+{
+    #ifdef _WIN32
+        MessageBoxA(NULL, msg, "Error", MB_ICONERROR);
+    #elif defined(__linux__)
+        fprintf(stderr, msg);
+    #endif
+}
+
+
 HOOK_METHOD(CApp, OnInit, () -> int)
 {
     LOG_HOOK("HOOK_METHOD -> CApp::OnInit -> Begin (Global.cpp)\n")
@@ -96,7 +115,7 @@ void Global::Initialize()
     superShieldColor = Global_COLOR_GREEN;
     defaultSuperShieldColor = *superShieldColor;
     *superShieldColor = GL_Color(1084.0, 0.0, 310.0, 1.0);
-    
+
     {
         std::vector<GL_Color*> colorVec = std::vector<GL_Color*>();
         colorVec.push_back(Global_InfoBox_detailsBarOn);

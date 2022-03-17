@@ -93,11 +93,13 @@ private:
 
     static CApp *__cApp;
 
-    const int __version = 91;
+    const int __version = 92;
 
 
 };
 
 void hs_log_file(const char *str...);
+void ErrorMessage(const std::string &msg);
+void ErrorMessage(const char *msg);
 
 #define G_ (Global::GetInstance())

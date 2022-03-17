@@ -16,6 +16,8 @@ cleanup void TextButton::OnInitRect(TextButton *this<rdi>, Globals::Rect& rect<r
 cleanup void TextButton::SetBaseImage(TextButton *this<rdi>, const std::string& name<rsi>, Point pos<rdx>, int autoWidthMin<rcx>);
 "4585c04088b7d0000000":
 cleanup void TextButton::SetAutoWidth(TextButton *this<rdi>, bool autoWidth<rsi>, bool autoRightAlign<rdx>, int margin<rcx>, int min<r8>);
+".4155415455534889fb4883ec1880bfd000000000":
+cleanup void TextButton::UpdateAutoWidth(TextButton *this<rdi>);
 "55534889fb488d7f08488d6b284883ec28":
 cleanup void TextButton::constructor(TextButton *this<rdi>);
 ".!80bf8000000000660fd64c24f0":
@@ -32,4 +34,8 @@ cleanup void TextButton::InitPrimitives(TextButton *this<rdi>);
 
 struct TextButton
 {{
+	TextButton()
+	{
+		this->constructor();
+	}
 }};

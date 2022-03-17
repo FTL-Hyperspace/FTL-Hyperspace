@@ -1,6 +1,6 @@
 <FTL>
 
-<version>91</version>
+<version>92</version>
 
 <!-- Hyperspace defaults
 
@@ -11,6 +11,7 @@ This way mods that frequently use a particular value can just make it the defaul
 <defaults>
 	<beaconType_hideVanillaLabel>true</beaconType_hideVanillaLabel>
 	<checkCargo>false</checkCargo>
+	<choiceRequiresCrew>false</choiceRequiresCrew>
 </defaults>
 
 <!-- Custom save file:
@@ -225,7 +226,6 @@ DELETECREW     Kills everyone on the enemy ship        Usage: DELETECREW
 SPEED          Changes game speed                      Usage: SPEED <speed>           Example: SPEED 3 (any integer from -2 to 3)
 DAMAGESYS      Damages a system                        Usage: DAMAGESYS <system_name> Example: DAMAGESYS medbay
 SHIP_CUSTOM    Unlocks a customs ship (permanently)    Usage: SHIP_CUSTOM <ship_name> Example: SHIP_CUSTOM PLAYER_SHIP_CUSTOM
-JUMPEVENT      Sets a jumpEvent                        Usage: JUMPEVENT <event_id>
 LOADEVENT      Loads an event using LoadEvent          Usage: LOADEVENT <event_id>
 VARIABLE       Set variable and/or print in FTL_HS.log Usage: VARIABLE <var_id> <n>
 METAVARIABLE   As above but for meta-variables         Usage: METAVARIABLE <var_id> <n>
@@ -1014,6 +1014,8 @@ As the name implies, stat boosts can be used to boost (or just generally modify)
 
 boostType: what the boost does to the stat; for numerical amounts, it can be FLAT, MULT, or SET, and for true/false values it can be SET or FLIP
 value/amount: use value for true/false stats and amount for numerical ones
+race: for transformRace, name of race to transform to
+permanent: for transformRace, whether the transformation should be permanent
 shipTarget: the ship/room that the statBoost affects. For augments, you can use PLAYER_SHIP, ENEMY_SHIP, ORIGINAL_SHIP, ORIGINAL_OTHER_SHIP, or ALL, and for crew you can use the same but also OTHER_ALL, CURRENT_ROOM, and CURRENT_ALL
 crewTarget: determines what crew the boost affects. it can be ALLIES, ENEMIES, ALL, CURRENT_ALLIES, CURRENT_ENEMIES, SELF, or NONE. CURRENT_ALLIES and CURRENT_ENEMIES factor in mind control.
   SELF is the same as NONE except it automatically sets affectsSelf to true.
@@ -1042,6 +1044,8 @@ Stat boost syntax examples->
 	<boostType>MULT/FLAT/SET/FLIP</boostType>
 	<amount>1.0</amount>
 	<value>TRUE/FALSE</value>
+	<race>human</race>
+	<permanent>TRUE/FALSE</permanent>
 	<shipTarget>ALL</shipTarget>
 	<systemList>
 		<sysName/>
@@ -1624,6 +1628,9 @@ Syntax ->
 	
 	<revisitEvent seeded="true" ignoreUnique="false">NOTHING</revisitEvent> Automatically loads this event by default when revisiting any beacon. Does not affect dive beacons.
 	
+	<variable name="varname" op="set" val="0" min="0" max="0" var="_var_req_"/>            See <variable> below for details. Applied at the start of the run.
+	<metaVariable name="varname" op="set" val="0" min="0" max="0" var="_var_req_"/>        See <metaVariable> below for details. Applied to a new profile (or existing profile with uninitialized variable).
+	
 	<sector name="SECTOR_ID" maxSector="999">                                              Custom sector specification. maxSector adds a maximum sector number for sector generation.
         <exitBeacon event="EVENT_NAME" rebelEvent="EVENT_NAME" nebulaEvent="EVENT_NAME"/>  Changes the default exit beacon event. nebulaEvent is used for nebula exits; rebelEvent is used if the rebels overtake the exit.
         <rebelBeacon event="EVENT_NAME" nebulaEvent="EVENT_NAME"/>                         Changes the default rebel fleet events. nebulaEvent is used for nebula fleet events.
@@ -1693,12 +1700,78 @@ Syntax ->
 	</loadEventList>                                                                              If generate="true" and this is a root-level event, then the event is selected upon sector generation rather than on visit.
 	                                                                                              You can also create an event directly inside this tag rather than naming an event.
 	
+	<backgroundObject name="OBJECT_NAME">
+		<layer z="0">background/foreground/asteroids/player/playerfront/front</layer>           Either space layer, planet/fleet layer, asteroids background layer, or with the player ship.
+		                                                                                          The "player" and "playerfront" are positioned relative to the player ship's origin.
+		                                                                                          The "playerfront" and "front" render in front of the player ship; others render behind.
+		                                                                                          The "z" attribute is used to order objects within a layer (high z in front).
+		<spawnArea x="0" y="0" w="0" h="0" center="false"/>                                     Defines a rectangle within where the object will randomly be placed. Position is either corner or center of anim.
+		<hitbox x="0" y="0" w="0" h="0" center="false"/>                                        Defines the dimensions of the hitbox for interacting with the object. By default, the hitbox is centered on the object.
+		                                                                                          The x/y attributes are optional and are used to offset from the default centered position.
+		<anim play="true" loop="true" random="false">animName</anim>                            Animation. The "play" attribute determines whether ALL animations play while this one is visible.
+		                                                                                          The "loop" and "random" attributes determine whether this animation loops and starts on a random frame.
+		<hoverAnim ...>animName</hoverAnim>                                                     Animation to show when the player's cursor is hovering over the object. Same attributes as anim.
+		<inactiveAnim hide="false" ...>animName</inactiveAnim>                                  Animation to show when interaction is disabled. Same attributes as anim. Set hide="true" to simply hide the normal anim instead.
+		<tooltip id="_id_">_text_</tooltip>                                                     Tooltip to show when hovering over the object.
+		<inactiveTooltip id="_id_">_text_</inactiveTooltip>                                     Tooltip to show when hovering over the object, when interaction is disabled.
+		<req lvl="1" max_lvl="2147483647">reqName</req>                                         Disables and enables the object dynamically based on player equipment. Separate from <active>.
+		<active>true</active>                                                                   Whether the object should be active when created.
+		<jumpClear>false</jumpClear>                                                            If true, the object is destroyed when the player leaves the current location.
+		<disableCombat>false</disableCombat>                                                    If true, interaction is disabled when the player is in danger.
+		<clickAction>                                                                           Action to perform when the player clicks on this object.
+			<event load="EVENT_NAME"/>                                                          Name of an event to queue. Either load an event or define an event.
+			<activate/>                                                                         If the object was inactive, it becomes active.
+			<deactivate/>                                                                       If the object was active, it becomes inactive.
+			<toggle/>                                                                           Toggles the object's active status.
+			<destroy/>                                                                          Destroys this object.
+			<transform chance="1">OBJECT_NAME</transform>                                       This object transforms into a different definition. Can be repeated. chance controls the probability of selecting this object.
+			                                                                                      When transforming, the position and active/inactive status are preserved; everything else is reinitialized.
+			<noTransform chance="1"/>                                                           Adds a probability for the object to not transform, to accompany <transform>.
+			<spawnObject x="0" y="0" w="0" h="0" load="OBJECT_NAME" ...>...</spawnObject>       Spawns another object within a rectangle relative to this object's position. Can use load attribute or a full object definition.
+			                                                                                      Repeat for as many objects as you want to spawn.
+		</clickAction>
+		<animAction>                                                                            Action to perform when the animation from <anim> ends.
+			...
+		</animAction>
+		<timerAction time="0.0" minTime="0.0" maxTime="0.0" loop="false"                        Action to perform on a timer. Use either fixed time or random minTime/maxTime. If loop="true" the timer will loop.
+			requireActive="true/false" requireHover="true/false" triggerActiveOnly="false">       requireActive and requireHover are optional attributes which freeze the timer if the condition is not met.
+			...                                                                                   triggerActiveOnly does not freeze the timer but requires the object to be active to trigger the action.
+		</timerAction>                                                                            No limit on how many timer actions you can include.
+	</backgroundObject>
+	
+	<eventButton name="BUTTON_NAME">
+		<event load="EVENT_NAME"/>                                                              Name of an event to queue when clicked. Either load an event or define an event.
+		<image border="12">img_path</image>                                                     Path to button asset without extension. For text buttons this is the background.
+		<text id="_id_" border="3">_text_</text>                                                For a text button, text or text id. Omit for an image-only button.
+		<location>0</location>                                                                  Location ID: 0 = below upgrades, 1/2/3/4 = right of FTL/upgrades/store/options button
+		<tooltip id="_id_">_text_</text>                                                        Hover tooltip when active.
+		<inactiveTooltip id="_id_">_text_</text>                                                Hover tooltip when inactive.
+		<color r="235" g="245" b="229"/>                                                        Color for text button when active.
+		<activeColor r="235" g="245" b="229"/>                                                  Color for text button when active.
+		<inactiveColor r="164" g="171" b="160"/>                                                Color for text button when inactive.
+		<selectedColor r="255" g="230" b="94"/>                                                 Color for text button when selected.
+		<textColor r="25" g="49" b="51"/>                                                       Color for text inside text button.
+		<jumpClear>false</jumpClear>                                                            Remove this button when the player leaves the current location.
+		<once>false</once>                                                                      Remove this button after the player clicks on it.
+		<noDanger>false</noDanger>                                                              Deactivate this button when the player is in danger (same as upgrade button).
+		<hideInactive>false</hideInactive>                                                      Hide this button when inactive (similar to store button).
+	</eventButton>
+	
 	<event name="CUSTOM_EVENT" recursive="true">                                                If recursive is true (default), then the same tags apply to all unnamed child events. Otherwise, it only applies to the
 	                                                                                              top-level event.
 		<beaconType load="BEACON_NAME" ...>                                                     Specifies custom beacon label type for this event. If the load attribute is specified, then loads the beacon label specified
 			...                                                                                   by the attribute. Otherwise, include the full specification as previously outlined for beaconType.
 		</beaconType>
 		<changeBackground>BACK_ID</changeBackground>                                            Changes the event background to the specified background.
+		<backgroundObject load="OBJECT_NAME" ...>                                               Same syntax as <backgroundObject> above, except name is optional. Repeatable.
+			...                                                                                   Alternatively, use the load attribute to load a previously named background object.
+		</backgroundObject>
+		<clearBackgroundObject name="OBJECT_NAME"/>                                             Clears all objects of a given definition name. If no name specified, clears everything. Repeatable.
+		<transformBackgroundObject name="OBJECT_NAME">NEW_NAME</transformBackgroundObject>      Transforms all background objects from the definition OBJECT_NAME to the definition NEW_NAME. Repeatable.
+		<eventButton load="BUTTON_NAME" ...>                                                    Same syntax as <backgroundObject> above, except name is optional. Repeatable.
+			...                                                                                   Alternatively, use the load attribute to load a previously named event button.
+		</eventButton>
+		<clearEventButton name="BUTTON_NAME"/>                                                  Clears all event buttons of a given definition name. If no name specified, clears everything. Repeatable.
 		<playSound>sound_id</playSound>                                                         Plays a sound.
 		<playMusic>music_id</playMusic>                                                         Plays a music track. Leave blank to reset and play the current sector's playlist.
 		<removeHazards/>                                                                        Removes all hazards (asteroids, pulsar, ASB, sun, and plasma storm). Nebula status is preserved.
@@ -1714,10 +1787,16 @@ Syntax ->
 		<removeItem>ITEM_ID</removeItem>                                                        Removes the item with the specified name. Unlike vanilla's <remove> tag, this can be repeated, but it also does not display
 		                                                                                          a "removed" message. Hidden augments can be removed by giving the name "HIDDEN AUG_ID", replacing AUG_ID with the normal
 		                                                                                          augment's id.
-		<variable name="varname" op="set" val="0" min="0" max="0"/>                             Sets or changes a custom variable. Operation can be "set", "add", "mul", "div", "min", or "max".
+		<variable name="varname" op="set" val="0" min="0" max="0" var="_var_req_"/>             Sets or changes a custom variable. Operation can be "set", "add", "mul", "div", "min", or "max".
 		                                                                                          Value can either be a fixed value (using val) or a random value (using min and max).
-		<metaVariable name="varname" op="set" val="0" min="0" max="0"/>                         Same as variable but sets a meta-variable. Meta-variables persist on the profile.
+		                                                                                          The "var" attribute lets you apply a variable or equipment req to another variable, instead of a constant.
+		                                                                                          If "var" and "val" (or min/max) are both given, then they are multiplied together.
+		<metaVariable name="varname" op="set" val="0" min="0" max="0" var="_var_req_"/>         Same as variable but sets a meta-variable. Meta-variables persist on the profile.
+		<tempVariable name="varname" op="set" val="0" min="0" max="0" var="_var_req_"/>         Same as variable but temporary (only lasts for this event). Used for intermediate calculations.
 		<transformRace class="orig_race">new_race</transformRace>                               Transforms a random crewmember to the race new_race. If the class attribute is specified, restricts the random crew selection.
+		<allowNoSlot/>                                                                          Allows crew-removal or transform event to pick noSlot crew (default is not allowed unless no other choice).
+		<blockNoSlot/>                                                                          Blocks crew-removal or transform event from picking noSlot crew entirely.
+		<choiceRequiresCrew/>                                                                   If this event removes or transforms crew, an eligible crew is required or the choice will be greyed out.
 		<customStore>STORE_ID</customStore>                                                     Use the custom store STORE_ID for this store event.
 		<store>STORE_ID</store>                                                                 Alias for customStore. Allows specifying a custom store in events.xml files using a single tag.
 		<removeStore/>                                                                          Removes the store at the current beacon.
@@ -1736,9 +1815,12 @@ Syntax ->
 		<queueEvent seeded="true">EVENT_NAME</queueEvent>                                       Queues an event to happen as soon as the current event ends. Can queue multiple events.
 		<restartEvent/>                                                                         Loads the original beacon event. This load does not process Hyperspace tags that normally get processed on event load.
 		<renameBeacon>ALT_EVENT</renameBeacon>                                                  Changes the beacon's event ID to ALT_EVENT, to use its <beaconType>, its <revisitEvent>, etc.
-		<jumpEvent loop="false">EVENT_NAME</jumpEvent>                                          Loads EVENT_NAME when the player clicks the JUMP button (or uses the hotkey). Auto-clears unless loop is true.
-		<clearJumpEvent/>                                                                       Clears the jumpEvent and allows the player to open the starmap.
-		<deathEvent jumpClear="false" thisFight="false">EVENT_NAME</deathEvent>                 Loads an event when you die. Leave EVENT_NAME blank to clear any existing deathEvent.
+		<jumpEvent name="LABEL" loop="false" priority="0">EVENT_NAME</jumpEvent>                Loads EVENT_NAME when the player clicks the JUMP button (or uses the hotkey). Auto-clears unless loop is true.
+		                                                                                          Label is optional and defaults to being the same as the event name.
+		<clearJumpEvent name="LABEL"/>                                                          Clears the jumpEvent (either a given label, or all if not given) and allows the player to open the starmap.
+		<deathEvent name="LABEL" jumpClear="false" thisFight="false"                            Loads an event when you die. Label is optional and defaults to being the same as the event name.
+		            priority="0">EVENT_NAME</deathEvent>
+		<clearDeathEvent name="LABEL"/>                                                         Clears the deathEvent (either a given label, or all if not given).
 		<triggeredEvent name="TR_ID" event="EVENT_ID" seeded="true" thisFight="false"           Creates a triggered event for the event EVENT_ID. If name attribute is not specified, then name is EVENT_ID. If thisFight is
 		                clearOnJump="false" loops="1" time="60.0" ...>                            true, trigger is cancelled once the fight is over. If clearOnJump is true, trigger is cancelled upon jumping. Full syntax above.
 			<time amount="0.0" min="0.0" max="0.0"/>
@@ -1803,6 +1885,8 @@ Syntax ->
 	                                                                                              They also trigger upon revisit.
 		<jumpEvent .../>                                                                        The syntax for these are the same as in an event.
 		<clearJumpEvent .../>
+		<deathEvent .../>
+		<clearDeathEvent .../>
 		<triggeredEvent .../>
 		<clearTriggeredEvent .../>
 		<triggeredEventModifier .../>
@@ -1942,7 +2026,7 @@ Syntax ->
 	</event>
 	
 	<event name="JUMPEVENT_CLEAR">
-		<jumpEvent/>
+		<clearJumpEvent/>
 	</event>
 	
 	<event name="HACKER_SABOTAGE_FTL">

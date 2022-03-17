@@ -71,6 +71,8 @@ void Global::PreInitializeResources(ResourceControl *resources)
 {
     char *hyperspacetext = resources->LoadFile("data/hyperspace.xml");
 
+    auto customOptions = CustomOptionsManager::GetInstance();
+
     try
     {
         if (!hyperspacetext)
@@ -89,42 +91,66 @@ void Global::PreInitializeResources(ResourceControl *resources)
             throw "No parent node found in hyperspace.xml";
         }
 
+        // Stuff to parse early
         for (auto node = parentNode->first_node(); node; node = node->next_sibling())
         {
+            if (strcmp(node->name(), "defaults") == 0)
+            {
+                for (auto child = node->first_node(); child; child = child->next_sibling())
+                {
+                    if (strcmp(child->name(), "checkCargo") == 0)
+                    {
+                        customOptions->defaults.checkCargo = EventsParser::ParseBoolean(child->value());
+                    }
+                    if (strcmp(child->name(), "choiceRequiresCrew") == 0)
+                    {
+                        customOptions->defaults.choiceRequiresCrew = EventsParser::ParseBoolean(child->value());
+                    }
+                    if (strcmp(child->name(), "beaconType_hideVanillaLabel") == 0)
+                    {
+                        customOptions->defaults.beaconType_hideVanillaLabel = EventsParser::ParseBoolean(child->value());
+                    }
+                }
+            }
+
+            if (strcmp(node->name(), "colors") == 0)
+            {
+                ParseCustomColorsNode(node);
+            }
+
             if (strcmp(node->name(), "ships") == 0)
             {
                 auto customShipManager = CustomShipSelect::GetInstance();
                 customShipManager->EarlyParseShipsNode(node);
             }
+
+            // Read event files and other early stuff.
+            if (strcmp(node->name(), "events") == 0)
+            {
+                auto customEventParser = CustomEventsParser::GetInstance();
+                customEventParser->EarlyParseCustomEventNode(node);
+            }
+        }
+
+        // Read the custom events.
+        {
+            auto customEventParser = CustomEventsParser::GetInstance();
+            customEventParser->ReadCustomEventFiles();
         }
 
         doc.clear();
     }
     catch (rapidxml::parse_error& e)
     {
-        std::string msg = std::string("Failed parsing hyperspace.xml\n") + std::string(e.what());
-#ifdef _WIN32
-        MessageBoxA(GetDesktopWindow(), msg.c_str(), "Error", MB_ICONERROR | MB_SETFOREGROUND);
-#elif defined(__linux__)
-        fprintf(stderr, "Error %s", msg.c_str());
-#endif
+        ErrorMessage(std::string("Failed parsing hyperspace.xml\n") + std::string(e.what()));
     }
     catch (std::exception &e)
     {
-        std::string msg = std::string("Failed parsing hyperspace.xml\n") + std::string(e.what());
-#ifdef _WIN32
-        MessageBoxA(GetDesktopWindow(), msg.c_str(), "Error", MB_ICONERROR | MB_SETFOREGROUND);
-#elif defined(__linux__)
-        fprintf(stderr, "Error %s", msg.c_str());
-#endif
+        ErrorMessage(std::string("Failed parsing hyperspace.xml\n") + std::string(e.what()));
     }
     catch (const char* e)
     {
-#ifdef _WIN32
-        MessageBoxA(GetDesktopWindow(), e, "Error", MB_ICONERROR | MB_SETFOREGROUND);
-#elif defined(__linux__)
-        fprintf(stderr, "Error %s", e);
-#endif
+        ErrorMessage(e);
     }
 }
 
@@ -382,21 +408,6 @@ void Global::InitializeResources(ResourceControl *resources)
                 }
             }
 
-            if (strcmp(node->name(), "defaults") == 0)
-            {
-                for (auto child = node->first_node(); child; child = child->next_sibling())
-                {
-                    if (strcmp(child->name(), "checkCargo") == 0)
-                    {
-                        customOptions->defaults.checkCargo = EventsParser::ParseBoolean(child->value());
-                    }
-                    if (strcmp(child->name(), "beaconType_hideVanillaLabel") == 0)
-                    {
-                        customOptions->defaults.beaconType_hideVanillaLabel = EventsParser::ParseBoolean(child->value());
-                    }
-                }
-            }
-
             if (strcmp(node->name(), "victories") == 0)
             {
                 auto customUnlocks = CustomShipUnlocks::instance;
@@ -442,7 +453,7 @@ void Global::InitializeResources(ResourceControl *resources)
             if (strcmp(node->name(), "events") == 0)
             {
                 auto customEventParser = CustomEventsParser::GetInstance();
-                customEventParser->ParseCustomEventNodeFiles(node);
+                customEventParser->ParseCustomEventNode(node);
             }
 
             if (strcmp(node->name(), "augments") == 0)
@@ -477,10 +488,6 @@ void Global::InitializeResources(ResourceControl *resources)
                 {
                     SeedInputBox::seedsEnabled = EventsParser::ParseBoolean(node->first_attribute("enabled")->value());
                 }
-            }
-            if (strcmp(node->name(), "colors") == 0)
-            {
-                ParseCustomColorsNode(node);
             }
             if (strcmp(node->name(), "customSystems") == 0)
             {
@@ -523,23 +530,7 @@ void Global::InitializeResources(ResourceControl *resources)
             }
         }
 
-        // Processing after first pass
-        {
-            auto customEventParser = CustomEventsParser::GetInstance();
-            customEventParser->ReadCustomEventFiles();
-        }
-
-        // Second Pass
-        for (auto node = parentNode->first_node(); node; node = node->next_sibling())
-        {
-            if (strcmp(node->name(), "events") == 0)
-            {
-                auto customEventParser = CustomEventsParser::GetInstance();
-                customEventParser->ParseCustomEventNode(node);
-            }
-        }
-
-        // Processing after second pass
+        // Post-processing (might not be needed anymore)
         {
             auto customEventParser = CustomEventsParser::GetInstance();
             customEventParser->PostProcessCustomEvents();
@@ -555,29 +546,19 @@ void Global::InitializeResources(ResourceControl *resources)
     }
     catch (rapidxml::parse_error& e)
     {
-        std::string msg = std::string("Failed parsing hyperspace.xml\n") + std::string(e.what());
-#ifdef _WIN32
-        MessageBoxA(GetDesktopWindow(), msg.c_str(), "Error", MB_ICONERROR | MB_SETFOREGROUND);
-#elif defined(__linux__)
-        fprintf(stderr, "Error %s", msg.c_str());
-#endif
+        ErrorMessage(std::string("Error parsing hyperspace.xml\n") + std::string(e.what()));
     }
     catch (std::exception &e)
     {
-        std::string msg = std::string("Failed parsing hyperspace.xml\n") + std::string(e.what());
-#ifdef _WIN32
-        MessageBoxA(GetDesktopWindow(), msg.c_str(), "Error", MB_ICONERROR | MB_SETFOREGROUND);
-#elif defined(__linux__)
-        fprintf(stderr, "Error %s", msg.c_str());
-#endif
+        ErrorMessage(std::string("Error parsing hyperspace.xml\n") + std::string(e.what()));
     }
     catch (const char* e)
     {
-#ifdef _WIN32
-        MessageBoxA(GetDesktopWindow(), e, "Error", MB_ICONERROR | MB_SETFOREGROUND);
-#elif defined(__linux__)
-        fprintf(stderr, "Error %s", e);
-#endif
+        ErrorMessage(std::string("Error parsing hyperspace.xml\n") + std::string(e));
+    }
+    catch (...)
+    {
+        ErrorMessage("Error parsing hyperspace.xml\n");
     }
 
     //G_->lua = new LuaState;

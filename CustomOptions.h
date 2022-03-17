@@ -25,6 +25,7 @@ public:
     {
         bool beaconType_hideVanillaLabel = true;
         bool checkCargo = false;
+        bool choiceRequiresCrew = false;
     };
 
     bool altMode = false;

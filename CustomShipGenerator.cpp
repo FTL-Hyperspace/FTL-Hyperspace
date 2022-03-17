@@ -122,13 +122,21 @@ void CustomShipGenerator::ParseGeneratorNode(rapidxml::xml_node<char> *node)
             }
         }
     }
-    catch (std::exception)
+    catch (rapidxml::parse_error& e)
     {
-#ifdef _WIN32
-        MessageBoxA(GetDesktopWindow(), "Error parsing <shipGenerators> in hyperspace.xml", "Error", MB_ICONERROR | MB_SETFOREGROUND);
-#elif defined(__linux__)
-        fprintf(stderr, "Error parsing <shipGenerators> in hyperspace.xml");
-#endif
+        ErrorMessage(std::string("Error parsing <shipGenerators> in hyperspace.xml\n") + std::string(e.what()));
+    }
+    catch (std::exception &e)
+    {
+        ErrorMessage(std::string("Error parsing <shipGenerators> in hyperspace.xml\n") + std::string(e.what()));
+    }
+    catch (const char* e)
+    {
+        ErrorMessage(std::string("Error parsing <shipGenerators> in hyperspace.xml\n") + std::string(e));
+    }
+    catch (...)
+    {
+        ErrorMessage("Error parsing <shipGenerators> in hyperspace.xml\n");
     }
 }
 

@@ -1,11 +1,21 @@
 #pragma once
 #include "Global.h"
 #include "ToggleValue.h"
+#include "CustomBackgroundObject.h"
+#include "EventButtons.h"
 #include <algorithm>
 #include <memory>
 #include <unordered_set>
+#include <bitset>
 #include <boost/format.hpp>
 #include <rapidxml_print.hpp>
+
+extern std::bitset<8> advancedCheckEquipment;
+// bit 0: WorldManager::CreateChoiceBox
+// bit 1: StarMap::RenderLabels
+// bit 2: LoadEvent
+// bit 3: CustomBackgroundObject::OnLoop
+// bit 4: VariableModifier::ApplyVariables
 
 extern std::deque<std::pair<std::string,int>> eventQueue;
 
@@ -18,21 +28,28 @@ extern std::string replaceCreditsMusic;
 extern std::unordered_map<int, std::string> renamedBeacons;
 extern std::unordered_map<int, std::pair<std::string, int>> regeneratedBeacons;
 
-extern std::string jumpEvent;
-extern bool jumpEventLoop;
-
 extern std::unordered_map<std::string, int> playerVariables;
+
+struct JumpEvent
+{
+    std::string event = "";
+    std::string label = "";
+    bool loop = false;
+    int priority = 0;
+};
+extern std::vector<JumpEvent> jumpEventQueue;
+
 
 struct DeathEvent
 {
     std::string event = "";
-    bool present = false;
+    std::string label = "";
     bool jumpClear = false;
     bool thisFight = false;
+    int priority = 0;
 };
-
+extern std::deque<DeathEvent> deathEventQueue;
 extern bool deathEventActive;
-extern DeathEvent deathEvent;
 
 struct BeaconType
 {
@@ -523,7 +540,14 @@ struct SectorReplace
 
 struct VariableModifier
 {
-    enum OP
+    enum class VarType
+    {
+        VAR,
+        METAVAR,
+        TEMP
+    };
+
+    enum class OP
     {
         SET,
         ADD,
@@ -533,10 +557,15 @@ struct VariableModifier
         MAX
     };
 
+    VarType vType = VarType::VAR;
     std::string name = "";
     OP op = OP::SET;
     int minVal = 0;
     int maxVal = 0;
+    std::string var = "";
+
+    void ParseVariableModifierNode(rapidxml::xml_node<char> *node);
+    static void ApplyVariables(std::vector<VariableModifier> &variables, ShipManager *ship);
 };
 
 extern std::unordered_map<std::string, EventAlias> eventAliases;
@@ -582,10 +611,10 @@ struct CustomEvent
     bool disableScrapAugments = false;
     bool removeStore = false;
     std::string customStore = "";
-    std::string jumpEvent = "";
-    bool jumpEventLoop = false;
-    bool jumpEventClear = false;
-    DeathEvent deathEvent;
+    std::vector<JumpEvent> jumpEvents;
+    std::vector<std::string> clearJumpEvents;
+    std::vector<DeathEvent> deathEvents;
+    std::vector<std::string> clearDeathEvents;
     SectorReplace replaceSector;
     bool resetFtl = false;
     bool instantEscape = false;
@@ -610,10 +639,16 @@ struct CustomEvent
     EventFleet rightFleet;
     bool clearCustomFleet = false;
 
+    std::vector<CustomBackgroundObjectDefinition*> backgroundObjects;
+    std::vector<std::string> clearBackgroundObjects;
+    std::vector<std::pair<std::string,std::string>> transformBackgroundObjects;
+
+    std::vector<EventButtonDefinition*> eventButtons;
+    std::vector<std::string> clearEventButtons;
+
     std::vector<std::string> hiddenAugs = std::vector<std::string>();
     std::vector<std::string> removeItems = std::vector<std::string>();
     std::vector<VariableModifier> variables = std::vector<VariableModifier>();
-    std::vector<VariableModifier> metaVariables = std::vector<VariableModifier>();
     std::string playSound = "";
     std::string playMusic = "";
     bool resetMusic = false;
@@ -622,6 +657,9 @@ struct CustomEvent
     std::vector<EventDamage> enemyDamage = std::vector<EventDamage>();
 
     std::pair<std::string,std::string> transformRace = std::pair<std::string,std::string>("","");
+    bool allowNoSlot = false;
+    bool blockNoSlot = false;
+    bool choiceRequiresCrew = false;
 
     int superDrones = -1;
     std::string superDronesName = "";
@@ -641,10 +679,10 @@ struct CustomShipEvent
     std::vector<unsigned int> triggeredEvents;
     std::vector<std::string> clearTriggeredEvents;
     std::vector<TriggeredEventModifier> triggeredEventModifiers;
-    std::string jumpEvent = "";
-    bool jumpEventLoop = false;
-    bool jumpEventClear = false;
-    DeathEvent deathEvent;
+    std::vector<JumpEvent> jumpEvents;
+    std::vector<std::string> clearJumpEvents;
+    std::vector<DeathEvent> deathEvents;
+    std::vector<std::string> clearDeathEvents;
 
     bool invincible = false;
     bool deadCrewAuto = false;
@@ -784,7 +822,7 @@ public:
 
     }
 
-    void ParseCustomEventNodeFiles(rapidxml::xml_node<char> *node);
+    void EarlyParseCustomEventNode(rapidxml::xml_node<char> *node);
     void ReadCustomEventFiles();
     void ParseCustomEventNode(rapidxml::xml_node<char> *node);
     void PostProcessCustomEvents();
@@ -848,6 +886,9 @@ public:
     std::string defaultRevisit = "";
     bool defaultRevisitSeeded = true;
     bool defaultRevisitIgnoreUnique = false;
+
+    std::vector<VariableModifier> initialPlayerVars = std::vector<VariableModifier>();
+    std::vector<VariableModifier> initialMetaVars = std::vector<VariableModifier>();
 
 private:
     std::unordered_map<std::string, CustomSector*> customSectors;

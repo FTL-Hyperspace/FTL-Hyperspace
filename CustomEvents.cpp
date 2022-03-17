@@ -10,8 +10,12 @@
 #include "CustomOptions.h"
 #include "CustomAchievements.h"
 #include "CustomScoreKeeper.h"
+#include "CustomBackgroundObject.h"
+#include "EventButtons.h"
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
+
+std::bitset<8> advancedCheckEquipment{0x00};
 
 CustomEventsParser *CustomEventsParser::instance = new CustomEventsParser();
 bool alreadyWonCustom = false;
@@ -25,17 +29,18 @@ std::unordered_map<int, std::string> renamedBeacons = std::unordered_map<int, st
 
 std::unordered_map<int, std::pair<std::string, int>> regeneratedBeacons = std::unordered_map<int, std::pair<std::string, int>>();
 
-std::string jumpEvent = "";
-bool jumpEventLoop = false;
+std::vector<JumpEvent> jumpEventQueue;
+std::deque<DeathEvent> deathEventQueue;
 
 std::unordered_map<std::string, int> playerVariables = std::unordered_map<std::string, int>();
 
 CustomEvent::CustomEvent()
 {
     checkCargo = CustomOptionsManager::GetInstance()->defaults.checkCargo;
+    choiceRequiresCrew = CustomOptionsManager::GetInstance()->defaults.choiceRequiresCrew;
 }
 
-void CustomEventsParser::ParseCustomEventNodeFiles(rapidxml::xml_node<char> *node)
+void CustomEventsParser::EarlyParseCustomEventNode(rapidxml::xml_node<char> *node)
 {
     for (auto eventNode = node->first_node(); eventNode; eventNode = eventNode->next_sibling())
     {
@@ -44,6 +49,83 @@ void CustomEventsParser::ParseCustomEventNodeFiles(rapidxml::xml_node<char> *nod
             if (eventNode->value())
             {
                 eventFiles.push_back(std::string(eventNode->value()));
+            }
+        }
+
+        if (strcmp(eventNode->name(), "loadEventList") == 0)
+        {
+
+            EventLoadList *eventLoadList = new EventLoadList();
+            std::string loadEventListName = "";
+            if (eventNode->first_attribute("name"))
+            {
+                loadEventListName = eventNode->first_attribute("name")->value();
+            }
+            ParseCustomEventLoadList(eventNode, eventLoadList, loadEventListName);
+            if (!loadEventListName.empty())
+            {
+                customEventLoadLists[loadEventListName] = eventLoadList;
+            }
+        }
+
+        if (strcmp(eventNode->name(), "triggeredEventBox") == 0)
+        {
+            TriggeredEventBoxDefinition boxDef;
+            ParseCustomTriggeredEventBoxNode(eventNode, &boxDef);
+            if (eventNode->first_attribute("name"))
+            {
+                TriggeredEventGui::GetInstance()->boxDefs[eventNode->first_attribute("name")->value()] = boxDef;
+            }
+        }
+
+        if (strcmp(eventNode->name(), "timerSounds") == 0)
+        {
+            std::vector<std::pair<float,std::string>> timerSounds;
+            ParseCustomTriggeredEventSounds(eventNode, &timerSounds);
+            if (eventNode->first_attribute("name"))
+            {
+                TriggeredEventDefinition::timerSoundDefs[eventNode->first_attribute("name")->value()] = timerSounds;
+            }
+        }
+
+        if (strcmp(eventNode->name(), "warningMessage") == 0)
+        {
+            TriggeredEventWarningDefinition warningDef;
+            ParseCustomTriggeredEventWarningNode(eventNode, &warningDef);
+            if (eventNode->first_attribute("name"))
+            {
+                TriggeredEventGui::GetInstance()->warningDefs[eventNode->first_attribute("name")->value()] = warningDef;
+            }
+        }
+
+        if (strcmp(eventNode->name(), "beaconType") == 0)
+        {
+            if (eventNode->first_attribute("name"))
+            {
+                std::string beaconName = std::string(eventNode->first_attribute("name")->value());
+
+                BeaconType *beaconType = new BeaconType();
+                beaconType->eventName = beaconName;
+
+                ParseCustomBeaconType(eventNode, beaconType);
+
+                customBeacons[beaconName] = beaconType;
+            }
+        }
+
+        if (strcmp(eventNode->name(), "backgroundObject") == 0)
+        {
+            if (eventNode->first_attribute("name"))
+            {
+                CustomBackgroundObjectManager::instance->ParseCustomBackgroundObject(eventNode);
+            }
+        }
+
+        if (strcmp(eventNode->name(), "eventButton") == 0)
+        {
+            if (eventNode->first_attribute("name"))
+            {
+                EventButtonManager::instance->ParseEventButton(eventNode);
             }
         }
     }
@@ -61,30 +143,15 @@ void CustomEventsParser::ReadCustomEventFiles()
         }
         catch (rapidxml::parse_error& e)
         {
-            std::string msg = std::string("Failed parsing events_hyperspace.xml\n") + std::string(e.what());
-#ifdef _WIN32
-            MessageBoxA(GetDesktopWindow(), msg.c_str(), "Error", MB_ICONERROR | MB_SETFOREGROUND);
-#elif defined(__linux__)
-            fprintf(stderr, "Error %s", msg.c_str());
-#endif
+            ErrorMessage(std::string("Failed parsing events_hyperspace.xml\n") + std::string(e.what()));
         }
         catch (std::exception &e)
         {
-            std::string msg = std::string("Failed parsing events_hyperspace.xml\n") + std::string(e.what());
-#ifdef _WIN32
-            MessageBoxA(GetDesktopWindow(), msg.c_str(), "Error", MB_ICONERROR | MB_SETFOREGROUND);
-#elif defined(__linux__)
-            fprintf(stderr, "Error %s", msg.c_str());
-#endif
+            ErrorMessage(std::string("Failed parsing events_hyperspace.xml\n") + std::string(e.what()));
         }
         catch (const char* e)
         {
-            std::string msg = std::string("Failed parsing events_hyperspace.xml\n") + std::string(e);
-#ifdef _WIN32
-            MessageBoxA(GetDesktopWindow(), msg.c_str(), "Error", MB_ICONERROR | MB_SETFOREGROUND);
-#elif defined(__linux__)
-            fprintf(stderr, "Error %s", msg.c_str());
-#endif
+            ErrorMessage(std::string("Failed parsing events_hyperspace.xml\n") + std::string(e));
         }
     }
 
@@ -102,30 +169,15 @@ void CustomEventsParser::ReadCustomEventFiles()
             }
             catch (rapidxml::parse_error& e)
             {
-                std::string msg = std::string("Failed parsing ") + fileName + std::string("\n") + std::string(e.what());
-#ifdef _WIN32
-                MessageBoxA(GetDesktopWindow(), msg.c_str(), "Error", MB_ICONERROR | MB_SETFOREGROUND);
-#elif defined(__linux__)
-                fprintf(stderr, "Error %s", msg.c_str());
-#endif
+                ErrorMessage(std::string("Failed parsing ") + fileName + std::string("\n") + std::string(e.what()));
             }
             catch (std::exception &e)
             {
-                std::string msg = std::string("Failed parsing ") + fileName + std::string("\n") + std::string(e.what());
-#ifdef _WIN32
-                MessageBoxA(GetDesktopWindow(), msg.c_str(), "Error", MB_ICONERROR | MB_SETFOREGROUND);
-#elif defined(__linux__)
-                fprintf(stderr, "Error %s", msg.c_str());
-#endif
+                ErrorMessage(std::string("Failed parsing ") + fileName + std::string("\n") + std::string(e.what()));
             }
             catch (const char* e)
             {
-                std::string msg = std::string("Failed parsing ") + fileName + std::string("\n") + std::string(e);
-#ifdef _WIN32
-                MessageBoxA(GetDesktopWindow(), msg.c_str(), "Error", MB_ICONERROR | MB_SETFOREGROUND);
-#elif defined(__linux__)
-                fprintf(stderr, "Error %s", msg.c_str());
-#endif
+                ErrorMessage(std::string("Failed parsing ") + fileName + std::string("\n") + std::string(e));
             }
         }
     }
@@ -314,57 +366,7 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
             }
             else
             {
-#ifdef _WIN32
-                MessageBoxA(GetDesktopWindow(), "Custom req is missing a name!", "Error", MB_ICONERROR | MB_SETFOREGROUND);
-#elif defined(__linux__)
-                fprintf(stderr, "Error %s", "Custom req is missing a name!");
-#endif
-            }
-        }
-
-        if (strcmp(eventNode->name(), "loadEventList") == 0)
-        {
-
-            EventLoadList *eventLoadList = new EventLoadList();
-            std::string loadEventListName = "";
-            if (eventNode->first_attribute("name"))
-            {
-                loadEventListName = eventNode->first_attribute("name")->value();
-            }
-            ParseCustomEventLoadList(eventNode, eventLoadList, loadEventListName);
-            if (!loadEventListName.empty())
-            {
-                customEventLoadLists[loadEventListName] = eventLoadList;
-            }
-        }
-
-        if (strcmp(eventNode->name(), "triggeredEventBox") == 0)
-        {
-            TriggeredEventBoxDefinition boxDef;
-            ParseCustomTriggeredEventBoxNode(eventNode, &boxDef);
-            if (eventNode->first_attribute("name"))
-            {
-                TriggeredEventGui::GetInstance()->boxDefs[eventNode->first_attribute("name")->value()] = boxDef;
-            }
-        }
-
-        if (strcmp(eventNode->name(), "timerSounds") == 0)
-        {
-            std::vector<std::pair<float,std::string>> timerSounds;
-            ParseCustomTriggeredEventSounds(eventNode, &timerSounds);
-            if (eventNode->first_attribute("name"))
-            {
-                TriggeredEventDefinition::timerSoundDefs[eventNode->first_attribute("name")->value()] = timerSounds;
-            }
-        }
-
-        if (strcmp(eventNode->name(), "warningMessage") == 0)
-        {
-            TriggeredEventWarningDefinition warningDef;
-            ParseCustomTriggeredEventWarningNode(eventNode, &warningDef);
-            if (eventNode->first_attribute("name"))
-            {
-                TriggeredEventGui::GetInstance()->warningDefs[eventNode->first_attribute("name")->value()] = warningDef;
+                ErrorMessage("Custom req is missing a name!\n");
             }
         }
 
@@ -398,19 +400,18 @@ void CustomEventsParser::ParseCustomEventNode(rapidxml::xml_node<char> *node)
             }
         }
 
-        if (strcmp(eventNode->name(), "beaconType") == 0)
+        if (strcmp(eventNode->name(), "variable") == 0)
         {
-            if (eventNode->first_attribute("name"))
-            {
-                std::string beaconName = std::string(eventNode->first_attribute("name")->value());
+            VariableModifier variable;
+            variable.ParseVariableModifierNode(eventNode);
+            initialPlayerVars.push_back(variable);
+        }
 
-                BeaconType *beaconType = new BeaconType();
-                beaconType->eventName = beaconName;
-
-                ParseCustomBeaconType(eventNode, beaconType);
-
-                customBeacons[beaconName] = beaconType;
-            }
+        if (strcmp(eventNode->name(), "metaVariable") == 0)
+        {
+            VariableModifier variable;
+            variable.ParseVariableModifierNode(eventNode);
+            initialMetaVars.push_back(variable);
         }
     }
 }
@@ -436,12 +437,7 @@ void CustomEventsParser::PostProcessCustomEvents()
                     }
                     else
                     {
-                        std::string msg = std::string("Failed to load triggeredEventBox ") + loadName;
-#ifdef _WIN32
-                        MessageBoxA(GetDesktopWindow(), msg.c_str(), "Error", MB_ICONERROR | MB_SETFOREGROUND);
-#elif defined(__linux__)
-                        fprintf(stderr, "Error %s", msg.c_str());
-#endif
+                        ErrorMessage(std::string("Failed to load triggeredEventBox ") + loadName);
                     }
                 }
                 ParseCustomTriggeredEventBoxNode(node, def.box);
@@ -464,12 +460,7 @@ void CustomEventsParser::PostProcessCustomEvents()
             }
             else
             {
-                std::string msg = std::string("Failed to load timerSounds ") + def.loadTimerSounds;
-#ifdef _WIN32
-                MessageBoxA(GetDesktopWindow(), msg.c_str(), "Error", MB_ICONERROR | MB_SETFOREGROUND);
-#elif defined(__linux__)
-                fprintf(stderr, "Error %s", msg.c_str());
-#endif
+                ErrorMessage(std::string("Failed to load timerSounds ") + def.loadTimerSounds);
             }
         }
         if (def.loadWarning)
@@ -489,12 +480,7 @@ void CustomEventsParser::PostProcessCustomEvents()
                     }
                     else
                     {
-                        std::string msg = std::string("Failed to load warningMessage ") + loadName;
-#ifdef _WIN32
-                    MessageBoxA(GetDesktopWindow(), msg.c_str(), "Error", MB_ICONERROR | MB_SETFOREGROUND);
-#elif defined(__linux__)
-                    fprintf(stderr, "Error %s", msg.c_str());
-#endif
+                        ErrorMessage(std::string("Failed to load warningMessage ") + loadName);
                     }
                 }
                 ParseCustomTriggeredEventWarningNode(node, def.warning);
@@ -714,11 +700,7 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
             }
             else
             {
-#ifdef _WIN32
-                MessageBoxA(GetDesktopWindow(), "clearTriggeredEvent is missing a name!", "Error", MB_ICONERROR | MB_SETFOREGROUND);
-#elif defined(__linux__)
-                fprintf(stderr, "Error clearTriggeredEvent is missing a name!");
-#endif
+                ErrorMessage("clearTriggeredEvent is missing a name!\n");
             }
         }
 
@@ -762,11 +744,7 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
             }
             else
             {
-#ifdef _WIN32
-                MessageBoxA(GetDesktopWindow(), "triggeredEventModifier is missing a name!", "Error", MB_ICONERROR | MB_SETFOREGROUND);
-#elif defined(__linux__)
-                fprintf(stderr, "Error triggeredEventModifier is missing a name!");
-#endif
+                ErrorMessage("triggeredEventModifier is missing a name!\n");
             }
         }
 
@@ -893,32 +871,81 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
         if (nodeName == "jumpEvent")
         {
             isDefault = false;
-            customEvent->jumpEvent = child->value();
+
+            JumpEvent jumpEvent;
+            jumpEvent.event = child->value();
+            jumpEvent.label = jumpEvent.event;
+
+            if (child->first_attribute("name"))
+            {
+                jumpEvent.label = child->first_attribute("name")->value();
+            }
             if (child->first_attribute("loop"))
             {
-                customEvent->jumpEventLoop = EventsParser::ParseBoolean(child->first_attribute("loop")->value());
+                jumpEvent.loop = EventsParser::ParseBoolean(child->first_attribute("loop")->value());
             }
+            if (child->first_attribute("priority"))
+            {
+                jumpEvent.priority = boost::lexical_cast<int>(child->first_attribute("priority")->value());
+            }
+
+            customEvent->jumpEvents.push_back(jumpEvent);
         }
 
         if (nodeName == "clearJumpEvent")
         {
             isDefault = false;
-            customEvent->jumpEventClear = true;
+
+            if (child->first_attribute("name"))
+            {
+                customEvent->clearJumpEvents.push_back(child->first_attribute("name")->value());
+            }
+            else
+            {
+                customEvent->clearJumpEvents.push_back("");
+            }
         }
 
         if (nodeName == "deathEvent")
         {
             isDefault = false;
-            customEvent->deathEvent.event = child->value();
-            customEvent->deathEvent.present = true;
+
+            DeathEvent deathEvent;
+            deathEvent.event = child->value();
+            deathEvent.label = deathEvent.event;
+
+            if (child->first_attribute("name"))
+            {
+                deathEvent.label = child->first_attribute("name")->value();
+            }
             if (child->first_attribute("thisFight"))
             {
-                customEvent->deathEvent.thisFight = EventsParser::ParseBoolean(child->first_attribute("thisFight")->value());
-                customEvent->deathEvent.jumpClear = customEvent->deathEvent.thisFight;
+                deathEvent.thisFight = EventsParser::ParseBoolean(child->first_attribute("thisFight")->value());
+                deathEvent.jumpClear = deathEvent.thisFight;
             }
             if (child->first_attribute("jumpClear"))
             {
-                customEvent->deathEvent.jumpClear = EventsParser::ParseBoolean(child->first_attribute("jumpClear")->value());
+                deathEvent.jumpClear = EventsParser::ParseBoolean(child->first_attribute("jumpClear")->value());
+            }
+            if (child->first_attribute("priority"))
+            {
+                deathEvent.priority = boost::lexical_cast<int>(child->first_attribute("priority")->value());
+            }
+
+            customEvent->deathEvents.push_back(deathEvent);
+        }
+
+        if (nodeName == "clearDeathEvent")
+        {
+            isDefault = false;
+
+            if (child->first_attribute("name"))
+            {
+                customEvent->clearDeathEvents.push_back(child->first_attribute("name")->value());
+            }
+            else
+            {
+                customEvent->clearDeathEvents.push_back("");
             }
         }
 
@@ -1026,6 +1053,24 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
             {
                 customEvent->goToFlagshipFleet = EventsParser::ParseBoolean(child->first_attribute("allFleet")->value());
             }
+        }
+
+        if (nodeName == "allowNoSlot")
+        {
+            isDefault = false;
+            customEvent->allowNoSlot = true;
+        }
+
+        if (nodeName == "blockNoSlot")
+        {
+            isDefault = false;
+            customEvent->blockNoSlot = true;
+        }
+
+        if (nodeName == "choiceRequiresCrew")
+        {
+            isDefault = false;
+            customEvent->choiceRequiresCrew = true;
         }
 
         if (nodeName == "transformRace")
@@ -1149,6 +1194,45 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
             isDefault = false;
             customEvent->changeBackground = child->value();
         }
+        if (nodeName == "backgroundObject")
+        {
+            isDefault = false;
+            customEvent->backgroundObjects.push_back(CustomBackgroundObjectManager::instance->ParseCustomBackgroundObject(child));
+        }
+        if (nodeName == "clearBackgroundObject")
+        {
+            isDefault = false;
+            if (child->first_attribute("name"))
+            {
+                customEvent->clearBackgroundObjects.push_back(child->first_attribute("name")->value());
+            }
+            else
+            {
+                customEvent->clearBackgroundObjects.push_back("");
+            }
+        }
+        if (nodeName == "transformBackgroundObject")
+        {
+            isDefault = false;
+            customEvent->transformBackgroundObjects.push_back(std::make_pair<std::string,std::string>(child->first_attribute("name")->value(), child->value()));
+        }
+        if (nodeName == "eventButton")
+        {
+            isDefault = false;
+            customEvent->eventButtons.push_back(EventButtonManager::instance->ParseEventButton(child));
+        }
+        if (nodeName == "clearEventButton")
+        {
+            isDefault = false;
+            if (child->first_attribute("name"))
+            {
+                customEvent->clearEventButtons.push_back(child->first_attribute("name")->value());
+            }
+            else
+            {
+                customEvent->clearEventButtons.push_back("");
+            }
+        }
         if (nodeName == "unlockCustomShip" || (!parsingVanilla && nodeName == "unlockShip"))
         {
             std::string shipName = child->value();
@@ -1183,123 +1267,12 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
             isDefault = false;
             customEvent->removeItems.push_back(child->value());
         }
-        if (nodeName == "variable")
+        if (nodeName == "variable" || nodeName == "metaVariable" || nodeName == "tempVariable")
         {
             isDefault = false;
             VariableModifier variable;
-            variable.name = child->first_attribute("name")->value();
-            if (child->first_attribute("op"))
-            {
-                std::string op = std::string(child->first_attribute("op")->value());
-                op = op.substr(0,3);
-                if (op == "set")
-                {
-                    variable.op = VariableModifier::OP::SET;
-                }
-                else if (op == "add")
-                {
-                    variable.op = VariableModifier::OP::ADD;
-                }
-                else if (op == "mul")
-                {
-                    variable.op = VariableModifier::OP::MUL;
-                }
-                else if (op == "div")
-                {
-                    variable.op = VariableModifier::OP::DIV;
-                }
-                else if (op == "min")
-                {
-                    variable.op = VariableModifier::OP::MIN;
-                }
-                else if (op == "max")
-                {
-                    variable.op = VariableModifier::OP::MAX;
-                }
-            }
-            if (child->first_attribute("val"))
-            {
-                variable.minVal = boost::lexical_cast<int>(child->first_attribute("val")->value());
-                variable.maxVal = variable.minVal;
-            }
-            if (child->first_attribute("value"))
-            {
-                variable.minVal = boost::lexical_cast<int>(child->first_attribute("value")->value());
-                variable.maxVal = variable.minVal;
-            }
-            if (child->first_attribute("amount"))
-            {
-                variable.minVal = boost::lexical_cast<int>(child->first_attribute("amount")->value());
-                variable.maxVal = variable.minVal;
-            }
-            if (child->first_attribute("min"))
-            {
-                variable.minVal = boost::lexical_cast<int>(child->first_attribute("min")->value());
-            }
-            if (child->first_attribute("max"))
-            {
-                variable.maxVal = boost::lexical_cast<int>(child->first_attribute("max")->value());
-            }
+            variable.ParseVariableModifierNode(child);
             customEvent->variables.push_back(variable);
-        }
-        if (nodeName == "metaVariable")
-        {
-            isDefault = false;
-            VariableModifier variable;
-            variable.name = child->first_attribute("name")->value();
-            if (child->first_attribute("op"))
-            {
-                std::string op = std::string(child->first_attribute("op")->value());
-                op = op.substr(0,3);
-                if (op == "set")
-                {
-                    variable.op = VariableModifier::OP::SET;
-                }
-                else if (op == "add")
-                {
-                    variable.op = VariableModifier::OP::ADD;
-                }
-                else if (op == "mul")
-                {
-                    variable.op = VariableModifier::OP::MUL;
-                }
-                else if (op == "div")
-                {
-                    variable.op = VariableModifier::OP::DIV;
-                }
-                else if (op == "min")
-                {
-                    variable.op = VariableModifier::OP::MIN;
-                }
-                else if (op == "max")
-                {
-                    variable.op = VariableModifier::OP::MAX;
-                }
-            }
-            if (child->first_attribute("val"))
-            {
-                variable.minVal = boost::lexical_cast<int>(child->first_attribute("val")->value());
-                variable.maxVal = variable.minVal;
-            }
-            if (child->first_attribute("value"))
-            {
-                variable.minVal = boost::lexical_cast<int>(child->first_attribute("value")->value());
-                variable.maxVal = variable.minVal;
-            }
-            if (child->first_attribute("amount"))
-            {
-                variable.minVal = boost::lexical_cast<int>(child->first_attribute("amount")->value());
-                variable.maxVal = variable.minVal;
-            }
-            if (child->first_attribute("min"))
-            {
-                variable.minVal = boost::lexical_cast<int>(child->first_attribute("min")->value());
-            }
-            if (child->first_attribute("max"))
-            {
-                variable.maxVal = boost::lexical_cast<int>(child->first_attribute("max")->value());
-            }
-            customEvent->metaVariables.push_back(variable);
         }
         if (nodeName == "customStore" || nodeName == "store")
         {
@@ -1544,32 +1517,81 @@ bool CustomEventsParser::ParseCustomShipEvent(rapidxml::xml_node<char> *node, Cu
         if (nodeName == "jumpEvent")
         {
             isDefault = false;
-            customEvent->jumpEvent = child->value();
+
+            JumpEvent jumpEvent;
+            jumpEvent.event = child->value();
+            jumpEvent.label = jumpEvent.event;
+
+            if (child->first_attribute("name"))
+            {
+                jumpEvent.label = child->first_attribute("name")->value();
+            }
             if (child->first_attribute("loop"))
             {
-                customEvent->jumpEventLoop = EventsParser::ParseBoolean(child->first_attribute("loop")->value());
+                jumpEvent.loop = EventsParser::ParseBoolean(child->first_attribute("loop")->value());
             }
+            if (child->first_attribute("priority"))
+            {
+                jumpEvent.priority = boost::lexical_cast<int>(child->first_attribute("priority")->value());
+            }
+
+            customEvent->jumpEvents.push_back(jumpEvent);
         }
 
         if (nodeName == "clearJumpEvent")
         {
             isDefault = false;
-            customEvent->jumpEventClear = true;
+
+            if (child->first_attribute("name"))
+            {
+                customEvent->clearJumpEvents.push_back(child->first_attribute("name")->value());
+            }
+            else
+            {
+                customEvent->clearJumpEvents.push_back("");
+            }
         }
 
         if (nodeName == "deathEvent")
         {
             isDefault = false;
-            customEvent->deathEvent.event = child->value();
-            customEvent->deathEvent.present = true;
+
+            DeathEvent deathEvent;
+            deathEvent.event = child->value();
+            deathEvent.label = deathEvent.event;
+
+            if (child->first_attribute("name"))
+            {
+                deathEvent.label = child->first_attribute("name")->value();
+            }
             if (child->first_attribute("thisFight"))
             {
-                customEvent->deathEvent.thisFight = EventsParser::ParseBoolean(child->first_attribute("thisFight")->value());
-                customEvent->deathEvent.jumpClear = customEvent->deathEvent.thisFight;
+                deathEvent.thisFight = EventsParser::ParseBoolean(child->first_attribute("thisFight")->value());
+                deathEvent.jumpClear = deathEvent.thisFight;
             }
             if (child->first_attribute("jumpClear"))
             {
-                customEvent->deathEvent.jumpClear = EventsParser::ParseBoolean(child->first_attribute("jumpClear")->value());
+                deathEvent.jumpClear = EventsParser::ParseBoolean(child->first_attribute("jumpClear")->value());
+            }
+            if (child->first_attribute("priority"))
+            {
+                deathEvent.priority = boost::lexical_cast<int>(child->first_attribute("priority")->value());
+            }
+
+            customEvent->deathEvents.push_back(deathEvent);
+        }
+
+        if (nodeName == "clearDeathEvent")
+        {
+            isDefault = false;
+
+            if (child->first_attribute("name"))
+            {
+                customEvent->clearDeathEvents.push_back(child->first_attribute("name")->value());
+            }
+            else
+            {
+                customEvent->clearDeathEvents.push_back("");
             }
         }
 
@@ -1797,11 +1819,7 @@ void CustomEventsParser::ParseCustomReqNode(rapidxml::xml_node<char> *node, Cust
         }
         else
         {
-#ifdef _WIN32
-                MessageBoxA(GetDesktopWindow(), ("Invalid Custom Req Type found: "+reqtype).c_str(), "Error", MB_ICONERROR | MB_SETFOREGROUND);
-#elif defined(__linux__)
-                fprintf(stderr, "Error %s", ("Invalid Custom Req Type found: "+reqtype).c_str());
-#endif
+            ErrorMessage("Invalid Custom Req Type found: "+reqtype+"\n");
         }
     }
     if (node->first_attribute("lvl"))
@@ -1902,6 +1920,82 @@ void CustomEventsParser::ParseCustomEventLoadList(rapidxml::xml_node<char> *node
 
             eventList->events.push_back(event);
         }
+    }
+}
+
+void VariableModifier::ParseVariableModifierNode(rapidxml::xml_node<char> *node)
+{
+    if (strcmp(node->name(), "variable") == 0)
+    {
+        vType = VarType::VAR;
+    }
+    else if (strcmp(node->name(), "metaVariable") == 0)
+    {
+        vType = VarType::METAVAR;
+    }
+    else if (strcmp(node->name(), "tempVariable") == 0)
+    {
+        vType = VarType::TEMP;
+    }
+
+    name = node->first_attribute("name")->value();
+    if (node->first_attribute("op"))
+    {
+        std::string opName = std::string(node->first_attribute("op")->value());
+        opName = opName.substr(0,3);
+        if (opName == "set")
+        {
+            op = VariableModifier::OP::SET;
+        }
+        else if (opName == "add")
+        {
+            op = VariableModifier::OP::ADD;
+        }
+        else if (opName == "mul")
+        {
+            op = VariableModifier::OP::MUL;
+        }
+        else if (opName == "div")
+        {
+            op = VariableModifier::OP::DIV;
+        }
+        else if (opName == "min")
+        {
+            op = VariableModifier::OP::MIN;
+        }
+        else if (opName == "max")
+        {
+            op = VariableModifier::OP::MAX;
+        }
+    }
+    if (node->first_attribute("var"))
+    {
+        var = node->first_attribute("var")->value();
+        minVal = 1;
+        maxVal = 1;
+    }
+    if (node->first_attribute("val"))
+    {
+        minVal = boost::lexical_cast<int>(node->first_attribute("val")->value());
+        maxVal = minVal;
+    }
+    if (node->first_attribute("value"))
+    {
+        minVal = boost::lexical_cast<int>(node->first_attribute("value")->value());
+        maxVal = minVal;
+    }
+    if (node->first_attribute("amount"))
+    {
+        minVal = boost::lexical_cast<int>(node->first_attribute("amount")->value());
+        maxVal = minVal;
+    }
+    if (node->first_attribute("min"))
+    {
+        minVal = boost::lexical_cast<int>(node->first_attribute("min")->value());
+    }
+    if (node->first_attribute("max"))
+    {
+        maxVal = boost::lexical_cast<int>(node->first_attribute("max")->value());
     }
 }
 
@@ -2121,7 +2215,7 @@ HOOK_METHOD(EventsParser, ProcessEvent, (rapidxml::xml_node<char> *node, const s
     std::string strRef = super(node, eventName);
     if (!node->first_attribute("load"))
     {
-        CustomEventsParser::GetInstance()->ParseVanillaEventNode(node, strRef, eventName);
+        CustomEventsParser::GetInstance()->ParseVanillaEventNode(node, strRef, strRef.substr(0, strRef.find(" ")));
     }
     return strRef;
 }
@@ -2210,12 +2304,10 @@ HOOK_METHOD(ShipObject, HasEquipment, (const std::string& equipment) -> int)
     return ret;
 }
 
-static bool advancedCheckEquipment = false;
-
 HOOK_METHOD_PRIORITY(ShipObject, HasEquipment, -100, (const std::string& equipment) -> int)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipObject::HasEquipment -> Begin (CustomEvents.cpp)\n")
-    if (advancedCheckEquipment)
+    if (advancedCheckEquipment.any())
     {
         if (boost::algorithm::starts_with(equipment, "ANY "))
         {
@@ -2286,17 +2378,17 @@ HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
         }
     }
 
-    advancedCheckEquipment = true;
+    advancedCheckEquipment[0] = true;
 
     super(event);
 
-    advancedCheckEquipment = false;
+    advancedCheckEquipment[0] = false;
 
     g_checkCargo = false;
 }
 
 // hidden augs, checkCargo
-HOOK_METHOD_PRIORITY(WorldManager, ModifyResources, -100, (LocationEvent *event) -> LocationEvent*)
+HOOK_METHOD_PRIORITY(WorldManager, ModifyResources, -200, (LocationEvent *event) -> LocationEvent*)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> WorldManager::ModifyResources -> Begin (CustomEvents.cpp)\n")
     auto customEvents = CustomEventsParser::GetInstance();
@@ -2697,7 +2789,7 @@ HOOK_METHOD(StarMap, RenderLabels, () -> void)
     CSurface::GL_Translate(position.x, position.y, 0.f);
     CSurface::GL_Translate(translation.x, translation.y, 0.f);
 
-    advancedCheckEquipment = true;
+    advancedCheckEquipment[1] = true;
 
     if (!outOfFuel)
     {
@@ -2780,7 +2872,7 @@ HOOK_METHOD(StarMap, RenderLabels, () -> void)
 
     CSurface::GL_PopMatrix();
 
-    advancedCheckEquipment = false;
+    advancedCheckEquipment[1] = false;
 
     super();
 
@@ -2822,6 +2914,7 @@ HOOK_METHOD(StarMap, GenerateMap, (bool tutorial, bool seed) -> LocationEvent*)
     {
         regeneratedBeacons.clear();
         renamedBeacons.clear();
+        CustomBackgroundObjectManager::instance->backgroundObjects.clear();
     }
 
     auto ret = super(tutorial, seed);
@@ -2902,7 +2995,7 @@ HOOK_METHOD(StarMap, GenerateMap, (bool tutorial, bool seed) -> LocationEvent*)
             if (loc->event == nullptr) continue;
 
             auto customEvent = custom->GetCustomEvent(loc->event->eventName);
-            if (customEvent && customEvent->eventLoadList && customEvent->eventLoadList->onGenerate)
+            while (customEvent && customEvent->eventLoadList && customEvent->eventLoadList->onGenerate)
             {
                 int seed = customEvent->eventLoadList->seeded ? (int)(loc->loc.x + loc->loc.y) ^ currentSectorSeed : -1;
                 LocationEvent* newEvent = custom->GetEvent(G_->GetWorld(), customEvent->eventLoadList, seed);
@@ -2912,6 +3005,7 @@ HOOK_METHOD(StarMap, GenerateMap, (bool tutorial, bool seed) -> LocationEvent*)
                     loc->event->ClearEvent(false);
                     loc->event = newEvent;
                     regeneratedBeacons[i] = std::pair<std::string,int>(newEvent->eventName, seed); // Note: doesn't respect nested "seeded" attributes in eventLoadLists.
+                    customEvent = custom->GetCustomEvent(loc->event->eventName);
                 }
             }
         }
@@ -3293,6 +3387,47 @@ void CustomCreateLocation(WorldManager* world, LocationEvent* event, CustomEvent
         world->starMap.currentLoc->spaceImage = customEvent->changeBackground;
     }
 
+    if (!customEvent->clearBackgroundObjects.empty())
+    {
+        for (std::string &def : customEvent->clearBackgroundObjects)
+        {
+            CustomBackgroundObjectManager::instance->ClearObjects(def);
+        }
+    }
+
+    if (!customEvent->transformBackgroundObjects.empty())
+    {
+        for (auto &def : customEvent->transformBackgroundObjects)
+        {
+            CustomBackgroundObjectManager::instance->TransformObjects(def.first, def.second);
+        }
+    }
+
+    if (!customEvent->backgroundObjects.empty())
+    {
+        for (CustomBackgroundObjectDefinition *def : customEvent->backgroundObjects)
+        {
+            CustomBackgroundObjectManager::instance->CreateObject(def);
+        }
+    }
+
+    if (!customEvent->clearEventButtons.empty())
+    {
+        for (std::string &def : customEvent->clearEventButtons)
+        {
+            EventButtonManager::instance->ClearButtons(def);
+        }
+    }
+
+    if (!customEvent->eventButtons.empty())
+    {
+        for (EventButtonDefinition *def : customEvent->eventButtons)
+        {
+            EventButtonManager::instance->CreateButton(def);
+        }
+        EventButtonManager::instance->Sort();
+    }
+
     if (customEvent->recallBoarders) {
         RecallBoarders(customEvent->recallBoardersShip);
     }
@@ -3586,12 +3721,12 @@ LocationEvent* CustomEventsParser::GetEvent(WorldManager *world, std::string eve
 void CustomEventsParser::LoadEvent(WorldManager *world, EventLoadList *eventList, int seed, CustomEvent *parentEvent)
 {
     SetCheckCargo(parentEvent);
-    advancedCheckEquipment = true;
+    advancedCheckEquipment[2] = true;
 
     LocationEvent *event = GetEvent(world, eventList, seed);
 
     g_checkCargo = false;
-    advancedCheckEquipment = false;
+    advancedCheckEquipment[2] = false;
 
     if (event) world->UpdateLocation(event);
 }
@@ -3599,12 +3734,12 @@ void CustomEventsParser::LoadEvent(WorldManager *world, EventLoadList *eventList
 void CustomEventsParser::LoadEvent(WorldManager *world, std::string eventName, bool ignoreUnique, int seed, CustomEvent *parentEvent)
 {
     SetCheckCargo(parentEvent);
-    advancedCheckEquipment = true;
+    advancedCheckEquipment[2] = true;
 
     LocationEvent *event = GetEvent(world, eventName, ignoreUnique, seed);
 
     g_checkCargo = false;
-    advancedCheckEquipment = false;
+    advancedCheckEquipment[2] = false;
 
     if (event) world->UpdateLocation(event);
 }
@@ -3625,11 +3760,9 @@ HOOK_METHOD(WorldManager, CreateLocation, (Location *location) -> void)
                 ++it;
             }
         }
-        if (deathEvent.jumpClear)
-        {
-            deathEvent.event = "";
-            deathEvent.jumpClear = false;
-        }
+        deathEventQueue.erase(std::remove_if(deathEventQueue.begin(), deathEventQueue.end(),
+                              [](DeathEvent& obj) { return obj.jumpClear; }),
+                              deathEventQueue.end());
     }
 
     bool needsBackground = location->space.tex == nullptr && location->planet.tex == nullptr;
@@ -3855,22 +3988,71 @@ HOOK_METHOD(WorldManager, CreateShip, (ShipEvent* shipEvent, bool boss) -> Compl
 
     if (customEvent)
     {
-        if (customEvent->jumpEventClear)
+        if (!customEvent->clearJumpEvents.empty())
         {
-            jumpEvent = "";
-            jumpEventLoop = false;
+            for (std::string &name : customEvent->clearJumpEvents)
+            {
+                if (!name.empty())
+                {
+                    jumpEventQueue.erase(std::remove_if(jumpEventQueue.begin(), jumpEventQueue.end(),
+                                         [&name](JumpEvent& obj) { return obj.label == name; }),
+                                         jumpEventQueue.end());
+                }
+                else
+                {
+                    jumpEventQueue.clear();
+                }
+            }
         }
 
-        if (!customEvent->jumpEvent.empty())
+        if (!customEvent->jumpEvents.empty())
         {
-            jumpEvent = customEvent->jumpEvent;
-            jumpEventLoop = customEvent->jumpEventLoop;
+            for (JumpEvent &jumpEvent : customEvent->jumpEvents)
+            {
+                jumpEventQueue.push_back(jumpEvent);
+            }
+            std::stable_sort(jumpEventQueue.begin(), jumpEventQueue.end(),
+            [](const JumpEvent &a, const JumpEvent &b) -> bool
+            {
+                return a.priority > b.priority;
+            });
         }
 
-        if (customEvent->deathEvent.present)
+        if (!customEvent->clearDeathEvents.empty())
         {
-            deathEvent = customEvent->deathEvent;
-            hs_log_file("Set death event to %s\n", deathEvent.event.c_str());
+            for (std::string &name : customEvent->clearDeathEvents)
+            {
+                if (!name.empty())
+                {
+                    deathEventQueue.erase(std::remove_if(deathEventQueue.begin(), deathEventQueue.end(),
+                                          [&name](DeathEvent& obj) { return obj.label == name; }),
+                                          deathEventQueue.end());
+                }
+                else
+                {
+                    deathEventQueue.clear();
+                }
+            }
+        }
+
+        if (!customEvent->deathEvents.empty())
+        {
+            for (DeathEvent &deathEvent : customEvent->deathEvents)
+            {
+                if (deathEvent.event.empty() && deathEvent.label.empty())
+                {
+                    deathEventQueue.clear(); // backwards compatibility
+                }
+                else
+                {
+                    deathEventQueue.push_back(deathEvent);
+                }
+            }
+            std::stable_sort(deathEventQueue.begin(), deathEventQueue.end(),
+            [](const DeathEvent &a, const DeathEvent &b) -> bool
+            {
+                return a.priority > b.priority;
+            });
         }
 
         for (auto& triggeredEvent: customEvent->clearTriggeredEvents)
@@ -4268,102 +4450,9 @@ HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEve
             playerShip->shipManager->RemoveItem(i);
         }
 
-        for (VariableModifier &i : customEvent->variables)
+        if (!customEvent->variables.empty())
         {
-            int val;
-            if (i.minVal == i.maxVal)
-            {
-                val = i.minVal;
-            }
-            else
-            {
-                int savedSeed;
-                if (SeedInputBox::seedsEnabled)
-                {
-                    savedSeed = random32();
-                    srandom32(Global::questSeed);
-                }
-
-                val = i.minVal + random32()%(i.maxVal-i.minVal+1);
-
-                if (SeedInputBox::seedsEnabled)
-                {
-                    Global::questSeed = random32();
-                    srandom32(savedSeed);
-                }
-            }
-            switch (i.op)
-            {
-            case VariableModifier::OP::SET:
-                playerVariables[i.name] = val;
-                break;
-            case VariableModifier::OP::ADD:
-                playerVariables[i.name] += val;
-                break;
-            case VariableModifier::OP::MUL:
-                playerVariables[i.name] *= val;
-                break;
-            case VariableModifier::OP::DIV:
-                playerVariables[i.name] /= val;
-                break;
-            case VariableModifier::OP::MIN:
-                playerVariables[i.name] = std::min(playerVariables[i.name], val);
-                break;
-            case VariableModifier::OP::MAX:
-                playerVariables[i.name] = std::max(playerVariables[i.name], val);
-                break;
-            }
-
-            CustomAchievementTracker::instance->UpdateVariableAchievements(i.name, playerVariables[i.name]);
-        }
-
-        for (VariableModifier &i : customEvent->metaVariables)
-        {
-            int val;
-            if (i.minVal == i.maxVal)
-            {
-                val = i.minVal;
-            }
-            else
-            {
-                int savedSeed;
-                if (SeedInputBox::seedsEnabled)
-                {
-                    savedSeed = random32();
-                    srandom32(Global::questSeed);
-                }
-
-                val = i.minVal + random32()%(i.maxVal-i.minVal+1);
-
-                if (SeedInputBox::seedsEnabled)
-                {
-                    Global::questSeed = random32();
-                    srandom32(savedSeed);
-                }
-            }
-            switch (i.op)
-            {
-            case VariableModifier::OP::SET:
-                metaVariables[i.name] = val;
-                break;
-            case VariableModifier::OP::ADD:
-                metaVariables[i.name] += val;
-                break;
-            case VariableModifier::OP::MUL:
-                metaVariables[i.name] *= val;
-                break;
-            case VariableModifier::OP::DIV:
-                metaVariables[i.name] /= val;
-                break;
-            case VariableModifier::OP::MIN:
-                metaVariables[i.name] = std::min(metaVariables[i.name], val);
-                break;
-            case VariableModifier::OP::MAX:
-                metaVariables[i.name] = std::max(metaVariables[i.name], val);
-                break;
-            }
-
-            CustomAchievementTracker::instance->UpdateVariableAchievements(i.name, metaVariables[i.name]);
+            VariableModifier::ApplyVariables(customEvent->variables, playerShip->shipManager);
         }
 
         if (customEvent->gameOver.enabled)
@@ -4407,22 +4496,64 @@ HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEve
             }
         }
 
-        if (customEvent->jumpEventClear)
+        if (!customEvent->clearJumpEvents.empty())
         {
-            jumpEvent = "";
-            jumpEventLoop = false;
+            for (std::string &name : customEvent->clearJumpEvents)
+            {
+                if (!name.empty())
+                {
+                    jumpEventQueue.erase(std::remove_if(jumpEventQueue.begin(), jumpEventQueue.end(),
+                                         [&name](JumpEvent& obj) { return obj.label == name; }),
+                                         jumpEventQueue.end());
+                }
+                else
+                {
+                    jumpEventQueue.clear();
+                }
+            }
         }
 
-        if (!customEvent->jumpEvent.empty())
+        if (!customEvent->jumpEvents.empty())
         {
-            jumpEvent = customEvent->jumpEvent;
-            jumpEventLoop = customEvent->jumpEventLoop;
+            for (JumpEvent &jumpEvent : customEvent->jumpEvents)
+            {
+                jumpEventQueue.push_back(jumpEvent);
+            }
+            std::stable_sort(jumpEventQueue.begin(), jumpEventQueue.end(),
+            [](const JumpEvent &a, const JumpEvent &b) -> bool
+            {
+                return a.priority > b.priority;
+            });
         }
 
-        if (customEvent->deathEvent.present)
+        if (!customEvent->clearDeathEvents.empty())
         {
-            deathEvent = customEvent->deathEvent;
-            hs_log_file("Set death event to %s\n", deathEvent.event.c_str());
+            for (std::string &name : customEvent->clearDeathEvents)
+            {
+                if (!name.empty())
+                {
+                    deathEventQueue.erase(std::remove_if(deathEventQueue.begin(), deathEventQueue.end(),
+                                          [&name](DeathEvent& obj) { return obj.label == name; }),
+                                          deathEventQueue.end());
+                }
+                else
+                {
+                    deathEventQueue.clear();
+                }
+            }
+        }
+
+        if (!customEvent->deathEvents.empty())
+        {
+            for (DeathEvent &deathEvent : customEvent->deathEvents)
+            {
+                deathEventQueue.push_back(deathEvent);
+            }
+            std::stable_sort(deathEventQueue.begin(), deathEventQueue.end(),
+            [](const DeathEvent &a, const DeathEvent &b) -> bool
+            {
+                return a.priority > b.priority;
+            });
         }
 
         if (customEvent->goToFlagship)
@@ -4444,6 +4575,7 @@ HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEve
             if (crew != nullptr)
             {
                 auto ex = CM_EX(crew);
+                ex->originalRace = newSpecies;
                 ex->TransformRace(newSpecies);
             }
         }
@@ -4542,11 +4674,10 @@ HOOK_METHOD(StarMap, NewGame, (bool unk) -> Location*)
     restartMusicTimer = nullptr;
 
     // jumpEvent
-    jumpEvent = "";
-    jumpEventLoop = false;
+    jumpEventQueue.clear();
 
     // deathEvent
-    deathEvent.event = "";
+    deathEventQueue.clear();
 
     // eventAlias
     eventAliases.clear();
@@ -4557,8 +4688,15 @@ HOOK_METHOD(StarMap, NewGame, (bool unk) -> Location*)
     // renamedBeacons
     renamedBeacons.clear();
 
+    // backgroundObjects;
+    CustomBackgroundObjectManager::instance->backgroundObjects.clear();
+
+    // eventButtons
+    EventButtonManager::instance->buttons.clear();
+
     // playerVariables
     playerVariables.clear();
+    VariableModifier::ApplyVariables(CustomEventsParser::GetInstance()->initialPlayerVars, G_->GetWorld()->playerShip->shipManager);
 
     // Game Over
     G_->GetWorld()->commandGui->alreadyWon = false;
@@ -4581,17 +4719,33 @@ HOOK_METHOD(StarMap, LoadGame, (int fh) -> Location*)
     restartMusicTimer = nullptr;
 
     // jumpEvent
-    jumpEvent = FileHelper::readString(fh);
-    jumpEventLoop = FileHelper::readInteger(fh);
+    int n = FileHelper::readInteger(fh);
+    for (int i=0; i<n; ++i)
+    {
+        jumpEventQueue.emplace_back();
+        JumpEvent &jumpEvent = jumpEventQueue.back();
+        jumpEvent.event = FileHelper::readString(fh);
+        jumpEvent.label = FileHelper::readString(fh);
+        jumpEvent.loop = FileHelper::readInteger(fh);
+        jumpEvent.priority = FileHelper::readInteger(fh);
+    }
 
     // deathEvent
-    deathEvent.event = FileHelper::readString(fh);
-    deathEvent.jumpClear = FileHelper::readInteger(fh);
-    deathEvent.thisFight = FileHelper::readInteger(fh);
+    n = FileHelper::readInteger(fh);
+    for (int i=0; i<n; ++i)
+    {
+        deathEventQueue.emplace_back();
+        DeathEvent &deathEvent = deathEventQueue.back();
+        deathEvent.event = FileHelper::readString(fh);
+        deathEvent.label = FileHelper::readString(fh);
+        deathEvent.jumpClear = FileHelper::readInteger(fh);
+        deathEvent.thisFight = FileHelper::readInteger(fh);
+        deathEvent.priority = FileHelper::readInteger(fh);
+    }
 
     // eventAlias
     eventAliases.clear();
-    int n = FileHelper::readInteger(fh);
+    n = FileHelper::readInteger(fh);
     for (int i=0; i<n; ++i)
     {
         std::string alias_name = FileHelper::readString(fh);
@@ -4621,6 +4775,24 @@ HOOK_METHOD(StarMap, LoadGame, (int fh) -> Location*)
         int idx = FileHelper::readInteger(fh);
         renamedBeacons[idx] = FileHelper::readString(fh);
     }
+
+    // backgroundObjects
+    CustomBackgroundObjectManager::instance->backgroundObjects.clear();
+    n = FileHelper::readInteger(fh);
+    for (int i=0; i<n; ++i)
+    {
+        int idx = FileHelper::readInteger(fh);
+        std::vector<CustomBackgroundObject> &vec = CustomBackgroundObjectManager::instance->backgroundObjects[idx];
+        int backgroundObjects_size = FileHelper::readInteger(fh);
+        for (int j=0; j<backgroundObjects_size; ++j)
+        {
+            vec.emplace_back();
+            vec.back().Load(fh);
+        }
+    }
+
+    // eventButtons
+    EventButtonManager::instance->Load(fh);
 
     // playerVariables
     playerVariables.clear();
@@ -4653,13 +4825,25 @@ HOOK_METHOD(StarMap, SaveGame, (int file) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> StarMap::SaveGame -> Begin (CustomEvents.cpp)\n")
     // jumpEvent
-    FileHelper::writeString(file, jumpEvent);
-    FileHelper::writeInt(file, jumpEventLoop);
+    FileHelper::writeInt(file, jumpEventQueue.size());
+    for (JumpEvent &jumpEvent : jumpEventQueue)
+    {
+        FileHelper::writeString(file, jumpEvent.event);
+        FileHelper::writeString(file, jumpEvent.label);
+        FileHelper::writeInt(file, jumpEvent.loop);
+        FileHelper::writeInt(file, jumpEvent.priority);
+    }
 
     // deathEvent
-    FileHelper::writeString(file, deathEvent.event);
-    FileHelper::writeInt(file, deathEvent.jumpClear);
-    FileHelper::writeInt(file, deathEvent.thisFight);
+    FileHelper::writeInt(file, deathEventQueue.size());
+    for (DeathEvent &deathEvent : deathEventQueue)
+    {
+        FileHelper::writeString(file, deathEvent.event);
+        FileHelper::writeString(file, deathEvent.label);
+        FileHelper::writeInt(file, deathEvent.jumpClear);
+        FileHelper::writeInt(file, deathEvent.thisFight);
+        FileHelper::writeInt(file, deathEvent.priority);
+    }
 
     // eventAlias
     FileHelper::writeInt(file, eventAliases.size());
@@ -4695,6 +4879,21 @@ HOOK_METHOD(StarMap, SaveGame, (int file) -> void)
         }
     }
 
+    // backgroundObjects
+    FileHelper::writeInt(file, CustomBackgroundObjectManager::instance->backgroundObjects.size());
+    for (auto& i : CustomBackgroundObjectManager::instance->backgroundObjects)
+    {
+        FileHelper::writeInt(file, i.first);
+        FileHelper::writeInt(file, i.second.size());
+        for (auto& j : i.second)
+        {
+            j.Save(file);
+        }
+    }
+
+    // eventButtons
+    EventButtonManager::instance->Save(file);
+
     // playerVariables
     FileHelper::writeInt(file, playerVariables.size());
     for (auto& i : playerVariables)
@@ -4718,12 +4917,23 @@ HOOK_METHOD(StarMap, SaveGame, (int file) -> void)
 HOOK_METHOD(StarMap, Open, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> StarMap::Open -> Begin (CustomEvents.cpp)\n")
-    if (!jumpEvent.empty())
+
+    WorldManager *world = G_->GetWorld();
+
+    auto it = jumpEventQueue.begin();
+    while (it != jumpEventQueue.end())
     {
-        std::string eventName = jumpEvent;
-        if (!jumpEventLoop) jumpEvent = "";
-        CustomEventsParser::GetInstance()->LoadEvent(G_->GetWorld(), eventName, false, -1);
-        return;
+        CustomEventsParser::GetInstance()->LoadEvent(world, it->event, false, -1);
+        if (it->loop)
+        {
+            ++it;
+        }
+        else
+        {
+            it = jumpEventQueue.erase(it);
+        }
+
+        if (world->commandGui->choiceBox.bOpen) return;
     }
 
     super();
@@ -4875,15 +5085,182 @@ HOOK_METHOD(StarMap, TurnIntoFleetLocation, (Location *loc) -> void)
     super(loc);
 }
 
-HOOK_METHOD_PRIORITY(ShipManager, SelectRandomCrew, 100, (int seed, std::string &racePref) -> CrewBlueprint)
+// Crew Removal Functions
+
+static bool selectRandomCrew_allowNoSlot = false;
+static bool selectRandomCrew_blockNoSlot = false;
+
+HOOK_METHOD_PRIORITY(WorldManager, CreateLocation, -100, (Location *location) -> void)
 {
-    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::SelectRandomCrew -> Begin (CustomEvents.cpp)\n")
-    std::string species = racePref;
-    CrewBlueprint bp = super(seed, species); // species is not const?!
+    LocationEvent *event = location->event;
 
-    species = racePref;
+    if (event)
+    {
+        CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(event->eventName);
 
-    std::vector<std::string> blueprintList = G_->GetBlueprints()->GetBlueprintList(species);
+        if (customEvent)
+        {
+            selectRandomCrew_allowNoSlot = customEvent->allowNoSlot;
+            selectRandomCrew_blockNoSlot = customEvent->blockNoSlot;
+        }
+    }
+
+    super(location);
+
+    selectRandomCrew_allowNoSlot = false;
+    selectRandomCrew_blockNoSlot = false;
+}
+
+HOOK_METHOD_PRIORITY(WorldManager, UpdateLocation, -100, (LocationEvent *event) -> void)
+{
+    CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(event->eventName);
+
+    if (customEvent)
+    {
+        selectRandomCrew_allowNoSlot = customEvent->allowNoSlot;
+        selectRandomCrew_blockNoSlot = customEvent->blockNoSlot;
+    }
+
+    super(event);
+
+    selectRandomCrew_allowNoSlot = false;
+    selectRandomCrew_blockNoSlot = false;
+}
+
+HOOK_METHOD_PRIORITY(WorldManager, ModifyResources, -100, (LocationEvent *event) -> LocationEvent*)
+{
+    CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(event->eventName);
+
+    bool old_allowNoSlot = selectRandomCrew_allowNoSlot;
+    bool old_blockNoSlot = selectRandomCrew_blockNoSlot;
+
+    if (customEvent)
+    {
+        selectRandomCrew_allowNoSlot = customEvent->allowNoSlot;
+        selectRandomCrew_blockNoSlot = customEvent->blockNoSlot;
+    }
+
+    LocationEvent *ret = super(event);
+
+    old_allowNoSlot = false;
+    old_blockNoSlot = false;
+
+    return ret;
+}
+
+std::vector<CrewMember*> HS_GetEligibleCrewList(int iShipId, bool includeNoSlot)
+{
+    std::vector<CrewMember*> eligibleCrewList = std::vector<CrewMember*>();
+    std::vector<CrewMember*> crewList = std::vector<CrewMember*>();
+    G_->GetCrewFactory()->GetCrewList(&crewList, iShipId, false);
+
+    if (includeNoSlot) return crewList;
+
+    for (CrewMember* crew: crewList)
+    {
+        if (!includeNoSlot)
+        {
+            CrewMember_Extend *ex = CM_EX(crew);
+            bool noSlot = ex->noSlot;
+            CustomCrewManager *customCrew = CustomCrewManager::GetInstance();
+
+            if (customCrew->IsRace(crew->species))
+            {
+                const CrewDefinition *def = customCrew->GetDefinition(crew->species);
+                ex->CalculateStat(CrewStat::NO_SLOT, def, &noSlot);
+            }
+
+            if (noSlot)
+            {
+                continue;
+            }
+        }
+
+        eligibleCrewList.push_back(crew);
+    }
+
+    return eligibleCrewList;
+}
+
+std::vector<CrewMember*> HS_GetEligibleCrewList(int iShipId, std::string &racePref, bool includeNoSlot)
+{
+    if (racePref == "random") return HS_GetEligibleCrewList(iShipId, includeNoSlot);
+
+    std::vector<CrewMember*> eligibleCrewList = std::vector<CrewMember*>();
+    std::vector<CrewMember*> crewList = std::vector<CrewMember*>();
+    G_->GetCrewFactory()->GetCrewList(&crewList, iShipId, false);
+
+    for (CrewMember* crew: crewList)
+    {
+        if (crew->species == racePref)
+        {
+            if (!includeNoSlot)
+            {
+                CrewMember_Extend *ex = CM_EX(crew);
+                bool noSlot = ex->noSlot;
+                CustomCrewManager *customCrew = CustomCrewManager::GetInstance();
+
+                if (customCrew->IsRace(crew->species))
+                {
+                    const CrewDefinition *def = customCrew->GetDefinition(crew->species);
+                    ex->CalculateStat(CrewStat::NO_SLOT, def, &noSlot);
+                }
+
+                if (noSlot)
+                {
+                    continue;
+                }
+            }
+
+            eligibleCrewList.push_back(crew);
+        }
+    }
+
+    return eligibleCrewList;
+}
+
+std::vector<CrewMember*> HS_GetEligibleCrewList(int iShipId, const std::vector<std::string> &blueprintList, bool includeNoSlot)
+{
+    std::vector<CrewMember*> eligibleCrewList = std::vector<CrewMember*>();
+    std::vector<CrewMember*> crewList = std::vector<CrewMember*>();
+    G_->GetCrewFactory()->GetCrewList(&crewList, iShipId, false);
+
+    for (CrewMember* crew: crewList)
+    {
+        for (const std::string &i : blueprintList)
+        {
+            if (crew->species == i)
+            {
+                if (!includeNoSlot)
+                {
+                    CrewMember_Extend *ex = CM_EX(crew);
+                    bool noSlot = ex->noSlot;
+                    CustomCrewManager *customCrew = CustomCrewManager::GetInstance();
+
+                    if (customCrew->IsRace(crew->species))
+                    {
+                        const CrewDefinition *def = customCrew->GetDefinition(crew->species);
+                        ex->CalculateStat(CrewStat::NO_SLOT, def, &noSlot);
+                    }
+
+                    if (noSlot)
+                    {
+                        break;
+                    }
+                }
+
+                eligibleCrewList.push_back(crew);
+                break;
+            }
+        }
+    }
+
+    return eligibleCrewList;
+}
+
+std::vector<std::string> HS_GetRecursiveBlueprintList(std::string &bp)
+{
+    std::vector<std::string> blueprintList = G_->GetBlueprints()->GetBlueprintList(bp);
 
     for (int i=0; i<blueprintList.size(); ++i)
     {
@@ -4894,31 +5271,89 @@ HOOK_METHOD_PRIORITY(ShipManager, SelectRandomCrew, 100, (int seed, std::string 
         }
     }
 
-    if (!blueprintList.size()) return bp;
+    return blueprintList;
+}
 
-    if (seed != -1) srandom32(seed);
+std::vector<CrewMember*> HS_GetRandomCrewList(int iShipId, std::string &racePref, bool randomRaceAllowed, bool noSlotAllowed, bool noSlotForbidden)
+{
+    noSlotForbidden |= noSlotAllowed;
 
-    auto eligibleCrewList = std::vector<CrewMember*>();
-    auto crewList = std::vector<CrewMember*>();
-    G_->GetCrewFactory()->GetCrewList(&crewList, 0, false);
+    std::vector<std::string> blueprintList = HS_GetRecursiveBlueprintList(racePref);
 
-    for (auto crew: crewList)
+    std::vector<CrewMember*> eligibleCrewList;
+    if (!blueprintList.empty())
     {
-        if (!crew->IsDrone())
+        // List race
+        eligibleCrewList = HS_GetEligibleCrewList(0, blueprintList, noSlotAllowed);
+        if (eligibleCrewList.empty() && !noSlotForbidden) eligibleCrewList = HS_GetEligibleCrewList(0, blueprintList, true);
+    }
+    else if (!racePref.empty())
+    {
+        // Fixed race
+        eligibleCrewList = HS_GetEligibleCrewList(0, racePref, noSlotAllowed);
+        if (eligibleCrewList.empty() && !noSlotForbidden) eligibleCrewList = HS_GetEligibleCrewList(0, racePref, true);
+    }
+    else
+    {
+        randomRaceAllowed = true;
+    }
+    if (eligibleCrewList.empty() && randomRaceAllowed)
+    {
+        // No race
+        eligibleCrewList = HS_GetEligibleCrewList(0, noSlotAllowed);
+        if (eligibleCrewList.empty() && !noSlotForbidden) eligibleCrewList = HS_GetEligibleCrewList(0, true);
+    }
+
+    return eligibleCrewList;
+}
+
+HOOK_METHOD(WorldManager, CheckRequirements, (LocationEvent *event, bool hidden) -> bool)
+{
+    bool ret = super(event, hidden);
+
+    if (ret && event)
+    {
+        CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(event->eventName);
+
+        if (customEvent)
         {
-            for (auto i : blueprintList)
+            if (customEvent->choiceRequiresCrew)
             {
-                if (crew->species == i)
+                if (event->stuff.crew < 0)
                 {
-                    eligibleCrewList.push_back(crew);
-                    break;
+                    std::vector<CrewMember*> eligibleCrewList = HS_GetRandomCrewList(0, event->stuff.crewType, false, customEvent->allowNoSlot, customEvent->blockNoSlot);
+                    if (eligibleCrewList.empty()) return false;
+                }
+                if (!customEvent->transformRace.second.empty())
+                {
+                    std::vector<CrewMember*> eligibleCrewList = HS_GetRandomCrewList(0, customEvent->transformRace.first, false, customEvent->allowNoSlot, customEvent->blockNoSlot);
+                    if (eligibleCrewList.empty()) return false;
                 }
             }
         }
+        else if (event->stuff.crew < 0 && CustomOptionsManager::GetInstance()->defaults.choiceRequiresCrew)
+        {
+            std::vector<CrewMember*> eligibleCrewList = HS_GetRandomCrewList(0, event->stuff.crewType, false, false, false);
+            if (eligibleCrewList.empty()) return false;
+        }
     }
 
-    if (eligibleCrewList.size())
+    return ret;
+}
+
+HOOK_METHOD_PRIORITY(ShipManager, SelectRandomCrew, 100, (int seed, std::string &racePref) -> CrewBlueprint)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::SelectRandomCrew -> Begin (CustomEvents.cpp)\n")
+    std::string species = racePref;
+    CrewBlueprint bp = super(seed, species); // species is not const?!
+
+    species = racePref;
+
+    std::vector<CrewMember*> eligibleCrewList = HS_GetRandomCrewList(0, racePref, true, selectRandomCrew_allowNoSlot, selectRandomCrew_blockNoSlot);
+
+    if (!eligibleCrewList.empty())
     {
+        if (seed != -1) srandom32(seed);
         bp = eligibleCrewList[((unsigned int)random32()) % eligibleCrewList.size()]->blueprint;
     }
 
@@ -4960,6 +5395,8 @@ HOOK_METHOD_PRIORITY(ShipManager, FindCrew, 9999, (const CrewBlueprint* bp) -> C
 
     return nullptr;
 }
+
+//
 
 HOOK_METHOD(ShipObject, HasEquipment, (const std::string& name) -> int)
 {
@@ -5288,7 +5725,6 @@ HOOK_METHOD(WorldManager, ModifyStatusEffect, (StatusEffect effect, ShipManager 
 // Death Event
 
 bool deathEventActive = false;
-DeathEvent deathEvent = DeathEvent();
 
 HOOK_METHOD(WorldManager, UpdateLocation0, (LocationEvent *loc) -> void)
 {
@@ -5307,20 +5743,116 @@ HOOK_METHOD(WorldManager, CreateChoiceBox0, (LocationEvent *event) -> void)
 HOOK_METHOD(GameOver, OpenText, (const std::string &text) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> GameOver::OpenText -> Begin (CustomEvents.cpp)\n")
-    if (deathEvent.event.empty())
-    {
-        return super(text);
-    }
 
-    if (bVictory)
+    if (deathEventQueue.empty()) return super(text);
+
+    if (bVictory) return super(text);
+
+    deathEventActive = true;
+
+    DeathEvent &deathEvent = deathEventQueue.front();
+    CustomEventsParser::GetInstance()->LoadEvent(G_->GetWorld(), deathEvent.event, false, -1);
+    deathEventQueue.pop_front();
+}
+
+// Variable Stuff
+
+void VariableModifier::ApplyVariables(std::vector<VariableModifier> &variables, ShipManager *ship)
+{
+    std::unordered_map<std::string, int> tempVariables;
+    for (VariableModifier &i : variables)
     {
-        super(text);
-    }
-    else
-    {
-        deathEventActive = true;
-        std::string eventName = deathEvent.event;
-        deathEvent.event = "";
-        CustomEventsParser::GetInstance()->LoadEvent(G_->GetWorld(), eventName, false, -1);
+        int val;
+
+        if (i.minVal == i.maxVal)
+        {
+            val = i.minVal;
+        }
+        else
+        {
+            int savedSeed;
+            if (SeedInputBox::seedsEnabled)
+            {
+                savedSeed = random32();
+                srandom32(Global::questSeed);
+            }
+
+            val = i.minVal + random32()%(i.maxVal-i.minVal+1);
+
+            if (SeedInputBox::seedsEnabled)
+            {
+                Global::questSeed = random32();
+                srandom32(savedSeed);
+            }
+        }
+
+        if (!i.var.empty())
+        {
+            auto it = tempVariables.find(i.var);
+            if (it != tempVariables.end())
+            {
+                val *= it->second;
+            }
+            else if (ship)
+            {
+                advancedCheckEquipment[4] = true;
+                val *= ship->HasEquipment(i.var);
+                advancedCheckEquipment[4] = false;
+            }
+            else
+            {
+                it = playerVariables.find(i.var);
+                if (it != playerVariables.end())
+                {
+                    val *= it->second;
+                }
+                else
+                {
+                    it = metaVariables.find(i.var);
+                    if (it != metaVariables.end())
+                    {
+                        val *= it->second;
+                    }
+                }
+            }
+        }
+
+        std::unordered_map<std::string, int> *varList;
+        switch(i.vType)
+        {
+        case VarType::VAR:
+            varList = &playerVariables;
+            break;
+        case VarType::METAVAR:
+            varList = &metaVariables;
+            break;
+        default:
+            varList = &tempVariables;
+            break;
+        }
+
+        switch (i.op)
+        {
+        case OP::SET:
+            (*varList)[i.name] = val;
+            break;
+        case OP::ADD:
+            (*varList)[i.name] += val;
+            break;
+        case OP::MUL:
+            (*varList)[i.name] *= val;
+            break;
+        case OP::DIV:
+            (*varList)[i.name] /= val;
+            break;
+        case OP::MIN:
+            (*varList)[i.name] = std::min((*varList)[i.name], val);
+            break;
+        case OP::MAX:
+            (*varList)[i.name] = std::max((*varList)[i.name], val);
+            break;
+        }
+
+        CustomAchievementTracker::instance->UpdateVariableAchievements(i.name, (*varList)[i.name]);
     }
 }

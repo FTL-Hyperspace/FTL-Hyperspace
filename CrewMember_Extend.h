@@ -132,7 +132,8 @@ public:
 
     float extraMedbay = 0.f;
 
-    std::string originalRace; // for color layers
+    std::string originalColorRace = ""; // for color layers
+    std::string originalRace = "";
     std::string transformRace = "";
 
     void Initialize(CrewBlueprint& bp, int shipId, bool enemy, CrewAnimation *animation, bool isTransform = false);
@@ -145,7 +146,7 @@ public:
         delete deathTimer;
     }
 
-    std::pair<float,int> statCache[numStats] = {};
+    std::pair<float,int> statCache[numCachedStats] = {};
 
     bool BoostCheck(const StatBoost& statBoost);
     int CalculateMaxHealth(const CrewDefinition* def);

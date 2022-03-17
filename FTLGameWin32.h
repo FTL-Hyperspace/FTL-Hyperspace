@@ -2945,6 +2945,10 @@ struct ConfirmWindow;
 struct TextButton : GenericButton
 {
 public:
+	TextButton()
+	{
+		this->constructor();
+	}
 	Point GetSize()
 	{
 		__int64 ret = GetSize_DO_NOT_USE_DIRECTLY();
@@ -2964,6 +2968,7 @@ public:
 	LIBZHL_API void SetInactiveColor(GL_Color color);
 	LIBZHL_API void SetSelectedColor(GL_Color color);
 	LIBZHL_API void SetTextColor(GL_Color color);
+	LIBZHL_API void UpdateAutoWidth();
 	LIBZHL_API static void __stdcall __DO_NOT_HOOK();
 	LIBZHL_API void constructor();
 	LIBZHL_API void destructor();
@@ -3752,6 +3757,8 @@ struct CombatControl
 	LIBZHL_API std::string GetCrewTooltip(int x, int y);
 	LIBZHL_API ShipManager *GetCurrentTarget();
 	LIBZHL_API void KeyDown(SDLKey key);
+	LIBZHL_API void MouseClick(int mX, int mY, bool shift);
+	LIBZHL_API bool MouseMove(int mX, int mY);
 	LIBZHL_API bool MouseRClick(int x, int y);
 	LIBZHL_API void OnInit(Point pos);
 	LIBZHL_API void OnLoop();
@@ -4010,6 +4017,7 @@ struct TextButton0 : GenericButton
 
 struct FTLButton : TextButton0
 {
+	LIBZHL_API void MouseMove(int mX, int mY, bool silent);
 	LIBZHL_API void OnRender();
 	
 	bool autoShrinkText;
@@ -4125,6 +4133,7 @@ struct WarningWithLines;
 struct ShipStatus
 {
 	LIBZHL_API void OnInit(Point unk, float unk2);
+	LIBZHL_API void OnLoop();
 	LIBZHL_API void OnRender();
 	LIBZHL_API void RenderEvadeOxygen(bool unk);
 	LIBZHL_API void RenderHealth(bool unk);
@@ -4317,6 +4326,7 @@ struct CommandGui
 	LIBZHL_API void NewLocation(const std::string &mainText, std::vector<ChoiceText> *choices, ResourceEvent &resources, bool testingEvents);
 	LIBZHL_API void OnInit();
 	LIBZHL_API void OnLoop();
+	LIBZHL_API void RenderPlayerShip(Point &shipCenter, float jumpScale);
 	LIBZHL_API void RenderStatic();
 	LIBZHL_API void RunCommand(std::string &command);
 	LIBZHL_API void Victory();
@@ -5691,8 +5701,17 @@ struct IonDrone : BoarderDrone
 	int lastRoom;
 };
 
+struct IonDroneAnimation;
+
 struct IonDroneAnimation : CrewAnimation
 {
+	IonDroneAnimation(int _shipId, Pointf _position, bool _hostile)
+	{
+		this->constructor(_shipId, _position, _hostile);
+	}
+
+	LIBZHL_API void constructor(int iShipId, Pointf position, bool enemy);
+	
 	Animation ionExplosion;
 	Animation ionAnimation;
 	Animation doorAnimations[4];
@@ -6054,8 +6073,10 @@ struct ProjectileFactory : ShipObject
 	bool isArtillery;
 };
 
-struct RepairAnimation
+struct RepairAnimation : CrewAnimation
 {
+	RepairAnimation(int _shipId, const std::string& _race, Pointf _unk, bool _hostile);
+
 };
 
 struct RepairDrone : CrewDrone
@@ -7493,6 +7514,7 @@ struct WorldManager
 	LIBZHL_API bool AddBoarders(BoardingEvent &boardingEvent);
 	LIBZHL_API bool CheckRequirements(LocationEvent *event, bool hidden);
 	LIBZHL_API void CheckStatusEffects(std::vector<StatusEffect> &vec);
+	LIBZHL_API void ClearLocation();
 	LIBZHL_API void CreateChoiceBox(LocationEvent *event);
 	LIBZHL_API void CreateChoiceBox0(LocationEvent *event);
 	LIBZHL_API void CreateLocation(Location *loc);
@@ -7566,6 +7588,7 @@ extern LIBZHL_API GL_Color *Global_InfoBox_detailsBarOff;
 extern LIBZHL_API void **VTable_LaserBlast;
 extern LIBZHL_API void **VTable_Targetable_LaserBlast;
 extern LIBZHL_API MouseControl *Global_MouseControl_Mouse;
+extern LIBZHL_API void **VTable_RepairAnimation;
 extern LIBZHL_API ResourceControl *Global_ResourceControl_GlobalResources;
 extern LIBZHL_API ScoreKeeper *Global_ScoreKeeper_Keeper;
 extern LIBZHL_API SettingValues *Global_Settings_Settings;

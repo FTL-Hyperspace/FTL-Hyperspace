@@ -1,0 +1,7 @@
+"894424088d45ccc645da0089442404e8????????8b45cc83ec1439f874??890424e8????????8b4584c700(???????\?)c680ee09000001c7042438090000":
+void** VTable_RepairAnimation;
+
+struct RepairAnimation
+{{
+	RepairAnimation(int _shipId, const std::string& _race, Pointf _unk, bool _hostile);
+}};

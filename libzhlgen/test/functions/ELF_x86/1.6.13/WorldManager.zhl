@@ -6,6 +6,8 @@ cleanup int WorldManager::OnInit(WorldManager *this);
 cleanup CompleteShip* WorldManager::CreateShip(WorldManager *this, ShipEvent* shipEvent, bool boss);
 "5589e557565381ec7c0200008b75088b7d0cc686c20e000000":
 cleanup void WorldManager::CreateLocation(WorldManager *this, Location *loc);
+".5589e557565381ec9c0100008b7508":
+cleanup void WorldManager::ClearLocation(WorldManager *this);
 "5589e557565383ec2c8b5d088b83cc0c0000890424":
 cleanup void WorldManager::SaveGame(WorldManager *this);
 "5589e55789d7565389c381ec0c020000":

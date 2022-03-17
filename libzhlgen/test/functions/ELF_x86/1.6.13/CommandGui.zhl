@@ -28,3 +28,5 @@ cleanup void CommandGui::CheckGameover(CommandGui *this);
 cleanup bool CommandGui::IsGameOver(CommandGui *this);
 "5557565381ec7c0100008bbc24980100008b8424a0010000":
 cleanup void CommandGui::NewLocation(CommandGui *this, const std::string& mainText, std::vector<ChoiceText> *choices, ResourceEvent& resources, bool testingEvents);
+"565383ec248b7424348d4424108904248b5c2430":
+cleanup void CommandGui::RenderPlayerShip(CommandGui *this, Point &shipCenter, float jumpScale);
