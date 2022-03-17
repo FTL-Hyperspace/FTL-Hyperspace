@@ -32,7 +32,7 @@ cleanup int ShipGraph::GetSelectedRoom(ShipGraph *this<rdi>, int x<rsi>, int y<r
 cleanup int ShipGraph::RoomCount(ShipGraph *this<rdi>);
 ".4883ec184c8b0e4c8b46084889f84d29c849c1f8034d85c0":
 cleanup Globals::Rect ShipGraph::GetRoomShape(ShipGraph *this<rdi>, int room<rsi>);
-"."85f60f57c0:
+".85f60f57c0":
 cleanup float ShipGraph::GetRoomOxygen(ShipGraph *this<rdi>, int room<rsi>);
 ".85f6b801000000":
 cleanup bool ShipGraph::GetRoomBlackedOut(ShipGraph *this<rdi>, int room<rsi>);

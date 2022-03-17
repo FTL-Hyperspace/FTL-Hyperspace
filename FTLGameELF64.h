@@ -4663,25 +4663,175 @@ struct Selectable
 };
 
 struct Room;
+
+struct Room : Selectable
+{
+	Point GetIntoRoom(Point pos)
+	{
+		int posX = pos.x;
+		int posY = pos.y;
+		
+		int rectY = this->rect.y;
+		int rectH = this->rect.h;
+		
+		int rectX = this->rect.x;
+		int rectW = this->rect.w;
+		
+		//printf("%d %d %d %d %d %d\n", posX, posY, rectX, rectW, rectY, rectH);
+		
+		if (rectY + rectH - posY > 15 && posY - rectY > 15)
+		{
+			if (rectW + rectX - posX > 15 && posX - rectX > 15)
+			{
+				return Point(-1, -1);
+			}
+		}
+		
+		
+		
+		
+		Point center = Point(rectX + rectW / 2, rectY + rectH / 2);
+		
+		Point toGrid = Point((posX + 2 * (center.x > posX) - 1) / 35, (posY + 2 * (center.y > posY) - 1) / 35);
+		Point fromGrid = Point(toGrid.x * 35, toGrid.y * 35);
+		
+		return Point(fromGrid.x + 17, fromGrid.y + 17);
+	}
+
+	Globals::Rect GetRect() 
+	{
+		return this->rect;
+	}
+
+	LIBZHL_API int GetEmptySlots(bool intruder);
+	LIBZHL_API void OnRenderFloor(float alpha, bool experimental);
+	LIBZHL_API void OnRenderWalls(float alpha);
+	LIBZHL_API void constructor(int iShipId, int x, int y, int w, int h, int roomId);
+	LIBZHL_API void destructor();
+	
+	ShipObject _shipObject;
+	Globals::Rect rect;
+	int iRoomId;
+	bool bBlackedOut;
+	uint8_t gap_ex_1[4];
+	std::vector<int> filledSlots;
+	std::vector<std::vector<bool>> slots;
+	bool bWarningLight;
+	uint8_t gap_ex_2[4];
+	AnimationTracker lightTracker;
+	int iFireCount;
+	std::vector<Animation> fires;
+	int primarySlot;
+	int primaryDirection;
+	float lastO2;
+	GL_Primitive *floorPrimitive;
+	GL_Primitive *blackoutPrimitive;
+	GL_Primitive *highlightPrimitive;
+	GL_Primitive *highlightPrimitive2;
+	GL_Primitive *o2LowPrimitive;
+	GL_Primitive *computerPrimitive;
+	GL_Primitive *computerGlowPrimitive;
+	GL_Primitive *computerGlowYellowPrimitive;
+	GL_Primitive *lightPrimitive;
+	GL_Primitive *lightGlowPrimitive;
+	Animation stunSparks;
+	Animation consoleSparks;
+	bool bStunning;
+	float fHacked;
+	int currentSparkRotation;
+	std::vector<Animation> sparks;
+	float sparkTimer;
+	int sparkCount;
+	int iHackLevel;
+	Animation roomTapped;
+};
+
 struct ShipGraph;
 
 struct ShipGraph
 {
+    // TODO: This looks like it was re-implemented because they were unsure at the time how to hook it, we can totally hook it now like we do for GetSlotRenderPosition
+	static Point TranslateFromGrid(int xx, int yy)
+	{
+		return Point(xx * 35, yy * 35);
+	}
+	
+	// TODO: This looks like it was re-implemented because they were unsure at the time how to hook it, we can totally hook it now like we do for GetSlotRenderPosition
+	static Point TranslateToGrid(int xx, int yy)
+	{
+		return Point(xx / 35, yy / 35);
+	}
+	
+	// TODO: This looks like it was re-implemented because they were unsure at the time how to hook it, we can totally hook it now like we do for GetSlotRenderPosition
+	Point GetIntoRoom(int roomId, Point pos)
+	{
+		Point ret;
+		if (roomId >= 0 && roomId < this->rooms.size())
+		{
+			auto room = this->rooms[roomId];
+			ret = room->GetIntoRoom(pos);
+		}
+		else
+		{
+			ret = Point(-1, -1);
+		}
+		
+		return ret;
+	}
+	
+	// TODO: This looks like it was re-implemented because they were unsure at the time how to hook it, we can totally hook it now like we do for GetSlotRenderPosition
+	Pointf GetRoomCenter(int roomId) 
+	{
+		auto rooms = this->rooms;
+		float xx = -1;
+		float yy = -1;
+		
+		for (auto const& x: rooms)
+		{
+			if (roomId == x->iRoomId)
+			{
+				auto rect = x->GetRect();
+				
+				xx = rect.x + rect.w / 2;
+				yy = rect.y + rect.h / 2;
+				break;
+			}
+		}
+		
+		return Pointf(xx, yy);
+	}
+	
+	// TODO: This looks like it was re-implemented because they were unsure at the time how to hook it, we can totally hook it now like we do for GetSlotRenderPosition
+	Point GetSlotWorldPosition(int roomId, int slotId)
+	{
+		Globals::Rect rect = rooms[roomId]->rect;
+		return Point(rect.x + 35 * (slotId % (rect.w / 35)) + 17, rect.y + 35 * (slotId / (rect.h / 35)) + 17);
+	}
+	
+
 	LIBZHL_API void ComputeCenter();
 	LIBZHL_API int ConnectedGridSquares(int x1, int y1, int x2, int y2);
 	LIBZHL_API int ConnectedGridSquaresPoint(Point p1, Point p2);
-	LIBZHL_API Door *ConnectingDoor(Point p1, Point p2);
 	LIBZHL_API Door *ConnectingDoor(int x1, int y1, int x2, int y2);
+	LIBZHL_API Door *ConnectingDoor(Point p1, Point p2);
 	LIBZHL_API bool ContainsPoint(int x, int y);
 	LIBZHL_API float ConvertToLocalAngle(float ang);
 	LIBZHL_API Pointf ConvertToLocalPosition(Pointf world, bool past);
 	LIBZHL_API float ConvertToWorldAngle(float ang);
 	LIBZHL_API Pointf ConvertToWorldPosition(Pointf local);
+	LIBZHL_API Path Dijkstra(Point start, Point goal, int shipId);
 	LIBZHL_API int DoorCount(int roomId);
+	LIBZHL_API Path FindPath(Point p1, Point p2, int shipId);
+	LIBZHL_API Slot GetClosestSlot(Point pos, int shipId, bool intruder);
+	LIBZHL_API std::vector<Door*> GetDoors(int roomId);
 	LIBZHL_API int GetNumSlots(int room);
+	LIBZHL_API bool GetRoomBlackedOut(int room);
+	LIBZHL_API float GetRoomOxygen(int room);
 	LIBZHL_API Globals::Rect GetRoomShape(int room);
 	LIBZHL_API int GetSelectedRoom(int x, int y, bool unk);
+	LIBZHL_API static ShipGraph *__stdcall GetShipInfo(int shipId);
 	LIBZHL_API Point GetSlotRenderPosition(int slotId, int roomId, bool intruder);
+	LIBZHL_API bool IsRoomConnected(int room1, int room2);
 	LIBZHL_API int PopClosestDoor(std::vector<int> &doors, std::vector<float> &distances);
 	LIBZHL_API int RoomCount();
 	
@@ -6030,88 +6180,6 @@ struct RockAnimation : CrewAnimation
 	LIBZHL_API static void __stdcall __DO_NOT_HOOK_3();
 	LIBZHL_API void constructor(const std::string &subRace, int iShipId, Pointf position, bool enemy);
 	
-};
-
-struct Room : Selectable
-{
-	Point GetIntoRoom(Point pos)
-	{
-		int posX = pos.x;
-		int posY = pos.y;
-		
-		int rectY = this->rect.y;
-		int rectH = this->rect.h;
-		
-		int rectX = this->rect.x;
-		int rectW = this->rect.w;
-		
-		//printf("%d %d %d %d %d %d\n", posX, posY, rectX, rectW, rectY, rectH);
-		
-		if (rectY + rectH - posY > 15 && posY - rectY > 15)
-		{
-			if (rectW + rectX - posX > 15 && posX - rectX > 15)
-			{
-				return Point(-1, -1);
-			}
-		}
-		
-		
-		
-		
-		Point center = Point(rectX + rectW / 2, rectY + rectH / 2);
-		
-		Point toGrid = Point((posX + 2 * (center.x > posX) - 1) / 35, (posY + 2 * (center.y > posY) - 1) / 35);
-		Point fromGrid = Point(toGrid.x * 35, toGrid.y * 35);
-		
-		return Point(fromGrid.x + 17, fromGrid.y + 17);
-	}
-
-	Globals::Rect GetRect() 
-	{
-		return this->rect;
-	}
-
-	LIBZHL_API int GetEmptySlots(bool intruder);
-	LIBZHL_API void OnRenderFloor(float alpha, bool experimental);
-	LIBZHL_API void OnRenderWalls(float alpha);
-	LIBZHL_API void constructor(int iShipId, int x, int y, int w, int h, int roomId);
-	LIBZHL_API void destructor();
-	
-	ShipObject _shipObject;
-	Globals::Rect rect;
-	int iRoomId;
-	bool bBlackedOut;
-	uint8_t gap_ex_1[4];
-	std::vector<int> filledSlots;
-	std::vector<std::vector<bool>> slots;
-	bool bWarningLight;
-	uint8_t gap_ex_2[4];
-	AnimationTracker lightTracker;
-	int iFireCount;
-	std::vector<Animation> fires;
-	int primarySlot;
-	int primaryDirection;
-	float lastO2;
-	GL_Primitive *floorPrimitive;
-	GL_Primitive *blackoutPrimitive;
-	GL_Primitive *highlightPrimitive;
-	GL_Primitive *highlightPrimitive2;
-	GL_Primitive *o2LowPrimitive;
-	GL_Primitive *computerPrimitive;
-	GL_Primitive *computerGlowPrimitive;
-	GL_Primitive *computerGlowYellowPrimitive;
-	GL_Primitive *lightPrimitive;
-	GL_Primitive *lightGlowPrimitive;
-	Animation stunSparks;
-	Animation consoleSparks;
-	bool bStunning;
-	float fHacked;
-	int currentSparkRotation;
-	std::vector<Animation> sparks;
-	float sparkTimer;
-	int sparkCount;
-	int iHackLevel;
-	Animation roomTapped;
 };
 
 struct ScoreKeeper;
