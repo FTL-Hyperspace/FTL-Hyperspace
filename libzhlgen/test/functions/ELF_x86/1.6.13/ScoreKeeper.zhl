@@ -27,7 +27,7 @@ cleanup void ScoreKeeper::SetupTopShip(ScoreKeeper *this, int variant);
 "5557565383ec2c8b6c2440c7442408010000008b85c4080000":
 cleanup void ScoreKeeper::CheckTypes(ScoreKeeper *this);
 "5589e55789c7565389d381ec9c000000":
-cleanup void ScoreKeeper::AddTopScoreType(ScoreKeeper *this, TopScore& topScore, int type);
+cleanup void ScoreKeeper::AddTopScoreType(ScoreKeeper *this<eax>, TopScore& topScore<edx>, int type<ecx>);
 "5557565383ec4c8b5c24688b6c24648b4304":
 cleanup int ScoreKeeper::AddTopScoreList(ScoreKeeper *this, TopScore& score, std::vector<TopScore>& topScoreList);
 "5589e557565381eccc0100008b4510":

@@ -1,5 +1,5 @@
 "5589e557565389c381ec8c010000":
-cleanup void ShipSelect::SelectShip(ShipSelect *this, int shipType);
+cleanup void ShipSelect::SelectShip(ShipSelect *this<eax>, int shipType<edx>);
 "565383ec248b5c24308d74241fc74424086e000000":
 cleanup void ShipSelect::constructor(ShipSelect *this);
 "565383ec148b7424208b4e208b561c89c829d083f8037e??31db8db600000000":

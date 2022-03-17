@@ -28864,7 +28864,7 @@ FUNC_NAKED void ScoreKeeper::CheckTypes()
 namespace _func766
 {
 	static void *func = 0;
-	static short argdata[] = {0x1ff, 0x1ff, 0x1ff};
+	static short argdata[] = {0x100, 0x102, 0x101};
 	static FunctionDefinition funcObj("ScoreKeeper::AddTopScoreType", typeid(void (ScoreKeeper::*)(TopScore &, int )), "5589e55789c7565389d381ec9c000000", argdata, 3, 6, &func);
 }
 
@@ -28874,21 +28874,19 @@ FUNC_NAKED void ScoreKeeper::AddTopScoreType(TopScore &topScore, int type)
 	(
 		"pushl %ebp\n\t"
 		"movl %esp, %ebp\n\t"
-		"subl $4, %esp\n\t"
 		"pushl %edx\n\t"
 		"pushl %eax\n\t"
 		"pushl %ecx\n\t"
 		"pushl %ebx\n\t"
 		"pushl %esi\n\t"
 		"pushl %edi\n\t"
-		"pushl 16(%ebp)\n\t"		// type
-		"pushl 12(%ebp)\n\t"		// topScore
-		"pushl 8(%ebp)\n\t"		// this
+		"movl 8(%ebp), %eax\n\t"	// this
+		"movl 12(%ebp), %edx\n\t"	// topScore
+		"movl 16(%ebp), %ecx\n\t"	// type
 	);
 	__asm__("call *%0\n\t" :: "m"(_func766::func));
 	__asm__
 	(
-		"addl $12, %esp\n\t"
 		"popl %edi\n\t"
 		"popl %esi\n\t"
 		"popl %ebx\n\t"
@@ -33382,7 +33380,7 @@ FUNC_NAKED ShipSystem *ShipManager::GetSystemInRoom(int roomId)
 namespace _func891
 {
 	static void *func = 0;
-	static short argdata[] = {0x1ff};
+	static short argdata[] = {0x100};
 	static FunctionDefinition funcObj("ShipManager::OnLoop", typeid(void (ShipManager::*)()), "5589e5575689c65381ec1c010000", argdata, 1, 6, &func);
 }
 
@@ -33392,19 +33390,17 @@ FUNC_NAKED void ShipManager::OnLoop()
 	(
 		"pushl %ebp\n\t"
 		"movl %esp, %ebp\n\t"
-		"subl $12, %esp\n\t"
 		"pushl %edx\n\t"
 		"pushl %eax\n\t"
 		"pushl %ecx\n\t"
 		"pushl %ebx\n\t"
 		"pushl %esi\n\t"
 		"pushl %edi\n\t"
-		"pushl 8(%ebp)\n\t"		// this
+		"movl 8(%ebp), %eax\n\t"	// this
 	);
 	__asm__("call *%0\n\t" :: "m"(_func891::func));
 	__asm__
 	(
-		"addl $4, %esp\n\t"
 		"popl %edi\n\t"
 		"popl %esi\n\t"
 		"popl %ebx\n\t"
@@ -36591,7 +36587,7 @@ namespace _var974
 namespace _func975
 {
 	static void *func = 0;
-	static short argdata[] = {0x1ff, 0x1ff};
+	static short argdata[] = {0x100, 0x102};
 	static FunctionDefinition funcObj("ShipSelect::SelectShip", typeid(void (ShipSelect::*)(int )), "5589e557565389c381ec8c010000", argdata, 2, 6, &func);
 }
 
@@ -36601,20 +36597,18 @@ FUNC_NAKED void ShipSelect::SelectShip(int shipType)
 	(
 		"pushl %ebp\n\t"
 		"movl %esp, %ebp\n\t"
-		"subl $8, %esp\n\t"
 		"pushl %edx\n\t"
 		"pushl %eax\n\t"
 		"pushl %ecx\n\t"
 		"pushl %ebx\n\t"
 		"pushl %esi\n\t"
 		"pushl %edi\n\t"
-		"pushl 12(%ebp)\n\t"		// shipType
-		"pushl 8(%ebp)\n\t"		// this
+		"movl 8(%ebp), %eax\n\t"	// this
+		"movl 12(%ebp), %edx\n\t"	// shipType
 	);
 	__asm__("call *%0\n\t" :: "m"(_func975::func));
 	__asm__
 	(
-		"addl $8, %esp\n\t"
 		"popl %edi\n\t"
 		"popl %esi\n\t"
 		"popl %ebx\n\t"
@@ -42834,7 +42828,7 @@ FUNC_NAKED void StarMap::RenderDistressButtons()
 namespace _func1138
 {
 	static void *func = 0;
-	static short argdata[] = {0x1ff};
+	static short argdata[] = {0x100};
 	static FunctionDefinition funcObj("StarMap::OnRender", typeid(void (StarMap::*)()), "5589e55789c7565381ec7c01000080b88406000000", argdata, 1, 6, &func);
 }
 
@@ -42844,19 +42838,17 @@ FUNC_NAKED void StarMap::OnRender()
 	(
 		"pushl %ebp\n\t"
 		"movl %esp, %ebp\n\t"
-		"subl $12, %esp\n\t"
 		"pushl %edx\n\t"
 		"pushl %eax\n\t"
 		"pushl %ecx\n\t"
 		"pushl %ebx\n\t"
 		"pushl %esi\n\t"
 		"pushl %edi\n\t"
-		"pushl 8(%ebp)\n\t"		// this
+		"movl 8(%ebp), %eax\n\t"	// this
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1138::func));
 	__asm__
 	(
-		"addl $4, %esp\n\t"
 		"popl %edi\n\t"
 		"popl %esi\n\t"
 		"popl %ebx\n\t"
@@ -43068,7 +43060,7 @@ FUNC_NAKED void StarMap::GenerateNebulas(const std::vector<std::string> &names)
 namespace _func1144
 {
 	static void *func = 0;
-	static short argdata[] = {0x1ff};
+	static short argdata[] = {0x100};
 	static FunctionDefinition funcObj("StarMap::UpdateBoss", typeid(void (StarMap::*)()), "5557565389c383ec2c8b80b40700008b93c0070000", argdata, 1, 6, &func);
 }
 
@@ -43078,19 +43070,17 @@ FUNC_NAKED void StarMap::UpdateBoss()
 	(
 		"pushl %ebp\n\t"
 		"movl %esp, %ebp\n\t"
-		"subl $12, %esp\n\t"
 		"pushl %edx\n\t"
 		"pushl %eax\n\t"
 		"pushl %ecx\n\t"
 		"pushl %ebx\n\t"
 		"pushl %esi\n\t"
 		"pushl %edi\n\t"
-		"pushl 8(%ebp)\n\t"		// this
+		"movl 8(%ebp), %eax\n\t"	// this
 	);
 	__asm__("call *%0\n\t" :: "m"(_func1144::func));
 	__asm__
 	(
-		"addl $4, %esp\n\t"
 		"popl %edi\n\t"
 		"popl %esi\n\t"
 		"popl %ebx\n\t"

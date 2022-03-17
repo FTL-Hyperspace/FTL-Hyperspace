@@ -17,7 +17,7 @@ cleanup char ShipManager::HasSystem(ShipManager *this, int systemId);
 "5557565331db83ec1c8b6c24308b7424348b55188b451c":
 cleanup ShipSystem *ShipManager::GetSystemInRoom(ShipManager *this, int roomId);
 "5589e5575689c65381ec1c010000":
-cleanup void ShipManager::OnLoop(ShipManager* this);
+cleanup void ShipManager::OnLoop(ShipManager* this<eax>);
 "5383ec188b4424248b5424208b5c242883f811":
 static void ShipManager::DO_NOT_HOOK();
 ".5383ec188b4424248b5424208b5c242883f811":
