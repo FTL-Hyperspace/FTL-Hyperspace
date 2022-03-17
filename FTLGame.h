@@ -6,7 +6,7 @@
     #ifdef __i386__
         #include "FTLGameELF32.h"
     #elif defined(__amd64__)
-        #error "Currently unsupported architecture AMD64"
+        #include "FTLGameELF64.h"
     #else
         #error "Unsupported architecture"
     #endif
