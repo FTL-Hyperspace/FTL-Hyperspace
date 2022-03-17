@@ -1227,12 +1227,11 @@ struct LIBZHL_INTERFACE ShipSystem
 	int iSystemType;
 	bool bNeedsManned;
 	bool bManned;
-	uint8_t gap_ex_1[4];
 	int iActiveManned;
 	bool bBoostable;
-	uint8_t gap_ex_2[4];
 	std::pair<int, int> powerState;
 	int iRequiredPower;
+	uint8_t gap_ex_1[4];
 	GL_Texture *imageIcon;
 	GL_Primitive *iconPrimitive;
 	GL_Primitive *iconBorderPrimitive;
@@ -1276,6 +1275,7 @@ struct LIBZHL_INTERFACE ShipSystem
 	bool bTriggerIon;
 	std::vector<Animation> damagingEffects;
 	int computerLevel;
+	uint8_t gap_ex_2[4];
 };
 
 struct Targetable;
@@ -1389,13 +1389,13 @@ struct Projectile : Collideable
 	int currentSpace;
 	int targetId;
 	bool dead;
-	uint8_t gap_ex_1[4];
+	uint8_t gap_ex_1[2];
 	Animation death_animation;
 	Animation flight_animation;
 	Pointf speed;
 	bool missed;
 	bool hitTarget;
-	uint8_t gap_ex_2[4];
+	uint8_t gap_ex_2[6];
 	std::string hitSolidSound;
 	std::string hitShieldSound;
 	std::string missSound;
@@ -1831,13 +1831,13 @@ struct LIBZHL_INTERFACE CrewAnimation
 	bool bDrone;
 	bool bGhost;
 	bool bExactShooting;
+	uint8_t gap_ex_2[4];
 	Animation projectile;
 	bool bTyping;
 	std::string race;
 	int currentShip;
 	bool bMale;
 	bool colorblind;
-	uint8_t gap_ex_2[4];
 	std::vector<GL_Color> layerColors;
 	int forcedAnimation;
 	int forcedDirection;
@@ -2147,9 +2147,9 @@ struct LIBZHL_INTERFACE CrewMember
 	bool bOutOfGame;
 	std::string species;
 	bool bDead;
-	uint8_t gap_ex_1[4];
 	int iOnFire;
 	bool bActiveManning;
+	uint8_t gap_ex_1[4];
 	ShipSystem *currentSystem;
 	int usingSkill;
 	CrewBlueprint blueprint;
@@ -2169,9 +2169,9 @@ struct LIBZHL_INTERFACE CrewMember
 	float fMindDamageBoost;
 	float fCloneDying;
 	bool bResisted;
-	uint8_t gap_ex_2[4];
 	Slot savedPosition;
 	float fStunTime;
+	uint8_t gap_ex_2[4];
 	CachedImage movementTarget;
 	bool bCloned;
 };
@@ -2857,7 +2857,7 @@ struct FocusWindow
 	void *vptr;
 	bool bOpen;
 	bool bFullFocus;
-	uint8_t gap_ex_fw[4];
+	uint8_t gap_ex_fw[2];
 	Point close;
 	bool bCloseButtonSelected;
 	Point position;
@@ -5094,9 +5094,9 @@ struct LIBZHL_INTERFACE EnergyAlien
 	bool bOutOfGame;
 	std::string species;
 	bool bDead;
-	uint8_t gap_ex_1[4];
 	int iOnFire;
 	bool bActiveManning;
+	uint8_t gap_ex_1[4];
 	ShipSystem *currentSystem;
 	int usingSkill;
 	CrewBlueprint blueprint;
@@ -5116,9 +5116,9 @@ struct LIBZHL_INTERFACE EnergyAlien
 	float fMindDamageBoost;
 	float fCloneDying;
 	bool bResisted;
-	uint8_t gap_ex_2[4];
 	Slot savedPosition;
 	float fStunTime;
+	uint8_t gap_ex_2[4];
 	CachedImage movementTarget;
 	bool bCloned;
 	bool bTriggerExplosion;
@@ -6732,8 +6732,8 @@ struct ShipManager : ShipObject
 	int currentScrap;
 	bool bJumping;
 	bool bAutomated;
-	uint8_t gap_ex_2[4];
 	int shipLevel;
+	uint8_t gap_ex_2[4];
 	ShipBlueprint myBlueprint;
 	bool lastEngineStatus;
 	bool lastJumpReady;
@@ -7168,7 +7168,7 @@ struct Store : FocusWindow
 	int sectionCount;
 	int types[4];
 	bool bShowPage2;
-	uint8_t gap_ex_2[4];
+	uint8_t gap_ex_2[6];
 	StoreBox *confirmBuy;
 	int forceSystemInfoWidth;
 };

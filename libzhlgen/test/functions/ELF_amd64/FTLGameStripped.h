@@ -1118,7 +1118,7 @@ struct FocusWindow
   void *vptr;
   bool bOpen;
   bool bFullFocus;
-  uint8_t gap_ex_fw[4];
+  uint8_t gap_ex_fw[2];
   Point close;
   bool bCloseButtonSelected;
   Point position;
@@ -2887,8 +2887,8 @@ struct ShipManager
   int currentScrap;
   bool bJumping;
   bool bAutomated;
-  uint8_t gap_ex_2[4];
   int shipLevel;
+  uint8_t gap_ex_2[4];
   ShipBlueprint myBlueprint;
   bool lastEngineStatus;
   bool lastJumpReady;
@@ -3354,9 +3354,9 @@ struct CrewMember
   bool bOutOfGame;
   std__string species;
   bool bDead;
-  uint8_t gap_ex_1[4];
   int iOnFire;
   bool bActiveManning;
+  uint8_t gap_ex_1[4];
   ShipSystem *currentSystem;
   int usingSkill;
   CrewBlueprint blueprint;
@@ -3376,9 +3376,9 @@ struct CrewMember
   float fMindDamageBoost;
   float fCloneDying;
   bool bResisted;
-  uint8_t gap_ex_2[4];
   Slot savedPosition;
   float fStunTime;
+  uint8_t gap_ex_2[4];
   CachedImage movementTarget;
   bool bCloned;
 };
@@ -3796,7 +3796,7 @@ struct Store
   int sectionCount;
   int types[4];
   bool bShowPage2;
-  uint8_t gap_ex_2[4];
+  uint8_t gap_ex_2[6];
   StoreBox *confirmBuy;
   int forceSystemInfoWidth;
 };
@@ -3831,13 +3831,13 @@ struct Projectile
   int currentSpace;
   int targetId;
   bool dead;
-  uint8_t gap_ex_1[4];
+  uint8_t gap_ex_1[2];
   Animation death_animation;
   Animation flight_animation;
   Pointf speed;
   bool missed;
   bool hitTarget;
-  uint8_t gap_ex_2[4];
+  uint8_t gap_ex_2[6];
   std__string hitSolidSound;
   std__string hitShieldSound;
   std__string missSound;
@@ -3986,12 +3986,11 @@ struct ShipSystem
   int iSystemType;
   bool bNeedsManned;
   bool bManned;
-  uint8_t gap_ex_1[4];
   int iActiveManned;
   bool bBoostable;
-  uint8_t gap_ex_2[4];
   std__pair_9int___int powerState;
   int iRequiredPower;
+  uint8_t gap_ex_1[4];
   GL_Texture *imageIcon;
   GL_Primitive *iconPrimitive;
   GL_Primitive *iconBorderPrimitive;
@@ -4035,6 +4034,7 @@ struct ShipSystem
   bool bTriggerIon;
   std__vector_9Animation damagingEffects;
   int computerLevel;
+  uint8_t gap_ex_2[4];
 };
 
 /* 284 */
@@ -4489,13 +4489,13 @@ struct CrewAnimation
   bool bDrone;
   bool bGhost;
   bool bExactShooting;
+  uint8_t gap_ex_2[4];
   Animation projectile;
   bool bTyping;
   std__string race;
   int currentShip;
   bool bMale;
   bool colorblind;
-  uint8_t gap_ex_2[4];
   std__vector_8GL_Color layerColors;
   int forcedAnimation;
   int forcedDirection;
@@ -5018,9 +5018,9 @@ struct EnergyAlien
   bool bOutOfGame;
   std__string species;
   bool bDead;
-  uint8_t gap_ex_1[4];
   int iOnFire;
   bool bActiveManning;
+  uint8_t gap_ex_1[4];
   ShipSystem *currentSystem;
   int usingSkill;
   CrewBlueprint blueprint;
@@ -5040,9 +5040,9 @@ struct EnergyAlien
   float fMindDamageBoost;
   float fCloneDying;
   bool bResisted;
-  uint8_t gap_ex_2[4];
   Slot savedPosition;
   float fStunTime;
+  uint8_t gap_ex_2[4];
   CachedImage movementTarget;
   bool bCloned;
   bool bTriggerExplosion;
