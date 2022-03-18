@@ -221,6 +221,46 @@ HOOK_METHOD_PRIORITY(SpaceDrone, CollisionMoving, 9999, (Pointf start, Pointf fi
     return ret;
 }
 
+HOOK_STATIC(ProjectileFactory, LoadProjectile, (int fh) -> Projectile*)
+{
+    LOG_HOOK("HOOK_STATIC -> ProjectileFactory::LoadProjectile -> Begin (CustomDamage.cpp)\n")
+    Projectile *ret = super(fh);
+
+    Projectile_Extend *ex = PR_EX(ret);
+
+    ex->customDamage.sourceShipId = ret->ownerId;
+
+    ex->customDamage.def = CustomDamageDefinition::customDamageDefs.at(FileHelper::readInteger(fh));
+    ex->customDamage.accuracyMod = FileHelper::readInteger(fh);
+    ex->customDamage.droneAccuracyMod = FileHelper::readInteger(fh);
+
+    int n = FileHelper::readInteger(fh);
+    for (int i=0; i<n; ++i)
+    {
+        ex->missedDrones.push_back(FileHelper::readInteger(fh));
+    }
+
+    return ret;
+}
+
+HOOK_STATIC(ProjectileFactory, SaveProjectile, (Projectile *p, int fh) -> void)
+{
+    LOG_HOOK("HOOK_STATIC -> ProjectileFactory::SaveProjectile -> Begin (CustomDamage.cpp)\n")
+    super(p, fh);
+
+    Projectile_Extend *ex = PR_EX(p);
+
+    FileHelper::writeInt(fh, ex->customDamage.def->idx);
+    FileHelper::writeInt(fh, ex->customDamage.accuracyMod);
+    FileHelper::writeInt(fh, ex->customDamage.droneAccuracyMod);
+
+    FileHelper::writeInt(fh, ex->missedDrones.size());
+    for (int i : ex->missedDrones)
+    {
+        FileHelper::writeInt(fh, i);
+    }
+}
+
 HOOK_METHOD(Projectile, Initialize, (WeaponBlueprint& bp) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> Projectile::Initialize -> Begin (CustomDamage.cpp)\n")
