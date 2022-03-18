@@ -30,3 +30,8 @@ int ProjectileFactory::NumTargetsRequired(ProjectileFactory *this<ecx>);
 void ProjectileFactory::Update(ProjectileFactory *this<ecx>);
 "578d7c240883e4f0ff77fc5589e557565389cf81c14801000083ec5c":
 Projectile* ProjectileFactory::GetProjectile(ProjectileFactory *this<ecx>);
+
+"8d4c240483e4f0ff71fc5589e556535183ec6c8b19891c24":
+static cleanup Projectile *ProjectileFactory::LoadProjectile(int fd);
+"8d4c240483e4f0ff71fc5589e556535183ec1c8b198b71048b0389d9ff507c89342489442404":
+static cleanup void ProjectileFactory::SaveProjectile(Projectile *p, int fd);
