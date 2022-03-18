@@ -76,6 +76,7 @@ struct CrewMember_Extend
 {
 public:
     CrewMember *orig;
+    int selfId = -1;
     bool canPhaseThroughDoors = false;
     bool isHealing = false;
     TimerHelper* passiveHealTimer = nullptr;
@@ -139,6 +140,11 @@ public:
     void Initialize(CrewBlueprint& bp, int shipId, bool enemy, CrewAnimation *animation, bool isTransform = false);
     bool TransformRace(const std::string& newRace);
     static void TransformColors(CrewBlueprint& bp, CrewBlueprint *newBlueprint);
+
+    CrewMember_Extend()
+    {
+        selfId = Globals::GetNextSpaceId();
+    }
 
     ~CrewMember_Extend()
     {

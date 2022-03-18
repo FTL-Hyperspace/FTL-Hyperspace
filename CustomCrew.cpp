@@ -1479,7 +1479,7 @@ Damage* CrewMember_Extend::GetPowerDamage()
     damage->iPersDamage = newDamage->iPersDamage;
     damage->bHullBuster = newDamage->bHullBuster;
     damage->ownerId = orig->GetPowerOwner();
-    damage->selfId = (int)orig;
+    damage->selfId = selfId;
     damage->bLockdown = false;
     damage->crystalShard = newDamage->crystalShard;
     damage->bFriendlyFire = newDamage->bFriendlyFire;
@@ -2568,6 +2568,8 @@ HOOK_METHOD(CrewMember, SaveState, (int file) -> void)
     LOG_HOOK("HOOK_METHOD -> CrewMember::SaveState -> Begin (CustomCrew.cpp)\n")
     auto ex = CM_EX(this);
 
+    FileHelper::writeFloat(file, ex->selfId);
+
     FileHelper::writeFloat(file, health.first);
     FileHelper::writeFloat(file, health.second);
 
@@ -2637,6 +2639,8 @@ HOOK_METHOD(CrewMember, LoadState, (int file) -> void)
     LOG_HOOK("HOOK_METHOD -> CrewMember::LoadState -> Begin (CustomCrew.cpp)\n")
     auto ex = CM_EX(this);
     auto aex = CMA_EX(crewAnim);
+
+    ex->selfId = FileHelper::readFloat(file);
 
     std::pair<float,float> customHealth;
 
@@ -3693,7 +3697,7 @@ HOOK_METHOD(CrewMember, GetRoomDamage, () -> Damage)
                     ret.iPersDamage = customDamage->iPersDamage;
                     ret.bHullBuster = customDamage->bHullBuster;
                     ret.ownerId = this->GetPowerOwner();
-                    ret.selfId = (int)this;
+                    ret.selfId = ex->selfId;
                     ret.bLockdown = customDamage->bLockdown;
                     ret.crystalShard = customDamage->crystalShard;
                     ret.bFriendlyFire = customDamage->bFriendlyFire;
@@ -3848,7 +3852,7 @@ HOOK_METHOD(ShipManager, DamageCrew, (CrewMember *crew, DamageParameter dmgParam
     LOG_HOOK("HOOK_METHOD -> ShipManager::DamageCrew -> Begin (CustomCrew.cpp)\n")
     Damage* dmg = (Damage*)&dmgParameter;
 
-    if ((CrewMember*)dmg->selfId == crew)
+    if (dmg->selfId == CM_EX(crew)->selfId)
     {
         return false;
     }
