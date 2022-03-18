@@ -40,7 +40,7 @@ struct CustomWeaponDefinition
 
     float iconScale = 1.f;
 
-    CustomDamage customDamage;
+    CustomDamageDefinition *customDamage;
 
     std::unordered_map<std::string, std::string> miniProjectileOverride;
 };

@@ -575,7 +575,7 @@ void CustomCrewManager::ParseDeathEffect(rapidxml::xml_node<char>* stat, Explosi
         }
         if (effectName == "spawnCrew")
         {
-            CrewSpawn* newSpawn = new CrewSpawn(CrewSpawn::ParseCrewSpawn(effectNode, true));
+            CrewSpawn* newSpawn = CrewSpawn::ParseCrewSpawn(effectNode, true);
 
             if (!newSpawn->race.empty())
             {
@@ -806,8 +806,8 @@ void CustomCrewManager::ParseAbilityEffect(rapidxml::xml_node<char>* stat, Activ
         }
         if (effectName == "spawnCrew")
         {
-            CrewSpawn newSpawn = CrewSpawn::ParseCrewSpawn(effectNode, true);
-            if (!newSpawn.race.empty())
+            CrewSpawn *newSpawn = CrewSpawn::ParseCrewSpawn(effectNode, true);
+            if (!newSpawn->race.empty())
             {
                 def.crewSpawns.push_back(newSpawn);
             }
@@ -3731,7 +3731,7 @@ HOOK_METHOD(CrewMember, GetRoomDamage, () -> Damage)
                         {
                             for (CrewSpawn* i : explosionDef->crewSpawns)
                             {
-                                CrewSpawn::SpawnCrew(*i, crewShip, this->currentShipId != this->iShipId, Pointf(this->x, this->y));
+                                CrewSpawn::SpawnCrew(i, crewShip, this->currentShipId != this->iShipId, Pointf(this->x, this->y));
                             }
                         }
                     }

@@ -7,6 +7,9 @@
 CustomDamage* CustomDamageManager::currentWeaponDmg = nullptr;
 Projectile* CustomDamageManager::currentProjectile = nullptr;
 
+CustomDamageDefinition CustomDamageDefinition::defaultDef = CustomDamageDefinition();
+std::vector<CustomDamageDefinition*> CustomDamageDefinition::customDamageDefs = {&CustomDamageDefinition::defaultDef};
+
 HOOK_METHOD(ShipManager, DamageArea, (Pointf location, DamageParameter dmgParam, bool forceHit) -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::DamageArea -> Begin (CustomDamage.cpp)\n")
@@ -21,9 +24,9 @@ HOOK_METHOD(ShipManager, DamageArea, (Pointf location, DamageParameter dmgParam,
         {
             int rng = random32() % 10;
 
-            if (rng < custom->crewSpawnChance)
+            if (rng < custom->def->crewSpawnChance)
             {
-                for (auto& i : custom->crewSpawns)
+                for (CrewSpawn *i : custom->def->crewSpawns)
                 {
                     CrewSpawn::SpawnCrew(i, this, custom->sourceShipId != iShipId, location);
                 }
@@ -42,7 +45,7 @@ HOOK_METHOD(ShipManager, DamageBeam, (Pointf location1, Pointf location2, Damage
 
     auto custom = CustomDamageManager::currentWeaponDmg;
 
-    if (custom && custom->sourceShipId != -1 && custom->crewSpawnChance > 0)
+    if (custom && custom->sourceShipId != -1 && custom->def->crewSpawnChance > 0)
     {
         Point grid1 = ShipGraph::TranslateToGrid(location1.x, location1.y);
         Point grid2 = ShipGraph::TranslateToGrid(location2.x, location2.y);
@@ -51,11 +54,11 @@ HOOK_METHOD(ShipManager, DamageBeam, (Pointf location1, Pointf location2, Damage
         {
             int rng = random32() % 10;
 
-            if (rng < custom->crewSpawnChance)
+            if (rng < custom->def->crewSpawnChance)
             {
                 Pointf spawnLoc = {grid1.x * 35.f + 17.5f, grid1.y * 35.f + 17.5f};
 
-                for (auto& i : custom->crewSpawns)
+                for (CrewSpawn *i : custom->def->crewSpawns)
                 {
                     CrewSpawn::SpawnCrew(i, this, custom->sourceShipId != iShipId, spawnLoc, true);
                 }
@@ -82,7 +85,7 @@ HOOK_METHOD(ShipManager, GetDodgeFactor, () -> int)
 HOOK_METHOD_PRIORITY(ShipManager, DamageSystem, -100, (int roomId, DamageParameter dmgParam) -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::DamageSystem -> Begin (CustomDamage.cpp)\n")
-    if (CustomDamageManager::currentWeaponDmg != nullptr && CustomDamageManager::currentWeaponDmg->noSysDamage)
+    if (CustomDamageManager::currentWeaponDmg != nullptr && CustomDamageManager::currentWeaponDmg->def->noSysDamage)
     {
         dmgParam.iSystemDamage -= dmgParam.iDamage;
     }
@@ -95,16 +98,16 @@ HOOK_METHOD_PRIORITY(ShipManager, DamageCrew, -100, (CrewMember *crew, DamagePar
     LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::DamageCrew -> Begin (CustomDamage.cpp)\n")
     if (CustomDamageManager::currentWeaponDmg != nullptr)
     {
-        if (CustomDamageManager::currentWeaponDmg->noPersDamage)
+        if (CustomDamageManager::currentWeaponDmg->def->noPersDamage)
         {
             dmgParameter.iPersDamage -= dmgParameter.iDamage;
         }
 
         int rng = random32() % 10;
 
-        if (rng < CustomDamageManager::currentWeaponDmg->statBoostChance)
+        if (rng < CustomDamageManager::currentWeaponDmg->def->statBoostChance)
         {
-            for (auto statBoostDef : CustomDamageManager::currentWeaponDmg->statBoosts)
+            for (auto statBoostDef : CustomDamageManager::currentWeaponDmg->def->statBoosts)
             {
                 StatBoost statBoost(statBoostDef);
                 statBoost.sourceShipId = CustomDamageManager::currentWeaponDmg->sourceShipId;
@@ -135,7 +138,7 @@ HOOK_METHOD(ProjectileFactory, Update, () -> void)
 HOOK_METHOD(ShipManager, CollisionMoving, (Pointf start, Pointf finish, DamageParameter damage, bool raytrace) -> CollisionResponse)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::CollisionMoving -> Begin (CustomDamage.cpp)\n")
-    if (CustomDamageManager::currentWeaponDmg && CustomDamageManager::currentWeaponDmg->ionBeamFix && CustomDamageManager::currentProjectile)
+    if (CustomDamageManager::currentWeaponDmg && CustomDamageManager::currentWeaponDmg->def->ionBeamFix && CustomDamageManager::currentProjectile)
     {
         BeamWeapon *proj = (BeamWeapon*) CustomDamageManager::currentProjectile; // ionBeamFix should only be used for beams
         if (proj->bDamageSuperShield)
@@ -226,7 +229,10 @@ HOOK_METHOD(Projectile, Initialize, (WeaponBlueprint& bp) -> void)
     auto customWeapon = CustomWeaponManager::instance->GetWeaponDefinition(bp.name);
     if (customWeapon)
     {
-        PR_EX(this)->customDamage = customWeapon->customDamage;
+        CustomDamage &customDamage = PR_EX(this)->customDamage;
+        customDamage.def = customWeapon->customDamage;
+        customDamage.accuracyMod = customWeapon->customDamage->accuracyMod;
+        customDamage.droneAccuracyMod = customWeapon->customDamage->droneAccuracyMod;
     }
 }
 

@@ -18,6 +18,9 @@ HOOK_METHOD(BlueprintManager, ProcessWeaponBlueprint, (rapidxml::xml_node<char>*
     auto weaponDef = CustomWeaponDefinition();
     weaponDef.name = node->first_attribute("name")->value();
 
+    weaponDef.customDamage = new CustomDamageDefinition();
+    bool hasCustomDamage = false;
+
     for (auto child = node->first_node(); child; child = child->next_sibling())
     {
         std::string name = child->name();
@@ -73,23 +76,28 @@ HOOK_METHOD(BlueprintManager, ProcessWeaponBlueprint, (rapidxml::xml_node<char>*
         }
         if (name == "accuracyMod")
         {
-            weaponDef.customDamage.accuracyMod = boost::lexical_cast<int>(val);
+            hasCustomDamage = true;
+            weaponDef.customDamage->accuracyMod = boost::lexical_cast<int>(val);
         }
         if (name == "droneAccuracyMod")
         {
-            weaponDef.customDamage.droneAccuracyMod = boost::lexical_cast<int>(val);
+            hasCustomDamage = true;
+            weaponDef.customDamage->droneAccuracyMod = boost::lexical_cast<int>(val);
         }
         if (name == "noSysDamage")
         {
-            weaponDef.customDamage.noSysDamage = EventsParser::ParseBoolean(val);
+            hasCustomDamage = true;
+            weaponDef.customDamage->noSysDamage = EventsParser::ParseBoolean(val);
         }
         if (name == "noPersDamage")
         {
-            weaponDef.customDamage.noPersDamage = EventsParser::ParseBoolean(val);
+            hasCustomDamage = true;
+            weaponDef.customDamage->noPersDamage = EventsParser::ParseBoolean(val);
         }
         if (name == "ionBeamFix" && ret.type == 2) // Ion beam fix only valid for beams
         {
-            weaponDef.customDamage.ionBeamFix = EventsParser::ParseBoolean(val);
+            hasCustomDamage = true;
+            weaponDef.customDamage->ionBeamFix = EventsParser::ParseBoolean(val);
         }
         if (name == "simultaneousFire")
         {
@@ -105,28 +113,32 @@ HOOK_METHOD(BlueprintManager, ProcessWeaponBlueprint, (rapidxml::xml_node<char>*
         }
         if (name == "statBoostChance")
         {
-            weaponDef.customDamage.statBoostChance = boost::lexical_cast<int>(val);
+            hasCustomDamage = true;
+            weaponDef.customDamage->statBoostChance = boost::lexical_cast<int>(val);
         }
         if (name == "statBoosts")
         {
+            hasCustomDamage = true;
             for (auto statBoostNode = child->first_node(); statBoostNode; statBoostNode = statBoostNode->next_sibling())
             {
                 if (strcmp(statBoostNode->name(), "statBoost") == 0)
                 {
-                    weaponDef.customDamage.statBoosts.push_back(StatBoostManager::GetInstance()->ParseStatBoostNode(statBoostNode, StatBoostDefinition::BoostSource::AUGMENT));
+                    weaponDef.customDamage->statBoosts.push_back(StatBoostManager::GetInstance()->ParseStatBoostNode(statBoostNode, StatBoostDefinition::BoostSource::AUGMENT));
                 }
             }
         }
         if (name == "crewSpawnChance")
         {
-            weaponDef.customDamage.crewSpawnChance = boost::lexical_cast<int>(val);
+            hasCustomDamage = true;
+            weaponDef.customDamage->crewSpawnChance = boost::lexical_cast<int>(val);
         }
         if (name == "spawnCrew")
         {
-            CrewSpawn newSpawn = CrewSpawn::ParseCrewSpawn(child, false);
-            if (!newSpawn.race.empty())
+            hasCustomDamage = true;
+            CrewSpawn *newSpawn = CrewSpawn::ParseCrewSpawn(child, false);
+            if (!newSpawn->race.empty())
             {
-                weaponDef.customDamage.crewSpawns.push_back(newSpawn);
+                weaponDef.customDamage->crewSpawns.push_back(newSpawn);
             }
         }
 
@@ -151,14 +163,16 @@ HOOK_METHOD(BlueprintManager, ProcessWeaponBlueprint, (rapidxml::xml_node<char>*
     }
 
     // Default chance if tag not specified (100% if tags specified, 0% otherwise)
-    if (weaponDef.customDamage.statBoostChance == -1)
+    if (weaponDef.customDamage->statBoostChance == -1)
     {
-        weaponDef.customDamage.statBoostChance = weaponDef.customDamage.statBoosts.empty() ? 0 : 10;
+        weaponDef.customDamage->statBoostChance = weaponDef.customDamage->statBoosts.empty() ? 0 : 10;
     }
-    if (weaponDef.customDamage.crewSpawnChance == -1)
+    if (weaponDef.customDamage->crewSpawnChance == -1)
     {
-        weaponDef.customDamage.crewSpawnChance = weaponDef.customDamage.crewSpawns.empty() ? 0 : 10;
+        weaponDef.customDamage->crewSpawnChance = weaponDef.customDamage->crewSpawns.empty() ? 0 : 10;
     }
+
+    if (hasCustomDamage) weaponDef.customDamage->GiveId();
 
     CustomWeaponManager::instance->AddWeaponDefinition(weaponDef);
 

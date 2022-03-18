@@ -7,6 +7,7 @@ struct StatBoostDefinition;
 
 struct CrewSpawn
 {
+    int idx = -1;
     std::string race = "";
     std::string name = "";
     float healthPercentage = 1.f;
@@ -16,8 +17,16 @@ struct CrewSpawn
     bool enemy = false;
     int number = 1;
 
-    static std::vector<CrewMember*> SpawnCrew(CrewSpawn& crewSpawn, ShipManager *ship, bool intruder, Pointf spawnPos, bool tile=false);
-    static CrewSpawn ParseCrewSpawn(rapidxml::xml_node<char>* node, bool isCrew);
+    static std::vector<CrewMember*> SpawnCrew(CrewSpawn *crewSpawn, ShipManager *ship, bool intruder, Pointf spawnPos, bool tile=false);
+    static CrewSpawn *ParseCrewSpawn(rapidxml::xml_node<char>* node, bool isCrew);
+
+    static std::vector<CrewSpawn*> crewSpawnDefs;
+
+    void GiveId()
+    {
+        idx = crewSpawnDefs.size();
+        crewSpawnDefs.push_back(this);
+    }
 };
 
 struct ExplosionDefinition

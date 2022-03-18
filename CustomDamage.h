@@ -15,9 +15,9 @@ struct ErosionEffect
 
 struct CrewSpawn;
 
-struct CustomDamage
+struct CustomDamageDefinition
 {
-    int sourceShipId = -1;
+    int idx = -1;
 
     int accuracyMod = 0;
     int droneAccuracyMod = 0;
@@ -33,26 +33,36 @@ struct CustomDamage
     ErosionEffect erosionEffect;
 
     int crewSpawnChance = -1;
-    std::vector<CrewSpawn> crewSpawns;
+    std::vector<CrewSpawn*> crewSpawns;
 
-    ~CustomDamage()
+    ~CustomDamageDefinition()
     {
 
     }
 
-    void Clear()
+    static std::vector<CustomDamageDefinition*> customDamageDefs;
+    static CustomDamageDefinition defaultDef;
+
+    void GiveId()
     {
-        statBoostChance = 0;
-        statBoosts.clear();
-
-        erosionChance = 0;
-
-        crewSpawnChance = 0;
-        crewSpawns.clear();
+        idx = customDamageDefs.size();
+        customDamageDefs.push_back(this);
     }
 };
 
+struct CustomDamage
+{
+    CustomDamageDefinition *def;
 
+    int sourceShipId = -1;
+    int accuracyMod = 0;
+    int droneAccuracyMod = 0;
+
+    void Clear()
+    {
+        def = &CustomDamageDefinition::defaultDef;
+    }
+};
 
 
 class CustomDamageManager

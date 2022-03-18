@@ -267,7 +267,7 @@ struct ActivatedPowerDefinition
     bool activateReadyEnemies = false;
     std::string transformRace = "";
 
-    std::vector<CrewSpawn> crewSpawns;
+    std::vector<CrewSpawn*> crewSpawns;
 
     std::vector<StatBoostDefinition*> statBoosts;
 

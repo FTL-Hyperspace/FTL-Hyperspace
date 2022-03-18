@@ -1,47 +1,50 @@
 #include "CrewSpawn.h"
 #include <boost/lexical_cast.hpp>
 
-CrewSpawn CrewSpawn::ParseCrewSpawn(rapidxml::xml_node<char>* node, bool isCrew)
+std::vector<CrewSpawn*> CrewSpawn::crewSpawnDefs;
+
+CrewSpawn *CrewSpawn::ParseCrewSpawn(rapidxml::xml_node<char>* node, bool isCrew)
 {
-    CrewSpawn crewSpawn;
+    CrewSpawn *crewSpawn = new CrewSpawn();
+    crewSpawn->GiveId();
 
     for (auto spawnNode = node->first_node(); spawnNode; spawnNode = spawnNode->next_sibling())
     {
         std::string spawnName = spawnNode->name();
         if (spawnName == "race")
         {
-            crewSpawn.race = spawnNode->value();
+            crewSpawn->race = spawnNode->value();
         }
         if (spawnName == "name")
         {
-            crewSpawn.name = spawnNode->value();
+            crewSpawn->name = spawnNode->value();
         }
         if (spawnName == "number")
         {
-            crewSpawn.number = boost::lexical_cast<int>(spawnNode->value());
+            crewSpawn->number = boost::lexical_cast<int>(spawnNode->value());
         }
         if (spawnName == "healthPercentage")
         {
-            crewSpawn.healthPercentage = boost::lexical_cast<float>(spawnNode->value());
+            crewSpawn->healthPercentage = boost::lexical_cast<float>(spawnNode->value());
         }
         if (spawnName == "lifetime")
         {
-            crewSpawn.lifetime = boost::lexical_cast<float>(spawnNode->value());
+            crewSpawn->lifetime = boost::lexical_cast<float>(spawnNode->value());
         }
         if (spawnName == "statBoosts")
         {
             for (auto statBoostNode = spawnNode->first_node(); statBoostNode; statBoostNode = statBoostNode->next_sibling())
             {
-                crewSpawn.statBoosts.push_back(StatBoostManager::GetInstance()->ParseStatBoostNode(statBoostNode, isCrew ? StatBoostDefinition::BoostSource::CREW : StatBoostDefinition::BoostSource::AUGMENT));
+                crewSpawn->statBoosts.push_back(StatBoostManager::GetInstance()->ParseStatBoostNode(statBoostNode, isCrew ? StatBoostDefinition::BoostSource::CREW : StatBoostDefinition::BoostSource::AUGMENT));
             }
         }
         if (spawnName == "noSlot")
         {
-            crewSpawn.noSlot = EventsParser::ParseBoolean(spawnNode->value());
+            crewSpawn->noSlot = EventsParser::ParseBoolean(spawnNode->value());
         }
         if (spawnName == "enemy")
         {
-            crewSpawn.enemy = EventsParser::ParseBoolean(spawnNode->value());
+            crewSpawn->enemy = EventsParser::ParseBoolean(spawnNode->value());
         }
     }
 
@@ -64,7 +67,7 @@ HOOK_METHOD_PRIORITY(CrewMember, constructor, -1000, (CrewBlueprint& bp, int shi
     g_forceNoSlot = false;
 }
 
-std::vector<CrewMember*> CrewSpawn::SpawnCrew(CrewSpawn& crewSpawn, ShipManager *ship, bool intruder, Pointf spawnPos, bool tile)
+std::vector<CrewMember*> CrewSpawn::SpawnCrew(CrewSpawn *crewSpawn, ShipManager *ship, bool intruder, Pointf spawnPos, bool tile)
 {
     std::vector<CrewMember*> crewList;
 
@@ -72,7 +75,7 @@ std::vector<CrewMember*> CrewSpawn::SpawnCrew(CrewSpawn& crewSpawn, ShipManager 
 
     if (room != -1)
     {
-        if (crewSpawn.enemy) intruder = !intruder;
+        if (crewSpawn->enemy) intruder = !intruder;
 
         int freeSlots = 0;
 
@@ -81,7 +84,7 @@ std::vector<CrewMember*> CrewSpawn::SpawnCrew(CrewSpawn& crewSpawn, ShipManager 
             freeSlots += i->GetEmptySlots(intruder);
         }
 
-        freeSlots = std::min(freeSlots, crewSpawn.number);
+        freeSlots = std::min(freeSlots, crewSpawn->number);
 
         for (int i = 0; i < freeSlots; i++)
         {
@@ -93,8 +96,8 @@ std::vector<CrewMember*> CrewSpawn::SpawnCrew(CrewSpawn& crewSpawn, ShipManager 
                 currentSlot = graph->GetClosestSlot({static_cast<int>(std::round(spawnPos.x)), static_cast<int>(std::round(spawnPos.y))}, ship->iShipId, intruder);
             }
 
-            g_forceNoSlot = crewSpawn.noSlot;
-            auto crew = ship->AddCrewMemberFromString(crewSpawn.name, crewSpawn.race, intruder, room, false, random32() % 2 == 0);
+            g_forceNoSlot = crewSpawn->noSlot;
+            auto crew = ship->AddCrewMemberFromString(crewSpawn->name, crewSpawn->race, intruder, room, false, random32() % 2 == 0);
             g_forceNoSlot = false;
 
             if (!tile)
@@ -123,16 +126,16 @@ std::vector<CrewMember*> CrewSpawn::SpawnCrew(CrewSpawn& crewSpawn, ShipManager 
                 }
             }
 
-            crew->health.first = crew->health.second * crewSpawn.healthPercentage;
+            crew->health.first = crew->health.second * crewSpawn->healthPercentage;
 
-            if (crewSpawn.lifetime != -1.f)
+            if (crewSpawn->lifetime != -1.f)
             {
                 CrewMember_Extend* ex = CM_EX(crew);
                 ex->deathTimer = new TimerHelper(false);
-                ex->deathTimer->Start(crewSpawn.lifetime);
+                ex->deathTimer->Start(crewSpawn->lifetime);
             }
 
-            for (auto statBoostDef : crewSpawn.statBoosts)
+            for (auto statBoostDef : crewSpawn->statBoosts)
             {
                 StatBoost statBoost(statBoostDef);
                 statBoost.crewSource = crew;

@@ -11,14 +11,14 @@ HOOK_METHOD(ShipManager, DamageArea, (Pointf location, DamageParameter dmgParam,
     {
         int rng = random32() % 10;
 
-        if (rng < custom->erosionChance)
+        if (rng < custom->def->erosionChance)
         {
             int roomId = ship.GetSelectedRoomId(location.x, location.y, true);
 
             if (roomId != -1)
             {
                 auto ex = RM_EX(ship.vRoomList[roomId]);
-                ex->StartErosion(custom->erosionEffect);
+                ex->StartErosion(custom->def->erosionEffect);
             }
         }
     }
