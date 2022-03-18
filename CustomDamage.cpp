@@ -166,9 +166,9 @@ HOOK_METHOD_PRIORITY(SpaceDrone, CollisionMoving, 9999, (Pointf start, Pointf fi
             ex = PR_EX(CustomDamageManager::currentProjectile);
             if (!ex->missedDrones.empty())
             {
-                for (auto missedDrone : ex->missedDrones)
+                for (int missedDrone : ex->missedDrones)
                 {
-                    if (missedDrone == this)
+                    if (missedDrone == selfId)
                     {
                         return ret;
                     }
@@ -188,7 +188,7 @@ HOOK_METHOD_PRIORITY(SpaceDrone, CollisionMoving, 9999, (Pointf start, Pointf fi
             {
                 delete this->message;
                 this->message = new DamageMessage(1.0,this->currentLocation,DamageMessage::MISS);
-                if (ex) ex->missedDrones.push_back(this);
+                if (ex) ex->missedDrones.push_back(selfId);
                 return ret;
             }
             ret.collision_type = 1;
