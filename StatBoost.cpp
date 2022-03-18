@@ -152,6 +152,14 @@ StatBoostDefinition* StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<cha
                 {
                     def->crewTarget = StatBoostDefinition::CrewTarget::CURRENT_ENEMIES;
                 }
+                if (val == "ORIGINAL_ALLIES")
+                {
+                    def->crewTarget = StatBoostDefinition::CrewTarget::ORIGINAL_ALLIES;
+                }
+                if (val == "ORIGINAL_ENEMIES")
+                {
+                    def->crewTarget = StatBoostDefinition::CrewTarget::ORIGINAL_ENEMIES;
+                }
                 if (val == "SELF")
                 {
                     def->crewTarget = StatBoostDefinition::CrewTarget::SELF;
@@ -777,112 +785,151 @@ HOOK_METHOD(CrewMember, Restart, () -> void)
 
 bool CrewMember_Extend::BoostCheck(const StatBoost& statBoost)
 {
-    if (statBoost.def->boostSource == StatBoostDefinition::BoostSource::CREW)
+    int ownerShip;
+
+    switch (statBoost.def->boostSource)
     {
-        int ownerShip = statBoost.crewSource->GetPowerOwner();
-        if(
-            (statBoost.def->shipTarget == StatBoostDefinition::ShipTarget::PLAYER_SHIP && orig->currentShipId == 0)
-            || (statBoost.def->shipTarget == StatBoostDefinition::ShipTarget::ORIGINAL_SHIP && orig->currentShipId == ownerShip)
-            || (statBoost.def->shipTarget == StatBoostDefinition::ShipTarget::ORIGINAL_OTHER_SHIP && orig->currentShipId != ownerShip)
-            || (statBoost.def->shipTarget == StatBoostDefinition::ShipTarget::OTHER_ALL && orig->currentShipId != statBoost.crewSource->currentShipId)
-            || (statBoost.def->shipTarget == StatBoostDefinition::ShipTarget::ENEMY_SHIP && orig->currentShipId == 1)
-            || (statBoost.def->shipTarget == StatBoostDefinition::ShipTarget::CURRENT_ALL && orig->currentShipId == statBoost.crewSource->currentShipId)
-            || (statBoost.def->shipTarget == StatBoostDefinition::ShipTarget::CURRENT_ROOM && orig->iRoomId == statBoost.crewSource->iRoomId && orig->currentShipId == statBoost.crewSource->currentShipId)
-            || (statBoost.def->shipTarget == StatBoostDefinition::ShipTarget::ALL)
-           )
+    case StatBoostDefinition::BoostSource::CREW:
+        ownerShip = statBoost.crewSource->GetPowerOwner();
+
+        switch (statBoost.def->shipTarget)
         {
-            if(
-                (statBoost.crewSource != orig)
-                || (statBoost.def->affectsSelf)
-                )
+        case StatBoostDefinition::ShipTarget::PLAYER_SHIP:
+            if (orig->currentShipId != 0) return false;
+            break;
+        case StatBoostDefinition::ShipTarget::ORIGINAL_SHIP:
+            if (orig->currentShipId != ownerShip) return false;
+            break;
+        case StatBoostDefinition::ShipTarget::ORIGINAL_OTHER_SHIP:
+            if (orig->currentShipId == ownerShip) return false;
+            break;
+        case StatBoostDefinition::ShipTarget::OTHER_ALL:
+            if (orig->currentShipId == statBoost.crewSource->currentShipId) return false;
+            break;
+        case StatBoostDefinition::ShipTarget::ENEMY_SHIP:
+            if (orig->currentShipId != 1) return false;
+            break;
+        case StatBoostDefinition::ShipTarget::CURRENT_ALL:
+            if (orig->currentShipId != statBoost.crewSource->currentShipId) return false;
+            break;
+        case StatBoostDefinition::ShipTarget::CURRENT_ROOM:
+            if (orig->currentShipId != statBoost.crewSource->currentShipId || orig->iRoomId != statBoost.crewSource->iRoomId) return false;
+            break;
+        }
+
+        if (statBoost.crewSource == orig)
+        {
+            if (!statBoost.def->affectsSelf) return false;
+        }
+        else
+        {
+            switch (statBoost.def->crewTarget)
             {
-                if(
-                    (ownerShip == orig->iShipId && statBoost.def->crewTarget == StatBoostDefinition::CrewTarget::ALLIES)
-                    || (ownerShip != orig->iShipId && statBoost.def->crewTarget == StatBoostDefinition::CrewTarget::ENEMIES)
-                    || (statBoost.def->crewTarget == StatBoostDefinition::CrewTarget::ALL)
-                    || (statBoost.crewSource == orig && statBoost.def->affectsSelf)
-                    || ((statBoost.crewSource->iShipId == orig->iShipId) == (statBoost.crewSource->bMindControlled == orig->bMindControlled) && statBoost.def->crewTarget == StatBoostDefinition::CrewTarget::CURRENT_ALLIES)
-                    || ((statBoost.crewSource->iShipId != orig->iShipId) == (statBoost.crewSource->bMindControlled == orig->bMindControlled) && statBoost.def->crewTarget == StatBoostDefinition::CrewTarget::CURRENT_ENEMIES)
-                   )
-                {
-                    if(
-                        (std::find(statBoost.def->whiteList.begin(), statBoost.def->whiteList.end(), orig->species) != statBoost.def->whiteList.end())
-                        || (!statBoost.def->blackList.empty() && std::find(statBoost.def->blackList.begin(), statBoost.def->blackList.end(), orig->species) == statBoost.def->blackList.end())
-                        || (statBoost.def->blackList.empty() && statBoost.def->whiteList.empty())
-                        || (statBoost.crewSource == orig && statBoost.def->affectsSelf)
-                       )
-                    {
-                        if(
-                            (statBoost.def->systemList.empty())
-                            || (std::find(statBoost.sourceRoomIds.first.begin(), statBoost.sourceRoomIds.first.end(), orig->iRoomId) != statBoost.sourceRoomIds.first.end() && statBoost.def->systemRoomTarget == StatBoostDefinition::SystemRoomTarget::ALL && orig->currentShipId == 0)
-                            || (std::find(statBoost.sourceRoomIds.second.begin(), statBoost.sourceRoomIds.second.end(), orig->iRoomId) != statBoost.sourceRoomIds.second.end() && statBoost.def->systemRoomTarget == StatBoostDefinition::SystemRoomTarget::ALL && orig->currentShipId == 1)
-                            || (std::find(statBoost.sourceRoomIds.first.begin(), statBoost.sourceRoomIds.first.end(), orig->iRoomId) == statBoost.sourceRoomIds.first.end() && statBoost.def->systemRoomTarget == StatBoostDefinition::SystemRoomTarget::NONE && orig->currentShipId == 0)
-                            || (std::find(statBoost.sourceRoomIds.second.begin(), statBoost.sourceRoomIds.second.end(), orig->iRoomId) == statBoost.sourceRoomIds.second.end() && statBoost.def->systemRoomTarget == StatBoostDefinition::SystemRoomTarget::NONE && orig->currentShipId == 1)
-                           )
-                        {
-                            if(
-                               (statBoost.def->droneTarget == StatBoostDefinition::DroneTarget::DRONES && orig->IsDrone())
-                               || (statBoost.def->droneTarget == StatBoostDefinition::DroneTarget::CREW && !orig->IsDrone())
-                               || (statBoost.def->droneTarget == StatBoostDefinition::DroneTarget::ALL)
-                               )
-                            {
-                                return !statBoost.def->functionalTarget || orig->Functional();
-                            }
-                        }
-                    }
-                }
+            case StatBoostDefinition::CrewTarget::ALLIES:
+                if (ownerShip != orig->iShipId) return false;
+                break;
+            case StatBoostDefinition::CrewTarget::ENEMIES:
+                if (ownerShip == orig->iShipId) return false;
+                break;
+            case StatBoostDefinition::CrewTarget::SELF:
+                return false;
+                break;
+            case StatBoostDefinition::CrewTarget::CURRENT_ALLIES:
+                if ((statBoost.crewSource->iShipId != orig->iShipId) == (statBoost.crewSource->bMindControlled == orig->bMindControlled)) return false;
+                break;
+            case StatBoostDefinition::CrewTarget::CURRENT_ENEMIES:
+                if ((statBoost.crewSource->iShipId == orig->iShipId) == (statBoost.crewSource->bMindControlled == orig->bMindControlled)) return false;
+                break;
+            case StatBoostDefinition::CrewTarget::ORIGINAL_ALLIES:
+                if (statBoost.crewSource->iShipId != orig->iShipId) return false;
+                break;
+            case StatBoostDefinition::CrewTarget::ORIGINAL_ENEMIES:
+                if (statBoost.crewSource->iShipId == orig->iShipId) return false;
+                break;
             }
+
+            if (!statBoost.def->whiteList.empty() && std::find(statBoost.def->whiteList.begin(), statBoost.def->whiteList.end(), orig->species) == statBoost.def->whiteList.end()) return false;
+            if (!statBoost.def->blackList.empty() && std::find(statBoost.def->blackList.begin(), statBoost.def->blackList.end(), orig->species) != statBoost.def->blackList.end()) return false;
+        }
+
+        break;
+
+    case StatBoostDefinition::BoostSource::AUGMENT:
+        ownerShip = statBoost.sourceShipId;
+
+        switch (statBoost.def->shipTarget)
+        {
+        case StatBoostDefinition::ShipTarget::PLAYER_SHIP:
+            if (orig->currentShipId != 0) return false;
+            break;
+        case StatBoostDefinition::ShipTarget::ORIGINAL_SHIP:
+        case StatBoostDefinition::ShipTarget::CURRENT_ALL:
+            if (orig->currentShipId != ownerShip) return false;
+            break;
+        case StatBoostDefinition::ShipTarget::ORIGINAL_OTHER_SHIP:
+        case StatBoostDefinition::ShipTarget::OTHER_ALL:
+            if (orig->currentShipId == ownerShip) return false;
+            break;
+        case StatBoostDefinition::ShipTarget::ENEMY_SHIP:
+            if (orig->currentShipId != 1) return false;
+            break;
+        }
+
+        switch (statBoost.def->crewTarget)
+        {
+        case StatBoostDefinition::CrewTarget::ALLIES:
+        case StatBoostDefinition::CrewTarget::ORIGINAL_ALLIES:
+            if (ownerShip != orig->iShipId) return false;
+            break;
+        case StatBoostDefinition::CrewTarget::ENEMIES:
+        case StatBoostDefinition::CrewTarget::ORIGINAL_ENEMIES:
+            if (ownerShip == orig->iShipId) return false;
+            break;
+        case StatBoostDefinition::CrewTarget::SELF:
+            return false;
+            break;
+        case StatBoostDefinition::CrewTarget::CURRENT_ALLIES:
+            if ((ownerShip != orig->iShipId) == (statBoost.crewSource->bMindControlled == orig->bMindControlled)) return false;
+            break;
+        case StatBoostDefinition::CrewTarget::CURRENT_ENEMIES:
+            if ((ownerShip == orig->iShipId) == (statBoost.crewSource->bMindControlled == orig->bMindControlled)) return false;
+            break;
+        }
+
+        if (!statBoost.def->whiteList.empty() && std::find(statBoost.def->whiteList.begin(), statBoost.def->whiteList.end(), orig->species) == statBoost.def->whiteList.end()) return false;
+        if (!statBoost.def->blackList.empty() && std::find(statBoost.def->blackList.begin(), statBoost.def->blackList.end(), orig->species) != statBoost.def->blackList.end()) return false;
+
+        break;
+    }
+
+    if (!statBoost.def->systemList.empty())
+    {
+        const std::vector<int> &sourceRoomIds = orig->currentShipId == 1 ? statBoost.sourceRoomIds.second : statBoost.sourceRoomIds.first;
+
+        switch (statBoost.def->systemRoomTarget)
+        {
+        case StatBoostDefinition::SystemRoomTarget::ALL:
+            if (std::find(sourceRoomIds.begin(), sourceRoomIds.end(), orig->iRoomId) == sourceRoomIds.end()) return false;
+            break;
+        case StatBoostDefinition::SystemRoomTarget::NONE:
+            if (std::find(sourceRoomIds.begin(), sourceRoomIds.end(), orig->iRoomId) != sourceRoomIds.end()) return false;
+            break;
         }
     }
-    else if (statBoost.def->boostSource == StatBoostDefinition::BoostSource::AUGMENT)
+
+    switch (statBoost.def->droneTarget)
     {
-        if(
-            (statBoost.def->shipTarget == StatBoostDefinition::ShipTarget::PLAYER_SHIP && orig->currentShipId == 0)
-            || (statBoost.def->shipTarget == StatBoostDefinition::ShipTarget::ORIGINAL_SHIP && orig->currentShipId == statBoost.sourceShipId)
-            || (statBoost.def->shipTarget == StatBoostDefinition::ShipTarget::ORIGINAL_OTHER_SHIP && orig->currentShipId != statBoost.sourceShipId)
-            || (statBoost.def->shipTarget == StatBoostDefinition::ShipTarget::ENEMY_SHIP && orig->currentShipId == 1)
-            || (statBoost.def->shipTarget == StatBoostDefinition::ShipTarget::CURRENT_ALL && orig->currentShipId == statBoost.sourceShipId)
-            || (statBoost.def->shipTarget == StatBoostDefinition::ShipTarget::ALL)
-            )
-        {
-            if(
-                (statBoost.sourceShipId == orig->iShipId && statBoost.def->crewTarget == StatBoostDefinition::CrewTarget::ALLIES)
-                || (statBoost.sourceShipId != orig->iShipId && statBoost.def->crewTarget == StatBoostDefinition::CrewTarget::ENEMIES)
-                || (statBoost.def->crewTarget == StatBoostDefinition::CrewTarget::ALL)
-                || (statBoost.crewSource == orig && statBoost.def->affectsSelf)
-                || (statBoost.sourceShipId == orig->iShipId != orig->bMindControlled && statBoost.def->crewTarget == StatBoostDefinition::CrewTarget::CURRENT_ALLIES)
-                || (statBoost.sourceShipId != orig->iShipId != orig->bMindControlled && statBoost.def->crewTarget == StatBoostDefinition::CrewTarget::CURRENT_ENEMIES)
-                )
-            {
-                if(
-                    (std::find(statBoost.def->whiteList.begin(), statBoost.def->whiteList.end(), orig->species) != statBoost.def->whiteList.end())
-                    || (!statBoost.def->blackList.empty() && std::find(statBoost.def->blackList.begin(), statBoost.def->blackList.end(), orig->species) == statBoost.def->blackList.end())
-                    || (statBoost.def->blackList.empty() && statBoost.def->whiteList.empty())
-                    || (statBoost.crewSource == orig && statBoost.def->affectsSelf)
-                    )
-                {
-                    if(
-                        (statBoost.def->systemList.empty())
-                        || (std::find(statBoost.sourceRoomIds.first.begin(), statBoost.sourceRoomIds.first.end(), orig->iRoomId) != statBoost.sourceRoomIds.first.end() && statBoost.def->systemRoomTarget == StatBoostDefinition::SystemRoomTarget::ALL && orig->currentShipId == 0)
-                        || (std::find(statBoost.sourceRoomIds.second.begin(), statBoost.sourceRoomIds.second.end(), orig->iRoomId) != statBoost.sourceRoomIds.second.end() && statBoost.def->systemRoomTarget == StatBoostDefinition::SystemRoomTarget::ALL && orig->currentShipId == 1)
-                        || (std::find(statBoost.sourceRoomIds.first.begin(), statBoost.sourceRoomIds.first.end(), orig->iRoomId) == statBoost.sourceRoomIds.first.end() && statBoost.def->systemRoomTarget == StatBoostDefinition::SystemRoomTarget::NONE && orig->currentShipId == 0)
-                        || (std::find(statBoost.sourceRoomIds.second.begin(), statBoost.sourceRoomIds.second.end(), orig->iRoomId) == statBoost.sourceRoomIds.second.end() && statBoost.def->systemRoomTarget == StatBoostDefinition::SystemRoomTarget::NONE && orig->currentShipId == 1)
-                        )
-                    {
-                        if(
-                             (statBoost.def->droneTarget == StatBoostDefinition::DroneTarget::DRONES && orig->IsDrone())
-                             || (statBoost.def->droneTarget == StatBoostDefinition::DroneTarget::CREW && !orig->IsDrone())
-                             || (statBoost.def->droneTarget == StatBoostDefinition::DroneTarget::ALL)
-                             )
-                        {
-                            return !statBoost.def->functionalTarget || orig->Functional();
-                        }
-                    }
-                }
-            }
-        }
+    case StatBoostDefinition::DroneTarget::DRONES:
+        if (!orig->IsDrone()) return false;
+        break;
+    case StatBoostDefinition::DroneTarget::CREW:
+        if (orig->IsDrone()) return false;
+        break;
     }
-    return false;
+
+    if (statBoost.def->functionalTarget && !orig->Functional()) return false;
+
+    return true;
 }
 
 int CrewMember_Extend::CalculateMaxHealth(const CrewDefinition* def)

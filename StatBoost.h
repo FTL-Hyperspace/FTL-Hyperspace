@@ -159,7 +159,9 @@ struct StatBoostDefinition
         SELF,
         ALL,
         CURRENT_ALLIES,
-        CURRENT_ENEMIES
+        CURRENT_ENEMIES,
+        ORIGINAL_ALLIES,
+        ORIGINAL_ENEMIES
     };
 
     enum class DroneTarget
