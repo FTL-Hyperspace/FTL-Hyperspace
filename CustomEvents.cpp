@@ -5092,6 +5092,7 @@ static bool selectRandomCrew_blockNoSlot = false;
 
 HOOK_METHOD_PRIORITY(WorldManager, CreateLocation, -100, (Location *location) -> void)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> WorldManager::CreateLocation -> Begin (CustomEvents.cpp)\n")
     LocationEvent *event = location->event;
 
     if (event)
@@ -5113,6 +5114,7 @@ HOOK_METHOD_PRIORITY(WorldManager, CreateLocation, -100, (Location *location) ->
 
 HOOK_METHOD_PRIORITY(WorldManager, UpdateLocation, -100, (LocationEvent *event) -> void)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> WorldManager::UpdateLocation -> Begin (CustomEvents.cpp)\n")
     CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(event->eventName);
 
     if (customEvent)
@@ -5129,6 +5131,7 @@ HOOK_METHOD_PRIORITY(WorldManager, UpdateLocation, -100, (LocationEvent *event) 
 
 HOOK_METHOD_PRIORITY(WorldManager, ModifyResources, -100, (LocationEvent *event) -> LocationEvent*)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> WorldManager::ModifyResources -> Begin (CustomEvents.cpp)\n")
     CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(event->eventName);
 
     bool old_allowNoSlot = selectRandomCrew_allowNoSlot;
@@ -5309,6 +5312,7 @@ std::vector<CrewMember*> HS_GetRandomCrewList(int iShipId, std::string &racePref
 
 HOOK_METHOD(WorldManager, CheckRequirements, (LocationEvent *event, bool hidden) -> bool)
 {
+    LOG_HOOK("HOOK_METHOD -> WorldManager::CheckRequirements -> Begin (CustomEvents.cpp)\n")
     bool ret = super(event, hidden);
 
     if (ret && event)
