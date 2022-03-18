@@ -172,7 +172,15 @@ HOOK_METHOD(BlueprintManager, ProcessWeaponBlueprint, (rapidxml::xml_node<char>*
         weaponDef.customDamage->crewSpawnChance = weaponDef.customDamage->crewSpawns.empty() ? 0 : 10;
     }
 
-    if (hasCustomDamage) weaponDef.customDamage->GiveId();
+    if (hasCustomDamage)
+    {
+        weaponDef.customDamage->GiveId();
+    }
+    else
+    {
+        delete weaponDef.customDamage;
+        weaponDef.customDamage = &CustomDamageDefinition::defaultDef;
+    }
 
     CustomWeaponManager::instance->AddWeaponDefinition(weaponDef);
 

@@ -17,7 +17,7 @@ struct CrewSpawn;
 
 struct CustomDamageDefinition
 {
-    int idx = -1;
+    int idx = 0;
 
     int accuracyMod = 0;
     int droneAccuracyMod = 0;
