@@ -44,6 +44,10 @@ bool ScoreKeeper::KeyDown(ScoreKeeper *this<ecx>, SDLKey key);
 void ScoreKeeper::AddScrapCollected(ScoreKeeper *this<ecx>, int scrap);
 "578d7c240883e4f0ff77fc5589f889e557565383ec7c8b40048b3f8b1889458c":
 void ScoreKeeper::SaveScores(ScoreKeeper *this<ecx>, int file, std::vector<TopScore>& topScores);
+"578d7c240883e4f0ff77fc5589e557565389ce83ec2c8b1fa1????????8d7e0889442404891c24":
+void ScoreKeeper::SaveGame(ScoreKeeper *this<ecx>, int fd);
+"578d7c240883e4f0ff77fc5589e557565383ec4c8b3f894dc4893c24":
+void ScoreKeeper::LoadGame(ScoreKeeper *this<ecx>, int fd);
 
 "!8b430cb9(???????\?)c6804412000000c7042401000000":
 ScoreKeeper* Global_ScoreKeeper_Keeper;

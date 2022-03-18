@@ -5,7 +5,7 @@
 		<Option title="FTL_HyperspaceGCC" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
-		<Option virtualFolders="Content/Misc/;Core/Systems/;Content/;Core/Systems/;Content/Crew/;Core/Systems/;Content/Ship/;Core/Systems/;Core/Systems/;Content/;Core/Systems/;Core/;Core/Equipment/;Core/Weapons/;Content/;Core/Systems/;Core/Crew/;Content/;Core/Systems/;Core/Events/;Content/;Core/Systems/;Core/;Core/Equipment/;Core/Weapons/;Content/;Core/Ship/;Content/;Core/Systems/;Core/Resources/;Content/;Core/Systems/;Content/Map/;Core/Systems/;Core/Map/;Content/;Core/Systems/;ZHL/;Content/Augments/;Core/Augments/;Core/Seed/;Core/Boss/;Content/ShipEditor/;Core/SaveFile/;Core/Store/;Core/CommandGui/;Core/CApp/;Content/Discord/;Core/Drones/;Core/Credits/;Core/Shaders/;Core/Blueprints/;Core/Options/;FTLGame/;Content/Systems/;Core/Sectors/;Core/Achievements/;PAL/" />
+		<Option virtualFolders="Content/Misc/;Core/Systems/;Content/;Core/Systems/;Content/Crew/;Core/Systems/;Content/Ship/;Core/Systems/;Core/Systems/;Content/;Core/Systems/;Core/;Core/Equipment/;Core/Weapons/;Content/;Core/Systems/;Core/Crew/;Content/;Core/Systems/;Core/Events/;Content/;Core/Systems/;Core/;Core/Equipment/;Core/Weapons/;Content/;Core/Ship/;Content/;Core/Systems/;Core/Resources/;Content/;Core/Systems/;Content/Map/;Core/Systems/;Core/Map/;Content/;Core/Systems/;ZHL/;Content/Augments/;Core/Augments/;Core/Seed/;Core/Boss/;Content/ShipEditor/;Core/SaveFile/;Core/Store/;Core/CommandGui/;Core/CApp/;Content/Discord/;Core/Drones/;Core/Credits/;Core/Shaders/;Core/Blueprints/;Core/Options/;FTLGame/;Content/Systems/;Core/Sectors/;Core/Achievements/;PAL/;Core/Misc/" />
 		<Build>
 			<Target title="Debug-win-32">
 				<Option platforms="Windows;" />
@@ -769,6 +769,9 @@
 		</Unit>
 		<Unit filename="SigScan.h">
 			<Option virtualFolder="ZHL/" />
+		</Unit>
+		<Unit filename="SpaceId.cpp">
+			<Option virtualFolder="Core/Misc/" />
 		</Unit>
 		<Unit filename="StatBoost.cpp">
 			<Option virtualFolder="Core/Crew/" />
