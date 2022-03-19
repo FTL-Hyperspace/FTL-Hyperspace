@@ -158,7 +158,7 @@
 				<Option platforms="Windows;" />
 				<Option output="$(FTL_PATH)/Hyperspace" imp_lib="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).a" def_file="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).def" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="$(FTL_PATH)/" />
-				<Option object_output="obj/Debug/" />
+				<Option object_output="obj/Debug-llvm/" />
 				<Option type="3" />
 				<Option compiler="clang" />
 				<Option host_application="$(FTL_PATH)/FTLGame.exe" />
@@ -235,7 +235,7 @@
 				<Option platforms="Windows;" />
 				<Option output="$(FTL_PATH)/Hyperspace" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="$(FTL_PATH)/" />
-				<Option object_output="obj/Release/" />
+				<Option object_output="obj/Release-llvm/" />
 				<Option type="3" />
 				<Option compiler="clang" />
 				<Option host_application="$(FTL_PATH)/FTLGame.exe" />
