@@ -244,7 +244,7 @@
 				<Option createStaticLib="1" />
 				<Compiler>
 					<Add option="-m32" />
-					<Add option="-O4" />
+					<Add option="-O3" />
 					<Add option="-Wall" />
 					<Add option="-msse -msse2 -mfpmath=sse -std=c++11 -target i686-pc-windows-gnu -stdlib=libstdc++" />
 					<Add option="-Werror=narrowing" />
