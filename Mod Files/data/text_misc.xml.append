@@ -32,6 +32,7 @@
 <text name="augment_no_effect">These augmentations will have no effect with this augment installed:</text>
 
 <text name="seed_prompt">Seed</text>
+<text name="seed_prompt_disabled">Seeds Disabled</text>
 <text name="menu_status_seed">Seed</text>
 <text name="unlocks_disabled">Unlocks Disabled</text>
 
