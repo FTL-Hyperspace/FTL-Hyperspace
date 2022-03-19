@@ -1,12 +1,16 @@
 #pragma once
 
-#define JUMP_INSTRUCTION "jmp %0"
+#define JUMP_INSTRUCTION "jmp *%0"
 #ifdef _WIN32
     #define FUNC_NAKED __declspec(naked)
     #ifdef LIBZHL_EXPORTS
         #define LIBZHL_API __declspec(dllexport)
     #else
         #define LIBZHL_API __declspec(dllimport)
+    #endif
+    #if __clang__
+        // Clang requies AT&T assembler syntax
+        #define JUMP_INSTRUCTION "jmp *%0"
     #endif
 #elif defined(__linux__)
     // Linux exports all symbols, we don't need to be specific like in Windows.
