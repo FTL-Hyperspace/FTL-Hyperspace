@@ -13,8 +13,9 @@ struct ActivatedPowerRequirements;
 
 enum class CrewStat : unsigned int;
 struct StatBoost;
+struct StatBoostDefinition;
 
-enum PowerReadyState
+enum PowerReadyState : unsigned int
 {
     POWER_NOT_READY_COOLDOWN,
     POWER_READY,
@@ -33,15 +34,55 @@ enum PowerReadyState
     POWER_NOT_READY_AI_DISABLED,
     POWER_NOT_READY_OUT_OF_COMBAT,
     POWER_NOT_READY_IN_COMBAT,
-    POWER_NOT_READY_MANNING,
     POWER_NOT_READY_SYSTEM,
     POWER_NOT_READY_SYSTEM_FUNCTIONAL,
     POWER_NOT_READY_MIN_HEALTH,
     POWER_NOT_READY_MAX_HEALTH,
     POWER_NOT_READY_SYSTEM_DAMAGED,
-    POWER_NOT_READY_MIND,
-    POWER_NOT_READY_TELEPORTING,
-    POWER_NOT_READY_CHARGES
+    POWER_NOT_READY_CHARGES,
+    POWER_NOT_READY_EXTRACONDITION_OR,
+    POWER_NOT_READY_EXTRACONDITION_TRUE = 16384,
+    POWER_NOT_READY_EXTRACONDITION_FALSE = 32768
+};
+
+static const std::array<std::string, numStats> powerReadyStateExtraTextTrue =
+{
+    "power_not_ready_burning",
+    "power_not_ready_suffocating",
+    "power_not_ready_mind",
+    "power_not_ready_stunned",
+    "power_not_ready_repairing",
+    "power_not_ready_repairing_system",
+    "power_not_ready_repairing_breach",
+    "power_not_ready_fighting",
+    "power_not_ready_sabotaging",
+    "power_not_ready_shooting",
+    "power_not_ready_moving",
+    "power_not_ready_idle",
+    "power_not_ready_manning",
+    "power_not_ready_firefighting",
+    "power_not_ready_dying",
+    "power_not_ready_teleporting"
+};
+
+static const std::array<std::string, numStats> powerReadyStateExtraTextFalse =
+{
+    "power_not_ready_burning_false",
+    "power_not_ready_suffocating_false",
+    "power_not_ready_mind_false",
+    "power_not_ready_stunned_false",
+    "power_not_ready_repairing_false",
+    "power_not_ready_repairing_system_false",
+    "power_not_ready_repairing_breach_false",
+    "power_not_ready_fighting_false",
+    "power_not_ready_sabotaging_false",
+    "power_not_ready_shooting_false",
+    "power_not_ready_moving_false",
+    "power_not_ready_idle_false",
+    "power_not_ready_manning_false",
+    "power_not_ready_firefighting_false",
+    "power_not_ready_dying_false",
+    "power_not_ready_teleporting_false"
 };
 
 struct CrewAnimation_Extend
@@ -155,6 +196,7 @@ public:
     std::pair<float,int> statCache[numCachedStats] = {};
 
     bool BoostCheck(const StatBoost& statBoost);
+    bool CheckExtraCondition(CrewExtraCondition condition);
     int CalculateMaxHealth(const CrewDefinition* def);
     float CalculateStat(CrewStat stat, const CrewDefinition* def, bool* boolValue=nullptr);
 };

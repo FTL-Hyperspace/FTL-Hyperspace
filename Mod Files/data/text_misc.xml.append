@@ -46,6 +46,9 @@
 <mod:findName type="text" name="power_not_ready">
   <mod:setValue>Not Ready: Power charging (see charge left of portrait)</mod:setValue>
 </mod:findName>
+
+<text name="power_not_ready_generic">Not Ready</text>
+
 <text name="power_not_ready_player_ship">Not Ready: Not on player ship</text>
 <text name="power_not_ready_enemy_ship">Not Ready: Not on enemy ship</text>
 <text name="power_not_ready_enemy_in_room">Not Ready: No enemies in room</text>
@@ -61,16 +64,48 @@
 <text name="power_not_ready_has_clonebay">Not Ready: No clone bay available</text>
 <text name="power_not_ready_out_of_combat">Not Ready: In combat</text>
 <text name="power_not_ready_in_combat">Not Ready: No enemy ship</text>
-<text name="power_not_ready_manning">Not Ready: Not manning system</text>
 <text name="power_not_ready_system">Not Ready: Missing \1 system</text>
 <text name="power_not_ready_system_functional">Not Ready: \1 system is not functional</text>
 <text name="power_not_ready_min_health">Not Ready: Health is below \1</text> <!-- \1 is min health req -->
 <text name="power_not_ready_max_health">Not Ready: Health is above \1</text> <!-- \1 is max health req -->
 <text name="power_not_ready_system_damaged">Not Ready: No damaged system in room</text>
-<text name="power_not_ready_mind">Not Ready: Mind controlled</text>
 <text name="power_not_ready_mind_enemy">Not Ready: Enemy has control</text>
 <text name="power_not_ready_teleporting">Not Ready: Can't transform mid-teleport</text>
 <text name="power_not_ready_charges">Not Ready: Out of charges</text>
+
+<text name="power_not_ready_burning">Not Ready: On fire</text>
+<text name="power_not_ready_suffocating">Not Ready: Suffocating</text>
+<text name="power_not_ready_mind">Not Ready: Mind controlled</text>
+<text name="power_not_ready_stunned">Not Ready: Stunned</text>
+<text name="power_not_ready_repairing">Not Ready: Repairing</text>
+<text name="power_not_ready_repairing_system">Not Ready: Repairing system</text>
+<text name="power_not_ready_repairing_breach">Not Ready: Repairing breach</text>
+<text name="power_not_ready_fighting">Not Ready: Fighting</text>
+<text name="power_not_ready_sabotaging">Not Ready: Sabotaging</text>
+<text name="power_not_ready_shooting">Not Ready: Shooting</text>
+<text name="power_not_ready_moving">Not Ready: Moving</text>
+<text name="power_not_ready_idle">Not Ready: Idle</text>
+<text name="power_not_ready_manning">Not Ready: Manning system</text>
+<text name="power_not_ready_firefighting">Not Ready: Fighting fire</text>
+<text name="power_not_ready_dying">Not Ready: Dying</text>
+<text name="power_not_ready_teleporting">Not Ready: Teleporting</text>
+
+<text name="power_not_ready_burning_false">Not Ready: Not on fire</text>
+<text name="power_not_ready_suffocating_false">Not Ready: Not suffocating</text>
+<text name="power_not_ready_mind_false">Not Ready: Not mind controlled</text>
+<text name="power_not_ready_stunned_false">Not Ready: Not stunned</text>
+<text name="power_not_ready_repairing_false">Not Ready: Not repairing</text>
+<text name="power_not_ready_repairing_system_false">Not Ready: Not repairing system</text>
+<text name="power_not_ready_repairing_breach_false">Not Ready: Not repairing breach</text>
+<text name="power_not_ready_fighting_false">Not Ready: Not fighting</text>
+<text name="power_not_ready_sabotaging_false">Not Ready: Not sabotaging</text>
+<text name="power_not_ready_shooting_false">Not Ready: Not shooting</text>
+<text name="power_not_ready_moving_false">Not Ready: Not moving</text>
+<text name="power_not_ready_idle_false">Not Ready: Not idle</text>
+<text name="power_not_ready_manning_false">Not Ready: Not manning system</text>
+<text name="power_not_ready_firefighting_false">Not Ready: Not fighting fire</text>
+<text name="power_not_ready_dying_false">Not Ready: Not dying</text>
+<text name="power_not_ready_teleporting_false">Not Ready: Not teleporting</text>
 
 <text name="advanced_health_tooltip">Health</text>
 <text name="weapon_cooldown_negative">Disabled</text>

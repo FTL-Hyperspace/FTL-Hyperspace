@@ -7,6 +7,8 @@
 
 struct ActivatedPowerDefinition;
 
+enum class CrewExtraCondition : unsigned int;
+
 enum class CrewStat : unsigned int
 {
     MAX_HEALTH = 0,
@@ -125,7 +127,9 @@ struct StatBoostDefinition
         FLAT,
         SET,
         FLIP,
-        SET_VALUE
+        SET_VALUE,
+        MIN,
+        MAX
     };
 
     enum class BoostSource
@@ -171,23 +175,6 @@ struct StatBoostDefinition
         ALL
     };
 
-    enum class ExtraCondition
-    {
-        BURNING,
-        SUFFOCATING,
-        MIND_CONTROLLED,
-        STUNNED,
-        REPAIRING,
-        FIGHTING,
-        SHOOTING,
-        MOVING,
-        IDLE,
-        MANNING,
-        FIREFIGHTING,
-        DYING,
-        TELEPORTING_OR_CLONING
-    };
-
     CrewStat stat;
     float amount;
     bool value;
@@ -215,7 +202,8 @@ struct StatBoostDefinition
     float powerScalingHackedSys = 1.0;
     std::vector<int> systemPowerScaling;
 
-    std::vector<ExtraCondition> extraConditions = std::vector<ExtraCondition>();
+    std::vector<std::pair<CrewExtraCondition,bool>> extraConditions = std::vector<std::pair<CrewExtraCondition,bool>>();
+    std::vector<std::pair<CrewExtraCondition,bool>> extraOrConditions = std::vector<std::pair<CrewExtraCondition,bool>>();
     bool extraConditionsReq;
     SystemRoomTarget systemRoomTarget;
     bool systemRoomReq;
@@ -225,6 +213,8 @@ struct StatBoostDefinition
     CrewTarget crewTarget;
     DroneTarget droneTarget = DroneTarget::ALL;
     bool functionalTarget = false;
+    std::pair<float,float> healthReq = {-1.f, -1.f};
+    std::pair<float,float> healthFractionReq = {-1.f, -1.f};
 
     int realBoostId = -1;
     int stackId = 0;

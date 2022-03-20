@@ -7594,6 +7594,7 @@ extern LIBZHL_API GL_Color *Global_InfoBox_detailsBarOff;
 extern LIBZHL_API void **VTable_LaserBlast;
 extern LIBZHL_API void **VTable_Targetable_LaserBlast;
 extern LIBZHL_API MouseControl *Global_MouseControl_Mouse;
+extern LIBZHL_API void **VTable_OuterHull;
 extern LIBZHL_API void **VTable_RepairAnimation;
 extern LIBZHL_API ResourceControl *Global_ResourceControl_GlobalResources;
 extern LIBZHL_API ScoreKeeper *Global_ScoreKeeper_Keeper;

@@ -624,6 +624,27 @@ Syntax ->
 				</blackList>
 				<isManning/>                                                             Requires the crewmember to be actively manning a system.
 				<requiredSystem functional="false">sysname</requiredSystem>              Requires a specific system to be installed. If functional="true" then it must also be powered and functional.
+				<extraConditions type="and" text="_text_" textId="_textid_">             Extra conditions. The "type" attribute may be "and" or "or", and you may include one of each.
+				                                                                           The text/textId attributes are used only for the "or" condition, to specify the tooltip for the requirement not being met.
+				                                                                           The "and" condition does not use text/textId, as it displays the tooltip for the first condition which is not met.
+				                                                                           Each condition may have a "true" or "false" value.
+					<burning>true</burning>                 Current room is on fire.
+					<suffocating>true</suffocating>         Crew is suffocating (must be able to suffocate).
+					<mindControlled>true</mindControlled>   Crew is being mind controlled.
+					<stunned>true</stunned>                 Crew is stunned.
+					<repairing>true</repairing>             Crew is repairing (fire/breach/system).
+					<repairingSystem>true</repairingSystem> Crew is repairing a system.
+					<repairingBreach>true</repairingBreach> Crew is repairing a breach.
+					<fighting>true</fighting>               Crew is fighting (against another crewmember).
+					<sabotaging>true</sabotaging>           Crew is sabotaging an enemy system.
+					<shooting>true</shooting>               Crew is shooting (includes sabotaging and breaking doors).
+					<moving>true</moving>                   Crew is moving (not at their final destination tile).
+					<idle>true</idle>                       Crew is not busy (not moving, fighting, or repairing; manning is acceptable).
+					<manning>true</manning>                 Crew is manning a system.
+					<firefighting>true</firefighting>       Crew is extinguishing a fire.
+					<dying>true</dying>                     Crew is dying (death animation).
+					<teleporting>true</teleporting>         Crew is teleporting (teleport animation, does not include being cloned/spawned).
+				</extraConditions>
 			</req>
 			<chargeReq>                                                                  Requirements for the ability to charge. The ability cooldown is paused if the requirements are not met.
 				...
@@ -1012,7 +1033,8 @@ For augments and crew active abilities, statboosts should be placed in a <statBo
 For passive crew boosts, they should be placed in a <passiveStatBoosts> tag, but otherwise the code is the same
 As the name implies, stat boosts can be used to boost (or just generally modify) a given stat, but also you can use stat boosts to apply other stat boosts to crew (therefore buffing everyone except the recipient) by using "statBoost" for the statBoost name
 
-boostType: what the boost does to the stat; for numerical amounts, it can be FLAT, MULT, or SET, and for true/false values it can be SET or FLIP
+boostType: what the boost does to the stat; for numerical amounts, it can be FLAT, MULT, SET, MIN or MAX, and for true/false values it can be SET or FLIP
+  The MIN and MAX types will apply the min() and max() operators. min() selects the lower of the current stat value and the new stat value, while max() selects the higher value.
 value/amount: use value for true/false stats and amount for numerical ones
 race: for transformRace, name of race to transform to
 permanent: for transformRace, whether the transformation should be permanent
@@ -1021,6 +1043,9 @@ crewTarget: determines what crew the boost affects. it can be ALLIES, ENEMIES, A
   SELF is the same as NONE except it automatically sets affectsSelf to true.
 droneTarget: determines whether the boost affects drones or not. it can be DRONES, CREW, or ALL (the default)
 functionalTarget: boolean, for drones it determines whether the drone needs to be powered or not. Default is false.
+healthReq: required crew health range. min/max are inclusive while above/below are exclusive.
+healthFractionReq: required crew health fractional range. min/max are inclusive while above/below are exclusive. For example, <healthFractionReq below="1.0"/> means "not at full health".
+extraConditions: list of extra conditions. Same syntax as for power requirements, except without the text attributes for tooltips.
 whiteList/blackList: determines the species that the boost applies to. whiteLists mean that only those species get the boost, and blackLists mean that only those species won't get the boost.
   Can also use load attribute to load a blueprintList.
 affectsSelf: determines if the boost affects the source in addition to its normal targets, defaults to false
@@ -1041,7 +1066,7 @@ statBoost: When statBoost name is "statBoost", the stat boost to provide to crew
 Stat boost syntax examples->
 
 <statBoost name="crewStat">
-	<boostType>MULT/FLAT/SET/FLIP</boostType>
+	<boostType>MULT/FLAT/SET/FLIP/MIN/MAX</boostType>
 	<amount>1.0</amount>
 	<value>TRUE/FALSE</value>
 	<race>human</race>
@@ -1060,6 +1085,11 @@ Stat boost syntax examples->
 	<blackList load="BP_LIST">
 		<race/>
 	</blackList>
+	<healthReq min="0.0" max="0.0" above="0.0" below="0.0"/>
+	<healthFractionReq min="0.0" max="0.0" above="0.0" below="0.0"/>
+	<extraConditions type="and">
+		...
+	</extraConditions>
 	<systemPowerDependency>
 		<sysName/>
 	</systemPowerDependency>

@@ -1,11 +1,13 @@
 #pragma GCC push_options
 #pragma GCC optimize ("O3")
 
+#include "CrewMember_Extend.h"
 #include "StatBoost.h"
 #include "CustomCrew.h"
 #include "CustomAugments.h"
 #include <algorithm>
 #include <boost/lexical_cast.hpp>
+#include <math.h>
 //#include <chrono>
 //#include <iostream>
 
@@ -49,6 +51,14 @@ StatBoostDefinition* StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<cha
                 if (val == "FLIP")
                 {
                     def->boostType = StatBoostDefinition::BoostType::FLIP;
+                }
+                if (val == "MIN")
+                {
+                    def->boostType = StatBoostDefinition::BoostType::MIN;
+                }
+                if (val == "MAX")
+                {
+                    def->boostType = StatBoostDefinition::BoostType::MAX;
                 }
             }
             if (name == "amount")
@@ -210,6 +220,25 @@ StatBoostDefinition* StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<cha
                 {
                     def->blackList.push_back(crewChild->name());
                 }
+            }
+            if (name == "healthReq")
+            {
+                if (child->first_attribute("min")) def->healthReq.first = boost::lexical_cast<float>(child->first_attribute("min")->value());
+                if (child->first_attribute("max")) def->healthReq.second = boost::lexical_cast<float>(child->first_attribute("max")->value());
+                if (child->first_attribute("above")) def->healthReq.first = std::nextafter(boost::lexical_cast<float>(child->first_attribute("above")->value()), +HUGE_VAL);
+                if (child->first_attribute("below")) def->healthReq.second = std::nextafter(boost::lexical_cast<float>(child->first_attribute("below")->value()), -HUGE_VAL);
+            }
+            if (name == "healthFractionReq")
+            {
+                if (child->first_attribute("min")) def->healthFractionReq.first = boost::lexical_cast<float>(child->first_attribute("min")->value());
+                if (child->first_attribute("max")) def->healthFractionReq.second = boost::lexical_cast<float>(child->first_attribute("max")->value());
+                if (child->first_attribute("above")) def->healthFractionReq.first = std::nextafter(boost::lexical_cast<float>(child->first_attribute("above")->value()), +HUGE_VAL);
+                if (child->first_attribute("below")) def->healthFractionReq.second = std::nextafter(boost::lexical_cast<float>(child->first_attribute("below")->value()), -HUGE_VAL);
+            }
+            if (name == "extraConditions")
+            {
+                auto &extraConditions = (child->first_attribute("type") && strcmp(child->first_attribute("type")->value(), "or") == 0) ? def->extraOrConditions : def->extraConditions;
+                CustomCrewManager::GetInstance()->ParseExtraConditionsNode(child, extraConditions);
             }
             if (name == "systemList")
             {
@@ -783,6 +812,85 @@ HOOK_METHOD(CrewMember, Restart, () -> void)
     super();
 }
 
+bool CrewMember_Extend::CheckExtraCondition(CrewExtraCondition condition)
+{
+    switch (condition)
+    {
+    case CrewExtraCondition::BURNING:
+        return orig->iOnFire > 0;
+    case CrewExtraCondition::SUFFOCATING:
+        return orig->bSuffocating;
+    case CrewExtraCondition::MIND_CONTROLLED:
+        return orig->bMindControlled;
+    case CrewExtraCondition::STUNNED:
+        return orig->fStunTime > 0.f;
+    case CrewExtraCondition::REPAIRING:
+        return orig->Repairing() && !orig->intruder;
+    case CrewExtraCondition::REPAIRING_SYSTEM:
+        return orig->RepairingSystem();
+    case CrewExtraCondition::REPAIRING_BREACH:
+        return orig->Repairing() && !orig->intruder && (void**)(orig->currentRepair) == VTable_OuterHull;
+    case CrewExtraCondition::SABOTAGING:
+        return orig->Sabotaging();
+    case CrewExtraCondition::FIGHTING:
+        return orig->bFighting && orig->crewTarget != orig->blockingDoor;
+    case CrewExtraCondition::SHOOTING:
+        return orig->crewAnim->status == 7 && !orig->crewAnim->bFrozen && !orig->crewAnim->bStunned;
+    case CrewExtraCondition::MOVING:
+        return orig->crewAnim->status != 6 && orig->health.first > 0.f && !orig->AtFinalGoal();
+    case CrewExtraCondition::IDLE:
+        return orig->crewAnim->status != 6 && orig->health.first > 0.f && !orig->IsBusy();
+    case CrewExtraCondition::MANNING:
+        return orig->bActiveManning;
+    case CrewExtraCondition::FIREFIGHTING:
+        return orig->RepairingFire();
+    case CrewExtraCondition::DYING:
+        return orig->crewAnim->status == 3;
+    case CrewExtraCondition::TELEPORTING:
+        if (orig->crewAnim->status == 6)
+        {
+            CompleteShip *ship = G_->GetWorld()->playerShip;
+            if (ship)
+            {
+                for (CrewMember *crew : ship->arrivingParty)
+                {
+                    if (crew == orig)
+                    {
+                        return true;
+                    }
+                }
+                for (CrewMember *crew : ship->leavingParty)
+                {
+                    if (crew == orig)
+                    {
+                        return true;
+                    }
+                }
+                ship = ship->enemyShip;
+                if (ship)
+                {
+                    for (CrewMember *crew : ship->arrivingParty)
+                    {
+                        if (crew == orig)
+                        {
+                            return true;
+                        }
+                    }
+                    for (CrewMember *crew : ship->leavingParty)
+                    {
+                        if (crew == orig)
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    return false;
+}
+
 bool CrewMember_Extend::BoostCheck(const StatBoost& statBoost)
 {
     int ownerShip;
@@ -928,6 +1036,28 @@ bool CrewMember_Extend::BoostCheck(const StatBoost& statBoost)
     }
 
     if (statBoost.def->functionalTarget && !orig->Functional()) return false;
+
+    if (statBoost.def->healthReq.first != -1.f && orig->health.first < statBoost.def->healthReq.first) return false;
+    if (statBoost.def->healthReq.second != -1.f && orig->health.first > statBoost.def->healthReq.second) return false;
+    if (statBoost.def->healthFractionReq.first != -1.f && orig->health.first/orig->health.second < statBoost.def->healthFractionReq.first) return false;
+    if (statBoost.def->healthFractionReq.second != -1.f && orig->health.first/orig->health.second > statBoost.def->healthFractionReq.second) return false;
+
+    if (!statBoost.def->extraConditions.empty())
+    {
+        for (auto& condition : statBoost.def->extraConditions)
+        {
+            if (CheckExtraCondition(condition.first) != condition.second) return false;
+        }
+    }
+
+    if (!statBoost.def->extraOrConditions.empty())
+    {
+        for (auto& condition : statBoost.def->extraOrConditions)
+        {
+            if (CheckExtraCondition(condition.first) == condition.second) return true;
+        }
+        return false;
+    }
 
     return true;
 }
@@ -1468,6 +1598,14 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
                     else if (statBoost.def->boostType == StatBoostDefinition::BoostType::SET)
                     {
                         finalStat = statBoost.def->amount * sysPowerScaling;
+                    }
+                    else if (statBoost.def->boostType == StatBoostDefinition::BoostType::MIN)
+                    {
+                        finalStat = std::min(finalStat, statBoost.def->amount * sysPowerScaling);
+                    }
+                    else if (statBoost.def->boostType == StatBoostDefinition::BoostType::MAX)
+                    {
+                        finalStat = std::max(finalStat, statBoost.def->amount * sysPowerScaling);
                     }
                 }
             }

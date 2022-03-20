@@ -1,4 +1,4 @@
-#include "StatBoost.h"
+#include "CrewMember_Extend.h"
 #include "CustomCrew.h"
 #include "CustomOptions.h"
 #include "Resources.h"
@@ -1053,7 +1053,7 @@ void CustomCrewManager::ParsePowerRequirementsNode(rapidxml::xml_node<char> *nod
         }
         if (req == "notMindControlled")
         {
-            def->notMindControlled = true;
+            def->extraConditions.emplace_back(CrewExtraCondition::MIND_CONTROLLED, false);
         }
         if (req == "whiteList")
         {
@@ -1119,7 +1119,7 @@ void CustomCrewManager::ParsePowerRequirementsNode(rapidxml::xml_node<char> *nod
         }
         if (req == "isManning")
         {
-            def->isManning = true;
+            def->extraConditions.emplace_back(CrewExtraCondition::MANNING, true);
         }
         if (req == "requiredSystem")
         {
@@ -1137,9 +1137,102 @@ void CustomCrewManager::ParsePowerRequirementsNode(rapidxml::xml_node<char> *nod
         {
             def->maxHealth = boost::lexical_cast<int>(reqVal);
         }
+        if (req == "extraConditions")
+        {
+            bool isOrCondition = reqNode->first_attribute("type") && strcmp(reqNode->first_attribute("type")->value(), "or") == 0;
+            auto &extraConditions = isOrCondition ? def->extraOrConditions : def->extraConditions;
+            CustomCrewManager::GetInstance()->ParseExtraConditionsNode(reqNode, extraConditions);
+            if (isOrCondition)
+            {
+                if (reqNode->first_attribute("text"))
+                {
+                    def->extraOrConditionsTooltip.data = reqNode->first_attribute("text")->value();
+                    def->extraOrConditionsTooltip.isLiteral = true;
+                }
+                else if (reqNode->first_attribute("textId"))
+                {
+                    def->extraOrConditionsTooltip.data = reqNode->first_attribute("textId")->value();
+                    def->extraOrConditionsTooltip.isLiteral = false;
+                }
+                if (def->extraOrConditionsTooltip.data.empty())
+                {
+                    def->extraOrConditionsTooltip.data = "power_not_ready_generic";
+                }
+            }
+        }
     }
 }
 
+void CustomCrewManager::ParseExtraConditionsNode(rapidxml::xml_node<char> *node, std::vector<std::pair<CrewExtraCondition,bool>> &extraConditions)
+{
+    for (auto child = node->first_node(); child; child = child->next_sibling())
+    {
+        if (strcmp(child->name(), "burning") == 0)
+        {
+            extraConditions.emplace_back(CrewExtraCondition::BURNING, EventsParser::ParseBoolean(child->value()));
+        }
+        if (strcmp(child->name(), "suffocating") == 0)
+        {
+            extraConditions.emplace_back(CrewExtraCondition::SUFFOCATING, EventsParser::ParseBoolean(child->value()));
+        }
+        if (strcmp(child->name(), "mindControlled") == 0)
+        {
+            extraConditions.emplace_back(CrewExtraCondition::MIND_CONTROLLED, EventsParser::ParseBoolean(child->value()));
+        }
+        if (strcmp(child->name(), "stunned") == 0)
+        {
+            extraConditions.emplace_back(CrewExtraCondition::STUNNED, EventsParser::ParseBoolean(child->value()));
+        }
+        if (strcmp(child->name(), "repairing") == 0)
+        {
+            extraConditions.emplace_back(CrewExtraCondition::REPAIRING, EventsParser::ParseBoolean(child->value()));
+        }
+        if (strcmp(child->name(), "repairingSystem") == 0)
+        {
+            extraConditions.emplace_back(CrewExtraCondition::REPAIRING_SYSTEM, EventsParser::ParseBoolean(child->value()));
+        }
+        if (strcmp(child->name(), "repairingBreach") == 0)
+        {
+            extraConditions.emplace_back(CrewExtraCondition::REPAIRING_BREACH, EventsParser::ParseBoolean(child->value()));
+        }
+        if (strcmp(child->name(), "fighting") == 0)
+        {
+            extraConditions.emplace_back(CrewExtraCondition::FIGHTING, EventsParser::ParseBoolean(child->value()));
+        }
+        if (strcmp(child->name(), "sabotaging") == 0)
+        {
+            extraConditions.emplace_back(CrewExtraCondition::SABOTAGING, EventsParser::ParseBoolean(child->value()));
+        }
+        if (strcmp(child->name(), "shooting") == 0)
+        {
+            extraConditions.emplace_back(CrewExtraCondition::SHOOTING, EventsParser::ParseBoolean(child->value()));
+        }
+        if (strcmp(child->name(), "moving") == 0)
+        {
+            extraConditions.emplace_back(CrewExtraCondition::MOVING, EventsParser::ParseBoolean(child->value()));
+        }
+        if (strcmp(child->name(), "idle") == 0)
+        {
+            extraConditions.emplace_back(CrewExtraCondition::IDLE, EventsParser::ParseBoolean(child->value()));
+        }
+        if (strcmp(child->name(), "manning") == 0)
+        {
+            extraConditions.emplace_back(CrewExtraCondition::MANNING, EventsParser::ParseBoolean(child->value()));
+        }
+        if (strcmp(child->name(), "firefighting") == 0)
+        {
+            extraConditions.emplace_back(CrewExtraCondition::FIREFIGHTING, EventsParser::ParseBoolean(child->value()));
+        }
+        if (strcmp(child->name(), "dying") == 0)
+        {
+            extraConditions.emplace_back(CrewExtraCondition::DYING, EventsParser::ParseBoolean(child->value()));
+        }
+        if (strcmp(child->name(), "teleporting") == 0)
+        {
+            extraConditions.emplace_back(CrewExtraCondition::TELEPORTING, EventsParser::ParseBoolean(child->value()));
+        }
+    }
+}
 
 CrewMember* CustomCrewManager::CreateCrewMember(CrewBlueprint* bp, int shipId, bool intruder)
 {
@@ -1402,10 +1495,6 @@ PowerReadyState CrewMember_Extend::PowerReq(const ActivatedPowerRequirements *re
     {
         return POWER_NOT_READY_IN_COMBAT;
     }
-    if (req->isManning && !orig->bActiveManning)
-    {
-        return POWER_NOT_READY_MANNING;
-    }
     if (req->requiredSystem != -1)
     {
         if (!ownerShip || !ownerShip->HasSystem(req->requiredSystem))
@@ -1430,9 +1519,25 @@ PowerReadyState CrewMember_Extend::PowerReq(const ActivatedPowerRequirements *re
     {
         return POWER_NOT_READY_MAX_HEALTH;
     }
-    if (req->notMindControlled && orig->bMindControlled)
+
+    if (!req->extraConditions.empty())
     {
-        return POWER_NOT_READY_MIND;
+        for (auto& condition : req->extraConditions)
+        {
+            if (CheckExtraCondition(condition.first) != condition.second)
+            {
+                return (PowerReadyState)((condition.second ? POWER_NOT_READY_EXTRACONDITION_FALSE : POWER_NOT_READY_EXTRACONDITION_TRUE) + (PowerReadyState)condition.first);
+            }
+        }
+    }
+
+    if (!req->extraOrConditions.empty())
+    {
+        for (auto& condition : req->extraOrConditions)
+        {
+            if (CheckExtraCondition(condition.first) == condition.second) return POWER_READY;
+        }
+        return POWER_NOT_READY_EXTRACONDITION_OR;
     }
 
     return POWER_READY;
@@ -4416,9 +4521,6 @@ HOOK_METHOD(CrewBox, GetSelected, (int mouseX, int mouseY) -> CrewMember*)
                 case POWER_NOT_READY_IN_COMBAT:
                     tooltipName = "power_not_ready_in_combat";
                     break;
-                case POWER_NOT_READY_MANNING:
-                    tooltipName = "power_not_ready_manning";
-                    break;
                 case POWER_NOT_READY_SYSTEM:
                     tooltipName = "power_not_ready_system";
                     {
@@ -4441,14 +4543,21 @@ HOOK_METHOD(CrewBox, GetSelected, (int mouseX, int mouseY) -> CrewMember*)
                     tooltipName = "power_not_ready_max_health";
                     replaceValue = boost::lexical_cast<std::string>(powerReq->maxHealth.value);
                     break;
-                case POWER_NOT_READY_MIND:
-                    tooltipName = "power_not_ready_mind";
-                    break;
-                case POWER_NOT_READY_TELEPORTING:
-                    tooltipName = "power_not_ready_teleporting";
-                    break;
                 case POWER_NOT_READY_CHARGES:
                     tooltipName = "power_not_ready_charges";
+                    break;
+                case POWER_NOT_READY_EXTRACONDITION_OR:
+                    tooltip = powerReq->extraOrConditionsTooltip.GetText();
+                    break;
+                default:
+                    if (state >= POWER_NOT_READY_EXTRACONDITION_FALSE)
+                    {
+                        tooltipName = powerReadyStateExtraTextFalse[state - POWER_NOT_READY_EXTRACONDITION_FALSE];
+                    }
+                    else if (state >= POWER_NOT_READY_EXTRACONDITION_TRUE)
+                    {
+                        tooltipName = powerReadyStateExtraTextTrue[state - POWER_NOT_READY_EXTRACONDITION_TRUE];
+                    }
                     break;
                 }
 

@@ -3,7 +3,7 @@
 #include <vector>
 #include <map>
 #include "rapidxml.hpp"
-#include "StatBoost.h"
+#include "CrewMember_Extend.h"
 #include "EnemyShipIcons.h"
 
 struct AugmentSuperShield

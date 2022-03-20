@@ -12,6 +12,26 @@ enum TransformColorMode
     KEEP_INDICES
 };
 
+enum class CrewExtraCondition : unsigned int
+{
+    BURNING = 0,
+    SUFFOCATING,
+    MIND_CONTROLLED,
+    STUNNED,
+    REPAIRING,
+    REPAIRING_SYSTEM,
+    REPAIRING_BREACH,
+    FIGHTING,
+    SABOTAGING,
+    SHOOTING,
+    MOVING,
+    IDLE,
+    MANNING,
+    FIREFIGHTING,
+    DYING,
+    TELEPORTING
+};
+
 extern TransformColorMode g_transformColorMode;
 extern bool g_resistsMindControlStat;
 
@@ -164,7 +184,6 @@ struct ActivatedPowerRequirements
     bool checkRoomCrew = false;
     bool enemyInRoom = false;
     bool friendlyInRoom = false;
-    bool notMindControlled = false;
     std::vector<std::string> whiteList;
     std::vector<std::string> friendlyWhiteList;
     std::vector<std::string> friendlyBlackList;
@@ -176,11 +195,13 @@ struct ActivatedPowerRequirements
     bool aiDisabled = false;
     bool outOfCombat = false;
     bool inCombat = false;
-    bool isManning = false;
     int requiredSystem = -1;
     bool requiredSystemFunctional = false;
     ToggleValue<int> minHealth;
     ToggleValue<int> maxHealth;
+    std::vector<std::pair<CrewExtraCondition,bool>> extraConditions = std::vector<std::pair<CrewExtraCondition,bool>>();
+    std::vector<std::pair<CrewExtraCondition,bool>> extraOrConditions = std::vector<std::pair<CrewExtraCondition,bool>>();
+    TextString extraOrConditionsTooltip;
 };
 
 struct ActivatedPowerDefinition
@@ -369,6 +390,7 @@ public:
     void ParseDeathEffect(rapidxml::xml_node<char>* stat, ExplosionDefinition* explosionDef);
     void ParseAbilityEffect(rapidxml::xml_node<char>* stat, ActivatedPowerDefinition* powerDef);
     void ParsePowerRequirementsNode(rapidxml::xml_node<char> *node, ActivatedPowerRequirements *def);
+    void ParseExtraConditionsNode(rapidxml::xml_node<char> *node, std::vector<std::pair<CrewExtraCondition,bool>> &extraConditions);
     void ParseCrewNode(rapidxml::xml_node<char> *node);
     CrewMember* CreateCrewMember(CrewBlueprint* bp, int shipId, bool intruder);
     bool IsRace(const std::string& race);

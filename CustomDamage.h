@@ -1,6 +1,5 @@
 #pragma once
-#include "CrewSpawn.h"
-#include "StatBoost.h"
+#include "CrewMember_Extend.h"
 #include "Global.h"
 
 struct StatBoostDefinition;

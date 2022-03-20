@@ -1,7 +1,7 @@
 #include "CustomWeapons.h"
 #include "CustomOptions.h"
 #include "CustomDamage.h"
-#include "StatBoost.h"
+#include "CrewMember_Extend.h"
 #include "Projectile_Extend.h"
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
