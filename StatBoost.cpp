@@ -11,6 +11,61 @@
 //#include <chrono>
 //#include <iostream>
 
+const std::array<std::string, numStats> crewStats =
+{
+    "maxHealth",
+    "stunMultiplier",
+    "moveSpeedMultiplier",
+    "repairSpeed",
+    "damageMultiplier",
+    "rangedDamageMultiplier",
+    "fireRepairMultiplier",
+    "suffocationModifier",
+    "fireDamageMultiplier",
+    "oxygenChangeSpeed",
+    "damageTakenMultiplier",
+    "passiveHealAmount",
+    "truePassiveHealAmount",
+    "trueHealAmount",
+    "passiveHealDelay",
+    "healAmount",
+    "sabotageSpeedMultiplier",
+    "allDamageTakenMultiplier",
+    "healSpeed",
+    "healCrewAmount",
+    "damageEnemiesAmount",
+    "bonusPower",
+    "powerDrain",
+    "canFight",
+    "canRepair",
+    "canSabotage",
+    "canMan",
+    "canTeleport",
+    "canSuffocate",
+    "controllable",
+    "canBurn",
+    "isTelepathic",
+    "resistsMindControl",
+    "isAnaerobic",
+    "canPhaseThroughDoors",
+    "detectsLifeforms",
+    "cloneLoseSkills",
+    "powerDrainFriendly",
+    "activateWhenReady",
+    "defaultSkillLevel",
+    "powerRechargeMultiplier",
+    "powerCharges",
+    "chargesPerJump",
+    "hackDoors",
+    "noClone",
+    "noSlot",
+    // non-cached stats
+    "statBoost",
+    "deathEffect",
+    "powerEffect",
+    "transformRace"
+};
+
 std::vector<StatBoostDefinition*> StatBoostDefinition::statBoostDefs = std::vector<StatBoostDefinition*>();
 unsigned int StatBoostManager::statCacheFrame = 1;
 

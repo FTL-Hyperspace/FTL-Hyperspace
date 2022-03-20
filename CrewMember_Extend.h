@@ -45,45 +45,9 @@ enum PowerReadyState : unsigned int
     POWER_NOT_READY_EXTRACONDITION_FALSE = 32768
 };
 
-static const std::array<std::string, numStats> powerReadyStateExtraTextTrue =
-{
-    "power_not_ready_burning",
-    "power_not_ready_suffocating",
-    "power_not_ready_mind",
-    "power_not_ready_stunned",
-    "power_not_ready_repairing",
-    "power_not_ready_repairing_system",
-    "power_not_ready_repairing_breach",
-    "power_not_ready_fighting",
-    "power_not_ready_sabotaging",
-    "power_not_ready_shooting",
-    "power_not_ready_moving",
-    "power_not_ready_idle",
-    "power_not_ready_manning",
-    "power_not_ready_firefighting",
-    "power_not_ready_dying",
-    "power_not_ready_teleporting"
-};
+extern const std::array<std::string, numStats> powerReadyStateExtraTextTrue;
 
-static const std::array<std::string, numStats> powerReadyStateExtraTextFalse =
-{
-    "power_not_ready_burning_false",
-    "power_not_ready_suffocating_false",
-    "power_not_ready_mind_false",
-    "power_not_ready_stunned_false",
-    "power_not_ready_repairing_false",
-    "power_not_ready_repairing_system_false",
-    "power_not_ready_repairing_breach_false",
-    "power_not_ready_fighting_false",
-    "power_not_ready_sabotaging_false",
-    "power_not_ready_shooting_false",
-    "power_not_ready_moving_false",
-    "power_not_ready_idle_false",
-    "power_not_ready_manning_false",
-    "power_not_ready_firefighting_false",
-    "power_not_ready_dying_false",
-    "power_not_ready_teleporting_false"
-};
+extern const std::array<std::string, numStats> powerReadyStateExtraTextFalse;
 
 struct CrewAnimation_Extend
 {
