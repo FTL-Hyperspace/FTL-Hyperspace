@@ -136,3 +136,11 @@ HOOK_METHOD(MouseControl, OnRender, () -> void)
     freetype::easy_printRightAlign(51, 1280.f, 0.f, boost::str(boost::format("HS-%d %s") % G_->GetVersion() % identifier).c_str());
     super();
 }
+
+HOOK_METHOD(ResourceControl, RenderLoadingBar, (float initialProgress, float finalProgress) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ResourceControl::RenderLoadingBar -> Begin (Debugging.cpp)\n")
+    std::string identifier = BUILD_IDENTIFIER_HASH;
+    freetype::easy_printRightAlign(51, 1280.f, 0.f, boost::str(boost::format("HS-%d %s") % G_->GetVersion() % identifier).c_str());
+    super(initialProgress, finalProgress);
+}

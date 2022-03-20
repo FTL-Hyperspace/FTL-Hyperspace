@@ -20,6 +20,8 @@ freetype::font_data &ResourceControl::GetFontData(ResourceControl *this<ecx>, in
 ImageDesc ResourceControl::GetImageData<ecx>(ResourceControl *this, GL_Texture *tex);
 "578d7c240883e4f0ff77fc5589e557565389ce81ec1c0200000fb6078885effdffffe8????????8b86cc000000":
 bool ResourceControl::PreloadResources(ResourceControl *this<ecx>, bool unk);
+"578d7c240883e4f0ff77fc5589e557565389ce81ec8c0000008b89d0000000f30f1017f30f104f048d7dd085c9":
+void ResourceControl::RenderLoadingBar(ResourceControl *this<ecx>, float initialProgress, float finalProgress);
 
 "!8b45b8890424e8????????b9(???????\?)":
 ResourceControl* Global_ResourceControl_GlobalResources;
