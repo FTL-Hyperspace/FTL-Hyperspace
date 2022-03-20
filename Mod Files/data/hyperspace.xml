@@ -1039,7 +1039,9 @@ value/amount: use value for true/false stats and amount for numerical ones
 race: for transformRace, name of race to transform to
 permanent: for transformRace, whether the transformation should be permanent
 shipTarget: the ship/room that the statBoost affects. For augments, you can use PLAYER_SHIP, ENEMY_SHIP, ORIGINAL_SHIP, ORIGINAL_OTHER_SHIP, or ALL, and for crew you can use the same but also OTHER_ALL, CURRENT_ROOM, and CURRENT_ALL
-crewTarget: determines what crew the boost affects. it can be ALLIES, ENEMIES, ALL, CURRENT_ALLIES, CURRENT_ENEMIES, SELF, or NONE. CURRENT_ALLIES and CURRENT_ENEMIES factor in mind control.
+crewTarget: determines what crew the boost affects. it can be ALLIES, ENEMIES, ALL, CURRENT_ALLIES, CURRENT_ENEMIES, ORIGINAL_ALLIES, ORIGINAL_ENEMIES, SELF, or NONE.
+  CURRENT_ALLIES and CURRENT_ENEMIES factor in mind control.
+  ORIGINAL_ALLIES and ORIGINAL_ENEMIES completely ignore mind control, even with the "controllable mind control" augment.
   SELF is the same as NONE except it automatically sets affectsSelf to true.
 droneTarget: determines whether the boost affects drones or not. it can be DRONES, CREW, or ALL (the default)
 functionalTarget: boolean, for drones it determines whether the drone needs to be powered or not. Default is false.
