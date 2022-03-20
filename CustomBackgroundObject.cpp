@@ -139,7 +139,7 @@ CustomBackgroundObjectDefinition* CustomBackgroundObjectManager::ParseCustomBack
             }
             if (child->first_attribute("lvl"))
             {
-                def->lvl = boost::lexical_cast<int>(child->first_attribute("id")->value());
+                def->lvl = boost::lexical_cast<int>(child->first_attribute("lvl")->value());
             }
         }
         else if (strcmp(child->name(), "active") == 0)
