@@ -16,6 +16,8 @@ cleanup GL_Texture* ResourceControl::GetImageId(ResourceControl *this<rdi>, cons
 cleanup int ResourceControl::RenderImageString(ResourceControl *this<rdi>, std::string& tex<rsi>, int x<rdx>, int y<rcx>, int rotation<r8>, GL_Color color, float opacity<xmm0>, bool mirror<r9>);
 ".41574589c7415641554589cd41544189d45589cd534883ec38":
 cleanup GL_Primitive* ResourceControl::CreateImagePrimitiveString(ResourceControl *this<rdi>, const std::string& tex<rsi>, int x<rdx>, int y<rcx>, int rotation<r8>, GL_Color color, float alpha<xmm0>, bool mirror<r9>);
+".415455534889fb4883ec604883bf5001000000":
+cleanup void ResourceControl::RenderLoadingBar(ResourceControl *this<rdi>, float initialProgress<xmm0>, float finalProgress<xmm1>);
 ".41548d46fa55534889fb4883ec3083f802":
 cleanup freetype::font_data &ResourceControl::GetFontData(ResourceControl *this<rdi>, int fontType<rsi>, bool unk<rdx>);
 ".415741564155415455534889fb4881ec88000000408874241f":

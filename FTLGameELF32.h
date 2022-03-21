@@ -6152,6 +6152,7 @@ struct ResourceControl
 	LIBZHL_API bool PreloadResources(bool unk);
 	LIBZHL_API int RenderImage(GL_Texture *tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror);
 	LIBZHL_API int RenderImageString(std::string &tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror);
+	LIBZHL_API void RenderLoadingBar(float initialProgress, float finalProgress);
 	LIBZHL_API void constructor();
 	
 	std::unordered_map<std::string, GL_Texture*> images;

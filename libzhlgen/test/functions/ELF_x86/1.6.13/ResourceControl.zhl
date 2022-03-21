@@ -20,6 +20,8 @@ cleanup freetype::font_data &ResourceControl::GetFontData(ResourceControl *this,
 cleanup ImageDesc ResourceControl::GetImageData(ResourceControl *this, GL_Texture *tex);
 "5557565381ec8c0000000fb68424a40000008bbc24a00000008844242f":
 cleanup bool ResourceControl::PreloadResources(ResourceControl *this, bool unk);
+"5557565381ec8c0000008b9c24a00000008d6c246e":
+cleanup void ResourceControl::RenderLoadingBar(ResourceControl *this, float initialProgress, float finalProgress);
 
 "!8b45e0890424e8????????c70424(???????\?)":
 ResourceControl* Global_ResourceControl_GlobalResources;
