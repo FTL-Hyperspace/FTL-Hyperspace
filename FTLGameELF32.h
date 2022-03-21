@@ -53,7 +53,13 @@ typedef std::map<std::string, std::string> std_map_std_string_std_string;
 typedef std::map<std::string, int> std_map_std_string_int;
 typedef std::map<std::string, bool> std_map_std_string_bool;
 
-
+    #ifdef STEAM_1_6_13_BUILD
+        #define STEAM1613OPTIONSSCREENADDITIONS_TYPE Steam1613OptionsScreenStructAdditions
+        #define STEAM1613OPTIONSSCREENADDITONS_NAME steamAdditions
+    #else
+        #define STEAM1613OPTIONSSCREENADDITIONS_TYPE
+        #define STEAM1613OPTIONSSCREENADDITONS_NAME
+    #endif
 
 
 struct CAchievement;
@@ -3090,6 +3096,11 @@ struct SlideBar
 
 struct OptionsScreen : ChoiceBox
 {
+    struct Steam1613OptionsScreenStructAdditions {
+        bool showSyncAchievements;
+        TextButton syncAchievementsButton;
+    };
+
 	LIBZHL_API void __stdcall DO_NOT_HOOK1();
 	LIBZHL_API void __stdcall DO_NOT_HOOK2();
 	LIBZHL_API void OnInit();
@@ -3103,6 +3114,7 @@ struct OptionsScreen : ChoiceBox
 	ControlsScreen controls;
 	TextButton closeButton;
 	TextButton wipeProfileButton;
+	STEAM1613OPTIONSSCREENADDITIONS_TYPE STEAM1613OPTIONSSCREENADDITONS_NAME;
 	int choiceFullscreen;
 	int choiceVSync;
 	int choiceFrameLimit;

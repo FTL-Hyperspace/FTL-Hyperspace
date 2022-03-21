@@ -6,3 +6,11 @@ void OptionsScreen::DO_NOT_HOOK1();
 void OptionsScreen::DO_NOT_HOOK2();
 ".5589e557565331db83ec4c":
 cleanup void OptionsScreen::OnLoop(OptionsScreen *this);
+
+
+struct OptionsScreen {{
+    struct Steam1613OptionsScreenStructAdditions {
+        bool showSyncAchievements;
+        TextButton syncAchievementsButton;
+    };
+}};

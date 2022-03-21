@@ -38,7 +38,13 @@ struct GlobalPre
 	typedef std::map<std::string, int> std_map_std_string_int;
 	typedef std::map<std::string, bool> std_map_std_string_bool;
 
-	
+    #ifdef STEAM_1_6_13_BUILD
+        #define STEAM1613OPTIONSSCREENADDITIONS_TYPE Steam1613OptionsScreenStructAdditions
+        #define STEAM1613OPTIONSSCREENADDITONS_NAME steamAdditions
+    #else
+        #define STEAM1613OPTIONSSCREENADDITIONS_TYPE
+        #define STEAM1613OPTIONSSCREENADDITONS_NAME
+    #endif
 }};
 
 

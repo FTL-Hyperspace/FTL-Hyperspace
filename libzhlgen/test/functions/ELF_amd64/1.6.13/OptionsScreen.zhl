@@ -2,3 +2,11 @@
 cleanup void OptionsScreen::OnInit(OptionsScreen *this<rdi>);
 "41574156415549bdb76ddbb66ddbb66d4154554889fd":
 cleanup void OptionsScreen::OnLoop(OptionsScreen *this<rdi>);
+
+
+struct OptionsScreen {{
+    struct Steam1613OptionsScreenStructAdditions {
+        bool showSyncAchievements;
+        TextButton syncAchievementsButton;
+    };
+}};

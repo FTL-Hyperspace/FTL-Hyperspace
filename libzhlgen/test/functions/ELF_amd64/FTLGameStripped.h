@@ -1437,6 +1437,7 @@ struct OptionsScreen
   ControlsScreen controls;
   TextButton closeButton;
   TextButton wipeProfileButton;
+  STEAM1613OPTIONSSCREENADDITIONS_TYPE STEAM1613OPTIONSSCREENADDITONS_NAME;
   int choiceFullscreen;
   int choiceVSync;
   int choiceFrameLimit;
