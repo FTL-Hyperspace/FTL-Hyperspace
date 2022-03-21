@@ -1,5 +1,5 @@
 "554889f5534889fb4883ec084885f6744f488b06":
-virtual cleanup void SpaceDrone::SetMovementTarget(SpaceDrone *this<rdi>, Targetable &target<rsi>);
+virtual cleanup void SpaceDrone::SetMovementTarget(SpaceDrone *this<rdi>, Targetable *target<rsi>);
 ".5589f5534889fb4883ec08488b07ff506084c0743b":
 virtual cleanup void SpaceDrone::SetDeployed(SpaceDrone *this<rdi>, bool deployed<rsi>);
 ".41554154554889f5534889fb488d7f044883ec18":

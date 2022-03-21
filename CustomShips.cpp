@@ -165,7 +165,7 @@ HOOK_METHOD(ShipManager, AddSystem, (int systemId) -> int)
     {
         if (current_target)
         {
-            hackingSystem->drone.SetMovementTarget(current_target->_targetable);
+            hackingSystem->drone.SetMovementTarget(&current_target->_targetable);
             G_->GetWorld()->space.drones.push_back(&hackingSystem->drone);
         }
     }

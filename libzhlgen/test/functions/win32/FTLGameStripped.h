@@ -3683,9 +3683,9 @@ struct VTable_SpaceDrone
   void (__thiscall *RandomizeStartingPosition)(SpaceDrone *);
   bool (__thiscall *HideUnderOwner)(SpaceDrone *);
   Projectile* (__thiscall *GetNextProjectile)(SpaceDrone *);
-  void (__thiscall *SetMovementTarget)(SpaceDrone *, Targetable &target);
-  void (__thiscall *SetWeaponTarget)(SpaceDrone *, Targetable &target);
-  bool (__thiscall *ValidTargetObject)(SpaceDrone *, Targetable &target);
+  void (__thiscall *SetMovementTarget)(SpaceDrone *, Targetable *target);
+  void (__thiscall *SetWeaponTarget)(SpaceDrone *, Targetable *target);
+  bool (__thiscall *ValidTargetObject)(SpaceDrone *, Targetable *target);
   void (__thiscall *OnRender)(SpaceDrone *, int space);
   void (__thiscall *RenderDrone)(SpaceDrone *);
   static std__string *(__stdcall *GetTooltip)(std__string *str, SpaceDrone *drone);

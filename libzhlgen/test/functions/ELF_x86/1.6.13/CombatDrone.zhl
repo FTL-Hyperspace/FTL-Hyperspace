@@ -1,7 +1,7 @@
 "5557565383ec3c8b4424588d5c242c8b7424508b7c245c":
 cleanup void CombatDrone::constructor(CombatDrone *this, int iShipId, int selfId, const DroneBlueprint* bp);
 "565383ec148b7424248b5c242085f674??8b0389742404":
-cleanup void CombatDrone::SetWeaponTarget(CombatDrone *this, Targetable &target);
+cleanup void CombatDrone::SetWeaponTarget(CombatDrone *this, Targetable *target);
 
 
 struct CombatDrone depends (DroneBlueprint)

@@ -533,8 +533,8 @@ HOOK_METHOD(ShipManager, CreateSpaceDrone, (const DroneBlueprint *bp) -> SpaceDr
             {
                 // combat
 
-                ((CombatDrone*)ret)->SetMovementTarget(current_target->_targetable);
-                ((CombatDrone*)ret)->SetWeaponTarget(current_target->_targetable);
+                ((CombatDrone*)ret)->SetMovementTarget(&current_target->_targetable);
+                ((CombatDrone*)ret)->SetWeaponTarget(&current_target->_targetable);
 
             }
             else if (ret->type == 4)
@@ -543,7 +543,7 @@ HOOK_METHOD(ShipManager, CreateSpaceDrone, (const DroneBlueprint *bp) -> SpaceDr
 
                 BoarderPodDrone *drone = ((BoarderPodDrone*)ret);
 
-                drone->SetMovementTarget(current_target->_targetable);
+                drone->SetMovementTarget(&current_target->_targetable);
 
                 if (drone->boarderDrone)
                 {
@@ -886,44 +886,44 @@ Target types:
 6 - Hacking/boarding drone
 */
 
-HOOK_METHOD(DefenseDrone, ValidTargetObject, (Targetable &target) -> bool)
+HOOK_METHOD(DefenseDrone, ValidTargetObject, (Targetable *target) -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> DefenseDrone::ValidTargetObject -> Begin (CustomDrones.cpp)\n")
-    if (((Targetable*)(&target)) == nullptr) return false; // target should really be a pointer but libzhlgen is forcing my hand here
+    if (target == nullptr) return false;
 
     switch (blueprint->targetType)
     {
     case 2:
-        if (target.type != 2) return false;
+        if (target->type != 2) return false;
         break;
     case 5:
-        if (target.type == 4) return false;
+        if (target->type == 4) return false;
     case 6:
-        if (target.type == 0 || target.type == 5) return false;
+        if (target->type == 0 || target->type == 5) return false;
         break;
     default:
         return super(target);
     }
 
-    return (powered && target.GetOwnerId() != iShipId && target.ValidTarget() && currentSpace == target.GetSpaceId());
+    return (powered && target->GetOwnerId() != iShipId && target->ValidTarget() && currentSpace == target->GetSpaceId());
 }
 
-HOOK_METHOD(DefenseDrone, SetWeaponTarget, (Targetable &target) -> void)
+HOOK_METHOD(DefenseDrone, SetWeaponTarget, (Targetable *target) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> DefenseDrone::SetWeaponTarget -> Begin (CustomDrones.cpp)\n")
     if (!ValidTargetObject(target)) return;
 
-    int targetId = target.GetSelfId();
+    int targetId = target->GetSelfId();
 
-    if (targetId == shotAtTargetId && blueprint->targetType != 3 && target.type != 3) return; // don't shoot at the same target twice, except for anti-drone
+    if (targetId == shotAtTargetId && blueprint->targetType != 3 && target->type != 3) return; // don't shoot at the same target twice, except for anti-drone
 
     if (currentTargetType == 1)
     {
-        if (target.type != 1) return; // don't switch from missile to non-missile
+        if (target->type != 1) return; // don't switch from missile to non-missile
     }
     else if (currentTargetType == 2)
     {
-        if (((unsigned int)target.type) - 1U > 1) return; // don't switch from asteroid to non-asteroid/missile
+        if (((unsigned int)target->type) - 1U > 1) return; // don't switch from asteroid to non-asteroid/missile
     }
 
     if (targetId != currentTargetId)
@@ -939,10 +939,10 @@ HOOK_METHOD(DefenseDrone, SetWeaponTarget, (Targetable &target) -> void)
     }
 
     weaponTarget = nullptr; // this is from vanilla
-    targetLocation = target.GetWorldCenterPoint();
-    targetSpeed = target.GetSpeed();
+    targetLocation = target->GetWorldCenterPoint();
+    targetSpeed = target->GetSpeed();
     currentTargetId = targetId;
-    currentTargetType = target.type;
+    currentTargetType = target->type;
 }
 
 HOOK_METHOD(DefenseDrone, GetTooltip, () -> std::string)

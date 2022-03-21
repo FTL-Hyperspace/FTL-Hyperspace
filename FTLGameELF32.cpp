@@ -3046,10 +3046,10 @@ namespace _func81
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("BoarderPodDrone::SetMovementTarget", typeid(void (BoarderPodDrone::*)(Targetable &)), "5383ec288b4424348b5c243085c0", argdata, 2, 6, &func);
+	static FunctionDefinition funcObj("BoarderPodDrone::SetMovementTarget", typeid(void (BoarderPodDrone::*)(Targetable *)), "5383ec288b4424348b5c243085c0", argdata, 2, 6, &func);
 }
 
-FUNC_NAKED void BoarderPodDrone::SetMovementTarget(Targetable &target)
+FUNC_NAKED void BoarderPodDrone::SetMovementTarget(Targetable *target)
 {
 	__asm__
 	(
@@ -8938,10 +8938,10 @@ namespace _func234
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("CombatDrone::SetWeaponTarget", typeid(void (CombatDrone::*)(Targetable &)), "565383ec148b7424248b5c242085f674??8b0389742404", argdata, 2, 6, &func);
+	static FunctionDefinition funcObj("CombatDrone::SetWeaponTarget", typeid(void (CombatDrone::*)(Targetable *)), "565383ec148b7424248b5c242085f674??8b0389742404", argdata, 2, 6, &func);
 }
 
-FUNC_NAKED void CombatDrone::SetWeaponTarget(Targetable &target)
+FUNC_NAKED void CombatDrone::SetWeaponTarget(Targetable *target)
 {
 	__asm__
 	(
@@ -19158,10 +19158,10 @@ namespace _func503
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("DefenseDrone::ValidTargetObject", typeid(bool (DefenseDrone::*)(Targetable &)), "565383ec148b5c24248b74242085db74??8b4304", argdata, 2, 2, &func);
+	static FunctionDefinition funcObj("DefenseDrone::ValidTargetObject", typeid(bool (DefenseDrone::*)(Targetable *)), "565383ec148b5c24248b74242085db74??8b4304", argdata, 2, 2, &func);
 }
 
-FUNC_NAKED bool DefenseDrone::ValidTargetObject(Targetable &target)
+FUNC_NAKED bool DefenseDrone::ValidTargetObject(Targetable *target)
 {
 	__asm__
 	(
@@ -19233,10 +19233,10 @@ namespace _func505
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("DefenseDrone::SetWeaponTarget", typeid(void (DefenseDrone::*)(Targetable &)), "5589e557565383ec1c8b5d088b750c8b03", argdata, 2, 6, &func);
+	static FunctionDefinition funcObj("DefenseDrone::SetWeaponTarget", typeid(void (DefenseDrone::*)(Targetable *)), "5589e557565383ec1c8b5d088b750c8b03", argdata, 2, 6, &func);
 }
 
-FUNC_NAKED void DefenseDrone::SetWeaponTarget(Targetable &target)
+FUNC_NAKED void DefenseDrone::SetWeaponTarget(Targetable *target)
 {
 	__asm__
 	(
@@ -23615,10 +23615,10 @@ namespace _func625
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("HackingDrone::SetMovementTarget", typeid(void (HackingDrone::*)(Targetable &)), "565383ec248b7424348b5c243085f6", argdata, 2, 6, &func);
+	static FunctionDefinition funcObj("HackingDrone::SetMovementTarget", typeid(void (HackingDrone::*)(Targetable *)), "565383ec248b7424348b5c243085f6", argdata, 2, 6, &func);
 }
 
-FUNC_NAKED void HackingDrone::SetMovementTarget(Targetable &target)
+FUNC_NAKED void HackingDrone::SetMovementTarget(Targetable *target)
 {
 	__asm__
 	(
@@ -38927,10 +38927,10 @@ namespace _func1039
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("SpaceDrone::SetMovementTarget", typeid(void (SpaceDrone::*)(Targetable &)), "565383ec148b7424248b5c242085f674??8b06", argdata, 2, 6, &func);
+	static FunctionDefinition funcObj("SpaceDrone::SetMovementTarget", typeid(void (SpaceDrone::*)(Targetable *)), "565383ec148b7424248b5c242085f674??8b06", argdata, 2, 6, &func);
 }
 
-FUNC_NAKED void SpaceDrone::SetMovementTarget(Targetable &target)
+FUNC_NAKED void SpaceDrone::SetMovementTarget(Targetable *target)
 {
 	__asm__
 	(

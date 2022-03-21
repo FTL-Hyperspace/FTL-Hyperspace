@@ -1,4 +1,4 @@
 "55bd05000000534889fb4883ec48":
 cleanup void HackingDrone::OnLoop(HackingDrone *this<rdi>);
 "554889f5534889fb4883ec184885f60f84b3000000":
-cleanup void HackingDrone::SetMovementTarget(HackingDrone *this<rdi>, Targetable &target<rsi>);
+cleanup void HackingDrone::SetMovementTarget(HackingDrone *this<rdi>, Targetable *target<rsi>);
