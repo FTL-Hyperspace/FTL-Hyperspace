@@ -57,6 +57,10 @@ struct CustomDamage
     int accuracyMod = 0;
     int droneAccuracyMod = 0;
 
+    CustomDamage() : def(&CustomDamageDefinition::defaultDef)
+    {
+    }
+
     void Clear()
     {
         def = &CustomDamageDefinition::defaultDef;
