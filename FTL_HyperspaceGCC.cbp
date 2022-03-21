@@ -396,9 +396,10 @@
 				<Option createDefFile="1" />
 				<Option createStaticLib="1" />
 				<Compiler>
+					<Add option="-m32" />
+					<Add option="-O3" />
 					<Add option="-Wall" />
 					<Add option="-std=c++11" />
-					<Add option="-m32" />
 					<Add option="-msse" />
 					<Add option="-msse2" />
 					<Add option="-mfpmath=sse" />
@@ -432,6 +433,7 @@
 				<Option createStaticLib="1" />
 				<Compiler>
 					<Add option="-m32" />
+					<Add option="-O3" />
 					<Add option="-Wall" />
 					<Add option="-std=c++11" />
 					<Add option="-msse" />
