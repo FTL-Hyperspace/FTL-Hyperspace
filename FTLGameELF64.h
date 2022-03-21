@@ -2555,9 +2555,9 @@ struct LIBZHL_INTERFACE SpaceDrone : Drone
 	virtual void RandomizeStartingPosition() LIBZHL_PLACEHOLDER
 	virtual bool HideUnderOwner() LIBZHL_PLACEHOLDER
 	LIBZHL_API virtual Projectile *GetNextProjectile();
-	LIBZHL_API virtual void SetMovementTarget(Targetable &target);
-	virtual void SetWeaponTarget(Targetable &target) LIBZHL_PLACEHOLDER
-	virtual bool ValidTargetObject(Targetable &target) LIBZHL_PLACEHOLDER
+	LIBZHL_API virtual void SetMovementTarget(Targetable *target);
+	virtual void SetWeaponTarget(Targetable *target) LIBZHL_PLACEHOLDER
+	virtual bool ValidTargetObject(Targetable *target) LIBZHL_PLACEHOLDER
 	virtual void OnRender(int space) LIBZHL_PLACEHOLDER
 	virtual void RenderDrone() LIBZHL_PLACEHOLDER
 	virtual std::string *GetTooltip(SpaceDrone *drone) LIBZHL_PLACEHOLDER
@@ -2625,7 +2625,7 @@ struct BoarderPodDrone : SpaceDrone
 
 	LIBZHL_API bool CanBeDeployed();
 	LIBZHL_API void SetDeployed(bool _deployed);
-	LIBZHL_API void SetMovementTarget(Targetable &target);
+	LIBZHL_API void SetMovementTarget(Targetable *target);
 	LIBZHL_API void constructor(int _iShipId, int _selfId, const DroneBlueprint &_bp);
 	
 	GL_Texture *baseSheet;
@@ -3825,7 +3825,7 @@ struct CombatDrone : SpaceDrone
 		this->constructor(shipId, self, bp);
 	}
 
-	LIBZHL_API void SetWeaponTarget(Targetable &target);
+	LIBZHL_API void SetWeaponTarget(Targetable *target);
 	LIBZHL_API void constructor(int iShipId, int selfId, const DroneBlueprint *bp);
 	
 	Pointf lastDestination;
@@ -4648,8 +4648,8 @@ struct DefenseDrone : SpaceDrone
 {
 	LIBZHL_API std::string GetTooltip();
 	LIBZHL_API void PickTarget();
-	LIBZHL_API void SetWeaponTarget(Targetable &target);
-	LIBZHL_API bool ValidTargetObject(Targetable &target);
+	LIBZHL_API void SetWeaponTarget(Targetable *target);
+	LIBZHL_API bool ValidTargetObject(Targetable *target);
 	
 	int currentTargetId;
 	int shotAtTargetId;
@@ -5607,7 +5607,7 @@ struct HackingDrone;
 struct HackingDrone : SpaceDrone
 {
 	LIBZHL_API void OnLoop();
-	LIBZHL_API void SetMovementTarget(Targetable &target);
+	LIBZHL_API void SetMovementTarget(Targetable *target);
 	
 	Pointf startingPosition;
 	GL_Texture *droneImage_on;
