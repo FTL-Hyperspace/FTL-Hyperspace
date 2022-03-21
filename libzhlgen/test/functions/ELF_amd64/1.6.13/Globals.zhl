@@ -5,3 +5,6 @@ static int Globals::GetNextSpaceId();
 
 "!4189e8488d4c2460ba010000004c89e7be(???????\?)":
 TextLibrary* Global_Globals_Library;
+
+"!8b15(???????\?)b865000000":
+int* Globals_GetNextSpaceId_id;

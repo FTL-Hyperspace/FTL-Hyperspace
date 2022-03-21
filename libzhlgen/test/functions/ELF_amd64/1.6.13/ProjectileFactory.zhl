@@ -26,6 +26,10 @@ cleanup Projectile* ProjectileFactory::GetProjectile(ProjectileFactory *this<rdi
 cleanup int ProjectileFactory::SpendMissiles(ProjectileFactory *this<rdi>);
 ".488b472083b88401000001":
 cleanup int ProjectileFactory::NumTargetsRequired(ProjectileFactory *this<rdi>);
+".5589f5534889fb4883ec08488b07":
+static cleanup void ProjectileFactory::SaveProjectile(Projectile *p<rdi>, int fd<rsi>);
+".5589fd534883ec58":
+static cleanup Projectile* ProjectileFactory::LoadProjectile(int fd<rdi>);
 ".41544189d4554889f553488b87000100004889fb482b87f800000048c1f80385c0":
 cleanup void ProjectileFactory::Fire(ProjectileFactory *this<rdi>, std::vector<Pointf>& points<rsi>, int target<rdx>);
 ".4157415641554989fd415455534881ec88010000":

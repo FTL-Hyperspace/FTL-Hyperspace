@@ -30,3 +30,8 @@ cleanup int ProjectileFactory::NumTargetsRequired(ProjectileFactory *this);
 cleanup void ProjectileFactory::Update(ProjectileFactory *this);
 "5589e557565383ec4c8b75088d86f8000000890424":
 cleanup Projectile* ProjectileFactory::GetProjectile(ProjectileFactory *this);
+
+"565383ec148b5c24208b7424248b03891c24":
+static cleanup void ProjectileFactory::SaveProjectile(Projectile *p, int fd);
+"5589e557565383ec6c8b4508890424":
+static cleanup Projectile* ProjectileFactory::LoadProjectile(int fd);
