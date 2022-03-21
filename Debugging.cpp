@@ -124,8 +124,9 @@ HOOK_METHOD(CApp, OnInit, () -> bool)
     bool ret = super();
     std::string date = __DATE__;
     std::string time = __TIME__;
+    std::string identifier = BUILD_IDENTIFIER_HASH;
 
-    hs_log_file(("Hyperspace compiled: " + date + " " + time).c_str());
+    hs_log_file(boost::str(boost::format("Hyperspace: v%d %s Compiled: %s %s\n") % G_->GetVersion() % identifier % date % time).c_str());
     return ret;
 }
 
