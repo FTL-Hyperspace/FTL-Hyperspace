@@ -6270,6 +6270,7 @@ struct ScoreKeeper
 	LIBZHL_API std::pair<int, int> GetShipId_DO_NOT_USE_DIRECTLY(const std::string &blueprintName);
 	LIBZHL_API bool GetShipUnlocked(int shipId, int shipVariant);
 	LIBZHL_API bool KeyDown(SDLKey key);
+	LIBZHL_API void LoadGame(int fd);
 	LIBZHL_API void LoadVersionFour(int file, int version);
 	LIBZHL_API void MouseClick(int x, int y);
 	LIBZHL_API void OnInit();
@@ -6277,6 +6278,7 @@ struct ScoreKeeper
 	LIBZHL_API void Open(bool fromGameOver);
 	LIBZHL_API void RenderTopScores(const std::vector<TopScore> &topScoreList, Point position, int newHighScore);
 	LIBZHL_API void Save(bool newHighScore);
+	LIBZHL_API void SaveGame(int fd);
 	LIBZHL_API void SaveScores(int file, std::vector<TopScore> &topScores);
 	LIBZHL_API void SetVictory(bool victory);
 	LIBZHL_API void SetupTopShip(int variant);

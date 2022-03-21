@@ -4,6 +4,10 @@ cleanup void ScoreKeeper::constructor(ScoreKeeper *this<rdi>);
 cleanup std::pair<int, int> ScoreKeeper::GetShipId_DO_NOT_USE_DIRECTLY(ScoreKeeper *this<rdi>, const std::string& blueprintName<rsi>);
 ".4863d2534889fb":
 cleanup std::string ScoreKeeper::GetShipBlueprint<rdi>(ScoreKeeper *this<rsi>, int index<rdx>);
+"!.41544989fc5589f5":
+cleanup void ScoreKeeper::SaveGame(ScoreKeeper *this<rdi>, int fd<rsi>);
+".41544989fc89f75589f5534883ec20":
+cleanup void ScoreKeeper::LoadGame(ScoreKeeper *this<rdi>, int fd<rsi>);
 ".83fa02760b31c0":
 cleanup bool ScoreKeeper::GetShipUnlocked(ScoreKeeper *this<rdi>, int shipId<rsi>, int shipVariant<rdx>);
 ".4084f64088b798010000":
