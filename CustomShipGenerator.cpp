@@ -518,13 +518,12 @@ void CustomShipGenerator::AddOverrideWeapons(ShipManager *ship, ShipEvent& event
 			{
 				ship->AddSystem(SYS_WEAPONS);
 				sys = ship->GetSystem(SYS_WEAPONS);
-				std::pair<int,int> availablePower = ship->GetAvailablePower();
-				PowerManager::GetPowerManager(1)->currentPower.second = availablePower.second + sys->powerState.second;
+				PowerManager::GetPowerManager(1)->currentPower.second += sys->powerState.second;
 			}
 			else
 			{
 				std::pair<int,int> availablePower = ship->GetAvailablePower();
-				PowerManager::GetPowerManager(1)->currentPower.second = availablePower.second + 1;
+				PowerManager::GetPowerManager(1)->currentPower.second += 1;
 				sys->UpgradeSystem(1);
 			}
 		}
@@ -555,12 +554,12 @@ void CustomShipGenerator::AddOverrideDrones(ShipManager *ship, ShipEvent& event)
 				ship->AddSystem(SYS_DRONES);
 				sys = ship->GetSystem(SYS_DRONES);
 				std::pair<int,int> availablePower = ship->GetAvailablePower();
-				PowerManager::GetPowerManager(1)->currentPower.second = availablePower.second + sys->powerState.second;
+				PowerManager::GetPowerManager(1)->currentPower.second += sys->powerState.second;
 			}
 			else
 			{
 				std::pair<int,int> availablePower = ship->GetAvailablePower();
-				PowerManager::GetPowerManager(1)->currentPower.second = availablePower.second + 1;
+				PowerManager::GetPowerManager(1)->currentPower.second += 1;
 				sys->UpgradeSystem(1);
 			}
 		}
@@ -859,13 +858,12 @@ HOOK_STATIC_PRIORITY(ShipGenerator, CreateShip, 9999, (const std::string& name, 
 			{
 				ship->AddSystem(SYS_WEAPONS);
 				sys = ship->GetSystem(SYS_WEAPONS);
-				std::pair<int,int> availablePower = ship->GetAvailablePower();
-				PowerManager::GetPowerManager(1)->currentPower.second = availablePower.second + sys->powerState.second;
+				PowerManager::GetPowerManager(1)->currentPower.second += sys->powerState.second;
 			}
 			else
 			{
 				std::pair<int,int> availablePower = ship->GetAvailablePower();
-				PowerManager::GetPowerManager(1)->currentPower.second = availablePower.second + 1;
+				PowerManager::GetPowerManager(1)->currentPower.second += 1;
 				sys->UpgradeSystem(1);
 			}
 		}
@@ -892,12 +890,12 @@ HOOK_STATIC_PRIORITY(ShipGenerator, CreateShip, 9999, (const std::string& name, 
 				ship->AddSystem(SYS_DRONES);
 				sys = ship->GetSystem(SYS_DRONES);
 				std::pair<int,int> availablePower = ship->GetAvailablePower();
-				PowerManager::GetPowerManager(1)->currentPower.second = availablePower.second + sys->powerState.second;
+				PowerManager::GetPowerManager(1)->currentPower.second += sys->powerState.second;
 			}
 			else
 			{
 				std::pair<int,int> availablePower = ship->GetAvailablePower();
-				PowerManager::GetPowerManager(1)->currentPower.second = availablePower.second + 1;
+				PowerManager::GetPowerManager(1)->currentPower.second += 1;
 				sys->UpgradeSystem(1);
 			}
 		}
