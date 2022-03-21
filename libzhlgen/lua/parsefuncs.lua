@@ -92,6 +92,7 @@ if string.find(mode, "linux") ~= nil then
 elseif string.find(mode, "windows") ~= nil then
     thiscallFirstArgumentECX = true
     structPointerAfterHiddenArguments = true
+	useIntelASMSyntax = true -- Use Intel syntax with MSVC
 	if arch == "i386" then
 		stdNamespaceSizes = {
 			[ "string" ] = 28,

@@ -8,19 +8,17 @@
     #else
         #define LIBZHL_API __declspec(dllimport)
     #endif
-    #if __clang__
-        // Clang requies AT&T assembler syntax
-        #define JUMP_INSTRUCTION "jmp *%0"
-    #endif
+    #ifdef _MSC_VER
+        // MSVC Requires Intel assembler syntax and cannot handle AT&T style
+        #undef JUMP_INSTRUCTION
+        #define JUMP_INSTRUCTION "jmp %0"
+    #endif // MSVC
 #elif defined(__linux__)
     // Linux exports all symbols, we don't need to be specific like in Windows.
     // If we want to optimize this library in the future we'd need to change things around to an EXPORTED & NON_EXPORTED definition and set the __attribute___((visibility( thing to explicitly hide some exports on *NIX systems
     // SEE: https://gcc.gnu.org/wiki/Visibility
     #define LIBZHL_API
-    #if __clang__
-        // Clang requies AT&T assembler syntax
-        #define JUMP_INSTRUCTION "jmp *%0"
-    #elif __GNUC__ < 8
+    #if __GNUC__ < 8 && !defined(__clang__)
         #error "GCC version too old, must be at least version 8 to support naked functions"
     #endif
     #define FUNC_NAKED __attribute__((naked))
