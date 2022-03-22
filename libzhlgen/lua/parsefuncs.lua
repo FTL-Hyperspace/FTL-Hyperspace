@@ -49,7 +49,7 @@ if string.find(mode, "linux") ~= nil then
     useStackAlignment = true
     isPOSIX = true
 	useIntelASMSyntax = false -- LLVM/Clang only supports AT&T Syntax, GCC supports both, so use AT&T Syntax instead of Intel
-    saveAllRegistersForSomeReason = true
+    saveAllRegistersForSomeReason = false
     useNaked = true
     recordClobberedRegisters = true
 	if arch == "i386" then
