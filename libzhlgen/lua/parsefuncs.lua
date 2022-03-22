@@ -1078,16 +1078,16 @@ using namespace ZHL;
                             out("\n\t\t\"push ebp\\n\\t\"")
                             out("\n\t\t\"mov ebp, esp\\n\\t\"")
                         else
-                            out("\n\t\t\"pushl %%ebp\\n\\t\"")
-                            out("\n\t\t\"movl %%esp, %%ebp\\n\\t\"")
+                            out("\n\t\t\"pushl %%%%ebp\\n\\t\"")
+                            out("\n\t\t\"movl %%%%esp, %%%%ebp\\n\\t\"")
                         end
                     elseif arch == "x86_64"  then
                         if useIntelASMSyntax then
                             out("\n\t\t\"push rbp\\n\\t\"")
                             out("\n\t\t\"mov rbp, rsp\\n\\t\"")
                         else
-                            out("\n\t\t\"pushq %%rbp\\n\\t\"")
-                            out("\n\t\t\"movq %%rsp, %%rbp\\n\\t\"")
+                            out("\n\t\t\"pushq %%%%rbp\\n\\t\"")
+                            out("\n\t\t\"movq %%%%rsp, %%%%rbp\\n\\t\"")
                         end
                     end
 				end
@@ -1123,13 +1123,13 @@ using namespace ZHL;
                             if useIntelASMSyntax then
                                 out("\n\t\t\"sub esp, %d\\n\\t\"", stackAlignOffset)
                             else
-                                out("\n\t\t\"subl $%d, %%esp\\n\\t\"", stackAlignOffset)
+                                out("\n\t\t\"subl $%d, %%%%esp\\n\\t\"", stackAlignOffset)
                             end
                         elseif arch == "x86_64"  then
                             if useIntelASMSyntax then
                                 out("\n\t\t\"sub rsp, %d\\n\\t\"", stackAlignOffset)
                             else
-                                out("\n\t\t\"subq $%d, %%rsp\\n\\t\"", stackAlignOffset)
+                                out("\n\t\t\"subq $%d, %%%%rsp\\n\\t\"", stackAlignOffset)
                             end
                         end
 					end
@@ -1147,12 +1147,12 @@ using namespace ZHL;
                             out("\n\t\t\"push esi\\n\\t\"")
                             out("\n\t\t\"push edi\\n\\t\"")
                         else
-                            if func.void or not func.longlong then out("\n\t\t\"pushl %%edx\\n\\t\"") end
-                            if func.void then out("\n\t\t\"pushl %%eax\\n\\t\"") end
-                            out("\n\t\t\"pushl %%ecx\\n\\t\"")
-                            out("\n\t\t\"pushl %%ebx\\n\\t\"")
-                            out("\n\t\t\"pushl %%esi\\n\\t\"")
-                            out("\n\t\t\"pushl %%edi\\n\\t\"")
+                            if func.void or not func.longlong then out("\n\t\t\"pushl %%%%edx\\n\\t\"") end
+                            if func.void then out("\n\t\t\"pushl %%%%eax\\n\\t\"") end
+                            out("\n\t\t\"pushl %%%%ecx\\n\\t\"")
+                            out("\n\t\t\"pushl %%%%ebx\\n\\t\"")
+                            out("\n\t\t\"pushl %%%%esi\\n\\t\"")
+                            out("\n\t\t\"pushl %%%%edi\\n\\t\"")
                         end
                     elseif arch == "x86_64" and isPOSIX then
                         -- System V AMD64 ABI
@@ -1166,12 +1166,12 @@ using namespace ZHL;
                             out("\n\t\t\"push r14\\n\\t\"")
                             out("\n\t\t\"push r15\\n\\t\"")
                         else
-                            out("\n\t\t\"pushq %%rbx\\n\\t\"")
-                            out("\n\t\t\"pushq %%rbp\\n\\t\"")
-                            out("\n\t\t\"pushq %%r12\\n\\t\"")
-                            out("\n\t\t\"pushq %%r13\\n\\t\"")
-                            out("\n\t\t\"pushq %%r14\\n\\t\"")
-                            out("\n\t\t\"pushq %%r15\\n\\t\"")
+                            out("\n\t\t\"pushq %%%%rbx\\n\\t\"")
+                            out("\n\t\t\"pushq %%%%rbp\\n\\t\"")
+                            out("\n\t\t\"pushq %%%%r12\\n\\t\"")
+                            out("\n\t\t\"pushq %%%%r13\\n\\t\"")
+                            out("\n\t\t\"pushq %%%%r14\\n\\t\"")
+                            out("\n\t\t\"pushq %%%%r15\\n\\t\"")
                         end
                     end
                 end
@@ -1188,7 +1188,7 @@ using namespace ZHL;
 							if useIntelASMSyntax then
 								out("\n\t\t\"push ecx\\n\\t\"\t\t\t// %s", arg.name)
 							else
-								out("\n\t\t\"pushl %%ecx\\n\\t\"\t\t\t// %s", arg.name)
+								out("\n\t\t\"pushl %%%%ecx\\n\\t\"\t\t\t// %s", arg.name)
 							end
                             sizePushed = sizePushed + archPushSize
                         else
@@ -1197,13 +1197,13 @@ using namespace ZHL;
                                     if useIntelASMSyntax then
                                         out("\n\t\t\"push [ebp+%d]\\n\\t\"\t\t// %s", arg.pos + p, arg.name)
                                     else
-                                        out("\n\t\t\"pushl %d(%%ebp)\\n\\t\"\t\t// %s", arg.pos + p, arg.name)
+                                        out("\n\t\t\"pushl %d(%%%%ebp)\\n\\t\"\t\t// %s", arg.pos + p, arg.name)
                                     end
                                 elseif arch == "x86_64"  then
                                     if useIntelASMSyntax then
                                         out("\n\t\t\"push [rbp+%d]\\n\\t\"\t\t// %s", arg.pos + p, arg.name)
                                     else
-                                        out("\n\t\t\"pushq %d(%%rbp)\\n\\t\"\t\t// %s", arg.pos + p, arg.name)
+                                        out("\n\t\t\"pushq %d(%%%%rbp)\\n\\t\"\t\t// %s", arg.pos + p, arg.name)
                                     end
                                 end
                                 sizePushed = sizePushed + archPushSize
@@ -1226,7 +1226,7 @@ using namespace ZHL;
 								if useIntelASMSyntax then
 									out("\n\t\t\"mov %s, ecx\\n\\t\t// %s\\n\\t\"", arg.reg, arg.name)
 								else
-									out("\n\t\t\"movl %%ecx, %%%s\\n\\t\t// %s\\n\\t\"", arg.reg, arg.name)
+									out("\n\t\t\"movl %%%%ecx, %%%%%s\\n\\t\t// %s\\n\\t\"", arg.reg, arg.name)
 								end
                             else
                                 out("\n\t\t\t// %s has %s", arg.reg, arg.name)
@@ -1252,35 +1252,25 @@ using namespace ZHL;
                                 if useIntelASMSyntax then
                                     out("\n\t\t\"mov %s, [ebp+%d]\\n\\t\"\t// %s", arg.reg, arg.pos, arg.name)
                                 else
-                                    out("\n\t\t\"movl %d(%%ebp), %%%s\\n\\t\"\t// %s", arg.pos, arg.reg, arg.name)
+                                    out("\n\t\t\"movl %d(%%%%ebp), %%%%%s\\n\\t\"\t// %s", arg.pos, arg.reg, arg.name)
                                 end
                             elseif arch == "x86_64"  then
                                 if useIntelASMSyntax then
                                     out("\n\t\t\"mov %s, [rbp+%d]\\n\\t\"\t// %s", arg.reg, arg.pos, arg.name)
                                 else
-                                    out("\n\t\t\"movq %d(%%rbp), %%%s\\n\\t\"\t// %s", arg.pos, arg.reg, arg.name)
+                                    out("\n\t\t\"movq %d(%%%%rbp), %%%%%s\\n\\t\"\t// %s", arg.pos, arg.reg, arg.name)
                                 end
                             end
 						end
 					end
 				end
 				
-				out("\n\t);")
-
-                out("\n\t__asm__(")
 				-- finally call the function
 				if useIntelASMSyntax then
-					out("\"call %%0\\n\\t\" :: \"m\"(_func%d::func)", counter)
+					out("\n\t\t\"call %%0\\n\\t\"")
 				else
-					out("\"call *%%0\\n\\t\" :: \"m\"(_func%d::func)", counter)
+					out("\n\t\t\"call *%%0\\n\\t\"")
 				end
-
-                if recordClobberedRegisters and next(usedRegisters) then
-                    out(" : %s", table.concat(usedRegisters, ", "))
-                end
-                out(");")
-				
-				out("\n\t__asm__\n\t(")
 
 				-- if the function requires caller cleanup, increment the stack pointer here
 				if func.cleanup then
@@ -1292,13 +1282,13 @@ using namespace ZHL;
                             if useIntelASMSyntax then
                                 out("\n\t\t\"add esp, %d\\n\\t\"", sizePushed)
                             else
-                                out("\n\t\t\"addl $%d, %%esp\\n\\t\"", sizePushed)
+                                out("\n\t\t\"addl $%d, %%%%esp\\n\\t\"", sizePushed)
                             end
                         elseif arch == "x86_64"  then
                             if useIntelASMSyntax then
                                 out("\n\t\t\"add rsp, %d\\n\\t\"", sizePushed)
                             else
-                                out("\n\t\t\"addq $%d, %%rsp\\n\\t\"", sizePushed)
+                                out("\n\t\t\"addq $%d, %%%%rsp\\n\\t\"", sizePushed)
                             end
                         end
                     end
@@ -1316,12 +1306,12 @@ using namespace ZHL;
                             if func.void then out("\n\t\t\"pop eax\\n\\t\"") end
                             if func.void or not func.longlong then out("\n\t\t\"pop edx\\n\\t\"") end
                         else
-                            out("\n\t\t\"popl %%edi\\n\\t\"")
-                            out("\n\t\t\"popl %%esi\\n\\t\"")
-                            out("\n\t\t\"popl %%ebx\\n\\t\"")
-                            out("\n\t\t\"popl %%ecx\\n\\t\"")
-                            if func.void then out("\n\t\t\"popl %%eax\\n\\t\"") end
-                            if func.void or not func.longlong then out("\n\t\t\"popl %%edx\\n\\t\"") end
+                            out("\n\t\t\"popl %%%%edi\\n\\t\"")
+                            out("\n\t\t\"popl %%%%esi\\n\\t\"")
+                            out("\n\t\t\"popl %%%%ebx\\n\\t\"")
+                            out("\n\t\t\"popl %%%%ecx\\n\\t\"")
+                            if func.void then out("\n\t\t\"popl %%%%eax\\n\\t\"") end
+                            if func.void or not func.longlong then out("\n\t\t\"popl %%%%edx\\n\\t\"") end
                         end
                     elseif arch == "x86_64"  then
                         if useIntelASMSyntax then
@@ -1332,12 +1322,12 @@ using namespace ZHL;
                             out("\n\t\t\"pop rbp\\n\\t\"")
                             out("\n\t\t\"pop rbx\\n\\t\"")
                         else
-                            out("\n\t\t\"popq %%r15\\n\\t\"")
-                            out("\n\t\t\"popq %%r14\\n\\t\"")
-                            out("\n\t\t\"popq %%r13\\n\\t\"")
-                            out("\n\t\t\"popq %%r12\\n\\t\"")
-                            out("\n\t\t\"popq %%rbp\\n\\t\"")
-                            out("\n\t\t\"popq %%rbx\\n\\t\"")
+                            out("\n\t\t\"popq %%%%r15\\n\\t\"")
+                            out("\n\t\t\"popq %%%%r14\\n\\t\"")
+                            out("\n\t\t\"popq %%%%r13\\n\\t\"")
+                            out("\n\t\t\"popq %%%%r12\\n\\t\"")
+                            out("\n\t\t\"popq %%%%rbp\\n\\t\"")
+                            out("\n\t\t\"popq %%%%rbx\\n\\t\"")
                         end
                     end
                 end
@@ -1361,11 +1351,11 @@ using namespace ZHL;
 						end
                     else
                         if arch == "i386" then
-                            out("\n\t\t\"movl %%ebp, %%esp\\n\\t\"")
-                            out("\n\t\t\"popl %%ebp\\n\\t\"")
+                            out("\n\t\t\"movl %%%%ebp, %%%%esp\\n\\t\"")
+                            out("\n\t\t\"popl %%%%ebp\\n\\t\"")
                         elseif arch == "x86_64"  then
-                            out("\n\t\t\"movq %%rbp, %%rsp\\n\\t\"")
-                            out("\n\t\t\"popq %%rbp\\n\\t\"")
+                            out("\n\t\t\"movq %%%%rbp, %%%%rsp\\n\\t\"")
+                            out("\n\t\t\"popq %%%%rbp\\n\\t\"")
                         end
 						if func.stacksize > 0 and not isPOSIX then
 							out("\n\t\t\"ret $%d\\n\\t\"", func.stacksize)
@@ -1377,7 +1367,11 @@ using namespace ZHL;
 					end
 				end
 				
-				out("\n\t);")
+                out("\n\t\t :: \"m\"(_func%d::func)", counter)
+                if recordClobberedRegisters and next(usedRegisters) then
+                    out("\n\t\t : %s", table.concat(usedRegisters, ", "))
+                end
+                out("\n\t);")
 				
 				out("\n}\n\n")
 			end
