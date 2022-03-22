@@ -26,7 +26,6 @@ FUNC_NAKED void AchievementTracker::LoadAchievementDescriptions()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -35,7 +34,7 @@ FUNC_NAKED void AchievementTracker::LoadAchievementDescriptions()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func0::func));
+	__asm__("call *%0\n\t" :: "m"(_func0::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -63,7 +62,6 @@ FUNC_NAKED std::vector<CAchievement*> AchievementTracker::GetShipAchievements(co
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -74,7 +72,7 @@ FUNC_NAKED std::vector<CAchievement*> AchievementTracker::GetShipAchievements(co
 			// rsi has this
 			// rdx has ship
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1::func));
+	__asm__("call *%0\n\t" :: "m"(_func1::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -102,7 +100,6 @@ FUNC_NAKED void AchievementTracker::SetAchievement(const std::string &achievemen
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -114,7 +111,7 @@ FUNC_NAKED void AchievementTracker::SetAchievement(const std::string &achievemen
 			// rdx has noPopup
 			// rcx has sendToServer
 	);
-	__asm__("call *%0\n\t" :: "m"(_func2::func));
+	__asm__("call *%0\n\t" :: "m"(_func2::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -142,7 +139,6 @@ FUNC_NAKED void AchievementTracker::UnlockShip(int shipId, int shipType)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -153,7 +149,7 @@ FUNC_NAKED void AchievementTracker::UnlockShip(int shipId, int shipType)
 			// rsi has shipId
 			// rdx has shipType
 	);
-	__asm__("call *%0\n\t" :: "m"(_func3::func));
+	__asm__("call *%0\n\t" :: "m"(_func3::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -181,7 +177,6 @@ FUNC_NAKED void AchievementTracker::SetSectorEight()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -190,7 +185,7 @@ FUNC_NAKED void AchievementTracker::SetSectorEight()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func4::func));
+	__asm__("call *%0\n\t" :: "m"(_func4::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -218,7 +213,6 @@ FUNC_NAKED int AchievementTracker::GetShipMarker(const std::string &baseName, co
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -229,7 +223,7 @@ FUNC_NAKED int AchievementTracker::GetShipMarker(const std::string &baseName, co
 			// rsi has baseName
 			// rdx has thisName
 	);
-	__asm__("call *%0\n\t" :: "m"(_func5::func));
+	__asm__("call *%0\n\t" :: "m"(_func5::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -257,7 +251,6 @@ FUNC_NAKED void AchievementTracker::SetFlag(const std::string &flagName)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -267,7 +260,7 @@ FUNC_NAKED void AchievementTracker::SetFlag(const std::string &flagName)
 			// rdi has this
 			// rsi has flagName
 	);
-	__asm__("call *%0\n\t" :: "m"(_func6::func));
+	__asm__("call *%0\n\t" :: "m"(_func6::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -295,7 +288,6 @@ FUNC_NAKED void AchievementTracker::DO_NOT_HOOK_1()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -331,7 +323,6 @@ FUNC_NAKED bool AchievementTracker::GetFlag(const std::string &flagName)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -341,7 +332,7 @@ FUNC_NAKED bool AchievementTracker::GetFlag(const std::string &flagName)
 			// rdi has this
 			// rsi has flagName
 	);
-	__asm__("call *%0\n\t" :: "m"(_func8::func));
+	__asm__("call *%0\n\t" :: "m"(_func8::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -369,7 +360,6 @@ FUNC_NAKED void AchievementTracker::SaveProfile(int file)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -379,7 +369,7 @@ FUNC_NAKED void AchievementTracker::SaveProfile(int file)
 			// rdi has this
 			// rsi has file
 	);
-	__asm__("call *%0\n\t" :: "m"(_func9::func));
+	__asm__("call *%0\n\t" :: "m"(_func9::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -407,7 +397,6 @@ FUNC_NAKED void AchievementTracker::LoadProfile(int file, int version)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -418,7 +407,7 @@ FUNC_NAKED void AchievementTracker::LoadProfile(int file, int version)
 			// rsi has file
 			// rdx has version
 	);
-	__asm__("call *%0\n\t" :: "m"(_func10::func));
+	__asm__("call *%0\n\t" :: "m"(_func10::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -446,7 +435,6 @@ FUNC_NAKED void AchievementTracker::SetVictoryAchievement()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -455,7 +443,7 @@ FUNC_NAKED void AchievementTracker::SetVictoryAchievement()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func11::func));
+	__asm__("call *%0\n\t" :: "m"(_func11::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -483,7 +471,6 @@ FUNC_NAKED void AchievementTracker::OnLanguageChange()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -492,7 +479,7 @@ FUNC_NAKED void AchievementTracker::OnLanguageChange()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func12::func));
+	__asm__("call *%0\n\t" :: "m"(_func12::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -520,7 +507,6 @@ FUNC_NAKED void AchievementTracker::SetTooltip(CAchievement *ach)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -530,7 +516,7 @@ FUNC_NAKED void AchievementTracker::SetTooltip(CAchievement *ach)
 			// rdi has this
 			// rsi has ach
 	);
-	__asm__("call *%0\n\t" :: "m"(_func13::func));
+	__asm__("call *%0\n\t" :: "m"(_func13::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -558,7 +544,6 @@ FUNC_NAKED void AchievementTracker::ResetFlags()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -567,7 +552,7 @@ FUNC_NAKED void AchievementTracker::ResetFlags()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func14::func));
+	__asm__("call *%0\n\t" :: "m"(_func14::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -602,7 +587,6 @@ FUNC_NAKED void Animation::constructor(const std::string &_image, int _length, f
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -619,7 +603,7 @@ FUNC_NAKED void Animation::constructor(const std::string &_image, int _length, f
 			// r8 has _imageWidth
 			// r9 has _imageHeight
 	);
-	__asm__("call *%0\n\t" :: "m"(_func16::func));
+	__asm__("call *%0\n\t" :: "m"(_func16::func) : "rdi", "rsi", "rdx", "xmm0", "rcx", "r8", "r9");
 	__asm__
 	(
 		"addq $16, %rsp\n\t"
@@ -648,7 +632,6 @@ FUNC_NAKED void Animation::OnRender(float opacity, GL_Color color, bool mirror)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -661,7 +644,7 @@ FUNC_NAKED void Animation::OnRender(float opacity, GL_Color color, bool mirror)
 			// xmm0 has opacity
 			// rsi has mirror
 	);
-	__asm__("call *%0\n\t" :: "m"(_func17::func));
+	__asm__("call *%0\n\t" :: "m"(_func17::func) : "rdi", "xmm0", "rsi");
 	__asm__
 	(
 		"addq $16, %rsp\n\t"
@@ -690,7 +673,6 @@ FUNC_NAKED void Animation::Update()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -699,7 +681,7 @@ FUNC_NAKED void Animation::Update()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func18::func));
+	__asm__("call *%0\n\t" :: "m"(_func18::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -727,7 +709,6 @@ FUNC_NAKED void Animation::SetCurrentFrame(int frame)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -737,7 +718,7 @@ FUNC_NAKED void Animation::SetCurrentFrame(int frame)
 			// rdi has this
 			// rsi has frame
 	);
-	__asm__("call *%0\n\t" :: "m"(_func19::func));
+	__asm__("call *%0\n\t" :: "m"(_func19::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -765,7 +746,6 @@ FUNC_NAKED void Animation::Start(bool reset)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -775,7 +755,7 @@ FUNC_NAKED void Animation::Start(bool reset)
 			// rdi has this
 			// rsi has reset
 	);
-	__asm__("call *%0\n\t" :: "m"(_func20::func));
+	__asm__("call *%0\n\t" :: "m"(_func20::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -803,7 +783,6 @@ FUNC_NAKED void Animation::AddSoundQueue(int frame, const std::string &sound)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -814,7 +793,7 @@ FUNC_NAKED void Animation::AddSoundQueue(int frame, const std::string &sound)
 			// rsi has frame
 			// rdx has sound
 	);
-	__asm__("call *%0\n\t" :: "m"(_func21::func));
+	__asm__("call *%0\n\t" :: "m"(_func21::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -842,7 +821,6 @@ FUNC_NAKED void Animation::SetAnimationId(GL_Texture *tex)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -852,7 +830,7 @@ FUNC_NAKED void Animation::SetAnimationId(GL_Texture *tex)
 			// rdi has this
 			// rsi has tex
 	);
-	__asm__("call *%0\n\t" :: "m"(_func22::func));
+	__asm__("call *%0\n\t" :: "m"(_func22::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -880,7 +858,6 @@ FUNC_NAKED void Animation::destructor()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -889,7 +866,7 @@ FUNC_NAKED void Animation::destructor()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func23::func));
+	__asm__("call *%0\n\t" :: "m"(_func23::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -917,7 +894,6 @@ FUNC_NAKED void Animation::StartReverse(bool reset)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -927,7 +903,7 @@ FUNC_NAKED void Animation::StartReverse(bool reset)
 			// rdi has this
 			// rsi has reset
 	);
-	__asm__("call *%0\n\t" :: "m"(_func24::func));
+	__asm__("call *%0\n\t" :: "m"(_func24::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -955,7 +931,6 @@ FUNC_NAKED void Animation::SetProgress(float progress)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -965,7 +940,7 @@ FUNC_NAKED void Animation::SetProgress(float progress)
 			// rdi has this
 			// xmm0 has progress
 	);
-	__asm__("call *%0\n\t" :: "m"(_func25::func));
+	__asm__("call *%0\n\t" :: "m"(_func25::func) : "rdi", "xmm0");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -993,7 +968,6 @@ FUNC_NAKED int Animation::RandomStart()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -1002,7 +976,7 @@ FUNC_NAKED int Animation::RandomStart()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func26::func));
+	__asm__("call *%0\n\t" :: "m"(_func26::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -1030,7 +1004,6 @@ FUNC_NAKED Animation AnimationControl::GetAnimation(const std::string &animName)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -1041,7 +1014,7 @@ FUNC_NAKED Animation AnimationControl::GetAnimation(const std::string &animName)
 			// rsi has this
 			// rdx has animName
 	);
-	__asm__("call *%0\n\t" :: "m"(_func27::func));
+	__asm__("call *%0\n\t" :: "m"(_func27::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -1076,7 +1049,6 @@ FUNC_NAKED void AnimationTracker::Update()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -1085,7 +1057,7 @@ FUNC_NAKED void AnimationTracker::Update()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func29::func));
+	__asm__("call *%0\n\t" :: "m"(_func29::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -1113,7 +1085,6 @@ FUNC_NAKED void AnimationTracker::SetLoop(bool loop, float loopDelay)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -1124,7 +1095,7 @@ FUNC_NAKED void AnimationTracker::SetLoop(bool loop, float loopDelay)
 			// rsi has loop
 			// xmm0 has loopDelay
 	);
-	__asm__("call *%0\n\t" :: "m"(_func30::func));
+	__asm__("call *%0\n\t" :: "m"(_func30::func) : "rdi", "rsi", "xmm0");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -1152,7 +1123,6 @@ FUNC_NAKED void AnimationTracker::Stop(bool resetTime)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -1162,7 +1132,7 @@ FUNC_NAKED void AnimationTracker::Stop(bool resetTime)
 			// rdi has this
 			// rsi has resetTime
 	);
-	__asm__("call *%0\n\t" :: "m"(_func31::func));
+	__asm__("call *%0\n\t" :: "m"(_func31::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -1190,7 +1160,6 @@ FUNC_NAKED void AnimationTracker::Start(float time)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -1200,7 +1169,7 @@ FUNC_NAKED void AnimationTracker::Start(float time)
 			// rdi has this
 			// xmm0 has time
 	);
-	__asm__("call *%0\n\t" :: "m"(_func32::func));
+	__asm__("call *%0\n\t" :: "m"(_func32::func) : "rdi", "xmm0");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -1228,7 +1197,6 @@ FUNC_NAKED void AnimationTracker::StartReverse(float time)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -1238,7 +1206,7 @@ FUNC_NAKED void AnimationTracker::StartReverse(float time)
 			// rdi has this
 			// xmm0 has time
 	);
-	__asm__("call *%0\n\t" :: "m"(_func33::func));
+	__asm__("call *%0\n\t" :: "m"(_func33::func) : "rdi", "xmm0");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -1266,7 +1234,6 @@ FUNC_NAKED float AnimationTracker::Progress(float speed)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -1276,7 +1243,7 @@ FUNC_NAKED float AnimationTracker::Progress(float speed)
 			// rdi has this
 			// xmm0 has speed
 	);
-	__asm__("call *%0\n\t" :: "m"(_func34::func));
+	__asm__("call *%0\n\t" :: "m"(_func34::func) : "rdi", "xmm0");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -1304,7 +1271,6 @@ FUNC_NAKED void AnimationTracker::SetProgress(float time)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -1314,7 +1280,7 @@ FUNC_NAKED void AnimationTracker::SetProgress(float time)
 			// rdi has this
 			// xmm0 has time
 	);
-	__asm__("call *%0\n\t" :: "m"(_func35::func));
+	__asm__("call *%0\n\t" :: "m"(_func35::func) : "rdi", "xmm0");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -1342,7 +1308,6 @@ FUNC_NAKED float AnimationTracker::GetAlphaLevel(bool reverse)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -1352,7 +1317,7 @@ FUNC_NAKED float AnimationTracker::GetAlphaLevel(bool reverse)
 			// rdi has this
 			// rsi has reverse
 	);
-	__asm__("call *%0\n\t" :: "m"(_func36::func));
+	__asm__("call *%0\n\t" :: "m"(_func36::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -1380,7 +1345,6 @@ FUNC_NAKED bool ArmamentControl::Dragging()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -1389,7 +1353,7 @@ FUNC_NAKED bool ArmamentControl::Dragging()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func37::func));
+	__asm__("call *%0\n\t" :: "m"(_func37::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -1417,7 +1381,6 @@ FUNC_NAKED void ArmamentControl::SetPosition(Point loc)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -1427,7 +1390,7 @@ FUNC_NAKED void ArmamentControl::SetPosition(Point loc)
 			// rdi has this
 			// rsi has loc
 	);
-	__asm__("call *%0\n\t" :: "m"(_func38::func));
+	__asm__("call *%0\n\t" :: "m"(_func38::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -1455,7 +1418,6 @@ FUNC_NAKED bool ArmamentControl::KeyDown(SDLKey key)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -1465,7 +1427,7 @@ FUNC_NAKED bool ArmamentControl::KeyDown(SDLKey key)
 			// rdi has this
 			// rsi has key
 	);
-	__asm__("call *%0\n\t" :: "m"(_func39::func));
+	__asm__("call *%0\n\t" :: "m"(_func39::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -1493,7 +1455,6 @@ FUNC_NAKED void ArtilleryBox::constructor(Point pos, ArtillerySystem *sys)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -1504,7 +1465,7 @@ FUNC_NAKED void ArtilleryBox::constructor(Point pos, ArtillerySystem *sys)
 			// rsi has pos
 			// rdx has sys
 	);
-	__asm__("call *%0\n\t" :: "m"(_func40::func));
+	__asm__("call *%0\n\t" :: "m"(_func40::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -1532,7 +1493,6 @@ FUNC_NAKED void ArtilleryBox::OnRender(bool ignoreStatus)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -1542,7 +1502,7 @@ FUNC_NAKED void ArtilleryBox::OnRender(bool ignoreStatus)
 			// rdi has this
 			// rsi has ignoreStatus
 	);
-	__asm__("call *%0\n\t" :: "m"(_func41::func));
+	__asm__("call *%0\n\t" :: "m"(_func41::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -1570,7 +1530,6 @@ FUNC_NAKED void ArtillerySystem::OnLoop()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -1579,7 +1538,7 @@ FUNC_NAKED void ArtillerySystem::OnLoop()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func42::func));
+	__asm__("call *%0\n\t" :: "m"(_func42::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -1607,7 +1566,6 @@ FUNC_NAKED void AsteroidGenerator::constructor()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -1616,7 +1574,7 @@ FUNC_NAKED void AsteroidGenerator::constructor()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func43::func));
+	__asm__("call *%0\n\t" :: "m"(_func43::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -1644,7 +1602,6 @@ FUNC_NAKED float AsteroidGenerator::Initialize(int numberOfShips, int shieldCoun
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -1656,7 +1613,7 @@ FUNC_NAKED float AsteroidGenerator::Initialize(int numberOfShips, int shieldCoun
 			// rdx has shieldCount
 			// rcx has defense
 	);
-	__asm__("call *%0\n\t" :: "m"(_func44::func));
+	__asm__("call *%0\n\t" :: "m"(_func44::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -1684,7 +1641,6 @@ FUNC_NAKED void AsteroidGenerator::SetNumShips(int ships)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -1694,7 +1650,7 @@ FUNC_NAKED void AsteroidGenerator::SetNumShips(int ships)
 			// rdi has this
 			// rsi has ships
 	);
-	__asm__("call *%0\n\t" :: "m"(_func45::func));
+	__asm__("call *%0\n\t" :: "m"(_func45::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -1722,7 +1678,6 @@ FUNC_NAKED Projectile *AsteroidGenerator::GetNextAsteroid()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -1731,7 +1686,7 @@ FUNC_NAKED Projectile *AsteroidGenerator::GetNextAsteroid()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func46::func));
+	__asm__("call *%0\n\t" :: "m"(_func46::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -1759,7 +1714,6 @@ FUNC_NAKED void AsteroidGenerator::OnLoop()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -1768,7 +1722,7 @@ FUNC_NAKED void AsteroidGenerator::OnLoop()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func47::func));
+	__asm__("call *%0\n\t" :: "m"(_func47::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -1796,7 +1750,6 @@ FUNC_NAKED void AsteroidGenerator::GetNextState()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -1805,7 +1758,7 @@ FUNC_NAKED void AsteroidGenerator::GetNextState()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func48::func));
+	__asm__("call *%0\n\t" :: "m"(_func48::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -1833,7 +1786,6 @@ FUNC_NAKED void AsteroidGenerator::UpdateState()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -1842,7 +1794,7 @@ FUNC_NAKED void AsteroidGenerator::UpdateState()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func49::func));
+	__asm__("call *%0\n\t" :: "m"(_func49::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -1870,7 +1822,6 @@ FUNC_NAKED bool AsteroidGenerator::SaveAsteroids(void *file)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -1880,7 +1831,7 @@ FUNC_NAKED bool AsteroidGenerator::SaveAsteroids(void *file)
 			// rdi has this
 			// rsi has file
 	);
-	__asm__("call *%0\n\t" :: "m"(_func50::func));
+	__asm__("call *%0\n\t" :: "m"(_func50::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -1908,7 +1859,6 @@ FUNC_NAKED void AsteroidGenerator::LoadAsteroids(void *file)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -1918,7 +1868,7 @@ FUNC_NAKED void AsteroidGenerator::LoadAsteroids(void *file)
 			// rdi has this
 			// rsi has file
 	);
-	__asm__("call *%0\n\t" :: "m"(_func51::func));
+	__asm__("call *%0\n\t" :: "m"(_func51::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -1946,7 +1896,6 @@ FUNC_NAKED void AugmentEquipBox::RenderIcon()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -1955,7 +1904,7 @@ FUNC_NAKED void AugmentEquipBox::RenderIcon()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func52::func));
+	__asm__("call *%0\n\t" :: "m"(_func52::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -1983,7 +1932,6 @@ FUNC_NAKED void AugmentEquipBox::CheckContents()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -1992,7 +1940,7 @@ FUNC_NAKED void AugmentEquipBox::CheckContents()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func53::func));
+	__asm__("call *%0\n\t" :: "m"(_func53::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -2020,7 +1968,6 @@ FUNC_NAKED void AugmentEquipBox::RemoveItem()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -2029,7 +1976,7 @@ FUNC_NAKED void AugmentEquipBox::RemoveItem()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func54::func));
+	__asm__("call *%0\n\t" :: "m"(_func54::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -2057,7 +2004,6 @@ FUNC_NAKED void AugmentStoreBox::constructor(ShipManager *ship, const AugmentBlu
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -2068,7 +2014,7 @@ FUNC_NAKED void AugmentStoreBox::constructor(ShipManager *ship, const AugmentBlu
 			// rsi has ship
 			// rdx has bp
 	);
-	__asm__("call *%0\n\t" :: "m"(_func55::func));
+	__asm__("call *%0\n\t" :: "m"(_func55::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -2096,7 +2042,6 @@ FUNC_NAKED void BatteryBox::constructor(Point pos, BatterySystem *sys)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -2107,7 +2052,7 @@ FUNC_NAKED void BatteryBox::constructor(Point pos, BatterySystem *sys)
 			// rsi has pos
 			// rdx has sys
 	);
-	__asm__("call *%0\n\t" :: "m"(_func56::func));
+	__asm__("call *%0\n\t" :: "m"(_func56::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -2135,7 +2080,6 @@ FUNC_NAKED void BeamWeapon::constructor(Pointf _position, int _ownerId, int _tar
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -2152,7 +2096,7 @@ FUNC_NAKED void BeamWeapon::constructor(Pointf _position, int _ownerId, int _tar
 			// r9 has _target2
 			// xmm0 has heading
 	);
-	__asm__("call *%0\n\t" :: "m"(_func57::func));
+	__asm__("call *%0\n\t" :: "m"(_func57::func) : "rdi", "rsi", "rdx", "rcx", "r8", "r9", "xmm0");
 	__asm__
 	(
 		"addq $16, %rsp\n\t"
@@ -2181,7 +2125,6 @@ FUNC_NAKED void BeamWeapon::CollisionCheck(Collideable *other)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -2191,7 +2134,7 @@ FUNC_NAKED void BeamWeapon::CollisionCheck(Collideable *other)
 			// rdi has this
 			// rsi has other
 	);
-	__asm__("call *%0\n\t" :: "m"(_func58::func));
+	__asm__("call *%0\n\t" :: "m"(_func58::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -2219,7 +2162,6 @@ FUNC_NAKED void Blueprint::destructor()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -2228,7 +2170,7 @@ FUNC_NAKED void Blueprint::destructor()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func59::func));
+	__asm__("call *%0\n\t" :: "m"(_func59::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -2256,7 +2198,6 @@ FUNC_NAKED std::string Blueprint::GetNameShort()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -2266,7 +2207,7 @@ FUNC_NAKED std::string Blueprint::GetNameShort()
 			// rdi has implicit_output
 			// rsi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func60::func));
+	__asm__("call *%0\n\t" :: "m"(_func60::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -2294,7 +2235,6 @@ FUNC_NAKED std::vector<std::string> BlueprintManager::GetBlueprintList(const std
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -2305,7 +2245,7 @@ FUNC_NAKED std::vector<std::string> BlueprintManager::GetBlueprintList(const std
 			// rsi has this
 			// rdx has name
 	);
-	__asm__("call *%0\n\t" :: "m"(_func61::func));
+	__asm__("call *%0\n\t" :: "m"(_func61::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -2333,7 +2273,6 @@ FUNC_NAKED ShipBlueprint *BlueprintManager::GetShipBlueprint(const std::string &
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -2344,7 +2283,7 @@ FUNC_NAKED ShipBlueprint *BlueprintManager::GetShipBlueprint(const std::string &
 			// rsi has name
 			// rdx has sector
 	);
-	__asm__("call *%0\n\t" :: "m"(_func62::func));
+	__asm__("call *%0\n\t" :: "m"(_func62::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -2372,7 +2311,6 @@ FUNC_NAKED WeaponBlueprint *BlueprintManager::GetWeaponBlueprint(const std::stri
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -2382,7 +2320,7 @@ FUNC_NAKED WeaponBlueprint *BlueprintManager::GetWeaponBlueprint(const std::stri
 			// rdi has this
 			// rsi has name
 	);
-	__asm__("call *%0\n\t" :: "m"(_func63::func));
+	__asm__("call *%0\n\t" :: "m"(_func63::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -2410,7 +2348,6 @@ FUNC_NAKED DroneBlueprint *BlueprintManager::GetDroneBlueprint(const std::string
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -2420,7 +2357,7 @@ FUNC_NAKED DroneBlueprint *BlueprintManager::GetDroneBlueprint(const std::string
 			// rdi has this
 			// rsi has name
 	);
-	__asm__("call *%0\n\t" :: "m"(_func64::func));
+	__asm__("call *%0\n\t" :: "m"(_func64::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -2448,7 +2385,6 @@ FUNC_NAKED AugmentBlueprint *BlueprintManager::GetAugmentBlueprint(const std::st
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -2458,7 +2394,7 @@ FUNC_NAKED AugmentBlueprint *BlueprintManager::GetAugmentBlueprint(const std::st
 			// rdi has this
 			// rsi has name
 	);
-	__asm__("call *%0\n\t" :: "m"(_func65::func));
+	__asm__("call *%0\n\t" :: "m"(_func65::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -2486,7 +2422,6 @@ FUNC_NAKED float BlueprintManager::GetAugmentValue(const std::string &name)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -2496,7 +2431,7 @@ FUNC_NAKED float BlueprintManager::GetAugmentValue(const std::string &name)
 			// rdi has this
 			// rsi has name
 	);
-	__asm__("call *%0\n\t" :: "m"(_func66::func));
+	__asm__("call *%0\n\t" :: "m"(_func66::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -2524,7 +2459,6 @@ FUNC_NAKED ItemBlueprint *BlueprintManager::GetItemBlueprint(const std::string &
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -2534,7 +2468,7 @@ FUNC_NAKED ItemBlueprint *BlueprintManager::GetItemBlueprint(const std::string &
 			// rdi has this
 			// rsi has name
 	);
-	__asm__("call *%0\n\t" :: "m"(_func67::func));
+	__asm__("call *%0\n\t" :: "m"(_func67::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -2562,7 +2496,6 @@ FUNC_NAKED WeaponBlueprint BlueprintManager::ProcessWeaponBlueprint(rapidxml::xm
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -2573,7 +2506,7 @@ FUNC_NAKED WeaponBlueprint BlueprintManager::ProcessWeaponBlueprint(rapidxml::xm
 			// rsi has this
 			// rdx has node
 	);
-	__asm__("call *%0\n\t" :: "m"(_func68::func));
+	__asm__("call *%0\n\t" :: "m"(_func68::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -2601,7 +2534,6 @@ FUNC_NAKED Description BlueprintManager::ProcessDescription(rapidxml::xml_node<c
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -2612,7 +2544,7 @@ FUNC_NAKED Description BlueprintManager::ProcessDescription(rapidxml::xml_node<c
 			// rsi has this
 			// rdx has node
 	);
-	__asm__("call *%0\n\t" :: "m"(_func69::func));
+	__asm__("call *%0\n\t" :: "m"(_func69::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -2640,7 +2572,6 @@ FUNC_NAKED EffectsBlueprint BlueprintManager::ProcessEffectsBlueprint(rapidxml::
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -2651,7 +2582,7 @@ FUNC_NAKED EffectsBlueprint BlueprintManager::ProcessEffectsBlueprint(rapidxml::
 			// rsi has this
 			// rdx has node
 	);
-	__asm__("call *%0\n\t" :: "m"(_func70::func));
+	__asm__("call *%0\n\t" :: "m"(_func70::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -2679,7 +2610,6 @@ FUNC_NAKED CrewBlueprint BlueprintManager::GetCrewBlueprint(const std::string &n
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -2690,7 +2620,7 @@ FUNC_NAKED CrewBlueprint BlueprintManager::GetCrewBlueprint(const std::string &n
 			// rsi has this
 			// rdx has name
 	);
-	__asm__("call *%0\n\t" :: "m"(_func71::func));
+	__asm__("call *%0\n\t" :: "m"(_func71::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -2718,7 +2648,6 @@ FUNC_NAKED std::vector<AugmentBlueprint*> BlueprintManager::GetRandomAugment(int
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -2730,7 +2659,7 @@ FUNC_NAKED std::vector<AugmentBlueprint*> BlueprintManager::GetRandomAugment(int
 			// rdx has count
 			// rcx has demo_lock
 	);
-	__asm__("call *%0\n\t" :: "m"(_func72::func));
+	__asm__("call *%0\n\t" :: "m"(_func72::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -2758,7 +2687,6 @@ FUNC_NAKED SystemBlueprint *BlueprintManager::GetSystemBlueprint(const std::stri
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -2768,7 +2696,7 @@ FUNC_NAKED SystemBlueprint *BlueprintManager::GetSystemBlueprint(const std::stri
 			// rdi has this
 			// rsi has name
 	);
-	__asm__("call *%0\n\t" :: "m"(_func73::func));
+	__asm__("call *%0\n\t" :: "m"(_func73::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -2796,7 +2724,6 @@ FUNC_NAKED std::string BlueprintManager::GetUnusedCrewName(bool *isMale_ret)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -2807,7 +2734,7 @@ FUNC_NAKED std::string BlueprintManager::GetUnusedCrewName(bool *isMale_ret)
 			// rsi has this
 			// rdx has isMale_ret
 	);
-	__asm__("call *%0\n\t" :: "m"(_func74::func));
+	__asm__("call *%0\n\t" :: "m"(_func74::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -2835,7 +2762,6 @@ FUNC_NAKED std::string BlueprintManager::GetCrewName(bool *isMale_ret)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -2846,7 +2772,7 @@ FUNC_NAKED std::string BlueprintManager::GetCrewName(bool *isMale_ret)
 			// rsi has this
 			// rdx has isMale_ret
 	);
-	__asm__("call *%0\n\t" :: "m"(_func75::func));
+	__asm__("call *%0\n\t" :: "m"(_func75::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -2874,7 +2800,6 @@ FUNC_NAKED std::vector<WeaponBlueprint*> BlueprintManager::GetRandomWeapon(int c
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -2886,7 +2811,7 @@ FUNC_NAKED std::vector<WeaponBlueprint*> BlueprintManager::GetRandomWeapon(int c
 			// rdx has count
 			// rcx has demo_lock
 	);
-	__asm__("call *%0\n\t" :: "m"(_func76::func));
+	__asm__("call *%0\n\t" :: "m"(_func76::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -2914,7 +2839,6 @@ FUNC_NAKED std::vector<DroneBlueprint*> BlueprintManager::GetRandomDrone(int cou
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -2926,7 +2850,7 @@ FUNC_NAKED std::vector<DroneBlueprint*> BlueprintManager::GetRandomDrone(int cou
 			// rdx has count
 			// rcx has demo_lock
 	);
-	__asm__("call *%0\n\t" :: "m"(_func77::func));
+	__asm__("call *%0\n\t" :: "m"(_func77::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -2954,7 +2878,6 @@ FUNC_NAKED ShipBlueprint BlueprintManager::ProcessShipBlueprint(rapidxml::xml_no
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -2965,7 +2888,7 @@ FUNC_NAKED ShipBlueprint BlueprintManager::ProcessShipBlueprint(rapidxml::xml_no
 			// rsi has this
 			// rdx has node
 	);
-	__asm__("call *%0\n\t" :: "m"(_func78::func));
+	__asm__("call *%0\n\t" :: "m"(_func78::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -2993,7 +2916,6 @@ FUNC_NAKED DroneBlueprint BlueprintManager::ProcessDroneBlueprint(rapidxml::xml_
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -3004,7 +2926,7 @@ FUNC_NAKED DroneBlueprint BlueprintManager::ProcessDroneBlueprint(rapidxml::xml_
 			// rsi has this
 			// rdx has node
 	);
-	__asm__("call *%0\n\t" :: "m"(_func79::func));
+	__asm__("call *%0\n\t" :: "m"(_func79::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -3039,7 +2961,6 @@ FUNC_NAKED void BoarderPodDrone::constructor(int _iShipId, int _selfId, const Dr
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -3051,7 +2972,7 @@ FUNC_NAKED void BoarderPodDrone::constructor(int _iShipId, int _selfId, const Dr
 			// rdx has _selfId
 			// rcx has _bp
 	);
-	__asm__("call *%0\n\t" :: "m"(_func81::func));
+	__asm__("call *%0\n\t" :: "m"(_func81::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -3079,7 +3000,6 @@ FUNC_NAKED void BoarderPodDrone::SetMovementTarget(Targetable *target)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -3089,7 +3009,7 @@ FUNC_NAKED void BoarderPodDrone::SetMovementTarget(Targetable *target)
 			// rdi has this
 			// rsi has target
 	);
-	__asm__("call *%0\n\t" :: "m"(_func82::func));
+	__asm__("call *%0\n\t" :: "m"(_func82::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -3117,7 +3037,6 @@ FUNC_NAKED bool BoarderPodDrone::CanBeDeployed()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -3126,7 +3045,7 @@ FUNC_NAKED bool BoarderPodDrone::CanBeDeployed()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func83::func));
+	__asm__("call *%0\n\t" :: "m"(_func83::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -3154,7 +3073,6 @@ FUNC_NAKED void BoarderPodDrone::SetDeployed(bool _deployed)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -3164,7 +3082,7 @@ FUNC_NAKED void BoarderPodDrone::SetDeployed(bool _deployed)
 			// rdi has this
 			// rsi has _deployed
 	);
-	__asm__("call *%0\n\t" :: "m"(_func84::func));
+	__asm__("call *%0\n\t" :: "m"(_func84::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -3192,7 +3110,6 @@ FUNC_NAKED void BombProjectile::constructor(Pointf _position, int _ownerId, int 
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -3205,7 +3122,7 @@ FUNC_NAKED void BombProjectile::constructor(Pointf _position, int _ownerId, int 
 			// rcx has _targetId
 			// r8 has _target
 	);
-	__asm__("call *%0\n\t" :: "m"(_func85::func));
+	__asm__("call *%0\n\t" :: "m"(_func85::func) : "rdi", "rsi", "rdx", "rcx", "r8");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -3233,7 +3150,6 @@ FUNC_NAKED void BombProjectile::CollisionCheck(Collideable *other)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -3243,7 +3159,7 @@ FUNC_NAKED void BombProjectile::CollisionCheck(Collideable *other)
 			// rdi has this
 			// rsi has other
 	);
-	__asm__("call *%0\n\t" :: "m"(_func86::func));
+	__asm__("call *%0\n\t" :: "m"(_func86::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -3271,7 +3187,6 @@ FUNC_NAKED void BossShip::Restart()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -3280,7 +3195,7 @@ FUNC_NAKED void BossShip::Restart()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func87::func));
+	__asm__("call *%0\n\t" :: "m"(_func87::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -3308,7 +3223,6 @@ FUNC_NAKED bool BossShip::IncomingFire()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -3317,7 +3231,7 @@ FUNC_NAKED bool BossShip::IncomingFire()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func88::func));
+	__asm__("call *%0\n\t" :: "m"(_func88::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -3345,7 +3259,6 @@ FUNC_NAKED void BossShip::constructor(SpaceManager *space)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -3355,7 +3268,7 @@ FUNC_NAKED void BossShip::constructor(SpaceManager *space)
 			// rdi has this
 			// rsi has space
 	);
-	__asm__("call *%0\n\t" :: "m"(_func89::func));
+	__asm__("call *%0\n\t" :: "m"(_func89::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -3383,7 +3296,6 @@ FUNC_NAKED void BossShip::ClearLocation()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -3392,7 +3304,7 @@ FUNC_NAKED void BossShip::ClearLocation()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func90::func));
+	__asm__("call *%0\n\t" :: "m"(_func90::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -3420,7 +3332,6 @@ FUNC_NAKED bool BossShip::Defeated()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -3429,7 +3340,7 @@ FUNC_NAKED bool BossShip::Defeated()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func91::func));
+	__asm__("call *%0\n\t" :: "m"(_func91::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -3457,7 +3368,6 @@ FUNC_NAKED LocationEvent *BossShip::GetSubEvent()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -3466,7 +3376,7 @@ FUNC_NAKED LocationEvent *BossShip::GetSubEvent()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func92::func));
+	__asm__("call *%0\n\t" :: "m"(_func92::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -3494,7 +3404,6 @@ FUNC_NAKED void BossShip::StartStage()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -3503,7 +3412,7 @@ FUNC_NAKED void BossShip::StartStage()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func93::func));
+	__asm__("call *%0\n\t" :: "m"(_func93::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -3531,7 +3440,6 @@ FUNC_NAKED void BossShip::SaveBoss(int file)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -3541,7 +3449,7 @@ FUNC_NAKED void BossShip::SaveBoss(int file)
 			// rdi has this
 			// rsi has file
 	);
-	__asm__("call *%0\n\t" :: "m"(_func94::func));
+	__asm__("call *%0\n\t" :: "m"(_func94::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -3569,7 +3477,6 @@ FUNC_NAKED LocationEvent *BossShip::GetEvent()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -3578,7 +3485,7 @@ FUNC_NAKED LocationEvent *BossShip::GetEvent()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func95::func));
+	__asm__("call *%0\n\t" :: "m"(_func95::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -3606,7 +3513,6 @@ FUNC_NAKED void BossShip::LoadBoss(int file)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -3616,7 +3522,7 @@ FUNC_NAKED void BossShip::LoadBoss(int file)
 			// rdi has this
 			// rsi has file
 	);
-	__asm__("call *%0\n\t" :: "m"(_func96::func));
+	__asm__("call *%0\n\t" :: "m"(_func96::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -3644,7 +3550,6 @@ FUNC_NAKED void BossShip::OnLoop()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -3653,7 +3558,7 @@ FUNC_NAKED void BossShip::OnLoop()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func97::func));
+	__asm__("call *%0\n\t" :: "m"(_func97::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -3681,7 +3586,6 @@ FUNC_NAKED void Button::SetLocation(const Point pos)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -3691,7 +3595,7 @@ FUNC_NAKED void Button::SetLocation(const Point pos)
 			// rdi has this
 			// rsi has pos
 	);
-	__asm__("call *%0\n\t" :: "m"(_func98::func));
+	__asm__("call *%0\n\t" :: "m"(_func98::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -3719,7 +3623,6 @@ FUNC_NAKED void Button::OnInit(const std::string &img, Point pos)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -3730,7 +3633,7 @@ FUNC_NAKED void Button::OnInit(const std::string &img, Point pos)
 			// rsi has img
 			// rdx has pos
 	);
-	__asm__("call *%0\n\t" :: "m"(_func99::func));
+	__asm__("call *%0\n\t" :: "m"(_func99::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -3758,7 +3661,6 @@ FUNC_NAKED void Button::constructor()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -3767,7 +3669,7 @@ FUNC_NAKED void Button::constructor()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func100::func));
+	__asm__("call *%0\n\t" :: "m"(_func100::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -3795,7 +3697,6 @@ FUNC_NAKED void Button::OnRender()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -3804,7 +3705,7 @@ FUNC_NAKED void Button::OnRender()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func101::func));
+	__asm__("call *%0\n\t" :: "m"(_func101::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -3832,7 +3733,6 @@ FUNC_NAKED void Button::SetInactiveImage(GL_Texture *texture)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -3842,7 +3742,7 @@ FUNC_NAKED void Button::SetInactiveImage(GL_Texture *texture)
 			// rdi has this
 			// rsi has texture
 	);
-	__asm__("call *%0\n\t" :: "m"(_func102::func));
+	__asm__("call *%0\n\t" :: "m"(_func102::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -3870,7 +3770,6 @@ FUNC_NAKED void Button::SetActiveImage(GL_Texture *texture)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -3880,7 +3779,7 @@ FUNC_NAKED void Button::SetActiveImage(GL_Texture *texture)
 			// rdi has this
 			// rsi has texture
 	);
-	__asm__("call *%0\n\t" :: "m"(_func103::func));
+	__asm__("call *%0\n\t" :: "m"(_func103::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -3908,7 +3807,6 @@ FUNC_NAKED void Button::SetImageBase(const std::string &imageBase)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -3918,7 +3816,7 @@ FUNC_NAKED void Button::SetImageBase(const std::string &imageBase)
 			// rdi has this
 			// rsi has imageBase
 	);
-	__asm__("call *%0\n\t" :: "m"(_func104::func));
+	__asm__("call *%0\n\t" :: "m"(_func104::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -3946,7 +3844,6 @@ FUNC_NAKED void CAchievement::OnRender(Point pos, int selected, bool showNew)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -3958,7 +3855,7 @@ FUNC_NAKED void CAchievement::OnRender(Point pos, int selected, bool showNew)
 			// rdx has selected
 			// rcx has showNew
 	);
-	__asm__("call *%0\n\t" :: "m"(_func105::func));
+	__asm__("call *%0\n\t" :: "m"(_func105::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -3986,7 +3883,6 @@ FUNC_NAKED void CAchievement::constructor()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -3995,7 +3891,7 @@ FUNC_NAKED void CAchievement::constructor()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func106::func));
+	__asm__("call *%0\n\t" :: "m"(_func106::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -4023,7 +3919,6 @@ FUNC_NAKED void CApp::OnRequestExit()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -4032,7 +3927,7 @@ FUNC_NAKED void CApp::OnRequestExit()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func107::func));
+	__asm__("call *%0\n\t" :: "m"(_func107::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -4060,7 +3955,6 @@ FUNC_NAKED void CApp::OnExit()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -4069,7 +3963,7 @@ FUNC_NAKED void CApp::OnExit()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func108::func));
+	__asm__("call *%0\n\t" :: "m"(_func108::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -4097,7 +3991,6 @@ FUNC_NAKED void CApp::OnMButtonDown(int x, int y)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -4108,7 +4001,7 @@ FUNC_NAKED void CApp::OnMButtonDown(int x, int y)
 			// rsi has x
 			// rdx has y
 	);
-	__asm__("call *%0\n\t" :: "m"(_func109::func));
+	__asm__("call *%0\n\t" :: "m"(_func109::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -4136,7 +4029,6 @@ FUNC_NAKED void CApp::OnTextInput(int ch)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -4146,7 +4038,7 @@ FUNC_NAKED void CApp::OnTextInput(int ch)
 			// rdi has this
 			// rsi has ch
 	);
-	__asm__("call *%0\n\t" :: "m"(_func110::func));
+	__asm__("call *%0\n\t" :: "m"(_func110::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -4174,7 +4066,6 @@ FUNC_NAKED void CApp::OnTextEvent(CEvent::TextEvent textEvent)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -4184,7 +4075,7 @@ FUNC_NAKED void CApp::OnTextEvent(CEvent::TextEvent textEvent)
 			// rdi has this
 			// rsi has textEvent
 	);
-	__asm__("call *%0\n\t" :: "m"(_func111::func));
+	__asm__("call *%0\n\t" :: "m"(_func111::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -4212,7 +4103,6 @@ FUNC_NAKED void CApp::OnInputFocus()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -4221,7 +4111,7 @@ FUNC_NAKED void CApp::OnInputFocus()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func112::func));
+	__asm__("call *%0\n\t" :: "m"(_func112::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -4249,7 +4139,6 @@ FUNC_NAKED void CApp::OnInputBlur()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -4258,7 +4147,7 @@ FUNC_NAKED void CApp::OnInputBlur()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func113::func));
+	__asm__("call *%0\n\t" :: "m"(_func113::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -4286,7 +4175,6 @@ FUNC_NAKED void CApp::OnRButtonUp(int x, int y)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -4297,7 +4185,7 @@ FUNC_NAKED void CApp::OnRButtonUp(int x, int y)
 			// rsi has x
 			// rdx has y
 	);
-	__asm__("call *%0\n\t" :: "m"(_func114::func));
+	__asm__("call *%0\n\t" :: "m"(_func114::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -4325,7 +4213,6 @@ FUNC_NAKED void CApp::OnRButtonDown(int x, int y)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -4336,7 +4223,7 @@ FUNC_NAKED void CApp::OnRButtonDown(int x, int y)
 			// rsi has x
 			// rdx has y
 	);
-	__asm__("call *%0\n\t" :: "m"(_func115::func));
+	__asm__("call *%0\n\t" :: "m"(_func115::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -4364,7 +4251,6 @@ FUNC_NAKED void CApp::OnLButtonUp(int x, int y)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -4375,7 +4261,7 @@ FUNC_NAKED void CApp::OnLButtonUp(int x, int y)
 			// rsi has x
 			// rdx has y
 	);
-	__asm__("call *%0\n\t" :: "m"(_func116::func));
+	__asm__("call *%0\n\t" :: "m"(_func116::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -4403,7 +4289,6 @@ FUNC_NAKED void CApp::OnLButtonDown(int x, int y)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -4414,7 +4299,7 @@ FUNC_NAKED void CApp::OnLButtonDown(int x, int y)
 			// rsi has x
 			// rdx has y
 	);
-	__asm__("call *%0\n\t" :: "m"(_func117::func));
+	__asm__("call *%0\n\t" :: "m"(_func117::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -4442,7 +4327,6 @@ FUNC_NAKED void CApp::OnMouseMove(int x, int y, int xdiff, int ydiff, bool holdi
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -4458,7 +4342,7 @@ FUNC_NAKED void CApp::OnMouseMove(int x, int y, int xdiff, int ydiff, bool holdi
 			// r8 has ydiff
 			// r9 has holdingLMB
 	);
-	__asm__("call *%0\n\t" :: "m"(_func118::func));
+	__asm__("call *%0\n\t" :: "m"(_func118::func) : "rdi", "rsi", "rdx", "rcx", "r8", "r9");
 	__asm__
 	(
 		"addq $16, %rsp\n\t"
@@ -4487,7 +4371,6 @@ FUNC_NAKED void CApp::OnKeyUp(SDLKey key)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -4497,7 +4380,7 @@ FUNC_NAKED void CApp::OnKeyUp(SDLKey key)
 			// rdi has this
 			// rsi has key
 	);
-	__asm__("call *%0\n\t" :: "m"(_func119::func));
+	__asm__("call *%0\n\t" :: "m"(_func119::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -4525,7 +4408,6 @@ FUNC_NAKED void CApp::OnLanguageChange()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -4534,7 +4416,7 @@ FUNC_NAKED void CApp::OnLanguageChange()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func120::func));
+	__asm__("call *%0\n\t" :: "m"(_func120::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -4562,7 +4444,6 @@ FUNC_NAKED void CApp::OnKeyDown(SDLKey key)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -4572,7 +4453,7 @@ FUNC_NAKED void CApp::OnKeyDown(SDLKey key)
 			// rdi has this
 			// rsi has key
 	);
-	__asm__("call *%0\n\t" :: "m"(_func121::func));
+	__asm__("call *%0\n\t" :: "m"(_func121::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -4600,7 +4481,6 @@ FUNC_NAKED void CApp::constructor()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -4609,7 +4489,7 @@ FUNC_NAKED void CApp::constructor()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func122::func));
+	__asm__("call *%0\n\t" :: "m"(_func122::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -4637,7 +4517,6 @@ FUNC_NAKED void CApp::ParseArgs(int argc, const char **argv)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -4648,7 +4527,7 @@ FUNC_NAKED void CApp::ParseArgs(int argc, const char **argv)
 			// rsi has argc
 			// rdx has argv
 	);
-	__asm__("call *%0\n\t" :: "m"(_func123::func));
+	__asm__("call *%0\n\t" :: "m"(_func123::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -4676,7 +4555,6 @@ FUNC_NAKED void CApp::OnLoop()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -4685,7 +4563,7 @@ FUNC_NAKED void CApp::OnLoop()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func124::func));
+	__asm__("call *%0\n\t" :: "m"(_func124::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -4713,7 +4591,6 @@ FUNC_NAKED int CApp::SetupWindow()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -4722,7 +4599,7 @@ FUNC_NAKED int CApp::SetupWindow()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func125::func));
+	__asm__("call *%0\n\t" :: "m"(_func125::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -4750,7 +4627,6 @@ FUNC_NAKED void CApp::OnCleanup()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -4759,7 +4635,7 @@ FUNC_NAKED void CApp::OnCleanup()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func126::func));
+	__asm__("call *%0\n\t" :: "m"(_func126::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -4787,7 +4663,6 @@ FUNC_NAKED void CApp::GenInputEvents()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -4796,7 +4671,7 @@ FUNC_NAKED void CApp::GenInputEvents()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func127::func));
+	__asm__("call *%0\n\t" :: "m"(_func127::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -4824,7 +4699,6 @@ FUNC_NAKED void CApp::OnSuspend()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -4833,7 +4707,7 @@ FUNC_NAKED void CApp::OnSuspend()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func128::func));
+	__asm__("call *%0\n\t" :: "m"(_func128::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -4861,7 +4735,6 @@ FUNC_NAKED void CApp::OnResume()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -4870,7 +4743,7 @@ FUNC_NAKED void CApp::OnResume()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func129::func));
+	__asm__("call *%0\n\t" :: "m"(_func129::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -4898,7 +4771,6 @@ FUNC_NAKED Point CApp::TranslateMouse(int x, int y)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -4909,7 +4781,7 @@ FUNC_NAKED Point CApp::TranslateMouse(int x, int y)
 			// rsi has x
 			// rdx has y
 	);
-	__asm__("call *%0\n\t" :: "m"(_func130::func));
+	__asm__("call *%0\n\t" :: "m"(_func130::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -4937,7 +4809,6 @@ FUNC_NAKED void CApp::UpdateFullScreen()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -4946,7 +4817,7 @@ FUNC_NAKED void CApp::UpdateFullScreen()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func131::func));
+	__asm__("call *%0\n\t" :: "m"(_func131::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -4974,7 +4845,6 @@ FUNC_NAKED void CApp::UpdateWindowSettings()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -4983,7 +4853,7 @@ FUNC_NAKED void CApp::UpdateWindowSettings()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func132::func));
+	__asm__("call *%0\n\t" :: "m"(_func132::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -5011,7 +4881,6 @@ FUNC_NAKED void CApp::OnRender()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -5020,7 +4889,7 @@ FUNC_NAKED void CApp::OnRender()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func133::func));
+	__asm__("call *%0\n\t" :: "m"(_func133::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -5048,7 +4917,6 @@ FUNC_NAKED int CApp::OnInit()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -5057,7 +4925,7 @@ FUNC_NAKED int CApp::OnInit()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func134::func));
+	__asm__("call *%0\n\t" :: "m"(_func134::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -5085,7 +4953,6 @@ FUNC_NAKED int CApp::OnExecute()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -5094,7 +4961,7 @@ FUNC_NAKED int CApp::OnExecute()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func135::func));
+	__asm__("call *%0\n\t" :: "m"(_func135::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -5122,7 +4989,6 @@ FUNC_NAKED void CEvent::OnEvent(const InputEvent *event)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -5132,7 +4998,7 @@ FUNC_NAKED void CEvent::OnEvent(const InputEvent *event)
 			// rdi has this
 			// rsi has event
 	);
-	__asm__("call *%0\n\t" :: "m"(_func136::func));
+	__asm__("call *%0\n\t" :: "m"(_func136::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -5160,7 +5026,6 @@ FUNC_NAKED float CFPS::GetSpeedFactor()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -5169,7 +5034,7 @@ FUNC_NAKED float CFPS::GetSpeedFactor()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func137::func));
+	__asm__("call *%0\n\t" :: "m"(_func137::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -5197,7 +5062,6 @@ FUNC_NAKED void CFPS::OnLoop()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -5206,7 +5070,7 @@ FUNC_NAKED void CFPS::OnLoop()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func138::func));
+	__asm__("call *%0\n\t" :: "m"(_func138::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -5241,7 +5105,6 @@ FUNC_NAKED void CSurface::GL_ClearAll()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -5277,7 +5140,6 @@ FUNC_NAKED void CSurface::GL_ClearColor()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -5313,7 +5175,6 @@ FUNC_NAKED int CSurface::SetViewPort(int left, int bottom, int h, int w)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -5325,7 +5186,7 @@ FUNC_NAKED int CSurface::SetViewPort(int left, int bottom, int h, int w)
 			// rdx has h
 			// rcx has w
 	);
-	__asm__("call *%0\n\t" :: "m"(_func142::func));
+	__asm__("call *%0\n\t" :: "m"(_func142::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -5353,7 +5214,6 @@ FUNC_NAKED void CSurface::GL_PopScissor()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -5389,7 +5249,6 @@ FUNC_NAKED void CSurface::GL_SetStencilMode(GL_StencilMode stencilMode, int ref,
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -5400,7 +5259,7 @@ FUNC_NAKED void CSurface::GL_SetStencilMode(GL_StencilMode stencilMode, int ref,
 			// rsi has ref
 			// rdx has mask
 	);
-	__asm__("call *%0\n\t" :: "m"(_func144::func));
+	__asm__("call *%0\n\t" :: "m"(_func144::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -5428,7 +5287,6 @@ FUNC_NAKED void CSurface::GL_PopStencilMode()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -5464,7 +5322,6 @@ FUNC_NAKED int CSurface::GL_LoadIdentity()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -5500,7 +5357,6 @@ FUNC_NAKED int CSurface::GL_PushMatrix()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -5536,7 +5392,6 @@ FUNC_NAKED int CSurface::GL_PopMatrix()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -5572,7 +5427,6 @@ FUNC_NAKED void CSurface::GL_Rotate(float angle, float x, float y, float z)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -5584,7 +5438,7 @@ FUNC_NAKED void CSurface::GL_Rotate(float angle, float x, float y, float z)
 			// xmm2 has y
 			// xmm3 has z
 	);
-	__asm__("call *%0\n\t" :: "m"(_func149::func));
+	__asm__("call *%0\n\t" :: "m"(_func149::func) : "xmm0", "xmm1", "xmm2", "xmm3");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -5612,7 +5466,6 @@ FUNC_NAKED void CSurface::GL_Scale(float x, float y, float z)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -5623,7 +5476,7 @@ FUNC_NAKED void CSurface::GL_Scale(float x, float y, float z)
 			// xmm1 has y
 			// xmm2 has z
 	);
-	__asm__("call *%0\n\t" :: "m"(_func150::func));
+	__asm__("call *%0\n\t" :: "m"(_func150::func) : "xmm0", "xmm1", "xmm2");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -5651,7 +5504,6 @@ FUNC_NAKED bool CSurface::GL_Translate(float x, float y, float z)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -5662,7 +5514,7 @@ FUNC_NAKED bool CSurface::GL_Translate(float x, float y, float z)
 			// xmm1 has y
 			// xmm2 has z
 	);
-	__asm__("call *%0\n\t" :: "m"(_func151::func));
+	__asm__("call *%0\n\t" :: "m"(_func151::func) : "xmm0", "xmm1", "xmm2");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -5690,7 +5542,6 @@ FUNC_NAKED int CSurface::GL_SetColor(GL_Color color)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -5729,7 +5580,6 @@ FUNC_NAKED GL_Color CSurface::GL_GetColor()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -5765,7 +5615,6 @@ FUNC_NAKED void CSurface::GL_RemoveColorTint()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -5801,7 +5650,6 @@ FUNC_NAKED GL_Color CSurface::GetColorTint()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -5837,7 +5685,6 @@ FUNC_NAKED bool CSurface::GL_EnableBlend()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -5873,7 +5720,6 @@ FUNC_NAKED bool CSurface::GL_DisableBlend()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -5909,7 +5755,6 @@ FUNC_NAKED void CSurface::GL_ForceAntialias(bool on)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -5918,7 +5763,7 @@ FUNC_NAKED void CSurface::GL_ForceAntialias(bool on)
 		"pushq %r15\n\t"
 			// rdi has on
 	);
-	__asm__("call *%0\n\t" :: "m"(_func158::func));
+	__asm__("call *%0\n\t" :: "m"(_func158::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -5946,7 +5791,6 @@ FUNC_NAKED bool CSurface::GL_DrawLine(float x1, float y1, float x2, float y2, fl
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -5961,7 +5805,7 @@ FUNC_NAKED bool CSurface::GL_DrawLine(float x1, float y1, float x2, float y2, fl
 			// xmm3 has y2
 			// xmm4 has lineWidth
 	);
-	__asm__("call *%0\n\t" :: "m"(_func159::func));
+	__asm__("call *%0\n\t" :: "m"(_func159::func) : "xmm0", "xmm1", "xmm2", "xmm3", "xmm4");
 	__asm__
 	(
 		"addq $16, %rsp\n\t"
@@ -5990,7 +5834,6 @@ FUNC_NAKED bool CSurface::GL_DrawTriangle(Point vertex1, Point vertex2, Point ve
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -6003,7 +5846,7 @@ FUNC_NAKED bool CSurface::GL_DrawTriangle(Point vertex1, Point vertex2, Point ve
 			// rsi has vertex2
 			// rdx has vertex3
 	);
-	__asm__("call *%0\n\t" :: "m"(_func160::func));
+	__asm__("call *%0\n\t" :: "m"(_func160::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"addq $16, %rsp\n\t"
@@ -6032,7 +5875,6 @@ FUNC_NAKED bool CSurface::GL_DrawRect(float x1, float y1, float x2, float y2, GL
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -6046,7 +5888,7 @@ FUNC_NAKED bool CSurface::GL_DrawRect(float x1, float y1, float x2, float y2, GL
 			// xmm2 has x2
 			// xmm3 has y2
 	);
-	__asm__("call *%0\n\t" :: "m"(_func161::func));
+	__asm__("call *%0\n\t" :: "m"(_func161::func) : "xmm0", "xmm1", "xmm2", "xmm3");
 	__asm__
 	(
 		"addq $16, %rsp\n\t"
@@ -6075,7 +5917,6 @@ FUNC_NAKED bool CSurface::GL_DrawRectOutline(int x1, int y1, int x2, int y2, GL_
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -6090,7 +5931,7 @@ FUNC_NAKED bool CSurface::GL_DrawRectOutline(int x1, int y1, int x2, int y2, GL_
 			// rcx has y2
 			// xmm2 has lineWidth
 	);
-	__asm__("call *%0\n\t" :: "m"(_func162::func));
+	__asm__("call *%0\n\t" :: "m"(_func162::func) : "rdi", "rsi", "rdx", "rcx", "xmm2");
 	__asm__
 	(
 		"addq $16, %rsp\n\t"
@@ -6119,7 +5960,6 @@ FUNC_NAKED bool CSurface::GL_BlitImage(GL_Texture *tex, float x, float y, float 
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -6136,7 +5976,7 @@ FUNC_NAKED bool CSurface::GL_BlitImage(GL_Texture *tex, float x, float y, float 
 			// xmm4 has rotation
 			// rsi has mirror
 	);
-	__asm__("call *%0\n\t" :: "m"(_func163::func));
+	__asm__("call *%0\n\t" :: "m"(_func163::func) : "rdi", "xmm0", "xmm1", "xmm2", "xmm3", "xmm4", "rsi");
 	__asm__
 	(
 		"addq $16, %rsp\n\t"
@@ -6165,7 +6005,6 @@ FUNC_NAKED bool CSurface::GL_BlitPixelImage(GL_Texture *tex, float x, float y, f
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -6182,7 +6021,7 @@ FUNC_NAKED bool CSurface::GL_BlitPixelImage(GL_Texture *tex, float x, float y, f
 			// xmm4 has rotation
 			// rsi has mirror
 	);
-	__asm__("call *%0\n\t" :: "m"(_func164::func));
+	__asm__("call *%0\n\t" :: "m"(_func164::func) : "rdi", "xmm0", "xmm1", "xmm2", "xmm3", "xmm4", "rsi");
 	__asm__
 	(
 		"addq $16, %rsp\n\t"
@@ -6211,6 +6050,7 @@ FUNC_NAKED bool CSurface::GL_BlitImagePartial(GL_Texture *tex, float x, float y,
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
+		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -6231,7 +6071,7 @@ FUNC_NAKED bool CSurface::GL_BlitImagePartial(GL_Texture *tex, float x, float y,
 			// xmm7 has end_y
 			// rsi has mirror
 	);
-	__asm__("call *%0\n\t" :: "m"(_func165::func));
+	__asm__("call *%0\n\t" :: "m"(_func165::func) : "rdi", "xmm0", "xmm1", "xmm2", "xmm3", "xmm4", "xmm5", "xmm6", "xmm7", "rsi");
 	__asm__
 	(
 		"addq $24, %rsp\n\t"
@@ -6260,7 +6100,6 @@ FUNC_NAKED bool CSurface::GL_BlitPixelImageWide(GL_Texture *tex, float x, float 
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -6277,7 +6116,7 @@ FUNC_NAKED bool CSurface::GL_BlitPixelImageWide(GL_Texture *tex, float x, float 
 			// xmm2 has opacity
 			// rcx has mirror
 	);
-	__asm__("call *%0\n\t" :: "m"(_func166::func));
+	__asm__("call *%0\n\t" :: "m"(_func166::func) : "rdi", "xmm0", "xmm1", "rsi", "rdx", "xmm2", "rcx");
 	__asm__
 	(
 		"addq $16, %rsp\n\t"
@@ -6306,7 +6145,6 @@ FUNC_NAKED void CSurface::GL_BlitMultiImage(GL_Texture *tex, const std::vector<G
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -6317,7 +6155,7 @@ FUNC_NAKED void CSurface::GL_BlitMultiImage(GL_Texture *tex, const std::vector<G
 			// rsi has texVertices
 			// rdx has antialias
 	);
-	__asm__("call *%0\n\t" :: "m"(_func167::func));
+	__asm__("call *%0\n\t" :: "m"(_func167::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -6345,7 +6183,6 @@ FUNC_NAKED void CSurface::GL_BlitMultiColorImage(GL_Texture *tex, const std::vec
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -6356,7 +6193,7 @@ FUNC_NAKED void CSurface::GL_BlitMultiColorImage(GL_Texture *tex, const std::vec
 			// rsi has texVertices
 			// rdx has antialias
 	);
-	__asm__("call *%0\n\t" :: "m"(_func168::func));
+	__asm__("call *%0\n\t" :: "m"(_func168::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -6384,7 +6221,6 @@ FUNC_NAKED void CSurface::GL_RenderPrimitive(GL_Primitive *primitive)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -6393,7 +6229,7 @@ FUNC_NAKED void CSurface::GL_RenderPrimitive(GL_Primitive *primitive)
 		"pushq %r15\n\t"
 			// rdi has primitive
 	);
-	__asm__("call *%0\n\t" :: "m"(_func169::func));
+	__asm__("call *%0\n\t" :: "m"(_func169::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -6421,7 +6257,6 @@ FUNC_NAKED void CSurface::GL_RenderPrimitiveWithAlpha(GL_Primitive *primitive, f
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -6431,7 +6266,7 @@ FUNC_NAKED void CSurface::GL_RenderPrimitiveWithAlpha(GL_Primitive *primitive, f
 			// rdi has primitive
 			// xmm0 has alpha
 	);
-	__asm__("call *%0\n\t" :: "m"(_func170::func));
+	__asm__("call *%0\n\t" :: "m"(_func170::func) : "rdi", "xmm0");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -6459,7 +6294,6 @@ FUNC_NAKED void CSurface::GL_RenderPrimitiveWithColor(GL_Primitive *primitive, G
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -6470,7 +6304,7 @@ FUNC_NAKED void CSurface::GL_RenderPrimitiveWithColor(GL_Primitive *primitive, G
 		"pushq 8(%rbp)\n\t"		// color
 			// rdi has primitive
 	);
-	__asm__("call *%0\n\t" :: "m"(_func171::func));
+	__asm__("call *%0\n\t" :: "m"(_func171::func) : "rdi");
 	__asm__
 	(
 		"addq $16, %rsp\n\t"
@@ -6499,7 +6333,6 @@ FUNC_NAKED void CSurface::GL_DestroyPrimitive(GL_Primitive *primitive)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -6508,7 +6341,7 @@ FUNC_NAKED void CSurface::GL_DestroyPrimitive(GL_Primitive *primitive)
 		"pushq %r15\n\t"
 			// rdi has primitive
 	);
-	__asm__("call *%0\n\t" :: "m"(_func172::func));
+	__asm__("call *%0\n\t" :: "m"(_func172::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -6536,7 +6369,6 @@ FUNC_NAKED GL_Primitive *CSurface::GL_CreateRectPrimitive(float x, float y, floa
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -6550,7 +6382,7 @@ FUNC_NAKED GL_Primitive *CSurface::GL_CreateRectPrimitive(float x, float y, floa
 			// xmm2 has w
 			// xmm3 has h
 	);
-	__asm__("call *%0\n\t" :: "m"(_func173::func));
+	__asm__("call *%0\n\t" :: "m"(_func173::func) : "xmm0", "xmm1", "xmm2", "xmm3");
 	__asm__
 	(
 		"addq $16, %rsp\n\t"
@@ -6579,7 +6411,6 @@ FUNC_NAKED GL_Primitive *CSurface::GL_CreateMultiRectPrimitive(std::vector<Globa
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -6590,7 +6421,7 @@ FUNC_NAKED GL_Primitive *CSurface::GL_CreateMultiRectPrimitive(std::vector<Globa
 		"pushq 8(%rbp)\n\t"		// color
 			// rdi has vec
 	);
-	__asm__("call *%0\n\t" :: "m"(_func174::func));
+	__asm__("call *%0\n\t" :: "m"(_func174::func) : "rdi");
 	__asm__
 	(
 		"addq $16, %rsp\n\t"
@@ -6619,7 +6450,6 @@ FUNC_NAKED GL_Primitive *CSurface::GL_CreateRectOutlinePrimitive(int x, int y, i
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -6634,7 +6464,7 @@ FUNC_NAKED GL_Primitive *CSurface::GL_CreateRectOutlinePrimitive(int x, int y, i
 			// rcx has h
 			// xmm2 has lineWidth
 	);
-	__asm__("call *%0\n\t" :: "m"(_func175::func));
+	__asm__("call *%0\n\t" :: "m"(_func175::func) : "rdi", "rsi", "rdx", "rcx", "xmm2");
 	__asm__
 	(
 		"addq $16, %rsp\n\t"
@@ -6663,7 +6493,6 @@ FUNC_NAKED GL_Primitive *CSurface::GL_CreateMultiLinePrimitive(std::vector<GL_Li
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -6675,7 +6504,7 @@ FUNC_NAKED GL_Primitive *CSurface::GL_CreateMultiLinePrimitive(std::vector<GL_Li
 			// rdi has vec
 			// xmm2 has thickness
 	);
-	__asm__("call *%0\n\t" :: "m"(_func176::func));
+	__asm__("call *%0\n\t" :: "m"(_func176::func) : "rdi", "xmm2");
 	__asm__
 	(
 		"addq $16, %rsp\n\t"
@@ -6704,7 +6533,6 @@ FUNC_NAKED GL_Primitive *CSurface::GL_CreateMultiImagePrimitive(GL_Texture *tex,
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -6716,7 +6544,7 @@ FUNC_NAKED GL_Primitive *CSurface::GL_CreateMultiImagePrimitive(GL_Texture *tex,
 			// rdi has tex
 			// rsi has vec
 	);
-	__asm__("call *%0\n\t" :: "m"(_func177::func));
+	__asm__("call *%0\n\t" :: "m"(_func177::func) : "rdi", "rsi");
 	__asm__
 	(
 		"addq $16, %rsp\n\t"
@@ -6745,7 +6573,6 @@ FUNC_NAKED void CSurface::GL_PushStencilMode()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -6781,7 +6608,6 @@ FUNC_NAKED void CSurface::GL_SetColorTint(GL_Color color)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -6820,7 +6646,6 @@ FUNC_NAKED GL_Primitive *CSurface::GL_CreatePixelImagePrimitive(GL_Texture *tex,
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -6837,7 +6662,7 @@ FUNC_NAKED GL_Primitive *CSurface::GL_CreatePixelImagePrimitive(GL_Texture *tex,
 			// xmm4 has rotate
 			// rsi has unk
 	);
-	__asm__("call *%0\n\t" :: "m"(_func180::func));
+	__asm__("call *%0\n\t" :: "m"(_func180::func) : "rdi", "xmm0", "xmm1", "xmm2", "xmm3", "xmm4", "rsi");
 	__asm__
 	(
 		"addq $16, %rsp\n\t"
@@ -6866,7 +6691,6 @@ FUNC_NAKED void CSurface::AddTexVertices(std::vector<GL_TexVertex> *vec, float x
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -6883,7 +6707,7 @@ FUNC_NAKED void CSurface::AddTexVertices(std::vector<GL_TexVertex> *vec, float x
 			// xmm6 has u2
 			// xmm7 has v2
 	);
-	__asm__("call *%0\n\t" :: "m"(_func181::func));
+	__asm__("call *%0\n\t" :: "m"(_func181::func) : "rdi", "xmm0", "xmm1", "xmm2", "xmm3", "xmm4", "xmm5", "xmm6", "xmm7");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -6911,7 +6735,6 @@ FUNC_NAKED GL_Primitive *CSurface::GL_CreateImagePrimitive(GL_Texture *tex, floa
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -6927,7 +6750,7 @@ FUNC_NAKED GL_Primitive *CSurface::GL_CreateImagePrimitive(GL_Texture *tex, floa
 			// xmm3 has size_y
 			// xmm4 has rotate
 	);
-	__asm__("call *%0\n\t" :: "m"(_func182::func));
+	__asm__("call *%0\n\t" :: "m"(_func182::func) : "rdi", "xmm0", "xmm1", "xmm2", "xmm3", "xmm4");
 	__asm__
 	(
 		"addq $16, %rsp\n\t"
@@ -6956,7 +6779,6 @@ FUNC_NAKED bool CSurface::GL_DrawShield(int x, int y, float a1, float b1, int an
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -6973,7 +6795,7 @@ FUNC_NAKED bool CSurface::GL_DrawShield(int x, int y, float a1, float b1, int an
 			// rcx has angle2
 			// xmm4 has thickness
 	);
-	__asm__("call *%0\n\t" :: "m"(_func183::func));
+	__asm__("call *%0\n\t" :: "m"(_func183::func) : "rdi", "rsi", "xmm0", "xmm1", "rdx", "rcx", "xmm4");
 	__asm__
 	(
 		"addq $16, %rsp\n\t"
@@ -7002,7 +6824,6 @@ FUNC_NAKED void CSurface::FinishFrame()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -7038,7 +6859,6 @@ FUNC_NAKED int CSurface::GL_OrthoProjection(float mx1, float mx2, float mx3, flo
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -7052,7 +6872,7 @@ FUNC_NAKED int CSurface::GL_OrthoProjection(float mx1, float mx2, float mx3, flo
 			// xmm4 has mx5
 			// xmm5 has mx6
 	);
-	__asm__("call *%0\n\t" :: "m"(_func185::func));
+	__asm__("call *%0\n\t" :: "m"(_func185::func) : "xmm0", "xmm1", "xmm2", "xmm3", "xmm4", "xmm5");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -7080,7 +6900,6 @@ FUNC_NAKED void CachedImage::destructor()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -7089,7 +6908,7 @@ FUNC_NAKED void CachedImage::destructor()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func186::func));
+	__asm__("call *%0\n\t" :: "m"(_func186::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -7117,7 +6936,6 @@ FUNC_NAKED void CachedImage::SetImagePath(const std::string &imagePath)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -7127,7 +6945,7 @@ FUNC_NAKED void CachedImage::SetImagePath(const std::string &imagePath)
 			// rdi has this
 			// rsi has imagePath
 	);
-	__asm__("call *%0\n\t" :: "m"(_func187::func));
+	__asm__("call *%0\n\t" :: "m"(_func187::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -7155,7 +6973,6 @@ FUNC_NAKED void CachedImage::SetPosition(int x, int y)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -7166,7 +6983,7 @@ FUNC_NAKED void CachedImage::SetPosition(int x, int y)
 			// rsi has x
 			// rdx has y
 	);
-	__asm__("call *%0\n\t" :: "m"(_func188::func));
+	__asm__("call *%0\n\t" :: "m"(_func188::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -7194,7 +7011,6 @@ FUNC_NAKED void CachedImage::constructor1(const std::string &path, int x, int y)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -7206,7 +7022,7 @@ FUNC_NAKED void CachedImage::constructor1(const std::string &path, int x, int y)
 			// rdx has x
 			// rcx has y
 	);
-	__asm__("call *%0\n\t" :: "m"(_func189::func));
+	__asm__("call *%0\n\t" :: "m"(_func189::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -7234,7 +7050,6 @@ FUNC_NAKED void CachedImage::constructor_copy(const CachedImage &other)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -7244,7 +7059,7 @@ FUNC_NAKED void CachedImage::constructor_copy(const CachedImage &other)
 			// rdi has this
 			// rsi has other
 	);
-	__asm__("call *%0\n\t" :: "m"(_func190::func));
+	__asm__("call *%0\n\t" :: "m"(_func190::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -7272,7 +7087,6 @@ FUNC_NAKED void CachedImage::SetRotation(float _rotation)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -7282,7 +7096,7 @@ FUNC_NAKED void CachedImage::SetRotation(float _rotation)
 			// rdi has this
 			// xmm0 has _rotation
 	);
-	__asm__("call *%0\n\t" :: "m"(_func191::func));
+	__asm__("call *%0\n\t" :: "m"(_func191::func) : "rdi", "xmm0");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -7310,7 +7124,6 @@ FUNC_NAKED void CachedImage::SetMirrored(bool _mirrored)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -7320,7 +7133,7 @@ FUNC_NAKED void CachedImage::SetMirrored(bool _mirrored)
 			// rdi has this
 			// rsi has _mirrored
 	);
-	__asm__("call *%0\n\t" :: "m"(_func192::func));
+	__asm__("call *%0\n\t" :: "m"(_func192::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -7348,7 +7161,6 @@ FUNC_NAKED void CachedImage::CreatePrimitive()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -7357,7 +7169,7 @@ FUNC_NAKED void CachedImage::CreatePrimitive()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func193::func));
+	__asm__("call *%0\n\t" :: "m"(_func193::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -7385,7 +7197,6 @@ FUNC_NAKED void CachedPrimitive::OnRender(const GL_Color &color)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -7395,7 +7206,7 @@ FUNC_NAKED void CachedPrimitive::OnRender(const GL_Color &color)
 			// rdi has this
 			// rsi has color
 	);
-	__asm__("call *%0\n\t" :: "m"(_func194::func));
+	__asm__("call *%0\n\t" :: "m"(_func194::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -7423,7 +7234,6 @@ FUNC_NAKED void CachedPrimitive::destructor()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -7432,7 +7242,7 @@ FUNC_NAKED void CachedPrimitive::destructor()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func195::func));
+	__asm__("call *%0\n\t" :: "m"(_func195::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -7460,7 +7270,6 @@ FUNC_NAKED void ChoiceBox::OnRender()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -7469,7 +7278,7 @@ FUNC_NAKED void ChoiceBox::OnRender()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func196::func));
+	__asm__("call *%0\n\t" :: "m"(_func196::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -7497,7 +7306,6 @@ FUNC_NAKED void ChoiceBox::MouseMove(int x, int y)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -7508,7 +7316,7 @@ FUNC_NAKED void ChoiceBox::MouseMove(int x, int y)
 			// rsi has x
 			// rdx has y
 	);
-	__asm__("call *%0\n\t" :: "m"(_func197::func));
+	__asm__("call *%0\n\t" :: "m"(_func197::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -7536,7 +7344,6 @@ FUNC_NAKED void CloakingBox::constructor(Point pos, CloakingSystem *sys)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -7547,7 +7354,7 @@ FUNC_NAKED void CloakingBox::constructor(Point pos, CloakingSystem *sys)
 			// rsi has pos
 			// rdx has sys
 	);
-	__asm__("call *%0\n\t" :: "m"(_func198::func));
+	__asm__("call *%0\n\t" :: "m"(_func198::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -7575,7 +7382,6 @@ FUNC_NAKED void CloakingSystem::OnLoop()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -7584,7 +7390,7 @@ FUNC_NAKED void CloakingSystem::OnLoop()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func199::func));
+	__asm__("call *%0\n\t" :: "m"(_func199::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -7612,7 +7418,6 @@ FUNC_NAKED void CloakingSystem::FiredWeapon()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -7621,7 +7426,7 @@ FUNC_NAKED void CloakingSystem::FiredWeapon()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func200::func));
+	__asm__("call *%0\n\t" :: "m"(_func200::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -7649,7 +7454,6 @@ FUNC_NAKED void CloneBox::constructor(Point pos, CloneSystem *sys)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -7660,7 +7464,7 @@ FUNC_NAKED void CloneBox::constructor(Point pos, CloneSystem *sys)
 			// rsi has pos
 			// rdx has sys
 	);
-	__asm__("call *%0\n\t" :: "m"(_func201::func));
+	__asm__("call *%0\n\t" :: "m"(_func201::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -7688,7 +7492,6 @@ FUNC_NAKED void CloneSystem::OnLoop()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -7697,7 +7500,7 @@ FUNC_NAKED void CloneSystem::OnLoop()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func202::func));
+	__asm__("call *%0\n\t" :: "m"(_func202::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -7725,7 +7528,6 @@ FUNC_NAKED void CombatAI::UpdateMindControl(bool unk)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -7735,7 +7537,7 @@ FUNC_NAKED void CombatAI::UpdateMindControl(bool unk)
 			// rdi has this
 			// rsi has unk
 	);
-	__asm__("call *%0\n\t" :: "m"(_func203::func));
+	__asm__("call *%0\n\t" :: "m"(_func203::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -7763,7 +7565,6 @@ FUNC_NAKED void CombatAI::OnLoop()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -7772,7 +7573,7 @@ FUNC_NAKED void CombatAI::OnLoop()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func204::func));
+	__asm__("call *%0\n\t" :: "m"(_func204::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -7800,7 +7601,6 @@ FUNC_NAKED void CombatControl::RenderTarget()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -7809,7 +7609,7 @@ FUNC_NAKED void CombatControl::RenderTarget()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func205::func));
+	__asm__("call *%0\n\t" :: "m"(_func205::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -7837,7 +7637,6 @@ FUNC_NAKED ShipManager *CombatControl::GetCurrentTarget()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -7846,7 +7645,7 @@ FUNC_NAKED ShipManager *CombatControl::GetCurrentTarget()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func206::func));
+	__asm__("call *%0\n\t" :: "m"(_func206::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -7874,7 +7673,6 @@ FUNC_NAKED char CombatControl::CurrentTargetIsBoss()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -7883,7 +7681,7 @@ FUNC_NAKED char CombatControl::CurrentTargetIsBoss()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func207::func));
+	__asm__("call *%0\n\t" :: "m"(_func207::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -7911,7 +7709,6 @@ FUNC_NAKED char CombatControl::CanTargetSelf()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -7920,7 +7717,7 @@ FUNC_NAKED char CombatControl::CanTargetSelf()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func208::func));
+	__asm__("call *%0\n\t" :: "m"(_func208::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -7948,7 +7745,6 @@ FUNC_NAKED void CombatControl::OnRenderCombat()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -7957,7 +7753,7 @@ FUNC_NAKED void CombatControl::OnRenderCombat()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func209::func));
+	__asm__("call *%0\n\t" :: "m"(_func209::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -7985,7 +7781,6 @@ FUNC_NAKED void CombatControl::AddEnemyShip(CompleteShip *ship)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -7995,7 +7790,7 @@ FUNC_NAKED void CombatControl::AddEnemyShip(CompleteShip *ship)
 			// rdi has this
 			// rsi has ship
 	);
-	__asm__("call *%0\n\t" :: "m"(_func210::func));
+	__asm__("call *%0\n\t" :: "m"(_func210::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -8023,7 +7818,6 @@ FUNC_NAKED void CombatControl::UpdateAiming()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -8032,7 +7826,7 @@ FUNC_NAKED void CombatControl::UpdateAiming()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func211::func));
+	__asm__("call *%0\n\t" :: "m"(_func211::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -8060,7 +7854,6 @@ FUNC_NAKED bool CombatControl::UpdateTarget()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -8069,7 +7862,7 @@ FUNC_NAKED bool CombatControl::UpdateTarget()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func212::func));
+	__asm__("call *%0\n\t" :: "m"(_func212::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -8097,7 +7890,6 @@ FUNC_NAKED void CombatControl::DrawHostileBox(GL_Color color, int stencilBit)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -8109,7 +7901,7 @@ FUNC_NAKED void CombatControl::DrawHostileBox(GL_Color color, int stencilBit)
 			// rdi has this
 			// rsi has stencilBit
 	);
-	__asm__("call *%0\n\t" :: "m"(_func213::func));
+	__asm__("call *%0\n\t" :: "m"(_func213::func) : "rdi", "rsi");
 	__asm__
 	(
 		"addq $16, %rsp\n\t"
@@ -8138,7 +7930,6 @@ FUNC_NAKED void CombatControl::OnInit(Point pos)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -8148,7 +7939,7 @@ FUNC_NAKED void CombatControl::OnInit(Point pos)
 			// rdi has this
 			// rsi has pos
 	);
-	__asm__("call *%0\n\t" :: "m"(_func214::func));
+	__asm__("call *%0\n\t" :: "m"(_func214::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -8176,7 +7967,6 @@ FUNC_NAKED void CombatControl::OnLoop()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -8185,7 +7975,7 @@ FUNC_NAKED void CombatControl::OnLoop()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func215::func));
+	__asm__("call *%0\n\t" :: "m"(_func215::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -8213,7 +8003,6 @@ FUNC_NAKED void CombatControl::SetMouseCursor()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -8222,7 +8011,7 @@ FUNC_NAKED void CombatControl::SetMouseCursor()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func216::func));
+	__asm__("call *%0\n\t" :: "m"(_func216::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -8250,7 +8039,6 @@ FUNC_NAKED void CombatControl::DisarmAll()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -8259,7 +8047,7 @@ FUNC_NAKED void CombatControl::DisarmAll()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func217::func));
+	__asm__("call *%0\n\t" :: "m"(_func217::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -8287,7 +8075,6 @@ FUNC_NAKED bool CombatControl::SelectTarget()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -8296,7 +8083,7 @@ FUNC_NAKED bool CombatControl::SelectTarget()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func218::func));
+	__asm__("call *%0\n\t" :: "m"(_func218::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -8324,7 +8111,6 @@ FUNC_NAKED bool CombatControl::MouseRClick(int x, int y)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -8335,7 +8121,7 @@ FUNC_NAKED bool CombatControl::MouseRClick(int x, int y)
 			// rsi has x
 			// rdx has y
 	);
-	__asm__("call *%0\n\t" :: "m"(_func219::func));
+	__asm__("call *%0\n\t" :: "m"(_func219::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -8363,7 +8149,6 @@ FUNC_NAKED bool CombatControl::WeaponsArmed()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -8372,7 +8157,7 @@ FUNC_NAKED bool CombatControl::WeaponsArmed()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func220::func));
+	__asm__("call *%0\n\t" :: "m"(_func220::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -8400,7 +8185,6 @@ FUNC_NAKED void CombatControl::KeyDown(SDLKey key)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -8410,7 +8194,7 @@ FUNC_NAKED void CombatControl::KeyDown(SDLKey key)
 			// rdi has this
 			// rsi has key
 	);
-	__asm__("call *%0\n\t" :: "m"(_func221::func));
+	__asm__("call *%0\n\t" :: "m"(_func221::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -8438,7 +8222,6 @@ FUNC_NAKED void CombatControl::DisarmTeleporter()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -8447,7 +8230,7 @@ FUNC_NAKED void CombatControl::DisarmTeleporter()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func222::func));
+	__asm__("call *%0\n\t" :: "m"(_func222::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -8475,7 +8258,6 @@ FUNC_NAKED void CombatControl::constructor()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -8484,7 +8266,7 @@ FUNC_NAKED void CombatControl::constructor()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func223::func));
+	__asm__("call *%0\n\t" :: "m"(_func223::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -8512,7 +8294,6 @@ FUNC_NAKED void CombatControl::RenderSelfAiming()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -8521,7 +8302,7 @@ FUNC_NAKED void CombatControl::RenderSelfAiming()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func224::func));
+	__asm__("call *%0\n\t" :: "m"(_func224::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -8549,7 +8330,6 @@ FUNC_NAKED void CombatControl::RenderShipStatus(Pointf pos, GL_Color color)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -8561,7 +8341,7 @@ FUNC_NAKED void CombatControl::RenderShipStatus(Pointf pos, GL_Color color)
 			// rdi has this
 			// rsi has pos
 	);
-	__asm__("call *%0\n\t" :: "m"(_func225::func));
+	__asm__("call *%0\n\t" :: "m"(_func225::func) : "rdi", "rsi");
 	__asm__
 	(
 		"addq $16, %rsp\n\t"
@@ -8590,7 +8370,6 @@ FUNC_NAKED std::string CombatControl::GetCrewTooltip(int x, int y)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -8602,7 +8381,7 @@ FUNC_NAKED std::string CombatControl::GetCrewTooltip(int x, int y)
 			// rdx has x
 			// rcx has y
 	);
-	__asm__("call *%0\n\t" :: "m"(_func226::func));
+	__asm__("call *%0\n\t" :: "m"(_func226::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -8630,7 +8409,6 @@ FUNC_NAKED void CombatControl::Clear()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -8639,7 +8417,7 @@ FUNC_NAKED void CombatControl::Clear()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func227::func));
+	__asm__("call *%0\n\t" :: "m"(_func227::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -8667,7 +8445,6 @@ FUNC_NAKED bool CombatControl::MouseMove(int mX, int mY)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -8678,7 +8455,7 @@ FUNC_NAKED bool CombatControl::MouseMove(int mX, int mY)
 			// rsi has mX
 			// rdx has mY
 	);
-	__asm__("call *%0\n\t" :: "m"(_func228::func));
+	__asm__("call *%0\n\t" :: "m"(_func228::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -8706,7 +8483,6 @@ FUNC_NAKED void CombatControl::MouseClick(int mX, int mY, bool shift)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -8718,7 +8494,7 @@ FUNC_NAKED void CombatControl::MouseClick(int mX, int mY, bool shift)
 			// rdx has mY
 			// rcx has shift
 	);
-	__asm__("call *%0\n\t" :: "m"(_func229::func));
+	__asm__("call *%0\n\t" :: "m"(_func229::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -8746,7 +8522,6 @@ FUNC_NAKED void CombatDrone::constructor(int iShipId, int selfId, const DroneBlu
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -8758,7 +8533,7 @@ FUNC_NAKED void CombatDrone::constructor(int iShipId, int selfId, const DroneBlu
 			// rdx has selfId
 			// rcx has bp
 	);
-	__asm__("call *%0\n\t" :: "m"(_func230::func));
+	__asm__("call *%0\n\t" :: "m"(_func230::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -8786,7 +8561,6 @@ FUNC_NAKED void CombatDrone::SetWeaponTarget(Targetable *target)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -8796,7 +8570,7 @@ FUNC_NAKED void CombatDrone::SetWeaponTarget(Targetable *target)
 			// rdi has this
 			// rsi has target
 	);
-	__asm__("call *%0\n\t" :: "m"(_func231::func));
+	__asm__("call *%0\n\t" :: "m"(_func231::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -8824,7 +8598,6 @@ FUNC_NAKED void CommandGui::Victory()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -8833,7 +8606,7 @@ FUNC_NAKED void CommandGui::Victory()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func232::func));
+	__asm__("call *%0\n\t" :: "m"(_func232::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -8861,7 +8634,6 @@ FUNC_NAKED void CommandGui::CheckGameover()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -8870,7 +8642,7 @@ FUNC_NAKED void CommandGui::CheckGameover()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func233::func));
+	__asm__("call *%0\n\t" :: "m"(_func233::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -8898,7 +8670,6 @@ FUNC_NAKED bool CommandGui::IsGameOver()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -8907,7 +8678,7 @@ FUNC_NAKED bool CommandGui::IsGameOver()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func234::func));
+	__asm__("call *%0\n\t" :: "m"(_func234::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -8935,7 +8706,6 @@ FUNC_NAKED void CommandGui::OnInit()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -8944,7 +8714,7 @@ FUNC_NAKED void CommandGui::OnInit()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func235::func));
+	__asm__("call *%0\n\t" :: "m"(_func235::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -8972,7 +8742,6 @@ FUNC_NAKED void CommandGui::AddEnemyShip(CompleteShip *ship)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -8982,7 +8751,7 @@ FUNC_NAKED void CommandGui::AddEnemyShip(CompleteShip *ship)
 			// rdi has this
 			// rsi has ship
 	);
-	__asm__("call *%0\n\t" :: "m"(_func236::func));
+	__asm__("call *%0\n\t" :: "m"(_func236::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -9010,7 +8779,6 @@ FUNC_NAKED Point CommandGui::GetWorldCoordinates(Point point, bool fromTarget)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -9021,7 +8789,7 @@ FUNC_NAKED Point CommandGui::GetWorldCoordinates(Point point, bool fromTarget)
 			// rsi has point
 			// rdx has fromTarget
 	);
-	__asm__("call *%0\n\t" :: "m"(_func237::func));
+	__asm__("call *%0\n\t" :: "m"(_func237::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -9049,7 +8817,6 @@ FUNC_NAKED void CommandGui::RenderPlayerShip(Point &shipCenter, float jumpScale)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -9060,7 +8827,7 @@ FUNC_NAKED void CommandGui::RenderPlayerShip(Point &shipCenter, float jumpScale)
 			// rsi has shipCenter
 			// xmm0 has jumpScale
 	);
-	__asm__("call *%0\n\t" :: "m"(_func238::func));
+	__asm__("call *%0\n\t" :: "m"(_func238::func) : "rdi", "rsi", "xmm0");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -9088,7 +8855,6 @@ FUNC_NAKED void CommandGui::NewLocation(const std::string &mainText, std::vector
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -9101,7 +8867,7 @@ FUNC_NAKED void CommandGui::NewLocation(const std::string &mainText, std::vector
 			// rcx has resources
 			// r8 has testingEvents
 	);
-	__asm__("call *%0\n\t" :: "m"(_func239::func));
+	__asm__("call *%0\n\t" :: "m"(_func239::func) : "rdi", "rsi", "rdx", "rcx", "r8");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -9129,7 +8895,6 @@ FUNC_NAKED void CommandGui::RunCommand(std::string &command)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -9139,7 +8904,7 @@ FUNC_NAKED void CommandGui::RunCommand(std::string &command)
 			// rdi has this
 			// rsi has command
 	);
-	__asm__("call *%0\n\t" :: "m"(_func240::func));
+	__asm__("call *%0\n\t" :: "m"(_func240::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -9167,7 +8932,6 @@ FUNC_NAKED Store *CommandGui::CreateNewStore(int sectorNumber)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -9177,7 +8941,7 @@ FUNC_NAKED Store *CommandGui::CreateNewStore(int sectorNumber)
 			// rdi has this
 			// rsi has sectorNumber
 	);
-	__asm__("call *%0\n\t" :: "m"(_func241::func));
+	__asm__("call *%0\n\t" :: "m"(_func241::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -9205,7 +8969,6 @@ FUNC_NAKED void CommandGui::KeyDown(SDLKey key, bool shiftHeld)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -9216,7 +8979,7 @@ FUNC_NAKED void CommandGui::KeyDown(SDLKey key, bool shiftHeld)
 			// rsi has key
 			// rdx has shiftHeld
 	);
-	__asm__("call *%0\n\t" :: "m"(_func242::func));
+	__asm__("call *%0\n\t" :: "m"(_func242::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -9244,7 +9007,6 @@ FUNC_NAKED void CommandGui::RenderStatic()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -9253,7 +9015,7 @@ FUNC_NAKED void CommandGui::RenderStatic()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func243::func));
+	__asm__("call *%0\n\t" :: "m"(_func243::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -9281,7 +9043,6 @@ FUNC_NAKED void CommandGui::LButtonDown(int mX, int mY, bool shiftHeld)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -9293,7 +9054,7 @@ FUNC_NAKED void CommandGui::LButtonDown(int mX, int mY, bool shiftHeld)
 			// rdx has mY
 			// rcx has shiftHeld
 	);
-	__asm__("call *%0\n\t" :: "m"(_func244::func));
+	__asm__("call *%0\n\t" :: "m"(_func244::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -9321,7 +9082,6 @@ FUNC_NAKED void CommandGui::MouseMove(int mX, int mY)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -9332,7 +9092,7 @@ FUNC_NAKED void CommandGui::MouseMove(int mX, int mY)
 			// rsi has mX
 			// rdx has mY
 	);
-	__asm__("call *%0\n\t" :: "m"(_func245::func));
+	__asm__("call *%0\n\t" :: "m"(_func245::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -9360,7 +9120,6 @@ FUNC_NAKED void CommandGui::OnLoop()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -9369,7 +9128,7 @@ FUNC_NAKED void CommandGui::OnLoop()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func246::func));
+	__asm__("call *%0\n\t" :: "m"(_func246::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -9397,7 +9156,6 @@ FUNC_NAKED void CommandGui::constructor()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -9406,7 +9164,7 @@ FUNC_NAKED void CommandGui::constructor()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func247::func));
+	__asm__("call *%0\n\t" :: "m"(_func247::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -9434,7 +9192,6 @@ FUNC_NAKED void CompleteShip::PauseLoop()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -9443,7 +9200,7 @@ FUNC_NAKED void CompleteShip::PauseLoop()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func248::func));
+	__asm__("call *%0\n\t" :: "m"(_func248::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -9471,7 +9228,6 @@ FUNC_NAKED void CompleteShip::Restart()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -9480,7 +9236,7 @@ FUNC_NAKED void CompleteShip::Restart()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func249::func));
+	__asm__("call *%0\n\t" :: "m"(_func249::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -9508,7 +9264,6 @@ FUNC_NAKED void CompleteShip::constructor(SpaceManager *space, bool unk, int unk
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -9520,7 +9275,7 @@ FUNC_NAKED void CompleteShip::constructor(SpaceManager *space, bool unk, int unk
 			// rdx has unk
 			// rcx has unk2
 	);
-	__asm__("call *%0\n\t" :: "m"(_func250::func));
+	__asm__("call *%0\n\t" :: "m"(_func250::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -9548,7 +9303,6 @@ FUNC_NAKED void CompleteShip::SetShip(ShipManager *ship)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -9558,7 +9312,7 @@ FUNC_NAKED void CompleteShip::SetShip(ShipManager *ship)
 			// rdi has this
 			// rsi has ship
 	);
-	__asm__("call *%0\n\t" :: "m"(_func251::func));
+	__asm__("call *%0\n\t" :: "m"(_func251::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -9586,7 +9340,6 @@ FUNC_NAKED void CompleteShip::OnInit(const ShipBlueprint *blueprint, int unk)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -9597,7 +9350,7 @@ FUNC_NAKED void CompleteShip::OnInit(const ShipBlueprint *blueprint, int unk)
 			// rsi has blueprint
 			// rdx has unk
 	);
-	__asm__("call *%0\n\t" :: "m"(_func252::func));
+	__asm__("call *%0\n\t" :: "m"(_func252::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -9625,7 +9378,6 @@ FUNC_NAKED void CompleteShip::AddBoarders(int amount, const std::string &race, b
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -9637,7 +9389,7 @@ FUNC_NAKED void CompleteShip::AddBoarders(int amount, const std::string &race, b
 			// rdx has race
 			// rcx has unk2
 	);
-	__asm__("call *%0\n\t" :: "m"(_func253::func));
+	__asm__("call *%0\n\t" :: "m"(_func253::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -9665,7 +9417,6 @@ FUNC_NAKED CrewMember *CompleteShip::AddCrewMember(const CrewBlueprint *blueprin
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -9676,7 +9427,7 @@ FUNC_NAKED CrewMember *CompleteShip::AddCrewMember(const CrewBlueprint *blueprin
 			// rsi has blueprint
 			// rdx has hostile
 	);
-	__asm__("call *%0\n\t" :: "m"(_func254::func));
+	__asm__("call *%0\n\t" :: "m"(_func254::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -9704,7 +9455,6 @@ FUNC_NAKED CrewMember *CompleteShip::AddCrewMember1(const std::string &race, con
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -9716,7 +9466,7 @@ FUNC_NAKED CrewMember *CompleteShip::AddCrewMember1(const std::string &race, con
 			// rdx has name
 			// rcx has hostile
 	);
-	__asm__("call *%0\n\t" :: "m"(_func255::func));
+	__asm__("call *%0\n\t" :: "m"(_func255::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -9744,7 +9494,6 @@ FUNC_NAKED Drone *CompleteShip::AddDrone(const DroneBlueprint *blueprint, int un
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -9755,7 +9504,7 @@ FUNC_NAKED Drone *CompleteShip::AddDrone(const DroneBlueprint *blueprint, int un
 			// rsi has blueprint
 			// rdx has unk
 	);
-	__asm__("call *%0\n\t" :: "m"(_func256::func));
+	__asm__("call *%0\n\t" :: "m"(_func256::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -9783,7 +9532,6 @@ FUNC_NAKED CrewMember *CompleteShip::AddCrewMember2(CrewMember *member, int unk)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -9794,7 +9542,7 @@ FUNC_NAKED CrewMember *CompleteShip::AddCrewMember2(CrewMember *member, int unk)
 			// rsi has member
 			// rdx has unk
 	);
-	__asm__("call *%0\n\t" :: "m"(_func257::func));
+	__asm__("call *%0\n\t" :: "m"(_func257::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -9822,7 +9570,6 @@ FUNC_NAKED void CompleteShip::SaveState(int unk)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -9832,7 +9579,7 @@ FUNC_NAKED void CompleteShip::SaveState(int unk)
 			// rdi has this
 			// rsi has unk
 	);
-	__asm__("call *%0\n\t" :: "m"(_func258::func));
+	__asm__("call *%0\n\t" :: "m"(_func258::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -9860,7 +9607,6 @@ FUNC_NAKED void CompleteShip::LoadState(int unk)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -9870,7 +9616,7 @@ FUNC_NAKED void CompleteShip::LoadState(int unk)
 			// rdi has this
 			// rsi has unk
 	);
-	__asm__("call *%0\n\t" :: "m"(_func259::func));
+	__asm__("call *%0\n\t" :: "m"(_func259::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -9898,7 +9644,6 @@ FUNC_NAKED void CompleteShip::InitiateTeleport(int targetRoom, int command)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -9909,7 +9654,7 @@ FUNC_NAKED void CompleteShip::InitiateTeleport(int targetRoom, int command)
 			// rsi has targetRoom
 			// rdx has command
 	);
-	__asm__("call *%0\n\t" :: "m"(_func260::func));
+	__asm__("call *%0\n\t" :: "m"(_func260::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -9937,7 +9682,6 @@ FUNC_NAKED void CompleteShip::OnLoop()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -9946,7 +9690,7 @@ FUNC_NAKED void CompleteShip::OnLoop()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func261::func));
+	__asm__("call *%0\n\t" :: "m"(_func261::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -9974,7 +9718,6 @@ FUNC_NAKED std::vector<CrewMember*> CompleteShip::GetTeleportingParty()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -9984,7 +9727,7 @@ FUNC_NAKED std::vector<CrewMember*> CompleteShip::GetTeleportingParty()
 			// rdi has implicit_output
 			// rsi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func262::func));
+	__asm__("call *%0\n\t" :: "m"(_func262::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -10012,7 +9755,6 @@ FUNC_NAKED void CompleteShip::KillRandomCrew()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -10021,7 +9763,7 @@ FUNC_NAKED void CompleteShip::KillRandomCrew()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func263::func));
+	__asm__("call *%0\n\t" :: "m"(_func263::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -10049,7 +9791,6 @@ FUNC_NAKED int CompleteShip::CountCrew(bool boarders)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -10059,7 +9800,7 @@ FUNC_NAKED int CompleteShip::CountCrew(bool boarders)
 			// rdi has this
 			// rsi has boarders
 	);
-	__asm__("call *%0\n\t" :: "m"(_func264::func));
+	__asm__("call *%0\n\t" :: "m"(_func264::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -10087,7 +9828,6 @@ FUNC_NAKED void CompleteShip::Jump()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -10096,7 +9836,7 @@ FUNC_NAKED void CompleteShip::Jump()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func265::func));
+	__asm__("call *%0\n\t" :: "m"(_func265::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -10124,7 +9864,6 @@ FUNC_NAKED void CompleteShip::SetEnemyShip(CompleteShip *other)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -10134,7 +9873,7 @@ FUNC_NAKED void CompleteShip::SetEnemyShip(CompleteShip *other)
 			// rdi has this
 			// rsi has other
 	);
-	__asm__("call *%0\n\t" :: "m"(_func266::func));
+	__asm__("call *%0\n\t" :: "m"(_func266::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -10162,7 +9901,6 @@ FUNC_NAKED bool CompleteShip::DeadCrew()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -10171,7 +9909,7 @@ FUNC_NAKED bool CompleteShip::DeadCrew()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func267::func));
+	__asm__("call *%0\n\t" :: "m"(_func267::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -10199,7 +9937,6 @@ FUNC_NAKED std::vector<CrewMember*> CompleteShip::TeleportCrew(int roomId, bool 
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -10211,7 +9948,7 @@ FUNC_NAKED std::vector<CrewMember*> CompleteShip::TeleportCrew(int roomId, bool 
 			// rdx has roomId
 			// rcx has intruders
 	);
-	__asm__("call *%0\n\t" :: "m"(_func268::func));
+	__asm__("call *%0\n\t" :: "m"(_func268::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -10239,7 +9976,6 @@ FUNC_NAKED void CompleteShip::OnRender()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -10248,7 +9984,7 @@ FUNC_NAKED void CompleteShip::OnRender()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func269::func));
+	__asm__("call *%0\n\t" :: "m"(_func269::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -10276,7 +10012,6 @@ FUNC_NAKED void CompleteShip::OnRenderSpace()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -10285,7 +10020,7 @@ FUNC_NAKED void CompleteShip::OnRenderSpace()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func270::func));
+	__asm__("call *%0\n\t" :: "m"(_func270::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -10313,7 +10048,6 @@ FUNC_NAKED void CompleteShip::OnRenderShip(bool unk1, bool unk2)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -10324,7 +10058,7 @@ FUNC_NAKED void CompleteShip::OnRenderShip(bool unk1, bool unk2)
 			// rsi has unk1
 			// rdx has unk2
 	);
-	__asm__("call *%0\n\t" :: "m"(_func271::func));
+	__asm__("call *%0\n\t" :: "m"(_func271::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -10352,7 +10086,6 @@ FUNC_NAKED void ConfirmWindow::Close()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -10361,7 +10094,7 @@ FUNC_NAKED void ConfirmWindow::Close()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func272::func));
+	__asm__("call *%0\n\t" :: "m"(_func272::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -10389,7 +10122,6 @@ FUNC_NAKED void ConfirmWindow::MouseClick(int mX, int mY)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -10400,7 +10132,7 @@ FUNC_NAKED void ConfirmWindow::MouseClick(int mX, int mY)
 			// rsi has mX
 			// rdx has mY
 	);
-	__asm__("call *%0\n\t" :: "m"(_func273::func));
+	__asm__("call *%0\n\t" :: "m"(_func273::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -10428,7 +10160,6 @@ FUNC_NAKED void ConfirmWindow::constructor()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -10437,7 +10168,7 @@ FUNC_NAKED void ConfirmWindow::constructor()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func274::func));
+	__asm__("call *%0\n\t" :: "m"(_func274::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -10465,7 +10196,6 @@ FUNC_NAKED void ConfirmWindow::SetText(const TextString &text_, int minWidth, bo
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -10479,7 +10209,7 @@ FUNC_NAKED void ConfirmWindow::SetText(const TextString &text_, int minWidth, bo
 			// r8 has yesText_
 			// r9 has noText_
 	);
-	__asm__("call *%0\n\t" :: "m"(_func275::func));
+	__asm__("call *%0\n\t" :: "m"(_func275::func) : "rdi", "rsi", "rdx", "rcx", "r8", "r9");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -10507,7 +10237,6 @@ FUNC_NAKED void ConfirmWindow::SetPosition(Point pos)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -10517,7 +10246,7 @@ FUNC_NAKED void ConfirmWindow::SetPosition(Point pos)
 			// rdi has this
 			// rsi has pos
 	);
-	__asm__("call *%0\n\t" :: "m"(_func276::func));
+	__asm__("call *%0\n\t" :: "m"(_func276::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -10545,7 +10274,6 @@ FUNC_NAKED void ConfirmWindow::Open()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -10554,7 +10282,7 @@ FUNC_NAKED void ConfirmWindow::Open()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func277::func));
+	__asm__("call *%0\n\t" :: "m"(_func277::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -10582,7 +10310,6 @@ FUNC_NAKED void ConfirmWindow::OnRender()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -10591,7 +10318,7 @@ FUNC_NAKED void ConfirmWindow::OnRender()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func278::func));
+	__asm__("call *%0\n\t" :: "m"(_func278::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -10619,7 +10346,6 @@ FUNC_NAKED void ConfirmWindow::MouseMove(int mX, int mY)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -10630,7 +10356,7 @@ FUNC_NAKED void ConfirmWindow::MouseMove(int mX, int mY)
 			// rsi has mX
 			// rdx has mY
 	);
-	__asm__("call *%0\n\t" :: "m"(_func279::func));
+	__asm__("call *%0\n\t" :: "m"(_func279::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -10658,7 +10384,6 @@ FUNC_NAKED void ControlButton::OnRender()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -10667,7 +10392,7 @@ FUNC_NAKED void ControlButton::OnRender()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func280::func));
+	__asm__("call *%0\n\t" :: "m"(_func280::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -10695,7 +10420,6 @@ FUNC_NAKED void ControlsScreen::OnInit()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -10704,7 +10428,7 @@ FUNC_NAKED void ControlsScreen::OnInit()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func281::func));
+	__asm__("call *%0\n\t" :: "m"(_func281::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -10732,7 +10456,6 @@ FUNC_NAKED void ControlsScreen::OnLoop()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -10741,7 +10464,7 @@ FUNC_NAKED void ControlsScreen::OnLoop()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func282::func));
+	__asm__("call *%0\n\t" :: "m"(_func282::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -10769,7 +10492,6 @@ FUNC_NAKED void ControlsScreen::OnRender()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -10778,7 +10500,7 @@ FUNC_NAKED void ControlsScreen::OnRender()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func283::func));
+	__asm__("call *%0\n\t" :: "m"(_func283::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -10806,7 +10528,6 @@ FUNC_NAKED void CooldownSystemBox::constructor(Point pos, ShipSystem *sys, bool 
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -10818,7 +10539,7 @@ FUNC_NAKED void CooldownSystemBox::constructor(Point pos, ShipSystem *sys, bool 
 			// rdx has sys
 			// rcx has roundDown
 	);
-	__asm__("call *%0\n\t" :: "m"(_func284::func));
+	__asm__("call *%0\n\t" :: "m"(_func284::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -10846,7 +10567,6 @@ FUNC_NAKED void CooldownSystemBox::OnRender(bool ignoreStatus)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -10856,7 +10576,7 @@ FUNC_NAKED void CooldownSystemBox::OnRender(bool ignoreStatus)
 			// rdi has this
 			// rsi has ignoreStatus
 	);
-	__asm__("call *%0\n\t" :: "m"(_func285::func));
+	__asm__("call *%0\n\t" :: "m"(_func285::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -10884,7 +10604,6 @@ FUNC_NAKED void CreditScreen::OnRender()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -10893,7 +10612,7 @@ FUNC_NAKED void CreditScreen::OnRender()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func286::func));
+	__asm__("call *%0\n\t" :: "m"(_func286::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -10921,7 +10640,6 @@ FUNC_NAKED void CreditScreen::constructor()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -10930,7 +10648,7 @@ FUNC_NAKED void CreditScreen::constructor()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func287::func));
+	__asm__("call *%0\n\t" :: "m"(_func287::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -10958,7 +10676,6 @@ FUNC_NAKED void CreditScreen::Start(const std::string &shipName, const std::vect
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -10969,7 +10686,7 @@ FUNC_NAKED void CreditScreen::Start(const std::string &shipName, const std::vect
 			// rsi has shipName
 			// rdx has crewNames
 	);
-	__asm__("call *%0\n\t" :: "m"(_func288::func));
+	__asm__("call *%0\n\t" :: "m"(_func288::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -10997,7 +10714,6 @@ FUNC_NAKED bool CreditScreen::Done()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -11006,7 +10722,7 @@ FUNC_NAKED bool CreditScreen::Done()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func289::func));
+	__asm__("call *%0\n\t" :: "m"(_func289::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -11034,7 +10750,6 @@ FUNC_NAKED int CrewAI::PrioritizeIntruderRoom(CrewMember *crew, int roomId, int 
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -11046,7 +10761,7 @@ FUNC_NAKED int CrewAI::PrioritizeIntruderRoom(CrewMember *crew, int roomId, int 
 			// rdx has roomId
 			// rcx has target
 	);
-	__asm__("call *%0\n\t" :: "m"(_func290::func));
+	__asm__("call *%0\n\t" :: "m"(_func290::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -11074,7 +10789,6 @@ FUNC_NAKED void CrewAI::CheckForHealing()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -11083,7 +10797,7 @@ FUNC_NAKED void CrewAI::CheckForHealing()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func291::func));
+	__asm__("call *%0\n\t" :: "m"(_func291::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -11111,7 +10825,6 @@ FUNC_NAKED int CrewAI::PrioritizeTask(CrewTask task, int crewId)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -11123,7 +10836,7 @@ FUNC_NAKED int CrewAI::PrioritizeTask(CrewTask task, int crewId)
 			// rdi has this
 			// rsi has crewId
 	);
-	__asm__("call *%0\n\t" :: "m"(_func292::func));
+	__asm__("call *%0\n\t" :: "m"(_func292::func) : "rdi", "rsi");
 	__asm__
 	(
 		"addq $16, %rsp\n\t"
@@ -11152,7 +10865,6 @@ FUNC_NAKED void CrewAI::AssignCrewmembers()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -11161,7 +10873,7 @@ FUNC_NAKED void CrewAI::AssignCrewmembers()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func293::func));
+	__asm__("call *%0\n\t" :: "m"(_func293::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -11189,7 +10901,6 @@ FUNC_NAKED void CrewAI::UpdateCrewMember(int crewId)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -11199,7 +10910,7 @@ FUNC_NAKED void CrewAI::UpdateCrewMember(int crewId)
 			// rdi has this
 			// rsi has crewId
 	);
-	__asm__("call *%0\n\t" :: "m"(_func294::func));
+	__asm__("call *%0\n\t" :: "m"(_func294::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -11227,7 +10938,6 @@ FUNC_NAKED void CrewAI::UpdateIntruders()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -11236,7 +10946,7 @@ FUNC_NAKED void CrewAI::UpdateIntruders()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func295::func));
+	__asm__("call *%0\n\t" :: "m"(_func295::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -11264,7 +10974,6 @@ FUNC_NAKED void CrewAI::CheckForProblems()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -11273,7 +10982,7 @@ FUNC_NAKED void CrewAI::CheckForProblems()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func296::func));
+	__asm__("call *%0\n\t" :: "m"(_func296::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -11301,7 +11010,6 @@ FUNC_NAKED void CrewAI::UpdateDrones()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -11310,7 +11018,7 @@ FUNC_NAKED void CrewAI::UpdateDrones()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func297::func));
+	__asm__("call *%0\n\t" :: "m"(_func297::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -11338,7 +11046,6 @@ FUNC_NAKED void CrewAI::OnLoop()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -11347,7 +11054,7 @@ FUNC_NAKED void CrewAI::OnLoop()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func298::func));
+	__asm__("call *%0\n\t" :: "m"(_func298::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -11375,7 +11082,6 @@ FUNC_NAKED void CrewAnimation::destructor()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -11384,7 +11090,7 @@ FUNC_NAKED void CrewAnimation::destructor()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func299::func));
+	__asm__("call *%0\n\t" :: "m"(_func299::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -11412,7 +11118,6 @@ FUNC_NAKED int CrewAnimation::GetFiringFrame()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -11421,7 +11126,7 @@ FUNC_NAKED int CrewAnimation::GetFiringFrame()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func300::func));
+	__asm__("call *%0\n\t" :: "m"(_func300::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -11449,7 +11154,6 @@ FUNC_NAKED void CrewAnimation::OnRenderProps()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -11458,7 +11162,7 @@ FUNC_NAKED void CrewAnimation::OnRenderProps()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func301::func));
+	__asm__("call *%0\n\t" :: "m"(_func301::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -11486,7 +11190,6 @@ FUNC_NAKED void CrewAnimation::OnRender(float scale, int selectedState, bool out
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -11498,7 +11201,7 @@ FUNC_NAKED void CrewAnimation::OnRender(float scale, int selectedState, bool out
 			// rsi has selectedState
 			// rdx has outlineOnly
 	);
-	__asm__("call *%0\n\t" :: "m"(_func302::func));
+	__asm__("call *%0\n\t" :: "m"(_func302::func) : "rdi", "xmm0", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -11526,7 +11229,6 @@ FUNC_NAKED bool CrewAnimation::FireShot()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -11535,7 +11237,7 @@ FUNC_NAKED bool CrewAnimation::FireShot()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func303::func));
+	__asm__("call *%0\n\t" :: "m"(_func303::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -11563,7 +11265,6 @@ FUNC_NAKED void CrewAnimation::RenderIcon(bool border)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -11573,7 +11274,7 @@ FUNC_NAKED void CrewAnimation::RenderIcon(bool border)
 			// rdi has this
 			// rsi has border
 	);
-	__asm__("call *%0\n\t" :: "m"(_func304::func));
+	__asm__("call *%0\n\t" :: "m"(_func304::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -11601,6 +11302,7 @@ FUNC_NAKED void CrewAnimation::OnUpdate(Pointf position, bool moving, bool fight
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
+		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -11615,7 +11317,7 @@ FUNC_NAKED void CrewAnimation::OnUpdate(Pointf position, bool moving, bool fight
 			// r8 has repairing
 			// r9 has dying
 	);
-	__asm__("call *%0\n\t" :: "m"(_func305::func));
+	__asm__("call *%0\n\t" :: "m"(_func305::func) : "rdi", "rsi", "rdx", "rcx", "r8", "r9");
 	__asm__
 	(
 		"addq $8, %rsp\n\t"
@@ -11644,7 +11346,6 @@ FUNC_NAKED std::string CrewAnimation::GetDeathSound()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -11654,7 +11355,7 @@ FUNC_NAKED std::string CrewAnimation::GetDeathSound()
 			// rdi has implicit_output
 			// rsi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func306::func));
+	__asm__("call *%0\n\t" :: "m"(_func306::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -11682,7 +11383,6 @@ FUNC_NAKED std::string CrewAnimation::GetShootingSound()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -11692,7 +11392,7 @@ FUNC_NAKED std::string CrewAnimation::GetShootingSound()
 			// rdi has implicit_output
 			// rsi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func307::func));
+	__asm__("call *%0\n\t" :: "m"(_func307::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -11720,7 +11420,6 @@ FUNC_NAKED void CrewAnimation::SetupStrips()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -11729,7 +11428,7 @@ FUNC_NAKED void CrewAnimation::SetupStrips()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func308::func));
+	__asm__("call *%0\n\t" :: "m"(_func308::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -11757,7 +11456,6 @@ FUNC_NAKED void CrewAnimation::OnInit(const std::string &name, Pointf position, 
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -11769,7 +11467,7 @@ FUNC_NAKED void CrewAnimation::OnInit(const std::string &name, Pointf position, 
 			// rdx has position
 			// rcx has enemy
 	);
-	__asm__("call *%0\n\t" :: "m"(_func309::func));
+	__asm__("call *%0\n\t" :: "m"(_func309::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -11797,7 +11495,6 @@ FUNC_NAKED void CrewAnimation::constructor(int shipId, const std::string &race, 
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -11810,7 +11507,7 @@ FUNC_NAKED void CrewAnimation::constructor(int shipId, const std::string &race, 
 			// rcx has unk
 			// r8 has hostile
 	);
-	__asm__("call *%0\n\t" :: "m"(_func310::func));
+	__asm__("call *%0\n\t" :: "m"(_func310::func) : "rdi", "rsi", "rdx", "rcx", "r8");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -11838,7 +11535,6 @@ FUNC_NAKED void CrewAnimation::OnUpdateEffects()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -11847,7 +11543,7 @@ FUNC_NAKED void CrewAnimation::OnUpdateEffects()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func311::func));
+	__asm__("call *%0\n\t" :: "m"(_func311::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -11875,7 +11571,6 @@ FUNC_NAKED void CrewBlueprint::destructor()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -11884,7 +11579,7 @@ FUNC_NAKED void CrewBlueprint::destructor()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func312::func));
+	__asm__("call *%0\n\t" :: "m"(_func312::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -11912,7 +11607,6 @@ FUNC_NAKED void CrewBlueprint::RenderSkill(int x, int y, int length, int height,
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -11926,7 +11620,7 @@ FUNC_NAKED void CrewBlueprint::RenderSkill(int x, int y, int length, int height,
 			// r8 has height
 			// r9 has skill
 	);
-	__asm__("call *%0\n\t" :: "m"(_func313::func));
+	__asm__("call *%0\n\t" :: "m"(_func313::func) : "rdi", "rsi", "rdx", "rcx", "r8", "r9");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -11954,7 +11648,6 @@ FUNC_NAKED void CrewBlueprint::RandomSkills(int worldLevel)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -11964,7 +11657,7 @@ FUNC_NAKED void CrewBlueprint::RandomSkills(int worldLevel)
 			// rdi has this
 			// rsi has worldLevel
 	);
-	__asm__("call *%0\n\t" :: "m"(_func314::func));
+	__asm__("call *%0\n\t" :: "m"(_func314::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -11992,7 +11685,6 @@ FUNC_NAKED void CrewBlueprint::RenderIcon(float opacity)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -12002,7 +11694,7 @@ FUNC_NAKED void CrewBlueprint::RenderIcon(float opacity)
 			// rdi has this
 			// xmm0 has opacity
 	);
-	__asm__("call *%0\n\t" :: "m"(_func315::func));
+	__asm__("call *%0\n\t" :: "m"(_func315::func) : "rdi", "xmm0");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -12030,7 +11722,6 @@ FUNC_NAKED std::string CrewBlueprint::GetNameShort()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -12040,7 +11731,7 @@ FUNC_NAKED std::string CrewBlueprint::GetNameShort()
 			// rdi has implicit_output
 			// rsi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func316::func));
+	__asm__("call *%0\n\t" :: "m"(_func316::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -12068,7 +11759,6 @@ FUNC_NAKED bool CrewBox::MouseClick()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -12077,7 +11767,7 @@ FUNC_NAKED bool CrewBox::MouseClick()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func317::func));
+	__asm__("call *%0\n\t" :: "m"(_func317::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -12105,7 +11795,6 @@ FUNC_NAKED void CrewBox::OnRenderSkillLevel()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -12114,7 +11803,7 @@ FUNC_NAKED void CrewBox::OnRenderSkillLevel()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func318::func));
+	__asm__("call *%0\n\t" :: "m"(_func318::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -12142,7 +11831,6 @@ FUNC_NAKED void CrewBox::RenderIcon()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -12151,7 +11839,7 @@ FUNC_NAKED void CrewBox::RenderIcon()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func319::func));
+	__asm__("call *%0\n\t" :: "m"(_func319::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -12179,7 +11867,6 @@ FUNC_NAKED void CrewBox::RenderLabels()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -12188,7 +11875,7 @@ FUNC_NAKED void CrewBox::RenderLabels()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func320::func));
+	__asm__("call *%0\n\t" :: "m"(_func320::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -12216,7 +11903,6 @@ FUNC_NAKED void CrewBox::RenderCloneDying()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -12225,7 +11911,7 @@ FUNC_NAKED void CrewBox::RenderCloneDying()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func321::func));
+	__asm__("call *%0\n\t" :: "m"(_func321::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -12253,7 +11939,6 @@ FUNC_NAKED void CrewBox::constructor(Point pos, CrewMember *crew, int number)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -12265,7 +11950,7 @@ FUNC_NAKED void CrewBox::constructor(Point pos, CrewMember *crew, int number)
 			// rdx has crew
 			// rcx has number
 	);
-	__asm__("call *%0\n\t" :: "m"(_func322::func));
+	__asm__("call *%0\n\t" :: "m"(_func322::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -12293,7 +11978,6 @@ FUNC_NAKED void CrewBox::destructor()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -12302,7 +11986,7 @@ FUNC_NAKED void CrewBox::destructor()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func323::func));
+	__asm__("call *%0\n\t" :: "m"(_func323::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -12330,7 +12014,6 @@ FUNC_NAKED void CrewBox::OnLoop(bool selected)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -12340,7 +12023,7 @@ FUNC_NAKED void CrewBox::OnLoop(bool selected)
 			// rdi has this
 			// rsi has selected
 	);
-	__asm__("call *%0\n\t" :: "m"(_func324::func));
+	__asm__("call *%0\n\t" :: "m"(_func324::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -12368,7 +12051,6 @@ FUNC_NAKED CrewMember *CrewBox::GetSelected(int mouseX, int mouseY)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -12379,7 +12061,7 @@ FUNC_NAKED CrewMember *CrewBox::GetSelected(int mouseX, int mouseY)
 			// rsi has mouseX
 			// rdx has mouseY
 	);
-	__asm__("call *%0\n\t" :: "m"(_func325::func));
+	__asm__("call *%0\n\t" :: "m"(_func325::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -12407,7 +12089,6 @@ FUNC_NAKED void CrewBox::OnRender()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -12416,7 +12097,7 @@ FUNC_NAKED void CrewBox::OnRender()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func326::func));
+	__asm__("call *%0\n\t" :: "m"(_func326::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -12444,7 +12125,6 @@ FUNC_NAKED void CrewControl::ClearCrewBoxes()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -12453,7 +12133,7 @@ FUNC_NAKED void CrewControl::ClearCrewBoxes()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func327::func));
+	__asm__("call *%0\n\t" :: "m"(_func327::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -12481,7 +12161,6 @@ FUNC_NAKED void CrewControl::LButton(int mX, int mY, int wX, int wY, bool shiftH
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -12495,7 +12174,7 @@ FUNC_NAKED void CrewControl::LButton(int mX, int mY, int wX, int wY, bool shiftH
 			// r8 has wY
 			// r9 has shiftHeld
 	);
-	__asm__("call *%0\n\t" :: "m"(_func328::func));
+	__asm__("call *%0\n\t" :: "m"(_func328::func) : "rdi", "rsi", "rdx", "rcx", "r8", "r9");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -12523,7 +12202,6 @@ FUNC_NAKED void CrewControl::RButton(int mX, int mY, bool shiftHeld)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -12535,7 +12213,7 @@ FUNC_NAKED void CrewControl::RButton(int mX, int mY, bool shiftHeld)
 			// rdx has mY
 			// rcx has shiftHeld
 	);
-	__asm__("call *%0\n\t" :: "m"(_func329::func));
+	__asm__("call *%0\n\t" :: "m"(_func329::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -12563,7 +12241,6 @@ FUNC_NAKED void CrewControl::ClearDeadCrew(std::vector<CrewMember*> *crew)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -12573,7 +12250,7 @@ FUNC_NAKED void CrewControl::ClearDeadCrew(std::vector<CrewMember*> *crew)
 			// rdi has this
 			// rsi has crew
 	);
-	__asm__("call *%0\n\t" :: "m"(_func330::func));
+	__asm__("call *%0\n\t" :: "m"(_func330::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -12601,7 +12278,6 @@ FUNC_NAKED void CrewControl::UpdateCrewBoxes()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -12610,7 +12286,7 @@ FUNC_NAKED void CrewControl::UpdateCrewBoxes()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func331::func));
+	__asm__("call *%0\n\t" :: "m"(_func331::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -12638,7 +12314,6 @@ FUNC_NAKED void CrewControl::LinkShip(ShipManager *ship)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -12648,7 +12323,7 @@ FUNC_NAKED void CrewControl::LinkShip(ShipManager *ship)
 			// rdi has this
 			// rsi has ship
 	);
-	__asm__("call *%0\n\t" :: "m"(_func332::func));
+	__asm__("call *%0\n\t" :: "m"(_func332::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -12676,7 +12351,6 @@ FUNC_NAKED void CrewControl::OnLoop()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -12685,7 +12359,7 @@ FUNC_NAKED void CrewControl::OnLoop()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func333::func));
+	__asm__("call *%0\n\t" :: "m"(_func333::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -12713,7 +12387,6 @@ FUNC_NAKED void CrewControl::SelectPotentialCrew(CrewMember *crew, bool allowTel
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -12724,7 +12397,7 @@ FUNC_NAKED void CrewControl::SelectPotentialCrew(CrewMember *crew, bool allowTel
 			// rsi has crew
 			// rdx has allowTeleportLeaving
 	);
-	__asm__("call *%0\n\t" :: "m"(_func334::func));
+	__asm__("call *%0\n\t" :: "m"(_func334::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -12752,7 +12425,6 @@ FUNC_NAKED void CrewControl::KeyDown(SDLKey key)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -12762,7 +12434,7 @@ FUNC_NAKED void CrewControl::KeyDown(SDLKey key)
 			// rdi has this
 			// rsi has key
 	);
-	__asm__("call *%0\n\t" :: "m"(_func335::func));
+	__asm__("call *%0\n\t" :: "m"(_func335::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -12790,7 +12462,6 @@ FUNC_NAKED void CrewControl::OnRender()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -12799,7 +12470,7 @@ FUNC_NAKED void CrewControl::OnRender()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func336::func));
+	__asm__("call *%0\n\t" :: "m"(_func336::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -12827,7 +12498,6 @@ FUNC_NAKED void CrewControl::MouseMove(int mX, int mY, int wX, int wY)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -12840,7 +12510,7 @@ FUNC_NAKED void CrewControl::MouseMove(int mX, int mY, int wX, int wY)
 			// rcx has wX
 			// r8 has wY
 	);
-	__asm__("call *%0\n\t" :: "m"(_func337::func));
+	__asm__("call *%0\n\t" :: "m"(_func337::func) : "rdi", "rsi", "rdx", "rcx", "r8");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -12868,7 +12538,6 @@ FUNC_NAKED void CrewCustomizeBox::CheckContents()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -12877,7 +12546,7 @@ FUNC_NAKED void CrewCustomizeBox::CheckContents()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func338::func));
+	__asm__("call *%0\n\t" :: "m"(_func338::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -12905,7 +12574,6 @@ FUNC_NAKED void CrewDrone::OnLoop()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -12914,7 +12582,7 @@ FUNC_NAKED void CrewDrone::OnLoop()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func339::func));
+	__asm__("call *%0\n\t" :: "m"(_func339::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -12942,7 +12610,6 @@ FUNC_NAKED void CrewDrone::constructor(const std::string &type, const std::strin
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -12956,7 +12623,7 @@ FUNC_NAKED void CrewDrone::constructor(const std::string &type, const std::strin
 			// r8 has blueprint
 			// r9 has anim
 	);
-	__asm__("call *%0\n\t" :: "m"(_func340::func));
+	__asm__("call *%0\n\t" :: "m"(_func340::func) : "rdi", "rsi", "rdx", "rcx", "r8", "r9");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -12984,7 +12651,6 @@ FUNC_NAKED bool CrewDrone::ProvidesVision()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -12993,7 +12659,7 @@ FUNC_NAKED bool CrewDrone::ProvidesVision()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func341::func));
+	__asm__("call *%0\n\t" :: "m"(_func341::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -13021,7 +12687,6 @@ FUNC_NAKED void CrewDrone::destructor()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -13030,7 +12695,7 @@ FUNC_NAKED void CrewDrone::destructor()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func342::func));
+	__asm__("call *%0\n\t" :: "m"(_func342::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -13058,7 +12723,6 @@ FUNC_NAKED void CrewDrone::SetCurrentShip(int shipId)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -13068,7 +12732,7 @@ FUNC_NAKED void CrewDrone::SetCurrentShip(int shipId)
 			// rdi has this
 			// rsi has shipId
 	);
-	__asm__("call *%0\n\t" :: "m"(_func343::func));
+	__asm__("call *%0\n\t" :: "m"(_func343::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -13096,7 +12760,6 @@ FUNC_NAKED void CrewEquipBox::RemoveItem()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -13105,7 +12768,7 @@ FUNC_NAKED void CrewEquipBox::RemoveItem()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func344::func));
+	__asm__("call *%0\n\t" :: "m"(_func344::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -13133,7 +12796,6 @@ FUNC_NAKED bool CrewEquipBox::GetConfirmDelete()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -13142,7 +12804,7 @@ FUNC_NAKED bool CrewEquipBox::GetConfirmDelete()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func345::func));
+	__asm__("call *%0\n\t" :: "m"(_func345::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -13170,7 +12832,6 @@ FUNC_NAKED void CrewEquipBox::CloseRename()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -13179,7 +12840,7 @@ FUNC_NAKED void CrewEquipBox::CloseRename()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func346::func));
+	__asm__("call *%0\n\t" :: "m"(_func346::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -13207,7 +12868,6 @@ FUNC_NAKED void CrewEquipBox::RenderLabels(bool dragging, bool isNew)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -13218,7 +12878,7 @@ FUNC_NAKED void CrewEquipBox::RenderLabels(bool dragging, bool isNew)
 			// rsi has dragging
 			// rdx has isNew
 	);
-	__asm__("call *%0\n\t" :: "m"(_func347::func));
+	__asm__("call *%0\n\t" :: "m"(_func347::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -13246,7 +12906,6 @@ FUNC_NAKED void CrewEquipBox::MouseClick()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -13255,7 +12914,7 @@ FUNC_NAKED void CrewEquipBox::MouseClick()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func348::func));
+	__asm__("call *%0\n\t" :: "m"(_func348::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -13283,7 +12942,6 @@ FUNC_NAKED void CrewEquipBox::OnTextInput(SDLKey key)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -13293,7 +12951,7 @@ FUNC_NAKED void CrewEquipBox::OnTextInput(SDLKey key)
 			// rdi has this
 			// rsi has key
 	);
-	__asm__("call *%0\n\t" :: "m"(_func349::func));
+	__asm__("call *%0\n\t" :: "m"(_func349::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -13321,7 +12979,6 @@ FUNC_NAKED void CrewEquipBox::OnTextEvent(CEvent::TextEvent event)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -13331,7 +12988,7 @@ FUNC_NAKED void CrewEquipBox::OnTextEvent(CEvent::TextEvent event)
 			// rdi has this
 			// rsi has event
 	);
-	__asm__("call *%0\n\t" :: "m"(_func350::func));
+	__asm__("call *%0\n\t" :: "m"(_func350::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -13359,7 +13016,6 @@ FUNC_NAKED void CrewEquipBox::constructor(Point pos, ShipManager *ship, int slot
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -13371,7 +13027,7 @@ FUNC_NAKED void CrewEquipBox::constructor(Point pos, ShipManager *ship, int slot
 			// rdx has ship
 			// rcx has slot
 	);
-	__asm__("call *%0\n\t" :: "m"(_func351::func));
+	__asm__("call *%0\n\t" :: "m"(_func351::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -13399,7 +13055,6 @@ FUNC_NAKED void CrewEquipBox::OnRender(bool unk)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -13409,7 +13064,7 @@ FUNC_NAKED void CrewEquipBox::OnRender(bool unk)
 			// rdi has this
 			// rsi has unk
 	);
-	__asm__("call *%0\n\t" :: "m"(_func352::func));
+	__asm__("call *%0\n\t" :: "m"(_func352::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -13437,7 +13092,6 @@ FUNC_NAKED void CrewManifest::constructor()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -13446,7 +13100,7 @@ FUNC_NAKED void CrewManifest::constructor()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func353::func));
+	__asm__("call *%0\n\t" :: "m"(_func353::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -13474,7 +13128,6 @@ FUNC_NAKED void CrewManifest::OnKeyDown(SDLKey key)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -13484,7 +13137,7 @@ FUNC_NAKED void CrewManifest::OnKeyDown(SDLKey key)
 			// rdi has this
 			// rsi has key
 	);
-	__asm__("call *%0\n\t" :: "m"(_func354::func));
+	__asm__("call *%0\n\t" :: "m"(_func354::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -13512,7 +13165,6 @@ FUNC_NAKED void CrewManifest::OnKeyUp(SDLKey key)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -13522,7 +13174,7 @@ FUNC_NAKED void CrewManifest::OnKeyUp(SDLKey key)
 			// rdi has this
 			// rsi has key
 	);
-	__asm__("call *%0\n\t" :: "m"(_func355::func));
+	__asm__("call *%0\n\t" :: "m"(_func355::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -13550,7 +13202,6 @@ FUNC_NAKED void CrewManifest::OnTextInput(SDLKey key)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -13560,7 +13211,7 @@ FUNC_NAKED void CrewManifest::OnTextInput(SDLKey key)
 			// rdi has this
 			// rsi has key
 	);
-	__asm__("call *%0\n\t" :: "m"(_func356::func));
+	__asm__("call *%0\n\t" :: "m"(_func356::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -13588,7 +13239,6 @@ FUNC_NAKED void CrewManifest::OnTextEvent(CEvent::TextEvent event)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -13598,7 +13248,7 @@ FUNC_NAKED void CrewManifest::OnTextEvent(CEvent::TextEvent event)
 			// rdi has this
 			// rsi has event
 	);
-	__asm__("call *%0\n\t" :: "m"(_func357::func));
+	__asm__("call *%0\n\t" :: "m"(_func357::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -13626,7 +13276,6 @@ FUNC_NAKED void CrewManifest::Update()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -13635,7 +13284,7 @@ FUNC_NAKED void CrewManifest::Update()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func358::func));
+	__asm__("call *%0\n\t" :: "m"(_func358::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -13663,7 +13312,6 @@ FUNC_NAKED void CrewManifest::OnInit(ShipManager *ship)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -13673,7 +13321,7 @@ FUNC_NAKED void CrewManifest::OnInit(ShipManager *ship)
 			// rdi has this
 			// rsi has ship
 	);
-	__asm__("call *%0\n\t" :: "m"(_func359::func));
+	__asm__("call *%0\n\t" :: "m"(_func359::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -13701,7 +13349,6 @@ FUNC_NAKED void CrewManifest::Close()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -13710,7 +13357,7 @@ FUNC_NAKED void CrewManifest::Close()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func360::func));
+	__asm__("call *%0\n\t" :: "m"(_func360::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -13738,7 +13385,6 @@ FUNC_NAKED void CrewManifest::MouseClick(int mX, int mY)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -13749,7 +13395,7 @@ FUNC_NAKED void CrewManifest::MouseClick(int mX, int mY)
 			// rsi has mX
 			// rdx has mY
 	);
-	__asm__("call *%0\n\t" :: "m"(_func361::func));
+	__asm__("call *%0\n\t" :: "m"(_func361::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -13777,7 +13423,6 @@ FUNC_NAKED void CrewManifest::OnRender()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -13786,7 +13431,7 @@ FUNC_NAKED void CrewManifest::OnRender()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func362::func));
+	__asm__("call *%0\n\t" :: "m"(_func362::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -13814,7 +13459,6 @@ FUNC_NAKED void CrewManifest::MouseMove(int mX, int mY)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -13825,7 +13469,7 @@ FUNC_NAKED void CrewManifest::MouseMove(int mX, int mY)
 			// rsi has mX
 			// rdx has mY
 	);
-	__asm__("call *%0\n\t" :: "m"(_func363::func));
+	__asm__("call *%0\n\t" :: "m"(_func363::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -13853,7 +13497,6 @@ FUNC_NAKED bool CrewMember::InsideRoom(int roomId)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -13863,7 +13506,7 @@ FUNC_NAKED bool CrewMember::InsideRoom(int roomId)
 			// rdi has this
 			// rsi has roomId
 	);
-	__asm__("call *%0\n\t" :: "m"(_func364::func));
+	__asm__("call *%0\n\t" :: "m"(_func364::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -13891,7 +13534,6 @@ FUNC_NAKED Damage CrewMember::GetRoomDamage()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -13901,7 +13543,7 @@ FUNC_NAKED Damage CrewMember::GetRoomDamage()
 			// rdi has implicit_output
 			// rsi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func365::func));
+	__asm__("call *%0\n\t" :: "m"(_func365::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -13929,7 +13571,6 @@ FUNC_NAKED std::string CrewMember::GetUniqueRepairing()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -13939,7 +13580,7 @@ FUNC_NAKED std::string CrewMember::GetUniqueRepairing()
 			// rdi has implicit_output
 			// rsi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func366::func));
+	__asm__("call *%0\n\t" :: "m"(_func366::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -13967,7 +13608,6 @@ FUNC_NAKED bool CrewMember::CanTeleport()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -13976,7 +13616,7 @@ FUNC_NAKED bool CrewMember::CanTeleport()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func367::func));
+	__asm__("call *%0\n\t" :: "m"(_func367::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -14004,7 +13644,6 @@ FUNC_NAKED void CrewMember::Jump()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -14013,7 +13652,7 @@ FUNC_NAKED void CrewMember::Jump()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func368::func));
+	__asm__("call *%0\n\t" :: "m"(_func368::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -14041,7 +13680,6 @@ FUNC_NAKED void CrewMember::SetOutOfGame()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -14050,7 +13688,7 @@ FUNC_NAKED void CrewMember::SetOutOfGame()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func369::func));
+	__asm__("call *%0\n\t" :: "m"(_func369::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -14078,7 +13716,6 @@ FUNC_NAKED float CrewMember::PositionShift()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -14087,7 +13724,7 @@ FUNC_NAKED float CrewMember::PositionShift()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func370::func));
+	__asm__("call *%0\n\t" :: "m"(_func370::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -14115,7 +13752,6 @@ FUNC_NAKED void CrewMember::OnRender(bool outlineOnly)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -14125,7 +13761,7 @@ FUNC_NAKED void CrewMember::OnRender(bool outlineOnly)
 			// rdi has this
 			// rsi has outlineOnly
 	);
-	__asm__("call *%0\n\t" :: "m"(_func371::func));
+	__asm__("call *%0\n\t" :: "m"(_func371::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -14153,7 +13789,6 @@ FUNC_NAKED bool CrewMember::CanHeal()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -14162,7 +13797,7 @@ FUNC_NAKED bool CrewMember::CanHeal()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func372::func));
+	__asm__("call *%0\n\t" :: "m"(_func372::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -14190,7 +13825,6 @@ FUNC_NAKED void CrewMember::SaveState(int fileHelper)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -14200,7 +13834,7 @@ FUNC_NAKED void CrewMember::SaveState(int fileHelper)
 			// rdi has this
 			// rsi has fileHelper
 	);
-	__asm__("call *%0\n\t" :: "m"(_func373::func));
+	__asm__("call *%0\n\t" :: "m"(_func373::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -14228,7 +13862,6 @@ FUNC_NAKED void CrewMember::destructor()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -14237,7 +13870,7 @@ FUNC_NAKED void CrewMember::destructor()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func374::func));
+	__asm__("call *%0\n\t" :: "m"(_func374::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -14265,7 +13898,6 @@ FUNC_NAKED void CrewMember::Cleanup()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -14274,7 +13906,7 @@ FUNC_NAKED void CrewMember::Cleanup()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func375::func));
+	__asm__("call *%0\n\t" :: "m"(_func375::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -14302,7 +13934,6 @@ FUNC_NAKED void CrewMember::LoadState(int fileHelper)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -14312,7 +13943,7 @@ FUNC_NAKED void CrewMember::LoadState(int fileHelper)
 			// rdi has this
 			// rsi has fileHelper
 	);
-	__asm__("call *%0\n\t" :: "m"(_func376::func));
+	__asm__("call *%0\n\t" :: "m"(_func376::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -14340,7 +13971,6 @@ FUNC_NAKED void CrewMember::SetCurrentSystem(ShipSystem *sys)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -14350,7 +13980,7 @@ FUNC_NAKED void CrewMember::SetCurrentSystem(ShipSystem *sys)
 			// rdi has this
 			// rsi has sys
 	);
-	__asm__("call *%0\n\t" :: "m"(_func377::func));
+	__asm__("call *%0\n\t" :: "m"(_func377::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -14378,7 +14008,6 @@ FUNC_NAKED bool CrewMember::IsManningArtillery()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -14387,7 +14016,7 @@ FUNC_NAKED bool CrewMember::IsManningArtillery()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func378::func));
+	__asm__("call *%0\n\t" :: "m"(_func378::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -14415,7 +14044,6 @@ FUNC_NAKED void CrewMember::IncreaseSkill(int skillId)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -14425,7 +14053,7 @@ FUNC_NAKED void CrewMember::IncreaseSkill(int skillId)
 			// rdi has this
 			// rsi has skillId
 	);
-	__asm__("call *%0\n\t" :: "m"(_func379::func));
+	__asm__("call *%0\n\t" :: "m"(_func379::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -14453,7 +14081,6 @@ FUNC_NAKED void CrewMember::CheckSkills()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -14462,7 +14089,7 @@ FUNC_NAKED void CrewMember::CheckSkills()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func380::func));
+	__asm__("call *%0\n\t" :: "m"(_func380::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -14490,7 +14117,6 @@ FUNC_NAKED void CrewMember::MasterSkill(int skillId)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -14500,7 +14126,7 @@ FUNC_NAKED void CrewMember::MasterSkill(int skillId)
 			// rdi has this
 			// rsi has skillId
 	);
-	__asm__("call *%0\n\t" :: "m"(_func381::func));
+	__asm__("call *%0\n\t" :: "m"(_func381::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -14528,7 +14154,6 @@ FUNC_NAKED int CrewMember::GetSkillFromSystem(int systemId)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -14537,7 +14162,7 @@ FUNC_NAKED int CrewMember::GetSkillFromSystem(int systemId)
 		"pushq %r15\n\t"
 			// rdi has systemId
 	);
-	__asm__("call *%0\n\t" :: "m"(_func382::func));
+	__asm__("call *%0\n\t" :: "m"(_func382::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -14565,7 +14190,6 @@ FUNC_NAKED void CrewMember::SetResisted(bool resisted)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -14575,7 +14199,7 @@ FUNC_NAKED void CrewMember::SetResisted(bool resisted)
 			// rdi has this
 			// rsi has resisted
 	);
-	__asm__("call *%0\n\t" :: "m"(_func383::func));
+	__asm__("call *%0\n\t" :: "m"(_func383::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -14603,7 +14227,6 @@ FUNC_NAKED bool CrewMember::GetResisted()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -14612,7 +14235,7 @@ FUNC_NAKED bool CrewMember::GetResisted()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func384::func));
+	__asm__("call *%0\n\t" :: "m"(_func384::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -14640,7 +14263,6 @@ FUNC_NAKED void CrewMember::SetSkillProgress(int skillId, int skillLevel)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -14651,7 +14273,7 @@ FUNC_NAKED void CrewMember::SetSkillProgress(int skillId, int skillLevel)
 			// rsi has skillId
 			// rdx has skillLevel
 	);
-	__asm__("call *%0\n\t" :: "m"(_func385::func));
+	__asm__("call *%0\n\t" :: "m"(_func385::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -14679,7 +14301,6 @@ FUNC_NAKED int CrewMember::GetSkillLevel(int skillId)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -14689,7 +14310,7 @@ FUNC_NAKED int CrewMember::GetSkillLevel(int skillId)
 			// rdi has this
 			// rsi has skillId
 	);
-	__asm__("call *%0\n\t" :: "m"(_func386::func));
+	__asm__("call *%0\n\t" :: "m"(_func386::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -14717,7 +14338,6 @@ FUNC_NAKED std::pair<int, int> CrewMember::GetSkillProgress(int skillId)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -14727,7 +14347,7 @@ FUNC_NAKED std::pair<int, int> CrewMember::GetSkillProgress(int skillId)
 			// rdi has this
 			// rsi has skillId
 	);
-	__asm__("call *%0\n\t" :: "m"(_func387::func));
+	__asm__("call *%0\n\t" :: "m"(_func387::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -14755,7 +14375,6 @@ FUNC_NAKED float CrewMember::GetSkillModifier(int skillId)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -14765,7 +14384,7 @@ FUNC_NAKED float CrewMember::GetSkillModifier(int skillId)
 			// rdi has this
 			// rsi has skillId
 	);
-	__asm__("call *%0\n\t" :: "m"(_func388::func));
+	__asm__("call *%0\n\t" :: "m"(_func388::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -14793,7 +14412,6 @@ FUNC_NAKED bool CrewMember::BadAtCombat()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -14802,7 +14420,7 @@ FUNC_NAKED bool CrewMember::BadAtCombat()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func389::func));
+	__asm__("call *%0\n\t" :: "m"(_func389::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -14830,7 +14448,6 @@ FUNC_NAKED void CrewMember::EmptySlot()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -14839,7 +14456,7 @@ FUNC_NAKED void CrewMember::EmptySlot()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func390::func));
+	__asm__("call *%0\n\t" :: "m"(_func390::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -14867,7 +14484,6 @@ FUNC_NAKED bool CrewMember::NeedsSlot()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -14876,7 +14492,7 @@ FUNC_NAKED bool CrewMember::NeedsSlot()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func391::func));
+	__asm__("call *%0\n\t" :: "m"(_func391::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -14904,7 +14520,6 @@ FUNC_NAKED bool CrewMember::DirectModifyHealth(float health)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -14914,7 +14529,7 @@ FUNC_NAKED bool CrewMember::DirectModifyHealth(float health)
 			// rdi has this
 			// xmm0 has health
 	);
-	__asm__("call *%0\n\t" :: "m"(_func392::func));
+	__asm__("call *%0\n\t" :: "m"(_func392::func) : "rdi", "xmm0");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -14942,7 +14557,6 @@ FUNC_NAKED void CrewMember::ModifyHealth(float health)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -14952,7 +14566,7 @@ FUNC_NAKED void CrewMember::ModifyHealth(float health)
 			// rdi has this
 			// xmm0 has health
 	);
-	__asm__("call *%0\n\t" :: "m"(_func393::func));
+	__asm__("call *%0\n\t" :: "m"(_func393::func) : "rdi", "xmm0");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -14980,7 +14594,6 @@ FUNC_NAKED bool CrewMember::ApplyDamage(float damage)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -14990,7 +14603,7 @@ FUNC_NAKED bool CrewMember::ApplyDamage(float damage)
 			// rdi has this
 			// xmm0 has damage
 	);
-	__asm__("call *%0\n\t" :: "m"(_func394::func));
+	__asm__("call *%0\n\t" :: "m"(_func394::func) : "rdi", "xmm0");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -15018,7 +14631,6 @@ FUNC_NAKED bool CrewMember::RepairingSystem()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -15027,7 +14639,7 @@ FUNC_NAKED bool CrewMember::RepairingSystem()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func395::func));
+	__asm__("call *%0\n\t" :: "m"(_func395::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -15055,7 +14667,6 @@ FUNC_NAKED bool CrewMember::Sabotaging()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -15064,7 +14675,7 @@ FUNC_NAKED bool CrewMember::Sabotaging()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func396::func));
+	__asm__("call *%0\n\t" :: "m"(_func396::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -15092,7 +14703,6 @@ FUNC_NAKED bool CrewMember::RepairingFire()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -15101,7 +14711,7 @@ FUNC_NAKED bool CrewMember::RepairingFire()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func397::func));
+	__asm__("call *%0\n\t" :: "m"(_func397::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -15129,7 +14739,6 @@ FUNC_NAKED Pointf CrewMember::SelectSabotageTarget()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -15138,7 +14747,7 @@ FUNC_NAKED Pointf CrewMember::SelectSabotageTarget()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func398::func));
+	__asm__("call *%0\n\t" :: "m"(_func398::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -15166,7 +14775,6 @@ FUNC_NAKED void CrewMember::SavePosition()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -15175,7 +14783,7 @@ FUNC_NAKED void CrewMember::SavePosition()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func399::func));
+	__asm__("call *%0\n\t" :: "m"(_func399::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -15203,7 +14811,6 @@ FUNC_NAKED void CrewMember::ClearPosition()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -15212,7 +14819,7 @@ FUNC_NAKED void CrewMember::ClearPosition()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func400::func));
+	__asm__("call *%0\n\t" :: "m"(_func400::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -15240,7 +14847,6 @@ FUNC_NAKED Slot CrewMember::GetSavedPosition()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -15249,7 +14855,7 @@ FUNC_NAKED Slot CrewMember::GetSavedPosition()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func401::func));
+	__asm__("call *%0\n\t" :: "m"(_func401::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -15277,7 +14883,6 @@ FUNC_NAKED void CrewMember::SetSavePosition(Slot position)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -15288,7 +14893,7 @@ FUNC_NAKED void CrewMember::SetSavePosition(Slot position)
 		"pushq 8(%rbp)\n\t"		// position
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func402::func));
+	__asm__("call *%0\n\t" :: "m"(_func402::func) : "rdi");
 	__asm__
 	(
 		"addq $16, %rsp\n\t"
@@ -15317,7 +14922,6 @@ FUNC_NAKED void CrewMember::StopRepairing()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -15326,7 +14930,7 @@ FUNC_NAKED void CrewMember::StopRepairing()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func403::func));
+	__asm__("call *%0\n\t" :: "m"(_func403::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -15354,7 +14958,6 @@ FUNC_NAKED bool CrewMember::Repairing()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -15363,7 +14966,7 @@ FUNC_NAKED bool CrewMember::Repairing()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func404::func));
+	__asm__("call *%0\n\t" :: "m"(_func404::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -15391,7 +14994,6 @@ FUNC_NAKED void CrewMember::SetFrozen(bool frozen)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -15401,7 +15003,7 @@ FUNC_NAKED void CrewMember::SetFrozen(bool frozen)
 			// rdi has this
 			// rsi has frozen
 	);
-	__asm__("call *%0\n\t" :: "m"(_func405::func));
+	__asm__("call *%0\n\t" :: "m"(_func405::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -15429,7 +15031,6 @@ FUNC_NAKED void CrewMember::SetFrozenLocation(bool frozenLocation)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -15439,7 +15040,7 @@ FUNC_NAKED void CrewMember::SetFrozenLocation(bool frozenLocation)
 			// rdi has this
 			// rsi has frozenLocation
 	);
-	__asm__("call *%0\n\t" :: "m"(_func406::func));
+	__asm__("call *%0\n\t" :: "m"(_func406::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -15467,7 +15068,6 @@ FUNC_NAKED void CrewMember::SetTask(CrewTask task)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -15478,7 +15078,7 @@ FUNC_NAKED void CrewMember::SetTask(CrewTask task)
 		"pushq 8(%rbp)\n\t"		// task
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func407::func));
+	__asm__("call *%0\n\t" :: "m"(_func407::func) : "rdi");
 	__asm__
 	(
 		"addq $16, %rsp\n\t"
@@ -15507,7 +15107,6 @@ FUNC_NAKED Slot CrewMember::FindSlot(int unk1, int roomId, bool unk2)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -15519,7 +15118,7 @@ FUNC_NAKED Slot CrewMember::FindSlot(int unk1, int roomId, bool unk2)
 			// rdx has roomId
 			// rcx has unk2
 	);
-	__asm__("call *%0\n\t" :: "m"(_func408::func));
+	__asm__("call *%0\n\t" :: "m"(_func408::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -15547,7 +15146,6 @@ FUNC_NAKED bool CrewMember::CheckRoomPath(int roomId)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -15557,7 +15155,7 @@ FUNC_NAKED bool CrewMember::CheckRoomPath(int roomId)
 			// rdi has this
 			// rsi has roomId
 	);
-	__asm__("call *%0\n\t" :: "m"(_func409::func));
+	__asm__("call *%0\n\t" :: "m"(_func409::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -15585,7 +15183,6 @@ FUNC_NAKED bool CrewMember::NeedsIntruderSlot()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -15594,7 +15191,7 @@ FUNC_NAKED bool CrewMember::NeedsIntruderSlot()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func410::func));
+	__asm__("call *%0\n\t" :: "m"(_func410::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -15622,7 +15219,6 @@ FUNC_NAKED void CrewMember::SetPosition(Point pos)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -15632,7 +15228,7 @@ FUNC_NAKED void CrewMember::SetPosition(Point pos)
 			// rdi has this
 			// rsi has pos
 	);
-	__asm__("call *%0\n\t" :: "m"(_func411::func));
+	__asm__("call *%0\n\t" :: "m"(_func411::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -15660,7 +15256,6 @@ FUNC_NAKED void CrewMember::ClearTask()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -15669,7 +15264,7 @@ FUNC_NAKED void CrewMember::ClearTask()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func412::func));
+	__asm__("call *%0\n\t" :: "m"(_func412::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -15697,7 +15292,6 @@ FUNC_NAKED void CrewMember::ClearPath()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -15706,7 +15300,7 @@ FUNC_NAKED void CrewMember::ClearPath()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func413::func));
+	__asm__("call *%0\n\t" :: "m"(_func413::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -15734,7 +15328,6 @@ FUNC_NAKED void CrewMember::SetRoom(int roomId)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -15744,7 +15337,7 @@ FUNC_NAKED void CrewMember::SetRoom(int roomId)
 			// rdi has this
 			// rsi has roomId
 	);
-	__asm__("call *%0\n\t" :: "m"(_func414::func));
+	__asm__("call *%0\n\t" :: "m"(_func414::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -15772,7 +15365,6 @@ FUNC_NAKED bool CrewMember::IsBusy()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -15781,7 +15373,7 @@ FUNC_NAKED bool CrewMember::IsBusy()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func415::func));
+	__asm__("call *%0\n\t" :: "m"(_func415::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -15809,7 +15401,6 @@ FUNC_NAKED bool CrewMember::OnInit()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -15818,7 +15409,7 @@ FUNC_NAKED bool CrewMember::OnInit()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func416::func));
+	__asm__("call *%0\n\t" :: "m"(_func416::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -15846,7 +15437,6 @@ FUNC_NAKED Point CrewMember::GetFinalGoal()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -15855,7 +15445,7 @@ FUNC_NAKED Point CrewMember::GetFinalGoal()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func417::func));
+	__asm__("call *%0\n\t" :: "m"(_func417::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -15883,7 +15473,6 @@ FUNC_NAKED Point CrewMember::GetNextGoal()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -15892,7 +15481,7 @@ FUNC_NAKED Point CrewMember::GetNextGoal()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func418::func));
+	__asm__("call *%0\n\t" :: "m"(_func418::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -15920,7 +15509,6 @@ FUNC_NAKED void CrewMember::CloseDoorBehind(Door *door)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -15930,7 +15518,7 @@ FUNC_NAKED void CrewMember::CloseDoorBehind(Door *door)
 			// rdi has this
 			// rsi has door
 	);
-	__asm__("call *%0\n\t" :: "m"(_func419::func));
+	__asm__("call *%0\n\t" :: "m"(_func419::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -15958,7 +15546,6 @@ FUNC_NAKED float CrewMember::GetMoveSpeed()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -15967,7 +15554,7 @@ FUNC_NAKED float CrewMember::GetMoveSpeed()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func420::func));
+	__asm__("call *%0\n\t" :: "m"(_func420::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -15995,7 +15582,6 @@ FUNC_NAKED void CrewMember::Restart()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -16004,7 +15590,7 @@ FUNC_NAKED void CrewMember::Restart()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func421::func));
+	__asm__("call *%0\n\t" :: "m"(_func421::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -16032,7 +15618,6 @@ FUNC_NAKED void CrewMember::SetDamageBoost(float damageBoost)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -16042,7 +15627,7 @@ FUNC_NAKED void CrewMember::SetDamageBoost(float damageBoost)
 			// rdi has this
 			// xmm0 has damageBoost
 	);
-	__asm__("call *%0\n\t" :: "m"(_func422::func));
+	__asm__("call *%0\n\t" :: "m"(_func422::func) : "rdi", "xmm0");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -16070,7 +15655,6 @@ FUNC_NAKED void CrewMember::SetHealthBoost(int healthBoost)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -16080,7 +15664,7 @@ FUNC_NAKED void CrewMember::SetHealthBoost(int healthBoost)
 			// rdi has this
 			// rsi has healthBoost
 	);
-	__asm__("call *%0\n\t" :: "m"(_func423::func));
+	__asm__("call *%0\n\t" :: "m"(_func423::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -16108,7 +15692,6 @@ FUNC_NAKED void CrewMember::InitializeSkills()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -16117,7 +15700,7 @@ FUNC_NAKED void CrewMember::InitializeSkills()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func424::func));
+	__asm__("call *%0\n\t" :: "m"(_func424::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -16145,7 +15728,6 @@ FUNC_NAKED void CrewMember::SetCloneReady(bool cloneReady)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -16155,7 +15737,7 @@ FUNC_NAKED void CrewMember::SetCloneReady(bool cloneReady)
 			// rdi has this
 			// rsi has cloneReady
 	);
-	__asm__("call *%0\n\t" :: "m"(_func425::func));
+	__asm__("call *%0\n\t" :: "m"(_func425::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -16183,7 +15765,6 @@ FUNC_NAKED void CrewMember::Kill(bool noClone)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -16193,7 +15774,7 @@ FUNC_NAKED void CrewMember::Kill(bool noClone)
 			// rdi has this
 			// rsi has noClone
 	);
-	__asm__("call *%0\n\t" :: "m"(_func426::func));
+	__asm__("call *%0\n\t" :: "m"(_func426::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -16221,7 +15802,6 @@ FUNC_NAKED bool CrewMember::NeedFrozenLocation()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -16230,7 +15810,7 @@ FUNC_NAKED bool CrewMember::NeedFrozenLocation()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func427::func));
+	__asm__("call *%0\n\t" :: "m"(_func427::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -16258,7 +15838,6 @@ FUNC_NAKED void CrewMember::CheckForTeleport()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -16267,7 +15846,7 @@ FUNC_NAKED void CrewMember::CheckForTeleport()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func428::func));
+	__asm__("call *%0\n\t" :: "m"(_func428::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -16295,7 +15874,6 @@ FUNC_NAKED void CrewMember::SetCurrentShip(int shipId)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -16305,7 +15883,7 @@ FUNC_NAKED void CrewMember::SetCurrentShip(int shipId)
 			// rdi has this
 			// rsi has shipId
 	);
-	__asm__("call *%0\n\t" :: "m"(_func429::func));
+	__asm__("call *%0\n\t" :: "m"(_func429::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -16333,7 +15911,6 @@ FUNC_NAKED void CrewMember::CheckFighting()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -16342,7 +15919,7 @@ FUNC_NAKED void CrewMember::CheckFighting()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func430::func));
+	__asm__("call *%0\n\t" :: "m"(_func430::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -16370,7 +15947,6 @@ FUNC_NAKED void CrewMember::SetDeathNumber(int deathNum)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -16380,7 +15956,7 @@ FUNC_NAKED void CrewMember::SetDeathNumber(int deathNum)
 			// rdi has this
 			// rsi has deathNum
 	);
-	__asm__("call *%0\n\t" :: "m"(_func431::func));
+	__asm__("call *%0\n\t" :: "m"(_func431::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -16408,7 +15984,6 @@ FUNC_NAKED void CrewMember::ForceMindControl(bool force)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -16418,7 +15993,7 @@ FUNC_NAKED void CrewMember::ForceMindControl(bool force)
 			// rdi has this
 			// rsi has force
 	);
-	__asm__("call *%0\n\t" :: "m"(_func432::func));
+	__asm__("call *%0\n\t" :: "m"(_func432::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -16446,7 +16021,6 @@ FUNC_NAKED void CrewMember::RenderSkillUpAnimation(Point pos)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -16456,7 +16030,7 @@ FUNC_NAKED void CrewMember::RenderSkillUpAnimation(Point pos)
 			// rdi has this
 			// rsi has pos
 	);
-	__asm__("call *%0\n\t" :: "m"(_func433::func));
+	__asm__("call *%0\n\t" :: "m"(_func433::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -16484,7 +16058,6 @@ FUNC_NAKED void CrewMember::Clone()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -16493,7 +16066,7 @@ FUNC_NAKED void CrewMember::Clone()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func434::func));
+	__asm__("call *%0\n\t" :: "m"(_func434::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -16521,7 +16094,6 @@ FUNC_NAKED void CrewMember::UpdateHealth()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -16530,7 +16102,7 @@ FUNC_NAKED void CrewMember::UpdateHealth()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func435::func));
+	__asm__("call *%0\n\t" :: "m"(_func435::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -16558,7 +16130,6 @@ FUNC_NAKED void CrewMember::OnRenderPath()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -16567,7 +16138,7 @@ FUNC_NAKED void CrewMember::OnRenderPath()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func436::func));
+	__asm__("call *%0\n\t" :: "m"(_func436::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -16595,7 +16166,6 @@ FUNC_NAKED bool CrewMember::SetPath(Path *path)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -16605,7 +16175,7 @@ FUNC_NAKED bool CrewMember::SetPath(Path *path)
 			// rdi has this
 			// rsi has path
 	);
-	__asm__("call *%0\n\t" :: "m"(_func437::func));
+	__asm__("call *%0\n\t" :: "m"(_func437::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -16633,7 +16203,6 @@ FUNC_NAKED void CrewMember::SetRoomPath(int slotId, int roomId)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -16644,7 +16213,7 @@ FUNC_NAKED void CrewMember::SetRoomPath(int slotId, int roomId)
 			// rsi has slotId
 			// rdx has roomId
 	);
-	__asm__("call *%0\n\t" :: "m"(_func438::func));
+	__asm__("call *%0\n\t" :: "m"(_func438::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -16672,7 +16241,6 @@ FUNC_NAKED Point CrewMember::GetLocation()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -16681,7 +16249,7 @@ FUNC_NAKED Point CrewMember::GetLocation()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func439::func));
+	__asm__("call *%0\n\t" :: "m"(_func439::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -16709,7 +16277,6 @@ FUNC_NAKED bool CrewMember::AtGoal()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -16718,7 +16285,7 @@ FUNC_NAKED bool CrewMember::AtGoal()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func440::func));
+	__asm__("call *%0\n\t" :: "m"(_func440::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -16746,7 +16313,6 @@ FUNC_NAKED bool CrewMember::AtFinalGoal()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -16755,7 +16321,7 @@ FUNC_NAKED bool CrewMember::AtFinalGoal()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func441::func));
+	__asm__("call *%0\n\t" :: "m"(_func441::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -16783,7 +16349,6 @@ FUNC_NAKED void CrewMember::OnRenderHealth()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -16792,7 +16357,7 @@ FUNC_NAKED void CrewMember::OnRenderHealth()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func442::func));
+	__asm__("call *%0\n\t" :: "m"(_func442::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -16820,7 +16385,6 @@ FUNC_NAKED int CrewMember::GetIntegerHealth()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -16829,7 +16393,7 @@ FUNC_NAKED int CrewMember::GetIntegerHealth()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func443::func));
+	__asm__("call *%0\n\t" :: "m"(_func443::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -16857,7 +16421,6 @@ FUNC_NAKED int CrewMember::GetRepairingId()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -16866,7 +16429,7 @@ FUNC_NAKED int CrewMember::GetRepairingId()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func444::func));
+	__asm__("call *%0\n\t" :: "m"(_func444::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -16894,7 +16457,6 @@ FUNC_NAKED bool CrewMember::WithinRect(int x, int y, int w, int h)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -16907,7 +16469,7 @@ FUNC_NAKED bool CrewMember::WithinRect(int x, int y, int w, int h)
 			// rcx has w
 			// r8 has h
 	);
-	__asm__("call *%0\n\t" :: "m"(_func445::func));
+	__asm__("call *%0\n\t" :: "m"(_func445::func) : "rdi", "rsi", "rdx", "rcx", "r8");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -16935,7 +16497,6 @@ FUNC_NAKED std::string CrewMember::GetLongName()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -16945,7 +16506,7 @@ FUNC_NAKED std::string CrewMember::GetLongName()
 			// rdi has implicit_output
 			// rsi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func446::func));
+	__asm__("call *%0\n\t" :: "m"(_func446::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -16973,7 +16534,6 @@ FUNC_NAKED void CrewMember::SetName(TextString *name, bool force)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -16984,7 +16544,7 @@ FUNC_NAKED void CrewMember::SetName(TextString *name, bool force)
 			// rsi has name
 			// rdx has force
 	);
-	__asm__("call *%0\n\t" :: "m"(_func447::func));
+	__asm__("call *%0\n\t" :: "m"(_func447::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -17012,7 +16572,6 @@ FUNC_NAKED std::string CrewMember::GetName()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -17022,7 +16581,7 @@ FUNC_NAKED std::string CrewMember::GetName()
 			// rdi has implicit_output
 			// rsi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func448::func));
+	__asm__("call *%0\n\t" :: "m"(_func448::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -17050,7 +16609,6 @@ FUNC_NAKED void CrewMember::SetCurrentTarget(CrewTarget *target, bool unk)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -17061,7 +16619,7 @@ FUNC_NAKED void CrewMember::SetCurrentTarget(CrewTarget *target, bool unk)
 			// rsi has target
 			// rdx has unk
 	);
-	__asm__("call *%0\n\t" :: "m"(_func449::func));
+	__asm__("call *%0\n\t" :: "m"(_func449::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -17089,7 +16647,6 @@ FUNC_NAKED bool CrewMember::GetNewGoal()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -17098,7 +16655,7 @@ FUNC_NAKED bool CrewMember::GetNewGoal()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func450::func));
+	__asm__("call *%0\n\t" :: "m"(_func450::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -17126,7 +16683,6 @@ FUNC_NAKED bool CrewMember::MoveToRoom(int roomId, int slotId, bool forceMove)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -17138,7 +16694,7 @@ FUNC_NAKED bool CrewMember::MoveToRoom(int roomId, int slotId, bool forceMove)
 			// rdx has slotId
 			// rcx has forceMove
 	);
-	__asm__("call *%0\n\t" :: "m"(_func451::func));
+	__asm__("call *%0\n\t" :: "m"(_func451::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -17166,7 +16722,6 @@ FUNC_NAKED void CrewMember::SetMindControl(bool controlled)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -17176,7 +16731,7 @@ FUNC_NAKED void CrewMember::SetMindControl(bool controlled)
 			// rdi has this
 			// rsi has controlled
 	);
-	__asm__("call *%0\n\t" :: "m"(_func452::func));
+	__asm__("call *%0\n\t" :: "m"(_func452::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -17204,7 +16759,6 @@ FUNC_NAKED bool CrewMember::RestorePosition()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -17213,7 +16767,7 @@ FUNC_NAKED bool CrewMember::RestorePosition()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func453::func));
+	__asm__("call *%0\n\t" :: "m"(_func453::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -17241,7 +16795,6 @@ FUNC_NAKED bool CrewMember::ContainsPoint(int x, int y)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -17252,7 +16805,7 @@ FUNC_NAKED bool CrewMember::ContainsPoint(int x, int y)
 			// rsi has x
 			// rdx has y
 	);
-	__asm__("call *%0\n\t" :: "m"(_func454::func));
+	__asm__("call *%0\n\t" :: "m"(_func454::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -17280,7 +16833,6 @@ FUNC_NAKED void CrewMember::SetMedbay(float health)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -17290,7 +16842,7 @@ FUNC_NAKED void CrewMember::SetMedbay(float health)
 			// rdi has this
 			// xmm0 has health
 	);
-	__asm__("call *%0\n\t" :: "m"(_func455::func));
+	__asm__("call *%0\n\t" :: "m"(_func455::func) : "rdi", "xmm0");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -17318,7 +16870,6 @@ FUNC_NAKED void CrewMember::StartTeleport()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -17327,7 +16878,7 @@ FUNC_NAKED void CrewMember::StartTeleport()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func456::func));
+	__asm__("call *%0\n\t" :: "m"(_func456::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -17355,7 +16906,6 @@ FUNC_NAKED void CrewMember::StartTeleportArrive()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -17364,7 +16914,7 @@ FUNC_NAKED void CrewMember::StartTeleportArrive()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func457::func));
+	__asm__("call *%0\n\t" :: "m"(_func457::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -17392,7 +16942,6 @@ FUNC_NAKED void CrewMember::StartRepair(Repairable *toRepair)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -17402,7 +16951,7 @@ FUNC_NAKED void CrewMember::StartRepair(Repairable *toRepair)
 			// rdi has this
 			// rsi has toRepair
 	);
-	__asm__("call *%0\n\t" :: "m"(_func458::func));
+	__asm__("call *%0\n\t" :: "m"(_func458::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -17430,7 +16979,6 @@ FUNC_NAKED void CrewMember::UpdateRepair()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -17439,7 +16987,7 @@ FUNC_NAKED void CrewMember::UpdateRepair()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func459::func));
+	__asm__("call *%0\n\t" :: "m"(_func459::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -17467,7 +17015,6 @@ FUNC_NAKED void CrewMember::UpdateMovement()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -17476,7 +17023,7 @@ FUNC_NAKED void CrewMember::UpdateMovement()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func460::func));
+	__asm__("call *%0\n\t" :: "m"(_func460::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -17504,7 +17051,6 @@ FUNC_NAKED void CrewMember::OnLoop()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -17513,7 +17059,7 @@ FUNC_NAKED void CrewMember::OnLoop()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func461::func));
+	__asm__("call *%0\n\t" :: "m"(_func461::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -17541,7 +17087,6 @@ FUNC_NAKED std::string CrewMember::GetTooltip()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -17551,7 +17096,7 @@ FUNC_NAKED std::string CrewMember::GetTooltip()
 			// rdi has implicit_output
 			// rsi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func462::func));
+	__asm__("call *%0\n\t" :: "m"(_func462::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -17579,7 +17124,6 @@ FUNC_NAKED void CrewMember::SetSex(bool male)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -17589,7 +17133,7 @@ FUNC_NAKED void CrewMember::SetSex(bool male)
 			// rdi has this
 			// rsi has male
 	);
-	__asm__("call *%0\n\t" :: "m"(_func463::func));
+	__asm__("call *%0\n\t" :: "m"(_func463::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -17617,7 +17161,6 @@ FUNC_NAKED void CrewMember::CycleColorLayer(int unk)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -17627,7 +17170,7 @@ FUNC_NAKED void CrewMember::CycleColorLayer(int unk)
 			// rdi has this
 			// rsi has unk
 	);
-	__asm__("call *%0\n\t" :: "m"(_func464::func));
+	__asm__("call *%0\n\t" :: "m"(_func464::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -17655,7 +17198,6 @@ FUNC_NAKED void CrewMember::constructor(CrewBlueprint &blueprint, int shipId, bo
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -17668,7 +17210,7 @@ FUNC_NAKED void CrewMember::constructor(CrewBlueprint &blueprint, int shipId, bo
 			// rcx has intruder
 			// r8 has animation
 	);
-	__asm__("call *%0\n\t" :: "m"(_func465::func));
+	__asm__("call *%0\n\t" :: "m"(_func465::func) : "rdi", "rsi", "rdx", "rcx", "r8");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -17696,7 +17238,6 @@ FUNC_NAKED bool CrewMember::Functional()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -17705,7 +17246,7 @@ FUNC_NAKED bool CrewMember::Functional()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func466::func));
+	__asm__("call *%0\n\t" :: "m"(_func466::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -17733,7 +17274,6 @@ FUNC_NAKED bool CrewMember::CountForVictory()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -17742,7 +17282,7 @@ FUNC_NAKED bool CrewMember::CountForVictory()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func467::func));
+	__asm__("call *%0\n\t" :: "m"(_func467::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -17770,7 +17310,6 @@ FUNC_NAKED bool CrewMember::CanSabotage()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -17779,7 +17318,7 @@ FUNC_NAKED bool CrewMember::CanSabotage()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func468::func));
+	__asm__("call *%0\n\t" :: "m"(_func468::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -17807,7 +17346,6 @@ FUNC_NAKED bool CrewMember::CanMan()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -17816,7 +17354,7 @@ FUNC_NAKED bool CrewMember::CanMan()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func469::func));
+	__asm__("call *%0\n\t" :: "m"(_func469::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -17844,7 +17382,6 @@ FUNC_NAKED bool CrewMember::CanRepair()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -17853,7 +17390,7 @@ FUNC_NAKED bool CrewMember::CanRepair()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func470::func));
+	__asm__("call *%0\n\t" :: "m"(_func470::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -17881,7 +17418,6 @@ FUNC_NAKED bool CrewMember::GetControllable()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -17890,7 +17426,7 @@ FUNC_NAKED bool CrewMember::GetControllable()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func471::func));
+	__asm__("call *%0\n\t" :: "m"(_func471::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -17918,7 +17454,6 @@ FUNC_NAKED void CrewMemberFactory::destructor()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -17927,7 +17462,7 @@ FUNC_NAKED void CrewMemberFactory::destructor()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func472::func));
+	__asm__("call *%0\n\t" :: "m"(_func472::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -17955,7 +17490,6 @@ FUNC_NAKED void CrewMemberFactory::Restart()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -17964,7 +17498,7 @@ FUNC_NAKED void CrewMemberFactory::Restart()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func473::func));
+	__asm__("call *%0\n\t" :: "m"(_func473::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -17992,7 +17526,6 @@ FUNC_NAKED int CrewMemberFactory::CountCloneReadyCrew(bool player)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -18002,7 +17535,7 @@ FUNC_NAKED int CrewMemberFactory::CountCloneReadyCrew(bool player)
 			// rdi has this
 			// rsi has player
 	);
-	__asm__("call *%0\n\t" :: "m"(_func474::func));
+	__asm__("call *%0\n\t" :: "m"(_func474::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -18030,7 +17563,6 @@ FUNC_NAKED void CrewMemberFactory::GetCrewPortraitList(std::vector<CrewMember*> 
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -18041,7 +17573,7 @@ FUNC_NAKED void CrewMemberFactory::GetCrewPortraitList(std::vector<CrewMember*> 
 			// rsi has vec
 			// rdx has teamId
 	);
-	__asm__("call *%0\n\t" :: "m"(_func475::func));
+	__asm__("call *%0\n\t" :: "m"(_func475::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -18069,7 +17601,6 @@ FUNC_NAKED void CrewMemberFactory::GetCrewList(std::vector<CrewMember*> *vec, in
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -18081,7 +17612,7 @@ FUNC_NAKED void CrewMemberFactory::GetCrewList(std::vector<CrewMember*> *vec, in
 			// rdx has unk
 			// rcx has unk2
 	);
-	__asm__("call *%0\n\t" :: "m"(_func476::func));
+	__asm__("call *%0\n\t" :: "m"(_func476::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -18109,7 +17640,6 @@ FUNC_NAKED int CrewMemberFactory::GetPlayerCrewCount()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -18118,7 +17648,7 @@ FUNC_NAKED int CrewMemberFactory::GetPlayerCrewCount()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func477::func));
+	__asm__("call *%0\n\t" :: "m"(_func477::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -18146,7 +17676,6 @@ FUNC_NAKED int CrewMemberFactory::GetEnemyCloneCount()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -18155,7 +17684,7 @@ FUNC_NAKED int CrewMemberFactory::GetEnemyCloneCount()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func478::func));
+	__asm__("call *%0\n\t" :: "m"(_func478::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -18183,7 +17712,6 @@ FUNC_NAKED int CrewMemberFactory::GetCrewCount(bool enemy)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -18193,7 +17721,7 @@ FUNC_NAKED int CrewMemberFactory::GetCrewCount(bool enemy)
 			// rdi has this
 			// rsi has enemy
 	);
-	__asm__("call *%0\n\t" :: "m"(_func479::func));
+	__asm__("call *%0\n\t" :: "m"(_func479::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -18221,7 +17749,6 @@ FUNC_NAKED int CrewMemberFactory::GetEnemyCrewCount()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -18230,7 +17757,7 @@ FUNC_NAKED int CrewMemberFactory::GetEnemyCrewCount()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func480::func));
+	__asm__("call *%0\n\t" :: "m"(_func480::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -18258,7 +17785,6 @@ FUNC_NAKED bool CrewMemberFactory::IsRace(const std::string &species)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -18267,7 +17793,7 @@ FUNC_NAKED bool CrewMemberFactory::IsRace(const std::string &species)
 		"pushq %r15\n\t"
 			// rdi has species
 	);
-	__asm__("call *%0\n\t" :: "m"(_func481::func));
+	__asm__("call *%0\n\t" :: "m"(_func481::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -18295,7 +17821,6 @@ FUNC_NAKED BoarderDrone *CrewMemberFactory::CreateBoarderDrone(int shipId, const
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -18306,7 +17831,7 @@ FUNC_NAKED BoarderDrone *CrewMemberFactory::CreateBoarderDrone(int shipId, const
 			// rsi has shipId
 			// rdx has bp
 	);
-	__asm__("call *%0\n\t" :: "m"(_func482::func));
+	__asm__("call *%0\n\t" :: "m"(_func482::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -18334,7 +17859,6 @@ FUNC_NAKED BattleDrone *CrewMemberFactory::CreateBattleDrone(int shipId, const D
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -18345,7 +17869,7 @@ FUNC_NAKED BattleDrone *CrewMemberFactory::CreateBattleDrone(int shipId, const D
 			// rsi has shipId
 			// rdx has bp
 	);
-	__asm__("call *%0\n\t" :: "m"(_func483::func));
+	__asm__("call *%0\n\t" :: "m"(_func483::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -18373,7 +17897,6 @@ FUNC_NAKED void CrewMemberFactory::GetCloneReadyList(std::vector<CrewMember*> &v
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -18384,7 +17907,7 @@ FUNC_NAKED void CrewMemberFactory::GetCloneReadyList(std::vector<CrewMember*> &v
 			// rsi has vec
 			// rdx has player
 	);
-	__asm__("call *%0\n\t" :: "m"(_func484::func));
+	__asm__("call *%0\n\t" :: "m"(_func484::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -18412,7 +17935,6 @@ FUNC_NAKED RepairDrone *CrewMemberFactory::CreateRepairDrone(int shipId, const D
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -18423,7 +17945,7 @@ FUNC_NAKED RepairDrone *CrewMemberFactory::CreateRepairDrone(int shipId, const D
 			// rsi has shipId
 			// rdx has bp
 	);
-	__asm__("call *%0\n\t" :: "m"(_func485::func));
+	__asm__("call *%0\n\t" :: "m"(_func485::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -18451,7 +17973,6 @@ FUNC_NAKED std::pair<std::string, bool> CrewMemberFactory::GetRandomFriendlyName
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -18461,7 +17982,7 @@ FUNC_NAKED std::pair<std::string, bool> CrewMemberFactory::GetRandomFriendlyName
 			// rdi has this
 			// rsi has race
 	);
-	__asm__("call *%0\n\t" :: "m"(_func486::func));
+	__asm__("call *%0\n\t" :: "m"(_func486::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -18489,7 +18010,6 @@ FUNC_NAKED std::vector<std::string> CrewMemberFactory::GetCrewNames()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -18499,7 +18019,7 @@ FUNC_NAKED std::vector<std::string> CrewMemberFactory::GetCrewNames()
 			// rdi has implicit_output
 			// rsi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func487::func));
+	__asm__("call *%0\n\t" :: "m"(_func487::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -18527,7 +18047,6 @@ FUNC_NAKED void CrewMemberFactory::OnLoop()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -18536,7 +18055,7 @@ FUNC_NAKED void CrewMemberFactory::OnLoop()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func488::func));
+	__asm__("call *%0\n\t" :: "m"(_func488::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -18564,7 +18083,6 @@ FUNC_NAKED void CrewMemberFactory::RemoveExcessCrew()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -18573,7 +18091,7 @@ FUNC_NAKED void CrewMemberFactory::RemoveExcessCrew()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func489::func));
+	__asm__("call *%0\n\t" :: "m"(_func489::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -18601,7 +18119,6 @@ FUNC_NAKED CrewMember *CrewMemberFactory::CreateCrewMember(CrewBlueprint *bp, in
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -18613,7 +18130,7 @@ FUNC_NAKED CrewMember *CrewMemberFactory::CreateCrewMember(CrewBlueprint *bp, in
 			// rdx has shipId
 			// rcx has intruder
 	);
-	__asm__("call *%0\n\t" :: "m"(_func490::func));
+	__asm__("call *%0\n\t" :: "m"(_func490::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -18648,7 +18165,6 @@ FUNC_NAKED void CrewStoreBox::Purchase()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -18657,7 +18173,7 @@ FUNC_NAKED void CrewStoreBox::Purchase()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func492::func));
+	__asm__("call *%0\n\t" :: "m"(_func492::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -18685,7 +18201,6 @@ FUNC_NAKED void CrewStoreBox::constructor(ShipManager *ship, int worldLevel, con
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -18697,7 +18212,7 @@ FUNC_NAKED void CrewStoreBox::constructor(ShipManager *ship, int worldLevel, con
 			// rdx has worldLevel
 			// rcx has type
 	);
-	__asm__("call *%0\n\t" :: "m"(_func493::func));
+	__asm__("call *%0\n\t" :: "m"(_func493::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -18725,7 +18240,6 @@ FUNC_NAKED void DamageMessage::constructor(float length, Pointf pos, DamageMessa
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -18737,7 +18251,7 @@ FUNC_NAKED void DamageMessage::constructor(float length, Pointf pos, DamageMessa
 			// rsi has pos
 			// rdx has type
 	);
-	__asm__("call *%0\n\t" :: "m"(_func494::func));
+	__asm__("call *%0\n\t" :: "m"(_func494::func) : "rdi", "xmm0", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -18765,7 +18279,6 @@ FUNC_NAKED void DamageMessage::constructor2(float length, int amount, Pointf pos
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -18778,7 +18291,7 @@ FUNC_NAKED void DamageMessage::constructor2(float length, int amount, Pointf pos
 			// rdx has pos
 			// rcx has unk
 	);
-	__asm__("call *%0\n\t" :: "m"(_func495::func));
+	__asm__("call *%0\n\t" :: "m"(_func495::func) : "rdi", "xmm0", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -18806,7 +18319,6 @@ FUNC_NAKED bool DefenseDrone::ValidTargetObject(Targetable *target)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -18816,7 +18328,7 @@ FUNC_NAKED bool DefenseDrone::ValidTargetObject(Targetable *target)
 			// rdi has this
 			// rsi has target
 	);
-	__asm__("call *%0\n\t" :: "m"(_func496::func));
+	__asm__("call *%0\n\t" :: "m"(_func496::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -18844,7 +18356,6 @@ FUNC_NAKED void DefenseDrone::PickTarget()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -18853,7 +18364,7 @@ FUNC_NAKED void DefenseDrone::PickTarget()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func497::func));
+	__asm__("call *%0\n\t" :: "m"(_func497::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -18881,7 +18392,6 @@ FUNC_NAKED void DefenseDrone::SetWeaponTarget(Targetable *target)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -18891,7 +18401,7 @@ FUNC_NAKED void DefenseDrone::SetWeaponTarget(Targetable *target)
 			// rdi has this
 			// rsi has target
 	);
-	__asm__("call *%0\n\t" :: "m"(_func498::func));
+	__asm__("call *%0\n\t" :: "m"(_func498::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -18919,7 +18429,6 @@ FUNC_NAKED std::string DefenseDrone::GetTooltip()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -18929,7 +18438,7 @@ FUNC_NAKED std::string DefenseDrone::GetTooltip()
 			// rdi has implicit_output
 			// rsi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func499::func));
+	__asm__("call *%0\n\t" :: "m"(_func499::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -18957,7 +18466,6 @@ FUNC_NAKED Description &Description::copy_assign_2(Description &&other)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -18967,7 +18475,7 @@ FUNC_NAKED Description &Description::copy_assign_2(Description &&other)
 			// rdi has this
 			// rsi has other
 	);
-	__asm__("call *%0\n\t" :: "m"(_func500::func));
+	__asm__("call *%0\n\t" :: "m"(_func500::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -18995,7 +18503,6 @@ FUNC_NAKED Description &Description::copy_assign_1(const Description &other)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -19005,7 +18512,7 @@ FUNC_NAKED Description &Description::copy_assign_1(const Description &other)
 			// rdi has this
 			// rsi has other
 	);
-	__asm__("call *%0\n\t" :: "m"(_func501::func));
+	__asm__("call *%0\n\t" :: "m"(_func501::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -19033,7 +18540,6 @@ FUNC_NAKED void Description::destructor()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -19042,7 +18548,7 @@ FUNC_NAKED void Description::destructor()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func502::func));
+	__asm__("call *%0\n\t" :: "m"(_func502::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -19070,7 +18576,6 @@ FUNC_NAKED void Door::FakeClose()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -19079,7 +18584,7 @@ FUNC_NAKED void Door::FakeClose()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func503::func));
+	__asm__("call *%0\n\t" :: "m"(_func503::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -19107,7 +18612,6 @@ FUNC_NAKED bool Door::IsSealed(int shipId)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -19117,7 +18621,7 @@ FUNC_NAKED bool Door::IsSealed(int shipId)
 			// rdi has this
 			// rsi has shipId
 	);
-	__asm__("call *%0\n\t" :: "m"(_func504::func));
+	__asm__("call *%0\n\t" :: "m"(_func504::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -19145,7 +18649,6 @@ FUNC_NAKED void Door::FakeOpen()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -19154,7 +18657,7 @@ FUNC_NAKED void Door::FakeOpen()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func505::func));
+	__asm__("call *%0\n\t" :: "m"(_func505::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -19182,7 +18685,6 @@ FUNC_NAKED void Door::OnLoop()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -19191,7 +18693,7 @@ FUNC_NAKED void Door::OnLoop()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func506::func));
+	__asm__("call *%0\n\t" :: "m"(_func506::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -19219,7 +18721,6 @@ FUNC_NAKED void DoorBox::constructor(Point pos, ShipSystem *sys, ShipManager *sh
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -19231,7 +18732,7 @@ FUNC_NAKED void DoorBox::constructor(Point pos, ShipSystem *sys, ShipManager *sh
 			// rdx has sys
 			// rcx has ship
 	);
-	__asm__("call *%0\n\t" :: "m"(_func507::func));
+	__asm__("call *%0\n\t" :: "m"(_func507::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -19259,7 +18760,6 @@ FUNC_NAKED void DroneBlueprint::RenderIcon(float scale)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -19269,7 +18769,7 @@ FUNC_NAKED void DroneBlueprint::RenderIcon(float scale)
 			// rdi has this
 			// xmm0 has scale
 	);
-	__asm__("call *%0\n\t" :: "m"(_func508::func));
+	__asm__("call *%0\n\t" :: "m"(_func508::func) : "rdi", "xmm0");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -19297,7 +18797,6 @@ FUNC_NAKED void DroneStoreBox::constructor(ShipManager *ship, Equipment *equip, 
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -19309,7 +18808,7 @@ FUNC_NAKED void DroneStoreBox::constructor(ShipManager *ship, Equipment *equip, 
 			// rdx has equip
 			// rcx has bp
 	);
-	__asm__("call *%0\n\t" :: "m"(_func509::func));
+	__asm__("call *%0\n\t" :: "m"(_func509::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -19337,7 +18836,6 @@ FUNC_NAKED void DroneSystem::RemoveDrone(int slot)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -19347,7 +18845,7 @@ FUNC_NAKED void DroneSystem::RemoveDrone(int slot)
 			// rdi has this
 			// rsi has slot
 	);
-	__asm__("call *%0\n\t" :: "m"(_func510::func));
+	__asm__("call *%0\n\t" :: "m"(_func510::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -19375,7 +18873,6 @@ FUNC_NAKED void DroneSystem::UpdateBonusPower()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -19384,7 +18881,7 @@ FUNC_NAKED void DroneSystem::UpdateBonusPower()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func511::func));
+	__asm__("call *%0\n\t" :: "m"(_func511::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -19412,7 +18909,6 @@ FUNC_NAKED void DroneSystem::OnLoop()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -19421,7 +18917,7 @@ FUNC_NAKED void DroneSystem::OnLoop()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func512::func));
+	__asm__("call *%0\n\t" :: "m"(_func512::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -19449,7 +18945,6 @@ FUNC_NAKED void DroneSystem::SetBonusPower(int amount, int permanentPower)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -19460,7 +18955,7 @@ FUNC_NAKED void DroneSystem::SetBonusPower(int amount, int permanentPower)
 			// rsi has amount
 			// rdx has permanentPower
 	);
-	__asm__("call *%0\n\t" :: "m"(_func513::func));
+	__asm__("call *%0\n\t" :: "m"(_func513::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -19488,7 +18983,6 @@ FUNC_NAKED bool DroneSystem::DePowerDrone(Drone *drone, bool unk)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -19499,7 +18993,7 @@ FUNC_NAKED bool DroneSystem::DePowerDrone(Drone *drone, bool unk)
 			// rsi has drone
 			// rdx has unk
 	);
-	__asm__("call *%0\n\t" :: "m"(_func514::func));
+	__asm__("call *%0\n\t" :: "m"(_func514::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -19527,7 +19021,6 @@ FUNC_NAKED void DropBox::OnRender()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -19536,7 +19029,7 @@ FUNC_NAKED void DropBox::OnRender()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func515::func));
+	__asm__("call *%0\n\t" :: "m"(_func515::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -19564,7 +19057,6 @@ FUNC_NAKED int DropBox::GetHeight()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -19573,7 +19065,7 @@ FUNC_NAKED int DropBox::GetHeight()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func516::func));
+	__asm__("call *%0\n\t" :: "m"(_func516::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -19601,7 +19093,6 @@ FUNC_NAKED void EnergyAlien::OnLoop()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -19610,7 +19101,7 @@ FUNC_NAKED void EnergyAlien::OnLoop()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func517::func));
+	__asm__("call *%0\n\t" :: "m"(_func517::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -19638,7 +19129,6 @@ FUNC_NAKED Damage EnergyAlien::GetRoomDamage()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -19648,7 +19138,7 @@ FUNC_NAKED Damage EnergyAlien::GetRoomDamage()
 			// rdi has implicit_output
 			// rsi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func518::func));
+	__asm__("call *%0\n\t" :: "m"(_func518::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -19676,7 +19166,6 @@ FUNC_NAKED void Equipment::MouseClick(int mX, int mY)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -19687,7 +19176,7 @@ FUNC_NAKED void Equipment::MouseClick(int mX, int mY)
 			// rsi has mX
 			// rdx has mY
 	);
-	__asm__("call *%0\n\t" :: "m"(_func519::func));
+	__asm__("call *%0\n\t" :: "m"(_func519::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -19715,7 +19204,6 @@ FUNC_NAKED void Equipment::OnLoop()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -19724,7 +19212,7 @@ FUNC_NAKED void Equipment::OnLoop()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func520::func));
+	__asm__("call *%0\n\t" :: "m"(_func520::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -19752,6 +19240,7 @@ FUNC_NAKED void Equipment::MouseUp(int mX, int mY)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
+		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -19762,7 +19251,7 @@ FUNC_NAKED void Equipment::MouseUp(int mX, int mY)
 			// rdi has this
 			// rsi has mX
 	);
-	__asm__("call *%0\n\t" :: "m"(_func521::func));
+	__asm__("call *%0\n\t" :: "m"(_func521::func) : "rdi", "rsi");
 	__asm__
 	(
 		"addq $8, %rsp\n\t"
@@ -19791,7 +19280,6 @@ FUNC_NAKED void Equipment::AddDrone(DroneBlueprint *bp, bool unk1, bool unk2)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -19803,7 +19291,7 @@ FUNC_NAKED void Equipment::AddDrone(DroneBlueprint *bp, bool unk1, bool unk2)
 			// rdx has unk1
 			// rcx has unk2
 	);
-	__asm__("call *%0\n\t" :: "m"(_func522::func));
+	__asm__("call *%0\n\t" :: "m"(_func522::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -19831,7 +19319,6 @@ FUNC_NAKED void Equipment::AddAugment(AugmentBlueprint *bp, bool unk1, bool unk2
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -19843,7 +19330,7 @@ FUNC_NAKED void Equipment::AddAugment(AugmentBlueprint *bp, bool unk1, bool unk2
 			// rdx has unk1
 			// rcx has unk2
 	);
-	__asm__("call *%0\n\t" :: "m"(_func523::func));
+	__asm__("call *%0\n\t" :: "m"(_func523::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -19871,7 +19358,6 @@ FUNC_NAKED std::vector<std::string> Equipment::GetCargoHold()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -19881,7 +19367,7 @@ FUNC_NAKED std::vector<std::string> Equipment::GetCargoHold()
 			// rdi has implicit_output
 			// rsi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func524::func));
+	__asm__("call *%0\n\t" :: "m"(_func524::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -19909,7 +19395,6 @@ FUNC_NAKED void Equipment::AddWeapon(WeaponBlueprint *bp, bool unk1, bool unk2)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -19921,7 +19406,7 @@ FUNC_NAKED void Equipment::AddWeapon(WeaponBlueprint *bp, bool unk1, bool unk2)
 			// rdx has unk1
 			// rcx has unk2
 	);
-	__asm__("call *%0\n\t" :: "m"(_func525::func));
+	__asm__("call *%0\n\t" :: "m"(_func525::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -19949,7 +19434,6 @@ FUNC_NAKED void Equipment::AddToCargo(std::string &name)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -19959,7 +19443,7 @@ FUNC_NAKED void Equipment::AddToCargo(std::string &name)
 			// rdi has this
 			// rsi has name
 	);
-	__asm__("call *%0\n\t" :: "m"(_func526::func));
+	__asm__("call *%0\n\t" :: "m"(_func526::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -19987,7 +19471,6 @@ FUNC_NAKED void Equipment::OnInit(ShipManager *ship)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -19997,7 +19480,7 @@ FUNC_NAKED void Equipment::OnInit(ShipManager *ship)
 			// rdi has this
 			// rsi has ship
 	);
-	__asm__("call *%0\n\t" :: "m"(_func527::func));
+	__asm__("call *%0\n\t" :: "m"(_func527::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -20025,7 +19508,6 @@ FUNC_NAKED void EquipmentBox::SetPosition(Point pos)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -20035,7 +19517,7 @@ FUNC_NAKED void EquipmentBox::SetPosition(Point pos)
 			// rdi has this
 			// rsi has pos
 	);
-	__asm__("call *%0\n\t" :: "m"(_func528::func));
+	__asm__("call *%0\n\t" :: "m"(_func528::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -20063,7 +19545,6 @@ FUNC_NAKED void EquipmentBox::MouseMove(int x, int y)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -20074,7 +19555,7 @@ FUNC_NAKED void EquipmentBox::MouseMove(int x, int y)
 			// rsi has x
 			// rdx has y
 	);
-	__asm__("call *%0\n\t" :: "m"(_func529::func));
+	__asm__("call *%0\n\t" :: "m"(_func529::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -20102,7 +19583,6 @@ FUNC_NAKED void EquipmentBox::Restart()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -20111,7 +19591,7 @@ FUNC_NAKED void EquipmentBox::Restart()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func530::func));
+	__asm__("call *%0\n\t" :: "m"(_func530::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -20139,7 +19619,6 @@ FUNC_NAKED void EquipmentBox::AddItem(EquipmentBoxItem item)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -20150,7 +19629,7 @@ FUNC_NAKED void EquipmentBox::AddItem(EquipmentBoxItem item)
 		"pushq 8(%rbp)\n\t"		// item
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func531::func));
+	__asm__("call *%0\n\t" :: "m"(_func531::func) : "rdi");
 	__asm__
 	(
 		"addq $16, %rsp\n\t"
@@ -20179,7 +19658,6 @@ FUNC_NAKED bool EquipmentBox::CanHoldWeapon()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -20188,7 +19666,7 @@ FUNC_NAKED bool EquipmentBox::CanHoldWeapon()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func532::func));
+	__asm__("call *%0\n\t" :: "m"(_func532::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -20216,7 +19694,6 @@ FUNC_NAKED bool EquipmentBox::CanHoldDrone()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -20225,7 +19702,7 @@ FUNC_NAKED bool EquipmentBox::CanHoldDrone()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func533::func));
+	__asm__("call *%0\n\t" :: "m"(_func533::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -20253,7 +19730,6 @@ FUNC_NAKED int EquipmentBox::GetType()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -20262,7 +19738,7 @@ FUNC_NAKED int EquipmentBox::GetType()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func534::func));
+	__asm__("call *%0\n\t" :: "m"(_func534::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -20290,7 +19766,6 @@ FUNC_NAKED void EquipmentBox::OnRender(bool isEmpty)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -20300,7 +19775,7 @@ FUNC_NAKED void EquipmentBox::OnRender(bool isEmpty)
 			// rdi has this
 			// rsi has isEmpty
 	);
-	__asm__("call *%0\n\t" :: "m"(_func535::func));
+	__asm__("call *%0\n\t" :: "m"(_func535::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -20328,7 +19803,6 @@ FUNC_NAKED void EquipmentBox::destructor()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -20337,7 +19811,7 @@ FUNC_NAKED void EquipmentBox::destructor()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func536::func));
+	__asm__("call *%0\n\t" :: "m"(_func536::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -20365,7 +19839,6 @@ FUNC_NAKED void EquipmentBox::UpdateBoxImage(bool unk)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -20375,7 +19848,7 @@ FUNC_NAKED void EquipmentBox::UpdateBoxImage(bool unk)
 			// rdi has this
 			// rsi has unk
 	);
-	__asm__("call *%0\n\t" :: "m"(_func537::func));
+	__asm__("call *%0\n\t" :: "m"(_func537::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -20403,7 +19876,6 @@ FUNC_NAKED void EquipmentBox::RenderLabels(bool unk)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -20413,7 +19885,7 @@ FUNC_NAKED void EquipmentBox::RenderLabels(bool unk)
 			// rdi has this
 			// rsi has unk
 	);
-	__asm__("call *%0\n\t" :: "m"(_func538::func));
+	__asm__("call *%0\n\t" :: "m"(_func538::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -20441,7 +19913,6 @@ FUNC_NAKED void EquipmentBox::constructor(Point pos, int slot)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -20452,7 +19923,7 @@ FUNC_NAKED void EquipmentBox::constructor(Point pos, int slot)
 			// rsi has pos
 			// rdx has slot
 	);
-	__asm__("call *%0\n\t" :: "m"(_func539::func));
+	__asm__("call *%0\n\t" :: "m"(_func539::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -20480,7 +19951,6 @@ FUNC_NAKED int EquipmentBox::GetItemValue()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -20489,7 +19959,7 @@ FUNC_NAKED int EquipmentBox::GetItemValue()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func540::func));
+	__asm__("call *%0\n\t" :: "m"(_func540::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -20517,7 +19987,6 @@ FUNC_NAKED void EquipmentBox::SetBlueprint(InfoBox *infoBox, bool detailedBox)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -20528,7 +19997,7 @@ FUNC_NAKED void EquipmentBox::SetBlueprint(InfoBox *infoBox, bool detailedBox)
 			// rsi has infoBox
 			// rdx has detailedBox
 	);
-	__asm__("call *%0\n\t" :: "m"(_func541::func));
+	__asm__("call *%0\n\t" :: "m"(_func541::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -20556,7 +20025,6 @@ FUNC_NAKED Blueprint *EquipmentBox::GetBlueprint()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -20565,7 +20033,7 @@ FUNC_NAKED Blueprint *EquipmentBox::GetBlueprint()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func542::func));
+	__asm__("call *%0\n\t" :: "m"(_func542::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -20593,7 +20061,6 @@ FUNC_NAKED std::string EventGenerator::GetImageFromList(const std::string &listN
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -20604,7 +20071,7 @@ FUNC_NAKED std::string EventGenerator::GetImageFromList(const std::string &listN
 			// rsi has this
 			// rdx has listName
 	);
-	__asm__("call *%0\n\t" :: "m"(_func543::func));
+	__asm__("call *%0\n\t" :: "m"(_func543::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -20632,7 +20099,6 @@ FUNC_NAKED SectorDescription EventGenerator::GetSectorDescription(const std::str
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -20644,7 +20110,7 @@ FUNC_NAKED SectorDescription EventGenerator::GetSectorDescription(const std::str
 			// rdx has type
 			// rcx has level
 	);
-	__asm__("call *%0\n\t" :: "m"(_func544::func));
+	__asm__("call *%0\n\t" :: "m"(_func544::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -20672,7 +20138,6 @@ FUNC_NAKED SectorDescription EventGenerator::GetSpecificSector(const std::string
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -20683,7 +20148,7 @@ FUNC_NAKED SectorDescription EventGenerator::GetSpecificSector(const std::string
 			// rsi has this
 			// rdx has name
 	);
-	__asm__("call *%0\n\t" :: "m"(_func545::func));
+	__asm__("call *%0\n\t" :: "m"(_func545::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -20711,7 +20176,6 @@ FUNC_NAKED LocationEvent *EventGenerator::CreateEvent(const std::string &name, i
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -20723,7 +20187,7 @@ FUNC_NAKED LocationEvent *EventGenerator::CreateEvent(const std::string &name, i
 			// rdx has worldLevel
 			// rcx has ignoreUnique
 	);
-	__asm__("call *%0\n\t" :: "m"(_func546::func));
+	__asm__("call *%0\n\t" :: "m"(_func546::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -20751,7 +20215,6 @@ FUNC_NAKED LocationEvent *EventGenerator::GetBaseEvent(const std::string &name, 
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -20764,7 +20227,7 @@ FUNC_NAKED LocationEvent *EventGenerator::GetBaseEvent(const std::string &name, 
 			// rcx has ignoreUnique
 			// r8 has seed
 	);
-	__asm__("call *%0\n\t" :: "m"(_func547::func));
+	__asm__("call *%0\n\t" :: "m"(_func547::func) : "rdi", "rsi", "rdx", "rcx", "r8");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -20799,7 +20262,6 @@ FUNC_NAKED void EventSystem::AddEvent(int id)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -20809,7 +20271,7 @@ FUNC_NAKED void EventSystem::AddEvent(int id)
 			// rdi has this
 			// rsi has id
 	);
-	__asm__("call *%0\n\t" :: "m"(_func549::func));
+	__asm__("call *%0\n\t" :: "m"(_func549::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -20837,7 +20299,6 @@ FUNC_NAKED bool EventSystem::PollEvent(int id)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -20847,7 +20308,7 @@ FUNC_NAKED bool EventSystem::PollEvent(int id)
 			// rdi has this
 			// rsi has id
 	);
-	__asm__("call *%0\n\t" :: "m"(_func550::func));
+	__asm__("call *%0\n\t" :: "m"(_func550::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -20882,7 +20343,6 @@ FUNC_NAKED RandomAmount EventsParser::PullMinMax(rapidxml::xml_node<char> *node,
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -20893,7 +20353,7 @@ FUNC_NAKED RandomAmount EventsParser::PullMinMax(rapidxml::xml_node<char> *node,
 			// rsi has node
 			// rdx has name
 	);
-	__asm__("call *%0\n\t" :: "m"(_func552::func));
+	__asm__("call *%0\n\t" :: "m"(_func552::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -20921,7 +20381,6 @@ FUNC_NAKED ResourcesTemplate EventsParser::ProcessModifyItem(ResourcesTemplate &
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -20934,7 +20393,7 @@ FUNC_NAKED ResourcesTemplate EventsParser::ProcessModifyItem(ResourcesTemplate &
 			// rcx has node
 			// r8 has unk
 	);
-	__asm__("call *%0\n\t" :: "m"(_func553::func));
+	__asm__("call *%0\n\t" :: "m"(_func553::func) : "rdi", "rsi", "rdx", "rcx", "r8");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -20962,7 +20421,6 @@ FUNC_NAKED ShipTemplate EventsParser::ProcessShipEvent(rapidxml::xml_node<char> 
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -20973,7 +20431,7 @@ FUNC_NAKED ShipTemplate EventsParser::ProcessShipEvent(rapidxml::xml_node<char> 
 			// rsi has this
 			// rdx has node
 	);
-	__asm__("call *%0\n\t" :: "m"(_func554::func));
+	__asm__("call *%0\n\t" :: "m"(_func554::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -21001,7 +20459,6 @@ FUNC_NAKED std::string EventsParser::ProcessEvent(rapidxml::xml_node<char> *node
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -21013,7 +20470,7 @@ FUNC_NAKED std::string EventsParser::ProcessEvent(rapidxml::xml_node<char> *node
 			// rdx has node
 			// rcx has eventName
 	);
-	__asm__("call *%0\n\t" :: "m"(_func555::func));
+	__asm__("call *%0\n\t" :: "m"(_func555::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -21041,7 +20498,6 @@ FUNC_NAKED std::vector<std::string> EventsParser::ProcessEventList(rapidxml::xml
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -21053,7 +20509,7 @@ FUNC_NAKED std::vector<std::string> EventsParser::ProcessEventList(rapidxml::xml
 			// rdx has node
 			// rcx has listName
 	);
-	__asm__("call *%0\n\t" :: "m"(_func556::func));
+	__asm__("call *%0\n\t" :: "m"(_func556::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -21081,7 +20537,6 @@ FUNC_NAKED void EventsParser::ProcessBaseNode(rapidxml::xml_node<char> *node, Ev
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -21092,7 +20547,7 @@ FUNC_NAKED void EventsParser::ProcessBaseNode(rapidxml::xml_node<char> *node, Ev
 			// rsi has node
 			// rdx has generator
 	);
-	__asm__("call *%0\n\t" :: "m"(_func557::func));
+	__asm__("call *%0\n\t" :: "m"(_func557::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -21120,7 +20575,6 @@ FUNC_NAKED void EventsParser::AddEvents(EventGenerator &generator, char *file, c
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -21132,7 +20586,7 @@ FUNC_NAKED void EventsParser::AddEvents(EventGenerator &generator, char *file, c
 			// rdx has file
 			// rcx has fileName
 	);
-	__asm__("call *%0\n\t" :: "m"(_func558::func));
+	__asm__("call *%0\n\t" :: "m"(_func558::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -21160,7 +20614,6 @@ FUNC_NAKED void EventsParser::AddAllEvents()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -21169,7 +20622,7 @@ FUNC_NAKED void EventsParser::AddAllEvents()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func559::func));
+	__asm__("call *%0\n\t" :: "m"(_func559::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -21204,7 +20657,6 @@ FUNC_NAKED void ExplosionAnimation::OnInit(rapidxml::xml_node<char> *node, const
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -21216,7 +20668,7 @@ FUNC_NAKED void ExplosionAnimation::OnInit(rapidxml::xml_node<char> *node, const
 			// rdx has name
 			// rcx has glowOffset
 	);
-	__asm__("call *%0\n\t" :: "m"(_func561::func));
+	__asm__("call *%0\n\t" :: "m"(_func561::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -21244,7 +20696,6 @@ FUNC_NAKED void FTLButton::OnRender()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -21253,7 +20704,7 @@ FUNC_NAKED void FTLButton::OnRender()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func562::func));
+	__asm__("call *%0\n\t" :: "m"(_func562::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -21281,7 +20732,6 @@ FUNC_NAKED void FTLButton::MouseMove(int mX, int mY, bool silent)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -21293,7 +20743,7 @@ FUNC_NAKED void FTLButton::MouseMove(int mX, int mY, bool silent)
 			// rdx has mY
 			// rcx has silent
 	);
-	__asm__("call *%0\n\t" :: "m"(_func563::func));
+	__asm__("call *%0\n\t" :: "m"(_func563::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -21321,7 +20771,6 @@ FUNC_NAKED void FileHelper::deleteFile(const std::string &fileName)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -21330,7 +20779,7 @@ FUNC_NAKED void FileHelper::deleteFile(const std::string &fileName)
 		"pushq %r15\n\t"
 			// rdi has fileName
 	);
-	__asm__("call *%0\n\t" :: "m"(_func564::func));
+	__asm__("call *%0\n\t" :: "m"(_func564::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -21358,7 +20807,6 @@ FUNC_NAKED std::string FileHelper::getResourceFile()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -21367,7 +20815,7 @@ FUNC_NAKED std::string FileHelper::getResourceFile()
 		"pushq %r15\n\t"
 			// rdi has implicit_output
 	);
-	__asm__("call *%0\n\t" :: "m"(_func565::func));
+	__asm__("call *%0\n\t" :: "m"(_func565::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -21395,7 +20843,6 @@ FUNC_NAKED std::string FileHelper::getUserFolder()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -21404,7 +20851,7 @@ FUNC_NAKED std::string FileHelper::getUserFolder()
 		"pushq %r15\n\t"
 			// rdi has implicit_output
 	);
-	__asm__("call *%0\n\t" :: "m"(_func566::func));
+	__asm__("call *%0\n\t" :: "m"(_func566::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -21432,7 +20879,6 @@ FUNC_NAKED std::string FileHelper::getSaveFile()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -21441,7 +20887,7 @@ FUNC_NAKED std::string FileHelper::getSaveFile()
 		"pushq %r15\n\t"
 			// rdi has implicit_output
 	);
-	__asm__("call *%0\n\t" :: "m"(_func567::func));
+	__asm__("call *%0\n\t" :: "m"(_func567::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -21469,7 +20915,6 @@ FUNC_NAKED void FileHelper::initFileHelper()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -21505,7 +20950,6 @@ FUNC_NAKED bool FileHelper::fileExists(const std::string &fileName)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -21514,7 +20958,7 @@ FUNC_NAKED bool FileHelper::fileExists(const std::string &fileName)
 		"pushq %r15\n\t"
 			// rdi has fileName
 	);
-	__asm__("call *%0\n\t" :: "m"(_func569::func));
+	__asm__("call *%0\n\t" :: "m"(_func569::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -21542,7 +20986,6 @@ FUNC_NAKED void FileHelper::renameFile(const std::string &fileName, const std::s
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -21552,7 +20995,7 @@ FUNC_NAKED void FileHelper::renameFile(const std::string &fileName, const std::s
 			// rdi has fileName
 			// rsi has newName
 	);
-	__asm__("call *%0\n\t" :: "m"(_func570::func));
+	__asm__("call *%0\n\t" :: "m"(_func570::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -21580,7 +21023,6 @@ FUNC_NAKED int FileHelper::createBinaryFile(const std::string &fileName)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -21589,7 +21031,7 @@ FUNC_NAKED int FileHelper::createBinaryFile(const std::string &fileName)
 		"pushq %r15\n\t"
 			// rdi has fileName
 	);
-	__asm__("call *%0\n\t" :: "m"(_func571::func));
+	__asm__("call *%0\n\t" :: "m"(_func571::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -21617,7 +21059,6 @@ FUNC_NAKED bool FileHelper::saveFileExists()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -21653,7 +21094,6 @@ FUNC_NAKED int FileHelper::readSaveFile()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -21689,7 +21129,6 @@ FUNC_NAKED int FileHelper::readStatsFile()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -21725,7 +21164,6 @@ FUNC_NAKED int FileHelper::createSaveFile()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -21761,7 +21199,6 @@ FUNC_NAKED int FileHelper::createStatsFile()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -21797,7 +21234,6 @@ FUNC_NAKED void FileHelper::deleteSaveFile()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -21833,7 +21269,6 @@ FUNC_NAKED void FileHelper::deleteAllSaveFiles()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -21869,7 +21304,6 @@ FUNC_NAKED int FileHelper::getPosition(int file)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -21878,7 +21312,7 @@ FUNC_NAKED int FileHelper::getPosition(int file)
 		"pushq %r15\n\t"
 			// rdi has file
 	);
-	__asm__("call *%0\n\t" :: "m"(_func579::func));
+	__asm__("call *%0\n\t" :: "m"(_func579::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -21906,7 +21340,6 @@ FUNC_NAKED int FileHelper::readBinaryFile(const std::string &fileName)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -21915,7 +21348,7 @@ FUNC_NAKED int FileHelper::readBinaryFile(const std::string &fileName)
 		"pushq %r15\n\t"
 			// rdi has fileName
 	);
-	__asm__("call *%0\n\t" :: "m"(_func580::func));
+	__asm__("call *%0\n\t" :: "m"(_func580::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -21943,7 +21376,6 @@ FUNC_NAKED bool FileHelper::writeFloat(int file, float data)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -21953,7 +21385,7 @@ FUNC_NAKED bool FileHelper::writeFloat(int file, float data)
 			// rdi has file
 			// xmm0 has data
 	);
-	__asm__("call *%0\n\t" :: "m"(_func581::func));
+	__asm__("call *%0\n\t" :: "m"(_func581::func) : "rdi", "xmm0");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -21981,7 +21413,6 @@ FUNC_NAKED bool FileHelper::writeInt(int file, int data)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -21991,7 +21422,7 @@ FUNC_NAKED bool FileHelper::writeInt(int file, int data)
 			// rdi has file
 			// rsi has data
 	);
-	__asm__("call *%0\n\t" :: "m"(_func582::func));
+	__asm__("call *%0\n\t" :: "m"(_func582::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -22019,7 +21450,6 @@ FUNC_NAKED bool FileHelper::writeData(int file, void *data, int len)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -22030,7 +21460,7 @@ FUNC_NAKED bool FileHelper::writeData(int file, void *data, int len)
 			// rsi has data
 			// rdx has len
 	);
-	__asm__("call *%0\n\t" :: "m"(_func583::func));
+	__asm__("call *%0\n\t" :: "m"(_func583::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -22058,7 +21488,6 @@ FUNC_NAKED bool FileHelper::writeString(int file, const std::string &data)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -22068,7 +21497,7 @@ FUNC_NAKED bool FileHelper::writeString(int file, const std::string &data)
 			// rdi has file
 			// rsi has data
 	);
-	__asm__("call *%0\n\t" :: "m"(_func584::func));
+	__asm__("call *%0\n\t" :: "m"(_func584::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -22096,7 +21525,6 @@ FUNC_NAKED void FileHelper::closeBinaryFile(int file)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -22105,7 +21533,7 @@ FUNC_NAKED void FileHelper::closeBinaryFile(int file)
 		"pushq %r15\n\t"
 			// rdi has file
 	);
-	__asm__("call *%0\n\t" :: "m"(_func585::func));
+	__asm__("call *%0\n\t" :: "m"(_func585::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -22133,7 +21561,6 @@ FUNC_NAKED std::string FileHelper::readString(int file)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -22143,7 +21570,7 @@ FUNC_NAKED std::string FileHelper::readString(int file)
 			// rdi has implicit_output
 			// rsi has file
 	);
-	__asm__("call *%0\n\t" :: "m"(_func586::func));
+	__asm__("call *%0\n\t" :: "m"(_func586::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -22171,7 +21598,6 @@ FUNC_NAKED float FileHelper::readFloat(int file)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -22180,7 +21606,7 @@ FUNC_NAKED float FileHelper::readFloat(int file)
 		"pushq %r15\n\t"
 			// rdi has file
 	);
-	__asm__("call *%0\n\t" :: "m"(_func587::func));
+	__asm__("call *%0\n\t" :: "m"(_func587::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -22208,7 +21634,6 @@ FUNC_NAKED int FileHelper::readInteger(int file)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -22217,7 +21642,7 @@ FUNC_NAKED int FileHelper::readInteger(int file)
 		"pushq %r15\n\t"
 			// rdi has file
 	);
-	__asm__("call *%0\n\t" :: "m"(_func588::func));
+	__asm__("call *%0\n\t" :: "m"(_func588::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -22245,7 +21670,6 @@ FUNC_NAKED bool FileHelper::seekPosition(int file, int pos)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -22255,7 +21679,7 @@ FUNC_NAKED bool FileHelper::seekPosition(int file, int pos)
 			// rdi has file
 			// rsi has pos
 	);
-	__asm__("call *%0\n\t" :: "m"(_func589::func));
+	__asm__("call *%0\n\t" :: "m"(_func589::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -22283,7 +21707,6 @@ FUNC_NAKED char *FileHelper::readBuffer(int file, int len, bool nullTerminate)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -22294,7 +21717,7 @@ FUNC_NAKED char *FileHelper::readBuffer(int file, int len, bool nullTerminate)
 			// rsi has len
 			// rdx has nullTerminate
 	);
-	__asm__("call *%0\n\t" :: "m"(_func590::func));
+	__asm__("call *%0\n\t" :: "m"(_func590::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -22322,7 +21745,6 @@ FUNC_NAKED void FileHelper::readData(int file, void *data, int len)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -22333,7 +21755,7 @@ FUNC_NAKED void FileHelper::readData(int file, void *data, int len)
 			// rsi has data
 			// rdx has len
 	);
-	__asm__("call *%0\n\t" :: "m"(_func591::func));
+	__asm__("call *%0\n\t" :: "m"(_func591::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -22361,7 +21783,6 @@ FUNC_NAKED void Fire::OnLoop()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -22370,7 +21791,7 @@ FUNC_NAKED void Fire::OnLoop()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func592::func));
+	__asm__("call *%0\n\t" :: "m"(_func592::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -22398,7 +21819,6 @@ FUNC_NAKED void Fire::UpdateDeathTimer(int connectedFires)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -22408,7 +21828,7 @@ FUNC_NAKED void Fire::UpdateDeathTimer(int connectedFires)
 			// rdi has this
 			// rsi has connectedFires
 	);
-	__asm__("call *%0\n\t" :: "m"(_func593::func));
+	__asm__("call *%0\n\t" :: "m"(_func593::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -22436,7 +21856,6 @@ FUNC_NAKED void Fire::UpdateStartTimer(int doorLevel)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -22446,7 +21865,7 @@ FUNC_NAKED void Fire::UpdateStartTimer(int doorLevel)
 			// rdi has this
 			// rsi has doorLevel
 	);
-	__asm__("call *%0\n\t" :: "m"(_func594::func));
+	__asm__("call *%0\n\t" :: "m"(_func594::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -22474,7 +21893,6 @@ FUNC_NAKED void FocusWindow::MouseClick(int x, int y)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -22485,7 +21903,7 @@ FUNC_NAKED void FocusWindow::MouseClick(int x, int y)
 			// rsi has x
 			// rdx has y
 	);
-	__asm__("call *%0\n\t" :: "m"(_func595::func));
+	__asm__("call *%0\n\t" :: "m"(_func595::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -22513,7 +21931,6 @@ FUNC_NAKED void GameOver::OpenText(const std::string &text)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -22523,7 +21940,7 @@ FUNC_NAKED void GameOver::OpenText(const std::string &text)
 			// rdi has this
 			// rsi has text
 	);
-	__asm__("call *%0\n\t" :: "m"(_func596::func));
+	__asm__("call *%0\n\t" :: "m"(_func596::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -22551,7 +21968,6 @@ FUNC_NAKED void GameOver::OnRender()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -22560,7 +21976,7 @@ FUNC_NAKED void GameOver::OnRender()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func597::func));
+	__asm__("call *%0\n\t" :: "m"(_func597::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -22588,7 +22004,6 @@ FUNC_NAKED void GameOver::OnLoop()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -22597,7 +22012,7 @@ FUNC_NAKED void GameOver::OnLoop()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func598::func));
+	__asm__("call *%0\n\t" :: "m"(_func598::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -22625,7 +22040,6 @@ FUNC_NAKED void GenericButton::SetLocation(Point pos)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -22635,7 +22049,7 @@ FUNC_NAKED void GenericButton::SetLocation(Point pos)
 			// rdi has this
 			// rsi has pos
 	);
-	__asm__("call *%0\n\t" :: "m"(_func599::func));
+	__asm__("call *%0\n\t" :: "m"(_func599::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -22663,7 +22077,6 @@ FUNC_NAKED void GenericButton::SetActive(bool active)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -22673,7 +22086,7 @@ FUNC_NAKED void GenericButton::SetActive(bool active)
 			// rdi has this
 			// rsi has active
 	);
-	__asm__("call *%0\n\t" :: "m"(_func600::func));
+	__asm__("call *%0\n\t" :: "m"(_func600::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -22701,7 +22114,6 @@ FUNC_NAKED void GenericButton::MouseMove(int x, int y, bool silent)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -22713,7 +22125,7 @@ FUNC_NAKED void GenericButton::MouseMove(int x, int y, bool silent)
 			// rdx has y
 			// rcx has silent
 	);
-	__asm__("call *%0\n\t" :: "m"(_func601::func));
+	__asm__("call *%0\n\t" :: "m"(_func601::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -22741,7 +22153,6 @@ FUNC_NAKED void GenericButton::OnClick()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -22750,7 +22161,7 @@ FUNC_NAKED void GenericButton::OnClick()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func602::func));
+	__asm__("call *%0\n\t" :: "m"(_func602::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -22778,7 +22189,6 @@ FUNC_NAKED void GenericButton::OnRightClick()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -22787,7 +22197,7 @@ FUNC_NAKED void GenericButton::OnRightClick()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func603::func));
+	__asm__("call *%0\n\t" :: "m"(_func603::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -22815,7 +22225,6 @@ FUNC_NAKED void GenericButton::ResetPrimitives()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -22824,7 +22233,7 @@ FUNC_NAKED void GenericButton::ResetPrimitives()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func604::func));
+	__asm__("call *%0\n\t" :: "m"(_func604::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -22852,7 +22261,6 @@ FUNC_NAKED float __stdcall font_text_width(freetype::font_data &fontData, const 
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -22863,7 +22271,7 @@ FUNC_NAKED float __stdcall font_text_width(freetype::font_data &fontData, const 
 			// rsi has str
 			// xmm0 has size
 	);
-	__asm__("call *%0\n\t" :: "m"(_func605::func));
+	__asm__("call *%0\n\t" :: "m"(_func605::func) : "rdi", "rsi", "xmm0");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -22891,7 +22299,6 @@ FUNC_NAKED int __stdcall random32()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -22927,7 +22334,6 @@ FUNC_NAKED void __stdcall srandom32(unsigned int seed)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -22936,7 +22342,7 @@ FUNC_NAKED void __stdcall srandom32(unsigned int seed)
 		"pushq %r15\n\t"
 			// rdi has seed
 	);
-	__asm__("call *%0\n\t" :: "m"(_func607::func));
+	__asm__("call *%0\n\t" :: "m"(_func607::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -22964,7 +22370,6 @@ FUNC_NAKED float __stdcall getSkillBonus(int skill, int level)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -22974,7 +22379,7 @@ FUNC_NAKED float __stdcall getSkillBonus(int skill, int level)
 			// rdi has skill
 			// rsi has level
 	);
-	__asm__("call *%0\n\t" :: "m"(_func608::func));
+	__asm__("call *%0\n\t" :: "m"(_func608::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -23002,7 +22407,6 @@ FUNC_NAKED void __stdcall GetValue(ResourceEvent &ref, const std::string &type, 
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -23014,7 +22418,7 @@ FUNC_NAKED void __stdcall GetValue(ResourceEvent &ref, const std::string &type, 
 			// rdx has level
 			// rcx has worldLevel
 	);
-	__asm__("call *%0\n\t" :: "m"(_func609::func));
+	__asm__("call *%0\n\t" :: "m"(_func609::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -23042,7 +22446,6 @@ FUNC_NAKED void __stdcall GenerateReward(ResourceEvent &ref, RewardDesc &reward,
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -23053,7 +22456,7 @@ FUNC_NAKED void __stdcall GenerateReward(ResourceEvent &ref, RewardDesc &reward,
 			// rsi has reward
 			// rdx has worldLevel
 	);
-	__asm__("call *%0\n\t" :: "m"(_func610::func));
+	__asm__("call *%0\n\t" :: "m"(_func610::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -23081,7 +22484,6 @@ FUNC_NAKED float Globals::AimAhead(Pointf delta, Pointf vr, float muzzleV)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -23092,7 +22494,7 @@ FUNC_NAKED float Globals::AimAhead(Pointf delta, Pointf vr, float muzzleV)
 			// rsi has vr
 			// xmm0 has muzzleV
 	);
-	__asm__("call *%0\n\t" :: "m"(_func611::func));
+	__asm__("call *%0\n\t" :: "m"(_func611::func) : "rdi", "rsi", "xmm0");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -23120,7 +22522,6 @@ FUNC_NAKED int Globals::GetNextSpaceId()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -23170,7 +22571,6 @@ FUNC_NAKED void HackBox::constructor(Point pos, HackingSystem *sys, ShipManager 
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -23182,7 +22582,7 @@ FUNC_NAKED void HackBox::constructor(Point pos, HackingSystem *sys, ShipManager 
 			// rdx has sys
 			// rcx has ship
 	);
-	__asm__("call *%0\n\t" :: "m"(_func615::func));
+	__asm__("call *%0\n\t" :: "m"(_func615::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -23210,7 +22610,6 @@ FUNC_NAKED void HackingDrone::OnLoop()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -23219,7 +22618,7 @@ FUNC_NAKED void HackingDrone::OnLoop()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func616::func));
+	__asm__("call *%0\n\t" :: "m"(_func616::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -23247,7 +22646,6 @@ FUNC_NAKED void HackingDrone::SetMovementTarget(Targetable *target)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -23257,7 +22655,7 @@ FUNC_NAKED void HackingDrone::SetMovementTarget(Targetable *target)
 			// rdi has this
 			// rsi has target
 	);
-	__asm__("call *%0\n\t" :: "m"(_func617::func));
+	__asm__("call *%0\n\t" :: "m"(_func617::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -23285,7 +22683,6 @@ FUNC_NAKED void HackingSystem::BlowHackingDrone()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -23294,7 +22691,7 @@ FUNC_NAKED void HackingSystem::BlowHackingDrone()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func618::func));
+	__asm__("call *%0\n\t" :: "m"(_func618::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -23322,7 +22719,6 @@ FUNC_NAKED void HackingSystem::OnLoop()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -23331,7 +22727,7 @@ FUNC_NAKED void HackingSystem::OnLoop()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func619::func));
+	__asm__("call *%0\n\t" :: "m"(_func619::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -23359,7 +22755,6 @@ FUNC_NAKED void InfoBox::constructor()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -23368,7 +22763,7 @@ FUNC_NAKED void InfoBox::constructor()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func620::func));
+	__asm__("call *%0\n\t" :: "m"(_func620::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -23396,7 +22791,6 @@ FUNC_NAKED void InfoBox::SetBlueprintWeapon(const WeaponBlueprint *bp, int statu
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -23409,7 +22803,7 @@ FUNC_NAKED void InfoBox::SetBlueprintWeapon(const WeaponBlueprint *bp, int statu
 			// rcx has hasWeaponSystem
 			// r8 has yShift
 	);
-	__asm__("call *%0\n\t" :: "m"(_func621::func));
+	__asm__("call *%0\n\t" :: "m"(_func621::func) : "rdi", "rsi", "rdx", "rcx", "r8");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -23437,7 +22831,6 @@ FUNC_NAKED void InfoBox::SetBlueprintDrone(const DroneBlueprint *bp, int status,
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -23450,7 +22843,7 @@ FUNC_NAKED void InfoBox::SetBlueprintDrone(const DroneBlueprint *bp, int status,
 			// rcx has hasDroneSystem
 			// r8 has yShift
 	);
-	__asm__("call *%0\n\t" :: "m"(_func622::func));
+	__asm__("call *%0\n\t" :: "m"(_func622::func) : "rdi", "rsi", "rdx", "rcx", "r8");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -23478,7 +22871,6 @@ FUNC_NAKED void InfoBox::SetBlueprint(const ItemBlueprint *bp)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -23488,7 +22880,7 @@ FUNC_NAKED void InfoBox::SetBlueprint(const ItemBlueprint *bp)
 			// rdi has this
 			// rsi has bp
 	);
-	__asm__("call *%0\n\t" :: "m"(_func623::func));
+	__asm__("call *%0\n\t" :: "m"(_func623::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -23516,7 +22908,6 @@ FUNC_NAKED void InfoBox::SetBlueprintCrew(const CrewBlueprint *bp, int yShift, b
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -23528,7 +22919,7 @@ FUNC_NAKED void InfoBox::SetBlueprintCrew(const CrewBlueprint *bp, int yShift, b
 			// rdx has yShift
 			// rcx has detailedCrew
 	);
-	__asm__("call *%0\n\t" :: "m"(_func624::func));
+	__asm__("call *%0\n\t" :: "m"(_func624::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -23556,7 +22947,6 @@ FUNC_NAKED void InfoBox::SetBlueprintAugment(const AugmentBlueprint *bp)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -23566,7 +22956,7 @@ FUNC_NAKED void InfoBox::SetBlueprintAugment(const AugmentBlueprint *bp)
 			// rdi has this
 			// rsi has bp
 	);
-	__asm__("call *%0\n\t" :: "m"(_func625::func));
+	__asm__("call *%0\n\t" :: "m"(_func625::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -23594,7 +22984,6 @@ FUNC_NAKED bool InfoBox::IsEmpty()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -23603,7 +22992,7 @@ FUNC_NAKED bool InfoBox::IsEmpty()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func626::func));
+	__asm__("call *%0\n\t" :: "m"(_func626::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -23631,7 +23020,6 @@ FUNC_NAKED int InfoBox::CalcBoxHeight()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -23640,7 +23028,7 @@ FUNC_NAKED int InfoBox::CalcBoxHeight()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func627::func));
+	__asm__("call *%0\n\t" :: "m"(_func627::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -23668,6 +23056,7 @@ FUNC_NAKED void InfoBox::SetSystemId(int systemId, int maxPower, int currentLeve
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
+		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -23682,7 +23071,7 @@ FUNC_NAKED void InfoBox::SetSystemId(int systemId, int maxPower, int currentLeve
 			// r8 has upgrade
 			// r9 has yShift
 	);
-	__asm__("call *%0\n\t" :: "m"(_func628::func));
+	__asm__("call *%0\n\t" :: "m"(_func628::func) : "rdi", "rsi", "rdx", "rcx", "r8", "r9");
 	__asm__
 	(
 		"addq $8, %rsp\n\t"
@@ -23711,7 +23100,6 @@ FUNC_NAKED void InfoBox::SetDescription(Description *desc, int width, int height
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -23724,7 +23112,7 @@ FUNC_NAKED void InfoBox::SetDescription(Description *desc, int width, int height
 			// rcx has height
 			// r8 has dir
 	);
-	__asm__("call *%0\n\t" :: "m"(_func629::func));
+	__asm__("call *%0\n\t" :: "m"(_func629::func) : "rdi", "rsi", "rdx", "rcx", "r8");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -23752,7 +23140,6 @@ FUNC_NAKED void InfoBox::SetText(const std::string &title, const std::string &te
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -23766,7 +23153,7 @@ FUNC_NAKED void InfoBox::SetText(const std::string &title, const std::string &te
 			// r8 has height
 			// r9 has dir
 	);
-	__asm__("call *%0\n\t" :: "m"(_func630::func));
+	__asm__("call *%0\n\t" :: "m"(_func630::func) : "rdi", "rsi", "rdx", "rcx", "r8", "r9");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -23794,7 +23181,6 @@ FUNC_NAKED void InfoBox::SetSystem(ShipSystem *system, int upgrade, int yShift, 
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -23807,7 +23193,7 @@ FUNC_NAKED void InfoBox::SetSystem(ShipSystem *system, int upgrade, int yShift, 
 			// rcx has yShift
 			// r8 has forceSystemWidth
 	);
-	__asm__("call *%0\n\t" :: "m"(_func631::func));
+	__asm__("call *%0\n\t" :: "m"(_func631::func) : "rdi", "rsi", "rdx", "rcx", "r8");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -23835,7 +23221,6 @@ FUNC_NAKED void InfoBox::Clear()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -23844,7 +23229,7 @@ FUNC_NAKED void InfoBox::Clear()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func632::func));
+	__asm__("call *%0\n\t" :: "m"(_func632::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -23872,7 +23257,6 @@ FUNC_NAKED void InfoBox::OnRender()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -23881,7 +23265,7 @@ FUNC_NAKED void InfoBox::OnRender()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func633::func));
+	__asm__("call *%0\n\t" :: "m"(_func633::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -23923,7 +23307,6 @@ FUNC_NAKED void InputBox::TextEvent(CEvent::TextEvent event)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -23933,7 +23316,7 @@ FUNC_NAKED void InputBox::TextEvent(CEvent::TextEvent event)
 			// rdi has this
 			// rsi has event
 	);
-	__asm__("call *%0\n\t" :: "m"(_func636::func));
+	__asm__("call *%0\n\t" :: "m"(_func636::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -23961,7 +23344,6 @@ FUNC_NAKED void InputBox::StartInput()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -23970,7 +23352,7 @@ FUNC_NAKED void InputBox::StartInput()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func637::func));
+	__asm__("call *%0\n\t" :: "m"(_func637::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -23998,7 +23380,6 @@ FUNC_NAKED Damage IonDrone::GetRoomDamage()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -24008,7 +23389,7 @@ FUNC_NAKED Damage IonDrone::GetRoomDamage()
 			// rdi has implicit_output
 			// rsi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func638::func));
+	__asm__("call *%0\n\t" :: "m"(_func638::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -24036,7 +23417,6 @@ FUNC_NAKED void IonDroneAnimation::constructor(int iShipId, Pointf position, boo
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -24048,7 +23428,7 @@ FUNC_NAKED void IonDroneAnimation::constructor(int iShipId, Pointf position, boo
 			// xmm0 has position
 			// rdx has enemy
 	);
-	__asm__("call *%0\n\t" :: "m"(_func639::func));
+	__asm__("call *%0\n\t" :: "m"(_func639::func) : "rdi", "rsi", "xmm0", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -24076,7 +23456,6 @@ FUNC_NAKED void ItemStoreBox::constructor(ShipManager *ship, const std::string &
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -24087,7 +23466,7 @@ FUNC_NAKED void ItemStoreBox::constructor(ShipManager *ship, const std::string &
 			// rsi has ship
 			// rdx has resourceName
 	);
-	__asm__("call *%0\n\t" :: "m"(_func640::func));
+	__asm__("call *%0\n\t" :: "m"(_func640::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -24115,7 +23494,6 @@ FUNC_NAKED void LaserBlast::OnUpdate()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -24124,7 +23502,7 @@ FUNC_NAKED void LaserBlast::OnUpdate()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func641::func));
+	__asm__("call *%0\n\t" :: "m"(_func641::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -24152,7 +23530,6 @@ FUNC_NAKED void LaserBlast::OnInit()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -24161,7 +23538,7 @@ FUNC_NAKED void LaserBlast::OnInit()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func642::func));
+	__asm__("call *%0\n\t" :: "m"(_func642::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -24203,7 +23580,6 @@ FUNC_NAKED void LocationEvent::ClearEvent(bool force)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -24213,7 +23589,7 @@ FUNC_NAKED void LocationEvent::ClearEvent(bool force)
 			// rdi has this
 			// rsi has force
 	);
-	__asm__("call *%0\n\t" :: "m"(_func645::func));
+	__asm__("call *%0\n\t" :: "m"(_func645::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -24241,7 +23617,6 @@ FUNC_NAKED void LocationEvent::constructor()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -24250,7 +23625,7 @@ FUNC_NAKED void LocationEvent::constructor()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func646::func));
+	__asm__("call *%0\n\t" :: "m"(_func646::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -24278,7 +23653,6 @@ FUNC_NAKED void LockdownShard::Update()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -24287,7 +23661,7 @@ FUNC_NAKED void LockdownShard::Update()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func647::func));
+	__asm__("call *%0\n\t" :: "m"(_func647::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -24315,7 +23689,6 @@ FUNC_NAKED void MainMenu::constructor()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -24324,7 +23697,7 @@ FUNC_NAKED void MainMenu::constructor()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func648::func));
+	__asm__("call *%0\n\t" :: "m"(_func648::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -24352,7 +23725,6 @@ FUNC_NAKED void MainMenu::OnRender()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -24361,7 +23733,7 @@ FUNC_NAKED void MainMenu::OnRender()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func649::func));
+	__asm__("call *%0\n\t" :: "m"(_func649::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -24389,7 +23761,6 @@ FUNC_NAKED bool MainMenu::Open()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -24398,7 +23769,7 @@ FUNC_NAKED bool MainMenu::Open()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func650::func));
+	__asm__("call *%0\n\t" :: "m"(_func650::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -24426,7 +23797,6 @@ FUNC_NAKED void MainMenu::MouseMove(int x, int y)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -24437,7 +23807,7 @@ FUNC_NAKED void MainMenu::MouseMove(int x, int y)
 			// rsi has x
 			// rdx has y
 	);
-	__asm__("call *%0\n\t" :: "m"(_func651::func));
+	__asm__("call *%0\n\t" :: "m"(_func651::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -24465,7 +23835,6 @@ FUNC_NAKED void MainMenu::OnLoop()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -24474,7 +23843,7 @@ FUNC_NAKED void MainMenu::OnLoop()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func652::func));
+	__asm__("call *%0\n\t" :: "m"(_func652::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -24502,7 +23871,6 @@ FUNC_NAKED void MainMenu::MouseClick(int x, int y)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -24513,7 +23881,7 @@ FUNC_NAKED void MainMenu::MouseClick(int x, int y)
 			// rsi has x
 			// rdx has y
 	);
-	__asm__("call *%0\n\t" :: "m"(_func653::func));
+	__asm__("call *%0\n\t" :: "m"(_func653::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -24541,7 +23909,6 @@ FUNC_NAKED void MantisAnimation::__DO_NOT_HOOK_1()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -24577,7 +23944,6 @@ FUNC_NAKED std::string MantisAnimation::GetDeathSound()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -24587,7 +23953,7 @@ FUNC_NAKED std::string MantisAnimation::GetDeathSound()
 			// rdi has implicit_output
 			// rsi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func655::func));
+	__asm__("call *%0\n\t" :: "m"(_func655::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -24615,7 +23981,6 @@ FUNC_NAKED void MantisAnimation::__DO_NOT_HOOK_2()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -24651,7 +24016,6 @@ FUNC_NAKED bool MantisAnimation::FireShot()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -24660,7 +24024,7 @@ FUNC_NAKED bool MantisAnimation::FireShot()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func657::func));
+	__asm__("call *%0\n\t" :: "m"(_func657::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -24688,7 +24052,6 @@ FUNC_NAKED void MantisAnimation::__DO_NOT_HOOK_3()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -24724,7 +24087,6 @@ FUNC_NAKED std::string MantisAnimation::GetShootingSound()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -24734,7 +24096,7 @@ FUNC_NAKED std::string MantisAnimation::GetShootingSound()
 			// rdi has implicit_output
 			// rsi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func659::func));
+	__asm__("call *%0\n\t" :: "m"(_func659::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -24762,7 +24124,6 @@ FUNC_NAKED void MenuScreen::OnRender()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -24771,7 +24132,7 @@ FUNC_NAKED void MenuScreen::OnRender()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func660::func));
+	__asm__("call *%0\n\t" :: "m"(_func660::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -24799,7 +24160,6 @@ FUNC_NAKED void MenuScreen::constructor()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -24808,7 +24168,7 @@ FUNC_NAKED void MenuScreen::constructor()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func661::func));
+	__asm__("call *%0\n\t" :: "m"(_func661::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -24836,7 +24196,6 @@ FUNC_NAKED void MindBox::constructor(Point pos, MindSystem *sys)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -24847,7 +24206,7 @@ FUNC_NAKED void MindBox::constructor(Point pos, MindSystem *sys)
 			// rsi has pos
 			// rdx has sys
 	);
-	__asm__("call *%0\n\t" :: "m"(_func662::func));
+	__asm__("call *%0\n\t" :: "m"(_func662::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -24875,7 +24234,6 @@ FUNC_NAKED void MindSystem::SetArmed(int armed)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -24885,7 +24243,7 @@ FUNC_NAKED void MindSystem::SetArmed(int armed)
 			// rdi has this
 			// rsi has armed
 	);
-	__asm__("call *%0\n\t" :: "m"(_func663::func));
+	__asm__("call *%0\n\t" :: "m"(_func663::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -24913,7 +24271,6 @@ FUNC_NAKED void MindSystem::InitiateMindControl()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -24922,7 +24279,7 @@ FUNC_NAKED void MindSystem::InitiateMindControl()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func664::func));
+	__asm__("call *%0\n\t" :: "m"(_func664::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -24950,7 +24307,6 @@ FUNC_NAKED void MindSystem::OnLoop()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -24959,7 +24315,7 @@ FUNC_NAKED void MindSystem::OnLoop()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func665::func));
+	__asm__("call *%0\n\t" :: "m"(_func665::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -24987,7 +24343,6 @@ FUNC_NAKED void Missile::constructor(Pointf _position, int _ownerId, int _target
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -25001,7 +24356,7 @@ FUNC_NAKED void Missile::constructor(Pointf _position, int _ownerId, int _target
 			// r8 has _target
 			// xmm0 has _heading
 	);
-	__asm__("call *%0\n\t" :: "m"(_func666::func));
+	__asm__("call *%0\n\t" :: "m"(_func666::func) : "rdi", "rsi", "rdx", "rcx", "r8", "xmm0");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -25029,7 +24384,6 @@ FUNC_NAKED void MouseControl::OnLoop()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -25038,7 +24392,7 @@ FUNC_NAKED void MouseControl::OnLoop()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func667::func));
+	__asm__("call *%0\n\t" :: "m"(_func667::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -25066,7 +24420,6 @@ FUNC_NAKED void MouseControl::InstantTooltip()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -25075,7 +24428,7 @@ FUNC_NAKED void MouseControl::InstantTooltip()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func668::func));
+	__asm__("call *%0\n\t" :: "m"(_func668::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -25103,7 +24456,6 @@ FUNC_NAKED Point MouseControl::MeasureTooltip(int unk)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -25113,7 +24465,7 @@ FUNC_NAKED Point MouseControl::MeasureTooltip(int unk)
 			// rdi has this
 			// rsi has unk
 	);
-	__asm__("call *%0\n\t" :: "m"(_func669::func));
+	__asm__("call *%0\n\t" :: "m"(_func669::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -25141,7 +24493,6 @@ FUNC_NAKED void MouseControl::QueueStaticTooltip(Point pos)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -25151,7 +24502,7 @@ FUNC_NAKED void MouseControl::QueueStaticTooltip(Point pos)
 			// rdi has this
 			// rsi has pos
 	);
-	__asm__("call *%0\n\t" :: "m"(_func670::func));
+	__asm__("call *%0\n\t" :: "m"(_func670::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -25179,7 +24530,6 @@ FUNC_NAKED void MouseControl::OnRender()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -25188,7 +24538,7 @@ FUNC_NAKED void MouseControl::OnRender()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func671::func));
+	__asm__("call *%0\n\t" :: "m"(_func671::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -25216,7 +24566,6 @@ FUNC_NAKED void MouseControl::SetTooltip(const std::string &tooltip)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -25226,7 +24575,7 @@ FUNC_NAKED void MouseControl::SetTooltip(const std::string &tooltip)
 			// rdi has this
 			// rsi has tooltip
 	);
-	__asm__("call *%0\n\t" :: "m"(_func672::func));
+	__asm__("call *%0\n\t" :: "m"(_func672::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -25254,7 +24603,6 @@ FUNC_NAKED void MouseControl::SetTooltipTitle(const std::string &tooltip)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -25264,7 +24612,7 @@ FUNC_NAKED void MouseControl::SetTooltipTitle(const std::string &tooltip)
 			// rdi has this
 			// rsi has tooltip
 	);
-	__asm__("call *%0\n\t" :: "m"(_func673::func));
+	__asm__("call *%0\n\t" :: "m"(_func673::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -25292,7 +24640,6 @@ FUNC_NAKED void MouseControl::SetDoor(int state)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -25302,7 +24649,7 @@ FUNC_NAKED void MouseControl::SetDoor(int state)
 			// rdi has this
 			// rsi has state
 	);
-	__asm__("call *%0\n\t" :: "m"(_func674::func));
+	__asm__("call *%0\n\t" :: "m"(_func674::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -25337,7 +24684,6 @@ FUNC_NAKED void OptionsScreen::OnInit()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -25346,7 +24692,7 @@ FUNC_NAKED void OptionsScreen::OnInit()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func676::func));
+	__asm__("call *%0\n\t" :: "m"(_func676::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -25374,7 +24720,6 @@ FUNC_NAKED void OptionsScreen::OnLoop()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -25383,7 +24728,7 @@ FUNC_NAKED void OptionsScreen::OnLoop()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func677::func));
+	__asm__("call *%0\n\t" :: "m"(_func677::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -25418,7 +24763,6 @@ FUNC_NAKED void OxygenSystem::constructor(int numRooms, int roomId, int shipId, 
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -25431,7 +24775,7 @@ FUNC_NAKED void OxygenSystem::constructor(int numRooms, int roomId, int shipId, 
 			// rcx has shipId
 			// r8 has startingPower
 	);
-	__asm__("call *%0\n\t" :: "m"(_func679::func));
+	__asm__("call *%0\n\t" :: "m"(_func679::func) : "rdi", "rsi", "rdx", "rcx", "r8");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -25459,7 +24803,6 @@ FUNC_NAKED float OxygenSystem::GetRefillSpeed()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -25468,7 +24811,7 @@ FUNC_NAKED float OxygenSystem::GetRefillSpeed()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func680::func));
+	__asm__("call *%0\n\t" :: "m"(_func680::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -25496,7 +24839,6 @@ FUNC_NAKED void OxygenSystem::ModifyRoomOxygen(int roomId, float value)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -25507,7 +24849,7 @@ FUNC_NAKED void OxygenSystem::ModifyRoomOxygen(int roomId, float value)
 			// rsi has roomId
 			// xmm0 has value
 	);
-	__asm__("call *%0\n\t" :: "m"(_func681::func));
+	__asm__("call *%0\n\t" :: "m"(_func681::func) : "rdi", "rsi", "xmm0");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -25535,7 +24877,6 @@ FUNC_NAKED void OxygenSystem::ComputeAirLoss(int roomId, float value, bool unk)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -25547,7 +24888,7 @@ FUNC_NAKED void OxygenSystem::ComputeAirLoss(int roomId, float value, bool unk)
 			// xmm0 has value
 			// rdx has unk
 	);
-	__asm__("call *%0\n\t" :: "m"(_func682::func));
+	__asm__("call *%0\n\t" :: "m"(_func682::func) : "rdi", "rsi", "xmm0", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -25575,7 +24916,6 @@ FUNC_NAKED void OxygenSystem::UpdateBreach(int roomId, int hasBreach, bool unk3)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -25587,7 +24927,7 @@ FUNC_NAKED void OxygenSystem::UpdateBreach(int roomId, int hasBreach, bool unk3)
 			// rdx has hasBreach
 			// rcx has unk3
 	);
-	__asm__("call *%0\n\t" :: "m"(_func683::func));
+	__asm__("call *%0\n\t" :: "m"(_func683::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -25615,7 +24955,6 @@ FUNC_NAKED void OxygenSystem::UpdateAirlock(int roomId, int unk)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -25626,7 +24965,7 @@ FUNC_NAKED void OxygenSystem::UpdateAirlock(int roomId, int unk)
 			// rsi has roomId
 			// rdx has unk
 	);
-	__asm__("call *%0\n\t" :: "m"(_func684::func));
+	__asm__("call *%0\n\t" :: "m"(_func684::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -25654,7 +24993,6 @@ FUNC_NAKED void OxygenSystem::EmptyOxygen(int roomId)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -25664,7 +25002,7 @@ FUNC_NAKED void OxygenSystem::EmptyOxygen(int roomId)
 			// rdi has this
 			// rsi has roomId
 	);
-	__asm__("call *%0\n\t" :: "m"(_func685::func));
+	__asm__("call *%0\n\t" :: "m"(_func685::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -25692,7 +25030,6 @@ FUNC_NAKED void PDSFire::CollisionCheck(Collideable *other)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -25702,7 +25039,7 @@ FUNC_NAKED void PDSFire::CollisionCheck(Collideable *other)
 			// rdi has this
 			// rsi has other
 	);
-	__asm__("call *%0\n\t" :: "m"(_func686::func));
+	__asm__("call *%0\n\t" :: "m"(_func686::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -25730,7 +25067,6 @@ FUNC_NAKED int Point::RelativeDistance(Point other)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -25740,7 +25076,7 @@ FUNC_NAKED int Point::RelativeDistance(Point other)
 			// rdi has this
 			// rsi has other
 	);
-	__asm__("call *%0\n\t" :: "m"(_func687::func));
+	__asm__("call *%0\n\t" :: "m"(_func687::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -25768,7 +25104,6 @@ FUNC_NAKED int Point::Distance(Point other)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -25778,7 +25113,7 @@ FUNC_NAKED int Point::Distance(Point other)
 			// rdi has this
 			// rsi has other
 	);
-	__asm__("call *%0\n\t" :: "m"(_func688::func));
+	__asm__("call *%0\n\t" :: "m"(_func688::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -25806,7 +25141,6 @@ FUNC_NAKED void Pointf::constructor(float x, float y)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -25817,7 +25151,7 @@ FUNC_NAKED void Pointf::constructor(float x, float y)
 			// xmm0 has x
 			// xmm1 has y
 	);
-	__asm__("call *%0\n\t" :: "m"(_func689::func));
+	__asm__("call *%0\n\t" :: "m"(_func689::func) : "rdi", "xmm0", "xmm1");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -25845,7 +25179,6 @@ FUNC_NAKED float Pointf::RelativeDistance(Pointf other)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -25855,7 +25188,7 @@ FUNC_NAKED float Pointf::RelativeDistance(Pointf other)
 			// rdi has this
 			// rsi has other
 	);
-	__asm__("call *%0\n\t" :: "m"(_func690::func));
+	__asm__("call *%0\n\t" :: "m"(_func690::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -25883,7 +25216,6 @@ FUNC_NAKED Pointf Pointf::Normalize()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -25892,7 +25224,7 @@ FUNC_NAKED Pointf Pointf::Normalize()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func691::func));
+	__asm__("call *%0\n\t" :: "m"(_func691::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -25920,7 +25252,6 @@ FUNC_NAKED PowerManager *PowerManager::GetPowerManager(int iShipId)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -25929,7 +25260,7 @@ FUNC_NAKED PowerManager *PowerManager::GetPowerManager(int iShipId)
 		"pushq %r15\n\t"
 			// rdi has iShipId
 	);
-	__asm__("call *%0\n\t" :: "m"(_func692::func));
+	__asm__("call *%0\n\t" :: "m"(_func692::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -25957,7 +25288,6 @@ FUNC_NAKED int Projectile::ForceRenderLayer()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -25966,7 +25296,7 @@ FUNC_NAKED int Projectile::ForceRenderLayer()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func693::func));
+	__asm__("call *%0\n\t" :: "m"(_func693::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -25994,7 +25324,6 @@ FUNC_NAKED void Projectile::CollisionCheck(Collideable *other)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -26004,7 +25333,7 @@ FUNC_NAKED void Projectile::CollisionCheck(Collideable *other)
 			// rdi has this
 			// rsi has other
 	);
-	__asm__("call *%0\n\t" :: "m"(_func694::func));
+	__asm__("call *%0\n\t" :: "m"(_func694::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -26032,7 +25361,6 @@ FUNC_NAKED void Projectile::constructor(Pointf position, int ownerId, int target
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -26045,7 +25373,7 @@ FUNC_NAKED void Projectile::constructor(Pointf position, int ownerId, int target
 			// rcx has targetId
 			// r8 has target
 	);
-	__asm__("call *%0\n\t" :: "m"(_func695::func));
+	__asm__("call *%0\n\t" :: "m"(_func695::func) : "rdi", "rsi", "rdx", "rcx", "r8");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -26073,7 +25401,6 @@ FUNC_NAKED void Projectile::Initialize(const WeaponBlueprint &bp)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -26083,7 +25410,7 @@ FUNC_NAKED void Projectile::Initialize(const WeaponBlueprint &bp)
 			// rdi has this
 			// rsi has bp
 	);
-	__asm__("call *%0\n\t" :: "m"(_func696::func));
+	__asm__("call *%0\n\t" :: "m"(_func696::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -26111,7 +25438,6 @@ FUNC_NAKED void Projectile::destructor()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -26120,7 +25446,7 @@ FUNC_NAKED void Projectile::destructor()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func697::func));
+	__asm__("call *%0\n\t" :: "m"(_func697::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -26148,7 +25474,6 @@ FUNC_NAKED void ProjectileFactory::constructor(const WeaponBlueprint *bp, int sh
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -26159,7 +25484,7 @@ FUNC_NAKED void ProjectileFactory::constructor(const WeaponBlueprint *bp, int sh
 			// rsi has bp
 			// rdx has shipId
 	);
-	__asm__("call *%0\n\t" :: "m"(_func698::func));
+	__asm__("call *%0\n\t" :: "m"(_func698::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -26187,7 +25512,6 @@ FUNC_NAKED void ProjectileFactory::SelectChargeGoal()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -26196,7 +25520,7 @@ FUNC_NAKED void ProjectileFactory::SelectChargeGoal()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func699::func));
+	__asm__("call *%0\n\t" :: "m"(_func699::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -26224,7 +25548,6 @@ FUNC_NAKED bool ProjectileFactory::IsChargedGoal()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -26233,7 +25556,7 @@ FUNC_NAKED bool ProjectileFactory::IsChargedGoal()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func700::func));
+	__asm__("call *%0\n\t" :: "m"(_func700::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -26261,7 +25584,6 @@ FUNC_NAKED void ProjectileFactory::SetHacked(int hacked)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -26271,7 +25593,7 @@ FUNC_NAKED void ProjectileFactory::SetHacked(int hacked)
 			// rdi has this
 			// rsi has hacked
 	);
-	__asm__("call *%0\n\t" :: "m"(_func701::func));
+	__asm__("call *%0\n\t" :: "m"(_func701::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -26299,7 +25621,6 @@ FUNC_NAKED void ProjectileFactory::SetCurrentShip(Targetable *ship)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -26309,7 +25630,7 @@ FUNC_NAKED void ProjectileFactory::SetCurrentShip(Targetable *ship)
 			// rdi has this
 			// rsi has ship
 	);
-	__asm__("call *%0\n\t" :: "m"(_func702::func));
+	__asm__("call *%0\n\t" :: "m"(_func702::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -26337,7 +25658,6 @@ FUNC_NAKED void ProjectileFactory::SetCooldownModifier(float mod)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -26347,7 +25667,7 @@ FUNC_NAKED void ProjectileFactory::SetCooldownModifier(float mod)
 			// rdi has this
 			// xmm0 has mod
 	);
-	__asm__("call *%0\n\t" :: "m"(_func703::func));
+	__asm__("call *%0\n\t" :: "m"(_func703::func) : "rdi", "xmm0");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -26375,7 +25695,6 @@ FUNC_NAKED void ProjectileFactory::ForceCoolup()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -26384,7 +25703,7 @@ FUNC_NAKED void ProjectileFactory::ForceCoolup()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func704::func));
+	__asm__("call *%0\n\t" :: "m"(_func704::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -26412,7 +25731,6 @@ FUNC_NAKED void ProjectileFactory::RenderChargeBar(float unk)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -26422,7 +25740,7 @@ FUNC_NAKED void ProjectileFactory::RenderChargeBar(float unk)
 			// rdi has this
 			// xmm0 has unk
 	);
-	__asm__("call *%0\n\t" :: "m"(_func705::func));
+	__asm__("call *%0\n\t" :: "m"(_func705::func) : "rdi", "xmm0");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -26450,7 +25768,6 @@ FUNC_NAKED void ProjectileFactory::OnRender(float alpha, bool forceVisual)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -26461,7 +25778,7 @@ FUNC_NAKED void ProjectileFactory::OnRender(float alpha, bool forceVisual)
 			// xmm0 has alpha
 			// rsi has forceVisual
 	);
-	__asm__("call *%0\n\t" :: "m"(_func706::func));
+	__asm__("call *%0\n\t" :: "m"(_func706::func) : "rdi", "xmm0", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -26489,7 +25806,6 @@ FUNC_NAKED bool ProjectileFactory::FireNextShot()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -26498,7 +25814,7 @@ FUNC_NAKED bool ProjectileFactory::FireNextShot()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func707::func));
+	__asm__("call *%0\n\t" :: "m"(_func707::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -26526,7 +25842,6 @@ FUNC_NAKED int ProjectileFactory::StringToWeapon(const std::string &str)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -26535,7 +25850,7 @@ FUNC_NAKED int ProjectileFactory::StringToWeapon(const std::string &str)
 		"pushq %r15\n\t"
 			// rdi has str
 	);
-	__asm__("call *%0\n\t" :: "m"(_func708::func));
+	__asm__("call *%0\n\t" :: "m"(_func708::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -26563,7 +25878,6 @@ FUNC_NAKED Projectile *ProjectileFactory::GetProjectile()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -26572,7 +25886,7 @@ FUNC_NAKED Projectile *ProjectileFactory::GetProjectile()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func709::func));
+	__asm__("call *%0\n\t" :: "m"(_func709::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -26600,7 +25914,6 @@ FUNC_NAKED int ProjectileFactory::SpendMissiles()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -26609,7 +25922,7 @@ FUNC_NAKED int ProjectileFactory::SpendMissiles()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func710::func));
+	__asm__("call *%0\n\t" :: "m"(_func710::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -26637,7 +25950,6 @@ FUNC_NAKED int ProjectileFactory::NumTargetsRequired()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -26646,7 +25958,7 @@ FUNC_NAKED int ProjectileFactory::NumTargetsRequired()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func711::func));
+	__asm__("call *%0\n\t" :: "m"(_func711::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -26674,7 +25986,6 @@ FUNC_NAKED void ProjectileFactory::SaveProjectile(Projectile *p, int fd)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -26684,7 +25995,7 @@ FUNC_NAKED void ProjectileFactory::SaveProjectile(Projectile *p, int fd)
 			// rdi has p
 			// rsi has fd
 	);
-	__asm__("call *%0\n\t" :: "m"(_func712::func));
+	__asm__("call *%0\n\t" :: "m"(_func712::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -26712,7 +26023,6 @@ FUNC_NAKED Projectile *ProjectileFactory::LoadProjectile(int fd)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -26721,7 +26031,7 @@ FUNC_NAKED Projectile *ProjectileFactory::LoadProjectile(int fd)
 		"pushq %r15\n\t"
 			// rdi has fd
 	);
-	__asm__("call *%0\n\t" :: "m"(_func713::func));
+	__asm__("call *%0\n\t" :: "m"(_func713::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -26749,7 +26059,6 @@ FUNC_NAKED void ProjectileFactory::Fire(std::vector<Pointf> &points, int target)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -26760,7 +26069,7 @@ FUNC_NAKED void ProjectileFactory::Fire(std::vector<Pointf> &points, int target)
 			// rsi has points
 			// rdx has target
 	);
-	__asm__("call *%0\n\t" :: "m"(_func714::func));
+	__asm__("call *%0\n\t" :: "m"(_func714::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -26788,7 +26097,6 @@ FUNC_NAKED void ProjectileFactory::Update()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -26797,7 +26105,7 @@ FUNC_NAKED void ProjectileFactory::Update()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func715::func));
+	__asm__("call *%0\n\t" :: "m"(_func715::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -26825,7 +26133,6 @@ FUNC_NAKED void ReactorButton::Accept()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -26834,7 +26141,7 @@ FUNC_NAKED void ReactorButton::Accept()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func716::func));
+	__asm__("call *%0\n\t" :: "m"(_func716::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -26862,7 +26169,6 @@ FUNC_NAKED void ReactorButton::OnClick()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -26871,7 +26177,7 @@ FUNC_NAKED void ReactorButton::OnClick()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func717::func));
+	__asm__("call *%0\n\t" :: "m"(_func717::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -26899,7 +26205,6 @@ FUNC_NAKED void ReactorButton::OnRightClick()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -26908,7 +26213,7 @@ FUNC_NAKED void ReactorButton::OnRightClick()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func718::func));
+	__asm__("call *%0\n\t" :: "m"(_func718::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -26936,7 +26241,6 @@ FUNC_NAKED void ReactorButton::OnRender()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -26945,7 +26249,7 @@ FUNC_NAKED void ReactorButton::OnRender()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func719::func));
+	__asm__("call *%0\n\t" :: "m"(_func719::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -26980,7 +26284,6 @@ FUNC_NAKED void RepairStoreBox::constructor(ShipManager *ship, bool repairAll, i
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -26992,7 +26295,7 @@ FUNC_NAKED void RepairStoreBox::constructor(ShipManager *ship, bool repairAll, i
 			// rdx has repairAll
 			// rcx has price
 	);
-	__asm__("call *%0\n\t" :: "m"(_func721::func));
+	__asm__("call *%0\n\t" :: "m"(_func721::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -27020,7 +26323,6 @@ FUNC_NAKED void ResourceControl::constructor()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -27029,7 +26331,7 @@ FUNC_NAKED void ResourceControl::constructor()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func722::func));
+	__asm__("call *%0\n\t" :: "m"(_func722::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -27057,7 +26359,6 @@ FUNC_NAKED int ResourceControl::RenderImage(GL_Texture *tex, int x, int y, int r
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -27074,7 +26375,7 @@ FUNC_NAKED int ResourceControl::RenderImage(GL_Texture *tex, int x, int y, int r
 			// xmm0 has opacity
 			// r9 has mirror
 	);
-	__asm__("call *%0\n\t" :: "m"(_func723::func));
+	__asm__("call *%0\n\t" :: "m"(_func723::func) : "rdi", "rsi", "rdx", "rcx", "r8", "xmm0", "r9");
 	__asm__
 	(
 		"addq $16, %rsp\n\t"
@@ -27103,7 +26404,6 @@ FUNC_NAKED GL_Primitive *ResourceControl::CreateImagePrimitive(GL_Texture *tex, 
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -27120,7 +26420,7 @@ FUNC_NAKED GL_Primitive *ResourceControl::CreateImagePrimitive(GL_Texture *tex, 
 			// xmm0 has alpha
 			// r9 has mirror
 	);
-	__asm__("call *%0\n\t" :: "m"(_func724::func));
+	__asm__("call *%0\n\t" :: "m"(_func724::func) : "rdi", "rsi", "rdx", "rcx", "r8", "xmm0", "r9");
 	__asm__
 	(
 		"addq $16, %rsp\n\t"
@@ -27149,7 +26449,6 @@ FUNC_NAKED void ResourceControl::OnInit(int imageSwappingMode)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -27159,7 +26458,7 @@ FUNC_NAKED void ResourceControl::OnInit(int imageSwappingMode)
 			// rdi has this
 			// rsi has imageSwappingMode
 	);
-	__asm__("call *%0\n\t" :: "m"(_func725::func));
+	__asm__("call *%0\n\t" :: "m"(_func725::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -27187,7 +26486,6 @@ FUNC_NAKED char *ResourceControl::LoadFile(const std::string &fileName)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -27197,7 +26495,7 @@ FUNC_NAKED char *ResourceControl::LoadFile(const std::string &fileName)
 			// rdi has this
 			// rsi has fileName
 	);
-	__asm__("call *%0\n\t" :: "m"(_func726::func));
+	__asm__("call *%0\n\t" :: "m"(_func726::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -27225,7 +26523,6 @@ FUNC_NAKED ImageDesc ResourceControl::GetImageData(GL_Texture *tex)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -27236,7 +26533,7 @@ FUNC_NAKED ImageDesc ResourceControl::GetImageData(GL_Texture *tex)
 			// rsi has this
 			// rdx has tex
 	);
-	__asm__("call *%0\n\t" :: "m"(_func727::func));
+	__asm__("call *%0\n\t" :: "m"(_func727::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -27264,7 +26561,6 @@ FUNC_NAKED GL_Texture *ResourceControl::GetImageId(const std::string &dir)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -27274,7 +26570,7 @@ FUNC_NAKED GL_Texture *ResourceControl::GetImageId(const std::string &dir)
 			// rdi has this
 			// rsi has dir
 	);
-	__asm__("call *%0\n\t" :: "m"(_func728::func));
+	__asm__("call *%0\n\t" :: "m"(_func728::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -27302,7 +26598,6 @@ FUNC_NAKED int ResourceControl::RenderImageString(std::string &tex, int x, int y
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -27319,7 +26614,7 @@ FUNC_NAKED int ResourceControl::RenderImageString(std::string &tex, int x, int y
 			// xmm0 has opacity
 			// r9 has mirror
 	);
-	__asm__("call *%0\n\t" :: "m"(_func729::func));
+	__asm__("call *%0\n\t" :: "m"(_func729::func) : "rdi", "rsi", "rdx", "rcx", "r8", "xmm0", "r9");
 	__asm__
 	(
 		"addq $16, %rsp\n\t"
@@ -27348,7 +26643,6 @@ FUNC_NAKED GL_Primitive *ResourceControl::CreateImagePrimitiveString(const std::
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -27365,7 +26659,7 @@ FUNC_NAKED GL_Primitive *ResourceControl::CreateImagePrimitiveString(const std::
 			// xmm0 has alpha
 			// r9 has mirror
 	);
-	__asm__("call *%0\n\t" :: "m"(_func730::func));
+	__asm__("call *%0\n\t" :: "m"(_func730::func) : "rdi", "rsi", "rdx", "rcx", "r8", "xmm0", "r9");
 	__asm__
 	(
 		"addq $16, %rsp\n\t"
@@ -27394,7 +26688,6 @@ FUNC_NAKED void ResourceControl::RenderLoadingBar(float initialProgress, float f
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -27405,7 +26698,7 @@ FUNC_NAKED void ResourceControl::RenderLoadingBar(float initialProgress, float f
 			// xmm0 has initialProgress
 			// xmm1 has finalProgress
 	);
-	__asm__("call *%0\n\t" :: "m"(_func731::func));
+	__asm__("call *%0\n\t" :: "m"(_func731::func) : "rdi", "xmm0", "xmm1");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -27433,7 +26726,6 @@ FUNC_NAKED freetype::font_data &ResourceControl::GetFontData(int fontType, bool 
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -27444,7 +26736,7 @@ FUNC_NAKED freetype::font_data &ResourceControl::GetFontData(int fontType, bool 
 			// rsi has fontType
 			// rdx has unk
 	);
-	__asm__("call *%0\n\t" :: "m"(_func732::func));
+	__asm__("call *%0\n\t" :: "m"(_func732::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -27472,7 +26764,6 @@ FUNC_NAKED bool ResourceControl::PreloadResources(bool unk)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -27482,7 +26773,7 @@ FUNC_NAKED bool ResourceControl::PreloadResources(bool unk)
 			// rdi has this
 			// rsi has unk
 	);
-	__asm__("call *%0\n\t" :: "m"(_func733::func));
+	__asm__("call *%0\n\t" :: "m"(_func733::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -27517,7 +26808,6 @@ FUNC_NAKED void RockAnimation::__DO_NOT_HOOK_1()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -27553,7 +26843,6 @@ FUNC_NAKED std::string RockAnimation::GetDeathSound()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -27563,7 +26852,7 @@ FUNC_NAKED std::string RockAnimation::GetDeathSound()
 			// rdi has implicit_output
 			// rsi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func736::func));
+	__asm__("call *%0\n\t" :: "m"(_func736::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -27591,7 +26880,6 @@ FUNC_NAKED void RockAnimation::__DO_NOT_HOOK_2()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -27627,7 +26915,6 @@ FUNC_NAKED void RockAnimation::__DO_NOT_HOOK_3()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -27663,7 +26950,6 @@ FUNC_NAKED std::string RockAnimation::GetShootingSound()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -27673,7 +26959,7 @@ FUNC_NAKED std::string RockAnimation::GetShootingSound()
 			// rdi has implicit_output
 			// rsi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func739::func));
+	__asm__("call *%0\n\t" :: "m"(_func739::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -27701,7 +26987,6 @@ FUNC_NAKED void RockAnimation::constructor(const std::string &subRace, int iShip
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -27714,7 +26999,7 @@ FUNC_NAKED void RockAnimation::constructor(const std::string &subRace, int iShip
 			// rcx has position
 			// r8 has enemy
 	);
-	__asm__("call *%0\n\t" :: "m"(_func740::func));
+	__asm__("call *%0\n\t" :: "m"(_func740::func) : "rdi", "rsi", "rdx", "rcx", "r8");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -27742,7 +27027,6 @@ FUNC_NAKED void Room::destructor()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -27751,7 +27035,7 @@ FUNC_NAKED void Room::destructor()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func741::func));
+	__asm__("call *%0\n\t" :: "m"(_func741::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -27779,6 +27063,7 @@ FUNC_NAKED void Room::constructor(int iShipId, int x, int y, int w, int h, int r
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
+		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -27793,7 +27078,7 @@ FUNC_NAKED void Room::constructor(int iShipId, int x, int y, int w, int h, int r
 			// r8 has w
 			// r9 has h
 	);
-	__asm__("call *%0\n\t" :: "m"(_func742::func));
+	__asm__("call *%0\n\t" :: "m"(_func742::func) : "rdi", "rsi", "rdx", "rcx", "r8", "r9");
 	__asm__
 	(
 		"addq $8, %rsp\n\t"
@@ -27822,7 +27107,6 @@ FUNC_NAKED int Room::GetEmptySlots(bool intruder)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -27832,7 +27116,7 @@ FUNC_NAKED int Room::GetEmptySlots(bool intruder)
 			// rdi has this
 			// rsi has intruder
 	);
-	__asm__("call *%0\n\t" :: "m"(_func743::func));
+	__asm__("call *%0\n\t" :: "m"(_func743::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -27860,7 +27144,6 @@ FUNC_NAKED void Room::OnRenderFloor(float alpha, bool experimental)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -27871,7 +27154,7 @@ FUNC_NAKED void Room::OnRenderFloor(float alpha, bool experimental)
 			// xmm0 has alpha
 			// rsi has experimental
 	);
-	__asm__("call *%0\n\t" :: "m"(_func744::func));
+	__asm__("call *%0\n\t" :: "m"(_func744::func) : "rdi", "xmm0", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -27899,7 +27182,6 @@ FUNC_NAKED void Room::OnRenderWalls(float alpha)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -27909,7 +27191,7 @@ FUNC_NAKED void Room::OnRenderWalls(float alpha)
 			// rdi has this
 			// xmm0 has alpha
 	);
-	__asm__("call *%0\n\t" :: "m"(_func745::func));
+	__asm__("call *%0\n\t" :: "m"(_func745::func) : "rdi", "xmm0");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -27937,7 +27219,6 @@ FUNC_NAKED void ScoreKeeper::constructor()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -27946,7 +27227,7 @@ FUNC_NAKED void ScoreKeeper::constructor()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func746::func));
+	__asm__("call *%0\n\t" :: "m"(_func746::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -27974,7 +27255,6 @@ FUNC_NAKED std::pair<int, int> ScoreKeeper::GetShipId_DO_NOT_USE_DIRECTLY(const 
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -27984,7 +27264,7 @@ FUNC_NAKED std::pair<int, int> ScoreKeeper::GetShipId_DO_NOT_USE_DIRECTLY(const 
 			// rdi has this
 			// rsi has blueprintName
 	);
-	__asm__("call *%0\n\t" :: "m"(_func747::func));
+	__asm__("call *%0\n\t" :: "m"(_func747::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -28012,7 +27292,6 @@ FUNC_NAKED std::string ScoreKeeper::GetShipBlueprint(int index)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -28023,7 +27302,7 @@ FUNC_NAKED std::string ScoreKeeper::GetShipBlueprint(int index)
 			// rsi has this
 			// rdx has index
 	);
-	__asm__("call *%0\n\t" :: "m"(_func748::func));
+	__asm__("call *%0\n\t" :: "m"(_func748::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -28051,7 +27330,6 @@ FUNC_NAKED void ScoreKeeper::SaveGame(int fd)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -28061,7 +27339,7 @@ FUNC_NAKED void ScoreKeeper::SaveGame(int fd)
 			// rdi has this
 			// rsi has fd
 	);
-	__asm__("call *%0\n\t" :: "m"(_func749::func));
+	__asm__("call *%0\n\t" :: "m"(_func749::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -28089,7 +27367,6 @@ FUNC_NAKED void ScoreKeeper::LoadGame(int fd)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -28099,7 +27376,7 @@ FUNC_NAKED void ScoreKeeper::LoadGame(int fd)
 			// rdi has this
 			// rsi has fd
 	);
-	__asm__("call *%0\n\t" :: "m"(_func750::func));
+	__asm__("call *%0\n\t" :: "m"(_func750::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -28127,7 +27404,6 @@ FUNC_NAKED bool ScoreKeeper::GetShipUnlocked(int shipId, int shipVariant)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -28138,7 +27414,7 @@ FUNC_NAKED bool ScoreKeeper::GetShipUnlocked(int shipId, int shipVariant)
 			// rsi has shipId
 			// rdx has shipVariant
 	);
-	__asm__("call *%0\n\t" :: "m"(_func751::func));
+	__asm__("call *%0\n\t" :: "m"(_func751::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -28166,7 +27442,6 @@ FUNC_NAKED void ScoreKeeper::SetVictory(bool victory)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -28176,7 +27451,7 @@ FUNC_NAKED void ScoreKeeper::SetVictory(bool victory)
 			// rdi has this
 			// rsi has victory
 	);
-	__asm__("call *%0\n\t" :: "m"(_func752::func));
+	__asm__("call *%0\n\t" :: "m"(_func752::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -28204,7 +27479,6 @@ FUNC_NAKED void ScoreKeeper::AddScrapCollected(int scrap)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -28214,7 +27488,7 @@ FUNC_NAKED void ScoreKeeper::AddScrapCollected(int scrap)
 			// rdi has this
 			// rsi has scrap
 	);
-	__asm__("call *%0\n\t" :: "m"(_func753::func));
+	__asm__("call *%0\n\t" :: "m"(_func753::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -28242,7 +27516,6 @@ FUNC_NAKED void ScoreKeeper::SaveScores(int file, std::vector<TopScore> &topScor
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -28253,7 +27526,7 @@ FUNC_NAKED void ScoreKeeper::SaveScores(int file, std::vector<TopScore> &topScor
 			// rsi has file
 			// rdx has topScores
 	);
-	__asm__("call *%0\n\t" :: "m"(_func754::func));
+	__asm__("call *%0\n\t" :: "m"(_func754::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -28281,7 +27554,6 @@ FUNC_NAKED int ScoreKeeper::AddTopScoreList(TopScore &score, std::vector<TopScor
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -28292,7 +27564,7 @@ FUNC_NAKED int ScoreKeeper::AddTopScoreList(TopScore &score, std::vector<TopScor
 			// rsi has score
 			// rdx has topScoreList
 	);
-	__asm__("call *%0\n\t" :: "m"(_func755::func));
+	__asm__("call *%0\n\t" :: "m"(_func755::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -28320,7 +27592,6 @@ FUNC_NAKED void ScoreKeeper::AddTopScoreType(TopScore &topScore, int type)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -28331,7 +27602,7 @@ FUNC_NAKED void ScoreKeeper::AddTopScoreType(TopScore &topScore, int type)
 			// rsi has topScore
 			// rdx has type
 	);
-	__asm__("call *%0\n\t" :: "m"(_func756::func));
+	__asm__("call *%0\n\t" :: "m"(_func756::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -28359,7 +27630,6 @@ FUNC_NAKED void ScoreKeeper::Save(bool newHighScore)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -28369,7 +27639,7 @@ FUNC_NAKED void ScoreKeeper::Save(bool newHighScore)
 			// rdi has this
 			// rsi has newHighScore
 	);
-	__asm__("call *%0\n\t" :: "m"(_func757::func));
+	__asm__("call *%0\n\t" :: "m"(_func757::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -28397,7 +27667,6 @@ FUNC_NAKED void ScoreKeeper::WipeProfile(bool permanent)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -28407,7 +27676,7 @@ FUNC_NAKED void ScoreKeeper::WipeProfile(bool permanent)
 			// rdi has this
 			// rsi has permanent
 	);
-	__asm__("call *%0\n\t" :: "m"(_func758::func));
+	__asm__("call *%0\n\t" :: "m"(_func758::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -28435,7 +27704,6 @@ FUNC_NAKED void ScoreKeeper::UnlockShip(int shipType, int shipVariant, bool save
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -28448,7 +27716,7 @@ FUNC_NAKED void ScoreKeeper::UnlockShip(int shipType, int shipVariant, bool save
 			// rcx has save
 			// r8 has hidePopup
 	);
-	__asm__("call *%0\n\t" :: "m"(_func759::func));
+	__asm__("call *%0\n\t" :: "m"(_func759::func) : "rdi", "rsi", "rdx", "rcx", "r8");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -28476,7 +27744,6 @@ FUNC_NAKED void ScoreKeeper::LoadVersionFour(int file, int version)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -28487,7 +27754,7 @@ FUNC_NAKED void ScoreKeeper::LoadVersionFour(int file, int version)
 			// rsi has file
 			// rdx has version
 	);
-	__asm__("call *%0\n\t" :: "m"(_func760::func));
+	__asm__("call *%0\n\t" :: "m"(_func760::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -28515,7 +27782,6 @@ FUNC_NAKED void ScoreKeeper::OnInit()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -28524,7 +27790,7 @@ FUNC_NAKED void ScoreKeeper::OnInit()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func761::func));
+	__asm__("call *%0\n\t" :: "m"(_func761::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -28552,7 +27818,6 @@ FUNC_NAKED void ScoreKeeper::RenderTopScores(const std::vector<TopScore> &topSco
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -28564,7 +27829,7 @@ FUNC_NAKED void ScoreKeeper::RenderTopScores(const std::vector<TopScore> &topSco
 			// rdx has position
 			// rcx has newHighScore
 	);
-	__asm__("call *%0\n\t" :: "m"(_func762::func));
+	__asm__("call *%0\n\t" :: "m"(_func762::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -28592,7 +27857,6 @@ FUNC_NAKED void ScoreKeeper::CheckTypes()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -28601,7 +27865,7 @@ FUNC_NAKED void ScoreKeeper::CheckTypes()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func763::func));
+	__asm__("call *%0\n\t" :: "m"(_func763::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -28629,7 +27893,6 @@ FUNC_NAKED void ScoreKeeper::SetupTopShip(int variant)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -28639,7 +27902,7 @@ FUNC_NAKED void ScoreKeeper::SetupTopShip(int variant)
 			// rdi has this
 			// rsi has variant
 	);
-	__asm__("call *%0\n\t" :: "m"(_func764::func));
+	__asm__("call *%0\n\t" :: "m"(_func764::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -28667,7 +27930,6 @@ FUNC_NAKED void ScoreKeeper::CycleLeft()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -28676,7 +27938,7 @@ FUNC_NAKED void ScoreKeeper::CycleLeft()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func765::func));
+	__asm__("call *%0\n\t" :: "m"(_func765::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -28704,7 +27966,6 @@ FUNC_NAKED void ScoreKeeper::CycleRight()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -28713,7 +27974,7 @@ FUNC_NAKED void ScoreKeeper::CycleRight()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func766::func));
+	__asm__("call *%0\n\t" :: "m"(_func766::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -28741,7 +28002,6 @@ FUNC_NAKED void ScoreKeeper::MouseClick(int x, int y)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -28752,7 +28012,7 @@ FUNC_NAKED void ScoreKeeper::MouseClick(int x, int y)
 			// rsi has x
 			// rdx has y
 	);
-	__asm__("call *%0\n\t" :: "m"(_func767::func));
+	__asm__("call *%0\n\t" :: "m"(_func767::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -28780,7 +28040,6 @@ FUNC_NAKED bool ScoreKeeper::KeyDown(SDLKey key)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -28790,7 +28049,7 @@ FUNC_NAKED bool ScoreKeeper::KeyDown(SDLKey key)
 			// rdi has this
 			// rsi has key
 	);
-	__asm__("call *%0\n\t" :: "m"(_func768::func));
+	__asm__("call *%0\n\t" :: "m"(_func768::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -28818,7 +28077,6 @@ FUNC_NAKED void ScoreKeeper::Open(bool fromGameOver)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -28828,7 +28086,7 @@ FUNC_NAKED void ScoreKeeper::Open(bool fromGameOver)
 			// rdi has this
 			// rsi has fromGameOver
 	);
-	__asm__("call *%0\n\t" :: "m"(_func769::func));
+	__asm__("call *%0\n\t" :: "m"(_func769::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -28856,7 +28114,6 @@ FUNC_NAKED void ScoreKeeper::OnRender(bool lastPlaythrough)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -28866,7 +28123,7 @@ FUNC_NAKED void ScoreKeeper::OnRender(bool lastPlaythrough)
 			// rdi has this
 			// rsi has lastPlaythrough
 	);
-	__asm__("call *%0\n\t" :: "m"(_func770::func));
+	__asm__("call *%0\n\t" :: "m"(_func770::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -28901,7 +28158,6 @@ FUNC_NAKED bool Settings::GetDlcEnabled()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -28937,7 +28193,6 @@ FUNC_NAKED std::string Settings::GetHotkeyName(const std::string &name)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -28947,7 +28202,7 @@ FUNC_NAKED std::string Settings::GetHotkeyName(const std::string &name)
 			// rdi has implicit_output
 			// rsi has name
 	);
-	__asm__("call *%0\n\t" :: "m"(_func773::func));
+	__asm__("call *%0\n\t" :: "m"(_func773::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -28975,7 +28230,6 @@ FUNC_NAKED SDLKey Settings::GetHotkey(const std::string &hotkeyName)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -28984,7 +28238,7 @@ FUNC_NAKED SDLKey Settings::GetHotkey(const std::string &hotkeyName)
 		"pushq %r15\n\t"
 			// rdi has hotkeyName
 	);
-	__asm__("call *%0\n\t" :: "m"(_func774::func));
+	__asm__("call *%0\n\t" :: "m"(_func774::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -29012,7 +28266,6 @@ FUNC_NAKED void Settings::SetHotkey(const std::string &hotkeyName, SDLKey key)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -29022,7 +28275,7 @@ FUNC_NAKED void Settings::SetHotkey(const std::string &hotkeyName, SDLKey key)
 			// rdi has hotkeyName
 			// rsi has key
 	);
-	__asm__("call *%0\n\t" :: "m"(_func775::func));
+	__asm__("call *%0\n\t" :: "m"(_func775::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -29050,7 +28303,6 @@ FUNC_NAKED void Settings::SaveSettings()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -29086,7 +28338,6 @@ FUNC_NAKED char Settings::GetCommandConsole()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -29122,7 +28373,6 @@ FUNC_NAKED void Settings::ResetHotkeys()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -29158,7 +28408,6 @@ FUNC_NAKED void Settings::LoadSettings()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -29201,7 +28450,6 @@ FUNC_NAKED void Shields::Jump()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -29210,7 +28458,7 @@ FUNC_NAKED void Shields::Jump()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func781::func));
+	__asm__("call *%0\n\t" :: "m"(_func781::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -29238,7 +28486,6 @@ FUNC_NAKED void Shields::OnLoop()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -29247,7 +28494,7 @@ FUNC_NAKED void Shields::OnLoop()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func782::func));
+	__asm__("call *%0\n\t" :: "m"(_func782::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -29275,7 +28522,6 @@ FUNC_NAKED void Shields::constructor(int roomId, int shipId, int startingPower, 
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -29288,7 +28534,7 @@ FUNC_NAKED void Shields::constructor(int roomId, int shipId, int startingPower, 
 			// rcx has startingPower
 			// r8 has shieldFile
 	);
-	__asm__("call *%0\n\t" :: "m"(_func783::func));
+	__asm__("call *%0\n\t" :: "m"(_func783::func) : "rdi", "rsi", "rdx", "rcx", "r8");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -29316,7 +28562,6 @@ FUNC_NAKED void Shields::AddSuperShield(Point pos)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -29326,7 +28571,7 @@ FUNC_NAKED void Shields::AddSuperShield(Point pos)
 			// rdi has this
 			// rsi has pos
 	);
-	__asm__("call *%0\n\t" :: "m"(_func784::func));
+	__asm__("call *%0\n\t" :: "m"(_func784::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -29354,7 +28599,6 @@ FUNC_NAKED void Shields::SetBaseEllipse(Globals::Ellipse ellipse)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -29365,7 +28609,7 @@ FUNC_NAKED void Shields::SetBaseEllipse(Globals::Ellipse ellipse)
 		"pushq 8(%rbp)\n\t"		// ellipse
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func785::func));
+	__asm__("call *%0\n\t" :: "m"(_func785::func) : "rdi");
 	__asm__
 	(
 		"addq $16, %rsp\n\t"
@@ -29394,7 +28638,6 @@ FUNC_NAKED void Shields::InstantCharge()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -29403,7 +28646,7 @@ FUNC_NAKED void Shields::InstantCharge()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func786::func));
+	__asm__("call *%0\n\t" :: "m"(_func786::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -29431,7 +28674,6 @@ FUNC_NAKED void Shields::RenderBase(float alpha, float superShieldOverwrite)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -29442,7 +28684,7 @@ FUNC_NAKED void Shields::RenderBase(float alpha, float superShieldOverwrite)
 			// xmm0 has alpha
 			// xmm1 has superShieldOverwrite
 	);
-	__asm__("call *%0\n\t" :: "m"(_func787::func));
+	__asm__("call *%0\n\t" :: "m"(_func787::func) : "rdi", "xmm0", "xmm1");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -29470,7 +28712,6 @@ FUNC_NAKED CollisionResponse Shields::CollisionReal(float x, float y, Damage dam
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -29491,7 +28732,7 @@ FUNC_NAKED CollisionResponse Shields::CollisionReal(float x, float y, Damage dam
 			// xmm1 has y
 			// rdx has force
 	);
-	__asm__("call *%0\n\t" :: "m"(_func788::func));
+	__asm__("call *%0\n\t" :: "m"(_func788::func) : "rdi", "rsi", "xmm0", "xmm1", "rdx");
 	__asm__
 	(
 		"addq $64, %rsp\n\t"
@@ -29527,7 +28768,6 @@ FUNC_NAKED Globals::Ellipse Ship::GetBaseEllipse()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -29536,7 +28776,7 @@ FUNC_NAKED Globals::Ellipse Ship::GetBaseEllipse()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func790::func));
+	__asm__("call *%0\n\t" :: "m"(_func790::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -29564,7 +28804,6 @@ FUNC_NAKED bool Ship::RoomLocked(int roomId)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -29574,7 +28813,7 @@ FUNC_NAKED bool Ship::RoomLocked(int roomId)
 			// rdi has this
 			// rsi has roomId
 	);
-	__asm__("call *%0\n\t" :: "m"(_func791::func));
+	__asm__("call *%0\n\t" :: "m"(_func791::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -29602,7 +28841,6 @@ FUNC_NAKED void Ship::OnRenderJump(float progress)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -29612,7 +28850,7 @@ FUNC_NAKED void Ship::OnRenderJump(float progress)
 			// rdi has this
 			// xmm0 has progress
 	);
-	__asm__("call *%0\n\t" :: "m"(_func792::func));
+	__asm__("call *%0\n\t" :: "m"(_func792::func) : "rdi", "xmm0");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -29640,7 +28878,6 @@ FUNC_NAKED void Ship::OnRenderBase(bool unk)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -29650,7 +28887,7 @@ FUNC_NAKED void Ship::OnRenderBase(bool unk)
 			// rdi has this
 			// rsi has unk
 	);
-	__asm__("call *%0\n\t" :: "m"(_func793::func));
+	__asm__("call *%0\n\t" :: "m"(_func793::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -29678,7 +28915,6 @@ FUNC_NAKED void Ship::OnRenderFloor(bool unk)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -29688,7 +28924,7 @@ FUNC_NAKED void Ship::OnRenderFloor(bool unk)
 			// rdi has this
 			// rsi has unk
 	);
-	__asm__("call *%0\n\t" :: "m"(_func794::func));
+	__asm__("call *%0\n\t" :: "m"(_func794::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -29716,7 +28952,6 @@ FUNC_NAKED void Ship::OnRenderSparks()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -29725,7 +28960,7 @@ FUNC_NAKED void Ship::OnRenderSparks()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func795::func));
+	__asm__("call *%0\n\t" :: "m"(_func795::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -29753,7 +28988,6 @@ FUNC_NAKED void Ship::OnRenderBreaches()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -29762,7 +28996,7 @@ FUNC_NAKED void Ship::OnRenderBreaches()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func796::func));
+	__asm__("call *%0\n\t" :: "m"(_func796::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -29790,7 +29024,6 @@ FUNC_NAKED int Ship::GetSelectedRoomId(int x, int y, bool unk)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -29802,7 +29035,7 @@ FUNC_NAKED int Ship::GetSelectedRoomId(int x, int y, bool unk)
 			// rdx has y
 			// rcx has unk
 	);
-	__asm__("call *%0\n\t" :: "m"(_func797::func));
+	__asm__("call *%0\n\t" :: "m"(_func797::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -29830,7 +29063,6 @@ FUNC_NAKED void Ship::SetSelectedRoom(int roomId)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -29840,7 +29072,7 @@ FUNC_NAKED void Ship::SetSelectedRoom(int roomId)
 			// rdi has this
 			// rsi has roomId
 	);
-	__asm__("call *%0\n\t" :: "m"(_func798::func));
+	__asm__("call *%0\n\t" :: "m"(_func798::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -29868,7 +29100,6 @@ FUNC_NAKED void Ship::SetRoomBlackout(int roomId, bool blackout)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -29879,7 +29110,7 @@ FUNC_NAKED void Ship::SetRoomBlackout(int roomId, bool blackout)
 			// rsi has roomId
 			// rdx has blackout
 	);
-	__asm__("call *%0\n\t" :: "m"(_func799::func));
+	__asm__("call *%0\n\t" :: "m"(_func799::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -29907,7 +29138,6 @@ FUNC_NAKED int Ship::GetAvailableRoomSlot(int roomId, bool intruder)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -29918,7 +29148,7 @@ FUNC_NAKED int Ship::GetAvailableRoomSlot(int roomId, bool intruder)
 			// rsi has roomId
 			// rdx has intruder
 	);
-	__asm__("call *%0\n\t" :: "m"(_func800::func));
+	__asm__("call *%0\n\t" :: "m"(_func800::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -29946,7 +29176,6 @@ FUNC_NAKED int Ship::EmptySlots(int roomId)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -29956,7 +29185,7 @@ FUNC_NAKED int Ship::EmptySlots(int roomId)
 			// rdi has this
 			// rsi has roomId
 	);
-	__asm__("call *%0\n\t" :: "m"(_func801::func));
+	__asm__("call *%0\n\t" :: "m"(_func801::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -29984,7 +29213,6 @@ FUNC_NAKED bool Ship::FullRoom(int roomId, bool intruder)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -29995,7 +29223,7 @@ FUNC_NAKED bool Ship::FullRoom(int roomId, bool intruder)
 			// rsi has roomId
 			// rdx has intruder
 	);
-	__asm__("call *%0\n\t" :: "m"(_func802::func));
+	__asm__("call *%0\n\t" :: "m"(_func802::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -30023,7 +29251,6 @@ FUNC_NAKED void Ship::OnRenderWalls(bool forceView, bool doorControlMode)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -30034,7 +29261,7 @@ FUNC_NAKED void Ship::OnRenderWalls(bool forceView, bool doorControlMode)
 			// rsi has forceView
 			// rdx has doorControlMode
 	);
-	__asm__("call *%0\n\t" :: "m"(_func803::func));
+	__asm__("call *%0\n\t" :: "m"(_func803::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -30062,7 +29289,6 @@ FUNC_NAKED void Ship::OnLoop(std::vector<float> &oxygenLevels)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -30072,7 +29298,7 @@ FUNC_NAKED void Ship::OnLoop(std::vector<float> &oxygenLevels)
 			// rdi has this
 			// rsi has oxygenLevels
 	);
-	__asm__("call *%0\n\t" :: "m"(_func804::func));
+	__asm__("call *%0\n\t" :: "m"(_func804::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -30100,7 +29326,6 @@ FUNC_NAKED void Ship::BreachRandomHull(int roomId)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -30110,7 +29335,7 @@ FUNC_NAKED void Ship::BreachRandomHull(int roomId)
 			// rdi has this
 			// rsi has roomId
 	);
-	__asm__("call *%0\n\t" :: "m"(_func805::func));
+	__asm__("call *%0\n\t" :: "m"(_func805::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -30138,7 +29363,6 @@ FUNC_NAKED void Ship::LockdownRoom(int roomId, Pointf pos)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -30149,7 +29373,7 @@ FUNC_NAKED void Ship::LockdownRoom(int roomId, Pointf pos)
 			// rsi has roomId
 			// xmm0 has pos
 	);
-	__asm__("call *%0\n\t" :: "m"(_func806::func));
+	__asm__("call *%0\n\t" :: "m"(_func806::func) : "rdi", "rsi", "xmm0");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -30177,7 +29401,6 @@ FUNC_NAKED void Ship::OnInit(ShipBlueprint *bp)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -30187,7 +29410,7 @@ FUNC_NAKED void Ship::OnInit(ShipBlueprint *bp)
 			// rdi has this
 			// rsi has bp
 	);
-	__asm__("call *%0\n\t" :: "m"(_func807::func));
+	__asm__("call *%0\n\t" :: "m"(_func807::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -30245,7 +29468,6 @@ FUNC_NAKED void ShipAI::constructor(bool unk)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -30255,7 +29477,7 @@ FUNC_NAKED void ShipAI::constructor(bool unk)
 			// rdi has this
 			// rsi has unk
 	);
-	__asm__("call *%0\n\t" :: "m"(_func814::func));
+	__asm__("call *%0\n\t" :: "m"(_func814::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -30283,7 +29505,6 @@ FUNC_NAKED void ShipAI::SetStalemate(bool stalemate)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -30293,7 +29514,7 @@ FUNC_NAKED void ShipAI::SetStalemate(bool stalemate)
 			// rdi has this
 			// rsi has stalemate
 	);
-	__asm__("call *%0\n\t" :: "m"(_func815::func));
+	__asm__("call *%0\n\t" :: "m"(_func815::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -30321,7 +29542,6 @@ FUNC_NAKED void ShipAI::OnLoop(bool hostile)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -30331,7 +29551,7 @@ FUNC_NAKED void ShipAI::OnLoop(bool hostile)
 			// rdi has this
 			// rsi has hostile
 	);
-	__asm__("call *%0\n\t" :: "m"(_func816::func));
+	__asm__("call *%0\n\t" :: "m"(_func816::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -30359,7 +29579,6 @@ FUNC_NAKED std::pair<int, int> ShipAI::GetTeleportCommand()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -30368,7 +29587,7 @@ FUNC_NAKED std::pair<int, int> ShipAI::GetTeleportCommand()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func817::func));
+	__asm__("call *%0\n\t" :: "m"(_func817::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -30396,7 +29615,6 @@ FUNC_NAKED void ShipBlueprint::destructor()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -30405,7 +29623,7 @@ FUNC_NAKED void ShipBlueprint::destructor()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func818::func));
+	__asm__("call *%0\n\t" :: "m"(_func818::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -30433,7 +29651,6 @@ FUNC_NAKED void ShipBuilder::constructor()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -30442,7 +29659,7 @@ FUNC_NAKED void ShipBuilder::constructor()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func819::func));
+	__asm__("call *%0\n\t" :: "m"(_func819::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -30470,7 +29687,6 @@ FUNC_NAKED void ShipBuilder::MouseMove(int x, int y)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -30481,7 +29697,7 @@ FUNC_NAKED void ShipBuilder::MouseMove(int x, int y)
 			// rsi has x
 			// rdx has y
 	);
-	__asm__("call *%0\n\t" :: "m"(_func820::func));
+	__asm__("call *%0\n\t" :: "m"(_func820::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -30509,7 +29725,6 @@ FUNC_NAKED void ShipBuilder::ClearShipAchievements()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -30518,7 +29733,7 @@ FUNC_NAKED void ShipBuilder::ClearShipAchievements()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func821::func));
+	__asm__("call *%0\n\t" :: "m"(_func821::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -30546,7 +29761,6 @@ FUNC_NAKED void ShipBuilder::SetupShipAchievements()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -30555,7 +29769,7 @@ FUNC_NAKED void ShipBuilder::SetupShipAchievements()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func822::func));
+	__asm__("call *%0\n\t" :: "m"(_func822::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -30583,7 +29797,6 @@ FUNC_NAKED void ShipBuilder::CreateEquipmentBoxes()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -30592,7 +29805,7 @@ FUNC_NAKED void ShipBuilder::CreateEquipmentBoxes()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func823::func));
+	__asm__("call *%0\n\t" :: "m"(_func823::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -30620,7 +29833,6 @@ FUNC_NAKED void ShipBuilder::CreateSystemBoxes()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -30629,7 +29841,7 @@ FUNC_NAKED void ShipBuilder::CreateSystemBoxes()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func824::func));
+	__asm__("call *%0\n\t" :: "m"(_func824::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -30657,7 +29869,6 @@ FUNC_NAKED void ShipBuilder::OnRender()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -30666,7 +29877,7 @@ FUNC_NAKED void ShipBuilder::OnRender()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func825::func));
+	__asm__("call *%0\n\t" :: "m"(_func825::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -30694,7 +29905,6 @@ FUNC_NAKED void ShipBuilder::OnLoop()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -30703,7 +29913,7 @@ FUNC_NAKED void ShipBuilder::OnLoop()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func826::func));
+	__asm__("call *%0\n\t" :: "m"(_func826::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -30731,7 +29941,6 @@ FUNC_NAKED void ShipBuilder::CheckTypes()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -30740,7 +29949,7 @@ FUNC_NAKED void ShipBuilder::CheckTypes()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func827::func));
+	__asm__("call *%0\n\t" :: "m"(_func827::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -30768,7 +29977,6 @@ FUNC_NAKED void ShipBuilder::SwitchShip(int shipType, int shipVariant)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -30779,7 +29987,7 @@ FUNC_NAKED void ShipBuilder::SwitchShip(int shipType, int shipVariant)
 			// rsi has shipType
 			// rdx has shipVariant
 	);
-	__asm__("call *%0\n\t" :: "m"(_func828::func));
+	__asm__("call *%0\n\t" :: "m"(_func828::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -30807,7 +30015,6 @@ FUNC_NAKED void ShipBuilder::CycleShipNext()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -30816,7 +30023,7 @@ FUNC_NAKED void ShipBuilder::CycleShipNext()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func829::func));
+	__asm__("call *%0\n\t" :: "m"(_func829::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -30844,7 +30051,6 @@ FUNC_NAKED void ShipBuilder::SwapType(int variant)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -30854,7 +30060,7 @@ FUNC_NAKED void ShipBuilder::SwapType(int variant)
 			// rdi has this
 			// rsi has variant
 	);
-	__asm__("call *%0\n\t" :: "m"(_func830::func));
+	__asm__("call *%0\n\t" :: "m"(_func830::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -30882,7 +30088,6 @@ FUNC_NAKED void ShipBuilder::CycleShipPrevious()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -30891,7 +30096,7 @@ FUNC_NAKED void ShipBuilder::CycleShipPrevious()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func831::func));
+	__asm__("call *%0\n\t" :: "m"(_func831::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -30919,7 +30124,6 @@ FUNC_NAKED void ShipBuilder::OnKeyDown(SDLKey key)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -30929,7 +30133,7 @@ FUNC_NAKED void ShipBuilder::OnKeyDown(SDLKey key)
 			// rdi has this
 			// rsi has key
 	);
-	__asm__("call *%0\n\t" :: "m"(_func832::func));
+	__asm__("call *%0\n\t" :: "m"(_func832::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -30957,7 +30161,6 @@ FUNC_NAKED void ShipBuilder::MouseClick(int x, int y)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -30968,7 +30171,7 @@ FUNC_NAKED void ShipBuilder::MouseClick(int x, int y)
 			// rsi has x
 			// rdx has y
 	);
-	__asm__("call *%0\n\t" :: "m"(_func833::func));
+	__asm__("call *%0\n\t" :: "m"(_func833::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -30996,7 +30199,6 @@ FUNC_NAKED void ShipBuilder::Open()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -31005,7 +30207,7 @@ FUNC_NAKED void ShipBuilder::Open()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func834::func));
+	__asm__("call *%0\n\t" :: "m"(_func834::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -31033,7 +30235,6 @@ FUNC_NAKED void ShipButton::constructor(int shipType, int shipVariant)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -31044,7 +30245,7 @@ FUNC_NAKED void ShipButton::constructor(int shipType, int shipVariant)
 			// rsi has shipType
 			// rdx has shipVariant
 	);
-	__asm__("call *%0\n\t" :: "m"(_func835::func));
+	__asm__("call *%0\n\t" :: "m"(_func835::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -31072,7 +30273,6 @@ FUNC_NAKED void ShipButton::OnInit(const std::string &imgName, Point pos)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -31083,7 +30283,7 @@ FUNC_NAKED void ShipButton::OnInit(const std::string &imgName, Point pos)
 			// rsi has imgName
 			// rdx has pos
 	);
-	__asm__("call *%0\n\t" :: "m"(_func836::func));
+	__asm__("call *%0\n\t" :: "m"(_func836::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -31111,7 +30311,6 @@ FUNC_NAKED void ShipButton::MouseMove(int x, int y)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -31122,7 +30321,7 @@ FUNC_NAKED void ShipButton::MouseMove(int x, int y)
 			// rsi has x
 			// rdx has y
 	);
-	__asm__("call *%0\n\t" :: "m"(_func837::func));
+	__asm__("call *%0\n\t" :: "m"(_func837::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -31150,7 +30349,6 @@ FUNC_NAKED void ShipButton::OnRender()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -31159,7 +30357,7 @@ FUNC_NAKED void ShipButton::OnRender()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func838::func));
+	__asm__("call *%0\n\t" :: "m"(_func838::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -31187,7 +30385,6 @@ FUNC_NAKED void ShipEvent::constructor(const ShipEvent &event)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -31197,7 +30394,7 @@ FUNC_NAKED void ShipEvent::constructor(const ShipEvent &event)
 			// rdi has this
 			// rsi has event
 	);
-	__asm__("call *%0\n\t" :: "m"(_func839::func));
+	__asm__("call *%0\n\t" :: "m"(_func839::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -31225,7 +30422,6 @@ FUNC_NAKED bool ShipGenerator::UpgradeSystem(ShipManager *ship, std::vector<int>
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -31236,7 +30432,7 @@ FUNC_NAKED bool ShipGenerator::UpgradeSystem(ShipManager *ship, std::vector<int>
 			// rsi has systemMaxes
 			// rdx has sysId
 	);
-	__asm__("call *%0\n\t" :: "m"(_func840::func));
+	__asm__("call *%0\n\t" :: "m"(_func840::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -31264,7 +30460,6 @@ FUNC_NAKED std::vector<CrewBlueprint> ShipGenerator::GetPossibleCrewList(ShipMan
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -31276,7 +30471,7 @@ FUNC_NAKED std::vector<CrewBlueprint> ShipGenerator::GetPossibleCrewList(ShipMan
 			// rdx has crewList
 			// rcx has flags
 	);
-	__asm__("call *%0\n\t" :: "m"(_func841::func));
+	__asm__("call *%0\n\t" :: "m"(_func841::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -31304,7 +30499,6 @@ FUNC_NAKED std::vector<WeaponBlueprint*> ShipGenerator::GetPossibleWeaponList(Sh
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -31317,7 +30511,7 @@ FUNC_NAKED std::vector<WeaponBlueprint*> ShipGenerator::GetPossibleWeaponList(Sh
 			// rcx has scrap
 			// r8 has flags
 	);
-	__asm__("call *%0\n\t" :: "m"(_func842::func));
+	__asm__("call *%0\n\t" :: "m"(_func842::func) : "rdi", "rsi", "rdx", "rcx", "r8");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -31345,7 +30539,6 @@ FUNC_NAKED std::vector<DroneBlueprint*> ShipGenerator::GetPossibleDroneList(Ship
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -31359,7 +30552,7 @@ FUNC_NAKED std::vector<DroneBlueprint*> ShipGenerator::GetPossibleDroneList(Ship
 			// r8 has flags
 			// r9 has repeat
 	);
-	__asm__("call *%0\n\t" :: "m"(_func843::func));
+	__asm__("call *%0\n\t" :: "m"(_func843::func) : "rdi", "rsi", "rdx", "rcx", "r8", "r9");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -31387,7 +30580,6 @@ FUNC_NAKED std::vector<int> ShipGenerator::GenerateSystemMaxes(const ShipBluepri
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -31398,7 +30590,7 @@ FUNC_NAKED std::vector<int> ShipGenerator::GenerateSystemMaxes(const ShipBluepri
 			// rsi has ship
 			// rdx has level
 	);
-	__asm__("call *%0\n\t" :: "m"(_func844::func));
+	__asm__("call *%0\n\t" :: "m"(_func844::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -31426,7 +30618,6 @@ FUNC_NAKED std::vector<int> ShipGenerator::GetPossibleSystemUpgrades0(ShipManage
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -31439,7 +30630,7 @@ FUNC_NAKED std::vector<int> ShipGenerator::GetPossibleSystemUpgrades0(ShipManage
 			// rcx has scrap
 			// r8 has type
 	);
-	__asm__("call *%0\n\t" :: "m"(_func845::func));
+	__asm__("call *%0\n\t" :: "m"(_func845::func) : "rdi", "rsi", "rdx", "rcx", "r8");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -31467,7 +30658,6 @@ FUNC_NAKED std::vector<int> ShipGenerator::GetPossibleSystemUpgrades1(ShipManage
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -31480,7 +30670,7 @@ FUNC_NAKED std::vector<int> ShipGenerator::GetPossibleSystemUpgrades1(ShipManage
 			// rcx has scrap
 			// r8 has type
 	);
-	__asm__("call *%0\n\t" :: "m"(_func846::func));
+	__asm__("call *%0\n\t" :: "m"(_func846::func) : "rdi", "rsi", "rdx", "rcx", "r8");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -31508,7 +30698,6 @@ FUNC_NAKED std::vector<int> ShipGenerator::GetPossibleSystemUpgrades2(ShipManage
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -31521,7 +30710,7 @@ FUNC_NAKED std::vector<int> ShipGenerator::GetPossibleSystemUpgrades2(ShipManage
 			// rcx has scrap
 			// r8 has type
 	);
-	__asm__("call *%0\n\t" :: "m"(_func847::func));
+	__asm__("call *%0\n\t" :: "m"(_func847::func) : "rdi", "rsi", "rdx", "rcx", "r8");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -31549,7 +30738,6 @@ FUNC_NAKED ShipManager *ShipGenerator::CreateShip(const std::string &name, int s
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -31560,7 +30748,7 @@ FUNC_NAKED ShipManager *ShipGenerator::CreateShip(const std::string &name, int s
 			// rsi has sector
 			// rdx has event
 	);
-	__asm__("call *%0\n\t" :: "m"(_func848::func));
+	__asm__("call *%0\n\t" :: "m"(_func848::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -31588,7 +30776,6 @@ FUNC_NAKED std::vector<int> ShipGenerator::GetPossibleSystemUpgrades(ShipManager
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -31601,7 +30788,7 @@ FUNC_NAKED std::vector<int> ShipGenerator::GetPossibleSystemUpgrades(ShipManager
 			// rcx has scrap
 			// r8 has type
 	);
-	__asm__("call *%0\n\t" :: "m"(_func849::func));
+	__asm__("call *%0\n\t" :: "m"(_func849::func) : "rdi", "rsi", "rdx", "rcx", "r8");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -31629,7 +30816,6 @@ FUNC_NAKED Point ShipGraph::GetSlotRenderPosition(int slotId, int roomId, bool i
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -31641,7 +30827,7 @@ FUNC_NAKED Point ShipGraph::GetSlotRenderPosition(int slotId, int roomId, bool i
 			// rdx has roomId
 			// rcx has intruder
 	);
-	__asm__("call *%0\n\t" :: "m"(_func850::func));
+	__asm__("call *%0\n\t" :: "m"(_func850::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -31669,7 +30855,6 @@ FUNC_NAKED int ShipGraph::DoorCount(int roomId)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -31679,7 +30864,7 @@ FUNC_NAKED int ShipGraph::DoorCount(int roomId)
 			// rdi has this
 			// rsi has roomId
 	);
-	__asm__("call *%0\n\t" :: "m"(_func851::func));
+	__asm__("call *%0\n\t" :: "m"(_func851::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -31707,7 +30892,6 @@ FUNC_NAKED Door *ShipGraph::ConnectingDoor(int x1, int y1, int x2, int y2)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -31720,7 +30904,7 @@ FUNC_NAKED Door *ShipGraph::ConnectingDoor(int x1, int y1, int x2, int y2)
 			// rcx has x2
 			// r8 has y2
 	);
-	__asm__("call *%0\n\t" :: "m"(_func852::func));
+	__asm__("call *%0\n\t" :: "m"(_func852::func) : "rdi", "rsi", "rdx", "rcx", "r8");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -31748,7 +30932,6 @@ FUNC_NAKED int ShipGraph::ConnectedGridSquares(int x1, int y1, int x2, int y2)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -31761,7 +30944,7 @@ FUNC_NAKED int ShipGraph::ConnectedGridSquares(int x1, int y1, int x2, int y2)
 			// rcx has x2
 			// r8 has y2
 	);
-	__asm__("call *%0\n\t" :: "m"(_func853::func));
+	__asm__("call *%0\n\t" :: "m"(_func853::func) : "rdi", "rsi", "rdx", "rcx", "r8");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -31789,7 +30972,6 @@ FUNC_NAKED int ShipGraph::ConnectedGridSquaresPoint(Point p1, Point p2)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -31800,7 +30982,7 @@ FUNC_NAKED int ShipGraph::ConnectedGridSquaresPoint(Point p1, Point p2)
 			// rsi has p1
 			// rdx has p2
 	);
-	__asm__("call *%0\n\t" :: "m"(_func854::func));
+	__asm__("call *%0\n\t" :: "m"(_func854::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -31828,7 +31010,6 @@ FUNC_NAKED Door *ShipGraph::ConnectingDoor(Point p1, Point p2)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -31839,7 +31020,7 @@ FUNC_NAKED Door *ShipGraph::ConnectingDoor(Point p1, Point p2)
 			// rsi has p1
 			// rdx has p2
 	);
-	__asm__("call *%0\n\t" :: "m"(_func855::func));
+	__asm__("call *%0\n\t" :: "m"(_func855::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -31867,7 +31048,6 @@ FUNC_NAKED int ShipGraph::GetNumSlots(int room)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -31877,7 +31057,7 @@ FUNC_NAKED int ShipGraph::GetNumSlots(int room)
 			// rdi has this
 			// rsi has room
 	);
-	__asm__("call *%0\n\t" :: "m"(_func856::func));
+	__asm__("call *%0\n\t" :: "m"(_func856::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -31905,7 +31085,6 @@ FUNC_NAKED int ShipGraph::PopClosestDoor(std::vector<int> &doors, std::vector<fl
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -31916,7 +31095,7 @@ FUNC_NAKED int ShipGraph::PopClosestDoor(std::vector<int> &doors, std::vector<fl
 			// rsi has doors
 			// rdx has distances
 	);
-	__asm__("call *%0\n\t" :: "m"(_func857::func));
+	__asm__("call *%0\n\t" :: "m"(_func857::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -31944,7 +31123,6 @@ FUNC_NAKED float ShipGraph::ConvertToWorldAngle(float ang)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -31954,7 +31132,7 @@ FUNC_NAKED float ShipGraph::ConvertToWorldAngle(float ang)
 			// rdi has this
 			// xmm0 has ang
 	);
-	__asm__("call *%0\n\t" :: "m"(_func858::func));
+	__asm__("call *%0\n\t" :: "m"(_func858::func) : "rdi", "xmm0");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -31982,7 +31160,6 @@ FUNC_NAKED float ShipGraph::ConvertToLocalAngle(float ang)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -31992,7 +31169,7 @@ FUNC_NAKED float ShipGraph::ConvertToLocalAngle(float ang)
 			// rdi has this
 			// xmm0 has ang
 	);
-	__asm__("call *%0\n\t" :: "m"(_func859::func));
+	__asm__("call *%0\n\t" :: "m"(_func859::func) : "rdi", "xmm0");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -32020,7 +31197,6 @@ FUNC_NAKED Pointf ShipGraph::ConvertToWorldPosition(Pointf local)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -32030,7 +31206,7 @@ FUNC_NAKED Pointf ShipGraph::ConvertToWorldPosition(Pointf local)
 			// rdi has this
 			// xmm0 has local
 	);
-	__asm__("call *%0\n\t" :: "m"(_func860::func));
+	__asm__("call *%0\n\t" :: "m"(_func860::func) : "rdi", "xmm0");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -32058,7 +31234,6 @@ FUNC_NAKED Pointf ShipGraph::ConvertToLocalPosition(Pointf world, bool past)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -32069,7 +31244,7 @@ FUNC_NAKED Pointf ShipGraph::ConvertToLocalPosition(Pointf world, bool past)
 			// xmm0 has world
 			// rsi has past
 	);
-	__asm__("call *%0\n\t" :: "m"(_func861::func));
+	__asm__("call *%0\n\t" :: "m"(_func861::func) : "rdi", "xmm0", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -32097,7 +31272,6 @@ FUNC_NAKED void ShipGraph::ComputeCenter()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -32106,7 +31280,7 @@ FUNC_NAKED void ShipGraph::ComputeCenter()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func862::func));
+	__asm__("call *%0\n\t" :: "m"(_func862::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -32134,7 +31308,6 @@ FUNC_NAKED bool ShipGraph::ContainsPoint(int x, int y)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -32145,7 +31318,7 @@ FUNC_NAKED bool ShipGraph::ContainsPoint(int x, int y)
 			// rsi has x
 			// rdx has y
 	);
-	__asm__("call *%0\n\t" :: "m"(_func863::func));
+	__asm__("call *%0\n\t" :: "m"(_func863::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -32173,7 +31346,6 @@ FUNC_NAKED int ShipGraph::GetSelectedRoom(int x, int y, bool unk)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -32185,7 +31357,7 @@ FUNC_NAKED int ShipGraph::GetSelectedRoom(int x, int y, bool unk)
 			// rdx has y
 			// rcx has unk
 	);
-	__asm__("call *%0\n\t" :: "m"(_func864::func));
+	__asm__("call *%0\n\t" :: "m"(_func864::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -32213,7 +31385,6 @@ FUNC_NAKED int ShipGraph::RoomCount()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -32222,7 +31393,7 @@ FUNC_NAKED int ShipGraph::RoomCount()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func865::func));
+	__asm__("call *%0\n\t" :: "m"(_func865::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -32250,7 +31421,6 @@ FUNC_NAKED Globals::Rect ShipGraph::GetRoomShape(int room)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -32260,7 +31430,7 @@ FUNC_NAKED Globals::Rect ShipGraph::GetRoomShape(int room)
 			// rdi has this
 			// rsi has room
 	);
-	__asm__("call *%0\n\t" :: "m"(_func866::func));
+	__asm__("call *%0\n\t" :: "m"(_func866::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -32288,7 +31458,6 @@ FUNC_NAKED float ShipGraph::GetRoomOxygen(int room)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -32298,7 +31467,7 @@ FUNC_NAKED float ShipGraph::GetRoomOxygen(int room)
 			// rdi has this
 			// rsi has room
 	);
-	__asm__("call *%0\n\t" :: "m"(_func867::func));
+	__asm__("call *%0\n\t" :: "m"(_func867::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -32326,7 +31495,6 @@ FUNC_NAKED bool ShipGraph::GetRoomBlackedOut(int room)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -32336,7 +31504,7 @@ FUNC_NAKED bool ShipGraph::GetRoomBlackedOut(int room)
 			// rdi has this
 			// rsi has room
 	);
-	__asm__("call *%0\n\t" :: "m"(_func868::func));
+	__asm__("call *%0\n\t" :: "m"(_func868::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -32364,7 +31532,6 @@ FUNC_NAKED std::vector<Door*> ShipGraph::GetDoors(int roomId)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -32375,7 +31542,7 @@ FUNC_NAKED std::vector<Door*> ShipGraph::GetDoors(int roomId)
 			// rsi has this
 			// rdx has roomId
 	);
-	__asm__("call *%0\n\t" :: "m"(_func869::func));
+	__asm__("call *%0\n\t" :: "m"(_func869::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -32403,7 +31570,6 @@ FUNC_NAKED bool ShipGraph::IsRoomConnected(int room1, int room2)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -32414,7 +31580,7 @@ FUNC_NAKED bool ShipGraph::IsRoomConnected(int room1, int room2)
 			// rsi has room1
 			// rdx has room2
 	);
-	__asm__("call *%0\n\t" :: "m"(_func870::func));
+	__asm__("call *%0\n\t" :: "m"(_func870::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -32442,7 +31608,6 @@ FUNC_NAKED ShipGraph *ShipGraph::GetShipInfo(int shipId)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -32451,7 +31616,7 @@ FUNC_NAKED ShipGraph *ShipGraph::GetShipInfo(int shipId)
 		"pushq %r15\n\t"
 			// rdi has shipId
 	);
-	__asm__("call *%0\n\t" :: "m"(_func871::func));
+	__asm__("call *%0\n\t" :: "m"(_func871::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -32479,7 +31644,6 @@ FUNC_NAKED Path ShipGraph::Dijkstra(Point start, Point goal, int shipId)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -32492,7 +31656,7 @@ FUNC_NAKED Path ShipGraph::Dijkstra(Point start, Point goal, int shipId)
 			// rcx has goal
 			// r8 has shipId
 	);
-	__asm__("call *%0\n\t" :: "m"(_func872::func));
+	__asm__("call *%0\n\t" :: "m"(_func872::func) : "rdi", "rsi", "rdx", "rcx", "r8");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -32520,7 +31684,6 @@ FUNC_NAKED Path ShipGraph::FindPath(Point p1, Point p2, int shipId)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -32533,7 +31696,7 @@ FUNC_NAKED Path ShipGraph::FindPath(Point p1, Point p2, int shipId)
 			// rcx has p2
 			// r8 has shipId
 	);
-	__asm__("call *%0\n\t" :: "m"(_func873::func));
+	__asm__("call *%0\n\t" :: "m"(_func873::func) : "rdi", "rsi", "rdx", "rcx", "r8");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -32561,7 +31724,6 @@ FUNC_NAKED Slot ShipGraph::GetClosestSlot(Point pos, int shipId, bool intruder)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -32573,7 +31735,7 @@ FUNC_NAKED Slot ShipGraph::GetClosestSlot(Point pos, int shipId, bool intruder)
 			// rdx has shipId
 			// rcx has intruder
 	);
-	__asm__("call *%0\n\t" :: "m"(_func874::func));
+	__asm__("call *%0\n\t" :: "m"(_func874::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -32601,7 +31763,6 @@ FUNC_NAKED char ShipInfo::AddAugmentation(const std::string &augment)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -32611,7 +31772,7 @@ FUNC_NAKED char ShipInfo::AddAugmentation(const std::string &augment)
 			// rdi has this
 			// rsi has augment
 	);
-	__asm__("call *%0\n\t" :: "m"(_func875::func));
+	__asm__("call *%0\n\t" :: "m"(_func875::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -32639,7 +31800,6 @@ FUNC_NAKED bool ShipInfo::HasAugmentation(const std::string &augment)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -32649,7 +31809,7 @@ FUNC_NAKED bool ShipInfo::HasAugmentation(const std::string &augment)
 			// rdi has this
 			// rsi has augment
 	);
-	__asm__("call *%0\n\t" :: "m"(_func876::func));
+	__asm__("call *%0\n\t" :: "m"(_func876::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -32677,7 +31837,6 @@ FUNC_NAKED float ShipInfo::GetAugmentationValue(const std::string &augment)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -32687,7 +31846,7 @@ FUNC_NAKED float ShipInfo::GetAugmentationValue(const std::string &augment)
 			// rdi has this
 			// rsi has augment
 	);
-	__asm__("call *%0\n\t" :: "m"(_func877::func));
+	__asm__("call *%0\n\t" :: "m"(_func877::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -32715,7 +31874,6 @@ FUNC_NAKED ShieldPower ShipManager::GetShieldPower()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -32724,7 +31882,7 @@ FUNC_NAKED ShieldPower ShipManager::GetShieldPower()
 		"pushq %r15\n\t"
 			// rsi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func878::func));
+	__asm__("call *%0\n\t" :: "m"(_func878::func) : "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -32752,7 +31910,6 @@ FUNC_NAKED bool ShipManager::CanFitSystem(int systemId)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -32762,7 +31919,7 @@ FUNC_NAKED bool ShipManager::CanFitSystem(int systemId)
 			// rdi has this
 			// rsi has systemId
 	);
-	__asm__("call *%0\n\t" :: "m"(_func879::func));
+	__asm__("call *%0\n\t" :: "m"(_func879::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -32790,7 +31947,6 @@ FUNC_NAKED bool ShipManager::CanFitSubsystem(int systemId)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -32800,7 +31956,7 @@ FUNC_NAKED bool ShipManager::CanFitSubsystem(int systemId)
 			// rdi has this
 			// rsi has systemId
 	);
-	__asm__("call *%0\n\t" :: "m"(_func880::func));
+	__asm__("call *%0\n\t" :: "m"(_func880::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -32828,7 +31984,6 @@ FUNC_NAKED int ShipManager::DamageHull(int dmg, bool force)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -32839,7 +31994,7 @@ FUNC_NAKED int ShipManager::DamageHull(int dmg, bool force)
 			// rsi has dmg
 			// rdx has force
 	);
-	__asm__("call *%0\n\t" :: "m"(_func881::func));
+	__asm__("call *%0\n\t" :: "m"(_func881::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -32867,7 +32022,6 @@ FUNC_NAKED void ShipManager::ModifyScrapCount(int scrap, bool income)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -32878,7 +32032,7 @@ FUNC_NAKED void ShipManager::ModifyScrapCount(int scrap, bool income)
 			// rsi has scrap
 			// rdx has income
 	);
-	__asm__("call *%0\n\t" :: "m"(_func882::func));
+	__asm__("call *%0\n\t" :: "m"(_func882::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -32906,7 +32060,6 @@ FUNC_NAKED CrewMember *ShipManager::GetCrewmember(int slot, bool present)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -32917,7 +32070,7 @@ FUNC_NAKED CrewMember *ShipManager::GetCrewmember(int slot, bool present)
 			// rsi has slot
 			// rdx has present
 	);
-	__asm__("call *%0\n\t" :: "m"(_func883::func));
+	__asm__("call *%0\n\t" :: "m"(_func883::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -32945,7 +32098,6 @@ FUNC_NAKED CrewMember *ShipManager::FindCrew(const CrewBlueprint *bp)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -32955,7 +32107,7 @@ FUNC_NAKED CrewMember *ShipManager::FindCrew(const CrewBlueprint *bp)
 			// rdi has this
 			// rsi has bp
 	);
-	__asm__("call *%0\n\t" :: "m"(_func884::func));
+	__asm__("call *%0\n\t" :: "m"(_func884::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -32983,7 +32135,6 @@ FUNC_NAKED void ShipManager::ResetScrapLevel()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -32992,7 +32143,7 @@ FUNC_NAKED void ShipManager::ResetScrapLevel()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func885::func));
+	__asm__("call *%0\n\t" :: "m"(_func885::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -33020,7 +32171,6 @@ FUNC_NAKED int ShipManager::CountCrew(char boarders)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -33030,7 +32180,7 @@ FUNC_NAKED int ShipManager::CountCrew(char boarders)
 			// rdi has this
 			// rsi has boarders
 	);
-	__asm__("call *%0\n\t" :: "m"(_func886::func));
+	__asm__("call *%0\n\t" :: "m"(_func886::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -33058,7 +32208,6 @@ FUNC_NAKED int ShipManager::CountCrewShipId(int roomId, int shipId)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -33069,7 +32218,7 @@ FUNC_NAKED int ShipManager::CountCrewShipId(int roomId, int shipId)
 			// rsi has roomId
 			// rdx has shipId
 	);
-	__asm__("call *%0\n\t" :: "m"(_func887::func));
+	__asm__("call *%0\n\t" :: "m"(_func887::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -33097,7 +32246,6 @@ FUNC_NAKED bool ShipManager::IsCrewOverFull()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -33106,7 +32254,7 @@ FUNC_NAKED bool ShipManager::IsCrewOverFull()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func888::func));
+	__asm__("call *%0\n\t" :: "m"(_func888::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -33134,7 +32282,6 @@ FUNC_NAKED bool ShipManager::IsCrewFull()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -33143,7 +32290,7 @@ FUNC_NAKED bool ShipManager::IsCrewFull()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func889::func));
+	__asm__("call *%0\n\t" :: "m"(_func889::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -33171,7 +32318,6 @@ FUNC_NAKED bool ShipManager::DoSensorsProvide(int vision)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -33181,7 +32327,7 @@ FUNC_NAKED bool ShipManager::DoSensorsProvide(int vision)
 			// rdi has this
 			// rsi has vision
 	);
-	__asm__("call *%0\n\t" :: "m"(_func890::func));
+	__asm__("call *%0\n\t" :: "m"(_func890::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -33209,7 +32355,6 @@ FUNC_NAKED void ShipManager::SetDestroyed()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -33218,7 +32363,7 @@ FUNC_NAKED void ShipManager::SetDestroyed()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func891::func));
+	__asm__("call *%0\n\t" :: "m"(_func891::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -33246,7 +32391,6 @@ FUNC_NAKED void ShipManager::JumpLeave()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -33255,7 +32399,7 @@ FUNC_NAKED void ShipManager::JumpLeave()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func892::func));
+	__asm__("call *%0\n\t" :: "m"(_func892::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -33283,6 +32427,7 @@ FUNC_NAKED char ShipManager::DamageCrew(CrewMember *crew, DamageParameter dmg)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
+		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -33299,7 +32444,7 @@ FUNC_NAKED char ShipManager::DamageCrew(CrewMember *crew, DamageParameter dmg)
 			// rdi has this
 			// rsi has crew
 	);
-	__asm__("call *%0\n\t" :: "m"(_func893::func));
+	__asm__("call *%0\n\t" :: "m"(_func893::func) : "rdi", "rsi");
 	__asm__
 	(
 		"addq $56, %rsp\n\t"
@@ -33328,7 +32473,6 @@ FUNC_NAKED void ShipManager::JumpArrive()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -33337,7 +32481,7 @@ FUNC_NAKED void ShipManager::JumpArrive()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func894::func));
+	__asm__("call *%0\n\t" :: "m"(_func894::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -33365,7 +32509,6 @@ FUNC_NAKED void ShipManager::InstantPowerShields()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -33374,7 +32517,7 @@ FUNC_NAKED void ShipManager::InstantPowerShields()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func895::func));
+	__asm__("call *%0\n\t" :: "m"(_func895::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -33402,7 +32545,6 @@ FUNC_NAKED void ShipManager::CheckSpreadDamage()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -33411,7 +32553,7 @@ FUNC_NAKED void ShipManager::CheckSpreadDamage()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func896::func));
+	__asm__("call *%0\n\t" :: "m"(_func896::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -33439,7 +32581,6 @@ FUNC_NAKED int ShipManager::GetSystemPower(int systemId)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -33449,7 +32590,7 @@ FUNC_NAKED int ShipManager::GetSystemPower(int systemId)
 			// rdi has this
 			// rsi has systemId
 	);
-	__asm__("call *%0\n\t" :: "m"(_func897::func));
+	__asm__("call *%0\n\t" :: "m"(_func897::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -33477,7 +32618,6 @@ FUNC_NAKED void ShipManager::CheckVision()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -33486,7 +32626,7 @@ FUNC_NAKED void ShipManager::CheckVision()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func898::func));
+	__asm__("call *%0\n\t" :: "m"(_func898::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -33514,7 +32654,6 @@ FUNC_NAKED void ShipManager::ClearStatusAll()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -33523,7 +32662,7 @@ FUNC_NAKED void ShipManager::ClearStatusAll()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func899::func));
+	__asm__("call *%0\n\t" :: "m"(_func899::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -33551,7 +32690,6 @@ FUNC_NAKED void ShipManager::ClearStatusSystem(int system)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -33561,7 +32699,7 @@ FUNC_NAKED void ShipManager::ClearStatusSystem(int system)
 			// rdi has this
 			// rsi has system
 	);
-	__asm__("call *%0\n\t" :: "m"(_func900::func));
+	__asm__("call *%0\n\t" :: "m"(_func900::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -33589,7 +32727,6 @@ FUNC_NAKED void ShipManager::DO_NOT_HOOK()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -33625,7 +32762,6 @@ FUNC_NAKED void ShipManager::SetSystemPowerLoss(int systemId, int powerLoss)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -33636,7 +32772,7 @@ FUNC_NAKED void ShipManager::SetSystemPowerLoss(int systemId, int powerLoss)
 			// rsi has systemId
 			// rdx has powerLoss
 	);
-	__asm__("call *%0\n\t" :: "m"(_func902::func));
+	__asm__("call *%0\n\t" :: "m"(_func902::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -33664,7 +32800,6 @@ FUNC_NAKED bool ShipManager::ForceDecreaseSystemPower(int sys)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -33674,7 +32809,7 @@ FUNC_NAKED bool ShipManager::ForceDecreaseSystemPower(int sys)
 			// rdi has this
 			// rsi has sys
 	);
-	__asm__("call *%0\n\t" :: "m"(_func903::func));
+	__asm__("call *%0\n\t" :: "m"(_func903::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -33702,7 +32837,6 @@ FUNC_NAKED ShipSystem *ShipManager::GetSystemInRoom(int roomId)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -33712,7 +32846,7 @@ FUNC_NAKED ShipSystem *ShipManager::GetSystemInRoom(int roomId)
 			// rdi has this
 			// rsi has roomId
 	);
-	__asm__("call *%0\n\t" :: "m"(_func904::func));
+	__asm__("call *%0\n\t" :: "m"(_func904::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -33740,7 +32874,6 @@ FUNC_NAKED int ShipManager::GetSystemRoom(int sysId)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -33750,7 +32883,7 @@ FUNC_NAKED int ShipManager::GetSystemRoom(int sysId)
 			// rdi has this
 			// rsi has sysId
 	);
-	__asm__("call *%0\n\t" :: "m"(_func905::func));
+	__asm__("call *%0\n\t" :: "m"(_func905::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -33778,7 +32911,6 @@ FUNC_NAKED ShipSystem *ShipManager::GetSystem(int systemId)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -33788,7 +32920,7 @@ FUNC_NAKED ShipSystem *ShipManager::GetSystem(int systemId)
 			// rdi has this
 			// rsi has systemId
 	);
-	__asm__("call *%0\n\t" :: "m"(_func906::func));
+	__asm__("call *%0\n\t" :: "m"(_func906::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -33816,7 +32948,6 @@ FUNC_NAKED bool ShipManager::SystemFunctions(int systemId)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -33826,7 +32957,7 @@ FUNC_NAKED bool ShipManager::SystemFunctions(int systemId)
 			// rdi has this
 			// rsi has systemId
 	);
-	__asm__("call *%0\n\t" :: "m"(_func907::func));
+	__asm__("call *%0\n\t" :: "m"(_func907::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -33854,7 +32985,6 @@ FUNC_NAKED int ShipManager::GetDodgeFactor()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -33863,7 +32993,7 @@ FUNC_NAKED int ShipManager::GetDodgeFactor()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func908::func));
+	__asm__("call *%0\n\t" :: "m"(_func908::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -33891,7 +33021,6 @@ FUNC_NAKED bool ShipManager::GetDodged()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -33900,7 +33029,7 @@ FUNC_NAKED bool ShipManager::GetDodged()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func909::func));
+	__asm__("call *%0\n\t" :: "m"(_func909::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -33928,7 +33057,6 @@ FUNC_NAKED char ShipManager::HasSystem(int systemId)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -33938,7 +33066,7 @@ FUNC_NAKED char ShipManager::HasSystem(int systemId)
 			// rdi has this
 			// rsi has systemId
 	);
-	__asm__("call *%0\n\t" :: "m"(_func910::func));
+	__asm__("call *%0\n\t" :: "m"(_func910::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -33966,7 +33094,6 @@ FUNC_NAKED int ShipManager::GetSystemPowerMax(int systemId)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -33976,7 +33103,7 @@ FUNC_NAKED int ShipManager::GetSystemPowerMax(int systemId)
 			// rdi has this
 			// rsi has systemId
 	);
-	__asm__("call *%0\n\t" :: "m"(_func911::func));
+	__asm__("call *%0\n\t" :: "m"(_func911::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -34004,7 +33131,6 @@ FUNC_NAKED int ShipManager::CanUpgrade(int systemId, int amount)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -34015,7 +33141,7 @@ FUNC_NAKED int ShipManager::CanUpgrade(int systemId, int amount)
 			// rsi has systemId
 			// rdx has amount
 	);
-	__asm__("call *%0\n\t" :: "m"(_func912::func));
+	__asm__("call *%0\n\t" :: "m"(_func912::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -34043,7 +33169,6 @@ FUNC_NAKED bool ShipManager::CommandCrewMoveRoom(CrewMember *crew, int roomId)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -34054,7 +33179,7 @@ FUNC_NAKED bool ShipManager::CommandCrewMoveRoom(CrewMember *crew, int roomId)
 			// rsi has crew
 			// rdx has roomId
 	);
-	__asm__("call *%0\n\t" :: "m"(_func913::func));
+	__asm__("call *%0\n\t" :: "m"(_func913::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -34082,7 +33207,6 @@ FUNC_NAKED CrewMember *ShipManager::GetSelectedCrewPoint(int x, int y, bool intr
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -34094,7 +33218,7 @@ FUNC_NAKED CrewMember *ShipManager::GetSelectedCrewPoint(int x, int y, bool intr
 			// rdx has y
 			// rcx has intruder
 	);
-	__asm__("call *%0\n\t" :: "m"(_func914::func));
+	__asm__("call *%0\n\t" :: "m"(_func914::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -34122,7 +33246,6 @@ FUNC_NAKED std::string ShipManager::GetTooltip(int x, int y)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -34134,7 +33257,7 @@ FUNC_NAKED std::string ShipManager::GetTooltip(int x, int y)
 			// rdx has x
 			// rcx has y
 	);
-	__asm__("call *%0\n\t" :: "m"(_func915::func));
+	__asm__("call *%0\n\t" :: "m"(_func915::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -34162,7 +33285,6 @@ FUNC_NAKED std::vector<ProjectileFactory*> ShipManager::GetWeaponList()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -34172,7 +33294,7 @@ FUNC_NAKED std::vector<ProjectileFactory*> ShipManager::GetWeaponList()
 			// rdi has implicit_output
 			// rsi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func916::func));
+	__asm__("call *%0\n\t" :: "m"(_func916::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -34200,7 +33322,6 @@ FUNC_NAKED int ShipManager::GetDroneCount()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -34209,7 +33330,7 @@ FUNC_NAKED int ShipManager::GetDroneCount()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func917::func));
+	__asm__("call *%0\n\t" :: "m"(_func917::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -34237,7 +33358,6 @@ FUNC_NAKED void ShipManager::ModifyDroneCount(int drones)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -34247,7 +33367,7 @@ FUNC_NAKED void ShipManager::ModifyDroneCount(int drones)
 			// rdi has this
 			// rsi has drones
 	);
-	__asm__("call *%0\n\t" :: "m"(_func918::func));
+	__asm__("call *%0\n\t" :: "m"(_func918::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -34275,7 +33395,6 @@ FUNC_NAKED int ShipManager::GetOxygenPercentage()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -34284,7 +33403,7 @@ FUNC_NAKED int ShipManager::GetOxygenPercentage()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func919::func));
+	__asm__("call *%0\n\t" :: "m"(_func919::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -34312,7 +33431,6 @@ FUNC_NAKED void ShipManager::RemoveItem(const std::string &name)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -34322,7 +33440,7 @@ FUNC_NAKED void ShipManager::RemoveItem(const std::string &name)
 			// rdi has this
 			// rsi has name
 	);
-	__asm__("call *%0\n\t" :: "m"(_func920::func));
+	__asm__("call *%0\n\t" :: "m"(_func920::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -34350,7 +33468,6 @@ FUNC_NAKED int ShipManager::AddWeapon(const WeaponBlueprint *bp, int slot)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -34361,7 +33478,7 @@ FUNC_NAKED int ShipManager::AddWeapon(const WeaponBlueprint *bp, int slot)
 			// rsi has bp
 			// rdx has slot
 	);
-	__asm__("call *%0\n\t" :: "m"(_func921::func));
+	__asm__("call *%0\n\t" :: "m"(_func921::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -34389,7 +33506,6 @@ FUNC_NAKED void ShipManager::ModifyMissileCount(int missiles)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -34399,7 +33515,7 @@ FUNC_NAKED void ShipManager::ModifyMissileCount(int missiles)
 			// rdi has this
 			// rsi has missiles
 	);
-	__asm__("call *%0\n\t" :: "m"(_func922::func));
+	__asm__("call *%0\n\t" :: "m"(_func922::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -34427,7 +33543,6 @@ FUNC_NAKED std::vector<Drone*> ShipManager::GetDroneList()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -34437,7 +33552,7 @@ FUNC_NAKED std::vector<Drone*> ShipManager::GetDroneList()
 			// rdi has implicit_output
 			// rsi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func923::func));
+	__asm__("call *%0\n\t" :: "m"(_func923::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -34465,7 +33580,6 @@ FUNC_NAKED int ShipManager::IsSystemHacked(int systemId)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -34475,7 +33589,7 @@ FUNC_NAKED int ShipManager::IsSystemHacked(int systemId)
 			// rdi has this
 			// rsi has systemId
 	);
-	__asm__("call *%0\n\t" :: "m"(_func924::func));
+	__asm__("call *%0\n\t" :: "m"(_func924::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -34503,7 +33617,6 @@ FUNC_NAKED void ShipManager::ExportBattleState(int file)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -34513,7 +33626,7 @@ FUNC_NAKED void ShipManager::ExportBattleState(int file)
 			// rdi has this
 			// rsi has file
 	);
-	__asm__("call *%0\n\t" :: "m"(_func925::func));
+	__asm__("call *%0\n\t" :: "m"(_func925::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -34541,7 +33654,6 @@ FUNC_NAKED void ShipManager::StartFire(int roomId)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -34551,7 +33663,7 @@ FUNC_NAKED void ShipManager::StartFire(int roomId)
 			// rdi has this
 			// rsi has roomId
 	);
-	__asm__("call *%0\n\t" :: "m"(_func926::func));
+	__asm__("call *%0\n\t" :: "m"(_func926::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -34579,7 +33691,6 @@ FUNC_NAKED int ShipManager::GetFireCount(int roomId)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -34589,7 +33700,7 @@ FUNC_NAKED int ShipManager::GetFireCount(int roomId)
 			// rdi has this
 			// rsi has roomId
 	);
-	__asm__("call *%0\n\t" :: "m"(_func927::func));
+	__asm__("call *%0\n\t" :: "m"(_func927::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -34617,7 +33728,6 @@ FUNC_NAKED std::vector<CrewMember*> ShipManager::TeleportCrew(int roomId, bool i
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -34629,7 +33739,7 @@ FUNC_NAKED std::vector<CrewMember*> ShipManager::TeleportCrew(int roomId, bool i
 			// rdx has roomId
 			// rcx has intruders
 	);
-	__asm__("call *%0\n\t" :: "m"(_func928::func));
+	__asm__("call *%0\n\t" :: "m"(_func928::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -34657,7 +33767,6 @@ FUNC_NAKED CrewMember *ShipManager::AddCrewMemberFromBlueprint(CrewBlueprint *bp
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -34671,7 +33780,7 @@ FUNC_NAKED CrewMember *ShipManager::AddCrewMemberFromBlueprint(CrewBlueprint *bp
 			// r8 has roomId
 			// r9 has intruder
 	);
-	__asm__("call *%0\n\t" :: "m"(_func929::func));
+	__asm__("call *%0\n\t" :: "m"(_func929::func) : "rdi", "rsi", "rdx", "rcx", "r8", "r9");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -34699,6 +33808,7 @@ FUNC_NAKED void ShipManager::DamageSystem(int systemId, DamageParameter damage)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
+		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -34715,7 +33825,7 @@ FUNC_NAKED void ShipManager::DamageSystem(int systemId, DamageParameter damage)
 			// rdi has this
 			// rsi has systemId
 	);
-	__asm__("call *%0\n\t" :: "m"(_func930::func));
+	__asm__("call *%0\n\t" :: "m"(_func930::func) : "rdi", "rsi");
 	__asm__
 	(
 		"addq $56, %rsp\n\t"
@@ -34744,7 +33854,6 @@ FUNC_NAKED void ShipManager::CheckCrystalAugment(Pointf pos)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -34754,7 +33863,7 @@ FUNC_NAKED void ShipManager::CheckCrystalAugment(Pointf pos)
 			// rdi has this
 			// xmm0 has pos
 	);
-	__asm__("call *%0\n\t" :: "m"(_func931::func));
+	__asm__("call *%0\n\t" :: "m"(_func931::func) : "rdi", "xmm0");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -34782,7 +33891,6 @@ FUNC_NAKED void ShipManager::PrepareSuperBarrage()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -34791,7 +33899,7 @@ FUNC_NAKED void ShipManager::PrepareSuperBarrage()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func932::func));
+	__asm__("call *%0\n\t" :: "m"(_func932::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -34819,7 +33927,6 @@ FUNC_NAKED bool ShipManager::RestoreCrewPositions()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -34828,7 +33935,7 @@ FUNC_NAKED bool ShipManager::RestoreCrewPositions()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func933::func));
+	__asm__("call *%0\n\t" :: "m"(_func933::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -34856,7 +33963,6 @@ FUNC_NAKED void ShipManager::UpdateEnvironment()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -34865,7 +33971,7 @@ FUNC_NAKED void ShipManager::UpdateEnvironment()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func934::func));
+	__asm__("call *%0\n\t" :: "m"(_func934::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -34893,7 +33999,6 @@ FUNC_NAKED CrewBlueprint ShipManager::SelectRandomCrew(int seed, const std::stri
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -34905,7 +34010,7 @@ FUNC_NAKED CrewBlueprint ShipManager::SelectRandomCrew(int seed, const std::stri
 			// rdx has seed
 			// rcx has racePref
 	);
-	__asm__("call *%0\n\t" :: "m"(_func935::func));
+	__asm__("call *%0\n\t" :: "m"(_func935::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -34933,6 +34038,7 @@ FUNC_NAKED CollisionResponse ShipManager::CollisionMoving(Pointf start, Pointf f
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
+		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -34952,7 +34058,7 @@ FUNC_NAKED CollisionResponse ShipManager::CollisionMoving(Pointf start, Pointf f
 			// xmm1 has finish
 			// rdx has raytrace
 	);
-	__asm__("call *%0\n\t" :: "m"(_func936::func));
+	__asm__("call *%0\n\t" :: "m"(_func936::func) : "rdi", "rsi", "xmm0", "xmm1", "rdx");
 	__asm__
 	(
 		"addq $56, %rsp\n\t"
@@ -34981,6 +34087,7 @@ FUNC_NAKED bool ShipManager::DamageArea(Pointf location, DamageParameter dmg, ch
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
+		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -34998,7 +34105,7 @@ FUNC_NAKED bool ShipManager::DamageArea(Pointf location, DamageParameter dmg, ch
 			// xmm0 has location
 			// rsi has forceHit
 	);
-	__asm__("call *%0\n\t" :: "m"(_func937::func));
+	__asm__("call *%0\n\t" :: "m"(_func937::func) : "rdi", "xmm0", "rsi");
 	__asm__
 	(
 		"addq $56, %rsp\n\t"
@@ -35027,7 +34134,6 @@ FUNC_NAKED void ShipManager::PrepareSuperDrones()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -35036,7 +34142,7 @@ FUNC_NAKED void ShipManager::PrepareSuperDrones()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func938::func));
+	__asm__("call *%0\n\t" :: "m"(_func938::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -35064,7 +34170,6 @@ FUNC_NAKED void ShipManager::RenderChargeBars()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -35073,7 +34178,7 @@ FUNC_NAKED void ShipManager::RenderChargeBars()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func939::func));
+	__asm__("call *%0\n\t" :: "m"(_func939::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -35101,7 +34206,6 @@ FUNC_NAKED void ShipManager::RenderWeapons()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -35110,7 +34214,7 @@ FUNC_NAKED void ShipManager::RenderWeapons()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func940::func));
+	__asm__("call *%0\n\t" :: "m"(_func940::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -35138,7 +34242,6 @@ FUNC_NAKED void ShipManager::OnRender(char showInterior, char doorControlMode)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -35149,7 +34252,7 @@ FUNC_NAKED void ShipManager::OnRender(char showInterior, char doorControlMode)
 			// rsi has showInterior
 			// rdx has doorControlMode
 	);
-	__asm__("call *%0\n\t" :: "m"(_func941::func));
+	__asm__("call *%0\n\t" :: "m"(_func941::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -35177,7 +34280,6 @@ FUNC_NAKED CrewDrone *ShipManager::CreateCrewDrone(const DroneBlueprint *bp)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -35187,7 +34289,7 @@ FUNC_NAKED CrewDrone *ShipManager::CreateCrewDrone(const DroneBlueprint *bp)
 			// rdi has this
 			// rsi has bp
 	);
-	__asm__("call *%0\n\t" :: "m"(_func942::func));
+	__asm__("call *%0\n\t" :: "m"(_func942::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -35215,7 +34317,6 @@ FUNC_NAKED SpaceDrone *ShipManager::CreateSpaceDrone(const DroneBlueprint *bp)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -35225,7 +34326,7 @@ FUNC_NAKED SpaceDrone *ShipManager::CreateSpaceDrone(const DroneBlueprint *bp)
 			// rdi has this
 			// rsi has bp
 	);
-	__asm__("call *%0\n\t" :: "m"(_func943::func));
+	__asm__("call *%0\n\t" :: "m"(_func943::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -35253,7 +34354,6 @@ FUNC_NAKED Drone *ShipManager::AddDrone(const DroneBlueprint *bp, int slot)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -35264,7 +34364,7 @@ FUNC_NAKED Drone *ShipManager::AddDrone(const DroneBlueprint *bp, int slot)
 			// rsi has bp
 			// rdx has slot
 	);
-	__asm__("call *%0\n\t" :: "m"(_func944::func));
+	__asm__("call *%0\n\t" :: "m"(_func944::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -35292,7 +34392,6 @@ FUNC_NAKED void ShipManager::AddEquipmentFromList(std::vector<std::string> *equi
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -35302,7 +34401,7 @@ FUNC_NAKED void ShipManager::AddEquipmentFromList(std::vector<std::string> *equi
 			// rdi has this
 			// rsi has equipmentList
 	);
-	__asm__("call *%0\n\t" :: "m"(_func945::func));
+	__asm__("call *%0\n\t" :: "m"(_func945::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -35330,7 +34429,6 @@ FUNC_NAKED int ShipManager::AddSystem(int systemId)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -35340,7 +34438,7 @@ FUNC_NAKED int ShipManager::AddSystem(int systemId)
 			// rdi has this
 			// rsi has systemId
 	);
-	__asm__("call *%0\n\t" :: "m"(_func946::func));
+	__asm__("call *%0\n\t" :: "m"(_func946::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -35368,7 +34466,6 @@ FUNC_NAKED int ShipManager::CreateSystems()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -35377,7 +34474,7 @@ FUNC_NAKED int ShipManager::CreateSystems()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func947::func));
+	__asm__("call *%0\n\t" :: "m"(_func947::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -35405,6 +34502,7 @@ FUNC_NAKED bool ShipManager::DamageBeam(Pointf location1, Pointf location2, Dama
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
+		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -35422,7 +34520,7 @@ FUNC_NAKED bool ShipManager::DamageBeam(Pointf location1, Pointf location2, Dama
 			// xmm0 has location1
 			// xmm1 has location2
 	);
-	__asm__("call *%0\n\t" :: "m"(_func948::func));
+	__asm__("call *%0\n\t" :: "m"(_func948::func) : "rdi", "xmm0", "xmm1");
 	__asm__
 	(
 		"addq $56, %rsp\n\t"
@@ -35451,7 +34549,6 @@ FUNC_NAKED void ShipManager::UpdateCrewMembers()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -35460,7 +34557,7 @@ FUNC_NAKED void ShipManager::UpdateCrewMembers()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func949::func));
+	__asm__("call *%0\n\t" :: "m"(_func949::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -35488,7 +34585,6 @@ FUNC_NAKED void ShipManager::ImportBattleState(int file)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -35498,7 +34594,7 @@ FUNC_NAKED void ShipManager::ImportBattleState(int file)
 			// rdi has this
 			// rsi has file
 	);
-	__asm__("call *%0\n\t" :: "m"(_func950::func));
+	__asm__("call *%0\n\t" :: "m"(_func950::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -35526,7 +34622,6 @@ FUNC_NAKED void ShipManager::OnLoop()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -35535,7 +34630,7 @@ FUNC_NAKED void ShipManager::OnLoop()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func951::func));
+	__asm__("call *%0\n\t" :: "m"(_func951::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -35563,7 +34658,6 @@ FUNC_NAKED void ShipManager::ExportShip(int file)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -35573,7 +34667,7 @@ FUNC_NAKED void ShipManager::ExportShip(int file)
 			// rdi has this
 			// rsi has file
 	);
-	__asm__("call *%0\n\t" :: "m"(_func952::func));
+	__asm__("call *%0\n\t" :: "m"(_func952::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -35601,6 +34695,7 @@ FUNC_NAKED CrewMember *ShipManager::AddCrewMemberFromString(const std::string &n
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
+		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -35615,7 +34710,7 @@ FUNC_NAKED CrewMember *ShipManager::AddCrewMemberFromString(const std::string &n
 			// r8 has roomId
 			// r9 has init
 	);
-	__asm__("call *%0\n\t" :: "m"(_func953::func));
+	__asm__("call *%0\n\t" :: "m"(_func953::func) : "rdi", "rsi", "rdx", "rcx", "r8", "r9");
 	__asm__
 	(
 		"addq $8, %rsp\n\t"
@@ -35644,7 +34739,6 @@ FUNC_NAKED void ShipManager::AddInitialCrew(std::vector<CrewBlueprint> &blueprin
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -35654,7 +34748,7 @@ FUNC_NAKED void ShipManager::AddInitialCrew(std::vector<CrewBlueprint> &blueprin
 			// rdi has this
 			// rsi has blueprints
 	);
-	__asm__("call *%0\n\t" :: "m"(_func954::func));
+	__asm__("call *%0\n\t" :: "m"(_func954::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -35682,7 +34776,6 @@ FUNC_NAKED void ShipManager::Restart()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -35691,7 +34784,7 @@ FUNC_NAKED void ShipManager::Restart()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func955::func));
+	__asm__("call *%0\n\t" :: "m"(_func955::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -35719,7 +34812,6 @@ FUNC_NAKED ShipBlueprint ShipManager::SaveToBlueprint(bool unk)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -35730,7 +34822,7 @@ FUNC_NAKED ShipBlueprint ShipManager::SaveToBlueprint(bool unk)
 			// rsi has this
 			// rdx has unk
 	);
-	__asm__("call *%0\n\t" :: "m"(_func956::func));
+	__asm__("call *%0\n\t" :: "m"(_func956::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -35758,7 +34850,6 @@ FUNC_NAKED int ShipManager::OnInit(ShipBlueprint *bp, int shipLevel)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -35769,7 +34860,7 @@ FUNC_NAKED int ShipManager::OnInit(ShipBlueprint *bp, int shipLevel)
 			// rsi has bp
 			// rdx has shipLevel
 	);
-	__asm__("call *%0\n\t" :: "m"(_func957::func));
+	__asm__("call *%0\n\t" :: "m"(_func957::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -35797,7 +34888,6 @@ FUNC_NAKED void ShipManager::ImportShip(int file)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -35807,7 +34897,7 @@ FUNC_NAKED void ShipManager::ImportShip(int file)
 			// rdi has this
 			// rsi has file
 	);
-	__asm__("call *%0\n\t" :: "m"(_func958::func));
+	__asm__("call *%0\n\t" :: "m"(_func958::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -35835,7 +34925,6 @@ FUNC_NAKED int ShipManager::constructor(int shipId)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -35845,7 +34934,7 @@ FUNC_NAKED int ShipManager::constructor(int shipId)
 			// rdi has this
 			// rsi has shipId
 	);
-	__asm__("call *%0\n\t" :: "m"(_func959::func));
+	__asm__("call *%0\n\t" :: "m"(_func959::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -35873,7 +34962,6 @@ FUNC_NAKED void ShipManager::destructor()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -35882,7 +34970,7 @@ FUNC_NAKED void ShipManager::destructor()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func960::func));
+	__asm__("call *%0\n\t" :: "m"(_func960::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -35910,7 +34998,6 @@ FUNC_NAKED void ShipManager::destructor2()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -35919,7 +35006,7 @@ FUNC_NAKED void ShipManager::destructor2()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func961::func));
+	__asm__("call *%0\n\t" :: "m"(_func961::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -35947,7 +35034,6 @@ FUNC_NAKED int ShipObject::GetAugmentationCount()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -35956,7 +35042,7 @@ FUNC_NAKED int ShipObject::GetAugmentationCount()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func962::func));
+	__asm__("call *%0\n\t" :: "m"(_func962::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -35984,7 +35070,6 @@ FUNC_NAKED void ShipObject::ClearShipInfo()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -35993,7 +35078,7 @@ FUNC_NAKED void ShipObject::ClearShipInfo()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func963::func));
+	__asm__("call *%0\n\t" :: "m"(_func963::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -36021,7 +35106,6 @@ FUNC_NAKED std::vector<std::string> ShipObject::GetAugmentationList()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -36031,7 +35115,7 @@ FUNC_NAKED std::vector<std::string> ShipObject::GetAugmentationList()
 			// rdi has implicit_output
 			// rsi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func964::func));
+	__asm__("call *%0\n\t" :: "m"(_func964::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -36059,7 +35143,6 @@ FUNC_NAKED int ShipObject::HasAugmentation(const std::string &augment)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -36069,7 +35152,7 @@ FUNC_NAKED int ShipObject::HasAugmentation(const std::string &augment)
 			// rdi has this
 			// rsi has augment
 	);
-	__asm__("call *%0\n\t" :: "m"(_func965::func));
+	__asm__("call *%0\n\t" :: "m"(_func965::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -36097,7 +35180,6 @@ FUNC_NAKED int ShipObject::HasEquipment(const std::string &equip)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -36107,7 +35189,7 @@ FUNC_NAKED int ShipObject::HasEquipment(const std::string &equip)
 			// rdi has this
 			// rsi has equip
 	);
-	__asm__("call *%0\n\t" :: "m"(_func966::func));
+	__asm__("call *%0\n\t" :: "m"(_func966::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -36135,7 +35217,6 @@ FUNC_NAKED float ShipObject::GetAugmentationValue(const std::string &augment)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -36145,7 +35226,7 @@ FUNC_NAKED float ShipObject::GetAugmentationValue(const std::string &augment)
 			// rdi has this
 			// rsi has augment
 	);
-	__asm__("call *%0\n\t" :: "m"(_func967::func));
+	__asm__("call *%0\n\t" :: "m"(_func967::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -36173,7 +35254,6 @@ FUNC_NAKED bool ShipObject::AddAugmentation(const std::string &augment)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -36183,7 +35263,7 @@ FUNC_NAKED bool ShipObject::AddAugmentation(const std::string &augment)
 			// rdi has this
 			// rsi has augment
 	);
-	__asm__("call *%0\n\t" :: "m"(_func968::func));
+	__asm__("call *%0\n\t" :: "m"(_func968::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -36211,7 +35291,6 @@ FUNC_NAKED void ShipObject::RemoveAugmentation(const std::string &augment)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -36221,7 +35300,7 @@ FUNC_NAKED void ShipObject::RemoveAugmentation(const std::string &augment)
 			// rdi has this
 			// rsi has augment
 	);
-	__asm__("call *%0\n\t" :: "m"(_func969::func));
+	__asm__("call *%0\n\t" :: "m"(_func969::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -36256,7 +35335,6 @@ FUNC_NAKED void ShipSelect::constructor()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -36265,7 +35343,7 @@ FUNC_NAKED void ShipSelect::constructor()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func971::func));
+	__asm__("call *%0\n\t" :: "m"(_func971::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -36293,7 +35371,6 @@ FUNC_NAKED void ShipSelect::ClearShipButtons()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -36302,7 +35379,7 @@ FUNC_NAKED void ShipSelect::ClearShipButtons()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func972::func));
+	__asm__("call *%0\n\t" :: "m"(_func972::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -36330,7 +35407,6 @@ FUNC_NAKED void ShipSelect::OnLoop()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -36339,7 +35415,7 @@ FUNC_NAKED void ShipSelect::OnLoop()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func973::func));
+	__asm__("call *%0\n\t" :: "m"(_func973::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -36367,7 +35443,6 @@ FUNC_NAKED int ShipSelect::KeyDown(SDLKey key)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -36377,7 +35452,7 @@ FUNC_NAKED int ShipSelect::KeyDown(SDLKey key)
 			// rdi has this
 			// rsi has key
 	);
-	__asm__("call *%0\n\t" :: "m"(_func974::func));
+	__asm__("call *%0\n\t" :: "m"(_func974::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -36405,7 +35480,6 @@ FUNC_NAKED void ShipSelect::MouseClick()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -36414,7 +35488,7 @@ FUNC_NAKED void ShipSelect::MouseClick()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func975::func));
+	__asm__("call *%0\n\t" :: "m"(_func975::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -36442,7 +35516,6 @@ FUNC_NAKED void ShipSelect::Close()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -36451,7 +35524,7 @@ FUNC_NAKED void ShipSelect::Close()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func976::func));
+	__asm__("call *%0\n\t" :: "m"(_func976::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -36479,7 +35552,6 @@ FUNC_NAKED int ShipSelect::GetSelectedShip()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -36488,7 +35560,7 @@ FUNC_NAKED int ShipSelect::GetSelectedShip()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func977::func));
+	__asm__("call *%0\n\t" :: "m"(_func977::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -36516,7 +35588,6 @@ FUNC_NAKED void ShipSelect::SelectShip(int shipType)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -36526,7 +35597,7 @@ FUNC_NAKED void ShipSelect::SelectShip(int shipType)
 			// rdi has this
 			// rsi has shipType
 	);
-	__asm__("call *%0\n\t" :: "m"(_func978::func));
+	__asm__("call *%0\n\t" :: "m"(_func978::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -36554,7 +35625,6 @@ FUNC_NAKED void ShipSelect::PreSelectShip(int shipType)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -36564,7 +35634,7 @@ FUNC_NAKED void ShipSelect::PreSelectShip(int shipType)
 			// rdi has this
 			// rsi has shipType
 	);
-	__asm__("call *%0\n\t" :: "m"(_func979::func));
+	__asm__("call *%0\n\t" :: "m"(_func979::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -36592,7 +35662,6 @@ FUNC_NAKED void ShipSelect::MouseMove(int x, int y)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -36603,7 +35672,7 @@ FUNC_NAKED void ShipSelect::MouseMove(int x, int y)
 			// rsi has x
 			// rdx has y
 	);
-	__asm__("call *%0\n\t" :: "m"(_func980::func));
+	__asm__("call *%0\n\t" :: "m"(_func980::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -36631,7 +35700,6 @@ FUNC_NAKED void ShipSelect::Open(int currentId, int currentType)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -36642,7 +35710,7 @@ FUNC_NAKED void ShipSelect::Open(int currentId, int currentType)
 			// rsi has currentId
 			// rdx has currentType
 	);
-	__asm__("call *%0\n\t" :: "m"(_func981::func));
+	__asm__("call *%0\n\t" :: "m"(_func981::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -36670,7 +35738,6 @@ FUNC_NAKED void ShipSelect::OnRender()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -36679,7 +35746,7 @@ FUNC_NAKED void ShipSelect::OnRender()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func982::func));
+	__asm__("call *%0\n\t" :: "m"(_func982::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -36707,7 +35774,6 @@ FUNC_NAKED void ShipStatus::RenderHealth(bool unk)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -36717,7 +35783,7 @@ FUNC_NAKED void ShipStatus::RenderHealth(bool unk)
 			// rdi has this
 			// rsi has unk
 	);
-	__asm__("call *%0\n\t" :: "m"(_func983::func));
+	__asm__("call *%0\n\t" :: "m"(_func983::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -36745,7 +35811,6 @@ FUNC_NAKED void ShipStatus::OnInit(Point unk, float unk2)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -36756,7 +35821,7 @@ FUNC_NAKED void ShipStatus::OnInit(Point unk, float unk2)
 			// rsi has unk
 			// xmm0 has unk2
 	);
-	__asm__("call *%0\n\t" :: "m"(_func984::func));
+	__asm__("call *%0\n\t" :: "m"(_func984::func) : "rdi", "rsi", "xmm0");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -36784,7 +35849,6 @@ FUNC_NAKED void ShipStatus::RenderEvadeOxygen(bool unk)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -36794,7 +35858,7 @@ FUNC_NAKED void ShipStatus::RenderEvadeOxygen(bool unk)
 			// rdi has this
 			// rsi has unk
 	);
-	__asm__("call *%0\n\t" :: "m"(_func985::func));
+	__asm__("call *%0\n\t" :: "m"(_func985::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -36822,7 +35886,6 @@ FUNC_NAKED void ShipStatus::OnRender()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -36831,7 +35894,7 @@ FUNC_NAKED void ShipStatus::OnRender()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func986::func));
+	__asm__("call *%0\n\t" :: "m"(_func986::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -36859,7 +35922,6 @@ FUNC_NAKED void ShipStatus::RenderShields(bool renderText)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -36869,7 +35931,7 @@ FUNC_NAKED void ShipStatus::RenderShields(bool renderText)
 			// rdi has this
 			// rsi has renderText
 	);
-	__asm__("call *%0\n\t" :: "m"(_func987::func));
+	__asm__("call *%0\n\t" :: "m"(_func987::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -36897,7 +35959,6 @@ FUNC_NAKED void ShipStatus::OnLoop()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -36906,7 +35967,7 @@ FUNC_NAKED void ShipStatus::OnLoop()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func988::func));
+	__asm__("call *%0\n\t" :: "m"(_func988::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -36934,7 +35995,6 @@ FUNC_NAKED bool ShipSystem::ForceDecreasePower(int powerLoss)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -36944,7 +36004,7 @@ FUNC_NAKED bool ShipSystem::ForceDecreasePower(int powerLoss)
 			// rdi has this
 			// rsi has powerLoss
 	);
-	__asm__("call *%0\n\t" :: "m"(_func989::func));
+	__asm__("call *%0\n\t" :: "m"(_func989::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -36972,7 +36032,6 @@ FUNC_NAKED void ShipSystem::AddDamage(int amount)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -36982,7 +36041,7 @@ FUNC_NAKED void ShipSystem::AddDamage(int amount)
 			// rdi has this
 			// rsi has amount
 	);
-	__asm__("call *%0\n\t" :: "m"(_func990::func));
+	__asm__("call *%0\n\t" :: "m"(_func990::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -37010,7 +36069,6 @@ FUNC_NAKED bool ShipSystem::Ioned(int num)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -37020,7 +36078,7 @@ FUNC_NAKED bool ShipSystem::Ioned(int num)
 			// rdi has this
 			// rsi has num
 	);
-	__asm__("call *%0\n\t" :: "m"(_func991::func));
+	__asm__("call *%0\n\t" :: "m"(_func991::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -37048,7 +36106,6 @@ FUNC_NAKED void ShipSystem::destructor()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -37057,7 +36114,7 @@ FUNC_NAKED void ShipSystem::destructor()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func992::func));
+	__asm__("call *%0\n\t" :: "m"(_func992::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -37085,7 +36142,6 @@ FUNC_NAKED void ShipSystem::SaveState(int file)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -37095,7 +36151,7 @@ FUNC_NAKED void ShipSystem::SaveState(int file)
 			// rdi has this
 			// rsi has file
 	);
-	__asm__("call *%0\n\t" :: "m"(_func993::func));
+	__asm__("call *%0\n\t" :: "m"(_func993::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -37123,7 +36179,6 @@ FUNC_NAKED void ShipSystem::LoadState(int file)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -37133,7 +36188,7 @@ FUNC_NAKED void ShipSystem::LoadState(int file)
 			// rdi has this
 			// rsi has file
 	);
-	__asm__("call *%0\n\t" :: "m"(_func994::func));
+	__asm__("call *%0\n\t" :: "m"(_func994::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -37161,7 +36216,6 @@ FUNC_NAKED int ShipSystem::GetEffectivePower()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -37170,7 +36224,7 @@ FUNC_NAKED int ShipSystem::GetEffectivePower()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func995::func));
+	__asm__("call *%0\n\t" :: "m"(_func995::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -37198,7 +36252,6 @@ FUNC_NAKED void ShipSystem::SetBonusPower(int amount, int permanentPower)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -37209,7 +36262,7 @@ FUNC_NAKED void ShipSystem::SetBonusPower(int amount, int permanentPower)
 			// rsi has amount
 			// rdx has permanentPower
 	);
-	__asm__("call *%0\n\t" :: "m"(_func996::func));
+	__asm__("call *%0\n\t" :: "m"(_func996::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -37237,7 +36290,6 @@ FUNC_NAKED int ShipSystem::GetPowerCap()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -37246,7 +36298,7 @@ FUNC_NAKED int ShipSystem::GetPowerCap()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func997::func));
+	__asm__("call *%0\n\t" :: "m"(_func997::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -37274,7 +36326,6 @@ FUNC_NAKED int ShipSystem::IsMannedBoost()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -37283,7 +36334,7 @@ FUNC_NAKED int ShipSystem::IsMannedBoost()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func998::func));
+	__asm__("call *%0\n\t" :: "m"(_func998::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -37311,7 +36362,6 @@ FUNC_NAKED bool ShipSystem::GetLocked()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -37320,7 +36370,7 @@ FUNC_NAKED bool ShipSystem::GetLocked()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func999::func));
+	__asm__("call *%0\n\t" :: "m"(_func999::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -37348,7 +36398,6 @@ FUNC_NAKED void ShipSystem::StopHacking()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -37357,7 +36406,7 @@ FUNC_NAKED void ShipSystem::StopHacking()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1000::func));
+	__asm__("call *%0\n\t" :: "m"(_func1000::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -37385,7 +36434,6 @@ FUNC_NAKED bool ShipSystem::UpgradeSystem(int amount)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -37395,7 +36443,7 @@ FUNC_NAKED bool ShipSystem::UpgradeSystem(int amount)
 			// rdi has this
 			// rsi has amount
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1001::func));
+	__asm__("call *%0\n\t" :: "m"(_func1001::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -37423,7 +36471,6 @@ FUNC_NAKED int ShipSystem::GetMaxPower()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -37432,7 +36479,7 @@ FUNC_NAKED int ShipSystem::GetMaxPower()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1002::func));
+	__asm__("call *%0\n\t" :: "m"(_func1002::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -37460,7 +36507,6 @@ FUNC_NAKED void ShipSystem::CheckMaxPower()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -37469,7 +36515,7 @@ FUNC_NAKED void ShipSystem::CheckMaxPower()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1003::func));
+	__asm__("call *%0\n\t" :: "m"(_func1003::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -37497,7 +36543,6 @@ FUNC_NAKED bool ShipSystem::IsSubsystem(int systemType)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -37506,7 +36551,7 @@ FUNC_NAKED bool ShipSystem::IsSubsystem(int systemType)
 		"pushq %r15\n\t"
 			// rdi has systemType
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1004::func));
+	__asm__("call *%0\n\t" :: "m"(_func1004::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -37534,7 +36579,6 @@ FUNC_NAKED void ShipSystem::RenderPowerBoxes(int x, int y, int width, int height
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -37550,7 +36594,7 @@ FUNC_NAKED void ShipSystem::RenderPowerBoxes(int x, int y, int width, int height
 			// r8 has height
 			// r9 has gap
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1005::func));
+	__asm__("call *%0\n\t" :: "m"(_func1005::func) : "rdi", "rsi", "rdx", "rcx", "r8", "r9");
 	__asm__
 	(
 		"addq $16, %rsp\n\t"
@@ -37579,7 +36623,6 @@ FUNC_NAKED bool ShipSystem::IncreasePower(int amount, bool force)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -37590,7 +36633,7 @@ FUNC_NAKED bool ShipSystem::IncreasePower(int amount, bool force)
 			// rsi has amount
 			// rdx has force
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1006::func));
+	__asm__("call *%0\n\t" :: "m"(_func1006::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -37618,7 +36661,6 @@ FUNC_NAKED bool ShipSystem::DecreasePower(bool force)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -37628,7 +36670,7 @@ FUNC_NAKED bool ShipSystem::DecreasePower(bool force)
 			// rdi has this
 			// rsi has force
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1007::func));
+	__asm__("call *%0\n\t" :: "m"(_func1007::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -37656,7 +36698,6 @@ FUNC_NAKED bool ShipSystem::DamageOverTime(float unk)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -37666,7 +36707,7 @@ FUNC_NAKED bool ShipSystem::DamageOverTime(float unk)
 			// rdi has this
 			// xmm0 has unk
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1008::func));
+	__asm__("call *%0\n\t" :: "m"(_func1008::func) : "rdi", "xmm0");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -37694,7 +36735,6 @@ FUNC_NAKED void ShipSystem::CheckForRepower()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -37703,7 +36743,7 @@ FUNC_NAKED void ShipSystem::CheckForRepower()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1009::func));
+	__asm__("call *%0\n\t" :: "m"(_func1009::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -37731,7 +36771,6 @@ FUNC_NAKED void ShipSystem::LockSystem(int lock)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -37741,7 +36780,7 @@ FUNC_NAKED void ShipSystem::LockSystem(int lock)
 			// rdi has this
 			// rsi has lock
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1010::func));
+	__asm__("call *%0\n\t" :: "m"(_func1010::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -37769,7 +36808,6 @@ FUNC_NAKED void ShipSystem::ClearStatus()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -37778,7 +36816,7 @@ FUNC_NAKED void ShipSystem::ClearStatus()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1011::func));
+	__asm__("call *%0\n\t" :: "m"(_func1011::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -37806,7 +36844,6 @@ FUNC_NAKED void ShipSystem::SetPowerCap(int cap)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -37816,7 +36853,7 @@ FUNC_NAKED void ShipSystem::SetPowerCap(int cap)
 			// rdi has this
 			// rsi has cap
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1012::func));
+	__asm__("call *%0\n\t" :: "m"(_func1012::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -37844,7 +36881,6 @@ FUNC_NAKED int ShipSystem::SetPowerLoss(int power)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -37854,7 +36890,7 @@ FUNC_NAKED int ShipSystem::SetPowerLoss(int power)
 			// rdi has this
 			// rsi has power
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1013::func));
+	__asm__("call *%0\n\t" :: "m"(_func1013::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -37882,7 +36918,6 @@ FUNC_NAKED bool ShipSystem::PartialRepair(float speed, bool autoRepair)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -37893,7 +36928,7 @@ FUNC_NAKED bool ShipSystem::PartialRepair(float speed, bool autoRepair)
 			// xmm0 has speed
 			// rsi has autoRepair
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1014::func));
+	__asm__("call *%0\n\t" :: "m"(_func1014::func) : "rdi", "xmm0", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -37921,7 +36956,6 @@ FUNC_NAKED void ShipSystem::AddLock(int lock)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -37931,7 +36965,7 @@ FUNC_NAKED void ShipSystem::AddLock(int lock)
 			// rdi has this
 			// rsi has lock
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1015::func));
+	__asm__("call *%0\n\t" :: "m"(_func1015::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -37959,7 +36993,6 @@ FUNC_NAKED void ShipSystem::OnLoop()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -37968,7 +37001,7 @@ FUNC_NAKED void ShipSystem::OnLoop()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1016::func));
+	__asm__("call *%0\n\t" :: "m"(_func1016::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -37996,7 +37029,6 @@ FUNC_NAKED int ShipSystem::NameToSystemId(const std::string &name)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -38005,7 +37037,7 @@ FUNC_NAKED int ShipSystem::NameToSystemId(const std::string &name)
 		"pushq %r15\n\t"
 			// rdi has name
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1017::func));
+	__asm__("call *%0\n\t" :: "m"(_func1017::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -38033,7 +37065,6 @@ FUNC_NAKED std::string ShipSystem::SystemIdToName(int systemId)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -38043,7 +37074,7 @@ FUNC_NAKED std::string ShipSystem::SystemIdToName(int systemId)
 			// rdi has implicit_output
 			// rsi has systemId
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1018::func));
+	__asm__("call *%0\n\t" :: "m"(_func1018::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -38071,7 +37102,6 @@ FUNC_NAKED std::string ShipSystem::GetLevelDescription(int systemId, int level, 
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -38083,7 +37113,7 @@ FUNC_NAKED std::string ShipSystem::GetLevelDescription(int systemId, int level, 
 			// rdx has level
 			// rcx has tooltip
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1019::func));
+	__asm__("call *%0\n\t" :: "m"(_func1019::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -38111,7 +37141,6 @@ FUNC_NAKED void ShipSystem::constructor(int systemId, int roomId, int shipId, in
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -38124,7 +37153,7 @@ FUNC_NAKED void ShipSystem::constructor(int systemId, int roomId, int shipId, in
 			// rcx has shipId
 			// r8 has startingPower
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1020::func));
+	__asm__("call *%0\n\t" :: "m"(_func1020::func) : "rdi", "rsi", "rdx", "rcx", "r8");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -38152,7 +37181,6 @@ FUNC_NAKED bool ShipSystem::PartialDamage(float amount)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -38162,7 +37190,7 @@ FUNC_NAKED bool ShipSystem::PartialDamage(float amount)
 			// rdi has this
 			// xmm0 has amount
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1021::func));
+	__asm__("call *%0\n\t" :: "m"(_func1021::func) : "rdi", "xmm0");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -38190,7 +37218,6 @@ FUNC_NAKED void SoundControl::StopPlaylist(int fadeOut)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -38200,7 +37227,7 @@ FUNC_NAKED void SoundControl::StopPlaylist(int fadeOut)
 			// rdi has this
 			// rsi has fadeOut
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1022::func));
+	__asm__("call *%0\n\t" :: "m"(_func1022::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -38228,7 +37255,6 @@ FUNC_NAKED void SoundControl::StartPlaylist(std::vector<std::string> &playlist)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -38238,7 +37264,7 @@ FUNC_NAKED void SoundControl::StartPlaylist(std::vector<std::string> &playlist)
 			// rdi has this
 			// rsi has playlist
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1023::func));
+	__asm__("call *%0\n\t" :: "m"(_func1023::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -38266,7 +37292,6 @@ FUNC_NAKED int SoundControl::PlaySoundMix(const std::string &soundName, float vo
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -38278,7 +37303,7 @@ FUNC_NAKED int SoundControl::PlaySoundMix(const std::string &soundName, float vo
 			// xmm0 has volume
 			// rdx has loop
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1024::func));
+	__asm__("call *%0\n\t" :: "m"(_func1024::func) : "rdi", "rsi", "xmm0", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -38313,7 +37338,6 @@ FUNC_NAKED void SpaceDrone::SetMovementTarget(Targetable *target)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -38323,7 +37347,7 @@ FUNC_NAKED void SpaceDrone::SetMovementTarget(Targetable *target)
 			// rdi has this
 			// rsi has target
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1026::func));
+	__asm__("call *%0\n\t" :: "m"(_func1026::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -38351,7 +37375,6 @@ FUNC_NAKED void SpaceDrone::SetDeployed(bool deployed)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -38361,7 +37384,7 @@ FUNC_NAKED void SpaceDrone::SetDeployed(bool deployed)
 			// rdi has this
 			// rsi has deployed
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1027::func));
+	__asm__("call *%0\n\t" :: "m"(_func1027::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -38389,6 +37412,7 @@ FUNC_NAKED CollisionResponse SpaceDrone::CollisionMoving(Pointf start, Pointf fi
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
+		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -38408,7 +37432,7 @@ FUNC_NAKED CollisionResponse SpaceDrone::CollisionMoving(Pointf start, Pointf fi
 			// rcx has finish
 			// r8 has raytrace
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1028::func));
+	__asm__("call *%0\n\t" :: "m"(_func1028::func) : "rdi", "rsi", "rdx", "rcx", "r8");
 	__asm__
 	(
 		"addq $56, %rsp\n\t"
@@ -38437,7 +37461,6 @@ FUNC_NAKED float SpaceDrone::UpdateAimingAngle(Pointf location, float percentage
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -38449,7 +37472,7 @@ FUNC_NAKED float SpaceDrone::UpdateAimingAngle(Pointf location, float percentage
 			// xmm0 has percentage
 			// xmm1 has forceDesired
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1029::func));
+	__asm__("call *%0\n\t" :: "m"(_func1029::func) : "rdi", "rsi", "xmm0", "xmm1");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -38477,7 +37500,6 @@ FUNC_NAKED Projectile *SpaceDrone::GetNextProjectile()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -38486,7 +37508,7 @@ FUNC_NAKED Projectile *SpaceDrone::GetNextProjectile()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1030::func));
+	__asm__("call *%0\n\t" :: "m"(_func1030::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -38514,7 +37536,6 @@ FUNC_NAKED void SpaceManager::constructor()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -38523,7 +37544,7 @@ FUNC_NAKED void SpaceManager::constructor()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1031::func));
+	__asm__("call *%0\n\t" :: "m"(_func1031::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -38551,7 +37572,6 @@ FUNC_NAKED int SpaceManager::GetScreenShake()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -38560,7 +37580,7 @@ FUNC_NAKED int SpaceManager::GetScreenShake()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1032::func));
+	__asm__("call *%0\n\t" :: "m"(_func1032::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -38588,7 +37608,6 @@ FUNC_NAKED void SpaceManager::SaveSpace(int fileHelper)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -38598,7 +37617,7 @@ FUNC_NAKED void SpaceManager::SaveSpace(int fileHelper)
 			// rdi has this
 			// rsi has fileHelper
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1033::func));
+	__asm__("call *%0\n\t" :: "m"(_func1033::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -38626,7 +37645,6 @@ FUNC_NAKED ImageDesc SpaceManager::SwitchBeacon()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -38636,7 +37654,7 @@ FUNC_NAKED ImageDesc SpaceManager::SwitchBeacon()
 			// rdi has implicit_output
 			// rsi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1034::func));
+	__asm__("call *%0\n\t" :: "m"(_func1034::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -38664,7 +37682,6 @@ FUNC_NAKED ImageDesc SpaceManager::SwitchPlanet(const std::string &name)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -38675,7 +37692,7 @@ FUNC_NAKED ImageDesc SpaceManager::SwitchPlanet(const std::string &name)
 			// rsi has this
 			// rdx has name
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1035::func));
+	__asm__("call *%0\n\t" :: "m"(_func1035::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -38703,7 +37720,6 @@ FUNC_NAKED void SpaceManager::UpdatePlanetImage()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -38712,7 +37728,7 @@ FUNC_NAKED void SpaceManager::UpdatePlanetImage()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1036::func));
+	__asm__("call *%0\n\t" :: "m"(_func1036::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -38740,7 +37756,6 @@ FUNC_NAKED void SpaceManager::SwitchImages(ImageDesc planet, ImageDesc unk1, Ima
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -38761,7 +37776,7 @@ FUNC_NAKED void SpaceManager::SwitchImages(ImageDesc planet, ImageDesc unk1, Ima
 		"pushq 8(%rbp)\n\t"		// planet
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1037::func));
+	__asm__("call *%0\n\t" :: "m"(_func1037::func) : "rdi");
 	__asm__
 	(
 		"addq $96, %rsp\n\t"
@@ -38790,7 +37805,6 @@ FUNC_NAKED ImageDesc SpaceManager::SwitchBackground(const std::string &name)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -38801,7 +37815,7 @@ FUNC_NAKED ImageDesc SpaceManager::SwitchBackground(const std::string &name)
 			// rsi has this
 			// rdx has name
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1038::func));
+	__asm__("call *%0\n\t" :: "m"(_func1038::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -38829,7 +37843,6 @@ FUNC_NAKED void SpaceManager::StartAsteroids(int shieldCount, bool unk)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -38840,7 +37853,7 @@ FUNC_NAKED void SpaceManager::StartAsteroids(int shieldCount, bool unk)
 			// rsi has shieldCount
 			// rdx has unk
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1039::func));
+	__asm__("call *%0\n\t" :: "m"(_func1039::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -38868,7 +37881,6 @@ FUNC_NAKED void SpaceManager::SetFireLevel(bool state)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -38878,7 +37890,7 @@ FUNC_NAKED void SpaceManager::SetFireLevel(bool state)
 			// rdi has this
 			// rsi has state
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1040::func));
+	__asm__("call *%0\n\t" :: "m"(_func1040::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -38906,7 +37918,6 @@ FUNC_NAKED void SpaceManager::SetPlanetaryDefense(char state, int target)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -38917,7 +37928,7 @@ FUNC_NAKED void SpaceManager::SetPlanetaryDefense(char state, int target)
 			// rsi has state
 			// rdx has target
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1041::func));
+	__asm__("call *%0\n\t" :: "m"(_func1041::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -38945,7 +37956,6 @@ FUNC_NAKED void SpaceManager::SetPulsarLevel(bool pulsarLevel)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -38955,7 +37965,7 @@ FUNC_NAKED void SpaceManager::SetPulsarLevel(bool pulsarLevel)
 			// rdi has this
 			// rsi has pulsarLevel
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1042::func));
+	__asm__("call *%0\n\t" :: "m"(_func1042::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -38983,7 +37993,6 @@ FUNC_NAKED bool SpaceManager::DangerousEnvironment()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -38992,7 +38001,7 @@ FUNC_NAKED bool SpaceManager::DangerousEnvironment()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1043::func));
+	__asm__("call *%0\n\t" :: "m"(_func1043::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -39020,7 +38029,6 @@ FUNC_NAKED void SpaceManager::MouseMove(int x, int y, int unk)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -39032,7 +38040,7 @@ FUNC_NAKED void SpaceManager::MouseMove(int x, int y, int unk)
 			// rdx has y
 			// rcx has unk
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1044::func));
+	__asm__("call *%0\n\t" :: "m"(_func1044::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -39060,7 +38068,6 @@ FUNC_NAKED SpaceDrone *SpaceManager::GetSelectedDrone(int x, int y, int unk)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -39072,7 +38079,7 @@ FUNC_NAKED SpaceDrone *SpaceManager::GetSelectedDrone(int x, int y, int unk)
 			// rdx has y
 			// rcx has unk
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1045::func));
+	__asm__("call *%0\n\t" :: "m"(_func1045::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -39100,7 +38107,6 @@ FUNC_NAKED float SpaceManager::GetFlashOpacity()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -39109,7 +38115,7 @@ FUNC_NAKED float SpaceManager::GetFlashOpacity()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1046::func));
+	__asm__("call *%0\n\t" :: "m"(_func1046::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -39137,7 +38143,6 @@ FUNC_NAKED GL_Color SpaceManager::GetColorTint()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -39146,7 +38151,7 @@ FUNC_NAKED GL_Color SpaceManager::GetColorTint()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1047::func));
+	__asm__("call *%0\n\t" :: "m"(_func1047::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -39174,7 +38179,6 @@ FUNC_NAKED void SpaceManager::OnRenderFleet()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -39183,7 +38187,7 @@ FUNC_NAKED void SpaceManager::OnRenderFleet()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1048::func));
+	__asm__("call *%0\n\t" :: "m"(_func1048::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -39211,7 +38215,6 @@ FUNC_NAKED void SpaceManager::OnRenderForeground()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -39220,7 +38223,7 @@ FUNC_NAKED void SpaceManager::OnRenderForeground()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1049::func));
+	__asm__("call *%0\n\t" :: "m"(_func1049::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -39248,7 +38251,6 @@ FUNC_NAKED void SpaceManager::SetDangerZone(int fleetType)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -39258,7 +38260,7 @@ FUNC_NAKED void SpaceManager::SetDangerZone(int fleetType)
 			// rdi has this
 			// rsi has fleetType
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1050::func));
+	__asm__("call *%0\n\t" :: "m"(_func1050::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -39286,7 +38288,6 @@ FUNC_NAKED void SpaceManager::OnRenderAsteroids(int fieldLayers, float unk2)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -39297,7 +38298,7 @@ FUNC_NAKED void SpaceManager::OnRenderAsteroids(int fieldLayers, float unk2)
 			// rsi has fieldLayers
 			// xmm0 has unk2
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1051::func));
+	__asm__("call *%0\n\t" :: "m"(_func1051::func) : "rdi", "rsi", "xmm0");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -39325,7 +38326,6 @@ FUNC_NAKED void SpaceManager::OnRenderProjectiles(int unk1, int unk2)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -39336,7 +38336,7 @@ FUNC_NAKED void SpaceManager::OnRenderProjectiles(int unk1, int unk2)
 			// rsi has unk1
 			// rdx has unk2
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1052::func));
+	__asm__("call *%0\n\t" :: "m"(_func1052::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -39364,7 +38364,6 @@ FUNC_NAKED void SpaceManager::OnInit()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -39373,7 +38372,7 @@ FUNC_NAKED void SpaceManager::OnInit()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1053::func));
+	__asm__("call *%0\n\t" :: "m"(_func1053::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -39401,7 +38400,6 @@ FUNC_NAKED void SpaceManager::Restart()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -39410,7 +38408,7 @@ FUNC_NAKED void SpaceManager::Restart()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1054::func));
+	__asm__("call *%0\n\t" :: "m"(_func1054::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -39438,7 +38436,6 @@ FUNC_NAKED void SpaceManager::ClearEnvironment()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -39447,7 +38444,7 @@ FUNC_NAKED void SpaceManager::ClearEnvironment()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1055::func));
+	__asm__("call *%0\n\t" :: "m"(_func1055::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -39475,7 +38472,6 @@ FUNC_NAKED void SpaceManager::Clear()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -39484,7 +38480,7 @@ FUNC_NAKED void SpaceManager::Clear()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1056::func));
+	__asm__("call *%0\n\t" :: "m"(_func1056::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -39512,7 +38508,6 @@ FUNC_NAKED void SpaceManager::ClearProjectiles()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -39521,7 +38516,7 @@ FUNC_NAKED void SpaceManager::ClearProjectiles()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1057::func));
+	__asm__("call *%0\n\t" :: "m"(_func1057::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -39549,7 +38544,6 @@ FUNC_NAKED void SpaceManager::UpdateProjectile(Projectile *proj)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -39559,7 +38553,7 @@ FUNC_NAKED void SpaceManager::UpdateProjectile(Projectile *proj)
 			// rdi has this
 			// rsi has proj
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1058::func));
+	__asm__("call *%0\n\t" :: "m"(_func1058::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -39587,7 +38581,6 @@ FUNC_NAKED void SpaceManager::TransferProjectile(Projectile *proj)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -39597,7 +38590,7 @@ FUNC_NAKED void SpaceManager::TransferProjectile(Projectile *proj)
 			// rdi has this
 			// rsi has proj
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1059::func));
+	__asm__("call *%0\n\t" :: "m"(_func1059::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -39625,7 +38618,6 @@ FUNC_NAKED void SpaceManager::OnRenderBackground()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -39634,7 +38626,7 @@ FUNC_NAKED void SpaceManager::OnRenderBackground()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1060::func));
+	__asm__("call *%0\n\t" :: "m"(_func1060::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -39662,7 +38654,6 @@ FUNC_NAKED void SpaceManager::AddProjectile(Projectile *proj)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -39672,7 +38663,7 @@ FUNC_NAKED void SpaceManager::AddProjectile(Projectile *proj)
 			// rdi has this
 			// rsi has proj
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1061::func));
+	__asm__("call *%0\n\t" :: "m"(_func1061::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -39700,7 +38691,6 @@ FUNC_NAKED void SpaceManager::LoadSpace(int fileHelper)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -39710,7 +38700,7 @@ FUNC_NAKED void SpaceManager::LoadSpace(int fileHelper)
 			// rdi has this
 			// rsi has fileHelper
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1062::func));
+	__asm__("call *%0\n\t" :: "m"(_func1062::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -39738,7 +38728,6 @@ FUNC_NAKED void SpaceManager::AddShip(ShipManager *ship)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -39748,7 +38737,7 @@ FUNC_NAKED void SpaceManager::AddShip(ShipManager *ship)
 			// rdi has this
 			// rsi has ship
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1063::func));
+	__asm__("call *%0\n\t" :: "m"(_func1063::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -39776,7 +38765,6 @@ FUNC_NAKED void SpaceManager::UpdatePDS()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -39785,7 +38773,7 @@ FUNC_NAKED void SpaceManager::UpdatePDS()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1064::func));
+	__asm__("call *%0\n\t" :: "m"(_func1064::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -39813,7 +38801,6 @@ FUNC_NAKED void SpaceManager::OnLoopNebulas()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -39822,7 +38809,7 @@ FUNC_NAKED void SpaceManager::OnLoopNebulas()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1065::func));
+	__asm__("call *%0\n\t" :: "m"(_func1065::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -39850,7 +38837,6 @@ FUNC_NAKED void SpaceManager::OnLoop()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -39859,7 +38845,7 @@ FUNC_NAKED void SpaceManager::OnLoop()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1066::func));
+	__asm__("call *%0\n\t" :: "m"(_func1066::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -39887,7 +38873,6 @@ FUNC_NAKED void SpaceManager::SetNebula(bool state)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -39897,7 +38882,7 @@ FUNC_NAKED void SpaceManager::SetNebula(bool state)
 			// rdi has this
 			// rsi has state
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1067::func));
+	__asm__("call *%0\n\t" :: "m"(_func1067::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -39925,7 +38910,6 @@ FUNC_NAKED void SpaceManager::SetStorm(bool state)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -39935,7 +38919,7 @@ FUNC_NAKED void SpaceManager::SetStorm(bool state)
 			// rdi has this
 			// rsi has state
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1068::func));
+	__asm__("call *%0\n\t" :: "m"(_func1068::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -39963,7 +38947,6 @@ FUNC_NAKED void StarMap::SetPosition(Point unk0)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -39973,7 +38956,7 @@ FUNC_NAKED void StarMap::SetPosition(Point unk0)
 			// rdi has this
 			// rsi has unk0
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1069::func));
+	__asm__("call *%0\n\t" :: "m"(_func1069::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -40001,7 +38984,6 @@ FUNC_NAKED void StarMap::SetOpen(bool unk0)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -40011,7 +38993,7 @@ FUNC_NAKED void StarMap::SetOpen(bool unk0)
 			// rdi has this
 			// rsi has unk0
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1070::func));
+	__asm__("call *%0\n\t" :: "m"(_func1070::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -40039,7 +39021,6 @@ FUNC_NAKED int StarMap::GetNextDangerMove()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -40048,7 +39029,7 @@ FUNC_NAKED int StarMap::GetNextDangerMove()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1071::func));
+	__asm__("call *%0\n\t" :: "m"(_func1071::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -40076,7 +39057,6 @@ FUNC_NAKED void StarMap::KeyDown(int unk0)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -40086,7 +39066,7 @@ FUNC_NAKED void StarMap::KeyDown(int unk0)
 			// rdi has this
 			// rsi has unk0
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1072::func));
+	__asm__("call *%0\n\t" :: "m"(_func1072::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -40114,7 +39094,6 @@ FUNC_NAKED void StarMap::Close()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -40123,7 +39102,7 @@ FUNC_NAKED void StarMap::Close()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1073::func));
+	__asm__("call *%0\n\t" :: "m"(_func1073::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -40151,7 +39130,6 @@ FUNC_NAKED void StarMap::Open()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -40160,7 +39138,7 @@ FUNC_NAKED void StarMap::Open()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1074::func));
+	__asm__("call *%0\n\t" :: "m"(_func1074::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -40188,7 +39166,6 @@ FUNC_NAKED void StarMap::InitMapTitle()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -40197,7 +39174,7 @@ FUNC_NAKED void StarMap::InitMapTitle()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1075::func));
+	__asm__("call *%0\n\t" :: "m"(_func1075::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -40225,7 +39202,6 @@ FUNC_NAKED void StarMap::InitNoFuelText()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -40234,7 +39210,7 @@ FUNC_NAKED void StarMap::InitNoFuelText()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1076::func));
+	__asm__("call *%0\n\t" :: "m"(_func1076::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -40262,7 +39238,6 @@ FUNC_NAKED void StarMap::InitBossMessageBox()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -40271,7 +39246,7 @@ FUNC_NAKED void StarMap::InitBossMessageBox()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1077::func));
+	__asm__("call *%0\n\t" :: "m"(_func1077::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -40299,7 +39274,6 @@ FUNC_NAKED void StarMap::OnLanguageChange()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -40308,7 +39282,7 @@ FUNC_NAKED void StarMap::OnLanguageChange()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1078::func));
+	__asm__("call *%0\n\t" :: "m"(_func1078::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -40336,7 +39310,6 @@ FUNC_NAKED int StarMap::GetRandomSectorChoice()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -40345,7 +39318,7 @@ FUNC_NAKED int StarMap::GetRandomSectorChoice()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1079::func));
+	__asm__("call *%0\n\t" :: "m"(_func1079::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -40373,7 +39346,6 @@ FUNC_NAKED void StarMap::NeighboringSector(int unk0)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -40383,7 +39355,7 @@ FUNC_NAKED void StarMap::NeighboringSector(int unk0)
 			// rdi has this
 			// rsi has unk0
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1080::func));
+	__asm__("call *%0\n\t" :: "m"(_func1080::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -40411,7 +39383,6 @@ FUNC_NAKED void StarMap::GetSelectedSector(int unk0, int unk1, int unk2)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -40423,7 +39394,7 @@ FUNC_NAKED void StarMap::GetSelectedSector(int unk0, int unk1, int unk2)
 			// rdx has unk1
 			// rcx has unk2
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1081::func));
+	__asm__("call *%0\n\t" :: "m"(_func1081::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -40451,7 +39422,6 @@ FUNC_NAKED void StarMap::StartSecretSector()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -40460,7 +39430,7 @@ FUNC_NAKED void StarMap::StartSecretSector()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1082::func));
+	__asm__("call *%0\n\t" :: "m"(_func1082::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -40488,7 +39458,6 @@ FUNC_NAKED void StarMap::ReachSector(Sector *unk0)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -40498,7 +39467,7 @@ FUNC_NAKED void StarMap::ReachSector(Sector *unk0)
 			// rdi has this
 			// rsi has unk0
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1083::func));
+	__asm__("call *%0\n\t" :: "m"(_func1083::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -40526,7 +39495,6 @@ FUNC_NAKED void StarMap::UpdateSectorMap(Sector *unk0)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -40536,7 +39504,7 @@ FUNC_NAKED void StarMap::UpdateSectorMap(Sector *unk0)
 			// rdi has this
 			// rsi has unk0
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1084::func));
+	__asm__("call *%0\n\t" :: "m"(_func1084::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -40564,7 +39532,6 @@ FUNC_NAKED void StarMap::SaveGame(int file)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -40574,7 +39541,7 @@ FUNC_NAKED void StarMap::SaveGame(int file)
 			// rdi has this
 			// rsi has file
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1085::func));
+	__asm__("call *%0\n\t" :: "m"(_func1085::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -40602,7 +39569,6 @@ FUNC_NAKED void StarMap::InitStatistics()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -40611,7 +39577,7 @@ FUNC_NAKED void StarMap::InitStatistics()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1086::func));
+	__asm__("call *%0\n\t" :: "m"(_func1086::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -40639,7 +39605,6 @@ FUNC_NAKED void StarMap::PrintStatistics()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -40648,7 +39613,7 @@ FUNC_NAKED void StarMap::PrintStatistics()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1087::func));
+	__asm__("call *%0\n\t" :: "m"(_func1087::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -40676,7 +39641,6 @@ FUNC_NAKED void StarMap::AnalyzeMap()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -40685,7 +39649,7 @@ FUNC_NAKED void StarMap::AnalyzeMap()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1088::func));
+	__asm__("call *%0\n\t" :: "m"(_func1088::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -40713,7 +39677,6 @@ FUNC_NAKED void StarMap::ModifyPursuit(int unk0)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -40723,7 +39686,7 @@ FUNC_NAKED void StarMap::ModifyPursuit(int unk0)
 			// rdi has this
 			// rsi has unk0
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1089::func));
+	__asm__("call *%0\n\t" :: "m"(_func1089::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -40751,7 +39714,6 @@ FUNC_NAKED void StarMap::AtBeacon()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -40760,7 +39722,7 @@ FUNC_NAKED void StarMap::AtBeacon()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1090::func));
+	__asm__("call *%0\n\t" :: "m"(_func1090::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -40788,7 +39750,6 @@ FUNC_NAKED void StarMap::GetWaitLocation()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -40797,7 +39758,7 @@ FUNC_NAKED void StarMap::GetWaitLocation()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1091::func));
+	__asm__("call *%0\n\t" :: "m"(_func1091::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -40825,7 +39786,6 @@ FUNC_NAKED void StarMap::StartBeacon()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -40834,7 +39794,7 @@ FUNC_NAKED void StarMap::StartBeacon()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1092::func));
+	__asm__("call *%0\n\t" :: "m"(_func1092::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -40862,7 +39822,6 @@ FUNC_NAKED bool StarMap::LocationsConnected(Location *unk0, Location *unk1)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -40873,7 +39832,7 @@ FUNC_NAKED bool StarMap::LocationsConnected(Location *unk0, Location *unk1)
 			// rsi has unk0
 			// rdx has unk1
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1093::func));
+	__asm__("call *%0\n\t" :: "m"(_func1093::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -40901,7 +39860,6 @@ FUNC_NAKED Point StarMap::PointToGrid(float x, float y)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -40912,7 +39870,7 @@ FUNC_NAKED Point StarMap::PointToGrid(float x, float y)
 			// xmm0 has x
 			// xmm1 has y
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1094::func));
+	__asm__("call *%0\n\t" :: "m"(_func1094::func) : "rdi", "xmm0", "xmm1");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -40940,7 +39898,6 @@ FUNC_NAKED void StarMap::TravelToLocation(Location *unk0)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -40950,7 +39907,7 @@ FUNC_NAKED void StarMap::TravelToLocation(Location *unk0)
 			// rdi has this
 			// rsi has unk0
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1095::func));
+	__asm__("call *%0\n\t" :: "m"(_func1095::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -40978,7 +39935,6 @@ FUNC_NAKED void StarMap::ForceExitBeacon()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -40987,7 +39943,7 @@ FUNC_NAKED void StarMap::ForceExitBeacon()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1096::func));
+	__asm__("call *%0\n\t" :: "m"(_func1096::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -41015,7 +39971,6 @@ FUNC_NAKED void StarMap::OnRenderFogEffect()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -41024,7 +39979,7 @@ FUNC_NAKED void StarMap::OnRenderFogEffect()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1097::func));
+	__asm__("call *%0\n\t" :: "m"(_func1097::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -41052,7 +40007,6 @@ FUNC_NAKED void StarMap::LocationHasBoss(Location *unk0)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -41062,7 +40016,7 @@ FUNC_NAKED void StarMap::LocationHasBoss(Location *unk0)
 			// rdi has this
 			// rsi has unk0
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1098::func));
+	__asm__("call *%0\n\t" :: "m"(_func1098::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -41090,7 +40044,6 @@ FUNC_NAKED void StarMap::LocationHasStore(Location *unk0)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -41100,7 +40053,7 @@ FUNC_NAKED void StarMap::LocationHasStore(Location *unk0)
 			// rdi has this
 			// rsi has unk0
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1099::func));
+	__asm__("call *%0\n\t" :: "m"(_func1099::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -41128,7 +40081,6 @@ FUNC_NAKED void StarMap::LocationHasShip(Location *unk0)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -41138,7 +40090,7 @@ FUNC_NAKED void StarMap::LocationHasShip(Location *unk0)
 			// rdi has this
 			// rsi has unk0
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1100::func));
+	__asm__("call *%0\n\t" :: "m"(_func1100::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -41166,7 +40118,6 @@ FUNC_NAKED void StarMap::AdvanceWorldLevel()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -41175,7 +40126,7 @@ FUNC_NAKED void StarMap::AdvanceWorldLevel()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1101::func));
+	__asm__("call *%0\n\t" :: "m"(_func1101::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -41203,7 +40154,6 @@ FUNC_NAKED std::string StarMap::GetLocationText(const Location *loc)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -41214,7 +40164,7 @@ FUNC_NAKED std::string StarMap::GetLocationText(const Location *loc)
 			// rsi has this
 			// rdx has loc
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1102::func));
+	__asm__("call *%0\n\t" :: "m"(_func1102::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -41242,7 +40192,6 @@ FUNC_NAKED void StarMap::ReverseBossPath()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -41251,7 +40200,7 @@ FUNC_NAKED void StarMap::ReverseBossPath()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1103::func));
+	__asm__("call *%0\n\t" :: "m"(_func1103::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -41279,7 +40228,6 @@ FUNC_NAKED void StarMap::ForceBossJump()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -41288,7 +40236,7 @@ FUNC_NAKED void StarMap::ForceBossJump()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1104::func));
+	__asm__("call *%0\n\t" :: "m"(_func1104::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -41316,7 +40264,6 @@ FUNC_NAKED void StarMap::ClearBoss()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -41325,7 +40272,7 @@ FUNC_NAKED void StarMap::ClearBoss()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1105::func));
+	__asm__("call *%0\n\t" :: "m"(_func1105::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -41353,7 +40300,6 @@ FUNC_NAKED void StarMap::SetBossStage(int stage)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -41363,7 +40309,7 @@ FUNC_NAKED void StarMap::SetBossStage(int stage)
 			// rdi has this
 			// rsi has stage
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1106::func));
+	__asm__("call *%0\n\t" :: "m"(_func1106::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -41391,7 +40337,6 @@ FUNC_NAKED void StarMap::CheckGameOver()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -41400,7 +40345,7 @@ FUNC_NAKED void StarMap::CheckGameOver()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1107::func));
+	__asm__("call *%0\n\t" :: "m"(_func1107::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -41428,7 +40373,6 @@ FUNC_NAKED void StarMap::RenderLabels()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -41437,7 +40381,7 @@ FUNC_NAKED void StarMap::RenderLabels()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1108::func));
+	__asm__("call *%0\n\t" :: "m"(_func1108::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -41465,7 +40409,6 @@ FUNC_NAKED void StarMap::DeleteMap()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -41474,7 +40417,7 @@ FUNC_NAKED void StarMap::DeleteMap()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1109::func));
+	__asm__("call *%0\n\t" :: "m"(_func1109::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -41502,7 +40445,6 @@ FUNC_NAKED void StarMap::MouseClick(int unk0, int unk1)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -41513,7 +40455,7 @@ FUNC_NAKED void StarMap::MouseClick(int unk0, int unk1)
 			// rsi has unk0
 			// rdx has unk1
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1110::func));
+	__asm__("call *%0\n\t" :: "m"(_func1110::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -41541,7 +40483,6 @@ FUNC_NAKED void StarMap::AddSectorColumn()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -41550,7 +40491,7 @@ FUNC_NAKED void StarMap::AddSectorColumn()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1111::func));
+	__asm__("call *%0\n\t" :: "m"(_func1111::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -41578,7 +40519,6 @@ FUNC_NAKED void StarMap::PushSectorColumn()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -41587,7 +40527,7 @@ FUNC_NAKED void StarMap::PushSectorColumn()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1112::func));
+	__asm__("call *%0\n\t" :: "m"(_func1112::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -41615,7 +40555,6 @@ FUNC_NAKED void StarMap::SelectNewSector(int unk0)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -41625,7 +40564,7 @@ FUNC_NAKED void StarMap::SelectNewSector(int unk0)
 			// rdi has this
 			// rsi has unk0
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1113::func));
+	__asm__("call *%0\n\t" :: "m"(_func1113::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -41653,7 +40592,6 @@ FUNC_NAKED void StarMap::GenerateSectorMap()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -41662,7 +40600,7 @@ FUNC_NAKED void StarMap::GenerateSectorMap()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1114::func));
+	__asm__("call *%0\n\t" :: "m"(_func1114::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -41690,7 +40628,6 @@ FUNC_NAKED void StarMap::DrawConnection(const Pointf &pos1, const Pointf &pos2, 
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -41702,7 +40639,7 @@ FUNC_NAKED void StarMap::DrawConnection(const Pointf &pos1, const Pointf &pos2, 
 			// rdx has pos2
 			// rcx has color
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1115::func));
+	__asm__("call *%0\n\t" :: "m"(_func1115::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -41730,7 +40667,6 @@ FUNC_NAKED void StarMap::SetupNoFuel(int seed, const std::string &forceEscape)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -41741,7 +40677,7 @@ FUNC_NAKED void StarMap::SetupNoFuel(int seed, const std::string &forceEscape)
 			// rsi has seed
 			// rdx has forceEscape
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1116::func));
+	__asm__("call *%0\n\t" :: "m"(_func1116::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -41769,7 +40705,6 @@ FUNC_NAKED void StarMap::TurnIntoFleetLocation(Location *loc)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -41779,7 +40714,7 @@ FUNC_NAKED void StarMap::TurnIntoFleetLocation(Location *loc)
 			// rdi has this
 			// rsi has loc
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1117::func));
+	__asm__("call *%0\n\t" :: "m"(_func1117::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -41807,7 +40742,6 @@ FUNC_NAKED void StarMap::UpdateBoss()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -41816,7 +40750,7 @@ FUNC_NAKED void StarMap::UpdateBoss()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1118::func));
+	__asm__("call *%0\n\t" :: "m"(_func1118::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -41844,7 +40778,6 @@ FUNC_NAKED void StarMap::UpdateDangerZone()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -41853,7 +40786,7 @@ FUNC_NAKED void StarMap::UpdateDangerZone()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1119::func));
+	__asm__("call *%0\n\t" :: "m"(_func1119::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -41881,7 +40814,6 @@ FUNC_NAKED Location *StarMap::GetNewLocation()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -41890,7 +40822,7 @@ FUNC_NAKED Location *StarMap::GetNewLocation()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1120::func));
+	__asm__("call *%0\n\t" :: "m"(_func1120::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -41918,7 +40850,6 @@ FUNC_NAKED void StarMap::OnLoop()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -41927,7 +40858,7 @@ FUNC_NAKED void StarMap::OnLoop()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1121::func));
+	__asm__("call *%0\n\t" :: "m"(_func1121::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -41955,7 +40886,6 @@ FUNC_NAKED void StarMap::GenerateNebulas(const std::vector<std::string> &names)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -41965,7 +40895,7 @@ FUNC_NAKED void StarMap::GenerateNebulas(const std::vector<std::string> &names)
 			// rdi has this
 			// rsi has names
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1122::func));
+	__asm__("call *%0\n\t" :: "m"(_func1122::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -41993,7 +40923,6 @@ FUNC_NAKED void StarMap::GenerateEvents(bool tutorial)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -42003,7 +40932,7 @@ FUNC_NAKED void StarMap::GenerateEvents(bool tutorial)
 			// rdi has this
 			// rsi has tutorial
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1123::func));
+	__asm__("call *%0\n\t" :: "m"(_func1123::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -42031,7 +40960,6 @@ FUNC_NAKED void StarMap::AddConnections(Location *unk0)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -42041,7 +40969,7 @@ FUNC_NAKED void StarMap::AddConnections(Location *unk0)
 			// rdi has this
 			// rsi has unk0
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1124::func));
+	__asm__("call *%0\n\t" :: "m"(_func1124::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -42069,7 +40997,6 @@ FUNC_NAKED void StarMap::MapConnected()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -42078,7 +41005,7 @@ FUNC_NAKED void StarMap::MapConnected()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1125::func));
+	__asm__("call *%0\n\t" :: "m"(_func1125::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -42106,7 +41033,6 @@ FUNC_NAKED void StarMap::ConnectLocations(Point unk0, Point unk1)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -42117,7 +41043,7 @@ FUNC_NAKED void StarMap::ConnectLocations(Point unk0, Point unk1)
 			// rsi has unk0
 			// rdx has unk1
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1126::func));
+	__asm__("call *%0\n\t" :: "m"(_func1126::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -42145,7 +41071,6 @@ FUNC_NAKED void StarMap::PopulateGrid(Point unk0)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -42155,7 +41080,7 @@ FUNC_NAKED void StarMap::PopulateGrid(Point unk0)
 			// rdi has this
 			// rsi has unk0
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1127::func));
+	__asm__("call *%0\n\t" :: "m"(_func1127::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -42183,7 +41108,6 @@ FUNC_NAKED Location *StarMap::PopClosestLoc(std::vector<Location*> &vec, std::ma
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -42194,7 +41118,7 @@ FUNC_NAKED Location *StarMap::PopClosestLoc(std::vector<Location*> &vec, std::ma
 			// rsi has vec
 			// rdx has map
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1128::func));
+	__asm__("call *%0\n\t" :: "m"(_func1128::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -42222,7 +41146,6 @@ FUNC_NAKED bool StarMap::AddQuest(const std::string &questEvent, bool force)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -42233,7 +41156,7 @@ FUNC_NAKED bool StarMap::AddQuest(const std::string &questEvent, bool force)
 			// rsi has questEvent
 			// rdx has force
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1129::func));
+	__asm__("call *%0\n\t" :: "m"(_func1129::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -42261,7 +41184,6 @@ FUNC_NAKED Location *StarMap::GenerateMap(bool tutorial, bool seed)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -42272,7 +41194,7 @@ FUNC_NAKED Location *StarMap::GenerateMap(bool tutorial, bool seed)
 			// rsi has tutorial
 			// rdx has seed
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1130::func));
+	__asm__("call *%0\n\t" :: "m"(_func1130::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -42300,7 +41222,6 @@ FUNC_NAKED Location *StarMap::NewGame(bool unk0)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -42310,7 +41231,7 @@ FUNC_NAKED Location *StarMap::NewGame(bool unk0)
 			// rdi has this
 			// rsi has unk0
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1131::func));
+	__asm__("call *%0\n\t" :: "m"(_func1131::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -42338,7 +41259,6 @@ FUNC_NAKED std::vector<Location*> StarMap::Dijkstra(Location *start, Location *f
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -42351,7 +41271,7 @@ FUNC_NAKED std::vector<Location*> StarMap::Dijkstra(Location *start, Location *f
 			// rcx has finish
 			// r8 has include_unknown
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1132::func));
+	__asm__("call *%0\n\t" :: "m"(_func1132::func) : "rdi", "rsi", "rdx", "rcx", "r8");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -42379,6 +41299,7 @@ FUNC_NAKED void StarMap::OnTouch(TouchAction unk0, int unk1, int unk2, int unk3,
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
+		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -42393,7 +41314,7 @@ FUNC_NAKED void StarMap::OnTouch(TouchAction unk0, int unk1, int unk2, int unk3,
 			// r8 has unk3
 			// r9 has unk4
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1133::func));
+	__asm__("call *%0\n\t" :: "m"(_func1133::func) : "rdi", "rsi", "rdx", "rcx", "r8", "r9");
 	__asm__
 	(
 		"addq $8, %rsp\n\t"
@@ -42422,7 +41343,6 @@ FUNC_NAKED void StarMap::MouseMove(int x, int y)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -42433,7 +41353,7 @@ FUNC_NAKED void StarMap::MouseMove(int x, int y)
 			// rsi has x
 			// rdx has y
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1134::func));
+	__asm__("call *%0\n\t" :: "m"(_func1134::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -42461,7 +41381,6 @@ FUNC_NAKED void StarMap::RenderSectorName(Sector *unk0, GL_Color unk1)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -42473,7 +41392,7 @@ FUNC_NAKED void StarMap::RenderSectorName(Sector *unk0, GL_Color unk1)
 			// rdi has this
 			// rsi has unk0
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1135::func));
+	__asm__("call *%0\n\t" :: "m"(_func1135::func) : "rdi", "rsi");
 	__asm__
 	(
 		"addq $16, %rsp\n\t"
@@ -42502,7 +41421,6 @@ FUNC_NAKED void StarMap::constructor()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -42511,7 +41429,7 @@ FUNC_NAKED void StarMap::constructor()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1136::func));
+	__asm__("call *%0\n\t" :: "m"(_func1136::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -42539,7 +41457,6 @@ FUNC_NAKED Location *StarMap::LoadGame(int fileHelper)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -42549,7 +41466,7 @@ FUNC_NAKED Location *StarMap::LoadGame(int fileHelper)
 			// rdi has this
 			// rsi has fileHelper
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1137::func));
+	__asm__("call *%0\n\t" :: "m"(_func1137::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -42577,7 +41494,6 @@ FUNC_NAKED void StarMap::RenderLeftInsetButton(float unk0, float unk1, bool unk2
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -42589,7 +41505,7 @@ FUNC_NAKED void StarMap::RenderLeftInsetButton(float unk0, float unk1, bool unk2
 			// xmm1 has unk1
 			// rsi has unk2
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1138::func));
+	__asm__("call *%0\n\t" :: "m"(_func1138::func) : "rdi", "xmm0", "xmm1", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -42617,7 +41533,6 @@ FUNC_NAKED void StarMap::RenderDistressButtons()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -42626,7 +41541,7 @@ FUNC_NAKED void StarMap::RenderDistressButtons()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1139::func));
+	__asm__("call *%0\n\t" :: "m"(_func1139::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -42654,7 +41569,6 @@ FUNC_NAKED void StarMap::OnRender()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -42663,7 +41577,7 @@ FUNC_NAKED void StarMap::OnRender()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1140::func));
+	__asm__("call *%0\n\t" :: "m"(_func1140::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -42691,7 +41605,6 @@ FUNC_NAKED StatusEffect StatusEffect::GetNebulaEffect()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -42727,7 +41640,6 @@ FUNC_NAKED bool Store::KeyDown(SDLKey key)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -42737,7 +41649,7 @@ FUNC_NAKED bool Store::KeyDown(SDLKey key)
 			// rdi has this
 			// rsi has key
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1142::func));
+	__asm__("call *%0\n\t" :: "m"(_func1142::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -42765,7 +41677,6 @@ FUNC_NAKED void Store::OnLoop()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -42774,7 +41685,7 @@ FUNC_NAKED void Store::OnLoop()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1143::func));
+	__asm__("call *%0\n\t" :: "m"(_func1143::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -42802,7 +41713,6 @@ FUNC_NAKED void Store::Close()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -42811,7 +41721,7 @@ FUNC_NAKED void Store::Close()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1144::func));
+	__asm__("call *%0\n\t" :: "m"(_func1144::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -42839,7 +41749,6 @@ FUNC_NAKED void Store::constructor()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -42848,7 +41757,7 @@ FUNC_NAKED void Store::constructor()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1145::func));
+	__asm__("call *%0\n\t" :: "m"(_func1145::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -42876,7 +41785,6 @@ FUNC_NAKED void Store::SaveStore(int file)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -42886,7 +41794,7 @@ FUNC_NAKED void Store::SaveStore(int file)
 			// rdi has this
 			// rsi has file
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1146::func));
+	__asm__("call *%0\n\t" :: "m"(_func1146::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -42914,7 +41822,6 @@ FUNC_NAKED void Store::RelinkShip(ShipManager *ship, Equipment *equip)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -42925,7 +41832,7 @@ FUNC_NAKED void Store::RelinkShip(ShipManager *ship, Equipment *equip)
 			// rsi has ship
 			// rdx has equip
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1147::func));
+	__asm__("call *%0\n\t" :: "m"(_func1147::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -42953,7 +41860,6 @@ FUNC_NAKED bool Store::HasType(int type)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -42963,7 +41869,7 @@ FUNC_NAKED bool Store::HasType(int type)
 			// rdi has this
 			// rsi has type
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1148::func));
+	__asm__("call *%0\n\t" :: "m"(_func1148::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -42991,7 +41897,6 @@ FUNC_NAKED void Store::Clear()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -43000,7 +41905,7 @@ FUNC_NAKED void Store::Clear()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1149::func));
+	__asm__("call *%0\n\t" :: "m"(_func1149::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -43028,7 +41933,6 @@ FUNC_NAKED void Store::InitHeading(int index, Point pos)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -43039,7 +41943,7 @@ FUNC_NAKED void Store::InitHeading(int index, Point pos)
 			// rsi has index
 			// rdx has pos
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1150::func));
+	__asm__("call *%0\n\t" :: "m"(_func1150::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -43067,7 +41971,6 @@ FUNC_NAKED void Store::DrawBuySellTabText()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -43103,7 +42006,6 @@ FUNC_NAKED void Store::SetPositions()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -43112,7 +42014,7 @@ FUNC_NAKED void Store::SetPositions()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1152::func));
+	__asm__("call *%0\n\t" :: "m"(_func1152::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -43140,7 +42042,6 @@ FUNC_NAKED void Store::LoadStore(int file, int worldLevel)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -43151,7 +42052,7 @@ FUNC_NAKED void Store::LoadStore(int file, int worldLevel)
 			// rsi has file
 			// rdx has worldLevel
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1153::func));
+	__asm__("call *%0\n\t" :: "m"(_func1153::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -43179,7 +42080,6 @@ FUNC_NAKED void Store::SetPosition(Point pos)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -43189,7 +42089,7 @@ FUNC_NAKED void Store::SetPosition(Point pos)
 			// rdi has this
 			// rsi has pos
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1154::func));
+	__asm__("call *%0\n\t" :: "m"(_func1154::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -43217,7 +42117,6 @@ FUNC_NAKED void Store::CreateStoreBoxes(int type, Equipment *equip)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -43228,7 +42127,7 @@ FUNC_NAKED void Store::CreateStoreBoxes(int type, Equipment *equip)
 			// rsi has type
 			// rdx has equip
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1155::func));
+	__asm__("call *%0\n\t" :: "m"(_func1155::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -43256,7 +42155,6 @@ FUNC_NAKED void Store::OnInit(ShipManager *shopper, Equipment *equip, int worldL
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -43268,7 +42166,7 @@ FUNC_NAKED void Store::OnInit(ShipManager *shopper, Equipment *equip, int worldL
 			// rdx has equip
 			// rcx has worldLevel
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1156::func));
+	__asm__("call *%0\n\t" :: "m"(_func1156::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -43296,7 +42194,6 @@ FUNC_NAKED void Store::MouseMove(int x, int y)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -43307,7 +42204,7 @@ FUNC_NAKED void Store::MouseMove(int x, int y)
 			// rsi has x
 			// rdx has y
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1157::func));
+	__asm__("call *%0\n\t" :: "m"(_func1157::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -43335,7 +42232,6 @@ FUNC_NAKED void Store::MouseClick(int x, int y)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -43346,7 +42242,7 @@ FUNC_NAKED void Store::MouseClick(int x, int y)
 			// rsi has x
 			// rdx has y
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1158::func));
+	__asm__("call *%0\n\t" :: "m"(_func1158::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -43374,7 +42270,6 @@ FUNC_NAKED void Store::OnRender()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -43383,7 +42278,7 @@ FUNC_NAKED void Store::OnRender()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1159::func));
+	__asm__("call *%0\n\t" :: "m"(_func1159::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -43411,7 +42306,6 @@ FUNC_NAKED void Store::destructor()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -43420,7 +42314,7 @@ FUNC_NAKED void Store::destructor()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1160::func));
+	__asm__("call *%0\n\t" :: "m"(_func1160::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -43448,7 +42342,6 @@ FUNC_NAKED void StoreBox::MouseClick(int x, int y)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -43459,7 +42352,7 @@ FUNC_NAKED void StoreBox::MouseClick(int x, int y)
 			// rsi has x
 			// rdx has y
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1161::func));
+	__asm__("call *%0\n\t" :: "m"(_func1161::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -43487,7 +42380,6 @@ FUNC_NAKED void StoreBox::Activate()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -43496,7 +42388,7 @@ FUNC_NAKED void StoreBox::Activate()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1162::func));
+	__asm__("call *%0\n\t" :: "m"(_func1162::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -43524,7 +42416,6 @@ FUNC_NAKED void StoreBox::SetPosition(Point pos)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -43534,7 +42425,7 @@ FUNC_NAKED void StoreBox::SetPosition(Point pos)
 			// rdi has this
 			// rsi has pos
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1163::func));
+	__asm__("call *%0\n\t" :: "m"(_func1163::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -43562,7 +42453,6 @@ FUNC_NAKED void StoreBox::InitBlueprint(Blueprint *bp)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -43572,7 +42462,7 @@ FUNC_NAKED void StoreBox::InitBlueprint(Blueprint *bp)
 			// rdi has this
 			// rsi has bp
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1164::func));
+	__asm__("call *%0\n\t" :: "m"(_func1164::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -43600,7 +42490,6 @@ FUNC_NAKED void StoreBox::constructor(const std::string &buttonImage, ShipManage
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -43612,7 +42501,7 @@ FUNC_NAKED void StoreBox::constructor(const std::string &buttonImage, ShipManage
 			// rdx has shopper
 			// rcx has equip
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1165::func));
+	__asm__("call *%0\n\t" :: "m"(_func1165::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -43640,7 +42529,6 @@ FUNC_NAKED void StoreBox::OnLoop()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -43649,7 +42537,7 @@ FUNC_NAKED void StoreBox::OnLoop()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1166::func));
+	__asm__("call *%0\n\t" :: "m"(_func1166::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -43677,7 +42565,6 @@ FUNC_NAKED void StoreBox::Purchase()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -43686,7 +42573,7 @@ FUNC_NAKED void StoreBox::Purchase()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1167::func));
+	__asm__("call *%0\n\t" :: "m"(_func1167::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -43714,7 +42601,6 @@ FUNC_NAKED void StoreBox::OnRender()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -43723,7 +42609,7 @@ FUNC_NAKED void StoreBox::OnRender()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1168::func));
+	__asm__("call *%0\n\t" :: "m"(_func1168::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -43751,7 +42637,6 @@ FUNC_NAKED void SystemBox::OnRender(bool ignoreStatus)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -43761,7 +42646,7 @@ FUNC_NAKED void SystemBox::OnRender(bool ignoreStatus)
 			// rdi has this
 			// rsi has ignoreStatus
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1169::func));
+	__asm__("call *%0\n\t" :: "m"(_func1169::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -43789,7 +42674,6 @@ FUNC_NAKED bool SystemBox::MouseClick(bool shift)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -43799,7 +42683,7 @@ FUNC_NAKED bool SystemBox::MouseClick(bool shift)
 			// rdi has this
 			// rsi has shift
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1170::func));
+	__asm__("call *%0\n\t" :: "m"(_func1170::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -43827,7 +42711,6 @@ FUNC_NAKED void SystemBox::constructor(Point pos, ShipSystem *sys, bool playerUI
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -43839,7 +42722,7 @@ FUNC_NAKED void SystemBox::constructor(Point pos, ShipSystem *sys, bool playerUI
 			// rdx has sys
 			// rcx has playerUI
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1171::func));
+	__asm__("call *%0\n\t" :: "m"(_func1171::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -43867,7 +42750,6 @@ FUNC_NAKED void SystemBox::KeyDown(SDLKey key, bool shift)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -43878,7 +42760,7 @@ FUNC_NAKED void SystemBox::KeyDown(SDLKey key, bool shift)
 			// rsi has key
 			// rdx has shift
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1172::func));
+	__asm__("call *%0\n\t" :: "m"(_func1172::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -43906,7 +42788,6 @@ FUNC_NAKED void SystemBox::MouseMove(int x, int y)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -43917,7 +42798,7 @@ FUNC_NAKED void SystemBox::MouseMove(int x, int y)
 			// rsi has x
 			// rdx has y
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1173::func));
+	__asm__("call *%0\n\t" :: "m"(_func1173::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -43945,7 +42826,6 @@ FUNC_NAKED SystemBox *SystemControl::GetSystemBox(int systemId)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -43955,7 +42835,7 @@ FUNC_NAKED SystemBox *SystemControl::GetSystemBox(int systemId)
 			// rdi has this
 			// rsi has systemId
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1174::func));
+	__asm__("call *%0\n\t" :: "m"(_func1174::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -43983,7 +42863,6 @@ FUNC_NAKED SystemControl::PowerBars *SystemControl::GetPowerBars(int width, int 
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -43995,7 +42874,7 @@ FUNC_NAKED SystemControl::PowerBars *SystemControl::GetPowerBars(int width, int 
 			// rdx has gap
 			// rcx has useShieldGap
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1175::func));
+	__asm__("call *%0\n\t" :: "m"(_func1175::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -44023,7 +42902,6 @@ FUNC_NAKED void SystemControl::RenderPowerBar()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -44032,7 +42910,7 @@ FUNC_NAKED void SystemControl::RenderPowerBar()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1176::func));
+	__asm__("call *%0\n\t" :: "m"(_func1176::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -44060,7 +42938,6 @@ FUNC_NAKED void SystemControl::CreateSystemBoxes()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -44069,7 +42946,7 @@ FUNC_NAKED void SystemControl::CreateSystemBoxes()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1177::func));
+	__asm__("call *%0\n\t" :: "m"(_func1177::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -44111,7 +42988,6 @@ FUNC_NAKED void SystemCustomBox::constructor(Point pos, ShipSystem *sys, ShipMan
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -44123,7 +42999,7 @@ FUNC_NAKED void SystemCustomBox::constructor(Point pos, ShipSystem *sys, ShipMan
 			// rdx has sys
 			// rcx has ship
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1180::func));
+	__asm__("call *%0\n\t" :: "m"(_func1180::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -44151,7 +43027,6 @@ FUNC_NAKED bool SystemStoreBox::CanHold()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -44160,7 +43035,7 @@ FUNC_NAKED bool SystemStoreBox::CanHold()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1181::func));
+	__asm__("call *%0\n\t" :: "m"(_func1181::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -44188,7 +43063,6 @@ FUNC_NAKED void SystemStoreBox::SetExtraData(int droneChoice)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -44198,7 +43072,7 @@ FUNC_NAKED void SystemStoreBox::SetExtraData(int droneChoice)
 			// rdi has this
 			// rsi has droneChoice
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1182::func));
+	__asm__("call *%0\n\t" :: "m"(_func1182::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -44226,7 +43100,6 @@ FUNC_NAKED void SystemStoreBox::Activate()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -44235,7 +43108,7 @@ FUNC_NAKED void SystemStoreBox::Activate()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1183::func));
+	__asm__("call *%0\n\t" :: "m"(_func1183::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -44263,7 +43136,6 @@ FUNC_NAKED void SystemStoreBox::constructor(ShipManager *shopper, Equipment *equ
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -44275,7 +43147,7 @@ FUNC_NAKED void SystemStoreBox::constructor(ShipManager *shopper, Equipment *equ
 			// rdx has equip
 			// rcx has sys
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1184::func));
+	__asm__("call *%0\n\t" :: "m"(_func1184::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -44303,7 +43175,6 @@ FUNC_NAKED void SystemStoreBox::Purchase()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -44312,7 +43183,7 @@ FUNC_NAKED void SystemStoreBox::Purchase()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1185::func));
+	__asm__("call *%0\n\t" :: "m"(_func1185::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -44340,7 +43211,6 @@ FUNC_NAKED void SystemStoreBox::MouseMove(int mX, int mY)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -44351,7 +43221,7 @@ FUNC_NAKED void SystemStoreBox::MouseMove(int mX, int mY)
 			// rsi has mX
 			// rdx has mY
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1186::func));
+	__asm__("call *%0\n\t" :: "m"(_func1186::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -44379,7 +43249,6 @@ FUNC_NAKED void TabbedWindow::Close()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -44388,7 +43257,7 @@ FUNC_NAKED void TabbedWindow::Close()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1187::func));
+	__asm__("call *%0\n\t" :: "m"(_func1187::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -44416,7 +43285,6 @@ FUNC_NAKED void TeleportBox::constructor(Point pos, TeleportSystem *sys)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -44427,7 +43295,7 @@ FUNC_NAKED void TeleportBox::constructor(Point pos, TeleportSystem *sys)
 			// rsi has pos
 			// rdx has sys
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1188::func));
+	__asm__("call *%0\n\t" :: "m"(_func1188::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -44455,7 +43323,6 @@ FUNC_NAKED void TeleportSystem::Jump()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -44464,7 +43331,7 @@ FUNC_NAKED void TeleportSystem::Jump()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1189::func));
+	__asm__("call *%0\n\t" :: "m"(_func1189::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -44492,7 +43359,6 @@ FUNC_NAKED void TeleportSystem::SetHackingLevel(int hackingLevel)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -44502,7 +43368,7 @@ FUNC_NAKED void TeleportSystem::SetHackingLevel(int hackingLevel)
 			// rdi has this
 			// rsi has hackingLevel
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1190::func));
+	__asm__("call *%0\n\t" :: "m"(_func1190::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -44530,7 +43396,6 @@ FUNC_NAKED void TeleportSystem::OnRenderFloor()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -44539,7 +43404,7 @@ FUNC_NAKED void TeleportSystem::OnRenderFloor()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1191::func));
+	__asm__("call *%0\n\t" :: "m"(_func1191::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -44567,7 +43432,6 @@ FUNC_NAKED void TeleportSystem::constructor(int systemId, int roomId, int shipId
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -44580,7 +43444,7 @@ FUNC_NAKED void TeleportSystem::constructor(int systemId, int roomId, int shipId
 			// rcx has shipId
 			// r8 has startingPower
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1192::func));
+	__asm__("call *%0\n\t" :: "m"(_func1192::func) : "rdi", "rsi", "rdx", "rcx", "r8");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -44608,7 +43472,6 @@ FUNC_NAKED float TeleportSystem::GetChargedPercent()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -44617,7 +43480,7 @@ FUNC_NAKED float TeleportSystem::GetChargedPercent()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1193::func));
+	__asm__("call *%0\n\t" :: "m"(_func1193::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -44645,7 +43508,6 @@ FUNC_NAKED bool TeleportSystem::Charged()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -44654,7 +43516,7 @@ FUNC_NAKED bool TeleportSystem::Charged()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1194::func));
+	__asm__("call *%0\n\t" :: "m"(_func1194::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -44682,7 +43544,6 @@ FUNC_NAKED void TeleportSystem::ClearCrewLocations()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -44691,7 +43552,7 @@ FUNC_NAKED void TeleportSystem::ClearCrewLocations()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1195::func));
+	__asm__("call *%0\n\t" :: "m"(_func1195::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -44719,7 +43580,6 @@ FUNC_NAKED void TeleportSystem::UpdateCrewLocation(int unk)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -44729,7 +43589,7 @@ FUNC_NAKED void TeleportSystem::UpdateCrewLocation(int unk)
 			// rdi has this
 			// rsi has unk
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1196::func));
+	__asm__("call *%0\n\t" :: "m"(_func1196::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -44757,7 +43617,6 @@ FUNC_NAKED void TeleportSystem::SetArmed(int armed)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -44767,7 +43626,7 @@ FUNC_NAKED void TeleportSystem::SetArmed(int armed)
 			// rdi has this
 			// rsi has armed
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1197::func));
+	__asm__("call *%0\n\t" :: "m"(_func1197::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -44795,7 +43654,6 @@ FUNC_NAKED void TeleportSystem::ForceReady()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -44804,7 +43662,7 @@ FUNC_NAKED void TeleportSystem::ForceReady()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1198::func));
+	__asm__("call *%0\n\t" :: "m"(_func1198::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -44832,7 +43690,6 @@ FUNC_NAKED bool TeleportSystem::CanSend()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -44841,7 +43698,7 @@ FUNC_NAKED bool TeleportSystem::CanSend()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1199::func));
+	__asm__("call *%0\n\t" :: "m"(_func1199::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -44869,7 +43726,6 @@ FUNC_NAKED bool TeleportSystem::CanReceive()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -44878,7 +43734,7 @@ FUNC_NAKED bool TeleportSystem::CanReceive()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1200::func));
+	__asm__("call *%0\n\t" :: "m"(_func1200::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -44906,7 +43762,6 @@ FUNC_NAKED void TeleportSystem::OnLoop()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -44915,7 +43770,7 @@ FUNC_NAKED void TeleportSystem::OnLoop()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1201::func));
+	__asm__("call *%0\n\t" :: "m"(_func1201::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -44943,7 +43798,6 @@ FUNC_NAKED void TeleportSystem::InitiateTeleport()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -44952,7 +43806,7 @@ FUNC_NAKED void TeleportSystem::InitiateTeleport()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1202::func));
+	__asm__("call *%0\n\t" :: "m"(_func1202::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -44980,7 +43834,6 @@ FUNC_NAKED void TextButton::ResetPrimitives()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -44989,7 +43842,7 @@ FUNC_NAKED void TextButton::ResetPrimitives()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1203::func));
+	__asm__("call *%0\n\t" :: "m"(_func1203::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -45017,7 +43870,6 @@ FUNC_NAKED int TextButton::GetIdealButtonWidth()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -45026,7 +43878,7 @@ FUNC_NAKED int TextButton::GetIdealButtonWidth()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1204::func));
+	__asm__("call *%0\n\t" :: "m"(_func1204::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -45054,7 +43906,6 @@ FUNC_NAKED void TextButton::OnInit(Point pos, Point size, int cornerInset, TextS
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -45068,7 +43919,7 @@ FUNC_NAKED void TextButton::OnInit(Point pos, Point size, int cornerInset, TextS
 			// r8 has buttonLabel
 			// r9 has font
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1205::func));
+	__asm__("call *%0\n\t" :: "m"(_func1205::func) : "rdi", "rsi", "rdx", "rcx", "r8", "r9");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -45096,7 +43947,6 @@ FUNC_NAKED void TextButton::OnRender()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -45105,7 +43955,7 @@ FUNC_NAKED void TextButton::OnRender()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1206::func));
+	__asm__("call *%0\n\t" :: "m"(_func1206::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -45133,7 +43983,6 @@ FUNC_NAKED void TextButton::destructor()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -45142,7 +43991,7 @@ FUNC_NAKED void TextButton::destructor()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1207::func));
+	__asm__("call *%0\n\t" :: "m"(_func1207::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -45170,7 +44019,6 @@ FUNC_NAKED Point TextButton::GetSize()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -45179,7 +44027,7 @@ FUNC_NAKED Point TextButton::GetSize()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1208::func));
+	__asm__("call *%0\n\t" :: "m"(_func1208::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -45207,7 +44055,6 @@ FUNC_NAKED void TextButton::OnInitRect(Globals::Rect &rect, int cornerInset, Tex
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -45220,7 +44067,7 @@ FUNC_NAKED void TextButton::OnInitRect(Globals::Rect &rect, int cornerInset, Tex
 			// rcx has buttonLabel
 			// r8 has font
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1209::func));
+	__asm__("call *%0\n\t" :: "m"(_func1209::func) : "rdi", "rsi", "rdx", "rcx", "r8");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -45248,7 +44095,6 @@ FUNC_NAKED void TextButton::SetBaseImage(const std::string &name, Point pos, int
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -45260,7 +44106,7 @@ FUNC_NAKED void TextButton::SetBaseImage(const std::string &name, Point pos, int
 			// rdx has pos
 			// rcx has autoWidthMin
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1210::func));
+	__asm__("call *%0\n\t" :: "m"(_func1210::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -45288,7 +44134,6 @@ FUNC_NAKED void TextButton::SetAutoWidth(bool autoWidth, bool autoRightAlign, in
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -45301,7 +44146,7 @@ FUNC_NAKED void TextButton::SetAutoWidth(bool autoWidth, bool autoRightAlign, in
 			// rcx has margin
 			// r8 has min
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1211::func));
+	__asm__("call *%0\n\t" :: "m"(_func1211::func) : "rdi", "rsi", "rdx", "rcx", "r8");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -45329,7 +44174,6 @@ FUNC_NAKED void TextButton::UpdateAutoWidth()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -45338,7 +44182,7 @@ FUNC_NAKED void TextButton::UpdateAutoWidth()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1212::func));
+	__asm__("call *%0\n\t" :: "m"(_func1212::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -45366,7 +44210,6 @@ FUNC_NAKED void TextButton::constructor()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -45375,7 +44218,7 @@ FUNC_NAKED void TextButton::constructor()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1213::func));
+	__asm__("call *%0\n\t" :: "m"(_func1213::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -45403,7 +44246,6 @@ FUNC_NAKED void TextButton::SetInactiveColor(GL_Color color)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -45414,7 +44256,7 @@ FUNC_NAKED void TextButton::SetInactiveColor(GL_Color color)
 		"pushq 8(%rbp)\n\t"		// color
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1214::func));
+	__asm__("call *%0\n\t" :: "m"(_func1214::func) : "rdi");
 	__asm__
 	(
 		"addq $16, %rsp\n\t"
@@ -45443,7 +44285,6 @@ FUNC_NAKED void TextButton::SetActiveColor(GL_Color color)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -45454,7 +44295,7 @@ FUNC_NAKED void TextButton::SetActiveColor(GL_Color color)
 		"pushq 8(%rbp)\n\t"		// color
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1215::func));
+	__asm__("call *%0\n\t" :: "m"(_func1215::func) : "rdi");
 	__asm__
 	(
 		"addq $16, %rsp\n\t"
@@ -45483,7 +44324,6 @@ FUNC_NAKED void TextButton::SetSelectedColor(GL_Color color)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -45494,7 +44334,7 @@ FUNC_NAKED void TextButton::SetSelectedColor(GL_Color color)
 		"pushq 8(%rbp)\n\t"		// color
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1216::func));
+	__asm__("call *%0\n\t" :: "m"(_func1216::func) : "rdi");
 	__asm__
 	(
 		"addq $16, %rsp\n\t"
@@ -45523,7 +44363,6 @@ FUNC_NAKED void TextButton::SetTextColor(GL_Color color)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -45534,7 +44373,7 @@ FUNC_NAKED void TextButton::SetTextColor(GL_Color color)
 		"pushq 8(%rbp)\n\t"		// color
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1217::func));
+	__asm__("call *%0\n\t" :: "m"(_func1217::func) : "rdi");
 	__asm__
 	(
 		"addq $16, %rsp\n\t"
@@ -45563,7 +44402,6 @@ FUNC_NAKED void TextButton::InitPrimitives()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -45572,7 +44410,7 @@ FUNC_NAKED void TextButton::InitPrimitives()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1218::func));
+	__asm__("call *%0\n\t" :: "m"(_func1218::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -45600,7 +44438,6 @@ FUNC_NAKED void TextInput::constructor(int maxChars, TextInput::AllowedCharType 
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -45612,7 +44449,7 @@ FUNC_NAKED void TextInput::constructor(int maxChars, TextInput::AllowedCharType 
 			// rdx has allowedCharType
 			// rcx has prompt
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1219::func));
+	__asm__("call *%0\n\t" :: "m"(_func1219::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -45640,7 +44477,6 @@ FUNC_NAKED void TextInput::OnRender(int font, Point pos)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -45651,7 +44487,7 @@ FUNC_NAKED void TextInput::OnRender(int font, Point pos)
 			// rsi has font
 			// rdx has pos
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1220::func));
+	__asm__("call *%0\n\t" :: "m"(_func1220::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -45679,7 +44515,6 @@ FUNC_NAKED void TextInput::OnLoop()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -45688,7 +44523,7 @@ FUNC_NAKED void TextInput::OnLoop()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1221::func));
+	__asm__("call *%0\n\t" :: "m"(_func1221::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -45716,7 +44551,6 @@ FUNC_NAKED void TextInput::OnTextEvent(CEvent::TextEvent event)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -45726,7 +44560,7 @@ FUNC_NAKED void TextInput::OnTextEvent(CEvent::TextEvent event)
 			// rdi has this
 			// rsi has event
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1222::func));
+	__asm__("call *%0\n\t" :: "m"(_func1222::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -45754,7 +44588,6 @@ FUNC_NAKED bool TextInput::GetActive()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -45763,7 +44596,7 @@ FUNC_NAKED bool TextInput::GetActive()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1223::func));
+	__asm__("call *%0\n\t" :: "m"(_func1223::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -45791,7 +44624,6 @@ FUNC_NAKED std::string TextInput::GetText()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -45801,7 +44633,7 @@ FUNC_NAKED std::string TextInput::GetText()
 			// rdi has implicit_output
 			// rsi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1224::func));
+	__asm__("call *%0\n\t" :: "m"(_func1224::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -45829,7 +44661,6 @@ FUNC_NAKED void TextInput::Start()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -45838,7 +44669,7 @@ FUNC_NAKED void TextInput::Start()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1225::func));
+	__asm__("call *%0\n\t" :: "m"(_func1225::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -45866,7 +44697,6 @@ FUNC_NAKED void TextInput::Stop()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -45875,7 +44705,7 @@ FUNC_NAKED void TextInput::Stop()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1226::func));
+	__asm__("call *%0\n\t" :: "m"(_func1226::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -45903,7 +44733,6 @@ FUNC_NAKED int TextInput::SetText(const std::string &text)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -45913,7 +44742,7 @@ FUNC_NAKED int TextInput::SetText(const std::string &text)
 			// rdi has this
 			// rsi has text
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1227::func));
+	__asm__("call *%0\n\t" :: "m"(_func1227::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -45941,7 +44770,6 @@ FUNC_NAKED void TextInput::OnTextInput(int asciiChar)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -45951,7 +44779,7 @@ FUNC_NAKED void TextInput::OnTextInput(int asciiChar)
 			// rdi has this
 			// rsi has asciiChar
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1228::func));
+	__asm__("call *%0\n\t" :: "m"(_func1228::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -45979,7 +44807,6 @@ FUNC_NAKED std::string TextLibrary::GetText(const std::string &name, const std::
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -45991,7 +44818,7 @@ FUNC_NAKED std::string TextLibrary::GetText(const std::string &name, const std::
 			// rdx has name
 			// rcx has lang
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1229::func));
+	__asm__("call *%0\n\t" :: "m"(_func1229::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -46019,7 +44846,6 @@ FUNC_NAKED std::string TextString::GetText()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -46029,7 +44855,7 @@ FUNC_NAKED std::string TextString::GetText()
 			// rdi has implicit_output
 			// rsi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1230::func));
+	__asm__("call *%0\n\t" :: "m"(_func1230::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -46057,7 +44883,6 @@ FUNC_NAKED void TimerHelper::Start(int goal)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -46067,7 +44892,7 @@ FUNC_NAKED void TimerHelper::Start(int goal)
 			// rdi has this
 			// rsi has goal
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1231::func));
+	__asm__("call *%0\n\t" :: "m"(_func1231::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -46095,7 +44920,6 @@ FUNC_NAKED bool TimerHelper::Running()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -46104,7 +44928,7 @@ FUNC_NAKED bool TimerHelper::Running()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1232::func));
+	__asm__("call *%0\n\t" :: "m"(_func1232::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -46132,7 +44956,6 @@ FUNC_NAKED void TimerHelper::ResetMinMax(int min, int max)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -46143,7 +44966,7 @@ FUNC_NAKED void TimerHelper::ResetMinMax(int min, int max)
 			// rsi has min
 			// rdx has max
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1233::func));
+	__asm__("call *%0\n\t" :: "m"(_func1233::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -46171,7 +44994,6 @@ FUNC_NAKED void TimerHelper::SetMaxTime(float max)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -46181,7 +45003,7 @@ FUNC_NAKED void TimerHelper::SetMaxTime(float max)
 			// rdi has this
 			// xmm0 has max
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1234::func));
+	__asm__("call *%0\n\t" :: "m"(_func1234::func) : "rdi", "xmm0");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -46209,7 +45031,6 @@ FUNC_NAKED void TimerHelper::Stop()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -46218,7 +45039,7 @@ FUNC_NAKED void TimerHelper::Stop()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1235::func));
+	__asm__("call *%0\n\t" :: "m"(_func1235::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -46246,7 +45067,6 @@ FUNC_NAKED void TimerHelper::Update()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -46255,7 +45075,7 @@ FUNC_NAKED void TimerHelper::Update()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1236::func));
+	__asm__("call *%0\n\t" :: "m"(_func1236::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -46283,7 +45103,6 @@ FUNC_NAKED bool TimerHelper::Done()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -46292,7 +45111,7 @@ FUNC_NAKED bool TimerHelper::Done()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1237::func));
+	__asm__("call *%0\n\t" :: "m"(_func1237::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -46320,7 +45139,6 @@ FUNC_NAKED void TutorialManager::constructor()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -46329,7 +45147,7 @@ FUNC_NAKED void TutorialManager::constructor()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1238::func));
+	__asm__("call *%0\n\t" :: "m"(_func1238::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -46357,7 +45175,6 @@ FUNC_NAKED bool TutorialManager::Running()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -46366,7 +45183,7 @@ FUNC_NAKED bool TutorialManager::Running()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1239::func));
+	__asm__("call *%0\n\t" :: "m"(_func1239::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -46394,7 +45211,6 @@ FUNC_NAKED void TutorialManager::OnInit(ShipManager *ship, CommandGui *gui, Crew
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -46410,7 +45226,7 @@ FUNC_NAKED void TutorialManager::OnInit(ShipManager *ship, CommandGui *gui, Crew
 			// r8 has upgradesScreen
 			// r9 has combatControl
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1240::func));
+	__asm__("call *%0\n\t" :: "m"(_func1240::func) : "rdi", "rsi", "rdx", "rcx", "r8", "r9");
 	__asm__
 	(
 		"addq $16, %rsp\n\t"
@@ -46446,7 +45262,6 @@ FUNC_NAKED void UnlockArrow::constructor(Point pos, int unk1, int unk2)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -46458,7 +45273,7 @@ FUNC_NAKED void UnlockArrow::constructor(Point pos, int unk1, int unk2)
 			// rdx has unk1
 			// rcx has unk2
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1242::func));
+	__asm__("call *%0\n\t" :: "m"(_func1242::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -46486,7 +45301,6 @@ FUNC_NAKED bool UnlockArrow::MouseMove(int x, int y)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -46497,7 +45311,7 @@ FUNC_NAKED bool UnlockArrow::MouseMove(int x, int y)
 			// rsi has x
 			// rdx has y
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1243::func));
+	__asm__("call *%0\n\t" :: "m"(_func1243::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -46525,7 +45339,6 @@ FUNC_NAKED void UnlockArrow::OnRender()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -46534,7 +45347,7 @@ FUNC_NAKED void UnlockArrow::OnRender()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1244::func));
+	__asm__("call *%0\n\t" :: "m"(_func1244::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -46562,7 +45375,6 @@ FUNC_NAKED void UpgradeBox::OnRender()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -46571,7 +45383,7 @@ FUNC_NAKED void UpgradeBox::OnRender()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1245::func));
+	__asm__("call *%0\n\t" :: "m"(_func1245::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -46599,7 +45411,6 @@ FUNC_NAKED void UpgradeBox::MouseMove(int mX, int mY)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -46610,7 +45421,7 @@ FUNC_NAKED void UpgradeBox::MouseMove(int mX, int mY)
 			// rsi has mX
 			// rdx has mY
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1246::func));
+	__asm__("call *%0\n\t" :: "m"(_func1246::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -46638,7 +45449,6 @@ FUNC_NAKED void UpgradeBox::MouseClick(int mX, int mY)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -46649,7 +45459,7 @@ FUNC_NAKED void UpgradeBox::MouseClick(int mX, int mY)
 			// rsi has mX
 			// rdx has mY
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1247::func));
+	__asm__("call *%0\n\t" :: "m"(_func1247::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -46677,7 +45487,6 @@ FUNC_NAKED void UpgradeBox::MouseRightClick(int mX, int mY)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -46688,7 +45497,7 @@ FUNC_NAKED void UpgradeBox::MouseRightClick(int mX, int mY)
 			// rsi has mX
 			// rdx has mY
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1248::func));
+	__asm__("call *%0\n\t" :: "m"(_func1248::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -46716,7 +45525,6 @@ FUNC_NAKED void UpgradeBox::Undo()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -46725,7 +45533,7 @@ FUNC_NAKED void UpgradeBox::Undo()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1249::func));
+	__asm__("call *%0\n\t" :: "m"(_func1249::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -46753,7 +45561,6 @@ FUNC_NAKED void UpgradeBox::Accept()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -46762,7 +45569,7 @@ FUNC_NAKED void UpgradeBox::Accept()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1250::func));
+	__asm__("call *%0\n\t" :: "m"(_func1250::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -46790,7 +45597,6 @@ FUNC_NAKED void UpgradeBox::constructorEmpty(Point pos, bool subsystem)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -46801,7 +45607,7 @@ FUNC_NAKED void UpgradeBox::constructorEmpty(Point pos, bool subsystem)
 			// rsi has pos
 			// rdx has subsystem
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1251::func));
+	__asm__("call *%0\n\t" :: "m"(_func1251::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -46829,7 +45635,6 @@ FUNC_NAKED void UpgradeBox::constructorSystem(ShipManager *ship, ShipSystem *sys
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -46842,7 +45647,7 @@ FUNC_NAKED void UpgradeBox::constructorSystem(ShipManager *ship, ShipSystem *sys
 			// rcx has pos
 			// r8 has subsystem
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1252::func));
+	__asm__("call *%0\n\t" :: "m"(_func1252::func) : "rdi", "rsi", "rdx", "rcx", "r8");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -46870,7 +45675,6 @@ FUNC_NAKED void UpgradeBox::destructor()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -46879,7 +45683,7 @@ FUNC_NAKED void UpgradeBox::destructor()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1253::func));
+	__asm__("call *%0\n\t" :: "m"(_func1253::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -46907,7 +45711,6 @@ FUNC_NAKED void Upgrades::MouseMove(int mX, int mY)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -46918,7 +45721,7 @@ FUNC_NAKED void Upgrades::MouseMove(int mX, int mY)
 			// rsi has mX
 			// rdx has mY
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1254::func));
+	__asm__("call *%0\n\t" :: "m"(_func1254::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -46946,7 +45749,6 @@ FUNC_NAKED void Upgrades::MouseRightClick(int mX, int mY)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -46957,7 +45759,7 @@ FUNC_NAKED void Upgrades::MouseRightClick(int mX, int mY)
 			// rsi has mX
 			// rdx has mY
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1255::func));
+	__asm__("call *%0\n\t" :: "m"(_func1255::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -46985,7 +45787,6 @@ FUNC_NAKED void Upgrades::Close()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -46994,7 +45795,7 @@ FUNC_NAKED void Upgrades::Close()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1256::func));
+	__asm__("call *%0\n\t" :: "m"(_func1256::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -47022,7 +45823,6 @@ FUNC_NAKED void Upgrades::OnLoop()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -47031,7 +45831,7 @@ FUNC_NAKED void Upgrades::OnLoop()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1257::func));
+	__asm__("call *%0\n\t" :: "m"(_func1257::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -47059,7 +45859,6 @@ FUNC_NAKED void Upgrades::ConfirmUpgrades()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -47068,7 +45867,7 @@ FUNC_NAKED void Upgrades::ConfirmUpgrades()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1258::func));
+	__asm__("call *%0\n\t" :: "m"(_func1258::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -47096,7 +45895,6 @@ FUNC_NAKED void Upgrades::MouseClick(int mX, int mY)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -47107,7 +45905,7 @@ FUNC_NAKED void Upgrades::MouseClick(int mX, int mY)
 			// rsi has mX
 			// rdx has mY
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1259::func));
+	__asm__("call *%0\n\t" :: "m"(_func1259::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -47135,7 +45933,6 @@ FUNC_NAKED void Upgrades::ClearUpgradeBoxes()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -47144,7 +45941,7 @@ FUNC_NAKED void Upgrades::ClearUpgradeBoxes()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1260::func));
+	__asm__("call *%0\n\t" :: "m"(_func1260::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -47172,7 +45969,6 @@ FUNC_NAKED void Upgrades::OnInit(ShipManager *ship)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -47182,7 +45978,7 @@ FUNC_NAKED void Upgrades::OnInit(ShipManager *ship)
 			// rdi has this
 			// rsi has ship
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1261::func));
+	__asm__("call *%0\n\t" :: "m"(_func1261::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -47210,7 +46006,6 @@ FUNC_NAKED void Upgrades::OnRender()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -47219,7 +46014,7 @@ FUNC_NAKED void Upgrades::OnRender()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1262::func));
+	__asm__("call *%0\n\t" :: "m"(_func1262::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -47247,7 +46042,6 @@ FUNC_NAKED void WarningMessage::RenderWithAlpha(float alpha)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -47257,7 +46051,7 @@ FUNC_NAKED void WarningMessage::RenderWithAlpha(float alpha)
 			// rdi has this
 			// xmm0 has alpha
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1263::func));
+	__asm__("call *%0\n\t" :: "m"(_func1263::func) : "rdi", "xmm0");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -47285,7 +46079,6 @@ FUNC_NAKED void WarningMessage::constructor()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -47294,7 +46087,7 @@ FUNC_NAKED void WarningMessage::constructor()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1264::func));
+	__asm__("call *%0\n\t" :: "m"(_func1264::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -47322,7 +46115,6 @@ FUNC_NAKED void WarningMessage::InitImage(const std::string &imageName, Point po
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -47335,7 +46127,7 @@ FUNC_NAKED void WarningMessage::InitImage(const std::string &imageName, Point po
 			// xmm0 has time
 			// rcx has flash
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1265::func));
+	__asm__("call *%0\n\t" :: "m"(_func1265::func) : "rdi", "rsi", "rdx", "xmm0", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -47363,7 +46155,6 @@ FUNC_NAKED void WarningMessage::InitText(const TextString &text, Point position,
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -47379,7 +46170,7 @@ FUNC_NAKED void WarningMessage::InitText(const TextString &text, Point position,
 			// rcx has centerText
 			// r8 has flash
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1266::func));
+	__asm__("call *%0\n\t" :: "m"(_func1266::func) : "rdi", "rsi", "rdx", "xmm0", "rcx", "r8");
 	__asm__
 	(
 		"addq $16, %rsp\n\t"
@@ -47408,7 +46199,6 @@ FUNC_NAKED void WarningMessage::OnLoop()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -47417,7 +46207,7 @@ FUNC_NAKED void WarningMessage::OnLoop()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1267::func));
+	__asm__("call *%0\n\t" :: "m"(_func1267::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -47445,7 +46235,6 @@ FUNC_NAKED void WarningMessage::OnRender()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -47454,7 +46243,7 @@ FUNC_NAKED void WarningMessage::OnRender()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1268::func));
+	__asm__("call *%0\n\t" :: "m"(_func1268::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -47482,7 +46271,6 @@ FUNC_NAKED void WarningMessage::SetImage(const std::string &imageName)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -47492,7 +46280,7 @@ FUNC_NAKED void WarningMessage::SetImage(const std::string &imageName)
 			// rdi has this
 			// rsi has imageName
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1269::func));
+	__asm__("call *%0\n\t" :: "m"(_func1269::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -47520,7 +46308,6 @@ FUNC_NAKED void WarningMessage::SetText(const TextString &text)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -47530,7 +46317,7 @@ FUNC_NAKED void WarningMessage::SetText(const TextString &text)
 			// rdi has this
 			// rsi has text
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1270::func));
+	__asm__("call *%0\n\t" :: "m"(_func1270::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -47558,7 +46345,6 @@ FUNC_NAKED void WarningMessage::SetText(const TextString &text, GL_Color textCol
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -47570,7 +46356,7 @@ FUNC_NAKED void WarningMessage::SetText(const TextString &text, GL_Color textCol
 			// rdi has this
 			// rsi has text
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1271::func));
+	__asm__("call *%0\n\t" :: "m"(_func1271::func) : "rdi", "rsi");
 	__asm__
 	(
 		"addq $16, %rsp\n\t"
@@ -47599,7 +46385,6 @@ FUNC_NAKED void WarningMessage::SetPosition(Point position)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -47609,7 +46394,7 @@ FUNC_NAKED void WarningMessage::SetPosition(Point position)
 			// rdi has this
 			// rsi has position
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1272::func));
+	__asm__("call *%0\n\t" :: "m"(_func1272::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -47637,7 +46422,6 @@ FUNC_NAKED void WarningMessage::SetLoop(bool loop)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -47647,7 +46431,7 @@ FUNC_NAKED void WarningMessage::SetLoop(bool loop)
 			// rdi has this
 			// rsi has loop
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1273::func));
+	__asm__("call *%0\n\t" :: "m"(_func1273::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -47675,7 +46459,6 @@ FUNC_NAKED void WarningMessage::SetSound(const std::string &sound)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -47685,7 +46468,7 @@ FUNC_NAKED void WarningMessage::SetSound(const std::string &sound)
 			// rdi has this
 			// rsi has sound
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1274::func));
+	__asm__("call *%0\n\t" :: "m"(_func1274::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -47713,7 +46496,6 @@ FUNC_NAKED void WarningMessage::Start()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -47722,7 +46504,7 @@ FUNC_NAKED void WarningMessage::Start()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1275::func));
+	__asm__("call *%0\n\t" :: "m"(_func1275::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -47750,7 +46532,6 @@ FUNC_NAKED bool WeaponAnimation::StartFire()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -47759,7 +46540,7 @@ FUNC_NAKED bool WeaponAnimation::StartFire()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1276::func));
+	__asm__("call *%0\n\t" :: "m"(_func1276::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -47787,7 +46568,6 @@ FUNC_NAKED void WeaponAnimation::SetFireTime(float time)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -47797,7 +46577,7 @@ FUNC_NAKED void WeaponAnimation::SetFireTime(float time)
 			// rdi has this
 			// xmm0 has time
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1277::func));
+	__asm__("call *%0\n\t" :: "m"(_func1277::func) : "rdi", "xmm0");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -47825,7 +46605,6 @@ FUNC_NAKED void WeaponAnimation::Update()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -47834,7 +46613,7 @@ FUNC_NAKED void WeaponAnimation::Update()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1278::func));
+	__asm__("call *%0\n\t" :: "m"(_func1278::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -47862,7 +46641,6 @@ FUNC_NAKED void WeaponBlueprint::RenderIcon(float scale)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -47872,7 +46650,7 @@ FUNC_NAKED void WeaponBlueprint::RenderIcon(float scale)
 			// rdi has this
 			// xmm0 has scale
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1279::func));
+	__asm__("call *%0\n\t" :: "m"(_func1279::func) : "rdi", "xmm0");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -47900,7 +46678,6 @@ FUNC_NAKED std::string WeaponBlueprint::GetDescription(bool tooltip)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -47911,7 +46688,7 @@ FUNC_NAKED std::string WeaponBlueprint::GetDescription(bool tooltip)
 			// rsi has this
 			// rdx has tooltip
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1280::func));
+	__asm__("call *%0\n\t" :: "m"(_func1280::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -47939,7 +46716,6 @@ FUNC_NAKED void WeaponBlueprint::constructor()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -47948,7 +46724,7 @@ FUNC_NAKED void WeaponBlueprint::constructor()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1281::func));
+	__asm__("call *%0\n\t" :: "m"(_func1281::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -47976,7 +46752,6 @@ FUNC_NAKED void WeaponBlueprint::destructor()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -47985,7 +46760,7 @@ FUNC_NAKED void WeaponBlueprint::destructor()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1282::func));
+	__asm__("call *%0\n\t" :: "m"(_func1282::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -48013,7 +46788,6 @@ FUNC_NAKED void WeaponBox::RenderBox(bool dragging, bool flashPowerBox)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -48024,7 +46798,7 @@ FUNC_NAKED void WeaponBox::RenderBox(bool dragging, bool flashPowerBox)
 			// rsi has dragging
 			// rdx has flashPowerBox
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1283::func));
+	__asm__("call *%0\n\t" :: "m"(_func1283::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -48052,6 +46826,7 @@ FUNC_NAKED std::string WeaponBox::GenerateTooltip()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
+		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -48061,7 +46836,7 @@ FUNC_NAKED std::string WeaponBox::GenerateTooltip()
 		"pushq 8(%rbp)\n\t"		// implicit_output
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1284::func));
+	__asm__("call *%0\n\t" :: "m"(_func1284::func) : "rdi");
 	__asm__
 	(
 		"addq $8, %rsp\n\t"
@@ -48090,7 +46865,6 @@ FUNC_NAKED void WeaponControl::constructor()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -48099,7 +46873,7 @@ FUNC_NAKED void WeaponControl::constructor()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1285::func));
+	__asm__("call *%0\n\t" :: "m"(_func1285::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -48127,7 +46901,6 @@ FUNC_NAKED void WeaponControl::SetAutofiring(bool on, bool simple)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -48138,7 +46911,7 @@ FUNC_NAKED void WeaponControl::SetAutofiring(bool on, bool simple)
 			// rsi has on
 			// rdx has simple
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1286::func));
+	__asm__("call *%0\n\t" :: "m"(_func1286::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -48166,7 +46939,6 @@ FUNC_NAKED void WeaponControl::Fire(std::vector<Pointf> &points, int target, boo
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -48178,7 +46950,7 @@ FUNC_NAKED void WeaponControl::Fire(std::vector<Pointf> &points, int target, boo
 			// rdx has target
 			// rcx has autoFire
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1287::func));
+	__asm__("call *%0\n\t" :: "m"(_func1287::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -48206,7 +46978,6 @@ FUNC_NAKED void WeaponControl::OnRender(bool unk)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -48216,7 +46987,7 @@ FUNC_NAKED void WeaponControl::OnRender(bool unk)
 			// rdi has this
 			// rsi has unk
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1288::func));
+	__asm__("call *%0\n\t" :: "m"(_func1288::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -48244,7 +47015,6 @@ FUNC_NAKED bool WeaponControl::LButton(int x, int y, bool holdingShift)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -48256,7 +47026,7 @@ FUNC_NAKED bool WeaponControl::LButton(int x, int y, bool holdingShift)
 			// rdx has y
 			// rcx has holdingShift
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1289::func));
+	__asm__("call *%0\n\t" :: "m"(_func1289::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -48284,7 +47054,6 @@ FUNC_NAKED void WeaponControl::MouseMove(int x, int y)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -48295,7 +47064,7 @@ FUNC_NAKED void WeaponControl::MouseMove(int x, int y)
 			// rsi has x
 			// rdx has y
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1290::func));
+	__asm__("call *%0\n\t" :: "m"(_func1290::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -48323,7 +47092,6 @@ FUNC_NAKED bool WeaponControl::KeyDown(SDLKey key)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -48333,7 +47101,7 @@ FUNC_NAKED bool WeaponControl::KeyDown(SDLKey key)
 			// rdi has this
 			// rsi has key
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1291::func));
+	__asm__("call *%0\n\t" :: "m"(_func1291::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -48361,7 +47129,6 @@ FUNC_NAKED void WeaponControl::LinkShip(ShipManager *ship)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -48371,7 +47138,7 @@ FUNC_NAKED void WeaponControl::LinkShip(ShipManager *ship)
 			// rdi has this
 			// rsi has ship
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1292::func));
+	__asm__("call *%0\n\t" :: "m"(_func1292::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -48399,7 +47166,6 @@ FUNC_NAKED void WeaponStoreBox::__DO_NOT_HOOK()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -48435,7 +47201,6 @@ FUNC_NAKED void WeaponStoreBox::constructor(ShipManager *ship, Equipment *equip,
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -48447,7 +47212,7 @@ FUNC_NAKED void WeaponStoreBox::constructor(ShipManager *ship, Equipment *equip,
 			// rdx has equip
 			// rcx has weaponBp
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1294::func));
+	__asm__("call *%0\n\t" :: "m"(_func1294::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -48475,7 +47240,6 @@ FUNC_NAKED void WeaponSystem::RemoveWeapon(int slot)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -48485,7 +47249,7 @@ FUNC_NAKED void WeaponSystem::RemoveWeapon(int slot)
 			// rdi has this
 			// rsi has slot
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1295::func));
+	__asm__("call *%0\n\t" :: "m"(_func1295::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -48513,7 +47277,6 @@ FUNC_NAKED void WeaponSystem::SetBonusPower(int amount, int permanentPower)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -48524,7 +47287,7 @@ FUNC_NAKED void WeaponSystem::SetBonusPower(int amount, int permanentPower)
 			// rsi has amount
 			// rdx has permanentPower
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1296::func));
+	__asm__("call *%0\n\t" :: "m"(_func1296::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -48552,7 +47315,6 @@ FUNC_NAKED void WeaponSystem::OnLoop()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -48561,7 +47323,7 @@ FUNC_NAKED void WeaponSystem::OnLoop()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1297::func));
+	__asm__("call *%0\n\t" :: "m"(_func1297::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -48589,7 +47351,6 @@ FUNC_NAKED void WeaponSystemBox::constructor(Point pos, ShipSystem *sys, WeaponC
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -48601,7 +47362,7 @@ FUNC_NAKED void WeaponSystemBox::constructor(Point pos, ShipSystem *sys, WeaponC
 			// rdx has sys
 			// rcx has weapCtrl
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1298::func));
+	__asm__("call *%0\n\t" :: "m"(_func1298::func) : "rdi", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -48629,7 +47390,6 @@ FUNC_NAKED void WindowFrame::constructor(int x, int y, int w, int h)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -48642,7 +47402,7 @@ FUNC_NAKED void WindowFrame::constructor(int x, int y, int w, int h)
 			// rcx has w
 			// r8 has h
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1299::func));
+	__asm__("call *%0\n\t" :: "m"(_func1299::func) : "rdi", "rsi", "rdx", "rcx", "r8");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -48670,7 +47430,6 @@ FUNC_NAKED void WindowFrame::destructor()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -48679,7 +47438,7 @@ FUNC_NAKED void WindowFrame::destructor()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1300::func));
+	__asm__("call *%0\n\t" :: "m"(_func1300::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -48707,7 +47466,6 @@ FUNC_NAKED void WindowFrame::Draw(int x, int y)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -48718,7 +47476,7 @@ FUNC_NAKED void WindowFrame::Draw(int x, int y)
 			// rsi has x
 			// rdx has y
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1301::func));
+	__asm__("call *%0\n\t" :: "m"(_func1301::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -48746,7 +47504,6 @@ FUNC_NAKED void WindowFrame::DrawMask(int unk)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -48756,7 +47513,7 @@ FUNC_NAKED void WindowFrame::DrawMask(int unk)
 			// rdi has this
 			// rsi has unk
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1302::func));
+	__asm__("call *%0\n\t" :: "m"(_func1302::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -48784,7 +47541,6 @@ FUNC_NAKED void WorldManager::constructor()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -48793,7 +47549,7 @@ FUNC_NAKED void WorldManager::constructor()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1303::func));
+	__asm__("call *%0\n\t" :: "m"(_func1303::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -48821,7 +47577,6 @@ FUNC_NAKED int WorldManager::OnInit()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -48830,7 +47585,7 @@ FUNC_NAKED int WorldManager::OnInit()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1304::func));
+	__asm__("call *%0\n\t" :: "m"(_func1304::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -48858,7 +47613,6 @@ FUNC_NAKED void WorldManager::CreateStore(LocationEvent *event)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -48868,7 +47622,7 @@ FUNC_NAKED void WorldManager::CreateStore(LocationEvent *event)
 			// rdi has this
 			// rsi has event
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1305::func));
+	__asm__("call *%0\n\t" :: "m"(_func1305::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -48896,7 +47650,6 @@ FUNC_NAKED bool WorldManager::CheckRequirements(LocationEvent *event, bool hidde
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -48907,7 +47660,7 @@ FUNC_NAKED bool WorldManager::CheckRequirements(LocationEvent *event, bool hidde
 			// rsi has event
 			// rdx has hidden
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1306::func));
+	__asm__("call *%0\n\t" :: "m"(_func1306::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -48935,7 +47688,6 @@ FUNC_NAKED bool WorldManager::AddBoarders(BoardingEvent &boardingEvent)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -48945,7 +47697,7 @@ FUNC_NAKED bool WorldManager::AddBoarders(BoardingEvent &boardingEvent)
 			// rdi has this
 			// rsi has boardingEvent
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1307::func));
+	__asm__("call *%0\n\t" :: "m"(_func1307::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -48973,7 +47725,6 @@ FUNC_NAKED bool WorldManager::HostileEnvironment()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -48982,7 +47733,7 @@ FUNC_NAKED bool WorldManager::HostileEnvironment()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1308::func));
+	__asm__("call *%0\n\t" :: "m"(_func1308::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -49010,7 +47761,6 @@ FUNC_NAKED void WorldManager::ModifyEnvironment(int envFlag, int envTarget)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -49021,7 +47771,7 @@ FUNC_NAKED void WorldManager::ModifyEnvironment(int envFlag, int envTarget)
 			// rsi has envFlag
 			// rdx has envTarget
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1309::func));
+	__asm__("call *%0\n\t" :: "m"(_func1309::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -49049,7 +47799,6 @@ FUNC_NAKED void WorldManager::ModifyStatusEffect(StatusEffect effect, ShipManage
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -49062,7 +47811,7 @@ FUNC_NAKED void WorldManager::ModifyStatusEffect(StatusEffect effect, ShipManage
 			// rcx has target
 			// r8 has targetType
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1310::func));
+	__asm__("call *%0\n\t" :: "m"(_func1310::func) : "rdi", "rcx", "r8");
 	__asm__
 	(
 		"addq $16, %rsp\n\t"
@@ -49091,7 +47840,6 @@ FUNC_NAKED LocationEvent *WorldManager::ModifyResources(LocationEvent *event)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -49101,7 +47849,7 @@ FUNC_NAKED LocationEvent *WorldManager::ModifyResources(LocationEvent *event)
 			// rdi has this
 			// rsi has event
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1311::func));
+	__asm__("call *%0\n\t" :: "m"(_func1311::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -49129,7 +47877,6 @@ FUNC_NAKED void WorldManager::CheckStatusEffects(std::vector<StatusEffect> &vec)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -49139,7 +47886,7 @@ FUNC_NAKED void WorldManager::CheckStatusEffects(std::vector<StatusEffect> &vec)
 			// rdi has this
 			// rsi has vec
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1312::func));
+	__asm__("call *%0\n\t" :: "m"(_func1312::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -49167,7 +47914,6 @@ FUNC_NAKED void WorldManager::CreateChoiceBox(LocationEvent *event)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -49177,7 +47923,7 @@ FUNC_NAKED void WorldManager::CreateChoiceBox(LocationEvent *event)
 			// rdi has this
 			// rsi has event
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1313::func));
+	__asm__("call *%0\n\t" :: "m"(_func1313::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -49205,7 +47951,6 @@ FUNC_NAKED void WorldManager::CreateChoiceBox0(LocationEvent *event)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -49215,7 +47960,7 @@ FUNC_NAKED void WorldManager::CreateChoiceBox0(LocationEvent *event)
 			// rdi has this
 			// rsi has event
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1314::func));
+	__asm__("call *%0\n\t" :: "m"(_func1314::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -49243,7 +47988,6 @@ FUNC_NAKED CompleteShip *WorldManager::CreateShip(ShipEvent *shipEvent, bool bos
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -49254,7 +47998,7 @@ FUNC_NAKED CompleteShip *WorldManager::CreateShip(ShipEvent *shipEvent, bool bos
 			// rsi has shipEvent
 			// rdx has boss
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1315::func));
+	__asm__("call *%0\n\t" :: "m"(_func1315::func) : "rdi", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -49282,7 +48026,6 @@ FUNC_NAKED void WorldManager::CreateLocation(Location *loc)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -49292,7 +48035,7 @@ FUNC_NAKED void WorldManager::CreateLocation(Location *loc)
 			// rdi has this
 			// rsi has loc
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1316::func));
+	__asm__("call *%0\n\t" :: "m"(_func1316::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -49320,7 +48063,6 @@ FUNC_NAKED void WorldManager::UpdateLocation(LocationEvent *event)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -49330,7 +48072,7 @@ FUNC_NAKED void WorldManager::UpdateLocation(LocationEvent *event)
 			// rdi has this
 			// rsi has event
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1317::func));
+	__asm__("call *%0\n\t" :: "m"(_func1317::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -49358,7 +48100,6 @@ FUNC_NAKED void WorldManager::UpdateLocation0(LocationEvent *event)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -49368,7 +48109,7 @@ FUNC_NAKED void WorldManager::UpdateLocation0(LocationEvent *event)
 			// rdi has this
 			// rsi has event
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1318::func));
+	__asm__("call *%0\n\t" :: "m"(_func1318::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -49396,7 +48137,6 @@ FUNC_NAKED void WorldManager::ClearLocation()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -49405,7 +48145,7 @@ FUNC_NAKED void WorldManager::ClearLocation()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1319::func));
+	__asm__("call *%0\n\t" :: "m"(_func1319::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -49433,7 +48173,6 @@ FUNC_NAKED void WorldManager::LoadGame(const std::string &fileName)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -49443,7 +48182,7 @@ FUNC_NAKED void WorldManager::LoadGame(const std::string &fileName)
 			// rdi has this
 			// rsi has fileName
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1320::func));
+	__asm__("call *%0\n\t" :: "m"(_func1320::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -49471,7 +48210,6 @@ FUNC_NAKED void WorldManager::SaveGame()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -49480,7 +48218,7 @@ FUNC_NAKED void WorldManager::SaveGame()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1321::func));
+	__asm__("call *%0\n\t" :: "m"(_func1321::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -49508,7 +48246,6 @@ FUNC_NAKED void WorldManager::CreateNewGame()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -49517,7 +48254,7 @@ FUNC_NAKED void WorldManager::CreateNewGame()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1322::func));
+	__asm__("call *%0\n\t" :: "m"(_func1322::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -49545,7 +48282,6 @@ FUNC_NAKED void WorldManager::StartGame(ShipManager *ship)
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -49555,7 +48291,7 @@ FUNC_NAKED void WorldManager::StartGame(ShipManager *ship)
 			// rdi has this
 			// rsi has ship
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1323::func));
+	__asm__("call *%0\n\t" :: "m"(_func1323::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -49583,7 +48319,6 @@ FUNC_NAKED void WorldManager::Restart()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -49592,7 +48327,7 @@ FUNC_NAKED void WorldManager::Restart()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1324::func));
+	__asm__("call *%0\n\t" :: "m"(_func1324::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -49620,7 +48355,6 @@ FUNC_NAKED void WorldManager::OnLoop()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -49629,7 +48363,7 @@ FUNC_NAKED void WorldManager::OnLoop()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1325::func));
+	__asm__("call *%0\n\t" :: "m"(_func1325::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -49657,7 +48391,6 @@ FUNC_NAKED void WorldManager::PauseLoop()
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -49666,7 +48399,7 @@ FUNC_NAKED void WorldManager::PauseLoop()
 		"pushq %r15\n\t"
 			// rdi has this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1326::func));
+	__asm__("call *%0\n\t" :: "m"(_func1326::func) : "rdi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -49694,7 +48427,6 @@ FUNC_NAKED Pointf freetype::easy_measurePrintLines(int fontSize, float x, float 
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -49707,7 +48439,7 @@ FUNC_NAKED Pointf freetype::easy_measurePrintLines(int fontSize, float x, float 
 			// rsi has line_length
 			// rdx has text
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1327::func));
+	__asm__("call *%0\n\t" :: "m"(_func1327::func) : "rdi", "xmm0", "xmm1", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -49735,7 +48467,6 @@ FUNC_NAKED int freetype::easy_measureWidth(int fontSize, const std::string &text
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -49745,7 +48476,7 @@ FUNC_NAKED int freetype::easy_measureWidth(int fontSize, const std::string &text
 			// rdi has fontSize
 			// rsi has text
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1328::func));
+	__asm__("call *%0\n\t" :: "m"(_func1328::func) : "rdi", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -49773,7 +48504,6 @@ FUNC_NAKED Pointf freetype::easy_print(int fontSize, float x, float y, const std
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -49785,7 +48515,7 @@ FUNC_NAKED Pointf freetype::easy_print(int fontSize, float x, float y, const std
 			// xmm1 has y
 			// rsi has text
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1329::func));
+	__asm__("call *%0\n\t" :: "m"(_func1329::func) : "rdi", "xmm0", "xmm1", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -49813,7 +48543,6 @@ FUNC_NAKED Pointf freetype::easy_printRightAlign(int fontSize, float x, float y,
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -49825,7 +48554,7 @@ FUNC_NAKED Pointf freetype::easy_printRightAlign(int fontSize, float x, float y,
 			// xmm1 has y
 			// rsi has text
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1330::func));
+	__asm__("call *%0\n\t" :: "m"(_func1330::func) : "rdi", "xmm0", "xmm1", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -49853,7 +48582,6 @@ FUNC_NAKED Pointf freetype::easy_printNewlinesCentered(int fontSize, float x, fl
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -49866,7 +48594,7 @@ FUNC_NAKED Pointf freetype::easy_printNewlinesCentered(int fontSize, float x, fl
 			// rsi has line_length
 			// rdx has text
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1331::func));
+	__asm__("call *%0\n\t" :: "m"(_func1331::func) : "rdi", "xmm0", "xmm1", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -49894,7 +48622,6 @@ FUNC_NAKED Pointf freetype::easy_printAutoNewlines(int fontSize, float x, float 
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -49907,7 +48634,7 @@ FUNC_NAKED Pointf freetype::easy_printAutoNewlines(int fontSize, float x, float 
 			// rsi has line_length
 			// rdx has text
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1332::func));
+	__asm__("call *%0\n\t" :: "m"(_func1332::func) : "rdi", "xmm0", "xmm1", "rsi", "rdx");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -49935,7 +48662,6 @@ FUNC_NAKED Pointf freetype::easy_printCenter(int fontSize, float x, float y, con
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -49947,7 +48673,7 @@ FUNC_NAKED Pointf freetype::easy_printCenter(int fontSize, float x, float y, con
 			// xmm1 has y
 			// rsi has text
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1333::func));
+	__asm__("call *%0\n\t" :: "m"(_func1333::func) : "rdi", "xmm0", "xmm1", "rsi");
 	__asm__
 	(
 		"popq %r15\n\t"
@@ -49975,7 +48701,6 @@ FUNC_NAKED void freetype::easy_printAutoShrink(int fontId, float x, float y, int
 	(
 		"pushq %rbp\n\t"
 		"movq %rsp, %rbp\n\t"
-		"subq $8, %rsp\n\t"
 		"pushq %rbx\n\t"
 		"pushq %rbp\n\t"
 		"pushq %r12\n\t"
@@ -49989,7 +48714,7 @@ FUNC_NAKED void freetype::easy_printAutoShrink(int fontId, float x, float y, int
 			// rdx has centered
 			// rcx has text
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1334::func));
+	__asm__("call *%0\n\t" :: "m"(_func1334::func) : "rdi", "xmm0", "xmm1", "rsi", "rdx", "rcx");
 	__asm__
 	(
 		"popq %r15\n\t"

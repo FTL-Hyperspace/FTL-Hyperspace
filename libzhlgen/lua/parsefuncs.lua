@@ -29,6 +29,8 @@ local thiscallFirstArgumentECX = false -- Microsoft specific __thiscall, first a
 local structPointerAfterHiddenArguments = false -- This affects order of a memory-passed struct pointer after hidden arguments like `this`, MSVC puts it after other hidden arguments, GCC puts it always as the first argument.
 local memPassedStructsPoppedByCallee = false -- Do functions who are not normally callee cleanup for some stupid reason decide to cleanup one argument when passing a struct via memory... System V i386 ABI does this for some historical bizzare reason.
 local useIntelASMSyntax = false -- True for Intel ASM, False for AT&T style. MSVC requires Intel, GCC can use either, Clang requires AT&T.
+local saveAllRegistersForSomeReason = true
+local recordClobberedRegisters = false
 local stackAlignmentSize = 0x10
 local useNaked = true
 local argPattern = {}
@@ -47,6 +49,9 @@ if string.find(mode, "linux") ~= nil then
     useStackAlignment = true
     isPOSIX = true
 	useIntelASMSyntax = false -- LLVM/Clang only supports AT&T Syntax, GCC supports both, so use AT&T Syntax instead of Intel
+    saveAllRegistersForSomeReason = true
+    useNaked = true
+    recordClobberedRegisters = true
 	if arch == "i386" then
 		memPassedStructsPoppedByCallee = true
 		compiler_passSmallStructsInTwoRegisters = false -- Pass all structs by memory even if they fit in EDX:EAX
@@ -1047,7 +1052,7 @@ using namespace ZHL;
 					if isDestructor then
 						out("%s::~%s(", classname, func.varparent.class)
 					elseif isGlobal then
-						out("%s__stdcall %s(", func:toString(), func.name)
+						out("%s__stdcall %s(", func:toString(), func.name) -- TODO: Eliminate __stdcall except on MSVC
 					else
 						out("%s%s::%s(", func:toString(), classname, func.name)
 					end
@@ -1087,22 +1092,26 @@ using namespace ZHL;
                     end
 				end
 				
-				local stackAlignPushSize = func.stackCallPushSize + 8 -- size of CALL + plus the push EBP above -- TODO: Is this different for x64?
-                
-                if arch == "i386" then
-                    if func.void or not func.longlong then
-                        stackAlignPushSize = stackAlignPushSize + archPushSize -- Because of push edx
-                    end
-                    if func.void then
-                        stackAlignPushSize = stackAlignPushSize + archPushSize -- Because of push eax
-                    end
+				local stackAlignPushSize = func.stackCallPushSize
+                if useNaked then
+                    stackAlignPushSize = stackAlignPushSize + (archPushSize*2) -- size of CALL's saved return pointer (EIP/RIP) & base pointer (EBP/RBP) saved above
                 end
-				
+                
+                if saveAllRegistersForSomeReason then
+                    if arch == "i386" then
+                        if func.void or not func.longlong then
+                            stackAlignPushSize = stackAlignPushSize + archPushSize -- Because of push edx
+                        end
+                        if func.void then
+                            stackAlignPushSize = stackAlignPushSize + archPushSize -- Because of push eax
+                        end
+                    end
 
-                if arch == "i386" then
-                    stackAlignPushSize = stackAlignPushSize + (archPushSize*4) -- Because of the push ECX/EBX/ESI/EDI that we always push below
-                elseif arch == "x86_64" then
-                    stackAlignPushSize = stackAlignPushSize + (archPushSize*6) -- This is probably different for Windows x64. Push RBX/RBP/R12/R13/R14/R15 below, other registers are valid to clobber
+                    if arch == "i386" then
+                        stackAlignPushSize = stackAlignPushSize + (archPushSize*4) -- Because of the push ECX/EBX/ESI/EDI that we always push below
+                    elseif arch == "x86_64" then
+                        stackAlignPushSize = stackAlignPushSize + (archPushSize*6) -- This is probably different for Windows x64. Push RBX/RBP/R12/R13/R14/R15 below, other registers are valid to clobber
+                    end
                 end
 				
 				-- We do this after the push ebp & move ebp, esp but before the other pushes so we don't have to worry about resetting the stack correctly afterwards (as all our arguments & pops are directly next to each other without a gap until we've already reset the saved esp stack pointer and would no longer care [ebp][gap][other registers & arguments]call[registers & arguments pop/remove][reset stack][pop ebp])
@@ -1126,42 +1135,44 @@ using namespace ZHL;
 					end
 				end
 				
-                -- TODO: Change this to a list of "volatile" & "non-volatile" registers and we must only push & pop the non-volatiles. This might make it more generic, aside from the void & longlong 32-bit crap.
-				-- save all registers that matter for the ABI
-                if arch == "i386" then
-                    if useIntelASMSyntax then
-                        if func.void or not func.longlong then out("\n\t\t\"push edx\\n\\t\"") end
-                        if func.void then out("\n\t\t\"push eax\\n\\t\"") end
-                        out("\n\t\t\"push ecx\\n\\t\"")
-                        out("\n\t\t\"push ebx\\n\\t\"")
-                        out("\n\t\t\"push esi\\n\\t\"")
-                        out("\n\t\t\"push edi\\n\\t\"")
-                    else
-                        if func.void or not func.longlong then out("\n\t\t\"pushl %%edx\\n\\t\"") end
-                        if func.void then out("\n\t\t\"pushl %%eax\\n\\t\"") end
-                        out("\n\t\t\"pushl %%ecx\\n\\t\"")
-                        out("\n\t\t\"pushl %%ebx\\n\\t\"")
-                        out("\n\t\t\"pushl %%esi\\n\\t\"")
-                        out("\n\t\t\"pushl %%edi\\n\\t\"")
-                    end
-                elseif arch == "x86_64" and isPOSIX then
-                    -- System V AMD64 ABI
-                    -- Note the Microsoft x64 uses RBX, RBP, RDI, RSI, RSP, R12, R13, R14, R15
-                    -- TODO: It might not be neccessary to push/pop all these registers if our assembly doesn't actually make use of any as each function should actually keep these clean under the System V AMD64 ABI specifications
-                    if useIntelASMSyntax then
-                        out("\n\t\t\"push rbx\\n\\t\"")
-                        out("\n\t\t\"push rbp\\n\\t\"")
-                        out("\n\t\t\"push r12\\n\\t\"")
-                        out("\n\t\t\"push r13\\n\\t\"")
-                        out("\n\t\t\"push r14\\n\\t\"")
-                        out("\n\t\t\"push r15\\n\\t\"")
-                    else
-                        out("\n\t\t\"pushq %%rbx\\n\\t\"")
-                        out("\n\t\t\"pushq %%rbp\\n\\t\"")
-                        out("\n\t\t\"pushq %%r12\\n\\t\"")
-                        out("\n\t\t\"pushq %%r13\\n\\t\"")
-                        out("\n\t\t\"pushq %%r14\\n\\t\"")
-                        out("\n\t\t\"pushq %%r15\\n\\t\"")
+                if saveAllRegistersForSomeReason then
+                    -- TODO: Change this to a list of "volatile" & "non-volatile" registers and we must only push & pop the non-volatiles. This might make it more generic, aside from the void & longlong 32-bit crap.
+                    -- save all registers that matter for the ABI
+                    if arch == "i386" then
+                        if useIntelASMSyntax then
+                            if func.void or not func.longlong then out("\n\t\t\"push edx\\n\\t\"") end
+                            if func.void then out("\n\t\t\"push eax\\n\\t\"") end
+                            out("\n\t\t\"push ecx\\n\\t\"")
+                            out("\n\t\t\"push ebx\\n\\t\"")
+                            out("\n\t\t\"push esi\\n\\t\"")
+                            out("\n\t\t\"push edi\\n\\t\"")
+                        else
+                            if func.void or not func.longlong then out("\n\t\t\"pushl %%edx\\n\\t\"") end
+                            if func.void then out("\n\t\t\"pushl %%eax\\n\\t\"") end
+                            out("\n\t\t\"pushl %%ecx\\n\\t\"")
+                            out("\n\t\t\"pushl %%ebx\\n\\t\"")
+                            out("\n\t\t\"pushl %%esi\\n\\t\"")
+                            out("\n\t\t\"pushl %%edi\\n\\t\"")
+                        end
+                    elseif arch == "x86_64" and isPOSIX then
+                        -- System V AMD64 ABI
+                        -- Note the Microsoft x64 uses RBX, RBP, RDI, RSI, RSP, R12, R13, R14, R15
+                        -- TODO: It might not be neccessary to push/pop all these registers if our assembly doesn't actually make use of any as each function should actually keep these clean under the System V AMD64 ABI specifications
+                        if useIntelASMSyntax then
+                            out("\n\t\t\"push rbx\\n\\t\"")
+                            out("\n\t\t\"push rbp\\n\\t\"")
+                            out("\n\t\t\"push r12\\n\\t\"")
+                            out("\n\t\t\"push r13\\n\\t\"")
+                            out("\n\t\t\"push r14\\n\\t\"")
+                            out("\n\t\t\"push r15\\n\\t\"")
+                        else
+                            out("\n\t\t\"pushq %%rbx\\n\\t\"")
+                            out("\n\t\t\"pushq %%rbp\\n\\t\"")
+                            out("\n\t\t\"pushq %%r12\\n\\t\"")
+                            out("\n\t\t\"pushq %%r13\\n\\t\"")
+                            out("\n\t\t\"pushq %%r14\\n\\t\"")
+                            out("\n\t\t\"pushq %%r15\\n\\t\"")
+                        end
                     end
                 end
 				
@@ -1205,9 +1216,11 @@ using namespace ZHL;
                 -- TODO: Does any of this actually matterin amd64? Since our function should mirror the actual arguments anyways the compiler should choose the exact same registers.
                 local int_i = 1
                 local flt_i = 1
+                local usedRegisters = {}
 				for k, arg in ipairs(func.args) do
 					if arg.reg then
 						assert(arg.size == 1)
+                        table.insert(usedRegisters, "\"" .. arg.reg .. "\"")
 						if k == 1 and func.thiscall and not isPOSIX then
 							if arg.reg ~= "ecx" then
 								if useIntelASMSyntax then
@@ -1254,12 +1267,18 @@ using namespace ZHL;
 				
 				out("\n\t);")
 
+                out("\n\t__asm__(")
 				-- finally call the function
 				if useIntelASMSyntax then
-					out("\n\t__asm__(\"call %%0\\n\\t\" :: \"m\"(_func%d::func));", counter)
+					out("\"call %%0\\n\\t\" :: \"m\"(_func%d::func)", counter)
 				else
-					out("\n\t__asm__(\"call *%%0\\n\\t\" :: \"m\"(_func%d::func));", counter)
+					out("\"call *%%0\\n\\t\" :: \"m\"(_func%d::func)", counter)
 				end
+
+                if recordClobberedRegisters and next(usedRegisters) then
+                    out(" : %s", table.concat(usedRegisters, ", "))
+                end
+                out(");")
 				
 				out("\n\t__asm__\n\t(")
 
@@ -1285,45 +1304,47 @@ using namespace ZHL;
                     end
 				end
 				
-				-- restore all registers
-                if arch == "i386" then
-                    if useIntelASMSyntax then
-                        -- TODO: ALl these pops could be simplified with a function to generate them & accepting in the register names, plus then having a "epilogue" function
-                        out("\n\t\t\"pop edi\\n\\t\"")
-                        out("\n\t\t\"pop esi\\n\\t\"")
-                        out("\n\t\t\"pop ebx\\n\\t\"")
-                        out("\n\t\t\"pop ecx\\n\\t\"")
-                        if func.void then out("\n\t\t\"pop eax\\n\\t\"") end
-                        if func.void or not func.longlong then out("\n\t\t\"pop edx\\n\\t\"") end
-                    else
-                        out("\n\t\t\"popl %%edi\\n\\t\"")
-                        out("\n\t\t\"popl %%esi\\n\\t\"")
-                        out("\n\t\t\"popl %%ebx\\n\\t\"")
-                        out("\n\t\t\"popl %%ecx\\n\\t\"")
-                        if func.void then out("\n\t\t\"popl %%eax\\n\\t\"") end
-                        if func.void or not func.longlong then out("\n\t\t\"popl %%edx\\n\\t\"") end
-                    end
-                elseif arch == "x86_64"  then
-                    if useIntelASMSyntax then
-                        out("\n\t\t\"pop r15\\n\\t\"")
-                        out("\n\t\t\"pop r14\\n\\t\"")
-                        out("\n\t\t\"pop r13\\n\\t\"")
-                        out("\n\t\t\"pop r12\\n\\t\"")
-                        out("\n\t\t\"pop rbp\\n\\t\"")
-                        out("\n\t\t\"pop rbx\\n\\t\"")
-                    else
-                        out("\n\t\t\"popq %%r15\\n\\t\"")
-                        out("\n\t\t\"popq %%r14\\n\\t\"")
-                        out("\n\t\t\"popq %%r13\\n\\t\"")
-                        out("\n\t\t\"popq %%r12\\n\\t\"")
-                        out("\n\t\t\"popq %%rbp\\n\\t\"")
-                        out("\n\t\t\"popq %%rbx\\n\\t\"")
+                if saveAllRegistersForSomeReason then
+                    -- restore all registers
+                    if arch == "i386" then
+                        if useIntelASMSyntax then
+                            -- TODO: ALl these pops could be simplified with a function to generate them & accepting in the register names, plus then having a "epilogue" function
+                            out("\n\t\t\"pop edi\\n\\t\"")
+                            out("\n\t\t\"pop esi\\n\\t\"")
+                            out("\n\t\t\"pop ebx\\n\\t\"")
+                            out("\n\t\t\"pop ecx\\n\\t\"")
+                            if func.void then out("\n\t\t\"pop eax\\n\\t\"") end
+                            if func.void or not func.longlong then out("\n\t\t\"pop edx\\n\\t\"") end
+                        else
+                            out("\n\t\t\"popl %%edi\\n\\t\"")
+                            out("\n\t\t\"popl %%esi\\n\\t\"")
+                            out("\n\t\t\"popl %%ebx\\n\\t\"")
+                            out("\n\t\t\"popl %%ecx\\n\\t\"")
+                            if func.void then out("\n\t\t\"popl %%eax\\n\\t\"") end
+                            if func.void or not func.longlong then out("\n\t\t\"popl %%edx\\n\\t\"") end
+                        end
+                    elseif arch == "x86_64"  then
+                        if useIntelASMSyntax then
+                            out("\n\t\t\"pop r15\\n\\t\"")
+                            out("\n\t\t\"pop r14\\n\\t\"")
+                            out("\n\t\t\"pop r13\\n\\t\"")
+                            out("\n\t\t\"pop r12\\n\\t\"")
+                            out("\n\t\t\"pop rbp\\n\\t\"")
+                            out("\n\t\t\"pop rbx\\n\\t\"")
+                        else
+                            out("\n\t\t\"popq %%r15\\n\\t\"")
+                            out("\n\t\t\"popq %%r14\\n\\t\"")
+                            out("\n\t\t\"popq %%r13\\n\\t\"")
+                            out("\n\t\t\"popq %%r12\\n\\t\"")
+                            out("\n\t\t\"popq %%rbp\\n\\t\"")
+                            out("\n\t\t\"popq %%rbx\\n\\t\"")
+                        end
                     end
                 end
 				
 				-- epilog
-				if useIntelASMSyntax then
-					if useNaked then
+                if useNaked then
+                    if useIntelASMSyntax then
                         if arch == "i386" then
                             out("\n\t\t\"mov esp, ebp\\n\\t\"")
                             out("\n\t\t\"pop ebp\\n\\t\"")
@@ -1338,9 +1359,7 @@ using namespace ZHL;
 						else
 							out("\n\t\t\"ret\\n\\t\"")
 						end
-					end
-				else
-					if useNaked then
+                    else
                         if arch == "i386" then
                             out("\n\t\t\"movl %%ebp, %%esp\\n\\t\"")
                             out("\n\t\t\"popl %%ebp\\n\\t\"")

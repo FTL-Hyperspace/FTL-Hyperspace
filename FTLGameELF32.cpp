@@ -28662,7 +28662,7 @@ FUNC_NAKED void ScoreKeeper::UnlockShip(int shipType, int shipVariant, bool save
 		"movl 12(%ebp), %edx\n\t"	// shipType
 		"movl 16(%ebp), %ecx\n\t"	// shipVariant
 	);
-	__asm__("call *%0\n\t" :: "m"(_func762::func));
+	__asm__("call *%0\n\t" :: "m"(_func762::func) : "eax", "edx", "ecx");
 	__asm__
 	(
 		"addl $8, %esp\n\t"
@@ -29012,7 +29012,7 @@ FUNC_NAKED void ScoreKeeper::AddTopScoreType(TopScore &topScore, int type)
 		"movl 12(%ebp), %edx\n\t"	// topScore
 		"movl 16(%ebp), %ecx\n\t"	// type
 	);
-	__asm__("call *%0\n\t" :: "m"(_func771::func));
+	__asm__("call *%0\n\t" :: "m"(_func771::func) : "eax", "edx", "ecx");
 	__asm__
 	(
 		"popl %edi\n\t"
@@ -31962,7 +31962,7 @@ FUNC_NAKED std::vector<int> ShipGenerator::GetPossibleSystemUpgrades2(ShipManage
 		"movl 12(%ebp), %edx\n\t"	// ship
 		"movl 16(%ebp), %ecx\n\t"	// systemMaxes
 	);
-	__asm__("call *%0\n\t" :: "m"(_func855::func));
+	__asm__("call *%0\n\t" :: "m"(_func855::func) : "eax", "edx", "ecx");
 	__asm__
 	(
 		"addl $4, %esp\n\t"
@@ -32002,7 +32002,7 @@ FUNC_NAKED std::vector<int> ShipGenerator::GetPossibleSystemUpgrades0(ShipManage
 		"movl 12(%ebp), %edx\n\t"	// ship
 		"movl 16(%ebp), %ecx\n\t"	// systemMaxes
 	);
-	__asm__("call *%0\n\t" :: "m"(_func856::func));
+	__asm__("call *%0\n\t" :: "m"(_func856::func) : "eax", "edx", "ecx");
 	__asm__
 	(
 		"addl $4, %esp\n\t"
@@ -32042,7 +32042,7 @@ FUNC_NAKED std::vector<int> ShipGenerator::GetPossibleSystemUpgrades1(ShipManage
 		"movl 12(%ebp), %edx\n\t"	// ship
 		"movl 16(%ebp), %ecx\n\t"	// systemMaxes
 	);
-	__asm__("call *%0\n\t" :: "m"(_func857::func));
+	__asm__("call *%0\n\t" :: "m"(_func857::func) : "eax", "edx", "ecx");
 	__asm__
 	(
 		"addl $4, %esp\n\t"
@@ -33604,7 +33604,7 @@ FUNC_NAKED void ShipManager::OnLoop()
 		"pushl %edi\n\t"
 		"movl 8(%ebp), %eax\n\t"	// this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func898::func));
+	__asm__("call *%0\n\t" :: "m"(_func898::func) : "eax");
 	__asm__
 	(
 		"popl %edi\n\t"
@@ -36812,7 +36812,7 @@ FUNC_NAKED void ShipSelect::SelectShip(int shipType)
 		"movl 8(%ebp), %eax\n\t"	// this
 		"movl 12(%ebp), %edx\n\t"	// shipType
 	);
-	__asm__("call *%0\n\t" :: "m"(_func982::func));
+	__asm__("call *%0\n\t" :: "m"(_func982::func) : "eax", "edx");
 	__asm__
 	(
 		"popl %edi\n\t"
@@ -37424,7 +37424,7 @@ FUNC_NAKED void ShipStatus::RenderShields(bool renderText)
 		"movl 8(%ebp), %eax\n\t"	// this
 		"movl 12(%ebp), %edx\n\t"	// renderText
 	);
-	__asm__("call *%0\n\t" :: "m"(_func998::func));
+	__asm__("call *%0\n\t" :: "m"(_func998::func) : "eax", "edx");
 	__asm__
 	(
 		"popl %edi\n\t"
@@ -43052,7 +43052,7 @@ FUNC_NAKED void StarMap::OnRender()
 		"pushl %edi\n\t"
 		"movl 8(%ebp), %eax\n\t"	// this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1145::func));
+	__asm__("call *%0\n\t" :: "m"(_func1145::func) : "eax");
 	__asm__
 	(
 		"popl %edi\n\t"
@@ -43284,7 +43284,7 @@ FUNC_NAKED void StarMap::UpdateBoss()
 		"pushl %edi\n\t"
 		"movl 8(%ebp), %eax\n\t"	// this
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1151::func));
+	__asm__("call *%0\n\t" :: "m"(_func1151::func) : "eax");
 	__asm__
 	(
 		"popl %edi\n\t"
@@ -49845,7 +49845,7 @@ FUNC_NAKED void WorldManager::CreateChoiceBox(LocationEvent *event)
 		"movl 8(%ebp), %eax\n\t"	// this
 		"movl 12(%ebp), %edx\n\t"	// event
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1323::func));
+	__asm__("call *%0\n\t" :: "m"(_func1323::func) : "eax", "edx");
 	__asm__
 	(
 		"popl %edi\n\t"
@@ -49921,7 +49921,7 @@ FUNC_NAKED void WorldManager::UpdateLocation(LocationEvent *event)
 		"movl 8(%ebp), %eax\n\t"	// this
 		"movl 12(%ebp), %edx\n\t"	// event
 	);
-	__asm__("call *%0\n\t" :: "m"(_func1325::func));
+	__asm__("call *%0\n\t" :: "m"(_func1325::func) : "eax", "edx");
 	__asm__
 	(
 		"popl %edi\n\t"
