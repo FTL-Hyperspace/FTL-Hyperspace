@@ -8,6 +8,7 @@
 #include <string>
 #include <cstdarg>
 #include "PALMemoryProtection.h"
+#include <inttypes.h>
 
 #ifdef _WIN32
     #define OUR_OWN_FUNCTIONS_CALLEE_DOES_CLEANUP 1
@@ -19,11 +20,10 @@
     #define "Unknown OS"
 #endif
 
-#define concatLiteralString(...) __VA_ARGS__
 #ifdef __i386__
-    #define PTR_PRINT_F "0x%08x"
+    #define PTR_PRINT_F "0x%08" PRIxPTR
 #elif defined(__amd64__)
-    #define PTR_PRINT_F "0x%016x"
+    #define PTR_PRINT_F "0x%016" PRIxPTR
 #else
     #error "Unknown processor architecture not supported."
 #endif // Architecture
@@ -228,7 +228,7 @@ int NoOpDefinition::Load()
     }
     MEMPROT_REPROTECT(ptrToCode, noopingSize, dwOldProtect);
 
-	Log(concatLiteralString("Found address for %s: ", PTR_PRINT_F, ", wrote NOP's for %d bytes\n"), _name, (uintptr_t) m.address, m.length);
+	Log("Found address for %s: " PTR_PRINT_F ", wrote NOP's for %d bytes\n", _name, (uintptr_t) m.address, m.length);
 
 	return 1;
 }
@@ -265,7 +265,7 @@ int FunctionDefinition::Load()
 	}
 	_address = sig.GetAddress<void*>();
 	*_outFunc = _address;
-	Log(concatLiteralString("Found address for %s: ", PTR_PRINT_F, ", dist %d\n"), _name, (uintptr_t)_address, sig.GetDistance());
+	Log("Found address for %s: " PTR_PRINT_F ", dist %d\n", _name, (uintptr_t)_address, sig.GetDistance());
 
 	return 1;
 }
@@ -665,7 +665,7 @@ int FunctionHook_private::Install()
 
 	Log("Successfully hooked function %s\n", _name);
 #ifdef DEBUG
-    Log(concatLiteralString("InternalHookAddress: ", PTR_PRINT_F, "\n"), (uintptr_t)&_internalHook);
+    Log("InternalHookAddress: " PTR_PRINT_F "\n", (uintptr_t)&_internalHook);
 #endif // DEBUG
 	Log("%s\ninternalHook:\n", _name);
     
@@ -674,7 +674,7 @@ int FunctionHook_private::Install()
     Log("\n");
 
 #ifdef DEBUG
-    Log(concatLiteralString("InternalSuperAddress: ", PTR_PRINT_F, "\n"), (uintptr_t)&_internalSuper);
+    Log("InternalSuperAddress: " PTR_PRINT_F "\n", (uintptr_t)&_internalSuper);
 #endif // DEBUG
 	Log("\ninternalSuper:\n", _name);
 
