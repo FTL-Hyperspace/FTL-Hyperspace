@@ -1038,7 +1038,15 @@ boostType: what the boost does to the stat; for numerical amounts, it can be FLA
 value/amount: use value for true/false stats and amount for numerical ones
 race: for transformRace, name of race to transform to
 permanent: for transformRace, whether the transformation should be permanent
-shipTarget: the ship/room that the statBoost affects. For augments, you can use PLAYER_SHIP, ENEMY_SHIP, ORIGINAL_SHIP, ORIGINAL_OTHER_SHIP, or ALL, and for crew you can use the same but also OTHER_ALL, CURRENT_ROOM, and CURRENT_ALL
+shipTarget: the ship/room that the statBoost affects. The following options are available:
+  ALL: Affects all rooms on both ships.
+  PLAYER_SHIP and ENEMY_SHIP: Affects all rooms on a specific ship, irrespective of the source of the stat boost.
+  ORIGINAL_SHIP: For augment boosts, affects all rooms on the ship possessing the augment. For crew boosts, affects all rooms on the ship who owns the crewmember.
+  ORIGINAL_OTHER_SHIP: Opposite of ORIGINAL_SHIP.
+  CURRENT_ALL: For augment boosts, same as ORIGINAL_SHIP. For crew boosts, affects all rooms on the ship the crewmember is currently on.
+  OTHER_ALL: Opposite of CURRENT_ALL.
+  CURRENT_ROOM: For crew boosts, affects the specific room the crewmember is in. Invalid for augment boosts.
+  CREW_TARGET: For crew boosts, affects the specific crewmember being targeted by the source crewmember. Invalid for augment boosts.
 crewTarget: determines what crew the boost affects. it can be ALLIES, ENEMIES, ALL, CURRENT_ALLIES, CURRENT_ENEMIES, ORIGINAL_ALLIES, ORIGINAL_ENEMIES, SELF, or NONE.
   CURRENT_ALLIES and CURRENT_ENEMIES factor in mind control.
   ORIGINAL_ALLIES and ORIGINAL_ENEMIES completely ignore mind control, even with the "controllable mind control" augment.
@@ -1046,7 +1054,8 @@ crewTarget: determines what crew the boost affects. it can be ALLIES, ENEMIES, A
 droneTarget: determines whether the boost affects drones or not. it can be DRONES, CREW, or ALL (the default)
 functionalTarget: boolean, for drones it determines whether the drone needs to be powered or not. Default is false.
 healthReq: required crew health range. min/max are inclusive while above/below are exclusive.
-healthFractionReq: required crew health fractional range. min/max are inclusive while above/below are exclusive. For example, <healthFractionReq below="1.0"/> means "not at full health".
+healthFractionReq: required crew health fractional range (0.0-1.0). min/max are inclusive while above/below are exclusive. For example, <healthFractionReq below="1.0"/> means "not at full health".
+oxygenReq: required oxygen percentage in the current room (0.0-100.0, crew suffocate at 5.0 and below). min/max are inclusive while above/below are exclusive.
 extraConditions: list of extra conditions. Same syntax as for power requirements, except without the text attributes for tooltips.
 whiteList/blackList: determines the species that the boost applies to. whiteLists mean that only those species get the boost, and blackLists mean that only those species won't get the boost.
   Can also use load attribute to load a blueprintList.
@@ -1089,6 +1098,7 @@ Stat boost syntax examples->
 	</blackList>
 	<healthReq min="0.0" max="0.0" above="0.0" below="0.0"/>
 	<healthFractionReq min="0.0" max="0.0" above="0.0" below="0.0"/>
+	<oxygenReq min="0.0" max="0.0" above="0.0" below="0.0"/>
 	<extraConditions type="and">
 		...
 	</extraConditions>

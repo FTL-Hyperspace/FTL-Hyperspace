@@ -183,6 +183,10 @@ StatBoostDefinition* StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<cha
                 {
                     def->shipTarget = StatBoostDefinition::ShipTarget::ALL;
                 }
+                if (val == "CREW_TARGET")
+                {
+                    def->shipTarget = StatBoostDefinition::ShipTarget::CREW_TARGET;
+                }
             }
             if (name == "systemRoomTarget")
             {
@@ -289,6 +293,13 @@ StatBoostDefinition* StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<cha
                 if (child->first_attribute("max")) def->healthFractionReq.second = boost::lexical_cast<float>(child->first_attribute("max")->value());
                 if (child->first_attribute("above")) def->healthFractionReq.first = std::nextafter(boost::lexical_cast<float>(child->first_attribute("above")->value()), +HUGE_VAL);
                 if (child->first_attribute("below")) def->healthFractionReq.second = std::nextafter(boost::lexical_cast<float>(child->first_attribute("below")->value()), -HUGE_VAL);
+            }
+            if (name == "oxygenReq")
+            {
+                if (child->first_attribute("min")) def->oxygenReq.first = boost::lexical_cast<float>(child->first_attribute("min")->value());
+                if (child->first_attribute("max")) def->oxygenReq.second = boost::lexical_cast<float>(child->first_attribute("max")->value());
+                if (child->first_attribute("above")) def->oxygenReq.first = std::nextafter(boost::lexical_cast<float>(child->first_attribute("above")->value()), +HUGE_VAL);
+                if (child->first_attribute("below")) def->oxygenReq.second = std::nextafter(boost::lexical_cast<float>(child->first_attribute("below")->value()), -HUGE_VAL);
             }
             if (name == "extraConditions")
             {
@@ -978,6 +989,9 @@ bool CrewMember_Extend::BoostCheck(const StatBoost& statBoost)
         case StatBoostDefinition::ShipTarget::CURRENT_ROOM:
             if (orig->currentShipId != statBoost.crewSource->currentShipId || orig->iRoomId != statBoost.crewSource->iRoomId) return false;
             break;
+        case StatBoostDefinition::ShipTarget::CREW_TARGET:
+            if ((CrewTarget*)orig != statBoost.crewSource->crewTarget) return false;
+            break;
         }
 
         if (statBoost.crewSource == orig)
@@ -1096,6 +1110,8 @@ bool CrewMember_Extend::BoostCheck(const StatBoost& statBoost)
     if (statBoost.def->healthReq.second != -1.f && orig->health.first > statBoost.def->healthReq.second) return false;
     if (statBoost.def->healthFractionReq.first != -1.f && orig->health.first/orig->health.second < statBoost.def->healthFractionReq.first) return false;
     if (statBoost.def->healthFractionReq.second != -1.f && orig->health.first/orig->health.second > statBoost.def->healthFractionReq.second) return false;
+    if (statBoost.def->oxygenReq.first != -1.f && ShipGraph::GetShipInfo(orig->currentShipId)->GetRoomOxygen(orig->iRoomId) < statBoost.def->oxygenReq.first) return false;
+    if (statBoost.def->oxygenReq.second != -1.f && ShipGraph::GetShipInfo(orig->currentShipId)->GetRoomOxygen(orig->iRoomId) > statBoost.def->oxygenReq.second) return false;
 
     if (!statBoost.def->extraConditions.empty())
     {

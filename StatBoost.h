@@ -94,6 +94,7 @@ struct StatBoostDefinition
         OTHER_ALL,
         ORIGINAL_SHIP,
         ORIGINAL_OTHER_SHIP,
+        CREW_TARGET,
         ALL
     };
 
@@ -162,6 +163,7 @@ struct StatBoostDefinition
     bool functionalTarget = false;
     std::pair<float,float> healthReq = {-1.f, -1.f};
     std::pair<float,float> healthFractionReq = {-1.f, -1.f};
+    std::pair<float,float> oxygenReq = {-1.f, -1.f};
 
     int realBoostId = -1;
     int stackId = 0;
