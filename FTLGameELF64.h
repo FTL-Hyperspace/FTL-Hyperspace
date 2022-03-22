@@ -2859,6 +2859,7 @@ struct FocusWindow;
 struct FocusWindow
 {
 	LIBZHL_API void MouseClick(int x, int y);
+	LIBZHL_API void MouseMove(int x, int y);
 	
 	void *vptr;
 	bool bOpen;
