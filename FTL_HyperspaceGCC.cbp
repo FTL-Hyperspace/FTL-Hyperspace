@@ -319,6 +319,7 @@
 				<Option createDefFile="1" />
 				<Option createStaticLib="1" />
 				<Compiler>
+					<Add option="-fPIC" />
 					<Add option="-m32" />
 					<Add option="-Wall" />
 					<Add option="-g" />
@@ -357,6 +358,7 @@
 				<Option createDefFile="1" />
 				<Option createStaticLib="1" />
 				<Compiler>
+					<Add option="-fPIC" />
 					<Add option="-m32" />
 					<Add option="-Wall" />
 					<Add option="-g" />
@@ -396,6 +398,7 @@
 				<Option createDefFile="1" />
 				<Option createStaticLib="1" />
 				<Compiler>
+					<Add option="-fPIC" />
 					<Add option="-m32" />
 					<Add option="-O3" />
 					<Add option="-Wall" />
@@ -432,6 +435,7 @@
 				<Option createDefFile="1" />
 				<Option createStaticLib="1" />
 				<Compiler>
+					<Add option="-fPIC" />
 					<Add option="-m32" />
 					<Add option="-O3" />
 					<Add option="-Wall" />
