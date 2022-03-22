@@ -1081,8 +1081,8 @@ using namespace ZHL;
                             out("\n\t\t\"push rbp\\n\\t\"")
                             out("\n\t\t\"mov rbp, rsp\\n\\t\"")
                         else
-                            out("\n\t\t\"pushl %%rbp\\n\\t\"")
-                            out("\n\t\t\"movl %%rsp, %%rbp\\n\\t\"")
+                            out("\n\t\t\"pushq %%rbp\\n\\t\"")
+                            out("\n\t\t\"movq %%rsp, %%rbp\\n\\t\"")
                         end
                     end
 				end
@@ -1120,7 +1120,7 @@ using namespace ZHL;
                             if useIntelASMSyntax then
                                 out("\n\t\t\"sub rsp, %d\\n\\t\"", stackAlignOffset)
                             else
-                                out("\n\t\t\"subl $%d, %%rsp\\n\\t\"", stackAlignOffset)
+                                out("\n\t\t\"subq $%d, %%rsp\\n\\t\"", stackAlignOffset)
                             end
                         end
 					end
@@ -1156,12 +1156,12 @@ using namespace ZHL;
                         out("\n\t\t\"push r14\\n\\t\"")
                         out("\n\t\t\"push r15\\n\\t\"")
                     else
-                        out("\n\t\t\"pushl %%rbx\\n\\t\"")
-                        out("\n\t\t\"pushl %%rbp\\n\\t\"")
-                        out("\n\t\t\"pushl %%r12\\n\\t\"")
-                        out("\n\t\t\"pushl %%r13\\n\\t\"")
-                        out("\n\t\t\"pushl %%r14\\n\\t\"")
-                        out("\n\t\t\"pushl %%r15\\n\\t\"")
+                        out("\n\t\t\"pushq %%rbx\\n\\t\"")
+                        out("\n\t\t\"pushq %%rbp\\n\\t\"")
+                        out("\n\t\t\"pushq %%r12\\n\\t\"")
+                        out("\n\t\t\"pushq %%r13\\n\\t\"")
+                        out("\n\t\t\"pushq %%r14\\n\\t\"")
+                        out("\n\t\t\"pushq %%r15\\n\\t\"")
                     end
                 end
 				
@@ -1192,7 +1192,7 @@ using namespace ZHL;
                                     if useIntelASMSyntax then
                                         out("\n\t\t\"push [rbp+%d]\\n\\t\"\t\t// %s", arg.pos + p, arg.name)
                                     else
-                                        out("\n\t\t\"pushl %d(%%rbp)\\n\\t\"\t\t// %s", arg.pos + p, arg.name)
+                                        out("\n\t\t\"pushq %d(%%rbp)\\n\\t\"\t\t// %s", arg.pos + p, arg.name)
                                     end
                                 end
                                 sizePushed = sizePushed + archPushSize
@@ -1245,7 +1245,7 @@ using namespace ZHL;
                                 if useIntelASMSyntax then
                                     out("\n\t\t\"mov %s, [rbp+%d]\\n\\t\"\t// %s", arg.reg, arg.pos, arg.name)
                                 else
-                                    out("\n\t\t\"movl %d(%%rbp), %%%s\\n\\t\"\t// %s", arg.pos, arg.reg, arg.name)
+                                    out("\n\t\t\"movq %d(%%rbp), %%%s\\n\\t\"\t// %s", arg.pos, arg.reg, arg.name)
                                 end
                             end
 						end
@@ -1279,7 +1279,7 @@ using namespace ZHL;
                             if useIntelASMSyntax then
                                 out("\n\t\t\"add rsp, %d\\n\\t\"", sizePushed)
                             else
-                                out("\n\t\t\"addl $%d, %%rsp\\n\\t\"", sizePushed)
+                                out("\n\t\t\"addq $%d, %%rsp\\n\\t\"", sizePushed)
                             end
                         end
                     end
@@ -1312,12 +1312,12 @@ using namespace ZHL;
                         out("\n\t\t\"pop rbp\\n\\t\"")
                         out("\n\t\t\"pop rbx\\n\\t\"")
                     else
-                        out("\n\t\t\"popl %%r15\\n\\t\"")
-                        out("\n\t\t\"popl %%r14\\n\\t\"")
-                        out("\n\t\t\"popl %%r13\\n\\t\"")
-                        out("\n\t\t\"popl %%r12\\n\\t\"")
-                        out("\n\t\t\"popl %%rbp\\n\\t\"")
-                        out("\n\t\t\"popl %%rbx\\n\\t\"")
+                        out("\n\t\t\"popq %%r15\\n\\t\"")
+                        out("\n\t\t\"popq %%r14\\n\\t\"")
+                        out("\n\t\t\"popq %%r13\\n\\t\"")
+                        out("\n\t\t\"popq %%r12\\n\\t\"")
+                        out("\n\t\t\"popq %%rbp\\n\\t\"")
+                        out("\n\t\t\"popq %%rbx\\n\\t\"")
                     end
                 end
 				
@@ -1345,8 +1345,8 @@ using namespace ZHL;
                             out("\n\t\t\"movl %%ebp, %%esp\\n\\t\"")
                             out("\n\t\t\"popl %%ebp\\n\\t\"")
                         elseif arch == "x86_64"  then
-                            out("\n\t\t\"movl %%rbp, %%rsp\\n\\t\"")
-                            out("\n\t\t\"popl %%rbp\\n\\t\"")
+                            out("\n\t\t\"movq %%rbp, %%rsp\\n\\t\"")
+                            out("\n\t\t\"popq %%rbp\\n\\t\"")
                         end
 						if func.stacksize > 0 and not isPOSIX then
 							out("\n\t\t\"ret $%d\\n\\t\"", func.stacksize)

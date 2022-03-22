@@ -19,6 +19,15 @@
     #define "Unknown OS"
 #endif
 
+#define concatLiteralString(...) __VA_ARGS__
+#ifdef __i386__
+    #define PTR_PRINT_F "0x%08x"
+#elif defined(__amd64__)
+    #define PTR_PRINT_F "0x%016x"
+#else
+    #error "Unknown processor architecture not supported."
+#endif // Architecture
+
 using namespace ZHL;
 
 static const char *g_logPath = NULL;
@@ -219,7 +228,7 @@ int NoOpDefinition::Load()
     }
     MEMPROT_REPROTECT(ptrToCode, noopingSize, dwOldProtect);
 
-	Log("Found address for %s: %08x, wrote NOP's for %d bytes\n", _name, (unsigned int) m.address, m.length);
+	Log(concatLiteralString("Found address for %s: ", PTR_PRINT_F, ", wrote NOP's for %d bytes\n"), _name, (uintptr_t) m.address, m.length);
 
 	return 1;
 }
@@ -256,7 +265,7 @@ int FunctionDefinition::Load()
 	}
 	_address = sig.GetAddress<void*>();
 	*_outFunc = _address;
-	Log("Found address for %s: %08x, dist %d\n", _name, (unsigned int)_address, sig.GetDistance());
+	Log(concatLiteralString("Found address for %s: ", PTR_PRINT_F, ", dist %d\n"), _name, (uintptr_t)_address, sig.GetDistance());
 
 	return 1;
 }
@@ -450,7 +459,7 @@ int FunctionHook_private::Install()
 
 
 	// Call the hook
-	P(0xE8); PL((unsigned int)_hook - (unsigned int)ptr - 4);	// call _hook
+	P(0xE8); PL((uintptr_t)_hook - (uintptr_t)ptr - 4);	// call _hook
 
 #if OUR_OWN_FUNCTIONS_CALLEE_DOES_CLEANUP == 0
     if(sizePushed != 0)
@@ -613,7 +622,7 @@ int FunctionHook_private::Install()
         sizePushed -= 4;
 
 	// Call the original function
-	P(0xE8); PL((unsigned int)original - (unsigned int)ptr - 4);	// call original
+	P(0xE8); PL((uintptr_t)original - (uintptr_t)ptr - 4);	// call original
 
 	// If the function requires caller cleanup, increment the stack pointer here
 	if(def->NeedsCallerCleanup() && sizePushed != 0)
@@ -656,7 +665,7 @@ int FunctionHook_private::Install()
 
 	Log("Successfully hooked function %s\n", _name);
 #ifdef DEBUG
-    Log("InternalHookAddress: %08x\n", (unsigned int)&_internalHook);
+    Log(concatLiteralString("InternalHookAddress: ", PTR_PRINT_F, "\n"), (uintptr_t)&_internalHook);
 #endif // DEBUG
 	Log("%s\ninternalHook:\n", _name);
     
@@ -665,7 +674,7 @@ int FunctionHook_private::Install()
     Log("\n");
 
 #ifdef DEBUG
-    Log("InternalSuperAddress: %08x\n", (unsigned int)&_internalSuper);
+    Log(concatLiteralString("InternalSuperAddress: ", PTR_PRINT_F, "\n"), (uintptr_t)&_internalSuper);
 #endif // DEBUG
 	Log("\ninternalSuper:\n", _name);
 

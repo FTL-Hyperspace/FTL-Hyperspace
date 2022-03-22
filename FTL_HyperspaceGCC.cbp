@@ -509,6 +509,7 @@
 				<Option createDefFile="1" />
 				<Option createStaticLib="1" />
 				<Compiler>
+					<Add option="-fPIC" />
 					<Add option="-m64" />
 					<Add option="-Wall" />
 					<Add option="-g" />

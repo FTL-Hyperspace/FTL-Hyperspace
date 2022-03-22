@@ -14,7 +14,6 @@
         #define PTR_PRINT_F "0x%08" PRIxPTR
     #elif defined(__amd64__)
         #define PTR_PRINT_F "0x%016" PRIxPTR
-        #error "AMD64 Architecture not supported yet."
     #else
         #error "Unknown processor architecture not supported."
     #endif // Architecture
