@@ -8,7 +8,7 @@ bool Store::KeyDown(Store *this<ecx>, SDLKey key);
 void Store::OnLoop(Store *this<ecx>);
 "578d7c240883e4f0ff77fc5589e5575389cb83ec10c64104008b897c06000085c974??8b01c70424????????ff5030":
 void Store::Close(Store *this<ecx>);
-"578d7c240883e4f0ff77fc5589e557565389cb81ec????????8b07898560feffff8b4704898564feffff8d81b0040000":
+"578d7c240883e4f0ff77fc5589e557565389cb83ec1c8b378b7f04893424897c2404e8????????8b837c06000083ec0885c074??8d8b68010000897c2404893424":
 void Store::MouseMove(Store *this<ecx>, int x, int y);
 "5589e55389cb83e4f0e8????????8d43288d8b90000000c703????????c7432400000000c64328008943208d4344c6433801c7434000000000":
 void Store::constructor(Store *this<ecx>);

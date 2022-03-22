@@ -1282,6 +1282,14 @@ void StoreComplete::MouseClick(int x, int y)
 
 void StoreComplete::MouseMove(int x, int y)
 {
+    orig->FocusWindow::MouseMove(x, y);
+
+    if (orig->confirmBuy)
+    {
+        orig->confirmDialog.MouseMove(x, y);
+        return;
+    }
+
     orig->infoBox.Clear();
 
     for (auto i : resourceBoxes)
