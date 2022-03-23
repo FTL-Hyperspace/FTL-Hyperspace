@@ -2,6 +2,8 @@
 cleanup void AchievementTracker::LoadAchievementDescriptions(AchievementTracker *this<rdi>);
 "4157b90200000041564989d631d241554989fd":
 cleanup std::vector<CAchievement*> AchievementTracker::GetShipAchievements<rdi>(AchievementTracker *this<rsi>, const std::string& ship<rdx>);
+".41574863c64189f7":
+cleanup void AchievementTracker::CheckShipAchievements(AchievementTracker *this<rdi>, int shipId<rsi>, bool hidePopups<rdx>);
 "415741564531f6415541545531ed534889fb4883ec68":
 cleanup void AchievementTracker::SetAchievement(AchievementTracker *this<rdi>, const std::string& achievement<rsi>, bool noPopup<rdx>, bool sendToServer<rcx>);
 "83fa0274434863f6488b4f184863d2":

@@ -2,6 +2,8 @@
 void AchievementTracker::LoadAchievementDescriptions(AchievementTracker *this<ecx>);
 "578d7c240883e4f0ff77fc5589f889e557565383ec5c8b40048b3f894db4c744240802000000c744240400000000":
 std::vector<CAchievement*> AchievementTracker::GetShipAchievements<ecx>(AchievementTracker *this, const std::string& ship);
+".5789ca8d7c240883e4f0ff77fc5589e557565381ec8c000000":
+void AchievementTracker::CheckShipAchievements(AchievementTracker *this<ecx>, int shipId, bool hidePopups);
 "578d7c240883e4f0ff77fc5589e557565381ec????????8b0789458c0fb6470488857fffffff8b411889c2":
 void AchievementTracker::SetAchievement(AchievementTracker *this<ecx>, const std::string& achievement, bool noPopup, bool sendToServer);
 "578d7c240883e4f0ff77fc5589e55783ec148b57048b0783fa0274??8b790c8d04408d04872":

@@ -544,6 +544,7 @@ struct LIBZHL_INTERFACE AnimationTracker
 
 struct AchievementTracker
 {
+	LIBZHL_API void CheckShipAchievements(int shipId, bool hidePopups);
 	LIBZHL_API void __stdcall DO_NOT_HOOK_1();
 	LIBZHL_API bool GetFlag(const std::string &flagName);
 	LIBZHL_API std::vector<CAchievement*> GetShipAchievements(const std::string &ship);
