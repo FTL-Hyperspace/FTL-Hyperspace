@@ -6295,23 +6295,6 @@ struct TopScore
 
 struct ScoreKeeper
 {
-	std::pair<int, int> GetShipId(const std::string& blueprintName)
-	{
-		int variant = 0;
-		
-		if (blueprintName.find("_2") != std::string::npos)
-		{
-			variant = 1;
-		}
-		if (blueprintName.find("_3") != std::string::npos)
-		{
-			variant = 2;
-		}
-		
-		int type = GetShipIdType(blueprintName); // TODO: This might be able to be changed like the Linux version to properly returning a std::pair and then maybe this whole thing could also just be a hook?
-		
-		return std::pair<int, int>(type, variant);
-	}
 
 	LIBZHL_API void AddScrapCollected(int scrap);
 	LIBZHL_API int AddTopScoreList(TopScore &score, std::vector<TopScore> &topScoreList);
@@ -6320,7 +6303,7 @@ struct ScoreKeeper
 	LIBZHL_API void CycleLeft();
 	LIBZHL_API void CycleRight();
 	LIBZHL_API std::string GetShipBlueprint(int index);
-	LIBZHL_API int GetShipIdType(const std::string &blueprintName);
+	LIBZHL_API std::pair<int, int> GetShipId(const std::string &blueprintName);
 	LIBZHL_API bool GetShipUnlocked(int shipId, int shipVariant);
 	LIBZHL_API bool KeyDown(SDLKey key);
 	LIBZHL_API void LoadGame(int fd);

@@ -25956,16 +25956,15 @@ namespace _func763
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("ScoreKeeper::GetShipIdType", typeid(int (ScoreKeeper::*)(const std::string &)), ".578d7c240883e4f0ff77fc5589e5575653", argdata, 2, 1, &func);
+	static FunctionDefinition funcObj("ScoreKeeper::GetShipId", typeid(std::pair<int, int> (ScoreKeeper::*)(const std::string &)), ".578d7c240883e4f0ff77fc5589e5575653", argdata, 2, 9, &func);
 }
 
-FUNC_NAKED int ScoreKeeper::GetShipIdType(const std::string &blueprintName)
+FUNC_NAKED std::pair<int, int> ScoreKeeper::GetShipId(const std::string &blueprintName)
 {
 	__asm__
 	(
 		"pushl %%ebp\n\t"
 		"movl %%esp, %%ebp\n\t"
-		"pushl %%edx\n\t"
 		"pushl %%ecx\n\t"
 		"pushl %%ebx\n\t"
 		"pushl %%esi\n\t"
@@ -25977,7 +25976,6 @@ FUNC_NAKED int ScoreKeeper::GetShipIdType(const std::string &blueprintName)
 		"popl %%esi\n\t"
 		"popl %%ebx\n\t"
 		"popl %%ecx\n\t"
-		"popl %%edx\n\t"
 		"movl %%ebp, %%esp\n\t"
 		"popl %%ebp\n\t"
 		"ret $4\n\t"

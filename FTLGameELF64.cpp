@@ -17761,10 +17761,10 @@ namespace _func748
 {
 	static void *func = 0;
 	static short argdata[] = {0x107, 0x106};
-	static FunctionDefinition funcObj("ScoreKeeper::GetShipId_DO_NOT_USE_DIRECTLY", typeid(std::pair<int, int> (ScoreKeeper::*)(const std::string &)), ".4157415641554531ed41544989f45553", argdata, 2, 2, &func);
+	static FunctionDefinition funcObj("ScoreKeeper::GetShipId", typeid(std::pair<int, int> (ScoreKeeper::*)(const std::string &)), ".4157415641554531ed41544989f45553", argdata, 2, 2, &func);
 }
 
-FUNC_NAKED std::pair<int, int> ScoreKeeper::GetShipId_DO_NOT_USE_DIRECTLY(const std::string &blueprintName)
+FUNC_NAKED std::pair<int, int> ScoreKeeper::GetShipId(const std::string &blueprintName)
 {
 	__asm__
 	(

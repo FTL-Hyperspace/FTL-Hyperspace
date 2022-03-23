@@ -6232,24 +6232,6 @@ struct TopScore
 
 struct ScoreKeeper
 {
-	std::pair<int, int> GetShipId(const std::string& blueprintName)
-	{
-		// TODO: Maybe this should be a hook?
-		int variant = 0;
-		
-		if (blueprintName.find("_2") != std::string::npos)
-		{
-			variant = 1;
-		}
-		if (blueprintName.find("_3") != std::string::npos)
-		{
-			variant = 2;
-		}
-		
-		std::pair<int, int> typePair = GetShipId_DO_NOT_USE_DIRECTLY(blueprintName);
-		
-		return std::pair<int, int>(typePair.first, variant);
-	}
 
 	LIBZHL_API void AddScrapCollected(int scrap);
 	LIBZHL_API int AddTopScoreList(TopScore &score, std::vector<TopScore> &topScoreList);
@@ -6258,7 +6240,7 @@ struct ScoreKeeper
 	LIBZHL_API void CycleLeft();
 	LIBZHL_API void CycleRight();
 	LIBZHL_API std::string GetShipBlueprint(int index);
-	LIBZHL_API std::pair<int, int> GetShipId_DO_NOT_USE_DIRECTLY(const std::string &blueprintName);
+	LIBZHL_API std::pair<int, int> GetShipId(const std::string &blueprintName);
 	LIBZHL_API bool GetShipUnlocked(int shipId, int shipVariant);
 	LIBZHL_API bool KeyDown(SDLKey key);
 	LIBZHL_API void LoadGame(int fd);

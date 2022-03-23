@@ -1,7 +1,7 @@
 "4157415641554c8daf8000000041544c8da78001000055488dafa000000053488d9f900000004883ec48":
 cleanup void ScoreKeeper::constructor(ScoreKeeper *this<rdi>);
 ".4157415641554531ed41544989f45553":
-cleanup std::pair<int, int> ScoreKeeper::GetShipId_DO_NOT_USE_DIRECTLY(ScoreKeeper *this<rdi>, const std::string& blueprintName<rsi>);
+cleanup std::pair<int, int> ScoreKeeper::GetShipId(ScoreKeeper *this<rdi>, const std::string& blueprintName<rsi>);
 ".4863d2534889fb":
 cleanup std::string ScoreKeeper::GetShipBlueprint<rdi>(ScoreKeeper *this<rsi>, int index<rdx>);
 "!.41544989fc5589f5":
@@ -55,22 +55,4 @@ ScoreKeeper* Global_ScoreKeeper_Keeper;
 
 struct ScoreKeeper
 {{
-	std::pair<int, int> GetShipId(const std::string& blueprintName)
-	{
-		// TODO: Maybe this should be a hook?
-		int variant = 0;
-		
-		if (blueprintName.find("_2") != std::string::npos)
-		{
-			variant = 1;
-		}
-		if (blueprintName.find("_3") != std::string::npos)
-		{
-			variant = 2;
-		}
-		
-		std::pair<int, int> typePair = GetShipId_DO_NOT_USE_DIRECTLY(blueprintName);
-		
-		return std::pair<int, int>(typePair.first, variant);
-	}
 }};

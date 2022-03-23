@@ -15,7 +15,7 @@ void ScoreKeeper::SetVictory(ScoreKeeper *this<ecx>, bool victory);
 "5789c883c0148d7c240883e4f0ff77fc5589e557565389cf83ec5c89410c89c883c03c894db0c701????????":
 void ScoreKeeper::constructor(ScoreKeeper *this<ecx>);
 ".578d7c240883e4f0ff77fc5589e5575653":
-int ScoreKeeper::GetShipIdType(ScoreKeeper *this<ecx>, const std::string& blueprintName);
+std::pair<int, int> ScoreKeeper::GetShipId(ScoreKeeper *this<ecx>, const std::string& blueprintName);
 "578d7c240883e4f0ff77fc5589f889e557565381ec????????8b4004898d28ffffff8b3f83f808898530ffffff898124130000":
 void ScoreKeeper::LoadVersionFour(ScoreKeeper *this<ecx>, int file, int version);
 "578d7c240883e4f0ff77fc5589e557565383ec3c8b07894ddcb9????????8945d4e8????????c745e000000000c745e4000000008b4ddc8b75e4":
@@ -55,21 +55,4 @@ ScoreKeeper* Global_ScoreKeeper_Keeper;
 
 struct ScoreKeeper
 {{
-	std::pair<int, int> GetShipId(const std::string& blueprintName)
-	{
-		int variant = 0;
-		
-		if (blueprintName.find("_2") != std::string::npos)
-		{
-			variant = 1;
-		}
-		if (blueprintName.find("_3") != std::string::npos)
-		{
-			variant = 2;
-		}
-		
-		int type = GetShipIdType(blueprintName); // TODO: This might be able to be changed like the Linux version to properly returning a std::pair and then maybe this whole thing could also just be a hook?
-		
-		return std::pair<int, int>(type, variant);
-	}
 }};
