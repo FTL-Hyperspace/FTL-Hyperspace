@@ -267,7 +267,7 @@ HOOK_METHOD(ScoreKeeper, GetShipId, (const std::string &blueprintName) -> std::p
 {
     LOG_HOOK("HOOK_METHOD -> ScoreKeeper::GetShipId -> Begin (CustomAchievements.cpp)\n")
     std::pair<int, int> ret = super(blueprintName);
-    if (ret.first == -1 && inSetSectorEight) ret.first = 9; // dummy valid ship id, this affects type C unlock and lanius cruiser doesn't have a type C
+    if (ret.first == -1 && inSetSectorEight) ret.first = 8; // dummy valid ship id, this affects type C unlock and crystal cruiser doesn't have a type C or any s8-related unlocks
     return ret;
 }
 
