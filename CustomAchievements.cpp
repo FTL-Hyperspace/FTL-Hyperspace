@@ -250,3 +250,30 @@ void CustomAchievementTracker::WipeProfile()
     UpdateAchievements();
     ResetFlags();
 }
+
+// Fix invalid memory access
+
+static bool inSetSectorEight = false;
+
+HOOK_METHOD(AchievementTracker, SetSectorEight, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> AchievementTracker::SetSectorEight -> Begin (CustomAchievements.cpp)\n")
+    inSetSectorEight = true;
+    super();
+    inSetSectorEight = false;
+}
+
+HOOK_METHOD(ScoreKeeper, GetShipId, (const std::string &blueprintName) -> std::pair<int, int>)
+{
+    LOG_HOOK("HOOK_METHOD -> ScoreKeeper::GetShipId -> Begin (CustomAchievements.cpp)\n")
+    std::pair<int, int> ret = super(blueprintName);
+    if (ret.first == -1 && inSetSectorEight) ret.first = 9; // dummy valid ship id, this affects type C unlock and lanius cruiser doesn't have a type C
+    return ret;
+}
+
+HOOK_METHOD(AchievementTracker, CheckShipAchievements, (int shipId, bool hidePopups) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> AchievementTracker::CheckShipAchievements -> Begin (CustomAchievements.cpp)\n")
+    if (shipId == -1) return;
+    super(shipId, hidePopups);
+}
