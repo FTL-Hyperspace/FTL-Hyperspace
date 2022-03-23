@@ -360,7 +360,7 @@ HOOK_METHOD(Upgrades, OnLoop, () -> void)
     LOG_HOOK("HOOK_METHOD -> Upgrades::OnLoop -> Begin (CustomUpgrades.cpp)\n")
     super();
 
-    CustomUpgrades::GetInstance()->OnLoop();
+    if (bOpen) CustomUpgrades::GetInstance()->OnLoop();
 }
 
 HOOK_METHOD(Upgrades, MouseClick, (int mX, int mY) -> void)
