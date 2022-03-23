@@ -416,6 +416,7 @@
 				</Compiler>
 				<Linker>
 					<Add option="-m32" />
+					<Add option="-s" />
 					<Add directory="discord/lib" />
 					<Add directory="/usr/lib/i386-linux-gnu" />
 				</Linker>
@@ -454,6 +455,7 @@
 				</Compiler>
 				<Linker>
 					<Add option="-m32" />
+					<Add option="-s" />
 					<Add directory="discord/lib" />
 					<Add directory="/usr/lib/i386-linux-gnu" />
 				</Linker>
