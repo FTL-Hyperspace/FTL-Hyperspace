@@ -1066,10 +1066,10 @@ bool CrewMember_Extend::BoostCheck(const StatBoost& statBoost)
             return false;
             break;
         case StatBoostDefinition::CrewTarget::CURRENT_ALLIES:
-            if ((ownerShip != orig->iShipId) == (statBoost.crewSource->bMindControlled == orig->bMindControlled)) return false;
+            if ((ownerShip != orig->iShipId) != orig->bMindControlled) return false;
             break;
         case StatBoostDefinition::CrewTarget::CURRENT_ENEMIES:
-            if ((ownerShip == orig->iShipId) == (statBoost.crewSource->bMindControlled == orig->bMindControlled)) return false;
+            if ((ownerShip == orig->iShipId) != orig->bMindControlled) return false;
             break;
         }
 
