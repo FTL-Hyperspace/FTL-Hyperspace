@@ -4719,6 +4719,7 @@ HOOK_METHOD(StarMap, LoadGame, (int fh) -> Location*)
     restartMusicTimer = nullptr;
 
     // jumpEvent
+    jumpEventQueue.clear();
     int n = FileHelper::readInteger(fh);
     for (int i=0; i<n; ++i)
     {
@@ -4731,6 +4732,7 @@ HOOK_METHOD(StarMap, LoadGame, (int fh) -> Location*)
     }
 
     // deathEvent
+    deathEventQueue.clear();
     n = FileHelper::readInteger(fh);
     for (int i=0; i<n; ++i)
     {
