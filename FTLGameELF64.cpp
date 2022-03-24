@@ -20,20 +20,11 @@ namespace _func0
 	static FunctionDefinition funcObj("AchievementTracker::LoadAchievementDescriptions", typeid(void (AchievementTracker::*)()), "4157be????????41564989fe4155415455534881ece8020100", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void AchievementTracker::LoadAchievementDescriptions()
+void AchievementTracker::LoadAchievementDescriptions()
 {
-	__asm__
-	(
-		"pushq %%rbp\n\t"
-		"movq %%rsp, %%rbp\n\t"
-			// rdi has this
-		"call *%0\n\t"
-		"movq %%rbp, %%rsp\n\t"
-		"popq %%rbp\n\t"
-		"ret\n\t"
-		 :: "m"(_func0::func)
-		 : "rdi"
-	);
+	typedef void (*custom_arg_funcptr_t)(AchievementTracker *this_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func0::func;
+	return execfunc(this);
 }
 
 namespace _func1
@@ -43,22 +34,11 @@ namespace _func1
 	static FunctionDefinition funcObj("AchievementTracker::GetShipAchievements", typeid(std::vector<CAchievement*> (AchievementTracker::*)(const std::string &)), "4157b90200000041564989d631d241554989fd", argdata, 3, 2, &func);
 }
 
-FUNC_NAKED std::vector<CAchievement*> AchievementTracker::GetShipAchievements(const std::string &ship)
+std::vector<CAchievement*> AchievementTracker::GetShipAchievements(const std::string &ship)
 {
-	__asm__
-	(
-		"pushq %%rbp\n\t"
-		"movq %%rsp, %%rbp\n\t"
-			// rdi has implicit_output
-			// rsi has this
-			// rdx has ship
-		"call *%0\n\t"
-		"movq %%rbp, %%rsp\n\t"
-		"popq %%rbp\n\t"
-		"ret\n\t"
-		 :: "m"(_func1::func)
-		 : "rdi", "rsi", "rdx"
-	);
+	typedef std::vector<CAchievement*> (*custom_arg_funcptr_t)(AchievementTracker *this_arg, const std::string &ship_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1::func;
+	return execfunc(this, ship);
 }
 
 namespace _func2
@@ -68,22 +48,11 @@ namespace _func2
 	static FunctionDefinition funcObj("AchievementTracker::CheckShipAchievements", typeid(void (AchievementTracker::*)(int , bool )), ".41574863c64189f7", argdata, 3, 6, &func);
 }
 
-FUNC_NAKED void AchievementTracker::CheckShipAchievements(int shipId, bool hidePopups)
+void AchievementTracker::CheckShipAchievements(int shipId, bool hidePopups)
 {
-	__asm__
-	(
-		"pushq %%rbp\n\t"
-		"movq %%rsp, %%rbp\n\t"
-			// rdi has this
-			// rsi has shipId
-			// rdx has hidePopups
-		"call *%0\n\t"
-		"movq %%rbp, %%rsp\n\t"
-		"popq %%rbp\n\t"
-		"ret\n\t"
-		 :: "m"(_func2::func)
-		 : "rdi", "rsi", "rdx"
-	);
+	typedef void (*custom_arg_funcptr_t)(AchievementTracker *this_arg, int shipId_arg, bool hidePopups_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func2::func;
+	return execfunc(this, shipId, hidePopups);
 }
 
 namespace _func3
@@ -93,23 +62,11 @@ namespace _func3
 	static FunctionDefinition funcObj("AchievementTracker::SetAchievement", typeid(void (AchievementTracker::*)(const std::string &, bool , bool )), "415741564531f6415541545531ed534889fb4883ec68", argdata, 4, 6, &func);
 }
 
-FUNC_NAKED void AchievementTracker::SetAchievement(const std::string &achievement, bool noPopup, bool sendToServer)
+void AchievementTracker::SetAchievement(const std::string &achievement, bool noPopup, bool sendToServer)
 {
-	__asm__
-	(
-		"pushq %%rbp\n\t"
-		"movq %%rsp, %%rbp\n\t"
-			// rdi has this
-			// rsi has achievement
-			// rdx has noPopup
-			// rcx has sendToServer
-		"call *%0\n\t"
-		"movq %%rbp, %%rsp\n\t"
-		"popq %%rbp\n\t"
-		"ret\n\t"
-		 :: "m"(_func3::func)
-		 : "rdi", "rsi", "rdx", "rcx"
-	);
+	typedef void (*custom_arg_funcptr_t)(AchievementTracker *this_arg, const std::string &achievement_arg, bool noPopup_arg, bool sendToServer_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func3::func;
+	return execfunc(this, achievement, noPopup, sendToServer);
 }
 
 namespace _func4
@@ -119,22 +76,11 @@ namespace _func4
 	static FunctionDefinition funcObj("AchievementTracker::UnlockShip", typeid(void (AchievementTracker::*)(int , int )), "83fa0274434863f6488b4f184863d2", argdata, 3, 6, &func);
 }
 
-FUNC_NAKED void AchievementTracker::UnlockShip(int shipId, int shipType)
+void AchievementTracker::UnlockShip(int shipId, int shipType)
 {
-	__asm__
-	(
-		"pushq %%rbp\n\t"
-		"movq %%rsp, %%rbp\n\t"
-			// rdi has this
-			// rsi has shipId
-			// rdx has shipType
-		"call *%0\n\t"
-		"movq %%rbp, %%rsp\n\t"
-		"popq %%rbp\n\t"
-		"ret\n\t"
-		 :: "m"(_func4::func)
-		 : "rdi", "rsi", "rdx"
-	);
+	typedef void (*custom_arg_funcptr_t)(AchievementTracker *this_arg, int shipId_arg, int shipType_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func4::func;
+	return execfunc(this, shipId, shipType);
 }
 
 namespace _func5
@@ -144,20 +90,11 @@ namespace _func5
 	static FunctionDefinition funcObj("AchievementTracker::SetSectorEight", typeid(void (AchievementTracker::*)()), "4157be????????415641554154554889fd534883ec68488d542430", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void AchievementTracker::SetSectorEight()
+void AchievementTracker::SetSectorEight()
 {
-	__asm__
-	(
-		"pushq %%rbp\n\t"
-		"movq %%rsp, %%rbp\n\t"
-			// rdi has this
-		"call *%0\n\t"
-		"movq %%rbp, %%rsp\n\t"
-		"popq %%rbp\n\t"
-		"ret\n\t"
-		 :: "m"(_func5::func)
-		 : "rdi"
-	);
+	typedef void (*custom_arg_funcptr_t)(AchievementTracker *this_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func5::func;
+	return execfunc(this);
 }
 
 namespace _func6
@@ -167,22 +104,11 @@ namespace _func6
 	static FunctionDefinition funcObj("AchievementTracker::GetShipMarker", typeid(int (AchievementTracker::*)(const std::string &, const std::string &)), "4157415641554989f541544989d455534883ec28488b3a", argdata, 3, 2, &func);
 }
 
-FUNC_NAKED int AchievementTracker::GetShipMarker(const std::string &baseName, const std::string &thisName)
+int AchievementTracker::GetShipMarker(const std::string &baseName, const std::string &thisName)
 {
-	__asm__
-	(
-		"pushq %%rbp\n\t"
-		"movq %%rsp, %%rbp\n\t"
-			// rdi has this
-			// rsi has baseName
-			// rdx has thisName
-		"call *%0\n\t"
-		"movq %%rbp, %%rsp\n\t"
-		"popq %%rbp\n\t"
-		"ret\n\t"
-		 :: "m"(_func6::func)
-		 : "rdi", "rsi", "rdx"
-	);
+	typedef int (*custom_arg_funcptr_t)(AchievementTracker *this_arg, const std::string &baseName_arg, const std::string &thisName_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func6::func;
+	return execfunc(this, baseName, thisName);
 }
 
 namespace _func7
@@ -192,21 +118,11 @@ namespace _func7
 	static FunctionDefinition funcObj("AchievementTracker::SetFlag", typeid(void (AchievementTracker::*)(const std::string &)), "4157488d4f50488d4748415641554154554889fd4889c7534889cb4883ec38", argdata, 2, 6, &func);
 }
 
-FUNC_NAKED void AchievementTracker::SetFlag(const std::string &flagName)
+void AchievementTracker::SetFlag(const std::string &flagName)
 {
-	__asm__
-	(
-		"pushq %%rbp\n\t"
-		"movq %%rsp, %%rbp\n\t"
-			// rdi has this
-			// rsi has flagName
-		"call *%0\n\t"
-		"movq %%rbp, %%rsp\n\t"
-		"popq %%rbp\n\t"
-		"ret\n\t"
-		 :: "m"(_func7::func)
-		 : "rdi", "rsi"
-	);
+	typedef void (*custom_arg_funcptr_t)(AchievementTracker *this_arg, const std::string &flagName_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func7::func;
+	return execfunc(this, flagName);
 }
 
 namespace _func8
@@ -237,21 +153,11 @@ namespace _func9
 	static FunctionDefinition funcObj("AchievementTracker::GetFlag", typeid(bool (AchievementTracker::*)(const std::string &)), ".4157488d47484989f7415641554154554889fd4889c7534883ec38", argdata, 2, 2, &func);
 }
 
-FUNC_NAKED bool AchievementTracker::GetFlag(const std::string &flagName)
+bool AchievementTracker::GetFlag(const std::string &flagName)
 {
-	__asm__
-	(
-		"pushq %%rbp\n\t"
-		"movq %%rsp, %%rbp\n\t"
-			// rdi has this
-			// rsi has flagName
-		"call *%0\n\t"
-		"movq %%rbp, %%rsp\n\t"
-		"popq %%rbp\n\t"
-		"ret\n\t"
-		 :: "m"(_func9::func)
-		 : "rdi", "rsi"
-	);
+	typedef bool (*custom_arg_funcptr_t)(AchievementTracker *this_arg, const std::string &flagName_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func9::func;
+	return execfunc(this, flagName);
 }
 
 namespace _func10
@@ -261,21 +167,11 @@ namespace _func10
 	static FunctionDefinition funcObj("AchievementTracker::SaveProfile", typeid(void (AchievementTracker::*)(int )), "41564989fe415541544189f45553488b7f30", argdata, 2, 6, &func);
 }
 
-FUNC_NAKED void AchievementTracker::SaveProfile(int file)
+void AchievementTracker::SaveProfile(int file)
 {
-	__asm__
-	(
-		"pushq %%rbp\n\t"
-		"movq %%rsp, %%rbp\n\t"
-			// rdi has this
-			// rsi has file
-		"call *%0\n\t"
-		"movq %%rbp, %%rsp\n\t"
-		"popq %%rbp\n\t"
-		"ret\n\t"
-		 :: "m"(_func10::func)
-		 : "rdi", "rsi"
-	);
+	typedef void (*custom_arg_funcptr_t)(AchievementTracker *this_arg, int file_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func10::func;
+	return execfunc(this, file);
 }
 
 namespace _func11
@@ -285,22 +181,11 @@ namespace _func11
 	static FunctionDefinition funcObj("AchievementTracker::LoadProfile", typeid(void (AchievementTracker::*)(int , int )), "41574989ff89f741564189d6415541544131e45589f5534883ec48", argdata, 3, 6, &func);
 }
 
-FUNC_NAKED void AchievementTracker::LoadProfile(int file, int version)
+void AchievementTracker::LoadProfile(int file, int version)
 {
-	__asm__
-	(
-		"pushq %%rbp\n\t"
-		"movq %%rsp, %%rbp\n\t"
-			// rdi has this
-			// rsi has file
-			// rdx has version
-		"call *%0\n\t"
-		"movq %%rbp, %%rsp\n\t"
-		"popq %%rbp\n\t"
-		"ret\n\t"
-		 :: "m"(_func11::func)
-		 : "rdi", "rsi", "rdx"
-	);
+	typedef void (*custom_arg_funcptr_t)(AchievementTracker *this_arg, int file_arg, int version_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func11::func;
+	return execfunc(this, file, version);
 }
 
 namespace _func12
@@ -310,20 +195,11 @@ namespace _func12
 	static FunctionDefinition funcObj("AchievementTracker::SetVictoryAchievement", typeid(void (AchievementTracker::*)()), "554889fd53488d9fc00000004883ec38", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void AchievementTracker::SetVictoryAchievement()
+void AchievementTracker::SetVictoryAchievement()
 {
-	__asm__
-	(
-		"pushq %%rbp\n\t"
-		"movq %%rsp, %%rbp\n\t"
-			// rdi has this
-		"call *%0\n\t"
-		"movq %%rbp, %%rsp\n\t"
-		"popq %%rbp\n\t"
-		"ret\n\t"
-		 :: "m"(_func12::func)
-		 : "rdi"
-	);
+	typedef void (*custom_arg_funcptr_t)(AchievementTracker *this_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func12::func;
+	return execfunc(this);
 }
 
 namespace _func13
@@ -333,20 +209,11 @@ namespace _func13
 	static FunctionDefinition funcObj("AchievementTracker::OnLanguageChange", typeid(void (AchievementTracker::*)()), "415741564989fe4155415455534881ecb8000000488b7738", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void AchievementTracker::OnLanguageChange()
+void AchievementTracker::OnLanguageChange()
 {
-	__asm__
-	(
-		"pushq %%rbp\n\t"
-		"movq %%rsp, %%rbp\n\t"
-			// rdi has this
-		"call *%0\n\t"
-		"movq %%rbp, %%rsp\n\t"
-		"popq %%rbp\n\t"
-		"ret\n\t"
-		 :: "m"(_func13::func)
-		 : "rdi"
-	);
+	typedef void (*custom_arg_funcptr_t)(AchievementTracker *this_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func13::func;
+	return execfunc(this);
 }
 
 namespace _func14
@@ -356,21 +223,11 @@ namespace _func14
 	static FunctionDefinition funcObj("AchievementTracker::SetTooltip", typeid(void (AchievementTracker::*)(CAchievement *)), "41574156415541544989f455534881ec48010000", argdata, 2, 6, &func);
 }
 
-FUNC_NAKED void AchievementTracker::SetTooltip(CAchievement *ach)
+void AchievementTracker::SetTooltip(CAchievement *ach)
 {
-	__asm__
-	(
-		"pushq %%rbp\n\t"
-		"movq %%rsp, %%rbp\n\t"
-			// rdi has this
-			// rsi has ach
-		"call *%0\n\t"
-		"movq %%rbp, %%rsp\n\t"
-		"popq %%rbp\n\t"
-		"ret\n\t"
-		 :: "m"(_func14::func)
-		 : "rdi", "rsi"
-	);
+	typedef void (*custom_arg_funcptr_t)(AchievementTracker *this_arg, CAchievement *ach_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func14::func;
+	return execfunc(this, ach);
 }
 
 namespace _func15
@@ -380,20 +237,11 @@ namespace _func15
 	static FunctionDefinition funcObj("AchievementTracker::ResetFlags", typeid(void (AchievementTracker::*)()), "53488b77584889fb488d7f48", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void AchievementTracker::ResetFlags()
+void AchievementTracker::ResetFlags()
 {
-	__asm__
-	(
-		"pushq %%rbp\n\t"
-		"movq %%rsp, %%rbp\n\t"
-			// rdi has this
-		"call *%0\n\t"
-		"movq %%rbp, %%rsp\n\t"
-		"popq %%rbp\n\t"
-		"ret\n\t"
-		 :: "m"(_func15::func)
-		 : "rdi"
-	);
+	typedef void (*custom_arg_funcptr_t)(AchievementTracker *this_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func15::func;
+	return execfunc(this);
 }
 
 AchievementTracker *Global_AchievementTracker_Tracker;
@@ -410,29 +258,11 @@ namespace _func17
 	static FunctionDefinition funcObj("Animation::constructor", typeid(void (Animation::*)(const std::string &, int , float , Pointf , int , int , int , int )), "41574989f7be????????", argdata, 9, 6, &func);
 }
 
-FUNC_NAKED void Animation::constructor(const std::string &_image, int _length, float _time, Pointf _position, int _imageWidth, int _imageHeight, int _stripStartX, int _numFrames)
+void Animation::constructor(const std::string &_image, int _length, float _time, Pointf _position, int _imageWidth, int _imageHeight, int _stripStartX, int _numFrames)
 {
-	__asm__
-	(
-		"pushq %%rbp\n\t"
-		"movq %%rsp, %%rbp\n\t"
-		"pushq 16(%%rbp)\n\t"		// _numFrames
-		"pushq 8(%%rbp)\n\t"		// _stripStartX
-			// rdi has this
-			// rsi has _image
-			// rdx has _length
-			// xmm0 has _time
-			// rcx has _position
-			// r8 has _imageWidth
-			// r9 has _imageHeight
-		"call *%0\n\t"
-		"addq $16, %%rsp\n\t"
-		"movq %%rbp, %%rsp\n\t"
-		"popq %%rbp\n\t"
-		"ret\n\t"
-		 :: "m"(_func17::func)
-		 : "rdi", "rsi", "rdx", "xmm0", "rcx", "r8", "r9"
-	);
+	typedef void (*custom_arg_funcptr_t)(Animation *this_arg, const std::string &_image_arg, int _length_arg, float _time_arg, Pointf _position_arg, int _imageWidth_arg, int _imageHeight_arg, int _stripStartX_arg, int _numFrames_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func17::func;
+	return execfunc(this, _image, _length, _time, _position, _imageWidth, _imageHeight, _stripStartX, _numFrames);
 }
 
 namespace _func18
@@ -442,25 +272,11 @@ namespace _func18
 	static FunctionDefinition funcObj("Animation::OnRender", typeid(void (Animation::*)(float , GL_Color , bool )), "4156415541544189f455534889fb4883ec30", argdata, 4, 6, &func);
 }
 
-FUNC_NAKED void Animation::OnRender(float opacity, GL_Color color, bool mirror)
+void Animation::OnRender(float opacity, GL_Color color, bool mirror)
 {
-	__asm__
-	(
-		"pushq %%rbp\n\t"
-		"movq %%rsp, %%rbp\n\t"
-		"pushq 16(%%rbp)\n\t"		// color
-		"pushq 8(%%rbp)\n\t"		// color
-			// rdi has this
-			// xmm0 has opacity
-			// rsi has mirror
-		"call *%0\n\t"
-		"addq $16, %%rsp\n\t"
-		"movq %%rbp, %%rsp\n\t"
-		"popq %%rbp\n\t"
-		"ret\n\t"
-		 :: "m"(_func18::func)
-		 : "rdi", "xmm0", "rsi"
-	);
+	typedef void (*custom_arg_funcptr_t)(Animation *this_arg, float opacity_arg, GL_Color color_arg, bool mirror_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func18::func;
+	return execfunc(this, opacity, color, mirror);
 }
 
 namespace _func19
@@ -470,20 +286,11 @@ namespace _func19
 	static FunctionDefinition funcObj("Animation::Update", typeid(void (Animation::*)()), "41564155415455534889fb4883ec30807f3c00", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void Animation::Update()
+void Animation::Update()
 {
-	__asm__
-	(
-		"pushq %%rbp\n\t"
-		"movq %%rsp, %%rbp\n\t"
-			// rdi has this
-		"call *%0\n\t"
-		"movq %%rbp, %%rsp\n\t"
-		"popq %%rbp\n\t"
-		"ret\n\t"
-		 :: "m"(_func19::func)
-		 : "rdi"
-	);
+	typedef void (*custom_arg_funcptr_t)(Animation *this_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func19::func;
+	return execfunc(this);
 }
 
 namespace _func20
@@ -493,21 +300,11 @@ namespace _func20
 	static FunctionDefinition funcObj("Animation::SetCurrentFrame", typeid(void (Animation::*)(int )), "8b4708897424fc8d50ff", argdata, 2, 6, &func);
 }
 
-FUNC_NAKED void Animation::SetCurrentFrame(int frame)
+void Animation::SetCurrentFrame(int frame)
 {
-	__asm__
-	(
-		"pushq %%rbp\n\t"
-		"movq %%rsp, %%rbp\n\t"
-			// rdi has this
-			// rsi has frame
-		"call *%0\n\t"
-		"movq %%rbp, %%rsp\n\t"
-		"popq %%rbp\n\t"
-		"ret\n\t"
-		 :: "m"(_func20::func)
-		 : "rdi", "rsi"
-	);
+	typedef void (*custom_arg_funcptr_t)(Animation *this_arg, int frame_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func20::func;
+	return execfunc(this, frame);
 }
 
 namespace _func21
@@ -517,21 +314,11 @@ namespace _func21
 	static FunctionDefinition funcObj("Animation::Start", typeid(void (Animation::*)(bool )), "534889fb4883ec104084f60f85", argdata, 2, 6, &func);
 }
 
-FUNC_NAKED void Animation::Start(bool reset)
+void Animation::Start(bool reset)
 {
-	__asm__
-	(
-		"pushq %%rbp\n\t"
-		"movq %%rsp, %%rbp\n\t"
-			// rdi has this
-			// rsi has reset
-		"call *%0\n\t"
-		"movq %%rbp, %%rsp\n\t"
-		"popq %%rbp\n\t"
-		"ret\n\t"
-		 :: "m"(_func21::func)
-		 : "rdi", "rsi"
-	);
+	typedef void (*custom_arg_funcptr_t)(Animation *this_arg, bool reset_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func21::func;
+	return execfunc(this, reset);
 }
 
 namespace _func22
@@ -541,22 +328,11 @@ namespace _func22
 	static FunctionDefinition funcObj("Animation::AddSoundQueue", typeid(void (Animation::*)(int , const std::string &)), "85f6784e488b4f78", argdata, 3, 6, &func);
 }
 
-FUNC_NAKED void Animation::AddSoundQueue(int frame, const std::string &sound)
+void Animation::AddSoundQueue(int frame, const std::string &sound)
 {
-	__asm__
-	(
-		"pushq %%rbp\n\t"
-		"movq %%rsp, %%rbp\n\t"
-			// rdi has this
-			// rsi has frame
-			// rdx has sound
-		"call *%0\n\t"
-		"movq %%rbp, %%rsp\n\t"
-		"popq %%rbp\n\t"
-		"ret\n\t"
-		 :: "m"(_func22::func)
-		 : "rdi", "rsi", "rdx"
-	);
+	typedef void (*custom_arg_funcptr_t)(Animation *this_arg, int frame_arg, const std::string &sound_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func22::func;
+	return execfunc(this, frame, sound);
 }
 
 namespace _func23
@@ -566,21 +342,11 @@ namespace _func23
 	static FunctionDefinition funcObj("Animation::SetAnimationId", typeid(void (Animation::*)(GL_Texture *)), "48393774354889f0", argdata, 2, 6, &func);
 }
 
-FUNC_NAKED void Animation::SetAnimationId(GL_Texture *tex)
+void Animation::SetAnimationId(GL_Texture *tex)
 {
-	__asm__
-	(
-		"pushq %%rbp\n\t"
-		"movq %%rsp, %%rbp\n\t"
-			// rdi has this
-			// rsi has tex
-		"call *%0\n\t"
-		"movq %%rbp, %%rsp\n\t"
-		"popq %%rbp\n\t"
-		"ret\n\t"
-		 :: "m"(_func23::func)
-		 : "rdi", "rsi"
-	);
+	typedef void (*custom_arg_funcptr_t)(Animation *this_arg, GL_Texture *tex_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func23::func;
+	return execfunc(this, tex);
 }
 
 namespace _func24
@@ -590,20 +356,11 @@ namespace _func24
 	static FunctionDefinition funcObj("Animation::destructor", typeid(void (Animation::*)()), "4157415641554989fd415455534883ec18488b8798000000", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void Animation::destructor()
+void Animation::destructor()
 {
-	__asm__
-	(
-		"pushq %%rbp\n\t"
-		"movq %%rsp, %%rbp\n\t"
-			// rdi has this
-		"call *%0\n\t"
-		"movq %%rbp, %%rsp\n\t"
-		"popq %%rbp\n\t"
-		"ret\n\t"
-		 :: "m"(_func24::func)
-		 : "rdi"
-	);
+	typedef void (*custom_arg_funcptr_t)(Animation *this_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func24::func;
+	return execfunc(this);
 }
 
 namespace _func25
@@ -613,21 +370,11 @@ namespace _func25
 	static FunctionDefinition funcObj("Animation::StartReverse", typeid(void (Animation::*)(bool )), "534889fb4883ec104084f67573", argdata, 2, 6, &func);
 }
 
-FUNC_NAKED void Animation::StartReverse(bool reset)
+void Animation::StartReverse(bool reset)
 {
-	__asm__
-	(
-		"pushq %%rbp\n\t"
-		"movq %%rsp, %%rbp\n\t"
-			// rdi has this
-			// rsi has reset
-		"call *%0\n\t"
-		"movq %%rbp, %%rsp\n\t"
-		"popq %%rbp\n\t"
-		"ret\n\t"
-		 :: "m"(_func25::func)
-		 : "rdi", "rsi"
-	);
+	typedef void (*custom_arg_funcptr_t)(Animation *this_arg, bool reset_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func25::func;
+	return execfunc(this, reset);
 }
 
 namespace _func26
@@ -637,21 +384,11 @@ namespace _func26
 	static FunctionDefinition funcObj("Animation::SetProgress", typeid(void (Animation::*)(float )), "f30f105730807f3c00", argdata, 2, 6, &func);
 }
 
-FUNC_NAKED void Animation::SetProgress(float progress)
+void Animation::SetProgress(float progress)
 {
-	__asm__
-	(
-		"pushq %%rbp\n\t"
-		"movq %%rsp, %%rbp\n\t"
-			// rdi has this
-			// xmm0 has progress
-		"call *%0\n\t"
-		"movq %%rbp, %%rsp\n\t"
-		"popq %%rbp\n\t"
-		"ret\n\t"
-		 :: "m"(_func26::func)
-		 : "rdi", "xmm0"
-	);
+	typedef void (*custom_arg_funcptr_t)(Animation *this_arg, float progress_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func26::func;
+	return execfunc(this, progress);
 }
 
 namespace _func27
@@ -661,20 +398,11 @@ namespace _func27
 	static FunctionDefinition funcObj("Animation::RandomStart", typeid(int (Animation::*)()), "803d????????00534889fb7543", argdata, 1, 2, &func);
 }
 
-FUNC_NAKED int Animation::RandomStart()
+int Animation::RandomStart()
 {
-	__asm__
-	(
-		"pushq %%rbp\n\t"
-		"movq %%rsp, %%rbp\n\t"
-			// rdi has this
-		"call *%0\n\t"
-		"movq %%rbp, %%rsp\n\t"
-		"popq %%rbp\n\t"
-		"ret\n\t"
-		 :: "m"(_func27::func)
-		 : "rdi"
-	);
+	typedef int (*custom_arg_funcptr_t)(Animation *this_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func27::func;
+	return execfunc(this);
 }
 
 namespace _func28

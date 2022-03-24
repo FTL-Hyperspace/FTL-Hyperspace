@@ -20,21 +20,11 @@ namespace _func0
 	static FunctionDefinition funcObj("AchievementTracker::LoadAchievementDescriptions", typeid(void (AchievementTracker::*)()), "5589e557565381ecfc0101008b4508????????????????89853cfefeff65a114000000", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void AchievementTracker::LoadAchievementDescriptions()
+void AchievementTracker::LoadAchievementDescriptions()
 {
-	__asm__
-	(
-		"pushl %%ebp\n\t"
-		"movl %%esp, %%ebp\n\t"
-		"subl $4, %%esp\n\t"
-		"pushl 8(%%ebp)\n\t"		// this
-		"call *%0\n\t"
-		"addl $4, %%esp\n\t"
-		"movl %%ebp, %%esp\n\t"
-		"popl %%ebp\n\t"
-		"ret\n\t"
-		 :: "m"(_func0::func)
-	);
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(AchievementTracker *this_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func0::func;
+	return execfunc(this);
 }
 
 namespace _func1
@@ -44,23 +34,11 @@ namespace _func1
 	static FunctionDefinition funcObj("AchievementTracker::GetShipAchievements", typeid(std::vector<CAchievement*> (AchievementTracker::*)(const std::string &)), "5557565383ec3c8b442458c744240c02000000", argdata, 3, 18, &func);
 }
 
-FUNC_NAKED std::vector<CAchievement*> AchievementTracker::GetShipAchievements(const std::string &ship)
+std::vector<CAchievement*> AchievementTracker::GetShipAchievements(const std::string &ship)
 {
-	__asm__
-	(
-		"pushl %%ebp\n\t"
-		"movl %%esp, %%ebp\n\t"
-		"subl $12, %%esp\n\t"
-		"pushl 16(%%ebp)\n\t"		// ship
-		"pushl 12(%%ebp)\n\t"		// this
-		"pushl 8(%%ebp)\n\t"		// implicit_output
-		"call *%0\n\t"
-		"addl $8, %%esp\n\t"
-		"movl %%ebp, %%esp\n\t"
-		"popl %%ebp\n\t"
-		"ret $4\n\t"
-		 :: "m"(_func1::func)
-	);
+	typedef std::vector<CAchievement*> __attribute__((cdecl)) (*custom_arg_funcptr_t)(AchievementTracker *this_arg, const std::string &ship_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1::func;
+	return execfunc(this, ship);
 }
 
 namespace _func2
@@ -70,23 +48,11 @@ namespace _func2
 	static FunctionDefinition funcObj("AchievementTracker::CheckShipAchievements", typeid(void (AchievementTracker::*)(int , bool )), ".5589e557565383ec5c8b450c0fb65d10", argdata, 3, 6, &func);
 }
 
-FUNC_NAKED void AchievementTracker::CheckShipAchievements(int shipId, bool hidePopups)
+void AchievementTracker::CheckShipAchievements(int shipId, bool hidePopups)
 {
-	__asm__
-	(
-		"pushl %%ebp\n\t"
-		"movl %%esp, %%ebp\n\t"
-		"subl $12, %%esp\n\t"
-		"pushl 16(%%ebp)\n\t"		// hidePopups
-		"pushl 12(%%ebp)\n\t"		// shipId
-		"pushl 8(%%ebp)\n\t"		// this
-		"call *%0\n\t"
-		"addl $12, %%esp\n\t"
-		"movl %%ebp, %%esp\n\t"
-		"popl %%ebp\n\t"
-		"ret\n\t"
-		 :: "m"(_func2::func)
-	);
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(AchievementTracker *this_arg, int shipId_arg, bool hidePopups_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func2::func;
+	return execfunc(this, shipId, hidePopups);
 }
 
 namespace _func3
@@ -96,24 +62,11 @@ namespace _func3
 	static FunctionDefinition funcObj("AchievementTracker::SetAchievement", typeid(void (AchievementTracker::*)(const std::string &, bool , bool )), "5589e557565331db83ec4c0fb645108b7508", argdata, 4, 6, &func);
 }
 
-FUNC_NAKED void AchievementTracker::SetAchievement(const std::string &achievement, bool noPopup, bool sendToServer)
+void AchievementTracker::SetAchievement(const std::string &achievement, bool noPopup, bool sendToServer)
 {
-	__asm__
-	(
-		"pushl %%ebp\n\t"
-		"movl %%esp, %%ebp\n\t"
-		"subl $8, %%esp\n\t"
-		"pushl 20(%%ebp)\n\t"		// sendToServer
-		"pushl 16(%%ebp)\n\t"		// noPopup
-		"pushl 12(%%ebp)\n\t"		// achievement
-		"pushl 8(%%ebp)\n\t"		// this
-		"call *%0\n\t"
-		"addl $16, %%esp\n\t"
-		"movl %%ebp, %%esp\n\t"
-		"popl %%ebp\n\t"
-		"ret\n\t"
-		 :: "m"(_func3::func)
-	);
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(AchievementTracker *this_arg, const std::string &achievement_arg, bool noPopup_arg, bool sendToServer_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func3::func;
+	return execfunc(this, achievement, noPopup, sendToServer);
 }
 
 namespace _func4
@@ -123,23 +76,11 @@ namespace _func4
 	static FunctionDefinition funcObj("AchievementTracker::UnlockShip", typeid(void (AchievementTracker::*)(int , int )), "538b4c24108b4424088b54240c83f902????8b580c8d14528d14938b128d1c8a", argdata, 3, 6, &func);
 }
 
-FUNC_NAKED void AchievementTracker::UnlockShip(int shipId, int shipType)
+void AchievementTracker::UnlockShip(int shipId, int shipType)
 {
-	__asm__
-	(
-		"pushl %%ebp\n\t"
-		"movl %%esp, %%ebp\n\t"
-		"subl $12, %%esp\n\t"
-		"pushl 16(%%ebp)\n\t"		// shipType
-		"pushl 12(%%ebp)\n\t"		// shipId
-		"pushl 8(%%ebp)\n\t"		// this
-		"call *%0\n\t"
-		"addl $12, %%esp\n\t"
-		"movl %%ebp, %%esp\n\t"
-		"popl %%ebp\n\t"
-		"ret\n\t"
-		 :: "m"(_func4::func)
-	);
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(AchievementTracker *this_arg, int shipId_arg, int shipType_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func4::func;
+	return execfunc(this, shipId, shipType);
 }
 
 namespace _func5
@@ -149,21 +90,11 @@ namespace _func5
 	static FunctionDefinition funcObj("AchievementTracker::SetSectorEight", typeid(void (AchievementTracker::*)()), "5589e557565381ec8c0000008d45b88d7dd8", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void AchievementTracker::SetSectorEight()
+void AchievementTracker::SetSectorEight()
 {
-	__asm__
-	(
-		"pushl %%ebp\n\t"
-		"movl %%esp, %%ebp\n\t"
-		"subl $4, %%esp\n\t"
-		"pushl 8(%%ebp)\n\t"		// this
-		"call *%0\n\t"
-		"addl $4, %%esp\n\t"
-		"movl %%ebp, %%esp\n\t"
-		"popl %%ebp\n\t"
-		"ret\n\t"
-		 :: "m"(_func5::func)
-	);
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(AchievementTracker *this_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func5::func;
+	return execfunc(this);
 }
 
 namespace _func6
@@ -173,23 +104,11 @@ namespace _func6
 	static FunctionDefinition funcObj("AchievementTracker::GetShipMarker", typeid(int (AchievementTracker::*)(const std::string &, const std::string &)), "5557565383ec2c8b7424448b5c24488b168b038b7af48b68f48954240489042439ef89e90f46cf894c2408", argdata, 3, 2, &func);
 }
 
-FUNC_NAKED int AchievementTracker::GetShipMarker(const std::string &baseName, const std::string &thisName)
+int AchievementTracker::GetShipMarker(const std::string &baseName, const std::string &thisName)
 {
-	__asm__
-	(
-		"pushl %%ebp\n\t"
-		"movl %%esp, %%ebp\n\t"
-		"subl $12, %%esp\n\t"
-		"pushl 16(%%ebp)\n\t"		// thisName
-		"pushl 12(%%ebp)\n\t"		// baseName
-		"pushl 8(%%ebp)\n\t"		// this
-		"call *%0\n\t"
-		"addl $12, %%esp\n\t"
-		"movl %%ebp, %%esp\n\t"
-		"popl %%ebp\n\t"
-		"ret\n\t"
-		 :: "m"(_func6::func)
-	);
+	typedef int __attribute__((cdecl)) (*custom_arg_funcptr_t)(AchievementTracker *this_arg, const std::string &baseName_arg, const std::string &thisName_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func6::func;
+	return execfunc(this, baseName, thisName);
 }
 
 namespace _func7
@@ -199,21 +118,11 @@ namespace _func7
 	static FunctionDefinition funcObj("AchievementTracker::SetFlag", typeid(void (AchievementTracker::*)(const std::string &)), "5589e557565383ec5c8b5d088d532889d78955b88b550c8d43248945b4894424048d45c489042489542408", argdata, 2, 6, &func);
 }
 
-FUNC_NAKED void AchievementTracker::SetFlag(const std::string &flagName)
+void AchievementTracker::SetFlag(const std::string &flagName)
 {
-	__asm__
-	(
-		"pushl %%ebp\n\t"
-		"movl %%esp, %%ebp\n\t"
-		"pushl 12(%%ebp)\n\t"		// flagName
-		"pushl 8(%%ebp)\n\t"		// this
-		"call *%0\n\t"
-		"addl $8, %%esp\n\t"
-		"movl %%ebp, %%esp\n\t"
-		"popl %%ebp\n\t"
-		"ret\n\t"
-		 :: "m"(_func7::func)
-	);
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(AchievementTracker *this_arg, const std::string &flagName_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func7::func;
+	return execfunc(this, flagName);
 }
 
 namespace _func8
@@ -223,21 +132,11 @@ namespace _func8
 	static FunctionDefinition funcObj("AchievementTracker::GetFlag", typeid(bool (AchievementTracker::*)(const std::string &)), "5589e557565383ec5c8b5d088d432489c28945b48d432889c78945b88b450c89542404894424088d45c4890424??????????31c089fa83ec043b7dc4", argdata, 2, 2, &func);
 }
 
-FUNC_NAKED bool AchievementTracker::GetFlag(const std::string &flagName)
+bool AchievementTracker::GetFlag(const std::string &flagName)
 {
-	__asm__
-	(
-		"pushl %%ebp\n\t"
-		"movl %%esp, %%ebp\n\t"
-		"pushl 12(%%ebp)\n\t"		// flagName
-		"pushl 8(%%ebp)\n\t"		// this
-		"call *%0\n\t"
-		"addl $8, %%esp\n\t"
-		"movl %%ebp, %%esp\n\t"
-		"popl %%ebp\n\t"
-		"ret\n\t"
-		 :: "m"(_func8::func)
-	);
+	typedef bool __attribute__((cdecl)) (*custom_arg_funcptr_t)(AchievementTracker *this_arg, const std::string &flagName_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func8::func;
+	return execfunc(this, flagName);
 }
 
 namespace _func9
@@ -247,21 +146,11 @@ namespace _func9
 	static FunctionDefinition funcObj("AchievementTracker::SaveProfile", typeid(void (AchievementTracker::*)(int )), "5557565383ec1c8b7c24308b6f188b5f1c29ebc1fb0285db", argdata, 2, 6, &func);
 }
 
-FUNC_NAKED void AchievementTracker::SaveProfile(int file)
+void AchievementTracker::SaveProfile(int file)
 {
-	__asm__
-	(
-		"pushl %%ebp\n\t"
-		"movl %%esp, %%ebp\n\t"
-		"pushl 12(%%ebp)\n\t"		// file
-		"pushl 8(%%ebp)\n\t"		// this
-		"call *%0\n\t"
-		"addl $8, %%esp\n\t"
-		"movl %%ebp, %%esp\n\t"
-		"popl %%ebp\n\t"
-		"ret\n\t"
-		 :: "m"(_func9::func)
-	);
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(AchievementTracker *this_arg, int file_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func9::func;
+	return execfunc(this, file);
 }
 
 namespace _func10
@@ -271,23 +160,11 @@ namespace _func10
 	static FunctionDefinition funcObj("AchievementTracker::LoadProfile", typeid(void (AchievementTracker::*)(int , int )), "5589e557565383ec4c8b750c8d7dd8893424", argdata, 3, 6, &func);
 }
 
-FUNC_NAKED void AchievementTracker::LoadProfile(int file, int version)
+void AchievementTracker::LoadProfile(int file, int version)
 {
-	__asm__
-	(
-		"pushl %%ebp\n\t"
-		"movl %%esp, %%ebp\n\t"
-		"subl $12, %%esp\n\t"
-		"pushl 16(%%ebp)\n\t"		// version
-		"pushl 12(%%ebp)\n\t"		// file
-		"pushl 8(%%ebp)\n\t"		// this
-		"call *%0\n\t"
-		"addl $12, %%esp\n\t"
-		"movl %%ebp, %%esp\n\t"
-		"popl %%ebp\n\t"
-		"ret\n\t"
-		 :: "m"(_func10::func)
-	);
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(AchievementTracker *this_arg, int file_arg, int version_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func10::func;
+	return execfunc(this, file, version);
 }
 
 namespace _func11
@@ -297,21 +174,11 @@ namespace _func11
 	static FunctionDefinition funcObj("AchievementTracker::SetVictoryAchievement", typeid(void (AchievementTracker::*)()), "57565383ec308b7424408d5c2420891c248d7e6c897c2404", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void AchievementTracker::SetVictoryAchievement()
+void AchievementTracker::SetVictoryAchievement()
 {
-	__asm__
-	(
-		"pushl %%ebp\n\t"
-		"movl %%esp, %%ebp\n\t"
-		"subl $4, %%esp\n\t"
-		"pushl 8(%%ebp)\n\t"		// this
-		"call *%0\n\t"
-		"addl $4, %%esp\n\t"
-		"movl %%ebp, %%esp\n\t"
-		"popl %%ebp\n\t"
-		"ret\n\t"
-		 :: "m"(_func11::func)
-	);
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(AchievementTracker *this_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func11::func;
+	return execfunc(this);
 }
 
 namespace _func12
@@ -321,21 +188,11 @@ namespace _func12
 	static FunctionDefinition funcObj("AchievementTracker::OnLanguageChange", typeid(void (AchievementTracker::*)()), "5589e557565381ec9c0000008b75088b45088b4e1c8b4018", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void AchievementTracker::OnLanguageChange()
+void AchievementTracker::OnLanguageChange()
 {
-	__asm__
-	(
-		"pushl %%ebp\n\t"
-		"movl %%esp, %%ebp\n\t"
-		"subl $4, %%esp\n\t"
-		"pushl 8(%%ebp)\n\t"		// this
-		"call *%0\n\t"
-		"addl $4, %%esp\n\t"
-		"movl %%ebp, %%esp\n\t"
-		"popl %%ebp\n\t"
-		"ret\n\t"
-		 :: "m"(_func12::func)
-	);
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(AchievementTracker *this_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func12::func;
+	return execfunc(this);
 }
 
 namespace _func13
@@ -345,21 +202,11 @@ namespace _func13
 	static FunctionDefinition funcObj("AchievementTracker::SetTooltip", typeid(void (AchievementTracker::*)(CAchievement *)), "5589e557565381ecbc0000008b450c80781400", argdata, 2, 6, &func);
 }
 
-FUNC_NAKED void AchievementTracker::SetTooltip(CAchievement *ach)
+void AchievementTracker::SetTooltip(CAchievement *ach)
 {
-	__asm__
-	(
-		"pushl %%ebp\n\t"
-		"movl %%esp, %%ebp\n\t"
-		"pushl 12(%%ebp)\n\t"		// ach
-		"pushl 8(%%ebp)\n\t"		// this
-		"call *%0\n\t"
-		"addl $8, %%esp\n\t"
-		"movl %%ebp, %%esp\n\t"
-		"popl %%ebp\n\t"
-		"ret\n\t"
-		 :: "m"(_func13::func)
-	);
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(AchievementTracker *this_arg, CAchievement *ach_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func13::func;
+	return execfunc(this, ach);
 }
 
 namespace _func14
@@ -369,21 +216,11 @@ namespace _func14
 	static FunctionDefinition funcObj("AchievementTracker::ResetFlags", typeid(void (AchievementTracker::*)()), "565383ec148b7424208b462c894424048d4624890424", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void AchievementTracker::ResetFlags()
+void AchievementTracker::ResetFlags()
 {
-	__asm__
-	(
-		"pushl %%ebp\n\t"
-		"movl %%esp, %%ebp\n\t"
-		"subl $4, %%esp\n\t"
-		"pushl 8(%%ebp)\n\t"		// this
-		"call *%0\n\t"
-		"addl $4, %%esp\n\t"
-		"movl %%ebp, %%esp\n\t"
-		"popl %%ebp\n\t"
-		"ret\n\t"
-		 :: "m"(_func14::func)
-	);
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(AchievementTracker *this_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func14::func;
+	return execfunc(this);
 }
 
 AchievementTracker *Global_AchievementTracker_Tracker;
@@ -400,29 +237,11 @@ namespace _func16
 	static FunctionDefinition funcObj("Animation::constructor", typeid(void (Animation::*)(const std::string &, int , float , Pointf , int , int , int , int )), "5557565383ec3c8b5c????8b44????8b54????f30f1044????c74304000000008b7c????89433c8d??242f8b74????f30f114324", argdata, 9, 6, &func);
 }
 
-FUNC_NAKED void Animation::constructor(const std::string &_image, int _length, float _time, Pointf _position, int _imageWidth, int _imageHeight, int _stripStartX, int _numFrames)
+void Animation::constructor(const std::string &_image, int _length, float _time, Pointf _position, int _imageWidth, int _imageHeight, int _stripStartX, int _numFrames)
 {
-	__asm__
-	(
-		"pushl %%ebp\n\t"
-		"movl %%esp, %%ebp\n\t"
-		"pushl 44(%%ebp)\n\t"		// _numFrames
-		"pushl 40(%%ebp)\n\t"		// _stripStartX
-		"pushl 36(%%ebp)\n\t"		// _imageHeight
-		"pushl 32(%%ebp)\n\t"		// _imageWidth
-		"pushl 28(%%ebp)\n\t"		// _position
-		"pushl 24(%%ebp)\n\t"		// _position
-		"pushl 20(%%ebp)\n\t"		// _time
-		"pushl 16(%%ebp)\n\t"		// _length
-		"pushl 12(%%ebp)\n\t"		// _image
-		"pushl 8(%%ebp)\n\t"		// this
-		"call *%0\n\t"
-		"addl $40, %%esp\n\t"
-		"movl %%ebp, %%esp\n\t"
-		"popl %%ebp\n\t"
-		"ret\n\t"
-		 :: "m"(_func16::func)
-	);
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(Animation *this_arg, const std::string &_image_arg, int _length_arg, float _time_arg, Pointf _position_arg, int _imageWidth_arg, int _imageHeight_arg, int _stripStartX_arg, int _numFrames_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func16::func;
+	return execfunc(this, _image, _length, _time, _position, _imageWidth, _imageHeight, _stripStartX, _numFrames);
 }
 
 namespace _func17
@@ -432,27 +251,11 @@ namespace _func17
 	static FunctionDefinition funcObj("Animation::OnRender", typeid(void (Animation::*)(float , GL_Color , bool )), "57565383ec508b4424788b5c246084c089c675??0fb6735cf30f10442464f30f104b708b7b58f30f59442474f30f11442420", argdata, 4, 6, &func);
 }
 
-FUNC_NAKED void Animation::OnRender(float opacity, GL_Color color, bool mirror)
+void Animation::OnRender(float opacity, GL_Color color, bool mirror)
 {
-	__asm__
-	(
-		"pushl %%ebp\n\t"
-		"movl %%esp, %%ebp\n\t"
-		"subl $12, %%esp\n\t"
-		"pushl 32(%%ebp)\n\t"		// mirror
-		"pushl 28(%%ebp)\n\t"		// color
-		"pushl 24(%%ebp)\n\t"		// color
-		"pushl 20(%%ebp)\n\t"		// color
-		"pushl 16(%%ebp)\n\t"		// color
-		"pushl 12(%%ebp)\n\t"		// opacity
-		"pushl 8(%%ebp)\n\t"		// this
-		"call *%0\n\t"
-		"addl $28, %%esp\n\t"
-		"movl %%ebp, %%esp\n\t"
-		"popl %%ebp\n\t"
-		"ret\n\t"
-		 :: "m"(_func17::func)
-	);
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(Animation *this_arg, float opacity_arg, GL_Color color_arg, bool mirror_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func17::func;
+	return execfunc(this, opacity, color, mirror);
 }
 
 namespace _func18
@@ -462,21 +265,11 @@ namespace _func18
 	static FunctionDefinition funcObj("Animation::Update", typeid(void (Animation::*)()), "5557565383ec4c8b5c24608b4304807b3000f30f2ad0", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void Animation::Update()
+void Animation::Update()
 {
-	__asm__
-	(
-		"pushl %%ebp\n\t"
-		"movl %%esp, %%ebp\n\t"
-		"subl $4, %%esp\n\t"
-		"pushl 8(%%ebp)\n\t"		// this
-		"call *%0\n\t"
-		"addl $4, %%esp\n\t"
-		"movl %%ebp, %%esp\n\t"
-		"popl %%ebp\n\t"
-		"ret\n\t"
-		 :: "m"(_func18::func)
-	);
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(Animation *this_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func18::func;
+	return execfunc(this);
 }
 
 namespace _func19
@@ -486,21 +279,11 @@ namespace _func19
 	static FunctionDefinition funcObj("Animation::SetCurrentFrame", typeid(void (Animation::*)(int )), "8b4424048b48048d51ff395424080f4e54240885d27e??f30f2ac20f57d2f30f2ad9", argdata, 2, 6, &func);
 }
 
-FUNC_NAKED void Animation::SetCurrentFrame(int frame)
+void Animation::SetCurrentFrame(int frame)
 {
-	__asm__
-	(
-		"pushl %%ebp\n\t"
-		"movl %%esp, %%ebp\n\t"
-		"pushl 12(%%ebp)\n\t"		// frame
-		"pushl 8(%%ebp)\n\t"		// this
-		"call *%0\n\t"
-		"addl $8, %%esp\n\t"
-		"movl %%ebp, %%esp\n\t"
-		"popl %%ebp\n\t"
-		"ret\n\t"
-		 :: "m"(_func19::func)
-	);
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(Animation *this_arg, int frame_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func19::func;
+	return execfunc(this, frame);
 }
 
 namespace _func20
@@ -510,21 +293,11 @@ namespace _func20
 	static FunctionDefinition funcObj("Animation::Start", typeid(void (Animation::*)(bool )), "5383ec28807c2434008b5c24300f85????????f30f10432c0f57c9c6433200c6433001c6433100f30f5e43240f2ec1", argdata, 2, 6, &func);
 }
 
-FUNC_NAKED void Animation::Start(bool reset)
+void Animation::Start(bool reset)
 {
-	__asm__
-	(
-		"pushl %%ebp\n\t"
-		"movl %%esp, %%ebp\n\t"
-		"pushl 12(%%ebp)\n\t"		// reset
-		"pushl 8(%%ebp)\n\t"		// this
-		"call *%0\n\t"
-		"addl $8, %%esp\n\t"
-		"movl %%ebp, %%esp\n\t"
-		"popl %%ebp\n\t"
-		"ret\n\t"
-		 :: "m"(_func20::func)
-	);
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(Animation *this_arg, bool reset_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func20::func;
+	return execfunc(this, reset);
 }
 
 namespace _func21
@@ -534,23 +307,11 @@ namespace _func21
 	static FunctionDefinition funcObj("Animation::AddSoundQueue", typeid(void (Animation::*)(int , const std::string &)), "565383ec148b5424248b4424208b74242885d278??8b48608b406429c8c1f802", argdata, 3, 6, &func);
 }
 
-FUNC_NAKED void Animation::AddSoundQueue(int frame, const std::string &sound)
+void Animation::AddSoundQueue(int frame, const std::string &sound)
 {
-	__asm__
-	(
-		"pushl %%ebp\n\t"
-		"movl %%esp, %%ebp\n\t"
-		"subl $12, %%esp\n\t"
-		"pushl 16(%%ebp)\n\t"		// sound
-		"pushl 12(%%ebp)\n\t"		// frame
-		"pushl 8(%%ebp)\n\t"		// this
-		"call *%0\n\t"
-		"addl $12, %%esp\n\t"
-		"movl %%ebp, %%esp\n\t"
-		"popl %%ebp\n\t"
-		"ret\n\t"
-		 :: "m"(_func21::func)
-	);
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(Animation *this_arg, int frame_arg, const std::string &sound_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func21::func;
+	return execfunc(this, frame, sound);
 }
 
 namespace _func22
@@ -560,21 +321,11 @@ namespace _func22
 	static FunctionDefinition funcObj("Animation::SetAnimationId", typeid(void (Animation::*)(GL_Texture *)), "8b4424048b542408391074??89d185c9891074??8b4a0489480889d185c974??8b520889500c", argdata, 2, 6, &func);
 }
 
-FUNC_NAKED void Animation::SetAnimationId(GL_Texture *tex)
+void Animation::SetAnimationId(GL_Texture *tex)
 {
-	__asm__
-	(
-		"pushl %%ebp\n\t"
-		"movl %%esp, %%ebp\n\t"
-		"pushl 12(%%ebp)\n\t"		// tex
-		"pushl 8(%%ebp)\n\t"		// this
-		"call *%0\n\t"
-		"addl $8, %%esp\n\t"
-		"movl %%ebp, %%esp\n\t"
-		"popl %%ebp\n\t"
-		"ret\n\t"
-		 :: "m"(_func22::func)
-	);
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(Animation *this_arg, GL_Texture *tex_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func22::func;
+	return execfunc(this, tex);
 }
 
 namespace _func23
@@ -584,21 +335,11 @@ namespace _func23
 	static FunctionDefinition funcObj("Animation::destructor", typeid(void (Animation::*)()), "5557565383ec2c8d44241f894424048b4424408b40748944240883e80c890424e8????????8b4424408b4c24408b40648b69608944240839e8", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void Animation::destructor()
+void Animation::destructor()
 {
-	__asm__
-	(
-		"pushl %%ebp\n\t"
-		"movl %%esp, %%ebp\n\t"
-		"subl $4, %%esp\n\t"
-		"pushl 8(%%ebp)\n\t"		// this
-		"call *%0\n\t"
-		"addl $4, %%esp\n\t"
-		"movl %%ebp, %%esp\n\t"
-		"popl %%ebp\n\t"
-		"ret\n\t"
-		 :: "m"(_func23::func)
-	);
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(Animation *this_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func23::func;
+	return execfunc(this);
 }
 
 namespace _func24
@@ -608,21 +349,11 @@ namespace _func24
 	static FunctionDefinition funcObj("Animation::StartReverse", typeid(void (Animation::*)(bool )), "5383ec288b4424348b5c243084c075??f30f10432c0f57c9c6433200c64330010f2ec8", argdata, 2, 6, &func);
 }
 
-FUNC_NAKED void Animation::StartReverse(bool reset)
+void Animation::StartReverse(bool reset)
 {
-	__asm__
-	(
-		"pushl %%ebp\n\t"
-		"movl %%esp, %%ebp\n\t"
-		"pushl 12(%%ebp)\n\t"		// reset
-		"pushl 8(%%ebp)\n\t"		// this
-		"call *%0\n\t"
-		"addl $8, %%esp\n\t"
-		"movl %%ebp, %%esp\n\t"
-		"popl %%ebp\n\t"
-		"ret\n\t"
-		 :: "m"(_func24::func)
-	);
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(Animation *this_arg, bool reset_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func24::func;
+	return execfunc(this, reset);
 }
 
 namespace _func25
@@ -632,21 +363,11 @@ namespace _func25
 	static FunctionDefinition funcObj("Animation::SetProgress", typeid(void (Animation::*)(float )), "8b4424040f57c0f30f10542408f30f1048248b500480783000f30f59d1f30f2adaf30f11502c", argdata, 2, 6, &func);
 }
 
-FUNC_NAKED void Animation::SetProgress(float progress)
+void Animation::SetProgress(float progress)
 {
-	__asm__
-	(
-		"pushl %%ebp\n\t"
-		"movl %%esp, %%ebp\n\t"
-		"pushl 12(%%ebp)\n\t"		// progress
-		"pushl 8(%%ebp)\n\t"		// this
-		"call *%0\n\t"
-		"addl $8, %%esp\n\t"
-		"movl %%ebp, %%esp\n\t"
-		"popl %%ebp\n\t"
-		"ret\n\t"
-		 :: "m"(_func25::func)
-	);
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(Animation *this_arg, float progress_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func25::func;
+	return execfunc(this, progress);
 }
 
 namespace _func26
@@ -656,21 +377,11 @@ namespace _func26
 	static FunctionDefinition funcObj("Animation::RandomStart", typeid(int (Animation::*)()), "5383ec08803d????????008b5c241075??e8????????8b4b0499c6433200c6433001c6433100f7f9", argdata, 1, 2, &func);
 }
 
-FUNC_NAKED int Animation::RandomStart()
+int Animation::RandomStart()
 {
-	__asm__
-	(
-		"pushl %%ebp\n\t"
-		"movl %%esp, %%ebp\n\t"
-		"subl $4, %%esp\n\t"
-		"pushl 8(%%ebp)\n\t"		// this
-		"call *%0\n\t"
-		"addl $4, %%esp\n\t"
-		"movl %%ebp, %%esp\n\t"
-		"popl %%ebp\n\t"
-		"ret\n\t"
-		 :: "m"(_func26::func)
-	);
+	typedef int __attribute__((cdecl)) (*custom_arg_funcptr_t)(Animation *this_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func26::func;
+	return execfunc(this);
 }
 
 namespace _func27
