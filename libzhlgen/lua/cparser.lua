@@ -208,6 +208,8 @@ function initdef(t)
 	return setmetatable(t, meta0)
 end
 
+local callingConventions = lpeg.P("__stdcall") + lpeg.P("__fastcall") + lpeg.P("__vectorcall") + lpeg.P("__thiscall") + lpeg.P("__cdecl") + lpeg.P("__regparm3") + lpeg.P("__regparm2") + lpeg.P("__regparm1") + lpeg.P("__amd64")
+
 local funcdef = lpeg.P
 {
 	"S";
@@ -244,6 +246,7 @@ local funcdef = lpeg.P
 		(lpeg.P("struct") * sp * lpeg.Cg(lpeg.Cc(true), "struct"))^-1 *
 		(lpeg.P("union") * sp * lpeg.Cg(lpeg.Cc(true), "union"))^-1 *
 		(lpeg.P("namespace") * sp * lpeg.Cg(lpeg.Cc(true), "namespace"))^-1 *
+		(lpeg.P(lpeg.Cg(callingConventions, "callingConvention") * sp))^-1 *
 		(lpeg.P("__declspec") * sp * lpeg.Cg(lpeg.V("bp"), "declspec") * sp)^-1 *
 		lpeg.Cg(lpeg.V("id"), "class") * sp *
 		lpeg.V("template")^-1 *

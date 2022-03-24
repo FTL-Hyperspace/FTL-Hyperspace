@@ -783,14 +783,20 @@ end
 ---------------------------------------------------------------
 -- Functions
 
-local function argsToString(func, names, def)
+local function argsToString(func, names, def, includeThis, hideType, suffix)
 	local t = {}
 	local i = 0
 	for _, arg in ipairs(func.args) do
-		if not arg.hidden then
-			local str = arg:toString()
+		if not arg.hidden or (includeThis and arg.name == "this") then
+            local str = ""
+            if not hideType then
+                str = arg:toString()
+            end
 			if names then
 				str = str..arg.name
+                if suffix ~= nil then
+                    str = str..suffix
+                end
 				if def and arg.default then
 					str = str.." = "..arg.default
 				end
@@ -819,6 +825,16 @@ local function writeFunctions(struct, out)
 					out("~%s();", struct.class)
 				else
 					out("%s", func:toString())
+
+                    -- if arch == "i386" then
+                    --     -- TODO: Support MSVC style
+                    --     if func.callingConvention == "__regparm3" then
+                    --         -- TODO: Implement correct output
+                    --     end
+                    -- elseif arch == "x86_64" then
+                    --     if func.callingConvention == "__amd64" then
+                    --     end
+                    -- end
 					
 					if not func.thiscall then
 						out("__stdcall ")
@@ -1038,7 +1054,68 @@ using namespace ZHL;
 			
 			--if not func.virtual then
 			--if func.name ~= "Free" then
-			if true then
+            if func.callingConvention ~= nil then
+                if isDestructor then
+                    out("%s::~%s(", classname, func.varparent.class)
+                elseif isGlobal then
+                    out("%s__stdcall %s(", func:toString(), func.name) -- TODO: Eliminate __stdcall except on MSVC
+                else
+                    out("%s%s::%s(", func:toString(), classname, func.name)
+                end
+
+                if isDestructor then
+                    out(")")
+                else
+                    out(argsToString(func, true))
+                    out(")")
+                    if func.constfunc then out(" const") end
+                end
+                
+                out("\n{\n")
+
+                -- TODO: Support MSVC style rather than GCC style __attribute__ NOTE: MSVC sucks, it requires __fastcall and shit in the cast, so like typedef whatever (__fastcall *ptr)(def)
+                -- TODO: Maybe support ms_hook_prologue for Win32 API functions
+                -- TODO: Maybe support force_align_arg_pointer?
+                out("\ttypedef %s", func:cname())
+                if arch == "i386" then
+                    if func.callingConvention == "__cdecl" then -- TODO: In the future make cdecl imply cleanup
+                        -- TODO: On Linux, cdecl is the default across the board (same as thiscall), it could be left out of the generated code
+                        out(" __attribute__((cdecl))")
+                    elseif func.callingConvention == "__thiscall" then -- TODO: Print warning if __thiscall used on Linux, it's valid but results in Microsoft style passing on ECX
+                        out(" __attribute__((thiscall))")
+                    elseif func.callingConvention == "__regparm1" then
+                        out(" __attribute__((regparm(1)))")
+                    elseif func.callingConvention == "__regparm2" then
+                        out(" __attribute__((regparm(2)))")
+                    elseif func.callingConvention == "__regparm3" then
+                        out(" __attribute__((regparm(3)))")
+                    elseif func.callingConvention == "__vectorcall" then
+                        out(" __attribute__((vectorcall))")
+                    elseif func.callingConvention == "__fastcall" then
+                        out(" __attribute__((fastcall))")
+                    else
+                        error("Unsupported calling convention for x86: " .. func.callingConvention)
+                    end
+                elseif arch == "x86_64" then
+                    if func.callingConvention == "__amd64" then
+                    elseif func.callingConvention == "__vectorcall" then
+                        out(" __attribute__((vectorcall))")
+                    else
+                        error("Unsupported calling convention for x86_64: " .. func.callingConvention)
+                    end
+                end
+
+                out(" (*custom_arg_funcptr_t)(")
+                out(argsToString(func, true, false, true, false, "_arg")) -- TODO: Need to hide implicit attributes (but leave this attribute)
+                out(");\n")
+                
+                out("\tcustom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func%d::func;\n", counter)
+                out("\treturn execfunc(")
+                out(argsToString(func, true, false, true, true)) -- TODO: Need to hide implicit attributes (but leave this attribute)
+                out(");\n")
+                out("}\n\n")
+            else
+			-- if true then
 				-- function implementation
 				if useNaked then
 					if isDestructor then

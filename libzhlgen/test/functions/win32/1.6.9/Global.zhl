@@ -452,6 +452,32 @@ instruction uintptr_t Global__NOP__Ship_OnInit_0;
 noop void* Global__Ship_OnInit;
 // The void* can be anything, just has to be something there for the parser to match, name also doesn't really matter except for logging purposes as it does not create any variable.
 
+// The Lua code has been tweaked to pass the following values through as a "Calling convention", doing so
+// skips any assembly generation and will ignore any registers specified for arguments.
+// When using these calling convention declaration styles it is *of extreme importance* that all types
+// used for return values & argument values be exactly correct with their original declaration and that your
+// compiler matches the original compiler. As no exceptions are currently made to correct to for example:
+// MSVC "__thiscall" style when compiling with GCC under mingw it will use GCC's MinGW thiscall style not MSVC.
+// Although the Lua & C++ code could theoretically be tweaked to permit a mismatch of compilers if you added even more calling conventions like a "__msvc_thiscall" or something and did the assembly code to rearrange it.
+// As it is right now, these will be used for non-assembly code generation so that the compiler is directly aware of the calling convention and no assembly is needed.
+// For x86_64 architecture, use __amd64 (since there is no special name for the calling convention, this will trigger skipping the register & assembly generation code) and the default amd64 calling convention for Windows or Linux will be used depending on target
+
+// Windows only
+__stdcall void someFunction();
+__fastcall
+__thiscall
+
+// All x86 32-bit OSes
+__cdecl
+__regparm3
+__regparm2
+__regparm1
+
+// Windows MSVC x86, Windows MSVC/Clang/ICC x86_64
+__vectorcall
+
+// All x86_64 OSes (just informs parser & C++ code to skip assembly style generation)
+__amd64 // Will be considered a thiscall automatically if this is the first parameter
 */
 
 "5589e557565383e4f083ec408b4d088b750c85c9":
