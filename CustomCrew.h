@@ -168,6 +168,7 @@ struct TemporaryPowerDefinition
     ToggleValue<bool> hackDoors;
     ToggleValue<float> powerRechargeMultiplier;
     ToggleValue<bool> noClone;
+    ToggleValue<bool> noAI;
 
     std::vector<StatBoostDefinition*> statBoosts;
 
@@ -355,6 +356,7 @@ struct CrewDefinition
     float powerRechargeMultiplier = 1.f;
     bool noSlot = false;
     bool noClone = false;
+    bool noAI = false;
 
     ExplosionDefinition explosionDef;
 

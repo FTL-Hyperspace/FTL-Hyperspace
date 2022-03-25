@@ -11,7 +11,9 @@ bool isTelepathicMindControl = false;
 
 bool CrewMember::_HS_GetControllable()
 {
-    bool ret = !this->bDead && this->iShipId == 0 && !this->bMindControlled;
+    if (this->bDead) return false;
+
+    bool ret = this->iShipId == 0 && !this->bMindControlled;
 
     if (!ret && this->iShipId == 1 && this->bMindControlled)
     {
@@ -19,17 +21,30 @@ bool CrewMember::_HS_GetControllable()
         if (ship) ret = ship->HasAugmentation("MIND_ORDER");
     }
 
-    if (!ret)
+    CrewMember_Extend *ex = nullptr;
+    CrewDefinition *def;
+
+    if (ret)
     {
-        return false;
+        ex = CM_EX(this);
+        def = CustomCrewManager::GetInstance()->GetDefinition(this->species);
+        ex->CalculateStat(CrewStat::CONTROLLABLE, def, &ret);
+        if (!ret && !requiresFullControl)
+        {
+            ret = def->selectable;
+        }
     }
-    auto ex = CM_EX(this);
-    auto def = CustomCrewManager::GetInstance()->GetDefinition(this->species);
-    ex->CalculateStat(CrewStat::CONTROLLABLE, def, &ret);
-    if (!ret && !requiresFullControl)
+
+    if (!ret && requiresFullControl == -1) // for AI with NO_AI, make AI think crew is player-controlled to prevent AI from controlling
     {
-        ret = def->selectable;
+        if (!ex)
+        {
+            ex = CM_EX(this);
+            def = CustomCrewManager::GetInstance()->GetDefinition(this->species);
+        }
+        ex->CalculateStat(CrewStat::NO_AI, def, &ret);
     }
+
     return ret;
 }
 

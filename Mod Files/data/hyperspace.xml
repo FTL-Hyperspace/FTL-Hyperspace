@@ -479,6 +479,7 @@ Syntax ->
 		<noClone>false</noClone>                                                         If true, this crewmember cannot be cloned.
 		<canFight>true</canFight>                                                        If true, this crewmember can fight enemy crewmembers.
 		<controllable>true</controllable>                                                If true, the player can control this crewmember. Otherwise it acts like an AI crewmember.
+		<noAI>false</noAI>                                                               If true, the AI cannot control this crewmember.
 		<selectable>false</selectable>                                                   If true, the player can select this crewmember if it belongs to them, even if they are not controllable. No effect when controllable.
 		<canRepair>true</canRepair>                                                      If true, this crewmember can repair systems and breaches and put out fires.
 		<canSabotage>true</canSabotage>                                                  If true, this crewmember can sabotage enemy systems.
