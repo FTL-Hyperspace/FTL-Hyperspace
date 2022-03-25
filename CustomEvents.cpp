@@ -4325,7 +4325,7 @@ HOOK_METHOD(StarMap, SaveGame, (int file) -> void)
         }
 
         Location *loc = locations[it->second];
-        if (!loc->questLoc || (loc->visited > 0 && loc != currentLoc))
+        if (loc != currentLoc && (!loc->questLoc || loc->visited > 0))
         {
             it = addedQuests.erase(it);
             continue;
