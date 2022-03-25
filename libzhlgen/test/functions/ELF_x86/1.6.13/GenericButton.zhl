@@ -5,7 +5,7 @@ virtual cleanup __cdecl void GenericButton::SetActive(GenericButton *this, bool 
 "5756538b4424108b5424148b5c24188b74241c":
 virtual cleanup __cdecl void GenericButton::MouseMove(GenericButton *this, int x, int y, bool silent);
 "f3c36690669066906690669066906690":
-static void GenericButton::__DO_NOT_HOOK();
+noHook void GenericButton::__DO_NOT_HOOK();
 ".f3c36690669066906690669066906690":
 virtual cleanup __cdecl void GenericButton::OnClick(GenericButton *this);
 ".f3c36690669066906690669066906690":

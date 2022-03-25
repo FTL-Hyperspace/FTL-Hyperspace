@@ -8,6 +8,6 @@ cleanup __cdecl void Projectile::Initialize(Projectile *this, const WeaponBluepr
 cleanup __cdecl void Projectile::destructor(Projectile *this);
 
 "8b4424048b5424088950388b54240c89503c8b542410895040":
-static void Projectile::__DO_NOT_HOOK();
+noHook void Projectile::__DO_NOT_HOOK();
 ".!b8ffffffffc3":
 cleanup __cdecl int Projectile::ForceRenderLayer(Projectile *this);

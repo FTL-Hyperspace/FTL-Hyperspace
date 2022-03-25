@@ -1,13 +1,13 @@
 "!c3660f1f840000000000f3c3660f1f440000f3c3660f1f440000":
-static void MantisAnimation::__DO_NOT_HOOK_1();
+noHook void MantisAnimation::__DO_NOT_HOOK_1();
 ".53be????????4889fb4883ec10":
 cleanup std::string MantisAnimation::GetDeathSound<rdi>(MantisAnimation *this<rsi>);
 ".53486347584889fb488b5710":
-static void MantisAnimation::__DO_NOT_HOOK_2();
+noHook void MantisAnimation::__DO_NOT_HOOK_2();
 ".53486347584889fb488b5710":
 cleanup bool MantisAnimation::FireShot(MantisAnimation *this<rdi>);
 ".534889fb4883ec30803d????????007577e8????????89c1":
-static void MantisAnimation::__DO_NOT_HOOK_3();
+noHook void MantisAnimation::__DO_NOT_HOOK_3();
 ".534889fb4883ec30803d????????007577e8????????89c1":
 cleanup std::string MantisAnimation::GetShootingSound<rdi>(MantisAnimation *this<rsi>);
 

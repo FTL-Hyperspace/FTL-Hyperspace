@@ -7,7 +7,7 @@ void Room::OnRenderFloor(Room *this<ecx>, float alpha, bool experimental);
 "8079400074??8079240074??c20400905589e55389cb83e4f083ec108b819c000000f30f105d08f30f115c2404":
 void Room::OnRenderWalls(Room *this<ecx>, float alpha);
 "890424e8????????89742404893c2489c1c744240800000000e8????????89433883ec0c8d65f45b5e5f5d":
-static void Room::__DO_NOT_HOOK();
+noHook void Room::__DO_NOT_HOOK();
 ".5589e557565389ce83e4f083ec20":
 void Room::destructor(Room *this<ecx>);
 

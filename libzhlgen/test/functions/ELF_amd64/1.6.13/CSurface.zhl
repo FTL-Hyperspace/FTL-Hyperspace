@@ -1,6 +1,6 @@
 /*
 "4883ec08e8????????85c00f95c04883c408c3":
-static void CSurface::__DO_NOT_HOOK();
+noHook void CSurface::__DO_NOT_HOOK();
 "!.4883ec08e8????????85c00f95c04883c408c3":
 static cleanup bool CSurface::IsFrameBufferSupported();
 "!.4883ec08e8????????4883c408":

@@ -3,9 +3,9 @@ cleanup __cdecl void CrewAnimation::constructor(CrewAnimation *this, int shipId,
 "5589e557565381ec0c0100008b450c80b87409000000":
 cleanup __cdecl std::string CrewAnimation::GetDeathSound(CrewAnimation *this);
 "5557565381ec0c010000803d????????00":
-void DO_NOT_HOOK_MANTISANIMATIONSHOOTINGSOUND();
+noHook void DO_NOT_HOOK_MANTISANIMATIONSHOOTINGSOUND();
 ".5557565381ec0c010000803d????????00":
-void DO_NOT_HOOK_ROCKANIMATIONSHOOTINGSOUND();
+noHook void DO_NOT_HOOK_ROCKANIMATIONSHOOTINGSOUND();
 ".5557565381ec0c010000803d????????00":
 cleanup __cdecl std::string CrewAnimation::GetShootingSound(CrewAnimation *this);
 "565383ec648b5c24708b74247c8b430485c0":

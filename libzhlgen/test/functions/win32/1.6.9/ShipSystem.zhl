@@ -33,7 +33,7 @@ void ShipSystem::SetBonusPower(ShipSystem *this<ecx>, int amount, int permanentP
 "578d7c240883e4f0ff77fc5589e557565383ec2c80b918010000000f84????????8d81a401000089cf8945dc8d41508945d8eb49":
 void ShipSystem::CheckMaxPower(ShipSystem *this<ecx>);
 "55c701????????89e583e4f0e8????????c9c390909090909090909090909090b8????????":
-static void ShipSystem::__DO_NOT_HOOK(ShipSystem *this<ecx>);
+noHook void ShipSystem::__DO_NOT_HOOK(ShipSystem *this<ecx>);
 ".578d7c240883e4f0ff77fc5589e55783ec14f30f1007f30f110424e8????????8b7dfc83ec04":
 bool ShipSystem::PartialDamage(ShipSystem *this<ecx>, float amount);
 "8b54240483fa060f94c183fa0c0f94c008c875??83ea0783fa01":

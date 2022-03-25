@@ -1,7 +1,7 @@
 "!8b48fc8d59ff8958fc89c8e9????????8b48fc8d59ff8958fc89c8eb??6690":
-void CompleteShip::DO_NOT_HOOK();
+noHook void CompleteShip::DO_NOT_HOOK();
 "!.8b48fc8d59ff8958fc89c8e9????????8b48fc8d59ff8958fc89c8eb??6690":
-void CompleteShip::DO_NOT_HOOK2();
+noHook void CompleteShip::DO_NOT_HOOK2();
 "!.8b4424048b400889442404e9????????":
 virtual cleanup __cdecl void CompleteShip::PauseLoop(CompleteShip *this);
 "5383ec188b5c24208b430883c318890424":

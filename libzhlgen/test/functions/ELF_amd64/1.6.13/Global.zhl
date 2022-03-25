@@ -485,6 +485,11 @@ __vectorcall
 
 // All x86_64 OSes (just informs parser & C++ code to skip assembly style generation)
 __amd64 // Will be considered a thiscall automatically if this is the first parameter
+
+// There is also a noHook support (place before everything, even static or virtual) to define a signature and generic function name that will be used
+// for signature hooking but which will not have a callable function defined in the output source or headers,
+// technically it'll still be hookable right now but don't do it.
+noHook void DO_NOT_HOOK();
 */
 
 "85ff7e7e":

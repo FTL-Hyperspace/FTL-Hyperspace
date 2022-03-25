@@ -1104,7 +1104,6 @@ struct ShipObject
 	LIBZHL_API int HasAugmentation(const std::string &augment);
 	LIBZHL_API int HasEquipment(const std::string &equip);
 	LIBZHL_API void RemoveAugmentation(const std::string &augment);
-	LIBZHL_API static void __stdcall __DO_NOT_HOOK();
 	
 	void *vptr;
 	int iShipId;
@@ -1212,7 +1211,6 @@ struct LIBZHL_INTERFACE ShipSystem
 	LIBZHL_API int SetPowerLoss(int power);
 	LIBZHL_API static std::string __stdcall SystemIdToName(int systemId);
 	LIBZHL_API bool UpgradeSystem(int amount);
-	LIBZHL_API static void __DO_NOT_HOOK();
 	LIBZHL_API void constructor(int systemId, int roomId, int shipId, int startingPower);
 	LIBZHL_API void destructor();
 	
@@ -1449,7 +1447,7 @@ struct Description;
 struct Description
 {
 	LIBZHL_API void constructor();
-	LIBZHL_API Description &copy_assign_1(Description &&other);
+	LIBZHL_API Description &copy_assign_1(Description &other);
 	LIBZHL_API Description &copy_assign_2(const Description &other);
 	LIBZHL_API void destructor();
 	
@@ -2462,7 +2460,6 @@ struct WeaponBlueprint : Blueprint
 	
 	LIBZHL_API std::string GetDescription(bool tooltip);
 	LIBZHL_API void RenderIcon(float scale);
-	LIBZHL_API static void __stdcall __DO_NOT_HOOK();
 	LIBZHL_API void constructor();
 	LIBZHL_API void destructor();
 	
@@ -2975,7 +2972,6 @@ public:
 	LIBZHL_API void SetSelectedColor(GL_Color color);
 	LIBZHL_API void SetTextColor(GL_Color color);
 	LIBZHL_API void UpdateAutoWidth();
-	LIBZHL_API static void __stdcall __DO_NOT_HOOK();
 	LIBZHL_API void constructor();
 	LIBZHL_API void destructor();
 	
@@ -4735,7 +4731,6 @@ struct Room : Selectable
 	LIBZHL_API int GetEmptySlots(bool intruder);
 	LIBZHL_API void OnRenderFloor(float alpha, bool experimental);
 	LIBZHL_API void OnRenderWalls(float alpha);
-	LIBZHL_API static void __stdcall __DO_NOT_HOOK();
 	LIBZHL_API void constructor(int iShipId, int x, int y, int w, int h, int roomId);
 	LIBZHL_API void destructor();
 	
@@ -5823,8 +5818,6 @@ struct MantisAnimation : CrewAnimation
 	LIBZHL_API bool FireShot();
 	LIBZHL_API std::string GetDeathSound();
 	LIBZHL_API std::string GetShootingSound();
-	LIBZHL_API static void __stdcall __DO_NOT_HOOK();
-	LIBZHL_API static void __stdcall __DO_NOT_HOOK2();
 	
 };
 
@@ -6254,10 +6247,6 @@ struct RockAnimation : CrewAnimation
 
 	LIBZHL_API std::string GetDeathSound();
 	LIBZHL_API std::string GetShootingSound();
-	LIBZHL_API static void __stdcall __DO_NOT_HOOK();
-	LIBZHL_API static void __stdcall __DO_NOT_HOOK2();
-	LIBZHL_API static void __stdcall __DO_NOT_HOOK3();
-	LIBZHL_API static void __stdcall __DO_NOT_HOOK4();
 	LIBZHL_API void constructor(const std::string &subRace, int iShipId, Pointf position, bool enemy);
 	
 };
@@ -7456,7 +7445,6 @@ struct WeaponStoreBox : StoreBox
 		this->bEquipmentBox = true;
 	}
 
-	LIBZHL_API static void __stdcall __DO_NOT_HOOK();
 	LIBZHL_API void constructor(ShipManager *ship, Equipment *equip, const WeaponBlueprint *weaponBp);
 	
 	WeaponBlueprint *blueprint;

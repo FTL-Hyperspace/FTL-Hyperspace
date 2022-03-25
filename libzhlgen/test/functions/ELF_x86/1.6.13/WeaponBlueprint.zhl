@@ -1,9 +1,9 @@
 "565383ec248b5c24308d74241f8d4304c703????????89742408890424":
-static void WeaponBlueprint::__DO_NOT_HOOK();
+noHook void WeaponBlueprint::__DO_NOT_HOOK();
 ".565383ec248b5c24308d74241f8d4304c703????????89742408890424":
-static void WeaponBlueprint::__DO_NOT_HOOK2();
+noHook void WeaponBlueprint::__DO_NOT_HOOK2();
 ".565383ec248b5c24308d74241f8d4304c703????????89742408890424":
-static void WeaponBlueprint::__DO_NOT_HOOK3();
+noHook void WeaponBlueprint::__DO_NOT_HOOK3();
 ".565383ec248b5c24308d74241f8d4304c703????????89742408890424":
 cleanup __cdecl void WeaponBlueprint::constructor(WeaponBlueprint *this);
 ".5557565383ec2c8b7c24408d74241f":

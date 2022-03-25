@@ -545,7 +545,6 @@ struct LIBZHL_INTERFACE AnimationTracker
 struct AchievementTracker
 {
 	LIBZHL_API void CheckShipAchievements(int shipId, bool hidePopups);
-	LIBZHL_API void __stdcall DO_NOT_HOOK_1();
 	LIBZHL_API bool GetFlag(const std::string &flagName);
 	LIBZHL_API std::vector<CAchievement*> GetShipAchievements(const std::string &ship);
 	LIBZHL_API int GetShipMarker(const std::string &baseName, const std::string &thisName);
@@ -1454,7 +1453,7 @@ struct Description;
 struct Description
 {
 	LIBZHL_API Description &copy_assign_1(const Description &other);
-	LIBZHL_API Description &copy_assign_2(Description &&other);
+	LIBZHL_API Description &copy_assign_2(Description &other);
 	LIBZHL_API void destructor();
 	
 	TextString title;
@@ -5800,9 +5799,6 @@ struct MantisAnimation : CrewAnimation
 	LIBZHL_API bool FireShot();
 	LIBZHL_API std::string GetDeathSound();
 	LIBZHL_API std::string GetShootingSound();
-	LIBZHL_API static void __stdcall __DO_NOT_HOOK_1();
-	LIBZHL_API static void __stdcall __DO_NOT_HOOK_2();
-	LIBZHL_API static void __stdcall __DO_NOT_HOOK_3();
 	
 };
 
@@ -6196,9 +6192,6 @@ struct RockAnimation : CrewAnimation
 
 	LIBZHL_API std::string GetDeathSound();
 	LIBZHL_API std::string GetShootingSound();
-	LIBZHL_API static void __stdcall __DO_NOT_HOOK_1();
-	LIBZHL_API static void __stdcall __DO_NOT_HOOK_2();
-	LIBZHL_API static void __stdcall __DO_NOT_HOOK_3();
 	LIBZHL_API void constructor(const std::string &subRace, int iShipId, Pointf position, bool enemy);
 	
 };
@@ -6638,7 +6631,6 @@ struct ShipManager : ShipObject
 	LIBZHL_API CrewDrone *CreateCrewDrone(const DroneBlueprint *bp);
 	LIBZHL_API SpaceDrone *CreateSpaceDrone(const DroneBlueprint *bp);
 	LIBZHL_API int CreateSystems();
-	LIBZHL_API static void __stdcall DO_NOT_HOOK();
 	LIBZHL_API bool DamageArea(Pointf location, DamageParameter dmg, char forceHit);
 	LIBZHL_API bool DamageBeam(Pointf location1, Pointf location2, DamageParameter dmg);
 	LIBZHL_API char DamageCrew(CrewMember *crew, DamageParameter dmg);
@@ -7394,7 +7386,6 @@ struct WeaponStoreBox : StoreBox
 		this->bEquipmentBox = true;
 	}
 
-	LIBZHL_API static void __stdcall __DO_NOT_HOOK();
 	LIBZHL_API void constructor(ShipManager *ship, Equipment *equip, const WeaponBlueprint *weaponBp);
 	
 	WeaponBlueprint *blueprint;

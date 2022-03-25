@@ -235,6 +235,7 @@ local funcdef = lpeg.P
 	bp = lpeg.P{"(" * ((1 - lpeg.S"()") + lpeg.V(1))^0 * ")"};
 	class = lpeg.Ct(
 		lpeg.V("sig")^-1 *
+		(lpeg.P("noHook") * sp * lpeg.Cg(lpeg.Cc(true), "noHook"))^-1 *
 		(lpeg.P("virtual") * sp * lpeg.Cg(lpeg.Cc(true), "virtual"))^-1 *
 		(lpeg.P("static") * sp * lpeg.Cg(lpeg.Cc(true), "static"))^-1 *
 		(lpeg.P("reference") * sp * lpeg.Cg(lpeg.Cc(true), "reference"))^-1 *

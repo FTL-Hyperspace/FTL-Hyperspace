@@ -132,20 +132,6 @@ namespace _func8
 	static FunctionDefinition funcObj("AchievementTracker::DO_NOT_HOOK_1", typeid(void (AchievementTracker::*)()), "4157488d47484989f7415641554154554889fd4889c7534883ec38", argdata, 0, 4, &func);
 }
 
-FUNC_NAKED void AchievementTracker::DO_NOT_HOOK_1()
-{
-	__asm__
-	(
-		"pushq %%rbp\n\t"
-		"movq %%rsp, %%rbp\n\t"
-		"call *%0\n\t"
-		"movq %%rbp, %%rsp\n\t"
-		"popq %%rbp\n\t"
-		"ret\n\t"
-		 :: "m"(_func8::func)
-	);
-}
-
 namespace _func9
 {
 	static void *func = 0;
@@ -11758,10 +11744,10 @@ namespace _func501
 {
 	static void *func = 0;
 	static short argdata[] = {0x107, 0x106};
-	static FunctionDefinition funcObj("Description::copy_assign_2", typeid(Description &(Description::*)(Description &&)), "554889f5534889fb4883ec08e8????????0fb64508488d7510488d7b10884308e8????????0fb64518488d7520488d7b20884318e8????????0fb64528488d7548488d7b488843288b45308943308b45348943348b45388943388b453c89433c0fb64540884340e8????????0fb64550488d7558", argdata, 2, 2, &func);
+	static FunctionDefinition funcObj("Description::copy_assign_2", typeid(Description &(Description::*)(Description &)), "554889f5534889fb4883ec08e8????????0fb64508488d7510488d7b10884308e8????????0fb64518488d7520488d7b20884318e8????????0fb64528488d7548488d7b488843288b45308943308b45348943348b45388943388b453c89433c0fb64540884340e8????????0fb64550488d7558", argdata, 2, 2, &func);
 }
 
-FUNC_NAKED Description &Description::copy_assign_2(Description &&other)
+FUNC_NAKED Description &Description::copy_assign_2(Description &other)
 {
 	__asm__
 	(
@@ -15331,21 +15317,7 @@ namespace _func656
 {
 	static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("MantisAnimation::__DO_NOT_HOOK_1", typeid(void (*)()), "!c3660f1f840000000000f3c3660f1f440000f3c3660f1f440000", argdata, 0, 4, &func);
-}
-
-FUNC_NAKED void MantisAnimation::__DO_NOT_HOOK_1()
-{
-	__asm__
-	(
-		"pushq %%rbp\n\t"
-		"movq %%rsp, %%rbp\n\t"
-		"call *%0\n\t"
-		"movq %%rbp, %%rsp\n\t"
-		"popq %%rbp\n\t"
-		"ret\n\t"
-		 :: "m"(_func656::func)
-	);
+	static FunctionDefinition funcObj("MantisAnimation::__DO_NOT_HOOK_1", typeid(void (MantisAnimation::*)()), "!c3660f1f840000000000f3c3660f1f440000f3c3660f1f440000", argdata, 0, 4, &func);
 }
 
 namespace _func657
@@ -15376,21 +15348,7 @@ namespace _func658
 {
 	static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("MantisAnimation::__DO_NOT_HOOK_2", typeid(void (*)()), ".53486347584889fb488b5710", argdata, 0, 4, &func);
-}
-
-FUNC_NAKED void MantisAnimation::__DO_NOT_HOOK_2()
-{
-	__asm__
-	(
-		"pushq %%rbp\n\t"
-		"movq %%rsp, %%rbp\n\t"
-		"call *%0\n\t"
-		"movq %%rbp, %%rsp\n\t"
-		"popq %%rbp\n\t"
-		"ret\n\t"
-		 :: "m"(_func658::func)
-	);
+	static FunctionDefinition funcObj("MantisAnimation::__DO_NOT_HOOK_2", typeid(void (MantisAnimation::*)()), ".53486347584889fb488b5710", argdata, 0, 4, &func);
 }
 
 namespace _func659
@@ -15420,21 +15378,7 @@ namespace _func660
 {
 	static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("MantisAnimation::__DO_NOT_HOOK_3", typeid(void (*)()), ".534889fb4883ec30803d????????007577e8????????89c1", argdata, 0, 4, &func);
-}
-
-FUNC_NAKED void MantisAnimation::__DO_NOT_HOOK_3()
-{
-	__asm__
-	(
-		"pushq %%rbp\n\t"
-		"movq %%rsp, %%rbp\n\t"
-		"call *%0\n\t"
-		"movq %%rbp, %%rsp\n\t"
-		"popq %%rbp\n\t"
-		"ret\n\t"
-		 :: "m"(_func660::func)
-	);
+	static FunctionDefinition funcObj("MantisAnimation::__DO_NOT_HOOK_3", typeid(void (MantisAnimation::*)()), ".534889fb4883ec30803d????????007577e8????????89c1", argdata, 0, 4, &func);
 }
 
 namespace _func661
@@ -17226,21 +17170,7 @@ namespace _func737
 {
 	static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("RockAnimation::__DO_NOT_HOOK_1", typeid(void (*)()), "f3c3660f1f44000053be????????4889fb4883ec10488d54240fe8????????4883c4104889d85bc353be????????4889fb4883ec10", argdata, 0, 4, &func);
-}
-
-FUNC_NAKED void RockAnimation::__DO_NOT_HOOK_1()
-{
-	__asm__
-	(
-		"pushq %%rbp\n\t"
-		"movq %%rsp, %%rbp\n\t"
-		"call *%0\n\t"
-		"movq %%rbp, %%rsp\n\t"
-		"popq %%rbp\n\t"
-		"ret\n\t"
-		 :: "m"(_func737::func)
-	);
+	static FunctionDefinition funcObj("RockAnimation::__DO_NOT_HOOK_1", typeid(void (RockAnimation::*)()), "f3c3660f1f44000053be????????4889fb4883ec10488d54240fe8????????4883c4104889d85bc353be????????4889fb4883ec10", argdata, 0, 4, &func);
 }
 
 namespace _func738
@@ -17271,42 +17201,14 @@ namespace _func739
 {
 	static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("RockAnimation::__DO_NOT_HOOK_2", typeid(void (*)()), ".534889fb4883ec30803d????????007577e8????????89c1", argdata, 0, 4, &func);
-}
-
-FUNC_NAKED void RockAnimation::__DO_NOT_HOOK_2()
-{
-	__asm__
-	(
-		"pushq %%rbp\n\t"
-		"movq %%rsp, %%rbp\n\t"
-		"call *%0\n\t"
-		"movq %%rbp, %%rsp\n\t"
-		"popq %%rbp\n\t"
-		"ret\n\t"
-		 :: "m"(_func739::func)
-	);
+	static FunctionDefinition funcObj("RockAnimation::__DO_NOT_HOOK_2", typeid(void (RockAnimation::*)()), ".534889fb4883ec30803d????????007577e8????????89c1", argdata, 0, 4, &func);
 }
 
 namespace _func740
 {
 	static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("RockAnimation::__DO_NOT_HOOK_3", typeid(void (*)()), ".534889fb4883ec30803d????????007577e8????????89c1", argdata, 0, 4, &func);
-}
-
-FUNC_NAKED void RockAnimation::__DO_NOT_HOOK_3()
-{
-	__asm__
-	(
-		"pushq %%rbp\n\t"
-		"movq %%rsp, %%rbp\n\t"
-		"call *%0\n\t"
-		"movq %%rbp, %%rsp\n\t"
-		"popq %%rbp\n\t"
-		"ret\n\t"
-		 :: "m"(_func740::func)
-	);
+	static FunctionDefinition funcObj("RockAnimation::__DO_NOT_HOOK_3", typeid(void (RockAnimation::*)()), ".534889fb4883ec30803d????????007577e8????????89c1", argdata, 0, 4, &func);
 }
 
 namespace _func741
@@ -21096,21 +20998,7 @@ namespace _func903
 {
 	static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("ShipManager::DO_NOT_HOOK", typeid(void (*)()), ".83fe11743b83feff742e", argdata, 0, 4, &func);
-}
-
-FUNC_NAKED void ShipManager::DO_NOT_HOOK()
-{
-	__asm__
-	(
-		"pushq %%rbp\n\t"
-		"movq %%rsp, %%rbp\n\t"
-		"call *%0\n\t"
-		"movq %%rbp, %%rsp\n\t"
-		"popq %%rbp\n\t"
-		"ret\n\t"
-		 :: "m"(_func903::func)
-	);
+	static FunctionDefinition funcObj("ShipManager::DO_NOT_HOOK", typeid(void (ShipManager::*)()), ".83fe11743b83feff742e", argdata, 0, 4, &func);
 }
 
 namespace _func904
@@ -30501,21 +30389,7 @@ namespace _func1295
 {
 	static void *func = 0;
 	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("WeaponStoreBox::__DO_NOT_HOOK", typeid(void (*)()), "41554989d541544989f4be", argdata, 0, 4, &func);
-}
-
-FUNC_NAKED void WeaponStoreBox::__DO_NOT_HOOK()
-{
-	__asm__
-	(
-		"pushq %%rbp\n\t"
-		"movq %%rsp, %%rbp\n\t"
-		"call *%0\n\t"
-		"movq %%rbp, %%rsp\n\t"
-		"popq %%rbp\n\t"
-		"ret\n\t"
-		 :: "m"(_func1295::func)
-	);
+	static FunctionDefinition funcObj("WeaponStoreBox::__DO_NOT_HOOK", typeid(void (WeaponStoreBox::*)()), "41554989d541544989f4be", argdata, 0, 4, &func);
 }
 
 namespace _func1296
