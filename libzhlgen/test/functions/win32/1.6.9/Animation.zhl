@@ -21,6 +21,7 @@ __thiscall void Animation::SetProgress(Animation *this, float progress);
 "5589e55389cb83e4f0803d????????00754ee8????????8b4b0499c6433200660fefc0c6433001660fefc9":
 __thiscall int Animation::RandomStart(Animation *this);
 
+
 struct Animation 
 {{
 	Animation()

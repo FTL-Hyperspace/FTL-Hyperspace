@@ -1,4 +1,4 @@
 "578d7c240883e4f0ff77fc5589e557565389cb81ec????????e8????????8b4350c78528feffff09000000":
-void ChoiceBox::OnRender(ChoiceBox *this<ecx>);
+__thiscall void ChoiceBox::OnRender(ChoiceBox *this<ecx>);
 "578d7c240883e4f0ff77fc5589e557565389ce83ec2c8b4704894de0b9????????8b1f8945e4e8????????8b7e508b464c":
-void ChoiceBox::MouseMove(ChoiceBox *this<ecx>, int x, int y);
+__thiscall void ChoiceBox::MouseMove(ChoiceBox *this<ecx>, int x, int y);

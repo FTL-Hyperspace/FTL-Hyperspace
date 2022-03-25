@@ -1,11 +1,12 @@
 "578d7c240883e4f0ff77fc5589e557565389cb83ec1c80791800c641200075??":
-void Door::FakeClose(Door *this<ecx>);
+__thiscall void Door::FakeClose(Door *this<ecx>);
 "8b913c0200008b410485d27e??85c00f94c00fb6c08b511c85d274??80791800":
-bool Door::IsSealed(Door *this<ecx>, int shipId);
+__thiscall bool Door::IsSealed(Door *this<ecx>, int shipId);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec1c83b9b400000004":
-void Door::FakeOpen(Door *this<ecx>);
+__thiscall void Door::FakeOpen(Door *this<ecx>);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b813c02000085c0":
-void Door::OnLoop(Door *this<ecx>);
+__thiscall void Door::OnLoop(Door *this<ecx>);
+
 
 struct Door depends (Point, ShipGraph)
 {{

@@ -1,8 +1,8 @@
 "5589e556538b750889cbc741040000000083e4f083c108e8????????8d4b74e8????????89f0c683a900000000":
-void ShipAI::constructor(ShipAI *this<ecx>, bool unk);
+__thiscall void ShipAI::constructor(ShipAI *this<ecx>, bool unk);
 ".8b44240484c074??80b9ec0000000075??c781f0000000000000008881ec000000":
-void ShipAI::SetStalemate(ShipAI *this<ecx>, bool stalemate);
+__thiscall void ShipAI::SetStalemate(ShipAI *this<ecx>, bool stalemate);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec4c8b3789f084c08b010f84????????8bb8cc000000":
-void ShipAI::OnLoop(ShipAI *this<ecx>, bool hostile);
+__thiscall void ShipAI::OnLoop(ShipAI *this<ecx>, bool hostile);
 "8b410485c00f84????????8b0185c00f84????????578d7c240883e4f0ff77fc5589e5575389cb89c1":
-std::pair<int, int> ShipAI::GetTeleportCommand(ShipAI *this<ecx>);
+__thiscall std::pair<int, int> ShipAI::GetTeleportCommand(ShipAI *this<ecx>);
