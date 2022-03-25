@@ -547,42 +547,127 @@ for k,fd in pairs(tfiles) do
                 func.longlong = true
             end
             
-            -- Precompute stack positions for all arguments
-            local stackPos = 8 -- TODO: Is this size 16 on 64-bit, or is it still just 8 because of the slightly different stack alignment with CALL?
-            local pushSize = 0
-            local flt_i = 1
-            local int_i = 1
-            for k, arg in ipairs(func.args) do
-                arg.size = sizeof_aligned(arg)
-                if k == 1 and func.thiscall and arg.reg == "ecx" and thiscallFirstArgumentECX then -- TODO: This will need total reworking for 64-bit since it's more than just ECX as the caller on Windows
-                    assert(arg.size == 1)
-                elseif arg.reg and floatsPassedInSSERegisters and (arg.class == "float" or arg.class == "double") and flt_i <= #argPatternSSE then
-                    if arg.reg ~= argPatternSSE[flt_i] then
-                        local classname
-                        if func.varparent then classname = func.varparent:cname() end
-                        print("Warning! potential SSE register clobbering detected, not yet supported copy to a register while incoming argument was on a register and was not the same register, " .. argPatternSSE[flt_i] .. "->" .. arg.reg .. " for argument: " .. arg.name .. " for function: " .. classname .. "::" .. func.name)
-                    end
-                    flt_i = flt_i + 1
-                elseif arg.reg and int_i <= #argPattern then
-                    if arg.reg ~= argPattern[int_i] then -- Check if we would be copying the same register to itself
-                        local classname
-                        if func.varparent then classname = func.varparent:cname() end
-                        print("Warning! potential register clobbering detected, not yet supported copy to a register while incoming argument was on a register and was not the same register, " .. argPattern[int_i] .. "->" .. arg.reg .. " for argument: " .. arg.name .. " for function: " .. classname .. "::" .. func.name)
-                    end
-                    int_i = int_i + 1
-                else
-                    arg.pos = stackPos
-                    local argMemory = archPushSize * arg.size
-                    stackPos = stackPos + argMemory
-                    if not arg.reg then
-                        pushSize = pushSize + argMemory
+            if func.callingConvention ~= nil then
+                local i = 0
+                for k, arg in ipairs(func.args) do
+                    arg.size = sizeof_aligned(arg)
+                    -- TODO: Still need to be aware of argument struct size, as that will be important for if it's on stack or how many registers it uses
+                    -- TODO: System V AMD64 needs to be aware of argument struct TYPE to determine if it's INT:INT, SSE:INT, SSE:SSE, INT:SSE if it is under 16 bytes
+
+                    if arch == "i386" then
+                        if arg.size > archPushSize then -- Make sure under max size of struct passing in registers in argument for architecture/ABI, i386 Microsoft & System V is just single register I think but not certain. Above this size, use stack.
+                            arg.reg = nil
+                        else
+                            i = i + 1
+                        end
+
+                        if func.callingConvention == "__cdecl" then
+                            arg.reg = nil
+                        elseif func.callingConvention == "__thiscall" then -- TODO: Print warning if __thiscall used on Linux, it's valid but results in Microsoft style passing on ECX
+                            if i == 1 then
+                                -- TODO: Support that arg #2 is ECX when using MSVC if and only if there was a return struct larger than 8 bytes. On GCC, first arg in thiscall is always ECX regardless of if it is the actual *this
+                                arg.reg = "ecx"
+                            else
+                                arg.reg = nil
+                            end
+                        elseif func.callingConvention == "__regparm1" then
+                            if i == 1 then
+                                arg.reg = "eax"
+                            else
+                                arg.reg = nil
+                            end
+                        elseif func.callingConvention == "__regparm2" then
+                            if i == 1 then
+                                arg.reg = "eax"
+                            elseif i == 2 then
+                                arg.reg = "edx"
+                            else
+                                arg.reg = nil
+                            end
+                        elseif func.callingConvention == "__regparm3" then
+                            if i == 1 then
+                                arg.reg = "eax"
+                            elseif i == 2 then
+                                arg.reg = "edx"
+                            elseif i == 3 then
+                                arg.reg = "ecx"
+                            else
+                                arg.reg = nil
+                            end
+                        elseif func.callingConvention == "__vectorcall" then
+                            -- TODO: Need to be aware of if arg is int or SSE type?
+                            error("Unimplemented calling convention for x86: " .. func.callingConvention)
+                        elseif func.callingConvention == "__fastcall" then
+                            if i == 1 then
+                                arg.reg = "ecx"
+                            elseif i == 2 then
+                                arg.reg = "edx"
+                            else
+                                arg.reg = nil
+                            end
+                        else
+                            error("Unsupported calling convention for x86: " .. func.callingConvention)
+                        end
+                    elseif arch == "x86_64" then
+                        -- TODO: Not sure if Microsoft ABI passes 16 byte structs on two registers or not.
+                        if arg.size > archPushSize * 2 then -- Make sure under max size of struct passing in registers in argument for architecture/ABI, Above this size, use stack.
+                            arg.reg = nil
+                        else
+                            i = i + 1
+                        end
+
+                        if func.callingConvention == "__amd64" then
+                            -- TODO: Need to be aware of if arg/struct is int or SSE type to determine which register to use.
+                            -- TODO: Need to be aware of ABI if Microsoft or System V to determine if to count SSE & int registers list with one accumulator (Microsoft) or two (System V)
+
+                            -- TODO: If a struct exceeds the remaining # of args needed from INT & SSE registers but is under 16 bytes we place it in memory and do not consume the registers, they are available for the next argument (I think). For example (System V ABI) if a struct needs 2 INT registers, but RDI, RSI, RDX, RCX, R8, have been used (so only R9 remains) then the struct is placed in memory and R9 is available for the next integer argument. However if RDI, RSI, RDX, RCX, R8 were used but the struct was INT:SSE then R9:XMM0 will be used and future integer arguments will be on the stack.
+                            -- error("Unimplemented calling convention for x86_64: " .. func.callingConvention)
+                        elseif func.callingConvention == "__vectorcall" then
+                            -- TODO: Need to be aware of if arg is int or SSE type?
+                            error("Unimplemented calling convention for x86_64: " .. func.callingConvention)
+                        else
+                            error("Unsupported calling convention for x86_64: " .. func.callingConvention)
+                        end
                     end
                 end
+            else
+                -- Precompute stack positions for all arguments
+                local stackPos = 8 -- TODO: Is this size 16 on 64-bit, or is it still just 8 because of the slightly different stack alignment with CALL?
+                local pushSize = 0
+                local flt_i = 1
+                local int_i = 1
+                for k, arg in ipairs(func.args) do
+                    arg.size = sizeof_aligned(arg)
+                    if k == 1 and func.thiscall and arg.reg == "ecx" and thiscallFirstArgumentECX then -- TODO: This will need total reworking for 64-bit since it's more than just ECX as the caller on Windows
+                        assert(arg.size == 1)
+                    elseif arg.reg and floatsPassedInSSERegisters and (arg.class == "float" or arg.class == "double") and flt_i <= #argPatternSSE then
+                        if arg.reg ~= argPatternSSE[flt_i] then
+                            local classname
+                            if func.varparent then classname = func.varparent:cname() end
+                            print("Warning! potential SSE register clobbering detected, not yet supported copy to a register while incoming argument was on a register and was not the same register, " .. argPatternSSE[flt_i] .. "->" .. arg.reg .. " for argument: " .. arg.name .. " for function: " .. classname .. "::" .. func.name)
+                        end
+                        flt_i = flt_i + 1
+                    elseif arg.reg and int_i <= #argPattern then
+                        if arg.reg ~= argPattern[int_i] then -- Check if we would be copying the same register to itself
+                            local classname
+                            if func.varparent then classname = func.varparent:cname() end
+                            print("Warning! potential register clobbering detected, not yet supported copy to a register while incoming argument was on a register and was not the same register, " .. argPattern[int_i] .. "->" .. arg.reg .. " for argument: " .. arg.name .. " for function: " .. classname .. "::" .. func.name)
+                        end
+                        int_i = int_i + 1
+                    else
+                        arg.pos = stackPos
+                        local argMemory = archPushSize * arg.size
+                        stackPos = stackPos + argMemory
+                        if not arg.reg then
+                            pushSize = pushSize + argMemory
+                        end
+                    end
+                end
+                
+                -- TODO: Is this 16 on 64-bit?
+                func.stacksize = stackPos - 8 -- size of the stack for cleanup (the stack size the hook was called with, includes register targeted args if they were passed to this hook on the stack)
+                func.stackCallPushSize = pushSize -- Size of the stack in the CALL to the target function (original size in target, ignores register args)
             end
-            
-            -- TODO: Is this 16 on 64-bit?
-            func.stacksize = stackPos - 8 -- size of the stack for cleanup (the stack size the hook was called with, includes register targeted args if they were passed to this hook on the stack)
-            func.stackCallPushSize = pushSize -- Size of the stack in the CALL to the target function (original size in target, ignores register args)
             
             -- Special behaviour for void functions
             if func.class == "void" and (not func.ptr or #func.ptr == 0) then
