@@ -1,11 +1,11 @@
 "5557565383ec6c8b9c2480000000????????c70424":
-cleanup void OptionsScreen::OnInit(OptionsScreen *this);
+cleanup __cdecl void OptionsScreen::OnInit(OptionsScreen *this);
 "5589e557565331db83ec4c":
 void OptionsScreen::DO_NOT_HOOK1();
 ".5589e557565331db83ec4c":
 void OptionsScreen::DO_NOT_HOOK2();
 ".5589e557565331db83ec4c":
-cleanup void OptionsScreen::OnLoop(OptionsScreen *this);
+cleanup __cdecl void OptionsScreen::OnLoop(OptionsScreen *this);
 
 
 struct OptionsScreen {{

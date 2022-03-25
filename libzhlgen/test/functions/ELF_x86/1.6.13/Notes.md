@@ -55,7 +55,7 @@ Does not exist in the linux binaries (might of simply been removed between 1.6.9
 
 ##### Dummy/Mocks
 ```c++
-static cleanup int FileHelper::fileLength(int file);
+static cleanup __cdecl int FileHelper::fileLength(int file);
 ```
 On Linux this is just mocked to always return 1 and is too short to match with ZHL, needs to be mocked (or actually legit implemented) in our code if we use it.
 
@@ -91,13 +91,13 @@ void CrewAnimation::destructor(CrewAnimation *this<ecx>);
 Was impossible to match uniquely (yet in Win32 it's pretty simple to match it), the ELF binary has tons of destructors that match the same signature although CrewAnimation is the first destructor with the signature in the binary so hopefully it'll hook to the right one.
 
 ```c++
-static cleanup void CSurface::GL_Rotate(float angle, float x, float y, float z=1.f);
-static cleanup void CSurface::GL_Rotate2(float angle, float x, float y, float z=1.f);
+static cleanup __cdecl void CSurface::GL_Rotate(float angle, float x, float y, float z=1.f);
+static cleanup __cdecl void CSurface::GL_Rotate2(float angle, float x, float y, float z=1.f);
 ```
 Win32 defines two different `CSurface::GL_Rotate` functions, the Linux version only has one `CSurface::GL_Rotate`, both calls have been mapped to the same address
 
 ```c++
-static cleanup int FileHelper::getPosition(int file);
+static cleanup __cdecl int FileHelper::getPosition(int file);
 ```
 getPosition is a single instruction method on Linux (it's much more complicated in Win32) and just references a global variable FileHelper::iFilePosition however, that global variable is surrounded by tons of just plain 0's and might be incredibly difficult to target.
 This function might require re-implementation or tweaking to ZHL to allow matching a single instruction function in special cases?
@@ -123,7 +123,7 @@ std::vector<Door*>& ShipGraph::GetDoors(ShipGraph *this<ecx>, int unk);
 Might need to be redefined as static and move the return reference into the arguments because of __thiscall style on GCC.
 
 ```c++
-static cleanup void ShipSystem::GetLevelDescription(void* unk<esi>, std::string& retStr, int systemId, int level, bool tooltip);
+static cleanup __cdecl void ShipSystem::GetLevelDescription(void* unk<esi>, std::string& retStr, int systemId, int level, bool tooltip);
 ```
 Not sure why this has a `void* unk<esi>` at the beginning, the retStr is visible from how this function returns and is replacing the this parameter but nothing appears to be passed in on `ESI` regardless.
 
@@ -375,12 +375,12 @@ Note the extra unhandled parameter for heading!
 
 ZHL declares
 ```c++
-static cleanup double freetype::easy_measurePrintLines(int fontData, float x, float y, int width, const std::string& text);
-static cleanup int freetype::easy_print(int fontData, float x, float y, const std::string& text);
-static cleanup int freetype::easy_printRightAlign(int fontData, float x, float y, const std::string& text);
-static cleanup int freetype::easy_printNewlinesCentered(int fontData, float x, float y, int width, const std::string& text);
-static cleanup int freetype::easy_printAutoNewlines(int fontData, float x, float y, int width, const std::string& text);
-static cleanup double freetype::easy_printCenter(int fontData, float x, float y, const std::string& text);
+static cleanup __cdecl double freetype::easy_measurePrintLines(int fontData, float x, float y, int width, const std::string& text);
+static cleanup __cdecl int freetype::easy_print(int fontData, float x, float y, const std::string& text);
+static cleanup __cdecl int freetype::easy_printRightAlign(int fontData, float x, float y, const std::string& text);
+static cleanup __cdecl int freetype::easy_printNewlinesCentered(int fontData, float x, float y, int width, const std::string& text);
+static cleanup __cdecl int freetype::easy_printAutoNewlines(int fontData, float x, float y, int width, const std::string& text);
+static cleanup __cdecl double freetype::easy_printCenter(int fontData, float x, float y, const std::string& text);
 ```
 Linux Raw Dissassembly
 ```c++

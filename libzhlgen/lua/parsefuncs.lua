@@ -1076,36 +1076,36 @@ using namespace ZHL;
                 -- TODO: Support MSVC style rather than GCC style __attribute__ NOTE: MSVC sucks, it requires __fastcall and shit in the cast, so like typedef whatever (__fastcall *ptr)(def)
                 -- TODO: Maybe support ms_hook_prologue for Win32 API functions
                 -- TODO: Maybe support force_align_arg_pointer?
-                out("\ttypedef %s", func:cname())
+                out("\ttypedef %s", func:toString())
                 if arch == "i386" then
                     if func.callingConvention == "__cdecl" then -- TODO: In the future make cdecl imply cleanup
                         -- TODO: On Linux, cdecl is the default across the board (same as thiscall), it could be left out of the generated code
-                        out(" __attribute__((cdecl))")
+                        out("__attribute__((cdecl)) ")
                     elseif func.callingConvention == "__thiscall" then -- TODO: Print warning if __thiscall used on Linux, it's valid but results in Microsoft style passing on ECX
-                        out(" __attribute__((thiscall))")
+                        out("__attribute__((thiscall)) ")
                     elseif func.callingConvention == "__regparm1" then
-                        out(" __attribute__((regparm(1)))")
+                        out("__attribute__((regparm(1))) ")
                     elseif func.callingConvention == "__regparm2" then
-                        out(" __attribute__((regparm(2)))")
+                        out("__attribute__((regparm(2))) ")
                     elseif func.callingConvention == "__regparm3" then
-                        out(" __attribute__((regparm(3)))")
+                        out("__attribute__((regparm(3))) ")
                     elseif func.callingConvention == "__vectorcall" then
-                        out(" __attribute__((vectorcall))")
+                        out("__attribute__((vectorcall)) ")
                     elseif func.callingConvention == "__fastcall" then
-                        out(" __attribute__((fastcall))")
+                        out("__attribute__((fastcall)) ")
                     else
                         error("Unsupported calling convention for x86: " .. func.callingConvention)
                     end
                 elseif arch == "x86_64" then
                     if func.callingConvention == "__amd64" then
                     elseif func.callingConvention == "__vectorcall" then
-                        out(" __attribute__((vectorcall))")
+                        out("__attribute__((vectorcall)) ")
                     else
                         error("Unsupported calling convention for x86_64: " .. func.callingConvention)
                     end
                 end
 
-                out(" (*custom_arg_funcptr_t)(")
+                out("(*custom_arg_funcptr_t)(")
                 out(argsToString(func, true, false, true, false, "_arg")) -- TODO: Need to hide implicit attributes (but leave this attribute)
                 out(");\n")
                 

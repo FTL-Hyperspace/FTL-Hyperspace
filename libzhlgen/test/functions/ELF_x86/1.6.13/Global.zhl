@@ -390,14 +390,14 @@ int SomeFunction(int a<ecx>, int b, int c<edx>);
 // Common calling conventions are easy to translate:
 //	- __stdcall: All arguments are passed on the stack, no need to specify registers
 //	- __thiscall: (Microsoft Only) First argument is passed via ECX, all other arguments are passed on the stack
-//  - __thiscall: (GCC/Linux) All arguments are passed via the stack, first argument is always this. Just like cdecl except with a this parameter. Stack cleanup is the caller's responsibility.
+//  - __thiscall: (GCC/Linux) All arguments are passed via the stack, first argument is always this. Just like cdecl except with a this parameter. Stack cleanup __cdecl is the caller's responsibility.
 //	- __fastcall: First argument is passed via ECX, second is passed via EDX, all other arguments are passed on the stack
-//	- __cdecl: All arguments are passed on the stack, stack cleanup is the caller's responsibility (see below)
+//	- __cdecl: All arguments are passed on the stack, stack cleanup __cdecl is the caller's responsibility (see below)
 
-// If a function requires caller cleanup rather than callee cleanup (i.e. __cdecl), the "cleanup" keyword must be added to the declaration
-// Also note that default parameters are supported (this has nothing to do with the cleanup keyword but hey, might as well demonstrate it now)
+// If a function requires caller cleanup __cdecl rather than callee cleanup __cdecl (i.e. __cdecl), the "cleanup" keyword must be added to the declaration
+// Also note that default parameters are supported (this has nothing to do with the cleanup __cdecl keyword but hey, might as well demonstrate it now)
 
-cleanup int SomeFunction2(int a, int b, int c = 4);
+cleanup __cdecl int SomeFunction2(int a, int b, int c = 4);
 
 // You will most likely encounter functions will look like the example below, where a pointer to a struct is passed as the first argument (second if it's a member function)
 // and the same pointer is then returned
@@ -488,19 +488,19 @@ __amd64 // Will be considered a thiscall automatically if this is the first para
 */
 
 "5557565383ec4c8b4c24608b6c246485c9":
-cleanup float font_text_width(freetype::font_data& fontData, const char* str, float size);
+cleanup __cdecl float font_text_width(freetype::font_data& fontData, const char* str, float size);
 
 "6905????????????????690d????????????????01c1b82d7f954cf725????????01ca83c00183d200a3????????89d08915????????d1e8":
-int random32();
+__cdecl int random32();
 
 "8b442404c705????????00000000a3????????":
-cleanup void srandom32(unsigned int seed);
+cleanup __cdecl void srandom32(unsigned int seed);
 
 "83ec048b5424088b44240c83fa05":
-cleanup float getSkillBonus(int skill, int level);
+cleanup __cdecl float getSkillBonus(int skill, int level);
 
 "5589e557565381ec4c0100008b450c8b400483f8ff":
-cleanup void GenerateReward(ResourceEvent &ref, RewardDesc &reward, int worldLevel);
+cleanup __cdecl void GenerateReward(ResourceEvent &ref, RewardDesc &reward, int worldLevel);
 
 "57565383ec108b5c2424c7442404????????":
-cleanup void GetValue(ResourceEvent &ref, const std::string& type, int level, int worldLevel);
+cleanup __cdecl void GetValue(ResourceEvent &ref, const std::string& type, int level, int worldLevel);

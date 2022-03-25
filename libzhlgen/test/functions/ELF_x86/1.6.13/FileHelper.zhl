@@ -1,59 +1,59 @@
 "5383ec188b5c2420c7442404000000008b03890424e8????????85c074??":
-static cleanup void FileHelper::deleteFile(const std::string& fileName);
+static cleanup __cdecl void FileHelper::deleteFile(const std::string& fileName);
 "565383ec248b5c24308d74241ce8????????":
-static cleanup std::string FileHelper::getResourceFile();
+static cleanup __cdecl std::string FileHelper::getResourceFile();
 "5383ec288b5c2430e8????????":
-static cleanup std::string FileHelper::getUserFolder();
+static cleanup __cdecl std::string FileHelper::getUserFolder();
 "57565383ec208b5c24308d74241ce8????????":
-static cleanup std::string FileHelper::getSaveFile();
+static cleanup __cdecl std::string FileHelper::getSaveFile();
 "565383ec34c605????????018d5c241f":
-static cleanup void FileHelper::initFileHelper();
+static cleanup __cdecl void FileHelper::initFileHelper();
 "83ec1c8b442420c7442404000000008b00":
-static cleanup bool FileHelper::fileExists(const std::string& fileName);
+static cleanup __cdecl bool FileHelper::fileExists(const std::string& fileName);
 "8b4424088b00894424088b442404":
-static cleanup void FileHelper::renameFile(const std::string& fileName, const std::string& newName);
+static cleanup __cdecl void FileHelper::renameFile(const std::string& fileName, const std::string& newName);
 "5383ec188b5c2420c7442404000000008b03890424e8????????85c075??":
-static cleanup int FileHelper::createBinaryFile(const std::string& fileName);
+static cleanup __cdecl int FileHelper::createBinaryFile(const std::string& fileName);
 ".5557565383ec3c8d442420894424088d442410":
-static cleanup bool FileHelper::saveFileExists();
+static cleanup __cdecl bool FileHelper::saveFileExists();
 ".5557565383ec3c8d442420894424088d442410":
-static cleanup int FileHelper::readSaveFile();
+static cleanup __cdecl int FileHelper::readSaveFile();
 ".5557565383ec3c8d442420894424088d442410":
-static cleanup int FileHelper::readStatsFile();
+static cleanup __cdecl int FileHelper::readStatsFile();
 ".a1????????a3????????b8????????":
-static cleanup int FileHelper::createSaveFile();
+static cleanup __cdecl int FileHelper::createSaveFile();
 ".a1????????a3????????b8????????":
-static cleanup int FileHelper::createStatsFile();
+static cleanup __cdecl int FileHelper::createStatsFile();
 "5383ec18c70424????????e8????????89c3":
-static cleanup void FileHelper::deleteSaveFile();
+static cleanup __cdecl void FileHelper::deleteSaveFile();
 "5557565383ec2ce8????????8d74241c8d7c241b":
-static cleanup void FileHelper::deleteAllSaveFiles();
+static cleanup __cdecl void FileHelper::deleteAllSaveFiles();
 ".a1????????c3":
-static cleanup int FileHelper::getPosition(int file);
+static cleanup __cdecl int FileHelper::getPosition(int file);
 "5383ec188b442420c744240400000000":
-static cleanup int FileHelper::readBinaryFile(const std::string& fileName);
+static cleanup __cdecl int FileHelper::readBinaryFile(const std::string& fileName);
 "5557565383ec2cf30f1005????????":
-static cleanup bool FileHelper::writeFloat(int file, float data);
+static cleanup __cdecl bool FileHelper::writeFloat(int file, float data);
 "5557565383ec2c8b542444803d????????00":
-static cleanup bool FileHelper::writeInt(int file, int data);
+static cleanup __cdecl bool FileHelper::writeInt(int file, int data);
 "5557565383ec2c8b4424408b5c24483dfffeff7f":
-static cleanup bool FileHelper::writeData(int file, void* data, int len);
+static cleanup __cdecl bool FileHelper::writeData(int file, void* data, int len);
 "5557565383ec3c8b4424548b7424508b38":
-static cleanup bool FileHelper::writeString(int file, const std::string& data);
+static cleanup __cdecl bool FileHelper::writeString(int file, const std::string& data);
 "5383ec188b4424203dfffeff7f":
-static cleanup void FileHelper::closeBinaryFile(int file);
+static cleanup __cdecl void FileHelper::closeBinaryFile(int file);
 "5557565383ec3c8b5c24548d6c2420":
-static cleanup std::string FileHelper::readString(int file);
+static cleanup __cdecl std::string FileHelper::readString(int file);
 ".5557565383ec3c8b5c24508d7c242081fbfffeff7f":
-static cleanup float FileHelper::readFloat(int file);
+static cleanup __cdecl float FileHelper::readFloat(int file);
 ".5557565383ec3c8b5c24508d7c242081fbfffeff7f":
-static cleanup int FileHelper::readInteger(int file);
+static cleanup __cdecl int FileHelper::readInteger(int file);
 "83ec1c8b442424c74424080000000089442404a3????????":
-static cleanup bool FileHelper::seekPosition(int file, int pos);
+static cleanup __cdecl bool FileHelper::seekPosition(int file, int pos);
 "5557565383ec2c8b6c24488b5c24448b742440":
-static cleanup char* FileHelper::readBuffer(int file, int len, bool nullTerminate);
+static cleanup __cdecl char* FileHelper::readBuffer(int file, int len, bool nullTerminate);
 "5557565383ec1c8b5c24308b7c24348b74243881fb????????":
-static cleanup void FileHelper::readData(int file, void* data, int len);
+static cleanup __cdecl void FileHelper::readData(int file, void* data, int len);
 
 
 struct FileHelper

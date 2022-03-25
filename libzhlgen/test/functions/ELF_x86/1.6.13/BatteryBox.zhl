@@ -1,5 +1,5 @@
 "5557565383ec7c8b9c24900000008d7c243e8b9424980000008bb4249c0000008b842494000000":
-cleanup void BatteryBox::constructor(BatteryBox *this, Point pos, BatterySystem* sys);
+cleanup __cdecl void BatteryBox::constructor(BatteryBox *this, Point pos, BatterySystem* sys);
 
 struct BatteryBox
 {{
