@@ -14050,7 +14050,7 @@ void ShipSystem::CheckMaxPower()
 namespace _func1014
 {
 	static void *func = 0;
-	static short argdata[] = {0x101};
+	static short argdata[] = {0x1ff};
 	static FunctionDefinition funcObj("ShipSystem::__DO_NOT_HOOK", typeid(void (ShipSystem::*)()), "55c701????????89e583e4f0e8????????c9c390909090909090909090909090b8????????", argdata, 1, 5, &func);
 }
 

@@ -1,11 +1,11 @@
 "578d7c240883e4f0ff77fc5589e557565389cb81ec????????8b378b79348b0689f1ff5028":
-__thiscall void Projectile::CollisionCheck(Projectile *this<ecx>, Collideable *other);
+__thiscall void Projectile::CollisionCheck(Projectile *this, Collideable *other);
 "578d7c240883e4f0ff77fc5589e557565389ce81ec????????8b078b57048b5f088b4f0cc7460805000000c6460c018985f0feffff8995f4feffff8b47108b5714":
-__thiscall void Projectile::constructor(Projectile *this<ecx>, Pointf position, int ownerId, int targetId, Pointf target);
+__thiscall void Projectile::constructor(Projectile *this, Pointf position, int ownerId, int targetId, Pointf target);
 ".558d915c02000089e5575653":
-__thiscall void Projectile::destructor(Projectile *this<ecx>);
+__thiscall void Projectile::destructor(Projectile *this);
 "578d7c240883e4f0ff77fc5589e557565331db81ec????????8b07898dbcfeffffc785c8feffff00000000c785ccfeffff00000000c785d0feffff000000008d8824010000":
-__thiscall void Projectile::Initialize(Projectile *this<ecx>, const WeaponBlueprint& bp);
+__thiscall void Projectile::Initialize(Projectile *this, const WeaponBlueprint& bp);
 
 // Do not call these hooks
 "!0fb6817002000083f001c3":
@@ -13,4 +13,4 @@ noHook bool Projectile::ValidTarget(Projectile *this<ecx>);
 ".!c20400":
 noHook void Projectile::SetMovingTarget(Projectile *this<ecx>, Targetable *target);
 ".!b8ffffffffc3":
-__thiscall int Projectile::ForceRenderLayer(Projectile *this<ecx>);
+__thiscall int Projectile::ForceRenderLayer(Projectile *this);

@@ -1,11 +1,11 @@
 "578d7c240883e4f0ff77fc5589fa89e557565389cfbb????????81ec????????8b028b720889c18985acfeffff8b4204890c248974240889f989b5bcfeffff":
-__thiscall void BoarderPodDrone::constructor(BoarderPodDrone *this<ecx>, int _iShipId, int _selfId, const DroneBlueprint& _bp);
+__thiscall void BoarderPodDrone::constructor(BoarderPodDrone *this, int _iShipId, int _selfId, const DroneBlueprint& _bp);
 "578d7c240883e4f0ff77fc5589e5575383ec208b0785c074??8b1089cb89815001000089c1ff521c89434c8b43048d4df0":
-__thiscall void BoarderPodDrone::SetMovementTarget(BoarderPodDrone *this<ecx>, Targetable *target);
+__thiscall void BoarderPodDrone::SetMovementTarget(BoarderPodDrone *this, Targetable *target);
 ".8b815001000085c074168b108b521881fa????????750cb801000000":
-__thiscall bool BoarderPodDrone::CanBeDeployed(BoarderPodDrone *this<ecx>);
+__thiscall bool BoarderPodDrone::CanBeDeployed(BoarderPodDrone *this);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec2c807914008b37":
-__thiscall void BoarderPodDrone::SetDeployed(BoarderPodDrone *this<ecx>, bool _deployed);
+__thiscall void BoarderPodDrone::SetDeployed(BoarderPodDrone *this, bool _deployed);
 
 
 struct BoarderPodDrone
