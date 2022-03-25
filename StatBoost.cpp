@@ -60,6 +60,7 @@ const std::array<std::string, numStats> crewStats =
     "noClone",
     "noSlot",
     "noAI",
+    "validTarget",
     // non-cached stats
     "statBoost",
     "deathEffect",
@@ -1390,6 +1391,10 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
             break;
         case CrewStat::NO_AI:
             *boolValue = (temporaryPowerActive && GetPowerDef()->tempPower.noAI.enabled) ? GetPowerDef()->tempPower.noAI.value : def->noAI;
+            isBool = true;
+            break;
+        case CrewStat::VALID_TARGET:
+            *boolValue = (temporaryPowerActive && GetPowerDef()->tempPower.validTarget.enabled) ? GetPowerDef()->tempPower.validTarget.value : def->validTarget;
             isBool = true;
             break;
         case CrewStat::ACTIVATE_WHEN_READY:

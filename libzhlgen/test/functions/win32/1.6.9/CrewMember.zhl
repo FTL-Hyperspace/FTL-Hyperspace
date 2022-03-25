@@ -236,6 +236,7 @@ struct CrewMember depends (CrewAnimation, CrewBlueprint, ShipObject)
 	
 	int GetPowerOwner();
 
+	bool _HS_ValidTarget(int shipId);
     bool _HS_GetControllable();
 	bool _HS_CanSuffocate();
 	bool _HS_CanFight();

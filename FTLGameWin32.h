@@ -1929,6 +1929,7 @@ struct LIBZHL_INTERFACE CrewMember
 	
 	int GetPowerOwner();
 
+	bool _HS_ValidTarget(int shipId);
     bool _HS_GetControllable();
 	bool _HS_CanSuffocate();
 	bool _HS_CanFight();
@@ -2263,6 +2264,7 @@ struct CrewDrone : CrewMember
 	
 	inline std::string& GetRace();
 
+	bool _HS_ValidTarget(int shipId);
 	bool _HS_GetControllable();
 	bool _HS_CanFight();
 	bool _HS_CanRepair();

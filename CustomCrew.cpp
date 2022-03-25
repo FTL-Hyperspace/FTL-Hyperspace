@@ -472,6 +472,10 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                         {
                             crew.noAI = EventsParser::ParseBoolean(val);
                         }
+                        if (str == "validTarget")
+                        {
+                            crew.validTarget = EventsParser::ParseBoolean(val);
+                        }
                     }
                 }
                 catch (boost::bad_lexical_cast const &e)
@@ -1023,6 +1027,10 @@ void CustomCrewManager::ParseAbilityEffect(rapidxml::xml_node<char>* stat, Activ
                 if (tempEffectName == "noAI")
                 {
                     def.tempPower.noAI = EventsParser::ParseBoolean(tempEffectNode->value());
+                }
+                if (tempEffectName == "validTarget")
+                {
+                    def.tempPower.validTarget = EventsParser::ParseBoolean(tempEffectNode->value());
                 }
             }
         }

@@ -58,6 +58,7 @@ enum class CrewStat : unsigned int
     NO_CLONE,
     NO_SLOT,
     NO_AI,
+    VALID_TARGET,
     // non-cached stats
     STAT_BOOST,
     DEATH_EFFECT,

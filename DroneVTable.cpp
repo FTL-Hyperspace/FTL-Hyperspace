@@ -11,6 +11,17 @@ inline std::string& CrewDrone::GetRace()
     return _drone.blueprint->name == "BOARDER_ION" ? boarderIonName : species;
 }
 
+bool CrewDrone::_HS_ValidTarget(int shipId)
+{
+    if (bDead || crewAnim->status == 3 || currentShipId != shipId) return false;
+
+    auto ex = CM_EX(this);
+    auto def = CustomCrewManager::GetInstance()->GetDefinition(this->species);
+    bool ret;
+    ex->CalculateStat(CrewStat::VALID_TARGET, def, &ret);
+    return ret;
+}
+
 bool CrewDrone::_HS_GetControllable()
 {
     if (this->bDead || !this->Functional()) return false;
@@ -562,6 +573,10 @@ void SetupVTable(CrewDrone *crew)
     MEMPROT_SAVE_PROT(dwOldProtect);
     MEMPROT_PAGESIZE();
     MEMPROT_UNPROTECT(&vtable[0], sizeof(void*) * 57, dwOldProtect);
+    {
+        auto fptr = &CrewDrone::_HS_ValidTarget;
+        vtable[7] = reinterpret_cast<void *&>(fptr);
+    }
     {
         auto fptr = &CrewDrone::_HS_GetControllable;
         vtable[23] = reinterpret_cast<void *&>(fptr);
