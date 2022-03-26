@@ -4389,9 +4389,15 @@ std::string replaceCreditsMusic = "";
 HOOK_METHOD(GameOver, OpenText, (const std::string& text) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> GameOver::OpenText -> Begin (CustomEvents.cpp)\n")
-    if (!replaceGameOverText.empty()) return super(replaceGameOverText);
-
-    return super(text);
+    if (!replaceGameOverText.empty())
+    {
+        super(replaceGameOverText);
+        replaceGameOverText = "";
+    }
+    else
+    {
+        super(text);
+    }
 }
 
 HOOK_METHOD(CommandGui, OnLoop, () -> void)
@@ -4481,8 +4487,6 @@ HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEve
                 commandGui->gameover = true;
                 commandGui->Victory();
                 G_->GetScoreKeeper()->Save(true);
-
-                replaceGameOverText = "";
             }
             else
             {
@@ -4496,8 +4500,6 @@ HOOK_METHOD(WorldManager, ModifyResources, (LocationEvent *event) -> LocationEve
                 G_->GetScoreKeeper()->SetVictory(false);
                 commandGui->gameover = true;
                 commandGui->CheckGameover();
-
-                replaceGameOverText = "";
             }
         }
 
@@ -5562,7 +5564,6 @@ HOOK_METHOD(WorldManager, OnLoop, () -> void)
                 commandGui->gameover = true;
                 commandGui->Victory();
                 G_->GetScoreKeeper()->Save(true);
-                replaceGameOverText = "";
             }
         }
     }
