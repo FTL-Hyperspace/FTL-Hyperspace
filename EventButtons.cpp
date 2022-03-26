@@ -353,7 +353,7 @@ HOOK_METHOD(CommandGui, LButtonDown, (int mX, int mY, bool shiftHeld) -> void)
         if (it->button->bActive && it->button->bHover)
         {
             // todo: seeded
-            eventQueue.push_back({it->def->event, -1});
+            CustomEventsParser::QueueEvent(it->def->event, -1);
             if (it->def->once)
             {
                 it = EventButtonManager::instance->buttons.erase(it);

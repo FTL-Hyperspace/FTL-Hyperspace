@@ -294,6 +294,8 @@ struct ActivatedPowerDefinition
 
     std::vector<StatBoostDefinition*> statBoosts;
 
+    std::array<std::string,2> event = {"",""};
+
     TemporaryPowerDefinition tempPower;
 };
 

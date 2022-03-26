@@ -39,4 +39,5 @@ struct ExplosionDefinition
     float transformRaceHealth = 0.f;
     float transformRaceHealthFraction = 1.f;
     bool transformRaceDeathSound = false;
+    std::array<std::string,2> event = {"",""};
 };

@@ -5,6 +5,7 @@
 #include "TemporalSystem.h"
 #include "CustomDamage.h"
 #include "ShipUnlocks.h"
+#include "CustomEvents.h"
 
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
@@ -644,6 +645,19 @@ void CustomCrewManager::ParseDeathEffect(rapidxml::xml_node<char>* stat, Explosi
                 }
             }
         }
+        if (effectName == "event")
+        {
+            def.event[0] = G_->GetEventsParser()->ProcessEvent(effectNode, "__crewDeath");
+            def.event[1] = def.event[0];
+        }
+        if (effectName == "playerEvent")
+        {
+            def.event[0] = G_->GetEventsParser()->ProcessEvent(effectNode, "__crewDeath");
+        }
+        if (effectName == "enemyEvent")
+        {
+            def.event[1] = G_->GetEventsParser()->ProcessEvent(effectNode, "__crewDeath");
+        }
     }
     if (!explosionDef)
     {
@@ -869,6 +883,19 @@ void CustomCrewManager::ParseAbilityEffect(rapidxml::xml_node<char>* stat, Activ
                     def.statBoosts.push_back(StatBoostManager::GetInstance()->ParseStatBoostNode(statBoostNode, StatBoostDefinition::BoostSource::CREW));
                 }
             }
+        }
+        if (effectName == "event")
+        {
+            def.event[0] = G_->GetEventsParser()->ProcessEvent(effectNode, "__crewAbility");
+            def.event[1] = def.event[0];
+        }
+        if (effectName == "playerEvent")
+        {
+            def.event[0] = G_->GetEventsParser()->ProcessEvent(effectNode, "__crewAbility");
+        }
+        if (effectName == "enemyEvent")
+        {
+            def.event[1] = G_->GetEventsParser()->ProcessEvent(effectNode, "__crewAbility");
         }
         if (effectName == "temporaryEffect")
         {
@@ -1837,6 +1864,11 @@ void CrewMember_Extend::ActivatePower()
         {
             CrewSpawn::SpawnCrew(i, ship, ship->iShipId != ownerShip, aex->effectWorldPos);
         }
+    }
+
+    if (!powerDef->event[ownerShip].empty())
+    {
+        CustomEventsParser::QueueEvent(powerDef->event[ownerShip], -1);
     }
 }
 
@@ -3953,6 +3985,10 @@ HOOK_METHOD(CrewMember, GetRoomDamage, () -> Damage)
                                 CrewSpawn::SpawnCrew(i, crewShip, this->currentShipId != this->iShipId, Pointf(this->x, this->y));
                             }
                         }
+                    }
+                    if (!explosionDef->event[this->iShipId].empty())
+                    {
+                        CustomEventsParser::QueueEvent(explosionDef->event[this->iShipId], -1);
                     }
                 }
             }

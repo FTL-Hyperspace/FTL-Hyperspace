@@ -1609,6 +1609,16 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
                                         deathEffectChange.transformRaceHealthFraction = statBoost.def->deathEffectChange->transformRaceHealthFraction * sysPowerScaling;
                                         deathEffectChange.transformRaceDeathSound = statBoost.def->deathEffectChange->transformRaceDeathSound;
                                     }
+
+                                    // To do, make death events stack rather than overwrite?
+                                    if (!statBoost.def->deathEffectChange->event[0].empty())
+                                    {
+                                        deathEffectChange.event[0] = statBoost.def->deathEffectChange->event[0];
+                                    }
+                                    if (!statBoost.def->deathEffectChange->event[1].empty())
+                                    {
+                                        deathEffectChange.event[1] = statBoost.def->deathEffectChange->event[1];
+                                    }
                                 }
                             }
                         }

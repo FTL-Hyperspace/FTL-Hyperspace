@@ -879,6 +879,7 @@ public:
     LocationEvent* GetEvent(WorldManager *world, std::string eventName, bool ignoreUnique, int seed);
     void LoadEvent(WorldManager *world, EventLoadList *eventList, int seed, CustomEvent *parentEvent = nullptr);
     void LoadEvent(WorldManager *world, std::string eventName, bool ignoreUnique, int seed, CustomEvent *parentEvent = nullptr);
+    static void QueueEvent(std::string &eventName, int seed);
 
     std::vector<std::string> eventFiles;
     CustomEvent *defaultVictory = new CustomEvent();

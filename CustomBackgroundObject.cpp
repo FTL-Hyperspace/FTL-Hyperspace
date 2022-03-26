@@ -918,7 +918,7 @@ int8_t CustomBackgroundObject::Activate(CustomBackgroundObjectAction &action)
     if (!action.event.empty() && !G_->GetWorld()->playerShip->shipManager->bJumping)
     {
         // todo: seeded
-        eventQueue.push_back({action.event, -1});
+        CustomEventsParser::QueueEvent(action.event, -1);
     }
 
     int8_t status = CustomBackgroundObjectAction::RESULT::NOCHANGE;

@@ -3744,6 +3744,11 @@ void CustomEventsParser::LoadEvent(WorldManager *world, std::string eventName, b
     if (event) world->UpdateLocation(event);
 }
 
+void CustomEventsParser::QueueEvent(std::string &eventName, int seed)
+{
+    eventQueue.push_back({eventName, seed});
+}
+
 HOOK_METHOD(WorldManager, CreateLocation, (Location *location) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> WorldManager::CreateLocation -> Begin (CustomEvents.cpp)\n")
@@ -3824,7 +3829,7 @@ HOOK_METHOD(WorldManager, CreateLocation, (Location *location) -> void)
         for (auto& queueEvent : customEvent->queueEvents)
         {
             int seed = queueEvent.seeded ? (int)(location->loc.x + location->loc.y) ^ starMap.currentSectorSeed : -1;
-            eventQueue.push_back({queueEvent.event, seed});
+            CustomEventsParser::QueueEvent(queueEvent.event, seed);
         }
 
         if (customEvent->eventLoadList != nullptr)
@@ -3946,7 +3951,7 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
         for (auto& queueEvent : customEvent->queueEvents)
         {
             int seed = queueEvent.seeded ? (int)(starMap.currentLoc->loc.x + starMap.currentLoc->loc.y) ^ starMap.currentSectorSeed : -1;
-            eventQueue.push_back({queueEvent.event, seed});
+            CustomEventsParser::QueueEvent(queueEvent.event, seed);
         }
 
         if (customEvent->eventLoadList != nullptr)
@@ -5496,7 +5501,7 @@ HOOK_METHOD(CompleteShip, DeadCrew, () -> bool)
             if (customEvent->deadCrewAuto)
             {
                 shipManager->bAutomated = true;
-                eventQueue.push_back({event.deadCrew, event.shipSeed});
+                CustomEventsParser::QueueEvent(event.deadCrew, event.shipSeed);
                 return false;
             }
 
