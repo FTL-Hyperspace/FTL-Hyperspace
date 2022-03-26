@@ -63,6 +63,7 @@ public:
     std::string crewAnimationType = "human";
     bool isMantisAnimation = false;
     bool isIonDrone = false;
+    bool canPunch = true;
 
     Pointf effectPos;
     Pointf effectWorldPos;

@@ -523,6 +523,7 @@ Syntax ->
 		<animSheetFemale>female</animSheetFemale>                                        Use a different animSheet if female. Does not work for drones.
 		<shootTimer min="1000" max="1300"/>                                              Cooldown for shooting in ms (animBase human only)
 		<punchTimer min="500" max="650"/>                                                Cooldown for punching in ms (actual cooldown is double)
+		<canPunch>true</canPunch>                                                        Animation modifier; if false the crew will always shoot rather than punch. Forced to be false for drones.
 		<oxygenChangeSpeed>-0.5</oxygenChangeSpeed>                                      Drains or replenishes oxygen in the room. A negative value drains (lanius).
 		<damageTakenMultiplier>1.0</damageTakenMultiplier>                               Modifier for damage taken in crew combat.
 		<passiveHealAmount>1.0</passiveHealAmount>                                       Amount of health to heal over time, in HP/second. Affected by healSpeed, stops at full health.

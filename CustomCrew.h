@@ -359,6 +359,7 @@ struct CrewDefinition
     bool noClone = false;
     bool noAI = false;
     bool validTarget = true;
+    bool canPunch = true;
 
     std::pair<int,int> shootTimer = {-1, -1};
     std::pair<int,int> punchTimer = {-1, -1};

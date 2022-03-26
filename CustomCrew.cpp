@@ -353,6 +353,10 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                                 if (crew.punchTimer.second == -1) crew.punchTimer.first = boost::lexical_cast<int>(stat->first_attribute("max")->value());
                             }
                         }
+                        if (str == "canPunch")
+                        {
+                            crew.canPunch = EventsParser::ParseBoolean(val);
+                        }
                         if (str == "oxygenChangeSpeed")
                         {
                             crew.oxygenChangeSpeed = boost::lexical_cast<float>(val);
@@ -2302,6 +2306,8 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
                 orig->crewAnim->anims[orig->crewAnim->direction][1].tracker.current_time *= goalMult;
             }
         }
+
+        aex->canPunch = def->canPunch;
 
         float passiveHealAmount = CalculateStat(CrewStat::PASSIVE_HEAL_AMOUNT, def);
         float truePassiveHealAmount = CalculateStat(CrewStat::TRUE_PASSIVE_HEAL_AMOUNT, def);
@@ -5739,3 +5745,21 @@ HOOK_METHOD(CombatControl, OnLoop, () -> void)
     shipManager->teleportSystem->bCanReceive = false;
 }
 */
+
+// Shoot when in melee without forcing to be a drone animation
+HOOK_METHOD(CrewAnimation, OnUpdate, (Pointf position, bool moving, bool fighting, bool repairing, bool dying, bool onFire) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> CrewAnimation::OnUpdate -> Begin (CustomCrew.cpp)\n")
+    auto aex = CMA_EX(this);
+    if (!aex->canPunch)
+    {
+        bool sharedSpot = bSharedSpot;
+        bSharedSpot = false;
+        super(position, moving, fighting, repairing, dying, onFire);
+        bSharedSpot = sharedSpot;
+    }
+    else
+    {
+        super(position, moving, fighting, repairing, dying, onFire);
+    }
+}
