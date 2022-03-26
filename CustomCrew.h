@@ -360,6 +360,9 @@ struct CrewDefinition
     bool noAI = false;
     bool validTarget = true;
 
+    std::pair<int,int> shootTimer = {-1, -1};
+    std::pair<int,int> punchTimer = {-1, -1};
+
     ExplosionDefinition explosionDef;
 
     //ActivatedPowerDefinition powerDef;

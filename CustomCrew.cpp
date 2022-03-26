@@ -317,6 +317,42 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                         {
                             crew.animSheet[0] = val;
                         }
+                        if (str == "shootTimer")
+                        {
+                            if (!val.empty())
+                            {
+                                crew.shootTimer.first = boost::lexical_cast<int>(val);
+                                crew.shootTimer.second = boost::lexical_cast<int>(val);
+                            }
+                            if (stat->first_attribute("min"))
+                            {
+                                crew.shootTimer.first = boost::lexical_cast<int>(stat->first_attribute("min")->value());
+                                if (crew.shootTimer.second == -1) crew.shootTimer.second = boost::lexical_cast<int>(stat->first_attribute("min")->value());
+                            }
+                            if (stat->first_attribute("max"))
+                            {
+                                crew.shootTimer.second = boost::lexical_cast<int>(stat->first_attribute("max")->value());
+                                if (crew.shootTimer.second == -1) crew.shootTimer.first = boost::lexical_cast<int>(stat->first_attribute("max")->value());
+                            }
+                        }
+                        if (str == "punchTimer")
+                        {
+                            if (!val.empty())
+                            {
+                                crew.punchTimer.first = boost::lexical_cast<int>(val);
+                                crew.punchTimer.second = boost::lexical_cast<int>(val);
+                            }
+                            if (stat->first_attribute("min"))
+                            {
+                                crew.punchTimer.first = boost::lexical_cast<int>(stat->first_attribute("min")->value());
+                                if (crew.punchTimer.second == -1) crew.punchTimer.second = boost::lexical_cast<int>(stat->first_attribute("min")->value());
+                            }
+                            if (stat->first_attribute("max"))
+                            {
+                                crew.punchTimer.second = boost::lexical_cast<int>(stat->first_attribute("max")->value());
+                                if (crew.punchTimer.second == -1) crew.punchTimer.first = boost::lexical_cast<int>(stat->first_attribute("max")->value());
+                            }
+                        }
                         if (str == "oxygenChangeSpeed")
                         {
                             crew.oxygenChangeSpeed = boost::lexical_cast<float>(val);
@@ -2122,8 +2158,14 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
                 orig->crewAnim->status = animation->status;
                 orig->crewAnim->moveDirection = animation->moveDirection;
                 orig->crewAnim->shots = animation->shots;
-                orig->crewAnim->shootTimer = animation->shootTimer;
-                orig->crewAnim->punchTimer = animation->punchTimer;
+                orig->crewAnim->shootTimer.currTime = animation->shootTimer.currTime;
+                orig->crewAnim->shootTimer.currGoal = animation->shootTimer.currGoal;
+                orig->crewAnim->shootTimer.loop = animation->shootTimer.loop;
+                orig->crewAnim->shootTimer.running = animation->shootTimer.running;
+                orig->crewAnim->punchTimer.currTime = animation->punchTimer.currTime;
+                orig->crewAnim->punchTimer.currGoal = animation->punchTimer.currGoal;
+                orig->crewAnim->punchTimer.loop = animation->punchTimer.loop;
+                orig->crewAnim->punchTimer.running = animation->punchTimer.running;
                 orig->crewAnim->target = animation->target;
                 orig->crewAnim->fDamageDone = animation->fDamageDone;
                 orig->crewAnim->bFrozen = animation->bFrozen;
@@ -2209,6 +2251,56 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
 
             delete animation;
             animation = orig->crewAnim;
+        }
+
+        if (def->shootTimer.first != -1)
+        {
+            orig->crewAnim->shootTimer.minTime = def->shootTimer.first;
+            orig->crewAnim->shootTimer.maxTime = def->shootTimer.second;
+        }
+
+        float limitGoal = orig->crewAnim->shootTimer.maxTime / 1000.f;
+        if (orig->crewAnim->shootTimer.currGoal > limitGoal)
+        {
+            orig->crewAnim->shootTimer.currTime *= limitGoal/orig->crewAnim->shootTimer.currGoal;
+            orig->crewAnim->shootTimer.currGoal = limitGoal;
+        }
+        else
+        {
+            limitGoal = orig->crewAnim->shootTimer.minTime / 1000.f;
+            if (orig->crewAnim->shootTimer.currGoal < limitGoal)
+            {
+                orig->crewAnim->shootTimer.currTime *= limitGoal/orig->crewAnim->shootTimer.currGoal;
+                orig->crewAnim->shootTimer.currGoal = limitGoal;
+            }
+        }
+
+        if (def->punchTimer.first != -1)
+        {
+            orig->crewAnim->punchTimer.minTime = def->punchTimer.first;
+            orig->crewAnim->punchTimer.maxTime = def->punchTimer.second;
+        }
+
+        limitGoal = orig->crewAnim->punchTimer.maxTime / 1000.f;
+        if (orig->crewAnim->punchTimer.currGoal > limitGoal)
+        {
+            float goalMult = limitGoal/orig->crewAnim->punchTimer.currGoal;
+            orig->crewAnim->punchTimer.currTime *= goalMult;
+            orig->crewAnim->punchTimer.currGoal = limitGoal;
+            orig->crewAnim->anims[orig->crewAnim->direction][1].tracker.time *= goalMult;
+            orig->crewAnim->anims[orig->crewAnim->direction][1].tracker.current_time *= goalMult;
+        }
+        else
+        {
+            limitGoal = orig->crewAnim->punchTimer.minTime / 1000.f;
+            if (orig->crewAnim->punchTimer.currGoal < limitGoal)
+            {
+                float goalMult = limitGoal/orig->crewAnim->punchTimer.currGoal;
+                orig->crewAnim->punchTimer.currTime *= goalMult;
+                orig->crewAnim->punchTimer.currGoal = limitGoal;
+                orig->crewAnim->anims[orig->crewAnim->direction][1].tracker.time *= goalMult;
+                orig->crewAnim->anims[orig->crewAnim->direction][1].tracker.current_time *= goalMult;
+            }
         }
 
         float passiveHealAmount = CalculateStat(CrewStat::PASSIVE_HEAL_AMOUNT, def);
