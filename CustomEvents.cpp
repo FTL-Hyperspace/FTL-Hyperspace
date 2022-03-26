@@ -5722,7 +5722,7 @@ HOOK_METHOD(WorldManager, ModifyStatusEffect, (StatusEffect effect, ShipManager 
 {
     LOG_HOOK("HOOK_METHOD -> WorldManager::ModifyStatusEffect -> Begin (CustomEvents.cpp)\n")
     super(effect, target, targetType);
-    if (effect.system == 16 || targetType == effect.target || effect.target == 2) // all systems
+    if (effect.system == 16 && (targetType == effect.target || effect.target == 2)) // all systems
     {
         super({effect.type, SYS_TEMPORAL, effect.amount, effect.target}, target, targetType);
     }
