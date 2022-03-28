@@ -10887,7 +10887,7 @@ namespace _var793
 namespace _func794
 {
 	static void *func = 0;
-	static short argdata[] = {0x1ff, 0x1ff, 0x1ff, 0x1ff, 0xfff, 0x1ff};
+	static short argdata[] = {0x1ff, 0x1ff, 0x1ff, 0x1ff, 0xcff, 0x1ff};
 	static FunctionDefinition funcObj("Shields::CollisionReal", typeid(CollisionResponse (Shields::*)(float , float , Damage , bool )), "5557565381ec9c0000008b8424c00000008bac24b0000000", argdata, 6, 18, &func);
 }
 

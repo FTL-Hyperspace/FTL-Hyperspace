@@ -207,33 +207,10 @@ local function shouldBlacklist(t)
 	return false
 end
 
-local function isSSEClass(c)
-    if c == "float" or c == "double" then
-        return true
-    else
-        return false
-    end
-end
-
-local function getRawStructFields(t, s)
-    -- Warning, Enums are not currently supported by the cparser code, so they will all be thought of as a single integer value argument regardless of actual type.
-    if not s:isPointer() then
-        local sdef = structs[s:cname()]
-        if sdef and sdef.fields then
-            for _,f in pairs(sdef.fields) do
-                getRawStructFields(t, f)
-            end
-        else
-            table.insert(t, s)
-            return
-        end
-    else
-        table.insert(t, s)
-        return
-    end
-end
-
 local function sizeof(t)
+    -- TODO: This doesn't compute struct sizes correctly when factoring in alignment for sizeof_aligned below
+    -- For example, Damage param on Shields::CollisionReal should be 52 in length (because of a 3-byte gap after a bool) but it gets computed as 48 as all the bools are packed when they shouldn't be
+    -- This sizeof needs to take into account the previous size & alignment when being used for sizeof_aligned!
 	local size = 4
 	
 	if not t.ptr or #t.ptr == 0 then
@@ -275,52 +252,6 @@ local function sizeof(t)
 		size = size * t.array
 	end
 	return size
-end
-
-local function addSSEArgTypeData(t)
-    if not t:isPointer() then
-        local sdef = structs[t:cname()]
-        if sdef then
-            local tab = {}
-            getRawStructFields(tab, t)
-            local sizeUsed = 0
-            local pureSSE = { true, true }
-            for _,f in pairs(tab) do
-                local isSSE = isSSEClass(f:cname())
-                local size_a = sizeof(f)
-
-                local packingSpaceAvailable = 8 - (sizeUsed % 8) -- Struct memory alignment - used size
-                if size_a > packingSpaceAvailable then
-                    sizeUsed = sizeUsed + packingSpaceAvailable
-                end
-                sizeUsed = sizeUsed + size_a
-                if sizeUsed > 16 then
-                    t.structRegs = nil
-                elseif not isSSE then
-                    pureSSE[math.ceil(sizeUsed / 8)]  = false
-                end
-            end
-
-            if pureSSE[1] then
-                t.argPassType = "SSE"
-            else
-                t.argPassType = "INT"
-            end
-            if t.size == 2 then
-                if pureSSE[2] then
-                    t.argPassType = t.argPassType .. ":SSE"
-                else
-                    t.argPassType = t.argPassType .. ":INT"
-                end
-            end
-        else
-            if isSSEClass(t:cname()) then
-                t.argPassType = "SSE"
-            else
-                t.argPassType = "INT"
-            end
-        end
-    end
 end
 
 local function sizeof_aligned(t)
@@ -685,10 +616,6 @@ for k,fd in pairs(tfiles) do
                     elseif arch == "x86_64" then
                         -- TODO: Add an if for System V AMD64 ABI vs Microsoft x64 ABI
                         -- TODO: Not sure if Microsoft ABI passes 16 byte structs on two registers or not.
-
-                        if arg.size < 3 then
-                            addSSEArgTypeData(arg)
-                        end
 
                         if arg.size > archPushSize * 2 then -- Make sure under max size of struct passing in registers in argument for architecture/ABI, Above this size, use stack.
                             arg.reg = nil
