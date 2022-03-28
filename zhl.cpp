@@ -366,6 +366,10 @@ int FunctionHook_private::Install()
 	// defined hook
 	ptr = _internalHook;
 
+#ifdef __amd64__
+	// Call the hook
+	P(0xE9); PL((uintptr_t)_hook - (uintptr_t)ptr - 4);	// call _hook // TODO: Should this be -8?
+#else
 	// Prologue
 	P(0x55);					// push ebp
 	P(0x89); P(0xe5);			// mov ebp, esp
@@ -493,6 +497,7 @@ int FunctionHook_private::Install()
 	}
 	else
 		P(0xc3);					// ret
+#endif // __i386__
 
 	_hSize = ptr - _internalHook;
 	MEMPROT_UNPROTECT(_internalHook, _hSize, oldProtect);
@@ -515,6 +520,10 @@ int FunctionHook_private::Install()
 	// original function from the user defined hook
 	ptr = _internalSuper;
 
+#ifdef __amd64__
+	// Call the original function
+	P(0xE9); PL((uintptr_t)original - (uintptr_t)ptr - 4);	// call original
+#else
 	// Prologue
 	P(0x55);					// push ebp
 	P(0x89); P(0xe5);			// mov ebp, esp
@@ -655,6 +664,7 @@ int FunctionHook_private::Install()
 	}
 	else
 		P(0xc3);					// ret
+#endif // __i386__
 
 	_sSize = ptr - _internalSuper;
 	MEMPROT_UNPROTECT(_internalSuper, _sSize, oldProtect);
