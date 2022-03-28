@@ -1,2 +1,2 @@
 "4883ec08803d????????007433660f6f05????????48b8020000000700000048ba0000000002000000":
-static cleanup StatusEffect StatusEffect::GetNebulaEffect();
+static cleanup __amd64 StatusEffect StatusEffect::GetNebulaEffect();

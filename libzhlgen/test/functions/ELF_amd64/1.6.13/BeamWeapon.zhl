@@ -1,7 +1,7 @@
 "41564189ce41554154554c89c5534889fb4883ec10":
-cleanup void BeamWeapon::constructor(BeamWeapon *this<rdi>, Pointf _position<rsi>, int _ownerId<rdx>, int _targetId<rcx>, Pointf _target<r8>, Pointf _target2<r9>, int _length, Targetable *_targetable, float heading<xmm0>);
+cleanup __amd64 void BeamWeapon::constructor(BeamWeapon *this<rdi>, Pointf _position<rsi>, int _ownerId<rdx>, int _targetId<rcx>, Pointf _target<r8>, Pointf _target2<r9>, int _length, Targetable *_targetable, float heading<xmm0>);
 ".4157415641554989fd415455534881ecb8010000":
-cleanup void BeamWeapon::CollisionCheck(BeamWeapon *this<rdi>, Collideable *other<rsi>);
+cleanup __amd64 void BeamWeapon::CollisionCheck(BeamWeapon *this<rdi>, Collideable *other<rsi>);
 
 
 struct BeamWeapon

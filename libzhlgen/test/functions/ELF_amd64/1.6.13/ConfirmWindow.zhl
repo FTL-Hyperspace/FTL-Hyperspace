@@ -1,19 +1,19 @@
 "!534889fb488b7f70":
-cleanup void ConfirmWindow::Close(ConfirmWindow *this<rdi>);
+cleanup __amd64 void ConfirmWindow::Close(ConfirmWindow *this<rdi>);
 ".807f0800741a":
-cleanup void ConfirmWindow::MouseClick(ConfirmWindow *this<rdi>, int mX<rsi>, int mY<rdx>);
+cleanup __amd64 void ConfirmWindow::MouseClick(ConfirmWindow *this<rdi>, int mX<rsi>, int mY<rdx>);
 ".534889fb4883ec10e8????????488d7b20488d54240f":
-cleanup void ConfirmWindow::constructor(ConfirmWindow *this<rdi>);
+cleanup __amd64 void ConfirmWindow::constructor(ConfirmWindow *this<rdi>);
 ".41574189cf41564189d641554989f541544d89cc554c89c5534889fb4883ec38":
-cleanup void ConfirmWindow::SetText(ConfirmWindow *this<rdi>, const TextString& text_<rsi>, int minWidth<rdx>, bool autoCenter<rcx>, const TextString& yesText_<r8>, const TextString& noText_<r9>);
+cleanup __amd64 void ConfirmWindow::SetText(ConfirmWindow *this<rdi>, const TextString& text_<rsi>, int minWidth<rdx>, bool autoCenter<rcx>, const TextString& yesText_<r8>, const TextString& noText_<r9>);
 ".41564155415455534889fb4883ec10":
-cleanup void ConfirmWindow::SetPosition(ConfirmWindow *this<rdi>, Point pos<rsi>);
+cleanup __amd64 void ConfirmWindow::SetPosition(ConfirmWindow *this<rdi>, Point pos<rsi>);
 ".415741564155415455534889fb4883ec28":
-cleanup void ConfirmWindow::Open(ConfirmWindow *this<rdi>);
+cleanup __amd64 void ConfirmWindow::Open(ConfirmWindow *this<rdi>);
 ".41574156415541544989fc55534881ec98000000488b7f70":
-cleanup void ConfirmWindow::OnRender(ConfirmWindow *this<rdi>);
+cleanup __amd64 void ConfirmWindow::OnRender(ConfirmWindow *this<rdi>);
 ".41545553807f08004889fb":
-cleanup void ConfirmWindow::MouseMove(ConfirmWindow *this<rdi>, int mX<rsi>, int mY<rdx>);
+cleanup __amd64 void ConfirmWindow::MouseMove(ConfirmWindow *this<rdi>, int mX<rsi>, int mY<rdx>);
 
 
 struct ConfirmWindow

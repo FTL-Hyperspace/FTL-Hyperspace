@@ -1,4 +1,4 @@
 "41574989ff41564155415455534881ec68020000":
-cleanup void ChoiceBox::OnRender(ChoiceBox *this<rdi>);
+cleanup __amd64 void ChoiceBox::OnRender(ChoiceBox *this<rdi>);
 "41554189d541544989fcbf":
-cleanup void ChoiceBox::MouseMove(ChoiceBox *this<rdi>, int x<rsi>, int y<rdx>);
+cleanup __amd64 void ChoiceBox::MouseMove(ChoiceBox *this<rdi>, int x<rsi>, int y<rdx>);

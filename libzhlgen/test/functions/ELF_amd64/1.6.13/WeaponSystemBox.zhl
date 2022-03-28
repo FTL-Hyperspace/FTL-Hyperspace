@@ -1,5 +1,5 @@
 "554889cdb901000000534889fb4883ec08e8????????488dbb70020000":
-cleanup void WeaponSystemBox::constructor(WeaponSystemBox *this<rdi>, Point pos<rsi>, ShipSystem* sys<rdx>, WeaponControl *weapCtrl<rcx>);
+cleanup __amd64 void WeaponSystemBox::constructor(WeaponSystemBox *this<rdi>, Point pos<rsi>, ShipSystem* sys<rdx>, WeaponControl *weapCtrl<rcx>);
 
 
 struct WeaponSystemBox

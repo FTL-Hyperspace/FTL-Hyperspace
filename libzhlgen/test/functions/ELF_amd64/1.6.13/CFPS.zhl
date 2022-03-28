@@ -1,7 +1,7 @@
 "f30f104718c3":
-cleanup float CFPS::GetSpeedFactor(CFPS *this<rdi>);
+cleanup __amd64 float CFPS::GetSpeedFactor(CFPS *this<rdi>);
 "534889fb4883ec10f20f1015":
-cleanup void CFPS::OnLoop(CFPS *this<rdi>);
+cleanup __amd64 void CFPS::OnLoop(CFPS *this<rdi>);
 
 "!0f28d90f28d0bf(???????\?)f30fc2d1050f54da0f55d00f28ca0f56cb":
 CFPS* Global_CFPS_FPSControl;

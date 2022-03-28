@@ -1,9 +1,9 @@
 "f30f1107f30f114f04c3":
-cleanup void Pointf::constructor(Pointf *this<rdi>, float x<xmm0>, float y<xmm1>);
+cleanup __amd64 void Pointf::constructor(Pointf *this<rdi>, float x<xmm0>, float y<xmm1>);
 "660fd64424f0488b4424f0f30f1007":
-cleanup float Pointf::RelativeDistance(Pointf *this<rdi>, Pointf other<rsi>);
+cleanup __amd64 float Pointf::RelativeDistance(Pointf *this<rdi>, Pointf other<rsi>);
 "4883ec28f30f100ff30f104704":
-cleanup Pointf Pointf::Normalize(Pointf *this<rdi>);
+cleanup __amd64 Pointf Pointf::Normalize(Pointf *this<rdi>);
 
 
 struct Pointf {{

@@ -1,41 +1,41 @@
 "5383bf2c060000024889fb":
-cleanup bool Store::KeyDown(Store *this<rdi>, SDLKey key<rsi>);
+cleanup __amd64 bool Store::KeyDown(Store *this<rdi>, SDLKey key<rsi>);
 ".5531c94889fd5331db4883ec08488b9778040000":
-cleanup void Store::OnLoop(Store *this<rdi>);
+cleanup __amd64 void Store::OnLoop(Store *this<rdi>);
 "!.534889fbc6470800488bbf48060000":
-cleanup void Store::Close(Store *this<rdi>);
+cleanup __amd64 void Store::Close(Store *this<rdi>);
 ".415455534889fb488d6b284c8d63684883ec10":
-cleanup void Store::constructor(Store *this<rdi>);
+cleanup __amd64 void Store::constructor(Store *this<rdi>);
 ".41574156415541545589f5534889fb4883ec18":
-cleanup void Store::SaveStore(Store *this<rdi>, int file<rsi>);
+cleanup __amd64 void Store::SaveStore(Store *this<rdi>, int file<rsi>);
 ".41554989fd4531c041544989d4554889f55331db4883ec08":
-cleanup void Store::RelinkShip(Store *this<rdi>, ShipManager *ship<rsi>, Equipment *equip<rdx>);
+cleanup __amd64 void Store::RelinkShip(Store *this<rdi>, ShipManager *ship<rsi>, Equipment *equip<rdx>);
 ".39b730060000":
-cleanup bool Store::HasType(Store *this<rdi>, int type<rsi>);
+cleanup __amd64 bool Store::HasType(Store *this<rdi>, int type<rsi>);
 ".554889fd534883ec08488bb780040000":
-cleanup void Store::Clear(Store *this<rdi>);
+cleanup __amd64 void Store::Clear(Store *this<rdi>);
 ".554863ee":
-cleanup void Store::InitHeading(Store *this<rdi>, int index<rsi>, Point pos<rdx>);
+cleanup __amd64 void Store::InitHeading(Store *this<rdi>, int index<rsi>, Point pos<rdx>);
 ".55be????????534883ec58488d54241f488d7c2440":
-static cleanup void Store::DrawBuySellTabText();
+static cleanup __amd64 void Store::DrawBuySellTabText();
 ".4157ba2a000000bec60000004156415541545531ed534889fb4883ec78":
-cleanup void Store::SetPositions(Store *this<rdi>);
+cleanup __amd64 void Store::SetPositions(Store *this<rdi>);
 ".4157415641554189f5415455534889fb4883ec68":
-cleanup void Store::LoadStore(Store *this<rdi>, int file<rsi>, int worldLevel<rdx>);
+cleanup __amd64 void Store::LoadStore(Store *this<rdi>, int file<rsi>, int worldLevel<rdx>);
 "!.534889fb":
-cleanup void Store::SetPosition(Store *this<rdi>, Point pos<rsi>);
+cleanup __amd64 void Store::SetPosition(Store *this<rdi>, Point pos<rsi>);
 ".4157415641554189f541544989fc55534881ec88000000":
-cleanup void Store::CreateStoreBoxes(Store *this<rdi>, int type<rsi>, Equipment *equip<rdx>);
+cleanup __amd64 void Store::CreateStoreBoxes(Store *this<rdi>, int type<rsi>, Equipment *equip<rdx>);
 "!.415641554989d541544189cc554889f553":
-cleanup void Store::OnInit(Store *this<rdi>, ShipManager *shopper<rsi>, Equipment *equip<rdx>, int worldLevel<rcx>);
+cleanup __amd64 void Store::OnInit(Store *this<rdi>, ShipManager *shopper<rsi>, Equipment *equip<rdx>, int worldLevel<rcx>);
 ".415741564189d641554189f5415455534889fb4883ec78":
-cleanup void Store::MouseMove(Store *this<rdi>, int x<rsi>, int y<rdx>);
+cleanup __amd64 void Store::MouseMove(Store *this<rdi>, int x<rsi>, int y<rdx>);
 ".41564189d641554189f5415455534889fb4883ec40":
-cleanup void Store::MouseClick(Store *this<rdi>, int x<rsi>, int y<rdx>);
+cleanup __amd64 void Store::MouseClick(Store *this<rdi>, int x<rsi>, int y<rdx>);
 ".415741564989fe4155415455534881ecd8010000":
-cleanup void Store::OnRender(Store *this<rdi>);
+cleanup __amd64 void Store::OnRender(Store *this<rdi>);
 ".415531c94154554889fd5331db4883ec18":
-cleanup void Store::destructor(Store *this<rdi>);
+cleanup __amd64 void Store::destructor(Store *this<rdi>);
 
 
 struct Store

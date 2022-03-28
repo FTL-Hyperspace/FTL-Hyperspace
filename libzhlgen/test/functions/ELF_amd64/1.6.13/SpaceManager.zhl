@@ -1,79 +1,79 @@
 "!415455534889fb488d7f18488dabe00100004c8da3700200004883ec10":
-cleanup void SpaceManager::constructor(SpaceManager *this<rdi>);
+cleanup __amd64 void SpaceManager::constructor(SpaceManager *this<rdi>);
 ".0fb687b0040000":
-cleanup int SpaceManager::GetScreenShake(SpaceManager *this<rdi>);
+cleanup __amd64 int SpaceManager::GetScreenShake(SpaceManager *this<rdi>);
 ".41544189f455530fb6b7500300004889fb4489e7":
-cleanup void SpaceManager::SaveSpace(SpaceManager *this<rdi>, int fileHelper<rsi>);
+cleanup __amd64 void SpaceManager::SaveSpace(SpaceManager *this<rdi>, int fileHelper<rsi>);
 ".488b96d80300004889f8":
-cleanup ImageDesc SpaceManager::SwitchBeacon<rdi>(SpaceManager *this<rsi>);
+cleanup __amd64 ImageDesc SpaceManager::SwitchBeacon<rdi>(SpaceManager *this<rsi>);
 ".4157415641554989d541544989fc4889d755534889f3":
-cleanup ImageDesc SpaceManager::SwitchPlanet<rdi>(SpaceManager *this<rsi>, const std::string& name<rdx>);
+cleanup __amd64 ImageDesc SpaceManager::SwitchPlanet<rdi>(SpaceManager *this<rsi>, const std::string& name<rdx>);
 ".55534889fb4883ec68488bb710010000":
-cleanup void SpaceManager::UpdatePlanetImage(SpaceManager *this<rdi>);
+cleanup __amd64 void SpaceManager::UpdatePlanetImage(SpaceManager *this<rdi>);
 ".55534889fb4883ec68488b8424a0000000":
-cleanup void SpaceManager::SwitchImages(SpaceManager *this<rdi>, ImageDesc planet, ImageDesc unk1, ImageDesc unk2);
+cleanup __amd64 void SpaceManager::SwitchImages(SpaceManager *this<rdi>, ImageDesc planet, ImageDesc unk1, ImageDesc unk2);
 ".415641be????????41554989d541544989f4554889fd534883ec30":
-cleanup ImageDesc SpaceManager::SwitchBackground<rdi>(SpaceManager *this<rsi>, const std::string& name<rdx>);
+cleanup __amd64 ImageDesc SpaceManager::SwitchBackground<rdi>(SpaceManager *this<rsi>, const std::string& name<rdx>);
 ".4883ec28488b87d8000000482b87d00000000fb6ca":
-cleanup void SpaceManager::StartAsteroids(SpaceManager *this<rdi>, int shieldCount<rsi>, bool unk<rdx>);
+cleanup __amd64 void SpaceManager::StartAsteroids(SpaceManager *this<rdi>, int shieldCount<rsi>, bool unk<rdx>);
 ".55488dafa0030000bad0840000534889fb4883ec28":
-cleanup void SpaceManager::SetFireLevel(SpaceManager *this<rdi>, bool state<rsi>);
+cleanup __amd64 void SpaceManager::SetFireLevel(SpaceManager *this<rdi>, bool state<rsi>);
 ".41544189f4be204e000055488dafa0030000534889fb4881ec90000000":
-cleanup void SpaceManager::SetPlanetaryDefense(SpaceManager *this<rdi>, char state<rsi>, int target<rdx>);
+cleanup __amd64 void SpaceManager::SetPlanetaryDefense(SpaceManager *this<rdi>, char state<rsi>, int target<rdx>);
 ".55488dafa0030000ba50460000534889fb4883ec28":
-cleanup void SpaceManager::SetPulsarLevel(SpaceManager *this<rdi>, bool pulsarLevel<rsi>);
+cleanup __amd64 void SpaceManager::SetPulsarLevel(SpaceManager *this<rdi>, bool pulsarLevel<rsi>);
 ".0fb6977003000084d2":
-cleanup bool SpaceManager::DangerousEnvironment(SpaceManager *this<rdi>);
+cleanup __amd64 bool SpaceManager::DangerousEnvironment(SpaceManager *this<rdi>);
 ".41574989ff41564531f641554189f541544189d45589cd5331db4883ec08":
-cleanup void SpaceManager::MouseMove(SpaceManager *this<rdi>, int x<rsi>, int y<rdx>, int unk<rcx>);
+cleanup __amd64 void SpaceManager::MouseMove(SpaceManager *this<rdi>, int x<rsi>, int y<rdx>, int unk<rcx>);
 ".41574156415541544989fc55534883ec184c8b87e8000000":
-cleanup SpaceDrone* SpaceManager::GetSelectedDrone(SpaceManager *this<rdi>, int x<rsi>, int y<rdx>, int unk<rcx>);
+cleanup __amd64 SpaceDrone* SpaceManager::GetSelectedDrone(SpaceManager *this<rdi>, int x<rsi>, int y<rdx>, int unk<rcx>);
 ".530f57c04883ec10":
-cleanup float SpaceManager::GetFlashOpacity(SpaceManager *this<rdi>);
+cleanup __amd64 float SpaceManager::GetFlashOpacity(SpaceManager *this<rdi>);
 ".80bf7c04000000":
-cleanup GL_Color SpaceManager::GetColorTint(SpaceManager *this<rdi>);
+cleanup __amd64 GL_Color SpaceManager::GetColorTint(SpaceManager *this<rdi>);
 ".41564989fe4155415455534883ec2080bf7c04000000":
-cleanup void SpaceManager::OnRenderFleet(SpaceManager *this<rdi>);
+cleanup __amd64 void SpaceManager::OnRenderFleet(SpaceManager *this<rdi>);
 ".55534889fb4883ec4880bf7c04000000":
-cleanup void SpaceManager::OnRenderForeground(SpaceManager *this<rdi>);
+cleanup __amd64 void SpaceManager::OnRenderForeground(SpaceManager *this<rdi>);
 ".4157415641554989fd41544189f455534883ec28":
-cleanup void SpaceManager::SetDangerZone(SpaceManager *this<rdi>, int fleetType<rsi>);
+cleanup __amd64 void SpaceManager::SetDangerZone(SpaceManager *this<rdi>, int fleetType<rsi>);
 ".554889fd534883ec1880bfc800000000":
-cleanup void SpaceManager::OnRenderAsteroids(SpaceManager *this<rdi>, int fieldLayers<rsi>, float unk2<xmm0>);
+cleanup __amd64 void SpaceManager::OnRenderAsteroids(SpaceManager *this<rdi>, int fieldLayers<rsi>, float unk2<xmm0>);
 ".415741564189d6415541544189f455534889fb4883ec28":
-cleanup void SpaceManager::OnRenderProjectiles(SpaceManager *this<rdi>, int unk1<rsi>, int unk2<rdx>);
+cleanup __amd64 void SpaceManager::OnRenderProjectiles(SpaceManager *this<rdi>, int unk1<rsi>, int unk2<rdx>);
 ".55be????????534889fb4883ec58":
-cleanup void SpaceManager::OnInit(SpaceManager *this<rdi>);
+cleanup __amd64 void SpaceManager::OnInit(SpaceManager *this<rdi>);
 "!.41545553488b0f4889fb":
-cleanup void SpaceManager::Restart(SpaceManager *this<rdi>);
+cleanup __amd64 void SpaceManager::Restart(SpaceManager *this<rdi>);
 ".c6875003000000c6875103000000":
-cleanup void SpaceManager::ClearEnvironment(SpaceManager *this<rdi>);
+cleanup __amd64 void SpaceManager::ClearEnvironment(SpaceManager *this<rdi>);
 "!.41545553488b87d0000000":
-cleanup void SpaceManager::Clear(SpaceManager *this<rdi>);
+cleanup __amd64 void SpaceManager::Clear(SpaceManager *this<rdi>);
 ".41545553488b0f4889fb":
-cleanup void SpaceManager::ClearProjectiles(SpaceManager *this<rdi>);
+cleanup __amd64 void SpaceManager::ClearProjectiles(SpaceManager *this<rdi>);
 ".415741564531f641554531ed41544531e4554889fd4889f7534889f34883ec08":
-cleanup void SpaceManager::UpdateProjectile(SpaceManager *this<rdi>, Projectile *proj<rsi>);
+cleanup __amd64 void SpaceManager::UpdateProjectile(SpaceManager *this<rdi>, Projectile *proj<rsi>);
 "!.554889f7534889f34883ec08":
-cleanup void SpaceManager::TransferProjectile(SpaceManager *this<rdi>, Projectile *proj<rsi>);
+cleanup __amd64 void SpaceManager::TransferProjectile(SpaceManager *this<rdi>, Projectile *proj<rsi>);
 ".41564989fe4155415455534883ec1080bf7c04000000":
-cleanup void SpaceManager::OnRenderBackground(SpaceManager *this<rdi>);
+cleanup __amd64 void SpaceManager::OnRenderBackground(SpaceManager *this<rdi>);
 ".4883ec18488b4708483b47104889742408":
-cleanup void SpaceManager::AddProjectile(SpaceManager *this<rdi>, Projectile *proj<rsi>);
+cleanup __amd64 void SpaceManager::AddProjectile(SpaceManager *this<rdi>, Projectile *proj<rsi>);
 ".415741564189f64155415455534889fb89f74883ec48":
-cleanup void SpaceManager::LoadSpace(SpaceManager *this<rdi>, int fileHelper<rsi>);
+cleanup __amd64 void SpaceManager::LoadSpace(SpaceManager *this<rdi>, int fileHelper<rsi>);
 ".415455534889fb4883ec30488b87d8000000":
-cleanup void SpaceManager::AddShip(SpaceManager *this<rdi>, ShipManager *ship<rsi>);
+cleanup __amd64 void SpaceManager::AddShip(SpaceManager *this<rdi>, ShipManager *ship<rsi>);
 ".415731d241564531f64155415449bcabaaaaaaaaaaaaaa554889fd4c8dad98040000534881ec28010000":
-cleanup void SpaceManager::UpdatePDS(SpaceManager *this<rdi>);
+cleanup __amd64 void SpaceManager::UpdatePDS(SpaceManager *this<rdi>);
 ".415748ba398ee3388ee3388e415641554989fd415455534881ecc8010000":
-cleanup void SpaceManager::OnLoopNebulas(SpaceManager *this<rdi>);
+cleanup __amd64 void SpaceManager::OnLoopNebulas(SpaceManager *this<rdi>);
 ".41574156415541544989fc488dbf1804000055534883ec48":
-cleanup void SpaceManager::OnLoop(SpaceManager *this<rdi>);
+cleanup __amd64 void SpaceManager::OnLoop(SpaceManager *this<rdi>);
 ".4157415641554154554889fd534881ec98000000":
-cleanup void SpaceManager::SetNebula(SpaceManager *this<rdi>, bool state<rsi>);
+cleanup __amd64 void SpaceManager::SetNebula(SpaceManager *this<rdi>, bool state<rsi>);
 ".4883ec28be01000000c6873a04000001":
-cleanup void SpaceManager::SetStorm(SpaceManager *this<rdi>, bool state<rsi>);
+cleanup __amd64 void SpaceManager::SetStorm(SpaceManager *this<rdi>, bool state<rsi>);
 
 
 struct SpaceManager

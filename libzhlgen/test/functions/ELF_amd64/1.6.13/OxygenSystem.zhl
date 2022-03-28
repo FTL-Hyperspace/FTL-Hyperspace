@@ -1,14 +1,14 @@
 "4154554863eebe02000000534889fb":
-cleanup void OxygenSystem::constructor(OxygenSystem *this<rdi>, int numRooms<rsi>, int roomId<rdx>, int shipId<rcx>, int startingPower<r8>);
+cleanup __amd64 void OxygenSystem::constructor(OxygenSystem *this<rdi>, int numRooms<rsi>, int roomId<rdx>, int shipId<rcx>, int startingPower<r8>);
 ".5380bf24020000004889fb8b8720020000":
-cleanup float OxygenSystem::GetRefillSpeed(OxygenSystem *this<rdi>);
+cleanup __amd64 float OxygenSystem::GetRefillSpeed(OxygenSystem *this<rdi>);
 ".488b87480200004863f6":
-cleanup void OxygenSystem::ModifyRoomOxygen(OxygenSystem *this<rdi>, int roomId<rsi>, float value<xmm0>);
+cleanup __amd64 void OxygenSystem::ModifyRoomOxygen(OxygenSystem *this<rdi>, int roomId<rsi>, float value<xmm0>);
 ".415541544989fc5589d55389f34883ec38":
-cleanup void OxygenSystem::ComputeAirLoss(OxygenSystem *this<rdi>, int roomId<rsi>, float value<xmm0>, bool unk<rdx>);
+cleanup __amd64 void OxygenSystem::ComputeAirLoss(OxygenSystem *this<rdi>, int roomId<rsi>, float value<xmm0>, bool unk<rdx>);
 ".85d289d07e1a":
-cleanup void OxygenSystem::UpdateBreach(OxygenSystem *this<rdi>, int roomId<rsi>, int hasBreach<rdx>, bool unk3<rcx>);
+cleanup __amd64 void OxygenSystem::UpdateBreach(OxygenSystem *this<rdi>, int roomId<rsi>, int hasBreach<rdx>, bool unk3<rcx>);
 ".4154555389d34883ec2085d2":
-cleanup void OxygenSystem::UpdateAirlock(OxygenSystem *this<rdi>, int roomId<rsi>, int unk<rdx>);
+cleanup __amd64 void OxygenSystem::UpdateAirlock(OxygenSystem *this<rdi>, int roomId<rsi>, int unk<rdx>);
 ".488b87480200004863f6":
-cleanup void OxygenSystem::EmptyOxygen(OxygenSystem *this<rdi>, int roomId<rsi>);
+cleanup __amd64 void OxygenSystem::EmptyOxygen(OxygenSystem *this<rdi>, int roomId<rsi>);

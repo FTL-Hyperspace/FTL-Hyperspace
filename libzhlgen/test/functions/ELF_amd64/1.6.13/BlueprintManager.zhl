@@ -1,41 +1,41 @@
 "4157415641554989f54d8dbde8010000":
-cleanup std::vector<std::string> BlueprintManager::GetBlueprintList<rdi>(BlueprintManager *this<rsi>, const std::string& name<rdx>);
+cleanup __amd64 std::vector<std::string> BlueprintManager::GetBlueprintList<rdi>(BlueprintManager *this<rsi>, const std::string& name<rdx>);
 "415641554989f541544989fc5589d5534883ec60":
-cleanup ShipBlueprint* BlueprintManager::GetShipBlueprint(BlueprintManager *this<rdi>, const std::string& name<rsi>, int sector<rdx>);
+cleanup __amd64 ShipBlueprint* BlueprintManager::GetShipBlueprint(BlueprintManager *this<rdi>, const std::string& name<rsi>, int sector<rdx>);
 "41554154554889f5be????????534889fb4c8da3e80100004883ec28":
-cleanup WeaponBlueprint* BlueprintManager::GetWeaponBlueprint(BlueprintManager *this<rdi>, const std::string& name<rsi>);
+cleanup __amd64 WeaponBlueprint* BlueprintManager::GetWeaponBlueprint(BlueprintManager *this<rdi>, const std::string& name<rsi>);
 ".41554154554889f5be????????534889fb4c8da3e80100004883ec28":
-cleanup DroneBlueprint* BlueprintManager::GetDroneBlueprint(BlueprintManager *this<rdi>, const std::string& name<rsi>);
+cleanup __amd64 DroneBlueprint* BlueprintManager::GetDroneBlueprint(BlueprintManager *this<rdi>, const std::string& name<rsi>);
 ".41554154554889f5be????????534889fb4c8da3e80100004883ec28":
-cleanup AugmentBlueprint* BlueprintManager::GetAugmentBlueprint(BlueprintManager *this<rdi>, const std::string& name<rsi>);
+cleanup __amd64 AugmentBlueprint* BlueprintManager::GetAugmentBlueprint(BlueprintManager *this<rdi>, const std::string& name<rsi>);
 ".4157488d8798000000":
-cleanup float BlueprintManager::GetAugmentValue(BlueprintManager *this<rdi>, const std::string& name<rsi>);
+cleanup __amd64 float BlueprintManager::GetAugmentValue(BlueprintManager *this<rdi>, const std::string& name<rsi>);
 "4157488d8f90010000":
-cleanup ItemBlueprint* BlueprintManager::GetItemBlueprint(BlueprintManager *this<rdi>, const std::string& name<rsi>);
+cleanup __amd64 ItemBlueprint* BlueprintManager::GetItemBlueprint(BlueprintManager *this<rdi>, const std::string& name<rsi>);
 "41574156415541544989f4554889d5534889fb4881ecb8000000":
-cleanup WeaponBlueprint BlueprintManager::ProcessWeaponBlueprint<rdi>(BlueprintManager *this<rsi>, rapidxml::xml_node<char>* node<rdx>);
+cleanup __amd64 WeaponBlueprint BlueprintManager::ProcessWeaponBlueprint<rdi>(BlueprintManager *this<rsi>, rapidxml::xml_node<char>* node<rdx>);
 "4157be????????415641554154554889fd4c8d6d10":
-cleanup Description BlueprintManager::ProcessDescription<rdi>(BlueprintManager *this<rsi>, rapidxml::xml_node<char>* node<rdx>);
+cleanup __amd64 Description BlueprintManager::ProcessDescription<rdi>(BlueprintManager *this<rsi>, rapidxml::xml_node<char>* node<rdx>);
 "4157415641554989f5be":
-cleanup EffectsBlueprint BlueprintManager::ProcessEffectsBlueprint<rdi>(BlueprintManager *this<rsi>, rapidxml::xml_node<char>* node<rdx>);
+cleanup __amd64 EffectsBlueprint BlueprintManager::ProcessEffectsBlueprint<rdi>(BlueprintManager *this<rsi>, rapidxml::xml_node<char>* node<rdx>);
 "41574156415541544989f44d8dac24c8000000":
-cleanup CrewBlueprint BlueprintManager::GetCrewBlueprint<rdi>(BlueprintManager *this<rsi>, const std::string& name<rdx>);
+cleanup __amd64 CrewBlueprint BlueprintManager::GetCrewBlueprint<rdi>(BlueprintManager *this<rsi>, const std::string& name<rdx>);
 "488d869800000053":
-cleanup std::vector<AugmentBlueprint*> BlueprintManager::GetRandomAugment<rdi>(BlueprintManager *this<rsi>, int count<rdx>, bool demo_lock<rcx>);
+cleanup __amd64 std::vector<AugmentBlueprint*> BlueprintManager::GetRandomAugment<rdi>(BlueprintManager *this<rsi>, int count<rdx>, bool demo_lock<rcx>);
 "4157488d8fc0010000":
-cleanup SystemBlueprint* BlueprintManager::GetSystemBlueprint(BlueprintManager *this<rdi>, const std::string& name<rsi>);
+cleanup __amd64 SystemBlueprint* BlueprintManager::GetSystemBlueprint(BlueprintManager *this<rdi>, const std::string& name<rsi>);
 "415741564155415455534883ec5848c707":
-cleanup std::string BlueprintManager::GetUnusedCrewName<rdi>(BlueprintManager *this<rsi>, bool* isMale_ret<rdx>);
+cleanup __amd64 std::string BlueprintManager::GetUnusedCrewName<rdi>(BlueprintManager *this<rsi>, bool* isMale_ret<rdx>);
 "415741564c8db6f800000041554989d541544989fc55534889f3":
-cleanup std::string BlueprintManager::GetCrewName<rdi>(BlueprintManager *this<rsi>, bool* isMale_ret<rdx>);
+cleanup __amd64 std::string BlueprintManager::GetCrewName<rdi>(BlueprintManager *this<rsi>, bool* isMale_ret<rdx>);
 "488d463853440fb6c1":
-cleanup std::vector<WeaponBlueprint*> BlueprintManager::GetRandomWeapon<rdi>(BlueprintManager *this<rsi>, int count<rdx>, bool demo_lock<rcx>);
+cleanup __amd64 std::vector<WeaponBlueprint*> BlueprintManager::GetRandomWeapon<rdi>(BlueprintManager *this<rsi>, int count<rdx>, bool demo_lock<rcx>);
 "488d466853440fb6c1":
-cleanup std::vector<DroneBlueprint*> BlueprintManager::GetRandomDrone<rdi>(BlueprintManager *this<rsi>, int count<rdx>, bool demo_lock<rcx>);
+cleanup __amd64 std::vector<DroneBlueprint*> BlueprintManager::GetRandomDrone<rdi>(BlueprintManager *this<rsi>, int count<rdx>, bool demo_lock<rcx>);
 "415741564989d641554989f5415455534889fb4881ecc8000000":
-cleanup ShipBlueprint BlueprintManager::ProcessShipBlueprint<rdi>(BlueprintManager* this<rsi>, rapidxml::xml_node<char>* node<rdx>);
+cleanup __amd64 ShipBlueprint BlueprintManager::ProcessShipBlueprint<rdi>(BlueprintManager* this<rsi>, rapidxml::xml_node<char>* node<rdx>);
 "415741564989f641554989d54154554889fd534881ec98000000":
-cleanup DroneBlueprint BlueprintManager::ProcessDroneBlueprint<rdi>(BlueprintManager* this<rsi>, rapidxml::xml_node<char>* node<rdx>);
+cleanup __amd64 DroneBlueprint BlueprintManager::ProcessDroneBlueprint<rdi>(BlueprintManager* this<rsi>, rapidxml::xml_node<char>* node<rdx>);
 
 "!488d742410baffffffffbf(???????\?)4c8d742430":
 BlueprintManager* Global_BlueprintManager_Blueprints;

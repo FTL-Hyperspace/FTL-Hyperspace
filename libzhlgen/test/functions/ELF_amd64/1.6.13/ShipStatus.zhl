@@ -1,12 +1,12 @@
 "4155415455534881ec880000004084f6":
-cleanup void ShipStatus::RenderHealth(ShipStatus *this<rdi>, bool unk<rsi>);
+cleanup __amd64 void ShipStatus::RenderHealth(ShipStatus *this<rdi>, bool unk<rsi>);
 "415741564155415455534889fb4881ece8010000f30f114708":
-cleanup void ShipStatus::OnInit(ShipStatus *this<rdi>, Point unk<rsi>, float unk2<xmm0>);
+cleanup __amd64 void ShipStatus::OnInit(ShipStatus *this<rdi>, Point unk<rsi>, float unk2<xmm0>);
 "415741564155415455534889fb4881ec580300004084f6":
-cleanup void ShipStatus::RenderEvadeOxygen(ShipStatus *this<rdi>, bool unk<rsi>);
+cleanup __amd64 void ShipStatus::RenderEvadeOxygen(ShipStatus *this<rdi>, bool unk<rsi>);
 "4155415455534889fb4881ec88000000e8????????f30f2a03":
-cleanup void ShipStatus::OnRender(ShipStatus *this<rdi>);
+cleanup __amd64 void ShipStatus::OnRender(ShipStatus *this<rdi>);
 "41574156415541544989fc55534883ec18488b7f10":
-cleanup void ShipStatus::RenderShields(ShipStatus *this<rdi>, bool renderText<rsi>);
+cleanup __amd64 void ShipStatus::RenderShields(ShipStatus *this<rdi>, bool renderText<rsi>);
 "415541544531e4554889fd5331db4883ec48":
-cleanup void ShipStatus::OnLoop(ShipStatus *this<rdi>);
+cleanup __amd64 void ShipStatus::OnLoop(ShipStatus *this<rdi>);

@@ -1,29 +1,29 @@
 "41574889f841564155415455534883ec68":
-cleanup void CrewAnimation::destructor(CrewAnimation *this<rdi>);
+cleanup __amd64 void CrewAnimation::destructor(CrewAnimation *this<rdi>);
 ".8b475c83f8ff":
-cleanup int CrewAnimation::GetFiringFrame(CrewAnimation *this<rdi>);
+cleanup __amd64 int CrewAnimation::GetFiringFrame(CrewAnimation *this<rdi>);
 "!.41554531ed415449bc000000000000803f55":
-cleanup void CrewAnimation::OnRenderProps(CrewAnimation *this<rdi>);
+cleanup __amd64 void CrewAnimation::OnRenderProps(CrewAnimation *this<rdi>);
 ".41544189f45589d5534889fb4883ec50":
-cleanup void CrewAnimation::OnRender(CrewAnimation *this<rdi>, float scale<xmm0>, int selectedState<rsi>, bool outlineOnly<rdx>);
+cleanup __amd64 void CrewAnimation::OnRender(CrewAnimation *this<rdi>, float scale<xmm0>, int selectedState<rsi>, bool outlineOnly<rdx>);
 "!.53488d9fd80800004889df":
-cleanup bool CrewAnimation::FireShot(CrewAnimation *this<rdi>);
+cleanup __amd64 bool CrewAnimation::FireShot(CrewAnimation *this<rdi>);
 ".4155415455534889fb4881ecf80000004084f6":
-cleanup void CrewAnimation::RenderIcon(CrewAnimation *this<rdi>, bool border<rsi>);
+cleanup __amd64 void CrewAnimation::RenderIcon(CrewAnimation *this<rdi>, bool border<rsi>);
 ".415455534889fb4883ec308b4760":
-cleanup void CrewAnimation::OnUpdate(CrewAnimation *this<rdi>, Pointf position<rsi>, bool moving<rdx>, bool fighting<rcx>, bool repairing<r8>, bool dying<r9>, bool onFire);
+cleanup __amd64 void CrewAnimation::OnUpdate(CrewAnimation *this<rdi>, Pointf position<rsi>, bool moving<rdx>, bool fighting<rcx>, bool repairing<r8>, bool dying<r9>, bool onFire);
 ".534889fb4883ec3080beec09000000":
-cleanup std::string CrewAnimation::GetDeathSound<rdi>(CrewAnimation *this<rsi>);
+cleanup __amd64 std::string CrewAnimation::GetDeathSound<rdi>(CrewAnimation *this<rsi>);
 ".534889fb4883ec30":
-cleanup std::string CrewAnimation::GetShootingSound<rdi>(CrewAnimation *this<rsi>);
+cleanup __amd64 std::string CrewAnimation::GetShootingSound<rdi>(CrewAnimation *this<rsi>);
 ".4157488d87e009000041564889c64155415455534889fb4881ec08020000":
-cleanup void CrewAnimation::SetupStrips(CrewAnimation *this<rdi>);
+cleanup __amd64 void CrewAnimation::SetupStrips(CrewAnimation *this<rdi>);
 ".415783f20141564155415455534889fb4889f74881ec08010000":
-cleanup void CrewAnimation::OnInit(CrewAnimation *this<rdi>, const std::string& name<rsi>, Pointf position<rdx>, bool enemy<rcx>);
+cleanup __amd64 void CrewAnimation::OnInit(CrewAnimation *this<rdi>, const std::string& name<rsi>, Pointf position<rdx>, bool enemy<rcx>);
 ".415741564155415455534881ec98000000":
-cleanup void CrewAnimation::constructor(CrewAnimation *this<rdi>, int shipId<rsi>, const std::string& race<rdx>, Pointf unk<rcx>, bool hostile<r8>);
+cleanup __amd64 void CrewAnimation::constructor(CrewAnimation *this<rdi>, int shipId<rsi>, const std::string& race<rdx>, Pointf unk<rcx>, bool hostile<r8>);
 ".415741564155415455534889fb4883ec6848897c2430":
-cleanup void CrewAnimation::OnUpdateEffects(CrewAnimation *this<rdi>);
+cleanup __amd64 void CrewAnimation::OnUpdateEffects(CrewAnimation *this<rdi>);
 
 
 struct CrewAnimation

@@ -2,107 +2,107 @@
 "4883ec08e8????????85c00f95c04883c408c3":
 noHook void CSurface::__DO_NOT_HOOK();
 "!.4883ec08e8????????85c00f95c04883c408c3":
-static cleanup bool CSurface::IsFrameBufferSupported();
+static cleanup __amd64 bool CSurface::IsFrameBufferSupported();
 "!.4883ec08e8????????4883c408":
-static cleanup void CSurface::StartFrame();
+static cleanup __amd64 void CSurface::StartFrame();
 */
 "!.0f57db31ff":
-static cleanup void CSurface::GL_ClearAll();
+static cleanup __amd64 void CSurface::GL_ClearAll();
 "!.0f57db0f28d30f28cb0f28c3":
-static cleanup void CSurface::GL_ClearColor();
+static cleanup __amd64 void CSurface::GL_ClearColor();
 ".4883ec08e8????????b801000000":
-static cleanup int CSurface::SetViewPort(int left<rdi>, int bottom<rsi>, int h<rdx>, int w<rcx>);
+static cleanup __amd64 int CSurface::SetViewPort(int left<rdi>, int bottom<rsi>, int h<rdx>, int w<rcx>);
 "!.488b0d????????488b15":
-static cleanup void CSurface::GL_PopScissor();
+static cleanup __amd64 void CSurface::GL_PopScissor();
 ".4883ec1883ff01":
-static cleanup void CSurface::GL_SetStencilMode(GL_StencilMode stencilMode<rdi>, int ref<rsi>, int mask<rdx>);
+static cleanup __amd64 void CSurface::GL_SetStencilMode(GL_StencilMode stencilMode<rdi>, int ref<rsi>, int mask<rdx>);
 ".488b0d????????488b15":
-static cleanup void CSurface::GL_PopStencilMode();
+static cleanup __amd64 void CSurface::GL_PopStencilMode();
 "!.0f57d2bf????????0f57c9":
-static cleanup int CSurface::GL_LoadIdentity();
+static cleanup __amd64 int CSurface::GL_LoadIdentity();
 ".8b15????????83fa0f":
-static cleanup int CSurface::GL_PushMatrix();
+static cleanup __amd64 int CSurface::GL_PushMatrix();
 ".8b15????????85d20f84":
-static cleanup int CSurface::GL_PopMatrix();
+static cleanup __amd64 int CSurface::GL_PopMatrix();
 ".0f57e44881ecf80000000f2ec4":
-static cleanup void CSurface::GL_Rotate(float angle<xmm0>, float x<xmm1>, float y<xmm2>, float z<xmm3>=1.f);
+static cleanup __amd64 void CSurface::GL_Rotate(float angle<xmm0>, float x<xmm1>, float y<xmm2>, float z<xmm3>=1.f);
 ".f30f101d????????b8000000000f2ec30f9bc20f45d084d2":
-static cleanup void CSurface::GL_Scale(float x<xmm0>, float y<xmm1>, float z<xmm2>);
+static cleanup __amd64 void CSurface::GL_Scale(float x<xmm0>, float y<xmm1>, float z<xmm2>);
 ".0f57dbb8000000000f2ec30f9bc20f45d084d2":
-static cleanup bool CSurface::GL_Translate(float x<xmm0>, float y<xmm1>, float z<xmm2>=0.f);
+static cleanup __amd64 bool CSurface::GL_Translate(float x<xmm0>, float y<xmm1>, float z<xmm2>=0.f);
 ".4883ec28660fd6442408488b442408660fd64c2408488b542408":
-static cleanup int CSurface::GL_SetColor(GL_Color color); /* Actually in XMM0:XMM1, TODO: Find a way to specify this */
+static cleanup __amd64 int CSurface::GL_SetColor(GL_Color color); /* Actually in XMM0:XMM1, TODO: Find a way to specify this */
 ".488b05????????f30f7e05":
-static cleanup GL_Color CSurface::GL_GetColor();
+static cleanup __amd64 GL_Color CSurface::GL_GetColor();
 ".488b05????????483b05":
-static cleanup void CSurface::GL_RemoveColorTint();
+static cleanup __amd64 void CSurface::GL_RemoveColorTint();
 ".488b15????????488b05":
-static cleanup GL_Color CSurface::GetColorTint();
+static cleanup __amd64 GL_Color CSurface::GetColorTint();
 "!.ba04000000be03000000bf01000000":
-static cleanup bool CSurface::GL_EnableBlend();
+static cleanup __amd64 bool CSurface::GL_EnableBlend();
 "!.31d2be01000000bf01000000":
-static cleanup bool CSurface::GL_DisableBlend();
+static cleanup __amd64 bool CSurface::GL_DisableBlend();
 "!.40883d????????c3":
-static cleanup void CSurface::GL_ForceAntialias(bool on<rdi>);
+static cleanup __amd64 void CSurface::GL_ForceAntialias(bool on<rdi>);
 ".4881eca8000000440f28c8660fd62c24":
-static cleanup bool CSurface::GL_DrawLine(float x1<xmm0>, float y1<xmm1>, float x2<xmm2>, float y2<xmm3>, float lineWidth<xmm4>, GL_Color color); /* GL_Color is in XMM5:XMM6 */
+static cleanup __amd64 bool CSurface::GL_DrawLine(float x1<xmm0>, float y1<xmm1>, float x2<xmm2>, float y2<xmm3>, float lineWidth<xmm4>, GL_Color color); /* GL_Color is in XMM5:XMM6 */
 ".4883ec78660fd6442408488b4c2408":
-static cleanup bool CSurface::GL_DrawTriangle(Point vertex1<rdi>, Point vertex2<rsi>, Point vertex3<rdx>, GL_Color color); /* GL_Color is in XMM0:XMM1 */
+static cleanup __amd64 bool CSurface::GL_DrawTriangle(Point vertex1<rdi>, Point vertex2<rsi>, Point vertex3<rdx>, GL_Color color); /* GL_Color is in XMM0:XMM1 */
 ".4881ec88000000660fd6642408488b542408":
-static cleanup bool CSurface::GL_DrawRect(float x1<xmm0>, float y1<xmm1>, float x2<xmm2>, float y2<xmm3>, GL_Color color); /* GL_Color is in XMM4:XMM5 */
+static cleanup __amd64 bool CSurface::GL_DrawRect(float x1<xmm0>, float y1<xmm1>, float x2<xmm2>, float y2<xmm3>, GL_Color color); /* GL_Color is in XMM4:XMM5 */
 ".4881eca8010000660fd64424084c8b442408660fd64c2408":
-static cleanup bool CSurface::GL_DrawRectOutline(int x1<rdi>, int y1<rsi>, int x2<rdx>, int y2<rcx>, GL_Color color, float lineWidth<xmm2>); /* GL_Color is in XMM0:XMM1 */
+static cleanup __amd64 bool CSurface::GL_DrawRectOutline(int x1<rdi>, int y1<rsi>, int x2<rdx>, int y2<rcx>, GL_Color color, float lineWidth<xmm2>); /* GL_Color is in XMM0:XMM1 */
 ".554889fd534883ec68660fd66c2410":
-static cleanup bool CSurface::GL_BlitImage(GL_Texture *tex<rdi>, float x<xmm0>, float y<xmm1>, float x2<xmm2>, float y2<xmm3>, float rotation<xmm4>, GL_Color color, bool mirror<rsi>); /* GL_Color is in XMM5:XMM6 */
+static cleanup __amd64 bool CSurface::GL_BlitImage(GL_Texture *tex<rdi>, float x<xmm0>, float y<xmm1>, float x2<xmm2>, float y2<xmm3>, float rotation<xmm4>, GL_Color color, bool mirror<rsi>); /* GL_Color is in XMM5:XMM6 */
 ".4154554889fd534883ec60":
-static cleanup bool CSurface::GL_BlitPixelImage(GL_Texture *tex<rdi>, float x<xmm0>, float y<xmm1>, float x2<xmm2>, float y2<xmm3>, float rotation<xmm4>, GL_Color color, bool mirror<rsi>); /* GL_Color is in XMM5:XMM6 */
+static cleanup __amd64 bool CSurface::GL_BlitPixelImage(GL_Texture *tex<rdi>, float x<xmm0>, float y<xmm1>, float x2<xmm2>, float y2<xmm3>, float rotation<xmm4>, GL_Color color, bool mirror<rsi>); /* GL_Color is in XMM5:XMM6 */
 ".415455534889fb4883ec604084f6f30f11442408":
-static cleanup bool CSurface::GL_BlitImagePartial(GL_Texture *tex<rdi>, float x<xmm0>, float y<xmm1>, float size_x<xmm2>, float size_y<xmm3>, float start_x<xmm4>, float end_x<xmm5>, float start_y<xmm6>, float end_y<xmm7>, float alpha, GL_Color color, bool mirror<rsi>); /* Not sure if GL_Color is at stack 0xc or 0x10 */
+static cleanup __amd64 bool CSurface::GL_BlitImagePartial(GL_Texture *tex<rdi>, float x<xmm0>, float y<xmm1>, float size_x<xmm2>, float size_y<xmm3>, float start_x<xmm4>, float end_x<xmm5>, float start_y<xmm6>, float end_y<xmm7>, float alpha, GL_Color color, bool mirror<rsi>); /* Not sure if GL_Color is at stack 0xc or 0x10 */
 ".41574889f841564989fe41554189d54154555389f34881ec88000000":
-static cleanup bool CSurface::GL_BlitPixelImageWide(GL_Texture *tex<rdi>, float x<xmm0>, float y<xmm1>, int x2<rsi>, int y2<rdx>, float opacity<xmm2>, GL_Color color, bool mirror<rcx>); /* GL_Color is in XMM3:XMM4 */
+static cleanup __amd64 bool CSurface::GL_BlitPixelImageWide(GL_Texture *tex<rdi>, float x<xmm0>, float y<xmm1>, int x2<rsi>, int y2<rdx>, float opacity<xmm2>, GL_Color color, bool mirror<rcx>); /* GL_Color is in XMM3:XMM4 */
 ".415641554189d541544989f455534889fb4883ec20":
-static cleanup void CSurface::GL_BlitMultiImage(GL_Texture *tex<rdi>, const std::vector<GL_TexVertex>& texVertices<rsi>, bool antialias<rdx>);
+static cleanup __amd64 void CSurface::GL_BlitMultiImage(GL_Texture *tex<rdi>, const std::vector<GL_TexVertex>& texVertices<rsi>, bool antialias<rdx>);
 ".4156415541544189d4554889f5534889fb4883ec20":
-static cleanup void CSurface::GL_BlitMultiColorImage(GL_Texture *tex<rdi>, const std::vector<GL_ColorTexVertex>& texVertices<rsi>, bool antialias<rdx>);
+static cleanup __amd64 void CSurface::GL_BlitMultiColorImage(GL_Texture *tex<rdi>, const std::vector<GL_ColorTexVertex>& texVertices<rsi>, bool antialias<rdx>);
 ".534889fb4883ec104885ff":
-static cleanup void CSurface::GL_RenderPrimitive(GL_Primitive *primitive<rdi>);
+static cleanup __amd64 void CSurface::GL_RenderPrimitive(GL_Primitive *primitive<rdi>);
 ".534889fb4883ec104885ff":
-static cleanup void CSurface::GL_RenderPrimitiveWithAlpha(GL_Primitive *primitive<rdi>, float alpha<xmm0>);
+static cleanup __amd64 void CSurface::GL_RenderPrimitiveWithAlpha(GL_Primitive *primitive<rdi>, float alpha<xmm0>);
 ".534889fb4883ec20660fd6442408":
-static cleanup void CSurface::GL_RenderPrimitiveWithColor(GL_Primitive *primitive<rdi>, GL_Color color); /* GL_Color is in XMM0:XMM1 */
+static cleanup __amd64 void CSurface::GL_RenderPrimitiveWithColor(GL_Primitive *primitive<rdi>, GL_Color color); /* GL_Color is in XMM0:XMM1 */
 ".4885ff534889fb":
-static cleanup void CSurface::GL_DestroyPrimitive(GL_Primitive *primitive<rdi>);
+static cleanup __amd64 void CSurface::GL_DestroyPrimitive(GL_Primitive *primitive<rdi>);
 ".53f30f58d0bf30000000f30f58d94883ec40":
-static cleanup GL_Primitive* CSurface::GL_CreateRectPrimitive(float x<xmm0>, float y<xmm1>, float w<xmm2>, float h<xmm3>, GL_Color color); /* GL_Color is in XMM4:XMM5 */
+static cleanup __amd64 GL_Primitive* CSurface::GL_CreateRectPrimitive(float x<xmm0>, float y<xmm1>, float w<xmm2>, float h<xmm3>, GL_Color color); /* GL_Color is in XMM4:XMM5 */
 ".415648be000000000000c01f4989fe4155415455534883ec20":
-static cleanup GL_Primitive* CSurface::GL_CreateMultiRectPrimitive(std::vector<Globals::Rect>& vec<rdi>, GL_Color color); /* GL_Color is in XMM0:XMM1 */
+static cleanup __amd64 GL_Primitive* CSurface::GL_CreateMultiRectPrimitive(std::vector<Globals::Rect>& vec<rdi>, GL_Color color); /* GL_Color is in XMM0:XMM1 */
 ".53f30f2adff30f2ae6bf300000004881eca0000000":
-static cleanup GL_Primitive* CSurface::GL_CreateRectOutlinePrimitive(int x<rdi>, int y<rsi>, int w<rdx>, int h<rcx>, GL_Color color, float lineWidth<xmm2>); /* GL_Color is in XMM0:XMM1 */
+static cleanup __amd64 GL_Primitive* CSurface::GL_CreateRectOutlinePrimitive(int x<rdi>, int y<rsi>, int w<rdx>, int h<rcx>, GL_Color color, float lineWidth<xmm2>); /* GL_Color is in XMM0:XMM1 */
 ".4157415641554989fd415455534883ec484c8b6708":
-static cleanup GL_Primitive* CSurface::GL_CreateMultiLinePrimitive(std::vector<GL_Line>& vec<rdi>, GL_Color color, float thickness<xmm2>); /* GL_Color is in XMM0:XMM1 */
+static cleanup __amd64 GL_Primitive* CSurface::GL_CreateMultiLinePrimitive(std::vector<GL_Line>& vec<rdi>, GL_Color color, float thickness<xmm2>); /* GL_Color is in XMM0:XMM1 */
 ".415541544989f455534883ec48":
-static cleanup GL_Primitive* CSurface::GL_CreateMultiImagePrimitive(GL_Texture* tex<rdi>, std::vector<GL_TexVertex>* vec<rsi>, GL_Color color); /* GL_Color is in XMM0:XMM1 */
+static cleanup __amd64 GL_Primitive* CSurface::GL_CreateMultiImagePrimitive(GL_Texture* tex<rdi>, std::vector<GL_TexVertex>* vec<rsi>, GL_Color color); /* GL_Color is in XMM0:XMM1 */
 ".488b05????????483b05":
-static cleanup void CSurface::GL_PushStencilMode();
+static cleanup __amd64 void CSurface::GL_PushStencilMode();
 ".4883ec18488b0d":
-static cleanup void CSurface::GL_SetColorTint(GL_Color color); /* GL_Color is in XMM0:XMM1 */
+static cleanup __amd64 void CSurface::GL_SetColorTint(GL_Color color); /* GL_Color is in XMM0:XMM1 */
 ".41550f28f84989fd415455534883ec58":
-static cleanup GL_Primitive* CSurface::GL_CreatePixelImagePrimitive(GL_Texture *tex<rdi>, float x<xmm0>, float y<xmm1>, float size_x<xmm2>, float size_y<xmm3>, float rotate<xmm4>, GL_Color color, bool unk<rsi>); /* GL_Color is in XMM5:XMM6 */
+static cleanup __amd64 GL_Primitive* CSurface::GL_CreatePixelImagePrimitive(GL_Texture *tex<rdi>, float x<xmm0>, float y<xmm1>, float size_x<xmm2>, float size_y<xmm3>, float rotate<xmm4>, GL_Color color, bool unk<rsi>); /* GL_Color is in XMM5:XMM6 */
 /*
 ".4154554889fd534883ec704084f6":
-static cleanup GL_Primitive* CSurface::GL_CreateImagePartialPrimitive(GL_Texture *tex<rdi>, float x<xmm0>, float y<xmm1>, float size_x<xmm2>, float size_y<xmm3>, float start_x<xmm4>, float end_x<xmm5>, float start_y<xmm6>, float end_y<xmm7>, float alpha, GL_Color color, bool mirror<rsi>); 
+static cleanup __amd64 GL_Primitive* CSurface::GL_CreateImagePartialPrimitive(GL_Texture *tex<rdi>, float x<xmm0>, float y<xmm1>, float size_x<xmm2>, float size_y<xmm3>, float start_x<xmm4>, float end_x<xmm5>, float start_y<xmm6>, float end_y<xmm7>, float alpha, GL_Color color, bool mirror<rsi>); 
 */
 ".554889fd534883ec28488b07488b5f08":
-static cleanup void CSurface::AddTexVertices(std::vector<GL_TexVertex>* vec<rdi>, float x1<xmm0>, float y1<xmm1>, float u1<xmm2>, float v1<xmm3>, float x2<xmm4>, float y2<xmm5>, float u2<xmm6>, float v2<xmm7>);
+static cleanup __amd64 void CSurface::AddTexVertices(std::vector<GL_TexVertex>* vec<rdi>, float x1<xmm0>, float y1<xmm1>, float u1<xmm2>, float v1<xmm3>, float x2<xmm4>, float y2<xmm5>, float u2<xmm6>, float v2<xmm7>);
 ".550f28f84889fd534883ec58":
-static cleanup GL_Primitive* CSurface::GL_CreateImagePrimitive(GL_Texture *tex<rdi>, float x<xmm0>, float y<xmm1>, float size_x<xmm2>, float size_y<xmm3>, float rotate<xmm4>, GL_Color color); /* GL_Color is in XMM5:XMM6 */
+static cleanup __amd64 GL_Primitive* CSurface::GL_CreateImagePrimitive(GL_Texture *tex<rdi>, float x<xmm0>, float y<xmm1>, float size_x<xmm2>, float size_y<xmm3>, float rotate<xmm4>, GL_Color color); /* GL_Color is in XMM5:XMM6 */
 ".41550f28f041540f28fe4189cc55f30f5cfc89d5534883ec68":
-static cleanup bool CSurface::GL_DrawShield(int x<rdi>, int y<rsi>, float a1<xmm0>, float b1<xmm1>, int angle1<rdx>, int angle2<rcx>, GL_Color color, float thickness<xmm4>); /* GL_Color is in XMM2:XMM3 */
+static cleanup __amd64 bool CSurface::GL_DrawShield(int x<rdi>, int y<rsi>, float a1<xmm0>, float b1<xmm1>, int angle1<rdx>, int angle2<rcx>, GL_Color color, float thickness<xmm4>); /* GL_Color is in XMM2:XMM3 */
 
 "!488b35????????488b3d????????e9":
-static cleanup void CSurface::FinishFrame();
+static cleanup __amd64 void CSurface::FinishFrame();
 "440f28c94883ec48":
-static cleanup int CSurface::GL_OrthoProjection(float mx1<xmm0>, float mx2<xmm1>, float mx3<xmm2>, float mx4<xmm3>, float mx5<xmm4>, float mx6<xmm5>);
+static cleanup __amd64 int CSurface::GL_OrthoProjection(float mx1<xmm0>, float mx2<xmm1>, float mx3<xmm2>, float mx4<xmm3>, float mx5<xmm4>, float mx6<xmm5>);
 
 
 struct CSurface

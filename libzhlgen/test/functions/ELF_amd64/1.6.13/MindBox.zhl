@@ -1,5 +1,5 @@
 "415431c9554889d5534889fb4883ec60":
-cleanup void MindBox::constructor(MindBox *this<rdi>, Point pos<rsi>, MindSystem* sys<rdx>);
+cleanup __amd64 void MindBox::constructor(MindBox *this<rdi>, Point pos<rsi>, MindSystem* sys<rdx>);
 
 
 struct MindBox

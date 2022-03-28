@@ -1,17 +1,17 @@
 "83feffc6471101c7470800000000":
-cleanup void TimerHelper::Start(TimerHelper *this<rdi>, int goal<rsi>);
+cleanup __amd64 void TimerHelper::Start(TimerHelper *this<rdi>, int goal<rsi>);
 "!.0fb64711c3":
-cleanup bool TimerHelper::Running(TimerHelper *this<rdi>);
+cleanup __amd64 bool TimerHelper::Running(TimerHelper *this<rdi>);
 ".8917897704":
-cleanup void TimerHelper::ResetMinMax(TimerHelper *this<rdi>, int min<rsi>, int max<rdx>);
+cleanup __amd64 void TimerHelper::ResetMinMax(TimerHelper *this<rdi>, int min<rsi>, int max<rdx>);
 ".f30f104f08f30f5e4f0c":
-cleanup void TimerHelper::SetMaxTime(TimerHelper *this<rdi>, float max<xmm0>);
+cleanup __amd64 void TimerHelper::SetMaxTime(TimerHelper *this<rdi>, float max<xmm0>);
 "!.c6471100c3":
-cleanup void TimerHelper::Stop(TimerHelper *this<rdi>);
+cleanup __amd64 void TimerHelper::Stop(TimerHelper *this<rdi>);
 ".53807f11004889fb":
-cleanup void TimerHelper::Update(TimerHelper *this<rdi>);
+cleanup __amd64 void TimerHelper::Update(TimerHelper *this<rdi>);
 ".0fb6471184c0":
-cleanup bool TimerHelper::Done(TimerHelper *this<rdi>);
+cleanup __amd64 bool TimerHelper::Done(TimerHelper *this<rdi>);
 
 
 struct TimerHelper

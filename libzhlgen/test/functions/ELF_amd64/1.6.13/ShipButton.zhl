@@ -1,11 +1,11 @@
 "41574156415541544189d45589f5534889fb4881ec38030000":
-cleanup void ShipButton::constructor(ShipButton *this<rdi>, int shipType<rsi>, int shipVariant<rdx>);
+cleanup __amd64 void ShipButton::constructor(ShipButton *this<rdi>, int shipType<rsi>, int shipVariant<rdx>);
 ".4889d1534889fb48c1f920":
-cleanup void ShipButton::OnInit(ShipButton *this<rdi>, const std::string& imgName<rsi>, Point pos<rdx>);
+cleanup __amd64 void ShipButton::OnInit(ShipButton *this<rdi>, const std::string& imgName<rsi>, Point pos<rdx>);
 "!.41554189f5415455534889fb4883ec18":
-cleanup void ShipButton::MouseMove(ShipButton *this<rdi>, int x<rsi>, int y<rdx>);
+cleanup __amd64 void ShipButton::MouseMove(ShipButton *this<rdi>, int x<rsi>, int y<rdx>);
 ".55534889fb4883ec4880bf9800000000":
-cleanup void ShipButton::OnRender(ShipButton *this<rdi>);
+cleanup __amd64 void ShipButton::OnRender(ShipButton *this<rdi>);
 
 
 struct ShipButton

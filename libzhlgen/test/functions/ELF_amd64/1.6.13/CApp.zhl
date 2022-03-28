@@ -1,58 +1,58 @@
 "534889fb488b7f104885ff7428":
-cleanup void CApp::OnRequestExit(CApp *this<rdi>);
+cleanup __amd64 void CApp::OnRequestExit(CApp *this<rdi>);
 ".534889fbe8":
-cleanup void CApp::OnExit(CApp *this<rdi>);
+cleanup __amd64 void CApp::OnExit(CApp *this<rdi>);
 ".80bff037000000":
-cleanup void CApp::OnMButtonDown(CApp *this<rdi>, int x<rsi>, int y<rdx>);
+cleanup __amd64 void CApp::OnMButtonDown(CApp *this<rdi>, int x<rsi>, int y<rdx>);
 ".80bff037000000":
-cleanup void CApp::OnTextInput(CApp *this<rdi>, int ch<rsi>);
+cleanup __amd64 void CApp::OnTextInput(CApp *this<rdi>, int ch<rsi>);
 ".80bff037000000":
-cleanup void CApp::OnTextEvent(CApp *this<rdi>, CEvent::TextEvent textEvent<rsi>);
+cleanup __amd64 void CApp::OnTextEvent(CApp *this<rdi>, CEvent::TextEvent textEvent<rsi>);
 ".5380bf3b38000000":
-cleanup void CApp::OnInputFocus(CApp *this<rdi>);
+cleanup __amd64 void CApp::OnInputFocus(CApp *this<rdi>);
 ".534889fbc6873b38000000":
-cleanup void CApp::OnInputBlur(CApp *this<rdi>);
+cleanup __amd64 void CApp::OnInputBlur(CApp *this<rdi>);
 ".534889fb4883ec102bb75c380000":
-cleanup void CApp::OnRButtonUp(CApp *this<rdi>, int x<rsi>, int y<rdx>);
+cleanup __amd64 void CApp::OnRButtonUp(CApp *this<rdi>, int x<rsi>, int y<rdx>);
 ".534889fb4883ec102bb75c380000":
-cleanup void CApp::OnRButtonDown(CApp *this<rdi>, int x<rsi>, int y<rdx>);
+cleanup __amd64 void CApp::OnRButtonDown(CApp *this<rdi>, int x<rsi>, int y<rdx>);
 ".534889fb4883ec102bb75c380000":
-cleanup void CApp::OnLButtonUp(CApp *this<rdi>, int x<rsi>, int y<rdx>);
+cleanup __amd64 void CApp::OnLButtonUp(CApp *this<rdi>, int x<rsi>, int y<rdx>);
 ".534889fb4883ec102bb75c380000":
-cleanup void CApp::OnLButtonDown(CApp *this<rdi>, int x<rsi>, int y<rdx>);
+cleanup __amd64 void CApp::OnLButtonDown(CApp *this<rdi>, int x<rsi>, int y<rdx>);
 ".415455534889fb4883ec102bb75c380000":
-cleanup void CApp::OnMouseMove(CApp *this<rdi>, int x<rsi>, int y<rdx>, int xdiff<rcx>, int ydiff<r8>, bool holdingLMB<r9>, bool holdingRMB, bool holdingMMB);
+cleanup __amd64 void CApp::OnMouseMove(CApp *this<rdi>, int x<rsi>, int y<rdx>, int xdiff<rcx>, int ydiff<r8>, bool holdingLMB<r9>, bool holdingRMB, bool holdingMMB);
 ".555389f34883ec3885f6":
-cleanup void CApp::OnKeyUp(CApp *this<rdi>, SDLKey key<rsi>);
+cleanup __amd64 void CApp::OnKeyUp(CApp *this<rdi>, SDLKey key<rsi>);
 ".55be????????534889fb4883ec38":
-cleanup void CApp::OnLanguageChange(CApp *this<rdi>);
+cleanup __amd64 void CApp::OnLanguageChange(CApp *this<rdi>);
 ".555389f34883ec4885f6":
-cleanup void CApp::OnKeyDown(CApp *this<rdi>, SDLKey key<rsi>);
+cleanup __amd64 void CApp::OnKeyDown(CApp *this<rdi>, SDLKey key<rsi>);
 ".534889fbe8????????488d7b20":
-cleanup void CApp::constructor(CApp *this<rdi>);
+cleanup __amd64 void CApp::constructor(CApp *this<rdi>);
 ".f3c366666666662e0f1f840000000000":
-cleanup void CApp::ParseArgs(CApp *this<rdi>, int argc<rsi>, const char** argv<rdx>);
+cleanup __amd64 void CApp::ParseArgs(CApp *this<rdi>, int argc<rsi>, const char** argv<rdx>);
 ".55534889fb":
-cleanup void CApp::OnLoop(CApp *this<rdi>);
+cleanup __amd64 void CApp::OnLoop(CApp *this<rdi>);
 ".53be0100000031c04889fb":
-cleanup int CApp::SetupWindow(CApp *this<rdi>);
+cleanup __amd64 int CApp::SetupWindow(CApp *this<rdi>);
 ".55534889fb4883ec08488b7f18":
-cleanup void CApp::OnCleanup(CApp *this<rdi>);
+cleanup __amd64 void CApp::OnCleanup(CApp *this<rdi>);
 ".55534889fb4883ec08":
-cleanup void CApp::GenInputEvents(CApp *this<rdi>);
+cleanup __amd64 void CApp::GenInputEvents(CApp *this<rdi>);
 ".534889fbe8????????488b7b10":
-cleanup void CApp::OnSuspend(CApp *this<rdi>);
+cleanup __amd64 void CApp::OnSuspend(CApp *this<rdi>);
 ".5380bff037000000":
-cleanup void CApp::OnResume(CApp *this<rdi>);
+cleanup __amd64 void CApp::OnResume(CApp *this<rdi>);
 ".4883ec182bb75c3800002b9760380000":
-cleanup Point CApp::TranslateMouse(CApp *this<rdi>, int x<rsi>, int y<rdx>);
+cleanup __amd64 Point CApp::TranslateMouse(CApp *this<rdi>, int x<rsi>, int y<rdx>);
 ".803d????????007407c3":
-cleanup void CApp::UpdateFullScreen(CApp *this<rdi>);
+cleanup __amd64 void CApp::UpdateFullScreen(CApp *this<rdi>);
 ".80bf5838000000c7873038000000000000":
-cleanup void CApp::UpdateWindowSettings(CApp *this<rdi>);
+cleanup __amd64 void CApp::UpdateWindowSettings(CApp *this<rdi>);
 ".534889fb4883ec30":
-cleanup void CApp::OnRender(CApp *this<rdi>);
+cleanup __amd64 void CApp::OnRender(CApp *this<rdi>);
 ".534889fb31ff4883ec40":
-cleanup int CApp::OnInit(CApp *this<rdi>);
+cleanup __amd64 int CApp::OnInit(CApp *this<rdi>);
 ".415731f641564155415455534889fb":
-cleanup int CApp::OnExecute(CApp *this<rdi>);
+cleanup __amd64 int CApp::OnExecute(CApp *this<rdi>);

@@ -1,4 +1,4 @@
 "41564155415455534889fb4881eca000000080bf0803000000":
-cleanup void MenuScreen::OnRender(MenuScreen *this<rdi>);
+cleanup __amd64 void MenuScreen::OnRender(MenuScreen *this<rdi>);
 "41564155415455534889fb488d6b784881ece0000000":
-cleanup void MenuScreen::constructor(MenuScreen *this<rdi>);
+cleanup __amd64 void MenuScreen::constructor(MenuScreen *this<rdi>);
