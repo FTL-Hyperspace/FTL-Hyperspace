@@ -207,6 +207,32 @@ local function shouldBlacklist(t)
 	return false
 end
 
+local function isSSEClass(c)
+    if c == "float" or c == "double" then
+        return true
+    else
+        return false
+    end
+end
+
+local function getRawStructFields(t, s)
+    -- Warning, Enums are not currently supported by the cparser code, so they will all be thought of as a single integer value argument regardless of actual type.
+    if not s:isPointer() then
+        local sdef = structs[s:cname()]
+        if sdef and sdef.fields then
+            for _,f in pairs(sdef.fields) do
+                getRawStructFields(t, f)
+            end
+        else
+            table.insert(t, s)
+            return
+        end
+    else
+        table.insert(t, s)
+        return
+    end
+end
+
 local function sizeof(t)
 	local size = 4
 	
@@ -227,7 +253,7 @@ local function sizeof(t)
 			size = 8
 		elseif t.class == "__int16" or t.class == "short" or t.class == 'uint16_t' or t.class == 'int16_t'  then
 			size = 2
-		elseif t.class == "__int8" or t.class == "char" or t.class == 'uint8_t' or t.class == 'int8_t'  then
+		elseif t.class == "__int8" or t.class == "char" or t.class == 'uint8_t' or t.class == 'int8_t' or t.class == "bool"  then
 			size = 1
 		elseif t.parent and t.parent.class == "std" then
 			local stdStructSize = stdNamespaceSizes[t.class]
@@ -240,13 +266,61 @@ local function sizeof(t)
 			size = 8
 		elseif t.class == "ReferenceCount" then
 			size = 12
-		end
+		end 
+    else
+        size = archPushSize -- pointer size, only really ends up mattering on 64-bit as otherwise it was already 4
 	end
 	
 	if t.array and t.array > 0 then
 		size = size * t.array
 	end
 	return size
+end
+
+local function addSSEArgTypeData(t)
+    if not t:isPointer() then
+        local sdef = structs[t:cname()]
+        if sdef then
+            local tab = {}
+            getRawStructFields(tab, t)
+            local sizeUsed = 0
+            local pureSSE = { true, true }
+            for _,f in pairs(tab) do
+                local isSSE = isSSEClass(f:cname())
+                local size_a = sizeof(f)
+
+                local packingSpaceAvailable = 8 - (sizeUsed % 8) -- Struct memory alignment - used size
+                if size_a > packingSpaceAvailable then
+                    sizeUsed = sizeUsed + packingSpaceAvailable
+                end
+                sizeUsed = sizeUsed + size_a
+                if sizeUsed > 16 then
+                    t.structRegs = nil
+                elseif not isSSE then
+                    pureSSE[math.ceil(sizeUsed / 8)]  = false
+                end
+            end
+
+            if pureSSE[1] then
+                t.argPassType = "SSE"
+            else
+                t.argPassType = "INT"
+            end
+            if t.size == 2 then
+                if pureSSE[2] then
+                    t.argPassType = t.argPassType .. ":SSE"
+                else
+                    t.argPassType = t.argPassType .. ":INT"
+                end
+            end
+        else
+            if isSSEClass(t:cname()) then
+                t.argPassType = "SSE"
+            else
+                t.argPassType = "INT"
+            end
+        end
+    end
 end
 
 local function sizeof_aligned(t)
@@ -609,7 +683,13 @@ for k,fd in pairs(tfiles) do
                             error("Unsupported calling convention for x86: " .. func.callingConvention)
                         end
                     elseif arch == "x86_64" then
+                        -- TODO: Add an if for System V AMD64 ABI vs Microsoft x64 ABI
                         -- TODO: Not sure if Microsoft ABI passes 16 byte structs on two registers or not.
+
+                        if arg.size < 3 then
+                            addSSEArgTypeData(arg)
+                        end
+
                         if arg.size > archPushSize * 2 then -- Make sure under max size of struct passing in registers in argument for architecture/ABI, Above this size, use stack.
                             arg.reg = nil
                         else
@@ -1341,7 +1421,6 @@ using namespace ZHL;
                     
                     -- push all stack based arguments
                     local sizePushed = 0
-                    -- print(inspect(func))
                     -- TODO: If we reserve stack space & use mov instead of push we can generate the assembly in the same forward-order as the register arguments and not have to have this separate block that operates backwards, this could probably simplify this logic.
                     for k = #func.args, 1, -1 do
                         local arg = func.args[k]
