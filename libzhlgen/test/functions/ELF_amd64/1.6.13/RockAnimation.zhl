@@ -1,11 +1,11 @@
 "f3c3660f1f44000053be????????4889fb4883ec10488d54240fe8????????4883c4104889d85bc353be????????4889fb4883ec10":
-noHook void RockAnimation::__DO_NOT_HOOK_1();
+noHook __amd64 void RockAnimation::__DO_NOT_HOOK_1();
 ".53be????????4889fb4883ec10488d54240f":
 cleanup __amd64 std::string RockAnimation::GetDeathSound<rdi>(RockAnimation *this<rsi>);
 ".534889fb4883ec30803d????????007577e8????????89c1":
-noHook void RockAnimation::__DO_NOT_HOOK_2();
+noHook __amd64 void RockAnimation::__DO_NOT_HOOK_2();
 ".534889fb4883ec30803d????????007577e8????????89c1":
-noHook void RockAnimation::__DO_NOT_HOOK_3();
+noHook __amd64 void RockAnimation::__DO_NOT_HOOK_3();
 ".534889fb4883ec30803d????????007577e8????????89c1":
 cleanup __amd64 std::string RockAnimation::GetShootingSound<rdi>(RockAnimation *this<rsi>);
 ".41544189cc5589d5534889fb4883ec50":

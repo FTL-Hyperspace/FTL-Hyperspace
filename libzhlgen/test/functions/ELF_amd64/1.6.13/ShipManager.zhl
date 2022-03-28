@@ -45,7 +45,7 @@ cleanup __amd64 void ShipManager::ClearStatusAll(ShipManager *this<rdi>);
 ".83fe11743383feff7426":
 cleanup __amd64 void ShipManager::ClearStatusSystem(ShipManager *this<rdi>, int system<rsi>);
 ".83fe11743b83feff742e":
-noHook void ShipManager::DO_NOT_HOOK();
+noHook __amd64 void ShipManager::DO_NOT_HOOK();
 ".83fe11743b83feff742e":
 cleanup __amd64 void ShipManager::SetSystemPowerLoss(ShipManager *this<rdi>, int systemId<rsi>, int powerLoss<rdx>);
 ".83feff743b488b87580600004863f6486304b083f8ff7428488b5728488b3cc24885ff741b488b07be01000000488b8008010000":

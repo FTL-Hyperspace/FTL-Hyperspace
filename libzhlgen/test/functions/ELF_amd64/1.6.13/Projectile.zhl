@@ -1,10 +1,10 @@
 ".!b8ffffffffc3662e0f1f840000000000f3c3662e0f1f8400000000000f1f40004889b7f0020000":
-cleanup int Projectile::ForceRenderLayer(Projectile *this<rdi>);
+cleanup __amd64 int Projectile::ForceRenderLayer(Projectile *this<rdi>);
 ".4154554889f5534889fb4883ec60448b673c488b064889f7":
-cleanup void Projectile::CollisionCheck(Projectile *this<rdi>, Collideable *other<rsi>);
+cleanup __amd64 void Projectile::CollisionCheck(Projectile *this<rdi>, Collideable *other<rsi>);
 ".4157415641554154554889fd534881ecf8000000":
-cleanup void Projectile::constructor(Projectile *this<rdi>, Pointf position<rsi>, int ownerId<rdx>, int targetId<rcx>, Pointf target<r8>);
+cleanup __amd64 void Projectile::constructor(Projectile *this<rdi>, Pointf position<rsi>, int ownerId<rdx>, int targetId<rcx>, Pointf target<r8>);
 ".415731d2415641554c8daed000000041544989f4554889fd5331db4881ec28010000":
-cleanup void Projectile::Initialize(Projectile *this<rdi>, const WeaponBlueprint& bp<rsi>);
+cleanup __amd64 void Projectile::Initialize(Projectile *this<rdi>, const WeaponBlueprint& bp<rsi>);
 ".415641554154554889fd534883ec10488b872802000048c707????????48c74708????????48c78738020000????????488d78e84881ff????????0f8507030000":
-cleanup void Projectile::destructor(Projectile *this<rdi>);
+cleanup __amd64 void Projectile::destructor(Projectile *this<rdi>);
