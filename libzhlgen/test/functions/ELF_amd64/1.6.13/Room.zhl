@@ -1,13 +1,13 @@
 "41574156415541544989fc55534883ec5848c707":
-cleanup __amd64 void Room::destructor(Room *this<rdi>);
+cleanup __amd64 void Room::destructor(Room *this);
 ".41574989ff41564589ce4155415455534489c3410fafde4881ec78010000":
-cleanup __amd64 void Room::constructor(Room *this<rdi>, int iShipId<rsi>, int x<rdx>, int y<rcx>, int w<r8>, int h<r9>, int roomId);
+cleanup __amd64 void Room::constructor(Room *this, int iShipId, int x, int y, int w, int h, int roomId);
 ".400fb6f6488b4750488d14b6488d14d0488b4210482b028b4a188b520848c1f80348c1e0064801c84829d0":
-cleanup __amd64 int Room::GetEmptySlots(Room *this<rdi>, bool intruder<rsi>);
+cleanup __amd64 int Room::GetEmptySlots(Room *this, bool intruder);
 ".4883ec28f30f100d????????f30f5c8fb8000000488bbfc0000000":
-cleanup __amd64 void Room::OnRenderFloor(Room *this<rdi>, float alpha<xmm0>, bool experimental<rsi>);
+cleanup __amd64 void Room::OnRenderFloor(Room *this, float alpha, bool experimental);
 ".534889fb4883ec10807f6800":
-cleanup __amd64 void Room::OnRenderWalls(Room *this<rdi>, float alpha<xmm0>);
+cleanup __amd64 void Room::OnRenderWalls(Room *this, float alpha);
 
 
 struct Room depends (Globals, Point) {{

@@ -1,5 +1,5 @@
 "4883ec18f30f59d2660fd60424488b1424":
-static cleanup __amd64 float Globals::AimAhead(Pointf delta<rdi>, Pointf vr<rsi>, float muzzleV<xmm0>);
+static cleanup __amd64 float Globals::AimAhead(Pointf delta, Pointf vr, float muzzleV);
 "8b15????????b865000000":
 static __amd64 int Globals::GetNextSpaceId();
 

@@ -495,19 +495,19 @@ noHook __amd64 void DO_NOT_HOOK();
 */
 
 "85ff7e7e":
-cleanup __amd64 float font_text_width(freetype::font_data& fontData<rdi>, const char* str<rsi>, float size<xmm0>);
+cleanup __amd64 float font_text_width(freetype::font_data& fontData, const char* str, float size);
 
 "48b82d7f954c2df45158480faf05????????4883c001488905????????48c1e821":
 __amd64 int random32();
 
 ".89f8488905":
-cleanup __amd64 void srandom32(unsigned int seed<rdi>);
+cleanup __amd64 void srandom32(unsigned int seed);
 
 "83ff05772d89ff":
-cleanup __amd64 float getSkillBonus(int skill<rdi>, int level<rsi>);
+cleanup __amd64 float getSkillBonus(int skill, int level);
 
 "41554189cd41544c63e2554889fd534889f3":
-cleanup __amd64 void GetValue(ResourceEvent &ref<rdi>, const std::string& type<rsi>, int level<rdx>, int worldLevel<rcx>);
+cleanup __amd64 void GetValue(ResourceEvent &ref, const std::string& type, int level, int worldLevel);
 
 ".41574989f741564155415455534881ec08020000":
-cleanup __amd64 void GenerateReward(ResourceEvent &ref<rdi>, RewardDesc &reward<rsi>, int worldLevel<rdx>);
+cleanup __amd64 void GenerateReward(ResourceEvent &ref, RewardDesc &reward, int worldLevel);

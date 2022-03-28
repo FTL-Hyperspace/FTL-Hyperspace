@@ -1,7 +1,7 @@
 "55b9010000004889d5534889fb4883ec08":
-cleanup __amd64 void ArtilleryBox::constructor(ArtilleryBox *this<rdi>, Point pos<rsi>, ArtillerySystem* sys<rdx>);
+cleanup __amd64 void ArtilleryBox::constructor(ArtilleryBox *this, Point pos, ArtillerySystem* sys);
 "4154400fb6f655534889fb4883ec70":
-cleanup __amd64 void ArtilleryBox::OnRender(ArtilleryBox *this<rdi>, bool ignoreStatus<rsi>);
+cleanup __amd64 void ArtilleryBox::OnRender(ArtilleryBox *this, bool ignoreStatus);
 
 
 struct ArtilleryBox

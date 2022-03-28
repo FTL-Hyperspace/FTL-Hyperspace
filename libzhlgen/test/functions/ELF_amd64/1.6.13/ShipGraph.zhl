@@ -1,53 +1,53 @@
 "41554c63ea41544989fc5589cd5389f34883ec28":
-cleanup __amd64 Point ShipGraph::GetSlotRenderPosition(ShipGraph *this<rdi>, int slotId<rsi>, int roomId<rdx>, bool intruder<rcx>);
+cleanup __amd64 Point ShipGraph::GetSlotRenderPosition(ShipGraph *this, int slotId, int roomId, bool intruder);
 ".488b4f30488b573831c04829ca48c1fa02":
-cleanup __amd64 int ShipGraph::DoorCount(ShipGraph *this<rdi>, int roomId<rsi>);
+cleanup __amd64 int ShipGraph::DoorCount(ShipGraph *this, int roomId);
 ".415741564189d641554589c541544189cc5589f5534889fb4883ec68":
-cleanup __amd64 Door* ShipGraph::ConnectingDoor(ShipGraph *this<rdi>, int x1<rsi>, int y1<rdx>, int x2<rcx>, int y2<r8>);
+cleanup __amd64 Door* ShipGraph::ConnectingDoor(ShipGraph *this, int x1, int y1, int x2, int y2);
 ".41574189cf41564589c641b82300000041554531ed41544989fcbf23000000":
-cleanup __amd64 int ShipGraph::ConnectedGridSquares(ShipGraph *this<rdi>, int x1<rsi>, int y1<rdx>, int x2<rcx>, int y2<r8>);
+cleanup __amd64 int ShipGraph::ConnectedGridSquares(ShipGraph *this, int x1, int y1, int x2, int y2);
 "!.4889d14889f24989c8":
-cleanup __amd64 int ShipGraph::ConnectedGridSquaresPoint(ShipGraph *this<rdi>, Point p1<rsi>, Point p2<rdx>);
+cleanup __amd64 int ShipGraph::ConnectedGridSquaresPoint(ShipGraph *this, Point p1, Point p2);
 "!.4889d14889f24989c8":
-cleanup __amd64 Door* ShipGraph::ConnectingDoor(ShipGraph *this<rdi>, Point p1<rsi>, Point p2<rdx>);
+cleanup __amd64 Door* ShipGraph::ConnectingDoor(ShipGraph *this, Point p1, Point p2);
 ".488b074863f6488b04f0":
-cleanup __amd64 int ShipGraph::GetNumSlots(ShipGraph *this<rdi>, int room<rsi>);
+cleanup __amd64 int ShipGraph::GetNumSlots(ShipGraph *this, int room);
 ".554889f5534883ec08":
-cleanup __amd64 int ShipGraph::PopClosestDoor(ShipGraph *this<rdi>, std::vector<int>& doors<rsi>, std::vector<float>& distances<rdx>);
+cleanup __amd64 int ShipGraph::PopClosestDoor(ShipGraph *this, std::vector<int>& doors, std::vector<float>& distances);
 ".f30f584758":
-cleanup __amd64 float ShipGraph::ConvertToWorldAngle(ShipGraph *this<rdi>, float ang<xmm0>);
+cleanup __amd64 float ShipGraph::ConvertToWorldAngle(ShipGraph *this, float ang);
 ".f30f5c4758":
-cleanup __amd64 float ShipGraph::ConvertToLocalAngle(ShipGraph *this<rdi>, float ang<xmm0>);
+cleanup __amd64 float ShipGraph::ConvertToLocalAngle(ShipGraph *this, float ang);
 ".534889fb4883ec20f30f2a7f48":
-cleanup __amd64 Pointf ShipGraph::ConvertToWorldPosition(ShipGraph *this<rdi>, Pointf local<xmm0>);
+cleanup __amd64 Pointf ShipGraph::ConvertToWorldPosition(ShipGraph *this, Pointf local);
 ".4883ec184084f6660fd60424":
-cleanup __amd64 Pointf ShipGraph::ConvertToLocalPosition(ShipGraph *this<rdi>, Pointf world<xmm0>, bool past<rsi>);
+cleanup __amd64 Pointf ShipGraph::ConvertToLocalPosition(ShipGraph *this, Pointf world, bool past);
 ".41574989ff41564155415455534883ec18":
-cleanup __amd64 void ShipGraph::ComputeCenter(ShipGraph *this<rdi>);
+cleanup __amd64 void ShipGraph::ComputeCenter(ShipGraph *this);
 ".8b4f6831c039f1":
-cleanup __amd64 bool ShipGraph::ContainsPoint(ShipGraph *this<rdi>, int x<rsi>, int y<rdx>);
+cleanup __amd64 bool ShipGraph::ContainsPoint(ShipGraph *this, int x, int y);
 ".41574531c04989ff41564531f6415541544189f45589d5530fb6d94883ec08":
-cleanup __amd64 int ShipGraph::GetSelectedRoom(ShipGraph *this<rdi>, int x<rsi>, int y<rdx>, bool unk<rcx>);
+cleanup __amd64 int ShipGraph::GetSelectedRoom(ShipGraph *this, int x, int y, bool unk);
 ".488b4708482b0748c1f803":
-cleanup __amd64 int ShipGraph::RoomCount(ShipGraph *this<rdi>);
+cleanup __amd64 int ShipGraph::RoomCount(ShipGraph *this);
 ".4883ec184c8b0e4c8b46084889f84d29c849c1f8034d85c0":
-cleanup __amd64 Globals::Rect ShipGraph::GetRoomShape(ShipGraph *this<rdi>, int room<rsi>);
+cleanup __amd64 Globals::Rect ShipGraph::GetRoomShape(ShipGraph *this, int room);
 ".85f60f57c0":
-cleanup __amd64 float ShipGraph::GetRoomOxygen(ShipGraph *this<rdi>, int room<rsi>);
+cleanup __amd64 float ShipGraph::GetRoomOxygen(ShipGraph *this, int room);
 ".85f6b801000000":
-cleanup __amd64 bool ShipGraph::GetRoomBlackedOut(ShipGraph *this<rdi>, int room<rsi>);
+cleanup __amd64 bool ShipGraph::GetRoomBlackedOut(ShipGraph *this, int room);
 ".41564531c04989f6415541544189d4554889fd53":
-cleanup __amd64 std::vector<Door*> ShipGraph::GetDoors<rdi>(ShipGraph *this<rsi>, int roomId<rdx>);
+cleanup __amd64 std::vector<Door*> ShipGraph::GetDoors(ShipGraph *this, int roomId);
 ".41564155415441bc010000005589d55389f34883ec20":
-cleanup __amd64 bool ShipGraph::IsRoomConnected(ShipGraph *this<rdi>, int room1<rsi>, int room2<rdx>);
+cleanup __amd64 bool ShipGraph::IsRoomConnected(ShipGraph *this, int room1, int room2);
 ".5389fb4881ec90000000":
-static cleanup __amd64 ShipGraph* ShipGraph::GetShipInfo(int shipId<rdi>);
+static cleanup __amd64 ShipGraph* ShipGraph::GetShipInfo(int shipId);
 ".41574989f741564155415455534889d348c1eb204881ecc8000000":
-cleanup __amd64 Path ShipGraph::Dijkstra<rdi>(ShipGraph *this<rsi>, Point start<rdx>, Point goal<rcx>, int shipId<r8>);
+cleanup __amd64 Path ShipGraph::Dijkstra(ShipGraph *this, Point start, Point goal, int shipId);
 ".415741564989f641554154554889d548c1ed20534889fb4883ec58":
-cleanup __amd64 Path ShipGraph::FindPath<rdi>(ShipGraph *this<rsi>, Point p1<rdx>, Point p2<rcx>, int shipId<r8>);
+cleanup __amd64 Path ShipGraph::FindPath(ShipGraph *this, Point p1, Point p2, int shipId);
 ".41574889f04531ff48c1e820415641554189f54154440fb6e1554889fd534889c34881eca8000000":
-cleanup __amd64 Slot ShipGraph::GetClosestSlot(ShipGraph *this<rdi>, Point pos<rsi>, int shipId<rdx>, bool intruder<rcx>);
+cleanup __amd64 Slot ShipGraph::GetClosestSlot(ShipGraph *this, Point pos, int shipId, bool intruder);
 
 
 struct ShipGraph depends (Point, Pointf, Room) 

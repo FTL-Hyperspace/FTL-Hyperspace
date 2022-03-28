@@ -1,19 +1,19 @@
 "534889fb488b3f31f6e8????????85c07406":
-static cleanup __amd64 void FileHelper::deleteFile(const std::string& fileName<rdi>);
+static cleanup __amd64 void FileHelper::deleteFile(const std::string& fileName);
 ".534889fb4883ec20":
-static cleanup __amd64 std::string FileHelper::getResourceFile<rdi>();
+static cleanup __amd64 std::string FileHelper::getResourceFile();
 ".534889fb4883ec10":
-static cleanup __amd64 std::string FileHelper::getUserFolder<rdi>();
+static cleanup __amd64 std::string FileHelper::getUserFolder();
 ".534889fb4883ec20":
-static cleanup __amd64 std::string FileHelper::getSaveFile<rdi>();
+static cleanup __amd64 std::string FileHelper::getSaveFile();
 ".4883ec28c605????????01":
 static cleanup __amd64 void FileHelper::initFileHelper();
 ".4883ec08488b3f31f6":
-static cleanup __amd64 bool FileHelper::fileExists(const std::string& fileName<rdi>);
+static cleanup __amd64 bool FileHelper::fileExists(const std::string& fileName);
 "!.488b36488b3f":
-static cleanup __amd64 void FileHelper::renameFile(const std::string& fileName<rdi>, const std::string& newName<rsi>);
+static cleanup __amd64 void FileHelper::renameFile(const std::string& fileName, const std::string& newName);
 ".534889fb488b3f31f6":
-static cleanup __amd64 int FileHelper::createBinaryFile(const std::string& fileName<rdi>);
+static cleanup __amd64 int FileHelper::createBinaryFile(const std::string& fileName);
 ".4155bf????????415455534883ec28":
 static cleanup __amd64 bool FileHelper::saveFileExists();
 ".4155bf????????415455534883ec28":
@@ -29,31 +29,31 @@ static cleanup __amd64 void FileHelper::deleteSaveFile();
 ".534883ec20e8":
 static cleanup __amd64 void FileHelper::deleteAllSaveFiles();
 "!.8b05????????c3":
-static cleanup __amd64 int FileHelper::getPosition(int file<rdi>);
+static cleanup __amd64 int FileHelper::getPosition(int file);
 ".53488b3f31f631c0":
-static cleanup __amd64 int FileHelper::readBinaryFile(const std::string& fileName<rdi>);
+static cleanup __amd64 int FileHelper::readBinaryFile(const std::string& fileName);
 ".415741564155415455534883ec18":
-static cleanup __amd64 bool FileHelper::writeFloat(int file<rdi>, float data<xmm0>);
+static cleanup __amd64 bool FileHelper::writeFloat(int file, float data);
 ".415789f141564155415455534883ec18":
-static cleanup __amd64 bool FileHelper::writeInt(int file<rdi>, int data<rsi>);
+static cleanup __amd64 bool FileHelper::writeInt(int file, int data);
 ".41574156415541544989f455534863da4883ec18":
-static cleanup __amd64 bool FileHelper::writeData(int file<rdi>, void* data<rsi>, int len<rdx>);
+static cleanup __amd64 bool FileHelper::writeData(int file, void* data, int len);
 ".41574156415541545589fd534883ec28":
-static cleanup __amd64 bool FileHelper::writeString(int file<rdi>, const std::string& data<rsi>);
+static cleanup __amd64 bool FileHelper::writeString(int file, const std::string& data);
 ".81fffffeff7f53":
-static cleanup __amd64 void FileHelper::closeBinaryFile(int file<rdi>);
+static cleanup __amd64 void FileHelper::closeBinaryFile(int file);
 ".4157415641554989fd4154555389f34883ec28":
-static cleanup __amd64 std::string FileHelper::readString<rdi>(int file<rsi>);
+static cleanup __amd64 std::string FileHelper::readString(int file);
 ".41554154555389fb4883ec18":
-static cleanup __amd64 float FileHelper::readFloat(int file<rdi>);
+static cleanup __amd64 float FileHelper::readFloat(int file);
 ".41554154555389fb4883ec18":
-static cleanup __amd64 int FileHelper::readInteger(int file<rdi>);
+static cleanup __amd64 int FileHelper::readInteger(int file);
 ".4883ec0831d2":
-static cleanup __amd64 bool FileHelper::seekPosition(int file<rdi>, int pos<rsi>);
+static cleanup __amd64 bool FileHelper::seekPosition(int file, int pos);
 ".4157415641554189d541545589fd0fb6fa534863de01df4883ec08":
-static cleanup __amd64 char* FileHelper::readBuffer(int file<rdi>, int len<rsi>, bool nullTerminate<rdx>);
+static cleanup __amd64 char* FileHelper::readBuffer(int file, int len, bool nullTerminate);
 ".41554889f141545589d55389fb4883ec08":
-static cleanup __amd64 void FileHelper::readData(int file<rdi>, void* data<rsi>, int len<rdx>);
+static cleanup __amd64 void FileHelper::readData(int file, void* data, int len);
 
 
 struct FileHelper

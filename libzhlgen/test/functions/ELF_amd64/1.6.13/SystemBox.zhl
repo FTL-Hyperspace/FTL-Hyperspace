@@ -1,13 +1,13 @@
 "4157b8010000004156415541545589f5534889fb4883ec58":
-cleanup __amd64 void SystemBox::OnRender(SystemBox *this<rdi>, bool ignoreStatus<rsi>);
+cleanup __amd64 void SystemBox::OnRender(SystemBox *this, bool ignoreStatus);
 ".41544189f4554889fd5331db4883ec20":
-cleanup __amd64 bool SystemBox::MouseClick(SystemBox *this<rdi>, bool shift<rsi>);
+cleanup __amd64 bool SystemBox::MouseClick(SystemBox *this, bool shift);
 ".4157415641be01000000415541544189cc55534889fb":
-cleanup __amd64 void SystemBox::constructor(SystemBox *this<rdi>, Point pos<rsi>, ShipSystem *sys<rdx>, bool playerUI<rcx>);
+cleanup __amd64 void SystemBox::constructor(SystemBox *this, Point pos, ShipSystem *sys, bool playerUI);
 ".415541544189d45589f5534889fb4883ec38":
-cleanup __amd64 void SystemBox::KeyDown(SystemBox *this<rdi>, SDLKey key<rsi>, bool shift<rdx>);
+cleanup __amd64 void SystemBox::KeyDown(SystemBox *this, SDLKey key, bool shift);
 ".5589f5534889fb4883ec388b87ac010000":
-cleanup __amd64 void SystemBox::MouseMove(SystemBox *this<rdi>, int x<rsi>, int y<rdx>);
+cleanup __amd64 void SystemBox::MouseMove(SystemBox *this, int x, int y);
 
 
 struct SystemBox

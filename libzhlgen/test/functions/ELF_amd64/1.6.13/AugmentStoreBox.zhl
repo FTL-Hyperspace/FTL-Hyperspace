@@ -1,5 +1,5 @@
 "41544989f4be????????554889d5534889fb":
-cleanup __amd64 void AugmentStoreBox::constructor(AugmentStoreBox *this<rdi>, ShipManager *ship<rsi>, const AugmentBlueprint* bp<rdx>);
+cleanup __amd64 void AugmentStoreBox::constructor(AugmentStoreBox *this, ShipManager *ship, const AugmentBlueprint* bp);
 
 
 struct AugmentStoreBox

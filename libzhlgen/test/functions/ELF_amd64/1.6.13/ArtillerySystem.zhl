@@ -1,2 +1,2 @@
 "415455534889fb4883ec70e8????????4889df":
-cleanup __amd64 void ArtillerySystem::OnLoop(ArtillerySystem *this<rdi>);
+cleanup __amd64 void ArtillerySystem::OnLoop(ArtillerySystem *this);
