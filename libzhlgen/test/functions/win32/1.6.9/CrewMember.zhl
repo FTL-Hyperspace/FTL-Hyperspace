@@ -16,7 +16,7 @@ void CrewMember::constructor(CrewMember *this<ecx>, CrewBlueprint& blueprint, in
 "8b81f00400005589e583e4f083400c018b01ff90cc000000":
 void CrewMember::Jump(CrewMember *this<ecx>);
 ".80b93d050000008b410475??398160010000":
-bool CrewMember::NeedsIntruderSlot(CrewMember *this<ecx>);
+bool CrewMember::GetIntruder(CrewMember *this<ecx>);
 ".a1????????c681e001000001c681fc01000001c7810807000000000000":
 void CrewMember::SetOutOfGame(CrewMember *this<ecx>);
 ".55660fefc989e583ec04f30f2a8990000000f30f1015????????f30f104108f30f5cc1":

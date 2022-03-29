@@ -13014,10 +13014,10 @@ namespace _func375
 {
 	static void *func = 0;
 	static short argdata[] = {0x101};
-	static FunctionDefinition funcObj("CrewMember::NeedsIntruderSlot", typeid(bool (CrewMember::*)()), ".80b93d050000008b410475??398160010000", argdata, 1, 1, &func);
+	static FunctionDefinition funcObj("CrewMember::GetIntruder", typeid(bool (CrewMember::*)()), ".80b93d050000008b410475??398160010000", argdata, 1, 1, &func);
 }
 
-FUNC_NAKED bool CrewMember::NeedsIntruderSlot()
+FUNC_NAKED bool CrewMember::GetIntruder()
 {
 	__asm__
 	(

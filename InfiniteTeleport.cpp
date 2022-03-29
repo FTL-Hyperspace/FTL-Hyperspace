@@ -13,7 +13,7 @@ std::vector<CrewMember*> TeleportCrewShip(ShipManager *ship, int roomId, bool in
             continue;
         }
 
-        if (i->NeedsIntruderSlot() == intruders && i->CanTeleport())
+        if (i->GetIntruder() == intruders && i->CanTeleport())
         {
             i->StartTeleport();
             leavingCrewList.push_back(i);
@@ -105,7 +105,7 @@ HOOK_METHOD(ShipManager, TeleportCrew, (int roomId, bool intruders) -> std::vect
             continue;
         }
 
-        if (i->NeedsIntruderSlot() == intruders && i->CanTeleport())
+        if (i->GetIntruder() == intruders && i->CanTeleport())
         {
             i->StartTeleport();
             leavingCrewList.push_back(i);

@@ -4393,7 +4393,7 @@ struct VTable_CrewMember
   bool (__thiscall *IsCloned)(CrewMember *this);
   bool (__thiscall *IsDrone)(CrewMember *this);
   void (__thiscall *Jump)(CrewMember *this);
-  bool (__thiscall *NeedsIntruderSlot)(CrewMember *this);
+  bool (__thiscall *GetIntruder)(CrewMember *this);
   void (__thiscall *SaveState)(CrewMember *this, int fileHelper);
   void (__thiscall *LoadState)(CrewMember *this, int fileHelper);
   void (__thiscall *OnLoop)(CrewMember *this);

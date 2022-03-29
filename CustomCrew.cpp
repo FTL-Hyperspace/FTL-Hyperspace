@@ -5030,9 +5030,9 @@ HOOK_METHOD(CrewMember, Clone, () -> void)
 
 static bool needsIntruderControllable = false;
 
-HOOK_METHOD(CrewMember, NeedsIntruderSlot, () -> bool)
+HOOK_METHOD(CrewMember, GetIntruder, () -> bool)
 {
-    LOG_HOOK("HOOK_METHOD -> CrewMember::NeedsIntruderSlot -> Begin (CustomCrew.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> CrewMember::GetIntruder -> Begin (CustomCrew.cpp)\n")
     if (needsIntruderControllable)
     {
         return super() || GetControllable();
@@ -5118,7 +5118,7 @@ HOOK_METHOD(ShipManager, GetSelectedCrewPoint, (int mX, int mY, bool intruder) -
             {
                 continue;
             }
-            if (intruder != i->NeedsIntruderSlot())
+            if (intruder != i->GetIntruder())
             {
                 continue;
             }
