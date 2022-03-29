@@ -69,13 +69,15 @@ private:
 	const char *_name;
 	const char *_sig;
 	const bool _useValue;
+	const bool _useOffset;
 
 public:
-	VariableDefinition(const char *name, const char *sig, void *outvar, bool useValue = true) :
+	VariableDefinition(const char *name, const char *sig, void *outvar, bool useValue = true, bool useOffset = false) :
         _name(name),
         _sig(sig),
         _outVar(outvar),
-        _useValue(useValue)
+        _useValue(useValue),
+        _useOffset(useOffset)
     {
         Add(_name, this);
     }

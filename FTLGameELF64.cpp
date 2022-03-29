@@ -7970,7 +7970,7 @@ int *Globals_GetNextSpaceId_id;
 
 namespace _var617
 {
-	static VariableDefinition varObj("Globals_GetNextSpaceId_id", "!8b15(???????\?)b865000000", &Globals_GetNextSpaceId_id);
+	static VariableDefinition varObj("Globals_GetNextSpaceId_id", "!8b15(???????\?)b865000000", &Globals_GetNextSpaceId_id, true, true);
 }
 
 namespace _func618
@@ -10137,7 +10137,7 @@ GL_Color *Global_COLOR_GREEN;
 
 namespace _var792
 {
-	static VariableDefinition varObj("Global_COLOR_GREEN", "!f30fc2cf01488bbbf8020000f30f101d(???????\?)f30f5edd", &Global_COLOR_GREEN);
+	static VariableDefinition varObj("Global_COLOR_GREEN", "!f30fc2cf01488bbbf8020000f30f101d(???????\?)f30f5edd", &Global_COLOR_GREEN, true, true);
 }
 
 namespace _func793
@@ -12429,7 +12429,7 @@ ShipInfo **Global_ShipObject_ShipInfoList;
 
 namespace _var973
 {
-	static VariableDefinition varObj("Global_ShipObject_ShipInfoList", "!8b570831c0488b0d(???????\?)85d20f94c0488d14004801c2", &Global_ShipObject_ShipInfoList);
+	static VariableDefinition varObj("Global_ShipObject_ShipInfoList", "!8b570831c0488b0d(???????\?)85d20f94c0488d14004801c2", &Global_ShipObject_ShipInfoList, true, true);
 }
 
 namespace _func974
@@ -15121,14 +15121,14 @@ Point *Global_SystemControl_weapon_position;
 
 namespace _var1181
 {
-	static VariableDefinition varObj("Global_SystemControl_weapon_position", "!488b442430488d7c243031d231f6488905(???????\?)e8????????488b442430488b7318488b5310488905(???????\?)", &Global_SystemControl_weapon_position);
+	static VariableDefinition varObj("Global_SystemControl_weapon_position", "!488b442430488d7c243031d231f6488905(???????\?)e8????????488b442430488b7318488b5310488905(???????\?)", &Global_SystemControl_weapon_position, true, true);
 }
 
 Point *Global_SystemControl_drone_position;
 
 namespace _var1182
 {
-	static VariableDefinition varObj("Global_SystemControl_drone_position", "", &Global_SystemControl_drone_position);
+	static VariableDefinition varObj("Global_SystemControl_drone_position", "", &Global_SystemControl_drone_position, true, true);
 }
 
 namespace _func1183

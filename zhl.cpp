@@ -184,7 +184,23 @@ int VariableDefinition::Load()
 	}
 
 	const SigScan::Match &m = sig.GetMatch();
-	if(_useValue)
+	if(_useOffset)
+    {
+        /* Instruction Pointer relative addressing
+         * Determine real address of variable match
+         * RIP + var = real addr
+         * During execution (E|R)IP would be at the next instruction so instead we add the length of the match
+         * NOTE: This means it is only possible to match a variable with offset computation that is at the END of the instruction bytes
+         * i.e., operands that can take two memory addresses, only the second memory address (end of the bytes of the instruction) can be matched.
+         */
+        uintptr_t* valueVar;
+        memcpy(valueVar, m.address, m.length);
+        uintptr_t realAddr = (uintptr_t) m.address;
+        realAddr += m.length;
+        realAddr += *valueVar;
+        *(void**)_outVar = (void*) realAddr;
+    }
+	else if(_useValue)
         memcpy(_outVar, m.address, m.length);
     else
         *(void**)_outVar = (void*)m.address;
@@ -257,12 +273,12 @@ int FunctionDefinition::Load()
 {
 	SigScan sig = SigScan(_sig);
 
-
 	if(!sig.Scan())
 	{
 		snprintf(g_defLastError, 1024, "Failed to find address for function %s", _name);
 		return 0;
 	}
+
 	_address = sig.GetAddress<void*>();
 	*_outFunc = _address;
 	Log("Found address for %s: " PTR_PRINT_F ", dist %d\n", _name, (uintptr_t)_address, sig.GetDistance());

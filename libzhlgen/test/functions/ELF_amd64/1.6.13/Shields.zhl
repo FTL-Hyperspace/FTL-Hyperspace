@@ -16,7 +16,7 @@ cleanup __amd64 void Shields::RenderBase(Shields *this, float alpha, float super
 cleanup __amd64 CollisionResponse Shields::CollisionReal(Shields *this, float x, float y, Damage damage, bool force);
 
 "!f30fc2cf01488bbbf8020000f30f101d(???????\?)f30f5edd":
-GL_Color *Global_COLOR_GREEN;
+offsetVariable GL_Color *Global_COLOR_GREEN;
 
 
 struct Shields

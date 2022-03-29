@@ -450,6 +450,17 @@ reference int g_viewportH;
 "!39d089d37d(????????)83c22383c10139df":
 instruction uintptr_t Global__NOP__Ship_OnInit_0;
 
+// Some x86_64 variables are actually using RIP relative addressing
+// This means their actual address is their value + the next instruction's address (RIP + value) to get the real variable's address
+// For these cases "offsetVariable" tag is added
+// Please note that offsetVariable matches should be 4 or 8 bytes (but probably always 4 in AMD64, maybe different in other architectures)
+// The match is only possible if the variable is the last bytes of the instruction, so if there is an instruction with two memory addresses, the match can only be done on the last memory address in the actual bytes of the instruction
+// This is because the math is just address of match + length = "next instruction's assumed address" since we don't actually know the instruction pointer's real value at compile time.
+// You will probably not run into this need in 32-bit but it's still also supported just in case
+// The "instruction" tag above is not supported while using offsetVariable as offsetVariable implies you want the value and not the instruction's address
+"!f30fc2cf01488bbbf8020000f30f101d(???????\?)f30f5edd":
+offsetVariable GL_Color *Global_COLOR_GREEN;
+
 // Also it can now replace code with NOP statements in a match
 // The no-op mode **can** match matches smaller or larger than 4 bytes (8 hex digits) as it'll simply replace that area with NOP instructions.
 // The match must end on a byte boundary (every group of 2 hex digits, ending in an odd numbered spot is invalid)

@@ -7,4 +7,4 @@ static __amd64 int Globals::GetNextSpaceId();
 TextLibrary* Global_Globals_Library;
 
 "!8b15(???????\?)b865000000":
-int* Globals_GetNextSpaceId_id;
+offsetVariable int* Globals_GetNextSpaceId_id;

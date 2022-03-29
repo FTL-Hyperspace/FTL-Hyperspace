@@ -1366,6 +1366,14 @@ using namespace ZHL;
 }
 
 ]], counter, func.name, func.sig or "", func.name)
+			elseif func.isOffsetVariable then
+				out("%s%s;\n\n", func:toString(), func.name)
+				out([[namespace _var%d
+{
+	static VariableDefinition varObj("%s", "%s", &%s, true, true);
+}
+
+]], counter, func.name, func.sig or "", func.name)
 			elseif func.instruction then
 				out("%s%s;\n\n", func:toString(), func.name)
 				out([[namespace _instruction%d
