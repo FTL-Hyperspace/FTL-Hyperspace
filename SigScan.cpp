@@ -259,7 +259,7 @@ static int callback(struct dl_phdr_info *info, size_t size, void *data) {
 
             programBaseAddress = (uintptr_t) (info->dlpi_addr + t_phdr.p_vaddr);
             
-            int seg_size = 0;
+            size_t seg_size = 0;
             // get segment size
             while(seg_size < t_phdr.p_filesz) {
                 seg_size += t_phdr.p_align;
