@@ -1,11 +1,11 @@
-"41574989ff415641554989cd415455498dafa8030000":
-cleanup __amd64 void BoarderPodDrone::constructor(BoarderPodDrone *this, int _iShipId, int _selfId, const DroneBlueprint& _bp);
-"534889fb4883ec104885f6":
-cleanup __amd64 void BoarderPodDrone::SetMovementTarget(BoarderPodDrone *this, Targetable *target);
-".534889fb488bbf58010000":
+"534889fb488bbf58010000":
 cleanup __amd64 bool BoarderPodDrone::CanBeDeployed(BoarderPodDrone *this);
-"5589f5534889fb4883ec08807f1800742f":
+".534889fb4883ec104885f6":
+cleanup __amd64 void BoarderPodDrone::SetMovementTarget(BoarderPodDrone *this, Targetable *target);
+".5589f5534889fb4883ec08807f1800742f":
 cleanup __amd64 void BoarderPodDrone::SetDeployed(BoarderPodDrone *this, bool _deployed);
+".41574989ff415641554989cd415455498dafa8030000":
+cleanup __amd64 void BoarderPodDrone::constructor(BoarderPodDrone *this, int _iShipId, int _selfId, const DroneBlueprint& _bp);
 
 
 struct BoarderPodDrone

@@ -20,7 +20,7 @@ noHook __amd64 void AchievementTracker::DO_NOT_HOOK_1();
 cleanup __amd64 bool AchievementTracker::GetFlag(AchievementTracker *this, const std::string& flagName);
 "41564989fe415541544189f45553488b7f30":
 cleanup __amd64 void AchievementTracker::SaveProfile(AchievementTracker *this, int file);
-"41574989ff89f741564189d6415541544131e45589f5534883ec48":
+"41574989ff89f741564189d6415541544531e45589f5534883ec48":
 cleanup __amd64 void AchievementTracker::LoadProfile(AchievementTracker *this, int file, int version);
 "554889fd53488d9fc00000004883ec38":
 cleanup __amd64 void AchievementTracker::SetVictoryAchievement(AchievementTracker *this);

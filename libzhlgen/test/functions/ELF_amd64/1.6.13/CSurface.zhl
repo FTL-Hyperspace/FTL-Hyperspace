@@ -6,7 +6,7 @@ static cleanup __amd64 bool CSurface::IsFrameBufferSupported();
 "!.4883ec08e8????????4883c408":
 static cleanup __amd64 void CSurface::StartFrame();
 */
-"!.0f57db31ff":
+"!0f57db31ff":
 static cleanup __amd64 void CSurface::GL_ClearAll();
 "!.0f57db0f28d30f28cb0f28c3":
 static cleanup __amd64 void CSurface::GL_ClearColor();

@@ -2,7 +2,7 @@
 cleanup __amd64 void BossShip::Restart(BossShip *this);
 ".f30f108724020000":
 cleanup __amd64 bool BossShip::IncomingFire(BossShip *this);
-".53b9010000004889fb31d24883c330":
+"!.53b9010000004889fb31d24883c330":
 cleanup __amd64 void BossShip::constructor(BossShip *this, SpaceManager *space);
 ".534889fb488b7f104885ff740e":
 cleanup __amd64 void BossShip::ClearLocation(BossShip *this);

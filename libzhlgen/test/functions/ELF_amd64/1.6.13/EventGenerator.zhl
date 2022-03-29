@@ -9,7 +9,7 @@ cleanup __amd64 LocationEvent *EventGenerator::CreateEvent(EventGenerator *this,
 ".5589cd534889fb4883ec184183f8ff":
 cleanup __amd64 LocationEvent *EventGenerator::GetBaseEvent(EventGenerator *this, const std::string& name, int worldLevel, char ignoreUnique, int seed);
 
-"!":
+"!.418b97e8090000458b87fc1400004d8da77814000031c9bf(???????\?)":
 EventGenerator* Global_EventGenerator_Generator;
 
 

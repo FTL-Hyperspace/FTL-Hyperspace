@@ -1,4 +1,4 @@
-"534889fb488d7f084883ec10c647f800":
+"!534889fb488d7f084883ec10c647f800":
 cleanup __amd64 void TutorialManager::constructor(TutorialManager *this);
 "!.0fb607c3":
 cleanup __amd64 bool TutorialManager::Running(TutorialManager *this);

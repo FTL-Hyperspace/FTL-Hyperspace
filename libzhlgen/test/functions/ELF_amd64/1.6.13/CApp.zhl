@@ -1,4 +1,4 @@
-"534889fb488b7f104885ff7428":
+"!534889fb488b7f104885ff7428":
 cleanup __amd64 void CApp::OnRequestExit(CApp *this);
 ".534889fbe8":
 cleanup __amd64 void CApp::OnExit(CApp *this);
@@ -36,7 +36,7 @@ cleanup __amd64 void CApp::ParseArgs(CApp *this, int argc, const char** argv);
 cleanup __amd64 void CApp::OnLoop(CApp *this);
 ".53be0100000031c04889fb":
 cleanup __amd64 int CApp::SetupWindow(CApp *this);
-".55534889fb4883ec08488b7f18":
+"!.55534889fb4883ec08488b7f18":
 cleanup __amd64 void CApp::OnCleanup(CApp *this);
 ".55534889fb4883ec08":
 cleanup __amd64 void CApp::GenInputEvents(CApp *this);

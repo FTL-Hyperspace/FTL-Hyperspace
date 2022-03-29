@@ -34,18 +34,18 @@ cleanup __amd64 void Ship::BreachRandomHull(Ship *this, int roomId);
 cleanup __amd64 void Ship::LockdownRoom(Ship *this, int roomId, Pointf pos);
 "!.41574989ff41564155415455534889f34881ec28030100":
 cleanup __amd64 void Ship::OnInit(Ship *this, ShipBlueprint* bp);
-"!.39c27d0b(c6840cb000000001)":
-noop void* Global__NOP__Ship_OnInit_0;
+"!.39c17d03(c60201)":
+noop void* Global__NOP__Ship_OnInit_4;
 "!.39c27d03(c60101)":
 noop void* Global__NOP__Ship_OnInit_1;
+"!.89c67e03(c60201)":
+noop void* Global__NOP__Ship_OnInit_5;
 "!.89c67d03(c60101)":
 noop void* Global__NOP__Ship_OnInit_2;
 "!.39c17d0b(c684149000000001)":
 noop void* Global__NOP__Ship_OnInit_3;
-"!.39c17d03(c60201)":
-noop void* Global__NOP__Ship_OnInit_4;
-"!.89c67e03(c60201)":
-noop void* Global__NOP__Ship_OnInit_5;
+"!.39c27d0b(c6840cb000000001)":
+noop void* Global__NOP__Ship_OnInit_0;
 
 
 struct Ship depends (ShipGraph, Globals::Ellipse) {{

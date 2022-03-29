@@ -2,7 +2,7 @@
 cleanup __amd64 bool CrewBox::MouseClick(CrewBox *this);
 ".534889fb4883ec1080bf4c01000000":
 cleanup __amd64 void CrewBox::OnRenderSkillLevel(CrewBox *this);
-".55534889fb4883ec18488b7f20488b07":
+"!.55534889fb4883ec18488b7f20488b07":
 cleanup __amd64 void CrewBox::RenderIcon(CrewBox *this);
 ".55534889fb4883ec48488b7720488d7c2420":
 cleanup __amd64 void CrewBox::RenderLabels(CrewBox *this);
