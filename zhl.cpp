@@ -22,8 +22,10 @@
 
 #ifdef __i386__
     #define PTR_PRINT_F "0x%08" PRIxPTR
+    #define POINTER_BYTES 4
 #elif defined(__amd64__)
     #define PTR_PRINT_F "0x%016" PRIxPTR
+    #define POINTER_BYTES 8
 #else
     #error "Unknown processor architecture not supported."
 #endif // Architecture
@@ -311,7 +313,7 @@ FunctionHook_private::FunctionHook_private(const char *name, const std::type_inf
 		_priority(priority)
 {
     SetName(name, type.name());
-    memcpy(&_outInternalSuper, &outInternalSuper, 4);
+    memcpy(&_outInternalSuper, &outInternalSuper, POINTER_BYTES);
 	strcpy(_name, name);
 	Add(this);
 }
