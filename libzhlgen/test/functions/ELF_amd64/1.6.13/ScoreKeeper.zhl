@@ -9,7 +9,7 @@ cleanup __amd64 void ScoreKeeper::SaveGame(ScoreKeeper *this, int fd);
 ".41544989fc89f75589f5534883ec20":
 cleanup __amd64 void ScoreKeeper::LoadGame(ScoreKeeper *this, int fd);
 ".83fa02760b31c0":
-cleanup __amd64 bool ScoreKeeper::GetShipUnlocked(ScoreKeeper *this, int shipId, int shipVariant);
+forceDetour cleanup __amd64 bool ScoreKeeper::GetShipUnlocked(ScoreKeeper *this, int shipId, int shipVariant);
 ".4084f64088b798010000":
 cleanup __amd64 void ScoreKeeper::SetVictory(ScoreKeeper *this, bool victory);
 ".5589f5534889fb":

@@ -9,7 +9,7 @@ static cleanup __amd64 void Settings::SetHotkey(const std::string& hotkeyName, S
 ".415741564155415455534881ecc8010000":
 static cleanup __amd64 void Settings::SaveSettings();
 "!.0fb605????????c3":
-static __amd64 char Settings::GetCommandConsole();
+forceDetour static __amd64 char Settings::GetCommandConsole();
 ".415641be????????4155415441bc????????55534883ec30":
 static cleanup __amd64 void Settings::ResetHotkeys();
 ".415741564155415455534881ec58020000":

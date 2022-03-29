@@ -1,5 +1,5 @@
 "f30f104718c3":
-cleanup __amd64 float CFPS::GetSpeedFactor(CFPS *this);
+forceDetour cleanup __amd64 float CFPS::GetSpeedFactor(CFPS *this);
 "534889fb4883ec10f20f1015":
 cleanup __amd64 void CFPS::OnLoop(CFPS *this);
 

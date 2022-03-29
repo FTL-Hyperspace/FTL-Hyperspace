@@ -382,10 +382,7 @@ int FunctionHook_private::Install()
 	// defined hook
 	ptr = _internalHook;
 
-#ifdef __amd64__
-	// Call the hook
-	P(0xE9); PL((uintptr_t)_hook - (uintptr_t)ptr - 4);	// call _hook // TODO: Should this be -8?
-#else
+#ifdef __i386__
 	// Prologue
 	P(0x55);					// push ebp
 	P(0x89); P(0xe5);			// mov ebp, esp
@@ -513,15 +510,25 @@ int FunctionHook_private::Install()
 	}
 	else
 		P(0xc3);					// ret
-#endif // __i386__
 
 	_hSize = ptr - _internalHook;
 	MEMPROT_UNPROTECT(_internalHook, _hSize, oldProtect);
+#endif // __i386__
 
 	// Install the hook with MologieDetours
 	try
 	{
-		_detour = new MologieDetours::Detour<void*>(def->GetAddress(), _internalHook);
+#ifdef __i386__
+        if(def->forceDetourSize()) // This flag should be used with caution as it'll allow it to skip past RET when writing the detour, if used on a function that was larger it'll create garbage code.
+            _detour = new MologieDetours::Detour<void*>(def->GetAddress(), _internalHook, MOLOGIE_DETOURS_DETOUR_SIZE);
+        else
+            _detour = new MologieDetours::Detour<void*>(def->GetAddress(), _internalHook);
+#else
+        if(def->forceDetourSize()) // This flag should be used with caution as it'll allow it to skip past RET when writing the detour, if used on a function that was larger it'll create garbage code.
+            _detour = new MologieDetours::Detour<void*>(def->GetAddress(), _hook, MOLOGIE_DETOURS_DETOUR_SIZE);
+        else
+            _detour = new MologieDetours::Detour<void*>(def->GetAddress(), _hook);
+#endif // __amd64__
 	}
 	catch(MologieDetours::DetourException &e)
 	{
@@ -536,10 +543,7 @@ int FunctionHook_private::Install()
 	// original function from the user defined hook
 	ptr = _internalSuper;
 
-#ifdef __amd64__
-	// Call the original function
-	P(0xE9); PL((uintptr_t)original - (uintptr_t)ptr - 4);	// call original
-#else
+#ifdef __i386__
 	// Prologue
 	P(0x55);					// push ebp
 	P(0x89); P(0xe5);			// mov ebp, esp
@@ -681,6 +685,11 @@ int FunctionHook_private::Install()
 	else
 		P(0xc3);					// ret
 #endif // __i386__
+
+#ifdef __amd64__
+	// Call the original function
+	P(0xE9); PL((uintptr_t)original - (uintptr_t)ptr - 4);	// call original
+#endif // __amd64__
 
 	_sSize = ptr - _internalSuper;
 	MEMPROT_UNPROTECT(_internalSuper, _sSize, oldProtect);

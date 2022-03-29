@@ -1037,11 +1037,14 @@ using namespace ZHL;
 			if func.varparent then classname = func.varparent:cname() end
 			
 			local flags = 0
-            if func.thiscall and not isPOSIX then flags = flags + 1 end
-            if func.cleanup then flags = flags + 2 end
-            if func.void then flags = flags + 4 end
-            if func.longlong then flags = flags + 8 end
-            if func.memPassedPointer then flags = flags + 16 end
+            if not isSystemVAMD64StandardCall then
+                if func.thiscall and not isPOSIX then flags = flags + 1 end
+                if func.cleanup then flags = flags + 2 end
+                if func.void then flags = flags + 4 end
+                if func.longlong then flags = flags + 8 end
+                if func.memPassedPointer then flags = flags + 16 end
+            end
+            if func.forceDetour then flags = flags + 32 end
 			
 			local funcptr
 			if func.static or isGlobal then
@@ -1052,9 +1055,9 @@ using namespace ZHL;
 
 			if isSystemVAMD64StandardCall then
                 if isGlobal then
-                    out("\tstatic FunctionDefinition funcObj(\"%s\", typeid(%s), \"%s\", nullptr, 0, 0, &func);\n", func.name, funcptr, func.sig or "")
+                    out("\tstatic FunctionDefinition funcObj(\"%s\", typeid(%s), \"%s\", nullptr, 0, %d, &func);\n", func.name, funcptr, func.sig or "", flags)
                 else
-                    out("\tstatic FunctionDefinition funcObj(\"%s::%s\", typeid(%s), \"%s\", nullptr, 0, 0, &func);\n", classname, func.name, funcptr, func.sig or "")
+                    out("\tstatic FunctionDefinition funcObj(\"%s::%s\", typeid(%s), \"%s\", nullptr, 0, %d, &func);\n", classname, func.name, funcptr, func.sig or "", flags)
                 end
             else
                 if isGlobal then

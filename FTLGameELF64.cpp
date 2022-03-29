@@ -1785,7 +1785,7 @@ void CEvent::OnEvent(const InputEvent *event)
 namespace _func138
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CFPS::GetSpeedFactor", typeid(float (CFPS::*)()), "f30f104718c3", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CFPS::GetSpeedFactor", typeid(float (CFPS::*)()), "f30f104718c3", nullptr, 0, 32, &func);
 }
 
 float CFPS::GetSpeedFactor()
@@ -8933,7 +8933,7 @@ PowerManager *PowerManager::GetPowerManager(int iShipId)
 namespace _func696
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("Projectile::ForceRenderLayer", typeid(int (Projectile::*)()), "!b8ffffffffc3662e0f1f840000000000f3c3662e0f1f8400000000000f1f40004889b7f0020000", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("Projectile::ForceRenderLayer", typeid(int (Projectile::*)()), "!b8ffffffffc3662e0f1f840000000000f3c3662e0f1f8400000000000f1f40004889b7f0020000", nullptr, 0, 32, &func);
 }
 
 int Projectile::ForceRenderLayer()
@@ -9654,7 +9654,7 @@ void ScoreKeeper::LoadGame(int fd)
 namespace _func754
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("ScoreKeeper::GetShipUnlocked", typeid(bool (ScoreKeeper::*)(int , int )), ".83fa02760b31c0", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("ScoreKeeper::GetShipUnlocked", typeid(bool (ScoreKeeper::*)(int , int )), ".83fa02760b31c0", nullptr, 0, 32, &func);
 }
 
 bool ScoreKeeper::GetShipUnlocked(int shipId, int shipVariant)
@@ -9986,7 +9986,7 @@ void Settings::SaveSettings()
 namespace _func780
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("Settings::GetCommandConsole", typeid(char (*)()), "!.0fb605????????c3", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("Settings::GetCommandConsole", typeid(char (*)()), "!.0fb605????????c3", nullptr, 0, 32, &func);
 }
 
 char Settings::GetCommandConsole()

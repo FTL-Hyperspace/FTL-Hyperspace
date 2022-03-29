@@ -1,5 +1,5 @@
 "!b8ffffffffc3662e0f1f840000000000f3c3662e0f1f8400000000000f1f40004889b7f0020000":
-cleanup __amd64 int Projectile::ForceRenderLayer(Projectile *this);
+forceDetour cleanup __amd64 int Projectile::ForceRenderLayer(Projectile *this);
 ".4154554889f5534889fb4883ec60448b673c488b064889f7":
 cleanup __amd64 void Projectile::CollisionCheck(Projectile *this, Collideable *other);
 ".4157415641554154554889fd534881ecf8000000":
