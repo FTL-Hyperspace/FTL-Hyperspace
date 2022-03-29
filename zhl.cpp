@@ -207,9 +207,7 @@ int VariableDefinition::Load()
     else
         *(void**)_outVar = (void*)m.address;
 
-	Log("Found value for %s:", _name);
-	for(int i=0 ; i<m.length ; ++i) Log(" %02x", ((unsigned char*)_outVar)[i]);
-	Log("\n");
+	Log("Found value for %s: " PTR_PRINT_F ", dist %d\n", _name, *((uintptr_t*) _outVar), sig.GetDistance());
 
 	return 1;
 }
@@ -246,7 +244,7 @@ int NoOpDefinition::Load()
     }
     MEMPROT_REPROTECT(ptrToCode, noopingSize, dwOldProtect);
 
-	Log("Found address for %s: " PTR_PRINT_F ", wrote NOP's for %d bytes\n", _name, (uintptr_t) m.address, m.length);
+	Log("Found address for %s: " PTR_PRINT_F ", wrote NOP's for %d bytes, dist %d\n", _name, (uintptr_t) m.address, m.length, sig.GetDistance());
 
 	return 1;
 }
