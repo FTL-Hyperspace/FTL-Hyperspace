@@ -735,5 +735,5 @@ HOOK_METHOD(ScoreKeeper, KeyDown, (SDLKey key) -> bool)
         return true;
     }
 
-    super(key);
+    return super(key);
 }
