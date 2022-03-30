@@ -365,6 +365,7 @@ int FunctionHook_private::Install()
 
 	const ArgData *argd = (const ArgData*)def->GetArgData();
 	int argc = def->GetArgCount();
+#ifdef __i386__
 	unsigned char *ptr;
 	int stackPos;
 #ifdef USE_STACK_ALIGNMENT
@@ -375,14 +376,16 @@ int FunctionHook_private::Install()
 	int k;
 	MEMPROT_SAVE_PROT(oldProtect);
 	MEMPROT_PAGESIZE();
+#endif // __i386__
 
 	//==================================================
 	// Internal hook
 	// Converts userpurge to thiscall to call the user
 	// defined hook
-	ptr = _internalHook;
 
 #ifdef __i386__
+	ptr = _internalHook;
+
 	// Prologue
 	P(0x55);					// push ebp
 	P(0x89); P(0xe5);			// mov ebp, esp
@@ -541,9 +544,9 @@ int FunctionHook_private::Install()
 	// Internal super
 	// Converts thiscall to userpurge to call the
 	// original function from the user defined hook
+#ifdef __i386__
 	ptr = _internalSuper;
 
-#ifdef __i386__
 	// Prologue
 	P(0x55);					// push ebp
 	P(0x89); P(0xe5);			// mov ebp, esp
@@ -684,12 +687,6 @@ int FunctionHook_private::Install()
 	}
 	else
 		P(0xc3);					// ret
-#endif // __i386__
-
-#ifdef __amd64__
-	// Call the original function
-	P(0xE9); PL((uintptr_t)original - (uintptr_t)ptr - 4);	// call original
-#endif // __amd64__
 
 	_sSize = ptr - _internalSuper;
 	MEMPROT_UNPROTECT(_internalSuper, _sSize, oldProtect);
@@ -697,8 +694,17 @@ int FunctionHook_private::Install()
 	// Set the external reference to internalSuper so it can be used inside the user defined hook
 
 	*_outInternalSuper = _internalSuper;
+#endif // __i386__
+#ifdef __amd64__
+	// Set the external reference to the original function so it can be used inside the user defined hook
+	*_outInternalSuper = original;
+#endif // __amd64__
 
 	Log("Successfully hooked function %s\n", _name);
+#ifdef __amd64__
+	Log("HookAddress: " PTR_PRINT_F ", SuperAddress: " PTR_PRINT_F "\n\n", (uintptr_t) _hook, (uintptr_t) original);
+#endif // __amd64__
+#ifdef __i386__
 #ifdef DEBUG
     Log("InternalHookAddress: " PTR_PRINT_F "\n", (uintptr_t)&_internalHook);
 #endif // DEBUG
@@ -716,6 +722,7 @@ int FunctionHook_private::Install()
 	for(unsigned int i=0 ; i<_sSize ; ++i)
 		Log("%02x ", _internalSuper[i]);
     Log("\n");
+#endif // __i386__
 
 
 	return 1;
