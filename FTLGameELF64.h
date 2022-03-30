@@ -2233,6 +2233,22 @@ struct LIBZHL_INTERFACE Drone
 	float hackTime;
 };
 
+struct DroneBlueprint : Blueprint
+{
+	LIBZHL_API void RenderIcon(float scale);
+	
+	std::string typeName;
+	int level;
+	int targetType;
+	int power;
+	float cooldown;
+	int speed;
+	int dodge;
+	std::string weaponBlueprint;
+	std::string droneImage;
+	std::string combatIcon;
+};
+
 struct CrewDrone : CrewMember
 {
 	virtual ~CrewDrone()
@@ -2248,6 +2264,8 @@ struct CrewDrone : CrewMember
 	{
 		this->constructor(type, name, shipId, blueprint, anim);
 	}
+
+	inline std::string& GetRace();
 
 	bool _HS_GetControllable();
 	bool _HS_CanFight();
@@ -2335,22 +2353,6 @@ struct BeamWeapon : Projectile
 };
 
 struct BlueprintManager;
-
-struct DroneBlueprint : Blueprint
-{
-	LIBZHL_API void RenderIcon(float scale);
-	
-	std::string typeName;
-	int level;
-	int targetType;
-	int power;
-	float cooldown;
-	int speed;
-	int dodge;
-	std::string weaponBlueprint;
-	std::string droneImage;
-	std::string combatIcon;
-};
 
 struct EffectsBlueprint
 {

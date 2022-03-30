@@ -10,7 +10,7 @@ cleanup void CrewDrone::destructor(CrewDrone *this<rdi>);
 cleanup void CrewDrone::SetCurrentShip(CrewDrone *this<rdi>, int shipId<rsi>);
 
 
-struct CrewDrone
+struct CrewDrone depends (CrewMember, DroneBlueprint)
 {{
 	virtual ~CrewDrone()
 	{
@@ -25,6 +25,8 @@ struct CrewDrone
 	{
 		this->constructor(type, name, shipId, blueprint, anim);
 	}
+
+	inline std::string& GetRace();
 
 	bool _HS_GetControllable();
 	bool _HS_CanFight();
