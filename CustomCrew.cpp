@@ -5035,7 +5035,7 @@ HOOK_METHOD(CrewMember, GetIntruder, () -> bool)
     LOG_HOOK("HOOK_METHOD -> CrewMember::GetIntruder -> Begin (CustomCrew.cpp)\n")
     if (needsIntruderControllable)
     {
-        return super() || GetControllable();
+        return (iShipId != currentShipId) || bMindControlled || GetControllable();
     }
 
     return super();
