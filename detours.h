@@ -61,7 +61,11 @@
 #  define MOLOGIE_DETOURS_MEMORY_REPROTECT(ADDRESS, SIZE, OLDPROT) MOLOGIE_DETOURS_MEMORY_POSIX_PAGEPROTECT((ADDRESS), (SIZE), PROT_READ | PROT_WRITE | PROT_EXEC)
 #  define MOLOGIE_DETOURS_MEMORY_WINDOWS_INIT(NAME)
 #endif
+#ifdef __i386__
 #define MOLOGIE_DETOURS_DETOUR_SIZE (1 + sizeof(void*))
+#elif defined(__amd64__)
+#define MOLOGIE_DETOURS_DETOUR_SIZE 5
+#endif // __arch__
 
 /**
  * @namespace	MologieDetours
@@ -396,12 +400,15 @@ namespace MologieDetours
 			memcpy(backupOriginalCode_, targetFunction, instructionCount_);
 
 			// Fix relative jmps to point to the correct location
+			printf("RELOCATING: TGT: 0x%016llx, BKUP: 0x%016llx, IC: %d\n", reinterpret_cast<address_type>(targetFunction), reinterpret_cast<address_type>(backupOriginalCode_), instructionCount_);
 			RelocateCode(targetFunction, backupOriginalCode_, instructionCount_);
 
 			// Jump back to original function after executing replaced code
 			uint8_t* jmpBack = backupOriginalCode_ + instructionCount_;
 			jmpBack[0] = 0xE9;
-			*reinterpret_cast<address_pointer_type>(jmpBack + 1) = reinterpret_cast<address_type>(pSource_) + instructionCount_ - reinterpret_cast<address_type>(jmpBack) - MOLOGIE_DETOURS_DETOUR_SIZE;
+			// Must truncate to 32-bits to prevent overwriting bytes after (need to still compute if we need an absolute jmp sometimes in 64-bit cases)
+            uint32_t originalCodeJmpBackOffset = (uint32_t) (reinterpret_cast<address_type>(pSource_) + instructionCount_ - reinterpret_cast<address_type>(jmpBack) - MOLOGIE_DETOURS_DETOUR_SIZE);
+			*reinterpret_cast<address_pointer_type>(jmpBack + 1) = originalCodeJmpBackOffset;
 
 			// Make backupOriginalCode_ executable
 			if(!MOLOGIE_DETOURS_MEMORY_UNPROTECT(backupOriginalCode_, instructionCount_ + MOLOGIE_DETOURS_DETOUR_SIZE, dwProt))
@@ -410,9 +417,18 @@ namespace MologieDetours
 			}
 
 			// Create a new trampoline which points at the detour
+			#ifdef __i386__
 			trampoline_ = new uint8_t[MOLOGIE_DETOURS_DETOUR_SIZE];
 			trampoline_[0] = 0xE9;
 			*reinterpret_cast<address_pointer_type>(trampoline_ + 1) = reinterpret_cast<address_type>(pDetour_) - reinterpret_cast<address_type>(trampoline_) - MOLOGIE_DETOURS_DETOUR_SIZE;
+			#elif defined(__amd64__)
+			// TODO: Add code to check upper 32-bits of trampoline & detour to see if they are the same, if they are you can perform an E9 relative jmp like above. If not this absolute jump still works, just the CPU hates you.
+			trampoline_ = new uint8_t[12];
+			printf("TRAMPOLINE AT: 0x%016llx, DETOUR: 0x%016llx, Target Func: 0x%016llx JMP BACK: 0x%016llx\n", reinterpret_cast<address_type>(trampoline_), reinterpret_cast<address_type>(pDetour_), reinterpret_cast<address_type>(targetFunction), reinterpret_cast<address_type>(jmpBack));
+			trampoline_[0] = 0x48; trampoline_[1] = 0xB8; // mov imm64 into RAX
+			*reinterpret_cast<address_pointer_type>(trampoline_ + 2) = reinterpret_cast<address_type>(pDetour_);
+			trampoline_[10] = 0xFF; trampoline_[11] = 0xE0; // jmp RAX
+			#endif // __arch__
 
 			// Make trampoline_ executable
 			if(!MOLOGIE_DETOURS_MEMORY_UNPROTECT(trampoline_, MOLOGIE_DETOURS_DETOUR_SIZE, dwProt))
@@ -426,10 +442,17 @@ namespace MologieDetours
 				throw DetourPageProtectionException("Failed to change page protection of original function", reinterpret_cast<void*>(targetFunction));
 			}
 
+			// TODO: In the future properly compute needed detour size based on if we'll need a E9 relative jump (5 bytes, 32-bit relative) or if we'll need a FF absolute 64-bit jump (12 bytes)
+			// To do so we'll need to pay attention to the upper 32-bits of the source & target address to see if the upper 32-bits is the same, if it's not we need a absolute jump, if it is we can compute a IP relative jump just like 32-bit.
 			// Redirect original function to trampoline
 			targetFunction[0] = 0xE9;
-			*reinterpret_cast<address_pointer_type>(targetFunction + 1) = reinterpret_cast<address_type>(trampoline_) - reinterpret_cast<address_type>(targetFunction) - MOLOGIE_DETOURS_DETOUR_SIZE;
-
+			// We must truncate to 32-bits for the relative jump to not overwrite bytes after it, 32-bit this doesn't harm anything.
+			// 64-bit this will fail to jump to addresses too far away, need to compute if we need to use a absolute jmp instead (but this means a larger detour)
+			uint32_t trampolineTargetOffset = (uint32_t) (reinterpret_cast<address_type>(trampoline_) - reinterpret_cast<address_type>(targetFunction) - MOLOGIE_DETOURS_DETOUR_SIZE);
+			//*((uint32_t*&)(targetFunction + 1)) = trampolineTargetOffset;
+			//uint32_t* tgtAdd = targetFunction + 1;
+			//*tgtAdd = trampolineTargetOffset;
+			*reinterpret_cast<uint32_t*>(targetFunction + 1) = trampolineTargetOffset;
 			// Create backup of detour
 			backupDetour_ = new uint8_t[MOLOGIE_DETOURS_DETOUR_SIZE];
 			memcpy(backupDetour_, targetFunction, MOLOGIE_DETOURS_DETOUR_SIZE);
@@ -526,18 +549,37 @@ namespace MologieDetours
 					// Unknown instruction. Let's hope we don't break anything here and continue anyway.
 					return;
 				}
+				
+				printf("OPCODE: 0x%02x\n", hs.opcode);
 
 				if(hs.flags & F_RELATIVE)
 				{
-#if defined(MOLOGIE_DETOURS_HDE_32)
+                    printf("IS RELATIVE, FLAGS: 0x%08x, %02x\n", hs.flags, !!(hs.flags & F_IMM32));
 					if((hs.flags & F_IMM8) || (hs.flags & F_IMM16))
-#elif defined(MOLOGIE_DETOURS_HDE64)
-					if((hs.flags & F_IMM8) || (hs.flags & F_IMM16) || (hs.flags & F_IMM32))
-#endif
 					{
 						// Oh noes! We shouldn't continue here.
-						//throw DetourRelocationException("The target function starts with a relative jmp instruction which can not be patched.");
+						throw DetourRelocationException("The target function starts with a relative jmp instruction which can not be patched.");
+						// TODO: need to handle rewriting short relative jumps, might require moving & extending code to add more bytes to fit larger jumps in.
+						// However, maybe we can simplify that by just allocating a few extra bytes in the backup area, jump to that area and write absolute or rel32 jumps from there?
+						// NOTE: This also includes regular jumps, jump conditionals. Note call rel8 doesn't exist and rel16 stuff isn't supported in 64-bit mode so no CALLs here.
 					}
+#if defined(MOLOGIE_DETOURS_HDE_64)
+					if((hs.flags & F_IMM32))
+					{
+                        // Attempt to recompute relative jumps (might not work)
+                        if(hs.opcode != 0xE9 && hs.opcode != 0xE8 && hs.opcode != 0x0F)
+                            throw DetourRelocationException("The target function starts with a relative jmp instruction which can not be patched (is not E9/E8/0F).");
+                        
+                        printf("RELOCATE IMM32 relative jump/call (0x%02x) at addr: 0x%016llx\n", hs.opcode, reinterpret_cast<uint64_t>(pbCurOp));
+                        // TODO: Need to check delta size, if it's larger than a 32-bit jump we'd need to rewrite this code to an absolute jmp rather than this.
+                        // TODO: If delta is too big we'll have to allocate more space for that.
+                        if((((uintptr_t)baseOld) & ((uintptr_t)baseNew) & 0xFFFFFFFF00000000) != 0)
+                            throw DetourRelocationException("Target relocation cannot be expressed as rel32 and is more than 32-bits away");
+                        
+                        unsigned char offset = (hs.opcode == 0x0F) ? 2 : 1;
+                        *reinterpret_cast<uint32_t*>(pbCurOp  + offset) += delta;
+					}
+#endif
 
 #if defined(MOLOGIE_DETOURS_HDE_32)
 					if(hs.flags & F_IMM32)
@@ -548,6 +590,7 @@ namespace MologieDetours
 #elif defined(MOLOGIE_DETOURS_HDE_64)
 					if(hs.flags & F_IMM64)
 					{
+                        printf("RELOCATE IMM64 relative jump at addr: 0x%016llx\n", reinterpret_cast<uint64_t>(pbCurOp));
 						unsigned char offset = (hs.opcode == 0x0F) ? 2 : 1;
 						*reinterpret_cast<uint64_t*>(pbCurOp + offset) += delta;
 					}
