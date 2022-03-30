@@ -5035,12 +5035,27 @@ HOOK_METHOD(CrewMember, GetIntruder, () -> bool)
     LOG_HOOK("HOOK_METHOD -> CrewMember::GetIntruder -> Begin (CustomCrew.cpp)\n")
     if (needsIntruderControllable)
     {
-        return (iShipId != currentShipId) || bMindControlled || GetControllable();
+        switch (currentShipId)
+        {
+        case 0:
+            // Player ship version - neither intruders nor MC'd enemies will go heal, nor will controllable crew nor noAI crew.
+            return (iShipId != 0) || bMindControlled || GetControllable();
+        case 1:
+            // Enemy ship version - intruders won't go heal, nor will controllable crew nor noAI crew. MC'd player crew will go heal.
+            return super() || GetControllable();
+        }
     }
-
+    // Anywhere outside CheckForHealing
     return super();
 }
 
+HOOK_METHOD(CrewAI, CheckForHealing, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> CrewMember::CheckForHealing -> Begin (CustomCrew.cpp)\n")
+    needsIntruderControllable = true;
+    super();
+    needsIntruderControllable = false;
+}
 
 HOOK_METHOD(CrewAI, OnLoop, () -> void)
 {
@@ -5050,10 +5065,9 @@ HOOK_METHOD(CrewAI, OnLoop, () -> void)
     {
         bool wasCalm = bCalmShip;
 
+        // Health threshold for crew to run to medbay is 25% when bCalmShip is false and 99% when bCalmShip is true
         bCalmShip = false;
-        needsIntruderControllable = true;
         CheckForHealing();
-        needsIntruderControllable = false;
         bCalmShip = wasCalm;
     }
 }
