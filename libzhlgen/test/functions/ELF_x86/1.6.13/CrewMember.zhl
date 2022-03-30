@@ -34,6 +34,8 @@ cleanup bool CrewMember::GetControllable(CrewMember *this);
 virtual cleanup bool CrewMember::CanHeal(CrewMember *this);
 "8b4424048b908803000083420c018b108b82cc000000":
 cleanup void CrewMember::Jump(CrewMember *this);
+".8b44240480b8ad03000000":
+cleanup bool CrewMember::GetIntruder(CrewMember *this);
 "8b0d????????8b4424048d5101c680a401000001c680ac01000001":
 cleanup void CrewMember::SetOutOfGame(CrewMember *this);
 "83ec048b15????????8b442408f30f1015????????":
@@ -114,8 +116,6 @@ cleanup void CrewMember::SetTask(CrewMember *this, CrewTask task);
 cleanup Slot CrewMember::FindSlot(CrewMember *this, int unk1, int roomId, bool unk2);
 "5589e557565383ec6c8b750c8b5d088d45b8":
 cleanup bool CrewMember::CheckRoomPath(CrewMember *this, int roomId);
-".8b44240480b8ad03000000":
-cleanup bool CrewMember::NeedsIntruderSlot(CrewMember *this);
 "565383ec248b4424348b5424388b5c2430":
 cleanup void CrewMember::SetPosition(CrewMember *this, Point pos);
 "8b4424048b5078c78084010000ffffffff":

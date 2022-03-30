@@ -1971,7 +1971,7 @@ struct LIBZHL_INTERFACE CrewMember
 	virtual bool IsCloned() LIBZHL_PLACEHOLDER
 	virtual bool IsDrone() LIBZHL_PLACEHOLDER
 	LIBZHL_API virtual void Jump();
-	virtual bool GetIntruder() LIBZHL_PLACEHOLDER
+	LIBZHL_API virtual bool GetIntruder();
 	LIBZHL_API virtual void SaveState(int fileHelper);
 	LIBZHL_API virtual void LoadState(int fileHelper);
 	LIBZHL_API virtual void OnLoop();
@@ -2059,7 +2059,6 @@ struct LIBZHL_INTERFACE CrewMember
 	LIBZHL_API void ModifyHealth(float health);
 	LIBZHL_API bool MoveToRoom(int roomId, int slotId, bool forceMove);
 	LIBZHL_API bool NeedFrozenLocation();
-	LIBZHL_API bool NeedsIntruderSlot();
 	LIBZHL_API bool NeedsSlot();
 	LIBZHL_API bool OnInit();
 	LIBZHL_API void OnRenderHealth();

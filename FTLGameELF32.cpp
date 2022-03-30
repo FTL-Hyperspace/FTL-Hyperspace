@@ -9727,10 +9727,10 @@ namespace _func390
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff};
-	static FunctionDefinition funcObj("CrewMember::SetOutOfGame", typeid(void (CrewMember::*)()), "8b0d????????8b4424048d5101c680a401000001c680ac01000001", argdata, 1, 6, &func);
+	static FunctionDefinition funcObj("CrewMember::GetIntruder", typeid(bool (CrewMember::*)()), ".8b44240480b8ad03000000", argdata, 1, 2, &func);
 }
 
-FUNC_NAKED void CrewMember::SetOutOfGame()
+FUNC_NAKED bool CrewMember::GetIntruder()
 {
 	__asm__
 	(
@@ -9751,10 +9751,10 @@ namespace _func391
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff};
-	static FunctionDefinition funcObj("CrewMember::PositionShift", typeid(float (CrewMember::*)()), "83ec048b15????????8b442408f30f1015????????", argdata, 1, 2, &func);
+	static FunctionDefinition funcObj("CrewMember::SetOutOfGame", typeid(void (CrewMember::*)()), "8b0d????????8b4424048d5101c680a401000001c680ac01000001", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED float CrewMember::PositionShift()
+FUNC_NAKED void CrewMember::SetOutOfGame()
 {
 	__asm__
 	(
@@ -9774,6 +9774,30 @@ FUNC_NAKED float CrewMember::PositionShift()
 namespace _func392
 {
 	static void *func = 0;
+	static short argdata[] = {0x1ff};
+	static FunctionDefinition funcObj("CrewMember::PositionShift", typeid(float (CrewMember::*)()), "83ec048b15????????8b442408f30f1015????????", argdata, 1, 2, &func);
+}
+
+FUNC_NAKED float CrewMember::PositionShift()
+{
+	__asm__
+	(
+		"pushl %%ebp\n\t"
+		"movl %%esp, %%ebp\n\t"
+		"subl $4, %%esp\n\t"
+		"pushl 8(%%ebp)\n\t"		// this
+		"call *%0\n\t"
+		"addl $4, %%esp\n\t"
+		"movl %%ebp, %%esp\n\t"
+		"popl %%ebp\n\t"
+		"ret\n\t"
+		 :: "m"(_func392::func)
+	);
+}
+
+namespace _func393
+{
+	static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff};
 	static FunctionDefinition funcObj("CrewMember::SaveState", typeid(void (CrewMember::*)(int )), "57565331db83ec108b7c24208b742424f30f108700050000", argdata, 2, 6, &func);
 }
@@ -9791,30 +9815,6 @@ FUNC_NAKED void CrewMember::SaveState(int fileHelper)
 		"movl %%ebp, %%esp\n\t"
 		"popl %%ebp\n\t"
 		"ret\n\t"
-		 :: "m"(_func392::func)
-	);
-}
-
-namespace _func393
-{
-	static void *func = 0;
-	static short argdata[] = {0x1ff};
-	static FunctionDefinition funcObj("CrewMember::CanTeleport", typeid(bool (CrewMember::*)()), "5383ec188b5c24208b839c000000", argdata, 1, 2, &func);
-}
-
-FUNC_NAKED bool CrewMember::CanTeleport()
-{
-	__asm__
-	(
-		"pushl %%ebp\n\t"
-		"movl %%esp, %%ebp\n\t"
-		"subl $4, %%esp\n\t"
-		"pushl 8(%%ebp)\n\t"		// this
-		"call *%0\n\t"
-		"addl $4, %%esp\n\t"
-		"movl %%ebp, %%esp\n\t"
-		"popl %%ebp\n\t"
-		"ret\n\t"
 		 :: "m"(_func393::func)
 	);
 }
@@ -9823,10 +9823,10 @@ namespace _func394
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff};
-	static FunctionDefinition funcObj("CrewMember::destructor", typeid(void (CrewMember::*)()), "5557565383ec2c8b7c24408b879c000000", argdata, 1, 6, &func);
+	static FunctionDefinition funcObj("CrewMember::CanTeleport", typeid(bool (CrewMember::*)()), "5383ec188b5c24208b839c000000", argdata, 1, 2, &func);
 }
 
-FUNC_NAKED void CrewMember::destructor()
+FUNC_NAKED bool CrewMember::CanTeleport()
 {
 	__asm__
 	(
@@ -9847,10 +9847,10 @@ namespace _func395
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff};
-	static FunctionDefinition funcObj("CrewMember::Cleanup", typeid(void (CrewMember::*)()), ".5383ec188b5c2420891c24", argdata, 1, 6, &func);
+	static FunctionDefinition funcObj("CrewMember::destructor", typeid(void (CrewMember::*)()), "5557565383ec2c8b7c24408b879c000000", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED void CrewMember::Cleanup()
+FUNC_NAKED void CrewMember::destructor()
 {
 	__asm__
 	(
@@ -9870,6 +9870,30 @@ FUNC_NAKED void CrewMember::Cleanup()
 namespace _func396
 {
 	static void *func = 0;
+	static short argdata[] = {0x1ff};
+	static FunctionDefinition funcObj("CrewMember::Cleanup", typeid(void (CrewMember::*)()), ".5383ec188b5c2420891c24", argdata, 1, 6, &func);
+}
+
+FUNC_NAKED void CrewMember::Cleanup()
+{
+	__asm__
+	(
+		"pushl %%ebp\n\t"
+		"movl %%esp, %%ebp\n\t"
+		"subl $4, %%esp\n\t"
+		"pushl 8(%%ebp)\n\t"		// this
+		"call *%0\n\t"
+		"addl $4, %%esp\n\t"
+		"movl %%ebp, %%esp\n\t"
+		"popl %%ebp\n\t"
+		"ret\n\t"
+		 :: "m"(_func396::func)
+	);
+}
+
+namespace _func397
+{
+	static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff};
 	static FunctionDefinition funcObj("CrewMember::LoadState", typeid(void (CrewMember::*)(int )), "57565383ec108b7424248b7c2420893424", argdata, 2, 6, &func);
 }
@@ -9887,11 +9911,11 @@ FUNC_NAKED void CrewMember::LoadState(int fileHelper)
 		"movl %%ebp, %%esp\n\t"
 		"popl %%ebp\n\t"
 		"ret\n\t"
-		 :: "m"(_func396::func)
+		 :: "m"(_func397::func)
 	);
 }
 
-namespace _func397
+namespace _func398
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff};
@@ -9911,11 +9935,11 @@ FUNC_NAKED void CrewMember::SetCurrentSystem(ShipSystem *sys)
 		"movl %%ebp, %%esp\n\t"
 		"popl %%ebp\n\t"
 		"ret\n\t"
-		 :: "m"(_func397::func)
+		 :: "m"(_func398::func)
 	);
 }
 
-namespace _func398
+namespace _func399
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff};
@@ -9935,11 +9959,11 @@ FUNC_NAKED bool CrewMember::IsManningArtillery()
 		"movl %%ebp, %%esp\n\t"
 		"popl %%ebp\n\t"
 		"ret\n\t"
-		 :: "m"(_func398::func)
+		 :: "m"(_func399::func)
 	);
 }
 
-namespace _func399
+namespace _func400
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff};
@@ -9959,11 +9983,11 @@ FUNC_NAKED void CrewMember::IncreaseSkill(int skillId)
 		"movl %%ebp, %%esp\n\t"
 		"popl %%ebp\n\t"
 		"ret\n\t"
-		 :: "m"(_func399::func)
+		 :: "m"(_func400::func)
 	);
 }
 
-namespace _func400
+namespace _func401
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff};
@@ -9983,11 +10007,11 @@ FUNC_NAKED void CrewMember::CheckSkills()
 		"movl %%ebp, %%esp\n\t"
 		"popl %%ebp\n\t"
 		"ret\n\t"
-		 :: "m"(_func400::func)
+		 :: "m"(_func401::func)
 	);
 }
 
-namespace _func401
+namespace _func402
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff};
@@ -10007,11 +10031,11 @@ FUNC_NAKED void CrewMember::MasterSkill(int skillId)
 		"movl %%ebp, %%esp\n\t"
 		"popl %%ebp\n\t"
 		"ret\n\t"
-		 :: "m"(_func401::func)
+		 :: "m"(_func402::func)
 	);
 }
 
-namespace _func402
+namespace _func403
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff};
@@ -10031,11 +10055,11 @@ FUNC_NAKED int CrewMember::GetSkillFromSystem(int systemId)
 		"movl %%ebp, %%esp\n\t"
 		"popl %%ebp\n\t"
 		"ret\n\t"
-		 :: "m"(_func402::func)
+		 :: "m"(_func403::func)
 	);
 }
 
-namespace _func403
+namespace _func404
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff};
@@ -10055,11 +10079,11 @@ FUNC_NAKED void CrewMember::SetResisted(bool resisted)
 		"movl %%ebp, %%esp\n\t"
 		"popl %%ebp\n\t"
 		"ret\n\t"
-		 :: "m"(_func403::func)
+		 :: "m"(_func404::func)
 	);
 }
 
-namespace _func404
+namespace _func405
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff};
@@ -10079,11 +10103,11 @@ FUNC_NAKED bool CrewMember::GetResisted()
 		"movl %%ebp, %%esp\n\t"
 		"popl %%ebp\n\t"
 		"ret\n\t"
-		 :: "m"(_func404::func)
+		 :: "m"(_func405::func)
 	);
 }
 
-namespace _func405
+namespace _func406
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff, 0x1ff};
@@ -10105,11 +10129,11 @@ FUNC_NAKED void CrewMember::SetSkillProgress(int skillId, int skillLevel)
 		"movl %%ebp, %%esp\n\t"
 		"popl %%ebp\n\t"
 		"ret\n\t"
-		 :: "m"(_func405::func)
+		 :: "m"(_func406::func)
 	);
 }
 
-namespace _func406
+namespace _func407
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff};
@@ -10129,11 +10153,11 @@ FUNC_NAKED int CrewMember::GetSkillLevel(int skillId)
 		"movl %%ebp, %%esp\n\t"
 		"popl %%ebp\n\t"
 		"ret\n\t"
-		 :: "m"(_func406::func)
+		 :: "m"(_func407::func)
 	);
 }
 
-namespace _func407
+namespace _func408
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff, 0x1ff};
@@ -10155,11 +10179,11 @@ FUNC_NAKED std::pair<int, int> CrewMember::GetSkillProgress(int skillId)
 		"movl %%ebp, %%esp\n\t"
 		"popl %%ebp\n\t"
 		"ret $4\n\t"
-		 :: "m"(_func407::func)
+		 :: "m"(_func408::func)
 	);
 }
 
-namespace _func408
+namespace _func409
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff};
@@ -10179,30 +10203,6 @@ FUNC_NAKED float CrewMember::GetSkillModifier(int skillId)
 		"movl %%ebp, %%esp\n\t"
 		"popl %%ebp\n\t"
 		"ret\n\t"
-		 :: "m"(_func408::func)
-	);
-}
-
-namespace _func409
-{
-	static void *func = 0;
-	static short argdata[] = {0x1ff};
-	static FunctionDefinition funcObj("CrewMember::BadAtCombat", typeid(bool (CrewMember::*)()), "5383ec188b5c24208b03891c24ff90a8000000", argdata, 1, 2, &func);
-}
-
-FUNC_NAKED bool CrewMember::BadAtCombat()
-{
-	__asm__
-	(
-		"pushl %%ebp\n\t"
-		"movl %%esp, %%ebp\n\t"
-		"subl $4, %%esp\n\t"
-		"pushl 8(%%ebp)\n\t"		// this
-		"call *%0\n\t"
-		"addl $4, %%esp\n\t"
-		"movl %%ebp, %%esp\n\t"
-		"popl %%ebp\n\t"
-		"ret\n\t"
 		 :: "m"(_func409::func)
 	);
 }
@@ -10211,10 +10211,10 @@ namespace _func410
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff};
-	static FunctionDefinition funcObj("CrewMember::EmptySlot", typeid(void (CrewMember::*)()), "5383ec288b5c24308b8388000000", argdata, 1, 6, &func);
+	static FunctionDefinition funcObj("CrewMember::BadAtCombat", typeid(bool (CrewMember::*)()), "5383ec188b5c24208b03891c24ff90a8000000", argdata, 1, 2, &func);
 }
 
-FUNC_NAKED void CrewMember::EmptySlot()
+FUNC_NAKED bool CrewMember::BadAtCombat()
 {
 	__asm__
 	(
@@ -10235,10 +10235,10 @@ namespace _func411
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff};
-	static FunctionDefinition funcObj("CrewMember::NeedsSlot", typeid(bool (CrewMember::*)()), "8b44240480b8ac01000000", argdata, 1, 2, &func);
+	static FunctionDefinition funcObj("CrewMember::EmptySlot", typeid(void (CrewMember::*)()), "5383ec288b5c24308b8388000000", argdata, 1, 6, &func);
 }
 
-FUNC_NAKED bool CrewMember::NeedsSlot()
+FUNC_NAKED void CrewMember::EmptySlot()
 {
 	__asm__
 	(
@@ -10258,20 +10258,20 @@ FUNC_NAKED bool CrewMember::NeedsSlot()
 namespace _func412
 {
 	static void *func = 0;
-	static short argdata[] = {0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("CrewMember::DirectModifyHealth", typeid(bool (CrewMember::*)(float )), "560f57c95383ec348b5c2440f30f10542444f30f105b28", argdata, 2, 2, &func);
+	static short argdata[] = {0x1ff};
+	static FunctionDefinition funcObj("CrewMember::NeedsSlot", typeid(bool (CrewMember::*)()), "8b44240480b8ac01000000", argdata, 1, 2, &func);
 }
 
-FUNC_NAKED bool CrewMember::DirectModifyHealth(float health)
+FUNC_NAKED bool CrewMember::NeedsSlot()
 {
 	__asm__
 	(
 		"pushl %%ebp\n\t"
 		"movl %%esp, %%ebp\n\t"
-		"pushl 12(%%ebp)\n\t"		// health
+		"subl $4, %%esp\n\t"
 		"pushl 8(%%ebp)\n\t"		// this
 		"call *%0\n\t"
-		"addl $8, %%esp\n\t"
+		"addl $4, %%esp\n\t"
 		"movl %%ebp, %%esp\n\t"
 		"popl %%ebp\n\t"
 		"ret\n\t"
@@ -10283,10 +10283,10 @@ namespace _func413
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("CrewMember::ModifyHealth", typeid(void (CrewMember::*)(float )), "5383ec18f30f104c2424", argdata, 2, 6, &func);
+	static FunctionDefinition funcObj("CrewMember::DirectModifyHealth", typeid(bool (CrewMember::*)(float )), "560f57c95383ec348b5c2440f30f10542444f30f105b28", argdata, 2, 2, &func);
 }
 
-FUNC_NAKED void CrewMember::ModifyHealth(float health)
+FUNC_NAKED bool CrewMember::DirectModifyHealth(float health)
 {
 	__asm__
 	(
@@ -10307,6 +10307,30 @@ namespace _func414
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff};
+	static FunctionDefinition funcObj("CrewMember::ModifyHealth", typeid(void (CrewMember::*)(float )), "5383ec18f30f104c2424", argdata, 2, 6, &func);
+}
+
+FUNC_NAKED void CrewMember::ModifyHealth(float health)
+{
+	__asm__
+	(
+		"pushl %%ebp\n\t"
+		"movl %%esp, %%ebp\n\t"
+		"pushl 12(%%ebp)\n\t"		// health
+		"pushl 8(%%ebp)\n\t"		// this
+		"call *%0\n\t"
+		"addl $8, %%esp\n\t"
+		"movl %%ebp, %%esp\n\t"
+		"popl %%ebp\n\t"
+		"ret\n\t"
+		 :: "m"(_func414::func)
+	);
+}
+
+namespace _func415
+{
+	static void *func = 0;
+	static short argdata[] = {0x1ff, 0x1ff};
 	static FunctionDefinition funcObj("CrewMember::ApplyDamage", typeid(bool (CrewMember::*)(float )), "5383ec188b5c2420f30f10442424f30f104b28", argdata, 2, 2, &func);
 }
 
@@ -10323,30 +10347,6 @@ FUNC_NAKED bool CrewMember::ApplyDamage(float damage)
 		"movl %%ebp, %%esp\n\t"
 		"popl %%ebp\n\t"
 		"ret\n\t"
-		 :: "m"(_func414::func)
-	);
-}
-
-namespace _func415
-{
-	static void *func = 0;
-	static short argdata[] = {0x1ff};
-	static FunctionDefinition funcObj("CrewMember::RepairingSystem", typeid(bool (CrewMember::*)()), "5383ec188b5c24208b5368", argdata, 1, 2, &func);
-}
-
-FUNC_NAKED bool CrewMember::RepairingSystem()
-{
-	__asm__
-	(
-		"pushl %%ebp\n\t"
-		"movl %%esp, %%ebp\n\t"
-		"subl $4, %%esp\n\t"
-		"pushl 8(%%ebp)\n\t"		// this
-		"call *%0\n\t"
-		"addl $4, %%esp\n\t"
-		"movl %%ebp, %%esp\n\t"
-		"popl %%ebp\n\t"
-		"ret\n\t"
 		 :: "m"(_func415::func)
 	);
 }
@@ -10355,10 +10355,10 @@ namespace _func416
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff};
-	static FunctionDefinition funcObj("CrewMember::Sabotaging", typeid(bool (CrewMember::*)()), "5383ec188b5c24208b436885c074??8b10", argdata, 1, 2, &func);
+	static FunctionDefinition funcObj("CrewMember::RepairingSystem", typeid(bool (CrewMember::*)()), "5383ec188b5c24208b5368", argdata, 1, 2, &func);
 }
 
-FUNC_NAKED bool CrewMember::Sabotaging()
+FUNC_NAKED bool CrewMember::RepairingSystem()
 {
 	__asm__
 	(
@@ -10379,10 +10379,10 @@ namespace _func417
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff};
-	static FunctionDefinition funcObj("CrewMember::RepairingFire", typeid(bool (CrewMember::*)()), "8b54240431c08b4a6885c9", argdata, 1, 2, &func);
+	static FunctionDefinition funcObj("CrewMember::Sabotaging", typeid(bool (CrewMember::*)()), "5383ec188b5c24208b436885c074??8b10", argdata, 1, 2, &func);
 }
 
-FUNC_NAKED bool CrewMember::RepairingFire()
+FUNC_NAKED bool CrewMember::Sabotaging()
 {
 	__asm__
 	(
@@ -10402,6 +10402,30 @@ FUNC_NAKED bool CrewMember::RepairingFire()
 namespace _func418
 {
 	static void *func = 0;
+	static short argdata[] = {0x1ff};
+	static FunctionDefinition funcObj("CrewMember::RepairingFire", typeid(bool (CrewMember::*)()), "8b54240431c08b4a6885c9", argdata, 1, 2, &func);
+}
+
+FUNC_NAKED bool CrewMember::RepairingFire()
+{
+	__asm__
+	(
+		"pushl %%ebp\n\t"
+		"movl %%esp, %%ebp\n\t"
+		"subl $4, %%esp\n\t"
+		"pushl 8(%%ebp)\n\t"		// this
+		"call *%0\n\t"
+		"addl $4, %%esp\n\t"
+		"movl %%ebp, %%esp\n\t"
+		"popl %%ebp\n\t"
+		"ret\n\t"
+		 :: "m"(_func418::func)
+	);
+}
+
+namespace _func419
+{
+	static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff};
 	static FunctionDefinition funcObj("CrewMember::SelectSabotageTarget", typeid(Pointf (CrewMember::*)()), "5589e557565383ec2c8b750c8b5d088b4668", argdata, 2, 18, &func);
 }
@@ -10419,11 +10443,11 @@ FUNC_NAKED Pointf CrewMember::SelectSabotageTarget()
 		"movl %%ebp, %%esp\n\t"
 		"popl %%ebp\n\t"
 		"ret $4\n\t"
-		 :: "m"(_func418::func)
+		 :: "m"(_func419::func)
 	);
 }
 
-namespace _func419
+namespace _func420
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff};
@@ -10443,11 +10467,11 @@ FUNC_NAKED void CrewMember::SavePosition()
 		"movl %%ebp, %%esp\n\t"
 		"popl %%ebp\n\t"
 		"ret\n\t"
-		 :: "m"(_func419::func)
+		 :: "m"(_func420::func)
 	);
 }
 
-namespace _func420
+namespace _func421
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff};
@@ -10467,11 +10491,11 @@ FUNC_NAKED void CrewMember::ClearPosition()
 		"movl %%ebp, %%esp\n\t"
 		"popl %%ebp\n\t"
 		"ret\n\t"
-		 :: "m"(_func420::func)
+		 :: "m"(_func421::func)
 	);
 }
 
-namespace _func421
+namespace _func422
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff};
@@ -10491,11 +10515,11 @@ FUNC_NAKED Slot CrewMember::GetSavedPosition()
 		"movl %%ebp, %%esp\n\t"
 		"popl %%ebp\n\t"
 		"ret $4\n\t"
-		 :: "m"(_func421::func)
+		 :: "m"(_func422::func)
 	);
 }
 
-namespace _func422
+namespace _func423
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff, 0x4ff};
@@ -10519,11 +10543,11 @@ FUNC_NAKED void CrewMember::SetSavePosition(Slot position)
 		"movl %%ebp, %%esp\n\t"
 		"popl %%ebp\n\t"
 		"ret\n\t"
-		 :: "m"(_func422::func)
+		 :: "m"(_func423::func)
 	);
 }
 
-namespace _func423
+namespace _func424
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff};
@@ -10543,11 +10567,11 @@ FUNC_NAKED void CrewMember::StopRepairing()
 		"movl %%ebp, %%esp\n\t"
 		"popl %%ebp\n\t"
 		"ret\n\t"
-		 :: "m"(_func423::func)
+		 :: "m"(_func424::func)
 	);
 }
 
-namespace _func424
+namespace _func425
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff};
@@ -10567,11 +10591,11 @@ FUNC_NAKED bool CrewMember::Repairing()
 		"movl %%ebp, %%esp\n\t"
 		"popl %%ebp\n\t"
 		"ret\n\t"
-		 :: "m"(_func424::func)
+		 :: "m"(_func425::func)
 	);
 }
 
-namespace _func425
+namespace _func426
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff};
@@ -10591,11 +10615,11 @@ FUNC_NAKED void CrewMember::SetFrozen(bool frozen)
 		"movl %%ebp, %%esp\n\t"
 		"popl %%ebp\n\t"
 		"ret\n\t"
-		 :: "m"(_func425::func)
+		 :: "m"(_func426::func)
 	);
 }
 
-namespace _func426
+namespace _func427
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff};
@@ -10615,11 +10639,11 @@ FUNC_NAKED void CrewMember::SetFrozenLocation(bool frozenLocation)
 		"movl %%ebp, %%esp\n\t"
 		"popl %%ebp\n\t"
 		"ret\n\t"
-		 :: "m"(_func426::func)
+		 :: "m"(_func427::func)
 	);
 }
 
-namespace _func427
+namespace _func428
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff, 0x3ff};
@@ -10642,11 +10666,11 @@ FUNC_NAKED void CrewMember::SetTask(CrewTask task)
 		"movl %%ebp, %%esp\n\t"
 		"popl %%ebp\n\t"
 		"ret\n\t"
-		 :: "m"(_func427::func)
+		 :: "m"(_func428::func)
 	);
 }
 
-namespace _func428
+namespace _func429
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff, 0x1ff, 0x1ff, 0x1ff};
@@ -10670,11 +10694,11 @@ FUNC_NAKED Slot CrewMember::FindSlot(int unk1, int roomId, bool unk2)
 		"movl %%ebp, %%esp\n\t"
 		"popl %%ebp\n\t"
 		"ret $4\n\t"
-		 :: "m"(_func428::func)
+		 :: "m"(_func429::func)
 	);
 }
 
-namespace _func429
+namespace _func430
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff};
@@ -10691,30 +10715,6 @@ FUNC_NAKED bool CrewMember::CheckRoomPath(int roomId)
 		"pushl 8(%%ebp)\n\t"		// this
 		"call *%0\n\t"
 		"addl $8, %%esp\n\t"
-		"movl %%ebp, %%esp\n\t"
-		"popl %%ebp\n\t"
-		"ret\n\t"
-		 :: "m"(_func429::func)
-	);
-}
-
-namespace _func430
-{
-	static void *func = 0;
-	static short argdata[] = {0x1ff};
-	static FunctionDefinition funcObj("CrewMember::NeedsIntruderSlot", typeid(bool (CrewMember::*)()), ".8b44240480b8ad03000000", argdata, 1, 2, &func);
-}
-
-FUNC_NAKED bool CrewMember::NeedsIntruderSlot()
-{
-	__asm__
-	(
-		"pushl %%ebp\n\t"
-		"movl %%esp, %%ebp\n\t"
-		"subl $4, %%esp\n\t"
-		"pushl 8(%%ebp)\n\t"		// this
-		"call *%0\n\t"
-		"addl $4, %%esp\n\t"
 		"movl %%ebp, %%esp\n\t"
 		"popl %%ebp\n\t"
 		"ret\n\t"

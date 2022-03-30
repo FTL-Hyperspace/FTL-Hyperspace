@@ -8,6 +8,8 @@ cleanup std::string CrewMember::GetUniqueRepairing<rdi>(CrewMember *this<rsi>);
 cleanup bool CrewMember::CanTeleport(CrewMember *this<rdi>);
 ".488b87e804000083400c01":
 cleanup void CrewMember::Jump(CrewMember *this<rdi>);
+".80bf31050000008b4708":
+cleanup bool CrewMember::GetIntruder(CrewMember *this<rdi>);
 ".8b05????????c6871002000001c6872002000001":
 cleanup void CrewMember::SetOutOfGame(CrewMember *this<rdi>);
 ".f30f10470cf30f2a8fb4000000":
@@ -90,8 +92,6 @@ cleanup void CrewMember::SetTask(CrewMember *this<rdi>, CrewTask task);
 cleanup Slot CrewMember::FindSlot(CrewMember *this<rdi>, int unk1<rsi>, int roomId<rdx>, bool unk2<rcx>);
 ".415531c9baffffffff41544531e4554889fd5389f34883ec38":
 cleanup bool CrewMember::CheckRoomPath(CrewMember *this<rdi>, int roomId<rsi>);
-".80bf31050000008b4708":
-cleanup bool CrewMember::NeedsIntruderSlot(CrewMember *this<rdi>);
 ".f30f2ace4889f248c1fa2055f30f2ac2534889fb4883ec18":
 cleanup void CrewMember::SetPosition(CrewMember *this<rdi>, Point pos<rsi>);
 ".8b879c000000c787e0010000ffffffff":

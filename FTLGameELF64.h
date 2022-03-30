@@ -1971,7 +1971,7 @@ struct LIBZHL_INTERFACE CrewMember
 	virtual bool IsCloned() LIBZHL_PLACEHOLDER
 	virtual bool IsDrone() LIBZHL_PLACEHOLDER
 	LIBZHL_API virtual void Jump();
-	LIBZHL_API virtual bool NeedsIntruderSlot();
+	LIBZHL_API virtual bool GetIntruder();
 	LIBZHL_API virtual void SaveState(int fileHelper);
 	LIBZHL_API virtual void LoadState(int fileHelper);
 	LIBZHL_API virtual void OnLoop();
@@ -5015,7 +5015,7 @@ struct LIBZHL_INTERFACE EnergyAlien
 	virtual bool IsCloned() LIBZHL_PLACEHOLDER
 	virtual bool IsDrone() LIBZHL_PLACEHOLDER
 	virtual void Jump() LIBZHL_PLACEHOLDER
-	virtual bool NeedsIntruderSlot() LIBZHL_PLACEHOLDER
+	virtual bool GetIntruder() LIBZHL_PLACEHOLDER
 	virtual void SaveState(int fileHelper) LIBZHL_PLACEHOLDER
 	virtual void LoadState(int fileHelper) LIBZHL_PLACEHOLDER
 	LIBZHL_API virtual void OnLoop();
