@@ -6715,7 +6715,7 @@ struct ShipManager : ShipObject
 	std::vector<CrewMember*> vCrewList;
 	Spreader_Fire fireSpreader;
 	Ship ship;
-	char statusMessages[40];
+	char statusMessages[80];
 	bool bGameOver;
 	ShipManager *current_target;
 	std::pair<float, float> jump_timer;
