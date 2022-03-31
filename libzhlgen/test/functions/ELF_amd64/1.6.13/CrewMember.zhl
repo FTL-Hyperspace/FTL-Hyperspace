@@ -6,7 +6,7 @@ cleanup __amd64 Damage CrewMember::GetRoomDamage(CrewMember *this);
 cleanup __amd64 std::string CrewMember::GetUniqueRepairing(CrewMember *this);
 ".53488b87c00000004889fb83786003":
 cleanup __amd64 bool CrewMember::CanTeleport(CrewMember *this);
-".488b87e804000083400c01":
+"!.488b87e804000083400c01":
 cleanup __amd64 void CrewMember::Jump(CrewMember *this);
 ".80bf31050000008b4708":
 cleanup __amd64 bool CrewMember::GetIntruder(CrewMember *this);

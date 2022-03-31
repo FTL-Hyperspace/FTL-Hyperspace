@@ -32,7 +32,7 @@ virtual cleanup __cdecl bool CrewMember::CanRepair(CrewMember *this);
 cleanup __cdecl bool CrewMember::GetControllable(CrewMember *this);
 "5383ec188b5c2420f30f1043280f2e432c":
 virtual cleanup __cdecl bool CrewMember::CanHeal(CrewMember *this);
-"8b4424048b908803000083420c018b108b82cc000000":
+"!8b4424048b908803000083420c018b108b82cc000000":
 cleanup __cdecl void CrewMember::Jump(CrewMember *this);
 ".8b44240480b8ad03000000":
 cleanup __cdecl bool CrewMember::GetIntruder(CrewMember *this);

@@ -4782,7 +4782,7 @@ bool CrewMember::CanTeleport()
 namespace _func369
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CrewMember::Jump", typeid(void (CrewMember::*)()), ".488b87e804000083400c01", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CrewMember::Jump", typeid(void (CrewMember::*)()), "!.488b87e804000083400c01", nullptr, 0, 0, &func);
 }
 
 void CrewMember::Jump()

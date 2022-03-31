@@ -5400,7 +5400,7 @@ namespace _func389
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff};
-	static FunctionDefinition funcObj("CrewMember::Jump", typeid(void (CrewMember::*)()), "8b4424048b908803000083420c018b108b82cc000000", argdata, 1, 6, &func);
+	static FunctionDefinition funcObj("CrewMember::Jump", typeid(void (CrewMember::*)()), "!8b4424048b908803000083420c018b108b82cc000000", argdata, 1, 6, &func);
 }
 
 void CrewMember::Jump()
