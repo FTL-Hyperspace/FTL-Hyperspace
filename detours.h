@@ -400,7 +400,7 @@ namespace MologieDetours
 			memcpy(backupOriginalCode_, targetFunction, instructionCount_);
 
 			// Fix relative jmps to point to the correct location
-			printf("RELOCATING: TGT: 0x%016llx, BKUP: 0x%016llx, IC: %d\n", reinterpret_cast<address_type>(targetFunction), reinterpret_cast<address_type>(backupOriginalCode_), instructionCount_);
+			//printf("RELOCATING: TGT: 0x%016llx, BKUP: 0x%016llx, IC: %d\n", reinterpret_cast<address_type>(targetFunction), reinterpret_cast<address_type>(backupOriginalCode_), instructionCount_);
 			RelocateCode(targetFunction, backupOriginalCode_, instructionCount_);
 
 			// Jump back to original function after executing replaced code
@@ -550,11 +550,11 @@ namespace MologieDetours
 					return;
 				}
 				
-				printf("OPCODE: 0x%02x\n", hs.opcode);
+				//printf("OPCODE: 0x%02x\n", hs.opcode);
 
 				if(hs.flags & F_RELATIVE)
 				{
-                    printf("IS RELATIVE, FLAGS: 0x%08x, %02x\n", hs.flags, !!(hs.flags & F_IMM32));
+                    //printf("IS RELATIVE, FLAGS: 0x%08x, %02x\n", hs.flags, !!(hs.flags & F_IMM32));
 					if((hs.flags & F_IMM8) || (hs.flags & F_IMM16))
 					{
 						// Oh noes! We shouldn't continue here.
