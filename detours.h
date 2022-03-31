@@ -396,19 +396,19 @@ namespace MologieDetours
 			}
 
 			// Backup the original code
-			backupOriginalCode_ = new uint8_t[instructionCount_ + MOLOGIE_DETOURS_DETOUR_SIZE];
+			// Add 5 bytes of space to shove an extra jmp if we need to rewrite a single jmp/jcc + imm8 (note: supporting more would require many changes to generate line-by-line instead of just memcpy the code)
+			backupOriginalCode_ = new uint8_t[instructionCount_ + MOLOGIE_DETOURS_DETOUR_SIZE + 5];
 			memcpy(backupOriginalCode_, targetFunction, instructionCount_);
 
 			// Fix relative jmps to point to the correct location
-			//printf("RELOCATING: TGT: 0x%016llx, BKUP: 0x%016llx, IC: %d\n", reinterpret_cast<address_type>(targetFunction), reinterpret_cast<address_type>(backupOriginalCode_), instructionCount_);
-			RelocateCode(targetFunction, backupOriginalCode_, instructionCount_);
+			RelocateCode(targetFunction, backupOriginalCode_, instructionCount_, 5);
 
 			// Jump back to original function after executing replaced code
 			uint8_t* jmpBack = backupOriginalCode_ + instructionCount_;
 			jmpBack[0] = 0xE9;
 			// Must truncate to 32-bits to prevent overwriting bytes after (need to still compute if we need an absolute jmp sometimes in 64-bit cases)
             uint32_t originalCodeJmpBackOffset = (uint32_t) (reinterpret_cast<address_type>(pSource_) + instructionCount_ - reinterpret_cast<address_type>(jmpBack) - MOLOGIE_DETOURS_DETOUR_SIZE);
-			*reinterpret_cast<address_pointer_type>(jmpBack + 1) = originalCodeJmpBackOffset;
+			*reinterpret_cast<uint32_t*>(jmpBack + 1) = originalCodeJmpBackOffset;
 
 			// Make backupOriginalCode_ executable
 			if(!MOLOGIE_DETOURS_MEMORY_UNPROTECT(backupOriginalCode_, instructionCount_ + MOLOGIE_DETOURS_DETOUR_SIZE, dwProt))
@@ -424,7 +424,7 @@ namespace MologieDetours
 			#elif defined(__amd64__)
 			// TODO: Add code to check upper 32-bits of trampoline & detour to see if they are the same, if they are you can perform an E9 relative jmp like above. If not this absolute jump still works, just the CPU hates you.
 			trampoline_ = new uint8_t[12];
-			printf("TRAMPOLINE AT: 0x%016llx, DETOUR: 0x%016llx, Target Func: 0x%016llx JMP BACK: 0x%016llx\n", reinterpret_cast<address_type>(trampoline_), reinterpret_cast<address_type>(pDetour_), reinterpret_cast<address_type>(targetFunction), reinterpret_cast<address_type>(jmpBack));
+			printf("TRAMPOLINE AT: 0x%016llx, DETOUR: 0x%016llx, Target Func: 0x%016llx, Orig Backup: 0x%016llx\n", reinterpret_cast<address_type>(trampoline_), reinterpret_cast<address_type>(pDetour_), reinterpret_cast<address_type>(targetFunction), reinterpret_cast<address_type>(backupOriginalCode_));
 			trampoline_[0] = 0x48; trampoline_[1] = 0xB8; // mov imm64 into RAX
 			*reinterpret_cast<address_pointer_type>(trampoline_ + 2) = reinterpret_cast<address_type>(pDetour_);
 			trampoline_[10] = 0xFF; trampoline_[11] = 0xE0; // jmp RAX
@@ -449,9 +449,6 @@ namespace MologieDetours
 			// We must truncate to 32-bits for the relative jump to not overwrite bytes after it, 32-bit this doesn't harm anything.
 			// 64-bit this will fail to jump to addresses too far away, need to compute if we need to use a absolute jmp instead (but this means a larger detour)
 			uint32_t trampolineTargetOffset = (uint32_t) (reinterpret_cast<address_type>(trampoline_) - reinterpret_cast<address_type>(targetFunction) - MOLOGIE_DETOURS_DETOUR_SIZE);
-			//*((uint32_t*&)(targetFunction + 1)) = trampolineTargetOffset;
-			//uint32_t* tgtAdd = targetFunction + 1;
-			//*tgtAdd = trampolineTargetOffset;
 			*reinterpret_cast<uint32_t*>(targetFunction + 1) = trampolineTargetOffset;
 			// Create backup of detour
 			backupDetour_ = new uint8_t[MOLOGIE_DETOURS_DETOUR_SIZE];
@@ -502,7 +499,7 @@ namespace MologieDetours
 			memcpy(reinterpret_cast<void*>(pSource_), backupOriginalCode_, MOLOGIE_DETOURS_DETOUR_SIZE);
 
 			// Fix relative jmps to point to the correct location
-			RelocateCode(backupOriginalCode_, reinterpret_cast<uint8_t*>(pSource_), instructionCount_);
+			RelocateCode(backupOriginalCode_, reinterpret_cast<uint8_t*>(pSource_), instructionCount_, 0, true);
 
 			// Reprotect original function
 			if(!MOLOGIE_DETOURS_MEMORY_REPROTECT(pSource_, MOLOGIE_DETOURS_DETOUR_SIZE, dwProt))
@@ -530,8 +527,11 @@ namespace MologieDetours
 		 * @param [in,out]	baseNew	The new base.
 		 * @param	size		   	The code's size.
 		 */
-		void RelocateCode(uint8_t* baseOld, uint8_t* baseNew, size_t size)
+		void RelocateCode(uint8_t* baseOld, uint8_t* baseNew, size_t size, size_t spaceBelowForReloc, bool reverting = false)
 		{
+            // TODO: This no longer works for restoring, we need to look for imm8 jumps and see if they reference the 5 bytes after baseOld + size, if they do, AND if we know
+            // that we are reverting (need to maybe pass that in too) then we need to unwrite the jmp rel8 -> jmp rel32 by processing the rel32 state & determining the original jmp rel8 position.
+
 			uint8_t* pbCurOp = baseNew;
 			address_type delta = baseOld - baseNew;
 
@@ -549,19 +549,42 @@ namespace MologieDetours
 					// Unknown instruction. Let's hope we don't break anything here and continue anyway.
 					return;
 				}
-				
-				//printf("OPCODE: 0x%02x\n", hs.opcode);
 
 				if(hs.flags & F_RELATIVE)
 				{
-                    //printf("IS RELATIVE, FLAGS: 0x%08x, %02x\n", hs.flags, !!(hs.flags & F_IMM32));
-					if((hs.flags & F_IMM8) || (hs.flags & F_IMM16))
-					{
+#if defined(MOLOGIE_DETOURS_HDE_32)
+                    if((hs.flags & F_IMM16)) /* IMM16's are not legal in 64-bit mode */
+                    {
 						// Oh noes! We shouldn't continue here.
-						throw DetourRelocationException("The target function starts with a relative jmp instruction which can not be patched.");
-						// TODO: need to handle rewriting short relative jumps, might require moving & extending code to add more bytes to fit larger jumps in.
-						// However, maybe we can simplify that by just allocating a few extra bytes in the backup area, jump to that area and write absolute or rel32 jumps from there?
-						// NOTE: This also includes regular jumps, jump conditionals. Note call rel8 doesn't exist and rel16 stuff isn't supported in 64-bit mode so no CALLs here.
+                        throw DetourRelocationException("The target function starts with a relative jmp 16-bit instruction which can not be patched.");
+                    }
+#endif
+					if((hs.flags & F_IMM8))
+					{
+                        if((hs.opcode & 0xFC) == 0xE0)
+                            throw DetourRelocationException("The function contains a LOOP/JCXZ/JECXZ/JRCXZ which is not supported for patching.");
+                        if(reverting)
+                            throw DetourRelocationException("The relay contains a relative jmp instruction which can not be reverted.");
+                        if(spaceBelowForReloc < 5)
+                            throw DetourRelocationException("The function contains a relative jmp instruction which there is insufficient space to patch.");
+
+                        uint8_t offset = (hs.opcode == 0x0F) ? 2 : 1;
+                        size_t instructionPosition = pbCurOp + i - baseNew; // This might all be easier if we didn't increment pbCurOp but just kept an offset in the loop
+                        size_t remainingInstructions = size - instructionPosition;
+                        remainingInstructions += MOLOGIE_DETOURS_DETOUR_SIZE; // skip the JMP Back instruction, now we should have the distance to the end of backup + jmp back
+                        if(remainingInstructions > 0x7F) // 127 since the offset is signed
+                            throw DetourRelocationException("The function contains a relative jmp 8-bit instruction which requires too far of a jump to patch.");
+
+                        // Compute offset into original target code
+                        int8_t originalJmpOffset = *reinterpret_cast<uint8_t*>(pbCurOp  + offset); // Offset could be negative (although highly unlikely)
+
+                        // Write second jmp in the space after the jmp back to the original function
+                        uint8_t* relocJmp = baseNew + size + 5;
+                        relocJmp[0] = 0xE9;
+                        *reinterpret_cast<uint32_t*>(relocJmp + 1) = (uint32_t) ((baseOld - (baseNew + 10)) + originalJmpOffset);
+
+                        // Modify jmp to go to second jmp
+                        *reinterpret_cast<uint8_t*>(pbCurOp  + offset) = (uint8_t) remainingInstructions;
 					}
 #if defined(MOLOGIE_DETOURS_HDE_64)
 					if((hs.flags & F_IMM32))
@@ -569,13 +592,12 @@ namespace MologieDetours
                         // Attempt to recompute relative jumps (might not work)
                         if(hs.opcode != 0xE9 && hs.opcode != 0xE8 && hs.opcode != 0x0F)
                             throw DetourRelocationException("The target function starts with a relative jmp instruction which can not be patched (is not E9/E8/0F).");
-                        
-                        printf("RELOCATE IMM32 relative jump/call (0x%02x) at addr: 0x%016llx\n", hs.opcode, reinterpret_cast<uint64_t>(pbCurOp));
+
                         // TODO: Need to check delta size, if it's larger than a 32-bit jump we'd need to rewrite this code to an absolute jmp rather than this.
                         // TODO: If delta is too big we'll have to allocate more space for that.
                         if((((uintptr_t)baseOld) & ((uintptr_t)baseNew) & 0xFFFFFFFF00000000) != 0)
                             throw DetourRelocationException("Target relocation cannot be expressed as rel32 and is more than 32-bits away");
-                        
+
                         unsigned char offset = (hs.opcode == 0x0F) ? 2 : 1;
                         *reinterpret_cast<uint32_t*>(pbCurOp  + offset) += delta;
 					}
@@ -590,7 +612,6 @@ namespace MologieDetours
 #elif defined(MOLOGIE_DETOURS_HDE_64)
 					if(hs.flags & F_IMM64)
 					{
-                        printf("RELOCATE IMM64 relative jump at addr: 0x%016llx\n", reinterpret_cast<uint64_t>(pbCurOp));
 						unsigned char offset = (hs.opcode == 0x0F) ? 2 : 1;
 						*reinterpret_cast<uint64_t*>(pbCurOp + offset) += delta;
 					}
