@@ -7,4 +7,4 @@ virtual cleanup __cdecl void DroneSystem::SetBonusPower(DroneSystem *this, int a
 "5557565383ec3c8b6c2450892c24e8????????892c24":
 cleanup __cdecl void DroneSystem::OnLoop(DroneSystem *this);
 "55575689d65389c383ec1c84c9":
-cleanup __cdecl bool DroneSystem::DePowerDrone(DroneSystem *this, Drone *drone, bool unk);
+cleanup __regparm3 bool DroneSystem::DePowerDrone(DroneSystem *this, Drone *drone, bool unk);

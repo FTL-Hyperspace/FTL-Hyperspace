@@ -7254,13 +7254,13 @@ void DroneSystem::OnLoop()
 namespace _func522
 {
 	static void *func = 0;
-	static short argdata[] = {0x1ff, 0x1ff, 0x1ff};
+	static short argdata[] = {0x100, 0x102, 0x101};
 	static FunctionDefinition funcObj("DroneSystem::DePowerDrone", typeid(bool (DroneSystem::*)(Drone *, bool )), "55575689d65389c383ec1c84c9", argdata, 3, 2, &func);
 }
 
 bool DroneSystem::DePowerDrone(Drone *drone, bool unk)
 {
-	typedef bool __attribute__((cdecl)) (*custom_arg_funcptr_t)(DroneSystem *this_arg, Drone *drone_arg, bool unk_arg);
+	typedef bool __attribute__((regparm(3))) (*custom_arg_funcptr_t)(DroneSystem *this_arg, Drone *drone_arg, bool unk_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func522::func;
 	return execfunc(this, drone, unk);
 }
