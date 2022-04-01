@@ -1,25 +1,25 @@
 "41574989f7be????????":
-cleanup void Animation::constructor(Animation *this<rdi>, const std::string& _image<rsi>, int _length<rdx>, float _time<xmm0>, Pointf _position<rcx>, int _imageWidth<r8>, int _imageHeight<r9>, int _stripStartX, int _numFrames);
+cleanup __amd64 void Animation::constructor(Animation *this, const std::string& _image, int _length, float _time, Pointf _position, int _imageWidth, int _imageHeight, int _stripStartX, int _numFrames);
 "4156415541544189f455534889fb4883ec30":
-cleanup void Animation::OnRender(Animation *this<rdi>, float opacity<xmm0>, GL_Color color, bool mirror<rsi>);
+cleanup __amd64 void Animation::OnRender(Animation *this, float opacity, GL_Color color, bool mirror);
 "41564155415455534889fb4883ec30807f3c00":
-cleanup void Animation::Update(Animation *this<rdi>);
+cleanup __amd64 void Animation::Update(Animation *this);
 "8b4708897424fc8d50ff":
-cleanup void Animation::SetCurrentFrame(Animation *this<rdi>, int frame<rsi>);
+cleanup __amd64 void Animation::SetCurrentFrame(Animation *this, int frame);
 "534889fb4883ec104084f60f85":
-cleanup void Animation::Start(Animation *this<rdi>, bool reset<rsi>);
+cleanup __amd64 void Animation::Start(Animation *this, bool reset);
 "85f6784e488b4f78":
-cleanup void Animation::AddSoundQueue(Animation *this<rdi>, int frame<rsi>, const std::string& sound<rdx>);
+cleanup __amd64 void Animation::AddSoundQueue(Animation *this, int frame, const std::string& sound);
 "48393774354889f0":
-cleanup void Animation::SetAnimationId(Animation *this<rdi>, GL_Texture *tex<rsi>);
+cleanup __amd64 void Animation::SetAnimationId(Animation *this, GL_Texture *tex);
 "4157415641554989fd415455534883ec18488b8798000000":
-cleanup void Animation::destructor(Animation *this<rdi>);
+cleanup __amd64 void Animation::destructor(Animation *this);
 "534889fb4883ec104084f67573":
-cleanup void Animation::StartReverse(Animation *this<rdi>, bool reset<rsi>);
+cleanup __amd64 void Animation::StartReverse(Animation *this, bool reset);
 "f30f105730807f3c00":
-cleanup void Animation::SetProgress(Animation *this<rdi>, float progress<xmm0>);
+cleanup __amd64 void Animation::SetProgress(Animation *this, float progress);
 "803d????????00534889fb7543":
-cleanup int Animation::RandomStart(Animation *this<rdi>);
+cleanup __amd64 int Animation::RandomStart(Animation *this);
 
 
 struct Animation 

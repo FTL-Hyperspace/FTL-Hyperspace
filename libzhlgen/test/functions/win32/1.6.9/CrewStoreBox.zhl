@@ -1,7 +1,8 @@
 "578d7c240883e4f0ff77fc5589e557565389cf81ec????????898dacfeffffe8????????b9????????e8????????8bb73c020000":
-void CrewStoreBox::Purchase(CrewStoreBox *this<ecx>);
+__thiscall void CrewStoreBox::Purchase(CrewStoreBox *this);
 "578d7c240883e4f0ff77fc5589e557565389cb8d8dc0feffff81ec????????8b47048b378b7f08c744240400000000c785a8feffff16000000898554feffff8d85c8feffff8985c0feffff":
-void CrewStoreBox::constructor(CrewStoreBox *this<ecx>, ShipManager *ship, int worldLevel, const std::string& type);
+__thiscall void CrewStoreBox::constructor(CrewStoreBox *this, ShipManager *ship, int worldLevel, const std::string& type);
+
 
 struct CrewStoreBox
 {{

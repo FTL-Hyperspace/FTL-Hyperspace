@@ -1,5 +1,5 @@
 "5389fb4883ec30488b05????????488b0d????????4889c2":
-static cleanup PowerManager* PowerManager::GetPowerManager(int iShipId<rdi>);
+static cleanup __amd64 PowerManager* PowerManager::GetPowerManager(int iShipId);
 
 
 struct PowerManager

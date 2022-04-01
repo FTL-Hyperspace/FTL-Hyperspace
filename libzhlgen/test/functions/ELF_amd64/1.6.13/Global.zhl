@@ -450,6 +450,17 @@ reference int g_viewportH;
 "!39d089d37d(????????)83c22383c10139df":
 instruction uintptr_t Global__NOP__Ship_OnInit_0;
 
+// Some x86_64 variables are actually using RIP relative addressing
+// This means their actual address is their value + the next instruction's address (RIP + value) to get the real variable's address
+// For these cases "offsetVariable" tag is added
+// Please note that offsetVariable matches should be 4 or 8 bytes (but probably always 4 in AMD64, maybe different in other architectures)
+// The match is only possible if the variable is the last bytes of the instruction, so if there is an instruction with two memory addresses, the match can only be done on the last memory address in the actual bytes of the instruction
+// This is because the math is just address of match + length = "next instruction's assumed address" since we don't actually know the instruction pointer's real value at compile time.
+// You will probably not run into this need in 32-bit but it's still also supported just in case
+// The "instruction" tag above is not supported while using offsetVariable as offsetVariable implies you want the value and not the instruction's address
+"!f30fc2cf01488bbbf8020000f30f101d(???????\?)f30f5edd":
+offsetVariable GL_Color *Global_COLOR_GREEN;
+
 // Also it can now replace code with NOP statements in a match
 // The no-op mode **can** match matches smaller or larger than 4 bytes (8 hex digits) as it'll simply replace that area with NOP instructions.
 // The match must end on a byte boundary (every group of 2 hex digits, ending in an odd numbered spot is invalid)
@@ -459,22 +470,55 @@ instruction uintptr_t Global__NOP__Ship_OnInit_0;
 noop void* Global__Ship_OnInit;
 // The void* can be anything, just has to be something there for the parser to match, name also doesn't really matter except for logging purposes as it does not create any variable.
 
+// The Lua code has been tweaked to pass the following values through as a "Calling convention", doing so
+// skips any assembly generation and will ignore any registers specified for arguments.
+// When using these calling convention declaration styles it is *of extreme importance* that all types
+// used for return values & argument values be exactly correct with their original declaration and that your
+// compiler matches the original compiler. As no exceptions are currently made to correct to for example:
+// MSVC "__thiscall" style when compiling with GCC under mingw it will use GCC's MinGW thiscall style not MSVC.
+// Although the Lua & C++ code could theoretically be tweaked to permit a mismatch of compilers if you added even more calling conventions like a "__msvc_thiscall" or something and did the assembly code to rearrange it.
+// As it is right now, these will be used for non-assembly code generation so that the compiler is directly aware of the calling convention and no assembly is needed.
+// For x86_64 architecture, use __amd64 (since there is no special name for the calling convention, this will trigger skipping the register & assembly generation code) and the default amd64 calling convention for Windows or Linux will be used depending on target
+
+// Windows only
+__stdcall void someFunction();
+__fastcall
+__thiscall
+
+// All x86 32-bit OSes
+__cdecl
+__regparm3
+__regparm2
+__regparm1
+
+// Windows MSVC x86, Windows MSVC/Clang/ICC x86_64
+__vectorcall
+
+// All x86_64 OSes (just informs parser & C++ code to skip assembly style generation)
+__amd64 // Will be considered a thiscall automatically if this is the first parameter
+
+// There is also a noHook support (place before everything, even static or virtual) to define a signature and generic function name that will be used
+// for signature hooking but which will not have a callable function defined in the output source or headers,
+// technically it'll still be hookable right now but don't do it.
+noHook void DO_NOT_HOOK();
+// Note on x86_64 calling style is required so
+noHook __amd64 void DO_NOT_HOOK();
 */
 
 "85ff7e7e":
-cleanup float font_text_width(freetype::font_data& fontData<rdi>, const char* str<rsi>, float size<xmm0>);
+cleanup __amd64 float font_text_width(freetype::font_data& fontData, const char* str, float size);
 
 "48b82d7f954c2df45158480faf05????????4883c001488905????????48c1e821":
-int random32();
+__amd64 int random32();
 
 ".89f8488905":
-cleanup void srandom32(unsigned int seed<rdi>);
+cleanup __amd64 void srandom32(unsigned int seed);
 
 "83ff05772d89ff":
-cleanup float getSkillBonus(int skill<rdi>, int level<rsi>);
+cleanup __amd64 float getSkillBonus(int skill, int level);
 
 "41554189cd41544c63e2554889fd534889f3":
-cleanup void GetValue(ResourceEvent &ref<rdi>, const std::string& type<rsi>, int level<rdx>, int worldLevel<rcx>);
+cleanup __amd64 void GetValue(ResourceEvent &ref, const std::string& type, int level, int worldLevel);
 
 ".41574989f741564155415455534881ec08020000":
-cleanup void GenerateReward(ResourceEvent &ref<rdi>, RewardDesc &reward<rsi>, int worldLevel<rdx>);
+cleanup __amd64 void GenerateReward(ResourceEvent &ref, RewardDesc &reward, int worldLevel);

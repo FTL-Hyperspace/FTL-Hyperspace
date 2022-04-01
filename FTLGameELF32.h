@@ -1377,7 +1377,6 @@ struct Projectile : Collideable
 	LIBZHL_API void CollisionCheck(Collideable *other);
 	LIBZHL_API int ForceRenderLayer();
 	LIBZHL_API void Initialize(const WeaponBlueprint &bp);
-	LIBZHL_API static void __stdcall __DO_NOT_HOOK();
 	LIBZHL_API void constructor(Pointf position, int ownerId, int targetId, Pointf target);
 	LIBZHL_API void destructor();
 	
@@ -1453,7 +1452,7 @@ struct Description;
 struct Description
 {
 	LIBZHL_API Description &copy_assign_1(const Description &other);
-	LIBZHL_API Description &copy_assign_2(Description &&other);
+	LIBZHL_API Description &copy_assign_2(Description &other);
 	LIBZHL_API void destructor();
 	
 	TextString title;
@@ -1592,7 +1591,6 @@ struct LIBZHL_INTERFACE GenericButton
 	LIBZHL_API virtual void OnRightClick();
 	virtual void OnTouch() LIBZHL_PLACEHOLDER
 	LIBZHL_API virtual void ResetPrimitives();
-	LIBZHL_API static void __stdcall __DO_NOT_HOOK();
 	
 	Point position;
 	Globals::Rect hitbox;
@@ -2466,9 +2464,6 @@ struct WeaponBlueprint : Blueprint
 	
 	LIBZHL_API std::string GetDescription(bool tooltip);
 	LIBZHL_API void RenderIcon(float scale);
-	LIBZHL_API static void __stdcall __DO_NOT_HOOK();
-	LIBZHL_API static void __stdcall __DO_NOT_HOOK2();
-	LIBZHL_API static void __stdcall __DO_NOT_HOOK3();
 	LIBZHL_API void constructor();
 	LIBZHL_API void destructor();
 	
@@ -2634,7 +2629,6 @@ struct BoarderPodDrone : SpaceDrone
 	LIBZHL_API bool CanBeDeployed();
 	LIBZHL_API void SetDeployed(bool _deployed);
 	LIBZHL_API void SetMovementTarget(Targetable *target);
-	LIBZHL_API static void __stdcall _DO_NOT_HOOK_1();
 	LIBZHL_API void constructor(int _iShipId, int _selfId, const DroneBlueprint &_bp);
 	
 	GL_Texture *baseSheet;
@@ -2785,8 +2779,6 @@ struct LIBZHL_INTERFACE CompleteShip
 	LIBZHL_API CrewMember *AddCrewMember2(CrewMember *member, int unk);
 	LIBZHL_API Drone *AddDrone(const DroneBlueprint *blueprint, int unk);
 	LIBZHL_API int CountCrew(bool boarders);
-	LIBZHL_API void __stdcall DO_NOT_HOOK();
-	LIBZHL_API void __stdcall DO_NOT_HOOK2();
 	LIBZHL_API bool DeadCrew();
 	LIBZHL_API std::vector<CrewMember*> GetTeleportingParty();
 	LIBZHL_API void InitiateTeleport(int targetRoom, int command);
@@ -3107,8 +3099,6 @@ struct OptionsScreen : ChoiceBox
         TextButton syncAchievementsButton;
     };
 
-	LIBZHL_API void __stdcall DO_NOT_HOOK1();
-	LIBZHL_API void __stdcall DO_NOT_HOOK2();
 	LIBZHL_API void OnInit();
 	LIBZHL_API void OnLoop();
 	
@@ -5811,9 +5801,6 @@ struct MantisAnimation : CrewAnimation
 	LIBZHL_API bool FireShot();
 	LIBZHL_API std::string GetDeathSound();
 	LIBZHL_API std::string GetShootingSound();
-	LIBZHL_API static void __stdcall __DO_NOT_HOOK();
-	LIBZHL_API static void __stdcall __DO_NOT_HOOK2();
-	LIBZHL_API static void __stdcall __DO_NOT_HOOK3();
 	
 };
 
@@ -6207,9 +6194,6 @@ struct RockAnimation : CrewAnimation
 
 	LIBZHL_API std::string GetDeathSound();
 	LIBZHL_API std::string GetShootingSound();
-	LIBZHL_API static void __stdcall __DO_NOT_HOOK();
-	LIBZHL_API static void __stdcall __DO_NOT_HOOK2();
-	LIBZHL_API static void __stdcall __DO_NOT_HOOK3();
 	LIBZHL_API void constructor(const std::string &subRace, int iShipId, Pointf position, bool enemy);
 	
 };
@@ -6649,7 +6633,6 @@ struct ShipManager : ShipObject
 	LIBZHL_API CrewDrone *CreateCrewDrone(const DroneBlueprint *bp);
 	LIBZHL_API SpaceDrone *CreateSpaceDrone(const DroneBlueprint *bp);
 	LIBZHL_API int CreateSystems();
-	LIBZHL_API static void __stdcall DO_NOT_HOOK();
 	LIBZHL_API bool DamageArea(Pointf location, DamageParameter dmg, char forceHit);
 	LIBZHL_API bool DamageBeam(Pointf location1, Pointf location2, DamageParameter dmg);
 	LIBZHL_API char DamageCrew(CrewMember *crew, DamageParameter dmg);
@@ -7405,7 +7388,6 @@ struct WeaponStoreBox : StoreBox
 		this->bEquipmentBox = true;
 	}
 
-	LIBZHL_API static void __stdcall __DO_NOT_HOOK();
 	LIBZHL_API void constructor(ShipManager *ship, Equipment *equip, const WeaponBlueprint *weaponBp);
 	
 	WeaponBlueprint *blueprint;
@@ -7510,8 +7492,6 @@ struct WorldManager
 
 struct RewardDesc;
 
-LIBZHL_API void __stdcall DO_NOT_HOOK_MANTISANIMATIONSHOOTINGSOUND();
-LIBZHL_API void __stdcall DO_NOT_HOOK_ROCKANIMATIONSHOOTINGSOUND();
 LIBZHL_API void __stdcall GenerateReward(ResourceEvent &ref, RewardDesc &reward, int worldLevel);
 LIBZHL_API void __stdcall GetValue(ResourceEvent &ref, const std::string &type, int level, int worldLevel);
 LIBZHL_API float __stdcall font_text_width(freetype::font_data &fontData, const char *str, float size);

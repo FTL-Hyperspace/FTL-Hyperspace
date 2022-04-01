@@ -1,5 +1,5 @@
 "4157415641554189cd41544989f4":
-cleanup void RepairStoreBox::constructor(RepairStoreBox *this<rdi>, ShipManager *ship<rsi>, bool repairAll<rdx>, int price<rcx>);
+cleanup __amd64 void RepairStoreBox::constructor(RepairStoreBox *this, ShipManager *ship, bool repairAll, int price);
 
 
 struct RepairStoreBox

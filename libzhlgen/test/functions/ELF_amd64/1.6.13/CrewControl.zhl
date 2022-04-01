@@ -1,22 +1,22 @@
 "41544989fc5553488b4f68488b57604889c84829d048c1f80385c0":
-cleanup void CrewControl::ClearCrewBoxes(CrewControl *this<rdi>);
+cleanup __amd64 void CrewControl::ClearCrewBoxes(CrewControl *this);
 ".41574589c741564189ce41554189d541544189f455534889fb4883ec38":
-cleanup void CrewControl::LButton(CrewControl *this<rdi>, int mX<rsi>, int mY<rdx>, int wX<rcx>, int wY<r8>, bool shiftHeld<r9>);
+cleanup __amd64 void CrewControl::LButton(CrewControl *this, int mX, int mY, int wX, int wY, bool shiftHeld);
 ".41545553807f54004889fb":
-cleanup void CrewControl::RButton(CrewControl *this<rdi>, int mX<rsi>, int mY<rdx>, bool shiftHeld<rcx>);
+cleanup __amd64 void CrewControl::RButton(CrewControl *this, int mX, int mY, bool shiftHeld);
 ".415431c0554889f553488b4e0831db":
-cleanup void CrewControl::ClearDeadCrew(CrewControl *this<rdi>, std::vector<CrewMember*> *crew<rsi>);
+cleanup __amd64 void CrewControl::ClearDeadCrew(CrewControl *this, std::vector<CrewMember*> *crew);
 ".415731d241564155415455534889fb":
-cleanup void CrewControl::UpdateCrewBoxes(CrewControl *this<rdi>);
+cleanup __amd64 void CrewControl::UpdateCrewBoxes(CrewControl *this);
 ".534889374889fb":
-cleanup void CrewControl::LinkShip(CrewControl *this<rdi>, ShipManager *ship<rsi>);
+cleanup __amd64 void CrewControl::LinkShip(CrewControl *this, ShipManager *ship);
 ".415455488dafc8000000534889fb4889ef4883ec30":
-cleanup void CrewControl::OnLoop(CrewControl *this<rdi>);
+cleanup __amd64 void CrewControl::OnLoop(CrewControl *this);
 ".55534889fb4889f74883ec184885f64889742408":
-cleanup void CrewControl::SelectPotentialCrew(CrewControl *this<rdi>, CrewMember *crew<rsi>, bool allowTeleportLeaving<rdx>);
+cleanup __amd64 void CrewControl::SelectPotentialCrew(CrewControl *this, CrewMember *crew, bool allowTeleportLeaving);
 ".4157415641554989fd415455534881ecc8010000":
-cleanup void CrewControl::KeyDown(CrewControl *this<rdi>, SDLKey key<rsi>);
+cleanup __amd64 void CrewControl::KeyDown(CrewControl *this, SDLKey key);
 ".415741564c8db7f000000041554989fd415455534883ec58":
-cleanup void CrewControl::OnRender(CrewControl *this<rdi>);
+cleanup __amd64 void CrewControl::OnRender(CrewControl *this);
 ".41574989ff415641554589c541544189cc5589d55389f34881ec18010000":
-cleanup void CrewControl::MouseMove(CrewControl *this<rdi>, int mX<rsi>, int mY<rdx>, int wX<rcx>, int wY<r8>);
+cleanup __amd64 void CrewControl::MouseMove(CrewControl *this, int mX, int mY, int wX, int wY);

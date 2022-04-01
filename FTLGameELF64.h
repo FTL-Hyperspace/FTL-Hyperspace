@@ -545,7 +545,6 @@ struct LIBZHL_INTERFACE AnimationTracker
 struct AchievementTracker
 {
 	LIBZHL_API void CheckShipAchievements(int shipId, bool hidePopups);
-	LIBZHL_API void __stdcall DO_NOT_HOOK_1();
 	LIBZHL_API bool GetFlag(const std::string &flagName);
 	LIBZHL_API std::vector<CAchievement*> GetShipAchievements(const std::string &ship);
 	LIBZHL_API int GetShipMarker(const std::string &baseName, const std::string &thisName);
@@ -1116,7 +1115,7 @@ struct ShipObject
 	
 	void *vptr;
 	int iShipId;
-};
+} __attribute__((packed));
 
 struct TimerHelper;
 
@@ -1224,18 +1223,22 @@ struct LIBZHL_INTERFACE ShipSystem
 	LIBZHL_API void destructor();
 	
 	int selectedState;
+	uint8_t gap_ex_2[4];
 	ShipObject _shipObj;
 	float fDamage;
 	Point pLoc;
 	float fMaxDamage;
+	uint8_t gap_manualNotPacked_1[4];
 	std::string name;
 	int roomId;
 	int iRepairCount;
 	int iSystemType;
 	bool bNeedsManned;
 	bool bManned;
+	uint8_t gap_manualNotPacked_2[2];
 	int iActiveManned;
 	bool bBoostable;
+	uint8_t gap_manualNotPacked_3[3];
 	std::pair<int, int> powerState;
 	int iRequiredPower;
 	uint8_t gap_ex_1[4];
@@ -1248,13 +1251,16 @@ struct LIBZHL_INTERFACE ShipSystem
 	Globals::Rect roomShape;
 	bool bOnFire;
 	bool bBreached;
+	uint8_t gap_manualNotPacked_4[2];
 	std::pair<int, int> healthState;
 	float fDamageOverTime;
 	float fRepairOverTime;
 	bool damagedLastFrame;
 	bool repairedLastFrame;
+	uint8_t gap_manualNotPacked_5[2];
 	int originalPower;
 	bool bNeedsPower;
+	uint8_t gap_manualNotPacked_6[3];
 	int iTempPowerCap;
 	int iTempPowerLoss;
 	int iTempDividePower;
@@ -1263,6 +1269,7 @@ struct LIBZHL_INTERFACE ShipSystem
 	bool bExploded;
 	bool bOccupied;
 	bool bFriendlies;
+	uint8_t gap_manualNotPacked_7[1];
 	std::string interiorImageName;
 	GL_Primitive *interiorImage;
 	GL_Primitive *interiorImageOn;
@@ -1280,10 +1287,10 @@ struct LIBZHL_INTERFACE ShipSystem
 	bool bUnderAttack;
 	bool bLevelBoostable;
 	bool bTriggerIon;
+	uint8_t gap_manualNotPacked_8[1];
 	std::vector<Animation> damagingEffects;
 	int computerLevel;
-	uint8_t gap_ex_2[4];
-};
+} __attribute__((packed));
 
 struct Targetable;
 
@@ -1454,7 +1461,7 @@ struct Description;
 struct Description
 {
 	LIBZHL_API Description &copy_assign_1(const Description &other);
-	LIBZHL_API Description &copy_assign_2(Description &&other);
+	LIBZHL_API Description &copy_assign_2(Description &other);
 	LIBZHL_API void destructor();
 	
 	TextString title;
@@ -5800,9 +5807,6 @@ struct MantisAnimation : CrewAnimation
 	LIBZHL_API bool FireShot();
 	LIBZHL_API std::string GetDeathSound();
 	LIBZHL_API std::string GetShootingSound();
-	LIBZHL_API static void __stdcall __DO_NOT_HOOK_1();
-	LIBZHL_API static void __stdcall __DO_NOT_HOOK_2();
-	LIBZHL_API static void __stdcall __DO_NOT_HOOK_3();
 	
 };
 
@@ -6196,9 +6200,6 @@ struct RockAnimation : CrewAnimation
 
 	LIBZHL_API std::string GetDeathSound();
 	LIBZHL_API std::string GetShootingSound();
-	LIBZHL_API static void __stdcall __DO_NOT_HOOK_1();
-	LIBZHL_API static void __stdcall __DO_NOT_HOOK_2();
-	LIBZHL_API static void __stdcall __DO_NOT_HOOK_3();
 	LIBZHL_API void constructor(const std::string &subRace, int iShipId, Pointf position, bool enemy);
 	
 };
@@ -6638,7 +6639,6 @@ struct ShipManager : ShipObject
 	LIBZHL_API CrewDrone *CreateCrewDrone(const DroneBlueprint *bp);
 	LIBZHL_API SpaceDrone *CreateSpaceDrone(const DroneBlueprint *bp);
 	LIBZHL_API int CreateSystems();
-	LIBZHL_API static void __stdcall DO_NOT_HOOK();
 	LIBZHL_API bool DamageArea(Pointf location, DamageParameter dmg, char forceHit);
 	LIBZHL_API bool DamageBeam(Pointf location1, Pointf location2, DamageParameter dmg);
 	LIBZHL_API char DamageCrew(CrewMember *crew, DamageParameter dmg);
@@ -6723,7 +6723,7 @@ struct ShipManager : ShipObject
 	std::vector<CrewMember*> vCrewList;
 	Spreader_Fire fireSpreader;
 	Ship ship;
-	char statusMessages[40];
+	char statusMessages[80];
 	bool bGameOver;
 	ShipManager *current_target;
 	std::pair<float, float> jump_timer;
@@ -7394,7 +7394,6 @@ struct WeaponStoreBox : StoreBox
 		this->bEquipmentBox = true;
 	}
 
-	LIBZHL_API static void __stdcall __DO_NOT_HOOK();
 	LIBZHL_API void constructor(ShipManager *ship, Equipment *equip, const WeaponBlueprint *weaponBp);
 	
 	WeaponBlueprint *blueprint;

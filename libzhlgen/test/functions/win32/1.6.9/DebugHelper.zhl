@@ -1,2 +1,2 @@
 "8d4c240483e4f0ff71fc5589e55756535181ec????????8b018d8d30f8ffffc785acf2ffff00000000c685b0f2ffff00898590f2ffff8d85b0f2ffff8985a8f2ffffe8????????":
-static int DebugHelper::CrashCatcher(void* exception_pointers);
+static __cdecl int DebugHelper::CrashCatcher(void* exception_pointers);

@@ -1,7 +1,7 @@
 "83ec1cf30f10642424f30f10442428f30f106c242c0f28f4":
-static cleanup float Globals::AimAhead(Pointf delta, Pointf vr, float muzzleV);
+static cleanup __cdecl float Globals::AimAhead(Pointf delta, Pointf vr, float muzzleV);
 "8b15????????b8650000008d4a0185d20f45c1":
-static int Globals::GetNextSpaceId();
+static __cdecl int Globals::GetNextSpaceId();
 
 "!c744240c????????895c2408c7442404(???????\?)893c24":
 TextLibrary* Global_Globals_Library;

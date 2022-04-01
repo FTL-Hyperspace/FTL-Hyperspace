@@ -1,5 +1,6 @@
 "578d7c240883e4f0ff77fc5589e557565381ec????????8b5f088b078b570489cfc744240c00000000898d3cfeffff895c2408":
-void CloneBox::constructor(CloneBox *this<ecx>, Point pos, CloneSystem* sys);
+__thiscall void CloneBox::constructor(CloneBox *this, Point pos, CloneSystem* sys);
+
 
 struct CloneBox
 {{

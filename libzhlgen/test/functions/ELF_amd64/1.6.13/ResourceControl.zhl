@@ -1,27 +1,27 @@
 "4155be0a00000041545548bdffffffffffffff1f534889fb488d7f20":
-cleanup void ResourceControl::constructor(ResourceControl *this<rdi>);
+cleanup __amd64 void ResourceControl::constructor(ResourceControl *this);
 ".4883ec284885f64889f7660fd60424488b0424660fd60c24":
-cleanup int ResourceControl::RenderImage(ResourceControl *this<rdi>, GL_Texture* tex<rsi>, int x<rdx>, int y<rcx>, int rotation<r8>, GL_Color color, float opacity<xmm0>, bool mirror<r9>);
+cleanup __amd64 int ResourceControl::RenderImage(ResourceControl *this, GL_Texture* tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror);
 ".4883ec284885f64889f7660fd60424488b0424660fd60c24":
-cleanup GL_Primitive* ResourceControl::CreateImagePrimitive(ResourceControl *this<rdi>, GL_Texture *tex<rsi>, int unk1<rdx>, int unk2<rcx>, int unk3<r8>, GL_Color color, float alpha<xmm0>, bool mirror<r9>);
+cleanup __amd64 GL_Primitive* ResourceControl::CreateImagePrimitive(ResourceControl *this, GL_Texture *tex, int unk1, int unk2, int unk3, GL_Color color, float alpha, bool mirror);
 ".534889fb89b7a0000000c7870801000000000000":
-cleanup void ResourceControl::OnInit(ResourceControl *this<rdi>, int imageSwappingMode<rsi>);
+cleanup __amd64 void ResourceControl::OnInit(ResourceControl *this, int imageSwappingMode);
 ".415541544531e4554889f5":
-cleanup char* ResourceControl::LoadFile(ResourceControl *this<rdi>, const std::string& fileName<rsi>);
+cleanup __amd64 char* ResourceControl::LoadFile(ResourceControl *this, const std::string& fileName);
 ".534889d04989d14889fb488d7e604883ec10":
-cleanup ImageDesc ResourceControl::GetImageData<rdi>(ResourceControl *this<rsi>, GL_Texture *tex<rdx>);
+cleanup __amd64 ImageDesc ResourceControl::GetImageData(ResourceControl *this, GL_Texture *tex);
 ".4154554889f5be????????534889fb4883ec60":
-cleanup GL_Texture* ResourceControl::GetImageId(ResourceControl *this<rdi>, const std::string& dir<rsi>);
+cleanup __amd64 GL_Texture* ResourceControl::GetImageId(ResourceControl *this, const std::string& dir);
 ".41574589c7415641554589cd41544189d45589cd534883ec38":
-cleanup int ResourceControl::RenderImageString(ResourceControl *this<rdi>, std::string& tex<rsi>, int x<rdx>, int y<rcx>, int rotation<r8>, GL_Color color, float opacity<xmm0>, bool mirror<r9>);
+cleanup __amd64 int ResourceControl::RenderImageString(ResourceControl *this, std::string& tex, int x, int y, int rotation, GL_Color color, float opacity, bool mirror);
 ".41574589c7415641554589cd41544189d45589cd534883ec38":
-cleanup GL_Primitive* ResourceControl::CreateImagePrimitiveString(ResourceControl *this<rdi>, const std::string& tex<rsi>, int x<rdx>, int y<rcx>, int rotation<r8>, GL_Color color, float alpha<xmm0>, bool mirror<r9>);
+cleanup __amd64 GL_Primitive* ResourceControl::CreateImagePrimitiveString(ResourceControl *this, const std::string& tex, int x, int y, int rotation, GL_Color color, float alpha, bool mirror);
 ".415455534889fb4883ec604883bf5001000000":
-cleanup void ResourceControl::RenderLoadingBar(ResourceControl *this<rdi>, float initialProgress<xmm0>, float finalProgress<xmm1>);
+cleanup __amd64 void ResourceControl::RenderLoadingBar(ResourceControl *this, float initialProgress, float finalProgress);
 ".41548d46fa55534889fb4883ec3083f802":
-cleanup freetype::font_data &ResourceControl::GetFontData(ResourceControl *this<rdi>, int fontType<rsi>, bool unk<rdx>);
+cleanup __amd64 freetype::font_data &ResourceControl::GetFontData(ResourceControl *this, int fontType, bool unk);
 ".415741564155415455534889fb4881ec88000000408874241f":
-cleanup bool ResourceControl::PreloadResources(ResourceControl *this<rdi>, bool unk<rsi>);
+cleanup __amd64 bool ResourceControl::PreloadResources(ResourceControl *this, bool unk);
 
 "!be(???????\?)488983100100004889c24889e7":
 ResourceControl* Global_ResourceControl_GlobalResources;

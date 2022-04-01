@@ -1,58 +1,58 @@
 "5383ec188b5c24208b430885c074??8b530c":
-cleanup void CApp::OnRequestExit(CApp *this);
+cleanup __cdecl void CApp::OnRequestExit(CApp *this);
 "83ec1ce8????????c744240400000000c70424????????":
-cleanup void CApp::OnExit(CApp *this);
+cleanup __cdecl void CApp::OnExit(CApp *this);
 "8b442404????????????0075??80781000":
-cleanup void CApp::OnMButtonDown(CApp *this, int x, int y);
+cleanup __cdecl void CApp::OnMButtonDown(CApp *this, int x, int y);
 ".8b4424048b542408????????????0075??80781000":
-cleanup void CApp::OnTextInput(CApp *this, int ch);
+cleanup __cdecl void CApp::OnTextInput(CApp *this, int ch);
 ".8b4424048b542408????????????0075??80781000":
-cleanup void CApp::OnTextEvent(CApp *this, CEvent::TextEvent textEvent);
+cleanup __cdecl void CApp::OnTextEvent(CApp *this, CEvent::TextEvent textEvent);
 "5383ec188b5c2420????????????0075??803d????????00":
-cleanup void CApp::OnInputFocus(CApp *this);
+cleanup __cdecl void CApp::OnInputFocus(CApp *this);
 "5383ec188b5c2420803d????????008b4308":
-cleanup void CApp::OnInputBlur(CApp *this);
+cleanup __cdecl void CApp::OnInputBlur(CApp *this);
 ".5383ec288b5c24308b4424348b542438":
-cleanup void CApp::OnRButtonUp(CApp *this, int x, int y);
+cleanup __cdecl void CApp::OnRButtonUp(CApp *this, int x, int y);
 ".5383ec288b5c24308b4424348b542438":
-cleanup void CApp::OnRButtonDown(CApp *this, int x, int y);
+cleanup __cdecl void CApp::OnRButtonDown(CApp *this, int x, int y);
 ".5383ec288b5c24308b4424348b542438":
-cleanup void CApp::OnLButtonUp(CApp *this, int x, int y);
+cleanup __cdecl void CApp::OnLButtonUp(CApp *this, int x, int y);
 ".5383ec288b5c24308b4424348b542438":
-cleanup void CApp::OnLButtonDown(CApp *this, int x, int y);
+cleanup __cdecl void CApp::OnLButtonDown(CApp *this, int x, int y);
 "57565383ec208b5c24308b4424348b542438":
-cleanup void CApp::OnMouseMove(CApp *this, int x, int y, int xdiff, int ydiff, bool holdingLMB, bool holdingRMB, bool holdingMMB);
+cleanup __cdecl void CApp::OnMouseMove(CApp *this, int x, int y, int xdiff, int ydiff, bool holdingLMB, bool holdingRMB, bool holdingMMB);
 "57565383ec208b5c243485db":
-cleanup void CApp::OnKeyUp(CApp *this, SDLKey key);
+cleanup __cdecl void CApp::OnKeyUp(CApp *this, SDLKey key);
 "5589e557565383ec2c8b75088d5de4":
-cleanup void CApp::OnLanguageChange(CApp *this);
+cleanup __cdecl void CApp::OnLanguageChange(CApp *this);
 "5557565383ec4c8b5c246485db":
-cleanup void CApp::OnKeyDown(CApp *this, SDLKey key);
+cleanup __cdecl void CApp::OnKeyDown(CApp *this, SDLKey key);
 "5383ec188b5c2420891c24e8????????8d4310":
-cleanup void CApp::constructor(CApp *this);
+cleanup __cdecl void CApp::constructor(CApp *this);
 ".f3c38db426000000008dbc2700000000":
-cleanup void CApp::ParseArgs(CApp *this, int argc, const char** argv);
+cleanup __cdecl void CApp::ParseArgs(CApp *this, int argc, const char** argv);
 "5589e557565383ec2c8b5d08c70424????????e8????????e8????????884305c70424????????":
-cleanup void CApp::OnLoop(CApp *this);
+cleanup __cdecl void CApp::OnLoop(CApp *this);
 "5383ec38c7442404010000008b5c2440":
-cleanup int CApp::SetupWindow(CApp *this);
+cleanup __cdecl int CApp::SetupWindow(CApp *this);
 "565383ec148b5c24208b430c890424":
-cleanup void CApp::OnCleanup(CApp *this);
+cleanup __cdecl void CApp::OnCleanup(CApp *this);
 "5383ec188b5c2420e8????????85c00f95??":
-cleanup void CApp::GenInputEvents(CApp *this);
+cleanup __cdecl void CApp::GenInputEvents(CApp *this);
 "5383ec188b5c2420e8????????8b4308":
-cleanup void CApp::OnSuspend(CApp *this);
+cleanup __cdecl void CApp::OnSuspend(CApp *this);
 "5383ec188b5c242080??????????0075??807b100074??83c4185b":
-cleanup void CApp::OnResume(CApp *this);
+cleanup __cdecl void CApp::OnResume(CApp *this);
 "565383ec148b5424248b4c24288b44242c8b742420":
-cleanup Point CApp::TranslateMouse(CApp *this, int x, int y);
+cleanup __cdecl Point CApp::TranslateMouse(CApp *this, int x, int y);
 "803d????????0074??c38db600000000575653":
-cleanup void CApp::UpdateFullScreen(CApp *this);
+cleanup __cdecl void CApp::UpdateFullScreen(CApp *this);
 "56538b44240c????????????00":
-cleanup void CApp::UpdateWindowSettings(CApp *this);
+cleanup __cdecl void CApp::UpdateWindowSettings(CApp *this);
 "5589e557565383ec3c8b5d08891c24":
-cleanup void CApp::OnRender(CApp *this);
+cleanup __cdecl void CApp::OnRender(CApp *this);
 "5589e557565383ec4c8b5d08c7042400000000":
-cleanup int CApp::OnInit(CApp *this);
+cleanup __cdecl int CApp::OnInit(CApp *this);
 "5589e557565381ecfc0100008b5d08":
-cleanup int CApp::OnExecute(CApp *this);
+cleanup __cdecl int CApp::OnExecute(CApp *this);

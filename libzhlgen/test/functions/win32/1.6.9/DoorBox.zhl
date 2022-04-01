@@ -1,5 +1,6 @@
 "578d7c240883e4f0ff77fc5589e557565389cb83ec6c8b57048b078b4f088b770c8d7dd0c744240c0100000089542404890424894c2408":
-void DoorBox::constructor(DoorBox *this<ecx>, Point pos, ShipSystem* sys, ShipManager* ship);
+__thiscall void DoorBox::constructor(DoorBox *this, Point pos, ShipSystem* sys, ShipManager* ship);
+
 
 struct DoorBox
 {{

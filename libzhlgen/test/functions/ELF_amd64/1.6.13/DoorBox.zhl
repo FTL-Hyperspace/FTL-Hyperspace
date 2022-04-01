@@ -1,5 +1,5 @@
 "41554989cdb901000000415455534889fb488dab700200004c8da3000300004883ec48":
-cleanup void DoorBox::constructor(DoorBox *this<rdi>, Point pos<rsi>, ShipSystem* sys<rdx>, ShipManager* ship<rcx>);
+cleanup __amd64 void DoorBox::constructor(DoorBox *this, Point pos, ShipSystem* sys, ShipManager* ship);
 
 
 struct DoorBox

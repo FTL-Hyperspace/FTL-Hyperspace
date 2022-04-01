@@ -1,5 +1,6 @@
 "578d7c240883e4f0ff77fc5589f889e557565389cb8d4dd083ec4c8b70048d45d88b3fc7442404000000008945d08d45cc":
-void AugmentStoreBox::constructor(AugmentStoreBox *this<ecx>, ShipManager *ship, const AugmentBlueprint* bp);
+__thiscall void AugmentStoreBox::constructor(AugmentStoreBox *this, ShipManager *ship, const AugmentBlueprint* bp);
+
 
 struct AugmentStoreBox
 {{

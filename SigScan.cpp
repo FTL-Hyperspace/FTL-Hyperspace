@@ -189,7 +189,6 @@ bool SigScan::Scan(Callback callback)
 			}
 			else
 			{
-                // TODO: Need to make a define for this, we have to use HDE64 on 64 bit architectures
 				T_HDE s = {0};
 				int n = 0;
 
@@ -259,12 +258,13 @@ static int callback(struct dl_phdr_info *info, size_t size, void *data) {
 
             programBaseAddress = (uintptr_t) (info->dlpi_addr + t_phdr.p_vaddr);
             
-            int seg_size = 0;
+            size_t seg_size = 0;
             // get segment size
             while(seg_size < t_phdr.p_filesz) {
-                seg_size += t_phdr.p_align;
+                printf("SEG SIZE: 0x%016x\n", t_phdr.p_align);
+                seg_size += t_phdr.p_align; // TODO: Dump these individual seg sizes to see if any are correct, maybe we're scanning too far?
             }
-            segmentLength = seg_size;
+            segmentLength = seg_size; // TODO: This segment size might be wrong on 64-bit, it seems to compute a length too long?
 
             break;
         }

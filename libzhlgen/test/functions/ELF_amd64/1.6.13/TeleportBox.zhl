@@ -1,5 +1,5 @@
 "4155b9010000004989d5415455534889fb4c8da370020000488dab000300004883ec58":
-cleanup void TeleportBox::constructor(TeleportBox *this<rdi>, Point pos<rsi>, TeleportSystem* sys<rdx>);
+cleanup __amd64 void TeleportBox::constructor(TeleportBox *this, Point pos, TeleportSystem* sys);
 
 
 struct TeleportBox

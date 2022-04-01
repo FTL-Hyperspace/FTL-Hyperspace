@@ -1,35 +1,35 @@
 "554889fd5331db4883ec08488b7c1d50":
-cleanup void TextButton::ResetPrimitives(TextButton *this<rdi>);
+cleanup __amd64 void TextButton::ResetPrimitives(TextButton *this);
 "55534889fb4883ec3880bfe800000000":
-cleanup int TextButton::GetIdealButtonWidth(TextButton *this<rdi>);
+cleanup __amd64 int TextButton::GetIdealButtonWidth(TextButton *this);
 "415741564d89c641554989d541544989f44c89c6554489cd534889fb488dbfe0000000":
-cleanup void TextButton::OnInit(TextButton *this<rdi>, Point pos<rsi>, Point size<rdx>, int cornerInset<rcx>, TextString* buttonLabel<r8>, int font<r9>);
+cleanup __amd64 void TextButton::OnInit(TextButton *this, Point pos, Point size, int cornerInset, TextString* buttonLabel, int font);
 "4157415641554989fd415455534883ec5880bfd000000000":
-cleanup void TextButton::OnRender(TextButton *this<rdi>);
+cleanup __amd64 void TextButton::OnRender(TextButton *this);
 "534889fb4883ec1048c707????????488b7f50":
-cleanup void TextButton::destructor(TextButton *this<rdi>);
+cleanup __amd64 void TextButton::destructor(TextButton *this);
 "4155415455534889fb4883ec1880bfd000000000751a":
-cleanup Point TextButton::GetSize(TextButton *this<rdi>);
+cleanup __amd64 Point TextButton::GetSize(TextButton *this);
 "41574156415541544989cc554889f5534889fb4883ec488954240c":
-cleanup void TextButton::OnInitRect(TextButton *this<rdi>, Globals::Rect& rect<rsi>, int cornerInset<rdx>, TextString& buttonLabel<rcx>, int font<r8>);
+cleanup __amd64 void TextButton::OnInitRect(TextButton *this, Globals::Rect& rect, int cornerInset, TextString& buttonLabel, int font);
 "4154488b065553488378e800":
-cleanup void TextButton::SetBaseImage(TextButton *this<rdi>, const std::string& name<rsi>, Point pos<rdx>, int autoWidthMin<rcx>);
+cleanup __amd64 void TextButton::SetBaseImage(TextButton *this, const std::string& name, Point pos, int autoWidthMin);
 "4585c04088b7d0000000":
-cleanup void TextButton::SetAutoWidth(TextButton *this<rdi>, bool autoWidth<rsi>, bool autoRightAlign<rdx>, int margin<rcx>, int min<r8>);
+cleanup __amd64 void TextButton::SetAutoWidth(TextButton *this, bool autoWidth, bool autoRightAlign, int margin, int min);
 ".4155415455534889fb4883ec1880bfd000000000":
-cleanup void TextButton::UpdateAutoWidth(TextButton *this<rdi>);
+cleanup __amd64 void TextButton::UpdateAutoWidth(TextButton *this);
 "55534889fb488d7f08488d6b284883ec28":
-cleanup void TextButton::constructor(TextButton *this<rdi>);
+cleanup __amd64 void TextButton::constructor(TextButton *this);
 ".!80bf8000000000660fd64c24f0":
-cleanup void TextButton::SetInactiveColor(TextButton *this<rdi>, GL_Color color);
+cleanup __amd64 void TextButton::SetInactiveColor(TextButton *this, GL_Color color);
 ".!80bf8000000000660fd64c24f0":
-cleanup void TextButton::SetActiveColor(TextButton *this<rdi>, GL_Color color);
+cleanup __amd64 void TextButton::SetActiveColor(TextButton *this, GL_Color color);
 ".!80bf8000000000660fd64c24f0":
-cleanup void TextButton::SetSelectedColor(TextButton *this<rdi>, GL_Color color);
+cleanup __amd64 void TextButton::SetSelectedColor(TextButton *this, GL_Color color);
 ".80bf8000000000660fd64c24f8":
-cleanup void TextButton::SetTextColor(TextButton *this<rdi>, GL_Color color);
+cleanup __amd64 void TextButton::SetTextColor(TextButton *this, GL_Color color);
 "415741564989fe4155415455534881ecb800000080bf8000000000":
-cleanup void TextButton::InitPrimitives(TextButton *this<rdi>);
+cleanup __amd64 void TextButton::InitPrimitives(TextButton *this);
 
 
 struct TextButton

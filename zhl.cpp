@@ -22,8 +22,10 @@
 
 #ifdef __i386__
     #define PTR_PRINT_F "0x%08" PRIxPTR
+    #define POINTER_BYTES 4
 #elif defined(__amd64__)
     #define PTR_PRINT_F "0x%016" PRIxPTR
+    #define POINTER_BYTES 8
 #else
     #error "Unknown processor architecture not supported."
 #endif // Architecture
@@ -184,14 +186,28 @@ int VariableDefinition::Load()
 	}
 
 	const SigScan::Match &m = sig.GetMatch();
-	if(_useValue)
+	if(_useOffset)
+    {
+        /* Instruction Pointer relative addressing
+         * Determine real address of variable match
+         * RIP + var = real addr
+         * During execution (E|R)IP would be at the next instruction so instead we add the length of the match
+         * NOTE: This means it is only possible to match a variable with offset computation that is at the END of the instruction bytes
+         * i.e., operands that can take two memory addresses, only the second memory address (end of the bytes of the instruction) can be matched.
+         */
+        uintptr_t* valueVar;
+        memcpy(valueVar, m.address, m.length);
+        uintptr_t realAddr = (uintptr_t) m.address;
+        realAddr += m.length;
+        realAddr += *valueVar;
+        *(void**)_outVar = (void*) realAddr;
+    }
+	else if(_useValue)
         memcpy(_outVar, m.address, m.length);
     else
         *(void**)_outVar = (void*)m.address;
 
-	Log("Found value for %s:", _name);
-	for(int i=0 ; i<m.length ; ++i) Log(" %02x", ((unsigned char*)_outVar)[i]);
-	Log("\n");
+	Log("Found value for %s: " PTR_PRINT_F ", dist %d\n", _name, *((uintptr_t*) _outVar), sig.GetDistance());
 
 	return 1;
 }
@@ -228,7 +244,7 @@ int NoOpDefinition::Load()
     }
     MEMPROT_REPROTECT(ptrToCode, noopingSize, dwOldProtect);
 
-	Log("Found address for %s: " PTR_PRINT_F ", wrote NOP's for %d bytes\n", _name, (uintptr_t) m.address, m.length);
+	Log("Found address for %s: " PTR_PRINT_F ", wrote NOP's for %d bytes, dist %d\n", _name, (uintptr_t) m.address, m.length, sig.GetDistance());
 
 	return 1;
 }
@@ -257,12 +273,12 @@ int FunctionDefinition::Load()
 {
 	SigScan sig = SigScan(_sig);
 
-
 	if(!sig.Scan())
 	{
 		snprintf(g_defLastError, 1024, "Failed to find address for function %s", _name);
 		return 0;
 	}
+
 	_address = sig.GetAddress<void*>();
 	*_outFunc = _address;
 	Log("Found address for %s: " PTR_PRINT_F ", dist %d\n", _name, (uintptr_t)_address, sig.GetDistance());
@@ -295,7 +311,7 @@ FunctionHook_private::FunctionHook_private(const char *name, const std::type_inf
 		_priority(priority)
 {
     SetName(name, type.name());
-    memcpy(&_outInternalSuper, &outInternalSuper, 4);
+    memcpy(&_outInternalSuper, &outInternalSuper, POINTER_BYTES);
 	strcpy(_name, name);
 	Add(this);
 }
@@ -349,6 +365,7 @@ int FunctionHook_private::Install()
 
 	const ArgData *argd = (const ArgData*)def->GetArgData();
 	int argc = def->GetArgCount();
+#ifdef __i386__
 	unsigned char *ptr;
 	int stackPos;
 #ifdef USE_STACK_ALIGNMENT
@@ -359,11 +376,14 @@ int FunctionHook_private::Install()
 	int k;
 	MEMPROT_SAVE_PROT(oldProtect);
 	MEMPROT_PAGESIZE();
+#endif // __i386__
 
 	//==================================================
 	// Internal hook
 	// Converts userpurge to thiscall to call the user
 	// defined hook
+
+#ifdef __i386__
 	ptr = _internalHook;
 
 	// Prologue
@@ -496,11 +516,22 @@ int FunctionHook_private::Install()
 
 	_hSize = ptr - _internalHook;
 	MEMPROT_UNPROTECT(_internalHook, _hSize, oldProtect);
+#endif // __i386__
 
 	// Install the hook with MologieDetours
 	try
 	{
-		_detour = new MologieDetours::Detour<void*>(def->GetAddress(), _internalHook);
+#ifdef __i386__
+        if(def->forceDetourSize()) // This flag should be used with caution as it'll allow it to skip past RET when writing the detour, if used on a function that was larger it'll create garbage code.
+            _detour = new MologieDetours::Detour<void*>(def->GetAddress(), _internalHook, MOLOGIE_DETOURS_DETOUR_SIZE);
+        else
+            _detour = new MologieDetours::Detour<void*>(def->GetAddress(), _internalHook);
+#else
+        if(def->forceDetourSize()) // This flag should be used with caution as it'll allow it to skip past RET when writing the detour, if used on a function that was larger it'll create garbage code.
+            _detour = new MologieDetours::Detour<void*>(def->GetAddress(), _hook, MOLOGIE_DETOURS_DETOUR_SIZE);
+        else
+            _detour = new MologieDetours::Detour<void*>(def->GetAddress(), _hook);
+#endif // __amd64__
 	}
 	catch(MologieDetours::DetourException &e)
 	{
@@ -513,6 +544,7 @@ int FunctionHook_private::Install()
 	// Internal super
 	// Converts thiscall to userpurge to call the
 	// original function from the user defined hook
+#ifdef __i386__
 	ptr = _internalSuper;
 
 	// Prologue
@@ -662,8 +694,17 @@ int FunctionHook_private::Install()
 	// Set the external reference to internalSuper so it can be used inside the user defined hook
 
 	*_outInternalSuper = _internalSuper;
+#endif // __i386__
+#ifdef __amd64__
+	// Set the external reference to the original function so it can be used inside the user defined hook
+	*_outInternalSuper = original;
+#endif // __amd64__
 
 	Log("Successfully hooked function %s\n", _name);
+#ifdef __amd64__
+	Log("HookAddress: " PTR_PRINT_F ", SuperAddress: " PTR_PRINT_F "\n\n", (uintptr_t) _hook, (uintptr_t) original);
+#endif // __amd64__
+#ifdef __i386__
 #ifdef DEBUG
     Log("InternalHookAddress: " PTR_PRINT_F "\n", (uintptr_t)&_internalHook);
 #endif // DEBUG
@@ -681,6 +722,7 @@ int FunctionHook_private::Install()
 	for(unsigned int i=0 ; i<_sSize ; ++i)
 		Log("%02x ", _internalSuper[i]);
     Log("\n");
+#endif // __i386__
 
 
 	return 1;

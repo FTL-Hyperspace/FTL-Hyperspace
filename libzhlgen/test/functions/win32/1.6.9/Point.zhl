@@ -1,7 +1,8 @@
 "558b018b510489e52b45082b550c5d0fafc00fafd201d0":
-int Point::RelativeDistance(Point *this<ecx>, Point other);
+__thiscall int Point::RelativeDistance(Point *this, Point other);
 "55660fefc089e583e4f083ec208b118b41042b55082b450c0fafd20fafc001d0f30f2ac0f30f51c80f2ec97a??f30f2cc1c9":
-int Point::Distance(Point *this<ecx>, Point other);
+__thiscall int Point::Distance(Point *this, Point other);
+
 
 struct Point 
 {{
