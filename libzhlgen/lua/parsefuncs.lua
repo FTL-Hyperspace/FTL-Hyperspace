@@ -959,7 +959,11 @@ function writeStruct(struct, out, parent)
 	
 	if not isGlobal then
 		out:unindent()
-		out("\n};\n")
+        if struct.attribute then
+            out("\n} __attribute__%s;\n", struct.attribute)
+        else
+            out("\n};\n")
+        end
 	end
 	
 	writing[cname] = false

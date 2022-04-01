@@ -239,7 +239,7 @@ struct ShipObject
 {
   void *vptr;
   int iShipId;
-};
+} __attribute__((packed));
 
 /* 465 */
 struct std__vector_6RoomZ1
@@ -3982,14 +3982,17 @@ struct ShipSystem
   float fDamage;
   Point pLoc;
   float fMaxDamage;
+  uint8_t gap_manualNotPacked_1[4]; // Repairable is not packed, but ShipSystem is, if we ever fix this definition so ShipSystem is based on Repairable then this could be fixed
   std__string name;
   int roomId;
   int iRepairCount;
   int iSystemType;
   bool bNeedsManned;
   bool bManned;
+  uint8_t gap_manualNotPacked_2[2];
   int iActiveManned;
   bool bBoostable;
+  uint8_t gap_manualNotPacked_3[3];
   std__pair_9int___int powerState;
   int iRequiredPower;
   uint8_t gap_ex_1[4];
@@ -4002,13 +4005,16 @@ struct ShipSystem
   Globals__Rect roomShape;
   bool bOnFire;
   bool bBreached;
+  uint8_t gap_manualNotPacked_4[2];
   std__pair_9int___int healthState;
   float fDamageOverTime;
   float fRepairOverTime;
   bool damagedLastFrame;
   bool repairedLastFrame;
+  uint8_t gap_manualNotPacked_5[2];
   int originalPower;
   bool bNeedsPower;
+  uint8_t gap_manualNotPacked_6[3];
   int iTempPowerCap;
   int iTempPowerLoss;
   int iTempDividePower;
@@ -4017,6 +4023,7 @@ struct ShipSystem
   bool bExploded;
   bool bOccupied;
   bool bFriendlies;
+  uint8_t gap_manualNotPacked_7[1];
   std__string interiorImageName;
   GL_Primitive *interiorImage;
   GL_Primitive *interiorImageOn;
@@ -4034,9 +4041,10 @@ struct ShipSystem
   bool bUnderAttack;
   bool bLevelBoostable;
   bool bTriggerIon;
+  uint8_t gap_manualNotPacked_8[1];
   std__vector_9Animation damagingEffects;
   int computerLevel;
-};
+} __attribute__((packed));
 
 /* 284 */
 struct OxygenSystem

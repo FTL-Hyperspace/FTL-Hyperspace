@@ -257,6 +257,7 @@ local funcdef = lpeg.P
 		lpeg.V("depends")^-1 *
 		lpeg.V("generic_code")^-1 *
 		lpeg.V("fields")^-1 *
+		(lpeg.P("__attribute__") * sp * lpeg.Cg(lpeg.V("bp"), "attribute") * sp)^-1 *
 		lpeg.Cg(lpeg.Ct((lpeg.C(lpeg.S("*&")) * sp)^0), "ptr") * sp *
 		(
 			(

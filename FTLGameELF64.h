@@ -1115,7 +1115,7 @@ struct ShipObject
 	
 	void *vptr;
 	int iShipId;
-};
+} __attribute__((packed));
 
 struct TimerHelper;
 
@@ -1228,14 +1228,17 @@ struct LIBZHL_INTERFACE ShipSystem
 	float fDamage;
 	Point pLoc;
 	float fMaxDamage;
+	uint8_t gap_manualNotPacked_1[4];
 	std::string name;
 	int roomId;
 	int iRepairCount;
 	int iSystemType;
 	bool bNeedsManned;
 	bool bManned;
+	uint8_t gap_manualNotPacked_2[2];
 	int iActiveManned;
 	bool bBoostable;
+	uint8_t gap_manualNotPacked_3[3];
 	std::pair<int, int> powerState;
 	int iRequiredPower;
 	uint8_t gap_ex_1[4];
@@ -1248,13 +1251,16 @@ struct LIBZHL_INTERFACE ShipSystem
 	Globals::Rect roomShape;
 	bool bOnFire;
 	bool bBreached;
+	uint8_t gap_manualNotPacked_4[2];
 	std::pair<int, int> healthState;
 	float fDamageOverTime;
 	float fRepairOverTime;
 	bool damagedLastFrame;
 	bool repairedLastFrame;
+	uint8_t gap_manualNotPacked_5[2];
 	int originalPower;
 	bool bNeedsPower;
+	uint8_t gap_manualNotPacked_6[3];
 	int iTempPowerCap;
 	int iTempPowerLoss;
 	int iTempDividePower;
@@ -1263,6 +1269,7 @@ struct LIBZHL_INTERFACE ShipSystem
 	bool bExploded;
 	bool bOccupied;
 	bool bFriendlies;
+	uint8_t gap_manualNotPacked_7[1];
 	std::string interiorImageName;
 	GL_Primitive *interiorImage;
 	GL_Primitive *interiorImageOn;
@@ -1280,9 +1287,10 @@ struct LIBZHL_INTERFACE ShipSystem
 	bool bUnderAttack;
 	bool bLevelBoostable;
 	bool bTriggerIon;
+	uint8_t gap_manualNotPacked_8[1];
 	std::vector<Animation> damagingEffects;
 	int computerLevel;
-};
+} __attribute__((packed));
 
 struct Targetable;
 
