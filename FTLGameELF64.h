@@ -1223,6 +1223,7 @@ struct LIBZHL_INTERFACE ShipSystem
 	LIBZHL_API void destructor();
 	
 	int selectedState;
+	uint8_t gap_ex_2[4];
 	ShipObject _shipObj;
 	float fDamage;
 	Point pLoc;
@@ -1281,7 +1282,6 @@ struct LIBZHL_INTERFACE ShipSystem
 	bool bTriggerIon;
 	std::vector<Animation> damagingEffects;
 	int computerLevel;
-	uint8_t gap_ex_2[4];
 };
 
 struct Targetable;

@@ -3977,6 +3977,7 @@ struct ShipSystem
 {
   VTable_ShipSystem *_vtable;
   int selectedState;
+  uint8_t gap_ex_2[4];
   ShipObject _shipObj;
   float fDamage;
   Point pLoc;
@@ -4035,7 +4036,6 @@ struct ShipSystem
   bool bTriggerIon;
   std__vector_9Animation damagingEffects;
   int computerLevel;
-  uint8_t gap_ex_2[4];
 };
 
 /* 284 */
