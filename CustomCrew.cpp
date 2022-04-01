@@ -3907,12 +3907,14 @@ HOOK_METHOD(IonDrone, GetRoomDamage, () -> Damage)
     LOG_HOOK("HOOK_METHOD -> IonDrone::GetRoomDamage -> Begin (CustomCrew.cpp)\n")
     if (!blockDamageArea)
         return super();
+    return Damage();
 }
 HOOK_METHOD(EnergyAlien, GetRoomDamage, () -> Damage)
 {
     LOG_HOOK("HOOK_METHOD -> EnergyAlien::GetRoomDamage -> Begin (CustomCrew.cpp)\n")
     if (!blockDamageArea)
         return super();
+    return Damage();
 }
 
 HOOK_METHOD(CrewMember, GetRoomDamage, () -> Damage)
