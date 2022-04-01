@@ -4,9 +4,9 @@ cleanup __amd64 void MainMenu::constructor(MainMenu *this);
 cleanup __amd64 void MainMenu::OnRender(MainMenu *this);
 ".415741564155415455534889fb488dbfa02200004881ec08020000":
 cleanup __amd64 bool MainMenu::Open(MainMenu *this);
-".4155415455534889fb4883ec3880bf3837000000":
+".4155415455534889fb4883ec3880bf????000000":
 cleanup __amd64 void MainMenu::MouseMove(MainMenu *this, int x, int y);
-".415741564155415455534889fb4881ec38020000":
+".415741564155415455534889fb4881ec????0000":
 cleanup __amd64 void MainMenu::OnLoop(MainMenu *this);
-".534889fb4883ec5080bf3837000000":
+".534889fb4883ec5080bf????000000":
 cleanup __amd64 void MainMenu::MouseClick(MainMenu *this, int x, int y);
