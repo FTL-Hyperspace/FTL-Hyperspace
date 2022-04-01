@@ -1294,8 +1294,23 @@ struct Collideable
 
 struct Damage
 {
-	Damage()
+	inline Damage()
 	{
+		iDamage = 0;
+		iShieldPiercing = 0;
+		fireChance = 0;
+		breachChance = 0;
+		stunChance = 0;
+		iIonDamage = 0;
+		iSystemDamage = 0;
+		iPersDamage = 0;
+		bHullBuster = 0;
+		ownerId = -1;
+		selfId = -1;
+		bLockdown = false;
+		crystalShard = false;
+		bFriendlyFire = true;
+		iStun = 0;
 	};
 	
 
