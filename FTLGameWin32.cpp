@@ -18252,15 +18252,15 @@ int WorldManager::OnInit()
 namespace _func1317
 {
 	static void *func = 0;
-	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("WorldManager::CreateShip", typeid(CompleteShip *(WorldManager::*)(ShipEvent *, bool )), "578d7c240883e4f0ff77fc5589e557565389ce81ec????????807f04008b1f0f85????????c70424????????e8????????89c7", argdata, 2, 0, &func);
+	static short argdata[] = {0x101, 0x1ff, 0x1ff};
+	static FunctionDefinition funcObj("WorldManager::CreateShip", typeid(CompleteShip *(WorldManager::*)(ShipEvent *, bool )), "578d7c240883e4f0ff77fc5589e557565389ce81ec????????807f04008b1f0f85????????c70424????????e8????????89c7", argdata, 3, 1, &func);
 }
 
 CompleteShip *WorldManager::CreateShip(ShipEvent *shipEvent, bool boss)
 {
-	typedef CompleteShip *__attribute__((thiscall)) (*custom_arg_funcptr_t)(ShipEvent *shipEvent_arg, bool boss_arg);
+	typedef CompleteShip *__attribute__((thiscall)) (*custom_arg_funcptr_t)(WorldManager *this_arg, ShipEvent *shipEvent_arg, bool boss_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1317::func;
-	return execfunc(shipEvent, boss);
+	return execfunc(this, shipEvent, boss);
 }
 
 namespace _func1318

@@ -3,7 +3,7 @@ __thiscall void WorldManager::constructor(WorldManager *this);
 "578d7c240883e4f0ff77fc5589e557568d71085389cb83ec1c89f1e8????????c70424????????e8????????":
 __thiscall int WorldManager::OnInit(WorldManager *this);
 "578d7c240883e4f0ff77fc5589e557565389ce81ec????????807f04008b1f0f85????????c70424????????e8????????89c7":
-__thiscall CompleteShip *WorldManager::CreateShip(ShipEvent* shipEvent, bool boss);
+__thiscall CompleteShip *WorldManager::CreateShip(WorldManager *this, ShipEvent* shipEvent, bool boss);
 "578d7c240883e4f0ff77fc5589e557565389ce81ec????????898d54fbffffc6814612000000b9????????8b3f":
 __thiscall void WorldManager::CreateLocation(WorldManager *this, Location *loc);
 "578d7c240883e4f0ff77fc5589e557565389cb83c10881ec5c030000":
