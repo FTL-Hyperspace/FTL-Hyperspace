@@ -550,6 +550,7 @@ namespace MologieDetours
 					return;
 				}
 
+				// TODO: Figure out how to relocate the `MOV` or specifically `MOVSS` that is in `Room::OnRenderFloor`, probably the cause of several other bugs too.
 				if(hs.flags & F_RELATIVE)
 				{
 #if defined(MOLOGIE_DETOURS_HDE_32)
