@@ -499,7 +499,7 @@ struct Selectable
 {
   void *vptr;
   int selectedState;
-};
+} __attribute__((packed));
 
 /* 460 */
 struct Globals__Rect
@@ -530,6 +530,7 @@ struct std__vector_17std__vector_4bool
 struct Room
 {
   Selectable _base;
+  uint8_t garbage[4];
   ShipObject _shipObject;
   Globals__Rect rect;
   int iRoomId;
@@ -610,6 +611,7 @@ struct Door
 struct Repairable
 {
   Selectable _base;
+  // I might of borked Repairable, it might need some bytes here after selectable to stop it from packing ShipObject next to it?
   ShipObject shipObj;
   float fDamage;
   Point pLoc;

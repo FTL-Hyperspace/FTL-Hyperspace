@@ -4700,7 +4700,7 @@ struct Selectable
 {
 	void *vptr;
 	int selectedState;
-};
+} __attribute__((packed));
 
 struct Room;
 
@@ -4749,6 +4749,7 @@ struct Room : Selectable
 	LIBZHL_API void constructor(int iShipId, int x, int y, int w, int h, int roomId);
 	LIBZHL_API void destructor();
 	
+	uint8_t garbage[4];
 	ShipObject _shipObject;
 	Globals::Rect rect;
 	int iRoomId;
