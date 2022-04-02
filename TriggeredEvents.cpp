@@ -398,6 +398,73 @@ void CustomEventsParser::ParseCustomTriggeredEventNode(rapidxml::xml_node<char> 
                 def->enemyDeathsCountClonebay = EventsParser::ParseBoolean(child->first_attribute("includeClonebay")->value());
             }
         }
+        if (strcmp(child->name(), "req") == 0)
+        {
+            bool hasMinLevel = false;
+            bool hasMaxLevel = false;
+            if (child->first_attribute("name"))
+            {
+                def->req = child->first_attribute("name")->value();
+            }
+            if (child->first_attribute("inverse"))
+            {
+                def->inverseReq = EventsParser::ParseBoolean(child->first_attribute("inverse")->value());
+            }
+            if (child->first_attribute("lvl"))
+            {
+                hasMinLevel = true;
+                def->reqMinLvl.first = boost::lexical_cast<int>(child->first_attribute("lvl")->value());
+                def->reqMinLvl.second = boost::lexical_cast<int>(child->first_attribute("lvl")->value());
+            }
+            if (child->first_attribute("max_lvl"))
+            {
+                hasMaxLevel = true;
+                def->reqMaxLvl.first = boost::lexical_cast<int>(child->first_attribute("max_lvl")->value());
+                def->reqMaxLvl.second = boost::lexical_cast<int>(child->first_attribute("max_lvl")->value());
+            }
+            for (auto reqChild = child->first_node(); reqChild; reqChild = reqChild->next_sibling())
+            {
+                if (strcmp(reqChild->name(), "lvl") == 0)
+                {
+                    hasMinLevel = true;
+                    if (reqChild->first_attribute("amount"))
+                    {
+                        def->reqMinLvl.first = boost::lexical_cast<int>(reqChild->first_attribute("amount")->value());
+                        def->reqMinLvl.second = boost::lexical_cast<int>(reqChild->first_attribute("amount")->value());
+                    }
+                    if (reqChild->first_attribute("min"))
+                    {
+                        def->reqMinLvl.first = boost::lexical_cast<int>(reqChild->first_attribute("min")->value());
+                    }
+                    if (reqChild->first_attribute("max"))
+                    {
+                        def->reqMinLvl.second = boost::lexical_cast<int>(reqChild->first_attribute("max")->value());
+                    }
+                }
+                if (strcmp(reqChild->name(), "max_lvl") == 0)
+                {
+                    hasMaxLevel = true;
+                    if (reqChild->first_attribute("amount"))
+                    {
+                        def->reqMaxLvl.first = boost::lexical_cast<int>(reqChild->first_attribute("amount")->value());
+                        def->reqMaxLvl.second = boost::lexical_cast<int>(reqChild->first_attribute("amount")->value());
+                    }
+                    if (reqChild->first_attribute("min"))
+                    {
+                        def->reqMaxLvl.first = boost::lexical_cast<int>(reqChild->first_attribute("min")->value());
+                    }
+                    if (reqChild->first_attribute("max"))
+                    {
+                        def->reqMaxLvl.second = boost::lexical_cast<int>(reqChild->first_attribute("max")->value());
+                    }
+                }
+            }
+            if (hasMaxLevel && !hasMinLevel)
+            {
+                def->reqMinLvl.first = -2147483648;
+                def->reqMinLvl.second = -2147483648;
+            }
+        }
         if (strcmp(child->name(), "triggeredEventBox") == 0)
         {
             def->box = new TriggeredEventBoxDefinition();
@@ -620,6 +687,14 @@ void CustomEventsParser::ParseCustomTriggeredEventBoxNode(rapidxml::xml_node<cha
                 if (textType == "jumps")
                 {
                     box->textType = TriggeredEventBoxDefinition::TextType::JUMPS;
+                }
+                if (textType == "req")
+                {
+                    box->textType = TriggeredEventBoxDefinition::TextType::REQ;
+                }
+                if (textType == "reqprogress")
+                {
+                    box->textType = TriggeredEventBoxDefinition::TextType::REQ_PROGRESS;
                 }
             }
             if (child->first_attribute("x"))
@@ -1071,6 +1146,26 @@ void TriggeredEvent::Reset()
             triggerEnemyDeaths = def->minEnemyDeaths;
         }
     }
+
+    if (!def->req.empty())
+    {
+        if (def->reqMinLvl.second > def->reqMinLvl.first)
+        {
+            reqMinLvl = def->reqMinLvl.first + random32()%(def->reqMinLvl.second-def->reqMinLvl.first+1);
+        }
+        else
+        {
+            reqMinLvl = def->reqMinLvl.first;
+        }
+        if (def->reqMaxLvl.second > def->reqMaxLvl.first)
+        {
+            reqMaxLvl = def->reqMaxLvl.first + random32()%(def->reqMaxLvl.second-def->reqMaxLvl.first+1);
+        }
+        else
+        {
+            reqMaxLvl = def->reqMaxLvl.first;
+        }
+    }
 }
 
 void TriggeredEvent::Update()
@@ -1191,6 +1286,21 @@ void TriggeredEvent::Update()
             triggered = true;
         }
     }
+
+    if (!def->req.empty())
+    {
+        ship = G_->GetShipManager(0);
+        if (ship != nullptr)
+        {
+            advancedCheckEquipment[5] = true;
+            reqLvl = ship->HasEquipment(def->req);
+            advancedCheckEquipment[5] = false;
+        }
+        if ((reqLvl >= reqMinLvl && reqLvl <= reqMaxLvl) != def->inverseReq)
+        {
+            triggered = true;
+        }
+    }
 }
 
 void TriggeredEvent::OnRender()
@@ -1258,11 +1368,14 @@ void TriggeredEvent::Save(int file)
     FileHelper::writeInt(file, triggerEnemyDamage);
     FileHelper::writeInt(file, triggerPlayerDeaths);
     FileHelper::writeInt(file, triggerEnemyDeaths);
+    FileHelper::writeInt(file, reqMinLvl);
+    FileHelper::writeInt(file, reqMaxLvl);
 
     FileHelper::writeInt(file, currentPlayerHull);
     FileHelper::writeInt(file, currentEnemyHull);
     FileHelper::writeInt(file, currentPlayerCrew);
     FileHelper::writeInt(file, currentEnemyCrew);
+    FileHelper::writeInt(file, reqLvl);
 
     FileHelper::writeInt(file, triggered);
 }
@@ -1292,11 +1405,14 @@ void TriggeredEvent::Load(int file)
     triggerEnemyDamage = FileHelper::readInteger(file);
     triggerPlayerDeaths = FileHelper::readInteger(file);
     triggerEnemyDeaths = FileHelper::readInteger(file);
+    reqMinLvl = FileHelper::readInteger(file);
+    reqMaxLvl = FileHelper::readInteger(file);
 
     currentPlayerHull = FileHelper::readInteger(file);
     currentEnemyHull = FileHelper::readInteger(file);
     currentPlayerCrew = FileHelper::readInteger(file);
     currentEnemyCrew = FileHelper::readInteger(file);
+    reqLvl = FileHelper::readInteger(file);
 
     triggered = FileHelper::readInteger(file);
 }
@@ -1451,6 +1567,14 @@ void TriggeredEventBox::OnRender(bool flash)
     if (boxDef->textType == TriggeredEventBoxDefinition::TextType::JUMPS)
     {
         text = std::to_string(event->triggerJumps);
+    }
+    else if (boxDef->textType == TriggeredEventBoxDefinition::TextType::REQ)
+    {
+        text = std::to_string(event->reqLvl);
+    }
+    else if (boxDef->textType == TriggeredEventBoxDefinition::TextType::REQ_PROGRESS)
+    {
+        text = std::to_string(event->reqLvl) + "/" + std::to_string(event->reqMinLvl);
     }
     else
     {

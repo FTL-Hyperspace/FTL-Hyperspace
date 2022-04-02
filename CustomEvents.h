@@ -16,6 +16,7 @@ extern std::bitset<8> advancedCheckEquipment;
 // bit 2: LoadEvent
 // bit 3: CustomBackgroundObject::OnLoop
 // bit 4: VariableModifier::ApplyVariables
+// bit 5: TriggeredEvent::Update
 
 extern std::deque<std::pair<std::string,int>> eventQueue;
 
@@ -132,7 +133,9 @@ public:
         TIME_AUTO,
         TIME_CLOCK,
         TIME_SECONDS,
-        JUMPS
+        JUMPS,
+        REQ,
+        REQ_PROGRESS
     };
 
     BoxPosition boxPosition = BoxPosition::DEFAULT;
@@ -239,6 +242,10 @@ public:
     bool enemyCrewCountClonebay = true;
     bool playerDeathsCountClonebay = true;
     bool enemyDeathsCountClonebay = true;
+    std::string req = "";
+    std::pair<int, int> reqMinLvl = {1,1};
+    std::pair<int, int> reqMaxLvl = {2147483647,2147483647};
+    bool inverseReq = false;
 };
 
 class TriggeredEvent
@@ -279,6 +286,10 @@ public:
     int currentEnemyHull;
     int currentPlayerCrew;
     int currentEnemyCrew;
+
+    int reqMinLvl;
+    int reqMaxLvl;
+    int reqLvl;
 
     bool triggered = false;
 
@@ -324,6 +335,17 @@ public:
         currentEnemyHull = 0;
         currentPlayerCrew = 0;
         currentEnemyCrew = 0;
+
+        if (!def->req.empty())
+        {
+            ShipManager *ship = G_->GetShipManager(0);
+            if (ship != nullptr)
+            {
+                advancedCheckEquipment[5] = true;
+                reqLvl = ship->HasEquipment(def->req);
+                advancedCheckEquipment[5] = false;
+            }
+        }
 
         Reset();
     }

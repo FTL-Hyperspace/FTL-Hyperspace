@@ -1718,8 +1718,9 @@ Syntax ->
 		<image2 name="_imgpath_" r="255" g="255" b="255" a="1.0"/>  Secondary background image for warning. All parameters except r/g/b/a are copied from image.
 		<icon name="_imgpath_" x="0" y="0"                          Foreground icon. Unlike the background, the origin point is always the upper left of the image, and x and y specify the offset from the background origin.
 		      r="255" g="255" b="255" a="1.0"/>                       r/g/b/a used to tint the image.
-		<text type="_type_" x="77" y="12"                           Display text. Type can be "clock" (1:23 format), "seconds" (12.3 format), "auto" (clock, but switches to seconds below 1 minute), or "jumps" (displays jumps).
-		      r="235" g="245" b="229" a="1.0"/>                       x/y specify offset. r/g/b/a specify text color.
+		<text type="_type_" x="77" y="12"                           Display text. Type can be "clock" (1:23 format), "seconds" (12.3 format), "auto" (clock, but switches to seconds below 1 minute), "jumps" (displays jumps),
+		      r="235" g="245" b="229" a="1.0"/>                       "req" (displays current value of requirement), or "reqProgress" (displays current and target value of requirement)
+		                                                              x/y specify offset. r/g/b/a specify text color.
 		<text2 r="253" g="84" b="70" a="1.0"/>                      r/g/b/a specify text color for warning.
 		<warning time="10.0" jumps="1" flash="true"/>               Specifies a warning threshold. Below this threshold, will use image2 and text2. If flash is true, then will flash between normal and warning images/colors.
 		<tooltip id="_id_">_text_</tooltip>                         Specifies tooltip when hovering over the box. Can be either text id or literal string.
@@ -1886,6 +1887,10 @@ Syntax ->
 			<enemyCrew amount="0" min="0" max="0" includeClonebay="true"/>
 			<playerDeaths amount="0" min="0" max="0" includeClonebay="true" countNewCrew="true"/>
 			<enemyDeaths amount="0" min="0" max="0" includeClonebay="true" countNewCrew="true"/>
+			<req name="req_name" lvl="1" max_lvl="999" inverse="false">                         Specifies an equipment/variable/custom requirement that must be in the level range to trigger (or not if inverse="true").
+				<lvl amount="1" min="1" max="1"/>                                                 You can also specify lvl like this instead of as an attribute (if you want a random range then you must do it this way).
+				<max_lvl amount="1" min="1" max="1"/>                                             You can also specify max_lvl like this instead of as an attribute (if you want a random range then you must do it this way).
+			</req>
 			<triggeredEventBox load="DEFAULT_TIMER" ...>                                        Specifies a triggeredEventBox for this triggered event. If the load attribute is specified, then defaults will be loaded from
 				...                                                                               the specified definition, and individual parameters can be overwritten. Otherwise, a full definition is required. If not
 			</triggeredEventBox>                                                                  specified, then this triggered event will not have a box.                                                               
