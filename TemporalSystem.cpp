@@ -283,6 +283,8 @@ void TemporalSystem_Wrapper::OnLoop()
 
     if (bTurnedOn)
     {
+        dilationStrength = orig->GetEffectivePower();
+
         timer.SetMaxTime(TemporalSystemParser::GetDilationDuration(GetRealDilation()));
         timer.Update();
 
