@@ -19,8 +19,6 @@ FILE *Global::logFile = nullptr;
 bool *Global::firstTimeShips = nullptr;
 Point *Global::dronePosition = nullptr;
 Point *Global::weaponPosition = nullptr;
-GL_Color *Global::superShieldColor = nullptr;
-GL_Color Global::defaultSuperShieldColor = GL_Color(255.0, 255.0, 255.0, 1.0);
 
 unsigned int Global::questSeed = 0;
 std::vector<unsigned int> Global::delayedQuestSeeds = std::vector<unsigned int>();
@@ -112,9 +110,6 @@ void Global::Initialize()
     *firstTimeShips = false;
     dronePosition = Global_SystemControl_drone_position;
     weaponPosition = Global_SystemControl_weapon_position;
-    superShieldColor = Global_COLOR_GREEN;
-    defaultSuperShieldColor = *superShieldColor;
-    *superShieldColor = GL_Color(1084.0, 0.0, 310.0, 1.0);
 
     {
         std::vector<GL_Color*> colorVec = std::vector<GL_Color*>();

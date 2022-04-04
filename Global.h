@@ -71,8 +71,6 @@ public:
     static bool* firstTimeShips;
     static Point* dronePosition;
     static Point* weaponPosition;
-    static GL_Color* superShieldColor;
-    static GL_Color defaultSuperShieldColor;
 
     static unsigned int questSeed;
     static std::vector<unsigned int> delayedQuestSeeds;
