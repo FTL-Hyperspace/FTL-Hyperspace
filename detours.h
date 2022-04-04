@@ -550,7 +550,22 @@ namespace MologieDetours
 					return;
 				}
 
-				// TODO: Figure out how to relocate the `MOV` or specifically `MOVSS` that is in `Room::OnRenderFloor`, probably the cause of several other bugs too.
+#if defined(MOLOGIE_DETOURS_HDE_64)
+				if((hs.flags & F_MODRM) && hs.modrm == 0x0d && (hs.flags & F_DISP32)) // x86_64 RIP relative DISP32 addressing, might not even need to check the F_DISP32 flag
+				{
+                    // Should match various operands like MOVAPS, MOV, JMP, CALL, MOVSS, MOVQ?MOVD, MOVHPD, etc... as long as their ModRM states they are using DISP32 & RIP relative addressing then we can adjust it.
+                    // Note that this differes from the JMP & CALL RIP relative addressing that uses an IMM32 as those reflect the target address while these reflect the target memory to then read an address from.
+                    // I am blindly assuming that the memory is always at the end of the operation's bytes because as far as I can tell in the Intel manuals that's true. (unless there was also an immediate value... and I haven't found any that would have both disp & imm values)
+                    if((hs.flags & F_IMM8) || (hs.flags & F_IMM32) || (hs.flags & F_IMM64))
+                    {
+                        throw DetourRelocationException("Target function has instruction with both RIP relative DISP32 addressing & an immediate value? Cannot handle but unsure if invalid.");
+                    }
+                    // Because some operations will have prefixes and some not, and HDE doesn't tell us if a prefix was detected (we'd have to check each type of prefix) we just assume that the length of the operation - 4 (32-bits) is where the memory value should be.
+                    uint8_t offset = hs.len - 0x4;
+                    *reinterpret_cast<uint32_t*>(pbCurOp + offset) += delta;
+				}
+
+#endif
 				if(hs.flags & F_RELATIVE)
 				{
 #if defined(MOLOGIE_DETOURS_HDE_32)
@@ -569,7 +584,7 @@ namespace MologieDetours
                         if(spaceBelowForReloc < 5)
                             throw DetourRelocationException("The function contains a relative jmp instruction which there is insufficient space to patch.");
 
-                        uint8_t offset = (hs.opcode == 0x0F) ? 2 : 1;
+                        uint8_t offset = (hs.opcode == 0x0F) ? 2 : 1; // Note, this offset computation doesn't deal with prefixes, although I don't think any prefixes are used in any IMM8 function.
                         size_t instructionPosition = pbCurOp + i - baseNew; // This might all be easier if we didn't increment pbCurOp but just kept an offset in the loop
                         size_t remainingInstructions = size - instructionPosition;
                         remainingInstructions += MOLOGIE_DETOURS_DETOUR_SIZE; // skip the JMP Back instruction, now we should have the distance to the end of backup + jmp back
@@ -599,7 +614,7 @@ namespace MologieDetours
                         if((((uintptr_t)baseOld) & ((uintptr_t)baseNew) & 0xFFFFFFFF00000000) != 0)
                             throw DetourRelocationException("Target relocation cannot be expressed as rel32 and is more than 32-bits away");
 
-                        unsigned char offset = (hs.opcode == 0x0F) ? 2 : 1;
+                        unsigned char offset = (hs.opcode == 0x0F) ? 2 : 1; // Note, this offset computation doesn't deal with prefixes.
                         *reinterpret_cast<uint32_t*>(pbCurOp  + offset) += delta;
 					}
 #endif
@@ -607,13 +622,13 @@ namespace MologieDetours
 #if defined(MOLOGIE_DETOURS_HDE_32)
 					if(hs.flags & F_IMM32)
 					{
-						unsigned char offset = (hs.opcode == 0x0F) ? 2 : 1;
+						unsigned char offset = (hs.opcode == 0x0F) ? 2 : 1; // Note, this offset computation doesn't deal with prefixes.
 						*reinterpret_cast<uint32_t*>(pbCurOp + offset) += delta;
 					}
 #elif defined(MOLOGIE_DETOURS_HDE_64)
 					if(hs.flags & F_IMM64)
 					{
-						unsigned char offset = (hs.opcode == 0x0F) ? 2 : 1;
+						unsigned char offset = (hs.opcode == 0x0F) ? 2 : 1; // Note, this offset computation doesn't deal with prefixes.
 						*reinterpret_cast<uint64_t*>(pbCurOp + offset) += delta;
 					}
 #endif
