@@ -412,6 +412,8 @@ public:
         return &(this->blueprintNames[name]);
     }
 
+    CrewDefinition* GetDroneRaceDefinition(CrewDrone *drone);
+
     std::vector<std::string> GetBlueprintNames()
     {
         std::vector<std::string> ret = std::vector<std::string>();

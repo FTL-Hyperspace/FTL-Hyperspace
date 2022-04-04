@@ -11,12 +11,29 @@ inline std::string& CrewDrone::GetRace()
     return _drone.blueprint->name == "BOARDER_ION" ? boarderIonName : species;
 }
 
+CrewDefinition* CustomCrewManager::GetDroneRaceDefinition(CrewDrone *drone)
+{
+    if (drone->_drone.blueprint->name == "BOARDER_ION")
+    {
+        if (IsRace("boarder_ion"))
+        {
+            return GetDefinition("boarder_ion");
+        }
+    }
+    if (IsRace(drone->species))
+    {
+        return GetDefinition(drone->species);
+    }
+    return nullptr;
+}
+
 bool CrewDrone::_HS_ValidTarget(int shipId)
 {
     if (bDead || crewAnim->status == 3 || currentShipId != shipId) return false;
 
     auto ex = CM_EX(this);
-    auto def = CustomCrewManager::GetInstance()->GetDefinition(this->species);
+    auto def = CustomCrewManager::GetInstance()->GetDroneRaceDefinition(this);
+    if (!def) return true;
     bool ret;
     ex->CalculateStat(CrewStat::VALID_TARGET, def, &ret);
     return ret;
@@ -34,16 +51,14 @@ bool CrewDrone::_HS_GetControllable()
         if (ship) ret = ship->HasAugmentation("MIND_ORDER");
     }
     */
-    std::string *race = nullptr;
+    CrewDefinition *def = nullptr;
     CrewMember_Extend *ex;
-    CrewDefinition *def;
 
     if (ret)
     {
-        race = &GetRace();
-        if (!CustomCrewManager::GetInstance()->IsRace(*race)) return false;
+        def = CustomCrewManager::GetInstance()->GetDroneRaceDefinition(this);
         ex = CM_EX(this);
-        def = CustomCrewManager::GetInstance()->GetDefinition(*race);
+        if (!def) return false;
 
         ex->CalculateStat(CrewStat::CONTROLLABLE, def, &ret);
         if (!ret && !requiresFullControl)
@@ -54,12 +69,11 @@ bool CrewDrone::_HS_GetControllable()
 
     if (!ret && requiresFullControl == -1) // for AI with NO_AI, make AI think crew is player-controlled to prevent AI from controlling
     {
-        if (!race)
+        if (!def)
         {
-            race = &GetRace();
-            if (!CustomCrewManager::GetInstance()->IsRace(*race)) return false;
+            def = CustomCrewManager::GetInstance()->GetDroneRaceDefinition(this);
             ex = CM_EX(this);
-            def = CustomCrewManager::GetInstance()->GetDefinition(*race);
+            if (!def) return false;
         }
         ex->CalculateStat(CrewStat::NO_AI, def, &ret);
     }
