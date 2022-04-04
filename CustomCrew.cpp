@@ -1151,8 +1151,17 @@ void CustomCrewManager::ParsePowerRequirementsNode(rapidxml::xml_node<char> *nod
             }
             for (auto crewChild = reqNode->first_node(); crewChild; crewChild = crewChild->next_sibling())
             {
-                whiteList->push_back(crewChild->name());
+                if (strcmp(crewChild->name(), "blueprintList") == 0 && crewChild->first_attribute("load"))
+                {
+                    std::vector<std::string> tempList = G_->GetBlueprints()->GetBlueprintList(crewChild->first_attribute("load")->value());
+                    whiteList->insert(whiteList->end(),tempList.begin(),tempList.end());
+                }
+                else
+                {
+                    whiteList->push_back(crewChild->name());
+                }
             }
+            whiteList->shrink_to_fit();
             def->checkRoomCrew = true;
         }
         if (req == "blackList")
@@ -1171,9 +1180,20 @@ void CustomCrewManager::ParsePowerRequirementsNode(rapidxml::xml_node<char> *nod
             }
             for (auto crewChild = reqNode->first_node(); crewChild; crewChild = crewChild->next_sibling())
             {
-                if (friendlyList) def->friendlyBlackList.push_back(crewChild->name());
-                if (enemyList) def->enemyBlackList.push_back(crewChild->name());
+                if (strcmp(crewChild->name(), "blueprintList") == 0 && crewChild->first_attribute("load"))
+                {
+                    std::vector<std::string> tempList = G_->GetBlueprints()->GetBlueprintList(crewChild->first_attribute("load")->value());
+                    if (friendlyList) def->friendlyBlackList.insert(def->friendlyBlackList.end(),tempList.begin(),tempList.end());
+                    if (enemyList) def->enemyBlackList.insert(def->enemyBlackList.end(),tempList.begin(),tempList.end());
+                }
+                else
+                {
+                    if (friendlyList) def->friendlyBlackList.push_back(crewChild->name());
+                    if (enemyList) def->enemyBlackList.push_back(crewChild->name());
+                }
             }
+            if (friendlyList) def->friendlyBlackList.shrink_to_fit();
+            if (enemyList) def->enemyBlackList.shrink_to_fit();
             def->checkRoomCrew = true;
         }
         if (req == "systemInRoom")

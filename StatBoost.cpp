@@ -272,8 +272,17 @@ StatBoostDefinition* StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<cha
                 }
                 for (auto crewChild = child->first_node(); crewChild; crewChild = crewChild->next_sibling())
                 {
-                    def->whiteList.push_back(crewChild->name());
+                    if (strcmp(crewChild->name(), "blueprintList") == 0 && crewChild->first_attribute("load"))
+                    {
+                        std::vector<std::string> tempList = G_->GetBlueprints()->GetBlueprintList(crewChild->first_attribute("load")->value());
+                        def->whiteList.insert(def->whiteList.end(),tempList.begin(),tempList.end());
+                    }
+                    else
+                    {
+                        def->whiteList.push_back(crewChild->name());
+                    }
                 }
+                def->whiteList.shrink_to_fit();
             }
             if (name == "blackList")
             {
@@ -283,8 +292,17 @@ StatBoostDefinition* StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<cha
                 }
                 for (auto crewChild = child->first_node(); crewChild; crewChild = crewChild->next_sibling())
                 {
-                    def->blackList.push_back(crewChild->name());
+                    if (strcmp(crewChild->name(), "blueprintList") == 0 && crewChild->first_attribute("load"))
+                    {
+                        std::vector<std::string> tempList = G_->GetBlueprints()->GetBlueprintList(crewChild->first_attribute("load")->value());
+                        def->blackList.insert(def->blackList.end(),tempList.begin(),tempList.end());
+                    }
+                    else
+                    {
+                        def->blackList.push_back(crewChild->name());
+                    }
                 }
+                def->blackList.shrink_to_fit();
             }
             if (name == "healthReq")
             {
