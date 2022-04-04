@@ -626,9 +626,11 @@ Syntax ->
 				<whiteList enemy="true/false" load="BP_LIST">                            A crewmember on the whitelist must be present to use the ability. If the enemy attribute is provided, only enemies/friendlies are checked.
 				                                                                           The optional load attribute can be provided to load a blueprintList automatically.
 					<crystal/>                                                           List each race for the whitelist.
+					<blueprintList load="LIST_NAME"/>                                    Unpack a blueprintList. Can be repeated.
 				</whiteList>
 				<blackList enemy="true/false" load="BP_LIST">                            If a crewmember on the blackList is present, the ability is disabled. Enemy attribute works similarly to whitelist.
 					<slug/>
+					<blueprintList load="LIST_NAME"/>                                    Unpack a blueprintList. Can be repeated.
 				</blackList>
 				<isManning/>                                                             Requires the crewmember to be actively manning a system.
 				<requiredSystem functional="false">sysname</requiredSystem>              Requires a specific system to be installed. If functional="true" then it must also be powered and functional.
@@ -1070,7 +1072,7 @@ healthFractionReq: required crew health fractional range (0.0-1.0). min/max are 
 oxygenReq: required oxygen percentage in the current room (0.0-100.0, crew suffocate at 5.0 and below). min/max are inclusive while above/below are exclusive.
 extraConditions: list of extra conditions. Same syntax as for power requirements, except without the text attributes for tooltips.
 whiteList/blackList: determines the species that the boost applies to. whiteLists mean that only those species get the boost, and blackLists mean that only those species won't get the boost.
-  Can also use load attribute to load a blueprintList.
+  Can also use load attribute to load a blueprintList, or <blueprintList load="LIST_NAME"/> to load any number of lists.
 affectsSelf: determines if the boost affects the source in addition to its normal targets, defaults to false
 priority: determines the timing of when the boost gets applied, useful when you want to change how things stack. A bigger priority number means that the boost is calculated first, and the default priority is 0
 systemList: the list of systems to use with the next variable. can be the file-name of any system (e.g. "mind") or all
@@ -1104,9 +1106,11 @@ Stat boost syntax examples->
 	<functionalTarget>false</functionalTarget>
 	<whiteList load="BP_LIST">
 		<race/>
+		<blueprintList load="LIST_NAME"/>
 	</whiteList>
 	<blackList load="BP_LIST">
 		<race/>
+		<blueprintList load="LIST_NAME"/>
 	</blackList>
 	<healthReq min="0.0" max="0.0" above="0.0" below="0.0"/>
 	<healthFractionReq min="0.0" max="0.0" above="0.0" below="0.0"/>
