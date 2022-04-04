@@ -97,6 +97,7 @@ struct StatBoostDefinition
         ORIGINAL_SHIP,
         ORIGINAL_OTHER_SHIP,
         CREW_TARGET,
+        TARGETS_ME,
         ALL
     };
 

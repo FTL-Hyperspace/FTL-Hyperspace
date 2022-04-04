@@ -189,6 +189,10 @@ StatBoostDefinition* StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<cha
                 {
                     def->shipTarget = StatBoostDefinition::ShipTarget::CREW_TARGET;
                 }
+                if (val == "TARGETS_ME")
+                {
+                    def->shipTarget = StatBoostDefinition::ShipTarget::TARGETS_ME;
+                }
             }
             if (name == "systemRoomTarget")
             {
@@ -993,6 +997,9 @@ bool CrewMember_Extend::BoostCheck(const StatBoost& statBoost)
             break;
         case StatBoostDefinition::ShipTarget::CREW_TARGET:
             if ((CrewTarget*)orig != statBoost.crewSource->crewTarget) return false;
+            break;
+        case StatBoostDefinition::ShipTarget::TARGETS_ME:
+            if (orig->crewTarget != (CrewTarget*)statBoost.crewSource) return false;
             break;
         }
 

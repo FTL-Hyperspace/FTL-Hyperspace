@@ -1058,6 +1058,7 @@ shipTarget: the ship/room that the statBoost affects. The following options are 
   OTHER_ALL: Opposite of CURRENT_ALL.
   CURRENT_ROOM: For crew boosts, affects the specific room the crewmember is in. Invalid for augment boosts.
   CREW_TARGET: For crew boosts, affects the specific crewmember being targeted by the source crewmember. Invalid for augment boosts.
+  TARGETS_ME: For crew boosts, affects any crewmembers who are targeting the source crewmember. Invalid for augment boosts.
 crewTarget: determines what crew the boost affects. it can be ALLIES, ENEMIES, ALL, CURRENT_ALLIES, CURRENT_ENEMIES, ORIGINAL_ALLIES, ORIGINAL_ENEMIES, SELF, or NONE.
   CURRENT_ALLIES and CURRENT_ENEMIES factor in mind control.
   ORIGINAL_ALLIES and ORIGINAL_ENEMIES completely ignore mind control, even with the "controllable mind control" augment.
