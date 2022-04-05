@@ -1,4 +1,8 @@
-"534889fbe8????????4863831802000083f8ff":
+"41544989fc5531ed5331dbe8":
+cleanup __amd64 void Equipment::Open(Equipment *this);
+"!.e99b61000090662e0f1f840000000000":
+cleanup __amd64 void Equipment::Close(Equipment *this);
+".534889fbe8????????4863831802000083f8ff":
 cleanup __amd64 void Equipment::MouseClick(Equipment *this, int mX, int mY);
 ".41554531ed41545531ed534889fb4883ec08":
 cleanup __amd64 void Equipment::OnLoop(Equipment *this);

@@ -1,3 +1,7 @@
+"565331db83ec148b742420893424":
+cleanup __cdecl void Equipment::Open(Equipment *this);
+"!.e97b660000908d76008dbc2700000000":
+cleanup __cdecl void Equipment::Close(Equipment *this);
 "5557565381ec8c0000008bac24a00000008bb5200100008b8d1c010000":
 cleanup __cdecl void Equipment::OnInit(Equipment *this, ShipManager *ship);
 "55575631f65383ec2c8b5c24408b83140100002b8310010000":
