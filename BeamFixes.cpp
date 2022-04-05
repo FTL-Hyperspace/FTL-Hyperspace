@@ -17,6 +17,20 @@ HOOK_METHOD(ShipManager, AddWeapon, (const WeaponBlueprint *bp, int slot) -> Pro
     return ret;
 }
 
+HOOK_METHOD(Equipment, Close, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> Equipment::Close -> Begin (BeamFixes.cpp)\n")
+    super();
+
+    if (shipManager && shipManager->current_target && shipManager->HasSystem(3))
+    {
+        for (auto i : shipManager->weaponSystem->weapons)
+        {
+            i->currentShipTarget = &shipManager->current_target->_targetable;
+        }
+    }
+}
+
 HOOK_METHOD(WeaponSystem, OnLoop, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> WeaponSystem::OnLoop -> Begin (BeamFixes.cpp)\n")

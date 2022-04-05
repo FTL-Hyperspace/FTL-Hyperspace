@@ -16,3 +16,7 @@ __thiscall void Equipment::AddAugment(Equipment *this, AugmentBlueprint *bp, boo
 __thiscall void Equipment::AddToCargo(Equipment *this, std::string &name);
 "578d7c240883e4f0ff77fc5589e557565383ec3c8b1fc70100000000c7410400000000c7410800000000894dd08b83e40300008b933c02000089c68945d48b834002000029d0c1f80239c6":
 __thiscall std::vector<std::string> Equipment::GetCargoHold(Equipment *this);
+"5589e5565389ce83e4f0e8????????8d8e8c020000c78660020000ffffffffc7865c020000ffffffffc6866802000000":
+__thiscall void Equipment::Open(Equipment *this);
+".5589e583e4f0e8????????c9c3":
+__thiscall void Equipment::Close(Equipment *this);
