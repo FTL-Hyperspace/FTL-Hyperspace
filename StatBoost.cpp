@@ -69,415 +69,457 @@ const std::array<std::string, numStats> crewStats =
 };
 
 std::vector<StatBoostDefinition*> StatBoostDefinition::statBoostDefs = std::vector<StatBoostDefinition*>();
+std::unordered_map<std::string,StatBoostDefinition*> StatBoostDefinition::savedStatBoostDefs = std::unordered_map<std::string,StatBoostDefinition*>();
 unsigned int StatBoostManager::statCacheFrame = 1;
 
 StatBoostManager StatBoostManager::instance = StatBoostManager();
 
 StatBoostDefinition* StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<char>* node, StatBoostDefinition::BoostSource boostSource)
 {
-    StatBoostDefinition *def = new StatBoostDefinition();
-    def->GiveId();
-    def->boostSource = boostSource;
-    auto stat = std::find(crewStats.begin(), crewStats.end(), node->first_attribute("name")->value());
-    if (stat != crewStats.end())
+    StatBoostDefinition *def;
+    bool newDef = false;
+
+    if (node->first_attribute("load"))
     {
-        int statId = stat - crewStats.begin();
-        def->stat = static_cast<CrewStat>(statId);
-        for (auto child = node->first_node(); child; child = child->next_sibling())
+        auto savedDef = StatBoostDefinition::savedStatBoostDefs.find(node->first_attribute("load")->value());
+        if (savedDef != StatBoostDefinition::savedStatBoostDefs.end())
         {
-            std::string name = child->name();
-            std::string val = child->value();
-            if (name == "statBoost")
+            if (node->first_attribute("name") || node->value() || node->first_node()) // not empty statboost node
             {
-                def->providedStatBoosts.push_back(ParseStatBoostNode(child, StatBoostDefinition::BoostSource::CREW));
+                def = new StatBoostDefinition(*savedDef->second);
+                newDef = true;
             }
-            if (name == "boostType")
+            else
             {
-                if (val == "MULT")
+                def = savedDef->second;
+                if (boostSource != def->boostSource)
                 {
-                    def->boostType = StatBoostDefinition::BoostType::MULT;
-                }
-                if (val == "FLAT")
-                {
-                    def->boostType = StatBoostDefinition::BoostType::FLAT;
-                }
-                if (val == "SET")
-                {
-                    def->boostType = StatBoostDefinition::BoostType::SET;
-                }
-                if (val == "FLIP")
-                {
-                    def->boostType = StatBoostDefinition::BoostType::FLIP;
-                }
-                if (val == "MIN")
-                {
-                    def->boostType = StatBoostDefinition::BoostType::MIN;
-                }
-                if (val == "MAX")
-                {
-                    def->boostType = StatBoostDefinition::BoostType::MAX;
+                    newDef = true; // mismatched source needs a new def
                 }
             }
-            if (name == "amount")
-            {
-                def->amount = boost::lexical_cast<float>(val);
-
-            }
-            if (name == "value")
-            {
-                def->value = EventsParser::ParseBoolean(val);
-            }
-            if (name == "race" && def->stat == CrewStat::TRANSFORM_RACE)
-            {
-                def->stringValue = val;
-            }
-            if (name == "permanent" && def->stat == CrewStat::TRANSFORM_RACE)
-            {
-                def->value = EventsParser::ParseBoolean(val);
-            }
-            if (name == "duration")
-            {
-                def->duration = boost::lexical_cast<float>(val);
-            }
-            if (name == "priority")
-            {
-                def->priority = boost::lexical_cast<int>(val);
-            }
-            if (name == "boostAnim")
-            {
-                def->boostAnim = val;
-            }
-            if (name == "affectsSelf")
-            {
-                def->affectsSelf = EventsParser::ParseBoolean(val);
-            }
-            if (name == "shipTarget")
-            {
-                if (val == "PLAYER_SHIP")
-                {
-                    def->shipTarget = StatBoostDefinition::ShipTarget::PLAYER_SHIP;
-                }
-                if (val == "ENEMY_SHIP")
-                {
-                    def->shipTarget = StatBoostDefinition::ShipTarget::ENEMY_SHIP;
-                }
-                if (val == "CURRENT_ALL")
-                {
-                    def->shipTarget = StatBoostDefinition::ShipTarget::CURRENT_ALL;
-                }
-                if (val == "CURRENT_ROOM")
-                {
-                    def->shipTarget = StatBoostDefinition::ShipTarget::CURRENT_ROOM;
-                }
-                if (val == "OTHER_ALL")
-                {
-                    def->shipTarget = StatBoostDefinition::ShipTarget::OTHER_ALL;
-                }
-                if (val == "ORIGINAL_SHIP")
-                {
-                    def->shipTarget = StatBoostDefinition::ShipTarget::ORIGINAL_SHIP;
-                }
-                if (val == "ORIGINAL_OTHER_SHIP")
-                {
-                    def->shipTarget = StatBoostDefinition::ShipTarget::ORIGINAL_OTHER_SHIP;
-                }
-                if (val == "ALL")
-                {
-                    def->shipTarget = StatBoostDefinition::ShipTarget::ALL;
-                }
-                if (val == "CREW_TARGET")
-                {
-                    def->shipTarget = StatBoostDefinition::ShipTarget::CREW_TARGET;
-                }
-                if (val == "TARGETS_ME")
-                {
-                    def->shipTarget = StatBoostDefinition::ShipTarget::TARGETS_ME;
-                }
-            }
-            if (name == "systemRoomTarget")
-            {
-                if (val == "ALL")
-                {
-                    def->systemRoomTarget = StatBoostDefinition::SystemRoomTarget::ALL;
-                }
-                if (val == "NONE")
-                {
-                    def->systemRoomTarget = StatBoostDefinition::SystemRoomTarget::NONE;
-                }
-            }
-            if (name == "crewTarget")
-            {
-                if (val == "ALLIES")
-                {
-                    def->crewTarget = StatBoostDefinition::CrewTarget::ALLIES;
-                }
-                if (val == "ENEMIES")
-                {
-                    def->crewTarget = StatBoostDefinition::CrewTarget::ENEMIES;
-                }
-                if (val == "ALL")
-                {
-                    def->crewTarget = StatBoostDefinition::CrewTarget::ALL;
-                }
-                if (val == "CURRENT_ALLIES")
-                {
-                    def->crewTarget = StatBoostDefinition::CrewTarget::CURRENT_ALLIES;
-                }
-                if (val == "CURRENT_ENEMIES")
-                {
-                    def->crewTarget = StatBoostDefinition::CrewTarget::CURRENT_ENEMIES;
-                }
-                if (val == "ORIGINAL_ALLIES")
-                {
-                    def->crewTarget = StatBoostDefinition::CrewTarget::ORIGINAL_ALLIES;
-                }
-                if (val == "ORIGINAL_ENEMIES")
-                {
-                    def->crewTarget = StatBoostDefinition::CrewTarget::ORIGINAL_ENEMIES;
-                }
-                if (val == "SELF")
-                {
-                    def->crewTarget = StatBoostDefinition::CrewTarget::SELF;
-                    def->affectsSelf = true;
-                }
-                if (val == "NONE")
-                {
-                    def->crewTarget = StatBoostDefinition::CrewTarget::SELF;
-                }
-            }
-            if (name == "droneTarget")
-            {
-                if (val == "DRONES")
-                {
-                    def->droneTarget = StatBoostDefinition::DroneTarget::DRONES;
-                }
-                if (val == "CREW")
-                {
-                    def->droneTarget = StatBoostDefinition::DroneTarget::CREW;
-                }
-                if (val == "ALL")
-                {
-                    def->droneTarget = StatBoostDefinition::DroneTarget::ALL;
-                }
-            }
-            if (name == "functionalTarget")
-            {
-                def->functionalTarget = EventsParser::ParseBoolean(val);;
-            }
-            if (name == "whiteList")
-            {
-                if (child->first_attribute("load"))
-                {
-                    def->whiteList = G_->GetBlueprints()->GetBlueprintList(child->first_attribute("load")->value());
-                }
-                for (auto crewChild = child->first_node(); crewChild; crewChild = crewChild->next_sibling())
-                {
-                    if (strcmp(crewChild->name(), "blueprintList") == 0 && crewChild->first_attribute("load"))
-                    {
-                        std::vector<std::string> tempList = G_->GetBlueprints()->GetBlueprintList(crewChild->first_attribute("load")->value());
-                        def->whiteList.insert(def->whiteList.end(),tempList.begin(),tempList.end());
-                    }
-                    else
-                    {
-                        def->whiteList.push_back(crewChild->name());
-                    }
-                }
-                def->whiteList.shrink_to_fit();
-            }
-            if (name == "blackList")
-            {
-                if (child->first_attribute("load"))
-                {
-                    def->blackList = G_->GetBlueprints()->GetBlueprintList(child->first_attribute("load")->value());
-                }
-                for (auto crewChild = child->first_node(); crewChild; crewChild = crewChild->next_sibling())
-                {
-                    if (strcmp(crewChild->name(), "blueprintList") == 0 && crewChild->first_attribute("load"))
-                    {
-                        std::vector<std::string> tempList = G_->GetBlueprints()->GetBlueprintList(crewChild->first_attribute("load")->value());
-                        def->blackList.insert(def->blackList.end(),tempList.begin(),tempList.end());
-                    }
-                    else
-                    {
-                        def->blackList.push_back(crewChild->name());
-                    }
-                }
-                def->blackList.shrink_to_fit();
-            }
-            if (name == "healthReq")
-            {
-                if (child->first_attribute("min")) def->healthReq.first = boost::lexical_cast<float>(child->first_attribute("min")->value());
-                if (child->first_attribute("max")) def->healthReq.second = boost::lexical_cast<float>(child->first_attribute("max")->value());
-                if (child->first_attribute("above")) def->healthReq.first = std::nextafter(boost::lexical_cast<float>(child->first_attribute("above")->value()), +HUGE_VAL);
-                if (child->first_attribute("below")) def->healthReq.second = std::nextafter(boost::lexical_cast<float>(child->first_attribute("below")->value()), -HUGE_VAL);
-            }
-            if (name == "healthFractionReq")
-            {
-                if (child->first_attribute("min")) def->healthFractionReq.first = boost::lexical_cast<float>(child->first_attribute("min")->value());
-                if (child->first_attribute("max")) def->healthFractionReq.second = boost::lexical_cast<float>(child->first_attribute("max")->value());
-                if (child->first_attribute("above")) def->healthFractionReq.first = std::nextafter(boost::lexical_cast<float>(child->first_attribute("above")->value()), +HUGE_VAL);
-                if (child->first_attribute("below")) def->healthFractionReq.second = std::nextafter(boost::lexical_cast<float>(child->first_attribute("below")->value()), -HUGE_VAL);
-            }
-            if (name == "oxygenReq")
-            {
-                if (child->first_attribute("min")) def->oxygenReq.first = boost::lexical_cast<float>(child->first_attribute("min")->value());
-                if (child->first_attribute("max")) def->oxygenReq.second = boost::lexical_cast<float>(child->first_attribute("max")->value());
-                if (child->first_attribute("above")) def->oxygenReq.first = std::nextafter(boost::lexical_cast<float>(child->first_attribute("above")->value()), +HUGE_VAL);
-                if (child->first_attribute("below")) def->oxygenReq.second = std::nextafter(boost::lexical_cast<float>(child->first_attribute("below")->value()), -HUGE_VAL);
-            }
-            if (name == "extraConditions")
-            {
-                auto &extraConditions = (child->first_attribute("type") && strcmp(child->first_attribute("type")->value(), "or") == 0) ? def->extraOrConditions : def->extraConditions;
-                CustomCrewManager::GetInstance()->ParseExtraConditionsNode(child, extraConditions);
-            }
-            if (name == "systemList")
-            {
-                for (auto crewChild = child->first_node(); crewChild; crewChild = crewChild->next_sibling())
-                {
-                    def->systemList.push_back(crewChild->name());
-                }
-            }
-            if (name == "systemPowerDependency")
-            {
-                for (auto systemChild = child->first_node(); systemChild; systemChild = systemChild->next_sibling())
-                {
-                    std::string systemChildName = systemChild->name();
-
-                    if (systemChildName == "all")
-                    {
-                        for (int i = 0; i < 15; i++)
-                        {
-                            def->systemPowerScaling.push_back(i);
-                        }
-                    }
-                    else if (systemChildName == "reactorMax")
-                    {
-                        def->systemPowerScaling.push_back(16);
-                    }
-                    else if (systemChildName == "reactorCurrent")
-                    {
-                        def->systemPowerScaling.push_back(17);
-                    }
-                    else
-                    {
-                        def->systemPowerScaling.push_back(ShipSystem::NameToSystemId(systemChildName));
-                    }
-                }
-            }
-            if (name == "systemPowerScaling")
-            {
-                bool noSys = false;
-                bool hackedSys = false;
-
-                for (auto systemChild = child->first_node(); systemChild; systemChild = systemChild->next_sibling())
-                {
-                    std::string systemChildName = systemChild->name();
-
-                    if (systemChildName == "noSys")
-                    {
-                        noSys = true;
-                        def->powerScalingNoSys = boost::lexical_cast<float>(systemChild->value());
-                    }
-                    else if (systemChildName == "hackedSys")
-                    {
-                        hackedSys = true;
-                        def->powerScalingHackedSys = boost::lexical_cast<float>(systemChild->value());
-                    }
-                    else
-                    {
-                        def->powerScaling.push_back(boost::lexical_cast<float>(systemChild->value()));
-                    }
-                }
-
-                if (def->powerScaling.size())
-                {
-                    if (!noSys)
-                    {
-                        def->powerScalingNoSys = def->powerScaling.at(0);
-                    }
-                    if (!hackedSys)
-                    {
-                        def->powerScalingHackedSys = def->powerScaling.at(0);
-                    }
-                }
-            }
-            if (name == "maxStacks")
-            {
-                if (!val.empty())
-                {
-                    def->maxStacks = boost::lexical_cast<int>(val);
-                }
-                if (child->first_attribute("id"))
-                {
-                    def->stackId = GiveStackId(child->first_attribute("id")->value());
-                }
-                else
-                {
-                    def->stackId = GiveStackId();
-                }
-            }
-            if (name == "deathEffect")
-            {
-                def->deathEffectChange = new ExplosionDefinition();
-
-                def->deathEffectChange->damage.ownerId = -1;
-                def->deathEffectChange->damage.selfId = -1;
-                def->deathEffectChange->damage.crystalShard = false;
-
-                if (def->boostType == StatBoostDefinition::BoostType::MULT)
-                {
-                    def->deathEffectChange->damage.iDamage = 1;
-                    def->deathEffectChange->damage.iShieldPiercing = 1;
-                    def->deathEffectChange->damage.fireChance = 1;
-                    def->deathEffectChange->damage.breachChance = 1;
-                    def->deathEffectChange->damage.stunChance = 1;
-                    def->deathEffectChange->damage.iIonDamage = 1;
-                    def->deathEffectChange->damage.iSystemDamage = 1;
-                    def->deathEffectChange->damage.iPersDamage = 1;
-                    def->deathEffectChange->damage.bHullBuster = true;
-                    def->deathEffectChange->damage.bLockdown = true;
-                    def->deathEffectChange->damage.bFriendlyFire = true;
-                    def->deathEffectChange->damage.iStun = 1;
-
-                    def->deathEffectChange->shipFriendlyFire = true;
-                    def->deathEffectChange->transformRaceDeathSound = true;
-                    def->deathEffectChange->transformRaceHealth = 1.f;
-                }
-                else
-                {
-                    def->deathEffectChange->damage.iDamage = 0;
-                    def->deathEffectChange->damage.iShieldPiercing = 0;
-                    def->deathEffectChange->damage.fireChance = 0;
-                    def->deathEffectChange->damage.breachChance = 0;
-                    def->deathEffectChange->damage.stunChance = 0;
-                    def->deathEffectChange->damage.iIonDamage = 0;
-                    def->deathEffectChange->damage.iSystemDamage = 0;
-                    def->deathEffectChange->damage.iPersDamage = 0;
-                    def->deathEffectChange->damage.bHullBuster = false;
-                    def->deathEffectChange->damage.bLockdown = false;
-                    def->deathEffectChange->damage.bFriendlyFire = false;
-                    def->deathEffectChange->damage.iStun = 0;
-
-                    if (def->boostType == StatBoostDefinition::BoostType::FLAT)
-                    {
-                        def->deathEffectChange->transformRaceHealthFraction = 0.f;
-                    }
-                }
-
-                CustomCrewManager::GetInstance()->ParseDeathEffect(child, def->deathEffectChange);
-            }
-            if (name == "powerEffect")
-            {
-                ActivatedPowerDefinition powerDef;
-                CustomCrewManager::GetInstance()->ParseAbilityEffect(child, &powerDef);
-                powerDef.AssignIndex();
-                def->powerChange = powerDef.index;
-            }
+        }
+        else
+        {
+            ErrorMessage(std::string("Unable to load stat boost:\n") + std::string(node->first_attribute("load")->value()));
+            def = new StatBoostDefinition();
+            newDef = true;
         }
     }
     else
     {
-        throw std::invalid_argument(std::string("Unrecognized stat boost stat name: ") + node->first_attribute("name")->value());
+        def = new StatBoostDefinition();
+        newDef = true;
+    }
+
+    if (newDef)
+    {
+        def->GiveId();
+        def->boostSource = boostSource;
+        auto stat = std::find(crewStats.begin(), crewStats.end(), node->first_attribute("name")->value());
+        if (stat != crewStats.end())
+        {
+            int statId = stat - crewStats.begin();
+            def->stat = static_cast<CrewStat>(statId);
+            for (auto child = node->first_node(); child; child = child->next_sibling())
+            {
+                std::string name = child->name();
+                std::string val = child->value();
+                if (name == "statBoost")
+                {
+                    def->providedStatBoosts.push_back(ParseStatBoostNode(child, StatBoostDefinition::BoostSource::CREW));
+                }
+                if (name == "boostType")
+                {
+                    if (val == "MULT")
+                    {
+                        def->boostType = StatBoostDefinition::BoostType::MULT;
+                    }
+                    if (val == "FLAT")
+                    {
+                        def->boostType = StatBoostDefinition::BoostType::FLAT;
+                    }
+                    if (val == "SET")
+                    {
+                        def->boostType = StatBoostDefinition::BoostType::SET;
+                    }
+                    if (val == "FLIP")
+                    {
+                        def->boostType = StatBoostDefinition::BoostType::FLIP;
+                    }
+                    if (val == "MIN")
+                    {
+                        def->boostType = StatBoostDefinition::BoostType::MIN;
+                    }
+                    if (val == "MAX")
+                    {
+                        def->boostType = StatBoostDefinition::BoostType::MAX;
+                    }
+                }
+                if (name == "amount")
+                {
+                    def->amount = boost::lexical_cast<float>(val);
+
+                }
+                if (name == "value")
+                {
+                    def->value = EventsParser::ParseBoolean(val);
+                }
+                if (name == "race" && def->stat == CrewStat::TRANSFORM_RACE)
+                {
+                    def->stringValue = val;
+                }
+                if (name == "permanent" && def->stat == CrewStat::TRANSFORM_RACE)
+                {
+                    def->value = EventsParser::ParseBoolean(val);
+                }
+                if (name == "duration")
+                {
+                    def->duration = boost::lexical_cast<float>(val);
+                }
+                if (name == "priority")
+                {
+                    def->priority = boost::lexical_cast<int>(val);
+                }
+                if (name == "boostAnim")
+                {
+                    def->boostAnim = val;
+                }
+                if (name == "affectsSelf")
+                {
+                    def->affectsSelf = EventsParser::ParseBoolean(val);
+                }
+                if (name == "shipTarget")
+                {
+                    if (val == "PLAYER_SHIP")
+                    {
+                        def->shipTarget = StatBoostDefinition::ShipTarget::PLAYER_SHIP;
+                    }
+                    if (val == "ENEMY_SHIP")
+                    {
+                        def->shipTarget = StatBoostDefinition::ShipTarget::ENEMY_SHIP;
+                    }
+                    if (val == "CURRENT_ALL")
+                    {
+                        def->shipTarget = StatBoostDefinition::ShipTarget::CURRENT_ALL;
+                    }
+                    if (val == "CURRENT_ROOM")
+                    {
+                        def->shipTarget = StatBoostDefinition::ShipTarget::CURRENT_ROOM;
+                    }
+                    if (val == "OTHER_ALL")
+                    {
+                        def->shipTarget = StatBoostDefinition::ShipTarget::OTHER_ALL;
+                    }
+                    if (val == "ORIGINAL_SHIP")
+                    {
+                        def->shipTarget = StatBoostDefinition::ShipTarget::ORIGINAL_SHIP;
+                    }
+                    if (val == "ORIGINAL_OTHER_SHIP")
+                    {
+                        def->shipTarget = StatBoostDefinition::ShipTarget::ORIGINAL_OTHER_SHIP;
+                    }
+                    if (val == "ALL")
+                    {
+                        def->shipTarget = StatBoostDefinition::ShipTarget::ALL;
+                    }
+                    if (val == "CREW_TARGET")
+                    {
+                        def->shipTarget = StatBoostDefinition::ShipTarget::CREW_TARGET;
+                    }
+                    if (val == "TARGETS_ME")
+                    {
+                        def->shipTarget = StatBoostDefinition::ShipTarget::TARGETS_ME;
+                    }
+                }
+                if (name == "systemRoomTarget")
+                {
+                    if (val == "ALL")
+                    {
+                        def->systemRoomTarget = StatBoostDefinition::SystemRoomTarget::ALL;
+                    }
+                    if (val == "NONE")
+                    {
+                        def->systemRoomTarget = StatBoostDefinition::SystemRoomTarget::NONE;
+                    }
+                }
+                if (name == "crewTarget")
+                {
+                    if (val == "ALLIES")
+                    {
+                        def->crewTarget = StatBoostDefinition::CrewTarget::ALLIES;
+                    }
+                    if (val == "ENEMIES")
+                    {
+                        def->crewTarget = StatBoostDefinition::CrewTarget::ENEMIES;
+                    }
+                    if (val == "ALL")
+                    {
+                        def->crewTarget = StatBoostDefinition::CrewTarget::ALL;
+                    }
+                    if (val == "CURRENT_ALLIES")
+                    {
+                        def->crewTarget = StatBoostDefinition::CrewTarget::CURRENT_ALLIES;
+                    }
+                    if (val == "CURRENT_ENEMIES")
+                    {
+                        def->crewTarget = StatBoostDefinition::CrewTarget::CURRENT_ENEMIES;
+                    }
+                    if (val == "ORIGINAL_ALLIES")
+                    {
+                        def->crewTarget = StatBoostDefinition::CrewTarget::ORIGINAL_ALLIES;
+                    }
+                    if (val == "ORIGINAL_ENEMIES")
+                    {
+                        def->crewTarget = StatBoostDefinition::CrewTarget::ORIGINAL_ENEMIES;
+                    }
+                    if (val == "SELF")
+                    {
+                        def->crewTarget = StatBoostDefinition::CrewTarget::SELF;
+                        def->affectsSelf = true;
+                    }
+                    if (val == "NONE")
+                    {
+                        def->crewTarget = StatBoostDefinition::CrewTarget::SELF;
+                    }
+                }
+                if (name == "droneTarget")
+                {
+                    if (val == "DRONES")
+                    {
+                        def->droneTarget = StatBoostDefinition::DroneTarget::DRONES;
+                    }
+                    if (val == "CREW")
+                    {
+                        def->droneTarget = StatBoostDefinition::DroneTarget::CREW;
+                    }
+                    if (val == "ALL")
+                    {
+                        def->droneTarget = StatBoostDefinition::DroneTarget::ALL;
+                    }
+                }
+                if (name == "functionalTarget")
+                {
+                    def->functionalTarget = EventsParser::ParseBoolean(val);;
+                }
+                if (name == "whiteList")
+                {
+                    if (child->first_attribute("load"))
+                    {
+                        def->whiteList = G_->GetBlueprints()->GetBlueprintList(child->first_attribute("load")->value());
+                    }
+                    for (auto crewChild = child->first_node(); crewChild; crewChild = crewChild->next_sibling())
+                    {
+                        if (strcmp(crewChild->name(), "blueprintList") == 0 && crewChild->first_attribute("load"))
+                        {
+                            std::vector<std::string> tempList = G_->GetBlueprints()->GetBlueprintList(crewChild->first_attribute("load")->value());
+                            def->whiteList.insert(def->whiteList.end(),tempList.begin(),tempList.end());
+                        }
+                        else
+                        {
+                            def->whiteList.push_back(crewChild->name());
+                        }
+                    }
+                    def->whiteList.shrink_to_fit();
+                }
+                if (name == "blackList")
+                {
+                    if (child->first_attribute("load"))
+                    {
+                        def->blackList = G_->GetBlueprints()->GetBlueprintList(child->first_attribute("load")->value());
+                    }
+                    for (auto crewChild = child->first_node(); crewChild; crewChild = crewChild->next_sibling())
+                    {
+                        if (strcmp(crewChild->name(), "blueprintList") == 0 && crewChild->first_attribute("load"))
+                        {
+                            std::vector<std::string> tempList = G_->GetBlueprints()->GetBlueprintList(crewChild->first_attribute("load")->value());
+                            def->blackList.insert(def->blackList.end(),tempList.begin(),tempList.end());
+                        }
+                        else
+                        {
+                            def->blackList.push_back(crewChild->name());
+                        }
+                    }
+                    def->blackList.shrink_to_fit();
+                }
+                if (name == "healthReq")
+                {
+                    if (child->first_attribute("min")) def->healthReq.first = boost::lexical_cast<float>(child->first_attribute("min")->value());
+                    if (child->first_attribute("max")) def->healthReq.second = boost::lexical_cast<float>(child->first_attribute("max")->value());
+                    if (child->first_attribute("above")) def->healthReq.first = std::nextafter(boost::lexical_cast<float>(child->first_attribute("above")->value()), +HUGE_VAL);
+                    if (child->first_attribute("below")) def->healthReq.second = std::nextafter(boost::lexical_cast<float>(child->first_attribute("below")->value()), -HUGE_VAL);
+                }
+                if (name == "healthFractionReq")
+                {
+                    if (child->first_attribute("min")) def->healthFractionReq.first = boost::lexical_cast<float>(child->first_attribute("min")->value());
+                    if (child->first_attribute("max")) def->healthFractionReq.second = boost::lexical_cast<float>(child->first_attribute("max")->value());
+                    if (child->first_attribute("above")) def->healthFractionReq.first = std::nextafter(boost::lexical_cast<float>(child->first_attribute("above")->value()), +HUGE_VAL);
+                    if (child->first_attribute("below")) def->healthFractionReq.second = std::nextafter(boost::lexical_cast<float>(child->first_attribute("below")->value()), -HUGE_VAL);
+                }
+                if (name == "oxygenReq")
+                {
+                    if (child->first_attribute("min")) def->oxygenReq.first = boost::lexical_cast<float>(child->first_attribute("min")->value());
+                    if (child->first_attribute("max")) def->oxygenReq.second = boost::lexical_cast<float>(child->first_attribute("max")->value());
+                    if (child->first_attribute("above")) def->oxygenReq.first = std::nextafter(boost::lexical_cast<float>(child->first_attribute("above")->value()), +HUGE_VAL);
+                    if (child->first_attribute("below")) def->oxygenReq.second = std::nextafter(boost::lexical_cast<float>(child->first_attribute("below")->value()), -HUGE_VAL);
+                }
+                if (name == "extraConditions")
+                {
+                    auto &extraConditions = (child->first_attribute("type") && strcmp(child->first_attribute("type")->value(), "or") == 0) ? def->extraOrConditions : def->extraConditions;
+                    CustomCrewManager::GetInstance()->ParseExtraConditionsNode(child, extraConditions);
+                }
+                if (name == "systemList")
+                {
+                    for (auto crewChild = child->first_node(); crewChild; crewChild = crewChild->next_sibling())
+                    {
+                        def->systemList.push_back(crewChild->name());
+                    }
+                }
+                if (name == "systemPowerDependency")
+                {
+                    for (auto systemChild = child->first_node(); systemChild; systemChild = systemChild->next_sibling())
+                    {
+                        std::string systemChildName = systemChild->name();
+
+                        if (systemChildName == "all")
+                        {
+                            for (int i = 0; i < 15; i++)
+                            {
+                                def->systemPowerScaling.push_back(i);
+                            }
+                        }
+                        else if (systemChildName == "reactorMax")
+                        {
+                            def->systemPowerScaling.push_back(16);
+                        }
+                        else if (systemChildName == "reactorCurrent")
+                        {
+                            def->systemPowerScaling.push_back(17);
+                        }
+                        else
+                        {
+                            def->systemPowerScaling.push_back(ShipSystem::NameToSystemId(systemChildName));
+                        }
+                    }
+                }
+                if (name == "systemPowerScaling")
+                {
+                    bool noSys = false;
+                    bool hackedSys = false;
+
+                    for (auto systemChild = child->first_node(); systemChild; systemChild = systemChild->next_sibling())
+                    {
+                        std::string systemChildName = systemChild->name();
+
+                        if (systemChildName == "noSys")
+                        {
+                            noSys = true;
+                            def->powerScalingNoSys = boost::lexical_cast<float>(systemChild->value());
+                        }
+                        else if (systemChildName == "hackedSys")
+                        {
+                            hackedSys = true;
+                            def->powerScalingHackedSys = boost::lexical_cast<float>(systemChild->value());
+                        }
+                        else
+                        {
+                            def->powerScaling.push_back(boost::lexical_cast<float>(systemChild->value()));
+                        }
+                    }
+
+                    if (def->powerScaling.size())
+                    {
+                        if (!noSys)
+                        {
+                            def->powerScalingNoSys = def->powerScaling.at(0);
+                        }
+                        if (!hackedSys)
+                        {
+                            def->powerScalingHackedSys = def->powerScaling.at(0);
+                        }
+                    }
+                }
+                if (name == "maxStacks")
+                {
+                    if (!val.empty())
+                    {
+                        def->maxStacks = boost::lexical_cast<int>(val);
+                    }
+                    if (child->first_attribute("id"))
+                    {
+                        def->stackId = GiveStackId(child->first_attribute("id")->value());
+                    }
+                    else
+                    {
+                        def->stackId = GiveStackId();
+                    }
+                }
+                if (name == "deathEffect")
+                {
+                    def->deathEffectChange = new ExplosionDefinition();
+
+                    def->deathEffectChange->damage.ownerId = -1;
+                    def->deathEffectChange->damage.selfId = -1;
+                    def->deathEffectChange->damage.crystalShard = false;
+
+                    if (def->boostType == StatBoostDefinition::BoostType::MULT)
+                    {
+                        def->deathEffectChange->damage.iDamage = 1;
+                        def->deathEffectChange->damage.iShieldPiercing = 1;
+                        def->deathEffectChange->damage.fireChance = 1;
+                        def->deathEffectChange->damage.breachChance = 1;
+                        def->deathEffectChange->damage.stunChance = 1;
+                        def->deathEffectChange->damage.iIonDamage = 1;
+                        def->deathEffectChange->damage.iSystemDamage = 1;
+                        def->deathEffectChange->damage.iPersDamage = 1;
+                        def->deathEffectChange->damage.bHullBuster = true;
+                        def->deathEffectChange->damage.bLockdown = true;
+                        def->deathEffectChange->damage.bFriendlyFire = true;
+                        def->deathEffectChange->damage.iStun = 1;
+
+                        def->deathEffectChange->shipFriendlyFire = true;
+                        def->deathEffectChange->transformRaceDeathSound = true;
+                        def->deathEffectChange->transformRaceHealth = 1.f;
+                    }
+                    else
+                    {
+                        def->deathEffectChange->damage.iDamage = 0;
+                        def->deathEffectChange->damage.iShieldPiercing = 0;
+                        def->deathEffectChange->damage.fireChance = 0;
+                        def->deathEffectChange->damage.breachChance = 0;
+                        def->deathEffectChange->damage.stunChance = 0;
+                        def->deathEffectChange->damage.iIonDamage = 0;
+                        def->deathEffectChange->damage.iSystemDamage = 0;
+                        def->deathEffectChange->damage.iPersDamage = 0;
+                        def->deathEffectChange->damage.bHullBuster = false;
+                        def->deathEffectChange->damage.bLockdown = false;
+                        def->deathEffectChange->damage.bFriendlyFire = false;
+                        def->deathEffectChange->damage.iStun = 0;
+
+                        if (def->boostType == StatBoostDefinition::BoostType::FLAT)
+                        {
+                            def->deathEffectChange->transformRaceHealthFraction = 0.f;
+                        }
+                    }
+
+                    CustomCrewManager::GetInstance()->ParseDeathEffect(child, def->deathEffectChange);
+                }
+                if (name == "powerEffect")
+                {
+                    ActivatedPowerDefinition powerDef;
+                    CustomCrewManager::GetInstance()->ParseAbilityEffect(child, &powerDef);
+                    powerDef.AssignIndex();
+                    def->powerChange = powerDef.index;
+                }
+            }
+        }
+        else
+        {
+            throw std::invalid_argument(std::string("Unrecognized stat boost stat name: ") + node->first_attribute("name")->value());
+        }
+    }
+    if (node->first_attribute("save"))
+    {
+        StatBoostDefinition::savedStatBoostDefs[node->first_attribute("save")->value()] = def;
     }
     return def;
 }

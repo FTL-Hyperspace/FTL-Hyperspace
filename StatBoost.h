@@ -173,6 +173,7 @@ struct StatBoostDefinition
     int maxStacks = 2147483647;
 
     static std::vector<StatBoostDefinition*> statBoostDefs;
+    static std::unordered_map<std::string,StatBoostDefinition*> savedStatBoostDefs;
 
     void GiveId()
     {

@@ -1046,6 +1046,11 @@ For augments and crew active abilities, statboosts should be placed in a <statBo
 For passive crew boosts, they should be placed in a <passiveStatBoosts> tag, but otherwise the code is the same
 As the name implies, stat boosts can be used to boost (or just generally modify) a given stat, but also you can use stat boosts to apply other stat boosts to crew (therefore buffing everyone except the recipient) by using "statBoost" for the statBoost name
 
+The "load" and "save" attributes can be used to copy stat boosts. Note that the stat boost definition that is saved must come before any stat boosts that load it.
+You can also define tags with a loaded stat boost and it will make a copy and set the additional attributes.
+If the stat boost source (CREW or AUGMENT) does not match the saved stat boost, then the definition is copied. Stat boosts inside other stat boosts are CREW source.
+If you load a saved stat boost without additional tags, the definition will be loaded by reference (not copied).
+
 boostType: what the boost does to the stat; for numerical amounts, it can be FLAT, MULT, SET, MIN or MAX, and for true/false values it can be SET or FLIP
   The MIN and MAX types will apply the min() and max() operators. min() selects the lower of the current stat value and the new stat value, while max() selects the higher value.
 value/amount: use value for true/false stats and amount for numerical ones
@@ -1090,7 +1095,7 @@ statBoost: When statBoost name is "statBoost", the stat boost to provide to crew
 
 Stat boost syntax examples->
 
-<statBoost name="crewStat">
+<statBoost name="crewStat" load="loadId" save="saveId">
 	<boostType>MULT/FLAT/SET/FLIP/MIN/MAX</boostType>
 	<amount>1.0</amount>
 	<value>TRUE/FALSE</value>
@@ -1141,6 +1146,8 @@ Stat boost syntax examples->
 	<priority>0</priority>
 	<statBoost name="...">...</statBoost>
 </statBoost>
+
+<statBoost load="loadId"/> (loads a previously saved stat boost by reference if the source matches)
 
 <statBoost name = "canBurn">
 	<boostType>SET</boostType>
