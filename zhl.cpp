@@ -195,11 +195,11 @@ int VariableDefinition::Load()
          * NOTE: This means it is only possible to match a variable with offset computation that is at the END of the instruction bytes
          * i.e., operands that can take two memory addresses, only the second memory address (end of the bytes of the instruction) can be matched.
          */
-        uintptr_t* valueVar;
-        memcpy(valueVar, m.address, m.length);
+        uintptr_t valueVar = 0;
+        memcpy(&valueVar, m.address, m.length);
         uintptr_t realAddr = (uintptr_t) m.address;
         realAddr += m.length;
-        realAddr += *valueVar;
+        realAddr += valueVar;
         *(void**)_outVar = (void*) realAddr;
     }
 	else if(_useValue)
