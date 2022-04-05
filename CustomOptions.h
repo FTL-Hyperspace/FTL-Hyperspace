@@ -28,8 +28,8 @@ public:
         bool choiceRequiresCrew = false;
     };
 
-    bool altMode = false;
-    bool altModeChanged = false;
+    bool altMode = true;
+    bool altModeChanged = true;
 
 //    Setting holdButton;
 

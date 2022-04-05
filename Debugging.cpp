@@ -2,6 +2,7 @@
 #include <time.h>
 #include <boost/algorithm/string.hpp>
 #include <boost/format.hpp>
+#include "CustomOptions.h"
 #define BUILD_IDENTIFIER_HASH "unknown_build"
 #include "Version.autogen.hpp"
 
@@ -146,7 +147,10 @@ HOOK_METHOD(MouseControl, OnRender, () -> void)
     LOG_HOOK("HOOK_METHOD -> MouseControl::OnRender -> Begin (Debugging.cpp)\n")
     std::string identifier = BUILD_IDENTIFIER_HASH;
     std::string tgtSystem = BUILD_TGT;
-    freetype::easy_printRightAlign(51, 1280.f, 0.f, boost::str(boost::format("HS-%d%s %s") % G_->GetVersion() % tgtSystem % identifier).c_str());
+    if(CustomOptionsManager::GetInstance()->altMode)
+    {
+        freetype::easy_printRightAlign(51, 1280.f, 0.f, boost::str(boost::format("HS-%d%s %s") % G_->GetVersion() % tgtSystem % identifier).c_str());
+    }
     super();
 }
 
