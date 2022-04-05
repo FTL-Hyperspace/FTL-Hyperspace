@@ -536,7 +536,7 @@
 				<Linker>
 					<Add option="-m64" />
 					<Add directory="discord/lib" />
-					<Add directory="/usr/lib/i386-linux-gnu" />
+					<Add directory="/usr/lib/x86_64-linux-gnu" />
 				</Linker>
 				<ExtraCommands>
 					<Add before="chmod +x ./generateVersion.sh" />
@@ -576,7 +576,7 @@
 				<Linker>
 					<Add option="-m64" />
 					<Add directory="discord/lib" />
-					<Add directory="/usr/lib/i386-linux-gnu" />
+					<Add directory="/usr/lib/x86_64-linux-gnu" />
 				</Linker>
 				<ExtraCommands>
 					<Add before="chmod +x ./generateVersion.sh" />
@@ -614,7 +614,7 @@
 					<Add option="-m64" />
 					<Add option="-s" />
 					<Add directory="discord/lib" />
-					<Add directory="/usr/lib/i386-linux-gnu" />
+					<Add directory="/usr/lib/x86_64-linux-gnu" />
 				</Linker>
 				<ExtraCommands>
 					<Add before="chmod +x ./generateVersion.sh" />
@@ -653,7 +653,7 @@
 					<Add option="-m64" />
 					<Add option="-s" />
 					<Add directory="discord/lib" />
-					<Add directory="/usr/lib/i386-linux-gnu" />
+					<Add directory="/usr/lib/x86_64-linux-gnu" />
 				</Linker>
 				<ExtraCommands>
 					<Add before="chmod +x ./generateVersion.sh" />
