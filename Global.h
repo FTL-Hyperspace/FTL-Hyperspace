@@ -15,6 +15,8 @@
 #include "System_Extend.h"
 #include "Blueprint_Extend.h"
 #include "Room_Extend.h"
+#include <boost/algorithm/string.hpp>
+#include <boost/format.hpp>
 
 //#include "LuaState.h"
 
@@ -52,7 +54,16 @@ public:
     AchievementTracker *GetAchievementTracker() { return Global_AchievementTracker_Tracker; }
     ScoreKeeper *GetScoreKeeper() { return Global_ScoreKeeper_Keeper; }
     SettingValues *GetSettings() { return Global_Settings_Settings; }
-    int GetVersion() { return __version; }
+    int GetVersion() { 
+        return (((__version >> 16) & 0xFF) * 100) + (((__version >> 8) & 0xFF) * 10) + (__version & 0xFF);
+    }
+    const uint32_t GetRawVersion() { return __version; }
+    std::string GetVersionString() {
+        uint8_t major = (__version >> 16) & 0xFF;
+        uint8_t minor = (__version >> 8) & 0xFF;
+        uint8_t patch = __version & 0xFF;
+        return boost::str(boost::format("%1%.%2%.%3%") % (unsigned int) major % (unsigned int) minor % (unsigned int) patch);
+    }
 
     void *GetVTable_LaserBlast() { return VTable_LaserBlast; }
 
@@ -91,7 +102,7 @@ private:
 
     static CApp *__cApp;
 
-    const int __version = 92;
+    const uint32_t __version = 0x000902;
 
 
 };

@@ -185,7 +185,59 @@ void Global::InitializeResources(ResourceControl *resources)
         {
             if (strcmp(node->name(), "version") == 0)
             {
-                checkedVersion = boost::lexical_cast<int>(node->value()) == G_->GetVersion();
+                std::string versionStr = node->value();
+                if(versionStr.find('.') == std::string::npos)
+                {
+                    hs_log_file("Old version check in use. Mod authors please update your hyperspace.xml's version tag!\n");
+                    checkedVersion = boost::lexical_cast<int>(node->value()) == G_->GetVersion();
+                }
+                else
+                {
+                    char firstChar = versionStr.front();
+                    if(firstChar == '=' || firstChar == '~' || firstChar == '^')
+                    {
+                        versionStr.erase(0, 1);
+                    }
+
+                    // Enhanced Hyperspace version check
+                    size_t pos = 0;
+                    uint32_t version = 0;
+                    int i = 0;
+                    for(; (pos = versionStr.find('.')) != std::string::npos; i++) // TODO: Could probably be simplified with boost::algorithm::split
+                    {
+                        uint8_t verEntry = (uint8_t) boost::lexical_cast<int>(versionStr.substr(0, pos));
+                        version <<= 8;
+                        version |= verEntry;
+                        versionStr.erase(0, pos + 1);
+                    }
+                    version <<= 8;
+                    version |= (uint8_t) boost::lexical_cast<int>(versionStr);
+
+                    uint32_t hsRawVersion = G_->GetRawVersion();
+                    hs_log_file("Checking version Mod requests version: '%06x' vs Hyperspace version: '%06x'\n", version, hsRawVersion);
+
+                    uint8_t hsVerMajor = (hsRawVersion >> 16) & 0xFF;
+                    uint8_t hsVerMinor = (hsRawVersion >> 8) & 0xFF;
+                    uint8_t verMajor = (version >> 16) & 0xFF;
+                    uint8_t verMinor = (version >> 8) & 0xFF;
+                    uint8_t hsVerPatch = hsRawVersion & 0xFF;
+                    uint8_t verPatch = version & 0xFF;
+                    switch(firstChar)
+                    {
+                        case '=':
+                            checkedVersion = version == hsRawVersion;
+                            break;
+                        
+                        case '~':
+                            checkedVersion = ((hsRawVersion ^ version) & 0xFFFF00) == 0 && hsVerPatch >= verPatch;
+                            break;
+                        
+                        default:
+                            hs_log_file("No version check case specified, defaulting to '^'.\n");
+                        case '^':
+                            checkedVersion = hsVerMajor == verMajor && (hsVerMinor > verMinor || (hsVerMinor == verMinor && hsVerPatch >= verPatch));
+                    }
+                }
             }
             if (strcmp(node->name(), "hullNumbers") == 0)
             {
