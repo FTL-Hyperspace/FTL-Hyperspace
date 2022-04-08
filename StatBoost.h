@@ -34,6 +34,7 @@ enum class CrewStat : unsigned int
     DAMAGE_ENEMIES_AMOUNT,
     BONUS_POWER,
     POWER_DRAIN,
+    ESSENTIAL,
     CAN_FIGHT,
     CAN_REPAIR,
     CAN_SABOTAGE,

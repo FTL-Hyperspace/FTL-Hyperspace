@@ -682,6 +682,7 @@ struct CustomEvent
     bool allowNoSlot = false;
     bool blockNoSlot = false;
     bool choiceRequiresCrew = false;
+    std::pair<float,float> ignoreEssential = {-HUGE_VAL, HUGE_VAL};
 
     int superDrones = -1;
     std::string superDronesName = "";

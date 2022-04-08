@@ -362,6 +362,7 @@ struct CrewDefinition
     bool noAI = false;
     bool validTarget = true;
     bool canPunch = true;
+    float essential = 0.f;
 
     std::pair<int,int> shootTimer = {-1, -1};
     std::pair<int,int> punchTimer = {-1, -1};

@@ -164,9 +164,12 @@ public:
     bool CheckExtraCondition(CrewExtraCondition condition);
     int CalculateMaxHealth(const CrewDefinition* def);
     float CalculateStat(CrewStat stat, const CrewDefinition* def, bool* boolValue=nullptr);
+
+    std::string GetRace();
+    CrewDefinition *GetDefinition();
 };
 
-CrewMember_Extend* Get_CrewMember_Extend(CrewMember* c);
+CrewMember_Extend* Get_CrewMember_Extend(const CrewMember* c);
 CrewAnimation_Extend* Get_CrewAnimation_Extend(CrewAnimation *c);
 
 #define CM_EX Get_CrewMember_Extend

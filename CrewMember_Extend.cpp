@@ -69,7 +69,7 @@ HOOK_METHOD(CrewMember, destructor, () -> void)
     super();
 }
 
-CrewMember_Extend* Get_CrewMember_Extend(CrewMember* c)
+CrewMember_Extend* Get_CrewMember_Extend(const CrewMember* c)
 {
     uintptr_t dEx = 0;
 #ifdef __amd64__

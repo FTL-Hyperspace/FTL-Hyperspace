@@ -517,6 +517,10 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                         {
                             crew.validTarget = EventsParser::ParseBoolean(val);
                         }
+                        if (str == "essential")
+                        {
+                            crew.essential = boost::lexical_cast<float>(val);
+                        }
                     }
                 }
                 catch (boost::bad_lexical_cast const &e)
@@ -1358,6 +1362,32 @@ CrewMember* CustomCrewManager::CreateCrewMember(CrewBlueprint* bp, int shipId, b
 bool CustomCrewManager::IsRace(const std::string& race)
 {
     return blueprintNames.find(race) != blueprintNames.end();
+}
+
+std::string CrewMember_Extend::GetRace()
+{
+    // Get effective race, including special race for ion intruder
+    if (isIonDrone && CustomCrewManager::GetInstance()->IsRace("boarder_ion"))
+    {
+        return "boarder_ion";
+    }
+    return orig->species;
+}
+
+CrewDefinition *CrewMember_Extend::GetDefinition()
+{
+    if (isIonDrone)
+    {
+        if (CustomCrewManager::GetInstance()->IsRace("boarder_ion"))
+        {
+            return CustomCrewManager::GetInstance()->GetDefinition("boarder_ion");
+        }
+    }
+    if (CustomCrewManager::GetInstance()->IsRace(orig->species))
+    {
+        return CustomCrewManager::GetInstance()->GetDefinition(orig->species);
+    }
+    return nullptr;
 }
 
 ActivatedPowerDefinition* CrewMember_Extend::GetPowerDef() const

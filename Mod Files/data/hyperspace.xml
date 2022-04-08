@@ -492,6 +492,7 @@ Syntax ->
 		<nameRace transformName="Admiral Billy" changeIfSame="true">newRace2</nameRace>  Transforms the crew's race to newRace2 if they're given the transformName (or if changeIfSame is false, if they are given a different name).
 		<noSlot>false</noSlot>                                                           If true, this crewmember does not count as an actual crewmember in the crew manifest.
 		<noClone>false</noClone>                                                         If true, this crewmember cannot be cloned.
+		<essential>0</essential>                                                         Higher value is less likely to be picked in crew events (for crew loss, etc.).
 		<canFight>true</canFight>                                                        If true, this crewmember can fight enemy crewmembers.
 		<controllable>true</controllable>                                                If true, the player can control this crewmember. Otherwise it acts like an AI crewmember.
 		<noAI>false</noAI>                                                               If true, the AI cannot control this crewmember.
@@ -1878,6 +1879,8 @@ Syntax ->
 		<allowNoSlot/>                                                                          Allows crew-removal or transform event to pick noSlot crew (default is not allowed unless no other choice).
 		<blockNoSlot/>                                                                          Blocks crew-removal or transform event from picking noSlot crew entirely.
 		<choiceRequiresCrew/>                                                                   If this event removes or transforms crew, an eligible crew is required or the choice will be greyed out.
+		<ignoreEssential min="0" max="0"/>                                                      Crew <essential> stat below/above the range will be treated as being equal.
+		                                                                                          Use without attributes to completely ignore the <essential> stat.
 		<customStore>STORE_ID</customStore>                                                     Use the custom store STORE_ID for this store event.
 		<store>STORE_ID</store>                                                                 Alias for customStore. Allows specifying a custom store in events.xml files using a single tag.
 		<removeStore/>                                                                          Removes the store at the current beacon.

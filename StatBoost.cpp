@@ -36,6 +36,7 @@ const std::array<std::string, numStats> crewStats =
     "damageEnemiesAmount",
     "bonusPower",
     "powerDrain",
+    "essential",
     "canFight",
     "canRepair",
     "canSabotage",
@@ -1371,6 +1372,9 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
             break;
         case CrewStat::POWER_DRAIN:
             finalStat = (temporaryPowerActive && GetPowerDef()->tempPower.powerDrain.enabled) ? GetPowerDef()->tempPower.powerDrain.value : def->powerDrain;
+            break;
+        case CrewStat::ESSENTIAL:
+            finalStat = def->essential;
             break;
         case CrewStat::DEFAULT_SKILL_LEVEL:
             finalStat = def->defaultSkillLevel;
