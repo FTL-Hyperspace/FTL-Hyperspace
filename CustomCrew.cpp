@@ -188,6 +188,10 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                         {
                             crew.rangedDamageMultiplier = boost::lexical_cast<float>(val);
                         }
+                        if (str == "doorDamageMultiplier")
+                        {
+                            crew.doorDamageMultiplier = boost::lexical_cast<float>(val);
+                        }
                         if (str == "fireRepairMultiplier")
                         {
                             crew.fireRepairMultiplier = boost::lexical_cast<float>(val);
@@ -951,6 +955,10 @@ void CustomCrewManager::ParseAbilityEffect(rapidxml::xml_node<char>* stat, Activ
                 if (tempEffectName == "rangedDamageMultiplier")
                 {
                     def.tempPower.rangedDamageMultiplier = boost::lexical_cast<float>(tempEffectNode->value());
+                }
+                if (tempEffectName == "doorDamageMultiplier")
+                {
+                    def.tempPower.doorDamageMultiplier = boost::lexical_cast<float>(tempEffectNode->value());
                 }
                 if (tempEffectName == "bonusPower")
                 {
@@ -5868,4 +5876,39 @@ HOOK_METHOD(CrewAnimation, OnUpdate, (Pointf position, bool moving, bool fightin
     {
         super(position, moving, fighting, repairing, dying, onFire);
     }
+}
+
+// Door damage multiplier
+HOOK_METHOD(Door, ApplyDamage, (float amount) -> bool)
+{
+    if (currentCrewLoop)
+    {
+        CrewMember_Extend *ex = CM_EX(currentCrewLoop);
+        CrewDefinition *def = ex->GetDefinition();
+        if (def)
+        {
+            if (forcedOpen.running) return false;
+
+            float damage = ex->CalculateStat(CrewStat::DOOR_DAMAGE_MULTIPLIER, def);
+            int iDamage = (int)damage;
+            float fDamage = damage - iDamage;
+            if (fDamage > 0.f && random32() < fDamage*2147483648.f) iDamage++;
+
+            if (iDamage > 0) health -= iDamage;
+            gotHit.Start(0.f);
+
+            if (health < 1)
+            {
+                forcedOpen.Start(0.f);
+                health = baseHealth;
+                lockedDown.Stop(false);
+                baseHealth = lastbase;
+                health = lastbase;
+                bOpen = true;
+            }
+
+            return false;
+        }
+    }
+    return super(amount);
 }

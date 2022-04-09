@@ -19,6 +19,7 @@ const std::array<std::string, numStats> crewStats =
     "repairSpeed",
     "damageMultiplier",
     "rangedDamageMultiplier",
+    "doorDamageMultiplier",
     "fireRepairMultiplier",
     "suffocationModifier",
     "fireDamageMultiplier",
@@ -1321,6 +1322,9 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
             break;
         case CrewStat::RANGED_DAMAGE_MULTIPLIER:
             finalStat = (temporaryPowerActive && GetPowerDef()->tempPower.rangedDamageMultiplier.enabled) ? GetPowerDef()->tempPower.rangedDamageMultiplier.value : def->rangedDamageMultiplier;
+            break;
+        case CrewStat::DOOR_DAMAGE_MULTIPLIER:
+            finalStat = (temporaryPowerActive && GetPowerDef()->tempPower.doorDamageMultiplier.enabled) ? GetPowerDef()->tempPower.doorDamageMultiplier.value : def->doorDamageMultiplier;
             break;
         case CrewStat::FIRE_REPAIR_MULTIPLIER:
             finalStat = (temporaryPowerActive && GetPowerDef()->tempPower.fireRepairMultiplier.enabled) ? GetPowerDef()->tempPower.fireRepairMultiplier.value : def->fireRepairMultiplier;

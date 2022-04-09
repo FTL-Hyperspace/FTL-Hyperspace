@@ -168,9 +168,9 @@ float CrewMember::_HS_GetDamageMultiplier()
 }
 
 CrewMember *currentCrewLoop = nullptr;
-HOOK_METHOD(CrewMember, OnLoop, () -> void)
+HOOK_METHOD_PRIORITY(CrewMember, OnLoop, -1000, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> CrewMember::OnLoop -> Begin (CrewVTable.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> CrewMember::OnLoop -> Begin (CrewVTable.cpp)\n")
     currentCrewLoop = this;
     super();
     currentCrewLoop = nullptr;

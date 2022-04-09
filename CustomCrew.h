@@ -6,6 +6,8 @@
 #include "CustomDamage.h"
 #include <unordered_map>
 
+extern CrewMember *currentCrewLoop;
+
 enum TransformColorMode
 {
     KEEP_COLORS,
@@ -133,6 +135,7 @@ struct TemporaryPowerDefinition
     ToggleValue<float> moveSpeedMultiplier;
     ToggleValue<float> damageMultiplier;
     ToggleValue<float> rangedDamageMultiplier;
+    ToggleValue<float> doorDamageMultiplier;
     ToggleValue<float> repairSpeed;
     ToggleValue<float> fireRepairMultiplier;
     ToggleValue<bool> controllable;
@@ -323,6 +326,7 @@ struct CrewDefinition
     float repairSpeed = 1.f;
     float damageMultiplier = 1.f;
     float rangedDamageMultiplier = 1.f;
+    float doorDamageMultiplier = 1.f;
     bool providesPower = false;
     int bonusPower = 0;
     float fireRepairMultiplier = 1.2f;
