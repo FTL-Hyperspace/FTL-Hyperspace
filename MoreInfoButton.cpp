@@ -47,8 +47,6 @@ HOOK_METHOD(CommandGui, OnLoop, () -> void)
         custom->redesignedDroneTooltips.currentValue = true;
         custom->redesignedAugmentTooltips.currentValue = true;
         moreInfoButton->SetImageBase("statusUI/moreInfoButtonOn");
-
-        G_->GetSoundControl()->PlaySoundMix("moreInfoOn", -1.f, false);
     }
     else if (custom->altModeChanged)
     {
@@ -65,8 +63,6 @@ HOOK_METHOD(CommandGui, OnLoop, () -> void)
         custom->redesignedDroneTooltips.currentValue = custom->redesignedDroneTooltips.defaultValue;
         custom->redesignedAugmentTooltips.currentValue = custom->redesignedAugmentTooltips.defaultValue;
         moreInfoButton->SetImageBase("statusUI/moreInfoButtonOff");
-
-        G_->GetSoundControl()->PlaySoundMix("moreInfoOff", -1.f, false);
     }
 }
 
@@ -99,5 +95,6 @@ HOOK_METHOD(CommandGui, LButtonDown, (int mX, int mY, bool shiftHeld) -> void)
         auto custom = CustomOptionsManager::GetInstance();
         custom->altMode = !custom->altMode;
         custom->altModeChanged = true;
+        G_->GetSoundControl()->PlaySoundMix(custom->altMode ? "moreInfoOn" : "moreInfoOff", -1.f, false);
     }
 }

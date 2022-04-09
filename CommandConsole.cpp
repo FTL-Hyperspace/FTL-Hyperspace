@@ -242,6 +242,7 @@ HOOK_METHOD(CommandGui, KeyDown, (SDLKey key, bool shiftHeld) -> void)
     {
         custom->altMode = !custom->altMode;
         custom->altModeChanged = true;
+        G_->GetSoundControl()->PlaySoundMix(custom->altMode ? "moreInfoOn" : "moreInfoOff", -1.f, false);
     }
 
     if (key == Settings::GetHotkey("console"))
