@@ -17,6 +17,7 @@ extern std::bitset<8> advancedCheckEquipment;
 // bit 3: CustomBackgroundObject::OnLoop
 // bit 4: VariableModifier::ApplyVariables
 // bit 5: TriggeredEvent::Update
+// bit 6: StarMap::GenerateEvents (priority events)
 
 extern std::deque<std::pair<std::string,int>> eventQueue;
 
@@ -28,6 +29,7 @@ extern std::string replaceCreditsMusic;
 
 extern std::unordered_map<int, std::string> renamedBeacons;
 extern std::unordered_map<int, std::pair<std::string, int>> regeneratedBeacons;
+extern std::vector<bool> savedPriorityEventReq;
 
 extern std::unordered_map<std::string, int> playerVariables;
 
@@ -727,6 +729,15 @@ struct SectorFleet
     std::string nebulaEvent = "";
 };
 
+struct PriorityEvent
+{
+    std_pair_std_string_RandomAmount event;
+    int priority = 0;
+    std::string req = "";
+    int lvl = 1;
+    int max_lvl = 2147483647;
+};
+
 struct CustomSector
 {
     std::string sectorName;
@@ -736,7 +747,7 @@ struct CustomSector
     bool noExit = false;
     ToggleValue<bool> nebulaSector;
     int maxSector = -1;
-    std::vector<std::pair<std_pair_std_string_RandomAmount,int>> priorityEventCounts;
+    std::vector<PriorityEvent> priorityEventCounts;
 };
 
 struct BossShipDefinition

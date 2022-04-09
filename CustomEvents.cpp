@@ -26,8 +26,8 @@ TimerHelper *restartMusicTimer = nullptr;
 std::unordered_map<std::string, EventAlias> eventAliases = std::unordered_map<std::string, EventAlias>();
 
 std::unordered_map<int, std::string> renamedBeacons = std::unordered_map<int, std::string>();
-
 std::unordered_map<int, std::pair<std::string, int>> regeneratedBeacons = std::unordered_map<int, std::pair<std::string, int>>();
+std::vector<bool> savedPriorityEventReq = std::vector<bool>();
 
 std::vector<JumpEvent> jumpEventQueue;
 std::deque<DeathEvent> deathEventQueue;
@@ -600,27 +600,53 @@ void CustomEventsParser::ParseCustomSector(rapidxml::xml_node<char> *node, Custo
             sector->priorityEventCounts.emplace_back();
             auto &event = sector->priorityEventCounts.back();
 
+            event.event.second.min = 0;
+            event.event.second.max = 0;
+            event.event.second.chanceNone = 0.f;
+
             if (sectorNode->first_attribute("name"))
             {
-                event.first.first = sectorNode->first_attribute("name")->value();
+                event.event.first = sectorNode->first_attribute("name")->value();
             }
             if (sectorNode->first_attribute("min"))
             {
-                event.first.second.min = boost::lexical_cast<int>(sectorNode->first_attribute("min")->value());
+                event.event.second.min = boost::lexical_cast<int>(sectorNode->first_attribute("min")->value());
             }
             if (sectorNode->first_attribute("max"))
             {
-                event.first.second.max = boost::lexical_cast<int>(sectorNode->first_attribute("max")->value());
+                event.event.second.max = boost::lexical_cast<int>(sectorNode->first_attribute("max")->value());
             }
             if (sectorNode->first_attribute("priority"))
             {
-                event.second = boost::lexical_cast<int>(sectorNode->first_attribute("priority")->value());
+                event.priority = boost::lexical_cast<int>(sectorNode->first_attribute("priority")->value());
             }
             else
             {
-                event.second = 0;
+                event.priority = 0;
+            }
+            if (sectorNode->first_attribute("req"))
+            {
+                event.req = sectorNode->first_attribute("req")->value();
+            }
+            if (sectorNode->first_attribute("max_lvl"))
+            {
+                event.max_lvl = boost::lexical_cast<int>(sectorNode->first_attribute("max_lvl")->value());
+                event.lvl = -2147483648;
+            }
+            if (sectorNode->first_attribute("lvl"))
+            {
+                event.lvl = boost::lexical_cast<int>(sectorNode->first_attribute("lvl")->value());
             }
         }
+    }
+
+    if (!isDefault)
+    {
+        std::stable_sort(sector->priorityEventCounts.begin(), sector->priorityEventCounts.end(),
+                         [](const PriorityEvent &a, const PriorityEvent &b) -> bool
+                         {
+                             return a.priority > b.priority;
+                         });
     }
 }
 
@@ -2117,40 +2143,6 @@ void CustomEventsParser::ParseVanillaBaseNode(rapidxml::xml_node<char> *node)
 
             ParseCustomSector(node, sec, true);
 
-            // Transfer to vanilla eventCounts
-
-            EventGenerator *eventGenerator = G_->GetEventGenerator();
-
-            if (!sec->priorityEventCounts.empty())
-            {
-                auto secIt = eventGenerator->sectors.find(sectorName);
-                if (secIt != eventGenerator->sectors.end())
-                {
-                    std::stable_sort(sec->priorityEventCounts.begin(), sec->priorityEventCounts.end(),
-                    [](const std::pair<std_pair_std_string_RandomAmount,int> &a, const std::pair<std_pair_std_string_RandomAmount,int> &b) -> bool
-                    {
-                        return a.second > b.second;
-                    });
-
-                    std::vector<std_pair_std_string_RandomAmount> eventCounts;
-                    eventCounts.reserve(secIt->second.eventCounts.size() + sec->priorityEventCounts.size());
-
-                    auto it = sec->priorityEventCounts.begin();
-                    for (; it->second >= 0; ++it)
-                    {
-                        eventCounts.push_back(it->first);
-                    }
-                    eventCounts.insert(eventCounts.end(), std::make_move_iterator(secIt->second.eventCounts.begin()), std::make_move_iterator(secIt->second.eventCounts.end()));
-                    for (; it != sec->priorityEventCounts.end(); ++it)
-                    {
-                        eventCounts.push_back(it->first);
-                    }
-
-                    secIt->second.eventCounts.swap(eventCounts);
-                }
-                sec->priorityEventCounts.clear();
-            }
-
             customSectors[sectorName] = sec;
         }
     }
@@ -3059,6 +3051,82 @@ HOOK_METHOD(StarMap, GenerateMap, (bool tutorial, bool seed) -> LocationEvent*)
 
     return ret;
 }
+
+// priorityEvents
+HOOK_METHOD(StarMap, GenerateEvents, (bool bTutorial) -> void)
+{
+    std::string sectorName = "";
+    if (!forceSectorChoice.empty())
+    {
+        sectorName = forceSectorChoice;
+    }
+    else if (currentSector)
+    {
+        sectorName = currentSector->description.type;
+    }
+    if (sectorName == "CIVILIAN_SECTOR" && currentSector->level == 0)
+    {
+        sectorName = "STANDARD_SPACE";
+    }
+
+    if (!sectorName.empty())
+    {
+        CustomSector *sec = CustomEventsParser::GetInstance()->GetCustomSector(sectorName);
+        if (sec)
+        {
+            int i=0;
+            std::vector<std_pair_std_string_RandomAmount> highPriorityEventCounts;
+            std::vector<std_pair_std_string_RandomAmount> lowPriorityEventCounts;
+            ShipManager *ship = G_->GetShipManager(0);
+
+            if (!loadingGame) savedPriorityEventReq.clear();
+
+            for (PriorityEvent &pEvent : sec->priorityEventCounts)
+            {
+                if (!pEvent.req.empty())
+                {
+                    if (loadingGame)
+                    {
+                        if (!savedPriorityEventReq.at(i++)) continue;
+                    }
+                    else
+                    {
+                        bool reqMet = false;
+                        if (ship)
+                        {
+                            advancedCheckEquipment[6] = true;
+                            int reqLvl = ship->HasEquipment(pEvent.req);
+                            advancedCheckEquipment[6] = false;
+                            reqMet = (reqLvl >= pEvent.lvl && reqLvl <= pEvent.max_lvl);
+                        }
+                        savedPriorityEventReq.push_back(reqMet);
+                        if (!reqMet) continue;
+                    }
+                }
+                if (pEvent.priority >= 0)
+                {
+                    highPriorityEventCounts.push_back(pEvent.event);
+                }
+                else
+                {
+                    lowPriorityEventCounts.push_back(pEvent.event);
+                }
+            }
+
+            if (!highPriorityEventCounts.empty())
+            {
+                currentSector->description.eventCounts.insert(currentSector->description.eventCounts.begin(), highPriorityEventCounts.begin(), highPriorityEventCounts.end());
+            }
+            if (!lowPriorityEventCounts.empty())
+            {
+                currentSector->description.eventCounts.insert(currentSector->description.eventCounts.end(), lowPriorityEventCounts.begin(), lowPriorityEventCounts.end());
+            }
+        }
+    }
+
+    super(bTutorial);
+}
+
 
 HOOK_METHOD_PRIORITY(StarMap, TurnIntoFleetLocation, 9999, (Location *loc) -> void)
 {
@@ -4710,6 +4778,9 @@ HOOK_METHOD(StarMap, NewGame, (bool unk) -> Location*)
     // renamedBeacons
     renamedBeacons.clear();
 
+    // savedPriorityEventReq
+    savedPriorityEventReq.clear();
+
     // backgroundObjects;
     CustomBackgroundObjectManager::instance->backgroundObjects.clear();
 
@@ -4798,6 +4869,14 @@ HOOK_METHOD(StarMap, LoadGame, (int fh) -> Location*)
     {
         int idx = FileHelper::readInteger(fh);
         renamedBeacons[idx] = FileHelper::readString(fh);
+    }
+
+    // savedPriorityEventReq
+    savedPriorityEventReq.clear();
+    n = FileHelper::readInteger(fh);
+    for (int i=0; i<n; ++i)
+    {
+        savedPriorityEventReq.push_back(FileHelper::readInteger(fh));
     }
 
     // backgroundObjects
@@ -4901,6 +4980,13 @@ HOOK_METHOD(StarMap, SaveGame, (int file) -> void)
         {
             FileHelper::writeString(file, i.second);
         }
+    }
+
+    // savedPriorityEventReq
+    FileHelper::writeInt(file, savedPriorityEventReq.size());
+    for (bool i : savedPriorityEventReq)
+    {
+        FileHelper::writeInt(file, i);
     }
 
     // backgroundObjects
