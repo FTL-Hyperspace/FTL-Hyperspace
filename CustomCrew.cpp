@@ -3632,8 +3632,10 @@ HOOK_METHOD(CombatControl, UpdateTarget, () -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> CombatControl::UpdateTarget -> Begin (CustomCrew.cpp)\n")
     crewDetectLifeforms = true;
-    return super();
+    bool ret = super();
     crewDetectLifeforms = false;
+
+    return ret;
 }
 
 HOOK_METHOD(ShipObject, HasEquipment, (const std::string& name) -> int)
