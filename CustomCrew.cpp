@@ -5117,7 +5117,7 @@ HOOK_METHOD(CrewMember, GetIntruder, () -> bool)
 
 HOOK_METHOD(CrewAI, CheckForHealing, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> CrewMember::CheckForHealing -> Begin (CustomCrew.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> CrewAI::CheckForHealing -> Begin (CustomCrew.cpp)\n")
     needsIntruderControllable = true;
     super();
     needsIntruderControllable = false;
@@ -5883,6 +5883,7 @@ HOOK_METHOD(CrewAnimation, OnUpdate, (Pointf position, bool moving, bool fightin
 // Door damage multiplier
 HOOK_METHOD(Door, ApplyDamage, (float amount) -> bool)
 {
+    LOG_HOOK("HOOK_METHOD -> Door::ApplyDamage -> Begin (CustomCrew.cpp)\n")
     if (currentCrewLoop)
     {
         CrewMember_Extend *ex = CM_EX(currentCrewLoop);

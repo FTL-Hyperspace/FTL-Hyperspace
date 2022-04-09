@@ -3055,6 +3055,7 @@ HOOK_METHOD(StarMap, GenerateMap, (bool tutorial, bool seed) -> LocationEvent*)
 // priorityEvents
 HOOK_METHOD(StarMap, GenerateEvents, (bool bTutorial) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> StarMap::GenerateEvents -> Begin (CustomEvents.cpp)\n")
     std::string sectorName = "";
     if (!forceSectorChoice.empty())
     {
