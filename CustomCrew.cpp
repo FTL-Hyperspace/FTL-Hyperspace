@@ -948,6 +948,10 @@ void CustomCrewManager::ParseAbilityEffect(rapidxml::xml_node<char>* stat, Activ
                 {
                     def.tempPower.damageMultiplier = boost::lexical_cast<float>(tempEffectNode->value());
                 }
+                if (tempEffectName == "rangedDamageMultiplier")
+                {
+                    def.tempPower.rangedDamageMultiplier = boost::lexical_cast<float>(tempEffectNode->value());
+                }
                 if (tempEffectName == "bonusPower")
                 {
                     def.tempPower.bonusPower = boost::lexical_cast<int>(tempEffectNode->value());
