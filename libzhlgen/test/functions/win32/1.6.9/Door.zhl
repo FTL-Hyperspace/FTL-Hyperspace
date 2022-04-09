@@ -6,7 +6,10 @@ __thiscall bool Door::IsSealed(Door *this, int shipId);
 __thiscall void Door::FakeOpen(Door *this);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b813c02000085c0":
 __thiscall void Door::OnLoop(Door *this);
-
+"578d7c240883e4f0ff77fc5589e55783ec248b8144020000894424048b81400200008d4df0890424e8????????8b45f483ec088d4df083c008894424048b45f0890424":
+__thiscall Point Door::GetPosition(Door *this);
+".80b9e801000000740731c0":
+__thiscall bool Door::ApplyDamage(Door *this, float amount);
 
 struct Door depends (Point, ShipGraph)
 {{
