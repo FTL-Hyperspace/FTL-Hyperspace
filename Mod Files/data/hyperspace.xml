@@ -1720,6 +1720,9 @@ Syntax ->
 		<noExit/>                                                                          Removes the exit beacon, preventing normal travel to the next sector. Still creates an exit beacon event where the exit would be.
 		<priorityEvent name="EVENT_LIST" min="0" max="0" priority="0"                      Like <event> in sector_data.xml but adds priority for sorting (high to low). >=0 goes above normal events.
 		               req="req_name" lvl="1" max_lvl="999"/>                                If req is specified, only generate the event if the req is met upon sector entry.
+		<quest event="EVENT_NAME" req="req_name" lvl="1" max_lvl="999">                    Adds events to spawn as quests on sector entry, with optional req to control spawning.
+			...
+		</quest>
     </sector>
 	
 	<quest>                                      Specifies new defaults for quest spawning. This tag also exists for individual events to override the defaults.

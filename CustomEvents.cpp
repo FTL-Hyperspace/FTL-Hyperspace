@@ -638,6 +638,42 @@ void CustomEventsParser::ParseCustomSector(rapidxml::xml_node<char> *node, Custo
                 event.lvl = boost::lexical_cast<int>(sectorNode->first_attribute("lvl")->value());
             }
         }
+        if (strcmp(sectorNode->name(), "quest") == 0)
+        {
+            isDefault = false;
+
+            sector->sectorQuests.emplace_back();
+            auto &event = sector->sectorQuests.back();
+
+            if (sectorNode->first_attribute("event"))
+            {
+                event.event = sectorNode->first_attribute("event")->value();
+
+                CustomQuest* newCustomQuest = new CustomQuest();
+                bool questIsDefault = ParseCustomQuestNode(sectorNode, newCustomQuest);
+                if (questIsDefault)
+                {
+                    delete newCustomQuest;
+                }
+                else
+                {
+                    customQuests[event.event] = newCustomQuest;
+                }
+            }
+            if (sectorNode->first_attribute("req"))
+            {
+                event.req = sectorNode->first_attribute("req")->value();
+            }
+            if (sectorNode->first_attribute("max_lvl"))
+            {
+                event.max_lvl = boost::lexical_cast<int>(sectorNode->first_attribute("max_lvl")->value());
+                event.lvl = -2147483648;
+            }
+            if (sectorNode->first_attribute("lvl"))
+            {
+                event.lvl = boost::lexical_cast<int>(sectorNode->first_attribute("lvl")->value());
+            }
+        }
     }
 
     if (!isDefault)
@@ -2103,6 +2139,30 @@ CustomSector *CustomEventsParser::GetCustomSectorPreload(const std::string& sect
     return nullptr;
 }
 
+CustomSector *CustomEventsParser::GetCurrentCustomSector(StarMap *starMap)
+{
+    std::string sectorName;
+
+    if (!starMap->forceSectorChoice.empty())
+    {
+        sectorName = starMap->forceSectorChoice;
+    }
+    else if (starMap->currentSector)
+    {
+        sectorName = starMap->currentSector->description.type;
+        if (sectorName == "CIVILIAN_SECTOR" && starMap->currentSector->level == 0)
+        {
+            sectorName = "STANDARD_SPACE";
+        }
+    }
+    else
+    {
+        return nullptr;
+    }
+
+    return GetCustomSector(sectorName);
+}
+
 CustomReq *CustomEventsParser::GetCustomReq(const std::string& blueprint)
 {
     auto it = customReqs.find(blueprint);
@@ -2942,6 +3002,9 @@ HOOK_METHOD(StarMap, GenerateMap, (bool tutorial, bool seed) -> LocationEvent*)
         CustomBackgroundObjectManager::instance->backgroundObjects.clear();
     }
 
+    // sector quests, set flag to prepend sector quests to delayed quests when generating events
+    if (!loadingGame) needSectorQuests = true;
+
     auto ret = super(tutorial, seed);
 
     if (!tutorial && !bossLevel)
@@ -3070,75 +3133,93 @@ HOOK_METHOD(StarMap, GenerateMap, (bool tutorial, bool seed) -> LocationEvent*)
     return ret;
 }
 
-// priorityEvents
+// priorityEvents and sector quests
+bool needSectorQuests = false;
 HOOK_METHOD(StarMap, GenerateEvents, (bool bTutorial) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> StarMap::GenerateEvents -> Begin (CustomEvents.cpp)\n")
-    std::string sectorName = "";
-    if (!forceSectorChoice.empty())
-    {
-        sectorName = forceSectorChoice;
-    }
-    else if (currentSector)
-    {
-        sectorName = currentSector->description.type;
-    }
-    if (sectorName == "CIVILIAN_SECTOR" && currentSector->level == 0)
-    {
-        sectorName = "STANDARD_SPACE";
-    }
 
-    if (!sectorName.empty())
+    CustomSector *sec = CustomEventsParser::GetInstance()->GetCurrentCustomSector(this);
+    if (sec)
     {
-        CustomSector *sec = CustomEventsParser::GetInstance()->GetCustomSector(sectorName);
-        if (sec)
+        int i=0;
+        std::vector<std_pair_std_string_RandomAmount> highPriorityEventCounts;
+        std::vector<std_pair_std_string_RandomAmount> lowPriorityEventCounts;
+        ShipManager *ship = G_->GetShipManager(0);
+
+        if (!loadingGame) savedPriorityEventReq.clear();
+
+        for (PriorityEvent &pEvent : sec->priorityEventCounts)
         {
-            int i=0;
-            std::vector<std_pair_std_string_RandomAmount> highPriorityEventCounts;
-            std::vector<std_pair_std_string_RandomAmount> lowPriorityEventCounts;
-            ShipManager *ship = G_->GetShipManager(0);
-
-            if (!loadingGame) savedPriorityEventReq.clear();
-
-            for (PriorityEvent &pEvent : sec->priorityEventCounts)
+            if (!pEvent.req.empty())
             {
-                if (!pEvent.req.empty())
+                if (loadingGame)
                 {
-                    if (loadingGame)
-                    {
-                        if (!savedPriorityEventReq.at(i++)) continue;
-                    }
-                    else
-                    {
-                        bool reqMet = false;
-                        if (ship)
-                        {
-                            advancedCheckEquipment[6] = true;
-                            int reqLvl = ship->HasEquipment(pEvent.req);
-                            advancedCheckEquipment[6] = false;
-                            reqMet = (reqLvl >= pEvent.lvl && reqLvl <= pEvent.max_lvl);
-                        }
-                        savedPriorityEventReq.push_back(reqMet);
-                        if (!reqMet) continue;
-                    }
-                }
-                if (pEvent.priority >= 0)
-                {
-                    highPriorityEventCounts.push_back(pEvent.event);
+                    if (!savedPriorityEventReq.at(i++)) continue;
                 }
                 else
                 {
-                    lowPriorityEventCounts.push_back(pEvent.event);
+                    bool reqMet = false;
+                    if (ship)
+                    {
+                        advancedCheckEquipment[6] = true;
+                        int reqLvl = ship->HasEquipment(pEvent.req);
+                        advancedCheckEquipment[6] = false;
+                        reqMet = (reqLvl >= pEvent.lvl && reqLvl <= pEvent.max_lvl);
+                    }
+                    savedPriorityEventReq.push_back(reqMet);
+                    if (!reqMet) continue;
+                }
+            }
+            if (pEvent.priority >= 0)
+            {
+                highPriorityEventCounts.push_back(pEvent.event);
+            }
+            else
+            {
+                lowPriorityEventCounts.push_back(pEvent.event);
+            }
+        }
+
+        if (!highPriorityEventCounts.empty())
+        {
+            currentSector->description.eventCounts.insert(currentSector->description.eventCounts.begin(), highPriorityEventCounts.begin(), highPriorityEventCounts.end());
+        }
+        if (!lowPriorityEventCounts.empty())
+        {
+            currentSector->description.eventCounts.insert(currentSector->description.eventCounts.end(), lowPriorityEventCounts.begin(), lowPriorityEventCounts.end());
+        }
+
+        if (needSectorQuests)
+        {
+            // Only do this once; don't do it multiple times if the generator resets itself
+            needSectorQuests = false;
+
+            std::vector<std::string> addedSectorQuests = std::vector<std::string>();
+
+            for (SectorQuest &event : sec->sectorQuests)
+            {
+                if (!event.req.empty())
+                {
+                    bool reqMet = false;
+                    if (ship)
+                    {
+                        advancedCheckEquipment[6] = true;
+                        int reqLvl = ship->HasEquipment(event.req);
+                        advancedCheckEquipment[6] = false;
+                        reqMet = (reqLvl >= event.lvl && reqLvl <= event.max_lvl);
+                    }
+                    if (reqMet)
+                    {
+                        // seed is -1
+                        addedSectorQuests.push_back("QUEST\t-1\t" + event.event);
+                    }
                 }
             }
 
-            if (!highPriorityEventCounts.empty())
+            if (!addedSectorQuests.empty())
             {
-                currentSector->description.eventCounts.insert(currentSector->description.eventCounts.begin(), highPriorityEventCounts.begin(), highPriorityEventCounts.end());
-            }
-            if (!lowPriorityEventCounts.empty())
-            {
-                currentSector->description.eventCounts.insert(currentSector->description.eventCounts.end(), lowPriorityEventCounts.begin(), lowPriorityEventCounts.end());
+                delayedQuests.insert(delayedQuests.begin(), addedSectorQuests.begin(), addedSectorQuests.end());
             }
         }
     }

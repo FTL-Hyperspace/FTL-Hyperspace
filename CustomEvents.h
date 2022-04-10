@@ -17,7 +17,7 @@ extern std::bitset<8> advancedCheckEquipment;
 // bit 3: CustomBackgroundObject::OnLoop
 // bit 4: VariableModifier::ApplyVariables
 // bit 5: TriggeredEvent::Update
-// bit 6: StarMap::GenerateEvents (priority events)
+// bit 6: StarMap::GenerateEvents (priority events) and StarMap::GenerateMap (sector quests)
 
 extern std::deque<std::pair<std::string,int>> eventQueue;
 
@@ -27,6 +27,7 @@ extern TimerHelper *restartMusicTimer;
 
 extern std::string replaceCreditsMusic;
 
+extern bool needSectorQuests;
 extern std::unordered_map<int, std::string> renamedBeacons;
 extern std::unordered_map<int, std::pair<std::string, int>> regeneratedBeacons;
 extern std::vector<bool> savedPriorityEventReq;
@@ -738,6 +739,14 @@ struct PriorityEvent
     int max_lvl = 2147483647;
 };
 
+struct SectorQuest
+{
+    std::string event;
+    std::string req = "";
+    int lvl = 1;
+    int max_lvl = 2147483647;
+};
+
 struct CustomSector
 {
     std::string sectorName;
@@ -748,6 +757,7 @@ struct CustomSector
     ToggleValue<bool> nebulaSector;
     int maxSector = -1;
     std::vector<PriorityEvent> priorityEventCounts;
+    std::vector<SectorQuest> sectorQuests;
 };
 
 struct BossShipDefinition
@@ -895,6 +905,7 @@ public:
     CustomQuest *GetCustomQuest(const std::string& event);
     CustomSector *GetCustomSector(const std::string& sectorName);
     CustomSector *GetCustomSectorPreload(const std::string& sectorName);
+    CustomSector *GetCurrentCustomSector(StarMap *starMap);
     CustomReq *GetCustomReq(const std::string& blueprint);
 
     static std::string GetBaseEventName(const std::string& event)
