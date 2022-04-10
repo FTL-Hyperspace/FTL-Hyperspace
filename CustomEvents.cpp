@@ -2568,7 +2568,7 @@ static bool questNextSectorPopped = false;
 static int questOverrideWorldLevel = -1;
 static LocationEvent *lastQuestEvent = nullptr; // used to recycle generated event rather than generating it multiple times
 
-HOOK_METHOD(StarMap, AddQuest, (const std::string& questEvent, bool force) -> bool)
+HOOK_METHOD(StarMap, AddQuest, (const std::string& name, bool force) -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> StarMap::AddQuest -> Begin (CustomEvents.cpp)\n")
     int savedSeed = 0;
@@ -2580,10 +2580,27 @@ HOOK_METHOD(StarMap, AddQuest, (const std::string& questEvent, bool force) -> bo
 
     if (SeedInputBox::seedsEnabled) savedSeed = random32();
 
-    // If we're generating a new sector then we should load the seeds from here.
-    if (Global::lastDelayedQuestSeeds.size() > Global::delayedQuestIndex)
+    // Check if this is delayed from the previous sector (currently always from delayedQuests)
+    // If special string is detected it must be parsed to get the quest name and seed
+    // This won't interfere with addedQuests since addedQuests does not use AddQuest
+    std::string questEvent;
+    bool isNextSector;
+    bool isSeeded;
+    if (boost::algorithm::starts_with(name, "QUEST\t")) //loading a saved quest
     {
-        Global::questSeed = Global::lastDelayedQuestSeeds[Global::delayedQuestIndex++];
+        std::string name2 = name.substr(6);
+        std::vector<std::string> s = std::vector<std::string>();
+        boost::split(s, name2, boost::is_any_of("\t"));
+        Global::questSeed = std::stoi(s[0]);
+        questEvent = s[1];
+        isNextSector = s.size() > 2 && s[2] == "D";
+        isSeeded = true;
+    }
+    else
+    {
+        questEvent = name;
+        isNextSector = false;
+        isSeeded = false;
     }
 
     // Get the custom quest options (default and event-specific).
@@ -2627,7 +2644,7 @@ HOOK_METHOD(StarMap, AddQuest, (const std::string& questEvent, bool force) -> bo
             i->nebula = !quest.nonNebulaBeacon.value;
         }
 
-        if (!quest.currentSector.value && !force)
+        if (!quest.currentSector.value && !isNextSector)
         {
             i->nebula = true;
         }
@@ -2664,7 +2681,7 @@ HOOK_METHOD(StarMap, AddQuest, (const std::string& questEvent, bool force) -> bo
     // Seed the quest then try to spawn it normally.
     if (SeedInputBox::seedsEnabled) srandom32(Global::questSeed);
     bool ret = super(questEvent, force);
-    if (SeedInputBox::seedsEnabled && !Global::delayedQuestIndex) nextQuestSeed = random32();
+    if (SeedInputBox::seedsEnabled && !isSeeded) nextQuestSeed = random32();
 
     // Don't let aggressive quests spawn at beacons taken over or about to be taken over.
     if (!ret && quest.aggressive.value)
@@ -2689,7 +2706,7 @@ HOOK_METHOD(StarMap, AddQuest, (const std::string& questEvent, bool force) -> bo
 
         if (SeedInputBox::seedsEnabled) srandom32(Global::questSeed);
         ret = super(questEvent, true);
-        if (SeedInputBox::seedsEnabled && !Global::delayedQuestIndex) nextQuestSeed = random32();
+        if (SeedInputBox::seedsEnabled && !isSeeded) nextQuestSeed = random32();
     }
 
     // Remove the quest from delayedQuests if nextSector is false.
@@ -2704,7 +2721,7 @@ HOOK_METHOD(StarMap, AddQuest, (const std::string& questEvent, bool force) -> bo
     {
         if (SeedInputBox::seedsEnabled) srandom32(Global::questSeed);
         ret = super(questEvent, true);
-        if (SeedInputBox::seedsEnabled && !Global::delayedQuestIndex) nextQuestSeed = random32();
+        if (SeedInputBox::seedsEnabled && !isSeeded) nextQuestSeed = random32();
     }
 
     worldLevel = questOverrideWorldLevel;
@@ -2716,6 +2733,7 @@ HOOK_METHOD(StarMap, AddQuest, (const std::string& questEvent, bool force) -> bo
         i.first->nebula = i.second[1];
     }
 
+    // If quest was spawned we need to check if it should be a nebula quest instead.
     if (ret)
     {
         for (auto i : locations)
@@ -2749,10 +2767,10 @@ HOOK_METHOD(StarMap, AddQuest, (const std::string& questEvent, bool force) -> bo
         addedQuests[numAddedQuests].first = "QUEST\t" + std::to_string(Global::questSeed) + "\t" + addedQuests[numAddedQuests].first;
     }
 
-    // If the quest is delayed to the next sector, save the quest's seed.
+    // Override formatting for delayedQuests vector to save the quest's seed.
     if (!ret && delayedQuests.size() > numDelayedQuests)
     {
-        Global::delayedQuestSeeds.push_back(Global::questSeed);
+        delayedQuests[numDelayedQuests] = "QUEST\t" + std::to_string(Global::questSeed) + "\t" + questEvent + "\tD";
     }
 
     if (SeedInputBox::seedsEnabled)

@@ -313,18 +313,12 @@ HOOK_METHOD_PRIORITY(StarMap, GenerateMap, 1000, (bool unk, bool seed) -> Locati
 
     if (!loadingMap)
     {
-        Global::lastDelayedQuestSeeds = Global::delayedQuestSeeds;
-        Global::delayedQuestIndex = 0;
-        Global::delayedQuestSeeds.clear();
-
         Global::bossFleetSeed = (currentSectorSeed ^ 0x46157fab) & 0x7fffffff;
     }
 
     auto ret = super(unk, seed);
 
     generatingMap = false;
-    Global::lastDelayedQuestSeeds.clear();
-    Global::delayedQuestIndex = 0;
 
     return ret;
 }
@@ -382,9 +376,6 @@ HOOK_METHOD_PRIORITY(StarMap, NewGame, 500, (bool unk) -> Location*)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> StarMap::NewGame -> Begin (Seeds.cpp)\n")
     Global::questSeed = 0;
-    Global::delayedQuestSeeds.clear();
-    Global::lastDelayedQuestSeeds.clear();
-    Global::delayedQuestIndex = 0;
 
     Global::bossFleetSeed = 0;
 
@@ -405,15 +396,6 @@ HOOK_METHOD_PRIORITY(StarMap, LoadGame, 500, (int fh) -> Location*)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> StarMap::LoadGame -> Begin (Seeds.cpp)\n")
     Global::questSeed = FileHelper::readInteger(fh);
-    Global::delayedQuestSeeds.clear();
-    Global::lastDelayedQuestSeeds.clear();
-    Global::delayedQuestIndex = 0;
-
-    int numDelayedQuests = FileHelper::readInteger(fh);
-    for (int i=0; i<numDelayedQuests; ++i)
-    {
-        Global::delayedQuestSeeds.push_back(FileHelper::readInteger(fh));
-    }
 
     Global::bossFleetSeed = FileHelper::readInteger(fh);
 
@@ -442,12 +424,6 @@ HOOK_METHOD_PRIORITY(StarMap, SaveGame, 500, (int file) -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> StarMap::SaveGame -> Begin (Seeds.cpp)\n")
     FileHelper::writeInt(file, Global::questSeed);
-
-    FileHelper::writeInt(file, Global::delayedQuestSeeds.size());
-    for (auto i : Global::delayedQuestSeeds)
-    {
-        FileHelper::writeInt(file, i);
-    }
 
     FileHelper::writeInt(file, Global::bossFleetSeed);
 

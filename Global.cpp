@@ -20,10 +20,7 @@ bool *Global::firstTimeShips = nullptr;
 Point *Global::dronePosition = nullptr;
 Point *Global::weaponPosition = nullptr;
 
-unsigned int Global::questSeed = 0;
-std::vector<unsigned int> Global::delayedQuestSeeds = std::vector<unsigned int>();
-int Global::delayedQuestIndex = 0;
-std::vector<unsigned int> Global::lastDelayedQuestSeeds = std::vector<unsigned int>();
+int Global::questSeed = 0;
 
 std::vector<std::vector<GL_Color*>> Global::colorPointers = std::vector<std::vector<GL_Color*>>();
 

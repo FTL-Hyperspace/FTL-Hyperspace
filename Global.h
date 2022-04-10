@@ -54,7 +54,7 @@ public:
     AchievementTracker *GetAchievementTracker() { return Global_AchievementTracker_Tracker; }
     ScoreKeeper *GetScoreKeeper() { return Global_ScoreKeeper_Keeper; }
     SettingValues *GetSettings() { return Global_Settings_Settings; }
-    int GetVersion() { 
+    int GetVersion() {
         return (((__version >> 16) & 0xFF) * 100) + (((__version >> 8) & 0xFF) * 10) + (__version & 0xFF);
     }
     const uint32_t GetRawVersion() { return __version; }
@@ -83,10 +83,7 @@ public:
     static Point* dronePosition;
     static Point* weaponPosition;
 
-    static unsigned int questSeed;
-    static std::vector<unsigned int> delayedQuestSeeds;
-    static int delayedQuestIndex;
-    static std::vector<unsigned int> lastDelayedQuestSeeds;
+    static int questSeed;
 
     static unsigned int bossFleetSeed;
 
