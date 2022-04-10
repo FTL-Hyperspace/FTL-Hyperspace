@@ -3007,76 +3007,72 @@ HOOK_METHOD(StarMap, GenerateMap, (bool tutorial, bool seed) -> LocationEvent*)
 
     auto ret = super(tutorial, seed);
 
+    // check custom sector
+    auto custom = CustomEventsParser::GetInstance();
+    CustomSector *customSector = custom->GetCurrentCustomSector(this);
+
+    // exit beacon event
     if (!tutorial && !bossLevel)
     {
-        auto custom = CustomEventsParser::GetInstance();
-
-        if (custom->GetCustomSector(currentSector->description.type))
+        if (customSector)
         {
-            CustomSector* customSector = custom->GetCustomSector(currentSector->description.type);
+            SectorExit customBeacon = customSector->exitBeacons;
 
-            if (customSector)
+            EventGenerator *eventGenerator = G_->GetEventGenerator();
+            for (auto i : locations)
             {
-                SectorExit customBeacon = customSector->exitBeacons;
-
-                EventGenerator *eventGenerator = G_->GetEventGenerator();
-                for (auto i : locations)
+                if (i->beacon)
                 {
-                    if (i->beacon)
+                    std::string event = "";
+                    if (i->dangerZone && !customBeacon.rebelEvent.empty())
                     {
-                        std::string event = "";
-                        if (i->dangerZone && !customBeacon.rebelEvent.empty())
+                        event = customBeacon.rebelEvent;
+                    }
+                    else
+                    {
+                        if (i->nebula && !customBeacon.nebulaEvent.empty())
                         {
-                            event = customBeacon.rebelEvent;
+                            event = customBeacon.nebulaEvent;
                         }
-                        else
+                        else if (!customBeacon.event.empty())
                         {
-                            if (i->nebula && !customBeacon.nebulaEvent.empty())
-                            {
-                                event = customBeacon.nebulaEvent;
-                            }
-                            else if (!customBeacon.event.empty())
-                            {
-                                event = customBeacon.event;
-                            }
-                        }
-                        if (!event.empty())
-                        {
-                            LocationEvent *newEvent = eventGenerator->GetBaseEvent(event, worldLevel, false, -1);
-
-                            bool isNebula = i->nebula;
-
-                            if (newEvent)
-                            {
-                                i->event = newEvent;
-                                if (isNebula)
-                                {
-                                    i->nebula = true;
-                                    newEvent->environment = 3;
-                                    newEvent->statusEffects.push_back({2, 7, 0, 2});
-                                }
-                            }
-                        }
-                        if (customSector->noExit)
-                        {
-                            originalExit = i;
-                            i->beacon = false;
+                            event = customBeacon.event;
                         }
                     }
-                }
+                    if (!event.empty())
+                    {
+                        LocationEvent *newEvent = eventGenerator->GetBaseEvent(event, worldLevel, false, -1);
 
-                if (customSector->nebulaSector.enabled)
-                {
-                    bNebulaMap = customSector->nebulaSector.value;
+                        bool isNebula = i->nebula;
+
+                        if (newEvent)
+                        {
+                            i->event = newEvent;
+                            if (isNebula)
+                            {
+                                i->nebula = true;
+                                newEvent->environment = 3;
+                                newEvent->statusEffects.push_back({2, 7, 0, 2});
+                            }
+                        }
+                    }
+                    if (customSector->noExit)
+                    {
+                        originalExit = i;
+                        i->beacon = false;
+                    }
                 }
+            }
+
+            if (customSector->nebulaSector.enabled)
+            {
+                bNebulaMap = customSector->nebulaSector.value;
             }
         }
     }
 
     if (!loadingGame)
     {
-        auto custom = CustomEventsParser::GetInstance();
-
         for (int i=0; i<locations.size(); ++i)
         {
             Location *loc = locations[i];
