@@ -979,9 +979,9 @@ public:
                     auto customEvents = CustomEventsParser::GetInstance();
                     auto customEvent = customEvents->GetCustomEvent(locEvent->eventName);
 
-                    if (customEvent && customEvent->preventBossFleet)
+                    if (customEvent && (customEvent->preventBossFleet || customEvent->preventFleet))
                     {
-                        potentialFleetLocs[i] = customEvent->preventBossFleet;
+                        potentialFleetLocs[i] = customEvent->preventFleet ? 2 : customEvent->preventBossFleet;
                     }
                     else
                     {
