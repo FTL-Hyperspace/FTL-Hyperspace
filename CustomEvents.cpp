@@ -3280,7 +3280,7 @@ HOOK_METHOD_PRIORITY(StarMap, TurnIntoFleetLocation, 9999, (Location *loc) -> vo
     {
         auto custom = CustomEventsParser::GetInstance();
 
-        CustomSector *customSector = custom->GetCustomSector(currentSector->description.type);
+        CustomSector *customSector = custom->GetCurrentCustomSector(this);
 
         if (customSector)
         {
@@ -3310,7 +3310,7 @@ HOOK_METHOD_PRIORITY(StarMap, TurnIntoFleetLocation, 9999, (Location *loc) -> vo
     if (!(loc->beacon || loc == originalExit) || bossLevel)
     {
         auto custom = CustomEventsParser::GetInstance();
-        CustomSector *customSector = custom->GetCustomSector(currentSector->description.type);
+        CustomSector *customSector = custom->GetCurrentCustomSector(this);
 
         if (customSector)
         {
@@ -4410,7 +4410,7 @@ HOOK_METHOD(StarMap, GenerateNebulas, (std::vector<std::string>& names) -> void)
 
     super(names);
 
-    CustomSector* customSector = CustomEventsParser::GetInstance()->GetCustomSector(currentSector->description.type);
+    CustomSector* customSector = CustomEventsParser::GetInstance()->GetCurrentCustomSector(this);
 
     if (customSector && customSector->removeFirstBeaconNebula)
     {
