@@ -1,2 +1,0 @@
-"578d7c240883e4f0ff77fc5589f889e557565389cf83c10483ec2c8b100fb6028b5a088955e48841fc":
-void ShipEvent::constructor(const ShipEvent& event);

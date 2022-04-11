@@ -1,5 +1,7 @@
 #include "CustomSystems.h"
 #include "TemporalSystem.h"
+#include "CustomShipSelect.h"
+#include "CustomShips.h"
 
 void ParseSystemsNode(rapidxml::xml_node<char>* node)
 {
@@ -26,6 +28,7 @@ void ParseSystemsNode(rapidxml::xml_node<char>* node)
 
 HOOK_STATIC(ShipSystem, NameToSystemId, (std::string& name) -> int)
 {
+    LOG_HOOK("HOOK_STATIC -> ShipSystem::NameToSystemId -> Begin (CustomSystems.cpp)\n")
     if (name == "temporal")
     {
         return 20;
@@ -34,21 +37,23 @@ HOOK_STATIC(ShipSystem, NameToSystemId, (std::string& name) -> int)
     return super(name);
 }
 
-HOOK_STATIC(ShipSystem, SystemIdToName, (std::string& strRef, int systemId) -> std::string&)
+HOOK_STATIC(ShipSystem, SystemIdToName, (int systemId) -> std::string)
 {
-    super(strRef, systemId);
+    LOG_HOOK("HOOK_STATIC -> ShipSystem::SystemIdToName -> Begin (CustomSystems.cpp)\n")
+    std::string ret = super(systemId);
     if (systemId == 20)
     {
-        strRef.assign("temporal");
+        ret.assign("temporal");
     }
 
-    return strRef;
+    return ret;
 }
 
 
 
 HOOK_METHOD(ShipSystem, constructor, (int systemId, int roomId, int shipId, int startingPower) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipSystem::constructor -> Begin (CustomSystems.cpp)\n")
     super(systemId, roomId, shipId, startingPower);
 
     if (systemId == 20)
@@ -62,6 +67,7 @@ HOOK_METHOD(ShipSystem, constructor, (int systemId, int roomId, int shipId, int 
 
 HOOK_METHOD(ShipManager, CreateSystems, () -> int)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::CreateSystems -> Begin (CustomSystems.cpp)\n")
     if (myBlueprint.systemInfo.find(0) != myBlueprint.systemInfo.end())
     {
         auto shieldInfo = myBlueprint.systemInfo[0];
@@ -82,28 +88,63 @@ HOOK_METHOD(ShipManager, CreateSystems, () -> int)
         systemKey.push_back(-1);
     }
 
-    auto realBp = G_->GetBlueprints()->GetShipBlueprint(myBlueprint.blueprintName, -1);
+    ShipBlueprint *realBp = nullptr;
+    if (!revisitingShip) realBp = G_->GetBlueprints()->GetShipBlueprint(myBlueprint.blueprintName, -1);
+
+    int ret = 0;
 
     if (realBp)
     {
         for (auto i : realBp->systems)
         {
-            AddSystem(i);
+            ret += AddSystem(i);
         }
     }
     else
     {
         for (auto i : myBlueprint.systems)
         {
-            AddSystem(i);
+            ret += AddSystem(i);
         }
     }
+    return ret;
+}
+
+HOOK_METHOD(ShipManager, SaveToBlueprint, (bool unk) -> ShipBlueprint)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::SaveToBlueprint -> Begin (CustomSystems.cpp)\n")
+    ShipBlueprint ret = super(unk);
+    if (this->systemKey[SYS_ARTILLERY] != -1) // Fix for saving multiple artillery blueprint
+    {
+        int numArtillery = this->artillerySystems.size();
+        for (auto i : ret.systems)
+        {
+            if (i == SYS_ARTILLERY)
+            {
+                numArtillery--;
+            }
+        }
+        if (numArtillery > 0)
+        {
+            for (int i=0; i<numArtillery; ++i)
+            {
+                ret.systems.push_back(SYS_ARTILLERY);
+            }
+            if (unk)
+            {
+                this->myBlueprint.systems = ret.systems;
+            }
+            return ret;
+        }
+    }
+    return ret;
 }
 
 HOOK_METHOD(SystemControl, CreateSystemBoxes, () -> void)
 {
-    (*Global::droneWeaponPosition).first = Point(0, 0);
-    (*Global::droneWeaponPosition).second = Point(0, 0);
+    LOG_HOOK("HOOK_METHOD -> SystemControl::CreateSystemBoxes -> Begin (CustomSystems.cpp)\n")
+    *Global::weaponPosition = Point(0, 0);
+    *Global::dronePosition = Point(0, 0);
 
     for (auto i : sysBoxes)
     {
@@ -204,7 +245,7 @@ HOOK_METHOD(SystemControl, CreateSystemBoxes, () -> void)
 
     if (shipManager->HasSystem(3))
     {
-        (*Global::droneWeaponPosition).second = Point(position.x + xPos + 36, position.y + 269);
+        *Global::weaponPosition = Point(position.x + xPos + 36, position.y + 269);
         auto box = new WeaponSystemBox(Point(xPos + 36, 269), shipManager->GetSystem(3), &combatControl->weapControl);
 
         sysBoxes.push_back(box);
@@ -224,7 +265,7 @@ HOOK_METHOD(SystemControl, CreateSystemBoxes, () -> void)
     }
     if (shipManager->HasSystem(4))
     {
-        (*Global::droneWeaponPosition).first = Point(position.x + xPos + 36, position.y + 269);
+        *Global::dronePosition = Point(position.x + xPos + 36, position.y + 269);
         auto box = new SystemBox(Point(xPos + 36, 269), shipManager->GetSystem(4), true);
 
         sysBoxes.push_back(box);
@@ -274,6 +315,7 @@ HOOK_METHOD(SystemControl, CreateSystemBoxes, () -> void)
 
 HOOK_METHOD(ShipBuilder, CreateSystemBoxes, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipBuilder::CreateSystemBoxes -> Begin (CustomSystems.cpp)\n")
     for (auto i : sysBoxes)
     {
         delete i;
@@ -319,118 +361,12 @@ HOOK_METHOD(ShipBuilder, CreateSystemBoxes, () -> void)
     }
 }
 
-/*
-WHY is this crashing I don't understand it's literally doing the same thing the game does
-but no it has to crash on a function unrelated to it for some bizarre reason
-
-Fixed
-*/
-HOOK_METHOD(Upgrades, OnInit, (ShipManager *ship) -> void)
-{
-    bFullFocus = true;
-    shipManager = ship;
-    infoBoxLoc = Point(position.x + 600, position.y);
-    infoBox.location = infoBoxLoc;
-
-    TextString buttonLabel = TextString();
-    buttonLabel.isLiteral = false;
-    buttonLabel.data = "button_undo";
-
-    undoButton.OnInit(position.x + 33, position.y + 471, 97, 32, 4, &buttonLabel, 63);
-    undoButton.SetBaseImage("upgradeUI/buttons_undo_base.png", Point(-23, -7), 97);
-    undoButton.SetAutoWidth(true, false, 3, 0);
-
-    reactorButton.OnInit("upgradeUI/Equipment/equipment_reactor", position.x + 305, position.y + 327);
-    reactorButton.allowAnyTouch = true;
-    reactorButton.touchSelectable = true;
-    reactorButton.ship = ship;
-
-    box = G_->GetResources()->GetImageId("upgradeUI/Equipment/upgrades_main.png");
-
-    ClearUpgradeBoxes();
-
-    std::vector<int> systemOrder = { 0, 1, 5, 13, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 14, 15, 20 };
-
-    int systemXPos = position.x - 27;
-    int subsystemXPos = position.x - 50;
-
-    int numSystems = 0;
-    int numSubsystems = 0;
-
-    systemCount = 0;
-
-    for (auto i : systemOrder)
-    {
-        if (i == SYS_ARTILLERY)
-        {
-            for (auto sys : ship->artillerySystems)
-            {
-                int yPos = position.y + 115;
-                bool isSubsystem = !sys->bNeedsPower;
-
-                if (isSubsystem)
-                {
-                    subsystemXPos += 66;
-                    yPos = position.y + 330;
-                    numSubsystems++;
-                }
-                else
-                {
-                    systemXPos += 66;
-                    numSystems++;
-                }
-
-                auto box = new UpgradeBox(ship, sys, Point(isSubsystem ? subsystemXPos : systemXPos, yPos), isSubsystem);
-                vUpgradeBoxes.push_back(box);
-                systemCount++;
-            }
-        }
-        else
-        {
-            auto sys = ship->GetSystem(i);
-            if (sys)
-            {
-                int yPos = position.y + 115;
-                bool isSubsystem = !sys->bNeedsPower;
-
-                if (isSubsystem)
-                {
-                    subsystemXPos += 66;
-                    yPos = position.y + 330;
-                    numSubsystems++;
-                }
-                else
-                {
-                    systemXPos += 66;
-                    numSystems++;
-                }
-
-                auto box = new UpgradeBox(ship, sys, Point(isSubsystem ? subsystemXPos : systemXPos, yPos), isSubsystem);
-                vUpgradeBoxes.push_back(box);
-                systemCount++;
-            }
-        }
-    }
-
-    for (int i = numSystems; i < 8; i++)
-    {
-        systemXPos += 66;
-        auto box = new UpgradeBox(Point(systemXPos, position.y + 115), false);
-        vUpgradeBoxes.push_back(box);
-    }
-    for (int i = numSubsystems; i < 4; i++)
-    {
-        subsystemXPos += 66;
-        auto box = new UpgradeBox(Point(subsystemXPos, position.y + 330), true);
-        vUpgradeBoxes.push_back(box);
-    }
-
-}
-
 
 HOOK_METHOD(CombatControl, KeyDown, (SDLKey key) -> void)
 {
-    if (weapControl.KeyDown(key) || droneControl.KeyDown(key))
+    LOG_HOOK("HOOK_METHOD -> CombatControl::KeyDown -> Begin (CustomSystems.cpp)\n")
+    bool isWeaponKey = weapControl.KeyDown(key);
+    if (isWeaponKey || droneControl.KeyDown(key))
     {
         if (shipManager->HasSystem(SYS_MIND))
         {
@@ -453,11 +389,69 @@ HOOK_METHOD(CombatControl, KeyDown, (SDLKey key) -> void)
             currentTarget->shipManager->ship.SetSelectedRoom(-1);
         }
     }
+    if (isWeaponKey)
+    {
+        aimingPoints.clear();
+    }
+}
+
+HOOK_METHOD(ShipManager, CanFitSystem, (int systemId) -> bool)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::CanFitSystem -> Begin (CustomSystems.cpp)\n")
+    if (systemId == SYS_MEDBAY)
+    {
+        if (systemKey[SYS_CLONEBAY] != -1)
+        {
+            return true;
+        }
+    }
+    else if (systemId == SYS_CLONEBAY)
+    {
+        if (systemKey[SYS_MEDBAY] != -1)
+        {
+            return true;
+        }
+    }
+
+    int count = 0;
+
+    for (auto i : vSystemList)
+    {
+        if (i->bNeedsPower)
+        {
+            count++;
+        }
+    }
+
+    auto custom = CustomShipSelect::GetInstance();
+    int sysLimit = custom->GetDefinition(myBlueprint.blueprintName).systemLimit;
+
+    return count < sysLimit;
+}
+
+HOOK_METHOD(ShipManager, CanFitSubsystem, (int systemId) -> bool)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::CanFitSubsystem -> Begin (CustomSystems.cpp)\n")
+    int count = 0;
+
+    for (auto i : vSystemList)
+    {
+        if (!i->bNeedsPower)
+        {
+            count++;
+        }
+    }
+
+    auto custom = CustomShipSelect::GetInstance();
+    int sysLimit = custom->GetDefinition(myBlueprint.blueprintName).subsystemLimit;
+
+    return count < sysLimit;
 }
 
 /*
 HOOK_METHOD(ShipManager, RenderChargeBars, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::RenderChargeBars -> Begin (CustomSystems.cpp)\n")
 
 }
 */
@@ -465,6 +459,7 @@ HOOK_METHOD(ShipManager, RenderChargeBars, () -> void)
 /*
 HOOK_METHOD(ShipSystem, SetPowerLoss, (int powerLoss) -> int)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipSystem::SetPowerLoss -> Begin (CustomSystems.cpp)\n")
     auto ex = SYS_EX(this);
     iTempPowerLoss = powerLoss + ex->additionalPowerLoss;
 
@@ -523,12 +518,12 @@ HOOK_METHOD(ShipSystem, SetPowerLoss, (int powerLoss) -> int)
 */
 
 /*
-HOOK_STATIC(ShipSystem, GetLevelDescription, (void* unk, std::string& retStr, int systemId, int level, bool tooltip) -> void)
+HOOK_STATIC(ShipSystem, GetLevelDescription, (int systemId, int level, bool tooltip) -> std::string)
 {
-    super(unk, retStr, systemId, level, tooltip);
+    LOG_HOOK("HOOK_STATIC -> ShipSystem::GetLevelDescription -> Begin (CustomSystems.cpp)\n")
+    std::string ret = super(systemId, level, tooltip);
 
-    std::string name = "";
-    SystemIdToName(name, systemId);
+    std::string name = SystemIdToName(systemId);
     auto tLib = G_->GetTextLibrary();
     if (tooltip)
     {
@@ -541,18 +536,20 @@ HOOK_STATIC(ShipSystem, GetLevelDescription, (void* unk, std::string& retStr, in
         {
             name += "_" + std::to_string(level) + "_tooltip";
         }
-        retStr.assign(tLib->GetText(name));
+        ret.assign(tLib->GetText(name));
     }
     else
     {
         name += "_" + std::to_string(level);
-        retStr.assign(tLib->GetText(name));
+        ret.assign(tLib->GetText(name));
     }
+    return ret;
 }
 */
 
 HOOK_METHOD(ShipSystem, GetEffectivePower, () -> int)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipSystem::GetEffectivePower -> Begin (CustomSystems.cpp)\n")
     int boostPower = 0;
 
     if (iActiveManned > 0 && bBoostable && healthState.first == healthState.second)
@@ -562,3 +559,19 @@ HOOK_METHOD(ShipSystem, GetEffectivePower, () -> int)
 
     return boostPower + iBatteryPower + powerState.first + iBonusPower;
 }
+
+/*
+HOOK_METHOD(ShipSystem, RenderPowerBoxes, (int x, int y, int width, int height, int gap, int heightMod, bool flash) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipSystem::RenderPowerBoxes -> Begin (CustomSystems.cpp)\n")
+    super(x, y, width, height, gap, heightMod, flash);
+
+    CSurface::GL_PushMatrix();
+    CSurface::GL_Translate((x + (64 - width)) / 2.f, (y + 10 - gap));
+
+    if (powerState.second > 0)
+    {
+
+    }
+}
+*/

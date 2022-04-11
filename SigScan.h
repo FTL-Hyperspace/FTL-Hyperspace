@@ -25,7 +25,10 @@ private:
 	static size_t s_iBaseLen;
 	static unsigned char *s_pLastStartAddress;
 	static unsigned char *s_pLastAddress;
-	static std::list<Match> s_lastMatches;
+	static std::list<Match>& s_lastMatches() {
+        static std::list<Match> s_lastMatches;
+        return s_lastMatches;
+	}
 
 private:
 	size_t m_iLength;

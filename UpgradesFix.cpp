@@ -3,6 +3,7 @@
 /* No longer needed, but will keep in case we need it for the future
 HOOK_METHOD(Upgrades, OnLoop, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Upgrades::OnLoop -> Begin (UpgradesFix.cpp)\n")
     if (bOpen)
     {
         bool tempUpgrading = reactorButton.tempUpgrade > 0;

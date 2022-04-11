@@ -20,6 +20,7 @@ static bool renderingTarget = false;
 
 HOOK_METHOD(CompleteShip, OnRenderShip, (bool unk1, bool unk2) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CompleteShip::OnRenderShip -> Begin (ShipZoom.cpp)\n")
     if (renderingTarget)
     {
         CSurface::GL_PushMatrix();
@@ -35,6 +36,7 @@ HOOK_METHOD(CompleteShip, OnRenderShip, (bool unk1, bool unk2) -> void)
 
 HOOK_METHOD(CombatControl, RenderTarget, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CombatControl::RenderTarget -> Begin (ShipZoom.cpp)\n")
     renderingTarget = true;
     super();
     renderingTarget = false;

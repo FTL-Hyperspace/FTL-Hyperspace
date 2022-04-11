@@ -4,6 +4,7 @@
 
 HOOK_METHOD_PRIORITY(ProjectileFactory, SpendMissiles, 1000, () -> int)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ProjectileFactory::SpendMissiles -> Begin (AugmentValues.cpp)\n")
     int ret = iSpendMissile;
 
     if (iSpendMissile > 0)
@@ -20,7 +21,7 @@ HOOK_METHOD_PRIORITY(ProjectileFactory, SpendMissiles, 1000, () -> int)
             if (rng < chance)
             {
                 ret = 0;
-                G_->GetEventSystem()->AddEvent(12);
+                if (iShipId == 0) G_->GetEventSystem()->AddEvent(12);
             }
         }
     }

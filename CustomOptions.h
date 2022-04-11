@@ -21,8 +21,15 @@ public:
         int currentAmount = 0;
     };
 
-    bool altMode = false;
-    bool altModeChanged = false;
+    struct Defaults
+    {
+        bool beaconType_hideVanillaLabel = true;
+        bool checkCargo = false;
+        bool choiceRequiresCrew = false;
+    };
+
+    bool altMode = true;
+    bool altModeChanged = true;
 
 //    Setting holdButton;
 
@@ -49,6 +56,10 @@ public:
     Setting showAllConnections;
 
     Setting alternateOxygenRendering;
+
+    Setting showScrapCollectorScrap;
+
+    Defaults defaults;
 
 //    Setting hackingDroneFix;
 

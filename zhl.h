@@ -1,14 +1,33 @@
 #pragma once
 
-#ifdef LIBZHL_EXPORTS
-#define LIBZHL_API __declspec(dllexport)
+#define JUMP_INSTRUCTION "jmp *%0"
+#ifdef _WIN32
+    #define FUNC_NAKED __declspec(naked)
+    #ifdef LIBZHL_EXPORTS
+        #define LIBZHL_API __declspec(dllexport)
+    #else
+        #define LIBZHL_API __declspec(dllimport)
+    #endif
+    #ifdef _MSC_VER
+        // MSVC Requires Intel assembler syntax and cannot handle AT&T style
+        #undef JUMP_INSTRUCTION
+        #define JUMP_INSTRUCTION "jmp %0"
+    #endif // MSVC
+#elif defined(__linux__)
+    // Linux exports all symbols, we don't need to be specific like in Windows.
+    // If we want to optimize this library in the future we'd need to change things around to an EXPORTED & NON_EXPORTED definition and set the __attribute___((visibility( thing to explicitly hide some exports on *NIX systems
+    // SEE: https://gcc.gnu.org/wiki/Visibility
+    #define LIBZHL_API
+    #if __GNUC__ < 8 && !defined(__clang__)
+        #error "GCC version too old, must be at least version 8 to support naked functions"
+    #endif
+    #define FUNC_NAKED __attribute__((naked))
 #else
-#define LIBZHL_API __declspec(dllimport)
+    #error "Unsupported OS"
 #endif
 
 #include <stdlib.h>
 #include <typeinfo>
-#include <windows.h>
 #include <cstdio>
 
 //=================================================================================================
@@ -33,22 +52,22 @@ public:
 
 //=================================================================================================
 
-#define _DEFINE_METHOD_HOOK1(_id, _classname, _name, _priority, _type) \
+#define _DEFINE_METHOD_HOOK1(_id, _classname, _name, _priority, ...) \
 	namespace { namespace Hook_##_id { \
 		static void *internalSuper = NULL; \
 		struct wrapper : public _classname { \
-			auto hook _type ; \
-			auto super _type ; \
+			auto hook __VA_ARGS__ ; \
+			auto super __VA_ARGS__ ; \
 		}; \
-		static FunctionHook hookObj = FunctionHook(#_classname "::" #_name, typeid(auto (_classname::*) _type), &wrapper::hook, &internalSuper, _priority); \
+		static FunctionHook hookObj = FunctionHook(#_classname "::" #_name, typeid(auto (_classname::*) __VA_ARGS__), &wrapper::hook, &internalSuper, _priority); \
 	} } \
-	auto __declspec(naked) Hook_##_id :: wrapper::super _type {__asm__ ("jmp %0" :: "m"(internalSuper)); } \
-	auto Hook_##_id ::wrapper::hook _type
+	auto FUNC_NAKED Hook_##_id :: wrapper::super __VA_ARGS__ {__asm__ (JUMP_INSTRUCTION :: "m"(internalSuper)); } \
+	auto Hook_##_id ::wrapper::hook __VA_ARGS__
 
-#define _DEFINE_METHOD_HOOK0(_id, _classname, _name, _priority, _type) _DEFINE_METHOD_HOOK1(_id, _classname, _name, _priority, _type)
+#define _DEFINE_METHOD_HOOK0(_id, _classname, _name, _priority, ...) _DEFINE_METHOD_HOOK1(_id, _classname, _name, _priority, __VA_ARGS__)
 
-#define HOOK_METHOD(_classname, _name, _type) _DEFINE_METHOD_HOOK0(__LINE__, _classname, _name, 0, _type)
-#define HOOK_METHOD_PRIORITY(_classname, _name, _priority, _type) _DEFINE_METHOD_HOOK0(__LINE__, _classname, _name, _priority, _type)
+#define HOOK_METHOD(_classname, _name, ...) _DEFINE_METHOD_HOOK0(__LINE__, _classname, _name, 0, __VA_ARGS__)
+#define HOOK_METHOD_PRIORITY(_classname, _name, _priority, ...) _DEFINE_METHOD_HOOK0(__LINE__, _classname, _name, _priority, __VA_ARGS__)
 
 //=================================================================================================
 
@@ -61,7 +80,7 @@ public:
 		}; \
 		static FunctionHook hookObj(#_classname "::" #_name, typeid(auto (*) _type), &wrapper::hook, &internalSuper, _priority); \
 	} } \
-	auto __declspec(naked) Hook_##_id :: wrapper::super _type {__asm__ ("jmp %0" :: "m"(internalSuper)); } \
+	auto FUNC_NAKED Hook_##_id :: wrapper::super _type {__asm__ (JUMP_INSTRUCTION :: "m"(internalSuper)); } \
 	auto Hook_##_id ::wrapper::hook _type
 
 #define _DEFINE_STATIC_HOOK0(_id, _classname, _name, _priority, _type) _DEFINE_STATIC_HOOK1(_id, _classname, _name, _priority, _type)
@@ -79,7 +98,7 @@ public:
 		\
 		static FunctionHook hookObj(#_name, typeid(auto (*) _type), &hook, &internalSuper, _priority); \
 	} } \
-	auto __declspec(naked) __stdcall Hook_##_id ::super _type {__asm__ ("jmp %0" :: "m"(internalSuper)); } \
+	auto FUNC_NAKED __stdcall Hook_##_id ::super _type {__asm__ (JUMP_INSTRUCTION :: "m"(internalSuper)); } \
 	auto __stdcall Hook_##_id ::hook _type
 
 #define _DEFINE_GLOBAL_HOOK0(_id, _name, _priority, _type) _DEFINE_GLOBAL_HOOK1(_id, _name, _priority, _type)

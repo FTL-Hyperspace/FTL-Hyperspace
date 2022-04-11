@@ -1,0 +1,10 @@
+"554889f5534889fb4883ec084885f6744f488b06":
+virtual cleanup __amd64 void SpaceDrone::SetMovementTarget(SpaceDrone *this, Targetable *target);
+".5589f5534889fb4883ec08488b07ff506084c0743b":
+virtual cleanup __amd64 void SpaceDrone::SetDeployed(SpaceDrone *this, bool deployed);
+".41554154554889f5534889fb488d7f044883ec18":
+cleanup __amd64 CollisionResponse SpaceDrone::CollisionMoving(SpaceDrone *this, Pointf start, Pointf finish, DamageParameter damage, bool raytrace);
+".530f28e14889fb4883ec30660fd60424":
+cleanup __amd64 float SpaceDrone::UpdateAimingAngle(SpaceDrone *this, Pointf location, float percentage, float forceDesired);
+".415741564155415455534889fb4883ec68488b07":
+virtual cleanup __amd64 Projectile* SpaceDrone::GetNextProjectile(SpaceDrone *this);

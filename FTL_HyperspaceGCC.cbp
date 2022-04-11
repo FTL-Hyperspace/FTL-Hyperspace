@@ -5,15 +5,16 @@
 		<Option title="FTL_HyperspaceGCC" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
-		<Option virtualFolders="Content/Misc/;Core/Systems/;Content/;Core/Systems/;Content/Crew/;Core/Systems/;Content/Ship/;Core/Systems/;Core/Systems/;Content/;Core/Systems/;Core/;Core/Weapons/;Content/;Core/Systems/;Core/Crew/;Content/;Core/Systems/;Core/Events/;Content/;Core/Systems/;Core/;Core/Weapons/;Content/;Core/Ship/;Content/;Core/Systems/;Core/Resources/;Content/;Core/Systems/;Content/Map/;Core/Systems/;Core/Map/;Content/;Core/Systems/;ZHL/;Content/Augments/;Core/Augments/;Core/Seed/;Core/Boss/;Content/ShipEditor/;Core/SaveFile/;Core/Store/;Core/CommandGui/;Core/CApp/;Content/Discord/;Core/Equipment/;Core/Drones/;Core/Credits/;Core/Shaders/;Core/Blueprints/;Core/Options/;FTLGame/;Content/Systems/" />
+		<Option virtualFolders="Content/Misc/;Core/Systems/;Content/;Core/Systems/;Content/Crew/;Core/Systems/;Content/Ship/;Core/Systems/;Core/Systems/;Content/;Core/Systems/;Core/;Core/Equipment/;Core/Weapons/;Content/;Core/Systems/;Core/Crew/;Content/;Core/Systems/;Core/Events/;Content/;Core/Systems/;Core/;Core/Equipment/;Core/Weapons/;Content/;Core/Ship/;Content/;Core/Systems/;Core/Resources/;Content/;Core/Systems/;Content/Map/;Core/Systems/;Core/Map/;Content/;Core/Systems/;ZHL/;Content/Augments/;Core/Augments/;Core/Seed/;Core/Boss/;Content/ShipEditor/;Core/SaveFile/;Core/Store/;Core/CommandGui/;Core/CApp/;Content/Discord/;Core/Drones/;Core/Credits/;Core/Shaders/;Core/Blueprints/;Core/Options/;FTLGame/;Content/Systems/;Core/Sectors/;Core/Achievements/;PAL/;Core/Misc/" />
 		<Build>
-			<Target title="Debug">
-				<Option output="C:/Program Files (x86)/Steam/steamapps/common/FTL Faster Than Light/Hyperspace" imp_lib="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).a" def_file="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).def" prefix_auto="1" extension_auto="1" />
-				<Option working_dir="C:/Program Files (x86)/Steam/steamapps/common/FTL Faster Than Light" />
+			<Target title="Debug-win-32">
+				<Option platforms="Windows;" />
+				<Option output="$(FTL_PATH)/Hyperspace" imp_lib="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).a" def_file="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).def" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="$(FTL_PATH)/" />
 				<Option object_output="obj/Debug/" />
 				<Option type="3" />
 				<Option compiler="gcc" />
-				<Option host_application="C:/Program Files (x86)/Steam/steamapps/common/FTL Faster Than Light/FTLGame.exe" />
+				<Option host_application="$(FTL_PATH)/FTLGame.exe" />
 				<Option run_host_application_in_terminal="0" />
 				<Option createDefFile="1" />
 				<Option createStaticLib="1" />
@@ -21,7 +22,8 @@
 					<Add option="-Wall" />
 					<Add option="-m32" />
 					<Add option="-g" />
-					<Add option="-masm=intel -std=c++11 -g" />
+					<Add option="-msse -msse2 -mfpmath=sse -std=c++11 -g" />
+					<Add option="-Werror=narrowing" />
 					<Add option="-DBUILD_DLL" />
 					<Add option="-DDEBUG" />
 					<Add directory="rapidxml" />
@@ -34,63 +36,67 @@
 					<Add option="-static" />
 					<Add option="-m32" />
 					<Add library="user32" />
-					<Add library="discord/lib/libdiscord-rpc.a" />
-					<Add library="C:/boost/lib/libboost_atomic-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_chrono-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_container-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_context-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_contract-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_coroutine-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_date_time-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_exception-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_filesystem-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_graph-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_iostreams-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_locale-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_log_setup-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_log-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_math_c99f-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_math_c99l-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_math_c99-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_math_tr1f-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_math_tr1l-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_math_tr1-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_numpy38-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_prg_exec_monitor-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_program_options-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_python38-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_random-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_regex-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_serialization-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_stacktrace_basic-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_stacktrace_noop-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_system-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_test_exec_monitor-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_thread-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_timer-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_type_erasure-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_unit_test_framework-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_wave-mgw92-mt-x32-1_70.a" />
-					<Add library="C:/boost/lib/libboost_wserialization-mgw92-mt-x32-1_70.a" />
+					<Add library="libdiscord-rpc.a" />
+					<Add library="libboost_atomic-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_chrono-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_container-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_context-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_contract-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_coroutine-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_date_time-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_exception-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_filesystem-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_graph-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_iostreams-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_locale-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_log_setup-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_log-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_math_c99f-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_math_c99l-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_math_c99-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_math_tr1f-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_math_tr1l-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_math_tr1-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_numpy38-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_prg_exec_monitor-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_program_options-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_python38-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_random-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_regex-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_serialization-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_stacktrace_basic-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_stacktrace_noop-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_system-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_test_exec_monitor-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_thread-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_timer-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_type_erasure-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_unit_test_framework-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_wave-mgw92-mt-x32-1_70.a" />
 					<Add library="libboost_wserialization-mgw92-mt-x32-1_70.a" />
 					<Add directory="C:/boost/lib" />
 					<Add directory="discord/lib" />
 				</Linker>
+				<ExtraCommands>
+					<Add before="generateVersion.bat" />
+				</ExtraCommands>
 			</Target>
-			<Target title="Release">
-				<Option output="C:/Program Files (x86)/Steam/steamapps/common/FTL Faster Than Light/Hyperspace" prefix_auto="1" extension_auto="1" />
-				<Option working_dir="C:/SteamLibrary/steamapps/common/FTL Faster Than Light/FTLGame.exe" />
+			<Target title="Release-win-32">
+				<Option platforms="Windows;" />
+				<Option output="$(FTL_PATH)/Hyperspace" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="$(FTL_PATH)/" />
 				<Option object_output="obj/Release/" />
 				<Option type="3" />
 				<Option compiler="gcc" />
-				<Option host_application="C:/Program Files (x86)/Steam/steamapps/common/FTL Faster Than Light/FTLGame.exe" />
+				<Option host_application="$(FTL_PATH)/FTLGame.exe" />
 				<Option run_host_application_in_terminal="0" />
 				<Option createDefFile="1" />
 				<Option createStaticLib="1" />
 				<Compiler>
 					<Add option="-Wall" />
 					<Add option="-m32" />
-					<Add option="-masm=intel -std=c++11" />
+					<Add option="-msse -msse2 -mfpmath=sse -std=c++11" />
+					<Add option="-Werror=narrowing" />
 					<Add option="-DBUILD_DLL" />
 					<Add directory="rapidxml" />
 					<Add directory="C:/boost/include/boost-1_70" />
@@ -144,11 +150,524 @@
 					<Add directory="C:/boost/lib" />
 					<Add directory="discord/lib" />
 				</Linker>
+				<ExtraCommands>
+					<Add before="generateVersion.bat" />
+				</ExtraCommands>
+			</Target>
+			<Target title="Debug-win-32-llvm">
+				<Option platforms="Windows;" />
+				<Option output="$(FTL_PATH)/Hyperspace" imp_lib="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).a" def_file="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).def" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="$(FTL_PATH)/" />
+				<Option object_output="obj/Debug-llvm/" />
+				<Option type="3" />
+				<Option compiler="clang" />
+				<Option host_application="$(FTL_PATH)/FTLGame.exe" />
+				<Option run_host_application_in_terminal="0" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-m32" />
+					<Add option="-Wall" />
+					<Add option="-g" />
+					<Add option="-msse -msse2 -mfpmath=sse -std=c++11 -target i686-pc-windows-gnu -stdlib=libstdc++" />
+					<Add option="-Werror=narrowing" />
+					<Add option="-DBUILD_DLL" />
+					<Add option="-DDEBUG" />
+					<Add option="-D__GXX_TYPEINFO_EQUALITY_INLINE=0" />
+					<Add directory="rapidxml" />
+					<Add directory="C:/boost/include/boost-1_70" />
+					<Add directory="discord/include" />
+				</Compiler>
+				<Linker>
+					<Add option="-m32" />
+					<Add option="-pthread" />
+					<Add option="-target i686-pc-windows-gnu" />
+					<Add option="-static-libstdc++" />
+					<Add option="-static-libgcc" />
+					<Add option="-static" />
+					<Add library="user32" />
+					<Add library="libdiscord-rpc.a" />
+					<Add library="libboost_atomic-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_chrono-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_container-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_context-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_contract-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_coroutine-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_date_time-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_exception-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_filesystem-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_graph-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_iostreams-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_locale-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_log_setup-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_log-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_math_c99f-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_math_c99l-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_math_c99-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_math_tr1f-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_math_tr1l-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_math_tr1-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_numpy38-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_prg_exec_monitor-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_program_options-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_python38-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_random-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_regex-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_serialization-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_stacktrace_basic-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_stacktrace_noop-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_system-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_test_exec_monitor-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_thread-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_timer-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_type_erasure-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_unit_test_framework-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_wave-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_wserialization-mgw92-mt-x32-1_70.a" />
+					<Add directory="C:/boost/lib" />
+					<Add directory="discord/lib" />
+				</Linker>
+				<ExtraCommands>
+					<Add before="generateVersion.bat" />
+				</ExtraCommands>
+			</Target>
+			<Target title="Release-win-32-llvm">
+				<Option platforms="Windows;" />
+				<Option output="$(FTL_PATH)/Hyperspace" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="$(FTL_PATH)/" />
+				<Option object_output="obj/Release-llvm/" />
+				<Option type="3" />
+				<Option compiler="clang" />
+				<Option host_application="$(FTL_PATH)/FTLGame.exe" />
+				<Option run_host_application_in_terminal="0" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-m32" />
+					<Add option="-O3" />
+					<Add option="-Wall" />
+					<Add option="-msse -msse2 -mfpmath=sse -std=c++11 -target i686-pc-windows-gnu -stdlib=libstdc++" />
+					<Add option="-Werror=narrowing" />
+					<Add option="-DBUILD_DLL" />
+					<Add option="-D__GXX_TYPEINFO_EQUALITY_INLINE=0" />
+					<Add directory="rapidxml" />
+					<Add directory="C:/boost/include/boost-1_70" />
+					<Add directory="discord/include" />
+				</Compiler>
+				<Linker>
+					<Add option="-m32" />
+					<Add option="-s" />
+					<Add option="-pthread" />
+					<Add option="-target i686-pc-windows-gnu" />
+					<Add option="-static-libstdc++" />
+					<Add option="-static-libgcc" />
+					<Add option="-static" />
+					<Add library="user32" />
+					<Add library="libdiscord-rpc.a" />
+					<Add library="libboost_atomic-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_chrono-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_container-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_context-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_contract-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_coroutine-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_date_time-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_exception-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_filesystem-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_graph-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_iostreams-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_locale-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_log_setup-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_log-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_math_c99f-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_math_c99l-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_math_c99-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_math_tr1f-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_math_tr1l-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_math_tr1-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_numpy38-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_prg_exec_monitor-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_program_options-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_python38-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_random-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_regex-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_serialization-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_stacktrace_basic-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_stacktrace_noop-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_system-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_test_exec_monitor-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_thread-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_timer-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_type_erasure-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_unit_test_framework-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_wave-mgw92-mt-x32-1_70.a" />
+					<Add library="libboost_wserialization-mgw92-mt-x32-1_70.a" />
+					<Add directory="C:/boost/lib" />
+					<Add directory="discord/lib" />
+				</Linker>
+				<ExtraCommands>
+					<Add before="generateVersion.bat" />
+				</ExtraCommands>
+			</Target>
+			<Target title="Debug-linux-1.6.12-x86">
+				<Option platforms="Unix;" />
+				<Option output="./bin/Debug/Hyperspace.1.6.12.x86.so" imp_lib="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).a" def_file="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).def" prefix_auto="0" extension_auto="0" />
+				<Option object_output="obj/Debug/1.6.12.x86/" />
+				<Option type="3" />
+				<Option compiler="clang" />
+				<Option host_application="~/GOG Games/FTL Advanced Edition/game/data/FTL.x86" />
+				<Option run_host_application_in_terminal="0" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-fPIC" />
+					<Add option="-m32" />
+					<Add option="-Wall" />
+					<Add option="-g" />
+					<Add option="-std=c++11" />
+					<Add option="-msse" />
+					<Add option="-msse2" />
+					<Add option="-mfpmath=sse" />
+					<Add option="-v" />
+					<Add option="--gcc-toolchain=/usr/gcc-4.8-clang-toolchain/" />
+					<Add option="-D_GLIBCXX_USE_CXX11_ABI=0" />
+					<Add option="-DBUILD_DLL" />
+					<Add option="-DDEBUG" />
+					<Add option="-DSKIPDISCORD" />
+					<Add directory="rapidxml" />
+					<Add directory="discord/include" />
+					<Add directory="/usr/include/boost" />
+				</Compiler>
+				<Linker>
+					<Add option="-m32" />
+					<Add directory="discord/lib" />
+					<Add directory="/usr/lib/i386-linux-gnu" />
+				</Linker>
+				<ExtraCommands>
+					<Add before="chmod +x ./generateVersion.sh" />
+					<Add before="./generateVersion.sh" />
+				</ExtraCommands>
+			</Target>
+			<Target title="Debug-linux-1.6.13-x86">
+				<Option platforms="Unix;" />
+				<Option output="./bin/Debug/Hyperspace.1.6.13.x86.so" imp_lib="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).a" def_file="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).def" prefix_auto="0" extension_auto="0" />
+				<Option object_output="obj/Debug/1.6.13.x86/" />
+				<Option type="3" />
+				<Option compiler="clang" />
+				<Option host_application="~/GOG Games/FTL Advanced Edition/game/data/FTL.x86" />
+				<Option run_host_application_in_terminal="0" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-fPIC" />
+					<Add option="-m32" />
+					<Add option="-Wall" />
+					<Add option="-g" />
+					<Add option="-std=c++11" />
+					<Add option="-msse" />
+					<Add option="-msse2" />
+					<Add option="-mfpmath=sse" />
+					<Add option="-v" />
+					<Add option="--gcc-toolchain=/usr/gcc-4.8-clang-toolchain/" />
+					<Add option="-D_GLIBCXX_USE_CXX11_ABI=0" />
+					<Add option="-DBUILD_DLL" />
+					<Add option="-DDEBUG" />
+					<Add option="-DSKIPDISCORD" />
+					<Add option="-DSTEAM_1_6_13_BUILD" />
+					<Add directory="rapidxml" />
+					<Add directory="discord/include" />
+					<Add directory="/usr/include/boost" />
+				</Compiler>
+				<Linker>
+					<Add option="-m32" />
+					<Add directory="discord/lib" />
+					<Add directory="/usr/lib/i386-linux-gnu" />
+				</Linker>
+				<ExtraCommands>
+					<Add before="chmod +x ./generateVersion.sh" />
+					<Add before="./generateVersion.sh" />
+				</ExtraCommands>
+			</Target>
+			<Target title="Release-linux-1.6.12-x86">
+				<Option platforms="Unix;" />
+				<Option output="./bin/Release/Hyperspace.1.6.12.x86.so" prefix_auto="0" extension_auto="0" />
+				<Option object_output="obj/Release/1.6.12.x86/" />
+				<Option type="3" />
+				<Option compiler="clang" />
+				<Option host_application="~/GOG Games/FTL Advanced Edition/game/data/FTL.x86" />
+				<Option run_host_application_in_terminal="0" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-fPIC" />
+					<Add option="-m32" />
+					<Add option="-O3" />
+					<Add option="-Wall" />
+					<Add option="-std=c++11" />
+					<Add option="-msse" />
+					<Add option="-msse2" />
+					<Add option="-mfpmath=sse" />
+					<Add option="--gcc-toolchain=/usr/gcc-4.8-clang-toolchain/" />
+					<Add option="-D_GLIBCXX_USE_CXX11_ABI=0" />
+					<Add option="-DBUILD_DLL" />
+					<Add option="-DSKIPDISCORD" />
+					<Add directory="rapidxml" />
+					<Add directory="discord/include" />
+					<Add directory="/usr/include/boost" />
+				</Compiler>
+				<Linker>
+					<Add option="-m32" />
+					<Add option="-s" />
+					<Add directory="discord/lib" />
+					<Add directory="/usr/lib/i386-linux-gnu" />
+				</Linker>
+				<ExtraCommands>
+					<Add before="chmod +x ./generateVersion.sh" />
+					<Add before="./generateVersion.sh" />
+				</ExtraCommands>
+			</Target>
+			<Target title="Release-linux-1.6.13-x86">
+				<Option platforms="Unix;" />
+				<Option output="./bin/Release/Hyperspace.1.6.13.x86.so" prefix_auto="0" extension_auto="0" />
+				<Option object_output="obj/Release/1.6.13.x86/" />
+				<Option type="3" />
+				<Option compiler="clang" />
+				<Option host_application="~/GOG Games/FTL Advanced Edition/game/data/FTL.x86" />
+				<Option run_host_application_in_terminal="0" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-fPIC" />
+					<Add option="-m32" />
+					<Add option="-O3" />
+					<Add option="-Wall" />
+					<Add option="-std=c++11" />
+					<Add option="-msse" />
+					<Add option="-msse2" />
+					<Add option="-mfpmath=sse" />
+					<Add option="--gcc-toolchain=/usr/gcc-4.8-clang-toolchain/" />
+					<Add option="-D_GLIBCXX_USE_CXX11_ABI=0" />
+					<Add option="-DBUILD_DLL" />
+					<Add option="-DSKIPDISCORD" />
+					<Add option="-DSTEAM_1_6_13_BUILD" />
+					<Add directory="rapidxml" />
+					<Add directory="discord/include" />
+					<Add directory="/usr/include/boost" />
+				</Compiler>
+				<Linker>
+					<Add option="-m32" />
+					<Add option="-s" />
+					<Add directory="discord/lib" />
+					<Add directory="/usr/lib/i386-linux-gnu" />
+				</Linker>
+				<ExtraCommands>
+					<Add before="chmod +x ./generateVersion.sh" />
+					<Add before="./generateVersion.sh" />
+				</ExtraCommands>
+			</Target>
+			<Target title="Debug-win-32-crosscompile">
+				<Option platforms="Windows;Unix;" />
+				<Option output="./bin/Debug/Hyperspace.dll" imp_lib="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).a" def_file="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).def" prefix_auto="0" extension_auto="0" />
+				<Option object_output="obj/Debug/" />
+				<Option type="3" />
+				<Option compiler="mingw_gnu_gcc_win32_compiler" />
+				<Option host_application="C:/Program Files (x86)/Steam/steamapps/common/FTL Faster Than Light/FTLGame.exe" />
+				<Option run_host_application_in_terminal="0" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-Wall" />
+					<Add option="-std=c++11" />
+					<Add option="-masm=intel" />
+					<Add option="-m32" />
+					<Add option="-g" />
+					<Add option="-msse" />
+					<Add option="-msse2" />
+					<Add option="-mfpmath=sse" />
+					<Add option="-Werror=narrowing" />
+					<Add option="-DBUILD_DLL" />
+					<Add option="-DDEBUG" />
+					<Add option="-DSKIPDISCORD" />
+					<Add directory="rapidxml" />
+					<Add directory="discord/include" />
+					<Add directory="/usr/projects/ftl-hyperspace/boost_1_78_0" />
+				</Compiler>
+				<Linker>
+					<Add option="-static-libstdc++" />
+					<Add option="-static-libgcc" />
+					<Add option="-static" />
+					<Add option="-m32" />
+					<Add library="libdiscord-rpc.a" />
+					<Add directory="discord/lib" />
+				</Linker>
+				<ExtraCommands>
+					<Add before="chmod +x ./generateVersion.sh" />
+					<Add before="./generateVersion.sh" />
+				</ExtraCommands>
+			</Target>
+			<Target title="Debug-linux-1.6.12-amd64">
+				<Option platforms="Unix;" />
+				<Option output="./bin/Debug/Hyperspace.1.6.12.amd64.so" imp_lib="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).a" def_file="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).def" prefix_auto="0" extension_auto="0" />
+				<Option object_output="obj/Debug/1.6.12.amd64/" />
+				<Option type="3" />
+				<Option compiler="clang" />
+				<Option host_application="~/GOG Games/FTL Advanced Edition/game/data/FTL.x86" />
+				<Option run_host_application_in_terminal="0" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-fPIC" />
+					<Add option="-m64" />
+					<Add option="-Wall" />
+					<Add option="-g" />
+					<Add option="-std=c++11" />
+					<Add option="-msse" />
+					<Add option="-msse2" />
+					<Add option="-mfpmath=sse" />
+					<Add option="-v" />
+					<Add option="--gcc-toolchain=/usr/gcc-4.8-clang-toolchain/" />
+					<Add option="-D_GLIBCXX_USE_CXX11_ABI=0" />
+					<Add option="-DBUILD_DLL" />
+					<Add option="-DDEBUG" />
+					<Add option="-DSKIPDISCORD" />
+					<Add directory="rapidxml" />
+					<Add directory="discord/include" />
+					<Add directory="/usr/include/boost" />
+				</Compiler>
+				<Linker>
+					<Add option="-m64" />
+					<Add directory="discord/lib" />
+					<Add directory="/usr/lib/x86_64-linux-gnu" />
+				</Linker>
+				<ExtraCommands>
+					<Add before="chmod +x ./generateVersion.sh" />
+					<Add before="./generateVersion.sh" />
+				</ExtraCommands>
+			</Target>
+			<Target title="Debug-linux-1.6.13-amd64">
+				<Option platforms="Unix;" />
+				<Option output="./bin/Debug/Hyperspace.1.6.13.amd64.so" imp_lib="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).a" def_file="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).def" prefix_auto="0" extension_auto="0" />
+				<Option object_output="obj/Debug/1.6.13.amd64/" />
+				<Option type="3" />
+				<Option compiler="clang" />
+				<Option host_application="~/GOG Games/FTL Advanced Edition/game/data/FTL.x86" />
+				<Option run_host_application_in_terminal="0" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-fPIC" />
+					<Add option="-m64" />
+					<Add option="-Wall" />
+					<Add option="-g" />
+					<Add option="-std=c++11" />
+					<Add option="-msse" />
+					<Add option="-msse2" />
+					<Add option="-mfpmath=sse" />
+					<Add option="-v" />
+					<Add option="--gcc-toolchain=/usr/gcc-4.8-clang-toolchain/" />
+					<Add option="-D_GLIBCXX_USE_CXX11_ABI=0" />
+					<Add option="-DBUILD_DLL" />
+					<Add option="-DDEBUG" />
+					<Add option="-DSKIPDISCORD" />
+					<Add option="-DSTEAM_1_6_13_BUILD" />
+					<Add directory="rapidxml" />
+					<Add directory="discord/include" />
+					<Add directory="/usr/include/boost" />
+				</Compiler>
+				<Linker>
+					<Add option="-m64" />
+					<Add directory="discord/lib" />
+					<Add directory="/usr/lib/x86_64-linux-gnu" />
+				</Linker>
+				<ExtraCommands>
+					<Add before="chmod +x ./generateVersion.sh" />
+					<Add before="./generateVersion.sh" />
+				</ExtraCommands>
+			</Target>
+			<Target title="Release-linux-1.6.12-amd64">
+				<Option platforms="Unix;" />
+				<Option output="./bin/Release/Hyperspace.1.6.12.amd64.so" imp_lib="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).a" def_file="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).def" prefix_auto="0" extension_auto="0" />
+				<Option object_output="obj/Release/1.6.12.amd64/" />
+				<Option type="3" />
+				<Option compiler="clang" />
+				<Option host_application="~/GOG Games/FTL Advanced Edition/game/data/FTL.x86" />
+				<Option run_host_application_in_terminal="0" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-fPIC" />
+					<Add option="-m64" />
+					<Add option="-O3" />
+					<Add option="-Wall" />
+					<Add option="-std=c++11" />
+					<Add option="-msse" />
+					<Add option="-msse2" />
+					<Add option="-mfpmath=sse" />
+					<Add option="--gcc-toolchain=/usr/gcc-4.8-clang-toolchain/" />
+					<Add option="-D_GLIBCXX_USE_CXX11_ABI=0" />
+					<Add option="-DBUILD_DLL" />
+					<Add option="-DSKIPDISCORD" />
+					<Add directory="rapidxml" />
+					<Add directory="discord/include" />
+					<Add directory="/usr/include/boost" />
+				</Compiler>
+				<Linker>
+					<Add option="-m64" />
+					<Add option="-s" />
+					<Add directory="discord/lib" />
+					<Add directory="/usr/lib/x86_64-linux-gnu" />
+				</Linker>
+				<ExtraCommands>
+					<Add before="chmod +x ./generateVersion.sh" />
+					<Add before="./generateVersion.sh" />
+				</ExtraCommands>
+			</Target>
+			<Target title="Release-linux-1.6.13-amd64">
+				<Option platforms="Unix;" />
+				<Option output="./bin/Release/Hyperspace.1.6.13.amd64.so" imp_lib="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).a" def_file="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).def" prefix_auto="0" extension_auto="0" />
+				<Option object_output="obj/Release/1.6.13.amd64/" />
+				<Option type="3" />
+				<Option compiler="clang" />
+				<Option host_application="~/GOG Games/FTL Advanced Edition/game/data/FTL.x86" />
+				<Option run_host_application_in_terminal="0" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-fPIC" />
+					<Add option="-m64" />
+					<Add option="-O3" />
+					<Add option="-Wall" />
+					<Add option="-std=c++11" />
+					<Add option="-msse" />
+					<Add option="-msse2" />
+					<Add option="-mfpmath=sse" />
+					<Add option="--gcc-toolchain=/usr/gcc-4.8-clang-toolchain/" />
+					<Add option="-D_GLIBCXX_USE_CXX11_ABI=0" />
+					<Add option="-DBUILD_DLL" />
+					<Add option="-DSKIPDISCORD" />
+					<Add option="-DSTEAM_1_6_13_BUILD" />
+					<Add directory="rapidxml" />
+					<Add directory="discord/include" />
+					<Add directory="/usr/include/boost" />
+				</Compiler>
+				<Linker>
+					<Add option="-m64" />
+					<Add option="-s" />
+					<Add directory="discord/lib" />
+					<Add directory="/usr/lib/x86_64-linux-gnu" />
+				</Linker>
+				<ExtraCommands>
+					<Add before="chmod +x ./generateVersion.sh" />
+					<Add before="./generateVersion.sh" />
+				</ExtraCommands>
 			</Target>
 		</Build>
-		<Linker>
-			<Add library="libboost_wserialization-mgw92-mt-x32-1_70.a" />
-		</Linker>
+		<VirtualTargets>
+			<Add alias="Debug-linux-amd64" targets="Debug-linux-1.6.12-amd64;Debug-linux-1.6.13-amd64;" />
+			<Add alias="Debug-linux-x86" targets="Debug-linux-1.6.13-x86;Debug-linux-1.6.12-x86;" />
+			<Add alias="Release-linux-all" targets="Release-linux-1.6.12-x86;Release-linux-1.6.13-x86;Release-linux-1.6.12-amd64;Release-linux-1.6.13-amd64;" />
+			<Add alias="Release-linux-amd64" targets="Release-linux-1.6.12-amd64;Release-linux-1.6.13-amd64;" />
+			<Add alias="Release-linux-x86" targets="Release-linux-1.6.12-x86;Release-linux-1.6.13-x86;" />
+		</VirtualTargets>
 		<Unit filename="AbilityDrone.cpp">
 			<Option virtualFolder="Core/Drones/" />
 		</Unit>
@@ -160,6 +679,9 @@
 		</Unit>
 		<Unit filename="AlternateOxygenRendering.h">
 			<Option virtualFolder="Content/Ship/" />
+		</Unit>
+		<Unit filename="ArtilleryBarFix.cpp">
+			<Option virtualFolder="Content/Systems/" />
 		</Unit>
 		<Unit filename="AugmentValues.cpp">
 			<Option virtualFolder="Content/Augments/" />
@@ -194,6 +716,9 @@
 		<Unit filename="CommandConsole.h">
 			<Option virtualFolder="Content/Misc/" />
 		</Unit>
+		<Unit filename="Constants.h">
+			<Option virtualFolder="Core/" />
+		</Unit>
 		<Unit filename="CooldownNumbers.cpp">
 			<Option virtualFolder="Core/Weapons/" />
 		</Unit>
@@ -202,6 +727,9 @@
 		</Unit>
 		<Unit filename="Credits.cpp">
 			<Option virtualFolder="Core/Credits/" />
+		</Unit>
+		<Unit filename="CrewManifestVTable.cpp">
+			<Option virtualFolder="Core/Crew/" />
 		</Unit>
 		<Unit filename="CrewMember_Extend.cpp">
 			<Option virtualFolder="Core/Crew/" />
@@ -215,8 +743,20 @@
 		<Unit filename="CrewNames.h">
 			<Option virtualFolder="Core/Crew/" />
 		</Unit>
+		<Unit filename="CrewSpawn.cpp">
+			<Option virtualFolder="Core/Crew/" />
+		</Unit>
+		<Unit filename="CrewSpawn.h">
+			<Option virtualFolder="Core/Crew/" />
+		</Unit>
 		<Unit filename="CrewVTable.cpp">
 			<Option virtualFolder="Core/Crew/" />
+		</Unit>
+		<Unit filename="CustomAchievements.cpp">
+			<Option virtualFolder="Core/Achievements/" />
+		</Unit>
+		<Unit filename="CustomAchievements.h">
+			<Option virtualFolder="Core/Achievements/" />
 		</Unit>
 		<Unit filename="CustomAugments.cpp">
 			<Option virtualFolder="Core/Augments/" />
@@ -224,11 +764,23 @@
 		<Unit filename="CustomAugments.h">
 			<Option virtualFolder="Core/Augments/" />
 		</Unit>
+		<Unit filename="CustomBackgroundObject.cpp">
+			<Option virtualFolder="Core/Events/" />
+		</Unit>
+		<Unit filename="CustomBackgroundObject.h">
+			<Option virtualFolder="Core/Events/" />
+		</Unit>
 		<Unit filename="CustomBoss.cpp">
 			<Option virtualFolder="Core/Boss/" />
 		</Unit>
 		<Unit filename="CustomBoss.h">
 			<Option virtualFolder="Core/Boss/" />
+		</Unit>
+		<Unit filename="CustomColors.cpp">
+			<Option virtualFolder="Content/Misc/" />
+		</Unit>
+		<Unit filename="CustomColors.h">
+			<Option virtualFolder="Content/Misc/" />
 		</Unit>
 		<Unit filename="CustomCommandGui.cpp">
 			<Option virtualFolder="Core/CommandGui/" />
@@ -242,11 +794,26 @@
 		<Unit filename="CustomCrew.h">
 			<Option virtualFolder="Core/Crew/" />
 		</Unit>
+		<Unit filename="CustomCrewCommon.h">
+			<Option virtualFolder="Core/Crew/" />
+		</Unit>
 		<Unit filename="CustomCrewManifest.cpp">
 			<Option virtualFolder="Core/Crew/" />
 		</Unit>
 		<Unit filename="CustomCrewManifest.h">
 			<Option virtualFolder="Core/Crew/" />
+		</Unit>
+		<Unit filename="CustomCrystalShard.cpp">
+			<Option virtualFolder="Core/Augments/" />
+		</Unit>
+		<Unit filename="CustomCrystalShard.h">
+			<Option virtualFolder="Core/Augments/" />
+		</Unit>
+		<Unit filename="CustomDamage.cpp">
+			<Option virtualFolder="Core/Weapons/" />
+		</Unit>
+		<Unit filename="CustomDamage.h">
+			<Option virtualFolder="Core/Weapons/" />
 		</Unit>
 		<Unit filename="CustomDrones.cpp">
 			<Option virtualFolder="Core/Drones/" />
@@ -284,10 +851,34 @@
 		<Unit filename="CustomOptions.h">
 			<Option virtualFolder="Core/Options/" />
 		</Unit>
+		<Unit filename="CustomReactor.cpp">
+			<Option virtualFolder="Core/Systems/" />
+		</Unit>
+		<Unit filename="CustomReactor.h">
+			<Option virtualFolder="Core/Systems/" />
+		</Unit>
+		<Unit filename="CustomRewards.cpp">
+			<Option virtualFolder="Core/Events/" />
+		</Unit>
+		<Unit filename="CustomRewards.h">
+			<Option virtualFolder="Core/Events/" />
+		</Unit>
 		<Unit filename="CustomScoreKeeper.cpp">
 			<Option virtualFolder="Core/Ship/" />
 		</Unit>
 		<Unit filename="CustomScoreKeeper.h">
+			<Option virtualFolder="Core/Ship/" />
+		</Unit>
+		<Unit filename="CustomSectors.cpp">
+			<Option virtualFolder="Core/Sectors/" />
+		</Unit>
+		<Unit filename="CustomSectors.h">
+			<Option virtualFolder="Core/Sectors/" />
+		</Unit>
+		<Unit filename="CustomShipGenerator.cpp">
+			<Option virtualFolder="Core/Ship/" />
+		</Unit>
+		<Unit filename="CustomShipGenerator.h">
 			<Option virtualFolder="Core/Ship/" />
 		</Unit>
 		<Unit filename="CustomShipSelect.cpp">
@@ -311,10 +902,19 @@
 		<Unit filename="CustomStoreBox.cpp">
 			<Option virtualFolder="Core/Store/" />
 		</Unit>
+		<Unit filename="CustomSuperShield.cpp">
+			<Option virtualFolder="Core/Augments/" />
+		</Unit>
 		<Unit filename="CustomSystems.cpp">
 			<Option virtualFolder="Core/Systems/" />
 		</Unit>
 		<Unit filename="CustomSystems.h">
+			<Option virtualFolder="Core/Systems/" />
+		</Unit>
+		<Unit filename="CustomUpgrades.cpp">
+			<Option virtualFolder="Core/Systems/" />
+		</Unit>
+		<Unit filename="CustomUpgrades.h">
 			<Option virtualFolder="Core/Systems/" />
 		</Unit>
 		<Unit filename="CustomWeapons.cpp">
@@ -341,6 +941,18 @@
 		<Unit filename="EnemyShipIcons.h">
 			<Option virtualFolder="Core/Ship/" />
 		</Unit>
+		<Unit filename="EnumClassHash.h">
+			<Option virtualFolder="PAL/" />
+		</Unit>
+		<Unit filename="ErosionEffect.cpp">
+			<Option virtualFolder="Core/Weapons/" />
+		</Unit>
+		<Unit filename="EventButtons.cpp">
+			<Option virtualFolder="Core/Events/" />
+		</Unit>
+		<Unit filename="EventButtons.h">
+			<Option virtualFolder="Core/Events/" />
+		</Unit>
 		<Unit filename="EventTooltip.cpp">
 			<Option virtualFolder="Core/Events/" />
 		</Unit>
@@ -351,6 +963,30 @@
 			<Option virtualFolder="FTLGame/" />
 		</Unit>
 		<Unit filename="FTLGame.h">
+			<Option virtualFolder="FTLGame/" />
+		</Unit>
+		<Unit filename="FTLGameELF32.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+			<Option virtualFolder="FTLGame/" />
+		</Unit>
+		<Unit filename="FTLGameELF32.h">
+			<Option virtualFolder="FTLGame/" />
+		</Unit>
+		<Unit filename="FTLGameELF64.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+			<Option virtualFolder="FTLGame/" />
+		</Unit>
+		<Unit filename="FTLGameELF64.h">
+			<Option virtualFolder="FTLGame/" />
+		</Unit>
+		<Unit filename="FTLGameWin32.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+			<Option virtualFolder="FTLGame/" />
+		</Unit>
+		<Unit filename="FTLGameWin32.h">
 			<Option virtualFolder="FTLGame/" />
 		</Unit>
 		<Unit filename="Global.cpp">
@@ -404,6 +1040,12 @@
 		<Unit filename="OverclockerSystem.h">
 			<Option virtualFolder="Content/Systems/" />
 		</Unit>
+		<Unit filename="PALMemoryProtection.h">
+			<Option virtualFolder="PAL/" />
+		</Unit>
+		<Unit filename="ProjectileVTable.cpp">
+			<Option virtualFolder="Core/Weapons/" />
+		</Unit>
 		<Unit filename="Projectile_Extend.cpp">
 			<Option virtualFolder="Core/Weapons/" />
 		</Unit>
@@ -415,6 +1057,12 @@
 		</Unit>
 		<Unit filename="RedesignedTooltips.h">
 			<Option virtualFolder="Core/Equipment/" />
+		</Unit>
+		<Unit filename="RenderReactorBar.cpp">
+			<Option virtualFolder="Core/CommandGui/" />
+		</Unit>
+		<Unit filename="RenderReactorBar.h">
+			<Option virtualFolder="Core/CommandGui/" />
 		</Unit>
 		<Unit filename="Renderer.cpp">
 			<Option virtualFolder="Core/CApp/" />
@@ -482,6 +1130,9 @@
 		<Unit filename="SigScan.h">
 			<Option virtualFolder="ZHL/" />
 		</Unit>
+		<Unit filename="SpaceId.cpp">
+			<Option virtualFolder="Core/Misc/" />
+		</Unit>
 		<Unit filename="StatBoost.cpp">
 			<Option virtualFolder="Core/Crew/" />
 		</Unit>
@@ -494,6 +1145,9 @@
 		<Unit filename="Store_Extend.h">
 			<Option virtualFolder="Core/Store/" />
 		</Unit>
+		<Unit filename="SystemDescriptionFixes.cpp">
+			<Option virtualFolder="Core/Systems/" />
+		</Unit>
 		<Unit filename="System_Extend.cpp">
 			<Option virtualFolder="Core/Systems/" />
 		</Unit>
@@ -503,26 +1157,32 @@
 		<Unit filename="Systems.h">
 			<Option virtualFolder="Core/Systems/" />
 		</Unit>
+		<Unit filename="TemporalBoxVTable.cpp">
+			<Option virtualFolder="Content/Systems/" />
+		</Unit>
 		<Unit filename="TemporalSystem.cpp">
 			<Option virtualFolder="Content/Systems/" />
 		</Unit>
 		<Unit filename="TemporalSystem.h">
 			<Option virtualFolder="Content/Systems/" />
 		</Unit>
+		<Unit filename="TemporalSystemVTable.cpp">
+			<Option virtualFolder="Content/Systems/" />
+		</Unit>
+		<Unit filename="TimerHelper.cpp">
+			<Option virtualFolder="Core/" />
+		</Unit>
 		<Unit filename="ToggleValue.h">
 			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="TriggeredEvents.cpp">
+			<Option virtualFolder="Core/Events/" />
 		</Unit>
 		<Unit filename="Wormhole.cpp">
 			<Option virtualFolder="Content/Map/" />
 		</Unit>
 		<Unit filename="detours.h">
 			<Option virtualFolder="ZHL/" />
-		</Unit>
-		<Unit filename="freetype.cpp">
-			<Option virtualFolder="Core/" />
-		</Unit>
-		<Unit filename="freetype.h">
-			<Option virtualFolder="Core/" />
 		</Unit>
 		<Unit filename="hde.cpp">
 			<Option virtualFolder="ZHL/" />
@@ -534,10 +1194,14 @@
 			<Option virtualFolder="ZHL/" />
 		</Unit>
 		<Unit filename="main.cpp">
+			<Option weight="100" />
 			<Option virtualFolder="Core/" />
 		</Unit>
 		<Unit filename="main.h">
 			<Option virtualFolder="Core/" />
+		</Unit>
+		<Unit filename="palWindowsGeneric.h">
+			<Option virtualFolder="PAL/" />
 		</Unit>
 		<Unit filename="zhl.cpp">
 			<Option virtualFolder="ZHL/" />

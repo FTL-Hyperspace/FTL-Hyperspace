@@ -1,4 +1,0 @@
-"8079140075??578d7c240883e4f0ff77fc5589e5575389cb":
-void WarningMessage::Start(WarningMessage *this<ecx>);
-"807916000f85????????807914000f84????????578d7c240883e4f0ff77fc5589e55753":
-void WarningMessage::OnRender(WarningMessage *this<ecx>);

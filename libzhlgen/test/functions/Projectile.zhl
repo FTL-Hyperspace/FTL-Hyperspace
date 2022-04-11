@@ -1,6 +1,0 @@
-"578d7c240883e4f0ff77fc5589e557565389cb81ec????????8b378b79348b0689f1ff5028":
-void Projectile::CollisionCheck(Projectile *this<ecx>, Collideable *other);
-"578d7c240883e4f0ff77fc5589e557565389ce81ec????????8b078b57048b5f088b4f0cc7460805000000c6460c018985f0feffff8995f4feffff8b47108b5714":
-void Projectile::constructor(Projectile *this<ecx>, Pointf position, int ownerId, int targetId, Pointf target);
-".558d915c02000089e5575653":
-void Projectile::destructor(Projectile *this<ecx>);

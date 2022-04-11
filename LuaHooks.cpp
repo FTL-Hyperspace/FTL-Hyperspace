@@ -3,6 +3,7 @@
 
 HOOK_METHOD(ShipManager, OnLoop, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::OnLoop -> Begin (LuaHooks.cpp)\n")
 	super();
 
 	G_->lua->PushHook("OnLoop");

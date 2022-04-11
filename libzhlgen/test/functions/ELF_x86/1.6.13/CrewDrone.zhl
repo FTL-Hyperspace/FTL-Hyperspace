@@ -1,0 +1,50 @@
+"5589e557565381ecdc0000008b450c8b4d08":
+cleanup __cdecl void CrewDrone::constructor(CrewDrone *this, const std::string& type, const std::string& name, int shipId, const DroneBlueprint* blueprint, CrewAnimation *anim);
+"5589e557565383ec4c8b5d088db340050000":
+virtual cleanup __cdecl void CrewDrone::OnLoop(CrewDrone *this);
+"8b4424048b500485d2":
+virtual cleanup __cdecl bool CrewDrone::ProvidesVision(CrewDrone *this);
+"8b5424048b442408898238010000":
+cleanup __cdecl void CrewDrone::SetCurrentShip(CrewDrone *this, int shipId);
+"5557565383ec2c8b442440c700????????c78040050000????????8b80800600008d50f481fa????????0f853f030000":
+cleanup __cdecl void CrewDrone::destructor(CrewDrone *this);
+
+
+struct CrewDrone depends (CrewMember, DroneBlueprint)
+{{
+	virtual ~CrewDrone()
+	{
+		this->destructor();
+	}
+
+	CrewDrone()
+	{
+	}
+
+	CrewDrone(const std::string& type, const std::string& name, int shipId, const DroneBlueprint* blueprint, CrewAnimation *anim)
+	{
+		this->constructor(type, name, shipId, blueprint, anim);
+	}
+
+	inline std::string& GetRace();
+
+	bool _HS_ValidTarget(int shipId);
+	bool _HS_GetControllable();
+	bool _HS_CanFight();
+	bool _HS_CanRepair();
+	bool _HS_CanSabotage();
+	bool _HS_CanMan();
+	bool _HS_CanSuffocate();
+	bool _HS_CanBurn();
+	float _HS_GetMoveSpeedMultiplier();
+	float _HS_GetRepairSpeed();
+	int _HS_GetMaxHealth();
+	float _HS_GetDamageMultiplier();
+	bool _HS_ProvidesPower();
+	float _HS_GetFireRepairMultiplier();
+	bool _HS_IsTelepathic();
+	float _HS_GetSuffocationModifier();
+	bool _HS_IsAnaerobic();
+	int _HS_BlockRoom();
+
+}};

@@ -1,2 +1,0 @@
-"5589e55389cb83e4f0837d080174??c783cc010000000000008b5dfcc9c2040080b9c80100000074??":
-void MindSystem::SetArmed(MindSystem *this<ecx>, int armed);

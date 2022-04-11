@@ -3,12 +3,19 @@
 
 HOOK_METHOD_PRIORITY(Store, constructor, 900, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> Store::constructor -> Begin (Store_Extend.cpp)\n")
 	super();
 
 	auto ex = new Store_Extend();
 
-    DWORD dEx = (DWORD)ex;
+    uintptr_t dEx = (uintptr_t)ex;
 
+#ifdef __amd64__
+    this->gap_ex_2[2] = (dEx >> 56) & 0xFF;
+    this->gap_ex_2[3] = (dEx >> 48) & 0xFF;
+    this->gap_ex_2[4] = (dEx >> 40) & 0xFF;
+    this->gap_ex_2[5] = (dEx >> 32) & 0xFF;
+#endif // __amd64__
 	this->gap_ex_fw[0] = (dEx >> 24) & 0xFF;
 	this->gap_ex_fw[1] = (dEx >> 16) & 0xFF;
 	this->gap_ex_2[0] = (dEx >> 8) & 0xFF;
@@ -18,6 +25,7 @@ HOOK_METHOD_PRIORITY(Store, constructor, 900, () -> void)
 
 HOOK_METHOD(Store, destructor, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Store::destructor -> Begin (Store_Extend.cpp)\n")
     delete STORE_EX(this);
 
     return super();
@@ -27,8 +35,18 @@ Store_Extend* Get_Store_Extend(Store* c)
 {
     if (!c) return nullptr;
 
-    DWORD dEx = 0;
+    uintptr_t dEx = 0;
 
+#ifdef __amd64__
+    dEx <<= 8;
+    dEx |= c->gap_ex_2[2];
+    dEx <<= 8;
+    dEx |= c->gap_ex_2[3];
+    dEx <<= 8;
+    dEx |= c->gap_ex_2[4];
+    dEx <<= 8;
+    dEx |= c->gap_ex_2[5];
+#endif // __amd64__
     dEx <<= 8;
     dEx |= c->gap_ex_fw[0];
     dEx <<= 8;

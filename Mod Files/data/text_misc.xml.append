@@ -9,7 +9,7 @@
 </mod:findName>
 
 <mod:findName type="text" name="version">
-  <mod:setValue>\1 (Hyperspace 0.7)</mod:setValue>
+  <mod:setValue>\1 (Hyperspace 0.9.2)</mod:setValue>
 </mod:findName>
 
 <mod:findName type="text" name="fire_chance">
@@ -26,9 +26,13 @@
 
 <text name="free_missile_chance">Chance To Not Use Missile: \1%</text>  <!-- \1: chance -->
 
+<text name="crew_statboost_chance">Affliction Chance: \1%</text>  <!-- \1: chance, \2 is low/medium/high -->
+<text name="crew_spawn_chance">Chance to Spawn Crew: \1%</text>  <!-- \1: chance, \2 is low/medium/high -->
+
 <text name="augment_no_effect">These augmentations will have no effect with this augment installed:</text>
 
 <text name="seed_prompt">Seed</text>
+<text name="seed_prompt_disabled">Seeds Disabled</text>
 <text name="menu_status_seed">Seed</text>
 <text name="unlocks_disabled">Unlocks Disabled</text>
 
@@ -42,29 +46,80 @@
 <mod:findName type="text" name="power_not_ready">
   <mod:setValue>Not Ready: Power charging (see charge left of portrait)</mod:setValue>
 </mod:findName>
+
+<text name="power_not_ready_generic">Not Ready</text>
+
 <text name="power_not_ready_player_ship">Not Ready: Not on player ship</text>
 <text name="power_not_ready_enemy_ship">Not Ready: Not on enemy ship</text>
 <text name="power_not_ready_enemy_in_room">Not Ready: No enemies in room</text>
 <text name="power_not_ready_friendly_in_room">Not Ready: No friendly crew in room</text>
+<text name="power_not_ready_whitelist">Not Ready: No whitelisted crew in room</text>
+<text name="power_not_ready_enemy_whitelist">Not Ready: No whitelisted enemy in room</text>
+<text name="power_not_ready_friendly_whitelist">Not Ready: No whitelisted friendly crew in room</text>
+<text name="power_not_ready_enemy_blacklist">Not Ready: Blacklisted enemy in room</text>
+<text name="power_not_ready_friendly_blacklist">Not Ready: Blacklisted friendly crew in room</text>
 <text name="power_not_ready_system_in_room">Not Ready: No system in room</text>
 <text name="power_not_ready_activated">Activated: Power currently in use (see duration left of portrait)</text>
 <text name="power_not_ready_ai_disabled">Not Ready: Power disabled for AI (shouldn't see this)</text>
 <text name="power_not_ready_has_clonebay">Not Ready: No clone bay available</text>
 <text name="power_not_ready_out_of_combat">Not Ready: In combat</text>
 <text name="power_not_ready_in_combat">Not Ready: No enemy ship</text>
+<text name="power_not_ready_system">Not Ready: Missing \1 system</text>
+<text name="power_not_ready_system_functional">Not Ready: \1 system is not functional</text>
 <text name="power_not_ready_min_health">Not Ready: Health is below \1</text> <!-- \1 is min health req -->
 <text name="power_not_ready_max_health">Not Ready: Health is above \1</text> <!-- \1 is max health req -->
 <text name="power_not_ready_system_damaged">Not Ready: No damaged system in room</text>
+<text name="power_not_ready_mind_enemy">Not Ready: Enemy has control</text>
 <text name="power_not_ready_teleporting">Not Ready: Can't transform mid-teleport</text>
 <text name="power_not_ready_charges">Not Ready: Out of charges</text>
+
+<text name="power_not_ready_burning">Not Ready: On fire</text>
+<text name="power_not_ready_suffocating">Not Ready: Suffocating</text>
+<text name="power_not_ready_mind">Not Ready: Mind controlled</text>
+<text name="power_not_ready_stunned">Not Ready: Stunned</text>
+<text name="power_not_ready_repairing">Not Ready: Repairing</text>
+<text name="power_not_ready_repairing_system">Not Ready: Repairing system</text>
+<text name="power_not_ready_repairing_breach">Not Ready: Repairing breach</text>
+<text name="power_not_ready_fighting">Not Ready: Fighting</text>
+<text name="power_not_ready_sabotaging">Not Ready: Sabotaging</text>
+<text name="power_not_ready_shooting">Not Ready: Shooting</text>
+<text name="power_not_ready_moving">Not Ready: Moving</text>
+<text name="power_not_ready_idle">Not Ready: Idle</text>
+<text name="power_not_ready_manning">Not Ready: Manning system</text>
+<text name="power_not_ready_firefighting">Not Ready: Fighting fire</text>
+<text name="power_not_ready_dying">Not Ready: Dying</text>
+<text name="power_not_ready_teleporting">Not Ready: Teleporting</text>
+
+<text name="power_not_ready_burning_false">Not Ready: Not on fire</text>
+<text name="power_not_ready_suffocating_false">Not Ready: Not suffocating</text>
+<text name="power_not_ready_mind_false">Not Ready: Not mind controlled</text>
+<text name="power_not_ready_stunned_false">Not Ready: Not stunned</text>
+<text name="power_not_ready_repairing_false">Not Ready: Not repairing</text>
+<text name="power_not_ready_repairing_system_false">Not Ready: Not repairing system</text>
+<text name="power_not_ready_repairing_breach_false">Not Ready: Not repairing breach</text>
+<text name="power_not_ready_fighting_false">Not Ready: Not fighting</text>
+<text name="power_not_ready_sabotaging_false">Not Ready: Not sabotaging</text>
+<text name="power_not_ready_shooting_false">Not Ready: Not shooting</text>
+<text name="power_not_ready_moving_false">Not Ready: Not moving</text>
+<text name="power_not_ready_idle_false">Not Ready: Not idle</text>
+<text name="power_not_ready_manning_false">Not Ready: Not manning system</text>
+<text name="power_not_ready_firefighting_false">Not Ready: Not fighting fire</text>
+<text name="power_not_ready_dying_false">Not Ready: Not dying</text>
+<text name="power_not_ready_teleporting_false">Not Ready: Not teleporting</text>
 
 <text name="advanced_health_tooltip">Health</text>
 <text name="weapon_cooldown_negative">Disabled</text>
 <text name="crew_stun_time">Stunned: \1 seconds</text>
+<text name="crew_death_time">Lifetime: \1 seconds</text>
+<text name="crew_death_time_expired">Lifetime: Expired</text>
+
+<!-- System info boxes -->
+
+<text name="reactor_desc_start">Starting Power: \1</text>
+<text name="reactor_desc_max">Maximum Power: \1</text>
 
 <!-- Redesigned Tooltips -->
 
-<text name="crew_stun_time">Stunned: \1 seconds</text>
 <text name="description_stats">Stats:</text>
 <text name="requires_no_power">Requires no power</text>
 <text name="provides_bonus_power">Provides Bonus Power</text>
@@ -77,6 +132,7 @@
 <text name="redesigned_damage_cap">Chain Damage Cap: \1 damage (\2 chains)</text>
 <text name="redesigned_speed_cap">Chain Cooldown Cap: \1 (\2 chains)</text>
 <text name="shot_radius">Shot Radius: \1</text>
+<text name="shot_radius_angular">Shot Radius: \1 degrees</text>
 <text name="beam_length">Beam Length: \1</text>
 <text name="swipe_speed">Beam Speed: \1</text>
 <text name="redesigned_double_damage">2x hull damage on systemless rooms.</text>
@@ -96,21 +152,81 @@
 <text name="defense_drone_reload_speed">Reload Speed: \1ms</text>
 <text name="defense_drone_projectile_speed">Projectile Speed: \1</text>
 <text name="defense_drone_orbit_speed">Orbit Speed: \1</text>
-<text name="defense_drone_projectile_target_all">Projectile Target: All</text>
+
+<text name="defense_drone_projectile_target_unknown">Projectile Target: Unknown</text>
 <text name="defense_drone_projectile_target_solid">Projectile Target: Solid</text>
+<text name="defense_drone_projectile_target_asteroid">Projectile Target: Asteroids</text>
 <text name="defense_drone_drone_target_all">Target: All Drones</text>
+<text name="defense_drone_projectile_target_all">Projectile Target: All</text>
+<text name="defense_drone_drone_target_solid_projectiles">Target: Drones + Solid Projectiles</text>
+<text name="defense_drone_drone_target_all_projectiles">Target: Drones + All Projectiles</text>
+
 <text name="defense_drone_drone_target_solid">Target: Solid Drones</text>
+
+<text name="teleporter_instant">No cooldown</text>
+<text name="clonebay_instant_fullheal">Instant clone + Full heal on jump</text>
+
+<!-- Tooltips when hovering over deployed drones -->
+
+<text name="defense_asteroid_friendly">Your Defense Drone:\nShoots down asteroids. Will function until destroyed or until you jump away.</text>
+<text name="defense_asteroid_enemy">Defense Drone:\nShoots down asteroids. Can be shut down by damaging the enemy ship's drone system.</text>
+
+<text name="defense_solid_friendly">Your Defense Drone:\nShoots down missiles, asteroids, and combat drones. Will function until destroyed or until you jump away.</text>
+<text name="defense_solid_enemy">Defense Drone:\nShoots down missiles, asteroids, and combat drones. Can be shut down by damaging the enemy ship's drone system.</text>
+
+<text name="defense_all_friendly">Your Defense Drone:\nShoots down all projectiles and drones. Will function until destroyed or until you jump away.</text>
+<text name="defense_all_enemy">Defense Drone:\nShoots down all projectiles and drones. Can be shut down by damaging the enemy ship's drone system.</text>
 
 <!-- Hotkeys -->
 
+<text name="hotkey_drone4">Drone Slot 4</text>
 <text name="hotkey_speed">Toggle Speedhack</text>
 <text name="hotkey_console">Open Console</text>
 <text name="hotkey_info">Toggle Extra Info</text>
+<text name="hotkey_temporal">Power Temporal Manipulator</text>
+<text name="hotkey_un_temporal">De-Power Temporal Manipulator</text>
+<text name="hotkey_temporal_speed">Temporal Speed Up</text>
+<text name="hotkey_temporal_slow">Temporal Slow Down</text>
+
+<!-- Custom systems -->
+
+<!--
+For: "temporal", "temporal_tooltip", "temporal_arm_speed", "temporal_arm_slow"
+
+\1: speed strength
+\2: speed cooldown
+\3: speed duration
+\4: slow strength
+\5: slow cooldown
+\6: slow duration
+-->
+
+<text name="temporal">\1x/\4x speed for \3/\6 sec</text> 
+<text name="temporal_tooltip">\1x/\4x speed for \3/\6 sec</text>
+
+<text name="temporal_arm_super_shields">Blocked by super shields.</text>
+<text name="temporal_arm_speed">Speed up everything in the room by \1x for \3 seconds.</text>
+<text name="temporal_arm_slow">Slow down everything in the room by \4x for \6 seconds.</text>
+
+<text name="temporal_button_speed">Speed up everything that occurs in a room for a short duration.\nHotkey: \1</text> <!-- key name -->
+<text name="temporal_button_slow">Slow down everything that occurs in a room for a short duration.\nHotkey: \1</text> <!-- key name -->
 
 <!-- More Info Button -->
 
-<text name="tooltip_more_info">Click here to toggle the display of additional information on crew and weapons.
-Key: \1.</text> <!-- \1 is more info hotkey -->
+<text name="tooltip_more_info">Toggle advanced information, which provides extra info for:
+-Weapon/Drone/Augment Tooltips
+-Crew hover tooltips
+-Map connections
+-Room oxygen colors
+-Reactor numbers in hanger
+-Event equipment tooltips
+
+Key: \1</text> <!-- \1 is more info hotkey -->
+
+<!-- Achievements/hangar stuff -->
+
+<text name="hangar_achievements_title_custom">Ship Victories</text>  <!-- Shown above the ship achievement list -->
+<text name="hangar_achievements_title_filter">Filter Victory Types</text>  <!-- Shown above the ship achievement list -->
 
 <!-- Discord Integration -->
 

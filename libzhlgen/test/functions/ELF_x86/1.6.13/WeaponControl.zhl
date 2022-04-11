@@ -1,0 +1,16 @@
+"5557565383ec2c8b7424408b6c24448b54244c":
+cleanup __cdecl void WeaponControl::Fire(WeaponControl *this, std::vector<Pointf>& points, int target, bool autoFire);
+"565383ec248b5c2430c744240403000000":
+cleanup __cdecl void WeaponControl::OnRender(WeaponControl *this, bool unk);
+"565383ec148b5424208b4c24248b5c24288b74242c":
+cleanup __cdecl bool WeaponControl::LButton(WeaponControl *this, int x, int y, bool holdingShift);
+"57565383ec108b5c24208b7424248b7c2428891c2489742404":
+cleanup __cdecl void WeaponControl::MouseMove(WeaponControl *this, int x, int y);
+"5383ec488b5c24508b442454891c2489442404":
+cleanup __cdecl void WeaponControl::LinkShip(WeaponControl *this, ShipManager *ship);
+"5557565381ecfc0100008b9c2410020000c744240403000000":
+cleanup __cdecl void WeaponControl::constructor(WeaponControl *this);
+"57565383ec508b4424648b7424608b7c2468":
+cleanup __cdecl void WeaponControl::SetAutofiring(WeaponControl *this, bool on, bool simple);
+"57bf01000000565383ec308b5c24408b742444":
+cleanup __cdecl bool WeaponControl::KeyDown(WeaponControl *this, SDLKey key);

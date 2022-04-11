@@ -29,14 +29,27 @@ struct CustomWeaponDefinition
     std::string name;
 
     int freeMissileChance;
-    std::string descriptionOverride;
+    TextString descriptionOverride;
+    TextString advancedDescriptionOverride;
+    TextString tooltipOverride;
+    TextString advancedTooltipOverride;
     bool hideEventTooltip = false;
+    bool simultaneousFire = false;
+    float fireTime = 0.f;
+    float angularRadius = -1.f;
+
+    float iconScale = 1.f;
+
+    CustomDamageDefinition *customDamage;
+
+    std::unordered_map<std::string, std::string> miniProjectileOverride;
 };
 
 class CustomWeaponManager
 {
 public:
     static CustomWeaponManager* instance;
+    static CustomWeaponDefinition* currentWeapon;
 
     void AddWeaponDefinition(CustomWeaponDefinition& weaponDef)
     {
@@ -53,6 +66,8 @@ public:
         return nullptr;
     }
     std::unordered_map<std::string, CustomWeaponDefinition> weaponDefs;
+
+    static void ProcessMiniProjectile(Projectile *proj, const WeaponBlueprint *bp, int boostLevel = 0);
 
 private:
 };

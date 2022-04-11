@@ -3,6 +3,7 @@
 /*
 HOOK_METHOD(ShipManager, AddInitialCrew, (std::vector<CrewBlueprint>& blueprints) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::AddInitialCrew -> Begin (Captain.cpp)\n")
     super(blueprints);
 
     if (this->iShipId == 0)
@@ -23,16 +24,17 @@ HOOK_METHOD(ShipManager, AddInitialCrew, (std::vector<CrewBlueprint>& blueprints
 
 HOOK_METHOD(CrewMember, OnRender, (bool unk) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewMember::OnRender -> Begin (Captain.cpp)\n")
     super(unk);
 
     if (CM_EX(this)->isCaptain)
     {
         auto graph = ShipGraph::GetShipInfo(this->currentShipId);
 
-        int64_t point = graph->ConvertToWorldPosition(Pointf(this->x, this->y));
-        Pointf* pointptr = (Pointf*)&point;
+        Pointf point = graph->ConvertToWorldPosition(Pointf(this->x, this->y));
+        Pointf* pointptr = &point;
 
-        CSurface::GL_SetColor(1.f, 1.f, 0.f, 1.f);
+        CSurface::GL_SetColor(GL_Color(1.f, 1.f, 0.f, 1.f));
 
         std::string str("C");
         freetype::easy_printCenter(0, this->x, this->y - 30.f, str);
@@ -41,6 +43,7 @@ HOOK_METHOD(CrewMember, OnRender, (bool unk) -> void)
 
 HOOK_METHOD(ShipManager, GetDodgeFactor, () -> int)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::GetDodgeFactor -> Begin (Captain.cpp)\n")
     int ret = super();
 
     for (auto const& x: this->vCrewList)

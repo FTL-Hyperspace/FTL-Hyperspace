@@ -1,8 +1,12 @@
 #include "CustomBoss.h"
+#include "CustomWeapons.h"
 #include <boost/lexical_cast.hpp>
+#include <math.h>
 
 CustomBoss* CustomBoss::instance = new CustomBoss();
 
+std::string droneSurgeOverride = "";
+std::string barrageOverride = "";
 
 void CustomBoss::ParseBossNode(rapidxml::xml_node<char> *node)
 {
@@ -36,34 +40,106 @@ void CustomBoss::ParseBossNode(rapidxml::xml_node<char> *node)
 
             if (nodeName == "surgeDrones")
             {
-                customSurgeDrones = true;
-
-                for (auto droneNode = bossNode->first_node(); droneNode; droneNode = droneNode->next_sibling())
+                if (bossNode->first_attribute("name"))
                 {
-                    if (droneNode->first_attribute("difficulty"))
-                    {
-                        int difficulty = boost::lexical_cast<int>(droneNode->first_attribute("difficulty")->value());
+                    auto def = new std::array<std::vector<DroneCount>,3>();
+                    ParseBossDroneNode(bossNode, def);
+                    droneSurgeDefs[bossNode->first_attribute("name")->value()] = def;
+                }
+                else
+                {
+                    customSurgeDrones = true;
 
-                        if (difficulty > 2) continue;
+                    ParseBossDroneNode(bossNode, &droneSurgeDef);
+                }
+            }
 
-                        DroneCount droneCount = DroneCount();
+            if (nodeName == "surgeBarrage")
+            {
+                if (bossNode->first_attribute("name"))
+                {
+                    auto def = new std::array<std::vector<BarrageCount>,3>();
+                    ParseBossBarrageNode(bossNode, def);
+                    barrageDefs[bossNode->first_attribute("name")->value()] = def;
+                }
+                else
+                {
+                    customBarrage = true;
 
-                        droneCount.drone = droneNode->first_attribute("name")->value();
-                        droneCount.number = boost::lexical_cast<int>(droneNode->first_attribute("count")->value());
-
-                        droneSurgeDef[difficulty].push_back(droneCount);
-                    }
+                    ParseBossBarrageNode(bossNode, &barrageDef);
                 }
             }
         }
     }
-    catch (std::exception)
+    catch (rapidxml::parse_error& e)
     {
-        MessageBoxA(GetDesktopWindow(), "Error parsing <boss> in hyperspace.xml", "Error", MB_ICONERROR | MB_SETFOREGROUND);
+        ErrorMessage(std::string("Error parsing <boss> in hyperspace.xml\n") + std::string(e.what()));
+    }
+    catch (std::exception &e)
+    {
+        ErrorMessage(std::string("Error parsing <boss> in hyperspace.xml\n") + std::string(e.what()));
+    }
+    catch (const char* e)
+    {
+        ErrorMessage(std::string("Error parsing <boss> in hyperspace.xml\n") + std::string(e));
+    }
+    catch (...)
+    {
+        ErrorMessage("Error parsing <boss> in hyperspace.xml\n");
     }
 }
 
+void CustomBoss::ParseBossDroneNode(rapidxml::xml_node<char> *node, std::array<std::vector<DroneCount>,3> *def)
+{
+    for (auto droneNode = node->first_node(); droneNode; droneNode = droneNode->next_sibling())
+    {
+        if (droneNode->first_attribute("difficulty"))
+        {
+            int difficulty = boost::lexical_cast<int>(droneNode->first_attribute("difficulty")->value());
 
+            if (difficulty > 2) continue;
+
+            DroneCount droneCount = DroneCount();
+
+            droneCount.drone = droneNode->first_attribute("name")->value();
+            droneCount.number = boost::lexical_cast<int>(droneNode->first_attribute("count")->value());
+
+            (*def)[difficulty].push_back(droneCount);
+        }
+    }
+}
+
+void CustomBoss::ParseBossBarrageNode(rapidxml::xml_node<char> *node, std::array<std::vector<BarrageCount>,3> *def)
+{
+    for (auto child = node->first_node(); child; child = child->next_sibling())
+    {
+        if (child->first_attribute("difficulty"))
+        {
+            int difficulty = boost::lexical_cast<int>(child->first_attribute("difficulty")->value());
+
+            if (difficulty > 2) continue;
+
+            BarrageCount barrageCount = BarrageCount();
+
+            barrageCount.weapon = child->first_attribute("name")->value();
+            barrageCount.number = boost::lexical_cast<int>(child->first_attribute("count")->value());
+
+            (*def)[difficulty].push_back(barrageCount);
+        }
+        else
+        {
+            for (int difficulty=0; difficulty<3; ++difficulty)
+            {
+                BarrageCount barrageCount = BarrageCount();
+
+                barrageCount.weapon = child->first_attribute("name")->value();
+                barrageCount.number = boost::lexical_cast<int>(child->first_attribute("count")->value());
+
+                (*def)[difficulty].push_back(barrageCount);
+            }
+        }
+    }
+}
 
 static bool isStartingStage = false;
 static bool spawnBossCrew = false;
@@ -71,6 +147,7 @@ static BossShip* bossShipStartingStage;
 
 HOOK_METHOD(BossShip, StartStage, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> BossShip::StartStage -> Begin (CustomBoss.cpp)\n")
     isStartingStage = true;
     spawnBossCrew = true;
     bossShipStartingStage = this;
@@ -103,6 +180,7 @@ HOOK_METHOD(BossShip, StartStage, () -> void)
 
 HOOK_METHOD(BossShip, OnLoop, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> BossShip::OnLoop -> Begin (CustomBoss.cpp)\n")
     super();
 
 
@@ -122,8 +200,9 @@ HOOK_METHOD(BossShip, OnLoop, () -> void)
 
 }
 
-HOOK_METHOD(ShipManager, AddCrewMemberFromString, (const std::string& name, const std::string& race, bool intruder, int roomId, bool init, bool male) -> CrewMember*)
+HOOK_METHOD_PRIORITY(ShipManager, AddCrewMemberFromString, -100, (const std::string& name, const std::string& race, bool intruder, int roomId, bool init, bool male) -> CrewMember*)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::AddCrewMemberFromString -> Begin (CustomBoss.cpp)\n")
     if (isStartingStage)
     {
         if (spawnBossCrew)
@@ -155,6 +234,7 @@ HOOK_METHOD(ShipManager, AddCrewMemberFromString, (const std::string& name, cons
 
 HOOK_METHOD(BossShip, SaveBoss, (int fh) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> BossShip::SaveBoss -> Begin (CustomBoss.cpp)\n")
     FileHelper::writeInt(fh, CustomBoss::instance->currentCrewCounts.size());
     for (auto i : CustomBoss::instance->currentCrewCounts)
     {
@@ -167,13 +247,13 @@ HOOK_METHOD(BossShip, SaveBoss, (int fh) -> void)
 
 HOOK_METHOD(BossShip, LoadBoss, (int fh) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> BossShip::LoadBoss -> Begin (CustomBoss.cpp)\n")
     int crewCountsSize = FileHelper::readInteger(fh);
 
     for (int i = 0; i < crewCountsSize; i++)
     {
         auto crewDef = std::pair<std::string, int>();
-        crewDef.first = std::string();
-        FileHelper::readString(crewDef.first, fh);
+        crewDef.first = FileHelper::readString(fh);
         crewDef.second = FileHelper::readInteger(fh);
     }
 
@@ -183,11 +263,23 @@ HOOK_METHOD(BossShip, LoadBoss, (int fh) -> void)
 
 HOOK_METHOD(ShipManager, PrepareSuperDrones, () -> void)
 {
-    if (!CustomBoss::instance->customSurgeDrones) return;
+    LOG_HOOK("HOOK_METHOD -> ShipManager::PrepareSuperDrones -> Begin (CustomBoss.cpp)\n")
+    std::array<std::vector<DroneCount>,3> *def = nullptr;
+    if (CustomBoss::instance->customSurgeDrones) def = &(CustomBoss::instance->droneSurgeDef);
+    if (!droneSurgeOverride.empty())
+    {
+        auto it = CustomBoss::instance->droneSurgeDefs.find(droneSurgeOverride);
+        if (it != CustomBoss::instance->droneSurgeDefs.end())
+        {
+            def = it->second;
+        }
+        droneSurgeOverride = "";
+    }
+    if (def == nullptr) return super();
 
     if (superDrones.size() == 0)
     {
-        std::vector<DroneCount> droneCount = CustomBoss::instance->droneSurgeDef[*G_->difficulty];
+        std::vector<DroneCount> droneCount = (*def)[*G_->difficulty];
 
         for (auto i : droneCount)
         {
@@ -207,10 +299,8 @@ HOOK_METHOD(ShipManager, PrepareSuperDrones, () -> void)
         }
     }
 
-    for (auto i : superDrones)
+    for (auto drone : superDrones)
     {
-        CombatDrone *drone = (CombatDrone*)i;
-
         drone->SetMovementTarget(&current_target->_targetable);
         drone->SetWeaponTarget(&current_target->_targetable);
         drone->lifespan = 2;
@@ -220,8 +310,175 @@ HOOK_METHOD(ShipManager, PrepareSuperDrones, () -> void)
     }
 }
 
+HOOK_METHOD(ShipManager, PrepareSuperBarrage, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::PrepareSuperBarrage -> Begin (CustomBoss.cpp)\n")
+    std::array<std::vector<BarrageCount>,3> *def = nullptr;
+    if (CustomBoss::instance->customBarrage) def = &(CustomBoss::instance->barrageDef);
+    if (!barrageOverride.empty())
+    {
+        auto it = CustomBoss::instance->barrageDefs.find(barrageOverride);
+        if (it != CustomBoss::instance->barrageDefs.end())
+        {
+            def = it->second;
+        }
+        barrageOverride = "";
+    }
+    if (def == nullptr) return super();
+
+    ShipGraph* graph = ShipGraph::GetShipInfo(iShipId);
+    Pointf pos = {(float)graph->center.x, (float)graph->center.y};
+
+    if (current_target == nullptr) return;
+    int targetId = current_target->iShipId;
+
+    SoundControl* soundControl = G_->GetSoundControl();
+
+    std::vector<BarrageCount> barrageCount = (*def)[*G_->difficulty];
+
+    std::vector<Pointf> bombTargets = std::vector<Pointf>();
+    unsigned int bombTargetIdx = 0;
+
+    for (auto i : barrageCount)
+    {
+        WeaponBlueprint *bp = G_->GetBlueprints()->GetWeaponBlueprint(i.weapon);
+        if (bp == nullptr) continue;
+
+        for (int j = 0; j < i.number; j++)
+        {
+            switch (bp->type)
+            {
+            case 0:
+                {
+                    Pointf targetPos = current_target->GetRandomRoomCenter();
+                    float heading = random32()%360;
+
+                    LaserBlast *projectile = new LaserBlast(pos,iShipId,targetId,targetPos);
+                    projectile->heading = heading;
+                    projectile->OnInit();
+                    projectile->Initialize(*bp);
+
+                    superBarrage.push_back(projectile);
+                }
+                break;
+            case 1:
+                {
+                    Pointf targetPos = current_target->GetRandomRoomCenter();
+                    float heading = random32()%360;
+
+                    Missile *projectile = new Missile(pos,iShipId,targetId,targetPos,heading);
+                    projectile->Initialize(*bp);
+
+                    superBarrage.push_back(projectile);
+                }
+                break;
+            case 2:
+                {
+                    Pointf targetPos = current_target->GetRandomRoomCenter();
+                    Pointf finalPos;
+                    do
+                    {
+                        finalPos = current_target->GetRandomRoomCenter();
+                    }
+                    while (finalPos.x == targetPos.x && finalPos.y == targetPos.y);
+                    float heading = random32()%360;
+
+                    BeamWeapon *projectile = new BeamWeapon(pos,iShipId,targetId,targetPos,finalPos,bp->length,&current_target->_targetable);
+                    projectile->heading = heading;
+                    projectile->entryAngle = random32()%360;
+
+                    float theta = heading * 0.01745329f;
+                    projectile->sub_end.x = pos.x + 2000.f*cos(theta);
+                    projectile->sub_end.y = pos.y + 2000.f*sin(theta);
+
+                    projectile->Initialize(*bp);
+
+                    superBarrage.push_back(projectile);
+                }
+                break;
+            case 3:
+                {
+                    if (bombTargetIdx >= bombTargets.size())
+                    {
+                        bombTargets.clear();
+                        int numRooms = ShipGraph::GetShipInfo(targetId)->RoomCount();
+                        bombTargets.reserve(numRooms);
+                        for (int k=0; k<numRooms; ++k) bombTargets.push_back(current_target->GetRoomCenter(k));
+
+                        std::random_shuffle(bombTargets.begin(), bombTargets.end(), [](int i){return random32()%i;});
+                        bombTargetIdx = 0;
+                    }
+
+                    BombProjectile *projectile = new BombProjectile(pos,iShipId,targetId,bombTargets[bombTargetIdx++]);
+                    projectile->superShieldBypass = HasEquipment("ZOLTAN_BYPASS");
+                    projectile->Initialize(*bp);
+                    projectile->flight_animation.tracker.loop = false;
+
+                    superBarrage.push_back(projectile);
+                }
+                break;
+            case 4:
+                {
+                    Pointf targetPos = current_target->GetRandomRoomCenter();
+                    float heading = random32()%360;
+                    float entryAngle = random32()%360;
+
+                    for (auto &k : bp->miniProjectiles)
+                    {
+                        float r = sqrt(random32()/2147483648.f) * bp->radius;
+                        float theta = random32()%360 * 0.01745329f;
+                        Pointf ppos = {static_cast<float>(targetPos.x + r*cos(theta)), static_cast<float>(targetPos.y + r*sin(theta))};
+                        LaserBlast *projectile = new LaserBlast(pos,iShipId,targetId,ppos);
+                        projectile->heading = heading;
+                        projectile->OnInit();
+                        projectile->entryAngle = entryAngle;
+                        projectile->Initialize(*bp);
+
+                        projectile->flight_animation = G_->GetAnimationControl()->GetAnimation(k.image);
+
+                        if (k.fake)
+                        {
+                            projectile->damage.iDamage = 0;
+                            projectile->damage.iShieldPiercing = 0;
+                            projectile->damage.fireChance = 0;
+                            projectile->damage.breachChance = 0;
+                            projectile->damage.stunChance = 0;
+                            projectile->damage.iIonDamage = 0;
+                            projectile->damage.iSystemDamage = 0;
+                            projectile->damage.iPersDamage = 0;
+                            projectile->damage.bHullBuster = false;
+                            projectile->damage.ownerId = -1;
+                            projectile->damage.selfId = -1;
+                            projectile->damage.bLockdown = false;
+                            projectile->damage.crystalShard = false;
+                            projectile->damage.bFriendlyFire = true;
+                            projectile->damage.iStun = 0;
+                            projectile->death_animation.fScale = 0.25;
+                        }
+                        else
+                        {
+                            projectile->bBroadcastTarget = iShipId == 0;
+                        }
+
+                        CustomWeaponManager::ProcessMiniProjectile(projectile, bp);
+
+                        superBarrage.push_back(projectile);
+                    }
+
+                }
+                break;
+            }
+            if (!bp->effects.launchSounds.empty())
+            {
+                soundControl->PlaySoundMix(bp->effects.launchSounds[random32()%bp->effects.launchSounds.size()], -1.f, false);
+            }
+        }
+    }
+}
+
 HOOK_METHOD(BossShip, GetEvent, () -> LocationEvent*)
 {
+    LOG_HOOK("HOOK_METHOD -> BossShip::GetEvent -> Begin (CustomBoss.cpp)\n")
     LocationEvent *ret = super();
 
     ret->statusEffects.clear();
@@ -234,6 +491,7 @@ static bool blockSystemBoxRender = false;
 
 HOOK_METHOD(SystemBox, OnRender, (bool ignoreStatus) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> SystemBox::OnRender -> Begin (CustomBoss.cpp)\n")
     if (blockSystemBoxRender)
     {
         return;
@@ -245,6 +503,7 @@ HOOK_METHOD(SystemBox, OnRender, (bool ignoreStatus) -> void)
 
 HOOK_METHOD(CombatControl, RenderTarget, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CombatControl::RenderTarget -> Begin (CustomBoss.cpp)\n")
     if (currentTarget->IsBoss())
     {
         blockSystemBoxRender = true;

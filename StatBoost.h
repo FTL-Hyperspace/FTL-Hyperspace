@@ -1,5 +1,257 @@
 #pragma once
 #include "Global.h"
+#include "Constants.h"
+#include "CustomCrew.h"
+#include "CustomCrewCommon.h"
+#include "EnumClassHash.h"
 
-StatBoost ParseStatBoostNode(rapidxml::xml_node<char>* node);
+struct ActivatedPowerDefinition;
 
+enum class CrewExtraCondition : unsigned int;
+
+enum class CrewStat : unsigned int
+{
+    MAX_HEALTH = 0,
+    STUN_MULTIPLIER,
+    MOVE_SPEED_MULTIPLIER,
+    REPAIR_SPEED_MULTIPLIER,
+    DAMAGE_MULTIPLIER,
+    RANGED_DAMAGE_MULTIPLIER,
+    DOOR_DAMAGE_MULTIPLIER,
+    FIRE_REPAIR_MULTIPLIER,
+    SUFFOCATION_MODIFIER,
+    FIRE_DAMAGE_MULTIPLIER,
+    OXYGEN_CHANGE_SPEED,
+    DAMAGE_TAKEN_MULTIPLIER,
+    PASSIVE_HEAL_AMOUNT,
+    TRUE_PASSIVE_HEAL_AMOUNT,
+    TRUE_HEAL_AMOUNT,
+    PASSIVE_HEAL_DELAY,
+    ACTIVE_HEAL_AMOUNT,
+    SABOTAGE_SPEED_MULTIPLIER,
+    ALL_DAMAGE_TAKEN_MULTIPLIER,
+    HEAL_SPEED_MULTIPLIER,
+    HEAL_CREW_AMOUNT,
+    DAMAGE_ENEMIES_AMOUNT,
+    BONUS_POWER,
+    POWER_DRAIN,
+    ESSENTIAL,
+    CAN_FIGHT,
+    CAN_REPAIR,
+    CAN_SABOTAGE,
+    CAN_MAN,
+    CAN_TELEPORT,
+    CAN_SUFFOCATE,
+    CONTROLLABLE,
+    CAN_BURN,
+    IS_TELEPATHIC,
+    RESISTS_MIND_CONTROL,
+    IS_ANAEROBIC,
+    CAN_PHASE_THROUGH_DOORS,
+    DETECTS_LIFEFORMS,
+    CLONE_LOSE_SKILLS,
+    POWER_DRAIN_FRIENDLY,
+    ACTIVATE_WHEN_READY,
+    DEFAULT_SKILL_LEVEL,
+    POWER_RECHARGE_MULTIPLIER,
+    POWER_MAX_CHARGES,
+    POWER_CHARGES_PER_JUMP,
+    HACK_DOORS,
+    NO_CLONE,
+    NO_SLOT,
+    NO_AI,
+    VALID_TARGET,
+    // non-cached stats
+    STAT_BOOST,
+    DEATH_EFFECT,
+    POWER_EFFECT,
+    TRANSFORM_RACE
+};
+
+extern const std::array<std::string, numStats> crewStats;
+
+struct StatBoostDefinition
+{
+    enum class BoostType
+    {
+        MULT,
+        FLAT,
+        SET,
+        FLIP,
+        SET_VALUE,
+        MIN,
+        MAX
+    };
+
+    enum class BoostSource
+    {
+        CREW,
+        AUGMENT
+    };
+
+    enum class ShipTarget
+    {
+        PLAYER_SHIP,
+        ENEMY_SHIP,
+        CURRENT_ALL,
+        CURRENT_ROOM,
+        OTHER_ALL,
+        ORIGINAL_SHIP,
+        ORIGINAL_OTHER_SHIP,
+        CREW_TARGET,
+        TARGETS_ME,
+        ALL
+    };
+
+    enum class SystemRoomTarget
+    {
+        ALL,
+        NONE
+    };
+
+    enum class CrewTarget
+    {
+        ALLIES,
+        ENEMIES,
+        SELF,
+        ALL,
+        CURRENT_ALLIES,
+        CURRENT_ENEMIES,
+        ORIGINAL_ALLIES,
+        ORIGINAL_ENEMIES
+    };
+
+    enum class DroneTarget
+    {
+        DRONES,
+        CREW,
+        ALL
+    };
+
+    CrewStat stat;
+    float amount;
+    bool value;
+    std::string stringValue = "";
+    bool isBool = false;
+    int priority = -1;
+    float duration = -1;
+
+    std::string boostAnim = "";
+
+    bool affectsSelf;
+
+    std::vector<std::string> whiteList = std::vector<std::string>();
+    std::vector<std::string> blackList = std::vector<std::string>();
+    std::vector<std::string> systemRoomReqs = std::vector<std::string>();
+    std::vector<std::string> systemList = std::vector<std::string>();
+
+    std::vector<StatBoostDefinition*> providedStatBoosts = std::vector<StatBoostDefinition*>();
+
+    unsigned int powerChange = 0;
+    ExplosionDefinition* deathEffectChange;
+
+    std::vector<float> powerScaling = std::vector<float>();
+    float powerScalingNoSys = 1.0;
+    float powerScalingHackedSys = 1.0;
+    std::vector<int> systemPowerScaling;
+
+    std::vector<std::pair<CrewExtraCondition,bool>> extraConditions = std::vector<std::pair<CrewExtraCondition,bool>>();
+    std::vector<std::pair<CrewExtraCondition,bool>> extraOrConditions = std::vector<std::pair<CrewExtraCondition,bool>>();
+    bool extraConditionsReq;
+    SystemRoomTarget systemRoomTarget;
+    bool systemRoomReq;
+    BoostSource boostSource;
+    BoostType boostType;
+    ShipTarget shipTarget;
+    CrewTarget crewTarget;
+    DroneTarget droneTarget = DroneTarget::ALL;
+    bool functionalTarget = false;
+    std::pair<float,float> healthReq = {-1.f, -1.f};
+    std::pair<float,float> healthFractionReq = {-1.f, -1.f};
+    std::pair<float,float> oxygenReq = {-1.f, -1.f};
+
+    int realBoostId = -1;
+    int stackId = 0;
+    int maxStacks = 2147483647;
+
+    static std::vector<StatBoostDefinition*> statBoostDefs;
+    static std::unordered_map<std::string,StatBoostDefinition*> savedStatBoostDefs;
+
+    void GiveId()
+    {
+        realBoostId = statBoostDefs.size();
+        statBoostDefs.push_back(this);
+    }
+};
+
+struct StatBoost
+{
+    StatBoostDefinition* def;
+
+    int iStacks = 1;
+
+    CrewMember* crewSource;
+    TimerHelper timerHelper;
+
+    std::pair<std::vector<int>,std::vector<int>> sourceRoomIds = std::pair<std::vector<int>,std::vector<int>>();
+
+    int sourceShipId;
+
+    StatBoost(StatBoostDefinition& definition) : def{&definition}
+    {
+    }
+
+    StatBoost(StatBoostDefinition* definition) : def{definition}
+    {
+    }
+};
+
+class StatBoostManager
+{
+public:
+    static unsigned int statCacheFrame;
+
+    std::unordered_map<CrewStat, std::vector<StatBoost>, EnumClassHash> statBoosts;
+    std::vector<StatBoost> animBoosts;
+
+    StatBoostManager()
+    {
+
+    }
+
+    static StatBoostManager *GetInstance()
+    {
+        return &instance;
+    }
+
+    StatBoostDefinition* ParseStatBoostNode(rapidxml::xml_node<char>* node, StatBoostDefinition::BoostSource boostSource);
+    void CreateTimedAugmentBoost(StatBoost statBoost, CrewMember* crew);
+    void OnLoop(WorldManager* world);
+private:
+    static StatBoostManager instance;
+    ShipManager* playerShip;
+    ShipManager* enemyShip;
+    std::vector<CrewMember*> checkingCrewList;
+    std::unordered_map<CrewMember*,std::unordered_map<int,int>> recursiveStackCount;
+
+    int nextStackId = 0;
+    std::unordered_map<std::string, int> stackIdMap;
+
+    int GiveStackId()
+    {
+        return ++nextStackId;
+    }
+
+    int GiveStackId(std::string stringId)
+    {
+        auto it = stackIdMap.find(stringId);
+        if (it != stackIdMap.end()) return it->second;
+        stackIdMap[stringId] = ++nextStackId;
+        return nextStackId;
+    }
+
+    void CreateAugmentBoost(StatBoostDefinition* def, int shipId, int nStacks);
+    void CreateCrewBoost(StatBoostDefinition* def, CrewMember* otherCrew, int nStacks);
+    void CreateCrewBoost(StatBoost statBoost, CrewMember* otherCrew);
+    void CreateRecursiveBoosts(StatBoost& statBoost, int nStacks, bool noCheck = false);
+};

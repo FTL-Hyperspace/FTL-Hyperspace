@@ -1,0 +1,50 @@
+"578d7c240883e4f0ff77fc5589f889e557565389cf81ec????????8b70048b088b580c89b574feffff8b70088b4010899d5cfeffff8b5904":
+__thiscall void CrewDrone::constructor(CrewDrone *this, const std::string& type, const std::string& name, int shipId, const DroneBlueprint* blueprint, CrewAnimation *anim);
+"578d7c240883e4f0ff77fc5589e557568db15c0700005389cb83ec4c89f1e8????????80bbfc0100000074??80bb7007000000":
+virtual __thiscall void CrewDrone::OnLoop(CrewDrone *this);
+"8b410485c074??0fb6813d05000084c074??8b815c0700008d915c0700008b40303d????????75??0fb68170070000c3f3c35589d1":
+virtual __thiscall bool CrewDrone::ProvidesVision(CrewDrone *this);
+".578d7c240883e4f0ff77fc5589e55783ec148b07890424e8????????8b7dfc83ec04c98d67f85f":
+__thiscall void CrewDrone::SetCurrentShip(CrewDrone *this, int shipId);
+"558d910809000089e557565383e4f083ec208b8100090000c701????????894c2":
+__thiscall void CrewDrone::destructor(CrewDrone *this);
+
+
+struct CrewDrone depends (CrewMember, DroneBlueprint)
+{{
+	virtual ~CrewDrone()
+	{
+		this->destructor();
+	}
+
+	CrewDrone()
+	{
+	}
+
+	CrewDrone(const std::string& type, const std::string& name, int shipId, const DroneBlueprint* blueprint, CrewAnimation *anim)
+	{
+		this->constructor(type, name, shipId, blueprint, anim);
+	}
+	
+	inline std::string& GetRace();
+
+	bool _HS_ValidTarget(int shipId);
+	bool _HS_GetControllable();
+	bool _HS_CanFight();
+	bool _HS_CanRepair();
+	bool _HS_CanSabotage();
+	bool _HS_CanMan();
+	bool _HS_CanSuffocate();
+	bool _HS_CanBurn();
+	float _HS_GetMoveSpeedMultiplier();
+	float _HS_GetRepairSpeed();
+	int _HS_GetMaxHealth();
+	float _HS_GetDamageMultiplier();
+	bool _HS_ProvidesPower();
+	float _HS_GetFireRepairMultiplier();
+	bool _HS_IsTelepathic();
+	float _HS_GetSuffocationModifier();
+	bool _HS_IsAnaerobic();
+	int _HS_BlockRoom();
+
+}};

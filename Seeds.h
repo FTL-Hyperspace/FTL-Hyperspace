@@ -2,6 +2,8 @@
 
 #include <boost/crc.hpp>
 
+int GenerateLocationSeed(int a, int b);
+
 class SeedInputBox
 {
 public:
@@ -104,7 +106,7 @@ extern SeededRng secretRng;
 
 static unsigned int nextSeed;
 unsigned int SeededRandom32();
-void SetSeed(UINT);
+void SetSeed(unsigned int);
 
-static bool loadingMap = false;
+extern bool loadingMap;
 static bool generatingMap = false;

@@ -1,0 +1,10 @@
+"5589e583e4f083ec20f30f106510f30f1045140f28f40f28d0f30f59e4f30f59c0f30f104d08f30f105d0cf30f59f1f30f106d18f30f59d3f30f59ed":
+static cleanup __cdecl float Globals::AimAhead(Pointf delta, Pointf vr, float muzzleV);
+"8b15????????8d420185d2ba????????0f44c2a3????????":
+static __cdecl int Globals::GetNextSpaceId();
+
+"!899d8ccaffffc6041800b9(???????\?)":
+TextLibrary* Global_Globals_Library;
+
+"8b15(???????\?)8d420185d2ba650000000f44c2a3????????c3":
+int* Globals_GetNextSpaceId_id;

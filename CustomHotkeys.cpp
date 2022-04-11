@@ -2,7 +2,8 @@
 
 static std::vector<CustomHotkey> customHotkeys =
 {
-    {"console", SDLKey::SDLK_l, 0, -1},
+    {"drone4", SDLKey::SDLK_8, 1, 11},
+    {"console", SDLKey::SDLK_BACKSLASH, 0, -1},
     {"speed", SDLKey::SDLK_BACKQUOTE, 0, -1},
     {"info", SDLKey::SDLK_RALT, 0, 11},
     {"temporal", SDLKey::SDLK_SEMICOLON, 2, 11},
@@ -13,6 +14,7 @@ static std::vector<CustomHotkey> customHotkeys =
 
 HOOK_METHOD(ControlsScreen, OnInit, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ControlsScreen::OnInit -> Begin (CustomHotkeys.cpp)\n")
     for (int i = 0; i < 4; i++)
     {
         buttons[i].clear();
@@ -50,6 +52,7 @@ HOOK_METHOD(ControlsScreen, OnInit, () -> void)
 
 HOOK_STATIC(Settings, ResetHotkeys, () -> void)
 {
+    LOG_HOOK("HOOK_STATIC -> Settings::ResetHotkeys -> Begin (CustomHotkeys.cpp)\n")
     super();
 
     SettingValues* settings = G_->GetSettings();

@@ -1,0 +1,13 @@
+"41554154554889cd4c8da5a0000000534889fb4883ec38":
+cleanup __amd64 void CombatDrone::constructor(CombatDrone *this, int iShipId, int selfId, const DroneBlueprint* bp);
+"554889f5534889fb4883ec084885f6743f":
+cleanup __amd64 void CombatDrone::SetWeaponTarget(CombatDrone *this, Targetable *target);
+
+
+struct CombatDrone depends (DroneBlueprint)
+{{
+	CombatDrone(int shipId, int self, const DroneBlueprint* bp)
+	{
+		this->constructor(shipId, self, bp);
+	}
+}};

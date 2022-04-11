@@ -1,11 +1,21 @@
 #pragma once
+#include "CrewSpawn.h"
 #include "FTLGame.h"
+#include "StatBoost.h"
+#include "Constants.h"
+#include "CustomCrewCommon.h"
+#include "EnumClassHash.h"
 #include <array>
 
 struct CrewDefinition;
 struct ActivatedPowerDefinition;
+struct ActivatedPowerRequirements;
 
-enum PowerReadyState
+enum class CrewStat : unsigned int;
+struct StatBoost;
+struct StatBoostDefinition;
+
+enum PowerReadyState : unsigned int
 {
     POWER_NOT_READY_COOLDOWN,
     POWER_READY,
@@ -14,237 +24,30 @@ enum PowerReadyState
     POWER_NOT_READY_PLAYER_SHIP,
     POWER_NOT_READY_ENEMY_IN_ROOM,
     POWER_NOT_READY_FRIENDLY_IN_ROOM,
+    POWER_NOT_READY_WHITELIST,
+    POWER_NOT_READY_ENEMY_WHITELIST,
+    POWER_NOT_READY_FRIENDLY_WHITELIST,
+    POWER_NOT_READY_ENEMY_BLACKLIST,
+    POWER_NOT_READY_FRIENDLY_BLACKLIST,
     POWER_NOT_READY_SYSTEM_IN_ROOM,
     POWER_NOT_READY_HAS_CLONEBAY,
     POWER_NOT_READY_AI_DISABLED,
     POWER_NOT_READY_OUT_OF_COMBAT,
     POWER_NOT_READY_IN_COMBAT,
+    POWER_NOT_READY_SYSTEM,
+    POWER_NOT_READY_SYSTEM_FUNCTIONAL,
     POWER_NOT_READY_MIN_HEALTH,
     POWER_NOT_READY_MAX_HEALTH,
     POWER_NOT_READY_SYSTEM_DAMAGED,
-    POWER_NOT_READY_TELEPORTING,
-    POWER_NOT_READY_CHARGES
+    POWER_NOT_READY_CHARGES,
+    POWER_NOT_READY_EXTRACONDITION_OR,
+    POWER_NOT_READY_EXTRACONDITION_TRUE = 16384,
+    POWER_NOT_READY_EXTRACONDITION_FALSE = 32768
 };
 
-enum class CrewStat
-{
-    MAX_HEALTH = 0,
-    STUN_MULTIPLIER,
-    MOVE_SPEED_MULTIPLIER,
-    REPAIR_SPEED_MULTIPLIER,
-    DAMAGE_MULTIPLIER,
-    RANGED_DAMAGE_MULTIPLIER,
-    FIRE_REPAIR_MULTIPLIER,
-    SUFFOCATION_MODIFIER,
-    FIRE_DAMAGE_MULTIPLIER,
-    OXYGEN_CHANGE_SPEED,
-    DAMAGE_TAKEN_MULTIPLIER,
-    PASSIVE_HEAL_AMOUNT,
-    TRUE_PASSIVE_HEAL_AMOUNT,
-    TRUE_HEAL_AMOUNT,
-    PASSIVE_HEAL_DELAY,
-    ACTIVE_HEAL_AMOUNT,
-    SABOTAGE_SPEED_MULTIPLIER,
-    ALL_DAMAGE_TAKEN_MULTIPLIER,
-    HEAL_SPEED_MULTIPLIER,
-    HEAL_CREW_AMOUNT,
-    DAMAGE_ENEMIES_AMOUNT,
-    BONUS_POWER,
-    POWER_DRAIN,
-    CAN_FIGHT,
-    CAN_REPAIR,
-    CAN_SABOTAGE,
-    CAN_MAN,
-    CAN_SUFFOCATE,
-    CONTROLLABLE,
-    CAN_BURN,
-    IS_TELEPATHIC,
-    IS_ANAEROBIC,
-    CAN_PHASE_THROUGH_DOORS,
-    DETECTS_LIFEFORMS,
-    CLONE_LOSE_SKILLS,
-    POWER_DRAIN_FRIENDLY,
-    STAT_BOOST,
-    DEATH_EFFECT,
-    POWER_EFFECT,
-    ACTIVATE_WHEN_READY,
-    DEFAULT_SKILL_LEVEL,
-    POWER_RECHARGE_MULTIPLIER
-};
+extern const std::array<std::string, numStats> powerReadyStateExtraTextTrue;
 
-static const std::array<std::string, 42> crewStats =
-{
-    "maxHealth",
-    "stunMultiplier",
-    "moveSpeedMultiplier",
-    "repairSpeed",
-    "damageMultiplier",
-    "rangedDamageMultiplier",
-    "fireRepairMultiplier",
-    "suffocationModifier",
-    "fireDamageMultiplier",
-    "oxygenChangeSpeed",
-    "damageTakenMultiplier",
-    "passiveHealAmount",
-    "truePassiveHealAmount",
-    "trueHealAmount",
-    "passiveHealDelay",
-    "healAmount",
-    "sabotageSpeedMultiplier",
-    "allDamageTakenMultiplier",
-    "healSpeed",
-    "healCrewAmount",
-    "damageEnemiesAmount",
-    "bonusPower",
-    "powerDrain",
-    "canFight",
-    "canRepair",
-    "canSabotage",
-    "canMan",
-    "canSuffocate",
-    "controllable",
-    "canBurn",
-    "isTelepathic",
-    "isAnaerobic",
-    "canPhaseThroughDoors",
-    "detectsLifeforms",
-    "cloneLoseSkills",
-    "powerDrainFriendly",
-    "statBoost",
-    "deathEffect",
-    "powerEffect",
-    "activateWhenReady",
-    "defaultSkillLevel",
-    "powerRechargeMultiplier"
-};
-
-struct StatBoost
-{
-    enum class BoostType
-    {
-        MULT,
-        FLAT,
-        SET,
-        FLIP,
-        SET_VALUE
-    };
-
-    enum class BoostSource
-    {
-        CREW,
-        AUGMENT
-    };
-
-    enum class ShipTarget
-    {
-        PLAYER_SHIP,
-        ENEMY_SHIP,
-        CURRENT_ALL,
-        CURRENT_ROOM,
-        OTHER_ALL,
-        ORIGINAL_SHIP,
-        ORIGINAL_OTHER_SHIP,
-        ALL
-    };
-
-    enum class SystemRoomTarget
-    {
-        ALL,
-        NONE
-    };
-
-    enum class CrewTarget
-    {
-        ALLIES,
-        ENEMIES,
-        SELF,
-        ALL,
-        CURRENT_ALLIES,
-        CURRENT_ENEMIES
-    };
-
-    enum class DroneTarget
-    {
-        DRONES,
-        CREW,
-        ALL
-    };
-
-    enum class ExtraCondition
-    {
-        BURNING,
-        SUFFOCATING,
-        MIND_CONTROLLED,
-        STUNNED,
-        REPAIRING,
-        FIGHTING,
-        SHOOTING,
-        MOVING,
-        IDLE,
-        MANNING,
-        FIREFIGHTING,
-        DYING,
-        TELEPORTING_OR_CLONING
-
-    };
-
-    CrewStat stat;
-    CrewMember* crewSource;
-    float amount;
-    bool value;
-    bool isBool = false;
-    int priority = -1;
-    float duration = -1;
-    TimerHelper* timerHelper;
-
-    std::string boostAnim = "";
-
-    bool affectsSelf;
-
-    std::vector<std::string> whiteList = std::vector<std::string>();
-    std::vector<std::string> blackList = std::vector<std::string>();
-    std::pair<std::vector<int>,std::vector<int>> sourceRoomIds = std::pair<std::vector<int>,std::vector<int>>();
-    std::vector<std::string> systemRoomReqs = std::vector<std::string>();
-    std::vector<std::string> systemList = std::vector<std::string>();
-
-    std::vector<StatBoost> providedStatBoosts = std::vector<StatBoost>();
-
-    ActivatedPowerDefinition* powerChange;
-    Damage* deathEffectChange;
-    bool explosionShipFriendlyFire;
-
-    std::vector<float> powerScaling = std::vector<float>();
-    std::vector<int> systemPowerScaling;
-
-    std::vector<ExtraCondition> extraConditions = std::vector<ExtraCondition>();
-    bool extraConditionsReq;
-    SystemRoomTarget systemRoomTarget;
-    bool systemRoomReq;
-    BoostType boostType;
-    BoostSource boostSource;
-    ShipTarget shipTarget;
-    CrewTarget crewTarget;
-    DroneTarget droneTarget = DroneTarget::ALL;
-
-    int sourceShipId;
-
-    static uint64_t nextId;
-
-    bool isDefinition = false;
-    int realBoostId = -1;
-
-
-    void GiveId()
-    {
-        nextId++;
-        realBoostId = nextId;
-    }
-
-    ~StatBoost()
-    {
-        delete timerHelper;
-    }
-};
+extern const std::array<std::string, numStats> powerReadyStateExtraTextFalse;
 
 struct CrewAnimation_Extend
 {
@@ -255,9 +58,12 @@ public:
     Animation* effectFinishAnim = nullptr;
     std::unordered_map<uint64_t, Animation*> boostAnim = std::unordered_map<uint64_t, Animation*>();
     GL_Texture* tempEffectStrip = nullptr;
+    bool tempEffectBaseVisible = true;
 
+    std::string crewAnimationType = "human";
     bool isMantisAnimation = false;
     bool isIonDrone = false;
+    bool canPunch = true;
 
     Pointf effectPos;
     Pointf effectWorldPos;
@@ -267,6 +73,7 @@ public:
     bool isAbilityDrone = false;
 
     void OnInit(const std::string& name, Pointf position, bool enemy);
+    void PreparePower(ActivatedPowerDefinition* def);
 
     ~CrewAnimation_Extend();
 };
@@ -275,9 +82,11 @@ struct CrewMember_Extend
 {
 public:
     CrewMember *orig;
+    int selfId = -1;
     bool canPhaseThroughDoors = false;
     bool isHealing = false;
-    TimerHelper* passiveHealTimer;
+    TimerHelper* passiveHealTimer = nullptr;
+    TimerHelper* deathTimer = nullptr;
     int lastRoom = -1;
     int lastShipId = -1;
     bool exploded = false;
@@ -302,44 +111,65 @@ public:
     void TemporaryPowerFinished();
     Damage* GetPowerDamage();
     PowerReadyState PowerReady();
+    PowerReadyState PowerReq(const ActivatedPowerRequirements *req);
 
-    ActivatedPowerDefinition* powerChange;
-    Damage deathEffectChange;
-    bool explosionShipFriendlyFire;
+    unsigned int powerChange;
+    unsigned int powerDefIdx = 0;
+    ActivatedPowerDefinition* GetPowerDef() const;
+    ActivatedPowerDefinition* CalculatePowerDef();
+
+    ExplosionDefinition deathEffectChange;
     bool hasDeathExplosion;
 
     bool isIonDrone = false;
     bool isAbilityDrone = false;
 
-    float prevStun = 0.f; // for use in stun resistance checking
+    bool noSlot = false;
+    bool noClone = false;
 
-    GL_Primitive *crewBox_chargesBar = nullptr;
-    std::pair<int, int> crewBox_lastPowerCharges = std::pair<int, int>(0,0);
+    float prevStun = 0.f; // for use in stun resistance checking
 
     std::vector<StatBoost> outgoingStatBoosts = std::vector<StatBoost>();
     std::vector<StatBoost> outgoingAbilityStatBoosts = std::vector<StatBoost>();
     std::vector<StatBoost> tempOutgoingStatBoosts = std::vector<StatBoost>();
 //    std::vector<StatBoost> outgoingTimedStatBoosts = std::vector<StatBoost>();
 //    std::vector<StatBoost> outgoingTimedAbilityStatBoosts = std::vector<StatBoost>();
-    std::unordered_map<CrewStat, std::vector<StatBoost>> timedStatBoosts = std::unordered_map<CrewStat, std::vector<StatBoost>>();
+    std::unordered_map<CrewStat, std::vector<StatBoost>, EnumClassHash> timedStatBoosts = std::unordered_map<CrewStat, std::vector<StatBoost>, EnumClassHash>();
 //    std::vector<StatBoost> personalStatBoosts;
 
     float extraMedbay = 0.f;
 
-    void Initialize(CrewBlueprint& bp, int shipId, bool enemy, CrewAnimation *animation);
+    std::string originalColorRace = ""; // for color layers
+    std::string originalRace = "";
+    std::string transformRace = "";
 
+    void Initialize(CrewBlueprint& bp, int shipId, bool enemy, CrewAnimation *animation, bool isTransform = false);
+    bool TransformRace(const std::string& newRace);
+    static void TransformColors(CrewBlueprint& bp, CrewBlueprint *newBlueprint);
+
+    CrewMember_Extend()
+    {
+        selfId = Globals::GetNextSpaceId();
+    }
 
     ~CrewMember_Extend()
     {
         delete passiveHealTimer;
-        CSurface::GL_DestroyPrimitive(crewBox_chargesBar);
+        delete deathTimer;
     }
 
+    std::pair<float,int> statCache[numCachedStats] = {};
+
     bool BoostCheck(const StatBoost& statBoost);
-    float CalculateStat(CrewStat stat, const CrewDefinition& def, bool* boolValue=nullptr);
+    bool CheckExtraCondition(CrewExtraCondition condition);
+    int CalculateMaxHealth(const CrewDefinition* def);
+    float CalculateStat(CrewStat stat, const CrewDefinition* def, bool* boolValue=nullptr);
+
+    std::string GetRace();
+    CrewDefinition *GetDefinition();
 };
 
-CrewMember_Extend* Get_CrewMember_Extend(CrewMember* c);
+CrewMember_Extend* Get_CrewMember_Extend(const CrewMember* c);
 CrewAnimation_Extend* Get_CrewAnimation_Extend(CrewAnimation *c);
 
 #define CM_EX Get_CrewMember_Extend

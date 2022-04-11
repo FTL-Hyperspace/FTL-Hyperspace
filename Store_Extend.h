@@ -29,7 +29,7 @@ enum class CategoryType
 struct ItemPrice
 {
     int price = -1;
-    std::pair<int, int> minMaxPrice;
+    std::pair<float, float> minMaxPrice;
 
     bool useMinMax = false;
     bool sectorScaled = false;
@@ -77,7 +77,7 @@ struct StoreCategory
     std::vector<StoreItem> items;
 
     CategoryType categoryType;
-    std::vector<SystemId> allowedSystems; // contains all by default
+    std::vector<std::string> guaranteedSystems;
 
     std::string customTitle;
 
@@ -129,10 +129,10 @@ class StoreSection
 public:
     std::vector<std::vector<CustomStoreBox*>> storeBoxes;
 
-    int currentSection;
+    int currentSection = 0;
     CategoryType category;
-    std::string headingTitle;
-    std::string customTitle;
+    std::string headingTitle = "";
+    std::string customTitle = "";
 };
 
 class StorePage

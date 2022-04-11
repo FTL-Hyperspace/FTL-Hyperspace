@@ -1,5 +1,6 @@
 #include "CustomStore.h"
 #include "CustomEvents.h"
+#include "CustomShipSelect.h"
 #include "Store_Extend.h"
 #include <boost/lexical_cast.hpp>
 #include <array>
@@ -19,8 +20,8 @@ static ItemPrice ParsePriceNode(rapidxml::xml_node<char>* node)
         {
             if (cNode->first_attribute("min") && cNode->first_attribute("max"))
             {
-                def.minMaxPrice.first = boost::lexical_cast<int>(cNode->first_attribute("min")->value());
-                def.minMaxPrice.second = boost::lexical_cast<int>(cNode->first_attribute("max")->value());
+                def.minMaxPrice.first = boost::lexical_cast<float>(cNode->first_attribute("min")->value());
+                def.minMaxPrice.second = boost::lexical_cast<float>(cNode->first_attribute("max")->value());
                 def.useMinMax = true;
 
                 if (def.minMaxPrice.first > def.minMaxPrice.second)
@@ -181,6 +182,13 @@ static StoreCategory ParseCategoryNode(rapidxml::xml_node<char>* node)
         {
             def.allowDuplicates = true;
         }
+        if (name == "guaranteedSystems")
+        {
+            for (auto systemNode = cNode->first_node(); systemNode; systemNode = systemNode->next_sibling())
+            {
+                def.guaranteedSystems.push_back(systemNode->name());
+            }
+        }
     }
 
     return def;
@@ -247,6 +255,7 @@ void CustomStore::ParseStoreNode(rapidxml::xml_node<char>* node)
 
 HOOK_METHOD(SystemStoreBox, constructor, (ShipManager *shopper, Equipment *equip, int sys) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> SystemStoreBox::constructor -> Begin (CustomStore.cpp)\n")
     super(shopper, equip, sys);
 
     if (itemId != 4)
@@ -268,7 +277,7 @@ HOOK_METHOD(SystemStoreBox, constructor, (ShipManager *shopper, Equipment *equip
     desc.cost += newBlueprint->desc.cost / 2;
 }
 
-static int GetItemPricing(const ItemPrice& price, int defaultCost, int worldLevel)
+static int GetItemPricing(const ItemPrice& price, int defaultCost, int worldLevel, int freeBlueprintCost = 0)
 {
     int finalPrice = price.price;
 
@@ -285,9 +294,11 @@ static int GetItemPricing(const ItemPrice& price, int defaultCost, int worldLeve
         }
         else
         {
-            finalPrice = random32() % (price.minMaxPrice.second - price.minMaxPrice.first + 1) + price.minMaxPrice.first;
+            finalPrice = random32() % ((int)price.minMaxPrice.second - (int)price.minMaxPrice.first + 1) + (int)price.minMaxPrice.first;
         }
     }
+
+    finalPrice += freeBlueprintCost/2;
 
     if (price.hasModifier)
     {
@@ -549,18 +560,13 @@ std::vector<StoreBox*> StoreComplete::CreateCustomStoreBoxes(const StoreCategory
                     species = potentialList[random32() % potentialList.size()];
                 }
 
-                auto bp = G_->GetBlueprints()->GetCrewBlueprint(species);
+                CrewBlueprint bp = G_->GetBlueprints()->GetCrewBlueprint(species);
 
-                if (bp)
-                {
-                    box = new CrewStoreBox(ship, orig->worldLevel, species);
+                box = new CrewStoreBox(ship, orig->worldLevel, species);
 
-                    box->desc.cost = GetItemPricing(i.price, bp->desc.cost, orig->worldLevel);
+                box->desc.cost = GetItemPricing(i.price, bp.desc.cost, orig->worldLevel);
 
-                    vec.push_back(box);
-
-                    delete bp;
-                }
+                vec.push_back(box);
             }
         }
     }
@@ -574,27 +580,82 @@ std::vector<StoreBox*> StoreComplete::CreateCustomStoreBoxes(const StoreCategory
 
             if (i.blueprint.empty())
             {
-                box = (SystemStoreBox*)orig->vStoreBoxes.back();
-                orig->vStoreBoxes.pop_back();
+                if (!orig->vStoreBoxes.empty())
+                {
+                    box = (SystemStoreBox*)orig->vStoreBoxes.front();
+                    orig->vStoreBoxes.erase(orig->vStoreBoxes.begin());
 
-                box->desc.cost = GetItemPricing(i.price, box->desc.cost, orig->worldLevel);
+                    if (box->pBlueprint)
+                    {
+                        Blueprint* freeBlueprint = G_->GetBlueprints()->GetDroneBlueprint(box->freeBlueprint);
 
-                vec.push_back(box);
+                        box->desc.cost = GetItemPricing(i.price, box->blueprint->desc.cost, orig->worldLevel, freeBlueprint ? freeBlueprint->desc.cost : 0);
+
+                        vec.push_back(box);
+
+                        usedBlueprints.push_back(box->pBlueprint->name);
+                    }
+                }
             }
             else
             {
-                auto bp = G_->GetBlueprints()->GetSystemBlueprint(i.blueprint);
+                SystemBlueprint* bp = nullptr;
+
+                auto potentialList = G_->GetBlueprints()->GetBlueprintList(i.blueprint);
+
+                if (potentialList.empty())
+                {
+                    bp = G_->GetBlueprints()->GetSystemBlueprint(i.blueprint);
+                }
+                else
+                {
+
+                    potentialList.erase(std::remove_if(potentialList.begin(), potentialList.end(),
+                                   [&ship](const std::string& o) { int sysId = ShipSystem::NameToSystemId(o);
+                                                                             return ship->HasSystem(sysId) ||  // Remove if the ship has the system
+                                                                             ship->myBlueprint.systemInfo.find(sysId) == ship->myBlueprint.systemInfo.end(); // Remove if the ship can't fit the system
+                                                                             }),
+                                   potentialList.end());
+
+                    if (!category.allowDuplicates)
+                    {
+                        potentialList.erase(std::remove_if(potentialList.begin(), potentialList.end(),
+                                                           [&usedBlueprints](const std::string& o) { return std::find(usedBlueprints.begin(), usedBlueprints.end(), o) != usedBlueprints.end(); }),
+                                                           potentialList.end());
+                    }
+
+                    if (!potentialList.empty())
+                    {
+                        std::string pickedBlueprint = potentialList[random32() % potentialList.size()];
+
+                        for (auto i : category.guaranteedSystems)
+                        {
+                            if (std::find(potentialList.begin(), potentialList.end(), i) != potentialList.end())
+                            {
+                                pickedBlueprint = i;
+                            }
+                        }
+
+                        bp = G_->GetBlueprints()->GetSystemBlueprint(pickedBlueprint);
+                    }
+                }
 
                 if (bp)
                 {
-                    int sysId = ShipSystem::NameToSystemId(i.blueprint);
-                    box = new SystemStoreBox(ship, equip, sysId);
+                    box = new SystemStoreBox(ship, equip, ShipSystem::NameToSystemId(bp->name));
 
-                    box->desc.cost = GetItemPricing(i.price, box->desc.cost, orig->worldLevel);
+                    Blueprint* freeBlueprint = nullptr;
+                    if (!box->freeBlueprint.empty()) freeBlueprint = G_->GetBlueprints()->GetDroneBlueprint(box->freeBlueprint);
+
+                    box->desc.cost = GetItemPricing(i.price, box->blueprint->desc.cost, orig->worldLevel, freeBlueprint ? freeBlueprint->desc.cost : 0);
 
                     vec.push_back(box);
-                }
 
+                    if (box->pBlueprint)
+                    {
+                        usedBlueprints.push_back(box->pBlueprint->name);
+                    }
+                }
             }
         }
     }
@@ -693,7 +754,7 @@ void StoreComplete::OnInit(const StoreDefinition& def, ShipManager *ship, Equipm
         if (rng < totalChance)
         {
             int cumChance = 0;
-            for (auto cat : chancedVec)
+            for (auto& cat : chancedVec)
             {
                 if (rng > cumChance && rng < cumChance + cat.groupChance)
                 {
@@ -740,6 +801,11 @@ void StoreComplete::OnInit(const StoreDefinition& def, ShipManager *ship, Equipm
 
         auto newBoxes = CreateCustomStoreBoxes(cat, ship, equip);
 
+        if (newBoxes.size() == 0)
+        {
+            continue;
+        }
+
         int currentSec = -1;
         for (int boxIdx = 0; boxIdx < newBoxes.size(); boxIdx++)
         {
@@ -766,7 +832,7 @@ void StoreComplete::OnInit(const StoreDefinition& def, ShipManager *ship, Equipm
 
         currPage.sections.push_back(sec);
 
-        if (i % 2 == 1 || i == chosenCategories.size() - 1)
+        if ((currPage.sections.size() % 2 == 0 && currPage.sections.size() != 1) || i == chosenCategories.size() - 1)
         {
             pages.push_back(currPage);
             currPage = StorePage();
@@ -775,10 +841,10 @@ void StoreComplete::OnInit(const StoreDefinition& def, ShipManager *ship, Equipm
 
     std::string buttonImg("storeUI/button_store_arrow");
     leftButton = new Button();
-    leftButton->OnInit(buttonImg, orig->position.x + 451, orig->position.y + 12);
+    leftButton->OnInit(buttonImg, Point(orig->position.x + 451, orig->position.y + 12));
 
     rightButton = new Button();
-    rightButton->OnInit(buttonImg, orig->position.x + 547, orig->position.y + 12);
+    rightButton->OnInit(buttonImg, Point(orig->position.x + 547, orig->position.y + 12));
 
     rightButton->bMirror = true;
 
@@ -826,13 +892,13 @@ void StoreComplete::SetPositions()
     {
         std::string buttonImg("storeUI/button_store_arrow");
         leftButton = new Button();
-        leftButton->OnInit(buttonImg, orig->position.x + 451, orig->position.y + 12);
+        leftButton->OnInit(buttonImg, Point(orig->position.x + 451, orig->position.y + 12));
     }
     if (!rightButton)
     {
         std::string buttonImg("storeUI/button_store_arrow");
         rightButton = new Button();
-        rightButton->OnInit(buttonImg, orig->position.x + 547, orig->position.y + 12);
+        rightButton->OnInit(buttonImg, Point(orig->position.x + 547, orig->position.y + 12));
         rightButton->bMirror = true;
     }
 
@@ -1039,7 +1105,7 @@ void StoreComplete::OnRender()
 
     if (itemPurchaseLimit != -1)
     {
-        G_->GetResources()->RenderImage(limitIndicator, orig->position.x - 47, orig->position.y + 26, 0.f, COLOR_WHITE, 1.f, false);
+        G_->GetResources()->RenderImage(limitIndicator, orig->position.x + 7 - limitIndicator->width_, orig->position.y + 26, 0.f, COLOR_WHITE, 1.f, false);
 
         CSurface::GL_SetColor(COLOR_BUTTON_ON);
 
@@ -1125,6 +1191,7 @@ static StoreBox* g_purchasedStoreItem = nullptr;
 
 HOOK_METHOD(StoreBox, Purchase, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> StoreBox::Purchase -> Begin (CustomStore.cpp)\n")
     if (pBlueprint && pBlueprint->GetType() != 5)
     {
         g_purchasedStoreItem = this;
@@ -1141,70 +1208,88 @@ void StoreComplete::MouseClick(int x, int y)
     {
         orig->confirmDialog.MouseClick(x, y);
 
+        if (orig->confirmDialog.noButton.bActive && orig->confirmDialog.noButton.bHover) // Not sure why I need this, but it doesn't close on no otherwise
+        {
+            orig->confirmDialog.result = false;
+            CSurface::GL_DestroyPrimitive(orig->confirmDialog.window);
+            orig->confirmDialog.window = nullptr;
+            orig->confirmDialog.bOpen = false;
+        }
+
         if (!orig->confirmDialog.bOpen)
         {
             orig->confirmBuy->Confirm(orig->confirmDialog.result);
             orig->confirmBuy = nullptr;
         }
     }
-
-    for (auto i : resourceBoxes)
+    else
     {
-        i->MouseClick(x, y);
-    }
-
-    for (auto i : repairBoxes)
-    {
-        i->MouseClick(x, y);
-    }
-
-    if (pages.size() > 0)
-    {
-        for (auto sec : pages[currentPage].sections)
+        for (auto i : resourceBoxes)
         {
-            if (sec.storeBoxes.size() > 0)
+            i->MouseClick(x, y);
+        }
+
+        for (auto i : repairBoxes)
+        {
+            i->MouseClick(x, y);
+        }
+
+        if (pages.size() > 0)
+        {
+            for (auto sec : pages[currentPage].sections)
             {
-                for (auto i : sec.storeBoxes[sec.currentSection])
+                if (sec.storeBoxes.size() > 0)
                 {
-                    i->orig->MouseClick(x, y);
-
-
-                    if (i->orig->RequiresConfirm())
+                    for (auto i : sec.storeBoxes[sec.currentSection])
                     {
-                        orig->confirmBuy = i->orig;
+                        i->orig->MouseClick(x, y);
 
-                        TextString yes;
-                        yes.data = "confirm_yes";
-                        yes.isLiteral = false;
-                        TextString no;
-                        no.data = "confirm_no";
-                        no.isLiteral = false;
 
-                        orig->confirmDialog.SetText(i->orig->GetConfirmText(), 300, true, yes, no);
-                        orig->confirmDialog.Open();
+                        if (i->orig->RequiresConfirm())
+                        {
+                            orig->confirmBuy = i->orig;
+
+                            TextString yes;
+                            yes.data = "confirm_yes";
+                            yes.isLiteral = false;
+                            TextString no;
+                            no.data = "confirm_no";
+                            no.isLiteral = false;
+
+                            orig->confirmDialog.SetText(i->orig->GetConfirmText(), 300, true, yes, no);
+                            orig->confirmDialog.Open();
+                        }
                     }
                 }
             }
         }
-    }
 
-    if (leftButton->bActive && leftButton->bHover)
-    {
-        PreviousPage();
-    }
-    if (rightButton->bActive && rightButton->bHover)
-    {
-        NextPage();
-    }
+        if (leftButton->bActive && leftButton->bHover)
+        {
+            PreviousPage();
+        }
+        if (rightButton->bActive && rightButton->bHover)
+        {
+            NextPage();
+        }
 
-    if (g_purchasedStoreItem)
-    {
-        itemsPurchased++;
+        if (g_purchasedStoreItem)
+        {
+            itemsPurchased++;
+        }
     }
 }
 
 void StoreComplete::MouseMove(int x, int y)
 {
+    orig->FocusWindow::MouseMove(x, y);
+
+    if (orig->confirmBuy)
+    {
+        orig->confirmDialog.MouseMove(x, y);
+        return;
+    }
+
     orig->infoBox.Clear();
 
     for (auto i : resourceBoxes)
@@ -1247,6 +1332,7 @@ void StoreComplete::MouseMove(int x, int y)
 
 HOOK_METHOD(Store, KeyDown, (SDLKey key) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Store::KeyDown -> Begin (CustomStore.cpp)\n")
     if (STORE_EX(this)->isCustomStore)
     {
         STORE_EX(this)->customStore->KeyDown(key);
@@ -1258,6 +1344,7 @@ HOOK_METHOD(Store, KeyDown, (SDLKey key) -> void)
 
 HOOK_METHOD(Store, OnRender, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Store::OnRender -> Begin (CustomStore.cpp)\n")
     if (STORE_EX(this)->isCustomStore)
     {
         STORE_EX(this)->customStore->OnRender();
@@ -1366,7 +1453,7 @@ void StoreComplete::SaveStore(int file)
         FileHelper::writeInt(file, page.sections.size());
         for (auto sec : page.sections)
         {
-            FileHelper::writeInt(file, static_cast<int>(file, sec.category));
+            FileHelper::writeInt(file, static_cast<int>(sec.category));
             FileHelper::writeString(file, sec.customTitle);
             FileHelper::writeInt(file, sec.storeBoxes.size());
 
@@ -1562,6 +1649,7 @@ std::string customStoreId;
 
 HOOK_METHOD(WorldManager, CreateStore, (LocationEvent *event) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> WorldManager::CreateStore -> Begin (CustomStore.cpp)\n")
     auto customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(event->eventName);
 
     customStoreId = "";
@@ -1577,6 +1665,7 @@ HOOK_METHOD(WorldManager, CreateStore, (LocationEvent *event) -> void)
 
 HOOK_METHOD(Store, OnInit, (ShipManager *_shopper, Equipment *_equip, int _worldLevel) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Store::OnInit -> Begin (CustomStore.cpp)\n")
     if (!customStoreId.empty() || !CustomStore::instance->forceCustomStore.empty())
     {
         std::string storeId = CustomStore::instance->forceCustomStore;
@@ -1589,10 +1678,11 @@ HOOK_METHOD(Store, OnInit, (ShipManager *_shopper, Equipment *_equip, int _world
         {
             StoreComplete* newStore = new StoreComplete(this);
 
-            newStore->OnInit(*def, _shopper, _equip, _worldLevel);
-
             STORE_EX(this)->isCustomStore = true;
             STORE_EX(this)->customStore = newStore;
+
+            // Moved this after setting isCustomStore as Store::CreateStoreBoxes will check isCustomStore
+            newStore->OnInit(*def, _shopper, _equip, _worldLevel);
 
             return;
         }
@@ -1605,6 +1695,7 @@ HOOK_METHOD(Store, OnInit, (ShipManager *_shopper, Equipment *_equip, int _world
 
 HOOK_METHOD(Store, RelinkShip, (ShipManager *ship, Equipment *equip) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Store::RelinkShip -> Begin (CustomStore.cpp)\n")
     if (STORE_EX(this)->isCustomStore)
     {
         STORE_EX(this)->customStore->RelinkShip(ship, equip);
@@ -1617,6 +1708,7 @@ HOOK_METHOD(Store, RelinkShip, (ShipManager *ship, Equipment *equip) -> void)
 
 HOOK_METHOD(Store, LoadStore, (int file, int worldLevel) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Store::LoadStore -> Begin (CustomStore.cpp)\n")
     bool isCustomStore = FileHelper::readInteger(file);
 
     STORE_EX(this)->isCustomStore = isCustomStore;
@@ -1634,6 +1726,7 @@ HOOK_METHOD(Store, LoadStore, (int file, int worldLevel) -> void)
 
 HOOK_METHOD(Store, SaveStore, (int file) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Store::SaveStore -> Begin (CustomStore.cpp)\n")
     FileHelper::writeInt(file, STORE_EX(this)->isCustomStore);
 
     if (STORE_EX(this)->isCustomStore)
@@ -1650,6 +1743,7 @@ HOOK_METHOD(Store, SaveStore, (int file) -> void)
 
 HOOK_METHOD(Store, OnLoop, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Store::OnLoop -> Begin (CustomStore.cpp)\n")
     if (STORE_EX(this)->isCustomStore)
     {
         STORE_EX(this)->customStore->OnLoop();
@@ -1661,6 +1755,7 @@ HOOK_METHOD(Store, OnLoop, () -> void)
 
 HOOK_METHOD(Store, SetPositions, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Store::SetPositions -> Begin (CustomStore.cpp)\n")
     if (STORE_EX(this)->isCustomStore)
     {
         STORE_EX(this)->customStore->SetPositions();
@@ -1672,6 +1767,7 @@ HOOK_METHOD(Store, SetPositions, () -> void)
 
 HOOK_METHOD(Store, MouseMove, (int x, int y) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Store::MouseMove -> Begin (CustomStore.cpp)\n")
     if (STORE_EX(this)->isCustomStore)
     {
         STORE_EX(this)->customStore->MouseMove(x, y);
@@ -1683,6 +1779,7 @@ HOOK_METHOD(Store, MouseMove, (int x, int y) -> void)
 
 HOOK_METHOD(Store, MouseClick, (int x, int y) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Store::MouseClick -> Begin (CustomStore.cpp)\n")
     if (STORE_EX(this)->isCustomStore)
     {
         STORE_EX(this)->customStore->MouseClick(x, y);
@@ -1694,23 +1791,28 @@ HOOK_METHOD(Store, MouseClick, (int x, int y) -> void)
 
 HOOK_METHOD(Store, CreateStoreBoxes, (int category, Equipment* equip) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Store::CreateStoreBoxes -> Begin (CustomStore.cpp)\n")
     if (category == 4) // systems
     {
         bool guaranteedShields = !shopper->HasSystem(0);
-        bool guaranteedDrones = (!shopper->HasSystem(4)) && types[0] == 1 || types[1] == 1 || types[2] == 1 || types[3] == 1;
+        bool guaranteedDrones = (!shopper->HasSystem(4)) && (types[0] == 1 || types[1] == 1 || types[2] == 1 || types[3] == 1);
         int guaranteedMedicalId = -1;
 
         auto& systemPlacements = shopper->myBlueprint.systemInfo;
 
         if (!shopper->HasSystem(5) && (!Settings::GetDlcEnabled() || !shopper->HasSystem(13)))
         {
-            if (!Settings::GetDlcEnabled())
+            if (!Settings::GetDlcEnabled() || systemPlacements.find(SYS_CLONEBAY) == systemPlacements.end())
             {
                 guaranteedMedicalId = SYS_MEDBAY;
             }
+            else if (systemPlacements.find(SYS_MEDBAY) == systemPlacements.end())
+            {
+                guaranteedMedicalId = SYS_CLONEBAY;
+            }
             else
             {
-                if (random32() % 1 == 0)
+                if ((random32() & 1) == 0)
                 {
                     guaranteedMedicalId = SYS_MEDBAY;
                 }
@@ -1723,14 +1825,14 @@ HOOK_METHOD(Store, CreateStoreBoxes, (int category, Equipment* equip) -> void)
 
         int numAddedSystems = 0;
 
-        if (guaranteedShields && systemPlacements.find(SYS_SHIELDS) != systemPlacements.end())
-        {
-            vStoreBoxes.push_back(new SystemStoreBox(shopper, equip, SYS_SHIELDS));
-            numAddedSystems++;
-        }
         if (guaranteedDrones && systemPlacements.find(SYS_DRONES) != systemPlacements.end())
         {
             vStoreBoxes.push_back(new SystemStoreBox(shopper, equip, SYS_DRONES));
+            numAddedSystems++;
+        }
+        if (guaranteedShields && systemPlacements.find(SYS_SHIELDS) != systemPlacements.end())
+        {
+            vStoreBoxes.push_back(new SystemStoreBox(shopper, equip, SYS_SHIELDS));
             numAddedSystems++;
         }
         if (guaranteedMedicalId != -1 && systemPlacements.find(guaranteedMedicalId) != systemPlacements.end())
@@ -1753,7 +1855,7 @@ HOOK_METHOD(Store, CreateStoreBoxes, (int category, Equipment* equip) -> void)
         {
             if (sysId == SYS_SHIELDS && guaranteedShields ||
                 sysId == SYS_DRONES && guaranteedDrones ||
-                sysId == guaranteedMedicalId)
+                (sysId == SYS_MEDBAY || sysId == SYS_CLONEBAY) && guaranteedMedicalId>0)
             {
                 continue;
             }
@@ -1766,23 +1868,83 @@ HOOK_METHOD(Store, CreateStoreBoxes, (int category, Equipment* equip) -> void)
             }
         }
 
-        for (int i = 0; i < (3 - numAddedSystems); i++)
+
+        if (STORE_EX(this)->isCustomStore)
         {
-            if (newSystems.size() == 0)
+            for (int i = 0; i < (3 - numAddedSystems); i++)
+            {
+                if (newSystems.size() == 0)
+                {
+                    vStoreBoxes.push_back(new StoreBox("storeUI/store_weapons", nullptr, nullptr));
+                    continue;
+                }
+
+                int chosenIdx = random32() % newSystems.size();
+
+                vStoreBoxes.push_back(new SystemStoreBox(shopper, equip, newSystems[chosenIdx]));
+
+                newSystems.erase(newSystems.begin() + chosenIdx);
+            }
+        }
+        else
+        {
+            // This should replicate the original behaviour in vanilla.
+            int numSystemsToAdd = 3;
+            if (newSystems.size() < 3) numSystemsToAdd = newSystems.size();
+            numSystemsToAdd -= numAddedSystems;
+            for (int i = 0; i < newSystems.size(); i++)
+            {
+                if (numSystemsToAdd <= 0) break;
+                if (random32()%(newSystems.size()-i) < numSystemsToAdd)
+                {
+                    vStoreBoxes.push_back(new SystemStoreBox(shopper, equip, newSystems[i]));
+                    numAddedSystems++;
+                    numSystemsToAdd--;
+                }
+            }
+
+            for (int i = 0; i < (3 - numAddedSystems); i++)
             {
                 vStoreBoxes.push_back(new StoreBox("storeUI/store_weapons", nullptr, nullptr));
                 continue;
             }
-
-            int chosenIdx = random32() % newSystems.size();
-
-            vStoreBoxes.push_back(new SystemStoreBox(shopper, equip, newSystems[chosenIdx]));
-
-            newSystems.erase(newSystems.begin() + chosenIdx);
         }
 
         return;
     }
 
     return super(category, equip);
+}
+
+HOOK_METHOD(SystemStoreBox, Activate, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> SystemStoreBox::Activate -> Begin (CustomStore.cpp)\n")
+    if (shopper->currentScrap < desc.cost) return super(); // Not enough scrap
+    if (itemId == 5 && shopper->HasSystem(13) || itemId == 13 && shopper->HasSystem(5)) return super(); // Change medical system
+    bool isSubsystem = ShipSystem::IsSubsystem(itemId);
+
+    auto custom = CustomShipSelect::GetInstance();
+    int sysLimit = isSubsystem ? custom->GetDefinition(shopper->myBlueprint.blueprintName).subsystemLimit : custom->GetDefinition(shopper->myBlueprint.blueprintName).systemLimit;
+
+    if (isSubsystem && sysLimit >= 4) return super(); // Subsystem limit doesn't currently matter if one can have at least 4.
+
+    int sysCount = 0;
+
+    for (auto i : shopper->vSystemList)
+    {
+        if (i->bNeedsPower != isSubsystem)
+        {
+            sysCount++;
+        }
+    }
+
+    if (sysLimit - sysCount == 1)
+    {
+        bConfirming = true;
+        confirmString = "confirm_buy_last_system";
+    }
+    if (!bConfirming)
+    {
+        Purchase();
+    }
 }

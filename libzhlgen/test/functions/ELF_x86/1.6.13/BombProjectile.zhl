@@ -1,0 +1,12 @@
+"5589e557565381ecdc0000008b451c8b55208d9d54ffffff":
+cleanup __cdecl void BombProjectile::constructor(BombProjectile *this, Pointf _position, int _ownerId, int _targetId, Pointf _target);
+"5589e557565383ec7c8b5d0c8b7508":
+cleanup __cdecl void BombProjectile::CollisionCheck(BombProjectile *this, Collideable *other);
+
+struct BombProjectile
+{{
+	BombProjectile(Pointf _position, int _ownerId, int _targetId, Pointf _target)
+	{
+		this->constructor(_position, _ownerId, _targetId, _target);
+	}
+}};

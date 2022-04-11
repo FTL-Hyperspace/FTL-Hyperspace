@@ -1,4 +1,0 @@
-"578d7c240883e4f0ff77fc5589e557565389cb8d75bc81ec????????8b07c64105018d7dd489412c8945888b4118894424048b41148d4dcc":
-void Upgrades::OnInit(Upgrades *this<ecx>, ShipManager *ship);
-"5589e557565389cf83e4f083ec108b51208b492489c829d083f8037e??31f6908b1cb285db":
-void Upgrades::ClearUpgradeBoxes(Upgrades *this<ecx>);
