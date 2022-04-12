@@ -12,6 +12,8 @@ noHook void Room::__DO_NOT_HOOK();
 __thiscall void Room::destructor(Room *this);
 "555756538b54241484d275??8b417083f8ff74??8b593489c5be????????c1ed0589c1d3e68b3b8534af75??":
 __thiscall int Room::GetEmptySlot(Room *this, bool intruder);
+"530fb65424088b41348b49288d1c928d1c988b43082b03c1f802c1e0052b430403430c3b04915b0f94c0":
+__thiscall bool Room::Full(Room *this, bool intruder);
 
 
 struct Room depends (Globals, Point) {{

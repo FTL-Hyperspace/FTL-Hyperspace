@@ -4743,6 +4743,7 @@ struct Room : Selectable
 		return this->rect;
 	}
 
+	LIBZHL_API bool Full(bool intruder);
 	LIBZHL_API int GetEmptySlot(bool intruder);
 	LIBZHL_API int GetEmptySlots(bool intruder);
 	LIBZHL_API void OnRenderFloor(float alpha, bool experimental);

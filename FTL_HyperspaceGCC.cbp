@@ -1169,6 +1169,12 @@
 		<Unit filename="TemporalSystemVTable.cpp">
 			<Option virtualFolder="Content/Systems/" />
 		</Unit>
+		<Unit filename="TileBasedCrewMovement.cpp">
+			<Option virtualFolder="Core/Crew/" />
+		</Unit>
+		<Unit filename="TileBasedCrewMovement.h">
+			<Option virtualFolder="Core/Crew/" />
+		</Unit>
 		<Unit filename="TimerHelper.cpp">
 			<Option virtualFolder="Core/" />
 		</Unit>

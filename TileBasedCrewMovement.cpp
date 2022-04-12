@@ -1,6 +1,101 @@
 #include "CustomOptions.h"
 #include <algorithm>
 
+
+HOOK_METHOD_PRIORITY(CrewControl, RButton, 1000, (int x, int y, bool shiftHeld) -> void)
+{
+    ShipManager* ship;
+    if (selectedPlayerShip)
+    {
+        ship = shipManager;
+    }
+    else
+    {
+        ship = combatControl->GetCurrentTarget();
+    }
+
+    if (selectedDoor == nullptr)
+    {
+        if (!selectedCrew.empty() && selectedRoom != -1)
+        {
+            int tile = 0;
+            int wX,wY;
+            if (selectedPlayerShip)
+            {
+                wX = worldCurrentMouse.x;
+                wY = worldCurrentMouse.y;
+            }
+            else
+            {
+                wX = x - combatControl->position.x - combatControl->targetPosition.x;
+                wY = y - combatControl->position.y - combatControl->targetPosition.y;
+            }
+
+            Room* room = ship->ship.vRoomList.at(selectedRoom);
+            tile = ((wX - room->rect.x) / 35 + (room->rect.w / 35) * ((wY - room->rect.y) / 35) );
+            if (tile < 0 || tile > (room->rect.w / 35)*(room->rect.h / 35))
+            {
+                return super(x, y, shiftHeld);
+            }
+
+            // Find the crewmember currently in this slot
+            CrewMember *swapCrew = nullptr;
+            if (room->slots[ship->iShipId][tile])
+            {
+                for (CrewMember *crew : ship->vCrewList)
+                {
+                    if (crew->currentSlot.roomId == selectedRoom && crew->currentSlot.slotId == tile)
+                    {
+                        swapCrew = crew;
+                        break;
+                    }
+                }
+            }
+
+            bool roomIsFull = room->Full(ship->iShipId);
+            bool canSwap;
+            if (swapCrew != nullptr) canSwap = swapCrew->GetControllable() && swapCrew->Functional() && (swapCrew->fStunTime <= 0.f || !swapCrew->AtFinalGoal()) && swapCrew->crewAnim->status != 3;
+
+            for (CrewMember *crew : selectedCrew)
+            {
+                if (ship->iShipId == crew->currentShipId && crew->GetControllable() && crew->Functional() && (crew->fStunTime <= 0.f || !crew->AtFinalGoal()) && crew->crewAnim->status != 3)
+                {
+                    if (swapCrew == nullptr)
+                    {
+                        // Destination slot is empty
+                        bool moved = crew->MoveToRoom(selectedRoom, tile, true);
+                        if (moved) break;
+                    }
+                    else if (swapCrew != crew && canSwap)
+                    {
+                        if (crew->currentSlot.roomId == selectedRoom)
+                        {
+                            // Destination slot is occupied but the selected crewmember is in the same room to swap places
+                            int oldTile = crew->currentSlot.slotId;
+                            swapCrew->EmptySlot();
+                            bool moved = crew->MoveToRoom(selectedRoom, tile, true);
+                            swapCrew->MoveToRoom(selectedRoom, oldTile, true);
+                            if (moved) break;
+                        }
+                        else if (!roomIsFull)
+                        {
+                            // Destination slot is occupied but there's another empty slot
+                            bool moved = swapCrew->MoveToRoom(selectedRoom, -1, true);
+                            if (moved) moved = crew->MoveToRoom(selectedRoom, tile, true);
+                            if (moved) break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // Move the rest of the crew
+    return super(x, y, shiftHeld);
+}
+
+
+/*
 HOOK_METHOD(CrewControl, RButton, (int x, int y, bool shiftHeld) -> void)
 {
     if(!CustomOptionsManager::GetInstance()->alternateCrewMovement.currentValue)
@@ -116,3 +211,4 @@ HOOK_METHOD(CrewControl, RButton, (int x, int y, bool shiftHeld) -> void)
         super(x, y, shiftHeld);
     }
 }
+*/
