@@ -39,8 +39,9 @@ HOOK_METHOD_PRIORITY(CrewControl, RButton, 1000, (int x, int y, bool shiftHeld) 
             }
 
             // Find the crewmember currently in this slot
+            bool occupiedSlot = room->slots[ship->iShipId][tile];
             CrewMember *swapCrew = nullptr;
-            if (room->slots[ship->iShipId][tile])
+            if (occupiedSlot)
             {
                 for (CrewMember *crew : ship->vCrewList)
                 {
@@ -53,36 +54,40 @@ HOOK_METHOD_PRIORITY(CrewControl, RButton, 1000, (int x, int y, bool shiftHeld) 
             }
 
             bool roomIsFull = room->Full(ship->iShipId);
-            bool canSwap;
-            if (swapCrew != nullptr) canSwap = swapCrew->GetControllable() && swapCrew->Functional() && (swapCrew->fStunTime <= 0.f || !swapCrew->AtFinalGoal()) && swapCrew->crewAnim->status != 3;
+            bool tileAvailable = !occupiedSlot;
+            if (swapCrew != nullptr) tileAvailable = swapCrew->GetControllable() && swapCrew->Functional() && (swapCrew->fStunTime <= 0.f || !swapCrew->AtFinalGoal()) && swapCrew->crewAnim->status != 3;
 
-            for (CrewMember *crew : selectedCrew)
+            // Check that slot is either empty or has a crew that can swap
+            if (tileAvailable)
             {
-                if (ship->iShipId == crew->currentShipId && crew->GetControllable() && crew->Functional() && (crew->fStunTime <= 0.f || !crew->AtFinalGoal()) && crew->crewAnim->status != 3)
+                for (CrewMember *crew : selectedCrew)
                 {
-                    if (swapCrew == nullptr)
+                    if (ship->iShipId == crew->currentShipId && crew->GetControllable() && crew->Functional() && (crew->fStunTime <= 0.f || !crew->AtFinalGoal()) && crew->crewAnim->status != 3)
                     {
-                        // Destination slot is empty
-                        bool moved = crew->MoveToRoom(selectedRoom, tile, true);
-                        if (moved) break;
-                    }
-                    else if (swapCrew != crew && canSwap)
-                    {
-                        if (crew->currentSlot.roomId == selectedRoom)
+                        if (swapCrew == nullptr)
                         {
-                            // Destination slot is occupied but the selected crewmember is in the same room to swap places
-                            int oldTile = crew->currentSlot.slotId;
-                            swapCrew->EmptySlot();
+                            // Destination slot is empty
                             bool moved = crew->MoveToRoom(selectedRoom, tile, true);
-                            swapCrew->MoveToRoom(selectedRoom, oldTile, true);
                             if (moved) break;
                         }
-                        else if (!roomIsFull)
+                        else if (swapCrew != crew)
                         {
-                            // Destination slot is occupied but there's another empty slot
-                            bool moved = swapCrew->MoveToRoom(selectedRoom, -1, true);
-                            if (moved) moved = crew->MoveToRoom(selectedRoom, tile, true);
-                            if (moved) break;
+                            if (crew->currentSlot.roomId == selectedRoom)
+                            {
+                                // Destination slot is occupied but the selected crewmember is in the same room to swap places
+                                int oldTile = crew->currentSlot.slotId;
+                                swapCrew->EmptySlot();
+                                bool moved = crew->MoveToRoom(selectedRoom, tile, true);
+                                swapCrew->MoveToRoom(selectedRoom, oldTile, true);
+                                if (moved) break;
+                            }
+                            else if (!roomIsFull)
+                            {
+                                // Destination slot is occupied but there's another empty slot
+                                bool moved = swapCrew->MoveToRoom(selectedRoom, -1, true);
+                                if (moved) moved = crew->MoveToRoom(selectedRoom, tile, true);
+                                if (moved) break;
+                            }
                         }
                     }
                 }
