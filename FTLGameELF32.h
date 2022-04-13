@@ -4739,6 +4739,8 @@ struct Room : Selectable
 		return this->rect;
 	}
 
+	LIBZHL_API bool Full(bool intruder);
+	LIBZHL_API int GetEmptySlot(bool intruder);
 	LIBZHL_API int GetEmptySlots(bool intruder);
 	LIBZHL_API void OnRenderFloor(float alpha, bool experimental);
 	LIBZHL_API void OnRenderWalls(float alpha);
@@ -6658,6 +6660,7 @@ struct ShipManager : ShipObject
 	LIBZHL_API int DamageHull(int dmg, bool force);
 	LIBZHL_API void DamageSystem(int systemId, DamageParameter damage);
 	LIBZHL_API bool DoSensorsProvide(int vision);
+	LIBZHL_API bool DoorsFunction();
 	LIBZHL_API void ExportBattleState(int file);
 	LIBZHL_API void ExportShip(int file);
 	LIBZHL_API CrewMember *FindCrew(const CrewBlueprint *bp);

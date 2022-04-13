@@ -84,6 +84,8 @@ cleanup __cdecl int ShipManager::GetSystemPower(ShipManager *this, int systemId)
 cleanup __cdecl int ShipManager::CountCrewShipId(ShipManager *this, int roomId, int shipId);
 "8b4424088b54240483f8ff74??8b8a000400008b048183f8ff74??8b52188b0482c38db60000000031c0":
 cleanup __cdecl ShipSystem* ShipManager::GetSystem(ShipManager *this, int systemId);
+".5383ec188b5c24208b83000400008b4020":
+cleanup __cdecl bool ShipManager::DoorsFunction(ShipManager *this);
 "5589e557565381ec1c0100008b45088b7d0c0594040000":
 cleanup __cdecl void ShipManager::ExportShip(ShipManager *this, int file);
 ".5557565383ec1c8b7c2430":

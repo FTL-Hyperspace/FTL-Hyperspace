@@ -4,6 +4,10 @@ cleanup __amd64 void Room::destructor(Room *this);
 cleanup __amd64 void Room::constructor(Room *this, int iShipId, int x, int y, int w, int h, int roomId);
 ".400fb6f6488b4750488d14b6488d14d0488b4210482b028b4a188b520848c1f80348c1e0064801c84829d0":
 cleanup __amd64 int Room::GetEmptySlots(Room *this, bool intruder);
+".488b4750400fb6f6":
+cleanup __amd64 bool Room::Full(Room *this, bool intruder);
+".4084f689f2":
+cleanup __amd64 int Room::GetEmptySlot(Room *this, bool intruder);
 ".4883ec28f30f100d????????f30f5c8fb8000000488bbfc0000000":
 cleanup __amd64 void Room::OnRenderFloor(Room *this, float alpha, bool experimental);
 ".534889fb4883ec10807f6800":

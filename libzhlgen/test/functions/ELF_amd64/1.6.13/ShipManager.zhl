@@ -56,6 +56,8 @@ cleanup __amd64 ShipSystem *ShipManager::GetSystemInRoom(ShipManager *this, int 
 cleanup __amd64 int ShipManager::GetSystemRoom(ShipManager *this, int sysId);
 ".83feff7423488b87580600004863f6":
 cleanup __amd64 ShipSystem* ShipManager::GetSystem(ShipManager *this, int systemId);
+".53488b87580600004889fb4863402083f8ff":
+cleanup __amd64 bool ShipManager::DoorsFunction(ShipManager *this);
 ".488b87580600004863f6486304b083f8ff7415":
 cleanup __amd64 bool ShipManager::SystemFunctions(ShipManager *this, int systemId);
 ".534889fb4883ec10488b9758060000":

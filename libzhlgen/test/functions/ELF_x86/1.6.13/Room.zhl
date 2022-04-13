@@ -1,5 +1,9 @@
 "56538b74240c0fb64c24108b4634":
 cleanup __cdecl int Room::GetEmptySlots(Room *this, bool intruder);
+".56538b44240c0fb64c2410":
+cleanup __cdecl bool Room::Full(Room *this, bool intruder);
+".555756538b5424188b4c241484d2":
+cleanup __cdecl int Room::GetEmptySlot(Room *this, bool intruder);
 "5589e557565381ec2c0100008b45088b5508c7400400000000":
 cleanup __cdecl void Room::constructor(Room *this, int iShipId, int x, int y, int w, int h, int roomId);
 "83ec3c8b4c2440f30f1005????????f30f100d????????":
