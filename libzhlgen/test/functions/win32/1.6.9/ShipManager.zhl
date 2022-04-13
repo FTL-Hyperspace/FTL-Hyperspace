@@ -164,6 +164,8 @@ __thiscall void ShipManager::InstantPowerShields(ShipManager *this);
 __thiscall void ShipManager::SetDestroyed(ShipManager *this);
 "5783c1708d7c240883e4f0ff77fc5589e55783ec148b07890424e8????????8b7dfc83ec04c98d67f85fc20400":
 __thiscall int ShipManager::GetFireCount(ShipManager *this, int roomId);
+"8b81c80400008b402083f8ff74??5589e5538b511889cb83e4f08b0c828b01ff502c84c074??":
+__thiscall bool ShipManager::DoorsFunction(ShipManager *this);
 
 
 struct ShipManager depends (PowerManager, ShieldPower)

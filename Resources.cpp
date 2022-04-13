@@ -330,6 +330,20 @@ void Global::InitializeResources(ResourceControl *resources)
             }
             */
 
+            if (strcmp(node->name(), "alternateCrewMovement") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->alternateCrewMovement.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->alternateCrewMovement.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
+            if (strcmp(node->name(), "rightClickDoorOpening") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->rightClickDoorOpening.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->rightClickDoorOpening.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+			
             if (strcmp(node->name(), "redesignedWeaponTooltips") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();

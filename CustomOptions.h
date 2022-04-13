@@ -5,7 +5,8 @@ class CustomOptionsManager
 public:
     CustomOptionsManager()
     {
-
+        rightClickDoorOpening.defaultValue = true;
+        rightClickDoorOpening.currentValue = true;
     }
 
     static CustomOptionsManager *GetInstance()
@@ -45,6 +46,9 @@ public:
     Setting advancedCrewTooltipRounding;
 
     Setting eventTooltips;
+
+    Setting alternateCrewMovement;
+    Setting rightClickDoorOpening;
 
     Setting showWeaponCooldown;
 
