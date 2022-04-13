@@ -4926,8 +4926,10 @@ public:
 		}
 	}
 
+	LIBZHL_API bool ApplyDamage(float amount);
 	LIBZHL_API void FakeClose();
 	LIBZHL_API void FakeOpen();
+	LIBZHL_API Point GetPosition();
 	LIBZHL_API bool IsSealed(int shipId);
 	LIBZHL_API void OnLoop();
 	
