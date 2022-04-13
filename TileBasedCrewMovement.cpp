@@ -4,20 +4,25 @@
 
 HOOK_METHOD_PRIORITY(CrewControl, RButton, 1000, (int x, int y, bool shiftHeld) -> void)
 {
-    ShipManager* ship;
-    if (selectedPlayerShip)
+    if (selectedDoor != nullptr && !CustomOptionsManager::GetInstance()->rightClickDoorOpening.currentValue)
     {
-        ship = shipManager;
-    }
-    else
-    {
-        ship = combatControl->GetCurrentTarget();
+        selectedDoor = nullptr;
     }
 
-    if (selectedDoor == nullptr)
+    if (selectedDoor == nullptr && CustomOptionsManager::GetInstance()->alternateCrewMovement.currentValue)
     {
         if (!selectedCrew.empty() && selectedRoom != -1)
         {
+            ShipManager* ship;
+            if (selectedPlayerShip)
+            {
+                ship = shipManager;
+            }
+            else
+            {
+                ship = combatControl->GetCurrentTarget();
+            }
+
             int tile = 0;
             int wX,wY;
             if (selectedPlayerShip)

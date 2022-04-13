@@ -5,7 +5,8 @@ class CustomOptionsManager
 public:
     CustomOptionsManager()
     {
-
+        rightClickDoorOpening.defaultValue = true;
+        rightClickDoorOpening.currentValue = true;
     }
 
     static CustomOptionsManager *GetInstance()

@@ -227,11 +227,11 @@ void Global::InitializeResources(ResourceControl *resources)
                         case '=':
                             checkedVersion = version == hsRawVersion;
                             break;
-                        
+
                         case '~':
                             checkedVersion = ((hsRawVersion ^ version) & 0xFFFF00) == 0 && hsVerPatch >= verPatch;
                             break;
-                        
+
                         default:
                             hs_log_file("No version check case specified, defaulting to '^'.\n");
                         case '^':
@@ -329,6 +329,20 @@ void Global::InitializeResources(ResourceControl *resources)
                 g_dronesCanTeleport = EventsParser::ParseBoolean(enabled);
             }
             */
+
+            if (strcmp(node->name(), "alternateCrewMovement") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->alternateCrewMovement.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->alternateCrewMovement.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
+            if (strcmp(node->name(), "rightClickDoorOpening") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->rightClickDoorOpening.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->rightClickDoorOpening.currentValue = EventsParser::ParseBoolean(enabled);
+            }
 
             if (strcmp(node->name(), "redesignedWeaponTooltips") == 0)
             {
