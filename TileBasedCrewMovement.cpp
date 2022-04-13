@@ -4,6 +4,7 @@
 
 HOOK_METHOD_PRIORITY(CrewControl, RButton, 1000, (int x, int y, bool shiftHeld) -> void)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> CrewControl::RButton -> Begin (TileBasedCrewMovement.cpp)\n")
     if (selectedDoor != nullptr && !CustomOptionsManager::GetInstance()->rightClickDoorOpening.currentValue)
     {
         selectedDoor = nullptr;
@@ -108,6 +109,7 @@ HOOK_METHOD_PRIORITY(CrewControl, RButton, 1000, (int x, int y, bool shiftHeld) 
 /*
 HOOK_METHOD(CrewControl, RButton, (int x, int y, bool shiftHeld) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewControl::RButton -> Begin (TileBasedCrewMovement.cpp)\n")
     if(!CustomOptionsManager::GetInstance()->alternateCrewMovement.currentValue)
     {
         ShipManager* ship;
