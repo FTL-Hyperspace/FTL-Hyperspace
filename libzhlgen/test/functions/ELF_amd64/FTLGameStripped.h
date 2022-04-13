@@ -6070,7 +6070,7 @@ struct EventSystem
 struct VTable_CrewTarget
 {
   void (__thiscall *Free)(CrewTarget *this);
-  void *(__thiscall *GetPosition)(CrewTarget *this);
+  Point (__thiscall *GetPosition)(CrewTarget *this);
   float (__thiscall *PositionShift)(CrewTarget *this);
   bool (__thiscall *InsideRoom)(CrewTarget *this, int roomId);
   bool (__thiscall *ApplyDamage)(CrewTarget *this, float damage);

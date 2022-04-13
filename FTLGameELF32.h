@@ -4610,7 +4610,7 @@ struct LIBZHL_INTERFACE CrewTarget
 	}
 
 	virtual ~CrewTarget() {}
-	virtual void *GetPosition() LIBZHL_PLACEHOLDER
+	virtual Point GetPosition() LIBZHL_PLACEHOLDER
 	virtual float PositionShift() LIBZHL_PLACEHOLDER
 	virtual bool InsideRoom(int roomId) LIBZHL_PLACEHOLDER
 	virtual bool ApplyDamage(float damage) LIBZHL_PLACEHOLDER
