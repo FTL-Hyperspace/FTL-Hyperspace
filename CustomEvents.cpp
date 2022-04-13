@@ -3009,7 +3009,7 @@ HOOK_METHOD(StarMap, GenerateMap, (bool tutorial, bool seed) -> LocationEvent*)
 
     // check custom sector
     auto custom = CustomEventsParser::GetInstance();
-    CustomSector *customSector = custom->GetCustomSector(currentSector->description.type);
+    CustomSector *customSector = custom->GetCurrentCustomSector(this);
 
     // exit beacon event
     if (!tutorial && !bossLevel)
