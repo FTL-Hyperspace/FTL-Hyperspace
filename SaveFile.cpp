@@ -318,6 +318,12 @@ HOOK_STATIC(FileHelper, getSaveFile, () -> std::string)
     return str;
 }
 
+HOOK_STATIC(FileHelper, deleteAllSaveFiles, () -> void)
+{
+    LOG_HOOK("HOOK_STATIC -> FileHelper::deleteAllSaveFiles -> Begin (SaveFile.cpp)\n")
+    deleteFile(FileHelper::getSaveFile()); // Because deleteAllSaveFiles in Linux inlines this, we just re-implement deleteALlSaveFiles
+}
+
 static ConfirmWindow* confirmWipeSave;
 static WindowFrame* welcomeDialog;
 static TextButton* welcomeDialogButton;
