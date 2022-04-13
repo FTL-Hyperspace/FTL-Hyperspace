@@ -6003,8 +6003,22 @@ struct PDSFire : LaserBlast
 	Animation explosionAnimation;
 };
 
+struct PackageModuleInfo;
+
 struct PackageModuleInfo
 {
+	char *prefix;
+	void **init;
+	void **cleanup;
+	void **list_files_start;
+	void **list_files_next;
+	void **file_info;
+	void **decompress_get_stack_size;
+	void **decompress_init;
+	void **decompress;
+	void *module_data;
+	PackageModuleInfo *next;
+	size_t prefixlen;
 };
 
 struct PowerManager;
@@ -6119,7 +6133,6 @@ struct RepairStoreBox : StoreBox
 	TextString buttonText;
 };
 
-struct PackageModuleInfo;
 struct ResourceControl;
 
 struct ResourceManager;

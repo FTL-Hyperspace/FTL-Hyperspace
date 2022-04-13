@@ -46,6 +46,31 @@ GL_Color& ParseColorNode(GL_Color& colorRef, rapidxml::xml_node<char>* node, boo
 HOOK_METHOD(ResourceControl, PreloadResources, (bool unk) -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> ResourceControl::PreloadResources -> Begin (Resources.cpp)\n")
+    
+    /* Search for files unique to MV & HS FTL zips so we can determine if a user patched both files in error */
+    printf("Scanning for Multiverse & Hyperspace patching in ftl.dat\n");
+    typedef void (*list_files_start_funcptr)(PackageModuleInfo* info_arg);
+    typedef char* (*list_files_next_funcptr)(PackageModuleInfo* info_arg);
+    list_files_start_funcptr list_files_start = (list_files_start_funcptr) this->package->list_files_start;
+    list_files_next_funcptr list_files_next = (list_files_next_funcptr) this->package->list_files_next;
+    
+    list_files_start(this->package);
+    bool mvDetected = false;
+    bool hsDetected = false;
+    for(char* pkgFile; pkgFile = list_files_next(this->package), pkgFile != (char*) 0x0;)
+    {
+        if(!mvDetected && strstr(pkgFile, "audio/music/mv_MUS_") == pkgFile)
+            mvDetected = true;
+        else if(!hsDetected && strcmp(pkgFile, "example_layout_syntax.xml") == 0) 
+            hsDetected = true;
+        else if(hsDetected && mvDetected)
+            break;
+    }
+    printf("ftl.dat scan detection: Hyperspace.ftl: %s, Multiverse.zip: %s\n", hsDetected ? "YES" : "NO", mvDetected ? "YES" : "NO");
+    
+    if(mvDetected && hsDetected)
+        ErrorMessage("Hyperspace & Multiverse both detected patched into ftl.dat!\nPlease patch only Multiverse and not hyperspace.ftl\n");
+    
     bool ret = super(unk);
     if (ret && G_)
     {
