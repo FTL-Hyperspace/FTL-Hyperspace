@@ -2,6 +2,10 @@
 #include "Resources.h"
 #include <chrono>
 
+#if defined(__linux__)
+#include <SDL2/SDL_messagebox.h>
+#endif // defined
+
 Global *Global::instance = new Global();
 
 CApp* Global::__cApp = nullptr;
@@ -44,11 +48,7 @@ void hs_log_file(const char *str...)
 
 void ErrorMessage(const std::string &msg)
 {
-    #ifdef _WIN32
-        MessageBoxA(NULL, msg.c_str(), "Error", MB_ICONERROR);
-    #elif defined(__linux__)
-        fprintf(stderr, msg.c_str());
-    #endif
+    ErrorMessage(msg.c_str());
 }
 
 void ErrorMessage(const char *msg)
@@ -56,6 +56,7 @@ void ErrorMessage(const char *msg)
     #ifdef _WIN32
         MessageBoxA(NULL, msg, "Error", MB_ICONERROR);
     #elif defined(__linux__)
+        SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Error", msg, NULL);
         fprintf(stderr, msg);
     #endif
 }

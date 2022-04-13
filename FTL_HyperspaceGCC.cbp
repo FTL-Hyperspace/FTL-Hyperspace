@@ -333,12 +333,15 @@
 					<Add option="-DBUILD_DLL" />
 					<Add option="-DDEBUG" />
 					<Add option="-DSKIPDISCORD" />
+					<Add option="-DD_REENTRANT" />
 					<Add directory="rapidxml" />
 					<Add directory="discord/include" />
 					<Add directory="/usr/include/boost" />
+					<Add directory="/usr/include/SDL2" />
 				</Compiler>
 				<Linker>
 					<Add option="-m32" />
+					<Add option="-lSDL2" />
 					<Add directory="discord/lib" />
 					<Add directory="/usr/lib/i386-linux-gnu" />
 				</Linker>
@@ -372,13 +375,16 @@
 					<Add option="-DBUILD_DLL" />
 					<Add option="-DDEBUG" />
 					<Add option="-DSKIPDISCORD" />
+					<Add option="-DD_REENTRANT" />
 					<Add option="-DSTEAM_1_6_13_BUILD" />
 					<Add directory="rapidxml" />
 					<Add directory="discord/include" />
 					<Add directory="/usr/include/boost" />
+					<Add directory="/usr/include/SDL2" />
 				</Compiler>
 				<Linker>
 					<Add option="-m32" />
+					<Add option="-lSDL2" />
 					<Add directory="discord/lib" />
 					<Add directory="/usr/lib/i386-linux-gnu" />
 				</Linker>
@@ -410,13 +416,16 @@
 					<Add option="-D_GLIBCXX_USE_CXX11_ABI=0" />
 					<Add option="-DBUILD_DLL" />
 					<Add option="-DSKIPDISCORD" />
+					<Add option="-DD_REENTRANT" />
 					<Add directory="rapidxml" />
 					<Add directory="discord/include" />
 					<Add directory="/usr/include/boost" />
+					<Add directory="/usr/include/SDL2" />
 				</Compiler>
 				<Linker>
 					<Add option="-m32" />
 					<Add option="-s" />
+					<Add option="-lSDL2" />
 					<Add directory="discord/lib" />
 					<Add directory="/usr/lib/i386-linux-gnu" />
 				</Linker>
@@ -448,14 +457,17 @@
 					<Add option="-D_GLIBCXX_USE_CXX11_ABI=0" />
 					<Add option="-DBUILD_DLL" />
 					<Add option="-DSKIPDISCORD" />
+					<Add option="-DD_REENTRANT" />
 					<Add option="-DSTEAM_1_6_13_BUILD" />
 					<Add directory="rapidxml" />
 					<Add directory="discord/include" />
 					<Add directory="/usr/include/boost" />
+					<Add directory="/usr/include/SDL2" />
 				</Compiler>
 				<Linker>
 					<Add option="-m32" />
 					<Add option="-s" />
+					<Add option="-lSDL2" />
 					<Add directory="discord/lib" />
 					<Add directory="/usr/lib/i386-linux-gnu" />
 				</Linker>
@@ -529,12 +541,15 @@
 					<Add option="-DBUILD_DLL" />
 					<Add option="-DDEBUG" />
 					<Add option="-DSKIPDISCORD" />
+					<Add option="-DD_REENTRANT" />
 					<Add directory="rapidxml" />
 					<Add directory="discord/include" />
 					<Add directory="/usr/include/boost" />
+					<Add directory="/usr/include/SDL2" />
 				</Compiler>
 				<Linker>
 					<Add option="-m64" />
+					<Add option="-lSDL2" />
 					<Add directory="discord/lib" />
 					<Add directory="/usr/lib/x86_64-linux-gnu" />
 				</Linker>
@@ -568,13 +583,16 @@
 					<Add option="-DBUILD_DLL" />
 					<Add option="-DDEBUG" />
 					<Add option="-DSKIPDISCORD" />
+					<Add option="-DD_REENTRANT" />
 					<Add option="-DSTEAM_1_6_13_BUILD" />
 					<Add directory="rapidxml" />
 					<Add directory="discord/include" />
 					<Add directory="/usr/include/boost" />
+					<Add directory="/usr/include/SDL2" />
 				</Compiler>
 				<Linker>
 					<Add option="-m64" />
+					<Add option="-lSDL2" />
 					<Add directory="discord/lib" />
 					<Add directory="/usr/lib/x86_64-linux-gnu" />
 				</Linker>
@@ -606,13 +624,16 @@
 					<Add option="-D_GLIBCXX_USE_CXX11_ABI=0" />
 					<Add option="-DBUILD_DLL" />
 					<Add option="-DSKIPDISCORD" />
+					<Add option="-DD_REENTRANT" />
 					<Add directory="rapidxml" />
 					<Add directory="discord/include" />
 					<Add directory="/usr/include/boost" />
+					<Add directory="/usr/include/SDL2" />
 				</Compiler>
 				<Linker>
 					<Add option="-m64" />
 					<Add option="-s" />
+					<Add option="-lSDL2" />
 					<Add directory="discord/lib" />
 					<Add directory="/usr/lib/x86_64-linux-gnu" />
 				</Linker>
@@ -644,14 +665,17 @@
 					<Add option="-D_GLIBCXX_USE_CXX11_ABI=0" />
 					<Add option="-DBUILD_DLL" />
 					<Add option="-DSKIPDISCORD" />
+					<Add option="-DD_REENTRANT" />
 					<Add option="-DSTEAM_1_6_13_BUILD" />
 					<Add directory="rapidxml" />
 					<Add directory="discord/include" />
 					<Add directory="/usr/include/boost" />
+					<Add directory="/usr/include/SDL2" />
 				</Compiler>
 				<Linker>
 					<Add option="-m64" />
 					<Add option="-s" />
+					<Add option="-lSDL2" />
 					<Add directory="discord/lib" />
 					<Add directory="/usr/lib/x86_64-linux-gnu" />
 				</Linker>
