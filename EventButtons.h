@@ -21,6 +21,7 @@ struct EventButtonDefinition
     TextString text;
     std::string image = "";
     int location = 0;
+    Point customLocation = {-1024, -1024};
 
     GL_Color inactiveColor;
     GL_Color activeColor;

@@ -1842,6 +1842,7 @@ Syntax ->
 		<image border="12">img_path</image>                                                     Path to button asset without extension. For text buttons this is the background.
 		<text id="_id_" border="3">_text_</text>                                                For a text button, text or text id. Omit for an image-only button.
 		<location>0</location>                                                                  Location ID: 0 = below upgrades, 1/2/3/4 = right of FTL/upgrades/store/options button
+		<customLocation x="0" y="0"/>                                                           Override location ID with fixed location on the screen.
 		<tooltip id="_id_">_text_</text>                                                        Hover tooltip when active.
 		<inactiveTooltip id="_id_">_text_</text>                                                Hover tooltip when inactive.
 		<color r="235" g="245" b="229"/>                                                        Color for text button when active.

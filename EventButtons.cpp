@@ -57,6 +57,18 @@ EventButtonDefinition* EventButtonManager::ParseEventButton(rapidxml::xml_node<c
         {
             def->location = boost::lexical_cast<int>(child->value());
         }
+        else if (strcmp(child->name(), "customLocation") == 0)
+        {
+            def->location = -1;
+            if (child->first_attribute("x"))
+            {
+                def->customLocation.x = boost::lexical_cast<int>(child->first_attribute("x")->value());
+            }
+            if (child->first_attribute("y"))
+            {
+                def->customLocation.y = boost::lexical_cast<int>(child->first_attribute("y")->value());
+            }
+        }
         else if (strcmp(child->name(), "tooltip") == 0)
         {
             def->tooltip.data = child->value();
@@ -167,7 +179,7 @@ void EventButtonManager::Save(int fh)
 void EventButton::OnInitImage()
 {
     button = std::unique_ptr<GenericButton>(new Button);
-    ((Button*)button.get())->OnInit(def->image, Point(-1024, -1024));
+    ((Button*)button.get())->OnInit(def->image, def->customLocation);
     dimension.x = button->hitbox.w;
     dimension.y = button->hitbox.h;
     button->hitbox.x += def->margin_border;
@@ -181,7 +193,7 @@ void EventButton::OnInitText()
     button = std::unique_ptr<GenericButton>(new TextButton);
     GL_Texture *tex = G_->GetResources()->GetImageId(def->image + ".png");
     ((TextButton*)button.get())->SetBaseImage(def->image + ".png", Point(-def->margin_border, -def->margin_border), tex->width_-2*def->margin_border);
-    ((TextButton*)button.get())->OnInit(Point(-1024, -1024), Point(tex->width_-2*def->margin_border, tex->height_-2*def->margin_border), def->margin_text, &def->text, 62);
+    ((TextButton*)button.get())->OnInit(def->customLocation, Point(tex->width_-2*def->margin_border, tex->height_-2*def->margin_border), def->margin_text, &def->text, 62);
     ((TextButton*)button.get())->SetInactiveColor(def->inactiveColor);
     ((TextButton*)button.get())->SetActiveColor(def->activeColor);
     ((TextButton*)button.get())->SetSelectedColor(def->selectedColor);
@@ -244,6 +256,11 @@ HOOK_METHOD(ShipStatus, OnLoop, () -> void)
         }
 
         auto it = customButtons.begin();
+
+        for (; it != customButtons.end(); ++it)
+        {
+            if (it->def->location > -1) break;
+        }
 
         int x = gui->ftlButton.position.x + gui->ftlButton.hitbox.w + 16;
 
