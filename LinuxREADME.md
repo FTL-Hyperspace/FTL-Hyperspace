@@ -13,8 +13,8 @@ TODO: Put some better info here :P
 If you are on an older version of Ubuntu (or your distro has a copy of 4.8 in it) you might be able to install it with your package manager like
 `sudo apt-get install gcc-4.8-multilib g++-4.8-multilib` (on Ubuntu Xenial at least or if you have the xenial source added to Ubuntu)
 
-You need `libsdl2-dev`
-`sudo apt-get install libsdl2-dev`
+You need `libsdl2-dev` and the 32-bit version
+`sudo apt-get install libsdl2-dev:i386 libsdl2-dev`
 
 Not sure if we can use a lesser library.
 
