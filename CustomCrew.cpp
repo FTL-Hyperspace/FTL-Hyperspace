@@ -4130,11 +4130,23 @@ HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
                     {
                         if (crew->iRoomId == i->iRoomId && crew->iShipId == ownerShip && crew != i)
                         {
-                            if (healCrew > 0.f && crew->health.first != crew->health.second)
+                            CrewMember_Extend *ex2 = CM_EX(crew);
+                            CrewDefinition *def2 = ex2->GetDefinition();
+                            float mod;
+                            if (def2)
+                            {
+                                mod = ex2->CalculateStat(CrewStat::HEAL_SPEED_MULTIPLIER, def2);
+                            }
+                            else
+                            {
+                                mod = 1.f;
+                            }
+
+                            if (healCrew*mod > 0.f && crew->health.first != crew->health.second)
                             {
                                 crew->fMedbay += 0.0000000001;
                             }
-                            crew->DirectModifyHealth(healCrew);
+                            crew->DirectModifyHealth(healCrew*mod);
                         }
                     }
                 }
