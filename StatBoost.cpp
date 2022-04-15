@@ -1232,7 +1232,7 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
 //    using std::chrono::milliseconds;
 //    auto t1 = steady_clock::now();
 
-    if (statCache[(unsigned int)stat].second == StatBoostManager::statCacheFrame)
+    if ((unsigned int)stat < numCachedStats && statCache[(unsigned int)stat].second == StatBoostManager::statCacheFrame)
     {
         if (boolValue != nullptr) *boolValue = statCache[(unsigned int)stat].first;
         return statCache[(unsigned int)stat].first;
