@@ -307,6 +307,14 @@ General achievements that can be awarded that aren't tied to victories/ship vict
 The "page" tag can be used to populate the stats screen.
 Each page may have one or more sections; if they don't fit you will get automatic page breaks.
 
+You need the following assets:
+scoreUI/score_main_right_2a.png - version of scoreUI/score_main_right_2.png but without the rectangles inside the window
+scoreUI/score_main_right_2b.png - version of scoreUI/score_main_right_2a.png but the inside of the window should be the background you want inside the rectangles (optional)
+scoreUI/score_main_right_border.png - standalone version of the rectangle border. Can be filled in or transparent. Optional; default is to draw a 4px border using statsBorderColor.
+
+Use score_main_right_2b when you want a fixed window pattern that renders with two different tints depending on whether it's inside an achievement section box or not.
+Omit score_main_right_2b when you don't care about matching a pattern outside and inside the boxes, or if you plan to use a solid color (opaque or translucent) for the section boxes for contrast.
+
 <achievements>
 	<achievement name="ACH_ID">
 		<name id="text_id">text</name>
