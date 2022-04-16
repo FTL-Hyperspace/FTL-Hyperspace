@@ -348,6 +348,7 @@ HOOK_METHOD(FTLButton, MouseMove, (int mX, int mY, bool silent) -> void)
         button.button->MouseMove(mX, mY, silent);
         if (button.button->bHover)
         {
+            G_->GetWorld()->commandGui->shipStatus.currentHover = -1;
             if (button.button->bActive)
             {
                 G_->GetMouseControl()->SetTooltip(button.def->tooltip.GetText());
