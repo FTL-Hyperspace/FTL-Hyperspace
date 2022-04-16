@@ -316,7 +316,7 @@ void CustomAchievementTracker::UpdateAchievement(CustomAchievement &ach)
     else
     {
         ach.ach.name = ach.secretName.data.empty() ? ach.name : ach.secretName;
-        ach.ach.description = ach.secretDescription.data.empty() ? ach.name : ach.secretDescription;
+        ach.ach.description = ach.secretDescription.data.empty() ? ach.description : ach.secretDescription;
     }
 }
 
