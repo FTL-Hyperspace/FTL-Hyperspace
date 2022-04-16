@@ -1777,15 +1777,18 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
             }
         }
     }
-    if (isBool)
+    if ((unsigned int)stat < numCachedStats)
     {
-        statCache[(unsigned int)stat].first = *boolValue;
-        statCache[(unsigned int)stat].second = StatBoostManager::statCacheFrame;
-    }
-    else if (!isEffect)
-    {
-        statCache[(unsigned int)stat].first = finalStat;
-        statCache[(unsigned int)stat].second = StatBoostManager::statCacheFrame;
+        if (isBool)
+        {
+            statCache[(unsigned int)stat].first = *boolValue;
+            statCache[(unsigned int)stat].second = StatBoostManager::statCacheFrame;
+        }
+        else if (!isEffect)
+        {
+            statCache[(unsigned int)stat].first = finalStat;
+            statCache[(unsigned int)stat].second = StatBoostManager::statCacheFrame;
+        }
     }
 
 //    auto t2 = steady_clock::now();
