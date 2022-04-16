@@ -5,6 +5,7 @@
 #include "SaveFile.h"
 #include "CustomEvents.h"
 #include <boost/lexical_cast.hpp>
+#include <boost/format.hpp>
 
 CustomScoreKeeper* CustomScoreKeeper::instance = new CustomScoreKeeper();
 
@@ -427,6 +428,8 @@ HOOK_METHOD(ScoreKeeper, Open, (bool fromGameOver) -> void)
     LOG_HOOK("HOOK_METHOD -> ScoreKeeper::Open -> Begin (CustomScoreKeeper.cpp)\n")
     super(fromGameOver);
 
+    CustomAchievementTracker::instance->OnInitStats();
+
     if (newestShipType != -1 && fromGameOver)
     {
         selectedLayout = newestShipLayout;
@@ -469,7 +472,11 @@ HOOK_METHOD(ScoreKeeper, OnRender, (bool lastPlaythrough) -> void)
     }
 
     G_->GetResources()->RenderImage(leftBox[activatedLeft], 0, 0, 0, COLOR_WHITE, 1.f, false);
-    G_->GetResources()->RenderImage(rightBox[activatedRight], 645, 0, 0, COLOR_WHITE, 1.f, false);
+    if (!activatedRight || CustomScoreKeeper::instance->currentAchievementPage == 0 ||
+        !CustomAchievementTracker::instance->RenderBackgroundPage(CustomScoreKeeper::instance->currentAchievementPage, Point(645, 0)))
+    {
+        G_->GetResources()->RenderImage(rightBox[activatedRight], 645, 0, 0, COLOR_WHITE, 1.f, false);
+    }
 
     leftButtons[activatedLeft].OnRender();
     rightButtons[activatedRight].OnRender();
@@ -573,15 +580,31 @@ HOOK_METHOD(ScoreKeeper, OnRender, (bool lastPlaythrough) -> void)
 
     if (activatedRight)
     {
-        CSurface::GL_SetColor(COLOR_WHITE);
-        freetype::easy_print(24, pos4.x, pos4.y, G_->GetTextLibrary()->GetText("progression_heading"));
-        freetype::easy_print(24, pos4.x, pos4.y + 160, G_->GetTextLibrary()->GetText("distance_heading"));
-        freetype::easy_print(24, pos4.x, pos4.y + 330, G_->GetTextLibrary()->GetText("skill_heading"));
-
-        for (int i = 0; i < achievements.size(); i++)
+        if (CustomScoreKeeper::instance->currentAchievementPage == 0)
         {
-            auto item = achievements[i];
-            item.first->OnRender(item.second, selectedAch == i, true);
+            CSurface::GL_SetColor(COLOR_WHITE);
+            freetype::easy_print(24, pos4.x, pos4.y, G_->GetTextLibrary()->GetText("progression_heading"));
+            freetype::easy_print(24, pos4.x, pos4.y + 160, G_->GetTextLibrary()->GetText("distance_heading"));
+            freetype::easy_print(24, pos4.x, pos4.y + 330, G_->GetTextLibrary()->GetText("skill_heading"));
+
+            for (int i = 0; i < achievements.size(); i++)
+            {
+                auto item = achievements[i];
+                item.first->OnRender(item.second, selectedAch == i, true);
+            }
+        }
+        else
+        {
+            CustomAchievementTracker::instance->RenderPage(CustomScoreKeeper::instance->currentAchievementPage, Point(645, 0));
+        }
+        int numCustomPages = CustomAchievementTracker::instance->CountCustomAchievementPages();
+        if (numCustomPages)
+        {
+            CustomAchievementTracker::instance->achievementButtonLeft->OnRender();
+            CustomAchievementTracker::instance->achievementButtonRight->OnRender();
+
+            CSurface::GL_SetColor(CustomAchievementTracker::instance->achievementPagesBoxTextColor);
+            freetype::easy_printRightAlign(24, 1150, 84, boost::str(boost::format("%1%/%2%") % (CustomScoreKeeper::instance->currentAchievementPage+1) % (numCustomPages+1)));
         }
     }
     else
@@ -736,4 +759,78 @@ HOOK_METHOD(ScoreKeeper, KeyDown, (SDLKey key) -> bool)
     }
 
     return super(key);
+}
+
+HOOK_METHOD(ScoreKeeper, MouseMove, (int mX, int mY) -> void)
+{
+    if (shipSelect.bOpen)
+    {
+        shipSelect.MouseMove(mX, mY);
+        return;
+    }
+    closeButton.MouseMove(mX, mY, false);
+    rightButtons[activatedRight].MouseMove(mX, mY, false);
+    leftButtons[activatedLeft].MouseMove(mX, mY, false);
+    rightButtons[!activatedRight].MouseMove(-1, -1, false);
+    leftButtons[!activatedLeft].MouseMove(-1, -1, false);
+
+    selectedAch = -1;
+    selectedShipAch = -1;
+    if (activatedRight)
+    {
+        if (CustomScoreKeeper::instance->currentAchievementPage == 0)
+        {
+            for (int i=0; i<achievements.size(); ++i)
+            {
+                std_pair_CAchievement_ptr_Point &ach = achievements[i];
+                if (mX > ach.second.x && mX < ach.second.x+64 && mY > ach.second.y && mY < ach.second.y+64)
+                {
+                    G_->GetAchievementTracker()->SetTooltip(ach.first);
+                    selectedAch = i;
+                }
+            }
+        }
+        else
+        {
+            CustomAchievementTracker::instance->MouseMove(CustomScoreKeeper::instance->currentAchievementPage, mX-645, mY);
+        }
+        if (CustomAchievementTracker::instance->HasCustomAchievementPage())
+        {
+            CustomAchievementTracker::instance->achievementButtonLeft->MouseMove(mX, mY, false);
+            CustomAchievementTracker::instance->achievementButtonRight->MouseMove(mX, mY, false);
+        }
+    }
+    if (activatedLeft)
+    {
+        for (GenericButton *button : buttons)
+        {
+            button->MouseMove(mX, mY, false);
+        }
+        for (int i=0; i<shipAchievements.size(); ++i)
+        {
+            std_pair_CAchievement_ptr_Point &ach = shipAchievements[i];
+            if (mX > ach.second.x && mX < ach.second.x+64 && mY > ach.second.y && mY < ach.second.y+64)
+            {
+                G_->GetAchievementTracker()->SetTooltip(ach.first);
+                selectedShipAch = i;
+            }
+        }
+    }
+}
+
+HOOK_METHOD(ScoreKeeper, MouseClick, (int mX, int mY) -> void)
+{
+    super(mX, mY);
+
+    if (!shipSelect.bOpen)
+    {
+        if (CustomAchievementTracker::instance->achievementButtonLeft->bActive && CustomAchievementTracker::instance->achievementButtonLeft->bHover)
+        {
+            CustomScoreKeeper::instance->currentAchievementPage = CustomAchievementTracker::instance->PrevPage(CustomScoreKeeper::instance->currentAchievementPage);
+        }
+        if (CustomAchievementTracker::instance->achievementButtonRight->bActive && CustomAchievementTracker::instance->achievementButtonRight->bHover)
+        {
+            CustomScoreKeeper::instance->currentAchievementPage = CustomAchievementTracker::instance->NextPage(CustomScoreKeeper::instance->currentAchievementPage);
+        }
+    }
 }
