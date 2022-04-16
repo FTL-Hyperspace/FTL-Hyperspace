@@ -51,7 +51,7 @@ HOOK_METHOD_PRIORITY(CrewControl, RButton, 1000, (int x, int y, bool shiftHeld) 
             {
                 for (CrewMember *crew : ship->vCrewList)
                 {
-                    if (crew->currentSlot.roomId == selectedRoom && crew->currentSlot.slotId == tile)
+                    if (crew->currentSlot.roomId == selectedRoom && crew->currentSlot.slotId == tile && crew->intruder == ship->iShipId)
                     {
                         swapCrew = crew;
                         break;
