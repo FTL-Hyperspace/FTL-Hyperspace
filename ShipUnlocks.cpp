@@ -1342,14 +1342,18 @@ HOOK_METHOD(CAchievement, OnRender, (Point pos, int selected, bool unk) -> void)
             {
                 CSurface::GL_RenderPrimitive(lockOverlay);
 
-                int halfWidth = dimension/2;
+                if (!lockImage.texture) lockImage.CreatePrimitive();
+                if (lockImage.texture)
+                {
+                    int halfWidth = dimension/2;
 
-                CSurface::GL_PushMatrix();
-                CSurface::GL_Translate(halfWidth-8, halfWidth-11, 0.f);
+                    CSurface::GL_PushMatrix();
+                    CSurface::GL_Translate(halfWidth-lockImage.texture->width_/2, halfWidth-lockImage.texture->height_/2, 0.f);
 
-                lockImage.OnRender(GL_Color(1.f,1.f,1.f,1.f));
+                    lockImage.OnRender(GL_Color(1.f,1.f,1.f,1.f));
 
-                CSurface::GL_PopMatrix();
+                    CSurface::GL_PopMatrix();
+                }
             }
         }
         else
