@@ -763,6 +763,7 @@ HOOK_METHOD(ScoreKeeper, KeyDown, (SDLKey key) -> bool)
 
 HOOK_METHOD(ScoreKeeper, MouseMove, (int mX, int mY) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ScoreKeeper::MouseMove -> Begin (CustomScoreKeeper.cpp)\n")
     if (shipSelect.bOpen)
     {
         shipSelect.MouseMove(mX, mY);
@@ -820,6 +821,7 @@ HOOK_METHOD(ScoreKeeper, MouseMove, (int mX, int mY) -> void)
 
 HOOK_METHOD(ScoreKeeper, MouseClick, (int mX, int mY) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ScoreKeeper::MouseClick -> Begin (CustomScoreKeeper.cpp)\n")
     super(mX, mY);
 
     if (!shipSelect.bOpen)
