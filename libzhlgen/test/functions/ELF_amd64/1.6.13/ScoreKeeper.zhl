@@ -48,6 +48,8 @@ cleanup __amd64 bool ScoreKeeper::KeyDown(ScoreKeeper *this, SDLKey key);
 cleanup __amd64 void ScoreKeeper::Open(ScoreKeeper *this, bool fromGameOver);
 ".4157415641554189f5415455534889fb4881ec28020000":
 cleanup __amd64 void ScoreKeeper::OnRender(ScoreKeeper *this, bool lastPlaythrough);
+".4156415541544189d45589f55380bf280c000000":
+cleanup __amd64 void ScoreKeeper::MouseMove(ScoreKeeper *this, int mX, int mY);
 
 "!488b3b488b07ff5028488b7b08488b07ff502831f6bf(???????\?)":
 ScoreKeeper* Global_ScoreKeeper_Keeper;

@@ -6174,6 +6174,7 @@ struct ResourceControl
 	LIBZHL_API freetype::font_data &GetFontData(int fontType, bool unk);
 	LIBZHL_API ImageDesc GetImageData(GL_Texture *tex);
 	LIBZHL_API GL_Texture *GetImageId(const std::string &dir);
+	LIBZHL_API bool ImageExists(const std::string &name);
 	LIBZHL_API char *LoadFile(const std::string &fileName);
 	LIBZHL_API void OnInit(int imageSwappingMode);
 	LIBZHL_API bool PreloadResources(bool unk);
@@ -6280,6 +6281,7 @@ struct ScoreKeeper
 	LIBZHL_API void LoadGame(int fd);
 	LIBZHL_API void LoadVersionFour(int file, int version);
 	LIBZHL_API void MouseClick(int x, int y);
+	LIBZHL_API void MouseMove(int mX, int mY);
 	LIBZHL_API void OnInit();
 	LIBZHL_API void OnRender(bool lastPlaythrough);
 	LIBZHL_API void Open(bool fromGameOver);

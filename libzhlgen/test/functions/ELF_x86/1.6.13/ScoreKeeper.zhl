@@ -48,6 +48,8 @@ cleanup __cdecl void ScoreKeeper::SaveScores(ScoreKeeper *this, int file, std::v
 cleanup __cdecl void ScoreKeeper::SaveGame(ScoreKeeper *this, int fd);
 ".5589e557565383ec2c8b750c8b7d08893424":
 cleanup __cdecl void ScoreKeeper::LoadGame(ScoreKeeper *this, int fd);
+".5557565383ec2c8b5c24408b7c24448b6c2448":
+cleanup __cdecl void ScoreKeeper::MouseMove(ScoreKeeper *this, int mX, int mY);
 
 "!c744240401000000c70424(???????\?)e8????????89742408":
 ScoreKeeper* Global_ScoreKeeper_Keeper;

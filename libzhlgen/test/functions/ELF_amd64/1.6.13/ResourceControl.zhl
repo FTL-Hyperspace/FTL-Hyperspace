@@ -10,6 +10,8 @@ cleanup __amd64 void ResourceControl::OnInit(ResourceControl *this, int imageSwa
 cleanup __amd64 char* ResourceControl::LoadFile(ResourceControl *this, const std::string& fileName);
 ".534889d04989d14889fb488d7e604883ec10":
 cleanup __amd64 ImageDesc ResourceControl::GetImageData(ResourceControl *this, GL_Texture *tex);
+".554889f5534889fb4883ec38":
+cleanup __amd64 bool ResourceControl::ImageExists(ResourceControl *this, const std::string& name);
 ".4154554889f5be????????534889fb4883ec60":
 cleanup __amd64 GL_Texture* ResourceControl::GetImageId(ResourceControl *this, const std::string& dir);
 ".41574589c7415641554589cd41544189d45589cd534883ec38":

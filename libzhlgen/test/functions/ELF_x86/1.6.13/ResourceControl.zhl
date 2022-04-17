@@ -18,6 +18,8 @@ cleanup __cdecl GL_Primitive* ResourceControl::CreateImagePrimitiveString(Resour
 cleanup __cdecl freetype::font_data &ResourceControl::GetFontData(ResourceControl *this, int fontType, bool unk);
 "5531d257565383ec1c8b4424348b7c24388b7034":
 cleanup __cdecl ImageDesc ResourceControl::GetImageData(ResourceControl *this, GL_Texture *tex);
+".5589e557565383ec4c8b7d0c":
+cleanup __cdecl bool ResourceControl::ImageExists(ResourceControl *this, const std::string& name);
 "5557565381ec8c0000000fb68424a40000008bbc24a00000008844242f":
 cleanup __cdecl bool ResourceControl::PreloadResources(ResourceControl *this, bool unk);
 "5557565381ec8c0000008b9c24a00000008d6c246e":
