@@ -86,7 +86,7 @@ StatBoostDefinition* StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<cha
         auto savedDef = StatBoostDefinition::savedStatBoostDefs.find(node->first_attribute("load")->value());
         if (savedDef != StatBoostDefinition::savedStatBoostDefs.end())
         {
-            if (node->first_attribute("name") || node->value() || node->first_node()) // not empty statboost node
+            if (node->first_attribute("name") || *(node->value()) || node->first_node()) // not empty statboost node
             {
                 def = new StatBoostDefinition(*savedDef->second);
                 newDef = true;
