@@ -406,29 +406,34 @@ HOOK_METHOD_PRIORITY(ShipObject, HasEquipment, 2000, (const std::string& name) -
     CustomAugmentManager* customAug = CustomAugmentManager::GetInstance();
 
     auto ship = G_->GetShipManager(iShipId);
-    std::unordered_map<std::string, int> *augList = customAug->GetShipAugments(iShipId);
-
     int augCount = 0;
-    if (augList->count(name) > 0)
+
+    // Count hidden augments
+
+    std::map<std::string, int> *augList = &(G_->GetShipInfo(iShipId)->augList);
+    std::string hidden_name = "HIDDEN " + name;
+
+    if (augList->count(hidden_name) > 0)
     {
-        augCount = augList->at(name);
+        augCount = augList->at(hidden_name);
     }
 
+    // Count augment functions
+
     std::unordered_multimap<std::string, AugmentFunction*> *potentialAugs = customAug->GetPotentialAugments(name, useAugmentReq);
-
-
+    std::unordered_map<std::string, int> *augListWithHidden = customAug->GetShipAugments(iShipId);
 
     for (auto const& x: *potentialAugs)
     {
-        if (augList->count(x.first) && x.second->Functional(iShipId))
+        if (augListWithHidden->count(x.first) && x.second->Functional(iShipId))
         {
-            augCount += augList->at(x.first);
+            augCount += augListWithHidden->at(x.first);
         }
     }
 
+    // Count normal augments
+
     return augCount + super(name);
-
-
 }
 
 
