@@ -71,13 +71,21 @@ void HullNumbers::ParseHullNumbersNode(rapidxml::xml_node<char>* node)
 
 
     }
-    catch (boost::bad_lexical_cast const &e)
+    catch (rapidxml::parse_error& e)
     {
-        MessageBoxA(NULL, "boost::bad_lexical_cast in hyperspace.xml", "Error", MB_ICONERROR);
+        ErrorMessage(std::string("Error parsing <hullNumbers> in hyperspace.xml\n") + std::string(e.what()));
+    }
+    catch (std::exception &e)
+    {
+        ErrorMessage(std::string("Error parsing <hullNumbers> in hyperspace.xml\n") + std::string(e.what()));
+    }
+    catch (const char* e)
+    {
+        ErrorMessage(std::string("Error parsing <hullNumbers> in hyperspace.xml\n") + std::string(e));
     }
     catch (...)
     {
-        MessageBoxA(NULL, "error parsing <hullNumbers> in hyperspace.xml", "Error", MB_ICONERROR);
+        ErrorMessage("Error parsing <hullNumbers> in hyperspace.xml\n");
     }
 }
 
@@ -98,13 +106,13 @@ void HullNumbers::PrintAlignment(int font, int x, int y, std::string str, std::s
 }
 
 
-HOOK_METHOD(ShipStatus, RenderHealth, (bool unk) -> void)
+HOOK_METHOD(ShipStatus, RenderShields, (bool renderText) -> void)
 {
-
-    super(unk);
+    LOG_HOOK("HOOK_METHOD -> ShipStatus::RenderShields -> Begin (HullNumbers.cpp)\n")
+    super(renderText);
 
     HullNumbers *manager = HullNumbers::GetInstance();
-    if (unk == false && manager && manager->enabled)
+    if (manager && manager->enabled)
     {
         char buffer[64];
         sprintf(buffer, "%d", this->ship->ship.hullIntegrity.first);
@@ -115,6 +123,7 @@ HOOK_METHOD(ShipStatus, RenderHealth, (bool unk) -> void)
 
 HOOK_METHOD(ResourceControl, GetImageId, (std::string& path) -> GL_Texture*)
 {
+    LOG_HOOK("HOOK_METHOD -> ResourceControl::GetImageId -> Begin (HullNumbers.cpp)\n")
     if (path == "combatUI/box_hostiles2.png" && HullNumbers::GetInstance() && HullNumbers::GetInstance()->enabled)
     {
         path.assign("combatUI/box_hostiles2_numbers.png");
@@ -130,6 +139,7 @@ HOOK_METHOD(ResourceControl, GetImageId, (std::string& path) -> GL_Texture*)
 
 HOOK_METHOD(CombatControl, RenderTarget, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CombatControl::RenderTarget -> Begin (HullNumbers.cpp)\n")
     super();
 
     HullNumbers *manager = HullNumbers::GetInstance();
@@ -169,6 +179,7 @@ HOOK_METHOD(CombatControl, RenderTarget, () -> void)
 
 HOOK_METHOD(ShipStatus, OnInit, (Point unk, float unk2) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipStatus::OnInit -> Begin (HullNumbers.cpp)\n")
     super(unk, unk2);
 
     if (HullNumbers::GetInstance() && HullNumbers::GetInstance()->enabled)

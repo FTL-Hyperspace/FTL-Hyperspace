@@ -255,6 +255,7 @@ void CustomStore::ParseStoreNode(rapidxml::xml_node<char>* node)
 
 HOOK_METHOD(SystemStoreBox, constructor, (ShipManager *shopper, Equipment *equip, int sys) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> SystemStoreBox::constructor -> Begin (CustomStore.cpp)\n")
     super(shopper, equip, sys);
 
     if (itemId != 4)
@@ -559,18 +560,13 @@ std::vector<StoreBox*> StoreComplete::CreateCustomStoreBoxes(const StoreCategory
                     species = potentialList[random32() % potentialList.size()];
                 }
 
-                auto bp = G_->GetBlueprints()->GetCrewBlueprint(species);
+                CrewBlueprint bp = G_->GetBlueprints()->GetCrewBlueprint(species);
 
-                if (bp)
-                {
-                    box = new CrewStoreBox(ship, orig->worldLevel, species);
+                box = new CrewStoreBox(ship, orig->worldLevel, species);
 
-                    box->desc.cost = GetItemPricing(i.price, bp->desc.cost, orig->worldLevel);
+                box->desc.cost = GetItemPricing(i.price, bp.desc.cost, orig->worldLevel);
 
-                    vec.push_back(box);
-
-                    delete bp;
-                }
+                vec.push_back(box);
             }
         }
     }
@@ -845,10 +841,10 @@ void StoreComplete::OnInit(const StoreDefinition& def, ShipManager *ship, Equipm
 
     std::string buttonImg("storeUI/button_store_arrow");
     leftButton = new Button();
-    leftButton->OnInit(buttonImg, orig->position.x + 451, orig->position.y + 12);
+    leftButton->OnInit(buttonImg, Point(orig->position.x + 451, orig->position.y + 12));
 
     rightButton = new Button();
-    rightButton->OnInit(buttonImg, orig->position.x + 547, orig->position.y + 12);
+    rightButton->OnInit(buttonImg, Point(orig->position.x + 547, orig->position.y + 12));
 
     rightButton->bMirror = true;
 
@@ -896,13 +892,13 @@ void StoreComplete::SetPositions()
     {
         std::string buttonImg("storeUI/button_store_arrow");
         leftButton = new Button();
-        leftButton->OnInit(buttonImg, orig->position.x + 451, orig->position.y + 12);
+        leftButton->OnInit(buttonImg, Point(orig->position.x + 451, orig->position.y + 12));
     }
     if (!rightButton)
     {
         std::string buttonImg("storeUI/button_store_arrow");
         rightButton = new Button();
-        rightButton->OnInit(buttonImg, orig->position.x + 547, orig->position.y + 12);
+        rightButton->OnInit(buttonImg, Point(orig->position.x + 547, orig->position.y + 12));
         rightButton->bMirror = true;
     }
 
@@ -1195,6 +1191,7 @@ static StoreBox* g_purchasedStoreItem = nullptr;
 
 HOOK_METHOD(StoreBox, Purchase, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> StoreBox::Purchase -> Begin (CustomStore.cpp)\n")
     if (pBlueprint && pBlueprint->GetType() != 5)
     {
         g_purchasedStoreItem = this;
@@ -1285,6 +1282,14 @@ void StoreComplete::MouseClick(int x, int y)
 
 void StoreComplete::MouseMove(int x, int y)
 {
+    orig->FocusWindow::MouseMove(x, y);
+
+    if (orig->confirmBuy)
+    {
+        orig->confirmDialog.MouseMove(x, y);
+        return;
+    }
+
     orig->infoBox.Clear();
 
     for (auto i : resourceBoxes)
@@ -1327,6 +1332,7 @@ void StoreComplete::MouseMove(int x, int y)
 
 HOOK_METHOD(Store, KeyDown, (SDLKey key) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Store::KeyDown -> Begin (CustomStore.cpp)\n")
     if (STORE_EX(this)->isCustomStore)
     {
         STORE_EX(this)->customStore->KeyDown(key);
@@ -1338,6 +1344,7 @@ HOOK_METHOD(Store, KeyDown, (SDLKey key) -> void)
 
 HOOK_METHOD(Store, OnRender, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Store::OnRender -> Begin (CustomStore.cpp)\n")
     if (STORE_EX(this)->isCustomStore)
     {
         STORE_EX(this)->customStore->OnRender();
@@ -1642,6 +1649,7 @@ std::string customStoreId;
 
 HOOK_METHOD(WorldManager, CreateStore, (LocationEvent *event) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> WorldManager::CreateStore -> Begin (CustomStore.cpp)\n")
     auto customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(event->eventName);
 
     customStoreId = "";
@@ -1657,6 +1665,7 @@ HOOK_METHOD(WorldManager, CreateStore, (LocationEvent *event) -> void)
 
 HOOK_METHOD(Store, OnInit, (ShipManager *_shopper, Equipment *_equip, int _worldLevel) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Store::OnInit -> Begin (CustomStore.cpp)\n")
     if (!customStoreId.empty() || !CustomStore::instance->forceCustomStore.empty())
     {
         std::string storeId = CustomStore::instance->forceCustomStore;
@@ -1686,6 +1695,7 @@ HOOK_METHOD(Store, OnInit, (ShipManager *_shopper, Equipment *_equip, int _world
 
 HOOK_METHOD(Store, RelinkShip, (ShipManager *ship, Equipment *equip) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Store::RelinkShip -> Begin (CustomStore.cpp)\n")
     if (STORE_EX(this)->isCustomStore)
     {
         STORE_EX(this)->customStore->RelinkShip(ship, equip);
@@ -1698,6 +1708,7 @@ HOOK_METHOD(Store, RelinkShip, (ShipManager *ship, Equipment *equip) -> void)
 
 HOOK_METHOD(Store, LoadStore, (int file, int worldLevel) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Store::LoadStore -> Begin (CustomStore.cpp)\n")
     bool isCustomStore = FileHelper::readInteger(file);
 
     STORE_EX(this)->isCustomStore = isCustomStore;
@@ -1715,6 +1726,7 @@ HOOK_METHOD(Store, LoadStore, (int file, int worldLevel) -> void)
 
 HOOK_METHOD(Store, SaveStore, (int file) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Store::SaveStore -> Begin (CustomStore.cpp)\n")
     FileHelper::writeInt(file, STORE_EX(this)->isCustomStore);
 
     if (STORE_EX(this)->isCustomStore)
@@ -1731,6 +1743,7 @@ HOOK_METHOD(Store, SaveStore, (int file) -> void)
 
 HOOK_METHOD(Store, OnLoop, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Store::OnLoop -> Begin (CustomStore.cpp)\n")
     if (STORE_EX(this)->isCustomStore)
     {
         STORE_EX(this)->customStore->OnLoop();
@@ -1742,6 +1755,7 @@ HOOK_METHOD(Store, OnLoop, () -> void)
 
 HOOK_METHOD(Store, SetPositions, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Store::SetPositions -> Begin (CustomStore.cpp)\n")
     if (STORE_EX(this)->isCustomStore)
     {
         STORE_EX(this)->customStore->SetPositions();
@@ -1753,6 +1767,7 @@ HOOK_METHOD(Store, SetPositions, () -> void)
 
 HOOK_METHOD(Store, MouseMove, (int x, int y) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Store::MouseMove -> Begin (CustomStore.cpp)\n")
     if (STORE_EX(this)->isCustomStore)
     {
         STORE_EX(this)->customStore->MouseMove(x, y);
@@ -1764,6 +1779,7 @@ HOOK_METHOD(Store, MouseMove, (int x, int y) -> void)
 
 HOOK_METHOD(Store, MouseClick, (int x, int y) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Store::MouseClick -> Begin (CustomStore.cpp)\n")
     if (STORE_EX(this)->isCustomStore)
     {
         STORE_EX(this)->customStore->MouseClick(x, y);
@@ -1775,6 +1791,7 @@ HOOK_METHOD(Store, MouseClick, (int x, int y) -> void)
 
 HOOK_METHOD(Store, CreateStoreBoxes, (int category, Equipment* equip) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Store::CreateStoreBoxes -> Begin (CustomStore.cpp)\n")
     if (category == 4) // systems
     {
         bool guaranteedShields = !shopper->HasSystem(0);
@@ -1901,6 +1918,7 @@ HOOK_METHOD(Store, CreateStoreBoxes, (int category, Equipment* equip) -> void)
 
 HOOK_METHOD(SystemStoreBox, Activate, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> SystemStoreBox::Activate -> Begin (CustomStore.cpp)\n")
     if (shopper->currentScrap < desc.cost) return super(); // Not enough scrap
     if (itemId == 5 && shopper->HasSystem(13) || itemId == 13 && shopper->HasSystem(5)) return super(); // Change medical system
     bool isSubsystem = ShipSystem::IsSubsystem(itemId);

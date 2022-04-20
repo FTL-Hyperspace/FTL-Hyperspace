@@ -147,6 +147,7 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
         commandGui->shipComplete->shipManager->ModifyDroneCount(-800);
         return true;
     }
+    /*
     if(cmdName == "JUMPEVENT")
     {
         if (command.length() > 10)
@@ -160,6 +161,7 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
         jumpEventLoop = false;
         return true;
     }
+    */
     if(cmdName == "LOADEVENT")
     {
         if (command.length() > 10)
@@ -227,6 +229,7 @@ static bool shouldOpenConsole = true;
 
 HOOK_METHOD(CommandGui, KeyDown, (SDLKey key, bool shiftHeld) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CommandGui::KeyDown -> Begin (CommandConsole.cpp)\n")
     if (key == Settings::GetHotkey("speed"))
     {
         //shouldOpen = !shouldOpen;
@@ -239,6 +242,7 @@ HOOK_METHOD(CommandGui, KeyDown, (SDLKey key, bool shiftHeld) -> void)
     {
         custom->altMode = !custom->altMode;
         custom->altModeChanged = true;
+        G_->GetSoundControl()->PlaySoundMix(custom->altMode ? "moreInfoOn" : "moreInfoOff", -1.f, false);
     }
 
     if (key == Settings::GetHotkey("console"))
@@ -276,11 +280,13 @@ HOOK_METHOD(CommandGui, KeyDown, (SDLKey key, bool shiftHeld) -> void)
 
 HOOK_STATIC(Settings, GetCommandConsole, () -> char)
 {
+    LOG_HOOK("HOOK_STATIC -> Settings::GetCommandConsole -> Begin (CommandConsole.cpp)\n")
     return shouldOpenConsole && CommandConsole::GetInstance()->enabled; //&& CommandConsole::GetInstance()->shouldOpen;
 }
 
 HOOK_METHOD(CommandGui, RunCommand, (std::string& command) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CommandGui::RunCommand -> Begin (CommandConsole.cpp)\n")
     if (!CommandConsole::GetInstance()->RunCommand(this, command))
     {
         super(command);
@@ -291,6 +297,7 @@ HOOK_METHOD(CommandGui, RunCommand, (std::string& command) -> void)
 
 HOOK_METHOD(CFPS, OnLoop, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CFPS::OnLoop -> Begin (CommandConsole.cpp)\n")
     int oldSpeedLevel = speedLevel;
 
     if (!speedEnabled)

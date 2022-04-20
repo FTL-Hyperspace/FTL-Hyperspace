@@ -13,5 +13,6 @@ LaserBlast::LaserBlast(Pointf _position, int _ownerId, int _targetId, Pointf _ta
 
 HOOK_METHOD(Projectile, ForceRenderLayer, () -> int)
 {
+    LOG_HOOK("HOOK_METHOD -> Projectile::ForceRenderLayer -> Begin (ProjectileVTable.cpp)\n")
     return damage.crystalShard ? 1 : -1;
 }

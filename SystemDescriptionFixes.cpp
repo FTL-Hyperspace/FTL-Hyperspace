@@ -13,9 +13,10 @@ static std::string RemoveTrailingZeros(std::string str)
     return str;
 }
 
-HOOK_STATIC(ShipSystem, GetLevelDescription, (void* unk, std::string &retStr, int systemId, int level, bool tooltip) -> void)
+HOOK_STATIC(ShipSystem, GetLevelDescription, (int systemId, int level, bool tooltip) -> std::string)
 {
-    super(unk, retStr, systemId, level, tooltip);
+    LOG_HOOK("HOOK_STATIC -> ShipSystem::GetLevelDescription -> Begin (SystemDescriptionFixes.cpp)\n")
+    std::string ret = super(systemId, level, tooltip);
 
     if (systemId == SYS_MEDBAY)
     {
@@ -34,14 +35,14 @@ HOOK_STATIC(ShipSystem, GetLevelDescription, (void* unk, std::string &retStr, in
         std::string valueStr = RemoveTrailingZeros(stream.str());
 
         boost::algorithm::replace_all(text, "\\1", valueStr);
-        retStr = text;
+        ret = text;
     }
 
     if (systemId == SYS_TELEPORTER)
     {
         if (level == 3)
         {
-            retStr = G_->GetTextLibrary()->GetText("teleporter_instant");
+            ret = G_->GetTextLibrary()->GetText("teleporter_instant");
         }
     }
 
@@ -49,7 +50,9 @@ HOOK_STATIC(ShipSystem, GetLevelDescription, (void* unk, std::string &retStr, in
     {
         if (level == 3)
         {
-            retStr = G_->GetTextLibrary()->GetText("clonebay_instant_fullheal");
+            ret = G_->GetTextLibrary()->GetText("clonebay_instant_fullheal");
         }
     }
+    
+    return ret;
 }

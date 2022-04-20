@@ -1,0 +1,13 @@
+"5589e557565381ec8c0000008b750c8b5d088b06":
+cleanup __cdecl void Projectile::CollisionCheck(Projectile *this, Collideable *other);
+".5589e557565381ecec0000008b7d088b450c":
+cleanup __cdecl void Projectile::constructor(Projectile *this, Pointf position, int ownerId, int targetId, Pointf target);
+".5589e557565381ecdc0000008b450cc78538ffffff00000000":
+cleanup __cdecl void Projectile::Initialize(Projectile *this, const WeaponBlueprint& bp);
+".5557565383ec2c8b7424408b86b4010000":
+cleanup __cdecl void Projectile::destructor(Projectile *this);
+
+"8b4424048b5424088950388b54240c89503c8b542410895040":
+noHook void Projectile::__DO_NOT_HOOK();
+".!b8ffffffffc3":
+cleanup __cdecl int Projectile::ForceRenderLayer(Projectile *this);

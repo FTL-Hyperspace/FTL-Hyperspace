@@ -15,6 +15,7 @@ public:
     void WipeProfile();
 
     static CustomScoreKeeper* instance;
+    int currentAchievementPage = 0;
 private:
     std::unordered_map<std::string, std::vector<TopScore>> customShipScores;
 };

@@ -3,8 +3,11 @@
 #include "Constants.h"
 #include "CustomCrew.h"
 #include "CustomCrewCommon.h"
+#include "EnumClassHash.h"
 
 struct ActivatedPowerDefinition;
+
+enum class CrewExtraCondition : unsigned int;
 
 enum class CrewStat : unsigned int
 {
@@ -14,6 +17,7 @@ enum class CrewStat : unsigned int
     REPAIR_SPEED_MULTIPLIER,
     DAMAGE_MULTIPLIER,
     RANGED_DAMAGE_MULTIPLIER,
+    DOOR_DAMAGE_MULTIPLIER,
     FIRE_REPAIR_MULTIPLIER,
     SUFFOCATION_MODIFIER,
     FIRE_DAMAGE_MULTIPLIER,
@@ -31,6 +35,7 @@ enum class CrewStat : unsigned int
     DAMAGE_ENEMIES_AMOUNT,
     BONUS_POWER,
     POWER_DRAIN,
+    ESSENTIAL,
     CAN_FIGHT,
     CAN_REPAIR,
     CAN_SABOTAGE,
@@ -46,9 +51,6 @@ enum class CrewStat : unsigned int
     DETECTS_LIFEFORMS,
     CLONE_LOSE_SKILLS,
     POWER_DRAIN_FRIENDLY,
-    STAT_BOOST,
-    DEATH_EFFECT,
-    POWER_EFFECT,
     ACTIVATE_WHEN_READY,
     DEFAULT_SKILL_LEVEL,
     POWER_RECHARGE_MULTIPLIER,
@@ -56,61 +58,17 @@ enum class CrewStat : unsigned int
     POWER_CHARGES_PER_JUMP,
     HACK_DOORS,
     NO_CLONE,
-    NO_SLOT
+    NO_SLOT,
+    NO_AI,
+    VALID_TARGET,
+    // non-cached stats
+    STAT_BOOST,
+    DEATH_EFFECT,
+    POWER_EFFECT,
+    TRANSFORM_RACE
 };
 
-static const std::array<std::string, numStats> crewStats =
-{
-    "maxHealth",
-    "stunMultiplier",
-    "moveSpeedMultiplier",
-    "repairSpeed",
-    "damageMultiplier",
-    "rangedDamageMultiplier",
-    "fireRepairMultiplier",
-    "suffocationModifier",
-    "fireDamageMultiplier",
-    "oxygenChangeSpeed",
-    "damageTakenMultiplier",
-    "passiveHealAmount",
-    "truePassiveHealAmount",
-    "trueHealAmount",
-    "passiveHealDelay",
-    "healAmount",
-    "sabotageSpeedMultiplier",
-    "allDamageTakenMultiplier",
-    "healSpeed",
-    "healCrewAmount",
-    "damageEnemiesAmount",
-    "bonusPower",
-    "powerDrain",
-    "canFight",
-    "canRepair",
-    "canSabotage",
-    "canMan",
-    "canTeleport",
-    "canSuffocate",
-    "controllable",
-    "canBurn",
-    "isTelepathic",
-    "resistsMindControl",
-    "isAnaerobic",
-    "canPhaseThroughDoors",
-    "detectsLifeforms",
-    "cloneLoseSkills",
-    "powerDrainFriendly",
-    "statBoost",
-    "deathEffect",
-    "powerEffect",
-    "activateWhenReady",
-    "defaultSkillLevel",
-    "powerRechargeMultiplier",
-    "powerCharges",
-    "chargesPerJump",
-    "hackDoors",
-    "noClone",
-    "noSlot"
-};
+extern const std::array<std::string, numStats> crewStats;
 
 struct StatBoostDefinition
 {
@@ -120,7 +78,9 @@ struct StatBoostDefinition
         FLAT,
         SET,
         FLIP,
-        SET_VALUE
+        SET_VALUE,
+        MIN,
+        MAX
     };
 
     enum class BoostSource
@@ -138,6 +98,8 @@ struct StatBoostDefinition
         OTHER_ALL,
         ORIGINAL_SHIP,
         ORIGINAL_OTHER_SHIP,
+        CREW_TARGET,
+        TARGETS_ME,
         ALL
     };
 
@@ -154,7 +116,9 @@ struct StatBoostDefinition
         SELF,
         ALL,
         CURRENT_ALLIES,
-        CURRENT_ENEMIES
+        CURRENT_ENEMIES,
+        ORIGINAL_ALLIES,
+        ORIGINAL_ENEMIES
     };
 
     enum class DroneTarget
@@ -164,26 +128,10 @@ struct StatBoostDefinition
         ALL
     };
 
-    enum class ExtraCondition
-    {
-        BURNING,
-        SUFFOCATING,
-        MIND_CONTROLLED,
-        STUNNED,
-        REPAIRING,
-        FIGHTING,
-        SHOOTING,
-        MOVING,
-        IDLE,
-        MANNING,
-        FIREFIGHTING,
-        DYING,
-        TELEPORTING_OR_CLONING
-    };
-
     CrewStat stat;
     float amount;
     bool value;
+    std::string stringValue = "";
     bool isBool = false;
     int priority = -1;
     float duration = -1;
@@ -207,7 +155,8 @@ struct StatBoostDefinition
     float powerScalingHackedSys = 1.0;
     std::vector<int> systemPowerScaling;
 
-    std::vector<ExtraCondition> extraConditions = std::vector<ExtraCondition>();
+    std::vector<std::pair<CrewExtraCondition,bool>> extraConditions = std::vector<std::pair<CrewExtraCondition,bool>>();
+    std::vector<std::pair<CrewExtraCondition,bool>> extraOrConditions = std::vector<std::pair<CrewExtraCondition,bool>>();
     bool extraConditionsReq;
     SystemRoomTarget systemRoomTarget;
     bool systemRoomReq;
@@ -217,12 +166,16 @@ struct StatBoostDefinition
     CrewTarget crewTarget;
     DroneTarget droneTarget = DroneTarget::ALL;
     bool functionalTarget = false;
+    std::pair<float,float> healthReq = {-1.f, -1.f};
+    std::pair<float,float> healthFractionReq = {-1.f, -1.f};
+    std::pair<float,float> oxygenReq = {-1.f, -1.f};
 
     int realBoostId = -1;
     int stackId = 0;
     int maxStacks = 2147483647;
 
     static std::vector<StatBoostDefinition*> statBoostDefs;
+    static std::unordered_map<std::string,StatBoostDefinition*> savedStatBoostDefs;
 
     void GiveId()
     {
@@ -258,7 +211,7 @@ class StatBoostManager
 public:
     static unsigned int statCacheFrame;
 
-    std::unordered_map<CrewStat, std::vector<StatBoost>> statBoosts;
+    std::unordered_map<CrewStat, std::vector<StatBoost>, EnumClassHash> statBoosts;
     std::vector<StatBoost> animBoosts;
 
     StatBoostManager()

@@ -4,6 +4,7 @@
 #include "StatBoost.h"
 #include "Constants.h"
 #include "CustomCrewCommon.h"
+#include "EnumClassHash.h"
 #include <array>
 
 struct CrewDefinition;
@@ -12,8 +13,9 @@ struct ActivatedPowerRequirements;
 
 enum class CrewStat : unsigned int;
 struct StatBoost;
+struct StatBoostDefinition;
 
-enum PowerReadyState
+enum PowerReadyState : unsigned int
 {
     POWER_NOT_READY_COOLDOWN,
     POWER_READY,
@@ -32,16 +34,20 @@ enum PowerReadyState
     POWER_NOT_READY_AI_DISABLED,
     POWER_NOT_READY_OUT_OF_COMBAT,
     POWER_NOT_READY_IN_COMBAT,
-    POWER_NOT_READY_MANNING,
     POWER_NOT_READY_SYSTEM,
     POWER_NOT_READY_SYSTEM_FUNCTIONAL,
     POWER_NOT_READY_MIN_HEALTH,
     POWER_NOT_READY_MAX_HEALTH,
     POWER_NOT_READY_SYSTEM_DAMAGED,
-    POWER_NOT_READY_MIND,
-    POWER_NOT_READY_TELEPORTING,
-    POWER_NOT_READY_CHARGES
+    POWER_NOT_READY_CHARGES,
+    POWER_NOT_READY_EXTRACONDITION_OR,
+    POWER_NOT_READY_EXTRACONDITION_TRUE = 16384,
+    POWER_NOT_READY_EXTRACONDITION_FALSE = 32768
 };
+
+extern const std::array<std::string, numStats> powerReadyStateExtraTextTrue;
+
+extern const std::array<std::string, numStats> powerReadyStateExtraTextFalse;
 
 struct CrewAnimation_Extend
 {
@@ -57,6 +63,7 @@ public:
     std::string crewAnimationType = "human";
     bool isMantisAnimation = false;
     bool isIonDrone = false;
+    bool canPunch = true;
 
     Pointf effectPos;
     Pointf effectWorldPos;
@@ -75,6 +82,7 @@ struct CrewMember_Extend
 {
 public:
     CrewMember *orig;
+    int selfId = -1;
     bool canPhaseThroughDoors = false;
     bool isHealing = false;
     TimerHelper* passiveHealTimer = nullptr;
@@ -126,17 +134,23 @@ public:
     std::vector<StatBoost> tempOutgoingStatBoosts = std::vector<StatBoost>();
 //    std::vector<StatBoost> outgoingTimedStatBoosts = std::vector<StatBoost>();
 //    std::vector<StatBoost> outgoingTimedAbilityStatBoosts = std::vector<StatBoost>();
-    std::unordered_map<CrewStat, std::vector<StatBoost>> timedStatBoosts = std::unordered_map<CrewStat, std::vector<StatBoost>>();
+    std::unordered_map<CrewStat, std::vector<StatBoost>, EnumClassHash> timedStatBoosts = std::unordered_map<CrewStat, std::vector<StatBoost>, EnumClassHash>();
 //    std::vector<StatBoost> personalStatBoosts;
 
     float extraMedbay = 0.f;
 
-    std::string originalRace; // for color layers
+    std::string originalColorRace = ""; // for color layers
+    std::string originalRace = "";
     std::string transformRace = "";
 
     void Initialize(CrewBlueprint& bp, int shipId, bool enemy, CrewAnimation *animation, bool isTransform = false);
     bool TransformRace(const std::string& newRace);
     static void TransformColors(CrewBlueprint& bp, CrewBlueprint *newBlueprint);
+
+    CrewMember_Extend()
+    {
+        selfId = Globals::GetNextSpaceId();
+    }
 
     ~CrewMember_Extend()
     {
@@ -144,14 +158,18 @@ public:
         delete deathTimer;
     }
 
-    std::pair<float,int> statCache[numStats] = {};
+    std::pair<float,int> statCache[numCachedStats] = {};
 
     bool BoostCheck(const StatBoost& statBoost);
+    bool CheckExtraCondition(CrewExtraCondition condition);
     int CalculateMaxHealth(const CrewDefinition* def);
     float CalculateStat(CrewStat stat, const CrewDefinition* def, bool* boolValue=nullptr);
+
+    std::string GetRace();
+    CrewDefinition *GetDefinition();
 };
 
-CrewMember_Extend* Get_CrewMember_Extend(CrewMember* c);
+CrewMember_Extend* Get_CrewMember_Extend(const CrewMember* c);
 CrewAnimation_Extend* Get_CrewAnimation_Extend(CrewAnimation *c);
 
 #define CM_EX Get_CrewMember_Extend

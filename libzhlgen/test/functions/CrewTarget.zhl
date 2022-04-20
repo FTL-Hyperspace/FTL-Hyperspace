@@ -1,7 +1,0 @@
-struct CrewTarget depends (ShipObject)
-{{
-	ShipObject* GetShipObject()
-	{
-		return (ShipObject*)(this);
-	}
-}};

@@ -45,6 +45,32 @@ GL_Color& ParseColorNode(GL_Color& colorRef, rapidxml::xml_node<char>* node, boo
 
 HOOK_METHOD(ResourceControl, PreloadResources, (bool unk) -> bool)
 {
+    LOG_HOOK("HOOK_METHOD -> ResourceControl::PreloadResources -> Begin (Resources.cpp)\n")
+    
+    /* Search for files unique to MV & HS FTL zips so we can determine if a user patched both files in error */
+    printf("Scanning for Multiverse & Hyperspace patching in ftl.dat\n");
+    typedef void (*list_files_start_funcptr)(PackageModuleInfo* info_arg);
+    typedef char* (*list_files_next_funcptr)(PackageModuleInfo* info_arg);
+    list_files_start_funcptr list_files_start = (list_files_start_funcptr) this->package->list_files_start;
+    list_files_next_funcptr list_files_next = (list_files_next_funcptr) this->package->list_files_next;
+    
+    list_files_start(this->package);
+    bool mvDetected = false;
+    bool hsDetected = false;
+    for(char* pkgFile; pkgFile = list_files_next(this->package), pkgFile != (char*) 0x0;)
+    {
+        if(!mvDetected && strstr(pkgFile, "audio/music/mv_MUS_") == pkgFile)
+            mvDetected = true;
+        else if(!hsDetected && strcmp(pkgFile, "example_layout_syntax.xml") == 0) 
+            hsDetected = true;
+        else if(hsDetected && mvDetected)
+            break;
+    }
+    printf("ftl.dat scan detection: Hyperspace.ftl: %s, Multiverse.zip: %s\n", hsDetected ? "YES" : "NO", mvDetected ? "YES" : "NO");
+    
+    if(mvDetected && hsDetected)
+        ErrorMessage("Hyperspace & Multiverse both detected patched into ftl.dat!\nPlease patch only Multiverse and not hyperspace.ftl\n");
+    
     bool ret = super(unk);
     if (ret && G_)
     {
@@ -55,6 +81,7 @@ HOOK_METHOD(ResourceControl, PreloadResources, (bool unk) -> bool)
 
 HOOK_METHOD(AchievementTracker, LoadAchievementDescriptions, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> AchievementTracker::LoadAchievementDescriptions -> Begin (Resources.cpp)\n")
     if (G_ && !G_->AreResourcesInitialized())
     {
         G_->InitializeResources(G_->GetResources());
@@ -68,6 +95,8 @@ HOOK_METHOD(AchievementTracker, LoadAchievementDescriptions, () -> void)
 void Global::PreInitializeResources(ResourceControl *resources)
 {
     char *hyperspacetext = resources->LoadFile("data/hyperspace.xml");
+
+    auto customOptions = CustomOptionsManager::GetInstance();
 
     try
     {
@@ -87,30 +116,66 @@ void Global::PreInitializeResources(ResourceControl *resources)
             throw "No parent node found in hyperspace.xml";
         }
 
+        // Stuff to parse early
         for (auto node = parentNode->first_node(); node; node = node->next_sibling())
         {
+            if (strcmp(node->name(), "defaults") == 0)
+            {
+                for (auto child = node->first_node(); child; child = child->next_sibling())
+                {
+                    if (strcmp(child->name(), "checkCargo") == 0)
+                    {
+                        customOptions->defaults.checkCargo = EventsParser::ParseBoolean(child->value());
+                    }
+                    if (strcmp(child->name(), "choiceRequiresCrew") == 0)
+                    {
+                        customOptions->defaults.choiceRequiresCrew = EventsParser::ParseBoolean(child->value());
+                    }
+                    if (strcmp(child->name(), "beaconType_hideVanillaLabel") == 0)
+                    {
+                        customOptions->defaults.beaconType_hideVanillaLabel = EventsParser::ParseBoolean(child->value());
+                    }
+                }
+            }
+
+            if (strcmp(node->name(), "colors") == 0)
+            {
+                ParseCustomColorsNode(node);
+            }
+
             if (strcmp(node->name(), "ships") == 0)
             {
                 auto customShipManager = CustomShipSelect::GetInstance();
                 customShipManager->EarlyParseShipsNode(node);
             }
+
+            // Read event files and other early stuff.
+            if (strcmp(node->name(), "events") == 0)
+            {
+                auto customEventParser = CustomEventsParser::GetInstance();
+                customEventParser->EarlyParseCustomEventNode(node);
+            }
+        }
+
+        // Read the custom events.
+        {
+            auto customEventParser = CustomEventsParser::GetInstance();
+            customEventParser->ReadCustomEventFiles();
         }
 
         doc.clear();
     }
     catch (rapidxml::parse_error& e)
     {
-        std::string msg = std::string("Failed parsing hyperspace.xml\n") + std::string(e.what());
-        MessageBoxA(GetDesktopWindow(), msg.c_str(), "Error", MB_ICONERROR | MB_SETFOREGROUND);
+        ErrorMessage(std::string("Failed parsing hyperspace.xml\n") + std::string(e.what()));
     }
     catch (std::exception &e)
     {
-        std::string msg = std::string("Failed parsing hyperspace.xml\n") + std::string(e.what());
-        MessageBoxA(GetDesktopWindow(), msg.c_str(), "Error", MB_ICONERROR | MB_SETFOREGROUND);
+        ErrorMessage(std::string("Failed parsing hyperspace.xml\n") + std::string(e.what()));
     }
     catch (const char* e)
     {
-        MessageBoxA(GetDesktopWindow(), e, "Error", MB_ICONERROR | MB_SETFOREGROUND);
+        ErrorMessage(e);
     }
 }
 
@@ -145,7 +210,59 @@ void Global::InitializeResources(ResourceControl *resources)
         {
             if (strcmp(node->name(), "version") == 0)
             {
-                checkedVersion = boost::lexical_cast<int>(node->value()) == G_->GetVersion();
+                std::string versionStr = node->value();
+                if(versionStr.find('.') == std::string::npos)
+                {
+                    hs_log_file("Old version check in use. Mod authors please update your hyperspace.xml's version tag!\n");
+                    checkedVersion = boost::lexical_cast<int>(node->value()) == G_->GetVersion();
+                }
+                else
+                {
+                    char firstChar = versionStr.front();
+                    if(firstChar == '=' || firstChar == '~' || firstChar == '^')
+                    {
+                        versionStr.erase(0, 1);
+                    }
+
+                    // Enhanced Hyperspace version check
+                    size_t pos = 0;
+                    uint32_t version = 0;
+                    int i = 0;
+                    for(; (pos = versionStr.find('.')) != std::string::npos; i++) // TODO: Could probably be simplified with boost::algorithm::split
+                    {
+                        uint8_t verEntry = (uint8_t) boost::lexical_cast<int>(versionStr.substr(0, pos));
+                        version <<= 8;
+                        version |= verEntry;
+                        versionStr.erase(0, pos + 1);
+                    }
+                    version <<= 8;
+                    version |= (uint8_t) boost::lexical_cast<int>(versionStr);
+
+                    uint32_t hsRawVersion = G_->GetRawVersion();
+                    hs_log_file("Checking version Mod requests version: '%06x' vs Hyperspace version: '%06x'\n", version, hsRawVersion);
+
+                    uint8_t hsVerMajor = (hsRawVersion >> 16) & 0xFF;
+                    uint8_t hsVerMinor = (hsRawVersion >> 8) & 0xFF;
+                    uint8_t verMajor = (version >> 16) & 0xFF;
+                    uint8_t verMinor = (version >> 8) & 0xFF;
+                    uint8_t hsVerPatch = hsRawVersion & 0xFF;
+                    uint8_t verPatch = version & 0xFF;
+                    switch(firstChar)
+                    {
+                        case '=':
+                            checkedVersion = version == hsRawVersion;
+                            break;
+                        
+                        case '~':
+                            checkedVersion = ((hsRawVersion ^ version) & 0xFFFF00) == 0 && hsVerPatch >= verPatch;
+                            break;
+                        
+                        default:
+                            hs_log_file("No version check case specified, defaulting to '^'.\n");
+                        case '^':
+                            checkedVersion = hsVerMajor == verMajor && (hsVerMinor > verMinor || (hsVerMinor == verMinor && hsVerPatch >= verPatch));
+                    }
+                }
             }
             if (strcmp(node->name(), "hullNumbers") == 0)
             {
@@ -238,6 +355,20 @@ void Global::InitializeResources(ResourceControl *resources)
             }
             */
 
+            if (strcmp(node->name(), "alternateCrewMovement") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->alternateCrewMovement.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->alternateCrewMovement.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+
+            if (strcmp(node->name(), "rightClickDoorOpening") == 0)
+            {
+                auto enabled = node->first_attribute("enabled")->value();
+                customOptions->rightClickDoorOpening.defaultValue = EventsParser::ParseBoolean(enabled);
+                customOptions->rightClickDoorOpening.currentValue = EventsParser::ParseBoolean(enabled);
+            }
+			
             if (strcmp(node->name(), "redesignedWeaponTooltips") == 0)
             {
                 auto enabled = node->first_attribute("enabled")->value();
@@ -368,21 +499,6 @@ void Global::InitializeResources(ResourceControl *resources)
                 }
             }
 
-            if (strcmp(node->name(), "defaults") == 0)
-            {
-                for (auto child = node->first_node(); child; child = child->next_sibling())
-                {
-                    if (strcmp(child->name(), "checkCargo") == 0)
-                    {
-                        customOptions->defaults.checkCargo = EventsParser::ParseBoolean(child->value());
-                    }
-                    if (strcmp(child->name(), "beaconType_hideVanillaLabel") == 0)
-                    {
-                        customOptions->defaults.beaconType_hideVanillaLabel = EventsParser::ParseBoolean(child->value());
-                    }
-                }
-            }
-
             if (strcmp(node->name(), "victories") == 0)
             {
                 auto customUnlocks = CustomShipUnlocks::instance;
@@ -428,7 +544,7 @@ void Global::InitializeResources(ResourceControl *resources)
             if (strcmp(node->name(), "events") == 0)
             {
                 auto customEventParser = CustomEventsParser::GetInstance();
-                customEventParser->ParseCustomEventNodeFiles(node);
+                customEventParser->ParseCustomEventNode(node);
             }
 
             if (strcmp(node->name(), "augments") == 0)
@@ -464,14 +580,11 @@ void Global::InitializeResources(ResourceControl *resources)
                     SeedInputBox::seedsEnabled = EventsParser::ParseBoolean(node->first_attribute("enabled")->value());
                 }
             }
-            if (strcmp(node->name(), "colors") == 0)
-            {
-                ParseCustomColorsNode(node);
-            }
             if (strcmp(node->name(), "customSystems") == 0)
             {
                 ParseSystemsNode(node);
             }
+            #ifndef SKIPDISCORD
             if (strcmp(node->name(), "discord") == 0)
             {
                 auto enabled = EventsParser::ParseBoolean(node->first_attribute("enabled")->value());
@@ -501,29 +614,14 @@ void Global::InitializeResources(ResourceControl *resources)
                     DiscordHandler::GetInstance()->SetLargeImageText(details);
                 }
             }
+            #endif // WIN32
             if (strcmp(node->name(), "saveFile") == 0)
             {
                 SaveFileHandler::instance->ParseSaveFileNode(node);
             }
         }
 
-        // Processing after first pass
-        {
-            auto customEventParser = CustomEventsParser::GetInstance();
-            customEventParser->ReadCustomEventFiles();
-        }
-
-        // Second Pass
-        for (auto node = parentNode->first_node(); node; node = node->next_sibling())
-        {
-            if (strcmp(node->name(), "events") == 0)
-            {
-                auto customEventParser = CustomEventsParser::GetInstance();
-                customEventParser->ParseCustomEventNode(node);
-            }
-        }
-
-        // Processing after second pass
+        // Post-processing (might not be needed anymore)
         {
             auto customEventParser = CustomEventsParser::GetInstance();
             customEventParser->PostProcessCustomEvents();
@@ -539,17 +637,19 @@ void Global::InitializeResources(ResourceControl *resources)
     }
     catch (rapidxml::parse_error& e)
     {
-        std::string msg = std::string("Failed parsing hyperspace.xml\n") + std::string(e.what());
-        MessageBoxA(GetDesktopWindow(), msg.c_str(), "Error", MB_ICONERROR | MB_SETFOREGROUND);
+        ErrorMessage(std::string("Error parsing hyperspace.xml\n") + std::string(e.what()));
     }
     catch (std::exception &e)
     {
-        std::string msg = std::string("Failed parsing hyperspace.xml\n") + std::string(e.what());
-        MessageBoxA(GetDesktopWindow(), msg.c_str(), "Error", MB_ICONERROR | MB_SETFOREGROUND);
+        ErrorMessage(std::string("Error parsing hyperspace.xml\n") + std::string(e.what()));
     }
     catch (const char* e)
     {
-        MessageBoxA(GetDesktopWindow(), e, "Error", MB_ICONERROR | MB_SETFOREGROUND);
+        ErrorMessage(std::string("Error parsing hyperspace.xml\n") + std::string(e));
+    }
+    catch (...)
+    {
+        ErrorMessage("Error parsing hyperspace.xml\n");
     }
 
     //G_->lua = new LuaState;

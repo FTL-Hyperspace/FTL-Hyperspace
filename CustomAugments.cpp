@@ -2,7 +2,6 @@
 #include "CustomOptions.h"
 #include "EnemyShipIcons.h"
 #include "Global.h"
-#include "freetype.h"
 #include "ShipManager_Extend.h"
 #include "CustomEvents.h"
 #include <boost/lexical_cast.hpp>
@@ -193,9 +192,21 @@ void CustomAugmentManager::ParseCustomAugmentNode(rapidxml::xml_node<char>* node
             }
         }
     }
+    catch (rapidxml::parse_error& e)
+    {
+        ErrorMessage(std::string("Error parsing <augments> in hyperspace.xml\n") + std::string(e.what()));
+    }
+    catch (std::exception &e)
+    {
+        ErrorMessage(std::string("Error parsing <augments> in hyperspace.xml\n") + std::string(e.what()));
+    }
+    catch (const char* e)
+    {
+        ErrorMessage(std::string("Error parsing <augments> in hyperspace.xml\n") + std::string(e));
+    }
     catch (...)
     {
-        MessageBoxA(NULL, "Error parsing <augments> in hyperspace.xml", "Error", MB_ICONERROR);
+        ErrorMessage("Error parsing <augments> in hyperspace.xml\n");
     }
 }
 
@@ -317,6 +328,7 @@ void CustomAugmentManager::UpdateAugments(int iShipId)
 
 HOOK_METHOD_PRIORITY(ShipObject, HasAugmentation, 2000, (const std::string& name) -> int)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipObject::HasAugmentation -> Begin (CustomAugments.cpp)\n")
     CustomAugmentManager* customAug = CustomAugmentManager::GetInstance();
 
     std::unordered_map<std::string, int> *augList = customAug->GetShipAugments(iShipId);
@@ -377,6 +389,7 @@ static bool useAugmentReq = false;
 
 HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> WorldManager::CreateChoiceBox -> Begin (CustomAugments.cpp)\n")
     useAugmentReq = true;
 
     super(event);
@@ -389,6 +402,7 @@ HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
 
 HOOK_METHOD_PRIORITY(ShipObject, HasEquipment, 2000, (const std::string& name) -> int)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipObject::HasEquipment -> Begin (CustomAugments.cpp)\n")
     CustomAugmentManager* customAug = CustomAugmentManager::GetInstance();
 
     auto ship = G_->GetShipManager(iShipId);
@@ -423,6 +437,7 @@ HOOK_METHOD_PRIORITY(ShipObject, HasEquipment, 2000, (const std::string& name) -
 
 HOOK_METHOD_PRIORITY(ShipObject, GetAugmentationValue, 1000, (const std::string& name) -> float)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipObject::GetAugmentationValue -> Begin (CustomAugments.cpp)\n")
     CustomAugmentManager* customAug = CustomAugmentManager::GetInstance();
 
     AugmentBlueprint* augBlueprint = G_->GetBlueprints()->GetAugmentBlueprint(name);
@@ -473,6 +488,7 @@ static GL_Texture* augLockTexture = nullptr;
 
 HOOK_METHOD(Equipment, MouseClick, (int mX, int mY) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Equipment::MouseClick -> Begin (CustomAugments.cpp)\n")
     super(mX, mY);
     CustomAugmentManager* customAug = CustomAugmentManager::GetInstance();
 
@@ -495,6 +511,7 @@ HOOK_METHOD(Equipment, MouseClick, (int mX, int mY) -> void)
 
 HOOK_METHOD(EquipmentBox, OnRender, (bool isEmpty) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> EquipmentBox::OnRender -> Begin (CustomAugments.cpp)\n")
     super(isEmpty);
 
     if (CanHoldAugment())
@@ -517,6 +534,7 @@ HOOK_METHOD(EquipmentBox, OnRender, (bool isEmpty) -> void)
 
 HOOK_METHOD(Equipment, OnLoop, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Equipment::OnLoop -> Begin (CustomAugments.cpp)\n")
     super();
     CustomAugmentManager* customAug = CustomAugmentManager::GetInstance();
 
@@ -565,6 +583,7 @@ static bool exportingShip = false;
 
 HOOK_METHOD(ShipManager, ExportShip, (int fileHelper) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::ExportShip -> Begin (CustomAugments.cpp)\n")
     super(fileHelper);
 
     std::vector<std::string> hiddenList = std::vector<std::string>();
@@ -592,6 +611,7 @@ HOOK_METHOD(ShipManager, ExportShip, (int fileHelper) -> void)
 
 HOOK_METHOD(ShipManager, ImportShip, (int fileHelper) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::ImportShip -> Begin (CustomAugments.cpp)\n")
     super(fileHelper);
 
     int hiddenCount = FileHelper::readInteger(fileHelper);
@@ -615,9 +635,10 @@ HOOK_METHOD(ShipManager, ImportShip, (int fileHelper) -> void)
     CustomAugmentManager::GetInstance()->UpdateAugments(iShipId);
 }
 
-HOOK_STATIC(ShipObject, GetAugmentationList, (std::vector<std::string>& vec, ShipObject *shipObj) -> std::vector<std::string>&)
+HOOK_METHOD(ShipObject, GetAugmentationList, () -> std::vector<std::string>)
 {
-    super(vec, shipObj);
+    LOG_HOOK("HOOK_METHOD -> ShipObject::GetAugmentationList -> Begin (CustomAugments.cpp)\n")
+    std::vector<std::string> vec = super();
 
     vec = CustomAugmentManager::RemoveHiddenAugments(vec);
 
@@ -626,6 +647,7 @@ HOOK_STATIC(ShipObject, GetAugmentationList, (std::vector<std::string>& vec, Shi
 
 HOOK_METHOD(ShipObject, GetAugmentationCount, () -> int)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipObject::GetAugmentationCount -> Begin (CustomAugments.cpp)\n")
     int count = 0;
 
     for (auto i : G_->GetShipInfo(iShipId)->augList)
@@ -640,12 +662,14 @@ HOOK_METHOD(ShipObject, GetAugmentationCount, () -> int)
 }
 HOOK_METHOD(ShipObject, AddAugmentation, (const std::string& name) -> bool)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipObject::AddAugmentation -> Begin (CustomAugments.cpp)\n")
     auto ret = super(name);
     CustomAugmentManager::GetInstance()->UpdateAugments(iShipId);
     return ret;
 }
 HOOK_METHOD(ShipObject, RemoveAugmentation, (const std::string& name) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipObject::RemoveAugmentation -> Begin (CustomAugments.cpp)\n")
     super(name);
 
     int augCount = 0;
@@ -673,6 +697,7 @@ HOOK_METHOD(ShipObject, RemoveAugmentation, (const std::string& name) -> void)
 }
 HOOK_METHOD(ShipObject, ClearShipInfo, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipObject::ClearShipInfo -> Begin (CustomAugments.cpp)\n")
     super();
     CustomAugmentManager::GetInstance()->UpdateAugments(iShipId);
 }
@@ -680,6 +705,7 @@ HOOK_METHOD(ShipObject, ClearShipInfo, () -> void)
 
 HOOK_METHOD(ShipManager, OnLoop, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::OnLoop -> Begin (CustomAugments.cpp)\n")
     super();
 
     // Dynamic defense scrambler
@@ -704,6 +730,7 @@ HOOK_METHOD(ShipManager, OnLoop, () -> void)
 
 HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> WorldManager::CreateChoiceBox -> Begin (CustomAugments.cpp)\n")
     super(event);
 
     // Modify choice text scrap

@@ -1,2 +1,0 @@
-"578d7c240883e4f0ff77fc5589e557565389cb83ec6c8b378b0689f1ff50283b4378740e":
-void PDSFire::CollisionCheck(PDSFire *this<ecx>, Collideable *other);

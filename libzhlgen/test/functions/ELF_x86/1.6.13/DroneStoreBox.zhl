@@ -1,0 +1,16 @@
+"5557565383ec2c8d44241a8b5c24408d7c241c8b74244c89442408c7442404????????893c24e8????????8b442448897c2404891c248944240c":
+cleanup __cdecl void DroneStoreBox::constructor(DroneStoreBox *this, ShipManager *ship, Equipment *equip, const DroneBlueprint* bp);
+
+struct DroneStoreBox
+{{
+	DroneStoreBox(ShipManager *_ship, Equipment *_equip, const DroneBlueprint* _bp)
+	{
+		this->constructor(_ship, _equip, _bp);
+	}
+	
+	DroneStoreBox()
+	{
+		StoreBox::constructor("storeUI/store_buy_drones", nullptr, nullptr);
+		this->bEquipmentBox = true;
+	}
+}};

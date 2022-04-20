@@ -1,6 +1,5 @@
 #include "CustomShipSelect.h"
 #include "CustomOptions.h"
-#include "freetype.h"
 #include "Seeds.h"
 #include "ShipUnlocks.h"
 #include "EnemyShipIcons.h"
@@ -29,9 +28,21 @@ void CustomShipSelect::EarlyParseShipsNode(rapidxml::xml_node<char> *node)
             }
         }
     }
-    catch (std::exception)
+    catch (rapidxml::parse_error& e)
     {
-        MessageBoxA(GetDesktopWindow(), "Error parsing <ships> in hyperspace.xml", "Error", MB_ICONERROR | MB_SETFOREGROUND);
+        ErrorMessage(std::string("Error parsing <ships> in hyperspace.xml\n") + std::string(e.what()));
+    }
+    catch (std::exception &e)
+    {
+        ErrorMessage(std::string("Error parsing <ships> in hyperspace.xml\n") + std::string(e.what()));
+    }
+    catch (const char* e)
+    {
+        ErrorMessage(std::string("Error parsing <ships> in hyperspace.xml\n") + std::string(e));
+    }
+    catch (...)
+    {
+        ErrorMessage("Error parsing <ships> in hyperspace.xml\n");
     }
 }
 
@@ -374,15 +385,28 @@ void CustomShipSelect::ParseShipsNode(rapidxml::xml_node<char> *node)
             }
         }
     }
-    catch (std::exception)
+    catch (rapidxml::parse_error& e)
     {
-        MessageBoxA(GetDesktopWindow(), "Error parsing <ships> in hyperspace.xml", "Error", MB_ICONERROR | MB_SETFOREGROUND);
+        ErrorMessage(std::string("Error parsing <ships> in hyperspace.xml\n") + std::string(e.what()));
+    }
+    catch (std::exception &e)
+    {
+        ErrorMessage(std::string("Error parsing <ships> in hyperspace.xml\n") + std::string(e.what()));
+    }
+    catch (const char* e)
+    {
+        ErrorMessage(std::string("Error parsing <ships> in hyperspace.xml\n") + std::string(e));
+    }
+    catch (...)
+    {
+        ErrorMessage("Error parsing <ships> in hyperspace.xml\n");
     }
 }
 
-HOOK_METHOD(BlueprintManager, ProcessShipBlueprint, (ShipBlueprint* bp, BlueprintManager *bpM, rapidxml::xml_node<char>* node) -> ShipBlueprint*)
+HOOK_METHOD(BlueprintManager, ProcessShipBlueprint, (rapidxml::xml_node<char>* node) -> ShipBlueprint)
 {
-    auto ret = super(bp, bpM, node);
+    LOG_HOOK("HOOK_METHOD -> BlueprintManager::ProcessShipBlueprint -> Begin (CustomShipSelect.cpp)\n")
+    auto ret = super(node);
 
     CustomShipSelect::GetInstance()->ParseVanillaShipNode(node);
 
@@ -606,9 +630,7 @@ void CustomShipSelect::OnInit(ShipSelect* shipSelect_)
 
         for (auto i : customAnimDefs)
         {
-            auto newAnim = new Animation();
-
-            AnimationControl::GetAnimation(*newAnim, G_->GetAnimationControl(), i.second);
+            Animation* newAnim = new Animation(G_->GetAnimationControl()->GetAnimation(i.second));
             newAnim->SetCurrentFrame(0);
             newAnim->tracker.SetLoop(true, 0);
             newAnim->Start(true);
@@ -805,10 +827,10 @@ void CustomShipSelect::OnInit(ShipSelect* shipSelect_)
 
     std::string buttonImg("customizeUI/button_ship_arrow");
     leftButton = new Button();
-    leftButton->OnInit(buttonImg, 1100, 119);
+    leftButton->OnInit(buttonImg, Point(1100, 119));
 
     rightButton = new Button();
-    rightButton->OnInit(buttonImg, 1135, 119);
+    rightButton->OnInit(buttonImg, Point(1135, 119));
 
     rightButton->bMirror = true;
 
@@ -1687,18 +1709,19 @@ int CustomShipSelect::CountUnlockedShips(int variant=-1)
 
 //==========================
 
-HOOK_STATIC(ScoreKeeper, GetShipBlueprint, (std::string* str, ScoreKeeper* scoreKeeper, int index) -> std::string*)
+HOOK_METHOD(ScoreKeeper, GetShipBlueprint, (int index) -> std::string)
 {
-    std::string* ret;
+    LOG_HOOK("HOOK_METHOD -> ScoreKeeper::GetShipBlueprint -> Begin (CustomShipSelect.cpp)\n")
+    std::string ret;
     if (index >= 100)
-        ret = super(str, scoreKeeper, 0);
+        ret = super(0);
     else
-        ret = super(str, scoreKeeper, index);
+        ret = super(index);
 
     if (index >= 100)
     {
         auto customSel = CustomShipSelect::GetInstance();
-        str->assign(customSel->GetShipBlueprint(index));
+        ret.assign(customSel->GetShipBlueprint(index));
     }
 
 
@@ -1707,6 +1730,7 @@ HOOK_STATIC(ScoreKeeper, GetShipBlueprint, (std::string* str, ScoreKeeper* score
 
 HOOK_METHOD(UnlockArrow, MouseMove, (int x, int y) -> bool)
 {
+    LOG_HOOK("HOOK_METHOD -> UnlockArrow::MouseMove -> Begin (CustomShipSelect.cpp)\n")
     auto customSel = CustomShipSelect::GetInstance();
 
     if (customSel->ShouldRenderArrow())
@@ -1719,6 +1743,7 @@ HOOK_METHOD(UnlockArrow, MouseMove, (int x, int y) -> bool)
 
 HOOK_METHOD(UnlockArrow, OnRender, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> UnlockArrow::OnRender -> Begin (CustomShipSelect.cpp)\n")
     auto customSel = CustomShipSelect::GetInstance();
 
     if (customSel->ShouldRenderArrow())
@@ -1730,6 +1755,7 @@ HOOK_METHOD(UnlockArrow, OnRender, () -> void)
 
 HOOK_METHOD(ShipButton, OnRender, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipButton::OnRender -> Begin (CustomShipSelect.cpp)\n")
     auto customSel = CustomShipSelect::GetInstance();
     if (customSel->ShouldRenderButton(this))
     {
@@ -1760,6 +1786,7 @@ HOOK_METHOD(ShipButton, OnRender, () -> void)
 
 HOOK_METHOD_PRIORITY(ShipButton, MouseMove, 9999, (int x, int y) -> void)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipButton::MouseMove -> Begin (CustomShipSelect.cpp)\n")
     iSelectedAch = -1;
     if (!bShipLocked)
     {
@@ -1786,14 +1813,16 @@ HOOK_METHOD_PRIORITY(ShipButton, MouseMove, 9999, (int x, int y) -> void)
 
 HOOK_METHOD(ShipSelect, MouseClick, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipSelect::MouseClick -> Begin (CustomShipSelect.cpp)\n")
     super();
 
     auto customSel = CustomShipSelect::GetInstance();
     customSel->MouseClick();
 }
 
-HOOK_METHOD(ShipSelect, MouseMove, (int x, int y) -> int)
+HOOK_METHOD(ShipSelect, MouseMove, (int x, int y) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipSelect::MouseMove -> Begin (CustomShipSelect.cpp)\n")
     auto customSel = CustomShipSelect::GetInstance();
 
     if (customSel->FirstPage())
@@ -1808,6 +1837,7 @@ HOOK_METHOD(ShipSelect, MouseMove, (int x, int y) -> int)
 
 HOOK_METHOD(ShipSelect, Open, (int currentLayout, int currentType) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipSelect::Open -> Begin (CustomShipSelect.cpp)\n")
     super(currentLayout, currentType);
 
     auto customSel = CustomShipSelect::GetInstance();
@@ -1817,6 +1847,7 @@ HOOK_METHOD(ShipSelect, Open, (int currentLayout, int currentType) -> void)
 
 HOOK_METHOD(ShipSelect, OnRender, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipSelect::OnRender -> Begin (CustomShipSelect.cpp)\n")
     auto customSel = CustomShipSelect::GetInstance();
 
     if (customSel->FirstPage())
@@ -1836,6 +1867,7 @@ HOOK_METHOD(ShipSelect, OnRender, () -> void)
 
 HOOK_METHOD(ShipBuilder, SwitchShip, (int shipType, int shipVariant) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipBuilder::SwitchShip -> Begin (CustomShipSelect.cpp)\n")
     if (shipType >= 100)
     {
         auto customSel = CustomShipSelect::GetInstance();
@@ -1848,13 +1880,16 @@ HOOK_METHOD(ShipBuilder, SwitchShip, (int shipType, int shipVariant) -> void)
     return super(shipType, shipVariant);
 }
 
-HOOK_STATIC(AchievementTracker, GetShipAchievements, (void* unk, AchievementTracker *tracker, std::string& id) -> void*)
+// TODO: Why??? There's no implemenation here
+HOOK_METHOD(AchievementTracker, GetShipAchievements, (std::string& ship) -> std::vector<CAchievement*>)
 {
-    return super(unk, tracker, id);
+    LOG_HOOK("HOOK_METHOD -> AchievementTracker::GetShipAchievements -> Begin (CustomShipSelect.cpp)\n")
+    return super(ship);
 }
 
 HOOK_METHOD(ShipBuilder, MouseClick, (int x, int y) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipBuilder::MouseClick -> Begin (CustomShipSelect.cpp)\n")
     super(x, y);
 
     auto customSel = CustomShipSelect::GetInstance();
@@ -1870,11 +1905,13 @@ HOOK_METHOD(ShipBuilder, MouseClick, (int x, int y) -> void)
 
 HOOK_METHOD(ShipBuilder, SwapType, (int variant) -> int)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipBuilder::SwapType -> Begin (CustomShipSelect.cpp)\n")
     return super(variant);
 }
 
 HOOK_METHOD(ShipSelect, Close, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipSelect::Close -> Begin (CustomShipSelect.cpp)\n")
     super();
     auto customSel = CustomShipSelect::GetInstance();
     customSel->Close();
@@ -1882,6 +1919,7 @@ HOOK_METHOD(ShipSelect, Close, () -> void)
 
 HOOK_METHOD(ShipBuilder, CycleShipNext, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipBuilder::CycleShipNext -> Begin (CustomShipSelect.cpp)\n")
     auto customSel = CustomShipSelect::GetInstance();
 
     if (currentShipId >= 100)
@@ -1898,6 +1936,7 @@ HOOK_METHOD(ShipBuilder, CycleShipNext, () -> void)
 
 HOOK_METHOD(ShipBuilder, CycleShipPrevious, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipBuilder::CycleShipPrevious -> Begin (CustomShipSelect.cpp)\n")
     auto customSel = CustomShipSelect::GetInstance();
 
     if (currentShipId >= 100)
@@ -1915,6 +1954,7 @@ HOOK_METHOD(ShipBuilder, CycleShipPrevious, () -> void)
 
 HOOK_METHOD(ShipBuilder, MouseClick, (int x, int y) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipBuilder::MouseClick -> Begin (CustomShipSelect.cpp)\n")
     if (randomButton.bActive && randomButton.bHover)
     {
         auto customSel = CustomShipSelect::GetInstance();
@@ -1967,6 +2007,7 @@ HOOK_METHOD(ShipBuilder, MouseClick, (int x, int y) -> void)
 
 HOOK_METHOD(ShipBuilder, OnLoop, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipBuilder::OnLoop -> Begin (CustomShipSelect.cpp)\n")
     if (Global::forceDlc)
     {
         *Global::dlcEnabled = true;
@@ -2006,6 +2047,7 @@ static GL_Primitive* unlocksDisabledPrimitive;
 
 HOOK_METHOD(MenuScreen, constructor, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> MenuScreen::constructor -> Begin (CustomShipSelect.cpp)\n")
     super();
 
     seedBox = G_->GetResources()->GetImageId("optionsUI/info_seed.png");
@@ -2018,6 +2060,7 @@ static Point reactorInfoPos = {335, 380};
 
 HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipBuilder::OnRender -> Begin (CustomShipSelect.cpp)\n")
     bool isVanillaShip = currentShipId < 100;
 
     if (Global::forceDlc)
@@ -2155,7 +2198,7 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
         freetype::easy_printCenter(13, 1109, 400, lib->GetText("hangar_advanced_title"));
     }
 
-    CSurface::GL_SetColor(1.f, 1.f, 1.f, 1.f);
+    CSurface::GL_SetColor(GL_Color(1.f, 1.f, 1.f, 1.f));
 
     // Render vanilla hangar animations
 
@@ -2237,16 +2280,16 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
     Point shipNamePos = Point(273, 7);
     nameInput.OnRender(24, shipNamePos);
 
-    // FIXED WTIH freetype_hack
+    // FIXED WTIH freetype_hack (fixed with new use that no longer needs freetype_hack but I don't see y being used anyways)
 
     // This doesn't work because of easy_measurePrintLines returning a Pointf
     // Need a way to get the y value of the returned Pointf
     // The Pointf is returned split into eax and edx
 
-    // FIXED WITH freetype_hack
+    // FIXED WITH freetype_hack (fixed with new use that no longer needs freetype_hack but I don't see y being used anyways)
     if (bRenaming)
     {
-        Pointf ret = freetype_hack::easy_measurePrintLines(12, 0, 0, 999, lib->GetText("rename"));
+        Pointf ret = freetype::easy_measurePrintLines(12, 0, 0, 999, lib->GetText("rename"));
         float x = 6.f;
         float x2 = 227.f - ret.x / 2;
         if (x2 > 5)
@@ -2352,9 +2395,7 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
 	{
 		SeedInputBox::seedInput->OnRender(0, Point((int)SeedInputBox::drawLocation.x+2+(SeedInputBox::width/2), (int)SeedInputBox::drawLocation.y+5));
 
-		std::string inputSeed;
-
-		TextInput::GetText(inputSeed, SeedInputBox::seedInput);
+		std::string inputSeed = SeedInputBox::seedInput->GetText();
 
 		if (inputSeed != "")
         {
@@ -2365,7 +2406,7 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
 	if (!reactorInfoButton)
     {
         reactorInfoButton = new Button();
-        reactorInfoButton->OnInit("customizeUI/box_system", reactorInfoPos.x, reactorInfoPos.y);
+        reactorInfoButton->OnInit("customizeUI/box_system", Point(reactorInfoPos.x, reactorInfoPos.y));
         reactorInfoButton->bActive = true;
         reactorInfoButton->SetLocation(Point(reactorInfoPos.x, reactorInfoPos.y));
     }
@@ -2398,6 +2439,7 @@ HOOK_METHOD_PRIORITY(ShipBuilder, OnRender, 1000, () -> void)
 
 HOOK_METHOD(ShipBuilder, MouseMove, (int x, int y) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipBuilder::MouseMove -> Begin (CustomShipSelect.cpp)\n")
     super(x,y);
 
     if (introScreen.bOpen) return;
@@ -2513,6 +2555,7 @@ HOOK_METHOD(ShipBuilder, MouseMove, (int x, int y) -> void)
 
 HOOK_METHOD(GameOver, OnRender, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> GameOver::OnRender -> Begin (CustomShipSelect.cpp)\n")
     if (bShowStats)
     {
         CSurface::GL_SetColorTint(COLOR_TINT);
@@ -2553,6 +2596,7 @@ HOOK_METHOD(GameOver, OnRender, () -> void)
 
 HOOK_METHOD_PRIORITY(MenuScreen, OnRender, 1000, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> MenuScreen::OnRender -> Begin (CustomShipSelect.cpp)\n")
     if (G_->GetWorld()->playerShip)
     {
         if (!SM_EX(G_->GetWorld()->playerShip->shipManager)->isNewShip)
@@ -2705,7 +2749,12 @@ HOOK_METHOD_PRIORITY(MenuScreen, OnRender, 1000, () -> void)
 
 HOOK_METHOD(ShipBuilder, Open, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipBuilder::Open -> Begin (CustomShipSelect.cpp)\n")
     auto customSel = CustomShipSelect::GetInstance();
+
+    StatBoostManager::GetInstance()->statBoosts.clear();
+    StatBoostManager::GetInstance()->animBoosts.clear();
+    StatBoostManager::GetInstance()->statCacheFrame++;
 
     super();
 
@@ -2721,6 +2770,7 @@ HOOK_METHOD(ShipBuilder, Open, () -> void)
 
 HOOK_METHOD(ShipBuilder, OnKeyDown, (SDLKey key) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipBuilder::OnKeyDown -> Begin (CustomShipSelect.cpp)\n")
     if (key == SDLKey::SDLK_UP
         || key == SDLKey::SDLK_LEFT
         || key == SDLKey::SDLK_RIGHT

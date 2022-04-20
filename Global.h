@@ -1,7 +1,6 @@
 #pragma once
-#define WIN32_LEAN_AND_MEAN
 
-#include <Windows.h>
+#include "palWindowsGeneric.h"
 #include <random>
 
 #include "zhl.h"
@@ -16,7 +15,8 @@
 #include "System_Extend.h"
 #include "Blueprint_Extend.h"
 #include "Room_Extend.h"
-#include <random>
+#include <boost/algorithm/string.hpp>
+#include <boost/format.hpp>
 
 //#include "LuaState.h"
 
@@ -36,35 +36,43 @@ public:
     ShipManager *GetShipManager(int iShipId);
 
 
-    ResourceControl *GetResources() { return __resourceControl; }
+    ResourceControl *GetResources() { return Global_ResourceControl_GlobalResources; }
     CApp *GetCApp() { return __cApp; }
-    ShipInfo *GetShipInfo(bool enemy=false) { return enemy ? *__enemyShipInfo : (ShipInfo*)((unsigned char*)*(__enemyShipInfo) + sizeof(ShipInfo)); }
+    ShipInfo *GetShipInfo(bool enemy=false) { return enemy ? *Global_ShipObject_ShipInfoList : (ShipInfo*)((unsigned char*)*(Global_ShipObject_ShipInfoList) + sizeof(ShipInfo)); }
     WorldManager *GetWorld() { return GetCApp()->world; };
-    CFPS *GetCFPS() { return __cFPS; }
-    BlueprintManager *GetBlueprints() { return __blueprints; }
-    SoundControl *GetSoundControl() { return __soundControl; }
-    MouseControl *GetMouseControl() { return __mouseControl; }
-    TextLibrary *GetTextLibrary() { return __textLibrary; }
-    CrewMemberFactory *GetCrewFactory() { return __crewFactory; }
-    TutorialManager *GetTutorialManager() { return __tutorialManager; }
-    EventGenerator *GetEventGenerator() { return __eventGenerator; }
-    EventsParser *GetEventsParser() { return __eventsParser; }
-    EventSystem *GetEventSystem() { return __eventSystem; }
-    AnimationControl *GetAnimationControl() { return __animations; }
-    AchievementTracker *GetAchievementTracker() { return __achievementTracker; }
-    ScoreKeeper *GetScoreKeeper() { return __scoreKeeper; }
-    SettingValues *GetSettings() { return __settingValues; }
-    int GetVersion() { return __version; }
+    CFPS *GetCFPS() { return Global_CFPS_FPSControl; }
+    BlueprintManager *GetBlueprints() { return Global_BlueprintManager_Blueprints; }
+    SoundControl *GetSoundControl() { return Global_SoundControl_Sounds; }
+    MouseControl *GetMouseControl() { return Global_MouseControl_Mouse; }
+    TextLibrary *GetTextLibrary() { return Global_Globals_Library; }
+    CrewMemberFactory *GetCrewFactory() { return Global_CrewMemberFactory_Factory; }
+    TutorialManager *GetTutorialManager() { return Global_TutorialManager_Tutorial; }
+    EventGenerator *GetEventGenerator() { return Global_EventGenerator_Generator; }
+    EventsParser *GetEventsParser() { return Global_EventsParser_Parser; }
+    EventSystem *GetEventSystem() { return Global_EventSystem_EventManager; }
+    AnimationControl *GetAnimationControl() { return Global_AnimationControl_Animations; }
+    AchievementTracker *GetAchievementTracker() { return Global_AchievementTracker_Tracker; }
+    ScoreKeeper *GetScoreKeeper() { return Global_ScoreKeeper_Keeper; }
+    SettingValues *GetSettings() { return Global_Settings_Settings; }
+    int GetVersion() {
+        return (((__version >> 16) & 0xFF) * 100) + (((__version >> 8) & 0xFF) * 10) + (__version & 0xFF);
+    }
+    const uint32_t GetRawVersion() { return __version; }
+    std::string GetVersionString() {
+        uint8_t major = (__version >> 16) & 0xFF;
+        uint8_t minor = (__version >> 8) & 0xFF;
+        uint8_t patch = __version & 0xFF;
+        return boost::str(boost::format("%1%.%2%.%3%") % (unsigned int) major % (unsigned int) minor % (unsigned int) patch);
+    }
 
-    void *GetVTable_LaserBlast() { return __vtableLaserBlast; }
+    void *GetVTable_LaserBlast() { return VTable_LaserBlast; }
 
-    DWORD GetBaseAddress() { return __baseAddress; }
+    uint32_t GetBaseAddress() { return __baseAddress; }
 
     static bool* showBeaconPath;
     static unsigned int currentSeed;
     static bool isCustomSeed;
     static unsigned int sectorMapSeed;
-    static int64_t* randomState;
     static std::mt19937 seededRng;
     static bool* showWelcome;
     static bool* dlcEnabled;
@@ -72,20 +80,14 @@ public:
     static bool forceDlc;
     static FILE* logFile;
     static bool* firstTimeShips;
-    static std::pair<Point, Point>* droneWeaponPosition;
-    static GL_Color* superShieldColor;
-    //static GL_Color defaultSuperShieldColor;
+    static Point* dronePosition;
+    static Point* weaponPosition;
 
-    static unsigned int questSeed;
-    static std::vector<unsigned int> delayedQuestSeeds;
-    static int delayedQuestIndex;
-    static std::vector<unsigned int> lastDelayedQuestSeeds;
+    static int questSeed;
 
     static unsigned int bossFleetSeed;
 
     static std::vector<std::vector<GL_Color*>> colorPointers;
-
-    //static ShaderSourceCallback** fragment_shader_source_callback;
 
     //LuaState* lua;
 
@@ -93,67 +95,17 @@ private:
     bool __resourcesInitialized;
     static Global* instance;
 
+    uint32_t __baseAddress = 0;
 
-
-    const DWORD __resourcesOffset =        0x004CB680;
-    const DWORD __shipInfoOffset =         0x004C6F80;
-    const DWORD __cFPSOffset =             0x004CB600;
-    const DWORD __blueprintOffset =        0x004CBD60;
-    const DWORD __soundOffset =            0x004CB820;
-    const DWORD __mouseOffset =            0x004C76C0;
-    const DWORD __textOffset =             0x004CB7C0;
-    const DWORD __rngOffset =              0x004CB7A0;
-    const DWORD __crewFactoryOffset =      0x004C6E40;
-    const DWORD __tutorialOffset =         0x004C5340;
-    const DWORD __eventGenOffset =         0x004CB920;
-    const DWORD __eventsParseOffset =      0x004CBB60;
-    const DWORD __beaconPathOffset =       0x004C8CF6;
-    const DWORD __eventSystemOffset =      0x004CB640;
-    const DWORD __randomStateOffset =      0x00428110;
-    const DWORD __showWelcomeOffset =      0x004C8CE9;
-    const DWORD __dlcEnabledOffset =       0x004C8D2D;
-    const DWORD __animationsOffset =       0x004CB0A0;
-    const DWORD __difficultyOffset =       0x004C8CB4;
-    const DWORD __fragmentCallbackOffset = 0x004DC53C;
-    const DWORD __achievementOffset =      0x004C5780;
-    const DWORD __scoreKeeperOffset =      0x004C5980;
-    const DWORD __firstTimeShipsOffset =   0x004C8D30;
-    const DWORD __settingValuesOffset =    0x004C8CA0;
-    const DWORD __droneWeaponPosOffset =   0x004C7400;
-
-    const DWORD __superShieldColorOffset = 0x004CC670;
-
-    const DWORD __vtableLaserBlastOffset = 0x004BB67C;
-
-    static std::vector<std::vector<DWORD>> colorOffsets;
-
-    DWORD __baseAddress = 0;
-
-    static ResourceControl *__resourceControl;
     static CApp *__cApp;
-    static ShipInfo **__enemyShipInfo;
-    static CFPS *__cFPS;
-    static BlueprintManager *__blueprints;
-    static SoundControl *__soundControl;
-    static MouseControl *__mouseControl;
-    static TextLibrary *__textLibrary;
-    static CrewMemberFactory *__crewFactory;
-    static TutorialManager *__tutorialManager;
-    static EventGenerator *__eventGenerator;
-    static EventsParser *__eventsParser;
-    static EventSystem *__eventSystem;
-    static AnimationControl *__animations;
-    static AchievementTracker *__achievementTracker;
-    static ScoreKeeper *__scoreKeeper;
-    static SettingValues *__settingValues;
 
-    static void *__vtableLaserBlast;
-
-    const int __version = 91;
+    const uint32_t __version = 0x010001;
 
 
 };
 
 void hs_log_file(const char *str...);
+void ErrorMessage(const std::string &msg);
+void ErrorMessage(const char *msg);
 
 #define G_ (Global::GetInstance())

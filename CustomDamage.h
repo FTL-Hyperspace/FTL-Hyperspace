@@ -1,6 +1,5 @@
 #pragma once
-#include "CrewSpawn.h"
-#include "StatBoost.h"
+#include "CrewMember_Extend.h"
 #include "Global.h"
 
 struct StatBoostDefinition;
@@ -15,9 +14,9 @@ struct ErosionEffect
 
 struct CrewSpawn;
 
-struct CustomDamage
+struct CustomDamageDefinition
 {
-    int sourceShipId = -1;
+    int idx = 0;
 
     int accuracyMod = 0;
     int droneAccuracyMod = 0;
@@ -33,15 +32,40 @@ struct CustomDamage
     ErosionEffect erosionEffect;
 
     int crewSpawnChance = -1;
-    std::vector<CrewSpawn> crewSpawns;
+    std::vector<CrewSpawn*> crewSpawns;
 
-    ~CustomDamage()
+    ~CustomDamageDefinition()
     {
 
     }
+
+    static std::vector<CustomDamageDefinition*> customDamageDefs;
+    static CustomDamageDefinition defaultDef;
+
+    void GiveId()
+    {
+        idx = customDamageDefs.size();
+        customDamageDefs.push_back(this);
+    }
 };
 
+struct CustomDamage
+{
+    CustomDamageDefinition *def;
 
+    int sourceShipId = -1;
+    int accuracyMod = 0;
+    int droneAccuracyMod = 0;
+
+    CustomDamage() : def(&CustomDamageDefinition::defaultDef)
+    {
+    }
+
+    void Clear()
+    {
+        def = &CustomDamageDefinition::defaultDef;
+    }
+};
 
 
 class CustomDamageManager

@@ -1,0 +1,16 @@
+"5557565383ec6c8b9c2480000000????????c70424":
+cleanup __cdecl void OptionsScreen::OnInit(OptionsScreen *this);
+"5589e557565331db83ec4c":
+noHook void OptionsScreen::DO_NOT_HOOK1();
+".5589e557565331db83ec4c":
+noHook void OptionsScreen::DO_NOT_HOOK2();
+".5589e557565331db83ec4c":
+cleanup __cdecl void OptionsScreen::OnLoop(OptionsScreen *this);
+
+
+struct OptionsScreen {{
+    struct Steam1613OptionsScreenStructAdditions {
+        bool showSyncAchievements;
+        TextButton syncAchievementsButton;
+    };
+}};

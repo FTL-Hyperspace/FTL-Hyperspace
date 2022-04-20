@@ -1,5 +1,6 @@
 #include "CustomCrystalShard.h"
 #include "CustomAugments.h"
+#include "CustomWeapons.h"
 #include "Global.h"
 #include <math.h>
 #include <algorithm>
@@ -117,16 +118,14 @@ void ShipManager_CheckCustomCrystalAugment(ShipManager* _this, std::string weapo
                     {
                         float r = sqrt(random32()/2147483648.f) * bp->radius;
                         float theta = random32()%360 * 0.01745329f;
-                        Pointf ppos = {targetPos.x + r*cos(theta), targetPos.y + r*sin(theta)};
+                        Pointf ppos = {static_cast<float>(targetPos.x + r*cos(theta)), static_cast<float>(targetPos.y + r*sin(theta))};
                         LaserBlast *projectile = new LaserBlast(pos,_this->iShipId,targetId,ppos);
                         projectile->heading = heading;
                         projectile->OnInit();
                         projectile->entryAngle = entryAngle;
                         projectile->Initialize(*bp);
 
-                        Animation *anim = G_->GetAnimationControl()->GetAnimation(k.image);
-                        projectile->flight_animation = *anim;
-                        delete anim;
+                        projectile->flight_animation = G_->GetAnimationControl()->GetAnimation(k.image);
 
                         if (k.fake)
                         {
@@ -152,6 +151,8 @@ void ShipManager_CheckCustomCrystalAugment(ShipManager* _this, std::string weapo
                             projectile->bBroadcastTarget = _this->iShipId == 0;
                         }
 
+                        CustomWeaponManager::ProcessMiniProjectile(projectile, bp);
+
                         projectile->damage.crystalShard = true;
                         if (!g_crystalShardFix) projectile->ownerId = -1;
 
@@ -171,6 +172,7 @@ void ShipManager_CheckCustomCrystalAugment(ShipManager* _this, std::string weapo
 
 HOOK_METHOD(ShipManager, CheckCrystalAugment, (Pointf pos) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::CheckCrystalAugment -> Begin (CustomCrystalShard.cpp)\n")
     if (g_crystalShardFix)
     {
         int n = superBarrage.size();

@@ -4,6 +4,7 @@
 
 HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::UpdateCrewMembers -> Begin (Augments.cpp)\n")
     for (auto i : vCrewList)
     {
         if (i->intruder && !i->bMindControlled && i->crewAnim->status != 6)
@@ -28,6 +29,7 @@ static int fuelReq = 0;
 
 HOOK_METHOD(StarMap, OnRender, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> StarMap::OnRender -> Begin (Augments.cpp)\n")
     super();
 
     if (!bChoosingNewSector && !outOfFuel)
@@ -57,6 +59,7 @@ HOOK_METHOD(StarMap, OnRender, () -> void)
 
 HOOK_METHOD(ShipManager, JumpLeave, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::JumpLeave -> Begin (Augments.cpp)\n")
     int oldFuelCount = fuel_count;
 
     super();
@@ -70,13 +73,12 @@ HOOK_METHOD(ShipManager, JumpLeave, () -> void)
 
 HOOK_METHOD(StarMap, MouseMove, (int x, int y) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> StarMap::MouseMove -> Begin (Augments.cpp)\n")
     super(x, y);
 
     if (shipManager->HasAugmentation("FTL_JUMPER_GOOD"))
     {
-        std::vector<Location*> vec = std::vector<Location*>();
-
-        StarMap::Dijkstra0(vec, this, currentLoc, hoverLoc);
+        std::vector<Location*> vec = StarMap::Dijkstra(currentLoc, hoverLoc, true);
 
         fuelReq = 0;
 

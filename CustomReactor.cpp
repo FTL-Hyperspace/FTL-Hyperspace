@@ -1,7 +1,6 @@
 #include "CustomReactor.h"
 #include "CustomShipSelect.h"
 #include "CustomShips.h"
-#include "freetype.h"
 #include <cmath>
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
@@ -9,9 +8,10 @@
 
 HOOK_METHOD(ReactorButton, OnClick, ()-> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ReactorButton::OnClick -> Begin (CustomReactor.cpp)\n")
     auto customSel = CustomShipSelect::GetInstance();
-    auto def = customSel->GetDefinition(ship->myBlueprint.blueprintName);
-    std::vector<int> reactorCosts = def.reactorPrices;
+    const CustomShipDefinition &def = customSel->GetDefinition(ship->myBlueprint.blueprintName);
+    const std::vector<int> &reactorCosts = def.reactorPrices;
     int increment = def.reactorPriceIncrement;
     int maxLevel = def.maxReactorLevel;
 
@@ -44,9 +44,10 @@ HOOK_METHOD(ReactorButton, OnClick, ()-> void)
 
 HOOK_METHOD(ReactorButton, OnRightClick, ()->void)
 {
+    LOG_HOOK("HOOK_METHOD -> ReactorButton::OnRightClick -> Begin (CustomReactor.cpp)\n")
     auto customSel = CustomShipSelect::GetInstance();
-    auto def = customSel->GetDefinition(ship->myBlueprint.blueprintName);
-    std::vector<int> reactorCosts = def.reactorPrices;
+    const CustomShipDefinition &def = customSel->GetDefinition(ship->myBlueprint.blueprintName);
+    const std::vector<int> &reactorCosts = def.reactorPrices;
     int increment = def.reactorPriceIncrement;
 
     PowerManager* playerPowerMngr = PowerManager::GetPowerManager(0);
@@ -73,8 +74,9 @@ HOOK_METHOD(ReactorButton, OnRightClick, ()->void)
 
 HOOK_METHOD(ReactorButton, OnRender, ()->void)
 {
-    auto def = CustomShipSelect::GetInstance()->GetDefinition(ship->myBlueprint.blueprintName);
-    std::vector<int> reactorCosts = def.reactorPrices;
+    LOG_HOOK("HOOK_METHOD -> ReactorButton::OnRender -> Begin (CustomReactor.cpp)\n")
+    const CustomShipDefinition &def = CustomShipSelect::GetInstance()->GetDefinition(ship->myBlueprint.blueprintName);
+    const std::vector<int> &reactorCosts = def.reactorPrices;
     int increment = def.reactorPriceIncrement;
     int maxLevel = def.maxReactorLevel;
 
@@ -150,8 +152,8 @@ HOOK_METHOD(ReactorButton, OnRender, ()->void)
     std::string reactorText = G_->GetTextLibrary()->GetText("upgrade_reactor_power");
     boost::algorithm::replace_all(reactorText, "\\1", "");
 
-    int powerBarsTextSize1 = (int)(freetype_hack::easy_measurePrintLines(0, 0, 0, 999, "88").x + 0.5);
-    int powerBarsTextSize2 = (int)(freetype_hack::easy_measurePrintLines(52, 0, 0, 999, reactorText).x + 0.5);
+    int powerBarsTextSize1 = (int)(freetype::easy_measurePrintLines(0, 0, 0, 999, "88").x + 0.5);
+    int powerBarsTextSize2 = (int)(freetype::easy_measurePrintLines(52, 0, 0, 999, reactorText).x + 0.5);
     int powerBarsTextOffset = 103 - (powerBarsTextSize1 + powerBarsTextSize2) / 2;
 
     CSurface::GL_SetColor(currentColour);
@@ -175,10 +177,11 @@ HOOK_METHOD(ReactorButton, OnRender, ()->void)
 
 HOOK_METHOD(ShipManager, CanUpgrade, (int systemId, int amount) -> int)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::CanUpgrade -> Begin (CustomReactor.cpp)\n")
     if (systemId == 17)
     {
         auto customSel = CustomShipSelect::GetInstance();
-        auto def = customSel->GetDefinition(myBlueprint.blueprintName);
+        const CustomShipDefinition &def = customSel->GetDefinition(myBlueprint.blueprintName);
         int maxLevel = def.maxReactorLevel;
         auto reactor = PowerManager::GetPowerManager(iShipId);
         return std::min(amount, maxLevel - reactor->currentPower.second);

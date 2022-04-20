@@ -1,4 +1,5 @@
 #include "Global.h"
+#include "PALMemoryProtection.h"
 
 #pragma GCC push_options
 #pragma GCC optimize ("O1")
@@ -7,48 +8,59 @@
 const int g_temporalVTableSize = 45;
 static void* g_temporalVTable[g_temporalVTableSize];
 
-static void __attribute__((fastcall)) TemporalSystem_Jump(ShipSystem *_this)
+void TemporalSystem::_HS_Jump()
 {
-    _this->ShipSystem::StopHacking();
-    SYS_EX(_this)->temporalSystem->StopTimeDilation();
-    _this->LockSystem(0);
+    this->ShipSystem::StopHacking();
+    SYS_EX(this)->temporalSystem->StopTimeDilation();
+    this->LockSystem(0);
 }
 
 
-static void __attribute__((fastcall)) TemporalSystem_OnLoop(ShipSystem *_this)
+void TemporalSystem::_HS_OnLoop()
 {
-    _this->ShipSystem::OnLoop();
-    SYS_EX(_this)->temporalSystem->OnLoop();
+    this->ShipSystem::OnLoop();
+    SYS_EX(this)->temporalSystem->OnLoop();
 }
 
-static void __attribute__((fastcall)) TemporalSystem_ShipDestroyed(ShipSystem *_this)
+void TemporalSystem::_HS_ShipDestroyed()
 {
-    SYS_EX(_this)->temporalSystem->StopTimeDilation();
+    SYS_EX(this)->temporalSystem->StopTimeDilation();
 }
 
 void SetupVTable_TemporalSystem(ShipSystem* sys)
 {
     void** vtable = *(void***)sys;
 
-    DWORD dwOldProtect, dwBkup;
-    VirtualProtect(&vtable[0], sizeof(void*) * g_temporalVTableSize, PAGE_EXECUTE_READWRITE, &dwOldProtect);
+    MEMPROT_SAVE_PROT(dwOldProtect);
+    MEMPROT_PAGESIZE();
+    MEMPROT_UNPROTECT(&vtable[0], sizeof(void*) * g_temporalVTableSize, dwOldProtect);
 
     for (int i = 0; i < g_temporalVTableSize; i++)
     {
         g_temporalVTable[i] = vtable[i];
     }
 
-    VirtualProtect(&vtable[0], sizeof(void*) * g_temporalVTableSize, dwOldProtect, &dwBkup);
+    MEMPROT_REPROTECT(&vtable[0], sizeof(void*) * g_temporalVTableSize, dwOldProtect);
 
-    g_temporalVTable[35] = (void*)&TemporalSystem_Jump;
-    g_temporalVTable[39] = (void*)&TemporalSystem_OnLoop;
-    g_temporalVTable[44] = (void*)&TemporalSystem_ShipDestroyed;
+    {
+        auto fptr = &TemporalSystem::_HS_Jump;
+        g_temporalVTable[35] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &TemporalSystem::_HS_OnLoop;
+        g_temporalVTable[39] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &TemporalSystem::_HS_ShipDestroyed;
+        g_temporalVTable[44] = reinterpret_cast<void *&>(fptr);
+    }
 
     *((void**)sys)= &g_temporalVTable;
 }
 
 HOOK_METHOD(ShipSystem, constructor, (int systemId, int roomId, int shipId, int startingPower) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipSystem::constructor -> Begin (TemporalSystemVTable.cpp)\n")
 	super(systemId, roomId, shipId, startingPower);
 
 	if (systemId == 20)

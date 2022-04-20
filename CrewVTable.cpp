@@ -1,148 +1,176 @@
+#include "Global.h"
+
 #pragma GCC push_options
 #pragma GCC optimize ("O1")
-#include "Global.h"
 #include "CustomCrew.h"
+#include "PALMemoryProtection.h"
 #include "CustomAugments.h"
 
 int requiresFullControl = 0;
 bool isTelepathicMindControl = false;
 
-static bool __attribute__((fastcall)) CrewMember_GetControllable(CrewMember *_this)
+bool CrewMember::_HS_ValidTarget(int shipId)
 {
-    bool ret = !_this->bDead && _this->iShipId == 0 && !_this->bMindControlled;
+    if (bDead || crewAnim->status == 3 || currentShipId != shipId) return false;
 
-    if (!ret && _this->iShipId == 1 && _this->bMindControlled)
+    auto ex = CM_EX(this);
+    auto def = CustomCrewManager::GetInstance()->GetDefinition(this->species);
+    bool ret;
+    ex->CalculateStat(CrewStat::VALID_TARGET, def, &ret);
+    return ret;
+}
+
+bool CrewMember::_HS_GetControllable()
+{
+    if (this->bDead) return false;
+
+    bool ret = this->iShipId == 0 && !this->bMindControlled;
+
+    if (!ret && this->iShipId == 1 && this->bMindControlled)
     {
         ShipManager *ship = G_->GetShipManager(0);
         if (ship) ret = ship->HasAugmentation("MIND_ORDER");
     }
 
-    if (!ret)
+    CrewMember_Extend *ex = nullptr;
+    CrewDefinition *def;
+
+    if (ret)
     {
-        return false;
+        ex = CM_EX(this);
+        def = CustomCrewManager::GetInstance()->GetDefinition(this->species);
+        ex->CalculateStat(CrewStat::CONTROLLABLE, def, &ret);
+        if (!ret && !requiresFullControl)
+        {
+            ret = def->selectable;
+        }
     }
-    auto ex = CM_EX(_this);
-    auto def = CustomCrewManager::GetInstance()->GetDefinition(_this->species);
-    ex->CalculateStat(CrewStat::CONTROLLABLE, def, &ret);
-    if (!ret && !requiresFullControl)
+
+    if (!ret && requiresFullControl == -1) // for AI with NO_AI, make AI think crew is player-controlled to prevent AI from controlling
     {
-        ret = def->selectable;
+        if (!ex)
+        {
+            ex = CM_EX(this);
+            def = CustomCrewManager::GetInstance()->GetDefinition(this->species);
+        }
+        ex->CalculateStat(CrewStat::NO_AI, def, &ret);
     }
+
     return ret;
 }
 
-static bool __attribute__((fastcall)) CrewMember_CanSuffocate(CrewMember *_this)
+bool CrewMember::_HS_CanSuffocate()
 {
-    auto ex = CM_EX(_this);
-    auto def = CustomCrewManager::GetInstance()->GetDefinition(_this->species);
+    auto ex = CM_EX(this);
+    auto def = CustomCrewManager::GetInstance()->GetDefinition(this->species);
     bool ret = false;
     ex->CalculateStat(CrewStat::CAN_SUFFOCATE, def, &ret);
     return ret;
 }
 
-static bool __attribute__((fastcall)) CrewMember_CanFight(CrewMember *_this)
+bool CrewMember::_HS_CanFight()
 {
-    auto ex = CM_EX(_this);
-    auto def = CustomCrewManager::GetInstance()->GetDefinition(_this->species);
+    auto ex = CM_EX(this);
+    auto def = CustomCrewManager::GetInstance()->GetDefinition(this->species);
     bool ret = false;
     ex->CalculateStat(CrewStat::CAN_FIGHT, def, &ret);
     return ret;
 }
 
-static bool __attribute__((fastcall)) CrewMember_CanRepair(CrewMember *_this)
+bool CrewMember::_HS_CanRepair()
 {
-    bool req = !_this->intruder && !_this->bDead && _this->crewAnim->status != 3;
+    bool req = !this->intruder && !this->bDead && this->crewAnim->status != 3;
     if (!req)
     {
         return false;
     }
-    auto ex = CM_EX(_this);
-    auto def = CustomCrewManager::GetInstance()->GetDefinition(_this->species);
+    auto ex = CM_EX(this);
+    auto def = CustomCrewManager::GetInstance()->GetDefinition(this->species);
     bool ret = false;
     ex->CalculateStat(CrewStat::CAN_REPAIR, def, &ret);
     return ret && req;
 }
 
-static bool __attribute__((fastcall)) CrewMember_CanSabotage(CrewMember *_this)
+bool CrewMember::_HS_CanSabotage()
 {
-    bool req = _this->intruder;
+    bool req = this->intruder;
     if (!req)
     {
         return false;
     }
-    auto ex = CM_EX(_this);
-    auto def = CustomCrewManager::GetInstance()->GetDefinition(_this->species);
+    auto ex = CM_EX(this);
+    auto def = CustomCrewManager::GetInstance()->GetDefinition(this->species);
     bool ret = false;
     ex->CalculateStat(CrewStat::CAN_SABOTAGE, def, &ret);
     return ret && req;
 }
 
-static bool __attribute__((fastcall)) CrewMember_CanMan(CrewMember *_this)
+bool CrewMember::_HS_CanMan()
 {
-    bool req = !_this->intruder && _this->fStunTime == 0.f && _this->crewAnim->status != 3;
+    bool req = !this->intruder && this->fStunTime == 0.f && this->crewAnim->status != 3;
     if (!req)
     {
         return false;
     }
-    auto ex = CM_EX(_this);
-    auto def = CustomCrewManager::GetInstance()->GetDefinition(_this->species);
+    auto ex = CM_EX(this);
+    auto def = CustomCrewManager::GetInstance()->GetDefinition(this->species);
     bool ret = false;
     ex->CalculateStat(CrewStat::CAN_MAN, def, &ret);
     return ret && req;
 }
 
-static bool __attribute__((fastcall)) CrewMember_CanTeleport(CrewMember *_this)
+bool CrewMember::_HS_CanTeleport()
 {
-    bool ret = _this->CrewMember::CanTeleport(); //vanilla method
+    bool ret = this->CrewMember::CanTeleport(); //vanilla method
     if (!ret) return ret;
 
-    auto ex = CM_EX(_this);
-    auto def = CustomCrewManager::GetInstance()->GetDefinition(_this->species);
+    auto ex = CM_EX(this);
+    auto def = CustomCrewManager::GetInstance()->GetDefinition(this->species);
     ex->CalculateStat(CrewStat::CAN_TELEPORT, def, &ret);
     return ret;
 }
 
-
-static bool __attribute__((fastcall)) CrewMember_CanBurn(CrewMember *_this)
+bool CrewMember::_HS_CanBurn()
 {
-    auto ex = CM_EX(_this);
-    auto def = CustomCrewManager::GetInstance()->GetDefinition(_this->species);
+    auto ex = CM_EX(this);
+    auto def = CustomCrewManager::GetInstance()->GetDefinition(this->species);
     bool ret = false;
     ex->CalculateStat(CrewStat::CAN_BURN, def, &ret);
     return ret;
 }
 
-static int __attribute__((fastcall)) CrewMember_GetMaxHealth(CrewMember *_this)
+int CrewMember::_HS_GetMaxHealth()
 {
-    auto ex = CM_EX(_this);
-    auto def = CustomCrewManager::GetInstance()->GetDefinition(_this->species);
+    auto ex = CM_EX(this);
+    auto def = CustomCrewManager::GetInstance()->GetDefinition(this->species);
     return ex->CalculateMaxHealth(def);
 }
 
-static float __attribute__((fastcall)) CrewMember_GetMoveSpeedMultiplier(CrewMember *_this)
+float CrewMember::_HS_GetMoveSpeedMultiplier()
 {
-    auto ex = CM_EX(_this);
-    auto def = CustomCrewManager::GetInstance()->GetDefinition(_this->species);
+    auto ex = CM_EX(this);
+    auto def = CustomCrewManager::GetInstance()->GetDefinition(this->species);
     return ex->CalculateStat(CrewStat::MOVE_SPEED_MULTIPLIER, def);
 }
 
-static float __attribute__((fastcall)) CrewMember_GetRepairSpeed(CrewMember *_this)
+float CrewMember::_HS_GetRepairSpeed()
 {
-    auto ex = CM_EX(_this);
-    auto def = CustomCrewManager::GetInstance()->GetDefinition(_this->species);
+    auto ex = CM_EX(this);
+    auto def = CustomCrewManager::GetInstance()->GetDefinition(this->species);
     return ex->CalculateStat(CrewStat::REPAIR_SPEED_MULTIPLIER, def);
 }
 
-static float __attribute__((fastcall)) CrewMember_GetDamageMultiplier(CrewMember *_this)
+float CrewMember::_HS_GetDamageMultiplier()
 {
-    auto ex = CM_EX(_this);
-    auto def = CustomCrewManager::GetInstance()->GetDefinition(_this->species);
+    auto ex = CM_EX(this);
+    auto def = CustomCrewManager::GetInstance()->GetDefinition(this->species);
     return ex->CalculateStat(CrewStat::DAMAGE_MULTIPLIER, def);
 }
 
 CrewMember *currentCrewLoop = nullptr;
-HOOK_METHOD(CrewMember, OnLoop, () -> void)
+HOOK_METHOD_PRIORITY(CrewMember, OnLoop, -1000, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> CrewMember::OnLoop -> Begin (CrewVTable.cpp)\n")
     currentCrewLoop = this;
     super();
     currentCrewLoop = nullptr;
@@ -150,6 +178,7 @@ HOOK_METHOD(CrewMember, OnLoop, () -> void)
 
 HOOK_METHOD(CrewAnimation, OnUpdateEffects, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewAnimation::OnUpdateEffects -> Begin (CrewVTable.cpp)\n")
     if (currentCrewLoop)
     {
         float oldDamage = fDamageDone;
@@ -167,24 +196,24 @@ HOOK_METHOD(CrewAnimation, OnUpdateEffects, () -> void)
     }
 }
 
-static bool __attribute__((fastcall)) CrewMember_ProvidesPower(CrewMember *_this)
+bool CrewMember::_HS_ProvidesPower()
 {
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
 
-    return custom->GetDefinition(_this->species)->providesPower;
+    return custom->GetDefinition(this->species)->providesPower;
 }
 
-static float __attribute__((fastcall)) CrewMember_FireRepairMultiplier(CrewMember *_this)
+float CrewMember::_HS_FireRepairMultiplier()
 {
-    auto ex = CM_EX(_this);
-    auto def = CustomCrewManager::GetInstance()->GetDefinition(_this->species);
+    auto ex = CM_EX(this);
+    auto def = CustomCrewManager::GetInstance()->GetDefinition(this->species);
     return ex->CalculateStat(CrewStat::FIRE_REPAIR_MULTIPLIER, def);
 }
 
-static bool __attribute__((fastcall)) CrewMember_IsTelepathic(CrewMember *_this)
+bool CrewMember::_HS_IsTelepathic()
 {
-    auto ex = CM_EX(_this);
-    auto def = CustomCrewManager::GetInstance()->GetDefinition(_this->species);
+    auto ex = CM_EX(this);
+    auto def = CustomCrewManager::GetInstance()->GetDefinition(this->species);
     bool ret = false;
     if (isTelepathicMindControl)
     {
@@ -197,50 +226,50 @@ static bool __attribute__((fastcall)) CrewMember_IsTelepathic(CrewMember *_this)
     return ret;
 }
 
-static float __attribute__((fastcall)) CrewMember_GetSuffocationModifier(CrewMember *_this)
+float CrewMember::_HS_GetSuffocationModifier()
 {
-    auto ex = CM_EX(_this);
-    auto def = CustomCrewManager::GetInstance()->GetDefinition(_this->species);
+    auto ex = CM_EX(this);
+    auto def = CustomCrewManager::GetInstance()->GetDefinition(this->species);
     return ex->CalculateStat(CrewStat::SUFFOCATION_MODIFIER, def);
 }
 
-static bool __attribute__((fastcall)) CrewMember_IsAnaerobic(CrewMember *_this)
+bool CrewMember::_HS_IsAnaerobic()
 {
-    auto ex = CM_EX(_this);
-    auto def = CustomCrewManager::GetInstance()->GetDefinition(_this->species);
+    auto ex = CM_EX(this);
+    auto def = CustomCrewManager::GetInstance()->GetDefinition(this->species);
     bool ret = false;
     ex->CalculateStat(CrewStat::IS_ANAEROBIC, def, &ret);
     return ret;
 }
 
-static bool __attribute__((fastcall)) CrewMember_HasSpecialPower(CrewMember *_this)
+bool CrewMember::_HS_HasSpecialPower()
 {
-    auto ex = CM_EX(_this);
+    auto ex = CM_EX(this);
 
     return ex->hasSpecialPower;
 }
 
-static std::pair<float, float> __attribute__((fastcall)) CrewMember_GetPowerCooldown(CrewMember *_this)
+std::pair<float, float> CrewMember::_HS_GetPowerCooldown()
 {
-    auto ex = CM_EX(_this);
+    auto ex = CM_EX(this);
     return ex->powerCooldown;
 }
 
-static bool __attribute__((fastcall)) CrewMember_PowerReady(CrewMember *_this)
+bool CrewMember::_HS_PowerReady()
 {
-    auto ex = CM_EX(_this);
+    auto ex = CM_EX(this);
 
     auto readyState = ex->PowerReady();
 
     return readyState == PowerReadyState::POWER_READY;
 }
 
-static void __attribute__((fastcall)) CrewMember_ResetPower(CrewMember *_this)
+void CrewMember::_HS_ResetPower()
 {
-    auto ex = CM_EX(_this);
+    auto ex = CM_EX(this);
 
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
-    auto def = custom->GetDefinition(_this->species);
+    auto def = custom->GetDefinition(this->species);
     auto powerDef = ex->GetPowerDef();
 
     auto jumpCooldown = powerDef->jumpCooldown;
@@ -258,11 +287,11 @@ static void __attribute__((fastcall)) CrewMember_ResetPower(CrewMember *_this)
 }
 
 // To be used by AI only
-static void __attribute__((fastcall)) CrewMember_ActivatePower(CrewMember *_this)
+void CrewMember::_HS_ActivatePower()
 {
-    if (_this->GetPowerOwner() == 1)
+    if (this->GetPowerOwner() == 1)
     {
-        CM_EX(_this)->PreparePower();
+        CM_EX(this)->PreparePower();
     }
 }
 
@@ -284,39 +313,111 @@ void SetupVTable(CrewMember *crew)
 {
     void** vtable = *(void***)crew;
 
-    DWORD dwOldProtect, dwBkup;
-    VirtualProtect(&vtable[0], sizeof(void*) * 57, PAGE_EXECUTE_READWRITE, &dwOldProtect);
+    MEMPROT_SAVE_PROT(dwOldProtect);
+    MEMPROT_PAGESIZE();
+    MEMPROT_UNPROTECT(&vtable[0], sizeof(void*) * 57, dwOldProtect);
 
-    vtable[23] = (void*)&CrewMember_GetControllable;
-    vtable[25] = (void*)&CrewMember_CanFight;
-    vtable[26] = (void*)&CrewMember_CanRepair;
-    vtable[27] = (void*)&CrewMember_CanSabotage;
-    vtable[28] = (void*)&CrewMember_CanMan;
-    vtable[29] = (void*)&CrewMember_CanTeleport;
-    vtable[31] = (void*)&CrewMember_CanSuffocate;
-    vtable[32] = (void*)&CrewMember_CanBurn;
-    vtable[33] = (void*)&CrewMember_GetMaxHealth;
-    vtable[40] = (void*)&CrewMember_GetMoveSpeedMultiplier;
-    vtable[41] = (void*)&CrewMember_GetRepairSpeed;
-    vtable[42] = (void*)&CrewMember_GetDamageMultiplier;
-    vtable[43] = (void*)&CrewMember_ProvidesPower;
-    vtable[45] = (void*)&CrewMember_FireRepairMultiplier;
-    vtable[46] = (void*)&CrewMember_IsTelepathic;
-    vtable[47] = (void*)&CrewMember_GetPowerCooldown;
-    vtable[48] = (void*)&CrewMember_PowerReady;
-    vtable[49] = (void*)&CrewMember_ActivatePower;
-    vtable[50] = (void*)&CrewMember_HasSpecialPower;
-    vtable[51] = (void*)&CrewMember_ResetPower;
-    vtable[52] = (void*)&CrewMember_GetSuffocationModifier;
-    vtable[55] = (void*)&CrewMember_IsAnaerobic;
+    {
+        auto fptr = &CrewMember::_HS_ValidTarget;
+        vtable[7] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &CrewMember::_HS_GetControllable;
+        vtable[23] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &CrewMember::_HS_CanFight;
+        vtable[25] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &CrewMember::_HS_CanRepair;
+        vtable[26] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &CrewMember::_HS_CanSabotage;
+        vtable[27] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &CrewMember::_HS_CanMan;
+        vtable[28] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &CrewMember::_HS_CanTeleport;
+        vtable[29] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &CrewMember::_HS_CanSuffocate;
+        vtable[31] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &CrewMember::_HS_CanBurn;
+        vtable[32] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &CrewMember::_HS_GetMaxHealth;
+        vtable[33] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &CrewMember::_HS_GetMoveSpeedMultiplier;
+        vtable[40] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &CrewMember::_HS_GetRepairSpeed;
+        vtable[41] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &CrewMember::_HS_GetDamageMultiplier;
+        vtable[42] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &CrewMember::_HS_ProvidesPower;
+        vtable[43] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &CrewMember::_HS_FireRepairMultiplier;
+        vtable[45] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &CrewMember::_HS_IsTelepathic;
+        vtable[46] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &CrewMember::_HS_GetPowerCooldown;
+        vtable[47] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &CrewMember::_HS_PowerReady;
+        vtable[48] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &CrewMember::_HS_ActivatePower;
+        vtable[49] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &CrewMember::_HS_HasSpecialPower;
+        vtable[50] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &CrewMember::_HS_ResetPower;
+        vtable[51] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &CrewMember::_HS_GetSuffocationModifier;
+        vtable[52] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &CrewMember::_HS_IsAnaerobic;
+        vtable[55] = reinterpret_cast<void *&>(fptr);
+    }
 
-    VirtualProtect(&vtable[0], sizeof(void*) * 57, dwOldProtect, &dwBkup);
+    MEMPROT_REPROTECT(&vtable[0], sizeof(void*) * 57, dwOldProtect);
 }
 
 
 
 HOOK_METHOD_PRIORITY(CrewMember, constructor, 500, (CrewBlueprint& bp, int shipId, bool intruder, CrewAnimation* animation) -> void)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> CrewMember::constructor -> Begin (CrewVTable.cpp)\n")
     super(bp, shipId, intruder, animation);
 
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
@@ -330,29 +431,34 @@ HOOK_METHOD_PRIORITY(CrewMember, constructor, 500, (CrewBlueprint& bp, int shipI
 
 
 
-static bool __attribute__((fastcall)) CrewAnimation_CustomDeath(CrewAnimation *_this)
+bool CrewAnimation::_HS_CustomDeath()
 {
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
-    if (!custom->IsRace(_this->race)) return false;
-    return custom->GetDefinition(_this->race)->hasCustomDeathAnimation;
+    if (!custom->IsRace(this->race)) return false;
+    return custom->GetDefinition(this->race)->hasCustomDeathAnimation;
 }
 
 void SetupVTable(CrewAnimation *anim)
 {
     void** vtable = *(void***)anim;
 
-    DWORD dwOldProtect, dwBkup;
-    VirtualProtect(&vtable[0], sizeof(void*) * 12, PAGE_EXECUTE_READWRITE, &dwOldProtect);
+    MEMPROT_SAVE_PROT(dwOldProtect);
+    MEMPROT_PAGESIZE();
+    MEMPROT_UNPROTECT(&vtable[0], sizeof(void*) * 12, dwOldProtect);
 
-    vtable[12] = (void*)&CrewAnimation_CustomDeath;
+    {
+        auto fptr = &CrewAnimation::_HS_CustomDeath;
+        vtable[12] = reinterpret_cast<void *&>(fptr);
+    }
 
-    VirtualProtect(&vtable[0], sizeof(void*) * 12, dwOldProtect, &dwBkup);
+    MEMPROT_REPROTECT(&vtable[0], sizeof(void*) * 12, dwOldProtect);
 }
 
 
 
 HOOK_METHOD_PRIORITY(CrewAnimation, constructor, 500, (int shipId, const std::string& race, Pointf unk, bool hostile) -> void)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> CrewAnimation::constructor -> Begin (CrewVTable.cpp)\n")
     super(shipId, race, unk, hostile);
 
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
@@ -364,6 +470,7 @@ HOOK_METHOD_PRIORITY(CrewAnimation, constructor, 500, (int shipId, const std::st
 
 HOOK_METHOD_PRIORITY(RockAnimation, constructor, 500, (const std::string &subRace, int iShipId, Pointf position, bool enemy) -> void)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> RockAnimation::constructor -> Begin (CrewVTable.cpp)\n")
     super(subRace, iShipId, position, enemy);
 
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
@@ -371,6 +478,13 @@ HOOK_METHOD_PRIORITY(RockAnimation, constructor, 500, (const std::string &subRac
     {
         SetupVTable(this);
     }
+}
+
+RepairAnimation::RepairAnimation(int shipId, const std::string& race, Pointf position, bool enemy)
+{
+    this->constructor(shipId, race, position, enemy);
+    *(void**)this = VTable_RepairAnimation;
+    this->uniqueBool1 = true;
 }
 
 #pragma GCC pop_options

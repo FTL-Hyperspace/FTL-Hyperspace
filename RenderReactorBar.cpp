@@ -3,6 +3,7 @@
 
 HOOK_METHOD(SystemControl, RenderPowerBar, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> SystemControl::RenderPowerBar -> Begin (RenderReactorBar.cpp)\n")
     PowerManager *playerPowerManager = PowerManager::GetPowerManager(0);
     int availablePower = playerPowerManager->GetAvailablePower();
     int reactorLevel = playerPowerManager->GetMaxPower();

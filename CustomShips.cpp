@@ -11,6 +11,7 @@ bool bNoJump = false;
 
 HOOK_METHOD(WorldManager, CreateShip, (ShipEvent* shipEvent, bool boss) -> CompleteShip*)
 {
+    LOG_HOOK("HOOK_METHOD -> WorldManager::CreateShip -> Begin (CustomShips.cpp)\n")
     if (!boss && !shipEvent->actualBlueprint.blueprintName.empty()) revisitingShip = true;
     CompleteShip* ret = super(shipEvent, boss);
     revisitingShip = false;
@@ -43,7 +44,7 @@ void ShipManager_Extend::Initialize(bool restarting)
 
             for (auto def : i.second->roomAnims)
             {
-                Animation *anim = G_->GetAnimationControl()->GetAnimation(def.animName);
+                Animation *anim = new Animation(G_->GetAnimationControl()->GetAnimation(def.animName));
                 RoomAnim roomAnim = RoomAnim();
 
                 roomAnim.anim = anim;
@@ -82,8 +83,7 @@ void ShipManager_Extend::Initialize(bool restarting)
 
             if (i.isList)
             {
-                auto bpList = std::vector<std::string>();
-                BlueprintManager::GetBlueprintList(bpList, G_->GetBlueprints(), i.species);
+                std::vector<std::string> bpList = G_->GetBlueprints()->GetBlueprintList(i.species);
 
                 if (!bpList.empty())
                 {
@@ -121,6 +121,7 @@ void ShipManager_Extend::Initialize(bool restarting)
 
 HOOK_METHOD(ShipManager, ResetScrapLevel, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::ResetScrapLevel -> Begin (CustomShips.cpp)\n")
     super();
     auto customSel = CustomShipSelect::GetInstance();
 
@@ -137,6 +138,7 @@ HOOK_METHOD(ShipManager, ResetScrapLevel, () -> void)
 
 HOOK_METHOD(ShipManager, ImportShip, (int fileHelper) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::ImportShip -> Begin (CustomShips.cpp)\n")
     if (iShipId == 0)
     {
         G_->GetWorld()->playerShip = nullptr; // remove invalid reference
@@ -149,6 +151,7 @@ HOOK_METHOD(ShipManager, ImportShip, (int fileHelper) -> void)
 
 HOOK_METHOD(ShipManager, AddSystem, (int systemId) -> int)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::AddSystem -> Begin (CustomShips.cpp)\n")
     auto ret = super(systemId);
 
     // Fixes shield systems being created with damage when >10 bars
@@ -162,7 +165,7 @@ HOOK_METHOD(ShipManager, AddSystem, (int systemId) -> int)
     {
         if (current_target)
         {
-            hackingSystem->drone.SetMovementTarget(current_target->_targetable);
+            hackingSystem->drone.SetMovementTarget(&current_target->_targetable);
             G_->GetWorld()->space.drones.push_back(&hackingSystem->drone);
         }
     }
@@ -173,6 +176,7 @@ HOOK_METHOD(ShipManager, AddSystem, (int systemId) -> int)
 
 HOOK_METHOD_PRIORITY(ShipManager, OnInit, 100, (ShipBlueprint *bp, int shipLevel) -> int)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::OnInit -> Begin (CustomShips.cpp)\n")
     int ret = super(bp, shipLevel);
 
     SM_EX(this)->Initialize();
@@ -182,6 +186,7 @@ HOOK_METHOD_PRIORITY(ShipManager, OnInit, 100, (ShipBlueprint *bp, int shipLevel
 
 HOOK_METHOD(ShipManager, Restart, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::Restart -> Begin (CustomShips.cpp)\n")
     super();
 
     SM_EX(this)->Initialize(true);
@@ -190,6 +195,7 @@ HOOK_METHOD(ShipManager, Restart, () -> void)
 
 HOOK_METHOD(ShipManager, IsCrewFull, () -> bool)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::IsCrewFull -> Begin (CustomShips.cpp)\n")
     if (iShipId == 1) return false;
 
     auto custom = CustomShipSelect::GetInstance();
@@ -206,6 +212,7 @@ HOOK_METHOD(ShipManager, IsCrewFull, () -> bool)
 
 HOOK_METHOD(ShipManager, IsCrewOverFull, () -> bool)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::IsCrewOverFull -> Begin (CustomShips.cpp)\n")
     if (iShipId == 1) return false;
 
     auto custom = CustomShipSelect::GetInstance();
@@ -221,6 +228,7 @@ HOOK_METHOD(ShipManager, IsCrewOverFull, () -> bool)
 
 HOOK_METHOD(Room, constructor, (int iShipId, int x, int y, int w, int h, int roomId) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Room::constructor -> Begin (CustomShips.cpp)\n")
     super(iShipId, x, y, w, h, roomId);
 
     CSurface::GL_DestroyPrimitive(o2LowPrimitive);
@@ -235,6 +243,7 @@ HOOK_METHOD(Room, constructor, (int iShipId, int x, int y, int w, int h, int roo
 
 HOOK_METHOD(ShipManager, CheckVision, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::CheckVision -> Begin (CustomShips.cpp)\n")
     return super();
 
     bool canSee = false;
@@ -301,6 +310,7 @@ HOOK_METHOD(ShipManager, CheckVision, () -> void)
 
 HOOK_METHOD(ShipManager, OnLoop, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::OnLoop -> Begin (CustomShips.cpp)\n")
     super();
 
     for (auto i : ship.vRoomList)
@@ -317,6 +327,7 @@ HOOK_METHOD(ShipManager, OnLoop, () -> void)
 
 HOOK_METHOD(ShipManager, OnRender, (bool showInterior, bool doorControlMode) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::OnRender -> Begin (CustomShips.cpp)\n")
     super(showInterior, doorControlMode);
 
     bool canSeeRooms = false;
@@ -351,6 +362,7 @@ HOOK_METHOD(ShipManager, OnRender, (bool showInterior, bool doorControlMode) -> 
 
 HOOK_METHOD(Ship, OnRenderSparks, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Ship::OnRenderSparks -> Begin (CustomShips.cpp)\n")
     for (auto room : vRoomList)
     {
         for (auto i : RM_EX(room)->roomAnims)
@@ -370,6 +382,7 @@ HOOK_METHOD(Ship, OnRenderSparks, () -> void)
 
 HOOK_METHOD(Ship, OnRenderBreaches, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Ship::OnRenderBreaches -> Begin (CustomShips.cpp)\n")
     for (auto room : vRoomList)
     {
         if (room->bBlackedOut) continue;
@@ -391,6 +404,7 @@ HOOK_METHOD(Ship, OnRenderBreaches, () -> void)
 
 HOOK_METHOD(Ship, OnRenderFloor, (bool experimental) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Ship::OnRenderFloor -> Begin (CustomShips.cpp)\n")
     super(experimental);
 
     for (auto room : vRoomList)
@@ -411,8 +425,9 @@ HOOK_METHOD(Ship, OnRenderFloor, (bool experimental) -> void)
 }
 
 
-HOOK_METHOD(Ship, OnInit, (ShipBlueprint& bp) -> void)
+HOOK_METHOD(Ship, OnInit, (ShipBlueprint* bp) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Ship::OnInit -> Begin (CustomShips.cpp)\n")
     super(bp);
 
     CSurface::GL_DestroyPrimitive(wallsPrimitive);
@@ -552,6 +567,7 @@ HOOK_METHOD(Ship, OnInit, (ShipBlueprint& bp) -> void)
 
 HOOK_METHOD(CommandGui, OnLoop, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CommandGui::OnLoop -> Begin (CustomShips.cpp)\n")
     super();
     auto custom = CustomShipSelect::GetInstance();
 
@@ -569,6 +585,7 @@ HOOK_METHOD(CommandGui, OnLoop, () -> void)
 
 HOOK_METHOD(FTLButton, OnRender, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> FTLButton::OnRender -> Begin (CustomShips.cpp)\n")
     if (bNoJump)
     {
         float jump_timer = ship->jump_timer.first;
@@ -588,6 +605,7 @@ HOOK_METHOD(FTLButton, OnRender, () -> void)
 
 HOOK_METHOD(ShipManager, DamageSystem, (int roomId, DamageParameter dmgParam) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::DamageSystem -> Begin (CustomShips.cpp)\n")
     Damage* dmg = (Damage*)&dmgParam;
 
     auto ex = RM_EX(ship.vRoomList[roomId]);
@@ -615,6 +633,7 @@ HOOK_METHOD(ShipManager, DamageSystem, (int roomId, DamageParameter dmgParam) ->
 
 HOOK_METHOD(ShipAI, SetStalemate, (bool stalemate) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipAI::SetStalemate -> Begin (CustomShips.cpp)\n")
     auto custom = CustomShipSelect::GetInstance();
     if (custom->GetDefinition(ship->myBlueprint.blueprintName).noFuelStalemate)
     {
@@ -626,6 +645,7 @@ HOOK_METHOD(ShipAI, SetStalemate, (bool stalemate) -> void)
 
 HOOK_STATIC(ShipGenerator, CreateShip, (const std::string& name, int sector, ShipEvent& event) -> ShipManager*)
 {
+    LOG_HOOK("HOOK_STATIC -> ShipGenerator::CreateShip -> Begin (CustomShips.cpp)\n")
     auto ret = super(name, sector, event);
 
     auto bp = G_->GetBlueprints()->GetShipBlueprint(ret->myBlueprint.blueprintName, sector);
@@ -656,6 +676,7 @@ HOOK_STATIC(ShipGenerator, CreateShip, (const std::string& name, int sector, Shi
 
 HOOK_METHOD(WorldManager, CreateShip, (ShipEvent* shipEvent, bool boss) -> CompleteShip*)
 {
+    LOG_HOOK("HOOK_METHOD -> WorldManager::CreateShip -> Begin (CustomShips.cpp)\n")
 
     CompleteShip* ret = super(shipEvent, boss);
     if (ret == nullptr) return ret;
@@ -688,11 +709,12 @@ HOOK_METHOD(WorldManager, CreateShip, (ShipEvent* shipEvent, bool boss) -> Compl
 
 static std::vector<std::pair<Animation,bool>> extraEngineAnim[2];
 
-HOOK_METHOD(Ship, OnInit, (ShipBlueprint& bp) -> void)
+HOOK_METHOD(Ship, OnInit, (ShipBlueprint* bp) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Ship::OnInit -> Begin (CustomShips.cpp)\n")
     super(bp);
 
-    char *xmltext = G_->GetResources()->LoadFile("data/" + bp.imgFile + ".xml");
+    char *xmltext = G_->GetResources()->LoadFile("data/" + bp->imgFile + ".xml");
     if (xmltext)
     {
         bool hasThrusters = false;
@@ -772,7 +794,7 @@ HOOK_METHOD(Ship, OnInit, (ShipBlueprint& bp) -> void)
             {
                 if (!thrusterRot[i] && nVanillaThrusters<2)
                 {
-                    if (!thrusters[i].empty()) AnimationControl::GetAnimation(engineAnim[nVanillaThrusters], G_->GetAnimationControl(), thrusters[i]);
+                    if (!thrusters[i].empty()) engineAnim[nVanillaThrusters] = G_->GetAnimationControl()->GetAnimation(thrusters[i]);
                     engineAnim[nVanillaThrusters].position = {thrusterPos[i].x + shipImage.x + graph->shipBox.x, thrusterPos[i].y + shipImage.y + graph->shipBox.y};
                     engineAnim[nVanillaThrusters].tracker.SetLoop(true, 0.f);
                     if (syncThrusters)
@@ -803,8 +825,7 @@ HOOK_METHOD(Ship, OnInit, (ShipBlueprint& bp) -> void)
                     }
                     else
                     {
-                        Animation anim;
-                        AnimationControl::GetAnimation(anim, G_->GetAnimationControl(), thrusters[i]);
+                        Animation anim = G_->GetAnimationControl()->GetAnimation(thrusters[i]);
                         if (thrusterRot[i]) pos.x -= anim.info.frameWidth * anim.fScale;
                         anim.position = pos;
                         extraEngineAnim[iShipId].push_back({anim,thrusterRot[i]});
@@ -824,7 +845,7 @@ HOOK_METHOD(Ship, OnInit, (ShipBlueprint& bp) -> void)
 
             for (int i=nVanillaThrusters; i<2; ++i)
             {
-                AnimationControl::GetAnimation(engineAnim[i], G_->GetAnimationControl(), ""); // results in empty anim
+                engineAnim[i] = G_->GetAnimationControl()->GetAnimation(""); // results in empty anim
             }
 
             //extraEngineAnim[iShipId].shrink_to_fit();
@@ -836,6 +857,7 @@ HOOK_METHOD(Ship, OnInit, (ShipBlueprint& bp) -> void)
 
 HOOK_METHOD(Ship, OnLoop, (std::vector<float> &oxygenLevels) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Ship::OnLoop -> Begin (CustomShips.cpp)\n")
     super(oxygenLevels);
 
     for (std::pair<Animation,bool>& anim : extraEngineAnim[iShipId])
@@ -846,6 +868,7 @@ HOOK_METHOD(Ship, OnLoop, (std::vector<float> &oxygenLevels) -> void)
 
 HOOK_METHOD(Ship, OnRenderBase, (bool engines) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Ship::OnRenderBase -> Begin (CustomShips.cpp)\n")
     super(false);
 
     if (engines && bShowEngines)
@@ -880,6 +903,7 @@ HOOK_METHOD(Ship, OnRenderBase, (bool engines) -> void)
 
 HOOK_METHOD(Ship, OnRenderJump, (float progress) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Ship::OnRenderJump -> Begin (CustomShips.cpp)\n")
     bool customEngines = bShowEngines && thrustersImage == nullptr;
     if (customEngines) bShowEngines = false;
     super(progress);

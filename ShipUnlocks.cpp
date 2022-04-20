@@ -476,12 +476,14 @@ void CustomShipUnlocks::OnLanguageChange()
 
 HOOK_METHOD(AchievementTracker, OnLanguageChange, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> AchievementTracker::OnLanguageChange -> Begin (ShipUnlocks.cpp)\n")
     super();
     CustomShipUnlocks::instance->OnLanguageChange();
 }
 
 HOOK_METHOD(AchievementTracker, ResetFlags, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> AchievementTracker::ResetFlags -> Begin (ShipUnlocks.cpp)\n")
     super();
     CustomShipUnlocks::instance->ResetFlags();
     CustomAchievementTracker::instance->ResetFlags();
@@ -684,6 +686,7 @@ void CustomShipUnlocks::UnlockAllShips()
 
 HOOK_METHOD(AchievementTracker, LoadAchievementDescriptions, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> AchievementTracker::LoadAchievementDescriptions -> Begin (ShipUnlocks.cpp)\n")
     super();
 
     CustomShipUnlocks::instance->CreateUnlockAchievements();
@@ -691,6 +694,7 @@ HOOK_METHOD(AchievementTracker, LoadAchievementDescriptions, () -> void)
 
 HOOK_METHOD(ScoreKeeper, GetShipUnlocked, (int shipId, int shipVariant) -> bool)
 {
+    LOG_HOOK("HOOK_METHOD -> ScoreKeeper::GetShipUnlocked -> Begin (ShipUnlocks.cpp)\n")
     CustomShipSelect* custom = CustomShipSelect::GetInstance();
 
     bool isCustomShip = shipId >= 100;
@@ -742,6 +746,7 @@ HOOK_METHOD(ScoreKeeper, GetShipUnlocked, (int shipId, int shipVariant) -> bool)
 
 HOOK_METHOD(ScoreKeeper, UnlockShip, (int shipId, int shipType, bool save, bool hidePopup) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ScoreKeeper::UnlockShip -> Begin (ShipUnlocks.cpp)\n")
     if (shipId >= 100 || hidePopup) return super(shipId, shipType, save, hidePopup);
 
     auto blueprint = GetShipBlueprint(shipId);
@@ -768,6 +773,7 @@ HOOK_METHOD(ScoreKeeper, UnlockShip, (int shipId, int shipType, bool save, bool 
 
 HOOK_METHOD(ScoreKeeper, WipeProfile, (bool permanent) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ScoreKeeper::WipeProfile -> Begin (ShipUnlocks.cpp)\n")
     CustomShipUnlocks::instance->WipeProfile();
 
     super(permanent);
@@ -775,10 +781,10 @@ HOOK_METHOD(ScoreKeeper, WipeProfile, (bool permanent) -> void)
 
 HOOK_METHOD(ScoreKeeper, OnInit, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ScoreKeeper::OnInit -> Begin (ShipUnlocks.cpp)\n")
     CustomShipUnlocks::instance->loadVersion = 0;
 
-    std::string versionFileName;
-    FileHelper::getUserFolder(versionFileName);
+    std::string versionFileName = FileHelper::getUserFolder();
     versionFileName.append(SaveFileHandler::instance->savePrefix + "_version.sav");
 
     if (FileHelper::fileExists(versionFileName))
@@ -795,6 +801,7 @@ HOOK_METHOD(ScoreKeeper, OnInit, () -> void)
 
 HOOK_METHOD(AchievementTracker, SetAchievement, (const std::string& ach, bool noPopup, bool sendToServer) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> AchievementTracker::SetAchievement -> Begin (ShipUnlocks.cpp)\n")
     if (G_->GetCApp()->menu.shipBuilder.bOpen)
     {
         return;
@@ -805,6 +812,7 @@ HOOK_METHOD(AchievementTracker, SetAchievement, (const std::string& ach, bool no
 
 HOOK_METHOD(AchievementTracker, UnlockShip, (int type, int variant) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> AchievementTracker::UnlockShip -> Begin (ShipUnlocks.cpp)\n")
     auto ach = shipUnlocks[type][variant];
     ach->unlocked = true;
     if (G_->GetSettings()->achPopups) recentlyUnlocked.push_back(ach);
@@ -812,6 +820,7 @@ HOOK_METHOD(AchievementTracker, UnlockShip, (int type, int variant) -> void)
 
 HOOK_METHOD(StarMap, AdvanceWorldLevel, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> StarMap::AdvanceWorldLevel -> Begin (ShipUnlocks.cpp)\n")
     super();
 
     CustomShipUnlocks::instance->CheckSectorUnlocks(G_->GetAchievementTracker()->currentShip, worldLevel);
@@ -819,6 +828,7 @@ HOOK_METHOD(StarMap, AdvanceWorldLevel, () -> void)
 
 HOOK_METHOD(AchievementTracker, SetVictoryAchievement, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> AchievementTracker::SetVictoryAchievement -> Begin (ShipUnlocks.cpp)\n")
     super();
 
     hs_log_file("Victory achieved: %s as %s\n", CustomShipUnlocks::instance->setCustomVictoryType.c_str(), currentShip.c_str());
@@ -840,6 +850,7 @@ HOOK_METHOD(AchievementTracker, SetVictoryAchievement, () -> void)
 
 HOOK_METHOD(CommandGui, Victory, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CommandGui::Victory -> Begin (ShipUnlocks.cpp)\n")
     super();
 
     CustomShipUnlocks::instance->CheckBasicUnlock(G_->GetAchievementTracker()->currentShip, ShipUnlock::UnlockType::VICTORY_ANY);
@@ -849,6 +860,7 @@ static bool loadingFile = false;
 
 HOOK_METHOD(ScoreKeeper, UnlockShip, (int shipId, int shipType, bool save, bool hidePopup) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ScoreKeeper::UnlockShip -> Begin (ShipUnlocks.cpp)\n")
     if (loadingFile)
     {
         save = false;
@@ -860,6 +872,7 @@ HOOK_METHOD(ScoreKeeper, UnlockShip, (int shipId, int shipType, bool save, bool 
 
 HOOK_METHOD(ScoreKeeper, LoadVersionFour, (int file, int version) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ScoreKeeper::LoadVersionFour -> Begin (ShipUnlocks.cpp)\n")
     loadingFile = true;
     super(file, version);
     loadingFile = false;
@@ -1309,12 +1322,14 @@ bool CustomVictoryAchievement::SecretLocked()
 
 HOOK_METHOD(CAchievement, constructor, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CAchievement::constructor -> Begin (ShipUnlocks.cpp)\n")
     super();
     gap_ex_custom = 0;
 }
 
 HOOK_METHOD(CAchievement, OnRender, (Point pos, int selected, bool unk) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CAchievement::OnRender -> Begin (ShipUnlocks.cpp)\n")
     if (gap_ex_custom)
     {
         CSurface::GL_PushMatrix();
@@ -1327,14 +1342,18 @@ HOOK_METHOD(CAchievement, OnRender, (Point pos, int selected, bool unk) -> void)
             {
                 CSurface::GL_RenderPrimitive(lockOverlay);
 
-                int halfWidth = dimension/2;
+                if (!lockImage.texture) lockImage.CreatePrimitive();
+                if (lockImage.texture)
+                {
+                    int halfWidth = dimension/2;
 
-                CSurface::GL_PushMatrix();
-                CSurface::GL_Translate(halfWidth-8, halfWidth-11, 0.f);
+                    CSurface::GL_PushMatrix();
+                    CSurface::GL_Translate(halfWidth-lockImage.texture->width_/2, halfWidth-lockImage.texture->height_/2, 0.f);
 
-                lockImage.OnRender(GL_Color(1.f,1.f,1.f,1.f));
+                    lockImage.OnRender(GL_Color(1.f,1.f,1.f,1.f));
 
-                CSurface::GL_PopMatrix();
+                    CSurface::GL_PopMatrix();
+                }
             }
         }
         else
@@ -1507,6 +1526,7 @@ HOOK_METHOD(CAchievement, OnRender, (Point pos, int selected, bool unk) -> void)
 
 HOOK_METHOD(AchievementTracker, SetTooltip, (CAchievement *ach) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> AchievementTracker::SetTooltip -> Begin (ShipUnlocks.cpp)\n")
     if (ach->gap_ex_custom)
     {
         G_->GetMouseControl()->SetTooltipTitle(ach->name.GetText());

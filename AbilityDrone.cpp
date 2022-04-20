@@ -50,7 +50,7 @@ void AbilityDroneAnimation::new_OnInit(const std::string& race, Pointf position,
 {
     for (int i = 0; i < 4; i++)
     {
-        anims[i].push_back(*G_->GetAnimationControl()->GetAnimation(race + "_ability"));
+        anims[i].push_back(*new Animation(G_->GetAnimationControl()->GetAnimation(race + "_ability")));
     }
 }
 

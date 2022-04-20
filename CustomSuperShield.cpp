@@ -78,20 +78,24 @@ int CustomAugmentManager::GetSuperShieldValue(int shipId)
 
 HOOK_METHOD(Shields, AddSuperShield, (Point pos) -> void)
 {
-    auto currentSuper = shields.power.super;
-
-    super(pos);
+    LOG_HOOK("HOOK_METHOD -> Shields::AddSuperShield -> Begin (CustomSuperShield.cpp)\n")
 
     int customSuper = CustomAugmentManager::GetSuperShieldValue(_shipObj.iShipId);
-    if (customSuper > 5)
+    if (customSuper < 5) customSuper = 5;
+
+    shields.power.super.first = std::min(shields.power.super.first+1, customSuper);
+    shields.power.super.second = std::max(shields.power.super.second, customSuper);
+
+    if (pos.x != 0x7FFFFFFF)
     {
-        shields.power.super.second = customSuper;
-        shields.power.super.first = std::min(currentSuper.first+1,customSuper);
+        superShieldUp.Start(0.f);
+        superUpLoc = pos;
     }
 }
 
 HOOK_METHOD(Shields, InstantCharge, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Shields::InstantCharge -> Begin (CustomSuperShield.cpp)\n")
     super();
 
     int customSuper = CustomAugmentManager::GetSuperShieldValue(_shipObj.iShipId);
@@ -104,6 +108,7 @@ HOOK_METHOD(Shields, InstantCharge, () -> void)
 
 HOOK_METHOD(Shields, Jump, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Shields::Jump -> Begin (CustomSuperShield.cpp)\n")
     super();
 
     int customSuper = CustomAugmentManager::GetSuperShieldValue(_shipObj.iShipId);
@@ -116,6 +121,7 @@ HOOK_METHOD(Shields, Jump, () -> void)
 
 HOOK_METHOD(Shields, OnLoop, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Shields::OnLoop -> Begin (CustomSuperShield.cpp)\n")
     bool noSuper = shields.power.super.second < 1;
 
     super();
@@ -130,16 +136,17 @@ HOOK_METHOD(Shields, OnLoop, () -> void)
 }
 
 /*
-HOOK_STATIC(Shields, CollisionReal, (CollisionResponse &_ret, Shields *shields, Pointf pos, DamageParameter damage, bool unk) -> CollisionResponse*)
+HOOK_METHOD(Shields, CollisionReal, (float x, float y, DamageParameter damage, bool force) -> CollisionResponse)
 {
-    auto ret = super(_ret, shields, pos, damage, unk);
+    LOG_HOOK("HOOK_METHOD -> Shields::CollisionReal -> Begin (CustomSuperShield.cpp)\n")
+    CollisionResponse ret = super(x, y, damage, force);
 
-    if (CustomAugmentManager::GetInstance()->superShieldCustomRender[shields->_shipObj.iShipId] && !shields->damMessages.empty())
+    if (CustomAugmentManager::GetInstance()->superShieldCustomRender[this->_shipObj.iShipId] && !this->damMessages.empty())
     {
-        DamageMessage* damMessage = shields->damMessages.back();
+        DamageMessage* damMessage = this->damMessages.back();
         if (damMessage->color.r == 0.156862750649f && damMessage->color.g == 0.941176474094f && damMessage->color.b == 0.156862750649f) // r=40 g=240 b=40
         {
-            damMessage->color = CustomAugmentManager::GetInstance()->superShieldColor[shields->_shipObj.iShipId];
+            damMessage->color = CustomAugmentManager::GetInstance()->superShieldColor[this->_shipObj.iShipId];
             damMessage->color.a = 1.0;
         }
     }
@@ -153,6 +160,7 @@ std::vector<GL_Primitive*> superShieldBars = std::vector<GL_Primitive*>();
 
 HOOK_METHOD(ShipStatus, RenderShields, (bool renderText) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipStatus::RenderShields -> Begin (CustomSuperShield.cpp)\n")
     if (!ship) return super(renderText);
 
     auto superShield = ship->GetShieldPower().super;
@@ -234,6 +242,7 @@ CachedImage extend_shieldCircleHackedCharged[5];
 
 HOOK_METHOD(CombatControl, constructor, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CombatControl::constructor -> Begin (CustomSuperShield.cpp)\n")
     super();
 
     for (int i=0; i<5; ++i)
@@ -254,6 +263,7 @@ HOOK_METHOD(CombatControl, constructor, () -> void)
 
 HOOK_METHOD(CombatControl, RenderShipStatus, (Pointf pos, GL_Color color) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CombatControl::RenderShipStatus -> Begin (CustomSuperShield.cpp)\n")
     auto enemyShield = currentTarget->shipManager->GetShieldPower();
 
     if (enemyShield.second > 5 && currentTarget->shipManager->shieldSystem != nullptr)
@@ -362,6 +372,7 @@ GL_Primitive* customSuperShieldPrimitives[2] = {nullptr, nullptr};
 
 HOOK_METHOD_PRIORITY(Shields, RenderBase, 9999, (float alpha, float superShieldOverwrite) -> void)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> Shields::RenderBase -> Begin (CustomSuperShield.cpp)\n")
     if (((shields.power.first != 0 || _shipObj.iShipId == 0) && shields.power.second != 0) || shields.power.super.first != 0)
     {
         if (shieldImage == nullptr)

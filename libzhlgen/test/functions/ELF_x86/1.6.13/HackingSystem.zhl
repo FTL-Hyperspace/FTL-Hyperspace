@@ -1,0 +1,4 @@
+"83ec1c8b44242080b8b001000000":
+cleanup __cdecl void HackingSystem::BlowHackingDrone(HackingSystem *this);
+"57565383ec308b5c2440891c24e8????????80bbbc01000000":
+cleanup __cdecl void HackingSystem::OnLoop(HackingSystem *this);

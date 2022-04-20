@@ -139,8 +139,7 @@ void TemporalBox::NewMouseMove(int x, int y)
         if (speedUpButton->bActive && speedUpButton->bHover)
         {
             // tooltip
-            std::string hotkey;
-            Settings::GetHotkeyName(hotkey, "temporal_speed");
+            std::string hotkey = Settings::GetHotkeyName("temporal_speed");
             std::string tooltip = G_->GetTextLibrary()->GetText("temporal_button_speed");
             boost::algorithm::replace_all(tooltip, "\\1", hotkey);
             boost::algorithm::replace_all(tooltip, "\\n", "\n");
@@ -150,8 +149,7 @@ void TemporalBox::NewMouseMove(int x, int y)
         if (slowDownButton->bActive && slowDownButton->bHover)
         {
             // tooltip
-            std::string hotkey;
-            Settings::GetHotkeyName(hotkey, "temporal_slow");
+            std::string hotkey = Settings::GetHotkeyName("temporal_slow");
             std::string tooltip = G_->GetTextLibrary()->GetText("temporal_button_slow");
             boost::algorithm::replace_all(tooltip, "\\1", hotkey);
             boost::algorithm::replace_all(tooltip, "\\n", "\n");
@@ -285,6 +283,8 @@ void TemporalSystem_Wrapper::OnLoop()
 
     if (bTurnedOn)
     {
+        dilationStrength = orig->GetEffectivePower();
+
         timer.SetMaxTime(TemporalSystemParser::GetDilationDuration(GetRealDilation()));
         timer.Update();
 
@@ -322,6 +322,7 @@ void SetTemporalArmed(ShipManager *ship, TemporalArmState armState)
 
 HOOK_METHOD(ShipManager, JumpArrive, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::JumpArrive -> Begin (TemporalSystem.cpp)\n")
     if (bWasSafe && HasSystem(20))
     {
         GetSystem(20)->LockSystem(0);
@@ -333,6 +334,7 @@ HOOK_METHOD(ShipManager, JumpArrive, () -> void)
 
 HOOK_METHOD(ShipManager, JumpLeave, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::JumpLeave -> Begin (TemporalSystem.cpp)\n")
     super();
 
     for (auto room : ship.vRoomList)
@@ -348,6 +350,7 @@ HOOK_METHOD(ShipManager, JumpLeave, () -> void)
 
 HOOK_METHOD(CombatControl, SelectTarget, () -> bool)
 {
+    LOG_HOOK("HOOK_METHOD -> CombatControl::SelectTarget -> Begin (TemporalSystem.cpp)\n")
     auto temporalArmed = GetTemporalArmed(shipManager);
     if (temporalArmed != TEMPORAL_ARM_NONE)
     {
@@ -385,6 +388,7 @@ HOOK_METHOD(CombatControl, SelectTarget, () -> bool)
 
 HOOK_METHOD(CombatControl, WeaponsArmed, () -> bool)
 {
+    LOG_HOOK("HOOK_METHOD -> CombatControl::WeaponsArmed -> Begin (TemporalSystem.cpp)\n")
     bool ret = super();
 
     return ret | (GetTemporalArmed(shipManager) != TEMPORAL_ARM_NONE);
@@ -435,6 +439,7 @@ static void ReplaceTemporalText(std::string& tooltipText, int power)
 
 HOOK_METHOD(CombatControl, UpdateTarget, () -> bool)
 {
+    LOG_HOOK("HOOK_METHOD -> CombatControl::UpdateTarget -> Begin (TemporalSystem.cpp)\n")
     bool ret = super();
 
     if (GetTemporalArmed(shipManager))
@@ -484,6 +489,7 @@ CachedImage *temporalTarget_slow = nullptr;
 
 HOOK_METHOD(CombatControl, constructor, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CombatControl::constructor -> Begin (TemporalSystem.cpp)\n")
     super();
 
     temporalTarget_speed = new CachedImage("misc/temporal_placed_speed.png", 0, 0);
@@ -493,6 +499,7 @@ HOOK_METHOD(CombatControl, constructor, () -> void)
 
 HOOK_METHOD(ShipManager, RenderChargeBars, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::RenderChargeBars -> Begin (TemporalSystem.cpp)\n")
     super();
     auto& combatControl = G_->GetCApp()->gui->combatControl;
     auto playerShip = combatControl.shipManager;
@@ -527,6 +534,7 @@ HOOK_METHOD(ShipManager, RenderChargeBars, () -> void)
 
 HOOK_METHOD(CombatControl, RenderSelfAiming, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CombatControl::RenderSelfAiming -> Begin (TemporalSystem.cpp)\n")
     super();
 
     if (shipManager->HasSystem(SYS_TEMPORAL))
@@ -559,6 +567,7 @@ HOOK_METHOD(CombatControl, RenderSelfAiming, () -> void)
 
 HOOK_METHOD(CombatControl, OnRenderCombat, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CombatControl::OnRenderCombat -> Begin (TemporalSystem.cpp)\n")
     super();
     if (open)
     {
@@ -581,6 +590,7 @@ HOOK_METHOD(CombatControl, OnRenderCombat, () -> void)
 
 HOOK_METHOD(CombatControl, DisarmAll, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CombatControl::DisarmAll -> Begin (TemporalSystem.cpp)\n")
     super();
 
     if (GetTemporalArmed(shipManager))
@@ -598,6 +608,7 @@ HOOK_METHOD(CombatControl, DisarmAll, () -> void)
 
 HOOK_METHOD(CombatControl, MouseRClick, (int x, int y) -> bool)
 {
+    LOG_HOOK("HOOK_METHOD -> CombatControl::MouseRClick -> Begin (TemporalSystem.cpp)\n")
     bool temporalArmed = GetTemporalArmed(shipManager);
 
     bool ret = super(x, y);
@@ -609,6 +620,7 @@ static bool g_inMouseRender = false;
 
 HOOK_METHOD(ResourceControl, GetImageId, (const std::string& name) -> GL_Texture*)
 {
+    LOG_HOOK("HOOK_METHOD -> ResourceControl::GetImageId -> Begin (TemporalSystem.cpp)\n")
     if (g_inMouseRender && name == "mouse/mouse_hacking.png" && g_iTemporal != TEMPORAL_ARM_NONE)
     {
         if (g_iTemporal == TEMPORAL_ARM_SLOW)
@@ -626,6 +638,7 @@ HOOK_METHOD(ResourceControl, GetImageId, (const std::string& name) -> GL_Texture
 
 HOOK_METHOD(MouseControl, OnRender, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> MouseControl::OnRender -> Begin (TemporalSystem.cpp)\n")
     if (g_iTemporal != TEMPORAL_ARM_NONE)
     {
         int oldHacking = iHacking;
@@ -970,6 +983,7 @@ void TemporalSystem_Wrapper::AISelectTarget(CombatAI *ai)
 
 HOOK_METHOD(CombatAI, OnLoop, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CombatAI::OnLoop -> Begin (TemporalSystem.cpp)\n")
     super();
     if (self->HasSystem(20))
     {
@@ -984,9 +998,10 @@ HOOK_METHOD(CombatAI, OnLoop, () -> void)
 
 // Level Tooltip
 
-HOOK_STATIC(ShipSystem, GetLevelDescription, (void* unk, std::string &retStr, int systemId, int level, bool tooltip) -> void)
+HOOK_STATIC(ShipSystem, GetLevelDescription, (int systemId, int level, bool tooltip) -> std::string)
 {
-    super(unk, retStr, systemId, level, tooltip);
+    LOG_HOOK("HOOK_STATIC -> ShipSystem::GetLevelDescription -> Begin (TemporalSystem.cpp)\n")
+    std::string ret = super(systemId, level, tooltip);
 
     if (systemId == 20 && level != -1)
     {
@@ -997,14 +1012,16 @@ HOOK_STATIC(ShipSystem, GetLevelDescription, (void* unk, std::string &retStr, in
         ReplaceTemporalText(replStr, realLevel);
         boost::algorithm::replace_all(replStr, "\\n", "\n");
 
-        retStr.assign(replStr);
+        ret.assign(replStr);
     }
+    return ret;
 }
 
 // Animation
 
 HOOK_METHOD(Ship, OnRenderWalls, (bool forceView, bool doorControlMode) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Ship::OnRenderWalls -> Begin (TemporalSystem.cpp)\n")
     for (auto i : vRoomList)
     {
         auto ex = RM_EX(i);
@@ -1018,11 +1035,7 @@ HOOK_METHOD(Ship, OnRenderWalls, (bool forceView, bool doorControlMode) -> void)
             {
                 if (!ex->speedUpAnim)
                 {
-                    auto newAnim = new Animation();
-
-                    AnimationControl::GetAnimation(*newAnim, G_->GetAnimationControl(), "room_temporal_speed");
-
-                    ex->speedUpAnim = newAnim;
+                    ex->speedUpAnim = new Animation(G_->GetAnimationControl()->GetAnimation("room_temporal_speed"));
                     ex->speedUpAnim->SetCurrentFrame(0);
                     ex->speedUpAnim->tracker.SetLoop(true, 0);
                     ex->speedUpAnim->Start(true);
@@ -1034,9 +1047,7 @@ HOOK_METHOD(Ship, OnRenderWalls, (bool forceView, bool doorControlMode) -> void)
             {
                 if (!ex->slowDownAnim)
                 {
-                    ex->slowDownAnim = new Animation();
-                    AnimationControl::GetAnimation(*ex->slowDownAnim, G_->GetAnimationControl(), "room_temporal_slow");
-
+                    ex->slowDownAnim = new Animation(G_->GetAnimationControl()->GetAnimation("room_temporal_slow"));
                     ex->slowDownAnim->SetCurrentFrame(0);
                     ex->slowDownAnim->tracker.SetLoop(true, 0);
                     ex->slowDownAnim->Start(true);
@@ -1109,6 +1120,7 @@ HOOK_METHOD(Ship, OnRenderWalls, (bool forceView, bool doorControlMode) -> void)
 
 HOOK_METHOD(CrewAI, PrioritizeTask, (CrewTask task, int crewId) -> int)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewAI::PrioritizeTask -> Begin (TemporalSystem.cpp)\n")
     if (task.system == 20) task.system = 15;
     return super(task, crewId);
 }
@@ -1120,6 +1132,7 @@ static float g_dilationExtraMul = 1.0;
 
 HOOK_METHOD(CFPS, GetSpeedFactor, () -> float)
 {
+    LOG_HOOK("HOOK_METHOD -> CFPS::GetSpeedFactor -> Begin (TemporalSystem.cpp)\n")
     float ret = super();
 
     if (g_dilationAmount != 0)
@@ -1149,18 +1162,21 @@ int GetRoomDilationAmount(std::map<int, int> roomMap, int roomId)
 
 HOOK_METHOD(OxygenSystem, ModifyRoomOxygen, (int changeRoomId, float amount) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> OxygenSystem::ModifyRoomOxygen -> Begin (TemporalSystem.cpp)\n")
     int dilationAmount = GetRoomDilationAmount(g_envDilationRooms, changeRoomId);
     super(changeRoomId, amount * (float)TemporalSystemParser::GetDilationStrength(dilationAmount));
 }
 
 HOOK_METHOD(OxygenSystem, ComputeAirLoss, (int changeRoomId, float amount, bool unk) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> OxygenSystem::ComputeAirLoss -> Begin (TemporalSystem.cpp)\n")
     int dilationAmount = GetRoomDilationAmount(g_envDilationRooms, changeRoomId);
     super(changeRoomId, amount * (float)TemporalSystemParser::GetDilationStrength(dilationAmount), unk);
 }
 
 HOOK_METHOD(Fire, OnLoop, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Fire::OnLoop -> Begin (TemporalSystem.cpp)\n")
     g_dilationAmount = GetRoomDilationAmount(g_envDilationRooms, roomId);
     super();
     g_dilationAmount = 0;
@@ -1168,6 +1184,7 @@ HOOK_METHOD(Fire, OnLoop, () -> void)
 
 HOOK_METHOD(Fire, UpdateDeathTimer, (int connectedFires) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Fire::UpdateDeathTimer -> Begin (TemporalSystem.cpp)\n")
     g_dilationAmount = GetRoomDilationAmount(g_envDilationRooms, roomId);
     super(connectedFires);
     g_dilationAmount = 0;
@@ -1175,6 +1192,7 @@ HOOK_METHOD(Fire, UpdateDeathTimer, (int connectedFires) -> void)
 
 HOOK_METHOD(Fire, UpdateStartTimer, (int doorLevel) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Fire::UpdateStartTimer -> Begin (TemporalSystem.cpp)\n")
     g_dilationAmount = GetRoomDilationAmount(g_envDilationRooms, roomId);
     super(doorLevel);
     g_dilationAmount = 0;
@@ -1183,6 +1201,7 @@ HOOK_METHOD(Fire, UpdateStartTimer, (int doorLevel) -> void)
 
 HOOK_METHOD(CrewAnimation, OnUpdate, (Pointf position, bool moving, bool fighting, bool repairing, bool dying, bool onFire) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewAnimation::OnUpdate -> Begin (TemporalSystem.cpp)\n")
     if (g_dilationAmount > 0)
     {
         float dilationMul = TemporalSystemParser::GetDilationStrength(g_dilationAmount);
@@ -1206,6 +1225,7 @@ HOOK_METHOD(CrewAnimation, OnUpdate, (Pointf position, bool moving, bool fightin
 
 HOOK_METHOD(CrewMember, OnLoop, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewMember::OnLoop -> Begin (TemporalSystem.cpp)\n")
     g_dilationAmount = GetRoomDilationAmount(g_crewDilationRooms, iRoomId);
     super();
     g_dilationAmount = 0;
@@ -1213,6 +1233,7 @@ HOOK_METHOD(CrewMember, OnLoop, () -> void)
 
 HOOK_METHOD(CloneSystem, OnLoop, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CloneSystem::OnLoop -> Begin (TemporalSystem.cpp)\n")
     g_dilationAmount = GetRoomDilationAmount(g_sysDilationRooms, roomId);
     super();
     g_dilationAmount = 0;
@@ -1225,6 +1246,7 @@ static bool g_inUpdateCrewMembers = false;
 /*
 HOOK_METHOD(CrewMember, DirectModifyHealth, (float healthMod) -> bool)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewMember::DirectModifyHealth -> Begin (TemporalSystem.cpp)\n")
     if (g_inUpdateCrewMembers && !g_inUpdateHealth && !g_inApplyDamage)
     {
         int dilationAmount = GetRoomDilationAmount(g_crewDilationRooms, iRoomId);
@@ -1238,6 +1260,7 @@ HOOK_METHOD(CrewMember, DirectModifyHealth, (float healthMod) -> bool)
 
 HOOK_METHOD(CrewMember, UpdateHealth, () -> bool)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewMember::UpdateHealth -> Begin (TemporalSystem.cpp)\n")
     g_inUpdateHealth = true;
     auto ret = super();
     g_inUpdateHealth = false;
@@ -1246,6 +1269,7 @@ HOOK_METHOD(CrewMember, UpdateHealth, () -> bool)
 
 HOOK_METHOD(CrewMember, ApplyDamage, (float damage) -> bool)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewMember::ApplyDamage -> Begin (TemporalSystem.cpp)\n")
     g_inApplyDamage = true;
     auto ret = super(damage);
     g_inApplyDamage = false;
@@ -1254,6 +1278,7 @@ HOOK_METHOD(CrewMember, ApplyDamage, (float damage) -> bool)
 
 HOOK_METHOD_PRIORITY(ShipManager, UpdateCrewMembers, -900, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::UpdateCrewMembers -> Begin (TemporalSystem.cpp)\n")
     for (auto i : ship.vRoomList)
     {
         if (RM_EX(i)->timeDilation != 0)
@@ -1273,6 +1298,7 @@ static bool g_inSpreadDamage = false;
 
 HOOK_METHOD(ShipSystem, DamageOverTime, (float amount) -> bool)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipSystem::DamageOverTime -> Begin (TemporalSystem.cpp)\n")
     if (!g_inSpreadDamage) return super(amount);
 
     g_dilationAmount = GetRoomDilationAmount(g_envDilationRooms, roomId);
@@ -1283,6 +1309,7 @@ HOOK_METHOD(ShipSystem, DamageOverTime, (float amount) -> bool)
 
 HOOK_METHOD(ShipManager, CheckSpreadDamage, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::CheckSpreadDamage -> Begin (TemporalSystem.cpp)\n")
     for (auto i : ship.vRoomList)
     {
         if (RM_EX(i)->timeDilation != 0)
@@ -1300,6 +1327,7 @@ HOOK_METHOD(ShipManager, CheckSpreadDamage, () -> void)
 
 HOOK_METHOD_PRIORITY(ShipManager, UpdateEnvironment, -900, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::UpdateEnvironment -> Begin (TemporalSystem.cpp)\n")
     for (auto i : ship.vRoomList)
     {
         if (RM_EX(i)->timeDilation != 0)
@@ -1315,6 +1343,7 @@ HOOK_METHOD_PRIORITY(ShipManager, UpdateEnvironment, -900, () -> void)
 
 HOOK_METHOD(ShipSystem, PartialRepair, (float speed, bool autoRepair) -> bool)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipSystem::PartialRepair -> Begin (TemporalSystem.cpp)\n")
     if (autoRepair)
     {
         g_dilationAmount = GetRoomDilationAmount(g_sysDilationRooms, roomId);
@@ -1331,6 +1360,7 @@ HOOK_METHOD(ShipSystem, PartialRepair, (float speed, bool autoRepair) -> bool)
 
 HOOK_METHOD(LockdownShard, Update, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> LockdownShard::Update -> Begin (TemporalSystem.cpp)\n")
     g_dilationAmount = GetRoomDilationAmount(g_shardDilationRooms, lockingRoom);
 
     super();
@@ -1340,6 +1370,7 @@ HOOK_METHOD(LockdownShard, Update, () -> void)
 
 HOOK_METHOD(Door, OnLoop, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> Door::OnLoop -> Begin (TemporalSystem.cpp)\n")
     if (lockedDown.running &&
         ((iRoom1 != -1 && GetRoomDilationAmount(g_shardDilationRooms, iRoom1) != 0) ||
          (iRoom2 != -1 && GetRoomDilationAmount(g_shardDilationRooms, iRoom2) != 0)))
@@ -1376,6 +1407,7 @@ HOOK_METHOD(Door, OnLoop, () -> void)
 
 HOOK_METHOD_PRIORITY(ShipManager, OnLoop, -900,  () -> void)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::OnLoop -> Begin (TemporalSystem.cpp)\n")
     for (auto i : ship.vRoomList)
     {
         if (RM_EX(i)->timeDilation != 0)
@@ -1414,6 +1446,7 @@ HOOK_METHOD_PRIORITY(ShipManager, OnLoop, -900,  () -> void)
 
 HOOK_METHOD(ShipManager, ExportShip, (int file) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::ExportShip -> Begin (TemporalSystem.cpp)\n")
     super(file);
 
     FileHelper::writeInt(file, HasSystem(20));
@@ -1439,6 +1472,7 @@ HOOK_METHOD(ShipManager, ExportShip, (int file) -> void)
 
 HOOK_METHOD(ShipManager, ImportShip, (int file) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::ImportShip -> Begin (TemporalSystem.cpp)\n")
     super(file);
 
     bool hasTemporal = FileHelper::readInteger(file);
@@ -1489,6 +1523,7 @@ HOOK_METHOD(ShipManager, ImportShip, (int file) -> void)
 
 HOOK_METHOD(ShipManager, ExportBattleState, (int file) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::ExportBattleState -> Begin (TemporalSystem.cpp)\n")
     super(file);
 
     if (systemKey[20] != -1)
@@ -1517,6 +1552,7 @@ HOOK_METHOD(ShipManager, ExportBattleState, (int file) -> void)
 
 HOOK_METHOD(ShipManager, ImportBattleState, (int file) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::ImportBattleState -> Begin (TemporalSystem.cpp)\n")
     super(file);
 
     if (systemKey[20] != -1)

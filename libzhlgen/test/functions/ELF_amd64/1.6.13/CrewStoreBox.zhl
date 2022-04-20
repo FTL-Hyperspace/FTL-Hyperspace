@@ -1,0 +1,18 @@
+"415741564531f641554989fd4154555331db4881ec18010000":
+cleanup __amd64 void CrewStoreBox::Purchase(CrewStoreBox *this);
+"41574989ff415641554154554889f5":
+cleanup __amd64 void CrewStoreBox::constructor(CrewStoreBox *this, ShipManager *ship, int worldLevel, const std::string& type);
+
+
+struct CrewStoreBox
+{{
+	CrewStoreBox(ShipManager *_ship, int _worldLevel, const std::string& _type)
+	{
+		this->constructor(_ship, _worldLevel, _type);
+	}
+	
+	CrewStoreBox()
+	{
+		StoreBox::constructor("storeUI/store_buy_crew", nullptr, nullptr);
+	}
+}};

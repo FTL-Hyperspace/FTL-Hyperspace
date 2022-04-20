@@ -1,8 +1,8 @@
 #include "Global.h"
-#include "freetype.h"
 
 HOOK_METHOD(InfoBox, SetBlueprintWeapon, (const WeaponBlueprint* bp, int status, bool hasWeaponSystem, int yShift) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> InfoBox::SetBlueprintWeapon -> Begin (CustomEquipment.cpp)\n")
     if (hasWeaponSystem && status == 1)
     {
         return super(bp, 2, hasWeaponSystem, yShift);
@@ -14,10 +14,11 @@ HOOK_METHOD(InfoBox, SetBlueprintWeapon, (const WeaponBlueprint* bp, int status,
 
 HOOK_METHOD(InfoBox, SetBlueprintWeapon, (const WeaponBlueprint* bp, int status, bool hasWeaponSystem, int yShift) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> InfoBox::SetBlueprintWeapon -> Begin (CustomEquipment.cpp)\n")
     super(bp, status, hasWeaponSystem, yShift);
 
-    Pointf titleSize = freetype_hack::easy_measurePrintLines(16, 0, 0, descBoxSize.x, desc.title.GetText());
-    Pointf descSize = freetype_hack::easy_measurePrintLines(10, 0, 0, descBoxSize.x, desc.description.GetText());
+    Pointf titleSize = freetype::easy_measurePrintLines(16, 0, 0, descBoxSize.x, desc.title.GetText());
+    Pointf descSize = freetype::easy_measurePrintLines(10, 0, 0, descBoxSize.x, desc.description.GetText());
 
     Pointf boxSize = titleSize + descSize + Pointf(0, 28.f);
     boxSize.y = std::max(boxSize.y, 252.f);
@@ -30,18 +31,19 @@ HOOK_METHOD(InfoBox, SetBlueprintWeapon, (const WeaponBlueprint* bp, int status,
 }
 
 
-HOOK_STATIC_PRIORITY(Equipment, GetCargoHold, 9999, (std::vector<std::string> *ret, Equipment *_this) -> std::vector<std::string>*)
+HOOK_METHOD_PRIORITY(Equipment, GetCargoHold, 9999, () -> std::vector<std::string>)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> Equipment::GetCargoHold -> Begin (CustomEquipment.cpp)\n")
     // Rewrite to fix a vanilla item duplication bug.
 
-    ret = new(ret) std::vector<std::string>();
+    std::vector<std::string> ret = std::vector<std::string>();
 
-    for (unsigned int i = _this->cargoId; i<_this->vEquipmentBoxes.size(); ++i)
+    for (unsigned int i = this->cargoId; i<this->vEquipmentBoxes.size(); ++i)
     {
-        if (!_this->vEquipmentBoxes[i]->IsEmpty())
+        if (!this->vEquipmentBoxes[i]->IsEmpty())
         {
-            Blueprint *bp = _this->vEquipmentBoxes[i]->GetBlueprint();
-            ret->push_back(bp->name);
+            Blueprint *bp = this->vEquipmentBoxes[i]->GetBlueprint();
+            ret.push_back(bp->name);
         }
     }
 
@@ -50,6 +52,7 @@ HOOK_STATIC_PRIORITY(Equipment, GetCargoHold, 9999, (std::vector<std::string> *r
 
 HOOK_METHOD_PRIORITY(Equipment, AddToCargo, 9999, (const std::string& name) -> void)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> Equipment::AddToCargo -> Begin (CustomEquipment.cpp)\n")
     // Rewrite to fix deleting 0 power weapons/drones in cargo.
 
     WeaponBlueprint *weapon = G_->GetBlueprints()->GetWeaponBlueprint(name);

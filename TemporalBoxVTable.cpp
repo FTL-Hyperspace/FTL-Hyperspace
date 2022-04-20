@@ -1,4 +1,5 @@
 #include "Global.h"
+#include "PALMemoryProtection.h"
 
 #pragma GCC push_options
 #pragma GCC optimize ("O1")
@@ -7,79 +8,101 @@
 const int g_temporalBoxVTableSize = 22;
 static void* g_temporalBoxVTable[g_temporalBoxVTableSize];
 
-static int __attribute__((fastcall)) TemporalBox_GetCooldownLevel(TemporalBox *_this)
+int TemporalBox::_HS_GetCooldownLevel()
 {
-    if (_this->temporalSystem->bTurnedOn)
+    if (this->temporalSystem->bTurnedOn)
     {
-        return _this->pSystem->GetEffectivePower();
+        return this->pSystem->GetEffectivePower();
     }
 
     return -1;
 }
 
-static float __attribute__((fastcall)) TemporalBox_GetCooldownFraction(TemporalBox *_this)
+float TemporalBox::_HS_GetCooldownFraction()
 {
-    if (_this->temporalSystem->IsReady() || !_this->temporalSystem->bTurnedOn)
+    if (this->temporalSystem->IsReady() || !this->temporalSystem->bTurnedOn)
     {
         return -1.f;
     }
     else
     {
-        return 1.f - (_this->temporalSystem->timer.currTime / _this->temporalSystem->timer.currGoal);
+        return 1.f - (this->temporalSystem->timer.currTime / this->temporalSystem->timer.currGoal);
     }
 }
 
-static bool __attribute__((fastcall)) TemporalBox_HasButton(TemporalBox *_this)
+bool TemporalBox::_HS_HasButton()
 {
     return true;
 }
 
-static void __attribute__((fastcall)) TemporalBox_OnRender(TemporalBox *_this, int _edx, bool ignoreStatus)
+void TemporalBox::_HS_OnRender(bool ignoreStatus)
 {
-    _this->RenderBox(ignoreStatus);
-    _this->CooldownSystemBox::OnRender(ignoreStatus);
+    this->RenderBox(ignoreStatus);
+    this->CooldownSystemBox::OnRender(ignoreStatus);
 }
 
-static void __attribute__((fastcall)) TemporalBox_MouseMove(TemporalBox *_this, int _edx, int x, int y)
+void TemporalBox::_HS_MouseMove(int x, int y)
 {
-    _this->SystemBox::MouseMove(x,y);
-    _this->NewMouseMove(x,y);
+    this->SystemBox::MouseMove(x,y);
+    this->NewMouseMove(x,y);
 }
 
-static bool __attribute__((fastcall)) TemporalBox_MouseClick(TemporalBox *_this, int _edx, bool shift)
+bool TemporalBox::_HS_MouseClick(bool shift)
 {
-    bool ret = _this->SystemBox::MouseClick(shift);
-    _this->LeftMouseClick(shift);
+    bool ret = this->SystemBox::MouseClick(shift);
+    this->LeftMouseClick(shift);
     return ret;
 }
 
-static void __attribute__((fastcall)) TemporalBox_KeyDown(TemporalBox *_this, int _edx, SDLKey key, bool shift)
+void TemporalBox::_HS_KeyDown(SDLKey key, bool shift)
 {
-    _this->SystemBox::KeyDown(key, shift);
-    _this->OnKeyDown(key, shift);
+    this->SystemBox::KeyDown(key, shift);
+    this->OnKeyDown(key, shift);
 }
 
 void SetupVTable(TemporalBox* box)
 {
     void** vtable = *(void***)box;
 
-    DWORD dwOldProtect, dwBkup;
-    VirtualProtect(&vtable[0], sizeof(void*) * g_temporalBoxVTableSize, PAGE_EXECUTE_READWRITE, &dwOldProtect);
+    MEMPROT_SAVE_PROT(dwOldProtect);
+    MEMPROT_PAGESIZE();
+    MEMPROT_UNPROTECT(&vtable[0], sizeof(void*) * g_temporalBoxVTableSize, dwOldProtect);
 
     for (int i = 0; i < g_temporalBoxVTableSize; i++)
     {
         g_temporalBoxVTable[i] = vtable[i];
     }
 
-    VirtualProtect(&vtable[0], sizeof(void*) * g_temporalBoxVTableSize, dwOldProtect, &dwBkup);
+    MEMPROT_REPROTECT(&vtable[0], sizeof(void*) * g_temporalBoxVTableSize, dwOldProtect);
 
-    g_temporalBoxVTable[3] = (void*)&TemporalBox_HasButton;
-    g_temporalBoxVTable[7] = (void*)&TemporalBox_OnRender;
-    g_temporalBoxVTable[9] = (void*)&TemporalBox_MouseMove;
-    g_temporalBoxVTable[10] = (void*)&TemporalBox_MouseClick;
-    g_temporalBoxVTable[18] = (void*)&TemporalBox_KeyDown;
-    g_temporalBoxVTable[19] = (void*)&TemporalBox_GetCooldownLevel;
-    g_temporalBoxVTable[20] = (void*)&TemporalBox_GetCooldownFraction;
+    {
+        auto fptr = &TemporalBox::_HS_HasButton;
+        g_temporalBoxVTable[3] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &TemporalBox::_HS_OnRender;
+        g_temporalBoxVTable[7] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &TemporalBox::_HS_MouseMove;
+        g_temporalBoxVTable[9] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &TemporalBox::_HS_MouseClick;
+        g_temporalBoxVTable[10] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &TemporalBox::_HS_KeyDown;
+        g_temporalBoxVTable[18] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &TemporalBox::_HS_GetCooldownLevel;
+        g_temporalBoxVTable[19] = reinterpret_cast<void *&>(fptr);
+    }
+    {
+        auto fptr = &TemporalBox::_HS_GetCooldownFraction;
+        g_temporalBoxVTable[20] = reinterpret_cast<void *&>(fptr);
+    }
 
     *((void**)box)= &g_temporalBoxVTable;
 }
@@ -92,9 +115,9 @@ TemporalBox::TemporalBox(Point pos, ShipSystem *sys, ShipManager *ship)
     shipManager = ship;
 
     slowDownButton = new Button();
-    slowDownButton->OnInit("systemUI/button_temporal_slow", 9, 35);
+    slowDownButton->OnInit("systemUI/button_temporal_slow", Point(9, 35));
     speedUpButton = new Button();
-    speedUpButton->OnInit("systemUI/button_temporal_speed", 9, 9);
+    speedUpButton->OnInit("systemUI/button_temporal_speed", Point(9, 9));
 
     buttonOffset = Point(location.x + 34, location.y - 39);
 

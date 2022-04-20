@@ -5,7 +5,8 @@ class CustomOptionsManager
 public:
     CustomOptionsManager()
     {
-
+        rightClickDoorOpening.defaultValue = true;
+        rightClickDoorOpening.currentValue = true;
     }
 
     static CustomOptionsManager *GetInstance()
@@ -25,10 +26,11 @@ public:
     {
         bool beaconType_hideVanillaLabel = true;
         bool checkCargo = false;
+        bool choiceRequiresCrew = false;
     };
 
-    bool altMode = false;
-    bool altModeChanged = false;
+    bool altMode = true;
+    bool altModeChanged = true;
 
 //    Setting holdButton;
 
@@ -44,6 +46,9 @@ public:
     Setting advancedCrewTooltipRounding;
 
     Setting eventTooltips;
+
+    Setting alternateCrewMovement;
+    Setting rightClickDoorOpening;
 
     Setting showWeaponCooldown;
 

@@ -3,6 +3,7 @@
 
 HOOK_METHOD(WeaponBox, RenderBox, (bool dragging, bool flashPowerBox) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> WeaponBox::RenderBox -> Begin (CooldownNumbers.cpp)\n")
     super(dragging, flashPowerBox);
     if (pWeapon && CustomOptionsManager::GetInstance()->showWeaponCooldown.currentValue)
     {

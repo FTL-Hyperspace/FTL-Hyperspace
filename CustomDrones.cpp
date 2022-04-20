@@ -3,6 +3,7 @@
 #include "CustomWeapons.h"
 #include <boost/lexical_cast.hpp>
 #include <cmath>
+#include <cfloat>
 
 bool g_DefenseDroneFix = false;
 float g_DefenseDroneFix_BoxRange[2] = {150.f, 150.f};
@@ -72,15 +73,28 @@ void CustomDroneManager::ParseDroneNode(rapidxml::xml_node<char> *node)
             }
         }
     }
-    catch (std::exception)
+    catch (rapidxml::parse_error& e)
     {
-        MessageBoxA(GetDesktopWindow(), "Error parsing <drones> in hyperspace.xml", "Error", MB_ICONERROR | MB_SETFOREGROUND);
+        ErrorMessage(std::string("Error parsing <drones> in hyperspace.xml\n") + std::string(e.what()));
+    }
+    catch (std::exception &e)
+    {
+        ErrorMessage(std::string("Error parsing <drones> in hyperspace.xml\n") + std::string(e.what()));
+    }
+    catch (const char* e)
+    {
+        ErrorMessage(std::string("Error parsing <drones> in hyperspace.xml\n") + std::string(e));
+    }
+    catch (...)
+    {
+        ErrorMessage("Error parsing <drones> in hyperspace.xml\n");
     }
 }
 
-HOOK_STATIC(BlueprintManager, ProcessDroneBlueprint, (DroneBlueprint* bp, BlueprintManager *bpM, rapidxml::xml_node<char>* node) -> DroneBlueprint*)
+HOOK_METHOD(BlueprintManager, ProcessDroneBlueprint, (rapidxml::xml_node<char>* node) -> DroneBlueprint)
 {
-    auto ret = super(bp, bpM, node);
+    LOG_HOOK("HOOK_METHOD -> BlueprintManager::ProcessDroneBlueprint -> Begin (CustomDrones.cpp)\n")
+    DroneBlueprint ret = super(node);
 
     try
     {
@@ -90,24 +104,36 @@ HOOK_STATIC(BlueprintManager, ProcessDroneBlueprint, (DroneBlueprint* bp, Bluepr
             {
                 if (strcmp(child->value(), "ASTEROIDS") == 0)
                 {
-                    bp->targetType = 2;
+                    ret.targetType = 2;
                 }
                 else if (strcmp(child->value(), "SOLID") == 0)
                 {
-                    bp->targetType = 5;
+                    ret.targetType = 5;
                 }
                 else if (strcmp(child->value(), "ALL") == 0)
                 {
-                    bp->targetType = 6;
+                    ret.targetType = 6;
                 }
             }
         }
 
-        return bp;
+        return ret;
     }
-    catch (std::exception)
+    catch (rapidxml::parse_error& e)
     {
-        MessageBoxA(GetDesktopWindow(), "Error parsing <droneBlueprint>", "Error", MB_ICONERROR | MB_SETFOREGROUND);
+        ErrorMessage(std::string("Error parsing <droneBlueprint>\n") + std::string(e.what()));
+    }
+    catch (std::exception &e)
+    {
+        ErrorMessage(std::string("Error parsing <droneBlueprint>\n") + std::string(e.what()));
+    }
+    catch (const char* e)
+    {
+        ErrorMessage(std::string("Error parsing <droneBlueprint>\n") + std::string(e));
+    }
+    catch (...)
+    {
+        ErrorMessage("Error parsing <droneBlueprint>\n");
     }
 
     return ret;
@@ -117,6 +143,7 @@ HOOK_STATIC(BlueprintManager, ProcessDroneBlueprint, (DroneBlueprint* bp, Bluepr
 
 HOOK_METHOD(CrewMemberFactory, CreateBoarderDrone, (int shipId, DroneBlueprint *bp) -> BoarderDrone*)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewMemberFactory::CreateBoarderDrone -> Begin (CustomDrones.cpp)\n")
     CustomDroneDefinition *customDrone = CustomDroneManager::GetInstance()->GetDefinition(bp->name);
 
     if (customDrone)
@@ -136,6 +163,7 @@ HOOK_METHOD(CrewMemberFactory, CreateBoarderDrone, (int shipId, DroneBlueprint *
 
 HOOK_METHOD(DroneBlueprint, RenderIcon, (float scale) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> DroneBlueprint::RenderIcon -> Begin (CustomDrones.cpp)\n")
     CustomDroneDefinition *customDrone = CustomDroneManager::GetInstance()->GetDefinition(name);
     if ((type == 2 || type == 3 || type == 4) && customDrone)
     {
@@ -153,19 +181,17 @@ HOOK_METHOD(DroneBlueprint, RenderIcon, (float scale) -> void)
         }
 
         CSurface::GL_PushMatrix();
-        auto walkDown = G_->GetAnimationControl()->GetAnimation(race + "_walk_down");
+        Animation walkDown = G_->GetAnimationControl()->GetAnimation(race + "_walk_down");
         auto base = G_->GetResources()->GetImageId("people/" + race + "_base.png");
         auto layer = G_->GetResources()->GetImageId("people/" + race + "_layer1.png");
 
-        CSurface::GL_Translate(std::floor(std::floor((-scale * walkDown->info.frameWidth)) / 2.f) + 1, std::floor(std::floor((-scale * walkDown->info.frameHeight)) / 2.f) + 1);
+        CSurface::GL_Translate(std::floor(std::floor((-scale * walkDown.info.frameWidth)) / 2.f) + 1, std::floor(std::floor((-scale * walkDown.info.frameHeight)) / 2.f) + 1);
 
-        walkDown->SetCurrentFrame(0);
-        walkDown->SetAnimationId(base);
-        walkDown->OnRender(1.f, COLOR_WHITE, false);
-        walkDown->SetAnimationId(layer);
-        walkDown->OnRender(1.f, GL_Color(128.f / 255.f, 255.f / 255.f, 141.f / 255.f, 1.f), false);
-
-        delete walkDown;
+        walkDown.SetCurrentFrame(0);
+        walkDown.SetAnimationId(base);
+        walkDown.OnRender(1.f, COLOR_WHITE, false);
+        walkDown.SetAnimationId(layer);
+        walkDown.OnRender(1.f, GL_Color(128.f / 255.f, 255.f / 255.f, 141.f / 255.f, 1.f), false);
 
         CSurface::GL_PopMatrix();
         return;
@@ -176,6 +202,7 @@ HOOK_METHOD(DroneBlueprint, RenderIcon, (float scale) -> void)
 
 HOOK_METHOD(CrewAnimation, OnInit, (const std::string& name, Pointf position, bool enemy) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewAnimation::OnInit -> Begin (CustomDrones.cpp)\n")
     super(name, position, enemy);
 
     CustomDroneDefinition *customDrone = CustomDroneManager::GetInstance()->GetDefinitionByRace(race);
@@ -187,6 +214,7 @@ HOOK_METHOD(CrewAnimation, OnInit, (const std::string& name, Pointf position, bo
 
 HOOK_METHOD(CrewDrone, constructor, (const std::string& droneType, const std::string& name, int shipId, const DroneBlueprint* blueprint, CrewAnimation *anim) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewDrone::constructor -> Begin (CustomDrones.cpp)\n")
     CustomDroneDefinition *customDrone = CustomDroneManager::GetInstance()->GetDefinition(blueprint->name);
 
     if (customDrone)
@@ -200,7 +228,7 @@ HOOK_METHOD(CrewDrone, constructor, (const std::string& droneType, const std::st
             textName.data = customDrone->tooltipName;
             textName.isLiteral = true;
 
-            SetName(textName, true);
+            SetName(&textName, true);
         }
     }
     else
@@ -213,6 +241,7 @@ static bool blockControllableAI;
 
 HOOK_METHOD(ShipManager, CommandCrewMoveRoom, (CrewMember* crew, int room) -> bool)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::CommandCrewMoveRoom -> Begin (CustomDrones.cpp)\n")
     if (blockControllableAI)
     {
         auto custom = CustomCrewManager::GetInstance();
@@ -224,6 +253,7 @@ HOOK_METHOD(ShipManager, CommandCrewMoveRoom, (CrewMember* crew, int room) -> bo
 
 HOOK_METHOD(CrewMember, SetTask, (CrewTask task) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewMember::SetTask -> Begin (CustomDrones.cpp)\n")
     if (blockControllableAI)
     {
         auto custom = CustomCrewManager::GetInstance();
@@ -235,6 +265,7 @@ HOOK_METHOD(CrewMember, SetTask, (CrewTask task) -> void)
 
 HOOK_METHOD(CrewAI, UpdateDrones, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewAI::UpdateDrones -> Begin (CustomDrones.cpp)\n")
     blockControllableAI = true;
     super();
     blockControllableAI = false;
@@ -467,6 +498,7 @@ HOOK_METHOD(CrewAI, UpdateDrones, () -> void)
 
 HOOK_METHOD(ShipManager, CreateSpaceDrone, (const DroneBlueprint *bp) -> SpaceDrone*)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::CreateSpaceDrone -> Begin (CustomDrones.cpp)\n")
     if (bp->type == 4)
     {
         for (auto i: myBlueprint.systemInfo)
@@ -490,6 +522,7 @@ HOOK_METHOD(ShipManager, CreateSpaceDrone, (const DroneBlueprint *bp) -> SpaceDr
 
 HOOK_METHOD(ShipManager, CreateSpaceDrone, (const DroneBlueprint *bp) -> SpaceDrone*)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::CreateSpaceDrone -> Begin (CustomDrones.cpp)\n")
     SpaceDrone* ret = super(bp);
 
     if (ret)
@@ -500,8 +533,8 @@ HOOK_METHOD(ShipManager, CreateSpaceDrone, (const DroneBlueprint *bp) -> SpaceDr
             {
                 // combat
 
-                ((CombatDrone*)ret)->SetMovementTarget(current_target->_targetable);
-                ((CombatDrone*)ret)->SetWeaponTarget(current_target->_targetable);
+                ((CombatDrone*)ret)->SetMovementTarget(&current_target->_targetable);
+                ((CombatDrone*)ret)->SetWeaponTarget(&current_target->_targetable);
 
             }
             else if (ret->type == 4)
@@ -510,7 +543,7 @@ HOOK_METHOD(ShipManager, CreateSpaceDrone, (const DroneBlueprint *bp) -> SpaceDr
 
                 BoarderPodDrone *drone = ((BoarderPodDrone*)ret);
 
-                drone->SetMovementTarget(current_target->_targetable);
+                drone->SetMovementTarget(&current_target->_targetable);
 
                 if (drone->boarderDrone)
                 {
@@ -531,6 +564,7 @@ HOOK_METHOD(ShipManager, CreateSpaceDrone, (const DroneBlueprint *bp) -> SpaceDr
 static std::vector<Projectile*> spaceDroneQueuedProjectiles = std::vector<Projectile*>();
 HOOK_METHOD(SpaceDrone, GetNextProjectile, () -> Projectile*)
 {
+    LOG_HOOK("HOOK_METHOD -> SpaceDrone::GetNextProjectile -> Begin (CustomDrones.cpp)\n")
     Projectile* ret;
     if (weaponBlueprint->type == 4) // flak
     {
@@ -557,16 +591,14 @@ HOOK_METHOD(SpaceDrone, GetNextProjectile, () -> Projectile*)
                 {
                     float r = sqrt(random32()/2147483648.f) * radius;
                     float theta = random32()%360 * 0.01745329f;
-                    Pointf ppos = {lastTargetLocation.x + r*cos(theta), lastTargetLocation.y + r*sin(theta)};
+                    Pointf ppos = {static_cast<float>(lastTargetLocation.x + r*cos(theta)), static_cast<float>(lastTargetLocation.y + r*sin(theta))};
                     LaserBlast *projectile = new LaserBlast(currentLocation,currentSpace,currentSpace,ppos);
                     projectile->heading = -1.0;
                     projectile->OnInit();
                     projectile->Initialize(*weaponBlueprint);
                     projectile->ownerId = iShipId;
 
-                    Animation *anim = G_->GetAnimationControl()->GetAnimation(k.image);
-                    projectile->flight_animation = *anim;
-                    delete anim;
+                    projectile->flight_animation = G_->GetAnimationControl()->GetAnimation(k.image);
 
                     if (k.fake)
                     {
@@ -589,9 +621,10 @@ HOOK_METHOD(SpaceDrone, GetNextProjectile, () -> Projectile*)
                     }
                     else
                     {
-                        projectile->damage.ownerId = iShipId;
                         projectile->bBroadcastTarget = type == 1 && iShipId == 0;
                     }
+
+                    CustomWeaponManager::ProcessMiniProjectile(projectile, weaponBlueprint);
 
                     spaceDroneQueuedProjectiles.push_back(projectile);
                 }
@@ -616,6 +649,7 @@ HOOK_METHOD(SpaceDrone, GetNextProjectile, () -> Projectile*)
 
 HOOK_METHOD(DroneSystem, OnLoop, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> DroneSystem::OnLoop -> Begin (CustomDrones.cpp)\n")
     if (!loadingGame)
     {
         for (Drone* _drone : drones)
@@ -646,6 +680,7 @@ HOOK_METHOD(DroneSystem, OnLoop, () -> void)
 /*
 HOOK_METHOD(BoarderPodDrone, CanBeDeployed, () -> bool)
 {
+    LOG_HOOK("HOOK_METHOD -> BoarderPodDrone::CanBeDeployed -> Begin (CustomDrones.cpp)\n")
     bool ret = super();
     if (!ret && !bDead && bDeliveredDrone && boarderDrone->currentShipId == boarderDrone->iShipId)
     {
@@ -657,6 +692,7 @@ HOOK_METHOD(BoarderPodDrone, CanBeDeployed, () -> bool)
 // Doesn't quite work; drone appears in wrong room
 HOOK_METHOD(BoarderPodDrone, SetDeployed, (bool _deployed) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> BoarderPodDrone::SetDeployed -> Begin (CustomDrones.cpp)\n")
     if (_deployed && boarderDrone && boarderDrone->currentShipId == boarderDrone->iShipId)
     {
         CompleteShip *enemyShip = G_->GetWorld()->playerShip->enemyShip;
@@ -672,6 +708,7 @@ HOOK_METHOD(BoarderPodDrone, SetDeployed, (bool _deployed) -> void)
 
 HOOK_METHOD(DefenseDrone, PickTarget, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> DefenseDrone::PickTarget -> Begin (CustomDrones.cpp)\n")
     if (!g_defenseDroneFix) return super();
 
     if (!bDisrupted || !powered)
@@ -849,42 +886,44 @@ Target types:
 6 - Hacking/boarding drone
 */
 
-HOOK_METHOD(DefenseDrone, ValidTargetObject, (Targetable &target) -> bool)
+HOOK_METHOD(DefenseDrone, ValidTargetObject, (Targetable *target) -> bool)
 {
-    if (((Targetable*)(&target)) == nullptr) return false; // target should really be a pointer but libzhlgen is forcing my hand here
+    LOG_HOOK("HOOK_METHOD -> DefenseDrone::ValidTargetObject -> Begin (CustomDrones.cpp)\n")
+    if (target == nullptr) return false;
 
     switch (blueprint->targetType)
     {
     case 2:
-        if (target.type != 2) return false;
+        if (target->type != 2) return false;
         break;
     case 5:
-        if (target.type == 4) return false;
+        if (target->type == 4) return false;
     case 6:
-        if (target.type == 0 || target.type == 5) return false;
+        if (target->type == 0 || target->type == 5) return false;
         break;
     default:
         return super(target);
     }
 
-    return (powered && target.GetOwnerId() != iShipId && target.ValidTarget() && currentSpace == target.GetSpaceId());
+    return (powered && target->GetOwnerId() != iShipId && target->ValidTarget() && currentSpace == target->GetSpaceId());
 }
 
-HOOK_METHOD(DefenseDrone, SetWeaponTarget, (Targetable &target) -> void)
+HOOK_METHOD(DefenseDrone, SetWeaponTarget, (Targetable *target) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> DefenseDrone::SetWeaponTarget -> Begin (CustomDrones.cpp)\n")
     if (!ValidTargetObject(target)) return;
 
-    int targetId = target.GetSelfId();
+    int targetId = target->GetSelfId();
 
-    if (targetId == shotAtTargetId && blueprint->targetType != 3 && target.type != 3) return; // don't shoot at the same target twice, except for anti-drone
+    if (targetId == shotAtTargetId && blueprint->targetType != 3 && target->type != 3) return; // don't shoot at the same target twice, except for anti-drone
 
     if (currentTargetType == 1)
     {
-        if (target.type != 1) return; // don't switch from missile to non-missile
+        if (target->type != 1) return; // don't switch from missile to non-missile
     }
     else if (currentTargetType == 2)
     {
-        if (((unsigned int)target.type) - 1U > 1) return; // don't switch from asteroid to non-asteroid/missile
+        if (((unsigned int)target->type) - 1U > 1) return; // don't switch from asteroid to non-asteroid/missile
     }
 
     if (targetId != currentTargetId)
@@ -900,17 +939,18 @@ HOOK_METHOD(DefenseDrone, SetWeaponTarget, (Targetable &target) -> void)
     }
 
     weaponTarget = nullptr; // this is from vanilla
-    targetLocation = target.GetWorldCenterPoint();
-    targetSpeed = target.GetSpeed();
+    targetLocation = target->GetWorldCenterPoint();
+    targetSpeed = target->GetSpeed();
     currentTargetId = targetId;
-    currentTargetType = target.type;
+    currentTargetType = target->type;
 }
 
-HOOK_STATIC(DefenseDrone, GetTooltip, (std::string& __return_storage_ptr__, DefenseDrone* _this) -> std::string&)
+HOOK_METHOD(DefenseDrone, GetTooltip, () -> std::string)
 {
+    LOG_HOOK("HOOK_METHOD -> DefenseDrone::GetTooltip -> Begin (CustomDrones.cpp)\n")
     std::string tooltipText;
 
-    switch (_this->blueprint->targetType)
+    switch (this->blueprint->targetType)
     {
     case 2:
         tooltipText = "defense_asteroid_";
@@ -922,10 +962,10 @@ HOOK_STATIC(DefenseDrone, GetTooltip, (std::string& __return_storage_ptr__, Defe
         tooltipText = "defense_all_";
         break;
     default:
-        return super(__return_storage_ptr__, _this);
+        return super();
     }
 
-    if (_this->iShipId == 0)
+    if (this->iShipId == 0)
     {
         tooltipText = tooltipText + "friendly";
     }
@@ -934,12 +974,13 @@ HOOK_STATIC(DefenseDrone, GetTooltip, (std::string& __return_storage_ptr__, Defe
         tooltipText = tooltipText + "enemy";
     }
 
-    return TextLibrary::GetText(__return_storage_ptr__, G_->GetTextLibrary(), tooltipText, G_->GetTextLibrary()->currentLanguage);
+    return G_->GetTextLibrary()->GetText(tooltipText, G_->GetTextLibrary()->currentLanguage);
 }
 
 
 HOOK_METHOD(CrewDrone, OnLoop, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewDrone::OnLoop -> Begin (CustomDrones.cpp)\n")
     if (CustomCrewManager::GetInstance()->IsRace(species) && CustomCrewManager::GetInstance()->GetDefinition(species)->droneMoveFromManningSlot)
     {
         SetFrozen(_drone.deployed && !_drone.powered);
@@ -1010,6 +1051,7 @@ HOOK_METHOD(CrewDrone, OnLoop, () -> void)
 
 HOOK_METHOD(BoarderPodDrone, constructor, (int _iShipId, int _selfId, const DroneBlueprint& _bp) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> BoarderPodDrone::constructor -> Begin (CustomDrones.cpp)\n")
     super(_iShipId, _selfId, _bp);
 
     CustomDroneManager* customDrone = CustomDroneManager::GetInstance();
@@ -1031,13 +1073,14 @@ HOOK_METHOD(BoarderPodDrone, constructor, (int _iShipId, int _selfId, const Dron
 
         baseSheet = G_->GetResources()->GetImageId("people/" + race + "_base.png");
         colorSheet = G_->GetResources()->GetImageId("people/" + race + "_layer1.png");
-        droneImage = *G_->GetAnimationControl()->GetAnimation(race + "_fly");
+        droneImage = G_->GetAnimationControl()->GetAnimation(race + "_fly");
     }
 }
 
 
 HOOK_METHOD(CrewDrone, OnLoop, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewDrone::OnLoop -> Begin (CustomDrones.cpp)\n")
     super();
 
     if (CM_EX(this)->isAbilityDrone)
@@ -1048,6 +1091,7 @@ HOOK_METHOD(CrewDrone, OnLoop, () -> void)
 
 HOOK_METHOD(CrewAnimation, OnRender, (float scale, int selectedState, bool outlineOnly) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewAnimation::OnRender -> Begin (CustomDrones.cpp)\n")
     if (CMA_EX(this)->isAbilityDrone)
     {
         if (((AbilityDroneAnimation*)this)->new_OnRender(scale, selectedState, outlineOnly)) return;
@@ -1060,6 +1104,7 @@ HOOK_METHOD(CrewAnimation, OnRender, (float scale, int selectedState, bool outli
 
 HOOK_METHOD(CrewAnimation, OnInit, (const std::string& _race, Pointf position, bool enemy) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewAnimation::OnInit -> Begin (CustomDrones.cpp)\n")
     super(_race, position, enemy);
 
     CustomDroneDefinition *customDrone = CustomDroneManager::GetInstance()->GetDefinitionByRace(_race);

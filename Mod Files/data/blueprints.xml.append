@@ -84,6 +84,15 @@
 <!--
 <weaponBlueprint name="WEAPON_NAME">
 	...
+	
+	(added blueprint attribute for BURST weapons; allows a certain projectile to inherit the stats of a different blueprint)
+	(does not work for fake projectiles; also all projectiles with the same anim_name will be affected, even if they don't all have the blueprint attribute)
+	(if you want different overrides on the same animation, you will need to make copies of the animation; they can use the same sheet)
+	(tooltips/descriptions will not reflect overrides; you'll need to write custom descriptions)
+	<projectiles>
+		<projectile count="3" fake="false" blueprint="OTHER_BP">anim_name</projectile>
+	</projectiles>
+	
 	<freeMissileChance>0.0</freeMissileChance>       Probability that the weapon does not consume missiles when fired. Rolled separately from explosive replicator.
 	
 	<descriptionOverride id="">TEXT</descriptionOverride>                 Replaces standard weapon description with custom text. Also replaces extended if the latter is not specified.

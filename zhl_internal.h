@@ -45,10 +45,18 @@ public:
 
 	virtual int Load();
 
+#ifdef __i386__
+#ifdef _WIN32
 	bool IsThiscall() const {return (_flags & 1) != 0;}
+#else // TODO: Might be able to remove this if the lua parser never generates the flag 1 for Linux calls
+    bool IsThiscall() const {return false;}
+#endif // _WIN32
 	bool NeedsCallerCleanup() const {return (_flags & 2) != 0;}
 	bool IsVoid() const {return (_flags & 4) != 0;}
 	bool IsLongLong() const {return (_flags & 8) != 0;}
+	bool isMemPassedStructPointer() const { return (_flags & 16) != 0;}
+#endif // __i386__
+	bool forceDetourSize() const { return (_flags & 32) != 0; }
 
 	const short *GetArgData() const {return _argdata;}
 	int GetArgCount() const {return _nArgs;}
@@ -63,12 +71,35 @@ private:
 	void *_outVar;
 	const char *_name;
 	const char *_sig;
+	const bool _useValue;
+	const bool _useOffset;
 
 public:
-	VariableDefinition(const char *name, const char *sig, void *outvar) :
+	VariableDefinition(const char *name, const char *sig, void *outvar, bool useValue = true, bool useOffset = false) :
         _name(name),
         _sig(sig),
-        _outVar(outvar)
+        _outVar(outvar),
+        _useValue(useValue),
+        _useOffset(useOffset)
+    {
+        Add(_name, this);
+    }
+
+	virtual int Load();
+};
+
+//=================================================================================================
+
+class NoOpDefinition : public Definition
+{
+private:
+	const char *_name;
+	const char *_sig;
+
+public:
+	NoOpDefinition(const char *name, const char *sig) :
+        _name(name),
+        _sig(sig)
     {
         Add(_name, this);
     }

@@ -1,0 +1,12 @@
+"565383ec308b451c8b55208b75088b5d30":
+cleanup __cdecl void BeamWeapon::constructor(BeamWeapon *this, Pointf _position, int _ownerId, int _targetId, Pointf _target, Pointf _target2, int _length, Targetable *_targetable, float heading);
+"5589e557565381ec8c0100008b7d08":
+cleanup __cdecl void BeamWeapon::CollisionCheck(BeamWeapon *this, Collideable *other);
+
+struct BeamWeapon
+{{
+	BeamWeapon(Pointf _position, int _ownerId, int _targetId, Pointf _target, Pointf _target2, int _length, Targetable *_targetable, float _heading = 0.0f)
+	{
+		this->constructor(_position, _ownerId, _targetId, _target, _target2, _length, _targetable, _heading);
+	}
+}};

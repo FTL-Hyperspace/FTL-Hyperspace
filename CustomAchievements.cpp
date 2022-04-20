@@ -1,8 +1,44 @@
 #include "CustomAchievements.h"
+#include "Resources.h"
 
 #include <boost/lexical_cast.hpp>
 
 CustomAchievementTracker* CustomAchievementTracker::instance = new CustomAchievementTracker();
+
+void CustomAchievementTracker::OnInitStats()
+{
+    if (!achievementButtonLeft)
+    {
+        achievementButtonLeft = new Button();
+        achievementButtonLeft->OnInit("customizeUI/button_arrow", Point(1152, 95));
+    }
+
+    if (!achievementButtonRight)
+    {
+        achievementButtonRight = new Button();
+        achievementButtonRight->OnInit("customizeUI/button_arrow", Point(1192, 95));
+        achievementButtonRight->bMirror = true;
+    }
+
+    if (!statsInitTextures)
+    {
+        ResourceControl *resources = G_->GetResources();
+        if (resources->ImageExists("scoreUI/score_main_right_2a.png"))
+        {
+            statsBack1 = resources->GetImageId("scoreUI/score_main_right_2a.png");
+        }
+        if (resources->ImageExists("scoreUI/score_main_right_2b.png"))
+        {
+            statsBack2 = resources->GetImageId("scoreUI/score_main_right_2b.png");
+        }
+        if (resources->ImageExists("scoreUI/score_main_right_border.png"))
+        {
+            statsBorder = resources->GetImageId("scoreUI/score_main_right_border.png");
+        }
+
+        statsInitTextures = true;
+    }
+}
 
 void CustomAchievementTracker::ParseAchievements(rapidxml::xml_node<char> *node)
 {
@@ -12,111 +48,213 @@ void CustomAchievementTracker::ParseAchievements(rapidxml::xml_node<char> *node)
 
     for (auto achNode = node->first_node(); achNode; achNode = achNode->next_sibling())
     {
-        std::string achName = achNode->first_attribute("name")->value();
-        std::string varName = "";
+        std::string nodeName = achNode->name();
 
-        CustomAchievement &ach = customAchievements[achName];
-        ach.ach.name_id = achName;
-
-        ach.ach.multiDifficulty = false;
-        ach.ach.dimension = 64;
-        ach.ach.outline = largeOutline;
-        ach.ach.mini_outline = smallOutline;
-        ach.ach.lockOverlay = largeOverlay;
-
-        for (auto child = achNode->first_node(); child; child = child->next_sibling())
+        if (nodeName == "achievement")
         {
-            std::string name = child->name();
-            std::string value = child->value();
+            ParseAchievement(achNode);
+        }
+        else if (nodeName == "page")
+        {
+            int height = 9999;
 
-            if (name == "name")
+            for (auto child = achNode->first_node(); child; child = child->next_sibling())
             {
-                if (child->first_attribute("id"))
+                if (strcmp(child->name(), "section") == 0)
                 {
-                    ach.name.data = child->first_attribute("id")->value();
-                    ach.name.isLiteral = false;
-                }
-                if (!value.empty())
-                {
-                    ach.name.data = value;
-                    ach.name.isLiteral = true;
-                }
-            }
-            if (name == "description")
-            {
-                if (child->first_attribute("id"))
-                {
-                    ach.description.data = child->first_attribute("id")->value();
-                    ach.description.isLiteral = false;
-                }
-                if (!value.empty())
-                {
-                    ach.description.data = value;
-                    ach.description.isLiteral = true;
-                }
-            }
-            if (name == "header")
-            {
-                if (child->first_attribute("id"))
-                {
-                    ach.ach.header.data = child->first_attribute("id")->value();
-                    ach.ach.header.isLiteral = false;
-                }
-                if (!value.empty())
-                {
-                    ach.ach.header.data = value;
-                    ach.ach.header.isLiteral = true;
-                }
-            }
-            if (name == "secretName")
-            {
-                if (child->first_attribute("id"))
-                {
-                    ach.secretName.data = child->first_attribute("id")->value();
-                    ach.secretName.isLiteral = false;
-                }
-                if (!value.empty())
-                {
-                    ach.secretName.data = value;
-                    ach.secretName.isLiteral = true;
-                }
-            }
-            if (name == "secretDescription")
-            {
-                if (child->first_attribute("id"))
-                {
-                    ach.secretDescription.data = child->first_attribute("id")->value();
-                    ach.secretDescription.isLiteral = false;
-                }
-                if (!value.empty())
-                {
-                    ach.secretDescription.data = value;
-                    ach.secretDescription.isLiteral = true;
-                }
-            }
-            if (name == "icon")
-            {
-                ach.ach.icon.SetImagePath("achievements/"+value+".png");
-            }
-            if (name == "lockImage")
-            {
-                ach.ach.lockImage.SetImagePath("achievements/"+value+".png");
-            }
-            if (name == "variable" && child->first_attribute("name") && child->first_attribute("amount"))
-            {
-                varName = child->first_attribute("name")->value();
+                    CustomAchievementSection section = CustomAchievementSection();
+                    section.heading.data = "";
+                    section.heading.isLiteral = true;
 
-                ach.ach.progress.second = boost::lexical_cast<int>(child->first_attribute("amount")->value());
-                ach.ach.progress.first = 0;
+                    if (child->first_attribute("id"))
+                    {
+                        section.heading.data = child->first_attribute("id")->value();
+                        section.heading.isLiteral = false;
+                    }
+                    if (child->first_attribute("text"))
+                    {
+                        section.heading.data = child->first_attribute("text")->value();
+                        section.heading.isLiteral = true;
+                    }
+
+                    if (child->first_attribute("secretId"))
+                    {
+                        section.secretHeading.data = child->first_attribute("secretId")->value();
+                        section.secretHeading.isLiteral = false;
+                    }
+                    if (child->first_attribute("secretText"))
+                    {
+                        section.secretHeading.data = child->first_attribute("secretText")->value();
+                        section.secretHeading.isLiteral = true;
+                    }
+
+                    if (child->first_attribute("hidden"))
+                    {
+                        section.hidden = EventsParser::ParseBoolean(child->first_attribute("hidden")->value());
+                    }
+
+                    for (auto achChild = child->first_node(); achChild; achChild = achChild->next_sibling())
+                    {
+                        std::string achName;
+                        if (strcmp(achChild->name(), "achievement") == 0 && achChild->first_attribute("name"))
+                        {
+                            achName = achChild->first_attribute("name")->value();
+                            ParseAchievement(achChild);
+                        }
+                        else
+                        {
+                            achName = achChild->name();
+                        }
+                        auto it = customAchievements.find(achName);
+                        if (it != customAchievements.end())
+                        {
+                            section.achievements.push_back(&(it->second));
+                        }
+                    }
+
+                    int secHeight = section.GetMaxHeight();
+                    if (height + secHeight > 500)
+                    {
+                        height = 0;
+                        achievementPages.emplace_back();
+                    }
+                    height += secHeight;
+
+                    CustomAchievementPage &page = achievementPages.back();
+                    page.achievements.emplace_back(std::move(section));
+                }
             }
         }
-
-        customAchievements[achName] = ach;
-        if (!varName.empty())
+        else if (nodeName == "statsBorderColor")
         {
-            variableAchievements[varName].push_back(&customAchievements[achName]);
+            ParseColorNode(achievementPagesBoxOutlineColor, achNode);
         }
-        UpdateAchievement(ach);
+        else if (nodeName == "statsTextColor")
+        {
+            ParseColorNode(achievementPagesBoxTextColor, achNode);
+        }
+    }
+}
+
+void CustomAchievementTracker::ParseAchievement(rapidxml::xml_node<char> *node)
+{
+    std::string achName = node->first_attribute("name")->value();
+    std::string varName = "";
+
+    CustomAchievement &ach = customAchievements[achName];
+    ach.ach.gap_ex_custom = -2; // misc custom achievement
+    ach.ach.name_id = achName;
+
+    ach.ach.multiDifficulty = true;
+    ach.ach.dimension = 64;
+    ach.ach.outline = largeOutline;
+    ach.ach.mini_outline = smallOutline;
+    ach.ach.lockOverlay = largeOverlay;
+
+    ach.ParseAchievement(node, &varName);
+
+    if (!varName.empty())
+    {
+        variableAchievements[varName].push_back(&customAchievements[achName]);
+    }
+    UpdateAchievement(ach);
+}
+
+void CustomAchievement::ParseAchievement(rapidxml::xml_node<char> *node, std::string *varName)
+{
+    for (auto child = node->first_node(); child; child = child->next_sibling())
+    {
+        std::string nodeName = child->name();
+        std::string nodeValue = child->value();
+
+        if (nodeName == "name")
+        {
+            if (child->first_attribute("id"))
+            {
+                name.data = child->first_attribute("id")->value();
+                name.isLiteral = false;
+            }
+            if (!nodeValue.empty())
+            {
+                name.data = nodeValue;
+                name.isLiteral = true;
+            }
+        }
+        if (nodeName == "description")
+        {
+            if (child->first_attribute("id"))
+            {
+                description.data = child->first_attribute("id")->value();
+                description.isLiteral = false;
+            }
+            if (!nodeValue.empty())
+            {
+                description.data = nodeValue;
+                description.isLiteral = true;
+            }
+        }
+        if (nodeName == "header")
+        {
+            if (child->first_attribute("id"))
+            {
+                ach.header.data = child->first_attribute("id")->value();
+                ach.header.isLiteral = false;
+            }
+            if (!nodeValue.empty())
+            {
+                ach.header.data = nodeValue;
+                ach.header.isLiteral = true;
+            }
+        }
+        if (nodeName == "secretName")
+        {
+            if (child->first_attribute("id"))
+            {
+                secretName.data = child->first_attribute("id")->value();
+                secretName.isLiteral = false;
+            }
+            if (!nodeValue.empty())
+            {
+                secretName.data = nodeValue;
+                secretName.isLiteral = true;
+            }
+        }
+        if (nodeName == "secretDescription")
+        {
+            if (child->first_attribute("id"))
+            {
+                secretDescription.data = child->first_attribute("id")->value();
+                secretDescription.isLiteral = false;
+            }
+            if (!nodeValue.empty())
+            {
+                secretDescription.data = nodeValue;
+                secretDescription.isLiteral = true;
+            }
+        }
+        if (nodeName == "icon")
+        {
+            ach.icon.SetImagePath("achievements/"+nodeValue+".png");
+        }
+        if (nodeName == "lockImage")
+        {
+            ach.lockImage.SetImagePath("achievements/"+nodeValue+".png");
+        }
+        if (nodeName == "variable" && child->first_attribute("name") && child->first_attribute("amount"))
+        {
+            if (varName) *varName = child->first_attribute("name")->value();
+
+            ach.progress.second = boost::lexical_cast<int>(child->first_attribute("amount")->value());
+            ach.progress.first = 0;
+        }
+        if (nodeName == "multiDifficulty")
+        {
+            ach.multiDifficulty = EventsParser::ParseBoolean(child->value());
+        }
+        if (nodeName == "hidden")
+        {
+            hidden = true;
+        }
     }
 }
 
@@ -165,8 +303,10 @@ int CustomAchievementTracker::GetAchievementStatus(const std::string &name)
 
 void CustomAchievementTracker::UpdateAchievement(CustomAchievement &ach)
 {
-    ach.ach.difficulty = GetAchievementStatus(ach.ach.name_id);
-    ach.ach.unlocked = ach.ach.difficulty != -1;
+    int status = GetAchievementStatus(ach.ach.name_id);
+
+    ach.ach.unlocked = status != -1;
+    ach.ach.difficulty = status;
 
     if (ach.ach.unlocked)
     {
@@ -176,7 +316,7 @@ void CustomAchievementTracker::UpdateAchievement(CustomAchievement &ach)
     else
     {
         ach.ach.name = ach.secretName.data.empty() ? ach.name : ach.secretName;
-        ach.ach.description = ach.secretDescription.data.empty() ? ach.name : ach.secretDescription;
+        ach.ach.description = ach.secretDescription.data.empty() ? ach.description : ach.secretDescription;
     }
 }
 
@@ -226,11 +366,15 @@ void CustomAchievementTracker::SetAchievement(const std::string &name, bool noPo
 
         CustomAchievement &ach = GetAchievement(name);
         UpdateAchievement(ach);
-        ach.ach.newAchievement = newDiff != -1;
 
-        if (!noPopup && G_->GetSettings()->achPopups)
+        if (ach.ach.multiDifficulty || oldDiff == -1)
         {
-            G_->GetAchievementTracker()->recentlyUnlocked.push_back(&ach.ach);
+            ach.ach.newAchievement = newDiff > -1;
+
+            if (!noPopup && G_->GetSettings()->achPopups)
+            {
+                G_->GetAchievementTracker()->recentlyUnlocked.push_back(&ach.ach);
+            }
         }
     }
 }
@@ -249,4 +393,267 @@ void CustomAchievementTracker::WipeProfile()
 
     UpdateAchievements();
     ResetFlags();
+}
+
+// Stats page
+
+bool CustomAchievementPage::RenderBackground(Point pos)
+{
+    GL_Texture *tex1 = CustomAchievementTracker::instance->statsBack1;
+    GL_Texture *tex2 = CustomAchievementTracker::instance->statsBack2;
+
+    if (!tex1)
+    {
+        return false;
+    }
+    if (!tex2)
+    {
+        G_->GetResources()->RenderImage(tex1, pos.x, pos.y, 0, COLOR_WHITE, 1.f, false);
+        return true;
+    }
+
+    int size_x = tex1->width_;
+    int size_y = tex1->height_;
+
+    CSurface::GL_BlitImagePartial(tex1, pos.x, pos.y, 36.f, size_y, 0.f, 36.f/size_x, 0.f, 1.f, 1.f, COLOR_WHITE, false);
+    CSurface::GL_BlitImagePartial(tex1, pos.x+564.f, pos.y, size_x-564.f, size_y, 564.f/size_x, 1.f, 0.f, 1.f, 1.f, COLOR_WHITE, false);
+
+    float y = 100.f;
+    float y0 = 0.f;
+    float y1;
+
+    for (CustomAchievementSection &section : achievements)
+    {
+        if (section.Visible())
+        {
+            y1 = y+53.f;
+            CSurface::GL_BlitImagePartial(tex1, pos.x+36.f, y0, 528.f, y1-y0, 36.f/size_x, 564.f/size_x, y0/size_y, y1/size_y, 1.f, COLOR_WHITE, false);
+            y0 = y1;
+            y += section.GetHeight();
+            y1 = y-23.f;
+            CSurface::GL_BlitImagePartial(tex2, pos.x+36.f, y0, 528.f, y1-y0, 36.f/size_x, 564.f/size_x, y0/size_y, y1/size_y, 1.f, COLOR_WHITE, false);
+            y0 = y1;
+        }
+    }
+    CSurface::GL_BlitImagePartial(tex1, pos.x+36.f, y0, 528.f, size_y-y0, 36.f/size_x, 564.f/size_x, y0/size_y, 1.f, 1.f, COLOR_WHITE, false);
+
+    return true;
+}
+
+void CustomAchievementPage::OnRender(Point pos)
+{
+    pos.y += 100;
+    for (CustomAchievementSection &section : achievements)
+    {
+        if (section.Visible())
+        {
+            section.OnRender(pos);
+            pos.y += section.GetHeight();
+        }
+    }
+}
+
+void CustomAchievementPage::MouseMove(int mX, int mY)
+{
+    mY -= 100;
+    for (CustomAchievementSection &section : achievements)
+    {
+        if (section.Visible())
+        {
+            section.MouseMove(mX, mY);
+            mY -= section.GetHeight();
+        }
+    }
+}
+
+bool CustomAchievementPage::Visible()
+{
+    for (CustomAchievementSection &section : achievements)
+    {
+        if (section.Visible()) return true;
+    }
+    return false;
+}
+
+int CustomAchievementSection::GetHeight()
+{
+    int numAch = GetVisibleAchievements();
+    if (numAch < 1) return 160;
+    return 90 + 70*((numAch+6)/7);
+}
+
+int CustomAchievementSection::GetMaxHeight()
+{
+    int numAch = achievements.size();
+    if (numAch < 1) return 160;
+    return 90 + 70*((numAch+6)/7);
+}
+
+int CustomAchievementSection::GetVisibleAchievements()
+{
+    int numAch = 0;
+    for (CustomAchievement *ach : achievements)
+    {
+        if (!ach->hidden || ach->ach.unlocked)
+        {
+            numAch++;
+        }
+    }
+    return numAch;
+}
+
+int CustomAchievementSection::GetUnlockedAchievements()
+{
+    int numAch = 0;
+    for (CustomAchievement *ach : achievements)
+    {
+        if (ach->ach.unlocked)
+        {
+            numAch++;
+        }
+    }
+    return numAch;
+}
+
+bool CustomAchievementSection::Visible()
+{
+    for (CustomAchievement *ach : achievements)
+    {
+        if (ach->ach.unlocked)
+        {
+            return true;
+        }
+    }
+    return !hidden;
+}
+
+void CustomAchievementSection::OnRender(Point pos)
+{
+    CSurface::GL_SetColor(CustomAchievementTracker::instance->achievementPagesBoxTextColor);
+    if (GetUnlockedAchievements() < 1 && !secretHeading.data.empty())
+    {
+        freetype::easy_print(24, pos.x+60, pos.y, secretHeading.GetText());
+    }
+    else
+    {
+        freetype::easy_print(24, pos.x+60, pos.y, heading.GetText());
+    }
+
+    int height = GetHeight();
+
+    GL_Texture *tex = CustomAchievementTracker::instance->statsBorder;
+    if (tex)
+    {
+        int w2 = tex->width_/2;
+        int h2 = tex->height_/2;
+        int x0 = pos.x + 300 - w2;
+        int y0 = pos.y + 95 - h2;
+        int x1 = pos.x + tex->width_;
+        int y1 = pos.y + height - 65 + h2;
+
+        int borderHeight = height-76;
+
+        float halfHeight = ((float)h2)/tex->height_;
+
+        CSurface::GL_BlitImagePartial(tex, x0, y0, tex->width_, h2, 0.f, 1.f, 0.f, halfHeight, 1.f, COLOR_WHITE, false);
+        CSurface::GL_BlitImagePartial(tex, x0, y0+h2, tex->width_, height-160, 0.f, 1.f, halfHeight, 1.f-halfHeight, 1.f, COLOR_WHITE, false);
+        CSurface::GL_BlitImagePartial(tex, x0, y1-h2, tex->width_, h2, 0.f, 1.f, 1.f-halfHeight, 1.f, 1.f, COLOR_WHITE, false);
+    }
+    else
+    {
+        CSurface::GL_DrawRectOutline(pos.x+36, pos.y+53, 528, height-76, CustomAchievementTracker::instance->achievementPagesBoxOutlineColor, 4.f);
+    }
+
+    int i=-1;
+    int j=0;
+
+    for (CustomAchievement *ach : achievements)
+    {
+        if (ach->hidden && !ach->ach.unlocked) continue;
+        i++;
+        if (i>=7)
+        {
+            i=0;
+            j++;
+        }
+        ach->ach.OnRender({pos.x+59+70*i, pos.y+63+70*j}, selectedAch == ach, true);
+    }
+}
+
+void CustomAchievementSection::MouseMove(int mX, int mY)
+{
+    selectedAch = nullptr;
+
+    mX -= 59;
+    mY -= 63;
+
+    int i=-1;
+    int j=0;
+
+    for (CustomAchievement *ach : achievements)
+    {
+        if (ach->hidden && !ach->ach.unlocked) continue;
+        i++;
+        if (i>=7)
+        {
+            i=0;
+            j++;
+        }
+        int x = 70*i;
+        int y = 70*j;
+
+        if (mX > x && mX < x+64 && mY > y && mY < y+64)
+        {
+            G_->GetAchievementTracker()->SetTooltip(&ach->ach);
+            selectedAch = ach;
+        }
+    }
+}
+
+int CustomAchievementTracker::NextPage(int page)
+{
+    do
+    {
+        page += 1;
+        if (page > achievementPages.size()) page = 0;
+    }
+    while (page > 0 && !achievementPages[page-1].Visible());
+    return page;
+}
+int CustomAchievementTracker::PrevPage(int page)
+{
+    do
+    {
+        page -= 1;
+        if (page < 0) page = achievementPages.size();
+    }
+    while (page > 0 && !achievementPages[page-1].Visible());
+    return page;
+}
+
+// Fix invalid memory access
+
+static bool inSetSectorEight = false;
+
+HOOK_METHOD(AchievementTracker, SetSectorEight, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> AchievementTracker::SetSectorEight -> Begin (CustomAchievements.cpp)\n")
+    inSetSectorEight = true;
+    super();
+    inSetSectorEight = false;
+}
+
+HOOK_METHOD(ScoreKeeper, GetShipId, (const std::string &blueprintName) -> std::pair<int, int>)
+{
+    LOG_HOOK("HOOK_METHOD -> ScoreKeeper::GetShipId -> Begin (CustomAchievements.cpp)\n")
+    std::pair<int, int> ret = super(blueprintName);
+    if (ret.first == -1 && inSetSectorEight) ret.first = 8; // dummy valid ship id, this affects type C unlock and crystal cruiser doesn't have a type C or any s8-related unlocks
+    return ret;
+}
+
+HOOK_METHOD(AchievementTracker, CheckShipAchievements, (int shipId, bool hidePopups) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> AchievementTracker::CheckShipAchievements -> Begin (CustomAchievements.cpp)\n")
+    if (shipId == -1) return;
+    super(shipId, hidePopups);
 }

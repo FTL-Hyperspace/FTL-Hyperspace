@@ -1,8 +1,23 @@
+## FTL Game stuff
+/settings.ini
 *.log
-bin/
 crashlogs/
+
+## Build Stuff
+bin/
 obj/
 libzhlproject/
 FTL_HyperspaceGCC.layout
 FTL_HyperspaceGCC.depend
+*.autogen.hpp
+
+## Other
+.save-failed
+
+## Editor stuff
+# KATE
+*.kate-swp
+
+# KDE Dolphin
+*.directory
 

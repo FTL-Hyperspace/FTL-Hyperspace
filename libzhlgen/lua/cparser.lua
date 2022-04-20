@@ -208,6 +208,8 @@ function initdef(t)
 	return setmetatable(t, meta0)
 end
 
+local callingConventions = lpeg.P("__stdcall") + lpeg.P("__fastcall") + lpeg.P("__vectorcall") + lpeg.P("__thiscall") + lpeg.P("__cdecl") + lpeg.P("__regparm3") + lpeg.P("__regparm2") + lpeg.P("__regparm1") + lpeg.P("__amd64")
+
 local funcdef = lpeg.P
 {
 	"S";
@@ -233,15 +235,21 @@ local funcdef = lpeg.P
 	bp = lpeg.P{"(" * ((1 - lpeg.S"()") + lpeg.V(1))^0 * ")"};
 	class = lpeg.Ct(
 		lpeg.V("sig")^-1 *
+        (lpeg.P("forceDetour") * sp * lpeg.Cg(lpeg.Cc(true), "forceDetour"))^-1 *
+		(lpeg.P("noHook") * sp * lpeg.Cg(lpeg.Cc(true), "noHook"))^-1 *
 		(lpeg.P("virtual") * sp * lpeg.Cg(lpeg.Cc(true), "virtual"))^-1 *
 		(lpeg.P("static") * sp * lpeg.Cg(lpeg.Cc(true), "static"))^-1 *
 		(lpeg.P("reference") * sp * lpeg.Cg(lpeg.Cc(true), "reference"))^-1 *
+		(lpeg.P("instruction") * sp * lpeg.Cg(lpeg.Cc(true), "instruction"))^-1 *
+        (lpeg.P("offsetVariable") * sp * lpeg.Cg(lpeg.Cc(true), "isOffsetVariable"))^-1 *
+		(lpeg.P("noop") * sp * lpeg.Cg(lpeg.Cc(true), "noop"))^-1 *
 		(lpeg.P("cleanup") * sp * lpeg.Cg(lpeg.Cc(true), "cleanup"))^-1 *
 		(lpeg.P("const") * sp * lpeg.Cg(lpeg.Cc(true), "const"))^-1 *
 		(lpeg.P("unsigned") * sp * lpeg.Cg(lpeg.Cc(true), "unsigned"))^-1 *
 		(lpeg.P("struct") * sp * lpeg.Cg(lpeg.Cc(true), "struct"))^-1 *
 		(lpeg.P("union") * sp * lpeg.Cg(lpeg.Cc(true), "union"))^-1 *
 		(lpeg.P("namespace") * sp * lpeg.Cg(lpeg.Cc(true), "namespace"))^-1 *
+		(lpeg.P(lpeg.Cg(callingConventions, "callingConvention") * sp))^-1 *
 		(lpeg.P("__declspec") * sp * lpeg.Cg(lpeg.V("bp"), "declspec") * sp)^-1 *
 		lpeg.Cg(lpeg.V("id"), "class") * sp *
 		lpeg.V("template")^-1 *
@@ -249,6 +257,7 @@ local funcdef = lpeg.P
 		lpeg.V("depends")^-1 *
 		lpeg.V("generic_code")^-1 *
 		lpeg.V("fields")^-1 *
+		(lpeg.P("__attribute__") * sp * lpeg.Cg(lpeg.V("bp"), "attribute") * sp)^-1 *
 		lpeg.Cg(lpeg.Ct((lpeg.C(lpeg.S("*&")) * sp)^0), "ptr") * sp *
 		(
 			(

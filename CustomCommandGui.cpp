@@ -22,10 +22,10 @@ void CustomCommandGui::OnScrollWheel(float direction)
 void CustomCommandGui::OnInit()
 {
     crewDownButton = new Button();
-    crewDownButton->OnInit("statusUI/button_crew_down", 39, 140);
+    crewDownButton->OnInit("statusUI/button_crew_down", Point(39, 140));
 
     crewUpButton = new Button();
-    crewUpButton->OnInit("statusUI/button_crew_up", 55, 140);
+    crewUpButton->OnInit("statusUI/button_crew_up", Point(55, 140));
 }
 
 void CustomCommandGui::MouseMove(int mX, int mY)
@@ -68,6 +68,7 @@ void CustomCommandGui::LButtonDown(int mX, int mY, bool shiftHeld)
 
 HOOK_METHOD(CrewControl, RButton, (int mX, int mY, bool shiftHeld) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewControl::RButton -> Begin (CustomCommandGui.cpp)\n")
     super(mX, mY, shiftHeld);
     for (auto box : crewBoxes)
     {
@@ -80,6 +81,7 @@ HOOK_METHOD(CrewControl, RButton, (int mX, int mY, bool shiftHeld) -> void)
 
 HOOK_METHOD(CrewControl, MouseMove, (int mX, int mY, int wX, int wY) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewControl::MouseMove -> Begin (CustomCommandGui.cpp)\n")
     super(mX, mY, wX, wY);
 
     CrewMember *draggingCrewMember = CustomCommandGui::GetInstance()->draggingCrewMember;
@@ -105,6 +107,7 @@ void CustomCommandGui::RButtonUp(int mX, int mY, bool shiftHeld)
 
 HOOK_METHOD(CApp, OnRButtonUp, (int x, int y) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CApp::OnRButtonUp -> Begin (CustomCommandGui.cpp)\n")
     if (!langChooser.bOpen && !menu.bOpen)
     {
         Point pos = Point((int)((x - x_bar)*mouseModifier_x) - modifier_x, (int)((y - y_bar)*mouseModifier_y) - modifier_y);
@@ -114,6 +117,7 @@ HOOK_METHOD(CApp, OnRButtonUp, (int x, int y) -> void)
 
 HOOK_METHOD(CrewBox, OnRender, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewBox::OnRender -> Begin (CustomCommandGui.cpp)\n")
     if (CustomCommandGui::GetInstance()->draggingCrewMember == pCrew)
     {
         MouseControl *mouseControl = G_->GetMouseControl();
@@ -131,6 +135,7 @@ HOOK_METHOD(CrewBox, OnRender, () -> void)
 
 HOOK_METHOD(CrewBox, RenderIcon, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewBox::RenderIcon -> Begin (CustomCommandGui.cpp)\n")
     if (CustomCommandGui::GetInstance()->draggingCrewMember == pCrew)
     {
         MouseControl *mouseControl = G_->GetMouseControl();
@@ -148,6 +153,7 @@ HOOK_METHOD(CrewBox, RenderIcon, () -> void)
 
 HOOK_METHOD(CrewBox, RenderLabels, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewBox::RenderLabels -> Begin (CustomCommandGui.cpp)\n")
     if (CustomCommandGui::GetInstance()->draggingCrewMember == pCrew)
     {
         MouseControl *mouseControl = G_->GetMouseControl();
@@ -165,6 +171,7 @@ HOOK_METHOD(CrewBox, RenderLabels, () -> void)
 
 HOOK_METHOD(CrewBox, RenderCloneDying, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewBox::RenderCloneDying -> Begin (CustomCommandGui.cpp)\n")
     if (CustomCommandGui::GetInstance()->draggingCrewMember == pCrew)
     {
         MouseControl *mouseControl = G_->GetMouseControl();
@@ -182,6 +189,7 @@ HOOK_METHOD(CrewBox, RenderCloneDying, () -> void)
 
 HOOK_METHOD(CrewBox, OnRenderSkillLevel, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewBox::OnRenderSkillLevel -> Begin (CustomCommandGui.cpp)\n")
     if (CustomCommandGui::GetInstance()->draggingCrewMember == pCrew)
     {
         MouseControl *mouseControl = G_->GetMouseControl();
@@ -199,6 +207,7 @@ HOOK_METHOD(CrewBox, OnRenderSkillLevel, () -> void)
 
 HOOK_METHOD(CrewControl, OnRender, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewControl::OnRender -> Begin (CustomCommandGui.cpp)\n")
     super();
 
     auto gui = CustomCommandGui::GetInstance();
@@ -225,12 +234,14 @@ HOOK_METHOD(CrewControl, OnRender, () -> void)
 
 HOOK_METHOD(CrewControl, LinkShip, (ShipManager *ship) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewControl::LinkShip -> Begin (CustomCommandGui.cpp)\n")
     super(ship);
     CustomCommandGui::GetInstance()->currentCrewPage = 0;
 }
 
 HOOK_METHOD(CrewControl, UpdateCrewBoxes, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewControl::UpdateCrewBoxes -> Begin (CustomCommandGui.cpp)\n")
     static std::vector<CrewMember*> crewList = std::vector<CrewMember*>();
 
     crewList.clear();
@@ -295,6 +306,7 @@ HOOK_METHOD(CrewControl, UpdateCrewBoxes, () -> void)
 
 HOOK_METHOD(CrewMemberFactory, CreateCrewMember, (CrewBlueprint *bp, int shipId, bool intruder) -> CrewMember*)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewMemberFactory::CreateCrewMember -> Begin (CustomCommandGui.cpp)\n")
     auto ret = super(bp, shipId, intruder);
     if (shipId == 0)
     {
@@ -305,6 +317,7 @@ HOOK_METHOD(CrewMemberFactory, CreateCrewMember, (CrewBlueprint *bp, int shipId,
 
 HOOK_METHOD(CommandGui, MouseMove, (int mX, int mY) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CommandGui::MouseMove -> Begin (CustomCommandGui.cpp)\n")
     super(mX, mY);
 
     CustomCommandGui::GetInstance()->MouseMove(mX, mY);
@@ -312,6 +325,7 @@ HOOK_METHOD(CommandGui, MouseMove, (int mX, int mY) -> void)
 }
 HOOK_METHOD(CommandGui, LButtonDown, (int mX, int mY, bool shiftHeld) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CommandGui::LButtonDown -> Begin (CustomCommandGui.cpp)\n")
     super(mX, mY, shiftHeld);
 
     CustomCommandGui::GetInstance()->LButtonDown(mX, mY, shiftHeld);
@@ -319,18 +333,21 @@ HOOK_METHOD(CommandGui, LButtonDown, (int mX, int mY, bool shiftHeld) -> void)
 
 HOOK_METHOD(CommandGui, constructor, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CommandGui::constructor -> Begin (CustomCommandGui.cpp)\n")
     super();
     CustomCommandGui::GetInstance()->gui = this;
 }
 
 HOOK_METHOD(CommandGui, OnInit, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CommandGui::OnInit -> Begin (CustomCommandGui.cpp)\n")
     super();
     CustomCommandGui::GetInstance()->OnInit();
 }
 
 HOOK_METHOD_PRIORITY(WorldManager, ModifyResources, -500, (LocationEvent *event) -> LocationEvent*)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> WorldManager::ModifyResources -> Begin (CustomCommandGui.cpp)\n")
     LocationEvent *ret = super(event);
 
     commandGui->crewControl.UpdateCrewBoxes();

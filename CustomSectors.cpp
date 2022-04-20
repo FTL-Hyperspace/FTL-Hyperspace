@@ -42,6 +42,7 @@ void CustomSectorManager::ParseCustomSectorMapNode(rapidxml::xml_node<char> *nod
 
 HOOK_METHOD(StarMap, NewGame, (bool unk) -> Location*)
 {
+    LOG_HOOK("HOOK_METHOD -> StarMap::NewGame -> Begin (CustomSectors.cpp)\n")
     replacedSectors.clear();
 
     return super(unk);
@@ -49,6 +50,7 @@ HOOK_METHOD(StarMap, NewGame, (bool unk) -> Location*)
 
 HOOK_METHOD(StarMap, LoadGame, (int fh) -> Location*)
 {
+    LOG_HOOK("HOOK_METHOD -> StarMap::LoadGame -> Begin (CustomSectors.cpp)\n")
     replacedSectors.clear();
     int n_i = FileHelper::readInteger(fh);
     for (int i=0; i<n_i; ++i)
@@ -69,6 +71,7 @@ HOOK_METHOD(StarMap, LoadGame, (int fh) -> Location*)
 
 HOOK_METHOD(StarMap, SaveGame, (int file) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> StarMap::SaveGame -> Begin (CustomSectors.cpp)\n")
     FileHelper::writeInt(file, replacedSectors.size());
     {
         for (auto i : replacedSectors)
@@ -118,6 +121,7 @@ bool CustomSectorManager::SectorIsType(const std::string &name, const std::strin
 
 HOOK_METHOD(StarMap, AddSectorColumn, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> StarMap::AddSectorColumn -> Begin (CustomSectors.cpp)\n")
     super();
 
     if (sectorColorOverride)
@@ -169,6 +173,7 @@ HOOK_METHOD(StarMap, AddSectorColumn, () -> void)
 
 HOOK_METHOD(StarMap, GenerateSectorMap, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> StarMap::GenerateSectorMap -> Begin (CustomSectors.cpp)\n")
     super();
 
     if (!bInfiniteMode)
@@ -266,17 +271,15 @@ void ReplaceSector(Sector *sector, std::string sectorList, bool isLoading)
                 sectorList = "NEBULA";
             }
         }
-        EventGenerator_GetSectorDescriptionCustom(&sector->description, G_->GetEventGenerator(), sectorList, sector->level);
+        sector->description = G_->GetEventGenerator()->GetSectorDescriptionCustom(sectorList, sector->level);
     }
     else if (sectorList == "CIVILIAN" || sectorList == "HOSTILE" || sectorList == "NEBULA" || sectorList == "UNKNOWN")
     {
-        EventGenerator_GetSectorDescriptionCustom(&sector->description, G_->GetEventGenerator(), sectorList, sector->level);
+        sector->description = G_->GetEventGenerator()->GetSectorDescriptionCustom(sectorList, sector->level);
     }
     else
     {
-        SectorDescription *desc = G_->GetEventGenerator()->GetSpecificSector(sectorList);
-        sector->description = *desc;
-        delete desc;
+        sector->description = G_->GetEventGenerator()->GetSpecificSector(sectorList);
     }
 
     if (sectorList == "CIVILIAN")
@@ -303,12 +306,12 @@ void ReplaceSector(Sector *sector, std::string sectorList, bool isLoading)
     }
 }
 
-SectorDescription* EventGenerator_GetSectorDescriptionCustom(SectorDescription* ret, EventGenerator* _this, const std::string& type, int level)
+SectorDescription EventGenerator::GetSectorDescriptionCustom(const std::string& type, int level)
 {
-    ret = new(ret) SectorDescription();
+    SectorDescription ret = SectorDescription();
 
-    auto sectorListIt = _this->baseSectors.find(type);
-    if (sectorListIt == _this->baseSectors.end())
+    auto sectorListIt = this->baseSectors.find(type);
+    if (sectorListIt == this->baseSectors.end())
     {
         hs_log_file("INVALID SECTOR TYPE! %s\n", type.c_str());
         return ret;
@@ -318,8 +321,8 @@ SectorDescription* EventGenerator_GetSectorDescriptionCustom(SectorDescription* 
 
     if (Settings::GetDlcEnabled())
     {
-        sectorListIt = _this->baseSectors.find("OVERRIDE_" + type);
-        if (sectorListIt != _this->baseSectors.end())
+        sectorListIt = this->baseSectors.find("OVERRIDE_" + type);
+        if (sectorListIt != this->baseSectors.end())
         {
             pSectorList = &sectorListIt->second;
         }
@@ -328,7 +331,7 @@ SectorDescription* EventGenerator_GetSectorDescriptionCustom(SectorDescription* 
     std::vector<std::string> sectorList = std::vector<std::string>();
     for (auto& sectorName : *pSectorList)
     {
-        SectorDescription& sectorDesc = _this->sectors[sectorName];
+        SectorDescription& sectorDesc = this->sectors[sectorName];
         if (level < sectorDesc.minSector || sectorDesc.used)
         {
             continue;
@@ -348,23 +351,20 @@ SectorDescription* EventGenerator_GetSectorDescriptionCustom(SectorDescription* 
 
     if (sectorList.size() == 0)
     {
-        SectorDescription *desc = _this->GetSpecificSector("STANDARD_SPACE");
-        *ret = *desc;
-        delete desc;
-        return ret;
+        return this->GetSpecificSector("STANDARD_SPACE");
     }
 
     std::string selectedSectorName = sectorList[random32() % sectorList.size()];
 
-    SectorDescription& sectorDesc = _this->sectors[selectedSectorName];
+    SectorDescription& sectorDesc = this->sectors[selectedSectorName];
     if (sectorDesc.unique) sectorDesc.used = true;
 
-    *ret = sectorDesc;
+    ret = sectorDesc;
 
-    int nameIndex = random32() % ret->names.size();
+    int nameIndex = random32() % ret.names.size();
 
-    ret->name = ret->names[nameIndex];
-    ret->shortName = ret->shortNames[nameIndex];
+    ret.name = ret.names[nameIndex];
+    ret.shortName = ret.shortNames[nameIndex];
 
     if (sectorDesc.names.size() > 1)
     {
@@ -375,14 +375,15 @@ SectorDescription* EventGenerator_GetSectorDescriptionCustom(SectorDescription* 
     return ret;
 }
 
-HOOK_STATIC_PRIORITY(EventGenerator, GetSectorDescription, 9999, (SectorDescription* ret, EventGenerator* _this, const std::string& type, int level) -> SectorDescription*)
+HOOK_METHOD_PRIORITY(EventGenerator, GetSectorDescription, 9999, (const std::string& type, int level) -> SectorDescription)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> EventGenerator::GetSectorDescription -> Begin (CustomSectors.cpp)\n")
     std::string newType = CustomSectorManager::GetInstance()->GetSectorType(level);
     if (!newType.empty())
     {
         sectorColorOverride = true;
-        return EventGenerator_GetSectorDescriptionCustom(ret, _this, newType, level);
+        return this->GetSectorDescriptionCustom(newType, level);
     }
 
-    return EventGenerator_GetSectorDescriptionCustom(ret, _this, type, level);
+    return this->GetSectorDescriptionCustom(type, level);
 }

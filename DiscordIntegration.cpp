@@ -1,3 +1,5 @@
+#ifndef SKIPDISCORD
+
 #include "DiscordIntegration.h"
 #include <ctime>
 #include <boost/algorithm/string.hpp>
@@ -128,6 +130,7 @@ void DiscordHandler::StopTime()
 
 HOOK_METHOD(MainMenu, OnLoop, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> MainMenu::OnLoop -> Begin (DiscordIntegration.cpp)\n")
     super();
 
     if (!DiscordHandler::GetInstance()->Enabled())
@@ -149,6 +152,7 @@ HOOK_METHOD(MainMenu, OnLoop, () -> void)
 
 HOOK_METHOD(WorldManager, StartGame, (ShipManager *ship) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> WorldManager::StartGame -> Begin (DiscordIntegration.cpp)\n")
     super(ship);
 
     DiscordHandler::GetInstance()->StartTime();
@@ -157,6 +161,7 @@ HOOK_METHOD(WorldManager, StartGame, (ShipManager *ship) -> void)
 
 HOOK_METHOD(WorldManager, LoadGame, (const std::string& fileName) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> WorldManager::LoadGame -> Begin (DiscordIntegration.cpp)\n")
     super(fileName);
 
     DiscordHandler::GetInstance()->StartTime();
@@ -165,6 +170,7 @@ HOOK_METHOD(WorldManager, LoadGame, (const std::string& fileName) -> void)
 
 HOOK_METHOD(WorldManager, Restart, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> WorldManager::Restart -> Begin (DiscordIntegration.cpp)\n")
     super();
 
     DiscordHandler::GetInstance()->StartTime();
@@ -173,6 +179,7 @@ HOOK_METHOD(WorldManager, Restart, () -> void)
 
 HOOK_METHOD(StarMap, GenerateMap, (bool tutorial, bool seed) -> Location*)
 {
+    LOG_HOOK("HOOK_METHOD -> StarMap::GenerateMap -> Begin (DiscordIntegration.cpp)\n")
     Location* ret = super(tutorial, seed);
 
     if (!DiscordHandler::GetInstance()->Enabled())
@@ -222,6 +229,7 @@ HOOK_METHOD(StarMap, GenerateMap, (bool tutorial, bool seed) -> Location*)
 
 HOOK_METHOD(WorldManager, OnLoop, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> WorldManager::OnLoop -> Begin (DiscordIntegration.cpp)\n")
     super();
 
     if (!DiscordHandler::GetInstance()->Enabled())
@@ -279,6 +287,9 @@ HOOK_METHOD(WorldManager, OnLoop, () -> void)
 
 HOOK_METHOD(CApp, OnExit, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CApp::OnExit -> Begin (DiscordIntegration.cpp)\n")
     DiscordHandler::GetInstance()->Shutdown();
     super();
 }
+
+#endif // WIN32

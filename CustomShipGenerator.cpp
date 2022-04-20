@@ -1,5 +1,6 @@
 #include "CustomShipGenerator.h"
 #include "CustomShipSelect.h"
+#include <boost/math/special_functions/fpclassify.hpp>
 
 #include <boost/lexical_cast.hpp>
 
@@ -121,9 +122,21 @@ void CustomShipGenerator::ParseGeneratorNode(rapidxml::xml_node<char> *node)
             }
         }
     }
-    catch (std::exception)
+    catch (rapidxml::parse_error& e)
     {
-        MessageBoxA(GetDesktopWindow(), "Error parsing <shipGenerators> in hyperspace.xml", "Error", MB_ICONERROR | MB_SETFOREGROUND);
+        ErrorMessage(std::string("Error parsing <shipGenerators> in hyperspace.xml\n") + std::string(e.what()));
+    }
+    catch (std::exception &e)
+    {
+        ErrorMessage(std::string("Error parsing <shipGenerators> in hyperspace.xml\n") + std::string(e.what()));
+    }
+    catch (const char* e)
+    {
+        ErrorMessage(std::string("Error parsing <shipGenerators> in hyperspace.xml\n") + std::string(e));
+    }
+    catch (...)
+    {
+        ErrorMessage("Error parsing <shipGenerators> in hyperspace.xml\n");
     }
 }
 
@@ -157,7 +170,7 @@ void CustomShipGenerator::SectorScaling::Parse(rapidxml::xml_node<char> *node)
         }
     }
 
-    if (isnan(maxSector))
+    if (boost::math::isnan(maxSector))
     {
         maxSector = minSector + 8.f;
     }
@@ -253,8 +266,7 @@ ShipManager *CustomShipGenerator::CreateShip(const ShipBlueprint *shipBlueprint,
     AddWeapons(ship, bp, equipFlags);
     AddDrones(ship, bp, equipFlags);
 
-    std::vector<Drone*> droneList;
-	ShipManager::GetDroneList(droneList, ship);
+    std::vector<Drone*> droneList = ship->GetDroneList();
 	int numDrones = droneList.size();
 	while (ship->GetDroneCount() < 2*numDrones) ship->ModifyDroneCount(1);
 
@@ -506,13 +518,12 @@ void CustomShipGenerator::AddOverrideWeapons(ShipManager *ship, ShipEvent& event
 			{
 				ship->AddSystem(SYS_WEAPONS);
 				sys = ship->GetSystem(SYS_WEAPONS);
-				std::pair<int,int> availablePower = ship->GetAvailablePower();
-				PowerManager::GetPowerManager(1)->currentPower.second = availablePower.second + sys->powerState.second;
+				PowerManager::GetPowerManager(1)->currentPower.second += sys->powerState.second;
 			}
 			else
 			{
 				std::pair<int,int> availablePower = ship->GetAvailablePower();
-				PowerManager::GetPowerManager(1)->currentPower.second = availablePower.second + 1;
+				PowerManager::GetPowerManager(1)->currentPower.second += 1;
 				sys->UpgradeSystem(1);
 			}
 		}
@@ -543,12 +554,12 @@ void CustomShipGenerator::AddOverrideDrones(ShipManager *ship, ShipEvent& event)
 				ship->AddSystem(SYS_DRONES);
 				sys = ship->GetSystem(SYS_DRONES);
 				std::pair<int,int> availablePower = ship->GetAvailablePower();
-				PowerManager::GetPowerManager(1)->currentPower.second = availablePower.second + sys->powerState.second;
+				PowerManager::GetPowerManager(1)->currentPower.second += sys->powerState.second;
 			}
 			else
 			{
 				std::pair<int,int> availablePower = ship->GetAvailablePower();
-				PowerManager::GetPowerManager(1)->currentPower.second = availablePower.second + 1;
+				PowerManager::GetPowerManager(1)->currentPower.second += 1;
 				sys->UpgradeSystem(1);
 			}
 		}
@@ -666,6 +677,7 @@ CustomShipGenerator::SystemLevelScaling *CustomShipGenerator::GetSystemLevelScal
 
 HOOK_STATIC_PRIORITY(ShipGenerator, CreateShip, -100, (const std::string& name, int sector, ShipEvent& event) -> ShipManager*)
 {
+    LOG_HOOK("HOOK_STATIC_PRIORITY -> ShipGenerator::CreateShip -> Begin (CustomShipGenerator.cpp)\n")
     if (!CustomShipGenerator::enabled) return super(name, sector, event);
 
     if (event.shipSeed != 0) srandom32(event.shipSeed);
@@ -692,6 +704,7 @@ HOOK_STATIC_PRIORITY(ShipGenerator, CreateShip, -100, (const std::string& name, 
 /*
 HOOK_STATIC_PRIORITY(ShipGenerator, CreateShip, 9999, (const std::string& name, int sector, ShipEvent& event) -> ShipManager*)
 {
+    LOG_HOOK("HOOK_STATIC_PRIORITY -> ShipGenerator::CreateShip -> Begin (CustomShipGenerator.cpp)\n")
 	std::vector<CrewDesc> crewOverride = event.crewOverride;
 	std::vector<std::string> weaponOverride = event.weaponOverride;
 	std::vector<std::string> droneOverride = event.droneOverride;
@@ -845,13 +858,12 @@ HOOK_STATIC_PRIORITY(ShipGenerator, CreateShip, 9999, (const std::string& name, 
 			{
 				ship->AddSystem(SYS_WEAPONS);
 				sys = ship->GetSystem(SYS_WEAPONS);
-				std::pair<int,int> availablePower = ship->GetAvailablePower();
-				PowerManager::GetPowerManager(1)->currentPower.second = availablePower.second + sys->powerState.second;
+				PowerManager::GetPowerManager(1)->currentPower.second += sys->powerState.second;
 			}
 			else
 			{
 				std::pair<int,int> availablePower = ship->GetAvailablePower();
-				PowerManager::GetPowerManager(1)->currentPower.second = availablePower.second + 1;
+				PowerManager::GetPowerManager(1)->currentPower.second += 1;
 				sys->UpgradeSystem(1);
 			}
 		}
@@ -878,12 +890,12 @@ HOOK_STATIC_PRIORITY(ShipGenerator, CreateShip, 9999, (const std::string& name, 
 				ship->AddSystem(SYS_DRONES);
 				sys = ship->GetSystem(SYS_DRONES);
 				std::pair<int,int> availablePower = ship->GetAvailablePower();
-				PowerManager::GetPowerManager(1)->currentPower.second = availablePower.second + sys->powerState.second;
+				PowerManager::GetPowerManager(1)->currentPower.second += sys->powerState.second;
 			}
 			else
 			{
 				std::pair<int,int> availablePower = ship->GetAvailablePower();
-				PowerManager::GetPowerManager(1)->currentPower.second = availablePower.second + 1;
+				PowerManager::GetPowerManager(1)->currentPower.second += 1;
 				sys->UpgradeSystem(1);
 			}
 		}

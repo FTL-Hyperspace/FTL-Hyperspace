@@ -1,0 +1,13 @@
+"41574989ff41564155415455534881ece8000000":
+cleanup __amd64 void BombProjectile::constructor(BombProjectile *this, Pointf _position, int _ownerId, int _targetId, Pointf _target);
+"41554154554889f5534889fb4889f74883ec78":
+cleanup __amd64 void BombProjectile::CollisionCheck(BombProjectile *this, Collideable *other);
+
+
+struct BombProjectile
+{{
+	BombProjectile(Pointf _position, int _ownerId, int _targetId, Pointf _target)
+	{
+		this->constructor(_position, _ownerId, _targetId, _target);
+	}
+}};
