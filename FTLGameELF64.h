@@ -4935,6 +4935,7 @@ public:
 	LIBZHL_API bool IsSealed(int shipId);
 	LIBZHL_API void OnLoop();
 	
+	uint8_t garbage[4];
 	Selectable _selectable;
 	int iRoom1;
 	int iRoom2;

@@ -593,6 +593,7 @@ struct CrewTarget
 struct Door
 {
   CrewTarget _base;
+  uint8_t garbage[4]; // Crew Target wasn't seen as 16 even though it should of been
   Selectable _selectable;
   int iRoom1;
   int iRoom2;
