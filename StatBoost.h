@@ -138,7 +138,7 @@ struct StatBoostDefinition
 
     std::string boostAnim = "";
 
-    bool affectsSelf;
+    bool affectsSelf = false;
 
     std::vector<std::string> whiteList = std::vector<std::string>();
     std::vector<std::string> blackList = std::vector<std::string>();

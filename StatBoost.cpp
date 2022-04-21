@@ -86,7 +86,7 @@ StatBoostDefinition* StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<cha
         auto savedDef = StatBoostDefinition::savedStatBoostDefs.find(node->first_attribute("load")->value());
         if (savedDef != StatBoostDefinition::savedStatBoostDefs.end())
         {
-            if (node->first_attribute("name") || node->value() || node->first_node()) // not empty statboost node
+            if (node->first_attribute("name") || *(node->value()) || node->first_node()) // not empty statboost node
             {
                 def = new StatBoostDefinition(*savedDef->second);
                 newDef = true;
@@ -347,22 +347,22 @@ StatBoostDefinition* StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<cha
                 {
                     if (child->first_attribute("min")) def->healthReq.first = boost::lexical_cast<float>(child->first_attribute("min")->value());
                     if (child->first_attribute("max")) def->healthReq.second = boost::lexical_cast<float>(child->first_attribute("max")->value());
-                    if (child->first_attribute("above")) def->healthReq.first = std::nextafter(boost::lexical_cast<float>(child->first_attribute("above")->value()), +HUGE_VAL);
-                    if (child->first_attribute("below")) def->healthReq.second = std::nextafter(boost::lexical_cast<float>(child->first_attribute("below")->value()), -HUGE_VAL);
+                    if (child->first_attribute("above")) def->healthReq.first = std::nextafterf(boost::lexical_cast<float>(child->first_attribute("above")->value()), +HUGE_VAL);
+                    if (child->first_attribute("below")) def->healthReq.second = std::nextafterf(boost::lexical_cast<float>(child->first_attribute("below")->value()), -HUGE_VAL);
                 }
                 if (name == "healthFractionReq")
                 {
                     if (child->first_attribute("min")) def->healthFractionReq.first = boost::lexical_cast<float>(child->first_attribute("min")->value());
                     if (child->first_attribute("max")) def->healthFractionReq.second = boost::lexical_cast<float>(child->first_attribute("max")->value());
-                    if (child->first_attribute("above")) def->healthFractionReq.first = std::nextafter(boost::lexical_cast<float>(child->first_attribute("above")->value()), +HUGE_VAL);
-                    if (child->first_attribute("below")) def->healthFractionReq.second = std::nextafter(boost::lexical_cast<float>(child->first_attribute("below")->value()), -HUGE_VAL);
+                    if (child->first_attribute("above")) def->healthFractionReq.first = std::nextafterf(boost::lexical_cast<float>(child->first_attribute("above")->value()), +HUGE_VAL);
+                    if (child->first_attribute("below")) def->healthFractionReq.second = std::nextafterf(boost::lexical_cast<float>(child->first_attribute("below")->value()), -HUGE_VAL);
                 }
                 if (name == "oxygenReq")
                 {
                     if (child->first_attribute("min")) def->oxygenReq.first = boost::lexical_cast<float>(child->first_attribute("min")->value());
                     if (child->first_attribute("max")) def->oxygenReq.second = boost::lexical_cast<float>(child->first_attribute("max")->value());
-                    if (child->first_attribute("above")) def->oxygenReq.first = std::nextafter(boost::lexical_cast<float>(child->first_attribute("above")->value()), +HUGE_VAL);
-                    if (child->first_attribute("below")) def->oxygenReq.second = std::nextafter(boost::lexical_cast<float>(child->first_attribute("below")->value()), -HUGE_VAL);
+                    if (child->first_attribute("above")) def->oxygenReq.first = std::nextafterf(boost::lexical_cast<float>(child->first_attribute("above")->value()), +HUGE_VAL);
+                    if (child->first_attribute("below")) def->oxygenReq.second = std::nextafterf(boost::lexical_cast<float>(child->first_attribute("below")->value()), -HUGE_VAL);
                 }
                 if (name == "extraConditions")
                 {
