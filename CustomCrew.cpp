@@ -1764,6 +1764,7 @@ void CrewMember_Extend::ActivateTemporaryPower()
 
         statBoost.crewSource = orig;
         statBoost.crewSourceId = selfId;
+        statBoost.sourceShipId = orig->iShipId;
         outgoingAbilityStatBoosts.push_back(statBoost);
     }
 
@@ -2437,6 +2438,7 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
 
             statBoost.crewSource = orig;
             statBoost.crewSourceId = selfId;
+            statBoost.sourceShipId = orig->iShipId;
             outgoingStatBoosts.push_back(statBoost);
         }
         outgoingAbilityStatBoosts.clear();
@@ -2446,6 +2448,7 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
 
             statBoost.crewSource = orig;
             statBoost.crewSourceId = selfId;
+            statBoost.sourceShipId = orig->iShipId;
             outgoingAbilityStatBoosts.push_back(statBoost);
         }
 

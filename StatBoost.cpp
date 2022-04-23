@@ -1094,14 +1094,22 @@ bool CrewMember_Extend::CheckExtraCondition(CrewExtraCondition condition)
     return false;
 }
 
-bool CrewMember_Extend::BoostCheck(const StatBoost& statBoost)
+bool CrewMember_Extend::BoostCheck(StatBoost& statBoost)
 {
     int ownerShip;
 
     switch (statBoost.def->boostSource)
     {
     case StatBoostDefinition::BoostSource::CREW:
-        ownerShip = statBoost.crewSource->GetPowerOwner();
+        if (statBoost.crewSource)
+        {
+            ownerShip = statBoost.crewSource->GetPowerOwner();
+            statBoost.sourceShipId = statBoost.crewSource->iShipId;
+        }
+        else
+        {
+            ownerShip = statBoost.sourceShipId;
+        }
 
         switch (statBoost.def->shipTarget)
         {
@@ -1115,26 +1123,26 @@ bool CrewMember_Extend::BoostCheck(const StatBoost& statBoost)
             if (orig->currentShipId == ownerShip) return false;
             break;
         case StatBoostDefinition::ShipTarget::OTHER_ALL:
-            if (orig->currentShipId == statBoost.crewSource->currentShipId) return false;
+            if (!statBoost.crewSource || orig->currentShipId == statBoost.crewSource->currentShipId) return false;
             break;
         case StatBoostDefinition::ShipTarget::ENEMY_SHIP:
             if (orig->currentShipId != 1) return false;
             break;
         case StatBoostDefinition::ShipTarget::CURRENT_ALL:
-            if (orig->currentShipId != statBoost.crewSource->currentShipId) return false;
+            if (!statBoost.crewSource || orig->currentShipId != statBoost.crewSource->currentShipId) return false;
             break;
         case StatBoostDefinition::ShipTarget::CURRENT_ROOM:
-            if (orig->currentShipId != statBoost.crewSource->currentShipId || orig->iRoomId != statBoost.crewSource->iRoomId) return false;
+            if (!statBoost.crewSource || orig->currentShipId != statBoost.crewSource->currentShipId || orig->iRoomId != statBoost.crewSource->iRoomId) return false;
             break;
         case StatBoostDefinition::ShipTarget::CREW_TARGET:
-            if ((CrewTarget*)orig != statBoost.crewSource->crewTarget) return false;
+            if (!statBoost.crewSource || (CrewTarget*)orig != statBoost.crewSource->crewTarget) return false;
             break;
         case StatBoostDefinition::ShipTarget::TARGETS_ME:
-            if (orig->crewTarget != (CrewTarget*)statBoost.crewSource) return false;
+            if (!statBoost.crewSource || orig->crewTarget != (CrewTarget*)statBoost.crewSource) return false;
             break;
         }
 
-        if (statBoost.crewSource == orig)
+        if (statBoost.crewSourceId == selfId)
         {
             if (!statBoost.def->affectsSelf) return false;
         }
@@ -1152,16 +1160,44 @@ bool CrewMember_Extend::BoostCheck(const StatBoost& statBoost)
                 return false;
                 break;
             case StatBoostDefinition::CrewTarget::CURRENT_ALLIES:
-                if ((statBoost.crewSource->iShipId != orig->iShipId) == (statBoost.crewSource->bMindControlled == orig->bMindControlled)) return false;
+                if (statBoost.crewSource)
+                {
+                    if ((statBoost.crewSource->iShipId != orig->iShipId) == (statBoost.crewSource->bMindControlled == orig->bMindControlled)) return false;
+                }
+                else
+                {
+                    if ((ownerShip != orig->iShipId) != (orig->bMindControlled)) return false;
+                }
                 break;
             case StatBoostDefinition::CrewTarget::CURRENT_ENEMIES:
-                if ((statBoost.crewSource->iShipId == orig->iShipId) == (statBoost.crewSource->bMindControlled == orig->bMindControlled)) return false;
+                if (statBoost.crewSource)
+                {
+                    if ((statBoost.crewSource->iShipId == orig->iShipId) == (statBoost.crewSource->bMindControlled == orig->bMindControlled)) return false;
+                }
+                else
+                {
+                    if ((ownerShip == orig->iShipId) != (orig->bMindControlled)) return false;
+                }
                 break;
             case StatBoostDefinition::CrewTarget::ORIGINAL_ALLIES:
-                if (statBoost.crewSource->iShipId != orig->iShipId) return false;
+                if (statBoost.crewSource)
+                {
+                    if (statBoost.crewSource->iShipId != orig->iShipId) return false;
+                }
+                else
+                {
+                    if (ownerShip != orig->iShipId) return false;
+                }
                 break;
             case StatBoostDefinition::CrewTarget::ORIGINAL_ENEMIES:
-                if (statBoost.crewSource->iShipId == orig->iShipId) return false;
+                if (statBoost.crewSource)
+                {
+                    if (statBoost.crewSource->iShipId == orig->iShipId) return false;
+                }
+                else
+                {
+                    if (ownerShip != orig->iShipId) return false;
+                }
                 break;
             }
 
