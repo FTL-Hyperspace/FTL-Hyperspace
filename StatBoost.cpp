@@ -868,12 +868,49 @@ HOOK_METHOD(WorldManager, Restart, () -> void)
     super();
 }
 
+HOOK_METHOD(CrewMemberFactory, RemoveExcessCrew, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> CrewMemberFactory::RemoveExcessCrew -> Begin (StatBoost.cpp)\n")
+
+    // RemoveExcessCrew frees dead crew from memory; need to reset stat boosts in case a stat boost references such a crewmember
+    super();
+    StatBoostManager::GetInstance()->statCacheFrame++;
+    StatBoostManager::GetInstance()->OnLoop(G_->GetWorld());
+
+    for (CrewMember *crew : crewMembers)
+    {
+        CrewMember_Extend *ex = CM_EX(crew);
+        for (auto& vStatBoost : ex->timedStatBoosts)
+        {
+            for (StatBoost& statBoost : vStatBoost.second)
+            {
+                if (statBoost.def->boostSource == StatBoostDefinition::BoostSource::CREW)
+                {
+                    bool found = false;
+                    for (CrewMember *crew2 : crewMembers)
+                    {
+                        CrewMember_Extend *ex2 = CM_EX(crew2);
+                        if (ex2->selfId == statBoost.crewSourceId)
+                        {
+                            statBoost.crewSource = crew2;
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found) statBoost.crewSource = nullptr;
+                }
+            }
+        }
+    }
+}
+
 void StatBoost::FindCrewSource()
 {
     if (def->boostSource == StatBoostDefinition::BoostSource::CREW)
     {
         CrewMemberFactory *crewFactory = G_->GetCrewFactory();
 
+        crewSource = nullptr;
         for (CrewMember *crew : crewFactory->crewMembers)
         {
             CrewMember_Extend *ex = CM_EX(crew);
