@@ -128,9 +128,10 @@ std::vector<CrewMember*> CrewSpawn::SpawnCrew(CrewSpawn *crewSpawn, ShipManager 
 
             crew->health.first = crew->health.second * crewSpawn->healthPercentage;
 
+            CrewMember_Extend* ex = CM_EX(crew);
+
             if (crewSpawn->lifetime != -1.f)
             {
-                CrewMember_Extend* ex = CM_EX(crew);
                 ex->deathTimer = new TimerHelper(false);
                 ex->deathTimer->Start(crewSpawn->lifetime);
             }
@@ -139,6 +140,7 @@ std::vector<CrewMember*> CrewSpawn::SpawnCrew(CrewSpawn *crewSpawn, ShipManager 
             {
                 StatBoost statBoost(statBoostDef);
                 statBoost.crewSource = crew;
+                statBoost.crewSourceId = ex->selfId;
                 statBoost.sourceShipId = crew->iShipId;
                 StatBoostManager::GetInstance()->CreateTimedAugmentBoost(statBoost, crew);
             }

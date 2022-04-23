@@ -590,12 +590,13 @@ void StatBoostManager::CreateAugmentBoost(StatBoostDefinition* def, int shipId, 
     CreateRecursiveBoosts(statBoost, nStacks);
 }
 
-void StatBoostManager::CreateCrewBoost(StatBoostDefinition* def, CrewMember* otherCrew, int nStacks)
+void StatBoostManager::CreateCrewBoost(StatBoostDefinition* def, CrewMember* otherCrew, CrewMember_Extend* ex, int nStacks)
 {
     StatBoost statBoost = StatBoost(def);
     statBoost.iStacks = nStacks;
 
     statBoost.crewSource = otherCrew;
+    statBoost.crewSourceId = ex->selfId;
     CreateCrewBoost(statBoost, otherCrew);
 }
 
@@ -679,7 +680,7 @@ void StatBoostManager::CreateRecursiveBoosts(StatBoost& statBoost, int nStacks, 
                 }
                 for (StatBoostDefinition* recursiveBoostDef : statBoost.def->providedStatBoosts)
                 {
-                    CreateCrewBoost(recursiveBoostDef, recursiveCrew, recursiveCrewStacks);
+                    CreateCrewBoost(recursiveBoostDef, recursiveCrew, ex, recursiveCrewStacks);
                 }
             }
         }
@@ -865,6 +866,37 @@ HOOK_METHOD(WorldManager, Restart, () -> void)
     StatBoostManager::GetInstance()->animBoosts.clear();
     StatBoostManager::GetInstance()->statCacheFrame++;
     super();
+}
+
+void StatBoost::FindCrewSource()
+{
+    if (def->boostSource == StatBoostDefinition::BoostSource::CREW)
+    {
+        CrewMemberFactory *crewFactory = G_->GetCrewFactory();
+
+        for (CrewMember *crew : crewFactory->crewMembers)
+        {
+            CrewMember_Extend *ex = CM_EX(crew);
+            if (ex->selfId == crewSourceId)
+            {
+                crewSource = crew;
+                break;
+            }
+        }
+    }
+}
+
+HOOK_METHOD(BossShip, LoadBoss, (int fh) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> BossShip::LoadBoss -> Begin (StatBoost.cpp)\n")
+    super(fh);
+
+    for (StatBoost *statBoost : StatBoostManager::GetInstance()->loadingStatBoosts)
+    {
+        statBoost->FindCrewSource();
+    }
+
+    StatBoostManager::GetInstance()->loadingStatBoosts.clear();
 }
 
 HOOK_METHOD(ShipManager, JumpArrive, () -> void)

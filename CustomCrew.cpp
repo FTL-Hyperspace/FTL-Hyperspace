@@ -1763,6 +1763,7 @@ void CrewMember_Extend::ActivateTemporaryPower()
         StatBoost statBoost = StatBoost(statBoostDef);
 
         statBoost.crewSource = orig;
+        statBoost.crewSourceId = selfId;
         outgoingAbilityStatBoosts.push_back(statBoost);
     }
 
@@ -1912,6 +1913,7 @@ void CrewMember_Extend::ActivatePower()
                     {
                         StatBoost statBoost(statBoostDef);
                         statBoost.crewSource = orig;
+                        statBoost.crewSourceId = selfId;
                         statBoost.sourceShipId = ownerShip;
                         StatBoostManager::GetInstance()->CreateTimedAugmentBoost(statBoost, otherCrew);
                     }
@@ -2434,6 +2436,7 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
             StatBoost statBoost = StatBoost(statBoostDef);
 
             statBoost.crewSource = orig;
+            statBoost.crewSourceId = selfId;
             outgoingStatBoosts.push_back(statBoost);
         }
         outgoingAbilityStatBoosts.clear();
@@ -2442,6 +2445,7 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
             StatBoost statBoost = StatBoost(statBoostDef);
 
             statBoost.crewSource = orig;
+            statBoost.crewSourceId = selfId;
             outgoingAbilityStatBoosts.push_back(statBoost);
         }
 
@@ -2938,6 +2942,7 @@ HOOK_METHOD(CrewMember, SaveState, (int file) -> void)
     {
         FileHelper::writeInt(file, statBoost->def->realBoostId);
         FileHelper::writeInt(file, statBoost->iStacks);
+        FileHelper::writeInt(file, statBoost->crewSourceId);
         FileHelper::writeInt(file, statBoost->sourceShipId);
         FileHelper::writeFloat(file, statBoost->timerHelper.currGoal);
         FileHelper::writeFloat(file, statBoost->timerHelper.currTime);
@@ -3012,6 +3017,7 @@ HOOK_METHOD(CrewMember, LoadState, (int file) -> void)
     {
         StatBoost statBoost(StatBoostDefinition::statBoostDefs.at(FileHelper::readInteger(file)));
         statBoost.iStacks = FileHelper::readInteger(file);
+        statBoost.crewSourceId = FileHelper::readInteger(file);
         statBoost.sourceShipId = FileHelper::readInteger(file);
 
         if (statBoost.def->duration != -1.f)
@@ -3029,6 +3035,7 @@ HOOK_METHOD(CrewMember, LoadState, (int file) -> void)
         auto& vStatBoosts = ex->timedStatBoosts[statBoost.def->stat];
 
         vStatBoosts.push_back(statBoost);
+        StatBoostManager::GetInstance()->loadingStatBoosts.push_back(&vStatBoosts.back());
     }
 
     // Transformed color choices
@@ -4034,6 +4041,7 @@ HOOK_METHOD(CrewMember, GetRoomDamage, () -> Damage)
                                     {
                                         StatBoost statBoost(statBoostDef);
                                         statBoost.crewSource = this;
+                                        statBoost.crewSourceId = ex->selfId;
                                         statBoost.sourceShipId = this->iShipId;
                                         StatBoostManager::GetInstance()->CreateTimedAugmentBoost(statBoost, otherCrew);
                                     }
