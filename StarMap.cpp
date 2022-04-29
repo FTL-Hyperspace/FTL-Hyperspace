@@ -2,6 +2,7 @@
 
 HOOK_METHOD_PRIORITY(StarMap, LoadGame, 9999, (int fd) -> Location*)
 {
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> StarMap::LoadGame -> Begin (StarMap.cpp)\n")
     this->sectorMapSeed = FileHelper::readInteger(fd);
     this->currentSectorSeed = FileHelper::readInteger(fd);
 
