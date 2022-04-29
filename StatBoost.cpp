@@ -874,8 +874,20 @@ HOOK_METHOD(CrewMemberFactory, RemoveExcessCrew, () -> void)
 
     // RemoveExcessCrew frees dead crew from memory; need to reset stat boosts in case a stat boost references such a crewmember
     super();
-    StatBoostManager::GetInstance()->statCacheFrame++;
-    StatBoostManager::GetInstance()->OnLoop(G_->GetWorld());
+
+    WorldManager *worldManager = G_->GetWorld();
+    StatBoostManager *statBoostManager = StatBoostManager::GetInstance();
+
+    if (worldManager->bStartedGame)
+    {
+        statBoostManager->OnLoop(worldManager);
+    }
+    else
+    {
+        statBoostManager->statBoosts.clear();
+        statBoostManager->animBoosts.clear();
+        statBoostManager->statCacheFrame++;
+    }
 
     for (CrewMember *crew : crewMembers)
     {
