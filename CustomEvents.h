@@ -17,7 +17,7 @@ extern std::bitset<8> advancedCheckEquipment;
 // bit 3: CustomBackgroundObject::OnLoop
 // bit 4: VariableModifier::ApplyVariables
 // bit 5: TriggeredEvent::Update
-// bit 6: StarMap::GenerateEvents (priority events) and StarMap::GenerateMap (sector quests)
+// bit 6: StarMap::GenerateEvents (priority events), StarMap::GenerateMap (sector quests and regenerated events)
 
 extern std::deque<std::pair<std::string,int>> eventQueue;
 

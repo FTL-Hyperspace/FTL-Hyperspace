@@ -6,6 +6,7 @@
 #include "EnumClassHash.h"
 
 struct ActivatedPowerDefinition;
+class CrewMember_Extend;
 
 enum class CrewExtraCondition : unsigned int;
 
@@ -191,7 +192,10 @@ struct StatBoost
     int iStacks = 1;
 
     CrewMember* crewSource;
+    int crewSourceId;
     TimerHelper timerHelper;
+
+    void FindCrewSource();
 
     std::pair<std::vector<int>,std::vector<int>> sourceRoomIds = std::pair<std::vector<int>,std::vector<int>>();
 
@@ -213,6 +217,8 @@ public:
 
     std::unordered_map<CrewStat, std::vector<StatBoost>, EnumClassHash> statBoosts;
     std::vector<StatBoost> animBoosts;
+
+    std::vector<StatBoost*> loadingStatBoosts = {};
 
     StatBoostManager()
     {
@@ -251,7 +257,7 @@ private:
     }
 
     void CreateAugmentBoost(StatBoostDefinition* def, int shipId, int nStacks);
-    void CreateCrewBoost(StatBoostDefinition* def, CrewMember* otherCrew, int nStacks);
+    void CreateCrewBoost(StatBoostDefinition* def, CrewMember* otherCrew, CrewMember_Extend* ex, int nStacks);
     void CreateCrewBoost(StatBoost statBoost, CrewMember* otherCrew);
     void CreateRecursiveBoosts(StatBoost& statBoost, int nStacks, bool noCheck = false);
 };

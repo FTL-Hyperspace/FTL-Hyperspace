@@ -5351,6 +5351,7 @@ struct EventGenerator
 	LIBZHL_API LocationEvent *GetBaseEvent(const std::string &name, int worldLevel, char ignoreUnique, int seed);
 	LIBZHL_API std::string GetImageFromList(const std::string &listName);
 	LIBZHL_API SectorDescription GetSectorDescription(const std::string &type, int level);
+	LIBZHL_API ShipEvent GetShipEvent(const std::string &event);
 	LIBZHL_API SectorDescription GetSpecificSector(const std::string &name);
 	
 	std::vector<std::string> baseEvents;
@@ -6297,6 +6298,7 @@ struct ScoreKeeper
 	LIBZHL_API void Save(bool newHighScore);
 	LIBZHL_API void SaveGame(int fd);
 	LIBZHL_API void SaveScores(int file, std::vector<TopScore> &topScores);
+	LIBZHL_API void SetSector(int sector);
 	LIBZHL_API void SetVictory(bool victory);
 	LIBZHL_API void SetupTopShip(int variant);
 	LIBZHL_API void UnlockShip(int shipType, int shipVariant, bool save, bool hidePopup);
@@ -7554,6 +7556,8 @@ extern LIBZHL_API EventSystem *Global_EventSystem_EventManager;
 extern LIBZHL_API EventsParser *Global_EventsParser_Parser;
 extern LIBZHL_API TextLibrary *Global_Globals_Library;
 extern LIBZHL_API int *Globals_GetNextSpaceId_id;
+extern LIBZHL_API bool *Globals_RNG;
+extern LIBZHL_API FILE *ftl_log_logfile;
 extern LIBZHL_API GL_Color *Global_InfoBox_detailsBarOff;
 extern LIBZHL_API GL_Color *Global_InfoBox_detailsBarOn;
 extern LIBZHL_API void **VTable_LaserBlast;

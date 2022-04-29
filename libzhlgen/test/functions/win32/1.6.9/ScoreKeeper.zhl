@@ -50,6 +50,8 @@ __thiscall void ScoreKeeper::SaveGame(ScoreKeeper *this, int fd);
 __thiscall void ScoreKeeper::LoadGame(ScoreKeeper *this, int fd);
 "578d7c240883e4f0ff77fc5589f889e557565389cb83ec2c80b9c40b0000008b40048b3f8945e4":
 __thiscall void ScoreKeeper::MouseMove(ScoreKeeper *this, int mX, int mY);
+"8b442404c7412400000000c7414c00000000c7417400000000c7819c00000000000000898180020000":
+__thiscall void ScoreKeeper::SetSector(ScoreKeeper *this, int sector);
 
 "!8b430cb9(???????\?)c6804412000000c7042401000000":
 ScoreKeeper* Global_ScoreKeeper_Keeper;

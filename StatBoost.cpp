@@ -590,12 +590,13 @@ void StatBoostManager::CreateAugmentBoost(StatBoostDefinition* def, int shipId, 
     CreateRecursiveBoosts(statBoost, nStacks);
 }
 
-void StatBoostManager::CreateCrewBoost(StatBoostDefinition* def, CrewMember* otherCrew, int nStacks)
+void StatBoostManager::CreateCrewBoost(StatBoostDefinition* def, CrewMember* otherCrew, CrewMember_Extend* ex, int nStacks)
 {
     StatBoost statBoost = StatBoost(def);
     statBoost.iStacks = nStacks;
 
     statBoost.crewSource = otherCrew;
+    statBoost.crewSourceId = ex->selfId;
     CreateCrewBoost(statBoost, otherCrew);
 }
 
@@ -679,7 +680,7 @@ void StatBoostManager::CreateRecursiveBoosts(StatBoost& statBoost, int nStacks, 
                 }
                 for (StatBoostDefinition* recursiveBoostDef : statBoost.def->providedStatBoosts)
                 {
-                    CreateCrewBoost(recursiveBoostDef, recursiveCrew, recursiveCrewStacks);
+                    CreateCrewBoost(recursiveBoostDef, recursiveCrew, ex, recursiveCrewStacks);
                 }
             }
         }
@@ -867,6 +868,86 @@ HOOK_METHOD(WorldManager, Restart, () -> void)
     super();
 }
 
+HOOK_METHOD(CrewMemberFactory, RemoveExcessCrew, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> CrewMemberFactory::RemoveExcessCrew -> Begin (StatBoost.cpp)\n")
+
+    // RemoveExcessCrew frees dead crew from memory; need to reset stat boosts in case a stat boost references such a crewmember
+    super();
+
+    WorldManager *worldManager = G_->GetWorld();
+    StatBoostManager *statBoostManager = StatBoostManager::GetInstance();
+
+    if (worldManager->bStartedGame)
+    {
+        statBoostManager->OnLoop(worldManager);
+    }
+    else
+    {
+        statBoostManager->statBoosts.clear();
+        statBoostManager->animBoosts.clear();
+        statBoostManager->statCacheFrame++;
+    }
+
+    for (CrewMember *crew : crewMembers)
+    {
+        CrewMember_Extend *ex = CM_EX(crew);
+        for (auto& vStatBoost : ex->timedStatBoosts)
+        {
+            for (StatBoost& statBoost : vStatBoost.second)
+            {
+                if (statBoost.def->boostSource == StatBoostDefinition::BoostSource::CREW)
+                {
+                    bool found = false;
+                    for (CrewMember *crew2 : crewMembers)
+                    {
+                        CrewMember_Extend *ex2 = CM_EX(crew2);
+                        if (ex2->selfId == statBoost.crewSourceId)
+                        {
+                            statBoost.crewSource = crew2;
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found) statBoost.crewSource = nullptr;
+                }
+            }
+        }
+    }
+}
+
+void StatBoost::FindCrewSource()
+{
+    if (def->boostSource == StatBoostDefinition::BoostSource::CREW)
+    {
+        CrewMemberFactory *crewFactory = G_->GetCrewFactory();
+
+        crewSource = nullptr;
+        for (CrewMember *crew : crewFactory->crewMembers)
+        {
+            CrewMember_Extend *ex = CM_EX(crew);
+            if (ex->selfId == crewSourceId)
+            {
+                crewSource = crew;
+                break;
+            }
+        }
+    }
+}
+
+HOOK_METHOD(BossShip, LoadBoss, (int fh) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> BossShip::LoadBoss -> Begin (StatBoost.cpp)\n")
+    super(fh);
+
+    for (StatBoost *statBoost : StatBoostManager::GetInstance()->loadingStatBoosts)
+    {
+        statBoost->FindCrewSource();
+    }
+
+    StatBoostManager::GetInstance()->loadingStatBoosts.clear();
+}
+
 HOOK_METHOD(ShipManager, JumpArrive, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::JumpArrive -> Begin (StatBoost.cpp)\n")
@@ -1025,14 +1106,22 @@ bool CrewMember_Extend::CheckExtraCondition(CrewExtraCondition condition)
     return false;
 }
 
-bool CrewMember_Extend::BoostCheck(const StatBoost& statBoost)
+bool CrewMember_Extend::BoostCheck(StatBoost& statBoost)
 {
     int ownerShip;
 
     switch (statBoost.def->boostSource)
     {
     case StatBoostDefinition::BoostSource::CREW:
-        ownerShip = statBoost.crewSource->GetPowerOwner();
+        if (statBoost.crewSource)
+        {
+            ownerShip = statBoost.crewSource->GetPowerOwner();
+            statBoost.sourceShipId = statBoost.crewSource->iShipId;
+        }
+        else
+        {
+            ownerShip = statBoost.sourceShipId;
+        }
 
         switch (statBoost.def->shipTarget)
         {
@@ -1046,26 +1135,26 @@ bool CrewMember_Extend::BoostCheck(const StatBoost& statBoost)
             if (orig->currentShipId == ownerShip) return false;
             break;
         case StatBoostDefinition::ShipTarget::OTHER_ALL:
-            if (orig->currentShipId == statBoost.crewSource->currentShipId) return false;
+            if (!statBoost.crewSource || orig->currentShipId == statBoost.crewSource->currentShipId) return false;
             break;
         case StatBoostDefinition::ShipTarget::ENEMY_SHIP:
             if (orig->currentShipId != 1) return false;
             break;
         case StatBoostDefinition::ShipTarget::CURRENT_ALL:
-            if (orig->currentShipId != statBoost.crewSource->currentShipId) return false;
+            if (!statBoost.crewSource || orig->currentShipId != statBoost.crewSource->currentShipId) return false;
             break;
         case StatBoostDefinition::ShipTarget::CURRENT_ROOM:
-            if (orig->currentShipId != statBoost.crewSource->currentShipId || orig->iRoomId != statBoost.crewSource->iRoomId) return false;
+            if (!statBoost.crewSource || orig->currentShipId != statBoost.crewSource->currentShipId || orig->iRoomId != statBoost.crewSource->iRoomId) return false;
             break;
         case StatBoostDefinition::ShipTarget::CREW_TARGET:
-            if ((CrewTarget*)orig != statBoost.crewSource->crewTarget) return false;
+            if (!statBoost.crewSource || (CrewTarget*)orig != statBoost.crewSource->crewTarget) return false;
             break;
         case StatBoostDefinition::ShipTarget::TARGETS_ME:
-            if (orig->crewTarget != (CrewTarget*)statBoost.crewSource) return false;
+            if (!statBoost.crewSource || orig->crewTarget != (CrewTarget*)statBoost.crewSource) return false;
             break;
         }
 
-        if (statBoost.crewSource == orig)
+        if (statBoost.crewSourceId == selfId)
         {
             if (!statBoost.def->affectsSelf) return false;
         }
@@ -1083,16 +1172,44 @@ bool CrewMember_Extend::BoostCheck(const StatBoost& statBoost)
                 return false;
                 break;
             case StatBoostDefinition::CrewTarget::CURRENT_ALLIES:
-                if ((statBoost.crewSource->iShipId != orig->iShipId) == (statBoost.crewSource->bMindControlled == orig->bMindControlled)) return false;
+                if (statBoost.crewSource)
+                {
+                    if ((statBoost.crewSource->iShipId != orig->iShipId) == (statBoost.crewSource->bMindControlled == orig->bMindControlled)) return false;
+                }
+                else
+                {
+                    if ((ownerShip != orig->iShipId) != (orig->bMindControlled)) return false;
+                }
                 break;
             case StatBoostDefinition::CrewTarget::CURRENT_ENEMIES:
-                if ((statBoost.crewSource->iShipId == orig->iShipId) == (statBoost.crewSource->bMindControlled == orig->bMindControlled)) return false;
+                if (statBoost.crewSource)
+                {
+                    if ((statBoost.crewSource->iShipId == orig->iShipId) == (statBoost.crewSource->bMindControlled == orig->bMindControlled)) return false;
+                }
+                else
+                {
+                    if ((ownerShip == orig->iShipId) != (orig->bMindControlled)) return false;
+                }
                 break;
             case StatBoostDefinition::CrewTarget::ORIGINAL_ALLIES:
-                if (statBoost.crewSource->iShipId != orig->iShipId) return false;
+                if (statBoost.crewSource)
+                {
+                    if (statBoost.crewSource->iShipId != orig->iShipId) return false;
+                }
+                else
+                {
+                    if (ownerShip != orig->iShipId) return false;
+                }
                 break;
             case StatBoostDefinition::CrewTarget::ORIGINAL_ENEMIES:
-                if (statBoost.crewSource->iShipId == orig->iShipId) return false;
+                if (statBoost.crewSource)
+                {
+                    if (statBoost.crewSource->iShipId == orig->iShipId) return false;
+                }
+                else
+                {
+                    if (ownerShip != orig->iShipId) return false;
+                }
                 break;
             }
 
@@ -1530,14 +1647,14 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
                 float sysPowerScaling = statBoost.def->powerScalingNoSys;
                 bool systemExists = false;
 
-                int statBoostSourceShipId = 0;
-                if (statBoost.def->boostSource == StatBoostDefinition::BoostSource::AUGMENT)
-                {
-                    statBoostSourceShipId = statBoost.sourceShipId;
-                }
-                else if (statBoost.def->boostSource == StatBoostDefinition::BoostSource::CREW)
+                int statBoostSourceShipId;
+                if (statBoost.def->boostSource == StatBoostDefinition::BoostSource::CREW && statBoost.crewSource)
                 {
                     statBoostSourceShipId = statBoost.crewSource->GetPowerOwner();
+                }
+                else
+                {
+                    statBoostSourceShipId = statBoost.sourceShipId;
                 }
 
                 for (auto system : statBoost.def->systemPowerScaling)

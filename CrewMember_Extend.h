@@ -160,7 +160,7 @@ public:
 
     std::pair<float,int> statCache[numCachedStats] = {};
 
-    bool BoostCheck(const StatBoost& statBoost);
+    bool BoostCheck(StatBoost& statBoost);
     bool CheckExtraCondition(CrewExtraCondition condition);
     int CalculateMaxHealth(const CrewDefinition* def);
     float CalculateStat(CrewStat stat, const CrewDefinition* def, bool* boolValue=nullptr);

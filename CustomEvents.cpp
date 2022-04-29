@@ -3082,7 +3082,9 @@ HOOK_METHOD(StarMap, GenerateMap, (bool tutorial, bool seed) -> LocationEvent*)
             while (customEvent && customEvent->eventLoadList && customEvent->eventLoadList->onGenerate)
             {
                 int seed = customEvent->eventLoadList->seeded ? (int)(loc->loc.x + loc->loc.y) ^ currentSectorSeed : -1;
+                advancedCheckEquipment[6] = true;
                 LocationEvent* newEvent = custom->GetEvent(G_->GetWorld(), customEvent->eventLoadList, seed);
+                advancedCheckEquipment[6] = false;
                 if (newEvent)
                 {
                     //delete loc->event;

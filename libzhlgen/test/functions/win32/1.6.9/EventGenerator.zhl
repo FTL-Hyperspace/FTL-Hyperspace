@@ -8,6 +8,8 @@ __thiscall SectorDescription EventGenerator::GetSpecificSector(EventGenerator *t
 __thiscall std::string EventGenerator::GetImageFromList(EventGenerator *this, const std::string& listName);
 "5789c883c0488d7c240883e4f0ff77fc5589e557565389ce81ec8c0000008b57088b1f894140894d9cc70100000000c74104000000008955a089ca":
 __thiscall SectorDescription EventGenerator::GetSectorDescription(EventGenerator *this, const std::string& type, int level);
+"578d7c240883e4f0ff77fc5589e557565383ec4c8b1f8b7f04c744240807690fc7894dc08d83ec000000":
+__thiscall ShipEvent EventGenerator::GetShipEvent(EventGenerator *this, const std::string& event);
 
 "!8b8318120000c744240800000000b9(???????\?)8944240c8b8334080000":
 EventGenerator* Global_EventGenerator_Generator;
