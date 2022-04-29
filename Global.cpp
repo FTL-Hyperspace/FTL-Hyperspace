@@ -46,6 +46,19 @@ void hs_log_file(const char *str...)
     va_end(va);
 }
 
+void ftl_log(const char *str...)
+{
+    va_list va;
+    va_start(va, str);
+
+    if (ftl_log_logfile != nullptr) // todo: open file if it's nullptr
+    {
+        vfprintf(ftl_log_logfile, str, va);
+        fflush(ftl_log_logfile);
+    }
+    va_end(va);
+}
+
 void ErrorMessage(const std::string &msg)
 {
     ErrorMessage(msg.c_str());
