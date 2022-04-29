@@ -50,6 +50,8 @@ cleanup __cdecl void ScoreKeeper::SaveGame(ScoreKeeper *this, int fd);
 cleanup __cdecl void ScoreKeeper::LoadGame(ScoreKeeper *this, int fd);
 ".5557565383ec2c8b5c24408b7c24448b6c2448":
 cleanup __cdecl void ScoreKeeper::MouseMove(ScoreKeeper *this, int mX, int mY);
+"8b4424048b542408c7401000000000":
+cleanup __cdecl void ScoreKeeper::SetSector(ScoreKeeper *this, int sector);
 
 "!c744240401000000c70424(???????\?)e8????????89742408":
 ScoreKeeper* Global_ScoreKeeper_Keeper;

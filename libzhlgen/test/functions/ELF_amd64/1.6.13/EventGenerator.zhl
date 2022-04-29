@@ -1,5 +1,7 @@
 "415541544989d455488daec80100004889d6534889fb4889ef4883ec18":
 cleanup __amd64 std::string EventGenerator::GetImageFromList(EventGenerator *this, const std::string& listName);
+".4156415541544989d455488dae98010000":
+cleanup __amd64 ShipEvent EventGenerator::GetShipEvent(EventGenerator *this, const std::string& event);
 ".41574189cf41564989f641554989fd415455498d6e48534889d34883ec58":
 cleanup __amd64 SectorDescription EventGenerator::GetSectorDescription(EventGenerator *this, const std::string& type, int level);
 ".4157415641554c8d6e1841544989d4554889f5534889fb4881ecd8000000":
