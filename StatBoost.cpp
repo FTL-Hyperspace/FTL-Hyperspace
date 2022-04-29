@@ -1647,14 +1647,14 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
                 float sysPowerScaling = statBoost.def->powerScalingNoSys;
                 bool systemExists = false;
 
-                int statBoostSourceShipId = 0;
-                if (statBoost.def->boostSource == StatBoostDefinition::BoostSource::AUGMENT)
-                {
-                    statBoostSourceShipId = statBoost.sourceShipId;
-                }
-                else if (statBoost.def->boostSource == StatBoostDefinition::BoostSource::CREW)
+                int statBoostSourceShipId;
+                if (statBoost.def->boostSource == StatBoostDefinition::BoostSource::CREW && statBoost.crewSource)
                 {
                     statBoostSourceShipId = statBoost.crewSource->GetPowerOwner();
+                }
+                else
+                {
+                    statBoostSourceShipId = statBoost.sourceShipId;
                 }
 
                 for (auto system : statBoost.def->systemPowerScaling)
