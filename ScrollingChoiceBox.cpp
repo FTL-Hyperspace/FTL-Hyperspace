@@ -102,6 +102,7 @@ float ScrollingChoiceBox::GetMaxScroll()
 
 HOOK_METHOD(ChoiceBox, OnRender, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ChoiceBox::OnRender -> Begin (ScrollingChoiceBox.cpp)\n")
     if (ScrollingChoiceBox::renderingEventBoxState == -1)
     {
         ScrollingChoiceBox::OnInit();
@@ -147,6 +148,7 @@ HOOK_METHOD(ChoiceBox, OnRender, () -> void)
 
 HOOK_METHOD(WindowFrame, Draw, (int x, int y) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> WindowFrame::Draw -> Begin (ScrollingChoiceBox.cpp)\n")
     super(x,y);
     if (ScrollingChoiceBox::renderingEventBoxState == 1)
     {
@@ -159,6 +161,7 @@ HOOK_METHOD(WindowFrame, Draw, (int x, int y) -> void)
 
 HOOK_METHOD(ChoiceBox, MouseMove, (int mX, int mY) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ChoiceBox::MouseMove -> Begin (ScrollingChoiceBox.cpp)\n")
     if (this == &(G_->GetWorld()->commandGui->choiceBox))
     {
         // only register clicks within the window
@@ -200,6 +203,7 @@ HOOK_METHOD(ChoiceBox, MouseMove, (int mX, int mY) -> void)
 
 HOOK_METHOD(ChoiceBox, MouseClick, (int mX, int mY) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ChoiceBox::MouseClick -> Begin (ScrollingChoiceBox.cpp)\n")
     super(mX,mY);
 
     if (this == &(G_->GetWorld()->commandGui->choiceBox))
@@ -239,12 +243,14 @@ HOOK_METHOD(ChoiceBox, MouseClick, (int mX, int mY) -> void)
 
 HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> WorldManager::CreateChoiceBox -> Begin (ScrollingChoiceBox.cpp)\n")
     ScrollingChoiceBox::scrollAmount = 0.f;
     super(event);
 }
 
 HOOK_METHOD(CommandGui, LButtonUp, (int mX, int mY, bool shift) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CommandGui::LButtonUp -> Begin (ScrollingChoiceBox.cpp)\n")
     super(mX,mY,shift);
     ScrollingChoiceBox::dragging = -1;
 }
