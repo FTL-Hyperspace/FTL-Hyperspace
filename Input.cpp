@@ -2,6 +2,7 @@
 #include "CustomCommandGui.h"
 #include "CustomCrewManifest.h"
 #include "ShipZoom.h"
+#include "ScrollingChoiceBox.h"
 
 static void OnScrollWheel(float direction)
 {
@@ -11,7 +12,11 @@ static void OnScrollWheel(float direction)
     {
         if (!cApp->menu.bOpen)
         {
-            if (cApp->gui->crewScreen.bOpen)
+            if (ScrollingChoiceBox::OnScrollWheel(direction))
+            {
+
+            }
+            else if (cApp->gui->crewScreen.bOpen)
             {
                 CustomCrewManifest::GetInstance()->OnScrollWheel(direction);
             }

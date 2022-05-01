@@ -30,3 +30,5 @@ __thiscall void CommandGui::CheckGameover(CommandGui *this);
 __thiscall bool CommandGui::IsGameOver(CommandGui *this);
 "578d7c240883e4f0ff77fc5589e557565381ec????????8b078b5f04898dd8fdffff8985d4fdffff8b47088985e4fdffff":
 __thiscall void CommandGui::NewLocation(CommandGui *this, const std::string& mainText, std::vector<ChoiceText> *choices, ResourceEvent& resources, bool testingEvents);
+"578d7c240883e4f0ff77fc5589e557565383ec2c8b0780b984420000008b77048945e48b47088945e075??8bb90c1700008b911017000089cb29fac1fa0285d2":
+__thiscall void CommandGui::LButtonUp(CommandGui *this, int mX, int mY, bool shiftHeld);

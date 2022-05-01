@@ -1112,6 +1112,12 @@
 		<Unit filename="SaveFile.h">
 			<Option virtualFolder="Core/SaveFile/" />
 		</Unit>
+		<Unit filename="ScrollingChoiceBox.cpp">
+			<Option virtualFolder="Core/Events/" />
+		</Unit>
+		<Unit filename="ScrollingChoiceBox.h">
+			<Option virtualFolder="Core/Events/" />
+		</Unit>
 		<Unit filename="Seeds.cpp">
 			<Option virtualFolder="Core/Seed/" />
 		</Unit>
