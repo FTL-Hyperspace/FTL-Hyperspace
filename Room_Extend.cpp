@@ -1,5 +1,5 @@
 #include "Global.h"
-
+#include "Room_Extend.h"
 
 HOOK_METHOD_PRIORITY(Room, constructor, 900, (int shipId, int x, int y, int w, int h, int roomId) -> void)
 {
@@ -72,9 +72,4 @@ Room_Extend::~Room_Extend()
         erosionAnim->destructor();
 
     delete currentErosion;
-
-    for (auto i : roomAnims)
-    {
-        delete i.anim;
-    }
 }

@@ -164,7 +164,7 @@ void CustomAugmentManager::ParseCustomAugmentNode(rapidxml::xml_node<char>* node
                         {
                             if (strcmp(statBoostNode->name(), "statBoost") == 0)
                             {
-                                augDef->statBoosts.push_back(StatBoostManager::GetInstance()->ParseStatBoostNode(statBoostNode, StatBoostDefinition::BoostSource::AUGMENT));
+                                augDef->statBoosts.push_back(StatBoostManager::GetInstance()->ParseStatBoostNode(statBoostNode, StatBoostDefinition::BoostSource::AUGMENT, false));
                             }
                         }
                     }

@@ -40,21 +40,12 @@ void ShipManager_Extend::Initialize(bool restarting)
     {
         if (i.first < orig->ship.vRoomList.size())
         {
-            auto rex = RM_EX(orig->ship.vRoomList[i.first]);
+            Room *room = orig->ship.vRoomList[i.first];
+            auto rex = RM_EX(room);
 
-            for (auto def : i.second->roomAnims)
+            for (auto &def : i.second->roomAnims)
             {
-                Animation *anim = new Animation(G_->GetAnimationControl()->GetAnimation(def.animName));
-                RoomAnim roomAnim = RoomAnim();
-
-                roomAnim.anim = anim;
-                roomAnim.renderLayer = def.renderLayer;
-
-                anim->Start(true);
-                anim->tracker.SetLoop(true, 0.f);
-
-                rex->roomAnims.push_back(roomAnim);
-
+                rex->roomAnims.emplace_back(def, room);
             }
 
             rex->sensorBlind = i.second->sensorBlind;
@@ -305,7 +296,22 @@ HOOK_METHOD(ShipManager, CheckVision, () -> void)
             G_->GetAchievementTracker()->SetAchievement("ACH_SLUG_VISION", false, true);
         }
     }
+}
 
+void RoomAnim::OnUpdate()
+{
+    if (anim)
+    {
+        anim->Update();
+    }
+}
+
+void RoomAnim::OnRender()
+{
+    if (anim)
+    {
+        anim->OnRender(1.f, COLOR_WHITE, false);
+    }
 }
 
 HOOK_METHOD(ShipManager, OnLoop, () -> void)
@@ -317,9 +323,9 @@ HOOK_METHOD(ShipManager, OnLoop, () -> void)
     {
         auto ex = RM_EX(i);
 
-        for (auto anim : ex->roomAnims)
+        for (auto& anim : ex->roomAnims)
         {
-            anim.anim->Update();
+            anim.OnUpdate();
         }
     }
 }
@@ -347,14 +353,21 @@ HOOK_METHOD(ShipManager, OnRender, (bool showInterior, bool doorControlMode) -> 
 
     for (auto room : ship.vRoomList)
     {
-        for (auto i : RM_EX(room)->roomAnims)
+        for (auto& i : RM_EX(room)->roomAnims)
         {
             if (i.renderLayer == 4 || (canSeeRooms && i.renderLayer == 3))
             {
-                CSurface::GL_PushMatrix();
-                CSurface::GL_Translate(room->rect.x, room->rect.y);
-                i.anim->OnRender(1.f, COLOR_WHITE, false);
-                CSurface::GL_PopMatrix();
+                i.OnRender();
+            }
+        }
+        for (auto& i : RM_EX(room)->statBoosts)
+        {
+            if (i.roomAnim)
+            {
+                if (i.roomAnim->renderLayer == 4 || (canSeeRooms && i.roomAnim->renderLayer == 3))
+                {
+                    i.roomAnim->OnRender();
+                }
             }
         }
     }
@@ -365,14 +378,21 @@ HOOK_METHOD(Ship, OnRenderSparks, () -> void)
     LOG_HOOK("HOOK_METHOD -> Ship::OnRenderSparks -> Begin (CustomShips.cpp)\n")
     for (auto room : vRoomList)
     {
-        for (auto i : RM_EX(room)->roomAnims)
+        for (auto& i : RM_EX(room)->roomAnims)
         {
             if (i.renderLayer == 2)
             {
-                CSurface::GL_PushMatrix();
-                CSurface::GL_Translate(room->rect.x, room->rect.y);
-                i.anim->OnRender(1.f, COLOR_WHITE, false);
-                CSurface::GL_PopMatrix();
+                i.OnRender();
+            }
+        }
+        for (auto& i : RM_EX(room)->statBoosts)
+        {
+            if (i.roomAnim)
+            {
+                if (i.roomAnim->renderLayer == 2)
+                {
+                    i.roomAnim->OnRender();
+                }
             }
         }
     }
@@ -387,14 +407,21 @@ HOOK_METHOD(Ship, OnRenderBreaches, () -> void)
     {
         if (room->bBlackedOut) continue;
 
-        for (auto i : RM_EX(room)->roomAnims)
+        for (auto& i : RM_EX(room)->roomAnims)
         {
             if (i.renderLayer == 1)
             {
-                CSurface::GL_PushMatrix();
-                CSurface::GL_Translate(room->rect.x, room->rect.y);
-                i.anim->OnRender(1.f, COLOR_WHITE, false);
-                CSurface::GL_PopMatrix();
+                i.OnRender();
+            }
+        }
+        for (auto& i : RM_EX(room)->statBoosts)
+        {
+            if (i.roomAnim)
+            {
+                if (i.roomAnim->renderLayer == 1)
+                {
+                    i.roomAnim->OnRender();
+                }
             }
         }
     }
@@ -411,14 +438,21 @@ HOOK_METHOD(Ship, OnRenderFloor, (bool experimental) -> void)
     {
         if (room->bBlackedOut) continue;
 
-        for (auto i : RM_EX(room)->roomAnims)
+        for (auto& i : RM_EX(room)->roomAnims)
         {
             if (i.renderLayer == 0)
             {
-                CSurface::GL_PushMatrix();
-                CSurface::GL_Translate(room->rect.x, room->rect.y);
-                i.anim->OnRender(1.f, COLOR_WHITE, false);
-                CSurface::GL_PopMatrix();
+                i.OnRender();
+            }
+        }
+        for (auto& i : RM_EX(room)->statBoosts)
+        {
+            if (i.roomAnim)
+            {
+                if (i.roomAnim->renderLayer == 0)
+                {
+                    i.roomAnim->OnRender();
+                }
             }
         }
     }

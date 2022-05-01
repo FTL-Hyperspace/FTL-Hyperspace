@@ -123,7 +123,23 @@ HOOK_METHOD(BlueprintManager, ProcessWeaponBlueprint, (rapidxml::xml_node<char>*
             {
                 if (strcmp(statBoostNode->name(), "statBoost") == 0)
                 {
-                    weaponDef.customDamage->statBoosts.push_back(StatBoostManager::GetInstance()->ParseStatBoostNode(statBoostNode, StatBoostDefinition::BoostSource::AUGMENT));
+                    weaponDef.customDamage->statBoosts.push_back(StatBoostManager::GetInstance()->ParseStatBoostNode(statBoostNode, StatBoostDefinition::BoostSource::AUGMENT, false));
+                }
+            }
+        }
+        if (name == "roomStatBoostChance")
+        {
+            hasCustomDamage = true;
+            weaponDef.customDamage->roomStatBoostChance = boost::lexical_cast<int>(val);
+        }
+        if (name == "roomStatBoosts")
+        {
+            hasCustomDamage = true;
+            for (auto statBoostNode = child->first_node(); statBoostNode; statBoostNode = statBoostNode->next_sibling())
+            {
+                if (strcmp(statBoostNode->name(), "statBoost") == 0)
+                {
+                    weaponDef.customDamage->roomStatBoosts.push_back(StatBoostManager::GetInstance()->ParseStatBoostNode(statBoostNode, StatBoostDefinition::BoostSource::AUGMENT, true));
                 }
             }
         }
@@ -166,6 +182,10 @@ HOOK_METHOD(BlueprintManager, ProcessWeaponBlueprint, (rapidxml::xml_node<char>*
     if (weaponDef.customDamage->statBoostChance == -1)
     {
         weaponDef.customDamage->statBoostChance = weaponDef.customDamage->statBoosts.empty() ? 0 : 10;
+    }
+    if (weaponDef.customDamage->roomStatBoostChance == -1)
+    {
+        weaponDef.customDamage->roomStatBoostChance = weaponDef.customDamage->roomStatBoosts.empty() ? 0 : 10;
     }
     if (weaponDef.customDamage->crewSpawnChance == -1)
     {

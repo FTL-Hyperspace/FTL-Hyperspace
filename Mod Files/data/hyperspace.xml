@@ -459,7 +459,10 @@ Syntax ->
 	<customShip name="PLAYER_SHIP_CUSTOM_2">
 		<rooms>
 			<room id="1">
-				<roomAnim renderLayer="1">custom</roomAnim>
+				<roomAnim renderLayer="1" animType="default" animBorder="0">custom</roomAnim> (backwards compatible syntax)
+				<roomAnim renderLayer="1">                                                    (new syntax)
+					<anim animType="default" animBorder="0">custom</roomAnim>                 (animType can be default, stretch, random, or center, animBorder controls spawning margins)
+				</roomAnim>
 				<sysDamageResistChance>50</sysDamageResistChance>
 				<ionDamageResistChance>10</ionDamageResistChance>
 			</room>
@@ -1142,6 +1145,8 @@ duration: for augments, determines how long a boost will apply after jumping, me
 maxStacks: determines how many stacks of the boost can be applied to a single crewmember. Works per stat. Can have an "id" attribute which specifies an id to use for stat boosts that share a stack limit.
   If the id is not included then the stack limit applies only to that specific boost. Also works with recursive stat boosts but in which case does not respect priority value (priority is arbitrary).
 statBoost: When statBoost name is "statBoost", the stat boost to provide to crewmembers meeting the criteria.
+boostAnim: Name of animation to play on crewmembers who are being affected by this stat boost.
+roomAnim: Room animation to spawn in the room of a room-based stat boost (currently only applies for room-based boosts, not crew/augment boosts that might affect certain rooms). Same syntax as customShip roomAnim.
 
 Stat boost syntax examples->
 
@@ -1195,6 +1200,8 @@ Stat boost syntax examples->
 	<duration>15</duration>
 	<priority>0</priority>
 	<statBoost name="...">...</statBoost>
+	<boostAnim>anim_name</boostAnim>
+	<roomAnim>...</roomAnim>
 </statBoost>
 
 <statBoost load="loadId"/> (loads a previously saved stat boost by reference if the source matches)

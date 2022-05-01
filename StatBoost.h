@@ -7,6 +7,7 @@
 
 struct ActivatedPowerDefinition;
 class CrewMember_Extend;
+struct RoomAnimDef;
 
 enum class CrewExtraCondition : unsigned int;
 
@@ -138,6 +139,7 @@ struct StatBoostDefinition
     float duration = -1;
 
     std::string boostAnim = "";
+    RoomAnimDef *roomAnim = nullptr;
 
     bool affectsSelf = false;
 
@@ -161,6 +163,7 @@ struct StatBoostDefinition
     bool extraConditionsReq;
     SystemRoomTarget systemRoomTarget;
     bool systemRoomReq;
+    bool isRoomBased;
     BoostSource boostSource;
     BoostType boostType;
     ShipTarget shipTarget;
@@ -183,6 +186,8 @@ struct StatBoostDefinition
         realBoostId = statBoostDefs.size();
         statBoostDefs.push_back(this);
     }
+
+    bool TestRoomStatBoostSystem(ShipManager *ship, int room);
 };
 
 struct StatBoost
@@ -200,6 +205,9 @@ struct StatBoost
     std::pair<std::vector<int>,std::vector<int>> sourceRoomIds = std::pair<std::vector<int>,std::vector<int>>();
 
     int sourceShipId;
+
+    void Save(int fd);
+    static StatBoost LoadStatBoost(int fd);
 
     StatBoost(StatBoostDefinition& definition) : def{&definition}
     {
@@ -230,7 +238,13 @@ public:
         return &instance;
     }
 
-    StatBoostDefinition* ParseStatBoostNode(rapidxml::xml_node<char>* node, StatBoostDefinition::BoostSource boostSource);
+    void Clear()
+    {
+        statBoosts.clear();
+        animBoosts.clear();
+    }
+
+    StatBoostDefinition* ParseStatBoostNode(rapidxml::xml_node<char>* node, StatBoostDefinition::BoostSource boostSource, bool isRoomBased);
     void CreateTimedAugmentBoost(StatBoost statBoost, CrewMember* crew);
     void OnLoop(WorldManager* world);
 private:
@@ -260,4 +274,5 @@ private:
     void CreateCrewBoost(StatBoostDefinition* def, CrewMember* otherCrew, CrewMember_Extend* ex, int nStacks);
     void CreateCrewBoost(StatBoost statBoost, CrewMember* otherCrew);
     void CreateRecursiveBoosts(StatBoost& statBoost, int nStacks, bool noCheck = false);
+    void AddRoomStatBoosts(ShipManager *ship);
 };

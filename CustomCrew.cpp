@@ -306,7 +306,7 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                         {
                             for (auto statBoostNode = stat->first_node(); statBoostNode; statBoostNode = statBoostNode->next_sibling())
                             {
-                                crew.passiveStatBoosts.push_back(StatBoostManager::GetInstance()->ParseStatBoostNode(statBoostNode, StatBoostDefinition::BoostSource::CREW));
+                                crew.passiveStatBoosts.push_back(StatBoostManager::GetInstance()->ParseStatBoostNode(statBoostNode, StatBoostDefinition::BoostSource::CREW, false));
                             }
                         }
                         if (str == "animBase")
@@ -649,7 +649,7 @@ void CustomCrewManager::ParseDeathEffect(rapidxml::xml_node<char>* stat, Explosi
             {
                 if (strcmp(statBoostNode->name(), "statBoost") == 0)
                 {
-                    def.statBoosts.push_back(StatBoostManager::GetInstance()->ParseStatBoostNode(statBoostNode, StatBoostDefinition::BoostSource::CREW));
+                    def.statBoosts.push_back(StatBoostManager::GetInstance()->ParseStatBoostNode(statBoostNode, StatBoostDefinition::BoostSource::CREW, false));
                 }
             }
         }
@@ -888,7 +888,7 @@ void CustomCrewManager::ParseAbilityEffect(rapidxml::xml_node<char>* stat, Activ
             {
                 if (strcmp(statBoostNode->name(), "statBoost") == 0)
                 {
-                    def.statBoosts.push_back(StatBoostManager::GetInstance()->ParseStatBoostNode(statBoostNode, StatBoostDefinition::BoostSource::CREW));
+                    def.statBoosts.push_back(StatBoostManager::GetInstance()->ParseStatBoostNode(statBoostNode, StatBoostDefinition::BoostSource::CREW, false));
                 }
             }
         }
@@ -1100,7 +1100,7 @@ void CustomCrewManager::ParseAbilityEffect(rapidxml::xml_node<char>* stat, Activ
                 {
                     for (auto statBoostNode = tempEffectNode->first_node(); statBoostNode; statBoostNode = statBoostNode->next_sibling())
                     {
-                        def.tempPower.statBoosts.push_back(StatBoostManager::GetInstance()->ParseStatBoostNode(statBoostNode, StatBoostDefinition::BoostSource::CREW));
+                        def.tempPower.statBoosts.push_back(StatBoostManager::GetInstance()->ParseStatBoostNode(statBoostNode, StatBoostDefinition::BoostSource::CREW, false));
                     }
                 }
                 if (tempEffectName == "noClone")
@@ -2943,12 +2943,7 @@ HOOK_METHOD(CrewMember, SaveState, (int file) -> void)
     FileHelper::writeInt(file, timedStatBoostsSerial.size());
     for (auto statBoost : timedStatBoostsSerial)
     {
-        FileHelper::writeInt(file, statBoost->def->realBoostId);
-        FileHelper::writeInt(file, statBoost->iStacks);
-        FileHelper::writeInt(file, statBoost->crewSourceId);
-        FileHelper::writeInt(file, statBoost->sourceShipId);
-        FileHelper::writeFloat(file, statBoost->timerHelper.currGoal);
-        FileHelper::writeFloat(file, statBoost->timerHelper.currTime);
+        statBoost->Save(file);
     }
 
     super(file);
@@ -3018,22 +3013,7 @@ HOOK_METHOD(CrewMember, LoadState, (int file) -> void)
 
     for (int i=0; i<timedStatBoostsSize; ++i)
     {
-        StatBoost statBoost(StatBoostDefinition::statBoostDefs.at(FileHelper::readInteger(file)));
-        statBoost.iStacks = FileHelper::readInteger(file);
-        statBoost.crewSourceId = FileHelper::readInteger(file);
-        statBoost.sourceShipId = FileHelper::readInteger(file);
-
-        if (statBoost.def->duration != -1.f)
-        {
-            statBoost.timerHelper.Start(FileHelper::readFloat(file));
-            statBoost.timerHelper.currTime = FileHelper::readFloat(file);
-        }
-        else
-        {
-            statBoost.timerHelper.currGoal = FileHelper::readFloat(file);
-            statBoost.timerHelper.currTime = FileHelper::readFloat(file);
-            statBoost.timerHelper.running = false;
-        }
+        StatBoost statBoost = StatBoost::LoadStatBoost(file);
 
         auto& vStatBoosts = ex->timedStatBoosts[statBoost.def->stat];
 

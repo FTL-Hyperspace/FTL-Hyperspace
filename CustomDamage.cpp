@@ -2,6 +2,7 @@
 #include "Projectile_Extend.h"
 #include "CustomWeapons.h"
 #include "CrewSpawn.h"
+#include "ShipManager_Extend.h"
 #include <boost/lexical_cast.hpp>
 
 CustomDamage* CustomDamageManager::currentWeaponDmg = nullptr;
@@ -29,6 +30,21 @@ HOOK_METHOD(ShipManager, DamageArea, (Pointf location, DamageParameter dmgParam,
                 for (CrewSpawn *i : custom->def->crewSpawns)
                 {
                     CrewSpawn::SpawnCrew(i, this, custom->sourceShipId != iShipId, location);
+                }
+            }
+
+            int room = ship.GetSelectedRoomId(location.x, location.y, true);
+
+            if (room > -1)
+            {
+                rng = random32() % 10;
+
+                if (rng < custom->def->roomStatBoostChance)
+                {
+                    for (auto statBoostDef : custom->def->roomStatBoosts)
+                    {
+                        SM_EX(this)->CreateRoomStatBoost(*statBoostDef, room, 1, custom->sourceShipId);
+                    }
                 }
             }
         }
@@ -61,6 +77,22 @@ HOOK_METHOD(ShipManager, DamageBeam, (Pointf location1, Pointf location2, Damage
                 for (CrewSpawn *i : custom->def->crewSpawns)
                 {
                     CrewSpawn::SpawnCrew(i, this, custom->sourceShipId != iShipId, spawnLoc, true);
+                }
+            }
+        }
+
+        int room1 = ship.GetSelectedRoomId(location1.x, location1.y, true);
+        int room2 = ship.GetSelectedRoomId(location2.x, location2.y, true);
+
+        if (room1 > -1 && room1 != room2)
+        {
+            int rng = random32() % 10;
+
+            if (rng < custom->def->roomStatBoostChance)
+            {
+                for (auto statBoostDef : custom->def->roomStatBoosts)
+                {
+                    SM_EX(this)->CreateRoomStatBoost(*statBoostDef, room1, 1, custom->sourceShipId);
                 }
             }
         }

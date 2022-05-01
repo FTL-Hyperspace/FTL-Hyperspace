@@ -1,4 +1,5 @@
 #include "TemporalSystem.h"
+#include "Room_Extend.h"
 #include "boost/algorithm/string.hpp"
 #include "boost/lexical_cast.hpp"
 #include <sstream>

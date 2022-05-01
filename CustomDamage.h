@@ -26,7 +26,9 @@ struct CustomDamageDefinition
     bool ionBeamFix = false;
 
     int statBoostChance = -1;
+    int roomStatBoostChance = -1;
     std::vector<StatBoostDefinition*> statBoosts;
+    std::vector<StatBoostDefinition*> roomStatBoosts;
 
     int erosionChance = 0;
     ErosionEffect erosionEffect;

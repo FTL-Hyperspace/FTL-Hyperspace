@@ -11,10 +11,8 @@
 
 
 #include "CrewMember_Extend.h"
-#include "ShipManager_Extend.h"
 #include "System_Extend.h"
 #include "Blueprint_Extend.h"
-#include "Room_Extend.h"
 #include <boost/algorithm/string.hpp>
 #include <boost/format.hpp>
 

@@ -35,7 +35,7 @@ CrewSpawn *CrewSpawn::ParseCrewSpawn(rapidxml::xml_node<char>* node, bool isCrew
         {
             for (auto statBoostNode = spawnNode->first_node(); statBoostNode; statBoostNode = statBoostNode->next_sibling())
             {
-                crewSpawn->statBoosts.push_back(StatBoostManager::GetInstance()->ParseStatBoostNode(statBoostNode, isCrew ? StatBoostDefinition::BoostSource::CREW : StatBoostDefinition::BoostSource::AUGMENT));
+                crewSpawn->statBoosts.push_back(StatBoostManager::GetInstance()->ParseStatBoostNode(statBoostNode, isCrew ? StatBoostDefinition::BoostSource::CREW : StatBoostDefinition::BoostSource::AUGMENT, false));
             }
         }
         if (spawnName == "noSlot")

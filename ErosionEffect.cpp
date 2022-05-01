@@ -1,4 +1,5 @@
 #include "Global.h"
+#include "Room_Extend.h"
 
 HOOK_METHOD(ShipManager, DamageArea, (Pointf location, DamageParameter dmgParam, bool forceHit) -> bool)
 {

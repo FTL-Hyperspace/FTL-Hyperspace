@@ -1,5 +1,6 @@
 #pragma once
 #include "FTLGame.h"
+#include "CustomCrew.h"
 
 struct ShipIcon
 {
@@ -36,6 +37,9 @@ struct ShipManager_Extend
     std::vector<ShipIcon*> icons;
 
     void Initialize(bool restarting=false);
+
+    void CreateRoomStatBoost(StatBoost &&statBoost, int room);
+    void CreateRoomStatBoost(StatBoostDefinition &statBoostDef, int room, int nStacks, int sourceShipId);
 
     ~ShipManager_Extend()
     {

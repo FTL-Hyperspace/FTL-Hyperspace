@@ -2,6 +2,7 @@
 #pragma GCC optimize ("O3")
 
 #include "CrewMember_Extend.h"
+#include "Room_Extend.h"
 #include "StatBoost.h"
 #include "CustomCrew.h"
 #include "CustomAugments.h"
@@ -76,7 +77,7 @@ unsigned int StatBoostManager::statCacheFrame = 1;
 
 StatBoostManager StatBoostManager::instance = StatBoostManager();
 
-StatBoostDefinition* StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<char>* node, StatBoostDefinition::BoostSource boostSource)
+StatBoostDefinition* StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<char>* node, StatBoostDefinition::BoostSource boostSource, bool isRoomBased)
 {
     StatBoostDefinition *def;
     bool newDef = false;
@@ -94,7 +95,7 @@ StatBoostDefinition* StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<cha
             else
             {
                 def = savedDef->second;
-                if (boostSource != def->boostSource)
+                if (boostSource != def->boostSource || isRoomBased != def->isRoomBased)
                 {
                     newDef = true; // mismatched source needs a new def
                 }
@@ -117,6 +118,7 @@ StatBoostDefinition* StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<cha
     {
         def->GiveId();
         def->boostSource = boostSource;
+        def->isRoomBased = isRoomBased;
         auto stat = std::find(crewStats.begin(), crewStats.end(), node->first_attribute("name")->value());
         if (stat != crewStats.end())
         {
@@ -128,7 +130,7 @@ StatBoostDefinition* StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<cha
                 std::string val = child->value();
                 if (name == "statBoost")
                 {
-                    def->providedStatBoosts.push_back(ParseStatBoostNode(child, StatBoostDefinition::BoostSource::CREW));
+                    def->providedStatBoosts.push_back(ParseStatBoostNode(child, StatBoostDefinition::BoostSource::CREW, false));
                 }
                 if (name == "boostType")
                 {
@@ -185,6 +187,11 @@ StatBoostDefinition* StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<cha
                 if (name == "boostAnim")
                 {
                     def->boostAnim = val;
+                }
+                if (name == "roomAnim")
+                {
+                    def->roomAnim = new RoomAnimDef();
+                    def->roomAnim->ParseRoomAnimNode(child);
                 }
                 if (name == "affectsSelf")
                 {
@@ -532,6 +539,7 @@ void StatBoostManager::CreateAugmentBoost(StatBoostDefinition* def, int shipId, 
     statBoost.iStacks = nStacks;
 
     statBoost.sourceShipId = shipId;
+    statBoost.crewSourceId = 0;
 
     if (!def->systemList.empty())
     {
@@ -602,7 +610,7 @@ void StatBoostManager::CreateCrewBoost(StatBoostDefinition* def, CrewMember* oth
 
 void StatBoostManager::CreateCrewBoost(StatBoost statBoost, CrewMember* otherCrew)
 {
-    statBoost.sourceShipId = otherCrew->currentShipId; // the ship that the crewmember providing the boost is on
+    statBoost.sourceShipId = otherCrew->iShipId; // the owner of the source crew
     if (!statBoost.def->systemList.empty())
     {
         for (auto system : statBoost.def->systemList)
@@ -687,20 +695,33 @@ void StatBoostManager::CreateRecursiveBoosts(StatBoost& statBoost, int nStacks, 
     }
 }
 
+void StatBoostManager::AddRoomStatBoosts(ShipManager *ship)
+{
+    for (Room *room : ship->ship.vRoomList)
+    {
+        for (RoomStatBoost &roomBoost : RM_EX(room)->statBoosts)
+        {
+            statBoosts[roomBoost.statBoost.def->stat].push_back(roomBoost.statBoost);
+        }
+    }
+}
+
 void StatBoostManager::OnLoop(WorldManager* world)
 {
-    statBoosts.clear();
-    animBoosts.clear();
+    Clear();
+
     playerShip = world->playerShip->shipManager;
     enemyShip = world->playerShip->enemyShip ? world->playerShip->enemyShip->shipManager : nullptr;
 
     if (playerShip != nullptr)
     {
         std::copy_if(playerShip->vCrewList.begin(), playerShip->vCrewList.end(), std::back_inserter(checkingCrewList), [](CrewMember *i){return !i->bDead;});
+        StatBoostManager::AddRoomStatBoosts(playerShip);
     }
     if (enemyShip != nullptr)
     {
         std::copy_if(enemyShip->vCrewList.begin(), enemyShip->vCrewList.end(), std::back_inserter(checkingCrewList), [](CrewMember *i){return !i->bDead;});
+        StatBoostManager::AddRoomStatBoosts(enemyShip);
     }
 
     // Check augment stat boosts
@@ -808,16 +829,14 @@ void StatBoostManager::CreateTimedAugmentBoost(StatBoost statBoost, CrewMember* 
 HOOK_METHOD(WorldManager, CreateNewGame, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> WorldManager::CreateNewGame -> Begin (StatBoost.cpp)\n")
-    StatBoostManager::GetInstance()->statBoosts.clear();
-    StatBoostManager::GetInstance()->animBoosts.clear();
+    StatBoostManager::GetInstance()->Clear();
     super();
 }
 
 HOOK_METHOD(WorldManager, LoadGame, (const std::string& fileName) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> WorldManager::LoadGame -> Begin (StatBoost.cpp)\n")
-    StatBoostManager::GetInstance()->statBoosts.clear();
-    StatBoostManager::GetInstance()->animBoosts.clear();
+    StatBoostManager::GetInstance()->Clear();
     super(fileName);
 }
 
@@ -842,8 +861,7 @@ HOOK_METHOD(WorldManager, OnLoop, () -> void)
 HOOK_METHOD(ShipBuilder, OnLoop, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ShipBuilder::OnLoop -> Begin (StatBoost.cpp)\n")
-    StatBoostManager::GetInstance()->statBoosts.clear();
-    StatBoostManager::GetInstance()->animBoosts.clear();
+    StatBoostManager::GetInstance()->Clear();
     StatBoostManager::GetInstance()->statCacheFrame++;
     super();
 //    using std::chrono::steady_clock;
@@ -862,8 +880,7 @@ HOOK_METHOD(ShipBuilder, OnLoop, () -> void)
 HOOK_METHOD(WorldManager, Restart, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> WorldManager::Restart -> Begin (StatBoost.cpp)\n")
-    StatBoostManager::GetInstance()->statBoosts.clear();
-    StatBoostManager::GetInstance()->animBoosts.clear();
+    StatBoostManager::GetInstance()->Clear();
     StatBoostManager::GetInstance()->statCacheFrame++;
     super();
 }
@@ -884,8 +901,7 @@ HOOK_METHOD(CrewMemberFactory, RemoveExcessCrew, () -> void)
     }
     else
     {
-        statBoostManager->statBoosts.clear();
-        statBoostManager->animBoosts.clear();
+        StatBoostManager::GetInstance()->Clear();
         statBoostManager->statCacheFrame++;
     }
 
@@ -947,6 +963,282 @@ HOOK_METHOD(BossShip, LoadBoss, (int fh) -> void)
 
     StatBoostManager::GetInstance()->loadingStatBoosts.clear();
 }
+
+// Save/load stat boosts
+
+void StatBoost::Save(int fd)
+{
+    FileHelper::writeInt(fd, def->realBoostId);
+    FileHelper::writeInt(fd, iStacks);
+    FileHelper::writeInt(fd, crewSourceId);
+    FileHelper::writeInt(fd, sourceShipId);
+    FileHelper::writeFloat(fd, timerHelper.currGoal);
+    FileHelper::writeFloat(fd, timerHelper.currTime);
+}
+
+StatBoost StatBoost::LoadStatBoost(int fd)
+{
+    StatBoost statBoost(StatBoostDefinition::statBoostDefs.at(FileHelper::readInteger(fd)));
+    statBoost.iStacks = FileHelper::readInteger(fd);
+    statBoost.crewSourceId = FileHelper::readInteger(fd);
+    statBoost.sourceShipId = FileHelper::readInteger(fd);
+
+    if (statBoost.def->duration != -1.f)
+    {
+        statBoost.timerHelper.Start(FileHelper::readFloat(fd));
+        statBoost.timerHelper.currTime = FileHelper::readFloat(fd);
+    }
+    else
+    {
+        statBoost.timerHelper.currGoal = FileHelper::readFloat(fd);
+        statBoost.timerHelper.currTime = FileHelper::readFloat(fd);
+        statBoost.timerHelper.running = false;
+    }
+
+    return statBoost;
+}
+
+// Room stat boosts
+
+bool StatBoostDefinition::TestRoomStatBoostSystem(ShipManager *ship, int room)
+{
+    if (!systemList.empty())
+    {
+        ShipSystem *sys = ship->GetSystemInRoom(room);
+        if (sys)
+        {
+            for (auto& systemName : systemList)
+            {
+                if (systemName == "all")
+                {
+                    if (systemRoomTarget == SystemRoomTarget::ALL) return true; // apply to any system room
+                    else if (systemRoomTarget == SystemRoomTarget::NONE) return false; // don't apply to any system room
+                }
+                else
+                {
+                    if (ShipSystem::NameToSystemId(systemName) == sys->iSystemType)
+                    {
+                        if (systemRoomTarget == SystemRoomTarget::ALL) return true; // whitelisted system
+                        else if (systemRoomTarget == SystemRoomTarget::NONE) return false; // blacklisted system
+                    }
+                }
+            }
+            if (systemRoomTarget == SystemRoomTarget::ALL) return false; // didn't find correct system so don't apply stat boost
+        }
+        else
+        {
+            if (systemRoomTarget == SystemRoomTarget::ALL) return false; // don't apply stat boost to empty room
+        }
+    }
+    return true;
+}
+
+void ShipManager_Extend::CreateRoomStatBoost(StatBoost &&statBoost, int room)
+{
+    if (orig->iShipId == 1)
+    {
+        statBoost.sourceRoomIds.second.push_back(room);
+    }
+    else
+    {
+        statBoost.sourceRoomIds.first.push_back(room);
+    }
+
+    statBoost.timerHelper = TimerHelper(false);
+
+    if (statBoost.def->duration != -1.f)
+    {
+        statBoost.timerHelper.Start(statBoost.def->duration);
+    }
+    else
+    {
+        statBoost.timerHelper.currTime = 0.f;
+        statBoost.timerHelper.currGoal = 0.f;
+        statBoost.timerHelper.running = false;
+    }
+
+    auto &vStatBoosts = RM_EX(orig->ship.vRoomList[room])->statBoosts;
+
+    if (statBoost.def->duration == -1.f) // optimization for persistent stacking boosts
+    {
+        for (auto& otherBoost : vStatBoosts)
+        {
+            if (otherBoost.statBoost.crewSourceId == statBoost.crewSourceId && otherBoost.statBoost.sourceShipId == statBoost.sourceShipId)
+            {
+                // same boost; add stacks
+                if (otherBoost.statBoost.def == statBoost.def)
+                {
+                    otherBoost.statBoost.iStacks = std::min(otherBoost.statBoost.iStacks + statBoost.iStacks, statBoost.def->maxStacks);
+                    return;
+                }
+                // check for same stack id, lower priority
+                else if ((statBoost.def->stackId == otherBoost.statBoost.def->stackId) &&
+                         (statBoost.def->priority > otherBoost.statBoost.def->priority))
+                {
+                    // max stacks fewer than new boost's stacks
+                    if (statBoost.iStacks >= otherBoost.statBoost.def->maxStacks)
+                    {
+                        // overwrite otherBoost
+                        otherBoost = RoomStatBoost(std::move(statBoost), orig->ship.vRoomList[room]);
+                        return;
+                    }
+                    else if (otherBoost.statBoost.def->maxStacks - statBoost.iStacks < otherBoost.statBoost.iStacks)
+                    {
+                        // other boost loses extraneous stacks that will be masked by the new boost
+                        otherBoost.statBoost.iStacks = otherBoost.statBoost.def->maxStacks - statBoost.iStacks;
+                    }
+                }
+            }
+        }
+    }
+    else
+    {
+        for (auto& otherBoost : vStatBoosts)
+        {
+            if (otherBoost.statBoost.crewSourceId == statBoost.crewSourceId && otherBoost.statBoost.sourceShipId == statBoost.sourceShipId) // must be same crew/ship source
+            {
+                // same boost and has at least the max stacks
+                if (otherBoost.statBoost.def == statBoost.def)
+                {
+                    if (statBoost.iStacks >= statBoost.def->maxStacks)
+                    {
+                        // refresh stacks and timer
+                        otherBoost.statBoost.iStacks = statBoost.iStacks;
+                        otherBoost.statBoost.timerHelper = statBoost.timerHelper;
+                        return;
+                    }
+                }
+                // check for same stack id, with less time left, lower priority, and max stacks fewer than new boost's stacks
+                else if ((statBoost.def->stackId == otherBoost.statBoost.def->stackId) &&
+                         (otherBoost.statBoost.def->duration != -1.f && otherBoost.statBoost.timerHelper.currGoal-otherBoost.statBoost.timerHelper.currTime <= statBoost.def->duration) &&
+                         (statBoost.def->priority > otherBoost.statBoost.def->priority) &&
+                         (statBoost.iStacks >= otherBoost.statBoost.def->maxStacks))
+                {
+                    // overwrite otherBoost
+                    otherBoost = RoomStatBoost(std::move(statBoost), orig->ship.vRoomList[room]);
+                    return;
+                }
+            }
+        }
+    }
+
+    vStatBoosts.emplace_back(std::move(statBoost), orig->ship.vRoomList[room]);
+}
+
+void ShipManager_Extend::CreateRoomStatBoost(StatBoostDefinition &statBoostDef, int room, int nStacks, int sourceShipId)
+{
+    if (room < 0) return;
+
+    switch (statBoostDef.shipTarget)
+    {
+    case StatBoostDefinition::ShipTarget::PLAYER_SHIP:
+        if (orig->iShipId != 0) return;
+        break;
+    case StatBoostDefinition::ShipTarget::ORIGINAL_SHIP:
+    case StatBoostDefinition::ShipTarget::CURRENT_ALL:
+        if (orig->iShipId != sourceShipId) return;
+        break;
+    case StatBoostDefinition::ShipTarget::ORIGINAL_OTHER_SHIP:
+    case StatBoostDefinition::ShipTarget::OTHER_ALL:
+        if (orig->iShipId == sourceShipId) return;
+        break;
+    case StatBoostDefinition::ShipTarget::ENEMY_SHIP:
+        if (orig->iShipId != 1) return;
+        break;
+    }
+
+    if (!statBoostDef.TestRoomStatBoostSystem(orig, room)) return;
+
+    StatBoost statBoost = StatBoost(statBoostDef);
+
+    statBoost.iStacks = nStacks;
+    statBoost.sourceShipId = sourceShipId;
+    statBoost.crewSourceId = 0;
+
+    CreateRoomStatBoost(std::move(statBoost), room);
+}
+
+HOOK_METHOD(ShipManager, OnLoop, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::OnLoop -> Begin (StatBoost.cpp)\n")
+    super();
+
+    for (Room *room : ship.vRoomList)
+    {
+        auto &vRoomStatBoosts = RM_EX(room)->statBoosts;
+        for (RoomStatBoost& statBoost : vRoomStatBoosts)
+        {
+            statBoost.statBoost.timerHelper.Update();
+            if (statBoost.roomAnim)
+            {
+                statBoost.roomAnim->OnUpdate();
+            }
+        }
+        vRoomStatBoosts.erase(std::remove_if(vRoomStatBoosts.begin(),
+                                             vRoomStatBoosts.end(),
+                                             [](RoomStatBoost& statBoost) { return statBoost.statBoost.timerHelper.Done(); }),
+                                             vRoomStatBoosts.end());
+    }
+}
+
+HOOK_METHOD(Ship, OnInit, (ShipBlueprint* bp) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> Ship::OnInit -> Begin (StatBoost.cpp)\n")
+    super(bp);
+
+    for (Room *room : vRoomList)
+    {
+        RM_EX(room)->statBoosts.clear();
+    }
+}
+
+HOOK_METHOD(ShipManager, ExportShip, (int fd) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::ExportShip -> Begin (StatBoost.cpp)\n")
+    super(fd);
+
+    for (Room *room : ship.vRoomList)
+    {
+        Room_Extend *ex = RM_EX(room);
+
+        FileHelper::writeInt(fd, ex->statBoosts.size());
+        for (RoomStatBoost &statBoost : ex->statBoosts)
+        {
+            statBoost.statBoost.Save(fd);
+        }
+    }
+}
+
+HOOK_METHOD(ShipManager, ImportShip, (int fd) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> ShipManager::ImportShip -> Begin (StatBoost.cpp)\n")
+    super(fd);
+
+    int n;
+
+    for (Room *room : ship.vRoomList)
+    {
+        Room_Extend *ex = RM_EX(room);
+
+        n = FileHelper::readInteger(fd);
+        for (int i=0; i<n; ++i)
+        {
+            ex->statBoosts.emplace_back(StatBoost::LoadStatBoost(fd), room);
+
+            // set room
+            if (iShipId == 1)
+            {
+                ex->statBoosts.back().statBoost.sourceRoomIds.second.push_back(room->iRoomId);
+            }
+            else
+            {
+                ex->statBoosts.back().statBoost.sourceRoomIds.first.push_back(room->iRoomId);
+            }
+        }
+    }
+}
+
+// Timed stat boosts
 
 HOOK_METHOD(ShipManager, JumpArrive, () -> void)
 {
@@ -1267,7 +1559,13 @@ bool CrewMember_Extend::BoostCheck(StatBoost& statBoost)
         break;
     }
 
-    if (!statBoost.def->systemList.empty())
+    if (statBoost.def->isRoomBased)
+    {
+        const std::vector<int> &sourceRoomIds = orig->currentShipId == 1 ? statBoost.sourceRoomIds.second : statBoost.sourceRoomIds.first;
+
+        if (std::find(sourceRoomIds.begin(), sourceRoomIds.end(), orig->iRoomId) == sourceRoomIds.end()) return false;
+    }
+    else if (!statBoost.def->systemList.empty())
     {
         const std::vector<int> &sourceRoomIds = orig->currentShipId == 1 ? statBoost.sourceRoomIds.second : statBoost.sourceRoomIds.first;
 

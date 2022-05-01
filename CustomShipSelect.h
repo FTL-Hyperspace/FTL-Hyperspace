@@ -1,6 +1,7 @@
 #pragma once
 #include "Global.h"
 #include "ToggleValue.h"
+#include "Room_Extend.h"
 #include <array>
 #include <algorithm>
 #include <boost/algorithm/string/predicate.hpp>
@@ -47,12 +48,6 @@ struct ShipButtonDefinition
     {
         return (variant == 0 && typeA == 2) || (variant == 1 && typeB == 2) || (variant == 2 && typeC == 2);
     }
-};
-
-struct RoomAnimDef
-{
-    int renderLayer;
-    std::string animName;
 };
 
 struct RoomDefinition
