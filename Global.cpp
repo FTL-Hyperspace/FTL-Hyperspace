@@ -134,6 +134,10 @@ void Global::Initialize()
     }
 
     logFile = fopen("FTL_HS.log", "w");
+    
+    printf("Starting Lua\n");
+    LuaScriptInit* luaScript = new LuaScriptInit();
+    printf("Lua Inited\n");
 
 
 #ifdef _WIN32

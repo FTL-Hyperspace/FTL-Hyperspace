@@ -5,7 +5,7 @@
 		<Option title="FTL_HyperspaceGCC" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
-		<Option virtualFolders="Content/Misc/;Core/Systems/;Content/;Core/Systems/;Content/Crew/;Core/Systems/;Content/Ship/;Core/Systems/;Core/Systems/;Content/;Core/Systems/;Core/;Core/Equipment/;Core/Weapons/;Content/;Core/Systems/;Core/Crew/;Content/;Core/Systems/;Core/Events/;Content/;Core/Systems/;Core/;Core/Equipment/;Core/Weapons/;Content/;Core/Ship/;Content/;Core/Systems/;Core/Resources/;Content/;Core/Systems/;Content/Map/;Core/Systems/;Core/Map/;Content/;Core/Systems/;ZHL/;Content/Augments/;Core/Augments/;Core/Seed/;Core/Boss/;Content/ShipEditor/;Core/SaveFile/;Core/Store/;Core/CommandGui/;Core/CApp/;Content/Discord/;Core/Drones/;Core/Credits/;Core/Shaders/;Core/Blueprints/;Core/Options/;FTLGame/;Content/Systems/;Core/Sectors/;Core/Achievements/;PAL/;Core/Misc/;Core/StarMap/" />
+		<Option virtualFolders="Scripting/;Content/Misc/;Core/Systems/;Content/;Core/Systems/;Content/Crew/;Core/Systems/;Content/Ship/;Core/Systems/;Core/Systems/;Content/;Core/Systems/;Core/;Core/Equipment/;Core/Weapons/;Content/;Core/Systems/;Core/Crew/;Content/;Core/Systems/;Core/Events/;Content/;Core/Systems/;Core/;Core/Equipment/;Core/Weapons/;Content/;Core/Ship/;Content/;Core/Systems/;Core/Resources/;Content/;Core/Systems/;Content/Map/;Core/Systems/;Core/Map/;Content/;Core/Systems/;ZHL/;Content/Augments/;Core/Augments/;Core/Seed/;Core/Boss/;Content/ShipEditor/;Core/SaveFile/;Core/Store/;Core/CommandGui/;Core/CApp/;Content/Discord/;Core/Drones/;Core/Credits/;Core/Shaders/;Core/Blueprints/;Core/Options/;FTLGame/;Content/Systems/;Core/Sectors/;Core/Achievements/;PAL/;Core/Misc/;Core/StarMap/" />
 		<Build>
 			<Target title="Debug-win-32">
 				<Option platforms="Windows;" />
@@ -29,6 +29,7 @@
 					<Add directory="rapidxml" />
 					<Add directory="C:/boost/include/boost-1_70" />
 					<Add directory="discord/include" />
+					<Add directory="../FTL-Hyperspace" />
 				</Compiler>
 				<Linker>
 					<Add option="-static-libstdc++" />
@@ -101,6 +102,7 @@
 					<Add directory="rapidxml" />
 					<Add directory="C:/boost/include/boost-1_70" />
 					<Add directory="discord/include" />
+					<Add directory="../FTL-Hyperspace" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -177,6 +179,7 @@
 					<Add directory="rapidxml" />
 					<Add directory="C:/boost/include/boost-1_70" />
 					<Add directory="discord/include" />
+					<Add directory="../FTL-Hyperspace" />
 				</Compiler>
 				<Linker>
 					<Add option="-m32" />
@@ -243,69 +246,37 @@
 				<Option createDefFile="1" />
 				<Option createStaticLib="1" />
 				<Compiler>
+					<Add option="-fPIC" />
 					<Add option="-m32" />
-					<Add option="-O3" />
 					<Add option="-Wall" />
-					<Add option="-msse -msse2 -mfpmath=sse -std=c++11 -target i686-pc-windows-gnu -stdlib=libstdc++" />
-					<Add option="-Werror=narrowing" />
+					<Add option="-g" />
+					<Add option="-std=c++11" />
+					<Add option="-msse" />
+					<Add option="-msse2" />
+					<Add option="-mfpmath=sse" />
+					<Add option="-v" />
+					<Add option="--gcc-toolchain=/usr/gcc-4.8-clang-toolchain/" />
+					<Add option="-D_GLIBCXX_USE_CXX11_ABI=0" />
 					<Add option="-DBUILD_DLL" />
-					<Add option="-D__GXX_TYPEINFO_EQUALITY_INLINE=0" />
+					<Add option="-DDEBUG" />
+					<Add option="-DSKIPDISCORD" />
+					<Add option="-DD_REENTRANT" />
 					<Add directory="rapidxml" />
-					<Add directory="C:/boost/include/boost-1_70" />
 					<Add directory="discord/include" />
+					<Add directory="/usr/include/boost" />
+					<Add directory="/usr/include/SDL2" />
+					<Add directory="../FTL-Hyperspace" />
 				</Compiler>
 				<Linker>
 					<Add option="-m32" />
-					<Add option="-s" />
-					<Add option="-pthread" />
-					<Add option="-target i686-pc-windows-gnu" />
-					<Add option="-static-libstdc++" />
-					<Add option="-static-libgcc" />
-					<Add option="-static" />
-					<Add library="user32" />
-					<Add library="libdiscord-rpc.a" />
-					<Add library="libboost_atomic-mgw92-mt-x32-1_70.a" />
-					<Add library="libboost_chrono-mgw92-mt-x32-1_70.a" />
-					<Add library="libboost_container-mgw92-mt-x32-1_70.a" />
-					<Add library="libboost_context-mgw92-mt-x32-1_70.a" />
-					<Add library="libboost_contract-mgw92-mt-x32-1_70.a" />
-					<Add library="libboost_coroutine-mgw92-mt-x32-1_70.a" />
-					<Add library="libboost_date_time-mgw92-mt-x32-1_70.a" />
-					<Add library="libboost_exception-mgw92-mt-x32-1_70.a" />
-					<Add library="libboost_filesystem-mgw92-mt-x32-1_70.a" />
-					<Add library="libboost_graph-mgw92-mt-x32-1_70.a" />
-					<Add library="libboost_iostreams-mgw92-mt-x32-1_70.a" />
-					<Add library="libboost_locale-mgw92-mt-x32-1_70.a" />
-					<Add library="libboost_log_setup-mgw92-mt-x32-1_70.a" />
-					<Add library="libboost_log-mgw92-mt-x32-1_70.a" />
-					<Add library="libboost_math_c99f-mgw92-mt-x32-1_70.a" />
-					<Add library="libboost_math_c99l-mgw92-mt-x32-1_70.a" />
-					<Add library="libboost_math_c99-mgw92-mt-x32-1_70.a" />
-					<Add library="libboost_math_tr1f-mgw92-mt-x32-1_70.a" />
-					<Add library="libboost_math_tr1l-mgw92-mt-x32-1_70.a" />
-					<Add library="libboost_math_tr1-mgw92-mt-x32-1_70.a" />
-					<Add library="libboost_numpy38-mgw92-mt-x32-1_70.a" />
-					<Add library="libboost_prg_exec_monitor-mgw92-mt-x32-1_70.a" />
-					<Add library="libboost_program_options-mgw92-mt-x32-1_70.a" />
-					<Add library="libboost_python38-mgw92-mt-x32-1_70.a" />
-					<Add library="libboost_random-mgw92-mt-x32-1_70.a" />
-					<Add library="libboost_regex-mgw92-mt-x32-1_70.a" />
-					<Add library="libboost_serialization-mgw92-mt-x32-1_70.a" />
-					<Add library="libboost_stacktrace_basic-mgw92-mt-x32-1_70.a" />
-					<Add library="libboost_stacktrace_noop-mgw92-mt-x32-1_70.a" />
-					<Add library="libboost_system-mgw92-mt-x32-1_70.a" />
-					<Add library="libboost_test_exec_monitor-mgw92-mt-x32-1_70.a" />
-					<Add library="libboost_thread-mgw92-mt-x32-1_70.a" />
-					<Add library="libboost_timer-mgw92-mt-x32-1_70.a" />
-					<Add library="libboost_type_erasure-mgw92-mt-x32-1_70.a" />
-					<Add library="libboost_unit_test_framework-mgw92-mt-x32-1_70.a" />
-					<Add library="libboost_wave-mgw92-mt-x32-1_70.a" />
-					<Add library="libboost_wserialization-mgw92-mt-x32-1_70.a" />
-					<Add directory="C:/boost/lib" />
+					<Add option="-lSDL2" />
+					<Add option="-llua5.3" />
 					<Add directory="discord/lib" />
+					<Add directory="/usr/lib/i386-linux-gnu" />
 				</Linker>
 				<ExtraCommands>
-					<Add before="generateVersion.bat" />
+					<Add before="chmod +x ./generateVersion.sh" />
+					<Add before="./generateVersion.sh" />
 				</ExtraCommands>
 			</Target>
 			<Target title="Debug-linux-1.6.12-x86">
@@ -338,10 +309,12 @@
 					<Add directory="discord/include" />
 					<Add directory="/usr/include/boost" />
 					<Add directory="/usr/include/SDL2" />
+					<Add directory="../FTL-Hyperspace" />
 				</Compiler>
 				<Linker>
 					<Add option="-m32" />
 					<Add option="-lSDL2" />
+					<Add option="-llua5.3" />
 					<Add directory="discord/lib" />
 					<Add directory="/usr/lib/i386-linux-gnu" />
 				</Linker>
@@ -381,10 +354,12 @@
 					<Add directory="discord/include" />
 					<Add directory="/usr/include/boost" />
 					<Add directory="/usr/include/SDL2" />
+					<Add directory="../FTL-Hyperspace" />
 				</Compiler>
 				<Linker>
 					<Add option="-m32" />
 					<Add option="-lSDL2" />
+					<Add option="-llua5.3" />
 					<Add directory="discord/lib" />
 					<Add directory="/usr/lib/i386-linux-gnu" />
 				</Linker>
@@ -421,11 +396,13 @@
 					<Add directory="discord/include" />
 					<Add directory="/usr/include/boost" />
 					<Add directory="/usr/include/SDL2" />
+					<Add directory="../FTL-Hyperspace" />
 				</Compiler>
 				<Linker>
 					<Add option="-m32" />
 					<Add option="-s" />
 					<Add option="-lSDL2" />
+					<Add option="-llua5.3" />
 					<Add directory="discord/lib" />
 					<Add directory="/usr/lib/i386-linux-gnu" />
 				</Linker>
@@ -463,11 +440,13 @@
 					<Add directory="discord/include" />
 					<Add directory="/usr/include/boost" />
 					<Add directory="/usr/include/SDL2" />
+					<Add directory="../FTL-Hyperspace" />
 				</Compiler>
 				<Linker>
 					<Add option="-m32" />
 					<Add option="-s" />
 					<Add option="-lSDL2" />
+					<Add option="-llua5.3" />
 					<Add directory="discord/lib" />
 					<Add directory="/usr/lib/i386-linux-gnu" />
 				</Linker>
@@ -502,6 +481,7 @@
 					<Add directory="rapidxml" />
 					<Add directory="discord/include" />
 					<Add directory="/usr/projects/ftl-hyperspace/boost_1_78_0" />
+					<Add directory="../FTL-Hyperspace" />
 				</Compiler>
 				<Linker>
 					<Add option="-static-libstdc++" />
@@ -546,10 +526,12 @@
 					<Add directory="discord/include" />
 					<Add directory="/usr/include/boost" />
 					<Add directory="/usr/include/SDL2" />
+					<Add directory="../FTL-Hyperspace" />
 				</Compiler>
 				<Linker>
 					<Add option="-m64" />
 					<Add option="-lSDL2" />
+					<Add option="-llua5.3" />
 					<Add directory="discord/lib" />
 					<Add directory="/usr/lib/x86_64-linux-gnu" />
 				</Linker>
@@ -589,10 +571,12 @@
 					<Add directory="discord/include" />
 					<Add directory="/usr/include/boost" />
 					<Add directory="/usr/include/SDL2" />
+					<Add directory="../FTL-Hyperspace" />
 				</Compiler>
 				<Linker>
 					<Add option="-m64" />
 					<Add option="-lSDL2" />
+					<Add option="-llua5.3" />
 					<Add directory="discord/lib" />
 					<Add directory="/usr/lib/x86_64-linux-gnu" />
 				</Linker>
@@ -629,11 +613,13 @@
 					<Add directory="discord/include" />
 					<Add directory="/usr/include/boost" />
 					<Add directory="/usr/include/SDL2" />
+					<Add directory="../FTL-Hyperspace" />
 				</Compiler>
 				<Linker>
 					<Add option="-m64" />
 					<Add option="-s" />
 					<Add option="-lSDL2" />
+					<Add option="-llua5.3" />
 					<Add directory="discord/lib" />
 					<Add directory="/usr/lib/x86_64-linux-gnu" />
 				</Linker>
@@ -671,11 +657,13 @@
 					<Add directory="discord/include" />
 					<Add directory="/usr/include/boost" />
 					<Add directory="/usr/include/SDL2" />
+					<Add directory="../FTL-Hyperspace" />
 				</Compiler>
 				<Linker>
 					<Add option="-m64" />
 					<Add option="-s" />
 					<Add option="-lSDL2" />
+					<Add option="-llua5.3" />
 					<Add directory="discord/lib" />
 					<Add directory="/usr/lib/x86_64-linux-gnu" />
 				</Linker>
@@ -1036,6 +1024,12 @@
 		</Unit>
 		<Unit filename="Input.cpp">
 			<Option virtualFolder="Core/CApp/" />
+		</Unit>
+		<Unit filename="LuaScriptInit.cpp">
+			<Option virtualFolder="Scripting/" />
+		</Unit>
+		<Unit filename="LuaScriptInit.h">
+			<Option virtualFolder="Scripting/" />
 		</Unit>
 		<Unit filename="MainMenu.cpp">
 			<Option virtualFolder="Content/Misc/" />
