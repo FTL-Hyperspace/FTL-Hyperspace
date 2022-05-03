@@ -44,6 +44,10 @@ LuaScriptInit::~LuaScriptInit()
     printf("Lua destroyed\n");
 }
 
+// TODO: Math.random must be reimplemented to be based on FTL's internal random state/seed
+// TODO: See other things Factorio decided to disable in Lua (like threads) because they're a problem for determinism
+// TODO: Disable os.execute & io.write & other potentially dangerous interactions with the system.
+
 /*
 int LuaState::DoString(const std::string &str, bool protect)
 {
