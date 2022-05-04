@@ -77,8 +77,6 @@ MEMPROT_UNPROTECT(&vtable[0], sizeof(void*) * g_temporalVTableSize, dwOldProtect
 MEMPROT_REPROTECT(&vtable[0], sizeof(void*) * g_temporalVTableSize, dwOldProtect);
 ```
    
-### Things not yet reimplemented but planned
+### Documentation generation
 
- - `MessageBoxA` and `MessageBox` have not been reimplemented yet; however, when they are it is likely we will need to use SDL's MessageBox instead for a nice cross-platform method, this might render them slightly differently than the current Windows MessageBox, more information will be added here when a reimplementation is available.
-   - On this same note it is likely I will need to add the build requirement of having libsdl on Windows.
-   - For now any instance of MessageBox was replaced with writing to standard error when on Linux but that's not ideal.
+Install & use doxygen
