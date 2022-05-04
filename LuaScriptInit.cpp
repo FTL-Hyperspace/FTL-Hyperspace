@@ -1,15 +1,47 @@
 #include "LuaScriptInit.h"
 #include <string>
 
-std::string luaTest = "print(\"hello\")\nfunction helloWorld()\n\tprint(\"Hello World\")\nend\n";
+std::string luaTest = "print(\"hello\")\nfunction helloWorld()\n\tprint(\"Hello World\")\nend\nos.exit()\n";
+
+void removeDangerousStuff(lua_State* lua)
+{
+/*
+    lua_getglobal(lua, "os");
+    lua_pushnil(lua);
+    lua_setfield(lua, -2, "execute");
+    lua_pushnil(lua);
+    lua_setfield(lua, -2, "rename");
+    lua_pushnil(lua);
+    lua_setfield(lua, -2, "remove");
+    lua_pushnil(lua);
+    lua_setfield(lua, -2, "exit");
+    lua_pop(lua, 1);
+*/
+    
+    
+    lua_getglobal(lua, "math");
+    lua_pushnil(lua);
+    lua_setfield(lua, -2, "randomseed");
+    lua_pushnil(lua);
+    lua_setfield(lua, -2, "random");
+    lua_pop(lua, 1); // remove math table from stack
+}
+    /* TODO: Replace math.random with call to FTL's random32
+    math.random ([m [, n]])
+When called without arguments, returns a pseudo-random float with uniform distribution in the range [0,1). When called with two integers m and n, math.random returns a pseudo-random integer with uniform distribution in the range [m, n]. (The value n-m cannot be negative and must fit in a Lua integer.) The call math.random(n) is equivalent to math.random(1,n).
+
+This function is an interface to the underling pseudo-random generator function provided by C.
+*/
 
 LuaScriptInit::LuaScriptInit()
 {
     printf("Initializing Lua\n");
     lua_State* lua = luaL_newstate(); // Open Lua
     this->SetLua(lua);
-    luaL_openlibs(lua); // Load Lua libraries
+    luaL_openlibs(lua); // Load Lua libraries (we restricted what libraries can load in linit.c)
+    removeDangerousStuff(lua);
     // TODO: Figure out how to unload and/or replace certain library functions (like math.random!, threads! & other things unsafe for a single-threaded deterministic environment)
+
     printf("Loading Lua string\n");
     int iErr = 0;
     if((iErr = luaL_loadbuffer(lua, luaTest.c_str(), luaTest.size(), "=luaTest")) != 0)

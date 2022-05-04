@@ -1226,6 +1226,10 @@
 		<Unit filename="libzhl.h">
 			<Option virtualFolder="ZHL/" />
 		</Unit>
+		<Unit filename="linit.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="Scripting/" />
+		</Unit>
 		<Unit filename="main.cpp">
 			<Option weight="100" />
 			<Option virtualFolder="Core/" />
