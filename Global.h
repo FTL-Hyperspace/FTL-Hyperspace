@@ -15,7 +15,7 @@
 #include "Blueprint_Extend.h"
 #include <boost/algorithm/string.hpp>
 #include <boost/format.hpp>
-#include "LuaScriptInit.h"
+#include "lua/LuaScriptInit.h"
 
 //#include "LuaState.h"
 

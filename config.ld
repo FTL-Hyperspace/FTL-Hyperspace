@@ -3,7 +3,9 @@ dir = "docs/ldoc"
 description = [[
     Lua API description and documentation for FTL Hyperspace
 ]]
-format = "markdown"
+format = "discount"
 not_luadoc = true
+readme = { 'lua/readme_docs' }
 add_language_extension('lc', 'c')
-file = { '', exclude = { 'detours.h', 'hde.cpp', 'hde.h', 'libzhlgen', 'lua/luajit', 'linit.c', 'LuaScriptInit.h' }}
+file = { 'lua', exclude = { 'lua/linit.c', 'lua/LuaScriptInit.h' }}
+use_markdown_titles = true

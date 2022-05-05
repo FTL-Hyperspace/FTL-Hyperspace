@@ -3,7 +3,7 @@
 #include <assert.h>
 #include <boost/algorithm/string.hpp>
 #include <boost/format.hpp>
-#include "Global.h"
+#include "../Global.h"
 
 /*** Hyperspace Lua API
  * @module hyperspace

@@ -1025,12 +1025,6 @@
 		<Unit filename="Input.cpp">
 			<Option virtualFolder="Core/CApp/" />
 		</Unit>
-		<Unit filename="LuaScriptInit.cpp">
-			<Option virtualFolder="Scripting/" />
-		</Unit>
-		<Unit filename="LuaScriptInit.h">
-			<Option virtualFolder="Scripting/" />
-		</Unit>
 		<Unit filename="MainMenu.cpp">
 			<Option virtualFolder="Content/Misc/" />
 		</Unit>
@@ -1226,7 +1220,13 @@
 		<Unit filename="libzhl.h">
 			<Option virtualFolder="ZHL/" />
 		</Unit>
-		<Unit filename="linit.c">
+		<Unit filename="lua/LuaScriptInit.cpp">
+			<Option virtualFolder="Scripting/" />
+		</Unit>
+		<Unit filename="lua/LuaScriptInit.h">
+			<Option virtualFolder="Scripting/" />
+		</Unit>
+		<Unit filename="lua/linit.c">
 			<Option compilerVar="CC" />
 			<Option virtualFolder="Scripting/" />
 		</Unit>
