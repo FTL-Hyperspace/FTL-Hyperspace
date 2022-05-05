@@ -1230,6 +1230,9 @@
 			<Option compilerVar="CC" />
 			<Option virtualFolder="Scripting/" />
 		</Unit>
+		<Unit filename="lua/luaGlobal.h">
+			<Option virtualFolder="Scripting/" />
+		</Unit>
 		<Unit filename="main.cpp">
 			<Option weight="100" />
 			<Option virtualFolder="Core/" />

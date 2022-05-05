@@ -11,6 +11,14 @@
 - `io` is disabled entirely
 - `debug` is disabled entirely because too many of its functions are dangerous
 
+## Disabled features of Lua Basic library
+Specifically the following methods are **disabled**:
+ 
+ - `collectgarbage`
+ - `dofile`
+ - `load`
+ - `loadfile`
+
 ## Additional libraries
 
 - We will add `serpent.lua` but it's not yet added

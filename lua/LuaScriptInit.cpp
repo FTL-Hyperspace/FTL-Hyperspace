@@ -1,12 +1,10 @@
 #include "LuaScriptInit.h"
 #include <string>
-#include <assert.h>
-#include <boost/algorithm/string.hpp>
-#include <boost/format.hpp>
-#include "../Global.h"
+#include "luaGlobal.h"
 
 /*** Hyperspace Lua API
  * @module hyperspace
+ * @release 1.1.0
  * @author Mr. Doom
  */
 
@@ -48,7 +46,12 @@ void removeDangerousStuff(lua_State* lua)
     lua_setfield(lua, -2, "exit");
     lua_pop(lua, 1);
 */
-    
+    /* TODO: Figure out how to remove the basic functions (if they're not removed already) of these:
+        - collectgarbage
+        - dofile
+        - load
+        - loadfile
+    */
     
     lua_getglobal(lua, "math");
     lua_pushnil(lua);
@@ -64,19 +67,8 @@ When called without arguments, returns a pseudo-random float with uniform distri
 This function is an interface to the underling pseudo-random generator function provided by C.
 */
  
-/*** Log a message to the Hyperspace log file & standard out
- * @function log
- * @tparam string msg Message string you would like to log
- */
-static int printMessage(lua_State* lua)
-{
-    assert(lua_isstring(lua, 1));
-    const char* msg = lua_tostring(lua, 1);
-    const char* logMessage = boost::str(boost::format("[Lua]: %s\n") % msg).c_str();
-    printf(logMessage);
-    hs_log_file(logMessage);
-    return 0;
-}
+
+
 
 /*** Initialize Lua Scripting
  */
@@ -89,8 +81,7 @@ LuaScriptInit::LuaScriptInit()
     removeDangerousStuff(lua);
     // TODO: Figure out how to unload and/or replace certain library functions (like math.random!, threads! & other things unsafe for a single-threaded deterministic environment)
     
-    lua_pushcfunction(lua, printMessage);
-    lua_setglobal(lua, "log");
+    hsluaglobal_register(lua);
 
     printf("Loading Lua string\n");
     int iErr = 0;
