@@ -1,5 +1,3 @@
-#ifndef LUASCRIPT_H_INCLUDED
-#define LUASCRIPT_H_INCLUDED
 // TODO: Might be wise to rename this file, it's lua "Script" object library for FTL Hyperspace, not a specific script. Maybe luaLibScript.h?
 
 #include "LuaScriptInit.h" // TODO: Is this needed since we import luaScript.h from LuaScriptInit.cpp?
@@ -50,7 +48,7 @@ class LuaScript
     { NULL, NULL }
  };
  
- int luaopen_script(lua_State* lua)
+ static int luaopen_scriptlib(lua_State* lua)
  {
     luaL_newlib(lua, slib_funcs);
     return 1;
@@ -59,7 +57,5 @@ class LuaScript
  LuaScript::LuaScript(lua_State* lua)
  {
     this->m_Lua = lua;
-    luaL_requiref(lua, "script", luaopen_script, 1);
+    luaL_requiref(lua, "script", luaopen_scriptlib, 1);
  }
-
-#endif // LUASCRIPT_H_INCLUDED

@@ -1,7 +1,7 @@
 #include "LuaScriptInit.h"
 #include <string>
 #include "luaGlobal.h"
-#include "luaScript.h"
+#include "luaScript.cpp"
 
 /*** Hyperspace Lua API
  * @module hyperspace
