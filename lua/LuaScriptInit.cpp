@@ -51,6 +51,12 @@ void removeDangerousStuff(lua_State* lua)
         - dofile
         - load
         - loadfile
+        - Might need to also remove `newproxy`
+        - might want to remove (since they bypass metatables):
+          - rawequal
+          - rawget
+          - rawset
+        - setmetatable & getmetatable? (not sure if they exist in 5.3)
     */
     
     lua_getglobal(lua, "math");
