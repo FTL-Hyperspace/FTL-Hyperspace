@@ -1,6 +1,7 @@
 #include "LuaScriptInit.h"
 #include <string>
 #include "luaGlobal.h"
+#include "luaScript.h"
 
 /*** Hyperspace Lua API
  * @module hyperspace
@@ -72,7 +73,6 @@ When called without arguments, returns a pseudo-random float with uniform distri
 
 This function is an interface to the underling pseudo-random generator function provided by C.
 */
- 
 
 
 
@@ -88,6 +88,13 @@ LuaScriptInit::LuaScriptInit()
     // TODO: Figure out how to unload and/or replace certain library functions (like math.random!, threads! & other things unsafe for a single-threaded deterministic environment)
     
     hsluaglobal_register(lua);
+    
+    // TODO: Save in a variable/member field so that we can destroy this upon cleanup function
+    new LuaScript(lua);
+    
+//    lua_newtable(lua);
+//    lua_setglobal(lua, "Script");
+    
 
     printf("Loading Lua string\n");
     int iErr = 0;
