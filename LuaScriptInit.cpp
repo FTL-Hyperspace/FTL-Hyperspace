@@ -5,6 +5,11 @@
 #include <boost/format.hpp>
 #include "Global.h"
 
+/*** Hyperspace Lua API
+ * @module hyperspace
+ * @author Mr. Doom
+ */
+
 /*
     TODO Stuff
     - Have a `global_run` (or `global`) table that contents is saved with the run (functions not allowed to be inserted into the table, data only)
@@ -59,32 +64,10 @@ When called without arguments, returns a pseudo-random float with uniform distri
 This function is an interface to the underling pseudo-random generator function provided by C.
 */
  
- /** @defgroup luaglobal LuaGlobals
-  */
- 
- /** General Global Lua Script functions
-  * @ingroup luaglobal
-  */
- class Script
- {
- }
-
-/** @addtogroup luaglobal
- *
- * @{
+/*** Log a message to the Hyperspace log file & standard out
+ * @function log
+ * @tparam string msg Message string you would like to log
  */
- 
-/** Do logging
- */
-auto hs_lua_log2 (lua_State* lua) -> int {}
-
-#if DOXYGEN_ONLY
-/** Log a message to the Hyperspace log file & standard out
- * @param msg Message string you would like to log
- */
-static void log(char* msg) {}
-#endif // DOXYGEN_ONLY
-
 static int printMessage(lua_State* lua)
 {
     assert(lua_isstring(lua, 1));
@@ -94,9 +77,8 @@ static int printMessage(lua_State* lua)
     hs_log_file(logMessage);
     return 0;
 }
-/** @} */
 
-/** Initialize Lua Scripting
+/*** Initialize Lua Scripting
  */
 LuaScriptInit::LuaScriptInit()
 {
@@ -135,6 +117,8 @@ LuaScriptInit::LuaScriptInit()
     printf("Lua initialized!\n");
 }
 
+/** Not documented
+ */
 LuaScriptInit::~LuaScriptInit()
 {
     printf("Lua destruct\n");
