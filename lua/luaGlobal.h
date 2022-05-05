@@ -48,8 +48,7 @@ static int hslua_g_printMessage(lua_State* lua)
 // TODO: Or maybe constructor calls the global singleton of LuaScriptInit instance and gets the lua state?
 void hsluaglobal_register(lua_State* lua)
 {
-    lua_pushcfunction(lua, hslua_g_printMessage);
-    lua_setglobal(lua, "log");
+    lua_register(lua, "log", hslua_g_printMessage);
 }
 
 #endif // LUAGLOBAL_H_INCLUDED
