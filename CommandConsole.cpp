@@ -67,7 +67,7 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
         }
         return true;
     }
-    if (cmdName == "DELETECREW")
+    if (cmdName == "DELETECREW" || cmdName == "COOLSWORDBRO")
     {
         if (commandGui->shipComplete->shipManager->current_target)
         {
