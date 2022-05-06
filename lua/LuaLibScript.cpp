@@ -2,7 +2,7 @@
 
 int refNumber = 0; // TODO: We need to store a linked list (or vector) of reference numbers, I'm not sure if we need to update them in-place but it seems like we might as the number might change each time?
 
-int LuaLibScript::l_onload(lua_State* lua) // TODO: Check if this can be called from private or protected by Lua, that would be ideal
+int LuaLibScript::l_onload(lua_State* lua)
 {
     assert(lua_isfunction(lua, 1));
     printf("Hello World, l_onload was called!\n");
