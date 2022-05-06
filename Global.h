@@ -17,8 +17,6 @@
 #include <boost/format.hpp>
 #include "lua/LuaScriptInit.h"
 
-//#include "LuaState.h"
-
 extern bool loadingGame;
 
 class Global
@@ -35,6 +33,7 @@ public:
     ShipManager *GetShipManager(int iShipId);
 
 
+    LuaScriptInit* getLuaContext() { return m_luaScript; }
     ResourceControl *GetResources() { return Global_ResourceControl_GlobalResources; }
     CApp *GetCApp() { return __cApp; }
     ShipInfo *GetShipInfo(bool enemy=false) { return enemy ? *Global_ShipObject_ShipInfoList : (ShipInfo*)((unsigned char*)*(Global_ShipObject_ShipInfoList) + sizeof(ShipInfo)); }
@@ -88,11 +87,10 @@ public:
 
     static std::vector<std::vector<GL_Color*>> colorPointers;
 
-    //LuaState* lua;
-
 private:
     bool __resourcesInitialized;
     static Global* instance;
+    LuaScriptInit* m_luaScript;
 
     uint32_t __baseAddress = 0;
 

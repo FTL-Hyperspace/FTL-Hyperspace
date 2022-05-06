@@ -1,7 +1,6 @@
 #include "LuaScriptInit.h"
 #include <string>
 #include "luaGlobal.h"
-#include "LuaLibScript.h"
 
 /*** Hyperspace Lua API
  * @module hyperspace
@@ -86,7 +85,7 @@ LuaScriptInit::LuaScriptInit()
     hsluaglobal_register(lua);
     
     // TODO: Save in a variable/member field so that we can destroy this upon cleanup function
-    LuaLibScript* script = new LuaLibScript(lua);
+    this->m_libScript = new LuaLibScript(lua);
     
 //    lua_newtable(lua);
 //    lua_setglobal(lua, "Script");
@@ -107,7 +106,6 @@ LuaScriptInit::LuaScriptInit()
         {
             //lua_getglobal(lua, "helloWorld");
             //lua_pcall(lua, 0, 0, 0); // Call function (pop's from stack name + arguments but we say no arguments and no returns here)
-            script->call_callback();
         }
         else
         {

@@ -1,12 +1,12 @@
 #ifndef LUAGLOBAL_H_INCLUDED
 #define LUAGLOBAL_H_INCLUDED
 
-#include "LuaScriptInit.h" // TODO: Is this needed since we import luaGlobal.h from LuaScriptInit.cpp?
+#include "luaInclude.h"
+#include "../Global.h"
 #include <string>
 #include <assert.h>
 #include <boost/algorithm/string.hpp>
 #include <boost/format.hpp>
-#include "../Global.h"
 
 /*** Functions available outside a module
  * @module Global

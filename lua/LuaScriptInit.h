@@ -1,12 +1,8 @@
 #ifndef LUASCRIPTINIT_H
 #define LUASCRIPTINIT_H
 
-extern "C"
-{
-    #include "lua5.3/lua.h"
-    #include "lua5.3/lauxlib.h"
-    #include "lua5.3/lualib.h"
-}
+#include "luaInclude.h"
+#include "LuaLibScript.h"
 
 class LuaScriptInit
 {
@@ -24,11 +20,14 @@ class LuaScriptInit
          * \param val New value to set
          */
         void SetLua(lua_State* val) { m_Lua = val; }
+        
+        LuaLibScript* getLibScript() { return m_libScript; };
 
     protected:
 
     private:
         lua_State* m_Lua; //!< Member variable "m_Lua"
+        LuaLibScript* m_libScript;
 };
 
 #endif // LUASCRIPTINIT_H
