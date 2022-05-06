@@ -28,7 +28,7 @@ void LuaLibScript::call_callback()
 }
 
 static const struct luaL_Reg slib_funcs[] = {
-   { "onload", LuaLibScript::l_onload },
+   { "on_load", LuaLibScript::l_onload },
    { NULL, NULL }
 };
  

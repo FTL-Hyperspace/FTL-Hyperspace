@@ -22,7 +22,7 @@
     - Re-implement math.random to use FTL's random.
     - Add script table
     - Add script.on_init( (function callback/registration) for functions to run on a new run
-    - Add script.on_load( (function callback) for functions to run upon loading the script, this is before the game is loaded or a run is started
+    - Add script.on_load( (function callback) for functions to run upon loading the script, this is before the game is loaded or a run is started (partially complete)
     - Add script.on_event(eventEnum, (function callback)) for functions to run upon a defined event (you cannot stop the event but hopefully we can make the code wait for your code to finish and it not being async, maybe we can add an on_async_event in the future)
     - Add defines table
     - Add defines.events table
@@ -31,7 +31,7 @@
     
 */
 
-std::string luaTest = "print(\"hello\")\nfunction helloWorld()\n\tprint(\"!!!!!!Hello World!!!!!!\")\nend\nlog(\"LUA MESSAGE\")\nscript.onload(helloWorld)\n";
+std::string luaTest = "print(\"hello\")\nfunction helloWorld()\n\tprint(\"!!!!!!Hello World!!!!!!\")\nend\nlog(\"LUA MESSAGE\")\nscript.on_load(helloWorld)\n";
 
 void removeDangerousStuff(lua_State* lua)
 {
@@ -74,10 +74,6 @@ When called without arguments, returns a pseudo-random float with uniform distri
 This function is an interface to the underling pseudo-random generator function provided by C.
 */
 
-
-
-/*** Initialize Lua Scripting
- */
 LuaScriptInit::LuaScriptInit()
 {
     printf("Initializing Lua\n");
@@ -94,6 +90,8 @@ LuaScriptInit::LuaScriptInit()
     
 //    lua_newtable(lua);
 //    lua_setglobal(lua, "Script");
+
+// TODO: Figure out how to make a table with metatable __index __newindex things so we can detect reads & writes & then expose I dunno something from the ship?
     
 
     printf("Loading Lua string\n");
