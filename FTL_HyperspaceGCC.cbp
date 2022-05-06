@@ -30,6 +30,7 @@
 					<Add directory="C:/boost/include/boost-1_70" />
 					<Add directory="discord/include" />
 					<Add directory="../FTL-Hyperspace" />
+					<Add directory="lua" />
 				</Compiler>
 				<Linker>
 					<Add option="-static-libstdc++" />
@@ -103,6 +104,7 @@
 					<Add directory="C:/boost/include/boost-1_70" />
 					<Add directory="discord/include" />
 					<Add directory="../FTL-Hyperspace" />
+					<Add directory="lua" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -180,6 +182,7 @@
 					<Add directory="C:/boost/include/boost-1_70" />
 					<Add directory="discord/include" />
 					<Add directory="../FTL-Hyperspace" />
+					<Add directory="lua" />
 				</Compiler>
 				<Linker>
 					<Add option="-m32" />
@@ -266,6 +269,7 @@
 					<Add directory="/usr/include/boost" />
 					<Add directory="/usr/include/SDL2" />
 					<Add directory="../FTL-Hyperspace" />
+					<Add directory="lua" />
 				</Compiler>
 				<Linker>
 					<Add option="-m32" />
@@ -310,6 +314,7 @@
 					<Add directory="/usr/include/boost" />
 					<Add directory="/usr/include/SDL2" />
 					<Add directory="../FTL-Hyperspace" />
+					<Add directory="lua" />
 				</Compiler>
 				<Linker>
 					<Add option="-m32" />
@@ -355,6 +360,7 @@
 					<Add directory="/usr/include/boost" />
 					<Add directory="/usr/include/SDL2" />
 					<Add directory="../FTL-Hyperspace" />
+					<Add directory="lua" />
 				</Compiler>
 				<Linker>
 					<Add option="-m32" />
@@ -397,6 +403,7 @@
 					<Add directory="/usr/include/boost" />
 					<Add directory="/usr/include/SDL2" />
 					<Add directory="../FTL-Hyperspace" />
+					<Add directory="lua" />
 				</Compiler>
 				<Linker>
 					<Add option="-m32" />
@@ -441,6 +448,7 @@
 					<Add directory="/usr/include/boost" />
 					<Add directory="/usr/include/SDL2" />
 					<Add directory="../FTL-Hyperspace" />
+					<Add directory="lua" />
 				</Compiler>
 				<Linker>
 					<Add option="-m32" />
@@ -482,6 +490,7 @@
 					<Add directory="discord/include" />
 					<Add directory="/usr/projects/ftl-hyperspace/boost_1_78_0" />
 					<Add directory="../FTL-Hyperspace" />
+					<Add directory="lua" />
 				</Compiler>
 				<Linker>
 					<Add option="-static-libstdc++" />
@@ -527,6 +536,7 @@
 					<Add directory="/usr/include/boost" />
 					<Add directory="/usr/include/SDL2" />
 					<Add directory="../FTL-Hyperspace" />
+					<Add directory="lua" />
 				</Compiler>
 				<Linker>
 					<Add option="-m64" />
@@ -572,6 +582,7 @@
 					<Add directory="/usr/include/boost" />
 					<Add directory="/usr/include/SDL2" />
 					<Add directory="../FTL-Hyperspace" />
+					<Add directory="lua" />
 				</Compiler>
 				<Linker>
 					<Add option="-m64" />
@@ -614,6 +625,7 @@
 					<Add directory="/usr/include/boost" />
 					<Add directory="/usr/include/SDL2" />
 					<Add directory="../FTL-Hyperspace" />
+					<Add directory="lua" />
 				</Compiler>
 				<Linker>
 					<Add option="-m64" />
@@ -658,6 +670,7 @@
 					<Add directory="/usr/include/boost" />
 					<Add directory="/usr/include/SDL2" />
 					<Add directory="../FTL-Hyperspace" />
+					<Add directory="lua" />
 				</Compiler>
 				<Linker>
 					<Add option="-m64" />
@@ -1220,6 +1233,12 @@
 		<Unit filename="libzhl.h">
 			<Option virtualFolder="ZHL/" />
 		</Unit>
+		<Unit filename="lua/LuaLibScript.cpp">
+			<Option virtualFolder="Scripting/" />
+		</Unit>
+		<Unit filename="lua/LuaLibScript.h">
+			<Option virtualFolder="Scripting/" />
+		</Unit>
 		<Unit filename="lua/LuaScriptInit.cpp">
 			<Option virtualFolder="Scripting/" />
 		</Unit>
@@ -1231,9 +1250,6 @@
 			<Option virtualFolder="Scripting/" />
 		</Unit>
 		<Unit filename="lua/luaGlobal.h">
-			<Option virtualFolder="Scripting/" />
-		</Unit>
-		<Unit filename="lua/luaScript.cpp">
 			<Option virtualFolder="Scripting/" />
 		</Unit>
 		<Unit filename="main.cpp">
