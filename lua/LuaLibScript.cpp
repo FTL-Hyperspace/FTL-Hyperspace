@@ -1,15 +1,15 @@
+#include <vector>
 #include "LuaLibScript.h"
 #include "../Global.h"
 
-int refNumber = 0; // TODO: We need to store a linked list (or vector) of reference numbers, I'm not sure if we need to update them in-place but it seems like we might as the number might change each time?
+static std::vector<LuaFunctionRef> m_on_load_callbacks;
+static std::vector<LuaFunctionRef> m_on_init_callbacks;
 
 int LuaLibScript::l_on_load(lua_State* lua)
 {
     assert(lua_isfunction(lua, 1));
-    printf("Hello World, l_on_load was called!\n");
-    int callbackReference = luaL_ref(lua, LUA_REGISTRYINDEX);
-    refNumber = callbackReference;
-    // TODO: Allow registering a lua function into some shared internal state so we can call this on load
+    LuaFunctionRef callbackReference = luaL_ref(lua, LUA_REGISTRYINDEX);
+    m_on_load_callbacks.push_back(callbackReference);
     return 0;
 }
 
@@ -17,15 +17,16 @@ void LuaLibScript::call_on_load_callbacks()
 {
     lua_State* lua = this->m_Lua;
     // Load the callback by reference number
-    printf("Fetching Calling callback\n");
-    lua_rawgeti(lua, LUA_REGISTRYINDEX, refNumber);
-    //lua_pushvalue(lua, 1);
-    printf("Calling callback\n");
-    if(lua_pcall(lua, 0, 0, 0) != 0) {
-        printf("Failed to call the callback!\n %s\n", lua_tostring(lua, -1));
-        return;
+    printf("Fetching %u on_load callbacks\n", m_on_load_callbacks.size());
+    for(auto i = m_on_load_callbacks.cbegin(); i != m_on_load_callbacks.cend(); ++i)
+    {
+        LuaFunctionRef refL = *i;
+        lua_rawgeti(lua, LUA_REGISTRYINDEX, refL);
+        if(lua_pcall(lua, 0, 0, 0) != 0) {
+            printf("Failed to call the callback!\n %s\n", lua_tostring(lua, -1));
+            return;
+        }
     }
-    //refNumber = luaL_ref(lua, LUA_REGISTRYINDEX); // Get new reference to callback again, what the fuck lua.
 }
 
 // TODO: This hook to kick it off, could potentially move if needed? Or maybe we should of done a singleton pattern initialized by LuaScriptInit instead of passing the object back to LuaScriptInit and getting it from the global context there?

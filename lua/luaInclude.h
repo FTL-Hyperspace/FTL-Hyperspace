@@ -8,4 +8,6 @@ extern "C"
     #include "lua5.3/lualib.h"
 }
 
+typedef int LuaFunctionRef;
+
 #endif // LUAINCLUDE_H_INCLUDED
