@@ -40,6 +40,7 @@ struct ShipManager_Extend
 
     void CreateRoomStatBoost(StatBoost &&statBoost, int room);
     void CreateRoomStatBoost(StatBoostDefinition &statBoostDef, int room, int nStacks, int sourceShipId);
+    void CreateRoomStatBoost(StatBoostDefinition &statBoostDef, int room, int nStacks, CrewMember *crewSource);
 
     ~ShipManager_Extend()
     {

@@ -1158,6 +1158,32 @@ void ShipManager_Extend::CreateRoomStatBoost(StatBoostDefinition &statBoostDef, 
     CreateRoomStatBoost(std::move(statBoost), room);
 }
 
+void ShipManager_Extend::CreateRoomStatBoost(StatBoostDefinition &statBoostDef, int room, int nStacks, CrewMember *crewSource)
+{
+    if (room < 0) return;
+
+    switch (statBoostDef.shipTarget)
+    {
+    case StatBoostDefinition::ShipTarget::PLAYER_SHIP:
+        if (orig->iShipId != 0) return;
+        break;
+    case StatBoostDefinition::ShipTarget::ENEMY_SHIP:
+        if (orig->iShipId != 1) return;
+        break;
+    }
+
+    if (!statBoostDef.TestRoomStatBoostSystem(orig, room)) return;
+
+    StatBoost statBoost = StatBoost(statBoostDef);
+
+    statBoost.iStacks = nStacks;
+    statBoost.crewSource = crewSource;
+    statBoost.crewSourceId = CM_EX(crewSource)->selfId;
+    statBoost.sourceShipId = crewSource->iShipId;
+
+    CreateRoomStatBoost(std::move(statBoost), room);
+}
+
 HOOK_METHOD(ShipManager, OnLoop, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::OnLoop -> Begin (StatBoost.cpp)\n")
@@ -2085,6 +2111,11 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
                                     for (auto statBoostDef : statBoost.def->deathEffectChange->statBoosts)
                                     {
                                         deathEffectChange.statBoosts.push_back(statBoostDef);
+                                    }
+
+                                    for (auto statBoostDef : statBoost.def->deathEffectChange->roomStatBoosts)
+                                    {
+                                        deathEffectChange.roomStatBoosts.push_back(statBoostDef);
                                     }
 
                                     for (auto crewSpawn : statBoost.def->deathEffectChange->crewSpawns)

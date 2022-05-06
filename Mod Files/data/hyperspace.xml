@@ -624,6 +624,12 @@ Syntax ->
 			<statBoosts>                                                                 List of timed stat boosts to apply upon death. Boost conditions are used to determine who to apply the boost to.
 				<statBoost name="...">...</statBoost>
 			</statBoosts>
+			<roomStatBoosts>                                                             Same as statBoosts but applies a lingering effect to the hit room.
+				<statBoost>                                                              Conditions for stat boosts are on top of being restricted to the affected room.
+					<duration>10</duration>                                                If the room cannot be affected, the stat boost is not applied.
+					...
+				</statBoost>
+			</roomStatBoosts>
 			<spawnCrew>                                                                  Spawns new crewmembers upon ability activation. Include as many <spawnCrew> tags as you need.
 				<race>human</race>                                                       Race to spawn.
 				<name>Summoned Man</name>                                                Custom name to assign.
@@ -742,6 +748,12 @@ Syntax ->
 			<statBoosts>                                                                           List of timed stat boosts to apply upon ability activation. Boost conditions are used to determine who to apply the boost to.
 				<statBoost name="...">...</statBoost>
 			</statBoosts>
+			<roomStatBoosts>                                                                       Same as statBoosts but applies a lingering effect to the hit room.
+				<statBoost>                                                                        Conditions for stat boosts are on top of being restricted to the affected room.
+					<duration>10</duration>                                                          If the room cannot be affected, the stat boost is not applied.
+					...
+				</statBoost>
+			</roomStatBoosts>
 			<event load="EVENT_NAME"/>                                                             Event to load when the ability effect is triggered. Either load or define an event.
 			<playerEvent load="EVENT_NAME"/>                                                       Event to load when the ability effect is triggered (only player crew). Either load or define an event.
 			<enemyEvent load="EVENT_NAME"/>                                                        Event to load when the ability effect is triggered (only enemy crew). Either load or define an event.

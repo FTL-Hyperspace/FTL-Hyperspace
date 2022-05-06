@@ -116,6 +116,14 @@
 		</statBoost>
 	</statBoosts>
 	
+	<roomStatBoostChance>0</roomStatBoostChance>     Chance to apply room stat boosts as listed below.
+	<roomStatBoosts>                                 Same as statBoosts but applies a lingering effect to the hit room.
+		<statBoost>                                  Conditions for stat boosts are on top of being restricted to the affected room. If the room cannot be affected, the stat boost is not applied.
+			<duration>10</duration>
+			...
+		</statBoost>
+	</roomStatBoosts>
+	
 	<crewSpawnChance>0</crewSpawnChance>             Chance to spawn the crew listed below.
 	<spawnCrew>                                      Include as many <spawnCrew> tags as you need.
 		<race>human</race>                           Race to spawn.

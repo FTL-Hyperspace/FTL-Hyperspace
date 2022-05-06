@@ -1,4 +1,5 @@
 #include "CrewMember_Extend.h"
+#include "ShipManager_Extend.h"
 #include "CustomCrew.h"
 #include "CustomOptions.h"
 #include "Resources.h"
@@ -653,6 +654,16 @@ void CustomCrewManager::ParseDeathEffect(rapidxml::xml_node<char>* stat, Explosi
                 }
             }
         }
+        if (effectName == "roomStatBoosts")
+        {
+            for (auto statBoostNode = effectNode->first_node(); statBoostNode; statBoostNode = statBoostNode->next_sibling())
+            {
+                if (strcmp(statBoostNode->name(), "statBoost") == 0)
+                {
+                    def.roomStatBoosts.push_back(StatBoostManager::GetInstance()->ParseStatBoostNode(statBoostNode, StatBoostDefinition::BoostSource::CREW, true));
+                }
+            }
+        }
         if (effectName == "event")
         {
             def.event[0] = G_->GetEventsParser()->ProcessEvent(effectNode, "__crewDeath");
@@ -889,6 +900,16 @@ void CustomCrewManager::ParseAbilityEffect(rapidxml::xml_node<char>* stat, Activ
                 if (strcmp(statBoostNode->name(), "statBoost") == 0)
                 {
                     def.statBoosts.push_back(StatBoostManager::GetInstance()->ParseStatBoostNode(statBoostNode, StatBoostDefinition::BoostSource::CREW, false));
+                }
+            }
+        }
+        if (effectName == "roomStatBoosts")
+        {
+            for (auto statBoostNode = effectNode->first_node(); statBoostNode; statBoostNode = statBoostNode->next_sibling())
+            {
+                if (strcmp(statBoostNode->name(), "statBoost") == 0)
+                {
+                    def.roomStatBoosts.push_back(StatBoostManager::GetInstance()->ParseStatBoostNode(statBoostNode, StatBoostDefinition::BoostSource::CREW, true));
                 }
             }
         }
@@ -1919,6 +1940,18 @@ void CrewMember_Extend::ActivatePower()
                         StatBoostManager::GetInstance()->CreateTimedAugmentBoost(statBoost, otherCrew);
                     }
                 }
+            }
+        }
+    }
+
+    if (!powerDef->roomStatBoosts.empty())
+    {
+        ShipManager *crewShip = G_->GetShipManager(orig->currentShipId);
+        if (crewShip)
+        {
+            for (auto statBoostDef : powerDef->roomStatBoosts)
+            {
+                SM_EX(crewShip)->CreateRoomStatBoost(*statBoostDef, orig->iRoomId, 1, orig);
             }
         }
     }
@@ -4029,6 +4062,17 @@ HOOK_METHOD(CrewMember, GetRoomDamage, () -> Damage)
                                         StatBoostManager::GetInstance()->CreateTimedAugmentBoost(statBoost, otherCrew);
                                     }
                                 }
+                            }
+                        }
+                    }
+                    if (!explosionDef->roomStatBoosts.empty())
+                    {
+                        ShipManager *crewShip = G_->GetShipManager(currentShipId);
+                        if (crewShip)
+                        {
+                            for (auto statBoostDef : explosionDef->roomStatBoosts)
+                            {
+                                SM_EX(crewShip)->CreateRoomStatBoost(*statBoostDef, iRoomId, 1, this);
                             }
                         }
                     }

@@ -296,6 +296,7 @@ struct ActivatedPowerDefinition
     std::vector<CrewSpawn*> crewSpawns;
 
     std::vector<StatBoostDefinition*> statBoosts;
+    std::vector<StatBoostDefinition*> roomStatBoosts;
 
     std::array<std::string,2> event = {"",""};
 
