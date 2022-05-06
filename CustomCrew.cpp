@@ -2171,6 +2171,18 @@ HOOK_METHOD_PRIORITY(CrewMember, constructor, -899, (CrewBlueprint& bp, int ship
 
 static bool g_forceNoSlot = false;
 
+//Crew animation statuses:
+// 0 - walk
+// 1 - punch
+// 2 - repair
+// 3 - death
+// 4 - fire
+// 5 - ??? (unused?)
+// 6 - teleport
+// 7 - shoot
+// 8 - type
+// 9 - portrait
+
 void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, CrewAnimation *animation, bool isTransform)
 {
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
