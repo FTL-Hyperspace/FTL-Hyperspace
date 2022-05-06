@@ -14,8 +14,12 @@ class LuaLibScript
 {
     public:
         LuaLibScript(lua_State* lua);
-        
-        void call_on_load_callbacks(); // TODO: Change to loadGameCallCallbacks or something
+
+        // Call once upon starting the game
+        void call_on_load_callbacks();
+
+        // Call upon starting a new run (maybe also starting a loaded run? not sure)
+        void call_on_init_callbacks();
         
         /*** Register a function to call upon loading your script
          * @function on_load
@@ -33,9 +37,11 @@ class LuaLibScript
          * @function on_init
          * @tparam function callback Callback function to register
          *
-         * Your function will be called once upon starting a new run (it is not yet complete as to if this will also call upon loading/continuing a run)
+         * Your function will be called once upon starting a new run (and/or loading a run)
          *
          * **Warning:** you can accidentally register your function multiple times and it will be called multiple times!
+         *
+         * Currently happens on `ScoreKeeper::LoadGame` so you might need to check if your values are already initialized in your code
          */
         static int l_on_init(lua_State* lua);
 
