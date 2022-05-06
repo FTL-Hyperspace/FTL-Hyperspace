@@ -90,7 +90,8 @@ LuaScriptInit::LuaScriptInit()
     hsluaglobal_register(lua);
     
     // TODO: Save in a variable/member field so that we can destroy this upon cleanup function
-    new LuaScript(lua);
+    //new LuaScript(lua);
+    hs_script_register(lua);
     
 //    lua_newtable(lua);
 //    lua_setglobal(lua, "Script");
