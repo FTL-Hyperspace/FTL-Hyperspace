@@ -16,6 +16,7 @@ class LuaLibScript
 {
     public:
         LuaLibScript(lua_State* lua);
+        void call_callback();
         
         /*** Register a function to call upon loading your script
          * @function onload

@@ -31,7 +31,7 @@
     
 */
 
-std::string luaTest = "print(\"hello\")\nfunction helloWorld()\n\tprint(\"Hello World\")\nend\nlog(\"LUA MESSAGE\")\n";
+std::string luaTest = "print(\"hello\")\nfunction helloWorld()\n\tprint(\"!!!!!!Hello World!!!!!!\")\nend\nlog(\"LUA MESSAGE\")\nscript.onload(helloWorld)\n";
 
 void removeDangerousStuff(lua_State* lua)
 {
@@ -90,7 +90,7 @@ LuaScriptInit::LuaScriptInit()
     hsluaglobal_register(lua);
     
     // TODO: Save in a variable/member field so that we can destroy this upon cleanup function
-    new LuaLibScript(lua);
+    LuaLibScript* script = new LuaLibScript(lua);
     
 //    lua_newtable(lua);
 //    lua_setglobal(lua, "Script");
@@ -107,8 +107,9 @@ LuaScriptInit::LuaScriptInit()
         // call Lua's Main from the script (note: still need to load script before this)
         if((iErr = lua_pcall(lua, 0, LUA_MULTRET, 0)) == 0)
         {
-            lua_getglobal(lua, "helloWorld");
-            lua_pcall(lua, 0, 0, 0); // Call function (pop's from stack name + arguments but we say no arguments and no returns here)
+            //lua_getglobal(lua, "helloWorld");
+            //lua_pcall(lua, 0, 0, 0); // Call function (pop's from stack name + arguments but we say no arguments and no returns here)
+            script->call_callback();
         }
         else
         {
