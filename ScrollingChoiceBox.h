@@ -5,6 +5,7 @@ struct ScrollingChoiceBox
     static int renderingEventBoxState;
     static float scrollAmount;
     static int dragging;
+    static bool barSelectState;
 
     static Button *scrollUpButton;
     static Button *scrollDownButton;

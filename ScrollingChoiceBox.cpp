@@ -4,6 +4,7 @@
 int ScrollingChoiceBox::renderingEventBoxState = -1;
 float ScrollingChoiceBox::scrollAmount = 0.f;
 int ScrollingChoiceBox::dragging = -1;
+bool ScrollingChoiceBox::barSelectState = false;
 Button *ScrollingChoiceBox::scrollUpButton = nullptr;
 Button *ScrollingChoiceBox::scrollDownButton = nullptr;
 
@@ -137,7 +138,7 @@ HOOK_METHOD(ChoiceBox, OnRender, () -> void)
 
             Globals::Rect rect = ScrollingChoiceBox::GetScrollRect();
 
-            CSurface::GL_DrawRect(rect.x, rect.y, rect.w, rect.h, g_defaultTextButtonColors[1]);
+            CSurface::GL_DrawRect(rect.x, rect.y, rect.w, rect.h, g_defaultTextButtonColors[ScrollingChoiceBox::barSelectState ? 2 : 1]);
         }
     }
     else
@@ -178,7 +179,8 @@ HOOK_METHOD(ChoiceBox, MouseMove, (int mX, int mY) -> void)
 
         if (ScrollingChoiceBox::renderingEventBoxState >= 0)
         {
-            if (ScrollingChoiceBox::GetMaxScroll() > 0.f)
+            bool canScroll = ScrollingChoiceBox::GetMaxScroll() > 0.f;
+            if (canScroll)
             {
                 ScrollingChoiceBox::scrollUpButton->MouseMove(mX, mY, false);
                 ScrollingChoiceBox::scrollDownButton->MouseMove(mX, mY, false);
@@ -187,11 +189,17 @@ HOOK_METHOD(ChoiceBox, MouseMove, (int mX, int mY) -> void)
             {
                 ScrollingChoiceBox::scrollUpButton->bHover = false;
                 ScrollingChoiceBox::scrollDownButton->bHover = false;
+                ScrollingChoiceBox::barSelectState = false;
             }
 
             if (ScrollingChoiceBox::dragging != -1)
             {
                 ScrollingChoiceBox::ScrollTo(((ScrollingChoiceBox::GetMaxScroll() + 369.f) * (mY - ScrollingChoiceBox::dragging - ScrollingChoiceBox::scrollBarY1)) / ScrollingChoiceBox::scrollBarHeight);
+            }
+            else if (canScroll)
+            {
+                Globals::Rect rect = ScrollingChoiceBox::GetScrollRect();
+                ScrollingChoiceBox::barSelectState = mX >= rect.x-1 && mX < rect.x+rect.w+1 && mY >= rect.y && mY < rect.y+rect.h;
             }
         }
     }
@@ -226,6 +234,7 @@ HOOK_METHOD(ChoiceBox, MouseClick, (int mX, int mY) -> void)
                     if (mY >= rect.y && mY < rect.y+rect.h)
                     {
                         ScrollingChoiceBox::dragging = mY - rect.y;
+                        ScrollingChoiceBox::barSelectState = true;
                     }
                     else if (mY >= ScrollingChoiceBox::scrollBarY1-1 && mY < rect.y)
                     {
