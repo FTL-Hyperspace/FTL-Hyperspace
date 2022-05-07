@@ -20,6 +20,7 @@ struct RoomAnimDef
     RoomAnimType animType = RoomAnimType::DEFAULT;
     int animBorder = 0;
     std::string animName;
+    std::string tileAnim;
 
     void ParseRoomAnimNode(rapidxml::xml_node<char> *node);
 };
@@ -27,15 +28,20 @@ struct RoomAnimDef
 struct RoomAnim
 {
     std::unique_ptr<Animation> anim;
+    std::vector<Animation> tileAnims;
     int renderLayer;
 
     void OnUpdate();
     void OnRender();
 
     RoomAnim(RoomAnimDef &def) :
-    anim{std::unique_ptr<Animation>(new Animation(G_->GetAnimationControl()->GetAnimation(def.animName)))},
     renderLayer{def.renderLayer}
     {
+        if (!def.animName.empty())
+        {
+            anim.reset(new Animation(G_->GetAnimationControl()->GetAnimation(def.animName)));
+        }
+
         anim->Start(true);
         anim->tracker.SetLoop(true, 0.f);
     }
@@ -74,6 +80,28 @@ struct RoomAnim
                 anim->position.x = room->rect.x;
                 anim->position.y = room->rect.y;
                 break;
+            }
+
+            if (!def.tileAnim.empty())
+            {
+                int w = room->rect.w/35;
+                int h = room->rect.h/35;
+
+                Animation tileAnim = G_->GetAnimationControl()->GetAnimation(def.tileAnim);
+                tileAnim.position.x = room->rect.x;
+                tileAnim.position.y = room->rect.y;
+                tileAnim.Start(true);
+                tileAnim.tracker.SetLoop(true, 0.f);
+
+                for (int i=0; i<h; ++i)
+                {
+                    for (int j=0; j<w; ++j)
+                    {
+                        tileAnims.push_back(tileAnim);
+                        tileAnims.back().position.x += 35*j;
+                        tileAnims.back().position.y += 35*i;
+                    }
+                }
             }
         }
     }

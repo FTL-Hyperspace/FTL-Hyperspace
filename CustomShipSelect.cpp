@@ -619,10 +619,8 @@ void RoomAnimDef::ParseRoomAnimNode(rapidxml::xml_node<char> *node)
         {
             if (strcmp(child->name(), "anim") == 0)
             {
-                if (child->first_attribute("name"))
-                {
-                    animName = child->first_attribute("animName")->value();
-                }
+                animName = child->value();
+
                 if (child->first_attribute("animType"))
                 {
                     std::string value = child->first_attribute("animType")->value();
@@ -647,6 +645,10 @@ void RoomAnimDef::ParseRoomAnimNode(rapidxml::xml_node<char> *node)
                 {
                     animBorder = boost::lexical_cast<int>(child->first_attribute("animBorder")->value());
                 }
+            }
+            if (strcmp(child->name(), "tileAnim") == 0)
+            {
+                tileAnim = child->value();
             }
         }
     }

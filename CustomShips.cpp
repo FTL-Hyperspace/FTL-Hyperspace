@@ -304,6 +304,10 @@ void RoomAnim::OnUpdate()
     {
         anim->Update();
     }
+    for (Animation &tileAnim : tileAnims)
+    {
+        tileAnim.Update();
+    }
 }
 
 void RoomAnim::OnRender()
@@ -311,6 +315,10 @@ void RoomAnim::OnRender()
     if (anim)
     {
         anim->OnRender(1.f, COLOR_WHITE, false);
+    }
+    for (Animation &tileAnim : tileAnims)
+    {
+        tileAnim.OnRender(1.f, COLOR_WHITE, false);
     }
 }
 
