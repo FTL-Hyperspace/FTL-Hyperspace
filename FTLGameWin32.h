@@ -2705,6 +2705,7 @@ struct CrewAI
 	LIBZHL_API void AssignCrewmembers();
 	LIBZHL_API void CheckForHealing();
 	LIBZHL_API void CheckForProblems();
+	LIBZHL_API int DangerRating(int roomId, int crewId);
 	LIBZHL_API void OnLoop();
 	LIBZHL_API int PrioritizeIntruderRoom(CrewMember *crew, int roomId, int target);
 	LIBZHL_API int PrioritizeTask(CrewTask task, int crewId);

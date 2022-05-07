@@ -1141,6 +1141,7 @@ functionalTarget: boolean, for drones it determines whether the drone needs to b
 healthReq: required crew health range. min/max are inclusive while above/below are exclusive.
 healthFractionReq: required crew health fractional range (0.0-1.0). min/max are inclusive while above/below are exclusive. For example, <healthFractionReq below="1.0"/> means "not at full health".
 oxygenReq: required oxygen percentage in the current room (0.0-100.0, crew suffocate at 5.0 and below). min/max are inclusive while above/below are exclusive.
+fireCount: minimum and maximum number of fires in the room.
 extraConditions: list of extra conditions. Same syntax as for power requirements, except without the text attributes for tooltips.
 whiteList/blackList: determines the species that the boost applies to. whiteLists mean that only those species get the boost, and blackLists mean that only those species won't get the boost.
   Can also use load attribute to load a blueprintList, or <blueprintList load="LIST_NAME"/> to load any number of lists.
@@ -1160,6 +1161,7 @@ maxStacks: determines how many stacks of the boost can be applied to a single cr
 statBoost: When statBoost name is "statBoost", the stat boost to provide to crewmembers meeting the criteria.
 boostAnim: Name of animation to play on crewmembers who are being affected by this stat boost.
 roomAnim: Room animation to spawn in the room of a room-based stat boost (currently only applies for room-based boosts, not crew/augment boosts that might affect certain rooms). Same syntax as customShip roomAnim.
+dangerRating: Marks affected room(s) as dangerous to crew AI below this health fraction, AI-controlled crew will avoid dangerous rooms. Use value greater than 1 for all crew to avoid room.
 
 Stat boost syntax examples->
 
@@ -1188,6 +1190,7 @@ Stat boost syntax examples->
 	<healthReq min="0.0" max="0.0" above="0.0" below="0.0"/>
 	<healthFractionReq min="0.0" max="0.0" above="0.0" below="0.0"/>
 	<oxygenReq min="0.0" max="0.0" above="0.0" below="0.0"/>
+	<fireCount min="0" max="0"/>
 	<extraConditions type="and">
 		...
 	</extraConditions>
@@ -1212,6 +1215,7 @@ Stat boost syntax examples->
 	</powerEffect>
 	<duration>15</duration>
 	<priority>0</priority>
+	<dangerRating>0.25</dangerRating>
 	<statBoost name="...">...</statBoost>
 	<boostAnim>anim_name</boostAnim>
 	<roomAnim>...</roomAnim>

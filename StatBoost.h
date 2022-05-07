@@ -173,6 +173,9 @@ struct StatBoostDefinition
     std::pair<float,float> healthReq = {-1.f, -1.f};
     std::pair<float,float> healthFractionReq = {-1.f, -1.f};
     std::pair<float,float> oxygenReq = {-1.f, -1.f};
+    std::pair<int,int> fireCount = {-1, -1};
+
+    float dangerRating = -1.f;
 
     int realBoostId = -1;
     int stackId = 0;
@@ -225,6 +228,7 @@ public:
 
     std::unordered_map<CrewStat, std::vector<StatBoost>, EnumClassHash> statBoosts;
     std::vector<StatBoost> animBoosts;
+    std::vector<StatBoost> dangerBoosts;
 
     std::vector<StatBoost*> loadingStatBoosts = {};
 
@@ -242,6 +246,7 @@ public:
     {
         statBoosts.clear();
         animBoosts.clear();
+        dangerBoosts.clear();
     }
 
     StatBoostDefinition* ParseStatBoostNode(rapidxml::xml_node<char>* node, StatBoostDefinition::BoostSource boostSource, bool isRoomBased);
