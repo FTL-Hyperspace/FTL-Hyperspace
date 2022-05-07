@@ -583,6 +583,23 @@ void CustomBackgroundObject::OnInit()
         timer.loop = timerDef.loop;
         timer.Start(timerDef.time);
     }
+
+    if (!def->req.empty())
+    {
+        ShipManager* player = G_->GetShipManager(0);
+
+        if (player)
+        {
+            advancedCheckEquipment[3] = true;
+            int reqLvl = player->HasEquipment(def->req);
+            reqActive = (reqLvl >= def->lvl && reqLvl <= def->max_lvl);
+            advancedCheckEquipment[3] = false;
+        }
+    }
+    else
+    {
+        reqActive = true;
+    }
 }
 
 bool CustomBackgroundObject::OnLoop()
