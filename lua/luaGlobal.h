@@ -9,9 +9,7 @@
 #include <boost/format.hpp>
 
 /*** Functions available outside a module
- * @module Global
- * @release 1.1.0
- * @author Mr. Doom
+ * @module global
  * These functions are available globally and are not within another specific module
  * They can be accessed without any prefix
  *
