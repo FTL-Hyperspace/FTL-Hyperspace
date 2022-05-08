@@ -6206,7 +6206,7 @@ HOOK_METHOD(CompleteShip, InitiateTeleport, (int targetRoom, int command) -> voi
     {
         CrewMember_Extend *ex = CM_EX(crew);
 
-        if (ex->customTele.shipId == -1)
+        if (ex->customTele.shipId == -1) // no armed teleport, can check conditions for auto-teleport to destination tile, otherwise pass
         {
             if (!crew->IsDead() && crew->Functional() && crew->fStunTime <= 0.f && !ex->customTele.teleporting && crew->crewAnim->status != 6)
             {
@@ -6231,21 +6231,20 @@ HOOK_METHOD(CompleteShip, InitiateTeleport, (int targetRoom, int command) -> voi
             }
             continue;
         }
-        else if (crew->IsDead() || !crew->Functional())
+        else if ((ex->customTele.teleporting || crew->crewAnim->status == 6) && !crew->crewAnim->anims[0][6].tracker.reverse) // crew is teleport leaving; don't interfere
+        {
+            continue;
+        }
+        else if (crew->IsDead() || !crew->Functional() || !ex->CanTeleportMove(crew->currentShipId != ex->customTele.shipId)) // disarm teleport if dead, nonfunctional, or loses ability
         {
             ex->customTele.shipId = -1;
             continue;
         }
-        else if (crew->fStunTime > 0.f || ex->customTele.teleporting || crew->crewAnim->status == 6)
+        else if (crew->fStunTime > 0.f) // stunned, wait
         {
             continue;
         }
-        else if (!ex->CanTeleportMove(crew->currentShipId != ex->customTele.shipId))
-        {
-            ex->customTele.shipId = -1;
-            continue;
-        }
-        else
+        else // initiate armed custom teleport
         {
             crew->StartTeleport();
             customTeleports = true;
