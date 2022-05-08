@@ -6271,11 +6271,6 @@ HOOK_METHOD(CompleteShip, InitiateTeleport, (int targetRoom, int command) -> voi
     {
         G_->GetSoundControl()->PlaySoundMix("teleport", -1.f, false);
     }
-}
-
-HOOK_METHOD(CompleteShip, OnLoop, () -> void)
-{
-    super();
 
     for (CrewMember *crew : customTeleCrew)
     {
