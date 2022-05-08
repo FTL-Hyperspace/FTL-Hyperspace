@@ -370,7 +370,7 @@ struct CrewDefinition
     bool noAI = false;
     bool validTarget = true;
     bool canPunch = true;
-    bool canMove = false;
+    bool canMove = true;
     bool snapToSlot = false;
     bool teleportMove = false;
     bool teleportMoveOtherShip = false;
