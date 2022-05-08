@@ -173,7 +173,7 @@ struct TemporaryPowerDefinition
     ToggleValue<bool> noClone;
     ToggleValue<bool> noAI;
     ToggleValue<bool> validTarget;
-    ToggleValue<bool> rooted;
+    ToggleValue<bool> canMove;
     ToggleValue<bool> teleportMove;
     ToggleValue<bool> teleportMoveOtherShip;
 
@@ -370,8 +370,8 @@ struct CrewDefinition
     bool noAI = false;
     bool validTarget = true;
     bool canPunch = true;
-    bool rooted = false;
-    bool rootedSnapToSlot = true;
+    bool canMove = false;
+    bool snapToSlot = false;
     bool teleportMove = false;
     bool teleportMoveOtherShip = false;
     float essential = 0.f;

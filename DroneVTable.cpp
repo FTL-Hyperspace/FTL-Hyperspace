@@ -65,8 +65,8 @@ bool CrewDrone::_HS_GetControllable()
         {
             if (requiresFullControl == 1)
             {
-                ex->CalculateStat(CrewStat::ROOTED, def, &ret); // can't move rooted crew
-                return !ret;
+                ex->CalculateStat(CrewStat::CAN_MOVE, def, &ret);
+                return ret;
             }
         }
         else if (!requiresFullControl)
@@ -84,7 +84,11 @@ bool CrewDrone::_HS_GetControllable()
             if (!def) return false;
         }
         ex->CalculateStat(CrewStat::NO_AI, def, &ret);
-        if (!ret) ex->CalculateStat(CrewStat::ROOTED, def, &ret); // can't move rooted crew
+        if (!ret)
+        {
+            ex->CalculateStat(CrewStat::CAN_MOVE, def, &ret);
+            return !ret;
+        }
     }
 
     return ret;

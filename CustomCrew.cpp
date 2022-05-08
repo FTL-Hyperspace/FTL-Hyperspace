@@ -522,13 +522,13 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                         {
                             crew.validTarget = EventsParser::ParseBoolean(val);
                         }
-                        if (str == "rooted")
+                        if (str == "canMove")
                         {
-                            crew.rooted = EventsParser::ParseBoolean(val);
+                            crew.canMove = EventsParser::ParseBoolean(val);
                         }
-                        if (str == "rootedSnapToSlot")
+                        if (str == "snapToSlot")
                         {
-                            crew.rootedSnapToSlot = EventsParser::ParseBoolean(val);
+                            crew.snapToSlot = EventsParser::ParseBoolean(val);
                         }
                         if (str == "essential")
                         {
@@ -1144,9 +1144,9 @@ void CustomCrewManager::ParseAbilityEffect(rapidxml::xml_node<char>* stat, Activ
                 {
                     def.tempPower.validTarget = EventsParser::ParseBoolean(tempEffectNode->value());
                 }
-                if (tempEffectName == "rooted")
+                if (tempEffectName == "canMove")
                 {
-                    def.tempPower.rooted = EventsParser::ParseBoolean(tempEffectNode->value());
+                    def.tempPower.canMove = EventsParser::ParseBoolean(tempEffectNode->value());
                 }
             }
         }
@@ -2853,11 +2853,11 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
 
         ex->prevStun = fStunTime;
 
-        bool rooted;
-        ex->CalculateStat(CrewStat::ROOTED, def, &rooted);
-        if (rooted)
+        bool canMove;
+        ex->CalculateStat(CrewStat::CAN_MOVE, def, &canMove);
+        if (!canMove)
         {
-            ex->prevRooted = true;
+            ex->prevCanMove = false;
 
             ShipGraph* graph = ShipGraph::GetShipInfo(currentShipId);
 
@@ -2891,21 +2891,21 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
                 }
                 if (moveCrew)
                 {
-                    bool moveCrewIsRooted;
-                    CM_EX(moveCrew)->CalculateStat(CrewStat::ROOTED, &moveCrewIsRooted);
+                    bool moveCrewCanMove;
+                    CM_EX(moveCrew)->CalculateStat(CrewStat::CAN_MOVE, &moveCrewCanMove);
 
-                    if (moveCrewIsRooted)
+                    if (moveCrewCanMove)
                     {
-                        moveCrew = nullptr;
+                        moveCrew->EmptySlot();
                     }
                     else
                     {
-                        moveCrew->EmptySlot();
+                        moveCrew = nullptr;
                     }
                 }
                 EmptySlot();
 
-                currentCrewLoop = nullptr; // bypass rooted to force movement
+                currentCrewLoop = nullptr; // bypass canMove to force movement
                 MoveToRoom(currentLocationSlot.roomId, currentLocationSlot.slotId, true);
                 currentCrewLoop = this;
 
@@ -2919,7 +2919,7 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
 
             if (std::fabs(currentSlot.worldLocation.x - x) < 17.f && std::fabs(currentSlot.worldLocation.y - y) < 17.f)
             {
-                if (def->rootedSnapToSlot)
+                if (def->snapToSlot)
                 {
                     x = currentSlot.worldLocation.x;
                     y = currentSlot.worldLocation.y;
@@ -2965,9 +2965,9 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
                 }
             }
         }
-        else if (ex->prevRooted)
+        else if (!ex->prevCanMove)
         {
-            ex->prevRooted = false;
+            ex->prevCanMove = true;
             ShipGraph* graph = ShipGraph::GetShipInfo(currentShipId);
             currentSlot.worldLocation = graph->GetSlotWorldPosition(currentSlot.slotId, currentSlot.roomId);
             SetRoomPath(currentSlot.slotId, currentSlot.roomId);
@@ -6219,9 +6219,9 @@ HOOK_METHOD(CompleteShip, InitiateTeleport, (int targetRoom, int command) -> voi
                     }
                     else
                     {
-                        bool rooted;
-                        ex->CalculateStat(CrewStat::ROOTED, &rooted);
-                        if (rooted || ex->CalculateStat(CrewStat::MOVE_SPEED_MULTIPLIER) == 0.f)
+                        bool canMove;
+                        ex->CalculateStat(CrewStat::CAN_MOVE, &canMove);
+                        if (!canMove || ex->CalculateStat(CrewStat::MOVE_SPEED_MULTIPLIER) == 0.f)
                         {
                             ex->InitiateTeleport(iShipId, crew->currentSlot.roomId, crew->currentSlot.slotId);
                             customTeleports = true;
@@ -6367,9 +6367,9 @@ HOOK_METHOD(CrewControl, RButton, (int x, int y, bool shiftHeld) -> void)
                             }
                             else
                             {
-                                bool rooted;
-                                ex->CalculateStat(CrewStat::ROOTED, &rooted);
-                                if (rooted || ex->CalculateStat(CrewStat::MOVE_SPEED_MULTIPLIER) == 0.f)
+                                bool canMove;
+                                ex->CalculateStat(CrewStat::CAN_MOVE, &canMove);
+                                if (!canMove || ex->CalculateStat(CrewStat::MOVE_SPEED_MULTIPLIER) == 0.f)
                                 {
                                     teleportingCrew.push_back(crew);
                                 }

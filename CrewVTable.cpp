@@ -44,8 +44,8 @@ bool CrewMember::_HS_GetControllable()
         {
             if (requiresFullControl == 1)
             {
-                ex->CalculateStat(CrewStat::ROOTED, def, &ret); // can't move rooted crew
-                return !ret;
+                ex->CalculateStat(CrewStat::CAN_MOVE, def, &ret);
+                return ret;
             }
         }
         else if (!requiresFullControl)
@@ -62,7 +62,11 @@ bool CrewMember::_HS_GetControllable()
             def = CustomCrewManager::GetInstance()->GetDefinition(this->species);
         }
         ex->CalculateStat(CrewStat::NO_AI, def, &ret);
-        if (!ret) ex->CalculateStat(CrewStat::ROOTED, def, &ret); // can't move rooted crew
+        if (!ret)
+        {
+            ex->CalculateStat(CrewStat::CAN_MOVE, def, &ret);
+            return !ret;
+        }
     }
 
     return ret;
@@ -225,12 +229,11 @@ HOOK_METHOD(CrewMember, MoveToRoom, (int roomId, int slotId, bool bForceMove) ->
 {
     if (currentCrewLoop == this)
     {
-        // to stop rooted crew auto-moving to manning slot
-        bool rooted;
+        bool canMove;
         auto ex = CM_EX(this);
         auto def = ex->GetDefinition();
-        ex->CalculateStat(CrewStat::ROOTED, def, &rooted);
-        if (rooted) return false;
+        ex->CalculateStat(CrewStat::CAN_MOVE, def, &canMove);
+        if (!canMove) return false;
     }
     return super(roomId, slotId, bForceMove);
 }

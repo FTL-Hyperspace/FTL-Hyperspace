@@ -64,7 +64,7 @@ const std::array<std::string, numStats> crewStats =
     "noSlot",
     "noAI",
     "validTarget",
-    "rooted",
+    "canMove",
     "teleportMove",
     "teleportMoveOtherShip",
     // non-cached stats
@@ -1914,8 +1914,8 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
             *boolValue = (temporaryPowerActive && GetPowerDef()->tempPower.validTarget.enabled) ? GetPowerDef()->tempPower.validTarget.value : def->validTarget;
             isBool = true;
             break;
-        case CrewStat::ROOTED:
-            *boolValue = (temporaryPowerActive && GetPowerDef()->tempPower.rooted.enabled) ? GetPowerDef()->tempPower.rooted.value : def->rooted;
+        case CrewStat::CAN_MOVE:
+            *boolValue = (temporaryPowerActive && GetPowerDef()->tempPower.canMove.enabled) ? GetPowerDef()->tempPower.canMove.value : def->canMove;
             isBool = true;
             break;
         case CrewStat::TELEPORT_MOVE:

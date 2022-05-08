@@ -128,7 +128,7 @@ public:
     bool noClone = false;
 
     float prevStun = 0.f; // for use in stun resistance checking
-    bool prevRooted = false;
+    bool prevCanMove = true;
 
     std::vector<StatBoost> outgoingStatBoosts = std::vector<StatBoost>();
     std::vector<StatBoost> outgoingAbilityStatBoosts = std::vector<StatBoost>();
