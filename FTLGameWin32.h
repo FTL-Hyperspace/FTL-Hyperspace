@@ -4865,7 +4865,7 @@ struct ShipGraph
 	}
 	
 	// TODO: This looks like it was re-implemented because they were unsure at the time how to hook it, we can totally hook it now like we do for GetSlotRenderPosition
-	Point GetSlotWorldPosition(int roomId, int slotId)
+	Point GetSlotWorldPosition(int slotId, int roomId)
 	{
 		Globals::Rect rect = rooms[roomId]->rect;
 		return Point(rect.x + 35 * (slotId % (rect.w / 35)) + 17, rect.y + 35 * (slotId / (rect.h / 35)) + 17);

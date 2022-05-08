@@ -173,6 +173,7 @@ struct TemporaryPowerDefinition
     ToggleValue<bool> noClone;
     ToggleValue<bool> noAI;
     ToggleValue<bool> validTarget;
+    ToggleValue<bool> rooted;
 
     std::vector<StatBoostDefinition*> statBoosts;
 
@@ -367,6 +368,8 @@ struct CrewDefinition
     bool noAI = false;
     bool validTarget = true;
     bool canPunch = true;
+    bool rooted = false;
+    bool rootedSnapToSlot = true;
     float essential = 0.f;
 
     std::pair<int,int> shootTimer = {-1, -1};

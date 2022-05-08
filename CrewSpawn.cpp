@@ -114,7 +114,7 @@ std::vector<CrewMember*> CrewSpawn::SpawnCrew(CrewSpawn *crewSpawn, ShipManager 
 
             if (currentSlot.roomId != -1)
             {
-                Path testPath = graph->FindPath({static_cast<int>(std::round(crew->x)), static_cast<int>(std::round(crew->y))}, graph->GetSlotWorldPosition(currentSlot.roomId, currentSlot.slotId), crew->iShipId);
+                Path testPath = graph->FindPath({static_cast<int>(std::round(crew->x)), static_cast<int>(std::round(crew->y))}, graph->GetSlotWorldPosition(currentSlot.slotId, currentSlot.roomId), crew->iShipId);
 
                 if (testPath.distance != -1.f)
                 {

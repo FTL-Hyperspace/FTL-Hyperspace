@@ -522,6 +522,14 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                         {
                             crew.validTarget = EventsParser::ParseBoolean(val);
                         }
+                        if (str == "rooted")
+                        {
+                            crew.rooted = EventsParser::ParseBoolean(val);
+                        }
+                        if (str == "rootedSnapToSlot")
+                        {
+                            crew.rootedSnapToSlot = EventsParser::ParseBoolean(val);
+                        }
                         if (str == "essential")
                         {
                             crew.essential = boost::lexical_cast<float>(val);
@@ -1135,6 +1143,10 @@ void CustomCrewManager::ParseAbilityEffect(rapidxml::xml_node<char>* stat, Activ
                 if (tempEffectName == "validTarget")
                 {
                     def.tempPower.validTarget = EventsParser::ParseBoolean(tempEffectNode->value());
+                }
+                if (tempEffectName == "rooted")
+                {
+                    def.tempPower.rooted = EventsParser::ParseBoolean(tempEffectNode->value());
                 }
             }
         }
@@ -2812,7 +2824,6 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
         {
             if (fStunTime < ex->prevStun)
             {
-                auto def = custom->GetDefinition(species);
                 float stunMultiplier = ex->CalculateStat(CrewStat::STUN_MULTIPLIER, def);
 
                 if (stunMultiplier > 0.f)
@@ -2831,6 +2842,126 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
         }
 
         ex->prevStun = fStunTime;
+
+        bool rooted;
+        ex->CalculateStat(CrewStat::ROOTED, def, &rooted);
+        if (rooted)
+        {
+            ex->prevRooted = true;
+
+            ShipGraph* graph = ShipGraph::GetShipInfo(currentShipId);
+
+            Slot currentLocationSlot;
+            currentLocationSlot.roomId = iRoomId;
+            if (iRoomId != -1)
+            {
+                Room *room = graph->rooms[iRoomId];
+                currentLocationSlot.slotId = (((int)x - room->rect.x) / 35 + (room->rect.w / 35) * (((int)y - room->rect.y) / 35));
+                if (currentLocationSlot.slotId < 0 || currentLocationSlot.slotId >= (room->rect.w / 35)*(room->rect.h / 35))
+                {
+                    currentLocationSlot.roomId = -1;
+                }
+                else
+                {
+                    currentLocationSlot.worldLocation = graph->GetSlotWorldPosition(currentLocationSlot.slotId, currentLocationSlot.roomId);
+                }
+            }
+
+            if (currentLocationSlot.roomId != -1 && (currentLocationSlot.roomId != currentSlot.roomId || currentLocationSlot.slotId != currentSlot.slotId))
+            {
+                ShipManager *ship = G_->GetShipManager(currentShipId);
+                CrewMember *moveCrew = nullptr;
+                for (CrewMember *otherCrew : ship->vCrewList)
+                {
+                    if (otherCrew != this && otherCrew->currentSlot.roomId == currentLocationSlot.roomId && otherCrew->currentSlot.slotId == currentLocationSlot.slotId && otherCrew->intruder == intruder)
+                    {
+                        moveCrew = otherCrew;
+                        break;
+                    }
+                }
+                if (moveCrew)
+                {
+                    bool moveCrewIsRooted;
+                    CM_EX(moveCrew)->CalculateStat(CrewStat::ROOTED, &moveCrewIsRooted);
+
+                    if (moveCrewIsRooted)
+                    {
+                        moveCrew = nullptr;
+                    }
+                    else
+                    {
+                        moveCrew->EmptySlot();
+                    }
+                }
+                EmptySlot();
+
+                currentCrewLoop = nullptr; // bypass rooted to force movement
+                MoveToRoom(currentLocationSlot.roomId, currentLocationSlot.slotId, true);
+                currentCrewLoop = this;
+
+                if (moveCrew)
+                {
+                    moveCrew->MoveToRoom(currentLocationSlot.roomId, currentLocationSlot.slotId, true);
+                }
+            }
+
+            currentSlot.worldLocation = graph->GetSlotWorldPosition(currentSlot.slotId, currentSlot.roomId);
+
+            if (std::fabs(currentSlot.worldLocation.x - x) < 17.f && std::fabs(currentSlot.worldLocation.y - y) < 17.f)
+            {
+                if (def->rootedSnapToSlot)
+                {
+                    x = currentSlot.worldLocation.x;
+                    y = currentSlot.worldLocation.y;
+                    path.finish.x = currentSlot.worldLocation.x;
+                    path.finish.y = currentSlot.worldLocation.y;
+                    goal_x = currentSlot.worldLocation.x;
+                    goal_y = currentSlot.worldLocation.y;
+                }
+                else
+                {
+                    float maxDistance;
+                    if (fStunTime > 0.f)
+                    {
+                        maxDistance = 10000.f;
+                    }
+                    else
+                    {
+                        switch (crewAnim->status)
+                        {
+                        case 0: // walk/idle
+                        case 2: // repair
+                        case 4: // fire
+                        case 7: // shoot
+                            maxDistance = 10.f;
+                            break;
+                        case 1: // punch
+                        case 8: // type
+                            maxDistance = 0.f;
+                            break;
+                        default:
+                            maxDistance = 10000.f;
+                            break;
+                        }
+                    }
+
+                    currentSlot.worldLocation.x = std::max(currentSlot.worldLocation.x-maxDistance,std::min(x,currentSlot.worldLocation.x+maxDistance));
+                    currentSlot.worldLocation.y = std::max(currentSlot.worldLocation.y-maxDistance,std::min(y,currentSlot.worldLocation.y+maxDistance));
+
+                    path.finish.x = currentSlot.worldLocation.x;
+                    path.finish.y = currentSlot.worldLocation.y;
+                    goal_x = currentSlot.worldLocation.x;
+                    goal_y = currentSlot.worldLocation.y;
+                }
+            }
+        }
+        else if (ex->prevRooted)
+        {
+            ex->prevRooted = false;
+            ShipGraph* graph = ShipGraph::GetShipInfo(currentShipId);
+            currentSlot.worldLocation = graph->GetSlotWorldPosition(currentSlot.slotId, currentSlot.roomId);
+            SetRoomPath(currentSlot.slotId, currentSlot.roomId);
+        }
 
         auto powerDef = ex->CalculatePowerDef();
 

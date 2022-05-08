@@ -40,7 +40,15 @@ bool CrewMember::_HS_GetControllable()
         ex = CM_EX(this);
         def = CustomCrewManager::GetInstance()->GetDefinition(this->species);
         ex->CalculateStat(CrewStat::CONTROLLABLE, def, &ret);
-        if (!ret && !requiresFullControl)
+        if (ret)
+        {
+            if (requiresFullControl == 1)
+            {
+                ex->CalculateStat(CrewStat::ROOTED, def, &ret); // can't move rooted crew
+                return !ret;
+            }
+        }
+        else if (!requiresFullControl)
         {
             ret = def->selectable;
         }
@@ -54,6 +62,7 @@ bool CrewMember::_HS_GetControllable()
             def = CustomCrewManager::GetInstance()->GetDefinition(this->species);
         }
         ex->CalculateStat(CrewStat::NO_AI, def, &ret);
+        if (!ret) ex->CalculateStat(CrewStat::ROOTED, def, &ret); // can't move rooted crew
     }
 
     return ret;
@@ -174,6 +183,20 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, -1000, () -> void)
     currentCrewLoop = this;
     super();
     currentCrewLoop = nullptr;
+}
+
+HOOK_METHOD(CrewMember, MoveToRoom, (int roomId, int slotId, bool bForceMove) -> bool)
+{
+    if (currentCrewLoop == this)
+    {
+        // to stop rooted crew auto-moving to manning slot
+        bool rooted;
+        auto ex = CM_EX(this);
+        auto def = ex->GetDefinition();
+        ex->CalculateStat(CrewStat::ROOTED, def, &rooted);
+        if (rooted) return false;
+    }
+    return super(roomId, slotId, bForceMove);
 }
 
 HOOK_METHOD(CrewAnimation, OnUpdateEffects, () -> void)
