@@ -6175,8 +6175,8 @@ bool CrewMember_Extend::CanTeleportMove(bool toOtherShip)
     else
     {
         if (orig->crewAnim->status == 3) return false;
-        CalculateStat(CrewStat::CAN_TELEPORT, &ret);
-        if (!ret) return false;
+        //CalculateStat(CrewStat::CAN_TELEPORT, &ret);
+        //if (!ret) return false;
         CalculateStat(CrewStat::TELEPORT_MOVE, &ret);
     }
 
