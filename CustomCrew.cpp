@@ -2783,6 +2783,16 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
     auto custom = CustomCrewManager::GetInstance();
     CrewMember_Extend* ex = CM_EX(this);
 
+    // custom teleport
+    if (ex->customTele.teleporting)
+    {
+        // end teleport
+        if (crewAnim->status != 6)
+        {
+            ex->customTele.teleporting = false;
+        }
+    }
+
     if (ex->deathTimer)
     {
         ex->deathTimer->Update();
@@ -3105,6 +3115,10 @@ HOOK_METHOD(CrewMember, SaveState, (int file) -> void)
     FileHelper::writeInt(file, ex->powerDefIdx);
     FileHelper::writeString(file, ex->originalColorRace);
     FileHelper::writeString(file, ex->originalRace);
+    FileHelper::writeInt(file, ex->customTele.teleporting);
+    FileHelper::writeInt(file, ex->customTele.shipId);
+    FileHelper::writeInt(file, ex->customTele.roomId);
+    FileHelper::writeInt(file, ex->customTele.slotId);
 
     // Timed augment stat boosts
     std::vector<StatBoost*> timedStatBoostsSerial;
@@ -3183,6 +3197,10 @@ HOOK_METHOD(CrewMember, LoadState, (int file) -> void)
     ex->powerDefIdx = FileHelper::readInteger(file);
     ex->originalColorRace = FileHelper::readString(file);
     ex->originalRace = FileHelper::readString(file);
+    ex->customTele.teleporting = FileHelper::readInteger(file);
+    ex->customTele.shipId = FileHelper::readInteger(file);
+    ex->customTele.roomId = FileHelper::readInteger(file);
+    ex->customTele.slotId = FileHelper::readInteger(file);
 
     // Timed augment stat boosts
     int timedStatBoostsSize = FileHelper::readInteger(file);
@@ -5431,6 +5449,18 @@ HOOK_METHOD(CrewControl, MouseMove, (int mX, int mY, int wX, int wY) -> void)
     selectedCrew.erase(std::remove_if(selectedCrew.begin(), selectedCrew.end(), [](CrewMember* crew) { return !crew->GetControllable(); }), selectedCrew.end());
 }
 
+HOOK_METHOD(CrewControl, SelectCrew, (bool keep_current) -> void)
+{
+    if (keep_current)
+    {
+        potentialSelectedCrew.erase(std::remove_if(potentialSelectedCrew.begin(), potentialSelectedCrew.end(), [this](CrewMember* crew)
+        {
+            return std::find(selectedCrew.begin(), selectedCrew.end(), crew) != selectedCrew.end();
+        }), potentialSelectedCrew.end());
+    }
+    super(keep_current);
+}
+
 HOOK_METHOD(CrewMember, GetTooltip, () -> std::string)
 {
     LOG_HOOK("HOOK_METHOD -> CrewMember::GetTooltip -> Begin (CustomCrew.cpp)\n")
@@ -6104,4 +6134,438 @@ HOOK_METHOD(Door, ApplyDamage, (float amount) -> bool)
         }
     }
     return super(amount);
+}
+
+// Custom Teleport
+static std::vector<CrewMember*> customTeleCrew = {};
+
+bool CrewMember_Extend::CanTeleportMove(bool toOtherShip)
+{
+    bool ret;
+
+    if (orig->crewAnim->status == 3) return false;
+
+    if (toOtherShip)
+    {
+        if (orig->bMindControlled && orig->iShipId == 0 && orig->currentShipId == 0) return false; // anti-kidnapping
+
+        if (orig->IsDrone()) return false; // drones cannot teleport to the other ship
+
+        CalculateStat(CrewStat::CAN_TELEPORT, &ret);
+        if (!ret) return false;
+        CalculateStat(CrewStat::TELEPORT_MOVE_OTHER_SHIP, &ret);
+        if (!ret) return false;
+
+        int powerOwner = orig->GetPowerOwner();
+        ShipManager *enemyShip = G_->GetShipManager(powerOwner == 0 ? 1 : 0);
+        if (enemyShip)
+        {
+            if (enemyShip->GetShieldPower().super.first > 0)
+            {
+                ShipManager *playerShip = G_->GetShipManager(powerOwner);
+                if (playerShip)
+                {
+                    return playerShip->HasEquipment("ZOLTAN_BYPASS");
+                }
+                return false;
+            }
+        }
+        return true;
+    }
+    else
+    {
+        if (orig->crewAnim->status == 3) return false;
+        CalculateStat(CrewStat::CAN_TELEPORT, &ret);
+        if (!ret) return false;
+        CalculateStat(CrewStat::TELEPORT_MOVE, &ret);
+    }
+
+    return ret;
+}
+
+HOOK_METHOD(CrewMember, StartTeleport, () -> void)
+{
+    super();
+    CM_EX(this)->customTele.teleporting = true;
+}
+
+void CrewMember_Extend::InitiateTeleport(int shipId, int roomId, int slotId)
+{
+    orig->StartTeleport();
+    customTele.shipId = shipId;
+    customTele.roomId = roomId;
+    customTele.slotId = slotId;
+}
+
+HOOK_METHOD(CompleteShip, InitiateTeleport, (int targetRoom, int command) -> void)
+{
+    super(targetRoom, command);
+
+    bool customTeleports = false;
+    for (CrewMember *crew : shipManager->vCrewList)
+    {
+        CrewMember_Extend *ex = CM_EX(crew);
+
+        if (ex->customTele.shipId == -1)
+        {
+            if (!crew->IsDead() && crew->Functional() && crew->fStunTime <= 0.f && !ex->customTele.teleporting && crew->crewAnim->status != 6)
+            {
+                if (!crew->AtFinalGoal() && ex->CanTeleportMove(false))
+                {
+                    if (crew->iRoomId != crew->currentSlot.roomId)
+                    {
+                        ex->InitiateTeleport(iShipId, crew->currentSlot.roomId, crew->currentSlot.slotId);
+                        customTeleports = true;
+                    }
+                    else
+                    {
+                        bool rooted;
+                        ex->CalculateStat(CrewStat::ROOTED, &rooted);
+                        if (rooted || ex->CalculateStat(CrewStat::MOVE_SPEED_MULTIPLIER) == 0.f)
+                        {
+                            ex->InitiateTeleport(iShipId, crew->currentSlot.roomId, crew->currentSlot.slotId);
+                            customTeleports = true;
+                        }
+                    }
+                }
+            }
+            continue;
+        }
+        else if (crew->IsDead() || !crew->Functional())
+        {
+            ex->customTele.shipId = -1;
+            continue;
+        }
+        else if (crew->fStunTime > 0.f || ex->customTele.teleporting || crew->crewAnim->status == 6)
+        {
+            continue;
+        }
+        else if (!ex->CanTeleportMove(crew->currentShipId != ex->customTele.shipId))
+        {
+            ex->customTele.shipId = -1;
+            continue;
+        }
+        else
+        {
+            crew->StartTeleport();
+            customTeleports = true;
+        }
+    }
+
+    if (customTeleports)
+    {
+        G_->GetSoundControl()->PlaySoundMix("teleport", -1.f, false);
+    }
+}
+
+HOOK_METHOD(CompleteShip, OnLoop, () -> void)
+{
+    super();
+
+    for (CrewMember *crew : customTeleCrew)
+    {
+        if (!crew->IsDead())
+        {
+            CrewMember_Extend *ex = CM_EX(crew);
+            crew->SetCurrentShip(ex->customTele.shipId);
+
+            ShipManager *targetShip = ex->customTele.shipId == iShipId ? shipManager : enemyShip->shipManager;
+            ShipGraph *graph = ShipGraph::GetShipInfo(ex->customTele.shipId);
+
+            if (ex->customTele.roomId == -1)
+            {
+                ex->customTele.roomId = random32() % graph->RoomCount();
+            }
+
+            targetShip->AddCrewMember(crew, ex->customTele.roomId);
+
+            if (ex->customTele.slotId > -1 && crew->ship) // specific slot
+            {
+                if (crew->currentSlot.roomId == ex->customTele.roomId && crew->currentSlot.slotId != ex->customTele.slotId) // they got the right room ID but the wrong slot ID
+                {
+                    Room *room = graph->rooms[ex->customTele.roomId];
+                    bool intruder = (crew->currentShipId == crew->iShipId) == crew->bMindControlled;
+                    if (room->slots[intruder].size() > ex->customTele.slotId && room->slots[intruder][ex->customTele.slotId] == false)
+                    {
+                        crew->EmptySlot();
+                        room->FillSlot(ex->customTele.slotId, intruder);
+                        Point slotPosition = graph->GetSlotWorldPosition(ex->customTele.slotId, ex->customTele.roomId);
+                        crew->x = slotPosition.x;
+                        crew->y = slotPosition.y;
+                        crew->goal_x = slotPosition.x;
+                        crew->goal_y = slotPosition.y;
+                        crew->crewAnim->lastPosition.x = slotPosition.x;
+                        crew->crewAnim->lastPosition.y = slotPosition.y;
+                        //crew->iRoomId = ex->customTele.roomId;
+                        crew->currentSlot.roomId = ex->customTele.roomId;
+                        crew->currentSlot.slotId = ex->customTele.slotId;
+                        crew->currentSlot.worldLocation = slotPosition;
+                        crew->ClearPath();
+                        //crew->task.system = -1;
+                        //crew->task.taskId = 4;
+                        //crew->task.roomId = ex->customTele.roomId;
+                    }
+                }
+            }
+
+            ex->customTele.shipId = -1;
+        }
+    }
+    customTeleCrew.clear();
+}
+
+HOOK_METHOD(CrewMember, CheckForTeleport, () -> void)
+{
+    super();
+
+    if (currentShipId == -1)
+    {
+        CrewMember_Extend *ex = CM_EX(this);
+        if (ex->customTele.shipId != -1)
+        {
+            customTeleCrew.push_back(this);
+        }
+    }
+}
+
+HOOK_METHOD(CrewControl, RButton, (int x, int y, bool shiftHeld) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> CrewControl::RButton -> Begin (CustomCrew.cpp)\n")
+
+    int _selectedRoom = selectedRoom;
+
+    super(x, y, shiftHeld);
+
+    if (selectedDoor == nullptr)
+    {
+        if (!selectedCrew.empty() && _selectedRoom != -1)
+        {
+            ShipManager* ship;
+            if (selectedPlayerShip)
+            {
+                ship = shipManager;
+            }
+            else
+            {
+                ship = combatControl->GetCurrentTarget();
+            }
+
+            std::vector<CrewMember*> teleportingCrew = {};
+            for (CrewMember *crew : selectedCrew)
+            {
+                CrewMember_Extend *ex = CM_EX(crew);
+                if (ex->IsController(false))
+                {
+                    if (!ex->customTele.teleporting || crew->crewAnim->anims[0][6].tracker.reverse)
+                    {
+                        ex->customTele.shipId = -1;
+                        if (ex->CanTeleportMove(crew->currentShipId != ship->iShipId))
+                        {
+                            if (crew->currentShipId != ship->iShipId || crew->iRoomId != _selectedRoom)
+                            {
+                                teleportingCrew.push_back(crew);
+                            }
+                            else
+                            {
+                                bool rooted;
+                                ex->CalculateStat(CrewStat::ROOTED, &rooted);
+                                if (rooted || ex->CalculateStat(CrewStat::MOVE_SPEED_MULTIPLIER) == 0.f)
+                                {
+                                    teleportingCrew.push_back(crew);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (!teleportingCrew.empty())
+            {
+                Room* room = ship->ship.vRoomList.at(_selectedRoom);
+                int roomSize = room->slots[false].size();
+                int tile = -1;
+                std::vector<bool> filledTeleSlots(roomSize);
+
+                if (CustomOptionsManager::GetInstance()->alternateCrewMovement.currentValue)
+                {
+                    int wX,wY;
+                    if (selectedPlayerShip)
+                    {
+                        wX = worldCurrentMouse.x;
+                        wY = worldCurrentMouse.y;
+                    }
+                    else
+                    {
+                        wX = x - combatControl->position.x - combatControl->targetPosition.x;
+                        wY = y - combatControl->position.y - combatControl->targetPosition.y;
+                    }
+
+                    tile = ((wX - room->rect.x) / 35 + (room->rect.w / 35) * ((wY - room->rect.y) / 35) );
+                    if (tile < 0 || tile >= roomSize)
+                    {
+                        tile = -1;
+                    }
+                }
+
+                CrewMember *oldTeleportingTileCrew = nullptr;
+                for (CrewMember *crew : G_->GetCrewFactory()->crewMembers)
+                {
+                    if (!crew->IsDead() && crew->iShipId == crew->bMindControlled)
+                    {
+                        CrewMember_Extend *ex = CM_EX(crew);
+                        if ((!ex->customTele.teleporting || crew->crewAnim->anims[0][6].tracker.reverse) && ex->customTele.shipId == ship->iShipId && ex->customTele.roomId == _selectedRoom && ex->customTele.slotId != -1)
+                        {
+                            if (ex->customTele.slotId == tile)
+                            {
+                                ex->customTele.slotId = -1;
+                                teleportingCrew.push_back(crew);
+                                oldTeleportingTileCrew = crew;
+                            }
+                            else
+                            {
+                                filledTeleSlots[ex->customTele.slotId] = true;
+                            }
+                        }
+                    }
+                }
+
+                for (CrewMember *crew : teleportingCrew)
+                {
+                    if (crew->currentShipId == ship->iShipId && _selectedRoom == crew->currentSlot.roomId && !filledTeleSlots[crew->currentSlot.slotId])
+                    {
+                        CrewMember_Extend *ex = CM_EX(crew);
+                        ex->customTele.shipId = ship->iShipId;
+                        ex->customTele.roomId = _selectedRoom;
+                        ex->customTele.slotId = crew->currentSlot.slotId;
+                        filledTeleSlots[crew->currentSlot.slotId] = true;
+                    }
+                }
+
+                std::vector<int> slotOrder = {};
+                if (tile != -1 && !filledTeleSlots[tile])
+                {
+                    slotOrder.push_back(tile);
+                    filledTeleSlots[tile] = true;
+                }
+                if (room->primarySlot != -1 && !filledTeleSlots[room->primarySlot])
+                {
+                    slotOrder.push_back(room->primarySlot);
+                    filledTeleSlots[room->primarySlot] = true;
+                }
+                for (int i=0; i<roomSize; ++i)
+                {
+                    if (!room->slots[ship->iShipId][i] && !filledTeleSlots[i])
+                    {
+                        slotOrder.push_back(i);
+                        filledTeleSlots[i] = true;
+                    }
+                }
+                for (int i=0; i<roomSize; ++i)
+                {
+                    if (!filledTeleSlots[i])
+                    {
+                        slotOrder.push_back(i);
+                    }
+                }
+
+                int i = 0;
+                for (CrewMember *crew : teleportingCrew)
+                {
+                    CrewMember_Extend *ex = CM_EX(crew);
+
+                    if (ex->customTele.shipId != -1) continue;
+
+                    tile = i >= slotOrder.size() ? -1 : slotOrder[i];
+
+                    ex->customTele.shipId = ship->iShipId;
+                    ex->customTele.roomId = _selectedRoom;
+                    ex->customTele.slotId = tile;
+                    i++;
+                }
+            }
+        }
+    }
+}
+
+// convenient spot for rendering crew teleports on enemy ship
+HOOK_METHOD(ShipManager, RenderChargeBars, () -> void)
+{
+    super();
+
+    for (CrewMember *crew : G_->GetCrewFactory()->crewMembers)
+    {
+        if (!crew->IsDead() && (crew->iShipId == 0 || crew->GetPowerOwner() == 0))
+        {
+            CrewMember_Extend *ex = CM_EX(crew);
+            if ((!ex->customTele.teleporting || crew->crewAnim->anims[0][6].tracker.reverse) && ex->customTele.shipId == iShipId && ex->customTele.roomId != -1)
+            {
+                ShipGraph *graph = ShipGraph::GetShipInfo(iShipId);
+                Point pos;
+                if (ex->customTele.slotId != -1)
+                {
+                    pos = graph->GetSlotWorldPosition(ex->customTele.slotId, ex->customTele.roomId);
+                }
+                else
+                {
+                    Pointf posf = graph->GetRoomCenter(ex->customTele.roomId);
+                    pos = {(int)posf.x, (int)posf.y};
+                }
+
+                std::string image = "misc/teleport_placed_send_small.png";
+
+                G_->GetResources()->RenderImageString(image, pos.x-17, pos.y-17, 0, COLOR_WHITE, 1.f, false);
+            }
+        }
+    }
+}
+
+HOOK_METHOD(CombatControl, OnRenderSelfAiming, () -> void)
+{
+    super();
+
+    for (CrewMember *crew : G_->GetCrewFactory()->crewMembers)
+    {
+        if (!crew->IsDead() && (crew->iShipId == 0 || crew->GetPowerOwner() == 0))
+        {
+            CrewMember_Extend *ex = CM_EX(crew);
+            if ((!ex->customTele.teleporting || crew->crewAnim->anims[0][6].tracker.reverse) && ex->customTele.shipId == 0 && ex->customTele.roomId != -1)
+            {
+                ShipGraph *graph = ShipGraph::GetShipInfo(0);
+                Point pos;
+                if (ex->customTele.slotId != -1)
+                {
+                    pos = graph->GetSlotWorldPosition(ex->customTele.slotId, ex->customTele.roomId);
+                }
+                else
+                {
+                    Pointf posf = graph->GetRoomCenter(ex->customTele.roomId);
+                    pos = {(int)posf.x, (int)posf.y};
+                }
+
+                std::string image = "misc/teleport_placed_send_small.png";
+
+                G_->GetResources()->RenderImageString(image, pos.x-17, pos.y-17, 0, COLOR_WHITE, 1.f, false);
+            }
+        }
+    }
+}
+
+HOOK_METHOD(ShipManager, GetLeavingCrew, (bool intruders) -> std::vector<CrewMember*>)
+{
+    std::vector<CrewMember*> ret;
+
+    for (CrewMember *crew : vCrewList)
+    {
+        if (crew->crewAnim->status == 6 && !crew->crewAnim->anims[0][6].tracker.reverse && crew->GetIntruder() == intruders)
+        {
+            CrewMember_Extend *ex = CM_EX(crew);
+
+            if (ex->customTele.shipId == -1) // not a custom teleport
+            {
+                ret.push_back(crew);
+            }
+        }
+    }
+
+    return ret;
 }

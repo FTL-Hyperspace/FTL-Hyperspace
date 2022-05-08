@@ -65,6 +65,8 @@ const std::array<std::string, numStats> crewStats =
     "noAI",
     "validTarget",
     "rooted",
+    "teleportMove",
+    "teleportMoveOtherShip",
     // non-cached stats
     "statBoost",
     "deathEffect",
@@ -1411,46 +1413,7 @@ bool CrewMember_Extend::CheckExtraCondition(CrewExtraCondition condition)
     case CrewExtraCondition::DYING:
         return orig->crewAnim->status == 3;
     case CrewExtraCondition::TELEPORTING:
-        if (orig->crewAnim->status == 6)
-        {
-            CompleteShip *ship = G_->GetWorld()->playerShip;
-            if (ship)
-            {
-                for (CrewMember *crew : ship->arrivingParty)
-                {
-                    if (crew == orig)
-                    {
-                        return true;
-                    }
-                }
-                for (CrewMember *crew : ship->leavingParty)
-                {
-                    if (crew == orig)
-                    {
-                        return true;
-                    }
-                }
-                ship = ship->enemyShip;
-                if (ship)
-                {
-                    for (CrewMember *crew : ship->arrivingParty)
-                    {
-                        if (crew == orig)
-                        {
-                            return true;
-                        }
-                    }
-                    for (CrewMember *crew : ship->leavingParty)
-                    {
-                        if (crew == orig)
-                        {
-                            return true;
-                        }
-                    }
-                }
-            }
-        }
-        return false;
+        return customTele.teleporting;
     }
     return false;
 }
@@ -1953,6 +1916,14 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
             break;
         case CrewStat::ROOTED:
             *boolValue = (temporaryPowerActive && GetPowerDef()->tempPower.rooted.enabled) ? GetPowerDef()->tempPower.rooted.value : def->rooted;
+            isBool = true;
+            break;
+        case CrewStat::TELEPORT_MOVE:
+            *boolValue = (temporaryPowerActive && GetPowerDef()->tempPower.teleportMove.enabled) ? GetPowerDef()->tempPower.teleportMove.value : def->teleportMove;
+            isBool = true;
+            break;
+        case CrewStat::TELEPORT_MOVE_OTHER_SHIP:
+            *boolValue = (temporaryPowerActive && GetPowerDef()->tempPower.teleportMoveOtherShip.enabled) ? GetPowerDef()->tempPower.teleportMoveOtherShip.value : def->teleportMoveOtherShip;
             isBool = true;
             break;
         case CrewStat::ACTIVATE_WHEN_READY:

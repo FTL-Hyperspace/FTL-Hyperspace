@@ -4846,13 +4846,6 @@ struct ShipGraph
 		return Pointf(xx, yy);
 	}
 	
-	// TODO: This looks like it was re-implemented because they were unsure at the time how to hook it, we can totally hook it now like we do for GetSlotRenderPosition
-	Point GetSlotWorldPosition(int slotId, int roomId)
-	{
-		Globals::Rect rect = rooms[roomId]->rect;
-		return Point(rect.x + 35 * (slotId % (rect.w / 35)) + 17, rect.y + 35 * (slotId / (rect.h / 35)) + 17);
-	}
-	
 
 	LIBZHL_API void ComputeCenter();
 	LIBZHL_API int ConnectedGridSquares(int x1, int y1, int x2, int y2);

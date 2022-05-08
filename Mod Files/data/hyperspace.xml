@@ -542,6 +542,8 @@ Syntax ->
 		<canSuffocate>true</canSuffocate>                                                If true, this crewmember will take damage in rooms with low oxygen.
 		<canBurn>true</canBurn>                                                          If true, this crewmember will take damage in rooms with fires.
 		<validTarget>true</validTarget>                                                  If false, this crewmember cannot be targeted by enemy crew.
+		<teleportMove>false</teleportMove>                                               Crew can move within the ship by teleporting.
+		<teleportMoveOtherShip>false</teleportMoveOtherShip>                             Crew can teleport to the other ship on their own (without the system). Right click with selected crew to teleport.
 		<maxHealth>100</maxHealth>                                                       Crewmember's maximum health.
 		<moveSpeedMultiplier>1.0</moveSpeedMultiplier>                                   Modifier for crew movement speed.
 		<repairSpeed>1.0</repairSpeed>                                                   Modifier for crew repair speed.

@@ -64,6 +64,8 @@ enum class CrewStat : unsigned int
     NO_AI,
     VALID_TARGET,
     ROOTED,
+    TELEPORT_MOVE,
+    TELEPORT_MOVE_OTHER_SHIP,
     // non-cached stats
     STAT_BOOST,
     DEATH_EFFECT,

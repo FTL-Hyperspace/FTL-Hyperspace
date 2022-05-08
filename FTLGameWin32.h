@@ -3780,6 +3780,7 @@ struct CombatControl
 	LIBZHL_API void OnInit(Point pos);
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void OnRenderCombat();
+	LIBZHL_API void OnRenderSelfAiming();
 	LIBZHL_API void RenderSelfAiming();
 	LIBZHL_API void RenderShipStatus(Pointf pos, GL_Color color);
 	LIBZHL_API void RenderTarget();
@@ -3877,6 +3878,7 @@ struct CrewControl
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void OnRender();
 	LIBZHL_API void RButton(int mX, int mY, bool shiftHeld);
+	LIBZHL_API void SelectCrew(bool keep_current);
 	LIBZHL_API void SelectPotentialCrew(CrewMember *crew, bool allowTeleportLeaving);
 	LIBZHL_API void UpdateCrewBoxes();
 	
@@ -4746,6 +4748,7 @@ struct Room : Selectable
 		return this->rect;
 	}
 
+	LIBZHL_API void FillSlot(int slot, bool intruder);
 	LIBZHL_API bool Full(bool intruder);
 	LIBZHL_API int GetEmptySlot(bool intruder);
 	LIBZHL_API int GetEmptySlots(bool intruder);
@@ -4864,13 +4867,6 @@ struct ShipGraph
 		return Pointf(xx, yy);
 	}
 	
-	// TODO: This looks like it was re-implemented because they were unsure at the time how to hook it, we can totally hook it now like we do for GetSlotRenderPosition
-	Point GetSlotWorldPosition(int slotId, int roomId)
-	{
-		Globals::Rect rect = rooms[roomId]->rect;
-		return Point(rect.x + 35 * (slotId % (rect.w / 35)) + 17, rect.y + 35 * (slotId / (rect.h / 35)) + 17);
-	}
-	
 
 	LIBZHL_API void ComputeCenter();
 	LIBZHL_API int ConnectedGridSquares(int x1, int y1, int x2, int y2);
@@ -4894,6 +4890,7 @@ struct ShipGraph
 	LIBZHL_API int GetSelectedRoom(int x, int y, bool unk);
 	LIBZHL_API static ShipGraph *__stdcall GetShipInfo(int shipId);
 	LIBZHL_API __int64 GetSlotRenderPosition_DO_NOT_USE_DIRECTLY(int slotId, int roomId, bool intruder);
+	LIBZHL_API Point GetSlotWorldPosition(int slotId, int roomId);
 	LIBZHL_API bool IsRoomConnected(int room1, int room2);
 	LIBZHL_API int PopClosestDoor(std::vector<int> &doors, std::vector<float> &distances);
 	LIBZHL_API int RoomCount();
@@ -6707,6 +6704,7 @@ struct ShipManager : ShipObject
 	}
 
 
+	LIBZHL_API void AddCrewMember(CrewMember *crew, int roomId);
 	LIBZHL_API CrewMember *AddCrewMemberFromBlueprint(CrewBlueprint *bp, int slot, bool init, int roomId, bool intruder);
 	LIBZHL_API CrewMember *AddCrewMemberFromString(const std::string &name, const std::string &race, char intruder, int roomId, char init, char male);
 	LIBZHL_API Drone *AddDrone(const DroneBlueprint *bp, int slot);
@@ -6746,6 +6744,7 @@ struct ShipManager : ShipObject
 	LIBZHL_API int GetDroneCount();
 	LIBZHL_API std::vector<Drone*> GetDroneList();
 	LIBZHL_API int GetFireCount(int roomId);
+	LIBZHL_API std::vector<CrewMember*> GetLeavingCrew(bool intruders);
 	LIBZHL_API int GetOxygenPercentage();
 	LIBZHL_API CrewMember *GetSelectedCrewPoint(int x, int y, bool intruder);
 	LIBZHL_API ShieldPower GetShieldPower();

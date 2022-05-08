@@ -144,6 +144,19 @@ public:
     std::string originalRace = "";
     std::string transformRace = "";
 
+    struct CustomTeleport
+    {
+        bool teleporting = false;
+        int shipId = -1;
+        int roomId;
+        int slotId;
+    };
+
+    CustomTeleport customTele;
+
+    void InitiateTeleport(int shipId, int roomId=-1, int slotId=-1);
+    bool CanTeleportMove(bool toOtherShip);
+
     void Initialize(CrewBlueprint& bp, int shipId, bool enemy, CrewAnimation *animation, bool isTransform = false);
     bool TransformRace(const std::string& newRace);
     static void TransformColors(CrewBlueprint& bp, CrewBlueprint *newBlueprint);
@@ -174,6 +187,8 @@ public:
     {
         return CalculateStat(stat, GetDefinition(), boolValue);
     }
+
+    bool IsController(bool ai);
 };
 
 CrewMember_Extend* Get_CrewMember_Extend(const CrewMember* c);

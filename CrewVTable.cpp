@@ -68,6 +68,42 @@ bool CrewMember::_HS_GetControllable()
     return ret;
 }
 
+bool CrewMember_Extend::IsController(bool ai)
+{
+    bool ret = !orig->bDead && orig->Functional();
+
+    if (ret)
+    {
+        ret = orig->iShipId == 0 && !orig->bMindControlled;
+
+        if (!ret && orig->iShipId == 1 && orig->bMindControlled)
+        {
+            ShipManager *ship = G_->GetShipManager(0);
+            if (ship) ret = ship->HasAugmentation("MIND_ORDER");
+        }
+    }
+
+    CrewDefinition *def = GetDefinition();
+
+    if (ret)
+    {
+        CalculateStat(CrewStat::CONTROLLABLE, def, &ret);
+    }
+
+    if (ai)
+    {
+        if (ret) return false;
+        CalculateStat(CrewStat::NO_AI, def, &ret);
+        return !ret;
+    }
+    else
+    {
+        return ret;
+    }
+
+    return ret;
+}
+
 bool CrewMember::_HS_CanSuffocate()
 {
     auto ex = CM_EX(this);

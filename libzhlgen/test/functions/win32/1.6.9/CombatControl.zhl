@@ -48,3 +48,5 @@ __thiscall void CombatControl::Clear(CombatControl *this);
 __thiscall bool CombatControl::MouseMove(CombatControl *this, int mX, int mY);
 "578d7c240883e4f0ff77fc5589e557565389cb83c11483ec1c8b378b7f04c681b80e000001c744240800000000897c2404893424":
 __thiscall void CombatControl::MouseClick(CombatControl *this, int mX, int mY, bool shift);
+"578d7c240883e4f0ff77fc5589e5575389cb83c11483ec30":
+__thiscall void CombatControl::OnRenderSelfAiming(CombatControl *this);
