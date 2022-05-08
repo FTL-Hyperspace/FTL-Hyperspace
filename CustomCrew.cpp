@@ -530,6 +530,14 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                         {
                             crew.snapToSlot = EventsParser::ParseBoolean(val);
                         }
+                        if (str == "teleportMove")
+                        {
+                            crew.teleportMove = EventsParser::ParseBoolean(val);
+                        }
+                        if (str == "teleportMoveOtherShip")
+                        {
+                            crew.teleportMoveOtherShip = EventsParser::ParseBoolean(val);
+                        }
                         if (str == "essential")
                         {
                             crew.essential = boost::lexical_cast<float>(val);
@@ -1147,6 +1155,14 @@ void CustomCrewManager::ParseAbilityEffect(rapidxml::xml_node<char>* stat, Activ
                 if (tempEffectName == "canMove")
                 {
                     def.tempPower.canMove = EventsParser::ParseBoolean(tempEffectNode->value());
+                }
+                if (tempEffectName == "teleportMove")
+                {
+                    def.tempPower.teleportMove = EventsParser::ParseBoolean(tempEffectNode->value());
+                }
+                if (tempEffectName == "teleportMoveOtherShip")
+                {
+                    def.tempPower.teleportMoveOtherShip = EventsParser::ParseBoolean(tempEffectNode->value());
                 }
             }
         }
