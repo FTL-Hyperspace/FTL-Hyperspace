@@ -6176,6 +6176,10 @@ bool CrewMember_Extend::CanTeleportMove(bool toOtherShip)
         ShipManager *enemyShip = G_->GetShipManager(powerOwner == 0 ? 1 : 0);
         if (enemyShip)
         {
+            if (enemyShip->systemKey[10] != -1)
+            {
+                if (enemyShip->cloakSystem->bTurnedOn) return false;
+            }
             if (enemyShip->GetShieldPower().super.first > 0)
             {
                 ShipManager *playerShip = G_->GetShipManager(powerOwner);
