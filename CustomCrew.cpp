@@ -6293,7 +6293,7 @@ HOOK_METHOD(CompleteShip, InitiateTeleport, (int targetRoom, int command) -> voi
 
             targetShip->AddCrewMember(crew, ex->customTele.roomId);
 
-            if (ex->customTele.slotId > -1 && crew->ship) // specific slot
+            if (crew->currentShipId == ex->customTele.shipId && ex->customTele.slotId > -1 && crew->ship) // specific slot
             {
                 if (crew->currentSlot.roomId == ex->customTele.roomId && crew->currentSlot.slotId != ex->customTele.slotId) // they got the right room ID but the wrong slot ID
                 {
@@ -6582,4 +6582,29 @@ HOOK_METHOD(ShipManager, GetLeavingCrew, (bool intruders) -> std::vector<CrewMem
     }
 
     return ret;
+}
+
+static bool addCrewFailed = false;
+HOOK_METHOD(ShipManager, AddCrewMember, (CrewMember *crew, int roomId) -> void)
+{
+    if (!addCrewFailed)
+    {
+        bool intruder = (iShipId == crew->iShipId) == crew->bMindControlled;
+        int availableRoom = ship.GetAvailableRoom(roomId, intruder);
+        if (availableRoom == -1 || ship.vRoomList[availableRoom]->Full(intruder)) // failsafe for no space
+        {
+            addCrewFailed = true;
+            ShipManager *otherShip = G_->GetShipManager(iShipId == 0 ? 1 : 0);
+            otherShip->AddCrewMember(crew, otherShip->GetSystemRoom(SYS_PILOT));
+            addCrewFailed = false;
+        }
+        else
+        {
+            super(crew, roomId);
+        }
+    }
+    else
+    {
+        super(crew, roomId);
+    }
 }
