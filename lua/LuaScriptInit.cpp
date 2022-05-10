@@ -30,7 +30,7 @@
     
 */
 
-std::string luaTest = "print(\"hello\")\nfunction helloCallback2()\n\tprint(\"Hello Number 2\")\nend\nfunction helloWorld()\n\tprint(\"!!!!!!Hello World!!!!!!\")\nend\nlog(\"LUA MESSAGE\")\nscript.on_load(helloWorld)\nscript.on_load(helloCallback2)\nscript.on_load(helloWorld)\n";
+std::string luaTest = "print(\"hello from SDLKey: \" .. Defines.SDLKey.UNDERSCORE)\nfunction helloCallback2()\n\tprint(\"Hello Number 2\")\nend\nfunction helloWorld()\n\tprint(\"!!!!!!Hello World!!!!!!\")\nend\nlog(\"LUA MESSAGE\")\nscript.on_load(helloWorld)\nscript.on_load(helloCallback2)\nscript.on_load(helloWorld)\n";
 
 void removeDangerousStuff(lua_State* lua)
 {
@@ -86,6 +86,7 @@ LuaScriptInit::LuaScriptInit()
     
     // TODO: Save in a variable/member field so that we can destroy this upon cleanup function
     this->m_libScript = new LuaLibScript(lua);
+    hs_l_define_register(lua);
     
 //    lua_newtable(lua);
 //    lua_setglobal(lua, "Script");

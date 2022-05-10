@@ -1,8 +1,8 @@
 #ifndef LUADEFINES_H_INCLUDED
 #define LUADEFINES_H_INCLUDED
 
-
-
+#include "luaInclude.h"
+#include "../FTLGame.h"
 
 /***
 @module Events
@@ -59,7 +59,7 @@ Probably a terrible idea for ***EVERYTHING EVER***, will probably remove or neve
 @remark Move to defines module
 @usage
 function MyCallback(key)
-    if key == SDLKey.DELETE then
+    if key == Defines.SDLKey.DELETE then
         print("Delete was pressed")
     end
 end
@@ -204,5 +204,8 @@ script.on_internal_event("CApp::OnKeyDown", MyCallback)
 @field z 7A
 @field LAST 143
 */
+void hs_l_define_sdlkey(lua_State* lua);
+
+void hs_l_define_register(lua_State* lua);
 
 #endif // LUADEFINES_H_INCLUDED
