@@ -64,7 +64,9 @@ HOOK_METHOD(AchievementTracker, LoadAchievementDescriptions, () -> void)
 HOOK_METHOD(ScoreKeeper, LoadGame, (int fh) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ScoreKeeper::LoadGame -> Begin (LuaLibScript.cpp)\n")
-    super();
+    super(fh);
+    // TODO: Probably need LoadGame, Opening the ship editor & game restart hooks to all call this
+    // TODO: Or maybe we can use StarMap::NewGame ?
     Global::GetInstance()->getLuaContext()->getLibScript()->call_on_init_callbacks();
 }
 
