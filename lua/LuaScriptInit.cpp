@@ -88,6 +88,8 @@ LuaScriptInit::LuaScriptInit()
     this->m_libScript = new LuaLibScript(lua);
     hs_l_define_register(lua);
     
+    // TODO: Create a metatable for `Ships` in global that accepts indexes like `Ships[1]` but actually loads the ShipManager for that ShipId!
+    
 //    lua_newtable(lua);
 //    lua_setglobal(lua, "Script");
 
