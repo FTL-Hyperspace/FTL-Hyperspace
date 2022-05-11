@@ -4,6 +4,7 @@
 #include "luaInclude.h"
 #include "luaDefines.h"
 #include "LuaLibScript.h"
+#include "objects/ScriptFPS.h"
 
 class LuaScriptInit
 {
@@ -29,6 +30,8 @@ class LuaScriptInit
     private:
         lua_State* m_Lua; //!< Member variable "m_Lua"
         LuaLibScript* m_libScript;
+        
+        //friend class LuaLibScript;
 };
 
 #endif // LUASCRIPTINIT_H
