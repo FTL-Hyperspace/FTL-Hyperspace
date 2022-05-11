@@ -67,6 +67,7 @@ HOOK_METHOD(ScoreKeeper, LoadGame, (int fh) -> void)
     super(fh);
     // TODO: Probably need LoadGame, Opening the ship editor & game restart hooks to all call this
     // TODO: Or maybe we can use StarMap::NewGame ?
+    // TODO: Or maybe WorldManager::StartGame or WorldManager::CreateNewGame?
     Global::GetInstance()->getLuaContext()->getLibScript()->call_on_init_callbacks();
 }
 
