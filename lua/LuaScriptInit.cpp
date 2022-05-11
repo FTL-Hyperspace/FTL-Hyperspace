@@ -30,7 +30,7 @@
     
 */
 
-std::string luaTest = "print(\"hello from CFPS SpeedFactor: \" .. FPS.SpeedFactor)\nFPS.toast = 1\nfunction helloCallback2()\n\tprint(\"Hello Number 2\")\nend\nfunction helloWorld()\n\tprint(\"!!!!!!Hello World!!!!!!\")\nend\nlog(\"LUA MESSAGE\")\nscript.on_load(helloWorld)\nscript.on_load(helloCallback2)\nscript.on_load(helloWorld)\n";
+std::string luaTest = "print(\"hello from CFPS SpeedFactor: \" .. Hyperspace.FPS.SpeedFactor)\nHyperspace.FPS.toast = 1\nfunction helloCallback2()\n\tprint(\"Hello Number 2\")\nend\nfunction helloWorld()\n\tprint(\"!!!!!!Hello World!!!!!!\")\nend\nlog(\"LUA MESSAGE\")\nscript.on_load(helloWorld)\nscript.on_load(helloCallback2)\nscript.on_load(helloWorld)\n";
 
 void removeDangerousStuff(lua_State* lua)
 {
@@ -83,11 +83,11 @@ LuaScriptInit::LuaScriptInit()
     // TODO: Figure out how to unload and/or replace certain library functions (like math.random!, threads! & other things unsafe for a single-threaded deterministic environment)
     
     hsluaglobal_register(lua);
-    
+    luaopen_Hyperspace(lua);
     // TODO: Save in a variable/member field so that we can destroy this upon cleanup function
     this->m_libScript = new LuaLibScript(lua);
     hs_l_define_register(lua);
-    new ScriptFPS(lua);
+    //new ScriptFPS(lua);
     
     // TODO: Create a metatable for `Ships` in global that accepts indexes like `Ships[1]` but actually loads the ShipManager for that ShipId!
     

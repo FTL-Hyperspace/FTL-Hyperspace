@@ -4,7 +4,11 @@
 #include "luaInclude.h"
 #include "luaDefines.h"
 #include "LuaLibScript.h"
-#include "objects/ScriptFPS.h"
+
+extern "C"
+{
+    int luaopen_Hyperspace(lua_State* L);
+}
 
 class LuaScriptInit
 {

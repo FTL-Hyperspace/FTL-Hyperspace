@@ -320,6 +320,7 @@
 					<Add directory="../FTL-Hyperspace" />
 					<Add directory="lua" />
 					<Add directory="lua/objects" />
+					<Add directory="/usr/include/lua5.3" />
 				</Compiler>
 				<Linker>
 					<Add option="-m32" />
@@ -367,6 +368,7 @@
 					<Add directory="../FTL-Hyperspace" />
 					<Add directory="lua" />
 					<Add directory="lua/objects" />
+					<Add directory="/usr/include/lua5.3" />
 				</Compiler>
 				<Linker>
 					<Add option="-m32" />
@@ -411,6 +413,7 @@
 					<Add directory="../FTL-Hyperspace" />
 					<Add directory="lua" />
 					<Add directory="lua/objects" />
+					<Add directory="/usr/include/lua5.3" />
 				</Compiler>
 				<Linker>
 					<Add option="-m32" />
@@ -457,6 +460,7 @@
 					<Add directory="../FTL-Hyperspace" />
 					<Add directory="lua" />
 					<Add directory="lua/objects" />
+					<Add directory="/usr/include/lua5.3" />
 				</Compiler>
 				<Linker>
 					<Add option="-m32" />
@@ -547,6 +551,7 @@
 					<Add directory="../FTL-Hyperspace" />
 					<Add directory="lua" />
 					<Add directory="lua/objects" />
+					<Add directory="/usr/include/lua5.3" />
 				</Compiler>
 				<Linker>
 					<Add option="-m64" />
@@ -594,6 +599,7 @@
 					<Add directory="../FTL-Hyperspace" />
 					<Add directory="lua" />
 					<Add directory="lua/objects" />
+					<Add directory="/usr/include/lua5.3" />
 				</Compiler>
 				<Linker>
 					<Add option="-m64" />
@@ -638,6 +644,7 @@
 					<Add directory="../FTL-Hyperspace" />
 					<Add directory="lua" />
 					<Add directory="lua/objects" />
+					<Add directory="/usr/include/lua5.3" />
 				</Compiler>
 				<Linker>
 					<Add option="-m64" />
@@ -684,6 +691,7 @@
 					<Add directory="../FTL-Hyperspace" />
 					<Add directory="lua" />
 					<Add directory="lua/objects" />
+					<Add directory="/usr/include/lua5.3" />
 				</Compiler>
 				<Linker>
 					<Add option="-m64" />
@@ -1237,6 +1245,7 @@
 		<Unit filename="detours.h">
 			<Option virtualFolder="ZHL/" />
 		</Unit>
+		<Unit filename="ftlgame_wrap.cxx" />
 		<Unit filename="hde.cpp">
 			<Option virtualFolder="ZHL/" />
 		</Unit>
@@ -1282,6 +1291,12 @@
 			<Option virtualFolder="Scripting/Objects/" />
 		</Unit>
 		<Unit filename="lua/objects/LuaWorld.h">
+			<Option virtualFolder="Scripting/Objects/" />
+		</Unit>
+		<Unit filename="lua/objects/ScriptFPS.cpp">
+			<Option virtualFolder="Scripting/Objects/" />
+		</Unit>
+		<Unit filename="lua/objects/ScriptFPS.h">
 			<Option virtualFolder="Scripting/Objects/" />
 		</Unit>
 		<Unit filename="main.cpp">
