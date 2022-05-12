@@ -43,7 +43,6 @@ struct CFPS
     @tparam int speedLevel
     This adjusts the game's simulation rate, a value of 0 is normal speed. Higher values will cause the game to speedup so that 1 in-game second is faster than 1 real-world second.
     the console `SPEED` command sets this value and the speed hotkey just toggles this between 0 and whatever value was set.
-    This is currently **read-only** but if there's a use case reach out to the hyperspace devs and we can make this settable.
     */
     int speedLevel;
 };
