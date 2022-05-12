@@ -2767,6 +2767,11 @@ SWIGINTERN int SWIG_lua_isnilstring(lua_State *L, int idx) {
 
 #include "Global.h"
 
+
+std::string hs_get_version() {
+    return Global::GetInstance()->GetVersionString();
+}
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -3158,6 +3163,23 @@ fail:
 }
 
 
+static int _wrap_version(lua_State* L) {
+  int SWIG_arg = 0;
+  std::string result;
+  
+  SWIG_check_num_args("hs_get_version",0,0)
+  result = hs_get_version();
+  lua_pushlstring(L,(&result)->data(),(&result)->size()); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
 static int _wrap_CFPS_RunningTime_get(lua_State* L) {
   int SWIG_arg = 0;
   CFPS *arg1 = (CFPS *) 0 ;
@@ -3407,6 +3429,7 @@ static swig_lua_method swig_SwigModule_methods[]= {
     { "getSkillBonus", _wrap_getSkillBonus},
     { "random32", _wrap_random32},
     { "srandom32", _wrap_srandom32},
+    { "version", _wrap_version},
     {0,0}
 };
 static swig_lua_class* swig_SwigModule_classes[]= {

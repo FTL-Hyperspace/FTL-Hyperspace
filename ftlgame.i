@@ -20,6 +20,13 @@ float getSkillBonus(int skill, int level);
 int random32();
 void srandom32(unsigned int seed);
 
+%rename("version") hs_get_version;
+%inline %{
+std::string hs_get_version() {
+    return Global::GetInstance()->GetVersionString();
+}
+%}
+
 %nodefaultctor;
 %nodefaultdtor;
 struct CFPS
