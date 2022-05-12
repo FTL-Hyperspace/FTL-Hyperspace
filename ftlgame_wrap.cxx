@@ -2711,9 +2711,10 @@ SWIG_Lua_dostring(lua_State *L, const char *str) {
 
 #define SWIGTYPE_p_CFPS swig_types[0]
 #define SWIGTYPE_p_ScoreKeeper swig_types[1]
-#define SWIGTYPE_p_std__string swig_types[2]
-static swig_type_info *swig_types[4];
-static swig_module_info swig_module = {swig_types, 3, 0, 0, 0, 0};
+#define SWIGTYPE_p_freetype__font_data swig_types[2]
+#define SWIGTYPE_p_std__string swig_types[3]
+static swig_type_info *swig_types[5];
+static swig_module_info swig_module = {swig_types, 4, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -3067,6 +3068,96 @@ fail:
 }
 
 
+static int _wrap_font_text_width(lua_State* L) {
+  int SWIG_arg = 0;
+  freetype::font_data *arg1 = 0 ;
+  char *arg2 = (char *) 0 ;
+  float arg3 ;
+  float result;
+  
+  SWIG_check_num_args("font_text_width",3,3)
+  if(!lua_isuserdata(L,1)) SWIG_fail_arg("font_text_width",1,"freetype::font_data &");
+  if(!SWIG_lua_isnilstring(L,2)) SWIG_fail_arg("font_text_width",2,"char const *");
+  if(!lua_isnumber(L,3)) SWIG_fail_arg("font_text_width",3,"float");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_freetype__font_data,0))){
+    SWIG_fail_ptr("font_text_width",1,SWIGTYPE_p_freetype__font_data);
+  }
+  
+  arg2 = (char *)lua_tostring(L, 2);
+  arg3 = (float)lua_tonumber(L, 3);
+  result = (float)font_text_width(*arg1,(char const *)arg2,arg3);
+  lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_getSkillBonus(lua_State* L) {
+  int SWIG_arg = 0;
+  int arg1 ;
+  int arg2 ;
+  float result;
+  
+  SWIG_check_num_args("getSkillBonus",2,2)
+  if(!lua_isnumber(L,1)) SWIG_fail_arg("getSkillBonus",1,"int");
+  if(!lua_isnumber(L,2)) SWIG_fail_arg("getSkillBonus",2,"int");
+  arg1 = (int)lua_tonumber(L, 1);
+  arg2 = (int)lua_tonumber(L, 2);
+  result = (float)getSkillBonus(arg1,arg2);
+  lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_random32(lua_State* L) {
+  int SWIG_arg = 0;
+  int result;
+  
+  SWIG_check_num_args("random32",0,0)
+  result = (int)random32();
+  lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_srandom32(lua_State* L) {
+  int SWIG_arg = 0;
+  unsigned int arg1 ;
+  
+  SWIG_check_num_args("srandom32",1,1)
+  if(!lua_isnumber(L,1)) SWIG_fail_arg("srandom32",1,"unsigned int");
+  SWIG_contract_assert((lua_tonumber(L,1)>=0),"number must not be negative")
+  arg1 = (unsigned int)lua_tonumber(L, 1);
+  srandom32(arg1);
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
 static int _wrap_CFPS_RunningTime_get(lua_State* L) {
   int SWIG_arg = 0;
   CFPS *arg1 = (CFPS *) 0 ;
@@ -3341,6 +3432,10 @@ static swig_lua_const_info swig_SwigModule_constants[]= {
     {0,0,0,0,0,0}
 };
 static swig_lua_method swig_SwigModule_methods[]= {
+    { "font_text_width", _wrap_font_text_width},
+    { "getSkillBonus", _wrap_getSkillBonus},
+    { "random32", _wrap_random32},
+    { "srandom32", _wrap_srandom32},
     {0,0}
 };
 static swig_lua_class* swig_SwigModule_classes[]= {
@@ -3368,21 +3463,25 @@ static swig_lua_namespace swig_SwigModule = {
 
 static swig_type_info _swigt__p_CFPS = {"_p_CFPS", "CFPS *", 0, 0, (void*)&_wrap_class_CFPS, 0};
 static swig_type_info _swigt__p_ScoreKeeper = {"_p_ScoreKeeper", "ScoreKeeper *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_freetype__font_data = {"_p_freetype__font_data", "freetype::font_data *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__string = {"_p_std__string", "std::string *", 0, 0, (void*)&_wrap_class_string, 0};
 
 static swig_type_info *swig_type_initial[] = {
   &_swigt__p_CFPS,
   &_swigt__p_ScoreKeeper,
+  &_swigt__p_freetype__font_data,
   &_swigt__p_std__string,
 };
 
 static swig_cast_info _swigc__p_CFPS[] = {  {&_swigt__p_CFPS, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_ScoreKeeper[] = {  {&_swigt__p_ScoreKeeper, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_freetype__font_data[] = {  {&_swigt__p_freetype__font_data, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__string[] = {  {&_swigt__p_std__string, 0, 0, 0},{0, 0, 0, 0}};
 
 static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_CFPS,
   _swigc__p_ScoreKeeper,
+  _swigc__p_freetype__font_data,
   _swigc__p_std__string,
 };
 
