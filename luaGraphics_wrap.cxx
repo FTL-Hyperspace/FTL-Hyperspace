@@ -4013,6 +4013,8 @@ static int _wrap_new_GL_Color__SWIG_0(lua_State* L) {
   arg2 = (float)lua_tonumber(L, 2);
   arg3 = (float)lua_tonumber(L, 3);
   arg4 = (float)lua_tonumber(L, 4);
+  SWIG_contract_assert((arg1>=0.0)&&(arg1<=1.0)&&(arg2>=0.0)&&(arg2<=1.0)&&(arg3>=0.0)&&(arg3<=1.0)&&(arg4>=0.0)&&(arg4<=1.0), "Contract violation: require: (arg1>=0.0)&&(arg1<=1.0)&&(arg2>=0.0)&&(arg2<=1.0)&&(arg3>=0.0)&&(arg3<=1.0)&&(arg4>=0.0)&&(arg4<=1.0)");
+  
   result = (GL_Color *)new GL_Color(arg1,arg2,arg3,arg4);
   SWIG_NewPointerObj(L,result,SWIGTYPE_p_GL_Color,1); SWIG_arg++; 
   return SWIG_arg;
@@ -4042,6 +4044,8 @@ static int _wrap_GL_Color_FromHSV(lua_State* L) {
   arg2 = (float)lua_tonumber(L, 2);
   arg3 = (float)lua_tonumber(L, 3);
   arg4 = (float)lua_tonumber(L, 4);
+  SWIG_contract_assert((arg1>=0.0)&&(arg1<=1.0)&&(arg2>=0.0)&&(arg2<=1.0)&&(arg3>=0.0)&&(arg3<=1.0)&&(arg4>=0.0)&&(arg4<=1.0), "Contract violation: require: (arg1>=0.0)&&(arg1<=1.0)&&(arg2>=0.0)&&(arg2<=1.0)&&(arg3>=0.0)&&(arg3<=1.0)&&(arg4>=0.0)&&(arg4<=1.0)");
+  
   result = GL_Color::FromHSV(arg1,arg2,arg3,arg4);
   {
     GL_Color * resultptr = new GL_Color((const GL_Color &) result);

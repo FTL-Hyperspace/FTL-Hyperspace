@@ -116,12 +116,33 @@ struct GL_Texture
 	float v_size_;
 };
 
+%contract GL_Color::GL_Color(float rr, float gg, float bb, float aa) {
+    require:
+        rr >= 0.0;
+        rr <= 1.0;
+        gg >= 0.0;
+        gg <= 1.0;
+        bb >= 0.0;
+        bb <= 1.0;
+        aa >= 0.0;
+        aa <= 1.0;
+}
+%contract GL_Color::FromHSV(float fH, float fS, float fV, float fA) {
+    require:
+        fH >= 0.0;
+        fH <= 1.0;
+        fS >= 0.0;
+        fS <= 1.0;
+        fV >= 0.0;
+        fV <= 1.0;
+        fA >= 0.0;
+        fA <= 1.0;
+}
 /***
 @type GL_Color
 */
 struct GL_Color
 {
-    // TODO: Good use case for the contract thingy from SWIG to ensure floats are within range!
     /***
     @function GL_Color
     @tparam float r Red value from 0 to 1
