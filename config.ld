@@ -6,8 +6,8 @@ description = [[
 format = "discount"
 not_luadoc = true
 readme = { 'lua/readme_docs' }
-add_language_extension('lc', 'c')
-file = { 'lua', exclude = { 'lua/linit.c', 'lua/LuaScriptInit.h', 'lua/builtin/io.lua', 'lua/builtin/debug.lua', 'lua/builtin/coroutine.lua', 'lua/builtin/lpeg.lua', 'lua/builtin/lfs.lua', 'lua/builtin/package.lua', 'lua/builtin/os.lua' }}
+add_language_extension('i', 'c')
+file = { 'lua', 'luaGraphics.i', exclude = { 'lua/linit.c', 'lua/LuaScriptInit.h', 'lua/builtin/io.lua', 'lua/builtin/debug.lua', 'lua/builtin/coroutine.lua', 'lua/builtin/lpeg.lua', 'lua/builtin/lfs.lua', 'lua/builtin/package.lua', 'lua/builtin/os.lua' }}
 use_markdown_titles = true
 new_type("globalDefine", "Globals", true)
 custom_tags={ {'removed', hidden = true }, {'remark', title = 'Remarks' } }

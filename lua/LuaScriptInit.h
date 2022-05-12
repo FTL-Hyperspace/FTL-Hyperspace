@@ -8,6 +8,7 @@
 extern "C"
 {
     int luaopen_Hyperspace(lua_State* L);
+    int luaopen_Graphics(lua_State* L);
 }
 
 class LuaScriptInit

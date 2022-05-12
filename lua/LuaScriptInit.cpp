@@ -84,6 +84,7 @@ LuaScriptInit::LuaScriptInit()
     
     hsluaglobal_register(lua);
     luaopen_Hyperspace(lua);
+    luaopen_Graphics(lua);
     // TODO: Save in a variable/member field so that we can destroy this upon cleanup function
     this->m_libScript = new LuaLibScript(lua);
     hs_l_define_register(lua);
