@@ -2709,12 +2709,137 @@ SWIG_Lua_dostring(lua_State *L, const char *str) {
 
 /* -------- TYPES TABLE (BEGIN) -------- */
 
-#define SWIGTYPE_p_CFPS swig_types[0]
-#define SWIGTYPE_p_ScoreKeeper swig_types[1]
-#define SWIGTYPE_p_freetype__font_data swig_types[2]
-#define SWIGTYPE_p_std__string swig_types[3]
-static swig_type_info *swig_types[5];
-static swig_module_info swig_module = {swig_types, 4, 0, 0, 0, 0};
+#define SWIGTYPE_p_AnimationTracker swig_types[0]
+#define SWIGTYPE_p_ArmamentBox swig_types[1]
+#define SWIGTYPE_p_ArmamentControl swig_types[2]
+#define SWIGTYPE_p_ArtilleryBox swig_types[3]
+#define SWIGTYPE_p_ArtillerySystem swig_types[4]
+#define SWIGTYPE_p_Asteroid swig_types[5]
+#define SWIGTYPE_p_AugmentBlueprint swig_types[6]
+#define SWIGTYPE_p_AugmentEquipBox swig_types[7]
+#define SWIGTYPE_p_AugmentStoreBox swig_types[8]
+#define SWIGTYPE_p_BatteryBox swig_types[9]
+#define SWIGTYPE_p_BatterySystem swig_types[10]
+#define SWIGTYPE_p_BattleDrone swig_types[11]
+#define SWIGTYPE_p_BeamWeapon swig_types[12]
+#define SWIGTYPE_p_Blueprint swig_types[13]
+#define SWIGTYPE_p_BoarderDrone swig_types[14]
+#define SWIGTYPE_p_BoarderPodDrone swig_types[15]
+#define SWIGTYPE_p_BombProjectile swig_types[16]
+#define SWIGTYPE_p_BossShip swig_types[17]
+#define SWIGTYPE_p_Button swig_types[18]
+#define SWIGTYPE_p_CApp swig_types[19]
+#define SWIGTYPE_p_CEvent swig_types[20]
+#define SWIGTYPE_p_CFPS swig_types[21]
+#define SWIGTYPE_p_CachedImage swig_types[22]
+#define SWIGTYPE_p_CachedPrimitive swig_types[23]
+#define SWIGTYPE_p_CachedRect swig_types[24]
+#define SWIGTYPE_p_CachedRectOutline swig_types[25]
+#define SWIGTYPE_p_ChoiceBox swig_types[26]
+#define SWIGTYPE_p_CloakingBox swig_types[27]
+#define SWIGTYPE_p_CloakingSystem swig_types[28]
+#define SWIGTYPE_p_CloneBox swig_types[29]
+#define SWIGTYPE_p_CloneSystem swig_types[30]
+#define SWIGTYPE_p_Collideable swig_types[31]
+#define SWIGTYPE_p_CombatDrone swig_types[32]
+#define SWIGTYPE_p_CompleteShip swig_types[33]
+#define SWIGTYPE_p_ConfirmWindow swig_types[34]
+#define SWIGTYPE_p_CooldownSystemBox swig_types[35]
+#define SWIGTYPE_p_CrewAnimation swig_types[36]
+#define SWIGTYPE_p_CrewBlueprint swig_types[37]
+#define SWIGTYPE_p_CrewCustomizeBox swig_types[38]
+#define SWIGTYPE_p_CrewDrone swig_types[39]
+#define SWIGTYPE_p_CrewEquipBox swig_types[40]
+#define SWIGTYPE_p_CrewLaser swig_types[41]
+#define SWIGTYPE_p_CrewManifest swig_types[42]
+#define SWIGTYPE_p_CrewMember swig_types[43]
+#define SWIGTYPE_p_CrewStoreBox swig_types[44]
+#define SWIGTYPE_p_CrewTarget swig_types[45]
+#define SWIGTYPE_p_CrystalAlien swig_types[46]
+#define SWIGTYPE_p_DefenseDrone swig_types[47]
+#define SWIGTYPE_p_DistressButton swig_types[48]
+#define SWIGTYPE_p_Door swig_types[49]
+#define SWIGTYPE_p_DoorBox swig_types[50]
+#define SWIGTYPE_p_Drone swig_types[51]
+#define SWIGTYPE_p_DroneBlueprint swig_types[52]
+#define SWIGTYPE_p_DroneControl swig_types[53]
+#define SWIGTYPE_p_DroneEquipBox swig_types[54]
+#define SWIGTYPE_p_DroneStoreBox swig_types[55]
+#define SWIGTYPE_p_DroneSystem swig_types[56]
+#define SWIGTYPE_p_Equipment swig_types[57]
+#define SWIGTYPE_p_EquipmentBox swig_types[58]
+#define SWIGTYPE_p_ExplosionAnimation swig_types[59]
+#define SWIGTYPE_p_FTLButton swig_types[60]
+#define SWIGTYPE_p_Fire swig_types[61]
+#define SWIGTYPE_p_FocusWindow swig_types[62]
+#define SWIGTYPE_p_GameOver swig_types[63]
+#define SWIGTYPE_p_GenericButton swig_types[64]
+#define SWIGTYPE_p_HackBox swig_types[65]
+#define SWIGTYPE_p_HackingDrone swig_types[66]
+#define SWIGTYPE_p_HackingSystem swig_types[67]
+#define SWIGTYPE_p_InputBox swig_types[68]
+#define SWIGTYPE_p_IonDrone swig_types[69]
+#define SWIGTYPE_p_IonDroneAnimation swig_types[70]
+#define SWIGTYPE_p_ItemBlueprint swig_types[71]
+#define SWIGTYPE_p_ItemStoreBox swig_types[72]
+#define SWIGTYPE_p_LanguageChooser swig_types[73]
+#define SWIGTYPE_p_LaserBlast swig_types[74]
+#define SWIGTYPE_p_MantisAnimation swig_types[75]
+#define SWIGTYPE_p_MenuScreen swig_types[76]
+#define SWIGTYPE_p_MindBox swig_types[77]
+#define SWIGTYPE_p_MindSystem swig_types[78]
+#define SWIGTYPE_p_Missile swig_types[79]
+#define SWIGTYPE_p_OptionsScreen swig_types[80]
+#define SWIGTYPE_p_OuterHull swig_types[81]
+#define SWIGTYPE_p_OxygenSystem swig_types[82]
+#define SWIGTYPE_p_PDSFire swig_types[83]
+#define SWIGTYPE_p_Projectile swig_types[84]
+#define SWIGTYPE_p_ProjectileFactory swig_types[85]
+#define SWIGTYPE_p_ReactorButton swig_types[86]
+#define SWIGTYPE_p_RepairAnimation swig_types[87]
+#define SWIGTYPE_p_RepairDrone swig_types[88]
+#define SWIGTYPE_p_RepairStoreBox swig_types[89]
+#define SWIGTYPE_p_Repairable swig_types[90]
+#define SWIGTYPE_p_RockAnimation swig_types[91]
+#define SWIGTYPE_p_Room swig_types[92]
+#define SWIGTYPE_p_ScoreKeeper swig_types[93]
+#define SWIGTYPE_p_Selectable swig_types[94]
+#define SWIGTYPE_p_Shields swig_types[95]
+#define SWIGTYPE_p_Ship swig_types[96]
+#define SWIGTYPE_p_ShipBlueprint swig_types[97]
+#define SWIGTYPE_p_ShipButton swig_types[98]
+#define SWIGTYPE_p_ShipManager swig_types[99]
+#define SWIGTYPE_p_ShipObject swig_types[100]
+#define SWIGTYPE_p_ShipSystem swig_types[101]
+#define SWIGTYPE_p_SpaceDrone swig_types[102]
+#define SWIGTYPE_p_Spreadable swig_types[103]
+#define SWIGTYPE_p_Spreader_Fire swig_types[104]
+#define SWIGTYPE_p_StarMap swig_types[105]
+#define SWIGTYPE_p_Store swig_types[106]
+#define SWIGTYPE_p_StoreBox swig_types[107]
+#define SWIGTYPE_p_SystemBlueprint swig_types[108]
+#define SWIGTYPE_p_SystemBox swig_types[109]
+#define SWIGTYPE_p_SystemCustomBox swig_types[110]
+#define SWIGTYPE_p_SystemStoreBox swig_types[111]
+#define SWIGTYPE_p_TabbedWindow swig_types[112]
+#define SWIGTYPE_p_TeleportBox swig_types[113]
+#define SWIGTYPE_p_TeleportSystem swig_types[114]
+#define SWIGTYPE_p_TextButton swig_types[115]
+#define SWIGTYPE_p_TextButton0 swig_types[116]
+#define SWIGTYPE_p_Upgrades swig_types[117]
+#define SWIGTYPE_p_WarningMessage swig_types[118]
+#define SWIGTYPE_p_WarningWithLines swig_types[119]
+#define SWIGTYPE_p_WeaponBlueprint swig_types[120]
+#define SWIGTYPE_p_WeaponBox swig_types[121]
+#define SWIGTYPE_p_WeaponControl swig_types[122]
+#define SWIGTYPE_p_WeaponEquipBox swig_types[123]
+#define SWIGTYPE_p_WeaponStoreBox swig_types[124]
+#define SWIGTYPE_p_WeaponSystem swig_types[125]
+#define SWIGTYPE_p_WeaponSystemBox swig_types[126]
+#define SWIGTYPE_p_freetype__font_data swig_types[127]
+#define SWIGTYPE_p_std__string swig_types[128]
+static swig_type_info *swig_types[130];
+static swig_module_info swig_module = {swig_types, 129, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -2986,10 +3111,6 @@ fail:
 }
 
 
-static void swig_delete_string(void *obj) {
-std::string *arg1 = (std::string *) obj;
-delete arg1;
-}
 static int _proxy__wrap_new_string(lua_State *L) {
     assert(lua_istable(L,1));
     lua_pushcfunction(L,_wrap_new_string);
@@ -3037,7 +3158,7 @@ static swig_lua_namespace swig_string_Sf_SwigStatic = {
 };
 static swig_lua_class *swig_string_bases[] = {0};
 static const char *swig_string_base_names[] = {0};
-static swig_lua_class _wrap_class_string = { "string", "string", &SWIGTYPE_p_std__string,_proxy__wrap_new_string, swig_delete_string, swig_string_methods, swig_string_attributes, &swig_string_Sf_SwigStatic, swig_string_meta, swig_string_bases, swig_string_base_names };
+static swig_lua_class _wrap_class_string = { "string", "string", &SWIGTYPE_p_std__string,_proxy__wrap_new_string,0, swig_string_methods, swig_string_attributes, &swig_string_Sf_SwigStatic, swig_string_meta, swig_string_bases, swig_string_base_names };
 
 static int _wrap_FPS_get(lua_State* L) {
   int SWIG_arg = 0;
@@ -3056,7 +3177,7 @@ fail:
 }
 
 
-static int _wrap_ScoreKeeper_get(lua_State* L) {
+static int _wrap_G_ScoreKeeper_get(lua_State* L) {
   int SWIG_arg = 0;
   ScoreKeeper *result = 0 ;
   
@@ -3418,7 +3539,7 @@ static swig_lua_class _wrap_class_CFPS = { "CFPS", "CFPS", &SWIGTYPE_p_CFPS,0,0,
 
 static swig_lua_attribute swig_SwigModule_attributes[] = {
     { "FPS", _wrap_FPS_get, SWIG_Lua_set_immutable },
-    { "ScoreKeeper", _wrap_ScoreKeeper_get, SWIG_Lua_set_immutable },
+    { "G_ScoreKeeper", _wrap_G_ScoreKeeper_get, SWIG_Lua_set_immutable },
     {0,0,0}
 };
 static swig_lua_const_info swig_SwigModule_constants[]= {
@@ -3455,26 +3576,937 @@ static swig_lua_namespace swig_SwigModule = {
 
 /* -------- TYPE CONVERSION AND EQUIVALENCE RULES (BEGIN) -------- */
 
+static void *_p_CAppTo_p_CEvent(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((CEvent *)  ((CApp *) x));
+}
+static void *_p_BoarderPodDroneTo_p_SpaceDrone(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((SpaceDrone *)  ((BoarderPodDrone *) x));
+}
+static void *_p_HackingDroneTo_p_SpaceDrone(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((SpaceDrone *)  ((HackingDrone *) x));
+}
+static void *_p_DefenseDroneTo_p_SpaceDrone(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((SpaceDrone *)  ((DefenseDrone *) x));
+}
+static void *_p_CombatDroneTo_p_SpaceDrone(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((SpaceDrone *)  ((CombatDrone *) x));
+}
+static void *_p_IonDroneTo_p_BoarderDrone(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((BoarderDrone *)  ((IonDrone *) x));
+}
+static void *_p_WarningWithLinesTo_p_WarningMessage(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((WarningMessage *)  ((WarningWithLines *) x));
+}
+static void *_p_ButtonTo_p_GenericButton(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((GenericButton *)  ((Button *) x));
+}
+static void *_p_TextButtonTo_p_GenericButton(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((GenericButton *)  ((TextButton *) x));
+}
+static void *_p_FTLButtonTo_p_GenericButton(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((GenericButton *) (TextButton0 *) ((FTLButton *) x));
+}
+static void *_p_ReactorButtonTo_p_GenericButton(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((GenericButton *) (Button *) ((ReactorButton *) x));
+}
+static void *_p_ShipButtonTo_p_GenericButton(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((GenericButton *) (Button *) ((ShipButton *) x));
+}
+static void *_p_TextButton0To_p_GenericButton(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((GenericButton *)  ((TextButton0 *) x));
+}
+static void *_p_DistressButtonTo_p_GenericButton(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((GenericButton *) (TextButton *) ((DistressButton *) x));
+}
+static void *_p_SpreadableTo_p_Repairable(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((Repairable *)  ((Spreadable *) x));
+}
+static void *_p_FireTo_p_Repairable(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((Repairable *) (Spreadable *) ((Fire *) x));
+}
+static void *_p_OuterHullTo_p_Repairable(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((Repairable *)  ((OuterHull *) x));
+}
+static void *_p_BoarderPodDroneTo_p_Drone(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((Drone *) (SpaceDrone *) ((BoarderPodDrone *) x));
+}
+static void *_p_HackingDroneTo_p_Drone(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((Drone *) (SpaceDrone *) ((HackingDrone *) x));
+}
+static void *_p_SpaceDroneTo_p_Drone(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((Drone *)  ((SpaceDrone *) x));
+}
+static void *_p_DefenseDroneTo_p_Drone(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((Drone *) (SpaceDrone *) ((DefenseDrone *) x));
+}
+static void *_p_CombatDroneTo_p_Drone(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((Drone *) (SpaceDrone *) ((CombatDrone *) x));
+}
+static void *_p_DroneControlTo_p_ArmamentControl(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((ArmamentControl *)  ((DroneControl *) x));
+}
+static void *_p_WeaponControlTo_p_ArmamentControl(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((ArmamentControl *)  ((WeaponControl *) x));
+}
+static void *_p_ShieldsTo_p_ShipSystem(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((ShipSystem *)  ((Shields *) x));
+}
+static void *_p_MindSystemTo_p_ShipSystem(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((ShipSystem *)  ((MindSystem *) x));
+}
+static void *_p_OxygenSystemTo_p_ShipSystem(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((ShipSystem *)  ((OxygenSystem *) x));
+}
+static void *_p_TeleportSystemTo_p_ShipSystem(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((ShipSystem *)  ((TeleportSystem *) x));
+}
+static void *_p_WeaponSystemTo_p_ShipSystem(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((ShipSystem *)  ((WeaponSystem *) x));
+}
+static void *_p_ArtillerySystemTo_p_ShipSystem(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((ShipSystem *)  ((ArtillerySystem *) x));
+}
+static void *_p_BatterySystemTo_p_ShipSystem(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((ShipSystem *)  ((BatterySystem *) x));
+}
+static void *_p_CloakingSystemTo_p_ShipSystem(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((ShipSystem *)  ((CloakingSystem *) x));
+}
+static void *_p_CloneSystemTo_p_ShipSystem(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((ShipSystem *)  ((CloneSystem *) x));
+}
+static void *_p_DroneSystemTo_p_ShipSystem(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((ShipSystem *)  ((DroneSystem *) x));
+}
+static void *_p_HackingSystemTo_p_ShipSystem(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((ShipSystem *)  ((HackingSystem *) x));
+}
+static void *_p_FireTo_p_Spreadable(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((Spreadable *)  ((Fire *) x));
+}
+static void *_p_Spreader_FireTo_p_ShipObject(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((ShipObject *)  ((Spreader_Fire *) x));
+}
+static void *_p_ShipManagerTo_p_ShipObject(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((ShipObject *)  ((ShipManager *) x));
+}
+static void *_p_ShipTo_p_ShipObject(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((ShipObject *)  ((Ship *) x));
+}
+static void *_p_ProjectileFactoryTo_p_ShipObject(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((ShipObject *)  ((ProjectileFactory *) x));
+}
+static void *_p_CrewCustomizeBoxTo_p_CrewEquipBox(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((CrewEquipBox *)  ((CrewCustomizeBox *) x));
+}
+static void *_p_PDSFireTo_p_Projectile(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((Projectile *) (LaserBlast *) ((PDSFire *) x));
+}
+static void *_p_LaserBlastTo_p_Projectile(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((Projectile *)  ((LaserBlast *) x));
+}
+static void *_p_BeamWeaponTo_p_Projectile(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((Projectile *)  ((BeamWeapon *) x));
+}
+static void *_p_AsteroidTo_p_Projectile(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((Projectile *)  ((Asteroid *) x));
+}
+static void *_p_CrewLaserTo_p_Projectile(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((Projectile *)  ((CrewLaser *) x));
+}
+static void *_p_BombProjectileTo_p_Projectile(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((Projectile *)  ((BombProjectile *) x));
+}
+static void *_p_MissileTo_p_Projectile(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((Projectile *)  ((Missile *) x));
+}
+static void *_p_CloneBoxTo_p_SystemBox(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((SystemBox *) (CooldownSystemBox *) ((CloneBox *) x));
+}
+static void *_p_MindBoxTo_p_SystemBox(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((SystemBox *) (CooldownSystemBox *) ((MindBox *) x));
+}
+static void *_p_SystemCustomBoxTo_p_SystemBox(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((SystemBox *)  ((SystemCustomBox *) x));
+}
+static void *_p_CooldownSystemBoxTo_p_SystemBox(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((SystemBox *)  ((CooldownSystemBox *) x));
+}
+static void *_p_ArtilleryBoxTo_p_SystemBox(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((SystemBox *) (CooldownSystemBox *) ((ArtilleryBox *) x));
+}
+static void *_p_BatteryBoxTo_p_SystemBox(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((SystemBox *) (CooldownSystemBox *) ((BatteryBox *) x));
+}
+static void *_p_WeaponSystemBoxTo_p_SystemBox(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((SystemBox *)  ((WeaponSystemBox *) x));
+}
+static void *_p_CloakingBoxTo_p_SystemBox(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((SystemBox *) (CooldownSystemBox *) ((CloakingBox *) x));
+}
+static void *_p_DoorBoxTo_p_SystemBox(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((SystemBox *)  ((DoorBox *) x));
+}
+static void *_p_TeleportBoxTo_p_SystemBox(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((SystemBox *)  ((TeleportBox *) x));
+}
+static void *_p_HackBoxTo_p_SystemBox(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((SystemBox *) (CooldownSystemBox *) ((HackBox *) x));
+}
+static void *_p_CloneBoxTo_p_CooldownSystemBox(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((CooldownSystemBox *)  ((CloneBox *) x));
+}
+static void *_p_MindBoxTo_p_CooldownSystemBox(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((CooldownSystemBox *)  ((MindBox *) x));
+}
+static void *_p_ArtilleryBoxTo_p_CooldownSystemBox(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((CooldownSystemBox *)  ((ArtilleryBox *) x));
+}
+static void *_p_BatteryBoxTo_p_CooldownSystemBox(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((CooldownSystemBox *)  ((BatteryBox *) x));
+}
+static void *_p_CloakingBoxTo_p_CooldownSystemBox(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((CooldownSystemBox *)  ((CloakingBox *) x));
+}
+static void *_p_HackBoxTo_p_CooldownSystemBox(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((CooldownSystemBox *)  ((HackBox *) x));
+}
+static void *_p_CachedRectOutlineTo_p_CachedPrimitive(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((CachedPrimitive *)  ((CachedRectOutline *) x));
+}
+static void *_p_CachedImageTo_p_CachedPrimitive(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((CachedPrimitive *)  ((CachedImage *) x));
+}
+static void *_p_CachedRectTo_p_CachedPrimitive(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((CachedPrimitive *)  ((CachedRect *) x));
+}
+static void *_p_ChoiceBoxTo_p_FocusWindow(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((FocusWindow *)  ((ChoiceBox *) x));
+}
+static void *_p_TabbedWindowTo_p_FocusWindow(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((FocusWindow *)  ((TabbedWindow *) x));
+}
+static void *_p_StoreTo_p_FocusWindow(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((FocusWindow *)  ((Store *) x));
+}
+static void *_p_LanguageChooserTo_p_FocusWindow(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((FocusWindow *)  ((LanguageChooser *) x));
+}
+static void *_p_ConfirmWindowTo_p_FocusWindow(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((FocusWindow *)  ((ConfirmWindow *) x));
+}
+static void *_p_EquipmentTo_p_FocusWindow(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((FocusWindow *)  ((Equipment *) x));
+}
+static void *_p_GameOverTo_p_FocusWindow(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((FocusWindow *)  ((GameOver *) x));
+}
+static void *_p_InputBoxTo_p_FocusWindow(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((FocusWindow *)  ((InputBox *) x));
+}
+static void *_p_OptionsScreenTo_p_FocusWindow(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((FocusWindow *) (ChoiceBox *) ((OptionsScreen *) x));
+}
+static void *_p_CrewManifestTo_p_FocusWindow(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((FocusWindow *)  ((CrewManifest *) x));
+}
+static void *_p_MenuScreenTo_p_FocusWindow(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((FocusWindow *)  ((MenuScreen *) x));
+}
+static void *_p_UpgradesTo_p_FocusWindow(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((FocusWindow *)  ((Upgrades *) x));
+}
+static void *_p_StarMapTo_p_FocusWindow(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((FocusWindow *)  ((StarMap *) x));
+}
+static void *_p_DoorTo_p_CrewTarget(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((CrewTarget *)  ((Door *) x));
+}
+static void *_p_IonDroneAnimationTo_p_CrewAnimation(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((CrewAnimation *)  ((IonDroneAnimation *) x));
+}
+static void *_p_MantisAnimationTo_p_CrewAnimation(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((CrewAnimation *)  ((MantisAnimation *) x));
+}
+static void *_p_RepairAnimationTo_p_CrewAnimation(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((CrewAnimation *)  ((RepairAnimation *) x));
+}
+static void *_p_RockAnimationTo_p_CrewAnimation(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((CrewAnimation *)  ((RockAnimation *) x));
+}
+static void *_p_BossShipTo_p_CompleteShip(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((CompleteShip *)  ((BossShip *) x));
+}
+static void *_p_FTLButtonTo_p_TextButton0(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((TextButton0 *)  ((FTLButton *) x));
+}
+static void *_p_AugmentBlueprintTo_p_Blueprint(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((Blueprint *)  ((AugmentBlueprint *) x));
+}
+static void *_p_CrewBlueprintTo_p_Blueprint(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((Blueprint *)  ((CrewBlueprint *) x));
+}
+static void *_p_DroneBlueprintTo_p_Blueprint(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((Blueprint *)  ((DroneBlueprint *) x));
+}
+static void *_p_ItemBlueprintTo_p_Blueprint(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((Blueprint *)  ((ItemBlueprint *) x));
+}
+static void *_p_ShipBlueprintTo_p_Blueprint(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((Blueprint *)  ((ShipBlueprint *) x));
+}
+static void *_p_SystemBlueprintTo_p_Blueprint(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((Blueprint *)  ((SystemBlueprint *) x));
+}
+static void *_p_WeaponBlueprintTo_p_Blueprint(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((Blueprint *)  ((WeaponBlueprint *) x));
+}
+static void *_p_AugmentStoreBoxTo_p_StoreBox(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((StoreBox *)  ((AugmentStoreBox *) x));
+}
+static void *_p_CrewStoreBoxTo_p_StoreBox(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((StoreBox *)  ((CrewStoreBox *) x));
+}
+static void *_p_DroneStoreBoxTo_p_StoreBox(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((StoreBox *)  ((DroneStoreBox *) x));
+}
+static void *_p_ItemStoreBoxTo_p_StoreBox(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((StoreBox *)  ((ItemStoreBox *) x));
+}
+static void *_p_RepairStoreBoxTo_p_StoreBox(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((StoreBox *)  ((RepairStoreBox *) x));
+}
+static void *_p_SystemStoreBoxTo_p_StoreBox(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((StoreBox *)  ((SystemStoreBox *) x));
+}
+static void *_p_WeaponStoreBoxTo_p_StoreBox(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((StoreBox *)  ((WeaponStoreBox *) x));
+}
+static void *_p_RoomTo_p_Selectable(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((Selectable *)  ((Room *) x));
+}
+static void *_p_SpreadableTo_p_Selectable(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((Selectable *) (Repairable *) ((Spreadable *) x));
+}
+static void *_p_FireTo_p_Selectable(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((Selectable *) (Repairable *)(Spreadable *) ((Fire *) x));
+}
+static void *_p_OuterHullTo_p_Selectable(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((Selectable *) (Repairable *) ((OuterHull *) x));
+}
+static void *_p_RepairableTo_p_Selectable(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((Selectable *)  ((Repairable *) x));
+}
+static void *_p_WeaponBoxTo_p_ArmamentBox(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((ArmamentBox *)  ((WeaponBox *) x));
+}
+static void *_p_CrewCustomizeBoxTo_p_EquipmentBox(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((EquipmentBox *) (CrewEquipBox *) ((CrewCustomizeBox *) x));
+}
+static void *_p_AugmentEquipBoxTo_p_EquipmentBox(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((EquipmentBox *)  ((AugmentEquipBox *) x));
+}
+static void *_p_CrewEquipBoxTo_p_EquipmentBox(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((EquipmentBox *)  ((CrewEquipBox *) x));
+}
+static void *_p_DroneEquipBoxTo_p_EquipmentBox(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((EquipmentBox *)  ((DroneEquipBox *) x));
+}
+static void *_p_WeaponEquipBoxTo_p_EquipmentBox(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((EquipmentBox *)  ((WeaponEquipBox *) x));
+}
+static void *_p_OptionsScreenTo_p_ChoiceBox(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((ChoiceBox *)  ((OptionsScreen *) x));
+}
+static void *_p_IonDroneTo_p_CrewMember(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((CrewMember *) (CrewDrone *)(BoarderDrone *) ((IonDrone *) x));
+}
+static void *_p_BoarderDroneTo_p_CrewMember(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((CrewMember *) (CrewDrone *) ((BoarderDrone *) x));
+}
+static void *_p_RepairDroneTo_p_CrewMember(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((CrewMember *) (CrewDrone *) ((RepairDrone *) x));
+}
+static void *_p_CrystalAlienTo_p_CrewMember(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((CrewMember *)  ((CrystalAlien *) x));
+}
+static void *_p_CrewDroneTo_p_CrewMember(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((CrewMember *)  ((CrewDrone *) x));
+}
+static void *_p_BattleDroneTo_p_CrewMember(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((CrewMember *) (CrewDrone *) ((BattleDrone *) x));
+}
+static void *_p_ExplosionAnimationTo_p_AnimationTracker(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((AnimationTracker *)  ((ExplosionAnimation *) x));
+}
+static void *_p_IonDroneTo_p_CrewDrone(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((CrewDrone *) (BoarderDrone *) ((IonDrone *) x));
+}
+static void *_p_BoarderDroneTo_p_CrewDrone(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((CrewDrone *)  ((BoarderDrone *) x));
+}
+static void *_p_RepairDroneTo_p_CrewDrone(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((CrewDrone *)  ((RepairDrone *) x));
+}
+static void *_p_BattleDroneTo_p_CrewDrone(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((CrewDrone *)  ((BattleDrone *) x));
+}
+static void *_p_PDSFireTo_p_LaserBlast(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((LaserBlast *)  ((PDSFire *) x));
+}
+static void *_p_DistressButtonTo_p_TextButton(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((TextButton *)  ((DistressButton *) x));
+}
+static void *_p_ReactorButtonTo_p_Button(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((Button *)  ((ReactorButton *) x));
+}
+static void *_p_ShipButtonTo_p_Button(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((Button *)  ((ShipButton *) x));
+}
+static void *_p_PDSFireTo_p_Collideable(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((Collideable *) (Projectile *)(LaserBlast *) ((PDSFire *) x));
+}
+static void *_p_LaserBlastTo_p_Collideable(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((Collideable *) (Projectile *) ((LaserBlast *) x));
+}
+static void *_p_BeamWeaponTo_p_Collideable(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((Collideable *) (Projectile *) ((BeamWeapon *) x));
+}
+static void *_p_AsteroidTo_p_Collideable(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((Collideable *) (Projectile *) ((Asteroid *) x));
+}
+static void *_p_CrewLaserTo_p_Collideable(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((Collideable *) (Projectile *) ((CrewLaser *) x));
+}
+static void *_p_ProjectileTo_p_Collideable(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((Collideable *)  ((Projectile *) x));
+}
+static void *_p_BombProjectileTo_p_Collideable(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((Collideable *) (Projectile *) ((BombProjectile *) x));
+}
+static void *_p_MissileTo_p_Collideable(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((Collideable *) (Projectile *) ((Missile *) x));
+}
+static swig_type_info _swigt__p_AnimationTracker = {"_p_AnimationTracker", "AnimationTracker *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_ExplosionAnimation = {"_p_ExplosionAnimation", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_ArmamentBox = {"_p_ArmamentBox", "ArmamentBox *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_WeaponBox = {"_p_WeaponBox", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_ArmamentControl = {"_p_ArmamentControl", "ArmamentControl *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_DroneControl = {"_p_DroneControl", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_WeaponControl = {"_p_WeaponControl", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_Blueprint = {"_p_Blueprint", "Blueprint *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_AugmentBlueprint = {"_p_AugmentBlueprint", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_CrewBlueprint = {"_p_CrewBlueprint", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_DroneBlueprint = {"_p_DroneBlueprint", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_ItemBlueprint = {"_p_ItemBlueprint", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_ShipBlueprint = {"_p_ShipBlueprint", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_SystemBlueprint = {"_p_SystemBlueprint", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_WeaponBlueprint = {"_p_WeaponBlueprint", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_BoarderDrone = {"_p_BoarderDrone", "BoarderDrone *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_IonDrone = {"_p_IonDrone", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_Button = {"_p_Button", "Button *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_ReactorButton = {"_p_ReactorButton", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_ShipButton = {"_p_ShipButton", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_CEvent = {"_p_CEvent", "CEvent *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_CApp = {"_p_CApp", 0, 0, 0, 0, 0};
 static swig_type_info _swigt__p_CFPS = {"_p_CFPS", "CFPS *", 0, 0, (void*)&_wrap_class_CFPS, 0};
+static swig_type_info _swigt__p_CachedPrimitive = {"_p_CachedPrimitive", "CachedPrimitive *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_CachedRectOutline = {"_p_CachedRectOutline", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_CachedImage = {"_p_CachedImage", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_CachedRect = {"_p_CachedRect", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_ChoiceBox = {"_p_ChoiceBox", "ChoiceBox *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_OptionsScreen = {"_p_OptionsScreen", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_Collideable = {"_p_Collideable", "Collideable *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_PDSFire = {"_p_PDSFire", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_BeamWeapon = {"_p_BeamWeapon", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_Asteroid = {"_p_Asteroid", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_CrewLaser = {"_p_CrewLaser", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_BombProjectile = {"_p_BombProjectile", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_Missile = {"_p_Missile", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_CompleteShip = {"_p_CompleteShip", "CompleteShip *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_BossShip = {"_p_BossShip", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_CooldownSystemBox = {"_p_CooldownSystemBox", "CooldownSystemBox *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_CloneBox = {"_p_CloneBox", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_MindBox = {"_p_MindBox", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_ArtilleryBox = {"_p_ArtilleryBox", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_BatteryBox = {"_p_BatteryBox", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_CloakingBox = {"_p_CloakingBox", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_HackBox = {"_p_HackBox", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_CrewAnimation = {"_p_CrewAnimation", "CrewAnimation *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_IonDroneAnimation = {"_p_IonDroneAnimation", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_MantisAnimation = {"_p_MantisAnimation", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_RepairAnimation = {"_p_RepairAnimation", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_RockAnimation = {"_p_RockAnimation", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_CrewDrone = {"_p_CrewDrone", "CrewDrone *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_RepairDrone = {"_p_RepairDrone", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_BattleDrone = {"_p_BattleDrone", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_CrewEquipBox = {"_p_CrewEquipBox", "CrewEquipBox *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_CrewCustomizeBox = {"_p_CrewCustomizeBox", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_CrewMember = {"_p_CrewMember", "CrewMember *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_CrystalAlien = {"_p_CrystalAlien", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_CrewTarget = {"_p_CrewTarget", "CrewTarget *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_Door = {"_p_Door", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_Drone = {"_p_Drone", "Drone *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_BoarderPodDrone = {"_p_BoarderPodDrone", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_HackingDrone = {"_p_HackingDrone", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_DefenseDrone = {"_p_DefenseDrone", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_CombatDrone = {"_p_CombatDrone", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_EquipmentBox = {"_p_EquipmentBox", "EquipmentBox *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_AugmentEquipBox = {"_p_AugmentEquipBox", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_DroneEquipBox = {"_p_DroneEquipBox", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_WeaponEquipBox = {"_p_WeaponEquipBox", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_FocusWindow = {"_p_FocusWindow", "FocusWindow *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_ConfirmWindow = {"_p_ConfirmWindow", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_GameOver = {"_p_GameOver", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_LanguageChooser = {"_p_LanguageChooser", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_TabbedWindow = {"_p_TabbedWindow", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_StarMap = {"_p_StarMap", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_CrewManifest = {"_p_CrewManifest", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_Upgrades = {"_p_Upgrades", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_InputBox = {"_p_InputBox", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_Equipment = {"_p_Equipment", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_Store = {"_p_Store", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_MenuScreen = {"_p_MenuScreen", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_GenericButton = {"_p_GenericButton", "GenericButton *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_FTLButton = {"_p_FTLButton", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_DistressButton = {"_p_DistressButton", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_LaserBlast = {"_p_LaserBlast", "LaserBlast *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_Projectile = {"_p_Projectile", "Projectile *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_Repairable = {"_p_Repairable", "Repairable *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_Fire = {"_p_Fire", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_OuterHull = {"_p_OuterHull", 0, 0, 0, 0, 0};
 static swig_type_info _swigt__p_ScoreKeeper = {"_p_ScoreKeeper", "ScoreKeeper *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_Selectable = {"_p_Selectable", "Selectable *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_Room = {"_p_Room", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_ShipObject = {"_p_ShipObject", "ShipObject *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_Spreader_Fire = {"_p_Spreader_Fire", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_ShipManager = {"_p_ShipManager", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_Ship = {"_p_Ship", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_ProjectileFactory = {"_p_ProjectileFactory", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_ShipSystem = {"_p_ShipSystem", "ShipSystem *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_Shields = {"_p_Shields", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_MindSystem = {"_p_MindSystem", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_OxygenSystem = {"_p_OxygenSystem", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_TeleportSystem = {"_p_TeleportSystem", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_WeaponSystem = {"_p_WeaponSystem", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_ArtillerySystem = {"_p_ArtillerySystem", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_BatterySystem = {"_p_BatterySystem", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_CloakingSystem = {"_p_CloakingSystem", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_CloneSystem = {"_p_CloneSystem", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_DroneSystem = {"_p_DroneSystem", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_HackingSystem = {"_p_HackingSystem", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_SpaceDrone = {"_p_SpaceDrone", "SpaceDrone *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_Spreadable = {"_p_Spreadable", "Spreadable *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_StoreBox = {"_p_StoreBox", "StoreBox *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_AugmentStoreBox = {"_p_AugmentStoreBox", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_CrewStoreBox = {"_p_CrewStoreBox", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_DroneStoreBox = {"_p_DroneStoreBox", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_ItemStoreBox = {"_p_ItemStoreBox", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_RepairStoreBox = {"_p_RepairStoreBox", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_SystemStoreBox = {"_p_SystemStoreBox", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_WeaponStoreBox = {"_p_WeaponStoreBox", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_SystemBox = {"_p_SystemBox", "SystemBox *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_SystemCustomBox = {"_p_SystemCustomBox", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_WeaponSystemBox = {"_p_WeaponSystemBox", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_DoorBox = {"_p_DoorBox", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_TeleportBox = {"_p_TeleportBox", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_TextButton = {"_p_TextButton", "TextButton *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_TextButton0 = {"_p_TextButton0", "TextButton0 *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_WarningMessage = {"_p_WarningMessage", "WarningMessage *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_WarningWithLines = {"_p_WarningWithLines", 0, 0, 0, 0, 0};
 static swig_type_info _swigt__p_freetype__font_data = {"_p_freetype__font_data", "freetype::font_data *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__string = {"_p_std__string", "std::string *", 0, 0, (void*)&_wrap_class_string, 0};
 
 static swig_type_info *swig_type_initial[] = {
+  &_swigt__p_AnimationTracker,
+  &_swigt__p_ArmamentBox,
+  &_swigt__p_ArmamentControl,
+  &_swigt__p_ArtilleryBox,
+  &_swigt__p_ArtillerySystem,
+  &_swigt__p_Asteroid,
+  &_swigt__p_AugmentBlueprint,
+  &_swigt__p_AugmentEquipBox,
+  &_swigt__p_AugmentStoreBox,
+  &_swigt__p_BatteryBox,
+  &_swigt__p_BatterySystem,
+  &_swigt__p_BattleDrone,
+  &_swigt__p_BeamWeapon,
+  &_swigt__p_Blueprint,
+  &_swigt__p_BoarderDrone,
+  &_swigt__p_BoarderPodDrone,
+  &_swigt__p_BombProjectile,
+  &_swigt__p_BossShip,
+  &_swigt__p_Button,
+  &_swigt__p_CApp,
+  &_swigt__p_CEvent,
   &_swigt__p_CFPS,
+  &_swigt__p_CachedImage,
+  &_swigt__p_CachedPrimitive,
+  &_swigt__p_CachedRect,
+  &_swigt__p_CachedRectOutline,
+  &_swigt__p_ChoiceBox,
+  &_swigt__p_CloakingBox,
+  &_swigt__p_CloakingSystem,
+  &_swigt__p_CloneBox,
+  &_swigt__p_CloneSystem,
+  &_swigt__p_Collideable,
+  &_swigt__p_CombatDrone,
+  &_swigt__p_CompleteShip,
+  &_swigt__p_ConfirmWindow,
+  &_swigt__p_CooldownSystemBox,
+  &_swigt__p_CrewAnimation,
+  &_swigt__p_CrewBlueprint,
+  &_swigt__p_CrewCustomizeBox,
+  &_swigt__p_CrewDrone,
+  &_swigt__p_CrewEquipBox,
+  &_swigt__p_CrewLaser,
+  &_swigt__p_CrewManifest,
+  &_swigt__p_CrewMember,
+  &_swigt__p_CrewStoreBox,
+  &_swigt__p_CrewTarget,
+  &_swigt__p_CrystalAlien,
+  &_swigt__p_DefenseDrone,
+  &_swigt__p_DistressButton,
+  &_swigt__p_Door,
+  &_swigt__p_DoorBox,
+  &_swigt__p_Drone,
+  &_swigt__p_DroneBlueprint,
+  &_swigt__p_DroneControl,
+  &_swigt__p_DroneEquipBox,
+  &_swigt__p_DroneStoreBox,
+  &_swigt__p_DroneSystem,
+  &_swigt__p_Equipment,
+  &_swigt__p_EquipmentBox,
+  &_swigt__p_ExplosionAnimation,
+  &_swigt__p_FTLButton,
+  &_swigt__p_Fire,
+  &_swigt__p_FocusWindow,
+  &_swigt__p_GameOver,
+  &_swigt__p_GenericButton,
+  &_swigt__p_HackBox,
+  &_swigt__p_HackingDrone,
+  &_swigt__p_HackingSystem,
+  &_swigt__p_InputBox,
+  &_swigt__p_IonDrone,
+  &_swigt__p_IonDroneAnimation,
+  &_swigt__p_ItemBlueprint,
+  &_swigt__p_ItemStoreBox,
+  &_swigt__p_LanguageChooser,
+  &_swigt__p_LaserBlast,
+  &_swigt__p_MantisAnimation,
+  &_swigt__p_MenuScreen,
+  &_swigt__p_MindBox,
+  &_swigt__p_MindSystem,
+  &_swigt__p_Missile,
+  &_swigt__p_OptionsScreen,
+  &_swigt__p_OuterHull,
+  &_swigt__p_OxygenSystem,
+  &_swigt__p_PDSFire,
+  &_swigt__p_Projectile,
+  &_swigt__p_ProjectileFactory,
+  &_swigt__p_ReactorButton,
+  &_swigt__p_RepairAnimation,
+  &_swigt__p_RepairDrone,
+  &_swigt__p_RepairStoreBox,
+  &_swigt__p_Repairable,
+  &_swigt__p_RockAnimation,
+  &_swigt__p_Room,
   &_swigt__p_ScoreKeeper,
+  &_swigt__p_Selectable,
+  &_swigt__p_Shields,
+  &_swigt__p_Ship,
+  &_swigt__p_ShipBlueprint,
+  &_swigt__p_ShipButton,
+  &_swigt__p_ShipManager,
+  &_swigt__p_ShipObject,
+  &_swigt__p_ShipSystem,
+  &_swigt__p_SpaceDrone,
+  &_swigt__p_Spreadable,
+  &_swigt__p_Spreader_Fire,
+  &_swigt__p_StarMap,
+  &_swigt__p_Store,
+  &_swigt__p_StoreBox,
+  &_swigt__p_SystemBlueprint,
+  &_swigt__p_SystemBox,
+  &_swigt__p_SystemCustomBox,
+  &_swigt__p_SystemStoreBox,
+  &_swigt__p_TabbedWindow,
+  &_swigt__p_TeleportBox,
+  &_swigt__p_TeleportSystem,
+  &_swigt__p_TextButton,
+  &_swigt__p_TextButton0,
+  &_swigt__p_Upgrades,
+  &_swigt__p_WarningMessage,
+  &_swigt__p_WarningWithLines,
+  &_swigt__p_WeaponBlueprint,
+  &_swigt__p_WeaponBox,
+  &_swigt__p_WeaponControl,
+  &_swigt__p_WeaponEquipBox,
+  &_swigt__p_WeaponStoreBox,
+  &_swigt__p_WeaponSystem,
+  &_swigt__p_WeaponSystemBox,
   &_swigt__p_freetype__font_data,
   &_swigt__p_std__string,
 };
 
+static swig_cast_info _swigc__p_ExplosionAnimation[] = {{&_swigt__p_ExplosionAnimation, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_AnimationTracker[] = {  {&_swigt__p_AnimationTracker, 0, 0, 0},  {&_swigt__p_ExplosionAnimation, _p_ExplosionAnimationTo_p_AnimationTracker, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_WeaponBox[] = {{&_swigt__p_WeaponBox, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_ArmamentBox[] = {  {&_swigt__p_WeaponBox, _p_WeaponBoxTo_p_ArmamentBox, 0, 0},  {&_swigt__p_ArmamentBox, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_DroneControl[] = {{&_swigt__p_DroneControl, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_WeaponControl[] = {{&_swigt__p_WeaponControl, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_ArmamentControl[] = {  {&_swigt__p_ArmamentControl, 0, 0, 0},  {&_swigt__p_DroneControl, _p_DroneControlTo_p_ArmamentControl, 0, 0},  {&_swigt__p_WeaponControl, _p_WeaponControlTo_p_ArmamentControl, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_AugmentBlueprint[] = {{&_swigt__p_AugmentBlueprint, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_CrewBlueprint[] = {{&_swigt__p_CrewBlueprint, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_DroneBlueprint[] = {{&_swigt__p_DroneBlueprint, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_ItemBlueprint[] = {{&_swigt__p_ItemBlueprint, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_ShipBlueprint[] = {{&_swigt__p_ShipBlueprint, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_SystemBlueprint[] = {{&_swigt__p_SystemBlueprint, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_WeaponBlueprint[] = {{&_swigt__p_WeaponBlueprint, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_Blueprint[] = {  {&_swigt__p_Blueprint, 0, 0, 0},  {&_swigt__p_AugmentBlueprint, _p_AugmentBlueprintTo_p_Blueprint, 0, 0},  {&_swigt__p_CrewBlueprint, _p_CrewBlueprintTo_p_Blueprint, 0, 0},  {&_swigt__p_DroneBlueprint, _p_DroneBlueprintTo_p_Blueprint, 0, 0},  {&_swigt__p_ItemBlueprint, _p_ItemBlueprintTo_p_Blueprint, 0, 0},  {&_swigt__p_ShipBlueprint, _p_ShipBlueprintTo_p_Blueprint, 0, 0},  {&_swigt__p_SystemBlueprint, _p_SystemBlueprintTo_p_Blueprint, 0, 0},  {&_swigt__p_WeaponBlueprint, _p_WeaponBlueprintTo_p_Blueprint, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_IonDrone[] = {{&_swigt__p_IonDrone, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_BoarderDrone[] = {  {&_swigt__p_IonDrone, _p_IonDroneTo_p_BoarderDrone, 0, 0},  {&_swigt__p_BoarderDrone, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_ReactorButton[] = {{&_swigt__p_ReactorButton, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_ShipButton[] = {{&_swigt__p_ShipButton, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_Button[] = {  {&_swigt__p_ReactorButton, _p_ReactorButtonTo_p_Button, 0, 0},  {&_swigt__p_ShipButton, _p_ShipButtonTo_p_Button, 0, 0},  {&_swigt__p_Button, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_CApp[] = {{&_swigt__p_CApp, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_CEvent[] = {  {&_swigt__p_CApp, _p_CAppTo_p_CEvent, 0, 0},  {&_swigt__p_CEvent, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_CFPS[] = {  {&_swigt__p_CFPS, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_CachedRectOutline[] = {{&_swigt__p_CachedRectOutline, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_CachedImage[] = {{&_swigt__p_CachedImage, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_CachedRect[] = {{&_swigt__p_CachedRect, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_CachedPrimitive[] = {  {&_swigt__p_CachedRectOutline, _p_CachedRectOutlineTo_p_CachedPrimitive, 0, 0},  {&_swigt__p_CachedPrimitive, 0, 0, 0},  {&_swigt__p_CachedImage, _p_CachedImageTo_p_CachedPrimitive, 0, 0},  {&_swigt__p_CachedRect, _p_CachedRectTo_p_CachedPrimitive, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_OptionsScreen[] = {{&_swigt__p_OptionsScreen, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_ChoiceBox[] = {  {&_swigt__p_ChoiceBox, 0, 0, 0},  {&_swigt__p_OptionsScreen, _p_OptionsScreenTo_p_ChoiceBox, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_PDSFire[] = {{&_swigt__p_PDSFire, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_BeamWeapon[] = {{&_swigt__p_BeamWeapon, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_Asteroid[] = {{&_swigt__p_Asteroid, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_CrewLaser[] = {{&_swigt__p_CrewLaser, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_BombProjectile[] = {{&_swigt__p_BombProjectile, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_Missile[] = {{&_swigt__p_Missile, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_Collideable[] = {  {&_swigt__p_PDSFire, _p_PDSFireTo_p_Collideable, 0, 0},  {&_swigt__p_LaserBlast, _p_LaserBlastTo_p_Collideable, 0, 0},  {&_swigt__p_BeamWeapon, _p_BeamWeaponTo_p_Collideable, 0, 0},  {&_swigt__p_Asteroid, _p_AsteroidTo_p_Collideable, 0, 0},  {&_swigt__p_CrewLaser, _p_CrewLaserTo_p_Collideable, 0, 0},  {&_swigt__p_Collideable, 0, 0, 0},  {&_swigt__p_Projectile, _p_ProjectileTo_p_Collideable, 0, 0},  {&_swigt__p_BombProjectile, _p_BombProjectileTo_p_Collideable, 0, 0},  {&_swigt__p_Missile, _p_MissileTo_p_Collideable, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_BossShip[] = {{&_swigt__p_BossShip, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_CompleteShip[] = {  {&_swigt__p_CompleteShip, 0, 0, 0},  {&_swigt__p_BossShip, _p_BossShipTo_p_CompleteShip, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_CloneBox[] = {{&_swigt__p_CloneBox, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_MindBox[] = {{&_swigt__p_MindBox, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_ArtilleryBox[] = {{&_swigt__p_ArtilleryBox, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_BatteryBox[] = {{&_swigt__p_BatteryBox, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_CloakingBox[] = {{&_swigt__p_CloakingBox, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_HackBox[] = {{&_swigt__p_HackBox, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_CooldownSystemBox[] = {  {&_swigt__p_CloneBox, _p_CloneBoxTo_p_CooldownSystemBox, 0, 0},  {&_swigt__p_MindBox, _p_MindBoxTo_p_CooldownSystemBox, 0, 0},  {&_swigt__p_CooldownSystemBox, 0, 0, 0},  {&_swigt__p_ArtilleryBox, _p_ArtilleryBoxTo_p_CooldownSystemBox, 0, 0},  {&_swigt__p_BatteryBox, _p_BatteryBoxTo_p_CooldownSystemBox, 0, 0},  {&_swigt__p_CloakingBox, _p_CloakingBoxTo_p_CooldownSystemBox, 0, 0},  {&_swigt__p_HackBox, _p_HackBoxTo_p_CooldownSystemBox, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_IonDroneAnimation[] = {{&_swigt__p_IonDroneAnimation, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_MantisAnimation[] = {{&_swigt__p_MantisAnimation, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_RepairAnimation[] = {{&_swigt__p_RepairAnimation, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_RockAnimation[] = {{&_swigt__p_RockAnimation, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_CrewAnimation[] = {  {&_swigt__p_CrewAnimation, 0, 0, 0},  {&_swigt__p_IonDroneAnimation, _p_IonDroneAnimationTo_p_CrewAnimation, 0, 0},  {&_swigt__p_MantisAnimation, _p_MantisAnimationTo_p_CrewAnimation, 0, 0},  {&_swigt__p_RepairAnimation, _p_RepairAnimationTo_p_CrewAnimation, 0, 0},  {&_swigt__p_RockAnimation, _p_RockAnimationTo_p_CrewAnimation, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_RepairDrone[] = {{&_swigt__p_RepairDrone, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_BattleDrone[] = {{&_swigt__p_BattleDrone, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_CrewDrone[] = {  {&_swigt__p_IonDrone, _p_IonDroneTo_p_CrewDrone, 0, 0},  {&_swigt__p_BoarderDrone, _p_BoarderDroneTo_p_CrewDrone, 0, 0},  {&_swigt__p_RepairDrone, _p_RepairDroneTo_p_CrewDrone, 0, 0},  {&_swigt__p_CrewDrone, 0, 0, 0},  {&_swigt__p_BattleDrone, _p_BattleDroneTo_p_CrewDrone, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_CrewCustomizeBox[] = {{&_swigt__p_CrewCustomizeBox, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_CrewEquipBox[] = {  {&_swigt__p_CrewCustomizeBox, _p_CrewCustomizeBoxTo_p_CrewEquipBox, 0, 0},  {&_swigt__p_CrewEquipBox, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_CrystalAlien[] = {{&_swigt__p_CrystalAlien, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_CrewMember[] = {  {&_swigt__p_CrewMember, 0, 0, 0},  {&_swigt__p_IonDrone, _p_IonDroneTo_p_CrewMember, 0, 0},  {&_swigt__p_BoarderDrone, _p_BoarderDroneTo_p_CrewMember, 0, 0},  {&_swigt__p_RepairDrone, _p_RepairDroneTo_p_CrewMember, 0, 0},  {&_swigt__p_CrystalAlien, _p_CrystalAlienTo_p_CrewMember, 0, 0},  {&_swigt__p_CrewDrone, _p_CrewDroneTo_p_CrewMember, 0, 0},  {&_swigt__p_BattleDrone, _p_BattleDroneTo_p_CrewMember, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_Door[] = {{&_swigt__p_Door, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_CrewTarget[] = {  {&_swigt__p_Door, _p_DoorTo_p_CrewTarget, 0, 0},  {&_swigt__p_CrewTarget, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_BoarderPodDrone[] = {{&_swigt__p_BoarderPodDrone, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_HackingDrone[] = {{&_swigt__p_HackingDrone, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_DefenseDrone[] = {{&_swigt__p_DefenseDrone, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_CombatDrone[] = {{&_swigt__p_CombatDrone, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_Drone[] = {  {&_swigt__p_Drone, 0, 0, 0},  {&_swigt__p_BoarderPodDrone, _p_BoarderPodDroneTo_p_Drone, 0, 0},  {&_swigt__p_HackingDrone, _p_HackingDroneTo_p_Drone, 0, 0},  {&_swigt__p_SpaceDrone, _p_SpaceDroneTo_p_Drone, 0, 0},  {&_swigt__p_DefenseDrone, _p_DefenseDroneTo_p_Drone, 0, 0},  {&_swigt__p_CombatDrone, _p_CombatDroneTo_p_Drone, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_AugmentEquipBox[] = {{&_swigt__p_AugmentEquipBox, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_DroneEquipBox[] = {{&_swigt__p_DroneEquipBox, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_WeaponEquipBox[] = {{&_swigt__p_WeaponEquipBox, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_EquipmentBox[] = {  {&_swigt__p_CrewCustomizeBox, _p_CrewCustomizeBoxTo_p_EquipmentBox, 0, 0},  {&_swigt__p_EquipmentBox, 0, 0, 0},  {&_swigt__p_AugmentEquipBox, _p_AugmentEquipBoxTo_p_EquipmentBox, 0, 0},  {&_swigt__p_CrewEquipBox, _p_CrewEquipBoxTo_p_EquipmentBox, 0, 0},  {&_swigt__p_DroneEquipBox, _p_DroneEquipBoxTo_p_EquipmentBox, 0, 0},  {&_swigt__p_WeaponEquipBox, _p_WeaponEquipBoxTo_p_EquipmentBox, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_ConfirmWindow[] = {{&_swigt__p_ConfirmWindow, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_GameOver[] = {{&_swigt__p_GameOver, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_LanguageChooser[] = {{&_swigt__p_LanguageChooser, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_TabbedWindow[] = {{&_swigt__p_TabbedWindow, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_StarMap[] = {{&_swigt__p_StarMap, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_CrewManifest[] = {{&_swigt__p_CrewManifest, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_Upgrades[] = {{&_swigt__p_Upgrades, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_InputBox[] = {{&_swigt__p_InputBox, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_Equipment[] = {{&_swigt__p_Equipment, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_Store[] = {{&_swigt__p_Store, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_MenuScreen[] = {{&_swigt__p_MenuScreen, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_FocusWindow[] = {  {&_swigt__p_ConfirmWindow, _p_ConfirmWindowTo_p_FocusWindow, 0, 0},  {&_swigt__p_GameOver, _p_GameOverTo_p_FocusWindow, 0, 0},  {&_swigt__p_FocusWindow, 0, 0, 0},  {&_swigt__p_LanguageChooser, _p_LanguageChooserTo_p_FocusWindow, 0, 0},  {&_swigt__p_TabbedWindow, _p_TabbedWindowTo_p_FocusWindow, 0, 0},  {&_swigt__p_ChoiceBox, _p_ChoiceBoxTo_p_FocusWindow, 0, 0},  {&_swigt__p_StarMap, _p_StarMapTo_p_FocusWindow, 0, 0},  {&_swigt__p_CrewManifest, _p_CrewManifestTo_p_FocusWindow, 0, 0},  {&_swigt__p_Upgrades, _p_UpgradesTo_p_FocusWindow, 0, 0},  {&_swigt__p_InputBox, _p_InputBoxTo_p_FocusWindow, 0, 0},  {&_swigt__p_Equipment, _p_EquipmentTo_p_FocusWindow, 0, 0},  {&_swigt__p_Store, _p_StoreTo_p_FocusWindow, 0, 0},  {&_swigt__p_MenuScreen, _p_MenuScreenTo_p_FocusWindow, 0, 0},  {&_swigt__p_OptionsScreen, _p_OptionsScreenTo_p_FocusWindow, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_FTLButton[] = {{&_swigt__p_FTLButton, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_DistressButton[] = {{&_swigt__p_DistressButton, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_GenericButton[] = {  {&_swigt__p_TextButton, _p_TextButtonTo_p_GenericButton, 0, 0},  {&_swigt__p_FTLButton, _p_FTLButtonTo_p_GenericButton, 0, 0},  {&_swigt__p_ReactorButton, _p_ReactorButtonTo_p_GenericButton, 0, 0},  {&_swigt__p_ShipButton, _p_ShipButtonTo_p_GenericButton, 0, 0},  {&_swigt__p_GenericButton, 0, 0, 0},  {&_swigt__p_DistressButton, _p_DistressButtonTo_p_GenericButton, 0, 0},  {&_swigt__p_Button, _p_ButtonTo_p_GenericButton, 0, 0},  {&_swigt__p_TextButton0, _p_TextButton0To_p_GenericButton, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_LaserBlast[] = {  {&_swigt__p_PDSFire, _p_PDSFireTo_p_LaserBlast, 0, 0},  {&_swigt__p_LaserBlast, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_Projectile[] = {  {&_swigt__p_PDSFire, _p_PDSFireTo_p_Projectile, 0, 0},  {&_swigt__p_LaserBlast, _p_LaserBlastTo_p_Projectile, 0, 0},  {&_swigt__p_BeamWeapon, _p_BeamWeaponTo_p_Projectile, 0, 0},  {&_swigt__p_Asteroid, _p_AsteroidTo_p_Projectile, 0, 0},  {&_swigt__p_CrewLaser, _p_CrewLaserTo_p_Projectile, 0, 0},  {&_swigt__p_Projectile, 0, 0, 0},  {&_swigt__p_BombProjectile, _p_BombProjectileTo_p_Projectile, 0, 0},  {&_swigt__p_Missile, _p_MissileTo_p_Projectile, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_Fire[] = {{&_swigt__p_Fire, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_OuterHull[] = {{&_swigt__p_OuterHull, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_Repairable[] = {  {&_swigt__p_Spreadable, _p_SpreadableTo_p_Repairable, 0, 0},  {&_swigt__p_Fire, _p_FireTo_p_Repairable, 0, 0},  {&_swigt__p_OuterHull, _p_OuterHullTo_p_Repairable, 0, 0},  {&_swigt__p_Repairable, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_ScoreKeeper[] = {  {&_swigt__p_ScoreKeeper, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_Room[] = {{&_swigt__p_Room, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_Selectable[] = {  {&_swigt__p_Selectable, 0, 0, 0},  {&_swigt__p_Room, _p_RoomTo_p_Selectable, 0, 0},  {&_swigt__p_Spreadable, _p_SpreadableTo_p_Selectable, 0, 0},  {&_swigt__p_Fire, _p_FireTo_p_Selectable, 0, 0},  {&_swigt__p_OuterHull, _p_OuterHullTo_p_Selectable, 0, 0},  {&_swigt__p_Repairable, _p_RepairableTo_p_Selectable, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_Spreader_Fire[] = {{&_swigt__p_Spreader_Fire, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_ShipManager[] = {{&_swigt__p_ShipManager, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_Ship[] = {{&_swigt__p_Ship, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_ProjectileFactory[] = {{&_swigt__p_ProjectileFactory, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_ShipObject[] = {  {&_swigt__p_Spreader_Fire, _p_Spreader_FireTo_p_ShipObject, 0, 0},  {&_swigt__p_ShipObject, 0, 0, 0},  {&_swigt__p_ShipManager, _p_ShipManagerTo_p_ShipObject, 0, 0},  {&_swigt__p_Ship, _p_ShipTo_p_ShipObject, 0, 0},  {&_swigt__p_ProjectileFactory, _p_ProjectileFactoryTo_p_ShipObject, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_Shields[] = {{&_swigt__p_Shields, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_MindSystem[] = {{&_swigt__p_MindSystem, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_OxygenSystem[] = {{&_swigt__p_OxygenSystem, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_TeleportSystem[] = {{&_swigt__p_TeleportSystem, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_WeaponSystem[] = {{&_swigt__p_WeaponSystem, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_ArtillerySystem[] = {{&_swigt__p_ArtillerySystem, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_BatterySystem[] = {{&_swigt__p_BatterySystem, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_CloakingSystem[] = {{&_swigt__p_CloakingSystem, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_CloneSystem[] = {{&_swigt__p_CloneSystem, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_DroneSystem[] = {{&_swigt__p_DroneSystem, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_HackingSystem[] = {{&_swigt__p_HackingSystem, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_ShipSystem[] = {  {&_swigt__p_Shields, _p_ShieldsTo_p_ShipSystem, 0, 0},  {&_swigt__p_ShipSystem, 0, 0, 0},  {&_swigt__p_MindSystem, _p_MindSystemTo_p_ShipSystem, 0, 0},  {&_swigt__p_OxygenSystem, _p_OxygenSystemTo_p_ShipSystem, 0, 0},  {&_swigt__p_TeleportSystem, _p_TeleportSystemTo_p_ShipSystem, 0, 0},  {&_swigt__p_WeaponSystem, _p_WeaponSystemTo_p_ShipSystem, 0, 0},  {&_swigt__p_ArtillerySystem, _p_ArtillerySystemTo_p_ShipSystem, 0, 0},  {&_swigt__p_BatterySystem, _p_BatterySystemTo_p_ShipSystem, 0, 0},  {&_swigt__p_CloakingSystem, _p_CloakingSystemTo_p_ShipSystem, 0, 0},  {&_swigt__p_CloneSystem, _p_CloneSystemTo_p_ShipSystem, 0, 0},  {&_swigt__p_DroneSystem, _p_DroneSystemTo_p_ShipSystem, 0, 0},  {&_swigt__p_HackingSystem, _p_HackingSystemTo_p_ShipSystem, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_SpaceDrone[] = {  {&_swigt__p_BoarderPodDrone, _p_BoarderPodDroneTo_p_SpaceDrone, 0, 0},  {&_swigt__p_HackingDrone, _p_HackingDroneTo_p_SpaceDrone, 0, 0},  {&_swigt__p_SpaceDrone, 0, 0, 0},  {&_swigt__p_DefenseDrone, _p_DefenseDroneTo_p_SpaceDrone, 0, 0},  {&_swigt__p_CombatDrone, _p_CombatDroneTo_p_SpaceDrone, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_Spreadable[] = {  {&_swigt__p_Spreadable, 0, 0, 0},  {&_swigt__p_Fire, _p_FireTo_p_Spreadable, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_AugmentStoreBox[] = {{&_swigt__p_AugmentStoreBox, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_CrewStoreBox[] = {{&_swigt__p_CrewStoreBox, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_DroneStoreBox[] = {{&_swigt__p_DroneStoreBox, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_ItemStoreBox[] = {{&_swigt__p_ItemStoreBox, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_RepairStoreBox[] = {{&_swigt__p_RepairStoreBox, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_SystemStoreBox[] = {{&_swigt__p_SystemStoreBox, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_WeaponStoreBox[] = {{&_swigt__p_WeaponStoreBox, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_StoreBox[] = {  {&_swigt__p_StoreBox, 0, 0, 0},  {&_swigt__p_AugmentStoreBox, _p_AugmentStoreBoxTo_p_StoreBox, 0, 0},  {&_swigt__p_CrewStoreBox, _p_CrewStoreBoxTo_p_StoreBox, 0, 0},  {&_swigt__p_DroneStoreBox, _p_DroneStoreBoxTo_p_StoreBox, 0, 0},  {&_swigt__p_ItemStoreBox, _p_ItemStoreBoxTo_p_StoreBox, 0, 0},  {&_swigt__p_RepairStoreBox, _p_RepairStoreBoxTo_p_StoreBox, 0, 0},  {&_swigt__p_SystemStoreBox, _p_SystemStoreBoxTo_p_StoreBox, 0, 0},  {&_swigt__p_WeaponStoreBox, _p_WeaponStoreBoxTo_p_StoreBox, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_SystemCustomBox[] = {{&_swigt__p_SystemCustomBox, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_WeaponSystemBox[] = {{&_swigt__p_WeaponSystemBox, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_DoorBox[] = {{&_swigt__p_DoorBox, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_TeleportBox[] = {{&_swigt__p_TeleportBox, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_SystemBox[] = {  {&_swigt__p_CloneBox, _p_CloneBoxTo_p_SystemBox, 0, 0},  {&_swigt__p_MindBox, _p_MindBoxTo_p_SystemBox, 0, 0},  {&_swigt__p_SystemCustomBox, _p_SystemCustomBoxTo_p_SystemBox, 0, 0},  {&_swigt__p_SystemBox, 0, 0, 0},  {&_swigt__p_CooldownSystemBox, _p_CooldownSystemBoxTo_p_SystemBox, 0, 0},  {&_swigt__p_ArtilleryBox, _p_ArtilleryBoxTo_p_SystemBox, 0, 0},  {&_swigt__p_BatteryBox, _p_BatteryBoxTo_p_SystemBox, 0, 0},  {&_swigt__p_WeaponSystemBox, _p_WeaponSystemBoxTo_p_SystemBox, 0, 0},  {&_swigt__p_CloakingBox, _p_CloakingBoxTo_p_SystemBox, 0, 0},  {&_swigt__p_DoorBox, _p_DoorBoxTo_p_SystemBox, 0, 0},  {&_swigt__p_TeleportBox, _p_TeleportBoxTo_p_SystemBox, 0, 0},  {&_swigt__p_HackBox, _p_HackBoxTo_p_SystemBox, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_TextButton[] = {  {&_swigt__p_TextButton, 0, 0, 0},  {&_swigt__p_DistressButton, _p_DistressButtonTo_p_TextButton, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_TextButton0[] = {  {&_swigt__p_FTLButton, _p_FTLButtonTo_p_TextButton0, 0, 0},  {&_swigt__p_TextButton0, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_WarningWithLines[] = {{&_swigt__p_WarningWithLines, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_WarningMessage[] = {  {&_swigt__p_WarningWithLines, _p_WarningWithLinesTo_p_WarningMessage, 0, 0},  {&_swigt__p_WarningMessage, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_freetype__font_data[] = {  {&_swigt__p_freetype__font_data, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__string[] = {  {&_swigt__p_std__string, 0, 0, 0},{0, 0, 0, 0}};
 
 static swig_cast_info *swig_cast_initial[] = {
+  _swigc__p_AnimationTracker,
+  _swigc__p_ArmamentBox,
+  _swigc__p_ArmamentControl,
+  _swigc__p_ArtilleryBox,
+  _swigc__p_ArtillerySystem,
+  _swigc__p_Asteroid,
+  _swigc__p_AugmentBlueprint,
+  _swigc__p_AugmentEquipBox,
+  _swigc__p_AugmentStoreBox,
+  _swigc__p_BatteryBox,
+  _swigc__p_BatterySystem,
+  _swigc__p_BattleDrone,
+  _swigc__p_BeamWeapon,
+  _swigc__p_Blueprint,
+  _swigc__p_BoarderDrone,
+  _swigc__p_BoarderPodDrone,
+  _swigc__p_BombProjectile,
+  _swigc__p_BossShip,
+  _swigc__p_Button,
+  _swigc__p_CApp,
+  _swigc__p_CEvent,
   _swigc__p_CFPS,
+  _swigc__p_CachedImage,
+  _swigc__p_CachedPrimitive,
+  _swigc__p_CachedRect,
+  _swigc__p_CachedRectOutline,
+  _swigc__p_ChoiceBox,
+  _swigc__p_CloakingBox,
+  _swigc__p_CloakingSystem,
+  _swigc__p_CloneBox,
+  _swigc__p_CloneSystem,
+  _swigc__p_Collideable,
+  _swigc__p_CombatDrone,
+  _swigc__p_CompleteShip,
+  _swigc__p_ConfirmWindow,
+  _swigc__p_CooldownSystemBox,
+  _swigc__p_CrewAnimation,
+  _swigc__p_CrewBlueprint,
+  _swigc__p_CrewCustomizeBox,
+  _swigc__p_CrewDrone,
+  _swigc__p_CrewEquipBox,
+  _swigc__p_CrewLaser,
+  _swigc__p_CrewManifest,
+  _swigc__p_CrewMember,
+  _swigc__p_CrewStoreBox,
+  _swigc__p_CrewTarget,
+  _swigc__p_CrystalAlien,
+  _swigc__p_DefenseDrone,
+  _swigc__p_DistressButton,
+  _swigc__p_Door,
+  _swigc__p_DoorBox,
+  _swigc__p_Drone,
+  _swigc__p_DroneBlueprint,
+  _swigc__p_DroneControl,
+  _swigc__p_DroneEquipBox,
+  _swigc__p_DroneStoreBox,
+  _swigc__p_DroneSystem,
+  _swigc__p_Equipment,
+  _swigc__p_EquipmentBox,
+  _swigc__p_ExplosionAnimation,
+  _swigc__p_FTLButton,
+  _swigc__p_Fire,
+  _swigc__p_FocusWindow,
+  _swigc__p_GameOver,
+  _swigc__p_GenericButton,
+  _swigc__p_HackBox,
+  _swigc__p_HackingDrone,
+  _swigc__p_HackingSystem,
+  _swigc__p_InputBox,
+  _swigc__p_IonDrone,
+  _swigc__p_IonDroneAnimation,
+  _swigc__p_ItemBlueprint,
+  _swigc__p_ItemStoreBox,
+  _swigc__p_LanguageChooser,
+  _swigc__p_LaserBlast,
+  _swigc__p_MantisAnimation,
+  _swigc__p_MenuScreen,
+  _swigc__p_MindBox,
+  _swigc__p_MindSystem,
+  _swigc__p_Missile,
+  _swigc__p_OptionsScreen,
+  _swigc__p_OuterHull,
+  _swigc__p_OxygenSystem,
+  _swigc__p_PDSFire,
+  _swigc__p_Projectile,
+  _swigc__p_ProjectileFactory,
+  _swigc__p_ReactorButton,
+  _swigc__p_RepairAnimation,
+  _swigc__p_RepairDrone,
+  _swigc__p_RepairStoreBox,
+  _swigc__p_Repairable,
+  _swigc__p_RockAnimation,
+  _swigc__p_Room,
   _swigc__p_ScoreKeeper,
+  _swigc__p_Selectable,
+  _swigc__p_Shields,
+  _swigc__p_Ship,
+  _swigc__p_ShipBlueprint,
+  _swigc__p_ShipButton,
+  _swigc__p_ShipManager,
+  _swigc__p_ShipObject,
+  _swigc__p_ShipSystem,
+  _swigc__p_SpaceDrone,
+  _swigc__p_Spreadable,
+  _swigc__p_Spreader_Fire,
+  _swigc__p_StarMap,
+  _swigc__p_Store,
+  _swigc__p_StoreBox,
+  _swigc__p_SystemBlueprint,
+  _swigc__p_SystemBox,
+  _swigc__p_SystemCustomBox,
+  _swigc__p_SystemStoreBox,
+  _swigc__p_TabbedWindow,
+  _swigc__p_TeleportBox,
+  _swigc__p_TeleportSystem,
+  _swigc__p_TextButton,
+  _swigc__p_TextButton0,
+  _swigc__p_Upgrades,
+  _swigc__p_WarningMessage,
+  _swigc__p_WarningWithLines,
+  _swigc__p_WeaponBlueprint,
+  _swigc__p_WeaponBox,
+  _swigc__p_WeaponControl,
+  _swigc__p_WeaponEquipBox,
+  _swigc__p_WeaponStoreBox,
+  _swigc__p_WeaponSystem,
+  _swigc__p_WeaponSystemBox,
   _swigc__p_freetype__font_data,
   _swigc__p_std__string,
 };

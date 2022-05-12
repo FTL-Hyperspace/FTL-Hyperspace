@@ -4,7 +4,12 @@
 
 #define LIBZHL_API 
 
-#ifdef _WIN32
+#ifdef SWIG
+    #define LIBZHL_INTERFACE
+    #define __stdcall
+    #define LIBZHL_PLACEHOLDER {(void)0;}
+    #define __attribute__(x)
+#elif defined(_WIN32)
     #define LIBZHL_INTERFACE __declspec(novtable)
     __declspec(noreturn) inline void __cdecl __NOP() {}
     #define LIBZHL_PLACEHOLDER {__NOP();}

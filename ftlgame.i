@@ -8,7 +8,7 @@
 %}
 
 %rename("FPS") Global_CFPS_FPSControl;
-%rename("ScoreKeeper") Global_ScoreKeeper_Keeper;
+%rename("G_ScoreKeeper") Global_ScoreKeeper_Keeper;
 
 %immutable;
 static CFPS* Global_CFPS_FPSControl;
@@ -53,3 +53,19 @@ struct CFPS
 %luacode {
     print "Hyperspace SWIG Lua loaded"
 }
+
+%ignore "";
+/* %rename("%s") ScoreKeeper; */
+/* %rename("%s") ScoreKeeper::AddScrapCollected; */
+/* %rename("%s") ScoreKeeper::gamesPlayed; */
+/* %rename("%(regex:/^ScoreKeeper::(.*)$/\\1/)s", regextarget=1, fullname=1) "ScoreKeeper::.*"; */
+
+#if defined(_WIN32)
+    %include "FTLGameWin32.h"
+#elif defined(__linux__)
+#if defined(__i386__)
+    %include "FTLGameELF32.h"
+#elif defined(__amd64__)
+    %include "FTLGameELF64.h"
+#endif
+#endif
