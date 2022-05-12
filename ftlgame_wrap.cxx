@@ -3352,35 +3352,6 @@ fail:
 }
 
 
-static int _wrap_new_CFPS(lua_State* L) {
-  int SWIG_arg = 0;
-  CFPS *result = 0 ;
-  
-  SWIG_check_num_args("CFPS::CFPS",0,0)
-  result = (CFPS *)new CFPS();
-  SWIG_NewPointerObj(L,result,SWIGTYPE_p_CFPS,1); SWIG_arg++; 
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static void swig_delete_CFPS(void *obj) {
-CFPS *arg1 = (CFPS *) obj;
-delete arg1;
-}
-static int _proxy__wrap_new_CFPS(lua_State *L) {
-    assert(lua_istable(L,1));
-    lua_pushcfunction(L,_wrap_new_CFPS);
-    assert(!lua_isnil(L,-1));
-    lua_replace(L,1); /* replace our table with real constructor */
-    lua_call(L,lua_gettop(L)-1,1);
-    return 1;
-}
 static swig_lua_attribute swig_CFPS_attributes[] = {
     { "RunningTime", _wrap_CFPS_RunningTime_get, SWIG_Lua_set_immutable },
     { "OldTime", _wrap_CFPS_OldTime_get, SWIG_Lua_set_immutable },
@@ -3421,7 +3392,7 @@ static swig_lua_namespace swig_CFPS_Sf_SwigStatic = {
 };
 static swig_lua_class *swig_CFPS_bases[] = {0};
 static const char *swig_CFPS_base_names[] = {0};
-static swig_lua_class _wrap_class_CFPS = { "CFPS", "CFPS", &SWIGTYPE_p_CFPS,_proxy__wrap_new_CFPS, swig_delete_CFPS, swig_CFPS_methods, swig_CFPS_attributes, &swig_CFPS_Sf_SwigStatic, swig_CFPS_meta, swig_CFPS_bases, swig_CFPS_base_names };
+static swig_lua_class _wrap_class_CFPS = { "CFPS", "CFPS", &SWIGTYPE_p_CFPS,0,0, swig_CFPS_methods, swig_CFPS_attributes, &swig_CFPS_Sf_SwigStatic, swig_CFPS_meta, swig_CFPS_bases, swig_CFPS_base_names };
 
 static swig_lua_attribute swig_SwigModule_attributes[] = {
     { "FPS", _wrap_FPS_get, SWIG_Lua_set_immutable },

@@ -20,6 +20,8 @@ float getSkillBonus(int skill, int level);
 int random32();
 void srandom32(unsigned int seed);
 
+%nodefaultctor;
+%nodefaultdtor;
 struct CFPS
 {
     %immutable;
@@ -38,6 +40,8 @@ struct CFPS
     */
     int speedLevel;
 };
+%clearnodefaultctor;
+%clearnodefaultdtor;
 
 
 %luacode {
