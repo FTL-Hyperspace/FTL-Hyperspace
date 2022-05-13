@@ -5,6 +5,7 @@
 
 %{
 #include "Global.h"
+#include "HSVersion.h"
 %}
 
 %rename("FPS") Global_CFPS_FPSControl;
@@ -20,12 +21,13 @@ float getSkillBonus(int skill, int level);
 int random32();
 void srandom32(unsigned int seed);
 
-%rename("version") hs_get_version;
-%inline %{
-std::string hs_get_version() {
-    return Global::GetInstance()->GetVersionString();
-}
-%}
+%rename("version") HS_Version; 
+%extend HyperspaceVersion {
+    const char* __str__() const {
+        return $self->toVersionString().c_str();
+    }
+};
+%include "HSVersion.h"
 
 %nodefaultctor;
 %nodefaultdtor;

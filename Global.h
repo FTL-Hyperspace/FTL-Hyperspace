@@ -13,8 +13,6 @@
 #include "CrewMember_Extend.h"
 #include "System_Extend.h"
 #include "Blueprint_Extend.h"
-#include <boost/algorithm/string.hpp>
-#include <boost/format.hpp>
 #include "lua/LuaScriptInit.h"
 
 extern bool loadingGame;
@@ -52,16 +50,6 @@ public:
     AchievementTracker *GetAchievementTracker() { return Global_AchievementTracker_Tracker; }
     ScoreKeeper *GetScoreKeeper() { return Global_ScoreKeeper_Keeper; }
     SettingValues *GetSettings() { return Global_Settings_Settings; }
-    int GetVersion() {
-        return (((__version >> 16) & 0xFF) * 100) + (((__version >> 8) & 0xFF) * 10) + (__version & 0xFF);
-    }
-    const uint32_t GetRawVersion() { return __version; }
-    std::string GetVersionString() {
-        uint8_t major = (__version >> 16) & 0xFF;
-        uint8_t minor = (__version >> 8) & 0xFF;
-        uint8_t patch = __version & 0xFF;
-        return boost::str(boost::format("%1%.%2%.%3%") % (unsigned int) major % (unsigned int) minor % (unsigned int) patch);
-    }
 
     void *GetVTable_LaserBlast() { return VTable_LaserBlast; }
 
@@ -96,9 +84,7 @@ private:
 
     static CApp *__cApp;
 
-    const uint32_t __version = 0x010101;
-
-
+    // NOTE: Version has been moved to `HSVersion.h`
 };
 
 void hs_log_file(const char *str...);

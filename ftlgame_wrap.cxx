@@ -2777,69 +2777,70 @@ SWIG_Lua_dostring(lua_State *L, const char *str) {
 #define SWIGTYPE_p_HackBox swig_types[65]
 #define SWIGTYPE_p_HackingDrone swig_types[66]
 #define SWIGTYPE_p_HackingSystem swig_types[67]
-#define SWIGTYPE_p_InputBox swig_types[68]
-#define SWIGTYPE_p_IonDrone swig_types[69]
-#define SWIGTYPE_p_IonDroneAnimation swig_types[70]
-#define SWIGTYPE_p_ItemBlueprint swig_types[71]
-#define SWIGTYPE_p_ItemStoreBox swig_types[72]
-#define SWIGTYPE_p_LanguageChooser swig_types[73]
-#define SWIGTYPE_p_LaserBlast swig_types[74]
-#define SWIGTYPE_p_MantisAnimation swig_types[75]
-#define SWIGTYPE_p_MenuScreen swig_types[76]
-#define SWIGTYPE_p_MindBox swig_types[77]
-#define SWIGTYPE_p_MindSystem swig_types[78]
-#define SWIGTYPE_p_Missile swig_types[79]
-#define SWIGTYPE_p_OptionsScreen swig_types[80]
-#define SWIGTYPE_p_OuterHull swig_types[81]
-#define SWIGTYPE_p_OxygenSystem swig_types[82]
-#define SWIGTYPE_p_PDSFire swig_types[83]
-#define SWIGTYPE_p_Projectile swig_types[84]
-#define SWIGTYPE_p_ProjectileFactory swig_types[85]
-#define SWIGTYPE_p_ReactorButton swig_types[86]
-#define SWIGTYPE_p_RepairAnimation swig_types[87]
-#define SWIGTYPE_p_RepairDrone swig_types[88]
-#define SWIGTYPE_p_RepairStoreBox swig_types[89]
-#define SWIGTYPE_p_Repairable swig_types[90]
-#define SWIGTYPE_p_RockAnimation swig_types[91]
-#define SWIGTYPE_p_Room swig_types[92]
-#define SWIGTYPE_p_ScoreKeeper swig_types[93]
-#define SWIGTYPE_p_Selectable swig_types[94]
-#define SWIGTYPE_p_Shields swig_types[95]
-#define SWIGTYPE_p_Ship swig_types[96]
-#define SWIGTYPE_p_ShipBlueprint swig_types[97]
-#define SWIGTYPE_p_ShipButton swig_types[98]
-#define SWIGTYPE_p_ShipManager swig_types[99]
-#define SWIGTYPE_p_ShipObject swig_types[100]
-#define SWIGTYPE_p_ShipSystem swig_types[101]
-#define SWIGTYPE_p_SpaceDrone swig_types[102]
-#define SWIGTYPE_p_Spreadable swig_types[103]
-#define SWIGTYPE_p_Spreader_Fire swig_types[104]
-#define SWIGTYPE_p_StarMap swig_types[105]
-#define SWIGTYPE_p_Store swig_types[106]
-#define SWIGTYPE_p_StoreBox swig_types[107]
-#define SWIGTYPE_p_SystemBlueprint swig_types[108]
-#define SWIGTYPE_p_SystemBox swig_types[109]
-#define SWIGTYPE_p_SystemCustomBox swig_types[110]
-#define SWIGTYPE_p_SystemStoreBox swig_types[111]
-#define SWIGTYPE_p_TabbedWindow swig_types[112]
-#define SWIGTYPE_p_TeleportBox swig_types[113]
-#define SWIGTYPE_p_TeleportSystem swig_types[114]
-#define SWIGTYPE_p_TextButton swig_types[115]
-#define SWIGTYPE_p_TextButton0 swig_types[116]
-#define SWIGTYPE_p_Upgrades swig_types[117]
-#define SWIGTYPE_p_WarningMessage swig_types[118]
-#define SWIGTYPE_p_WarningWithLines swig_types[119]
-#define SWIGTYPE_p_WeaponBlueprint swig_types[120]
-#define SWIGTYPE_p_WeaponBox swig_types[121]
-#define SWIGTYPE_p_WeaponControl swig_types[122]
-#define SWIGTYPE_p_WeaponEquipBox swig_types[123]
-#define SWIGTYPE_p_WeaponStoreBox swig_types[124]
-#define SWIGTYPE_p_WeaponSystem swig_types[125]
-#define SWIGTYPE_p_WeaponSystemBox swig_types[126]
-#define SWIGTYPE_p_freetype__font_data swig_types[127]
-#define SWIGTYPE_p_std__string swig_types[128]
-static swig_type_info *swig_types[130];
-static swig_module_info swig_module = {swig_types, 129, 0, 0, 0, 0};
+#define SWIGTYPE_p_HyperspaceVersion swig_types[68]
+#define SWIGTYPE_p_InputBox swig_types[69]
+#define SWIGTYPE_p_IonDrone swig_types[70]
+#define SWIGTYPE_p_IonDroneAnimation swig_types[71]
+#define SWIGTYPE_p_ItemBlueprint swig_types[72]
+#define SWIGTYPE_p_ItemStoreBox swig_types[73]
+#define SWIGTYPE_p_LanguageChooser swig_types[74]
+#define SWIGTYPE_p_LaserBlast swig_types[75]
+#define SWIGTYPE_p_MantisAnimation swig_types[76]
+#define SWIGTYPE_p_MenuScreen swig_types[77]
+#define SWIGTYPE_p_MindBox swig_types[78]
+#define SWIGTYPE_p_MindSystem swig_types[79]
+#define SWIGTYPE_p_Missile swig_types[80]
+#define SWIGTYPE_p_OptionsScreen swig_types[81]
+#define SWIGTYPE_p_OuterHull swig_types[82]
+#define SWIGTYPE_p_OxygenSystem swig_types[83]
+#define SWIGTYPE_p_PDSFire swig_types[84]
+#define SWIGTYPE_p_Projectile swig_types[85]
+#define SWIGTYPE_p_ProjectileFactory swig_types[86]
+#define SWIGTYPE_p_ReactorButton swig_types[87]
+#define SWIGTYPE_p_RepairAnimation swig_types[88]
+#define SWIGTYPE_p_RepairDrone swig_types[89]
+#define SWIGTYPE_p_RepairStoreBox swig_types[90]
+#define SWIGTYPE_p_Repairable swig_types[91]
+#define SWIGTYPE_p_RockAnimation swig_types[92]
+#define SWIGTYPE_p_Room swig_types[93]
+#define SWIGTYPE_p_ScoreKeeper swig_types[94]
+#define SWIGTYPE_p_Selectable swig_types[95]
+#define SWIGTYPE_p_Shields swig_types[96]
+#define SWIGTYPE_p_Ship swig_types[97]
+#define SWIGTYPE_p_ShipBlueprint swig_types[98]
+#define SWIGTYPE_p_ShipButton swig_types[99]
+#define SWIGTYPE_p_ShipManager swig_types[100]
+#define SWIGTYPE_p_ShipObject swig_types[101]
+#define SWIGTYPE_p_ShipSystem swig_types[102]
+#define SWIGTYPE_p_SpaceDrone swig_types[103]
+#define SWIGTYPE_p_Spreadable swig_types[104]
+#define SWIGTYPE_p_Spreader_Fire swig_types[105]
+#define SWIGTYPE_p_StarMap swig_types[106]
+#define SWIGTYPE_p_Store swig_types[107]
+#define SWIGTYPE_p_StoreBox swig_types[108]
+#define SWIGTYPE_p_SystemBlueprint swig_types[109]
+#define SWIGTYPE_p_SystemBox swig_types[110]
+#define SWIGTYPE_p_SystemCustomBox swig_types[111]
+#define SWIGTYPE_p_SystemStoreBox swig_types[112]
+#define SWIGTYPE_p_TabbedWindow swig_types[113]
+#define SWIGTYPE_p_TeleportBox swig_types[114]
+#define SWIGTYPE_p_TeleportSystem swig_types[115]
+#define SWIGTYPE_p_TextButton swig_types[116]
+#define SWIGTYPE_p_TextButton0 swig_types[117]
+#define SWIGTYPE_p_Upgrades swig_types[118]
+#define SWIGTYPE_p_WarningMessage swig_types[119]
+#define SWIGTYPE_p_WarningWithLines swig_types[120]
+#define SWIGTYPE_p_WeaponBlueprint swig_types[121]
+#define SWIGTYPE_p_WeaponBox swig_types[122]
+#define SWIGTYPE_p_WeaponControl swig_types[123]
+#define SWIGTYPE_p_WeaponEquipBox swig_types[124]
+#define SWIGTYPE_p_WeaponStoreBox swig_types[125]
+#define SWIGTYPE_p_WeaponSystem swig_types[126]
+#define SWIGTYPE_p_WeaponSystemBox swig_types[127]
+#define SWIGTYPE_p_freetype__font_data swig_types[128]
+#define SWIGTYPE_p_std__string swig_types[129]
+static swig_type_info *swig_types[131];
+static swig_module_info swig_module = {swig_types, 130, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -2891,12 +2892,11 @@ SWIGINTERN int SWIG_lua_isnilstring(lua_State *L, int idx) {
 
 
 #include "Global.h"
+#include "HSVersion.h"
 
-
-std::string hs_get_version() {
-    return Global::GetInstance()->GetVersionString();
-}
-
+SWIGINTERN char const *HyperspaceVersion___str__(HyperspaceVersion const *self){
+        return self->toVersionString().c_str();
+    }
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -3284,13 +3284,274 @@ fail:
 }
 
 
-static int _wrap_version(lua_State* L) {
+static int _wrap_HyperspaceVersion_getDeprecatedIntegerVersion(lua_State* L) {
   int SWIG_arg = 0;
+  HyperspaceVersion *arg1 = (HyperspaceVersion *) 0 ;
+  int result;
+  
+  SWIG_check_num_args("HyperspaceVersion::getDeprecatedIntegerVersion",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("HyperspaceVersion::getDeprecatedIntegerVersion",1,"HyperspaceVersion const *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_HyperspaceVersion,0))){
+    SWIG_fail_ptr("HyperspaceVersion_getDeprecatedIntegerVersion",1,SWIGTYPE_p_HyperspaceVersion);
+  }
+  
+  result = (int)((HyperspaceVersion const *)arg1)->getDeprecatedIntegerVersion();
+  lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_HyperspaceVersion_isFeatureBuild(lua_State* L) {
+  int SWIG_arg = 0;
+  HyperspaceVersion *arg1 = (HyperspaceVersion *) 0 ;
+  bool result;
+  
+  SWIG_check_num_args("HyperspaceVersion::isFeatureBuild",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("HyperspaceVersion::isFeatureBuild",1,"HyperspaceVersion const *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_HyperspaceVersion,0))){
+    SWIG_fail_ptr("HyperspaceVersion_isFeatureBuild",1,SWIGTYPE_p_HyperspaceVersion);
+  }
+  
+  result = (bool)((HyperspaceVersion const *)arg1)->isFeatureBuild();
+  lua_pushboolean(L,(int)(result!=0)); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_HyperspaceVersion_getFeatureName(lua_State* L) {
+  int SWIG_arg = 0;
+  HyperspaceVersion *arg1 = (HyperspaceVersion *) 0 ;
   std::string result;
   
-  SWIG_check_num_args("hs_get_version",0,0)
-  result = hs_get_version();
+  SWIG_check_num_args("HyperspaceVersion::getFeatureName",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("HyperspaceVersion::getFeatureName",1,"HyperspaceVersion const *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_HyperspaceVersion,0))){
+    SWIG_fail_ptr("HyperspaceVersion_getFeatureName",1,SWIGTYPE_p_HyperspaceVersion);
+  }
+  
+  result = ((HyperspaceVersion const *)arg1)->getFeatureName();
   lua_pushlstring(L,(&result)->data(),(&result)->size()); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_HyperspaceVersion_toIdentifierString(lua_State* L) {
+  int SWIG_arg = 0;
+  HyperspaceVersion *arg1 = (HyperspaceVersion *) 0 ;
+  std::string result;
+  
+  SWIG_check_num_args("HyperspaceVersion::toIdentifierString",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("HyperspaceVersion::toIdentifierString",1,"HyperspaceVersion const *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_HyperspaceVersion,0))){
+    SWIG_fail_ptr("HyperspaceVersion_toIdentifierString",1,SWIGTYPE_p_HyperspaceVersion);
+  }
+  
+  result = ((HyperspaceVersion const *)arg1)->toIdentifierString();
+  lua_pushlstring(L,(&result)->data(),(&result)->size()); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_HyperspaceVersion_toVersionString(lua_State* L) {
+  int SWIG_arg = 0;
+  HyperspaceVersion *arg1 = (HyperspaceVersion *) 0 ;
+  std::string result;
+  
+  SWIG_check_num_args("HyperspaceVersion::toVersionString",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("HyperspaceVersion::toVersionString",1,"HyperspaceVersion const *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_HyperspaceVersion,0))){
+    SWIG_fail_ptr("HyperspaceVersion_toVersionString",1,SWIGTYPE_p_HyperspaceVersion);
+  }
+  
+  result = ((HyperspaceVersion const *)arg1)->toVersionString();
+  lua_pushlstring(L,(&result)->data(),(&result)->size()); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_HyperspaceVersion_major_get(lua_State* L) {
+  int SWIG_arg = 0;
+  HyperspaceVersion *arg1 = (HyperspaceVersion *) 0 ;
+  unsigned int result;
+  
+  SWIG_check_num_args("HyperspaceVersion::major",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("HyperspaceVersion::major",1,"HyperspaceVersion *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_HyperspaceVersion,0))){
+    SWIG_fail_ptr("HyperspaceVersion_major_get",1,SWIGTYPE_p_HyperspaceVersion);
+  }
+  
+  result = (unsigned int)(unsigned int) ((arg1)->major);
+  lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_HyperspaceVersion_minor_get(lua_State* L) {
+  int SWIG_arg = 0;
+  HyperspaceVersion *arg1 = (HyperspaceVersion *) 0 ;
+  unsigned int result;
+  
+  SWIG_check_num_args("HyperspaceVersion::minor",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("HyperspaceVersion::minor",1,"HyperspaceVersion *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_HyperspaceVersion,0))){
+    SWIG_fail_ptr("HyperspaceVersion_minor_get",1,SWIGTYPE_p_HyperspaceVersion);
+  }
+  
+  result = (unsigned int)(unsigned int) ((arg1)->minor);
+  lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_HyperspaceVersion_patch_get(lua_State* L) {
+  int SWIG_arg = 0;
+  HyperspaceVersion *arg1 = (HyperspaceVersion *) 0 ;
+  unsigned int result;
+  
+  SWIG_check_num_args("HyperspaceVersion::patch",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("HyperspaceVersion::patch",1,"HyperspaceVersion *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_HyperspaceVersion,0))){
+    SWIG_fail_ptr("HyperspaceVersion_patch_get",1,SWIGTYPE_p_HyperspaceVersion);
+  }
+  
+  result = (unsigned int)(unsigned int) ((arg1)->patch);
+  lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_HyperspaceVersion___tostring(lua_State* L) {
+  int SWIG_arg = 0;
+  HyperspaceVersion *arg1 = (HyperspaceVersion *) 0 ;
+  char *result = 0 ;
+  
+  SWIG_check_num_args("HyperspaceVersion::__str__",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("HyperspaceVersion::__str__",1,"HyperspaceVersion const *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_HyperspaceVersion,0))){
+    SWIG_fail_ptr("HyperspaceVersion___tostring",1,SWIGTYPE_p_HyperspaceVersion);
+  }
+  
+  result = (char *)HyperspaceVersion___str__((HyperspaceVersion const *)arg1);
+  lua_pushstring(L,(const char *)result); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static swig_lua_attribute swig_HyperspaceVersion_attributes[] = {
+    { "major", _wrap_HyperspaceVersion_major_get, SWIG_Lua_set_immutable },
+    { "minor", _wrap_HyperspaceVersion_minor_get, SWIG_Lua_set_immutable },
+    { "patch", _wrap_HyperspaceVersion_patch_get, SWIG_Lua_set_immutable },
+    {0,0,0}
+};
+static swig_lua_method swig_HyperspaceVersion_methods[]= {
+    { "getDeprecatedIntegerVersion", _wrap_HyperspaceVersion_getDeprecatedIntegerVersion},
+    { "isFeatureBuild", _wrap_HyperspaceVersion_isFeatureBuild},
+    { "getFeatureName", _wrap_HyperspaceVersion_getFeatureName},
+    { "toIdentifierString", _wrap_HyperspaceVersion_toIdentifierString},
+    { "toVersionString", _wrap_HyperspaceVersion_toVersionString},
+    { "__tostring", _wrap_HyperspaceVersion___tostring},
+    {0,0}
+};
+static swig_lua_method swig_HyperspaceVersion_meta[] = {
+    { "__tostring", _wrap_HyperspaceVersion___tostring},
+    {0,0}
+};
+
+static swig_lua_attribute swig_HyperspaceVersion_Sf_SwigStatic_attributes[] = {
+    {0,0,0}
+};
+static swig_lua_const_info swig_HyperspaceVersion_Sf_SwigStatic_constants[]= {
+    {0,0,0,0,0,0}
+};
+static swig_lua_method swig_HyperspaceVersion_Sf_SwigStatic_methods[]= {
+    {0,0}
+};
+static swig_lua_class* swig_HyperspaceVersion_Sf_SwigStatic_classes[]= {
+    0
+};
+
+static swig_lua_namespace swig_HyperspaceVersion_Sf_SwigStatic = {
+    "HyperspaceVersion",
+    swig_HyperspaceVersion_Sf_SwigStatic_methods,
+    swig_HyperspaceVersion_Sf_SwigStatic_attributes,
+    swig_HyperspaceVersion_Sf_SwigStatic_constants,
+    swig_HyperspaceVersion_Sf_SwigStatic_classes,
+    0
+};
+static swig_lua_class *swig_HyperspaceVersion_bases[] = {0};
+static const char *swig_HyperspaceVersion_base_names[] = {0};
+static swig_lua_class _wrap_class_HyperspaceVersion = { "HyperspaceVersion", "HyperspaceVersion", &SWIGTYPE_p_HyperspaceVersion,0,0, swig_HyperspaceVersion_methods, swig_HyperspaceVersion_attributes, &swig_HyperspaceVersion_Sf_SwigStatic, swig_HyperspaceVersion_meta, swig_HyperspaceVersion_bases, swig_HyperspaceVersion_base_names };
+
+static int _wrap_version_get(lua_State* L) {
+  int SWIG_arg = 0;
+  HyperspaceVersion *result = 0 ;
+  
+  SWIG_check_num_args("HS_Version",0,0)
+  result = (HyperspaceVersion *)&HS_Version;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_HyperspaceVersion,0); SWIG_arg++; 
   return SWIG_arg;
   
   if(0) SWIG_fail;
@@ -3540,6 +3801,7 @@ static swig_lua_class _wrap_class_CFPS = { "CFPS", "CFPS", &SWIGTYPE_p_CFPS,0,0,
 static swig_lua_attribute swig_SwigModule_attributes[] = {
     { "FPS", _wrap_FPS_get, SWIG_Lua_set_immutable },
     { "G_ScoreKeeper", _wrap_G_ScoreKeeper_get, SWIG_Lua_set_immutable },
+    { "version", _wrap_version_get, SWIG_Lua_set_immutable },
     {0,0,0}
 };
 static swig_lua_const_info swig_SwigModule_constants[]= {
@@ -3550,11 +3812,11 @@ static swig_lua_method swig_SwigModule_methods[]= {
     { "getSkillBonus", _wrap_getSkillBonus},
     { "random32", _wrap_random32},
     { "srandom32", _wrap_srandom32},
-    { "version", _wrap_version},
     {0,0}
 };
 static swig_lua_class* swig_SwigModule_classes[]= {
 &_wrap_class_string,
+&_wrap_class_HyperspaceVersion,
 &_wrap_class_CFPS,
     0
 };
@@ -4070,6 +4332,7 @@ static swig_type_info _swigt__p_MenuScreen = {"_p_MenuScreen", 0, 0, 0, 0, 0};
 static swig_type_info _swigt__p_GenericButton = {"_p_GenericButton", "GenericButton *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_FTLButton = {"_p_FTLButton", 0, 0, 0, 0, 0};
 static swig_type_info _swigt__p_DistressButton = {"_p_DistressButton", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_HyperspaceVersion = {"_p_HyperspaceVersion", "HyperspaceVersion *", 0, 0, (void*)&_wrap_class_HyperspaceVersion, 0};
 static swig_type_info _swigt__p_LaserBlast = {"_p_LaserBlast", "LaserBlast *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Projectile = {"_p_Projectile", "Projectile *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Repairable = {"_p_Repairable", "Repairable *", 0, 0, (void*)0, 0};
@@ -4186,6 +4449,7 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_HackBox,
   &_swigt__p_HackingDrone,
   &_swigt__p_HackingSystem,
+  &_swigt__p_HyperspaceVersion,
   &_swigt__p_InputBox,
   &_swigt__p_IonDrone,
   &_swigt__p_IonDroneAnimation,
@@ -4332,6 +4596,7 @@ static swig_cast_info _swigc__p_FocusWindow[] = {  {&_swigt__p_ConfirmWindow, _p
 static swig_cast_info _swigc__p_FTLButton[] = {{&_swigt__p_FTLButton, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_DistressButton[] = {{&_swigt__p_DistressButton, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_GenericButton[] = {  {&_swigt__p_TextButton, _p_TextButtonTo_p_GenericButton, 0, 0},  {&_swigt__p_FTLButton, _p_FTLButtonTo_p_GenericButton, 0, 0},  {&_swigt__p_ReactorButton, _p_ReactorButtonTo_p_GenericButton, 0, 0},  {&_swigt__p_ShipButton, _p_ShipButtonTo_p_GenericButton, 0, 0},  {&_swigt__p_GenericButton, 0, 0, 0},  {&_swigt__p_DistressButton, _p_DistressButtonTo_p_GenericButton, 0, 0},  {&_swigt__p_Button, _p_ButtonTo_p_GenericButton, 0, 0},  {&_swigt__p_TextButton0, _p_TextButton0To_p_GenericButton, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_HyperspaceVersion[] = {  {&_swigt__p_HyperspaceVersion, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_LaserBlast[] = {  {&_swigt__p_PDSFire, _p_PDSFireTo_p_LaserBlast, 0, 0},  {&_swigt__p_LaserBlast, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Projectile[] = {  {&_swigt__p_PDSFire, _p_PDSFireTo_p_Projectile, 0, 0},  {&_swigt__p_LaserBlast, _p_LaserBlastTo_p_Projectile, 0, 0},  {&_swigt__p_BeamWeapon, _p_BeamWeaponTo_p_Projectile, 0, 0},  {&_swigt__p_Asteroid, _p_AsteroidTo_p_Projectile, 0, 0},  {&_swigt__p_CrewLaser, _p_CrewLaserTo_p_Projectile, 0, 0},  {&_swigt__p_Projectile, 0, 0, 0},  {&_swigt__p_BombProjectile, _p_BombProjectileTo_p_Projectile, 0, 0},  {&_swigt__p_Missile, _p_MissileTo_p_Projectile, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Fire[] = {{&_swigt__p_Fire, 0, 0, 0},{0, 0, 0, 0}};
@@ -4448,6 +4713,7 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_HackBox,
   _swigc__p_HackingDrone,
   _swigc__p_HackingSystem,
+  _swigc__p_HyperspaceVersion,
   _swigc__p_InputBox,
   _swigc__p_IonDrone,
   _swigc__p_IonDroneAnimation,

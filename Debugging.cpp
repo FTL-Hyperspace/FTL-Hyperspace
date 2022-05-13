@@ -3,18 +3,7 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/format.hpp>
 #include "CustomOptions.h"
-#define BUILD_IDENTIFIER_HASH "unknown_build"
-#include "Version.autogen.hpp"
-
-#ifdef __linux__
-    #ifdef __i386__
-        #define BUILD_TGT " x86"
-    #else
-        #define BUILD_TGT " x64"
-    #endif // __arch
-#else
-#define BUILD_TGT ""
-#endif // __linux__
+#include "HSVersion.h"
 
 // Code for creation of FTL_HS.log and crashlogs
 
@@ -135,21 +124,17 @@ HOOK_METHOD(CApp, OnInit, () -> bool)
     bool ret = super();
     std::string date = __DATE__;
     std::string time = __TIME__;
-    std::string identifier = BUILD_IDENTIFIER_HASH;
-    std::string tgtSystem = BUILD_TGT;
 
-    hs_log_file(boost::str(boost::format("Hyperspace: v%s%s %s Compiled: %s %s\n") % G_->GetVersionString() % tgtSystem % identifier % date % time).c_str());
+    hs_log_file(boost::str(boost::format("Hyperspace: v%s Compiled: %s %s\n") % HS_Version.toIdentifierString() % date % time).c_str());
     return ret;
 }
 
 HOOK_METHOD(MouseControl, OnRender, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> MouseControl::OnRender -> Begin (Debugging.cpp)\n")
-    std::string identifier = BUILD_IDENTIFIER_HASH;
-    std::string tgtSystem = BUILD_TGT;
     if(CustomOptionsManager::GetInstance()->altMode)
     {
-        freetype::easy_printRightAlign(51, 1280.f, 0.f, boost::str(boost::format("HS-%s%s %s") % G_->GetVersionString() % tgtSystem % identifier).c_str());
+        freetype::easy_printRightAlign(51, 1280.f, 0.f, boost::str(boost::format("HS-%s") % HS_Version.toIdentifierString()).c_str());
     }
     super();
 }
@@ -157,8 +142,6 @@ HOOK_METHOD(MouseControl, OnRender, () -> void)
 HOOK_METHOD(ResourceControl, RenderLoadingBar, (float initialProgress, float finalProgress) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ResourceControl::RenderLoadingBar -> Begin (Debugging.cpp)\n")
-    std::string identifier = BUILD_IDENTIFIER_HASH;
-    std::string tgtSystem = BUILD_TGT;
-    freetype::easy_printRightAlign(51, 1280.f, 0.f, boost::str(boost::format("HS-%s%s %s") % G_->GetVersionString() % tgtSystem % identifier).c_str());
+    freetype::easy_printRightAlign(51, 1280.f, 0.f, boost::str(boost::format("HS-%s") % HS_Version.toIdentifierString()).c_str());
     super(initialProgress, finalProgress);
 }

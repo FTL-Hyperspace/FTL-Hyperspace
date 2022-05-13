@@ -1041,6 +1041,10 @@
 		<Unit filename="Global.h">
 			<Option virtualFolder="Core/" />
 		</Unit>
+		<Unit filename="HSVersion.h">
+			<Option virtualFolder="Core/" />
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
 		<Unit filename="HullNumbers.cpp">
 			<Option virtualFolder="Content/Misc/" />
 		</Unit>

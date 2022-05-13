@@ -29,9 +29,11 @@
 #include "CustomShipGenerator.h"
 #include "ShipUnlocks.h"
 #include "CustomAchievements.h"
+#include "HSVersion.h"
 
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string/replace.hpp>
+#include <boost/algorithm/string/split.hpp>
 
 GL_Color& ParseColorNode(GL_Color& colorRef, rapidxml::xml_node<char>* node, bool divide)
 {
@@ -214,53 +216,47 @@ void Global::InitializeResources(ResourceControl *resources)
                 if(versionStr.find('.') == std::string::npos)
                 {
                     hs_log_file("Old version check in use. Mod authors please update your hyperspace.xml's version tag!\n");
-                    checkedVersion = boost::lexical_cast<int>(node->value()) == G_->GetVersion();
+                    checkedVersion = boost::lexical_cast<int>(node->value()) == HS_Version.getDeprecatedIntegerVersion();
                 }
                 else
                 {
+                    // Enhanced Hyperspace version check
+                    hs_log_file("Checking version Mod requests version: '%s' vs Hyperspace version: '%s'\n", versionStr.c_str(), HS_Version.toVersionString().c_str());
+
                     char firstChar = versionStr.front();
                     if(firstChar == '=' || firstChar == '~' || firstChar == '^')
                     {
                         versionStr.erase(0, 1);
                     }
 
-                    // Enhanced Hyperspace version check
-                    size_t pos = 0;
-                    uint32_t version = 0;
-                    int i = 0;
-                    for(; (pos = versionStr.find('.')) != std::string::npos; i++) // TODO: Could probably be simplified with boost::algorithm::split
+                    std::vector<std::string> version;
+                    boost::split(version, versionStr, boost::is_any_of("."));
+
+                    if(version.size() != 3)
                     {
-                        uint8_t verEntry = (uint8_t) boost::lexical_cast<int>(versionStr.substr(0, pos));
-                        version <<= 8;
-                        version |= verEntry;
-                        versionStr.erase(0, pos + 1);
+                        hs_log_file("Invalid version check syntax.\n");
+                        checkedVersion = false;
+                        throw "Invalid/Unknown Hyperspace version check syntax in mod, could not validate hyperspace version matches mod requirements.\nMods may function incorrectly.";
                     }
-                    version <<= 8;
-                    version |= (uint8_t) boost::lexical_cast<int>(versionStr);
 
-                    uint32_t hsRawVersion = G_->GetRawVersion();
-                    hs_log_file("Checking version Mod requests version: '%06x' vs Hyperspace version: '%06x'\n", version, hsRawVersion);
+                    unsigned int v_major = boost::lexical_cast<unsigned int>(version[0]);
+                    unsigned int v_minor = boost::lexical_cast<unsigned int>(version[1]);
+                    unsigned int v_patch = boost::lexical_cast<unsigned int>(version[2]);
 
-                    uint8_t hsVerMajor = (hsRawVersion >> 16) & 0xFF;
-                    uint8_t hsVerMinor = (hsRawVersion >> 8) & 0xFF;
-                    uint8_t verMajor = (version >> 16) & 0xFF;
-                    uint8_t verMinor = (version >> 8) & 0xFF;
-                    uint8_t hsVerPatch = hsRawVersion & 0xFF;
-                    uint8_t verPatch = version & 0xFF;
                     switch(firstChar)
                     {
                         case '=':
-                            checkedVersion = version == hsRawVersion;
+                            checkedVersion = v_major == HS_Version.major && v_minor == HS_Version.minor && v_patch == HS_Version.patch;
                             break;
-                        
+
                         case '~':
-                            checkedVersion = ((hsRawVersion ^ version) & 0xFFFF00) == 0 && hsVerPatch >= verPatch;
+                            checkedVersion = v_major == HS_Version.major && v_minor == HS_Version.minor && v_patch <= HS_Version.patch;
                             break;
-                        
+
                         default:
                             hs_log_file("No version check case specified, defaulting to '^'.\n");
                         case '^':
-                            checkedVersion = hsVerMajor == verMajor && (hsVerMinor > verMinor || (hsVerMinor == verMinor && hsVerPatch >= verPatch));
+                            checkedVersion = v_major == HS_Version.major && (v_minor < HS_Version.minor || (v_minor == HS_Version.minor && v_patch <= HS_Version.patch));
                     }
                 }
             }

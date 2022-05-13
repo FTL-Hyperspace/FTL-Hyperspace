@@ -1,4 +1,5 @@
 #include "ScriptFPS.h"
+#include <string.h>
 
 #include "../../Global.h"
 

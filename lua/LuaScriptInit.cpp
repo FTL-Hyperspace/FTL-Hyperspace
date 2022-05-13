@@ -30,7 +30,7 @@
     
 */
 
-std::string luaTest = "print(\"Hyperspace version from Lua: \" .. Hyperspace.version())\nprint(\"hello from CFPS SpeedFactor: \" .. Hyperspace.FPS.SpeedFactor)\nfunction helloCallback2()\n\tprint(\"Hello Number 2\")\nend\nfunction helloWorld()\n\tprint(\"!!!!!!Hello World!!!!!!\")\nend\nlog(\"LUA MESSAGE\")\nscript.on_load(helloWorld)\nscript.on_load(helloCallback2)\nscript.on_load(helloWorld)\n";
+std::string luaTest = "print(\"Hyperspace version from Lua: \" .. tostring(Hyperspace.version))\nprint(Hyperspace.version:toIdentifierString())\nprint(\"hello from CFPS SpeedFactor: \" .. Hyperspace.FPS.SpeedFactor)\nfunction helloCallback2()\n\tprint(\"Hello Number 2\")\nend\nfunction helloWorld()\n\tprint(\"!!!!!!Hello World!!!!!!\")\nend\nlog(\"LUA MESSAGE\")\nscript.on_load(helloWorld)\nscript.on_load(helloCallback2)\nscript.on_load(helloWorld)\n";
 
 void removeDangerousStuff(lua_State* lua)
 {
