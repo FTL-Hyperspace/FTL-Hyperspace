@@ -19,8 +19,6 @@ extern std::bitset<8> advancedCheckEquipment;
 // bit 5: TriggeredEvent::Update
 // bit 6: StarMap::GenerateEvents (priority events), StarMap::GenerateMap (sector quests and regenerated events)
 
-extern std::deque<std::pair<std::string,int>> eventQueue;
-
 extern bool alreadyWonCustom;
 extern bool bossDefeated;
 extern TimerHelper *restartMusicTimer;
@@ -554,8 +552,10 @@ struct EventAlias
 struct EventQueueEvent
 {
     std::string event;
-    bool seeded = true;
+    std::string label;
+    int seed = 0;
 };
+extern std::deque<EventQueueEvent> eventQueue;
 
 struct SectorReplace
 {
@@ -627,6 +627,7 @@ struct CustomEvent
     bool eventRevisitIgnoreUnique = false;
     std::vector<std::pair<std::string, EventAlias>> eventAlias;
     std::vector<EventQueueEvent> queueEvents;
+    std::vector<std::string> clearQueueEvents;
     bool restartEvent = false;
     std::string renameBeacon = "";
     EventGameOver gameOver = EventGameOver();
@@ -924,7 +925,8 @@ public:
     LocationEvent* GetEvent(WorldManager *world, std::string eventName, bool ignoreUnique, int seed);
     void LoadEvent(WorldManager *world, EventLoadList *eventList, int seed, CustomEvent *parentEvent = nullptr);
     void LoadEvent(WorldManager *world, std::string eventName, bool ignoreUnique, int seed, CustomEvent *parentEvent = nullptr);
-    static void QueueEvent(std::string &eventName, int seed);
+    static void QueueEvent(EventQueueEvent &event);
+    static void QueueEvent(std::string &event, int seed);
 
     std::vector<std::string> eventFiles;
     CustomEvent *defaultVictory = new CustomEvent();

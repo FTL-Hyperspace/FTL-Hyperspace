@@ -910,12 +910,31 @@ bool CustomEventsParser::ParseCustomEvent(rapidxml::xml_node<char> *node, Custom
             EventQueueEvent queueEvent = EventQueueEvent();
 
             queueEvent.event = child->value();
+            queueEvent.label = queueEvent.event;
+
+            if (child->first_attribute("name"))
+            {
+                queueEvent.label = child->first_attribute("name")->value();
+            }
             if (child->first_attribute("seeded"))
             {
-                queueEvent.seeded = EventsParser::ParseBoolean(child->first_attribute("seeded")->value());
+                queueEvent.seed = EventsParser::ParseBoolean(child->first_attribute("seeded")->value()) ? 0 : -1;
             }
 
             customEvent->queueEvents.push_back(queueEvent);
+        }
+        if (nodeName == "clearQueueEvent")
+        {
+            isDefault = false;
+
+            if (child->first_attribute("name"))
+            {
+                customEvent->clearQueueEvents.push_back(child->first_attribute("name")->value());
+            }
+            else
+            {
+                customEvent->clearQueueEvents.push_back("");
+            }
         }
 
         if (nodeName == "restartEvent")
@@ -3822,6 +3841,23 @@ void CustomCreateLocation(WorldManager* world, LocationEvent* event, CustomEvent
             renamedBeacons[std::distance(world->starMap.locations.begin(), it)] = customEvent->renameBeacon;
         }
     }
+
+    if (!customEvent->clearQueueEvents.empty())
+    {
+        for (std::string &name : customEvent->clearQueueEvents)
+        {
+            if (!name.empty())
+            {
+                eventQueue.erase(std::remove_if(eventQueue.begin(), eventQueue.end(),
+                                                [&name](EventQueueEvent& obj) { return obj.label == name; }),
+                                                eventQueue.end());
+            }
+            else
+            {
+                eventQueue.clear();
+            }
+        }
+    }
 }
 
 LocationEvent* CustomEventsParser::GetEvent(WorldManager *world, EventLoadList *eventList, int seed)
@@ -3925,9 +3961,20 @@ void CustomEventsParser::LoadEvent(WorldManager *world, std::string eventName, b
     if (event) world->UpdateLocation(event);
 }
 
-void CustomEventsParser::QueueEvent(std::string &eventName, int seed)
+void CustomEventsParser::QueueEvent(EventQueueEvent &event)
 {
-    eventQueue.push_back({eventName, seed});
+    eventQueue.push_back(event);
+}
+
+void CustomEventsParser::QueueEvent(std::string &event, int seed)
+{
+    EventQueueEvent queueEvent;
+
+    queueEvent.event = event;
+    queueEvent.seed = seed;
+    queueEvent.label = "";
+
+    eventQueue.push_back(queueEvent);
 }
 
 HOOK_METHOD(WorldManager, CreateLocation, (Location *location) -> void)
@@ -4007,21 +4054,21 @@ HOOK_METHOD(WorldManager, CreateLocation, (Location *location) -> void)
     {
         CustomCreateLocation(this, loc, customEvent);
 
-        for (auto& queueEvent : customEvent->queueEvents)
+        for (EventQueueEvent queueEvent : customEvent->queueEvents) // by value
         {
-            int seed = queueEvent.seeded ? (int)(location->loc.x + location->loc.y) ^ starMap.currentSectorSeed : -1;
-            CustomEventsParser::QueueEvent(queueEvent.event, seed);
+            if (queueEvent.seed != -1) queueEvent.seed = GenerateLocationSeed(*location, starMap.currentSectorSeed);
+            CustomEventsParser::QueueEvent(queueEvent);
         }
 
         if (customEvent->eventLoadList != nullptr)
         {
-            int seed = customEvent->eventLoadList->seeded ? (int)(location->loc.x + location->loc.y) ^ starMap.currentSectorSeed : -1;
+            int seed = customEvent->eventLoadList->seeded ? GenerateLocationSeed(*location, starMap.currentSectorSeed) : -1;
             CustomEventsParser::GetInstance()->LoadEvent(this, customEvent->eventLoadList, seed, customEvent);
         }
 
         if (!customEvent->eventLoad.empty())
         {
-            int seed = customEvent->eventLoadSeeded ? (int)(location->loc.x + location->loc.y) ^ starMap.currentSectorSeed : -1;
+            int seed = customEvent->eventLoadSeeded ? GenerateLocationSeed(*location, starMap.currentSectorSeed) : -1;
             CustomEventsParser::GetInstance()->LoadEvent(this, customEvent->eventLoad, customEvent->eventLoadIgnoreUnique, seed, customEvent);
         }
 
@@ -4129,21 +4176,21 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent *loc) -> void)
 
         CustomCreateLocation(this, loc, customEvent);
 
-        for (auto& queueEvent : customEvent->queueEvents)
+        for (EventQueueEvent queueEvent : customEvent->queueEvents) // by value
         {
-            int seed = queueEvent.seeded ? (int)(starMap.currentLoc->loc.x + starMap.currentLoc->loc.y) ^ starMap.currentSectorSeed : -1;
-            CustomEventsParser::QueueEvent(queueEvent.event, seed);
+            if (queueEvent.seed != -1) queueEvent.seed = GenerateLocationSeed(*starMap.currentLoc, starMap.currentSectorSeed);
+            CustomEventsParser::QueueEvent(queueEvent);
         }
 
         if (customEvent->eventLoadList != nullptr)
         {
-            int seed = customEvent->eventLoadList->seeded ? (int)(starMap.currentLoc->loc.x + starMap.currentLoc->loc.y) ^ starMap.currentSectorSeed : -1;
+            int seed = customEvent->eventLoadList->seeded ? GenerateLocationSeed(*starMap.currentLoc, starMap.currentSectorSeed) : -1;
             CustomEventsParser::GetInstance()->LoadEvent(this, customEvent->eventLoadList, seed, customEvent);
         }
 
         if (!customEvent->eventLoad.empty())
         {
-            int seed = customEvent->eventLoadSeeded ? (int)(starMap.currentLoc->loc.x + starMap.currentLoc->loc.y) ^ starMap.currentSectorSeed : -1;
+            int seed = customEvent->eventLoadSeeded ? GenerateLocationSeed(*starMap.currentLoc, starMap.currentSectorSeed) : -1;
             CustomEventsParser::GetInstance()->LoadEvent(this, customEvent->eventLoad, customEvent->eventLoadIgnoreUnique, seed, customEvent);
         }
 
