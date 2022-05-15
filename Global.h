@@ -97,7 +97,7 @@ private:
 
     static CApp *__cApp;
 
-    const uint32_t __version = 0x010003;
+    const uint32_t __version = 0x010100;
 
 
 };
