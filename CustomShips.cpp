@@ -766,6 +766,7 @@ HOOK_METHOD(Ship, OnInit, (ShipBlueprint* bp) -> void)
         std::vector<std::string> thrusters;
         std::vector<Pointf> thrusterPos;
         std::vector<bool> thrusterRot;
+        std::vector<bool> thrusterMirror;
 
         rapidxml::xml_document<> doc;
         doc.parse<0>(xmltext);
@@ -796,6 +797,7 @@ HOOK_METHOD(Ship, OnInit, (ShipBlueprint* bp) -> void)
                     {
                         Pointf pos = {0.f,0.f};
                         bool rot = false;
+                        bool mirror = false;
                         if (child->first_attribute("x"))
                         {
                             pos.x = boost::lexical_cast<float>(child->first_attribute("x")->value());
@@ -808,10 +810,15 @@ HOOK_METHOD(Ship, OnInit, (ShipBlueprint* bp) -> void)
                         {
                             rot = EventsParser::ParseBoolean(child->first_attribute("rotate")->value());
                         }
+                        if (child->first_attribute("mirror"))
+                        {
+                            mirror = EventsParser::ParseBoolean(child->first_attribute("mirror")->value());
+                        }
 
                         thrusters.push_back(child->value());
                         thrusterPos.push_back(pos);
                         thrusterRot.push_back(rot);
+                        thrusterMirror.push_back(mirror);
 
                         nThrusters++;
                         if (!rot && nVanillaThrusters<2) nVanillaThrusters++;
@@ -847,6 +854,7 @@ HOOK_METHOD(Ship, OnInit, (ShipBlueprint* bp) -> void)
                     {
                         engineAnim[nVanillaThrusters].RandomStart();
                     }
+                    engineAnim[nVanillaThrusters].bAlwaysMirror = thrusterMirror[i];
                     nVanillaThrusters++;
                 }
                 else
@@ -881,6 +889,7 @@ HOOK_METHOD(Ship, OnInit, (ShipBlueprint* bp) -> void)
                     {
                         extraEngineAnim[iShipId][nExtraThrusters].first.RandomStart();
                     }
+                    extraEngineAnim[iShipId][nExtraThrusters].first.bAlwaysMirror = thrusterMirror[i];
                     nExtraThrusters++;
                 }
             }
