@@ -3177,7 +3177,7 @@ fail:
 }
 
 
-static int _wrap_G_ScoreKeeper_get(lua_State* L) {
+static int _wrap_Score_get(lua_State* L) {
   int SWIG_arg = 0;
   ScoreKeeper *result = 0 ;
   
@@ -3264,7 +3264,7 @@ fail:
 }
 
 
-static int _wrap_srandom32(lua_State* L) {
+static int _wrap_setRandomSeed(lua_State* L) {
   int SWIG_arg = 0;
   unsigned int arg1 ;
   
@@ -3800,7 +3800,7 @@ static swig_lua_class _wrap_class_CFPS = { "CFPS", "CFPS", &SWIGTYPE_p_CFPS,0,0,
 
 static swig_lua_attribute swig_SwigModule_attributes[] = {
     { "FPS", _wrap_FPS_get, SWIG_Lua_set_immutable },
-    { "G_ScoreKeeper", _wrap_G_ScoreKeeper_get, SWIG_Lua_set_immutable },
+    { "Score", _wrap_Score_get, SWIG_Lua_set_immutable },
     { "version", _wrap_version_get, SWIG_Lua_set_immutable },
     {0,0,0}
 };
@@ -3811,7 +3811,7 @@ static swig_lua_method swig_SwigModule_methods[]= {
     { "font_text_width", _wrap_font_text_width},
     { "getSkillBonus", _wrap_getSkillBonus},
     { "random32", _wrap_random32},
-    { "srandom32", _wrap_srandom32},
+    { "setRandomSeed", _wrap_setRandomSeed},
     {0,0}
 };
 static swig_lua_class* swig_SwigModule_classes[]= {

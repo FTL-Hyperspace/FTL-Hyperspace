@@ -9,12 +9,14 @@
 %}
 
 %rename("FPS") Global_CFPS_FPSControl;
-%rename("G_ScoreKeeper") Global_ScoreKeeper_Keeper;
+%rename("Score") Global_ScoreKeeper_Keeper;
 
 %immutable;
 static CFPS* Global_CFPS_FPSControl;
 static ScoreKeeper* Global_ScoreKeeper_Keeper;
 %mutable;
+
+%rename("setRandomSeed") srandom32;
 
 float font_text_width(freetype::font_data &fontData, const char *str, float size);
 float getSkillBonus(int skill, int level);
