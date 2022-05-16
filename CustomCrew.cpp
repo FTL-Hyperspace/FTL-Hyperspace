@@ -2875,109 +2875,115 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
         {
             ex->prevCanMove = false;
 
-            ShipGraph* graph = ShipGraph::GetShipInfo(currentShipId);
-
-            Slot currentLocationSlot;
-            currentLocationSlot.roomId = iRoomId;
-            if (iRoomId != -1)
+            if (!IsDead() && !OutOfGame())
             {
-                Room *room = graph->rooms[iRoomId];
-                currentLocationSlot.slotId = (((int)x - room->rect.x) / 35 + (room->rect.w / 35) * (((int)y - room->rect.y) / 35));
-                if (currentLocationSlot.slotId < 0 || currentLocationSlot.slotId >= (room->rect.w / 35)*(room->rect.h / 35))
-                {
-                    currentLocationSlot.roomId = -1;
-                }
-                else
-                {
-                    currentLocationSlot.worldLocation = graph->GetSlotWorldPosition(currentLocationSlot.slotId, currentLocationSlot.roomId);
-                }
-            }
+                ShipGraph* graph = ShipGraph::GetShipInfo(currentShipId);
 
-            if (currentLocationSlot.roomId != -1 && (currentLocationSlot.roomId != currentSlot.roomId || currentLocationSlot.slotId != currentSlot.slotId))
-            {
-                ShipManager *ship = G_->GetShipManager(currentShipId);
-                CrewMember *moveCrew = nullptr;
-                for (CrewMember *otherCrew : ship->vCrewList)
+                Slot currentLocationSlot;
+                currentLocationSlot.roomId = iRoomId;
+                if (iRoomId != -1)
                 {
-                    if (otherCrew != this && otherCrew->currentSlot.roomId == currentLocationSlot.roomId && otherCrew->currentSlot.slotId == currentLocationSlot.slotId && otherCrew->intruder == intruder)
+                    Room *room = graph->rooms[iRoomId];
+                    currentLocationSlot.slotId = (((int)x - room->rect.x) / 35 + (room->rect.w / 35) * (((int)y - room->rect.y) / 35));
+                    if (currentLocationSlot.slotId < 0 || currentLocationSlot.slotId >= (room->rect.w / 35)*(room->rect.h / 35))
                     {
-                        moveCrew = otherCrew;
-                        break;
-                    }
-                }
-                if (moveCrew)
-                {
-                    bool moveCrewCanMove;
-                    CM_EX(moveCrew)->CalculateStat(CrewStat::CAN_MOVE, &moveCrewCanMove);
-
-                    if (moveCrewCanMove)
-                    {
-                        moveCrew->EmptySlot();
+                        currentLocationSlot.roomId = -1;
                     }
                     else
                     {
-                        moveCrew = nullptr;
+                        currentLocationSlot.worldLocation = graph->GetSlotWorldPosition(currentLocationSlot.slotId, currentLocationSlot.roomId);
                     }
                 }
-                EmptySlot();
 
-                currentCrewLoop = nullptr; // bypass canMove to force movement
-                MoveToRoom(currentLocationSlot.roomId, currentLocationSlot.slotId, true);
-                currentCrewLoop = this;
-
-                if (moveCrew)
+                if (currentLocationSlot.roomId != -1 && (currentLocationSlot.roomId != currentSlot.roomId || currentLocationSlot.slotId != currentSlot.slotId))
                 {
-                    moveCrew->MoveToRoom(currentLocationSlot.roomId, currentLocationSlot.slotId, true);
-                }
-            }
-
-            currentSlot.worldLocation = graph->GetSlotWorldPosition(currentSlot.slotId, currentSlot.roomId);
-
-            if (std::fabs(currentSlot.worldLocation.x - x) < 17.f && std::fabs(currentSlot.worldLocation.y - y) < 17.f)
-            {
-                if (def->snapToSlot)
-                {
-                    x = currentSlot.worldLocation.x;
-                    y = currentSlot.worldLocation.y;
-                    path.finish.x = currentSlot.worldLocation.x;
-                    path.finish.y = currentSlot.worldLocation.y;
-                    goal_x = currentSlot.worldLocation.x;
-                    goal_y = currentSlot.worldLocation.y;
-                }
-                else
-                {
-                    float maxDistance;
-                    if (fStunTime > 0.f)
+                    ShipManager *ship = G_->GetShipManager(currentShipId);
+                    CrewMember *moveCrew = nullptr;
+                    for (CrewMember *otherCrew : ship->vCrewList)
                     {
-                        maxDistance = 10000.f;
-                    }
-                    else
-                    {
-                        switch (crewAnim->status)
+                        if (otherCrew != this && otherCrew->currentSlot.roomId == currentLocationSlot.roomId && otherCrew->currentSlot.slotId == currentLocationSlot.slotId && otherCrew->intruder == intruder)
                         {
-                        case 0: // walk/idle
-                        case 2: // repair
-                        case 4: // fire
-                        case 7: // shoot
-                            maxDistance = 10.f;
-                            break;
-                        case 1: // punch
-                        case 8: // type
-                            maxDistance = 0.f;
-                            break;
-                        default:
-                            maxDistance = 10000.f;
+                            moveCrew = otherCrew;
                             break;
                         }
                     }
+                    if (moveCrew)
+                    {
+                        bool moveCrewCanMove;
+                        CM_EX(moveCrew)->CalculateStat(CrewStat::CAN_MOVE, &moveCrewCanMove);
 
-                    currentSlot.worldLocation.x = std::max(currentSlot.worldLocation.x-maxDistance,std::min(x,currentSlot.worldLocation.x+maxDistance));
-                    currentSlot.worldLocation.y = std::max(currentSlot.worldLocation.y-maxDistance,std::min(y,currentSlot.worldLocation.y+maxDistance));
+                        if (moveCrewCanMove)
+                        {
+                            moveCrew->EmptySlot();
+                        }
+                        else
+                        {
+                            moveCrew = nullptr;
+                        }
+                    }
+                    EmptySlot();
 
-                    path.finish.x = currentSlot.worldLocation.x;
-                    path.finish.y = currentSlot.worldLocation.y;
-                    goal_x = currentSlot.worldLocation.x;
-                    goal_y = currentSlot.worldLocation.y;
+                    currentCrewLoop = nullptr; // bypass canMove to force movement
+                    MoveToRoom(currentLocationSlot.roomId, currentLocationSlot.slotId, true);
+                    currentCrewLoop = this;
+
+                    if (moveCrew)
+                    {
+                        moveCrew->MoveToRoom(currentLocationSlot.roomId, currentLocationSlot.slotId, true);
+                    }
+                }
+
+                if (currentSlot.roomId != -1)
+                {
+                    currentSlot.worldLocation = graph->GetSlotWorldPosition(currentSlot.slotId, currentSlot.roomId);
+
+                    if (std::fabs(currentSlot.worldLocation.x - x) < 17.f && std::fabs(currentSlot.worldLocation.y - y) < 17.f)
+                    {
+                        if (def->snapToSlot)
+                        {
+                            x = currentSlot.worldLocation.x;
+                            y = currentSlot.worldLocation.y;
+                            path.finish.x = currentSlot.worldLocation.x;
+                            path.finish.y = currentSlot.worldLocation.y;
+                            goal_x = currentSlot.worldLocation.x;
+                            goal_y = currentSlot.worldLocation.y;
+                        }
+                        else
+                        {
+                            float maxDistance;
+                            if (fStunTime > 0.f)
+                            {
+                                maxDistance = 10000.f;
+                            }
+                            else
+                            {
+                                switch (crewAnim->status)
+                                {
+                                case 0: // walk/idle
+                                case 2: // repair
+                                case 4: // fire
+                                case 7: // shoot
+                                    maxDistance = 10.f;
+                                    break;
+                                case 1: // punch
+                                case 8: // type
+                                    maxDistance = 0.f;
+                                    break;
+                                default:
+                                    maxDistance = 10000.f;
+                                    break;
+                                }
+                            }
+
+                            currentSlot.worldLocation.x = std::max(currentSlot.worldLocation.x-maxDistance,std::min(x,currentSlot.worldLocation.x+maxDistance));
+                            currentSlot.worldLocation.y = std::max(currentSlot.worldLocation.y-maxDistance,std::min(y,currentSlot.worldLocation.y+maxDistance));
+
+                            path.finish.x = currentSlot.worldLocation.x;
+                            path.finish.y = currentSlot.worldLocation.y;
+                            goal_x = currentSlot.worldLocation.x;
+                            goal_y = currentSlot.worldLocation.y;
+                        }
+                    }
                 }
             }
         }
