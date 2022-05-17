@@ -290,6 +290,7 @@ struct GL_ColorTexVertex
 /***
 @type GL_Line
 */
+%rename("c_end") GL_Line::end;
 %nodefaultctor;
 struct GL_Line
 {
