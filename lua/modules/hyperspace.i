@@ -54,6 +54,15 @@ struct CFPS
 
 %luacode {
     print "Hyperspace SWIG Lua loaded"
+    
+    function fixTheHangar()
+        print("OH MY GOD WE SAW THE HANGAR, on reloading the save")
+    end
+    function runStarted()
+        print("OH MY GOD THE RUN STARTED")
+    end
+    script.on_game_event("START_BEACON", true, fixTheHangar)
+    script.on_game_event("START_BEACON", false, runStarted)
 }
 
 %ignore "";

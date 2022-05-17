@@ -5102,7 +5102,16 @@ SWIGEXPORT int SWIG_init(lua_State* L) /* default Lua action */
 
 const char* SWIG_LUACODE=
   "\n"
-  "    print \"Hyperspace SWIG Lua loaded\"";
+  "    print \"Hyperspace SWIG Lua loaded\"\n"
+  "    \n"
+  "    function fixTheHangar()\n"
+  "        print(\"OH MY GOD WE SAW THE HANGAR, on reloading the save\")\n"
+  "    end\n"
+  "    function runStarted()\n"
+  "        print(\"OH MY GOD THE RUN STARTED\")\n"
+  "    end\n"
+  "    script.on_game_event(\"START_BEACON\", true, fixTheHangar)\n"
+  "    script.on_game_event(\"START_BEACON\", false, runStarted)";
 
 void SWIG_init_user(lua_State* L)
 {
