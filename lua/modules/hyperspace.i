@@ -11,10 +11,8 @@
 %rename("FPS") Global_CFPS_FPSControl;
 %rename("Score") Global_ScoreKeeper_Keeper;
 
-%immutable;
-static CFPS* Global_CFPS_FPSControl;
-static ScoreKeeper* Global_ScoreKeeper_Keeper;
-%mutable;
+%immutable Global_CFPS_FPSControl;
+%immutable Global_ScoreKeeper_Keeper;
 
 %rename("setRandomSeed") srandom32;
 

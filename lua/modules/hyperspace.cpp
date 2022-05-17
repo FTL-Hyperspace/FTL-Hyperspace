@@ -3160,40 +3160,6 @@ static swig_lua_class *swig_string_bases[] = {0};
 static const char *swig_string_base_names[] = {0};
 static swig_lua_class _wrap_class_string = { "string", "string", &SWIGTYPE_p_std__string,_proxy__wrap_new_string,0, swig_string_methods, swig_string_attributes, &swig_string_Sf_SwigStatic, swig_string_meta, swig_string_bases, swig_string_base_names };
 
-static int _wrap_FPS_get(lua_State* L) {
-  int SWIG_arg = 0;
-  CFPS *result = 0 ;
-  
-  SWIG_check_num_args("Global_CFPS_FPSControl",0,0)
-  result = (CFPS *)Global_CFPS_FPSControl;
-  SWIG_NewPointerObj(L,result,SWIGTYPE_p_CFPS,0); SWIG_arg++; 
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static int _wrap_Score_get(lua_State* L) {
-  int SWIG_arg = 0;
-  ScoreKeeper *result = 0 ;
-  
-  SWIG_check_num_args("Global_ScoreKeeper_Keeper",0,0)
-  result = (ScoreKeeper *)Global_ScoreKeeper_Keeper;
-  SWIG_NewPointerObj(L,result,SWIGTYPE_p_ScoreKeeper,0); SWIG_arg++; 
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
 static int _wrap_font_text_width(lua_State* L) {
   int SWIG_arg = 0;
   freetype::font_data *arg1 = 0 ;
@@ -3798,10 +3764,44 @@ static swig_lua_class *swig_CFPS_bases[] = {0};
 static const char *swig_CFPS_base_names[] = {0};
 static swig_lua_class _wrap_class_CFPS = { "CFPS", "CFPS", &SWIGTYPE_p_CFPS,0,0, swig_CFPS_methods, swig_CFPS_attributes, &swig_CFPS_Sf_SwigStatic, swig_CFPS_meta, swig_CFPS_bases, swig_CFPS_base_names };
 
+static int _wrap_FPS_get(lua_State* L) {
+  int SWIG_arg = 0;
+  CFPS *result = 0 ;
+  
+  SWIG_check_num_args("Global_CFPS_FPSControl",0,0)
+  result = (CFPS *)Global_CFPS_FPSControl;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_CFPS,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Score_get(lua_State* L) {
+  int SWIG_arg = 0;
+  ScoreKeeper *result = 0 ;
+  
+  SWIG_check_num_args("Global_ScoreKeeper_Keeper",0,0)
+  result = (ScoreKeeper *)Global_ScoreKeeper_Keeper;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_ScoreKeeper,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
 static swig_lua_attribute swig_SwigModule_attributes[] = {
+    { "version", _wrap_version_get, SWIG_Lua_set_immutable },
     { "FPS", _wrap_FPS_get, SWIG_Lua_set_immutable },
     { "Score", _wrap_Score_get, SWIG_Lua_set_immutable },
-    { "version", _wrap_version_get, SWIG_Lua_set_immutable },
     {0,0,0}
 };
 static swig_lua_const_info swig_SwigModule_constants[]= {
