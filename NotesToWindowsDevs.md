@@ -76,7 +76,3 @@ MEMPROT_UNPROTECT(&vtable[0], sizeof(void*) * g_temporalVTableSize, dwOldProtect
 // stuff
 MEMPROT_REPROTECT(&vtable[0], sizeof(void*) * g_temporalVTableSize, dwOldProtect);
 ```
-   
-### Documentation generation
-
-Install & use doxygen
