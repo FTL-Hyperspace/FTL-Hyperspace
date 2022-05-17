@@ -4,8 +4,8 @@
 
 
 %{
-#include "Global.h"
-#include "HSVersion.h"
+#include "../../Global.h"
+#include "../../HSVersion.h"
 %}
 
 %rename("FPS") Global_CFPS_FPSControl;
@@ -64,12 +64,10 @@ struct CFPS
 /* %rename("%s") ScoreKeeper::gamesPlayed; */
 /* %rename("%(regex:/^ScoreKeeper::(.*)$/\\1/)s", regextarget=1, fullname=1) "ScoreKeeper::.*"; */
 
-#if defined(_WIN32)
-    %include "FTLGameWin32.h"
-#elif defined(__linux__)
-#if defined(__i386__)
-    %include "FTLGameELF32.h"
-#elif defined(__amd64__)
-    %include "FTLGameELF64.h"
-#endif
-#endif
+/*
+    By default in Codeblocks SWIG settings we don't get the regular preprocessor defines, ideally we should switch between which FTLGame we import.
+    To avoid having to change codeblocks compiler settings (that don't save/share between our installs) we're going to just try to use the
+    Linux64 file for now. Since SWIG only uses this for method & field names but not for actual access to the address (the regular headers are
+    loaded at compile time) unless we want to access a field in Lua not available to the other versions there is no concern.
+*/
+%include "FTLGameELF64.h"

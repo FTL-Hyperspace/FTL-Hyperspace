@@ -2775,7 +2775,7 @@ SWIGINTERN int SWIG_lua_isnilstring(lua_State *L, int idx) {
 #include <utility>
 
 
-#include "Global.h"
+#include "../../Global.h"
 
 #ifdef __cplusplus
 extern "C" {

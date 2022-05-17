@@ -4,7 +4,7 @@
 %include "stl.i"
 
 %{
-#include "Global.h"
+#include "../../Global.h"
 %}
 
 /*** Constants

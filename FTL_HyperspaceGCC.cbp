@@ -1249,9 +1249,6 @@
 		<Unit filename="detours.h">
 			<Option virtualFolder="ZHL/" />
 		</Unit>
-		<Unit filename="ftlgame_wrap.cxx">
-			<Option virtualFolder="Scripting/modules/" />
-		</Unit>
 		<Unit filename="hde.cpp">
 			<Option virtualFolder="ZHL/" />
 		</Unit>
@@ -1293,6 +1290,14 @@
 		<Unit filename="lua/luaLibBase.h">
 			<Option virtualFolder="Scripting/" />
 		</Unit>
+		<Unit filename="lua/modules/graphics.i">
+			<Option compile="1" />
+			<Option virtualFolder="Scripting/modules/" />
+		</Unit>
+		<Unit filename="lua/modules/hyperspace.i">
+			<Option compile="1" />
+			<Option virtualFolder="Scripting/modules/" />
+		</Unit>
 		<Unit filename="lua/objects/LuaWorld.cpp">
 			<Option virtualFolder="Scripting/Objects/" />
 		</Unit>
@@ -1304,9 +1309,6 @@
 		</Unit>
 		<Unit filename="lua/objects/ScriptFPS.h">
 			<Option virtualFolder="Scripting/Objects/" />
-		</Unit>
-		<Unit filename="luaGraphics_wrap.cxx">
-			<Option virtualFolder="Scripting/modules/" />
 		</Unit>
 		<Unit filename="main.cpp">
 			<Option weight="100" />

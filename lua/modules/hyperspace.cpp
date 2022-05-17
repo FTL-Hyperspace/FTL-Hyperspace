@@ -2891,8 +2891,8 @@ SWIGINTERN int SWIG_lua_isnilstring(lua_State *L, int idx) {
 #include <utility>
 
 
-#include "Global.h"
-#include "HSVersion.h"
+#include "../../Global.h"
+#include "../../HSVersion.h"
 
 SWIGINTERN char const *HyperspaceVersion___str__(HyperspaceVersion const *self){
         return self->toVersionString().c_str();
