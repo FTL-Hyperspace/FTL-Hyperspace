@@ -83,11 +83,11 @@ LuaScriptInit::LuaScriptInit()
     // TODO: Figure out how to unload and/or replace certain library functions (like math.random!, threads! & other things unsafe for a single-threaded deterministic environment)
     
     hsluaglobal_register(lua);
+    this->m_libScript = new LuaLibScript(lua);
+    hs_l_define_register(lua);
     luaopen_Hyperspace(lua);
     luaopen_Graphics(lua);
     // TODO: Save in a variable/member field so that we can destroy this upon cleanup function
-    this->m_libScript = new LuaLibScript(lua);
-    hs_l_define_register(lua);
     //new ScriptFPS(lua);
     
     // TODO: Create a metatable for `Ships` in global that accepts indexes like `Ships[1]` but actually loads the ShipManager for that ShipId!

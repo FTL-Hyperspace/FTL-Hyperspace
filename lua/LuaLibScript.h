@@ -21,6 +21,10 @@ class LuaLibScript
         // Call upon starting a new run (maybe also starting a loaded run? not sure)
         void call_on_init_callbacks();
         
+        //void call_on_internal_event_callbacks(InternalEvent event);
+        
+        void call_on_game_event_callbacks(std::string eventName, bool isLoading);
+        
         /*** Register a function to call upon loading your script
          * @function on_load
          * @tparam function callback Callback function to register
@@ -82,6 +86,14 @@ class LuaLibScript
          * **Warning:** you can accidentally register your function multiple times and it will be called multiple times!
          */
         static int l_on_internal_event(lua_State* lua);
+        
+        /***
+         * @function on_game_event
+         * @tparam string event name in XML, can only hook to named events (includes choices)
+         * @tparam bool onLoad false to run only on initial encounter of the event, true to run if someone saves & continues at the event (such as to setup backgrounds or other basic needs)
+         * @tparam function callback Callback function to register, will not receive any arguments
+         */
+        static int l_on_game_event(lua_State* lua);
 
     protected:
 
