@@ -123,6 +123,28 @@ LuaScriptInit::LuaScriptInit()
     printf("Lua initialized!\n");
 }
 
+void LuaScriptInit::runLuaString(std::string code)
+{
+    int iErr = 0;
+    if((iErr = luaL_loadbuffer(this->m_Lua, code.c_str(), code.size(), "=luaConsole")) != 0)
+    {
+        const char* errorMessage = lua_tostring(this->m_Lua, -1);
+        hs_log_file("Failed to load lua code from in-game console. Error: '%s'\n", errorMessage);
+        ErrorMessage(errorMessage);
+        lua_pop(this->m_Lua, 1);
+        return;
+    }
+    // call Lua's Main from the script loaded above
+    if((iErr = lua_pcall(this->m_Lua, 0, LUA_MULTRET, 0)) != 0)
+    {
+        const char* errorMessage = lua_tostring(this->m_Lua, -1);
+        hs_log_file("in-game console lua execution failed. Error: '%s'\n", errorMessage);
+        ErrorMessage(errorMessage);
+        lua_pop(this->m_Lua, 1);
+        return;
+    }
+}
+
 /** Not documented
  */
 LuaScriptInit::~LuaScriptInit()

@@ -4,6 +4,7 @@
 #include "luaInclude.h"
 #include "luaDefines.h"
 #include "LuaLibScript.h"
+#include <string>
 
 extern "C"
 {
@@ -29,6 +30,8 @@ class LuaScriptInit
         void SetLua(lua_State* val) { m_Lua = val; }
         
         LuaLibScript* getLibScript() { return m_libScript; };
+        
+        void runLuaString(std::string code);
 
     protected:
 

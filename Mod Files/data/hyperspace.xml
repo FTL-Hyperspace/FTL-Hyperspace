@@ -256,6 +256,8 @@ SHIP_CUSTOM    Unlocks a customs ship (permanently)    Usage: SHIP_CUSTOM <ship_
 LOADEVENT      Loads an event using LoadEvent          Usage: LOADEVENT <event_id>
 VARIABLE       Set variable and/or print in FTL_HS.log Usage: VARIABLE <var_id> <n>
 METAVARIABLE   As above but for meta-variables         Usage: METAVARIABLE <var_id> <n>
+LUA            Run lua code directly for testing       Usage: LUA <code on one line>  Example: LUA print("Hello World!")
+                                                                                      Example: LUA Hyperspace.Global.GetInstance():GetCApp().world.starMap:ModifyPursuit(-1)
 -->
 
 <console enabled="true"/> 

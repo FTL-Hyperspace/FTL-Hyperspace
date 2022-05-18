@@ -92,6 +92,11 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
 
         return true;
     }
+    if (cmdName == "LUA" && command.length() > 3)
+    {
+        std::string luaCode = boost::trim_copy(command.substr(4));
+        Global::GetInstance()->getLuaContext()->runLuaString(luaCode);
+    }
     if (cmdName == "DAMAGESYS" && command.length() > 9)
     {
         ShipSystem* sys = commandGui->shipComplete->shipManager->GetSystem(ShipSystem::NameToSystemId(boost::trim_copy(command.substr(10))));
