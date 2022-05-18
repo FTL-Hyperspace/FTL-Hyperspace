@@ -2789,66 +2789,67 @@ SWIG_Lua_dostring(lua_State *L, const char *str) {
 #define SWIGTYPE_p_ItemStoreBox swig_types[77]
 #define SWIGTYPE_p_LanguageChooser swig_types[78]
 #define SWIGTYPE_p_LaserBlast swig_types[79]
-#define SWIGTYPE_p_MantisAnimation swig_types[80]
-#define SWIGTYPE_p_MenuScreen swig_types[81]
-#define SWIGTYPE_p_MindBox swig_types[82]
-#define SWIGTYPE_p_MindSystem swig_types[83]
-#define SWIGTYPE_p_Missile swig_types[84]
-#define SWIGTYPE_p_OptionsScreen swig_types[85]
-#define SWIGTYPE_p_OuterHull swig_types[86]
-#define SWIGTYPE_p_OxygenSystem swig_types[87]
-#define SWIGTYPE_p_PDSFire swig_types[88]
-#define SWIGTYPE_p_Point swig_types[89]
-#define SWIGTYPE_p_Projectile swig_types[90]
-#define SWIGTYPE_p_ProjectileFactory swig_types[91]
-#define SWIGTYPE_p_ReactorButton swig_types[92]
-#define SWIGTYPE_p_RepairAnimation swig_types[93]
-#define SWIGTYPE_p_RepairDrone swig_types[94]
-#define SWIGTYPE_p_RepairStoreBox swig_types[95]
-#define SWIGTYPE_p_Repairable swig_types[96]
-#define SWIGTYPE_p_ResourceControl swig_types[97]
-#define SWIGTYPE_p_RockAnimation swig_types[98]
-#define SWIGTYPE_p_Room swig_types[99]
-#define SWIGTYPE_p_ScoreKeeper swig_types[100]
-#define SWIGTYPE_p_Selectable swig_types[101]
-#define SWIGTYPE_p_Shields swig_types[102]
-#define SWIGTYPE_p_Ship swig_types[103]
-#define SWIGTYPE_p_ShipBlueprint swig_types[104]
-#define SWIGTYPE_p_ShipButton swig_types[105]
-#define SWIGTYPE_p_ShipManager swig_types[106]
-#define SWIGTYPE_p_ShipObject swig_types[107]
-#define SWIGTYPE_p_ShipSystem swig_types[108]
-#define SWIGTYPE_p_SpaceDrone swig_types[109]
-#define SWIGTYPE_p_SpaceManager swig_types[110]
-#define SWIGTYPE_p_Spreadable swig_types[111]
-#define SWIGTYPE_p_Spreader_Fire swig_types[112]
-#define SWIGTYPE_p_StarMap swig_types[113]
-#define SWIGTYPE_p_Store swig_types[114]
-#define SWIGTYPE_p_StoreBox swig_types[115]
-#define SWIGTYPE_p_SystemBlueprint swig_types[116]
-#define SWIGTYPE_p_SystemBox swig_types[117]
-#define SWIGTYPE_p_SystemCustomBox swig_types[118]
-#define SWIGTYPE_p_SystemStoreBox swig_types[119]
-#define SWIGTYPE_p_TabbedWindow swig_types[120]
-#define SWIGTYPE_p_TeleportBox swig_types[121]
-#define SWIGTYPE_p_TeleportSystem swig_types[122]
-#define SWIGTYPE_p_TextButton swig_types[123]
-#define SWIGTYPE_p_TextButton0 swig_types[124]
-#define SWIGTYPE_p_Upgrades swig_types[125]
-#define SWIGTYPE_p_WarningMessage swig_types[126]
-#define SWIGTYPE_p_WarningWithLines swig_types[127]
-#define SWIGTYPE_p_WeaponBlueprint swig_types[128]
-#define SWIGTYPE_p_WeaponBox swig_types[129]
-#define SWIGTYPE_p_WeaponControl swig_types[130]
-#define SWIGTYPE_p_WeaponEquipBox swig_types[131]
-#define SWIGTYPE_p_WeaponStoreBox swig_types[132]
-#define SWIGTYPE_p_WeaponSystem swig_types[133]
-#define SWIGTYPE_p_WeaponSystemBox swig_types[134]
-#define SWIGTYPE_p_WorldManager swig_types[135]
-#define SWIGTYPE_p_freetype__font_data swig_types[136]
-#define SWIGTYPE_p_std__string swig_types[137]
-static swig_type_info *swig_types[139];
-static swig_module_info swig_module = {swig_types, 138, 0, 0, 0, 0};
+#define SWIGTYPE_p_Location swig_types[80]
+#define SWIGTYPE_p_MantisAnimation swig_types[81]
+#define SWIGTYPE_p_MenuScreen swig_types[82]
+#define SWIGTYPE_p_MindBox swig_types[83]
+#define SWIGTYPE_p_MindSystem swig_types[84]
+#define SWIGTYPE_p_Missile swig_types[85]
+#define SWIGTYPE_p_OptionsScreen swig_types[86]
+#define SWIGTYPE_p_OuterHull swig_types[87]
+#define SWIGTYPE_p_OxygenSystem swig_types[88]
+#define SWIGTYPE_p_PDSFire swig_types[89]
+#define SWIGTYPE_p_Point swig_types[90]
+#define SWIGTYPE_p_Projectile swig_types[91]
+#define SWIGTYPE_p_ProjectileFactory swig_types[92]
+#define SWIGTYPE_p_ReactorButton swig_types[93]
+#define SWIGTYPE_p_RepairAnimation swig_types[94]
+#define SWIGTYPE_p_RepairDrone swig_types[95]
+#define SWIGTYPE_p_RepairStoreBox swig_types[96]
+#define SWIGTYPE_p_Repairable swig_types[97]
+#define SWIGTYPE_p_ResourceControl swig_types[98]
+#define SWIGTYPE_p_RockAnimation swig_types[99]
+#define SWIGTYPE_p_Room swig_types[100]
+#define SWIGTYPE_p_ScoreKeeper swig_types[101]
+#define SWIGTYPE_p_Selectable swig_types[102]
+#define SWIGTYPE_p_Shields swig_types[103]
+#define SWIGTYPE_p_Ship swig_types[104]
+#define SWIGTYPE_p_ShipBlueprint swig_types[105]
+#define SWIGTYPE_p_ShipButton swig_types[106]
+#define SWIGTYPE_p_ShipManager swig_types[107]
+#define SWIGTYPE_p_ShipObject swig_types[108]
+#define SWIGTYPE_p_ShipSystem swig_types[109]
+#define SWIGTYPE_p_SpaceDrone swig_types[110]
+#define SWIGTYPE_p_SpaceManager swig_types[111]
+#define SWIGTYPE_p_Spreadable swig_types[112]
+#define SWIGTYPE_p_Spreader_Fire swig_types[113]
+#define SWIGTYPE_p_StarMap swig_types[114]
+#define SWIGTYPE_p_Store swig_types[115]
+#define SWIGTYPE_p_StoreBox swig_types[116]
+#define SWIGTYPE_p_SystemBlueprint swig_types[117]
+#define SWIGTYPE_p_SystemBox swig_types[118]
+#define SWIGTYPE_p_SystemCustomBox swig_types[119]
+#define SWIGTYPE_p_SystemStoreBox swig_types[120]
+#define SWIGTYPE_p_TabbedWindow swig_types[121]
+#define SWIGTYPE_p_TeleportBox swig_types[122]
+#define SWIGTYPE_p_TeleportSystem swig_types[123]
+#define SWIGTYPE_p_TextButton swig_types[124]
+#define SWIGTYPE_p_TextButton0 swig_types[125]
+#define SWIGTYPE_p_Upgrades swig_types[126]
+#define SWIGTYPE_p_WarningMessage swig_types[127]
+#define SWIGTYPE_p_WarningWithLines swig_types[128]
+#define SWIGTYPE_p_WeaponBlueprint swig_types[129]
+#define SWIGTYPE_p_WeaponBox swig_types[130]
+#define SWIGTYPE_p_WeaponControl swig_types[131]
+#define SWIGTYPE_p_WeaponEquipBox swig_types[132]
+#define SWIGTYPE_p_WeaponStoreBox swig_types[133]
+#define SWIGTYPE_p_WeaponSystem swig_types[134]
+#define SWIGTYPE_p_WeaponSystemBox swig_types[135]
+#define SWIGTYPE_p_WorldManager swig_types[136]
+#define SWIGTYPE_p_freetype__font_data swig_types[137]
+#define SWIGTYPE_p_std__string swig_types[138]
+static swig_type_info *swig_types[140];
+static swig_module_info swig_module = {swig_types, 139, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -4309,6 +4310,200 @@ static swig_lua_class *swig_CApp_bases[] = {0};
 static const char *swig_CApp_base_names[] = {0};
 static swig_lua_class _wrap_class_CApp = { "CApp", "CApp", &SWIGTYPE_p_CApp,0,0, swig_CApp_methods, swig_CApp_attributes, &swig_CApp_SwigStatic, swig_CApp_meta, swig_CApp_bases, swig_CApp_base_names };
 
+static int _wrap_Location_space_set(lua_State* L) {
+  int SWIG_arg = 0;
+  Location *arg1 = (Location *) 0 ;
+  ImageDesc *arg2 = (ImageDesc *) 0 ;
+  
+  SWIG_check_num_args("Location::space",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("Location::space",1,"Location *");
+  if(!SWIG_isptrtype(L,2)) SWIG_fail_arg("Location::space",2,"ImageDesc *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Location,0))){
+    SWIG_fail_ptr("Location_space_set",1,SWIGTYPE_p_Location);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&arg2,SWIGTYPE_p_ImageDesc,0))){
+    SWIG_fail_ptr("Location_space_set",2,SWIGTYPE_p_ImageDesc);
+  }
+  
+  if (arg1) (arg1)->space = *arg2;
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Location_space_get(lua_State* L) {
+  int SWIG_arg = 0;
+  Location *arg1 = (Location *) 0 ;
+  ImageDesc *result = 0 ;
+  
+  SWIG_check_num_args("Location::space",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("Location::space",1,"Location *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Location,0))){
+    SWIG_fail_ptr("Location_space_get",1,SWIGTYPE_p_Location);
+  }
+  
+  result = (ImageDesc *)& ((arg1)->space);
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_ImageDesc,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Location_planetImage_set(lua_State* L) {
+  int SWIG_arg = 0;
+  Location *arg1 = (Location *) 0 ;
+  std::string *arg2 = 0 ;
+  std::string temp2 ;
+  
+  SWIG_check_num_args("Location::planetImage",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("Location::planetImage",1,"Location *");
+  if(!lua_isstring(L,2)) SWIG_fail_arg("Location::planetImage",2,"std::string const &");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Location,0))){
+    SWIG_fail_ptr("Location_planetImage_set",1,SWIGTYPE_p_Location);
+  }
+  
+  temp2.assign(lua_tostring(L,2),lua_rawlen(L,2)); arg2=&temp2;
+  if (arg1) (arg1)->planetImage = *arg2;
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Location_planetImage_get(lua_State* L) {
+  int SWIG_arg = 0;
+  Location *arg1 = (Location *) 0 ;
+  std::string *result = 0 ;
+  
+  SWIG_check_num_args("Location::planetImage",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("Location::planetImage",1,"Location *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Location,0))){
+    SWIG_fail_ptr("Location_planetImage_get",1,SWIGTYPE_p_Location);
+  }
+  
+  result = (std::string *) & ((arg1)->planetImage);
+  lua_pushlstring(L,result->data(),result->size()); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Location_spaceImage_set(lua_State* L) {
+  int SWIG_arg = 0;
+  Location *arg1 = (Location *) 0 ;
+  std::string *arg2 = 0 ;
+  std::string temp2 ;
+  
+  SWIG_check_num_args("Location::spaceImage",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("Location::spaceImage",1,"Location *");
+  if(!lua_isstring(L,2)) SWIG_fail_arg("Location::spaceImage",2,"std::string const &");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Location,0))){
+    SWIG_fail_ptr("Location_spaceImage_set",1,SWIGTYPE_p_Location);
+  }
+  
+  temp2.assign(lua_tostring(L,2),lua_rawlen(L,2)); arg2=&temp2;
+  if (arg1) (arg1)->spaceImage = *arg2;
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Location_spaceImage_get(lua_State* L) {
+  int SWIG_arg = 0;
+  Location *arg1 = (Location *) 0 ;
+  std::string *result = 0 ;
+  
+  SWIG_check_num_args("Location::spaceImage",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("Location::spaceImage",1,"Location *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Location,0))){
+    SWIG_fail_ptr("Location_spaceImage_get",1,SWIGTYPE_p_Location);
+  }
+  
+  result = (std::string *) & ((arg1)->spaceImage);
+  lua_pushlstring(L,result->data(),result->size()); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static swig_lua_attribute swig_Location_attributes[] = {
+    { "space", _wrap_Location_space_get, _wrap_Location_space_set },
+    { "planetImage", _wrap_Location_planetImage_get, _wrap_Location_planetImage_set },
+    { "spaceImage", _wrap_Location_spaceImage_get, _wrap_Location_spaceImage_set },
+    {0,0,0}
+};
+static swig_lua_method swig_Location_methods[]= {
+    {0,0}
+};
+static swig_lua_method swig_Location_meta[] = {
+    {0,0}
+};
+
+static swig_lua_attribute swig_Location_Sf_SwigStatic_attributes[] = {
+    {0,0,0}
+};
+static swig_lua_const_info swig_Location_Sf_SwigStatic_constants[]= {
+    {0,0,0,0,0,0}
+};
+static swig_lua_method swig_Location_Sf_SwigStatic_methods[]= {
+    {0,0}
+};
+static swig_lua_class* swig_Location_Sf_SwigStatic_classes[]= {
+    0
+};
+
+static swig_lua_namespace swig_Location_Sf_SwigStatic = {
+    "Location",
+    swig_Location_Sf_SwigStatic_methods,
+    swig_Location_Sf_SwigStatic_attributes,
+    swig_Location_Sf_SwigStatic_constants,
+    swig_Location_Sf_SwigStatic_classes,
+    0
+};
+static swig_lua_class *swig_Location_bases[] = {0};
+static const char *swig_Location_base_names[] = {0};
+static swig_lua_class _wrap_class_Location = { "Location", "Location", &SWIGTYPE_p_Location,0,0, swig_Location_methods, swig_Location_attributes, &swig_Location_Sf_SwigStatic, swig_Location_meta, swig_Location_bases, swig_Location_base_names };
+
 static int _wrap_ResourceControl_GetImageId(lua_State* L) {
   int SWIG_arg = 0;
   ResourceControl *arg1 = (ResourceControl *) 0 ;
@@ -4715,6 +4910,60 @@ fail:
 }
 
 
+static int _wrap_StarMap_currentLoc_set(lua_State* L) {
+  int SWIG_arg = 0;
+  StarMap *arg1 = (StarMap *) 0 ;
+  Location *arg2 = (Location *) 0 ;
+  
+  SWIG_check_num_args("StarMap::currentLoc",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("StarMap::currentLoc",1,"StarMap *");
+  if(!SWIG_isptrtype(L,2)) SWIG_fail_arg("StarMap::currentLoc",2,"Location *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_StarMap,0))){
+    SWIG_fail_ptr("StarMap_currentLoc_set",1,SWIGTYPE_p_StarMap);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&arg2,SWIGTYPE_p_Location,SWIG_POINTER_DISOWN))){
+    SWIG_fail_ptr("StarMap_currentLoc_set",2,SWIGTYPE_p_Location);
+  }
+  
+  if (arg1) (arg1)->currentLoc = arg2;
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_StarMap_currentLoc_get(lua_State* L) {
+  int SWIG_arg = 0;
+  StarMap *arg1 = (StarMap *) 0 ;
+  Location *result = 0 ;
+  
+  SWIG_check_num_args("StarMap::currentLoc",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("StarMap::currentLoc",1,"StarMap *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_StarMap,0))){
+    SWIG_fail_ptr("StarMap_currentLoc_get",1,SWIGTYPE_p_StarMap);
+  }
+  
+  result = (Location *) ((arg1)->currentLoc);
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_Location,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
 static int _wrap_StarMap_pursuitDelay_set(lua_State* L) {
   int SWIG_arg = 0;
   StarMap *arg1 = (StarMap *) 0 ;
@@ -4766,6 +5015,7 @@ fail:
 
 
 static swig_lua_attribute swig_StarMap_attributes[] = {
+    { "currentLoc", _wrap_StarMap_currentLoc_get, _wrap_StarMap_currentLoc_set },
     { "pursuitDelay", _wrap_StarMap_pursuitDelay_get, _wrap_StarMap_pursuitDelay_set },
     {0,0,0}
 };
@@ -5192,6 +5442,7 @@ static swig_lua_class* swig_SwigModule_classes[]= {
 &_wrap_class_CFPS,
 &_wrap_class_Point,
 &_wrap_class_CApp,
+&_wrap_class_Location,
 &_wrap_class_ResourceControl,
 &_wrap_class_SpaceManager,
 &_wrap_class_StarMap,
@@ -5715,6 +5966,7 @@ static swig_type_info _swigt__p_Global = {"_p_Global", "Global *", 0, 0, (void*)
 static swig_type_info _swigt__p_HyperspaceVersion = {"_p_HyperspaceVersion", "HyperspaceVersion *", 0, 0, (void*)&_wrap_class_HyperspaceVersion, 0};
 static swig_type_info _swigt__p_ImageDesc = {"_p_ImageDesc", "ImageDesc *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_LaserBlast = {"_p_LaserBlast", "LaserBlast *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_Location = {"_p_Location", "Location *", 0, 0, (void*)&_wrap_class_Location, 0};
 static swig_type_info _swigt__p_Point = {"_p_Point", "Point *", 0, 0, (void*)&_wrap_class_Point, 0};
 static swig_type_info _swigt__p_Projectile = {"_p_Projectile", "Projectile *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Repairable = {"_p_Repairable", "Repairable *", 0, 0, (void*)0, 0};
@@ -5847,6 +6099,7 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_ItemStoreBox,
   &_swigt__p_LanguageChooser,
   &_swigt__p_LaserBlast,
+  &_swigt__p_Location,
   &_swigt__p_MantisAnimation,
   &_swigt__p_MenuScreen,
   &_swigt__p_MindBox,
@@ -5995,6 +6248,7 @@ static swig_cast_info _swigc__p_Global[] = {  {&_swigt__p_Global, 0, 0, 0},{0, 0
 static swig_cast_info _swigc__p_HyperspaceVersion[] = {  {&_swigt__p_HyperspaceVersion, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_ImageDesc[] = {  {&_swigt__p_ImageDesc, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_LaserBlast[] = {  {&_swigt__p_PDSFire, _p_PDSFireTo_p_LaserBlast, 0, 0},  {&_swigt__p_LaserBlast, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_Location[] = {  {&_swigt__p_Location, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Point[] = {  {&_swigt__p_Point, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Projectile[] = {  {&_swigt__p_PDSFire, _p_PDSFireTo_p_Projectile, 0, 0},  {&_swigt__p_LaserBlast, _p_LaserBlastTo_p_Projectile, 0, 0},  {&_swigt__p_BeamWeapon, _p_BeamWeaponTo_p_Projectile, 0, 0},  {&_swigt__p_Asteroid, _p_AsteroidTo_p_Projectile, 0, 0},  {&_swigt__p_CrewLaser, _p_CrewLaserTo_p_Projectile, 0, 0},  {&_swigt__p_Projectile, 0, 0, 0},  {&_swigt__p_BombProjectile, _p_BombProjectileTo_p_Projectile, 0, 0},  {&_swigt__p_Missile, _p_MissileTo_p_Projectile, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Fire[] = {{&_swigt__p_Fire, 0, 0, 0},{0, 0, 0, 0}};
@@ -6127,6 +6381,7 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_ItemStoreBox,
   _swigc__p_LanguageChooser,
   _swigc__p_LaserBlast,
+  _swigc__p_Location,
   _swigc__p_MantisAnimation,
   _swigc__p_MenuScreen,
   _swigc__p_MindBox,
@@ -6531,25 +6786,14 @@ const char* SWIG_LUACODE=
   "    print \"Hyperspace SWIG Lua loaded\"\n"
   "    \n"
   "    function fixTheHangar()\n"
-  "        print(\"OH MY GOD WE SAW THE HANGAR, on reloading the save\")\n"
-  "        local g = Hyperspace.Global\n"
-  "        print(\"got global class\")\n"
-  "        local gi = g.GetInstance()\n"
-  "        print(\"got global instance\")\n"
-  "        local cai = gi:GetCApp()\n"
-  "        print(\"got capp instance\")\n"
-  "        local wmi = cai.world\n"
-  "        print(\"Got world manager instance\")\n"
-  "        local smi = wmi.space\n"
-  "        print(\"Got spacemanager instance\")\n"
-  "        smi:SwitchBackground(\"BACKGROUND_LIGHTSPEED\")\n"
-  "        --smi:SwitchBackground(\"BACK_SECTOR_START\")\n"
-  "        print(\"Switched background\")\n"
+  "        local world = Hyperspace.Global.GetInstance():GetCApp().world\n"
+  "        world.starMap.currentLoc.space = world.space:SwitchBackground(world.starMap.currentLoc.spaceImage)\n"
   "    end\n"
+  "    script.on_game_event(\"START_BEACON\", true, fixTheHangar)\n"
+  "\n"
   "    function runStarted()\n"
   "        print(\"OH MY GOD THE RUN STARTED\")\n"
   "    end\n"
-  "    script.on_game_event(\"START_BEACON\", true, fixTheHangar)\n"
   "    script.on_game_event(\"START_BEACON\", false, runStarted)";
 
 void SWIG_init_user(lua_State* L)

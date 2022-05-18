@@ -102,25 +102,14 @@ struct CFPS
     print "Hyperspace SWIG Lua loaded"
     
     function fixTheHangar()
-        print("OH MY GOD WE SAW THE HANGAR, on reloading the save")
-        local g = Hyperspace.Global
-        print("got global class")
-        local gi = g.GetInstance()
-        print("got global instance")
-        local cai = gi:GetCApp()
-        print("got capp instance")
-        local wmi = cai.world
-        print("Got world manager instance")
-        local smi = wmi.space
-        print("Got spacemanager instance")
-        smi:SwitchBackground("BACKGROUND_LIGHTSPEED")
-        --smi:SwitchBackground("BACK_SECTOR_START")
-        print("Switched background")
+        local world = Hyperspace.Global.GetInstance():GetCApp().world
+        world.starMap.currentLoc.space = world.space:SwitchBackground(world.starMap.currentLoc.spaceImage)
     end
+    script.on_game_event("START_BEACON", true, fixTheHangar)
+
     function runStarted()
         print("OH MY GOD THE RUN STARTED")
     end
-    script.on_game_event("START_BEACON", true, fixTheHangar)
     script.on_game_event("START_BEACON", false, runStarted)
 }
 
@@ -303,6 +292,7 @@ struct CFPS
 //%rename("%s") StarMap::TurnIntoFleetLocation; // Could be interesting to allow something like 1. Delaying the pursuit for many many turns, 2. having every node you jump out of (or random nodes you've already visited or that do not line up with the path to the exit) convert to a fleet location as if they were chasing your path rather than the whole sector. 
 
 //%rename("%s") StarMap::visual_size; // Not sure
+%rename("%s") StarMap::currentLoc; // Current location always, even after load, this is the gold source for location after a load best I can figure out. Oh and in the base game it doesn't load backgrounds properly but does load the planet texture so then `WorldManager::CreateLocation` doesn't bother to update the texture because not both are null.
 ////%rename("%s") StarMap::position; // umm... FocusWindow has a position too, which position is this going to map to?
 // TODO: Maybe one of the members in StarMap (that are not exposed) could help to determine how many free event locations are left so an event can be chosen to spawn in the current sector or next sector?
 ////%rename("%s") StarMap::dangerZone; // Messing with this might be interesting, imagine if the fleet didn't proceed directly from the left? lol
@@ -403,6 +393,13 @@ struct CFPS
 %rename("%s") NebulaCloud::flashTimer;
 %rename("%s") NebulaCloud::lightningRotation;
 */
+
+%nodefaultctor Location;
+%rename("%s") Location;
+%rename("%s") Location::space;
+%rename("%s") Location::spaceImage;
+//%rename("%s") Location::planet;
+%rename("%s") Location::planetImage;
 
 /*
     By default in Codeblocks SWIG settings we don't get the regular preprocessor defines, ideally we should switch between which FTLGame we import.
