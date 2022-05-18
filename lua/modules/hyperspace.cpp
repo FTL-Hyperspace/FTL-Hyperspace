@@ -2742,105 +2742,113 @@ SWIG_Lua_dostring(lua_State *L, const char *str) {
 #define SWIGTYPE_p_CloneSystem swig_types[30]
 #define SWIGTYPE_p_Collideable swig_types[31]
 #define SWIGTYPE_p_CombatDrone swig_types[32]
-#define SWIGTYPE_p_CompleteShip swig_types[33]
-#define SWIGTYPE_p_ConfirmWindow swig_types[34]
-#define SWIGTYPE_p_CooldownSystemBox swig_types[35]
-#define SWIGTYPE_p_CrewAnimation swig_types[36]
-#define SWIGTYPE_p_CrewBlueprint swig_types[37]
-#define SWIGTYPE_p_CrewCustomizeBox swig_types[38]
-#define SWIGTYPE_p_CrewDrone swig_types[39]
-#define SWIGTYPE_p_CrewEquipBox swig_types[40]
-#define SWIGTYPE_p_CrewLaser swig_types[41]
-#define SWIGTYPE_p_CrewManifest swig_types[42]
-#define SWIGTYPE_p_CrewMember swig_types[43]
-#define SWIGTYPE_p_CrewStoreBox swig_types[44]
-#define SWIGTYPE_p_CrewTarget swig_types[45]
-#define SWIGTYPE_p_CrystalAlien swig_types[46]
-#define SWIGTYPE_p_DefenseDrone swig_types[47]
-#define SWIGTYPE_p_DistressButton swig_types[48]
-#define SWIGTYPE_p_Door swig_types[49]
-#define SWIGTYPE_p_DoorBox swig_types[50]
-#define SWIGTYPE_p_Drone swig_types[51]
-#define SWIGTYPE_p_DroneBlueprint swig_types[52]
-#define SWIGTYPE_p_DroneControl swig_types[53]
-#define SWIGTYPE_p_DroneEquipBox swig_types[54]
-#define SWIGTYPE_p_DroneStoreBox swig_types[55]
-#define SWIGTYPE_p_DroneSystem swig_types[56]
-#define SWIGTYPE_p_Equipment swig_types[57]
-#define SWIGTYPE_p_EquipmentBox swig_types[58]
-#define SWIGTYPE_p_ExplosionAnimation swig_types[59]
-#define SWIGTYPE_p_FTLButton swig_types[60]
-#define SWIGTYPE_p_Fire swig_types[61]
-#define SWIGTYPE_p_FocusWindow swig_types[62]
-#define SWIGTYPE_p_GameOver swig_types[63]
-#define SWIGTYPE_p_GenericButton swig_types[64]
-#define SWIGTYPE_p_HackBox swig_types[65]
-#define SWIGTYPE_p_HackingDrone swig_types[66]
-#define SWIGTYPE_p_HackingSystem swig_types[67]
-#define SWIGTYPE_p_HyperspaceVersion swig_types[68]
-#define SWIGTYPE_p_InputBox swig_types[69]
-#define SWIGTYPE_p_IonDrone swig_types[70]
-#define SWIGTYPE_p_IonDroneAnimation swig_types[71]
-#define SWIGTYPE_p_ItemBlueprint swig_types[72]
-#define SWIGTYPE_p_ItemStoreBox swig_types[73]
-#define SWIGTYPE_p_LanguageChooser swig_types[74]
-#define SWIGTYPE_p_LaserBlast swig_types[75]
-#define SWIGTYPE_p_MantisAnimation swig_types[76]
-#define SWIGTYPE_p_MenuScreen swig_types[77]
-#define SWIGTYPE_p_MindBox swig_types[78]
-#define SWIGTYPE_p_MindSystem swig_types[79]
-#define SWIGTYPE_p_Missile swig_types[80]
-#define SWIGTYPE_p_OptionsScreen swig_types[81]
-#define SWIGTYPE_p_OuterHull swig_types[82]
-#define SWIGTYPE_p_OxygenSystem swig_types[83]
-#define SWIGTYPE_p_PDSFire swig_types[84]
-#define SWIGTYPE_p_Projectile swig_types[85]
-#define SWIGTYPE_p_ProjectileFactory swig_types[86]
-#define SWIGTYPE_p_ReactorButton swig_types[87]
-#define SWIGTYPE_p_RepairAnimation swig_types[88]
-#define SWIGTYPE_p_RepairDrone swig_types[89]
-#define SWIGTYPE_p_RepairStoreBox swig_types[90]
-#define SWIGTYPE_p_Repairable swig_types[91]
-#define SWIGTYPE_p_RockAnimation swig_types[92]
-#define SWIGTYPE_p_Room swig_types[93]
-#define SWIGTYPE_p_ScoreKeeper swig_types[94]
-#define SWIGTYPE_p_Selectable swig_types[95]
-#define SWIGTYPE_p_Shields swig_types[96]
-#define SWIGTYPE_p_Ship swig_types[97]
-#define SWIGTYPE_p_ShipBlueprint swig_types[98]
-#define SWIGTYPE_p_ShipButton swig_types[99]
-#define SWIGTYPE_p_ShipManager swig_types[100]
-#define SWIGTYPE_p_ShipObject swig_types[101]
-#define SWIGTYPE_p_ShipSystem swig_types[102]
-#define SWIGTYPE_p_SpaceDrone swig_types[103]
-#define SWIGTYPE_p_Spreadable swig_types[104]
-#define SWIGTYPE_p_Spreader_Fire swig_types[105]
-#define SWIGTYPE_p_StarMap swig_types[106]
-#define SWIGTYPE_p_Store swig_types[107]
-#define SWIGTYPE_p_StoreBox swig_types[108]
-#define SWIGTYPE_p_SystemBlueprint swig_types[109]
-#define SWIGTYPE_p_SystemBox swig_types[110]
-#define SWIGTYPE_p_SystemCustomBox swig_types[111]
-#define SWIGTYPE_p_SystemStoreBox swig_types[112]
-#define SWIGTYPE_p_TabbedWindow swig_types[113]
-#define SWIGTYPE_p_TeleportBox swig_types[114]
-#define SWIGTYPE_p_TeleportSystem swig_types[115]
-#define SWIGTYPE_p_TextButton swig_types[116]
-#define SWIGTYPE_p_TextButton0 swig_types[117]
-#define SWIGTYPE_p_Upgrades swig_types[118]
-#define SWIGTYPE_p_WarningMessage swig_types[119]
-#define SWIGTYPE_p_WarningWithLines swig_types[120]
-#define SWIGTYPE_p_WeaponBlueprint swig_types[121]
-#define SWIGTYPE_p_WeaponBox swig_types[122]
-#define SWIGTYPE_p_WeaponControl swig_types[123]
-#define SWIGTYPE_p_WeaponEquipBox swig_types[124]
-#define SWIGTYPE_p_WeaponStoreBox swig_types[125]
-#define SWIGTYPE_p_WeaponSystem swig_types[126]
-#define SWIGTYPE_p_WeaponSystemBox swig_types[127]
-#define SWIGTYPE_p_freetype__font_data swig_types[128]
-#define SWIGTYPE_p_std__string swig_types[129]
-static swig_type_info *swig_types[131];
-static swig_module_info swig_module = {swig_types, 130, 0, 0, 0, 0};
+#define SWIGTYPE_p_CommandGui swig_types[33]
+#define SWIGTYPE_p_CompleteShip swig_types[34]
+#define SWIGTYPE_p_ConfirmWindow swig_types[35]
+#define SWIGTYPE_p_CooldownSystemBox swig_types[36]
+#define SWIGTYPE_p_CrewAnimation swig_types[37]
+#define SWIGTYPE_p_CrewBlueprint swig_types[38]
+#define SWIGTYPE_p_CrewCustomizeBox swig_types[39]
+#define SWIGTYPE_p_CrewDrone swig_types[40]
+#define SWIGTYPE_p_CrewEquipBox swig_types[41]
+#define SWIGTYPE_p_CrewLaser swig_types[42]
+#define SWIGTYPE_p_CrewManifest swig_types[43]
+#define SWIGTYPE_p_CrewMember swig_types[44]
+#define SWIGTYPE_p_CrewStoreBox swig_types[45]
+#define SWIGTYPE_p_CrewTarget swig_types[46]
+#define SWIGTYPE_p_CrystalAlien swig_types[47]
+#define SWIGTYPE_p_DefenseDrone swig_types[48]
+#define SWIGTYPE_p_DistressButton swig_types[49]
+#define SWIGTYPE_p_Door swig_types[50]
+#define SWIGTYPE_p_DoorBox swig_types[51]
+#define SWIGTYPE_p_Drone swig_types[52]
+#define SWIGTYPE_p_DroneBlueprint swig_types[53]
+#define SWIGTYPE_p_DroneControl swig_types[54]
+#define SWIGTYPE_p_DroneEquipBox swig_types[55]
+#define SWIGTYPE_p_DroneStoreBox swig_types[56]
+#define SWIGTYPE_p_DroneSystem swig_types[57]
+#define SWIGTYPE_p_Equipment swig_types[58]
+#define SWIGTYPE_p_EquipmentBox swig_types[59]
+#define SWIGTYPE_p_ExplosionAnimation swig_types[60]
+#define SWIGTYPE_p_FTLButton swig_types[61]
+#define SWIGTYPE_p_Fire swig_types[62]
+#define SWIGTYPE_p_FocusWindow swig_types[63]
+#define SWIGTYPE_p_GL_Texture swig_types[64]
+#define SWIGTYPE_p_GameOver swig_types[65]
+#define SWIGTYPE_p_GenericButton swig_types[66]
+#define SWIGTYPE_p_Global swig_types[67]
+#define SWIGTYPE_p_HackBox swig_types[68]
+#define SWIGTYPE_p_HackingDrone swig_types[69]
+#define SWIGTYPE_p_HackingSystem swig_types[70]
+#define SWIGTYPE_p_HyperspaceVersion swig_types[71]
+#define SWIGTYPE_p_ImageDesc swig_types[72]
+#define SWIGTYPE_p_InputBox swig_types[73]
+#define SWIGTYPE_p_IonDrone swig_types[74]
+#define SWIGTYPE_p_IonDroneAnimation swig_types[75]
+#define SWIGTYPE_p_ItemBlueprint swig_types[76]
+#define SWIGTYPE_p_ItemStoreBox swig_types[77]
+#define SWIGTYPE_p_LanguageChooser swig_types[78]
+#define SWIGTYPE_p_LaserBlast swig_types[79]
+#define SWIGTYPE_p_MantisAnimation swig_types[80]
+#define SWIGTYPE_p_MenuScreen swig_types[81]
+#define SWIGTYPE_p_MindBox swig_types[82]
+#define SWIGTYPE_p_MindSystem swig_types[83]
+#define SWIGTYPE_p_Missile swig_types[84]
+#define SWIGTYPE_p_OptionsScreen swig_types[85]
+#define SWIGTYPE_p_OuterHull swig_types[86]
+#define SWIGTYPE_p_OxygenSystem swig_types[87]
+#define SWIGTYPE_p_PDSFire swig_types[88]
+#define SWIGTYPE_p_Point swig_types[89]
+#define SWIGTYPE_p_Projectile swig_types[90]
+#define SWIGTYPE_p_ProjectileFactory swig_types[91]
+#define SWIGTYPE_p_ReactorButton swig_types[92]
+#define SWIGTYPE_p_RepairAnimation swig_types[93]
+#define SWIGTYPE_p_RepairDrone swig_types[94]
+#define SWIGTYPE_p_RepairStoreBox swig_types[95]
+#define SWIGTYPE_p_Repairable swig_types[96]
+#define SWIGTYPE_p_ResourceControl swig_types[97]
+#define SWIGTYPE_p_RockAnimation swig_types[98]
+#define SWIGTYPE_p_Room swig_types[99]
+#define SWIGTYPE_p_ScoreKeeper swig_types[100]
+#define SWIGTYPE_p_Selectable swig_types[101]
+#define SWIGTYPE_p_Shields swig_types[102]
+#define SWIGTYPE_p_Ship swig_types[103]
+#define SWIGTYPE_p_ShipBlueprint swig_types[104]
+#define SWIGTYPE_p_ShipButton swig_types[105]
+#define SWIGTYPE_p_ShipManager swig_types[106]
+#define SWIGTYPE_p_ShipObject swig_types[107]
+#define SWIGTYPE_p_ShipSystem swig_types[108]
+#define SWIGTYPE_p_SpaceDrone swig_types[109]
+#define SWIGTYPE_p_SpaceManager swig_types[110]
+#define SWIGTYPE_p_Spreadable swig_types[111]
+#define SWIGTYPE_p_Spreader_Fire swig_types[112]
+#define SWIGTYPE_p_StarMap swig_types[113]
+#define SWIGTYPE_p_Store swig_types[114]
+#define SWIGTYPE_p_StoreBox swig_types[115]
+#define SWIGTYPE_p_SystemBlueprint swig_types[116]
+#define SWIGTYPE_p_SystemBox swig_types[117]
+#define SWIGTYPE_p_SystemCustomBox swig_types[118]
+#define SWIGTYPE_p_SystemStoreBox swig_types[119]
+#define SWIGTYPE_p_TabbedWindow swig_types[120]
+#define SWIGTYPE_p_TeleportBox swig_types[121]
+#define SWIGTYPE_p_TeleportSystem swig_types[122]
+#define SWIGTYPE_p_TextButton swig_types[123]
+#define SWIGTYPE_p_TextButton0 swig_types[124]
+#define SWIGTYPE_p_Upgrades swig_types[125]
+#define SWIGTYPE_p_WarningMessage swig_types[126]
+#define SWIGTYPE_p_WarningWithLines swig_types[127]
+#define SWIGTYPE_p_WeaponBlueprint swig_types[128]
+#define SWIGTYPE_p_WeaponBox swig_types[129]
+#define SWIGTYPE_p_WeaponControl swig_types[130]
+#define SWIGTYPE_p_WeaponEquipBox swig_types[131]
+#define SWIGTYPE_p_WeaponStoreBox swig_types[132]
+#define SWIGTYPE_p_WeaponSystem swig_types[133]
+#define SWIGTYPE_p_WeaponSystemBox swig_types[134]
+#define SWIGTYPE_p_WorldManager swig_types[135]
+#define SWIGTYPE_p_freetype__font_data swig_types[136]
+#define SWIGTYPE_p_std__string swig_types[137]
+static swig_type_info *swig_types[139];
+static swig_module_info swig_module = {swig_types, 138, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -3528,6 +3536,112 @@ fail:
 }
 
 
+static int _wrap_Global_GetInstance(lua_State* L) {
+  int SWIG_arg = 0;
+  Global *result = 0 ;
+  
+  SWIG_check_num_args("Global::GetInstance",0,0)
+  result = (Global *)Global::GetInstance();
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_Global,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Global_GetShipManager(lua_State* L) {
+  int SWIG_arg = 0;
+  Global *arg1 = (Global *) 0 ;
+  int arg2 ;
+  ShipManager *result = 0 ;
+  
+  SWIG_check_num_args("Global::GetShipManager",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("Global::GetShipManager",1,"Global *");
+  if(!lua_isnumber(L,2)) SWIG_fail_arg("Global::GetShipManager",2,"int");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Global,0))){
+    SWIG_fail_ptr("Global_GetShipManager",1,SWIGTYPE_p_Global);
+  }
+  
+  arg2 = (int)lua_tonumber(L, 2);
+  result = (ShipManager *)(arg1)->GetShipManager(arg2);
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_ShipManager,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Global_GetCApp(lua_State* L) {
+  int SWIG_arg = 0;
+  Global *arg1 = (Global *) 0 ;
+  CApp *result = 0 ;
+  
+  SWIG_check_num_args("Global::GetCApp",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("Global::GetCApp",1,"Global *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Global,0))){
+    SWIG_fail_ptr("Global_GetCApp",1,SWIGTYPE_p_Global);
+  }
+  
+  result = (CApp *)(arg1)->GetCApp();
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_CApp,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static swig_lua_attribute swig_Global_attributes[] = {
+    {0,0,0}
+};
+static swig_lua_method swig_Global_methods[]= {
+    { "GetShipManager", _wrap_Global_GetShipManager},
+    { "GetCApp", _wrap_Global_GetCApp},
+    {0,0}
+};
+static swig_lua_method swig_Global_meta[] = {
+    {0,0}
+};
+
+static swig_lua_attribute swig_Global_Sf_SwigStatic_attributes[] = {
+    {0,0,0}
+};
+static swig_lua_const_info swig_Global_Sf_SwigStatic_constants[]= {
+    {0,0,0,0,0,0}
+};
+static swig_lua_method swig_Global_Sf_SwigStatic_methods[]= {
+    { "GetInstance", _wrap_Global_GetInstance},
+    {0,0}
+};
+static swig_lua_class* swig_Global_Sf_SwigStatic_classes[]= {
+    0
+};
+
+static swig_lua_namespace swig_Global_Sf_SwigStatic = {
+    "Global",
+    swig_Global_Sf_SwigStatic_methods,
+    swig_Global_Sf_SwigStatic_attributes,
+    swig_Global_Sf_SwigStatic_constants,
+    swig_Global_Sf_SwigStatic_classes,
+    0
+};
+static swig_lua_class *swig_Global_bases[] = {0};
+static const char *swig_Global_base_names[] = {0};
+static swig_lua_class _wrap_class_Global = { "Global", "Global", &SWIGTYPE_p_Global,0,0, swig_Global_methods, swig_Global_attributes, &swig_Global_Sf_SwigStatic, swig_Global_meta, swig_Global_bases, swig_Global_base_names };
+
 static int _wrap_CFPS_RunningTime_get(lua_State* L) {
   int SWIG_arg = 0;
   CFPS *arg1 = (CFPS *) 0 ;
@@ -3764,6 +3878,1244 @@ static swig_lua_class *swig_CFPS_bases[] = {0};
 static const char *swig_CFPS_base_names[] = {0};
 static swig_lua_class _wrap_class_CFPS = { "CFPS", "CFPS", &SWIGTYPE_p_CFPS,0,0, swig_CFPS_methods, swig_CFPS_attributes, &swig_CFPS_Sf_SwigStatic, swig_CFPS_meta, swig_CFPS_bases, swig_CFPS_base_names };
 
+static int _wrap_new_Point__SWIG_0(lua_State* L) {
+  int SWIG_arg = 0;
+  int arg1 ;
+  int arg2 ;
+  Point *result = 0 ;
+  
+  SWIG_check_num_args("Point::Point",2,2)
+  if(!lua_isnumber(L,1)) SWIG_fail_arg("Point::Point",1,"int");
+  if(!lua_isnumber(L,2)) SWIG_fail_arg("Point::Point",2,"int");
+  arg1 = (int)lua_tonumber(L, 1);
+  arg2 = (int)lua_tonumber(L, 2);
+  result = (Point *)new Point(arg1,arg2);
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_Point,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_Point__SWIG_1(lua_State* L) {
+  int SWIG_arg = 0;
+  Point *result = 0 ;
+  
+  SWIG_check_num_args("Point::Point",0,0)
+  result = (Point *)new Point();
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_Point,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_Point(lua_State* L) {
+  int argc;
+  int argv[3]={
+    1,2,3
+  };
+  
+  argc = lua_gettop(L);
+  if (argc == 0) {
+    return _wrap_new_Point__SWIG_1(L);
+  }
+  if (argc == 2) {
+    int _v;
+    {
+      _v = lua_isnumber(L,argv[0]);
+    }
+    if (_v) {
+      {
+        _v = lua_isnumber(L,argv[1]);
+      }
+      if (_v) {
+        return _wrap_new_Point__SWIG_0(L);
+      }
+    }
+  }
+  
+  SWIG_Lua_pusherrstring(L,"Wrong arguments for overloaded function 'new_Point'\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    Point::Point(int,int)\n"
+    "    Point::Point()\n");
+  lua_error(L);return 0;
+}
+
+
+static int _wrap_Point_Distance(lua_State* L) {
+  int SWIG_arg = 0;
+  Point *arg1 = (Point *) 0 ;
+  Point arg2 ;
+  Point *argp2 ;
+  int result;
+  
+  SWIG_check_num_args("Point::Distance",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("Point::Distance",1,"Point *");
+  if(!lua_isuserdata(L,2)) SWIG_fail_arg("Point::Distance",2,"Point");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Point,0))){
+    SWIG_fail_ptr("Point_Distance",1,SWIGTYPE_p_Point);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&argp2,SWIGTYPE_p_Point,0))){
+    SWIG_fail_ptr("Point_Distance",2,SWIGTYPE_p_Point);
+  }
+  arg2 = *argp2;
+  
+  result = (int)(arg1)->Distance(arg2);
+  lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Point_RelativeDistance(lua_State* L) {
+  int SWIG_arg = 0;
+  Point *arg1 = (Point *) 0 ;
+  Point arg2 ;
+  Point *argp2 ;
+  int result;
+  
+  SWIG_check_num_args("Point::RelativeDistance",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("Point::RelativeDistance",1,"Point *");
+  if(!lua_isuserdata(L,2)) SWIG_fail_arg("Point::RelativeDistance",2,"Point");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Point,0))){
+    SWIG_fail_ptr("Point_RelativeDistance",1,SWIGTYPE_p_Point);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&argp2,SWIGTYPE_p_Point,0))){
+    SWIG_fail_ptr("Point_RelativeDistance",2,SWIGTYPE_p_Point);
+  }
+  arg2 = *argp2;
+  
+  result = (int)(arg1)->RelativeDistance(arg2);
+  lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Point_x_set(lua_State* L) {
+  int SWIG_arg = 0;
+  Point *arg1 = (Point *) 0 ;
+  int arg2 ;
+  
+  SWIG_check_num_args("Point::x",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("Point::x",1,"Point *");
+  if(!lua_isnumber(L,2)) SWIG_fail_arg("Point::x",2,"int");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Point,0))){
+    SWIG_fail_ptr("Point_x_set",1,SWIGTYPE_p_Point);
+  }
+  
+  arg2 = (int)lua_tonumber(L, 2);
+  if (arg1) (arg1)->x = arg2;
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Point_x_get(lua_State* L) {
+  int SWIG_arg = 0;
+  Point *arg1 = (Point *) 0 ;
+  int result;
+  
+  SWIG_check_num_args("Point::x",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("Point::x",1,"Point *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Point,0))){
+    SWIG_fail_ptr("Point_x_get",1,SWIGTYPE_p_Point);
+  }
+  
+  result = (int) ((arg1)->x);
+  lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Point_y_set(lua_State* L) {
+  int SWIG_arg = 0;
+  Point *arg1 = (Point *) 0 ;
+  int arg2 ;
+  
+  SWIG_check_num_args("Point::y",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("Point::y",1,"Point *");
+  if(!lua_isnumber(L,2)) SWIG_fail_arg("Point::y",2,"int");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Point,0))){
+    SWIG_fail_ptr("Point_y_set",1,SWIGTYPE_p_Point);
+  }
+  
+  arg2 = (int)lua_tonumber(L, 2);
+  if (arg1) (arg1)->y = arg2;
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Point_y_get(lua_State* L) {
+  int SWIG_arg = 0;
+  Point *arg1 = (Point *) 0 ;
+  int result;
+  
+  SWIG_check_num_args("Point::y",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("Point::y",1,"Point *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_Point,0))){
+    SWIG_fail_ptr("Point_y_get",1,SWIGTYPE_p_Point);
+  }
+  
+  result = (int) ((arg1)->y);
+  lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _proxy__wrap_new_Point(lua_State *L) {
+    assert(lua_istable(L,1));
+    lua_pushcfunction(L,_wrap_new_Point);
+    assert(!lua_isnil(L,-1));
+    lua_replace(L,1); /* replace our table with real constructor */
+    lua_call(L,lua_gettop(L)-1,1);
+    return 1;
+}
+static swig_lua_attribute swig_Point_attributes[] = {
+    { "x", _wrap_Point_x_get, _wrap_Point_x_set },
+    { "y", _wrap_Point_y_get, _wrap_Point_y_set },
+    {0,0,0}
+};
+static swig_lua_method swig_Point_methods[]= {
+    { "Distance", _wrap_Point_Distance},
+    { "RelativeDistance", _wrap_Point_RelativeDistance},
+    {0,0}
+};
+static swig_lua_method swig_Point_meta[] = {
+    {0,0}
+};
+
+static swig_lua_attribute swig_Point_Sf_SwigStatic_attributes[] = {
+    {0,0,0}
+};
+static swig_lua_const_info swig_Point_Sf_SwigStatic_constants[]= {
+    {0,0,0,0,0,0}
+};
+static swig_lua_method swig_Point_Sf_SwigStatic_methods[]= {
+    {0,0}
+};
+static swig_lua_class* swig_Point_Sf_SwigStatic_classes[]= {
+    0
+};
+
+static swig_lua_namespace swig_Point_Sf_SwigStatic = {
+    "Point",
+    swig_Point_Sf_SwigStatic_methods,
+    swig_Point_Sf_SwigStatic_attributes,
+    swig_Point_Sf_SwigStatic_constants,
+    swig_Point_Sf_SwigStatic_classes,
+    0
+};
+static swig_lua_class *swig_Point_bases[] = {0};
+static const char *swig_Point_base_names[] = {0};
+static swig_lua_class _wrap_class_Point = { "Point", "Point", &SWIGTYPE_p_Point,_proxy__wrap_new_Point,0, swig_Point_methods, swig_Point_attributes, &swig_Point_Sf_SwigStatic, swig_Point_meta, swig_Point_bases, swig_Point_base_names };
+
+static int _wrap_CApp_gui_set(lua_State* L) {
+  int SWIG_arg = 0;
+  CApp *arg1 = (CApp *) 0 ;
+  CommandGui *arg2 = (CommandGui *) 0 ;
+  
+  SWIG_check_num_args("CApp::gui",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("CApp::gui",1,"CApp *");
+  if(!SWIG_isptrtype(L,2)) SWIG_fail_arg("CApp::gui",2,"CommandGui *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_CApp,0))){
+    SWIG_fail_ptr("CApp_gui_set",1,SWIGTYPE_p_CApp);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&arg2,SWIGTYPE_p_CommandGui,SWIG_POINTER_DISOWN))){
+    SWIG_fail_ptr("CApp_gui_set",2,SWIGTYPE_p_CommandGui);
+  }
+  
+  if (arg1) (arg1)->gui = arg2;
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_CApp_gui_get(lua_State* L) {
+  int SWIG_arg = 0;
+  CApp *arg1 = (CApp *) 0 ;
+  CommandGui *result = 0 ;
+  
+  SWIG_check_num_args("CApp::gui",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("CApp::gui",1,"CApp *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_CApp,0))){
+    SWIG_fail_ptr("CApp_gui_get",1,SWIGTYPE_p_CApp);
+  }
+  
+  result = (CommandGui *) ((arg1)->gui);
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_CommandGui,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_CApp_world_set(lua_State* L) {
+  int SWIG_arg = 0;
+  CApp *arg1 = (CApp *) 0 ;
+  WorldManager *arg2 = (WorldManager *) 0 ;
+  
+  SWIG_check_num_args("CApp::world",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("CApp::world",1,"CApp *");
+  if(!SWIG_isptrtype(L,2)) SWIG_fail_arg("CApp::world",2,"WorldManager *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_CApp,0))){
+    SWIG_fail_ptr("CApp_world_set",1,SWIGTYPE_p_CApp);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&arg2,SWIGTYPE_p_WorldManager,SWIG_POINTER_DISOWN))){
+    SWIG_fail_ptr("CApp_world_set",2,SWIGTYPE_p_WorldManager);
+  }
+  
+  if (arg1) (arg1)->world = arg2;
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_CApp_world_get(lua_State* L) {
+  int SWIG_arg = 0;
+  CApp *arg1 = (CApp *) 0 ;
+  WorldManager *result = 0 ;
+  
+  SWIG_check_num_args("CApp::world",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("CApp::world",1,"CApp *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_CApp,0))){
+    SWIG_fail_ptr("CApp_world_get",1,SWIGTYPE_p_CApp);
+  }
+  
+  result = (WorldManager *) ((arg1)->world);
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_WorldManager,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static swig_lua_attribute swig_CApp_attributes[] = {
+    { "gui", _wrap_CApp_gui_get, _wrap_CApp_gui_set },
+    { "world", _wrap_CApp_world_get, _wrap_CApp_world_set },
+    {0,0,0}
+};
+static swig_lua_method swig_CApp_methods[]= {
+    {0,0}
+};
+static swig_lua_method swig_CApp_meta[] = {
+    {0,0}
+};
+
+static swig_lua_attribute swig_CApp_SwigStatic_attributes[] = {
+    {0,0,0}
+};
+static swig_lua_const_info swig_CApp_SwigStatic_constants[]= {
+    {0,0,0,0,0,0}
+};
+static swig_lua_method swig_CApp_SwigStatic_methods[]= {
+    {0,0}
+};
+static swig_lua_class* swig_CApp_SwigStatic_classes[]= {
+    0
+};
+
+static swig_lua_namespace swig_CApp_SwigStatic = {
+    "CApp",
+    swig_CApp_SwigStatic_methods,
+    swig_CApp_SwigStatic_attributes,
+    swig_CApp_SwigStatic_constants,
+    swig_CApp_SwigStatic_classes,
+    0
+};
+static swig_lua_class *swig_CApp_bases[] = {0};
+static const char *swig_CApp_base_names[] = {0};
+static swig_lua_class _wrap_class_CApp = { "CApp", "CApp", &SWIGTYPE_p_CApp,0,0, swig_CApp_methods, swig_CApp_attributes, &swig_CApp_SwigStatic, swig_CApp_meta, swig_CApp_bases, swig_CApp_base_names };
+
+static int _wrap_ResourceControl_GetImageId(lua_State* L) {
+  int SWIG_arg = 0;
+  ResourceControl *arg1 = (ResourceControl *) 0 ;
+  std::string *arg2 = 0 ;
+  std::string temp2 ;
+  GL_Texture *result = 0 ;
+  
+  SWIG_check_num_args("ResourceControl::GetImageId",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("ResourceControl::GetImageId",1,"ResourceControl *");
+  if(!lua_isstring(L,2)) SWIG_fail_arg("ResourceControl::GetImageId",2,"std::string const &");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_ResourceControl,0))){
+    SWIG_fail_ptr("ResourceControl_GetImageId",1,SWIGTYPE_p_ResourceControl);
+  }
+  
+  temp2.assign(lua_tostring(L,2),lua_rawlen(L,2)); arg2=&temp2;
+  result = (GL_Texture *)(arg1)->GetImageId((std::string const &)*arg2);
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_GL_Texture,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static swig_lua_attribute swig_ResourceControl_attributes[] = {
+    {0,0,0}
+};
+static swig_lua_method swig_ResourceControl_methods[]= {
+    { "GetImageId", _wrap_ResourceControl_GetImageId},
+    {0,0}
+};
+static swig_lua_method swig_ResourceControl_meta[] = {
+    {0,0}
+};
+
+static swig_lua_attribute swig_ResourceControl_Sf_SwigStatic_attributes[] = {
+    {0,0,0}
+};
+static swig_lua_const_info swig_ResourceControl_Sf_SwigStatic_constants[]= {
+    {0,0,0,0,0,0}
+};
+static swig_lua_method swig_ResourceControl_Sf_SwigStatic_methods[]= {
+    {0,0}
+};
+static swig_lua_class* swig_ResourceControl_Sf_SwigStatic_classes[]= {
+    0
+};
+
+static swig_lua_namespace swig_ResourceControl_Sf_SwigStatic = {
+    "ResourceControl",
+    swig_ResourceControl_Sf_SwigStatic_methods,
+    swig_ResourceControl_Sf_SwigStatic_attributes,
+    swig_ResourceControl_Sf_SwigStatic_constants,
+    swig_ResourceControl_Sf_SwigStatic_classes,
+    0
+};
+static swig_lua_class *swig_ResourceControl_bases[] = {0};
+static const char *swig_ResourceControl_base_names[] = {0};
+static swig_lua_class _wrap_class_ResourceControl = { "ResourceControl", "ResourceControl", &SWIGTYPE_p_ResourceControl,0,0, swig_ResourceControl_methods, swig_ResourceControl_attributes, &swig_ResourceControl_Sf_SwigStatic, swig_ResourceControl_meta, swig_ResourceControl_bases, swig_ResourceControl_base_names };
+
+static int _wrap_SpaceManager_DangerousEnvironment(lua_State* L) {
+  int SWIG_arg = 0;
+  SpaceManager *arg1 = (SpaceManager *) 0 ;
+  bool result;
+  
+  SWIG_check_num_args("SpaceManager::DangerousEnvironment",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("SpaceManager::DangerousEnvironment",1,"SpaceManager *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_SpaceManager,0))){
+    SWIG_fail_ptr("SpaceManager_DangerousEnvironment",1,SWIGTYPE_p_SpaceManager);
+  }
+  
+  result = (bool)(arg1)->DangerousEnvironment();
+  lua_pushboolean(L,(int)(result!=0)); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_SpaceManager_SwitchBackground(lua_State* L) {
+  int SWIG_arg = 0;
+  SpaceManager *arg1 = (SpaceManager *) 0 ;
+  std::string *arg2 = 0 ;
+  std::string temp2 ;
+  ImageDesc result;
+  
+  SWIG_check_num_args("SpaceManager::SwitchBackground",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("SpaceManager::SwitchBackground",1,"SpaceManager *");
+  if(!lua_isstring(L,2)) SWIG_fail_arg("SpaceManager::SwitchBackground",2,"std::string const &");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_SpaceManager,0))){
+    SWIG_fail_ptr("SpaceManager_SwitchBackground",1,SWIGTYPE_p_SpaceManager);
+  }
+  
+  temp2.assign(lua_tostring(L,2),lua_rawlen(L,2)); arg2=&temp2;
+  result = (arg1)->SwitchBackground((std::string const &)*arg2);
+  {
+    ImageDesc * resultptr = new ImageDesc((const ImageDesc &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_ImageDesc,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_SpaceManager_SwitchPlanet(lua_State* L) {
+  int SWIG_arg = 0;
+  SpaceManager *arg1 = (SpaceManager *) 0 ;
+  std::string *arg2 = 0 ;
+  std::string temp2 ;
+  ImageDesc result;
+  
+  SWIG_check_num_args("SpaceManager::SwitchPlanet",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("SpaceManager::SwitchPlanet",1,"SpaceManager *");
+  if(!lua_isstring(L,2)) SWIG_fail_arg("SpaceManager::SwitchPlanet",2,"std::string const &");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_SpaceManager,0))){
+    SWIG_fail_ptr("SpaceManager_SwitchPlanet",1,SWIGTYPE_p_SpaceManager);
+  }
+  
+  temp2.assign(lua_tostring(L,2),lua_rawlen(L,2)); arg2=&temp2;
+  result = (arg1)->SwitchPlanet((std::string const &)*arg2);
+  {
+    ImageDesc * resultptr = new ImageDesc((const ImageDesc &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_ImageDesc,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_SpaceManager_UpdatePlanetImage(lua_State* L) {
+  int SWIG_arg = 0;
+  SpaceManager *arg1 = (SpaceManager *) 0 ;
+  
+  SWIG_check_num_args("SpaceManager::UpdatePlanetImage",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("SpaceManager::UpdatePlanetImage",1,"SpaceManager *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_SpaceManager,0))){
+    SWIG_fail_ptr("SpaceManager_UpdatePlanetImage",1,SWIGTYPE_p_SpaceManager);
+  }
+  
+  (arg1)->UpdatePlanetImage();
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_SpaceManager_currentBack_set(lua_State* L) {
+  int SWIG_arg = 0;
+  SpaceManager *arg1 = (SpaceManager *) 0 ;
+  GL_Texture *arg2 = (GL_Texture *) 0 ;
+  
+  SWIG_check_num_args("SpaceManager::currentBack",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("SpaceManager::currentBack",1,"SpaceManager *");
+  if(!SWIG_isptrtype(L,2)) SWIG_fail_arg("SpaceManager::currentBack",2,"GL_Texture *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_SpaceManager,0))){
+    SWIG_fail_ptr("SpaceManager_currentBack_set",1,SWIGTYPE_p_SpaceManager);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&arg2,SWIGTYPE_p_GL_Texture,SWIG_POINTER_DISOWN))){
+    SWIG_fail_ptr("SpaceManager_currentBack_set",2,SWIGTYPE_p_GL_Texture);
+  }
+  
+  if (arg1) (arg1)->currentBack = arg2;
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_SpaceManager_currentBack_get(lua_State* L) {
+  int SWIG_arg = 0;
+  SpaceManager *arg1 = (SpaceManager *) 0 ;
+  GL_Texture *result = 0 ;
+  
+  SWIG_check_num_args("SpaceManager::currentBack",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("SpaceManager::currentBack",1,"SpaceManager *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_SpaceManager,0))){
+    SWIG_fail_ptr("SpaceManager_currentBack_get",1,SWIGTYPE_p_SpaceManager);
+  }
+  
+  result = (GL_Texture *) ((arg1)->currentBack);
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_GL_Texture,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_SpaceManager_currentPlanet_set(lua_State* L) {
+  int SWIG_arg = 0;
+  SpaceManager *arg1 = (SpaceManager *) 0 ;
+  ImageDesc *arg2 = (ImageDesc *) 0 ;
+  
+  SWIG_check_num_args("SpaceManager::currentPlanet",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("SpaceManager::currentPlanet",1,"SpaceManager *");
+  if(!SWIG_isptrtype(L,2)) SWIG_fail_arg("SpaceManager::currentPlanet",2,"ImageDesc *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_SpaceManager,0))){
+    SWIG_fail_ptr("SpaceManager_currentPlanet_set",1,SWIGTYPE_p_SpaceManager);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&arg2,SWIGTYPE_p_ImageDesc,0))){
+    SWIG_fail_ptr("SpaceManager_currentPlanet_set",2,SWIGTYPE_p_ImageDesc);
+  }
+  
+  if (arg1) (arg1)->currentPlanet = *arg2;
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_SpaceManager_currentPlanet_get(lua_State* L) {
+  int SWIG_arg = 0;
+  SpaceManager *arg1 = (SpaceManager *) 0 ;
+  ImageDesc *result = 0 ;
+  
+  SWIG_check_num_args("SpaceManager::currentPlanet",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("SpaceManager::currentPlanet",1,"SpaceManager *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_SpaceManager,0))){
+    SWIG_fail_ptr("SpaceManager_currentPlanet_get",1,SWIGTYPE_p_SpaceManager);
+  }
+  
+  result = (ImageDesc *)& ((arg1)->currentPlanet);
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_ImageDesc,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_SpaceManager_gamePaused_get(lua_State* L) {
+  int SWIG_arg = 0;
+  SpaceManager *arg1 = (SpaceManager *) 0 ;
+  bool result;
+  
+  SWIG_check_num_args("SpaceManager::gamePaused",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("SpaceManager::gamePaused",1,"SpaceManager *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_SpaceManager,0))){
+    SWIG_fail_ptr("SpaceManager_gamePaused_get",1,SWIGTYPE_p_SpaceManager);
+  }
+  
+  result = (bool) ((arg1)->gamePaused);
+  lua_pushboolean(L,(int)(result!=0)); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static swig_lua_attribute swig_SpaceManager_attributes[] = {
+    { "currentBack", _wrap_SpaceManager_currentBack_get, _wrap_SpaceManager_currentBack_set },
+    { "currentPlanet", _wrap_SpaceManager_currentPlanet_get, _wrap_SpaceManager_currentPlanet_set },
+    { "gamePaused", _wrap_SpaceManager_gamePaused_get, SWIG_Lua_set_immutable },
+    {0,0,0}
+};
+static swig_lua_method swig_SpaceManager_methods[]= {
+    { "DangerousEnvironment", _wrap_SpaceManager_DangerousEnvironment},
+    { "SwitchBackground", _wrap_SpaceManager_SwitchBackground},
+    { "SwitchPlanet", _wrap_SpaceManager_SwitchPlanet},
+    { "UpdatePlanetImage", _wrap_SpaceManager_UpdatePlanetImage},
+    {0,0}
+};
+static swig_lua_method swig_SpaceManager_meta[] = {
+    {0,0}
+};
+
+static swig_lua_attribute swig_SpaceManager_Sf_SwigStatic_attributes[] = {
+    {0,0,0}
+};
+static swig_lua_const_info swig_SpaceManager_Sf_SwigStatic_constants[]= {
+    {0,0,0,0,0,0}
+};
+static swig_lua_method swig_SpaceManager_Sf_SwigStatic_methods[]= {
+    {0,0}
+};
+static swig_lua_class* swig_SpaceManager_Sf_SwigStatic_classes[]= {
+    0
+};
+
+static swig_lua_namespace swig_SpaceManager_Sf_SwigStatic = {
+    "SpaceManager",
+    swig_SpaceManager_Sf_SwigStatic_methods,
+    swig_SpaceManager_Sf_SwigStatic_attributes,
+    swig_SpaceManager_Sf_SwigStatic_constants,
+    swig_SpaceManager_Sf_SwigStatic_classes,
+    0
+};
+static swig_lua_class *swig_SpaceManager_bases[] = {0};
+static const char *swig_SpaceManager_base_names[] = {0};
+static swig_lua_class _wrap_class_SpaceManager = { "SpaceManager", "SpaceManager", &SWIGTYPE_p_SpaceManager,0,0, swig_SpaceManager_methods, swig_SpaceManager_attributes, &swig_SpaceManager_Sf_SwigStatic, swig_SpaceManager_meta, swig_SpaceManager_bases, swig_SpaceManager_base_names };
+
+static int _wrap_StarMap_ModifyPursuit(lua_State* L) {
+  int SWIG_arg = 0;
+  StarMap *arg1 = (StarMap *) 0 ;
+  int arg2 ;
+  
+  SWIG_check_num_args("StarMap::ModifyPursuit",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("StarMap::ModifyPursuit",1,"StarMap *");
+  if(!lua_isnumber(L,2)) SWIG_fail_arg("StarMap::ModifyPursuit",2,"int");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_StarMap,0))){
+    SWIG_fail_ptr("StarMap_ModifyPursuit",1,SWIGTYPE_p_StarMap);
+  }
+  
+  arg2 = (int)lua_tonumber(L, 2);
+  (arg1)->ModifyPursuit(arg2);
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_StarMap_PointToGrid(lua_State* L) {
+  int SWIG_arg = 0;
+  StarMap *arg1 = (StarMap *) 0 ;
+  float arg2 ;
+  float arg3 ;
+  Point result;
+  
+  SWIG_check_num_args("StarMap::PointToGrid",3,3)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("StarMap::PointToGrid",1,"StarMap *");
+  if(!lua_isnumber(L,2)) SWIG_fail_arg("StarMap::PointToGrid",2,"float");
+  if(!lua_isnumber(L,3)) SWIG_fail_arg("StarMap::PointToGrid",3,"float");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_StarMap,0))){
+    SWIG_fail_ptr("StarMap_PointToGrid",1,SWIGTYPE_p_StarMap);
+  }
+  
+  arg2 = (float)lua_tonumber(L, 2);
+  arg3 = (float)lua_tonumber(L, 3);
+  result = (arg1)->PointToGrid(arg2,arg3);
+  {
+    Point * resultptr = new Point((const Point &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_Point,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_StarMap_pursuitDelay_set(lua_State* L) {
+  int SWIG_arg = 0;
+  StarMap *arg1 = (StarMap *) 0 ;
+  int arg2 ;
+  
+  SWIG_check_num_args("StarMap::pursuitDelay",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("StarMap::pursuitDelay",1,"StarMap *");
+  if(!lua_isnumber(L,2)) SWIG_fail_arg("StarMap::pursuitDelay",2,"int");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_StarMap,0))){
+    SWIG_fail_ptr("StarMap_pursuitDelay_set",1,SWIGTYPE_p_StarMap);
+  }
+  
+  arg2 = (int)lua_tonumber(L, 2);
+  if (arg1) (arg1)->pursuitDelay = arg2;
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_StarMap_pursuitDelay_get(lua_State* L) {
+  int SWIG_arg = 0;
+  StarMap *arg1 = (StarMap *) 0 ;
+  int result;
+  
+  SWIG_check_num_args("StarMap::pursuitDelay",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("StarMap::pursuitDelay",1,"StarMap *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_StarMap,0))){
+    SWIG_fail_ptr("StarMap_pursuitDelay_get",1,SWIGTYPE_p_StarMap);
+  }
+  
+  result = (int) ((arg1)->pursuitDelay);
+  lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static swig_lua_attribute swig_StarMap_attributes[] = {
+    { "pursuitDelay", _wrap_StarMap_pursuitDelay_get, _wrap_StarMap_pursuitDelay_set },
+    {0,0,0}
+};
+static swig_lua_method swig_StarMap_methods[]= {
+    { "ModifyPursuit", _wrap_StarMap_ModifyPursuit},
+    { "PointToGrid", _wrap_StarMap_PointToGrid},
+    {0,0}
+};
+static swig_lua_method swig_StarMap_meta[] = {
+    {0,0}
+};
+
+static swig_lua_attribute swig_StarMap_SwigStatic_attributes[] = {
+    {0,0,0}
+};
+static swig_lua_const_info swig_StarMap_SwigStatic_constants[]= {
+    {0,0,0,0,0,0}
+};
+static swig_lua_method swig_StarMap_SwigStatic_methods[]= {
+    {0,0}
+};
+static swig_lua_class* swig_StarMap_SwigStatic_classes[]= {
+    0
+};
+
+static swig_lua_namespace swig_StarMap_SwigStatic = {
+    "StarMap",
+    swig_StarMap_SwigStatic_methods,
+    swig_StarMap_SwigStatic_attributes,
+    swig_StarMap_SwigStatic_constants,
+    swig_StarMap_SwigStatic_classes,
+    0
+};
+static swig_lua_class *swig_StarMap_bases[] = {0};
+static const char *swig_StarMap_base_names[] = {0};
+static swig_lua_class _wrap_class_StarMap = { "StarMap", "StarMap", &SWIGTYPE_p_StarMap,0,0, swig_StarMap_methods, swig_StarMap_attributes, &swig_StarMap_SwigStatic, swig_StarMap_meta, swig_StarMap_bases, swig_StarMap_base_names };
+
+static int _wrap_WorldManager_space_get(lua_State* L) {
+  int SWIG_arg = 0;
+  WorldManager *arg1 = (WorldManager *) 0 ;
+  SpaceManager *result = 0 ;
+  
+  SWIG_check_num_args("WorldManager::space",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("WorldManager::space",1,"WorldManager *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_WorldManager,0))){
+    SWIG_fail_ptr("WorldManager_space_get",1,SWIGTYPE_p_WorldManager);
+  }
+  
+  result = (SpaceManager *)& ((arg1)->space);
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_SpaceManager,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_WorldManager_currentDifficulty_get(lua_State* L) {
+  int SWIG_arg = 0;
+  WorldManager *arg1 = (WorldManager *) 0 ;
+  int result;
+  
+  SWIG_check_num_args("WorldManager::currentDifficulty",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("WorldManager::currentDifficulty",1,"WorldManager *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_WorldManager,0))){
+    SWIG_fail_ptr("WorldManager_currentDifficulty_get",1,SWIGTYPE_p_WorldManager);
+  }
+  
+  result = (int) ((arg1)->currentDifficulty);
+  lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_WorldManager_starMap_get(lua_State* L) {
+  int SWIG_arg = 0;
+  WorldManager *arg1 = (WorldManager *) 0 ;
+  StarMap *result = 0 ;
+  
+  SWIG_check_num_args("WorldManager::starMap",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("WorldManager::starMap",1,"WorldManager *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_WorldManager,0))){
+    SWIG_fail_ptr("WorldManager_starMap_get",1,SWIGTYPE_p_WorldManager);
+  }
+  
+  result = (StarMap *)& ((arg1)->starMap);
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_StarMap,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_WorldManager_bStartedGame_get(lua_State* L) {
+  int SWIG_arg = 0;
+  WorldManager *arg1 = (WorldManager *) 0 ;
+  bool result;
+  
+  SWIG_check_num_args("WorldManager::bStartedGame",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("WorldManager::bStartedGame",1,"WorldManager *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_WorldManager,0))){
+    SWIG_fail_ptr("WorldManager_bStartedGame_get",1,SWIGTYPE_p_WorldManager);
+  }
+  
+  result = (bool) ((arg1)->bStartedGame);
+  lua_pushboolean(L,(int)(result!=0)); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_WorldManager_bLoadingGame_get(lua_State* L) {
+  int SWIG_arg = 0;
+  WorldManager *arg1 = (WorldManager *) 0 ;
+  bool result;
+  
+  SWIG_check_num_args("WorldManager::bLoadingGame",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("WorldManager::bLoadingGame",1,"WorldManager *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_WorldManager,0))){
+    SWIG_fail_ptr("WorldManager_bLoadingGame_get",1,SWIGTYPE_p_WorldManager);
+  }
+  
+  result = (bool) ((arg1)->bLoadingGame);
+  lua_pushboolean(L,(int)(result!=0)); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_WorldManager_playerCrewCount_set(lua_State* L) {
+  int SWIG_arg = 0;
+  WorldManager *arg1 = (WorldManager *) 0 ;
+  int arg2 ;
+  
+  SWIG_check_num_args("WorldManager::playerCrewCount",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("WorldManager::playerCrewCount",1,"WorldManager *");
+  if(!lua_isnumber(L,2)) SWIG_fail_arg("WorldManager::playerCrewCount",2,"int");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_WorldManager,0))){
+    SWIG_fail_ptr("WorldManager_playerCrewCount_set",1,SWIGTYPE_p_WorldManager);
+  }
+  
+  arg2 = (int)lua_tonumber(L, 2);
+  if (arg1) (arg1)->playerCrewCount = arg2;
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_WorldManager_playerCrewCount_get(lua_State* L) {
+  int SWIG_arg = 0;
+  WorldManager *arg1 = (WorldManager *) 0 ;
+  int result;
+  
+  SWIG_check_num_args("WorldManager::playerCrewCount",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("WorldManager::playerCrewCount",1,"WorldManager *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_WorldManager,0))){
+    SWIG_fail_ptr("WorldManager_playerCrewCount_get",1,SWIGTYPE_p_WorldManager);
+  }
+  
+  result = (int) ((arg1)->playerCrewCount);
+  lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_WorldManager_killedCrew_set(lua_State* L) {
+  int SWIG_arg = 0;
+  WorldManager *arg1 = (WorldManager *) 0 ;
+  int arg2 ;
+  
+  SWIG_check_num_args("WorldManager::killedCrew",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("WorldManager::killedCrew",1,"WorldManager *");
+  if(!lua_isnumber(L,2)) SWIG_fail_arg("WorldManager::killedCrew",2,"int");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_WorldManager,0))){
+    SWIG_fail_ptr("WorldManager_killedCrew_set",1,SWIGTYPE_p_WorldManager);
+  }
+  
+  arg2 = (int)lua_tonumber(L, 2);
+  if (arg1) (arg1)->killedCrew = arg2;
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_WorldManager_killedCrew_get(lua_State* L) {
+  int SWIG_arg = 0;
+  WorldManager *arg1 = (WorldManager *) 0 ;
+  int result;
+  
+  SWIG_check_num_args("WorldManager::killedCrew",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("WorldManager::killedCrew",1,"WorldManager *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_WorldManager,0))){
+    SWIG_fail_ptr("WorldManager_killedCrew_get",1,SWIGTYPE_p_WorldManager);
+  }
+  
+  result = (int) ((arg1)->killedCrew);
+  lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_WorldManager_playerHull_set(lua_State* L) {
+  int SWIG_arg = 0;
+  WorldManager *arg1 = (WorldManager *) 0 ;
+  int arg2 ;
+  
+  SWIG_check_num_args("WorldManager::playerHull",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("WorldManager::playerHull",1,"WorldManager *");
+  if(!lua_isnumber(L,2)) SWIG_fail_arg("WorldManager::playerHull",2,"int");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_WorldManager,0))){
+    SWIG_fail_ptr("WorldManager_playerHull_set",1,SWIGTYPE_p_WorldManager);
+  }
+  
+  arg2 = (int)lua_tonumber(L, 2);
+  if (arg1) (arg1)->playerHull = arg2;
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_WorldManager_playerHull_get(lua_State* L) {
+  int SWIG_arg = 0;
+  WorldManager *arg1 = (WorldManager *) 0 ;
+  int result;
+  
+  SWIG_check_num_args("WorldManager::playerHull",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("WorldManager::playerHull",1,"WorldManager *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_WorldManager,0))){
+    SWIG_fail_ptr("WorldManager_playerHull_get",1,SWIGTYPE_p_WorldManager);
+  }
+  
+  result = (int) ((arg1)->playerHull);
+  lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static swig_lua_attribute swig_WorldManager_attributes[] = {
+    { "space", _wrap_WorldManager_space_get, SWIG_Lua_set_immutable },
+    { "currentDifficulty", _wrap_WorldManager_currentDifficulty_get, SWIG_Lua_set_immutable },
+    { "starMap", _wrap_WorldManager_starMap_get, SWIG_Lua_set_immutable },
+    { "bStartedGame", _wrap_WorldManager_bStartedGame_get, SWIG_Lua_set_immutable },
+    { "bLoadingGame", _wrap_WorldManager_bLoadingGame_get, SWIG_Lua_set_immutable },
+    { "playerCrewCount", _wrap_WorldManager_playerCrewCount_get, _wrap_WorldManager_playerCrewCount_set },
+    { "killedCrew", _wrap_WorldManager_killedCrew_get, _wrap_WorldManager_killedCrew_set },
+    { "playerHull", _wrap_WorldManager_playerHull_get, _wrap_WorldManager_playerHull_set },
+    {0,0,0}
+};
+static swig_lua_method swig_WorldManager_methods[]= {
+    {0,0}
+};
+static swig_lua_method swig_WorldManager_meta[] = {
+    {0,0}
+};
+
+static swig_lua_attribute swig_WorldManager_Sf_SwigStatic_attributes[] = {
+    {0,0,0}
+};
+static swig_lua_const_info swig_WorldManager_Sf_SwigStatic_constants[]= {
+    {0,0,0,0,0,0}
+};
+static swig_lua_method swig_WorldManager_Sf_SwigStatic_methods[]= {
+    {0,0}
+};
+static swig_lua_class* swig_WorldManager_Sf_SwigStatic_classes[]= {
+    0
+};
+
+static swig_lua_namespace swig_WorldManager_Sf_SwigStatic = {
+    "WorldManager",
+    swig_WorldManager_Sf_SwigStatic_methods,
+    swig_WorldManager_Sf_SwigStatic_attributes,
+    swig_WorldManager_Sf_SwigStatic_constants,
+    swig_WorldManager_Sf_SwigStatic_classes,
+    0
+};
+static swig_lua_class *swig_WorldManager_bases[] = {0};
+static const char *swig_WorldManager_base_names[] = {0};
+static swig_lua_class _wrap_class_WorldManager = { "WorldManager", "WorldManager", &SWIGTYPE_p_WorldManager,0,0, swig_WorldManager_methods, swig_WorldManager_attributes, &swig_WorldManager_Sf_SwigStatic, swig_WorldManager_meta, swig_WorldManager_bases, swig_WorldManager_base_names };
+
 static int _wrap_FPS_get(lua_State* L) {
   int SWIG_arg = 0;
   CFPS *result = 0 ;
@@ -3771,6 +5123,23 @@ static int _wrap_FPS_get(lua_State* L) {
   SWIG_check_num_args("Global_CFPS_FPSControl",0,0)
   result = (CFPS *)Global_CFPS_FPSControl;
   SWIG_NewPointerObj(L,result,SWIGTYPE_p_CFPS,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_Resources_get(lua_State* L) {
+  int SWIG_arg = 0;
+  ResourceControl *result = 0 ;
+  
+  SWIG_check_num_args("Global_ResourceControl_GlobalResources",0,0)
+  result = (ResourceControl *)Global_ResourceControl_GlobalResources;
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_ResourceControl,0); SWIG_arg++; 
   return SWIG_arg;
   
   if(0) SWIG_fail;
@@ -3801,6 +5170,7 @@ fail:
 static swig_lua_attribute swig_SwigModule_attributes[] = {
     { "version", _wrap_version_get, SWIG_Lua_set_immutable },
     { "FPS", _wrap_FPS_get, SWIG_Lua_set_immutable },
+    { "Resources", _wrap_Resources_get, SWIG_Lua_set_immutable },
     { "Score", _wrap_Score_get, SWIG_Lua_set_immutable },
     {0,0,0}
 };
@@ -3812,12 +5182,20 @@ static swig_lua_method swig_SwigModule_methods[]= {
     { "getSkillBonus", _wrap_getSkillBonus},
     { "random32", _wrap_random32},
     { "setRandomSeed", _wrap_setRandomSeed},
+    { "Global_GetInstance", _wrap_Global_GetInstance},
     {0,0}
 };
 static swig_lua_class* swig_SwigModule_classes[]= {
 &_wrap_class_string,
 &_wrap_class_HyperspaceVersion,
+&_wrap_class_Global,
 &_wrap_class_CFPS,
+&_wrap_class_Point,
+&_wrap_class_CApp,
+&_wrap_class_ResourceControl,
+&_wrap_class_SpaceManager,
+&_wrap_class_StarMap,
+&_wrap_class_WorldManager,
     0
 };
 static swig_lua_namespace* swig_SwigModule_namespaces[] = {
@@ -4269,8 +5647,8 @@ static swig_type_info _swigt__p_IonDrone = {"_p_IonDrone", 0, 0, 0, 0, 0};
 static swig_type_info _swigt__p_Button = {"_p_Button", "Button *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_ReactorButton = {"_p_ReactorButton", 0, 0, 0, 0, 0};
 static swig_type_info _swigt__p_ShipButton = {"_p_ShipButton", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_CApp = {"_p_CApp", "CApp *", 0, 0, (void*)&_wrap_class_CApp, 0};
 static swig_type_info _swigt__p_CEvent = {"_p_CEvent", "CEvent *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_CApp = {"_p_CApp", 0, 0, 0, 0, 0};
 static swig_type_info _swigt__p_CFPS = {"_p_CFPS", "CFPS *", 0, 0, (void*)&_wrap_class_CFPS, 0};
 static swig_type_info _swigt__p_CachedPrimitive = {"_p_CachedPrimitive", "CachedPrimitive *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_CachedRectOutline = {"_p_CachedRectOutline", 0, 0, 0, 0, 0};
@@ -4285,6 +5663,7 @@ static swig_type_info _swigt__p_Asteroid = {"_p_Asteroid", 0, 0, 0, 0, 0};
 static swig_type_info _swigt__p_CrewLaser = {"_p_CrewLaser", 0, 0, 0, 0, 0};
 static swig_type_info _swigt__p_BombProjectile = {"_p_BombProjectile", 0, 0, 0, 0, 0};
 static swig_type_info _swigt__p_Missile = {"_p_Missile", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_CommandGui = {"_p_CommandGui", "CommandGui *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_CompleteShip = {"_p_CompleteShip", "CompleteShip *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_BossShip = {"_p_BossShip", 0, 0, 0, 0, 0};
 static swig_type_info _swigt__p_CooldownSystemBox = {"_p_CooldownSystemBox", "CooldownSystemBox *", 0, 0, (void*)0, 0};
@@ -4322,28 +5701,32 @@ static swig_type_info _swigt__p_ConfirmWindow = {"_p_ConfirmWindow", 0, 0, 0, 0,
 static swig_type_info _swigt__p_GameOver = {"_p_GameOver", 0, 0, 0, 0, 0};
 static swig_type_info _swigt__p_LanguageChooser = {"_p_LanguageChooser", 0, 0, 0, 0, 0};
 static swig_type_info _swigt__p_TabbedWindow = {"_p_TabbedWindow", 0, 0, 0, 0, 0};
-static swig_type_info _swigt__p_StarMap = {"_p_StarMap", 0, 0, 0, 0, 0};
 static swig_type_info _swigt__p_CrewManifest = {"_p_CrewManifest", 0, 0, 0, 0, 0};
 static swig_type_info _swigt__p_Upgrades = {"_p_Upgrades", 0, 0, 0, 0, 0};
 static swig_type_info _swigt__p_InputBox = {"_p_InputBox", 0, 0, 0, 0, 0};
 static swig_type_info _swigt__p_Equipment = {"_p_Equipment", 0, 0, 0, 0, 0};
 static swig_type_info _swigt__p_Store = {"_p_Store", 0, 0, 0, 0, 0};
 static swig_type_info _swigt__p_MenuScreen = {"_p_MenuScreen", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_GL_Texture = {"_p_GL_Texture", "GL_Texture *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_GenericButton = {"_p_GenericButton", "GenericButton *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_FTLButton = {"_p_FTLButton", 0, 0, 0, 0, 0};
 static swig_type_info _swigt__p_DistressButton = {"_p_DistressButton", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_Global = {"_p_Global", "Global *", 0, 0, (void*)&_wrap_class_Global, 0};
 static swig_type_info _swigt__p_HyperspaceVersion = {"_p_HyperspaceVersion", "HyperspaceVersion *", 0, 0, (void*)&_wrap_class_HyperspaceVersion, 0};
+static swig_type_info _swigt__p_ImageDesc = {"_p_ImageDesc", "ImageDesc *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_LaserBlast = {"_p_LaserBlast", "LaserBlast *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_Point = {"_p_Point", "Point *", 0, 0, (void*)&_wrap_class_Point, 0};
 static swig_type_info _swigt__p_Projectile = {"_p_Projectile", "Projectile *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Repairable = {"_p_Repairable", "Repairable *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Fire = {"_p_Fire", 0, 0, 0, 0, 0};
 static swig_type_info _swigt__p_OuterHull = {"_p_OuterHull", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_ResourceControl = {"_p_ResourceControl", "ResourceControl *", 0, 0, (void*)&_wrap_class_ResourceControl, 0};
 static swig_type_info _swigt__p_ScoreKeeper = {"_p_ScoreKeeper", "ScoreKeeper *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Selectable = {"_p_Selectable", "Selectable *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Room = {"_p_Room", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_ShipManager = {"_p_ShipManager", "ShipManager *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_ShipObject = {"_p_ShipObject", "ShipObject *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Spreader_Fire = {"_p_Spreader_Fire", 0, 0, 0, 0, 0};
-static swig_type_info _swigt__p_ShipManager = {"_p_ShipManager", 0, 0, 0, 0, 0};
 static swig_type_info _swigt__p_Ship = {"_p_Ship", 0, 0, 0, 0, 0};
 static swig_type_info _swigt__p_ProjectileFactory = {"_p_ProjectileFactory", 0, 0, 0, 0, 0};
 static swig_type_info _swigt__p_ShipSystem = {"_p_ShipSystem", "ShipSystem *", 0, 0, (void*)0, 0};
@@ -4359,7 +5742,9 @@ static swig_type_info _swigt__p_CloneSystem = {"_p_CloneSystem", 0, 0, 0, 0, 0};
 static swig_type_info _swigt__p_DroneSystem = {"_p_DroneSystem", 0, 0, 0, 0, 0};
 static swig_type_info _swigt__p_HackingSystem = {"_p_HackingSystem", 0, 0, 0, 0, 0};
 static swig_type_info _swigt__p_SpaceDrone = {"_p_SpaceDrone", "SpaceDrone *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_SpaceManager = {"_p_SpaceManager", "SpaceManager *", 0, 0, (void*)&_wrap_class_SpaceManager, 0};
 static swig_type_info _swigt__p_Spreadable = {"_p_Spreadable", "Spreadable *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_StarMap = {"_p_StarMap", "StarMap *", 0, 0, (void*)&_wrap_class_StarMap, 0};
 static swig_type_info _swigt__p_StoreBox = {"_p_StoreBox", "StoreBox *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_AugmentStoreBox = {"_p_AugmentStoreBox", 0, 0, 0, 0, 0};
 static swig_type_info _swigt__p_CrewStoreBox = {"_p_CrewStoreBox", 0, 0, 0, 0, 0};
@@ -4377,6 +5762,7 @@ static swig_type_info _swigt__p_TextButton = {"_p_TextButton", "TextButton *", 0
 static swig_type_info _swigt__p_TextButton0 = {"_p_TextButton0", "TextButton0 *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_WarningMessage = {"_p_WarningMessage", "WarningMessage *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_WarningWithLines = {"_p_WarningWithLines", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_WorldManager = {"_p_WorldManager", "WorldManager *", 0, 0, (void*)&_wrap_class_WorldManager, 0};
 static swig_type_info _swigt__p_freetype__font_data = {"_p_freetype__font_data", "freetype::font_data *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__string = {"_p_std__string", "std::string *", 0, 0, (void*)&_wrap_class_string, 0};
 
@@ -4414,6 +5800,7 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_CloneSystem,
   &_swigt__p_Collideable,
   &_swigt__p_CombatDrone,
+  &_swigt__p_CommandGui,
   &_swigt__p_CompleteShip,
   &_swigt__p_ConfirmWindow,
   &_swigt__p_CooldownSystemBox,
@@ -4444,12 +5831,15 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_FTLButton,
   &_swigt__p_Fire,
   &_swigt__p_FocusWindow,
+  &_swigt__p_GL_Texture,
   &_swigt__p_GameOver,
   &_swigt__p_GenericButton,
+  &_swigt__p_Global,
   &_swigt__p_HackBox,
   &_swigt__p_HackingDrone,
   &_swigt__p_HackingSystem,
   &_swigt__p_HyperspaceVersion,
+  &_swigt__p_ImageDesc,
   &_swigt__p_InputBox,
   &_swigt__p_IonDrone,
   &_swigt__p_IonDroneAnimation,
@@ -4466,6 +5856,7 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_OuterHull,
   &_swigt__p_OxygenSystem,
   &_swigt__p_PDSFire,
+  &_swigt__p_Point,
   &_swigt__p_Projectile,
   &_swigt__p_ProjectileFactory,
   &_swigt__p_ReactorButton,
@@ -4473,6 +5864,7 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_RepairDrone,
   &_swigt__p_RepairStoreBox,
   &_swigt__p_Repairable,
+  &_swigt__p_ResourceControl,
   &_swigt__p_RockAnimation,
   &_swigt__p_Room,
   &_swigt__p_ScoreKeeper,
@@ -4485,6 +5877,7 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_ShipObject,
   &_swigt__p_ShipSystem,
   &_swigt__p_SpaceDrone,
+  &_swigt__p_SpaceManager,
   &_swigt__p_Spreadable,
   &_swigt__p_Spreader_Fire,
   &_swigt__p_StarMap,
@@ -4509,6 +5902,7 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_WeaponStoreBox,
   &_swigt__p_WeaponSystem,
   &_swigt__p_WeaponSystemBox,
+  &_swigt__p_WorldManager,
   &_swigt__p_freetype__font_data,
   &_swigt__p_std__string,
 };
@@ -4533,7 +5927,7 @@ static swig_cast_info _swigc__p_BoarderDrone[] = {  {&_swigt__p_IonDrone, _p_Ion
 static swig_cast_info _swigc__p_ReactorButton[] = {{&_swigt__p_ReactorButton, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_ShipButton[] = {{&_swigt__p_ShipButton, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Button[] = {  {&_swigt__p_ReactorButton, _p_ReactorButtonTo_p_Button, 0, 0},  {&_swigt__p_ShipButton, _p_ShipButtonTo_p_Button, 0, 0},  {&_swigt__p_Button, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_CApp[] = {{&_swigt__p_CApp, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_CApp[] = {  {&_swigt__p_CApp, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_CEvent[] = {  {&_swigt__p_CApp, _p_CAppTo_p_CEvent, 0, 0},  {&_swigt__p_CEvent, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_CFPS[] = {  {&_swigt__p_CFPS, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_CachedRectOutline[] = {{&_swigt__p_CachedRectOutline, 0, 0, 0},{0, 0, 0, 0}};
@@ -4549,6 +5943,7 @@ static swig_cast_info _swigc__p_CrewLaser[] = {{&_swigt__p_CrewLaser, 0, 0, 0},{
 static swig_cast_info _swigc__p_BombProjectile[] = {{&_swigt__p_BombProjectile, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Missile[] = {{&_swigt__p_Missile, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Collideable[] = {  {&_swigt__p_PDSFire, _p_PDSFireTo_p_Collideable, 0, 0},  {&_swigt__p_LaserBlast, _p_LaserBlastTo_p_Collideable, 0, 0},  {&_swigt__p_BeamWeapon, _p_BeamWeaponTo_p_Collideable, 0, 0},  {&_swigt__p_Asteroid, _p_AsteroidTo_p_Collideable, 0, 0},  {&_swigt__p_CrewLaser, _p_CrewLaserTo_p_Collideable, 0, 0},  {&_swigt__p_Collideable, 0, 0, 0},  {&_swigt__p_Projectile, _p_ProjectileTo_p_Collideable, 0, 0},  {&_swigt__p_BombProjectile, _p_BombProjectileTo_p_Collideable, 0, 0},  {&_swigt__p_Missile, _p_MissileTo_p_Collideable, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_CommandGui[] = {  {&_swigt__p_CommandGui, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_BossShip[] = {{&_swigt__p_BossShip, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_CompleteShip[] = {  {&_swigt__p_CompleteShip, 0, 0, 0},  {&_swigt__p_BossShip, _p_BossShipTo_p_CompleteShip, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_CloneBox[] = {{&_swigt__p_CloneBox, 0, 0, 0},{0, 0, 0, 0}};
@@ -4585,7 +5980,6 @@ static swig_cast_info _swigc__p_ConfirmWindow[] = {{&_swigt__p_ConfirmWindow, 0,
 static swig_cast_info _swigc__p_GameOver[] = {{&_swigt__p_GameOver, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_LanguageChooser[] = {{&_swigt__p_LanguageChooser, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_TabbedWindow[] = {{&_swigt__p_TabbedWindow, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_StarMap[] = {{&_swigt__p_StarMap, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_CrewManifest[] = {{&_swigt__p_CrewManifest, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Upgrades[] = {{&_swigt__p_Upgrades, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_InputBox[] = {{&_swigt__p_InputBox, 0, 0, 0},{0, 0, 0, 0}};
@@ -4593,20 +5987,25 @@ static swig_cast_info _swigc__p_Equipment[] = {{&_swigt__p_Equipment, 0, 0, 0},{
 static swig_cast_info _swigc__p_Store[] = {{&_swigt__p_Store, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_MenuScreen[] = {{&_swigt__p_MenuScreen, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_FocusWindow[] = {  {&_swigt__p_ConfirmWindow, _p_ConfirmWindowTo_p_FocusWindow, 0, 0},  {&_swigt__p_GameOver, _p_GameOverTo_p_FocusWindow, 0, 0},  {&_swigt__p_FocusWindow, 0, 0, 0},  {&_swigt__p_LanguageChooser, _p_LanguageChooserTo_p_FocusWindow, 0, 0},  {&_swigt__p_TabbedWindow, _p_TabbedWindowTo_p_FocusWindow, 0, 0},  {&_swigt__p_ChoiceBox, _p_ChoiceBoxTo_p_FocusWindow, 0, 0},  {&_swigt__p_StarMap, _p_StarMapTo_p_FocusWindow, 0, 0},  {&_swigt__p_CrewManifest, _p_CrewManifestTo_p_FocusWindow, 0, 0},  {&_swigt__p_Upgrades, _p_UpgradesTo_p_FocusWindow, 0, 0},  {&_swigt__p_InputBox, _p_InputBoxTo_p_FocusWindow, 0, 0},  {&_swigt__p_Equipment, _p_EquipmentTo_p_FocusWindow, 0, 0},  {&_swigt__p_Store, _p_StoreTo_p_FocusWindow, 0, 0},  {&_swigt__p_MenuScreen, _p_MenuScreenTo_p_FocusWindow, 0, 0},  {&_swigt__p_OptionsScreen, _p_OptionsScreenTo_p_FocusWindow, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_GL_Texture[] = {  {&_swigt__p_GL_Texture, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_FTLButton[] = {{&_swigt__p_FTLButton, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_DistressButton[] = {{&_swigt__p_DistressButton, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_GenericButton[] = {  {&_swigt__p_TextButton, _p_TextButtonTo_p_GenericButton, 0, 0},  {&_swigt__p_FTLButton, _p_FTLButtonTo_p_GenericButton, 0, 0},  {&_swigt__p_ReactorButton, _p_ReactorButtonTo_p_GenericButton, 0, 0},  {&_swigt__p_ShipButton, _p_ShipButtonTo_p_GenericButton, 0, 0},  {&_swigt__p_GenericButton, 0, 0, 0},  {&_swigt__p_DistressButton, _p_DistressButtonTo_p_GenericButton, 0, 0},  {&_swigt__p_Button, _p_ButtonTo_p_GenericButton, 0, 0},  {&_swigt__p_TextButton0, _p_TextButton0To_p_GenericButton, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_Global[] = {  {&_swigt__p_Global, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_HyperspaceVersion[] = {  {&_swigt__p_HyperspaceVersion, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_ImageDesc[] = {  {&_swigt__p_ImageDesc, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_LaserBlast[] = {  {&_swigt__p_PDSFire, _p_PDSFireTo_p_LaserBlast, 0, 0},  {&_swigt__p_LaserBlast, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_Point[] = {  {&_swigt__p_Point, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Projectile[] = {  {&_swigt__p_PDSFire, _p_PDSFireTo_p_Projectile, 0, 0},  {&_swigt__p_LaserBlast, _p_LaserBlastTo_p_Projectile, 0, 0},  {&_swigt__p_BeamWeapon, _p_BeamWeaponTo_p_Projectile, 0, 0},  {&_swigt__p_Asteroid, _p_AsteroidTo_p_Projectile, 0, 0},  {&_swigt__p_CrewLaser, _p_CrewLaserTo_p_Projectile, 0, 0},  {&_swigt__p_Projectile, 0, 0, 0},  {&_swigt__p_BombProjectile, _p_BombProjectileTo_p_Projectile, 0, 0},  {&_swigt__p_Missile, _p_MissileTo_p_Projectile, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Fire[] = {{&_swigt__p_Fire, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_OuterHull[] = {{&_swigt__p_OuterHull, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Repairable[] = {  {&_swigt__p_Spreadable, _p_SpreadableTo_p_Repairable, 0, 0},  {&_swigt__p_Fire, _p_FireTo_p_Repairable, 0, 0},  {&_swigt__p_OuterHull, _p_OuterHullTo_p_Repairable, 0, 0},  {&_swigt__p_Repairable, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_ResourceControl[] = {  {&_swigt__p_ResourceControl, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_ScoreKeeper[] = {  {&_swigt__p_ScoreKeeper, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Room[] = {{&_swigt__p_Room, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Selectable[] = {  {&_swigt__p_Selectable, 0, 0, 0},  {&_swigt__p_Room, _p_RoomTo_p_Selectable, 0, 0},  {&_swigt__p_Spreadable, _p_SpreadableTo_p_Selectable, 0, 0},  {&_swigt__p_Fire, _p_FireTo_p_Selectable, 0, 0},  {&_swigt__p_OuterHull, _p_OuterHullTo_p_Selectable, 0, 0},  {&_swigt__p_Repairable, _p_RepairableTo_p_Selectable, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_ShipManager[] = {  {&_swigt__p_ShipManager, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Spreader_Fire[] = {{&_swigt__p_Spreader_Fire, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_ShipManager[] = {{&_swigt__p_ShipManager, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Ship[] = {{&_swigt__p_Ship, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_ProjectileFactory[] = {{&_swigt__p_ProjectileFactory, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_ShipObject[] = {  {&_swigt__p_Spreader_Fire, _p_Spreader_FireTo_p_ShipObject, 0, 0},  {&_swigt__p_ShipObject, 0, 0, 0},  {&_swigt__p_ShipManager, _p_ShipManagerTo_p_ShipObject, 0, 0},  {&_swigt__p_Ship, _p_ShipTo_p_ShipObject, 0, 0},  {&_swigt__p_ProjectileFactory, _p_ProjectileFactoryTo_p_ShipObject, 0, 0},{0, 0, 0, 0}};
@@ -4623,7 +6022,9 @@ static swig_cast_info _swigc__p_DroneSystem[] = {{&_swigt__p_DroneSystem, 0, 0, 
 static swig_cast_info _swigc__p_HackingSystem[] = {{&_swigt__p_HackingSystem, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_ShipSystem[] = {  {&_swigt__p_Shields, _p_ShieldsTo_p_ShipSystem, 0, 0},  {&_swigt__p_ShipSystem, 0, 0, 0},  {&_swigt__p_MindSystem, _p_MindSystemTo_p_ShipSystem, 0, 0},  {&_swigt__p_OxygenSystem, _p_OxygenSystemTo_p_ShipSystem, 0, 0},  {&_swigt__p_TeleportSystem, _p_TeleportSystemTo_p_ShipSystem, 0, 0},  {&_swigt__p_WeaponSystem, _p_WeaponSystemTo_p_ShipSystem, 0, 0},  {&_swigt__p_ArtillerySystem, _p_ArtillerySystemTo_p_ShipSystem, 0, 0},  {&_swigt__p_BatterySystem, _p_BatterySystemTo_p_ShipSystem, 0, 0},  {&_swigt__p_CloakingSystem, _p_CloakingSystemTo_p_ShipSystem, 0, 0},  {&_swigt__p_CloneSystem, _p_CloneSystemTo_p_ShipSystem, 0, 0},  {&_swigt__p_DroneSystem, _p_DroneSystemTo_p_ShipSystem, 0, 0},  {&_swigt__p_HackingSystem, _p_HackingSystemTo_p_ShipSystem, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_SpaceDrone[] = {  {&_swigt__p_BoarderPodDrone, _p_BoarderPodDroneTo_p_SpaceDrone, 0, 0},  {&_swigt__p_HackingDrone, _p_HackingDroneTo_p_SpaceDrone, 0, 0},  {&_swigt__p_SpaceDrone, 0, 0, 0},  {&_swigt__p_DefenseDrone, _p_DefenseDroneTo_p_SpaceDrone, 0, 0},  {&_swigt__p_CombatDrone, _p_CombatDroneTo_p_SpaceDrone, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_SpaceManager[] = {  {&_swigt__p_SpaceManager, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Spreadable[] = {  {&_swigt__p_Spreadable, 0, 0, 0},  {&_swigt__p_Fire, _p_FireTo_p_Spreadable, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_StarMap[] = {  {&_swigt__p_StarMap, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_AugmentStoreBox[] = {{&_swigt__p_AugmentStoreBox, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_CrewStoreBox[] = {{&_swigt__p_CrewStoreBox, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_DroneStoreBox[] = {{&_swigt__p_DroneStoreBox, 0, 0, 0},{0, 0, 0, 0}};
@@ -4641,6 +6042,7 @@ static swig_cast_info _swigc__p_TextButton[] = {  {&_swigt__p_TextButton, 0, 0, 
 static swig_cast_info _swigc__p_TextButton0[] = {  {&_swigt__p_FTLButton, _p_FTLButtonTo_p_TextButton0, 0, 0},  {&_swigt__p_TextButton0, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_WarningWithLines[] = {{&_swigt__p_WarningWithLines, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_WarningMessage[] = {  {&_swigt__p_WarningWithLines, _p_WarningWithLinesTo_p_WarningMessage, 0, 0},  {&_swigt__p_WarningMessage, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_WorldManager[] = {  {&_swigt__p_WorldManager, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_freetype__font_data[] = {  {&_swigt__p_freetype__font_data, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__string[] = {  {&_swigt__p_std__string, 0, 0, 0},{0, 0, 0, 0}};
 
@@ -4678,6 +6080,7 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_CloneSystem,
   _swigc__p_Collideable,
   _swigc__p_CombatDrone,
+  _swigc__p_CommandGui,
   _swigc__p_CompleteShip,
   _swigc__p_ConfirmWindow,
   _swigc__p_CooldownSystemBox,
@@ -4708,12 +6111,15 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_FTLButton,
   _swigc__p_Fire,
   _swigc__p_FocusWindow,
+  _swigc__p_GL_Texture,
   _swigc__p_GameOver,
   _swigc__p_GenericButton,
+  _swigc__p_Global,
   _swigc__p_HackBox,
   _swigc__p_HackingDrone,
   _swigc__p_HackingSystem,
   _swigc__p_HyperspaceVersion,
+  _swigc__p_ImageDesc,
   _swigc__p_InputBox,
   _swigc__p_IonDrone,
   _swigc__p_IonDroneAnimation,
@@ -4730,6 +6136,7 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_OuterHull,
   _swigc__p_OxygenSystem,
   _swigc__p_PDSFire,
+  _swigc__p_Point,
   _swigc__p_Projectile,
   _swigc__p_ProjectileFactory,
   _swigc__p_ReactorButton,
@@ -4737,6 +6144,7 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_RepairDrone,
   _swigc__p_RepairStoreBox,
   _swigc__p_Repairable,
+  _swigc__p_ResourceControl,
   _swigc__p_RockAnimation,
   _swigc__p_Room,
   _swigc__p_ScoreKeeper,
@@ -4749,6 +6157,7 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_ShipObject,
   _swigc__p_ShipSystem,
   _swigc__p_SpaceDrone,
+  _swigc__p_SpaceManager,
   _swigc__p_Spreadable,
   _swigc__p_Spreader_Fire,
   _swigc__p_StarMap,
@@ -4773,6 +6182,7 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_WeaponStoreBox,
   _swigc__p_WeaponSystem,
   _swigc__p_WeaponSystemBox,
+  _swigc__p_WorldManager,
   _swigc__p_freetype__font_data,
   _swigc__p_std__string,
 };
@@ -5102,10 +6512,39 @@ SWIGEXPORT int SWIG_init(lua_State* L) /* default Lua action */
 
 const char* SWIG_LUACODE=
   "\n"
+  "    Hyperspace.ships = setmetatable({}, {\n"
+  "        __index = function(ships, key)\n"
+  "            if key == \"player\" then\n"
+  "                return Hyperspace.Global.GetInstance():GetShipManager(0)\n"
+  "            elseif key == \"enemy\" then\n"
+  "                return Hyperspace.Global.GetInstance():GetShipManager(1)\n"
+  "            else\n"
+  "                error(\"Unknown ship \" .. key)\n"
+  "            end\n"
+  "        end,\n"
+  "        __newindex = function(ships, key, value)\n"
+  "            error(\"ships is immutable\")\n"
+  "        end\n"
+  "    })\n"
+  "\n"
+  "\n"
   "    print \"Hyperspace SWIG Lua loaded\"\n"
   "    \n"
   "    function fixTheHangar()\n"
   "        print(\"OH MY GOD WE SAW THE HANGAR, on reloading the save\")\n"
+  "        local g = Hyperspace.Global\n"
+  "        print(\"got global class\")\n"
+  "        local gi = g.GetInstance()\n"
+  "        print(\"got global instance\")\n"
+  "        local cai = gi:GetCApp()\n"
+  "        print(\"got capp instance\")\n"
+  "        local wmi = cai.world\n"
+  "        print(\"Got world manager instance\")\n"
+  "        local smi = wmi.space\n"
+  "        print(\"Got spacemanager instance\")\n"
+  "        smi:SwitchBackground(\"BACKGROUND_LIGHTSPEED\")\n"
+  "        --smi:SwitchBackground(\"BACK_SECTOR_START\")\n"
+  "        print(\"Switched background\")\n"
   "    end\n"
   "    function runStarted()\n"
   "        print(\"OH MY GOD THE RUN STARTED\")\n"
