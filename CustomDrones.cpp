@@ -645,6 +645,7 @@ HOOK_METHOD(SpaceDrone, GetNextProjectile, () -> Projectile*)
     if (ret && weaponBlueprint->type == 3) // bomb
     {
         ret->flight_animation.tracker.loop = false;
+        ((BombProjectile*)ret)->superShieldBypass = ((ShipObject*)this)->HasEquipment("ZOLTAN_BYPASS");
     }
     return ret;
 }
