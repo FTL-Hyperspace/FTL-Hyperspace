@@ -30,8 +30,6 @@
     
 */
 
-std::string luaTest = "print(\"Hyperspace version from Lua: \" .. tostring(Hyperspace.version))\nprint(Hyperspace.version:toIdentifierString())\nprint(\"hello from CFPS SpeedFactor: \" .. Hyperspace.FPS.SpeedFactor)\nfunction helloCallback2()\n\tprint(\"Hello Number 2\")\nend\nfunction helloWorld()\n\tprint(\"!!!!!!Hello World!!!!!!\")\nend\nlog(\"LUA MESSAGE\")\nscript.on_load(helloWorld)\nscript.on_load(helloCallback2)\nscript.on_load(helloWorld)\n";
-
 void removeDangerousStuff(lua_State* lua)
 {
 /*
@@ -97,36 +95,13 @@ LuaScriptInit::LuaScriptInit()
 
 // TODO: Figure out how to make a table with metatable __index __newindex things so we can detect reads & writes & then expose I dunno something from the ship?
     
-
-    printf("Loading Lua string\n");
-    int iErr = 0;
-    if((iErr = luaL_loadbuffer(lua, luaTest.c_str(), luaTest.size(), "=luaTest")) != 0)
-    {
-        printf("Lua loadbuffer error\n");
-    }
-    else
-    {    
-        // call Lua's Main from the script (note: still need to load script before this)
-        if((iErr = lua_pcall(lua, 0, LUA_MULTRET, 0)) == 0)
-        {
-            //lua_getglobal(lua, "helloWorld");
-            //lua_pcall(lua, 0, 0, 0); // Call function (pop's from stack name + arguments but we say no arguments and no returns here)
-        }
-        else
-        {
-            printf("Lua pcall error\n");
-            printf(lua_tostring(lua, -1));
-            printf("\n");
-            lua_pop(lua, 1);
-        }
-    }
     printf("Lua initialized!\n");
 }
 
 void LuaScriptInit::runLuaString(std::string code)
 {
     int iErr = 0;
-    if((iErr = luaL_loadbuffer(this->m_Lua, code.c_str(), code.size(), "=luaConsole")) != 0)
+    if((iErr = luaL_loadbufferx(this->m_Lua, code.c_str(), code.size(), "=luaConsole", "t")) != 0)
     {
         const char* errorMessage = lua_tostring(this->m_Lua, -1);
         hs_log_file("Failed to load lua code from in-game console. Error: '%s'\n", errorMessage);
@@ -139,6 +114,40 @@ void LuaScriptInit::runLuaString(std::string code)
     {
         const char* errorMessage = lua_tostring(this->m_Lua, -1);
         hs_log_file("in-game console lua execution failed. Error: '%s'\n", errorMessage);
+        ErrorMessage(errorMessage);
+        lua_pop(this->m_Lua, 1);
+        return;
+    }
+}
+
+void LuaScriptInit::runLuaFileFromDat(std::string filename)
+{
+    // TODO: Check the end of the filename to make sure it's .lua
+    // TODO: Import the file utlities to load 
+    /*
+    int fd = FileHelper::readBinaryFile(filename);
+    int filelen = FileHelper::fileLength(fd);
+    FileHelper::readBuffer(fd, filelen, false);
+    FileHelper::closeBinaryFile(fd);
+    */
+    hs_log_file("Loading Lua file: %s\n", filename.c_str());
+    char* code = Global::GetInstance()->GetResources()->LoadFile(filename);
+    //printf("Lua file loaded: %s, contents: '%s'\n", filename.c_str(), code);
+
+    int iErr = 0;
+    if((iErr = luaL_loadbufferx(this->m_Lua, code, strlen(code), filename.c_str(), "t")) != 0) // the "t" with loadbufferx means text chunks only, default is "bt" but that would allow loading binary lua files, while cool, could be bad.
+    {
+        const char* errorMessage = lua_tostring(this->m_Lua, -1);
+        hs_log_file("Failed to load lua code from file '%s'. Error: '%s'\n", filename.c_str(), errorMessage);
+        ErrorMessage(errorMessage);
+        lua_pop(this->m_Lua, 1);
+        return;
+    }
+    // call Lua's Main from the script loaded above
+    if((iErr = lua_pcall(this->m_Lua, 0, LUA_MULTRET, 0)) != 0)
+    {
+        const char* errorMessage = lua_tostring(this->m_Lua, -1);
+        hs_log_file("Lua execution failed in file '%s'. Error: '%s'\n", filename.c_str(), errorMessage);
         ErrorMessage(errorMessage);
         lua_pop(this->m_Lua, 1);
         return;

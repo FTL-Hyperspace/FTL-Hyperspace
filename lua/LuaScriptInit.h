@@ -32,6 +32,8 @@ class LuaScriptInit
         LuaLibScript* getLibScript() { return m_libScript; };
         
         void runLuaString(std::string code);
+        
+        void runLuaFileFromDat(std::string filename);
 
     protected:
 

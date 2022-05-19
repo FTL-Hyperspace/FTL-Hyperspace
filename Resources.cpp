@@ -580,6 +580,16 @@ void Global::InitializeResources(ResourceControl *resources)
             {
                 ParseSystemsNode(node);
             }
+            if (strcmp(node->name(), "scripts") == 0)
+            {
+                for (auto child = node->first_node(); child; child = child->next_sibling())
+                {
+                    if (strcmp(child->name(), "script") == 0)
+                    {
+                        Global::GetInstance()->getLuaContext()->runLuaFileFromDat(child->value());
+                    }
+                }
+            }
             #ifndef SKIPDISCORD
             if (strcmp(node->name(), "discord") == 0)
             {

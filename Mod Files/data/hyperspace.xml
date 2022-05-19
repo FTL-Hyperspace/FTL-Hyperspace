@@ -40,6 +40,20 @@ Ideally, the prefix should be unique for every mod with custom save files
     <inheritMode>0</inheritMode>
 </saveFile>
 
+<!-- Scripts
+
+Load scripts (Lua files) see online documentation & examples (and lua files included in hyperspace.ftl) on how to use the interface
+Other mods must append to this list as only one `<scripts>` is allowed but multiple `<script>` entries are allowed.
+Load order is the order it appears in the XML here.
+Internal hyperspace scripts & modules are loaded before any of these
+
+Note: it is recommended you make a folder like `data/scripts/` or `scripts/` but there is no actual restriction on a prefix.
+-->
+
+<scripts>
+    <script>data/example.lua</script>
+</scripts>
+
 <!-- Enables the game's built in infinite mode
 (found by ih8ih8sn0w)
 -->
