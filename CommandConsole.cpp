@@ -80,6 +80,7 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
     }
     if (cmdName == "SPEED" && command.length() > 5)
     {
+        // TODO: In the future we could force vsync off by calling `graphics_set_display_attr("vsync", 0);`
         try
         {
             int speedFactor = boost::lexical_cast<int>(boost::trim_copy(command.substr(6)));

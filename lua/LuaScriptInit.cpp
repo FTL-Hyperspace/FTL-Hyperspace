@@ -18,7 +18,7 @@
     - Implement table_size() like Factorio does for tables with non-contiguous keys.?
     - Maybe add abilitly to pull localized string?
     - Re-implement require to load only .lua files from the dat, or maybe re-enable lua package (which contains require) and figure out how to restrict it.
-    - Re-implement math.random to use FTL's random.
+    - Re-implement math.random to use FTL's random. (might want to use FTL's (SIL's) frandom)
     - Add script table
     - Add script.on_init( (function callback/registration) for functions to run on a new run
     - Add script.on_load( (function callback) for functions to run upon loading the script, this is before the game is loaded or a run is started (partially complete)
@@ -94,7 +94,7 @@ LuaScriptInit::LuaScriptInit()
 //    lua_setglobal(lua, "Script");
 
 // TODO: Figure out how to make a table with metatable __index __newindex things so we can detect reads & writes & then expose I dunno something from the ship?
-    
+
     printf("Lua initialized!\n");
 }
 
@@ -123,13 +123,6 @@ void LuaScriptInit::runLuaString(std::string code)
 void LuaScriptInit::runLuaFileFromDat(std::string filename)
 {
     // TODO: Check the end of the filename to make sure it's .lua
-    // TODO: Import the file utlities to load 
-    /*
-    int fd = FileHelper::readBinaryFile(filename);
-    int filelen = FileHelper::fileLength(fd);
-    FileHelper::readBuffer(fd, filelen, false);
-    FileHelper::closeBinaryFile(fd);
-    */
     hs_log_file("Loading Lua file: %s\n", filename.c_str());
     char* code = Global::GetInstance()->GetResources()->LoadFile(filename);
     //printf("Lua file loaded: %s, contents: '%s'\n", filename.c_str(), code);
