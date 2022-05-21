@@ -5612,6 +5612,41 @@ HOOK_METHOD(ShipManager, SelectRandomCrew, (int seed, std::string &racePref) -> 
     return super(seed, racePref);
 }
 
+HOOK_METHOD_PRIORITY(WorldManager, CreateLocation, 100, (Location *location) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> WorldManager::CreateLocation -> Begin (CustomEvents.cpp)\n")
+    LocationEvent *event = location->event;
+
+    if (event && event->stuff.crew < 0)
+    {
+        ShipManager *ship = G_->GetShipManager(0);
+        if (ship && ship->CountCrew(false) == 0)
+        {
+            event->stuff.crew = 0;
+            event->reward.crew = 0;
+        }
+    }
+
+    super(location);
+}
+
+HOOK_METHOD_PRIORITY(WorldManager, UpdateLocation, 100, (LocationEvent *event) -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> WorldManager::UpdateLocation -> Begin (CustomEvents.cpp)\n")
+
+    if (event->stuff.crew < 0)
+    {
+        ShipManager *ship = G_->GetShipManager(0);
+        if (ship && ship->CountCrew(false) == 0)
+        {
+            event->stuff.crew = 0;
+            event->reward.crew = 0;
+        }
+    }
+
+    super(event);
+}
+
 HOOK_METHOD_PRIORITY(ShipManager, FindCrew, 9999, (const CrewBlueprint* bp) -> CrewMember*)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::FindCrew -> Begin (CustomEvents.cpp)\n")
