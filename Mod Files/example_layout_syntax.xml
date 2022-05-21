@@ -9,8 +9,8 @@ Displayed when engines are functional. x/y is offset from top left of base image
 sync is an optional attribute, default false. When false each thruster animation starts at a random frame. When true each animation starts on the first frame.
 -->
 <thrusters sync="false">
-	<thruster x="0" y="0" rotate="false" mirror="false"/>                    <!-- form for default animation -->
-	<thruster x="0" y="0" rotate="false" mirror="false">anim_name</thruster> <!-- form for custom animation; anim must exist in animations.xml -->
+	<thruster x="0" y="0" rotate="false" irotate="false" mirror="false"/>                    <!-- form for default animation -->
+	<thruster x="0" y="0" rotate="false" irotate="false" mirror="false">anim_name</thruster> <!-- form for custom animation; anim must exist in animations.xml -->
 </thrusters>
 
 </FTL>

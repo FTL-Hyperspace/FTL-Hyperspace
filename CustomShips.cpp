@@ -749,7 +749,7 @@ HOOK_METHOD(WorldManager, CreateShip, (ShipEvent* shipEvent, bool boss) -> Compl
     return ret;
 }
 
-static std::vector<std::pair<Animation,bool>> extraEngineAnim[2];
+static std::vector<std::pair<Animation,int8_t>> extraEngineAnim[2];
 
 HOOK_METHOD(Ship, OnInit, (ShipBlueprint* bp) -> void)
 {
@@ -765,7 +765,7 @@ HOOK_METHOD(Ship, OnInit, (ShipBlueprint* bp) -> void)
         int nVanillaThrusters = 0;
         std::vector<std::string> thrusters;
         std::vector<Pointf> thrusterPos;
-        std::vector<bool> thrusterRot;
+        std::vector<int8_t> thrusterRot;
         std::vector<bool> thrusterMirror;
 
         rapidxml::xml_document<> doc;
@@ -796,7 +796,7 @@ HOOK_METHOD(Ship, OnInit, (ShipBlueprint* bp) -> void)
                     if (strcmp(child->name(), "thruster") == 0)
                     {
                         Pointf pos = {0.f,0.f};
-                        bool rot = false;
+                        int8_t rot = 0;
                         bool mirror = false;
                         if (child->first_attribute("x"))
                         {
@@ -808,7 +808,11 @@ HOOK_METHOD(Ship, OnInit, (ShipBlueprint* bp) -> void)
                         }
                         if (child->first_attribute("rotate"))
                         {
-                            rot = EventsParser::ParseBoolean(child->first_attribute("rotate")->value());
+                            if (EventsParser::ParseBoolean(child->first_attribute("rotate")->value())) rot = 1;
+                        }
+                        if (child->first_attribute("irotate"))
+                        {
+                            if (EventsParser::ParseBoolean(child->first_attribute("irotate")->value())) rot = -1;
                         }
                         if (child->first_attribute("mirror"))
                         {
@@ -860,9 +864,13 @@ HOOK_METHOD(Ship, OnInit, (ShipBlueprint* bp) -> void)
                 else
                 {
                     Pointf pos;
-                    if (thrusterRot[i])
+                    if (thrusterRot[i] == 1)
                     {
                         pos = {-(thrusterPos[i].y + shipImage.y + graph->shipBox.y), (thrusterPos[i].x + shipImage.x + graph->shipBox.x)};
+                    }
+                    else if (thrusterRot[i] == -1)
+                    {
+                        pos = {(thrusterPos[i].y + shipImage.y + graph->shipBox.y), -(thrusterPos[i].x + shipImage.x + graph->shipBox.x)};
                     }
                     else
                     {
@@ -870,13 +878,27 @@ HOOK_METHOD(Ship, OnInit, (ShipBlueprint* bp) -> void)
                     }
                     if (thrusters[i].empty())
                     {
-                        if (thrusterRot[i]) pos.x -= 22;
+                        if (thrusterRot[i] == 1)
+                        {
+                            pos.x -= 22;
+                        }
+                        else if (thrusterRot[i] == -1)
+                        {
+                            pos.y -= 70;
+                        }
                         extraEngineAnim[iShipId].emplace_back(std::make_pair(Animation("effects/thrusters_on.png",4,0.5f,pos,88,70,0,-1),thrusterRot[i]));
                     }
                     else
                     {
                         Animation anim = G_->GetAnimationControl()->GetAnimation(thrusters[i]);
-                        if (thrusterRot[i]) pos.x -= anim.info.frameWidth * anim.fScale;
+                        if (thrusterRot[i] == 1)
+                        {
+                            pos.x -= anim.info.frameWidth * anim.fScale;
+                        }
+                        else if (thrusterRot[i] == -1)
+                        {
+                            pos.y -= anim.info.frameHeight * anim.fScale;
+                        }
                         anim.position = pos;
                         extraEngineAnim[iShipId].push_back({anim,thrusterRot[i]});
                     }
@@ -911,7 +933,7 @@ HOOK_METHOD(Ship, OnLoop, (std::vector<float> &oxygenLevels) -> void)
     LOG_HOOK("HOOK_METHOD -> Ship::OnLoop -> Begin (CustomShips.cpp)\n")
     super(oxygenLevels);
 
-    for (std::pair<Animation,bool>& anim : extraEngineAnim[iShipId])
+    for (std::pair<Animation,int8_t>& anim : extraEngineAnim[iShipId])
     {
         anim.first.Update();
     }
@@ -935,14 +957,24 @@ HOOK_METHOD(Ship, OnRenderBase, (bool engines) -> void)
         }
         if (engineAnim[0].animationStrip) engineAnim[0].OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
         if (engineAnim[1].animationStrip) engineAnim[1].OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
-        for (std::pair<Animation,bool>& anim : extraEngineAnim[iShipId])
+        for (std::pair<Animation,int8_t>& anim : extraEngineAnim[iShipId])
         {
             if (anim.second)
             {
-                CSurface::GL_PushMatrix();
-                CSurface::GL_Rotate(-90.f, 0.f, 0.f, 1.f);
-                anim.first.OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
-                CSurface::GL_PopMatrix();
+                if (anim.second == -1)
+                {
+                    CSurface::GL_PushMatrix();
+                    CSurface::GL_Rotate(+90.f, 0.f, 0.f, 1.f);
+                    anim.first.OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
+                    CSurface::GL_PopMatrix();
+                }
+                else
+                {
+                    CSurface::GL_PushMatrix();
+                    CSurface::GL_Rotate(-90.f, 0.f, 0.f, 1.f);
+                    anim.first.OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
+                    CSurface::GL_PopMatrix();
+                }
             }
             else
             {
@@ -966,14 +998,24 @@ HOOK_METHOD(Ship, OnRenderJump, (float progress) -> void)
 
         if (engineAnim[0].animationStrip) engineAnim[0].OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
         if (engineAnim[1].animationStrip) engineAnim[1].OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
-        for (std::pair<Animation,bool>& anim : extraEngineAnim[iShipId])
+        for (std::pair<Animation,int8_t>& anim : extraEngineAnim[iShipId])
         {
             if (anim.second)
             {
-                CSurface::GL_PushMatrix();
-                CSurface::GL_Rotate(-90.f, 0.f, 0.f, 1.f);
-                anim.first.OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
-                CSurface::GL_PopMatrix();
+                if (anim.second == -1)
+                {
+                    CSurface::GL_PushMatrix();
+                    CSurface::GL_Rotate(+90.f, 0.f, 0.f, 1.f);
+                    anim.first.OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
+                    CSurface::GL_PopMatrix();
+                }
+                else
+                {
+                    CSurface::GL_PushMatrix();
+                    CSurface::GL_Rotate(-90.f, 0.f, 0.f, 1.f);
+                    anim.first.OnRender(alpha, {1.f, 1.f, 1.f, 1.f}, false);
+                    CSurface::GL_PopMatrix();
+                }
             }
             else
             {
