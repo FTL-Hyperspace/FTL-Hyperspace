@@ -126,15 +126,4 @@ void LuaScriptInit::runLuaFileFromDat(std::string filename)
     }
 }
 
-/** Probably never called?
- */
-LuaScriptInit::~LuaScriptInit()
-{
-    printf("Lua destruct\n");
-    lua_State* lua = this->GetLua();
-    lua_close(lua);
-    this->SetLua(nullptr);
-    printf("Lua destroyed\n");
-}
-
 // TODO: See other things Factorio decided to disable in Lua (like threads) because they're a problem for determinism

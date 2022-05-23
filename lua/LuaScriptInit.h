@@ -18,8 +18,6 @@ class LuaScriptInit
     public:
         /** Default constructor */
         LuaScriptInit();
-        /** Default destructor */
-        virtual ~LuaScriptInit();
 
         /** Access m_Lua
          * \return The current value of m_Lua
