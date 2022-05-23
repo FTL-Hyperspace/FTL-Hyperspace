@@ -216,7 +216,7 @@ struct CFPS
 
 %nodefaultctor WorldManager;
 %rename("%s") WorldManager;
-////%rename("%s") WorldManager::AddBoarders; // Might make more sense under the player's ship or something?
+%rename("%s") WorldManager::AddBoarders; // Might make more sense under the player's ship or something?
 ////%rename("%s") WorldManager::ModifyEnvironment;
 ////%rename("%s") WorldManager::HostileEnvironment;
 ////%rename("%s") WorldManager::ModifyStatusEffect;
@@ -400,6 +400,9 @@ struct CFPS
 %rename("%s") Location::spaceImage;
 //%rename("%s") Location::planet;
 %rename("%s") Location::planetImage;
+
+
+// TODO: Expose ShipManager & BoardingEvent, BoardingEvent needs default constructor
 
 /*
     By default in Codeblocks SWIG settings we don't get the regular preprocessor defines, ideally we should switch between which FTLGame we import.

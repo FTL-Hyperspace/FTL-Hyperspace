@@ -2725,131 +2725,132 @@ SWIG_Lua_dostring(lua_State *L, const char *str) {
 #define SWIGTYPE_p_Blueprint swig_types[13]
 #define SWIGTYPE_p_BoarderDrone swig_types[14]
 #define SWIGTYPE_p_BoarderPodDrone swig_types[15]
-#define SWIGTYPE_p_BombProjectile swig_types[16]
-#define SWIGTYPE_p_BossShip swig_types[17]
-#define SWIGTYPE_p_Button swig_types[18]
-#define SWIGTYPE_p_CApp swig_types[19]
-#define SWIGTYPE_p_CEvent swig_types[20]
-#define SWIGTYPE_p_CFPS swig_types[21]
-#define SWIGTYPE_p_CachedImage swig_types[22]
-#define SWIGTYPE_p_CachedPrimitive swig_types[23]
-#define SWIGTYPE_p_CachedRect swig_types[24]
-#define SWIGTYPE_p_CachedRectOutline swig_types[25]
-#define SWIGTYPE_p_ChoiceBox swig_types[26]
-#define SWIGTYPE_p_CloakingBox swig_types[27]
-#define SWIGTYPE_p_CloakingSystem swig_types[28]
-#define SWIGTYPE_p_CloneBox swig_types[29]
-#define SWIGTYPE_p_CloneSystem swig_types[30]
-#define SWIGTYPE_p_Collideable swig_types[31]
-#define SWIGTYPE_p_CombatDrone swig_types[32]
-#define SWIGTYPE_p_CommandGui swig_types[33]
-#define SWIGTYPE_p_CompleteShip swig_types[34]
-#define SWIGTYPE_p_ConfirmWindow swig_types[35]
-#define SWIGTYPE_p_CooldownSystemBox swig_types[36]
-#define SWIGTYPE_p_CrewAnimation swig_types[37]
-#define SWIGTYPE_p_CrewBlueprint swig_types[38]
-#define SWIGTYPE_p_CrewCustomizeBox swig_types[39]
-#define SWIGTYPE_p_CrewDrone swig_types[40]
-#define SWIGTYPE_p_CrewEquipBox swig_types[41]
-#define SWIGTYPE_p_CrewLaser swig_types[42]
-#define SWIGTYPE_p_CrewManifest swig_types[43]
-#define SWIGTYPE_p_CrewMember swig_types[44]
-#define SWIGTYPE_p_CrewStoreBox swig_types[45]
-#define SWIGTYPE_p_CrewTarget swig_types[46]
-#define SWIGTYPE_p_CrystalAlien swig_types[47]
-#define SWIGTYPE_p_DefenseDrone swig_types[48]
-#define SWIGTYPE_p_DistressButton swig_types[49]
-#define SWIGTYPE_p_Door swig_types[50]
-#define SWIGTYPE_p_DoorBox swig_types[51]
-#define SWIGTYPE_p_Drone swig_types[52]
-#define SWIGTYPE_p_DroneBlueprint swig_types[53]
-#define SWIGTYPE_p_DroneControl swig_types[54]
-#define SWIGTYPE_p_DroneEquipBox swig_types[55]
-#define SWIGTYPE_p_DroneStoreBox swig_types[56]
-#define SWIGTYPE_p_DroneSystem swig_types[57]
-#define SWIGTYPE_p_Equipment swig_types[58]
-#define SWIGTYPE_p_EquipmentBox swig_types[59]
-#define SWIGTYPE_p_ExplosionAnimation swig_types[60]
-#define SWIGTYPE_p_FTLButton swig_types[61]
-#define SWIGTYPE_p_Fire swig_types[62]
-#define SWIGTYPE_p_FocusWindow swig_types[63]
-#define SWIGTYPE_p_GL_Texture swig_types[64]
-#define SWIGTYPE_p_GameOver swig_types[65]
-#define SWIGTYPE_p_GenericButton swig_types[66]
-#define SWIGTYPE_p_Global swig_types[67]
-#define SWIGTYPE_p_HackBox swig_types[68]
-#define SWIGTYPE_p_HackingDrone swig_types[69]
-#define SWIGTYPE_p_HackingSystem swig_types[70]
-#define SWIGTYPE_p_HyperspaceVersion swig_types[71]
-#define SWIGTYPE_p_ImageDesc swig_types[72]
-#define SWIGTYPE_p_InputBox swig_types[73]
-#define SWIGTYPE_p_IonDrone swig_types[74]
-#define SWIGTYPE_p_IonDroneAnimation swig_types[75]
-#define SWIGTYPE_p_ItemBlueprint swig_types[76]
-#define SWIGTYPE_p_ItemStoreBox swig_types[77]
-#define SWIGTYPE_p_LanguageChooser swig_types[78]
-#define SWIGTYPE_p_LaserBlast swig_types[79]
-#define SWIGTYPE_p_Location swig_types[80]
-#define SWIGTYPE_p_MantisAnimation swig_types[81]
-#define SWIGTYPE_p_MenuScreen swig_types[82]
-#define SWIGTYPE_p_MindBox swig_types[83]
-#define SWIGTYPE_p_MindSystem swig_types[84]
-#define SWIGTYPE_p_Missile swig_types[85]
-#define SWIGTYPE_p_OptionsScreen swig_types[86]
-#define SWIGTYPE_p_OuterHull swig_types[87]
-#define SWIGTYPE_p_OxygenSystem swig_types[88]
-#define SWIGTYPE_p_PDSFire swig_types[89]
-#define SWIGTYPE_p_Point swig_types[90]
-#define SWIGTYPE_p_Projectile swig_types[91]
-#define SWIGTYPE_p_ProjectileFactory swig_types[92]
-#define SWIGTYPE_p_ReactorButton swig_types[93]
-#define SWIGTYPE_p_RepairAnimation swig_types[94]
-#define SWIGTYPE_p_RepairDrone swig_types[95]
-#define SWIGTYPE_p_RepairStoreBox swig_types[96]
-#define SWIGTYPE_p_Repairable swig_types[97]
-#define SWIGTYPE_p_ResourceControl swig_types[98]
-#define SWIGTYPE_p_RockAnimation swig_types[99]
-#define SWIGTYPE_p_Room swig_types[100]
-#define SWIGTYPE_p_ScoreKeeper swig_types[101]
-#define SWIGTYPE_p_Selectable swig_types[102]
-#define SWIGTYPE_p_Shields swig_types[103]
-#define SWIGTYPE_p_Ship swig_types[104]
-#define SWIGTYPE_p_ShipBlueprint swig_types[105]
-#define SWIGTYPE_p_ShipButton swig_types[106]
-#define SWIGTYPE_p_ShipManager swig_types[107]
-#define SWIGTYPE_p_ShipObject swig_types[108]
-#define SWIGTYPE_p_ShipSystem swig_types[109]
-#define SWIGTYPE_p_SpaceDrone swig_types[110]
-#define SWIGTYPE_p_SpaceManager swig_types[111]
-#define SWIGTYPE_p_Spreadable swig_types[112]
-#define SWIGTYPE_p_Spreader_Fire swig_types[113]
-#define SWIGTYPE_p_StarMap swig_types[114]
-#define SWIGTYPE_p_Store swig_types[115]
-#define SWIGTYPE_p_StoreBox swig_types[116]
-#define SWIGTYPE_p_SystemBlueprint swig_types[117]
-#define SWIGTYPE_p_SystemBox swig_types[118]
-#define SWIGTYPE_p_SystemCustomBox swig_types[119]
-#define SWIGTYPE_p_SystemStoreBox swig_types[120]
-#define SWIGTYPE_p_TabbedWindow swig_types[121]
-#define SWIGTYPE_p_TeleportBox swig_types[122]
-#define SWIGTYPE_p_TeleportSystem swig_types[123]
-#define SWIGTYPE_p_TextButton swig_types[124]
-#define SWIGTYPE_p_TextButton0 swig_types[125]
-#define SWIGTYPE_p_Upgrades swig_types[126]
-#define SWIGTYPE_p_WarningMessage swig_types[127]
-#define SWIGTYPE_p_WarningWithLines swig_types[128]
-#define SWIGTYPE_p_WeaponBlueprint swig_types[129]
-#define SWIGTYPE_p_WeaponBox swig_types[130]
-#define SWIGTYPE_p_WeaponControl swig_types[131]
-#define SWIGTYPE_p_WeaponEquipBox swig_types[132]
-#define SWIGTYPE_p_WeaponStoreBox swig_types[133]
-#define SWIGTYPE_p_WeaponSystem swig_types[134]
-#define SWIGTYPE_p_WeaponSystemBox swig_types[135]
-#define SWIGTYPE_p_WorldManager swig_types[136]
-#define SWIGTYPE_p_freetype__font_data swig_types[137]
-#define SWIGTYPE_p_std__string swig_types[138]
-static swig_type_info *swig_types[140];
-static swig_module_info swig_module = {swig_types, 139, 0, 0, 0, 0};
+#define SWIGTYPE_p_BoardingEvent swig_types[16]
+#define SWIGTYPE_p_BombProjectile swig_types[17]
+#define SWIGTYPE_p_BossShip swig_types[18]
+#define SWIGTYPE_p_Button swig_types[19]
+#define SWIGTYPE_p_CApp swig_types[20]
+#define SWIGTYPE_p_CEvent swig_types[21]
+#define SWIGTYPE_p_CFPS swig_types[22]
+#define SWIGTYPE_p_CachedImage swig_types[23]
+#define SWIGTYPE_p_CachedPrimitive swig_types[24]
+#define SWIGTYPE_p_CachedRect swig_types[25]
+#define SWIGTYPE_p_CachedRectOutline swig_types[26]
+#define SWIGTYPE_p_ChoiceBox swig_types[27]
+#define SWIGTYPE_p_CloakingBox swig_types[28]
+#define SWIGTYPE_p_CloakingSystem swig_types[29]
+#define SWIGTYPE_p_CloneBox swig_types[30]
+#define SWIGTYPE_p_CloneSystem swig_types[31]
+#define SWIGTYPE_p_Collideable swig_types[32]
+#define SWIGTYPE_p_CombatDrone swig_types[33]
+#define SWIGTYPE_p_CommandGui swig_types[34]
+#define SWIGTYPE_p_CompleteShip swig_types[35]
+#define SWIGTYPE_p_ConfirmWindow swig_types[36]
+#define SWIGTYPE_p_CooldownSystemBox swig_types[37]
+#define SWIGTYPE_p_CrewAnimation swig_types[38]
+#define SWIGTYPE_p_CrewBlueprint swig_types[39]
+#define SWIGTYPE_p_CrewCustomizeBox swig_types[40]
+#define SWIGTYPE_p_CrewDrone swig_types[41]
+#define SWIGTYPE_p_CrewEquipBox swig_types[42]
+#define SWIGTYPE_p_CrewLaser swig_types[43]
+#define SWIGTYPE_p_CrewManifest swig_types[44]
+#define SWIGTYPE_p_CrewMember swig_types[45]
+#define SWIGTYPE_p_CrewStoreBox swig_types[46]
+#define SWIGTYPE_p_CrewTarget swig_types[47]
+#define SWIGTYPE_p_CrystalAlien swig_types[48]
+#define SWIGTYPE_p_DefenseDrone swig_types[49]
+#define SWIGTYPE_p_DistressButton swig_types[50]
+#define SWIGTYPE_p_Door swig_types[51]
+#define SWIGTYPE_p_DoorBox swig_types[52]
+#define SWIGTYPE_p_Drone swig_types[53]
+#define SWIGTYPE_p_DroneBlueprint swig_types[54]
+#define SWIGTYPE_p_DroneControl swig_types[55]
+#define SWIGTYPE_p_DroneEquipBox swig_types[56]
+#define SWIGTYPE_p_DroneStoreBox swig_types[57]
+#define SWIGTYPE_p_DroneSystem swig_types[58]
+#define SWIGTYPE_p_Equipment swig_types[59]
+#define SWIGTYPE_p_EquipmentBox swig_types[60]
+#define SWIGTYPE_p_ExplosionAnimation swig_types[61]
+#define SWIGTYPE_p_FTLButton swig_types[62]
+#define SWIGTYPE_p_Fire swig_types[63]
+#define SWIGTYPE_p_FocusWindow swig_types[64]
+#define SWIGTYPE_p_GL_Texture swig_types[65]
+#define SWIGTYPE_p_GameOver swig_types[66]
+#define SWIGTYPE_p_GenericButton swig_types[67]
+#define SWIGTYPE_p_Global swig_types[68]
+#define SWIGTYPE_p_HackBox swig_types[69]
+#define SWIGTYPE_p_HackingDrone swig_types[70]
+#define SWIGTYPE_p_HackingSystem swig_types[71]
+#define SWIGTYPE_p_HyperspaceVersion swig_types[72]
+#define SWIGTYPE_p_ImageDesc swig_types[73]
+#define SWIGTYPE_p_InputBox swig_types[74]
+#define SWIGTYPE_p_IonDrone swig_types[75]
+#define SWIGTYPE_p_IonDroneAnimation swig_types[76]
+#define SWIGTYPE_p_ItemBlueprint swig_types[77]
+#define SWIGTYPE_p_ItemStoreBox swig_types[78]
+#define SWIGTYPE_p_LanguageChooser swig_types[79]
+#define SWIGTYPE_p_LaserBlast swig_types[80]
+#define SWIGTYPE_p_Location swig_types[81]
+#define SWIGTYPE_p_MantisAnimation swig_types[82]
+#define SWIGTYPE_p_MenuScreen swig_types[83]
+#define SWIGTYPE_p_MindBox swig_types[84]
+#define SWIGTYPE_p_MindSystem swig_types[85]
+#define SWIGTYPE_p_Missile swig_types[86]
+#define SWIGTYPE_p_OptionsScreen swig_types[87]
+#define SWIGTYPE_p_OuterHull swig_types[88]
+#define SWIGTYPE_p_OxygenSystem swig_types[89]
+#define SWIGTYPE_p_PDSFire swig_types[90]
+#define SWIGTYPE_p_Point swig_types[91]
+#define SWIGTYPE_p_Projectile swig_types[92]
+#define SWIGTYPE_p_ProjectileFactory swig_types[93]
+#define SWIGTYPE_p_ReactorButton swig_types[94]
+#define SWIGTYPE_p_RepairAnimation swig_types[95]
+#define SWIGTYPE_p_RepairDrone swig_types[96]
+#define SWIGTYPE_p_RepairStoreBox swig_types[97]
+#define SWIGTYPE_p_Repairable swig_types[98]
+#define SWIGTYPE_p_ResourceControl swig_types[99]
+#define SWIGTYPE_p_RockAnimation swig_types[100]
+#define SWIGTYPE_p_Room swig_types[101]
+#define SWIGTYPE_p_ScoreKeeper swig_types[102]
+#define SWIGTYPE_p_Selectable swig_types[103]
+#define SWIGTYPE_p_Shields swig_types[104]
+#define SWIGTYPE_p_Ship swig_types[105]
+#define SWIGTYPE_p_ShipBlueprint swig_types[106]
+#define SWIGTYPE_p_ShipButton swig_types[107]
+#define SWIGTYPE_p_ShipManager swig_types[108]
+#define SWIGTYPE_p_ShipObject swig_types[109]
+#define SWIGTYPE_p_ShipSystem swig_types[110]
+#define SWIGTYPE_p_SpaceDrone swig_types[111]
+#define SWIGTYPE_p_SpaceManager swig_types[112]
+#define SWIGTYPE_p_Spreadable swig_types[113]
+#define SWIGTYPE_p_Spreader_Fire swig_types[114]
+#define SWIGTYPE_p_StarMap swig_types[115]
+#define SWIGTYPE_p_Store swig_types[116]
+#define SWIGTYPE_p_StoreBox swig_types[117]
+#define SWIGTYPE_p_SystemBlueprint swig_types[118]
+#define SWIGTYPE_p_SystemBox swig_types[119]
+#define SWIGTYPE_p_SystemCustomBox swig_types[120]
+#define SWIGTYPE_p_SystemStoreBox swig_types[121]
+#define SWIGTYPE_p_TabbedWindow swig_types[122]
+#define SWIGTYPE_p_TeleportBox swig_types[123]
+#define SWIGTYPE_p_TeleportSystem swig_types[124]
+#define SWIGTYPE_p_TextButton swig_types[125]
+#define SWIGTYPE_p_TextButton0 swig_types[126]
+#define SWIGTYPE_p_Upgrades swig_types[127]
+#define SWIGTYPE_p_WarningMessage swig_types[128]
+#define SWIGTYPE_p_WarningWithLines swig_types[129]
+#define SWIGTYPE_p_WeaponBlueprint swig_types[130]
+#define SWIGTYPE_p_WeaponBox swig_types[131]
+#define SWIGTYPE_p_WeaponControl swig_types[132]
+#define SWIGTYPE_p_WeaponEquipBox swig_types[133]
+#define SWIGTYPE_p_WeaponStoreBox swig_types[134]
+#define SWIGTYPE_p_WeaponSystem swig_types[135]
+#define SWIGTYPE_p_WeaponSystemBox swig_types[136]
+#define SWIGTYPE_p_WorldManager swig_types[137]
+#define SWIGTYPE_p_freetype__font_data swig_types[138]
+#define SWIGTYPE_p_std__string swig_types[139]
+static swig_type_info *swig_types[141];
+static swig_module_info swig_module = {swig_types, 140, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -5053,6 +5054,37 @@ static swig_lua_class *swig_StarMap_bases[] = {0};
 static const char *swig_StarMap_base_names[] = {0};
 static swig_lua_class _wrap_class_StarMap = { "StarMap", "StarMap", &SWIGTYPE_p_StarMap,0,0, swig_StarMap_methods, swig_StarMap_attributes, &swig_StarMap_SwigStatic, swig_StarMap_meta, swig_StarMap_bases, swig_StarMap_base_names };
 
+static int _wrap_WorldManager_AddBoarders(lua_State* L) {
+  int SWIG_arg = 0;
+  WorldManager *arg1 = (WorldManager *) 0 ;
+  BoardingEvent *arg2 = 0 ;
+  bool result;
+  
+  SWIG_check_num_args("WorldManager::AddBoarders",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("WorldManager::AddBoarders",1,"WorldManager *");
+  if(!lua_isuserdata(L,2)) SWIG_fail_arg("WorldManager::AddBoarders",2,"BoardingEvent &");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_WorldManager,0))){
+    SWIG_fail_ptr("WorldManager_AddBoarders",1,SWIGTYPE_p_WorldManager);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&arg2,SWIGTYPE_p_BoardingEvent,0))){
+    SWIG_fail_ptr("WorldManager_AddBoarders",2,SWIGTYPE_p_BoardingEvent);
+  }
+  
+  result = (bool)(arg1)->AddBoarders(*arg2);
+  lua_pushboolean(L,(int)(result!=0)); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
 static int _wrap_WorldManager_space_get(lua_State* L) {
   int SWIG_arg = 0;
   WorldManager *arg1 = (WorldManager *) 0 ;
@@ -5335,6 +5367,7 @@ static swig_lua_attribute swig_WorldManager_attributes[] = {
     {0,0,0}
 };
 static swig_lua_method swig_WorldManager_methods[]= {
+    { "AddBoarders", _wrap_WorldManager_AddBoarders},
     {0,0}
 };
 static swig_lua_method swig_WorldManager_meta[] = {
@@ -5895,6 +5928,7 @@ static swig_type_info _swigt__p_SystemBlueprint = {"_p_SystemBlueprint", 0, 0, 0
 static swig_type_info _swigt__p_WeaponBlueprint = {"_p_WeaponBlueprint", 0, 0, 0, 0, 0};
 static swig_type_info _swigt__p_BoarderDrone = {"_p_BoarderDrone", "BoarderDrone *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_IonDrone = {"_p_IonDrone", 0, 0, 0, 0, 0};
+static swig_type_info _swigt__p_BoardingEvent = {"_p_BoardingEvent", "BoardingEvent *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Button = {"_p_Button", "Button *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_ReactorButton = {"_p_ReactorButton", 0, 0, 0, 0, 0};
 static swig_type_info _swigt__p_ShipButton = {"_p_ShipButton", 0, 0, 0, 0, 0};
@@ -6035,6 +6069,7 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_Blueprint,
   &_swigt__p_BoarderDrone,
   &_swigt__p_BoarderPodDrone,
+  &_swigt__p_BoardingEvent,
   &_swigt__p_BombProjectile,
   &_swigt__p_BossShip,
   &_swigt__p_Button,
@@ -6177,6 +6212,7 @@ static swig_cast_info _swigc__p_WeaponBlueprint[] = {{&_swigt__p_WeaponBlueprint
 static swig_cast_info _swigc__p_Blueprint[] = {  {&_swigt__p_Blueprint, 0, 0, 0},  {&_swigt__p_AugmentBlueprint, _p_AugmentBlueprintTo_p_Blueprint, 0, 0},  {&_swigt__p_CrewBlueprint, _p_CrewBlueprintTo_p_Blueprint, 0, 0},  {&_swigt__p_DroneBlueprint, _p_DroneBlueprintTo_p_Blueprint, 0, 0},  {&_swigt__p_ItemBlueprint, _p_ItemBlueprintTo_p_Blueprint, 0, 0},  {&_swigt__p_ShipBlueprint, _p_ShipBlueprintTo_p_Blueprint, 0, 0},  {&_swigt__p_SystemBlueprint, _p_SystemBlueprintTo_p_Blueprint, 0, 0},  {&_swigt__p_WeaponBlueprint, _p_WeaponBlueprintTo_p_Blueprint, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_IonDrone[] = {{&_swigt__p_IonDrone, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_BoarderDrone[] = {  {&_swigt__p_IonDrone, _p_IonDroneTo_p_BoarderDrone, 0, 0},  {&_swigt__p_BoarderDrone, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_BoardingEvent[] = {  {&_swigt__p_BoardingEvent, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_ReactorButton[] = {{&_swigt__p_ReactorButton, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_ShipButton[] = {{&_swigt__p_ShipButton, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Button[] = {  {&_swigt__p_ReactorButton, _p_ReactorButtonTo_p_Button, 0, 0},  {&_swigt__p_ShipButton, _p_ShipButtonTo_p_Button, 0, 0},  {&_swigt__p_Button, 0, 0, 0},{0, 0, 0, 0}};
@@ -6317,6 +6353,7 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_Blueprint,
   _swigc__p_BoarderDrone,
   _swigc__p_BoarderPodDrone,
+  _swigc__p_BoardingEvent,
   _swigc__p_BombProjectile,
   _swigc__p_BossShip,
   _swigc__p_Button,
