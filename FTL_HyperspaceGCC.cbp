@@ -5,7 +5,7 @@
 		<Option title="FTL_HyperspaceGCC" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
-		<Option virtualFolders="Scripting/;Content/Misc/;Core/Systems/;Content/;Core/Systems/;Content/Crew/;Core/Systems/;Content/Ship/;Core/Systems/;Core/Systems/;Content/;Core/Systems/;Core/;Core/Equipment/;Core/Weapons/;Content/;Core/Systems/;Core/Crew/;Content/;Core/Systems/;Core/Events/;Content/;Core/Systems/;Core/;Core/Equipment/;Core/Weapons/;Content/;Core/Ship/;Content/;Core/Systems/;Core/Resources/;Content/;Core/Systems/;Content/Map/;Core/Systems/;Core/Map/;Content/;Core/Systems/;ZHL/;Content/Augments/;Core/Augments/;Core/Seed/;Core/Boss/;Content/ShipEditor/;Core/SaveFile/;Core/Store/;Core/CommandGui/;Core/CApp/;Content/Discord/;Core/Drones/;Core/Credits/;Core/Shaders/;Core/Blueprints/;Core/Options/;FTLGame/;Content/Systems/;Core/Sectors/;Core/Achievements/;PAL/;Core/Misc/;Core/StarMap/;Scripting/Objects/;Scripting/modules/" />
+		<Option virtualFolders="Scripting/;Content/Misc/;Core/Systems/;Content/;Core/Systems/;Content/Crew/;Core/Systems/;Content/Ship/;Core/Systems/;Core/Systems/;Content/;Core/Systems/;Core/;Core/Equipment/;Core/Weapons/;Content/;Core/Systems/;Core/Crew/;Content/;Core/Systems/;Core/Events/;Content/;Core/Systems/;Core/;Core/Equipment/;Core/Weapons/;Content/;Core/Ship/;Content/;Core/Systems/;Core/Resources/;Content/;Core/Systems/;Content/Map/;Core/Systems/;Core/Map/;Content/;Core/Systems/;ZHL/;Content/Augments/;Core/Augments/;Core/Seed/;Core/Boss/;Content/ShipEditor/;Core/SaveFile/;Core/Store/;Core/CommandGui/;Core/CApp/;Content/Discord/;Core/Drones/;Core/Credits/;Core/Shaders/;Core/Blueprints/;Core/Options/;FTLGame/;Content/Systems/;Core/Sectors/;Core/Achievements/;PAL/;Core/Misc/;Core/StarMap/;Scripting/modules/" />
 		<Build>
 			<Target title="Debug-win-32">
 				<Option platforms="Windows;" />
@@ -1297,18 +1297,6 @@
 		<Unit filename="lua/modules/hyperspace.i">
 			<Option compile="1" />
 			<Option virtualFolder="Scripting/modules/" />
-		</Unit>
-		<Unit filename="lua/objects/LuaWorld.cpp">
-			<Option virtualFolder="Scripting/Objects/" />
-		</Unit>
-		<Unit filename="lua/objects/LuaWorld.h">
-			<Option virtualFolder="Scripting/Objects/" />
-		</Unit>
-		<Unit filename="lua/objects/ScriptFPS.cpp">
-			<Option virtualFolder="Scripting/Objects/" />
-		</Unit>
-		<Unit filename="lua/objects/ScriptFPS.h">
-			<Option virtualFolder="Scripting/Objects/" />
 		</Unit>
 		<Unit filename="main.cpp">
 			<Option weight="100" />

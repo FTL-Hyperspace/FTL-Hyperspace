@@ -3,6 +3,11 @@
 
 #include "../../Global.h"
 
+/**
+ NOTICE: No longer user (we use the CFPS definition from the SWIG hyperspace.i file)
+ But this is kept as an example of how to define metamethods on a table from C.
+*/
+
 /* __index metamethod (stack: 1 = table instance, 2 = desired index/key (string) ) */
 int ScriptFPS::lua_index(lua_State* lua) {
     assert(lua_istable(lua, 1));
