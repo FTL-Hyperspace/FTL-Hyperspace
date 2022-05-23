@@ -3170,6 +3170,15 @@ HOOK_METHOD(CrewMember, LoadState, (int file) -> void)
 
     ex->selfId = FileHelper::readFloat(file);
 
+    for (StatBoost &statBoost : ex->outgoingStatBoosts)
+    {
+        statBoost.crewSourceId = ex->selfId;
+    }
+    for (StatBoost &statBoost : ex->outgoingAbilityStatBoosts)
+    {
+        statBoost.crewSourceId = ex->selfId;
+    }
+
     std::pair<float,float> customHealth;
 
     customHealth.first = FileHelper::readFloat(file);
