@@ -1270,6 +1270,10 @@
 		<Unit filename="lua/LuaScriptInit.h">
 			<Option virtualFolder="Scripting/" />
 		</Unit>
+		<Unit filename="lua/eventDefines.h">
+			<Option virtualFolder="Scripting/" />
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
 		<Unit filename="lua/linit.c">
 			<Option compilerVar="CC" />
 			<Option virtualFolder="Scripting/" />
@@ -1289,6 +1293,10 @@
 		</Unit>
 		<Unit filename="lua/luaLibBase.h">
 			<Option virtualFolder="Scripting/" />
+		</Unit>
+		<Unit filename="lua/modules/defines.i">
+			<Option compile="1" />
+			<Option virtualFolder="Scripting/modules/" />
 		</Unit>
 		<Unit filename="lua/modules/graphics.i">
 			<Option compile="1" />

@@ -85,8 +85,7 @@ LuaScriptInit::LuaScriptInit()
     hs_l_define_register(lua);
     luaopen_Hyperspace(lua);
     luaopen_Graphics(lua);
-    // TODO: Save in a variable/member field so that we can destroy this upon cleanup function
-    //new ScriptFPS(lua);
+    luaopen_Defines(lua);
     
     // TODO: Create a metatable for `Ships` in global that accepts indexes like `Ships[1]` but actually loads the ShipManager for that ShipId!
     

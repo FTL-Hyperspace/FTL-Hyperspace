@@ -74,18 +74,35 @@ class LuaLibScript
         
         /*** Register a function to call upon a specific internal event being called
          * @function on_internal_event
-         * @tparam string event Event name/identifier to hook, see @{Defines.Events} table for a full list of currently supported events.
+         * @tparam string event Event name/identifier to hook, see @{Defines.InternalEvents} table for a full list of currently supported events.
          * @tparam function callback Callback function to register
          *
          * Your function will be called upon the specified event being triggered inside the game
          * **These are internal events** not events as described in XML files, so these are events like functions internal to the game
          * (like ship loading) and not events as in popups or encounters in the game. You can think of these as game engine events.
-         * See @{on_gameplay_event} for hooking gameplay events.
+         * See @{on_game_event} for hooking gameplay events.
          *
          * Functions will be called in the order they are registered.
          * **Warning:** you can accidentally register your function multiple times and it will be called multiple times!
          */
         static int l_on_internal_event(lua_State* lua);
+
+        /*** Register a function to call upon a specific render event being called
+         * @function on_render_event
+         * @tparam string event Event name/identifier to hook, see @{Defines.RenderEvents} table for a full list of currently supported events.
+         * @tparam function before_callback Callback function to register for before the render event (such as for setting up a matrix transform)
+         * @tparam function after_callback Callback function to register for after the render event (such as for cleaning up a matrix transform)
+         *
+         * Your function will be called upon the specified render stage event being triggered inside the game
+         * **These are internal rendering functions** not events as described in XML files, so these are events like functions internal to the game
+         * (like onSpaceBackgroundRender) and not events as in popups or encounters in the game. You can think of these as game engine events.
+         * See @{on_game_event} for hooking gameplay events.
+         * See @{on_internal_event} for hooking other internal events that are not for graphics rendering, like ship loading or something.
+         *
+         * Functions will be called in the order they are registered.
+         * **Warning:** you can accidentally register your function multiple times and it will be called multiple times!
+         */        
+        static int l_on_render_event(lua_State* lua);
         
         /***
          * @function on_game_event

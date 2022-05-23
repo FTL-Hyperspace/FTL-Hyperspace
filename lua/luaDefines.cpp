@@ -557,5 +557,5 @@ void hs_l_define_sdlkey(lua_State* lua) {
 void hs_l_define_register(lua_State* lua) {
     lua_newtable(lua); /* Defines table */
     hs_l_define_sdlkey(lua);
-    lua_setglobal(lua, "Defines");
+    lua_setglobal(lua, "OldDefines"); // TODO: Move the SDLKey into `Defines` module
 }
