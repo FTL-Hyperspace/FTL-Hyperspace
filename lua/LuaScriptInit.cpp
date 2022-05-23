@@ -2,61 +2,49 @@
 #include <string>
 #include "luaGlobal.h"
 
-/*** Hyperspace Lua API
- * @module hyperspace
- * @release 1.1.0
- * @author Mr. Doom
- */
-
 /*
     TODO Stuff
     - Have a `global_run` (or `global`) table that contents is saved with the run (functions not allowed to be inserted into the table, data only)
     - Have a `profile` (or `global_profile`) table that contents is saved across runs (functions not allowed, data only)
     - Add serpent library to allow easy printing of Lua tables with `serpent.block()` for debugging for developers of Lua scripts
     - Add a print function to write messages to the in-game screen like a chat/console
-    - Add console LUA execution (single strings)
     - Implement table_size() like Factorio does for tables with non-contiguous keys.?
     - Maybe add abilitly to pull localized string?
     - Re-implement require to load only .lua files from the dat, or maybe re-enable lua package (which contains require) and figure out how to restrict it.
     - Re-implement math.random to use FTL's random. (might want to use FTL's (SIL's) frandom)
-    - Add script table
-    - Add script.on_init( (function callback/registration) for functions to run on a new run
-    - Add script.on_load( (function callback) for functions to run upon loading the script, this is before the game is loaded or a run is started (partially complete)
-    - Add script.on_event(eventEnum, (function callback)) for functions to run upon a defined event (you cannot stop the event but hopefully we can make the code wait for your code to finish and it not being async, maybe we can add an on_async_event in the future)
-    - Add defines table
-    - Add defines.events table
-    - Add defines.events.on_tick and some other events.
+    - Add Defines.InternalEvents.ON_TICK and some other events.
     - Maybe add a story system like https://wiki.factorio.com/Tutorial:Scripting#Story_script ?
-    
 */
-
 void removeDangerousStuff(lua_State* lua)
 {
-/*
-    lua_getglobal(lua, "os");
-    lua_pushnil(lua);
-    lua_setfield(lua, -2, "execute");
-    lua_pushnil(lua);
-    lua_setfield(lua, -2, "rename");
-    lua_pushnil(lua);
-    lua_setfield(lua, -2, "remove");
-    lua_pushnil(lua);
-    lua_setfield(lua, -2, "exit");
-    lua_pop(lua, 1);
-*/
-    /* TODO: Figure out how to remove the basic functions (if they're not removed already) of these:
+    /* Remove the basic functions (if they're not removed already) of these:
         - collectgarbage
         - dofile
         - load
         - loadfile
-        - Might need to also remove `newproxy`
-        - might want to remove (since they bypass metatables):
+        - newproxy (but might allow if really needed)
+        - Since they bypass metatables, but maybe we'll allow these if needed:
           - rawequal
           - rawget
           - rawset
-        - setmetatable & getmetatable? (not sure if they exist in 5.3)
     */
-    
+    lua_getglobal(lua, "collectgarbage");
+    lua_pushnil(lua);
+    lua_getglobal(lua, "dofile");
+    lua_pushnil(lua);
+    lua_getglobal(lua, "load");
+    lua_pushnil(lua);
+    lua_getglobal(lua, "loadfile");
+    lua_pushnil(lua);
+    lua_getglobal(lua, "newproxy");
+    lua_pushnil(lua);
+    lua_getglobal(lua, "rawequal");
+    lua_pushnil(lua);
+    lua_getglobal(lua, "rawget");
+    lua_pushnil(lua);
+    lua_getglobal(lua, "rawset");
+    lua_pushnil(lua);
+
     lua_getglobal(lua, "math");
     lua_pushnil(lua);
     lua_setfield(lua, -2, "randomseed");
@@ -77,22 +65,14 @@ LuaScriptInit::LuaScriptInit()
     lua_State* lua = luaL_newstate(); // Open Lua
     this->SetLua(lua);
     luaL_openlibs(lua); // Load Lua libraries (we restricted what libraries can load in linit.c)
-    removeDangerousStuff(lua);
-    // TODO: Figure out how to unload and/or replace certain library functions (like math.random!, threads! & other things unsafe for a single-threaded deterministic environment)
-    
+
     hsluaglobal_register(lua);
     this->m_libScript = new LuaLibScript(lua);
     hs_l_define_register(lua);
     luaopen_Hyperspace(lua);
     luaopen_Graphics(lua);
     luaopen_Defines(lua);
-    
-    // TODO: Create a metatable for `Ships` in global that accepts indexes like `Ships[1]` but actually loads the ShipManager for that ShipId!
-    
-//    lua_newtable(lua);
-//    lua_setglobal(lua, "Script");
-
-// TODO: Figure out how to make a table with metatable __index __newindex things so we can detect reads & writes & then expose I dunno something from the ship?
+    removeDangerousStuff(lua);
 
     printf("Lua initialized!\n");
 }
@@ -146,7 +126,7 @@ void LuaScriptInit::runLuaFileFromDat(std::string filename)
     }
 }
 
-/** Not documented
+/** Probably never called?
  */
 LuaScriptInit::~LuaScriptInit()
 {
@@ -157,38 +137,4 @@ LuaScriptInit::~LuaScriptInit()
     printf("Lua destroyed\n");
 }
 
-// TODO: Math.random must be reimplemented to be based on FTL's internal random state/seed
 // TODO: See other things Factorio decided to disable in Lua (like threads) because they're a problem for determinism
-// TODO: Disable os.execute & io.write & other potentially dangerous interactions with the system.
-
-/*
-int LuaState::DoString(const std::string &str, bool protect)
-{
-	g_CurrentLua = this;
-
-	int err = luaL_loadbuffer(this, str.c_str(), str.length(), "=lua_run");
-	if(err != 0)
-	{
-		if(err > 0)
-		{
-			PrintError(lua_tostring(this, -1));
-			lua_pop(this, 1);
-		}
-		return err;
-	}
-
-	if(protect)
-	{
-		if(err = lua_pcall(this, 0, LUA_MULTRET, 0))
-		{
-			PrintError(lua_tostring(this, -1));
-			lua_pop(this, 1);
-			return err;
-		}
-	}
-	else
-		lua_call(this, 0, LUA_MULTRET);
-
-	return 0;
-}
-*/
