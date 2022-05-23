@@ -2,6 +2,8 @@
 %include "stl.i"
 
 %{
-#include "../eventDefines.h"
+#include "../InternalEvents.h"
+#include "../RenderEvents.h"
 %}
-%include "../eventDefines.h"
+%include "../InternalEvents.h"
+%include "../RenderEvents.h"

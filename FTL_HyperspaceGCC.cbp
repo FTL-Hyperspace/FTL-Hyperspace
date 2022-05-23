@@ -1258,6 +1258,12 @@
 		<Unit filename="libzhl.h">
 			<Option virtualFolder="ZHL/" />
 		</Unit>
+		<Unit filename="lua/InternalEvents.cpp">
+			<Option virtualFolder="Scripting/" />
+		</Unit>
+		<Unit filename="lua/InternalEvents.h">
+			<Option virtualFolder="Scripting/" />
+		</Unit>
 		<Unit filename="lua/LuaLibScript.cpp">
 			<Option virtualFolder="Scripting/" />
 		</Unit>
@@ -1270,9 +1276,11 @@
 		<Unit filename="lua/LuaScriptInit.h">
 			<Option virtualFolder="Scripting/" />
 		</Unit>
-		<Unit filename="lua/eventDefines.h">
+		<Unit filename="lua/RenderEvents.cpp">
 			<Option virtualFolder="Scripting/" />
-			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="lua/RenderEvents.h">
+			<Option virtualFolder="Scripting/" />
 		</Unit>
 		<Unit filename="lua/linit.c">
 			<Option compilerVar="CC" />

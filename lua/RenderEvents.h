@@ -1,16 +1,5 @@
-#ifndef EVENTDEFINES_H_INCLUDED
-#define EVENTDEFINES_H_INCLUDED
-
-struct InternalEvents
-{
-    enum Identifiers {
-        UNKNOWN, // Must always be first, used to check for bounds of enum input value
-
-        ON_TICK, // We'll use CApp::OnLoop for this ticking
-
-        UNKNOWN_MAX // Must always be last, used to check for bounds of enum input value
-    };
-};
+#ifndef RENDEREVENTS_H
+#define RENDEREVENTS_H
 
 struct RenderEvents
 {
@@ -19,11 +8,11 @@ struct RenderEvents
 
         ////LANGUAGE_CHOOSER, // LanguageChooser::OnRender
         MAIN_MENU, // MainMenu::OnRender
-        GUI_STATIC, // CommandGui::RenderStatic
-        SPACE_BACKGROUND, // SpaceManager::OnRenderBackground
-        SPACE_FOREGROUND, // SpaceManager::OnRenderForeground
-        SPACE_ASTEROIDS_BACKGROUND, // SpaceManager::OnRenderAsteroids with Layer 3
-        PLAYER_SHIP, // CommandGui::RenderPlayerShip
+        GUI_CONTAINER, // CommandGui::RenderStatic
+        LAYER_BACKGROUND, // SpaceManager::OnRenderBackground
+        LAYER_FOREGROUND, // SpaceManager::OnRenderForeground
+        LAYER_ASTEROIDS, // SpaceManager::OnRenderAsteroids with Layer 3
+        LAYER_PLAYER, // CommandGui::RenderPlayerShip (before)
         ////SHIP, // CompleteShip::OnRenderShip (affects enemy too), NOTE: We probably want a ENEMY_SHIP render instead of just SHIP, Might be able to trigger from the hook in `CombatControl::RenderTarget` or `CombatControl::OnRenderCombat`?
         ////PLAYER_SHIP_PROJECTILES_BACKGROUND, // SpaceManager::OnRenderProjectiles with Layer 2 (before ship), NOTE: We may wish to split this out into PLAYER_SHIP_PROJECTILES_BACKGROUND & ENEMY_SHIP_PROJECTILES_BACKGROUND
         ////PLAYER_SHIP_PROJECTILES_FOREGROUND, // SpaceManager::OnRenderProjectiles with Lyaer 1 (after ship), NOTE: We may wish to split this out into PLAYER_SHIP_PROJECTILES_FOREGROUND & ENEMY_SHIP_PROJECTILES_FOREGROUND
@@ -50,7 +39,8 @@ struct RenderEvents
         ////SHIELDS_DAMAGE_MESSAGES, // Shields::OnRenderDamageMessages
         ////SHIP_EXPLOSION, // Ship::OnRenderExplosion
         //SELF_AIMING, // CombatControl::OnRenderSelfAiming
-        SPACE_ASTEROIDS_FOREGROUND, // SpaceManager::OnRenderAsteroids with Layer 1 (after player ship is rendered)
+        LAYER_PLAYERFRONT, // CommandGui::RenderPlayerShip (after)
+        LAYER_FRONT, // SpaceManager::OnRenderAsteroids with Layer 1 (after player ship is rendered)
         ////FTL_BUTTON, // FTLButton::OnRender
         ////BUTTON, // Button::OnRender
         ////WARNING_MESSAGE, // WarningMessage::OnRender
@@ -59,18 +49,18 @@ struct RenderEvents
         //CREW_CONTROL, // CrewControl::OnRender
         //SYSTEM_CONTROL, // SystemControl::OnRender
         //COMBAT_CONTROL_INTERFACE, // CombatControl::OnRenderInterface
-        PAUSE, // CommandGui::RenderPause
+        ////PAUSE, // CommandGui::RenderPause (not hooked yet)
         //SPACE_STATUS, // SpaceStatus::OnRender
         //SHIP_STATUS, // ShipStatus::OnRender
         ////CONFIRM_WINDOW, // ConfirmWindow::OnRender, TODO: Might need to pass which window it is
         ////CHOICE_BOX, // ChoiceBox::OnRender, TODO: Might need to pass which choice it is
         
-        ACHIEVEMENT_TRACKER, // AchievementTracker::OnRender
+        ////ACHIEVEMENT_TRACKER, // AchievementTracker::OnRender (not hooked yet)
         MOUSE_CONTROL, // MouseControl::OnRender
-        FPS, // CFPS::OnRender
+        ////FPS, // CFPS::OnRender (not hooked yet)
 
         UNKNOWN_MAX // Must always be last, used to check for bounds of enum input value
     };
 };
 
-#endif // EVENTDEFINES_H_INCLUDED
+#endif // RENDEREVENTS_H

@@ -2,7 +2,8 @@
 #define LUALIBSCRIPT_H
 
 #include "luaInclude.h"
-#include "eventDefines.h"
+#include "InternalEvents.h"
+#include "RenderEvents.h"
 #include <assert.h>
 
 /*** Functions for script execution control

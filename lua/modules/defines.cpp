@@ -2764,7 +2764,8 @@ SWIGINTERN int SWIG_lua_isnilstring(lua_State *L, int idx) {
 #include <utility>
 
 
-#include "../eventDefines.h"
+#include "../InternalEvents.h"
+#include "../RenderEvents.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -3145,16 +3146,14 @@ static swig_lua_attribute swig_RenderEvents_Sf_SwigStatic_attributes[] = {
 static swig_lua_const_info swig_RenderEvents_Sf_SwigStatic_constants[]= {
     {SWIG_LUA_CONSTTAB_INT("UNKNOWN", RenderEvents::UNKNOWN)},
     {SWIG_LUA_CONSTTAB_INT("MAIN_MENU", RenderEvents::MAIN_MENU)},
-    {SWIG_LUA_CONSTTAB_INT("GUI_STATIC", RenderEvents::GUI_STATIC)},
-    {SWIG_LUA_CONSTTAB_INT("SPACE_BACKGROUND", RenderEvents::SPACE_BACKGROUND)},
-    {SWIG_LUA_CONSTTAB_INT("SPACE_FOREGROUND", RenderEvents::SPACE_FOREGROUND)},
-    {SWIG_LUA_CONSTTAB_INT("SPACE_ASTEROIDS_BACKGROUND", RenderEvents::SPACE_ASTEROIDS_BACKGROUND)},
-    {SWIG_LUA_CONSTTAB_INT("PLAYER_SHIP", RenderEvents::PLAYER_SHIP)},
-    {SWIG_LUA_CONSTTAB_INT("SPACE_ASTEROIDS_FOREGROUND", RenderEvents::SPACE_ASTEROIDS_FOREGROUND)},
-    {SWIG_LUA_CONSTTAB_INT("PAUSE", RenderEvents::PAUSE)},
-    {SWIG_LUA_CONSTTAB_INT("ACHIEVEMENT_TRACKER", RenderEvents::ACHIEVEMENT_TRACKER)},
+    {SWIG_LUA_CONSTTAB_INT("GUI_CONTAINER", RenderEvents::GUI_CONTAINER)},
+    {SWIG_LUA_CONSTTAB_INT("LAYER_BACKGROUND", RenderEvents::LAYER_BACKGROUND)},
+    {SWIG_LUA_CONSTTAB_INT("LAYER_FOREGROUND", RenderEvents::LAYER_FOREGROUND)},
+    {SWIG_LUA_CONSTTAB_INT("LAYER_ASTEROIDS", RenderEvents::LAYER_ASTEROIDS)},
+    {SWIG_LUA_CONSTTAB_INT("LAYER_PLAYER", RenderEvents::LAYER_PLAYER)},
+    {SWIG_LUA_CONSTTAB_INT("LAYER_PLAYERFRONT", RenderEvents::LAYER_PLAYERFRONT)},
+    {SWIG_LUA_CONSTTAB_INT("LAYER_FRONT", RenderEvents::LAYER_FRONT)},
     {SWIG_LUA_CONSTTAB_INT("MOUSE_CONTROL", RenderEvents::MOUSE_CONTROL)},
-    {SWIG_LUA_CONSTTAB_INT("FPS", RenderEvents::FPS)},
     {SWIG_LUA_CONSTTAB_INT("UNKNOWN_MAX", RenderEvents::UNKNOWN_MAX)},
     {0,0,0,0,0,0}
 };
@@ -3186,16 +3185,14 @@ static swig_lua_const_info swig_SwigModule_constants[]= {
     {SWIG_LUA_CONSTTAB_INT("InternalEvents_UNKNOWN_MAX", InternalEvents::UNKNOWN_MAX)},
     {SWIG_LUA_CONSTTAB_INT("RenderEvents_UNKNOWN", RenderEvents::UNKNOWN)},
     {SWIG_LUA_CONSTTAB_INT("RenderEvents_MAIN_MENU", RenderEvents::MAIN_MENU)},
-    {SWIG_LUA_CONSTTAB_INT("RenderEvents_GUI_STATIC", RenderEvents::GUI_STATIC)},
-    {SWIG_LUA_CONSTTAB_INT("RenderEvents_SPACE_BACKGROUND", RenderEvents::SPACE_BACKGROUND)},
-    {SWIG_LUA_CONSTTAB_INT("RenderEvents_SPACE_FOREGROUND", RenderEvents::SPACE_FOREGROUND)},
-    {SWIG_LUA_CONSTTAB_INT("RenderEvents_SPACE_ASTEROIDS_BACKGROUND", RenderEvents::SPACE_ASTEROIDS_BACKGROUND)},
-    {SWIG_LUA_CONSTTAB_INT("RenderEvents_PLAYER_SHIP", RenderEvents::PLAYER_SHIP)},
-    {SWIG_LUA_CONSTTAB_INT("RenderEvents_SPACE_ASTEROIDS_FOREGROUND", RenderEvents::SPACE_ASTEROIDS_FOREGROUND)},
-    {SWIG_LUA_CONSTTAB_INT("RenderEvents_PAUSE", RenderEvents::PAUSE)},
-    {SWIG_LUA_CONSTTAB_INT("RenderEvents_ACHIEVEMENT_TRACKER", RenderEvents::ACHIEVEMENT_TRACKER)},
+    {SWIG_LUA_CONSTTAB_INT("RenderEvents_GUI_CONTAINER", RenderEvents::GUI_CONTAINER)},
+    {SWIG_LUA_CONSTTAB_INT("RenderEvents_LAYER_BACKGROUND", RenderEvents::LAYER_BACKGROUND)},
+    {SWIG_LUA_CONSTTAB_INT("RenderEvents_LAYER_FOREGROUND", RenderEvents::LAYER_FOREGROUND)},
+    {SWIG_LUA_CONSTTAB_INT("RenderEvents_LAYER_ASTEROIDS", RenderEvents::LAYER_ASTEROIDS)},
+    {SWIG_LUA_CONSTTAB_INT("RenderEvents_LAYER_PLAYER", RenderEvents::LAYER_PLAYER)},
+    {SWIG_LUA_CONSTTAB_INT("RenderEvents_LAYER_PLAYERFRONT", RenderEvents::LAYER_PLAYERFRONT)},
+    {SWIG_LUA_CONSTTAB_INT("RenderEvents_LAYER_FRONT", RenderEvents::LAYER_FRONT)},
     {SWIG_LUA_CONSTTAB_INT("RenderEvents_MOUSE_CONTROL", RenderEvents::MOUSE_CONTROL)},
-    {SWIG_LUA_CONSTTAB_INT("RenderEvents_FPS", RenderEvents::FPS)},
     {SWIG_LUA_CONSTTAB_INT("RenderEvents_UNKNOWN_MAX", RenderEvents::UNKNOWN_MAX)},
     {0,0,0,0,0,0}
 };
