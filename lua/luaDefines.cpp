@@ -1,5 +1,7 @@
 #include "luaDefines.h"
 
+// TODO: Remove me and redefine SDLKey enums in a different file & load into defines.i module. (Or maybe just declare it in there so it's defined to match what is used internally even though itnernally is not inside a struct as required for SWIG to name it nicely)
+
 void hs_l_define_sdlkey(lua_State* lua) {
     lua_createtable(lua, 0, 137); /* SDLKey table */
 
