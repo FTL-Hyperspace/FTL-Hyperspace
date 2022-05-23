@@ -2,7 +2,6 @@
 #define LUASCRIPTINIT_H
 
 #include "luaInclude.h"
-#include "luaDefines.h"
 #include "LuaLibScript.h"
 #include <string>
 

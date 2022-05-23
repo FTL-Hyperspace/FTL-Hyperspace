@@ -12,7 +12,6 @@
     - Maybe add abilitly to pull localized string?
     - Re-implement require to load only .lua files from the dat, or maybe re-enable lua package (which contains require) and figure out how to restrict it.
     - Re-implement math.random to use FTL's random. (might want to use FTL's (SIL's) frandom)
-    - Add Defines.InternalEvents.ON_TICK and some other events.
     - Maybe add a story system like https://wiki.factorio.com/Tutorial:Scripting#Story_script ?
 */
 void removeDangerousStuff(lua_State* lua)
@@ -68,7 +67,6 @@ LuaScriptInit::LuaScriptInit()
 
     hsluaglobal_register(lua);
     this->m_libScript = new LuaLibScript(lua);
-    hs_l_define_register(lua);
     luaopen_Hyperspace(lua);
     luaopen_Graphics(lua);
     luaopen_Defines(lua);
@@ -125,5 +123,3 @@ void LuaScriptInit::runLuaFileFromDat(std::string filename)
         return;
     }
 }
-
-// TODO: See other things Factorio decided to disable in Lua (like threads) because they're a problem for determinism

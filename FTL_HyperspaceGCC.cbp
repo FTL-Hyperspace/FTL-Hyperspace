@@ -1286,9 +1286,6 @@
 			<Option compilerVar="CC" />
 			<Option virtualFolder="Scripting/" />
 		</Unit>
-		<Unit filename="lua/luaDefines.cpp">
-			<Option virtualFolder="Scripting/" />
-		</Unit>
 		<Unit filename="lua/luaDefines.h">
 			<Option virtualFolder="Scripting/" />
 		</Unit>

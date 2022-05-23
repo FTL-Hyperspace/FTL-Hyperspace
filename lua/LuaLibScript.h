@@ -5,6 +5,7 @@
 #include "InternalEvents.h"
 #include "RenderEvents.h"
 #include <assert.h>
+#include <string>
 
 /*** Functions for script execution control
  * @module script

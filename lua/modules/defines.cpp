@@ -2711,9 +2711,10 @@ SWIG_Lua_dostring(lua_State *L, const char *str) {
 
 #define SWIGTYPE_p_InternalEvents swig_types[0]
 #define SWIGTYPE_p_RenderEvents swig_types[1]
-#define SWIGTYPE_p_std__string swig_types[2]
-static swig_type_info *swig_types[4];
-static swig_module_info swig_module = {swig_types, 3, 0, 0, 0, 0};
+#define SWIGTYPE_p_SDL swig_types[2]
+#define SWIGTYPE_p_std__string swig_types[3]
+static swig_type_info *swig_types[5];
+static swig_module_info swig_module = {swig_types, 4, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -2766,6 +2767,7 @@ SWIGINTERN int SWIG_lua_isnilstring(lua_State *L, int idx) {
 
 #include "../InternalEvents.h"
 #include "../RenderEvents.h"
+#include "../luaDefines.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -3034,35 +3036,6 @@ static swig_lua_class *swig_string_bases[] = {0};
 static const char *swig_string_base_names[] = {0};
 static swig_lua_class _wrap_class_string = { "string", "string", &SWIGTYPE_p_std__string,_proxy__wrap_new_string, swig_delete_string, swig_string_methods, swig_string_attributes, &swig_string_Sf_SwigStatic, swig_string_meta, swig_string_bases, swig_string_base_names };
 
-static int _wrap_new_InternalEvents(lua_State* L) {
-  int SWIG_arg = 0;
-  InternalEvents *result = 0 ;
-  
-  SWIG_check_num_args("InternalEvents::InternalEvents",0,0)
-  result = (InternalEvents *)new InternalEvents();
-  SWIG_NewPointerObj(L,result,SWIGTYPE_p_InternalEvents,1); SWIG_arg++; 
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static void swig_delete_InternalEvents(void *obj) {
-InternalEvents *arg1 = (InternalEvents *) obj;
-delete arg1;
-}
-static int _proxy__wrap_new_InternalEvents(lua_State *L) {
-    assert(lua_istable(L,1));
-    lua_pushcfunction(L,_wrap_new_InternalEvents);
-    assert(!lua_isnil(L,-1));
-    lua_replace(L,1); /* replace our table with real constructor */
-    lua_call(L,lua_gettop(L)-1,1);
-    return 1;
-}
 static swig_lua_attribute swig_InternalEvents_attributes[] = {
     {0,0,0}
 };
@@ -3099,37 +3072,8 @@ static swig_lua_namespace swig_InternalEvents_Sf_SwigStatic = {
 };
 static swig_lua_class *swig_InternalEvents_bases[] = {0};
 static const char *swig_InternalEvents_base_names[] = {0};
-static swig_lua_class _wrap_class_InternalEvents = { "InternalEvents", "InternalEvents", &SWIGTYPE_p_InternalEvents,_proxy__wrap_new_InternalEvents, swig_delete_InternalEvents, swig_InternalEvents_methods, swig_InternalEvents_attributes, &swig_InternalEvents_Sf_SwigStatic, swig_InternalEvents_meta, swig_InternalEvents_bases, swig_InternalEvents_base_names };
+static swig_lua_class _wrap_class_InternalEvents = { "InternalEvents", "InternalEvents", &SWIGTYPE_p_InternalEvents,0,0, swig_InternalEvents_methods, swig_InternalEvents_attributes, &swig_InternalEvents_Sf_SwigStatic, swig_InternalEvents_meta, swig_InternalEvents_bases, swig_InternalEvents_base_names };
 
-static int _wrap_new_RenderEvents(lua_State* L) {
-  int SWIG_arg = 0;
-  RenderEvents *result = 0 ;
-  
-  SWIG_check_num_args("RenderEvents::RenderEvents",0,0)
-  result = (RenderEvents *)new RenderEvents();
-  SWIG_NewPointerObj(L,result,SWIGTYPE_p_RenderEvents,1); SWIG_arg++; 
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static void swig_delete_RenderEvents(void *obj) {
-RenderEvents *arg1 = (RenderEvents *) obj;
-delete arg1;
-}
-static int _proxy__wrap_new_RenderEvents(lua_State *L) {
-    assert(lua_istable(L,1));
-    lua_pushcfunction(L,_wrap_new_RenderEvents);
-    assert(!lua_isnil(L,-1));
-    lua_replace(L,1); /* replace our table with real constructor */
-    lua_call(L,lua_gettop(L)-1,1);
-    return 1;
-}
 static swig_lua_attribute swig_RenderEvents_attributes[] = {
     {0,0,0}
 };
@@ -3174,7 +3118,179 @@ static swig_lua_namespace swig_RenderEvents_Sf_SwigStatic = {
 };
 static swig_lua_class *swig_RenderEvents_bases[] = {0};
 static const char *swig_RenderEvents_base_names[] = {0};
-static swig_lua_class _wrap_class_RenderEvents = { "RenderEvents", "RenderEvents", &SWIGTYPE_p_RenderEvents,_proxy__wrap_new_RenderEvents, swig_delete_RenderEvents, swig_RenderEvents_methods, swig_RenderEvents_attributes, &swig_RenderEvents_Sf_SwigStatic, swig_RenderEvents_meta, swig_RenderEvents_bases, swig_RenderEvents_base_names };
+static swig_lua_class _wrap_class_RenderEvents = { "RenderEvents", "RenderEvents", &SWIGTYPE_p_RenderEvents,0,0, swig_RenderEvents_methods, swig_RenderEvents_attributes, &swig_RenderEvents_Sf_SwigStatic, swig_RenderEvents_meta, swig_RenderEvents_bases, swig_RenderEvents_base_names };
+
+static swig_lua_attribute swig_SDL_attributes[] = {
+    {0,0,0}
+};
+static swig_lua_method swig_SDL_methods[]= {
+    {0,0}
+};
+static swig_lua_method swig_SDL_meta[] = {
+    {0,0}
+};
+
+static swig_lua_attribute swig_SDL_Sf_SwigStatic_attributes[] = {
+    {0,0,0}
+};
+static swig_lua_const_info swig_SDL_Sf_SwigStatic_constants[]= {
+    {SWIG_LUA_CONSTTAB_INT("KEY_UNKNOWN", SDL::KEY_UNKNOWN)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_0", SDL::KEY_0)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_1", SDL::KEY_1)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_2", SDL::KEY_2)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_3", SDL::KEY_3)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_4", SDL::KEY_4)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_5", SDL::KEY_5)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_6", SDL::KEY_6)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_7", SDL::KEY_7)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_8", SDL::KEY_8)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_9", SDL::KEY_9)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_AT", SDL::KEY_AT)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_AMPERSAND", SDL::KEY_AMPERSAND)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_ASTERISK", SDL::KEY_ASTERISK)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_BACKQUOTE", SDL::KEY_BACKQUOTE)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_BACKSLASH", SDL::KEY_BACKSLASH)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_BACKSPACE", SDL::KEY_BACKSPACE)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_BREAK", SDL::KEY_BREAK)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_CAPSLOCK", SDL::KEY_CAPSLOCK)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_CARET", SDL::KEY_CARET)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_CLEAR", SDL::KEY_CLEAR)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_COLON", SDL::KEY_COLON)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_COMMA", SDL::KEY_COMMA)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_COMPOSE", SDL::KEY_COMPOSE)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_DELETE", SDL::KEY_DELETE)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_DOLLAR", SDL::KEY_DOLLAR)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_DOWN", SDL::KEY_DOWN)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_END", SDL::KEY_END)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_EQUALS", SDL::KEY_EQUALS)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_ESCAPE", SDL::KEY_ESCAPE)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_EURO", SDL::KEY_EURO)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_EXCLAIM", SDL::KEY_EXCLAIM)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_F1", SDL::KEY_F1)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_F10", SDL::KEY_F10)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_F11", SDL::KEY_F11)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_F12", SDL::KEY_F12)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_F13", SDL::KEY_F13)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_F14", SDL::KEY_F14)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_F15", SDL::KEY_F15)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_F2", SDL::KEY_F2)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_F3", SDL::KEY_F3)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_F4", SDL::KEY_F4)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_F5", SDL::KEY_F5)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_F6", SDL::KEY_F6)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_F7", SDL::KEY_F7)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_F8", SDL::KEY_F8)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_F9", SDL::KEY_F9)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_GREATER", SDL::KEY_GREATER)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_HASH", SDL::KEY_HASH)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_HELP", SDL::KEY_HELP)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_HOME", SDL::KEY_HOME)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_INSERT", SDL::KEY_INSERT)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_KP0", SDL::KEY_KP0)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_KP1", SDL::KEY_KP1)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_KP2", SDL::KEY_KP2)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_KP3", SDL::KEY_KP3)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_KP4", SDL::KEY_KP4)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_KP5", SDL::KEY_KP5)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_KP6", SDL::KEY_KP6)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_KP7", SDL::KEY_KP7)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_KP8", SDL::KEY_KP8)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_KP9", SDL::KEY_KP9)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_KP_PERIOD", SDL::KEY_KP_PERIOD)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_KP_DIVIDE", SDL::KEY_KP_DIVIDE)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_KP_MULTIPLY", SDL::KEY_KP_MULTIPLY)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_KP_MINUS", SDL::KEY_KP_MINUS)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_KP_PLUS", SDL::KEY_KP_PLUS)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_KP_ENTER", SDL::KEY_KP_ENTER)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_KP_EQUALS", SDL::KEY_KP_EQUALS)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_LALT", SDL::KEY_LALT)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_LCTRL", SDL::KEY_LCTRL)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_LEFT", SDL::KEY_LEFT)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_LEFTBRACKET", SDL::KEY_LEFTBRACKET)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_LEFTPAREN", SDL::KEY_LEFTPAREN)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_LESS", SDL::KEY_LESS)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_LMETA", SDL::KEY_LMETA)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_LSHIFT", SDL::KEY_LSHIFT)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_LSUPER", SDL::KEY_LSUPER)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_MENU", SDL::KEY_MENU)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_MINUS", SDL::KEY_MINUS)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_MODE", SDL::KEY_MODE)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_NUMLOCK", SDL::KEY_NUMLOCK)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_PAGEDOWN", SDL::KEY_PAGEDOWN)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_PAGEUP", SDL::KEY_PAGEUP)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_PAUSE", SDL::KEY_PAUSE)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_PERIOD", SDL::KEY_PERIOD)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_PLUS", SDL::KEY_PLUS)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_POWER", SDL::KEY_POWER)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_PRINTSCREEN", SDL::KEY_PRINTSCREEN)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_QUESTION", SDL::KEY_QUESTION)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_QUOTEDBL", SDL::KEY_QUOTEDBL)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_QUOTE", SDL::KEY_QUOTE)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_RALT", SDL::KEY_RALT)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_RCTRL", SDL::KEY_RCTRL)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_RETURN", SDL::KEY_RETURN)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_RIGHT", SDL::KEY_RIGHT)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_RIGHTBRACKET", SDL::KEY_RIGHTBRACKET)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_RIGHTPAREN", SDL::KEY_RIGHTPAREN)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_RMETA", SDL::KEY_RMETA)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_RSHIFT", SDL::KEY_RSHIFT)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_RSUPER", SDL::KEY_RSUPER)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_SCROLLOCK", SDL::KEY_SCROLLOCK)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_SEMICOLON", SDL::KEY_SEMICOLON)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_SLASH", SDL::KEY_SLASH)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_SPACE", SDL::KEY_SPACE)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_SYSREQ", SDL::KEY_SYSREQ)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_TAB", SDL::KEY_TAB)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_UNDERSCORE", SDL::KEY_UNDERSCORE)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_UNDO", SDL::KEY_UNDO)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_UP", SDL::KEY_UP)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_a", SDL::KEY_a)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_b", SDL::KEY_b)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_c", SDL::KEY_c)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_d", SDL::KEY_d)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_e", SDL::KEY_e)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_f", SDL::KEY_f)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_g", SDL::KEY_g)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_h", SDL::KEY_h)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_i", SDL::KEY_i)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_j", SDL::KEY_j)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_k", SDL::KEY_k)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_l", SDL::KEY_l)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_m", SDL::KEY_m)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_n", SDL::KEY_n)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_o", SDL::KEY_o)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_p", SDL::KEY_p)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_q", SDL::KEY_q)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_r", SDL::KEY_r)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_s", SDL::KEY_s)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_t", SDL::KEY_t)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_u", SDL::KEY_u)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_v", SDL::KEY_v)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_w", SDL::KEY_w)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_x", SDL::KEY_x)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_y", SDL::KEY_y)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_z", SDL::KEY_z)},
+    {SWIG_LUA_CONSTTAB_INT("KEY_LAST", SDL::KEY_LAST)},
+    {0,0,0,0,0,0}
+};
+static swig_lua_method swig_SDL_Sf_SwigStatic_methods[]= {
+    {0,0}
+};
+static swig_lua_class* swig_SDL_Sf_SwigStatic_classes[]= {
+    0
+};
+
+static swig_lua_namespace swig_SDL_Sf_SwigStatic = {
+    "SDL",
+    swig_SDL_Sf_SwigStatic_methods,
+    swig_SDL_Sf_SwigStatic_attributes,
+    swig_SDL_Sf_SwigStatic_constants,
+    swig_SDL_Sf_SwigStatic_classes,
+    0
+};
+static swig_lua_class *swig_SDL_bases[] = {0};
+static const char *swig_SDL_base_names[] = {0};
+static swig_lua_class _wrap_class_SDL = { "SDL", "SDL", &SWIGTYPE_p_SDL,0,0, swig_SDL_methods, swig_SDL_attributes, &swig_SDL_Sf_SwigStatic, swig_SDL_meta, swig_SDL_bases, swig_SDL_base_names };
 
 static swig_lua_attribute swig_SwigModule_attributes[] = {
     {0,0,0}
@@ -3194,6 +3310,143 @@ static swig_lua_const_info swig_SwigModule_constants[]= {
     {SWIG_LUA_CONSTTAB_INT("RenderEvents_LAYER_FRONT", RenderEvents::LAYER_FRONT)},
     {SWIG_LUA_CONSTTAB_INT("RenderEvents_MOUSE_CONTROL", RenderEvents::MOUSE_CONTROL)},
     {SWIG_LUA_CONSTTAB_INT("RenderEvents_UNKNOWN_MAX", RenderEvents::UNKNOWN_MAX)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_UNKNOWN", SDL::KEY_UNKNOWN)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_0", SDL::KEY_0)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_1", SDL::KEY_1)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_2", SDL::KEY_2)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_3", SDL::KEY_3)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_4", SDL::KEY_4)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_5", SDL::KEY_5)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_6", SDL::KEY_6)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_7", SDL::KEY_7)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_8", SDL::KEY_8)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_9", SDL::KEY_9)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_AT", SDL::KEY_AT)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_AMPERSAND", SDL::KEY_AMPERSAND)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_ASTERISK", SDL::KEY_ASTERISK)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_BACKQUOTE", SDL::KEY_BACKQUOTE)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_BACKSLASH", SDL::KEY_BACKSLASH)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_BACKSPACE", SDL::KEY_BACKSPACE)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_BREAK", SDL::KEY_BREAK)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_CAPSLOCK", SDL::KEY_CAPSLOCK)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_CARET", SDL::KEY_CARET)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_CLEAR", SDL::KEY_CLEAR)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_COLON", SDL::KEY_COLON)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_COMMA", SDL::KEY_COMMA)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_COMPOSE", SDL::KEY_COMPOSE)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_DELETE", SDL::KEY_DELETE)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_DOLLAR", SDL::KEY_DOLLAR)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_DOWN", SDL::KEY_DOWN)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_END", SDL::KEY_END)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_EQUALS", SDL::KEY_EQUALS)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_ESCAPE", SDL::KEY_ESCAPE)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_EURO", SDL::KEY_EURO)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_EXCLAIM", SDL::KEY_EXCLAIM)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_F1", SDL::KEY_F1)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_F10", SDL::KEY_F10)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_F11", SDL::KEY_F11)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_F12", SDL::KEY_F12)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_F13", SDL::KEY_F13)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_F14", SDL::KEY_F14)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_F15", SDL::KEY_F15)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_F2", SDL::KEY_F2)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_F3", SDL::KEY_F3)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_F4", SDL::KEY_F4)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_F5", SDL::KEY_F5)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_F6", SDL::KEY_F6)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_F7", SDL::KEY_F7)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_F8", SDL::KEY_F8)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_F9", SDL::KEY_F9)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_GREATER", SDL::KEY_GREATER)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_HASH", SDL::KEY_HASH)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_HELP", SDL::KEY_HELP)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_HOME", SDL::KEY_HOME)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_INSERT", SDL::KEY_INSERT)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_KP0", SDL::KEY_KP0)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_KP1", SDL::KEY_KP1)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_KP2", SDL::KEY_KP2)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_KP3", SDL::KEY_KP3)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_KP4", SDL::KEY_KP4)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_KP5", SDL::KEY_KP5)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_KP6", SDL::KEY_KP6)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_KP7", SDL::KEY_KP7)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_KP8", SDL::KEY_KP8)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_KP9", SDL::KEY_KP9)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_KP_PERIOD", SDL::KEY_KP_PERIOD)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_KP_DIVIDE", SDL::KEY_KP_DIVIDE)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_KP_MULTIPLY", SDL::KEY_KP_MULTIPLY)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_KP_MINUS", SDL::KEY_KP_MINUS)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_KP_PLUS", SDL::KEY_KP_PLUS)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_KP_ENTER", SDL::KEY_KP_ENTER)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_KP_EQUALS", SDL::KEY_KP_EQUALS)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_LALT", SDL::KEY_LALT)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_LCTRL", SDL::KEY_LCTRL)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_LEFT", SDL::KEY_LEFT)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_LEFTBRACKET", SDL::KEY_LEFTBRACKET)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_LEFTPAREN", SDL::KEY_LEFTPAREN)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_LESS", SDL::KEY_LESS)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_LMETA", SDL::KEY_LMETA)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_LSHIFT", SDL::KEY_LSHIFT)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_LSUPER", SDL::KEY_LSUPER)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_MENU", SDL::KEY_MENU)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_MINUS", SDL::KEY_MINUS)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_MODE", SDL::KEY_MODE)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_NUMLOCK", SDL::KEY_NUMLOCK)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_PAGEDOWN", SDL::KEY_PAGEDOWN)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_PAGEUP", SDL::KEY_PAGEUP)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_PAUSE", SDL::KEY_PAUSE)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_PERIOD", SDL::KEY_PERIOD)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_PLUS", SDL::KEY_PLUS)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_POWER", SDL::KEY_POWER)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_PRINTSCREEN", SDL::KEY_PRINTSCREEN)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_QUESTION", SDL::KEY_QUESTION)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_QUOTEDBL", SDL::KEY_QUOTEDBL)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_QUOTE", SDL::KEY_QUOTE)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_RALT", SDL::KEY_RALT)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_RCTRL", SDL::KEY_RCTRL)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_RETURN", SDL::KEY_RETURN)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_RIGHT", SDL::KEY_RIGHT)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_RIGHTBRACKET", SDL::KEY_RIGHTBRACKET)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_RIGHTPAREN", SDL::KEY_RIGHTPAREN)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_RMETA", SDL::KEY_RMETA)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_RSHIFT", SDL::KEY_RSHIFT)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_RSUPER", SDL::KEY_RSUPER)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_SCROLLOCK", SDL::KEY_SCROLLOCK)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_SEMICOLON", SDL::KEY_SEMICOLON)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_SLASH", SDL::KEY_SLASH)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_SPACE", SDL::KEY_SPACE)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_SYSREQ", SDL::KEY_SYSREQ)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_TAB", SDL::KEY_TAB)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_UNDERSCORE", SDL::KEY_UNDERSCORE)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_UNDO", SDL::KEY_UNDO)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_UP", SDL::KEY_UP)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_a", SDL::KEY_a)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_b", SDL::KEY_b)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_c", SDL::KEY_c)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_d", SDL::KEY_d)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_e", SDL::KEY_e)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_f", SDL::KEY_f)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_g", SDL::KEY_g)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_h", SDL::KEY_h)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_i", SDL::KEY_i)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_j", SDL::KEY_j)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_k", SDL::KEY_k)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_l", SDL::KEY_l)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_m", SDL::KEY_m)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_n", SDL::KEY_n)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_o", SDL::KEY_o)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_p", SDL::KEY_p)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_q", SDL::KEY_q)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_r", SDL::KEY_r)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_s", SDL::KEY_s)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_t", SDL::KEY_t)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_u", SDL::KEY_u)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_v", SDL::KEY_v)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_w", SDL::KEY_w)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_x", SDL::KEY_x)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_y", SDL::KEY_y)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_z", SDL::KEY_z)},
+    {SWIG_LUA_CONSTTAB_INT("SDL_KEY_LAST", SDL::KEY_LAST)},
     {0,0,0,0,0,0}
 };
 static swig_lua_method swig_SwigModule_methods[]= {
@@ -3203,6 +3456,7 @@ static swig_lua_class* swig_SwigModule_classes[]= {
 &_wrap_class_string,
 &_wrap_class_InternalEvents,
 &_wrap_class_RenderEvents,
+&_wrap_class_SDL,
     0
 };
 static swig_lua_namespace* swig_SwigModule_namespaces[] = {
@@ -3225,21 +3479,25 @@ static swig_lua_namespace swig_SwigModule = {
 
 static swig_type_info _swigt__p_InternalEvents = {"_p_InternalEvents", "InternalEvents *", 0, 0, (void*)&_wrap_class_InternalEvents, 0};
 static swig_type_info _swigt__p_RenderEvents = {"_p_RenderEvents", "RenderEvents *", 0, 0, (void*)&_wrap_class_RenderEvents, 0};
+static swig_type_info _swigt__p_SDL = {"_p_SDL", "SDL *", 0, 0, (void*)&_wrap_class_SDL, 0};
 static swig_type_info _swigt__p_std__string = {"_p_std__string", "std::string *", 0, 0, (void*)&_wrap_class_string, 0};
 
 static swig_type_info *swig_type_initial[] = {
   &_swigt__p_InternalEvents,
   &_swigt__p_RenderEvents,
+  &_swigt__p_SDL,
   &_swigt__p_std__string,
 };
 
 static swig_cast_info _swigc__p_InternalEvents[] = {  {&_swigt__p_InternalEvents, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_RenderEvents[] = {  {&_swigt__p_RenderEvents, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_SDL[] = {  {&_swigt__p_SDL, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__string[] = {  {&_swigt__p_std__string, 0, 0, 0},{0, 0, 0, 0}};
 
 static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_InternalEvents,
   _swigc__p_RenderEvents,
+  _swigc__p_SDL,
   _swigc__p_std__string,
 };
 
