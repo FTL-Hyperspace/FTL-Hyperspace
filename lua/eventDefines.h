@@ -3,14 +3,20 @@
 
 struct InternalEvents
 {
-    enum {
-        CAPP_ON_LOOP
+    enum Identifiers {
+        UNKNOWN, // Must always be first, used to check for bounds of enum input value
+
+        ON_TICK, // We'll use CApp::OnLoop for this ticking
+
+        UNKNOWN_MAX // Must always be last, used to check for bounds of enum input value
     };
 };
 
 struct RenderEvents
 {
-    enum {
+    enum Identifiers {
+        UNKNOWN, // Must always be first, used to check for bounds of enum input value
+
         ////LANGUAGE_CHOOSER, // LanguageChooser::OnRender
         MAIN_MENU, // MainMenu::OnRender
         GUI_STATIC, // CommandGui::RenderStatic
@@ -62,6 +68,8 @@ struct RenderEvents
         ACHIEVEMENT_TRACKER, // AchievementTracker::OnRender
         MOUSE_CONTROL, // MouseControl::OnRender
         FPS, // CFPS::OnRender
+
+        UNKNOWN_MAX // Must always be last, used to check for bounds of enum input value
     };
 };
 

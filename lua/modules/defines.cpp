@@ -3076,7 +3076,9 @@ static swig_lua_attribute swig_InternalEvents_Sf_SwigStatic_attributes[] = {
     {0,0,0}
 };
 static swig_lua_const_info swig_InternalEvents_Sf_SwigStatic_constants[]= {
-    {SWIG_LUA_CONSTTAB_INT("CAPP_ON_LOOP", InternalEvents::CAPP_ON_LOOP)},
+    {SWIG_LUA_CONSTTAB_INT("UNKNOWN", InternalEvents::UNKNOWN)},
+    {SWIG_LUA_CONSTTAB_INT("ON_TICK", InternalEvents::ON_TICK)},
+    {SWIG_LUA_CONSTTAB_INT("UNKNOWN_MAX", InternalEvents::UNKNOWN_MAX)},
     {0,0,0,0,0,0}
 };
 static swig_lua_method swig_InternalEvents_Sf_SwigStatic_methods[]= {
@@ -3141,6 +3143,7 @@ static swig_lua_attribute swig_RenderEvents_Sf_SwigStatic_attributes[] = {
     {0,0,0}
 };
 static swig_lua_const_info swig_RenderEvents_Sf_SwigStatic_constants[]= {
+    {SWIG_LUA_CONSTTAB_INT("UNKNOWN", RenderEvents::UNKNOWN)},
     {SWIG_LUA_CONSTTAB_INT("MAIN_MENU", RenderEvents::MAIN_MENU)},
     {SWIG_LUA_CONSTTAB_INT("GUI_STATIC", RenderEvents::GUI_STATIC)},
     {SWIG_LUA_CONSTTAB_INT("SPACE_BACKGROUND", RenderEvents::SPACE_BACKGROUND)},
@@ -3152,6 +3155,7 @@ static swig_lua_const_info swig_RenderEvents_Sf_SwigStatic_constants[]= {
     {SWIG_LUA_CONSTTAB_INT("ACHIEVEMENT_TRACKER", RenderEvents::ACHIEVEMENT_TRACKER)},
     {SWIG_LUA_CONSTTAB_INT("MOUSE_CONTROL", RenderEvents::MOUSE_CONTROL)},
     {SWIG_LUA_CONSTTAB_INT("FPS", RenderEvents::FPS)},
+    {SWIG_LUA_CONSTTAB_INT("UNKNOWN_MAX", RenderEvents::UNKNOWN_MAX)},
     {0,0,0,0,0,0}
 };
 static swig_lua_method swig_RenderEvents_Sf_SwigStatic_methods[]= {
@@ -3177,7 +3181,10 @@ static swig_lua_attribute swig_SwigModule_attributes[] = {
     {0,0,0}
 };
 static swig_lua_const_info swig_SwigModule_constants[]= {
-    {SWIG_LUA_CONSTTAB_INT("InternalEvents_CAPP_ON_LOOP", InternalEvents::CAPP_ON_LOOP)},
+    {SWIG_LUA_CONSTTAB_INT("InternalEvents_UNKNOWN", InternalEvents::UNKNOWN)},
+    {SWIG_LUA_CONSTTAB_INT("InternalEvents_ON_TICK", InternalEvents::ON_TICK)},
+    {SWIG_LUA_CONSTTAB_INT("InternalEvents_UNKNOWN_MAX", InternalEvents::UNKNOWN_MAX)},
+    {SWIG_LUA_CONSTTAB_INT("RenderEvents_UNKNOWN", RenderEvents::UNKNOWN)},
     {SWIG_LUA_CONSTTAB_INT("RenderEvents_MAIN_MENU", RenderEvents::MAIN_MENU)},
     {SWIG_LUA_CONSTTAB_INT("RenderEvents_GUI_STATIC", RenderEvents::GUI_STATIC)},
     {SWIG_LUA_CONSTTAB_INT("RenderEvents_SPACE_BACKGROUND", RenderEvents::SPACE_BACKGROUND)},
@@ -3189,6 +3196,7 @@ static swig_lua_const_info swig_SwigModule_constants[]= {
     {SWIG_LUA_CONSTTAB_INT("RenderEvents_ACHIEVEMENT_TRACKER", RenderEvents::ACHIEVEMENT_TRACKER)},
     {SWIG_LUA_CONSTTAB_INT("RenderEvents_MOUSE_CONTROL", RenderEvents::MOUSE_CONTROL)},
     {SWIG_LUA_CONSTTAB_INT("RenderEvents_FPS", RenderEvents::FPS)},
+    {SWIG_LUA_CONSTTAB_INT("RenderEvents_UNKNOWN_MAX", RenderEvents::UNKNOWN_MAX)},
     {0,0,0,0,0,0}
 };
 static swig_lua_method swig_SwigModule_methods[]= {

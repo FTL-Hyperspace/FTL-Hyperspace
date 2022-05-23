@@ -7,6 +7,8 @@ static std::vector<LuaFunctionRef> m_on_load_callbacks;
 static std::vector<LuaFunctionRef> m_on_init_callbacks;
 static std::multimap<std::string, LuaFunctionRef> m_on_game_event_callbacks;
 static std::multimap<std::string, LuaFunctionRef> m_on_game_event_loading_callbacks;
+static std::multimap<InternalEvents::Identifiers, LuaFunctionRef> m_on_internal_event_callbacks; // TODO: For now we're only going to support `OnTick` and other potential methods with no argument requirements but we need to add support for methods with arguments later and add them to the call (or maybe add the information into the enum so at call time we can pass them?)
+static std::multimap<RenderEvents::Identifiers, std::pair<LuaFunctionRef, LuaFunctionRef>> m_on_render_event_callbacks; // Holds before & after function ref in the pair
 
 int LuaLibScript::l_on_load(lua_State* lua)
 {
@@ -96,6 +98,93 @@ void LuaLibScript::call_on_game_event_callbacks(std::string eventName, bool isLo
     call_all_functions_from_multimap(this->m_Lua, isLoading ? m_on_game_event_loading_callbacks : m_on_game_event_callbacks, eventName);
 }
 
+int LuaLibScript::l_on_render_event(lua_State* lua)
+{
+    assert(lua_isinteger(lua, 1));
+    assert(lua_isfunction(lua, 2));
+    assert(lua_isfunction(lua, 3));
+    const int callbackHookId = lua_tointeger(lua, 1);
+    assert(callbackHookId > RenderEvents::UNKNOWN); // TODO: Print a nice pretty message to the logs maybe if event was not a known value?
+    assert(callbackHookId < RenderEvents::UNKNOWN_MAX);
+    lua_pushvalue(lua, 2);
+    LuaFunctionRef callbackBeforeRef = luaL_ref(lua, LUA_REGISTRYINDEX);
+    lua_pushvalue(lua, 3);
+    LuaFunctionRef callbackAfterRef = luaL_ref(lua, LUA_REGISTRYINDEX);
+    RenderEvents::Identifiers id = static_cast<RenderEvents::Identifiers>(callbackHookId);
+    m_on_render_event_callbacks.emplace(id, std::pair<LuaFunctionRef, LuaFunctionRef>(callbackBeforeRef, callbackAfterRef));
+
+    return 0;
+}
+
+void LuaLibScript::call_on_render_event_callbacks(RenderEvents::Identifiers id)
+{
+    assert(id > RenderEvents::UNKNOWN);
+    assert(id < RenderEvents::UNKNOWN_MAX);
+    
+    if(m_on_render_event_callbacks.count(id) == 0)
+        return; // No registered callbacks
+
+    for(std::pair<std::multimap<RenderEvents::Identifiers, std::pair<LuaFunctionRef, LuaFunctionRef>>::iterator, std::multimap<RenderEvents::Identifiers, std::pair<LuaFunctionRef, LuaFunctionRef>>::iterator> range(m_on_render_event_callbacks.equal_range(id)); range.first != range.second; ++range.first)
+    {
+        std::pair<LuaFunctionRef, LuaFunctionRef> beforeAndAfterCallbacksRefL = range.first->second;
+        lua_rawgeti(this->m_Lua, LUA_REGISTRYINDEX, beforeAndAfterCallbacksRefL.first);
+        if(lua_pcall(this->m_Lua, 0, 0, 0) != 0) {
+            printf("Failed to call the before callback for RenderEvent %u!\n %s\n", id, lua_tostring(this->m_Lua, -1)); // TODO: Log to HS log? Also TODO: Maybe map RenderEvents to a readable string also?
+            return;
+        }
+        lua_rawgeti(this->m_Lua, LUA_REGISTRYINDEX, beforeAndAfterCallbacksRefL.second);
+        if(lua_pcall(this->m_Lua, 0, 0, 0) != 0) {
+            printf("Failed to call the after callback for RenderEvent %u!\n %s\n", id, lua_tostring(this->m_Lua, -1));
+            return;
+        }
+    }
+}
+
+int LuaLibScript::l_on_internal_event(lua_State* lua)
+{
+    assert(lua_isinteger(lua, 1));
+    assert(lua_isfunction(lua, 2));
+    const int callbackHookId = lua_tointeger(lua, 1);
+    assert(callbackHookId > InternalEvents::UNKNOWN); // TODO: Print a nice pretty message to the logs maybe if event was not a known value?
+    assert(callbackHookId < InternalEvents::UNKNOWN_MAX);
+    lua_pushvalue(lua, 2);
+    LuaFunctionRef callbackReference = luaL_ref(lua, LUA_REGISTRYINDEX);
+
+    /*
+    // TODO: Check that the number of arguments needed matches those for the internal event
+    lua_Debug ar;
+    lua_rawgeti(lua, LUA_REGISTRYINDEX, callbackReference);
+    lua_getinfo(lua, ">u", &ar);
+    printf("Registered Lua Function: that accepts '%u' arguments and is variable arguments: %s\n", ar.nparams, ar.isvararg ? "TRUE" : "FALSE");
+    */
+
+    InternalEvents::Identifiers id = static_cast<InternalEvents::Identifiers>(callbackHookId);
+    m_on_internal_event_callbacks.emplace(id, callbackReference);
+
+    return 0;
+}
+
+// TODO: This might need to be a varargs in the future to allow calling with the arguments from the hook & also passing that infromation via the enum so we can check at registration time above if the function has the correct number of arguments and if the correct number were passed here.
+void LuaLibScript::call_on_internal_event_callbacks(InternalEvents::Identifiers id)
+{
+    assert(id > InternalEvents::UNKNOWN);
+    assert(id < InternalEvents::UNKNOWN_MAX);
+    
+    if(m_on_internal_event_callbacks.count(id) == 0)
+        return; // No registered callbacks
+
+    for(std::pair<std::multimap<InternalEvents::Identifiers, LuaFunctionRef>::iterator, std::multimap<InternalEvents::Identifiers, LuaFunctionRef>::iterator> range(m_on_internal_event_callbacks.equal_range(id)); range.first != range.second; ++range.first)
+    {
+        LuaFunctionRef refL = range.first->second;
+        lua_rawgeti(this->m_Lua, LUA_REGISTRYINDEX, refL);
+        if(lua_pcall(this->m_Lua, 0, 0, 0) != 0) {
+            printf("Failed to call the callback for InternalEvent %u!\n %s\n", id, lua_tostring(this->m_Lua, -1)); // TODO: Log to HS log? Also TODO: Maybe map RenderEvents to a readable string also?
+            return;
+        }
+    }
+}
+
+
 // TODO: This hook to kick it off, could potentially move if needed? Or maybe we should of done a singleton pattern initialized by LuaScriptInit instead of passing the object back to LuaScriptInit and getting it from the global context there?
 HOOK_METHOD(AchievementTracker, LoadAchievementDescriptions, () -> void)
 {
@@ -135,6 +224,8 @@ static const struct luaL_Reg slib_funcs[] = {
    { "on_load", LuaLibScript::l_on_load },
    { "on_init", LuaLibScript::l_on_init },
    { "on_game_event", LuaLibScript::l_on_game_event },
+   { "on_render_event", LuaLibScript::l_on_render_event },
+   { "on_internal_event", LuaLibScript::l_on_internal_event },
    { NULL, NULL }
 };
 

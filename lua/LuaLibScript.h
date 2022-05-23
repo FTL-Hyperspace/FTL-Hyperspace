@@ -2,6 +2,7 @@
 #define LUALIBSCRIPT_H
 
 #include "luaInclude.h"
+#include "eventDefines.h"
 #include <assert.h>
 
 /*** Functions for script execution control
@@ -21,7 +22,9 @@ class LuaLibScript
         // Call upon starting a new run (maybe also starting a loaded run? not sure)
         void call_on_init_callbacks();
         
-        //void call_on_internal_event_callbacks(InternalEvent event);
+        void call_on_internal_event_callbacks(InternalEvents::Identifiers);
+        
+        void call_on_render_event_callbacks(RenderEvents::Identifiers);
         
         void call_on_game_event_callbacks(std::string eventName, bool isLoading);
         
