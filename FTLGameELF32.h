@@ -3118,6 +3118,7 @@ struct OptionsScreen : ChoiceBox
 
 	LIBZHL_API void OnInit();
 	LIBZHL_API void OnLoop();
+	LIBZHL_API void Open(bool mainMenu);
 	
 	Point position;
 	Point wipeProfilePosition;
