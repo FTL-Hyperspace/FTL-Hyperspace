@@ -2,11 +2,29 @@
 %include "stl.i"
 %include "constraints.i"
 
-
 %{
 #include "../../Global.h"
 #include "../../HSVersion.h"
 %}
+
+namespace std {
+    //%template(vector_int) vector<int>;
+    //%template(vector_float) vector<float>;
+    %template(vector_ArtillerySystem) vector<ArtillerySystem*>;
+    /*
+    %template(vector_CrewMember) vector<CrewMember*>;
+    %template(vector_ShipSystem) vector<ShipSystem*>;
+    %template(vector_Drone) vector<Drone*>;
+    %template(vector_Room) vector<Room*>;
+	%template(vector_Door) vector<Door*>;
+	%template(vector_OuterHull) vector<OuterHull*>;
+	%template(vector_WeaponMount) vector<WeaponMount>;
+	%template(vector_DamageMessage) vector<DamageMessage*>;
+	%template(vector_ShieldAnimation) vector<ShieldAnimation>;
+	*/
+}
+
+%apply const std::string& {std::string* GetName()};
 
 %rename("FPS") Global_CFPS_FPSControl;
 %rename("Score") Global_ScoreKeeper_Keeper;

@@ -2865,30 +2865,33 @@ SWIG_Lua_dostring(lua_State *L, const char *str) {
 #define SWIGTYPE_p_WeaponSystem swig_types[153]
 #define SWIGTYPE_p_WeaponSystemBox swig_types[154]
 #define SWIGTYPE_p_WorldManager swig_types[155]
-#define SWIGTYPE_p_freetype__font_data swig_types[156]
-#define SWIGTYPE_p_std__mapT_int_ShipBlueprint__SystemTemplate_std__lessT_int_t_t swig_types[157]
-#define SWIGTYPE_p_std__pairT_float_float_t swig_types[158]
-#define SWIGTYPE_p_std__pairT_int_int_t swig_types[159]
-#define SWIGTYPE_p_std__string swig_types[160]
-#define SWIGTYPE_p_std__vectorT_ArtillerySystem_p_t swig_types[161]
-#define SWIGTYPE_p_std__vectorT_CrewBlueprint_t swig_types[162]
-#define SWIGTYPE_p_std__vectorT_CrewMember_p_t swig_types[163]
-#define SWIGTYPE_p_std__vectorT_Drone_p_t swig_types[164]
-#define SWIGTYPE_p_std__vectorT_Pointf_t swig_types[165]
-#define SWIGTYPE_p_std__vectorT_ProjectileFactory_p_t swig_types[166]
-#define SWIGTYPE_p_std__vectorT_Projectile_p_t swig_types[167]
-#define SWIGTYPE_p_std__vectorT_Shields__ShieldAnimation_t swig_types[168]
-#define SWIGTYPE_p_std__vectorT_ShipSystem_p_t swig_types[169]
-#define SWIGTYPE_p_std__vectorT_Ship__DoorState_t swig_types[170]
-#define SWIGTYPE_p_std__vectorT_SpaceDrone_p_t swig_types[171]
-#define SWIGTYPE_p_std__vectorT_WeaponMount_t swig_types[172]
-#define SWIGTYPE_p_std__vectorT_bool_t swig_types[173]
-#define SWIGTYPE_p_std__vectorT_float_t swig_types[174]
-#define SWIGTYPE_p_std__vectorT_int_t swig_types[175]
-#define SWIGTYPE_p_std__vectorT_std__string_t swig_types[176]
-#define SWIGTYPE_p_std__vectorT_std__vectorT_int_t_t swig_types[177]
-static swig_type_info *swig_types[179];
-static swig_module_info swig_module = {swig_types, 178, 0, 0, 0, 0};
+#define SWIGTYPE_p_difference_type swig_types[156]
+#define SWIGTYPE_p_freetype__font_data swig_types[157]
+#define SWIGTYPE_p_size_type swig_types[158]
+#define SWIGTYPE_p_std__mapT_int_ShipBlueprint__SystemTemplate_std__lessT_int_t_t swig_types[159]
+#define SWIGTYPE_p_std__pairT_float_float_t swig_types[160]
+#define SWIGTYPE_p_std__pairT_int_int_t swig_types[161]
+#define SWIGTYPE_p_std__string swig_types[162]
+#define SWIGTYPE_p_std__vectorT_ArtillerySystem_p_t swig_types[163]
+#define SWIGTYPE_p_std__vectorT_CrewBlueprint_t swig_types[164]
+#define SWIGTYPE_p_std__vectorT_CrewMember_p_t swig_types[165]
+#define SWIGTYPE_p_std__vectorT_Drone_p_t swig_types[166]
+#define SWIGTYPE_p_std__vectorT_Pointf_t swig_types[167]
+#define SWIGTYPE_p_std__vectorT_ProjectileFactory_p_t swig_types[168]
+#define SWIGTYPE_p_std__vectorT_Projectile_p_t swig_types[169]
+#define SWIGTYPE_p_std__vectorT_Shields__ShieldAnimation_t swig_types[170]
+#define SWIGTYPE_p_std__vectorT_ShipSystem_p_t swig_types[171]
+#define SWIGTYPE_p_std__vectorT_Ship__DoorState_t swig_types[172]
+#define SWIGTYPE_p_std__vectorT_SpaceDrone_p_t swig_types[173]
+#define SWIGTYPE_p_std__vectorT_WeaponMount_t swig_types[174]
+#define SWIGTYPE_p_std__vectorT_bool_t swig_types[175]
+#define SWIGTYPE_p_std__vectorT_float_t swig_types[176]
+#define SWIGTYPE_p_std__vectorT_int_t swig_types[177]
+#define SWIGTYPE_p_std__vectorT_std__string_t swig_types[178]
+#define SWIGTYPE_p_std__vectorT_std__vectorT_int_t_t swig_types[179]
+#define SWIGTYPE_p_value_type swig_types[180]
+static swig_type_info *swig_types[182];
+static swig_module_info swig_module = {swig_types, 181, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -2942,6 +2945,16 @@ SWIGINTERN int SWIG_lua_isnilstring(lua_State *L, int idx) {
 #include "../../Global.h"
 #include "../../HSVersion.h"
 
+SWIGINTERN ArtillerySystem *std_vector_Sl_ArtillerySystem_Sm__Sg____getitem__(std::vector< ArtillerySystem * > *self,unsigned int idx){
+				if (idx>=self->size())
+					throw std::out_of_range("in vector::__getitem__()");
+				return (*self)[idx];
+			}
+SWIGINTERN void std_vector_Sl_ArtillerySystem_Sm__Sg____setitem__(std::vector< ArtillerySystem * > *self,unsigned int idx,ArtillerySystem *val){
+				if (idx>=self->size())
+					throw std::out_of_range("in vector::__setitem__()");
+				(*self)[idx]=val;
+			}
 SWIGINTERN char const *HyperspaceVersion___str__(HyperspaceVersion const *self){
         return self->toVersionString().c_str();
     }
@@ -3207,6 +3220,480 @@ static swig_lua_namespace swig_string_Sf_SwigStatic = {
 static swig_lua_class *swig_string_bases[] = {0};
 static const char *swig_string_base_names[] = {0};
 static swig_lua_class _wrap_class_string = { "string", "string", &SWIGTYPE_p_std__string,_proxy__wrap_new_string,0, swig_string_methods, swig_string_attributes, &swig_string_Sf_SwigStatic, swig_string_meta, swig_string_bases, swig_string_base_names };
+
+static int _wrap_new_vector_ArtillerySystem__SWIG_0(lua_State* L) {
+  int SWIG_arg = 0;
+  std::vector< ArtillerySystem * > *result = 0 ;
+  
+  SWIG_check_num_args("std::vector< ArtillerySystem * >::vector",0,0)
+  result = (std::vector< ArtillerySystem * > *)new std::vector< ArtillerySystem * >();
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_std__vectorT_ArtillerySystem_p_t,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_vector_ArtillerySystem__SWIG_1(lua_State* L) {
+  int SWIG_arg = 0;
+  unsigned int arg1 ;
+  std::vector< ArtillerySystem * > *result = 0 ;
+  
+  SWIG_check_num_args("std::vector< ArtillerySystem * >::vector",1,1)
+  if(!lua_isnumber(L,1)) SWIG_fail_arg("std::vector< ArtillerySystem * >::vector",1,"unsigned int");
+  SWIG_contract_assert((lua_tonumber(L,1)>=0),"number must not be negative")
+  arg1 = (unsigned int)lua_tonumber(L, 1);
+  result = (std::vector< ArtillerySystem * > *)new std::vector< ArtillerySystem * >(arg1);
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_std__vectorT_ArtillerySystem_p_t,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_vector_ArtillerySystem__SWIG_2(lua_State* L) {
+  int SWIG_arg = 0;
+  std::vector< ArtillerySystem * > *arg1 = 0 ;
+  std::vector< ArtillerySystem * > *result = 0 ;
+  
+  SWIG_check_num_args("std::vector< ArtillerySystem * >::vector",1,1)
+  if(!lua_isuserdata(L,1)) SWIG_fail_arg("std::vector< ArtillerySystem * >::vector",1,"std::vector< ArtillerySystem * > const &");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_std__vectorT_ArtillerySystem_p_t,0))){
+    SWIG_fail_ptr("new_vector_ArtillerySystem",1,SWIGTYPE_p_std__vectorT_ArtillerySystem_p_t);
+  }
+  
+  result = (std::vector< ArtillerySystem * > *)new std::vector< ArtillerySystem * >((std::vector< ArtillerySystem * > const &)*arg1);
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_std__vectorT_ArtillerySystem_p_t,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_vector_ArtillerySystem__SWIG_3(lua_State* L) {
+  int SWIG_arg = 0;
+  unsigned int arg1 ;
+  ArtillerySystem *arg2 = (ArtillerySystem *) 0 ;
+  std::vector< ArtillerySystem * > *result = 0 ;
+  
+  SWIG_check_num_args("std::vector< ArtillerySystem * >::vector",2,2)
+  if(!lua_isnumber(L,1)) SWIG_fail_arg("std::vector< ArtillerySystem * >::vector",1,"unsigned int");
+  if(!SWIG_isptrtype(L,2)) SWIG_fail_arg("std::vector< ArtillerySystem * >::vector",2,"ArtillerySystem *");
+  SWIG_contract_assert((lua_tonumber(L,1)>=0),"number must not be negative")
+  arg1 = (unsigned int)lua_tonumber(L, 1);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&arg2,SWIGTYPE_p_ArtillerySystem,0))){
+    SWIG_fail_ptr("new_vector_ArtillerySystem",2,SWIGTYPE_p_ArtillerySystem);
+  }
+  
+  result = (std::vector< ArtillerySystem * > *)new std::vector< ArtillerySystem * >(arg1,arg2);
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_std__vectorT_ArtillerySystem_p_t,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_vector_ArtillerySystem(lua_State* L) {
+  int argc;
+  int argv[3]={
+    1,2,3
+  };
+  
+  argc = lua_gettop(L);
+  if (argc == 0) {
+    return _wrap_new_vector_ArtillerySystem__SWIG_0(L);
+  }
+  if (argc == 1) {
+    int _v;
+    {
+      void *ptr;
+      if (lua_isuserdata(L,argv[0])==0 || SWIG_ConvertPtr(L,argv[0], (void **) &ptr, SWIGTYPE_p_std__vectorT_ArtillerySystem_p_t, SWIG_POINTER_NO_NULL)) {
+        _v = 0;
+      } else {
+        _v = 1;
+      }
+    }
+    if (_v) {
+      return _wrap_new_vector_ArtillerySystem__SWIG_2(L);
+    }
+  }
+  if (argc == 1) {
+    int _v;
+    {
+      _v = lua_isnumber(L,argv[0]);
+    }
+    if (_v) {
+      return _wrap_new_vector_ArtillerySystem__SWIG_1(L);
+    }
+  }
+  if (argc == 2) {
+    int _v;
+    {
+      _v = lua_isnumber(L,argv[0]);
+    }
+    if (_v) {
+      {
+        void *ptr;
+        if (SWIG_isptrtype(L,argv[1])==0 || SWIG_ConvertPtr(L,argv[1], (void **) &ptr, SWIGTYPE_p_ArtillerySystem, 0)) {
+          _v = 0;
+        } else {
+          _v = 1;
+        }
+      }
+      if (_v) {
+        return _wrap_new_vector_ArtillerySystem__SWIG_3(L);
+      }
+    }
+  }
+  
+  SWIG_Lua_pusherrstring(L,"Wrong arguments for overloaded function 'new_vector_ArtillerySystem'\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    std::vector< ArtillerySystem * >::vector()\n"
+    "    std::vector< ArtillerySystem * >::vector(unsigned int)\n"
+    "    std::vector< ArtillerySystem * >::vector(std::vector< ArtillerySystem * > const &)\n"
+    "    std::vector< ArtillerySystem * >::vector(unsigned int,ArtillerySystem *)\n");
+  lua_error(L);return 0;
+}
+
+
+static int _wrap_vector_ArtillerySystem_size(lua_State* L) {
+  int SWIG_arg = 0;
+  std::vector< ArtillerySystem * > *arg1 = (std::vector< ArtillerySystem * > *) 0 ;
+  unsigned int result;
+  
+  SWIG_check_num_args("std::vector< ArtillerySystem * >::size",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("std::vector< ArtillerySystem * >::size",1,"std::vector< ArtillerySystem * > const *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_std__vectorT_ArtillerySystem_p_t,0))){
+    SWIG_fail_ptr("vector_ArtillerySystem_size",1,SWIGTYPE_p_std__vectorT_ArtillerySystem_p_t);
+  }
+  
+  result = (unsigned int)((std::vector< ArtillerySystem * > const *)arg1)->size();
+  lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_vector_ArtillerySystem_max_size(lua_State* L) {
+  int SWIG_arg = 0;
+  std::vector< ArtillerySystem * > *arg1 = (std::vector< ArtillerySystem * > *) 0 ;
+  unsigned int result;
+  
+  SWIG_check_num_args("std::vector< ArtillerySystem * >::max_size",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("std::vector< ArtillerySystem * >::max_size",1,"std::vector< ArtillerySystem * > const *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_std__vectorT_ArtillerySystem_p_t,0))){
+    SWIG_fail_ptr("vector_ArtillerySystem_max_size",1,SWIGTYPE_p_std__vectorT_ArtillerySystem_p_t);
+  }
+  
+  result = (unsigned int)((std::vector< ArtillerySystem * > const *)arg1)->max_size();
+  lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_vector_ArtillerySystem_empty(lua_State* L) {
+  int SWIG_arg = 0;
+  std::vector< ArtillerySystem * > *arg1 = (std::vector< ArtillerySystem * > *) 0 ;
+  bool result;
+  
+  SWIG_check_num_args("std::vector< ArtillerySystem * >::empty",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("std::vector< ArtillerySystem * >::empty",1,"std::vector< ArtillerySystem * > const *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_std__vectorT_ArtillerySystem_p_t,0))){
+    SWIG_fail_ptr("vector_ArtillerySystem_empty",1,SWIGTYPE_p_std__vectorT_ArtillerySystem_p_t);
+  }
+  
+  result = (bool)((std::vector< ArtillerySystem * > const *)arg1)->empty();
+  lua_pushboolean(L,(int)(result!=0)); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_vector_ArtillerySystem_clear(lua_State* L) {
+  int SWIG_arg = 0;
+  std::vector< ArtillerySystem * > *arg1 = (std::vector< ArtillerySystem * > *) 0 ;
+  
+  SWIG_check_num_args("std::vector< ArtillerySystem * >::clear",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("std::vector< ArtillerySystem * >::clear",1,"std::vector< ArtillerySystem * > *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_std__vectorT_ArtillerySystem_p_t,0))){
+    SWIG_fail_ptr("vector_ArtillerySystem_clear",1,SWIGTYPE_p_std__vectorT_ArtillerySystem_p_t);
+  }
+  
+  (arg1)->clear();
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_vector_ArtillerySystem_push_back(lua_State* L) {
+  int SWIG_arg = 0;
+  std::vector< ArtillerySystem * > *arg1 = (std::vector< ArtillerySystem * > *) 0 ;
+  ArtillerySystem *arg2 = (ArtillerySystem *) 0 ;
+  
+  SWIG_check_num_args("std::vector< ArtillerySystem * >::push_back",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("std::vector< ArtillerySystem * >::push_back",1,"std::vector< ArtillerySystem * > *");
+  if(!SWIG_isptrtype(L,2)) SWIG_fail_arg("std::vector< ArtillerySystem * >::push_back",2,"ArtillerySystem *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_std__vectorT_ArtillerySystem_p_t,0))){
+    SWIG_fail_ptr("vector_ArtillerySystem_push_back",1,SWIGTYPE_p_std__vectorT_ArtillerySystem_p_t);
+  }
+  
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,2,(void**)&arg2,SWIGTYPE_p_ArtillerySystem,0))){
+    SWIG_fail_ptr("vector_ArtillerySystem_push_back",2,SWIGTYPE_p_ArtillerySystem);
+  }
+  
+  (arg1)->push_back(arg2);
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_vector_ArtillerySystem_pop_back(lua_State* L) {
+  int SWIG_arg = 0;
+  std::vector< ArtillerySystem * > *arg1 = (std::vector< ArtillerySystem * > *) 0 ;
+  
+  SWIG_check_num_args("std::vector< ArtillerySystem * >::pop_back",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("std::vector< ArtillerySystem * >::pop_back",1,"std::vector< ArtillerySystem * > *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_std__vectorT_ArtillerySystem_p_t,0))){
+    SWIG_fail_ptr("vector_ArtillerySystem_pop_back",1,SWIGTYPE_p_std__vectorT_ArtillerySystem_p_t);
+  }
+  
+  (arg1)->pop_back();
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_vector_ArtillerySystem_front(lua_State* L) {
+  int SWIG_arg = 0;
+  std::vector< ArtillerySystem * > *arg1 = (std::vector< ArtillerySystem * > *) 0 ;
+  ArtillerySystem *result = 0 ;
+  
+  SWIG_check_num_args("std::vector< ArtillerySystem * >::front",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("std::vector< ArtillerySystem * >::front",1,"std::vector< ArtillerySystem * > const *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_std__vectorT_ArtillerySystem_p_t,0))){
+    SWIG_fail_ptr("vector_ArtillerySystem_front",1,SWIGTYPE_p_std__vectorT_ArtillerySystem_p_t);
+  }
+  
+  result = (ArtillerySystem *)((std::vector< ArtillerySystem * > const *)arg1)->front();
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_ArtillerySystem,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_vector_ArtillerySystem_back(lua_State* L) {
+  int SWIG_arg = 0;
+  std::vector< ArtillerySystem * > *arg1 = (std::vector< ArtillerySystem * > *) 0 ;
+  ArtillerySystem *result = 0 ;
+  
+  SWIG_check_num_args("std::vector< ArtillerySystem * >::back",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("std::vector< ArtillerySystem * >::back",1,"std::vector< ArtillerySystem * > const *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_std__vectorT_ArtillerySystem_p_t,0))){
+    SWIG_fail_ptr("vector_ArtillerySystem_back",1,SWIGTYPE_p_std__vectorT_ArtillerySystem_p_t);
+  }
+  
+  result = (ArtillerySystem *)((std::vector< ArtillerySystem * > const *)arg1)->back();
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_ArtillerySystem,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_vector_ArtillerySystem___getitem(lua_State* L) {
+  int SWIG_arg = 0;
+  std::vector< ArtillerySystem * > *arg1 = (std::vector< ArtillerySystem * > *) 0 ;
+  unsigned int arg2 ;
+  ArtillerySystem *result = 0 ;
+  
+  SWIG_check_num_args("std::vector< ArtillerySystem * >::__getitem__",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("std::vector< ArtillerySystem * >::__getitem__",1,"std::vector< ArtillerySystem * > *");
+  if(!lua_isnumber(L,2)) SWIG_fail_arg("std::vector< ArtillerySystem * >::__getitem__",2,"unsigned int");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_std__vectorT_ArtillerySystem_p_t,0))){
+    SWIG_fail_ptr("vector_ArtillerySystem___getitem",1,SWIGTYPE_p_std__vectorT_ArtillerySystem_p_t);
+  }
+  
+  SWIG_contract_assert((lua_tonumber(L,2)>=0),"number must not be negative")
+  arg2 = (unsigned int)lua_tonumber(L, 2);
+  try {
+    result = (ArtillerySystem *)std_vector_Sl_ArtillerySystem_Sm__Sg____getitem__(arg1,arg2);
+  } catch(std::out_of_range &_e) {
+    SWIG_exception(SWIG_IndexError, (&_e)->what());
+  }
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_ArtillerySystem,0); SWIG_arg++; 
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_vector_ArtillerySystem___setitem(lua_State* L) {
+  int SWIG_arg = 0;
+  std::vector< ArtillerySystem * > *arg1 = (std::vector< ArtillerySystem * > *) 0 ;
+  unsigned int arg2 ;
+  ArtillerySystem *arg3 = (ArtillerySystem *) 0 ;
+  
+  SWIG_check_num_args("std::vector< ArtillerySystem * >::__setitem__",3,3)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("std::vector< ArtillerySystem * >::__setitem__",1,"std::vector< ArtillerySystem * > *");
+  if(!lua_isnumber(L,2)) SWIG_fail_arg("std::vector< ArtillerySystem * >::__setitem__",2,"unsigned int");
+  if(!SWIG_isptrtype(L,3)) SWIG_fail_arg("std::vector< ArtillerySystem * >::__setitem__",3,"ArtillerySystem *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_std__vectorT_ArtillerySystem_p_t,0))){
+    SWIG_fail_ptr("vector_ArtillerySystem___setitem",1,SWIGTYPE_p_std__vectorT_ArtillerySystem_p_t);
+  }
+  
+  SWIG_contract_assert((lua_tonumber(L,2)>=0),"number must not be negative")
+  arg2 = (unsigned int)lua_tonumber(L, 2);
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,3,(void**)&arg3,SWIGTYPE_p_ArtillerySystem,0))){
+    SWIG_fail_ptr("vector_ArtillerySystem___setitem",3,SWIGTYPE_p_ArtillerySystem);
+  }
+  
+  try {
+    std_vector_Sl_ArtillerySystem_Sm__Sg____setitem__(arg1,arg2,arg3);
+  } catch(std::out_of_range &_e) {
+    SWIG_exception(SWIG_IndexError, (&_e)->what());
+  }
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _proxy__wrap_new_vector_ArtillerySystem(lua_State *L) {
+    assert(lua_istable(L,1));
+    lua_pushcfunction(L,_wrap_new_vector_ArtillerySystem);
+    assert(!lua_isnil(L,-1));
+    lua_replace(L,1); /* replace our table with real constructor */
+    lua_call(L,lua_gettop(L)-1,1);
+    return 1;
+}
+static swig_lua_attribute swig_vector_ArtillerySystem_attributes[] = {
+    {0,0,0}
+};
+static swig_lua_method swig_vector_ArtillerySystem_methods[]= {
+    { "size", _wrap_vector_ArtillerySystem_size},
+    { "max_size", _wrap_vector_ArtillerySystem_max_size},
+    { "empty", _wrap_vector_ArtillerySystem_empty},
+    { "clear", _wrap_vector_ArtillerySystem_clear},
+    { "push_back", _wrap_vector_ArtillerySystem_push_back},
+    { "pop_back", _wrap_vector_ArtillerySystem_pop_back},
+    { "front", _wrap_vector_ArtillerySystem_front},
+    { "back", _wrap_vector_ArtillerySystem_back},
+    { "__getitem", _wrap_vector_ArtillerySystem___getitem},
+    { "__setitem", _wrap_vector_ArtillerySystem___setitem},
+    {0,0}
+};
+static swig_lua_method swig_vector_ArtillerySystem_meta[] = {
+    { "__getitem", _wrap_vector_ArtillerySystem___getitem},
+    { "__setitem", _wrap_vector_ArtillerySystem___setitem},
+    {0,0}
+};
+
+static swig_lua_attribute swig_vector_ArtillerySystem_Sf_SwigStatic_attributes[] = {
+    {0,0,0}
+};
+static swig_lua_const_info swig_vector_ArtillerySystem_Sf_SwigStatic_constants[]= {
+    {0,0,0,0,0,0}
+};
+static swig_lua_method swig_vector_ArtillerySystem_Sf_SwigStatic_methods[]= {
+    {0,0}
+};
+static swig_lua_class* swig_vector_ArtillerySystem_Sf_SwigStatic_classes[]= {
+    0
+};
+
+static swig_lua_namespace swig_vector_ArtillerySystem_Sf_SwigStatic = {
+    "vector_ArtillerySystem",
+    swig_vector_ArtillerySystem_Sf_SwigStatic_methods,
+    swig_vector_ArtillerySystem_Sf_SwigStatic_attributes,
+    swig_vector_ArtillerySystem_Sf_SwigStatic_constants,
+    swig_vector_ArtillerySystem_Sf_SwigStatic_classes,
+    0
+};
+static swig_lua_class *swig_vector_ArtillerySystem_bases[] = {0};
+static const char *swig_vector_ArtillerySystem_base_names[] = {0};
+static swig_lua_class _wrap_class_vector_ArtillerySystem = { "vector_ArtillerySystem", "vector_ArtillerySystem", &SWIGTYPE_p_std__vectorT_ArtillerySystem_p_t,_proxy__wrap_new_vector_ArtillerySystem,0, swig_vector_ArtillerySystem_methods, swig_vector_ArtillerySystem_attributes, &swig_vector_ArtillerySystem_Sf_SwigStatic, swig_vector_ArtillerySystem_meta, swig_vector_ArtillerySystem_bases, swig_vector_ArtillerySystem_base_names };
 
 static int _wrap_font_text_width(lua_State* L) {
   int SWIG_arg = 0;
@@ -7939,7 +8426,7 @@ static int _wrap_ShipSystem_GetName(lua_State* L) {
   }
   
   result = (std::string *)(arg1)->GetName();
-  SWIG_NewPointerObj(L,result,SWIGTYPE_p_std__string,0); SWIG_arg++; 
+  lua_pushlstring(L,result->data(),result->size()); SWIG_arg++;
   return SWIG_arg;
   
   if(0) SWIG_fail;
@@ -29358,6 +29845,7 @@ static swig_lua_method swig_SwigModule_methods[]= {
 };
 static swig_lua_class* swig_SwigModule_classes[]= {
 &_wrap_class_string,
+&_wrap_class_vector_ArtillerySystem,
 &_wrap_class_HyperspaceVersion,
 &_wrap_class_Global,
 &_wrap_class_CFPS,
@@ -29982,12 +30470,14 @@ static swig_type_info _swigt__p_WeaponBlueprint = {"_p_WeaponBlueprint", "Weapon
 static swig_type_info _swigt__p_WeaponMount = {"_p_WeaponMount", "WeaponMount *", 0, 0, (void*)&_wrap_class_WeaponMount, 0};
 static swig_type_info _swigt__p_WeaponSystem = {"_p_WeaponSystem", "WeaponSystem *", 0, 0, (void*)&_wrap_class_WeaponSystem, 0};
 static swig_type_info _swigt__p_WorldManager = {"_p_WorldManager", "WorldManager *", 0, 0, (void*)&_wrap_class_WorldManager, 0};
+static swig_type_info _swigt__p_difference_type = {"_p_difference_type", "difference_type *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_freetype__font_data = {"_p_freetype__font_data", "freetype::font_data *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_size_type = {"_p_size_type", "size_type *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__mapT_int_ShipBlueprint__SystemTemplate_std__lessT_int_t_t = {"_p_std__mapT_int_ShipBlueprint__SystemTemplate_std__lessT_int_t_t", "std::map< int,ShipBlueprint::SystemTemplate,std::less< int > > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__pairT_float_float_t = {"_p_std__pairT_float_float_t", "std::pair< float,float > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__pairT_int_int_t = {"_p_std__pairT_int_int_t", "std::pair< int,int > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__string = {"_p_std__string", "std::string *", 0, 0, (void*)&_wrap_class_string, 0};
-static swig_type_info _swigt__p_std__vectorT_ArtillerySystem_p_t = {"_p_std__vectorT_ArtillerySystem_p_t", "std::vector< ArtillerySystem * > *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_std__vectorT_ArtillerySystem_p_t = {"_p_std__vectorT_ArtillerySystem_p_t", "std::vector< ArtillerySystem * > *", 0, 0, (void*)&_wrap_class_vector_ArtillerySystem, 0};
 static swig_type_info _swigt__p_std__vectorT_CrewBlueprint_t = {"_p_std__vectorT_CrewBlueprint_t", "std::vector< CrewBlueprint > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__vectorT_CrewMember_p_t = {"_p_std__vectorT_CrewMember_p_t", "std::vector< CrewMember * > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__vectorT_Drone_p_t = {"_p_std__vectorT_Drone_p_t", "std::vector< Drone * > *", 0, 0, (void*)0, 0};
@@ -30004,6 +30494,7 @@ static swig_type_info _swigt__p_std__vectorT_float_t = {"_p_std__vectorT_float_t
 static swig_type_info _swigt__p_std__vectorT_int_t = {"_p_std__vectorT_int_t", "std::vector< int > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__vectorT_std__string_t = {"_p_std__vectorT_std__string_t", "std::vector< std::string > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__vectorT_std__vectorT_int_t_t = {"_p_std__vectorT_std__vectorT_int_t_t", "std::vector< std::vector< int > > *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_value_type = {"_p_value_type", "value_type *", 0, 0, (void*)0, 0};
 
 static swig_type_info *swig_type_initial[] = {
   &_swigt__p_Animation,
@@ -30162,7 +30653,9 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_WeaponSystem,
   &_swigt__p_WeaponSystemBox,
   &_swigt__p_WorldManager,
+  &_swigt__p_difference_type,
   &_swigt__p_freetype__font_data,
+  &_swigt__p_size_type,
   &_swigt__p_std__mapT_int_ShipBlueprint__SystemTemplate_std__lessT_int_t_t,
   &_swigt__p_std__pairT_float_float_t,
   &_swigt__p_std__pairT_int_int_t,
@@ -30184,6 +30677,7 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_std__vectorT_int_t,
   &_swigt__p_std__vectorT_std__string_t,
   &_swigt__p_std__vectorT_std__vectorT_int_t_t,
+  &_swigt__p_value_type,
 };
 
 static swig_cast_info _swigc__p_Animation[] = {  {&_swigt__p_Animation, 0, 0, 0},{0, 0, 0, 0}};
@@ -30342,7 +30836,9 @@ static swig_cast_info _swigc__p_WeaponBlueprint[] = {  {&_swigt__p_WeaponBluepri
 static swig_cast_info _swigc__p_WeaponMount[] = {  {&_swigt__p_WeaponMount, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_WeaponSystem[] = {  {&_swigt__p_WeaponSystem, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_WorldManager[] = {  {&_swigt__p_WorldManager, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_difference_type[] = {  {&_swigt__p_difference_type, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_freetype__font_data[] = {  {&_swigt__p_freetype__font_data, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_size_type[] = {  {&_swigt__p_size_type, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__mapT_int_ShipBlueprint__SystemTemplate_std__lessT_int_t_t[] = {  {&_swigt__p_std__mapT_int_ShipBlueprint__SystemTemplate_std__lessT_int_t_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__pairT_float_float_t[] = {  {&_swigt__p_std__pairT_float_float_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__pairT_int_int_t[] = {  {&_swigt__p_std__pairT_int_int_t, 0, 0, 0},{0, 0, 0, 0}};
@@ -30364,6 +30860,7 @@ static swig_cast_info _swigc__p_std__vectorT_float_t[] = {  {&_swigt__p_std__vec
 static swig_cast_info _swigc__p_std__vectorT_int_t[] = {  {&_swigt__p_std__vectorT_int_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__vectorT_std__string_t[] = {  {&_swigt__p_std__vectorT_std__string_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__vectorT_std__vectorT_int_t_t[] = {  {&_swigt__p_std__vectorT_std__vectorT_int_t_t, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_value_type[] = {  {&_swigt__p_value_type, 0, 0, 0},{0, 0, 0, 0}};
 
 static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_Animation,
@@ -30522,7 +31019,9 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_WeaponSystem,
   _swigc__p_WeaponSystemBox,
   _swigc__p_WorldManager,
+  _swigc__p_difference_type,
   _swigc__p_freetype__font_data,
+  _swigc__p_size_type,
   _swigc__p_std__mapT_int_ShipBlueprint__SystemTemplate_std__lessT_int_t_t,
   _swigc__p_std__pairT_float_float_t,
   _swigc__p_std__pairT_int_int_t,
@@ -30544,6 +31043,7 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_std__vectorT_int_t,
   _swigc__p_std__vectorT_std__string_t,
   _swigc__p_std__vectorT_std__vectorT_int_t_t,
+  _swigc__p_value_type,
 };
 
 
@@ -30887,7 +31387,12 @@ const char* SWIG_LUACODE=
   "    })\n"
   "\n"
   "\n"
-  "    print \"Hyperspace SWIG Lua loaded\"";
+  "    print \"Hyperspace SWIG Lua loaded\"\n"
+  "--    function runStarted()\n"
+  "--        local artillery = Hyperspace.ships.player.artillerySystems\n"
+  "--        print(\"HAS ARTILLERY: \" .. artillery)\n"
+  "--    end\n"
+  "--    script.on_game_event(\"START_BEACON\", false, runStarted)";
 
 void SWIG_init_user(lua_State* L)
 {
