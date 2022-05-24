@@ -100,17 +100,6 @@ struct CFPS
 
 %luacode {
     print "Hyperspace SWIG Lua loaded"
-    
-    --function fixTheHangar()
-    --    local world = Hyperspace.Global.GetInstance():GetCApp().world
-    --    world.starMap.currentLoc.space = world.space:SwitchBackground(world.starMap.currentLoc.spaceImage)
-    --end
-    --script.on_game_event("START_BEACON", true, fixTheHangar)
-
-    function runStarted()
-        print("OH MY GOD THE RUN STARTED")
-    end
-    script.on_game_event("START_BEACON", false, runStarted)
 }
 
 %ignore "";
