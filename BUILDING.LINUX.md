@@ -1,26 +1,26 @@
 ## Building
 
-Install boost C++ library
+We currently build in CodeBlocks... someone could setup CMake and or GNU Autotools for us but currently we don't use a makefile at all...
+So, you'll need *CodeBlocks* installed
+
+Install several libraries needed for building
+Boost C++ library
+libSDL2 (and the 32-bit version)
+liblua5.3-dev (you can probably use liblua5.4-dev without issue but current code is built against 5.3)
 On Ubuntu it's
-`sudo apt-get install libboost-all-dev`
+`sudo apt-get install libboost-all-dev lua5.3 liblua5.3-dev libsdl2-dev:i386 libsdl2-dev`
 
 You need `gcc` and all the basic C dev stuff
-TODO: Put some better info here :P
 `sudo apt-get install build-essential gcc-multilib g++-multilib`
-***NOTE*** You need **`gcc-4.8`** ideally `4.8.4` or `4.8.5` (FTL was built with 4.8.4) Ubuntu 20.04 does not have GCC 4 as an option.
-***NOTE*** Any gcc `4.9.0` or above *will not work* due to a change in the C++11 libraries that occurred after FTL was built
-
-If you are on an older version of Ubuntu (or your distro has a copy of 4.8 in it) you might be able to install it with your package manager like
-`sudo apt-get install gcc-4.8-multilib g++-4.8-multilib` (on Ubuntu Xenial at least or if you have the xenial source added to Ubuntu)
-
-You need `libsdl2-dev` and the 32-bit version
-`sudo apt-get install libsdl2-dev:i386 libsdl2-dev`
-
-Not sure if we can use a lesser library.
+***NOTE*** You need **`gcc-4.8`** ideally `4.8.4` or `4.8.5` (FTL was built with 4.8.4)
+***NOTE*** Any gcc `4.9.0` or above ***will not work*** due to a change in the C++11 libraries that occurred after FTL was built
 
 ### Installing GCC 4.8
 Honestly go look up some info online for your specific distro, you can probably find a .deb or .rpm file of GCC 4.8.4 or 4.8.5 for your distro
 https://gcc.gnu.org/wiki/InstallingGCC
+
+If you are on an older version of Ubuntu (or your distro has a copy of 4.8 in it) you might be able to install it with your package manager like
+`sudo apt-get install gcc-4.8-multilib g++-4.8-multilib` (on Ubuntu Xenial at least or if you have the xenial source added to Ubuntu)
 
 On Ubuntu 20.04
 Go add
@@ -59,19 +59,13 @@ ln -s /usr/lib/gcc/x86_64-linux-gnu/4.8 4.8
 If GCC 4.8 was the only version of GCC on the system this would not be neccessary, but if you have multiple versions of GCC it's best to create this toolchain folder so Clang can be told to use this specific toolchain rather than guessing which version of GCC's libraries to use (since we need it explicitly to use 4.8 anyways)
 
 ## Building ZHL files
-Instal Lua, I don't know exactly which version but on Windows they use 5.1 so at least that.
-I used 5.3
+Install Lua
 You'll also need luarocks to install some lua libraries
 
 ```sh
-> sudo apt-get install lua5.3 liblua5.3-dev luarocks
+> sudo apt-get install lua5.3 luarocks
 > sudo luarocks install luafilesystem
 > sudo luarocks install lpeg
 ```
+Now `libzhlgen/parsefuncs.sh` can be run to generate the game hooks
 
-
-#### Makefile stuff
-```sh
-> make -f Makefile.x86.unix
-> make -f Makefile.x86.unix clean
-```
