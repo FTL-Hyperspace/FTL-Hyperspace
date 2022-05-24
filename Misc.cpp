@@ -9,6 +9,7 @@ HOOK_METHOD(CrewEquipBox, RemoveItem, () -> int)
 {
     LOG_HOOK("HOOK_METHOD -> CrewEquipBox::RemoveItem -> Begin (Misc.cpp)\n")
     int ret = super();
+    // TODO: R4V3ON Really wants this to be an option to disable in a custom options menu (or maybe in hyperspace.xml)
     G_->GetSoundControl()->PlaySoundMix("airLoss", -1.f, false);
     return ret;
 }

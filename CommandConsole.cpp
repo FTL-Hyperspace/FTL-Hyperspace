@@ -67,7 +67,7 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
         }
         return true;
     }
-    if (cmdName == "DELETECREW")
+    if (cmdName == "DELETECREW" || cmdName == "COOLSWORDBRO")
     {
         if (commandGui->shipComplete->shipManager->current_target)
         {
@@ -80,6 +80,7 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
     }
     if (cmdName == "SPEED" && command.length() > 5)
     {
+        // TODO: In the future we could force vsync off by calling `graphics_set_display_attr("vsync", 0);`
         try
         {
             int speedFactor = boost::lexical_cast<int>(boost::trim_copy(command.substr(6)));
@@ -91,6 +92,11 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
         }
 
         return true;
+    }
+    if (cmdName == "LUA" && command.length() > 3)
+    {
+        std::string luaCode = boost::trim_copy(command.substr(4));
+        Global::GetInstance()->getLuaContext()->runLuaString(luaCode);
     }
     if (cmdName == "DAMAGESYS" && command.length() > 9)
     {

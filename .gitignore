@@ -21,3 +21,5 @@ FTL_HyperspaceGCC.depend
 # KDE Dolphin
 *.directory
 
+# Doxygen
+docs/*

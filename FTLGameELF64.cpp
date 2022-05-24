@@ -9732,36 +9732,17 @@ int Room::GetEmptySlots(bool intruder)
 namespace _func762
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("Room::DO_NOT_HOOK", typeid(void (Room::*)()), ".0fb6d2488b4f504863c64c8d049500000000", nullptr, 0, 0, &func);
-}
-
-namespace _func763
-{
-	static void *func = 0;
-	static FunctionDefinition funcObj("Room::FillSlot", typeid(void (Room::*)(int , bool )), ".0fb6d2488b4f504863c64c8d049500000000", nullptr, 0, 0, &func);
-}
-
-void Room::FillSlot(int slot, bool intruder)
-{
-	typedef void (*custom_arg_funcptr_t)(Room *this_arg, int slot_arg, bool intruder_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func763::func;
-	return execfunc(this, slot, intruder);
-}
-
-namespace _func764
-{
-	static void *func = 0;
 	static FunctionDefinition funcObj("Room::Full", typeid(bool (Room::*)(bool )), ".488b4750400fb6f6", nullptr, 0, 0, &func);
 }
 
 bool Room::Full(bool intruder)
 {
 	typedef bool (*custom_arg_funcptr_t)(Room *this_arg, bool intruder_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func764::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func762::func;
 	return execfunc(this, intruder);
 }
 
-namespace _func765
+namespace _func763
 {
 	static void *func = 0;
 	static FunctionDefinition funcObj("Room::GetEmptySlot", typeid(int (Room::*)(bool )), ".4084f689f2", nullptr, 0, 0, &func);
@@ -9770,8 +9751,27 @@ namespace _func765
 int Room::GetEmptySlot(bool intruder)
 {
 	typedef int (*custom_arg_funcptr_t)(Room *this_arg, bool intruder_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func765::func;
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func763::func;
 	return execfunc(this, intruder);
+}
+
+namespace _func764
+{
+	static void *func = 0;
+	static FunctionDefinition funcObj("Room::DO_NOT_HOOK", typeid(void (Room::*)()), ".0fb6d2488b4f504863c64c8d049500000000", nullptr, 0, 0, &func);
+}
+
+namespace _func765
+{
+	static void *func = 0;
+	static FunctionDefinition funcObj("Room::FillSlot", typeid(void (Room::*)(int , bool )), ".0fb6d2488b4f504863c64c8d049500000000", nullptr, 0, 0, &func);
+}
+
+void Room::FillSlot(int slot, bool intruder)
+{
+	typedef void (*custom_arg_funcptr_t)(Room *this_arg, int slot_arg, bool intruder_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func765::func;
+	return execfunc(this, slot, intruder);
 }
 
 namespace _func766

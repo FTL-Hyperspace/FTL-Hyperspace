@@ -151,7 +151,7 @@ HOOK_METHOD_PRIORITY(StarMap, LoadGame, 9999, (int fd) -> Location*)
             }
             else
             {
-                loc->space.tex = G_->GetResources()->GetImageId(loc->spaceImage);
+                loc->space = Global::GetInstance()->GetWorld()->space.SwitchBackground(loc->spaceImage);
             }
             if (loc->planetImage == "NONE")
             {

@@ -134,12 +134,17 @@ void Global::Initialize()
     }
 
     logFile = fopen("FTL_HS.log", "w");
+    
+    printf("Starting Lua\n");
+    m_luaScript = new LuaScriptInit();
+    printf("Lua Inited\n");
 
 
 #ifdef _WIN32
     // TODO: Find out how to set the Window text on Linux
     SetWindowTextA((HWND)GetModuleHandle(NULL), "FTL: Hyperspace");
 #endif
+    // TODO: Set window title by calling SIL's `graphics_set_window_title`, this is crossplatform, it's an extern so it could be gotten without a signature but a signature might be easier because of how we have the game loaded.
     printf("Hyperspace initialized\n");
 }
 
