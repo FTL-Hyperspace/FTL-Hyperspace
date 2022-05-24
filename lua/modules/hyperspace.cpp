@@ -9162,6 +9162,8 @@ static int _wrap_ShipSystem_AddLock(lua_State* L) {
   }
   
   arg2 = (int)lua_tonumber(L, 2);
+  SWIG_contract_assert((arg2>=-1)&&(arg2<6), "Contract violation: require: (arg2>=-1)&&(arg2<6)");
+  
   (arg1)->AddLock(arg2);
   
   return SWIG_arg;
@@ -31388,11 +31390,7 @@ const char* SWIG_LUACODE=
   "\n"
   "\n"
   "    print \"Hyperspace SWIG Lua loaded\"\n"
-  "--    function runStarted()\n"
-  "--        local artillery = Hyperspace.ships.player.artillerySystems\n"
-  "--        print(\"HAS ARTILLERY: \" .. artillery)\n"
-  "--    end\n"
-  "--    script.on_game_event(\"START_BEACON\", false, runStarted)";
+  "    _G[\"mods\"] = {}";
 
 void SWIG_init_user(lua_State* L)
 {

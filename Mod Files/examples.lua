@@ -32,20 +32,49 @@ script.on_game_event("DETERGENT_MODE", false, tidePod_eat)
 
 local tideMode_seconds = 0
 function tidePod_renderEffects_before()
-    tideMode_seconds = tideMode_seconds + Hyperspace.FPS.speedFactor
-    if tideMode_seconds > 10 then
-        tideMode_seconds = 0
-    end
+    if mods.hsFun.tideMode then
+        tideMode_seconds = tideMode_seconds + Hyperspace.FPS.SpeedFactor
+        if tideMode_seconds > 10 then
+            tideMode_seconds = 0
+        end
 
-    if tideMode_seconds > 5 then
-        Graphics.CSurface:GL_PushMatrix()
-        Graphics.CSurface:GL_Scale(0.5, 0.5, 1.0)
-    elseif tideMode_seconds > 5 then
-    end
+        if tideMode_seconds > 5 then
+            Graphics.CSurface.GL_PushMatrix()
+            Graphics.CSurface.GL_Scale(1.1, 1.1, 1.0)
+        elseif tideMode_seconds > 5 then
+        end
+    else
 end
 function tidePod_renderEffects_after()
-    if tideMode_seconds > 5 then
-        Graphics.CSurface:GL_PopMatrix()
+    if mods.hsFun.tideMode then
+        if tideMode_seconds > 5 then
+            Graphics.CSurface.GL_PopMatrix()
+        end
     end
 end
 script.on_render_event(Defines.RenderEvents.LAYER_BACKGROUND, tidePod_renderEffects_before, tidePod_renderEffects_after)
+
+-----
+-- Damage the second artillery system on a ship (or repair with a negative number)
+-- Note! Even though Lua uses arrays indexed at 1, things passed over from C start with indexes of 0! So 1 is actually the second artillerySystem here!
+Hyperspace.ships.player.artillerySystems[1]:AddDamage(1) -- Add one bar of damage, -1 would repair one bar
+
+-- Lose 50% power on artillery system #2 when hitting this event (you could easily use random32 to do this to choose between artilleries, or to choose between which system you select)
+-- NOTE: It looks like `SetPowerLoss` and `SetPowerCap` are similar, not sure the difference yet.
+function loseArty2()
+    local artillery = Hyperspace.ships.player.artillerySystems
+    if artillery then
+        if artillery:size() > 1 then
+            local curMaxPower = artillery[1]:GetMaxPower()
+            artillery[1]:SetPowerLoss(curMaxPower / 2)
+        end
+    end
+end
+script.on_game_event("SOME_EVENT_WHERE_WE_LOSE_ARTY_2", false, loseArty2)
+
+-- Upgrade a system 2 levels, by force (does not pay attention to the max levels declared in the XML, you can exceed what you normally allow the ship to upgrade to)
+Hyperspace.ships.player.oxygenSystem:UpgradeSystem(2)
+
+
+-- Haven't figured the corect image path for this one yet (or if x & y need to be values other than 0) but this should set the floor image texture of ArtillerySystem #2 assuming it loaded a correct texture
+Hyperspace.ships.player.artillerySystems[1].interiorImage = Hyperspace.Resources:CreateImagePrimitiveString("img/ship/interior/room_battery_orchid_2.png", 0, 0, 0, Graphics.GL_Color(0.5, 0.5, 0.5, 1.0), 1.0, false)

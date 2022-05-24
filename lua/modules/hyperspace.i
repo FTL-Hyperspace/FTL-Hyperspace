@@ -118,6 +118,13 @@ struct CFPS
 
 %luacode {
     print "Hyperspace SWIG Lua loaded"
+    _G["mods"] = {}
+}
+
+%contract ShipSystem::AddLock(int lock) {
+    require:
+        lock >= -1;
+        lock < 6;
 }
 
 %ignore "";
