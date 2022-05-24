@@ -759,3 +759,17 @@ struct CSurface
 %clearnodefaultctor;
 %clearnodefaultdtor;
 %mutable;
+
+%nodefaultctor freetype;
+%nodefaultdtor freetype;
+struct freetype
+{
+	static Pointf easy_measurePrintLines(int fontSize, float x, float y, int line_length, const std::string &text);
+	static int easy_measureWidth(int fontSize, const std::string &text);
+	static Pointf easy_print(int fontSize, float x, float y, const std::string &text);
+	static Pointf easy_printAutoNewlines(int fontSize, float x, float y, int line_length, const std::string &text);
+	static void easy_printAutoShrink(int fontId, float x, float y, int maxWidth, bool centered, const std::string &text);
+	static Pointf easy_printCenter(int fontSize, float x, float y, const std::string &text);
+	static Pointf easy_printNewlinesCentered(int fontSize, float x, float y, int line_length, const std::string &text);
+	static Pointf easy_printRightAlign(int fontSize, float x, float y, const std::string &text);
+};

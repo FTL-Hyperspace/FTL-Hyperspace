@@ -2718,13 +2718,14 @@ SWIG_Lua_dostring(lua_State *L, const char *str) {
 #define SWIGTYPE_p_GL_Texture swig_types[6]
 #define SWIGTYPE_p_Point swig_types[7]
 #define SWIGTYPE_p_Pointf swig_types[8]
-#define SWIGTYPE_p_std__string swig_types[9]
-#define SWIGTYPE_p_std__vectorT_GL_ColorTexVertex_t swig_types[10]
-#define SWIGTYPE_p_std__vectorT_GL_Line_t swig_types[11]
-#define SWIGTYPE_p_std__vectorT_GL_TexVertex_t swig_types[12]
-#define SWIGTYPE_p_std__vectorT_Globals__Rect_t swig_types[13]
-static swig_type_info *swig_types[15];
-static swig_module_info swig_module = {swig_types, 14, 0, 0, 0, 0};
+#define SWIGTYPE_p_freetype swig_types[9]
+#define SWIGTYPE_p_std__string swig_types[10]
+#define SWIGTYPE_p_std__vectorT_GL_ColorTexVertex_t swig_types[11]
+#define SWIGTYPE_p_std__vectorT_GL_Line_t swig_types[12]
+#define SWIGTYPE_p_std__vectorT_GL_TexVertex_t swig_types[13]
+#define SWIGTYPE_p_std__vectorT_Globals__Rect_t swig_types[14]
+static swig_type_info *swig_types[16];
+static swig_module_info swig_module = {swig_types, 15, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -6929,6 +6930,315 @@ static swig_lua_class *swig_CSurface_bases[] = {0};
 static const char *swig_CSurface_base_names[] = {0};
 static swig_lua_class _wrap_class_CSurface = { "CSurface", "CSurface", &SWIGTYPE_p_CSurface,0,0, swig_CSurface_methods, swig_CSurface_attributes, &swig_CSurface_Sf_SwigStatic, swig_CSurface_meta, swig_CSurface_bases, swig_CSurface_base_names };
 
+static int _wrap_freetype_easy_measurePrintLines(lua_State* L) {
+  int SWIG_arg = 0;
+  int arg1 ;
+  float arg2 ;
+  float arg3 ;
+  int arg4 ;
+  std::string *arg5 = 0 ;
+  std::string temp5 ;
+  Pointf result;
+  
+  SWIG_check_num_args("freetype::easy_measurePrintLines",5,5)
+  if(!lua_isnumber(L,1)) SWIG_fail_arg("freetype::easy_measurePrintLines",1,"int");
+  if(!lua_isnumber(L,2)) SWIG_fail_arg("freetype::easy_measurePrintLines",2,"float");
+  if(!lua_isnumber(L,3)) SWIG_fail_arg("freetype::easy_measurePrintLines",3,"float");
+  if(!lua_isnumber(L,4)) SWIG_fail_arg("freetype::easy_measurePrintLines",4,"int");
+  if(!lua_isstring(L,5)) SWIG_fail_arg("freetype::easy_measurePrintLines",5,"std::string const &");
+  arg1 = (int)lua_tonumber(L, 1);
+  arg2 = (float)lua_tonumber(L, 2);
+  arg3 = (float)lua_tonumber(L, 3);
+  arg4 = (int)lua_tonumber(L, 4);
+  temp5.assign(lua_tostring(L,5),lua_rawlen(L,5)); arg5=&temp5;
+  result = freetype::easy_measurePrintLines(arg1,arg2,arg3,arg4,(std::string const &)*arg5);
+  {
+    Pointf * resultptr = new Pointf((const Pointf &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_Pointf,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_freetype_easy_measureWidth(lua_State* L) {
+  int SWIG_arg = 0;
+  int arg1 ;
+  std::string *arg2 = 0 ;
+  std::string temp2 ;
+  int result;
+  
+  SWIG_check_num_args("freetype::easy_measureWidth",2,2)
+  if(!lua_isnumber(L,1)) SWIG_fail_arg("freetype::easy_measureWidth",1,"int");
+  if(!lua_isstring(L,2)) SWIG_fail_arg("freetype::easy_measureWidth",2,"std::string const &");
+  arg1 = (int)lua_tonumber(L, 1);
+  temp2.assign(lua_tostring(L,2),lua_rawlen(L,2)); arg2=&temp2;
+  result = (int)freetype::easy_measureWidth(arg1,(std::string const &)*arg2);
+  lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_freetype_easy_print(lua_State* L) {
+  int SWIG_arg = 0;
+  int arg1 ;
+  float arg2 ;
+  float arg3 ;
+  std::string *arg4 = 0 ;
+  std::string temp4 ;
+  Pointf result;
+  
+  SWIG_check_num_args("freetype::easy_print",4,4)
+  if(!lua_isnumber(L,1)) SWIG_fail_arg("freetype::easy_print",1,"int");
+  if(!lua_isnumber(L,2)) SWIG_fail_arg("freetype::easy_print",2,"float");
+  if(!lua_isnumber(L,3)) SWIG_fail_arg("freetype::easy_print",3,"float");
+  if(!lua_isstring(L,4)) SWIG_fail_arg("freetype::easy_print",4,"std::string const &");
+  arg1 = (int)lua_tonumber(L, 1);
+  arg2 = (float)lua_tonumber(L, 2);
+  arg3 = (float)lua_tonumber(L, 3);
+  temp4.assign(lua_tostring(L,4),lua_rawlen(L,4)); arg4=&temp4;
+  result = freetype::easy_print(arg1,arg2,arg3,(std::string const &)*arg4);
+  {
+    Pointf * resultptr = new Pointf((const Pointf &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_Pointf,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_freetype_easy_printAutoNewlines(lua_State* L) {
+  int SWIG_arg = 0;
+  int arg1 ;
+  float arg2 ;
+  float arg3 ;
+  int arg4 ;
+  std::string *arg5 = 0 ;
+  std::string temp5 ;
+  Pointf result;
+  
+  SWIG_check_num_args("freetype::easy_printAutoNewlines",5,5)
+  if(!lua_isnumber(L,1)) SWIG_fail_arg("freetype::easy_printAutoNewlines",1,"int");
+  if(!lua_isnumber(L,2)) SWIG_fail_arg("freetype::easy_printAutoNewlines",2,"float");
+  if(!lua_isnumber(L,3)) SWIG_fail_arg("freetype::easy_printAutoNewlines",3,"float");
+  if(!lua_isnumber(L,4)) SWIG_fail_arg("freetype::easy_printAutoNewlines",4,"int");
+  if(!lua_isstring(L,5)) SWIG_fail_arg("freetype::easy_printAutoNewlines",5,"std::string const &");
+  arg1 = (int)lua_tonumber(L, 1);
+  arg2 = (float)lua_tonumber(L, 2);
+  arg3 = (float)lua_tonumber(L, 3);
+  arg4 = (int)lua_tonumber(L, 4);
+  temp5.assign(lua_tostring(L,5),lua_rawlen(L,5)); arg5=&temp5;
+  result = freetype::easy_printAutoNewlines(arg1,arg2,arg3,arg4,(std::string const &)*arg5);
+  {
+    Pointf * resultptr = new Pointf((const Pointf &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_Pointf,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_freetype_easy_printAutoShrink(lua_State* L) {
+  int SWIG_arg = 0;
+  int arg1 ;
+  float arg2 ;
+  float arg3 ;
+  int arg4 ;
+  bool arg5 ;
+  std::string *arg6 = 0 ;
+  std::string temp6 ;
+  
+  SWIG_check_num_args("freetype::easy_printAutoShrink",6,6)
+  if(!lua_isnumber(L,1)) SWIG_fail_arg("freetype::easy_printAutoShrink",1,"int");
+  if(!lua_isnumber(L,2)) SWIG_fail_arg("freetype::easy_printAutoShrink",2,"float");
+  if(!lua_isnumber(L,3)) SWIG_fail_arg("freetype::easy_printAutoShrink",3,"float");
+  if(!lua_isnumber(L,4)) SWIG_fail_arg("freetype::easy_printAutoShrink",4,"int");
+  if(!lua_isboolean(L,5)) SWIG_fail_arg("freetype::easy_printAutoShrink",5,"bool");
+  if(!lua_isstring(L,6)) SWIG_fail_arg("freetype::easy_printAutoShrink",6,"std::string const &");
+  arg1 = (int)lua_tonumber(L, 1);
+  arg2 = (float)lua_tonumber(L, 2);
+  arg3 = (float)lua_tonumber(L, 3);
+  arg4 = (int)lua_tonumber(L, 4);
+  arg5 = (lua_toboolean(L, 5)!=0);
+  temp6.assign(lua_tostring(L,6),lua_rawlen(L,6)); arg6=&temp6;
+  freetype::easy_printAutoShrink(arg1,arg2,arg3,arg4,arg5,(std::string const &)*arg6);
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_freetype_easy_printCenter(lua_State* L) {
+  int SWIG_arg = 0;
+  int arg1 ;
+  float arg2 ;
+  float arg3 ;
+  std::string *arg4 = 0 ;
+  std::string temp4 ;
+  Pointf result;
+  
+  SWIG_check_num_args("freetype::easy_printCenter",4,4)
+  if(!lua_isnumber(L,1)) SWIG_fail_arg("freetype::easy_printCenter",1,"int");
+  if(!lua_isnumber(L,2)) SWIG_fail_arg("freetype::easy_printCenter",2,"float");
+  if(!lua_isnumber(L,3)) SWIG_fail_arg("freetype::easy_printCenter",3,"float");
+  if(!lua_isstring(L,4)) SWIG_fail_arg("freetype::easy_printCenter",4,"std::string const &");
+  arg1 = (int)lua_tonumber(L, 1);
+  arg2 = (float)lua_tonumber(L, 2);
+  arg3 = (float)lua_tonumber(L, 3);
+  temp4.assign(lua_tostring(L,4),lua_rawlen(L,4)); arg4=&temp4;
+  result = freetype::easy_printCenter(arg1,arg2,arg3,(std::string const &)*arg4);
+  {
+    Pointf * resultptr = new Pointf((const Pointf &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_Pointf,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_freetype_easy_printNewlinesCentered(lua_State* L) {
+  int SWIG_arg = 0;
+  int arg1 ;
+  float arg2 ;
+  float arg3 ;
+  int arg4 ;
+  std::string *arg5 = 0 ;
+  std::string temp5 ;
+  Pointf result;
+  
+  SWIG_check_num_args("freetype::easy_printNewlinesCentered",5,5)
+  if(!lua_isnumber(L,1)) SWIG_fail_arg("freetype::easy_printNewlinesCentered",1,"int");
+  if(!lua_isnumber(L,2)) SWIG_fail_arg("freetype::easy_printNewlinesCentered",2,"float");
+  if(!lua_isnumber(L,3)) SWIG_fail_arg("freetype::easy_printNewlinesCentered",3,"float");
+  if(!lua_isnumber(L,4)) SWIG_fail_arg("freetype::easy_printNewlinesCentered",4,"int");
+  if(!lua_isstring(L,5)) SWIG_fail_arg("freetype::easy_printNewlinesCentered",5,"std::string const &");
+  arg1 = (int)lua_tonumber(L, 1);
+  arg2 = (float)lua_tonumber(L, 2);
+  arg3 = (float)lua_tonumber(L, 3);
+  arg4 = (int)lua_tonumber(L, 4);
+  temp5.assign(lua_tostring(L,5),lua_rawlen(L,5)); arg5=&temp5;
+  result = freetype::easy_printNewlinesCentered(arg1,arg2,arg3,arg4,(std::string const &)*arg5);
+  {
+    Pointf * resultptr = new Pointf((const Pointf &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_Pointf,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_freetype_easy_printRightAlign(lua_State* L) {
+  int SWIG_arg = 0;
+  int arg1 ;
+  float arg2 ;
+  float arg3 ;
+  std::string *arg4 = 0 ;
+  std::string temp4 ;
+  Pointf result;
+  
+  SWIG_check_num_args("freetype::easy_printRightAlign",4,4)
+  if(!lua_isnumber(L,1)) SWIG_fail_arg("freetype::easy_printRightAlign",1,"int");
+  if(!lua_isnumber(L,2)) SWIG_fail_arg("freetype::easy_printRightAlign",2,"float");
+  if(!lua_isnumber(L,3)) SWIG_fail_arg("freetype::easy_printRightAlign",3,"float");
+  if(!lua_isstring(L,4)) SWIG_fail_arg("freetype::easy_printRightAlign",4,"std::string const &");
+  arg1 = (int)lua_tonumber(L, 1);
+  arg2 = (float)lua_tonumber(L, 2);
+  arg3 = (float)lua_tonumber(L, 3);
+  temp4.assign(lua_tostring(L,4),lua_rawlen(L,4)); arg4=&temp4;
+  result = freetype::easy_printRightAlign(arg1,arg2,arg3,(std::string const &)*arg4);
+  {
+    Pointf * resultptr = new Pointf((const Pointf &) result);
+    SWIG_NewPointerObj(L,(void *) resultptr,SWIGTYPE_p_Pointf,1); SWIG_arg++;
+  }
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static swig_lua_attribute swig_freetype_attributes[] = {
+    {0,0,0}
+};
+static swig_lua_method swig_freetype_methods[]= {
+    {0,0}
+};
+static swig_lua_method swig_freetype_meta[] = {
+    {0,0}
+};
+
+static swig_lua_attribute swig_freetype_Sf_SwigStatic_attributes[] = {
+    {0,0,0}
+};
+static swig_lua_const_info swig_freetype_Sf_SwigStatic_constants[]= {
+    {0,0,0,0,0,0}
+};
+static swig_lua_method swig_freetype_Sf_SwigStatic_methods[]= {
+    { "easy_measurePrintLines", _wrap_freetype_easy_measurePrintLines},
+    { "easy_measureWidth", _wrap_freetype_easy_measureWidth},
+    { "easy_print", _wrap_freetype_easy_print},
+    { "easy_printAutoNewlines", _wrap_freetype_easy_printAutoNewlines},
+    { "easy_printAutoShrink", _wrap_freetype_easy_printAutoShrink},
+    { "easy_printCenter", _wrap_freetype_easy_printCenter},
+    { "easy_printNewlinesCentered", _wrap_freetype_easy_printNewlinesCentered},
+    { "easy_printRightAlign", _wrap_freetype_easy_printRightAlign},
+    {0,0}
+};
+static swig_lua_class* swig_freetype_Sf_SwigStatic_classes[]= {
+    0
+};
+
+static swig_lua_namespace swig_freetype_Sf_SwigStatic = {
+    "freetype",
+    swig_freetype_Sf_SwigStatic_methods,
+    swig_freetype_Sf_SwigStatic_attributes,
+    swig_freetype_Sf_SwigStatic_constants,
+    swig_freetype_Sf_SwigStatic_classes,
+    0
+};
+static swig_lua_class *swig_freetype_bases[] = {0};
+static const char *swig_freetype_base_names[] = {0};
+static swig_lua_class _wrap_class_freetype = { "freetype", "freetype", &SWIGTYPE_p_freetype,0,0, swig_freetype_methods, swig_freetype_attributes, &swig_freetype_Sf_SwigStatic, swig_freetype_meta, swig_freetype_bases, swig_freetype_base_names };
+
 static swig_lua_attribute swig_SwigModule_attributes[] = {
     {0,0,0}
 };
@@ -6983,6 +7293,14 @@ static swig_lua_method swig_SwigModule_methods[]= {
     { "CSurface_GL_SetStencilMode", _wrap_CSurface_GL_SetStencilMode},
     { "CSurface_GL_Translate", _wrap_CSurface_GL_Translate},
     { "CSurface_GetColorTint", _wrap_CSurface_GetColorTint},
+    { "freetype_easy_measurePrintLines", _wrap_freetype_easy_measurePrintLines},
+    { "freetype_easy_measureWidth", _wrap_freetype_easy_measureWidth},
+    { "freetype_easy_print", _wrap_freetype_easy_print},
+    { "freetype_easy_printAutoNewlines", _wrap_freetype_easy_printAutoNewlines},
+    { "freetype_easy_printAutoShrink", _wrap_freetype_easy_printAutoShrink},
+    { "freetype_easy_printCenter", _wrap_freetype_easy_printCenter},
+    { "freetype_easy_printNewlinesCentered", _wrap_freetype_easy_printNewlinesCentered},
+    { "freetype_easy_printRightAlign", _wrap_freetype_easy_printRightAlign},
     {0,0}
 };
 static swig_lua_class* swig_SwigModule_classes[]= {
@@ -6994,6 +7312,7 @@ static swig_lua_class* swig_SwigModule_classes[]= {
 &_wrap_class_GL_Line,
 &_wrap_class_GL_TexVertex,
 &_wrap_class_CSurface,
+&_wrap_class_freetype,
     0
 };
 static swig_lua_namespace* swig_SwigModule_namespaces[] = {
@@ -7023,6 +7342,7 @@ static swig_type_info _swigt__p_GL_TexVertex = {"_p_GL_TexVertex", "GL_TexVertex
 static swig_type_info _swigt__p_GL_Texture = {"_p_GL_Texture", "GL_Texture *", 0, 0, (void*)&_wrap_class_GL_Texture, 0};
 static swig_type_info _swigt__p_Point = {"_p_Point", "Point *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Pointf = {"_p_Pointf", "Pointf *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_freetype = {"_p_freetype", "freetype *", 0, 0, (void*)&_wrap_class_freetype, 0};
 static swig_type_info _swigt__p_std__string = {"_p_std__string", "std::string *", 0, 0, (void*)&_wrap_class_string, 0};
 static swig_type_info _swigt__p_std__vectorT_GL_ColorTexVertex_t = {"_p_std__vectorT_GL_ColorTexVertex_t", "std::vector< GL_ColorTexVertex > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__vectorT_GL_Line_t = {"_p_std__vectorT_GL_Line_t", "std::vector< GL_Line > *", 0, 0, (void*)0, 0};
@@ -7039,6 +7359,7 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_GL_Texture,
   &_swigt__p_Point,
   &_swigt__p_Pointf,
+  &_swigt__p_freetype,
   &_swigt__p_std__string,
   &_swigt__p_std__vectorT_GL_ColorTexVertex_t,
   &_swigt__p_std__vectorT_GL_Line_t,
@@ -7055,6 +7376,7 @@ static swig_cast_info _swigc__p_GL_TexVertex[] = {  {&_swigt__p_GL_TexVertex, 0,
 static swig_cast_info _swigc__p_GL_Texture[] = {  {&_swigt__p_GL_Texture, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Point[] = {  {&_swigt__p_Point, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Pointf[] = {  {&_swigt__p_Pointf, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_freetype[] = {  {&_swigt__p_freetype, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__string[] = {  {&_swigt__p_std__string, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__vectorT_GL_ColorTexVertex_t[] = {  {&_swigt__p_std__vectorT_GL_ColorTexVertex_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__vectorT_GL_Line_t[] = {  {&_swigt__p_std__vectorT_GL_Line_t, 0, 0, 0},{0, 0, 0, 0}};
@@ -7071,6 +7393,7 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_GL_Texture,
   _swigc__p_Point,
   _swigc__p_Pointf,
+  _swigc__p_freetype,
   _swigc__p_std__string,
   _swigc__p_std__vectorT_GL_ColorTexVertex_t,
   _swigc__p_std__vectorT_GL_Line_t,
