@@ -1,4 +1,6 @@
-"41554c63ea41544989fc5589cd5389f34883ec28":
+"534863d289f34883ec20488b07":
+cleanup __amd64 Point ShipGraph::GetSlotWorldPosition(ShipGraph *this, int slotId, int roomId);
+".41554c63ea41544989fc5589cd5389f34883ec28":
 cleanup __amd64 Point ShipGraph::GetSlotRenderPosition(ShipGraph *this, int slotId, int roomId, bool intruder);
 ".488b4f30488b573831c04829ca48c1fa02":
 cleanup __amd64 int ShipGraph::DoorCount(ShipGraph *this, int roomId);

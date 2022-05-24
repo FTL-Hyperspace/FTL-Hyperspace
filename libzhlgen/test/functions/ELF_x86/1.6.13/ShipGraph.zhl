@@ -1,5 +1,7 @@
 "575381ec84000000a1????????":
 static cleanup __cdecl ShipGraph* ShipGraph::GetShipInfo(int shipId);
+"5589e5565383ec208b550c8b4d14":
+cleanup __cdecl Point ShipGraph::GetSlotWorldPosition(ShipGraph *this, int slotId, int roomId);
 "5589e557565383ec4c8b7d0c8b75148b4518":
 cleanup __cdecl Point ShipGraph::GetSlotRenderPosition(ShipGraph *this, int slotId, int roomId, bool intruder);
 "538b4424088b4c240c8b58188b501c":

@@ -20,3 +20,5 @@ cleanup __cdecl void CrewControl::SelectPotentialCrew(CrewControl *this, CrewMem
 cleanup __cdecl void CrewControl::KeyDown(CrewControl *this, SDLKey key);
 "5557565383ec1c8b742430807e3000":
 cleanup __cdecl void CrewControl::RButton(CrewControl *this, int mX, int mY, bool shiftHeld);
+"5557565383ec1c807c243400":
+cleanup __cdecl void CrewControl::SelectCrew(CrewControl *this, bool keep_current);
