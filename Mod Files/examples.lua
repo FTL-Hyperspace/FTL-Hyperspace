@@ -41,7 +41,6 @@ function tidePod_renderEffects_before()
         if tideMode_seconds > 5 then
             Graphics.CSurface.GL_PushMatrix()
             Graphics.CSurface.GL_Scale(1.1, 1.1, 1.0)
-        elseif tideMode_seconds > 5 then
         end
     else
 end
