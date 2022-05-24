@@ -13,7 +13,6 @@ ZHL files are:
 - `SigScan.h`
 - `libzhlgen/lua/parsefuncs.lua`
 - `libzhlgen/lua/cparser.lua`
-- `libzhlgen/test/python/*` (all files within folder)
 - `libzhlgen/test/IDA Formatting.txt`
 - `libzhlgen/test/generate.bat`
 
