@@ -2923,10 +2923,10 @@ void CombatControl::constructor()
 namespace _func226
 {
 	static void *func = 0;
-	static FunctionDefinition funcObj("CombatControl::RenderSelfAiming", typeid(void (CombatControl::*)()), "534889fb488d7f204883ec20e8", nullptr, 0, 0, &func);
+	static FunctionDefinition funcObj("CombatControl::OnRenderSelfAiming", typeid(void (CombatControl::*)()), "534889fb488d7f204883ec20e8", nullptr, 0, 0, &func);
 }
 
-void CombatControl::RenderSelfAiming()
+void CombatControl::OnRenderSelfAiming()
 {
 	typedef void (*custom_arg_funcptr_t)(CombatControl *this_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func226::func;

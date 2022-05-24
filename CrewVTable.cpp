@@ -227,6 +227,7 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, -1000, () -> void)
 
 HOOK_METHOD(CrewMember, MoveToRoom, (int roomId, int slotId, bool bForceMove) -> bool)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewMember::MoveToRoom -> Begin (CrewVTable.cpp)\n")
     if (currentCrewLoop == this)
     {
         bool canMove;

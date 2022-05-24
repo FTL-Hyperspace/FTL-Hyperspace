@@ -3188,10 +3188,10 @@ namespace _func229
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff};
-	static FunctionDefinition funcObj("CombatControl::RenderSelfAiming", typeid(void (CombatControl::*)()), "5589e55383ec348b5d088d4314", argdata, 1, 6, &func);
+	static FunctionDefinition funcObj("CombatControl::OnRenderSelfAiming", typeid(void (CombatControl::*)()), "5589e55383ec348b5d088d4314", argdata, 1, 6, &func);
 }
 
-void CombatControl::RenderSelfAiming()
+void CombatControl::OnRenderSelfAiming()
 {
 	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(CombatControl *this_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func229::func;

@@ -533,9 +533,9 @@ HOOK_METHOD(ShipManager, RenderChargeBars, () -> void)
     }
 }
 
-HOOK_METHOD(CombatControl, RenderSelfAiming, () -> void)
+HOOK_METHOD(CombatControl, OnRenderSelfAiming, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> CombatControl::RenderSelfAiming -> Begin (TemporalSystem.cpp)\n")
+    LOG_HOOK("HOOK_METHOD -> CombatControl::OnRenderSelfAiming -> Begin (TemporalSystem.cpp)\n")
     super();
 
     if (shipManager->HasSystem(SYS_TEMPORAL))

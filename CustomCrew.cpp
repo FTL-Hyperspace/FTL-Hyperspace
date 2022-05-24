@@ -5482,6 +5482,7 @@ HOOK_METHOD(CrewControl, MouseMove, (int mX, int mY, int wX, int wY) -> void)
 
 HOOK_METHOD(CrewControl, SelectCrew, (bool keep_current) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewControl::SelectCrew -> Begin (CustomCrew.cpp)\n")
     if (keep_current)
     {
         potentialSelectedCrew.erase(std::remove_if(potentialSelectedCrew.begin(), potentialSelectedCrew.end(), [this](CrewMember* crew)
@@ -6220,6 +6221,7 @@ bool CrewMember_Extend::CanTeleportMove(bool toOtherShip)
 
 HOOK_METHOD(CrewMember, StartTeleport, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewMember::StartTeleport -> Begin (CustomCrew.cpp)\n")
     super();
     CM_EX(this)->customTele.teleporting = true;
 }
@@ -6234,6 +6236,7 @@ void CrewMember_Extend::InitiateTeleport(int shipId, int roomId, int slotId)
 
 HOOK_METHOD(CompleteShip, InitiateTeleport, (int targetRoom, int command) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CompleteShip::InitiateTeleport -> Begin (CustomCrew.cpp)\n")
     super(targetRoom, command);
 
     bool customTeleports = false;
@@ -6345,6 +6348,7 @@ HOOK_METHOD(CompleteShip, InitiateTeleport, (int targetRoom, int command) -> voi
 
 HOOK_METHOD(CrewMember, CheckForTeleport, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CrewMember::CheckForTeleport -> Begin (CustomCrew.cpp)\n")
     super();
 
     if (currentShipId == -1)
@@ -6519,6 +6523,7 @@ HOOK_METHOD(CrewControl, RButton, (int x, int y, bool shiftHeld) -> void)
 // convenient spot for rendering crew teleports on enemy ship
 HOOK_METHOD(ShipManager, RenderChargeBars, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::RenderChargeBars -> Begin (CustomCrew.cpp)\n")
     super();
 
     for (CrewMember *crew : G_->GetCrewFactory()->crewMembers)
@@ -6550,6 +6555,7 @@ HOOK_METHOD(ShipManager, RenderChargeBars, () -> void)
 
 HOOK_METHOD(CombatControl, OnRenderSelfAiming, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CombatControl::OnRenderSelfAiming -> Begin (CustomCrew.cpp)\n")
     super();
 
     for (CrewMember *crew : G_->GetCrewFactory()->crewMembers)
@@ -6581,6 +6587,7 @@ HOOK_METHOD(CombatControl, OnRenderSelfAiming, () -> void)
 
 HOOK_METHOD(ShipManager, GetLeavingCrew, (bool intruders) -> std::vector<CrewMember*>)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::GetLeavingCrew -> Begin (CustomCrew.cpp)\n")
     std::vector<CrewMember*> ret;
 
     for (CrewMember *crew : vCrewList)

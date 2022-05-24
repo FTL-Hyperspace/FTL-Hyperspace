@@ -3779,7 +3779,7 @@ struct CombatControl
 	LIBZHL_API void OnInit(Point pos);
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void OnRenderCombat();
-	LIBZHL_API void RenderSelfAiming();
+	LIBZHL_API void OnRenderSelfAiming();
 	LIBZHL_API void RenderShipStatus(Pointf pos, GL_Color color);
 	LIBZHL_API void RenderTarget();
 	LIBZHL_API bool SelectTarget();
