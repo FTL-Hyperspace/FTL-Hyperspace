@@ -120,11 +120,6 @@ struct CFPS
 /* %rename("%s") ScoreKeeper::gamesPlayed; */
 /* %rename("%(regex:/^ScoreKeeper::(.*)$/\\1/)s", regextarget=1, fullname=1) "ScoreKeeper::.*"; */
 
-%nodefaultctor ResourceControl;
-%rename("%s") ResourceControl;
-%rename("%s") ResourceControl::GetImageId;
-%newobject ResourceControl::GetImageId;
-
 %nodefaultctor CApp;
 //%rename("%s") CEvent::TextEvent;
 //%rename("%s") CEvent::OnEvent;
@@ -371,14 +366,6 @@ struct CFPS
 %rename("%s") StatusEffect::target;
 */
 
-%rename("%s") Point;
-%rename("%s") Point::Point;
-// TODO: Figure out how to unignore operator overloads
-%rename("%s") Point::Distance;
-%rename("%s") Point::RelativeDistance;
-%rename("%s") Point::x;
-%rename("%s") Point::y;
-
 /*
 %nodefaultctor NebulaCloud;
 %rename("%s") NebulaCloud;
@@ -402,7 +389,771 @@ struct CFPS
 %rename("%s") Location::planetImage;
 
 
-// TODO: Expose ShipManager & BoardingEvent, BoardingEvent needs default constructor
+%rename("%s") BoardingEvent;
+%rename("%s") BoardingEvent::type;
+%rename("%s") BoardingEvent::min;
+%rename("%s") BoardingEvent::max;
+%rename("%s") BoardingEvent::amount;
+%rename("%s") BoardingEvent::breach;
+
+
+// TODO: Expose ShipManager
+%rename("%s") ShipManager;
+%nodefaultctor ShipManager;
+%nodefaultdtor ShipManager;
+//%rename("%s") ShipManager::AddAugmentation; // Might prefer this be done via an event? Not sure.
+//%rename("%s") ShipManager::ClearShipInfo;
+%rename("%s") ShipManager::GetAugmentationCount;
+%rename("%s") ShipManager::GetAugmentationList;
+%rename("%s") ShipManager::GetAugmentationValue;
+%rename("%s") ShipManager::HasAugmentation;
+%rename("%s") ShipManager::HasEquipment;
+//%rename("%s") ShipManager::RemoveAugmentation; // Might prefer this be done via an event? Not sure.
+%rename("%s") ShipManager::iShipId;
+%rename("%s") ShipManager::GetRandomRoomCenter;
+%rename("%s") ShipManager::GetRoomCenter;
+%rename("%s") ShipManager::GetAvailablePower;
+//%rename("%s") ShipManager::AddCrewMemberFromBlueprint; // Might prefer via event. Might need to specify that this creates a new object for cleanup?
+//%rename("%s") ShipManager::AddCrewMemberFromString; // Might prefer via event. Might need to specify that this creates a new object for cleanup?
+//%rename("%s") ShipManager::AddDrone; // Might prefer via event. Might need to specify that this creates a new object for cleanup?
+//%rename("%s") ShipManager::AddEquipmentFromList; // Might prefer via event?
+//%rename("%s") ShipManager::AddInitialCrew;
+%rename("%s") ShipManager::AddSystem;
+//%rename("%s") ShipManager::AddWeapon; // Might prefer via event?
+%rename("%s") ShipManager::CanFitSubsystem;
+%rename("%s") ShipManager::CanFitSystem;
+%rename("%s") ShipManager::CanUpgrade;
+%rename("%s") ShipManager::ClearStatusAll;
+%rename("%s") ShipManager::ClearStatusSystem;
+//%rename("%s") ShipManager::CollisionMoving; // TODO: Expose CollisionResponse
+//%rename("%s") ShipManager::CommandCrewMoveRoom; // TODO: Needs CrewMember first maybe?
+%rename("%s") ShipManager::CountCrew; // Count crew on this ship, true for boarders false for regular crewmembers.
+%rename("%s") ShipManager::CountCrewShipId; // Count crew on the specific ship & room
+//%rename("%s") ShipManager::CreateCrewDrone; // Use Events
+//%rename("%s") ShipManager::CreateSpaceDrone; // Use Events
+%rename("%s") ShipManager::DamageArea;
+%rename("%s") ShipManager::DamageBeam;
+//%rename("%s") ShipManager::DamageCrew;
+%rename("%s") ShipManager::DamageHull;
+%rename("%s") ShipManager::DamageSystem;
+%rename("%s") ShipManager::DoSensorsProvide;
+%rename("%s") ShipManager::DoorsFunction;
+//%rename("%s") ShipManager::FindCrew; // TODO: requires exposing the CrewBlueprint, this might be better solved with a different method like finding a crew by name?
+%rename("%s") ShipManager::ForceDecreaseSystemPower;
+%rename("%s") ShipManager::GetCrewmember;
+%rename("%s") ShipManager::GetDodgeFactor;
+%rename("%s") ShipManager::GetDodged; // Don't know what this represents
+%rename("%s") ShipManager::GetDroneCount;
+%rename("%s") ShipManager::GetDroneList;
+%rename("%s") ShipManager::GetFireCount; // Get number of fires in a room, could be quite useful for computing damage
+%rename("%s") ShipManager::GetOxygenPercentage; // Ship's oxygen (not per-room)
+%rename("%s") ShipManager::GetSelectedCrewPoint;
+%rename("%s") ShipManager::GetShieldPower;
+%rename("%s") ShipManager::GetSystem; // Get a system by its id
+%rename("%s") ShipManager::GetSystemInRoom;
+%rename("%s") ShipManager::GetSystemPower;
+%rename("%s") ShipManager::GetSystemPowerMax;
+%rename("%s") ShipManager::GetSystemRoom;
+%rename("%s") ShipManager::GetTooltip;
+%rename("%s") ShipManager::GetWeaponList;
+%rename("%s") ShipManager::HasSystem;
+%rename("%s") ShipManager::InstantPowerShields;
+%rename("%s") ShipManager::IsCrewFull;
+%rename("%s") ShipManager::IsCrewOverFull;
+%rename("%s") ShipManager::IsSystemHacked;
+%rename("%s") ShipManager::ModifyDroneCount;
+%rename("%s") ShipManager::ModifyMissileCount;
+%rename("%s") ShipManager::ModifyScrapCount;
+%rename("%s") ShipManager::PrepareSuperBarrage;
+%rename("%s") ShipManager::PrepareSuperDrones;
+%rename("%s") ShipManager::RemoveItem;
+%rename("%s") ShipManager::ResetScrapLevel;
+%rename("%s") ShipManager::RestoreCrewPositions;
+%rename("%s") ShipManager::SelectRandomCrew;
+%rename("%s") ShipManager::SetDestroyed;
+%rename("%s") ShipManager::SetSystemPowerLoss;
+%rename("%s") ShipManager::StartFire; // TODO: add this to examples for fun Hyperspace.ships.player:StartFire(1)
+%rename("%s") ShipManager::SystemFunctions;
+%rename("%s") ShipManager::TeleportCrew; // Teleport crew & get back the list of CrewMembers.
+%immutable ShipManager::vSystemList;
+%rename("%s") ShipManager::vSystemList;
+%immutable ShipManager::oxygenSystem;
+%rename("%s") ShipManager::oxygenSystem;
+%immutable ShipManager::teleportSystem;
+%rename("%s") ShipManager::teleportSystem;
+%immutable ShipManager::cloakSystem;
+%rename("%s") ShipManager::cloakSystem;
+%immutable ShipManager::batterySystem;
+%rename("%s") ShipManager::batterySystem;
+%immutable ShipManager::mindSystem;
+%rename("%s") ShipManager::mindSystem;
+%immutable ShipManager::cloneSystem;
+%rename("%s") ShipManager::cloneSystem;
+%immutable ShipManager::hackingSystem;
+%rename("%s") ShipManager::hackingSystem;
+//%rename("%s") ShipManager::showNetwork;
+//%rename("%s") ShipManager::addedSystem;
+%immutable ShipManager::shieldSystem;
+%rename("%s") ShipManager::shieldSystem;
+%immutable ShipManager::weaponSystem;
+%rename("%s") ShipManager::weaponSystem;
+%immutable ShipManager::droneSystem;
+%rename("%s") ShipManager::droneSystem;
+%immutable ShipManager::engineSystem;
+%rename("%s") ShipManager::engineSystem;
+%immutable ShipManager::medbaySystem;
+%rename("%s") ShipManager::medbaySystem;
+%immutable ShipManager::artillerySystems;
+%rename("%s") ShipManager::artillerySystems;
+%immutable ShipManager::vCrewList;
+%rename("%s") ShipManager::vCrewList;
+//%rename("%s") ShipManager::fireSpreader;
+//%rename("%s") ShipManager::ship;
+//%rename("%s") ShipManager::statusMessages;
+//%rename("%s") ShipManager::bGameOver;
+////%rename("%s") ShipManager::current_target; // Probably just use `Hyperspace.ships.enemy` instead?
+%immutable ShipManager::jump_timer;
+%rename("%s") ShipManager::jump_timer;
+%immutable ShipManager::fuel_count;
+%rename("%s") ShipManager::fuel_count;
+//%immutable ShipManager::hostile_ship;
+//%rename("%s") ShipManager::hostile_ship;
+//%rename("%s") ShipManager::bDestroyed;
+%immutable ShipManager::iLastDamage;
+%rename("%s") ShipManager::iLastDamage;
+//%rename("%s") ShipManager::damMessages;
+//%rename("%s") ShipManager::systemKey;
+%immutable ShipManager::currentScrap;
+%rename("%s") ShipManager::currentScrap;
+%immutable ShipManager::bJumping;
+%rename("%s") ShipManager::bJumping;
+%immutable ShipManager::bAutomated;
+%rename("%s") ShipManager::bAutomated;
+%immutable ShipManager::shipLevel;
+%rename("%s") ShipManager::shipLevel;
+%immutable ShipManager::myBlueprint;
+%rename("%s") ShipManager::myBlueprint;
+%immutable ShipManager::lastEngineStatus;
+%rename("%s") ShipManager::lastEngineStatus;
+%immutable ShipManager::lastJumpReady;
+%rename("%s") ShipManager::lastJumpReady;
+%immutable ShipManager::bContainsPlayerCrew;
+%rename("%s") ShipManager::bContainsPlayerCrew;
+%immutable ShipManager::iIntruderCount;
+%rename("%s") ShipManager::iIntruderCount;
+%immutable ShipManager::crewCounts;
+%rename("%s") ShipManager::crewCounts;
+%immutable ShipManager::tempDroneCount;
+%rename("%s") ShipManager::tempDroneCount;
+%immutable ShipManager::tempMissileCount;
+%rename("%s") ShipManager::tempMissileCount;
+%immutable ShipManager::tempVision;
+%rename("%s") ShipManager::tempVision;
+%rename("%s") ShipManager::bHighlightCrew;
+%rename("%s") ShipManager::bShowRoom;
+%rename("%s") ShipManager::superBarrage;
+%rename("%s") ShipManager::bInvincible;
+%rename("%s") ShipManager::superDrones;
+%rename("%s") ShipManager::failedDodgeCounter;
+//%immutable ShipManager::hitByBeam;
+//%rename("%s") ShipManager::hitByBeam;
+%rename("%s") ShipManager::enemyDamagedUncloaked;
+%rename("%s") ShipManager::damageCloaked;
+//%immutable ShipManager::killedByBeam;
+//%rename("%s") ShipManager::killedByBeam;
+//%rename("%s") ShipManager::minBeaconHealth;
+//%immutable ShipManager::fireExtinguishers;
+//%rename("%s") ShipManager::fireExtinguishers;
+//%rename("%s") ShipManager::bWasSafe;
+
+%nodefaultctors OxygenSystem;
+%nodefaultdtors OxygenSystem;
+%rename("%s") OxygenSystem;
+%rename("%s") OxygenSystem::EmptyOxygen;
+%rename("%s") OxygenSystem::GetRefillSpeed;
+%rename("%s") OxygenSystem::ModifyRoomOxygen;
+%rename("%s") OxygenSystem::max_oxygen;
+%rename("%s") OxygenSystem::oxygenLevels;
+%rename("%s") OxygenSystem::fTotalOxygen;
+%immutable OxygenSystem::bLeakingO2;
+%rename("%s") OxygenSystem::bLeakingO2;
+
+%nodefaultctors TeleportSystem;
+%nodefaultdtors TeleportSystem;
+%rename("%s") TeleportSystem;
+%rename("%s") TeleportSystem::CanReceive;
+%rename("%s") TeleportSystem::CanSend;
+%rename("%s") TeleportSystem::Charged;
+%rename("%s") TeleportSystem::ForceReady;
+%rename("%s") TeleportSystem::GetChargedPercent;
+%rename("%s") TeleportSystem::InitiateTeleport;
+%rename("%s") TeleportSystem::SetArmed;
+%rename("%s") TeleportSystem::SetHackingLevel;
+%rename("%s") TeleportSystem::chargeLevel;
+%rename("%s") TeleportSystem::bCanSend;
+%rename("%s") TeleportSystem::bCanReceive;
+%rename("%s") TeleportSystem::iArmed;
+%rename("%s") TeleportSystem::crewSlots;
+%rename("%s") TeleportSystem::iPreparedCrew;
+%rename("%s") TeleportSystem::iNumSlots;
+%rename("%s") TeleportSystem::bSuperShields;
+
+%nodefaultctors CloakingSystem;
+%nodefaultdtors CloakingSystem;
+%rename("%s") CloakingSystem;
+%rename("%s") CloakingSystem::bTurnedOn;
+%rename("%s") CloakingSystem::soundeffect;
+
+%nodefaultctors BatterySystem;
+%nodefaultdtors BatterySystem;
+%rename("%s") BatterySystem;
+%rename("%s") BatterySystem::bTurnedOn;
+%rename("%s") BatterySystem::soundeffect;
+
+%nodefaultctors MindSystem;
+%nodefaultdtors MindSystem;
+%rename("%s") MindSystem;
+%rename("%s") MindSystem::SetArmed;
+%rename("%s") MindSystem::controlTimer;
+%rename("%s") MindSystem::bCanUse;
+%rename("%s") MindSystem::iArmed;
+%rename("%s") MindSystem::controlledCrew;
+%rename("%s") MindSystem::bSuperShields;
+%rename("%s") MindSystem::bBlocked;
+%rename("%s") MindSystem::iQueuedTarget;
+%rename("%s") MindSystem::iQueuedShip;
+%rename("%s") MindSystem::queuedCrew;
+
+%nodefaultctors CloneSystem;
+%nodefaultdtors CloneSystem;
+%rename("%s") CloneSystem;
+%rename("%s") CloneSystem::fTimeToClone;
+%rename("%s") CloneSystem::clone;
+%rename("%s") CloneSystem::fTimeGoal;
+%rename("%s") CloneSystem::fDeathTime;
+%rename("%s") CloneSystem::slot;
+
+%nodefaultctors HackingSystem;
+%nodefaultdtors HackingSystem;
+%rename("%s") HackingSystem;
+%rename("%s") HackingSystem::BlowHackingDrone;
+%rename("%s") HackingSystem::bHacking;
+//%rename("%s") HackingSystem::drone;
+%rename("%s") HackingSystem::bBlocked;
+%rename("%s") HackingSystem::bArmed;
+%rename("%s") HackingSystem::currentSystem;
+%rename("%s") HackingSystem::effectTimer;
+%rename("%s") HackingSystem::bCanHack;
+%rename("%s") HackingSystem::queuedSystem;
+%rename("%s") HackingSystem::spendDrone;
+
+%nodefaultctors Shields;
+%nodefaultdtors Shields;
+%rename("%s") Shields;
+/*
+%nodefaultctors Shields::Shield;
+%nodefaultdtors Shields::Shield;
+%rename("%s") Shields::Shield;
+%rename("%s") Shields::Shield::charger;
+%rename("%s") Shields::Shield::power;
+%rename("%s") Shields::Shield::superTimer;
+*/
+/*
+%nodefaultctors Shields::ShieldAnimation;
+%nodefaultdtors Shields::ShieldAnimation;
+%rename("%s") Shields::ShieldAnimation;
+%rename("%s") Shields::ShieldAnimation::location;
+%rename("%s") Shields::ShieldAnimation::current_size;
+%rename("%s") Shields::ShieldAnimation::end_size;
+%rename("%s") Shields::ShieldAnimation::current_thickness;
+%rename("%s") Shields::ShieldAnimation::end_thickness;
+%rename("%s") Shields::ShieldAnimation::length;
+%rename("%s") Shields::ShieldAnimation::dx;
+%rename("%s") Shields::ShieldAnimation::side;
+%rename("%s") Shields::ShieldAnimation::ownerId;
+%rename("%s") Shields::ShieldAnimation::damage;
+*/
+%rename("%s") Shields::AddSuperShield;
+%rename("%s") Shields::CollisionReal;
+%rename("%s") Shields::InstantCharge;
+%rename("%s") Shields::SetBaseEllipse;
+%rename("%s") Shields::ellipseRatio;
+%rename("%s") Shields::center;
+%rename("%s") Shields::baseShield;
+%rename("%s") Shields::iHighlightedSide;
+%rename("%s") Shields::shields;
+%rename("%s") Shields::shields_shutdown;
+%rename("%s") Shields::shieldHits;
+%rename("%s") Shields::shieldsDown;
+%rename("%s") Shields::superShieldDown;
+%rename("%s") Shields::shieldsDownPoint;
+%rename("%s") Shields::shieldsUp;
+%rename("%s") Shields::shieldImage;
+%rename("%s") Shields::shieldPrimitive;
+%rename("%s") Shields::shieldImageName;
+%rename("%s") Shields::bEnemyPresent;
+//%rename("%s") Shields::damMessages;
+%rename("%s") Shields::bBarrierMode;
+%rename("%s") Shields::lastHitTimer;
+%rename("%s") Shields::chargeTime;
+%rename("%s") Shields::lastHitShieldLevel;
+%rename("%s") Shields::superShieldUp;
+%rename("%s") Shields::superUpLoc;
+%rename("%s") Shields::bExcessChargeHack;
+
+%nodefaultctors WeaponSystem;
+%nodefaultdtors WeaponSystem;
+%rename("%s") WeaponSystem;
+%rename("%s") WeaponSystem::RemoveWeapon;
+%rename("%s") WeaponSystem::SetBonusPower;
+%rename("%s") WeaponSystem::target;
+%rename("%s") WeaponSystem::weapons;
+%rename("%s") WeaponSystem::weaponsTrashList;
+%rename("%s") WeaponSystem::shot_timer;
+%rename("%s") WeaponSystem::shot_count;
+%rename("%s") WeaponSystem::missile_count;
+%rename("%s") WeaponSystem::missile_start;
+%rename("%s") WeaponSystem::userPowered;
+%rename("%s") WeaponSystem::slot_count;
+%rename("%s") WeaponSystem::iStartingBatteryPower;
+%rename("%s") WeaponSystem::repowerList;
+
+%nodefaultctors DroneSystem;
+%nodefaultdtors DroneSystem;
+%rename("%s") DroneSystem;
+%rename("%s") DroneSystem::DePowerDrone;
+%rename("%s") DroneSystem::RemoveDrone;
+%rename("%s") DroneSystem::SetBonusPower;
+%rename("%s") DroneSystem::drones;
+%rename("%s") DroneSystem::drone_count;
+%rename("%s") DroneSystem::drone_start;
+%rename("%s") DroneSystem::targetShip;
+%rename("%s") DroneSystem::userPowered;
+%rename("%s") DroneSystem::slot_count;
+%rename("%s") DroneSystem::iStartingBatteryPower;
+%rename("%s") DroneSystem::repowerList;
+
+%nodefaultctor EngineSystem;
+%nodefaultdtor EngineSystem;
+%rename("%s") EngineSystem;
+%nodefaultctor MedbaySystem;
+%nodefaultdtor MedbaySystem;
+%rename("%s") MedbaySystem;
+
+%nodefaultctors ArtillerySystem;
+%nodefaultdtors ArtillerySystem;
+%rename("%s") ArtillerySystem;
+%rename("%s") ArtillerySystem::projectileFactory;
+%rename("%s") ArtillerySystem::target;
+%rename("%s") ArtillerySystem::bCloaked;
+
+//%nodefaultctors ShipSystem;
+//%nodefaultdtors ShipSystem;
+%rename("%s") ShipSystem;
+%rename("%s") ShipSystem::SetSelected;
+%rename("%s") ShipSystem::GetSelected;
+%rename("%s") ShipSystem::CompletelyDestroyed;
+%rename("%s") ShipSystem::GetName;
+%rename("%s") ShipSystem::SetName;
+%rename("%s") ShipSystem::Repair;
+%rename("%s") ShipSystem::PartialRepair;
+%rename("%s") ShipSystem::PartialDamage;
+%rename("%s") ShipSystem::NeedsRepairing;
+%rename("%s") ShipSystem::Functioning;
+%rename("%s") ShipSystem::CanBeSabotaged;
+%rename("%s") ShipSystem::GetDamage;
+//%rename("%s") ShipSystem::GetLocation; // TODO: Is this a new object?
+//%rename("%s") ShipSystem::GetGridLocation; // TODO: Is this a new object?
+%rename("%s") ShipSystem::SetDamage;
+%rename("%s") ShipSystem::SetMaxDamage;
+%rename("%s") ShipSystem::SetLocation;
+%rename("%s") ShipSystem::GetId;
+%rename("%s") ShipSystem::IsRoomBased;
+%rename("%s") ShipSystem::GetRoomId;
+%rename("%s") ShipSystem::Ioned;
+%rename("%s") ShipSystem::SetRoomId;
+%rename("%s") ShipSystem::SetHackingLevel;
+%rename("%s") ShipSystem::ForceBatteryPower;
+%rename("%s") ShipSystem::RemoveBatteryPower;
+//%rename("%s") ShipSystem::GetWeaponInfo; // New object needs cleanup?
+//%rename("%s") ShipSystem::GetOverrideTooltip; // New object needs cleanup?
+%rename("%s") ShipSystem::CheckMaxPower;
+%rename("%s") ShipSystem::SetBonusPower;
+%rename("%s") ShipSystem::AddDamage;
+%rename("%s") ShipSystem::ForceDecreasePower;
+%rename("%s") ShipSystem::ForceIncreasePower;
+%rename("%s") ShipSystem::StopHacking;
+%rename("%s") ShipSystem::GetNeedsPower;
+%rename("%s") ShipSystem::Clickable;
+%rename("%s") ShipSystem::Powered;
+%rename("%s") ShipSystem::AddLock;
+%rename("%s") ShipSystem::ClearStatus;
+%rename("%s") ShipSystem::DamageOverTime;
+%rename("%s") ShipSystem::DecreasePower;
+%rename("%s") ShipSystem::GetEffectivePower;
+%rename("%s") ShipSystem::GetLevelDescription;
+%rename("%s") ShipSystem::GetLocked;
+%rename("%s") ShipSystem::GetMaxPower;
+%rename("%s") ShipSystem::GetPowerCap;
+%rename("%s") ShipSystem::IncreasePower;
+%rename("%s") ShipSystem::IsMannedBoost;
+%rename("%s") ShipSystem::IsSubsystem;
+%rename("%s") ShipSystem::LockSystem;
+%rename("%s") ShipSystem::NameToSystemId;
+%rename("%s") ShipSystem::SetPowerCap;
+%rename("%s") ShipSystem::SetPowerLoss;
+%rename("%s") ShipSystem::SystemIdToName;
+%rename("%s") ShipSystem::UpgradeSystem;
+//%rename("%s") ShipSystem::selectedState;
+//%rename("%s") ShipSystem::_shipObj;
+%rename("%s") ShipSystem::fDamage;
+%rename("%s") ShipSystem::pLoc;
+%rename("%s") ShipSystem::fMaxDamage;
+%rename("%s") ShipSystem::name;
+%rename("%s") ShipSystem::roomId;
+%rename("%s") ShipSystem::iRepairCount;
+%rename("%s") ShipSystem::iSystemType;
+%rename("%s") ShipSystem::bNeedsManned;
+%rename("%s") ShipSystem::bManned;
+%rename("%s") ShipSystem::iActiveManned;
+%rename("%s") ShipSystem::bBoostable;
+%rename("%s") ShipSystem::powerState;
+%rename("%s") ShipSystem::iRequiredPower;
+//%rename("%s") ShipSystem::imageIcon;
+//%rename("%s") ShipSystem::iconPrimitive;
+//%rename("%s") ShipSystem::iconBorderPrimitive;
+//%rename("%s") ShipSystem::iconPrimitives;
+//%rename("%s") ShipSystem::partialDamageRect;
+//%rename("%s") ShipSystem::lockOutline;
+//%rename("%s") ShipSystem::roomShape;
+%rename("%s") ShipSystem::bOnFire;
+%rename("%s") ShipSystem::bBreached;
+%rename("%s") ShipSystem::healthState;
+%rename("%s") ShipSystem::fDamageOverTime;
+%rename("%s") ShipSystem::fRepairOverTime;
+%rename("%s") ShipSystem::damagedLastFrame;
+%rename("%s") ShipSystem::repairedLastFrame;
+%rename("%s") ShipSystem::originalPower;
+%rename("%s") ShipSystem::bNeedsPower;
+%rename("%s") ShipSystem::iTempPowerCap;
+%rename("%s") ShipSystem::iTempPowerLoss;
+%rename("%s") ShipSystem::iTempDividePower;
+%rename("%s") ShipSystem::iLockCount;
+%rename("%s") ShipSystem::lockTimer;
+%rename("%s") ShipSystem::bExploded;
+%rename("%s") ShipSystem::bOccupied;
+%rename("%s") ShipSystem::bFriendlies;
+%rename("%s") ShipSystem::interiorImageName;
+%rename("%s") ShipSystem::interiorImage;
+%rename("%s") ShipSystem::interiorImageOn;
+%rename("%s") ShipSystem::interiorImageManned;
+%rename("%s") ShipSystem::interiorImageMannedFancy;
+%rename("%s") ShipSystem::lastUserPower;
+%rename("%s") ShipSystem::iBonusPower;
+%rename("%s") ShipSystem::iLastBonusPower;
+%rename("%s") ShipSystem::location;
+%rename("%s") ShipSystem::bpCost;
+%rename("%s") ShipSystem::flashTracker;
+%rename("%s") ShipSystem::maxLevel;
+%rename("%s") ShipSystem::iBatteryPower;
+%rename("%s") ShipSystem::iHackEffect;
+%rename("%s") ShipSystem::bUnderAttack;
+%rename("%s") ShipSystem::bLevelBoostable;
+%rename("%s") ShipSystem::bTriggerIon;
+//%rename("%s") ShipSystem::damagingEffects;
+%rename("%s") ShipSystem::computerLevel;
+
+%nodefaultctors ProjectileFactory;
+%nodefaultdtors ProjectileFactory;
+%rename("%s") ProjectileFactory;
+%rename("%s") ProjectileFactory::Fire;
+%rename("%s") ProjectileFactory::FireNextShot;
+%rename("%s") ProjectileFactory::ForceCoolup;
+%rename("%s") ProjectileFactory::GetProjectile;
+%rename("%s") ProjectileFactory::IsChargedGoal;
+%rename("%s") ProjectileFactory::NumTargetsRequired;
+%rename("%s") ProjectileFactory::SetCooldownModifier;
+%rename("%s") ProjectileFactory::SetCurrentShip;
+%rename("%s") ProjectileFactory::SetHacked;
+//%rename("%s") ProjectileFactory::SpendMissiles;
+//%rename("%s") ProjectileFactory::StringToWeapon;
+%rename("%s") ProjectileFactory::cooldown;
+%rename("%s") ProjectileFactory::subCooldown;
+%rename("%s") ProjectileFactory::baseCooldown;
+%rename("%s") ProjectileFactory::blueprint;
+%rename("%s") ProjectileFactory::localPosition;
+%rename("%s") ProjectileFactory::flight_animation;
+%rename("%s") ProjectileFactory::autoFiring;
+%rename("%s") ProjectileFactory::fireWhenReady;
+%rename("%s") ProjectileFactory::powered;
+%rename("%s") ProjectileFactory::requiredPower;
+%rename("%s") ProjectileFactory::targets;
+%rename("%s") ProjectileFactory::lastTargets;
+%rename("%s") ProjectileFactory::targetId;
+%rename("%s") ProjectileFactory::iAmmo;
+%rename("%s") ProjectileFactory::name;
+%rename("%s") ProjectileFactory::numShots;
+%rename("%s") ProjectileFactory::currentFiringAngle;
+%rename("%s") ProjectileFactory::currentEntryAngle;
+%rename("%s") ProjectileFactory::currentShipTarget;
+%rename("%s") ProjectileFactory::weaponVisual;
+%rename("%s") ProjectileFactory::mount;
+%rename("%s") ProjectileFactory::queuedProjectiles;
+%rename("%s") ProjectileFactory::iBonusPower;
+%rename("%s") ProjectileFactory::bFiredOnce;
+%rename("%s") ProjectileFactory::iSpendMissile;
+%rename("%s") ProjectileFactory::cooldownModifier;
+%rename("%s") ProjectileFactory::shotsFiredAtTarget;
+%rename("%s") ProjectileFactory::radius;
+%rename("%s") ProjectileFactory::boostLevel;
+%rename("%s") ProjectileFactory::lastProjectileId;
+%rename("%s") ProjectileFactory::chargeLevel;
+%rename("%s") ProjectileFactory::iHackLevel;
+%rename("%s") ProjectileFactory::goalChargeLevel;
+%rename("%s") ProjectileFactory::isArtillery;
+
+%nodefaultctors WeaponMount;
+%nodefaultdtors WeaponMount;
+%rename("%s") WeaponMount;
+%rename("%s") WeaponMount::position;
+%rename("%s") WeaponMount::mirror;
+%rename("%s") WeaponMount::rotate;
+%rename("%s") WeaponMount::slide;
+%rename("%s") WeaponMount::gib;
+
+%nodefaultctors WeaponAnimation;
+%nodefaultdtors WeaponAnimation;
+%rename("%s") WeaponAnimation;
+%rename("%s") WeaponAnimation::SetFireTime;
+%rename("%s") WeaponAnimation::anim;
+%rename("%s") WeaponAnimation::bFireShot;
+%rename("%s") WeaponAnimation::bFiring;
+%rename("%s") WeaponAnimation::fChargeLevel;
+%rename("%s") WeaponAnimation::iChargedFrame;
+%rename("%s") WeaponAnimation::iFireFrame;
+%rename("%s") WeaponAnimation::bMirrored;
+%rename("%s") WeaponAnimation::bRotation;
+%rename("%s") WeaponAnimation::fireLocation;
+%rename("%s") WeaponAnimation::bPowered;
+%rename("%s") WeaponAnimation::mountPoint;
+%rename("%s") WeaponAnimation::renderPoint;
+%rename("%s") WeaponAnimation::fireMountVector;
+%rename("%s") WeaponAnimation::slideTracker;
+%rename("%s") WeaponAnimation::slideDirection;
+//%rename("%s") WeaponAnimation::iChargeImage;
+%rename("%s") WeaponAnimation::explosionAnim;
+%rename("%s") WeaponAnimation::mount;
+%rename("%s") WeaponAnimation::fDelayChargeTime;
+%rename("%s") WeaponAnimation::boostAnim;
+%rename("%s") WeaponAnimation::boostLevel;
+%rename("%s") WeaponAnimation::bShowCharge;
+%rename("%s") WeaponAnimation::fActualChargeLevel;
+%rename("%s") WeaponAnimation::iChargeOffset;
+%rename("%s") WeaponAnimation::iChargeLevels;
+%rename("%s") WeaponAnimation::currentOffset;
+//%rename("%s") WeaponAnimation::chargeBox;
+//%rename("%s") WeaponAnimation::chargeBar;
+%rename("%s") WeaponAnimation::iHackLevel;
+%rename("%s") WeaponAnimation::hackSparks;
+%rename("%s") WeaponAnimation::playerShip;
+
+%nodefaultctors Ship;
+%nodefaultdtors Ship;
+%rename("%s") Ship;
+%rename("%s") Ship::DoorStateType;
+%rename("%s") Ship::GetRoomCenter;
+/*
+%nodefaultctors Ship::DoorState;
+%nodefaultdtors Ship::DoorState;
+%rename("%s") Ship::DoorState;
+%rename("%s") Ship::DoorState::state;
+%rename("%s") Ship::DoorState::hacked;
+%rename("%s") Ship::DoorState::level;
+*/
+%rename("%s") Ship::BreachRandomHull;
+%rename("%s") Ship::EmptySlots;
+%rename("%s") Ship::FullRoom;
+%rename("%s") Ship::GetAvailableRoomSlot;
+%rename("%s") Ship::GetBaseEllipse;
+%rename("%s") Ship::GetSelectedRoomId;
+%rename("%s") Ship::LockdownRoom;
+%rename("%s") Ship::RoomLocked;
+%rename("%s") Ship::SetRoomBlackout;
+%rename("%s") Ship::SetSelectedRoom;
+//%rename("%s") Ship::vRoomList; // TODO: Expose Room
+//%rename("%s") Ship::vDoorList; // TODO: Expose Door
+//%rename("%s") Ship::vOuterWalls; // TODO: Expose OuterHull
+//%rename("%s") Ship::vOuterAirlocks;
+%rename("%s") Ship::hullIntegrity;
+%rename("%s") Ship::weaponMounts;
+%rename("%s") Ship::floorImageName;
+%rename("%s") Ship::shipFloor;
+%rename("%s") Ship::floorPrimitive;
+%rename("%s") Ship::shipImageName;
+%rename("%s") Ship::shipImage;
+%rename("%s") Ship::glowOffset;
+%rename("%s") Ship::shipImagePrimitive;
+%rename("%s") Ship::cloakImageName;
+%rename("%s") Ship::shipImageCloak;
+%rename("%s") Ship::cloakPrimitive;
+%rename("%s") Ship::gridPrimitive;
+%rename("%s") Ship::wallsPrimitive;
+%rename("%s") Ship::doorsPrimitive;
+%rename("%s") Ship::doorState;
+%rename("%s") Ship::lastDoorControlMode;
+%rename("%s") Ship::thrustersImage;
+%rename("%s") Ship::jumpGlare;
+%rename("%s") Ship::vertical_shift;
+%rename("%s") Ship::horizontal_shift;
+%rename("%s") Ship::shipName;
+//%rename("%s") Ship::explosion; // TODO: Expose ExplosionAnimation
+%rename("%s") Ship::bDestroyed;
+%rename("%s") Ship::baseEllipse;
+%rename("%s") Ship::engineAnim;
+%rename("%s") Ship::cloakingTracker;
+%rename("%s") Ship::bCloaked;
+%rename("%s") Ship::bExperiment;
+%rename("%s") Ship::bShowEngines;
+//%rename("%s") Ship::lockdowns; // TODO: Expose LockdownShard
+
+// TODO: Make most if not all of ShipBlueprint immutable
+%nodefaultctors ShipBlueprint;
+%nodefaultdtors ShipBlueprint;
+%rename("%s") ShipBlueprint;
+/*
+%nodefaultctors ShipBlueprint::SystemTemplate;
+%nodefaultdtors ShipBlueprint::SystemTemplate;
+%rename("%s") ShipBlueprint::SystemTemplate;
+%rename("%s") ShipBlueprint::SystemTemplate::systemId;
+%rename("%s") ShipBlueprint::SystemTemplate::powerLevel;
+%rename("%s") ShipBlueprint::SystemTemplate::location;
+%rename("%s") ShipBlueprint::SystemTemplate::bp;
+%rename("%s") ShipBlueprint::SystemTemplate::maxPower;
+%rename("%s") ShipBlueprint::SystemTemplate::image;
+%rename("%s") ShipBlueprint::SystemTemplate::slot;
+%rename("%s") ShipBlueprint::SystemTemplate::direction;
+%rename("%s") ShipBlueprint::SystemTemplate::weapon;
+*/
+%rename("%s") ShipBlueprint::desc; // TODO: Expose Description
+%rename("%s") ShipBlueprint::blueprintName;
+%rename("%s") ShipBlueprint::name;
+%rename("%s") ShipBlueprint::shipClass;
+%rename("%s") ShipBlueprint::layoutFile;
+%rename("%s") ShipBlueprint::imgFile;
+%rename("%s") ShipBlueprint::cloakFile;
+%rename("%s") ShipBlueprint::shieldFile;
+%rename("%s") ShipBlueprint::floorFile;
+%rename("%s") ShipBlueprint::systemInfo; // TODO: Expose SystemTemplate
+%rename("%s") ShipBlueprint::systems;
+%rename("%s") ShipBlueprint::droneCount;
+%rename("%s") ShipBlueprint::originalDroneCount;
+%rename("%s") ShipBlueprint::droneSlots;
+%rename("%s") ShipBlueprint::loadDrones;
+%rename("%s") ShipBlueprint::drones;
+%rename("%s") ShipBlueprint::augments;
+%rename("%s") ShipBlueprint::weaponCount;
+%rename("%s") ShipBlueprint::originalWeaponCount;
+%rename("%s") ShipBlueprint::weaponSlots;
+%rename("%s") ShipBlueprint::loadWeapons;
+%rename("%s") ShipBlueprint::weapons;
+%rename("%s") ShipBlueprint::missiles;
+%rename("%s") ShipBlueprint::drone_count;
+%rename("%s") ShipBlueprint::health;
+%rename("%s") ShipBlueprint::originalCrewCount;
+%rename("%s") ShipBlueprint::defaultCrew;
+%rename("%s") ShipBlueprint::customCrew; // TODO: Expose CrewBlueprint
+%rename("%s") ShipBlueprint::maxPower;
+%rename("%s") ShipBlueprint::boardingAI;
+%rename("%s") ShipBlueprint::bp_count;
+%rename("%s") ShipBlueprint::maxCrew;
+%rename("%s") ShipBlueprint::maxSector;
+%rename("%s") ShipBlueprint::minSector;
+%rename("%s") ShipBlueprint::unlock;
+
+//%nodefaultctors Blueprint;
+//%nodefaultdtors Blueprint;
+%rename("%s") Blueprint;
+%rename("%s") Blueprint::GetNameLong;
+%rename("%s") Blueprint::GetNameShort;
+%rename("%s") Blueprint::GetType;
+%rename("%s") Blueprint::name;
+%rename("%s") Blueprint::desc;
+%rename("%s") Blueprint::type;
+
+%nodefaultctor ShieldPower;
+%rename("%s") ShieldPower;
+%rename("%s") ShieldPower::first;
+%rename("%s") ShieldPower::second;
+%rename("%s") ShieldPower::super;
+
+// TODO: Expose DamageParameter (Note it's actually "Damage" maybe need to clean that up)
+%rename("%s") Damage;
+%rename("%s") Damage::iDamage;
+%rename("%s") Damage::iShieldPiercing;
+%rename("%s") Damage::fireChance;
+%rename("%s") Damage::breachChance;
+%rename("%s") Damage::stunChance;
+%rename("%s") Damage::iIonDamage;
+%rename("%s") Damage::iSystemDamage;
+%rename("%s") Damage::iPersDamage;
+%rename("%s") Damage::bHullBuster;
+%rename("%s") Damage::ownerId;
+%rename("%s") Damage::selfId;
+%rename("%s") Damage::bLockdown;
+%rename("%s") Damage::crystalShard;
+%rename("%s") Damage::bFriendlyFire;
+%rename("%s") Damage::iStun;
+
+%rename("%s") AnimationTracker;
+%rename("%s") AnimationTracker::GetAlphaLevel;
+%rename("%s") AnimationTracker::Progress;
+%rename("%s") AnimationTracker::SetLoop;
+%rename("%s") AnimationTracker::SetProgress;
+%rename("%s") AnimationTracker::Start;
+%rename("%s") AnimationTracker::StartReverse;
+%rename("%s") AnimationTracker::Stop;
+%rename("%s") AnimationTracker::time;
+%rename("%s") AnimationTracker::loop;
+%rename("%s") AnimationTracker::current_time;
+%rename("%s") AnimationTracker::running;
+%rename("%s") AnimationTracker::reverse;
+%rename("%s") AnimationTracker::done;
+%rename("%s") AnimationTracker::loopDelay;
+%rename("%s") AnimationTracker::currentDelay;
+
+%rename("%s") TimerHelper;
+%rename("%(regex:/^TimerHelper::(.*)$/\\1/)s", regextarget=1, fullname=1) "TimerHelper::.*";
+
+%nodefaultctors ResourceControl;
+%nodefaultdtors ResourceControl;
+%rename("%s") ResourceControl;
+/*
+%rename("%s") ResourceControl::ImageSwappingMode;
+%rename("%s") ResourceControl::DynamicImageInfo;
+%rename("%s") ResourceControl::DynamicImageInfo::name;
+%rename("%s") ResourceControl::DynamicImageInfo::resid;
+%rename("%s") ResourceControl::LogicalTexInfo;
+%rename("%s") ResourceControl::LogicalTexInfo::physName;
+%rename("%s") ResourceControl::LogicalTexInfo::x;
+%rename("%s") ResourceControl::LogicalTexInfo::y;
+%rename("%s") ResourceControl::LogicalTexInfo::w;
+%rename("%s") ResourceControl::LogicalTexInfo::h;
+*/
+//%newobject ResourceControl::CreateImagePrimitive; // Not sure if needed
+%rename("%s") ResourceControl::CreateImagePrimitive;
+//%newobject ResourceControl::CreateImagePrimitiveString; // Not sure if needed
+%rename("%s") ResourceControl::CreateImagePrimitiveString;
+%rename("%s") ResourceControl::GetFontData;
+//%newobject ResourceControl::GetImageId;
+%rename("%s") ResourceControl::GetImageId;
+%rename("%s") ResourceControl::ImageExists;
+%rename("%s") ResourceControl::RenderImage;
+%rename("%s") ResourceControl::RenderImageString;
+
+%rename("%s") Point;
+%rename("%(regex:/^Point::(.*)$/\\1/)s", regextarget=1, fullname=1) "Point::.*";
+%rename("%s") Pointf;
+%rename("%(regex:/^Pointf::(.*)$/\\1/)s", regextarget=1, fullname=1) "Pointf::.*";
 
 /*
     By default in Codeblocks SWIG settings we don't get the regular preprocessor defines, ideally we should switch between which FTLGame we import.

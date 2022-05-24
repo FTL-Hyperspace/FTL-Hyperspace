@@ -26,6 +26,11 @@ struct InternalEvents
         @treturn uint value of the hull, 0 and the ship explodes.
         // PLAYERSHIP_ON_HULL_DAMAGE,
         */
+        
+        /* TODO Maybe add
+        ShipManager::JumpArrive
+        ShipManager::JumpLeave
+        */
 
         UNKNOWN_MAX // Must always be last, used to check for bounds of enum input value
     };
