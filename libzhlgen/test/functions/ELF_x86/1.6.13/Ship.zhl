@@ -34,6 +34,8 @@ cleanup __cdecl void Ship::SetSelectedRoom(Ship *this, int roomId);
 cleanup __cdecl void Ship::OnLoop(Ship *this, std::vector<float>& oxygenLevels);
 "5557565383ec5c8b7c24708b742474c7442440????????":
 cleanup __cdecl void Ship::BreachRandomHull(Ship *this, int roomId);
+"5589e557565383ec5c8b5510":
+cleanup __cdecl int Ship::GetAvailableRoom(Ship *this, int preferred, bool intruder);
 
 "!39d07d0b(c6840d74fefeff01)":
 noop void* Global__NOP__Ship_OnInit_0;

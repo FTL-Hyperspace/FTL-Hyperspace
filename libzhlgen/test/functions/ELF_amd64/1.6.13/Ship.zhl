@@ -24,6 +24,8 @@ cleanup __amd64 int Ship::GetAvailableRoomSlot(Ship *this, int roomId, bool intr
 cleanup __amd64 int Ship::EmptySlots(Ship *this, int roomId);
 ".488b4f10488b47184829c848c1f80339c6":
 cleanup __amd64 bool Ship::FullRoom(Ship *this, int roomId, bool intruder);
+".41574156440fb6f2415541544189f4554889fd534883ec48":
+cleanup __amd64 int Ship::GetAvailableRoom(Ship *this, int preferred, bool intruder);
 ".41574531ff41564c8db7500400004155440fb6ee41544189d45531ed534889fb4883ec18":
 cleanup __amd64 void Ship::OnRenderWalls(Ship *this, bool forceView, bool doorControlMode);
 ".415741564989fe41554154554889f553488d9f500400004883ec68":

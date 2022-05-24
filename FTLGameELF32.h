@@ -6500,6 +6500,7 @@ struct Ship : ShipObject
 	LIBZHL_API void BreachRandomHull(int roomId);
 	LIBZHL_API int EmptySlots(int roomId);
 	LIBZHL_API bool FullRoom(int roomId, bool intruder);
+	LIBZHL_API int GetAvailableRoom(int preferred, bool intruder);
 	LIBZHL_API int GetAvailableRoomSlot(int roomId, bool intruder);
 	LIBZHL_API Globals::Ellipse GetBaseEllipse();
 	LIBZHL_API int GetSelectedRoomId(int x, int y, bool unk);
