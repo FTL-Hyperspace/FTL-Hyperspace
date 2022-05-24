@@ -48,5 +48,4 @@ function tidePod_renderEffects_after()
         Graphics.CSurface:GL_PopMatrix()
     end
 end
--- TODO: Modify on_internal_event to accept 2 or 3 arguments, 3 for before & after, 2 for after only
-script.on_internal_event(InternalEvent.OnRenderSpaceBackground, tidePod_renderEffects_before, tidePod_renderEffects_after)
+script.on_render_event(Defines.RenderEvents.LAYER_BACKGROUND, tidePod_renderEffects_before, tidePod_renderEffects_after)
