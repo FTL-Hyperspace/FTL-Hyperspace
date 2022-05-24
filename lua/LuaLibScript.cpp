@@ -116,7 +116,7 @@ int LuaLibScript::l_on_render_event(lua_State* lua)
     return 0;
 }
 
-void LuaLibScript::call_on_render_event_callbacks(RenderEvents::Identifiers id)
+void LuaLibScript::call_on_render_event_pre_callbacks(RenderEvents::Identifiers id)
 {
     assert(id > RenderEvents::UNKNOWN);
     assert(id < RenderEvents::UNKNOWN_MAX);
@@ -132,6 +132,19 @@ void LuaLibScript::call_on_render_event_callbacks(RenderEvents::Identifiers id)
             printf("Failed to call the before callback for RenderEvent %u!\n %s\n", id, lua_tostring(this->m_Lua, -1)); // TODO: Log to HS log? Also TODO: Maybe map RenderEvents to a readable string also?
             return;
         }
+    }
+}
+void LuaLibScript::call_on_render_event_post_callbacks(RenderEvents::Identifiers id)
+{
+    assert(id > RenderEvents::UNKNOWN);
+    assert(id < RenderEvents::UNKNOWN_MAX);
+    
+    if(m_on_render_event_callbacks.count(id) == 0)
+        return; // No registered callbacks
+
+    for(std::pair<std::multimap<RenderEvents::Identifiers, std::pair<LuaFunctionRef, LuaFunctionRef>>::iterator, std::multimap<RenderEvents::Identifiers, std::pair<LuaFunctionRef, LuaFunctionRef>>::iterator> range(m_on_render_event_callbacks.equal_range(id)); range.first != range.second; ++range.first)
+    {
+        std::pair<LuaFunctionRef, LuaFunctionRef> beforeAndAfterCallbacksRefL = range.first->second;
         lua_rawgeti(this->m_Lua, LUA_REGISTRYINDEX, beforeAndAfterCallbacksRefL.second);
         if(lua_pcall(this->m_Lua, 0, 0, 0) != 0) {
             printf("Failed to call the after callback for RenderEvent %u!\n %s\n", id, lua_tostring(this->m_Lua, -1));

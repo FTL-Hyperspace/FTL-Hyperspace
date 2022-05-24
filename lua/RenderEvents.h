@@ -39,7 +39,7 @@ struct RenderEvents
         ////SHIELDS_DAMAGE_MESSAGES, // Shields::OnRenderDamageMessages
         ////SHIP_EXPLOSION, // Ship::OnRenderExplosion
         //SELF_AIMING, // CombatControl::OnRenderSelfAiming
-        LAYER_PLAYERFRONT, // CommandGui::RenderPlayerShip (after)
+        //////LAYER_PLAYERFRONT, // CommandGui::RenderPlayerShip (after) (You can just use the after method of LAYER_PLAYER for now)
         LAYER_FRONT, // SpaceManager::OnRenderAsteroids with Layer 1 (after player ship is rendered)
         ////FTL_BUTTON, // FTLButton::OnRender
         ////BUTTON, // Button::OnRender
