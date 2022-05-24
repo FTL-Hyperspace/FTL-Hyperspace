@@ -7,4 +7,5 @@
 6. Install Lua 5.3 & development headers (TODO: Provide more details)
 7. Install `luarocks` and then install `luafilesystem` and `lpeg` with luarocks so you can generate code from the ZHL files.
 8. Install Boost library (TODO: Provide details on where to install it to match other Hyperspace dev's paths)
-9. Configure environment variables for Windows build (TODO: Provide details)
+9. Install SWIG 4 so it is somewhere on your path (https://www.swig.org/download.html) You probably have to download `swigwin-4.0.2` and place it somehwere on your system and add it to your PATH environment variable so Codeblocks can find it
+10. Configure environment variables for Windows build (TODO: Provide details)
