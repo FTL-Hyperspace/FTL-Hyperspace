@@ -1122,7 +1122,20 @@ struct CFPS
 %rename("%s") AnimationTracker::currentDelay;
 
 %rename("%s") TimerHelper;
-%rename("%(regex:/^TimerHelper::(.*)$/\\1/)s", regextarget=1, fullname=1) "TimerHelper::.*";
+%rename("%s") TimerHelper::TimerHelper;
+%rename("%s") TimerHelper::Done;
+%rename("%s") TimerHelper::ResetMinMax;
+%rename("%s") TimerHelper::Running;
+%rename("%s") TimerHelper::SetMaxTime;
+//%rename("%s") TimerHelper::Start; // TODO: Figure out how to allow this since it's overloaded?
+%rename("%s") TimerHelper::Stop;
+%rename("%s") TimerHelper::Update;
+%rename("%s") TimerHelper::maxTime;
+%rename("%s") TimerHelper::minTime;
+%rename("%s") TimerHelper::currTime;
+%rename("%s") TimerHelper::currGoal;
+%rename("%s") TimerHelper::loop;
+%rename("%s") TimerHelper::running;
 
 %nodefaultctors ResourceControl;
 %nodefaultdtors ResourceControl;

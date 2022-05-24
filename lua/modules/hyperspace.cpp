@@ -7259,32 +7259,6 @@ static int _wrap_new_TimerHelper(lua_State* L) {
 }
 
 
-static int _wrap_TimerHelper_Start__SWIG_0(lua_State* L) {
-  int SWIG_arg = 0;
-  TimerHelper *arg1 = (TimerHelper *) 0 ;
-  float arg2 ;
-  
-  SWIG_check_num_args("TimerHelper::Start",2,2)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("TimerHelper::Start",1,"TimerHelper *");
-  if(!lua_isnumber(L,2)) SWIG_fail_arg("TimerHelper::Start",2,"float");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_TimerHelper,0))){
-    SWIG_fail_ptr("TimerHelper_Start",1,SWIGTYPE_p_TimerHelper);
-  }
-  
-  arg2 = (float)lua_tonumber(L, 2);
-  (arg1)->Start(arg2);
-  
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
 static int _wrap_TimerHelper_Done(lua_State* L) {
   int SWIG_arg = 0;
   TimerHelper *arg1 = (TimerHelper *) 0 ;
@@ -7385,86 +7359,6 @@ static int _wrap_TimerHelper_SetMaxTime(lua_State* L) {
 fail:
   lua_error(L);
   return SWIG_arg;
-}
-
-
-static int _wrap_TimerHelper_Start__SWIG_1(lua_State* L) {
-  int SWIG_arg = 0;
-  TimerHelper *arg1 = (TimerHelper *) 0 ;
-  int arg2 ;
-  
-  SWIG_check_num_args("TimerHelper::Start",2,2)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("TimerHelper::Start",1,"TimerHelper *");
-  if(!lua_isnumber(L,2)) SWIG_fail_arg("TimerHelper::Start",2,"int");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_TimerHelper,0))){
-    SWIG_fail_ptr("TimerHelper_Start",1,SWIGTYPE_p_TimerHelper);
-  }
-  
-  arg2 = (int)lua_tonumber(L, 2);
-  (arg1)->Start(arg2);
-  
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static int _wrap_TimerHelper_Start(lua_State* L) {
-  int argc;
-  int argv[3]={
-    1,2,3
-  };
-  
-  argc = lua_gettop(L);
-  if (argc == 2) {
-    int _v;
-    {
-      void *ptr;
-      if (SWIG_isptrtype(L,argv[0])==0 || SWIG_ConvertPtr(L,argv[0], (void **) &ptr, SWIGTYPE_p_TimerHelper, 0)) {
-        _v = 0;
-      } else {
-        _v = 1;
-      }
-    }
-    if (_v) {
-      {
-        _v = lua_isnumber(L,argv[1]);
-      }
-      if (_v) {
-        return _wrap_TimerHelper_Start__SWIG_0(L);
-      }
-    }
-  }
-  if (argc == 2) {
-    int _v;
-    {
-      void *ptr;
-      if (SWIG_isptrtype(L,argv[0])==0 || SWIG_ConvertPtr(L,argv[0], (void **) &ptr, SWIGTYPE_p_TimerHelper, 0)) {
-        _v = 0;
-      } else {
-        _v = 1;
-      }
-    }
-    if (_v) {
-      {
-        _v = lua_isnumber(L,argv[1]);
-      }
-      if (_v) {
-        return _wrap_TimerHelper_Start__SWIG_1(L);
-      }
-    }
-  }
-  
-  SWIG_Lua_pusherrstring(L,"Wrong arguments for overloaded function 'TimerHelper_Start'\n"
-    "  Possible C/C++ prototypes are:\n"
-    "    TimerHelper::Start(float)\n"
-    "    TimerHelper::Start(int)\n");
-  lua_error(L);return 0;
 }
 
 
@@ -7814,10 +7708,6 @@ fail:
 }
 
 
-static void swig_delete_TimerHelper(void *obj) {
-TimerHelper *arg1 = (TimerHelper *) obj;
-delete arg1;
-}
 static int _proxy__wrap_new_TimerHelper(lua_State *L) {
     assert(lua_istable(L,1));
     lua_pushcfunction(L,_wrap_new_TimerHelper);
@@ -7840,7 +7730,6 @@ static swig_lua_method swig_TimerHelper_methods[]= {
     { "ResetMinMax", _wrap_TimerHelper_ResetMinMax},
     { "Running", _wrap_TimerHelper_Running},
     { "SetMaxTime", _wrap_TimerHelper_SetMaxTime},
-    { "Start", _wrap_TimerHelper_Start},
     { "Stop", _wrap_TimerHelper_Stop},
     { "Update", _wrap_TimerHelper_Update},
     {0,0}
@@ -7872,7 +7761,7 @@ static swig_lua_namespace swig_TimerHelper_Sf_SwigStatic = {
 };
 static swig_lua_class *swig_TimerHelper_bases[] = {0};
 static const char *swig_TimerHelper_base_names[] = {0};
-static swig_lua_class _wrap_class_TimerHelper = { "TimerHelper", "TimerHelper", &SWIGTYPE_p_TimerHelper,_proxy__wrap_new_TimerHelper, swig_delete_TimerHelper, swig_TimerHelper_methods, swig_TimerHelper_attributes, &swig_TimerHelper_Sf_SwigStatic, swig_TimerHelper_meta, swig_TimerHelper_bases, swig_TimerHelper_base_names };
+static swig_lua_class _wrap_class_TimerHelper = { "TimerHelper", "TimerHelper", &SWIGTYPE_p_TimerHelper,_proxy__wrap_new_TimerHelper,0, swig_TimerHelper_methods, swig_TimerHelper_attributes, &swig_TimerHelper_Sf_SwigStatic, swig_TimerHelper_meta, swig_TimerHelper_bases, swig_TimerHelper_base_names };
 
 static int _wrap_new_ShipSystem__SWIG_0(lua_State* L) {
   int SWIG_arg = 0;
