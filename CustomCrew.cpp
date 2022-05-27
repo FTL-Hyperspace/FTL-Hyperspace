@@ -5145,6 +5145,61 @@ HOOK_METHOD(CrewAnimation, OnRender, (float scale, int selectedState, bool outli
     }
 }
 
+HOOK_METHOD(CrewBlueprint, RenderIcon, (float scale) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> CrewBlueprint::RenderIcon -> Begin (CustomCrew.cpp)\n")
+
+    std::string race; // race to render
+
+    CustomCrewManager* customCrew = CustomCrewManager::GetInstance();
+
+    // check if crewmember is a custom race
+    if (customCrew->IsRace(name))
+    {
+        // get definition and check if animSheet is defined
+        auto def = customCrew->GetDefinition(name);
+        if (!def->animSheet[male].empty())
+        {
+            // set race to render
+            race = def->animSheet[male];
+
+            // load the animation frame and set the position and scaling
+            CSurface::GL_PushMatrix();
+            Animation walkDown = G_->GetAnimationControl()->GetAnimation(race + "_walk_down");
+            walkDown.SetCurrentFrame(0);
+            CSurface::GL_Translate(std::floor(std::floor((-scale * walkDown.info.frameWidth)) * 0.5f) + 1, std::floor(std::floor((-scale * walkDown.info.frameHeight)) * 0.5f) + 1);
+            CSurface::GL_Scale(scale, scale, 0.f);
+
+            // load and render base image
+            auto base = G_->GetResources()->GetImageId("people/" + race + "_base.png");
+            walkDown.SetAnimationId(base);
+            walkDown.OnRender(1.f, COLOR_WHITE, false);
+
+            // load and render layer images
+            for (int i=0; i<colorChoices.size(); ++i)
+            {
+                std::stringstream layerImage;
+                layerImage << "people/" << race << "_layer" << i+1 << ".png";
+
+                int colorChoice = colorChoices[i];
+                if (colorChoice == -1) colorChoice = 0;
+
+                auto layer = G_->GetResources()->GetImageId(layerImage.str());
+                walkDown.SetAnimationId(layer);
+                walkDown.OnRender(1.f, colorLayers[i][colorChoice], false);
+            }
+
+            // pop the position/scale transformation
+            CSurface::GL_PopMatrix();
+
+            // don't call super
+            return;
+        }
+    }
+
+    super(scale);
+}
+
 static bool blockSetBonusPower = false;
 
 HOOK_METHOD(ShipSystem, SetBonusPower, (int amount, int permanentPower) -> void)
