@@ -5,6 +5,7 @@
 #include "Constants.h"
 #include "CustomCrewCommon.h"
 #include "EnumClassHash.h"
+#include "ToggleValue.h"
 #include <array>
 
 struct CrewDefinition;
@@ -63,7 +64,7 @@ public:
     std::string crewAnimationType = "human";
     bool isMantisAnimation = false;
     bool isIonDrone = false;
-    bool canPunch = true;
+    ToggleValue<bool> canPunch;
 
     Pointf effectPos;
     Pointf effectWorldPos;

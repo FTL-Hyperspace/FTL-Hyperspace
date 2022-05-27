@@ -369,7 +369,7 @@ struct CrewDefinition
     bool noClone = false;
     bool noAI = false;
     bool validTarget = true;
-    bool canPunch = true;
+    ToggleValue<bool> canPunch;
     bool canMove = true;
     bool snapToSlot = false;
     bool teleportMove = false;

@@ -6174,12 +6174,25 @@ HOOK_METHOD(CrewAnimation, OnUpdate, (Pointf position, bool moving, bool fightin
 {
     LOG_HOOK("HOOK_METHOD -> CrewAnimation::OnUpdate -> Begin (CustomCrew.cpp)\n")
     auto aex = CMA_EX(this);
-    if (!aex->canPunch)
+    if (aex->canPunch.enabled)
     {
-        bool sharedSpot = bSharedSpot;
-        bSharedSpot = false;
-        super(position, moving, fighting, repairing, dying, onFire);
-        bSharedSpot = sharedSpot;
+        if (aex->canPunch.value)
+        {
+            if (!dying)
+            {
+                bool tempBDrone = bDrone;
+                bDrone = false;
+                super(position, moving, fighting, repairing, dying, onFire);
+                bDrone = tempBDrone;
+            }
+        }
+        else
+        {
+            bool sharedSpot = bSharedSpot;
+            bSharedSpot = false;
+            super(position, moving, fighting, repairing, dying, onFire);
+            bSharedSpot = sharedSpot;
+        }
     }
     else
     {
