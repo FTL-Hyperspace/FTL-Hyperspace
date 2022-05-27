@@ -235,6 +235,15 @@ HOOK_METHOD(CrewDrone, constructor, (const std::string& droneType, const std::st
     {
         super(droneType, name, shipId, blueprint, anim);
     }
+
+    // check if drone is custom race using animSheet
+    auto *def = CustomCrewManager::GetInstance()->GetDroneRaceDefinition(this);
+    if (def && !def->animSheet[1].empty())
+    {
+        // update baseLayer and lightLayer (to do - have this functionality for when a drone uses transformRace)
+        baseLayer = G_->GetResources()->GetImageId("people/" + def->animSheet[1] + "_base.png");
+        lightLayer = G_->GetResources()->GetImageId("people/" + def->animSheet[1] + "_layer1.png");
+    }
 }
 
 static bool blockControllableAI;
