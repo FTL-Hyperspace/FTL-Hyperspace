@@ -140,6 +140,7 @@ struct StatBoostDefinition
     bool isBool = false;
     int priority = -1;
     float duration = -1;
+    bool jumpClear = false;
 
     std::string boostAnim = "";
     RoomAnimDef *roomAnim = nullptr;

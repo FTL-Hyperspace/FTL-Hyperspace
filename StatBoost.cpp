@@ -188,6 +188,10 @@ StatBoostDefinition* StatBoostManager::ParseStatBoostNode(rapidxml::xml_node<cha
                 {
                     def->duration = boost::lexical_cast<float>(val);
                 }
+                if (name == "jumpClear")
+                {
+                    def->jumpClear = EventsParser::ParseBoolean(val);
+                }
                 if (name == "priority")
                 {
                     def->priority = boost::lexical_cast<int>(val);
@@ -1305,13 +1309,26 @@ HOOK_METHOD(ShipManager, JumpArrive, () -> void)
     super();
     CustomAugmentManager* customAug = CustomAugmentManager::GetInstance();
 
-    /*
-    for (auto i : this->vCrewList)
+    for (CrewMember* i : this->vCrewList)
     {
         auto ex = CM_EX(i);
-        ex->timedStatBoosts.clear();
+        for (auto& timedBoosts : ex->timedStatBoosts)
+        {
+            timedBoosts.second.erase(std::remove_if(timedBoosts.second.begin(),
+                                                    timedBoosts.second.end(),
+                                                    [](StatBoost& statBoost) { return statBoost.def->jumpClear; }),
+                                                    timedBoosts.second.end());
+        }
     }
-    */
+    for (Room *room : this->ship.vRoomList)
+    {
+        auto &statBoosts = RM_EX(room)->statBoosts;
+
+        statBoosts.erase(std::remove_if(statBoosts.begin(),
+                                        statBoosts.end(),
+                                        [](RoomStatBoost& statBoost) { return statBoost.statBoost.def->jumpClear; }),
+                                        statBoosts.end());
+    }
 
     if (G_->GetShipInfo(0) != nullptr)
     {
