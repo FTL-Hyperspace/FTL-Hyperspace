@@ -2652,7 +2652,7 @@ HOOK_METHOD_PRIORITY(CrewMember, UpdateHealth, 2000, () -> void)
             {
                 fMedbay += 0.0000000001;
             }
-            DirectModifyHealth(G_->GetCFPS()->GetSpeedFactor() * healAmount * mod * 0.06245f);
+            DirectModifyHealth(G_->GetCFPS()->GetSpeedFactor() * healAmount * mod * 0.0625f);
         }
         if (ex->isHealing && passiveHealAmount != 0.f && health.first != health.second)
         {
@@ -2660,7 +2660,7 @@ HOOK_METHOD_PRIORITY(CrewMember, UpdateHealth, 2000, () -> void)
             {
                 fMedbay += 0.0000000001;
             }
-            DirectModifyHealth(G_->GetCFPS()->GetSpeedFactor() * passiveHealAmount * mod * 0.06245f);
+            DirectModifyHealth(G_->GetCFPS()->GetSpeedFactor() * passiveHealAmount * mod * 0.0625f);
         }
         if (trueHealAmount != 0.f)
         {
@@ -2668,7 +2668,7 @@ HOOK_METHOD_PRIORITY(CrewMember, UpdateHealth, 2000, () -> void)
             {
                 fMedbay += 0.0000000001;
             }
-            DirectModifyHealth(G_->GetCFPS()->GetSpeedFactor() * trueHealAmount * 0.06245f);
+            DirectModifyHealth(G_->GetCFPS()->GetSpeedFactor() * trueHealAmount * 0.0625f);
         }
         if (ex->isHealing && truePassiveHealAmount != 0.f && health.first != health.second)
         {
@@ -2676,7 +2676,7 @@ HOOK_METHOD_PRIORITY(CrewMember, UpdateHealth, 2000, () -> void)
             {
                 fMedbay += 0.0000000001;
             }
-            DirectModifyHealth(G_->GetCFPS()->GetSpeedFactor() * truePassiveHealAmount * 0.06245f);
+            DirectModifyHealth(G_->GetCFPS()->GetSpeedFactor() * truePassiveHealAmount * 0.0625f);
         }
     }
 
@@ -4335,7 +4335,7 @@ HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
                 // Didn't want to do this here but I don't think I have a choice
                 float timeDilation = TemporalSystemParser::GetDilationStrength(RM_EX(ship.vRoomList[i->iRoomId])->timeDilation);
 
-                float damageEnemies = ex->CalculateStat(CrewStat::DAMAGE_ENEMIES_AMOUNT, def) * G_->GetCFPS()->GetSpeedFactor() * 0.06245f * timeDilation;
+                float damageEnemies = ex->CalculateStat(CrewStat::DAMAGE_ENEMIES_AMOUNT, def) * G_->GetCFPS()->GetSpeedFactor() * 0.0625f * timeDilation;
 
                 if (i->Functional() && damageEnemies != 0.f)
                 {
@@ -4351,7 +4351,7 @@ HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
 
                 if (i->Functional() && healCrewAmount != 0.f)
                 {
-                    float healCrew = G_->GetCFPS()->GetSpeedFactor() * healCrewAmount * 0.06245f * timeDilation;
+                    float healCrew = G_->GetCFPS()->GetSpeedFactor() * healCrewAmount * 0.0625f * timeDilation;
 
                     for (auto crew : vCrewList)
                     {
