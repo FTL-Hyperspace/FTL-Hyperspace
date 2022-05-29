@@ -2348,6 +2348,9 @@ int CrewMember_Extend::CalculateDangerRating(float health, int roomId)
 HOOK_METHOD(CrewAI, DangerRating, (int roomId, int crewId) -> int)
 {
     LOG_HOOK("HOOK_METHOD -> CrewAI::DangerRating -> Begin (StatBoost.cpp)\n")
+
+    if (roomId == -1) return 1;
+
     int ret = super(roomId, crewId);
 
     if (ret != 0)
