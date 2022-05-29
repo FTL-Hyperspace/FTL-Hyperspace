@@ -728,6 +728,21 @@ void CustomCrewManager::ParseAbilityEffect(rapidxml::xml_node<char>* stat, Activ
                 }
             }
         }
+        if (effectName == "powerEffectSounds")
+        {
+            if (effectNode->first_attribute("enemy"))
+            {
+                def.effectSoundsEnemy = EventsParser::ParseBoolean(effectNode->first_attribute("enemy")->value());
+            }
+
+            for (auto soundNode = effectNode->first_node(); soundNode; soundNode = soundNode->next_sibling())
+            {
+                if (strcmp(soundNode->name(), "powerSound") == 0)
+                {
+                    def.effectSounds.push_back(std::string(soundNode->value()));
+                }
+            }
+        }
         if (effectName == "req")
         {
             auto reqDef = ActivatedPowerRequirements();
@@ -875,6 +890,10 @@ void CustomCrewManager::ParseAbilityEffect(rapidxml::xml_node<char>* stat, Activ
         if (effectName == "effectAnim")
         {
             def.effectAnim = effectNode->value();
+        }
+        if (effectName == "effectPostAnim")
+        {
+            def.effectPostAnim = effectNode->value();
         }
         if (effectName == "crewHealth")
         {
@@ -1918,6 +1937,15 @@ void CrewMember_Extend::ActivatePower()
 
     int ownerShip = orig->GetPowerOwner();
 
+    if (powerDef->effectSounds.size() > 0 && (powerDef->effectSoundsEnemy || orig->iShipId == 0 || ownerShip == 0))
+    {
+        int rng = random32();
+
+        std::string sound = powerDef->effectSounds[rng % powerDef->effectSounds.size()];
+
+        G_->GetSoundControl()->PlaySoundMix(sound, -1.f, false);
+    }
+
     if ((powerDef->crewHealth || powerDef->enemyHealth) && ship)
     {
         for (auto i : ship->vCrewList)
@@ -1943,6 +1971,14 @@ void CrewMember_Extend::ActivatePower()
 
     auto aex = CMA_EX(orig->crewAnim);
     aex->powerDone = true;
+    if (!powerDef->effectPostAnim.empty())
+    {
+        if (aex->effectAnim) aex->effectAnim->destructor();
+        aex->effectAnim = new Animation(G_->GetAnimationControl()->GetAnimation(powerDef->effectPostAnim));
+        aex->effectAnim->SetCurrentFrame(0);
+        aex->effectAnim->tracker.SetLoop(false, -1);
+        aex->effectAnim->Start(true);
+    }
 
     if (!powerDef->transformRace.empty())
     {

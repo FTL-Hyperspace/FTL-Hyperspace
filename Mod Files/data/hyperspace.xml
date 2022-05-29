@@ -677,6 +677,10 @@ Syntax ->
 				<powerSound>lockdown1</powerSound>
 				<powerSound>lockdown2</powerSound>
 			</powerSounds>
+			<powerEffectSounds enemy="true">                                             Sound effects to use when the power effect goes off.
+				<powerSound>lockdown1</powerSound>
+				<powerSound>lockdown2</powerSound>
+			</powerEffectSounds>
 			<req type="enemy">                                                           Requirements to use the ability. Applies to enemy crew when type="enemy".
 				<enemyShip/>
 				<playerShip/>
@@ -758,6 +762,7 @@ Syntax ->
 			<tooltip id="power_ready">Ready: Click to lock down room with special power</tooltip>  Text for activation tooltip. Either use text id or literal string.
 			<cooldownColor r="133" g="231" b="237"/>                                               Color for cooldown bar.
 			<effectAnim>explosion_crystal</effectAnim>                                             Animation for activated ability effect.
+			<effectPostAnim>explosion_big1_strip10</effectPostAnim>                                Animation that replaces effectAnim after the effect goes off.
 			<crewHealth>0.0</crewHealth>                                                           Modifies friendly crew health (excluding self) by this amount.
 			<enemyHealth>0.0</enemyHealth>                                                         Modifies enemy crew health by this amount.
 			<selfHealth>0.0</selfHealth>                                                           Modifies own health by this amount.

@@ -271,14 +271,16 @@ struct ActivatedPowerDefinition
 
 
     std::vector<std::string> sounds;
+    std::vector<std::string> effectSounds;
     bool soundsEnemy = true;
-
+    bool effectSoundsEnemy = true;
 
     TextString buttonLabel;
     GL_Color cooldownColor;
 
     TextString tooltip;
     std::string effectAnim;
+    std::string effectPostAnim;
 
     ActivatedPowerRequirements playerReq;
     ActivatedPowerRequirements enemyReq;
