@@ -6,7 +6,7 @@ We currently build in CodeBlocks... someone could setup CMake and or GNU Autotoo
 So, you'll need *CodeBlocks* installed
 
 Install several libraries needed for building
-Boost C++ library
+Boost C++ library (Hyperspace currently uses 1.70)
 SWIG 4
 Lua 5.3
 
@@ -39,9 +39,7 @@ For Windows you may use the following steps after extraction:
 5. Copy the DLL to your FTL installation directory. The DLL is needed to run Hyperspace.
 
 ### Installing Boost
-Download and extract the Boost library (currently it needs to be placed directly in C:, so C:\boost). Version 1.70 is known to work.
-
-(TODO: Change the Boost path to use an environment variable like with FTL and Lua)
+Download Boost version 1.70 and extract the Boost library to your preferred directory.
 
 ### Installing SWIG 4
 Download and extract swigwin-4.0.2. Then add it to your PATH (either in CodeBlocks or system-wide).
@@ -51,6 +49,7 @@ Before you build Hyperspace you will need to configure the following environment
 
 1. FTL_PATH = C:\Path\To\FasterThanLight (replace with your actual path to the directory containing FTLGame.exe)
 2. LUA_DIR = C:\Path\To\lua-5.3.6 (replace with your actual path)
+3. BOOST_DIR = C:\Path\To\boost (replace with your actual path)
 
 Note that spaces and quotation marks are not allowed in these paths. If any directory name has a space (e.g., "Program Files"), you must replace it with the directory's 8.3 filename. You can use the command `dir /x` to show the short filenames in a directory alongside the long names.
 
