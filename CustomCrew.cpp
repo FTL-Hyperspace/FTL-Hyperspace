@@ -4316,48 +4316,52 @@ HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
 
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
 
-    for (auto i : vCrewList)
+    for (int i=0; i<vCrewList.size(); ++i)
     {
-        Damage dmgI = i->GetRoomDamage();
+        CrewMember *crew = vCrewList[i];
+
+        Damage dmgI = crew->GetRoomDamage();
         Damage *dmg = &dmgI;
 
-        if (dmg->ownerId != -1) DamageArea(Pointf(i->x, i->y), *((DamageParameter*)dmg), true);
+        if (dmg->ownerId != -1) DamageArea(Pointf(crew->x, crew->y), *((DamageParameter*)dmg), true);
 
-        if (custom->IsRace(i->species))
+        if (custom->IsRace(crew->species))
         {
-            int ownerShip = i->GetPowerOwner();
-            auto def = custom->GetDefinition(i->species);
+            int ownerShip = crew->GetPowerOwner();
+            auto def = custom->GetDefinition(crew->species);
 
-            auto ex = CM_EX(i);
-            if (i->iRoomId != -1)
+            auto ex = CM_EX(crew);
+            if (crew->iRoomId != -1)
             {
                 // damageEnemiesAmount/healEnemiesAmount time dilation/temporal system
                 // Didn't want to do this here but I don't think I have a choice
-                float timeDilation = TemporalSystemParser::GetDilationStrength(RM_EX(ship.vRoomList[i->iRoomId])->timeDilation);
+                float timeDilation = TemporalSystemParser::GetDilationStrength(RM_EX(ship.vRoomList[crew->iRoomId])->timeDilation);
 
                 float damageEnemies = ex->CalculateStat(CrewStat::DAMAGE_ENEMIES_AMOUNT, def) * G_->GetCFPS()->GetSpeedFactor() * 0.0625f * timeDilation;
 
-                if (i->Functional() && damageEnemies != 0.f)
+                if (crew->Functional() && damageEnemies != 0.f)
                 {
-                    for (auto crew : vCrewList)
+                    for (int j=0; j<vCrewList.size(); ++j)
                     {
-                        if (crew->iRoomId == i->iRoomId && crew->iShipId != ownerShip)
+                        CrewMember *otherCrew = vCrewList[j];
+                        if (otherCrew->iRoomId == crew->iRoomId && otherCrew->iShipId != ownerShip && otherCrew != crew)
                         {
-                            crew->DirectModifyHealth(-damageEnemies);
+                            otherCrew->DirectModifyHealth(-damageEnemies);
                         }
                     }
                 }
                 float healCrewAmount = ex->CalculateStat(CrewStat::HEAL_CREW_AMOUNT, def);
 
-                if (i->Functional() && healCrewAmount != 0.f)
+                if (crew->Functional() && healCrewAmount != 0.f)
                 {
                     float healCrew = G_->GetCFPS()->GetSpeedFactor() * healCrewAmount * 0.0625f * timeDilation;
 
-                    for (auto crew : vCrewList)
+                    for (int j=0; j<vCrewList.size(); ++j)
                     {
-                        if (crew->iRoomId == i->iRoomId && crew->iShipId == ownerShip && crew != i)
+                        CrewMember *otherCrew = vCrewList[j];
+                        if (otherCrew->iRoomId == crew->iRoomId && otherCrew->iShipId == ownerShip && otherCrew != crew)
                         {
-                            CrewMember_Extend *ex2 = CM_EX(crew);
+                            CrewMember_Extend *ex2 = CM_EX(otherCrew);
                             CrewDefinition *def2 = ex2->GetDefinition();
                             float mod;
                             if (def2)
@@ -4369,11 +4373,11 @@ HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
                                 mod = 1.f;
                             }
 
-                            if (healCrew*mod > 0.f && crew->health.first != crew->health.second)
+                            if (healCrew*mod > 0.f && otherCrew->health.first != otherCrew->health.second)
                             {
-                                crew->fMedbay += 0.0000000001;
+                                otherCrew->fMedbay += 0.0000000001;
                             }
-                            crew->DirectModifyHealth(healCrew*mod);
+                            otherCrew->DirectModifyHealth(healCrew*mod);
                         }
                     }
                 }
@@ -4396,7 +4400,7 @@ HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
                     Damage* dmg = ex->GetPowerDamage();
 
                     shipFriendlyFire = ex->GetPowerDef()->shipFriendlyFire;
-                    actualShip->DamageArea(CMA_EX(i->crewAnim)->effectWorldPos, *((DamageParameter*)dmg), true);
+                    actualShip->DamageArea(CMA_EX(crew->crewAnim)->effectWorldPos, *((DamageParameter*)dmg), true);
 
                     delete dmg;
                 }
