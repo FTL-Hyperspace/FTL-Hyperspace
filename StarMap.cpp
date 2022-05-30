@@ -130,6 +130,7 @@ HOOK_METHOD_PRIORITY(StarMap, LoadGame, 9999, (int fd) -> Location*)
     for (int i=0; i<nLocations; ++i)
     {
         Location* loc;
+        LocationEvent *dummyEvent;
         if (i < locations.size())
         {
             loc = locations[i];
@@ -138,7 +139,8 @@ HOOK_METHOD_PRIORITY(StarMap, LoadGame, 9999, (int fd) -> Location*)
         {
             // we should really hook the constructors but these are dummy objects anyways
             loc = new Location();
-            loc->event = new LocationEvent();
+            dummyEvent = new LocationEvent();
+            loc->event = dummyEvent;
         }
         loc->visited = FileHelper::readInteger(fd);
         if (loc->visited)
@@ -207,7 +209,7 @@ HOOK_METHOD_PRIORITY(StarMap, LoadGame, 9999, (int fd) -> Location*)
         if (i >= locations.size())
         {
             // Fixes a potential memory leak by destroying the dummy objects
-            delete loc->event;
+            delete dummyEvent;
             delete loc;
         }
     }
