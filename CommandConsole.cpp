@@ -13,6 +13,8 @@ int speedEnabled = true;
 
 bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
 {
+    hs_log_file(cmd.c_str());
+
     std::string command = cmd;
 
     std::string cmdName = command.substr(0, command.find(" "));
