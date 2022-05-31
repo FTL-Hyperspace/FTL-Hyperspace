@@ -300,7 +300,15 @@ HOOK_METHOD(WorldManager, CreateLocation, (Location *location) -> void)
         if (starMap.locations[i] == location)
         {
             CustomBackgroundObjectManager::instance->currentLocationIndex = i;
-            break;
+            return super(location);
+        }
+    }
+    for (int i=0; i<starMap.locations.size(); ++i)
+    {
+        if (starMap.locations[i] == starMap.currentLoc)
+        {
+            CustomBackgroundObjectManager::instance->currentLocationIndex = i;
+            return super(location);
         }
     }
     super(location);
