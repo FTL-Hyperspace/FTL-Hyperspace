@@ -10,6 +10,16 @@
 CommandConsole CommandConsole::instance = CommandConsole();
 
 int speedEnabled = true;
+static bool squishyTextEnabled = false;
+static std::string squishyText = "";
+
+HOOK_METHOD(MouseControl, OnRender, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> MouseControl::OnRender -> Begin (CommandConsole.cpp)\n")
+    if(squishyTextEnabled)
+        freetype::easy_printRightAlign(51, 1280.f, 10.f, squishyText.c_str());
+    super();
+}
 
 bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
 {
@@ -20,6 +30,17 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
     std::string cmdName = command.substr(0, command.find(" "));
     boost::to_upper(cmdName);
 
+    if (cmdName == "SQUISHY")
+    {
+        std::string squishyTitle = boost::trim_copy(command.substr(8));
+        hs_log_file("Squishy is awesome\n");
+        if(!squishyTitle.empty())
+        {
+            squishyTextEnabled = true;
+            squishyText = squishyTitle;
+        }
+        return true;
+    }
     if (cmdName == "STORE")
     {
         if (command.length() == 5)

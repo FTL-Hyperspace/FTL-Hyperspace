@@ -272,6 +272,7 @@ VARIABLE       Set variable and/or print in FTL_HS.log Usage: VARIABLE <var_id> 
 METAVARIABLE   As above but for meta-variables         Usage: METAVARIABLE <var_id> <n>
 LUA            Run lua code directly for testing       Usage: LUA <code on one line>  Example: LUA print("Hello World!")
                                                                                       Example: LUA Hyperspace.Global.GetInstance():GetCApp().world.starMap:ModifyPursuit(-1)
+SQUISHY        Place a message on screen corner        Usage: SQUISHY <some message you'd like to say in support of squishy> Example: SQUISHY Squishy is awesome!
 -->
 
 <console enabled="true"/> 
