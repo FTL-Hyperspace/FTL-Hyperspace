@@ -6717,6 +6717,7 @@ HOOK_METHOD(ShipManager, GetLeavingCrew, (bool intruders) -> std::vector<CrewMem
 static bool addCrewFailed = false;
 HOOK_METHOD(ShipManager, AddCrewMember, (CrewMember *crew, int roomId) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ShipManager::AddCrewMember -> Begin (CustomCrew.cpp)\n")
     if (!addCrewFailed)
     {
         bool intruder = (iShipId == crew->iShipId) == crew->bMindControlled;

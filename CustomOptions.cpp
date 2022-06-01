@@ -5,6 +5,7 @@ CustomOptionsManager CustomOptionsManager::instance = CustomOptionsManager();
 /*
 HOOK_METHOD(OptionsScreen, Open, (bool mainMenu) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> OptionsScreen::Open -> Begin (CustomOptions.cpp)\n")
     super(mainMenu);
 }
 */
@@ -12,6 +13,7 @@ HOOK_METHOD(OptionsScreen, Open, (bool mainMenu) -> void)
 /*
 HOOK_STATIC(Settings, SaveSettings, () -> void)
 {
+    LOG_HOOK("HOOK_STATIC -> Settings::SaveSettings -> Begin (CustomOptions.cpp)\n")
     super();
 
     std::ofstream file;
@@ -41,6 +43,7 @@ HOOK_STATIC(Settings, SaveSettings, () -> void)
 
 HOOK_STATIC(Settings, LoadSettings, () -> void)
 {
+    LOG_HOOK("HOOK_STATIC -> Settings::LoadSettings -> Begin (CustomOptions.cpp)\n")
     super();
 
     std::ifstream file;
