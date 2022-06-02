@@ -542,6 +542,10 @@ void CustomCrewManager::ParseCrewNode(rapidxml::xml_node<char> *node)
                         {
                             crew.essential = boost::lexical_cast<float>(val);
                         }
+                        if (str == "silenced")
+                        {
+                            crew.silenced = EventsParser::ParseBoolean(val);
+                        }
                     }
                 }
                 catch (boost::bad_lexical_cast const &e)
@@ -1183,6 +1187,10 @@ void CustomCrewManager::ParseAbilityEffect(rapidxml::xml_node<char>* stat, Activ
                 {
                     def.tempPower.teleportMoveOtherShip = EventsParser::ParseBoolean(tempEffectNode->value());
                 }
+                if (tempEffectName == "silenced")
+                {
+                    def.tempPower.silenced = EventsParser::ParseBoolean(tempEffectNode->value());
+                }
             }
         }
     }
@@ -1751,6 +1759,13 @@ PowerReadyState CrewMember_Extend::PowerReq(const ActivatedPowerRequirements *re
             if (CheckExtraCondition(condition.first) == condition.second) return POWER_READY;
         }
         return POWER_NOT_READY_EXTRACONDITION_OR;
+    }
+
+    bool silenced;
+    CalculateStat(CrewStat::SILENCED, &silenced);
+    if (silenced)
+    {
+        return POWER_NOT_READY_SILENCED;
     }
 
     return POWER_READY;
@@ -5040,6 +5055,9 @@ HOOK_METHOD(CrewBox, GetSelected, (int mouseX, int mouseY) -> CrewMember*)
                     break;
                 case POWER_NOT_READY_CHARGES:
                     tooltipName = "power_not_ready_charges";
+                    break;
+                case POWER_NOT_READY_SILENCED:
+                    tooltipName = "power_not_ready_silenced";
                     break;
                 case POWER_NOT_READY_EXTRACONDITION_OR:
                     tooltip = powerReq->extraOrConditionsTooltip.GetText();

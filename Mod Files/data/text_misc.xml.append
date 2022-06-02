@@ -73,6 +73,7 @@
 <text name="power_not_ready_mind_enemy">Not Ready: Enemy has control</text>
 <text name="power_not_ready_teleporting">Not Ready: Can't transform mid-teleport</text>
 <text name="power_not_ready_charges">Not Ready: Out of charges</text>
+<text name="power_not_ready_silenced">Not Ready: Silenced</text>
 
 <text name="power_not_ready_burning">Not Ready: On fire</text>
 <text name="power_not_ready_suffocating">Not Ready: Suffocating</text>

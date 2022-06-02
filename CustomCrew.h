@@ -176,6 +176,7 @@ struct TemporaryPowerDefinition
     ToggleValue<bool> canMove;
     ToggleValue<bool> teleportMove;
     ToggleValue<bool> teleportMoveOtherShip;
+    ToggleValue<bool> silenced;
 
     std::vector<StatBoostDefinition*> statBoosts;
 
@@ -377,6 +378,7 @@ struct CrewDefinition
     bool teleportMove = false;
     bool teleportMoveOtherShip = false;
     float essential = 0.f;
+    bool silenced = false;
 
     std::pair<int,int> shootTimer = {-1, -1};
     std::pair<int,int> punchTimer = {-1, -1};

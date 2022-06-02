@@ -67,6 +67,7 @@ const std::array<std::string, numStats> crewStats =
     "canMove",
     "teleportMove",
     "teleportMoveOtherShip",
+    "silenced",
     // non-cached stats
     "statBoost",
     "deathEffect",
@@ -1959,6 +1960,10 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
             break;
         case CrewStat::TELEPORT_MOVE_OTHER_SHIP:
             *boolValue = (temporaryPowerActive && GetPowerDef()->tempPower.teleportMoveOtherShip.enabled) ? GetPowerDef()->tempPower.teleportMoveOtherShip.value : def->teleportMoveOtherShip;
+            isBool = true;
+            break;
+        case CrewStat::SILENCED:
+            *boolValue = (temporaryPowerActive && GetPowerDef()->tempPower.silenced.enabled) ? GetPowerDef()->tempPower.silenced.value : def->silenced;
             isBool = true;
             break;
         case CrewStat::ACTIVATE_WHEN_READY:
