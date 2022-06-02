@@ -922,6 +922,24 @@ HOOK_METHOD(WorldManager, Restart, () -> void)
     super();
 }
 
+HOOK_STATIC_PRIORITY(ShipGenerator, CreateShip, -1000, (const std::string& name, int sector, ShipEvent& event) -> ShipManager*)
+{
+    LOG_HOOK("HOOK_STATIC_PRIORITY -> ShipGenerator::CreateShip -> Begin (StatBoost.cpp)\n")
+
+    WorldManager *worldManager = G_->GetWorld();
+
+    // clear the old enemy ship augments
+    G_->GetShipInfo(1)->augList.clear();
+    StatBoostManager::GetInstance()->OnLoop(worldManager);
+
+    ShipManager *ret = super(name, sector, event);
+
+    // loop again for the new enemy ship
+    StatBoostManager::GetInstance()->OnLoop(worldManager);
+
+    return ret;
+}
+
 HOOK_METHOD(CrewMemberFactory, RemoveExcessCrew, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> CrewMemberFactory::RemoveExcessCrew -> Begin (StatBoost.cpp)\n")
