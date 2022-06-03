@@ -6025,9 +6025,9 @@ HOOK_METHOD(GameOver, OpenText, (const std::string &text) -> void)
 
     deathEventActive = true;
 
-    DeathEvent &deathEvent = deathEventQueue.front();
-    CustomEventsParser::GetInstance()->LoadEvent(G_->GetWorld(), deathEvent.event, false, -1);
+    std::string event = deathEventQueue.front().event;
     deathEventQueue.pop_front();
+    CustomEventsParser::GetInstance()->LoadEvent(G_->GetWorld(), event, false, -1);
 }
 
 // Variable Stuff
