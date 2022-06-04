@@ -1,0 +1,6 @@
+[
+    {
+        "name": "Linux build (clang-10, libs from g++-4.8)",
+        "toolchainFile": "cmake-toolchains/linux.cmake"
+    }
+]
