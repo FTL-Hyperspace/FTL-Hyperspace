@@ -481,7 +481,9 @@ void SetupVTable(CrewMember *crew)
 HOOK_METHOD_PRIORITY(CrewMember, constructor, 500, (CrewBlueprint& bp, int shipId, bool intruder, CrewAnimation* animation) -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> CrewMember::constructor -> Begin (CrewVTable.cpp)\n")
+
     super(bp, shipId, intruder, animation);
+    iManningId = -1; // initialize to prevent crew AI crashes
 
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
 
