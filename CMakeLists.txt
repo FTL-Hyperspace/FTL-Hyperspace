@@ -1,0 +1,205 @@
+cmake_minimum_required(VERSION 3.16)
+project(Hyperspace CXX)
+
+find_package(Boost 1.36.0 REQUIRED)
+find_package(SDL2 REQUIRED)
+
+add_library(Hyperspace SHARED)
+target_compile_features(Hyperspace PRIVATE cxx_std_11)
+target_include_directories(Hyperspace PRIVATE rapidxml discord/include ${Boost_INCLUDE_DIRS} ${SDL2_INCLUDE_DIRS})
+target_link_directories(Hyperspace PRIVATE discord/lib)
+target_link_libraries(Hyperspace ${SDL2_LIBRARIES})
+target_sources(
+    Hyperspace PRIVATE
+    AbilityDrone.cpp
+    AbilityDrone.h
+    AlternateOxygenRendering.cpp
+    AlternateOxygenRendering.h
+    ArtilleryBarFix.cpp
+    AugmentValues.cpp
+    Augments.cpp
+    Balance.cpp
+    Balance.h
+    BeamFixes.cpp
+    Blueprint_Extend.cpp
+    Blueprint_Extend.h
+    Colors.cpp
+    Colors.h
+    CommandConsole.cpp
+    CommandConsole.h
+    Constants.h
+    CooldownNumbers.cpp
+    CooldownNumbers.h
+    Credits.cpp
+    CrewManifestVTable.cpp
+    CrewMember_Extend.cpp
+    CrewMember_Extend.h
+    CrewNames.cpp
+    CrewNames.h
+    CrewSpawn.cpp
+    CrewSpawn.h
+    CrewVTable.cpp
+    CustomAchievements.cpp
+    CustomAchievements.h
+    CustomAugments.cpp
+    CustomAugments.h
+    CustomBackgroundObject.cpp
+    CustomBackgroundObject.h
+    CustomBoss.cpp
+    CustomBoss.h
+    CustomColors.cpp
+    CustomColors.h
+    CustomCommandGui.cpp
+    CustomCommandGui.h
+    CustomCrew.cpp
+    CustomCrew.h
+    CustomCrewCommon.h
+    CustomCrewManifest.cpp
+    CustomCrewManifest.h
+    CustomCrystalShard.cpp
+    CustomCrystalShard.h
+    CustomDamage.cpp
+    CustomDamage.h
+    CustomDrones.cpp
+    CustomDrones.h
+    CustomEquipment.cpp
+    CustomEvents.cpp
+    CustomEvents.h
+    CustomFleetShips.cpp
+    CustomFleetShips.h
+    CustomHotkeys.cpp
+    CustomHotkeys.h
+    CustomMap.cpp
+    CustomOptions.cpp
+    CustomOptions.h
+    CustomReactor.cpp
+    CustomReactor.h
+    CustomRewards.cpp
+    CustomRewards.h
+    CustomScoreKeeper.cpp
+    CustomScoreKeeper.h
+    CustomSectors.cpp
+    CustomSectors.h
+    CustomShipGenerator.cpp
+    CustomShipGenerator.h
+    CustomShipSelect.cpp
+    CustomShipSelect.h
+    CustomShips.cpp
+    CustomShips.h
+    CustomStore.cpp
+    CustomStore.h
+    CustomStoreBox.cpp
+    CustomSuperShield.cpp
+    CustomSystems.cpp
+    CustomSystems.h
+    CustomUpgrades.cpp
+    CustomUpgrades.h
+    CustomWeapons.cpp
+    CustomWeapons.h
+    Debugging.cpp
+    DiscordIntegration.cpp
+    DiscordIntegration.h
+    DroneVTable.cpp
+    EnemyShipIcons.cpp
+    EnemyShipIcons.h
+    EnumClassHash.h
+    ErosionEffect.cpp
+    EventButtons.cpp
+    EventButtons.h
+    EventTooltip.cpp
+    EventTooltip.h
+    FTLGame.cpp
+    FTLGame.h
+    # FTLGameELF32.cpp
+    FTLGameELF32.h
+    # FTLGameELF64.cpp
+    FTLGameELF64.h
+    # FTLGameWin32.cpp
+    FTLGameWin32.h
+    Global.cpp
+    Global.h
+    HullNumbers.cpp
+    HullNumbers.h
+    Infinite.cpp
+    Infinite.h
+    InfiniteTeleport.cpp
+    Input.cpp
+    MainMenu.cpp
+    MainMenu.h
+    Misc.cpp
+    Misc.h
+    MoreInfoButton.cpp
+    MoreInfoButton.h
+    NeutralTeleporterFix.cpp
+    OverclockerSystem.cpp
+    OverclockerSystem.h
+    PALMemoryProtection.h
+    ProjectileVTable.cpp
+    Projectile_Extend.cpp
+    Projectile_Extend.h
+    RedesignedTooltips.cpp
+    RedesignedTooltips.h
+    RenderReactorBar.cpp
+    RenderReactorBar.h
+    Renderer.cpp
+    Resources.cpp
+    Resources.h
+    ReturnHacks.cpp
+    Room_Extend.cpp
+    Room_Extend.h
+    SaveFile.cpp
+    SaveFile.h
+    Seeds.cpp
+    Seeds.h
+    Shaders.cpp
+    ShipEditor.cpp
+    ShipEditor.h
+    ShipManager_Extend.cpp
+    ShipManager_Extend.h
+    ShipTypeC.cpp
+    ShipUnlocks.cpp
+    ShipUnlocks.h
+    ShipZoom.cpp
+    ShipZoom.h
+    SigScan.cpp
+    SigScan.h
+    SpaceId.cpp
+    StarMap.cpp
+    StatBoost.cpp
+    StatBoost.h
+    Store_Extend.cpp
+    Store_Extend.h
+    SystemDescriptionFixes.cpp
+    System_Extend.cpp
+    System_Extend.h
+    Systems.h
+    TemporalBoxVTable.cpp
+    TemporalSystem.cpp
+    TemporalSystem.h
+    TemporalSystemVTable.cpp
+    TileBasedCrewMovement.cpp
+    TileBasedCrewMovement.h
+    TimerHelper.cpp
+    ToggleValue.h
+    TriggeredEvents.cpp
+    Wormhole.cpp
+    detours.h
+    hde.cpp
+    hde.h
+    libzhl.h
+    main.cpp
+    main.h
+    palWindowsGeneric.h
+    zhl.cpp
+    zhl.h
+    zhl_internal.h
+    zhl_private.h
+)
+
+# target_compile_options(Hyperspace PRIVATE -Wall)
+target_compile_definitions(Hyperspace PRIVATE _REENTRANT)
+if(UNIX)
+    target_compile_definitions(Hyperspace PRIVATE SKIPDISCORD)
+elseif(WIN32)
+    target_compile_definitions(Hyperspace PRIVATE BUILD_DLL)
+endif()
