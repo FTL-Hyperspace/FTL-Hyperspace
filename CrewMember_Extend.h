@@ -51,6 +51,31 @@ extern const std::array<std::string, numStats> powerReadyStateExtraTextTrue;
 
 extern const std::array<std::string, numStats> powerReadyStateExtraTextFalse;
 
+struct ActivatedPower
+{
+public:
+    ActivatedPowerDefinition *def;
+
+    std::pair<float, float> powerCooldown = std::pair<float, float>();
+    std::pair<float, float> temporaryPowerDuration = std::pair<float, float>();
+    std::pair<int, int> powerCharges = std::pair<int, int>();
+
+    int powerRoom = -1;
+    int powerShip = -1;
+
+    bool powerActivated = false;
+    bool temporaryPowerActive = false;
+    bool powerDone = true;
+
+    Animation* effectAnim = nullptr;
+    Animation* tempEffectAnim = nullptr;
+    Animation* effectFinishAnim = nullptr;
+    GL_Texture* tempEffectStrip = nullptr;
+
+    Pointf effectPos;
+    Pointf effectWorldPos;
+};
+
 struct CrewAnimation_Extend
 {
 public:
