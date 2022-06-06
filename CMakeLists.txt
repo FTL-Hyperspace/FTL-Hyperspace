@@ -1,14 +1,14 @@
 cmake_minimum_required(VERSION 3.16)
 project(Hyperspace CXX)
 
-find_package(Boost 1.36.0 REQUIRED)
-find_package(SDL2 REQUIRED)
+find_package(Boost REQUIRED)
+find_package(SDL2 CONFIG REQUIRED)
 
 add_library(Hyperspace SHARED)
 target_compile_features(Hyperspace PRIVATE cxx_std_11)
 target_include_directories(Hyperspace PRIVATE rapidxml discord/include ${Boost_INCLUDE_DIRS} ${SDL2_INCLUDE_DIRS})
 target_link_directories(Hyperspace PRIVATE discord/lib)
-target_link_libraries(Hyperspace ${SDL2_LIBRARIES})
+target_link_libraries(Hyperspace PRIVATE SDL2::SDL2)
 target_sources(
     Hyperspace PRIVATE
     AbilityDrone.cpp
@@ -206,18 +206,26 @@ add_custom_command(
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-# Enable SSE2
-target_compile_options(Hyperspace PRIVATE -msse -msse2 -mfpmath=sse)
+target_compile_options(
+    Hyperspace PRIVATE
+    
+    # Enable SSE2
+    -msse -msse2 -mfpmath=sse
+    
+    # Error on narrowing conversion
+    -Werror=narrowing
+    
+    # Explicit C++11 mode
+    -std=c++11
+    
+    # Warn everything
+    # TODO: Check if it's meaningful (original .cbp defined it)
+    # -Wall
+)
 
-# TODO: Check if it's required. By default it's already C++14 for clang 10.
-# target_compile_options(Hyperspace PRIVATE -std=c++11)
-
-# TODO: Check if it's meaningful (original .cbp defined it)
-# target_compile_options(Hyperspace PRIVATE -Wall)
-
-target_compile_definitions(Hyperspace PRIVATE _REENTRANT)
+target_compile_definitions(Hyperspace PRIVATE _REENTRANT SKIPDISCORD)
 if(UNIX)
-    target_compile_definitions(Hyperspace PRIVATE SKIPDISCORD)
+    #
 elseif(WIN32)
     target_compile_definitions(Hyperspace PRIVATE BUILD_DLL)
 endif()

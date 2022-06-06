@@ -1,6 +1,18 @@
 [
     {
-        "name": "Linux build (clang-10, libs from g++-4.8)",
-        "toolchainFile": "cmake-toolchains/linux.cmake"
+        "name": "Linux build for FTL",
+        "toolchainFile": "/vcpkg/scripts/buildsystems/vcpkg.cmake",
+        "cmakeSettings": {
+            "VCPKG_HOST_TRIPLET": "x86-linux-ftl",
+            "VCPKG_TARGET_TRIPLET": "x86-linux-ftl",
+            "VCPKG_CHAINLOAD_TOOLCHAIN_FILE": "/vcpkg/scripts/toolchains/ftl-linux.cmake"
+        }
+    },
+    {
+        "name": "Windows build for FTL",
+        "toolchainFile": "/vcpkg/scripts/buildsystems/vcpkg.cmake",
+        "cmakeSettings": {
+            "VCPKG_TARGET_TRIPLET": "x86-mingw-static"
+        }
     }
 ]
