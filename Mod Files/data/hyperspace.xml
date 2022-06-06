@@ -676,6 +676,7 @@ Syntax ->
 			<powerCharges>-1</powerCharges>                                              Maximum number of ability uses per fight. Default is unlimited.
 			<initialCharges>999</initialCharges>                                         Initial number of ability uses when the crewmember is born.
 			<chargesPerJump>999</chargesPerJump>                                         Number of uses regenerated per jump.
+			<respawnCharges>0</respawnCharges>                                           Number of charges to add when cloning crew or respawning drones.
 			<powerSounds enemy="true">                                                   Sound effects to use when activating the power. enemy="false" mutes the sound for enemy crew.
 				<powerSound>lockdown1</powerSound>
 				<powerSound>lockdown2</powerSound>
