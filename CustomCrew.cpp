@@ -839,7 +839,11 @@ void CustomCrewManager::ParseAbilityEffect(rapidxml::xml_node<char>* stat, Activ
         }
         if (effectName == "initialCharges")
         {
-            def.chargesPerJump = boost::lexical_cast<int>(effectNode->value());
+            def.initialCharges = boost::lexical_cast<int>(effectNode->value());
+        }
+        if (effectName == "respawnCharges")
+        {
+            def.respawnCharges = boost::lexical_cast<int>(effectNode->value());
         }
         if (effectName == "chargesPerJump")
         {
@@ -2203,6 +2207,21 @@ void CrewAnimation_Extend::PreparePower(ActivatedPowerDefinition* def)
     }
 
     tempEffectBaseVisible = def->tempPower.baseVisible;
+}
+
+HOOK_METHOD(CrewMember, Restart, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> CrewMember::Restart -> Begin (CustomCrew.cpp)\n")
+    // Occurs when a crewmember is cloned or when a crew drone is deployed/redeployed
+
+    super();
+    auto ex = CM_EX(this);
+
+    ActivatedPowerDefinition* powerDef = ex->GetPowerDef();
+    if (powerDef)
+    {
+        ex->powerCharges.first = std::max(0,std::min(ex->powerCharges.first + powerDef->respawnCharges, ex->powerCharges.second));
+    }
 }
 
 void CrewAnimation_Extend::OnInit(const std::string& name, Pointf position, bool enemy)

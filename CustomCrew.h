@@ -269,6 +269,7 @@ struct ActivatedPowerDefinition
     int powerCharges = -1;
     int initialCharges = 2147483647;
     int chargesPerJump = 1073741823;
+    int respawnCharges = 0;
 
 
     std::vector<std::string> sounds;
