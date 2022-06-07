@@ -228,4 +228,5 @@ if(UNIX)
     #
 elseif(WIN32)
     target_compile_definitions(Hyperspace PRIVATE BUILD_DLL)
+    # target_compile_options(Hyperspace PRIVATE -masm=intel)
 endif()
