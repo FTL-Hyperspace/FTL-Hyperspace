@@ -51,3 +51,6 @@ build/
 
 # vcpkg
 vcpkg_installed/
+
+# vscode
+.vscode/settings.json
