@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM ubuntu:focal
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -26,10 +26,15 @@ RUN apt install -y --no-install-recommends g++-4.8-multilib \
     && ln -s /usr/lib/gcc/x86_64-linux-gnu/4.8 4.8
 
 # Setup Windows toolchain
-RUN apt install -y --no-install-recommends g++-mingw-w64-i686-win32
+RUN apt install -y --no-install-recommends g++-mingw-w64-i686
+
+# Setup powershell (required for Windows build when vcpkg is involved)
+RUN (curl -sL https://github.com/PowerShell/PowerShell/releases/download/v7.2.4/powershell-lts_7.2.4-1.deb_amd64.deb) \
+    > /tmp/pwsh.deb \
+    && (dpkg -i /tmp/pwsh.deb; apt install -y --no-install-recommends -f)
 
 # TODO: vcpkg-fy
-# RUN apt install -y --no-install-recommends libboost-all-dev lua5.3 luarocks liblua5.3-dev libsdl2-dev:i386 libsdl2-dev
+# RUN apt install -y --no-install-recommends lua5.3 luarocks liblua5.3-dev
 
 # Setup vcpkg
 RUN cd / \
@@ -40,10 +45,10 @@ RUN cd / \
 COPY triplets/* /vcpkg/triplets/
 COPY toolchains/* /vcpkg/scripts/toolchains/
 
-# Workaround for boost
+# Workarounds for boost
 RUN ln -s /usr/bin/clang-10 /usr/bin/clang && ln -s /usr/bin/clang++-10 /usr/bin/clang++
 
-# Workaround for SDL2
+# Workarounds for SDL2
 RUN ln -s /usr/gcc-4.8-clang-toolchain/include/asm-generic /usr/gcc-4.8-clang-toolchain/include/asm
 
 # TODO: Add
