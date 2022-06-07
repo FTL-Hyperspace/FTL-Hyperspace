@@ -1,4 +1,0 @@
-{
-    "cmake.configureOnOpen": false,
-    "cmake.configureArgs": ["-DCMAKE_VERBOSE_MAKEFILE=ON"]
-}
