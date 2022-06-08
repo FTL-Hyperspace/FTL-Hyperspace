@@ -33,7 +33,7 @@ script.on_game_event("DETERGENT_MODE", false, tidePod_eat)
 local tideMode_seconds = 0
 function tidePod_renderEffects_before()
     if mods.hsFun.tideMode then
-        tideMode_seconds = tideMode_seconds + Hyperspace.FPS.SpeedFactor
+        tideMode_seconds = tideMode_seconds + (Hyperspace.FPS.SpeedFactor / 16)
         if tideMode_seconds > 10 then
             tideMode_seconds = 0
         end
