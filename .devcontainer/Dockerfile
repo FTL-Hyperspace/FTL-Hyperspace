@@ -17,6 +17,7 @@ RUN cd /usr/local \
     && bash /tmp/cmakeinstall.sh --skip-license
 
 # Setup Linux toolchain
+# (See https://github.com/FTL-Hyperspace/FTL-Hyperspace/blob/master/BUILDING.LINUX.md#compiling-requires-llvm-clang)
 RUN apt install -y --no-install-recommends g++-4.8-multilib \
     && mkdir -p /usr/gcc-4.8-clang-toolchain/lib/gcc/x86_64-linux-gnu \
     && cd /usr/gcc-4.8-clang-toolchain \
@@ -25,13 +26,11 @@ RUN apt install -y --no-install-recommends g++-4.8-multilib \
     && cd lib/gcc/x86_64-linux-gnu \
     && ln -s /usr/lib/gcc/x86_64-linux-gnu/4.8 4.8
 
-# Setup Windows toolchain
-RUN apt install -y --no-install-recommends g++-mingw-w64-i686
-
-# Setup powershell (required for Windows build when vcpkg is involved)
-RUN (curl -sL https://github.com/PowerShell/PowerShell/releases/download/v7.2.4/powershell-lts_7.2.4-1.deb_amd64.deb) \
-    > /tmp/pwsh.deb \
-    && (dpkg -i /tmp/pwsh.deb; apt install -y --no-install-recommends -f)
+# Setup Windows toolchain (Powershell is required for Windows build when vcpkg is involved)
+RUN apt install -y --no-install-recommends g++-mingw-w64-i686 \
+    && (curl -sL \
+    https://github.com/PowerShell/PowerShell/releases/download/v7.2.4/powershell-lts_7.2.4-1.deb_amd64.deb) \
+    > /tmp/pwsh.deb && (dpkg -i /tmp/pwsh.deb; apt install -y --no-install-recommends -f)
 
 # TODO: vcpkg-fy
 # RUN apt install -y --no-install-recommends lua5.3 luarocks liblua5.3-dev
