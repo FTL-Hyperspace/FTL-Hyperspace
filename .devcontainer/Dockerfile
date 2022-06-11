@@ -30,7 +30,8 @@ RUN apt install -y --no-install-recommends g++-4.8-multilib \
 RUN apt install -y --no-install-recommends g++-mingw-w64-i686 \
     && (curl -sL \
     https://github.com/PowerShell/PowerShell/releases/download/v7.2.4/powershell-lts_7.2.4-1.deb_amd64.deb) \
-    > /tmp/pwsh.deb && (dpkg -i /tmp/pwsh.deb; apt install -y --no-install-recommends -f)
+    > /tmp/pwsh.deb && (dpkg -i /tmp/pwsh.deb; apt install -y --no-install-recommends -f) \
+    && pwsh -Command "Write-Output 'Powershell installed successfully.'"
 
 # TODO: vcpkg-fy
 # RUN apt install -y --no-install-recommends lua5.3 luarocks liblua5.3-dev
