@@ -87,6 +87,19 @@ EventButtonDefinition* EventButtonManager::ParseEventButton(rapidxml::xml_node<c
                 def->inactiveTooltip.isLiteral = false;
             }
         }
+        else if (strcmp(child->name(), "req") == 0)
+        {
+            def->req = child->value();
+            if (child->first_attribute("max_lvl"))
+            {
+                def->max_lvl = boost::lexical_cast<int>(child->first_attribute("max_lvl")->value());
+                def->lvl = -2147483647;
+            }
+            if (child->first_attribute("lvl"))
+            {
+                def->lvl = boost::lexical_cast<int>(child->first_attribute("lvl")->value());
+            }
+        }
         else if (strcmp(child->name(), "color") == 0)
         {
             ParseColorNode(def->activeColor, child);
@@ -176,6 +189,27 @@ void EventButtonManager::Save(int fh)
     }
 }
 
+bool EventButton::CheckReq()
+{
+    if (!def->req.empty())
+    {
+        ShipManager* player = G_->GetShipManager(0);
+
+        if (player)
+        {
+            advancedCheckEquipment[3] = true;
+            int reqLvl = player->HasEquipment(def->req);
+            advancedCheckEquipment[3] = false;
+            return (reqLvl >= def->lvl && reqLvl <= def->max_lvl);
+        }
+        return false;
+    }
+    else
+    {
+        return true;
+    }
+}
+
 void EventButton::OnInitImage()
 {
     button = std::unique_ptr<GenericButton>(new Button);
@@ -253,6 +287,7 @@ HOOK_METHOD(ShipStatus, OnLoop, () -> void)
             {
                 button.button->bActive = gui->upgradeButton.bActive;
             }
+            button.button->bActive &= button.CheckReq();
         }
 
         auto it = customButtons.begin();

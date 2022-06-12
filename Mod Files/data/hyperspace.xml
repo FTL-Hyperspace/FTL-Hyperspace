@@ -1919,6 +1919,7 @@ Syntax ->
 		<customLocation x="0" y="0"/>                                                           Override location ID with fixed location on the screen.
 		<tooltip id="_id_">_text_</text>                                                        Hover tooltip when active.
 		<inactiveTooltip id="_id_">_text_</text>                                                Hover tooltip when inactive.
+		<req lvl="1" max_lvl="2147483647">reqName</req>                                         Disables and enables the button dynamically based on player equipment.
 		<color r="235" g="245" b="229"/>                                                        Color for text button when active.
 		<activeColor r="235" g="245" b="229"/>                                                  Color for text button when active.
 		<inactiveColor r="164" g="171" b="160"/>                                                Color for text button when inactive.

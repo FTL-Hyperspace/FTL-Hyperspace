@@ -14,7 +14,7 @@ extern std::bitset<8> advancedCheckEquipment;
 // bit 0: WorldManager::CreateChoiceBox
 // bit 1: StarMap::RenderLabels
 // bit 2: LoadEvent
-// bit 3: CustomBackgroundObject::OnLoop
+// bit 3: CustomBackgroundObject::OnLoop and EventButton::CheckReq
 // bit 4: VariableModifier::ApplyVariables
 // bit 5: TriggeredEvent::Update
 // bit 6: StarMap::GenerateEvents (priority events), StarMap::GenerateMap (sector quests and regenerated events)
