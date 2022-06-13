@@ -3,12 +3,15 @@ project(Hyperspace CXX)
 
 find_package(Boost REQUIRED)
 find_package(SDL2 CONFIG REQUIRED)
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_package(Threads REQUIRED)
 
 add_library(Hyperspace SHARED)
 target_compile_features(Hyperspace PRIVATE cxx_std_11)
 target_include_directories(Hyperspace PRIVATE rapidxml discord/include ${Boost_INCLUDE_DIRS} ${SDL2_INCLUDE_DIRS})
 target_link_directories(Hyperspace PRIVATE discord/lib)
-target_link_libraries(Hyperspace PRIVATE SDL2::SDL2)
+target_link_libraries(Hyperspace PRIVATE SDL2::SDL2-static)
+target_link_libraries(Hyperspace PRIVATE Threads::Threads)
 target_sources(
     Hyperspace PRIVATE
     AbilityDrone.cpp
@@ -225,7 +228,6 @@ target_compile_options(
 
 target_compile_definitions(Hyperspace PRIVATE _REENTRANT SKIPDISCORD)
 if(UNIX)
-    #
 elseif(WIN32)
     target_compile_definitions(Hyperspace PRIVATE BUILD_DLL)
     # target_compile_options(Hyperspace PRIVATE -masm=intel)

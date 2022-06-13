@@ -11,13 +11,13 @@ string(CONCAT _compiler_flags
 " -D__MINGW_FORCE_SYS_INTRINS"
 
 # i686-w64-mingw32-g++-posix -E -x c++ - -v < /dev/null
-" -isystem /usr/lib/gcc/i686-w64-mingw32/9.3-posix/include/c++"
-" -isystem /usr/lib/gcc/i686-w64-mingw32/9.3-posix/include/c++/i686-w64-mingw32"
-" -isystem /usr/lib/gcc/i686-w64-mingw32/9.3-posix/include/c++/backward"
-" -isystem /usr/lib/gcc/i686-w64-mingw32/9.3-posix/include"
+" -isystem /usr/lib/gcc/i686-w64-mingw32/9.4-posix/include/c++"
+" -isystem /usr/lib/gcc/i686-w64-mingw32/9.4-posix/include/c++/i686-w64-mingw32"
+" -isystem /usr/lib/gcc/i686-w64-mingw32/9.4-posix/include/c++/backward"
+" -isystem /usr/lib/gcc/i686-w64-mingw32/9.4-posix/include"
 # Do not include fixincludes
 # REF: https://codechecker.readthedocs.io/en/v6.9.0/gcc_incompatibilities/
-#" -isystem /usr/lib/gcc/i686-w64-mingw32/9.3-posix/include-fixed"
+#" -isystem /usr/lib/gcc/i686-w64-mingw32/9.4-posix/include-fixed"
 " -isystem /usr/i686-w64-mingw32/include"
 
 # Use utils starting with `i686-w64-mingw32-`
@@ -35,8 +35,8 @@ set(CMAKE_C_FLAGS_DEBUG_INIT "-DDEBUG")
 set(CMAKE_CXX_FLAGS_DEBUG_INIT "-DDEBUG")
 set(CMAKE_C_FLAGS_RELEASE_INIT "-DNDEBUG")
 set(CMAKE_CXX_FLAGS_RELEASE_INIT "-DNDEBUG")
-set(CMAKE_SHARED_LINKER_FLAGS_INIT "-static -L/usr/i686-w64-mingw32/lib -L/usr/lib/gcc/i686-w64-mingw32/9.3-posix")
-set(CMAKE_EXE_LINKER_FLAGS_INIT "-static -L/usr/i686-w64-mingw32/lib -L/usr/lib/gcc/i686-w64-mingw32/9.3-posix")
+set(CMAKE_SHARED_LINKER_FLAGS_INIT "-static -L/usr/i686-w64-mingw32/lib -L/usr/lib/gcc/i686-w64-mingw32/9.4-posix")
+set(CMAKE_EXE_LINKER_FLAGS_INIT "-static -L/usr/i686-w64-mingw32/lib -L/usr/lib/gcc/i686-w64-mingw32/9.4-posix")
 
 # From mingw-w64-i686-dev package
 set(CMAKE_FIND_ROOT_PATH /usr/i686-w64-mingw32)
