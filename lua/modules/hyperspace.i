@@ -41,10 +41,12 @@ float getSkillBonus(int skill, int level);
 int random32();
 void srandom32(unsigned int seed);
 
-%rename("version") HS_Version; 
+%rename("version") HS_Version;
 %extend HyperspaceVersion {
     const char* __str__() const {
-        return $self->toVersionString().c_str();
+        static std::string ret;
+        ret = $self->toVersionString();
+        return ret.c_str();
     }
 };
 %include "HSVersion.h"
@@ -71,7 +73,7 @@ public:
 /* Create Hyperspace.ships metatable that contains:
     Hyperspace.ships.player (ShipManager)
     Hyperspace.ships.enemy (ShipManager)
-    
+
     Note this might need to extend the table returned by player & enemy so it has access to the contents of `CompleteShip` or `BossShip`? Since those are two completely flipping unrelated classes that have to be gotten via a completely different path of CApp->World->playerShip (CompleteShip) and CApp->World->bossShip (BossShip) and can't be retreived from the damn ShipManager?
     That is assuming we actually need to expose anything from those... like CompleteShip:KillRandomCrew() or maybe we make some new table and just bring in methods from both.
     We could totally return another metatable so that things like `ships.player:KillRandomCrew()` could access `CompleteShip` while `ships.player:DamageHull()` could route to `ShipManager`'s function internally (kinda a manual multiple inheritance)
@@ -298,7 +300,7 @@ struct CFPS
 %rename("%s") StarMap::PointToGrid;
 ////%rename("%s") StarMap::PopClosestLoc; // Not sure if this would be useful or safe
 ////%rename("%s") StarMap::SelectNewSector; // Not sure if safe
-//%rename("%s") StarMap::TurnIntoFleetLocation; // Could be interesting to allow something like 1. Delaying the pursuit for many many turns, 2. having every node you jump out of (or random nodes you've already visited or that do not line up with the path to the exit) convert to a fleet location as if they were chasing your path rather than the whole sector. 
+//%rename("%s") StarMap::TurnIntoFleetLocation; // Could be interesting to allow something like 1. Delaying the pursuit for many many turns, 2. having every node you jump out of (or random nodes you've already visited or that do not line up with the path to the exit) convert to a fleet location as if they were chasing your path rather than the whole sector.
 
 //%rename("%s") StarMap::visual_size; // Not sure
 %rename("%s") StarMap::currentLoc; // Current location always, even after load, this is the gold source for location after a load best I can figure out. Oh and in the base game it doesn't load backgrounds properly but does load the planet texture so then `WorldManager::CreateLocation` doesn't bother to update the texture because not both are null.

@@ -2961,7 +2961,9 @@ SWIGINTERN void std_vector_Sl_ArtillerySystem_Sm__Sg____setitem__(std::vector< A
 				(*self)[idx]=val;
 			}
 SWIGINTERN char const *HyperspaceVersion___str__(HyperspaceVersion const *self){
-        return self->toVersionString().c_str();
+        static std::string ret;
+        ret = self->toVersionString();
+        return ret.c_str();
     }
 #ifdef __cplusplus
 extern "C" {
