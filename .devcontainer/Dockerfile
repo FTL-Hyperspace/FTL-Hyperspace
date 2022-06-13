@@ -1,3 +1,30 @@
+# 1st image: Build mingw-w64 for Windows with modified configurations
+FROM ubuntu:focal
+
+ENV DEBIAN_FRONTEND=noninteractive
+COPY mingw.patch /mingw-build/
+
+# Fetch build tools and deps
+RUN sed -Ei 's/^# deb-src /deb-src /' /etc/apt/sources.list \
+    && apt update \
+    && apt install -y --no-install-recommends build-essential dpkg-dev devscripts locales \
+    && ln -s /usr/bin/autoconf /usr/bin/autoconf2.69 \
+    && ln -s /usr/bin/autom4te /usr/bin/autom4te2.69 \
+    && (LC_ALL=en_US.UTF-8 LANGUAGE=en_US.UTF-8 locale-gen en_US.UTF-8) \
+    && apt build-dep -y g++-mingw-w64-i686
+
+# Fetch source
+RUN mkdir -p /mingw-build/mingw-dwarf2-build \
+    && cd /mingw-build/mingw-dwarf2-build \
+    && apt source g++-mingw-w64-i686
+
+# Patch .deb buildscripts and build
+RUN cd /mingw-build/mingw-dwarf2-build \
+    && patch -p1 -s < /mingw-build/mingw.patch \
+    && cd gcc-mingw-w64-22~exp1ubuntu4 \
+    && debuild -b -uc -us
+
+# 2nd image: devcontainer
 FROM ubuntu:focal
 
 ENV DEBIAN_FRONTEND=noninteractive
@@ -27,10 +54,11 @@ RUN apt install -y --no-install-recommends g++-4.8-multilib \
     && ln -s /usr/lib/gcc/x86_64-linux-gnu/4.8 4.8
 
 # Setup Windows toolchain (Powershell is required for Windows build when vcpkg is involved)
-RUN apt install -y --no-install-recommends g++-mingw-w64-i686 \
-    && (curl -sL \
+COPY --from=0 /mingw-build/mingw-dwarf2-build/*.deb /mingw-build/mingw-dwarf2-build/
+RUN (curl -sL \
     https://github.com/PowerShell/PowerShell/releases/download/v7.2.4/powershell-lts_7.2.4-1.deb_amd64.deb) \
-    > /tmp/pwsh.deb && (dpkg -i /tmp/pwsh.deb; apt install -y --no-install-recommends -f) \
+    > /tmp/pwsh.deb \
+    && apt install -y --no-install-recommends /mingw-build/mingw-dwarf2-build/*.deb /tmp/pwsh.deb \
     && pwsh -Command "Write-Output 'Powershell installed successfully.'"
 
 # TODO: vcpkg-fy
