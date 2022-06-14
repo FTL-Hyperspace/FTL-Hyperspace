@@ -5,7 +5,7 @@ permalink: /install-guides/windows/steam-install/
 ---
 
 ### Common install instructions test
-{% include_relative windows-common-install.md %}
+{% include_relative windows-common-install.html %}
 
 ### Steam specific instructions test
 test
