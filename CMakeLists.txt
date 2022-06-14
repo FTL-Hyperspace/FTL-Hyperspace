@@ -203,7 +203,6 @@ target_sources(
     detours.h
     hde.cpp
     hde.h
-    libzhl.h
     main.cpp
     main.h
     palWindowsGeneric.h
