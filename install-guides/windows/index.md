@@ -29,6 +29,11 @@ Hyperspace only works with FTL 1.6.9, the following will guide you on both insta
 #### My game crashes before loading Multiverse
 - ***AMD & Intel*** GPUs need to start FTL with the `-opengl` option.
 - ***Nvidia*** GPUs ***must not*** use `-opengl` or they will crash.
+   - If creating the shortcut you just create a shortcut to the game and add `-opengl` after the last `"`"
+      - ![image](https://user-images.githubusercontent.com/1423894/173691599-b8fa5b9a-0663-437b-99a4-48216602700c.png)
+   - If using steam you can use the launch options
+      - ![image](https://user-images.githubusercontent.com/1423894/173692491-3e2a597a-29b3-44a0-9e3b-c8843708054e.png)
+
 
 #### My game hangs on loading the last `E` in multiverse
 - [You have a corrupt save file](#resolving-a-corrupt-save-file)
