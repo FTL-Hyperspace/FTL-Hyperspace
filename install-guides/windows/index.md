@@ -1,7 +1,7 @@
 ---
 layout: default
 title: "Windows Hyperspace Install Instructions"
-permalink: /install-guides/windows/"
+permalink: /install-guides/windows/
 ---
 
 Test adding a new page
