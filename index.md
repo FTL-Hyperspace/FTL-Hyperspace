@@ -64,5 +64,7 @@ Art:
 ### Previews
 
 [Custom Ship Selector](https://gfycat.com/academicgargantuanbug)
+
 [Custom Races](https://gfycat.com/handmadeflimsyarizonaalligatorlizard)
+
 [Seeds](https://gfycat.com/favoritesickbarnswallow)
