@@ -20,9 +20,9 @@ Hyperspace only works with FTL 1.6.9, the following will guide you on both insta
 - [Steam](./steam-install)
 - [GoG](./gog-install)
 - [Humble Bundle](./humble-install)
-- [Epic Games](./other-install)
-- [Origin](./other-install)
-- [Microsoft Store/Xbox Game Pass](./other-install)
+- [Epic Games](./other-install#epic)
+- [Origin](./other-install#origin)
+- [Microsoft Store/Xbox Game Pass](./other-install#microsoft-storexbox-game-pass)
 
 ## Troubleshooting
 
