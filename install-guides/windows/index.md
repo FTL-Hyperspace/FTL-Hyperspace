@@ -21,3 +21,22 @@ Patch the new `Hyperspace.ftl` with slipstream if you are using a mod that requi
 - Epic Games
 - Origin
 - Microsoft Store/Xbox Game Pass
+
+## Troubleshooting
+
+#### My game crashes before loading Multiverse
+- ***AMD & Intel*** GPUs need to start FTL with the `-opengl` option.
+- ***Nvidia*** GPUs ***must not*** use `-opengl` or they will crash.
+
+#### My game hangs on loading the last `E` in multiverse
+- [You have a corrupt save file](#resolving-a-corrupt-save-file)
+#### My game hangs on loading but doesn't crash and I hear music
+- [You have a corrupt save file](#resolving-a-corrupt-save-file)
+
+#### Resolving a corrupt save file
+To potentially fix a corrupted save:
+1. Go to `Documents/My Games/FasterThanLight`, you should have a `hs_mv_prof.sav` and `hs_mv_version.sav`
+2. Delete the `hs_mv_version.sav`
+3. Move the `hs_mv_prof.sav` to another folder (**do not delete it**)
+4. Run the game and once it loads to the main menu close it again
+5. Move your original `hs_mv_prof.sav` back where it was before, replacing the one that was created by the game
