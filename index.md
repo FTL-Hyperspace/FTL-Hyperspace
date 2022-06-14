@@ -1,37 +1,68 @@
-## Welcome to GitHub Pages
+![image](https://user-images.githubusercontent.com/1423894/173623792-b871e491-dc1c-41c9-8c0e-8ec55fee5964.png)
 
-You can use the [editor on GitHub](https://github.com/FTL-Hyperspace/FTL-Hyperspace/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+# FTL Hyperspace
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+A binary mod for the game FTL: Faster Than Light
 
-### Markdown
+## Overview
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+FTL: Hyperspace is a hard-coded mod (or "exe mod") which aims to extend the modding capabilities of FTL.
+It provides a backend to more complex mods which were never possible before, adding features such as the ability to add completely new races with their own stats, a ship selector with infinite pages, and combining augments to create completely new ones.
 
-```markdown
-Syntax highlighted code block
+Seeded runs are now a feature of Hyperspace, too! You can input a seed before starting a run which will disable unlocks and generate the map based on the seed, allowing you to redo a run or play the same run as someone else (to race them, for example!).
 
-# Header 1
-## Header 2
-### Header 3
+Currently, the biggest mod which utilizes Hyperspace is [FTL: Multiverse](https://subsetgames.com/forum/viewtopic.php?f=11&t=35332). Go check them out!
 
-- Bulleted
-- List
+The mod also contains some Quality of Life changes to FTL, such as a numerical hull indicator for the player and enemy.
 
-1. Numbered
-2. List
+## Installation
 
-**Bold** and _Italic_ and `Code` text
+Please see the respective install guide for:
+- [Windows](install-guides/windows/index.html) (WORK IN PROGRESS)
+- [Linux & Steam Deck](install-guides/linux/index.html) (WORK IN PROGRESS)
+- MacOS is currently not directly supported, your milage may vary but you might get the Windows version working with Crossover or the Linux version working inside a VM with sufficient RAM.
 
-[Link](url) and ![Image](src)
-```
+## Mod Makers
 
-For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
+Most of the features that you can use from Hyperspace are documented in data/hyperspace.xml in Hyperspace.ftl.
+Use a hyperspace.xml.append and add the xml tags you need for your mod.
+Ideally, the user would download Hyperspace as well as your mod, and install Hyperspace.ftl first then your mod.
+For maximum compatibility with other mods, don't redistribute the Hyperspace resource files or binaries and instead just direct the user to download Hyperspace in your forum post.
 
-### Jekyll Themes
+The Lua API for 1.2.0 and above is documented in the [wiki](https://github.com/FTL-Hyperspace/FTL-Hyperspace/wiki)
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/FTL-Hyperspace/FTL-Hyperspace/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+Additional documentation is/will be available in the [wiki](https://github.com/FTL-Hyperspace/FTL-Hyperspace/wiki).
+If you would like to suggest improvements to the wiki it is welcomed by creating an issue on github & linking to a clone of the wiki repository or providing a snippet in markdown to add/modify.
 
-### Support or Contact
+Join the [***FTL Multiverse Discord***](https://discord.gg/hhs5ecx) and talk with us on the hyperspace channels for additional discussion.
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+### Credits
+
+Development:
+- TheSwiftTiger
+- Winderps
+- ih8ih8sn0w
+- Admiral Billy
+- laszlogasd
+- mathchamp93
+- Mr. Doom/Nasa62
+
+Art:
+- SaltyFriedRice
+
+### Special Thanks
+
+- \_Kilburn
+- slow (slowriderxcorps)
+- Masala
+- bamalf
+- Puffias Leroy McBillington III (KingdomKrafters/Kix)
+- BlizzArchonJ (mr_easy_money)
+- Paradigm
+- FTL Multiverse Team
+
+### Previews
+
+[Custom Ship Selector](https://gfycat.com/academicgargantuanbug)
+[Custom Races](https://gfycat.com/handmadeflimsyarizonaalligatorlizard)
+[Seeds](https://gfycat.com/favoritesickbarnswallow)
