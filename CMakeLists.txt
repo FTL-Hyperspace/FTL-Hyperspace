@@ -1,17 +1,31 @@
 cmake_minimum_required(VERSION 3.16)
 project(Hyperspace CXX)
 
+set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+
+# Deps from vcpkg
 find_package(Boost REQUIRED)
 find_package(SDL2 CONFIG REQUIRED)
+find_package(DiscordRpc REQUIRED)
+
+# pthread
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
 
+# Name the binary as Hyperspace.dll instead of libHyperspace.dll
+set(CMAKE_SHARED_LIBRARY_PREFIX_CXX "")
+
 add_library(Hyperspace SHARED)
 target_compile_features(Hyperspace PRIVATE cxx_std_11)
-target_include_directories(Hyperspace PRIVATE rapidxml discord/include ${Boost_INCLUDE_DIRS} ${SDL2_INCLUDE_DIRS})
-target_link_directories(Hyperspace PRIVATE discord/lib)
-target_link_libraries(Hyperspace PRIVATE SDL2::SDL2-static)
-target_link_libraries(Hyperspace PRIVATE Threads::Threads)
+target_include_directories(
+    Hyperspace PRIVATE
+    # Note: Don't vcpkg-fy rapidxml. It's already more than a decade old and we've customized the code to avoid its bug
+    #       that leads to a compilation failure. See https://sourceforge.net/p/rapidxml/bugs/16/ for more info.
+    rapidxml
+    ${Boost_INCLUDE_DIRS}
+)
+target_link_libraries(Hyperspace PRIVATE SDL2::SDL2-static DiscordRpc::DiscordRpc Threads::Threads)
+
 target_sources(
     Hyperspace PRIVATE
     AbilityDrone.cpp
@@ -226,7 +240,7 @@ target_compile_options(
     # -Wall
 )
 
-target_compile_definitions(Hyperspace PRIVATE _REENTRANT SKIPDISCORD)
+target_compile_definitions(Hyperspace PRIVATE _REENTRANT)
 if(UNIX)
 elseif(WIN32)
     target_compile_definitions(Hyperspace PRIVATE BUILD_DLL)

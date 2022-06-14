@@ -4,18 +4,20 @@
 
 #define LIBZHL_API 
 
-#ifdef _WIN32
+#ifdef _MSC_VER
     #define LIBZHL_INTERFACE __declspec(novtable)
     __declspec(noreturn) inline void __cdecl __NOP() {}
     #define LIBZHL_PLACEHOLDER {__NOP();}
-#elif defined(__linux__)
+#elif defined(__GNUC__)
     #define LIBZHL_INTERFACE
     #define LIBZHL_PLACEHOLDER {\
         _Pragma("GCC diagnostic push") \
         _Pragma("GCC diagnostic ignored \"-Wreturn-type\"") \
         (void)0; } \
         _Pragma("GCC diagnostic pop")
-    #define __stdcall
+	#ifndef __stdcall
+    	#define __stdcall
+	#endif
 #endif
 
 
