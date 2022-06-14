@@ -37,6 +37,7 @@ Hyperspace only works with FTL 1.6.9, the following will guide you on both insta
 
 #### My game hangs on loading the last `E` in multiverse
 - [You have a corrupt save file](#resolving-a-corrupt-save-file)
+
 #### My game hangs on loading but doesn't crash and I hear music
 - [You have a corrupt save file](#resolving-a-corrupt-save-file)
 
