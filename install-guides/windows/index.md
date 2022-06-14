@@ -13,11 +13,13 @@ Patch the new `Hyperspace.ftl` with slipstream if you are using a mod that requi
 
 ## First time Installs
 
+Hyperspace only works with FTL 1.6.9, the following will guide you on both installation & downgrading for your install of FTL depending on where you bought FTL from:
+
 ### What FTL installation do you have?
 
 - [Steam](./steam-install)
-- GoG
-- Humble Bundle
+- [GoG](./gog-install)
+- [Humble Bundle](./humble-install)
 - Epic Games
 - Origin
 - Microsoft Store/Xbox Game Pass
