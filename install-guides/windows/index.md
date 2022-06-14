@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: default
 title: "Windows Hyperspace Install Instructions"
 permalink: /install-guides/windows/"
 ---
