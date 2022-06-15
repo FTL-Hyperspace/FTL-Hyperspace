@@ -8,10 +8,11 @@ permalink: /install-guides/windows/steam-install/
 
 ## Downgrading & Installing Hyperspace Library
 
-This downgrader will **ONLY** work for Steam's 1.6.14 version of FTL, if you have any other FTL install not from steam you need to look at the [other install instructions for your source](/install-guides/windows/).
+This downgrader will **ONLY** work for Steam's 1.6.14 version of FTL, if you have any other FTL install not from steam you need to look at the [other install instructions for your source](/FTL-Hyperspace/install-guides/windows/).
 
-1. Start FTL, at the main menu in the lower right it ***MUST*** say `Steam Version: 1.6.14`, if it says `1.6.9` you have already downgraded. If it says anything else you might have some mods still installed! (where x.x.x is the version of Hyperspace)
+1. Start FTL, at the main menu in the lower right it ***MUST*** say `Steam Version: 1.6.14`, if it says `1.6.9` you have already downgraded. If it says anything else you might have some mods still installed!
 2. Download [`FTL-Hyperspace.x.x.x.zip` from here](https://github.com/FTL-Hyperspace/FTL-Hyperspace/releases/latest)
+   - (where x.x.x is the version of Hyperspace)
    - Don't download the source code zip or tar.gz, only the `FTL-Hyperspace` zip
 3. Navigate in Steam to FTL and browse local files. ![image](https://user-images.githubusercontent.com/1423894/173640622-7c442fc2-89a2-418f-ba28-354568381263.png)
 4. Your local files should look like so: (please note there are some language differences in Windows here)
