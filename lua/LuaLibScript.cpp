@@ -1,3 +1,4 @@
+#include <sstream>
 #include <vector>
 #include <map>
 #include "LuaLibScript.h"
@@ -120,7 +121,7 @@ void LuaLibScript::call_on_render_event_pre_callbacks(RenderEvents::Identifiers 
 {
     assert(id > RenderEvents::UNKNOWN);
     assert(id < RenderEvents::UNKNOWN_MAX);
-    
+
     if(m_on_render_event_callbacks.count(id) == 0)
         return; // No registered callbacks
 
@@ -138,7 +139,7 @@ void LuaLibScript::call_on_render_event_post_callbacks(RenderEvents::Identifiers
 {
     assert(id > RenderEvents::UNKNOWN);
     assert(id < RenderEvents::UNKNOWN_MAX);
-    
+
     if(m_on_render_event_callbacks.count(id) == 0)
         return; // No registered callbacks
 
@@ -182,7 +183,7 @@ void LuaLibScript::call_on_internal_event_callbacks(InternalEvents::Identifiers 
 {
     assert(id > InternalEvents::UNKNOWN);
     assert(id < InternalEvents::UNKNOWN_MAX);
-    
+
     if(m_on_internal_event_callbacks.count(id) == 0)
         return; // No registered callbacks
 
@@ -227,8 +228,23 @@ HOOK_METHOD(WorldManager, UpdateLocation, (LocationEvent* locationEvent) -> void
 HOOK_METHOD(WorldManager, CreateLocation, (Location* location) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> WorldManager::CreateLocation -> Begin (LuaLibScript.cpp)\n")
-    printf("CreateLocation - LocationEvent Seen, name: %s\n", location->event->eventName.c_str());
-    Global::GetInstance()->getLuaContext()->getLibScript()->call_on_game_event_callbacks(location->event->eventName.c_str(), Global::GetInstance()->GetWorld()->bLoadingGame);
+
+    std::string eventName;
+
+    if (location->boss)
+    {
+        std::stringstream s;
+        s << "BOSS_TEXT_" << bossShip->nextStage;
+
+        eventName = s.str();
+    }
+    else
+    {
+        eventName = location->event->eventName;
+    }
+
+    printf("CreateLocation - LocationEvent Seen, name: %s\n", eventName.c_str());
+    Global::GetInstance()->getLuaContext()->getLibScript()->call_on_game_event_callbacks(eventName.c_str(), bLoadingGame);
     super(location);
    // TODO: Also call lua scripting for entering a location? (In addition to when the event is loaded) Maybe this is like Events.OnLocation and the other is the special LocationEvent that takes a name to hook to.
 }
