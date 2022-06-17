@@ -1,0 +1,2 @@
+# Ignore SWIG generated CPP files
+*.cpp
