@@ -902,6 +902,7 @@ public:
     }
 
     CustomEvent *GetCustomEvent(const std::string& event);
+    CustomEvent *GetCustomEvent(Location *loc);
     CustomShipEvent *GetCustomShipEvent(const std::string& event);
     CustomQuest *GetCustomQuest(const std::string& event);
     CustomSector *GetCustomSector(const std::string& sectorName);

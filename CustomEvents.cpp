@@ -2114,6 +2114,27 @@ CustomEvent *CustomEventsParser::GetCustomEvent(const std::string& event)
     return nullptr;
 }
 
+CustomEvent *CustomEventsParser::GetCustomEvent(Location *loc)
+{
+    if (loc)
+    {
+        if (loc->boss)
+        {
+            BossShip *boss = G_->GetWorld()->bossShip;
+
+            std::stringstream s;
+            s << "BOSS_TEXT_" << boss->nextStage;
+
+            return GetCustomEvent(s.str());
+        }
+        else
+        {
+            return GetCustomEvent(loc->event->eventName);
+        }
+    }
+    return nullptr;
+}
+
 CustomShipEvent *CustomEventsParser::GetCustomShipEvent(const std::string& event)
 {
     auto it = customShipEvents.find(event);
@@ -4048,7 +4069,7 @@ HOOK_METHOD(WorldManager, CreateLocation, (Location *location) -> void)
         return;
     }
 
-    CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(loc->eventName);
+    CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(location); // this version of GetCustomEvent accounts for boss
 
     if (customEvent)
     {
@@ -5353,7 +5374,7 @@ HOOK_METHOD_PRIORITY(WorldManager, CreateLocation, -100, (Location *location) ->
 
     if (event)
     {
-        CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(event->eventName);
+        CustomEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomEvent(location);
 
         if (customEvent)
         {

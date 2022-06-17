@@ -152,7 +152,7 @@ HOOK_METHOD(WorldManager, CreateLocation, (Location* loc) -> void)
     ClearCustomFleet(&space);
 
     auto customEvents = CustomEventsParser::GetInstance();
-    auto customEvent = customEvents->GetCustomEvent(loc->event->eventName);
+    auto customEvent = customEvents->GetCustomEvent(loc);
 
     if (customEvent != nullptr)
     {
