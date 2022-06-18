@@ -9,6 +9,16 @@
         "boost-format",
         "boost-crc",
         "sdl2",
-        "discord-rpc"
+        "discord-rpc",
+        "lua"
+    ],
+
+    "builtin-baseline": "8e1f46de11423e5f7d2395458f5252738ffffbbd",
+    "overrides": [
+        {
+            "name": "lua",
+            "version": "5.3.5",
+            "port-version": 6
+        }
     ]
 }

@@ -24,6 +24,8 @@ RUN cd /mingw-build/mingw-dwarf2-build \
     && cd gcc-mingw-w64-22~exp1ubuntu4 \
     && debuild -b -uc -us
 
+# -------------------------------------------------------------------------------
+
 # 2nd image: devcontainer
 FROM ubuntu:focal
 
@@ -35,12 +37,14 @@ RUN echo deb http://dk.archive.ubuntu.com/ubuntu/ xenial main >> /etc/apt/source
     && apt update
 
 # Install common build tools
-RUN apt install -y --no-install-recommends ca-certificates curl zip unzip tar git ninja-build clang-10 pkg-config
+RUN apt install -y --no-install-recommends \
+        ca-certificates curl zip unzip tar git ninja-build clang-10 pkg-config swig locales \
+    && (LC_ALL=en_US.UTF-8 LANGUAGE=en_US.UTF-8 locale-gen en_US.UTF-8)
 
 # Setup CMake
 RUN cd /usr/local \
     && (curl -sL https://github.com/Kitware/CMake/releases/download/v3.23.2/cmake-3.23.2-linux-x86_64.sh) \
-    > /tmp/cmakeinstall.sh \
+        > /tmp/cmakeinstall.sh \
     && bash /tmp/cmakeinstall.sh --skip-license
 
 # Setup Linux toolchain
@@ -60,9 +64,6 @@ RUN (curl -sL \
     > /tmp/pwsh.deb \
     && apt install -y --no-install-recommends /mingw-build/mingw-dwarf2-build/*.deb /tmp/pwsh.deb \
     && pwsh -Command "Write-Output 'Powershell installed successfully.'"
-
-# TODO: vcpkg-fy
-# RUN apt install -y --no-install-recommends lua5.3 luarocks liblua5.3-dev
 
 # Setup vcpkg
 RUN cd / \
