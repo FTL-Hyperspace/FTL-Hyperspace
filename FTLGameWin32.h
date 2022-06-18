@@ -4,20 +4,23 @@
 
 #define LIBZHL_API 
 
-#ifdef _MSC_VER
+#ifdef SWIG
+    #define LIBZHL_INTERFACE
+    #define __stdcall
+    #define LIBZHL_PLACEHOLDER {(void)0;}
+    #define __attribute__(x)
+#elif defined(_WIN32)
     #define LIBZHL_INTERFACE __declspec(novtable)
     __declspec(noreturn) inline void __cdecl __NOP() {}
     #define LIBZHL_PLACEHOLDER {__NOP();}
-#elif defined(__GNUC__)
+#elif defined(__linux__)
     #define LIBZHL_INTERFACE
     #define LIBZHL_PLACEHOLDER {\
         _Pragma("GCC diagnostic push") \
         _Pragma("GCC diagnostic ignored \"-Wreturn-type\"") \
         (void)0; } \
         _Pragma("GCC diagnostic pop")
-	#ifndef __stdcall
-    	#define __stdcall
-	#endif
+    #define __stdcall
 #endif
 
 
@@ -2774,6 +2777,7 @@ struct CrewAI
 	LIBZHL_API void AssignCrewmembers();
 	LIBZHL_API void CheckForHealing();
 	LIBZHL_API void CheckForProblems();
+	LIBZHL_API int DangerRating(int roomId, int crewId);
 	LIBZHL_API void OnLoop();
 	LIBZHL_API int PrioritizeIntruderRoom(CrewMember *crew, int roomId, int target);
 	LIBZHL_API int PrioritizeTask(CrewTask task, int crewId);
@@ -3007,6 +3011,7 @@ struct WindowFrame;
 
 struct ChoiceBox : FocusWindow
 {
+	LIBZHL_API void MouseClick(int mX, int mY);
 	LIBZHL_API void MouseMove(int x, int y);
 	LIBZHL_API void OnRender();
 	
@@ -3182,6 +3187,7 @@ struct OptionsScreen : ChoiceBox
 {
 	LIBZHL_API void OnInit();
 	LIBZHL_API void OnLoop();
+	LIBZHL_API void Open(bool mainMenu);
 	
 	Point position;
 	Point wipeProfilePosition;
@@ -3863,7 +3869,7 @@ struct CombatControl
 	LIBZHL_API void OnInit(Point pos);
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void OnRenderCombat();
-	LIBZHL_API void RenderSelfAiming();
+	LIBZHL_API void OnRenderSelfAiming();
 	LIBZHL_API void RenderShipStatus(Pointf pos, GL_Color color);
 	LIBZHL_API void RenderTarget();
 	LIBZHL_API bool SelectTarget();
@@ -3960,6 +3966,7 @@ struct CrewControl
 	LIBZHL_API void OnLoop();
 	LIBZHL_API void OnRender();
 	LIBZHL_API void RButton(int mX, int mY, bool shiftHeld);
+	LIBZHL_API void SelectCrew(bool keep_current);
 	LIBZHL_API void SelectPotentialCrew(CrewMember *crew, bool allowTeleportLeaving);
 	LIBZHL_API void UpdateCrewBoxes();
 	
@@ -4424,6 +4431,7 @@ struct CommandGui
 	LIBZHL_API bool IsGameOver();
 	LIBZHL_API void KeyDown(SDLKey key, bool shiftHeld);
 	LIBZHL_API void LButtonDown(int mX, int mY, bool shiftHeld);
+	LIBZHL_API void LButtonUp(int mX, int mY, bool shiftHeld);
 	LIBZHL_API void MouseMove(int mX, int mY);
 	LIBZHL_API void NewLocation(const std::string &mainText, std::vector<ChoiceText> *choices, ResourceEvent &resources, bool testingEvents);
 	LIBZHL_API void OnInit();
@@ -4828,6 +4836,7 @@ struct Room : Selectable
 		return this->rect;
 	}
 
+	LIBZHL_API void FillSlot(int slot, bool intruder);
 	LIBZHL_API bool Full(bool intruder);
 	LIBZHL_API int GetEmptySlot(bool intruder);
 	LIBZHL_API int GetEmptySlots(bool intruder);
@@ -4946,13 +4955,6 @@ struct ShipGraph
 		return Pointf(xx, yy);
 	}
 	
-	// TODO: This looks like it was re-implemented because they were unsure at the time how to hook it, we can totally hook it now like we do for GetSlotRenderPosition
-	Point GetSlotWorldPosition(int roomId, int slotId)
-	{
-		Globals::Rect rect = rooms[roomId]->rect;
-		return Point(rect.x + 35 * (slotId % (rect.w / 35)) + 17, rect.y + 35 * (slotId / (rect.h / 35)) + 17);
-	}
-	
 
 	LIBZHL_API void ComputeCenter();
 	LIBZHL_API int ConnectedGridSquares(int x1, int y1, int x2, int y2);
@@ -4976,6 +4978,7 @@ struct ShipGraph
 	LIBZHL_API int GetSelectedRoom(int x, int y, bool unk);
 	LIBZHL_API static ShipGraph *__stdcall GetShipInfo(int shipId);
 	LIBZHL_API __int64 GetSlotRenderPosition_DO_NOT_USE_DIRECTLY(int slotId, int roomId, bool intruder);
+	LIBZHL_API Point GetSlotWorldPosition(int slotId, int roomId);
 	LIBZHL_API bool IsRoomConnected(int room1, int room2);
 	LIBZHL_API int PopClosestDoor(std::vector<int> &doors, std::vector<float> &distances);
 	LIBZHL_API int RoomCount();
@@ -6646,6 +6649,7 @@ struct Ship : ShipObject
 	LIBZHL_API void BreachRandomHull(int roomId);
 	LIBZHL_API int EmptySlots(int roomId);
 	LIBZHL_API bool FullRoom(int roomId, bool intruder);
+	LIBZHL_API int GetAvailableRoom(int preferred, bool intruder);
 	LIBZHL_API int GetAvailableRoomSlot(int roomId, bool intruder);
 	LIBZHL_API Globals::Ellipse GetBaseEllipse();
 	LIBZHL_API int GetSelectedRoomId(int x, int y, bool unk);
@@ -6794,6 +6798,7 @@ struct ShipManager : ShipObject
 	}
 
 
+	LIBZHL_API void AddCrewMember(CrewMember *crew, int roomId);
 	LIBZHL_API CrewMember *AddCrewMemberFromBlueprint(CrewBlueprint *bp, int slot, bool init, int roomId, bool intruder);
 	LIBZHL_API CrewMember *AddCrewMemberFromString(const std::string &name, const std::string &race, bool intruder, int roomId, bool init, bool male);
 	LIBZHL_API Drone *AddDrone(const DroneBlueprint *bp, int slot);
@@ -6833,6 +6838,7 @@ struct ShipManager : ShipObject
 	LIBZHL_API int GetDroneCount();
 	LIBZHL_API std::vector<Drone*> GetDroneList();
 	LIBZHL_API int GetFireCount(int roomId);
+	LIBZHL_API std::vector<CrewMember*> GetLeavingCrew(bool intruders);
 	LIBZHL_API int GetOxygenPercentage();
 	LIBZHL_API CrewMember *GetSelectedCrewPoint(int x, int y, bool intruder);
 	LIBZHL_API ShieldPower GetShieldPower();
