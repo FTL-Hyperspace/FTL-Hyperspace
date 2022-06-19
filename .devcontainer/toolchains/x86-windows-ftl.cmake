@@ -39,7 +39,7 @@ set(CMAKE_SHARED_LINKER_FLAGS_INIT "-static -L/usr/i686-w64-mingw32/lib -L/usr/l
 set(CMAKE_EXE_LINKER_FLAGS_INIT "-static -L/usr/i686-w64-mingw32/lib -L/usr/lib/gcc/i686-w64-mingw32/9.4-posix")
 
 # From mingw-w64-i686-dev package
-set(CMAKE_FIND_ROOT_PATH /usr/i686-w64-mingw32)
+list(APPEND CMAKE_FIND_ROOT_PATH "/usr/i686-w64-mingw32")
 set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM BOTH)
 set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
 set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
