@@ -1,7 +1,7 @@
 set(CMAKE_SYSTEM_NAME Linux)
 
-set(CMAKE_C_COMPILER "/usr/bin/clang-10" CACHE PATH "")
-set(CMAKE_CXX_COMPILER "/usr/bin/clang++-10" CACHE PATH "")
+set(CMAKE_C_COMPILER "/usr/bin/clang-14" CACHE PATH "")
+set(CMAKE_CXX_COMPILER "/usr/bin/clang++-14" CACHE PATH "")
 # Note on -fPIC:
 # * As the final output of Hyperspace is a shared lib the deps are required to be compiled with -fPIC even when they're
 #    static by themselves.
