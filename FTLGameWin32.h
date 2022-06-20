@@ -7600,6 +7600,7 @@ LIBZHL_API float __stdcall font_text_width(freetype::font_data &fontData, const 
 LIBZHL_API float __stdcall getSkillBonus(int skill, int level);
 LIBZHL_API int __stdcall random32();
 LIBZHL_API void __stdcall srandom32(unsigned int seed);
+LIBZHL_API void __stdcall sys_graphics_set_window_title(char *title);
 
 extern LIBZHL_API AchievementTracker *Global_AchievementTracker_Tracker;
 extern LIBZHL_API AnimationControl *Global_AnimationControl_Animations;

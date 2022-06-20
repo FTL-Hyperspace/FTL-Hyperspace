@@ -133,6 +133,8 @@ struct CFPS
 
 %ignore "";
 
+%rename("setWindowTitle") sys_graphics_set_window_title;
+
 /* %rename("%s") ScoreKeeper; */
 /* %rename("%s") ScoreKeeper::AddScrapCollected; */
 /* %rename("%s") ScoreKeeper::gamesPlayed; */

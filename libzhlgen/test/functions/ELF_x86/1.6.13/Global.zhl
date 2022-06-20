@@ -520,3 +520,6 @@ cleanup __cdecl void GenerateReward(ResourceEvent &ref, RewardDesc &reward, int 
 
 "57565383ec108b5c2424c7442404????????":
 cleanup __cdecl void GetValue(ResourceEvent &ref, const std::string& type, int level, int worldLevel);
+
+"83ec3ca1????????890424e8????????":
+cleanup __cdecl void sys_graphics_set_window_title(char* title);
