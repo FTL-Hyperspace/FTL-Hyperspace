@@ -70,6 +70,8 @@ public:
     CApp* GetCApp();
 };
 
+void ErrorMessage(const char* msg);
+
 /* Create Hyperspace.ships metatable that contains:
     Hyperspace.ships.player (ShipManager)
     Hyperspace.ships.enemy (ShipManager)
