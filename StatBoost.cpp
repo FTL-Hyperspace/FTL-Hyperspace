@@ -812,12 +812,28 @@ void StatBoostManager::OnLoop(WorldManager* world)
             }
         }
 
+        // Apply recursive boosts from timed boosts
         auto vStatBoosts = ex->timedStatBoosts.find(CrewStat::STAT_BOOST);
         if (vStatBoosts != ex->timedStatBoosts.end())
         {
             for (StatBoost& statBoost : vStatBoosts->second)
             {
-                CreateRecursiveBoosts(statBoost, statBoost.iStacks, true);
+                if (!statBoost.def->providedStatBoosts.empty())
+                {
+                    int recursiveCrewStacks = statBoost.iStacks;
+                    if (statBoost.def->stackId)
+                    {
+                        int& currentStacks = recursiveStackCount[otherCrew][statBoost.def->stackId];
+                        int maxStacks = statBoost.def->maxStacks - currentStacks;
+                        if (maxStacks <= 0) continue;
+                        if (recursiveCrewStacks > maxStacks) recursiveCrewStacks = maxStacks;
+                        currentStacks += recursiveCrewStacks;
+                    }
+                    for (StatBoostDefinition* recursiveBoostDef : statBoost.def->providedStatBoosts)
+                    {
+                        CreateCrewBoost(recursiveBoostDef, otherCrew, ex, recursiveCrewStacks);
+                    }
+                }
             }
         }
     }
