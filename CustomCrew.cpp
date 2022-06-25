@@ -1765,13 +1765,6 @@ PowerReadyState CrewMember_Extend::PowerReq(const ActivatedPowerRequirements *re
         return POWER_NOT_READY_EXTRACONDITION_OR;
     }
 
-    bool silenced;
-    CalculateStat(CrewStat::SILENCED, &silenced);
-    if (silenced)
-    {
-        return POWER_NOT_READY_SILENCED;
-    }
-
     return POWER_READY;
 }
 
@@ -1790,6 +1783,13 @@ PowerReadyState CrewMember_Extend::PowerReady()
     if (powerCooldown.first < powerCooldown.second)
     {
         return POWER_NOT_READY_COOLDOWN;
+    }
+
+    bool silenced;
+    CalculateStat(CrewStat::SILENCED, &silenced);
+    if (silenced)
+    {
+        return POWER_NOT_READY_SILENCED;
     }
 
     auto powerDef = GetPowerDef();
