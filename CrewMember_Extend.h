@@ -55,6 +55,8 @@ struct ActivatedPower
 {
 public:
     ActivatedPowerDefinition *def;
+    CrewMember *crew;
+    CrewMember_Extend *crew_ex;
 
     std::pair<float, float> powerCooldown = std::pair<float, float>();
     std::pair<float, float> temporaryPowerDuration = std::pair<float, float>();
@@ -74,6 +76,17 @@ public:
 
     Pointf effectPos;
     Pointf effectWorldPos;
+
+    // constructors with definitions and crew
+    ActivatedPower(ActivatedPowerDefinition *_def) : def{_def} {}
+    ActivatedPower(ActivatedPowerDefinition *_def, CrewMember *_crew, CrewMember_Extend *_ex) : def{_def}, crew{_crew}, crew_ex{_ex} {}
+    ActivatedPower(ActivatedPowerDefinition *_def, CrewMember *_crew);
+    ActivatedPower(ActivatedPowerDefinition *_def, CrewMember_Extend *_ex);
+
+    // methods
+    PowerReadyState PowerReq(const ActivatedPowerRequirements *req);
+    PowerReadyState PowerReady();
+    Damage* GetPowerDamage();
 };
 
 struct CrewAnimation_Extend
