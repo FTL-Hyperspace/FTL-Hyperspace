@@ -2394,6 +2394,10 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
                     orig->crewAnim->SetupStrips();
                 }
             }
+            else if (orig->crewAnim->bDrone)
+            {
+                orig->crewAnim->SetupStrips();
+            }
 
             if (animation)
             {
