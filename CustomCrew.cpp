@@ -6262,6 +6262,10 @@ HOOK_METHOD(CrewAnimation, OnUpdate, (Pointf position, bool moving, bool fightin
                 super(position, moving, fighting, repairing, dying, onFire);
                 bDrone = tempBDrone;
             }
+            else
+            {
+                super(position, moving, fighting, repairing, dying, onFire);
+            }
         }
         else
         {
