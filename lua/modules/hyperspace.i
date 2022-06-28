@@ -429,6 +429,7 @@ struct CFPS
 %rename("%s") ShipManager::HasAugmentation;
 %rename("%s") ShipManager::HasEquipment;
 //%rename("%s") ShipManager::RemoveAugmentation; // Might prefer this be done via an event? Not sure.
+%immutable ShipManager::iShipId;
 %rename("%s") ShipManager::iShipId;
 %rename("%s") ShipManager::GetRandomRoomCenter;
 %rename("%s") ShipManager::GetRoomCenter;
