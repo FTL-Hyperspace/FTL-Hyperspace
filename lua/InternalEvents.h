@@ -15,6 +15,7 @@ struct InternalEvents
         UNKNOWN, // Must always be first, used to check for bounds of enum input value
 
         ON_TICK, // We'll use CApp::OnLoop for this ticking
+        MAIN_MENU, // We'll use MainMenu::Open for this
         // ON_KEY_DOWN, // CApp::OnKeyDown (Once we have arguments working since this will require passing the SDLKey that was pressed)
         // CREW_EQUIPMENT_BOX_REMOVE_ITEM, // CrewEquipBox::RemoveItem
         
