@@ -5,6 +5,6 @@ virtual cleanup __cdecl void SpaceDrone::SetDeployed(SpaceDrone *this, bool depl
 "565383ec148b7424248b5c242085f674??8b06":
 virtual cleanup __cdecl void SpaceDrone::SetMovementTarget(SpaceDrone *this, Targetable *target);
 "5557565383ec2c8b5c24408b6c24448b74246c8d4304":
-cleanup __cdecl CollisionResponse SpaceDrone::CollisionMoving(SpaceDrone *this, Pointf start, Pointf finish, DamageParameter damage, bool raytrace);
+cleanup __cdecl CollisionResponse SpaceDrone::CollisionMoving(SpaceDrone *this, Pointf start, Pointf finish, Damage damage, bool raytrace);
 "5589e557565383ec7c8b5d088b03891c24":
 virtual cleanup __cdecl Projectile* SpaceDrone::GetNextProjectile(SpaceDrone *this);

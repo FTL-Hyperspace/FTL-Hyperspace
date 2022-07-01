@@ -1,10 +1,9 @@
 #include "Global.h"
 #include "Room_Extend.h"
 
-HOOK_METHOD(ShipManager, DamageArea, (Pointf location, DamageParameter dmgParam, bool forceHit) -> bool)
+HOOK_METHOD(ShipManager, DamageArea, (Pointf location, Damage dmg, bool forceHit) -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::DamageArea -> Begin (ErosionEffect.cpp)\n")
-    Damage* dmg = (Damage*)&dmgParam;
 
     auto custom = CustomDamageManager::currentWeaponDmg;
 
@@ -24,7 +23,7 @@ HOOK_METHOD(ShipManager, DamageArea, (Pointf location, DamageParameter dmgParam,
         }
     }
 
-    return super(location, dmgParam, forceHit);
+    return super(location, dmg, forceHit);
 }
 
 void Room_Extend::StartErosion(const ErosionEffect& effect)

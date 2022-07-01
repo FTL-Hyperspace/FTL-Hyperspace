@@ -3522,7 +3522,25 @@ void EventDamageEnemy(EventDamage eventDamage)
         }
         else
         {
-            enemyShip->DamageSystem(room, DamageParameter{0, 0, 0, 0, 0, 0, eventDamage.amount, 0, false, -1, -1, false, 0});
+            Damage damage;
+
+            damage.iDamage = 0;
+            damage.iShieldPiercing = 0;
+            damage.fireChance = 0;
+            damage.breachChance = 0;
+            damage.stunChance = 0;
+            damage.iIonDamage = 0;
+            damage.iSystemDamage = eventDamage.amount;
+            damage.iPersDamage = 0;
+            damage.bHullBuster = false;
+            damage.ownerId = -1;
+            damage.selfId = -1;
+            damage.bLockdown = false;
+            damage.crystalShard = false;
+            damage.bFriendlyFire = false;
+            damage.iStun = 0;
+
+            enemyShip->DamageSystem(room, damage);
         }
 
         if (eventDamage.effect & 4)

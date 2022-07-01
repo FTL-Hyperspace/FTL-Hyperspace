@@ -136,7 +136,7 @@ HOOK_METHOD(Shields, OnLoop, () -> void)
 }
 
 /*
-HOOK_METHOD(Shields, CollisionReal, (float x, float y, DamageParameter damage, bool force) -> CollisionResponse)
+HOOK_METHOD(Shields, CollisionReal, (float x, float y, Damage damage, bool force) -> CollisionResponse)
 {
     LOG_HOOK("HOOK_METHOD -> Shields::CollisionReal -> Begin (CustomSuperShield.cpp)\n")
     CollisionResponse ret = super(x, y, damage, force);

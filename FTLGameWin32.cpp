@@ -12776,13 +12776,13 @@ int ShipManager::GetOxygenPercentage()
 namespace _func926
 {
 	static void *func = 0;
-	static short argdata[] = {0x101, 0x1ff, 0xdff};
-	static FunctionDefinition funcObj("ShipManager::DamageCrew", typeid(char (ShipManager::*)(CrewMember *, DamageParameter )), "578d7c240883e4f0ff77fc5589f889e557565383ec2c807832008b1f8b7f2875??3b7b04", argdata, 3, 1, &func);
+	static short argdata[] = {0x101, 0x1ff, 0xcff};
+	static FunctionDefinition funcObj("ShipManager::DamageCrew", typeid(char (ShipManager::*)(CrewMember *, Damage )), "578d7c240883e4f0ff77fc5589f889e557565383ec2c807832008b1f8b7f2875??3b7b04", argdata, 3, 1, &func);
 }
 
-char ShipManager::DamageCrew(CrewMember *crew, DamageParameter dmg)
+char ShipManager::DamageCrew(CrewMember *crew, Damage dmg)
 {
-	typedef char __attribute__((thiscall)) (*custom_arg_funcptr_t)(ShipManager *this_arg, CrewMember *crew_arg, DamageParameter dmg_arg);
+	typedef char __attribute__((thiscall)) (*custom_arg_funcptr_t)(ShipManager *this_arg, CrewMember *crew_arg, Damage dmg_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func926::func;
 	return execfunc(this, crew, dmg);
 }
@@ -12804,13 +12804,13 @@ void ShipManager::RemoveItem(const std::string &name)
 namespace _func928
 {
 	static void *func = 0;
-	static short argdata[] = {0x101, 0x2ff, 0xdff, 0x1ff};
-	static FunctionDefinition funcObj("ShipManager::DamageArea", typeid(bool (ShipManager::*)(Pointf , DamageParameter , bool )), "578d7c240883e4f0ff77fc5589e557565389ce81ec????????8b47088b5f3cf30f105704f30f100f8945908b4710f30f118d78fffffff30f119574ffffff", argdata, 4, 1, &func);
+	static short argdata[] = {0x101, 0x2ff, 0xcff, 0x1ff};
+	static FunctionDefinition funcObj("ShipManager::DamageArea", typeid(bool (ShipManager::*)(Pointf , Damage , bool )), "578d7c240883e4f0ff77fc5589e557565389ce81ec????????8b47088b5f3cf30f105704f30f100f8945908b4710f30f118d78fffffff30f119574ffffff", argdata, 4, 1, &func);
 }
 
-bool ShipManager::DamageArea(Pointf location, DamageParameter dmg, bool forceHit)
+bool ShipManager::DamageArea(Pointf location, Damage dmg, bool forceHit)
 {
-	typedef bool __attribute__((thiscall)) (*custom_arg_funcptr_t)(ShipManager *this_arg, Pointf location_arg, DamageParameter dmg_arg, bool forceHit_arg);
+	typedef bool __attribute__((thiscall)) (*custom_arg_funcptr_t)(ShipManager *this_arg, Pointf location_arg, Damage dmg_arg, bool forceHit_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func928::func;
 	return execfunc(this, location, dmg, forceHit);
 }
@@ -12818,13 +12818,13 @@ bool ShipManager::DamageArea(Pointf location, DamageParameter dmg, bool forceHit
 namespace _func929
 {
 	static void *func = 0;
-	static short argdata[] = {0x101, 0x2ff, 0x2ff, 0xdff};
-	static FunctionDefinition funcObj("ShipManager::DamageBeam", typeid(bool (ShipManager::*)(Pointf , Pointf , DamageParameter )), "578d7c240883e4f0ff77fc5589e557565381eccc0000008b07807910008b570889459c8b47048945988b470c", argdata, 4, 1, &func);
+	static short argdata[] = {0x101, 0x2ff, 0x2ff, 0xcff};
+	static FunctionDefinition funcObj("ShipManager::DamageBeam", typeid(bool (ShipManager::*)(Pointf , Pointf , Damage )), "578d7c240883e4f0ff77fc5589e557565381eccc0000008b07807910008b570889459c8b47048945988b470c", argdata, 4, 1, &func);
 }
 
-bool ShipManager::DamageBeam(Pointf location1, Pointf location2, DamageParameter dmg)
+bool ShipManager::DamageBeam(Pointf location1, Pointf location2, Damage dmg)
 {
-	typedef bool __attribute__((thiscall)) (*custom_arg_funcptr_t)(ShipManager *this_arg, Pointf location1_arg, Pointf location2_arg, DamageParameter dmg_arg);
+	typedef bool __attribute__((thiscall)) (*custom_arg_funcptr_t)(ShipManager *this_arg, Pointf location1_arg, Pointf location2_arg, Damage dmg_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func929::func;
 	return execfunc(this, location1, location2, dmg);
 }
@@ -13454,13 +13454,13 @@ int ShipManager::DamageHull(int dmg, bool force)
 namespace _func973
 {
 	static void *func = 0;
-	static short argdata[] = {0x101, 0x1ff, 0xdff};
-	static FunctionDefinition funcObj("ShipManager::DamageSystem", typeid(void (ShipManager::*)(int , DamageParameter )), "578d7c240883e4f0ff77fc5589f889e557565383ec6c8b308b58048b4018897db089cf", argdata, 3, 5, &func);
+	static short argdata[] = {0x101, 0x1ff, 0xcff};
+	static FunctionDefinition funcObj("ShipManager::DamageSystem", typeid(void (ShipManager::*)(int , Damage )), "578d7c240883e4f0ff77fc5589f889e557565383ec6c8b308b58048b4018897db089cf", argdata, 3, 5, &func);
 }
 
-void ShipManager::DamageSystem(int systemId, DamageParameter damage)
+void ShipManager::DamageSystem(int systemId, Damage damage)
 {
-	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(ShipManager *this_arg, int systemId_arg, DamageParameter damage_arg);
+	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(ShipManager *this_arg, int systemId_arg, Damage damage_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func973::func;
 	return execfunc(this, systemId, damage);
 }
@@ -13608,13 +13608,13 @@ void ShipManager::CheckCrystalAugment(Pointf pos)
 namespace _func984
 {
 	static void *func = 0;
-	static short argdata[] = {0x101, 0x1ff, 0x2ff, 0x2ff, 0xdff, 0x1ff};
-	static FunctionDefinition funcObj("ShipManager::CollisionMoving", typeid(CollisionResponse (ShipManager::*)(Pointf , Pointf , DamageParameter , bool )), "578d7c240883e4f0ff77fc5589e557565381ecfc0000008b178b5f488b7710c70100000000898d50ffffff83c104", argdata, 6, 1, &func);
+	static short argdata[] = {0x101, 0x1ff, 0x2ff, 0x2ff, 0xcff, 0x1ff};
+	static FunctionDefinition funcObj("ShipManager::CollisionMoving", typeid(CollisionResponse (ShipManager::*)(Pointf , Pointf , Damage , bool )), "578d7c240883e4f0ff77fc5589e557565381ecfc0000008b178b5f488b7710c70100000000898d50ffffff83c104", argdata, 6, 1, &func);
 }
 
-CollisionResponse ShipManager::CollisionMoving(Pointf start, Pointf finish, DamageParameter damage, bool raytrace)
+CollisionResponse ShipManager::CollisionMoving(Pointf start, Pointf finish, Damage damage, bool raytrace)
 {
-	typedef CollisionResponse __attribute__((thiscall)) (*custom_arg_funcptr_t)(ShipManager *this_arg, Pointf start_arg, Pointf finish_arg, DamageParameter damage_arg, bool raytrace_arg);
+	typedef CollisionResponse __attribute__((thiscall)) (*custom_arg_funcptr_t)(ShipManager *this_arg, Pointf start_arg, Pointf finish_arg, Damage damage_arg, bool raytrace_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func984::func;
 	return execfunc(this, start, finish, damage, raytrace);
 }
@@ -14694,13 +14694,13 @@ void SpaceDrone::SetMovementTarget(Targetable *target)
 namespace _func1062
 {
 	static void *func = 0;
-	static short argdata[] = {0x101, 0x1ff, 0x2ff, 0x2ff, 0xdff, 0x1ff};
-	static FunctionDefinition funcObj("SpaceDrone::CollisionMoving", typeid(CollisionResponse (SpaceDrone::*)(Pointf , Pointf , DamageParameter , bool )), "578d7c240883e4f0ff77fc5589e557565389cb83c10483ec3c8b378b4728c741fc00000000c7442404000000cfc70424000000cf8945e0", argdata, 6, 1, &func);
+	static short argdata[] = {0x101, 0x1ff, 0x2ff, 0x2ff, 0xcff, 0x1ff};
+	static FunctionDefinition funcObj("SpaceDrone::CollisionMoving", typeid(CollisionResponse (SpaceDrone::*)(Pointf , Pointf , Damage , bool )), "578d7c240883e4f0ff77fc5589e557565389cb83c10483ec3c8b378b4728c741fc00000000c7442404000000cfc70424000000cf8945e0", argdata, 6, 1, &func);
 }
 
-CollisionResponse SpaceDrone::CollisionMoving(Pointf start, Pointf finish, DamageParameter damage, bool raytrace)
+CollisionResponse SpaceDrone::CollisionMoving(Pointf start, Pointf finish, Damage damage, bool raytrace)
 {
-	typedef CollisionResponse __attribute__((thiscall)) (*custom_arg_funcptr_t)(SpaceDrone *this_arg, Pointf start_arg, Pointf finish_arg, DamageParameter damage_arg, bool raytrace_arg);
+	typedef CollisionResponse __attribute__((thiscall)) (*custom_arg_funcptr_t)(SpaceDrone *this_arg, Pointf start_arg, Pointf finish_arg, Damage damage_arg, bool raytrace_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1062::func;
 	return execfunc(this, start, finish, damage, raytrace);
 }

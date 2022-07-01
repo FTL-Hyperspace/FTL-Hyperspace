@@ -37,13 +37,13 @@ __thiscall void ShipManager::AddCrewMember(ShipManager *this, CrewMember *crew, 
 "8b81c8040000837808ff74??55660fefc989e583e4f083ec208b4124f30f1005????????f30f5980d0010000f30f5ac8f20f110c24e8????????dd5c2418f20f2c442418":
 __thiscall int ShipManager::GetOxygenPercentage(ShipManager *this);
 "578d7c240883e4f0ff77fc5589f889e557565383ec2c807832008b1f8b7f2875??3b7b04":
-__thiscall char ShipManager::DamageCrew(ShipManager *this, CrewMember *crew, DamageParameter dmg);
+__thiscall char ShipManager::DamageCrew(ShipManager *this, CrewMember *crew, Damage dmg);
 "578d7c240883e4f0ff77fc5589e55756538d45d889cb83ec5c8b378945d0894dac":
 __thiscall void ShipManager::RemoveItem(ShipManager *this, const std::string& name); 
 "578d7c240883e4f0ff77fc5589e557565389ce81ec????????8b47088b5f3cf30f105704f30f100f8945908b4710f30f118d78fffffff30f119574ffffff":
-__thiscall bool ShipManager::DamageArea(ShipManager *this, Pointf location, DamageParameter dmg, bool forceHit);
+__thiscall bool ShipManager::DamageArea(ShipManager *this, Pointf location, Damage dmg, bool forceHit);
 "578d7c240883e4f0ff77fc5589e557565381eccc0000008b07807910008b570889459c8b47048945988b470c":
-__thiscall bool ShipManager::DamageBeam(ShipManager *this, Pointf location1, Pointf location2, DamageParameter dmg);
+__thiscall bool ShipManager::DamageBeam(ShipManager *this, Pointf location1, Pointf location2, Damage dmg);
 "578d7c240883e4f0ff77fc5589e557565383ec5c8b47048b7708894da883f8ff":
 __thiscall CrewBlueprint ShipManager::SelectRandomCrew(ShipManager *this, int seed, const std::string& racePref);
 "5589e5565331db89ce83e4f083ec108b51188b411c29d0c1f80285c074??66908b0c9a":
@@ -131,7 +131,7 @@ cleanup bool ShipManager::CanFitSubsystem(ShipManager *this<ecx>, int systemId);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b018b378b57048b40403d????????75??0fb681d804000038d0":
 __thiscall int ShipManager::DamageHull(ShipManager *this, int dmg, bool force);
 "578d7c240883e4f0ff77fc5589f889e557565383ec6c8b308b58048b4018897db089cf":
-__thiscall void ShipManager::DamageSystem(ShipManager *this, int systemId, DamageParameter damage);
+__thiscall void ShipManager::DamageSystem(ShipManager *this, int systemId, Damage damage);
 "5783c1708d7c240883e4f0ff77fc5589e55783ec148b07c744240402000000890424e8????????8b7dfc83ec08c9":
 __thiscall void ShipManager::StartFire(ShipManager *this, int roomId);
 "57b9????????8d7c240883e4f0ff77fc5589e557565383ec4c8b07c745dc00000000c744240800000000c744240400000000c745e000000000c745e4000000008945c489c38d45dc890424":
@@ -153,7 +153,7 @@ __thiscall ShipBlueprint ShipManager::SaveToBlueprint(ShipManager *this, bool un
 "578d7c240883e4f0ff77fc5589e55756538d5dd089ce83ec7c8b078b570489d9":
 __thiscall void ShipManager::CheckCrystalAugment(ShipManager *this, Pointf pos);
 "578d7c240883e4f0ff77fc5589e557565381ecfc0000008b178b5f488b7710c70100000000898d50ffffff83c104":
-__thiscall CollisionResponse ShipManager::CollisionMoving(ShipManager *this, Pointf start, Pointf finish, DamageParameter damage, bool raytrace);
+__thiscall CollisionResponse ShipManager::CollisionMoving(ShipManager *this, Pointf start, Pointf finish, Damage damage, bool raytrace);
 "8b81c80400008b5424048b049083f8ff740e8b51188b04828b4054c20400":
 __thiscall int ShipManager::GetSystemPowerMax(ShipManager *this, int systemId);
 "5589e557565389cb83e4f083ec208b45088b90c8040000837a10ff7523c70100000000c741040000000089d8c74108000000008d65f4":

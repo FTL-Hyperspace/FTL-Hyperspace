@@ -2802,7 +2802,7 @@ HOOK_METHOD_PRIORITY(CrewMember, DirectModifyHealth, 1000, (float healthMod) -> 
                             CustomDamage* oldDamage = CustomDamageManager::currentWeaponDmg;
                             CustomDamageManager::currentWeaponDmg = nullptr; // if triggered by a projectile we don't want that projectile's CustomDamage for this effect
 
-                            crewShip->DamageArea(Pointf(x, y), *((DamageParameter*)&damage), true);
+                            crewShip->DamageArea(Pointf(x, y), damage, true);
 
                             CustomDamageManager::currentWeaponDmg = oldDamage;
                         }
@@ -4395,9 +4395,8 @@ HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
         CrewMember *crew = vCrewList[i];
 
         Damage dmgI = crew->GetRoomDamage();
-        Damage *dmg = &dmgI;
 
-        if (dmg->ownerId != -1) DamageArea(Pointf(crew->x, crew->y), *((DamageParameter*)dmg), true);
+        if (dmgI.ownerId != -1) DamageArea(Pointf(crew->x, crew->y), dmgI, true);
 
         if (custom->IsRace(crew->species))
         {
@@ -4471,10 +4470,10 @@ HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
 
                 if (actualShip)
                 {
-                    Damage* dmg = ex->GetPowerDamage();
+                    Damage* dmg = ex->GetPowerDamage(); // creates a new object
 
                     shipFriendlyFire = ex->GetPowerDef()->shipFriendlyFire;
-                    actualShip->DamageArea(CMA_EX(crew->crewAnim)->effectWorldPos, *((DamageParameter*)dmg), true);
+                    actualShip->DamageArea(CMA_EX(crew->crewAnim)->effectWorldPos, *dmg, true);
 
                     delete dmg;
                 }
@@ -4485,30 +4484,27 @@ HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
 }
 
 
-HOOK_METHOD(ShipManager, DamageCrew, (CrewMember *crew, DamageParameter dmgParameter) -> char)
+HOOK_METHOD(ShipManager, DamageCrew, (CrewMember *crew, Damage dmg) -> char)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::DamageCrew -> Begin (CustomCrew.cpp)\n")
-    Damage* dmg = (Damage*)&dmgParameter;
-
-    if (dmg->selfId == CM_EX(crew)->selfId)
+    if (dmg.selfId == CM_EX(crew)->selfId)
     {
         return false;
     }
 
-    return super(crew, dmgParameter);
+    return super(crew, dmg);
 }
 
-HOOK_METHOD_PRIORITY(ShipManager, DamageArea, -1000, (Pointf location, DamageParameter damageParameter, bool forceHit) -> bool)
+HOOK_METHOD_PRIORITY(ShipManager, DamageArea, -1000, (Pointf location, Damage dmg, bool forceHit) -> bool)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::DamageArea -> Begin (CustomCrew.cpp)\n")
     if (blockDamageArea) return false;
-    Damage* dmg = (Damage*)&damageParameter;
 
     if (!shipFriendlyFire)
     {
         shipFriendlyFire = true;
 
-        if (dmg->ownerId == iShipId)
+        if (dmg.ownerId == iShipId)
         {
             int roomId = ship.GetSelectedRoomId(location.x, location.y, true);
 
@@ -4521,7 +4517,7 @@ HOOK_METHOD_PRIORITY(ShipManager, DamageArea, -1000, (Pointf location, DamagePar
                 {
                     if (i->iRoomId == roomId)
                     {
-                        DamageCrew(i, damageParameter);
+                        DamageCrew(i, dmg);
                     }
                 }
             }
@@ -4530,7 +4526,7 @@ HOOK_METHOD_PRIORITY(ShipManager, DamageArea, -1000, (Pointf location, DamagePar
         }
     }
 
-    return super(location, damageParameter, forceHit);
+    return super(location, dmg, forceHit);
 }
 
 HOOK_METHOD(CrewBox, constructor, (Point pos, CrewMember *crew, int number) -> void)

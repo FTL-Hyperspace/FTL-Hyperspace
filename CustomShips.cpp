@@ -645,23 +645,22 @@ HOOK_METHOD(FTLButton, OnRender, () -> void)
     }
 }
 
-HOOK_METHOD(ShipManager, DamageSystem, (int roomId, DamageParameter dmgParam) -> void)
+HOOK_METHOD(ShipManager, DamageSystem, (int roomId, Damage dmg) -> void)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::DamageSystem -> Begin (CustomShips.cpp)\n")
-    Damage* dmg = (Damage*)&dmgParam;
 
     auto ex = RM_EX(ship.vRoomList[roomId]);
 
-    if (random32() % 100 < ex->sysDamageResistChance && (dmg->iSystemDamage > -dmg->iDamage))
+    if (random32() % 100 < ex->sysDamageResistChance && (dmg.iSystemDamage > -dmg.iDamage))
     {
-        dmg->iSystemDamage = -dmg->iDamage;
+        dmg.iSystemDamage = -dmg.iDamage;
         auto msg = new DamageMessage(1.f, ship.GetRoomCenter(roomId), DamageMessage::MessageType::RESIST);
         msg->color.a = 1.f;
         damMessages.push_back(msg);
     }
-    if (random32() % 100 < ex->ionDamageResistChance && dmg->iIonDamage > 0)
+    if (random32() % 100 < ex->ionDamageResistChance && dmg.iIonDamage > 0)
     {
-        dmg->iIonDamage = 0;
+        dmg.iIonDamage = 0;
         auto msg = new DamageMessage(1.f, ship.GetRoomCenter(roomId), DamageMessage::MessageType::RESIST);
         msg->color.r = 40.f / 255.f;
         msg->color.g = 210.f / 255.f;
@@ -670,7 +669,7 @@ HOOK_METHOD(ShipManager, DamageSystem, (int roomId, DamageParameter dmgParam) ->
         damMessages.push_back(msg);
     }
 
-    super(roomId, dmgParam);
+    super(roomId, dmg);
 }
 
 HOOK_METHOD(ShipAI, SetStalemate, (bool stalemate) -> void)

@@ -37,13 +37,13 @@ cleanup __cdecl CrewMember *ShipManager::AddCrewMemberFromString(ShipManager *th
 "8b4424048b9000040000837a08ff74??8b4024f30f1005????????":
 cleanup __cdecl int ShipManager::GetOxygenPercentage(ShipManager *this);
 "5557565383ec1c807c246600":
-cleanup __cdecl char ShipManager::DamageCrew(ShipManager *this, CrewMember *crew, DamageParameter dmg);
+cleanup __cdecl char ShipManager::DamageCrew(ShipManager *this, CrewMember *crew, Damage dmg);
 "5557565383ec3c8b442454894424048d44242c890424":
 cleanup __cdecl void ShipManager::RemoveItem(ShipManager *this, const std::string& name); 
 "5589e557565381eccc0000008b45148b5d08":
-cleanup __cdecl bool ShipManager::DamageArea(ShipManager *this, Pointf location, DamageParameter dmg, char forceHit);
+cleanup __cdecl bool ShipManager::DamageArea(ShipManager *this, Pointf location, Damage dmg, char forceHit);
 "5589e557565381ecdc0000008b7d088b5d0c8b7510":
-cleanup __cdecl bool ShipManager::DamageBeam(ShipManager *this, Pointf location1, Pointf location2, DamageParameter dmg);
+cleanup __cdecl bool ShipManager::DamageBeam(ShipManager *this, Pointf location1, Pointf location2, Damage dmg);
 "5589e557565383ec6c8b45108b7d14":
 cleanup __cdecl CrewBlueprint ShipManager::SelectRandomCrew(ShipManager *this, int seed, const std::string& racePref);
 "565331db83ec148b7424208b56188b461c29d0c1f80285c074??8db6000000008b049a83c301":
@@ -133,7 +133,7 @@ cleanup __cdecl bool ShipManager::CanFitSubsystem(ShipManager *this, int systemI
 "565383ec148b5c24208b7424288b03891c24":
 cleanup __cdecl int ShipManager::DamageHull(ShipManager *this, int dmg, bool force);
 "5589e557565383ec6c8b45248b7d088b5d10":
-cleanup __cdecl void ShipManager::DamageSystem(ShipManager *this, int systemId, DamageParameter damage);
+cleanup __cdecl void ShipManager::DamageSystem(ShipManager *this, int systemId, Damage damage);
 "83ec1c8b442424c74424080200000089442404":
 cleanup __cdecl void ShipManager::StartFire(ShipManager *this, int roomId);
 "5557565383ec3c8d44242089442404c744240c00000000":
@@ -155,7 +155,7 @@ cleanup __cdecl ShipBlueprint ShipManager::SaveToBlueprint(ShipManager *this, bo
 "5589e557565331db83ec7c8d45c88d75d8":
 cleanup __cdecl void ShipManager::CheckCrystalAugment(ShipManager *this, Pointf pos);
 "5589e557565381ec1c0100008b7d548b75188b5d1c":
-cleanup __cdecl CollisionResponse ShipManager::CollisionMoving(ShipManager *this, Pointf start, Pointf finish, DamageParameter damage, bool raytrace);
+cleanup __cdecl CollisionResponse ShipManager::CollisionMoving(ShipManager *this, Pointf start, Pointf finish, Damage damage, bool raytrace);
 "8b5424048b4c24088b82000400008b048883f8ff74??8b52188b04828b4040":
 cleanup __cdecl int ShipManager::GetSystemPowerMax(ShipManager *this, int systemId);
 "5557565383ec1c8b4424348b5c24308b9000040000837a10ff":

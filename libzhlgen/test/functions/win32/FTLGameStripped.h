@@ -2777,7 +2777,7 @@ struct VTable_Targetable
   int (__thiscall *GetOwnerId)(Targetable *);
   int (__thiscall *GetSelfId)(Targetable *);
   bool (__thiscall *IsCloaked)(Targetable *);
-  void (__thiscall *DamageTarget)(Targetable *, Pointf pos, DamageParameter damage);
+  void (__thiscall *DamageTarget)(Targetable *, Pointf pos, Damage damage);
   bool (__thiscall *GetIsDying)(Targetable *);
   bool (__thiscall *GetIsJumping)(Targetable *);
   bool (__thiscall *ValidTarget)(Targetable *);
@@ -3712,9 +3712,9 @@ struct VTable_SpaceDrone
   Pointf (__thiscall *GetSpeed)(SpaceDrone *);
   int (__thiscall *GetOwnerId)(SpaceDrone *);
   int (__thiscall *GetSelfId)(SpaceDrone *);
-  static CollisionResponse *(__stdcall *CollisionMoving)(CollisionResponse *ret, SpaceDrone *drone, Pointf pos1, Pointf pos2, DamageParameter damage, bool unk);
-  bool (__thiscall *DamageBeam)(SpaceDrone *, Pointf pos1, Pointf pos2, DamageParameter damage);
-  void (__thiscall *DamageArea)(SpaceDrone *, Pointf pos, DamageParameter damage, bool unk);
+  static CollisionResponse *(__stdcall *CollisionMoving)(CollisionResponse *ret, SpaceDrone *drone, Pointf pos1, Pointf pos2, Damage damage, bool unk);
+  bool (__thiscall *DamageBeam)(SpaceDrone *, Pointf pos1, Pointf pos2, Damage damage);
+  void (__thiscall *DamageArea)(SpaceDrone *, Pointf pos, Damage damage, bool unk);
   BoarderDrone *(__thiscall *GetBoardingDrone)(SpaceDrone *);
 };
 
@@ -6042,24 +6042,6 @@ struct GL_ColorTexVertex
   float g;
   float b;
   float a;
-};
-
-/* 843 */
-struct DamageParameter
-{
-  int iDamage;
-  int iShieldPiercing;
-  int fireChance;
-  int breachChance;
-  int stunChance;
-  int iIonDamage;
-  int iSystemDamage;
-  int iPersDamage;
-  int hullBusterMask;
-  int ownerId;
-  int selfId;
-  int lockdownShardFriendlyFireMask;
-  int iStun;
 };
 
 /* 852 */

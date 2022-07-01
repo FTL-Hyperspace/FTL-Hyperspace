@@ -1107,7 +1107,6 @@ struct CFPS
 %rename("%s") ShieldPower::second;
 %rename("%s") ShieldPower::super;
 
-// TODO: Expose DamageParameter (Note it's actually "Damage" maybe need to clean that up)
 %rename("%s") Damage;
 %rename("%s") Damage::iDamage;
 %rename("%s") Damage::iShieldPiercing;

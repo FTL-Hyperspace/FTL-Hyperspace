@@ -1338,23 +1338,6 @@ struct Damage
 
 struct Projectile;
 
-struct DamageParameter
-{
-	int iDamage;
-	int iShieldPiercing;
-	int fireChance;
-	int breachChance;
-	int stunChance;
-	int iIonDamage;
-	int iSystemDamage;
-	int iPersDamage;
-	int hullBusterMask;
-	int ownerId;
-	int selfId;
-	int lockdownShardFriendlyFireMask;
-	int iStun;
-};
-
 struct ShieldPower
 {
 	int first;
@@ -1375,7 +1358,7 @@ struct LIBZHL_INTERFACE Targetable
 	virtual int GetOwnerId() LIBZHL_PLACEHOLDER
 	virtual int GetSelfId() LIBZHL_PLACEHOLDER
 	virtual bool IsCloaked() LIBZHL_PLACEHOLDER
-	virtual void DamageTarget(Pointf pos, DamageParameter damage) LIBZHL_PLACEHOLDER
+	virtual void DamageTarget(Pointf pos, Damage damage) LIBZHL_PLACEHOLDER
 	virtual bool GetIsDying() LIBZHL_PLACEHOLDER
 	virtual bool GetIsJumping() LIBZHL_PLACEHOLDER
 	virtual bool ValidTarget() LIBZHL_PLACEHOLDER
@@ -2587,11 +2570,11 @@ struct LIBZHL_INTERFACE SpaceDrone : Drone
 	virtual Pointf GetSpeed() LIBZHL_PLACEHOLDER
 	virtual int GetOwnerId() LIBZHL_PLACEHOLDER
 	virtual int GetSelfId() LIBZHL_PLACEHOLDER
-	virtual CollisionResponse *CollisionMoving(SpaceDrone *drone, Pointf pos1, Pointf pos2, DamageParameter damage, bool unk) LIBZHL_PLACEHOLDER
-	virtual bool DamageBeam(Pointf pos1, Pointf pos2, DamageParameter damage) LIBZHL_PLACEHOLDER
-	virtual void DamageArea(Pointf pos, DamageParameter damage, bool unk) LIBZHL_PLACEHOLDER
+	virtual CollisionResponse *CollisionMoving(SpaceDrone *drone, Pointf pos1, Pointf pos2, Damage damage, bool unk) LIBZHL_PLACEHOLDER
+	virtual bool DamageBeam(Pointf pos1, Pointf pos2, Damage damage) LIBZHL_PLACEHOLDER
+	virtual void DamageArea(Pointf pos, Damage damage, bool unk) LIBZHL_PLACEHOLDER
 	virtual BoarderDrone *GetBoardingDrone() LIBZHL_PLACEHOLDER
-	LIBZHL_API CollisionResponse CollisionMoving(Pointf start, Pointf finish, DamageParameter damage, bool raytrace);
+	LIBZHL_API CollisionResponse CollisionMoving(Pointf start, Pointf finish, Damage damage, bool raytrace);
 	LIBZHL_API virtual void SetDeployed(bool deployed);
 	LIBZHL_API float UpdateAimingAngle(Pointf location, float percentage, float forceDesired);
 	
@@ -6726,18 +6709,18 @@ struct ShipManager : ShipObject
 	LIBZHL_API void CheckVision();
 	LIBZHL_API void ClearStatusAll();
 	LIBZHL_API void ClearStatusSystem(int system);
-	LIBZHL_API CollisionResponse CollisionMoving(Pointf start, Pointf finish, DamageParameter damage, bool raytrace);
+	LIBZHL_API CollisionResponse CollisionMoving(Pointf start, Pointf finish, Damage damage, bool raytrace);
 	LIBZHL_API bool CommandCrewMoveRoom(CrewMember *crew, int roomId);
 	LIBZHL_API int CountCrew(char boarders);
 	LIBZHL_API int CountCrewShipId(int roomId, int shipId);
 	LIBZHL_API CrewDrone *CreateCrewDrone(const DroneBlueprint *bp);
 	LIBZHL_API SpaceDrone *CreateSpaceDrone(const DroneBlueprint *bp);
 	LIBZHL_API int CreateSystems();
-	LIBZHL_API bool DamageArea(Pointf location, DamageParameter dmg, bool forceHit);
-	LIBZHL_API bool DamageBeam(Pointf location1, Pointf location2, DamageParameter dmg);
-	LIBZHL_API char DamageCrew(CrewMember *crew, DamageParameter dmg);
+	LIBZHL_API bool DamageArea(Pointf location, Damage dmg, bool forceHit);
+	LIBZHL_API bool DamageBeam(Pointf location1, Pointf location2, Damage dmg);
+	LIBZHL_API char DamageCrew(CrewMember *crew, Damage dmg);
 	LIBZHL_API int DamageHull(int dmg, bool force);
-	LIBZHL_API void DamageSystem(int systemId, DamageParameter damage);
+	LIBZHL_API void DamageSystem(int systemId, Damage damage);
 	LIBZHL_API bool DoSensorsProvide(int vision);
 	LIBZHL_API bool DoorsFunction();
 	LIBZHL_API void ExportBattleState(int file);

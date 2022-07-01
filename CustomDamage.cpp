@@ -11,11 +11,10 @@ Projectile* CustomDamageManager::currentProjectile = nullptr;
 CustomDamageDefinition CustomDamageDefinition::defaultDef = CustomDamageDefinition();
 std::vector<CustomDamageDefinition*> CustomDamageDefinition::customDamageDefs = {&CustomDamageDefinition::defaultDef};
 
-HOOK_METHOD(ShipManager, DamageArea, (Pointf location, DamageParameter dmgParam, bool forceHit) -> bool)
+HOOK_METHOD(ShipManager, DamageArea, (Pointf location, Damage dmg, bool forceHit) -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::DamageArea -> Begin (CustomDamage.cpp)\n")
-    //Damage* dmg = (Damage*)&dmgParam;
-    bool ret = super(location, dmgParam, forceHit);
+    bool ret = super(location, dmg, forceHit);
 
     if (ret)
     {
@@ -53,11 +52,10 @@ HOOK_METHOD(ShipManager, DamageArea, (Pointf location, DamageParameter dmgParam,
     return ret;
 }
 
-HOOK_METHOD(ShipManager, DamageBeam, (Pointf location1, Pointf location2, DamageParameter dmgParam) -> bool)
+HOOK_METHOD(ShipManager, DamageBeam, (Pointf location1, Pointf location2, Damage dmg) -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::DamageBeam -> Begin (CustomDamage.cpp)\n")
-    //Damage* dmg = (Damage*)&dmgParam;
-    bool ret = super(location1, location2, dmgParam);
+    bool ret = super(location1, location2, dmg);
 
     auto custom = CustomDamageManager::currentWeaponDmg;
 
@@ -114,25 +112,25 @@ HOOK_METHOD(ShipManager, GetDodgeFactor, () -> int)
     return ret;
 }
 
-HOOK_METHOD_PRIORITY(ShipManager, DamageSystem, -100, (int roomId, DamageParameter dmgParam) -> void)
+HOOK_METHOD_PRIORITY(ShipManager, DamageSystem, -100, (int roomId, Damage dmg) -> void)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::DamageSystem -> Begin (CustomDamage.cpp)\n")
     if (CustomDamageManager::currentWeaponDmg != nullptr && CustomDamageManager::currentWeaponDmg->def->noSysDamage)
     {
-        dmgParam.iSystemDamage -= dmgParam.iDamage;
+        dmg.iSystemDamage -= dmg.iDamage;
     }
 
-    super(roomId, dmgParam);
+    super(roomId, dmg);
 }
 
-HOOK_METHOD_PRIORITY(ShipManager, DamageCrew, -100, (CrewMember *crew, DamageParameter dmgParameter) -> char)
+HOOK_METHOD_PRIORITY(ShipManager, DamageCrew, -100, (CrewMember *crew, Damage dmg) -> char)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::DamageCrew -> Begin (CustomDamage.cpp)\n")
     if (CustomDamageManager::currentWeaponDmg != nullptr)
     {
         if (CustomDamageManager::currentWeaponDmg->def->noPersDamage)
         {
-            dmgParameter.iPersDamage -= dmgParameter.iDamage;
+            dmg.iPersDamage -= dmg.iDamage;
         }
 
         int rng = random32() % 10;
@@ -148,7 +146,7 @@ HOOK_METHOD_PRIORITY(ShipManager, DamageCrew, -100, (CrewMember *crew, DamagePar
         }
     }
 
-    return super(crew, dmgParameter);
+    return super(crew, dmg);
 }
 
 HOOK_METHOD(ProjectileFactory, Update, () -> void)
@@ -167,7 +165,7 @@ HOOK_METHOD(ProjectileFactory, Update, () -> void)
     //CustomDamageManager::currentWeaponDmg = nullptr;
 }
 
-HOOK_METHOD(ShipManager, CollisionMoving, (Pointf start, Pointf finish, DamageParameter damage, bool raytrace) -> CollisionResponse)
+HOOK_METHOD(ShipManager, CollisionMoving, (Pointf start, Pointf finish, Damage damage, bool raytrace) -> CollisionResponse)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::CollisionMoving -> Begin (CustomDamage.cpp)\n")
     if (CustomDamageManager::currentWeaponDmg && CustomDamageManager::currentWeaponDmg->def->ionBeamFix && CustomDamageManager::currentProjectile)
@@ -184,7 +182,7 @@ HOOK_METHOD(ShipManager, CollisionMoving, (Pointf start, Pointf finish, DamagePa
 
 
 //rewrite
-HOOK_METHOD_PRIORITY(SpaceDrone, CollisionMoving, 9999, (Pointf start, Pointf finish, DamageParameter damage, bool raytrace) -> CollisionResponse)
+HOOK_METHOD_PRIORITY(SpaceDrone, CollisionMoving, 9999, (Pointf start, Pointf finish, Damage damage, bool raytrace) -> CollisionResponse)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> SpaceDrone::CollisionMoving -> Begin (CustomDamage.cpp)\n")
 	CollisionResponse ret = CollisionResponse();
