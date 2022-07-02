@@ -795,18 +795,7 @@ void StatBoostManager::OnLoop(WorldManager* world)
 
         if (functional)
         {
-            auto currentStatBoosts = std::vector<StatBoost>();
-
-            if (ex->temporaryPowerActive)
-            {
-                currentStatBoosts = ex->outgoingAbilityStatBoosts;
-            }
-            else
-            {
-                currentStatBoosts = ex->outgoingStatBoosts;
-            }
-
-            for (auto& statBoost : currentStatBoosts)
+            for (auto& statBoost : ex->outgoingStatBoosts)
             {
                 CreateCrewBoost(statBoost, otherCrew);
             }
