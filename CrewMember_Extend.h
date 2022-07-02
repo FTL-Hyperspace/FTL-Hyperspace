@@ -7,6 +7,7 @@
 #include "EnumClassHash.h"
 #include "ToggleValue.h"
 #include <array>
+#include <memory>
 
 struct CrewDefinition;
 struct ActivatedPowerDefinition;
@@ -69,9 +70,10 @@ public:
     bool temporaryPowerActive = false;
     bool powerDone = true;
 
-    Animation* effectAnim = nullptr;
-    Animation* tempEffectAnim = nullptr;
-    Animation* effectFinishAnim = nullptr;
+    std::unique_ptr<Animation> effectAnim = nullptr;
+    std::unique_ptr<Animation> tempEffectAnim = nullptr;
+    std::unique_ptr<Animation> effectFinishAnim = nullptr;
+    std::vector<Animation> extraAnims;
     GL_Texture* tempEffectStrip = nullptr;
 
     Pointf effectPos;
@@ -87,6 +89,11 @@ public:
     PowerReadyState PowerReq(const ActivatedPowerRequirements *req);
     PowerReadyState PowerReady();
     Damage* GetPowerDamage();
+    void ActivateTemporaryPower();
+    void PrepareAnimation();
+    void PrepareTemporaryAnimation();
+    void PreparePower();
+    void ActivatePower();
 };
 
 struct CrewAnimation_Extend
@@ -132,6 +139,8 @@ public:
     bool exploded = false;
     bool triggerExplosion = false;
 
+    std::vector<ActivatedPower*> crewPowers;
+
     bool hasSpecialPower = false;
     bool hasTemporaryPower = false;
 
@@ -171,9 +180,9 @@ public:
     float prevStun = 0.f; // for use in stun resistance checking
     bool prevCanMove = true;
 
-    std::vector<StatBoost> outgoingStatBoosts = std::vector<StatBoost>();
-    std::vector<StatBoost> outgoingAbilityStatBoosts = std::vector<StatBoost>();
-    std::vector<StatBoost> tempOutgoingStatBoosts = std::vector<StatBoost>();
+    std::vector<StatBoost> outgoingStatBoosts = std::vector<StatBoost>(); // list of stat boosts passive + temporary ability effects
+//    std::vector<StatBoost> outgoingAbilityStatBoosts = std::vector<StatBoost>();
+//    std::vector<StatBoost> tempOutgoingStatBoosts = std::vector<StatBoost>();
 //    std::vector<StatBoost> outgoingTimedStatBoosts = std::vector<StatBoost>();
 //    std::vector<StatBoost> outgoingTimedAbilityStatBoosts = std::vector<StatBoost>();
     std::unordered_map<CrewStat, std::vector<StatBoost>, EnumClassHash> timedStatBoosts = std::unordered_map<CrewStat, std::vector<StatBoost>, EnumClassHash>();
@@ -211,7 +220,15 @@ public:
     {
         delete passiveHealTimer;
         delete deathTimer;
+
+        for (ActivatedPower *power : crewPowers)
+        {
+            delete power;
+        }
     }
+
+    void UpdateAbilityStatBoosts(CrewDefinition *def);
+    void UpdateAbilityStatBoosts();
 
     std::pair<float,int> statCache[numCachedStats] = {};
 

@@ -1852,16 +1852,7 @@ void CrewMember_Extend::ActivateTemporaryPower()
         canPhaseThroughDoors = powerDef->tempPower.canPhaseThroughDoors.value;
     }
 
-    outgoingAbilityStatBoosts.clear();
-    for (StatBoostDefinition* statBoostDef : powerDef->tempPower.statBoosts)
-    {
-        StatBoost statBoost = StatBoost(statBoostDef);
-
-        statBoost.crewSource = orig;
-        statBoost.crewSourceId = selfId;
-        statBoost.sourceShipId = orig->iShipId;
-        outgoingAbilityStatBoosts.push_back(statBoost);
-    }
+    UpdateAbilityStatBoosts();
 
     StatBoostManager::GetInstance()->statCacheFrame++; // resets stat cache in case game is paused
 }
@@ -2617,27 +2608,7 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
         }
         canPhaseThroughDoors = def->canPhaseThroughDoors;
 
-        outgoingStatBoosts.clear();
-        for (StatBoostDefinition* statBoostDef : def->passiveStatBoosts)
-        {
-            StatBoost statBoost = StatBoost(statBoostDef);
-
-            statBoost.crewSource = orig;
-            statBoost.crewSourceId = selfId;
-            statBoost.sourceShipId = orig->iShipId;
-            outgoingStatBoosts.push_back(statBoost);
-        }
-        outgoingAbilityStatBoosts.clear();
-        for (StatBoostDefinition* statBoostDef : powerDef->tempPower.statBoosts)
-        {
-            StatBoost statBoost = StatBoost(statBoostDef);
-
-            statBoost.crewSource = orig;
-            statBoost.crewSourceId = selfId;
-            statBoost.sourceShipId = orig->iShipId;
-            outgoingAbilityStatBoosts.push_back(statBoost);
-        }
-
+        UpdateAbilityStatBoosts(def);
 
         auto skillsDef = def->skillsDef;
         noSlot = def->noSlot || g_forceNoSlot;
@@ -3288,10 +3259,6 @@ HOOK_METHOD(CrewMember, LoadState, (int file) -> void)
     ex->selfId = FileHelper::readFloat(file);
 
     for (StatBoost &statBoost : ex->outgoingStatBoosts)
-    {
-        statBoost.crewSourceId = ex->selfId;
-    }
-    for (StatBoost &statBoost : ex->outgoingAbilityStatBoosts)
     {
         statBoost.crewSourceId = ex->selfId;
     }
