@@ -3094,7 +3094,7 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
                     ex->powerCooldown.first = std::max(0.f, std::min(ex->powerCooldown.second, (float)(G_->GetCFPS()->GetSpeedFactor() * 0.0625 * ex->CalculateStat(CrewStat::POWER_RECHARGE_MULTIPLIER, def)) + ex->powerCooldown.first));
                 }
 
-                if (!IsDead())
+                if (!IsDead() && Functional())
                 {
                     bool activateWhenReady = false;
                     // Only check activateWhenReady if not dying
