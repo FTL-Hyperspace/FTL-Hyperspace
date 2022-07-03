@@ -12500,12 +12500,12 @@ namespace _func914
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("ShipManager::OnRender", typeid(void (ShipManager::*)(char , char )), "5589e557565381ecdc0000008b5d0c8b4510", argdata, 3, 6, &func);
+	static FunctionDefinition funcObj("ShipManager::OnRender", typeid(void (ShipManager::*)(bool , bool )), "5589e557565381ecdc0000008b5d0c8b4510", argdata, 3, 6, &func);
 }
 
-void ShipManager::OnRender(char showInterior, char doorControlMode)
+void ShipManager::OnRender(bool showInterior, bool doorControlMode)
 {
-	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(ShipManager *this_arg, char showInterior_arg, char doorControlMode_arg);
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(ShipManager *this_arg, bool showInterior_arg, bool doorControlMode_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func914::func;
 	return execfunc(this, showInterior, doorControlMode);
 }
@@ -12514,12 +12514,12 @@ namespace _func915
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("ShipManager::CountCrew", typeid(int (ShipManager::*)(char )), "5557565383ec1c8b7c24300fb6442434", argdata, 2, 2, &func);
+	static FunctionDefinition funcObj("ShipManager::CountCrew", typeid(int (ShipManager::*)(bool )), "5557565383ec1c8b7c24300fb6442434", argdata, 2, 2, &func);
 }
 
-int ShipManager::CountCrew(char boarders)
+int ShipManager::CountCrew(bool boarders)
 {
-	typedef int __attribute__((cdecl)) (*custom_arg_funcptr_t)(ShipManager *this_arg, char boarders_arg);
+	typedef int __attribute__((cdecl)) (*custom_arg_funcptr_t)(ShipManager *this_arg, bool boarders_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func915::func;
 	return execfunc(this, boarders);
 }
@@ -12556,12 +12556,12 @@ namespace _func918
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("ShipManager::HasSystem", typeid(char (ShipManager::*)(int )), "8b44240883f81174??8b5424048b9200040000", argdata, 2, 2, &func);
+	static FunctionDefinition funcObj("ShipManager::HasSystem", typeid(bool (ShipManager::*)(int )), "8b44240883f81174??8b5424048b9200040000", argdata, 2, 2, &func);
 }
 
-char ShipManager::HasSystem(int systemId)
+bool ShipManager::HasSystem(int systemId)
 {
-	typedef char __attribute__((cdecl)) (*custom_arg_funcptr_t)(ShipManager *this_arg, int systemId_arg);
+	typedef bool __attribute__((cdecl)) (*custom_arg_funcptr_t)(ShipManager *this_arg, int systemId_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func918::func;
 	return execfunc(this, systemId);
 }
@@ -12689,12 +12689,12 @@ namespace _func928
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff, 0x1ff, 0x1ff, 0x1ff, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("ShipManager::AddCrewMemberFromString", typeid(CrewMember *(ShipManager::*)(const std::string &, const std::string &, char , int , char , char )), "5589e557565381ec6c0100008b75088b4d1c8b45148b5604", argdata, 7, 2, &func);
+	static FunctionDefinition funcObj("ShipManager::AddCrewMemberFromString", typeid(CrewMember *(ShipManager::*)(const std::string &, const std::string &, bool , int , bool , bool )), "5589e557565381ec6c0100008b75088b4d1c8b45148b5604", argdata, 7, 2, &func);
 }
 
-CrewMember *ShipManager::AddCrewMemberFromString(const std::string &name, const std::string &race, char intruder, int roomId, char init, char male)
+CrewMember *ShipManager::AddCrewMemberFromString(const std::string &name, const std::string &race, bool intruder, int roomId, bool init, bool male)
 {
-	typedef CrewMember *__attribute__((cdecl)) (*custom_arg_funcptr_t)(ShipManager *this_arg, const std::string &name_arg, const std::string &race_arg, char intruder_arg, int roomId_arg, char init_arg, char male_arg);
+	typedef CrewMember *__attribute__((cdecl)) (*custom_arg_funcptr_t)(ShipManager *this_arg, const std::string &name_arg, const std::string &race_arg, bool intruder_arg, int roomId_arg, bool init_arg, bool male_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func928::func;
 	return execfunc(this, name, race, intruder, roomId, init, male);
 }
@@ -12717,12 +12717,12 @@ namespace _func930
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff, 0x1ff, 0xcff};
-	static FunctionDefinition funcObj("ShipManager::DamageCrew", typeid(char (ShipManager::*)(CrewMember *, Damage )), "5557565383ec1c807c246600", argdata, 3, 2, &func);
+	static FunctionDefinition funcObj("ShipManager::DamageCrew", typeid(bool (ShipManager::*)(CrewMember *, Damage )), "5557565383ec1c807c246600", argdata, 3, 2, &func);
 }
 
-char ShipManager::DamageCrew(CrewMember *crew, Damage dmg)
+bool ShipManager::DamageCrew(CrewMember *crew, Damage dmg)
 {
-	typedef char __attribute__((cdecl)) (*custom_arg_funcptr_t)(ShipManager *this_arg, CrewMember *crew_arg, Damage dmg_arg);
+	typedef bool __attribute__((cdecl)) (*custom_arg_funcptr_t)(ShipManager *this_arg, CrewMember *crew_arg, Damage dmg_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func930::func;
 	return execfunc(this, crew, dmg);
 }
@@ -12745,12 +12745,12 @@ namespace _func932
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff, 0x2ff, 0xcff, 0x1ff};
-	static FunctionDefinition funcObj("ShipManager::DamageArea", typeid(bool (ShipManager::*)(Pointf , Damage , char )), "5589e557565381eccc0000008b45148b5d08", argdata, 4, 2, &func);
+	static FunctionDefinition funcObj("ShipManager::DamageArea", typeid(bool (ShipManager::*)(Pointf , Damage , bool )), "5589e557565381eccc0000008b45148b5d08", argdata, 4, 2, &func);
 }
 
-bool ShipManager::DamageArea(Pointf location, Damage dmg, char forceHit)
+bool ShipManager::DamageArea(Pointf location, Damage dmg, bool forceHit)
 {
-	typedef bool __attribute__((cdecl)) (*custom_arg_funcptr_t)(ShipManager *this_arg, Pointf location_arg, Damage dmg_arg, char forceHit_arg);
+	typedef bool __attribute__((cdecl)) (*custom_arg_funcptr_t)(ShipManager *this_arg, Pointf location_arg, Damage dmg_arg, bool forceHit_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func932::func;
 	return execfunc(this, location, dmg, forceHit);
 }

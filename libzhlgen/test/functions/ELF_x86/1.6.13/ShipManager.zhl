@@ -5,15 +5,15 @@ cleanup __cdecl void ShipManager::AddInitialCrew(ShipManager *this, std::vector<
 "5383ec188b5c24208b93000400008b420483f8ff74??8b4b188b0c818b818001000085c07e??80b9840100000074??83f80174??31c0":
 cleanup __cdecl int ShipManager::GetDodgeFactor(ShipManager *this);
 "5589e557565381ecdc0000008b5d0c8b4510":
-cleanup __cdecl void ShipManager::OnRender(ShipManager *this, char showInterior, char doorControlMode);
+cleanup __cdecl void ShipManager::OnRender(ShipManager *this, bool showInterior, bool doorControlMode);
 "5557565383ec1c8b7c24300fb6442434":
-cleanup __cdecl int ShipManager::CountCrew(ShipManager *this, char boarders);
+cleanup __cdecl int ShipManager::CountCrew(ShipManager *this, bool boarders);
 "5557565331db83ec1c0fb644243c":
 cleanup __cdecl std::vector<CrewMember*> ShipManager::TeleportCrew(ShipManager *this, int roomId, bool intruders);
 "5589e557565383ec6c8b7d088b450c8b7510":
 cleanup __cdecl int ShipManager::OnInit(ShipManager *this, ShipBlueprint *bp, int shipLevel);
 "8b44240883f81174??8b5424048b9200040000":
-cleanup __cdecl char ShipManager::HasSystem(ShipManager *this, int systemId);
+cleanup __cdecl bool ShipManager::HasSystem(ShipManager *this, int systemId);
 "5557565331db83ec1c8b6c24308b7424348b55188b451c":
 cleanup __cdecl ShipSystem *ShipManager::GetSystemInRoom(ShipManager *this, int roomId);
 "5589e5575689c65381ec1c010000":
@@ -33,15 +33,15 @@ cleanup __cdecl void ShipManager::UpdateEnvironment(ShipManager *this);
 "5589e557565383ec6c8b4514c7442404????????8b7508":
 cleanup __cdecl CrewMember *ShipManager::AddCrewMemberFromBlueprint(ShipManager *this, CrewBlueprint* bp, int slot, bool init, int roomId, bool intruder);
 "5589e557565381ec6c0100008b75088b4d1c8b45148b5604":
-cleanup __cdecl CrewMember *ShipManager::AddCrewMemberFromString(ShipManager *this, const std::string& name, const std::string& race, char intruder, int roomId, char init, char male);
+cleanup __cdecl CrewMember *ShipManager::AddCrewMemberFromString(ShipManager *this, const std::string& name, const std::string& race, bool intruder, int roomId, bool init, bool male);
 "8b4424048b9000040000837a08ff74??8b4024f30f1005????????":
 cleanup __cdecl int ShipManager::GetOxygenPercentage(ShipManager *this);
 "5557565383ec1c807c246600":
-cleanup __cdecl char ShipManager::DamageCrew(ShipManager *this, CrewMember *crew, Damage dmg);
+cleanup __cdecl bool ShipManager::DamageCrew(ShipManager *this, CrewMember *crew, Damage dmg);
 "5557565383ec3c8b442454894424048d44242c890424":
 cleanup __cdecl void ShipManager::RemoveItem(ShipManager *this, const std::string& name); 
 "5589e557565381eccc0000008b45148b5d08":
-cleanup __cdecl bool ShipManager::DamageArea(ShipManager *this, Pointf location, Damage dmg, char forceHit);
+cleanup __cdecl bool ShipManager::DamageArea(ShipManager *this, Pointf location, Damage dmg, bool forceHit);
 "5589e557565381ecdc0000008b7d088b5d0c8b7510":
 cleanup __cdecl bool ShipManager::DamageBeam(ShipManager *this, Pointf location1, Pointf location2, Damage dmg);
 "5589e557565383ec6c8b45108b7d14":

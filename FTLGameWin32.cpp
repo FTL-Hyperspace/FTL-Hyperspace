@@ -12553,12 +12553,12 @@ namespace _func910
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("ShipManager::OnRender", typeid(void (ShipManager::*)(char , char )), "578d7c240883e4f0ff77fc5589f889e557565389cf81ec????????803d??????????8b188b4004889d44ffffff898530ffffff0f84????????", argdata, 3, 5, &func);
+	static FunctionDefinition funcObj("ShipManager::OnRender", typeid(void (ShipManager::*)(bool , bool )), "578d7c240883e4f0ff77fc5589f889e557565389cf81ec????????803d??????????8b188b4004889d44ffffff898530ffffff0f84????????", argdata, 3, 5, &func);
 }
 
-void ShipManager::OnRender(char showInterior, char doorControlMode)
+void ShipManager::OnRender(bool showInterior, bool doorControlMode)
 {
-	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(ShipManager *this_arg, char showInterior_arg, char doorControlMode_arg);
+	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(ShipManager *this_arg, bool showInterior_arg, bool doorControlMode_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func910::func;
 	return execfunc(this, showInterior, doorControlMode);
 }
@@ -12567,12 +12567,12 @@ namespace _func911
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("ShipManager::CountCrew", typeid(int (ShipManager::*)(char )), "5589e557565383e4f083ec100fb645088b51648844240f8b416829d0c1f80285c00f84????????", argdata, 2, 1, &func);
+	static FunctionDefinition funcObj("ShipManager::CountCrew", typeid(int (ShipManager::*)(bool )), "5589e557565383e4f083ec100fb645088b51648844240f8b416829d0c1f80285c00f84????????", argdata, 2, 1, &func);
 }
 
-int ShipManager::CountCrew(char boarders)
+int ShipManager::CountCrew(bool boarders)
 {
-	typedef int __attribute__((thiscall)) (*custom_arg_funcptr_t)(ShipManager *this_arg, char boarders_arg);
+	typedef int __attribute__((thiscall)) (*custom_arg_funcptr_t)(ShipManager *this_arg, bool boarders_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func911::func;
 	return execfunc(this, boarders);
 }
@@ -12609,12 +12609,12 @@ namespace _func914
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
-	static FunctionDefinition funcObj("ShipManager::HasSystem", typeid(char (ShipManager::*)(int )), "8b44240483f81174??8b91c8040000833c82ff0f95c0c204008db42600000000b8????????", argdata, 2, 1, &func);
+	static FunctionDefinition funcObj("ShipManager::HasSystem", typeid(bool (ShipManager::*)(int )), "8b44240483f81174??8b91c8040000833c82ff0f95c0c204008db42600000000b8????????", argdata, 2, 1, &func);
 }
 
-char ShipManager::HasSystem(int systemId)
+bool ShipManager::HasSystem(int systemId)
 {
-	typedef char __attribute__((thiscall)) (*custom_arg_funcptr_t)(ShipManager *this_arg, int systemId_arg);
+	typedef bool __attribute__((thiscall)) (*custom_arg_funcptr_t)(ShipManager *this_arg, int systemId_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func914::func;
 	return execfunc(this, systemId);
 }
@@ -12735,12 +12735,12 @@ namespace _func923
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff, 0x1ff, 0x1ff, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("ShipManager::AddCrewMemberFromString", typeid(CrewMember *(ShipManager::*)(const std::string &, const std::string &, char , int , char , char )), "578d7c240883e4f0ff77fc5589e557565389cb81ec????????8b078b770c8b490489855cfdffff89b570fdffff8b47048b771085c9898568fdffff89b558fdffff", argdata, 7, 1, &func);
+	static FunctionDefinition funcObj("ShipManager::AddCrewMemberFromString", typeid(CrewMember *(ShipManager::*)(const std::string &, const std::string &, bool , int , bool , bool )), "578d7c240883e4f0ff77fc5589e557565389cb81ec????????8b078b770c8b490489855cfdffff89b570fdffff8b47048b771085c9898568fdffff89b558fdffff", argdata, 7, 1, &func);
 }
 
-CrewMember *ShipManager::AddCrewMemberFromString(const std::string &name, const std::string &race, char intruder, int roomId, char init, char male)
+CrewMember *ShipManager::AddCrewMemberFromString(const std::string &name, const std::string &race, bool intruder, int roomId, bool init, bool male)
 {
-	typedef CrewMember *__attribute__((thiscall)) (*custom_arg_funcptr_t)(ShipManager *this_arg, const std::string &name_arg, const std::string &race_arg, char intruder_arg, int roomId_arg, char init_arg, char male_arg);
+	typedef CrewMember *__attribute__((thiscall)) (*custom_arg_funcptr_t)(ShipManager *this_arg, const std::string &name_arg, const std::string &race_arg, bool intruder_arg, int roomId_arg, bool init_arg, bool male_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func923::func;
 	return execfunc(this, name, race, intruder, roomId, init, male);
 }
@@ -12777,12 +12777,12 @@ namespace _func926
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0xcff};
-	static FunctionDefinition funcObj("ShipManager::DamageCrew", typeid(char (ShipManager::*)(CrewMember *, Damage )), "578d7c240883e4f0ff77fc5589f889e557565383ec2c807832008b1f8b7f2875??3b7b04", argdata, 3, 1, &func);
+	static FunctionDefinition funcObj("ShipManager::DamageCrew", typeid(bool (ShipManager::*)(CrewMember *, Damage )), "578d7c240883e4f0ff77fc5589f889e557565383ec2c807832008b1f8b7f2875??3b7b04", argdata, 3, 1, &func);
 }
 
-char ShipManager::DamageCrew(CrewMember *crew, Damage dmg)
+bool ShipManager::DamageCrew(CrewMember *crew, Damage dmg)
 {
-	typedef char __attribute__((thiscall)) (*custom_arg_funcptr_t)(ShipManager *this_arg, CrewMember *crew_arg, Damage dmg_arg);
+	typedef bool __attribute__((thiscall)) (*custom_arg_funcptr_t)(ShipManager *this_arg, CrewMember *crew_arg, Damage dmg_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func926::func;
 	return execfunc(this, crew, dmg);
 }

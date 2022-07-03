@@ -6648,7 +6648,7 @@ struct ShipManager : ShipObject
 
 	LIBZHL_API void AddCrewMember(CrewMember *crew, int roomId);
 	LIBZHL_API CrewMember *AddCrewMemberFromBlueprint(CrewBlueprint *bp, int slot, bool init, int roomId, bool intruder);
-	LIBZHL_API CrewMember *AddCrewMemberFromString(const std::string &name, const std::string &race, char intruder, int roomId, char init, char male);
+	LIBZHL_API CrewMember *AddCrewMemberFromString(const std::string &name, const std::string &race, bool intruder, int roomId, bool init, bool male);
 	LIBZHL_API Drone *AddDrone(const DroneBlueprint *bp, int slot);
 	LIBZHL_API void AddEquipmentFromList(std::vector<std::string> *equipmentList);
 	LIBZHL_API void AddInitialCrew(std::vector<CrewBlueprint> &blueprints);
@@ -6664,14 +6664,14 @@ struct ShipManager : ShipObject
 	LIBZHL_API void ClearStatusSystem(int system);
 	LIBZHL_API CollisionResponse CollisionMoving(Pointf start, Pointf finish, Damage damage, bool raytrace);
 	LIBZHL_API bool CommandCrewMoveRoom(CrewMember *crew, int roomId);
-	LIBZHL_API int CountCrew(char boarders);
+	LIBZHL_API int CountCrew(bool boarders);
 	LIBZHL_API int CountCrewShipId(int roomId, int shipId);
 	LIBZHL_API CrewDrone *CreateCrewDrone(const DroneBlueprint *bp);
 	LIBZHL_API SpaceDrone *CreateSpaceDrone(const DroneBlueprint *bp);
 	LIBZHL_API int CreateSystems();
-	LIBZHL_API bool DamageArea(Pointf location, Damage dmg, char forceHit);
+	LIBZHL_API bool DamageArea(Pointf location, Damage dmg, bool forceHit);
 	LIBZHL_API bool DamageBeam(Pointf location1, Pointf location2, Damage dmg);
-	LIBZHL_API char DamageCrew(CrewMember *crew, Damage dmg);
+	LIBZHL_API bool DamageCrew(CrewMember *crew, Damage dmg);
 	LIBZHL_API int DamageHull(int dmg, bool force);
 	LIBZHL_API void DamageSystem(int systemId, Damage damage);
 	LIBZHL_API bool DoSensorsProvide(int vision);
@@ -6697,7 +6697,7 @@ struct ShipManager : ShipObject
 	LIBZHL_API int GetSystemRoom(int sysId);
 	LIBZHL_API std::string GetTooltip(int x, int y);
 	LIBZHL_API std::vector<ProjectileFactory*> GetWeaponList();
-	LIBZHL_API char HasSystem(int systemId);
+	LIBZHL_API bool HasSystem(int systemId);
 	LIBZHL_API void ImportBattleState(int file);
 	LIBZHL_API void ImportShip(int file);
 	LIBZHL_API void InstantPowerShields();
@@ -6711,7 +6711,7 @@ struct ShipManager : ShipObject
 	LIBZHL_API void ModifyScrapCount(int scrap, bool income);
 	LIBZHL_API int OnInit(ShipBlueprint *bp, int shipLevel);
 	LIBZHL_API void OnLoop();
-	LIBZHL_API void OnRender(char showInterior, char doorControlMode);
+	LIBZHL_API void OnRender(bool showInterior, bool doorControlMode);
 	LIBZHL_API void PrepareSuperBarrage();
 	LIBZHL_API void PrepareSuperDrones();
 	LIBZHL_API void RemoveItem(const std::string &name);
