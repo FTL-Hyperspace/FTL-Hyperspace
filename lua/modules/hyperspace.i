@@ -119,6 +119,8 @@ struct CFPS
 %clearnodefaultctor;
 %clearnodefaultdtor;
 
+%rename("%s") metaVariables;
+%rename("%s") playerVariables;
 
 %luacode {
     print "Hyperspace SWIG Lua loaded"
