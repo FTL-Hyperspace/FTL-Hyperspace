@@ -5799,45 +5799,48 @@ HOOK_METHOD(CompleteShip, DeadCrew, () -> bool)
     {
         ShipEvent& event = G_->GetWorld()->currentShipEvent;
 
-        CustomShipEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomShipEvent(event.name);
-        if (customEvent)
+        if (event.present)
         {
-            if (customEvent->deadCrewAuto)
+            CustomShipEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomShipEvent(event.name);
+            if (customEvent)
             {
-                shipManager->bAutomated = true;
-                CustomEventsParser::QueueEvent(event.deadCrew, event.shipSeed);
-                return false;
-            }
-
-            if (customEvent->finalBoss.enabled && !bossDefeated)
-            {
-                bossDefeated = true;
-
-                CommandGui* commandGui = G_->GetWorld()->commandGui;
-
-                if (!customEvent->finalBoss.sound.empty())
+                if (customEvent->deadCrewAuto)
                 {
-                    G_->GetSoundControl()->StopPlaylist(100);
-                    G_->GetSoundControl()->PlaySoundMix(customEvent->finalBoss.sound, -1.f, false);
-
-                    delete restartMusicTimer;
-                    if (customEvent->bossMusicDelay != -1)
-                    {
-                        restartMusicTimer = new TimerHelper(false);
-                        restartMusicTimer->Start(customEvent->bossMusicDelay);
-                    }
+                    shipManager->bAutomated = true;
+                    CustomEventsParser::QueueEvent(event.deadCrew, event.shipSeed);
+                    return false;
                 }
 
-                if (customEvent->finalBoss.victory)
+                if (customEvent->finalBoss.enabled && !bossDefeated)
                 {
-                    commandGui->alreadyWon = true;
-                    alreadyWonCustom = true;
-                    replaceGameOverText = customEvent->finalBoss.text;
-                    replaceGameOverCreditsText = customEvent->finalBoss.creditsText;
-                    replaceCreditsMusic = customEvent->finalBoss.creditsMusic;
-                    replaceCreditsBackground = G_->GetEventGenerator()->GetImageFromList(customEvent->finalBoss.creditsBackground);
-                    hs_log_file("Final Boss crewkilled: Set custom victory type to %s\n", customEvent->finalBoss.ach.c_str());
-                    CustomShipUnlocks::instance->setCustomVictoryType = customEvent->finalBoss.ach;
+                    bossDefeated = true;
+
+                    CommandGui* commandGui = G_->GetWorld()->commandGui;
+
+                    if (!customEvent->finalBoss.sound.empty())
+                    {
+                        G_->GetSoundControl()->StopPlaylist(100);
+                        G_->GetSoundControl()->PlaySoundMix(customEvent->finalBoss.sound, -1.f, false);
+
+                        delete restartMusicTimer;
+                        if (customEvent->bossMusicDelay != -1)
+                        {
+                            restartMusicTimer = new TimerHelper(false);
+                            restartMusicTimer->Start(customEvent->bossMusicDelay);
+                        }
+                    }
+
+                    if (customEvent->finalBoss.victory)
+                    {
+                        commandGui->alreadyWon = true;
+                        alreadyWonCustom = true;
+                        replaceGameOverText = customEvent->finalBoss.text;
+                        replaceGameOverCreditsText = customEvent->finalBoss.creditsText;
+                        replaceCreditsMusic = customEvent->finalBoss.creditsMusic;
+                        replaceCreditsBackground = G_->GetEventGenerator()->GetImageFromList(customEvent->finalBoss.creditsBackground);
+                        hs_log_file("Final Boss crewkilled: Set custom victory type to %s\n", customEvent->finalBoss.ach.c_str());
+                        CustomShipUnlocks::instance->setCustomVictoryType = customEvent->finalBoss.ach;
+                    }
                 }
             }
         }
