@@ -29,7 +29,8 @@ void LuaLibScript::call_on_load_callbacks()
         LuaFunctionRef refL = *i;
         lua_rawgeti(lua, LUA_REGISTRYINDEX, refL);
         if(lua_pcall(lua, 0, 0, 0) != 0) {
-            printf("Failed to call the callback!\n %s\n", lua_tostring(lua, -1)); // TODO: Log to HS log?
+            hs_log_file("Failed to call the callback!\n %s\n", lua_tostring(lua, -1));
+            lua_pop(lua, 1);
             return;
         }
     }
@@ -53,7 +54,8 @@ void LuaLibScript::call_on_init_callbacks()
         LuaFunctionRef refL = *i;
         lua_rawgeti(lua, LUA_REGISTRYINDEX, refL);
         if(lua_pcall(lua, 0, 0, 0) != 0) {
-            printf("Failed to call the callback!\n %s\n", lua_tostring(lua, -1)); // TODO: Log to HS log?
+            hs_log_file("Failed to call the callback!\n %s\n", lua_tostring(lua, -1));
+            lua_pop(lua, 1);
             return;
         }
     }
@@ -88,7 +90,8 @@ void call_all_functions_from_multimap(lua_State* lua, std::multimap<std::string,
         LuaFunctionRef refL = range.first->second;
         lua_rawgeti(lua, LUA_REGISTRYINDEX, refL);
         if(lua_pcall(lua, 0, 0, 0) != 0) {
-            printf("Failed to call the callback for %s!\n %s\n", key.c_str(), lua_tostring(lua, -1)); // TODO: Log to HS log?
+            hs_log_file("Failed to call the callback for %s!\n %s\n", key.c_str(), lua_tostring(lua, -1));
+            lua_pop(lua, 1);
             return;
         }
     }
@@ -130,7 +133,8 @@ void LuaLibScript::call_on_render_event_pre_callbacks(RenderEvents::Identifiers 
         std::pair<LuaFunctionRef, LuaFunctionRef> beforeAndAfterCallbacksRefL = range.first->second;
         lua_rawgeti(this->m_Lua, LUA_REGISTRYINDEX, beforeAndAfterCallbacksRefL.first);
         if(lua_pcall(this->m_Lua, 0, 0, 0) != 0) {
-            printf("Failed to call the before callback for RenderEvent %u!\n %s\n", id, lua_tostring(this->m_Lua, -1)); // TODO: Log to HS log? Also TODO: Maybe map RenderEvents to a readable string also?
+            hs_log_file("Failed to call the before callback for RenderEvent %u!\n %s\n", id, lua_tostring(this->m_Lua, -1)); // TODO: Maybe map RenderEvents to a readable string also?
+            lua_pop(this->m_Lua, 1);
             return;
         }
     }
@@ -148,7 +152,8 @@ void LuaLibScript::call_on_render_event_post_callbacks(RenderEvents::Identifiers
         std::pair<LuaFunctionRef, LuaFunctionRef> beforeAndAfterCallbacksRefL = range.first->second;
         lua_rawgeti(this->m_Lua, LUA_REGISTRYINDEX, beforeAndAfterCallbacksRefL.second);
         if(lua_pcall(this->m_Lua, 0, 0, 0) != 0) {
-            printf("Failed to call the after callback for RenderEvent %u!\n %s\n", id, lua_tostring(this->m_Lua, -1));
+            hs_log_file("Failed to call the after callback for RenderEvent %u!\n %s\n", id, lua_tostring(this->m_Lua, -1));
+            lua_pop(this->m_Lua, 1);
             return;
         }
     }
@@ -192,7 +197,8 @@ void LuaLibScript::call_on_internal_event_callbacks(InternalEvents::Identifiers 
         LuaFunctionRef refL = range.first->second;
         lua_rawgeti(this->m_Lua, LUA_REGISTRYINDEX, refL);
         if(lua_pcall(this->m_Lua, 0, 0, 0) != 0) {
-            printf("Failed to call the callback for InternalEvent %u!\n %s\n", id, lua_tostring(this->m_Lua, -1)); // TODO: Log to HS log? Also TODO: Maybe map RenderEvents to a readable string also?
+            hs_log_file("Failed to call the callback for InternalEvent %u!\n %s\n", id, lua_tostring(this->m_Lua, -1)); // Also TODO: Maybe map RenderEvents to a readable string also?
+            lua_pop(this->m_Lua, 1);
             return;
         }
     }
