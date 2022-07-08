@@ -181,31 +181,39 @@ local function shouldBlacklist(t)
 	return false
 end
 
-local function sizeof(t)
-    -- TODO: This doesn't compute struct sizes correctly when factoring in alignment for sizeof_aligned below
-    -- For example, Damage param on Shields::CollisionReal should be 52 in length (because of a 3-byte gap after a bool) but it gets computed as 48 as all the bools are packed when they shouldn't be
-    -- This sizeof needs to take into account the previous size & alignment when being used for sizeof_aligned!
+local function getsize_alignment(t)
 	local size = 4
+	local alignment = 4
+	
+	local field_size = 0
+	local field_alignment = 0
 	
 	if not t.ptr or #t.ptr == 0 then
 		local sdef = structs[t:cname()]
 		if sdef and sdef.fields then
 			size = 0
+			alignment = 0
 			if sdef.inherits then
-				size = sizeof(structs[sdef.inherits:cname()])
+				size, alignment = getsize_alignment(structs[sdef.inherits:cname()])
 			elseif sdef.vtable then
-				size = size + 4 -- TODO: Is 4 correct on 64-bit?
+				size = math.ceil(size/4)*4 + 4 -- TODO: Is 4 correct on 64-bit?
+				alignment = math.max(alignment, 4)
 			end
 			
 			for _,f in pairs(sdef.fields) do
-				size = size + sizeof(f)
+				field_size, field_alignment = getsize_alignment(f)
+				size = math.ceil(size/field_alignment)*field_alignment + field_size
+				alignment = math.max(alignment, field_alignment)
 			end
 		elseif t.class == "__int64" or t.class == "double" or t.class == 'uint64_t' or t.class == 'int64_t' then
 			size = 8
+			alignment = 8
 		elseif t.class == "__int16" or t.class == "short" or t.class == 'uint16_t' or t.class == 'int16_t'  then
 			size = 2
+			alignment = 2
 		elseif t.class == "__int8" or t.class == "char" or t.class == 'uint8_t' or t.class == 'int8_t' or t.class == "bool"  then
 			size = 1
+			alignment = 1
 		elseif t.parent and t.parent.class == "std" then
 			local stdStructSize = stdNamespaceSizes[t.class]
 			if not stdStructSize then
@@ -220,11 +228,22 @@ local function sizeof(t)
 		end 
     else
         size = archPushSize -- pointer size, only really ends up mattering on 64-bit as otherwise it was already 4
+		alignment = archPushSize
 	end
 	
-	if t.array and t.array > 0 then
-		size = size * t.array
+	if t.array and t.array > 1 then
+		size = size + math.ceil(size/alignment)*alignment * (t.array-1)
 	end
+	
+	return size, alignment
+end
+
+local function sizeof(t)
+	local size
+	local alignment
+	
+	size, alignment = getsize_alignment(t)
+	
 	return size
 end
 

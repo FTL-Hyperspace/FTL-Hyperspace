@@ -11132,7 +11132,7 @@ namespace _var811
 namespace _func812
 {
 	static void *func = 0;
-	static short argdata[] = {0x1ff, 0x1ff, 0x1ff, 0x1ff, 0xcff, 0x1ff};
+	static short argdata[] = {0x1ff, 0x1ff, 0x1ff, 0x1ff, 0xdff, 0x1ff};
 	static FunctionDefinition funcObj("Shields::CollisionReal", typeid(CollisionResponse (Shields::*)(float , float , Damage , bool )), "5557565381ec9c0000008b8424c00000008bac24b0000000", argdata, 6, 18, &func);
 }
 
@@ -12716,7 +12716,7 @@ int ShipManager::GetOxygenPercentage()
 namespace _func930
 {
 	static void *func = 0;
-	static short argdata[] = {0x1ff, 0x1ff, 0xcff};
+	static short argdata[] = {0x1ff, 0x1ff, 0xdff};
 	static FunctionDefinition funcObj("ShipManager::DamageCrew", typeid(bool (ShipManager::*)(CrewMember *, Damage )), "5557565383ec1c807c246600", argdata, 3, 2, &func);
 }
 
@@ -12744,7 +12744,7 @@ void ShipManager::RemoveItem(const std::string &name)
 namespace _func932
 {
 	static void *func = 0;
-	static short argdata[] = {0x1ff, 0x2ff, 0xcff, 0x1ff};
+	static short argdata[] = {0x1ff, 0x2ff, 0xdff, 0x1ff};
 	static FunctionDefinition funcObj("ShipManager::DamageArea", typeid(bool (ShipManager::*)(Pointf , Damage , bool )), "5589e557565381eccc0000008b45148b5d08", argdata, 4, 2, &func);
 }
 
@@ -12758,7 +12758,7 @@ bool ShipManager::DamageArea(Pointf location, Damage dmg, bool forceHit)
 namespace _func933
 {
 	static void *func = 0;
-	static short argdata[] = {0x1ff, 0x2ff, 0x2ff, 0xcff};
+	static short argdata[] = {0x1ff, 0x2ff, 0x2ff, 0xdff};
 	static FunctionDefinition funcObj("ShipManager::DamageBeam", typeid(bool (ShipManager::*)(Pointf , Pointf , Damage )), "5589e557565381ecdc0000008b7d088b5d0c8b7510", argdata, 4, 2, &func);
 }
 
@@ -13388,7 +13388,7 @@ int ShipManager::DamageHull(int dmg, bool force)
 namespace _func978
 {
 	static void *func = 0;
-	static short argdata[] = {0x1ff, 0x1ff, 0xcff};
+	static short argdata[] = {0x1ff, 0x1ff, 0xdff};
 	static FunctionDefinition funcObj("ShipManager::DamageSystem", typeid(void (ShipManager::*)(int , Damage )), "5589e557565383ec6c8b45248b7d088b5d10", argdata, 3, 6, &func);
 }
 
@@ -13542,7 +13542,7 @@ void ShipManager::CheckCrystalAugment(Pointf pos)
 namespace _func989
 {
 	static void *func = 0;
-	static short argdata[] = {0x1ff, 0x1ff, 0x2ff, 0x2ff, 0xcff, 0x1ff};
+	static short argdata[] = {0x1ff, 0x1ff, 0x2ff, 0x2ff, 0xdff, 0x1ff};
 	static FunctionDefinition funcObj("ShipManager::CollisionMoving", typeid(CollisionResponse (ShipManager::*)(Pointf , Pointf , Damage , bool )), "5589e557565381ec1c0100008b7d548b75188b5d1c", argdata, 6, 18, &func);
 }
 
@@ -14592,7 +14592,7 @@ void SpaceDrone::SetMovementTarget(Targetable *target)
 namespace _func1065
 {
 	static void *func = 0;
-	static short argdata[] = {0x1ff, 0x1ff, 0x2ff, 0x2ff, 0xcff, 0x1ff};
+	static short argdata[] = {0x1ff, 0x1ff, 0x2ff, 0x2ff, 0xdff, 0x1ff};
 	static FunctionDefinition funcObj("SpaceDrone::CollisionMoving", typeid(CollisionResponse (SpaceDrone::*)(Pointf , Pointf , Damage , bool )), "5557565383ec2c8b5c24408b6c24448b74246c8d4304", argdata, 6, 18, &func);
 }
 
