@@ -182,6 +182,7 @@ local function shouldBlacklist(t)
 end
 
 local function getsize_alignment(t)
+	-- May need further verification
 	local size = 4
 	local alignment = 4
 	
