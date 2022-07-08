@@ -123,7 +123,7 @@ HOOK_METHOD_PRIORITY(ShipManager, DamageSystem, -100, (int roomId, Damage dmg) -
     super(roomId, dmg);
 }
 
-HOOK_METHOD_PRIORITY(ShipManager, DamageCrew, -100, (CrewMember *crew, Damage dmg) -> char)
+HOOK_METHOD_PRIORITY(ShipManager, DamageCrew, -100, (CrewMember *crew, Damage dmg) -> bool)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::DamageCrew -> Begin (CustomDamage.cpp)\n")
     if (CustomDamageManager::currentWeaponDmg != nullptr)

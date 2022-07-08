@@ -4484,7 +4484,7 @@ HOOK_METHOD(ShipManager, UpdateCrewMembers, () -> void)
 }
 
 
-HOOK_METHOD(ShipManager, DamageCrew, (CrewMember *crew, Damage dmg) -> char)
+HOOK_METHOD(ShipManager, DamageCrew, (CrewMember *crew, Damage dmg) -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::DamageCrew -> Begin (CustomCrew.cpp)\n")
     if (dmg.selfId == CM_EX(crew)->selfId)
