@@ -789,6 +789,14 @@ void CustomCrewManager::ParseAbilityEffect(rapidxml::xml_node<char>* stat, Activ
             else if (v == "reset") def.jumpCooldown = ActivatedPowerDefinition::JUMP_COOLDOWN_RESET;
             else if (v == "continue") def.jumpCooldown = ActivatedPowerDefinition::JUMP_COOLDOWN_CONTINUE;
         }
+        if (effectName == "onDeath")
+        {
+            std::string v = effectNode->value();
+
+            if (v == "default") def.onDeath = ActivatedPowerDefinition::ON_DEATH_DEFAULT;
+            else if (v == "cancel") def.onDeath = ActivatedPowerDefinition::ON_DEATH_CANCEL;
+            else if (v == "reset") def.onDeath = ActivatedPowerDefinition::ON_DEATH_RESET;
+        }
         if (effectName == "damage")
         {
             def.damage.iDamage = boost::lexical_cast<int>(effectNode->value());
@@ -2053,6 +2061,24 @@ void CrewMember_Extend::ActivatePower()
     }
 }
 
+void CrewMember_Extend::CancelPower(bool clearAnim)
+{
+    ActivatedPowerDefinition* powerDef = GetPowerDef();
+
+    CrewAnimation_Extend* aex = CMA_EX(orig->crewAnim);
+
+    // Clear the animation and stop the effect from activating.
+    if (!aex->powerDone || clearAnim)
+    {
+        if (aex->effectAnim) aex->effectAnim->destructor();
+        aex->powerDone = true;
+    }
+
+    // Stop the temporary power.
+    temporaryPowerDuration.first = 0.f;
+    TemporaryPowerFinished();
+}
+
 void CrewMember_Extend::TransformColors(CrewBlueprint& bp, CrewBlueprint *newBlueprint)
 {
     int nLayers = std::min(bp.colorLayers.size(), newBlueprint->colorLayers.size());
@@ -2214,10 +2240,16 @@ HOOK_METHOD(CrewMember, Restart, () -> void)
     LOG_HOOK("HOOK_METHOD -> CrewMember::Restart -> Begin (CustomCrew.cpp)\n")
     // Occurs when a crewmember is cloned or when a crew drone is deployed/redeployed
 
-    super();
     auto ex = CM_EX(this);
-
     ActivatedPowerDefinition* powerDef = ex->GetPowerDef();
+
+    if (powerDef->onDeath == ActivatedPowerDefinition::ON_DEATH_CANCEL || powerDef->onDeath == ActivatedPowerDefinition::ON_DEATH_RESET)
+    {
+        ex->CancelPower(true);
+    }
+
+    super();
+
     if (powerDef)
     {
         ex->powerCharges.first = std::max(0,std::min(ex->powerCharges.first + powerDef->respawnCharges, ex->powerCharges.second));
@@ -3073,6 +3105,10 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
 
         if (ex->hasSpecialPower && !G_->GetCApp()->menu.shipBuilder.bOpen)
         {
+            if (crewAnim->status == 3 && powerDef->onDeath == ActivatedPowerDefinition::ON_DEATH_CANCEL)
+            {
+                ex->CancelPower(false);
+            }
             if (ex->temporaryPowerActive)
             {
                 ex->temporaryPowerDuration.first = std::max(0.f, ex->temporaryPowerDuration.first - (float)(G_->GetCFPS()->GetSpeedFactor() * 0.0625));

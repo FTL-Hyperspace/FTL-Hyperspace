@@ -109,6 +109,7 @@ public:
 
     void ActivatePower();
     void PreparePower();
+    void CancelPower(bool clearAnim);
     void ActivateTemporaryPower();
     void TemporaryPowerFinished();
     Damage* GetPowerDamage();
