@@ -62,14 +62,9 @@ Room_Extend* Get_Room_Extend(Room* c)
 
 Room_Extend::~Room_Extend()
 {
-    if (speedUpAnim)
-        speedUpAnim->destructor();
-
-    if (slowDownAnim)
-        slowDownAnim->destructor();
-
-    if (erosionAnim)
-        erosionAnim->destructor();
+    if (speedUpAnim) delete speedUpAnim;
+    if (slowDownAnim) delete slowDownAnim;
+    if (erosionAnim) delete erosionAnim;
 
     delete currentErosion;
 }

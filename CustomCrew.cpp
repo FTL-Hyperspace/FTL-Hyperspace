@@ -2000,7 +2000,7 @@ void CrewMember_Extend::ActivatePower()
     aex->powerDone = true;
     if (!powerDef->effectPostAnim.empty())
     {
-        if (aex->effectAnim) aex->effectAnim->destructor();
+        if (aex->effectAnim) delete aex->effectAnim;
         aex->effectAnim = new Animation(G_->GetAnimationControl()->GetAnimation(powerDef->effectPostAnim));
         aex->effectAnim->SetCurrentFrame(0);
         aex->effectAnim->tracker.SetLoop(false, -1);
@@ -2070,13 +2070,20 @@ void CrewMember_Extend::CancelPower(bool clearAnim)
     // Clear the animation and stop the effect from activating.
     if (!aex->powerDone || clearAnim)
     {
-        if (aex->effectAnim) aex->effectAnim->destructor();
+        if (aex->effectAnim)
+        {
+            delete aex->effectAnim;
+            aex->effectAnim = nullptr;
+        }
         aex->powerDone = true;
     }
 
     // Stop the temporary power.
-    temporaryPowerDuration.first = 0.f;
-    TemporaryPowerFinished();
+    if (temporaryPowerActive)
+    {
+        temporaryPowerDuration.first = 0.f;
+        TemporaryPowerFinished();
+    }
 }
 
 void CrewMember_Extend::TransformColors(CrewBlueprint& bp, CrewBlueprint *newBlueprint)
@@ -2206,9 +2213,9 @@ void CrewMember_Extend::TemporaryPowerFinished()
 
 void CrewAnimation_Extend::PreparePower(ActivatedPowerDefinition* def)
 {
-    if (effectAnim) effectAnim->destructor();
-    if (effectFinishAnim) effectFinishAnim->destructor();
-    if (tempEffectAnim) tempEffectAnim->destructor();
+    if (effectAnim) delete effectAnim;
+    if (effectFinishAnim) delete effectFinishAnim;
+    if (tempEffectAnim) delete tempEffectAnim;
   //delete tempEffectStrip;
     effectAnim = nullptr;
     effectFinishAnim = nullptr;
@@ -5808,12 +5815,12 @@ HOOK_METHOD(CrewAnimation, GetFiringFrame, () -> int)
 
 CrewAnimation_Extend::~CrewAnimation_Extend()
 {
-    if (effectAnim) effectAnim->destructor();
-    if (tempEffectAnim) tempEffectAnim->destructor();
-    if (effectFinishAnim) effectFinishAnim->destructor();
+    if (effectAnim) delete effectAnim;
+    if (tempEffectAnim) delete tempEffectAnim;
+    if (effectFinishAnim) delete effectFinishAnim;
     for (auto &it : boostAnim)
     {
-        it.second->destructor();
+        delete it.second;
     }
 }
 

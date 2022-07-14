@@ -50,7 +50,7 @@ void Room_Extend::StopErosion()
     currentErosion = nullptr;
     if (erosionAnim)
     {
-        erosionAnim->destructor();
+        delete erosionAnim;
         erosionAnim = nullptr;
     }
 }

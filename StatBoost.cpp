@@ -2480,7 +2480,7 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
         {
             if (!i.second)
             {
-                aex->boostAnim[i.first]->destructor();
+                delete aex->boostAnim[i.first];
                 aex->boostAnim.erase(i.first);
             }
         }
