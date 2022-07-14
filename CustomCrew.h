@@ -251,7 +251,7 @@ struct ActivatedPowerDefinition
 
     enum ON_DEATH
     {
-        ON_DEATH_DEFAULT,
+        ON_DEATH_CONTINUE,
         ON_DEATH_CANCEL,
         ON_DEATH_RESET
     };
@@ -272,7 +272,7 @@ struct ActivatedPowerDefinition
     bool hasSpecialPower = false;
     bool hasTemporaryPower = false;
     int jumpCooldown = JUMP_COOLDOWN_FULL;
-    int onDeath = ON_DEATH_DEFAULT;
+    int onDeath = ON_DEATH_RESET;
 
     int powerCharges = -1;
     int initialCharges = 2147483647;

@@ -793,7 +793,7 @@ void CustomCrewManager::ParseAbilityEffect(rapidxml::xml_node<char>* stat, Activ
         {
             std::string v = effectNode->value();
 
-            if (v == "default") def.onDeath = ActivatedPowerDefinition::ON_DEATH_DEFAULT;
+            if (v == "continue") def.onDeath = ActivatedPowerDefinition::ON_DEATH_CONTINUE;
             else if (v == "cancel") def.onDeath = ActivatedPowerDefinition::ON_DEATH_CANCEL;
             else if (v == "reset") def.onDeath = ActivatedPowerDefinition::ON_DEATH_RESET;
         }

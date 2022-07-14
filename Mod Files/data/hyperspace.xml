@@ -671,8 +671,8 @@ Syntax ->
 		<powerEffect>                                                                    Special crew abilities.
 			<cooldown>30</cooldown>                                                      Ability cooldown in seconds. Does not include temporaryEffect duration.
 			<jumpCooldown>full</jumpCooldown>                                            Cooldown behaviour on jump. Either "reset" the charge, "continue" charging, or set to "full".
-			<onDeath>default/cancel/reset</onDeath>                                      On death effect for activated ability. "cancel" cancels the ability when dying. "reset" cancels the ability on respawn.
-			                                                                               Default is to not cancel the ability.
+			<onDeath>continue/cancel/reset</onDeath>                                     On death effect for activated ability. "cancel" cancels the ability when dying. "reset" cancels the ability on respawn.
+			                                                                               "continue" allows effect to continue if the crew respawns. Default is "reset".
 			<powerCharges>-1</powerCharges>                                              Maximum number of ability uses per fight. Default is unlimited.
 			<initialCharges>999</initialCharges>                                         Initial number of ability uses when the crewmember is born.
 			<chargesPerJump>999</chargesPerJump>                                         Number of uses regenerated per jump.
