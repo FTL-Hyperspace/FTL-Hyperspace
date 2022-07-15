@@ -1028,12 +1028,36 @@ HOOK_METHOD(BossShip, LoadBoss, (int fh) -> void)
     LOG_HOOK("HOOK_METHOD -> BossShip::LoadBoss -> Begin (StatBoost.cpp)\n")
     super(fh);
 
-    for (StatBoost *statBoost : StatBoostManager::GetInstance()->loadingStatBoosts)
+    // Find crew sources for timed stat boosts on crew
+    CrewMemberFactory *crewFactory = G_->GetCrewFactory();
+    for (CrewMember *crew : crewFactory->crewMembers)
     {
-        statBoost->FindCrewSource();
+        CrewMember_Extend *ex = CM_EX(crew);
+        for (auto &vStatBoosts : ex->timedStatBoosts)
+        {
+            for (StatBoost &statBoost : vStatBoosts.second)
+            {
+                statBoost.FindCrewSource();
+            }
+        }
     }
 
-    StatBoostManager::GetInstance()->loadingStatBoosts.clear();
+    // Find crew sources for room stat boosts on ships
+    for (int i=0; i<2; ++i)
+    {
+        ShipManager *shipManager = G_->GetShipManager(i);
+        if (shipManager)
+        {
+            for (Room *room : shipManager->ship.vRoomList)
+            {
+                Room_Extend *rex = RM_EX(room);
+                for (RoomStatBoost &statBoost : rex->statBoosts)
+                {
+                    statBoost.statBoost.FindCrewSource();
+                }
+            }
+        }
+    }
 }
 
 // Save/load stat boosts

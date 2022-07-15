@@ -235,8 +235,6 @@ public:
     std::vector<StatBoost> animBoosts;
     std::vector<StatBoost> dangerBoosts;
 
-    std::vector<StatBoost*> loadingStatBoosts = {};
-
     StatBoostManager()
     {
 

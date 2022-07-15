@@ -3360,7 +3360,6 @@ HOOK_METHOD(CrewMember, LoadState, (int file) -> void)
         auto& vStatBoosts = ex->timedStatBoosts[statBoost.def->stat];
 
         vStatBoosts.push_back(statBoost);
-        StatBoostManager::GetInstance()->loadingStatBoosts.push_back(&vStatBoosts.back());
     }
 
     // Transformed color choices
