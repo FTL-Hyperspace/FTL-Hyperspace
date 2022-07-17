@@ -754,6 +754,7 @@ void ActivatedPower::SaveState(int fd)
 void ActivatedPower::LoadState(int fd)
 {
     def = &ActivatedPowerDefinition::powerDefs[FileHelper::readInteger(fd)];
+    PrepareTemporaryAnimation(); // for tempEffectStrip
 
     std::string s;
 

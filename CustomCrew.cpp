@@ -2651,6 +2651,7 @@ HOOK_METHOD(CrewMember, LoadState, (int file) -> void)
     }
 
     // Crew ability stuff
+    ex->ClearCrewPowers();
     int n = FileHelper::readInteger(file);
     for (int i=0; i<n; ++i)
     {
@@ -2658,6 +2659,8 @@ HOOK_METHOD(CrewMember, LoadState, (int file) -> void)
         ex->crewPowers.push_back(power);
         power->LoadState(file);
     }
+
+    ex->UpdateAbilityStatBoosts();
 
     // Original race
     ex->originalColorRace = FileHelper::readString(file);
