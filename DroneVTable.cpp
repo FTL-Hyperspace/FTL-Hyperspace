@@ -498,6 +498,7 @@ float CrewDrone::_HS_GetFireRepairMultiplier()
 
 bool CrewDrone::_HS_IsTelepathic()
 {
+    bool ret;
     bool req = this->_drone.powered;
     if (!req)
     {
@@ -514,7 +515,6 @@ bool CrewDrone::_HS_IsTelepathic()
     {
         auto ex = CM_EX(this);
         auto def = custom->GetDefinition("boarder_ion");
-        bool ret = (ex->temporaryPowerActive && ex->GetPowerDef()->tempPower.isTelepathic.enabled) ? ex->GetPowerDef()->tempPower.isTelepathic.value : def->isTelepathic;
         ex->CalculateStat(CrewStat::IS_TELEPATHIC, def, &ret);
         return ret && req;
     }
@@ -523,7 +523,6 @@ bool CrewDrone::_HS_IsTelepathic()
     {
         auto ex = CM_EX(this);
         auto def = custom->GetDefinition(this->species);
-        bool ret = (ex->temporaryPowerActive && ex->GetPowerDef()->tempPower.isTelepathic.enabled) ? ex->GetPowerDef()->tempPower.isTelepathic.value : def->isTelepathic;
         ex->CalculateStat(CrewStat::IS_TELEPATHIC, def, &ret);
         return ret && req;
     }

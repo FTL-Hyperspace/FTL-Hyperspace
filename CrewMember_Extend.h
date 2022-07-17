@@ -59,6 +59,12 @@ public:
     CrewMember *crew;
     CrewMember_Extend *crew_ex;
 
+    // definition modifiers that should be saved
+    float modifiedPowerCharges = -1.f;
+
+    // definition modifiers that don't need to be saved
+    float modifiedChargesPerJump = 0.f;
+
     std::pair<float, float> powerCooldown = std::pair<float, float>();
     std::pair<float, float> temporaryPowerDuration = std::pair<float, float>();
     std::pair<int, int> powerCharges = std::pair<int, int>();
@@ -69,6 +75,7 @@ public:
     bool powerActivated = false;
     bool temporaryPowerActive = false;
     bool powerDone = true;
+    bool temporaryPowerDone = true;
 
     std::unique_ptr<Animation> effectAnim = nullptr;
     std::unique_ptr<Animation> tempEffectAnim = nullptr;
@@ -90,37 +97,32 @@ public:
     PowerReadyState PowerReady();
     Damage* GetPowerDamage();
     void ActivateTemporaryPower();
+    void TemporaryPowerFinished();
     void PrepareAnimation();
     void PrepareTemporaryAnimation();
     void PreparePower();
     void ActivatePower();
+    void CancelPower(bool clearAnim);
+
+    void SaveState(int fd);
+    void LoadState(int fd);
 };
 
 struct CrewAnimation_Extend
 {
 public:
     CrewAnimation *orig;
-    Animation* effectAnim = nullptr;
-    Animation* tempEffectAnim = nullptr;
-    Animation* effectFinishAnim = nullptr;
+    CrewMember *crew;
     std::unordered_map<uint64_t, Animation*> boostAnim = std::unordered_map<uint64_t, Animation*>();
-    GL_Texture* tempEffectStrip = nullptr;
-    bool tempEffectBaseVisible = true;
 
     std::string crewAnimationType = "human";
     bool isMantisAnimation = false;
     bool isIonDrone = false;
-    ToggleValue<bool> canPunch;
-
-    Pointf effectPos;
-    Pointf effectWorldPos;
-    bool powerDone = true;
-
-    bool temporaryPowerActive;
     bool isAbilityDrone = false;
 
+    ToggleValue<bool> canPunch;
+
     void OnInit(const std::string& name, Pointf position, bool enemy);
-    void PreparePower(ActivatedPowerDefinition* def);
 
     ~CrewAnimation_Extend();
 };
@@ -141,32 +143,8 @@ public:
 
     std::vector<ActivatedPower*> crewPowers;
 
-    bool hasSpecialPower = false;
-    bool hasTemporaryPower = false;
-
-    std::pair<float, float> powerCooldown = std::pair<float, float>();
-    std::pair<float, float> temporaryPowerDuration = std::pair<float, float>();
-    std::pair<int, int> powerCharges = std::pair<int, int>();
-
-    int powerRoom;
-    int powerShip;
-
-    bool powerActivated = false;
-    bool temporaryPowerActive = false;
-
-    void ActivatePower();
-    void PreparePower();
-    void CancelPower(bool clearAnim);
-    void ActivateTemporaryPower();
-    void TemporaryPowerFinished();
-    Damage* GetPowerDamage();
-    PowerReadyState PowerReady();
-    PowerReadyState PowerReq(const ActivatedPowerRequirements *req);
-
     unsigned int powerChange;
-    unsigned int powerDefIdx = 0;
-    ActivatedPowerDefinition* GetPowerDef() const;
-    ActivatedPowerDefinition* CalculatePowerDef();
+    void CalculatePowerDef();
 
     ExplosionDefinition deathEffectChange;
     bool hasDeathExplosion;
@@ -211,6 +189,15 @@ public:
     bool TransformRace(const std::string& newRace);
     static void TransformColors(CrewBlueprint& bp, CrewBlueprint *newBlueprint);
 
+    void ClearCrewPowers()
+    {
+        for (ActivatedPower *power : crewPowers)
+        {
+            delete power;
+        }
+        crewPowers.clear();
+    }
+
     CrewMember_Extend()
     {
         selfId = Globals::GetNextSpaceId();
@@ -245,6 +232,8 @@ public:
     {
         return CalculateStat(stat, GetDefinition(), boolValue);
     }
+
+    bool IsInvulnerable();
 
     bool IsController(bool ai);
 };

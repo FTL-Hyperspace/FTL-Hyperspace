@@ -54,11 +54,8 @@ const std::array<std::string, numStats> crewStats =
     "detectsLifeforms",
     "cloneLoseSkills",
     "powerDrainFriendly",
-    "activateWhenReady",
     "defaultSkillLevel",
     "powerRechargeMultiplier",
-    "powerCharges",
-    "chargesPerJump",
     "hackDoors",
     "noClone",
     "noSlot",
@@ -69,9 +66,12 @@ const std::array<std::string, numStats> crewStats =
     "teleportMoveOtherShip",
     "silenced",
     // non-cached stats
+    "activateWhenReady",
     "statBoost",
     "deathEffect",
     "powerEffect",
+    "powerCharges",
+    "chargesPerJump",
     "transformRace"
 };
 
@@ -886,6 +886,24 @@ HOOK_METHOD(WorldManager, LoadGame, (const std::string& fileName) -> void)
 HOOK_METHOD(WorldManager, OnLoop, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> WorldManager::OnLoop -> Begin (StatBoost.cpp)\n")
+    StatBoostManager::GetInstance()->OnLoop(this);
+    super();
+//    using std::chrono::steady_clock;
+//    using std::chrono::duration_cast;
+//    using std::chrono::duration;
+//    using std::chrono::milliseconds;
+//    auto t1 = steady_clock::now();
+
+
+
+//    auto t2 = steady_clock::now();
+//    duration<double, std::nano> ms_double = t2 - t1;
+//    std::cout << "World manager time: " << ms_double.count();
+}
+
+HOOK_METHOD(WorldManager, PauseLoop, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> WorldManager::PauseLoop -> Begin (StatBoost.cpp)\n")
     StatBoostManager::GetInstance()->OnLoop(this);
     super();
 //    using std::chrono::steady_clock;
@@ -1731,6 +1749,19 @@ int CrewMember_Extend::CalculateMaxHealth(const CrewDefinition* def)
     return maxHealth;
 }
 
+#define _CALCULATE_BASE_STAT(_destination, _statName) \
+{ \
+    _destination = def->_statName; \
+    for (ActivatedPower *power : crewPowers) \
+    { \
+        if (power->temporaryPowerActive && power->def->tempPower._statName.enabled) \
+        { \
+            _destination = power->def->tempPower._statName.value; \
+            break; \
+        } \
+    } \
+}
+
 float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def, bool* boolValue)
 {
 //    using std::chrono::steady_clock;
@@ -1810,79 +1841,108 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
     float finalStat = 0.f;
     bool isBool = false;
     bool isEffect = false;
+
     switch(stat)
     {
         case CrewStat::MAX_HEALTH:
-            finalStat = (temporaryPowerActive && GetPowerDef()->tempPower.maxHealth.enabled) ? GetPowerDef()->tempPower.maxHealth.value : def->maxHealth;
+            _CALCULATE_BASE_STAT(finalStat, maxHealth);
             break;
         case CrewStat::STUN_MULTIPLIER:
-            finalStat = (temporaryPowerActive && GetPowerDef()->tempPower.stunMultiplier.enabled) ? GetPowerDef()->tempPower.stunMultiplier.value : def->stunMultiplier;
+            _CALCULATE_BASE_STAT(finalStat, stunMultiplier);
             break;
         case CrewStat::MOVE_SPEED_MULTIPLIER:
-            finalStat = (temporaryPowerActive && GetPowerDef()->tempPower.moveSpeedMultiplier.enabled) ? GetPowerDef()->tempPower.moveSpeedMultiplier.value : def->moveSpeedMultiplier;
+            _CALCULATE_BASE_STAT(finalStat, moveSpeedMultiplier);
             break;
         case CrewStat::REPAIR_SPEED_MULTIPLIER:
-            finalStat = (temporaryPowerActive && GetPowerDef()->tempPower.repairSpeed.enabled) ? GetPowerDef()->tempPower.repairSpeed.value : def->repairSpeed;
+            _CALCULATE_BASE_STAT(finalStat, repairSpeed);
             break;
         case CrewStat::DAMAGE_MULTIPLIER:
-            finalStat = (temporaryPowerActive && GetPowerDef()->tempPower.damageMultiplier.enabled) ? GetPowerDef()->tempPower.damageMultiplier.value : def->damageMultiplier;
+            _CALCULATE_BASE_STAT(finalStat, damageMultiplier);
             break;
         case CrewStat::RANGED_DAMAGE_MULTIPLIER:
-            finalStat = (temporaryPowerActive && GetPowerDef()->tempPower.rangedDamageMultiplier.enabled) ? GetPowerDef()->tempPower.rangedDamageMultiplier.value : def->rangedDamageMultiplier;
+            _CALCULATE_BASE_STAT(finalStat, rangedDamageMultiplier);
             break;
         case CrewStat::DOOR_DAMAGE_MULTIPLIER:
-            finalStat = (temporaryPowerActive && GetPowerDef()->tempPower.doorDamageMultiplier.enabled) ? GetPowerDef()->tempPower.doorDamageMultiplier.value : def->doorDamageMultiplier;
+            _CALCULATE_BASE_STAT(finalStat, doorDamageMultiplier);
             break;
         case CrewStat::FIRE_REPAIR_MULTIPLIER:
-            finalStat = (temporaryPowerActive && GetPowerDef()->tempPower.fireRepairMultiplier.enabled) ? GetPowerDef()->tempPower.fireRepairMultiplier.value : def->fireRepairMultiplier;
+            _CALCULATE_BASE_STAT(finalStat, fireRepairMultiplier);
             break;
         case CrewStat::SUFFOCATION_MODIFIER:
-            finalStat = (temporaryPowerActive && GetPowerDef()->tempPower.suffocationModifier.enabled) ? GetPowerDef()->tempPower.suffocationModifier.value : def->suffocationModifier;
+            _CALCULATE_BASE_STAT(finalStat, suffocationModifier);
             break;
         case CrewStat::FIRE_DAMAGE_MULTIPLIER:
-            finalStat = (temporaryPowerActive && GetPowerDef()->tempPower.fireDamageMultiplier.enabled) ? GetPowerDef()->tempPower.fireDamageMultiplier.value : def->fireDamageMultiplier;
+            _CALCULATE_BASE_STAT(finalStat, fireDamageMultiplier);
             break;
         case CrewStat::OXYGEN_CHANGE_SPEED:
-            finalStat = (temporaryPowerActive && GetPowerDef()->tempPower.oxygenChangeSpeed.enabled) ? GetPowerDef()->tempPower.oxygenChangeSpeed.value : def->oxygenChangeSpeed;
+            _CALCULATE_BASE_STAT(finalStat, oxygenChangeSpeed);
             break;
         case CrewStat::DAMAGE_TAKEN_MULTIPLIER:
-            finalStat = (temporaryPowerActive && GetPowerDef()->tempPower.damageTakenMultiplier.enabled) ? GetPowerDef()->tempPower.damageTakenMultiplier.value : def->damageTakenMultiplier;
+            _CALCULATE_BASE_STAT(finalStat, damageTakenMultiplier);
             break;
         case CrewStat::PASSIVE_HEAL_AMOUNT:
-            finalStat = orig->Functional() ? ((temporaryPowerActive && GetPowerDef()->tempPower.passiveHealAmount.enabled) ? GetPowerDef()->tempPower.passiveHealAmount.value : def->passiveHealAmount) : 0.f;
+            if (orig->Functional())
+            {
+                _CALCULATE_BASE_STAT(finalStat, passiveHealAmount);
+            }
+            else
+            {
+                finalStat = 0.f;
+            }
             break;
         case CrewStat::TRUE_PASSIVE_HEAL_AMOUNT:
-            finalStat = orig->Functional() ? ((temporaryPowerActive && GetPowerDef()->tempPower.truePassiveHealAmount.enabled) ? GetPowerDef()->tempPower.truePassiveHealAmount.value : def->truePassiveHealAmount) : 0.f;
+            if (orig->Functional())
+            {
+                _CALCULATE_BASE_STAT(finalStat, truePassiveHealAmount);
+            }
+            else
+            {
+                finalStat = 0.f;
+            }
             break;
         case CrewStat::TRUE_HEAL_AMOUNT:
-            finalStat = orig->Functional() ? ((temporaryPowerActive && GetPowerDef()->tempPower.trueHealAmount.enabled) ? GetPowerDef()->tempPower.trueHealAmount.value : def->trueHealAmount) : 0.f;
+            if (orig->Functional())
+            {
+                _CALCULATE_BASE_STAT(finalStat, trueHealAmount);
+            }
+            else
+            {
+                finalStat = 0.f;
+            }
             break;
         case CrewStat::ACTIVE_HEAL_AMOUNT:
-            finalStat = orig->Functional() ? ((temporaryPowerActive && GetPowerDef()->tempPower.healAmount.enabled) ? GetPowerDef()->tempPower.healAmount.value : def->healAmount) : 0.f;
+            if (orig->Functional())
+            {
+                _CALCULATE_BASE_STAT(finalStat, healAmount);
+            }
+            else
+            {
+                finalStat = 0.f;
+            }
             break;
         case CrewStat::PASSIVE_HEAL_DELAY:
-            finalStat = (temporaryPowerActive && GetPowerDef()->tempPower.passiveHealDelay.enabled) ? GetPowerDef()->tempPower.passiveHealDelay.value : def->passiveHealDelay;
+            _CALCULATE_BASE_STAT(finalStat, passiveHealDelay);
             break;
         case CrewStat::SABOTAGE_SPEED_MULTIPLIER:
-            finalStat = (temporaryPowerActive && GetPowerDef()->tempPower.sabotageSpeedMultiplier.enabled) ? GetPowerDef()->tempPower.sabotageSpeedMultiplier.value : def->sabotageSpeedMultiplier;
+            _CALCULATE_BASE_STAT(finalStat, sabotageSpeedMultiplier);
             break;
         case CrewStat::ALL_DAMAGE_TAKEN_MULTIPLIER:
-            finalStat = (temporaryPowerActive && GetPowerDef()->tempPower.allDamageTakenMultiplier.enabled) ? GetPowerDef()->tempPower.allDamageTakenMultiplier.value : def->allDamageTakenMultiplier;
+            _CALCULATE_BASE_STAT(finalStat, allDamageTakenMultiplier);
             break;
         case CrewStat::HEAL_SPEED_MULTIPLIER:
-            finalStat = (temporaryPowerActive && GetPowerDef()->tempPower.healSpeed.enabled) ? GetPowerDef()->tempPower.healSpeed.value : def->healSpeed;
+            _CALCULATE_BASE_STAT(finalStat, healSpeed);
             break;
         case CrewStat::HEAL_CREW_AMOUNT:
-            finalStat = (temporaryPowerActive && GetPowerDef()->tempPower.healCrewAmount.enabled) ? GetPowerDef()->tempPower.healCrewAmount.value : def->healCrewAmount;
+            _CALCULATE_BASE_STAT(finalStat, healCrewAmount);
             break;
         case CrewStat::DAMAGE_ENEMIES_AMOUNT:
-            finalStat = (temporaryPowerActive && GetPowerDef()->tempPower.damageEnemiesAmount.enabled) ? GetPowerDef()->tempPower.damageEnemiesAmount.value : def->damageEnemiesAmount;
+            _CALCULATE_BASE_STAT(finalStat, damageEnemiesAmount);
             break;
         case CrewStat::BONUS_POWER:
-            finalStat = (temporaryPowerActive && GetPowerDef()->tempPower.bonusPower.enabled) ? GetPowerDef()->tempPower.bonusPower.value : def->bonusPower;
+            _CALCULATE_BASE_STAT(finalStat, bonusPower);
             break;
         case CrewStat::POWER_DRAIN:
-            finalStat = (temporaryPowerActive && GetPowerDef()->tempPower.powerDrain.enabled) ? GetPowerDef()->tempPower.powerDrain.value : def->powerDrain;
+            _CALCULATE_BASE_STAT(finalStat, powerDrain);
             break;
         case CrewStat::ESSENTIAL:
             finalStat = def->essential;
@@ -1891,64 +1951,58 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
             finalStat = def->defaultSkillLevel;
             break;
         case CrewStat::POWER_RECHARGE_MULTIPLIER:
-            finalStat = (temporaryPowerActive && GetPowerDef()->tempPower.powerRechargeMultiplier.enabled) ? GetPowerDef()->tempPower.powerRechargeMultiplier.value : def->powerRechargeMultiplier;
-            break;
-        case CrewStat::POWER_MAX_CHARGES:
-            finalStat = GetPowerDef()->powerCharges;
-            break;
-        case CrewStat::POWER_CHARGES_PER_JUMP:
-            finalStat = GetPowerDef()->chargesPerJump;
+            _CALCULATE_BASE_STAT(finalStat, powerRechargeMultiplier);
             break;
         case CrewStat::CAN_FIGHT:
-            *boolValue = (temporaryPowerActive && GetPowerDef()->tempPower.canFight.enabled) ? GetPowerDef()->tempPower.canFight.value : def->canFight;
+            _CALCULATE_BASE_STAT(*boolValue, canFight);
             isBool = true;
             break;
         case CrewStat::CAN_REPAIR:
-            *boolValue = (temporaryPowerActive && GetPowerDef()->tempPower.canRepair.enabled) ? GetPowerDef()->tempPower.canRepair.value : def->canRepair;
+            _CALCULATE_BASE_STAT(*boolValue, canRepair);
             isBool = true;
             break;
         case CrewStat::CAN_SABOTAGE:
-            *boolValue = (temporaryPowerActive && GetPowerDef()->tempPower.canSabotage.enabled) ? GetPowerDef()->tempPower.canSabotage.value : def->canSabotage;
+            _CALCULATE_BASE_STAT(*boolValue, canSabotage);
             isBool = true;
             break;
         case CrewStat::CAN_MAN:
-            *boolValue = (temporaryPowerActive && GetPowerDef()->tempPower.canMan.enabled) ? GetPowerDef()->tempPower.canMan.value : def->canMan;
+            _CALCULATE_BASE_STAT(*boolValue, canMan);
             isBool = true;
             break;
         case CrewStat::CAN_TELEPORT:
-            *boolValue = (temporaryPowerActive && GetPowerDef()->tempPower.canTeleport.enabled) ? GetPowerDef()->tempPower.canTeleport.value : def->canTeleport;
+            _CALCULATE_BASE_STAT(*boolValue, canTeleport);
             isBool = true;
             break;
         case CrewStat::CAN_SUFFOCATE:
-            *boolValue = (temporaryPowerActive && GetPowerDef()->tempPower.canSuffocate.enabled) ? GetPowerDef()->tempPower.canSuffocate.value : def->canSuffocate;
+            _CALCULATE_BASE_STAT(*boolValue, canSuffocate);
             isBool = true;
             break;
         case CrewStat::CONTROLLABLE:
-            *boolValue = (temporaryPowerActive && GetPowerDef()->tempPower.controllable.enabled) ? GetPowerDef()->tempPower.controllable.value : def->controllable;
+            _CALCULATE_BASE_STAT(*boolValue, controllable);
             isBool = true;
             break;
         case CrewStat::CAN_BURN:
-            *boolValue = (temporaryPowerActive && GetPowerDef()->tempPower.canBurn.enabled) ? GetPowerDef()->tempPower.canBurn.value : def->canBurn;
+            _CALCULATE_BASE_STAT(*boolValue, canBurn);
             isBool = true;
             break;
         case CrewStat::IS_TELEPATHIC:
-            *boolValue = (temporaryPowerActive && GetPowerDef()->tempPower.isTelepathic.enabled) ? GetPowerDef()->tempPower.isTelepathic.value : def->isTelepathic;
+            _CALCULATE_BASE_STAT(*boolValue, isTelepathic);
             isBool = true;
             break;
         case CrewStat::RESISTS_MIND_CONTROL:
-            *boolValue = (temporaryPowerActive && GetPowerDef()->tempPower.resistsMindControl.enabled) ? GetPowerDef()->tempPower.resistsMindControl.value : def->resistsMindControl;
+            _CALCULATE_BASE_STAT(*boolValue, resistsMindControl);
             isBool = true;
             break;
         case CrewStat::IS_ANAEROBIC:
-            *boolValue = (temporaryPowerActive && GetPowerDef()->tempPower.isAnaerobic.enabled) ? GetPowerDef()->tempPower.isAnaerobic.value : def->isAnaerobic;
+            _CALCULATE_BASE_STAT(*boolValue, isAnaerobic);
             isBool = true;
             break;
         case CrewStat::CAN_PHASE_THROUGH_DOORS:
-            *boolValue = (temporaryPowerActive && GetPowerDef()->tempPower.canPhaseThroughDoors.enabled) ? GetPowerDef()->tempPower.canPhaseThroughDoors.value : def->canPhaseThroughDoors;
+            _CALCULATE_BASE_STAT(*boolValue, canPhaseThroughDoors);
             isBool = true;
             break;
         case CrewStat::DETECTS_LIFEFORMS:
-            *boolValue = (temporaryPowerActive && GetPowerDef()->tempPower.detectsLifeforms.enabled) ? GetPowerDef()->tempPower.detectsLifeforms.value : def->detectsLifeforms;
+            _CALCULATE_BASE_STAT(*boolValue, detectsLifeforms);
             isBool = true;
             break;
         case CrewStat::CLONE_LOSE_SKILLS:
@@ -1956,15 +2010,15 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
             isBool = true;
             break;
         case CrewStat::POWER_DRAIN_FRIENDLY:
-            *boolValue = (temporaryPowerActive && GetPowerDef()->tempPower.powerDrainFriendly.enabled) ? GetPowerDef()->tempPower.powerDrainFriendly.value : def->powerDrainFriendly;
+            _CALCULATE_BASE_STAT(*boolValue, powerDrainFriendly);
             isBool = true;
             break;
         case CrewStat::HACK_DOORS:
-            *boolValue = (temporaryPowerActive && GetPowerDef()->tempPower.hackDoors.enabled) ? GetPowerDef()->tempPower.hackDoors.value : def->hackDoors;
+            _CALCULATE_BASE_STAT(*boolValue, hackDoors);
             isBool = true;
             break;
         case CrewStat::NO_CLONE:
-            *boolValue = (temporaryPowerActive && GetPowerDef()->tempPower.noClone.enabled) ? GetPowerDef()->tempPower.noClone.value : def->noClone;
+            _CALCULATE_BASE_STAT(*boolValue, noClone);
             isBool = true;
             break;
         case CrewStat::NO_SLOT:
@@ -1972,31 +2026,31 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
             isBool = true;
             break;
         case CrewStat::NO_AI:
-            *boolValue = (temporaryPowerActive && GetPowerDef()->tempPower.noAI.enabled) ? GetPowerDef()->tempPower.noAI.value : def->noAI;
+            _CALCULATE_BASE_STAT(*boolValue, noAI);
             isBool = true;
             break;
         case CrewStat::VALID_TARGET:
-            *boolValue = (temporaryPowerActive && GetPowerDef()->tempPower.validTarget.enabled) ? GetPowerDef()->tempPower.validTarget.value : def->validTarget;
+            _CALCULATE_BASE_STAT(*boolValue, validTarget);
             isBool = true;
             break;
         case CrewStat::CAN_MOVE:
-            *boolValue = (temporaryPowerActive && GetPowerDef()->tempPower.canMove.enabled) ? GetPowerDef()->tempPower.canMove.value : def->canMove;
+            _CALCULATE_BASE_STAT(*boolValue, canMove);
             isBool = true;
             break;
         case CrewStat::TELEPORT_MOVE:
-            *boolValue = (temporaryPowerActive && GetPowerDef()->tempPower.teleportMove.enabled) ? GetPowerDef()->tempPower.teleportMove.value : def->teleportMove;
+            _CALCULATE_BASE_STAT(*boolValue, teleportMove);
             isBool = true;
             break;
         case CrewStat::TELEPORT_MOVE_OTHER_SHIP:
-            *boolValue = (temporaryPowerActive && GetPowerDef()->tempPower.teleportMoveOtherShip.enabled) ? GetPowerDef()->tempPower.teleportMoveOtherShip.value : def->teleportMoveOtherShip;
+            _CALCULATE_BASE_STAT(*boolValue, teleportMoveOtherShip);
             isBool = true;
             break;
         case CrewStat::SILENCED:
-            *boolValue = (temporaryPowerActive && GetPowerDef()->tempPower.silenced.enabled) ? GetPowerDef()->tempPower.silenced.value : def->silenced;
+            _CALCULATE_BASE_STAT(*boolValue, silenced);
             isBool = true;
             break;
         case CrewStat::ACTIVATE_WHEN_READY:
-            *boolValue = GetPowerDef()->activateWhenReady;
+            // the base value should be set before calling this method
             isBool = true;
             break;
         case CrewStat::DEATH_EFFECT:
@@ -2006,6 +2060,20 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
             break;
         case CrewStat::POWER_EFFECT:
             powerChange = def->powerDefIdx;
+            isEffect = true;
+            break;
+        case CrewStat::POWER_MAX_CHARGES:
+            for (ActivatedPower *power : crewPowers)
+            {
+                power->modifiedPowerCharges = power->def->powerCharges == -1 ? HUGE_VAL : power->def->powerCharges;
+            }
+            isEffect = true;
+            break;
+        case CrewStat::POWER_CHARGES_PER_JUMP:
+            for (ActivatedPower *power : crewPowers)
+            {
+                power->modifiedChargesPerJump = power->def->chargesPerJump;
+            }
             isEffect = true;
             break;
         case CrewStat::TRANSFORM_RACE:
@@ -2119,7 +2187,9 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
                 }
                 else if (isEffect)
                 {
-                    if (stat == CrewStat::POWER_EFFECT)
+                    switch (stat)
+                    {
+                    case CrewStat::POWER_EFFECT:
                     {
                         if (sysPowerScaling)
                         {
@@ -2141,7 +2211,76 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
                             }
                         }
                     }
-                    else if (stat == CrewStat::DEATH_EFFECT)
+                    break;
+                    case CrewStat::POWER_MAX_CHARGES:
+                    {
+                        for (ActivatedPower *power : crewPowers)
+                        {
+                            if (statBoost.def->boostType == StatBoostDefinition::BoostType::MULT)
+                            {
+                                if (!statBoost.def->powerScaling.empty())
+                                {
+                                    power->modifiedPowerCharges = power->modifiedPowerCharges * (1 + (statBoost.def->amount - 1) * sysPowerScaling);
+                                }
+                                else
+                                {
+                                    power->modifiedPowerCharges *= statBoost.def->amount;
+                                }
+                            }
+                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::FLAT)
+                            {
+                                power->modifiedPowerCharges += statBoost.def->amount * sysPowerScaling;
+                            }
+                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::SET)
+                            {
+                                power->modifiedPowerCharges = statBoost.def->amount * sysPowerScaling;
+                            }
+                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::MIN)
+                            {
+                                power->modifiedPowerCharges = std::min(power->modifiedPowerCharges, statBoost.def->amount * sysPowerScaling);
+                            }
+                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::MAX)
+                            {
+                                power->modifiedPowerCharges = std::max(power->modifiedPowerCharges, statBoost.def->amount * sysPowerScaling);
+                            }
+                        }
+                    }
+                    break;
+                    case CrewStat::POWER_CHARGES_PER_JUMP:
+                    {
+                        for (ActivatedPower *power : crewPowers)
+                        {
+                            if (statBoost.def->boostType == StatBoostDefinition::BoostType::MULT)
+                            {
+                                if (!statBoost.def->powerScaling.empty())
+                                {
+                                    power->modifiedChargesPerJump = power->modifiedChargesPerJump * (1 + (statBoost.def->amount - 1) * sysPowerScaling);
+                                }
+                                else
+                                {
+                                    power->modifiedChargesPerJump *= statBoost.def->amount;
+                                }
+                            }
+                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::FLAT)
+                            {
+                                power->modifiedChargesPerJump += statBoost.def->amount * sysPowerScaling;
+                            }
+                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::SET)
+                            {
+                                power->modifiedChargesPerJump = statBoost.def->amount * sysPowerScaling;
+                            }
+                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::MIN)
+                            {
+                                power->modifiedChargesPerJump = std::min(power->modifiedChargesPerJump, statBoost.def->amount * sysPowerScaling);
+                            }
+                            else if (statBoost.def->boostType == StatBoostDefinition::BoostType::MAX)
+                            {
+                                power->modifiedChargesPerJump = std::max(power->modifiedChargesPerJump, statBoost.def->amount * sysPowerScaling);
+                            }
+                        }
+                    }
+                    break;
+                    case CrewStat::DEATH_EFFECT:
                     {
                         if (statBoost.def->boostType == StatBoostDefinition::BoostType::MULT)
                         {
@@ -2245,7 +2384,8 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
 
                         }
                     }
-                    else if (stat == CrewStat::TRANSFORM_RACE)
+                    break;
+                    case CrewStat::TRANSFORM_RACE:
                     {
                         if (sysPowerScaling)
                         {
@@ -2270,6 +2410,10 @@ float CrewMember_Extend::CalculateStat(CrewStat stat, const CrewDefinition* def,
 
                             }
                         }
+                    }
+                    break;
+                    default:
+                    break;
                     }
                 }
                 else
