@@ -279,7 +279,16 @@ Damage* ActivatedPower::GetPowerDamage()
 
 void ActivatedPower::ActivateTemporaryPower()
 {
-    // to do: animation stuff
+    temporaryPowerDone = true;
+
+    PrepareTemporaryAnimation();
+
+    if (tempEffectAnim)
+    {
+        tempEffectAnim->SetCurrentFrame(0);
+        tempEffectAnim->tracker.SetLoop(true, 0);
+        tempEffectAnim->Start(true);
+    }
 
     if (def->hasTemporaryPower)
     {
@@ -288,11 +297,34 @@ void ActivatedPower::ActivateTemporaryPower()
         temporaryPowerDuration.second = def->tempPower.duration;
     }
 
-    // To do: Make canPhaseThroughDoors stat check work like a normal stat boost stat check
-//    if (def->tempPower.canPhaseThroughDoors.enabled)
-//    {
-//        canPhaseThroughDoors = def->tempPower.canPhaseThroughDoors.value;
-//    }
+    crew_ex->UpdateAbilityStatBoosts();
+    StatBoostManager::GetInstance()->statCacheFrame++; // resets stat cache in case game is paused
+}
+
+void ActivatedPower::TemporaryPowerFinished()
+{
+    temporaryPowerActive = false;
+
+    if (def->tempPower.sounds.size() > 0  && (def->tempPower.soundsEnemy || crew->iShipId == 0))
+    {
+        int rng = random32();
+
+        std::string sound = def->tempPower.sounds[rng % def->tempPower.sounds.size()];
+
+        G_->GetSoundControl()->PlaySoundMix(sound, -1, false);
+    }
+
+    if (tempEffectAnim)
+    {
+        tempEffectAnim->tracker.Stop(false);
+    }
+
+    if (effectFinishAnim)
+    {
+        effectFinishAnim->SetCurrentFrame(0);
+        effectFinishAnim->tracker.SetLoop(false, -1);
+        effectFinishAnim->Start(true);
+    }
 
     crew_ex->UpdateAbilityStatBoosts();
     StatBoostManager::GetInstance()->statCacheFrame++; // resets stat cache in case game is paused
@@ -300,8 +332,6 @@ void ActivatedPower::ActivateTemporaryPower()
 
 void ActivatedPower::PrepareAnimation()
 {
-    if (effectAnim) effectAnim->destructor();
-    effectAnim = nullptr;
     if (def->effectAnim.empty())
     {
         effectAnim.reset(nullptr);
@@ -402,19 +432,16 @@ void ActivatedPower::PreparePower()
     {
         ActivateTemporaryPower();
     }
+    else
+    {
+        temporaryPowerDone = false;
+    }
 
     if (effectAnim)
     {
         effectAnim->SetCurrentFrame(0);
         effectAnim->tracker.SetLoop(false, -1);
         effectAnim->Start(true);
-    }
-
-    if (tempEffectAnim)
-    {
-        tempEffectAnim->SetCurrentFrame(0);
-        tempEffectAnim->tracker.SetLoop(true, 0);
-        tempEffectAnim->Start(true);
     }
 
     if (def->sounds.size() > 0 && (def->soundsEnemy || crew->iShipId == 0 || ownerShip == 0))
@@ -578,6 +605,24 @@ void ActivatedPower::ActivatePower()
     }
 }
 
+void ActivatedPower::CancelPower(bool clearAnim)
+{
+    // Clear the animation and stop the effect from activating.
+    if (!powerDone || clearAnim)
+    {
+        if (effectAnim) effectAnim.reset(nullptr);
+        powerDone = true;
+    }
+
+    // Stop the temporary power.
+    temporaryPowerDone = true;
+    if (temporaryPowerActive)
+    {
+        temporaryPowerDuration.first = 0.f;
+        TemporaryPowerFinished();
+    }
+}
+
 void CrewMember_Extend::UpdateAbilityStatBoosts(CrewDefinition *def)
 {
     outgoingStatBoosts.clear();
@@ -620,4 +665,220 @@ void CrewMember_Extend::UpdateAbilityStatBoosts(CrewDefinition *def)
 void CrewMember_Extend::UpdateAbilityStatBoosts()
 {
     UpdateAbilityStatBoosts(GetDefinition());
+}
+
+HOOK_METHOD_PRIORITY(WorldManager, PauseLoop, 100, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> WorldManager::PauseLoop -> Begin (CrewAbilities.cpp)\n")
+
+    // Recalculate crew abilities for all living crew when paused (when unpaused this happens during the crewmember's normal loop)
+    for (int shipId = 0; shipId < 2; shipId++)
+    {
+        ShipManager *shipManager = G_->GetShipManager(shipId);
+        if (shipManager)
+        {
+            for (CrewMember *crew : shipManager->vCrewList)
+            {
+                CM_EX(crew)->CalculatePowerDef();
+            }
+        }
+    }
+
+    super();
+}
+
+void ActivatedPower::SaveState(int fd)
+{
+    FileHelper::writeInt(fd, def->index);
+
+    FileHelper::writeFloat(fd, modifiedPowerCharges);
+
+    FileHelper::writeFloat(fd, powerCooldown.first);
+    FileHelper::writeFloat(fd, powerCooldown.second);
+    FileHelper::writeFloat(fd, temporaryPowerDuration.first);
+    FileHelper::writeFloat(fd, temporaryPowerDuration.second);
+    FileHelper::writeInt(fd, powerCharges.first);
+    FileHelper::writeInt(fd, powerCharges.second);
+
+    FileHelper::writeInt(fd, powerRoom);
+    FileHelper::writeInt(fd, powerShip);
+
+    FileHelper::writeInt(fd, powerActivated);
+    FileHelper::writeInt(fd, temporaryPowerActive);
+    FileHelper::writeInt(fd, powerDone);
+    FileHelper::writeInt(fd, temporaryPowerDone);
+
+    if (effectAnim)
+    {
+        FileHelper::writeString(fd, effectAnim->animName);
+        effectAnim->SaveState(fd);
+    }
+    else
+    {
+        FileHelper::writeString(fd, "");
+    }
+
+    if (tempEffectAnim)
+    {
+        FileHelper::writeString(fd, tempEffectAnim->animName);
+        tempEffectAnim->SaveState(fd);
+    }
+    else
+    {
+        FileHelper::writeString(fd, "");
+    }
+
+    if (effectFinishAnim)
+    {
+        FileHelper::writeString(fd, effectFinishAnim->animName);
+        effectFinishAnim->SaveState(fd);
+    }
+    else
+    {
+        FileHelper::writeString(fd, "");
+    }
+
+    FileHelper::writeInt(fd, extraAnims.size());
+    for (Animation &anim : extraAnims)
+    {
+        FileHelper::writeString(fd, anim.animName);
+        anim.SaveState(fd);
+    }
+
+    FileHelper::writeFloat(fd, effectPos.x);
+    FileHelper::writeFloat(fd, effectPos.y);
+    FileHelper::writeFloat(fd, effectWorldPos.x);
+    FileHelper::writeFloat(fd, effectWorldPos.y);
+}
+
+void ActivatedPower::LoadState(int fd)
+{
+    def = &ActivatedPowerDefinition::powerDefs[FileHelper::readInteger(fd)];
+
+    std::string s;
+
+    modifiedPowerCharges = FileHelper::readFloat(fd);
+
+    powerCooldown.first = FileHelper::readFloat(fd);
+    powerCooldown.second = FileHelper::readFloat(fd);
+    temporaryPowerDuration.first = FileHelper::readFloat(fd);
+    temporaryPowerDuration.second = FileHelper::readFloat(fd);
+    powerCharges.first = FileHelper::readInteger(fd);
+    powerCharges.second = FileHelper::readInteger(fd);
+
+    powerRoom = FileHelper::readInteger(fd);
+    powerShip = FileHelper::readInteger(fd);
+
+    powerActivated = FileHelper::readInteger(fd);
+    temporaryPowerActive = FileHelper::readInteger(fd);
+    powerDone = FileHelper::readInteger(fd);
+    temporaryPowerDone = FileHelper::readInteger(fd);
+
+    s = FileHelper::readString(fd);
+    if (!s.empty())
+    {
+        effectAnim.reset(new Animation(G_->GetAnimationControl()->GetAnimation(s)));
+        effectAnim->LoadState(fd);
+    }
+
+    s = FileHelper::readString(fd);
+    if (!s.empty())
+    {
+        tempEffectAnim.reset(new Animation(G_->GetAnimationControl()->GetAnimation(s)));
+        tempEffectAnim->LoadState(fd);
+    }
+
+    s = FileHelper::readString(fd);
+    if (!s.empty())
+    {
+        effectFinishAnim.reset(new Animation(G_->GetAnimationControl()->GetAnimation(s)));
+        effectFinishAnim->LoadState(fd);
+    }
+
+    int n = FileHelper::readInteger(fd);
+    for (int i=0; i<n; ++i)
+    {
+        extraAnims.emplace_back(G_->GetAnimationControl()->GetAnimation(FileHelper::readString(fd)));
+        extraAnims.back().LoadState(fd);
+    }
+
+    effectPos.x = FileHelper::readFloat(fd);
+    effectPos.y = FileHelper::readFloat(fd);
+    effectWorldPos.x = FileHelper::readFloat(fd);
+    effectWorldPos.y = FileHelper::readFloat(fd);
+}
+
+void CrewMember_Extend::CalculatePowerDef()
+{
+    CrewDefinition* def = CustomCrewManager::GetInstance()->GetDefinition(orig->species);
+
+    // First determine which abilities the crewmember should have
+    if (crewPowers.empty() || (!crewPowers[0]->powerActivated && !crewPowers[0]->temporaryPowerActive && crewPowers[0]->powerDone && crewPowers[0]->temporaryPowerDone))
+    {
+        int currentPowerIndex = crewPowers.empty() ? 0 : crewPowers[0]->def->index;
+        CalculateStat(CrewStat::POWER_EFFECT, def); //powerChange
+
+        if (powerChange != currentPowerIndex)
+        {
+            ActivatedPowerDefinition *newDef = &ActivatedPowerDefinition::powerDefs[powerChange];
+
+            if (newDef->hasSpecialPower) // def is an actual power and not a lack of a power
+            {
+                if (crewPowers.empty())
+                {
+                    ActivatedPower *power = new ActivatedPower(newDef, orig, this);
+                    crewPowers.push_back(power);
+
+                    power->powerCooldown.first = 0.f;
+                    power->powerCooldown.second = newDef->cooldown;
+                    power->powerCharges.first = newDef->initialCharges;
+                    power->powerCharges.second = -1; // this will be updated after modifiedPowerCharges is fully calculated
+                    power->modifiedPowerCharges = newDef->powerCharges;
+                }
+                else
+                {
+                    ActivatedPower *power = crewPowers[0];
+                    power->def = newDef;
+
+                    power->powerCooldown.first = (power->powerCooldown.first/power->powerCooldown.second) * newDef->cooldown;
+                    power->powerCooldown.second = newDef->cooldown;
+
+                    power->powerCharges.second = newDef->powerCharges;
+                    power->modifiedPowerCharges = newDef->powerCharges;
+                }
+            }
+            else
+            {
+                ClearCrewPowers();
+            }
+
+            // Had no power, still has no power
+            if (currentPowerIndex == 0 && crewPowers.empty()) return;
+
+            if (orig->iShipId == 0)
+            {
+                G_->GetCApp()->gui->crewControl.ClearCrewBoxes();
+            }
+        }
+    }
+
+    // Now calculate power definition modifiers (any that need to be updated every frame)
+    if (!crewPowers.empty())
+    {
+        // Update the max charges
+        CalculateStat(CrewStat::POWER_MAX_CHARGES, def);
+        for (ActivatedPower *power : crewPowers)
+        {
+            int iMaxCharges = power->modifiedPowerCharges >= 2147483648.f ? -1 : power->modifiedPowerCharges;
+            if (power->powerCharges.second != iMaxCharges)
+            {
+                power->powerCharges.second = iMaxCharges;
+                if (iMaxCharges != -1)
+                {
+                    power->powerCharges.first = std::min(power->powerCharges.first, iMaxCharges);
+                }
+                G_->GetCApp()->gui->crewControl.ClearCrewBoxes();
+            }
+        }
+    }
 }
