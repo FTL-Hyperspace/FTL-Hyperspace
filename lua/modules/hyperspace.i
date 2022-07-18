@@ -8,10 +8,10 @@
 %}
 
 namespace std {
-    //%template(vector_int) vector<int>;
-    //%template(vector_float) vector<float>;
+    %template(vector_int) vector<int>;
+    %template(vector_float) vector<float>;
     %template(vector_ArtillerySystem) vector<ArtillerySystem*>;
-    /*
+    %template(vector_ProjectileFactory) vector<ProjectileFactory*>;
     %template(vector_CrewMember) vector<CrewMember*>;
     %template(vector_ShipSystem) vector<ShipSystem*>;
     %template(vector_Drone) vector<Drone*>;
@@ -21,7 +21,6 @@ namespace std {
 	%template(vector_WeaponMount) vector<WeaponMount>;
 	%template(vector_DamageMessage) vector<DamageMessage*>;
 	%template(vector_ShieldAnimation) vector<ShieldAnimation>;
-	*/
 }
 
 %apply const std::string& {std::string* GetName()};
