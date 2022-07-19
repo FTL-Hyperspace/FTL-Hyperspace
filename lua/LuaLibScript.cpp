@@ -184,7 +184,7 @@ int LuaLibScript::l_on_internal_event(lua_State* lua)
 }
 
 // TODO: This might need to be a varargs in the future to allow calling with the arguments from the hook & also passing that infromation via the enum so we can check at registration time above if the function has the correct number of arguments and if the correct number were passed here.
-void LuaLibScript::call_on_internal_event_callbacks(InternalEvents::Identifiers id)
+void LuaLibScript::call_on_internal_event_callbacks(InternalEvents::Identifiers id, int nArg)
 {
     assert(id > InternalEvents::UNKNOWN);
     assert(id < InternalEvents::UNKNOWN_MAX);
@@ -196,7 +196,11 @@ void LuaLibScript::call_on_internal_event_callbacks(InternalEvents::Identifiers 
     {
         LuaFunctionRef refL = range.first->second;
         lua_rawgeti(this->m_Lua, LUA_REGISTRYINDEX, refL);
-        if(lua_pcall(this->m_Lua, 0, 0, 0) != 0) {
+        for (int i=0; i<nArg; ++i)
+        {
+            lua_pushvalue(this->m_Lua, -1-nArg);
+        }
+        if(lua_pcall(this->m_Lua, nArg, 0, 0) != 0) {
             hs_log_file("Failed to call the callback for InternalEvent %u!\n %s\n", id, lua_tostring(this->m_Lua, -1)); // Also TODO: Maybe map RenderEvents to a readable string also?
             lua_pop(this->m_Lua, 1);
             return;

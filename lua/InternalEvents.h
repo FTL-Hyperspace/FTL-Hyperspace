@@ -6,7 +6,7 @@
     Used for specifying a name to Lua that Lua can access via `Defines.InternalEvents.ON_TICK` (or other name in the Defines.InternalEvents table)
     And for specifying a name to C in our hooks (defined in InternalEvents.cpp right now but they could technically be called from anywhere)
     Eventually will include argument data for Lua to specify what we expect to send to and receive from Lua hooks
-    
+
     You can have more than one actual C ZHL hook calling the same identifier (such as we would do for START_RUN, although currently that is handled by `scripts.on_init(` but maybe we accomplish that with an internal event instead and clean it up)
 */
 struct InternalEvents
@@ -16,9 +16,9 @@ struct InternalEvents
 
         ON_TICK, // We'll use CApp::OnLoop for this ticking
         MAIN_MENU, // We'll use MainMenu::Open for this
-        // ON_KEY_DOWN, // CApp::OnKeyDown (Once we have arguments working since this will require passing the SDLKey that was pressed)
+        ON_KEY_DOWN, // CApp::OnKeyDown (Once we have arguments working since this will require passing the SDLKey that was pressed)
         // CREW_EQUIPMENT_BOX_REMOVE_ITEM, // CrewEquipBox::RemoveItem
-        
+
         /*
         Once we support return values from InternalEvents (or maybe this moves to an InternalHooks in the future)
         Called upon hull damage to the player's ship
@@ -27,7 +27,7 @@ struct InternalEvents
         @treturn uint value of the hull, 0 and the ship explodes.
         // PLAYERSHIP_ON_HULL_DAMAGE,
         */
-        
+
         /* TODO Maybe add
         ShipManager::JumpArrive
         ShipManager::JumpLeave
