@@ -32,14 +32,17 @@ bool CommandConsole::RunCommand(CommandGui *commandGui, const std::string& cmd)
 
     if (cmdName == "SQUISHY")
     {
-        std::string squishyTitle = boost::trim_copy(command.substr(8));
-        hs_log_file("Squishy is awesome\n");
-        if(!squishyTitle.empty())
+        if (command.length() > 8)
         {
-            squishyTextEnabled = true;
-            squishyText = squishyTitle;
+            std::string squishyTitle = boost::trim_copy(command.substr(8));
+            hs_log_file("Squishy is awesome\n");
+            if(!squishyTitle.empty())
+            {
+                squishyTextEnabled = true;
+                squishyText = squishyTitle;
+            }
+            return true;
         }
-        return true;
     }
     if (cmdName == "STORE")
     {
