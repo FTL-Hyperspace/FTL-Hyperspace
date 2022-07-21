@@ -25,8 +25,22 @@ HOOK_METHOD(CApp, OnKeyDown, (SDLKey key) -> void)
     auto context = Global::GetInstance()->getLuaContext();
 
     lua_pushinteger(context->GetLua(), key);
-    context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::ON_KEY_DOWN, 1);
-    lua_pop(context->GetLua(), 1);
+    int nRet = context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::ON_KEY_DOWN, 1, 1);
+    bool bRet = nRet && lua_toboolean(context->GetLua(), -1);
+    lua_pop(context->GetLua(), nRet+1);
 
-    super(key);
+    if (!bRet) super(key);
+}
+
+HOOK_METHOD_PRIORITY(CrewMember, OnLoop, -100, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> CrewMember::OnLoop -> Begin (InternalEvents.cpp)\n")
+
+    super();
+
+    auto context = Global::GetInstance()->getLuaContext();
+
+    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pCrewMember, 0);
+    context->getLibScript()->call_on_internal_event_callbacks(InternalEvents::CREW_LOOP, 1);
+    lua_pop(context->GetLua(), 1);
 }

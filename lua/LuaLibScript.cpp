@@ -3,6 +3,7 @@
 #include <map>
 #include "LuaLibScript.h"
 #include "../Global.h"
+#include "swigluarun.h"
 
 static std::vector<LuaFunctionRef> m_on_load_callbacks;
 static std::vector<LuaFunctionRef> m_on_init_callbacks;
@@ -10,6 +11,11 @@ static std::multimap<std::string, LuaFunctionRef> m_on_game_event_callbacks;
 static std::multimap<std::string, LuaFunctionRef> m_on_game_event_loading_callbacks;
 static std::multimap<InternalEvents::Identifiers, LuaFunctionRef> m_on_internal_event_callbacks; // TODO: For now we're only going to support `OnTick` and other potential methods with no argument requirements but we need to add support for methods with arguments later and add them to the call (or maybe add the information into the enum so at call time we can pass them?)
 static std::multimap<RenderEvents::Identifiers, std::pair<LuaFunctionRef, LuaFunctionRef>> m_on_render_event_callbacks; // Holds before & after function ref in the pair
+
+void LuaLibScript::LoadTypeInfo()
+{
+    types.pCrewMember = SWIG_TypeQuery(this->m_Lua, "CrewMember *");
+}
 
 int LuaLibScript::l_on_load(lua_State* lua)
 {
@@ -81,8 +87,8 @@ int LuaLibScript::l_on_game_event(lua_State* lua)
 // TODO: Maybe tell the compiler to always inline this
 void call_all_functions_from_multimap(lua_State* lua, std::multimap<std::string, LuaFunctionRef> mmap, std::string key)
 {
-    if(mmap.count(key) == 0)
-        return; // No registered callbacks
+//    if(mmap.count(key) == 0)
+//        return; // No registered callbacks
 
     printf("Fetching %u on_game_event callbacks for %s\n", mmap.count(key), key.c_str()); // TODO: Remove or add to debugging logs?
     for(std::pair<std::multimap<std::string, LuaFunctionRef>::iterator, std::multimap<std::string, LuaFunctionRef>::iterator> range(mmap.equal_range(key)); range.first != range.second; ++range.first)
@@ -125,8 +131,8 @@ void LuaLibScript::call_on_render_event_pre_callbacks(RenderEvents::Identifiers 
     assert(id > RenderEvents::UNKNOWN);
     assert(id < RenderEvents::UNKNOWN_MAX);
 
-    if(m_on_render_event_callbacks.count(id) == 0)
-        return; // No registered callbacks
+//    if(m_on_render_event_callbacks.count(id) == 0)
+//        return; // No registered callbacks
 
     for(std::pair<std::multimap<RenderEvents::Identifiers, std::pair<LuaFunctionRef, LuaFunctionRef>>::iterator, std::multimap<RenderEvents::Identifiers, std::pair<LuaFunctionRef, LuaFunctionRef>>::iterator> range(m_on_render_event_callbacks.equal_range(id)); range.first != range.second; ++range.first)
     {
@@ -144,8 +150,8 @@ void LuaLibScript::call_on_render_event_post_callbacks(RenderEvents::Identifiers
     assert(id > RenderEvents::UNKNOWN);
     assert(id < RenderEvents::UNKNOWN_MAX);
 
-    if(m_on_render_event_callbacks.count(id) == 0)
-        return; // No registered callbacks
+//    if(m_on_render_event_callbacks.count(id) == 0)
+//        return; // No registered callbacks
 
     for(std::pair<std::multimap<RenderEvents::Identifiers, std::pair<LuaFunctionRef, LuaFunctionRef>>::iterator, std::multimap<RenderEvents::Identifiers, std::pair<LuaFunctionRef, LuaFunctionRef>>::iterator> range(m_on_render_event_callbacks.equal_range(id)); range.first != range.second; ++range.first)
     {
@@ -184,13 +190,13 @@ int LuaLibScript::l_on_internal_event(lua_State* lua)
 }
 
 // TODO: This might need to be a varargs in the future to allow calling with the arguments from the hook & also passing that infromation via the enum so we can check at registration time above if the function has the correct number of arguments and if the correct number were passed here.
-void LuaLibScript::call_on_internal_event_callbacks(InternalEvents::Identifiers id, int nArg)
+int LuaLibScript::call_on_internal_event_callbacks(InternalEvents::Identifiers id, int nArg, int nRet)
 {
     assert(id > InternalEvents::UNKNOWN);
     assert(id < InternalEvents::UNKNOWN_MAX);
 
-    if(m_on_internal_event_callbacks.count(id) == 0)
-        return; // No registered callbacks
+//    if(m_on_internal_event_callbacks.count(id) == 0)
+//        return; // No registered callbacks
 
     for(std::pair<std::multimap<InternalEvents::Identifiers, LuaFunctionRef>::iterator, std::multimap<InternalEvents::Identifiers, LuaFunctionRef>::iterator> range(m_on_internal_event_callbacks.equal_range(id)); range.first != range.second; ++range.first)
     {
@@ -203,9 +209,19 @@ void LuaLibScript::call_on_internal_event_callbacks(InternalEvents::Identifiers 
         if(lua_pcall(this->m_Lua, nArg, 0, 0) != 0) {
             hs_log_file("Failed to call the callback for InternalEvent %u!\n %s\n", id, lua_tostring(this->m_Lua, -1)); // Also TODO: Maybe map RenderEvents to a readable string also?
             lua_pop(this->m_Lua, 1);
-            return;
+            continue;
+        }
+        if (nRet > 0)
+        {
+            if (!lua_isnil(this->m_Lua, -nRet))
+            {
+                return nRet;
+            }
+            // If the return value is nil then we pop them before trying the next callback function
+            lua_pop(this->m_Lua, nRet);
         }
     }
+    return 0;
 }
 
 

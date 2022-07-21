@@ -7,6 +7,8 @@
 #include <assert.h>
 #include <string>
 
+typedef struct swig_type_info;
+
 /*** Functions for script execution control
  * @module script
  * @release 1.1.0
@@ -18,13 +20,16 @@ class LuaLibScript
     public:
         LuaLibScript(lua_State* lua);
 
+        // Call during initialization to load the type info
+        void LoadTypeInfo();
+
         // Call once upon starting the game
         void call_on_load_callbacks();
 
         // Call upon starting a new run (maybe also starting a loaded run? not sure)
         void call_on_init_callbacks();
 
-        void call_on_internal_event_callbacks(InternalEvents::Identifiers, int nArg=0);
+        int call_on_internal_event_callbacks(InternalEvents::Identifiers, int nArg=0, int nRet=0);
 
         void call_on_render_event_pre_callbacks(RenderEvents::Identifiers);
         void call_on_render_event_post_callbacks(RenderEvents::Identifiers);
@@ -122,6 +127,14 @@ class LuaLibScript
 
     private:
         lua_State* m_Lua;
+
+    public:
+        struct TypeInfo
+        {
+            swig_type_info *pCrewMember;
+        };
+
+        TypeInfo types;
 };
 
 #endif // LUALIBSCRIPT_H

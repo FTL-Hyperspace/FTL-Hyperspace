@@ -1224,9 +1224,9 @@ HOOK_METHOD(CrewAnimation, OnUpdate, (Pointf position, bool moving, bool fightin
 
 
 
-HOOK_METHOD(CrewMember, OnLoop, () -> void)
+HOOK_METHOD_PRIORITY(CrewMember, OnLoop, -900, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> CrewMember::OnLoop -> Begin (TemporalSystem.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> CrewMember::OnLoop -> Begin (TemporalSystem.cpp)\n")
     g_dilationAmount = GetRoomDilationAmount(g_crewDilationRooms, iRoomId);
     super();
     g_dilationAmount = 0;
