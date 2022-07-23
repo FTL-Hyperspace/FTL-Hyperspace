@@ -367,6 +367,12 @@ struct GL_TexVertex
 %newobject CSurface::GL_CreateRectOutlinePrimitive;
 %newobject CSurface::GL_CreateRectPrimitive;
 %delobject CSurface::GL_DestroyPrimitive;
+%extend GL_Primitive
+{
+    ~GL_Primitive() {
+        CSurface::GL_DestroyPrimitive($self);
+    }
+};
 %nodefaultctor;
 %nodefaultdtor;
 %immutable;
