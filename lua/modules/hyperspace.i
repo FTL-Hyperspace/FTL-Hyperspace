@@ -20,7 +20,8 @@ namespace std {
 	%template(vector_OuterHull) vector<OuterHull*>;
 	%template(vector_WeaponMount) vector<WeaponMount>;
 	%template(vector_DamageMessage) vector<DamageMessage*>;
-	%template(vector_ShieldAnimation) vector<ShieldAnimation>;
+	%template(vector_Projectile) vector<Projectile*>;
+//	%template(vector_ShieldAnimation) vector<ShieldAnimation>;
 }
 
 %apply const std::string& {std::string* GetName()};
@@ -273,6 +274,8 @@ struct CFPS
 %rename("%s") SpaceManager::SwitchPlanet; // Could be useful for rendering planet animations
 %rename("%s") SpaceManager::UpdatePlanetImage; // Maybe needed if planet texture is messed with directly and then this updates the cached image?
 
+%rename("%s") SpaceManager::projectiles;
+%immutable SpaceManager::projectiles;
 %rename("%s") SpaceManager::currentBack;
 %rename("%s") SpaceManager::currentPlanet; // might be able to set .rot on this and then call UpdatePlanetImage to spin the planet
 //%nodefaultctor SpaceManager::FleetShip;
@@ -417,6 +420,19 @@ struct CFPS
 %rename("%s") BoardingEvent::amount;
 %rename("%s") BoardingEvent::breach;
 
+%rename("%s") ShipObject;
+%nodefaultctor ShipObject;
+%nodefaultdtor ShipObject;
+%rename("%s") ShipObject::AddAugmentation;
+%rename("%s") ShipObject::ClearShipInfo;
+%rename("%s") ShipObject::GetAugmentationCount;
+%rename("%s") ShipObject::GetAugmentationList;
+%rename("%s") ShipObject::GetAugmentationValue;
+%rename("%s") ShipObject::HasAugmentation;
+%rename("%s") ShipObject::HasEquipment;
+%rename("%s") ShipObject::RemoveAugmentation;
+%immutable ShipObject::iShipId;
+%rename("%s") ShipObject::iShipId;
 
 // TODO: Expose ShipManager
 %rename("%s") ShipManager;
@@ -424,11 +440,11 @@ struct CFPS
 %nodefaultdtor ShipManager;
 //%rename("%s") ShipManager::AddAugmentation; // Might prefer this be done via an event? Not sure.
 //%rename("%s") ShipManager::ClearShipInfo;
-%rename("%s") ShipManager::GetAugmentationCount;
-%rename("%s") ShipManager::GetAugmentationList;
-%rename("%s") ShipManager::GetAugmentationValue;
-%rename("%s") ShipManager::HasAugmentation;
-%rename("%s") ShipManager::HasEquipment;
+//%rename("%s") ShipManager::GetAugmentationCount;
+//%rename("%s") ShipManager::GetAugmentationList;
+//%rename("%s") ShipManager::GetAugmentationValue;
+//%rename("%s") ShipManager::HasAugmentation;
+//%rename("%s") ShipManager::HasEquipment;
 //%rename("%s") ShipManager::RemoveAugmentation; // Might prefer this be done via an event? Not sure.
 %immutable ShipManager::iShipId;
 %rename("%s") ShipManager::iShipId;
@@ -1124,6 +1140,47 @@ struct CFPS
 %rename("%s") Damage::crystalShard;
 %rename("%s") Damage::bFriendlyFire;
 %rename("%s") Damage::iStun;
+
+//%nodefaultctors Collideable;
+//%nodefaultdtors Collideable;
+%rename("%s") Collideable;
+
+%rename("%s") Targetable;
+%rename("%s") Targetable::type;
+%rename("%s") Targetable::hostile;
+%rename("%s") Targetable::targeted;
+
+//%nodefaultctors Projectile;
+//%nodefaultdtors Projectile;
+%rename("%s") Projectile;
+%rename("%s") Projectile::_targetable; //todo: abstract away _targetable
+%rename("%s") Projectile::position;
+%rename("%s") Projectile::last_position;
+%rename("%s") Projectile::speed_magnitude;
+%rename("%s") Projectile::target;
+%rename("%s") Projectile::heading;
+%rename("%s") Projectile::ownerId;
+%rename("%s") Projectile::selfId;
+%immutable Projectile::selfId;
+%rename("%s") Projectile::damage;
+%rename("%s") Projectile::lifespan;
+%rename("%s") Projectile::destinationSpace;
+%rename("%s") Projectile::currentSpace;
+%rename("%s") Projectile::targetId;
+%rename("%s") Projectile::dead;
+%rename("%s") Projectile::death_animation;
+%rename("%s") Projectile::flight_animation;
+%rename("%s") Projectile::speed;
+%rename("%s") Projectile::missed;
+%rename("%s") Projectile::hitTarget;
+%rename("%s") Projectile::hitSolidSound;
+%rename("%s") Projectile::hitShieldSound;
+%rename("%s") Projectile::entryAngle;
+%rename("%s") Projectile::startedDeath;
+%rename("%s") Projectile::passedTarget;
+%rename("%s") Projectile::bBroadcastTarget;
+%rename("%s") Projectile::flashTracker;
+%rename("%s") Projectile::color;
 
 %rename("%s") AnimationTracker;
 %rename("%s") AnimationTracker::GetAlphaLevel;
