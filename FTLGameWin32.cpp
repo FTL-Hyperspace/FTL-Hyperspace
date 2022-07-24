@@ -9904,11 +9904,25 @@ namespace _func716
 	static FunctionDefinition funcObj("Projectile::ValidTarget", typeid(bool (Projectile::*)()), "!0fb6817002000083f001c3", argdata, 1, 1, &func);
 }
 
+bool Projectile::ValidTarget()
+{
+	typedef bool __attribute__((thiscall)) (*custom_arg_funcptr_t)(Projectile *this_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func716::func;
+	return execfunc(this);
+}
+
 namespace _func717
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff};
 	static FunctionDefinition funcObj("Projectile::SetMovingTarget", typeid(void (Projectile::*)(Targetable *)), ".!c20400", argdata, 2, 5, &func);
+}
+
+void Projectile::SetMovingTarget(Targetable *target)
+{
+	typedef void __attribute__((thiscall)) (*custom_arg_funcptr_t)(Projectile *this_arg, Targetable *target_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func717::func;
+	return execfunc(this, target);
 }
 
 namespace _func718
