@@ -1410,7 +1410,7 @@ struct LIBZHL_INTERFACE Projectile : Collideable
 	virtual void SaveProjectile(int fd) LIBZHL_PLACEHOLDER
 	virtual void LoadProjectile(int fd) LIBZHL_PLACEHOLDER
 	virtual int GetType() LIBZHL_PLACEHOLDER
-	LIBZHL_API virtual void SetMovingTarget(Targetable *target);
+	virtual void SetMovingTarget(Targetable *target) LIBZHL_PLACEHOLDER
 	LIBZHL_API void Initialize(const WeaponBlueprint &bp);
 	LIBZHL_API void constructor(Pointf position, int ownerId, int targetId, Pointf target);
 	LIBZHL_API void destructor();

@@ -8,7 +8,5 @@ __thiscall void Projectile::destructor(Projectile *this);
 __thiscall void Projectile::Initialize(Projectile *this, const WeaponBlueprint& bp);
 "!0fb6817002000083f001c3":
 __thiscall bool Projectile::ValidTarget(Projectile *this);
-".!c20400":
-__thiscall void Projectile::SetMovingTarget(Projectile *this, Targetable *target);
 ".!b8ffffffffc3":
 __thiscall int Projectile::ForceRenderLayer(Projectile *this);
