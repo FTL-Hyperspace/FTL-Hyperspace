@@ -5877,35 +5877,38 @@ HOOK_METHOD(WorldManager, OnLoop, () -> void)
         ShipManager *enemy = playerShip->shipManager->current_target;
         if (!enemy) return;
 
-        CustomShipEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomShipEvent(currentShipEvent.name);
-        if (customEvent && customEvent->finalBoss.enabled && enemy->bDestroyed)
+        if (enemy->bDestroyed && currentShipEvent.present)
         {
-            bossDefeated = true;
-            enemy->ship.explosion.time = 6.0;
-
-            if (!customEvent->finalBoss.sound.empty())
+            CustomShipEvent *customEvent = CustomEventsParser::GetInstance()->GetCustomShipEvent(currentShipEvent.name);
+            if (customEvent && customEvent->finalBoss.enabled)
             {
-                G_->GetSoundControl()->StopPlaylist(100);
-                G_->GetSoundControl()->PlaySoundMix(customEvent->finalBoss.sound, -1.f, false);
+                bossDefeated = true;
+                enemy->ship.explosion.time = 6.0;
 
-                delete restartMusicTimer;
-                if (customEvent->bossMusicDelay != -1)
+                if (!customEvent->finalBoss.sound.empty())
                 {
-                    restartMusicTimer = new TimerHelper(false);
-                    restartMusicTimer->Start(customEvent->bossMusicDelay);
-                }
-            }
+                    G_->GetSoundControl()->StopPlaylist(100);
+                    G_->GetSoundControl()->PlaySoundMix(customEvent->finalBoss.sound, -1.f, false);
 
-            if (customEvent->finalBoss.victory)
-            {
-                commandGui->alreadyWon = true;
-                alreadyWonCustom = true;
-                replaceGameOverText = customEvent->finalBoss.text;
-                replaceGameOverCreditsText = customEvent->finalBoss.creditsText;
-                replaceCreditsMusic = customEvent->finalBoss.creditsMusic;
-                replaceCreditsBackground = G_->GetEventGenerator()->GetImageFromList(customEvent->finalBoss.creditsBackground);
-                hs_log_file("Final Boss destroyed: Set custom victory type to %s\n", customEvent->finalBoss.ach.c_str());
-                CustomShipUnlocks::instance->setCustomVictoryType = customEvent->finalBoss.ach;
+                    delete restartMusicTimer;
+                    if (customEvent->bossMusicDelay != -1)
+                    {
+                        restartMusicTimer = new TimerHelper(false);
+                        restartMusicTimer->Start(customEvent->bossMusicDelay);
+                    }
+                }
+
+                if (customEvent->finalBoss.victory)
+                {
+                    commandGui->alreadyWon = true;
+                    alreadyWonCustom = true;
+                    replaceGameOverText = customEvent->finalBoss.text;
+                    replaceGameOverCreditsText = customEvent->finalBoss.creditsText;
+                    replaceCreditsMusic = customEvent->finalBoss.creditsMusic;
+                    replaceCreditsBackground = G_->GetEventGenerator()->GetImageFromList(customEvent->finalBoss.creditsBackground);
+                    hs_log_file("Final Boss destroyed: Set custom victory type to %s\n", customEvent->finalBoss.ach.c_str());
+                    CustomShipUnlocks::instance->setCustomVictoryType = customEvent->finalBoss.ach;
+                }
             }
         }
     }
