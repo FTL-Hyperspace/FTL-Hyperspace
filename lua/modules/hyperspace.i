@@ -1141,17 +1141,16 @@ struct CFPS
 %rename("%s") Damage::bFriendlyFire;
 %rename("%s") Damage::iStun;
 
-//%nodefaultctors Collideable;
-//%nodefaultdtors Collideable;
+%nodefaultctor Collideable;
 %rename("%s") Collideable;
 
+%nodefaultctor Targetable;
 %rename("%s") Targetable;
 %rename("%s") Targetable::type;
 %rename("%s") Targetable::hostile;
 %rename("%s") Targetable::targeted;
 
-//%nodefaultctors Projectile;
-//%nodefaultdtors Projectile;
+%nodefaultctor Projectile;
 %rename("%s") Projectile;
 %rename("%s") Projectile::_targetable; //todo: abstract away _targetable
 %rename("%s") Projectile::position;
