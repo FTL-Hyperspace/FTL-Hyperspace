@@ -3709,7 +3709,7 @@ struct VTable_SpaceDrone
   int (__thiscall *GetSelfId)(SpaceDrone *);
   static CollisionResponse *(__stdcall *CollisionMoving)(CollisionResponse *ret, SpaceDrone *drone, Pointf pos1, Pointf pos2, Damage damage, bool unk);
   bool (__thiscall *DamageBeam)(SpaceDrone *, Pointf pos1, Pointf pos2, Damage damage);
-  void (__thiscall *DamageArea)(SpaceDrone *, Pointf pos, Damage damage, bool unk);
+  bool (__thiscall *DamageArea)(SpaceDrone *, Pointf pos, Damage damage, bool unk);
   BoarderDrone *(__thiscall *GetBoardingDrone)(SpaceDrone *);
 };
 

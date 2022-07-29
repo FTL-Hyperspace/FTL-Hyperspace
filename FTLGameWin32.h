@@ -2602,7 +2602,7 @@ struct LIBZHL_INTERFACE SpaceDrone : Drone
 	virtual int GetSelfId() LIBZHL_PLACEHOLDER
 	virtual CollisionResponse *CollisionMoving(SpaceDrone *drone, Pointf pos1, Pointf pos2, Damage damage, bool unk) LIBZHL_PLACEHOLDER
 	virtual bool DamageBeam(Pointf pos1, Pointf pos2, Damage damage) LIBZHL_PLACEHOLDER
-	virtual void DamageArea(Pointf pos, Damage damage, bool unk) LIBZHL_PLACEHOLDER
+	virtual bool DamageArea(Pointf pos, Damage damage, bool unk) LIBZHL_PLACEHOLDER
 	virtual BoarderDrone *GetBoardingDrone() LIBZHL_PLACEHOLDER
 	LIBZHL_API CollisionResponse CollisionMoving(Pointf start, Pointf finish, Damage damage, bool raytrace);
 	LIBZHL_API virtual void SetDeployed(bool deployed);
