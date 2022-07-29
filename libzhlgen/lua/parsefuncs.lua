@@ -195,7 +195,11 @@ local function getsize_alignment(t)
 			size = 0
 			alignment = 0
 			if sdef.inherits then
-				size, alignment = getsize_alignment(structs[sdef.inherits:cname()])
+				for _,f in ipairs(sdef.inherits) do
+					field_size, field_alignment = getsize_alignment(structs[f:cname()])
+					size = math.ceil(size/field_alignment)*field_alignment + field_size
+					alignment = math.max(alignment, field_alignment)
+				end
 			elseif sdef.vtable then
 				size = math.ceil(size/4)*4 + 4 -- TODO: Is 4 correct on 64-bit?
 				alignment = math.max(alignment, 4)
@@ -415,9 +419,12 @@ for _,v in pairs(structs) do
 	
 	for k,f in pairs(v.fields) do
 		local cname = f:cname()
-		if k == 1 and not f:isPointer() and structs[cname] and (f.name == "_entity" or f.name == "_base") then
+		if not f:isPointer() and structs[cname] and (f.name == "_entity" or f.name == "_base") then
 			-- inheritance
-			v.inherits = f
+			if v.inherits == nil then
+				v.inherits = {}
+			end
+			table.insert(v.inherits, f)
 			addDependency(v, cname, false)
 			hasFuncDef[cname] = true
 		end
@@ -431,7 +438,9 @@ for _,v in pairs(structs) do
 	end
 	
 	if v.inherits then
-		table.remove(v.fields, 1)
+		for i = 1,#v.inherits do
+			table.remove(v.fields, 1)
+		end
 	end
 end
 
@@ -962,7 +971,13 @@ function writeStruct(struct, out, parent)
 		end
 		
 		if struct.inherits then
-			out(" : %s", struct.inherits:cname(parent))
+			for i,v in ipairs(struct.inherits) do
+				if i == 1 then
+					out(" : %s", v:cname(parent))
+				else
+					out(", %s", v:cname(parent))
+				end
+			end
 		end
 		out("\n{")
 		if struct.generic_code then
