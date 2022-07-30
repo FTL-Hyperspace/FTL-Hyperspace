@@ -1144,14 +1144,77 @@ struct CFPS
 %nodefaultctor Collideable;
 %rename("%s") Collideable;
 
+%rename("%s") Collideable::CollisionMoving; // checks if a moving object collides with this object
+%rename("%s") Collideable::DamageBeam; // damage from a beam swipe (two points)
+%rename("%s") Collideable::DamageArea; // damage from a projectile/effect (one point)
+%rename("%s") Collideable::DamageShield; // damage to the shield
+%rename("%s") Collideable::GetDodged; // checks whether a projectile should miss this object
+%rename("%s") Collideable::GetSuperShield;
+%rename("%s") Collideable::SetTempVision;
+%rename("%s") Collideable::GetSpaceId; // which space the object is in
+%rename("%s") Collideable::GetSelfId; // self ID of this object
+%rename("%s") Collideable::GetOwnerId; // who owns the object
+%rename("%s") Collideable::ValidTargetLocation;
+
 %nodefaultctor Targetable;
 %rename("%s") Targetable;
+
+%rename("%s") Targetable::GetWorldCenterPoint; // centre of this object
+%rename("%s") Targetable::GetRandomTargettingPoint; // random point that can be targeted (e.g. random room)
+%rename("%s") Targetable::GetAllTargettingPoints; // list of all points that can be targeted
+%rename("%s") Targetable::GetShieldShape;
+%rename("%s") Targetable::GetShieldPower;
+%rename("%s") Targetable::GetSpaceId; // which space the object is in
+%rename("%s") Targetable::GetSpeed;
+%rename("%s") Targetable::GetOwnerId; // who owns the object
+%rename("%s") Targetable::GetSelfId; // self ID of this object
+%rename("%s") Targetable::IsCloaked;
+%rename("%s") Targetable::DamageTarget;
+%rename("%s") Targetable::GetIsDying;
+%rename("%s") Targetable::GetIsJumping;
+%rename("%s") Targetable::ValidTarget;
+%rename("%s") Targetable::GetShape;
+
 %rename("%s") Targetable::type;
 %rename("%s") Targetable::hostile;
 %rename("%s") Targetable::targeted;
 
-%nodefaultctor Projectile;
+%nodefaultctor Projectile; // users should only construct subclasses
 %rename("%s") Projectile;
+
+%rename("%s") Projectile::CollisionMoving; // checks if a moving object collides with the projectile
+%rename("%s") Projectile::GetSpaceId; // which space the projectile is in
+%rename("%s") Projectile::GetSelfId; // self ID of this projectile
+%rename("%s") Projectile::GetOwnerId; // who owns the projectile
+
+%rename("%s") Projectile::SetWeaponAnimation; // does nothing except for beams, used to link weapon animation to beam progress
+%rename("%s") Projectile::OnRenderSpecific; // virtual method for rendering the specific projectile
+%rename("%s") Projectile::CollisionCheck; // checks if this object is colliding with other object, calls CollisionMoving
+%rename("%s") Projectile::OnUpdate; // updates the projectile position by one frame
+%rename("%s") Projectile::GetWorldCenterPoint; // returns the position of the projectile
+%rename("%s") Projectile::GetRandomTargettingPoint; // returns the position of the projectile
+%rename("%s") Projectile::ComputeHeading; // calculates the correct heading to get from its current position to the target point
+%rename("%s") Projectile::SetDestinationSpace; // exactly what it says on the tin
+%rename("%s") Projectile::EnterDestinationSpace; // actually transfers the projectile to the destination space
+%rename("%s") Projectile::Dead; // checks if the projectile is dead, if death animation is playing then advance a frame and check if it's done
+%rename("%s") Projectile::ValidTarget; // can this projectile be targeted (if not destroyed)
+%rename("%s") Projectile::Kill; // sets the projectile to be dead; this should skip the animation
+%rename("%s") Projectile::GetSpeed; // returns the speed
+%rename("%s") Projectile::SetDamage; // sets the Damage
+%rename("%s") Projectile::ForceRenderLayer; // this checks if the projectile is forced to render on a certain layer (e.g. ASB rendering behind/in front)
+%rename("%s") Projectile::SetSpin; // sets spin (for flak)
+%rename("%s") Projectile::SaveProjectile; // saves the projectile state to file
+%rename("%s") Projectile::LoadProjectile; // loads the projectile state from file
+%rename("%s") Projectile::GetType; // gets projectile type: 1 = laser, 2 = asteroid, 3 = missile, 4 = bomb, 5 = beam, 6 = asb
+%rename("%s") Projectile::SetMovingTarget; // sets moving target (for beams), most likely only used when loading (it saves the movingtarget's selfId)
+
+%rename("%s") Projectile::AtTarget; // checks if we're hitting the target point (based on distance from projectile to target). Returns false if missed.
+%rename("%s") Projectile::Initialize; // updates a projectile's attributes from a weapon blueprint
+%rename("%s") Projectile::OnRender; // renders the projectile and also the target dot for flak
+%rename("%s") Projectile::RenderSidePoint; // picks a random side point (e.g. for missed ASB)
+%rename("%s") Projectile::SetTarget; // sets a new target point and changes the heading, in vanilla only really used when generating asteroids
+%rename("%s") Projectile::StartedDeath; // checks if the projectile has started its death, but also changes it to false if it has, in vanilla only used for checking when crew lasers should do damage
+
 %rename("%s") Projectile::_targetable; //todo: abstract away _targetable
 %rename("%s") Projectile::position;
 %rename("%s") Projectile::last_position;
