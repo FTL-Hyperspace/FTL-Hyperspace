@@ -18,6 +18,7 @@ extern std::bitset<8> advancedCheckEquipment;
 // bit 4: VariableModifier::ApplyVariables
 // bit 5: TriggeredEvent::Update
 // bit 6: StarMap::GenerateEvents (priority events), StarMap::GenerateMap (sector quests and regenerated events)
+// bit 7: lua
 
 extern bool alreadyWonCustom;
 extern bool bossDefeated;

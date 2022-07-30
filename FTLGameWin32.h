@@ -1101,6 +1101,8 @@ struct ShipObject;
 
 struct ShipObject
 {
+	int HS_HasEquipment(const std::string& equip);
+
 	LIBZHL_API bool AddAugmentation(const std::string &augment);
 	LIBZHL_API void ClearShipInfo();
 	LIBZHL_API int GetAugmentationCount();

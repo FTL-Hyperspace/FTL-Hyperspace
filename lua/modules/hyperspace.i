@@ -429,7 +429,7 @@ struct CFPS
 %rename("%s") ShipObject::GetAugmentationList;
 %rename("%s") ShipObject::GetAugmentationValue;
 %rename("%s") ShipObject::HasAugmentation;
-%rename("%s") ShipObject::HasEquipment;
+%rename("HasEquipment") ShipObject::HS_HasEquipment;
 %rename("%s") ShipObject::RemoveAugmentation;
 %immutable ShipObject::iShipId;
 %rename("%s") ShipObject::iShipId;

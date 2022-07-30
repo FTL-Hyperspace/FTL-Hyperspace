@@ -2467,6 +2467,17 @@ HOOK_METHOD_PRIORITY(ShipObject, HasEquipment, -100, (const std::string& equipme
     return super(equipment);
 }
 
+int ShipObject::HS_HasEquipment(const std::string& equip)
+{
+    bool temp = advancedCheckEquipment[7];
+    advancedCheckEquipment[7] = true;
+
+    int ret = HasEquipment(equip);
+
+    advancedCheckEquipment[7] = temp;
+    return ret;
+}
+
 static std::string removeHiddenAug = "";
 
 HOOK_METHOD(WorldManager, CreateChoiceBox, (LocationEvent *event) -> void)
