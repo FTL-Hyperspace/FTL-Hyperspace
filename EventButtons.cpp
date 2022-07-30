@@ -283,11 +283,7 @@ HOOK_METHOD(ShipStatus, OnLoop, () -> void)
 
         for (EventButton &button : customButtons)
         {
-            if (button.def->noDanger)
-            {
-                button.button->bActive = gui->upgradeButton.bActive;
-            }
-            button.button->bActive &= button.CheckReq();
+            button.button->bActive = (!button.def->noDanger || gui->upgradeButton.bActive) && button.CheckReq();
         }
 
         auto it = customButtons.begin();
