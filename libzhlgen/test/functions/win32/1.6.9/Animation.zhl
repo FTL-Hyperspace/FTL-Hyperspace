@@ -20,6 +20,12 @@ __thiscall void Animation::StartReverse(Animation *this, bool reset);
 __thiscall void Animation::SetProgress(Animation *this, float progress);
 "5589e55389cb83e4f0803d????????00754ee8????????8b4b0499c6433200660fefc0c6433001660fefc9":
 __thiscall int Animation::RandomStart(Animation *this);
+"5589e5565389cb83e4f083ec100fb641308b750889342489442404":
+__thiscall void Animation::SaveState(Animation *this, int fd);
+"578d7c240883e4f0ff77fc5589e557565389cb83ec2c8b37893424e8????????85c00f85????????893424":
+__thiscall void Animation::LoadState(Animation *this, int fd);
+"0fb6413284c074??660fefc00f2e81940000000f93c0":
+__thiscall bool Animation::Done(Animation *this);
 
 
 struct Animation 

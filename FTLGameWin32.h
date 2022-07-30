@@ -712,8 +712,11 @@ struct Animation
 	}
 
 	LIBZHL_API void AddSoundQueue(int frame, const std::string &sound);
+	LIBZHL_API bool Done();
+	LIBZHL_API void LoadState(int fd);
 	LIBZHL_API void OnRender(float opacity, GL_Color color, bool mirror);
 	LIBZHL_API int RandomStart();
+	LIBZHL_API void SaveState(int fd);
 	LIBZHL_API void SetAnimationId(GL_Texture *tex);
 	LIBZHL_API void SetCurrentFrame(int frame);
 	LIBZHL_API void SetProgress(float progress);

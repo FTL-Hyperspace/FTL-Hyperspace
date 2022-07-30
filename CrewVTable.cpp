@@ -309,52 +309,78 @@ bool CrewMember::_HS_HasSpecialPower()
 {
     auto ex = CM_EX(this);
 
-    return ex->hasSpecialPower;
+    return !ex->crewPowers.empty();
 }
 
 std::pair<float, float> CrewMember::_HS_GetPowerCooldown()
 {
     auto ex = CM_EX(this);
-    return ex->powerCooldown;
+
+    if (ex->crewPowers.empty())
+    {
+        return {0.f, 1.f};
+    }
+    else
+    {
+        return ex->crewPowers[0]->powerCooldown;
+    }
 }
 
 bool CrewMember::_HS_PowerReady()
 {
     auto ex = CM_EX(this);
 
-    auto readyState = ex->PowerReady();
-
-    return readyState == PowerReadyState::POWER_READY;
+    if (ex->crewPowers.empty())
+    {
+        return false;
+    }
+    else
+    {
+        return ex->crewPowers[0]->PowerReady() == PowerReadyState::POWER_READY;
+    }
 }
 
 void CrewMember::_HS_ResetPower()
 {
     auto ex = CM_EX(this);
-
     CustomCrewManager *custom = CustomCrewManager::GetInstance();
     auto def = custom->GetDefinition(this->species);
-    auto powerDef = ex->GetPowerDef();
 
-    auto jumpCooldown = powerDef->jumpCooldown;
-
-    if (jumpCooldown == ActivatedPowerDefinition::JUMP_COOLDOWN_FULL)
+    if (!ex->crewPowers.empty())
     {
-        ex->powerCooldown.first = ex->powerCooldown.second;
-    }
-    else if (jumpCooldown == ActivatedPowerDefinition::JUMP_COOLDOWN_RESET)
-    {
-        ex->powerCooldown.first = 0;
-    }
+        // Calculate modified stats from stat boosts
+        ex->CalculateStat(CrewStat::POWER_CHARGES_PER_JUMP, def);
 
-    ex->powerCharges.first = std::min(ex->powerCharges.second, ex->powerCharges.first + (int)ex->CalculateStat(CrewStat::POWER_CHARGES_PER_JUMP, def));
+        // Update properties
+        for (ActivatedPower *power : ex->crewPowers)
+        {
+            // Update cooldown
+            if (power->def->jumpCooldown == ActivatedPowerDefinition::JUMP_COOLDOWN_FULL)
+            {
+                power->powerCooldown.first = power->powerCooldown.second;
+            }
+            else if (power->def->jumpCooldown == ActivatedPowerDefinition::JUMP_COOLDOWN_RESET)
+            {
+                power->powerCooldown.first = 0;
+            }
+
+            // Update charges
+            power->powerCharges.first = std::min(power->powerCharges.second, power->powerCharges.first + (int)power->modifiedChargesPerJump);
+        }
+    }
 }
 
-// To be used by AI only
+// To be used by AI only: vanilla activation (will activate first ability)
 void CrewMember::_HS_ActivatePower()
 {
     if (this->GetPowerOwner() == 1)
     {
-        CM_EX(this)->PreparePower();
+        auto ex = CM_EX(this);
+
+        if (!ex->crewPowers.empty())
+        {
+            ex->crewPowers[0]->PreparePower();
+        }
     }
 }
 

@@ -394,12 +394,7 @@ struct CrewDefinition
 
     ExplosionDefinition explosionDef;
 
-    //ActivatedPowerDefinition powerDef;
     unsigned int powerDefIdx = 0;
-    ActivatedPowerDefinition* GetPowerDef() const
-    {
-        return &ActivatedPowerDefinition::powerDefs[powerDefIdx];
-    }
 
     std::vector<StatBoostDefinition*> passiveStatBoosts;
 
