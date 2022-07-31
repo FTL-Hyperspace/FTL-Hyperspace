@@ -256,6 +256,12 @@ HOOK_STATIC(ProjectileFactory, LoadProjectile, (int fh) -> Projectile*)
     LOG_HOOK("HOOK_STATIC -> ProjectileFactory::LoadProjectile -> Begin (CustomDamage.cpp)\n")
     Projectile *ret = super(fh);
 
+    if (!ret)
+    {
+        hs_log_file("ProjectileFactory::LoadProjectile failed!");
+        return ret;
+    }
+
     Projectile_Extend *ex = PR_EX(ret);
 
     ex->customDamage.sourceShipId = ret->ownerId;

@@ -119,6 +119,7 @@ public:
         if (variant == 0) return a;
         if (variant == 1) return b;
         if (variant == 2) return c;
+        return nullptr;
     }
 
     int GetPage()
@@ -319,6 +320,7 @@ public:
         if (type == 0) return std::count_if(shipButtonDefs.begin(), shipButtonDefs.end(), [](ShipButtonDefinition i) { return i.typeA; } );
         if (type == 1) return std::count_if(shipButtonDefs.begin(), shipButtonDefs.end(), [](ShipButtonDefinition i) { return i.typeB; } );
         if (type == 2) return std::count_if(shipButtonDefs.begin(), shipButtonDefs.end(), [](ShipButtonDefinition i) { return i.typeC; } );
+        return 0;
     }
 
     bool IsCustomShip(const std::string& id)

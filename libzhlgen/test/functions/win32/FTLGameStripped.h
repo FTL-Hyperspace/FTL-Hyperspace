@@ -109,6 +109,7 @@ struct VTable_CrewTarget;
 struct VTable_Drone;
 struct VTable_SpaceDrone;
 struct VTable_Targetable;
+struct VTable_Collideable;
 
 /* 1 */
 struct Globals
@@ -2792,10 +2793,26 @@ struct Targetable
   bool targeted;
 };
 
+struct VTable_Collideable
+{
+  void (__thiscall *Free)(Collideable *);
+  CollisionResponse (__thiscall *CollisionMoving)(Collideable *, Pointf start, Pointf finish, Damage damage, bool raytrace);
+  bool (__thiscall *DamageBeam)(Collideable *, Pointf current, Pointf last, Damage damage);
+  bool (__thiscall *DamageArea)(Collideable *, Pointf location, Damage damage, bool forceHit);
+  bool (__thiscall *DamageShield)(Collideable *, Pointf location, Damage damage, bool forceHit);
+  bool (__thiscall *GetDodged)(Collideable *);
+  Pointf (__thiscall *GetSuperShield)(Collideable *);
+  void (__thiscall *SetTempVision)(Collideable *, Pointf location);
+  int (__thiscall *GetSpaceId)(Collideable *);
+  int (__thiscall *GetSelfId)(Collideable *);
+  int (__thiscall *GetOwnerId)(Collideable *);
+  bool (__thiscall *ValidTargetLocation)(Collideable *, Pointf location);
+};
+
 /* 313 */
 struct Collideable
 {
-  void *vptr;
+  VTable_Collideable *_vtable;
 };
 
 /* 710 */
@@ -3714,7 +3731,7 @@ struct VTable_SpaceDrone
   int (__thiscall *GetSelfId)(SpaceDrone *);
   static CollisionResponse *(__stdcall *CollisionMoving)(CollisionResponse *ret, SpaceDrone *drone, Pointf pos1, Pointf pos2, Damage damage, bool unk);
   bool (__thiscall *DamageBeam)(SpaceDrone *, Pointf pos1, Pointf pos2, Damage damage);
-  void (__thiscall *DamageArea)(SpaceDrone *, Pointf pos, Damage damage, bool unk);
+  bool (__thiscall *DamageArea)(SpaceDrone *, Pointf pos, Damage damage, bool unk);
   BoarderDrone *(__thiscall *GetBoardingDrone)(SpaceDrone *);
 };
 
@@ -3833,9 +3850,34 @@ struct BossShip
   int nextStage;
 };
 
+struct VTable_Projectile
+{
+  void (__thiscall *SetWeaponAnimation)(Projectile *, WeaponAnimation *animation);
+  void (__thiscall *OnRenderSpecific)(Projectile *, int spaceId);
+  void (__thiscall *CollisionCheck)(Projectile *, Collideable *object);
+  void (__thiscall *OnUpdate)(Projectile *);
+  Pointf (__thiscall *GetWorldCenterPoint)(Projectile *);
+  Pointf (__thiscall *GetRandomTargettingPoint)(Projectile *, bool valuable);
+  void (__thiscall *ComputeHeading)(Projectile *);
+  void (__thiscall *SetDestinationSpace)(Projectile *, int space);
+  void (__thiscall *EnterDestinationSpace)(Projectile *);
+  bool (__thiscall *Dead)(Projectile *);
+  bool (__thiscall *ValidTarget)(Projectile *);
+  void (__thiscall *Kill)(Projectile *);
+  Pointf (__thiscall *GetSpeed)(Projectile *);
+  void (__thiscall *SetDamage)(Projectile *, Damage damage);
+  int (__thiscall *ForceRenderLayer)(Projectile *);
+  void (__thiscall *SetSpin)(Projectile *, float spin);
+  void (__thiscall *SaveProjectile)(Projectile *, int fd);
+  void (__thiscall *LoadProjectile)(Projectile *, int fd);
+  int (__thiscall *GetType)(Projectile *);
+  void (__thiscall *SetMovingTarget)(Projectile *, Targetable *target);
+};
+
 /* 171 */
 struct Projectile
 {
+  VTable_Projectile *_vtable;
   Collideable _base;
   Targetable _targetable;
   Pointf position;
