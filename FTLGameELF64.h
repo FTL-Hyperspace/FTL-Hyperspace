@@ -6824,7 +6824,7 @@ struct SoundControl;
 
 struct SoundControl
 {
-	LIBZHL_API int PlaySoundMix(const std::string &soundName, float volume, char loop);
+	LIBZHL_API int PlaySoundMix(const std::string &soundName, float volume, bool loop);
 	LIBZHL_API void StartPlaylist(std::vector<std::string> &playlist);
 	LIBZHL_API void StopPlaylist(int fadeOut);
 	

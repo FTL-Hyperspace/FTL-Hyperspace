@@ -14646,13 +14646,13 @@ namespace _func1057
 {
 	static void *func = 0;
 	static short argdata[] = {0x101, 0x1ff, 0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("SoundControl::PlaySoundMix", typeid(int (SoundControl::*)(const std::string &, float , char )), "578d7c240883e4f0ff77fc5589e557565331db81ec????????8039008b07f30f104704f30f11458889458c74??80b9b80000000075??", argdata, 4, 1, &func);
+	static FunctionDefinition funcObj("SoundControl::PlaySoundMix", typeid(int (SoundControl::*)(const std::string &, float , bool )), "578d7c240883e4f0ff77fc5589e557565331db81ec????????8039008b07f30f104704f30f11458889458c74??80b9b80000000075??", argdata, 4, 1, &func);
 }
 
-int SoundControl::PlaySoundMix(const std::string &soundName, float volume, char loop)
+int SoundControl::PlaySoundMix(const std::string &soundName, float volume, bool loop)
 {
-	typedef int __attribute__((thiscall)) (*custom_arg_funcptr_t)(SoundControl *this_arg, const std::string &soundName_arg, float volume_arg, char loop_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1057::func;
+	typedef int __attribute__((thiscall)) (*custom_arg_funcptr_t)(SoundControl *this_arg, const std::string &soundName_arg, float volume_arg, bool loop_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func1071::func;
 	return execfunc(this, soundName, volume, loop);
 }
 
