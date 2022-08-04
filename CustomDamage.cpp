@@ -902,6 +902,7 @@ HOOK_METHOD(SpaceManager, OnRenderProjectiles, (int iShipId, int layerCommand) -
 
 HOOK_METHOD(PDSFire, constructor, (Point pos, int destinationSpace, Pointf destination) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> PDSFire::constructor -> Begin (CustomDamage.cpp)\n")
     super(pos, destinationSpace, destination);
 
     currentScale = 1.f; // fixes uninitialized scale
