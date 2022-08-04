@@ -1299,9 +1299,14 @@ struct ArtillerySystem : ShipSystem
 	bool bCloaked;
 };
 
-struct Collideable
+struct Collideable;
+
+struct CollisionResponse
 {
-	void *vptr;
+	int collision_type;
+	Pointf point;
+	int damage;
+	int superDamage;
 };
 
 struct Damage
@@ -1343,6 +1348,22 @@ struct Damage
 	int iStun;
 };
 
+struct LIBZHL_INTERFACE Collideable
+{
+	virtual ~Collideable() {}
+	virtual CollisionResponse CollisionMoving(Pointf start, Pointf finish, Damage damage, bool raytrace) LIBZHL_PLACEHOLDER
+	virtual bool DamageBeam(Pointf current, Pointf last, Damage damage) LIBZHL_PLACEHOLDER
+	virtual bool DamageArea(Pointf location, Damage damage, bool forceHit) LIBZHL_PLACEHOLDER
+	virtual bool DamageShield(Pointf location, Damage damage, bool forceHit) LIBZHL_PLACEHOLDER
+	virtual bool GetDodged() LIBZHL_PLACEHOLDER
+	virtual Pointf GetSuperShield() LIBZHL_PLACEHOLDER
+	virtual void SetTempVision(Pointf location) LIBZHL_PLACEHOLDER
+	virtual int GetSpaceId() LIBZHL_PLACEHOLDER
+	virtual int GetSelfId() LIBZHL_PLACEHOLDER
+	virtual int GetOwnerId() LIBZHL_PLACEHOLDER
+	virtual bool ValidTargetLocation(Pointf location) LIBZHL_PLACEHOLDER
+};
+
 struct Projectile;
 
 struct ShieldPower
@@ -1375,10 +1396,28 @@ struct LIBZHL_INTERFACE Targetable
 	bool targeted;
 };
 
-struct Projectile : Collideable
+struct LIBZHL_INTERFACE Projectile : Collideable
 {
-	LIBZHL_API void CollisionCheck(Collideable *other);
-	LIBZHL_API int ForceRenderLayer();
+	virtual void SetWeaponAnimation(WeaponAnimation &animation) LIBZHL_PLACEHOLDER
+	virtual void OnRenderSpecific(int spaceId) LIBZHL_PLACEHOLDER
+	LIBZHL_API virtual void CollisionCheck(Collideable *other);
+	virtual void OnUpdate() LIBZHL_PLACEHOLDER
+	virtual Pointf GetWorldCenterPoint() LIBZHL_PLACEHOLDER
+	virtual Pointf GetRandomTargettingPoint(bool valuable) LIBZHL_PLACEHOLDER
+	virtual void ComputeHeading() LIBZHL_PLACEHOLDER
+	virtual void SetDestinationSpace(int space) LIBZHL_PLACEHOLDER
+	virtual void EnterDestinationSpace() LIBZHL_PLACEHOLDER
+	virtual bool Dead() LIBZHL_PLACEHOLDER
+	virtual bool ValidTarget() LIBZHL_PLACEHOLDER
+	virtual void Kill() LIBZHL_PLACEHOLDER
+	virtual Pointf GetSpeed() LIBZHL_PLACEHOLDER
+	virtual void SetDamage(Damage damage) LIBZHL_PLACEHOLDER
+	LIBZHL_API virtual int ForceRenderLayer();
+	virtual void SetSpin(float spin) LIBZHL_PLACEHOLDER
+	virtual void SaveProjectile(int fd) LIBZHL_PLACEHOLDER
+	virtual void LoadProjectile(int fd) LIBZHL_PLACEHOLDER
+	virtual int GetType() LIBZHL_PLACEHOLDER
+	virtual void SetMovingTarget(Targetable *target) LIBZHL_PLACEHOLDER
 	LIBZHL_API void Initialize(const WeaponBlueprint &bp);
 	LIBZHL_API void constructor(Pointf position, int ownerId, int targetId, Pointf target);
 	LIBZHL_API void destructor();
@@ -2308,15 +2347,6 @@ struct BattleDrone : CrewDrone
 };
 
 struct BeamWeapon;
-struct Collideable;
-
-struct CollisionResponse
-{
-	int collision_type;
-	Pointf point;
-	int damage;
-	int superDamage;
-};
 
 struct BeamWeapon : Projectile
 {
@@ -2576,11 +2606,10 @@ struct LIBZHL_INTERFACE SpaceDrone : Drone
 	virtual Pointf GetSpeed() LIBZHL_PLACEHOLDER
 	virtual int GetOwnerId() LIBZHL_PLACEHOLDER
 	virtual int GetSelfId() LIBZHL_PLACEHOLDER
-	virtual CollisionResponse *CollisionMoving(SpaceDrone *drone, Pointf pos1, Pointf pos2, Damage damage, bool unk) LIBZHL_PLACEHOLDER
+	LIBZHL_API virtual CollisionResponse CollisionMoving(Pointf start, Pointf finish, Damage damage, bool raytrace);
 	virtual bool DamageBeam(Pointf pos1, Pointf pos2, Damage damage) LIBZHL_PLACEHOLDER
 	virtual bool DamageArea(Pointf pos, Damage damage, bool unk) LIBZHL_PLACEHOLDER
 	virtual BoarderDrone *GetBoardingDrone() LIBZHL_PLACEHOLDER
-	LIBZHL_API CollisionResponse CollisionMoving(Pointf start, Pointf finish, Damage damage, bool raytrace);
 	LIBZHL_API virtual void SetDeployed(bool deployed);
 	LIBZHL_API float UpdateAimingAngle(Pointf location, float percentage, float forceDesired);
 	

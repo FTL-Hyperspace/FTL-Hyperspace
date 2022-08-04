@@ -275,6 +275,16 @@ struct CFPS
 //%rename("%s") SpaceManager::SwitchImages;
 %rename("%s") SpaceManager::SwitchPlanet; // Could be useful for rendering planet animations
 %rename("%s") SpaceManager::UpdatePlanetImage; // Maybe needed if planet texture is messed with directly and then this updates the cached image?
+%rename("%s") SpaceManager::UpdateProjectile;
+
+// hyperspace projectile creation methods
+%rename("%s") SpaceManager::CreateLaserBlast;
+%rename("%s") SpaceManager::CreateAsteroid;
+%rename("%s") SpaceManager::CreateMissile;
+%rename("%s") SpaceManager::CreateBomb;
+%rename("%s") SpaceManager::CreateBeam;
+%rename("%s") SpaceManager::CreateBurstProjectile;
+%rename("%s") SpaceManager::CreatePDSFire;
 
 %rename("%s") SpaceManager::projectiles;
 %immutable SpaceManager::projectiles;
@@ -1191,8 +1201,8 @@ struct CFPS
 
 %rename("%s") Projectile::SetWeaponAnimation; // does nothing except for beams, used to link weapon animation to beam progress
 %rename("%s") Projectile::OnRenderSpecific; // virtual method for rendering the specific projectile
-%rename("%s") Projectile::CollisionCheck; // checks if this object is colliding with other object, calls CollisionMoving
-%rename("%s") Projectile::OnUpdate; // updates the projectile position by one frame
+%rename("CollisionCheck") Projectile::HS_CollisionCheck; // checks if this object is colliding with other object, calls CollisionMoving
+%rename("OnUpdate") Projectile::HS_OnUpdate; // updates the projectile position by one frame
 %rename("%s") Projectile::GetWorldCenterPoint; // returns the position of the projectile
 %rename("%s") Projectile::GetRandomTargettingPoint; // returns the position of the projectile
 %rename("%s") Projectile::ComputeHeading; // calculates the correct heading to get from its current position to the target point
@@ -1216,6 +1226,8 @@ struct CFPS
 %rename("%s") Projectile::RenderSidePoint; // picks a random side point (e.g. for missed ASB)
 %rename("%s") Projectile::SetTarget; // sets a new target point and changes the heading, in vanilla only really used when generating asteroids
 %rename("%s") Projectile::StartedDeath; // checks if the projectile has started its death, but also changes it to false if it has, in vanilla only used for checking when crew lasers should do damage
+
+%rename("%s") Projectile::RandomSidePoint; // static method
 
 %rename("%s") Projectile::_targetable; //todo: abstract away _targetable
 %rename("%s") Projectile::position;
@@ -1245,6 +1257,70 @@ struct CFPS
 %rename("%s") Projectile::bBroadcastTarget;
 %rename("%s") Projectile::flashTracker;
 %rename("%s") Projectile::color;
+
+%nodefaultctor LaserBlast;
+%rename("%s") LaserBlast;
+%rename("%s") LaserBlast::LaserBlast;
+%rename("%s") LaserBlast::movingTarget;
+%rename("%s") LaserBlast::spinAngle;
+%rename("%s") LaserBlast::spinSpeed;
+
+%nodefaultctor Asteroid;
+%rename("%s") Asteroid;
+%rename("%s") Asteroid::Asteroid;
+%rename("%s") Asteroid::imageId;
+%rename("%s") Asteroid::angle;
+
+%nodefaultctor Missile;
+%rename("%s") Missile;
+%rename("%s") Missile::Missile;
+
+%nodefaultctor BombProjectile;
+%rename("%s") BombProjectile;
+%rename("%s") BombProjectile::BombProjectile;
+%rename("%s") BombProjectile::bMissed;
+%rename("%s") BombProjectile::missMessage;
+%rename("%s") BombProjectile::explosiveDelay;
+%rename("%s") BombProjectile::bSuperShield;
+%rename("%s") BombProjectile::superShieldBypass;
+
+%nodefaultctor BeamWeapon;
+%rename("%s") BeamWeapon;
+%rename("%s") BeamWeapon::BeamWeapon;
+%rename("%s") BeamWeapon::sub_end;
+%rename("%s") BeamWeapon::sub_start;
+%rename("%s") BeamWeapon::shield_end;
+%rename("%s") BeamWeapon::final_end;
+%rename("%s") BeamWeapon::target2;
+%rename("%s") BeamWeapon::target1;
+%rename("%s") BeamWeapon::lifespan;
+%rename("%s") BeamWeapon::length;
+%rename("%s") BeamWeapon::dh;
+%rename("%s") BeamWeapon::last_collision;
+%rename("%s") BeamWeapon::soundChannel;
+%rename("%s") BeamWeapon::contactAnimations;
+%rename("%s") BeamWeapon::animationTimer;
+%rename("%s") BeamWeapon::lastDamage;
+%rename("%s") BeamWeapon::movingTarget;
+%rename("%s") BeamWeapon::start_heading;
+%rename("%s") BeamWeapon::timer;
+%rename("%s") BeamWeapon::weapAnimation;
+%rename("%s") BeamWeapon::piercedShield;
+%rename("%s") BeamWeapon::oneSpace;
+%rename("%s") BeamWeapon::bDamageSuperShield;
+%rename("%s") BeamWeapon::movingTargetId;
+%rename("%s") BeamWeapon::checkedCollision;
+%rename("%s") BeamWeapon::smokeAnims;
+%rename("%s") BeamWeapon::lastSmokeAnim;
+
+%nodefaultctor PDSFire;
+%rename("%s") PDSFire;
+%rename("%s") PDSFire::PDSFire;
+%rename("%s") PDSFire::startPoint;
+%rename("%s") PDSFire::passedTarget;
+%rename("%s") PDSFire::currentScale;
+%rename("%s") PDSFire::missed;
+%rename("%s") PDSFire::explosionAnimation;
 
 %rename("%s") AnimationTracker;
 %rename("%s") AnimationTracker::GetAlphaLevel;

@@ -5,6 +5,8 @@
 #include "ShipManager_Extend.h"
 #include <boost/lexical_cast.hpp>
 
+#include "swigluarun.h"
+
 CustomDamage* CustomDamageManager::currentWeaponDmg = nullptr;
 Projectile* CustomDamageManager::currentProjectile = nullptr;
 
@@ -180,8 +182,255 @@ HOOK_METHOD(ShipManager, CollisionMoving, (Pointf start, Pointf finish, Damage d
     return super(start, finish, damage, raytrace);
 }
 
+HOOK_STATIC(ProjectileFactory, LoadProjectile, (int fh) -> Projectile*)
+{
+    LOG_HOOK("HOOK_STATIC -> ProjectileFactory::LoadProjectile -> Begin (CustomDamage.cpp)\n")
+    Projectile *ret = super(fh);
 
-//rewrite
+    if (!ret)
+    {
+        hs_log_file("ProjectileFactory::LoadProjectile failed!");
+        return ret;
+    }
+
+    Projectile_Extend *ex = PR_EX(ret);
+
+    ex->customDamage.sourceShipId = ret->ownerId;
+
+    ex->customDamage.def = CustomDamageDefinition::customDamageDefs.at(FileHelper::readInteger(fh));
+    ex->customDamage.accuracyMod = FileHelper::readInteger(fh);
+    ex->customDamage.droneAccuracyMod = FileHelper::readInteger(fh);
+
+    int n = FileHelper::readInteger(fh);
+    for (int i=0; i<n; ++i)
+    {
+        ex->missedDrones.push_back(FileHelper::readInteger(fh));
+    }
+
+    return ret;
+}
+
+HOOK_STATIC(ProjectileFactory, SaveProjectile, (Projectile *p, int fh) -> void)
+{
+    LOG_HOOK("HOOK_STATIC -> ProjectileFactory::SaveProjectile -> Begin (CustomDamage.cpp)\n")
+    super(p, fh);
+
+    Projectile_Extend *ex = PR_EX(p);
+
+    FileHelper::writeInt(fh, ex->customDamage.def->idx);
+    FileHelper::writeInt(fh, ex->customDamage.accuracyMod);
+    FileHelper::writeInt(fh, ex->customDamage.droneAccuracyMod);
+
+    FileHelper::writeInt(fh, ex->missedDrones.size());
+    for (int i : ex->missedDrones)
+    {
+        FileHelper::writeInt(fh, i);
+    }
+}
+
+HOOK_METHOD(Projectile, Initialize, (WeaponBlueprint& bp) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> Projectile::Initialize -> Begin (CustomDamage.cpp)\n")
+    super(bp);
+
+    Projectile_Extend *ex = PR_EX(this);
+    ex->name = bp.name;
+
+    auto customWeapon = CustomWeaponManager::instance->GetWeaponDefinition(bp.name);
+    if (customWeapon)
+    {
+        CustomDamage &customDamage = ex->customDamage;
+        customDamage.def = customWeapon->customDamage;
+        customDamage.accuracyMod = customWeapon->customDamage->accuracyMod;
+        customDamage.droneAccuracyMod = customWeapon->customDamage->droneAccuracyMod;
+    }
+}
+
+HOOK_METHOD(SpaceManager, UpdateProjectile, (Projectile *projectile) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> SpaceManager::UpdateProjectile -> Begin (CustomDamage.cpp)\n")
+    // set temporary values (needed in case lua calls this from somewhere arbitrary)
+    CustomDamage *currentWeaponDmg = CustomDamageManager::currentWeaponDmg;
+    Projectile *currentProjectile = CustomDamageManager::currentProjectile;
+
+    // set the custom projectile damage pointers
+    CustomDamageManager::currentWeaponDmg = &PR_EX(projectile)->customDamage;
+    CustomDamageManager::currentWeaponDmg->sourceShipId = projectile->ownerId;
+    CustomDamageManager::currentProjectile = projectile;
+
+    // push projectile onto lua stack
+    auto context = Global::GetInstance()->getLuaContext();
+    SWIG_NewPointerObj(context->GetLua(), projectile, context->getLibScript()->types.pProjectile[projectile->GetType()], 0);
+
+    bool preempt = context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::PROJECTILE_PRE, 1, 0);
+
+    // Primary method for updating projectile
+    // First calls the projectile's Update method to update the projectile location
+    // Then loop over all potential collideable objects (both ships, all spacedrones, all projectiles), calling the projectile's CollisionCheck method against that object
+    if (!preempt) super(projectile);
+
+    // Push pre-empt onto the stack
+    lua_pushboolean(context->GetLua(), preempt);
+
+    context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::PROJECTILE_POST, 2, 0);
+
+    // pop projectile and pre-empt from the stack
+    lua_pop(context->GetLua(), 2);
+
+    // revert to temporary values
+    CustomDamageManager::currentWeaponDmg = currentWeaponDmg;
+    CustomDamageManager::currentProjectile = currentProjectile;
+}
+
+void Projectile::HS_OnUpdate()
+{
+    // set temporary values
+    CustomDamage *currentWeaponDmg = CustomDamageManager::currentWeaponDmg;
+    Projectile *currentProjectile = CustomDamageManager::currentProjectile;
+
+    // set the custom projectile damage pointers
+    CustomDamageManager::currentWeaponDmg = &PR_EX(this)->customDamage;
+    CustomDamageManager::currentWeaponDmg->sourceShipId = this->ownerId;
+    CustomDamageManager::currentProjectile = this;
+
+    // push projectile onto lua stack
+    auto context = Global::GetInstance()->getLuaContext();
+    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pProjectile[this->GetType()], 0);
+
+    // call the real OnUpdate (will call the virtual method)
+    this->OnUpdate();
+
+    // pop projectile from stack
+    lua_pop(context->GetLua(), 1);
+
+    // revert to temporary values
+    CustomDamageManager::currentWeaponDmg = currentWeaponDmg;
+    CustomDamageManager::currentProjectile = currentProjectile;
+}
+
+HOOK_METHOD(Projectile, OnUpdate, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> Projectile::OnUpdate -> Begin (CustomDamage.cpp)\n")
+    // when this method is called, the projectile should already be on the Lua stack
+
+    auto context = Global::GetInstance()->getLuaContext();
+    bool preempt = context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::PROJECTILE_UPDATE_PRE, 1, 0);
+
+    if (!preempt) super();
+
+    lua_pushboolean(context->GetLua(), preempt);
+    context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::PROJECTILE_UPDATE_POST, 2, 0);
+    lua_pop(context->GetLua(), 1);
+}
+
+HOOK_METHOD(LaserBlast, OnUpdate, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> LaserBlast::OnUpdate -> Begin (CustomDamage.cpp)\n")
+    // when this method is called, the projectile should already be on the Lua stack
+
+    auto context = Global::GetInstance()->getLuaContext();
+    bool preempt = context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::PROJECTILE_UPDATE_PRE, 1, 0);
+
+    if (!preempt) super();
+
+    lua_pushboolean(context->GetLua(), preempt);
+    context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::PROJECTILE_UPDATE_POST, 2, 0);
+    lua_pop(context->GetLua(), 1);
+}
+
+HOOK_METHOD(Asteroid, OnUpdate, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> Asteroid::OnUpdate -> Begin (CustomDamage.cpp)\n")
+    // when this method is called, the projectile should already be on the Lua stack
+
+    auto context = Global::GetInstance()->getLuaContext();
+    bool preempt = context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::PROJECTILE_UPDATE_PRE, 1, 0);
+
+    if (!preempt) super();
+
+    lua_pushboolean(context->GetLua(), preempt);
+    context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::PROJECTILE_UPDATE_POST, 2, 0);
+    lua_pop(context->GetLua(), 1);
+}
+
+HOOK_METHOD(BombProjectile, OnUpdate, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> BombProjectile::OnUpdate -> Begin (CustomDamage.cpp)\n")
+    // when this method is called, the projectile should already be on the Lua stack
+
+    auto context = Global::GetInstance()->getLuaContext();
+    bool preempt = context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::PROJECTILE_UPDATE_PRE, 1, 0);
+
+    if (!preempt) super();
+
+    lua_pushboolean(context->GetLua(), preempt);
+    context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::PROJECTILE_UPDATE_POST, 2, 0);
+    lua_pop(context->GetLua(), 1);
+}
+
+HOOK_METHOD(BeamWeapon, OnUpdate, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> BeamWeapon::OnUpdate -> Begin (CustomDamage.cpp)\n")
+    // when this method is called, the projectile should already be on the Lua stack
+
+    auto context = Global::GetInstance()->getLuaContext();
+    bool preempt = context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::PROJECTILE_UPDATE_PRE, 1, 0);
+
+    if (!preempt) super();
+
+    lua_pushboolean(context->GetLua(), preempt);
+    context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::PROJECTILE_UPDATE_POST, 2, 0);
+    lua_pop(context->GetLua(), 1);
+}
+
+HOOK_METHOD(PDSFire, OnUpdate, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> PDSFire::OnUpdate -> Begin (CustomDamage.cpp)\n")
+    // when this method is called, the projectile should already be on the Lua stack
+
+    auto context = Global::GetInstance()->getLuaContext();
+    bool preempt = context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::PROJECTILE_UPDATE_PRE, 1, 0);
+
+    if (!preempt) super();
+
+    lua_pushboolean(context->GetLua(), preempt);
+    context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::PROJECTILE_UPDATE_POST, 2, 0);
+    lua_pop(context->GetLua(), 1);
+}
+
+// Collision check performs the following actions:
+// 1. Checks if the projectile should be able to collide with the target object.
+// 2. Calls CollisionMoving using the last and current position, damage, and raytrace flag.
+// 3. Perform actions based on the collision response (inflict damage to the ship, play sounds, kill projectile, etc.).
+// Note: The actual check of hitting the target point is in CollisionCheck itself, not CollisionMoving
+
+// CollisionMoving performs the following actions:
+// 1. Determines the collision response.
+// 2. Other effects occur (destroy a hit projectile, stun or destroy a drone, shield system damage through shield (ion damage/stun)).
+// 3. Misses against a cloaked ship will have damage tallied for the cloaking achievement.
+// 4. When against the ship, CollisionShield is used for checking the shield collision. Shield damage also happens in this method.
+// CollisionResponse has a type (0 = no collision, 1 = solid collision, 2 = shield collision, 3 = missed ship), point (where the collision happened), damage (how many shields, determine whether to pierce) and superDamage (for zoltan shield)
+
+void Projectile::HS_CollisionCheck(Collideable *other)
+{
+    // set temporary values
+    CustomDamage *currentWeaponDmg = CustomDamageManager::currentWeaponDmg;
+    Projectile *currentProjectile = CustomDamageManager::currentProjectile;
+
+    // set the custom projectile damage pointers
+    CustomDamageManager::currentWeaponDmg = &PR_EX(this)->customDamage;
+    CustomDamageManager::currentWeaponDmg->sourceShipId = this->ownerId;
+    CustomDamageManager::currentProjectile = this;
+
+    // call the real CollisionCheck (will call the virtual method)
+    this->CollisionCheck(other);
+
+    // revert to temporary values
+    CustomDamageManager::currentWeaponDmg = currentWeaponDmg;
+    CustomDamageManager::currentProjectile = currentProjectile;
+}
+
+//rewrite, also added lua stuff
 HOOK_METHOD_PRIORITY(SpaceDrone, CollisionMoving, 9999, (Pointf start, Pointf finish, Damage damage, bool raytrace) -> CollisionResponse)
 {
     LOG_HOOK("HOOK_METHOD_PRIORITY -> SpaceDrone::CollisionMoving -> Begin (CustomDamage.cpp)\n")
@@ -248,118 +497,408 @@ HOOK_METHOD_PRIORITY(SpaceDrone, CollisionMoving, 9999, (Pointf start, Pointf fi
         }
     }
 
+    if (ret.collision_type == 1) // hit
+    {
+        // push everything to the lua stack: Drone, Projectile, Damage, CollisionResponse
+        auto context = Global::GetInstance()->getLuaContext();
+        SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pSpaceDroneTypes[this->type], 0);
+        if (CustomDamageManager::currentProjectile)
+        {
+            SWIG_NewPointerObj(context->GetLua(), CustomDamageManager::currentProjectile, context->getLibScript()->types.pProjectile[CustomDamageManager::currentProjectile->GetType()], 0);
+        }
+        else
+        {
+            lua_pushnil(context->GetLua());
+        }
+        SWIG_NewPointerObj(context->GetLua(), &damage, context->getLibScript()->types.pDamage, 0);
+        SWIG_NewPointerObj(context->GetLua(), &ret, context->getLibScript()->types.pCollisionResponse, 0);
+
+        // check drone-projectile collision callbacks
+        bool preempt = context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::DRONE_COLLISION, 4, 0);
+
+        // pop the stack
+        lua_pop(context->GetLua(), 4);
+
+        if (preempt) // a pre-empt will block the damage effect on the drone - script can also set collision type to 0 to prevent projectile death
+        {
+            return ret;
+        }
+
+        if (damage.iIonDamage > 0) // if ion damage then stun the drone
+        {
+            if (this->powered)
+            {
+                this->ionStun = damage.iIonDamage * 5;
+            }
+            return ret;
+        }
+        if (damage.iDamage > 0) // if no ion damage then normal damage blows up the drone
+        {
+            this->BlowUp(false);
+        }
+    }
+
     return ret;
 }
 
-HOOK_STATIC(ProjectileFactory, LoadProjectile, (int fh) -> Projectile*)
+// rewrite, base class method was inlined
+HOOK_METHOD_PRIORITY(BoarderPodDrone, CollisionMoving, 9999, (Pointf start, Pointf finish, Damage damage, bool raytrace) -> CollisionResponse)
 {
-    LOG_HOOK("HOOK_STATIC -> ProjectileFactory::LoadProjectile -> Begin (CustomDamage.cpp)\n")
-    Projectile *ret = super(fh);
-
-    if (!ret)
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> BoarderPodDrone::CollisionMoving -> Begin (CustomDamage.cpp)\n")
+    if (bDeliveredDrone)
     {
-        hs_log_file("ProjectileFactory::LoadProjectile failed!");
+        CollisionResponse ret = CollisionResponse();
+        ret.collision_type = 0;
+        ret.point = {-2147483648.f, -2147483648.f};
+        ret.damage = 0;
+        ret.superDamage = 0;
         return ret;
     }
 
-    Projectile_Extend *ex = PR_EX(ret);
+    return this->SpaceDrone::CollisionMoving(start, finish, damage, raytrace);
+}
 
-    ex->customDamage.sourceShipId = ret->ownerId;
+// rewrite, vanilla implementation was spaghetti code
+HOOK_METHOD_PRIORITY(HackingDrone, CollisionMoving, 9999, (Pointf start, Pointf finish, Damage damage, bool raytrace) -> CollisionResponse)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> HackingDrone::CollisionMoving -> Begin (CustomDamage.cpp)\n")
+    CollisionResponse ret;
 
-    ex->customDamage.def = CustomDamageDefinition::customDamageDefs.at(FileHelper::readInteger(fh));
-    ex->customDamage.accuracyMod = FileHelper::readInteger(fh);
-    ex->customDamage.droneAccuracyMod = FileHelper::readInteger(fh);
-
-    int n = FileHelper::readInteger(fh);
-    for (int i=0; i<n; ++i)
+    if (explosion.tracker.running || arrived)
     {
-        ex->missedDrones.push_back(FileHelper::readInteger(fh));
+        ret = CollisionResponse();
+        ret.collision_type = 0;
+        ret.point = {-2147483648.f, -2147483648.f};
+        ret.damage = 0;
+        ret.superDamage = 0;
+        return ret;
+    }
+
+    ret = this->SpaceDrone::CollisionMoving(start, finish, damage, raytrace);
+    this->bDead = false; // vanilla does something like this for some reason
+}
+
+HOOK_METHOD(Projectile, CollisionMoving, (Pointf start, Pointf finish, Damage damage, bool raytrace) -> CollisionResponse)
+{
+    LOG_HOOK("HOOK_METHOD -> Projectile::CollisionMoving -> Begin (CustomDamage.cpp)\n")
+    CollisionResponse ret = super(start, finish, damage, raytrace);
+
+    if (ret.collision_type == 1) // hit
+    {
+        // push everything to the lua stack: this Projectile, Projectile, Damage, CollisionResponse
+        auto context = Global::GetInstance()->getLuaContext();
+        SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pProjectile[this->GetType()], 0);
+        if (CustomDamageManager::currentProjectile)
+        {
+            SWIG_NewPointerObj(context->GetLua(), CustomDamageManager::currentProjectile, context->getLibScript()->types.pProjectile[CustomDamageManager::currentProjectile->GetType()], 0);
+        }
+        else
+        {
+            lua_pushnil(context->GetLua());
+        }
+        SWIG_NewPointerObj(context->GetLua(), &damage, context->getLibScript()->types.pDamage, 0);
+        SWIG_NewPointerObj(context->GetLua(), &ret, context->getLibScript()->types.pCollisionResponse, 0);
+
+        // check projectile-projectile collision callbacks
+        bool preempt = context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::PROJECTILE_COLLISION, 4, 0);
+
+        // pop the stack
+        lua_pop(context->GetLua(), 4);
+
+        if (preempt) // a pre-empt will prevent this projectile from dying, user can set collision response type to 0 to prevent other projectile from dying
+        {
+            death_animation.tracker.running = false;
+            startedDeath = false;
+        }
     }
 
     return ret;
 }
 
-HOOK_STATIC(ProjectileFactory, SaveProjectile, (Projectile *p, int fh) -> void)
+HOOK_METHOD_PRIORITY(ShipManager, CollisionShield, 9999, (Pointf start, Pointf finish, Damage damage, bool raytrace) -> CollisionResponse)
 {
-    LOG_HOOK("HOOK_STATIC -> ProjectileFactory::SaveProjectile -> Begin (CustomDamage.cpp)\n")
-    super(p, fh);
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::CollisionShield -> Begin (CustomDamage.cpp)\n")
+    CollisionResponse ret;
 
-    Projectile_Extend *ex = PR_EX(p);
-
-    FileHelper::writeInt(fh, ex->customDamage.def->idx);
-    FileHelper::writeInt(fh, ex->customDamage.accuracyMod);
-    FileHelper::writeInt(fh, ex->customDamage.droneAccuracyMod);
-
-    FileHelper::writeInt(fh, ex->missedDrones.size());
-    for (int i : ex->missedDrones)
+    if (shieldSystem)
     {
-        FileHelper::writeInt(fh, i);
+        CollisionResponse c1 = shieldSystem->CollisionTest(start.x, start.y, damage);
+        ret = shieldSystem->CollisionTest(finish.x, finish.y, damage);
+        if (c1.collision_type == 0 && ret.collision_type != 0) // collide
+        {
+            // push everything to the lua stack: ShipManager, Projectile, Damage, CollisionResponse
+            auto context = Global::GetInstance()->getLuaContext();
+            SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pShipManager, 0);
+            if (CustomDamageManager::currentProjectile)
+            {
+                SWIG_NewPointerObj(context->GetLua(), CustomDamageManager::currentProjectile, context->getLibScript()->types.pProjectile[CustomDamageManager::currentProjectile->GetType()], 0);
+            }
+            else
+            {
+                lua_pushnil(context->GetLua());
+            }
+            SWIG_NewPointerObj(context->GetLua(), &damage, context->getLibScript()->types.pDamage, 0);
+            SWIG_NewPointerObj(context->GetLua(), &ret, context->getLibScript()->types.pCollisionResponse, 0);
+
+            // check projectile-shield collision callbacks
+            bool preempt = context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::SHIELD_COLLISION_PRE, 4, 0);
+
+            if (!preempt) // pre-empt will prevent the shield from being affected by the damage
+            {
+                if (raytrace) // beam hit
+                {
+                    damage.iDamage = 0;
+                    shieldSystem->CollisionReal(finish.x, finish.y, damage, false);
+                }
+                else if (GetDodged()) // miss
+                {
+                    damMessages.push_back(new DamageMessage(1.f, finish, DamageMessage::MISS));
+                    ret.collision_type = 3;
+                    ret.point = {-2147483648.f, -2147483648.f};
+                    ret.damage = 0;
+                    ret.superDamage = 0;
+                }
+                else // hit
+                {
+                    ret = shieldSystem->CollisionReal(finish.x, finish.y, damage, false);
+                }
+            }
+
+            if (ret.collision_type == 2)
+            {
+                context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::SHIELD_COLLISION, 4, 0);
+            }
+
+            // pop the stack
+            lua_pop(context->GetLua(), 4);
+
+            return ret;
+        }
     }
+
+    ret.collision_type = 0;
+    ret.point = {-2147483648.f, -2147483648.f};
+    ret.damage = 0;
+    ret.superDamage = 0;
+    return ret;
 }
 
-HOOK_METHOD(Projectile, Initialize, (WeaponBlueprint& bp) -> void)
-{
-    LOG_HOOK("HOOK_METHOD -> Projectile::Initialize -> Begin (CustomDamage.cpp)\n")
-    super(bp);
 
-    auto customWeapon = CustomWeaponManager::instance->GetWeaponDefinition(bp.name);
-    if (customWeapon)
+
+LaserBlast* SpaceManager::CreateLaserBlast(WeaponBlueprint *weapon, Pointf position, int space, int ownerId, Pointf target, int targetSpace, float heading)
+{
+    LaserBlast *projectile = new LaserBlast(position, space, targetSpace, target);
+    projectile->ownerId = ownerId;
+
+    if (space == targetSpace)
     {
-        CustomDamage &customDamage = PR_EX(this)->customDamage;
-        customDamage.def = customWeapon->customDamage;
-        customDamage.accuracyMod = customWeapon->customDamage->accuracyMod;
-        customDamage.droneAccuracyMod = customWeapon->customDamage->droneAccuracyMod;
+        projectile->ComputeHeading();
     }
+    else
+    {
+        projectile->heading = heading;
+    }
+
+    projectile->OnInit();
+    projectile->Initialize(*weapon);
+
+    projectiles.push_back(projectile);
+
+    return projectile;
 }
 
-HOOK_METHOD(Projectile, CollisionCheck, (Collideable *other) -> void)
+Asteroid* SpaceManager::CreateAsteroid(Pointf position, int space, int ownerId, Pointf target, int targetSpace, float heading)
 {
-    LOG_HOOK("HOOK_METHOD -> Projectile::CollisionCheck -> Begin (CustomDamage.cpp)\n")
-    CustomDamageManager::currentWeaponDmg = &PR_EX(this)->customDamage;
-    CustomDamageManager::currentWeaponDmg->sourceShipId = ownerId;
-    CustomDamageManager::currentProjectile = this;
+    Asteroid *projectile = new Asteroid(position, space);
+    projectile->ownerId = ownerId;
+    projectile->destinationSpace = targetSpace;
+    projectile->target = target;
 
-    super(other);
+    if (space == targetSpace)
+    {
+        projectile->ComputeHeading();
+    }
+    else if (heading == -1.f)
+    {
+        projectile->heading = random32()%360;
+    }
+    else
+    {
+        projectile->heading = heading;
+    }
 
-    CustomDamageManager::currentWeaponDmg = nullptr;
-    CustomDamageManager::currentProjectile = nullptr;
+    projectile->hitSolidSound = "hitHull" + std::to_string((random32()%3)+1);
+    projectile->hitShieldSound = "hitShield" + std::to_string((random32()%3)+1);
+    projectile->missSound = "miss";
+
+    projectiles.push_back(projectile);
+
+    return projectile;
 }
 
-HOOK_METHOD(BeamWeapon, CollisionCheck, (Collideable *other) -> void)
+Missile* SpaceManager::CreateMissile(WeaponBlueprint *weapon, Pointf position, int space, int ownerId, Pointf target, int targetSpace, float heading)
 {
-    LOG_HOOK("HOOK_METHOD -> BeamWeapon::CollisionCheck -> Begin (CustomDamage.cpp)\n")
-    CustomDamageManager::currentWeaponDmg = &PR_EX(this)->customDamage;
-    CustomDamageManager::currentWeaponDmg->sourceShipId = ownerId;
-    CustomDamageManager::currentProjectile = this;
+    Missile *projectile = new Missile(position, space, targetSpace, target, heading);
+    projectile->ownerId = ownerId;
 
-    super(other);
+    projectile->Initialize(*weapon);
 
-    CustomDamageManager::currentWeaponDmg = nullptr;
-    CustomDamageManager::currentProjectile = nullptr;
+    projectiles.push_back(projectile);
+
+    return projectile;
 }
 
-HOOK_METHOD(BombProjectile, CollisionCheck, (Collideable *other) -> void)
+BombProjectile* SpaceManager::CreateBomb(WeaponBlueprint *weapon, int ownerId, Pointf target, int targetSpace)
 {
-    LOG_HOOK("HOOK_METHOD -> BombProjectile::CollisionCheck -> Begin (CustomDamage.cpp)\n")
-    CustomDamageManager::currentWeaponDmg = &PR_EX(this)->customDamage;
-    CustomDamageManager::currentWeaponDmg->sourceShipId = ownerId;
-    CustomDamageManager::currentProjectile = this;
+    BombProjectile *projectile = new BombProjectile({-2147483648.f, -2147483648.f}, 1-targetSpace, targetSpace, target);
+    projectile->ownerId = ownerId;
 
-    super(other);
+    projectile->Initialize(*weapon);
 
-    CustomDamageManager::currentWeaponDmg = nullptr;
-    CustomDamageManager::currentProjectile = nullptr;
+    projectiles.push_back(projectile);
+
+    return projectile;
 }
 
-HOOK_METHOD(PDSFire, CollisionCheck, (Collideable *other) -> void)
+BeamWeapon* SpaceManager::CreateBeam(WeaponBlueprint *weapon, Pointf position, int space, int ownerId, Pointf target1, Pointf target2, int targetSpace, int length, float heading)
 {
-    LOG_HOOK("HOOK_METHOD -> PDSFire::CollisionCheck -> Begin (CustomDamage.cpp)\n")
-    CustomDamageManager::currentWeaponDmg = &PR_EX(this)->customDamage;
-    CustomDamageManager::currentWeaponDmg->sourceShipId = ownerId;
-    CustomDamageManager::currentProjectile = this;
+    Targetable *movingTarget = nullptr;
+    ShipManager *targetShip = G_->GetShipManager(targetSpace);
+    if (targetShip) movingTarget = &targetShip->_targetable;
 
-    super(other);
+    BeamWeapon *projectile = new BeamWeapon(position, space, targetSpace, target1, target2, length, movingTarget, heading);
+    projectile->ownerId = ownerId;
 
-    CustomDamageManager::currentWeaponDmg = nullptr;
-    CustomDamageManager::currentProjectile = nullptr;
+    if (space == targetSpace)
+    {
+        projectile->ComputeHeading();
+    }
+    else if (heading == -1.f)
+    {
+        projectile->heading = random32()%360;
+    }
+    else
+    {
+        projectile->heading = heading;
+    }
+
+    projectile->entryAngle = random32()%360;
+
+    float theta = heading * 0.01745329f;
+    projectile->sub_end.x = position.x + 2000.f*cos(theta);
+    projectile->sub_end.y = position.y + 2000.f*sin(theta);
+
+    projectile->Initialize(*weapon);
+
+    projectiles.push_back(projectile);
+
+    return projectile;
+}
+
+LaserBlast* SpaceManager::CreateBurstProjectile(WeaponBlueprint *weapon, std::string &image, bool fake, Pointf position, int space, int ownerId, Pointf target, int targetSpace, float heading)
+{
+    LaserBlast *projectile = new LaserBlast(position, space, targetSpace, target);
+    projectile->ownerId = ownerId;
+
+    if (space == targetSpace)
+    {
+        projectile->ComputeHeading();
+    }
+    else
+    {
+        projectile->heading = heading;
+    }
+
+    projectile->OnInit();
+    projectile->Initialize(*weapon);
+
+    projectile->flight_animation = G_->GetAnimationControl()->GetAnimation(image);
+
+    if (fake)
+    {
+        projectile->damage.iDamage = 0;
+        projectile->damage.iShieldPiercing = 0;
+        projectile->damage.fireChance = 0;
+        projectile->damage.breachChance = 0;
+        projectile->damage.stunChance = 0;
+        projectile->damage.iIonDamage = 0;
+        projectile->damage.iSystemDamage = 0;
+        projectile->damage.iPersDamage = 0;
+        projectile->damage.bHullBuster = false;
+        projectile->damage.ownerId = -1;
+        projectile->damage.selfId = -1;
+        projectile->damage.bLockdown = false;
+        projectile->damage.crystalShard = false;
+        projectile->damage.bFriendlyFire = true;
+        projectile->damage.iStun = 0;
+        projectile->death_animation.fScale = 0.25;
+    }
+    else
+    {
+        projectile->bBroadcastTarget = ownerId == 0;
+    }
+
+    projectiles.push_back(projectile);
+
+    return projectile;
+}
+
+static std::vector<Animation> fakePdsSmokeAnims = {};
+PDSFire* SpaceManager::CreatePDSFire(WeaponBlueprint *weapon, Point position, Pointf target, int targetSpace, bool smoke)
+{
+    PDSFire *projectile = new PDSFire(position, targetSpace, target);
+
+    projectile->Initialize(*weapon);
+
+    projectiles.push_back(projectile);
+
+    if (smoke)
+    {
+        fakePdsSmokeAnims.emplace_back("effects/fire_smoke.png", 7, 1.f, Pointf(position.x-8.5f, position.y-8.5f), 238, 34, 0, -1);
+        fakePdsSmokeAnims.back().Start(true);
+    }
+
+    return projectile;
+}
+
+HOOK_METHOD(SpaceManager, OnLoop, () -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> SpaceManager::OnLoop -> Begin (CustomDamage.cpp)\n")
+
+    for (auto it=fakePdsSmokeAnims.begin(); it!=fakePdsSmokeAnims.end(); )
+    {
+        it->Update();
+        if (it->Done())
+        {
+            it = fakePdsSmokeAnims.erase(it);
+        }
+        else
+        {
+            ++it;
+        }
+    }
+
+    super();
+}
+
+HOOK_METHOD(SpaceManager, OnRenderProjectiles, (int iShipId, int layerCommand) -> void)
+{
+    LOG_HOOK("HOOK_METHOD -> SpaceManager::OnRenderProjectiles -> Begin (CustomDamage.cpp)\n")
+
+    if (iShipId == 0 && layerCommand == 2)
+    {
+        for (Animation &anim : fakePdsSmokeAnims)
+        {
+            anim.OnRender(1.f, {1.f,1.f,1.f,1.f}, false);
+        }
+    }
+
+    super(iShipId, layerCommand);
+}
+
+HOOK_METHOD(PDSFire, constructor, (Point pos, int destinationSpace, Pointf destination) -> void)
+{
+    super(pos, destinationSpace, destination);
+
+    currentScale = 1.f; // fixes uninitialized scale
 }

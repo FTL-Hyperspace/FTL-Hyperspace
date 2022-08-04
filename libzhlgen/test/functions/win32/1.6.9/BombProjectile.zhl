@@ -2,7 +2,8 @@
 __thiscall void BombProjectile::constructor(BombProjectile *this, Pointf _position, int _ownerId, int _targetId, Pointf _target);
 "578d7c240883e4f0ff77fc5589e557565389cb83ec6c8b0789c18945cc8b00ff50283b4378":
 __thiscall void BombProjectile::CollisionCheck(BombProjectile *this, Collideable *other);
-
+"5589e556538db14c01000089cb83e4f083ec2089f1":
+__thiscall void BombProjectile::OnUpdate(BombProjectile *this);
 
 struct BombProjectile
 {{
