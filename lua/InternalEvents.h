@@ -19,6 +19,15 @@ struct InternalEvents
         ON_KEY_DOWN, // CApp::OnKeyDown (Once we have arguments working since this will require passing the SDLKey that was pressed)
         CREW_LOOP,
 
+        PROJECTILE_PRE,
+        PROJECTILE_POST,
+        PROJECTILE_UPDATE_PRE,
+        PROJECTILE_UPDATE_POST,
+
+        DRONE_COLLISION,
+        PROJECTILE_COLLISION,
+        SHIELD_COLLISION_PRE,
+        SHIELD_COLLISION,
 
 
         // CREW_EQUIPMENT_BOX_REMOVE_ITEM, // CrewEquipBox::RemoveItem

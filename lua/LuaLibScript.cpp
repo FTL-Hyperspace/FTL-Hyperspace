@@ -14,7 +14,27 @@ static std::multimap<RenderEvents::Identifiers, std::pair<LuaFunctionRef, LuaFun
 
 void LuaLibScript::LoadTypeInfo()
 {
+    types.pCollideable = SWIG_TypeQuery(this->m_Lua, "Collideable *");
+    types.pCollisionResponse = SWIG_TypeQuery(this->m_Lua, "CollisionResponse *");
     types.pCrewMember = SWIG_TypeQuery(this->m_Lua, "CrewMember *");
+    types.pDamage = SWIG_TypeQuery(this->m_Lua, "Damage *");
+    types.pProjectile[0] = SWIG_TypeQuery(this->m_Lua, "Projectile *");
+    types.pProjectile[1] = SWIG_TypeQuery(this->m_Lua, "LaserBlast *");
+    types.pProjectile[2] = SWIG_TypeQuery(this->m_Lua, "Asteroid *");
+    types.pProjectile[3] = SWIG_TypeQuery(this->m_Lua, "Missile *");
+    types.pProjectile[4] = SWIG_TypeQuery(this->m_Lua, "BombProjectile *");
+    types.pProjectile[5] = SWIG_TypeQuery(this->m_Lua, "BeamWeapon *");
+    types.pProjectile[6] = SWIG_TypeQuery(this->m_Lua, "PDSFire *");
+    types.pShipManager = SWIG_TypeQuery(this->m_Lua, "ShipManager *");
+
+    types.pSpaceDroneTypes[0] = SWIG_TypeQuery(this->m_Lua, "DefenseDrone *");
+    types.pSpaceDroneTypes[1] = SWIG_TypeQuery(this->m_Lua, "CombatDrone *");
+    types.pSpaceDroneTypes[2] = nullptr;
+    types.pSpaceDroneTypes[3] = nullptr;
+    types.pSpaceDroneTypes[4] = SWIG_TypeQuery(this->m_Lua, "BoarderPodDrone *");
+    types.pSpaceDroneTypes[5] = SWIG_TypeQuery(this->m_Lua, "ShipRepairDrone *");
+    types.pSpaceDroneTypes[6] = SWIG_TypeQuery(this->m_Lua, "HackingDrone *");
+    types.pSpaceDroneTypes[7] = SWIG_TypeQuery(this->m_Lua, "SuperShieldDrone *");
 }
 
 int LuaLibScript::l_on_load(lua_State* lua)
@@ -206,7 +226,7 @@ int LuaLibScript::call_on_internal_event_callbacks(InternalEvents::Identifiers i
         {
             lua_pushvalue(this->m_Lua, -1-nArg);
         }
-        if(lua_pcall(this->m_Lua, nArg, 0, 0) != 0) {
+        if(lua_pcall(this->m_Lua, nArg, nRet, 0) != 0) {
             hs_log_file("Failed to call the callback for InternalEvent %u!\n %s\n", id, lua_tostring(this->m_Lua, -1)); // Also TODO: Maybe map RenderEvents to a readable string also?
             lua_pop(this->m_Lua, 1);
             continue;
