@@ -1223,11 +1223,14 @@ struct CFPS
 %rename("%s") Projectile::AtTarget; // checks if we're hitting the target point (based on distance from projectile to target). Returns false if missed.
 %rename("%s") Projectile::Initialize; // updates a projectile's attributes from a weapon blueprint
 %rename("%s") Projectile::OnRender; // renders the projectile and also the target dot for flak
-%rename("%s") Projectile::RenderSidePoint; // picks a random side point (e.g. for missed ASB)
+%rename("%s") Projectile::RandomSidePoint; // picks a random side point (e.g. for missed ASB) - static method
+%contract Projectile::RandomSidePoint(int side) {
+    require:
+        side >= 0;
+        side < 4;
+}
 %rename("%s") Projectile::SetTarget; // sets a new target point and changes the heading, in vanilla only really used when generating asteroids
 %rename("%s") Projectile::StartedDeath; // checks if the projectile has started its death, but also changes it to false if it has, in vanilla only used for checking when crew lasers should do damage
-
-%rename("%s") Projectile::RandomSidePoint; // static method
 
 %rename("%s") Projectile::_targetable; //todo: abstract away _targetable
 %rename("%s") Projectile::position;
