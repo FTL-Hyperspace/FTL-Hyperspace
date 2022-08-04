@@ -53,4 +53,13 @@ CallData[ON_TICK] = { 0, false };
 };
 */
 
+struct Chain
+{
+    enum ChainValues {
+        CONTINUE,
+        HALT,
+        PREEMPT
+    };
+};
+
 #endif // INTERNALEVENTS_H

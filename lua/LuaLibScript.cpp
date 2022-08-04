@@ -224,6 +224,72 @@ int LuaLibScript::call_on_internal_event_callbacks(InternalEvents::Identifiers i
     return 0;
 }
 
+// version of internal event for chaining
+// calling function is expected to push nArg values onto the stack
+// first return value from lua function controls program flow
+// Chain::CONTINUE will run the next callback
+// Chain::HALT or Chain::PREEMPT will break out of the callback loop
+// Remaining nRet return values will overwrite the last nRet arguments from nArg (unless nil is returned)
+// bool return true if pre-empt requested
+// The lua stack will be in the same configuration as when this function was called, except with argument values potentially replaced
+bool LuaLibScript::call_on_internal_chain_event_callbacks(InternalEvents::Identifiers id, int nArg, int nRet)
+{
+    assert(id > InternalEvents::UNKNOWN);
+    assert(id < InternalEvents::UNKNOWN_MAX);
+
+//    if(m_on_internal_event_callbacks.count(id) == 0)
+//        return; // No registered callbacks
+
+    for(std::pair<std::multimap<InternalEvents::Identifiers, LuaFunctionRef>::iterator, std::multimap<InternalEvents::Identifiers, LuaFunctionRef>::iterator> range(m_on_internal_event_callbacks.equal_range(id)); range.first != range.second; ++range.first)
+    {
+        LuaFunctionRef refL = range.first->second;
+        lua_rawgeti(this->m_Lua, LUA_REGISTRYINDEX, refL);
+        for (int i=0; i<nArg; ++i)
+        {
+            lua_pushvalue(this->m_Lua, -1-nArg);
+        }
+        if(lua_pcall(this->m_Lua, nArg, nRet+1, 0) != 0) {
+            // if the pcall fails then we just continue
+            hs_log_file("Failed to call the callback for InternalEvent %u!\n %s\n", id, lua_tostring(this->m_Lua, -1)); // Also TODO: Maybe map RenderEvents to a readable string also?
+            lua_pop(this->m_Lua, 1);
+            continue;
+        }
+        if (nRet > 0)
+        {
+            for (int i=0; i<nRet; ++i)
+            {
+                // replace the last nRet arguments from nArg with non-nil values from nRet
+                if (!lua_isnil(this->m_Lua, -1))
+                {
+                    lua_replace(this->m_Lua, -nRet-2);
+                }
+                else
+                {
+                    lua_pop(this->m_Lua, 1);
+                }
+            }
+
+            int chain;
+            if (lua_isinteger(this->m_Lua, -1))
+            {
+                chain = lua_tointeger(this->m_Lua, -1);
+            }
+            else
+            {
+                chain = Chain::CONTINUE;
+                // maybe add error handling code here? For now just silently use Chain::CONTINUE
+            }
+            lua_pop(this->m_Lua, 1);
+
+            if (chain != Chain::CONTINUE)
+            {
+                return chain == Chain::PREEMPT;
+            }
+        }
+    }
+    return false;
+}
+
 
 // TODO: This hook to kick it off, could potentially move if needed? Or maybe we should of done a singleton pattern initialized by LuaScriptInit instead of passing the object back to LuaScriptInit and getting it from the global context there?
 HOOK_METHOD(AchievementTracker, LoadAchievementDescriptions, () -> void)
