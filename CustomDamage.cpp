@@ -197,6 +197,8 @@ HOOK_STATIC(ProjectileFactory, LoadProjectile, (int fh) -> Projectile*)
 
     ex->customDamage.sourceShipId = ret->ownerId;
 
+    ex->name = FileHelper::readString(fh);
+
     ex->customDamage.def = CustomDamageDefinition::customDamageDefs.at(FileHelper::readInteger(fh));
     ex->customDamage.accuracyMod = FileHelper::readInteger(fh);
     ex->customDamage.droneAccuracyMod = FileHelper::readInteger(fh);
@@ -216,6 +218,8 @@ HOOK_STATIC(ProjectileFactory, SaveProjectile, (Projectile *p, int fh) -> void)
     super(p, fh);
 
     Projectile_Extend *ex = PR_EX(p);
+
+    FileHelper::writeString(fh, ex->name);
 
     FileHelper::writeInt(fh, ex->customDamage.def->idx);
     FileHelper::writeInt(fh, ex->customDamage.accuracyMod);
