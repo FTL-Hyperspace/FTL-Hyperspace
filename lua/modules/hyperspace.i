@@ -68,6 +68,8 @@ public:
     static Global* GetInstance();
     ShipManager* GetShipManager(int iShipId);
     CApp* GetCApp();
+    BlueprintManager* GetBlueprints();
+    SoundControl* GetSoundControl();
 };
 
 void ErrorMessage(const char* msg);
@@ -1276,6 +1278,18 @@ struct CFPS
 %rename("%s") TimerHelper::currGoal;
 %rename("%s") TimerHelper::loop;
 %rename("%s") TimerHelper::running;
+
+%nodefaultctor BlueprintManager;
+%nodefaultdtor BlueprintManager;
+%rename("%s") BlueprintManager;
+%rename("%s") BlueprintManager::GetWeaponBlueprint;
+
+%rename("%s") WeaponBlueprint;
+
+%nodefaultctors SoundControl;
+%nodefaultdtors SoundControl;
+%rename("%s") SoundControl;
+%rename("%s") SoundControl::PlaySoundMix;
 
 %nodefaultctors ResourceControl;
 %nodefaultdtors ResourceControl;
