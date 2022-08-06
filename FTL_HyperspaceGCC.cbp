@@ -768,6 +768,9 @@
 		<Unit filename="ArtilleryBarFix.cpp">
 			<Option virtualFolder="Content/Systems/" />
 		</Unit>
+		<Unit filename="ArtillerySystem.cpp">
+			<Option virtualFolder="Core/Systems/" />
+		</Unit>
 		<Unit filename="AugmentValues.cpp">
 			<Option virtualFolder="Content/Augments/" />
 		</Unit>
