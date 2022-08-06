@@ -839,6 +839,8 @@ struct Globals
 	};
 	
 	LIBZHL_API static float __stdcall AimAhead(Pointf delta, Pointf vr, float muzzleV);
+	LIBZHL_API static Pointf __stdcall GetNextPoint(Pointf current, float mag_speed, float heading);
+	LIBZHL_API static Pointf __stdcall GetNextPoint(Pointf current, float mag_speed, Pointf dest);
 	LIBZHL_API static int __stdcall GetNextSpaceId();
 	
 };
@@ -6811,6 +6813,7 @@ struct ShipManager : ShipObject
 	LIBZHL_API void ImportBattleState(int file);
 	LIBZHL_API void ImportShip(int file);
 	LIBZHL_API void InstantPowerShields();
+	LIBZHL_API bool IsCloaked();
 	LIBZHL_API bool IsCrewFull();
 	LIBZHL_API bool IsCrewOverFull();
 	LIBZHL_API int IsSystemHacked(int systemId);

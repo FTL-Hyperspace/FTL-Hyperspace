@@ -5,6 +5,7 @@
 %{
 #include "../../Global.h"
 #include "../../HSVersion.h"
+#include "../../Projectile_Extend.h"
 %}
 
 namespace std {
@@ -1191,6 +1192,12 @@ struct CFPS
 %rename("%s") Targetable::hostile;
 %rename("%s") Targetable::targeted;
 
+%rename("%s") CollisionResponse;
+%rename("%s") CollisionResponse::collision_type;
+%rename("%s") CollisionResponse::point;
+%rename("%s") CollisionResponse::damage;
+%rename("%s") CollisionResponse::superDamage;
+
 %nodefaultctor Projectile; // users should only construct subclasses
 %rename("%s") Projectile;
 
@@ -1260,6 +1267,16 @@ struct CFPS
 %rename("%s") Projectile::bBroadcastTarget;
 %rename("%s") Projectile::flashTracker;
 %rename("%s") Projectile::color;
+
+%rename("%s") Get_Projectile_Extend;
+%nodefaultctor Projectile_Extend;
+%nodefaultdtor Projectile_Extend;
+%rename("%s") Projectile_Extend;
+%rename("%s") Projectile_Extend::orig;
+%immutable Projectile_Extend::orig;
+%rename("%s") Projectile_Extend::name;
+%rename("%s") Projectile_Extend::customDamage;
+%rename("%s") Projectile_Extend::missedDrones; // list of selfId of drones that have dodged this projectile
 
 %nodefaultctor LaserBlast;
 %rename("%s") LaserBlast;
@@ -1408,3 +1425,4 @@ struct CFPS
     loaded at compile time) unless we want to access a field in Lua not available to the other versions there is no concern.
 */
 %include "FTLGameELF64.h"
+%include "Projectile_Extend.h"

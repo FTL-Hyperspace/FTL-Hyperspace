@@ -3851,6 +3851,13 @@ HOOK_METHOD_PRIORITY(ShipManager, DamageArea, -1000, (Pointf location, Damage dm
     LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::DamageArea -> Begin (CustomCrew.cpp)\n")
     if (blockDamageArea) return false;
 
+    return super(location, dmg, forceHit);
+}
+
+HOOK_METHOD_PRIORITY(ShipManager, DamageArea, 200, (Pointf location, Damage dmg, bool forceHit) -> bool)
+{
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> ShipManager::DamageArea -> Begin (CustomCrew.cpp)\n")
+
     if (!shipFriendlyFire)
     {
         shipFriendlyFire = true;

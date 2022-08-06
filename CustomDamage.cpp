@@ -16,6 +16,71 @@ std::vector<CustomDamageDefinition*> CustomDamageDefinition::customDamageDefs = 
 HOOK_METHOD(ShipManager, DamageArea, (Pointf location, Damage dmg, bool forceHit) -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::DamageArea -> Begin (CustomDamage.cpp)\n")
+
+    // push everything to the lua stack: ShipManager, Projectile, location, Damage, forceHit, shipFriendlyFire
+    auto context = Global::GetInstance()->getLuaContext();
+    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pShipManager, 0);
+    if (CustomDamageManager::currentProjectile)
+    {
+        SWIG_NewPointerObj(context->GetLua(), CustomDamageManager::currentProjectile, context->getLibScript()->types.pProjectile[CustomDamageManager::currentProjectile->GetType()], 0);
+    }
+    else
+    {
+        lua_pushnil(context->GetLua());
+    }
+    SWIG_NewPointerObj(context->GetLua(), &location, context->getLibScript()->types.pPointf, 0);
+    SWIG_NewPointerObj(context->GetLua(), &dmg, context->getLibScript()->types.pDamage, 0);
+    lua_pushinteger(context->GetLua(), forceHit ? Evasion::HIT : Evasion::NONE);
+    lua_pushboolean(context->GetLua(), shipFriendlyFire); // if false then do not apply room/system effects on friendly ship, damage crew and apply other effects only
+
+    bool preempt = context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::DAMAGE_AREA, 6, 2);
+
+    int iForceHit = Evasion::NONE;
+    if (lua_isinteger(context->GetLua(), -2))
+    {
+        iForceHit = lua_tointeger(context->GetLua(), -2);
+    }
+    shipFriendlyFire = lua_toboolean(context->GetLua(), -1);
+
+    // process preempt and iForceHit
+    if (preempt)
+    {
+        lua_pop(context->GetLua(), 6);
+
+        switch (iForceHit)
+        {
+        case Evasion::HIT:
+            return true;
+        case Evasion::MISS:
+            return false;
+        default:
+            return GetDodged();
+        }
+    }
+    else if (iForceHit == Evasion::MISS)
+    {
+        lua_pop(context->GetLua(), 6);
+
+        // reproduce the miss code here
+        if (!bJumping)
+        {
+            damMessages.push_back(new DamageMessage(1.f, location, DamageMessage::MISS));
+        }
+        if (IsCloaked())
+        {
+            damageCloaked += dmg.iDamage;
+        }
+
+        return false;
+    }
+    else
+    {
+        forceHit = iForceHit == Evasion::HIT;
+    }
+
+    bool shipFriendlyFireLocal = shipFriendlyFire;
+    lua_pop(context->GetLua(), 2);
+
     bool ret = super(location, dmg, forceHit);
 
     if (ret)
@@ -49,6 +114,19 @@ HOOK_METHOD(ShipManager, DamageArea, (Pointf location, Damage dmg, bool forceHit
                 }
             }
         }
+
+        lua_pushboolean(context->GetLua(), shipFriendlyFireLocal);
+
+        // stack: ShipManager, Projectile, location, Damage, shipFriendlyFireLocal
+        preempt = context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::DAMAGE_AREA_HIT, 5, 0);
+
+        lua_pop(context->GetLua(), 5);
+
+        if (preempt) return false; // pretend the projectile missed, since we don't really have something else pre-empt can do
+    }
+    else
+    {
+        lua_pop(context->GetLua(), 4);
     }
 
     return ret;
@@ -57,16 +135,116 @@ HOOK_METHOD(ShipManager, DamageArea, (Pointf location, Damage dmg, bool forceHit
 HOOK_METHOD(ShipManager, DamageBeam, (Pointf location1, Pointf location2, Damage dmg) -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::DamageBeam -> Begin (CustomDamage.cpp)\n")
+
+    int beamHitType;
+
+    Point grid1 = ShipGraph::TranslateToGrid(location1.x, location1.y);
+    Point grid2 = ShipGraph::TranslateToGrid(location2.x, location2.y);
+    int room1 = ship.GetSelectedRoomId(location1.x, location1.y, true);
+    int room2 = ship.GetSelectedRoomId(location2.x, location2.y, true);
+
+    bool realNewTile = grid1 != grid2;
+    if (room1 != room2)
+    {
+        beamHitType = BeamHit::NEW_ROOM;
+    }
+    else if (realNewTile)
+    {
+        beamHitType = BeamHit::NEW_TILE;
+    }
+    else
+    {
+        beamHitType = BeamHit::SAME_TILE;
+    }
+    int oldBeamHitType = beamHitType;
+
+    // push everything to the lua stack: ShipManager, Projectile, location, Damage, beamHitType
+    auto context = Global::GetInstance()->getLuaContext();
+    SWIG_NewPointerObj(context->GetLua(), this, context->getLibScript()->types.pShipManager, 0);
+    if (CustomDamageManager::currentProjectile)
+    {
+        SWIG_NewPointerObj(context->GetLua(), CustomDamageManager::currentProjectile, context->getLibScript()->types.pProjectile[CustomDamageManager::currentProjectile->GetType()], 0);
+    }
+    else
+    {
+        lua_pushnil(context->GetLua());
+    }
+    SWIG_NewPointerObj(context->GetLua(), &location1, context->getLibScript()->types.pPointf, 0);
+    SWIG_NewPointerObj(context->GetLua(), &dmg, context->getLibScript()->types.pDamage, 0);
+    lua_pushboolean(context->GetLua(), realNewTile);
+    lua_pushinteger(context->GetLua(), beamHitType);
+
+    bool preempt = context->getLibScript()->call_on_internal_chain_event_callbacks(InternalEvents::DAMAGE_BEAM, 6, 1);
+
+    if (lua_isinteger(context->GetLua(), -1))
+    {
+        beamHitType = lua_tointeger(context->GetLua(), -1);
+    }
+
+    // process preempt and beamHitType
+    if (preempt)
+    {
+        lua_pop(context->GetLua(), 6);
+
+        switch (beamHitType)
+        {
+        case BeamHit::NEW_ROOM:
+            return true;
+        default:
+            return false;
+        }
+    }
+    else if (beamHitType != oldBeamHitType)
+    {
+        switch (beamHitType)
+        {
+        case BeamHit::NEW_ROOM:
+            location2 = {-2147483648.f, -2147483648.f};
+            break;
+        case BeamHit::NEW_TILE:
+            if (room1 > -1)
+            {
+                Room *room = ship.vRoomList[room1];
+                Point dummyLocation = {grid1.x*35, grid1.y*35};
+                if (dummyLocation.x == room->rect.x && dummyLocation.y == room->rect.y) // location1 is first tile
+                {
+                    if (room->rect.w > 35) // find a tile to the right
+                    {
+                        location2 = {dummyLocation.x+52.f, dummyLocation.y+17.f};
+                    }
+                    else if (room->rect.h > 35) // find a tile below
+                    {
+                        location2 = {dummyLocation.x+17.f, dummyLocation.y+52.f};
+                    }
+                    else // 1 tile room, fall back to SAME_TILE
+                    {
+                        location2 = location1;
+                    }
+                }
+                else // location1 is not first tile, set location2 to first tile
+                {
+                    location2 = {dummyLocation.x+17.f, dummyLocation.y+17.f};
+                }
+            }
+            break;
+        case BeamHit::SAME_TILE:
+            location2 = location1;
+            break;
+        default:
+            beamHitType = oldBeamHitType;
+            break;
+        }
+    }
+
+    lua_pop(context->GetLua(), 6);
+
     bool ret = super(location1, location2, dmg);
 
     auto custom = CustomDamageManager::currentWeaponDmg;
 
     if (custom && custom->sourceShipId != -1 && custom->def->crewSpawnChance > 0)
     {
-        Point grid1 = ShipGraph::TranslateToGrid(location1.x, location1.y);
-        Point grid2 = ShipGraph::TranslateToGrid(location2.x, location2.y);
-
-        if (grid1 != grid2)
+        if (beamHitType != BeamHit::SAME_TILE)
         {
             int rng = random32() % 10;
 
@@ -81,10 +259,7 @@ HOOK_METHOD(ShipManager, DamageBeam, (Pointf location1, Pointf location2, Damage
             }
         }
 
-        int room1 = ship.GetSelectedRoomId(location1.x, location1.y, true);
-        int room2 = ship.GetSelectedRoomId(location2.x, location2.y, true);
-
-        if (room1 > -1 && room1 != room2)
+        if (room1 > -1 && beamHitType == BeamHit::NEW_ROOM)
         {
             int rng = random32() % 10;
 

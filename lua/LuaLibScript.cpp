@@ -18,6 +18,7 @@ void LuaLibScript::LoadTypeInfo()
     types.pCollisionResponse = SWIG_TypeQuery(this->m_Lua, "CollisionResponse *");
     types.pCrewMember = SWIG_TypeQuery(this->m_Lua, "CrewMember *");
     types.pDamage = SWIG_TypeQuery(this->m_Lua, "Damage *");
+    types.pPointf = SWIG_TypeQuery(this->m_Lua, "Pointf *");
     types.pProjectile[0] = SWIG_TypeQuery(this->m_Lua, "Projectile *");
     types.pProjectile[1] = SWIG_TypeQuery(this->m_Lua, "LaserBlast *");
     types.pProjectile[2] = SWIG_TypeQuery(this->m_Lua, "Asteroid *");

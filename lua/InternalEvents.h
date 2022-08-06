@@ -28,7 +28,9 @@ struct InternalEvents
         PROJECTILE_COLLISION,
         SHIELD_COLLISION_PRE,
         SHIELD_COLLISION,
-
+        DAMAGE_AREA,
+        DAMAGE_AREA_HIT,
+        DAMAGE_BEAM,
 
         // CREW_EQUIPMENT_BOX_REMOVE_ITEM, // CrewEquipBox::RemoveItem
 
@@ -68,6 +70,24 @@ struct Chain
         CONTINUE,
         HALT,
         PREEMPT
+    };
+};
+
+struct Evasion
+{
+    enum EvasionValues {
+        NONE,
+        HIT,
+        MISS
+    };
+};
+
+struct BeamHit
+{
+    enum BeamHitValues {
+        SAME_TILE,
+        NEW_TILE,
+        NEW_ROOM
     };
 };
 

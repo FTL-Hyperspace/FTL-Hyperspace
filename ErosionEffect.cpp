@@ -1,7 +1,7 @@
 #include "Global.h"
 #include "Room_Extend.h"
 
-HOOK_METHOD(ShipManager, DamageArea, (Pointf location, Damage dmg, bool forceHit) -> bool)
+HOOK_METHOD_PRIORITY(ShipManager, DamageArea, 500, (Pointf location, Damage dmg, bool forceHit) -> bool)
 {
     LOG_HOOK("HOOK_METHOD -> ShipManager::DamageArea -> Begin (ErosionEffect.cpp)\n")
 

@@ -136,6 +136,7 @@ class LuaLibScript
             swig_type_info *pCollisionResponse;
             swig_type_info *pCrewMember;
             swig_type_info *pDamage;
+            swig_type_info *pPointf;
             swig_type_info *pProjectile[7]; // Projectile::GetType() can be used to index this array to get the correct derived class (except for CrewLaser)
             swig_type_info *pShipManager;
 

@@ -268,7 +268,7 @@ struct ActivatedPowerDefinition
 
     Damage damage;
     float cooldown = 50.f;
-    float shipFriendlyFire = false;
+    bool shipFriendlyFire = false;
     bool hasSpecialPower = false;
     bool hasTemporaryPower = false;
     int jumpCooldown = JUMP_COOLDOWN_FULL;
