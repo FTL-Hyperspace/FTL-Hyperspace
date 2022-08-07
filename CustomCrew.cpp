@@ -713,6 +713,12 @@ void CustomCrewManager::ParseAbilityEffect(rapidxml::xml_node<char>* stat, Activ
         def = *powerDef;
     }
     def.hasSpecialPower = true;
+
+    if (stat->first_attribute("name"))
+    {
+        def.name = stat->first_attribute("name")->value();
+    }
+
     for (auto effectNode = stat->first_node(); effectNode; effectNode = effectNode->next_sibling())
     {
         std::string effectName = std::string(effectNode->name());

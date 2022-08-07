@@ -265,6 +265,7 @@ struct ActivatedPowerDefinition
     }
 
     unsigned int index = 0;
+    std::string name = "";
 
     Damage damage;
     float cooldown = 50.f;

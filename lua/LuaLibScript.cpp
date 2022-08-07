@@ -14,6 +14,7 @@ static std::multimap<RenderEvents::Identifiers, std::pair<LuaFunctionRef, LuaFun
 
 void LuaLibScript::LoadTypeInfo()
 {
+    types.pActivatedPower = SWIG_TypeQuery(this->m_Lua, "ActivatedPower *");
     types.pCollideable = SWIG_TypeQuery(this->m_Lua, "Collideable *");
     types.pCollisionResponse = SWIG_TypeQuery(this->m_Lua, "CollisionResponse *");
     types.pCrewMember = SWIG_TypeQuery(this->m_Lua, "CrewMember *");

@@ -32,6 +32,8 @@ struct InternalEvents
         DAMAGE_AREA_HIT,
         DAMAGE_BEAM,
 
+        ACTIVATE_POWER,
+
         // CREW_EQUIPMENT_BOX_REMOVE_ITEM, // CrewEquipBox::RemoveItem
 
         /*

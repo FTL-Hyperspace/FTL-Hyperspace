@@ -6,6 +6,8 @@
 #include "../../Global.h"
 #include "../../HSVersion.h"
 #include "../../Projectile_Extend.h"
+#include "../../CrewMember_Extend.h"
+#include "../../CustomCrew.h"
 %}
 
 namespace std {
@@ -559,7 +561,8 @@ struct CFPS
 %immutable ShipManager::vCrewList;
 %rename("%s") ShipManager::vCrewList;
 //%rename("%s") ShipManager::fireSpreader;
-//%rename("%s") ShipManager::ship;
+%rename("%s") ShipManager::ship;
+%immutable ShipManager::ship;
 //%rename("%s") ShipManager::statusMessages;
 //%rename("%s") ShipManager::bGameOver;
 ////%rename("%s") ShipManager::current_target; // Probably just use `Hyperspace.ships.enemy` instead?
@@ -1008,8 +1011,8 @@ struct CFPS
 %rename("%s") WeaponAnimation::hackSparks;
 %rename("%s") WeaponAnimation::playerShip;
 
-%nodefaultctors Ship;
-%nodefaultdtors Ship;
+%nodefaultctor Ship;
+%nodefaultdtor Ship;
 %rename("%s") Ship;
 %rename("%s") Ship::DoorStateType;
 %rename("%s") Ship::GetRoomCenter;
@@ -1032,9 +1035,9 @@ struct CFPS
 %rename("%s") Ship::SetRoomBlackout;
 %rename("%s") Ship::SetSelectedRoom;
 //%rename("%s") Ship::vRoomList; // TODO: Expose Room
-//%rename("%s") Ship::vDoorList; // TODO: Expose Door
+%rename("%s") Ship::vDoorList;
 //%rename("%s") Ship::vOuterWalls; // TODO: Expose OuterHull
-//%rename("%s") Ship::vOuterAirlocks;
+%rename("%s") Ship::vOuterAirlocks;
 %rename("%s") Ship::hullIntegrity;
 %rename("%s") Ship::weaponMounts;
 %rename("%s") Ship::floorImageName;
@@ -1066,6 +1069,53 @@ struct CFPS
 %rename("%s") Ship::bExperiment;
 %rename("%s") Ship::bShowEngines;
 //%rename("%s") Ship::lockdowns; // TODO: Expose LockdownShard
+
+%nodefaultctor Door;
+%nodefaultdtor Door;
+%rename("%s") Door;
+
+%rename("%s") Door::ApplyDamage;
+
+%rename("%s") Door::iRoom1;
+%immutable Door::iRoom1;
+%rename("%s") Door::iRoom2;
+%immutable Door::iRoom2;
+%rename("%s") Door::bOpen;
+%rename("%s") Door::iBlast;
+%rename("%s") Door::bFakeOpen;
+%rename("%s") Door::width;
+%immutable Door::width;
+%rename("%s") Door::height;
+%immutable Door::height;
+%rename("%s") Door::outlinePrimitive;
+%rename("%s") Door::highlightPrimitive;
+%rename("%s") Door::doorAnim;
+%rename("%s") Door::doorAnimLarge;
+%rename("%s") Door::iDoorId;
+%immutable Door::iDoorId;
+%rename("%s") Door::baseHealth;
+%rename("%s") Door::health;
+%rename("%s") Door::forcedOpen;
+%rename("%s") Door::gotHit;
+%rename("%s") Door::doorLevel;
+%rename("%s") Door::bIoned;
+%rename("%s") Door::fakeOpenTimer;
+%rename("%s") Door::lockedDown;
+%rename("%s") Door::lastbase;
+%rename("%s") Door::iHacked;
+%rename("%s") Door::x;
+%immutable Door::x;
+%rename("%s") Door::y;
+%immutable Door::y;
+%rename("%s") Door::bVertical;
+%immutable Door::bVertical;
+
+%nodefaultctor BlueprintManager;
+%nodefaultdtor BlueprintManager;
+%rename("%s") BlueprintManager;
+%rename("%s") BlueprintManager::GetWeaponBlueprint;
+
+%rename("%s") WeaponBlueprint;
 
 // TODO: Make most if not all of ShipBlueprint immutable
 %nodefaultctors ShipBlueprint;
@@ -1342,6 +1392,35 @@ struct CFPS
 %rename("%s") PDSFire::missed;
 %rename("%s") PDSFire::explosionAnimation;
 
+%nodefaultctor CrewMember;
+%nodefaultdtor CrewMember;
+%rename("%s") CrewMember;
+
+%rename("%s") Get_CrewMember_Extend;
+%nodefaultctor CrewMember_Extend;
+%nodefaultdtor CrewMember_Extend;
+%rename("%s") CrewMember_Extend;
+%rename("%s") CrewMember_Extend::orig;
+%immutable CrewMember_Extend::orig;
+
+%nodefaultctor ActivatedPower;
+%nodefaultdtor ActivatedPower;
+%rename("%s") ActivatedPower;
+%rename("%s") ActivatedPower::def;
+%immutable ActivatedPower::def;
+%rename("%s") ActivatedPower::crew;
+%immutable ActivatedPower::crew;
+%rename("%s") ActivatedPower::crew_ex;
+%immutable ActivatedPower::crew_ex;
+%rename("%s") ActivatedPower::powerRoom;
+%rename("%s") ActivatedPower::powerShip;
+
+%nodefaultctor ActivatedPowerDefinition;
+%nodefaultdtor ActivatedPowerDefinition;
+%rename("%s") ActivatedPowerDefinition;
+%rename("%s") ActivatedPowerDefinition::name;
+%immutable ActivatedPowerDefinition::name;
+
 %rename("%s") AnimationTracker;
 %rename("%s") AnimationTracker::GetAlphaLevel;
 %rename("%s") AnimationTracker::Progress;
@@ -1374,13 +1453,6 @@ struct CFPS
 %rename("%s") TimerHelper::currGoal;
 %rename("%s") TimerHelper::loop;
 %rename("%s") TimerHelper::running;
-
-%nodefaultctor BlueprintManager;
-%nodefaultdtor BlueprintManager;
-%rename("%s") BlueprintManager;
-%rename("%s") BlueprintManager::GetWeaponBlueprint;
-
-%rename("%s") WeaponBlueprint;
 
 %nodefaultctors SoundControl;
 %nodefaultdtors SoundControl;
@@ -1426,3 +1498,5 @@ struct CFPS
 */
 %include "FTLGameELF64.h"
 %include "Projectile_Extend.h"
+%include "CrewMember_Extend.h"
+%include "CustomCrew.h"
