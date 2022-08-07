@@ -1292,6 +1292,7 @@ struct Targetable;
 
 struct ArtillerySystem : ShipSystem
 {
+	LIBZHL_API void Jump();
 	LIBZHL_API void OnLoop();
 	
 	ProjectileFactory *projectileFactory;
@@ -6103,6 +6104,8 @@ struct PowerManager
 
 struct ProjectileFactory : ShipObject
 {
+	LIBZHL_API void ClearAiming();
+	LIBZHL_API void ClearProjectiles();
 	LIBZHL_API void Fire(std::vector<Pointf> &points, int target);
 	LIBZHL_API bool FireNextShot();
 	LIBZHL_API void ForceCoolup();
