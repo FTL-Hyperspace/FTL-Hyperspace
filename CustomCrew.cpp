@@ -2414,9 +2414,12 @@ HOOK_METHOD_PRIORITY(CrewMember, OnLoop, 1000, () -> void)
         else if (!ex->prevCanMove)
         {
             ex->prevCanMove = true;
-            ShipGraph* graph = ShipGraph::GetShipInfo(currentShipId);
-            currentSlot.worldLocation = graph->GetSlotWorldPosition(currentSlot.slotId, currentSlot.roomId);
-            SetRoomPath(currentSlot.slotId, currentSlot.roomId);
+            if (currentSlot.roomId != -1)
+            {
+                ShipGraph* graph = ShipGraph::GetShipInfo(currentShipId);
+                currentSlot.worldLocation = graph->GetSlotWorldPosition(currentSlot.slotId, currentSlot.roomId);
+                SetRoomPath(currentSlot.slotId, currentSlot.roomId);
+            }
         }
 
         // Crew ability loop/activation
