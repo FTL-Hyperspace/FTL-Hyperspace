@@ -3,3 +3,6 @@ plugins:
   - jekyll-multiple-languages-plugin
 languages: ["en", "de"]
 # exclude_from_localizations: ["javascript", "images", "css"]
+title: FTL Hyperspace
+description: "A binary mod for FTL: Faster Than Light"
+show_downloads: false
