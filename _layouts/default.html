@@ -29,6 +29,20 @@
               <a class="tar_download_link" href="{{ site.github.tar_url }}">Download this project as a tar.gz file</a>
             </section>
           {% endif %}
+
+          <ul>
+              {% for language in site.languages %}
+                  {% if language == "en" %}
+                      {% capture langLink %}{{ site.baseurl_root }}{{ page.url }}{% endcapture %}
+                  {% else %}
+                      {% capture langLink %}{{ site.baseurl_root }}/{{ language }}{{ page.url }}{% endcapture %}
+                  {% endif %}
+                  {% capture langTitle %}global.{{ language }}{% endcapture %}
+                  <li>
+                      <a href="{{ langLink }}">{% t langTitle %}</a>
+                  </li>
+              {% endfor %}
+          </ul>
         </header>
     </div>
 

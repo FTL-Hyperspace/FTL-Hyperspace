@@ -1,6 +1,6 @@
 global:
-  english: English
-  german: German
+  en: English
+  de: German
 pages:
   home: Home
   install: Installation
