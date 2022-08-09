@@ -1767,7 +1767,7 @@ void CrewMember_Extend::Initialize(CrewBlueprint& bp, int shipId, bool enemy, Cr
                 orig->crewAnim->sub_direction = animation->sub_direction;
                 orig->crewAnim->status = animation->status;
                 orig->crewAnim->moveDirection = animation->moveDirection;
-                orig->crewAnim->shots = animation->shots;
+                orig->crewAnim->shots = std::move(animation->shots);
                 orig->crewAnim->shootTimer.currTime = animation->shootTimer.currTime;
                 orig->crewAnim->shootTimer.currGoal = animation->shootTimer.currGoal;
                 orig->crewAnim->shootTimer.loop = animation->shootTimer.loop;
