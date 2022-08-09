@@ -11,29 +11,29 @@
 {% seo %}
     {% include head-custom.html %}
     <style type="text/css">
-        ul.language-selector {
-            list-style-type: none;
+        .nav-bar {
+            display: flex;
+            justify-content: space-between;
+        }
+        nav.selector-list {
             display: flex;
             margin: 0;
             padding: 0;
             justify-content: center;
         }
-        ul.language-selector > li, ul.language-selector > li a {
+        nav.selector-list > * {
+            display: block;
             color: white;
-        }
-        ul.language-selector > li a:hover {
-            text-decoration: none;
-        }
-        ul.language-selector > li {
             padding: 0.2em 1em;
         }
-        ul.language-selector > li.active {
+        nav.selector-list > a:hover {
+            text-decoration: none;
+            background-color: #575757;
+        }
+        nav.selector-list > .active {
             background-color: #f2f2f2;
             color: #222222;
             margin-bottom: -1px;
-        }
-        ul.language-selector > li:hover {
-            background-color: #575757;
         }
     </style>
   </head>
@@ -57,26 +57,33 @@
             </section>
           {% endif %}
         </header>
-        <ul class="language-selector">
-            {% for language in site.languages %}
-                {% if language == "en" %}
-                    {% capture langLink %}{{ site.baseurl_root }}{{ page.url }}{% endcapture %}
+        <div class="nav-bar">
+            <nav class="selector-list nav-selector">
+                {% if page.isHomePage %}
+                    <span class="active">{% t pages.home %}</span>
                 {% else %}
-                    {% capture langLink %}{{ site.baseurl_root }}/{{ language }}{{ page.url }}{% endcapture %}
+                    <a href="{{ site.baseurl }}/">{% t pages.home %}</a>
                 {% endif %}
-                {% capture langTitle %}global.{{ language }}{% endcapture %}
-                {% capture flagSpan %}<span class="fi fi-{{ site.countryFlags[language] }}"></span>{% endcapture %}
-                {% if language == site.lang %}
-                    <li class="active">
-                        {{flagSpan}} {% t langTitle %}
-                    </li>
-                {% else %}
-                    <li>
+            </nav>
+            <nav class="selector-list language-selector">
+                {% for language in site.languages %}
+                    {% if language == "en" %}
+                        {% capture langLink %}{{ site.baseurl_root }}{{ page.url }}{% endcapture %}
+                    {% else %}
+                        {% capture langLink %}{{ site.baseurl_root }}/{{ language }}{{ page.url }}{% endcapture %}
+                    {% endif %}
+                    {% capture langTitle %}global.{{ language }}{% endcapture %}
+                    {% capture flagSpan %}<span class="fi fi-{{ site.countryFlags[language] }}"></span>{% endcapture %}
+                    {% if language == site.lang %}
+                        <span class="active">
+                            {{flagSpan}} {% t langTitle %}
+                        </span>
+                    {% else %}
                         <a href="{{ langLink }}">{{flagSpan}} {% t langTitle %}</a>
-                    </li>
-                {% endif %}
-            {% endfor %}
-        </ul>
+                    {% endif %}
+                {% endfor %}
+            </nav>
+        </div>
     </div>
 
     <!-- MAIN CONTENT -->

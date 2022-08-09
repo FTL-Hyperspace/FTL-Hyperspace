@@ -1,3 +1,9 @@
+---
+layout: default
+title: "FTL Hyperspace Home Page"
+isHomePage: true
+---
+
 ![image](https://user-images.githubusercontent.com/1423894/173623792-b871e491-dc1c-41c9-8c0e-8ec55fee5964.png)
 
 # FTL Hyperspace
