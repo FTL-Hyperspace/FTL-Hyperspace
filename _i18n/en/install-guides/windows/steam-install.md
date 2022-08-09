@@ -1,9 +1,3 @@
----
-layout: default
-title: "Steam Windows Hyperspace Install Instructions"
-permalink: /install-guides/windows/steam-install/
----
-
 **Uninstall any other FTL mods before proceeding!**
 
 ## Downgrading & Installing Hyperspace Library

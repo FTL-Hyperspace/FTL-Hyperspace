@@ -1,9 +1,3 @@
----
-layout: default
-title: Humble Hyperspace Install Instructions
-permalink: /install-guides/windows/humble-install/
----
-
 ### Downgrading mit Humble
 
 - Humble scheint keine Option zu haben, um alte Versionen zu downloaden

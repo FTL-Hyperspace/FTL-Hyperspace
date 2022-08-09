@@ -1,9 +1,3 @@
----
-layout: default
-title: GoG Hyperspace Install Instructions
-permalink: /install-guides/windows/gog-install/
----
-
 ## Installing FTL & Downgrading to 1.6.9
 
 1. Install GoG Galaxy

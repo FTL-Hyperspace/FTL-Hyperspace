@@ -1,9 +1,3 @@
----
-layout: default
-title: "Steam Windows Hyperspace Install Instructions"
-permalink: /install-guides/windows/steam-install/
----
-
 **Deinstalliere alle anderen FTL Mods, bevor du weiter machst!**
 
 ## Downgrading & Installieren der Hyperspace Bibliothek
@@ -39,7 +33,7 @@ Dieser downgrader wird **NUR** funktionieren, für Steams 1.6.14 Version von FTL
 11. Hyperspace ist jetzt **Halb-installiert** du musst noch einen Mod patchen, welcher Hyperspace nutzt.
 
 ## Patching von Hyperspace-basierten Mods in Splipstream
-{% include_relative windows-slipstream-german.md %}
+{% include_relative windows-slipstream.md %}
 
 #### Zusätzliche Hilfe
 Vielen Dank an Cedric für mehrere Bilder oben

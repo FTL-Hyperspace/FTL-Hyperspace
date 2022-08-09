@@ -1,9 +1,3 @@
----
-layout: default
-title: GoG Hyperspace Install Instructions
-permalink: /install-guides/windows/gog-install/
----
-
 ## Installieren von FTL und downgraden auf 1.6.9
 
 1. Installiere GoG Galaxy
@@ -38,4 +32,4 @@ permalink: /install-guides/windows/gog-install/
 
 ## Patching in hyperspace-based mods with Slipstream
 
-{% include_relative windows-slipstream-german.md %}
+{% include_relative windows-slipstream.md %}

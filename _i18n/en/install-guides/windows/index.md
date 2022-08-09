@@ -1,9 +1,3 @@
----
-layout: default
-title: "Windows Hyperspace Install Instructions"
-permalink: /install-guides/windows/
----
-
 ## Updating
 
 Simply replace `Hyperspace.dll` (and any other DLLs included in the hyperspace ZIP) with the new one in your FTL installation directory.

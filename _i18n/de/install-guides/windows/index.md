@@ -1,9 +1,3 @@
----
-layout: default
-title: "Windows Hyperspace Install Instructions"
-permalink: /install-guides/windows/
----
-
 ## Updating
 
 Ersetze einfach `Hyperspace.dll` (und alle anderen DLLs in der Hyperspace ZIP Datei) mit den neuen in deinerm FTL Installations Verzeichnis.
@@ -35,7 +29,7 @@ Hyperspace funktioniert nur mit FTL 1.6.9, die nachfolgenden Links werden dir er
       - ![image](https://user-images.githubusercontent.com/1423894/173692491-3e2a597a-29b3-44a0-9e3b-c8843708054e.png)
 
 
-#### Mein Spiel hängt dich bei dem E von Multiversum auf
+#### Mein Spiel hängt dich bei dem `E` von Multiversum auf
 - [Du hast einen korrumpierten Spielstand](#einen-korrumpierten-spielstand-reparieren)
 
 #### Mein Spiel hängt im Ladebildschirm, aber es crasht nicht und ich höre Musik

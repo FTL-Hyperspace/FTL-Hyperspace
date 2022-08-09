@@ -1,9 +1,3 @@
----
-layout: default
-title: Other sources Hyperspace Install Instructions
-permalink: /install-guides/windows/other-install/
----
-
 ## Other downgrading steps
 
 ### Epic
