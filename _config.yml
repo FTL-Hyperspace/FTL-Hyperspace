@@ -1,1 +1,5 @@
 theme: jekyll-theme-slate
+plugins:
+  - jekyll-multiple-languages-plugin
+languages: ["en", "de"]
+# exclude_from_localizations: ["javascript", "images", "css"]
