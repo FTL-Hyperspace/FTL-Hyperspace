@@ -2,6 +2,9 @@ theme: jekyll-theme-slate
 plugins:
   - jekyll-multiple-languages-plugin
 languages: ["en", "de"]
+countryFlags:
+  en: us
+  de: de
 # exclude_from_localizations: ["javascript", "images", "css"]
 title: FTL Hyperspace
 description: "A binary mod for FTL: Faster Than Light"

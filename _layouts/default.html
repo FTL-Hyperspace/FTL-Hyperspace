@@ -6,9 +6,36 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,maximum-scale=2">
     <link rel="stylesheet" type="text/css" media="screen" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icons/6.6.4/css/flag-icons.min.css" integrity="sha512-uvXdJud8WaOlQFjlz9B15Yy2Au/bMAvz79F7Xa6OakCl2jvQPdHD0hb3dEqZRdSwG4/sknePXlE7GiarwA/9Wg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 {% seo %}
     {% include head-custom.html %}
+    <style type="text/css">
+        ul.language-selector {
+            list-style-type: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+            justify-content: center;
+        }
+        ul.language-selector > li, ul.language-selector > li a {
+            color: white;
+        }
+        ul.language-selector > li a:hover {
+            text-decoration: none;
+        }
+        ul.language-selector > li {
+            padding: 0.2em 1em;
+        }
+        ul.language-selector > li.active {
+            background-color: #f2f2f2;
+            color: #222222;
+            margin-bottom: -1px;
+        }
+        ul.language-selector > li:hover {
+            background-color: #575757;
+        }
+    </style>
   </head>
 
   <body>
@@ -29,21 +56,27 @@
               <a class="tar_download_link" href="{{ site.github.tar_url }}">Download this project as a tar.gz file</a>
             </section>
           {% endif %}
-
-          <ul>
-              {% for language in site.languages %}
-                  {% if language == "en" %}
-                      {% capture langLink %}{{ site.baseurl_root }}{{ page.url }}{% endcapture %}
-                  {% else %}
-                      {% capture langLink %}{{ site.baseurl_root }}/{{ language }}{{ page.url }}{% endcapture %}
-                  {% endif %}
-                  {% capture langTitle %}global.{{ language }}{% endcapture %}
-                  <li>
-                      <a href="{{ langLink }}">{% t langTitle %}</a>
-                  </li>
-              {% endfor %}
-          </ul>
         </header>
+        <ul class="language-selector">
+            {% for language in site.languages %}
+                {% if language == "en" %}
+                    {% capture langLink %}{{ site.baseurl_root }}{{ page.url }}{% endcapture %}
+                {% else %}
+                    {% capture langLink %}{{ site.baseurl_root }}/{{ language }}{{ page.url }}{% endcapture %}
+                {% endif %}
+                {% capture langTitle %}global.{{ language }}{% endcapture %}
+                {% capture flagSpan %}<span class="fi fi-{{ site.countryFlags[language] }}"></span>{% endcapture %}
+                {% if language == site.lang %}
+                    <li class="active">
+                        {{flagSpan}} {% t langTitle %}
+                    </li>
+                {% else %}
+                    <li>
+                        <a href="{{ langLink }}">{{flagSpan}} {% t langTitle %}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
     </div>
 
     <!-- MAIN CONTENT -->
