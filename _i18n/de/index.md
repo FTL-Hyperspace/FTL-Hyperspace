@@ -18,7 +18,7 @@ Dieser Mod enthält außerdem Lebensqualitäts Änderungen, zum Beispiel numeris
 Bitte schaue dir die jeweiligen Installations Anleitungen an:
 - [Windows](install-guides/windows/index.html)
 - [Linux & Steam Deck (Anleitung kommt bald, im Moment schaue dir bitte das Forum an)](https://subsetgames.com/forum/viewtopic.php?f=11&t=35095)
-- MacOS ist im Moment nicht unterstützt, du kannst vielleicht die Windows Option mit Crossover nutzen, auch wenn die Resultate variieren oder die Linux Version funktioniert in einem VM mit genug RAM.
+- MacOS wird im Moment nicht unterstützt, du kannst vielleicht die Windows Option mit Crossover nutzen, auch wenn die Resultate variieren oder die Linux Version funktioniert in einem VM mit genug RAM.
 
 ## Mod Macher
 
@@ -27,12 +27,12 @@ Nutze eine Hyperspace.xml.append und add füge den xml tag hinzu, den du für de
 Idealerweise, würde der Nutzer Hyperspace downloaden und gleichzeitig den Mod, dann zuerst Hyperspace.ftl installieren, danach deinen Mod.
 Für die maximale Kompatibilität mit anderen Mods, redistribute die Hyperspace Resourcen Dateien oder Binaries nicht und sage dem Nutzer einfach in deinem Forum Post, dass die Person Hyperspace runterladen soll.
 
-Die Lua API für 1.2.0 und höher ist dokumentiert im [wiki](https://github.com/FTL-Hyperspace/FTL-Hyperspace/wiki)
+Die Lua API für 1.2.0 und höher ist dokumentiert im [Wiki](https://github.com/FTL-Hyperspace/FTL-Hyperspace/wiki)
 
-Zusätzliche Dokumentation ist/wird zu finden sein im [wiki](https://github.com/FTL-Hyperspace/FTL-Hyperspace/wiki).
+Zusätzliche Dokumentation ist/wird zu finden sein im [Wiki](https://github.com/FTL-Hyperspace/FTL-Hyperspace/wiki).
 Wenn du Verbesserungsvorschläge für das Wiki hast, kannst du gerne ein Issue bei Github erstellen und einen Klon des Wiki repository verlinken oder einen Ausschnitt mit Verbesserungen/Modifikationen per markdown senden.
 
-Komme in den [***FTL Multiverse Discord***](https://discord.gg/hhs5ecx) und rede mit uns in den Hyperspace Channels für zusätzliche Diskussion.
+Komme in den [***FTL Multiverse Discord***](https://discord.gg/hhs5ecx) und rede mit uns in den Hyperspace Channels für zusätzliche Diskussionen.
 
 ### Credits
 
