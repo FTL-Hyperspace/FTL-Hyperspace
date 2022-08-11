@@ -108,7 +108,7 @@ int TemporalSystemParser::GetDilationCooldown(int level)
 }
 
 
-static TemporalArmState g_iTemporal = TEMPORAL_ARM_NONE;
+TemporalArmState g_iTemporal = TEMPORAL_ARM_NONE;
 
 void TemporalBox::RenderBox(bool ignoreStatus)
 {
@@ -615,45 +615,6 @@ HOOK_METHOD(CombatControl, MouseRClick, (int x, int y) -> bool)
     bool ret = super(x, y);
 
     return ret | (temporalArmed != TEMPORAL_ARM_NONE);
-}
-
-static bool g_inMouseRender = false;
-
-HOOK_METHOD(ResourceControl, GetImageId, (const std::string& name) -> GL_Texture*)
-{
-    LOG_HOOK("HOOK_METHOD -> ResourceControl::GetImageId -> Begin (TemporalSystem.cpp)\n")
-    if (g_inMouseRender && name == "mouse/mouse_hacking.png" && g_iTemporal != TEMPORAL_ARM_NONE)
-    {
-        if (g_iTemporal == TEMPORAL_ARM_SLOW)
-        {
-            return super("mouse/mouse_temporal_slow.png");
-        }
-        else
-        {
-            return super("mouse/mouse_temporal_speed.png");
-        }
-    }
-
-    return super(name);
-}
-
-HOOK_METHOD(MouseControl, OnRender, () -> void)
-{
-    LOG_HOOK("HOOK_METHOD -> MouseControl::OnRender -> Begin (TemporalSystem.cpp)\n")
-    if (g_iTemporal != TEMPORAL_ARM_NONE)
-    {
-        int oldHacking = iHacking;
-        iHacking = true;
-        g_inMouseRender = true;
-
-        super();
-
-        iHacking = oldHacking;
-        g_inMouseRender = false;
-        return;
-    }
-
-    super();
 }
 
 // AI
