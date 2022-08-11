@@ -269,6 +269,29 @@ HOOK_METHOD(DroneControl, ArmamentHotkey, (unsigned int i) -> SDLKey)
     {
         return super(i+(weapControl.boxes.size()-4));
     }
+    else if (weapControl.boxes.size() == 0)
+    {
+        if (i < 4)
+        {
+            return Settings::GetHotkey("weapon" + std::to_string(i+1));
+        }
+        else
+        {
+            return super(i-4);
+        }
+    }
+    else if (boxes.size() > 6)
+    {
+        int n = std::max(weapControl.boxes.size(), 10-boxes.size()) + i;
+        if (n < 4)
+        {
+            return Settings::GetHotkey("weapon" + std::to_string(n+1));
+        }
+        else
+        {
+            return super(n-4);
+        }
+    }
 
     return super(i);
 }
@@ -284,6 +307,21 @@ HOOK_METHOD(DroneControl, OnLoop, () -> void)
         for (int i=0; i<boxes.size(); ++i)
         {
             boxes[i]->hotKey = weapControl.boxes.size()+i+1;
+        }
+    }
+    else if (weapControl.boxes.size() == 0)
+    {
+        for (int i=0; i<boxes.size(); ++i)
+        {
+            boxes[i]->hotKey = i+1;
+        }
+    }
+    else if (boxes.size() > 6)
+    {
+        int n = std::max(weapControl.boxes.size(), 10-boxes.size());
+        for (int i=0; i<boxes.size(); ++i)
+        {
+            boxes[i]->hotKey = n+i+1;
         }
     }
 }
