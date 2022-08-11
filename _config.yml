@@ -11,3 +11,4 @@ countryFlags:
 title: FTL Hyperspace
 description: "A binary mod for FTL: Faster Than Light"
 show_downloads: false
+baseurl: /FTL-Hyperspace
