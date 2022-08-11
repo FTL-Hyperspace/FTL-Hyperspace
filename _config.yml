@@ -1,6 +1,7 @@
 theme: jekyll-theme-slate
 plugins:
   - jekyll-multiple-languages-plugin
+  - jekyll-github-metadata
 languages: ["en", "de"]
 countryFlags:
   en: us
