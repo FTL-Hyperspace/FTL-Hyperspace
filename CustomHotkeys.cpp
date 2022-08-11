@@ -2,7 +2,13 @@
 
 static std::vector<CustomHotkey> customHotkeys =
 {
-    {"drone4", SDLKey::SDLK_8, 1, 11},
+    {"weapon1", SDLKey::SDLK_1, 1, 8},
+    {"weapon2", SDLKey::SDLK_2, 1, 9},
+    {"weapon3", SDLKey::SDLK_3, 1, 10},
+    {"weapon4", SDLKey::SDLK_4, 1, 11},
+    {"drone4", SDLKey::SDLK_8, 1, 15},
+    {"drone5", SDLKey::SDLK_9, 1, 16},
+    {"drone6", SDLKey::SDLK_0, 1, 17},
     {"console", SDLKey::SDLK_BACKSLASH, 0, -1},
     {"speed", SDLKey::SDLK_BACKQUOTE, 0, -1},
     {"info", SDLKey::SDLK_RALT, 0, 11},
@@ -62,6 +68,16 @@ HOOK_STATIC(Settings, ResetHotkeys, () -> void)
         HotkeyDesc hk = HotkeyDesc();
         hk.name = i.hotkeyName;
         hk.key = i.defaultValue;
+
+        for (auto it = settings->hotkeys[i.page].begin(); it != settings->hotkeys[i.page].end(); ++it)
+        {
+            if (it->name == i.hotkeyName)
+            {
+                hk = *it;
+                settings->hotkeys[i.page].erase(it);
+                break;
+            }
+        }
 
         if (i.index == -1)
         {

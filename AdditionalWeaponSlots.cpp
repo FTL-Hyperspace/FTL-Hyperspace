@@ -247,3 +247,80 @@ HOOK_METHOD_PRIORITY(MouseControl, OnRender, 9999, () -> void)
     lastPosition.x = position.x;
     lastPosition.y = position.y;
 }
+
+
+HOOK_METHOD(WeaponControl, ArmamentHotkey, (unsigned int i) -> SDLKey)
+{
+    if (i >= 4)
+    {
+        return Settings::GetHotkey("drone" + std::to_string(i-3));
+    }
+    else
+    {
+        return super(i);
+    }
+}
+
+HOOK_METHOD(DroneControl, ArmamentHotkey, (unsigned int i) -> SDLKey)
+{
+    WeaponControl &weapControl = G_->GetWorld()->commandGui->combatControl.weapControl;
+
+    if (weapControl.boxes.size() > 4)
+    {
+        return super(i+(weapControl.boxes.size()-4));
+    }
+
+    return super(i);
+}
+
+HOOK_METHOD(DroneControl, OnLoop, () -> void)
+{
+    super();
+
+    WeaponControl &weapControl = G_->GetWorld()->commandGui->combatControl.weapControl;
+
+    if (weapControl.boxes.size() > 4)
+    {
+        for (int i=0; i<boxes.size(); ++i)
+        {
+            boxes[i]->hotKey = weapControl.boxes.size()+i+1;
+        }
+    }
+}
+
+HOOK_METHOD(ArmamentControl, LinkShip, (ShipManager *ship) -> void)
+{
+    super(ship);
+
+    int n = NumArmamentSlots();
+    if (n == 1 || n > 4)
+    {
+        CSurface::GL_DestroyPrimitive(holder);
+        CSurface::GL_DestroyPrimitive(holderTab);
+        holderImage = G_->GetResources()->GetImageId("box_weapons_bottom" + std::to_string(n) + ".png");
+
+        float size_x = 1.f;
+        float size_y = 1.f;
+
+        if (holderImage)
+        {
+            size_x = holderImage->width_;
+            size_y = holderImage->height_;
+        }
+
+        holder = CSurface::GL_CreatePixelImagePrimitive(holderImage, 0.f, 0.f, size_x, size_y, 0.f, GL_Color(1.f, 1.f, 1.f, 1.f), false);
+
+        CreateHolderTab();
+    }
+}
+
+//HOOK_METHOD(WeaponControl, OnLanguageChange, () -> void)
+//{
+//    super();
+//
+//    int n = NumArmamentSlots();
+//    if (n > 4)
+//    {
+//        autoFireButton.SetLocation(Point(autoFireButton.position.x + 97*(n-4), autoFireButton.position.y));
+//    }
+//}

@@ -314,11 +314,11 @@ HOOK_METHOD(WeaponControl, OnRender, (bool unk) -> void)
 
     if (this->shipManager->myBlueprint.weaponSlots <= 2 && this->shipManager->myBlueprint.weaponSlots > 0 && this->shipManager->HasSystem(3))
     {
-        smallAutoFireButton->hitbox.x = this->location.x + 184;
+        smallAutoFireButton->hitbox.x = this->location.x + 97 * this->shipManager->myBlueprint.weaponSlots - 10;
         smallAutoFireButton->hitbox.y = this->location.y + 61;
 
         CSurface::GL_PushMatrix();
-        CSurface::GL_Translate(this->location.x + 184, this->location.y + 61, 0.0);
+        CSurface::GL_Translate(this->location.x + 97 * this->shipManager->myBlueprint.weaponSlots - 10, this->location.y + 61, 0.0);
         smallAutoFireButton->OnRender();
         CSurface::GL_PopMatrix();
     }
