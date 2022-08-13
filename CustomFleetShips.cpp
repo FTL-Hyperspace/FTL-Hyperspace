@@ -230,13 +230,13 @@ HOOK_METHOD(SpaceManager, OnRenderFleet, () -> void)
     {
         for (auto i : layer)
         {
-            CSurface::GL_SetStencilMode(STENCIL_USE, 128, 128);
+            CSurface::GL_SetStencilMode(STENCIL_USE, 0x100, 0x100);
             G_->GetResources()->RenderImage(i.fleetShip.image, i.fleetShip.location.x, i.fleetShip.location.y + 5, 0, GL_Color(0.f, 0.f, 0.f, 1.f), 0.6f, i.mirror);
 
-            CSurface::GL_SetStencilMode(STENCIL_SET, 128, 128);
+            CSurface::GL_SetStencilMode(STENCIL_SET, 0x100, 0x100);
             G_->GetResources()->RenderImage(i.fleetShip.image, i.fleetShip.location.x, i.fleetShip.location.y, 0, tintColor, 1.f, i.mirror);
 
-            CSurface::GL_SetStencilMode(STENCIL_IGNORE, 128, 128);
+            CSurface::GL_SetStencilMode(STENCIL_IGNORE, 0x100, 0x100);
 
             auto color = COLOR_WHITE;
 
