@@ -605,7 +605,12 @@ std::vector<StoreBox*> StoreComplete::CreateCustomStoreBoxes(const StoreCategory
 
                 if (potentialList.empty())
                 {
-                    bp = G_->GetBlueprints()->GetSystemBlueprint(i.blueprint);
+                    // add bp only if the ship can have this system
+                    int sysId = ShipSystem::NameToSystemId(i.blueprint);
+                    if (ship->myBlueprint.systemInfo.find(sysId) != ship->myBlueprint.systemInfo.end())
+                    {
+                        bp = G_->GetBlueprints()->GetSystemBlueprint(i.blueprint);
+                    }
                 }
                 else
                 {
