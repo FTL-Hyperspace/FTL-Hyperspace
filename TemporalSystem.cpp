@@ -589,6 +589,18 @@ HOOK_METHOD(CombatControl, OnRenderCombat, () -> void)
     }
 }
 
+HOOK_METHOD(MouseControl, ResetArmed, () -> void)
+{
+    super();
+    g_iTemporal = TEMPORAL_ARM_NONE;
+}
+
+HOOK_METHOD(MouseControl, Reset, () -> void)
+{
+    super();
+    g_iTemporal = TEMPORAL_ARM_NONE;
+}
+
 HOOK_METHOD(CombatControl, DisarmAll, () -> void)
 {
     LOG_HOOK("HOOK_METHOD -> CombatControl::DisarmAll -> Begin (TemporalSystem.cpp)\n")
