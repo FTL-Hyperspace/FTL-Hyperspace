@@ -12,8 +12,12 @@ cleanup __cdecl void MouseControl::RenderTooltip(MouseControl *this, Point toolt
 cleanup __cdecl void MouseControl::OnLoop(MouseControl *this);
 "8b442404c680d400000001":
 cleanup __cdecl void MouseControl::InstantTooltip(MouseControl *this);
+".8b442404c7401000000000c7401400000000c7401800000000c780e000000000000000c7402000000000":
+cleanup __cdecl void MouseControl::ResetArmed(MouseControl *this);
 "5557565381ec3c0100008b9c245001000080bbc900000000":
 cleanup __cdecl void MouseControl::OnRender(MouseControl *this);
+".5383ec288b5c24308d83c0000000":
+cleanup __cdecl void MouseControl::Reset(MouseControl *this);
 "565383ec148b5c24248b74242083fb01":
 cleanup __cdecl void MouseControl::SetDoor(MouseControl *this, int state);
 

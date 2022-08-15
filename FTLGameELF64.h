@@ -5918,6 +5918,8 @@ struct MouseControl
 	LIBZHL_API void OnRender();
 	LIBZHL_API void QueueStaticTooltip(Point pos);
 	LIBZHL_API void RenderTooltip(Point tooltipPoint, bool staticPos);
+	LIBZHL_API void Reset();
+	LIBZHL_API void ResetArmed();
 	LIBZHL_API void SetDoor(int state);
 	LIBZHL_API void SetTooltip(const std::string &tooltip);
 	LIBZHL_API void SetTooltipTitle(const std::string &tooltip);
