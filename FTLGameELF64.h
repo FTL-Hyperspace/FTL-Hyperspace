@@ -1757,6 +1757,8 @@ struct BoardingGoal
 
 struct CrewLaser : Projectile
 {
+	CrewLaser(const CrewLaser&) = delete; // doesn't work, make compiler fail if we try
+
 	int r;
 	int g;
 	int b;
