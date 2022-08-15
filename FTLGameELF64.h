@@ -827,6 +827,8 @@ struct AnimationControl
 	std::map<std::string, WeaponAnimation> weapAnimations;
 };
 
+struct ArmamentBox;
+
 struct GenericButton;
 
 struct Globals
@@ -853,9 +855,24 @@ struct Globals
 
 struct TouchTooltip;
 
-struct ArmamentBox
+struct LIBZHL_INTERFACE ArmamentBox
 {
-	void *vptr;
+	virtual ~ArmamentBox() {}
+	virtual bool Empty() LIBZHL_PLACEHOLDER
+	virtual std::string Name() LIBZHL_PLACEHOLDER
+	virtual bool Powered() LIBZHL_PLACEHOLDER
+	virtual void SetDefaultAutofire(bool val) LIBZHL_PLACEHOLDER
+	virtual int RealRequiredPower() LIBZHL_PLACEHOLDER
+	virtual int GetBonusPower() LIBZHL_PLACEHOLDER
+	virtual std::string GetType() LIBZHL_PLACEHOLDER
+	virtual GL_Color StatusColor() LIBZHL_PLACEHOLDER
+	virtual std::string GenerateTooltip() LIBZHL_PLACEHOLDER
+	virtual void OnLoop() LIBZHL_PLACEHOLDER
+	virtual void RenderTouchTooltip(int spaceToTop) LIBZHL_PLACEHOLDER
+	virtual void OnRender(bool dragging, bool flashPowerBox) LIBZHL_PLACEHOLDER
+	virtual void RenderBox(bool dragging, bool flashPowerBox) LIBZHL_PLACEHOLDER
+	virtual void RenderLabels() LIBZHL_PLACEHOLDER
+	virtual void RenderIcon(Point &p) LIBZHL_PLACEHOLDER
 	std::vector<GL_Primitive*> background;
 	GL_Primitive *emptyBackground;
 	GL_Primitive *hoverHighlight;
@@ -892,7 +909,6 @@ struct ArmamentBox
 	bool bIoned;
 };
 
-struct ArmamentBox;
 struct ArmamentControl;
 struct CommandGui;
 

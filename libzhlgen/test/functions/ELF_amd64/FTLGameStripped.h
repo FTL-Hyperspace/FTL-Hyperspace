@@ -111,6 +111,7 @@ struct VTable_SpaceDrone;
 struct VTable_Targetable;
 struct VTable_Collideable;
 struct VTable_ArmamentControl;
+struct VTable_ArmamentBox;
 
 /* 1 */
 struct Globals
@@ -3500,9 +3501,31 @@ struct CrewBox
 };
 
 /* 215 */
+struct VTable_ArmamentBox
+{
+  void (__thiscall *Free)(ArmamentBox *this);
+  bool (__thiscall *Empty)(ArmamentBox *this);
+  std__string (__thiscall *Name)(ArmamentBox *this);
+  bool (__thiscall *Powered)(ArmamentBox *this);
+  void (__thiscall *SetDefaultAutofire)(ArmamentBox *this, bool val);
+  int (__thiscall *RealRequiredPower)(ArmamentBox *this);
+  int (__thiscall *GetBonusPower)(ArmamentBox *this);
+  std__string (__thiscall *GetType)(ArmamentBox *this);
+  GL_Color (__thiscall *StatusColor)(ArmamentBox *this);
+  std__string (__thiscall *GenerateTooltip)(ArmamentBox *this);
+  void (__thiscall *OnLoop)(ArmamentBox *this);
+  void (__thiscall *RenderTouchTooltip)(ArmamentBox *this, int spaceToTop);
+  void (__thiscall *OnRender)(ArmamentBox *this, bool dragging, bool flashPowerBox);
+  void (__thiscall *RenderBox)(ArmamentBox *this, bool dragging, bool flashPowerBox);
+  void (__thiscall *RenderLabels)(ArmamentBox *this);
+  void (__thiscall *RenderIcon)(ArmamentBox *this, Point &p);
+  
+
+};
+
 struct ArmamentBox
 {
-  void *vptr;
+  VTable_ArmamentBox *_vtable;
   std__vector_14GL_PrimitiveZ1 background;
   GL_Primitive *emptyBackground;
   GL_Primitive *hoverHighlight;
