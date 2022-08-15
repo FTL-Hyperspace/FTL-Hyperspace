@@ -5262,7 +5262,6 @@ struct MouseControl
   GL_Texture *invalidPointer;
   GL_Texture *selling;
   Animation openDoor;
-  int tooltipFont;
   std__string tooltip;
   float tooltipTimer;
   bool bMoving;
