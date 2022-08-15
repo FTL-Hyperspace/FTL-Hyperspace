@@ -20,6 +20,13 @@ cleanup __cdecl void Animation::StartReverse(Animation *this, bool reset);
 cleanup __cdecl void Animation::SetProgress(Animation *this, float progress);
 "5383ec08803d????????008b5c241075??e8????????8b4b0499c6433200c6433001c6433100f7f9":
 cleanup __cdecl int Animation::RandomStart(Animation *this);
+"!565383ec148b5c24208b7424240fb64330":
+cleanup __cdecl void Animation::SaveState(Animation *this, int fd);
+".8b54240431c0807a3200":
+cleanup __cdecl bool Animation::Done(Animation *this);
+".565383ec148b7424248b5c2420893424":
+cleanup __cdecl void Animation::LoadState(Animation *this, int fd);
+
 
 struct Animation 
 {{
