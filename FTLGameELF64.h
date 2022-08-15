@@ -900,8 +900,10 @@ struct ShipManager;
 
 struct ArmamentControl
 {
+	LIBZHL_API void CreateHolderTab();
 	LIBZHL_API bool Dragging();
 	LIBZHL_API bool KeyDown(SDLKey key);
+	LIBZHL_API void LinkShip(ShipManager *ship);
 	LIBZHL_API void SetPosition(Point loc);
 	
 	void *vptr;
@@ -3723,8 +3725,14 @@ struct CloneSystem : ShipSystem
 
 struct CombatControl;
 
+struct DroneControl;
+
 struct DroneControl : ArmamentControl
 {
+	LIBZHL_API SDLKey ArmamentHotkey(unsigned int i);
+	LIBZHL_API TextString HolderLabel();
+	LIBZHL_API void OnLoop();
+	
 	WarningMessage droneMessage;
 	WarningMessage noTargetMessage;
 	WarningMessage systemMessage;
@@ -3744,11 +3752,14 @@ struct WeaponControl;
 
 struct WeaponControl : ArmamentControl
 {
+	LIBZHL_API SDLKey ArmamentHotkey(unsigned int i);
 	LIBZHL_API void Fire(std::vector<Pointf> &points, int target, bool autoFire);
+	LIBZHL_API TextString HolderLabel();
 	LIBZHL_API bool KeyDown(SDLKey key);
 	LIBZHL_API bool LButton(int x, int y, bool holdingShift);
 	LIBZHL_API void LinkShip(ShipManager *ship);
 	LIBZHL_API void MouseMove(int x, int y);
+	LIBZHL_API void OnLanguageChange();
 	LIBZHL_API void OnRender(bool unk);
 	LIBZHL_API void RenderAiming();
 	LIBZHL_API static void __stdcall RenderBeamAiming(Pointf one, Pointf two, bool bAutoFire);
