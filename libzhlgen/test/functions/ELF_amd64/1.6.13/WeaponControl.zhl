@@ -1,5 +1,11 @@
 "4157be03000000415641554989fd415455498dad3802000053498d9d180300004881ec58030000":
 cleanup __amd64 void WeaponControl::constructor(WeaponControl *this);
+".41545589fd534883ec40":
+static cleanup __amd64 void WeaponControl::RenderBeamAiming(Pointf one, Pointf two, bool bAutoFire);
+".41574989ff415641554531ed4154555331db4883ec38":
+cleanup __amd64 void WeaponControl::RenderAiming(WeaponControl *this);
+".4157415641554531ed41544989fc555331db4883ec18":
+cleanup __amd64 void WeaponControl::RenderSelfAiming(WeaponControl *this);
 ".41554189d54154554889fd534883ec484084f64088b7e0000000":
 cleanup __amd64 void WeaponControl::SetAutofiring(WeaponControl *this, bool on, bool simple);
 ".4155415455534889fb4883ec28488bbfd80000004885ff":
