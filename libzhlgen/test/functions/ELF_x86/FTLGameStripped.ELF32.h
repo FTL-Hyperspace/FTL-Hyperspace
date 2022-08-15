@@ -110,6 +110,7 @@ struct VTable_Drone;
 struct VTable_SpaceDrone;
 struct VTable_Targetable;
 struct VTable_Collideable;
+struct VTable_ArmamentControl;
 
 /* 1 */
 struct Globals
@@ -1731,9 +1732,41 @@ struct std__vector_13ArmamentBoxZ1
 };
 
 /* 242 */
+struct VTable_ArmamentControl
+{
+  void (__thiscall *Free)(ArmamentControl *this);
+  void (__thiscall *OnLanguageChange)(ArmamentControl *this);
+  void (__thiscall *OnLoop)(ArmamentControl *this);
+  void (__thiscall *OnRender)(ArmamentControl *this, bool front);
+  void (__thiscall *RenderTouchTooltips)(ArmamentControl *this);
+  void (__thiscall *RenderLabels)(ArmamentControl *this);
+  void (__thiscall *RenderWarnings)(ArmamentControl *this);
+  void (__thiscall *RenderDragging)(ArmamentControl *this);
+  bool (__thiscall *IsDragging)(ArmamentControl *this);
+  void (__thiscall *Restart)(ArmamentControl *this);
+  void (__thiscall *OnCleanup)(ArmamentControl *this);
+  void (__thiscall *Close)(ArmamentControl *this);
+  void (__thiscall *SetOpen)(ArmamentControl *this, bool open);
+  bool (__thiscall *LButton)(ArmamentControl *this, int mX, int mY, bool shift);
+  bool (__thiscall *LButtonUp)(ArmamentControl *this, int mX, int mY, bool shift);
+  void (__thiscall *RButton)(ArmamentControl *this, int mX, int mY, bool shift);
+  void (__thiscall *MouseMove)(ArmamentControl *this, int mX, int mY);
+  bool (__thiscall *OnTouch)(ArmamentControl *this, TouchAction action, int id, int x, int y, int initialX, int initialY);
+  bool (__thiscall *KeyDown)(ArmamentControl *this, SDLKey sym);
+  void (__thiscall *LinkShip)(ArmamentControl *this, ShipManager *ship);
+  ArmamentBox* (__thiscall *CreateArmamentBox)(ArmamentControl *this, Point loc);
+  int (__thiscall *NumArmamentSlots)(ArmamentControl *this);
+  Point (__thiscall *ArmamentBoxOrigin)(ArmamentControl *this);
+  TextString (__thiscall *HolderLabel)(ArmamentControl *this);
+  SDLKey (__thiscall *ArmamentHotkey)(ArmamentControl *this, unsigned int i);
+  void (__thiscall *SelectArmament)(ArmamentControl *this, unsigned int i);
+  void (__thiscall *DeselectArmament)(ArmamentControl *this, unsigned int i);
+  void (__thiscall *SwapArmaments)(ArmamentControl *this, unsigned int a, unsigned int b);
+};
+
 struct ArmamentControl
 {
-  void *vptr;
+  VTable_ArmamentControl *_vtable;
   int systemId;
   CommandGui *gui;
   ShipManager *shipManager;

@@ -897,15 +897,40 @@ struct CommandGui;
 
 struct ShipManager;
 
-struct ArmamentControl
+struct LIBZHL_INTERFACE ArmamentControl
 {
+	virtual ~ArmamentControl() {}
+	virtual void OnLanguageChange() LIBZHL_PLACEHOLDER
+	virtual void OnLoop() LIBZHL_PLACEHOLDER
+	virtual void OnRender(bool front) LIBZHL_PLACEHOLDER
+	virtual void RenderTouchTooltips() LIBZHL_PLACEHOLDER
+	virtual void RenderLabels() LIBZHL_PLACEHOLDER
+	virtual void RenderWarnings() LIBZHL_PLACEHOLDER
+	virtual void RenderDragging() LIBZHL_PLACEHOLDER
+	virtual bool IsDragging() LIBZHL_PLACEHOLDER
+	virtual void Restart() LIBZHL_PLACEHOLDER
+	virtual void OnCleanup() LIBZHL_PLACEHOLDER
+	virtual void Close() LIBZHL_PLACEHOLDER
+	virtual void SetOpen(bool open) LIBZHL_PLACEHOLDER
+	virtual bool LButton(int mX, int mY, bool shift) LIBZHL_PLACEHOLDER
+	virtual bool LButtonUp(int mX, int mY, bool shift) LIBZHL_PLACEHOLDER
+	virtual void RButton(int mX, int mY, bool shift) LIBZHL_PLACEHOLDER
+	virtual void MouseMove(int mX, int mY) LIBZHL_PLACEHOLDER
+	virtual bool OnTouch(TouchAction action, int id, int x, int y, int initialX, int initialY) LIBZHL_PLACEHOLDER
+	LIBZHL_API virtual bool KeyDown(SDLKey key);
+	LIBZHL_API virtual void LinkShip(ShipManager *ship);
+	virtual ArmamentBox *CreateArmamentBox(Point loc) LIBZHL_PLACEHOLDER
+	virtual int NumArmamentSlots() LIBZHL_PLACEHOLDER
+	virtual Point ArmamentBoxOrigin() LIBZHL_PLACEHOLDER
+	virtual TextString HolderLabel() LIBZHL_PLACEHOLDER
+	virtual SDLKey ArmamentHotkey(unsigned int i) LIBZHL_PLACEHOLDER
+	virtual void SelectArmament(unsigned int i) LIBZHL_PLACEHOLDER
+	virtual void DeselectArmament(unsigned int i) LIBZHL_PLACEHOLDER
+	virtual void SwapArmaments(unsigned int a, unsigned int b) LIBZHL_PLACEHOLDER
 	LIBZHL_API void CreateHolderTab();
 	LIBZHL_API bool Dragging();
-	LIBZHL_API bool KeyDown(SDLKey key);
-	LIBZHL_API void LinkShip(ShipManager *ship);
 	LIBZHL_API void SetPosition(Point loc);
 	
-	void *vptr;
 	int systemId;
 	CommandGui *gui;
 	ShipManager *shipManager;
