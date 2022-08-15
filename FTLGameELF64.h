@@ -1306,6 +1306,7 @@ struct Targetable;
 
 struct ArtillerySystem : ShipSystem
 {
+	LIBZHL_API void Jump();
 	LIBZHL_API void OnLoop();
 	
 	ProjectileFactory *projectileFactory;
