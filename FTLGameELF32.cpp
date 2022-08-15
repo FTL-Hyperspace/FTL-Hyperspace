@@ -9851,67 +9851,18 @@ PowerManager *PowerManager::GetPowerManager(int iShipId)
 namespace _func716
 {
 	static void *func = 0;
-	static short argdata[] = {0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("Projectile::CollisionCheck", typeid(void (Projectile::*)(Collideable *)), "5589e557565381ec8c0000008b750c8b5d088b06", argdata, 2, 6, &func);
-}
-
-void Projectile::CollisionCheck(Collideable *other)
-{
-	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(Projectile *this_arg, Collideable *other_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func716::func;
-	return execfunc(this, other);
-}
-
-namespace _func717
-{
-	static void *func = 0;
-	static short argdata[] = {0x1ff, 0x2ff, 0x1ff, 0x1ff, 0x2ff};
-	static FunctionDefinition funcObj("Projectile::constructor", typeid(void (Projectile::*)(Pointf , int , int , Pointf )), ".5589e557565381ecec0000008b7d088b450c", argdata, 5, 6, &func);
-}
-
-void Projectile::constructor(Pointf position, int ownerId, int targetId, Pointf target)
-{
-	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(Projectile *this_arg, Pointf position_arg, int ownerId_arg, int targetId_arg, Pointf target_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func717::func;
-	return execfunc(this, position, ownerId, targetId, target);
-}
-
-namespace _func718
-{
-	static void *func = 0;
-	static short argdata[] = {0x1ff, 0x1ff};
-	static FunctionDefinition funcObj("Projectile::Initialize", typeid(void (Projectile::*)(const WeaponBlueprint &)), ".5589e557565381ecdc0000008b450cc78538ffffff00000000", argdata, 2, 6, &func);
-}
-
-void Projectile::Initialize(const WeaponBlueprint &bp)
-{
-	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(Projectile *this_arg, const WeaponBlueprint &bp_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func718::func;
-	return execfunc(this, bp);
-}
-
-namespace _func719
-{
-	static void *func = 0;
 	static short argdata[] = {0x1ff};
-	static FunctionDefinition funcObj("Projectile::destructor", typeid(void (Projectile::*)()), ".5557565383ec2c8b7424408b86b4010000", argdata, 1, 6, &func);
+	static FunctionDefinition funcObj("Projectile::ValidTarget", typeid(bool (Projectile::*)()), "8b4424040fb680bc010000", argdata, 1, 2, &func);
 }
 
-void Projectile::destructor()
+bool Projectile::ValidTarget()
 {
-	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(Projectile *this_arg);
-	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func719::func;
+	typedef bool __attribute__((cdecl)) (*custom_arg_funcptr_t)(Projectile *this_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func716::func;
 	return execfunc(this);
 }
 
-namespace _func720
-{
-	static void *func = 0;
-	static const short *argdata = NULL;
-	static FunctionDefinition funcObj("Projectile::__DO_NOT_HOOK", typeid(void (Projectile::*)()), "8b4424048b5424088950388b54240c89503c8b542410895040", argdata, 0, 4, &func);
-}
-
-namespace _func721
+namespace _func717
 {
 	static void *func = 0;
 	static short argdata[] = {0x1ff};
@@ -9921,6 +9872,62 @@ namespace _func721
 int Projectile::ForceRenderLayer()
 {
 	typedef int __attribute__((cdecl)) (*custom_arg_funcptr_t)(Projectile *this_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func717::func;
+	return execfunc(this);
+}
+
+namespace _func718
+{
+	static void *func = 0;
+	static short argdata[] = {0x1ff, 0x1ff};
+	static FunctionDefinition funcObj("Projectile::CollisionCheck", typeid(void (Projectile::*)(Collideable *)), ".5589e557565381ec8c0000008b750c8b5d088b06", argdata, 2, 6, &func);
+}
+
+void Projectile::CollisionCheck(Collideable *other)
+{
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(Projectile *this_arg, Collideable *other_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func718::func;
+	return execfunc(this, other);
+}
+
+namespace _func719
+{
+	static void *func = 0;
+	static short argdata[] = {0x1ff, 0x2ff, 0x1ff, 0x1ff, 0x2ff};
+	static FunctionDefinition funcObj("Projectile::constructor", typeid(void (Projectile::*)(Pointf , int , int , Pointf )), ".5589e557565381ecec0000008b7d088b450c", argdata, 5, 6, &func);
+}
+
+void Projectile::constructor(Pointf position, int ownerId, int targetId, Pointf target)
+{
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(Projectile *this_arg, Pointf position_arg, int ownerId_arg, int targetId_arg, Pointf target_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func719::func;
+	return execfunc(this, position, ownerId, targetId, target);
+}
+
+namespace _func720
+{
+	static void *func = 0;
+	static short argdata[] = {0x1ff, 0x1ff};
+	static FunctionDefinition funcObj("Projectile::Initialize", typeid(void (Projectile::*)(const WeaponBlueprint &)), ".5589e557565381ecdc0000008b450cc78538ffffff00000000", argdata, 2, 6, &func);
+}
+
+void Projectile::Initialize(const WeaponBlueprint &bp)
+{
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(Projectile *this_arg, const WeaponBlueprint &bp_arg);
+	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func720::func;
+	return execfunc(this, bp);
+}
+
+namespace _func721
+{
+	static void *func = 0;
+	static short argdata[] = {0x1ff};
+	static FunctionDefinition funcObj("Projectile::destructor", typeid(void (Projectile::*)()), ".5557565383ec2c8b7424408b86b4010000", argdata, 1, 6, &func);
+}
+
+void Projectile::destructor()
+{
+	typedef void __attribute__((cdecl)) (*custom_arg_funcptr_t)(Projectile *this_arg);
 	custom_arg_funcptr_t execfunc = (custom_arg_funcptr_t) _func721::func;
 	return execfunc(this);
 }
