@@ -4984,6 +4984,10 @@ HOOK_METHOD(StarMap, NewGame, (bool unk) -> Location*)
 
     // playerVariables
     playerVariables.clear();
+    if (SeedInputBox::seedsEnabled)
+    {
+        Global::questSeed = (Global::currentSeed^0x282b2048) & 0x7fffffff; // same operation for other questSeed stuff but without location and using global seed.
+    }
     VariableModifier::ApplyVariables(CustomEventsParser::GetInstance()->initialPlayerVars, G_->GetWorld()->playerShip->shipManager);
 
     // Game Over
