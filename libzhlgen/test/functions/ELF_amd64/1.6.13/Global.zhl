@@ -525,3 +525,6 @@ cleanup __amd64 void GenerateReward(ResourceEvent &ref, RewardDesc &reward, int 
 
 "534889fb4883ec20488b3d????????e8????????":
 cleanup __amd64 void sys_graphics_set_window_title(char* title);
+
+"0f57ed4883ec2889fa0f2ee5":
+cleanup __amd64 void graphics_clear(float r, float g, float b, float a, float depth, unsigned int stencil);

@@ -516,3 +516,6 @@ cleanup __cdecl void GetValue(ResourceEvent &ref, const std::string& type, int l
 
 "5589e55383e4f083ec10a1????????8b5d08890424e8????????":
 cleanup __cdecl void sys_graphics_set_window_title(char* title);
+
+"55660fefc089e583e4f083ec30f30f106d180f2ee8f30f106508f30f105d0cf30f105510f30f104d14":
+cleanup __cdecl void graphics_clear(float r, float g, float b, float a, float depth, unsigned int stencil);

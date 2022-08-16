@@ -7624,6 +7624,7 @@ LIBZHL_API void __stdcall GenerateReward(ResourceEvent &ref, RewardDesc &reward,
 LIBZHL_API void __stdcall GetValue(ResourceEvent &ref, const std::string &type, int level, int worldLevel);
 LIBZHL_API float __stdcall font_text_width(freetype::font_data &fontData, const char *str, float size);
 LIBZHL_API float __stdcall getSkillBonus(int skill, int level);
+LIBZHL_API void __stdcall graphics_clear(float r, float g, float b, float a, float depth, unsigned int stencil);
 LIBZHL_API int __stdcall random32();
 LIBZHL_API void __stdcall srandom32(unsigned int seed);
 LIBZHL_API void __stdcall sys_graphics_set_window_title(char *title);
