@@ -1306,8 +1306,8 @@ struct CFPS
 %rename("%s") ResourceControl::RenderImage;
 %rename("%s") ResourceControl::RenderImageString;
 
-%rename("%s") FileHelper;
-%rename("%s") FileHelper::deleteAllSaveFiles;
+//%rename("%s") FileHelper;
+//%rename("%s") FileHelper::deleteAllSaveFiles;
 
 %rename("%s") Point;
 %rename("%(regex:/^Point::(.*)$/\\1/)s", regextarget=1, fullname=1) "Point::.*";
