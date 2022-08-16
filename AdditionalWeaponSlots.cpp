@@ -7,6 +7,7 @@ static GL_Primitive *moreTargetIconYellow[6];
 
 HOOK_METHOD(WeaponControl, constructor, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> WeaponControl::constructor -> Begin (AdditionalWeaponSlots.cpp)\n")
     super();
 
     for (int i=0; i<6; ++i)
@@ -108,6 +109,7 @@ HOOK_METHOD_PRIORITY(WeaponControl, RenderSelfAiming, 9999, () -> void)
 
 HOOK_METHOD(CombatControl, SetMouseCursor, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CombatControl::SetMouseCursor -> Begin (AdditionalWeaponSlots.cpp)\n")
     super();
 
     MouseControl *mouse = G_->GetMouseControl();
@@ -125,6 +127,7 @@ HOOK_METHOD(CombatControl, SetMouseCursor, () -> void)
 
 HOOK_METHOD(CombatControl, OnRenderCombat, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> CombatControl::OnRenderCombat -> Begin (AdditionalWeaponSlots.cpp)\n")
     super();
 
     MouseControl *mouse = G_->GetMouseControl();
@@ -142,7 +145,7 @@ HOOK_METHOD(CombatControl, OnRenderCombat, () -> void)
 
 HOOK_METHOD_PRIORITY(MouseControl, OnRender, 9999, () -> void)
 {
-    LOG_HOOK("HOOK_METHOD -> MouseControl::OnRender -> Begin (AdditionalWeaponSlots.cpp)\n")
+    LOG_HOOK("HOOK_METHOD_PRIORITY -> MouseControl::OnRender -> Begin (AdditionalWeaponSlots.cpp)\n")
 
     if (bHideMouse) return;
 
@@ -251,6 +254,7 @@ HOOK_METHOD_PRIORITY(MouseControl, OnRender, 9999, () -> void)
 
 HOOK_METHOD(WeaponControl, ArmamentHotkey, (unsigned int i) -> SDLKey)
 {
+    LOG_HOOK("HOOK_METHOD -> WeaponControl::ArmamentHotkey -> Begin (AdditionalWeaponSlots.cpp)\n")
     if (i >= 4)
     {
         return Settings::GetHotkey("drone" + std::to_string(i-3));
@@ -263,6 +267,7 @@ HOOK_METHOD(WeaponControl, ArmamentHotkey, (unsigned int i) -> SDLKey)
 
 HOOK_METHOD(DroneControl, ArmamentHotkey, (unsigned int i) -> SDLKey)
 {
+    LOG_HOOK("HOOK_METHOD -> DroneControl::ArmamentHotkey -> Begin (AdditionalWeaponSlots.cpp)\n")
     WeaponControl &weapControl = G_->GetWorld()->commandGui->combatControl.weapControl;
 
     if (weapControl.boxes.size() > 4)
@@ -298,6 +303,7 @@ HOOK_METHOD(DroneControl, ArmamentHotkey, (unsigned int i) -> SDLKey)
 
 HOOK_METHOD(DroneControl, OnLoop, () -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> DroneControl::OnLoop -> Begin (AdditionalWeaponSlots.cpp)\n")
     super();
 
     WeaponControl &weapControl = G_->GetWorld()->commandGui->combatControl.weapControl;
@@ -328,6 +334,7 @@ HOOK_METHOD(DroneControl, OnLoop, () -> void)
 
 HOOK_METHOD(ArmamentControl, LinkShip, (ShipManager *ship) -> void)
 {
+    LOG_HOOK("HOOK_METHOD -> ArmamentControl::LinkShip -> Begin (AdditionalWeaponSlots.cpp)\n")
     super(ship);
 
     int n = NumArmamentSlots();
